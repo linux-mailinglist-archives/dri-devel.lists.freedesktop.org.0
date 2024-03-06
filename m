@@ -2,133 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AF89873AD8
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 16:38:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E772873AE1
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 16:38:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D6791132BA;
-	Wed,  6 Mar 2024 15:37:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D72A10EE4D;
+	Wed,  6 Mar 2024 15:38:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="3z22kt0M";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ihUgh79U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2053.outbound.protection.outlook.com [40.107.244.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E67451132B8;
- Wed,  6 Mar 2024 15:37:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Wnbq0BrN9UC6M/5W+WijpV+f3xg/a/oO0ZklrNwvNow5Xto43es3hZFAsYmqq0Xlpmxfa2fnWmsRM8G8PwWDPs4FWJ9sFPQ1e1Rf+5dnk8G591KwZIk49OxaiSU81WOkyxSJ/HVMyuIhG4X/Kv7AU5ZHVU5geLqLzYwJHf/y4fbrtvuFeK4B2lFNyT9H6xgyRg9/QmzWuTHtwU9814f8W+XVjNzgiaVLmV0i8QgwY0Xpv1kliv6Xiu5/Bp6PunUluWl0MxOeHAHgBFo/zw+BjFjq1IFg+l1cJ1iBvUYvUoM01AhfTGxFavzOF8GFktAHq6osZrpIOYLFBhyp7sOuUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Xsbk+quWOLIqAQC46eF/y4Qngy/d7KeIAoHORAfY5Z8=;
- b=ilGQy3eJQuA0QSyYp593OxEknQuDwvNpFsAIG8DE92VS7eM2pySkZg9Vc9zOLBf4oXQYqDSLsldkuNKXeImQuffk/UrobZCaUFuWBqfKU6PIqJ26MsmncoSNi1lOZgS4LX42fccBNdjXzL/VUOGQV5F7mIy4tNbskumpGiFYAr4KnpFpTkiL7Bcpn58jBNBGfDt/nZfghdAON6JpDWYiM3SK3b6VSsqylfZswyblwnzANdbLxJVrlCjQxyjjWYjHO9RVEhTpZxS+DKkJBA5zO3kBwjFOiBFQetfdnYZZDkM9iBXRiPK9W4rA6aLWY77dVT2cbFZLtMF37ynhxtbptg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Xsbk+quWOLIqAQC46eF/y4Qngy/d7KeIAoHORAfY5Z8=;
- b=3z22kt0M0jS8kmxzC1TUaMDy3vDLLUCE7AkghXBEDBJMwxnbs8XoDTJW7B/kUxicbAvZXYnW7tOWVxc6W8/EYtGrbPfsCBGaiEJ4X3yRcgmVsIevlN1Uq3QWm1ZIiyry24Hkks6eC/OGtUfNFek8RG2OiYDaGh1Cq+nMyFZVTm0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CYYPR12MB8871.namprd12.prod.outlook.com (2603:10b6:930:c2::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.39; Wed, 6 Mar
- 2024 15:37:54 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7339.031; Wed, 6 Mar 2024
- 15:37:54 +0000
-Message-ID: <bfaaad63-a5d7-4ceb-8e1c-d541f76f4037@amd.com>
-Date: Wed, 6 Mar 2024 16:37:48 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amdgpu: cache in more vm fault information
-Content-Language: en-US
-To: "Khatri, Sunil" <sukhatri@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Alex Deucher <alexdeucher@gmail.com>
-Cc: Sunil Khatri <sunil.khatri@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>, amd-gfx@lists.freedesktop.org,
- Pan@rtg-sunil-navi33.amd.com, Xinhui <Xinhui.Pan@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Mukul Joshi <mukul.joshi@amd.com>,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-References: <20240306090408.3453152-1-sunil.khatri@amd.com>
- <2f792620-fd8a-412e-9130-e276ba36d5a0@amd.com>
- <5e2899cd-75b4-4ddd-97ff-4e10a2e67fbb@amd.com>
- <66815303-bd9c-4dfc-ae1a-bbdc5d1bb47c@amd.com>
- <17e12147-79dd-44ba-b8ae-b96fb72dcfbd@amd.com>
- <CADnq5_OkeH1x4YgSv6uw0HLb5c-5NOXnzQPJHsDvb=NmEePB-A@mail.gmail.com>
- <e5781df5-5244-465e-b986-c1802e1262db@gmail.com>
- <0df75ff4-ece5-4eaa-93bd-6f03ec31ecfa@amd.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <0df75ff4-ece5-4eaa-93bd-6f03ec31ecfa@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0047.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4a::10) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E68EB10EE4D
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 15:38:48 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 94FA3CE13D9;
+ Wed,  6 Mar 2024 15:38:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58414C433C7;
+ Wed,  6 Mar 2024 15:38:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709739525;
+ bh=to7hc+iFZkutpmt/gF7U97nNfajbMA19g8xLSnruV9Q=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=ihUgh79UuVM9ucjToYYXKp5eRVHOyte0xF8ro0fpCoxytT7xdKQuqzqt0RtkO3Cej
+ KI5/YLSY0lm5l702D5wJs1c3909v8cHJWwyWEcFEpwkG2/IkOPb6gEIN1yy9svDXK+
+ j4Lp0gdukZ4Tz7duIVLCZ/bOAbb09pDefZvM34+1xssK+6GsDGWXgdLUTmz5B4qxdY
+ mKfHvAvVpoiA/PNBRTNmds830W1rI9FbZRJdvpTYXXWYdRXRJy1aX5HQ/E5gMDJXDv
+ WaUH9tCNSaVtN2MOHIMi7y25wRquYRDM53qlJoLTy1Ve1JRECImw94kpPR3jg/QOsg
+ OzLxfn9y7BN0w==
+From: Maxime Ripard <mripard@kernel.org>
+To: dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>, Daniel Stone <daniels@collabora.com>
+Subject: [PATCH v2 1/2] MAINTAINERS: Update drm-misc.git URL
+Date: Wed,  6 Mar 2024 16:38:38 +0100
+Message-ID: <20240306153841.698693-1-mripard@kernel.org>
+X-Mailer: git-send-email 2.43.2
+In-Reply-To: <gnthy5o42kiyj63d2bkkxsc5krzf3wrwt23chh2kthkmlyjwbg@ybynvjvqdka7>
+References: <gnthy5o42kiyj63d2bkkxsc5krzf3wrwt23chh2kthkmlyjwbg@ybynvjvqdka7>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CYYPR12MB8871:EE_
-X-MS-Office365-Filtering-Correlation-Id: 78234f6a-710d-4702-3eba-08dc3df363fd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4JuunwlJMpx315aG7NU4BhvEWfJQ4ks5oWtV1RlP3lTkYOmgHigupkLd+iQ2xp/2Vw9SWsF0sCGfec14qcRg8B1s0yvEEsyn12sLKnsIhjRjHxMzpiwCqZpTbWq87+B760REAXM/WtDBbL9B/ya1zuXvqbEIiRW0URyetyeFLmGLZ3PJtBlf14tOfsf5nbs8lG0G/mqk6s9t+A9/mEo1RGOM02ujb+hUhyqzFpOc12kcu6DSa9BMuMBT+DTkiAgOiEYXaMXbT9p/obI4VWilME3McnmasQdMtYM9mRvfkWNQCObAJCcz7gvTvCXEqZLJKdTk3fBcgIqwEibzqJH03gBKSkumbFzFKUbuyE+W3GOeyi0de+evf49aH50F6ZKkL/Nd+Xk6ojBmTipXsTdA1qoY+tzX3M8ZoPKzcuLewBeKyaRO2/l6016I6tBugmPcdNuetDETeTOnJ88foO1pliMKCwFbKaaPqi8sH92pJCs9jT+tg28S7eGmO05M4UGeDyAdUSF5FSy+sxM/PhtclxT3qoRj3Sc4iGpPBqpv0TdSqkyhPbElXwg+P7npN0DDDNcw/uNPwG0ONZkl8UbHb/UhCZ99uuY8s1eM9GD0PRWmQGBvNjZ2xmDvEzNPSnEW
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MEEwZi8xeEROZkRNSkEyemU1em1tNXBpdXc2VjNZYUFSei92SXdHbHY5alo0?=
- =?utf-8?B?dm1FaHd2M3J1a3JMQXFGMHBzR0VmandRRFNXMUNTTlQ3TnRUNjJOY1ZBMmp6?=
- =?utf-8?B?MFpOWVNZTmFyZXlkVVl2L2pYbTdPcEdYaU1Jb2xHaDVFT3pUQzVndGc0VS96?=
- =?utf-8?B?Q1FsazVGT0llQzhGNTM0TDNGak1UaFVjbWhKSmQ4T0I0NXllVEgxM050ajR5?=
- =?utf-8?B?bGlZZVBtZ0RwR3JTREphV0JvcDBmVUt2NXNiWVN4c09MSDVtdHlTZUNzMXlz?=
- =?utf-8?B?cGV0aWRvNkl5S1RlMFgwSUJ0aGl5dTV1alJZOVBKbnpjeVIvZXlrRGFNdGg2?=
- =?utf-8?B?bUFTN3FCeldld2xjR0w3RFF2Y1BqZkVISjl4V3JTNnp3cks0VDZ1bkpxUkNZ?=
- =?utf-8?B?cG5Ybys0Q0k0QW9hYThMaFVTRW5qUkJuSndqemlDU29UWnFSUHRkV29zSk9K?=
- =?utf-8?B?dnlDendTaWd1bTRrSVhqQ21QQUUxaGhvbDc1UnFNd0FTb2Y3WGNqN3pNQmxy?=
- =?utf-8?B?RjJFV2gwV1hzZEwzNVU4M3BSTGxlQWNvTklYL3lGUFBtRi94WW4waG9uZEl3?=
- =?utf-8?B?V3h2RmJodTU1UEkzNHhJdUVSN00xWXA1ZWFNQmcrb3pKcnY5dUJDc093WXBS?=
- =?utf-8?B?MHFQZTIzb253cGhCZlV5clA1T1ZBQVlFbG43UnFyK2VxSDRua3dGbEVteENN?=
- =?utf-8?B?eEpJTXQvdXlTODlNa2s4aUFiQmFlU01xMWxTRjlGMmk3NHd2TUJGYXhxcXJK?=
- =?utf-8?B?bUNFdGcwdy9wOFlDTXdxbnNoM2hTTHM2U2JpY3BVWm9nN2FNL1Nnd3RzMTEr?=
- =?utf-8?B?OE92bTBRK2taaFVVa3NwdXIrc2phT3BKMXQ5dndNKzFlWEtYcldtajdVcVBt?=
- =?utf-8?B?K2J2Q2pVdFIwNitiTDhOcWc2T1RIYTBsc3FCTkdzeHZRSTk1dWorRTBoQ3ZK?=
- =?utf-8?B?MjJyVUduaGdqTXMxbWhVb0w0ZWxPK3NLTlBxM29kUlZGKy83R0RIQUdGQzJH?=
- =?utf-8?B?bWV1Rk5Zd3loeHlJemxFUTNEU0p6eFpocFhjbkdOc0xGR3pTVG0vUEVNWHVz?=
- =?utf-8?B?a1Z2b0dTMXZCbTREWUVFZDNNRFpIZHIvU1AvZS9YTVNLQjlaVzdHNExMdkx5?=
- =?utf-8?B?M2plem55RkdxNWowVW5MenVUeHYzMUtybzJCbHFGa2NOYlNReFFHU2J6Tkc2?=
- =?utf-8?B?R255SzVQK2xVZ0dJZnJub2xCV1pvS1VoWWFwZ2lkSmxMRWpXUWt5LzZ1cnZo?=
- =?utf-8?B?bWVlRkp3NU1VdHdUYVBTaHViYklwTjZycDhnVm4vVGtEZ0dvR0dBUW52cmQz?=
- =?utf-8?B?UElnb3NCTGc2c1VBVDdRV3FNZnVOU2syRWlSamh5cmd4T0RZN0dWeU5wUlBI?=
- =?utf-8?B?cjFMZE1paDE2SDZOUDQwWCtNc1A2bmJVQkpvaFVLSFBKamdQRnozT3orODlT?=
- =?utf-8?B?TWVCaFl3ZDVqczA0TWJFd0hJVXZWa1dWYkNOOWZmSFVXTjI3emlIY05uc3cx?=
- =?utf-8?B?SmpMRFhhU3ljTGRKNDVxNVRsbG9pMjI2REdyaVRJSU9GVWFieU5VSnd1S0Rk?=
- =?utf-8?B?RVZqU251S3haMWlia28vU2dxcG52Sld4YVpOMWUwUXhxYVFQbUxtNHNOUkxC?=
- =?utf-8?B?U1VDRkZua3VGQ3cwM2hxV1BJeHlLcmJPYXFSeHo5RmtjUXZER1lLRDBiQlpo?=
- =?utf-8?B?M1NnajNPc1V0bm9wUW8zVDdwKy9sMldRWE4rc2o5Sy9XdkI2Wm1zcHEyTldC?=
- =?utf-8?B?cWpQd3g4emVaajZFTGNmK2owcEhSYUpjclA5UlpKUWc1Sjl1dnMrUU1XMVlZ?=
- =?utf-8?B?RHRiOU1vV3FNK0g5S1Q1SGZnU1BmYlpzd1RjU2FCeE81WmdqSk1FODc2RHlz?=
- =?utf-8?B?QzVhRkZ5Z093UFpwYkRoVDVWRzlsRFpmZHZONCtUZVRCWmtyeC9TU0lOVVVm?=
- =?utf-8?B?TmoyYjVLdG9oOFU0cmVKd2xTNjQzQWpPeVo1dWV0SXN5djk1Y0lnU3NLZ3I2?=
- =?utf-8?B?ZGtlamhaajBuaWpyRi81ZjJnK1FBWlo2Q2lLMnpXTkJaZlNCaEVaQUZqeFdQ?=
- =?utf-8?B?c1BNVVNCOUxyOVJraWwzdkpoNkpJUkNDeUwvUVpBNFpiUmRscExWR2p1YjJl?=
- =?utf-8?Q?SkEQ=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78234f6a-710d-4702-3eba-08dc3df363fd
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2024 15:37:54.6606 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iXmEBDRXGghkWWPJtQSPHAPs72iYN59JuAgKBAyZxeFAcWyo83lzR/TjTbgvM35p
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8871
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,317 +60,956 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 06.03.24 um 16:13 schrieb Khatri, Sunil:
->
-> On 3/6/2024 8:34 PM, Christian König wrote:
->> Am 06.03.24 um 15:29 schrieb Alex Deucher:
->>> On Wed, Mar 6, 2024 at 8:04 AM Khatri, Sunil <sukhatri@amd.com> wrote:
->>>>
->>>> On 3/6/2024 6:12 PM, Christian König wrote:
->>>>> Am 06.03.24 um 11:40 schrieb Khatri, Sunil:
->>>>>> On 3/6/2024 3:37 PM, Christian König wrote:
->>>>>>> Am 06.03.24 um 10:04 schrieb Sunil Khatri:
->>>>>>>> When an  page fault interrupt is raised there
->>>>>>>> is a lot more information that is useful for
->>>>>>>> developers to analyse the pagefault.
->>>>>>> Well actually those information are not that interesting because
->>>>>>> they are hw generation specific.
->>>>>>>
->>>>>>> You should probably rather use the decoded strings here, e.g. hub,
->>>>>>> client, xcc_id, node_id etc...
->>>>>>>
->>>>>>> See gmc_v9_0_process_interrupt() an example.
->>>>>>> I saw this v9 does provide more information than what v10 and v11
->>>>>>> provide like node_id and fault from which die but thats again very
->>>>>>> specific to IP_VERSION(9, 4, 3)) i dont know why thats information
->>>>>>> is not there in v10 and v11.
->>>>>> I agree to your point but, as of now during a pagefault we are
->>>>>> dumping this information which is useful like which client
->>>>>> has generated an interrupt and for which src and other information
->>>>>> like address. So i think to provide the similar information in the
->>>>>> devcoredump.
->>>>>>
->>>>>> Currently we do not have all this information from either job or vm
->>>>>> being derived from the job during a reset. We surely could add more
->>>>>> relevant information later on as per request but this information is
->>>>>> useful as
->>>>>> eventually its developers only who would use the dump file provided
->>>>>> by customer to debug.
->>>>>>
->>>>>> Below is the information that i dump in devcore and i feel that is
->>>>>> good information but new information could be added which could be
->>>>>> picked later.
->>>>>>
->>>>>>> Page fault information
->>>>>>> [gfxhub] page fault (src_id:0 ring:24 vmid:3 pasid:32773)
->>>>>>> in page starting at address 0x0000000000000000 from client 0x1b 
->>>>>>> (UTCL2)
->>>>> This is a perfect example what I mean. You record in the patch is the
->>>>> client_id, but this is is basically meaningless unless you have 
->>>>> access
->>>>> to the AMD internal hw documentation.
->>>>>
->>>>> What you really need is the client in decoded form, in this case
->>>>> UTCL2. You can keep the client_id additionally, but the decoded 
->>>>> client
->>>>> string is mandatory to have I think.
->>>>>
->>>>> Sure i am capturing that information as i am trying to minimise the
->>>>> memory interaction to minimum as we are still in interrupt context
->>>>> here that why i recorded the integer information compared to decoding
->>>> and writing strings there itself but to postpone till we dump.
->>>>
->>>> Like decoding to the gfxhub/mmhub based on vmhub/vmid_src and client
->>>> string from client id. So are we good to go with the information with
->>>> the above information of sharing details in devcoredump using the
->>>> additional information from pagefault cached.
->>> I think amdgpu_vm_fault_info() has everything you need already (vmhub,
->>> status, and addr).  client_id and src_id are just tokens in the
->>> interrupt cookie so we know which IP to route the interrupt to. We
->>> know what they will be because otherwise we'd be in the interrupt
->>> handler for a different IP.  I don't think ring_id has any useful
->>> information in this context and vmid and pasid are probably not too
->>> useful because they are just tokens to associate the fault with a
->>> process.  It would be better to have the process name.
->
-> Just to share context here Alex, i am preparing this for devcoredump, 
-> my intention was to replicate the information which in KMD we are 
-> sharing in Dmesg for page faults. If assuming we do not add client id 
-> specially we would not be able to share enough information in 
-> devcoredump.
-> It would be just address and hub(gfxhub/mmhub) and i think that is 
-> partial information as src id and client id and ip block shares good 
-> information.
->
-> For process related information we are capturing that information part 
-> of dump from existing functionality.
-> **** AMDGPU Device Coredump ****
-> version: 1
-> kernel: 6.7.0-amd-staging-drm-next
-> module: amdgpu
-> time: 45.084775181
-> process_name: soft_recovery_p PID: 1780
->
-> Ring timed out details
-> IP Type: 0 Ring Name: gfx_0.0.0
->
-> Page fault information
-> [gfxhub] page fault (src_id:0 ring:24 vmid:3 pasid:32773)
-> in page starting at address 0x0000000000000000 from client 0x1b (UTCL2)
-> VRAM is lost due to GPU reset!
->
-> Regards
-> Sunil
->
->>
->> The decoded client name would be really useful I think since the 
->> fault handled is a catch all and handles a whole bunch of different 
->> clients.
->>
->> But that should be ideally passed in as const string instead of the 
->> hw generation specific client_id.
->>
->> As long as it's only a pointer we also don't run into the trouble 
->> that we need to allocate memory for it.
->
-> I agree but i prefer adding the client id and decoding it in 
-> devcorecump using soc15_ih_clientid_name[fault_info->client_id]) is 
-> better else we have to do an sprintf this string to fault_info in irq 
-> context which is writing more bytes to memory i guess compared to an 
-> integer:)
+Now that the drm-misc tree has moved to Gitlab, adjust the MAINTAINERS
+git trees to reflect the location change.
 
-Well I totally agree that we shouldn't fiddle to much in the interrupt 
-handler, but exactly what you suggest here won't work.
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+ MAINTAINERS | 172 ++++++++++++++++++++++++++--------------------------
+ 1 file changed, 86 insertions(+), 86 deletions(-)
 
-The client_id is hw generation specific, so the only one who has that is 
-the hw generation specific fault handler. Just compare the defines here:
-
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c#L83
-
-and here:
-
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/amd/amdgpu/gfxhub_v11_5_0.c#L38
-
-Regards,
-Christian.
-
->
-> We can argue on values like pasid and vmid and ring id to be taken off 
-> if they are totally not useful.
->
-> Regards
-> Sunil
->
->>
->> Christian.
->>
->>>
->>> Alex
->>>
->>>> regards
->>>> sunil
->>>>
->>>>> Regards,
->>>>> Christian.
->>>>>
->>>>>> Regards
->>>>>> Sunil Khatri
->>>>>>
->>>>>>> Regards,
->>>>>>> Christian.
->>>>>>>
->>>>>>>> Add all such information in the last cached
->>>>>>>> pagefault from an interrupt handler.
->>>>>>>>
->>>>>>>> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
->>>>>>>> ---
->>>>>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 9 +++++++--
->>>>>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h | 7 ++++++-
->>>>>>>>    drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c | 2 +-
->>>>>>>>    drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c | 2 +-
->>>>>>>>    drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c  | 2 +-
->>>>>>>>    drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c  | 2 +-
->>>>>>>>    drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c  | 2 +-
->>>>>>>>    7 files changed, 18 insertions(+), 8 deletions(-)
->>>>>>>>
->>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->>>>>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->>>>>>>> index 4299ce386322..b77e8e28769d 100644
->>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->>>>>>>> @@ -2905,7 +2905,7 @@ void amdgpu_debugfs_vm_bo_info(struct
->>>>>>>> amdgpu_vm *vm, struct seq_file *m)
->>>>>>>>     * Cache the fault info for later use by userspace in 
->>>>>>>> debugging.
->>>>>>>>     */
->>>>>>>>    void amdgpu_vm_update_fault_cache(struct amdgpu_device *adev,
->>>>>>>> -                  unsigned int pasid,
->>>>>>>> +                  struct amdgpu_iv_entry *entry,
->>>>>>>>                      uint64_t addr,
->>>>>>>>                      uint32_t status,
->>>>>>>>                      unsigned int vmhub)
->>>>>>>> @@ -2915,7 +2915,7 @@ void amdgpu_vm_update_fault_cache(struct
->>>>>>>> amdgpu_device *adev,
->>>>>>>> xa_lock_irqsave(&adev->vm_manager.pasids, flags);
->>>>>>>>    -    vm = xa_load(&adev->vm_manager.pasids, pasid);
->>>>>>>> +    vm = xa_load(&adev->vm_manager.pasids, entry->pasid);
->>>>>>>>        /* Don't update the fault cache if status is 0.  In the 
->>>>>>>> multiple
->>>>>>>>         * fault case, subsequent faults will return a 0 status 
->>>>>>>> which is
->>>>>>>>         * useless for userspace and replaces the useful fault
->>>>>>>> status, so
->>>>>>>> @@ -2924,6 +2924,11 @@ void amdgpu_vm_update_fault_cache(struct
->>>>>>>> amdgpu_device *adev,
->>>>>>>>        if (vm && status) {
->>>>>>>>            vm->fault_info.addr = addr;
->>>>>>>>            vm->fault_info.status = status;
->>>>>>>> +        vm->fault_info.client_id = entry->client_id;
->>>>>>>> +        vm->fault_info.src_id = entry->src_id;
->>>>>>>> +        vm->fault_info.vmid = entry->vmid;
->>>>>>>> +        vm->fault_info.pasid = entry->pasid;
->>>>>>>> +        vm->fault_info.ring_id = entry->ring_id;
->>>>>>>>            if (AMDGPU_IS_GFXHUB(vmhub)) {
->>>>>>>>                vm->fault_info.vmhub = AMDGPU_VMHUB_TYPE_GFX;
->>>>>>>>                vm->fault_info.vmhub |=
->>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
->>>>>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
->>>>>>>> index 047ec1930d12..c7782a89bdb5 100644
->>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
->>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
->>>>>>>> @@ -286,6 +286,11 @@ struct amdgpu_vm_fault_info {
->>>>>>>>        uint32_t    status;
->>>>>>>>        /* which vmhub? gfxhub, mmhub, etc. */
->>>>>>>>        unsigned int    vmhub;
->>>>>>>> +    unsigned int    client_id;
->>>>>>>> +    unsigned int    src_id;
->>>>>>>> +    unsigned int    ring_id;
->>>>>>>> +    unsigned int    pasid;
->>>>>>>> +    unsigned int    vmid;
->>>>>>>>    };
->>>>>>>>      struct amdgpu_vm {
->>>>>>>> @@ -605,7 +610,7 @@ static inline void
->>>>>>>> amdgpu_vm_eviction_unlock(struct amdgpu_vm *vm)
->>>>>>>>    }
->>>>>>>>      void amdgpu_vm_update_fault_cache(struct amdgpu_device *adev,
->>>>>>>> -                  unsigned int pasid,
->>>>>>>> +                  struct amdgpu_iv_entry *entry,
->>>>>>>>                      uint64_t addr,
->>>>>>>>                      uint32_t status,
->>>>>>>>                      unsigned int vmhub);
->>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
->>>>>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
->>>>>>>> index d933e19e0cf5..6b177ce8db0e 100644
->>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
->>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
->>>>>>>> @@ -150,7 +150,7 @@ static int gmc_v10_0_process_interrupt(struct
->>>>>>>> amdgpu_device *adev,
->>>>>>>>            status = RREG32(hub->vm_l2_pro_fault_status);
->>>>>>>>            WREG32_P(hub->vm_l2_pro_fault_cntl, 1, ~1);
->>>>>>>>    -        amdgpu_vm_update_fault_cache(adev, entry->pasid, addr,
->>>>>>>> status,
->>>>>>>> +        amdgpu_vm_update_fault_cache(adev, entry, addr, status,
->>>>>>>>                             entry->vmid_src ? AMDGPU_MMHUB0(0) :
->>>>>>>> AMDGPU_GFXHUB(0));
->>>>>>>>        }
->>>>>>>>    diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
->>>>>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
->>>>>>>> index 527dc917e049..bcf254856a3e 100644
->>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
->>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
->>>>>>>> @@ -121,7 +121,7 @@ static int gmc_v11_0_process_interrupt(struct
->>>>>>>> amdgpu_device *adev,
->>>>>>>>            status = RREG32(hub->vm_l2_pro_fault_status);
->>>>>>>>            WREG32_P(hub->vm_l2_pro_fault_cntl, 1, ~1);
->>>>>>>>    -        amdgpu_vm_update_fault_cache(adev, entry->pasid, addr,
->>>>>>>> status,
->>>>>>>> +        amdgpu_vm_update_fault_cache(adev, entry, addr, status,
->>>>>>>>                             entry->vmid_src ? AMDGPU_MMHUB0(0) :
->>>>>>>> AMDGPU_GFXHUB(0));
->>>>>>>>        }
->>>>>>>>    diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
->>>>>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
->>>>>>>> index 3da7b6a2b00d..e9517ebbe1fd 100644
->>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
->>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
->>>>>>>> @@ -1270,7 +1270,7 @@ static int gmc_v7_0_process_interrupt(struct
->>>>>>>> amdgpu_device *adev,
->>>>>>>>        if (!addr && !status)
->>>>>>>>            return 0;
->>>>>>>>    -    amdgpu_vm_update_fault_cache(adev, entry->pasid,
->>>>>>>> +    amdgpu_vm_update_fault_cache(adev, entry,
->>>>>>>>                         ((u64)addr) << AMDGPU_GPU_PAGE_SHIFT,
->>>>>>>> status, AMDGPU_GFXHUB(0));
->>>>>>>>          if (amdgpu_vm_fault_stop == AMDGPU_VM_FAULT_STOP_FIRST)
->>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
->>>>>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
->>>>>>>> index d20e5f20ee31..a271bf832312 100644
->>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
->>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
->>>>>>>> @@ -1438,7 +1438,7 @@ static int gmc_v8_0_process_interrupt(struct
->>>>>>>> amdgpu_device *adev,
->>>>>>>>        if (!addr && !status)
->>>>>>>>            return 0;
->>>>>>>>    -    amdgpu_vm_update_fault_cache(adev, entry->pasid,
->>>>>>>> +    amdgpu_vm_update_fault_cache(adev, entry,
->>>>>>>>                         ((u64)addr) << AMDGPU_GPU_PAGE_SHIFT,
->>>>>>>> status, AMDGPU_GFXHUB(0));
->>>>>>>>          if (amdgpu_vm_fault_stop == AMDGPU_VM_FAULT_STOP_FIRST)
->>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
->>>>>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
->>>>>>>> index 47b63a4ce68b..dc9fb1fb9540 100644
->>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
->>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
->>>>>>>> @@ -666,7 +666,7 @@ static int gmc_v9_0_process_interrupt(struct
->>>>>>>> amdgpu_device *adev,
->>>>>>>>        rw = REG_GET_FIELD(status, 
->>>>>>>> VM_L2_PROTECTION_FAULT_STATUS, RW);
->>>>>>>>        WREG32_P(hub->vm_l2_pro_fault_cntl, 1, ~1);
->>>>>>>>    -    amdgpu_vm_update_fault_cache(adev, entry->pasid, addr,
->>>>>>>> status, vmhub);
->>>>>>>> +    amdgpu_vm_update_fault_cache(adev, entry, addr, status, 
->>>>>>>> vmhub);
->>>>>>>>          dev_err(adev->dev,
->>>>>>>>            "VM_L2_PROTECTION_FAULT_STATUS:0x%08X\n",
->>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 2a95919fbc3d..d4e33b3a3bc0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1649,11 +1649,11 @@ F:	drivers/power/reset/arm-versatile-reboot.c
+ F:	drivers/soc/versatile/
+ 
+ ARM KOMEDA DRM-KMS DRIVER
+ M:	Liviu Dudau <liviu.dudau@arm.com>
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/arm,komeda.yaml
+ F:	Documentation/gpu/komeda-kms.rst
+ F:	drivers/gpu/drm/arm/display/include/
+ F:	drivers/gpu/drm/arm/display/komeda/
+ 
+@@ -1661,30 +1661,30 @@ ARM MALI PANFROST DRM DRIVER
+ M:	Boris Brezillon <boris.brezillon@collabora.com>
+ M:	Rob Herring <robh@kernel.org>
+ R:	Steven Price <steven.price@arm.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/gpu/panfrost.rst
+ F:	drivers/gpu/drm/panfrost/
+ F:	include/uapi/drm/panfrost_drm.h
+ 
+ ARM MALI PANTHOR DRM DRIVER
+ M:	Boris Brezillon <boris.brezillon@collabora.com>
+ M:	Steven Price <steven.price@arm.com>
+ M:	Liviu Dudau <liviu.dudau@arm.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
+ F:	drivers/gpu/drm/panthor/
+ F:	include/uapi/drm/panthor_drm.h
+ 
+ ARM MALI-DP DRM DRIVER
+ M:	Liviu Dudau <liviu.dudau@arm.com>
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/arm,malidp.yaml
+ F:	Documentation/gpu/afbc.rst
+ F:	drivers/gpu/drm/arm/
+ 
+ ARM MFM AND FLOPPY DRIVERS
+@@ -6268,11 +6268,11 @@ M:	Sumit Semwal <sumit.semwal@linaro.org>
+ M:	Christian König <christian.koenig@amd.com>
+ L:	linux-media@vger.kernel.org
+ L:	dri-devel@lists.freedesktop.org
+ L:	linaro-mm-sig@lists.linaro.org (moderated for non-subscribers)
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/driver-api/dma-buf.rst
+ F:	Documentation/userspace-api/dma-buf-alloc-exchange.rst
+ F:	drivers/dma-buf/
+ F:	include/linux/*fence.h
+ F:	include/linux/dma-buf.h
+@@ -6322,11 +6322,11 @@ R:	John Stultz <jstultz@google.com>
+ R:	T.J. Mercier <tjmercier@google.com>
+ L:	linux-media@vger.kernel.org
+ L:	dri-devel@lists.freedesktop.org
+ L:	linaro-mm-sig@lists.linaro.org (moderated for non-subscribers)
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/dma-buf/dma-heap.c
+ F:	drivers/dma-buf/heaps/*
+ F:	include/linux/dma-heap.h
+ F:	include/uapi/linux/dma-heap.h
+ 
+@@ -6530,11 +6530,11 @@ F:	include/linux/power/smartreflex.h
+ DRM ACCEL DRIVERS FOR INTEL VPU
+ M:	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+ M:	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/accel/ivpu/
+ F:	include/uapi/drm/ivpu_accel.h
+ 
+ DRM COMPUTE ACCELERATORS DRIVERS AND FRAMEWORK
+ M:	Oded Gabbay <ogabbay@kernel.org>
+@@ -6550,47 +6550,47 @@ DRM DRIVER FOR ALLWINNER DE2 AND DE3 ENGINE
+ M:	Maxime Ripard <mripard@kernel.org>
+ M:	Chen-Yu Tsai <wens@csie.org>
+ R:	Jernej Skrabec <jernej.skrabec@gmail.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/sun4i/sun8i*
+ 
+ DRM DRIVER FOR ARM PL111 CLCD
+ S:	Orphan
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/pl111/
+ 
+ DRM DRIVER FOR ARM VERSATILE TFT PANELS
+ M:	Linus Walleij <linus.walleij@linaro.org>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/panel/arm,versatile-tft-panel.yaml
+ F:	drivers/gpu/drm/panel/panel-arm-versatile.c
+ 
+ DRM DRIVER FOR ASPEED BMC GFX
+ M:	Joel Stanley <joel@jms.id.au>
+ L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
+ F:	drivers/gpu/drm/aspeed/
+ 
+ DRM DRIVER FOR AST SERVER GRAPHICS CHIPS
+ M:	Dave Airlie <airlied@redhat.com>
+ R:	Thomas Zimmermann <tzimmermann@suse.de>
+ R:	Jocelyn Falempe <jfalempe@redhat.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/ast/
+ 
+ DRM DRIVER FOR BOCHS VIRTUAL GPU
+ M:	Gerd Hoffmann <kraxel@redhat.com>
+ L:	virtualization@lists.linux.dev
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/tiny/bochs.c
+ 
+ DRM DRIVER FOR BOE HIMAX8279D PANELS
+ M:	Jerry Han <hanxu5@huaqin.corp-partner.google.com>
+ S:	Maintained
+@@ -6604,18 +6604,18 @@ F:	Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+ F:	drivers/gpu/drm/bridge/chipone-icn6211.c
+ 
+ DRM DRIVER FOR EBBG FT8719 PANEL
+ M:	Joel Selvaraj <jo@jsfamily.in>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/panel/ebbg,ft8719.yaml
+ F:	drivers/gpu/drm/panel/panel-ebbg-ft8719.c
+ 
+ DRM DRIVER FOR FARADAY TVE200 TV ENCODER
+ M:	Linus Walleij <linus.walleij@linaro.org>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/tve200/
+ 
+ DRM DRIVER FOR FEIXIN K101 IM2BA02 MIPI-DSI LCD PANELS
+ M:	Icenowy Zheng <icenowy@aosc.io>
+ S:	Maintained
+@@ -6631,11 +6631,11 @@ F:	drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
+ DRM DRIVER FOR FIRMWARE FRAMEBUFFERS
+ M:	Thomas Zimmermann <tzimmermann@suse.de>
+ M:	Javier Martinez Canillas <javierm@redhat.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/drm_aperture.c
+ F:	drivers/gpu/drm/tiny/ofdrm.c
+ F:	drivers/gpu/drm/tiny/simpledrm.c
+ F:	drivers/video/aperture.c
+ F:	drivers/video/nomodeset.c
+@@ -6650,53 +6650,53 @@ F:	drivers/gpu/drm/panel/panel-edp.c
+ 
+ DRM DRIVER FOR GENERIC USB DISPLAY
+ M:	Noralf Trønnes <noralf@tronnes.org>
+ S:	Maintained
+ W:	https://github.com/notro/gud/wiki
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/gud/
+ F:	include/drm/gud.h
+ 
+ DRM DRIVER FOR GRAIN MEDIA GM12U320 PROJECTORS
+ M:	Hans de Goede <hdegoede@redhat.com>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/tiny/gm12u320.c
+ 
+ DRM DRIVER FOR HIMAX HX8394 MIPI-DSI LCD panels
+ M:	Ondrej Jirman <megi@xff.cz>
+ M:	Javier Martinez Canillas <javierm@redhat.com>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
+ F:	drivers/gpu/drm/panel/panel-himax-hx8394.c
+ 
+ DRM DRIVER FOR HX8357D PANELS
+ S:	Orphan
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/himax,hx8357d.txt
+ F:	drivers/gpu/drm/tiny/hx8357d.c
+ 
+ DRM DRIVER FOR HYPERV SYNTHETIC VIDEO DEVICE
+ M:	Deepak Rawat <drawat.floss@gmail.com>
+ L:	linux-hyperv@vger.kernel.org
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/hyperv
+ 
+ DRM DRIVER FOR ILITEK ILI9225 PANELS
+ M:	David Lechner <david@lechnology.com>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/ilitek,ili9225.txt
+ F:	drivers/gpu/drm/tiny/ili9225.c
+ 
+ DRM DRIVER FOR ILITEK ILI9486 PANELS
+ M:	Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/ilitek,ili9486.yaml
+ F:	drivers/gpu/drm/tiny/ili9486.c
+ 
+ DRM DRIVER FOR ILITEK ILI9805 PANELS
+ M:	Michael Trimarchi <michael@amarulasolutions.com>
+@@ -6711,18 +6711,18 @@ F:	Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
+ F:	drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+ 
+ DRM DRIVER FOR LOGICVC DISPLAY CONTROLLER
+ M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/logicvc/
+ 
+ DRM DRIVER FOR LVDS PANELS
+ M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/lvds.yaml
+ F:	Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
+ F:	drivers/gpu/drm/panel/panel-lvds.c
+ 
+ DRM DRIVER FOR MANTIX MLAF057WE51 PANELS
+@@ -6736,25 +6736,25 @@ DRM DRIVER FOR MGA G200 GRAPHICS CHIPS
+ M:	Dave Airlie <airlied@redhat.com>
+ R:	Thomas Zimmermann <tzimmermann@suse.de>
+ R:	Jocelyn Falempe <jfalempe@redhat.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/mgag200/
+ 
+ DRM DRIVER FOR MI0283QT
+ M:	Noralf Trønnes <noralf@tronnes.org>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/multi-inno,mi0283qt.txt
+ F:	drivers/gpu/drm/tiny/mi0283qt.c
+ 
+ DRM DRIVER FOR MIPI DBI compatible panels
+ M:	Noralf Trønnes <noralf@tronnes.org>
+ S:	Maintained
+ W:	https://github.com/notro/panel-mipi-dbi/wiki
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+ F:	drivers/gpu/drm/tiny/panel-mipi-dbi.c
+ 
+ DRM DRIVER FOR MSM ADRENO GPU
+ M:	Rob Clark <robdclark@gmail.com>
+@@ -6774,32 +6774,32 @@ F:	drivers/gpu/drm/msm/
+ F:	include/uapi/drm/msm_drm.h
+ 
+ DRM DRIVER FOR NOVATEK NT35510 PANELS
+ M:	Linus Walleij <linus.walleij@linaro.org>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+ F:	drivers/gpu/drm/panel/panel-novatek-nt35510.c
+ 
+ DRM DRIVER FOR NOVATEK NT35560 PANELS
+ M:	Linus Walleij <linus.walleij@linaro.org>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/panel/sony,acx424akp.yaml
+ F:	drivers/gpu/drm/panel/panel-novatek-nt35560.c
+ 
+ DRM DRIVER FOR NOVATEK NT36523 PANELS
+ M:	Jianhua Lu <lujianhua000@gmail.com>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
+ F:	drivers/gpu/drm/panel/panel-novatek-nt36523.c
+ 
+ DRM DRIVER FOR NOVATEK NT36672A PANELS
+ M:	Sumit Semwal <sumit.semwal@linaro.org>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/panel/novatek,nt36672a.yaml
+ F:	drivers/gpu/drm/panel/panel-novatek-nt36672a.c
+ 
+ DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS
+ M:	Karol Herbst <kherbst@redhat.com>
+@@ -6829,30 +6829,30 @@ F:	Documentation/devicetree/bindings/display/bridge/ps8640.yaml
+ F:	drivers/gpu/drm/bridge/parade-ps8640.c
+ 
+ DRM DRIVER FOR PERVASIVE DISPLAYS REPAPER PANELS
+ M:	Noralf Trønnes <noralf@tronnes.org>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/repaper.txt
+ F:	drivers/gpu/drm/tiny/repaper.c
+ 
+ DRM DRIVER FOR QEMU'S CIRRUS DEVICE
+ M:	Dave Airlie <airlied@redhat.com>
+ M:	Gerd Hoffmann <kraxel@redhat.com>
+ L:	virtualization@lists.linux.dev
+ S:	Obsolete
+ W:	https://www.kraxel.org/blog/2014/10/qemu-using-cirrus-considered-harmful/
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/tiny/cirrus.c
+ 
+ DRM DRIVER FOR QXL VIRTUAL GPU
+ M:	Dave Airlie <airlied@redhat.com>
+ M:	Gerd Hoffmann <kraxel@redhat.com>
+ L:	virtualization@lists.linux.dev
+ L:	spice-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/qxl/
+ F:	include/uapi/drm/qxl_drm.h
+ 
+ DRM DRIVER FOR RAYDIUM RM67191 PANELS
+ M:	Robert Chiras <robert.chiras@nxp.com>
+@@ -6861,20 +6861,20 @@ F:	Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
+ F:	drivers/gpu/drm/panel/panel-raydium-rm67191.c
+ 
+ DRM DRIVER FOR SAMSUNG DB7430 PANELS
+ M:	Linus Walleij <linus.walleij@linaro.org>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/panel/samsung,lms397kf04.yaml
+ F:	drivers/gpu/drm/panel/panel-samsung-db7430.c
+ 
+ DRM DRIVER FOR SAMSUNG MIPI DSIM BRIDGE
+ M:	Inki Dae <inki.dae@samsung.com>
+ M:	Jagan Teki <jagan@amarulasolutions.com>
+ M:	Marek Szyprowski <m.szyprowski@samsung.com>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
+ F:	drivers/gpu/drm/bridge/samsung-dsim.c
+ F:	include/drm/bridge/samsung-dsim.h
+ 
+ DRM DRIVER FOR SAMSUNG S6D27A1 PANELS
+@@ -6890,11 +6890,11 @@ F:	Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
+ F:	drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
+ 
+ DRM DRIVER FOR SITRONIX ST7586 PANELS
+ M:	David Lechner <david@lechnology.com>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/sitronix,st7586.txt
+ F:	drivers/gpu/drm/tiny/st7586.c
+ 
+ DRM DRIVER FOR SITRONIX ST7701 PANELS
+ M:	Jagan Teki <jagan@amarulasolutions.com>
+@@ -6911,26 +6911,26 @@ F:	Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
+ F:	drivers/gpu/drm/panel/panel-sitronix-st7703.c
+ 
+ DRM DRIVER FOR SITRONIX ST7735R PANELS
+ M:	David Lechner <david@lechnology.com>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
+ F:	drivers/gpu/drm/tiny/st7735r.c
+ 
+ DRM DRIVER FOR SOLOMON SSD130X OLED DISPLAYS
+ M:	Javier Martinez Canillas <javierm@redhat.com>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/solomon,ssd-common.yaml
+ F:	Documentation/devicetree/bindings/display/solomon,ssd13*.yaml
+ F:	drivers/gpu/drm/solomon/ssd130x*
+ 
+ DRM DRIVER FOR ST-ERICSSON MCDE
+ M:	Linus Walleij <linus.walleij@linaro.org>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/ste,mcde.yaml
+ F:	drivers/gpu/drm/mcde/
+ 
+ DRM DRIVER FOR SYNAPTICS R63353 PANELS
+ M:	Michael Trimarchi <michael@amarulasolutions.com>
+@@ -6950,55 +6950,55 @@ F:	Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+ F:	drivers/gpu/drm/bridge/ti-sn65dsi86.c
+ 
+ DRM DRIVER FOR TPO TPG110 PANELS
+ M:	Linus Walleij <linus.walleij@linaro.org>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/panel/tpo,tpg110.yaml
+ F:	drivers/gpu/drm/panel/panel-tpo-tpg110.c
+ 
+ DRM DRIVER FOR USB DISPLAYLINK VIDEO ADAPTERS
+ M:	Dave Airlie <airlied@redhat.com>
+ R:	Sean Paul <sean@poorly.run>
+ R:	Thomas Zimmermann <tzimmermann@suse.de>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/udl/
+ 
+ DRM DRIVER FOR VIRTUAL KERNEL MODESETTING (VKMS)
+ M:	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+ M:	Melissa Wen <melissa.srw@gmail.com>
+ M:	Maíra Canal <mairacanal@riseup.net>
+ R:	Haneen Mohammed <hamohammed.sa@gmail.com>
+ R:	Daniel Vetter <daniel@ffwll.ch>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/gpu/vkms.rst
+ F:	drivers/gpu/drm/vkms/
+ 
+ DRM DRIVER FOR VIRTUALBOX VIRTUAL GPU
+ M:	Hans de Goede <hdegoede@redhat.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/vboxvideo/
+ 
+ DRM DRIVER FOR VMWARE VIRTUAL GPU
+ M:	Zack Rusin <zack.rusin@broadcom.com>
+ R:	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/vmwgfx/
+ F:	include/uapi/drm/vmwgfx_drm.h
+ 
+ DRM DRIVER FOR WIDECHIPS WS2401 PANELS
+ M:	Linus Walleij <linus.walleij@linaro.org>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml
+ F:	drivers/gpu/drm/panel/panel-widechips-ws2401.c
+ 
+ DRM DRIVERS
+ M:	David Airlie <airlied@gmail.com>
+@@ -7020,11 +7020,11 @@ DRM DRIVERS AND MISC GPU PATCHES
+ M:	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+ M:	Maxime Ripard <mripard@kernel.org>
+ M:	Thomas Zimmermann <tzimmermann@suse.de>
+ S:	Maintained
+ W:	https://01.org/linuxgraphics/gfx-docs/maintainer-tools/drm-misc.html
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/
+ F:	Documentation/devicetree/bindings/gpu/
+ F:	Documentation/gpu/
+ F:	drivers/gpu/drm/
+ F:	drivers/gpu/vga/
+@@ -7047,21 +7047,21 @@ X:	drivers/gpu/drm/tegra/
+ DRM DRIVERS FOR ALLWINNER A10
+ M:	Maxime Ripard <mripard@kernel.org>
+ M:	Chen-Yu Tsai <wens@csie.org>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/allwinner*
+ F:	drivers/gpu/drm/sun4i/
+ 
+ DRM DRIVERS FOR AMLOGIC SOCS
+ M:	Neil Armstrong <neil.armstrong@linaro.org>
+ L:	dri-devel@lists.freedesktop.org
+ L:	linux-amlogic@lists.infradead.org
+ S:	Supported
+ W:	http://linux-meson.com/
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
+ F:	Documentation/devicetree/bindings/display/amlogic,meson-vpu.yaml
+ F:	Documentation/gpu/meson.rst
+ F:	drivers/gpu/drm/ci/xfails/meson*
+ F:	drivers/gpu/drm/meson/
+@@ -7069,11 +7069,11 @@ F:	drivers/gpu/drm/meson/
+ DRM DRIVERS FOR ATMEL HLCDC
+ M:	Sam Ravnborg <sam@ravnborg.org>
+ M:	Boris Brezillon <bbrezillon@kernel.org>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/atmel/
+ F:	drivers/gpu/drm/atmel-hlcdc/
+ 
+ DRM DRIVERS FOR BRIDGE CHIPS
+ M:	Andrzej Hajda <andrzej.hajda@intel.com>
+@@ -7081,11 +7081,11 @@ M:	Neil Armstrong <neil.armstrong@linaro.org>
+ M:	Robert Foss <rfoss@kernel.org>
+ R:	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+ R:	Jonas Karlman <jonas@kwiboo.se>
+ R:	Jernej Skrabec <jernej.skrabec@gmail.com>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/bridge/
+ F:	drivers/gpu/drm/bridge/
+ F:	drivers/gpu/drm/drm_bridge.c
+ F:	drivers/gpu/drm/drm_bridge_connector.c
+ F:	include/drm/drm_bridge.h
+@@ -7106,20 +7106,20 @@ F:	include/uapi/drm/exynos_drm.h
+ DRM DRIVERS FOR FREESCALE DCU
+ M:	Stefan Agner <stefan@agner.ch>
+ M:	Alison Wang <alison.wang@nxp.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/fsl,dcu.txt
+ F:	Documentation/devicetree/bindings/display/fsl,tcon.txt
+ F:	drivers/gpu/drm/fsl-dcu/
+ 
+ DRM DRIVERS FOR FREESCALE IMX 5/6
+ M:	Philipp Zabel <p.zabel@pengutronix.de>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ T:	git git://git.pengutronix.de/git/pza/linux
+ F:	Documentation/devicetree/bindings/display/imx/
+ F:	drivers/gpu/drm/imx/ipuv3/
+ F:	drivers/gpu/ipu-v3/
+ 
+@@ -7135,11 +7135,11 @@ F:	drivers/gpu/drm/bridge/imx/
+ 
+ DRM DRIVERS FOR GMA500 (Poulsbo, Moorestown and derivative chipsets)
+ M:	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/gma500/
+ 
+ DRM DRIVERS FOR HISILICON
+ M:	Xinliang Liu <xinliang.liu@linaro.org>
+ M:	Tian Tao  <tiantao6@hisilicon.com>
+@@ -7147,28 +7147,28 @@ R:	Xinwei Kong <kong.kongxinwei@hisilicon.com>
+ R:	Sumit Semwal <sumit.semwal@linaro.org>
+ R:	Yongqin Liu <yongqin.liu@linaro.org>
+ R:	John Stultz <jstultz@google.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/hisilicon/
+ F:	drivers/gpu/drm/hisilicon/
+ 
+ DRM DRIVERS FOR LIMA
+ M:	Qiang Yu <yuq825@gmail.com>
+ L:	dri-devel@lists.freedesktop.org
+ L:	lima@lists.freedesktop.org (moderated for non-subscribers)
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/lima/
+ F:	include/uapi/drm/lima_drm.h
+ 
+ DRM DRIVERS FOR LOONGSON
+ M:	Sui Jingfeng <suijingfeng@loongson.cn>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/loongson/
+ 
+ DRM DRIVERS FOR MEDIATEK
+ M:	Chun-Kuang Hu <chunkuang.hu@kernel.org>
+ M:	Philipp Zabel <p.zabel@pengutronix.de>
+@@ -7212,96 +7212,96 @@ F:	drivers/gpu/drm/renesas/rcar-du/
+ DRM DRIVERS FOR RENESAS RZ
+ M:	Biju Das <biju.das.jz@bp.renesas.com>
+ L:	dri-devel@lists.freedesktop.org
+ L:	linux-renesas-soc@vger.kernel.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+ F:	drivers/gpu/drm/renesas/rz-du/
+ 
+ DRM DRIVERS FOR RENESAS SHMOBILE
+ M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ M:	Geert Uytterhoeven <geert+renesas@glider.be>
+ L:	dri-devel@lists.freedesktop.org
+ L:	linux-renesas-soc@vger.kernel.org
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/renesas,shmobile-lcdc.yaml
+ F:	drivers/gpu/drm/renesas/shmobile/
+ F:	include/linux/platform_data/shmob_drm.h
+ 
+ DRM DRIVERS FOR ROCKCHIP
+ M:	Sandy Huang <hjc@rock-chips.com>
+ M:	Heiko Stübner <heiko@sntech.de>
+ M:	Andy Yan <andy.yan@rock-chips.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/rockchip/
+ F:	drivers/gpu/drm/ci/xfails/rockchip*
+ F:	drivers/gpu/drm/rockchip/
+ 
+ DRM DRIVERS FOR STI
+ M:	Alain Volmat <alain.volmat@foss.st.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/st,stih4xx.txt
+ F:	drivers/gpu/drm/sti
+ 
+ DRM DRIVERS FOR STM
+ M:	Yannick Fertre <yannick.fertre@foss.st.com>
+ M:	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+ M:	Philippe Cornu <philippe.cornu@foss.st.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
+ F:	drivers/gpu/drm/stm
+ 
+ DRM DRIVERS FOR TI KEYSTONE
+ M:	Jyri Sarha <jyri.sarha@iki.fi>
+ M:	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+ F:	Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
+ F:	Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
+ F:	drivers/gpu/drm/tidss/
+ 
+ DRM DRIVERS FOR TI LCDC
+ M:	Jyri Sarha <jyri.sarha@iki.fi>
+ M:	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/tilcdc/
+ F:	drivers/gpu/drm/tilcdc/
+ 
+ DRM DRIVERS FOR TI OMAP
+ M:	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/ti/
+ F:	drivers/gpu/drm/omapdrm/
+ 
+ DRM DRIVERS FOR V3D
+ M:	Melissa Wen <mwen@igalia.com>
+ M:	Maíra Canal <mcanal@igalia.com>
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+ F:	drivers/gpu/drm/v3d/
+ F:	include/uapi/drm/v3d_drm.h
+ 
+ DRM DRIVERS FOR VC4
+ M:	Maxime Ripard <mripard@kernel.org>
+ S:	Supported
+ T:	git git://github.com/anholt/linux
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/brcm,bcm2835-*.yaml
+ F:	drivers/gpu/drm/vc4/
+ F:	include/uapi/drm/vc4_drm.h
+ 
+ DRM DRIVERS FOR VIVANTE GPU IP
+@@ -7318,65 +7318,65 @@ F:	include/uapi/drm/etnaviv_drm.h
+ DRM DRIVERS FOR XEN
+ M:	Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
+ L:	dri-devel@lists.freedesktop.org
+ L:	xen-devel@lists.xenproject.org (moderated for non-subscribers)
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/gpu/xen-front.rst
+ F:	drivers/gpu/drm/xen/
+ 
+ DRM DRIVERS FOR XILINX
+ M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/xlnx/
+ F:	drivers/gpu/drm/xlnx/
+ 
+ DRM GPU SCHEDULER
+ M:	Luben Tuikov <ltuikov89@gmail.com>
+ M:	Matthew Brost <matthew.brost@intel.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/scheduler/
+ F:	include/drm/gpu_scheduler.h
+ 
+ DRM PANEL DRIVERS
+ M:	Neil Armstrong <neil.armstrong@linaro.org>
+ R:	Jessica Zhang <quic_jesszhan@quicinc.com>
+ R:	Sam Ravnborg <sam@ravnborg.org>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/panel/
+ F:	drivers/gpu/drm/drm_panel.c
+ F:	drivers/gpu/drm/panel/
+ F:	include/drm/drm_panel.h
+ 
+ DRM PRIVACY-SCREEN CLASS
+ M:	Hans de Goede <hdegoede@redhat.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/drm_privacy_screen*
+ F:	include/drm/drm_privacy_screen*
+ 
+ DRM TTM SUBSYSTEM
+ M:	Christian Koenig <christian.koenig@amd.com>
+ M:	Huang Rui <ray.huang@amd.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/ttm/
+ F:	include/drm/ttm/
+ 
+ DRM AUTOMATED TESTING
+ M:	Helen Koike <helen.koike@collabora.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/gpu/automated_testing.rst
+ F:	drivers/gpu/drm/ci/
+ 
+ DSBR100 USB FM RADIO DRIVER
+ M:	Alexey Klimov <klimov.linux@gmail.com>
+@@ -8422,11 +8422,11 @@ W:	https://floatingpoint.billm.au/
+ F:	arch/x86/math-emu/
+ 
+ FRAMEBUFFER CORE
+ M:	Daniel Vetter <daniel@ffwll.ch>
+ S:	Odd Fixes
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/video/fbdev/core/
+ 
+ FRAMEBUFFER LAYER
+ M:	Helge Deller <deller@gmx.de>
+ L:	linux-fbdev@vger.kernel.org
+@@ -10494,11 +10494,11 @@ F:	drivers/media/rc/img-ir/
+ 
+ IMGTEC POWERVR DRM DRIVER
+ M:	Frank Binns <frank.binns@imgtec.com>
+ M:	Matt Coster <matt.coster@imgtec.com>
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/gpu/img,powervr.yaml
+ F:	Documentation/gpu/imagination/
+ F:	drivers/gpu/drm/imagination/
+ F:	include/uapi/drm/pvr_drm.h
+ 
+@@ -11281,11 +11281,11 @@ F:	tools/testing/selftests/iommu/
+ 
+ IOSYS-MAP HELPERS
+ M:	Thomas Zimmermann <tzimmermann@suse.de>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	include/linux/iosys-map.h
+ 
+ IO_URING
+ M:	Jens Axboe <axboe@kernel.dk>
+ R:	Pavel Begunkov <asml.silence@gmail.com>
+@@ -11474,11 +11474,11 @@ F:	drivers/media/tuners/it913x*
+ 
+ ITE IT66121 HDMI BRIDGE DRIVER
+ M:	Phong LE <ple@baylibre.com>
+ M:	Neil Armstrong <neil.armstrong@linaro.org>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
+ F:	drivers/gpu/drm/bridge/ite-it66121.c
+ 
+ IVTV VIDEO4LINUX DRIVER
+ M:	Andy Walls <awalls@md.metrocast.net>
+@@ -15025,11 +15025,11 @@ F:	drivers/media/tuners/mxl5007t.*
+ MXSFB DRM DRIVER
+ M:	Marek Vasut <marex@denx.de>
+ M:	Stefan Agner <stefan@agner.ch>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+ F:	drivers/gpu/drm/mxsfb/
+ 
+ MYLEX DAC960 PCI RAID Controller
+ M:	Hannes Reinecke <hare@kernel.org>
+@@ -15765,11 +15765,11 @@ F:	include/uapi/linux/dw100.h
+ NXP i.MX 8MQ DCSS DRIVER
+ M:	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+ R:	Lucas Stach <l.stach@pengutronix.de>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml
+ F:	drivers/gpu/drm/imx/dcss/
+ 
+ NXP i.MX 8QXP ADC DRIVER
+ M:	Cai Huoqing <cai.huoqing@linux.dev>
+@@ -18074,11 +18074,11 @@ M:	Jeffrey Hugo <quic_jhugo@quicinc.com>
+ R:	Carl Vanderlip <quic_carlv@quicinc.com>
+ R:	Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+ L:	linux-arm-msm@vger.kernel.org
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/accel/qaic/
+ F:	drivers/accel/qaic/
+ F:	include/uapi/drm/qaic_accel.h
+ 
+ QUALCOMM CORE POWER REDUCTION (CPR) AVS DRIVER
+@@ -21194,11 +21194,11 @@ SYNC FILE FRAMEWORK
+ M:	Sumit Semwal <sumit.semwal@linaro.org>
+ R:	Gustavo Padovan <gustavo@padovan.org>
+ L:	linux-media@vger.kernel.org
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/driver-api/sync_file.rst
+ F:	drivers/dma-buf/dma-fence*
+ F:	drivers/dma-buf/sw_sync.c
+ F:	drivers/dma-buf/sync_*
+ F:	include/linux/sync_file.h
+@@ -22966,11 +22966,11 @@ F:	lib/iov_iter.c
+ 
+ USERSPACE DMA BUFFER DRIVER
+ M:	Gerd Hoffmann <kraxel@redhat.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/dma-buf/udmabuf.c
+ F:	include/uapi/linux/udmabuf.h
+ 
+ USERSPACE I/O (UIO)
+ M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+@@ -23142,11 +23142,11 @@ S:	Maintained
+ F:	drivers/vfio/platform/
+ 
+ VGA_SWITCHEROO
+ R:	Lukas Wunner <lukas@wunner.de>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/gpu/vga-switcheroo.rst
+ F:	drivers/gpu/vga/vga_switcheroo.c
+ F:	include/linux/vga_switcheroo.h
+ 
+ VIA RHINE NETWORK DRIVER
+@@ -23335,11 +23335,11 @@ M:	Gerd Hoffmann <kraxel@redhat.com>
+ R:	Gurchetan Singh <gurchetansingh@chromium.org>
+ R:	Chia-I Wu <olvaffe@gmail.com>
+ L:	dri-devel@lists.freedesktop.org
+ L:	virtualization@lists.linux.dev
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/ci/xfails/virtio*
+ F:	drivers/gpu/drm/virtio/
+ F:	include/uapi/linux/virtio_gpu.h
+ 
+ VIRTIO HOST (VHOST)
+-- 
+2.43.2
 
