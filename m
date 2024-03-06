@@ -2,51 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B038A873F36
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 19:32:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ED35873F39
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 19:32:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A79F4113434;
-	Wed,  6 Mar 2024 18:32:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7046113438;
+	Wed,  6 Mar 2024 18:32:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SqZ3nEMK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DCorpvOn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE39D11341F;
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C39DB113432;
  Wed,  6 Mar 2024 18:32:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1709749939; x=1741285939;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Wp1/dgHbJLoKJL3datdyIpmCxU38lXk94i+f51fDodk=;
- b=SqZ3nEMKxmne1jfRa2nGIJR9IBDkAhZjKhIJ4yc26weV0lwMiicNAuQc
- G0hY4QSfd+4yMCblB8pA4JAbp6xugeEqr2+5kOm4ispbQWqXjnOkyjE56
- LQphyioPI5diJGRy8MUkgYv/Uh3NHViIXlUGQlioCSLrkFuj4MVV7juH/
- ncEk6RGZVsjIbMk9EqZwDLdzX7rTtqi+CeD/cgv3F48u+JlB3flXABWk6
- lYGHkO+T3zCZcKhFY6Hz4cQ5Hed+DXmhgX/RV3cAYTitG6bUww9S3D3fp
- MdirJvYXvZHjmeAt5gpVo5K6Tv68JQeZvceH0uYHtN61ChjgexrOGmHGD A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="8142928"
-X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; 
-   d="scan'208";a="8142928"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2024 10:32:16 -0800
+ bh=Xq9/p/3XxdYm4p2rYJtNEydQpVZ0FF6DFo0mUZC9v6o=;
+ b=DCorpvOnGaRLTLnBQdcCePREib5GOrQaUdg7k3MX34iALJfKsvKCCV9v
+ 4zUBbtPMxy8L1agwJtKn6jdJoQj2/nE7YIvOpYoS8kgbnVGfuOHHyE1cb
+ p9bATSw1L5fPFBRtcv47wk4LJHzH0P9T9deGkhYFXSjUVcN5lW6txSHR1
+ Ix0DuqZFC4Mlog4SGl7+F3W/c/3BJQrybDUpFdTUvO1J6MhubHpUNPncx
+ 4PA2kBXk49hQTNPgQ1/ZOaybuJ0CxlpZtwaFsdmf65UqorPDymthfaHKo
+ XJ98KJnx6qUNmVC+e/0idZLcTbFlfLWX58lPIDWK1hcnCBY3hmMsI4t7b A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="15102685"
+X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; d="scan'208";a="15102685"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2024 10:32:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; 
-   d="scan'208";a="9709884"
+X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; d="scan'208";a="14415778"
 Received: from rjongalo-mobl2.ger.corp.intel.com (HELO localhost)
  ([10.252.33.211])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2024 10:32:12 -0800
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2024 10:32:17 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  jani.nikula@intel.com
-Subject: [PATCH 08/22] drm/encoder: silence drm_encoder_slave.h kernel-doc
-Date: Wed,  6 Mar 2024 20:31:13 +0200
-Message-Id: <431d705e2364e710bd09769fe579af403bdd37fa.1709749576.git.jani.nikula@intel.com>
+Subject: [PATCH 09/22] drm: fix drm_format_helper.h kernel-doc warnings
+Date: Wed,  6 Mar 2024 20:31:14 +0200
+Message-Id: <6dc5b1df34abc10d416c2db5b390440cf56e21ce.1709749576.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1709749576.git.jani.nikula@intel.com>
 References: <cover.1709749576.git.jani.nikula@intel.com>
@@ -68,41 +66,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mark some parts private to silence kernel-doc warnings, and add FIXME.
+As the documentation says, all the fields are considered private. Mark
+them private also for kernel-doc to silence warnings.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- include/drm/drm_encoder_slave.h | 3 +++
- 1 file changed, 3 insertions(+)
+ include/drm/drm_format_helper.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/drm/drm_encoder_slave.h b/include/drm/drm_encoder_slave.h
-index 7214101fd731..7f0ee97bb3a5 100644
---- a/include/drm/drm_encoder_slave.h
-+++ b/include/drm/drm_encoder_slave.h
-@@ -51,6 +51,7 @@ struct drm_encoder_slave_funcs {
- 	void (*set_config)(struct drm_encoder *encoder,
- 			   void *params);
- 
-+	/* private: FIXME: document the hooks */
- 	void (*destroy)(struct drm_encoder *encoder);
- 	void (*dpms)(struct drm_encoder *encoder, int mode);
- 	void (*save)(struct drm_encoder *encoder);
-@@ -120,6 +121,7 @@ int drm_i2c_encoder_init(struct drm_device *dev,
-  * @slave_priv members of @encoder.
+diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
+index f13b34e0b752..428d81afe215 100644
+--- a/include/drm/drm_format_helper.h
++++ b/include/drm/drm_format_helper.h
+@@ -25,6 +25,7 @@ struct iosys_map;
+  * All fields are considered private.
   */
- struct drm_i2c_encoder_driver {
-+	/* private: FIXME: document the members */
- 	struct i2c_driver i2c_driver;
- 
- 	int (*encoder_init)(struct i2c_client *client,
-@@ -133,6 +135,7 @@ struct drm_i2c_encoder_driver {
- 
- /**
-  * drm_i2c_encoder_get_client - Get the I2C client corresponding to an encoder
-+ * @encoder: The encoder
-  */
- static inline struct i2c_client *drm_i2c_encoder_get_client(struct drm_encoder *encoder)
- {
+ struct drm_format_conv_state {
++	/* private: */
+ 	struct {
+ 		void *mem;
+ 		size_t size;
 -- 
 2.39.2
 
