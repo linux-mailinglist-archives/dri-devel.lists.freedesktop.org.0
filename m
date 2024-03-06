@@ -2,78 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9304A874109
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 21:04:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C7C78740F1
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 20:59:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D06CD113502;
-	Wed,  6 Mar 2024 20:04:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A18F10F469;
+	Wed,  6 Mar 2024 19:59:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="ba9TPtTg";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="MLNhtBTQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
- [209.85.210.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32005113502
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 20:04:02 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id
- d2e1a72fcca58-6e57a3bf411so95680b3a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Mar 2024 12:04:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1709755441; x=1710360241;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5q7RSLprSn1rt1j4rdHGaFDAMNSTGJDra0FF/HsNmOM=;
- b=ba9TPtTgLIP5WHC62n5Wf7yyK9mnWVjsEmHm6xMFgrNj8ytK6tbX9Qy0EPNqqNBdHZ
- zntMQGIdCoq7KjDxBng6i2XWAr/uKj8HnGELTibKoPgyzsfzQHZDOBT+n3itWgVkX1kJ
- OKgYv6ni2JMWv9pKLxc94whnyXUaHnVRehFAU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709755441; x=1710360241;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5q7RSLprSn1rt1j4rdHGaFDAMNSTGJDra0FF/HsNmOM=;
- b=iUzaqlzyGpGyMfRyQYjxDKC9HskPZhjbfR5GNxJtkwkMIzJ60uB4WuEZB+Rl2MdoNR
- X/hh3Oz8w4hPzxj+VnKFmZQhqWHkWwkYwTTx0g+UvJR1W9l0mwcgKdua10jqOL3wr2+h
- TkvDGycAf9UMLSqyIVhjMqap7hDhlIvG1WrT5V7T4caRHvg6lJOW2ak+tQeG2QVYdUCM
- MxirSehZ+k2UENlipP9dgvWlWnH/MQgAsQgzeuUKrqjjfxfF1/yJ1zqUtEhjIZ22jMr6
- r9XOuVA2ISS0xUNPvs0IzipHr4mrTzHwJuY3GQBJADv1w3Ph57Shzdag6gNHlYp2oyNh
- oFzg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVoTuwTtoUAuVX8GPzoEGST/DotLaT9MX9J9jKZ33+vvsgoEsMGMJYZIZw5udybl5dVGItSPDsBtmEwkbrK4jtbjJxxv75Mo7v4SOHIp306
-X-Gm-Message-State: AOJu0YxM5PiQpULZKNO0wMSt9TtV85krLAPdVqFaIaktMXOnfmAQ1Bw6
- qW1+jVZK+pVigP2ocifrn8pufKI85tSRReI3mirntmDLop8lN3yzkpgpuwd0Eg==
-X-Google-Smtp-Source: AGHT+IEvpr4QV5mPBpt2sxAyZS+vMLVhwGwjJwhB/E1OupG/ADEUdABJiDL7NbFUKKyTsEDER6dy8A==
-X-Received: by 2002:a05:6a20:8e09:b0:1a1:4e68:30db with SMTP id
- y9-20020a056a208e0900b001a14e6830dbmr7188437pzj.12.1709755441698; 
- Wed, 06 Mar 2024 12:04:01 -0800 (PST)
-Received: from hsinyi.sjc.corp.google.com ([2620:15c:9d:2:a215:f6c0:3224:5460])
- by smtp.gmail.com with ESMTPSA id
- e3-20020aa79803000000b006e5667793d4sm11124241pfl.66.2024.03.06.12.04.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Mar 2024 12:04:01 -0800 (PST)
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Douglas Anderson <dianders@chromium.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v5 6/6] drm/panel-edp: Fix AUO 0x405c panel naming and add a
- variant
-Date: Wed,  6 Mar 2024 11:55:56 -0800
-Message-ID: <20240306200353.1436198-7-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.44.0.278.ge034bb2e1d-goog
-In-Reply-To: <20240306200353.1436198-1-hsinyi@chromium.org>
-References: <20240306200353.1436198-1-hsinyi@chromium.org>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E56ED10E794;
+ Wed,  6 Mar 2024 19:59:29 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 426HIj9w021874; Wed, 6 Mar 2024 19:59:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=FxSCqNkOlUPk6LBkYUvvtaKJialC+MoBYO1YjFspR4M=; b=ML
+ NhtBTQNDYXb5SHgVwQEJ20g8s9MdkOzXFnS9qsRN7PaAT0q9SFmMGZjMmsZg4uE3
+ ZxBKfhbY7RW6lIUYouZCp0JcZBGh3QHDv9OM98cKKJm5XqwsFuLF6QSUOGDELkZ8
+ /01j6LsJ1plrVOPjxdvpGofD7waPM1he4S+FPap2E7MF1OvQoF03OK0ryXAEnbkb
+ YcWGIgbKvXjmV7wQRVtdxyLL1ptVPOxHGnAAh3mJoDr6xwmnCkZv5UeZnH81EDza
+ gXhQVR8pVFXr/g0BiOcm+//6Ks4Pi4ZZ54V4D6lpVbTdE859/OsQc8G9MCaM96wV
+ BMXx7Y1HclgAjtnKDMcg==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wpgwmt0f1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 06 Mar 2024 19:59:25 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 426JxP3F001294
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 6 Mar 2024 19:59:25 GMT
+Received: from [10.110.71.131] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 6 Mar
+ 2024 11:59:22 -0800
+Message-ID: <2295092e-355b-4ebf-f630-14623cf7d9a3@quicinc.com>
+Date: Wed, 6 Mar 2024 11:59:12 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [RFC PATCH] drm/msm/dp: move link_ready out of HPD event thread
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>, "Sean
+ Paul" <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ "David Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <swboyd@chromium.org>,
+ <quic_jesszhan@quicinc.com>, <quic_parellan@quicinc.com>,
+ <quic_khsieh@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20240306195031.490994-1-quic_abhinavk@quicinc.com>
+ <CAA8EJpq=5=L5RdVZRkf=e2wyjQufnSzEC+=19FjCCF9S6SSEJA@mail.gmail.com>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJpq=5=L5RdVZRkf=e2wyjQufnSzEC+=19FjCCF9S6SSEJA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: kvbPXLaDfSMPl1sm0abBT5tD8kuQB0z9
+X-Proofpoint-ORIG-GUID: kvbPXLaDfSMPl1sm0abBT5tD8kuQB0z9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-06_12,2024-03-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxlogscore=999
+ clxscore=1015 spamscore=0 bulkscore=0 impostorscore=0 malwarescore=0
+ mlxscore=0 lowpriorityscore=0 priorityscore=1501 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2403060161
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,53 +96,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are 2 different AUO panels using the same panel id. One of the
-variants requires using overridden modes to resolve glitching issue as
-described in commit 70e0d5550f5c ("drm/panel-edp: Add auo_b116xa3_mode").
-Other variants should use the modes parsed from EDID.
 
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
----
-v5: no change
----
- drivers/gpu/drm/panel/panel-edp.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 772bf6011d79..e3de55314bda 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1009,6 +1009,19 @@ static const struct panel_desc auo_b101ean01 = {
- 	},
- };
- 
-+static const struct drm_display_mode auo_b116xa3_mode = {
-+	.clock = 70589,
-+	.hdisplay = 1366,
-+	.hsync_start = 1366 + 40,
-+	.hsync_end = 1366 + 40 + 40,
-+	.htotal = 1366 + 40 + 40 + 32,
-+	.vdisplay = 768,
-+	.vsync_start = 768 + 10,
-+	.vsync_end = 768 + 10 + 12,
-+	.vtotal = 768 + 10 + 12 + 6,
-+	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
-+};
-+
- static const struct drm_display_mode auo_b116xak01_mode = {
- 	.clock = 69300,
- 	.hdisplay = 1366,
-@@ -1990,7 +2003,9 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x239b, &delay_200_500_e50, "B116XAN06.1"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x255c, &delay_200_500_e50, "B116XTN02.5"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x403d, &delay_200_500_e50, "B140HAN04.0"),
--	EDP_PANEL_ENTRY('A', 'U', 'O', 0x405c, &auo_b116xak01.delay, "B116XAK01.0"),
-+	EDP_PANEL_ENTRY('A', 'U', 'O', 0x405c, &auo_b116xak01.delay, "B116XAN04.0"),
-+	EDP_PANEL_ENTRY2('A', 'U', 'O', 0x405c, &auo_b116xak01.delay, "B116XAK01.0 ",
-+			 &auo_b116xa3_mode),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x435c, &delay_200_500_e50, "Unknown"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x582d, &delay_200_500_e50, "B133UAN01.0"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x615c, &delay_200_500_e50, "B116XAN06.1"),
--- 
-2.44.0.278.ge034bb2e1d-goog
+On 3/6/2024 11:52 AM, Dmitry Baryshkov wrote:
+> On Wed, 6 Mar 2024 at 21:50, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>
+>> There are cases where the userspace might still send another
+>> frame after the HPD disconnect causing a modeset cycle after
+>> a disconnect. This messes the internal state machine of MSM DP driver
+>> and can lead to a crash as there can be an imbalance between
+>> bridge_disable() and bridge_enable().
+>>
+>> This was also previously reported on [1] for which [2] was posted
+>> and helped resolve the issue by rejecting commits if the DP is not
+>> in connected state.
+>>
+>> The change resolved the bug but there can also be another race condition.
+>> If hpd_event_thread does not pick up the EV_USER_NOTIFICATION and process it
+>> link_ready will also not be set to false allowing the frame to sneak in.
+>>
+>> Lets move setting link_ready outside of hpd_event_thread() processing to
+>> eliminate a window of race condition.
+>>
+>> [1] : https://gitlab.freedesktop.org/drm/msm/-/issues/17
+>> [2] : https://lore.kernel.org/all/1664408211-25314-1-git-send-email-quic_khsieh@quicinc.com/
+>>
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/dp/dp_display.c | 7 +++++--
+>>   1 file changed, 5 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+>> index 068d44eeaa07..e00092904ccc 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> @@ -345,8 +345,6 @@ static int dp_display_send_hpd_notification(struct dp_display_private *dp,
+>>                                                           dp->panel->downstream_ports);
+>>          }
+>>
+>> -       dp->dp_display.link_ready = hpd;
+>> -
+>>          drm_dbg_dp(dp->drm_dev, "type=%d hpd=%d\n",
+>>                          dp->dp_display.connector_type, hpd);
+>>          drm_bridge_hpd_notify(bridge, dp->dp_display.link_ready);
+>> @@ -399,6 +397,8 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
+>>                  goto end;
+>>          }
+>>
+>> +       dp->dp_display.link_ready = true;
+> 
+> Do we need any kind of locking now?
+> 
 
+hmm ... correct me if I have missed any flows but I think all paths 
+where we will set link_ready are already protected by event_mutex?
+
+>> +
+>>          dp_add_event(dp, EV_USER_NOTIFICATION, true, 0);
+>>
+>>   end:
+>> @@ -466,6 +466,8 @@ static int dp_display_notify_disconnect(struct device *dev)
+>>   {
+>>          struct dp_display_private *dp = dev_get_dp_display_private(dev);
+>>
+>> +       dp->dp_display.link_ready = false;
+>> +
+>>          dp_add_event(dp, EV_USER_NOTIFICATION, false, 0);
+>>
+>>          return 0;
+>> @@ -487,6 +489,7 @@ static int dp_display_handle_port_status_changed(struct dp_display_private *dp)
+>>                  drm_dbg_dp(dp->drm_dev, "sink count is zero, nothing to do\n");
+>>                  if (dp->hpd_state != ST_DISCONNECTED) {
+>>                          dp->hpd_state = ST_DISCONNECT_PENDING;
+>> +                       dp->dp_display.link_ready = false;
+>>                          dp_add_event(dp, EV_USER_NOTIFICATION, false, 0);
+>>                  }
+>>          } else {
+>> --
+>> 2.34.1
+>>
+> 
+> 
