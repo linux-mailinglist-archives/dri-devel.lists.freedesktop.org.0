@@ -2,109 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DEF4874279
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 23:11:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE1418742CC
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 23:34:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79DD01135C2;
-	Wed,  6 Mar 2024 22:11:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 794D710ED23;
+	Wed,  6 Mar 2024 22:34:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="mCFL4MS0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TCD02OeX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
- [209.85.218.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E68B11135C2
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 22:11:09 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id
- a640c23a62f3a-a45c006ab82so33438866b.3
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Mar 2024 14:11:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1709763068; x=1710367868;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GMaQ3cDJaF53fme3ObxORiWTrmjgHw0Qfaex1Nu2I/k=;
- b=mCFL4MS0tN6bqN6r713ntfrNFdtWtM/4ESu/81XEstNvAmF4H+V4lUp2jyXnkIk3ot
- rn0Xw5BwZY7jJHXBQ4KZ0w4SfsI8H+MuwY2t0sAUoL1DMpRE5JarrbH7o7iNffd7aWgT
- 2Nv554fRWm9efPvXOnC49bPDzEd4tgteSzctGgQ2DcwECEzV2nK3F4u2kUIj9WZZx7NL
- 0kJHnWKgHIn90djkwQF6NHI1duPz2/wCzUl2C6VcIRnviM1QWMZa8kC4MgcrLBOJ0X3i
- ULbZ2j+BWhK78FliR60kbmybOu16Qn6ot1JG1SXwXOHuw7+1RNp/rREiCfz4MAkKNjX0
- cSog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709763068; x=1710367868;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GMaQ3cDJaF53fme3ObxORiWTrmjgHw0Qfaex1Nu2I/k=;
- b=irsWSoxT/LPBQe49ijKz0Dh5qN+s3m+kScU2WxA2ojtC5ouFGfJQ5aQBC0UWGslnII
- pKmXV2XjsC8eYm0ykcG5B2XVRTZ+zbr7lN8tNLTTUFKReAUyZ8CWJxXrfrDymp7oIKO2
- cAPE1/pgWMFA2Cg+a0dWWWNGrEpycqc65+ZhssbtKbiO4jyJEPzeaBW4Ff0tOe5Iwg9B
- YzkfF9F965s2J1o5gsh3i2kSiX25S1sZMfH3dz6XF4QD3PDMe8LyudCFQjE2KSMqlA8k
- SKrBjm0v5pxWNv1Z32n5ylebgeU7fpqTMOzKyJcyZcd+zkG/VSU5rjsFuiNROt9A0ySb
- 6lrQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXWc7EhTYDJ+SuF1IgYTxkjVYjsz+GMADQBA8/1sPKKSb+qrYnMzs0bUpI0KAIkuAFvzDZeq8cQavqzRl1cpC+oPPlwf5S6t+evmd8aMaPa
-X-Gm-Message-State: AOJu0YyBLhLM70oRNXTdguwN5Hsr8pfWWDw9dDNDmZw7kQCum88tebBF
- 0xfur/emj19mDbmrP4EdyFsZd6zCE/7ObHCQdTN6ubmNlhPB48FFi1t8pJs5Zt3+Vy+CGUVYwpG
- dCLZYce3vbSiCQApkmYN7R04QcS3qrMIs+AJx
-X-Google-Smtp-Source: AGHT+IENXwD+VWczLj/dTM2/A1MFyK7LqUp0f5yPqTDI4m7+LrQO5mzGQIb3CxwkX+uMg5NpdLqf746V4nTchzug2EI=
-X-Received: by 2002:a17:906:3442:b0:a44:3ec9:1fd3 with SMTP id
- d2-20020a170906344200b00a443ec91fd3mr9663971ejb.30.1709763067483; Wed, 06 Mar
- 2024 14:11:07 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AC8810ED23
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 22:34:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709764479; x=1741300479;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=7CNhkoycE7JBgt0VYgZM7XWXLPbehkrfoDl1h7saRFw=;
+ b=TCD02OeXzAOxDuZBHjtYXHVEo37a+jrYw1eNyDwlp3fiCAdIfNcqlcIR
+ qTVD3v8fMaxU/imGDVQ6vOL2qoBKZ+Jk+przUamszntJr1YIcoreMMdu1
+ gQEbukblGQN4mYIcgR1tH6JufN9NHq5YuHj7BbsclJ6Y5bzbsMAS5CQKY
+ NhDw9gnfyXohIEbuf+yljYWvWu9AEO0SHKYd3ZCYDdMk24E6fQkYi8G+m
+ nko5aiY6TCv+BEwqShfg4MTMZdpjXnE83wg+KX6BrDpfh8toadusS/hr7
+ OP2hOWXCXCVXLwrserFkbYEQ65um+gDWVn3+AOyW/i0Aq0hHnH5hbpGXN g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="8170604"
+X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; 
+   d="scan'208";a="8170604"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2024 14:34:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; 
+   d="scan'208";a="9989437"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+ by fmviesa008.fm.intel.com with ESMTP; 06 Mar 2024 14:34:36 -0800
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rhzqL-0004an-2f;
+ Wed, 06 Mar 2024 22:34:33 +0000
+Date: Thu, 7 Mar 2024 06:33:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Javier Martinez Canillas <javierm@redhat.com>
+Subject: [drm-misc:drm-misc-next 2/2]
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:1255:52: error: '%s' directive output
+ may be truncated writing up to 29 bytes into a region of size 23
+Message-ID: <202403070619.KffNoC64-lkp@intel.com>
 MIME-Version: 1.0
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-6-almasrymina@google.com>
- <da42cea9-c169-599e-f087-d38c419e3dab@huawei.com>
- <CAHS8izM7GbvWHrH=h9q0oG0DMU649EjT1udNEW_8F-hGeC15EQ@mail.gmail.com>
- <aa892723-7396-998d-db06-166c28fba1e0@huawei.com>
-In-Reply-To: <aa892723-7396-998d-db06-166c28fba1e0@huawei.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Wed, 6 Mar 2024 14:10:55 -0800
-Message-ID: <CAHS8izNJFnKGn9nrJ3kRxGwhvjiDey_bfrxQNfsfj=S9hZR_UA@mail.gmail.com>
-Subject: Re: [RFC PATCH net-next v6 05/15] netdev: support binding dma-buf to
- netdevice
-To: Yunsheng Lin <linyunsheng@huawei.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, 
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, 
- KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
- Hao Luo <haoluo@google.com>, 
- Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>, 
- Shakeel Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>, 
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,338 +68,304 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 6, 2024 at 4:38=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei.com=
-> wrote:
->
-> On 2024/3/6 5:17, Mina Almasry wrote:
-> > On Tue, Mar 5, 2024 at 4:55=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei=
-.com> wrote:
-> >>
-> >> On 2024/3/5 10:01, Mina Almasry wrote:
-> >>
-> >> ...
-> >>
-> >>>
-> >>> The netdev_dmabuf_binding struct is refcounted, and releases its
-> >>> resources only when all the refs are released.
-> >>>
-> >>> Signed-off-by: Willem de Bruijn <willemb@google.com>
-> >>> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-> >>> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> >>>
-> >>> ---
-> >>>
-> >>> RFC v6:
-> >>> - Validate rx queue index
-> >>> - Refactor new functions into devmem.c (Pavel)
-> >>
-> >> It seems odd that the functions or stucts in a file called devmem.c
-> >> are named after 'dmabuf' instead of 'devmem'.
-> >>
-> >
-> > So my intention with this naming that devmem.c contains all the
-> > functions for all devmem tcp specific support. Currently the only
-> > devmem we support is dmabuf. In the future, other devmem may be
-> > supported and it can fit nicely in devmem.c. For example, if we want
-> > to extend devmem TCP to support NVMe devices, we need to add support
-> > for p2pdma, maybe, and we can add that support under the devmem.c
-> > umbrella rather than add new files.
-> >
-> > But I can rename to dmabuf.c if there is strong objection to the curren=
-t name.
->
-> Grepping 'dmabuf' seems to show that it may be common rename it to
-> something as *_dmabuf.c.
->
-> >
-> >>>
-> >>
-> >> ...
-> >>
-> >>> diff --git a/include/net/netmem.h b/include/net/netmem.h
-> >>> index d8b810245c1d..72e932a1a948 100644
-> >>> --- a/include/net/netmem.h
-> >>> +++ b/include/net/netmem.h
-> >>> @@ -8,6 +8,16 @@
-> >>>  #ifndef _NET_NETMEM_H
-> >>>  #define _NET_NETMEM_H
-> >>>
-> >>> +#include <net/devmem.h>
-> >>> +
-> >>> +/* net_iov */
-> >>> +
-> >>> +struct net_iov {
-> >>> +     struct dmabuf_genpool_chunk_owner *owner;
-> >>> +};
-> >>> +
-> >>> +/* netmem */
-> >>> +
-> >>>  /**
-> >>>   * typedef netmem_ref - a nonexistent type marking a reference to ge=
-neric
-> >>>   * network memory.
-> >>> diff --git a/net/core/Makefile b/net/core/Makefile
-> >>> index 821aec06abf1..592f955c1241 100644
-> >>> --- a/net/core/Makefile
-> >>> +++ b/net/core/Makefile
-> >>> @@ -13,7 +13,7 @@ obj-y                    +=3D dev.o dev_addr_lists.=
-o dst.o netevent.o \
-> >>>                       neighbour.o rtnetlink.o utils.o link_watch.o fi=
-lter.o \
-> >>>                       sock_diag.o dev_ioctl.o tso.o sock_reuseport.o =
-\
-> >>>                       fib_notifier.o xdp.o flow_offload.o gro.o \
-> >>> -                     netdev-genl.o netdev-genl-gen.o gso.o
-> >>> +                     netdev-genl.o netdev-genl-gen.o gso.o devmem.o
-> >>>
-> >>>  obj-$(CONFIG_NETDEV_ADDR_LIST_TEST) +=3D dev_addr_lists_test.o
-> >>>
-> >>> diff --git a/net/core/dev.c b/net/core/dev.c
-> >>> index fe054cbd41e9..bbea1b252529 100644
-> >>> --- a/net/core/dev.c
-> >>> +++ b/net/core/dev.c
-> >>> @@ -155,6 +155,9 @@
-> >>>  #include <net/netdev_rx_queue.h>
-> >>>  #include <net/page_pool/types.h>
-> >>>  #include <net/page_pool/helpers.h>
-> >>> +#include <linux/genalloc.h>
-> >>> +#include <linux/dma-buf.h>
-> >>> +#include <net/devmem.h>
-> >>>
-> >>>  #include "dev.h"
-> >>>  #include "net-sysfs.h"
-> >>> diff --git a/net/core/devmem.c b/net/core/devmem.c
-> >>> new file mode 100644
-> >>> index 000000000000..779ad990971e
-> >>> --- /dev/null
-> >>> +++ b/net/core/devmem.c
-> >>> @@ -0,0 +1,293 @@
-> >>> +// SPDX-License-Identifier: GPL-2.0-or-later
-> >>> +/*
-> >>> + *      Devmem TCP
-> >>> + *
-> >>> + *      Authors:     Mina Almasry <almasrymina@google.com>
-> >>> + *                   Willem de Bruijn <willemdebruijn.kernel@gmail.c=
-om>
-> >>> + *                   Kaiyuan Zhang <kaiyuanz@google.com
-> >>> + */
-> >>> +
-> >>> +#include <linux/types.h>
-> >>> +#include <linux/mm.h>
-> >>> +#include <linux/netdevice.h>
-> >>> +#include <trace/events/page_pool.h>
-> >>> +#include <net/netdev_rx_queue.h>
-> >>> +#include <net/page_pool/types.h>
-> >>> +#include <net/page_pool/helpers.h>
-> >>> +#include <linux/genalloc.h>
-> >>> +#include <linux/dma-buf.h>
-> >>> +#include <net/devmem.h>
-> >>> +
-> >>> +/* Device memory support */
-> >>> +
-> >>> +#ifdef CONFIG_DMA_SHARED_BUFFER
-> >>
-> >> I still think it is worth adding its own config for devmem or dma-buf
-> >> for networking, thinking about the embeded system.
-> >>
-> >
-> > FWIW Willem did weigh on this previously and said he prefers to have
-> > it unguarded by a CONFIG, but I will submit to whatever the consensus
-> > here. It shouldn't be a huge deal to add a CONFIG technically
-> > speaking.
->
-> Grepping 'CONFIG_DMA_SHARED_BUFFER' show that the API user of dmabuf
-> API does not seems to reuse the CONFIG_DMA_SHARED_BUFFER, instead they
-> seem to define its own config, and select CONFIG_DMA_SHARED_BUFFER
-> if necessary, it that any reason it is different here?
->
-> >
-> >>> +static void netdev_dmabuf_free_chunk_owner(struct gen_pool *genpool,
-> >>> +                                        struct gen_pool_chunk *chunk=
-,
-> >>> +                                        void *not_used)
-> >>
-> >> It seems odd to still keep the netdev_ prefix as it is not really rela=
-ted
-> >> to netdev, perhaps use 'net_' or something better.
-> >>
-> >
-> > Yes, thanks for catching. I can change to net_devmem_ maybe or net_dmab=
-uf_*.
->
-> FWIW, net_dmabuf_* seems like a better name technically.
->
-> >
-> >>> +{
-> >>> +     struct dmabuf_genpool_chunk_owner *owner =3D chunk->owner;
-> >>> +
-> >>> +     kvfree(owner->niovs);
-> >>> +     kfree(owner);
-> >>> +}
-> >>> +
-> >>> +void __netdev_dmabuf_binding_free(struct netdev_dmabuf_binding *bind=
-ing)
-> >>> +{
-> >>> +     size_t size, avail;
-> >>> +
-> >>> +     gen_pool_for_each_chunk(binding->chunk_pool,
-> >>> +                             netdev_dmabuf_free_chunk_owner, NULL);
-> >>> +
-> >>> +     size =3D gen_pool_size(binding->chunk_pool);
-> >>> +     avail =3D gen_pool_avail(binding->chunk_pool);
-> >>> +
-> >>> +     if (!WARN(size !=3D avail, "can't destroy genpool. size=3D%lu, =
-avail=3D%lu",
-> >>> +               size, avail))
-> >>> +             gen_pool_destroy(binding->chunk_pool);
-> >>> +
-> >>> +     dma_buf_unmap_attachment(binding->attachment, binding->sgt,
-> >>> +                              DMA_BIDIRECTIONAL);
-> >>
-> >> For now DMA_FROM_DEVICE seems enough as tx is not supported yet.
-> >>
-> >
-> > Yes, good catch. I suspect we want to reuse this code for TX path. But
-> > for now, I'll test with DMA_FROM_DEVICE and if I see no issues I'll
-> > apply this change.
-> >
-> >>> +     dma_buf_detach(binding->dmabuf, binding->attachment);
-> >>> +     dma_buf_put(binding->dmabuf);
-> >>> +     xa_destroy(&binding->bound_rxq_list);
-> >>> +     kfree(binding);
-> >>> +}
-> >>> +
-> >>> +static int netdev_restart_rx_queue(struct net_device *dev, int rxq_i=
-dx)
-> >>> +{
-> >>> +     void *new_mem;
-> >>> +     void *old_mem;
-> >>> +     int err;
-> >>> +
-> >>> +     if (!dev || !dev->netdev_ops)
-> >>> +             return -EINVAL;
-> >>> +
-> >>> +     if (!dev->netdev_ops->ndo_queue_stop ||
-> >>> +         !dev->netdev_ops->ndo_queue_mem_free ||
-> >>> +         !dev->netdev_ops->ndo_queue_mem_alloc ||
-> >>> +         !dev->netdev_ops->ndo_queue_start)
-> >>> +             return -EOPNOTSUPP;
-> >>> +
-> >>> +     new_mem =3D dev->netdev_ops->ndo_queue_mem_alloc(dev, rxq_idx);
-> >>> +     if (!new_mem)
-> >>> +             return -ENOMEM;
-> >>> +
-> >>> +     err =3D dev->netdev_ops->ndo_queue_stop(dev, rxq_idx, &old_mem)=
-;
-> >>> +     if (err)
-> >>> +             goto err_free_new_mem;
-> >>> +
-> >>> +     err =3D dev->netdev_ops->ndo_queue_start(dev, rxq_idx, new_mem)=
-;
-> >>> +     if (err)
-> >>> +             goto err_start_queue;
-> >>> +
-> >>> +     dev->netdev_ops->ndo_queue_mem_free(dev, old_mem);
-> >>> +
-> >>> +     return 0;
-> >>> +
-> >>> +err_start_queue:
-> >>> +     dev->netdev_ops->ndo_queue_start(dev, rxq_idx, old_mem);
-> >>
-> >> It might worth mentioning why queue start with old_mem will always
-> >> success here as the return value seems to be ignored here.
-> >>
-> >
-> > So the old queue, we stopped it, and if we fail to bring up the new
-> > queue, then we want to start the old queue back up to get the queue
-> > back to a workable state.
-> >
-> > I don't see what we can do to recover if restarting the old queue
-> > fails. Seems like it should be a requirement that the driver tries as
-> > much as possible to keep the old queue restartable.
->
-> Is it possible that we may have the 'old_mem' leaking if the driver
-> fails to restart the old queue? how does the driver handle the
-> firmware cmd failure for ndo_queue_start()? it seems a little
-> tricky to implement it.
->
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   f89632a9e5fa6c4787c14458cd42a9ef42025434
+commit: f89632a9e5fa6c4787c14458cd42a9ef42025434 [2/2] drm: Add CONFIG_DRM_WERROR
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240307/202403070619.KffNoC64-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240307/202403070619.KffNoC64-lkp@intel.com/reproduce)
 
-I'm not sure what we can do to meaningfully recover from failure to
-restarting the old queue, except log it so the error is visible. In
-theory because we have not modifying any queue configurations
-restarting it would be straight forward, but since it's dealing with
-hardware then any failures are possible.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403070619.KffNoC64-lkp@intel.com/
 
-> >
-> > I can improve this by at least logging or warning if restarting the
-> > old queue fails.
->
-> Also the semantics of the above function seems odd that it is not
-> only restarting rx queue, but also freeing and allocating memory
-> despite the name only suggests 'restart', I am a litte afraid that
-> it may conflict with future usecae when user only need the
-> 'restart' part, perhaps rename it to a more appropriate name.
->
+All errors (new ones prefixed by >>):
 
-Oh, what we want here is just the 'restart' part. However, Jakub
-mandates that if you restart a queue (or a driver), you do it like
-this, hence the slightly more complicated implementation.
-
-https://patchwork.kernel.org/project/netdevbpf/patch/20231106024413.2801438=
--13-almasrymina@google.com/#25590262
-https://lore.kernel.org/netdev/20230815171638.4c057dcd@kernel.org/
-
-> >
-> >>> +
-> >>> +err_free_new_mem:
-> >>> +     dev->netdev_ops->ndo_queue_mem_free(dev, new_mem);
-> >>> +
-> >>> +     return err;
-> >>> +}
-> >>> +
-> >>> +/* Protected by rtnl_lock() */
-> >>> +static DEFINE_XARRAY_FLAGS(netdev_dmabuf_bindings, XA_FLAGS_ALLOC1);
-> >>> +
-> >>> +void netdev_unbind_dmabuf(struct netdev_dmabuf_binding *binding)
-> >>> +{
-> >>> +     struct netdev_rx_queue *rxq;
-> >>> +     unsigned long xa_idx;
-> >>> +     unsigned int rxq_idx;
-> >>> +
-> >>> +     if (!binding)
-> >>> +             return;
-> >>> +
-> >>> +     if (binding->list.next)
-> >>> +             list_del(&binding->list);
-> >>
-> >> The above does not seems to be a good pattern to delete a entry, is
-> >> there any reason having a checking before the list_del()? seems like
-> >> defensive programming?
-> >>
-> >
-> > I think I needed to apply this condition to handle the case where
-> > netdev_unbind_dmabuf() is called when binding->list is not initialized
-> > or is empty.
-> >
-> > netdev_nl_bind_rx_doit() will call unbind to free a partially
-> > allocated binding in error paths, so, netdev_unbind_dmabuf() may be
-> > called with a partially initialized binding. This is why we check for
-> > binding->list is initialized here and check that rxq->binding =3D=3D
-> > binding below. The main point is that netdev_unbind_dmabuf() may be
-> > asked to unbind a partially bound dmabuf due to error paths.
-> >
-> > Maybe a comment here will test this better. I will double confirm the
-> > check is needed for the error paths in netdev_nl_bind_rx_doit().
-> >
-> >>> +
-> >>> +     xa_for_each(&binding->bound_rxq_list, xa_idx, rxq) {
-> >>> +             if (rxq->binding =3D=3D binding) {
-> >>
-> >> It seems like defensive programming here too?
-> >>
->
+   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c: In function 'gfx_v9_0_early_init':
+>> drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:1255:52: error: '%s' directive output may be truncated writing up to 29 bytes into a region of size 23 [-Werror=format-truncation=]
+    1255 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_pfp.bin", chip_name);
+         |                                                    ^~
+   ......
+    1393 |                 r = gfx_v9_0_init_cp_gfx_microcode(adev, ucode_prefix);
+         |                                                          ~~~~~~~~~~~~
+   In function 'gfx_v9_0_init_cp_gfx_microcode',
+       inlined from 'gfx_v9_0_init_microcode' at drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:1393:7,
+       inlined from 'gfx_v9_0_early_init' at drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:4540:9:
+   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:1255:9: note: 'snprintf' output between 16 and 45 bytes into a destination of size 30
+    1255 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_pfp.bin", chip_name);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c: In function 'gfx_v9_0_early_init':
+   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:1261:52: error: '%s' directive output may be truncated writing up to 29 bytes into a region of size 23 [-Werror=format-truncation=]
+    1261 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_me.bin", chip_name);
+         |                                                    ^~
+   ......
+    1393 |                 r = gfx_v9_0_init_cp_gfx_microcode(adev, ucode_prefix);
+         |                                                          ~~~~~~~~~~~~
+   In function 'gfx_v9_0_init_cp_gfx_microcode',
+       inlined from 'gfx_v9_0_init_microcode' at drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:1393:7,
+       inlined from 'gfx_v9_0_early_init' at drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:4540:9:
+   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:1261:9: note: 'snprintf' output between 15 and 44 bytes into a destination of size 30
+    1261 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_me.bin", chip_name);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c: In function 'gfx_v9_0_early_init':
+   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:1267:52: error: '%s' directive output may be truncated writing up to 29 bytes into a region of size 23 [-Werror=format-truncation=]
+    1267 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_ce.bin", chip_name);
+         |                                                    ^~
+   ......
+    1393 |                 r = gfx_v9_0_init_cp_gfx_microcode(adev, ucode_prefix);
+         |                                                          ~~~~~~~~~~~~
+   In function 'gfx_v9_0_init_cp_gfx_microcode',
+       inlined from 'gfx_v9_0_init_microcode' at drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:1393:7,
+       inlined from 'gfx_v9_0_early_init' at drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:4540:9:
+   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:1267:9: note: 'snprintf' output between 15 and 44 bytes into a destination of size 30
+    1267 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_ce.bin", chip_name);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c: In function 'gfx_v9_0_early_init':
+   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:1303:60: error: '%s' directive output may be truncated writing up to 29 bytes into a region of size 23 [-Werror=format-truncation=]
+    1303 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_rlc_am4.bin", chip_name);
+         |                                                            ^~
+   ......
+    1398 |         r = gfx_v9_0_init_rlc_microcode(adev, ucode_prefix);
+         |                                               ~~~~~~~~~~~~  
+   In function 'gfx_v9_0_init_rlc_microcode',
+       inlined from 'gfx_v9_0_init_microcode' at drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:1398:6,
+       inlined from 'gfx_v9_0_early_init' at drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:4540:9:
+   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:1303:17: note: 'snprintf' output between 20 and 49 bytes into a destination of size 30
+    1303 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_rlc_am4.bin", chip_name);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c: In function 'gfx_v9_0_early_init':
+   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:1309:60: error: '%s' directive output may be truncated writing up to 29 bytes into a region of size 23 [-Werror=format-truncation=]
+    1309 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_kicker_rlc.bin", chip_name);
+         |                                                            ^~
+   ......
+    1398 |         r = gfx_v9_0_init_rlc_microcode(adev, ucode_prefix);
+         |                                               ~~~~~~~~~~~~  
+   In function 'gfx_v9_0_init_rlc_microcode',
+       inlined from 'gfx_v9_0_init_microcode' at drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:1398:6,
+       inlined from 'gfx_v9_0_early_init' at drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:4540:9:
+   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:1309:17: note: 'snprintf' output between 23 and 52 bytes into a destination of size 30
+    1309 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_kicker_rlc.bin", chip_name);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c: In function 'gfx_v9_0_early_init':
+   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:1311:60: error: '%s' directive output may be truncated writing up to 29 bytes into a region of size 23 [-Werror=format-truncation=]
+    1311 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_rlc.bin", chip_name);
+         |                                                            ^~
+   ......
+    1398 |         r = gfx_v9_0_init_rlc_microcode(adev, ucode_prefix);
+         |                                               ~~~~~~~~~~~~  
+   In function 'gfx_v9_0_init_rlc_microcode',
+       inlined from 'gfx_v9_0_init_microcode' at drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:1398:6,
+       inlined from 'gfx_v9_0_early_init' at drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:4540:9:
+   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:1311:17: note: 'snprintf' output between 16 and 45 bytes into a destination of size 30
+    1311 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_rlc.bin", chip_name);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+   drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c: In function 'gfx_v10_0_init_microcode':
+>> drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c:3979:58: error: '%s' directive output may be truncated writing up to 4 bytes into a region of size between 0 and 29 [-Werror=format-truncation=]
+    3979 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_pfp%s.bin", ucode_prefix, wks);
+         |                                                          ^~
+   drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c:3979:9: note: 'snprintf' output between 16 and 49 bytes into a destination of size 40
+    3979 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_pfp%s.bin", ucode_prefix, wks);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c:3985:57: error: '%s' directive output may be truncated writing up to 4 bytes into a region of size between 1 and 30 [-Werror=format-truncation=]
+    3985 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_me%s.bin", ucode_prefix, wks);
+         |                                                         ^~
+   drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c:3985:9: note: 'snprintf' output between 15 and 48 bytes into a destination of size 40
+    3985 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_me%s.bin", ucode_prefix, wks);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c:3991:57: error: '%s' directive output may be truncated writing up to 4 bytes into a region of size between 1 and 30 [-Werror=format-truncation=]
+    3991 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_ce%s.bin", ucode_prefix, wks);
+         |                                                         ^~
+   drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c:3991:9: note: 'snprintf' output between 15 and 48 bytes into a destination of size 40
+    3991 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_ce%s.bin", ucode_prefix, wks);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c:3998:62: error: '_rlc.bin' directive output may be truncated writing 8 bytes into a region of size between 4 and 33 [-Werror=format-truncation=]
+    3998 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_rlc.bin", ucode_prefix);
+         |                                                              ^~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c:3998:17: note: 'snprintf' output between 16 and 45 bytes into a destination of size 40
+    3998 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_rlc.bin", ucode_prefix);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c:4014:58: error: '%s' directive output may be truncated writing up to 4 bytes into a region of size between 0 and 29 [-Werror=format-truncation=]
+    4014 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mec%s.bin", ucode_prefix, wks);
+         |                                                          ^~
+   drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c:4014:9: note: 'snprintf' output between 16 and 49 bytes into a destination of size 40
+    4014 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mec%s.bin", ucode_prefix, wks);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c:4021:54: error: '_mec2' directive output may be truncated writing 5 bytes into a region of size between 4 and 33 [-Werror=format-truncation=]
+    4021 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mec2%s.bin", ucode_prefix, wks);
+         |                                                      ^~~~~
+   drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c:4021:9: note: 'snprintf' output between 17 and 50 bytes into a destination of size 40
+    4021 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mec2%s.bin", ucode_prefix, wks);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+   drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c: In function 'gfx_v11_0_init_microcode':
+>> drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c:519:54: error: '_pfp.bin' directive output may be truncated writing 8 bytes into a region of size between 4 and 33 [-Werror=format-truncation=]
+     519 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_pfp.bin", ucode_prefix);
+         |                                                      ^~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c:519:9: note: 'snprintf' output between 16 and 45 bytes into a destination of size 40
+     519 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_pfp.bin", ucode_prefix);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c:536:54: error: '_me.bin' directive output may be truncated writing 7 bytes into a region of size between 4 and 33 [-Werror=format-truncation=]
+     536 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_me.bin", ucode_prefix);
+         |                                                      ^~~~~~~
+   drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c:536:9: note: 'snprintf' output between 15 and 44 bytes into a destination of size 40
+     536 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_me.bin", ucode_prefix);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c:553:70: error: '_rlc.bin' directive output may be truncated writing 8 bytes into a region of size between 4 and 33 [-Werror=format-truncation=]
+     553 |                         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_rlc.bin", ucode_prefix);
+         |                                                                      ^~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c:553:25: note: 'snprintf' output between 16 and 45 bytes into a destination of size 40
+     553 |                         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_rlc.bin", ucode_prefix);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c:565:54: error: '_mec.bin' directive output may be truncated writing 8 bytes into a region of size between 4 and 33 [-Werror=format-truncation=]
+     565 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mec.bin", ucode_prefix);
+         |                                                      ^~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c:565:9: note: 'snprintf' output between 16 and 45 bytes into a destination of size 40
+     565 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mec.bin", ucode_prefix);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+   drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c: In function 'amdgpu_mes_init_microcode':
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1486:66: error: '%s' directive output may be truncated writing up to 1 bytes into a region of size between 0 and 29 [-Werror=format-truncation=]
+    1486 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mes%s.bin",
+         |                                                                  ^~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1486:17: note: 'snprintf' output between 16 and 46 bytes into a destination of size 40
+    1486 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mes%s.bin",
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1487 |                          ucode_prefix,
+         |                          ~~~~~~~~~~~~~
+    1488 |                          pipe == AMDGPU_MES_SCHED_PIPE ? "" : "1");
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1481:66: error: '%s' directive output may be truncated writing 1 byte into a region of size between 0 and 29 [-Werror=format-truncation=]
+    1481 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mes%s.bin",
+         |                                                                  ^~
+    1482 |                          ucode_prefix,
+    1483 |                          pipe == AMDGPU_MES_SCHED_PIPE ? "_2" : "1");
+         |                                                                 ~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1481:17: note: 'snprintf' output between 17 and 46 bytes into a destination of size 40
+    1481 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mes%s.bin",
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1482 |                          ucode_prefix,
+         |                          ~~~~~~~~~~~~~
+    1483 |                          pipe == AMDGPU_MES_SCHED_PIPE ? "_2" : "1");
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1481:66: error: '%s' directive output may be truncated writing 2 bytes into a region of size between 0 and 29 [-Werror=format-truncation=]
+    1481 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mes%s.bin",
+         |                                                                  ^~
+    1482 |                          ucode_prefix,
+    1483 |                          pipe == AMDGPU_MES_SCHED_PIPE ? "_2" : "1");
+         |                                                          ~~~~     
+   drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1481:17: note: 'snprintf' output between 18 and 47 bytes into a destination of size 40
+    1481 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mes%s.bin",
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1482 |                          ucode_prefix,
+         |                          ~~~~~~~~~~~~~
+    1483 |                          pipe == AMDGPU_MES_SCHED_PIPE ? "_2" : "1");
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1493:62: error: '_mes.bin' directive output may be truncated writing 8 bytes into a region of size between 4 and 33 [-Werror=format-truncation=]
+    1493 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mes.bin",
+         |                                                              ^~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1493:17: note: 'snprintf' output between 16 and 45 bytes into a destination of size 40
+    1493 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mes.bin",
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1494 |                          ucode_prefix);
+         |                          ~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c: In function 'amdgpu_vcn_early_init':
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c:97:58: error: 'snprintf' output may be truncated before the last format character [-Werror=format-truncation=]
+      97 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", ucode_prefix);
+         |                                                          ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c:97:9: note: 'snprintf' output between 12 and 41 bytes into a destination of size 40
+      97 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", ucode_prefix);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/smu_v11_0.c: In function 'smu_v11_0_init_microcode':
+>> drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/smu_v11_0.c:110:54: error: '.bin' directive output may be truncated writing 4 bytes into a region of size between 0 and 29 [-Werror=format-truncation=]
+     110 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", ucode_prefix);
+         |                                                      ^~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/smu_v11_0.c:110:9: note: 'snprintf' output between 12 and 41 bytes into a destination of size 36
+     110 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", ucode_prefix);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0.c: In function 'smu_v13_0_init_microcode':
+>> drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0.c:108:52: error: '%s' directive output may be truncated writing up to 29 bytes into a region of size 23 [-Werror=format-truncation=]
+     108 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", ucode_prefix);
+         |                                                    ^~       ~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0.c:108:9: note: 'snprintf' output between 12 and 41 bytes into a destination of size 30
+     108 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", ucode_prefix);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+   drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c: In function 'rzg2l_du_vsp_atomic_flush':
+>> drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c:69:37: error: variable 'state' set but not used [-Werror=unused-but-set-variable]
+      69 |         struct rzg2l_du_crtc_state *state;
+         |                                     ^~~~~
+   cc1: all warnings being treated as errors
+--
+   drivers/gpu/drm/imx/ipuv3/imx-ldb.c: In function 'imx_ldb_probe':
+>> drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:57: error: '_sel' directive output may be truncated writing 4 bytes into a region of size between 3 and 13 [-Werror=format-truncation=]
+     658 |                 snprintf(clkname, sizeof(clkname), "di%d_sel", i);
+         |                                                         ^~~~
+   drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:17: note: 'snprintf' output between 8 and 18 bytes into a destination of size 16
+     658 |                 snprintf(clkname, sizeof(clkname), "di%d_sel", i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/gpu/drm/panthor/panthor_device.c:142:13: error: 'panthor_device_is_initialized' defined but not used [-Werror=unused-function]
+     142 | static bool panthor_device_is_initialized(struct panthor_device *ptdev)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
---=20
-Thanks,
-Mina
+vim +1255 drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+
+005440066f929b Huang Rui         2019-03-13  1248  
+24c44c89178208 Le Ma             2018-09-18  1249  static int gfx_v9_0_init_cp_gfx_microcode(struct amdgpu_device *adev,
+1c21885ec1ef3e Mario Limonciello 2022-12-28  1250  					  char *chip_name)
+b1023571479020 Ken Wang          2017-03-03  1251  {
+b1023571479020 Ken Wang          2017-03-03  1252  	char fw_name[30];
+b1023571479020 Ken Wang          2017-03-03  1253  	int err;
+b1023571479020 Ken Wang          2017-03-03  1254  
+b1023571479020 Ken Wang          2017-03-03 @1255  	snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_pfp.bin", chip_name);
+ec787deb2ddffc Mario Limonciello 2023-01-03  1256  	err = amdgpu_ucode_request(adev, &adev->gfx.pfp_fw, fw_name);
+b1023571479020 Ken Wang          2017-03-03  1257  	if (err)
+b1023571479020 Ken Wang          2017-03-03  1258  		goto out;
+93cad722d3fe54 Likun Gao         2022-09-20  1259  	amdgpu_gfx_cp_init_microcode(adev, AMDGPU_UCODE_ID_CP_PFP);
+b1023571479020 Ken Wang          2017-03-03  1260  
+b1023571479020 Ken Wang          2017-03-03  1261  	snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_me.bin", chip_name);
+ec787deb2ddffc Mario Limonciello 2023-01-03  1262  	err = amdgpu_ucode_request(adev, &adev->gfx.me_fw, fw_name);
+b1023571479020 Ken Wang          2017-03-03  1263  	if (err)
+b1023571479020 Ken Wang          2017-03-03  1264  		goto out;
+93cad722d3fe54 Likun Gao         2022-09-20  1265  	amdgpu_gfx_cp_init_microcode(adev, AMDGPU_UCODE_ID_CP_ME);
+b1023571479020 Ken Wang          2017-03-03  1266  
+b1023571479020 Ken Wang          2017-03-03  1267  	snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_ce.bin", chip_name);
+ec787deb2ddffc Mario Limonciello 2023-01-03  1268  	err = amdgpu_ucode_request(adev, &adev->gfx.ce_fw, fw_name);
+b1023571479020 Ken Wang          2017-03-03  1269  	if (err)
+b1023571479020 Ken Wang          2017-03-03  1270  		goto out;
+93cad722d3fe54 Likun Gao         2022-09-20  1271  	amdgpu_gfx_cp_init_microcode(adev, AMDGPU_UCODE_ID_CP_CE);
+24c44c89178208 Le Ma             2018-09-18  1272  
+24c44c89178208 Le Ma             2018-09-18  1273  out:
+24c44c89178208 Le Ma             2018-09-18  1274  	if (err) {
+ec787deb2ddffc Mario Limonciello 2023-01-03  1275  		amdgpu_ucode_release(&adev->gfx.pfp_fw);
+ec787deb2ddffc Mario Limonciello 2023-01-03  1276  		amdgpu_ucode_release(&adev->gfx.me_fw);
+ec787deb2ddffc Mario Limonciello 2023-01-03  1277  		amdgpu_ucode_release(&adev->gfx.ce_fw);
+24c44c89178208 Le Ma             2018-09-18  1278  	}
+24c44c89178208 Le Ma             2018-09-18  1279  	return err;
+24c44c89178208 Le Ma             2018-09-18  1280  }
+24c44c89178208 Le Ma             2018-09-18  1281  
+
+:::::: The code at line 1255 was first introduced by commit
+:::::: b1023571479020e9e9c15a51b43bf8e15406952b drm/amdgpu: implement GFX 9.0 support (v2)
+
+:::::: TO: Ken Wang <Qingqing.Wang@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
