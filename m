@@ -2,55 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 634DC8730AF
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 09:27:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 429328730CD
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 09:33:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D88AB112FDB;
-	Wed,  6 Mar 2024 08:27:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E92410EA9A;
+	Wed,  6 Mar 2024 08:33:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="vyBV9R/J";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="X1ueZPiV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58F84112FE4
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 08:27:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1709713650;
- bh=GUs3uHvAGC9bBm7LYYG/cTtW+74CUXVTW/Lt/a1nkps=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=vyBV9R/JaQoXYN91O8rqCG/snQb7W9j87hyzAMOpWP/uQu4mumN5l9j52N09Be4Ao
- 84QIe4JUX9sdWo4g0lakMm1tLcd+ok5rHzIQu0kHXc8PToXmiFnDH/MBO6FiH7cuJy
- QFSaUPhZpsE2V2q6mcFeCXpSTCtYpyAGyV0WTnhFip23uNa+WHDr0ceB6geADLC0Av
- r/muvZqd3mAmYyC+sLUorynr1Z176NMiAG8Rb9WyX93WIgZc/BaZhDd4V+F/oy/K7w
- XSaaT7WJukF7owDr31nSxp7BZ1VpN4DMbjEKOWg/kYGV4DGNhiwjEJ802I982qu+NY
- tkiEiZZE7LRbw==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id C87DA37820D0;
- Wed,  6 Mar 2024 08:27:29 +0000 (UTC)
-Date: Wed, 6 Mar 2024 10:27:21 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Ville =?UTF-8?B?U3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>, Xaver Hugl <xaver.hugl@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/drm_connector: Document Colorspace property
- variants
-Message-ID: <20240306102721.3c9c3785.pekka.paalanen@collabora.com>
-In-Reply-To: <20240305135155.231687-1-sebastian.wick@redhat.com>
-References: <20240305135155.231687-1-sebastian.wick@redhat.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+ [209.85.128.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC2C410EA9A
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 08:33:50 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id
+ 5b1f17b1804b1-412e0feb40eso23315705e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Mar 2024 00:33:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1709714029; x=1710318829;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=yBXw6tB5aMqLZ8Hc+Iv64yYn3Hav4Q5JVeAcFCnc+tA=;
+ b=X1ueZPiV2IUCCU1pCWmqeGj4K4Bkck1UaOZWrWugF8hOgijGEOjHY21UuDZ7ItXet/
+ CyqGT3MbI/B6aF49j59g9niR69nzcq32/s9nH+pp+0PzzSxUeeeOLZ+DhpYqpUbMIlfx
+ fPMmAobq6iecsoJgtR7ZL071LdWbsmRAAI/5vGtP8ndrPZsu7T3CTzaMewTrSNot/DLo
+ v+C3Kaf8Jq07DinoNfCx4Ev02FVqZJHL52Qo0QLVMf+BGoNZlRBM/B8OO4WZQOzjyka7
+ wbYvZ18boZjyN8DjTKH+E12THPPZp4HQ5t/+Hq3O6iIEj/IwYIGGmaAniPylJXgOqpOY
+ VEAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709714029; x=1710318829;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=yBXw6tB5aMqLZ8Hc+Iv64yYn3Hav4Q5JVeAcFCnc+tA=;
+ b=CvpX3fjOb98Ns4mOZlASjhwE1gr8/Ru8s1AxOh1h90hrrVZAS/vTH6ub/zVMi5sXtK
+ VEfTR2On6m0u0HUpBFWq08MBlymoLNNBQaoHuJxxs6GzJoNunlSN0ZaPqjbgq/IVhxve
+ 60yKzHi3f4kBGgFvt/g+eAG0sZye4zZONnEEKiVIURDHbVS7ACUFzzurIC7vHgF0VDDz
+ oKMhS5dInQGPADaJWAUcZ3psqGgxyUeG1k2aujZ0kLbHRqiEw+UAy7gUwUt1GX16vF8S
+ z04WYDCawe4mypNqtIAG40OF81QDfWcq5/ZlQqs9uNpNP1J//nAgqg6BWW92rIpfyLIZ
+ w2sQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVj3u+N9SeM9Aka18amuU2MY0Gb/DXk6DtuepGapUZwOZMooaTVtOSKTEyWQp8gN3eVnwokZQTn3TapjLu4V+32HfE4YitsvTGWE26cOuZ5
+X-Gm-Message-State: AOJu0YzUZS9tHuognBDLoxLNSiPlZUJ70zp9PBiSS8RJKXwskhzeB3D3
+ OggPXfg5BsHpxIq0sRFrObbO+dmUR7Pnj5cDw/K62CNWOwCRHe6lTvNR7nIeEJQ=
+X-Google-Smtp-Source: AGHT+IHx6OgnZqoA47DWn8wuRljAFdMFhiZ6+NIFrU7zSwOVCqmrAjMM7gy8tqRiA3yb/lHGnh0o8Q==
+X-Received: by 2002:a05:600c:3d8a:b0:412:e961:b920 with SMTP id
+ bi10-20020a05600c3d8a00b00412e961b920mr4044192wmb.20.1709714028759; 
+ Wed, 06 Mar 2024 00:33:48 -0800 (PST)
+Received: from [192.168.0.101] ([84.65.0.132])
+ by smtp.gmail.com with ESMTPSA id
+ j16-20020a05600c1c1000b00412d2dd4bb6sm13713755wms.42.2024.03.06.00.33.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Mar 2024 00:33:48 -0800 (PST)
+Message-ID: <0db9babe-da95-48e2-b577-3e92a81f8303@ursulin.net>
+Date: Wed, 6 Mar 2024 08:33:47 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/3QkxdKtNXlImHvMA8AAjo0J";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/1] drm/panfrost: Replace fdinfo's profiling debugfs
+ knob with sysfs
+Content-Language: en-GB
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ boris.brezillon@collabora.com, robh@kernel.org, steven.price@arm.com,
+ airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+References: <20240306015819.822128-1-adrian.larumbe@collabora.com>
+ <20240306015819.822128-2-adrian.larumbe@collabora.com>
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20240306015819.822128-2-adrian.larumbe@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,215 +91,232 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/3QkxdKtNXlImHvMA8AAjo0J
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
 
-On Tue,  5 Mar 2024 14:51:49 +0100
-Sebastian Wick <sebastian.wick@redhat.com> wrote:
-
-> The initial idea of the Colorspace prop was that this maps 1:1 to
-> InfoFrames/SDP but KMS does not give user space enough information nor
-> control over the output format to figure out which variants can be used
-> for a given KMS commit. At the same time, properties like Broadcast RGB
-> expect full range quantization range being produced by user space from
-> the CRTC and drivers to convert to the range expected by the sink for
-> the chosen output format, mode, InfoFrames, etc.
->=20
-> This change documents the reality of the Colorspace property. The
-> Default variant unfortunately is very much driver specific and not
-> reflected by the EDID. The BT2020 variants are in active use by generic
-> compositors which have expectations from the driver about the
-> conversions it has to do when selecting certain output formats.
->=20
-> Everything else is also marked as undefined. Coming up with valid
-> behavior that makes it usable from user space and consistent with other
-> KMS properties for those variants is left as an exercise for whoever
-> wants to use them.
->=20
-> v2:
->  * Talk about "pixel operation properties" that user space configures
->  * Mention that user space is responsible for checking the EDID for sink
->    support
->  * Make it clear that drivers can choose between RGB and YCbCr on their
->    own
->=20
-> Signed-off-by: Sebastian Wick <sebastian.wick@redhat.com>
+On 06/03/2024 01:56, Adrián Larumbe wrote:
+> Debugfs isn't always available in production builds that try to squeeze
+> every single byte out of the kernel image, but we still need a way to
+> toggle the timestamp and cycle counter registers so that jobs can be
+> profiled for fdinfo's drm engine and cycle calculations.
+> 
+> Drop the debugfs knob and replace it with a sysfs file that accomplishes
+> the same functionality, and document its ABI in a separate file.
+> 
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 > ---
->  drivers/gpu/drm/drm_connector.c | 79 +++++++++++++++++++++++++--------
->  include/drm/drm_connector.h     |  8 ----
->  2 files changed, 61 insertions(+), 26 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
-tor.c
-> index b0516505f7ae..65cdcc7d22db 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -2147,24 +2147,67 @@ EXPORT_SYMBOL(drm_mode_create_aspect_ratio_proper=
-ty);
->   * DOC: standard connector properties
->   *
->   * Colorspace:
-> - *     This property helps select a suitable colorspace based on the sink
-> - *     capability. Modern sink devices support wider gamut like BT2020.
-> - *     This helps switch to BT2020 mode if the BT2020 encoded video stre=
-am
-> - *     is being played by the user, same for any other colorspace. There=
-by
-> - *     giving a good visual experience to users.
-> - *
-> - *     The expectation from userspace is that it should parse the EDID
-> - *     and get supported colorspaces. Use this property and switch to the
-> - *     one supported. Sink supported colorspaces should be retrieved by
-> - *     userspace from EDID and driver will not explicitly expose them.
-> - *
-> - *     Basically the expectation from userspace is:
-> - *      - Set up CRTC DEGAMMA/CTM/GAMMA to convert to some sink
-> - *        colorspace
-> - *      - Set this new property to let the sink know what it
-> - *        converted the CRTC output to.
-> - *      - This property is just to inform sink what colorspace
-> - *        source is trying to drive.
-> + *	This property is used to inform the driver about the color encoding
-> + *	user space configured the pixel operation properties to produce.
-> + *	The variants set the colorimetry, transfer characteristics, and which
-> + *	YCbCr conversion should be used when necessary.
-> + *	The transfer characteristics from HDR_OUTPUT_METADATA takes precedence
-> + *	over this property.
-> + *	User space always configures the pixel operation properties to produce
-> + *	full quantization range data (see the Broadcast RGB property).
-> + *
-> + *	Drivers inform the sink about what colorimetry, transfer
-> + *	characteristics, YCbCr conversion, and quantization range to expect
-> + *	(this can depend on the output mode, output format and other
-> + *	properties). Drivers also convert the user space provided data to what
-> + *	the sink expects.
+>   .../testing/sysfs-driver-panfrost-profiling   | 10 +++++
+>   Documentation/gpu/panfrost.rst                |  9 ++++
+>   drivers/gpu/drm/panfrost/Makefile             |  2 -
+>   drivers/gpu/drm/panfrost/panfrost_debugfs.c   | 21 ----------
+>   drivers/gpu/drm/panfrost/panfrost_debugfs.h   | 14 -------
+>   drivers/gpu/drm/panfrost/panfrost_device.h    |  2 +-
+>   drivers/gpu/drm/panfrost/panfrost_drv.c       | 41 ++++++++++++++++---
+>   drivers/gpu/drm/panfrost/panfrost_job.c       |  2 +-
+>   8 files changed, 57 insertions(+), 44 deletions(-)
+>   create mode 100644 Documentation/ABI/testing/sysfs-driver-panfrost-profiling
+>   delete mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.c
+>   delete mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.h
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-driver-panfrost-profiling b/Documentation/ABI/testing/sysfs-driver-panfrost-profiling
+> new file mode 100644
+> index 000000000000..1d8bb0978920
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-driver-panfrost-profiling
+> @@ -0,0 +1,10 @@
+> +What:		/sys/bus/platform/drivers/panfrost/.../profiling
+> +Date:		February 2024
+> +KernelVersion:	6.8.0
+> +Contact:	Adrian Larumbe <adrian.larumbe@collabora.com>
+> +Description:
+> +		Get/set drm fdinfo's engine and cycles profiling status.
+> +		Valid values are:
+> +		0: Don't enable fdinfo job profiling sources.
+> +		1: Enable fdinfo job profiling sources, this enables both the GPU's
+> +		   timestamp and cycle counter registers.
+> \ No newline at end of file
+> diff --git a/Documentation/gpu/panfrost.rst b/Documentation/gpu/panfrost.rst
+> index b80e41f4b2c5..51ba375fd80d 100644
+> --- a/Documentation/gpu/panfrost.rst
+> +++ b/Documentation/gpu/panfrost.rst
+> @@ -38,3 +38,12 @@ the currently possible format options:
+>   
+>   Possible `drm-engine-` key names are: `fragment`, and  `vertex-tiler`.
+>   `drm-curfreq-` values convey the current operating frequency for that engine.
+> +
+> +Users must bear in mind that engine and cycle sampling are disabled by default,
+> +because of power saving concerns. `fdinfo` users and benchmark applications which
+> +query the fdinfo file must make sure to toggle the job profiling status of the
+> +driver by writing into the appropriate sysfs node::
+> +
+> +    echo <N> > /sys/bus/platform/drivers/panfrost/[a-f0-9]*.gpu/profiling
 
-Hi Sebastian,
+A late thought - how it would work to not output the inactive fdinfo 
+keys when this knob is not enabled?
 
-should it be more explicit that drivers are allowed to do only
-RGB->YCbCr and quantization range conversions, but not TF nor gamut
-conversions?
+Generic userspace like gputop already handles that and wouldn't show the 
+stat. Which may be more user friendly than showing stats permanently at 
+zero. It may be moot once you add the auto-toggle to gputop (or so) but 
+perhaps worth considering.
 
-That is, if the driver cannot pick the TF implied by "Colorspace"
-property for the sink, then it cannot pick another TF for the sink and
-silently convert. It think this should apply to all options including
-the undefined ones. Or is that too much to guess?
+Regards,
 
-> + *
-> + *	User space has to check if the sink supports all of the possible
-> + *	colorimetries that the driver is allowed to pick by parsing the EDID.
+Tvrtko
 
-All? Rather than at least one?
-
-Is this how it has been implemented for BT2020, that userspace picked
-colorimetry and driver picked color model and quantization are
-completely independent, and drivers do not check the combination
-against EDID?
-
-If so, "all" it is. Would be good to explain this in the commit message.
-
-> + *
-> + *	For historical reasons this property exposes a number of variants whi=
-ch
-> + *	result in undefined behavior.
-> + *
-> + *	Default:
-> + *		The behavior is driver-specific.
-> + *	BT2020_RGB:
-> + *	BT2020_YCC:
-> + *		User space configures the pixel operation properties to produce
-> + *		RGB content with Rec. ITU-R BT.2020 colorimetry, Rec.
-> + *		ITU-R BT.2020 (Table 4, RGB) transfer characteristics and full
-> + *		quantization range.
-> + *		User space can use the HDR_OUTPUT_METADATA property to set the
-> + *		transfer characteristics to PQ (Rec. ITU-R BT.2100 Table 4) or
-> + *		HLG (Rec. ITU-R BT.2100 Table 5) in which case, user space
-> + *		configures pixel operation properties to produce content with
-> + *		the respective transfer characteristics.
-> + *		User space has to make sure the sink supports Rec.
-> + *		ITU-R BT.2020 R'G'B' and Rec. ITU-R BT.2020 Y'C'BC'R
-> + *		colorimetry.
-> + *		Drivers can configure the sink to use an RGB format, tell the
-> + *		sink to expect Rec. ITU-R BT.2020 R'G'B' colorimetry and convert
-> + *		to the appropriate quantization range.
-> + *		Drivers can configure the sink to use a YCbCr format, tell the
-> + *		sink to expect Rec. ITU-R BT.2020 Y'C'BC'R colorimetry, convert
-> + *		to YCbCr using the Rec. ITU-R BT.2020 non-constant luminance
-> + *		conversion matrix and convert to the appropriate quantization
-> + *		range.
-> + *		The variants BT2020_RGB and BT2020_YCC are equivalent and the
-> + *		driver chooses between RGB and YCbCr on its own.
-> + *	SMPTE_170M_YCC:
-> + *	BT709_YCC:
-> + *	XVYCC_601:
-> + *	XVYCC_709:
-> + *	SYCC_601:
-> + *	opYCC_601:
-> + *	opRGB:
-> + *	BT2020_CYCC:
-> + *	DCI-P3_RGB_D65:
-> + *	DCI-P3_RGB_Theater:
-> + *	RGB_WIDE_FIXED:
-> + *	RGB_WIDE_FLOAT:
-> + *	BT601_YCC:
-> + *		The behavior is undefined.
->   *
->   * Because between HDMI and DP have different colorspaces,
->   * drm_mode_create_hdmi_colorspace_property() is used for HDMI connector=
- and
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index fe88d7fc6b8f..02c42b01a3a7 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -437,14 +437,6 @@ enum drm_privacy_screen_status {
->   *
->   * DP definitions come from the DP v2.0 spec
->   * HDMI definitions come from the CTA-861-H spec
-> - *
-> - * A note on YCC and RGB variants:
-> - *
-> - * Since userspace is not aware of the encoding on the wire
-> - * (RGB or YCbCr), drivers are free to pick the appropriate
-> - * variant, regardless of what userspace selects. E.g., if
-> - * BT2020_RGB is selected by userspace a driver will pick
-> - * BT2020_YCC if the encoding on the wire is YUV444 or YUV420.
->    *
->   * @DRM_MODE_COLORIMETRY_DEFAULT:
->   *   Driver specific behavior.
-
-This looks really good. This also makes me need to revisit the Weston
-series I've been brewing that adds "Colorspace" KMS support.
-
-I think the two questions I had may be slightly too much in the
-direction of improving rather than just documenting this property, so
-I'll already give
-
-Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-
-
-Thanks,
-pq
-
---Sig_/3QkxdKtNXlImHvMA8AAjo0J
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXoKOkACgkQI1/ltBGq
-qqfA/w/+LIwCUVDJdC5PspLw6WVjn+g4XFquENK3PiWt648RpFZhqVuyCHXVmkZu
-RaWzUUJe4rq3l0X0yaLGvaETunODP+xCsiCSWfJBPyuDOzEvAe7tByRhG7H/uS04
-/z0w2iiClM8yxg2oBxptTMSOiHQ6/dfnUcWlVnURbromiSomw3W6pXBUXqBEr5zu
-XEQsfmaDpq2/Zy2Kvtf2GZkcZI4eVdNo/k7KZ1TSKe7vj1rnenBUdu3c6b+/BIJD
-AiVglMfJUiXwuZRPmqBYdMW0s3YIpBjmzAJN9iblY3ER59O/zg6VaQYFqWGMpGvJ
-2YybJMjIt8mHYnVKss9Ym4NrWf5+rxyBHQTMs6rbnomDLUNni3G8k6n/OZKEGkTl
-UJ32HYXBwAcJkBW6nDR5fi4IPp3YV5mItwm/uZ794qEO4qpSJiSpwqq0kEu9B1Xw
-hNPJNVUxDVV4hVjm3xeAiZYuP0VSTGwWjzxIezgEVx70+s7j2cwBSM34ArGK5g4N
-Y6rpR34ySTeiGM/k3MEHF9sl1yaI6szWR7RJvFzs/YbdSmQNDq3ZdiWtjSBTGXDq
-J1htThoY1IF+Hz0mkp1FZMstloNP3465LiLw6f7w2QU6SdtjXWK+84tlmALGmOB3
-DPN+IyLhftJHED3CfUE80lfyPx79oOHyCBjxazMNQ3tKsDfGHQ0=
-=WTYo
------END PGP SIGNATURE-----
-
---Sig_/3QkxdKtNXlImHvMA8AAjo0J--
+> +
+> +Where `N` is either `0` or `1`, depending on the desired enablement status.
+> diff --git a/drivers/gpu/drm/panfrost/Makefile b/drivers/gpu/drm/panfrost/Makefile
+> index 2c01c1e7523e..7da2b3f02ed9 100644
+> --- a/drivers/gpu/drm/panfrost/Makefile
+> +++ b/drivers/gpu/drm/panfrost/Makefile
+> @@ -12,6 +12,4 @@ panfrost-y := \
+>   	panfrost_perfcnt.o \
+>   	panfrost_dump.o
+>   
+> -panfrost-$(CONFIG_DEBUG_FS) += panfrost_debugfs.o
+> -
+>   obj-$(CONFIG_DRM_PANFROST) += panfrost.o
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_debugfs.c b/drivers/gpu/drm/panfrost/panfrost_debugfs.c
+> deleted file mode 100644
+> index 72d4286a6bf7..000000000000
+> --- a/drivers/gpu/drm/panfrost/panfrost_debugfs.c
+> +++ /dev/null
+> @@ -1,21 +0,0 @@
+> -// SPDX-License-Identifier: GPL-2.0
+> -/* Copyright 2023 Collabora ltd. */
+> -/* Copyright 2023 Amazon.com, Inc. or its affiliates. */
+> -
+> -#include <linux/debugfs.h>
+> -#include <linux/platform_device.h>
+> -#include <drm/drm_debugfs.h>
+> -#include <drm/drm_file.h>
+> -#include <drm/panfrost_drm.h>
+> -
+> -#include "panfrost_device.h"
+> -#include "panfrost_gpu.h"
+> -#include "panfrost_debugfs.h"
+> -
+> -void panfrost_debugfs_init(struct drm_minor *minor)
+> -{
+> -	struct drm_device *dev = minor->dev;
+> -	struct panfrost_device *pfdev = platform_get_drvdata(to_platform_device(dev->dev));
+> -
+> -	debugfs_create_atomic_t("profile", 0600, minor->debugfs_root, &pfdev->profile_mode);
+> -}
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_debugfs.h b/drivers/gpu/drm/panfrost/panfrost_debugfs.h
+> deleted file mode 100644
+> index c5af5f35877f..000000000000
+> --- a/drivers/gpu/drm/panfrost/panfrost_debugfs.h
+> +++ /dev/null
+> @@ -1,14 +0,0 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> -/*
+> - * Copyright 2023 Collabora ltd.
+> - * Copyright 2023 Amazon.com, Inc. or its affiliates.
+> - */
+> -
+> -#ifndef PANFROST_DEBUGFS_H
+> -#define PANFROST_DEBUGFS_H
+> -
+> -#ifdef CONFIG_DEBUG_FS
+> -void panfrost_debugfs_init(struct drm_minor *minor);
+> -#endif
+> -
+> -#endif  /* PANFROST_DEBUGFS_H */
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+> index 62f7e3527385..cffcb0ac7c11 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> @@ -130,7 +130,7 @@ struct panfrost_device {
+>   	struct list_head scheduled_jobs;
+>   
+>   	struct panfrost_perfcnt *perfcnt;
+> -	atomic_t profile_mode;
+> +	bool profile_mode;
+>   
+>   	struct mutex sched_lock;
+>   
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index a926d71e8131..9696702800a4 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -20,7 +20,6 @@
+>   #include "panfrost_job.h"
+>   #include "panfrost_gpu.h"
+>   #include "panfrost_perfcnt.h"
+> -#include "panfrost_debugfs.h"
+>   
+>   static bool unstable_ioctls;
+>   module_param_unsafe(unstable_ioctls, bool, 0600);
+> @@ -600,10 +599,6 @@ static const struct drm_driver panfrost_drm_driver = {
+>   
+>   	.gem_create_object	= panfrost_gem_create_object,
+>   	.gem_prime_import_sg_table = panfrost_gem_prime_import_sg_table,
+> -
+> -#ifdef CONFIG_DEBUG_FS
+> -	.debugfs_init		= panfrost_debugfs_init,
+> -#endif
+>   };
+>   
+>   static int panfrost_probe(struct platform_device *pdev)
+> @@ -692,6 +687,41 @@ static void panfrost_remove(struct platform_device *pdev)
+>   	drm_dev_put(ddev);
+>   }
+>   
+> +static ssize_t profiling_show(struct device *dev,
+> +			      struct device_attribute *attr, char *buf)
+> +{
+> +	struct panfrost_device *pfdev = dev_get_drvdata(dev);
+> +
+> +	return sysfs_emit(buf, "%d\n", pfdev->profile_mode);
+> +}
+> +
+> +
+> +static ssize_t profiling_store(struct device *dev,
+> +			       struct device_attribute *attr,
+> +			       const char *buf, size_t len)
+> +{
+> +	struct panfrost_device *pfdev = dev_get_drvdata(dev);
+> +	bool value;
+> +	int err;
+> +
+> +	err = kstrtobool(buf, &value);
+> +	if (err)
+> +		return err;
+> +
+> +	pfdev->profile_mode = value;
+> +
+> +	return len;
+> +}
+> +
+> +static DEVICE_ATTR_RW(profiling);
+> +
+> +static struct attribute *panfrost_attrs[] = {
+> +	&dev_attr_profiling.attr,
+> +	NULL,
+> +};
+> +
+> +ATTRIBUTE_GROUPS(panfrost);
+> +
+>   /*
+>    * The OPP core wants the supply names to be NULL terminated, but we need the
+>    * correct num_supplies value for regulator core. Hence, we NULL terminate here
+> @@ -789,6 +819,7 @@ static struct platform_driver panfrost_driver = {
+>   		.name	= "panfrost",
+>   		.pm	= pm_ptr(&panfrost_pm_ops),
+>   		.of_match_table = dt_match,
+> +		.dev_groups = panfrost_groups,
+>   	},
+>   };
+>   module_platform_driver(panfrost_driver);
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index 0c2dbf6ef2a5..a61ef0af9a4e 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -243,7 +243,7 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
+>   	subslot = panfrost_enqueue_job(pfdev, js, job);
+>   	/* Don't queue the job if a reset is in progress */
+>   	if (!atomic_read(&pfdev->reset.pending)) {
+> -		if (atomic_read(&pfdev->profile_mode)) {
+> +		if (pfdev->profile_mode) {
+>   			panfrost_cycle_counter_get(pfdev);
+>   			job->is_profiled = true;
+>   			job->start_time = ktime_get();
