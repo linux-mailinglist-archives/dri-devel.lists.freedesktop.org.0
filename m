@@ -2,110 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68477872CBC
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 03:29:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C845C872CD4
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 03:41:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EF8510E8A7;
-	Wed,  6 Mar 2024 02:28:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D494112E23;
+	Wed,  6 Mar 2024 02:40:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b="wSSMiUyo";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="MZr+N44x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com
- [209.85.167.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AF2C10E8A7
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 02:28:54 +0000 (UTC)
-Received: by mail-oi1-f169.google.com with SMTP id
- 5614622812f47-3c2138463ccso245946b6e.2
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 18:28:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1709692133; x=1710296933;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=n9CloCqaM+25WoaR2YknpneBnZb2s33DuZ5EXKAJgUk=;
- b=wSSMiUyoeUN1PoSLBGy8vjSWBY/q7oYPFw0/TQnLwxO81JJa3bZYxSGyRyss87dtrE
- Ywk8cOSjfUiJIffPaOTZwbGeguyzZYCYAd0X/n5gJjbJKujyqRHvm2AvCTZdxMW97ELN
- tWmceOJqMMwTgrxFPku7XNgygtbhcpOwVDbjhAEsty6R5N6yWFI8KXc1BL6zPHooIkzW
- OWxCB6QOEw/5nXYpDw/sT4KTK1/NILkTtYUXZms3wYW4TYdcajZEqjlD6MVld2t1aHAo
- KzsFrcviZpG8AG9jpQK+KHlJBg0sG/4Ax0ih8+lI5p4nKbZ35Ri0E9qmvw61AsKHCfA8
- PxEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709692133; x=1710296933;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=n9CloCqaM+25WoaR2YknpneBnZb2s33DuZ5EXKAJgUk=;
- b=I7mafgS54/lwH6+1leNM93OGdYy9x2x/xWNkpaoYFkhSzdmu64yxxz/LKfL7Ft89/x
- RIsid3OKz5xrDD8vVgzY7UoVDIcFb5wmzBJV234oe2cyMn+m50e2HTts9c8GDIN2hBxy
- q7jV6TqSzzlVaQ67cr1KWK7lAW8ksxmagv958qadjfEbo9jPr4o7fUg2E+ew5afjCBhw
- hOfVJokdyypv9hCUOFXoYzGk82ozh44UyU1j0YsVrvsN2Ek5gUIImI1LpoQsHD7s2TxY
- QZTad9BFpiwkQdj8b6Q3P0CjsuTvbs/oE5bM8xyjCt0yot0T6gM7I43X83ClK33tSdvc
- FPKw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV9yRD0ODiXMk80vImxQ9HMNnaGx1ud7MYBjF2vfXpppRUv02AuCNwOlCyuaZjxPsRzeNLbTG5nGRV7c49nqE0SRFCSIAUMt2Bw6pZNa45e
-X-Gm-Message-State: AOJu0YzwziGNpSeeFXDb1G/FfVggw6ZbqUicvw+EUXnMxmi2mcduWzOc
- gtQEjjvtLNInKeuwl5RYIYrgbgTEsZNB82Bm6EaiHuZmGEjh17RNTpfAnKqxebo=
-X-Google-Smtp-Source: AGHT+IHKixed8Mkgk+0mpRfXfdBzYVdPnWZ0ptxrRYAk7Gk8YnML1zfyWGAr7RcPhYJE96tLslzelg==
-X-Received: by 2002:a05:6870:1786:b0:220:8d17:6ebd with SMTP id
- r6-20020a056870178600b002208d176ebdmr3863595oae.42.1709692133363; 
- Tue, 05 Mar 2024 18:28:53 -0800 (PST)
-Received: from [192.168.1.24] (71-212-18-124.tukw.qwest.net. [71.212.18.124])
- by smtp.gmail.com with ESMTPSA id
- x35-20020a056a0018a300b006e5bdc19842sm7873904pfh.73.2024.03.05.18.28.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Mar 2024 18:28:52 -0800 (PST)
-Message-ID: <383c4870-167f-4123-bbf3-928db1463e01@davidwei.uk>
-Date: Tue, 5 Mar 2024 18:28:51 -0800
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32514112E1E;
+ Wed,  6 Mar 2024 02:40:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1709692854;
+ bh=mgOhO0IDZgLwsPvXZt6ogw3x+b9+CWMm5P2F9Ag7u7o=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=MZr+N44xWgYx/KeDYYxby6i5AzGFwBKGEf04A7jZxAjv/oiqSPM+Iac/PrkzORUkH
+ A1WXgZKX3mcU8AvNMeimSYpUq9t+Juc6tBMXKanpqny19+fjNt1wAbIolq2ednOBDw
+ tanlqsaUCXZnB1wseZjvY1ci9HHDWh3b5k5xvDYaV1PxT0tMOW9DklPtS7+xuMdDdG
+ OjxOq2VbGWANCyPIMv2jX4XA0pChfI+Awtt/4eJr+aZkeUYEHzXwriZbtWCFwW466B
+ MAgE7dgS0n1Wqkcs5dR+rnPHEJ1gCpsR2axSkhPy+RRHhGjmInK6oQcXWqffprHr2V
+ nCXUY3ZHF6V3g==
+Received: from [100.66.96.193] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id F0AC53780624;
+ Wed,  6 Mar 2024 02:40:51 +0000 (UTC)
+Message-ID: <ea5d08ef-a9bb-5102-4357-21dbae3462cd@collabora.com>
+Date: Wed, 6 Mar 2024 08:10:49 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH net-next v6 09/15] memory-provider: dmabuf devmem
- memory provider
-Content-Language: en-GB
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Pavel Begunkov <asml.silence@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-10-almasrymina@google.com>
-From: David Wei <dw@davidwei.uk>
-In-Reply-To: <20240305020153.2787423-10-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 9/9] drm/ci: uprev IGT and update testlist
+Content-Language: en-US
+From: Vignesh Raman <vignesh.raman@collabora.com>
+To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org
+Cc: linux-rockchip@lists.infradead.org, guilherme.gallo@collabora.com,
+ sergi.blanch.torne@collabora.com, linux-kernel@vger.kernel.org,
+ david.heidelberg@collabora.com, helen.koike@collabora.com,
+ linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+ daniel@ffwll.ch, linux-amlogic@lists.infradead.org, airlied@gmail.com
+References: <20240130150340.687871-1-vignesh.raman@collabora.com>
+ <20240130150340.687871-10-vignesh.raman@collabora.com>
+ <26f6426d-dcb6-4b14-b031-368b2248e9e7@igalia.com>
+ <799653a3-e079-4e17-9d68-c0e384a216b0@igalia.com>
+ <e1f56317-b70d-0b81-75f0-fef50616e026@collabora.com>
+In-Reply-To: <e1f56317-b70d-0b81-75f0-fef50616e026@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,18 +70,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-03-04 18:01, Mina Almasry wrote:
-> +	if (pool->p.queue)
-> +		binding = READ_ONCE(pool->p.queue->binding);
-> +
-> +	if (binding) {
-> +		pool->mp_ops = &dmabuf_devmem_ops;
-> +		pool->mp_priv = binding;
-> +	}
+Hi Maíra,
 
-This is specific to TCP devmem. For ZC Rx we will need something more
-generic to let us pass our own memory provider backend down to the page
-pool.
+On 19/02/24 14:22, Vignesh Raman wrote:
+> Hi Maíra,
+> 
+> On 10/02/24 23:50, Maíra Canal wrote:
+>> On 2/10/24 15:17, Maíra Canal wrote:
+>>> On 1/30/24 12:03, Vignesh Raman wrote:
+>>>> Uprev IGT and add amd, v3d, vc4 and vgem specific
+>>>> tests to testlist. Have testlist.txt per driver
+>>>> and include a base testlist so that the driver
+>>>> specific tests will run only on those hardware.
+>>>>
+>>>> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+>>>> ---
+>>>>
+>>>> v3:
+>>>>    - New patch in series to uprev IGT and update testlist.
+>>>>
+>>>> ---
+>>>>   drivers/gpu/drm/ci/gitlab-ci.yml              |   2 +-
+>>>>   drivers/gpu/drm/ci/igt_runner.sh              |  12 +-
+>>>>   drivers/gpu/drm/ci/testlist-amdgpu.txt        | 151 
+>>>> ++++++++++++++++++
+>>>>   drivers/gpu/drm/ci/testlist-msm.txt           |  50 ++++++
+>>>>   drivers/gpu/drm/ci/testlist-panfrost.txt      |  17 ++
+>>>>   drivers/gpu/drm/ci/testlist-v3d.txt           |  73 +++++++++
+>>>>   drivers/gpu/drm/ci/testlist-vc4.txt           |  49 ++++++
+>>>>   drivers/gpu/drm/ci/testlist.txt               | 100 ++++--------
+>>>>   .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt |  24 ++-
+>>>>   .../drm/ci/xfails/amdgpu-stoney-flakes.txt    |   9 +-
+>>>>   .../gpu/drm/ci/xfails/amdgpu-stoney-skips.txt |  10 +-
+>>>>   11 files changed, 427 insertions(+), 70 deletions(-)
+>>>>   create mode 100644 drivers/gpu/drm/ci/testlist-amdgpu.txt
+>>>>   create mode 100644 drivers/gpu/drm/ci/testlist-msm.txt
+>>>>   create mode 100644 drivers/gpu/drm/ci/testlist-panfrost.txt
+>>>>   create mode 100644 drivers/gpu/drm/ci/testlist-v3d.txt
+>>>>   create mode 100644 drivers/gpu/drm/ci/testlist-vc4.txt
+>>>>
+>>>> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml 
+>>>> b/drivers/gpu/drm/ci/gitlab-ci.yml
+>>>> index bc8cb3420476..e2b021616a8e 100644
+>>>> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
+>>>> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
+>>>> @@ -5,7 +5,7 @@ variables:
+>>>>     UPSTREAM_REPO: git://anongit.freedesktop.org/drm/drm
+>>>>     TARGET_BRANCH: drm-next
+>>>> -  IGT_VERSION: d2af13d9f5be5ce23d996e4afd3e45990f5ab977
+>>>> +  IGT_VERSION: b0cc8160ebdc87ce08b7fd83bb3c99ff7a4d8610
+>>>>     DEQP_RUNNER_GIT_URL: 
+>>>> https://gitlab.freedesktop.org/anholt/deqp-runner.git
+>>>>     DEQP_RUNNER_GIT_TAG: v0.15.0
+>>>> diff --git a/drivers/gpu/drm/ci/igt_runner.sh 
+>>>> b/drivers/gpu/drm/ci/igt_runner.sh
+>>>> index f001e015d135..2fd09b9b7cf6 100755
+>>>> --- a/drivers/gpu/drm/ci/igt_runner.sh
+>>>> +++ b/drivers/gpu/drm/ci/igt_runner.sh
+>>>> @@ -64,10 +64,20 @@ if ! grep -q "core_getversion" 
+>>>> /install/testlist.txt; then
+>>>>   fi
+>>>>   set +e
+>>>> +if [ "$DRIVER_NAME" = "amdgpu" ]; then
+>>>> +    TEST_LIST="/install/testlist-amdgpu.txt"
+>>>> +elif [ "$DRIVER_NAME" = "msm" ]; then
+>>>> +    TEST_LIST="/install/testlist-msm.txt"
+>>>> +elif [ "$DRIVER_NAME" = "panfrost" ]; then
+>>>> +    TEST_LIST="/install/testlist-panfrost.txt"
+>>>> +else
+>>>> +    TEST_LIST="/install/testlist.txt"
+>>>> +fi
+>>>> +
+>>>
+>>> Isn't V3D and VC4 testlists missing?
+> 
+> Yes. We need to add ci jobs to test v3d/vc4. The initial idea was just 
+> to split the testlist per driver and add vc4/v3d tests so that it can be 
+> used in future. I will add the jobs as part of v4.
 
-What about storing ops and priv void ptr in struct netdev_rx_queue
-instead? Then we can both use it.
+To include RPi jobs, we need to tweak mesa-ci to pass kernel and dtb and 
+update mesa-ci in drm-ci. So will send this as a seperate patch/series.
+
+Regards,
+Vignesh
