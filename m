@@ -2,66 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98CF98739B0
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 15:48:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 281958739C1
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 15:49:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83493113252;
-	Wed,  6 Mar 2024 14:48:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AAE81128B0;
+	Wed,  6 Mar 2024 14:49:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lXBlgeae";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="at8hu8yk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C24D0113252
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 14:48:19 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 7F3DFCE1752;
- Wed,  6 Mar 2024 14:48:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42FFAC433F1;
- Wed,  6 Mar 2024 14:48:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709736495;
- bh=LKxAHNk2aLDWzzV1w2tW3dpSb8kzakIi8zhJRlDYp30=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lXBlgeaeEd838cjSpXB5fqRMp0JDlOUS2RNQONh2ebnE3caajbq4gcz5fgrUUrSyU
- JDGeWAMG9Bd3x0Q0Zixif0b5VboyKVsI8uWeQeIvZPuadhN2GnG1MJasnaniRuvn/x
- A8RtYP6ecWpHi87rDDNV4VrS9FhOIwMilZU1k03FhdKOZ8eXDrbJ5AdHY5yCNPPldE
- hnxsilPlv7krDOXsoX6v5EEUo793kDnpUYR48kQKHhlrqJMcltGCEs5wkqN1KHlUnW
- 6kw8Bsa/Ah24iuGlq+MLiZgTuYSE7GBNJ3pm6O0Th8G+8NfhuQFFsJ+5VZJxmLi0KX
- FslSnN+FajSng==
-Date: Wed, 6 Mar 2024 15:48:13 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, 
- Sandor Yu <Sandor.yu@nxp.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux@ew.tq-group.com, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v15 2/8] phy: Add HDMI configuration options
-Message-ID: <20240306-inquisitive-funny-bull-017550@houat>
-References: <20240306101625.795732-1-alexander.stein@ew.tq-group.com>
- <20240306101625.795732-3-alexander.stein@ew.tq-group.com>
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+ [209.85.208.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F905113258
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 14:49:29 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-5645960cd56so2704250a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Mar 2024 06:49:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1709736567; x=1710341367; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=EAkc1OHDacbLTatYDw+lBf1IqKACMXV+5rXIO07fBAo=;
+ b=at8hu8yk44Ud3MTiz8uV7sA8Vz5sM9hEZAd5OlcUx9O2mTqTBFifUc/qjoG85BO8pO
+ sU+pDN7vx/mGwGW9OiiYAfAniclvDmZr80FnTOOVYsO/s8bVSUMZkINrWJtLjytDKMLd
+ Gu82BXBI3t0867Dul2GZy5IsyCzbqtzyly3dy8a3L7iutWbyAjv5qm3rPUvVvWkhCu+6
+ zLMKgWNZhXjxNOyj1+YjJ039djNFL4kgSYE9gRF7Ppuh//F3luyfpdFF5bhYICOKc4WL
+ tZxiyWeyhGYbicY5aXYpTFRALLrQ76MiHEvtT2XUIL6bd9KengoYdhKiDS/IS6Omk0bP
+ KHbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709736567; x=1710341367;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=EAkc1OHDacbLTatYDw+lBf1IqKACMXV+5rXIO07fBAo=;
+ b=kI/2Xrcximx26uDUGQy4Ge+pGG7fkg2iPvaNX5eLC9tRkbcvybIwOxOFZrWfnfMLO2
+ BT4d1o3nQilTe+gx6X3Rs8cyXHmi9KEZb/gMis6BhTLgg6eAnkoK6XNTTPr4v7gbaO7s
+ +NxUyoLlHetqdunyAZslLge2HFhPuN2Q/ODimdXDLM6eei+liyGtDy7czulsfKZgUsQz
+ NwmaM4c/PiO0ZrdIa+vWEUOEsG3O0C6YPPpw/xMyxmv0lUdRkitrEE4r4sbpiU8tWHAv
+ I39GCuveqKv48ppPzxfMEENRIwMb5J8j9MkuvhBF/yVx4/fZNvEEOs6+blGd1rt+QDNE
+ xBHA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVzJgECJ3OIx6Auvi/R/128NJ1QqEq1R9PD24dfewlzzXcnovzAWdsK7FrN0EGongRszrQ5flpGHeXrHOtgI9jN1Pqy96eqIVbiOTjW1xcv
+X-Gm-Message-State: AOJu0Yym6w9na5H5PA7Ug5gfbmYPZdHstNpxrq82fj8+mYXznWk6YcZt
+ MqWv/oLwNC4mTKrxlMI9dMm4FBVmUvEoeKbds/vBLpeV+l9wMEPzmaAe2kxQhkK53GuSkgy1p6Z
+ CPHYRq64Ykt5PQmeqCaHWr5SVGs8=
+X-Google-Smtp-Source: AGHT+IGpzGXwfAEXyPE1R2p6+5ryRp3o0dtuvz8V70oDQzqGHjU35trofjh01j1cedUDehM15sSsDGsocB7kbpcnnhs=
+X-Received: by 2002:a05:6402:2151:b0:566:6a0e:7625 with SMTP id
+ bq17-20020a056402215100b005666a0e7625mr10360598edb.7.1709736567251; Wed, 06
+ Mar 2024 06:49:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="wazjs4qrv6r7qq5x"
-Content-Disposition: inline
-In-Reply-To: <20240306101625.795732-3-alexander.stein@ew.tq-group.com>
+References: <20240227141928.1.I24ac8d51544e4624b7e9d438d95880c4283e611b@changeid>
+ <60dc7697-d7a0-4bf4-a22e-32f1bbb792c2@suse.de>
+In-Reply-To: <60dc7697-d7a0-4bf4-a22e-32f1bbb792c2@suse.de>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 6 Mar 2024 06:49:15 -0800
+Message-ID: <CAF6AEGs2zCP1SWPzxz4v2CU--yyEsN0+PS3dKM1nOuGyVkCpLg@mail.gmail.com>
+Subject: Re: [PATCH] drm/udl: Add ARGB8888 as a format
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org, 
+ Rob Clark <robdclark@chromium.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@redhat.com>,
+ David Airlie <airlied@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, Sean Paul <sean@poorly.run>, 
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,79 +88,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Mar 6, 2024 at 4:18=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse.=
+de> wrote:
+>
+> Hi,
+>
+> sorry that I did not see the patch before.
+>
+> Am 27.02.24 um 23:19 schrieb Douglas Anderson:
+> > Even though the UDL driver converts to RGB565 internally (see
+> > pixel32_to_be16() in udl_transfer.c), it advertises XRGB8888 for
+> > compatibility. Let's add ARGB8888 to that list.
+>
+> We had a heated discussion about the emulation of color formats. It was
+> decided that XRGB8888 is the only format to support; and that's only
+> because legacy userspace sometimes expects it. Adding other formats to
+> the list should not be done easily.
 
---wazjs4qrv6r7qq5x
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+OTOH it is fixing a kernel change that broke userspace
 
-Hi Alexander,
+> >
+> > This makes UDL devices work on ChromeOS again after commit
+> > c91acda3a380 ("drm/gem: Check for valid formats"). Prior to that
+> > commit things were "working" because we'd silently treat the ARGB8888
+> > that ChromeOS wanted as XRGB8888.
+>
+> This problem has been caused by userspace. Why can it not be fixed there?
+>
+> And udl is just one driver. Any other driver without ARGB8888, such as
+> simpledrm or ofdrm, would be affected. Do these work?
 
-On Wed, Mar 06, 2024 at 11:16:19AM +0100, Alexander Stein wrote:
-> From: Sandor Yu <Sandor.yu@nxp.com>
->=20
-> Allow HDMI PHYs to be configured through the generic
-> functions through a custom structure added to the generic union.
->=20
-> The parameters added here are based on HDMI PHY
-> implementation practices.  The current set of parameters
-> should cover the potential users.
->=20
-> Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Acked-by: Vinod Koul <vkoul@kernel.org>
-> ---
->  include/linux/phy/phy-hdmi.h | 24 ++++++++++++++++++++++++
->  include/linux/phy/phy.h      |  7 ++++++-
->  2 files changed, 30 insertions(+), 1 deletion(-)
->  create mode 100644 include/linux/phy/phy-hdmi.h
->=20
-> diff --git a/include/linux/phy/phy-hdmi.h b/include/linux/phy/phy-hdmi.h
-> new file mode 100644
-> index 0000000000000..b7de88e9090f0
-> --- /dev/null
-> +++ b/include/linux/phy/phy-hdmi.h
-> @@ -0,0 +1,24 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright 2022 NXP
-> + */
-> +
-> +#ifndef __PHY_HDMI_H_
-> +#define __PHY_HDMI_H_
-> +
-> +#include <linux/hdmi.h>
-> +/**
-> + * struct phy_configure_opts_hdmi - HDMI configuration set
-> + * @pixel_clk_rate: Pixel clock of video modes in KHz.
-> + * @bpc: Maximum bits per color channel.
-> + * @color_space: Colorspace in enum hdmi_colorspace.
-> + *
-> + * This structure is used to represent the configuration state of a HDMI=
- phy.
-> + */
-> +struct phy_configure_opts_hdmi {
-> +	unsigned int pixel_clk_rate;
-> +	unsigned int bpc;
-> +	enum hdmi_colorspace color_space;
-> +};
+Probably any driver where ARGB8888 is equivalent to XRGB8888 (ie.
+single primary plane, etc) should advertise both.
 
-Does the PHY actually care about the pixel clock rate, color space and
-formats, or does it only care about the character rate?
+BR,
+-R
 
-Also, how would you handle pixel doubling?
-
-Maxime
-
---wazjs4qrv6r7qq5x
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZeiCLAAKCRDj7w1vZxhR
-xSnUAP41rpokDnniw6MdmXTRycs0PMI6TgR/87jmxzdVFERWKgEA/uUZeHTkC2sD
-5V8zpf6ghz8P69W2+uKQN5GBGohZ5Ag=
-=ozbL
------END PGP SIGNATURE-----
-
---wazjs4qrv6r7qq5x--
+> Best regards
+> Thomas
+>
+> >
+> > Fixes: c91acda3a380 ("drm/gem: Check for valid formats")
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > ---
+> >
+> >   drivers/gpu/drm/udl/udl_modeset.c | 1 +
+> >   1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/ud=
+l_modeset.c
+> > index 7702359c90c2..0f8d3678770e 100644
+> > --- a/drivers/gpu/drm/udl/udl_modeset.c
+> > +++ b/drivers/gpu/drm/udl/udl_modeset.c
+> > @@ -253,6 +253,7 @@ static int udl_handle_damage(struct drm_framebuffer=
+ *fb,
+> >   static const uint32_t udl_primary_plane_formats[] =3D {
+> >       DRM_FORMAT_RGB565,
+> >       DRM_FORMAT_XRGB8888,
+> > +     DRM_FORMAT_ARGB8888,
+> >   };
+> >
+> >   static const uint64_t udl_primary_plane_fmtmods[] =3D {
+>
+> --
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
+>
