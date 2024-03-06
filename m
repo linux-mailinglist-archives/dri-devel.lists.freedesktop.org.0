@@ -2,81 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DEA4872BE3
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 01:48:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33966872C11
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 02:23:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE9EB10E75F;
-	Wed,  6 Mar 2024 00:48:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95C8B112CEB;
+	Wed,  6 Mar 2024 01:23:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="km8KvaTq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="k4UWqSKx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com
- [209.85.161.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2686310E75F
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 00:48:39 +0000 (UTC)
-Received: by mail-oo1-f45.google.com with SMTP id
- 006d021491bc7-5a140a072fbso1093197eaf.1
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 16:48:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1709686118; x=1710290918;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=h8YUqfSxXbAYFGGNrVtx7LjoshPbACk3MhhzqeZBjss=;
- b=km8KvaTqzaC2Ff8mD9pU3jxArT/lR16rQJF+5P4plsljv0AMdFrcNNUSaTG3KyOlF6
- tuTzrD5oe7Qjdio5rgm1kjXYFD3sd8Acyak2Logvfql314CgpkKzogGkf6aEqpIO6J51
- FoEYRISzir8Enfr8fBmIDiNkVeX2pjt/2VTAI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709686118; x=1710290918;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=h8YUqfSxXbAYFGGNrVtx7LjoshPbACk3MhhzqeZBjss=;
- b=jVDctNrszDcAytvUysRf/1zP1su41JdPzMxlcEFDWuaVexVyuMaEz3o4Gs8JrPohh2
- LCDcTunTTrzPir+4Z8kcGiXhvTFKbB6OJ5qtuoTpp9J/ht81Yc3PCXMCyyk5cqdYKuw8
- JM/Xk4lImavjPA9edSBLs5Twl4iIMhr04muM/6SmZNUlnVk0PLybH04PkyWqLWHHbh4h
- Yo31ejAJr4VKo6QT8pc0c8rNyCD/tTeLJPb6QJjW/eWYHH3/XKF1EqvZ4GxfgR9HNr2+
- EYTSxiErD1hWR12a8THOFi4RRhy6Xe40tkBbmOCwsS3SfBdwGK3aLgkaTclvXuEf+42X
- W5sQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVWZ6ma9AKSYMd2N+uAZBNIIUdqxtHqbGIJJmiQK+6iRMggrJkE05tAQw+0zI5xX7US+JvKSdWxd3Z3ArlVwyny//tLo12rx/D6QdkkM+VA
-X-Gm-Message-State: AOJu0YyYH5z+lYLsgCM+Xufv1ztqno/dcmKugD7c583jHC2Fi0N7AQym
- jWV0xg5lwFtFhC+k4xDBFXRvJphSD6OX95j0cEuCKHh+vv0rnRpNER/8G0uW9py/tGRTw9VhLml
- 5+d5M5/JU37q649qpOqAdU9VRhSOiFkn5GUEK
-X-Google-Smtp-Source: AGHT+IHThZOocFCZMmHlyA07NzSu/hUzk0+wRXvbdVZwsQ63Hxp4vmWebG9XV+3+bsLjN4hF9iqXD16nnPW8ixndG/0=
-X-Received: by 2002:a4a:9b17:0:b0:5a0:e486:cbbc with SMTP id
- a23-20020a4a9b17000000b005a0e486cbbcmr3765020ook.6.1709686118132; Tue, 05 Mar
- 2024 16:48:38 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3252A112DD9;
+ Wed,  6 Mar 2024 01:23:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709688185; x=1741224185;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=9QFb+ls8zmFoD5cK7OMUyxdIOVvqIXnWDbo4N55X8bI=;
+ b=k4UWqSKxaRjQO74EyApYugHfYs5iL11nLhYOVqGdaeZsJp+JLyr7h5j1
+ nUk/6GFvtDT7ewxERNUrkMTaXoqnL3CO7U/9CA8N3PLEplwNpJsfN/geT
+ 4aH9+40H0IsIJel6lYuxAZCVSpljZNi1IzCHREIF2u0itABYovACJaGYp
+ 1rMj4c1oJ86qe+2v33lXMIhCqrDSGqbxdImgQRojJfyL5XGvsjoxqjtvY
+ qzLLyXUrThmrKGxRx56xfwMKz8sFqVkpmMEYQG4q/yRFInLIbUNz95sh8
+ 40/fn4lM+Z8sf5QL8kHsSrY0wdz/C6cNhDrBsF5S5J5iHqrT5AO5NqXJ4 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="8098380"
+X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
+   d="scan'208";a="8098380"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2024 17:23:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; d="scan'208";a="40573887"
+Received: from unknown (HELO intel.com) ([10.247.118.75])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2024 17:22:57 -0800
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>, stable@vger.kernel.org,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Tvrtko Ursulin <tursulin@ursulin.net>
+Subject: [PATCH v4 0/3] Disable automatic load CCS load balancing
+Date: Wed,  6 Mar 2024 02:22:44 +0100
+Message-ID: <20240306012247.246003-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20240304195214.14563-1-hsinyi@chromium.org>
- <20240304195214.14563-3-hsinyi@chromium.org>
- <87a5nd4tsg.fsf@intel.com>
- <CAJMQK-j4wGah=szyUW53hu-v6Q4QjgR7WMLKnspoFaO9oPfaQw@mail.gmail.com>
- <874jdl4k01.fsf@intel.com>
- <CAJMQK-iWHoh6s-hkcNULzZLjMg9UnTuWfjaJ=YfnHU3sQ1NBEg@mail.gmail.com>
- <CAD=FV=UOhTGnhtc9gOQ5C_aAdgVcB+K7NL9RGm4umunF91Wkpg@mail.gmail.com>
- <87y1ax2iu1.fsf@intel.com>
- <CAD=FV=WzLLeEw-b0Kug-Pm-9EYm7eHvmukEUJ8VHnu-4YY3WNQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=WzLLeEw-b0Kug-Pm-9EYm7eHvmukEUJ8VHnu-4YY3WNQ@mail.gmail.com>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Tue, 5 Mar 2024 16:48:12 -0800
-Message-ID: <CAJMQK-hE8sWL2rO-N2WZuyXzPhnXZJN4LUL_TwzKGhq_Ozz6Vw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] drm/edid: Add a function to check monitor string
-To: Doug Anderson <dianders@chromium.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,75 +68,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 5, 2024 at 11:25=E2=80=AFAM Doug Anderson <dianders@chromium.or=
-g> wrote:
->
-> Hi,
->
-> On Tue, Mar 5, 2024 at 12:17=E2=80=AFAM Jani Nikula <jani.nikula@linux.in=
-tel.com> wrote:
-> >
-> > On Mon, 04 Mar 2024, Doug Anderson <dianders@chromium.org> wrote:
-> > > Hi,
-> > >
-> > > On Mon, Mar 4, 2024 at 4:19=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.=
-org> wrote:
-> > >>
-> > >> > > Probably change to u32 drm_edid_get_panel_id(const struct drm_ed=
-id
-> > >> > > *);? Given that we still need to parse id from
-> > >> > > drm_edid_read_base_block().
-> > >> >
-> > >> > No, we no longer need to parse the id outside of drm_edid.c. You'l=
-l have
-> > >> > the id's in panel code in the form of struct drm_edid_ident (or
-> > >> > whatever), and use the match function to see if the opaque drm_edi=
-d
-> > >> > matches.
-> > >> >
-> > >> drm_panel prints the panel_id info on whether the panel is detected =
-or not.
-> > >> https://elixir.bootlin.com/linux/v6.8-rc7/source/drivers/gpu/drm/pan=
-el/panel-edp.c#L792
-> > >>
-> > >> Is it okay to remove this information?
-> > >
-> > > Hmmm, I guess it also is exported via debugfs, actually. See
-> > > detected_panel_show() in panel-edp.c. We probably don't want to remov=
-e
-> > > that...
-> >
-> > You currently print the information via panel->detected_panel, which is
-> > a struct edp_panel_entry *. That doesn't change. It'll be slightly
-> > restructured to contain a struct drm_edid_ident, which will not be an
-> > opaque type.
->
-> Hmm. As Hsin-Yi pointed out to me offline. Somehow we'll need to get
-> the actual panel ID out. Right now in panel-edp.c we have:
->
-> dev_warn(dev,
->   "Unknown panel %s %#06x, using conservative timings\n",
->   vend, product_id);
->
-> Where "vend" and "product_id" come from the panel ID of a panel that
-> we didn't recognize. For instance:
->
->   Unknown panel BOE 0x0731, using conservative timings
->
-> We need to still be able to print this message for unrecognized
-> panels. Then when we see field reports including this message we know
-> that somehow we ended up shipping an unrecognized panel.
->
-> Any suggestions on what abstraction you'd like to see to enable us to
-> print that message if everything is opaque?
+Hi,
 
-Sent v4 here: https://lore.kernel.org/lkml/20240306004347.974304-1-hsinyi@c=
-hromium.org/
+I have to admit that v3 was a lazy attempt. This one should be on
+the right path.
 
-Besides that it still keeps drm_edid_get_panel_id() to be used on the
-kernel warning when no panel is matched, other parts I think are
-following the comments.
+this series does basically two things:
 
-Thanks.
->
-> -Doug
+1. Disables automatic load balancing as adviced by the hardware
+   workaround.
+
+2. Assigns all the CCS slices to one single user engine. The user
+   will then be able to query only one CCS engine
+
+I'm using here the "Requires: " tag, but I'm not sure the commit
+id will be valid, on the other hand, I don't know what commit id
+I should use.
+
+Thanks Tvrtko, Matt, John and Joonas for your reviews!
+
+Andi
+
+Changelog
+=========
+v3 -> v4
+- Reword correctly the comment in the workaround
+- Fix a buffer overflow (Thanks Joonas)
+- Handle properly the fused engines when setting the CCS mode.
+
+v2 -> v3
+- Simplified the algorithm for creating the list of the exported
+  uabi engines. (Patch 1) (Thanks, Tvrtko)
+- Consider the fused engines when creating the uabi engine list
+  (Patch 2) (Thanks, Matt)
+- Patch 4 now uses a the refactoring from patch 1, in a cleaner
+  outcome.
+
+v1 -> v2
+- In Patch 1 use the correct workaround number (thanks Matt).
+- In Patch 2 do not add the extra CCS engines to the exposed UABI
+  engine list and adapt the engine counting accordingly (thanks
+  Tvrtko).
+- Reword the commit of Patch 2 (thanks John).
+
+
+Andi Shyti (3):
+  drm/i915/gt: Disable HW load balancing for CCS
+  drm/i915/gt: Refactor uabi engine class/instance list creation
+  drm/i915/gt: Enable only one CCS for compute workload
+
+ drivers/gpu/drm/i915/gt/intel_engine_user.c | 40 ++++++++++++++-------
+ drivers/gpu/drm/i915/gt/intel_gt.c          | 23 ++++++++++++
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  6 ++++
+ drivers/gpu/drm/i915/gt/intel_workarounds.c |  5 +++
+ 4 files changed, 62 insertions(+), 12 deletions(-)
+
+-- 
+2.43.0
+
