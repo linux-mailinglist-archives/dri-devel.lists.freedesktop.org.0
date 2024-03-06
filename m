@@ -2,59 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62712872F29
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 08:01:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF1DB872F2B
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 08:02:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F7F5112F77;
-	Wed,  6 Mar 2024 07:01:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 247C8112F6A;
+	Wed,  6 Mar 2024 07:02:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aINIoHSf";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="PoRd1Khb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 228CA112F6E;
- Wed,  6 Mar 2024 07:01:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709708507; x=1741244507;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=tcQ4DWII7a5vFVqrDp1AZ/G+iqHwm15Ml6TIhcKLkTk=;
- b=aINIoHSfutauqQWYbibWOaFr8SU90jsyPV/XOH8eUXyp3rsfWYXpNB/8
- Z8byZt/F7UuDdBQUCLDqq8KvXM4w0E5ilprQ8i0iu3bAosPVSUg4W5qsI
- GPwA0ZkmZD4r23V5vId+p0Gh5diOaUgW3EHO5wVhA53/bxIdTq85ZiyIS
- 4cllldPlCUOoM7pPz4XFciEmAllY+RIx2cy6KM96Yly7w0Fv5UpwEgXkv
- iyc71Oyqytvk5i5/1OHOiraDnik3DiBg8L0ZchV/oT+J1dRwbKhCxRrbE
- ZBmBDLT5Y8mgpxoZrLKiynCkktE1YEAafVeiZJ6v34+JVb9QWRH3H0hVg A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="4457482"
-X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="4457482"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2024 23:01:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; d="scan'208";a="14314407"
-Received: from fatinf5x-mobl.gar.corp.intel.com (HELO fedora..)
- ([10.249.254.40])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2024 23:01:45 -0800
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 4/4] drm/ttm: Allow continued swapout after -ENOSPC falure
-Date: Wed,  6 Mar 2024 08:01:25 +0100
-Message-ID: <20240306070125.27071-5-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240306070125.27071-1-thomas.hellstrom@linux.intel.com>
-References: <20240306070125.27071-1-thomas.hellstrom@linux.intel.com>
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41374112F6A
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 07:02:13 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id
+ d2e1a72fcca58-6e5eb3dd2f8so2777667b3a.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 23:02:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1709708532; x=1710313332;
+ darn=lists.freedesktop.org; 
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=VK485e0Io4FQkZBiTpzl/C3wrcGvcoGSSd6OtH3yQ7I=;
+ b=PoRd1KhbtXVIXhhN3W69/WhJZdlyPWWQcL0uXFhLVmc4bR41nEdcWIP0+JYjYFbtfJ
+ fCKtOsdtLPg7hF6Ins6xLpI10pp7nhT91er5S1804RD4HXSIuPTQhiYrfPN4Ya5yOHsE
+ CuNGf8mwlpnQCpvvwmkc0hqsiUzd51usWFnXQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709708532; x=1710313332;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VK485e0Io4FQkZBiTpzl/C3wrcGvcoGSSd6OtH3yQ7I=;
+ b=LBhjYfH/uHlySSDVyeQw5NKfqp/uerP/4lE1s57VckgROulUmtwitkso2dy64lynxO
+ kJ2l3Jtk7XagfcC6eb2Rrpg8QeND0baSDF0hjhlWYl5Ff4/5g820TG4CxSu+6n7XMxHR
+ ST3RgSOxbBnL0whey4MSjQgQWngcdGMXq71Z5p/EHCpu+cEYy72inC20WH51WoHK/tcL
+ vCvQxC4nPnp7qvd30dTLLLZKBzwcy73UIt1TQtFYgnS6F+oFy4cBOEidCKLVpoh40CRD
+ jo9bqyyRO8yzAvQhe/dpuVw1ex+ZDpe6HmFnnqncKN8vCrT6ET7SVrQX19xGvzicGJkA
+ aFHQ==
+X-Gm-Message-State: AOJu0YzmALNk9zK0NvwnPTnAXgPIN2Lhx3aNz82UWD4uBIyLVkyWRiLH
+ GQJqTN5nUI4Q3fcJy71hYWYE+OoD3l1AvYcgWUQZdx80Piu08B5FAOrWajpGag==
+X-Google-Smtp-Source: AGHT+IFbWNFYlMqMc3R+n0gCpcHOYtxNikqGOqeuD3hgYH40fY8Xzs7SDFPWH+N4evPaxjDKsrCeVA==
+X-Received: by 2002:a62:6203:0:b0:6e5:e7f5:856 with SMTP id
+ w3-20020a626203000000b006e5e7f50856mr9491049pfb.19.1709708532552; 
+ Tue, 05 Mar 2024 23:02:12 -0800 (PST)
+Received: from yuanhsinte1.c.googlers.com
+ (36.157.124.34.bc.googleusercontent.com. [34.124.157.36])
+ by smtp.gmail.com with ESMTPSA id
+ ei24-20020a056a0080d800b006e57247f4e5sm10014654pfb.8.2024.03.05.23.02.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Mar 2024 23:02:12 -0800 (PST)
+From: Hsin-Te Yuan <yuanhsinte@chromium.org>
+Date: Wed, 06 Mar 2024 07:02:02 +0000
+Subject: [PATCH v2] drm/bridge: anx7625: Update audio status while
+ detecting
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240306-anx7625-v2-1-7138e00b25bf@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAOkU6GUC/2XMSw7CIBSF4a00dyyGR0vVkfswHRC4lDtoMaCkp
+ mHvYqcO/5OTb4eMiTDDrdshYaFMcW0hTx3YYNYZGbnWILnsueIDM+s2ajkwj0I7Za5OjQ7a+5n
+ Q03ZIj6l1oPyK6XPARfzWf6MIJthFoVPWeqN7e7chxYXeyzmmGaZa6xe+fCEGoQAAAA==
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Hsin-Te Yuan <yuanhsinte@chromium.org>
+X-Mailer: b4 0.12.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,52 +88,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The -ENOSPC failure from ttm_bo_swapout() meant that the lru_lock
-was dropped and simply restarting the iteration meant we'd likely
-hit the same error again on the same resource. Now that we can
-restart the iteration even if the lock was dropped, do that.
+Previously, the audio status was not updated during detection, leading
+to a persistent audio despite hot plugging events. To resolve this
+issue, update the audio status during detection.
 
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
-Cc: <dri-devel@lists.freedesktop.org>
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Signed-off-by: Hsin-Te Yuan <yuanhsinte@chromium.org>
 ---
- drivers/gpu/drm/ttm/ttm_device.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+Changes in v2:
+- Add a space after the colons in the subject line.
+- Link to v1: https://lore.kernel.org/r/20240305-anx7625-v1-1-83ed3ccfa64c@chromium.org
+---
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-index e8a6a1dab669..4a030b4bc848 100644
---- a/drivers/gpu/drm/ttm/ttm_device.c
-+++ b/drivers/gpu/drm/ttm/ttm_device.c
-@@ -168,15 +168,20 @@ int ttm_device_swapout(struct ttm_device *bdev, struct ttm_operation_ctx *ctx,
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 29d91493b101a..9f0d0c5b8ebf5 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -2481,15 +2481,22 @@ static void anx7625_bridge_atomic_disable(struct drm_bridge *bridge,
+ 	mutex_unlock(&ctx->aux_lock);
+ }
  
- 			num_pages = PFN_UP(bo->base.size);
- 			ret = ttm_bo_swapout(bo, ctx, gfp_flags);
--			/* ttm_bo_swapout has dropped the lru_lock */
--			if (!ret) {
--				ttm_resource_cursor_fini(&cursor);
--				return num_pages;
--			}
--			if (ret != -EBUSY) {
--				ttm_resource_cursor_fini(&cursor);
--				return ret;
-+			/* Couldn't swap out, and retained the lru_lock */
-+			if (ret == -EBUSY)
-+				continue;
-+			/* Couldn't swap out and dropped the lru_lock */
-+			if (ret == -ENOSPC) {
-+				spin_lock(&bdev->lru_lock);
-+				continue;
- 			}
-+			/*
-+			 * Dropped the lock and either succeeded or
-+			 * hit an error that forces us to break.
-+			 */
-+			ttm_resource_cursor_fini(&cursor);
-+			return ret ? ret : num_pages;
- 		}
- 	}
- 	ttm_resource_cursor_fini_locked(&cursor);
++static void
++anx7625_audio_update_connector_status(struct anx7625_data *ctx,
++				      enum drm_connector_status status);
++
+ static enum drm_connector_status
+ anx7625_bridge_detect(struct drm_bridge *bridge)
+ {
+ 	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
+ 	struct device *dev = ctx->dev;
++	enum drm_connector_status status;
+ 
+ 	DRM_DEV_DEBUG_DRIVER(dev, "drm bridge detect\n");
+ 
+-	return anx7625_sink_detect(ctx);
++	status = anx7625_sink_detect(ctx);
++	anx7625_audio_update_connector_status(ctx, status);
++	return status;
+ }
+ 
+ static struct edid *anx7625_bridge_get_edid(struct drm_bridge *bridge,
+
+---
+base-commit: 90d35da658da8cff0d4ecbb5113f5fac9d00eb72
+change-id: 20240305-anx7625-fe16d3a9d37d
+
+Best regards,
 -- 
-2.44.0
+Hsin-Te Yuan <yuanhsinte@chromium.org>
 
