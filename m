@@ -2,74 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3537872D3E
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 04:07:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A31872D7B
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 04:24:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72276112E3E;
-	Wed,  6 Mar 2024 03:07:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEC9E10E6CF;
+	Wed,  6 Mar 2024 03:24:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="lqT3QFKA";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="koYUx7Rf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3730112E3E
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 03:07:39 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-2d22b8801b9so91727511fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 19:07:39 -0800 (PST)
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com
+ [209.85.160.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8005A10E6CF;
+ Wed,  6 Mar 2024 03:24:25 +0000 (UTC)
+Received: by mail-oa1-f47.google.com with SMTP id
+ 586e51a60fabf-2210a266118so1179333fac.1; 
+ Tue, 05 Mar 2024 19:24:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1709694457; x=1710299257;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=c3G5ilIgHzJp9EnFwdcrT7Tr1Dh0x/+SLzMuY+cXrdc=;
- b=lqT3QFKA0SfienAqaKN5dCYLgZv85BP7LAE8NDnT5A78My/sHgkE8CBu9qsHdWVjYT
- 1fbmXFvMc1KtjZt7ixERJHwvGw5qZK27Xoi7ziFN85jcfI0tprigkNC0XbKEjZfvBjiy
- v5wso33NlIQ3SuUmMyJ0An3llN92+Wl+NNHQE=
+ d=gmail.com; s=20230601; t=1709695464; x=1710300264; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=YY8pprhlY2hfjI+DczSHGBDtQSXX8a4KHHRyaWkDhB0=;
+ b=koYUx7Rf2RIGQOWxkpt917ls0e+ruCePeWLJd6jE1MNtT9NGK95Rj2yNZXsIDlztSt
+ eM70sLkzEpbpHemReFEBxSRXaYJpVVGBdRG3fT1j0Yn2pwuNqond/8KB668sbNfjiFVG
+ rDVJDchgPtES8uA7lPGETcMkMU08iA9sCdjo7bSI4o0XPOHffWNveEB7KaKvigph7Ozd
+ YlFfERsm0seQxqubUWmJPqLmVbltB4Ofk3oxFXixM40L7NytaN4dLikNHZw99Lw00Zs5
+ BbN9xRvs4ruVHQctbIWFZSULsRqkXvuTmnAG1F7UbDdoORLmhPXS7E9qpmEqnkSe/hek
+ L6Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709694457; x=1710299257;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=c3G5ilIgHzJp9EnFwdcrT7Tr1Dh0x/+SLzMuY+cXrdc=;
- b=f4hk4iU0Ozcp8GZ8dsLMI2DZzryZg3ZGnCWtGrEVahYPD5dlXLXTjDDVi3xFjM0LAm
- 1ViJY4fMUWy0rekRmaA7Wc5wYADNFwhhE4MBMSxRnV1PY2lhqqVmrvr5jXOmE45GFhLo
- vkkvo5e+uuBbq8DV3Lht2R0gnirCoywqdXoi/L6VgTo+QnwmvlFzYhz24uxXSMTnBUfD
- 6K3KkSCATkqtKo0ADOAaZx7vW07V5ULbxzGrcSaxbenFF/8807QJ5jqarbLSZJmLOMrg
- WAsS8fjLTfrOFEDrlzz+r4bA4hBNue6EgpVxZyo6awAT9JK2CwzGCDv9jdK0Mzg0wZ6M
- MYjQ==
+ d=1e100.net; s=20230601; t=1709695464; x=1710300264;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YY8pprhlY2hfjI+DczSHGBDtQSXX8a4KHHRyaWkDhB0=;
+ b=RKy/PlYaYtNTyOQRyW5KzDNJxdNbfm533URXooJKX8Q5SwlPG8R7gsie0fQvPosH7e
+ Zz//GlR9b0dAJeIJBu0vTXTgsD59fU5hxZSN5nVX8DU+Fz9U8Wy86kMM24cKuhs1xNYa
+ SEAjBGqr5JCg7AWz7mLb5eSJY0SryfbcPBjMH8GJ0xUf6vq3Y+DGcyeYBuUfd0w+gbbD
+ Er9uFRgQfHI970MqEcnqELjHPGhy8lFJzozEzoLun7wl+xK3HCJhOLQQVHWUxvcFQ64b
+ QhG9wh0iO1e6q0cWhR8jxKskWoDKmQY7XtwfP8htDSuiVaiMQUZwfjxO5qn/6PjImu89
+ 61Vw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWRmkQTMk3fi3OZeCuw3L95LAGwu7Q3AdUNm+oWAPEqhxpUdaxCK7fctkOXSKPHHBphS+pWLqu14kN+wVMxb+aZytcKC7BuWfhcfKRJgWmj
-X-Gm-Message-State: AOJu0Yy+49tpg/HkPvXpMawoBK0Yud1FYSrj2YzM6s9RPZk1CsfCAKEV
- oaK1rYW4P4A7HTynnjdG4E0kvcPEXZjpxVaA8W2IXYuzjUkxgDxDxFIWU7eWWi7atSdbXiT0msB
- ttFWJgxA+aR58O8EYc2nGW+kSQaG82sO2QRHd
-X-Google-Smtp-Source: AGHT+IFd4fYrH7VT+oC7ZfIpSRkqSnwMMbSguOpGCTPqEmdBUEJov0MCaZASXOwtSpdb28dWKW8lrLtkXDn42JRqQ8M=
-X-Received: by 2002:a2e:9e16:0:b0:2d2:d32b:dabf with SMTP id
- e22-20020a2e9e16000000b002d2d32bdabfmr2332926ljk.22.1709694457516; Tue, 05
- Mar 2024 19:07:37 -0800 (PST)
+ AJvYcCViDJqukJSDZN+wFWWYV7LyvjMwh+gczMD+RQxXO2NhgvN/L2vHQZegr5lvLEt1TvHTU9Odqxj0BS77SqkebUAn58nJyY0N1Nx7kE+yJ7IW
+X-Gm-Message-State: AOJu0YwOmvoBjs9wBNt4qL/l4nOci6Lj0ZUFBrqX4M7UltvLSLdzxbOg
+ /stafJOTICjD25bZP96ze2AyjMepCs6xVaoELMjfeLyXUSO9hlft
+X-Google-Smtp-Source: AGHT+IG/qPbUHBENxg8B/NMPAY+Iva1zLONMjiTm2XMFQUb8yAin0rmXFmVqAKQdmhrKgGpK008ing==
+X-Received: by 2002:a05:6871:2218:b0:21e:e069:5852 with SMTP id
+ sc24-20020a056871221800b0021ee0695852mr4336776oab.55.1709695464513; 
+ Tue, 05 Mar 2024 19:24:24 -0800 (PST)
+Received: from kernel.. ([2402:e280:214c:86:d881:224e:f9c2:b24a])
+ by smtp.gmail.com with ESMTPSA id
+ s18-20020a056a0008d200b006e5af565b1dsm1824624pfu.201.2024.03.05.19.24.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Mar 2024 19:24:24 -0800 (PST)
+From: R SUNDAR <prosunofficial@gmail.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, rdunlap@infradead.org,
+ mario.limonciello@amd.com, mwen@igalia.com, swarupkotikalapudi@gmail.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, R SUNDAR <prosunofficial@gmail.com>
+Subject: [PATCH] Removed redundant @ symbol to fix kernel-doc warnings in
+ -next repo
+Date: Wed,  6 Mar 2024 08:54:14 +0530
+Message-Id: <20240306032414.18488-1-prosunofficial@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240305-anx7625-v1-1-83ed3ccfa64c@chromium.org>
-In-Reply-To: <20240305-anx7625-v1-1-83ed3ccfa64c@chromium.org>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Wed, 6 Mar 2024 11:07:26 +0800
-Message-ID: <CAGXv+5GdgECuCeXGX3MJJRMr3XyMdZkJPyH7e5V+041ViQEi-g@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge:anx7625:Update audio status while detecting
-To: Hsin-Te Yuan <yuanhsinte@chromium.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,66 +84,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+For linux-next repository.
 
-Please add a space after the colons in the subject line.
+./drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h:1: warning: no structured comments found
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:132: warning: Incorrect use of kernel-doc format:          * @@overlap_only: Whether overlapping of different planes is allowed.
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:132: warning: Incorrect use of kernel-doc format:          * @@overlap_only: Whether overlapping of different planes is allowed.
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:1: warning: no structured comments found
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:132: warning: Incorrect use of kernel-doc format:          * @@overlap_only: Whether overlapping of different planes is allowed.
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:162: warning: Function parameter or struct member 'pre_multiplied_alpha' not described in 'mpcc_blnd_cfg'
 
-On Tue, Mar 5, 2024 at 8:32=E2=80=AFPM Hsin-Te Yuan <yuanhsinte@chromium.or=
-g> wrote:
->
-> Previously, the audio status was not updated during detection, leading
-> to a persistent audio despite hot plugging events. To resolve this
+Signed-off-by: R SUNDAR <prosunofficial@gmail.com>
+---
+ drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-                       ^ it feels like this sentence is incomplete.
+diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
+index ba9b942ce09f..34a398f23fc6 100644
+--- a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
++++ b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
+@@ -110,9 +110,8 @@ struct mpcc_blnd_cfg {
+ 	 */
+ 	enum mpcc_alpha_blend_mode alpha_mode;
+ 
+-	/***
+-	 * @@pre_multiplied_alpha:
+-	 *
++	/**
++	 * @pre_multiplied_alpha:
+ 	 * Whether pixel color values were pre-multiplied by the alpha channel
+ 	 * (MPCC_ALPHA_MULTIPLIED_MODE).
+ 	 */
+@@ -129,7 +128,7 @@ struct mpcc_blnd_cfg {
+ 	int global_alpha;
+ 
+ 	/**
+-	 * @@overlap_only: Whether overlapping of different planes is allowed.
++	 * @overlap_only: Whether overlapping of different planes is allowed.
+ 	 */
+ 	bool overlap_only;
+ 
+-- 
+2.34.1
 
-> issue, update the audio status during detection.
-
-Please add a Fixes: tag.
-
-> Signed-off-by: Hsin-Te Yuan <yuanhsinte@chromium.org>
-> ---
->  drivers/gpu/drm/bridge/analogix/anx7625.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/=
-bridge/analogix/anx7625.c
-> index 29d91493b101a..9f0d0c5b8ebf5 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> @@ -2481,15 +2481,22 @@ static void anx7625_bridge_atomic_disable(struct =
-drm_bridge *bridge,
->         mutex_unlock(&ctx->aux_lock);
->  }
->
-> +static void
-> +anx7625_audio_update_connector_status(struct anx7625_data *ctx,
-> +                                     enum drm_connector_status status);
-> +
->  static enum drm_connector_status
->  anx7625_bridge_detect(struct drm_bridge *bridge)
->  {
->         struct anx7625_data *ctx =3D bridge_to_anx7625(bridge);
->         struct device *dev =3D ctx->dev;
-> +       enum drm_connector_status status;
->
->         DRM_DEV_DEBUG_DRIVER(dev, "drm bridge detect\n");
->
-> -       return anx7625_sink_detect(ctx);
-> +       status =3D anx7625_sink_detect(ctx);
-> +       anx7625_audio_update_connector_status(ctx, status);
-
-Nit: add an empty line here.
-
-> +       return status;
->  }
->
->  static struct edid *anx7625_bridge_get_edid(struct drm_bridge *bridge,
->
-> ---
-> base-commit: 90d35da658da8cff0d4ecbb5113f5fac9d00eb72
-> change-id: 20240305-anx7625-fe16d3a9d37d
->
-> Best regards,
-> --
-> Hsin-Te Yuan <yuanhsinte@chromium.org>
->
