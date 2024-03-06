@@ -2,48 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33DFF872E2A
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 06:01:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B24B872E76
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 06:39:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D88ED112EC8;
-	Wed,  6 Mar 2024 05:01:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87C3810FA33;
+	Wed,  6 Mar 2024 05:39:22 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="qWeYsPQL";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from zg8tmty3ljk5ljewns4xndka.icoremail.net
- (zg8tmty3ljk5ljewns4xndka.icoremail.net [167.99.105.149])
- by gabe.freedesktop.org (Postfix) with ESMTP id 28975112EC9;
- Wed,  6 Mar 2024 05:01:29 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [218.12.17.6])
- by mail-app2 (Coremail) with SMTP id by_KCgBnq6qR+OdltmLGAg--.52750S2;
- Wed, 06 Mar 2024 13:01:15 +0800 (CST)
-From: Duoming Zhou <duoming@zju.edu.cn>
-To: nouveau@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- daniel@ffwll.ch, airlied@gmail.com, dakr@redhat.com, lyude@redhat.com,
- kherbst@redhat.com, timur@kernel.org, jani.nikula@linux.intel.com,
- Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH v3] nouveau/dmem: handle kcalloc() allocation failure
-Date: Wed,  6 Mar 2024 13:01:04 +0800
-Message-Id: <20240306050104.11259-1-duoming@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: by_KCgBnq6qR+OdltmLGAg--.52750S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7trW5Cr1ruw4DCr4fKF4fGrg_yoW8KrW3pF
- WxGr1jyr47t3WjvryxKF48CF13Can8Jay8Ka9Fvr9I9Fs5XFyxCw42yFyUWayFvr13CrWI
- qr4kta4avFWjqwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
- JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
- Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
- 0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
- zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
- 4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
- CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
- nIWIevJa73UjIFyTuYvjfUonmRUUUUU
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwMLAWXnadMBYgBgsx
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F01F310FA33
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 05:39:20 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id
+ 98e67ed59e1d1-29b6f82125dso707553a91.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 21:39:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1709703560; x=1710308360;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qcUilGZ4h9+6q9Pt6yhuKYLmboCM89xOd3b/ir0MpKQ=;
+ b=qWeYsPQLuoUhXAjTzJ8FQabQslRh1m/65fmoNUl6T5mkIAsHgooLM0gK529HP7JSzZ
+ Oe3lTwkgAf65j0v1IFtOYlSQGJboq9R72g+c/5h7mW76A37m82NAr3/5XC6g49lyu0D8
+ Fvk6C1GmY2frx9/TkbxqNPlIjGcNhtiU1VqQMlGYjBD+rrsNYQI5GFMUhfeV4pX7fQjd
+ +OY4g8MHrXnZPvlBnCMRirAel0wQuhp35ebC0wznjKg4NVi4Uhr0JcDGjTIty+1jTdKq
+ 9QXmdH8aSIWUfUZDhNO4pCXc8c3+6bTtiZJy9pco6nsitJpTKCGGY3qH9w+JWt5gAXQ7
+ YsXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709703560; x=1710308360;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qcUilGZ4h9+6q9Pt6yhuKYLmboCM89xOd3b/ir0MpKQ=;
+ b=F9sl1/vKLpNa+HKulrMmGrmV9+o+Q/WojAlWNMc9qLIFLdqxPLDBcYPDRsMjOVyZ9s
+ +JexZ9/ixtQxQihbG2meVBkTx+oo1tF4RBtt/jwQtgkKHhm0zqz6hYvJUS0BNUDhgbYf
+ E8/Vi7BjK9GymRVclBZqWZzINSN7J2BS5igCTud/z2NbZ0JRyc4hNE8wcaEUzUF9hD+g
+ tV6tLwnM8jha4nHl/JDbz+O2Z6YJ9ktvr1cjUqr3X+2ltnKj6sUjkhBuIWCbc0KQoQBv
+ p6AC3waOAZ5TyGirX/A0vtCWN+eaTihc6m0RoRowGeG9rxx3gwI7JKznclC6SK71rvkm
+ Bwcw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXesII7nAkyyqJfPFNvlbcb+Kz2kl5LAGkYl/RLogo4DSu5j6VwzM6g2Qzba2QTwZHwJ+oKktCWxTFF3e+xo5PgBS2h9185qVIuS/4BsVSg
+X-Gm-Message-State: AOJu0Yy1ijm7Mm0KyZQASJjJjTSFmzVsBxd0UE8wg7+Lq/E1K+YNgnGa
+ eVJGaxoXaxBOR65gUOELR1TpxHgAPxIGhRhvrFl+e3i0x9Grf5c4vKVxcfVyKLv0sNs1zMFyaCv
+ Pp1Uzmeg9Eu6RewKlL4btuYzPGlmnn2iA7zdKlg==
+X-Google-Smtp-Source: AGHT+IGRZyAT81pD6X1QOmiFpoQvC39nCipzeG7JdrCxsGsdvCjP7koRXqRQWO8jSQhWMylo7OsdCSwgbU90nLHqVEg=
+X-Received: by 2002:a17:90a:1097:b0:29b:2779:6ceb with SMTP id
+ c23-20020a17090a109700b0029b27796cebmr12289518pja.34.1709703560306; Tue, 05
+ Mar 2024 21:39:20 -0800 (PST)
+MIME-Version: 1.0
+References: <20240305012604.3869593-1-yangcong5@huaqin.corp-partner.google.com>
+ <CAD=FV=XUhBUscqx5TY6Ax94_St6xggnirP6hiy_VG9Y_1uB-kg@mail.gmail.com>
+In-Reply-To: <CAD=FV=XUhBUscqx5TY6Ax94_St6xggnirP6hiy_VG9Y_1uB-kg@mail.gmail.com>
+From: cong yang <yangcong5@huaqin.corp-partner.google.com>
+Date: Wed, 6 Mar 2024 13:39:09 +0800
+Message-ID: <CAHwB_NJqu==AMT9LMM3Cdzp0iugOcFC3VnT01HTPx2HbjNX4OA@mail.gmail.com>
+Subject: Re: [PATCH V2] drm/panel: boe-tv101wum-nl6: Fine tune Himax83102-j02
+ panel HFP and HBP (again)
+To: Doug Anderson <dianders@chromium.org>
+Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
+ hsinyi@chromium.org, swboyd@chromium.org, airlied@gmail.com, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,61 +84,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The kcalloc() in nouveau_dmem_evict_chunk() will return null if
-the physical memory has run out. As a result, if we dereference
-src_pfns, dst_pfns or dma_addrs, the null pointer dereference bugs
-will happen.
+Hi,
 
-Moreover, the GPU is going away. If the kcalloc() fails, we could not
-evict all pages mapping a chunk. So this patch adds a __GFP_NOFAIL
-flag in kcalloc().
+Doug Anderson <dianders@chromium.org> =E4=BA=8E2024=E5=B9=B43=E6=9C=886=E6=
+=97=A5=E5=91=A8=E4=B8=89 08:23=E5=86=99=E9=81=93=EF=BC=9A
 
-Finally, as there is no need to have physically contiguous memory,
-this patch switches kcalloc() to kvcalloc() in order to avoid
-failing allocations.
+>
+> Cong,
+>
+> On Mon, Mar 4, 2024 at 5:26=E2=80=AFPM Cong Yang
+> <yangcong5@huaqin.corp-partner.google.com> wrote:
+> >
+> > The current measured frame rate is 59.95Hz, which does not meet the
+> > requirements of touch-stylus and stylus cannot work normally. After
+> > adjustment, the actual measurement is 60.001Hz. Now this panel looks
+> > like it's only used by me on the MTK platform, so let's change this
+> > set of parameters.
+> >
+> > Fixes: cea7008190ad ("drm/panel: boe-tv101wum-nl6: Fine tune Himax83102=
+-j02 panel HFP and HBP")
+> > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> > ---
+> >  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> I actually already made these fixes myself for you and applied. My
+> notes were mostly for you to keep in mind for next time. This is
+> already in drm-misc-fixes as:
 
-Fixes: 249881232e14 ("nouveau/dmem: evict device private memory during release")
-Suggested-by: Danilo Krummrich <dakr@redhat.com>
-Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
----
-Changes in v3:
-  - Switch kcalloc() to kvcalloc().
+Oh! I see. Many Thanks.
 
- drivers/gpu/drm/nouveau/nouveau_dmem.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-index 12feecf71e7..6fb65b01d77 100644
---- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-@@ -378,9 +378,9 @@ nouveau_dmem_evict_chunk(struct nouveau_dmem_chunk *chunk)
- 	dma_addr_t *dma_addrs;
- 	struct nouveau_fence *fence;
- 
--	src_pfns = kcalloc(npages, sizeof(*src_pfns), GFP_KERNEL);
--	dst_pfns = kcalloc(npages, sizeof(*dst_pfns), GFP_KERNEL);
--	dma_addrs = kcalloc(npages, sizeof(*dma_addrs), GFP_KERNEL);
-+	src_pfns = kvcalloc(npages, sizeof(*src_pfns), GFP_KERNEL | __GFP_NOFAIL);
-+	dst_pfns = kvcalloc(npages, sizeof(*dst_pfns), GFP_KERNEL | __GFP_NOFAIL);
-+	dma_addrs = kvcalloc(npages, sizeof(*dma_addrs), GFP_KERNEL | __GFP_NOFAIL);
- 
- 	migrate_device_range(src_pfns, chunk->pagemap.range.start >> PAGE_SHIFT,
- 			npages);
-@@ -406,11 +406,11 @@ nouveau_dmem_evict_chunk(struct nouveau_dmem_chunk *chunk)
- 	migrate_device_pages(src_pfns, dst_pfns, npages);
- 	nouveau_dmem_fence_done(&fence);
- 	migrate_device_finalize(src_pfns, dst_pfns, npages);
--	kfree(src_pfns);
--	kfree(dst_pfns);
-+	kvfree(src_pfns);
-+	kvfree(dst_pfns);
- 	for (i = 0; i < npages; i++)
- 		dma_unmap_page(chunk->drm->dev->dev, dma_addrs[i], PAGE_SIZE, DMA_BIDIRECTIONAL);
--	kfree(dma_addrs);
-+	kvfree(dma_addrs);
- }
- 
- void
--- 
-2.17.1
-
+>
+> 9dfc46c87cdc drm/panel: boe-tv101wum-nl6: Fine tune Himax83102-j02
+> panel HFP and HBP (again)
+>
+> -Doug
