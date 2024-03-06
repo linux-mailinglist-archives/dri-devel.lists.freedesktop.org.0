@@ -2,60 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4AD7873C32
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 17:27:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 377E3873C3D
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 17:30:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 800C611331F;
-	Wed,  6 Mar 2024 16:27:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35D1610FD82;
+	Wed,  6 Mar 2024 16:30:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="3xWDl1H4";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="T/p8uTqQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2050.outbound.protection.outlook.com [40.107.220.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81E1811331F;
- Wed,  6 Mar 2024 16:27:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iXm8mgCoYFFd3gNYTrBF+NBOHScx2au3wdWw7aK9LQzYxsXvVgi8Ty9KVr1drbwpRiOhlt+qTEjszh0YS8iG6ZJndorCWWQZhJaxdBytqOda3L+PCU2S2sGvZSZ9/OoNII16x64d7wrOLNyJl1M4/xV5CqIingdfqEFW0nKu6/qRuEjbVCsgMPH/5sktCkFxBM/0fK/Dk3S1s5iBvsnHwSTX2R3bLyZGP+PbiakzbY1SzSaO5FjxXsbKMpDHDSvPQp0/CXswtm/mdAoMeKiKoyQuMBuNwKDVO7QMxh44gJZ6A3FGfBdw6z8CG0AVn73VyaTkSiSjRzmk08NRJNPHBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1GwWLH2Q1vDA4466nG1JMDSz+P+RoSYYAxKoSU7xVGg=;
- b=FMVxFCCWdGznKQZGPvXVpkScXp6NX0kvJBOxYB3T05ajWLXBHPFdJCgorFohjzYWXxs7Es5o0dFZxo68byJYHKzPnedQJhPUwP/9D89SkCjyweWbRbEbMTbkXb9lnS/Zb9i56EJYFJmonwGf1dQe+brc1bK0ht4Itp84Mr0UfheZGisGxZ6Wc7lL2pSyfEQK8Ea2Q78ZgcSUS9MFSAkV1j4/h51I7rVkb28L2pX+lq4jThlaFlZI73kPDM0h9a8ys9dVl56/be5o5gHfJYWE5SsZo7+w82OdPBMRX31K+FeViZ0kKKcjRcfuUtuall58iawwc7g+mXum2E4JJkZjeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1GwWLH2Q1vDA4466nG1JMDSz+P+RoSYYAxKoSU7xVGg=;
- b=3xWDl1H4R8XInqK9IbtbJZOtjSSjk0gNzfRqbDp9dgjh5LsEIgR8raTH1vfc2XKYGM87Gf4Mzv9un74GZobWuj3hh/ToHj0oFIkKL7JcRkzrfqtjh4ivIdEslzoYZBy7oLXlvJ54NC0hcSF21pwPCNC667eAt5E9R0Mka0l6Sb8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5596.namprd12.prod.outlook.com (2603:10b6:510:136::13)
- by MN0PR12MB6174.namprd12.prod.outlook.com (2603:10b6:208:3c5::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.39; Wed, 6 Mar
- 2024 16:26:56 +0000
-Received: from PH7PR12MB5596.namprd12.prod.outlook.com
- ([fe80::6f48:e3f1:6ff9:75bd]) by PH7PR12MB5596.namprd12.prod.outlook.com
- ([fe80::6f48:e3f1:6ff9:75bd%4]) with mapi id 15.20.7362.019; Wed, 6 Mar 2024
- 16:26:56 +0000
-Message-ID: <32f94f5c-88c6-4e18-8ac3-ff1b80cbd5d0@amd.com>
-Date: Wed, 6 Mar 2024 21:56:48 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amdgpu: cache in more vm fault information
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Alex Deucher <alexdeucher@gmail.com>
-Cc: Sunil Khatri <sunil.khatri@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>, amd-gfx@lists.freedesktop.org,
- Pan@rtg-sunil-navi33.amd.com, Xinhui <Xinhui.Pan@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Mukul Joshi <mukul.joshi@amd.com>,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com
+ [209.85.217.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F05A210E752;
+ Wed,  6 Mar 2024 16:30:05 +0000 (UTC)
+Received: by mail-vs1-f44.google.com with SMTP id
+ ada2fe7eead31-47259486a1fso1591069137.2; 
+ Wed, 06 Mar 2024 08:30:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1709742604; x=1710347404; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YKa2+aZw7mxRLTdBTV7peWPgzstxZR+rf9Vg4ELR4PA=;
+ b=T/p8uTqQ4XtyotauBgDORBJF87CzCui4DFdhnAwCub8/0Sm0eG2lmCRnDBUjJFSQ1G
+ Roio5sdtDOteV4pzW+139ZoUgrvW8CdsdGrhp02rO5FT24pdZj0xiQNerjghZcX7WcKf
+ MNlasrbJDBdADa0kSKSskihcKmVucCub0L5UC06rE7264XrJmmnJ70HT3enyY+lPxPic
+ Oakd8s50VgWRvF1pojH8O8xoJ64+fZIns78JbzQv+CydazA5YJtursesKew/IH4psOq2
+ uchuDrV1t4GUfejwzJiRr5ii1qXkWWXI0Sua6vw0HtRA65CTBelovtfIYuHz3nhdTsSh
+ DAlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709742604; x=1710347404;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YKa2+aZw7mxRLTdBTV7peWPgzstxZR+rf9Vg4ELR4PA=;
+ b=GsLe7MzWwl0SknNlPj7KcFlNhma0sGYYvKlgT4NTivD7tb74yRbsAMlt/zuIHLG82T
+ 4Df1cGDZOrsoDjRc+/53hxS4F1MVxhEJCdRwiLmxMcpk/GooVPMi0SyOamdyI+Ywl5Kj
+ IKb4n3jMABWyHSARn4IE+A0hIhUeTJ+rZgL8g/bqlU51HwjByMWVslXrTv6SZqpRcxhS
+ Co/nE7G3iYhsN+HaIS/Ps6eMoMzF8UDolLPqDXfLKRXYeXtQgY+unztm6MPCvkGnfsvk
+ f3PTPm2fW92OAcKxx6H6yr2MK2JtaLmGQD83Z9hqnAvvYPDRrfp+ktxGEtsTyYiM32FL
+ yhCg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV7aBMDeWMtjjBL5cU0TvpuRztW/SraOrRLKABDjZquoIaHp230FKY3D878mRxQER32GL5koWmUtCx9GGkwWZjbo0QDBBoTbkl7gSgNzrc7LQsVRF5Ebw4fAVCy8enxmsCcW9CakrC3SBs7nLfRTg==
+X-Gm-Message-State: AOJu0Yw62D1659/t77oX6za42LFIpen7O3d91plX78KgfvPQ+/JZLYlF
+ F32asY1AbdwfC02rav+gOg0mstpr5CnjqLPLC/hYnj0iH1zGinuhDRlqn1+BfZU3N1uQ+3SgBGn
+ zYGM5NckSy2x72Dip7DibYzrcKnQ=
+X-Google-Smtp-Source: AGHT+IHuIEOhrQ3Rmb46wwD20rShh9vfJ6Oe6qY45TKKBytn7QHIFy7GIpyLpD5/uKDSKxuGf9eSQ61Ze9qN6N70Rfg=
+X-Received: by 2002:a05:6102:304d:b0:472:6e61:8df9 with SMTP id
+ w13-20020a056102304d00b004726e618df9mr6899732vsa.3.1709742604172; Wed, 06 Mar
+ 2024 08:30:04 -0800 (PST)
+MIME-Version: 1.0
 References: <20240306090408.3453152-1-sunil.khatri@amd.com>
  <2f792620-fd8a-412e-9130-e276ba36d5a0@amd.com>
  <5e2899cd-75b4-4ddd-97ff-4e10a2e67fbb@amd.com>
@@ -66,72 +63,24 @@ References: <20240306090408.3453152-1-sunil.khatri@amd.com>
  <0df75ff4-ece5-4eaa-93bd-6f03ec31ecfa@amd.com>
  <bfaaad63-a5d7-4ceb-8e1c-d541f76f4037@amd.com>
  <852e4f0e-c743-44c2-a2bb-59f0e8e25e1b@amd.com>
- <0be0df75-9794-4b7a-a975-a5ea86b7d3f3@amd.com>
-From: "Khatri, Sunil" <sukhatri@amd.com>
-In-Reply-To: <0be0df75-9794-4b7a-a975-a5ea86b7d3f3@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA1P287CA0009.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a00:35::17) To PH7PR12MB5596.namprd12.prod.outlook.com
- (2603:10b6:510:136::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5596:EE_|MN0PR12MB6174:EE_
-X-MS-Office365-Filtering-Correlation-Id: 46167744-8c53-47fc-7100-08dc3dfa3d9e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5MXFesnD6hulsVdLyu9+auv5ai1V4KoshAnJy9ilziPnUIyJTdtwD5oUQMQy9aq7iGCAil9bzlAHC/zllC+N0Mtx2J8JGo6tkZVKVIzmzg7l9WELgeFbGWUlztwj0mnuW1YQUU7fTuqgfghS+WqqB1fcFxyyq8Oe5D70YMfs/5P/O14SyAKj3Qf8z5ybY5X+Om0uPZdtIDbdiVe3gZSE5SEaPp+H1j8B/IZhGquvRzyZwsGqQR4eXOnf4ATaxBAE061eTGyslyVJk7nGda32aoyyUTYpeOwoKIuL5A7BTczGMBZFboGD4W+AfSYIuw0as6nVtuDXJUiFBWvPOLsGirXIu9gd9X9so2mE79t8NGoROqldi1ze1ZIRue5X/+1Ibps5gl7sht6iWA+rjVBReZ4lXA6CFqhD9bL/ZfRTi/N5oqcXMZTfCy4DeEh+oIkCY8TRfZw/JDNWziCCeboWJ+LhvZG3LEZTr8C2cGWC4uOmKZ9Mrt60OEdWG5wZykXx+WOkudgqorK8BxHHFAFJndpuex3gMN3QvFEfzTv3FQeR46+AJe+Vl2Y+fEkOivtVSCeJ+SfDiKaxqMv1PGj96lU13XQdQ3iK44IVWzoxqT7Kh4Ecn9Ms0kNfB2yYS9/Y
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5596.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NWM4anNJUG1aeXlvNHZMSkh2bUcxcFJqdVJ5Rmlxa3MwL3F3Wm1CUU94Szdz?=
- =?utf-8?B?WXg5UVRjMytTczBlZFhtd0FURjM1TDJZeFJ0YjJ3WHlRU2VHU01IZ3NUbyt6?=
- =?utf-8?B?R3BwcHRxd0R1S0x6NGpOT0IxMGVxK3B1enNPYlpyUFNpbm81Y1FaYVJpMTdW?=
- =?utf-8?B?Zk4vQ1VIRmt6M1kxaHZ5VWsyUExnQ215R0puR3FzMVV2N2paNUV0VkxmNFRr?=
- =?utf-8?B?ZFhwSFlSY3BrS3cvbEgxYWt1eit3UG5rWnltMk1Zcmo2eXNHOS9TNjc4ZlZO?=
- =?utf-8?B?NGZiNExoWEV2SDBhSVNweUZRMGx1MS8xcWxEWm1VVFNiLytWSmR2MkhlSTY5?=
- =?utf-8?B?MlRjZXhaSjBaajNTSUhzdmNOUmRGRG8ycGV4Q0Q4b1dYOG41ckJoMHhOS1Y1?=
- =?utf-8?B?T3EwOHZIM2JCNlBsVElVdWFjc1AyQUthaDJJTDI2N1dpbHZEU1FnTVRnVG81?=
- =?utf-8?B?Q1g2QXBnek9raHJ5N2lySkN3UjRleE41T2w4UkthTm5aanp4dmhuZkhwQlR2?=
- =?utf-8?B?R0k1NEx1K0xwOGNiVFNUdWVxQzJxNXNaNlM4OEZwbzBLbm5YYTA0dStmWVZn?=
- =?utf-8?B?aHNGVTdFandxSXlxMWdrZG1JNlJkSWdpcmlFQStORi9xeDhlRDJ6ajBRdVhm?=
- =?utf-8?B?Nnp4UElFVUVKYTd3NmJIRjIyeklpa3lRUnVVL2NJY3c3Sjh1VlQ4NWdNZi8v?=
- =?utf-8?B?UjVEVFlXOXYzdG1BSG13SjRIaGxiNWM4SmJieHBuNXFOZlpGQjlwOHFRU0Ju?=
- =?utf-8?B?aktISm5JaGt5SnhFQjk1Q0JZQThiS1Z5dURDY25ITFVMbm53dXNhWnFQcWZv?=
- =?utf-8?B?OVhCd3c3SnJkcDdUV0RKQVlYWVYzRW5wdzJxd1B1dEx5MFRUTkRuckVxcmRO?=
- =?utf-8?B?dlVjOXhFVWhHQU9JMG9pck93U0NYU3dUdlhraG13eTRlVVVoRWNoR3hwWlJK?=
- =?utf-8?B?dDNBd0p1ejM4czdRbGRUWnVHSjE3T1dMWk5GQTg5b0M5NnVBWTJ1emZIL0pI?=
- =?utf-8?B?ZkxsL3YxY1FYK3ZKR2Rzc0RsVEczWitZM3BTdUNNQmZNdkZsUFI3OHVRU1Jq?=
- =?utf-8?B?TFJVV1FhZXFMaUR3dkZPQk90cmdYa2MweE5PZjEyTTdqU3FFeFBUbXJ2bWdE?=
- =?utf-8?B?SW9NTzkyM1JlL3BtcFBkL2pQQ2VpcS9wajd6TGNscTJsRVNDZzJMbE4wWGtu?=
- =?utf-8?B?SmZ0MU5wem00Q2FIOVdja2lFdEtaWGhKeWtubHYzL1lWaG05VUx5WjVzc29t?=
- =?utf-8?B?NjZ2bzhKVmxmRmphSURuTmV2VnZ2ZzVWd29aZW9aNjQ5REdxUEZlbmxHWjNo?=
- =?utf-8?B?cGFnaHEvZWxGZ2pBdzBURnJHQ256SnFJYURIUkdZK1Z5WTZuUVNEMzNlbnVU?=
- =?utf-8?B?UFlmYUxYRlRTcGYybEtyTGNmcHBQc2ZhRXNHWWxlL0lSZkMvUXd2VkVJY0g5?=
- =?utf-8?B?TWtXb2w5MG9zbU9XTUdEd0FNdUtjQjB2ak1SWVlHZ2VCODU3ZnlHVGt2T2Fn?=
- =?utf-8?B?WEwyUUNONnVvYnF5dlkrMzlXRjhKWHcrTzlxNFRSc1p5R0ZsVGFMSUVaVzhM?=
- =?utf-8?B?OWQ3Rlp1KzNRaDhPVU1veGJrMnJPRTBRN2crUitka09VanRmbmZ3LzJWKzZD?=
- =?utf-8?B?OFJMY1JESDY5MGZtamVUWlVrZmMzbnZLMEFuU1VGVGN1dCtZRGxER0VuMXc3?=
- =?utf-8?B?NGdpS0UvV1RXQVZ2RS8rTjJWaWJlYWVZcElTZHQxSTVUbUFET3ZrT0hlWW5J?=
- =?utf-8?B?bklsUktxeE00TmRmOFJweVV0Q3VsNHkzQWdJdkI2ZEZpRjRJVEZnaC84UG9r?=
- =?utf-8?B?YUJVaXR5NDU1eWc1Z0hqRFlrUGhoTytxVGtiVFdvVWx2MUlQWklvWlpJUmNB?=
- =?utf-8?B?SE1UYk9mT25hT1J6alR1OEhacFBCSndVN3dGVGZXci80N0g0d2ZWeFMydVIw?=
- =?utf-8?B?dlhPM1JwL2htbFhPdFFhMEFlNzRnWjZ2QnNCdFdPUVliWXF3RTlsakxsOXZl?=
- =?utf-8?B?Qy91Ymk1bWpCbXFETjBNdlJBcHBLNERUVTFhQUh2cGwxSG5lMFlmMU1Sd2tQ?=
- =?utf-8?B?em40ZjdERlViOHk1cTN5cUpYeTRtOHJlQXJKaFV4RkVidUlGMVNYcEpQaWJv?=
- =?utf-8?Q?dP0wBvpmGW1EHu+LWGV42dZxI?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 46167744-8c53-47fc-7100-08dc3dfa3d9e
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5596.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2024 16:26:56.6117 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NVOZrSwOkp0Eeu/8rw1W4ONAXwxejH5r7RPBz1kRwyqOqECO4iMIjJ4DB0zN2qyjzYs//stJv7TX5MEYWPUxoA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6174
+ <CADnq5_MzPxxGHEUuZBv9AWZ0cfdurPxf6jvXxuTPfTkJ5he3yQ@mail.gmail.com>
+ <81f2c1bf-6c44-4d7c-aab5-83fa097a21ff@amd.com>
+In-Reply-To: <81f2c1bf-6c44-4d7c-aab5-83fa097a21ff@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 6 Mar 2024 11:29:51 -0500
+Message-ID: <CADnq5_MRZSJ3uzfyaHvzt63pEvoXki3K-UoLrNVKV2wAcB2J_g@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: cache in more vm fault information
+To: "Khatri, Sunil" <sukhatri@amd.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ Sunil Khatri <sunil.khatri@amd.com>, Alex Deucher <alexander.deucher@amd.com>, 
+ Shashank Sharma <shashank.sharma@amd.com>, amd-gfx@lists.freedesktop.org, 
+ Pan@rtg-sunil-navi33.amd.com, Xinhui <Xinhui.Pan@amd.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Mukul Joshi <mukul.joshi@amd.com>, 
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,406 +96,415 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Mar 6, 2024 at 11:21=E2=80=AFAM Khatri, Sunil <sukhatri@amd.com> wr=
+ote:
+>
+>
+> On 3/6/2024 9:45 PM, Alex Deucher wrote:
+> > On Wed, Mar 6, 2024 at 11:06=E2=80=AFAM Khatri, Sunil <sukhatri@amd.com=
+> wrote:
+> >>
+> >> On 3/6/2024 9:07 PM, Christian K=C3=B6nig wrote:
+> >>> Am 06.03.24 um 16:13 schrieb Khatri, Sunil:
+> >>>> On 3/6/2024 8:34 PM, Christian K=C3=B6nig wrote:
+> >>>>> Am 06.03.24 um 15:29 schrieb Alex Deucher:
+> >>>>>> On Wed, Mar 6, 2024 at 8:04=E2=80=AFAM Khatri, Sunil <sukhatri@amd=
+.com> wrote:
+> >>>>>>> On 3/6/2024 6:12 PM, Christian K=C3=B6nig wrote:
+> >>>>>>>> Am 06.03.24 um 11:40 schrieb Khatri, Sunil:
+> >>>>>>>>> On 3/6/2024 3:37 PM, Christian K=C3=B6nig wrote:
+> >>>>>>>>>> Am 06.03.24 um 10:04 schrieb Sunil Khatri:
+> >>>>>>>>>>> When an  page fault interrupt is raised there
+> >>>>>>>>>>> is a lot more information that is useful for
+> >>>>>>>>>>> developers to analyse the pagefault.
+> >>>>>>>>>> Well actually those information are not that interesting becau=
+se
+> >>>>>>>>>> they are hw generation specific.
+> >>>>>>>>>>
+> >>>>>>>>>> You should probably rather use the decoded strings here, e.g. =
+hub,
+> >>>>>>>>>> client, xcc_id, node_id etc...
+> >>>>>>>>>>
+> >>>>>>>>>> See gmc_v9_0_process_interrupt() an example.
+> >>>>>>>>>> I saw this v9 does provide more information than what v10 and =
+v11
+> >>>>>>>>>> provide like node_id and fault from which die but thats again =
+very
+> >>>>>>>>>> specific to IP_VERSION(9, 4, 3)) i dont know why thats informa=
+tion
+> >>>>>>>>>> is not there in v10 and v11.
+> >>>>>>>>> I agree to your point but, as of now during a pagefault we are
+> >>>>>>>>> dumping this information which is useful like which client
+> >>>>>>>>> has generated an interrupt and for which src and other informat=
+ion
+> >>>>>>>>> like address. So i think to provide the similar information in =
+the
+> >>>>>>>>> devcoredump.
+> >>>>>>>>>
+> >>>>>>>>> Currently we do not have all this information from either job o=
+r vm
+> >>>>>>>>> being derived from the job during a reset. We surely could add =
+more
+> >>>>>>>>> relevant information later on as per request but this
+> >>>>>>>>> information is
+> >>>>>>>>> useful as
+> >>>>>>>>> eventually its developers only who would use the dump file prov=
+ided
+> >>>>>>>>> by customer to debug.
+> >>>>>>>>>
+> >>>>>>>>> Below is the information that i dump in devcore and i feel that=
+ is
+> >>>>>>>>> good information but new information could be added which could=
+ be
+> >>>>>>>>> picked later.
+> >>>>>>>>>
+> >>>>>>>>>> Page fault information
+> >>>>>>>>>> [gfxhub] page fault (src_id:0 ring:24 vmid:3 pasid:32773)
+> >>>>>>>>>> in page starting at address 0x0000000000000000 from client 0x1=
+b
+> >>>>>>>>>> (UTCL2)
+> >>>>>>>> This is a perfect example what I mean. You record in the patch i=
+s
+> >>>>>>>> the
+> >>>>>>>> client_id, but this is is basically meaningless unless you have
+> >>>>>>>> access
+> >>>>>>>> to the AMD internal hw documentation.
+> >>>>>>>>
+> >>>>>>>> What you really need is the client in decoded form, in this case
+> >>>>>>>> UTCL2. You can keep the client_id additionally, but the decoded
+> >>>>>>>> client
+> >>>>>>>> string is mandatory to have I think.
+> >>>>>>>>
+> >>>>>>>> Sure i am capturing that information as i am trying to minimise =
+the
+> >>>>>>>> memory interaction to minimum as we are still in interrupt conte=
+xt
+> >>>>>>>> here that why i recorded the integer information compared to
+> >>>>>>>> decoding
+> >>>>>>> and writing strings there itself but to postpone till we dump.
+> >>>>>>>
+> >>>>>>> Like decoding to the gfxhub/mmhub based on vmhub/vmid_src and cli=
+ent
+> >>>>>>> string from client id. So are we good to go with the information =
+with
+> >>>>>>> the above information of sharing details in devcoredump using the
+> >>>>>>> additional information from pagefault cached.
+> >>>>>> I think amdgpu_vm_fault_info() has everything you need already (vm=
+hub,
+> >>>>>> status, and addr).  client_id and src_id are just tokens in the
+> >>>>>> interrupt cookie so we know which IP to route the interrupt to. We
+> >>>>>> know what they will be because otherwise we'd be in the interrupt
+> >>>>>> handler for a different IP.  I don't think ring_id has any useful
+> >>>>>> information in this context and vmid and pasid are probably not to=
+o
+> >>>>>> useful because they are just tokens to associate the fault with a
+> >>>>>> process.  It would be better to have the process name.
+> >>>> Just to share context here Alex, i am preparing this for devcoredump=
+,
+> >>>> my intention was to replicate the information which in KMD we are
+> >>>> sharing in Dmesg for page faults. If assuming we do not add client i=
+d
+> >>>> specially we would not be able to share enough information in
+> >>>> devcoredump.
+> >>>> It would be just address and hub(gfxhub/mmhub) and i think that is
+> >>>> partial information as src id and client id and ip block shares good
+> >>>> information.
+> >>>>
+> >>>> For process related information we are capturing that information
+> >>>> part of dump from existing functionality.
+> >>>> **** AMDGPU Device Coredump ****
+> >>>> version: 1
+> >>>> kernel: 6.7.0-amd-staging-drm-next
+> >>>> module: amdgpu
+> >>>> time: 45.084775181
+> >>>> process_name: soft_recovery_p PID: 1780
+> >>>>
+> >>>> Ring timed out details
+> >>>> IP Type: 0 Ring Name: gfx_0.0.0
+> >>>>
+> >>>> Page fault information
+> >>>> [gfxhub] page fault (src_id:0 ring:24 vmid:3 pasid:32773)
+> >>>> in page starting at address 0x0000000000000000 from client 0x1b (UTC=
+L2)
+> >>>> VRAM is lost due to GPU reset!
+> >>>>
+> >>>> Regards
+> >>>> Sunil
+> >>>>
+> >>>>> The decoded client name would be really useful I think since the
+> >>>>> fault handled is a catch all and handles a whole bunch of different
+> >>>>> clients.
+> >>>>>
+> >>>>> But that should be ideally passed in as const string instead of the
+> >>>>> hw generation specific client_id.
+> >>>>>
+> >>>>> As long as it's only a pointer we also don't run into the trouble
+> >>>>> that we need to allocate memory for it.
+> >>>> I agree but i prefer adding the client id and decoding it in
+> >>>> devcorecump using soc15_ih_clientid_name[fault_info->client_id]) is
+> >>>> better else we have to do an sprintf this string to fault_info in ir=
+q
+> >>>> context which is writing more bytes to memory i guess compared to an
+> >>>> integer:)
+> >>> Well I totally agree that we shouldn't fiddle to much in the interrup=
+t
+> >>> handler, but exactly what you suggest here won't work.
+> >>>
+> >>> The client_id is hw generation specific, so the only one who has that
+> >>> is the hw generation specific fault handler. Just compare the defines
+> >>> here:
+> >>>
+> >>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/amd/am=
+dgpu/gmc_v9_0.c#L83
+> >>>
+> >>>
+> >>> and here:
+> >>>
+> >>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/amd/am=
+dgpu/gfxhub_v11_5_0.c#L38
+> >>>
+> >>>
+> >> Got your point. Let me see but this is a lot of work in irq context.
+> >> Either we can drop totally the client id thing as alex is suggesting
+> >> here as its always be same client and src id or let me come up with a
+> >> patch and see if its acceptable.
+> >>
+> >> Also as Alex pointed we need to decode from status register which kind
+> >> of page fault it is (permission, read, write etc) this all is again
+> >> family specific and thats all in IRQ context. Not feeling good about i=
+t
+> >> but let me try to share all that in a new patch.
+> >>
+> > I don't think you need to decode it.  As long as you have a way to
+> > identify the chip, we can just include the raw status register and the
+> > developer can decode it when they look at the devcoredump.
+>
+> Got it Alex.
+> I will try to add chip information along with status register value
+> only. We have below two values in adev, i think this along with status
+> register should suffice.
+> enum amd_asic_type        asic_type;
 
-On 3/6/2024 9:49 PM, Christian König wrote:
-> Am 06.03.24 um 17:06 schrieb Khatri, Sunil:
->>
->> On 3/6/2024 9:07 PM, Christian König wrote:
->>> Am 06.03.24 um 16:13 schrieb Khatri, Sunil:
->>>>
->>>> On 3/6/2024 8:34 PM, Christian König wrote:
->>>>> Am 06.03.24 um 15:29 schrieb Alex Deucher:
->>>>>> On Wed, Mar 6, 2024 at 8:04 AM Khatri, Sunil <sukhatri@amd.com> 
->>>>>> wrote:
->>>>>>>
->>>>>>> On 3/6/2024 6:12 PM, Christian König wrote:
->>>>>>>> Am 06.03.24 um 11:40 schrieb Khatri, Sunil:
->>>>>>>>> On 3/6/2024 3:37 PM, Christian König wrote:
->>>>>>>>>> Am 06.03.24 um 10:04 schrieb Sunil Khatri:
->>>>>>>>>>> When an  page fault interrupt is raised there
->>>>>>>>>>> is a lot more information that is useful for
->>>>>>>>>>> developers to analyse the pagefault.
->>>>>>>>>> Well actually those information are not that interesting because
->>>>>>>>>> they are hw generation specific.
->>>>>>>>>>
->>>>>>>>>> You should probably rather use the decoded strings here, e.g. 
->>>>>>>>>> hub,
->>>>>>>>>> client, xcc_id, node_id etc...
->>>>>>>>>>
->>>>>>>>>> See gmc_v9_0_process_interrupt() an example.
->>>>>>>>>> I saw this v9 does provide more information than what v10 and 
->>>>>>>>>> v11
->>>>>>>>>> provide like node_id and fault from which die but thats again 
->>>>>>>>>> very
->>>>>>>>>> specific to IP_VERSION(9, 4, 3)) i dont know why thats 
->>>>>>>>>> information
->>>>>>>>>> is not there in v10 and v11.
->>>>>>>>> I agree to your point but, as of now during a pagefault we are
->>>>>>>>> dumping this information which is useful like which client
->>>>>>>>> has generated an interrupt and for which src and other 
->>>>>>>>> information
->>>>>>>>> like address. So i think to provide the similar information in 
->>>>>>>>> the
->>>>>>>>> devcoredump.
->>>>>>>>>
->>>>>>>>> Currently we do not have all this information from either job 
->>>>>>>>> or vm
->>>>>>>>> being derived from the job during a reset. We surely could add 
->>>>>>>>> more
->>>>>>>>> relevant information later on as per request but this 
->>>>>>>>> information is
->>>>>>>>> useful as
->>>>>>>>> eventually its developers only who would use the dump file 
->>>>>>>>> provided
->>>>>>>>> by customer to debug.
->>>>>>>>>
->>>>>>>>> Below is the information that i dump in devcore and i feel 
->>>>>>>>> that is
->>>>>>>>> good information but new information could be added which 
->>>>>>>>> could be
->>>>>>>>> picked later.
->>>>>>>>>
->>>>>>>>>> Page fault information
->>>>>>>>>> [gfxhub] page fault (src_id:0 ring:24 vmid:3 pasid:32773)
->>>>>>>>>> in page starting at address 0x0000000000000000 from client 
->>>>>>>>>> 0x1b (UTCL2)
->>>>>>>> This is a perfect example what I mean. You record in the patch 
->>>>>>>> is the
->>>>>>>> client_id, but this is is basically meaningless unless you have 
->>>>>>>> access
->>>>>>>> to the AMD internal hw documentation.
->>>>>>>>
->>>>>>>> What you really need is the client in decoded form, in this case
->>>>>>>> UTCL2. You can keep the client_id additionally, but the decoded 
->>>>>>>> client
->>>>>>>> string is mandatory to have I think.
->>>>>>>>
->>>>>>>> Sure i am capturing that information as i am trying to minimise 
->>>>>>>> the
->>>>>>>> memory interaction to minimum as we are still in interrupt context
->>>>>>>> here that why i recorded the integer information compared to 
->>>>>>>> decoding
->>>>>>> and writing strings there itself but to postpone till we dump.
->>>>>>>
->>>>>>> Like decoding to the gfxhub/mmhub based on vmhub/vmid_src and 
->>>>>>> client
->>>>>>> string from client id. So are we good to go with the information 
->>>>>>> with
->>>>>>> the above information of sharing details in devcoredump using the
->>>>>>> additional information from pagefault cached.
->>>>>> I think amdgpu_vm_fault_info() has everything you need already 
->>>>>> (vmhub,
->>>>>> status, and addr).  client_id and src_id are just tokens in the
->>>>>> interrupt cookie so we know which IP to route the interrupt to. We
->>>>>> know what they will be because otherwise we'd be in the interrupt
->>>>>> handler for a different IP.  I don't think ring_id has any useful
->>>>>> information in this context and vmid and pasid are probably not too
->>>>>> useful because they are just tokens to associate the fault with a
->>>>>> process.  It would be better to have the process name.
->>>>
->>>> Just to share context here Alex, i am preparing this for 
->>>> devcoredump, my intention was to replicate the information which in 
->>>> KMD we are sharing in Dmesg for page faults. If assuming we do not 
->>>> add client id specially we would not be able to share enough 
->>>> information in devcoredump.
->>>> It would be just address and hub(gfxhub/mmhub) and i think that is 
->>>> partial information as src id and client id and ip block shares 
->>>> good information.
->>>>
->>>> For process related information we are capturing that information 
->>>> part of dump from existing functionality.
->>>> **** AMDGPU Device Coredump ****
->>>> version: 1
->>>> kernel: 6.7.0-amd-staging-drm-next
->>>> module: amdgpu
->>>> time: 45.084775181
->>>> process_name: soft_recovery_p PID: 1780
->>>>
->>>> Ring timed out details
->>>> IP Type: 0 Ring Name: gfx_0.0.0
->>>>
->>>> Page fault information
->>>> [gfxhub] page fault (src_id:0 ring:24 vmid:3 pasid:32773)
->>>> in page starting at address 0x0000000000000000 from client 0x1b 
->>>> (UTCL2)
->>>> VRAM is lost due to GPU reset!
->>>>
->>>> Regards
->>>> Sunil
->>>>
->>>>>
->>>>> The decoded client name would be really useful I think since the 
->>>>> fault handled is a catch all and handles a whole bunch of 
->>>>> different clients.
->>>>>
->>>>> But that should be ideally passed in as const string instead of 
->>>>> the hw generation specific client_id.
->>>>>
->>>>> As long as it's only a pointer we also don't run into the trouble 
->>>>> that we need to allocate memory for it.
->>>>
->>>> I agree but i prefer adding the client id and decoding it in 
->>>> devcorecump using soc15_ih_clientid_name[fault_info->client_id]) is 
->>>> better else we have to do an sprintf this string to fault_info in 
->>>> irq context which is writing more bytes to memory i guess compared 
->>>> to an integer:)
->>>
->>> Well I totally agree that we shouldn't fiddle to much in the 
->>> interrupt handler, but exactly what you suggest here won't work.
->>>
->>> The client_id is hw generation specific, so the only one who has 
->>> that is the hw generation specific fault handler. Just compare the 
->>> defines here:
->>>
->>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c#L83 
->>>
->>>
->>> and here:
->>>
->>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/amd/amdgpu/gfxhub_v11_5_0.c#L38 
->>>
->>>
->> Got your point. Let me see but this is a lot of work in irq context. 
->> Either we can drop totally the client id thing as alex is suggesting 
->> here as its always be same client and src id or let me come up with a 
->> patch and see if its acceptable.
->
-> Wait a second, I now realized that you are mixing something up here. 
-> As Alex said the src_id and client_id in the IV are always the same, 
-> e.g. the VMC or the UTCL2.
->
-> This is the client_id which send the IV to IH so that the IH can write 
-> it into the ring buffer and we end up in the fault handler.
->
-> But additional to that we also have a client_id inside the fault and 
-> that is the value printed in the logs. This is the client which caused 
-> the fault inside the VMC or UTCL2.
->
-Yes the value remains the same irrespective of the family. Client always 
-will be VMC/UTCL2 so i think as Alex suggested we can drop this 
-information or just add a hardcoded string for information purposes only.
->>
->> Also as Alex pointed we need to decode from status register which 
->> kind of page fault it is (permission, read, write etc) this all is 
->> again family specific and thats all in IRQ context. Not feeling good 
->> about it but let me try to share all that in a new patch.
->
-> Yeah, but that is all hw specific. I'm not sure how best to put it 
-> into a devcoredump.
->
-> Maybe just record the 32bit value and re-design the GMC code to have 
-> that decoded into a string for both the system log and the devcoredump.
->
-> Alex suggested a good way to just share the value of status register 
-> and add family information and let developer use the family/asic id to 
-> check the register value and decode it manually.
->
-Regards
+You can skip asic_type.  It's not really used anymore.
 
-Sunil.
+> uint32_t            family;
+
+Please also include the PCI DID, VID and RID and
+amdgpu_ip_version(adev, GC_HWIP, 0).  You can include all of the IP
+versions if you want for completeness, but GC should be enough.
+
+Alex
 
 >
+> Regards
+> Sunil Khatri
 >
->>
->> Regards
->> Sunil.
->>
->>> Regards,
->>> Christian.
->>>
->>>>
->>>> We can argue on values like pasid and vmid and ring id to be taken 
->>>> off if they are totally not useful.
->>>>
->>>> Regards
->>>> Sunil
->>>>
->>>>>
->>>>> Christian.
->>>>>
->>>>>>
->>>>>> Alex
->>>>>>
->>>>>>> regards
->>>>>>> sunil
->>>>>>>
->>>>>>>> Regards,
->>>>>>>> Christian.
->>>>>>>>
->>>>>>>>> Regards
->>>>>>>>> Sunil Khatri
->>>>>>>>>
->>>>>>>>>> Regards,
->>>>>>>>>> Christian.
->>>>>>>>>>
->>>>>>>>>>> Add all such information in the last cached
->>>>>>>>>>> pagefault from an interrupt handler.
->>>>>>>>>>>
->>>>>>>>>>> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
->>>>>>>>>>> ---
->>>>>>>>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 9 +++++++--
->>>>>>>>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h | 7 ++++++-
->>>>>>>>>>>    drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c | 2 +-
->>>>>>>>>>>    drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c | 2 +-
->>>>>>>>>>>    drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c  | 2 +-
->>>>>>>>>>>    drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c  | 2 +-
->>>>>>>>>>>    drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c  | 2 +-
->>>>>>>>>>>    7 files changed, 18 insertions(+), 8 deletions(-)
->>>>>>>>>>>
->>>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->>>>>>>>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->>>>>>>>>>> index 4299ce386322..b77e8e28769d 100644
->>>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->>>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->>>>>>>>>>> @@ -2905,7 +2905,7 @@ void amdgpu_debugfs_vm_bo_info(struct
->>>>>>>>>>> amdgpu_vm *vm, struct seq_file *m)
->>>>>>>>>>>     * Cache the fault info for later use by userspace in 
->>>>>>>>>>> debugging.
->>>>>>>>>>>     */
->>>>>>>>>>>    void amdgpu_vm_update_fault_cache(struct amdgpu_device 
->>>>>>>>>>> *adev,
->>>>>>>>>>> -                  unsigned int pasid,
->>>>>>>>>>> +                  struct amdgpu_iv_entry *entry,
->>>>>>>>>>>                      uint64_t addr,
->>>>>>>>>>>                      uint32_t status,
->>>>>>>>>>>                      unsigned int vmhub)
->>>>>>>>>>> @@ -2915,7 +2915,7 @@ void amdgpu_vm_update_fault_cache(struct
->>>>>>>>>>> amdgpu_device *adev,
->>>>>>>>>>> xa_lock_irqsave(&adev->vm_manager.pasids, flags);
->>>>>>>>>>>    -    vm = xa_load(&adev->vm_manager.pasids, pasid);
->>>>>>>>>>> +    vm = xa_load(&adev->vm_manager.pasids, entry->pasid);
->>>>>>>>>>>        /* Don't update the fault cache if status is 0.  In 
->>>>>>>>>>> the multiple
->>>>>>>>>>>         * fault case, subsequent faults will return a 0 
->>>>>>>>>>> status which is
->>>>>>>>>>>         * useless for userspace and replaces the useful fault
->>>>>>>>>>> status, so
->>>>>>>>>>> @@ -2924,6 +2924,11 @@ void amdgpu_vm_update_fault_cache(struct
->>>>>>>>>>> amdgpu_device *adev,
->>>>>>>>>>>        if (vm && status) {
->>>>>>>>>>>            vm->fault_info.addr = addr;
->>>>>>>>>>>            vm->fault_info.status = status;
->>>>>>>>>>> +        vm->fault_info.client_id = entry->client_id;
->>>>>>>>>>> +        vm->fault_info.src_id = entry->src_id;
->>>>>>>>>>> +        vm->fault_info.vmid = entry->vmid;
->>>>>>>>>>> +        vm->fault_info.pasid = entry->pasid;
->>>>>>>>>>> +        vm->fault_info.ring_id = entry->ring_id;
->>>>>>>>>>>            if (AMDGPU_IS_GFXHUB(vmhub)) {
->>>>>>>>>>>                vm->fault_info.vmhub = AMDGPU_VMHUB_TYPE_GFX;
->>>>>>>>>>>                vm->fault_info.vmhub |=
->>>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
->>>>>>>>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
->>>>>>>>>>> index 047ec1930d12..c7782a89bdb5 100644
->>>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
->>>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
->>>>>>>>>>> @@ -286,6 +286,11 @@ struct amdgpu_vm_fault_info {
->>>>>>>>>>>        uint32_t    status;
->>>>>>>>>>>        /* which vmhub? gfxhub, mmhub, etc. */
->>>>>>>>>>>        unsigned int    vmhub;
->>>>>>>>>>> +    unsigned int    client_id;
->>>>>>>>>>> +    unsigned int    src_id;
->>>>>>>>>>> +    unsigned int    ring_id;
->>>>>>>>>>> +    unsigned int    pasid;
->>>>>>>>>>> +    unsigned int    vmid;
->>>>>>>>>>>    };
->>>>>>>>>>>      struct amdgpu_vm {
->>>>>>>>>>> @@ -605,7 +610,7 @@ static inline void
->>>>>>>>>>> amdgpu_vm_eviction_unlock(struct amdgpu_vm *vm)
->>>>>>>>>>>    }
->>>>>>>>>>>      void amdgpu_vm_update_fault_cache(struct amdgpu_device 
->>>>>>>>>>> *adev,
->>>>>>>>>>> -                  unsigned int pasid,
->>>>>>>>>>> +                  struct amdgpu_iv_entry *entry,
->>>>>>>>>>>                      uint64_t addr,
->>>>>>>>>>>                      uint32_t status,
->>>>>>>>>>>                      unsigned int vmhub);
->>>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
->>>>>>>>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
->>>>>>>>>>> index d933e19e0cf5..6b177ce8db0e 100644
->>>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
->>>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
->>>>>>>>>>> @@ -150,7 +150,7 @@ static int 
->>>>>>>>>>> gmc_v10_0_process_interrupt(struct
->>>>>>>>>>> amdgpu_device *adev,
->>>>>>>>>>>            status = RREG32(hub->vm_l2_pro_fault_status);
->>>>>>>>>>> WREG32_P(hub->vm_l2_pro_fault_cntl, 1, ~1);
->>>>>>>>>>>    -        amdgpu_vm_update_fault_cache(adev, entry->pasid, 
->>>>>>>>>>> addr,
->>>>>>>>>>> status,
->>>>>>>>>>> +        amdgpu_vm_update_fault_cache(adev, entry, addr, 
->>>>>>>>>>> status,
->>>>>>>>>>>                             entry->vmid_src ? 
->>>>>>>>>>> AMDGPU_MMHUB0(0) :
->>>>>>>>>>> AMDGPU_GFXHUB(0));
->>>>>>>>>>>        }
->>>>>>>>>>>    diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
->>>>>>>>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
->>>>>>>>>>> index 527dc917e049..bcf254856a3e 100644
->>>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
->>>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
->>>>>>>>>>> @@ -121,7 +121,7 @@ static int 
->>>>>>>>>>> gmc_v11_0_process_interrupt(struct
->>>>>>>>>>> amdgpu_device *adev,
->>>>>>>>>>>            status = RREG32(hub->vm_l2_pro_fault_status);
->>>>>>>>>>> WREG32_P(hub->vm_l2_pro_fault_cntl, 1, ~1);
->>>>>>>>>>>    -        amdgpu_vm_update_fault_cache(adev, entry->pasid, 
->>>>>>>>>>> addr,
->>>>>>>>>>> status,
->>>>>>>>>>> +        amdgpu_vm_update_fault_cache(adev, entry, addr, 
->>>>>>>>>>> status,
->>>>>>>>>>>                             entry->vmid_src ? 
->>>>>>>>>>> AMDGPU_MMHUB0(0) :
->>>>>>>>>>> AMDGPU_GFXHUB(0));
->>>>>>>>>>>        }
->>>>>>>>>>>    diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
->>>>>>>>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
->>>>>>>>>>> index 3da7b6a2b00d..e9517ebbe1fd 100644
->>>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
->>>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
->>>>>>>>>>> @@ -1270,7 +1270,7 @@ static int 
->>>>>>>>>>> gmc_v7_0_process_interrupt(struct
->>>>>>>>>>> amdgpu_device *adev,
->>>>>>>>>>>        if (!addr && !status)
->>>>>>>>>>>            return 0;
->>>>>>>>>>>    -    amdgpu_vm_update_fault_cache(adev, entry->pasid,
->>>>>>>>>>> +    amdgpu_vm_update_fault_cache(adev, entry,
->>>>>>>>>>>                         ((u64)addr) << AMDGPU_GPU_PAGE_SHIFT,
->>>>>>>>>>> status, AMDGPU_GFXHUB(0));
->>>>>>>>>>>          if (amdgpu_vm_fault_stop == 
->>>>>>>>>>> AMDGPU_VM_FAULT_STOP_FIRST)
->>>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
->>>>>>>>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
->>>>>>>>>>> index d20e5f20ee31..a271bf832312 100644
->>>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
->>>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
->>>>>>>>>>> @@ -1438,7 +1438,7 @@ static int 
->>>>>>>>>>> gmc_v8_0_process_interrupt(struct
->>>>>>>>>>> amdgpu_device *adev,
->>>>>>>>>>>        if (!addr && !status)
->>>>>>>>>>>            return 0;
->>>>>>>>>>>    -    amdgpu_vm_update_fault_cache(adev, entry->pasid,
->>>>>>>>>>> +    amdgpu_vm_update_fault_cache(adev, entry,
->>>>>>>>>>>                         ((u64)addr) << AMDGPU_GPU_PAGE_SHIFT,
->>>>>>>>>>> status, AMDGPU_GFXHUB(0));
->>>>>>>>>>>          if (amdgpu_vm_fault_stop == 
->>>>>>>>>>> AMDGPU_VM_FAULT_STOP_FIRST)
->>>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
->>>>>>>>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
->>>>>>>>>>> index 47b63a4ce68b..dc9fb1fb9540 100644
->>>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
->>>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
->>>>>>>>>>> @@ -666,7 +666,7 @@ static int 
->>>>>>>>>>> gmc_v9_0_process_interrupt(struct
->>>>>>>>>>> amdgpu_device *adev,
->>>>>>>>>>>        rw = REG_GET_FIELD(status, 
->>>>>>>>>>> VM_L2_PROTECTION_FAULT_STATUS, RW);
->>>>>>>>>>>        WREG32_P(hub->vm_l2_pro_fault_cntl, 1, ~1);
->>>>>>>>>>>    -    amdgpu_vm_update_fault_cache(adev, entry->pasid, addr,
->>>>>>>>>>> status, vmhub);
->>>>>>>>>>> +    amdgpu_vm_update_fault_cache(adev, entry, addr, status, 
->>>>>>>>>>> vmhub);
->>>>>>>>>>>          dev_err(adev->dev,
->>>>>>>>>>> "VM_L2_PROTECTION_FAULT_STATUS:0x%08X\n",
->>>>>
->>>
->
+> >
+> > Alex
+> >
+> >
+> >> Regards
+> >> Sunil.
+> >>
+> >>> Regards,
+> >>> Christian.
+> >>>
+> >>>> We can argue on values like pasid and vmid and ring id to be taken
+> >>>> off if they are totally not useful.
+> >>>>
+> >>>> Regards
+> >>>> Sunil
+> >>>>
+> >>>>> Christian.
+> >>>>>
+> >>>>>> Alex
+> >>>>>>
+> >>>>>>> regards
+> >>>>>>> sunil
+> >>>>>>>
+> >>>>>>>> Regards,
+> >>>>>>>> Christian.
+> >>>>>>>>
+> >>>>>>>>> Regards
+> >>>>>>>>> Sunil Khatri
+> >>>>>>>>>
+> >>>>>>>>>> Regards,
+> >>>>>>>>>> Christian.
+> >>>>>>>>>>
+> >>>>>>>>>>> Add all such information in the last cached
+> >>>>>>>>>>> pagefault from an interrupt handler.
+> >>>>>>>>>>>
+> >>>>>>>>>>> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
+> >>>>>>>>>>> ---
+> >>>>>>>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 9 +++++++--
+> >>>>>>>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h | 7 ++++++-
+> >>>>>>>>>>>     drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c | 2 +-
+> >>>>>>>>>>>     drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c | 2 +-
+> >>>>>>>>>>>     drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c  | 2 +-
+> >>>>>>>>>>>     drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c  | 2 +-
+> >>>>>>>>>>>     drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c  | 2 +-
+> >>>>>>>>>>>     7 files changed, 18 insertions(+), 8 deletions(-)
+> >>>>>>>>>>>
+> >>>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> >>>>>>>>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> >>>>>>>>>>> index 4299ce386322..b77e8e28769d 100644
+> >>>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> >>>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> >>>>>>>>>>> @@ -2905,7 +2905,7 @@ void amdgpu_debugfs_vm_bo_info(struct
+> >>>>>>>>>>> amdgpu_vm *vm, struct seq_file *m)
+> >>>>>>>>>>>      * Cache the fault info for later use by userspace in
+> >>>>>>>>>>> debugging.
+> >>>>>>>>>>>      */
+> >>>>>>>>>>>     void amdgpu_vm_update_fault_cache(struct amdgpu_device *a=
+dev,
+> >>>>>>>>>>> -                  unsigned int pasid,
+> >>>>>>>>>>> +                  struct amdgpu_iv_entry *entry,
+> >>>>>>>>>>>                       uint64_t addr,
+> >>>>>>>>>>>                       uint32_t status,
+> >>>>>>>>>>>                       unsigned int vmhub)
+> >>>>>>>>>>> @@ -2915,7 +2915,7 @@ void amdgpu_vm_update_fault_cache(struc=
+t
+> >>>>>>>>>>> amdgpu_device *adev,
+> >>>>>>>>>>> xa_lock_irqsave(&adev->vm_manager.pasids, flags);
+> >>>>>>>>>>>     -    vm =3D xa_load(&adev->vm_manager.pasids, pasid);
+> >>>>>>>>>>> +    vm =3D xa_load(&adev->vm_manager.pasids, entry->pasid);
+> >>>>>>>>>>>         /* Don't update the fault cache if status is 0.  In t=
+he
+> >>>>>>>>>>> multiple
+> >>>>>>>>>>>          * fault case, subsequent faults will return a 0 stat=
+us
+> >>>>>>>>>>> which is
+> >>>>>>>>>>>          * useless for userspace and replaces the useful faul=
+t
+> >>>>>>>>>>> status, so
+> >>>>>>>>>>> @@ -2924,6 +2924,11 @@ void amdgpu_vm_update_fault_cache(stru=
+ct
+> >>>>>>>>>>> amdgpu_device *adev,
+> >>>>>>>>>>>         if (vm && status) {
+> >>>>>>>>>>>             vm->fault_info.addr =3D addr;
+> >>>>>>>>>>>             vm->fault_info.status =3D status;
+> >>>>>>>>>>> +        vm->fault_info.client_id =3D entry->client_id;
+> >>>>>>>>>>> +        vm->fault_info.src_id =3D entry->src_id;
+> >>>>>>>>>>> +        vm->fault_info.vmid =3D entry->vmid;
+> >>>>>>>>>>> +        vm->fault_info.pasid =3D entry->pasid;
+> >>>>>>>>>>> +        vm->fault_info.ring_id =3D entry->ring_id;
+> >>>>>>>>>>>             if (AMDGPU_IS_GFXHUB(vmhub)) {
+> >>>>>>>>>>>                 vm->fault_info.vmhub =3D AMDGPU_VMHUB_TYPE_GF=
+X;
+> >>>>>>>>>>>                 vm->fault_info.vmhub |=3D
+> >>>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+> >>>>>>>>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+> >>>>>>>>>>> index 047ec1930d12..c7782a89bdb5 100644
+> >>>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+> >>>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+> >>>>>>>>>>> @@ -286,6 +286,11 @@ struct amdgpu_vm_fault_info {
+> >>>>>>>>>>>         uint32_t    status;
+> >>>>>>>>>>>         /* which vmhub? gfxhub, mmhub, etc. */
+> >>>>>>>>>>>         unsigned int    vmhub;
+> >>>>>>>>>>> +    unsigned int    client_id;
+> >>>>>>>>>>> +    unsigned int    src_id;
+> >>>>>>>>>>> +    unsigned int    ring_id;
+> >>>>>>>>>>> +    unsigned int    pasid;
+> >>>>>>>>>>> +    unsigned int    vmid;
+> >>>>>>>>>>>     };
+> >>>>>>>>>>>       struct amdgpu_vm {
+> >>>>>>>>>>> @@ -605,7 +610,7 @@ static inline void
+> >>>>>>>>>>> amdgpu_vm_eviction_unlock(struct amdgpu_vm *vm)
+> >>>>>>>>>>>     }
+> >>>>>>>>>>>       void amdgpu_vm_update_fault_cache(struct amdgpu_device
+> >>>>>>>>>>> *adev,
+> >>>>>>>>>>> -                  unsigned int pasid,
+> >>>>>>>>>>> +                  struct amdgpu_iv_entry *entry,
+> >>>>>>>>>>>                       uint64_t addr,
+> >>>>>>>>>>>                       uint32_t status,
+> >>>>>>>>>>>                       unsigned int vmhub);
+> >>>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
+> >>>>>>>>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
+> >>>>>>>>>>> index d933e19e0cf5..6b177ce8db0e 100644
+> >>>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
+> >>>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
+> >>>>>>>>>>> @@ -150,7 +150,7 @@ static int gmc_v10_0_process_interrupt(st=
+ruct
+> >>>>>>>>>>> amdgpu_device *adev,
+> >>>>>>>>>>>             status =3D RREG32(hub->vm_l2_pro_fault_status);
+> >>>>>>>>>>>             WREG32_P(hub->vm_l2_pro_fault_cntl, 1, ~1);
+> >>>>>>>>>>>     -        amdgpu_vm_update_fault_cache(adev, entry->pasid,
+> >>>>>>>>>>> addr,
+> >>>>>>>>>>> status,
+> >>>>>>>>>>> +        amdgpu_vm_update_fault_cache(adev, entry, addr, stat=
+us,
+> >>>>>>>>>>>                              entry->vmid_src ? AMDGPU_MMHUB0(=
+0) :
+> >>>>>>>>>>> AMDGPU_GFXHUB(0));
+> >>>>>>>>>>>         }
+> >>>>>>>>>>>     diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
+> >>>>>>>>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
+> >>>>>>>>>>> index 527dc917e049..bcf254856a3e 100644
+> >>>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
+> >>>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
+> >>>>>>>>>>> @@ -121,7 +121,7 @@ static int gmc_v11_0_process_interrupt(st=
+ruct
+> >>>>>>>>>>> amdgpu_device *adev,
+> >>>>>>>>>>>             status =3D RREG32(hub->vm_l2_pro_fault_status);
+> >>>>>>>>>>>             WREG32_P(hub->vm_l2_pro_fault_cntl, 1, ~1);
+> >>>>>>>>>>>     -        amdgpu_vm_update_fault_cache(adev, entry->pasid,
+> >>>>>>>>>>> addr,
+> >>>>>>>>>>> status,
+> >>>>>>>>>>> +        amdgpu_vm_update_fault_cache(adev, entry, addr, stat=
+us,
+> >>>>>>>>>>>                              entry->vmid_src ? AMDGPU_MMHUB0(=
+0) :
+> >>>>>>>>>>> AMDGPU_GFXHUB(0));
+> >>>>>>>>>>>         }
+> >>>>>>>>>>>     diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
+> >>>>>>>>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
+> >>>>>>>>>>> index 3da7b6a2b00d..e9517ebbe1fd 100644
+> >>>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
+> >>>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
+> >>>>>>>>>>> @@ -1270,7 +1270,7 @@ static int
+> >>>>>>>>>>> gmc_v7_0_process_interrupt(struct
+> >>>>>>>>>>> amdgpu_device *adev,
+> >>>>>>>>>>>         if (!addr && !status)
+> >>>>>>>>>>>             return 0;
+> >>>>>>>>>>>     -    amdgpu_vm_update_fault_cache(adev, entry->pasid,
+> >>>>>>>>>>> +    amdgpu_vm_update_fault_cache(adev, entry,
+> >>>>>>>>>>>                          ((u64)addr) << AMDGPU_GPU_PAGE_SHIFT=
+,
+> >>>>>>>>>>> status, AMDGPU_GFXHUB(0));
+> >>>>>>>>>>>           if (amdgpu_vm_fault_stop =3D=3D AMDGPU_VM_FAULT_STO=
+P_FIRST)
+> >>>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
+> >>>>>>>>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
+> >>>>>>>>>>> index d20e5f20ee31..a271bf832312 100644
+> >>>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
+> >>>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
+> >>>>>>>>>>> @@ -1438,7 +1438,7 @@ static int
+> >>>>>>>>>>> gmc_v8_0_process_interrupt(struct
+> >>>>>>>>>>> amdgpu_device *adev,
+> >>>>>>>>>>>         if (!addr && !status)
+> >>>>>>>>>>>             return 0;
+> >>>>>>>>>>>     -    amdgpu_vm_update_fault_cache(adev, entry->pasid,
+> >>>>>>>>>>> +    amdgpu_vm_update_fault_cache(adev, entry,
+> >>>>>>>>>>>                          ((u64)addr) << AMDGPU_GPU_PAGE_SHIFT=
+,
+> >>>>>>>>>>> status, AMDGPU_GFXHUB(0));
+> >>>>>>>>>>>           if (amdgpu_vm_fault_stop =3D=3D AMDGPU_VM_FAULT_STO=
+P_FIRST)
+> >>>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+> >>>>>>>>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+> >>>>>>>>>>> index 47b63a4ce68b..dc9fb1fb9540 100644
+> >>>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+> >>>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+> >>>>>>>>>>> @@ -666,7 +666,7 @@ static int gmc_v9_0_process_interrupt(str=
+uct
+> >>>>>>>>>>> amdgpu_device *adev,
+> >>>>>>>>>>>         rw =3D REG_GET_FIELD(status,
+> >>>>>>>>>>> VM_L2_PROTECTION_FAULT_STATUS, RW);
+> >>>>>>>>>>>         WREG32_P(hub->vm_l2_pro_fault_cntl, 1, ~1);
+> >>>>>>>>>>>     -    amdgpu_vm_update_fault_cache(adev, entry->pasid, add=
+r,
+> >>>>>>>>>>> status, vmhub);
+> >>>>>>>>>>> +    amdgpu_vm_update_fault_cache(adev, entry, addr, status,
+> >>>>>>>>>>> vmhub);
+> >>>>>>>>>>>           dev_err(adev->dev,
+> >>>>>>>>>>> "VM_L2_PROTECTION_FAULT_STATUS:0x%08X\n",
