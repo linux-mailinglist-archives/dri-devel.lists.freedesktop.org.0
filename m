@@ -2,70 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48AF8743D6
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 00:24:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79CA98743DE
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 00:29:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8F5C10E023;
-	Wed,  6 Mar 2024 23:24:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C621910ED38;
+	Wed,  6 Mar 2024 23:29:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="V7gafIm2";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="HEotuD4x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF67110E8D1
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 23:24:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709767459; x=1741303459;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=nxTMNVUWXiY8S9V11c5v9di2lz8F1CQuxnAnPyQIic8=;
- b=V7gafIm2Argm+oC1nWfJpO7XdU0ndEBgSPn5nACj0PcskJRg7ATcIpR+
- gJY4NPvjfr7V909TsCPXk2xWOoge8NLojkHt7GTzg0FVFcs70t4LIGMDO
- bfP/gqHfuLEfWeMjm+XF9lXrvU2EfzsfLKxIZNcMwo1mKZYy5VeScRa7C
- QTaXwtYqNPXimTfvK6ASjXaUYJ5xu4YzFEr68W4wjZWuCTTfCDKzqyTRy
- 9tv3VyuhyfjhMQWU8eG343qxb8M1MJ+iL8+nwiL+BuCx/yc0HzT8zQn6P
- Rp7s1WEjIIyg4brn5ru4rBLfjKwd+9cnHrFMsGP5ZXzKpbn/EnmoMTHcY Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="4558375"
-X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; 
-   d="scan'208";a="4558375"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2024 15:24:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="827774495"
-X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; d="scan'208";a="827774495"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 06 Mar 2024 15:24:13 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 07 Mar 2024 01:24:12 +0200
-Date: Thu, 7 Mar 2024 01:24:12 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Rob Clark <robdclark@gmail.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@redhat.com>,
- David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/udl: Add ARGB8888 as a format
-Message-ID: <Zej7HOLVOAMtWvrn@intel.com>
-References: <20240227141928.1.I24ac8d51544e4624b7e9d438d95880c4283e611b@changeid>
- <60dc7697-d7a0-4bf4-a22e-32f1bbb792c2@suse.de>
- <CAF6AEGs2zCP1SWPzxz4v2CU--yyEsN0+PS3dKM1nOuGyVkCpLg@mail.gmail.com>
- <ZeiGi4l1lL_fYJ69@intel.com>
- <CAF6AEGs1ce2xzuo3xEO+xgj+0iCi59nM8AiTwBfEhwZZ2w6Vww@mail.gmail.com>
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
+ [209.85.160.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94ADC10ED38
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 23:29:41 +0000 (UTC)
+Received: by mail-qt1-f181.google.com with SMTP id
+ d75a77b69052e-42e63a658e1so808951cf.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Mar 2024 15:29:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1709767779; x=1710372579;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=IGsPzppFtUXfRhn5RIjUZ0vV1nkpHRnqu3sV9ck0Fd8=;
+ b=HEotuD4xJVUuOZZddt9MhmtI3KSqc6vFHdpIEweiw1VFzKHQbUDr/H9EB6Y3cxLJdY
+ PKML0BseQhMVBiQwZN3IUAVOvjAKz8NUib0PHW+bWFKsZUwjVoxbAA+mbbX/YFb96UOZ
+ u4juLDP5VBn/1qrV00fqP3Ve0nQRmVJl6hgmY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709767779; x=1710372579;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=IGsPzppFtUXfRhn5RIjUZ0vV1nkpHRnqu3sV9ck0Fd8=;
+ b=gueAC++x7DK1uI4QXPfNy7i1yUnE4Xry/A4ANTt+64FLHVytAwf+LzymJMghCxIshh
+ FHooi4TOa0mmClSQgKtXlFOnr3o0Pl2F8nMEcP4S6aA/BKzTD7nndUtR39wwU9J3A30C
+ h1PY3hYZM+o0XxItcqnc/xY2NpddFUJjnNfkp7386Rs6o0a0pKb4kJQdQfTEz2pwbpTv
+ 7o+TR2c8qKGVZlRy2MGClDJ6HGCKZaskGPrgd1AnaKfAemStdYMWDBJmYg7BOGEuHjDp
+ YQanpHkySd3k14QdJ6nP48XL/6T/kokQN9XrwzoFqe/5TYKQ0G7xMbGCeCNzyP7ZD7zc
+ nzkw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCULDNHprTBn1W/CDP32z9UryOQRdqhrBnFbwjDvy151FGyeWKdPjE3RQjBJo7YxAQlAazfDZlerbLnU0BMAVqn3bXxVR59rA+VTptSBZ+tk
+X-Gm-Message-State: AOJu0YxVtHSNBU3QfHu7gqPhtLQBZQBlQcL/7FB7oZJeJEiAZfEXd0Ct
+ v+Vrtzu76iKeT0dZI5EGwRW3LAfxAct1r7+V5Ta3pwkpAQYDf1pfa/aX2BfI8ehZ9SWR3MojdMc
+ =
+X-Google-Smtp-Source: AGHT+IHvjc2C69R2iBZ7GScu2d0M57yWFZY2beA6/SIecpet13Z6TZeoqV+CL6O2l1xW4Y/+bgyzWw==
+X-Received: by 2002:a05:620a:16b7:b0:788:3fe3:13db with SMTP id
+ s23-20020a05620a16b700b007883fe313dbmr3327815qkj.60.1709767778754; 
+ Wed, 06 Mar 2024 15:29:38 -0800 (PST)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com.
+ [209.85.160.171]) by smtp.gmail.com with ESMTPSA id
+ vv10-20020a05620a562a00b0078835bfddb8sm2273870qkn.84.2024.03.06.15.29.37
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Mar 2024 15:29:37 -0800 (PST)
+Received: by mail-qt1-f171.google.com with SMTP id
+ d75a77b69052e-42ef8193ae6so55521cf.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Mar 2024 15:29:37 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVQyArPn8aKNSMvZS7ewIgSv/jnx1nI+duO0WEoOeXVKAMbxMIdhQRIGnxd5/zn0uqAMiKnIBRHRpz14Oosr/UstXJEGzAiyqG/Arx7K0ft
+X-Received: by 2002:ac8:5dc8:0:b0:42e:eac5:23d7 with SMTP id
+ e8-20020ac85dc8000000b0042eeac523d7mr192594qtx.0.1709767777192; Wed, 06 Mar
+ 2024 15:29:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF6AEGs1ce2xzuo3xEO+xgj+0iCi59nM8AiTwBfEhwZZ2w6Vww@mail.gmail.com>
-X-Patchwork-Hint: comment
+References: <20240306200353.1436198-1-hsinyi@chromium.org>
+ <20240306200353.1436198-2-hsinyi@chromium.org>
+In-Reply-To: <20240306200353.1436198-2-hsinyi@chromium.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 6 Mar 2024 15:29:20 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XcMRLvSU+_QrNMSOo4JH0hPmA-F3HFjOBj=QwHHQy_mA@mail.gmail.com>
+Message-ID: <CAD=FV=XcMRLvSU+_QrNMSOo4JH0hPmA-F3HFjOBj=QwHHQy_mA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/6] drm_edid: Add a function to get EDID base block
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,62 +100,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 06, 2024 at 07:37:16AM -0800, Rob Clark wrote:
-> On Wed, Mar 6, 2024 at 7:06 AM Ville Syrjälä
-> <ville.syrjala@linux.intel.com> wrote:
-> >
-> > On Wed, Mar 06, 2024 at 06:49:15AM -0800, Rob Clark wrote:
-> > > On Wed, Mar 6, 2024 at 4:18 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > > >
-> > > > Hi,
-> > > >
-> > > > sorry that I did not see the patch before.
-> > > >
-> > > > Am 27.02.24 um 23:19 schrieb Douglas Anderson:
-> > > > > Even though the UDL driver converts to RGB565 internally (see
-> > > > > pixel32_to_be16() in udl_transfer.c), it advertises XRGB8888 for
-> > > > > compatibility. Let's add ARGB8888 to that list.
-> > > >
-> > > > We had a heated discussion about the emulation of color formats. It was
-> > > > decided that XRGB8888 is the only format to support; and that's only
-> > > > because legacy userspace sometimes expects it. Adding other formats to
-> > > > the list should not be done easily.
-> > >
-> > > OTOH it is fixing a kernel change that broke userspace
-> > >
-> > > > >
-> > > > > This makes UDL devices work on ChromeOS again after commit
-> > > > > c91acda3a380 ("drm/gem: Check for valid formats"). Prior to that
-> > > > > commit things were "working" because we'd silently treat the ARGB8888
-> > > > > that ChromeOS wanted as XRGB8888.
-> > > >
-> > > > This problem has been caused by userspace. Why can it not be fixed there?
-> > > >
-> > > > And udl is just one driver. Any other driver without ARGB8888, such as
-> > > > simpledrm or ofdrm, would be affected. Do these work?
-> > >
-> > > Probably any driver where ARGB8888 is equivalent to XRGB8888 (ie.
-> > > single primary plane, etc) should advertise both.
-> >
-> > To me that seemes likely to trick userspace developers into
-> > assuming that ARGB is always available, and then when they
-> > finally try on hardware that doesn't have ARGB it'll just
-> > fail miserably.
-> 
-> I think that ship has sailed already, at least for any drivers that
-> previously silently accepted ARGB8888
+Hi,
 
-Perhaps. Although I don't actually understand what kind of weird
-userspace people are running if it somehow expects ARGB to be there,
-but only for some specific kms drivers. Is said userspace really
-somehow checking which kms driver is present and then just ignoring
-the pixel format list exposed by the driver? Or is it just some
-super hw specific thing where they can just assume a specific kms
-driver?
+On Wed, Mar 6, 2024 at 12:04=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.org> =
+wrote:
+>
+> @@ -2764,58 +2764,71 @@ static u32 edid_extract_panel_id(const struct edi=
+d *edid)
+>  }
+>
+>  /**
+> - * drm_edid_get_panel_id - Get a panel's ID through DDC
+> - * @adapter: I2C adapter to use for DDC
+> + * drm_edid_get_panel_id - Get a panel's ID from EDID
+> + * @drm_edid: EDID that contains panel ID.
+>   *
+> - * This function reads the first block of the EDID of a panel and (assum=
+ing
+> + * This function uses the first block of the EDID of a panel and (assumi=
+ng
+>   * that the EDID is valid) extracts the ID out of it. The ID is a 32-bit=
+ value
+>   * (16 bits of manufacturer ID and 16 bits of per-manufacturer ID) that'=
+s
+>   * supposed to be different for each different modem of panel.
+>   *
+> + * Return: A 32-bit ID that should be different for each make/model of p=
+anel.
+> + *         See the functions drm_edid_encode_panel_id() and
+> + *         drm_edid_decode_panel_id() for some details on the structure =
+of this
+> + *         ID.
+> + */
+> +u32 drm_edid_get_panel_id(const struct drm_edid *drm_edid)
+> +{
 
-Anyways, adding ARGB to even more drivers seems like a terrible
-idea to me.
+I'd leave it up to Jani, but I'd wonder whether we need to confirm
+drm_edid->size here is at least as big as the base block. In other
+words: is there ever any chance that someone would have allocated a
+struct drm_edid but not actually read a full base block into it?
 
--- 
-Ville Syrjälä
-Intel
+In any case:
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
