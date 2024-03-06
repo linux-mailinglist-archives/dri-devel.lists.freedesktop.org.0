@@ -2,144 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C4BD873A65
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 16:12:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A85C873A68
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 16:12:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7A3D1131B3;
-	Wed,  6 Mar 2024 15:11:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3216C113263;
+	Wed,  6 Mar 2024 15:12:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="DaqG7OJw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LmYXCuku";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DaqG7OJw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LmYXCuku";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DD1IDXNm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C1CC11325D;
- Wed,  6 Mar 2024 15:11:57 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:98])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 79D876B809;
- Wed,  6 Mar 2024 15:11:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1709737915; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=xSHZJFgJ6t6OPb0WJLKwK70uS4BJMetdUpY9bID4bsI=;
- b=DaqG7OJw0bplBCpHuR3snpRiIMCO7SnheE9Bhh5fGRLs+7CZtEngntgIfHMBaJBxuLsZHK
- mIhLC+FuMo4jyd8nnATFzzuoavaqZSro8cxEm+zirnCVvye6EBaEfReC/Qd3aZ3mNL6FwB
- AehEJaSKETIDslbWQv/OsO0jdGPHt/M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1709737915;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=xSHZJFgJ6t6OPb0WJLKwK70uS4BJMetdUpY9bID4bsI=;
- b=LmYXCukuzvG1GMrhqTV2vYunHai0CdvnJeqG+s1VSXrvzoAxIq02HM1wFX8wxTJz5SSK+l
- NozqgCdhGS3QBPBQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1709737915; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=xSHZJFgJ6t6OPb0WJLKwK70uS4BJMetdUpY9bID4bsI=;
- b=DaqG7OJw0bplBCpHuR3snpRiIMCO7SnheE9Bhh5fGRLs+7CZtEngntgIfHMBaJBxuLsZHK
- mIhLC+FuMo4jyd8nnATFzzuoavaqZSro8cxEm+zirnCVvye6EBaEfReC/Qd3aZ3mNL6FwB
- AehEJaSKETIDslbWQv/OsO0jdGPHt/M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1709737915;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=xSHZJFgJ6t6OPb0WJLKwK70uS4BJMetdUpY9bID4bsI=;
- b=LmYXCukuzvG1GMrhqTV2vYunHai0CdvnJeqG+s1VSXrvzoAxIq02HM1wFX8wxTJz5SSK+l
- NozqgCdhGS3QBPBQ==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id F41B013A79;
- Wed,  6 Mar 2024 15:11:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap2.dmz-prg2.suse.org with ESMTPSA id /I4IOrqH6GXKdQAAn2gu4w
- (envelope-from <tzimmermann@suse.de>); Wed, 06 Mar 2024 15:11:54 +0000
-Message-ID: <a562fc9c-7e11-4149-b20c-f65347fa8032@suse.de>
-Date: Wed, 6 Mar 2024 16:11:54 +0100
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 938E9113276
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 15:12:10 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id B02DACE2241;
+ Wed,  6 Mar 2024 15:12:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D39BC433C7;
+ Wed,  6 Mar 2024 15:12:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709737927;
+ bh=RkXvgfFkQeab6f37tUpRH2m7Hc4zq4G2QQFYL2agHN4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DD1IDXNmd2Htv29SsgSyAU2hFP3h9kX8C2GCVtBUXQtN/aXH8PXn2lLuvXkHZ+Vgm
+ i20lg50sutBkjRnMuWtuxpjmFeNe+ZZys5LS8C5YDqH+ZRrx+pGOXwuDwwsRbLYq7S
+ 9oTJmQHPvJNAY3HVBOtSf9+LL40f57ybK8qSOsEJ4R+Es7rNc8VW7vgQnMB5CoFzbW
+ A+vCCYEIED6D5jhPbBnIqhi1m86tzqaINKuUi6M7SFMXZsCTwFGbuzRcxiWqyickpQ
+ dZdsZQyd5B3EdrHSZlSpof+SIg6QQ58HkrDhQNe/iHIrkmQYYzk5vy+9rzMTdIlh8c
+ 2qiqyQ8nE9iMg==
+Date: Wed, 6 Mar 2024 16:12:04 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, 
+ Sandor Yu <Sandor.yu@nxp.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux@ew.tq-group.com
+Subject: Re: [PATCH v15 4/8] drm: bridge: Cadence: Add MHDP8501 DP/HDMI driver
+Message-ID: <20240306-mysterious-hoatzin-of-faith-49aec0@houat>
+References: <20240306101625.795732-1-alexander.stein@ew.tq-group.com>
+ <20240306101625.795732-5-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/6] drm/i915: Unregister in-kernel clients
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: joonas.lahtinen@linux.intel.com, tvrtko.ursulin@linux.intel.com,
- ville.syrjala@linux.intel.com, imre.deak@intel.com,
- tejas.upadhyay@intel.com, jouni.hogander@intel.com, javierm@redhat.com,
- airlied@gmail.com, daniel@ffwll.ch, lucas.demarchi@intel.com,
- ogabbay@kernel.org, thomas.hellstrom@linux.intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org
-References: <20240301134448.31289-1-tzimmermann@suse.de>
- <20240301134448.31289-3-tzimmermann@suse.de> <ZedDHPupthhNWte8@intel.com>
- <878r2w1w93.fsf@intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <878r2w1w93.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DaqG7OJw;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=LmYXCuku
-X-Spamd-Result: default: False [-5.30 / 50.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- XM_UA_NO_VERSION(0.01)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
- DWL_DNSWL_MED(-2.00)[suse.de:dkim]; BAYES_HAM(-3.00)[100.00%];
- RCVD_COUNT_THREE(0.00)[3];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DKIM_TRACE(0.00)[suse.de:+]; MX_GOOD(-0.01)[];
- RCPT_COUNT_TWELVE(0.00)[17];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,intel.com:email];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+];
- FREEMAIL_CC(0.00)[linux.intel.com,intel.com,redhat.com,gmail.com,ffwll.ch,kernel.org,lists.freedesktop.org];
- RCVD_TLS_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 79D876B809
-X-Spam-Level: 
-X-Spam-Score: -5.30
-X-Spam-Flag: NO
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="lgqwn3iwtrpezttc"
+Content-Disposition: inline
+In-Reply-To: <20240306101625.795732-5-alexander.stein@ew.tq-group.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,95 +76,446 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-Am 05.03.24 um 17:25 schrieb Jani Nikula:
-> On Tue, 05 Mar 2024, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
->> On Fri, Mar 01, 2024 at 02:42:55PM +0100, Thomas Zimmermann wrote:
->>> Unregister all in-kernel clients before unloading the i915 driver. For
->>> other drivers, drm_dev_unregister() does this automatically. As i915
->>> does not use this helper, it has to perform the call by itself. For xe,
->>> do the same in xe_device_remove()
->>>
->>> Note that there are currently no in-kernel clients in i915 or xe. The
->>> patch prepares the drivers for a related update of their fbdev support.
->>>
->>> v7:
->>> 	* update xe driver
->>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> ---
->>>   drivers/gpu/drm/i915/i915_driver.c | 3 +++
->>>   drivers/gpu/drm/xe/xe_device.c     | 3 +++
->>>   2 files changed, 6 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
->>> index 9ee902d5b72c4..97910a85e3917 100644
->>> --- a/drivers/gpu/drm/i915/i915_driver.c
->>> +++ b/drivers/gpu/drm/i915/i915_driver.c
->>> @@ -41,6 +41,7 @@
->>>   
->>>   #include <drm/drm_aperture.h>
->>>   #include <drm/drm_atomic_helper.h>
->>> +#include <drm/drm_client.h>
->>>   #include <drm/drm_ioctl.h>
->>>   #include <drm/drm_managed.h>
->>>   #include <drm/drm_probe_helper.h>
->>> @@ -852,6 +853,8 @@ void i915_driver_remove(struct drm_i915_private *i915)
->>>   {
->>>   	intel_wakeref_t wakeref;
->>>   
->>> +	drm_client_dev_unregister(&i915->drm);
->>> +
->>>   	wakeref = intel_runtime_pm_get(&i915->runtime_pm);
->>>   
->>>   	i915_driver_unregister(i915);
->>> diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
->>> index 919ad88f0495a..7f41f0ec819f0 100644
->>> --- a/drivers/gpu/drm/xe/xe_device.c
->>> +++ b/drivers/gpu/drm/xe/xe_device.c
->> probably deserves a separate patch since this is one here is named 'drm/i915:'
-> Or do this for both in intel_display_driver_unregister()?
+--lgqwn3iwtrpezttc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Ok, sure. I'll update this. I also have to update i915 and xe in patches 
-5 and 6. I don't see how I can change them individually. How would I 
-best log against both of them? drm/{i915,xe}? or drm/intel?
+Hi,
 
-Best regards
-Thomas
+On Wed, Mar 06, 2024 at 11:16:21AM +0100, Alexander Stein wrote:
+> +static int cdns_mhdp8501_read_hpd(struct cdns_mhdp8501_device *mhdp)
+> +{
+> +	u8 status;
+> +	int ret;
+> +
+> +	mutex_lock(&mhdp->mbox_mutex);
+> +
+> +	ret = cdns_mhdp_mailbox_send(&mhdp->base, MB_MODULE_ID_GENERAL,
+> +				     GENERAL_GET_HPD_STATE, 0, NULL);
+> +	if (ret)
+> +		goto err_get_hpd;
+> +
+> +	ret = cdns_mhdp_mailbox_recv_header(&mhdp->base, MB_MODULE_ID_GENERAL,
+> +					    GENERAL_GET_HPD_STATE,
+> +					    sizeof(status));
+> +	if (ret)
+> +		goto err_get_hpd;
+> +
+> +	ret = cdns_mhdp_mailbox_recv_data(&mhdp->base, &status, sizeof(status));
+> +	if (ret)
+> +		goto err_get_hpd;
+> +
+> +	mutex_unlock(&mhdp->mbox_mutex);
+> +
+> +	return status;
+> +
+> +err_get_hpd:
+> +	dev_err(mhdp->dev, "read hpd  failed: %d\n", ret);
+> +	mutex_unlock(&mhdp->mbox_mutex);
+> +
+> +	return ret;
+> +}
+> +
+> +enum drm_connector_status cdns_mhdp8501_detect(struct cdns_mhdp8501_device *mhdp)
+> +{
+> +	u8 hpd = 0xf;
+> +
+> +	hpd = cdns_mhdp8501_read_hpd(mhdp);
+> +	if (hpd == 1)
+> +		return connector_status_connected;
+> +	else if (hpd == 0)
+> +		return connector_status_disconnected;
+> +
+> +	dev_warn(mhdp->dev, "Unknown cable status, hdp=%u\n", hpd);
+> +	return connector_status_unknown;
+> +}
+> +
+> +static void hotplug_work_func(struct work_struct *work)
+> +{
+> +	struct cdns_mhdp8501_device *mhdp = container_of(work,
+> +						     struct cdns_mhdp8501_device,
+> +						     hotplug_work.work);
+> +	enum drm_connector_status status = cdns_mhdp8501_detect(mhdp);
+> +
+> +	drm_bridge_hpd_notify(&mhdp->bridge, status);
+> +
+> +	if (status == connector_status_connected) {
+> +		/* Cable connected  */
+> +		DRM_INFO("HDMI/DP Cable Plug In\n");
+> +		enable_irq(mhdp->irq[IRQ_OUT]);
+> +	} else if (status == connector_status_disconnected) {
+> +		/* Cable Disconnected  */
+> +		DRM_INFO("HDMI/DP Cable Plug Out\n");
+> +		enable_irq(mhdp->irq[IRQ_IN]);
+> +	}
+> +}
+> +
+> +static irqreturn_t cdns_mhdp8501_irq_thread(int irq, void *data)
+> +{
+> +	struct cdns_mhdp8501_device *mhdp = data;
+> +
+> +	disable_irq_nosync(irq);
+> +
+> +	mod_delayed_work(system_wq, &mhdp->hotplug_work,
+> +			 msecs_to_jiffies(HOTPLUG_DEBOUNCE_MS));
+> +
+> +	return IRQ_HANDLED;
+> +}
 
->
-> BR,
-> Jani.
->
->
->>> @@ -9,6 +9,7 @@
->>>   
->>>   #include <drm/drm_aperture.h>
->>>   #include <drm/drm_atomic_helper.h>
->>> +#include <drm/drm_client.h>
->>>   #include <drm/drm_gem_ttm_helper.h>
->>>   #include <drm/drm_ioctl.h>
->>>   #include <drm/drm_managed.h>
->>> @@ -614,6 +615,8 @@ void xe_device_remove(struct xe_device *xe)
->>>   	struct xe_gt *gt;
->>>   	u8 id;
->>>   
->>> +	drm_client_dev_unregister(&xe->drm);
->>> +
->>>   	xe_device_remove_display(xe);
->>>   
->>>   	xe_display_fini(xe);
->>> -- 
->>> 2.43.2
->>>
+AFAICT from the rest of the driver, you support HDMI modes with a
+character rate > 340Mchar/s, and thus you need to enable the scrambler.
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+If you unplug/replug a monitor with the scrambler enabled though, and if
+there's no userspace component to react to the userspace event, the code
+you have here won't enable the scrambler again.
 
+You can test that by using modetest with a 4k@60Hz mode or something,
+and then disconnecting / reconnecting the monitor.
+
+We addressed it in vc4 in commit 6bed2ea3cb38 ("drm/vc4: hdmi: Reset
+link on hotplug").
+
+Arguably, the whole handling of the HDMI scrambling setup should be
+turned into a helper, and I wanted to extend the work I've been doing
+around the HDMI infra to support the scrambler setup once it landed.
+
+> +static int cdns_hdmi_mode_config(struct cdns_mhdp8501_device *mhdp,
+> +				 struct drm_display_mode *mode,
+> +				 struct video_info *video_info)
+> +{
+> +	int ret;
+> +	u32 val;
+> +	u32 vsync_lines = mode->vsync_end - mode->vsync_start;
+> +	u32 eof_lines = mode->vsync_start - mode->vdisplay;
+> +	u32 sof_lines = mode->vtotal - mode->vsync_end;
+> +	u32 hblank = mode->htotal - mode->hdisplay;
+> +	u32 hactive = mode->hdisplay;
+> +	u32 vblank = mode->vtotal - mode->vdisplay;
+> +	u32 vactive = mode->vdisplay;
+> +	u32 hfront = mode->hsync_start - mode->hdisplay;
+> +	u32 hback = mode->htotal - mode->hsync_end;
+> +	u32 vfront = eof_lines;
+> +	u32 hsync = hblank - hfront - hback;
+> +	u32 vsync = vsync_lines;
+> +	u32 vback = sof_lines;
+> +	u32 v_h_polarity = ((mode->flags & DRM_MODE_FLAG_NHSYNC) ? 0 : 1) +
+> +			((mode->flags & DRM_MODE_FLAG_NVSYNC) ? 0 : 2);
+> +
+> +	ret = cdns_mhdp_reg_write(&mhdp->base, SCHEDULER_H_SIZE, (hactive << 16) + hblank);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = cdns_mhdp_reg_write(&mhdp->base, SCHEDULER_V_SIZE, (vactive << 16) + vblank);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = cdns_mhdp_reg_write(&mhdp->base, HDTX_SIGNAL_FRONT_WIDTH, (vfront << 16) + hfront);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = cdns_mhdp_reg_write(&mhdp->base, HDTX_SIGNAL_SYNC_WIDTH, (vsync << 16) + hsync);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = cdns_mhdp_reg_write(&mhdp->base, HDTX_SIGNAL_BACK_WIDTH, (vback << 16) + hback);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = cdns_mhdp_reg_write(&mhdp->base, HSYNC2VSYNC_POL_CTRL, v_h_polarity);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	/* Reset Data Enable */
+> +	cdns_mhdp_reg_read(&mhdp->base, HDTX_CONTROLLER, &val);
+> +	val &= ~F_DATA_EN(1);
+> +	ret = cdns_mhdp_reg_write(&mhdp->base, HDTX_CONTROLLER, val);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	/* Set bpc */
+> +	val &= ~F_VIF_DATA_WIDTH(3);
+> +	switch (video_info->bpc) {
+> +	case 10:
+> +		val |= F_VIF_DATA_WIDTH(1);
+> +		break;
+> +	case 12:
+> +		val |= F_VIF_DATA_WIDTH(2);
+> +		break;
+> +	case 16:
+> +		val |= F_VIF_DATA_WIDTH(3);
+> +		break;
+> +	case 8:
+> +	default:
+> +		val |= F_VIF_DATA_WIDTH(0);
+> +		break;
+> +	}
+> +
+> +	/* select color encoding */
+> +	val &= ~F_HDMI_ENCODING(3);
+> +	switch (video_info->color_fmt) {
+> +	case DRM_COLOR_FORMAT_YCBCR444:
+> +		val |= F_HDMI_ENCODING(2);
+> +		break;
+> +	case DRM_COLOR_FORMAT_YCBCR422:
+> +		val |= F_HDMI_ENCODING(1);
+> +		break;
+> +	case DRM_COLOR_FORMAT_YCBCR420:
+> +		val |= F_HDMI_ENCODING(3);
+> +		break;
+> +	case DRM_COLOR_FORMAT_RGB444:
+> +	default:
+> +		val |= F_HDMI_ENCODING(0);
+> +		break;
+> +	}
+
+It looks like you're only using RGB444?
+
+> +static int cdns_hdmi_avi_info_set(struct cdns_mhdp8501_device *mhdp,
+> +				  struct drm_display_mode *mode)
+> +{
+> +	struct hdmi_avi_infoframe frame;
+> +	struct drm_connector_state *conn_state = mhdp->curr_conn->state;
+> +	struct drm_display_mode *adj_mode;
+> +	enum hdmi_quantization_range qr;
+> +	u8 buf[32];
+> +	int ret;
+> +
+> +	/* Initialise info frame from DRM mode */
+> +	drm_hdmi_avi_infoframe_from_display_mode(&frame, mhdp->curr_conn, mode);
+> +
+> +	frame.colorspace = cdns_hdmi_colorspace(mhdp->video_info.color_fmt);
+> +
+> +	drm_hdmi_avi_infoframe_colorimetry(&frame, conn_state);
+> +
+> +	adj_mode = &mhdp->bridge.encoder->crtc->state->adjusted_mode;
+> +
+> +	qr = drm_default_rgb_quant_range(adj_mode);
+> +
+> +	drm_hdmi_avi_infoframe_quant_range(&frame, mhdp->curr_conn,
+> +					   adj_mode, qr);
+> +
+> +	ret = hdmi_avi_infoframe_pack(&frame, buf + 1, sizeof(buf) - 1);
+> +	if (ret < 0) {
+> +		dev_err(mhdp->dev, "failed to pack AVI infoframe: %d\n", ret);
+> +		return -1;
+> +	}
+> +
+> +	buf[0] = 0;
+> +	cdns_hdmi_infoframe_set(mhdp, 0, sizeof(buf), buf, HDMI_INFOFRAME_TYPE_AVI);
+> +
+> +	return 0;
+> +}
+> +
+> +static void cdns_hdmi_vendor_info_set(struct cdns_mhdp8501_device *mhdp,
+> +				      struct drm_display_mode *mode)
+> +{
+> +	struct hdmi_vendor_infoframe frame;
+> +	u8 buf[32];
+> +	int ret;
+> +
+> +	/* Initialise vendor frame from DRM mode */
+> +	ret = drm_hdmi_vendor_infoframe_from_display_mode(&frame, mhdp->curr_conn, mode);
+> +	if (ret < 0) {
+> +		dev_info(mhdp->dev, "No vendor infoframe\n");
+> +		return;
+> +	}
+> +
+> +	ret = hdmi_vendor_infoframe_pack(&frame, buf + 1, sizeof(buf) - 1);
+> +	if (ret < 0) {
+> +		dev_warn(mhdp->dev, "Unable to pack vendor infoframe: %d\n", ret);
+> +		return;
+> +	}
+> +
+> +	buf[0] = 0;
+> +	cdns_hdmi_infoframe_set(mhdp, 3, sizeof(buf), buf, HDMI_INFOFRAME_TYPE_VENDOR);
+> +}
+> +
+> +static void cdns_hdmi_drm_info_set(struct cdns_mhdp8501_device *mhdp)
+> +{
+> +	struct drm_connector_state *conn_state;
+> +	struct hdmi_drm_infoframe frame;
+> +	u8 buf[32];
+> +	int ret;
+> +
+> +	conn_state = mhdp->curr_conn->state;
+> +
+> +	if (!conn_state->hdr_output_metadata)
+> +		return;
+> +
+> +	ret = drm_hdmi_infoframe_set_hdr_metadata(&frame, conn_state);
+> +	if (ret < 0) {
+> +		dev_dbg(mhdp->dev, "couldn't set HDR metadata in infoframe\n");
+> +		return;
+> +	}
+> +
+> +	ret = hdmi_drm_infoframe_pack(&frame, buf + 1, sizeof(buf) - 1);
+> +	if (ret < 0) {
+> +		dev_dbg(mhdp->dev, "couldn't pack HDR infoframe\n");
+> +		return;
+> +	}
+> +
+> +	buf[0] = 0;
+> +	cdns_hdmi_infoframe_set(mhdp, 3, sizeof(buf), buf, HDMI_INFOFRAME_TYPE_DRM);
+> +}
+
+This is another thing that was supposed to be handled by my current
+series here:
+https://lore.kernel.org/r/20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org
+
+In particular, you're missing the SPD infoframes here.
+
+> +static void cdns_hdmi_mode_set(struct cdns_mhdp8501_device *mhdp)
+> +{
+
+You should use atomic_enable here
+
+> +	struct drm_display_mode *mode = &mhdp->mode;
+> +	union phy_configure_opts phy_cfg;
+> +	int ret;
+> +
+> +	/* video mode check */
+> +	if (mode->clock == 0 || mode->hdisplay == 0 || mode->vdisplay == 0)
+> +		return;
+> +
+> +	cdns_hdmi_lanes_config(mhdp);
+> +
+> +	phy_cfg.hdmi.pixel_clk_rate = mode->clock;
+> +	phy_cfg.hdmi.bpc = mhdp->video_info.bpc;
+> +	phy_cfg.hdmi.color_space = cdns_hdmi_colorspace(mhdp->video_info.color_fmt);
+> +
+> +	/* Mailbox protect for HDMI PHY access */
+> +	mutex_lock(&mhdp->mbox_mutex);
+> +	ret = phy_configure(mhdp->phy, &phy_cfg);
+> +	mutex_unlock(&mhdp->mbox_mutex);
+> +	if (ret) {
+> +		dev_err(mhdp->dev, "%s: phy_configure() failed: %d\n",
+> +			__func__, ret);
+> +		return;
+> +	}
+> +
+> +	cdns_hdmi_sink_config(mhdp);
+> +
+> +	ret = cdns_hdmi_ctrl_init(mhdp, mhdp->hdmi.hdmi_type);
+> +	if (ret < 0) {
+> +		dev_err(mhdp->dev, "%s, ret = %d\n", __func__, ret);
+> +		return;
+> +	}
+> +
+> +	/* Config GCP */
+> +	if (mhdp->video_info.bpc == 8)
+> +		cdns_hdmi_disable_gcp(mhdp);
+> +	else
+> +		cdns_hdmi_enable_gcp(mhdp);
+> +
+> +	ret = cdns_hdmi_avi_info_set(mhdp, mode);
+> +	if (ret < 0) {
+> +		dev_err(mhdp->dev, "%s ret = %d\n", __func__, ret);
+> +		return;
+> +	}
+> +
+> +	/* vendor info frame is enabled only for HDMI1.4 4K mode */
+> +	cdns_hdmi_vendor_info_set(mhdp, mode);
+> +
+> +	cdns_hdmi_drm_info_set(mhdp);
+> +
+> +	ret = cdns_hdmi_mode_config(mhdp, mode, &mhdp->video_info);
+> +	if (ret < 0) {
+> +		dev_err(mhdp->dev, "CDN_API_HDMITX_SetVic_blocking ret = %d\n", ret);
+> +		return;
+> +	}
+> +}
+> +
+> +static int cdns_hdmi_bridge_attach(struct drm_bridge *bridge,
+> +				   enum drm_bridge_attach_flags flags)
+> +{
+> +	struct cdns_mhdp8501_device *mhdp = bridge->driver_private;
+> +
+> +	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
+> +		dev_err(mhdp->dev, "do not support creating a drm_connector\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static enum drm_mode_status
+> +cdns_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
+> +			    const struct drm_display_info *info,
+> +			    const struct drm_display_mode *mode)
+> +{
+> +	struct cdns_mhdp8501_device *mhdp = bridge->driver_private;
+> +	enum drm_mode_status mode_status = MODE_OK;
+> +	union phy_configure_opts phy_cfg;
+> +	int ret;
+> +
+> +	/* We don't support double-clocked and Interlaced modes */
+> +	if (mode->flags & DRM_MODE_FLAG_DBLCLK ||
+> +	    mode->flags & DRM_MODE_FLAG_INTERLACE)
+> +		return MODE_BAD;
+> +
+> +	/* MAX support pixel clock rate 594MHz */
+> +	if (mode->clock > 594000)
+> +		return MODE_CLOCK_HIGH;
+> +
+> +	if (mode->hdisplay > 3840)
+> +		return MODE_BAD_HVALUE;
+> +
+> +	if (mode->vdisplay > 2160)
+> +		return MODE_BAD_VVALUE;
+> +
+> +	/* Check modes supported by PHY */
+> +	phy_cfg.hdmi.pixel_clk_rate = mode->clock;
+> +
+> +	/* Mailbox protect for HDMI PHY access */
+> +	mutex_lock(&mhdp->mbox_mutex);
+> +	ret = phy_validate(mhdp->phy, PHY_MODE_HDMI, 0, &phy_cfg);
+> +	mutex_unlock(&mhdp->mbox_mutex);
+> +	if (ret < 0)
+> +		return MODE_CLOCK_RANGE;
+> +
+> +	return mode_status;
+> +}
+
+mode_valid is only called when the userspace asks for the current modes
+available on a connector, but not when the userspace programs a mode.
+This is atomic_check's job, so you probably want to have a similar
+atomic_check here.
+
+> +static bool
+> +cdns_hdmi_bridge_mode_fixup(struct drm_bridge *bridge,
+> +			    const struct drm_display_mode *mode,
+> +			    struct drm_display_mode *adjusted_mode)
+> +{
+> +	struct cdns_mhdp8501_device *mhdp = bridge->driver_private;
+> +	struct video_info *video = &mhdp->video_info;
+> +
+> +	/* The only currently supported format */
+> +	video->bpc = 8;
+> +	video->color_fmt = DRM_COLOR_FORMAT_RGB444;
+> +
+> +	return true;
+> +}
+
+mode_fixup is deprecated. I guess you wanted to use reset here.
+Generally speaking, the bpc and color_format should be part of your
+state anyway.
+
+I know Dmitry was interested in plugging my HDMI series into the bridge
+infrastructure. It would benefit your driver quite a lot I think, so you
+probably want to sync up with him.
+
+Maxime
+
+--lgqwn3iwtrpezttc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZeiHwwAKCRDj7w1vZxhR
+xfDQAP98OUYzPDbd7t89OCitGUkIbsDS/ABj8YL94liZuqy66wD/Sou5Qp414MHB
+mohzojfgJUYyXYSlQDYCjFwCjyOb0gs=
+=ee0H
+-----END PGP SIGNATURE-----
+
+--lgqwn3iwtrpezttc--
