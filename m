@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C26A8740FD
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 21:03:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C25A874100
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 21:03:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97B2110E061;
-	Wed,  6 Mar 2024 20:03:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A3231134FA;
+	Wed,  6 Mar 2024 20:03:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="mP0AE+Hq";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="JZYrCyhu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8585110E061
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 20:03:41 +0000 (UTC)
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2ABA31134F9
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 20:03:46 +0000 (UTC)
 Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx0.riseup.net (Postfix) with ESMTPS id 4Tqjzw02wBz9wM4;
- Wed,  6 Mar 2024 20:03:39 +0000 (UTC)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4Tqk012NgDzDq8y;
+ Wed,  6 Mar 2024 20:03:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1709755420; bh=h0PodFS5qCsCyCWWmRwb25OxPxljdoN865Ax2gcERF0=;
+ t=1709755425; bh=aJDZ4Vxhj0c8mxaTvf8OfzINnVswHkVDwaZ4BftVAO0=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=mP0AE+HqWm0eUi+j3N/Wu3jiqQoq/TVRhdxuYjQCy+At5EB+lJElGd69IZfSDsJ6d
- PEcw7wJMidM6niyzA+lEU3owS0wTQbnIvKZbmwQGxZGx9izmjWbRuauZRYPLpekMHB
- 0QOcInocEFyxirvBg7jbcl4iUrqrymFArYdywH20=
-X-Riseup-User-ID: 4C21D9B088B280759A744A19E3AD30C66DC2FF9F68FF7EEE6FD7EEE672255839
+ b=JZYrCyhuwaxxvwBmTWhTbdwqX+yxQfSBhbOKo8LCyht1hV3D+3qC0oaNLnJIHVnn9
+ k3El+VABMgfJlqtz/QhtvkSlofZ7N6hdiNS7EU0pQOB3j+5UfOhNBBdvY4pcOSPCvC
+ jR9rUVynAMVSt7YuhVcjbD+sNJtXdQmQV4V0LGJo=
+X-Riseup-User-ID: DADEB8FF0353ACC6617D59334D8182D0B118D71F27E0E6AC0D010F7BF29A0ECC
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4Tqjzp2fpVzFvsm;
- Wed,  6 Mar 2024 20:03:34 +0000 (UTC)
+ by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4Tqjzw1r4LzFvr9;
+ Wed,  6 Mar 2024 20:03:40 +0000 (UTC)
 From: Arthur Grillo <arthurgrillo@riseup.net>
-Date: Wed, 06 Mar 2024 17:03:09 -0300
-Subject: [PATCH 2/7] drm/vkms: Add comments
+Date: Wed, 06 Mar 2024 17:03:10 -0300
+Subject: [PATCH 3/7] drm/vkmm: Use drm_fixed api
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240306-louis-vkms-conv-v1-2-5bfe7d129fdd@riseup.net>
+Message-Id: <20240306-louis-vkms-conv-v1-3-5bfe7d129fdd@riseup.net>
 References: <20240306-louis-vkms-conv-v1-0-5bfe7d129fdd@riseup.net>
 In-Reply-To: <20240306-louis-vkms-conv-v1-0-5bfe7d129fdd@riseup.net>
 To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
@@ -68,111 +68,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+With the new 32.32 values it makes more sense to use drm_fixed functions
+than trying to recreate the wheel.
+
 Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 ---
- drivers/gpu/drm/vkms/vkms_formats.c | 47 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
+ drivers/gpu/drm/vkms/vkms_formats.c | 54 +++++++++++++++++++------------------
+ 1 file changed, 28 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index 44d9b9b3bdc3..55ed3f598bd7 100644
+index 55ed3f598bd7..adde53cdea26 100644
 --- a/drivers/gpu/drm/vkms/vkms_formats.c
 +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -577,6 +577,18 @@ get_conversion_matrix_to_argb_u16(u32 format, enum drm_color_encoding encoding,
- 		},
- 		.y_offset = 0,
- 	};
+@@ -191,32 +191,34 @@ VISIBLE_IF_KUNIT struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 cb, u8 cr,
+ 						  struct conversion_matrix *matrix)
+ {
+ 	u8 r, g, b;
+-	s64 y_16, cb_16, cr_16;
+-	s64 r_16, g_16, b_16;
+-
+-	y_16 = y - matrix->y_offset;
+-	cb_16 = cb - 128;
+-	cr_16 = cr - 128;
+-
+-	r_16 = matrix->matrix[0][0] * y_16 + matrix->matrix[0][1] * cb_16 +
+-	       matrix->matrix[0][2] * cr_16;
+-	g_16 = matrix->matrix[1][0] * y_16 + matrix->matrix[1][1] * cb_16 +
+-	       matrix->matrix[1][2] * cr_16;
+-	b_16 = matrix->matrix[2][0] * y_16 + matrix->matrix[2][1] * cb_16 +
+-	       matrix->matrix[2][2] * cr_16;
+-
+-	// rounding the values
+-	r_16 = r_16 + (1LL << (CONVERSION_MATRIX_FLOAT_DEPTH - 4));
+-	g_16 = g_16 + (1LL << (CONVERSION_MATRIX_FLOAT_DEPTH - 4));
+-	b_16 = b_16 + (1LL << (CONVERSION_MATRIX_FLOAT_DEPTH - 4));
+-
+-	r_16 = clamp(r_16, 0, (1LL << (CONVERSION_MATRIX_FLOAT_DEPTH + 8)) - 1);
+-	g_16 = clamp(g_16, 0, (1LL << (CONVERSION_MATRIX_FLOAT_DEPTH + 8)) - 1);
+-	b_16 = clamp(b_16, 0, (1LL << (CONVERSION_MATRIX_FLOAT_DEPTH + 8)) - 1);
+-
+-	r = r_16 >> CONVERSION_MATRIX_FLOAT_DEPTH;
+-	g = g_16 >> CONVERSION_MATRIX_FLOAT_DEPTH;
+-	b = b_16 >> CONVERSION_MATRIX_FLOAT_DEPTH;
++	s64 fp_y, fp_cb, fp_cr;
++	s64 fp_r, fp_g, fp_b;
 +
-+	/*
-+	 * Those matrixies were generated using the colour python framework
-+	 *
-+	 * Below are the function calls used to generate eac matrix, go to
-+	 * https://colour.readthedocs.io/en/develop/generated/colour.matrix_YCbCr.html
-+	 * for more info:
-+	 *
-+	 * numpy.around(colour.matrix_YCbCr(K=colour.WEIGHTS_YCBCR["ITU-R BT.601"],
-+	 *                                  is_legal = False,
-+	 *                                  bits = 8) * 2**32).astype(int)
-+	 */
- 	static struct conversion_matrix yuv_bt601_full = {
- 		.matrix = {
- 			{ 4294967296, 0,           6021544149 },
-@@ -585,6 +597,12 @@ get_conversion_matrix_to_argb_u16(u32 format, enum drm_color_encoding encoding,
- 		},
- 		.y_offset = 0,
- 	};
++	fp_y = y - matrix->y_offset;
++	fp_cb = cb - 128;
++	fp_cr = cr - 128;
 +
-+	/*
-+	 * numpy.around(colour.matrix_YCbCr(K=colour.WEIGHTS_YCBCR["ITU-R BT.601"],
-+	 *                                  is_legal = True,
-+	 *                                  bits = 8) * 2**32).astype(int)
-+	 */
- 	static struct conversion_matrix yuv_bt601_limited = {
- 		.matrix = {
- 			{ 5020601039, 0,           6881764740 },
-@@ -593,6 +611,12 @@ get_conversion_matrix_to_argb_u16(u32 format, enum drm_color_encoding encoding,
- 		},
- 		.y_offset = 16,
- 	};
++	fp_y = drm_int2fixp(fp_y);
++	fp_cb = drm_int2fixp(fp_cb);
++	fp_cr = drm_int2fixp(fp_cr);
 +
-+	/*
-+	 * numpy.around(colour.matrix_YCbCr(K=colour.WEIGHTS_YCBCR["ITU-R BT.709"],
-+	 *                                  is_legal = False,
-+	 *                                  bits = 8) * 2**32).astype(int)
-+	 */
- 	static struct conversion_matrix yuv_bt709_full = {
- 		.matrix = {
- 			{ 4294967296, 0,          6763714498 },
-@@ -601,6 +625,12 @@ get_conversion_matrix_to_argb_u16(u32 format, enum drm_color_encoding encoding,
- 		},
- 		.y_offset = 0,
- 	};
++	fp_r = drm_fixp_mul(matrix->matrix[0][0], fp_y) +
++	       drm_fixp_mul(matrix->matrix[0][1], fp_cb) +
++	       drm_fixp_mul(matrix->matrix[0][2], fp_cr);
++	fp_g = drm_fixp_mul(matrix->matrix[1][0], fp_y) +
++	       drm_fixp_mul(matrix->matrix[1][1], fp_cb) +
++	       drm_fixp_mul(matrix->matrix[1][2], fp_cr);
++	fp_b = drm_fixp_mul(matrix->matrix[2][0], fp_y) +
++	       drm_fixp_mul(matrix->matrix[2][1], fp_cb) +
++	       drm_fixp_mul(matrix->matrix[2][2], fp_cr);
 +
-+	/*
-+	 * numpy.around(colour.matrix_YCbCr(K=colour.WEIGHTS_YCBCR["ITU-R BT.709"],
-+	 *                                  is_legal = True,
-+	 *                                  bits = 8) * 2**32).astype(int)
-+	 */
- 	static struct conversion_matrix yuv_bt709_limited = {
- 		.matrix = {
- 			{ 5020601039, 0,          7729959424 },
-@@ -609,6 +639,12 @@ get_conversion_matrix_to_argb_u16(u32 format, enum drm_color_encoding encoding,
- 		},
- 		.y_offset = 16,
- 	};
++	fp_r = drm_fixp2int_round(fp_r);
++	fp_g = drm_fixp2int_round(fp_g);
++	fp_b = drm_fixp2int_round(fp_b);
 +
-+	/*
-+	 * numpy.around(colour.matrix_YCbCr(K=colour.WEIGHTS_YCBCR["ITU-R BT.2020"],
-+	 *                                  is_legal = False,
-+	 *                                  bits = 8) * 2**32).astype(int)
-+	 */
- 	static struct conversion_matrix yuv_bt2020_full = {
- 		.matrix = {
- 			{ 4294967296, 0,          6333358775 },
-@@ -617,6 +653,12 @@ get_conversion_matrix_to_argb_u16(u32 format, enum drm_color_encoding encoding,
- 		},
- 		.y_offset = 0,
- 	};
-+
-+	/*
-+	 * numpy.around(colour.matrix_YCbCr(K=colour.WEIGHTS_YCBCR["ITU-R BT.2020"],
-+	 *                                  is_legal = True,
-+	 *                                  bits = 8) * 2**32).astype(int)
-+	 */
- 	static struct conversion_matrix yuv_bt2020_limited = {
- 		.matrix = {
- 			{ 5020601039, 0,          7238124312 },
-@@ -625,6 +667,11 @@ get_conversion_matrix_to_argb_u16(u32 format, enum drm_color_encoding encoding,
- 		},
- 		.y_offset = 16,
- 	};
-+
-+	/*
-+	 * The next matrices are just the previous ones, but with the first and
-+	 * second columns swapped
-+	 */
- 	static struct conversion_matrix yvu_bt601_full = {
- 		.matrix = {
- 			{ 4294967296, 6021544149,  0 },
++	r = clamp(fp_r, 0, 0xff);
++	g = clamp(fp_g, 0, 0xff);
++	b = clamp(fp_b, 0, 0xff);
+ 
+ 	return argb_u16_from_u8888(255, r, g, b);
+ }
 
 -- 
 2.43.0
