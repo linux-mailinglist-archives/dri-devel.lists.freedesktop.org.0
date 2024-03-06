@@ -2,85 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3DE2873C96
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 17:50:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15867873C9A
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 17:51:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35A88113344;
-	Wed,  6 Mar 2024 16:50:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F72111334C;
+	Wed,  6 Mar 2024 16:51:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZU2eJ/4B";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="f6rmjePZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7880E113344
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 16:50:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1709743816;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CFwqTj8WPf3w+Wcwvpf0C+CURfpIxKA1IeNu1cFxTn0=;
- b=ZU2eJ/4BR67Ddku7ar308OJpYfIGsb0N4s23SefvB7S7T7XxWpkTI7olkDAOJPRDXYE1SI
- avyJV+tO8g5biSQ7//dVMXeXAg60levlsyLZXU6EGuYE8TsiseaVaJUF8MXvq83LtH7HOu
- 8+2Hy33fwoMrcDuwxM0uTOtcxvYppDY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-142-MpQ0tNNkNhGfn0t4_I9YeA-1; Wed, 06 Mar 2024 11:50:12 -0500
-X-MC-Unique: MpQ0tNNkNhGfn0t4_I9YeA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-412e51c20fdso20240315e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Mar 2024 08:50:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709743811; x=1710348611;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D051E11334E
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 16:51:32 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id
+ 4fb4d7f45d1cf-567f7bba941so1027434a12.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Mar 2024 08:51:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1709743891; x=1710348691;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CFwqTj8WPf3w+Wcwvpf0C+CURfpIxKA1IeNu1cFxTn0=;
- b=AnAElMdpUVnh0FtDO2XO20+BcsKbrBnTx9+FREfK2UctPyVQvJWaE1owbr98PrQwqe
- lTDidm5+oI7pMBLRjNbdEXm9yiG6FoiXUFYfcyWeepufcOEOlwDCD76VEn3JytVDXTZj
- ImAvA5GJ858Yt8JZ9E1qNqetO40TGqKYhay7vOqE4pianLnYXPPLeKSud5PXA7VGogpa
- dQDpqmUWkItzSLBcaX8iv69GFNZjrel/4F2ISHbD4tKLTe6F5j4iv+qOGN3lPsy//U8d
- Oz6XdDxtR9cRd2vmZ4yrjcO7j1o0KYYqI8f2l4YNnhEPfXInK9m9OZX2j8u1K37Yn7DG
- ztEA==
+ bh=fAuNxTfS6x4OQHwyTAR2JW08hPHhuONnAVW1sMtWxI0=;
+ b=f6rmjePZi5YThPb3ffGcEUz2W1bOuy0fdhj/ladnDnTSKh1FMqyAxbgiiEt2ryLkd1
+ c4+l39LO8S+TUuV469cFcWgNatgzw8q8qzsrq5VFn9cRwiRnHjZNLC0oz4zlcNGZgaDQ
+ v5TazSdW7D3/GYFTq/OcuS2o1AMjZXfNjI9flMyjWLvapUR78CQM0rVQ8/z1KGQ0HJ+j
+ 4+W5oV4cb6FtO+AEPChoci7sKoaOcKw2MIVN8xNVpE+l2BVv7DgDbOEnEBJTP5HaGdug
+ dySHjdzZC401+0V8uHU+dEgeLDvVxn0HfVLXEuBQHh1VArOVoAstztnrEdKvegbskoc5
+ MCmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709743891; x=1710348691;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fAuNxTfS6x4OQHwyTAR2JW08hPHhuONnAVW1sMtWxI0=;
+ b=Q0j7FZccHcqJPS9SiTtdsdopX1ft7o8GD8n1yeaQ0O6QIMQN9BW3CkQfMB6WVjrUnK
+ 0lzVM2W+5u0215uIGUlhX57z3IJdmyeGFTMdHEbxOQzTFYr495D9en9hCiLB0Df8krEQ
+ qMt0S4Qxlc/IqyC/1NLL2eVNZna4tXEPplu0rhttvtsQrJuLaWCKZ8k7qEQYkMZEw6cp
+ y6AYKz8TRxV+qDK1K8UQrkVTb+NQps71dJbohrvBNecubGby788PlT9l5jE6lPa0pBor
+ Nhm+aHoZP46ERen77PR4x2Vd2i/ef1c3YRmQe2XyWKxbdbx+XbfKupLKUprlIzZAV+T2
+ /HxQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVTAbdDYRFbOizx2VrfG+w22zBk+S9iA1dwZ2f7gqu5ROuTVnotSUkymyOT7TXeBt85HQ5AWW59x2mmPTY9+57AINXZN7IGSGuNFH5SpJn/
-X-Gm-Message-State: AOJu0YzcTj/bvcqjLgmcHQnlioawLdz8TAjWHvWX+YdJZFqxhnHwi3Or
- kCkw+ENUdO/xK8mNrcgFo+nl9HS+szKROOQAriP6xrrV0vlrAGSkKA78wY6aX7fk8+2ytfqxAQK
- oWQUee0jmdSEXioP5REUjvH6wt4C/Na/bahJRTz4ggWU1a60HRH+Z6qpHnJ+DTxO0GQ==
-X-Received: by 2002:adf:f546:0:b0:33e:2993:7c81 with SMTP id
- j6-20020adff546000000b0033e29937c81mr8781289wrp.64.1709743811340; 
- Wed, 06 Mar 2024 08:50:11 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEdRUULTIbhrSNIe6MOucamjK8vl5VfdtAixAYikSlurVuxcc5MEnxymSBjgvP5vUB6/jsmGw==
-X-Received: by 2002:adf:f546:0:b0:33e:2993:7c81 with SMTP id
- j6-20020adff546000000b0033e29937c81mr8781277wrp.64.1709743811003; 
- Wed, 06 Mar 2024 08:50:11 -0800 (PST)
-Received: from toolbox ([2001:9e8:89a4:b300:8654:3fb5:7140:1e06])
- by smtp.gmail.com with ESMTPSA id
- u11-20020a056000038b00b0033e456848f4sm6522396wrf.82.2024.03.06.08.50.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Mar 2024 08:50:10 -0800 (PST)
-Date: Wed, 6 Mar 2024 17:50:09 +0100
-From: Sebastian Wick <sebastian.wick@redhat.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm: Document requirements for driver-specific KMS props
- in new drivers
-Message-ID: <20240306165009.GB11561@toolbox>
-References: <20240229202833.198691-1-sebastian.wick@redhat.com>
- <20240306-hulking-funky-fox-b9581b@houat>
+ AJvYcCVak4rxWQMA55GoFtiUoycgGOa3gwP7ODZH7+/ZpLRbU/vpY2yV+KksYp4JJXETDYbpTupoNaCHDS72I49oJSREjF81cTwhCs1lp56QrEWP
+X-Gm-Message-State: AOJu0YyMTEpB9tugU4PrlMm8l4FVLnr68BJ0cYKKU+QMtToexG/iDHFP
+ 4YNklULTlK20N4TwtfwGcTCosZekTE6e67b+N0e00lac2mVRyMPMfnXU2fZ51XLF6LFrMCatt3X
+ YvAG/EU6+x3/nCFJIKon8e5z4bpWWHt2XuQk3
+X-Google-Smtp-Source: AGHT+IHrH3y3Ev3rFR65oa9/ga3T2bFvGKoWYUoW9uQPlR8wceBykqCSE0zANfpwXtxsNCt9XtLxrBXjLnroDNOKeBc=
+X-Received: by 2002:a17:906:fc01:b0:a43:f267:789f with SMTP id
+ ov1-20020a170906fc0100b00a43f267789fmr10647282ejb.41.1709743890406; Wed, 06
+ Mar 2024 08:51:30 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20240306-hulking-funky-fox-b9581b@houat>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <20240305020153.2787423-10-almasrymina@google.com>
+ <383c4870-167f-4123-bbf3-928db1463e01@davidwei.uk>
+ <CAHS8izP_PzDJVxycwZe_d_x10-SX4=Q-CWpKTjoOQ5dc2NSn3w@mail.gmail.com>
+ <b85b36bd-7082-47a5-bf46-50cff8eb60be@gmail.com>
+In-Reply-To: <b85b36bd-7082-47a5-bf46-50cff8eb60be@gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Wed, 6 Mar 2024 08:51:18 -0800
+Message-ID: <CAHS8izMEJHWAHVjaKu9ZpeWRj1TwoLkmY5tCtDYxdDReBV8=Dw@mail.gmail.com>
+Subject: Re: [RFC PATCH net-next v6 09/15] memory-provider: dmabuf devmem
+ memory provider
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: David Wei <dw@davidwei.uk>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, 
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+ Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>, 
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>, 
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,61 +121,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 06, 2024 at 03:14:15PM +0100, Maxime Ripard wrote:
-> Hi,
-> 
-> On Thu, Feb 29, 2024 at 09:28:31PM +0100, Sebastian Wick wrote:
-> > When extending support for a driver-specific KMS property to additional
-> > drivers, we should apply all the requirements for new properties and
-> > make sure the semantics are the same and documented.
-> > 
-> > Signed-off-by: Sebastian Wick <sebastian.wick@redhat.com>
-> > ---
-> >  Documentation/gpu/drm-kms.rst | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> > index 13d3627d8bc0..afa10a28035f 100644
-> > --- a/Documentation/gpu/drm-kms.rst
-> > +++ b/Documentation/gpu/drm-kms.rst
-> > @@ -496,6 +496,11 @@ addition to the one mentioned above:
-> >  
-> >  * An IGT test must be submitted where reasonable.
-> >  
-> > +For historical reasons, non-standard, driver-specific properties exist. If a KMS
-> > +driver wants to add support for one of those properties, the requirements for
-> > +new properties apply where possible. Additionally, the documented behavior must
-> > +match the de facto semantics of the existing property to ensure compatibility.
-> > +
-> 
-> I'm conflicted about this one, really.
-> 
-> On one hand, yeah, it's definitely reasonable and something we would
-> want on the long run.
-> 
-> But on the other hand, a driver getting its technical debt worked on for
-> free by anyone but its developpers doesn't seem fair to me.
+On Wed, Mar 6, 2024 at 6:59=E2=80=AFAM Pavel Begunkov <asml.silence@gmail.c=
+om> wrote:
+>
+> On 3/6/24 02:42, Mina Almasry wrote:
+> > On Tue, Mar 5, 2024 at 6:28=E2=80=AFPM David Wei <dw@davidwei.uk> wrote=
+:
+> >>
+> >> On 2024-03-04 18:01, Mina Almasry wrote:
+> >>> +     if (pool->p.queue)
+> >>> +             binding =3D READ_ONCE(pool->p.queue->binding);
+> >>> +
+> >>> +     if (binding) {
+> >>> +             pool->mp_ops =3D &dmabuf_devmem_ops;
+> >>> +             pool->mp_priv =3D binding;
+> >>> +     }
+> >>
+> >> This is specific to TCP devmem. For ZC Rx we will need something more
+> >> generic to let us pass our own memory provider backend down to the pag=
+e
+> >> pool.
+> >>
+> >> What about storing ops and priv void ptr in struct netdev_rx_queue
+> >> instead? Then we can both use it.
+> >
+> > Yes, this is dmabuf specific, I was thinking you'd define your own
+> > member of netdev_rx_queue, and then add something like this to
+> > page_pool_init:
+>
+> That would be quite annoying, there are 3 expected users together
+> with huge pages, each would need a field and check all others are
+> disabled as you mentioned and so on. It should be cleaner to pass
+> a generic {pp_ops,pp_private} pair instead.
+>
+> If header dependencies is a problem, you it can probably be
+>
+> struct pp_provider_param {
+>         struct pp_ops ops;
+>         void *private;
+> };
+>
+> # netdev_rx_queue.h
+>
+> // definition is not included here
+> struct pp_provider_params;
+>
+> struct netdev_rx_queue {
+>         ...
+>         struct pp_provider_params *pp_params;
+> };
+>
 
-Most of the work would have to be done for a new property as well. The
-only additional work is then documenting the de-facto semantics and
-moving the existing driver-specific code to the core.
+Seems very reasonable, will do! Thanks!
 
-Would it help if we spell out that the developers of the driver-specific
-property shall help with both tasks?
-
-> Also, I assume this is in reaction to the discussion we had on the
-> Broadcast RGB property. We used in vc4 precisely because there was some
-> userspace code to deal with it and we could just reuse it, and it was
-> documented. So the requirements were met already.
-
-It was not in drm core and the behavior was not documented properly at
-least.
-
-Either way, with Broadcast RGB we were already in a bad situation
-because it was implemented by 2 drivers independently. This is what I
-want to avoid in the first place. The cleanup afterwards (thank you!)
-just exposed the problem.
-
-> Maxime
+> --
+> Pavel Begunkov
 
 
+
+--=20
+Thanks,
+Mina
