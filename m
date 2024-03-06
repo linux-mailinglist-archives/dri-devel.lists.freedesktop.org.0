@@ -2,77 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4375F8743E6
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 00:30:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7504287447D
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 00:38:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 479C410EEA0;
-	Wed,  6 Mar 2024 23:30:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 979E510E1A2;
+	Wed,  6 Mar 2024 23:38:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Nsi9VBaK";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="UDItBDlf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com
- [209.85.128.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2C0C10EEA0
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 23:30:34 +0000 (UTC)
-Received: by mail-yw1-f179.google.com with SMTP id
- 00721157ae682-60978e6f9a3so3524487b3.3
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Mar 2024 15:30:34 -0800 (PST)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68BE010E1A2
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 23:38:51 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id
+ d2e1a72fcca58-6e5c0be115aso245638b3a.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Mar 2024 15:38:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1709767829; x=1710372629;
+ d=chromium.org; s=google; t=1709768330; x=1710373130;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=3s2xlVEAfJBrVxkA6EpLcD8kwhVsasxC35kpd9zGC/E=;
- b=Nsi9VBaKRJ3HxGL/9+LQAP0nuC8COpzAZICwmIovsFCm7WWfD9EQLPWkx5MOuwP9kX
- 0B+ldpArQpLlLyHfPHA76GTOaTuitnRJtBOJKugC9+Ov118U4FFbczihf7lNn7156aNH
- Szx4zY4WK2pQGbFbbAB0bKdEslZy57cG/pE1U=
+ bh=W9T8NOESVHEKZJ+Km+dtXiN45KTXenjEtsmbvdRzQv4=;
+ b=UDItBDlfq30BDfMHxm4HJGRHB2CWPIV5/sA1BXf/oa9Gvga8XFYgZV19YBpy+3FoBn
+ Qhkk9hAXygrVzURPqL6EzX7EIppoVIwyRSnVO2kgKk4bjCrE3E4KrQdGdqKl16l+o8NQ
+ 2dOQzq8405bxiUXBgKLOWR27anU1S7ZC0eF9Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709767829; x=1710372629;
+ d=1e100.net; s=20230601; t=1709768330; x=1710373130;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3s2xlVEAfJBrVxkA6EpLcD8kwhVsasxC35kpd9zGC/E=;
- b=lvOi7GUZsxYnkfOsR6Ys1gGlefoBcQpuaumIoHXXxz3fj2SfEqgZMndlHtntZXaSAt
- WW34OtzeoexJYJI0P0Wp4fL/4g8elT23SGL/KoIg4G+fxexCd1dGFeIZgw/6gXpVy3LE
- xbcnzZ/vxp14jxq9Yz4VVOfcrCVn8M+KORr6U9ARGn8/LI0OVU3joT6DpLP4nKIB80Hl
- +C4YUUSdBasm2OCVT04BCk1IZJZNZNAaaxi11u5zxkAaoFIJoxxo60kgbuLtrTRT+wAd
- 8yO76K+v/Q9hYqCAFKSWHowwnMUCazIlvpd3qx6kWShFoQ9Wzf4BNwimP458lQOdsYTr
- HUFA==
+ bh=W9T8NOESVHEKZJ+Km+dtXiN45KTXenjEtsmbvdRzQv4=;
+ b=FDiRgH8ti9fznYp2N1fHT13KG5TnwHiJkXa4+OwdKUF077tiwyHwTDyVIbHecka4ir
+ gnfZR2HtprfnGqnctoLgYFaL2YWEpPUJ1+dOpxhUMOYg90R1En+ep46xn8tQbxbUClnF
+ UuC1NnqZWxm823XN9wn9mnHN2SMTzNRdY11NnLqaW1mF47fQB+URP0AxKNHIYazGI+UG
+ MLtSzNRDAWE2FNjmA6Gr872xyRYr89eLXvOGT4gQeib0Zm07P8nRvofQATX9L+Sm0B9z
+ GVphg5GLqBBHQztRij2TYhStjWKSWpgCqJxjpJkdEs2zVPQOEqJVUaojatFBa876TFEE
+ sc4g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUrvOFdg+x0RQLxwPxvzUUtd22rMRxqnmWC1KPXdZ39/kxnfLID3NBZHRp+kS7+cicCVns+FMHy1f5GFC+7UN/EH3zpAsDfJX0Dp2rZ1zjW
-X-Gm-Message-State: AOJu0YxKb+zC+/t9FUG6wypHJ2Jd+FoLpDJ+33DNgo4kDDOBVKacu5Jx
- +RCIDamxIWFL6j7/4NxfcD8bc0dEXrSObquH3G0I/cimunP1OjW8k93s1LxTKhCxB+qus4K9Urc
- =
-X-Google-Smtp-Source: AGHT+IEk9ejmVPfg1PTxIetN2W6reprqmiN7Bu8BEKqiUSlz2XoEQ+Cm517B5Nag/F7DHzG0YAMNyw==
-X-Received: by 2002:a0d:c647:0:b0:609:d94e:e4b9 with SMTP id
- i68-20020a0dc647000000b00609d94ee4b9mr3714677ywd.43.1709767829418; 
- Wed, 06 Mar 2024 15:30:29 -0800 (PST)
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com.
- [209.85.160.179]) by smtp.gmail.com with ESMTPSA id
- ku4-20020a05622a0a8400b0042f03bfa3d1sm1965781qtb.83.2024.03.06.15.30.16
+ AJvYcCUhPRUSopY4pbc1FfdSZFQXWeI9Duki0W1TNPDD8lgzXdO3HnqcRZFvNM+UF3v7dG6ZXn+puYkUF3k8MjcB+05cO6+mJ8HC8gyPLpx9Zux1
+X-Gm-Message-State: AOJu0Yy6lJKtWdVWhAoWuKEB0f467TgaaBLP2koxM7eE5PSLtLhZnbSw
+ sapVEpe61R6/5YEwMNl9PQFWOKZGMQ5o8oMy/RFlnKbDaXnFJDuGsvy4+WHyzs3e/6RpjYGRy75
+ TEA==
+X-Google-Smtp-Source: AGHT+IG8R/MV+mKnqwAnzy4y0Zl5389N67hz2si/ctYrXfkR18FS2k+S4zSHUsbAPYTVSkKA5X3xOA==
+X-Received: by 2002:a05:6a20:3ca5:b0:1a1:72d2:1f4 with SMTP id
+ b37-20020a056a203ca500b001a172d201f4mr2197pzj.22.1709768330177; 
+ Wed, 06 Mar 2024 15:38:50 -0800 (PST)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com.
+ [209.85.214.170]) by smtp.gmail.com with ESMTPSA id
+ a30-20020a631a5e000000b005d30550f954sm11487473pgm.31.2024.03.06.15.38.49
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Mar 2024 15:30:19 -0800 (PST)
-Received: by mail-qt1-f179.google.com with SMTP id
- d75a77b69052e-42ef8193ae6so56341cf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Mar 2024 15:30:16 -0800 (PST)
+ Wed, 06 Mar 2024 15:38:49 -0800 (PST)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-1dbe7e51f91so28705ad.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Mar 2024 15:38:49 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWB4/9FGVbjuYFF0aAKnzMx3vwo0DWO9haoWTteXpzHB3M6ymfMAD5z9hpVhrK7pcC47MeQ8sH7vyohydJOTVlIl3bMrzInYS23JoMpUvJN
-X-Received: by 2002:ac8:5891:0:b0:42e:fce9:a5e4 with SMTP id
- t17-20020ac85891000000b0042efce9a5e4mr149098qta.4.1709767816368; Wed, 06 Mar
- 2024 15:30:16 -0800 (PST)
+ AJvYcCW5r3bWA0ixZe8y85V2CTZMqJuFxY7h66kV19LT62nM8RO2YRsb2WRSIkA1s5qklnvPgtdZt3ixCtZqQHBisWPv6ZTfNVPUJsb2dCbrBVxQ
+X-Received: by 2002:a05:622a:1190:b0:42f:a3c:2d4c with SMTP id
+ m16-20020a05622a119000b0042f0a3c2d4cmr111258qtk.13.1709767832191; Wed, 06 Mar
+ 2024 15:30:32 -0800 (PST)
 MIME-Version: 1.0
 References: <20240306200353.1436198-1-hsinyi@chromium.org>
- <20240306200353.1436198-6-hsinyi@chromium.org>
-In-Reply-To: <20240306200353.1436198-6-hsinyi@chromium.org>
+ <20240306200353.1436198-7-hsinyi@chromium.org>
+In-Reply-To: <20240306200353.1436198-7-hsinyi@chromium.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 6 Mar 2024 15:30:00 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=U0CGmqYRCUr6-X6Ttkkp4NOP+2BQOpYn3hW-mO0wrtxw@mail.gmail.com>
-Message-ID: <CAD=FV=U0CGmqYRCUr6-X6Ttkkp4NOP+2BQOpYn3hW-mO0wrtxw@mail.gmail.com>
-Subject: Re: [PATCH v5 5/6] drm/panel-edp: Match edp_panels with panel identity
+Date: Wed, 6 Mar 2024 15:30:20 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=VvhKZHVzHQdOO=_p0E5m7ig1LY2s5MZRojRynKHbF1xw@mail.gmail.com>
+Message-ID: <CAD=FV=VvhKZHVzHQdOO=_p0E5m7ig1LY2s5MZRojRynKHbF1xw@mail.gmail.com>
+Subject: Re: [PATCH v5 6/6] drm/panel-edp: Fix AUO 0x405c panel naming and add
+ a variant
 To: Hsin-Yi Wang <hsinyi@chromium.org>
 Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
@@ -105,41 +106,43 @@ Hi,
 On Wed, Mar 6, 2024 at 12:04=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.org> =
 wrote:
 >
-> @@ -2111,15 +2113,16 @@ static const struct edp_panel_entry edp_panels[] =
-=3D {
->         { /* sentinal */ }
+> @@ -1009,6 +1009,19 @@ static const struct panel_desc auo_b101ean01 =3D {
+>         },
 >  };
 >
-> -static const struct edp_panel_entry *find_edp_panel(u32 panel_id)
-> +static const struct edp_panel_entry *find_edp_panel(u32 panel_id, const =
-struct drm_edid *edid)
->  {
->         const struct edp_panel_entry *panel;
->
-> -       if (!panel_id)
-> -               return NULL;
-> +       for (panel =3D edp_panels; panel->ident.panel_id; panel++)
-> +               if (drm_edid_match(edid, &panel->ident))
-> +                       return panel;
->
-> -       for (panel =3D edp_panels; panel->panel_id; panel++)
-> -               if (panel->panel_id =3D=3D panel_id)
-> +       for (panel =3D edp_panels; panel->ident.panel_id; panel++)
-> +               if (panel->ident.panel_id =3D=3D panel_id)
->                         return panel;
+> +static const struct drm_display_mode auo_b116xa3_mode =3D {
+> +       .clock =3D 70589,
+> +       .hdisplay =3D 1366,
+> +       .hsync_start =3D 1366 + 40,
+> +       .hsync_end =3D 1366 + 40 + 40,
+> +       .htotal =3D 1366 + 40 + 40 + 32,
+> +       .vdisplay =3D 768,
+> +       .vsync_start =3D 768 + 10,
+> +       .vsync_end =3D 768 + 10 + 12,
+> +       .vtotal =3D 768 + 10 + 12 + 6,
+> +       .flags =3D DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
+> +};
+> +
+>  static const struct drm_display_mode auo_b116xak01_mode =3D {
+>         .clock =3D 69300,
+>         .hdisplay =3D 1366,
+> @@ -1990,7 +2003,9 @@ static const struct edp_panel_entry edp_panels[] =
+=3D {
+>         EDP_PANEL_ENTRY('A', 'U', 'O', 0x239b, &delay_200_500_e50, "B116X=
+AN06.1"),
+>         EDP_PANEL_ENTRY('A', 'U', 'O', 0x255c, &delay_200_500_e50, "B116X=
+TN02.5"),
+>         EDP_PANEL_ENTRY('A', 'U', 'O', 0x403d, &delay_200_500_e50, "B140H=
+AN04.0"),
+> -       EDP_PANEL_ENTRY('A', 'U', 'O', 0x405c, &auo_b116xak01.delay, "B11=
+6XAK01.0"),
+> +       EDP_PANEL_ENTRY('A', 'U', 'O', 0x405c, &auo_b116xak01.delay, "B11=
+6XAN04.0"),
+> +       EDP_PANEL_ENTRY2('A', 'U', 'O', 0x405c, &auo_b116xak01.delay, "B1=
+16XAK01.0 ",
 
-Reading through this another time, I wouldn't object to a comment
-reminding the user why there are two loops here. Something like "Try
-to match both the panel ID and name at first. This allows handling the
-case where vendors incorrectly reused the same panel ID for multiple
-panels that need different settings. If we don't get a match with the
-name, that's OK. Panel ID _should_ be unique anyway". Feel free to
-reword.
+Remove the trailing space from the string above now?
 
-In any case:
+Aside from that:
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
-
-
-
--Doug
