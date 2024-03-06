@@ -2,83 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 889EC87414F
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 21:21:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B828740C9
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 20:50:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D73B1113511;
-	Wed,  6 Mar 2024 20:21:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E95AE1134DA;
+	Wed,  6 Mar 2024 19:50:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=klervi.com header.i=@klervi.com header.b="mJHmo099";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="UEOayirL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3217810ECC9
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 19:55:45 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-4130e293686so505715e9.3
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Mar 2024 11:55:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=klervi.com; s=google; t=1709754944; x=1710359744; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=n04+kjr3Y6YgIJTaMT3u4Uzu8nklWAvbA4VZhXY8Et8=;
- b=mJHmo099M3pdp41UQhHX/Naob1Ill9yjMmpdeBwJ1WTDiQAG3rCxKkGobEoffB3OGs
- kwxV6QkYb6IlZ3Ue+1NPuR6L9IxIe4iKIzQwZRt21sfqe395dh7UJORjhQ8UGty0Pf6P
- QJOuZd+9ClqMLZdqFv1npa0BJj7i+QOZeMXVk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709754944; x=1710359744;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=n04+kjr3Y6YgIJTaMT3u4Uzu8nklWAvbA4VZhXY8Et8=;
- b=s9+tALFHzP4sDr/f64fJBzl5G0vsD9WtC3bZgTTswNF3+tfrAOITRaaMSmYRczB9y9
- WiyrnAmqUkeKXcyVQpoCd1q4Tghq4LYR+WLDiUfOKsbmaaK9iAnev6c3B7xA1K6IDS/D
- nOmoxbOUKqUY3ufPfDsEBZJYzK0XaIC6zMtzdmQTKVbHXq+Kwvs8cKVSLHxYzL3hTmRZ
- fRaB2lkjLBhoyp9FAzAD8O+fqvfEaPNrj2DGGkn5sxrOloDpK2+8Y+SqazZaHJl727A5
- 9K94kfStkX8wHOh5S/x09HGl6oGx0e3JzBc0icR+Aji5tjs2O5S9Kbi/8mYBmP89Txle
- 9Erw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWGdaeiugOoTvazDH7DpEUzg6UN65/PoqfIcR9lI5PxrXjdeIADdppyrgm1Etf9zUdvZxZ27Kq/JZeqQPw1uAaS1d6KNV8x8oHgpIVOIS7V
-X-Gm-Message-State: AOJu0YwAFf6N2yJqn3pkeCHAQq/bELSlC22K7jPOzem72f3OD/4Wd6w2
- b4gqG5ELwZBD60kTmJ7kS6/wb6CEepxWR/rJOuQ9tWJaCeVpbonyJrKLiNwS5FkYcuoa6DOO52s
- xVJp2TS06VL3egXAe7wvGVsJEzjo0CwkcYh5th18yWZKB8Wcq0eOFsB9TuBjQ1ZuFGeceSjv1Va
- PKZtcMRC55cLjvt8i6MDuKi4Ml7Ka1ba4McTHMejwWtagTIBLpY9tYqMRzS7Gkc9Uo2dL/w16SO
- nJ1hevJ51YOexrecxYKAevPO5boi6/S6AwaC4Kt9Y+9uUHyYQ==
-X-Google-Smtp-Source: AGHT+IF2gkqIB+cBn4Al0GM9/kmbswnuXzHoTEFQtziyTc9Mtd3yLVusDe1v0KZebzI18vt+6lLTlg==
-X-Received: by 2002:a05:600c:510f:b0:412:dc42:73f8 with SMTP id
- o15-20020a05600c510f00b00412dc4273f8mr9417350wms.18.1709754606972; 
- Wed, 06 Mar 2024 11:50:06 -0800 (PST)
-Received: from cadmium.klervi.com ([2a01:e0a:33b:ae30:d1d4:c3ea:40e3:789f])
- by smtp.gmail.com with ESMTPSA id
- l14-20020a7bc44e000000b00412f6c695d1sm235193wmi.43.2024.03.06.11.50.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Mar 2024 11:50:06 -0800 (PST)
-From: Pierre-Louis Dourneau <pl.dourneau@klervi.com>
-To: Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Manikandan Muralidharan <manikandan.m@microchip.com>
-Cc: Pierre-Louis Dourneau <pl.dourneau@klervi.com>,
- =?UTF-8?q?Beno=C3=AEt=20Alcaina?= <b.alcaina@klervi.com>,
- Arnaud Lahache <a.lahache@klervi.com>,
- Nicolas Georges <n.georges@klervi.com>
-Subject: [PATCH] drm/atmel-hlcdc: Release CRTC commit when destroying plane
- state
-Date: Wed,  6 Mar 2024 20:49:35 +0100
-Message-Id: <20240306194935.11871-1-pl.dourneau@klervi.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAC881134D8;
+ Wed,  6 Mar 2024 19:50:45 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 426HS2cx011524; Wed, 6 Mar 2024 19:50:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding:content-type; s=qcppdkim1; bh=cow2gXP
+ FF/8lCz/5eh1CrmVLzXZTc3cY1rR9FaOT7/0=; b=UEOayirLC4D2LSZg51Tgnoo
+ hRqIo9resNoZ72Z8b9oiHeTYEIXDht9KR75QEzXV4RW0DDtaVw93Y7+DuYEqWCmE
+ tzKQDoKyqfGaJpZ/W5U8CTLj2hHKzpTlE2qK2kb+H+xKWw8TE3TQvK44Fk4sPG/G
+ h3EHbBeSqhzDXA1zcuz8yAjSyRPHZV/qSzXly6caoUKLrSIbPd1ibmY63bNzJRUn
+ sfVggdjZyD9PNFOro0UrQTeRhnZHj7KEvYYzrmdSGd2iHKhLAGz9/rgpNPCE0Jm1
+ ry/u5/L1TvbQdlnOmiFYqP2U+pALvUQ2WZUhZfnWEzPywbEFpEfg/uw34vxkc5w=
+ =
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wpvw60ag6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 06 Mar 2024 19:50:40 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 426JoefR022107
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 6 Mar 2024 19:50:40 GMT
+Received: from abhinavk-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Wed, 6 Mar 2024 11:50:39 -0800
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>
+CC: <dri-devel@lists.freedesktop.org>, <swboyd@chromium.org>,
+ <quic_jesszhan@quicinc.com>, <quic_parellan@quicinc.com>,
+ <quic_khsieh@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [RFC PATCH] drm/msm/dp: move link_ready out of HPD event thread
+Date: Wed, 6 Mar 2024 11:50:30 -0800
+Message-ID: <20240306195031.490994-1-quic_abhinavk@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 06 Mar 2024 20:21:38 +0000
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: rdYwYO6FX7Vu3nL_dJP5r-hEyea_ge29
+X-Proofpoint-ORIG-GUID: rdYwYO6FX7Vu3nL_dJP5r-hEyea_ge29
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-06_12,2024-03-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 clxscore=1015
+ bulkscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 adultscore=0 priorityscore=1501 mlxlogscore=999 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2402120000
+ definitions=main-2403060160
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,80 +92,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnaud Lahache <a.lahache@klervi.com>
+There are cases where the userspace might still send another
+frame after the HPD disconnect causing a modeset cycle after
+a disconnect. This messes the internal state machine of MSM DP driver
+and can lead to a crash as there can be an imbalance between
+bridge_disable() and bridge_enable().
 
-Fixes a memory leak occurring on each modeset update.
+This was also previously reported on [1] for which [2] was posted
+and helped resolve the issue by rejecting commits if the DP is not
+in connected state.
 
-Running a program such as libdrm's modetest[0] with this driver exhausts
-all available memory after a few minutes. Enabling kmemleak yields a series
-of such leak reports:
+The change resolved the bug but there can also be another race condition.
+If hpd_event_thread does not pick up the EV_USER_NOTIFICATION and process it
+link_ready will also not be set to false allowing the frame to sneak in.
 
-unreferenced object 0xc21acf40 (size 64):
-  comm "modetest", pid 210, jiffies 4294942460 (age 331.240s)
-  hex dump (first 32 bytes):
-    00 a0 a1 c1 01 00 00 00 ff ff ff ff 4c cf 1a c2  ............L...
-    4c cf 1a c2 ff ff ff ff 58 cf 1a c2 58 cf 1a c2  L.......X...X...
-  backtrace:
-    [<d68b3e09>] kmalloc_trace+0x18/0x24
-    [<f858a020>] drm_atomic_helper_setup_commit+0x1e0/0x7e0
-    [<26e8ab04>] drm_atomic_helper_commit+0x40/0x160
-    [<49708b0c>] drm_atomic_commit+0xa8/0xf0
-    [<e58c2942>] drm_mode_obj_set_property_ioctl+0x154/0x3d8
-    [<5e97e57d>] drm_ioctl+0x200/0x3c4
-    [<ed514ba1>] sys_ioctl+0x240/0xb48
-    [<26aab344>] ret_fast_syscall+0x0/0x44
+Lets move setting link_ready outside of hpd_event_thread() processing to
+eliminate a window of race condition.
 
-drm_atomic_helper_setup_commit() acquires a reference to a drm_crtc_commit
-for each CRTC and associated connectors and planes involved in a modeset.
-64-byte leaks map well to the size of a drm_crtc_commit on 32-bit
-architectures, and the second 4-byte chunk in the hex dump above awfully
-looks like a reference count.
+[1] : https://gitlab.freedesktop.org/drm/msm/-/issues/17
+[2] : https://lore.kernel.org/all/1664408211-25314-1-git-send-email-quic_khsieh@quicinc.com/
 
-We tracked this missing reference decrement down to the driver's
-atmel_hlcdc_plane_atomic_destroy_state() callback. Its CRTC counterpart,
-atmel_hlcdc_crtc_destroy_state(), calls into the drm_atomic helpers and
-properly releases its references to the commit. Planes didn't. Using the
-default helper for that purpose, __drm_atomic_helper_plane_destroy_state(),
-fixes the leak and avoids reimplementing the same logic in the driver.
-
-[0]: https://gitlab.freedesktop.org/mesa/drm/-/tree/main/tests/modetest
-     Invoke with `modetest -M atmel-hlcdc -s 32:#0 -v`, assuming 32 is the
-     ID of a connector.
-
-Signed-off-by: Arnaud Lahache <a.lahache@klervi.com>
-Co-developed-by: Pierre-Louis Dourneau <pl.dourneau@klervi.com>
-Signed-off-by: Pierre-Louis Dourneau <pl.dourneau@klervi.com>
-Co-developed-by: Benoît Alcaina <b.alcaina@klervi.com>
-Signed-off-by: Benoît Alcaina <b.alcaina@klervi.com>
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 ---
-As far as our testing goes, we've been running 6 of our production units
-with this patch for more than 2 weeks as per the date this patch is sent
-out. We can report stable memory usage.
+ drivers/gpu/drm/msm/dp/dp_display.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Admittedly, our usage of the DRM uAPI is rather simple: create 2 dumb
-buffers, do an initial MODE_SETCRTC, and then MODE_PAGE_FLIP between the
-two dumb buffers at the rate of once per second on average. We haven't
-evaluated more complex workloads.
-
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-index daa508504f47..390c4fc62af7 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-@@ -934,8 +934,7 @@ static void atmel_hlcdc_plane_atomic_destroy_state(struct drm_plane *p,
- 			      state->dscrs[i]->self);
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 068d44eeaa07..e00092904ccc 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -345,8 +345,6 @@ static int dp_display_send_hpd_notification(struct dp_display_private *dp,
+ 							 dp->panel->downstream_ports);
  	}
  
--	if (s->fb)
--		drm_framebuffer_put(s->fb);
-+	__drm_atomic_helper_plane_destroy_state(s);
+-	dp->dp_display.link_ready = hpd;
+-
+ 	drm_dbg_dp(dp->drm_dev, "type=%d hpd=%d\n",
+ 			dp->dp_display.connector_type, hpd);
+ 	drm_bridge_hpd_notify(bridge, dp->dp_display.link_ready);
+@@ -399,6 +397,8 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
+ 		goto end;
+ 	}
  
- 	kfree(state);
- }
-
-base-commit: 9dfc46c87cdc8f5a42a71de247a744a6b8188980
++	dp->dp_display.link_ready = true;
++
+ 	dp_add_event(dp, EV_USER_NOTIFICATION, true, 0);
+ 
+ end:
+@@ -466,6 +466,8 @@ static int dp_display_notify_disconnect(struct device *dev)
+ {
+ 	struct dp_display_private *dp = dev_get_dp_display_private(dev);
+ 
++	dp->dp_display.link_ready = false;
++
+ 	dp_add_event(dp, EV_USER_NOTIFICATION, false, 0);
+ 
+ 	return 0;
+@@ -487,6 +489,7 @@ static int dp_display_handle_port_status_changed(struct dp_display_private *dp)
+ 		drm_dbg_dp(dp->drm_dev, "sink count is zero, nothing to do\n");
+ 		if (dp->hpd_state != ST_DISCONNECTED) {
+ 			dp->hpd_state = ST_DISCONNECT_PENDING;
++			dp->dp_display.link_ready = false;
+ 			dp_add_event(dp, EV_USER_NOTIFICATION, false, 0);
+ 		}
+ 	} else {
 -- 
 2.34.1
 
