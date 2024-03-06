@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E31C9872BD9
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 01:44:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58870872BDB
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 01:44:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EBB2112DB9;
-	Wed,  6 Mar 2024 00:43:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9377A112DBB;
+	Wed,  6 Mar 2024 00:43:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="S0DNPZck";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="A+Kf81BE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C476112DB5
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 00:43:53 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-1dba177c596so2322165ad.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 16:43:53 -0800 (PST)
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com
+ [209.85.167.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 562DE112DB5
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 00:43:54 +0000 (UTC)
+Received: by mail-oi1-f171.google.com with SMTP id
+ 5614622812f47-3c1f55ba3ecso1336000b6e.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 16:43:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1709685832; x=1710290632;
+ d=chromium.org; s=google; t=1709685833; x=1710290633;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=1jdDSZHjVilOHoD9Mz88hwX3pgYSN/T59roGid0+2HE=;
- b=S0DNPZckMhS3ntWiFqb9CbCH/w6oWBCvTrysIYBle3X9TxDH9utv5Ixiz1jGtwuh1J
- 8bn4mX3tJFkawKXOE35c/WzdUoIGlZsGzwWipFfOq7daoLmIDTCPSEYjukUQySKKGAKm
- XieTc6ROrkhwD8D2YbOTB8iauj1CeKlYpby9g=
+ bh=EmN32yDBtw8o7MT20mOBDUzK3nXP1eK8tU0sZE85v7Q=;
+ b=A+Kf81BE8eKnfjNwupFX67z9nbGqtS99BrWV7y4kI6IeBmCkrJdbbt5C77uO3K2+18
+ GXIErd9zO8baCH5Ur/3S1IdlAcRHmU2c5D1wOxyMkMmLQcms9csnMbx0xajks1OB88Ah
+ Z1A+C9uw2GilREONy+thv+6M/Qv3q+Yz2vDAc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709685832; x=1710290632;
+ d=1e100.net; s=20230601; t=1709685833; x=1710290633;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1jdDSZHjVilOHoD9Mz88hwX3pgYSN/T59roGid0+2HE=;
- b=dyzXU7Jw8RuF/Ug+fcE1iZBIQqKk/4PzD8alzZNiaMmbYoK3SiDtQYr9cL3kiQOQSf
- 22aBimmJffIsESSepPVnR3zvf0bKAWvx2+GIS31W1j8Wy9SJfUX/e84ZD6CacHyIm3sX
- 5wllJ3YybrB5zCrZPuz6VS0KzIDiTOMzK0eK506itSxfITxJI4NLdV2vPAzKnHOva7ea
- SnKOcia4Z1K4mKfsBlHJdxzij56bBNsayazmc82tUQI84WeKCmc1ZbR4MhDhLz1uF4Y/
- u4Cfoj0Pp9DpGkiRR6qQvHxo6Q4w5WGSeUxJvTXdkCiohNn93UGfPcd4/J8n830aRqB4
- QgUQ==
+ bh=EmN32yDBtw8o7MT20mOBDUzK3nXP1eK8tU0sZE85v7Q=;
+ b=BGgOMmxS260caQhFKBfvWeRqHmfS+wxWoS1wE9/0PIcSJgxEq5WjSUumsRRCPkZL59
+ 4QFTkHHC5MLHxfKCGzGJYyDWcjumFaY06AmvTmq0s9v56ohz8RP+XYZOt3gJKpRSRzdM
+ 5m48BENHCIKfWgATDhnhcYMbP4YSW0Um2h+ir9981zQcmyCIk9E7DrQBExN0DZ8zazry
+ DYQUwCjX2IBcGk30ggicUr+lfbGo1Fso6mvvB+D4VKO+E/IURjesnm7XAv8aebCXRqRF
+ I6dEAix/hmWC6fa92I7NucGLxBQvfq1oiMRvQb7KEFH4BUG/sAWGG5HN9kOXZ7kPwwtA
+ iRSw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU7mBHifxQhcc+sQ7FyLVb9MSjmBGa8cCjyvD9kYMWjY2UVMMg4mlhgSDiF63iVjfWvWDMiX1+NHzFvS5Vg+Y9HGKXHgyXhDM+ZdPo4khDO
-X-Gm-Message-State: AOJu0YwUvGs9QMmc/15xiaYB34ZdaQZEalDJwo57XlhSKMArr6hKDCGl
- NFWsZeh3DgufIGrfffg0O4RWEVRSivG/WBwznWMX9+iygJMpvyq3Vd/H5jdnNQ==
-X-Google-Smtp-Source: AGHT+IHpeCSw6qFXG6z+qH6Amd+u9YxeuylmnfupBVB5t2dOKqVPQdY/9+/kxV/f5BbAsu5vN5zylA==
-X-Received: by 2002:a17:902:e741:b0:1dc:b7d2:3f28 with SMTP id
- p1-20020a170902e74100b001dcb7d23f28mr5058993plf.32.1709685832378; 
- Tue, 05 Mar 2024 16:43:52 -0800 (PST)
+ AJvYcCXri/yuFs7vOCL9KT6UEkfkk3OO2VP/hgfSW0q3CJwq7cyOqKLGr0ptGvpYGU/tBeJ2jNYbhQPHR99WuaKQYItvSQR4G5hTIivYWn7QsPHh
+X-Gm-Message-State: AOJu0YwryebU0lewkPw6U4mNbztUobFq8nH8TJpFwnoXpRy8Ug7vkjQ/
+ HBfO6aOjnIH62oZRoO4NwLSi7IoTqwUN2B1vYwmxTMF34Md8+vhuAJCgvs+LHg==
+X-Google-Smtp-Source: AGHT+IF9JDWMnbkfo7qAITIq4vU3d+C8vqidkBtNkEVN4h5JsUh1v6Vd9HjSE/5hv0doQQPhuxukSg==
+X-Received: by 2002:a05:6808:610:b0:3c2:1ab4:3323 with SMTP id
+ y16-20020a056808061000b003c21ab43323mr472567oih.51.1709685833369; 
+ Tue, 05 Mar 2024 16:43:53 -0800 (PST)
 Received: from hsinyi.sjc.corp.google.com ([2620:15c:9d:2:29bc:b3d:1ba8:cf52])
  by smtp.gmail.com with ESMTPSA id
- x37-20020a631725000000b005dc48e56191sm8512885pgl.11.2024.03.05.16.43.51
+ x37-20020a631725000000b005dc48e56191sm8512885pgl.11.2024.03.05.16.43.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Mar 2024 16:43:52 -0800 (PST)
+ Tue, 05 Mar 2024 16:43:53 -0800 (PST)
 From: Hsin-Yi Wang <hsinyi@chromium.org>
 To: Jani Nikula <jani.nikula@linux.intel.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
@@ -65,9 +65,9 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v4 2/5] drm/edid: Add a function to match EDID with identity
-Date: Tue,  5 Mar 2024 16:34:02 -0800
-Message-ID: <20240306004347.974304-3-hsinyi@chromium.org>
+Subject: [PATCH v4 3/5] drm/edid: Match edid quirks with identity
+Date: Tue,  5 Mar 2024 16:34:03 -0800
+Message-ID: <20240306004347.974304-4-hsinyi@chromium.org>
 X-Mailer: git-send-email 2.44.0.278.ge034bb2e1d-goog
 In-Reply-To: <20240306004347.974304-1-hsinyi@chromium.org>
 References: <20240306004347.974304-1-hsinyi@chromium.org>
@@ -88,145 +88,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create a type drm_edid_ident as the identity of an EDID. Currently it
-contains panel id and monitor name.
+Currently edid quirks are matched by panel id only.
 
-Create a function that can match a given EDID and an identity:
-1. Reject if the panel id doesn't match.
-2. If name is not null in identity, try to match it in the detailed timing
-   blocks. Note that some panel vendors put the monitor name after
-   EDID_DETAIL_MONITOR_STRING.
+Modify it to match with identity so it's easier to be extended
+for more complex matching if required.
 
+Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
 Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 ---
-v3->v4:
-1. add a type drm_edid_ident
-2. match name -> match identity. Modify function to use edid iterators.
+v4: new
+Per discussion https://lore.kernel.org/lkml/87a5nd4tsg.fsf@intel.com/
 ---
- drivers/gpu/drm/drm_edid.c | 76 ++++++++++++++++++++++++++++++++++++++
- include/drm/drm_edid.h     |  8 ++++
- 2 files changed, 84 insertions(+)
+ drivers/gpu/drm/drm_edid.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index f9e09f327f81..5e7e69e0e345 100644
+index 5e7e69e0e345..93a49b262dbe 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -102,6 +102,11 @@ struct detailed_mode_closure {
- 	int modes;
- };
+@@ -114,13 +114,15 @@ struct drm_edid_ident_closure {
  
-+struct drm_edid_ident_closure {
-+	const struct drm_edid_ident *ident;
-+	bool matched;
-+};
-+
- #define LEVEL_DMT	0
- #define LEVEL_GTF	1
- #define LEVEL_GTF2	2
-@@ -5455,6 +5460,77 @@ drm_parse_hdmi_vsdb_audio(struct drm_connector *connector, const u8 *db)
- 		    connector->audio_latency[0], connector->audio_latency[1]);
+ #define EDID_QUIRK(vend_chr_0, vend_chr_1, vend_chr_2, product_id, _quirks) \
+ { \
+-	.panel_id = drm_edid_encode_panel_id(vend_chr_0, vend_chr_1, vend_chr_2, \
+-					     product_id), \
++	.ident = { \
++		.panel_id = drm_edid_encode_panel_id(vend_chr_0, vend_chr_1, \
++						     vend_chr_2, product_id), \
++	}, \
+ 	.quirks = _quirks \
  }
  
-+static void
-+match_identity(const struct detailed_timing *timing, void *data)
-+{
-+	struct drm_edid_ident_closure *closure = data;
-+	unsigned int i, j;
-+	const char *str = closure->ident->name;
-+	unsigned int buflen = strlen(str);
-+	unsigned int size = ARRAY_SIZE(timing->data.other_data.data.str.str);
-+
-+	if (buflen > size ||
-+	    !(is_display_descriptor(timing, EDID_DETAIL_MONITOR_NAME) ||
-+	      is_display_descriptor(timing, EDID_DETAIL_MONITOR_STRING)))
-+		return;
-+
-+	for (i = 0; i < buflen; i++) {
-+		char c = timing->data.other_data.data.str.str[i];
-+
-+		if (c != str[i] ||  c == '\n')
-+			break;
-+		}
-+
-+		if (i == buflen) {
-+			/* Allow trailing white spaces. */
-+			for (j = i; j < size; j++) {
-+				char c = timing->data.other_data.data.str.str[j];
-+
-+				if (c == '\n') {
-+					closure->matched = true;
-+					return;
-+				} else if (c != ' ') {
-+					break;
-+				}
-+			}
-+			if (j == size) {
-+				closure->matched = true;
-+				return;
-+			}
-+	}
-+}
-+
-+/**
-+ * drm_edid_match_identity - match drm_edid with given identity
-+ * @drm_edid: EDID
-+ * @ident: the EDID identity to match with
+ static const struct edid_quirk {
+-	u32 panel_id;
++	const struct drm_edid_ident ident;
+ 	u32 quirks;
+ } edid_quirk_list[] = {
+ 	/* Acer AL1706 */
+@@ -2921,16 +2923,17 @@ EXPORT_SYMBOL(drm_edid_duplicate);
+  * @drm_edid: EDID to process
+  *
+  * This tells subsequent routines what fixes they need to apply.
 + *
-+ * Check if the EDID matches with the given identity.
-+ *
-+ * Return: True if the given identity matched with EDID, false otherwise.
-+ */
-+bool drm_edid_match_identity(const struct drm_edid *drm_edid,
-+			     const struct drm_edid_ident *ident)
-+{
-+	if (!drm_edid || edid_extract_panel_id(drm_edid->edid) != ident->panel_id)
-+		return false;
-+
-+	/* Match with name only if it's not NULL. */
-+	if (ident->name) {
-+		struct drm_edid_ident_closure closure = {
-+			.ident = ident,
-+			.matched = false,
-+		};
-+
-+		drm_for_each_detailed_block(drm_edid, match_identity, &closure);
-+
-+		return closure.matched;
-+	}
-+
-+	return true;
-+}
-+EXPORT_SYMBOL(drm_edid_match_identity);
-+
- static void
- monitor_name(const struct detailed_timing *timing, void *data)
++ * Return: A u32 represents the quirks to apply.
+  */
+ static u32 edid_get_quirks(const struct drm_edid *drm_edid)
  {
-diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-index 9686a7cee6a6..01825a8954b6 100644
---- a/include/drm/drm_edid.h
-+++ b/include/drm/drm_edid.h
-@@ -312,6 +312,12 @@ struct edid {
- 	u8 checksum;
- } __packed;
+-	u32 panel_id = edid_extract_panel_id(drm_edid->edid);
+ 	const struct edid_quirk *quirk;
+ 	int i;
  
-+/* EDID matching */
-+struct drm_edid_ident {
-+	u32 panel_id;
-+	const char *name;
-+};
-+
- #define EDID_PRODUCT_ID(e) ((e)->prod_code[0] | ((e)->prod_code[1] << 8))
+ 	for (i = 0; i < ARRAY_SIZE(edid_quirk_list); i++) {
+ 		quirk = &edid_quirk_list[i];
+-		if (quirk->panel_id == panel_id)
++		if (drm_edid_match_identity(drm_edid, &quirk->ident))
+ 			return quirk->quirks;
+ 	}
  
- /* Short Audio Descriptor */
-@@ -412,6 +418,8 @@ struct edid *drm_get_edid(struct drm_connector *connector,
- 			  struct i2c_adapter *adapter);
- const struct drm_edid *drm_edid_read_base_block(struct i2c_adapter *adapter);
- u32 drm_edid_get_panel_id(const struct drm_edid *drm_edid);
-+bool drm_edid_match_identity(const struct drm_edid *drm_edid,
-+			     const struct drm_edid_ident *ident);
- struct edid *drm_get_edid_switcheroo(struct drm_connector *connector,
- 				     struct i2c_adapter *adapter);
- struct edid *drm_edid_duplicate(const struct edid *edid);
 -- 
 2.44.0.278.ge034bb2e1d-goog
 
