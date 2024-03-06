@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1102287410C
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 21:04:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E6B287410D
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 21:04:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21BF7113507;
-	Wed,  6 Mar 2024 20:04:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03B86113506;
+	Wed,  6 Mar 2024 20:04:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="sxaH4jB+";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="ayaV22xq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2715113502
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 20:04:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30CC6113507
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 20:04:08 +0000 (UTC)
 Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx0.riseup.net (Postfix) with ESMTPS id 4Tqk0K6DYWz9wLd;
- Wed,  6 Mar 2024 20:04:01 +0000 (UTC)
+ by mx0.riseup.net (Postfix) with ESMTPS id 4Tqk0R1yfQz9wN6;
+ Wed,  6 Mar 2024 20:04:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1709755442; bh=yXbuN+CoZuGbUAgSQaHGYWiyhuige5NUNnLWq/soBQM=;
+ t=1709755447; bh=pRKJ1wttMJkyGZCwTEIz+hTdD6Hyg69u3flp9qpG3Q4=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=sxaH4jB+I12ibLBpFeegaJT5HHbr9J8j1ezVHJuBPLXC0BVfhqvbjVfBxb7b+6JCI
- RF+vx+UTTLk3b4s5BI5Cgwr8C4mYoO4uDa7hqYuCbn5M1k0l3wstsYoi8P4YgWHp8U
- nRXk71dhMWSTZSUIgsT3Kya+Z+5R8JgDdDarHqyQ=
-X-Riseup-User-ID: 8880DFCE1D029D93798CB6476356726EB753FBDD344B564393D9FDDA451E06DC
+ b=ayaV22xqkUWsVtLxjkIUOHqh7kNJ8gHRZLdN4Lu0SPsOYzqLPIPM+abcsoJXd5Uf2
+ kycE4fQC/uOsqYKKSJ9QQPK6mcJPrlGlciaElmCY57mKFC5rm+tVpaAiGOGKdDyTKv
+ Ons78J6vBlDL0stpuujmta53FkbX+NzqrcC6YCvU=
+X-Riseup-User-ID: 7889D8E448EB907AFFB289CD86314B66A18DF58B483C34C560BB5166FCAE0B74
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4Tqk0D2vmCzFvsZ;
- Wed,  6 Mar 2024 20:03:56 +0000 (UTC)
+ by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4Tqk0L0qM7zFsTN;
+ Wed,  6 Mar 2024 20:04:01 +0000 (UTC)
 From: Arthur Grillo <arthurgrillo@riseup.net>
-Date: Wed, 06 Mar 2024 17:03:13 -0300
-Subject: [PATCH 6/7] drm/vkms: Change the gray RGB representation
+Date: Wed, 06 Mar 2024 17:03:14 -0300
+Subject: [PATCH 7/7] drm/vkms: Add how to run the Kunit tests
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240306-louis-vkms-conv-v1-6-5bfe7d129fdd@riseup.net>
+Message-Id: <20240306-louis-vkms-conv-v1-7-5bfe7d129fdd@riseup.net>
 References: <20240306-louis-vkms-conv-v1-0-5bfe7d129fdd@riseup.net>
 In-Reply-To: <20240306-louis-vkms-conv-v1-0-5bfe7d129fdd@riseup.net>
 To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
@@ -68,73 +68,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using the drm_fixed calls, this needs to be changed. Which in fact is
-more correct, colour.YCbCr_to_RGB() gives 0x8080 for same the yuv
-parameters.
+Now that we have KUnit tests, add instructions on how to run them.
 
 Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 ---
- drivers/gpu/drm/vkms/tests/vkms_format_test.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ Documentation/gpu/vkms.rst | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/gpu/drm/vkms/tests/vkms_format_test.c b/drivers/gpu/drm/vkms/tests/vkms_format_test.c
-index 66cdd83c3d25..49125cf76eb5 100644
---- a/drivers/gpu/drm/vkms/tests/vkms_format_test.c
-+++ b/drivers/gpu/drm/vkms/tests/vkms_format_test.c
-@@ -48,7 +48,7 @@ static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
- 		.n_colors = 6,
- 		.colors = {
- 			{"white", {0xff, 0x80, 0x80}, {0xffff, 0xffff, 0xffff, 0xffff}},
--			{"gray",  {0x80, 0x80, 0x80}, {0xffff, 0x8000, 0x8000, 0x8000}},
-+			{"gray",  {0x80, 0x80, 0x80}, {0xffff, 0x8080, 0x8080, 0x8080}},
- 			{"black", {0x00, 0x80, 0x80}, {0xffff, 0x0000, 0x0000, 0x0000}},
- 			{"red",   {0x4c, 0x55, 0xff}, {0xffff, 0xffff, 0x0000, 0x0000}},
- 			{"green", {0x96, 0x2c, 0x15}, {0xffff, 0x0000, 0xffff, 0x0000}},
-@@ -71,7 +71,7 @@ static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
- 		.n_colors = 6,
- 		.colors = {
- 			{"white", {0xeb, 0x80, 0x80}, {0xffff, 0xffff, 0xffff, 0xffff}},
--			{"gray",  {0x7e, 0x80, 0x80}, {0xffff, 0x8000, 0x8000, 0x8000}},
-+			{"gray",  {0x7e, 0x80, 0x80}, {0xffff, 0x8080, 0x8080, 0x8080}},
- 			{"black", {0x10, 0x80, 0x80}, {0xffff, 0x0000, 0x0000, 0x0000}},
- 			{"red",   {0x51, 0x5a, 0xf0}, {0xffff, 0xffff, 0x0000, 0x0000}},
- 			{"green", {0x91, 0x36, 0x22}, {0xffff, 0x0000, 0xffff, 0x0000}},
-@@ -94,7 +94,7 @@ static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
- 		.n_colors = 4,
- 		.colors = {
- 			{"white", {0xff, 0x80, 0x80}, {0xffff, 0xffff, 0xffff, 0xffff}},
--			{"gray",  {0x80, 0x80, 0x80}, {0xffff, 0x8000, 0x8000, 0x8000}},
-+			{"gray",  {0x80, 0x80, 0x80}, {0xffff, 0x8080, 0x8080, 0x8080}},
- 			{"black", {0x00, 0x80, 0x80}, {0xffff, 0x0000, 0x0000, 0x0000}},
- 			{"red",   {0x36, 0x63, 0xff}, {0xffff, 0xffff, 0x0000, 0x0000}},
- 			{"green", {0xb6, 0x1e, 0x0c}, {0xffff, 0x0000, 0xffff, 0x0000}},
-@@ -117,7 +117,7 @@ static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
- 		.n_colors = 4,
- 		.colors = {
- 			{"white", {0xeb, 0x80, 0x80}, {0xffff, 0xffff, 0xffff, 0xffff}},
--			{"gray",  {0x7e, 0x80, 0x80}, {0xffff, 0x8000, 0x8000, 0x8000}},
-+			{"gray",  {0x7e, 0x80, 0x80}, {0xffff, 0x8080, 0x8080, 0x8080}},
- 			{"black", {0x10, 0x80, 0x80}, {0xffff, 0x0000, 0x0000, 0x0000}},
- 			{"red",   {0x3f, 0x66, 0xf0}, {0xffff, 0xffff, 0x0000, 0x0000}},
- 			{"green", {0xad, 0x2a, 0x1a}, {0xffff, 0x0000, 0xffff, 0x0000}},
-@@ -140,7 +140,7 @@ static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
- 		.n_colors = 4,
- 		.colors = {
- 			{"white", {0xff, 0x80, 0x80}, {0xffff, 0xffff, 0xffff, 0xffff}},
--			{"gray",  {0x80, 0x80, 0x80}, {0xffff, 0x8000, 0x8000, 0x8000}},
-+			{"gray",  {0x80, 0x80, 0x80}, {0xffff, 0x8080, 0x8080, 0x8080}},
- 			{"black", {0x00, 0x80, 0x80}, {0xffff, 0x0000, 0x0000, 0x0000}},
- 			{"red",   {0x43, 0x5c, 0xff}, {0xffff, 0xffff, 0x0000, 0x0000}},
- 			{"green", {0xad, 0x24, 0x0b}, {0xffff, 0x0000, 0xffff, 0x0000}},
-@@ -163,7 +163,7 @@ static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
- 		.n_colors = 4,
- 		.colors = {
- 			{"white", {0xeb, 0x80, 0x80}, {0xffff, 0xffff, 0xffff, 0xffff}},
--			{"gray",  {0x7e, 0x80, 0x80}, {0xffff, 0x8000, 0x8000, 0x8000}},
-+			{"gray",  {0x7e, 0x80, 0x80}, {0xffff, 0x8080, 0x8080, 0x8080}},
- 			{"black", {0x10, 0x80, 0x80}, {0xffff, 0x0000, 0x0000, 0x0000}},
- 			{"red",   {0x4a, 0x61, 0xf0}, {0xffff, 0xffff, 0x0000, 0x0000}},
- 			{"green", {0xa4, 0x2f, 0x19}, {0xffff, 0x0000, 0xffff, 0x0000}},
+diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+index 13b866c3617c..5ef5ef2e6a21 100644
+--- a/Documentation/gpu/vkms.rst
++++ b/Documentation/gpu/vkms.rst
+@@ -89,6 +89,17 @@ You can also run subtests if you do not want to run the entire test::
+   sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device "sys:/sys/devices/platform/vkms"
+   sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
+ 
++Testing With KUnit
++==================
++
++KUnit (Kernel unit testing framework) provides a common framework for unit tests
++within the Linux kernel.
++More information in ../dev-tools/kunit/index.rst .
++
++To run the VKMS KUnit tests::
++
++  tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/vkms/tests
++
+ TODO
+ ====
+ 
 
 -- 
 2.43.0
