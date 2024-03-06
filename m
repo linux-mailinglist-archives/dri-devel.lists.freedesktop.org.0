@@ -2,62 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1995E873277
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 10:23:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3093873344
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 10:59:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08F6E10E868;
-	Wed,  6 Mar 2024 09:23:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4322510EB2A;
+	Wed,  6 Mar 2024 09:59:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Zhv+RRBJ";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="jbZi51CK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2CEC10E868
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 09:23:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709717028; x=1741253028;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=8azOrkKOqGN52FwT3QPVf8+BwT58YaCcbX8PIF4gYek=;
- b=Zhv+RRBJ++jFZCskWTbxZGrjbVFzJg05q/jXT0l0ZdFMkMO3U+h3P2XX
- 1YIGL2HL+pJ6U2RlqhtQlrAiZ8fDEl4kQGSz4MpACDiQX97sw3mrvFssD
- NGAVUkL0tetdVkX/SKm/Er+juVq0eV/ps34ko3wxsYaoemV+n/V0zgkx7
- azBcAaeBJTtY5fhvjfEXHtZbwpqaE9QNTn1gjFpM9rCwAM+2UxMKMHRJu
- sc4QokcQ0Ng02Fc/62FUgXMovMzc3wuV1dkxmNFVTuWUdL+FaGyASMy80
- oPkqOCQkabBqVYUnfvyuCb20le1a34aKuTb/L4tZc9ZN1RtcMwZWaGSuY g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="8135414"
-X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="8135414"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2024 01:23:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="9635982"
-Received: from rjongalo-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.33.211])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2024 01:23:41 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Hsin-Yi Wang <hsinyi@chromium.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Douglas Anderson <dianders@chromium.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
- <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 4/5] drm/panel-edp: Match edp_panels with panel identity
-In-Reply-To: <20240306004347.974304-5-hsinyi@chromium.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240306004347.974304-1-hsinyi@chromium.org>
- <20240306004347.974304-5-hsinyi@chromium.org>
-Date: Wed, 06 Mar 2024 11:23:37 +0200
-Message-ID: <87msrbzpba.fsf@intel.com>
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com
+ [209.85.161.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3AF510EB2A
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 09:59:19 +0000 (UTC)
+Received: by mail-oo1-f44.google.com with SMTP id
+ 006d021491bc7-5a11f42324dso1945303eaf.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Mar 2024 01:59:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1709719159; x=1710323959;
+ darn=lists.freedesktop.org; 
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=amo+IB69F59PemLpSax75yoEEsP5uNKr7goammFkeSQ=;
+ b=jbZi51CKXhdDtR9rhvX7BtyUDg7BMDLSoGBEANphBZ2IgzKYr3pxdA1u/6XGRNta9C
+ Ova0iDT9hfy5iuNc5lKKjsi3o+bumHiPakuGlZkM3V26827dYhUnHkKKstagtuiS7kLg
+ zv2l2TcTbwvUPq/Ai03B76bCxjTnBm/yPCGcg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709719159; x=1710323959;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=amo+IB69F59PemLpSax75yoEEsP5uNKr7goammFkeSQ=;
+ b=lu1dvsuvhiKRTZvAFSqTDB4Q6CNNzXvsswsq79UJbT607Fx47SbJm8PyNkho0U7JdC
+ LTTGFrPs2brvCHRpbPLjIy+dtDUu9ioPKtdYqG1yiOfvBQY7UbUacGMEJM33YXQXTuFl
+ 5YUQ4u4gkm7nbM+hQ8j5LQvyrrrWURRsSgcdenEL/qHn+TVQLBt6213yZmTe3ge/9bHE
+ t3oTOSRrsCe3oqQNVzgWG1EU29JfuFjgrqvZtTgCTXaTx89vEf7lyrHEv+f0AKbY2XJR
+ 25HWRehhwUGLhEfnHeUCq6pdcgY9Ttj8Y7fDwHJTdFMJknIlXPf6R6ZqwonvXAcNMtWE
+ wlzg==
+X-Gm-Message-State: AOJu0Ywgq4eYZZgaBdi1dwHrgzlvb1IXeBmyjM4rSQa2BP2wTJAxR2Ct
+ we3KHKh9Zcqq6Up19+QFHL+RAwJImBChUxeZZt8vmE0JvxaTSzx28QnrnXpD8g==
+X-Google-Smtp-Source: AGHT+IGH3rZ4T25qUkA+cDcFog01f0dyjlG7LgO4XHMFQChVX0e9m0kWX4fa7DjerS1PYX4VYALCoA==
+X-Received: by 2002:a05:6358:70f:b0:17b:5c81:839e with SMTP id
+ e15-20020a056358070f00b0017b5c81839emr5343895rwj.7.1709719158860; 
+ Wed, 06 Mar 2024 01:59:18 -0800 (PST)
+Received: from yuanhsinte1.c.googlers.com
+ (36.157.124.34.bc.googleusercontent.com. [34.124.157.36])
+ by smtp.gmail.com with ESMTPSA id
+ p8-20020a63e648000000b005d68962e1a7sm10643000pgj.24.2024.03.06.01.59.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Mar 2024 01:59:18 -0800 (PST)
+From: Hsin-Te Yuan <yuanhsinte@chromium.org>
+Date: Wed, 06 Mar 2024 09:59:05 +0000
+Subject: [PATCH v3] drm/bridge: anx7625: Update audio status while
+ detecting
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240306-anx7625-v3-1-9034263bf530@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAGg+6GUC/2WMyw6CMBQFf4V0bU0ftKAr/8O4KO0t3AXUtNpgC
+ P9uYaPR5ZycmYUkiAiJnKuFRMiYMEwF5KEidjBTDxRdYSKYqJlkipppbrRQ1APXTpqTk40j5X2
+ P4HHeS9db4QHTI8TXHs58W/8bmVNOWwlOWuuNru3FDjGM+ByPIfZky2TxreqPKoracNkCY51Qn
+ f9R13V9AxwPhDncAAAA
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Hsin-Te Yuan <yuanhsinte@chromium.org>
+X-Mailer: b4 0.12.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,144 +89,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 05 Mar 2024, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
-> It's found that some panels have variants that they share the same panel id
-> although their EDID and names are different. When matching generic edp
-> panels, we should first match with both panel identity, which contains both
-> panel id and panel name. If not found, match with panel id only.
+Previously, the audio status was not updated during detection, leading
+to a persistent audio despite hot plugging events. To resolve this
+issue, update the audio status during detection.
 
-Do you want to start matching also with name, for all panels? That's
-totally up to you, but that's the big functional change here.
+Fixes: 566fef1226c1 ("drm/bridge: anx7625: add HDMI audio function")
+Signed-off-by: Hsin-Te Yuan <yuanhsinte@chromium.org>
+---
+Changes in v3:
+- Add Fixes tag. 
+- Link to v2: https://lore.kernel.org/r/20240306-anx7625-v2-1-7138e00b25bf@chromium.org
 
-BR,
-Jani.
+Changes in v2:
+- Add a space after the colons in the subject line.
+- Link to v1: https://lore.kernel.org/r/20240305-anx7625-v1-1-83ed3ccfa64c@chromium.org
+---
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
->
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> ---
-> v3->v4: combine name and id to identity.
-> ---
->  drivers/gpu/drm/panel/panel-edp.c | 45 ++++++++++++++++---------------
->  1 file changed, 24 insertions(+), 21 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-> index d094cfc43da8..fb70e97a2e71 100644
-> --- a/drivers/gpu/drm/panel/panel-edp.c
-> +++ b/drivers/gpu/drm/panel/panel-edp.c
-> @@ -210,15 +210,12 @@ struct panel_desc {
->   * struct edp_panel_entry - Maps panel ID to delay / panel name.
->   */
->  struct edp_panel_entry {
-> -	/** @panel_id: 32-bit ID for panel, encoded with drm_edid_encode_panel_id(). */
-> -	u32 panel_id;
-> +	/** @ident: edid identity used for panel matching. */
-> +	const struct drm_edid_ident ident;
->  
->  	/** @delay: The power sequencing delays needed for this panel. */
->  	const struct panel_delay *delay;
->  
-> -	/** @name: Name of this panel (for printing to logs). */
-> -	const char *name;
-> -
->  	/** @override_edid_mode: Override the mode obtained by edid. */
->  	const struct drm_display_mode *override_edid_mode;
->  };
-> @@ -691,7 +688,7 @@ static int detected_panel_show(struct seq_file *s, void *data)
->  	else if (!p->detected_panel)
->  		seq_puts(s, "HARDCODED\n");
->  	else
-> -		seq_printf(s, "%s\n", p->detected_panel->name);
-> +		seq_printf(s, "%s\n", p->detected_panel->ident.name);
->  
->  	return 0;
->  }
-> @@ -761,7 +758,7 @@ static void panel_edp_parse_panel_timing_node(struct device *dev,
->  		dev_err(dev, "Reject override mode: No display_timing found\n");
->  }
->  
-> -static const struct edp_panel_entry *find_edp_panel(u32 panel_id);
-> +static const struct edp_panel_entry *find_edp_panel(u32 panel_id, const struct drm_edid *edid);
->  
->  static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
->  {
-> @@ -799,7 +796,6 @@ static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
->  	base_block = drm_edid_read_base_block(panel->ddc);
->  	if (base_block) {
->  		panel_id = drm_edid_get_panel_id(base_block);
-> -		drm_edid_free(base_block);
->  	} else {
->  		dev_err(dev, "Couldn't identify panel via EDID\n");
->  		ret = -EIO;
-> @@ -807,7 +803,9 @@ static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
->  	}
->  	drm_edid_decode_panel_id(panel_id, vend, &product_id);
->  
-> -	panel->detected_panel = find_edp_panel(panel_id);
-> +	panel->detected_panel = find_edp_panel(panel_id, base_block);
-> +
-> +	drm_edid_free(base_block);
->  
->  	/*
->  	 * We're using non-optimized timings and want it really obvious that
-> @@ -840,7 +838,7 @@ static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
->  		panel->detected_panel = ERR_PTR(-EINVAL);
->  	} else {
->  		dev_info(dev, "Detected %s %s (%#06x)\n",
-> -			 vend, panel->detected_panel->name, product_id);
-> +			 vend, panel->detected_panel->ident.name, product_id);
->  
->  		/* Update the delay; everything else comes from EDID */
->  		desc->delay = *panel->detected_panel->delay;
-> @@ -1930,17 +1928,21 @@ static const struct panel_delay delay_200_500_e50_po2e200 = {
->  
->  #define EDP_PANEL_ENTRY(vend_chr_0, vend_chr_1, vend_chr_2, product_id, _delay, _name) \
->  { \
-> -	.name = _name, \
-> -	.panel_id = drm_edid_encode_panel_id(vend_chr_0, vend_chr_1, vend_chr_2, \
-> -					     product_id), \
-> +	.ident = { \
-> +		.name = _name, \
-> +		.panel_id = drm_edid_encode_panel_id(vend_chr_0, vend_chr_1, vend_chr_2, \
-> +						     product_id), \
-> +	}, \
->  	.delay = _delay \
->  }
->  
->  #define EDP_PANEL_ENTRY2(vend_chr_0, vend_chr_1, vend_chr_2, product_id, _delay, _name, _mode) \
->  { \
-> -	.name = _name, \
-> -	.panel_id = drm_edid_encode_panel_id(vend_chr_0, vend_chr_1, vend_chr_2, \
-> -					     product_id), \
-> +	.ident = { \
-> +		.name = _name, \
-> +		.panel_id = drm_edid_encode_panel_id(vend_chr_0, vend_chr_1, vend_chr_2, \
-> +						     product_id), \
-> +	}, \
->  	.delay = _delay, \
->  	.override_edid_mode = _mode \
->  }
-> @@ -2087,15 +2089,16 @@ static const struct edp_panel_entry edp_panels[] = {
->  	{ /* sentinal */ }
->  };
->  
-> -static const struct edp_panel_entry *find_edp_panel(u32 panel_id)
-> +static const struct edp_panel_entry *find_edp_panel(u32 panel_id, const struct drm_edid *edid)
->  {
->  	const struct edp_panel_entry *panel;
->  
-> -	if (!panel_id)
-> -		return NULL;
-> +	for (panel = edp_panels; panel->ident.panel_id; panel++)
-> +		if (drm_edid_match_identity(edid, &panel->ident))
-> +			return panel;
->  
-> -	for (panel = edp_panels; panel->panel_id; panel++)
-> -		if (panel->panel_id == panel_id)
-> +	for (panel = edp_panels; panel->ident.panel_id; panel++)
-> +		if (panel->ident.panel_id == panel_id)
->  			return panel;
->  
->  	return NULL;
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 29d91493b101a..9f0d0c5b8ebf5 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -2481,15 +2481,22 @@ static void anx7625_bridge_atomic_disable(struct drm_bridge *bridge,
+ 	mutex_unlock(&ctx->aux_lock);
+ }
+ 
++static void
++anx7625_audio_update_connector_status(struct anx7625_data *ctx,
++				      enum drm_connector_status status);
++
+ static enum drm_connector_status
+ anx7625_bridge_detect(struct drm_bridge *bridge)
+ {
+ 	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
+ 	struct device *dev = ctx->dev;
++	enum drm_connector_status status;
+ 
+ 	DRM_DEV_DEBUG_DRIVER(dev, "drm bridge detect\n");
+ 
+-	return anx7625_sink_detect(ctx);
++	status = anx7625_sink_detect(ctx);
++	anx7625_audio_update_connector_status(ctx, status);
++	return status;
+ }
+ 
+ static struct edid *anx7625_bridge_get_edid(struct drm_bridge *bridge,
 
+---
+base-commit: 90d35da658da8cff0d4ecbb5113f5fac9d00eb72
+change-id: 20240305-anx7625-fe16d3a9d37d
+
+Best regards,
 -- 
-Jani Nikula, Intel
+Hsin-Te Yuan <yuanhsinte@chromium.org>
+
