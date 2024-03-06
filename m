@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EDF9873F3F
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 19:32:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17665873F43
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 19:32:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98202113437;
-	Wed,  6 Mar 2024 18:32:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FDCC11343D;
+	Wed,  6 Mar 2024 18:32:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MTHgwW3L";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="A40JG8l3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8370611342F;
- Wed,  6 Mar 2024 18:32:28 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F0F811343B;
+ Wed,  6 Mar 2024 18:32:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709749948; x=1741285948;
+ t=1709749953; x=1741285953;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=cqFSp9L8zTwSfSvZpP/DEjDVq7JCV14o6k0myHr1lLs=;
- b=MTHgwW3LsZjS2PoGL2J/7nXcmDANMju9mksmm+TQRXRXlv40N7HG5k8u
- +zyY8kizt9qNhY61TJUQrnlUM5/3iwCfKoWC5lRQnTMCN/JqLRnzk+EAN
- bbj93Tt+wpqb11qLCoZoppiVpgjJI7NcdekPCys1FykdjIH9g5pzDJuVi
- uyIzJ3PwoR/EBxn+7tIIh71NsKggkcFVhWHHllvTTLVZOT3I/y+giA9xN
- jW8gYJpO8kval6idTqnDy4EPrjicB69sNc9SnhmjpCfPEqJfWm7U8CHsB
- MTrKhR116uYzS7Gi539rh3hC6jB0X8hmLJReFNq8OGtW1k5BiBVrP4v6g Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="8195737"
-X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; 
-   d="scan'208";a="8195737"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2024 10:32:27 -0800
+ bh=bj7teZyRgA1G5oWqnX0AjhjU77ncI6IAFbNC/2BSJto=;
+ b=A40JG8l3Gw220PyQhRtDXRY8LyJzIAeqxC4OyQFkMEmh+8Q7DJPUao0h
+ 5nvr8elta+5RU1a9cLOBQK8eEJtqjJXc8+gxEBGelGu3sAG1LhiUsMmdi
+ puWK0X9MHnp2kbTKSRx5L3lja5R1O8WaiEXPBEmqYp3ONiCaLtk0Jutkw
+ hc5HuppBj/T3iniyhXtxRNEIdZi/akEEfkjvqkoFEtj9xWnxFBqV+OCCS
+ wGKI9MDUrUZPVfPJbZTuetxc8Khy0TYHI8Z4eeFY1R1UOWwhIhcbB9iKZ
+ q6AcfkkQBsxu6ryj6gKYGO5NJLCbrAAu5RQnvhjTOXdmh413fkG3waVgl g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="15102722"
+X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; d="scan'208";a="15102722"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2024 10:32:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; d="scan'208";a="14496609"
+X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; d="scan'208";a="14415806"
 Received: from rjongalo-mobl2.ger.corp.intel.com (HELO localhost)
  ([10.252.33.211])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2024 10:32:26 -0800
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2024 10:32:30 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  jani.nikula@intel.com
-Subject: [PATCH 11/22] drm: fix drm_gem_vram_helper.h kernel-doc
-Date: Wed,  6 Mar 2024 20:31:16 +0200
-Message-Id: <02000be3455de639f32bde88f632ae8744142083.1709749576.git.jani.nikula@intel.com>
+Subject: [PATCH 12/22] drm/of: make drm_of.h self-contained
+Date: Wed,  6 Mar 2024 20:31:17 +0200
+Message-Id: <e9b3ea30984b913f6e32ed35e0575438dff8278c.1709749576.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1709749576.git.jani.nikula@intel.com>
 References: <cover.1709749576.git.jani.nikula@intel.com>
@@ -67,25 +66,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove excess funcs kernel-doc.
+Include <linux/err.h> for ERR_PTR.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- include/drm/drm_gem_vram_helper.h | 1 -
- 1 file changed, 1 deletion(-)
+ include/drm/drm_of.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
-index e18429f09e53..c89c9bafeb44 100644
---- a/include/drm/drm_gem_vram_helper.h
-+++ b/include/drm/drm_gem_vram_helper.h
-@@ -170,7 +170,6 @@ void drm_gem_vram_simple_display_pipe_cleanup_fb(
-  * @vram_base:	Base address of the managed video memory
-  * @vram_size:	Size of the managed video memory in bytes
-  * @bdev:	The TTM BO device.
-- * @funcs:	TTM BO functions
-  *
-  * The fields &struct drm_vram_mm.vram_base and
-  * &struct drm_vram_mm.vrm_size are managed by VRAM MM, but are
+diff --git a/include/drm/drm_of.h b/include/drm/drm_of.h
+index 082a6e980d01..02d1cdd7f798 100644
+--- a/include/drm/drm_of.h
++++ b/include/drm/drm_of.h
+@@ -2,6 +2,7 @@
+ #ifndef __DRM_OF_H__
+ #define __DRM_OF_H__
+ 
++#include <linux/err.h>
+ #include <linux/of_graph.h>
+ #if IS_ENABLED(CONFIG_OF) && IS_ENABLED(CONFIG_DRM_PANEL_BRIDGE)
+ #include <drm/drm_bridge.h>
 -- 
 2.39.2
 
