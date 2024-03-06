@@ -2,76 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B4CF8733D3
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 11:17:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1ED9873416
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 11:25:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AF9911258A;
-	Wed,  6 Mar 2024 10:17:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C831810E1CA;
+	Wed,  6 Mar 2024 10:25:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="Rxx7UCOb";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="W/Rm+8ri";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DQUJ6b0X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DBF011274E
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 10:17:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1709720271; x=1741256271;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=BQHn5cMhACeKzP4WjQoGsW0iJFib1tQeq8/rY6dbVNs=;
- b=Rxx7UCObU+r3W2vShLZVRS1PJyAI7OQCEzz1YCx+9X37UuVjI603nhPA
- rbyIqr6UTAZKPH3EVnbqFwIQkxMGVixVVzYTE/Uc9v0iuMmJMj2rSjKyW
- Hg+aKTnBa4GDt+nx2vtGbuRlE3zCjajEvwOWMw8ssj95RxHvsgAsf4ety
- in/eN5CSpPqaDNEYysWDkbeKvYUH1jbJAdyWiuW4vYaQVRZWowhRZ23hP
- YFSJEAKytTU/JhNZRfqA3zp94AH+Sx6g2U61OpBTd2tXPPZshOPnZIOOe
- w5VlpAgy769dQety2hiD9qFVIm8ym2xgzPNp0SyW4uE7x4EGSWiz9AK56 A==;
-X-IronPort-AV: E=Sophos;i="6.06,208,1705359600"; d="scan'208";a="35760944"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 06 Mar 2024 11:17:50 +0100
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 3A03716FFD7; Wed,  6 Mar 2024 11:17:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1709720266; h=from:subject:date:message-id:to:cc:mime-version:
- content-transfer-encoding:in-reply-to:references;
- bh=BQHn5cMhACeKzP4WjQoGsW0iJFib1tQeq8/rY6dbVNs=;
- b=W/Rm+8ri6ogmIreodRdN33aw/V9mbNfIpdf7R2INzcis8fj/c7CNBmrc27Ue0Lko8Hvp+O
- cupE9Qzu89YfXBFzcl18ET/vJ+OyQgnugeBPEbV1coQzEg1KdtHMAJZxrxqy/o0mph/f6W
- brX00EfQXtjDEyMJZAXhpA8hG4VtNgvBEEGcsk0tqntYeUFcJFdHIy8tWh/CNLsKxDe3h+
- cEKuJ1ZytdUggu0SMduiwnrOdIz02UewOcgcmtUqeoEPyE3W0Gkn2Gu0EcJ3dUk1cSRckQ
- Eue+SH7F6u0W7a2eldCtBp9mn2yvlQoN1Bi5zFTZm/0XoDVF8nH5LmdC/9hbIA==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Sandor Yu <Sandor.yu@nxp.com>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux@ew.tq-group.com
-Subject: [PATCH v15 8/8] arm64: dts: imx8mq: tqma8mq-mba8mx: Enable HDMI
- support
-Date: Wed,  6 Mar 2024 11:16:25 +0100
-Message-Id: <20240306101625.795732-9-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240306101625.795732-1-alexander.stein@ew.tq-group.com>
-References: <20240306101625.795732-1-alexander.stein@ew.tq-group.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1F3010E1CA
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 10:25:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709720738; x=1741256738;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=El+OOs5pi7lzmVrizlMxTEsWscK7ZxT9Eu6oAzyd4V4=;
+ b=DQUJ6b0XCYSs1v9ehONBqixV7N3fprq+YbZxeM9C58Qb4flDl7ToFfTx
+ z0AaJVpHKlG2L7Ylxm8GAWACnSEO0sBD8lyYhiL8hly09KUHQMK7YG6i9
+ fYfxazXIDAZxsFB0DQZ3AX/wtHk8r19hnTQl5KQkb1ENpcmBRjt4AUSVX
+ WE/4vLHmhz5NZH8p2Jk2Z5U5+oZuX2xxE+n+qJnTNlZKfAc+AlskrFrEo
+ O5O5aCypsKQD83L/AthZHmpNHoXlja/m0v3ZndgnIi9sAAzJV23uuy2rW
+ 61cTuC5Ky4jDkmhBx+A5vPgTTrzQa7eJ8ch0U3i7i6UsHhq0fJw+emaSf A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="21778850"
+X-IronPort-AV: E=Sophos;i="6.06,208,1705392000"; d="scan'208";a="21778850"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2024 02:25:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,208,1705392000"; 
+   d="scan'208";a="9587507"
+Received: from rjongalo-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.252.33.211])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2024 02:25:33 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Hsin-Te Yuan <yuanhsinte@chromium.org>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Hsin-Te
+ Yuan <yuanhsinte@chromium.org>
+Subject: Re: [PATCH v3] drm/bridge: anx7625: Update audio status while
+ detecting
+In-Reply-To: <20240306-anx7625-v3-1-9034263bf530@chromium.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240306-anx7625-v3-1-9034263bf530@chromium.org>
+Date: Wed, 06 Mar 2024 12:25:30 +0200
+Message-ID: <87frx3zmg5.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,82 +74,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add HDMI connector and connect it to MHDP output. Enable peripherals
-for HDMI output.
+On Wed, 06 Mar 2024, Hsin-Te Yuan <yuanhsinte@chromium.org> wrote:
+> Previously, the audio status was not updated during detection, leading
+> to a persistent audio despite hot plugging events. To resolve this
+> issue, update the audio status during detection.
+>
+> Fixes: 566fef1226c1 ("drm/bridge: anx7625: add HDMI audio function")
+> Signed-off-by: Hsin-Te Yuan <yuanhsinte@chromium.org>
+> ---
+> Changes in v3:
+> - Add Fixes tag. 
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
- .../dts/freescale/imx8mq-tqma8mq-mba8mx.dts   | 20 +++++++++++++++++++
- arch/arm64/boot/dts/freescale/mba8mx.dtsi     | 11 ++++++++++
- 2 files changed, 31 insertions(+)
+You don't need to send another version just to update commit message
+trailers. They can either be added while applying, or when you need to
+update the patch anyway.
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mq-tqma8mq-mba8mx.dts b/arch/arm64/boot/dts/freescale/imx8mq-tqma8mq-mba8mx.dts
-index 0165f3a259853..406c8229097cb 100644
---- a/arch/arm64/boot/dts/freescale/imx8mq-tqma8mq-mba8mx.dts
-+++ b/arch/arm64/boot/dts/freescale/imx8mq-tqma8mq-mba8mx.dts
-@@ -53,6 +53,10 @@ &btn2 {
- 	gpios = <&gpio3 17 GPIO_ACTIVE_LOW>;
- };
- 
-+&dcss {
-+	status = "okay";
-+};
-+
- &gpio_leds {
- 	led3 {
- 		label = "led3";
-@@ -60,6 +64,14 @@ led3 {
- 	};
- };
- 
-+&hdmi_connector {
-+	port {
-+		hdmi_connector_in: endpoint {
-+			remote-endpoint = <&mhdp_out>;
-+		};
-+	};
-+};
-+
- &i2c1 {
- 	expander2: gpio@25 {
- 		compatible = "nxp,pca9555";
-@@ -91,6 +103,14 @@ &led2 {
- 	gpios = <&gpio3 16 GPIO_ACTIVE_HIGH>;
- };
- 
-+&mhdp {
-+	status = "okay";
-+};
-+
-+&mhdp_out {
-+	remote-endpoint = <&hdmi_connector_in>;
-+};
-+
- /* PCIe slot on X36 */
- &pcie0 {
- 	reset-gpio = <&expander0 14 GPIO_ACTIVE_LOW>;
-diff --git a/arch/arm64/boot/dts/freescale/mba8mx.dtsi b/arch/arm64/boot/dts/freescale/mba8mx.dtsi
-index 427467df42bfa..9fe262a41b398 100644
---- a/arch/arm64/boot/dts/freescale/mba8mx.dtsi
-+++ b/arch/arm64/boot/dts/freescale/mba8mx.dtsi
-@@ -89,6 +89,17 @@ gpio_delays: gpio-delays {
- 		gpio-line-names = "LVDS_BRIDGE_EN_1V8";
- 	};
- 
-+	hdmi_connector: connector {
-+		compatible = "hdmi-connector";
-+		label = "X11";
-+		type = "a";
-+
-+		port {
-+			hdmi_connector_in: endpoint {
-+			};
-+		};
-+	};
-+
- 	panel: panel-lvds {
- 		/*
- 		 * Display is not fixed, so compatible has to be added from
+Or, if b4 is used to apply the patches, it can automagically pick up the
+trailers from replies to the patch with the Fixes: trailer.
+
+> - Link to v2: https://lore.kernel.org/r/20240306-anx7625-v2-1-7138e00b25bf@chromium.org
+>
+> Changes in v2:
+> - Add a space after the colons in the subject line.
+> - Link to v1: https://lore.kernel.org/r/20240305-anx7625-v1-1-83ed3ccfa64c@chromium.org
+> ---
+>  drivers/gpu/drm/bridge/analogix/anx7625.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> index 29d91493b101a..9f0d0c5b8ebf5 100644
+> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> @@ -2481,15 +2481,22 @@ static void anx7625_bridge_atomic_disable(struct drm_bridge *bridge,
+>  	mutex_unlock(&ctx->aux_lock);
+>  }
+>  
+> +static void
+> +anx7625_audio_update_connector_status(struct anx7625_data *ctx,
+> +				      enum drm_connector_status status);
+> +
+>  static enum drm_connector_status
+>  anx7625_bridge_detect(struct drm_bridge *bridge)
+>  {
+>  	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
+>  	struct device *dev = ctx->dev;
+> +	enum drm_connector_status status;
+>  
+>  	DRM_DEV_DEBUG_DRIVER(dev, "drm bridge detect\n");
+>  
+> -	return anx7625_sink_detect(ctx);
+> +	status = anx7625_sink_detect(ctx);
+> +	anx7625_audio_update_connector_status(ctx, status);
+> +	return status;
+>  }
+>  
+>  static struct edid *anx7625_bridge_get_edid(struct drm_bridge *bridge,
+
+I guess this could be applied with less context (-C 2) but the baseline
+is old. In drm-misc-next, all of drm/bridge has moved on to struct
+drm_edid.
+
+BR,
+Jani.
+
+
+>
+> ---
+> base-commit: 90d35da658da8cff0d4ecbb5113f5fac9d00eb72
+> change-id: 20240305-anx7625-fe16d3a9d37d
+>
+> Best regards,
+
 -- 
-2.34.1
-
+Jani Nikula, Intel
