@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15867873C9A
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 17:51:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEC68873CE0
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 18:05:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F72111334C;
-	Wed,  6 Mar 2024 16:51:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13F1010EB8A;
+	Wed,  6 Mar 2024 17:05:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="f6rmjePZ";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="GRWIfzfK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
- [209.85.208.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D051E11334E
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 16:51:32 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id
- 4fb4d7f45d1cf-567f7bba941so1027434a12.2
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Mar 2024 08:51:32 -0800 (PST)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81E5F10EB8A
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 17:05:09 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-a452877ddcaso3470366b.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Mar 2024 09:05:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1709743891; x=1710348691;
+ d=google.com; s=20230601; t=1709744707; x=1710349507;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fAuNxTfS6x4OQHwyTAR2JW08hPHhuONnAVW1sMtWxI0=;
- b=f6rmjePZi5YThPb3ffGcEUz2W1bOuy0fdhj/ladnDnTSKh1FMqyAxbgiiEt2ryLkd1
- c4+l39LO8S+TUuV469cFcWgNatgzw8q8qzsrq5VFn9cRwiRnHjZNLC0oz4zlcNGZgaDQ
- v5TazSdW7D3/GYFTq/OcuS2o1AMjZXfNjI9flMyjWLvapUR78CQM0rVQ8/z1KGQ0HJ+j
- 4+W5oV4cb6FtO+AEPChoci7sKoaOcKw2MIVN8xNVpE+l2BVv7DgDbOEnEBJTP5HaGdug
- dySHjdzZC401+0V8uHU+dEgeLDvVxn0HfVLXEuBQHh1VArOVoAstztnrEdKvegbskoc5
- MCmw==
+ bh=A1xSBjsofT/9pZS7Yx9G3XGpR9XoFLam+fQU7TnybVs=;
+ b=GRWIfzfKAxWYWHSB4bv6h/XQDwQCYNTQRUdlwsa0J5gbFc+NWzaBL7AnXQ2WduuB0E
+ ihmgNs9K7WMo9rxPOZur2LOJKH8M2thbRx7SAMOBBAM3J4CJvfOWoLAh6VqsLCDji753
+ yQiCKu1Lb1xsHhJoW5/XevhO7MnEMnveP+voeTWcgH7wfBZrsYYWC4tCQ+IyQNC+CB2Q
+ csbyZxd51W4JUwyZTyV4OJHRlAnb7BwhuZB3SDtl8URtq9Y4bSzO4yHls4VkYgLdrgE/
+ 6LGhtiN/kH/KZ3oonPnEiPhgzp7GTz25qPjiV2h5apQcM/LbRGNJPcqJO5p97edmmYOl
+ F8tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709743891; x=1710348691;
+ d=1e100.net; s=20230601; t=1709744707; x=1710349507;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fAuNxTfS6x4OQHwyTAR2JW08hPHhuONnAVW1sMtWxI0=;
- b=Q0j7FZccHcqJPS9SiTtdsdopX1ft7o8GD8n1yeaQ0O6QIMQN9BW3CkQfMB6WVjrUnK
- 0lzVM2W+5u0215uIGUlhX57z3IJdmyeGFTMdHEbxOQzTFYr495D9en9hCiLB0Df8krEQ
- qMt0S4Qxlc/IqyC/1NLL2eVNZna4tXEPplu0rhttvtsQrJuLaWCKZ8k7qEQYkMZEw6cp
- y6AYKz8TRxV+qDK1K8UQrkVTb+NQps71dJbohrvBNecubGby788PlT9l5jE6lPa0pBor
- Nhm+aHoZP46ERen77PR4x2Vd2i/ef1c3YRmQe2XyWKxbdbx+XbfKupLKUprlIzZAV+T2
- /HxQ==
+ bh=A1xSBjsofT/9pZS7Yx9G3XGpR9XoFLam+fQU7TnybVs=;
+ b=i+IlXQPJaCdWAGLEkX7y5dq+vNYS0V0SqaeyXREW7YSvYwlbPaYP9O6ovSTp5rHw/P
+ F/ZHzEugCI4OMx/hhRu2RM1PFsUlw6UZfhfMIwzXPY3Kllh6s6MVDA6Mr5gpiJM8CrMQ
+ xdQy6rjHy9VRTECOKQQcoqgzR04aVwTiNIfa8JUkIDTvICPmXJyiDSj+Zz2ENN81IGsU
+ t/GwVp7EJca+6qtQ9uuOgedPRt8rUCByL8eUYVEpLeCEAKLEqIbExI42qHhoGV2B9ewQ
+ VrToffJhWMCYJRnxh1kEl7vTudbC4Zc5DVgefU+78BttUvFMExkQ43Z5iYakVNAbSXMT
+ jPPg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVak4rxWQMA55GoFtiUoycgGOa3gwP7ODZH7+/ZpLRbU/vpY2yV+KksYp4JJXETDYbpTupoNaCHDS72I49oJSREjF81cTwhCs1lp56QrEWP
-X-Gm-Message-State: AOJu0YyMTEpB9tugU4PrlMm8l4FVLnr68BJ0cYKKU+QMtToexG/iDHFP
- 4YNklULTlK20N4TwtfwGcTCosZekTE6e67b+N0e00lac2mVRyMPMfnXU2fZ51XLF6LFrMCatt3X
- YvAG/EU6+x3/nCFJIKon8e5z4bpWWHt2XuQk3
-X-Google-Smtp-Source: AGHT+IHrH3y3Ev3rFR65oa9/ga3T2bFvGKoWYUoW9uQPlR8wceBykqCSE0zANfpwXtxsNCt9XtLxrBXjLnroDNOKeBc=
-X-Received: by 2002:a17:906:fc01:b0:a43:f267:789f with SMTP id
- ov1-20020a170906fc0100b00a43f267789fmr10647282ejb.41.1709743890406; Wed, 06
- Mar 2024 08:51:30 -0800 (PST)
+ AJvYcCUBXbYyEcmXJCKUJEEzlOy7DzKcdIWTLfcZsljTBcl4tb6apu3vdKjwXduyilDHcxvet4HxAMCZH+bMbADAmBsFHfw3d3Mhobaf/M4u9v+g
+X-Gm-Message-State: AOJu0Yyv8FrK/Fm9dppY5e1XuUNfHAqfCBbp56JXyKNqKmpR67sWw3hT
+ 4iEGNPl8hWur+OE3q7IzrSyc6q2atLrJQfI1EZhxFWksnM3JCtavhJCXi+bXDJHqhcovf5g5+Vd
+ y5S+AUVAd9Epw9mU5B9F6Aohl1oIuwBitYVH9
+X-Google-Smtp-Source: AGHT+IEFAot1sqpMocgXEq0iHPu0SbjnF94L+Z+kSlPfTE1HrQ8kPH2Z8oVY6d8041os4lHMCzDMgHeBjBfnC6a+Now=
+X-Received: by 2002:a17:906:b00b:b0:a44:c583:dfc8 with SMTP id
+ v11-20020a170906b00b00b00a44c583dfc8mr9370474ejy.48.1709744706904; Wed, 06
+ Mar 2024 09:05:06 -0800 (PST)
 MIME-Version: 1.0
 References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-10-almasrymina@google.com>
- <383c4870-167f-4123-bbf3-928db1463e01@davidwei.uk>
- <CAHS8izP_PzDJVxycwZe_d_x10-SX4=Q-CWpKTjoOQ5dc2NSn3w@mail.gmail.com>
- <b85b36bd-7082-47a5-bf46-50cff8eb60be@gmail.com>
-In-Reply-To: <b85b36bd-7082-47a5-bf46-50cff8eb60be@gmail.com>
+ <20240305020153.2787423-3-almasrymina@google.com>
+ <1b57dac2-4b04-4bec-b2d7-d0edb4fcabbc@davidwei.uk>
+ <CAHS8izM5O39mnTQ8mhcQE75amDT4G-3vcgozzjcYsAdd_-he1g@mail.gmail.com>
+ <417f293a-848e-4eb2-b690-c8696079b452@gmail.com>
+In-Reply-To: <417f293a-848e-4eb2-b690-c8696079b452@gmail.com>
 From: Mina Almasry <almasrymina@google.com>
-Date: Wed, 6 Mar 2024 08:51:18 -0800
-Message-ID: <CAHS8izMEJHWAHVjaKu9ZpeWRj1TwoLkmY5tCtDYxdDReBV8=Dw@mail.gmail.com>
-Subject: Re: [RFC PATCH net-next v6 09/15] memory-provider: dmabuf devmem
- memory provider
+Date: Wed, 6 Mar 2024 09:04:54 -0800
+Message-ID: <CAHS8izNPtHb2GnEMviiJTFT_dPxsxgYsNw5V9s-gSC2YnJRPRg@mail.gmail.com>
+Subject: Re: [RFC PATCH net-next v6 02/15] net: page_pool: create hooks for
+ custom page providers
 To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: David Wei <dw@davidwei.uk>, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, 
@@ -102,8 +102,7 @@ Cc: David Wei <dw@davidwei.uk>, netdev@vger.kernel.org,
  Shailend Chand <shailend@google.com>,
  Harshitha Ramamurthy <hramamurthy@google.com>, 
  Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>, 
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+ Praveen Kaligineedi <pkaligineedi@google.com>, shakeel.butt@linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -121,63 +120,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 6, 2024 at 6:59=E2=80=AFAM Pavel Begunkov <asml.silence@gmail.c=
+On Wed, Mar 6, 2024 at 6:30=E2=80=AFAM Pavel Begunkov <asml.silence@gmail.c=
 om> wrote:
 >
-> On 3/6/24 02:42, Mina Almasry wrote:
-> > On Tue, Mar 5, 2024 at 6:28=E2=80=AFPM David Wei <dw@davidwei.uk> wrote=
+> On 3/5/24 22:36, Mina Almasry wrote:
+> > On Tue, Mar 5, 2024 at 1:55=E2=80=AFPM David Wei <dw@davidwei.uk> wrote=
 :
 > >>
 > >> On 2024-03-04 18:01, Mina Almasry wrote:
-> >>> +     if (pool->p.queue)
-> >>> +             binding =3D READ_ONCE(pool->p.queue->binding);
-> >>> +
-> >>> +     if (binding) {
-> >>> +             pool->mp_ops =3D &dmabuf_devmem_ops;
-> >>> +             pool->mp_priv =3D binding;
-> >>> +     }
+> >>> +struct memory_provider_ops {
+> >>> +     int (*init)(struct page_pool *pool);
+> >>> +     void (*destroy)(struct page_pool *pool);
+> >>> +     struct page *(*alloc_pages)(struct page_pool *pool, gfp_t gfp);
+> >>> +     bool (*release_page)(struct page_pool *pool, struct page *page)=
+;
 > >>
-> >> This is specific to TCP devmem. For ZC Rx we will need something more
-> >> generic to let us pass our own memory provider backend down to the pag=
-e
-> >> pool.
-> >>
-> >> What about storing ops and priv void ptr in struct netdev_rx_queue
-> >> instead? Then we can both use it.
+> >> For ZC Rx we added a scrub() function to memory_provider_ops that is
+> >> called from page_pool_scrub(). Does TCP devmem not custom behaviour
+> >> waiting for all netmem_refs to return before destroying the page pool?
+> >> What happens if e.g. application crashes?
 > >
-> > Yes, this is dmabuf specific, I was thinking you'd define your own
-> > member of netdev_rx_queue, and then add something like this to
-> > page_pool_init:
+> > (sorry for the long reply, but he refcounting is pretty complicated to
+> > explain and I feel like we need to agree on how things currently work)
+> >
+> > Yeah, the addition of the page_pool_scrub() function is a bit of a
+> > head scratcher for me. Here is how the (complicated) refcounting works
+> > for devmem TCP (assuming the driver is not doing its own recycling
+> > logic which complicates things further):
+> >
+> > 1. When a netmem_ref is allocated by the page_pool (from dmabuf or
+> > page), the netmem_get_pp_ref_count_ref()=3D=3D1 and belongs to the page
+> > pool as long as the netmem is waiting in the pool for driver
+> > allocation.
+> >
+> > 2. When a netmem is allocated by the driver, no refcounting is
+> > changed, but the ownership of the netmem_get_pp_ref_count_ref() is
+> > implicitly transferred from the page pool to the driver. i.e. the ref
+> > now belongs to the driver until an skb is formed.
+> >
+> > 3. When the driver forms an skb using skb_rx_add_frag_netmem(), no
+> > refcounting is changed, but the ownership of the
+> > netmem_get_pp_ref_count_ref() is transferred from the driver to the
+> > TCP stack.
+> >
+> > 4. When the TCP stack hands the skb to the application, the TCP stack
+> > obtains an additional refcount, so netmem_get_pp_ref_count_ref()=3D=3D2=
+,
+> > and frees the skb using skb_frag_unref(), which drops the
+> > netmem_get_pp_ref_count_ref()=3D=3D1.
+> >
+> > 5. When the user is done with the skb, the user calls the
+> > DEVMEM_DONTNEED setsockopt which calls napi_pp_put_netmem() which
+> > recycles the netmem back to the page pool. This doesn't modify any
+> > refcounting, but the refcount ownership transfers from the userspace
+> > back to the page pool, and we're back at step 1.
+> >
+> > So all in all netmem can belong either to (a) the page pool, or (b)
+> > the driver, or (c) the TCP stack, or (d) the application depending on
+> > where exactly it is in the RX path.
+> >
+> > When an application running devmem TCP crashes, the netmem that belong
+> > to the page pool or driver are not touched, because the page pool is
+> > not tied to the application in our case really. However, the TCP stack
+> > notices the devmem socket of the application close, and when it does,
+> > the TCP stack will:
+> >
+> > 1. Free all the skbs in the sockets receive queue. This is not custom
+> > behavior for devmem TCP, it's just standard for TCP to free all skbs
+> > waiting to be received by the application.
+> > 2. The TCP stack will free references that belong to the application.
+> > Since the application crashed, it will not call the DEVMEM_DONTNEED
+> > setsockopt, so we need to free those on behalf of the application.
+> > This is done in this diff:
+> >
+> > @@ -2498,6 +2498,15 @@ static void tcp_md5sig_info_free_rcu(struct
+> > rcu_head *head)
+> >   void tcp_v4_destroy_sock(struct sock *sk)
+> >   {
+> >    struct tcp_sock *tp =3D tcp_sk(sk);
+> > + __maybe_unused unsigned long index;
+> > + __maybe_unused void *netmem;
+> > +
+> > +#ifdef CONFIG_PAGE_POOL
+> > + xa_for_each(&sk->sk_user_frags, index, netmem)
+> > + WARN_ON_ONCE(!napi_pp_put_page((__force netmem_ref)netmem, false));
+> > +#endif
+> > +
+> > + xa_destroy(&sk->sk_user_frags);
+> >
+> >    trace_tcp_destroy_sock(sk);
+> >
+> > To be honest, I think it makes sense for the TCP stack to be
+> > responsible for putting the references that belong to it and the
+> > application. To me, it does not make much sense for the page pool to
+> > be responsible for putting the reference that belongs to the TCP stack
+> > or driver via a page_pool_scrub() function, as those references do not
+> > belong to the page pool really. I'm not sure why there is a diff
+> > between our use cases here because I'm not an io_uring expert. Why do
+> > you need to scrub all the references on page pool destruction? Don't
+> > these belong to non-page pool components like io_uring stack or TCP
+> > stack ol otherwise?
 >
-> That would be quite annoying, there are 3 expected users together
-> with huge pages, each would need a field and check all others are
-> disabled as you mentioned and so on. It should be cleaner to pass
-> a generic {pp_ops,pp_private} pair instead.
+> That one is about cleaning buffers that are in b/w 4 and 5, i.e.
+> owned by the user, which devmem does at sock destruction. io_uring
+> could get by without scrub, dropping user refs while unregistering
+> ifq, but then it'd need to wait for all requests to finish so there
+> is no step 4 in the meantime. Might change, can be useful, but it
+> was much easier to hook into the pp release loop.
 >
-> If header dependencies is a problem, you it can probably be
->
-> struct pp_provider_param {
->         struct pp_ops ops;
->         void *private;
-> };
->
-> # netdev_rx_queue.h
->
-> // definition is not included here
-> struct pp_provider_params;
->
-> struct netdev_rx_queue {
->         ...
->         struct pp_provider_params *pp_params;
-> };
+> Another concern is who and when can reset ifq / kill pp outside
+> of io_uring/devmem. I assume it can happen on a whim, which is
+> hard to handle gracefully.
 >
 
-Seems very reasonable, will do! Thanks!
+If this is about dropping application refs in step 4 & step 5, then
+from devmem TCP perspective it must be done on socket close & skb
+freeing AFAIU, and not delayed until page_pool destruction. Think
+about a stupid or malicious user that does something like:
+
+1. Set up dmabuf binding using netlink api.
+2. While (100000):
+3.   create devmem TCP socket.
+4.   receive some devmem data on TCP socket.
+5.   close TCP socket without calling DEVMEM_DONTNEED.
+6. clean up dmabuf binding using netlink api.
+
+In this case, we need to drop the references in step 5 when the socket
+is destroyed, so the memory is freed to the page pool and available
+for the next socket in step 3. We cannot delay the freeing until step
+6 when the rx queue is recreated and the page pool is destroyed,
+otherwise the net_iovs would leak in the loop and eventually the NIC
+would fail to find available memory. The same bug would be
+reproducible with io_uring unless you're creating a new page pool for
+each new io_uring socket equivalent.
+
+But even outside of this, I think it's a bit semantically off to ask
+the page_pool to drop references that belong to the application IMO,
+because those references are not the page_pool's.
 
 > --
 > Pavel Begunkov
-
-
 
 --=20
 Thanks,
