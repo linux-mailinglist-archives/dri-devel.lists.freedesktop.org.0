@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 417DB873F51
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 19:32:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E86C4873F53
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 19:33:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15095113445;
-	Wed,  6 Mar 2024 18:32:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF15113435;
+	Wed,  6 Mar 2024 18:33:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Q3ny92Bt";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SSvSI7Ik";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE9D3113443;
- Wed,  6 Mar 2024 18:32:53 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E87C113435;
+ Wed,  6 Mar 2024 18:32:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709749973; x=1741285973;
+ t=1709749979; x=1741285979;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=NG4hki+P2ftt8nZnVOoplw/Pepw4C/fW++QYecAGW2I=;
- b=Q3ny92BtKxutnx9h9E8/8gp/yU8U4dAZhn29ZteW4iY+NPl3ag24JPxK
- N+RDHqqpQ9/U15TOSK4uQhEQZfJMSqqUGcoRqw3ZRgatDTmpmuZr2fvlj
- pj8aeKNhsGkjz+P1JcWkpKlhtb2ot8BMuo7NXEEhPJJR88tw8CqdvG7WY
- xOOeM8vO0t9i4aJWd7F+kASCCIhM8W/sLVMgpBBcZ1WDHCT6ot+7W1JMe
- PoADHY+VQP75C0Z2M493pMh/d1moFQMCl8j7c+N6NU/lODa7NVvlwUs4b
- 3A3/SyROaIdeEWns2Nk770sQZD/G5bCpeYyYWXLaOdg9btB87n2+5CWHZ Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="8195806"
-X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; 
-   d="scan'208";a="8195806"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2024 10:32:53 -0800
+ bh=PfPtbSVeO2YwqVJeTicNqwEE80nO7YU06WJSz07i18o=;
+ b=SSvSI7Ik4UknQFn04Fbj7l4bdmtL6q5VAAvogt59uqwiBXWK9SFDY5iB
+ 5IdyIYrQ6l0v0nIL0bfg9u7P+odIjV4I5I5uN+UPu56SEb1RGVsahAmb5
+ 6nioOa7Vtw7lSjmnZnLHmKh9kRLzDFjmDZZe4QgAqV8VGVA7C93EZJeyY
+ XJDRMsJuse6zoXwZ7VmfT8UAmbuCyWnjQ7woA4+X4yORxNtZvCkAuacNL
+ HpekrmUsiwtv1mML9CcpISt1/xKzSG7uKXJR+TDxYY8atgFKD6NRvQn6P
+ faMqtL2PsxnS8tOKDaDJt1tIBK9f6Ku8BwN3Fj+ylvNqat4LIWKg2fRlr w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="14958915"
+X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; d="scan'208";a="14958915"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2024 10:32:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; d="scan'208";a="14496686"
+X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; 
+   d="scan'208";a="9927266"
 Received: from rjongalo-mobl2.ger.corp.intel.com (HELO localhost)
  ([10.252.33.211])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2024 10:32:52 -0800
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2024 10:32:57 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  jani.nikula@intel.com
-Subject: [PATCH 16/22] drm/i915/hdcp: fix i915_hdcp_interface.h kernel-doc
+Subject: [PATCH 17/22] drm/i915/pxp: fix i915_pxp_tee_interface.h kernel-doc
  warnings
-Date: Wed,  6 Mar 2024 20:31:21 +0200
-Message-Id: <bafcefd0cdfbfad86b15d80d63d66476de917fff.1709749576.git.jani.nikula@intel.com>
+Date: Wed,  6 Mar 2024 20:31:22 +0200
+Message-Id: <f39bd169d27483aca7bed07929b87869bf8927fe.1709749576.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1709749576.git.jani.nikula@intel.com>
 References: <cover.1709749576.git.jani.nikula@intel.com>
@@ -68,53 +68,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make the documentation match code.
+Make documentation match code.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- include/drm/i915_hdcp_interface.h | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ include/drm/i915_pxp_tee_interface.h | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/include/drm/i915_hdcp_interface.h b/include/drm/i915_hdcp_interface.h
-index 4c9c8167c2d5..a9f2ee576de8 100644
---- a/include/drm/i915_hdcp_interface.h
-+++ b/include/drm/i915_hdcp_interface.h
-@@ -54,7 +54,7 @@ enum hdcp_ddi {
- };
- 
- /**
-- * enum hdcp_tc - ME/GSC Firmware defined index for transcoders
-+ * enum hdcp_transcoder - ME/GSC Firmware defined index for transcoders
-  * @HDCP_INVALID_TRANSCODER: Index for Invalid transcoder
-  * @HDCP_TRANSCODER_EDP: Index for EDP Transcoder
-  * @HDCP_TRANSCODER_DSI0: Index for DSI0 Transcoder
-@@ -106,7 +106,7 @@ struct hdcp_port_data {
-  *			    And Prepare AKE_Init.
-  * @verify_receiver_cert_prepare_km: Verify the Receiver Certificate
-  *				     AKE_Send_Cert and prepare
--				     AKE_Stored_Km/AKE_No_Stored_Km
-+ *				     AKE_Stored_Km/AKE_No_Stored_Km
-  * @verify_hprime: Verify AKE_Send_H_prime
-  * @store_pairing_info: Store pairing info received
-  * @initiate_locality_check: Prepare LC_Init
-@@ -170,14 +170,22 @@ struct i915_hdcp_ops {
- /**
-  * struct i915_hdcp_arbiter - Used for communication between i915
-  * and hdcp drivers for the HDCP2.2 services
-- * @hdcp_dev: device that provide the HDCP2.2 service from MEI Bus.
-- * @hdcp_ops: Ops implemented by hdcp driver or intel_hdcp_gsc , used by i915 driver.
+diff --git a/include/drm/i915_pxp_tee_interface.h b/include/drm/i915_pxp_tee_interface.h
+index 7d96985f2d05..653e85d6e32b 100644
+--- a/include/drm/i915_pxp_tee_interface.h
++++ b/include/drm/i915_pxp_tee_interface.h
+@@ -14,12 +14,10 @@ struct scatterlist;
+  * struct i915_pxp_component_ops - ops for PXP services.
+  * @owner: Module providing the ops
+  * @send: sends data to PXP
+- * @receive: receives data from PXP
++ * @recv: receives data from PXP
++ * @gsc_command: send gsc command
   */
- struct i915_hdcp_arbiter {
+ struct i915_pxp_component_ops {
+-	/**
+-	 * @owner: owner of the module provding the ops
+-	 */
+ 	struct module *owner;
+ 
+ 	int (*send)(struct device *dev, const void *message, size_t size,
+@@ -35,14 +33,21 @@ struct i915_pxp_component_ops {
+ /**
+  * struct i915_pxp_component - Used for communication between i915 and TEE
+  * drivers for the PXP services
+- * @tee_dev: device that provide the PXP service from TEE Bus.
+- * @pxp_ops: Ops implemented by TEE driver, used by i915 driver.
+  */
+ struct i915_pxp_component {
 +	/**
-+	 * @hdcp_dev: device that provide the HDCP2.2 service from MEI Bus.
++	 * @tee_dev: device that provide the PXP service from TEE Bus.
 +	 */
- 	struct device *hdcp_dev;
+ 	struct device *tee_dev;
 +
 +	/**
-+	 * @ops: Ops implemented by hdcp driver or intel_hdcp_gsc , used by i915
-+	 * driver.
++	 * @ops: Ops implemented by TEE driver, used by i915 driver.
 +	 */
- 	const struct i915_hdcp_ops *ops;
+ 	const struct i915_pxp_component_ops *ops;
  
 -	/* To protect the above members. */
 +	/**
