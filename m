@@ -2,78 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88F98743E2
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 00:30:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D810874442
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 00:36:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCDAB10EDA1;
-	Wed,  6 Mar 2024 23:30:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0921113284;
+	Wed,  6 Mar 2024 23:36:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="S5/AtGPT";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="HyoGqJhu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
- [209.85.160.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B22410EDA1
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 23:30:03 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id
- d75a77b69052e-42f07863137so1473831cf.2
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Mar 2024 15:30:03 -0800 (PST)
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
+ [209.85.166.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9162210FC17
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 23:36:51 +0000 (UTC)
+Received: by mail-io1-f43.google.com with SMTP id
+ ca18e2360f4ac-7c883b95249so5620639f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Mar 2024 15:36:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1709767800; x=1710372600;
+ d=chromium.org; s=google; t=1709768210; x=1710373010;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=PJPa29UemqkJNoNGTKdfNViJ5FBTYfS9WvG9ykZmeu8=;
- b=S5/AtGPTxf0eQDEHa3+/D8Mf7xK8wj2KPIveRAkUki6xsROTNC3TYDode9aifhHY7Y
- vyyVQa/cpvgwh1yGqvxHsJ8nmiOT6PnQjzO/ZWgSm+v/xz1O+nijMkjue+aXPd4quXXt
- xBXdifWjiVn/qWkzdDuu5SynZED4VxToMyPHc=
+ bh=8uphQrob++9Iti6sZOTD0y0JTDAZhZm8PP0VwpFINJk=;
+ b=HyoGqJhuLw1jf9TyW3cczRhQPk0MvVmudLUuJ4UDjgMfqHR62jsKnJyUr2OumJ2YXg
+ Nhymu96ETn4xGkMdSRKigahrLwVoCzPlxVCve19lYlrViknd83WeWc753lDX8W04hGZ3
+ lqXseOLDlI4PJ6xpQPpd0H2Pnq1SOiJuTqNT4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709767800; x=1710372600;
+ d=1e100.net; s=20230601; t=1709768210; x=1710373010;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=PJPa29UemqkJNoNGTKdfNViJ5FBTYfS9WvG9ykZmeu8=;
- b=QU9eI1DW/PrZkbjcQzt337YOBQLkjXjP/8hb2vG4ZVyu2vENasMX0W256v6Okz+Boy
- xUz74ccpkTN8QIuWMbuy2ESxLa8r/6TBGAfCg9UzKoN1farLxNWc0CQ2kieQLUnlDHNH
- 31U2+H16euuo19VlbhD0ZXDDeqazh8eq8sVitxWvCD64Wq9ZVrfhutpikRUDMfdXaafa
- wvXFqyVSnggU9ih8VWzSxosR2SfNMaLwtKEDKDVMT9K87yollHT1PC1NDvvofWYyn5Zw
- OoFyGZZlq7MMqyHM10SeHGFoVJ+hDhFbb9B/XD86akmOh6IoKW6UFT1ntsfx3fgnhlLp
- BRFg==
+ bh=8uphQrob++9Iti6sZOTD0y0JTDAZhZm8PP0VwpFINJk=;
+ b=HV2t+4MwN/YjEBqt07bb5SfMzX9hXa0GQMn2PMNI011JQJaKEaNGmpQK04R7JMO/ci
+ 3D7iz77p4PGeB0PbHX+uDhLmOpvdSDGgcptRUyv9E7EwkykrE5SmJ8myiWkInGzogI/Y
+ s5SgqPoZxaNcGzlAgNCZbWkdWDhOFdyGLJ+YgoQgKXh61x1JHOm/upPDgSTSaGKA9WHJ
+ XcorttW9QI6E4XEcIyPP73W+STM13UTfrl+i1M7vr1v/GxQcKBMex2y5mDwj5UoMrjc4
+ V+CJjEJAbWEY3csuE9iGslStgvC1je7BsnGVyZ9/E5yDMUeMRywIo43XiqDVjJtkMJHz
+ E4mA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXby170CTDH7VYm+jHTr0uPZ0Nf4tPf4CP2jZAnpv9cIv7Mr+3D7F0cisSqzFhMS6Y/GxV6pspOHXcg9Eb2I8UtbkeH6MpCB0V7xQsHyYIX
-X-Gm-Message-State: AOJu0YzwJ0vBPinfSXoDbCzElc3HiSIzsBc96nEB4HlD3PzgH6VKDbyJ
- /CTnxYfkPYh6dUH6J9MKrggkiOdTiUFFx5o/DGMKMryCGfUtg9awbPHzPHMnSV4xrG+Cu47JvMU
+ AJvYcCWrxkpc9AiI/mq+91tpXIsf0GK9eoYx87dz+jVbLyC/88+dCqa2iKb/55O5B2LVH4oFaLfuIiGyS5EH/OgqhdQbRfQOkFu4nn6OPGnKYGyT
+X-Gm-Message-State: AOJu0YzmpxEl/ai60loBpw16capvHgK62n+u2s66gNl4EP8CvfHDLguT
+ clziOW2bCrzG/QD/YDT7UjF1g1GCVL12rWYT047Van9aJAXxMAPXCtwHhbJWuCv5e9hAiBb4Te4
  =
-X-Google-Smtp-Source: AGHT+IGYz8CaVV9xA43bchg/x71TwCkKNnY1JBSK9F5dEqr/Bdd10Z0bOJSis/y9kNorgYpxYg2XGQ==
-X-Received: by 2002:a05:6214:192a:b0:690:9734:84e1 with SMTP id
- es10-20020a056214192a00b00690973484e1mr2710255qvb.0.1709767800138; 
- Wed, 06 Mar 2024 15:30:00 -0800 (PST)
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com.
- [209.85.160.182]) by smtp.gmail.com with ESMTPSA id
- x10-20020a0ce24a000000b0069044802760sm8013879qvl.120.2024.03.06.15.29.56
+X-Google-Smtp-Source: AGHT+IE9Lt3hiYxZI4u0e0FNlGxYjGtEqWTJy/RnhiPadGUE1MVytN6okyJqlIY1z3A5H5CDOA/lnw==
+X-Received: by 2002:a6b:c94f:0:b0:7c8:45d4:6313 with SMTP id
+ z76-20020a6bc94f000000b007c845d46313mr11056621iof.10.1709768209914; 
+ Wed, 06 Mar 2024 15:36:49 -0800 (PST)
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com.
+ [209.85.166.173]) by smtp.gmail.com with ESMTPSA id
+ y93-20020a029566000000b00474baab3deasm3719111jah.30.2024.03.06.15.36.49
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Mar 2024 15:29:58 -0800 (PST)
-Received: by mail-qt1-f182.google.com with SMTP id
- d75a77b69052e-42ef8193ae6so55811cf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Mar 2024 15:29:56 -0800 (PST)
+ Wed, 06 Mar 2024 15:36:49 -0800 (PST)
+Received: by mail-il1-f173.google.com with SMTP id
+ e9e14a558f8ab-3653aaeb380so15255ab.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Mar 2024 15:36:49 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCVCUk4El/H5Lqpe3Hba5tW2Nr4KryXzhveodSZhzwT7xG2SuY6P+EhNFSZSc+BmUAgVu/+8R9YODiWwcfQygCUyaTVCjAbLMCMf8mwm2+Zj
-X-Received: by 2002:ac8:5ad3:0:b0:42e:dced:d36c with SMTP id
- d19-20020ac85ad3000000b0042edcedd36cmr86231qtd.29.1709767796260; Wed, 06 Mar
- 2024 15:29:56 -0800 (PST)
+ AJvYcCW7MwE9g+ZeXAZ8zNqXCD9aD3ZOWgq6lgTtD0dojpAaWgEdCCfQCUBO5Vp9EWKFhHelq6UIGrI4rHy/9SJnZG28QUZJCDMfLyPWrFsTsRE+
+X-Received: by 2002:a05:622a:590:b0:42e:e077:3ee1 with SMTP id
+ c16-20020a05622a059000b0042ee0773ee1mr104034qtb.3.1709767809742; Wed, 06 Mar
+ 2024 15:30:09 -0800 (PST)
 MIME-Version: 1.0
 References: <20240306200353.1436198-1-hsinyi@chromium.org>
- <20240306200353.1436198-4-hsinyi@chromium.org>
-In-Reply-To: <20240306200353.1436198-4-hsinyi@chromium.org>
+ <20240306200353.1436198-5-hsinyi@chromium.org>
+In-Reply-To: <20240306200353.1436198-5-hsinyi@chromium.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 6 Mar 2024 15:29:44 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=W2CKoOyhN49RBU0FdzcRC6SEwvVQYdJRnBBK16Lp-=FQ@mail.gmail.com>
-Message-ID: <CAD=FV=W2CKoOyhN49RBU0FdzcRC6SEwvVQYdJRnBBK16Lp-=FQ@mail.gmail.com>
-Subject: Re: [PATCH v5 3/6] drm/edid: Add a function to match EDID with
- identity
+Date: Wed, 6 Mar 2024 15:29:51 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=X66sW-zcnZbv1ecnZ733AKJh1LbjGNVWLjggT_x1sxGw@mail.gmail.com>
+Message-ID: <CAD=FV=X66sW-zcnZbv1ecnZ733AKJh1LbjGNVWLjggT_x1sxGw@mail.gmail.com>
+Subject: Re: [PATCH v5 4/6] drm/edid: Match edid quirks with identity
 To: Hsin-Yi Wang <hsinyi@chromium.org>
 Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
@@ -106,69 +105,18 @@ Hi,
 On Wed, Mar 6, 2024 at 12:04=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.org> =
 wrote:
 >
-> +static void
-> +match_identity(const struct detailed_timing *timing, void *data)
-> +{
-> +       struct drm_edid_match_closure *closure =3D data;
-> +       unsigned int i;
-> +       const char *name =3D closure->ident->name;
-> +       unsigned int name_len =3D strlen(name);
-> +       const char *desc =3D timing->data.other_data.data.str.str;
-> +       unsigned int desc_len =3D ARRAY_SIZE(timing->data.other_data.data=
-.str.str);
-> +
-> +       if (name_len > desc_len ||
-> +           !(is_display_descriptor(timing, EDID_DETAIL_MONITOR_NAME) ||
-> +             is_display_descriptor(timing, EDID_DETAIL_MONITOR_STRING)))
-> +               return;
-> +
-> +       if (strncmp(name, desc, name_len))
-> +               return;
-> +
-> +       /* Allow trailing white spaces and \0. */
-> +       for (i =3D name_len; i < desc_len; i++) {
-> +               if (desc[i] =3D=3D '\n')
-> +                       break;
-> +               if (!isspace(desc[i]) && !desc[i])
-> +                       return;
-> +       }
-
-If my code analysis is correct, I think you'll reject the case where:
-
-name =3D "foo"
-desc[13] =3D "foo \0zzzzzzzz"
-
-...but you'll accept these cases:
-
-desc[13] =3D "foo \nzzzzzzzz"
-desc[13] =3D "foo \0\0\0\0\0\0\0\0\0"
-
-It somehow seems weird to me that a '\n' terminates the string but not a '\=
-0'.
-
-I would have done:
-
-      for (i =3D name_len; i < desc_len; i++) {
-              /* Consider \n or \0 to terminate the string */
-              if (desc[i] =3D=3D '\n' || desc[i] =3D=3D '\0')
-                      break;
-              /* OK for spaces at the end, but non-space is a fail */
-              if (!isspace(desc[i]))
-                      return;
-      }
-
-
-> @@ -367,6 +367,12 @@ struct edid {
->         u8 checksum;
->  } __attribute__((packed));
+> Currently edid quirks are matched by panel id only.
 >
-> +/* EDID matching */
-> +struct drm_edid_ident {
-> +       u32 panel_id;
-> +       const char *name;
+> Modify it to match with identity so it's easier to be extended
+> for more complex matching if required.
+>
+> Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+> v5: no change
+> ---
+>  drivers/gpu/drm/drm_edid.c | 13 ++++++++-----
+>  1 file changed, 8 insertions(+), 5 deletions(-)
 
-Might not hurt to have a comment for panel_id saying that it's encoded
-by drm_edid_encode_panel_id() so it's obvious what this random u32 is.
-
-
--Doug
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
