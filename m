@@ -2,123 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76028873393
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 11:07:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06A408733C1
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 11:16:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22FC910FE87;
-	Wed,  6 Mar 2024 10:07:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6C4F11242B;
+	Wed,  6 Mar 2024 10:16:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="WchucNV2";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="hCkrPvuT";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="hHUH+//Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2053.outbound.protection.outlook.com [40.107.223.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB8F410FF2F;
- Wed,  6 Mar 2024 10:07:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RFdt27Y6gA6FiNb9KzFHpRBS7lAG85ucoyPm0awXoQkMlmhYJ/S7+mn4itrK8tu9I4zUQ/tr0Dvd2oBKQhT4qJGqYjH86ExUAyNyp78Cl5lMeQ8J0/t8UR2EREuCTE49ycYtvbxIHfkX0T8uZoKgnSR/ZD1gphoai9MWZ84HxwOsCpiLb8hQKfzlPlytAGTtFmII03MT9gCXbW0FbZz8YZSct/2VOxKSttDvsVS3eKjy34SgG5WsWHVTQSmYDS68pLlzH+Pz47rMJtped8MDq0XUSdwQvZfLkw6GvdCQCrwXZBA/0uLDMoZNxvJ9V8Rx97mBnPDprtj5ZEJLE0BJqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8Lk2y7Znh2V8Gms7Ypw9dvJLzeUSTcpM3hZ3TKYvzc4=;
- b=f9GIDdJxCTL3VWRVj6uPX8+srpyjhbEkGfcgrNU/+ajiW1OTQ8sxxobkfiUgqyB2TmKiJazBA6n0BsRy0tzBJXkVPXQDM4u+NClboUw1CryjbToy/Bc/4eX8hR3iuhDyrkOevPG1+1blBvN2nP0NeE1rx9mwbVpAqxPfRdOw6K3yK69l63MoYlqHtnPTVls6iUSB2QYRS2gjvGZ4rSySCelzS1rZLoamqkQjI/V0njbqX+EVEurFgS0x/OF3iU24IhWRj/bvelF/JE3zHj40agoJvsKfgm355E74bW2QXH1xVqfczQ6x7O+MvAydz3292wYNVypSX1e4dq+g3+IXrQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8Lk2y7Znh2V8Gms7Ypw9dvJLzeUSTcpM3hZ3TKYvzc4=;
- b=WchucNV2z0qWS2CmWqFtYzqr7ps1S7wKtdRp0WNYLbZT4o23LpiM0PdCmhyn2rKqtNF90+qQBlnTTahMMLv4G2nlqE7LfEb61vKac1CdZyVSTaRGe1d9Yox6ijIwW3CcVYhoFVCME7lEFz+ALJVFO4FHlfi7mvuFF+teMKHfSa8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS0PR12MB7703.namprd12.prod.outlook.com (2603:10b6:8:130::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.39; Wed, 6 Mar
- 2024 10:07:07 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7339.031; Wed, 6 Mar 2024
- 10:07:07 +0000
-Message-ID: <2f792620-fd8a-412e-9130-e276ba36d5a0@amd.com>
-Date: Wed, 6 Mar 2024 11:07:01 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amdgpu: cache in more vm fault information
-Content-Language: en-US
-To: Sunil Khatri <sunil.khatri@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>
-Cc: amd-gfx@lists.freedesktop.org, Pan@rtg-sunil-navi33.amd.com,
- Xinhui <Xinhui.Pan@amd.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Mukul Joshi <mukul.joshi@amd.com>,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-References: <20240306090408.3453152-1-sunil.khatri@amd.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240306090408.3453152-1-sunil.khatri@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: ZR0P278CA0168.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:45::23) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7B021124F5
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 10:16:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1709720199; x=1741256199;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=2d1aqiY4trYNpciFb69tJAgLwRtQ9/HBxfBjgwpVSys=;
+ b=hCkrPvuT7RSB2WT1J2TMLxheqJS9lLwtsyCcQWwOwWeHxneY+6Zxwotp
+ k6Y+401OJtcm5rpDX66HotJJDrefZZGxkuy5sHatzvMjs+LjBvEdkDtBl
+ D/xMN/3zHMjuyd5x6K2S7n4Y78xDXRO68kOQDEkG23NpbUArXMgPy299+
+ LKqEkZyvzLsSlpZcY+SHIhFdiBBhxBBQu6ETXJITXvrWBecOuDue8QN5H
+ BIwXYCo+RHK72dXlZJCsx9QiXyxhzlDrKvPSZLSsCSQ4EWIDZsYEJcCFP
+ RtJPBQ55OQYawNhAYSD9X9jArQEG2WbAoK/H3XFXNQaLS0RvThko+MInR w==;
+X-IronPort-AV: E=Sophos;i="6.06,208,1705359600"; d="scan'208";a="35760880"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+ by mx1.tq-group.com with ESMTP; 06 Mar 2024 11:16:36 +0100
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 3490316E87F; Wed,  6 Mar 2024 11:16:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+ s=dkim; t=1709720191; h=from:subject:date:message-id:to:cc:mime-version:
+ content-transfer-encoding; bh=2d1aqiY4trYNpciFb69tJAgLwRtQ9/HBxfBjgwpVSys=;
+ b=hHUH+//Q8QA82lDO1A0sDVfoCQktA5duxpbgABcvttJYhN4UN62ko8lardewotWxeDo1nK
+ vztlmWrmZMrj0rywQOTfalGZBluKl0MgsnLeADObS60xJtCA0Xp05TB7DILtGlIZTh7eL7
+ 9RxuwAnNjwll8dgRN2YGRyCSzisqzVpXioLahnnqDjlkUFouT1uGu9JWRZKo6MNnaCVfGq
+ 6E2eefWz3uw461GkYud4OdDKwETIrhah3xn0Zc+M4mTxMt9VrBTQdoQGg7ulyPalzDqiP0
+ nUanac7x45Y0CVzpECw7BZBg8Z6fTkiAf7W0h+o+nQQYsG1ghGm9Mi54wYqWdg==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Sandor Yu <Sandor.yu@nxp.com>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux@ew.tq-group.com
+Subject: [PATCH v15 0/8] Initial support Cadence MHDP8501(HDMI/DP) for i.MX8MQ
+Date: Wed,  6 Mar 2024 11:16:17 +0100
+Message-Id: <20240306101625.795732-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB7703:EE_
-X-MS-Office365-Filtering-Correlation-Id: d02b8f32-3a6d-47e7-cb41-08dc3dc52e63
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AJUC0MqJOBTAIy6ARPoAP/W16Z4DVE5qvkjMjFLZ2SMK8YlmkY5VBShXjrnl6QoV+GO9AF2FttOu/TriOVUNTUXhfC8AHXU8axSGxVNcLpIdFyqC+aR+Vl+GnXoGOtWFVNTm70WOUiZuASyZDbFoBTLVfhG0oouAaWTAqM1oihkibQfw5071S0dBXPnUZmmq3+AAjNIXa2GSoS0vIJcpZEoglOMlDEUGbM7iAVEz21NS482lNaV5lTi3LUpHcMO8xvJFAkm8HBOthvyp2JI5XjHSeNhFImKt1oF8wyDywHjmT/vw3WXtnEXccBYR520aiINR8raLa5db09BWAoqNizGEwhZgGzFOlLdNIwyG96P25PD8xc35Yg9tGdJkUlfZNvPdg6nkE+fMvqt3UNzaTsNn72dGjS1iiD7/Jt4halF4swt9xxp/iCoqqohAR6U17IEXyBtVfKRUbCLgdcJclyMuZJUIYaPn7IHDTA/gFyb9wXTxYKpp1auvR0XYpE9BHRmgSWxndEoSBQsPZ3XwmqA0N9hwYAPGqYBQxMcH4RrZR9SstVgnRMPSL/xCufgVAvehMKdlT521gTTB0Juh/ECQtHom6CX8q7el6dfWSBMJDUlCA9IiMq6Lt0TFS8xu1BY26LHBE6j3nUioOG18rfLDnhjqiS2y7SKrPV/YqHQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aE10SCtsVktDUk9iZ04yVjg1WFNDSkFNNVhIYnJqVEViWmdlSUVYbnVtZEJM?=
- =?utf-8?B?S2VoRUIya3lWUmZjRVRSUWNxeDVvNWExT3BrUzZ0Vk1WZTJjckZtSkhIZlVl?=
- =?utf-8?B?Wi8xUEJwbEpJM2REdlR3TFhFYktJN0NiUlU2RmlvWFR4MmVoSndodmFMNWsx?=
- =?utf-8?B?NUtjZk1wV3B0ekRRSWN5UXBrWUdvRmdJU2lUdWUramo4UHFrVTJXSFZJbm95?=
- =?utf-8?B?a0NyVlZyNXhSMVdhcU1GVlhueEJDZldFSTA3Z2U1eG93N21HWE84ZkRva0dr?=
- =?utf-8?B?R2FIZngxWjBGMjhhRHV3ZmhTYW04UWFKVGtndnhrM1I0NmJxRWFkTEk4WEFk?=
- =?utf-8?B?V0xDa1RFWXZDbmdWaVppQnB3Q0Z5WFpMTi9jOStvakZYRWl4M1VkV3pIdUx3?=
- =?utf-8?B?SjlFc0dmT2FNVGtWS0lPRERHVmtpRnp4NlBDWmducmNHZ1FWMnVmZllndWNj?=
- =?utf-8?B?bTNSM1pETG1WeU96U1pxb2sxM3NIUFYxRFVKTTFIS0JYWDQ4ZE9pREpieWp1?=
- =?utf-8?B?L2F5Y3lZcUVNYWF2czByWE5waks5bXcyMUd1N2pyMEo5QXUzRFJZRFN2ZmNP?=
- =?utf-8?B?RTBDUjBWQ1hWTzNZbXlOTTIxeE9GWnRGODA0TjVTN2xoMW1ZWCsrcHFhQWx5?=
- =?utf-8?B?WEVpRHluQ1lVVHFkWmtnb1c5ZVZsdVM0bFNXaU1FbWM2NlZqUzRvaWYzTVZS?=
- =?utf-8?B?aVhnV21LNXQweUJZT2NFQkhlZEh6TnNjdUd2SDJEajF4eEIvRGhwQmJGSEJx?=
- =?utf-8?B?UVdndFZNRTh6WDVBenhYdm4yYW5Zd1MyVzdWN0VoSnRJS1hlOW4vek1yaVNR?=
- =?utf-8?B?Q0ZodFFmR1ptMDFBR3Btc28yZkNhTW00QU8rZldFQTkvSmNBdTBNRFdUbm9w?=
- =?utf-8?B?NHNySkF3czNCNEVENzRwaGF2aURnRkFkbDJOcTVNaVFBRjF2Umc3TktyOUdp?=
- =?utf-8?B?eG14cXR1R0tGa0hnUmo1cmNjMncvK1hkcnU4SGNuVzhxMk1pNStMYXF4Q3ho?=
- =?utf-8?B?WTgwQ3dtUWFJSk0wemxRMWQvT2oyYy8wLzlhN0xXN3dkSXVVT3lJZnJHc2N3?=
- =?utf-8?B?TWhLTkFvaWxyQUJpdlBzNjF0ZlhBRDgyVXFicmY3VnB2eVI3a3V6YVVrTS93?=
- =?utf-8?B?Qk9vT3lpcmpVeVE4YmkxcnBVR3BZZzg4SndSTGQ2WlNsS3F0dko0dmxkSy9x?=
- =?utf-8?B?N1pMeFFNSkZ2NkVLRHcyV3JKR2VRYUtOL1E4bC9GNEV6SnBRc3F4MjlpbzFS?=
- =?utf-8?B?Q3JsVGdLa09KYkV2Y3VHejdhVk1kaEdTU3JqY2l0MVk2bmthaU9udkZPeDRO?=
- =?utf-8?B?aGxhaVRVVFQ1OE9nSGhpUkFnejF1ZEp5emFGdG9DNmd0U045WWpYZzN6bFRh?=
- =?utf-8?B?NytQNFRmMmxZYUErUGJtRWl2OG81UXcrQzJ0djNnWlhKdXZQbGRKaW4rcWg2?=
- =?utf-8?B?ZEFtcDVxM2grZE5CUEZud1A4K2xWQmNaQ25aQzJaNURhYmdjWlBkaVVKdkdW?=
- =?utf-8?B?N1NOZGxBeGQySXZOQW0rc1BJY3VXc2orVFlwcXB1aEdoYkFzYXN2SjMyYzIr?=
- =?utf-8?B?Y2dVVnBWU0I2UEtldTVsb1JzYjNkbG9qV1NJVWpuVzd0S3Zrd1pYSlV4Ui9E?=
- =?utf-8?B?cEVHWVdZcHNSaXhYSkt0dDZEenAxNFhhOWF2LzcwSzZRd2NNZkZOSGFyU1g4?=
- =?utf-8?B?WkNhZGd2K00xOVdRMEFWa3hVUGg3S09xTVFRWTlMTFl1dFBqQkw5QnBIWU1C?=
- =?utf-8?B?R2xYZ293aFJMeVlXZ0N0SzdKZzlFeEdxVkFHb09wa1VXMXdCY0g0ckdSK2RJ?=
- =?utf-8?B?UXZTQjBRNDlKUzVtYktOL1c2clcwU2JIb3ZEck9sTlNZRkRFVHd3OXJra29l?=
- =?utf-8?B?OURZYkpQRkxXZzNQK1VaZXhEQm9vOG1Keld3NzBBcGZCcGM5bVJMQTRiZ3N1?=
- =?utf-8?B?RHF3c3ZValovUGY3N093dTVYdjUzL3dQYXFvK3MveEp1TmdOOHNTWTBwZHEw?=
- =?utf-8?B?b0xqdUlBY0c2MXV6WHBCZHlFWDhiMG1lcDhJZWdGSSs5Y0FsSG1oZ0V4d2dj?=
- =?utf-8?B?bjMybUhrRmJHY3hTdjkvbHJYWk1zYVpTeWxmcjJBOFNHeUU5VUNDR3g5TmtF?=
- =?utf-8?Q?MLG1Gv2RJbofvo7PyNhYTDUat?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d02b8f32-3a6d-47e7-cb41-08dc3dc52e63
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2024 10:07:07.7007 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: evwF2aWTvHHCcXnZ55VBsPF8koW4fS3fc/KrrLLqsUxbiqRvw6blT7W/fXX2MhqP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7703
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,159 +83,230 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 06.03.24 um 10:04 schrieb Sunil Khatri:
-> When an  page fault interrupt is raised there
-> is a lot more information that is useful for
-> developers to analyse the pagefault.
+The patch set initial support Cadence MHDP8501(HDMI/DP) DRM bridge
+driver and Cadence HDP-TX PHY(HDMI/DP) driver for Freescale i.MX8MQ.
 
-Well actually those information are not that interesting  because they 
-are hw generation specific.
+The patch set compose of DRM bridge drivers and PHY driver.
 
-You should probably rather use the decoded strings here, e.g. hub, 
-client, xcc_id, node_id etc...
+Both of them need by patch #1 and #2 to pass build.
 
-See gmc_v9_0_process_interrupt() an example.
+DRM bridges driver patches:
+  #1: drm: bridge: Cadence: Creat mhdp helper driver
+  #2: phy: Add HDMI configuration options
+  #3: dt-bindings: display: bridge: Add Cadence MHDP8501
+  #4: drm: bridge: Cadence: Add MHDP8501 DP/HDMI driver
 
-Regards,
-Christian.
+PHY driver patches:
+  #1: drm: bridge: Cadence: Creat mhdp helper driver
+  #2: phy: Add HDMI configuration options
+  #5: dt-bindings: phy: Add Freescale iMX8MQ DP and HDMI PHY
+  #6: phy: freescale: Add DisplayPort/HDMI Combo-PHY driver for i.MX8MQ
 
->
-> Add all such information in the last cached
-> pagefault from an interrupt handler.
->
-> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 9 +++++++--
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h | 7 ++++++-
->   drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c | 2 +-
->   drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c | 2 +-
->   drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c  | 2 +-
->   drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c  | 2 +-
->   drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c  | 2 +-
->   7 files changed, 18 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index 4299ce386322..b77e8e28769d 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -2905,7 +2905,7 @@ void amdgpu_debugfs_vm_bo_info(struct amdgpu_vm *vm, struct seq_file *m)
->    * Cache the fault info for later use by userspace in debugging.
->    */
->   void amdgpu_vm_update_fault_cache(struct amdgpu_device *adev,
-> -				  unsigned int pasid,
-> +				  struct amdgpu_iv_entry *entry,
->   				  uint64_t addr,
->   				  uint32_t status,
->   				  unsigned int vmhub)
-> @@ -2915,7 +2915,7 @@ void amdgpu_vm_update_fault_cache(struct amdgpu_device *adev,
->   
->   	xa_lock_irqsave(&adev->vm_manager.pasids, flags);
->   
-> -	vm = xa_load(&adev->vm_manager.pasids, pasid);
-> +	vm = xa_load(&adev->vm_manager.pasids, entry->pasid);
->   	/* Don't update the fault cache if status is 0.  In the multiple
->   	 * fault case, subsequent faults will return a 0 status which is
->   	 * useless for userspace and replaces the useful fault status, so
-> @@ -2924,6 +2924,11 @@ void amdgpu_vm_update_fault_cache(struct amdgpu_device *adev,
->   	if (vm && status) {
->   		vm->fault_info.addr = addr;
->   		vm->fault_info.status = status;
-> +		vm->fault_info.client_id = entry->client_id;
-> +		vm->fault_info.src_id = entry->src_id;
-> +		vm->fault_info.vmid = entry->vmid;
-> +		vm->fault_info.pasid = entry->pasid;
-> +		vm->fault_info.ring_id = entry->ring_id;
->   		if (AMDGPU_IS_GFXHUB(vmhub)) {
->   			vm->fault_info.vmhub = AMDGPU_VMHUB_TYPE_GFX;
->   			vm->fault_info.vmhub |=
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> index 047ec1930d12..c7782a89bdb5 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> @@ -286,6 +286,11 @@ struct amdgpu_vm_fault_info {
->   	uint32_t	status;
->   	/* which vmhub? gfxhub, mmhub, etc. */
->   	unsigned int	vmhub;
-> +	unsigned int	client_id;
-> +	unsigned int	src_id;
-> +	unsigned int	ring_id;
-> +	unsigned int	pasid;
-> +	unsigned int	vmid;
->   };
->   
->   struct amdgpu_vm {
-> @@ -605,7 +610,7 @@ static inline void amdgpu_vm_eviction_unlock(struct amdgpu_vm *vm)
->   }
->   
->   void amdgpu_vm_update_fault_cache(struct amdgpu_device *adev,
-> -				  unsigned int pasid,
-> +				  struct amdgpu_iv_entry *entry,
->   				  uint64_t addr,
->   				  uint32_t status,
->   				  unsigned int vmhub);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
-> index d933e19e0cf5..6b177ce8db0e 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
-> @@ -150,7 +150,7 @@ static int gmc_v10_0_process_interrupt(struct amdgpu_device *adev,
->   		status = RREG32(hub->vm_l2_pro_fault_status);
->   		WREG32_P(hub->vm_l2_pro_fault_cntl, 1, ~1);
->   
-> -		amdgpu_vm_update_fault_cache(adev, entry->pasid, addr, status,
-> +		amdgpu_vm_update_fault_cache(adev, entry, addr, status,
->   					     entry->vmid_src ? AMDGPU_MMHUB0(0) : AMDGPU_GFXHUB(0));
->   	}
->   
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
-> index 527dc917e049..bcf254856a3e 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
-> @@ -121,7 +121,7 @@ static int gmc_v11_0_process_interrupt(struct amdgpu_device *adev,
->   		status = RREG32(hub->vm_l2_pro_fault_status);
->   		WREG32_P(hub->vm_l2_pro_fault_cntl, 1, ~1);
->   
-> -		amdgpu_vm_update_fault_cache(adev, entry->pasid, addr, status,
-> +		amdgpu_vm_update_fault_cache(adev, entry, addr, status,
->   					     entry->vmid_src ? AMDGPU_MMHUB0(0) : AMDGPU_GFXHUB(0));
->   	}
->   
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
-> index 3da7b6a2b00d..e9517ebbe1fd 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
-> @@ -1270,7 +1270,7 @@ static int gmc_v7_0_process_interrupt(struct amdgpu_device *adev,
->   	if (!addr && !status)
->   		return 0;
->   
-> -	amdgpu_vm_update_fault_cache(adev, entry->pasid,
-> +	amdgpu_vm_update_fault_cache(adev, entry,
->   				     ((u64)addr) << AMDGPU_GPU_PAGE_SHIFT, status, AMDGPU_GFXHUB(0));
->   
->   	if (amdgpu_vm_fault_stop == AMDGPU_VM_FAULT_STOP_FIRST)
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-> index d20e5f20ee31..a271bf832312 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-> @@ -1438,7 +1438,7 @@ static int gmc_v8_0_process_interrupt(struct amdgpu_device *adev,
->   	if (!addr && !status)
->   		return 0;
->   
-> -	amdgpu_vm_update_fault_cache(adev, entry->pasid,
-> +	amdgpu_vm_update_fault_cache(adev, entry,
->   				     ((u64)addr) << AMDGPU_GPU_PAGE_SHIFT, status, AMDGPU_GFXHUB(0));
->   
->   	if (amdgpu_vm_fault_stop == AMDGPU_VM_FAULT_STOP_FIRST)
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-> index 47b63a4ce68b..dc9fb1fb9540 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-> @@ -666,7 +666,7 @@ static int gmc_v9_0_process_interrupt(struct amdgpu_device *adev,
->   	rw = REG_GET_FIELD(status, VM_L2_PROTECTION_FAULT_STATUS, RW);
->   	WREG32_P(hub->vm_l2_pro_fault_cntl, 1, ~1);
->   
-> -	amdgpu_vm_update_fault_cache(adev, entry->pasid, addr, status, vmhub);
-> +	amdgpu_vm_update_fault_cache(adev, entry, addr, status, vmhub);
->   
->   	dev_err(adev->dev,
->   		"VM_L2_PROTECTION_FAULT_STATUS:0x%08X\n",
+i.MX8M/TQMa8Mx DT patches:
+  #7: Add DT nodes for DCSS/HDMI pipeline
+  #8: Enable HDMI for TQMa8Mx/MBa8Mx
+
+Sandor: Please test this series with DP output.
+
+Thanks and best regards,
+Alexander
+
+v14->v15:
+Patch #6 + #7:
+-  Merged PHY driver into a single combo PHY driver
+Patch #7 + #8:
+- Add DT patches for a running HDMI setup
+
+v13->v14:
+Patch #4:
+- Rebase to next-20240219, replace get_edid function by edid_read
+  function as commits d807ad80d811b ("drm/bridge: add ->edid_read
+  hook and drm_bridge_edid_read()") and 27b8f91c08d99 ("drm/bridge:
+  remove ->get_edid callback") had change the API.
+
+v12->v13:
+Patch #4:
+- Explicitly include linux/platform_device.h for cdns-mhdp8501-core.c
+- Fix build warning
+- Order bit bpc and color_space in descending shit. 
+Patch #7:
+- Fix build warning
+
+v11->v12:
+Patch #1: 
+- Move status initialize out of mbox_mutex.
+- Reorder API functions in alphabetical.
+- Add notes for malibox access functions.
+- Add year 2024 to copyright.
+Patch #4:
+- Replace DRM_INFO with dev_info or dev_warn.
+- Replace DRM_ERROR with dev_err.
+- Return ret when cdns_mhdp_dpcd_read failed in function cdns_dp_aux_transferi().
+- Remove unused parmeter in function cdns_dp_get_msa_misc
+  and use two separate variables for color space and bpc.
+- Add year 2024 to copyright.
+Patch #6:
+- Return error code to replace -1 for function wait_for_ack().
+- Set cdns_phy->power_up = false in phy_power_down function.
+- Remove "RATE_8_1 = 810000", it is not used in driver.
+- Add year 2024 to copyright.
+Patch #7:
+- Adjust clk disable order.
+- Return error code to replace -1 for function wait_for_ack().
+- Use bool for variable pclk_in.
+- Add year 2024 to copyright.
+
+v10->v11:
+- rewrite cdns_mhdp_set_firmware_active() in mhdp8546 core driver,
+use cdns_mhdp_mailbox_send() to replace cdns_mhdp_mailbox_write()
+same as the other mailbox access functions.
+- use static for cdns_mhdp_mailbox_write() and cdns_mhdp_mailbox_read()
+and remove them from EXPORT_SYMBOL_GPL().
+- remove MODULE_ALIAS() from mhdp8501 driver.
+
+v9->v10:
+- Create mhdp helper driver to replace macro functions,
+move all mhdp mailbox access functions and common functions
+into the helper driver.
+Patch #1:drm: bridge: Cadence: Creat mhdp helper driver
+it is totaly different with v9.
+
+v8->v9:
+- Remove compatible string "cdns,mhdp8501" that had removed
+  from dt-bindings file in v8.
+- Add Dmitry's R-b tag to patch #2
+- Add Krzysztof's R-b tag to patch #3
+
+v7->v8:
+MHDP8501 HDMI/DP:
+- Correct DT node name to "display-bridge".
+- Remove "cdns,mhdp8501" from mhdp8501 dt-binding doc.
+
+HDMI/DP PHY:
+- Introduced functions `wait_for_ack` and `wait_for_ack_clear` to handle
+  waiting with acknowledgment bits set and cleared respectively.
+- Use FIELD_PRE() to set bitfields for both HDMI and DP PHY.
+
+v6->v7:
+MHDP8501 HDMI/DP:
+- Combine HDMI and DP driver into one mhdp8501 driver.
+  Use the connector type to load the corresponding functions.
+- Remove connector init functions.
+- Add <linux/hdmi.h> in phy_hdmi.h to reuse 'enum hdmi_colorspace'.
+
+HDMI/DP PHY:
+- Lowercase hex values
+- Fix parameters indent issue on some functions
+- Replace 'udelay' with 'usleep_range'
+
+v5->v6:
+HDMI/DP bridge driver
+- 8501 is the part number of Cadence MHDP on i.MX8MQ.
+  Use MHDP8501 to name hdmi/dp drivers and files. 
+- Add compatible "fsl,imx8mq-mhdp8501-dp" for i.MX8MQ DP driver
+- Add compatible "fsl,imx8mq-mhdp8501-hdmi" for i.MX8MQ HDMI driver
+- Combine HDMI and DP dt-bindings into one file cdns,mhdp8501.yaml
+- Fix HDMI scrambling is not enable issue when driver working in 4Kp60
+  mode.
+- Add HDMI/DP PHY API mailbox protect.
+
+HDMI/DP PHY driver:
+- Rename DP and HDMI PHY files and move to folder phy/freescale/
+- Remove properties num_lanes and link_rate from DP PHY driver.
+- Combine HDMI and DP dt-bindings into one file fsl,imx8mq-dp-hdmi-phy.yaml
+- Update compatible string to "fsl,imx8mq-dp-phy".
+- Update compatible string to "fsl,imx8mq-hdmi-phy".
+
+v4->v5:
+- Drop "clk" suffix in clock name.
+- Add output port property in the example of hdmi/dp.
+
+v3->v4:
+dt-bindings:
+- Correct dt-bindings coding style and address review comments.
+- Add apb_clk description.
+- Add output port for HDMI/DP connector
+PHY:
+- Alphabetically sorted in Kconfig and Makefile for DP and HDMI PHY
+- Remove unused registers define from HDMI and DP PHY drivers.
+- More description in phy_hdmi.h.
+- Add apb_clk to HDMI and DP phy driver.
+HDMI/DP:
+- Use get_unaligned_le32() to replace hardcode type conversion
+  in HDMI AVI infoframe data fill function.
+- Add mailbox mutex lock in HDMI/DP driver for phy functions
+  to reslove race conditions between HDMI/DP and PHY drivers.
+- Add apb_clk to both HDMI and DP driver.
+- Rename some function names and add prefix with "cdns_hdmi/cdns_dp".
+- Remove bpc 12 and 16 optional that not supported.
+
+v2->v3:
+Address comments for dt-bindings files.
+- Correct dts-bindings file names 
+  Rename phy-cadence-hdptx-dp.yaml to cdns,mhdp-imx8mq-dp.yaml
+  Rename phy-cadence-hdptx-hdmi.yaml to cdns,mhdp-imx8mq-hdmi.yaml
+- Drop redundant words and descriptions.
+- Correct hdmi/dp node name.
+
+v2 is a completely different version compared to v1.
+Previous v1 can be available here [1].
+
+v1->v2:
+- Reuse Cadence mailbox access functions from mhdp8546 instead of
+  rockchip DP.
+- Mailbox access functions be convert to marco functions
+  that will be referenced by HDP-TX PHY(HDMI/DP) driver too.
+- Plain bridge instead of component driver.
+- Standalone Cadence HDP-TX PHY(HDMI/DP) driver.
+- Audio driver are removed from the patch set, it will be add in another
+  patch set later.
+
+[1] https://patchwork.kernel.org/project/linux-rockchip/cover/cover.1590982881.git.Sandor.yu@nxp.com/
+
+Alexander Stein (2):
+  arm64: dts: imx8mq: Add DCSS + HDMI/DP display pipeline
+  arm64: dts: imx8mq: tqma8mq-mba8mx: Enable HDMI support
+
+Sandor Yu (6):
+  drm: bridge: Cadence: Create mhdp helper driver
+  phy: Add HDMI configuration options
+  dt-bindings: display: bridge: Add Cadence MHDP8501
+  drm: bridge: Cadence: Add MHDP8501 DP/HDMI driver
+  dt-bindings: phy: Add Freescale iMX8MQ DP and HDMI PHY
+  phy: freescale: Add DisplayPort/HDMI Combo-PHY driver for i.MX8MQ
+
+ .../display/bridge/cdns,mhdp8501.yaml         |  104 ++
+ .../bindings/phy/fsl,imx8mq-dp-hdmi-phy.yaml  |   51 +
+ .../dts/freescale/imx8mq-tqma8mq-mba8mx.dts   |   20 +
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi     |   68 +
+ arch/arm64/boot/dts/freescale/mba8mx.dtsi     |   11 +
+ drivers/gpu/drm/bridge/cadence/Kconfig        |   20 +
+ drivers/gpu/drm/bridge/cadence/Makefile       |    3 +
+ .../gpu/drm/bridge/cadence/cdns-mhdp-helper.c |  304 ++++
+ .../drm/bridge/cadence/cdns-mhdp8501-core.c   |  328 ++++
+ .../drm/bridge/cadence/cdns-mhdp8501-core.h   |  365 +++++
+ .../gpu/drm/bridge/cadence/cdns-mhdp8501-dp.c |  700 ++++++++
+ .../drm/bridge/cadence/cdns-mhdp8501-hdmi.c   |  680 ++++++++
+ .../drm/bridge/cadence/cdns-mhdp8546-core.c   |  403 +----
+ .../drm/bridge/cadence/cdns-mhdp8546-core.h   |   44 +-
+ drivers/phy/freescale/Kconfig                 |   10 +
+ drivers/phy/freescale/Makefile                |    1 +
+ drivers/phy/freescale/phy-fsl-imx8mq-hdptx.c  | 1402 +++++++++++++++++
+ include/drm/bridge/cdns-mhdp-helper.h         |   97 ++
+ include/linux/phy/phy-hdmi.h                  |   24 +
+ include/linux/phy/phy.h                       |    7 +-
+ 20 files changed, 4267 insertions(+), 375 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,mhdp8501.yaml
+ create mode 100644 Documentation/devicetree/bindings/phy/fsl,imx8mq-dp-hdmi-phy.yaml
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp-helper.c
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-core.c
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-core.h
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-dp.c
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-hdmi.c
+ create mode 100644 drivers/phy/freescale/phy-fsl-imx8mq-hdptx.c
+ create mode 100644 include/drm/bridge/cdns-mhdp-helper.h
+ create mode 100644 include/linux/phy/phy-hdmi.h
+
+-- 
+2.34.1
 
