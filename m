@@ -2,59 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C845C872CD4
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 03:41:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 080A4872CDA
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 03:42:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D494112E23;
-	Wed,  6 Mar 2024 02:40:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54018112E24;
+	Wed,  6 Mar 2024 02:42:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="MZr+N44x";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="haOf1pfM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32514112E1E;
- Wed,  6 Mar 2024 02:40:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1709692854;
- bh=mgOhO0IDZgLwsPvXZt6ogw3x+b9+CWMm5P2F9Ag7u7o=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=MZr+N44xWgYx/KeDYYxby6i5AzGFwBKGEf04A7jZxAjv/oiqSPM+Iac/PrkzORUkH
- A1WXgZKX3mcU8AvNMeimSYpUq9t+Juc6tBMXKanpqny19+fjNt1wAbIolq2ednOBDw
- tanlqsaUCXZnB1wseZjvY1ci9HHDWh3b5k5xvDYaV1PxT0tMOW9DklPtS7+xuMdDdG
- OjxOq2VbGWANCyPIMv2jX4XA0pChfI+Awtt/4eJr+aZkeUYEHzXwriZbtWCFwW466B
- MAgE7dgS0n1Wqkcs5dR+rnPHEJ1gCpsR2axSkhPy+RRHhGjmInK6oQcXWqffprHr2V
- nCXUY3ZHF6V3g==
-Received: from [100.66.96.193] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id F0AC53780624;
- Wed,  6 Mar 2024 02:40:51 +0000 (UTC)
-Message-ID: <ea5d08ef-a9bb-5102-4357-21dbae3462cd@collabora.com>
-Date: Wed, 6 Mar 2024 08:10:49 +0530
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B42A112E24
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 02:42:51 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-a441d7c6125so146179866b.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 18:42:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1709692969; x=1710297769;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=x2WY4uFfSORqsxmoN252fMsc5YpGsXMNwoTLggkrkUc=;
+ b=haOf1pfMf7FJIfC79B0/3+eSLHCEbB3rIbt6XXc9ZDcCX1pT6hv0HJverP9cq1l1NC
+ RC917NLbWxlpU9/X28aJOuOeVjDjr5fmsy9oi97cQ0a7cBj8ZXmPDLk4SfwPlNv/ihtC
+ x7/Qd9vEltfk/BT21KVMneR6ryw10/5wsFKxGGq7Lxgnl9Bmb5Fm+t84uWdywOM048xT
+ WF6IAjUp2AAvbu+NYCR6Jb9tTulU//fWsTOARRusUrddtAMLx/6wga4ja1TqxGeRBRu6
+ uEKNmOCexIkK6+nujbXNImcOj4Qe46TG5gP2LZ8yiF41UAFRxPHQSzAzr46cpJjAbINN
+ 5QOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709692969; x=1710297769;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=x2WY4uFfSORqsxmoN252fMsc5YpGsXMNwoTLggkrkUc=;
+ b=UvFY5A4aaKHdeoHIUnxr25odWvZtI30qYj9L9GO0gsP/jWZ47RF5pgRnvzdxYGIkCr
+ IHNAt3PipPHs0cJUoAl7bh+Qi5xBo4ysQmdGpVxqRfIbWYI+iKj/oQ3IOXDdXethFjPk
+ GaPc2SeLESMdPjyjoxRLwziWEgfR34qPdcU6D0jMzo4ydty0aAAXm8xsFjpavfZgTlO9
+ 4N6j7C1+C71fsbZOfpZwDwUYcb0hEh6EE5md6CXNumdYNzvNhaiB0P0OiwkcI/qXHFMu
+ KGPkTLGYlsckdoM6LB1/0Pe4kVVFlC/ET+gUPewa6F6Azj9V63ZHg0pFxz6YWhtuNrNe
+ emjw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVt8oex/yVYEFPFY7dw2vbjg56bhyCQFR8jqYgjSefcaDqWn50TIfIBzPEPyXrIAfjwYAqO2RvO6N87KZEXZCrEaHFJv9Q8fiNYiSYVAlp0
+X-Gm-Message-State: AOJu0YyBkV8AWoEvACOBKlnZ6H6KB1gFpY5YIV1B9+1oD+R3pAXKvoWc
+ A0Jvqi0phBcQ8tpA05sjtPpBnPJnPcGGcI7IC8nnBz7B19qZigMxnWVxTDQI5N6TMb/4vm/Wlf2
+ 6rUMZXNztVOjo5s8mNzQ5YW84joeJJAqLG3JF
+X-Google-Smtp-Source: AGHT+IE0p4dMKmBQEWPN97sZRzFoRZYkkR6K2Lqxx/MoMEWGX+2miy2Ao5l4zesUpz9uL42402ZTwWMCpTdHvKmmsvU=
+X-Received: by 2002:a17:906:2417:b0:a45:ad5d:98ac with SMTP id
+ z23-20020a170906241700b00a45ad5d98acmr1779500eja.44.1709692968869; Tue, 05
+ Mar 2024 18:42:48 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3 9/9] drm/ci: uprev IGT and update testlist
-Content-Language: en-US
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org
-Cc: linux-rockchip@lists.infradead.org, guilherme.gallo@collabora.com,
- sergi.blanch.torne@collabora.com, linux-kernel@vger.kernel.org,
- david.heidelberg@collabora.com, helen.koike@collabora.com,
- linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- daniel@ffwll.ch, linux-amlogic@lists.infradead.org, airlied@gmail.com
-References: <20240130150340.687871-1-vignesh.raman@collabora.com>
- <20240130150340.687871-10-vignesh.raman@collabora.com>
- <26f6426d-dcb6-4b14-b031-368b2248e9e7@igalia.com>
- <799653a3-e079-4e17-9d68-c0e384a216b0@igalia.com>
- <e1f56317-b70d-0b81-75f0-fef50616e026@collabora.com>
-In-Reply-To: <e1f56317-b70d-0b81-75f0-fef50616e026@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <20240305020153.2787423-10-almasrymina@google.com>
+ <383c4870-167f-4123-bbf3-928db1463e01@davidwei.uk>
+In-Reply-To: <383c4870-167f-4123-bbf3-928db1463e01@davidwei.uk>
+From: Mina Almasry <almasrymina@google.com>
+Date: Tue, 5 Mar 2024 18:42:35 -0800
+Message-ID: <CAHS8izP_PzDJVxycwZe_d_x10-SX4=Q-CWpKTjoOQ5dc2NSn3w@mail.gmail.com>
+Subject: Re: [RFC PATCH net-next v6 09/15] memory-provider: dmabuf devmem
+ memory provider
+To: David Wei <dw@davidwei.uk>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, 
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+ Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Pavel Begunkov <asml.silence@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Jeroen de Borst <jeroendb@google.com>, 
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,86 +118,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maíra,
+On Tue, Mar 5, 2024 at 6:28=E2=80=AFPM David Wei <dw@davidwei.uk> wrote:
+>
+> On 2024-03-04 18:01, Mina Almasry wrote:
+> > +     if (pool->p.queue)
+> > +             binding =3D READ_ONCE(pool->p.queue->binding);
+> > +
+> > +     if (binding) {
+> > +             pool->mp_ops =3D &dmabuf_devmem_ops;
+> > +             pool->mp_priv =3D binding;
+> > +     }
+>
+> This is specific to TCP devmem. For ZC Rx we will need something more
+> generic to let us pass our own memory provider backend down to the page
+> pool.
+>
+> What about storing ops and priv void ptr in struct netdev_rx_queue
+> instead? Then we can both use it.
 
-On 19/02/24 14:22, Vignesh Raman wrote:
-> Hi Maíra,
-> 
-> On 10/02/24 23:50, Maíra Canal wrote:
->> On 2/10/24 15:17, Maíra Canal wrote:
->>> On 1/30/24 12:03, Vignesh Raman wrote:
->>>> Uprev IGT and add amd, v3d, vc4 and vgem specific
->>>> tests to testlist. Have testlist.txt per driver
->>>> and include a base testlist so that the driver
->>>> specific tests will run only on those hardware.
->>>>
->>>> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
->>>> ---
->>>>
->>>> v3:
->>>>    - New patch in series to uprev IGT and update testlist.
->>>>
->>>> ---
->>>>   drivers/gpu/drm/ci/gitlab-ci.yml              |   2 +-
->>>>   drivers/gpu/drm/ci/igt_runner.sh              |  12 +-
->>>>   drivers/gpu/drm/ci/testlist-amdgpu.txt        | 151 
->>>> ++++++++++++++++++
->>>>   drivers/gpu/drm/ci/testlist-msm.txt           |  50 ++++++
->>>>   drivers/gpu/drm/ci/testlist-panfrost.txt      |  17 ++
->>>>   drivers/gpu/drm/ci/testlist-v3d.txt           |  73 +++++++++
->>>>   drivers/gpu/drm/ci/testlist-vc4.txt           |  49 ++++++
->>>>   drivers/gpu/drm/ci/testlist.txt               | 100 ++++--------
->>>>   .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt |  24 ++-
->>>>   .../drm/ci/xfails/amdgpu-stoney-flakes.txt    |   9 +-
->>>>   .../gpu/drm/ci/xfails/amdgpu-stoney-skips.txt |  10 +-
->>>>   11 files changed, 427 insertions(+), 70 deletions(-)
->>>>   create mode 100644 drivers/gpu/drm/ci/testlist-amdgpu.txt
->>>>   create mode 100644 drivers/gpu/drm/ci/testlist-msm.txt
->>>>   create mode 100644 drivers/gpu/drm/ci/testlist-panfrost.txt
->>>>   create mode 100644 drivers/gpu/drm/ci/testlist-v3d.txt
->>>>   create mode 100644 drivers/gpu/drm/ci/testlist-vc4.txt
->>>>
->>>> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml 
->>>> b/drivers/gpu/drm/ci/gitlab-ci.yml
->>>> index bc8cb3420476..e2b021616a8e 100644
->>>> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
->>>> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
->>>> @@ -5,7 +5,7 @@ variables:
->>>>     UPSTREAM_REPO: git://anongit.freedesktop.org/drm/drm
->>>>     TARGET_BRANCH: drm-next
->>>> -  IGT_VERSION: d2af13d9f5be5ce23d996e4afd3e45990f5ab977
->>>> +  IGT_VERSION: b0cc8160ebdc87ce08b7fd83bb3c99ff7a4d8610
->>>>     DEQP_RUNNER_GIT_URL: 
->>>> https://gitlab.freedesktop.org/anholt/deqp-runner.git
->>>>     DEQP_RUNNER_GIT_TAG: v0.15.0
->>>> diff --git a/drivers/gpu/drm/ci/igt_runner.sh 
->>>> b/drivers/gpu/drm/ci/igt_runner.sh
->>>> index f001e015d135..2fd09b9b7cf6 100755
->>>> --- a/drivers/gpu/drm/ci/igt_runner.sh
->>>> +++ b/drivers/gpu/drm/ci/igt_runner.sh
->>>> @@ -64,10 +64,20 @@ if ! grep -q "core_getversion" 
->>>> /install/testlist.txt; then
->>>>   fi
->>>>   set +e
->>>> +if [ "$DRIVER_NAME" = "amdgpu" ]; then
->>>> +    TEST_LIST="/install/testlist-amdgpu.txt"
->>>> +elif [ "$DRIVER_NAME" = "msm" ]; then
->>>> +    TEST_LIST="/install/testlist-msm.txt"
->>>> +elif [ "$DRIVER_NAME" = "panfrost" ]; then
->>>> +    TEST_LIST="/install/testlist-panfrost.txt"
->>>> +else
->>>> +    TEST_LIST="/install/testlist.txt"
->>>> +fi
->>>> +
->>>
->>> Isn't V3D and VC4 testlists missing?
-> 
-> Yes. We need to add ci jobs to test v3d/vc4. The initial idea was just 
-> to split the testlist per driver and add vc4/v3d tests so that it can be 
-> used in future. I will add the jobs as part of v4.
+Yes, this is dmabuf specific, I was thinking you'd define your own
+member of netdev_rx_queue, and then add something like this to
+page_pool_init:
 
-To include RPi jobs, we need to tweak mesa-ci to pass kernel and dtb and 
-update mesa-ci in drm-ci. So will send this as a seperate patch/series.
++       if (pool->p.queue)
++               io_uring_metadata =3D READ_ONCE(pool->p.queue->io_uring_met=
+adata);
++
++       /* We don't support rx-queues that are configured for both
+io_uring & dmabuf binding */
++       BUG_ON(io_uring_metadata && binding);
++
++       if (io_uring_metadata) {
++               pool->mp_ops =3D &io_uring_ops;
++               pool->mp_priv =3D io_uring_metadata;
++       }
 
-Regards,
-Vignesh
+I.e., we share the pool->mp_ops and the pool->mp_priv but we don't
+really need to share the same netdev_rx_queue member. For me it's a
+dma-buf specific data structure (netdev_dmabuf_binding) and for you
+it's something else.
+
+page_pool_init() probably needs to validate that the queue is
+configured for dma-buf or io_uring but not both. If it's configured
+for both then the user is doing something funky we shouldn't support.
+
+Perhaps I can make the intention clearer by renaming 'binding' to
+something more specific to dma-buf like queue->dmabuf_binding, to make
+it clear that this is the dma-buf binding and not some other binding
+like io_uring?
+
+--=20
+Thanks,
+Mina
