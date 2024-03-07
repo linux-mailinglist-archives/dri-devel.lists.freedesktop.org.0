@@ -2,77 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFD04875737
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 20:31:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F90875747
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 20:32:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA43D112066;
-	Thu,  7 Mar 2024 19:31:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F678112676;
+	Thu,  7 Mar 2024 19:32:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ubR2DQJO";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="d0/Roda7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
- [209.85.128.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 801AC11229E
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 19:31:19 +0000 (UTC)
-Received: by mail-yw1-f175.google.com with SMTP id
- 00721157ae682-609ff069a40so1671327b3.1
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Mar 2024 11:31:19 -0800 (PST)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+ [209.85.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5CB9113802
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 19:32:42 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id
+ d2e1a72fcca58-6e66a3d492fso26387b3a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Mar 2024 11:32:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709839878; x=1710444678; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=PCETR6xATNNqCCnkCbkWB2goU+g4Ke4A3ZOjvnBM1l4=;
- b=ubR2DQJOw83+f7uFwnEGFhRnVMs4NQqMmHDnvHTxu2Ovkj94anVPaZ42i7GijpltpO
- KulNFXEMwLFO6/7g8qGMlNusgyr4GE9r7rMmuSWTg3juE8Nb4f7piEVrNDm2JfeKzNUQ
- MB85fbXYo3MZNlbLr7TseLvd+GjFZe+PjJeYr2oqF537DgvNve1OVU2naNXb0N3plbo1
- sxdX5Q3cJg183ggEKyhrEHqOEGNubDN6LFDuV8FXtK6A4aU9vx1fH30Tsbjw+fRGkSXf
- /ISMoSZSiABy/Bk1hoWsKoTqGvjfcLSav8UspvvwodqKFV1UMDUG3a6yP5umV/wkrI3m
- B+5g==
+ d=chromium.org; s=google; t=1709839962; x=1710444762;
+ darn=lists.freedesktop.org; 
+ h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Y7tFAO5LyLvnL3+HqT9Xq5HyhhJG+8Hgt83qwkFfBN8=;
+ b=d0/Roda7lQgY9JaNRHcI9u7Ypmex6rnpY74ddZ7qu76t0+UVe2lcTREi5L9/tM3dMd
+ CsImvwJH4Y8wwBezJTxNCIvvaR++0xWRWVASdKadDUh3vA3TbiAej/+tlrOtByuroatk
+ RzVpyK1Wq6vO0agY81pxRXTW9UFfvekojvLCg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709839878; x=1710444678;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=PCETR6xATNNqCCnkCbkWB2goU+g4Ke4A3ZOjvnBM1l4=;
- b=QqwZcmV6rwJqXfEcDXCOqy/TXQIYM3QdYhbp8qef3PlqU0c1h49tj/zpLriTO4eySn
- vsRT5ioWbTep6RO4NtYfRyCHOnKh5hxq+a6Pb+vZ/eFkD0v1CqVV6pQlrbAD1jnqXJDg
- 66J+fZsNnznJi9XO6vPizYYtXdF1qtMpLc7EeFMsomeC7VjLnVcaWvAiRUq9ZQI1hgiX
- TxXjEYFuJt/If2mPDzLb1+R/EwakvgN8wRvlyy59970bAQA/YyuHpjOQbDQczFZCM7zv
- 6gTxUw1UAllxV/Twz7OLsII28+TkNiD+fpUzGP1FvYU72FKP+S24SX4kb2hEFlwItHOX
- 36sw==
+ d=1e100.net; s=20230601; t=1709839962; x=1710444762;
+ h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y7tFAO5LyLvnL3+HqT9Xq5HyhhJG+8Hgt83qwkFfBN8=;
+ b=DXvgaCNBIC/oRzbML/HKpB5z/jNIPBOs8AQ7a1qeaxqHI2dPdx2xVLDhQE7GhHWX0N
+ 4X25OWtyW2PgE3awLn5dYUxjdGYJtNWV3yU2mZBncmN2bpFH+zSWN3uEpmi3eEgmVI8S
+ 5nKn6byJ3jWrDBewYP/DQrtfwo90/a9qn6OK3HkKNgI+q1gByBGaUaNOArsHWKtLuPG7
+ jxfQXH3vyzAuqkNEK5ZylXsTl97ceJJsMz7f6tITa9raqBJinrsGw793Lw2xXqyNJLgo
+ L9S0gDX0LaTwGiYUzoTOpymG5jUXdcJmm4IpXI4EBCFuzr4NZOAqww/l1kuNqb2AUMg6
+ 07TQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVmBkjXkRUetniLNMGyHL2Yt+qwiuj5d0UZJEVFPwqycEjSxyNJtOFRBfftb+brLsm0mRBDTWA7+3bRzMdjuR0OBsGsrr7j63sPuBTKs0fR
-X-Gm-Message-State: AOJu0YzcQlHn+mW/ucSIw2k3z8XIRSylKlXvfzfNnxy2E3sKiCW1kYQb
- 6MMm2iKQ84oskTmx3Fopm5w/LUlwgBNtrMI0OUL8S3BknurleKDM6+x+km6tuFSO9m5jEoDdInA
- sUdclb4Xg3BLJgQIh5me5OciROD+3WyCqYctF0Q==
-X-Google-Smtp-Source: AGHT+IG/lG/+9pIjKimGHVPHBUoVUFsLKcsfXtMQ9jFwKu2z17RjD9mEueX+OHf6CusgAmcRzq+qXYbJlHF7JWFlHEg=
-X-Received: by 2002:a0d:f6c3:0:b0:609:8719:b935 with SMTP id
- g186-20020a0df6c3000000b006098719b935mr20208837ywf.8.1709839878122; Thu, 07
- Mar 2024 11:31:18 -0800 (PST)
+ AJvYcCUxK+JQBVXOBdoEN0xrFbizWnmXUAB5threl7iyKsQx1LS3a7Vi3eCTXFm3b4bQ03E65VfYzmx0qmyRSZGy13vwx6SM5uXgeOpSvxHWjHJB
+X-Gm-Message-State: AOJu0YyAFEcLOor7RvJXLKvc/QhbdReUVoeZ3TfRfZgiryFH2s5UKQnP
+ /5cwtXj8iRQMZkid0LN5vPLsQVV7KFPiSCwZBXHZmy1rXBDJUg+w4hiU1kN4gw==
+X-Google-Smtp-Source: AGHT+IEXA1GnqxDeU9jnlIUs1LLr1HCKc49pvwZhgKzU/0L/Llfntwa/OA4IWFglH8mIi9V2Pf//fw==
+X-Received: by 2002:a05:6a00:3cca:b0:6e5:9342:f0fb with SMTP id
+ ln10-20020a056a003cca00b006e59342f0fbmr21379242pfb.14.1709839961147; 
+ Thu, 07 Mar 2024 11:32:41 -0800 (PST)
+Received: from www.outflux.net ([198.0.35.241])
+ by smtp.gmail.com with ESMTPSA id
+ x20-20020a056a000bd400b006e65d66bb3csm1526541pfu.21.2024.03.07.11.32.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Mar 2024 11:32:40 -0800 (PST)
+From: coverity-bot <keescook@chromium.org>
+X-Google-Original-From: coverity-bot <keescook+coverity-bot@chromium.org>
+Date: Thu, 7 Mar 2024 11:32:40 -0800
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, intel-xe@lists.freedesktop.org,
+ Oded Gabbay <ogabbay@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+ linux-next@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Coverity: xe_gt_tlb_invalidation_ggtt(): Error handling issues
+Message-ID: <202403071132.198D11C@keescook>
 MIME-Version: 1.0
-References: <20240307172334.1753343-1-sui.jingfeng@linux.dev>
- <20240307172334.1753343-5-sui.jingfeng@linux.dev>
-In-Reply-To: <20240307172334.1753343-5-sui.jingfeng@linux.dev>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 7 Mar 2024 21:31:06 +0200
-Message-ID: <CAA8EJpqtPRfe1VL_ACYEOSq=iNMkZ03-fwVv3XdVrpTObZFu1w@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] drm-bridge: it66121: Use fwnode API to acquire
- device properties
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Phong LE <ple@baylibre.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,149 +86,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 7 Mar 2024 at 19:24, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
->
-> Make this driver less DT-dependent by calling the freshly created helpers,
-> should be no functional changes for DT based systems. But open the door for
-> otherwise use cases. Even though there is no user emerged yet, this still
-> do no harms. In fact, we reduce some boilerplate across drm bridge drivers.
->
-> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-> ---
->  drivers/gpu/drm/bridge/ite-it66121.c | 63 ++++++++++++++++------------
->  1 file changed, 36 insertions(+), 27 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-> index 1c3433b5e366..a2cf2be86065 100644
-> --- a/drivers/gpu/drm/bridge/ite-it66121.c
-> +++ b/drivers/gpu/drm/bridge/ite-it66121.c
-> @@ -15,7 +15,6 @@
->  #include <linux/bitfield.h>
->  #include <linux/property.h>
->  #include <linux/regmap.h>
-> -#include <linux/of_graph.h>
->  #include <linux/gpio/consumer.h>
->  #include <linux/pinctrl/consumer.h>
->  #include <linux/regulator/consumer.h>
-> @@ -1480,7 +1479,7 @@ static int it66121_audio_codec_init(struct it66121_ctx *ctx, struct device *dev)
->
->         dev_dbg(dev, "%s\n", __func__);
->
-> -       if (!of_property_read_bool(dev->of_node, "#sound-dai-cells")) {
-> +       if (!fwnode_property_present(dev_fwnode(dev), "#sound-dai-cells")) {
->                 dev_info(dev, "No \"#sound-dai-cells\", no audio\n");
->                 return 0;
->         }
-> @@ -1503,13 +1502,37 @@ static const char * const it66121_supplies[] = {
->         "vcn33", "vcn18", "vrf12"
->  };
->
-> +static int it66121_read_bus_width(struct fwnode_handle *fwnode, u32 port,
-> +                                 u32 *bus_width)
-> +{
-> +       struct fwnode_handle *endpoint;
-> +       u32 val;
-> +       int ret;
-> +
-> +       endpoint = fwnode_graph_get_endpoint_by_id(fwnode, port, 0, 0);
-> +       if (!endpoint)
-> +               return -EINVAL;
-> +
-> +       ret = fwnode_property_read_u32(endpoint, "bus-width", &val);
-> +       fwnode_handle_put(endpoint);
-> +       if (ret)
-> +               return ret;
-> +
-> +       if (val != 12 && val != 24)
-> +               return -EINVAL;
-> +
-> +       *bus_width = val;
-> +
-> +       return 0;
-> +}
-> +
->  static int it66121_probe(struct i2c_client *client)
->  {
->         u32 revision_id, vendor_ids[2] = { 0 }, device_ids[2] = { 0 };
-> -       struct device_node *ep;
->         int ret;
->         struct it66121_ctx *ctx;
->         struct device *dev = &client->dev;
-> +       struct fwnode_handle *fwnode = dev_fwnode(dev);
->
->         if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
->                 dev_err(dev, "I2C check functionality failed.\n");
-> @@ -1520,37 +1543,23 @@ static int it66121_probe(struct i2c_client *client)
->         if (!ctx)
->                 return -ENOMEM;
->
-> -       ep = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
-> -       if (!ep)
-> -               return -EINVAL;
-> -
->         ctx->dev = dev;
->         ctx->client = client;
->         ctx->info = i2c_get_match_data(client);
->
-> -       of_property_read_u32(ep, "bus-width", &ctx->bus_width);
-> -       of_node_put(ep);
-> -
-> -       if (ctx->bus_width != 12 && ctx->bus_width != 24)
-> -               return -EINVAL;
-> -
-> -       ep = of_graph_get_remote_node(dev->of_node, 1, -1);
-> -       if (!ep) {
-> -               dev_err(ctx->dev, "The endpoint is unconnected\n");
-> -               return -EINVAL;
-> -       }
-> -
-> -       if (!of_device_is_available(ep)) {
-> -               of_node_put(ep);
-> -               dev_err(ctx->dev, "The remote device is disabled\n");
-> -               return -ENODEV;
-> -       }
-> +       /* Endpoint of port@0 contains the bus-width property */
-> +       ret = it66121_read_bus_width(fwnode, 0, &ctx->bus_width);
+Hello!
 
-There is no need to pass port as an argument to that function.
+This is an experimental semi-automated report about issues detected by
+Coverity from a scan of next-20240307 as part of the linux-next scan project:
+https://scan.coverity.com/projects/linux-next-weekly-scan
 
+You're getting this email because you were associated with the identified
+lines of code (noted below) that were touched by commits:
 
-> +       if (ret)
-> +               return ret;
->
-> -       ctx->next_bridge = of_drm_find_bridge(ep);
-> -       of_node_put(ep);
-> +       ctx->next_bridge = drm_bridge_find_next_bridge_by_fwnode(fwnode, 1);
->         if (!ctx->next_bridge) {
->                 dev_dbg(ctx->dev, "Next bridge not found, deferring probe\n");
->                 return -EPROBE_DEFER;
-> +       } else if (IS_ERR(ctx->next_bridge)) {
-> +               ret = PTR_ERR(ctx->next_bridge);
-> +               dev_err(dev, "Error in founding the next bridge: %d\n", ret);
-> +               return ret;
+  Tue Mar 5 16:48:55 2024 -0800
+    27ee413bbc0b ("drm/xe: Do not grab forcewakes when issuing GGTT TLB invalidation via GuC")
 
-Nit: I'd usually expect this part to be in a different order: first
-check for error, then check for absence. But that's a minor thing.
+Coverity reported the following:
 
->         }
->
->         i2c_set_clientdata(client, ctx);
-> @@ -1584,9 +1593,9 @@ static int it66121_probe(struct i2c_client *client)
->         }
->
->         ctx->bridge.funcs = &it66121_bridge_funcs;
-> -       ctx->bridge.of_node = dev->of_node;
->         ctx->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
->         ctx->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_HPD;
-> +       drm_bridge_set_node(&ctx->bridge, fwnode);
->
->         ret = devm_request_threaded_irq(dev, client->irq, NULL, it66121_irq_threaded_handler,
->                                         IRQF_ONESHOT, dev_name(dev), ctx);
-> --
-> 2.34.1
->
+*** CID 1584246:  Error handling issues  (CHECKED_RETURN)
+drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c:250 in xe_gt_tlb_invalidation_ggtt()
+244     		seqno = xe_gt_tlb_invalidation_guc(gt);
+245     		if (seqno <= 0)
+246     			return seqno;
+247
+248     		xe_gt_tlb_invalidation_wait(gt, seqno);
+249     	} else if (xe_device_uc_enabled(xe)) {
+vvv     CID 1584246:  Error handling issues  (CHECKED_RETURN)
+vvv     Calling "xe_force_wake_get" without checking return value (as is done elsewhere 15 out of 16 times).
+250     		xe_force_wake_get(gt_to_fw(gt), XE_FW_GT);
+251     		if (xe->info.platform == XE_PVC || GRAPHICS_VER(xe) >= 20) {
+252     			xe_mmio_write32(gt, PVC_GUC_TLB_INV_DESC1,
+253     					PVC_GUC_TLB_INV_DESC1_INVALIDATE);
+254     			xe_mmio_write32(gt, PVC_GUC_TLB_INV_DESC0,
+255     					PVC_GUC_TLB_INV_DESC0_VALID);
 
+If this is a false positive, please let us know so we can mark it as
+such, or teach the Coverity rules to be smarter. If not, please make
+sure fixes get into linux-next. :) For patches fixing this, please
+include these lines (but double-check the "Fixes" first):
 
---
-With best wishes
-Dmitry
+Reported-by: coverity-bot <keescook+coverity-bot@chromium.org>
+Addresses-Coverity-ID: 1584246 ("Error handling issues")
+Fixes: 27ee413bbc0b ("drm/xe: Do not grab forcewakes when issuing GGTT TLB invalidation via GuC")
+
+Thanks for your attention!
+
+-- 
+Coverity-bot
