@@ -2,77 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B24A87563F
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 19:43:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3155C8756D6
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 20:14:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1238C1137FD;
-	Thu,  7 Mar 2024 18:43:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E38610E797;
+	Thu,  7 Mar 2024 19:14:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rT9w9yML";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kmKgi4mi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com
- [209.85.219.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15A7E113802
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 18:43:28 +0000 (UTC)
-Received: by mail-yb1-f182.google.com with SMTP id
- 3f1490d57ef6-dcd9e34430cso1380138276.1
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Mar 2024 10:43:27 -0800 (PST)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 607D410E6F9;
+ Thu,  7 Mar 2024 19:14:25 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id
+ d9443c01a7336-1dd6412da28so2362525ad.3; 
+ Thu, 07 Mar 2024 11:14:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709837007; x=1710441807; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=T9LXUyShlkZ7roaprFymWdneF69b+LAWxfFA/794s5U=;
- b=rT9w9yMLuDEnE3WE0v0Hbwr9VZyobORpwSjgV4QfguxKH6rMEqGyYk+bMgcN1Qkz9C
- zMPj1VrE/gO05NfnXVOrWzdOlI7sFrh2TtbcdIVM7pU9j1kS8mldK/SA8l6ScOMmtUEa
- pTulYa17yjacuKiiz7gdXCIcZJrvdgguMVxPUK65ZA1gFZcABExELeZ5GEfTPxnuT74v
- s+nOFVoKCzWhINzAWY6hxhXTlO+EdYQP/QatyorjUBjavWTvrWS7yuGwtZ00eOPZKsR2
- Qu+iaAgFxo+pbVKvehP9lK2OUkanIhL4gRyzlWC6muKQdXYO/1nz9OeDdLRT9CtIhUSF
- DWpQ==
+ d=gmail.com; s=20230601; t=1709838864; x=1710443664; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2se7G0iGKIEtkLcBAFedZUHevjiz1To/PvhvMoYqSbM=;
+ b=kmKgi4mictrjlAUxNqN8hLecmdJhDF/6F68tHR5QzQCyAQwCA1JDxXF3VNpE1xewFx
+ XN9CMfp2G6mQzsrraf3qPjkWzv5z6CGJGNZVHcwqo9Az9lHUzchWrBMk3rOznoDsQKEs
+ BfRpaQn2eGSl9C9Fl5XobYtiLGkdrYS84lN5FrQUcufM7gVAUFkiZqJKyQU8D75K5obV
+ 3Dil/c/++/nI8Dk3HBoPO/8DWhYAXMAmQga8Wg3KL91hbzTshP2IG5LFLK67gR+gZLv2
+ z9ErsMci2gBNtaTDvYY8V8jDb9iFVYAtLLxY5RzT+O3qb8HX4mm6QW8XeFCoC0UOnOf9
+ ym6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709837007; x=1710441807;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=T9LXUyShlkZ7roaprFymWdneF69b+LAWxfFA/794s5U=;
- b=JDK819KfXqNjcyoaBynOEThht3hEseB68A3/Bb3zkdHRdG5jQxLcwg0yy6eAvspWIJ
- JQ1d2wkgoOudrgj1QTDg+VLVDZBW5NftNdAEcZcOiyKSKj5Vzrx00yZiRlSoXt4CHFzZ
- jRTtszAe89itEtrh1ZDQg5kRKronXbr1AUbnklUSZFk86s8FNKKhYSU6HNH0DDSSBx6z
- FxXxLPzrvXk4DdP4V70lQJDZs3TywlSBXzssX6O4vjBc3cKKISa9HFbo4/+HkZdPLJ9X
- L/KvjdlH8JacM1asbT4sHMp+2Xketmtp2e/7RJvPKNJcpvw8bpbiDKUssqTksGvMJVxh
- rU7Q==
+ d=1e100.net; s=20230601; t=1709838864; x=1710443664;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=2se7G0iGKIEtkLcBAFedZUHevjiz1To/PvhvMoYqSbM=;
+ b=v0v1SoCnr03ScE5ny8Egf5vekkUlmIwjS/8j8QJ2RJvLHwpYrSbf2FjMhTL/6IGGT9
+ b9G73WxXws8eZ1y8B38tspGVyRSkssqGvr3RgXC1zEWcaskQ5SsYa1Qa+fFdrRhbnBdl
+ as2aMADZIY77ww/1DMF3z6BcxWQ+CHV5u9XQRgSzoBISW+v+SluX8RvqlMb17OUG7J9l
+ Gnr+RITBG2AI3AaoX69u4uEHq+RjsA8iLHYfCFfE/VPJrbYWpUR6Pw2om9QGpR7t4aUU
+ 9D1epMvBSuDHj7sAHig9EsMoHrFD7uOgM02nqj0VISAG3V7FiajyDsPrz2M1zOQ9ufky
+ evpg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVh03KDgQ90cuKQK9ds58jDUSv/7XiNnfiNn+TrtNq4Vl91HuBGE5VMZell1iMPu6aAk2+3y4KrGs2cZ3gaIizJWJY/0pDwLBQzGF9i+CRm
-X-Gm-Message-State: AOJu0Yz5xrlCfbj14kSPL+YgvehSIeZBGWYJNxyZg4YHforuTupKwuKZ
- vYbfQe2UeHdoaeWDSH5Fq564lK6wY5FBurnECkyMjZIre2ue0rqtBZjcV3sanWltzjkxl2vBF4t
- /pq51bEgvBrg78YSEetFVVw9K7wNZbLkqmzlkfw==
-X-Google-Smtp-Source: AGHT+IHla4pMRGQJ6X+PZKNW1ZUlATLZh7Z9JkCfgsqQjy7N83+BwMiNotl2Lwnw43Tw/TrfNMgzJdXHnO/QyjQ6JEY=
-X-Received: by 2002:a05:6902:1347:b0:dcc:2bc:652 with SMTP id
- g7-20020a056902134700b00dcc02bc0652mr14839603ybu.60.1709837006977; Thu, 07
- Mar 2024 10:43:26 -0800 (PST)
+ AJvYcCVWf7mwqFaIkEA/lIFgKZC9kRDuMyAarCFestW7/ab1+48gBuQT+1DqvX6J5mkxksk8zcHMw95XnXDFFyo/mWatE6rZZfH7eFYls97jLjsrWFfdQsM7gagQ90DwvXDJqKgT2Y9Ewd4yupLjlGbRVw==
+X-Gm-Message-State: AOJu0YyKGzV03gyP8LI9ZFrBdMFH9dNuUZPTBkdARyO+iYzyLxLUPQcs
+ Xj656zCPCljrfoAsVMCoGVcnOBDPCaX4uwl8fV37DO9H3fLthp8fUJoIiCfCfAARCvl1D2qxyY1
+ KTdq7uyeqKyrDxrVbegi5yEwk0wvNtLEE
+X-Google-Smtp-Source: AGHT+IHRVNZAUpprQ4dXeszAr2p/sxRYdzvBxRpzG0DMC1RFVrho4mjcstm8PdLmMghCwTV/K39nXyPIHNPzQnu1L+4=
+X-Received: by 2002:a17:90a:5986:b0:29a:e05f:3f55 with SMTP id
+ l6-20020a17090a598600b0029ae05f3f55mr15893535pji.2.1709838864479; Thu, 07 Mar
+ 2024 11:14:24 -0800 (PST)
 MIME-Version: 1.0
-References: <20240307172334.1753343-1-sui.jingfeng@linux.dev>
- <20240307172334.1753343-2-sui.jingfeng@linux.dev>
-In-Reply-To: <20240307172334.1753343-2-sui.jingfeng@linux.dev>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 7 Mar 2024 20:43:15 +0200
-Message-ID: <CAA8EJpp8tsHi0RhsJXG+r6nOsV3AUC_n6jNHL0Cr6Ku2h3NMog@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] drm/bridge: Add fwnode based helpers to get the
- next bridge
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Phong LE <ple@baylibre.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
+References: <20240307165932.3856952-1-sunil.khatri@amd.com>
+ <20240307165932.3856952-3-sunil.khatri@amd.com>
+In-Reply-To: <20240307165932.3856952-3-sunil.khatri@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 7 Mar 2024 14:14:12 -0500
+Message-ID: <CADnq5_OaCRAjCZGOEpd1gTFSUHdNkVbDqDgx_LQKw_JR1Qtv3Q@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/amdgpu: add vm fault information to devcoredump
+To: Sunil Khatri <sunil.khatri@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Shashank Sharma <shashank.sharma@amd.com>, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Mukul Joshi <mukul.joshi@amd.com>, 
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,169 +84,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 7 Mar 2024 at 19:23, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
+On Thu, Mar 7, 2024 at 12:00=E2=80=AFPM Sunil Khatri <sunil.khatri@amd.com>=
+ wrote:
 >
-> Currently, the various drm bridge drivers relay on OF infrastructures to
-> works very well. Yet there are platforms and/or don not has OF support.
-> Such as virtual display drivers, USB display apapters and ACPI based
-> systems etc. Add fwnode based helpers to fill the niche, this may allows
-> part of the drm display bridge drivers to work across systems. As the
-> fwnode based API has wider coverage than DT, it can be used on all systems
-> in theory. Assumed that the system has valid fwnode graphs established
-> before drm bridge driver is probed, the fwnode graphs are compatible with
-> the OF graph.
+> Add page fault information to the devcoredump.
 >
-> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> Output of devcoredump:
+> **** AMDGPU Device Coredump ****
+> version: 1
+> kernel: 6.7.0-amd-staging-drm-next
+> module: amdgpu
+> time: 29.725011811
+> process_name: soft_recovery_p PID: 1720
+>
+> Ring timed out details
+> IP Type: 0 Ring Name: gfx_0.0.0
+>
+> [gfxhub] Page fault observed
+> Faulty page starting at address 0x0000000000000000
+
+Do you want a : before the address for consistency?
+
+> Protection fault status register:0x301031
+
+How about a space after the : for consistency?
+
+For parsability, it may make more sense to just have a list of key value pa=
+irs:
+[GPU page fault]
+hub:
+addr:
+status:
+[Ring timeout details]
+IP:
+ring:
+name:
+
+etc.
+
+>
+> VRAM is lost due to GPU reset!
+>
+> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
 > ---
->  drivers/gpu/drm/drm_bridge.c | 68 ++++++++++++++++++++++++++++++++++++
->  include/drm/drm_bridge.h     | 16 +++++++++
->  2 files changed, 84 insertions(+)
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c | 14 +++++++++++++-
+>  1 file changed, 13 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index 521a71c61b16..1b2d3b89a61d 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -1348,6 +1348,74 @@ struct drm_bridge *of_drm_find_bridge(struct device_node *np)
->  EXPORT_SYMBOL(of_drm_find_bridge);
->  #endif
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_reset.c
+> index 147100c27c2d..dd39e614d907 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
+> @@ -203,8 +203,20 @@ amdgpu_devcoredump_read(char *buffer, loff_t offset,=
+ size_t count,
+>                            coredump->ring->name);
+>         }
 >
-> +/**
-> + * drm_bridge_find_by_fwnode - Find the bridge corresponding to the associated fwnode
-> + *
-> + * @fwnode: fwnode for which to find the matching drm_bridge
-> + *
-> + * This function looks up a drm_bridge based on its associated fwnode.
-> + *
-> + * RETURNS:
-> + * A reference to the drm_bridge if found, otherwise return NULL.
-> + */
-
-Please take a look at Documentation/doc-guide/kernel-doc.rst.
-
-> +struct drm_bridge *drm_bridge_find_by_fwnode(struct fwnode_handle *fwnode)
-> +{
-> +       struct drm_bridge *ret = NULL;
-> +       struct drm_bridge *bridge;
+> +       if (coredump->adev) {
+> +               struct amdgpu_vm_fault_info *fault_info =3D
+> +                       &coredump->adev->vm_manager.fault_info;
 > +
-> +       if (!fwnode)
-> +               return NULL;
-> +
-> +       mutex_lock(&bridge_lock);
-> +
-> +       list_for_each_entry(bridge, &bridge_list, list) {
-> +               if (bridge->fwnode == fwnode) {
-> +                       ret = bridge;
-> +                       break;
-> +               }
+> +               drm_printf(&p, "\n[%s] Page fault observed\n",
+> +                          fault_info->vmhub ? "mmhub" : "gfxhub");
+> +               drm_printf(&p, "Faulty page starting at address 0x%016llx=
+\n",
+> +                          fault_info->addr);
+> +               drm_printf(&p, "Protection fault status register:0x%x\n",
+> +                          fault_info->status);
 > +       }
 > +
-> +       mutex_unlock(&bridge_lock);
-> +
-> +       return ret;
-> +}
-> +EXPORT_SYMBOL(drm_bridge_find_by_fwnode);
-
-EXPORT_SYMBOL_GPL
-
-> +
-> +/**
-> + * drm_bridge_find_next_bridge_by_fwnode - get the next bridge by fwnode
-> + * @fwnode: fwnode pointer to the current bridge.
-> + * @port: identifier of the port node of the next bridge is connected.
-> + *
-> + * This function find the next bridge at the current bridge node, assumed
-> + * that there has valid fwnode graph established.
-> + *
-> + * RETURNS:
-> + * A reference to the drm_bridge if found, %NULL if not found.
-> + * Otherwise return a negative error code.
-> + */
-> +struct drm_bridge *
-> +drm_bridge_find_next_bridge_by_fwnode(struct fwnode_handle *fwnode, u32 port)
-> +{
-> +       struct drm_bridge *bridge;
-> +       struct fwnode_handle *ep;
-> +       struct fwnode_handle *remote;
-> +
-> +       ep = fwnode_graph_get_endpoint_by_id(fwnode, port, 0, 0);
-> +       if (!ep)
-> +               return ERR_PTR(-EINVAL);
-> +
-> +       remote = fwnode_graph_get_remote_port_parent(ep);
-> +       fwnode_handle_put(ep);
-> +       if (!remote)
-> +               return ERR_PTR(-ENODEV);
-> +
-> +       bridge = drm_bridge_find_by_fwnode(remote);
-> +       fwnode_handle_put(remote);
-> +
-> +       return bridge;
-> +}
-> +EXPORT_SYMBOL(drm_bridge_find_next_bridge_by_fwnode);
-
-EXPORT_SYMBOL_GPL
-
-> +
->  MODULE_AUTHOR("Ajay Kumar <ajaykumar.rs@samsung.com>");
->  MODULE_DESCRIPTION("DRM bridge infrastructure");
->  MODULE_LICENSE("GPL and additional rights");
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 3606e1a7f965..d4c95afdd662 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -26,6 +26,7 @@
->  #include <linux/ctype.h>
->  #include <linux/list.h>
->  #include <linux/mutex.h>
-> +#include <linux/of.h>
+>         if (coredump->reset_vram_lost)
+> -               drm_printf(&p, "VRAM is lost due to GPU reset!\n");
+> +               drm_printf(&p, "\nVRAM is lost due to GPU reset!\n");
+>         if (coredump->adev->reset_info.num_regs) {
+>                 drm_printf(&p, "AMDGPU register dumps:\nOffset:     Value=
+:\n");
 >
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_encoder.h>
-> @@ -721,6 +722,8 @@ struct drm_bridge {
->         struct list_head chain_node;
->         /** @of_node: device node pointer to the bridge */
->         struct device_node *of_node;
-
-In my opinion, if you are adding fwnode, we can drop of_node
-completely. There is no need to keep both of them.
-
-> +       /** @fwnode: fwnode pointer to the bridge */
-> +       struct fwnode_handle *fwnode;
->         /** @list: to keep track of all added bridges */
->         struct list_head list;
->         /**
-> @@ -788,6 +791,13 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
->                       struct drm_bridge *previous,
->                       enum drm_bridge_attach_flags flags);
->
-> +static inline void
-> +drm_bridge_set_node(struct drm_bridge *bridge, struct fwnode_handle *fwnode)
-> +{
-> +       bridge->fwnode = fwnode;
-> +       bridge->of_node = to_of_node(fwnode);
-> +}
-> +
->  #ifdef CONFIG_OF
->  struct drm_bridge *of_drm_find_bridge(struct device_node *np);
->  #else
-> @@ -797,6 +807,12 @@ static inline struct drm_bridge *of_drm_find_bridge(struct device_node *np)
->  }
->  #endif
->
-> +struct drm_bridge *
-> +drm_bridge_find_by_fwnode(struct fwnode_handle *fwnode);
-> +
-> +struct drm_bridge *
-> +drm_bridge_find_next_bridge_by_fwnode(struct fwnode_handle *fwnode, u32 port);
-> +
->  /**
->   * drm_bridge_get_next_bridge() - Get the next bridge in the chain
->   * @bridge: bridge object
 > --
 > 2.34.1
 >
-
-
--- 
-With best wishes
-Dmitry
