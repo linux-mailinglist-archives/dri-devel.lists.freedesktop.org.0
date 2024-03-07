@@ -2,38 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAF36874C4D
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 11:23:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90CC9874C5D
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 11:28:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE07C113750;
-	Thu,  7 Mar 2024 10:23:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A12D511374D;
+	Thu,  7 Mar 2024 10:28:03 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="zdq5LB51";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0k0+4sUj";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACAA011374D
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 10:23:20 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1riAuE-0005j5-04; Thu, 07 Mar 2024 11:23:18 +0100
-Message-ID: <72a783cd98d60f6ebb43b90a6b453eea87224409.camel@pengutronix.de>
-Subject: [GIT PULL] etnaviv-next for 6.9
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org, 
- kernel@pengutronix.de
-Date: Thu, 07 Mar 2024 11:23:17 +0100
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0D6310F390
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 10:28:01 +0000 (UTC)
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1709807279;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pvpQaRqkZ5EvxmbyEZYAfOs3FUMfWI2eXPxEPYp6c6E=;
+ b=zdq5LB51dhn+hYSKCPGswihDZA/5/9oJJFevWxNr5BNRodutKjRX9htnxjmr/iWUrS3R7n
+ p0j548tAOKY/OhVdzucVuVThG0Qm6250hCiCNayPc4G5k1tbIlQAPWnshfkuNTgyc4DmPj
+ 90Qsau/3q2mGLJzj59i6bWxKwsq7muwZk7VcBRgHBJV4gF5oqwxX1oghHixPTB6yD8gjKt
+ O0n02WcGquZc2z2mMmP5GrXTBWR2XwQUf+qFkcDP/l5rN7lZKWKd4w+pzZyElMad7LcOBZ
+ 41T1EqTaUxsQXGtXtPrP8WcJ9F44wsi/4rmZmN0hHBLxogul61Kj+QU2EwfsAg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1709807279;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pvpQaRqkZ5EvxmbyEZYAfOs3FUMfWI2eXPxEPYp6c6E=;
+ b=0k0+4sUjPNfIuNKWzC7LcOwtpAas0NqdmXh/bBAKdwM0q0dOfTPWNlBBElLDwsDOpvZY4Y
+ SV//kvbTkPKMdhDA==
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
+ javierm@redhat.com, bluescreen_avenger@verizon.net, noralf@tronnes.org
+Cc: gpiccoli@igalia.com, Daniel Vetter <daniel.vetter@ffwll.ch>, Daniel
+ Vetter <daniel.vetter@intel.com>, Jocelyn Falempe <jfalempe@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, "Peter Zijlstra (Intel)"
+ <peterz@infradead.org>, Lukas Wunner <lukas@wunner.de>, Petr Mladek
+ <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, Sergey
+ Senozhatsky <senozhatsky@chromium.org>, David Airlie <airlied@gmail.com>
+Subject: Re: [PATCH v9 1/9] drm/panic: Add drm panic locking
+In-Reply-To: <20240307091936.576689-2-jfalempe@redhat.com>
+References: <20240307091936.576689-1-jfalempe@redhat.com>
+ <20240307091936.576689-2-jfalempe@redhat.com>
+Date: Thu, 07 Mar 2024 11:33:21 +0106
+Message-ID: <87r0gmmj5i.fsf@jogness.linutronix.de>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,72 +69,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+On 2024-03-07, Jocelyn Falempe <jfalempe@redhat.com> wrote:
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index 39ef0a6addeb..c0bb91312fb2 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -38,6 +38,7 @@
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_framebuffer.h>
+>  #include <drm/drm_gem_atomic_helper.h>
+> +#include <drm/drm_panic.h>
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_self_refresh_helper.h>
+>  #include <drm/drm_vblank.h>
+> @@ -3099,6 +3100,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
+>  		}
+>  	}
+>  
+> +	drm_panic_lock(state->dev);
+>  	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
+>  		WARN_ON(plane->state != old_plane_state);
+>  
+> @@ -3108,6 +3110,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
+>  		state->planes[i].state = old_plane_state;
+>  		plane->state = new_plane_state;
+>  	}
+> +	drm_panic_unlock(state->dev);
 
-please pull the following etnaviv changes for the next merge window.
+Is there a reason irqsave/irqrestore variants are not used? Maybe this
+code path is too hot?
 
-This time mostly code cleanups in preparation for PCI device support,
-but also some changes required to get NPU support working with the
-teflon userspace implementation. Christian also fixed the exposed chip
-ID, which could get corrupted by HWDB matches in preparation of moving
-most of the HWDB into userspace.
+By leaving interrupts enabled, there is the risk that a panic from
+within any interrupt handler may block the drm panic handler.
 
-Except the chip id fix everything has been sitting in -next for quite a
-while.
-
-Regards,
-Lucas
-
-The following changes since commit 0bb80ecc33a8fb5a682236443c1e740d5c917d1d=
-:
-
-  Linux 6.6-rc1 (2023-09-10 16:28:41 -0700)
-
-are available in the Git repository at:
-
-  https://git.pengutronix.de/git/lst/linux tags/drm-etnaviv-next-2024-03-07
-
-for you to fetch changes up to b735ee173f84d5d0d0733c53946a83c12d770d05:
-
-  drm/etnaviv: Restore some id values (2024-03-07 10:57:54 +0100)
-
-----------------------------------------------------------------
-- various code cleanups
-- enhancements for NPU and MRT support
-
-----------------------------------------------------------------
-Christian Gmeiner (2):
-      drm/etnaviv: add sensitive state for PE_RT_ADDR_4_PIPE(3, 0|1) addres=
-s
-      drm/etnaviv: Restore some id values
-
-Justin Stitt (1):
-      drm/etnaviv: Replace strncpy with strscpy_pad
-
-Lucas Stach (1):
-      drm/etnaviv: disable MLCG and pulse eater on GPU reset
-
-Sui Jingfeng (6):
-      drm/etnaviv: Drop the second argument of the etnaviv_gem_new_impl()
-      drm/etnaviv: Fix coding style
-      drm/etnaviv: Add helper functions to create and destroy platform devi=
-ce
-      drm/etnaviv: Add a helper to get the first available GPU device node
-      drm/etnaviv: Clean up etnaviv_gem_get_pages
-      drm/etnaviv: Drop the 'len' parameter of etnaviv_iommu_map() function
-
-Tomeu Vizoso (1):
-      drm/etnaviv: Expose a few more chipspecs to userspace
-
- drivers/gpu/drm/etnaviv/etnaviv_cmd_parser.c |  1 +
- drivers/gpu/drm/etnaviv/etnaviv_drv.c        | 93 ++++++++++++++++++++++++=
-++++++----------------
- drivers/gpu/drm/etnaviv/etnaviv_gem.c        | 12 +++---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c        | 33 +++++++++++++++-
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h        | 12 ++++++
- drivers/gpu/drm/etnaviv/etnaviv_hwdb.c       | 43 +++++++++++++++++++++
- drivers/gpu/drm/etnaviv/etnaviv_mmu.c        |  4 +-
- drivers/gpu/drm/etnaviv/etnaviv_perfmon.c    |  4 +-
- include/uapi/drm/etnaviv_drm.h               |  5 +++
- 9 files changed, 163 insertions(+), 44 deletions(-)
-
+John Ogness
