@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40C718744EF
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 01:03:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF63B8744F0
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 01:03:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7032010E6B4;
-	Thu,  7 Mar 2024 00:03:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 115D210E480;
+	Thu,  7 Mar 2024 00:03:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="oxW6sYPZ";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="peexX0AA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9F7D10E480
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 00:03:37 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 75658C0005;
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E072B10E480
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 00:03:38 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9C5B360003;
  Thu,  7 Mar 2024 00:03:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
  t=1709769816;
@@ -24,17 +24,16 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CSCVwRBqqpIFk80Ndvwhk2GhpYykGyN7ek/hm0Pe3Nw=;
- b=oxW6sYPZZ/MWrDkustYOSq/f4GUYIvFBdKIvGEvQSNQHbb+dKpAzGZaGZcw6cIxumpTQow
- cKG6rf9UvLgefQ+BwhZ1Fo7vIe4nt7JgtvksQdYeAASuizgMYFWdt0hmL4nat1ja8JgFEI
- D3UOEAU5yDn3G1CLV57Dt56KQgte9PFR0/Svddpl8s3HVUWpOvR60BUSh9Gv932/0w5Vov
- KG2Ia04l91eQnOoxxR9SHKaJ30V2E4vKnlBqJHEHyelLKiRzeyrXzz/VjXz3celS9j6ny5
- l4IQBEx7kkGQhBY2/W3IGgg+4taSCRjWKP4JF1mV1Fug9yrXAvR6/0h8OjLphA==
-Date: Thu, 7 Mar 2024 01:03:32 +0100
+ bh=YV8E64LTaxsAW1jsNczlEzcxi3GT245AiC4UGrhHsUI=;
+ b=peexX0AANXlwYG/zkq1lh5bvcDkR4fuWupWrXew1xWKDoA2nh9qH4Oa8i4lRKxqiApBJsB
+ N3L+NL3g3WU49hDCburHjmTJnN99968AyIp/opJG2aopR1DGib1K2JEFYTHjHdj/6OmM7L
+ +86zvJAbY7zYguuiwtGJZiiK8y1Mt0eLmDprVmAknuDLYyc73Iv5vTtpFTBEVvLVlmrF7c
+ Mr1MRJEyK1zNiZp8IWnSdpXumwcVAyB6EmMfPQTYDCX0HsvUhAd9KiOlpXh8b/s9rK75Q9
+ UYlS25AYWQQZY9RmCRizn6/bLLsOmMZHOIXL8d31GOOWbbCriyTU3/tsRKO6mg==
+Date: Thu, 7 Mar 2024 01:03:33 +0100
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 To: Arthur Grillo <arthurgrillo@riseup.net>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
  Melissa Wen <melissa.srw@gmail.com>,
  =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
  Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
@@ -42,13 +41,13 @@ Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com
-Subject: Re: [PATCH v2 6/9] drm/vkms: Add YUV support
-Message-ID: <ZekEVOz6NHHnu0Yj@localhost.localdomain>
+ pekka.paalanen@haloniitty.fi, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
+Subject: Re: [PATCH 4/7] drm/vkms: Fix compilation issues
+Message-ID: <ZekEVT_HNmZbFWNG@localhost.localdomain>
 Mail-Followup-To: Arthur Grillo <arthurgrillo@riseup.net>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
  Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
  Melissa Wen <melissa.srw@gmail.com>,
  =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
@@ -58,24 +57,17 @@ Mail-Followup-To: Arthur Grillo <arthurgrillo@riseup.net>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com
-References: <20240226141916.1627bbbd.pekka.paalanen@collabora.com>
- <Zd35c_CJbhY46TjQ@localhost.localdomain>
- <b23da076-0bfb-48b2-9386-383a6dec1868@riseup.net>
- <8fc07f0f-f14d-4878-9884-2bc4b4c6f426@riseup.net>
- <20240229141238.51891cad.pekka.paalanen@collabora.com>
- <ZeXoo4DJxlzhuK4W@localhost.localdomain>
- <fde6b1d5-56c9-43d0-9ccc-87683b700734@riseup.net>
- <ZeXtWAM1XDEhxWOM@localhost.localdomain>
- <a1de0c95-cb5f-456d-8831-684b4e5573db@riseup.net>
- <b8bf9fb9-ea1b-468d-8d56-81c6a9ea6466@riseup.net>
+ pekka.paalanen@haloniitty.fi, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
+References: <20240306-louis-vkms-conv-v1-0-5bfe7d129fdd@riseup.net>
+ <20240306-louis-vkms-conv-v1-4-5bfe7d129fdd@riseup.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b8bf9fb9-ea1b-468d-8d56-81c6a9ea6466@riseup.net>
+In-Reply-To: <20240306-louis-vkms-conv-v1-4-5bfe7d129fdd@riseup.net>
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,65 +84,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 06/03/24 - 17:09, Arthur Grillo a écrit :
+Le 06/03/24 - 17:03, Arthur Grillo a écrit :
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> ---
+>  drivers/gpu/drm/vkms/tests/vkms_format_test.c | 2 +-
+>  drivers/gpu/drm/vkms/vkms_drv.h               | 4 ++++
+>  2 files changed, 5 insertions(+), 1 deletion(-)
 > 
-> 
-> On 04/03/24 13:51, Arthur Grillo wrote:
-> > 
-> > 
-> > On 04/03/24 12:48, Louis Chauvet wrote:
-> [...]
-> >>>
-> >>>> Regarding the YUV part, I don't feel confortable adressing Pekka's 
-> >>>> comments, would you mind doing it?
-> >>>
-> >>> I'm already doing that, how do you want me to send those changes? I reply to
-> >>> your series, like a did before?
-> >>
-> >> Yes, simply reply to my series, so I can rebase everything on the 
-> >> line-by-line work.
-> > 
-> > OK, I will do that.
-> 
-> Hi,
-> 
-> I know that I said that, but it would be very difficult to that with my
-> b4 workflow. So, I sent a separate series based on the v4:
-> 
-> https://lore.kernel.org/all/20240306-louis-vkms-conv-v1-0-5bfe7d129fdd@riseup.net/
-> 
-> I hope that it does not difficult things for you.
+> diff --git a/drivers/gpu/drm/vkms/tests/vkms_format_test.c b/drivers/gpu/drm/vkms/tests/vkms_format_test.c
+> index 4636b013602f..3522ecee960f 100644
+> --- a/drivers/gpu/drm/vkms/tests/vkms_format_test.c
+> +++ b/drivers/gpu/drm/vkms/tests/vkms_format_test.c
+> @@ -113,7 +113,7 @@ static void vkms_format_test_yuv_u8_to_argb_u16(struct kunit *test)
+>  	for (size_t i = 0; i < param->n_colors; i++) {
+>  		const struct format_pair *color = &param->colors[i];
+>  
+> -		const struct conversion_matrix *matrix = get_conversion_matrix_to_argb_u16
+> +		struct conversion_matrix *matrix = get_conversion_matrix_to_argb_u16
+>  			(DRM_FORMAT_NV12, param->encoding, param->range);
+>  
+>  		argb = argb_u16_from_yuv888(color->yuv.y, color->yuv.u, color->yuv.v, matrix);
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index 393b76e7c694..3d62578499ab 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -47,6 +47,10 @@ struct pixel_argb_u16 {
+>  	u16 a, r, g, b;
+>  };
+>  
+> +struct pixel_yuv_u8 {
+> +	u8 y, u, v;
+> +};
 
-Thanks for this work!
+Can I move this structure in the test itself? As discussed with Pekka, I 
+think it's not a good idea to have such specific `pixel_{fmt}_{size}` for 
+each variant. Leaving it in vkms_drv.h give the idea of "for each new kind 
+of format we have to create a new structure".
 
-I completly understood, and a "real" patch is even better as I 
-can fetch them through patchwork. The v5 is (almost, see my comment)
-ready, but I want to wait for Pekka's comments/replies on the v4 before 
-sending it. 
-
-Kind regards,
-Louis Chauvet
-
-> Best Regards,
-> ~Arthur Grillo
+> +
+>  struct line_buffer {
+>  	size_t n_pixels;
+>  	struct pixel_argb_u16 *pixels;
 > 
-> > 
-> > Best Regards,
-> > ~Arthur Grillo
-> > 
-> >> Kind regards,
-> >> Louis Chauvet
-> >>
-> >>> Best Regards,
-> >>> ~Arthur Grillo
-> >>>
-> >>>>
-> >>>> Kind regards,
-> >>>> Louis Chauvet
-> >>>>
-> >>>> [...]
-> >>>>
-> >>
+> -- 
+> 2.43.0
+> 
 
 -- 
 Louis Chauvet, Bootlin
