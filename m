@@ -2,74 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB17D874AFC
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 10:37:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BE81874B05
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 10:37:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 835F4113735;
-	Thu,  7 Mar 2024 09:37:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30918113737;
+	Thu,  7 Mar 2024 09:37:32 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="W5DRq2VP";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com
- [209.85.128.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EA25113735;
- Thu,  7 Mar 2024 09:37:02 +0000 (UTC)
-Received: by mail-yw1-f180.google.com with SMTP id
- 00721157ae682-609eb87a9e3so5281177b3.0; 
- Thu, 07 Mar 2024 01:37:02 -0800 (PST)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E66B113737;
+ Thu,  7 Mar 2024 09:37:30 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-412f55695d1so6147095e9.0; 
+ Thu, 07 Mar 2024 01:37:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1709804248; x=1710409048; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=fCGSUBoz7hkTWog5vBebF9UgG8HPCPhDFefPQRO1q34=;
+ b=W5DRq2VPSuZw2O6/3IaVntN7hC6DUwzB1MOqeVn+LOjm6M1Yb70K0xLV1omqNDj9gb
+ gM1CiEZC0DcMkahHeAJHA7cij7R9ZadL5MR+ruNFxwqKkjT8OFy3iLO1dM39nwQGr4/8
+ 2CG6v/ok2FRtNAQDBg/9y5jBqoPjCOKibnmmOlAJZZNyynvzAvwZsB2UP9gUr3MwJZHL
+ IrPfnPcVEuCHc3WTPwJwyqsaMZN7uJm67Ft7uM2UR7Qurlria1ZofUQHqBNWX65LkTGf
+ MTBahmr2TD9O0x/gzP5i1wOscASRO6i8pMUDkM+bh4CSoUoUk1Vpk/1bdU3W7TKjrShG
+ Id+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709804220; x=1710409020;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PojEcxi4I/RdiOARzWVwK72o2YrlsxJWpO83mdW8+30=;
- b=AKeUGR0Oq0sLr6Kli1k9KjEGaKtiH0v8jeLYtiKLvCjUcA69IK1r1d8VGZyiV2UtHH
- +UojWrAOhqLtwd97cNYKTRvmXbiM6heSqFJH7U0jYLXl+C4mHgn6emjtzdJ9potb3f+a
- 8IuAFdBc977xydXojWU67hW4qudadgH4VPqdJgLpLMV5hziIvO6t68AmO/vomT2FrBso
- hW6rX55Q3tltV5QKX38NR/IDrbGNRr7LzrNQjdmDGHZBcC1fqneV1Gi+zbRAAGKh8z6u
- tMvRVABJWpiotZONLynuqA50kiGT30DzfHMAcpwRIrvT6MevOiu7L+6DHV+C1O+RAWt6
- E44w==
+ d=1e100.net; s=20230601; t=1709804248; x=1710409048;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fCGSUBoz7hkTWog5vBebF9UgG8HPCPhDFefPQRO1q34=;
+ b=jR8u8ZeNQLKAmcmBi6S5ougcsnlieu70H4XR+QLN2gbpLS3ofhj5RG4sJhrbvNSaXS
+ JGbktwDvqr8/0ulRuJTnJKzsmDDVYN0X1aHwLXNIqohvpvRqNCJJ03bgm+7YR/87V5GX
+ 2UYxl+SV5bdYiM5wKU0g3G4jCha6Uu5D81p7rLYs3cbBFvwCFMSk8npGAeIt5G52oPbC
+ Ic7x/ILvO3S/5WX9TjdUB/vHMGG6Mk0Cjf4yfiWEJMQtLvEYYaoPXAYR9+gkGmCmvCJz
+ TryrjsR38rog5qX52uxGwp5bCznXIqsXZjldeVKppvxGjk38gJ03XBq9PSejuU2rYXTZ
+ KiXA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU4D98fZ8wQnh+3s/wNRPJ/ZhMWNLhfGzvQlV+qcmIxuiWGqGv1KH6IWARqSqsv+n07CzJ+Z2gpHs5mIGOIeSPjpMwNXM6REOXNAfXgAgeElus4goGbucFHAAZd+6UrAw/wDbOKYr78z8FQt2shaXwrZWrnCRhK4mrlvdIEmn6VLOZJQmBhGxR90dtL/X181kk=
-X-Gm-Message-State: AOJu0YwTtMSiUmZC60jVTHQCUKg+JoPaYDpmVFznYFQ74hI6W6ITsYxj
- XqJclR1c1ltPC1HOqQxV+diM7s3S4pwh2gMnw4vpPM5Z0t+qem3tiVV8nIP0eKQ=
-X-Google-Smtp-Source: AGHT+IGSKQ0uYHXueHopriuhvy/dZjuJhOcYFIndjyngJyPA+zfE+B2JjddEGOMgtVRH6R5Opl2k2w==
-X-Received: by 2002:a0d:e890:0:b0:609:cf0d:9d64 with SMTP id
- r138-20020a0de890000000b00609cf0d9d64mr544536ywe.13.1709804219083; 
- Thu, 07 Mar 2024 01:36:59 -0800 (PST)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com.
- [209.85.128.172]) by smtp.gmail.com with ESMTPSA id
- u191-20020a8179c8000000b0060923196f02sm3215811ywc.13.2024.03.07.01.36.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Mar 2024 01:36:58 -0800 (PST)
-Received: by mail-yw1-f172.google.com with SMTP id
- 00721157ae682-609eb87a9e3so5280797b3.0; 
- Thu, 07 Mar 2024 01:36:58 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUepn5zyfzZS0IisSsTZ1Ro8HmaaRKfeOAvKmj6l4uaTcF37A7Ugenvl8RBpCp1ufbYOdydbeN1VZw1yvNFKtgp/ep1K1dluyAdywARMgi1mWYhYzj8RPd8hAY5GR+3TInKurYS0z9e5MWvk1hEhYqJtyJzM/kfXuw0hCxgv3BWNvmKiFG69IFS0jNoWIRg51E=
-X-Received: by 2002:a25:abce:0:b0:dcc:97c:5754 with SMTP id
- v72-20020a25abce000000b00dcc097c5754mr540534ybi.5.1709804218030; Thu, 07 Mar
- 2024 01:36:58 -0800 (PST)
+ AJvYcCVI+j+F1bMcAhTOcdtU0jcH6/Dv4T/7oAjB4qV4ppPe6Xgv1t+GyakpvdQeqtiMvS06Yu7pfRhQs+qgEMfndQUGy6rL3LXn+jeL9+EwT9Uuo0aMtPLltjCKUX2Dj7j9Rw4MwaoMOERDEeQB5QB3uMKr
+X-Gm-Message-State: AOJu0YzRVfxU9oT+vF1liDTta3JlUXlV7BmhkPXfp/kpAeEBWYNA/OR2
+ /m8uuhx6t4TJD8dJpXWODzvibYisb8M7TLuQcaLuBBxBPrNLdF/SodeuUbB35t8=
+X-Google-Smtp-Source: AGHT+IE8RizOzmSDjEf4PsBNhWryLujYdRAkPfhGtCn7+tuTX8NXpG2EQMCqSC/G4cmzXNtq0f6k3g==
+X-Received: by 2002:a05:600c:3b26:b0:412:e3aa:8f69 with SMTP id
+ m38-20020a05600c3b2600b00412e3aa8f69mr8126669wms.30.1709804248388; 
+ Thu, 07 Mar 2024 01:37:28 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+ j6-20020a05600c190600b00413074ea471sm2073513wmq.31.2024.03.07.01.37.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Mar 2024 01:37:27 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drm/msm: remove unused variable 'out'
+Date: Thu,  7 Mar 2024 09:37:27 +0000
+Message-Id: <20240307093727.1978126-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <e22ab28836ee1689ea4781ed53fd2e4e4f84728e.1709749576.git.jani.nikula@intel.com>
- <202403071317.uoW18ZR3-lkp@intel.com> <878r2uxwha.fsf@intel.com>
-In-Reply-To: <878r2uxwha.fsf@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 7 Mar 2024 10:36:45 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV+54MEdrgYr+4cXnd4oN9i3_cxrpLRhJVzuJuRoUs3Qw@mail.gmail.com>
-Message-ID: <CAMuHMdV+54MEdrgYr+4cXnd4oN9i3_cxrpLRhJVzuJuRoUs3Qw@mail.gmail.com>
-Subject: Re: [PATCH 22/22] drm: ensure drm headers are self-contained and pass
- kernel-doc
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: kernel test robot <lkp@intel.com>, dri-devel@lists.freedesktop.org, 
- oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>, 
- David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Masahiro Yamada <masahiroy@kernel.org>, 
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,34 +87,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani,
+The variable out is being initialized and incremented but it is never
+actually referenced in any other way. The variable is redundant and can
+be removed.
 
-On Thu, Mar 7, 2024 at 9:44=E2=80=AFAM Jani Nikula <jani.nikula@intel.com> =
-wrote:
-> On Thu, 07 Mar 2024, kernel test robot <lkp@intel.com> wrote:
-> > kernel test robot noticed the following build errors:
->
-> So I'm trying to make include/drm/ttm/ttm_caching.h self-contained by
-> including <linux/pgtable.h> with [1], but it fails like below.
->
-> Cc: Thomas and Geert, better ideas for the include there? Looks like
-> include/asm-generic/pgtable-nop4d.h isn't self-contained on m68k.
+Cleans up clang scan build warning:
+drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:843:6: warning: variable
+'out' set but not used [-Wunused-but-set-variable]
 
-I have sent a fix
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-https://lore.kernel.org/r/ba359be013f379ff10f3afcea13e2f78dd9717be.17098040=
-21.git.geert@linux-m68k.org
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+index 1f5245fc2cdc..d4e1ebfcb021 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+@@ -840,7 +840,6 @@ static void a6xx_get_shader_block(struct msm_gpu *gpu,
+ 		struct a6xx_crashdumper *dumper)
+ {
+ 	u64 *in = dumper->ptr;
+-	u64 out = dumper->iova + A6XX_CD_DATA_OFFSET;
+ 	size_t datasize = block->size * A6XX_NUM_SHADER_BANKS * sizeof(u32);
+ 	int i;
+ 
+@@ -853,8 +852,6 @@ static void a6xx_get_shader_block(struct msm_gpu *gpu,
+ 
+ 		in += CRASHDUMP_READ(in, REG_A6XX_HLSQ_DBG_AHB_READ_APERTURE,
+ 			block->size, dumper->iova + A6XX_CD_DATA_OFFSET);
+-
+-		out += block->size * sizeof(u32);
+ 	}
+ 
+ 	CRASHDUMP_FINI(in);
+-- 
+2.39.2
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
