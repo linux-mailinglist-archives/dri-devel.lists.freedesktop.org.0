@@ -2,69 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8888B875A57
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 23:36:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 597E5875F62
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 09:24:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99F1610E367;
-	Thu,  7 Mar 2024 22:36:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 286E610E309;
+	Fri,  8 Mar 2024 08:24:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FxdUKHDe";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lz2Zy+E9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC22410E367
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 22:36:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709850981; x=1741386981;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=o+0H5vuiH0oRSMJ1IHCrSxVI4KRF4Ypwjqb7Qvd5Qis=;
- b=FxdUKHDeVM3bq0Tt+nVJZbhmGVHoEPZ54O2UWPKBCbHbwHhoEov70p0E
- HESI9Qve32JxSNd810T7+7I2boNoCKyUkKgLGZj5nixBMHyo9Xf6rShgL
- +UkeZvjIgsPw/gubFn8po7VFKoi+Iq4pD0L4iS+zvKprivagGWN/Cxhb8
- NgHd317BmAr6ImLmqvm2xpDkn5wn2cdJklEj7kfbmGx9GFBR3EDVZy4y4
- qhm5L2Ud57RnZ/66YUj0S9IHmP2Rs6B9laZPpxZY0Npfnm6HKiVitsAQz
- H1UPWI1utq7e8wZKgaJSNE8tXiHvQTomHH/wtzqRrLSBTYYjeYcE5+jkd A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="4480934"
-X-IronPort-AV: E=Sophos;i="6.07,107,1708416000"; 
-   d="scan'208";a="4480934"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2024 14:36:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,107,1708416000"; d="scan'208";a="10362122"
-Received: from tofferse-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.33.212])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2024 14:36:16 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Cc: Doug Anderson <dianders@chromium.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg
- <sam@ravnborg.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 3/6] drm/edid: Add a function to match EDID with
- identity
-In-Reply-To: <CAJMQK-igm-OXa=L-Bb0hdm5+KL98sk9UAznvAR7SptP9iwWAoA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240306200353.1436198-1-hsinyi@chromium.org>
- <20240306200353.1436198-4-hsinyi@chromium.org>
- <CAD=FV=W2CKoOyhN49RBU0FdzcRC6SEwvVQYdJRnBBK16Lp-=FQ@mail.gmail.com>
- <CAJMQK-i=0COuMGW+PGv3zT4+JgwJc_Qj9oQHva6EQys_n3xoHA@mail.gmail.com>
- <CAD=FV=VHaU4HZHGp6tSoVuJRbYD9nrMZfNdnOait=ApRcvcmug@mail.gmail.com>
- <87r0gmw544.fsf@intel.com>
- <CAJMQK-igm-OXa=L-Bb0hdm5+KL98sk9UAznvAR7SptP9iwWAoA@mail.gmail.com>
-Date: Fri, 08 Mar 2024 00:36:11 +0200
-Message-ID: <87plw5vfdw.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+ [209.85.210.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F31BE10EFF6
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 22:43:16 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id
+ d2e1a72fcca58-6e56da425b5so1435202b3a.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Mar 2024 14:43:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1709851396; x=1710456196; darn=lists.freedesktop.org;
+ h=mime-version:user-agent:content-transfer-encoding:autocrypt
+ :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=TfbS9E4Z674Rghf4uG1aBze02oodSRDBbrR7JY0TaRQ=;
+ b=lz2Zy+E9nr+RS3Z2V6txYcTR/VGGTPZFtUkj0ai3+5kfzblPbvt6oWpXv+it9Mb/wN
+ CCqu7GPlVgzqIfTzKecFn5dQArKOn+fn7FClJ7K/Ywwvh5KMFEnJvSoGnr31Q0xN0AW3
+ yh00IR5b2ua4HhBEqtIgDZ5B6dEq3qbk1OO4idHMB7A5ePu5zk4qn4rZxr43pmjy7u4J
+ PSlwcbx0ahYX+hN1oiIgXsDZJRQKQg2IfMwqpH3yn/73sX/ZKAbwN8Ce0ozH+kLVbpZC
+ wse0yUkJPKovQJckEQyNr756GVxRpy2aGpHEj3R5qQTziNaAm/ysBbKfZh6n8nr4BftX
+ fNHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709851396; x=1710456196;
+ h=mime-version:user-agent:content-transfer-encoding:autocrypt
+ :references:in-reply-to:date:cc:to:from:subject:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=TfbS9E4Z674Rghf4uG1aBze02oodSRDBbrR7JY0TaRQ=;
+ b=L1zHul3EZPaCjC9uaIjQvjLZsObwQkrivkP0jnyY0FDrgo4pPZn9rLGRfQOZh4rUbx
+ xdc3vWM2SCxFZjdmhFcpKXuWKbwAkR5rL3wqij/ykUSS7+5ED/v4B+bKPVML15htCKky
+ hP43VhRAlidRgt6oJr/GrQ4l0ihRblXTeZ9grcmU6YbeE1esIaC94bkmGymp75XiZOD2
+ cQB824YWCFbTRzAn1lGQPzwdxDlEyN33NxrvJRwhcF4GAa5fdNfcsof7doa9lazstsyL
+ s7d9cO/lGLmswBC4+FABOr+vIAUyAdCZ7tikj5br52iOner6YTdlbpJ3hi0tECCV0Bh6
+ SG5A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU7xbA4jaKzOOSTu0tYMdUs2p/q4iOlNUBRJ2HJo9IdxLAke709OQG657dJ+QviBDaW2GYX0YLjggkxlYWecMoaaQbGwDn+Th0Eiziynh9H
+X-Gm-Message-State: AOJu0YzN4o8juLXV0hdNr/tYeMLw2Hyw2TFaWYOHXfSIp8mE1U1+4/aZ
+ cXrSv9XLCFpXMIYjTvJFQRyCBKFYUmd34KSy3SYsqHBrn/F5rPBV
+X-Google-Smtp-Source: AGHT+IHtTE1JX4FWkJmXISxOpLlBlT4E93v3RIPvarcuDzGIbaoE7RwplZ6pR6YPOiYfZGA2Q6GFwQ==
+X-Received: by 2002:a05:6a20:9f03:b0:1a1:56aa:bf66 with SMTP id
+ mk3-20020a056a209f0300b001a156aabf66mr13285633pzb.13.1709851396096; 
+ Thu, 07 Mar 2024 14:43:16 -0800 (PST)
+Received: from ?IPv6:2804:1b3:a801:2ba7:2726:579:e699:a435?
+ ([2804:1b3:a801:2ba7:2726:579:e699:a435])
+ by smtp.gmail.com with ESMTPSA id
+ ei30-20020a056a0080de00b006e5359e621csm13053181pfb.182.2024.03.07.14.43.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Mar 2024 14:43:15 -0800 (PST)
+Message-ID: <673ec9f4899cd1380d02bebe92d9a3d6dd7cda55.camel@gmail.com>
+Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for
+ Kernel Testing
+From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras.c@gmail.com>
+To: Helen Koike <helen.koike@collabora.com>, Linus Torvalds
+ <torvalds@linuxfoundation.org>, Nikolai Kondrashov <spbnick@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>, linuxtv-ci@linuxtv.org, 
+ dave.pigott@collabora.com, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org, 
+ gustavo.padovan@collabora.com, pawiecz@collabora.com,
+ tales.aparecida@gmail.com,  workflows@vger.kernel.org,
+ kernelci@lists.linux.dev, skhan@linuxfoundation.org, 
+ kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com, 
+ cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com, 
+ ricardo.canuelo@collabora.com, kernel@collabora.com,
+ gregkh@linuxfoundation.org
+Date: Thu, 07 Mar 2024 19:43:04 -0300
+In-Reply-To: <17341b96-5050-4528-867a-9f628434e4e6@collabora.com>
+References: <20240228225527.1052240-1-helen.koike@collabora.com>
+ <20240228225527.1052240-2-helen.koike@collabora.com>
+ <20240229-dancing-laughing-groundhog-d85161@houat>
+ <5d7ed81b-37f9-48e9-ab7e-484b74ca886c@gmail.com>
+ <CAHk-=wixVy3WYvjbt43ZSrCqPDsS76QJQSkXFbbPsAOs1MCSAQ@mail.gmail.com>
+ <44ae0339-daf1-4bb9-a12d-e3d2e79b889e@gmail.com>
+ <CAHk-=wiccniE=iZDC_e7T+J8iPVQbh1Wi5BaVee9COfy+ZaYKg@mail.gmail.com>
+ <17341b96-5050-4528-867a-9f628434e4e6@collabora.com>
+Autocrypt: addr=leobras.c@gmail.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 
+MIME-Version: 1.0
+X-Mailman-Approved-At: Fri, 08 Mar 2024 08:24:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,125 +111,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 07 Mar 2024, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
-> On Thu, Mar 7, 2024 at 5:20=E2=80=AFAM Jani Nikula <jani.nikula@linux.int=
-el.com> wrote:
->>
->> On Wed, 06 Mar 2024, Doug Anderson <dianders@chromium.org> wrote:
->> > Hi,
->> >
->> > On Wed, Mar 6, 2024 at 4:20=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.o=
-rg> wrote:
->> >>
->> >> On Wed, Mar 6, 2024 at 3:30=E2=80=AFPM Doug Anderson <dianders@chromi=
-um.org> wrote:
->> >> >
->> >> > Hi,
->> >> >
->> >> > On Wed, Mar 6, 2024 at 12:04=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromi=
-um.org> wrote:
->> >> > >
->> >> > > +static void
->> >> > > +match_identity(const struct detailed_timing *timing, void *data)
->> >> > > +{
->> >> > > +       struct drm_edid_match_closure *closure =3D data;
->> >> > > +       unsigned int i;
->> >> > > +       const char *name =3D closure->ident->name;
->> >> > > +       unsigned int name_len =3D strlen(name);
->> >> > > +       const char *desc =3D timing->data.other_data.data.str.str;
->> >> > > +       unsigned int desc_len =3D ARRAY_SIZE(timing->data.other_d=
-ata.data.str.str);
->> >> > > +
->> >> > > +       if (name_len > desc_len ||
->> >> > > +           !(is_display_descriptor(timing, EDID_DETAIL_MONITOR_N=
-AME) ||
->> >> > > +             is_display_descriptor(timing, EDID_DETAIL_MONITOR_S=
-TRING)))
->> >> > > +               return;
->> >> > > +
->> >> > > +       if (strncmp(name, desc, name_len))
->> >> > > +               return;
->> >> > > +
->> >> > > +       /* Allow trailing white spaces and \0. */
->> >> > > +       for (i =3D name_len; i < desc_len; i++) {
->> >> > > +               if (desc[i] =3D=3D '\n')
->> >> > > +                       break;
->> >> > > +               if (!isspace(desc[i]) && !desc[i])
->> >> > > +                       return;
->> >> > > +       }
->> >> >
->> >> > If my code analysis is correct, I think you'll reject the case wher=
-e:
->> >> >
->> >> > name =3D "foo"
->> >> > desc[13] =3D "foo \0zzzzzzzz"
->> >> >
->> >> > ...but you'll accept these cases:
->> >> >
->> >> > desc[13] =3D "foo \nzzzzzzzz"
->> >> > desc[13] =3D "foo \0\0\0\0\0\0\0\0\0"
->> >> >
->> >> > It somehow seems weird to me that a '\n' terminates the string but =
-not a '\0'.
->> >>
->> >> I'm also not sure about \0... based on
->> >> https://git.linuxtv.org/edid-decode.git/tree/parse-base-block.cpp#n49=
-3,
->> >> they use \n as terminator. Maybe we should also reject \0 before\n?
->> >> Since it's not printable.
->> >
->> > Ah, OK. I guess the EDID spec simply doesn't allow for '\0' in there.
->> > I guess in that case I'd prefer simply removing the code to handle
->> > '\0' instead of treating it like space until we see some actual need
->> > for it. So just get rid of the "!desc[i]" case?
->>
->> The spec text, similar for both EDID_DETAIL_MONITOR_NAME and
->> EDID_DETAIL_MONITOR_STRING:
->>
->>         Up to 13 alphanumeric characters (using ASCII codes) may be used
->>         to define the model name of the display product. The data shall
->>         be sequenced such that the 1st byte (ASCII code) =3D the 1st
->>         character, the 2nd byte (ASCII code) =3D the 2nd character,
->>         etc. If there are less than 13 characters in the string, then
->>         terminate the display product name string with ASCII code =E2=80=
-=980Ah=E2=80=99
->>         (line feed) and pad the unused bytes in the field with ASCII
->>         code =E2=80=9820h=E2=80=99 (space).
->>
->> In theory, only checking for '\n' for termination should be enough, and
->> this is what drm_edid_get_monitor_name() does. If there's a space
->> *before* that, it should be considered part of the name, and not
->> ignored. (So my suggestion in reply to the previous version is wrong.)
->>
->> However, since the match name uses NUL termination, maybe we should
->> ignore NULs *before* '\n'? Like so:
->>
->> for (i =3D name_len; i < desc_len; i++) {
->>         if (desc[i] =3D=3D '\n')
->>                 break;
->>         if (!desc[i])
->>                 return;
->> }
->>
-> Allow trailing white spaces so we don't need to add the trailing white
-> space in edp_panel_entry.
+On Mon, 2024-03-04 at 18:45 -0300, Helen Koike wrote:
+> Hi Linus,
+>=20
+> Thank you for your reply and valuable inputs.
+>=20
+> On 01/03/2024 17:10, Linus Torvalds wrote:
+> > On Fri, 1 Mar 2024 at 02:27, Nikolai Kondrashov <spbnick@gmail.com> wro=
+te:
+> > >=20
+> > > I agree, it's hard to imagine even a simple majority agreeing on how =
+GitLab CI
+> > > should be done. Still, we would like to help people, who are interest=
+ed in
+> > > this kind of thing, to set it up. How about we reframe this contribut=
+ion as a
+> > > sort of template, or a reference for people to start their setup with=
+,
+> > > assuming that most maintainers would want to tweak it? We would also =
+be glad
+> > > to stand by for questions and help, as people try to use it.
+> >=20
+> > Ack. I think seeing it as a library for various gitlab CI models would
+> > be a lot more palatable. Particularly if you can then show that yes,
+> > it is also relevant to our currently existing drm case.
+>=20
+> Having it as a library would certainly make my work as the DRM-CI=20
+> maintainer easier and  also simplify the process whenever we consider=20
+> integrating tests into other subsystems.
+>=20
+> >=20
+> > So I'm not objecting to having (for example) some kind of CI helper
+> > templates - I think a logical place would be in tools/ci/ which is
+> > kind of alongside our tools/testing subdirectory.
+>=20
+> Works for me.
+>=20
+> We  can skip having a default .gitlab-ci.yml in the root directory and=
+=20
+> instead include clear instructions in our documentation for using these=
+=20
+> templates.
 
-Just so it's clear here too: Agreed.
+From previous experience[1], I recommend this approach.
 
->
-> https://lore.kernel.org/lkml/CAA8EJpr7LHvqeGXhbFQ8KNn0LGDuv19cw0i04qVUz51=
-TJeSQrA@mail.gmail.com/
->
->>
->> BR,
->> Jani.
->>
->>
->> >
->> > -Doug
->>
->> --
->> Jani Nikula, Intel
+This way it does not bother current Gitlab mirrors / personal repos, while
+allowing anyone to setup the CI from Gitlab menus just by changing:
 
---=20
-Jani Nikula, Intel
+Repo -> Settings -> CI/CD -> General Pipelines -> CI/CD configuration file
+
+Thanks!
+Leo
+
+[1] Last year I implemented Gitlab-CI for the perfbook repo, and I came acr=
+oss
+some issues, including the disruption of .gitlab-ci.yml in the root of a re=
+po.
+https://lore.kernel.org/perfbook/20230201201529.901316-1-leobras.c@gmail.co=
+m/
+
+>=20
+> Thanks,
+> Helen Koike
+>=20
+> >=20
+> > (And then perhaps have a 'gitlab' directory under that. I'm not sure
+> > whether - and how much - commonality there might be between the
+> > different CI models of different hosts).
+> >=20
+> > Just to clarify: when I say "a logical place", I very much want to
+> > emphasize the "a" - maybe there are better places, and I'm not saying
+> > that is the only possible place. But it sounds more logical to me than
+> > some.
+> >=20
+> >              Linus
+
