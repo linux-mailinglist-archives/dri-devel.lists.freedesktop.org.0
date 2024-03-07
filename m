@@ -2,68 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FFBB8751F4
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 15:36:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABE08751FB
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 15:36:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5E3F10F475;
-	Thu,  7 Mar 2024 14:36:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BC1B112ECD;
+	Thu,  7 Mar 2024 14:36:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="zP7D+7Me";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="h7EQIs8T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
- [209.85.160.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F09F10F475
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 14:36:10 +0000 (UTC)
-Received: by mail-qt1-f181.google.com with SMTP id
- d75a77b69052e-428405a0205so295151cf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Mar 2024 06:36:10 -0800 (PST)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
+ [209.85.219.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59647112ECD;
+ Thu,  7 Mar 2024 14:36:44 +0000 (UTC)
+Received: by mail-yb1-f175.google.com with SMTP id
+ 3f1490d57ef6-dcc80d6006aso1044258276.0; 
+ Thu, 07 Mar 2024 06:36:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1709822169; x=1710426969;
- darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1709822203; x=1710427003; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=t6cjTaPA3JGO0htGi6Pjtb9XftoGgbKI0J0q9NK3+w4=;
- b=zP7D+7Mepc/aT6jBKbsJ/kvirb0XzfOdjCsAThnIqH1hlajCPVVuw8hW0ZuVhwaKPw
- W735QGdyif8lQriT2raWc6ZUPk3XkRj7x//awzMjdp5O6y5hBLR1hPnbTYHF8oiCyMQz
- PwxCSotwKF6EqC91X14RUHGzuAyqYD7Ec74tZmL8mDowcK1nl7rIPgrYyzrhgJ1VY2Ny
- pn3RVDNY/v/JDfqWIxbh2HZ3hoD4OqQptMFbC+Bq1ez2o2a5435Vfd887npSZWpF9Fw5
- 3yGmiGP0QOb1xMcRZ3qfeyMKCF0Stj0XzKker+9bNb9qFzQBSRXo+zZym1wxnUQwIoys
- MPXQ==
+ bh=uHybDwoUQOGEnt+QSZ4qpGKiQdZfRISLyzghHxirBk4=;
+ b=h7EQIs8TAN0ZKEIRl4D8rtR1VKmlOb4/6+JrNI6Dakr6fEiWiBJ+R7r8aTSHZTXo5o
+ DM9dnbsQHbGP2narC2C45DKdZccqzCUYqyqpRKex7Gq+mKWscTl1Cni2Ct5ecGJYtcKu
+ Kf8uOfaXCih61+OpTj+yAJGIB12Hdd/VonBlgfB5P6nMWWIjMQMRyGpRWfr/dhOVkZkD
+ PxMVEn67UsUiL5CwI2YhARAuTHudMXVrK/+vNSQSY8zLMCwsj7Scmv95jRqe7a8je1df
+ tgL9Gpq34HB1yEg9jPuieIP50XzBH0YAT7O12SwF0bGknT6eGORdCBnYN0M9/9n5KYHi
+ JN1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709822169; x=1710426969;
+ d=1e100.net; s=20230601; t=1709822203; x=1710427003;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=t6cjTaPA3JGO0htGi6Pjtb9XftoGgbKI0J0q9NK3+w4=;
- b=liyjdSH0CYJ032cPC1Rv5Ms5wA3xqngTSMsfFIqhf2vx3ykSk4vq35/707Ll0sJ/RR
- Vqs40sujJPOkFJxAdh9v2UE3wma1zmEom1O6yTZ79i3rlzi2VGqaYe5GZNwKndkU4/PW
- d3VLJBqZBB6CtskFF8JZC8XWSzMDO2huzkbg4PvgCZOxmx1S3R0WKGHaVvxQ4D/6OcZb
- ckfbLxJAi9qTpI03l6SOd5WMBBzev7JETLW5yBRqLclncjG7fLKI+KIn1F+GQtv3vbTE
- Z7GU28o2pcLTutvHr/Hw1KPqwSoN0iMWqRrsGqscBmxBe2NEj7okG/LCqwk5NR9+B9zT
- PjaQ==
+ bh=uHybDwoUQOGEnt+QSZ4qpGKiQdZfRISLyzghHxirBk4=;
+ b=triaQp4WaTX6PaAEuv/684pAM5/CvC+NWD0i4QB+5EPrxbAycvXHevwWC6bLTs8j3W
+ oLFsHhfKnJ7Xb9bFXjP7NRwVkkU/DvhCo78wOjbRftQbTUaO6NcfjrSXgFgBIGl5o9NS
+ TyZhVF2um9qQmXjiHgRxXlB7FBuS1ygJkc3R+rvePLLdZjI0KG6ICrRG7g5bR46xc2Cf
+ cQGDEKk+zQnJzY1vL8w/MbiCSBly34O5Sf4Dmt7n/Sq55Jol3vy8Ld7Qo8lQuMB82/Qq
+ Tyw5i1nufshphT1urPD9jglQs9o3FG5jl3o2U1kUhTJaa20k1yxTA0++WSILaN5SwY3Z
+ 95PA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXsAQ5RCBvuuNRG+T6KaeL2kgno2HJwN7SZg51r5hegHonPEJ9NVh1OqMnsQJ2yXI2E1PlPW07uj5Tsksq7mVxsuAPiniRNv1bumMc8FEf/
-X-Gm-Message-State: AOJu0Yxi0ibBLqCWhbgsDAqPG78dqeIBS+ZixkpYNL2wNxeRA0aQoaG6
- 42j1n11K43cLzgqkBUBW3nNlLh/zbugrZS4XMumZazpZPcxDTg5ffvZfDirmy1dGzlOBdbLE54+
- C1u7XKgMmPq7bsfKcE3j/QruOF1kXceYw1xkh
-X-Google-Smtp-Source: AGHT+IFTbUYTdln+HN5bHEZragkgBfryVrLW7yxjMefRnXhcn7EKiTuuupTzwNyjjzX/gNPojrKZtcxTSe69tmWWdIE=
-X-Received: by 2002:a05:622a:1c8:b0:42f:a3c:2d4e with SMTP id
- t8-20020a05622a01c800b0042f0a3c2d4emr266044qtw.15.1709822168971; Thu, 07 Mar
- 2024 06:36:08 -0800 (PST)
+ AJvYcCUXYQh3VVgVcLYiVZt6sB6O1ZfwDalAKzpYntwqEtNp065mPazsRu4NeG8kaboJrHZ+d5QbqNlJcpBqPk/8YRgXHiHi9494EWqn+ePKvnFNApRfAX+hPjL1VIMS5au8T6SSczh729DioGcsnMoD9b4=
+X-Gm-Message-State: AOJu0YwvLUcCMUX1ibxGLq+/tVEka0UGofU1Z2ED31aICt5TXAZ9TdSN
+ jmu7Aj/6/6/2O3dTBL/w4H61F8QZ9guYFe5Ww2/z4+hbOLlCVHSpy6cOfVHVSZkY2lj5N3TX/cG
+ GQ7Jx5GSusm/62LBsDY65AbDg33Y=
+X-Google-Smtp-Source: AGHT+IHqGNr5ebrqhQZaCNGX931iRI358HI2V8ahGtUjcv4saDmeLQ+WBuZgDziGoSCFNHMzUxpws4F/TTL43G3uKd4=
+X-Received: by 2002:a25:aaaf:0:b0:dcd:ef35:91d5 with SMTP id
+ t44-20020a25aaaf000000b00dcdef3591d5mr15657405ybi.2.1709822202973; Thu, 07
+ Mar 2024 06:36:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20240307094433.3440431-1-xuxinxiong@huaqin.corp-partner.google.com>
-In-Reply-To: <20240307094433.3440431-1-xuxinxiong@huaqin.corp-partner.google.com>
-From: Doug Anderson <dianders@google.com>
-Date: Thu, 7 Mar 2024 06:35:53 -0800
-Message-ID: <CAD=FV=U8wdT_5k-yrLVpmh=q4k18LntqujK7Mw88TdweBXCPgg@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel-edp: Add several generic edp panels
-To: Xuxin Xiong <xuxinxiong@huaqin.corp-partner.google.com>
-Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
- hsinyi@google.com, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1709749576.git.jani.nikula@intel.com>
+ <115327b880b69b1c8ad157e5ff7f6b419868fab0.1709749576.git.jani.nikula@intel.com>
+In-Reply-To: <115327b880b69b1c8ad157e5ff7f6b419868fab0.1709749576.git.jani.nikula@intel.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 7 Mar 2024 09:36:30 -0500
+Message-ID: <CADnq5_NXUYjq1bTbK1xGW-zREfMvNxYyg=B0jxA4oytGnUoi3A@mail.gmail.com>
+Subject: Re: [PATCH 04/22] drm/amdgpu: make amd_asic_type.h self-contained
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,24 +80,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, Mar 6, 2024 at 1:43=E2=80=AFPM Jani Nikula <jani.nikula@intel.com> =
+wrote:
+>
+> Include <linux/types.h> for u8.
+>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-On Thu, Mar 7, 2024 at 1:44=E2=80=AFAM Xuxin Xiong
-<xuxinxiong@huaqin.corp-partner.google.com> wrote:
->
-> Add support for the following 2 panels:
-> 1. BOE NT116WHM-N44
-> 2. CMN N116BCA-EA1
->
-> Signed-off-by: Xuxin Xiong <xuxinxiong@huaqin.corp-partner.google.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+
+Do you want me to pick this up? Otherwise, feel free to take it via
+whatever tree makes sense.
+
+Alex
+
 > ---
->  drivers/gpu/drm/panel/panel-edp.c | 2 ++
->  1 file changed, 2 insertions(+)
-
-The patch looks OK, but please resend with a more unique subject. I
-think we've already landed more than one patch with the subject "Add
-several generic edp panels". Since this is just two panels, maybe just
-
-drm/panel-edp: Add BOE NT116WHM-N44 and CMN N116BCA-EA1
-
--Doug
+>  include/drm/amd_asic_type.h | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/include/drm/amd_asic_type.h b/include/drm/amd_asic_type.h
+> index 724c45e3e9a7..9be85b821aa6 100644
+> --- a/include/drm/amd_asic_type.h
+> +++ b/include/drm/amd_asic_type.h
+> @@ -22,6 +22,9 @@
+>
+>  #ifndef __AMD_ASIC_TYPE_H__
+>  #define __AMD_ASIC_TYPE_H__
+> +
+> +#include <linux/types.h>
+> +
+>  /*
+>   * Supported ASIC types
+>   */
+> --
+> 2.39.2
+>
