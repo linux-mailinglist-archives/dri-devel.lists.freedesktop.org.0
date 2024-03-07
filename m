@@ -2,56 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AE4187575C
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 20:40:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C55AD8757CE
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 21:02:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38ED410E7DF;
-	Thu,  7 Mar 2024 19:39:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17BF010F69B;
+	Thu,  7 Mar 2024 20:02:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="VjIalN1Y";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="B5lOPuK5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com
- [95.215.58.186])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6819E10E79A
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 19:39:55 +0000 (UTC)
-Message-ID: <9edaecbc-e6be-4518-b110-a6a574df967a@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1709840393;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ys8e9p5+eqfoxouq7g7nRJjBibIoxszrfaw3qqFo2uU=;
- b=VjIalN1Yqh2hQdoHNxx3oiDZCfUrAraw+5VNiW1R1cP0ExjzcHMD4/Oz8nZXkPdxiI90ZX
- PV0LZGZwSJXGQZQQh3CNFW+UQiJz+rrzvj0fG+Yiqnp6pAMFWbVL2mqCJvA/O4Vd/Zi/Tt
- 91w6RSmjm/82DokulFLAi0+fgTtq8lk=
-Date: Fri, 8 Mar 2024 03:39:43 +0800
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2307B11381B;
+ Thu,  7 Mar 2024 20:02:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709841754; x=1741377754;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=dBHrMs2pjMffipgnmu56a/VvK+7UcCZDn3xvMn1i9DY=;
+ b=B5lOPuK5Wy6mg19em5h6EBNrj6QFnGBFXnyf6EzX5eDtYbu8ILSKNzsv
+ dI7Nz4f4tRlALmC5kzrm//+Rrajln4jdFSRkusV2F7Rlmsz28ADddut8H
+ GvH8OTbjHEIF9uKbL0Q332HUo7hDqSq1xLlO+4OB+OKB74guVP9nNw6Sf
+ mu3LkepCob3AWlWPnd4zqxUumaDvz75Rxpev6IUtwnWYVlVmqsI9N8lvN
+ WwNeD/wobnL/M0yC+lgswmNaBAPlc9E+r7KVwfBsyx+1VM4XVN+xHsJW3
+ S/0x9D3PuvDRDwtCeAz8dq33Lpl4P1ZGEO/PoIYBB8jy1tsKa9T6Jzn0+ w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="15945884"
+X-IronPort-AV: E=Sophos;i="6.07,107,1708416000"; d="scan'208";a="15945884"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2024 12:02:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,107,1708416000"; d="scan'208";a="10670374"
+Received: from unknown (HELO intel.com) ([10.247.118.98])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2024 12:02:24 -0800
+Date: Thu, 7 Mar 2024 21:02:17 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ John Harrison <John.C.Harrison@intel.com>, stable@vger.kernel.org,
+ Andi Shyti <andi.shyti@kernel.org>, Tvrtko Ursulin <tursulin@ursulin.net>
+Subject: Re: [PATCH v4 1/3] drm/i915/gt: Disable HW load balancing for CCS
+Message-ID: <ZeodSUrgZXL_pjy0@ashyti-mobl2.lan>
+References: <20240306012247.246003-1-andi.shyti@linux.intel.com>
+ <20240306012247.246003-2-andi.shyti@linux.intel.com>
+ <20240306234609.GF718896@mdroper-desk1.amr.corp.intel.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 4/4] drm-bridge: it66121: Use fwnode API to acquire
- device properties
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Phong LE <ple@baylibre.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240307172334.1753343-1-sui.jingfeng@linux.dev>
- <20240307172334.1753343-5-sui.jingfeng@linux.dev>
- <CAA8EJpqtPRfe1VL_ACYEOSq=iNMkZ03-fwVv3XdVrpTObZFu1w@mail.gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <CAA8EJpqtPRfe1VL_ACYEOSq=iNMkZ03-fwVv3XdVrpTObZFu1w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240306234609.GF718896@mdroper-desk1.amr.corp.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,135 +71,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Matt,
 
+On Wed, Mar 06, 2024 at 03:46:09PM -0800, Matt Roper wrote:
+> On Wed, Mar 06, 2024 at 02:22:45AM +0100, Andi Shyti wrote:
+> > The hardware should not dynamically balance the load between CCS
+> > engines. Wa_14019159160 recommends disabling it across all
+> > platforms.
+> > 
+> > Fixes: d2eae8e98d59 ("drm/i915/dg2: Drop force_probe requirement")
+> > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> > Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
+> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > Cc: Matt Roper <matthew.d.roper@intel.com>
+> > Cc: <stable@vger.kernel.org> # v6.2+
+> > ---
+> >  drivers/gpu/drm/i915/gt/intel_gt_regs.h     | 1 +
+> >  drivers/gpu/drm/i915/gt/intel_workarounds.c | 5 +++++
+> >  2 files changed, 6 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> > index 50962cfd1353..cf709f6c05ae 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> > @@ -1478,6 +1478,7 @@
+> >  
+> >  #define GEN12_RCU_MODE				_MMIO(0x14800)
+> >  #define   GEN12_RCU_MODE_CCS_ENABLE		REG_BIT(0)
+> > +#define   XEHP_RCU_MODE_FIXED_SLICE_CCS_MODE	REG_BIT(1)
+> >  
+> >  #define CHV_FUSE_GT				_MMIO(VLV_GUNIT_BASE + 0x2168)
+> >  #define   CHV_FGT_DISABLE_SS0			(1 << 10)
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> > index d67d44611c28..a2e78cf0b5f5 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> > @@ -2945,6 +2945,11 @@ general_render_compute_wa_init(struct intel_engine_cs *engine, struct i915_wa_li
+> >  
+> >  		/* Wa_18028616096 */
+> >  		wa_mcr_write_or(wal, LSC_CHICKEN_BIT_0_UDW, UGM_FRAGMENT_THRESHOLD_TO_3);
+> > +
+> > +		/*
+> > +		 * Wa_14019159160: disable the automatic CCS load balancing
+> 
+> I'm still a bit concerned that this doesn't really match what this
+> specific workaround is asking us to do.  There seems to be an agreement
+> on various internal email threads that we need to disable load
+> balancing, but there's no single specific workaround that officially
+> documents that decision.
+> 
+> This specific workaround asks us to do a bunch of different things, and
+> the third item it asks for is to disable load balancing in very specific
+> cases (i.e., while the RCS is active at the same time as one or more CCS
+> engines).  Taking this workaround in isolation, it would be valid to
+> keep load balancing active if you were just using the CCS engines and
+> leaving the RCS idle, or if balancing was turned on/off by the GuC
+> scheduler according to engine use at the moment, as the documented
+> workaround seems to assume will be the case.
+> 
+> So in general I think we do need to disable load balancing based on
+> other offline discussion, but blaming that entire change on
+> Wa_14019159160 seems a bit questionable since it's not really what this
+> specific workaround is asking us to do and someone may come back and try
+> to "correct" the implementation of this workaround in the future without
+> realizing there are other factors too.  It would be great if we could
+> get hardware teams to properly document this expectation somewhere
+> (either in a separate dedicated workaround, or in the MMIO tuning guide)
+> so that we'll have a more direct and authoritative source for such a
+> large behavioral change.
 
-On 2024/3/8 03:31, Dmitry Baryshkov wrote:
-> On Thu, 7 Mar 2024 at 19:24, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
->> Make this driver less DT-dependent by calling the freshly created helpers,
->> should be no functional changes for DT based systems. But open the door for
->> otherwise use cases. Even though there is no user emerged yet, this still
->> do no harms. In fact, we reduce some boilerplate across drm bridge drivers.
->>
->> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
->> ---
->>   drivers/gpu/drm/bridge/ite-it66121.c | 63 ++++++++++++++++------------
->>   1 file changed, 36 insertions(+), 27 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
->> index 1c3433b5e366..a2cf2be86065 100644
->> --- a/drivers/gpu/drm/bridge/ite-it66121.c
->> +++ b/drivers/gpu/drm/bridge/ite-it66121.c
->> @@ -15,7 +15,6 @@
->>   #include <linux/bitfield.h>
->>   #include <linux/property.h>
->>   #include <linux/regmap.h>
->> -#include <linux/of_graph.h>
->>   #include <linux/gpio/consumer.h>
->>   #include <linux/pinctrl/consumer.h>
->>   #include <linux/regulator/consumer.h>
->> @@ -1480,7 +1479,7 @@ static int it66121_audio_codec_init(struct it66121_ctx *ctx, struct device *dev)
->>
->>          dev_dbg(dev, "%s\n", __func__);
->>
->> -       if (!of_property_read_bool(dev->of_node, "#sound-dai-cells")) {
->> +       if (!fwnode_property_present(dev_fwnode(dev), "#sound-dai-cells")) {
->>                  dev_info(dev, "No \"#sound-dai-cells\", no audio\n");
->>                  return 0;
->>          }
->> @@ -1503,13 +1502,37 @@ static const char * const it66121_supplies[] = {
->>          "vcn33", "vcn18", "vrf12"
->>   };
->>
->> +static int it66121_read_bus_width(struct fwnode_handle *fwnode, u32 port,
->> +                                 u32 *bus_width)
->> +{
->> +       struct fwnode_handle *endpoint;
->> +       u32 val;
->> +       int ret;
->> +
->> +       endpoint = fwnode_graph_get_endpoint_by_id(fwnode, port, 0, 0);
->> +       if (!endpoint)
->> +               return -EINVAL;
->> +
->> +       ret = fwnode_property_read_u32(endpoint, "bus-width", &val);
->> +       fwnode_handle_put(endpoint);
->> +       if (ret)
->> +               return ret;
->> +
->> +       if (val != 12 && val != 24)
->> +               return -EINVAL;
->> +
->> +       *bus_width = val;
->> +
->> +       return 0;
->> +}
->> +
->>   static int it66121_probe(struct i2c_client *client)
->>   {
->>          u32 revision_id, vendor_ids[2] = { 0 }, device_ids[2] = { 0 };
->> -       struct device_node *ep;
->>          int ret;
->>          struct it66121_ctx *ctx;
->>          struct device *dev = &client->dev;
->> +       struct fwnode_handle *fwnode = dev_fwnode(dev);
->>
->>          if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
->>                  dev_err(dev, "I2C check functionality failed.\n");
->> @@ -1520,37 +1543,23 @@ static int it66121_probe(struct i2c_client *client)
->>          if (!ctx)
->>                  return -ENOMEM;
->>
->> -       ep = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
->> -       if (!ep)
->> -               return -EINVAL;
->> -
->>          ctx->dev = dev;
->>          ctx->client = client;
->>          ctx->info = i2c_get_match_data(client);
->>
->> -       of_property_read_u32(ep, "bus-width", &ctx->bus_width);
->> -       of_node_put(ep);
->> -
->> -       if (ctx->bus_width != 12 && ctx->bus_width != 24)
->> -               return -EINVAL;
->> -
->> -       ep = of_graph_get_remote_node(dev->of_node, 1, -1);
->> -       if (!ep) {
->> -               dev_err(ctx->dev, "The endpoint is unconnected\n");
->> -               return -EINVAL;
->> -       }
->> -
->> -       if (!of_device_is_available(ep)) {
->> -               of_node_put(ep);
->> -               dev_err(ctx->dev, "The remote device is disabled\n");
->> -               return -ENODEV;
->> -       }
->> +       /* Endpoint of port@0 contains the bus-width property */
->> +       ret = it66121_read_bus_width(fwnode, 0, &ctx->bus_width);
-> There is no need to pass port as an argument to that function.
->
->
-Yeah, extremely correct. Because the bus width property should always
-located at the endpoint of the input port(port@0 for it66121).
+On one had I think you are right, on the other hand I think this
+workaround has not properly developed in what we have been
+describing later.
 
+Perhaps, one solution would be to create a new generic workaround
+for all platforms with more than one CCS and put everyone at
+peace. But I don't know the process.
 
->> +       if (ret)
->> +               return ret;
->>
->> -       ctx->next_bridge = of_drm_find_bridge(ep);
->> -       of_node_put(ep);
->> +       ctx->next_bridge = drm_bridge_find_next_bridge_by_fwnode(fwnode, 1);
->>          if (!ctx->next_bridge) {
->>                  dev_dbg(ctx->dev, "Next bridge not found, deferring probe\n");
->>                  return -EPROBE_DEFER;
->> +       } else if (IS_ERR(ctx->next_bridge)) {
->> +               ret = PTR_ERR(ctx->next_bridge);
->> +               dev_err(dev, "Error in founding the next bridge: %d\n", ret);
->> +               return ret;
-> Nit: I'd usually expect this part to be in a different order: first
-> check for error, then check for absence. But that's a minor thing.
+Are you able to help here? Or Joonas?
 
-
-OK,  fine, will be fixed at the next version if no other objects.
-
+Thanks, Matt!
+Andi
