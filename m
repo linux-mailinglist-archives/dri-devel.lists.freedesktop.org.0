@@ -2,62 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA188749FC
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 09:44:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DB7B874A02
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 09:44:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E053E10F28F;
-	Thu,  7 Mar 2024 08:44:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D50B113704;
+	Thu,  7 Mar 2024 08:44:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZVE37E0J";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="bJHtP/2w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 449AB10EF2A;
- Thu,  7 Mar 2024 08:44:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709801048; x=1741337048;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=jCRGxpEQXKvfVtcBS86Pk6+QkbWlIUSlvb21Umyby+M=;
- b=ZVE37E0JalBR2Q+RLOW+k6YXSQ87j1/q/kRr4BgJ6ztPZHZ064o6km/r
- EIBwQW4PVB/K3gga8KED7UMyQvSxvkgPYKDKaDnHylpftsuLgSr6CLrFw
- LlfyFD7kAI+2yOT3CelZXy5MyX4v5ihw1ZVPgerJ77zlhG9UGVBmvq+ts
- Mv2xRvLeoE1CyWFiwKYqE6ZTSEAz4bzOxcPy/rFgK0uw0jwk8iu4h81G4
- zBp7lSSLimR3Z2MLASNKgzFbsi6mRv6HX3YJh7ODbq1wNLxERvB7BeWvZ
- FTtPEvWqN272imlCWvmp3rt7hrESFrxwzVD71DK6GjKdYqvxvEIk/zqeZ A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="26933264"
-X-IronPort-AV: E=Sophos;i="6.06,211,1705392000"; d="scan'208";a="26933264"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2024 00:44:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,211,1705392000"; d="scan'208";a="33197180"
-Received: from tcavalax-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.33.241])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2024 00:44:03 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: kernel test robot <lkp@intel.com>, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>, David
- Airlie <airlied@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Masahiro Yamada
- <masahiroy@kernel.org>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, Geert Uytterhoeven
- <geert@linux-m68k.org>
-Subject: Re: [PATCH 22/22] drm: ensure drm headers are self-contained and
- pass kernel-doc
-In-Reply-To: <202403071317.uoW18ZR3-lkp@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <e22ab28836ee1689ea4781ed53fd2e4e4f84728e.1709749576.git.jani.nikula@intel.com>
- <202403071317.uoW18ZR3-lkp@intel.com>
-Date: Thu, 07 Mar 2024 10:44:01 +0200
-Message-ID: <878r2uxwha.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E92E10F289
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 08:44:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1709801093;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=fLP6ceN1F2SyA5GtcZy36wAftn4c2iaCrgw/MFXJWTs=;
+ b=bJHtP/2wEoDsupZ1QyCC4MyDEOzmtl6W3yshXlDxj/moOtEZST5P0QuKFDQmPs18hTT77I
+ bQzLoFmKzoN7ZMR7ggX2+/rNNuBCcFDJjeDO23z8vh52Ri723z/AnfVaOXixf0yo5Vq5SX
+ 3x6B0x/8l4ipv9/o7zDr2CYzQX0jsHw=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-216-hAWj4S6TPqCeb_2zmC6dCA-1; Thu, 07 Mar 2024 03:44:52 -0500
+X-MC-Unique: hAWj4S6TPqCeb_2zmC6dCA-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ 2adb3069b0e04-5135aa34125so691949e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Mar 2024 00:44:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709801089; x=1710405889;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fLP6ceN1F2SyA5GtcZy36wAftn4c2iaCrgw/MFXJWTs=;
+ b=Po7QykiL+2k3SHYFq5HLyPt2VZ2wMOf0E4ROOGbRDCsxURpTFrNQoQccpTazgrQp9Z
+ yoJ5MC1rTtAJCHeOzjSJdhyKtZ3wArQlDvBnZDgJLRspA5m80JkjJ5BNxVB76BuejWu8
+ tZrXMJkLiFjGbMKotPpWzQ4wMBSh2eCEwkh5tyysmcPC5eUpLPFbK7rRnDLPvblz/dgj
+ XlVI+h9yzwsy7mgssleAN/XIIQCDX8q4XoBw5ZWtba/320/agnBthSE6s/Qv71j7ZV+0
+ RTIkHaaSdCBOLLuvk/wFQwmIp39Qrw+WlCNoitcPelMEr1j30e8MP7tHYHEITiISEVmc
+ 160Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVUdwLym21X/GVHgoriY+IveglDsmcjmPqFDGeQN6GTCdbPqY0LAGUV9sRB9wzh4VFOtoCI40I5x7GjPWhpo7zgkF5xNjFyeVv12VxSwYU7
+X-Gm-Message-State: AOJu0YyBvdQqvV/h1tDzMxa36NB3bsby7ES99YYkc7ZzErAtyDGDE4tz
+ iw6F6id5SWsO7PuouZjdA7Hc4edFBL/JudN+y7jrP6XWUy6yqeWD6mo6ILgKZ8T0F3+hBmHQcUx
+ BtIzjPrD2XtPt9D1PsqmoZ6dJzxanokLWc00MbYGrxoB1BOObJlu0iY19TfXIf3223hfumzBUsc
+ fO
+X-Received: by 2002:a05:6512:1094:b0:513:30fb:d64 with SMTP id
+ j20-20020a056512109400b0051330fb0d64mr1180225lfg.44.1709801089249; 
+ Thu, 07 Mar 2024 00:44:49 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFpv4voRj54WBHwxzKpSWs2OSTl5esk+TWvuSwsvPvxTS4x0KVGxvdbWMY1r/dmx87pzb2Pbw==
+X-Received: by 2002:a05:6512:1094:b0:513:30fb:d64 with SMTP id
+ j20-20020a056512109400b0051330fb0d64mr1180200lfg.44.1709801088675; 
+ Thu, 07 Mar 2024 00:44:48 -0800 (PST)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
+ by smtp.gmail.com with ESMTPSA id
+ n8-20020a05600c180800b00413011933e6sm1842810wmp.39.2024.03.07.00.44.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Mar 2024 00:44:48 -0800 (PST)
+Date: Thu, 7 Mar 2024 09:44:48 +0100
+From: Maxime Ripard <mripard@redhat.com>
+To: Dave Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20240307-quizzical-auburn-starling-0ade8f@houat>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="76xqnbxdilc4pxio"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,247 +97,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 07 Mar 2024, kernel test robot <lkp@intel.com> wrote:
-> Hi Jani,
->
-> kernel test robot noticed the following build errors:
 
-So I'm trying to make include/drm/ttm/ttm_caching.h self-contained by
-including <linux/pgtable.h> with [1], but it fails like below.
+--76xqnbxdilc4pxio
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Cc: Thomas and Geert, better ideas for the include there? Looks like
-include/asm-generic/pgtable-nop4d.h isn't self-contained on m68k.
+Hi,
 
+Here's this week drm-misc-fixes PR
 
-BR,
-Jani.
+Maxime
 
+drm-misc-fixes-2024-03-07:
+A connector status polling fix, a timings fix for the Himax83102-j02
+panel, a deadlock fix for nouveau, A controversial format fix for udl
+that got reverted to allow further discussion, and a build fix for the
+drm/buddy kunit tests.
+The following changes since commit c70703320e557ff30847915e6a7631a9abdda16b:
 
-[1] https://lore.kernel.org/r/c35ce1a59d0796da32b32e4c8f59464de35f200a.1709749576.git.jani.nikula@intel.com
+  drm/tests/drm_buddy: add alloc_range_bias test (2024-02-28 08:03:29 +0100)
 
+are available in the Git repository at:
 
+  https://anongit.freedesktop.org/git/drm/drm-misc tags/drm-misc-fixes-2024-03-07
 
->
-> [auto build test ERROR on drm-misc/drm-misc-next]
-> [cannot apply to drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.8-rc7 next-20240306]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-crtc-make-drm_crtc_internal-h-self-contained/20240307-023603
-> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-> patch link:    https://lore.kernel.org/r/e22ab28836ee1689ea4781ed53fd2e4e4f84728e.1709749576.git.jani.nikula%40intel.com
-> patch subject: [PATCH 22/22] drm: ensure drm headers are self-contained and pass kernel-doc
-> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240307/202403071317.uoW18ZR3-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240307/202403071317.uoW18ZR3-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403071317.uoW18ZR3-lkp@intel.com/
->
-> All error/warnings (new ones prefixed by >>):
->
->    In file included from include/asm-generic/pgtable-nopud.h:7,
->                     from arch/m68k/include/asm/pgtable_mm.h:9,
->                     from arch/m68k/include/asm/pgtable.h:8,
->                     from include/linux/pgtable.h:6,
->                     from include/drm/ttm/ttm_caching.h:28,
->                     from <command-line>:
->>> include/asm-generic/pgtable-nop4d.h:9:18: error: unknown type name 'pgd_t'
->        9 | typedef struct { pgd_t pgd; } p4d_t;
->          |                  ^~~~~
->    include/asm-generic/pgtable-nop4d.h:21:28: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
->       21 | static inline int pgd_none(pgd_t pgd)           { return 0; }
->          |                            ^~~~~
->          |                            p4d_t
->    include/asm-generic/pgtable-nop4d.h:22:27: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
->       22 | static inline int pgd_bad(pgd_t pgd)            { return 0; }
->          |                           ^~~~~
->          |                           p4d_t
->    include/asm-generic/pgtable-nop4d.h:23:31: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
->       23 | static inline int pgd_present(pgd_t pgd)        { return 1; }
->          |                               ^~~~~
->          |                               p4d_t
->    include/asm-generic/pgtable-nop4d.h:24:30: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
->       24 | static inline void pgd_clear(pgd_t *pgd)        { }
->          |                              ^~~~~
->          |                              p4d_t
->    include/asm-generic/pgtable-nop4d.h:35:33: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
->       35 | static inline p4d_t *p4d_offset(pgd_t *pgd, unsigned long address)
->          |                                 ^~~~~
->          |                                 p4d_t
->    In file included from arch/m68k/include/asm/thread_info.h:6,
->                     from include/linux/thread_info.h:60,
->                     from include/asm-generic/preempt.h:5,
->                     from ./arch/m68k/include/generated/asm/preempt.h:1,
->                     from include/linux/preempt.h:79,
->                     from arch/m68k/include/asm/processor.h:11,
->                     from arch/m68k/include/asm/pgtable_mm.h:15:
->    arch/m68k/include/asm/motorola_pgtable.h: In function 'pud_set':
->>> arch/m68k/include/asm/page.h:46:29: error: request for member 'pgd' in something not a structure or union
->       46 | #define pgd_val(x)      ((x).pgd)
->          |                             ^
->    include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
->       40 | #define p4d_val(x)                              (pgd_val((x).pgd))
->          |                                                  ^~~~~~~
->    include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
->       48 | #define pud_val(x)                              (p4d_val((x).p4d))
->          |                                                  ^~~~~~~
->    arch/m68k/include/asm/motorola_pgtable.h:103:9: note: in expansion of macro 'pud_val'
->      103 |         pud_val(*pudp) = _PAGE_TABLE | _PAGE_ACCESSED | __pa(pmdp);
->          |         ^~~~~~~
->    include/linux/pgtable.h: In function 'pmd_offset':
->>> arch/m68k/include/asm/page.h:46:29: error: request for member 'pgd' in something not a structure or union
->       46 | #define pgd_val(x)      ((x).pgd)
->          |                             ^
->    include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
->       40 | #define p4d_val(x)                              (pgd_val((x).pgd))
->          |                                                  ^~~~~~~
->    include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
->       48 | #define pud_val(x)                              (p4d_val((x).p4d))
->          |                                                  ^~~~~~~
->    arch/m68k/include/asm/motorola_pgtable.h:108:41: note: in expansion of macro 'pud_val'
->      108 | #define pud_pgtable(pud) ((pmd_t *)__va(pud_val(pud) & _TABLE_MASK))
->          |                                         ^~~~~~~
->    include/linux/pgtable.h:123:16: note: in expansion of macro 'pud_pgtable'
->      123 |         return pud_pgtable(*pud) + pmd_index(address);
->          |                ^~~~~~~~~~~
->    include/linux/pgtable.h: In function 'pmd_off':
->>> include/linux/pgtable.h:165:38: error: implicit declaration of function 'p4d_offset'; did you mean 'pmd_offset'? [-Werror=implicit-function-declaration]
->      165 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset(mm, va), va), va), va);
->          |                                      ^~~~~~~~~~
->          |                                      pmd_offset
->>> include/linux/pgtable.h:165:38: warning: passing argument 1 of 'pud_offset' makes pointer from integer without a cast [-Wint-conversion]
->      165 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset(mm, va), va), va), va);
->          |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->          |                                      |
->          |                                      int
->    include/asm-generic/pgtable-nopud.h:42:40: note: expected 'p4d_t *' but argument is of type 'int'
->       42 | static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
->          |                                 ~~~~~~~^~~
->    include/linux/pgtable.h: In function 'pmd_off_k':
->    include/linux/pgtable.h:170:38: warning: passing argument 1 of 'pud_offset' makes pointer from integer without a cast [-Wint-conversion]
->      170 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset_k(va), va), va), va);
->          |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->          |                                      |
->          |                                      int
->    include/asm-generic/pgtable-nopud.h:42:40: note: expected 'p4d_t *' but argument is of type 'int'
->       42 | static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
->          |                                 ~~~~~~~^~~
->    include/linux/pgtable.h: In function 'pud_same':
->>> arch/m68k/include/asm/page.h:46:29: error: request for member 'pgd' in something not a structure or union
->       46 | #define pgd_val(x)      ((x).pgd)
->          |                             ^
->    include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
->       40 | #define p4d_val(x)                              (pgd_val((x).pgd))
->          |                                                  ^~~~~~~
->    include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
->       48 | #define pud_val(x)                              (p4d_val((x).p4d))
->          |                                                  ^~~~~~~
->    include/linux/pgtable.h:829:16: note: in expansion of macro 'pud_val'
->      829 |         return pud_val(pud_a) == pud_val(pud_b);
->          |                ^~~~~~~
->>> arch/m68k/include/asm/page.h:46:29: error: request for member 'pgd' in something not a structure or union
->       46 | #define pgd_val(x)      ((x).pgd)
->          |                             ^
->    include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
->       40 | #define p4d_val(x)                              (pgd_val((x).pgd))
->          |                                                  ^~~~~~~
->    include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
->       48 | #define pud_val(x)                              (p4d_val((x).p4d))
->          |                                                  ^~~~~~~
->    include/linux/pgtable.h:829:34: note: in expansion of macro 'pud_val'
->      829 |         return pud_val(pud_a) == pud_val(pud_b);
->          |                                  ^~~~~~~
->>> include/linux/pgtable.h:827:34: warning: parameter 'pud_a' set but not used [-Wunused-but-set-parameter]
->      827 | static inline int pud_same(pud_t pud_a, pud_t pud_b)
->          |                            ~~~~~~^~~~~
->>> include/linux/pgtable.h:827:47: warning: parameter 'pud_b' set but not used [-Wunused-but-set-parameter]
->      827 | static inline int pud_same(pud_t pud_a, pud_t pud_b)
->          |                                         ~~~~~~^~~~~
->    include/linux/pgtable.h: In function 'p4d_same':
->>> arch/m68k/include/asm/page.h:46:29: error: request for member 'pgd' in something not a structure or union
->       46 | #define pgd_val(x)      ((x).pgd)
->          |                             ^
->    include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
->       40 | #define p4d_val(x)                              (pgd_val((x).pgd))
->          |                                                  ^~~~~~~
->    include/linux/pgtable.h:837:16: note: in expansion of macro 'p4d_val'
->      837 |         return p4d_val(p4d_a) == p4d_val(p4d_b);
->          |                ^~~~~~~
->>> arch/m68k/include/asm/page.h:46:29: error: request for member 'pgd' in something not a structure or union
->       46 | #define pgd_val(x)      ((x).pgd)
->          |                             ^
->    include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
->       40 | #define p4d_val(x)                              (pgd_val((x).pgd))
->          |                                                  ^~~~~~~
->    include/linux/pgtable.h:837:34: note: in expansion of macro 'p4d_val'
->      837 |         return p4d_val(p4d_a) == p4d_val(p4d_b);
->          |                                  ^~~~~~~
->>> include/linux/pgtable.h:835:34: warning: parameter 'p4d_a' set but not used [-Wunused-but-set-parameter]
->      835 | static inline int p4d_same(p4d_t p4d_a, p4d_t p4d_b)
->          |                            ~~~~~~^~~~~
->>> include/linux/pgtable.h:835:47: warning: parameter 'p4d_b' set but not used [-Wunused-but-set-parameter]
->      835 | static inline int p4d_same(p4d_t p4d_a, p4d_t p4d_b)
->          |                                         ~~~~~~^~~~~
->    include/linux/pgtable.h: In function 'pgd_none_or_clear_bad':
->>> include/linux/pgtable.h:1021:13: error: implicit declaration of function 'pgd_none'; did you mean 'p4d_none'? [-Werror=implicit-function-declaration]
->     1021 |         if (pgd_none(*pgd))
->          |             ^~~~~~~~
->          |             p4d_none
->    In file included from include/linux/export.h:5,
->                     from include/linux/linkage.h:7,
->                     from include/linux/preempt.h:10:
->>> include/linux/pgtable.h:1023:22: error: implicit declaration of function 'pgd_bad'; did you mean 'p4d_bad'? [-Werror=implicit-function-declaration]
->     1023 |         if (unlikely(pgd_bad(*pgd))) {
->          |                      ^~~~~~~
->    include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
->       77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
->          |                                             ^
->    include/linux/pgtable.h: In function 'pud_none_or_clear_bad':
->>> arch/m68k/include/asm/page.h:46:29: error: request for member 'pgd' in something not a structure or union
->       46 | #define pgd_val(x)      ((x).pgd)
->          |                             ^
->    include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
->       40 | #define p4d_val(x)                              (pgd_val((x).pgd))
->          |                                                  ^~~~~~~
->    include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
->       48 | #define pud_val(x)                              (p4d_val((x).p4d))
->          |                                                  ^~~~~~~
->    arch/m68k/include/asm/motorola_pgtable.h:134:35: note: in expansion of macro 'pud_val'
->      134 | #define pud_none(pud)           (!pud_val(pud))
->          |                                   ^~~~~~~
->    include/linux/pgtable.h:1043:13: note: in expansion of macro 'pud_none'
->     1043 |         if (pud_none(*pud))
->          |             ^~~~~~~~
->>> arch/m68k/include/asm/page.h:46:29: error: request for member 'pgd' in something not a structure or union
->       46 | #define pgd_val(x)      ((x).pgd)
->          |                             ^
->    include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
->       77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
->          |                                             ^
->    include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
->       40 | #define p4d_val(x)                              (pgd_val((x).pgd))
->          |                                                  ^~~~~~~
->    include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
->       48 | #define pud_val(x)                              (p4d_val((x).p4d))
->          |                                                  ^~~~~~~
->    arch/m68k/include/asm/motorola_pgtable.h:135:35: note: in expansion of macro 'pud_val'
->      135 | #define pud_bad(pud)            ((pud_val(pud) & _DESCTYPE_MASK) != _PAGE_TABLE)
->          |                                   ^~~~~~~
->    include/linux/pgtable.h:1045:22: note: in expansion of macro 'pud_bad'
->     1045 |         if (unlikely(pud_bad(*pud))) {
->          |                      ^~~~~~~
->    cc1: some warnings being treated as errors
->
->
-> vim +/pgd_t +9 include/asm-generic/pgtable-nop4d.h
->
-> 048456dcf2c56a Kirill A. Shutemov 2017-03-09   8  
-> 048456dcf2c56a Kirill A. Shutemov 2017-03-09  @9  typedef struct { pgd_t pgd; } p4d_t;
-> 048456dcf2c56a Kirill A. Shutemov 2017-03-09  10  
+for you to fetch changes up to 4ece8fc439c370b1aec26a44b9f94fb214068d42:
 
--- 
-Jani Nikula, Intel
+  drm/tests/buddy: fix print format (2024-03-07 09:28:06 +0100)
+
+----------------------------------------------------------------
+A connector status polling fix, a timings fix for the Himax83102-j02
+panel, a deadlock fix for nouveau, A controversial format fix for udl
+that got reverted to allow further discussion, and a build fix for the
+drm/buddy kunit tests.
+
+----------------------------------------------------------------
+Cong Yang (1):
+      drm/panel: boe-tv101wum-nl6: Fine tune Himax83102-j02 panel HFP and HBP (again)
+
+Douglas Anderson (2):
+      drm/udl: Add ARGB8888 as a format
+      Revert "drm/udl: Add ARGB8888 as a format"
+
+Imre Deak (1):
+      drm: Fix output poll work for drm_kms_helper_poll=n
+
+Karol Herbst (1):
+      drm/nouveau: fix stale locked mutex in nouveau_gem_ioctl_pushbuf
+
+Matthew Auld (1):
+      drm/tests/buddy: fix print format
+
+ drivers/gpu/drm/drm_probe_helper.c             | 8 +++++---
+ drivers/gpu/drm/nouveau/nouveau_gem.c          | 2 +-
+ drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 8 ++++----
+ drivers/gpu/drm/tests/drm_buddy_test.c         | 2 +-
+ 4 files changed, 11 insertions(+), 9 deletions(-)
+
+--76xqnbxdilc4pxio
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZel+fgAKCRDj7w1vZxhR
+xSukAP4kKvDlgY3da8dezBm0+6fw59JGWuhV0LXZPOBGaN6QbQD/UcEPU29ec3Gb
+97p8AFDJCjbEyriP2DwXIllSi1wyyA0=
+=h+3+
+-----END PGP SIGNATURE-----
+
+--76xqnbxdilc4pxio--
+
