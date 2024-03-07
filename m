@@ -2,61 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F2D875B3A
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 00:52:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F8C1875B3D
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 00:53:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4138210F5D9;
-	Thu,  7 Mar 2024 23:52:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 743C810E7A1;
+	Thu,  7 Mar 2024 23:53:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Kd1ZB/h5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JnBRJpRG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5188410F5D9;
- Thu,  7 Mar 2024 23:52:13 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7FB010E1BC;
+ Thu,  7 Mar 2024 23:53:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709855533; x=1741391533;
+ t=1709855634; x=1741391634;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=g6KNEv97sL21XlZbjXrN4u3C1nl8XOMMFLdNGYOeSWc=;
- b=Kd1ZB/h5SrWLECs5xWp8P8xHCS7TYiSfYLxQ0ZY1wo4uOlP1UZ27S1MN
- lINwZlKnOaOMKgx9yVMl5Wz/jhvPBHBV3SafZlCJhwScC3zmAslmY9pxl
- a8EzrE9r7hZhTbY3Vv50Qpm3uLh+hJoyCwYIRz8uv23rJjuRPMdwTBy0I
- c/WFbP0AkJvk4jiE8MaxA7PTn1H9uGGyseb8vkF8fTFtgSS3YrIPaf2wk
- o1vQke5GY1Av6Ol3N+E5+GTdSwFFX5wwkp6pWDVee0z9WiZbyqbL3S/17
- scsSPWFveV3RPx/Eh8hhvPr474obzFCiNxqoN5L8rjcro95YSSlhB9Di7 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="15988876"
-X-IronPort-AV: E=Sophos;i="6.07,107,1708416000"; d="scan'208";a="15988876"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2024 15:52:12 -0800
+ bh=oRMRLJaIOnXoiUMm1mzrGxqIAovQKaHNtAgi7eyje4A=;
+ b=JnBRJpRGPgntwX+1O4fcmo8Cz8kZ5AFuPOp+TNcNodDrA3w80AvKJo/g
+ 7ANoSVxQ0Vcb8OkB5TEfNonffykJS71XAMgskKh7ZX/3xzF2gV/sjd2Yl
+ 4krl0Qt6LBd44FluI9msdeBpcuEPepV1WaA2Yv23wOcFTXie5/+r+1UxD
+ XH9RWslmWEf83raQycbUPYncP0Hv11vCtthw6CuX8ymqJ7Ek/EKWMXBto
+ rhkL4IR4hIJ+nfhdEo4L2+IsuKYsZ+anYDbCRYEI/10opZx6mmQDQbxIM
+ Xfqrf3/UQsS4TIcIuk/+W3gKQqYTvJTW0HnWRL1y8cZAg6mkA2ZdSJfdV Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="4437899"
+X-IronPort-AV: E=Sophos;i="6.07,107,1708416000"; 
+   d="scan'208";a="4437899"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2024 15:53:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,107,1708416000"; d="scan'208";a="10165628"
+X-IronPort-AV: E=Sophos;i="6.07,107,1708416000"; d="scan'208";a="14844374"
 Received: from unknown (HELO intel.com) ([10.247.118.98])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2024 15:52:07 -0800
-Date: Fri, 8 Mar 2024 00:52:01 +0100
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2024 15:53:47 -0800
+Date: Fri, 8 Mar 2024 00:53:41 +0100
 From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
+To: John Harrison <john.c.harrison@intel.com>
 Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
  intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
  Chris Wilson <chris.p.wilson@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- John Harrison <John.C.Harrison@intel.com>, stable@vger.kernel.org,
- Andi Shyti <andi.shyti@kernel.org>, Tvrtko Ursulin <tursulin@ursulin.net>
-Subject: Re: [PATCH v4 3/3] drm/i915/gt: Enable only one CCS for compute
- workload
-Message-ID: <ZepTIWnGe73Qv1_p@ashyti-mobl2.lan>
+ stable@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>,
+ Tvrtko Ursulin <tursulin@ursulin.net>
+Subject: Re: [PATCH v4 1/3] drm/i915/gt: Disable HW load balancing for CCS
+Message-ID: <ZepThZYShdbxQOHi@ashyti-mobl2.lan>
 References: <20240306012247.246003-1-andi.shyti@linux.intel.com>
- <20240306012247.246003-4-andi.shyti@linux.intel.com>
- <20240307001454.GG718896@mdroper-desk1.amr.corp.intel.com>
+ <20240306012247.246003-2-andi.shyti@linux.intel.com>
+ <20240306234609.GF718896@mdroper-desk1.amr.corp.intel.com>
+ <ZeodSUrgZXL_pjy0@ashyti-mobl2.lan>
+ <11146c2d-726a-4b13-98a6-2360dbe77c3b@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240307001454.GG718896@mdroper-desk1.amr.corp.intel.com>
+In-Reply-To: <11146c2d-726a-4b13-98a6-2360dbe77c3b@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,82 +75,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matt,
+Hi John,
 
-> > +static void intel_gt_apply_ccs_mode(struct intel_gt *gt)
-> > +{
-> > +	u32 mode;
-> > +	int cslice;
-> > +
-> > +	if (!IS_DG2(gt->i915))
-> > +		return;
-> > +
-> > +	/* Set '0' as a default CCS id to all the cslices */
-> > +	mode = 0;
-> > +
-> > +	for (cslice = 0; cslice < hweight32(CCS_MASK(gt)); cslice++)
-> > +		/* Write 0x7 if no CCS context dispatches to this cslice */
-> > +		if (!(CCS_MASK(gt) & BIT(cslice)))
-> > +			mode |= XEHP_CCS_MODE_CSLICE(cslice,
-> > +						     XEHP_CCS_MODE_CSLICE_MASK);
-> > +
-> > +	intel_uncore_write(gt->uncore, XEHP_CCS_MODE, mode);
-> 
-> This is still going to hook all available cslices up to hardware engine
-> ccs0.  But what you actually want is to hook them all up to what
-> userspace sees as CCS0 (i.e., the first CCS engine that wasn't fused
-> off).  Hardware's engine numbering and userspace's numbering aren't the
-> same.
+...
 
-Yes, correct... we had so many discussions and I forgot about it :-)
-
-> Also, if you have a part that only has hardware ccs1/cslice1 for
-> example, you're not going to set cslices 2 & 3 to 0x7 properly.
-
-Good point also here, the XEHP_CCS_MODE register is indeed
-generic to all platforms.
-
-> So probably what you want is something like this (untested):
+> > > > +
+> > > > +		/*
+> > > > +		 * Wa_14019159160: disable the automatic CCS load balancing
+> > > I'm still a bit concerned that this doesn't really match what this
+> > > specific workaround is asking us to do.  There seems to be an agreement
+> > > on various internal email threads that we need to disable load
+> > > balancing, but there's no single specific workaround that officially
+> > > documents that decision.
+> > > 
+> > > This specific workaround asks us to do a bunch of different things, and
+> > > the third item it asks for is to disable load balancing in very specific
+> > > cases (i.e., while the RCS is active at the same time as one or more CCS
+> > > engines).  Taking this workaround in isolation, it would be valid to
+> > > keep load balancing active if you were just using the CCS engines and
+> > > leaving the RCS idle, or if balancing was turned on/off by the GuC
+> > > scheduler according to engine use at the moment, as the documented
+> > > workaround seems to assume will be the case.
+> > > 
+> > > So in general I think we do need to disable load balancing based on
+> > > other offline discussion, but blaming that entire change on
+> > > Wa_14019159160 seems a bit questionable since it's not really what this
+> > > specific workaround is asking us to do and someone may come back and try
+> > > to "correct" the implementation of this workaround in the future without
+> > > realizing there are other factors too.  It would be great if we could
+> > > get hardware teams to properly document this expectation somewhere
+> > > (either in a separate dedicated workaround, or in the MMIO tuning guide)
+> > > so that we'll have a more direct and authoritative source for such a
+> > > large behavioral change.
+> > On one had I think you are right, on the other hand I think this
+> > workaround has not properly developed in what we have been
+> > describing later.
+> I think it is not so much that the w/a is 'not properly developed'. It's
+> more that this w/a plus others when taken in combination plus knowledge of
+> future directions has led to an architectural decision that is beyond the
+> scope of the w/a.
 > 
-> static void intel_gt_apply_ccs_mode(struct intel_gt *gt)
-> {
->         u32 mode = 0;
->         int first_ccs = __ffs(CCS_MASK(gt));
+> As such, I think Matt is definitely correct. Tagging a code change with a
+> w/a number when that change does something very different to what is
+> described in the w/a is wrong and a maintenance issue waiting to happen.
 > 
->         /*
->          * Re-assign every present cslice to the first available CCS
->          * engine; mark unavailable cslices as unused.
->          */
->         for (int cslice = 0; cslice < 4; cslice++) {
->                 if (CCS_MASK(gt) & BIT(cslice))
->                         mode |= XEHP_CCS_MODE_CSLICE(cslice, first_ccs);
->                 else
->                         mode |= XEHP_CCS_MODE_CSLICE(cslice,
->                                                      XEHP_CCS_MODE_CSLICE_MASK);
->         }
+> At the very least, you should just put in a comment explaining the
+> situation. E.g.:
 > 
->         intel_uncore_write(gt->uncore, XEHP_CCS_MODE, mode);
-> }
-> 
-> > +}
-> > +
-> >  int intel_gt_init_hw(struct intel_gt *gt)
-> >  {
-> >  	struct drm_i915_private *i915 = gt->i915;
-> > @@ -195,6 +215,9 @@ int intel_gt_init_hw(struct intel_gt *gt)
-> >  
-> >  	intel_gt_init_swizzling(gt);
-> >  
-> > +	/* Configure CCS mode */
-> > +	intel_gt_apply_ccs_mode(gt);
-> 
-> This is only setting this once during init.  The value gets lost on
-> every RCS/CCS reset, so we need to make sure it gets reapplied when
-> necessary.  That means you either need to add this to the GuC regset, or
-> you need to implement the programming as a "fake workaround" so that the
-> workaround framework will take care of the re-application for you.
-
-OK, I'll hook everything up in the ccs_engine_wa_init().
+>  /*
+>  * Wa_14019159160: This w/a plus others cause significant issues with the use of
+>  * load balancing. Hence an architectural level decision was taking to simply
+>  * disable automatic CCS load balancing completely.
+>  */
+Good suggestion! I will anyway check tomorrow with Joonas if it's
+worth the effort to set up a new "software" workaround.
 
 Thanks,
 Andi
