@@ -2,78 +2,156 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8956E87596D
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 22:34:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B42E8759B6
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 22:46:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53CC410E7E8;
-	Thu,  7 Mar 2024 21:34:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA74010F5B5;
+	Thu,  7 Mar 2024 21:46:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="YB+ZZvhQ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dt8PbyM+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com
- [209.85.219.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B89D10E7E8
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 21:34:50 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id
- 3f1490d57ef6-dcd7c526cc0so1362338276.1
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Mar 2024 13:34:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709847289; x=1710452089; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=0/2XvFuAiyvZaIMiYL4oAu/qZ6xeRptB5Yl+Q3YU0fY=;
- b=YB+ZZvhQqdDyzGzWi2rZOmBPhRSvBhtfTXITgNy39wwhh0PjK6nXstOh/7bubcGvLX
- EfgAvq2ruGBUFKrHNIX7WfiX358dmB7qVJh/HkPOGOhWY0/hze5aLjfi25pUG9O+eRGM
- uSm0HnHURaFoXe5KtMXLUsQyi0/UjTS4RSuhEEaxTzF8Fz2OL4YK7w8MhSmUuUVG/O3u
- /yn6Bz+Rm8Hnr6VpCsoZyIuIQScs8lII1GAZgWpz4Le60oHYMiyRp49Oa8ArD1150iqT
- kol5s/OaKp6VkGVqmqA2fkpbESqBiYLMU9gg+8v0rr0lgo6SEwaJjgX7s1hcHMrY8qlK
- me6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709847289; x=1710452089;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0/2XvFuAiyvZaIMiYL4oAu/qZ6xeRptB5Yl+Q3YU0fY=;
- b=gWrvPLrXtY5f/ng9tpZVwRUirrOYwllb2QvHcuaxnW3PKaMhjgDiUjsgEAiA9h+DZ4
- nu2KyzcST8Cx4LiarWpIyu8DgIbCWTn8bJYRg89k14cmhHR8nMmfk+S3yX9zFt34UWOQ
- aftMI2WZ5tiw6lKEqVjYVKSNZKQMITeOYxSlCxTa7chfySHGQGTB3jdcxTI7moC/g4sE
- 9csN3wFeUSasPmnnt/hSJtTeaTp7EQu5A0Olf2eXKj+f6tjwnFamQdfTLHt+9le41XgS
- wJrvIOHmIGgqJsxoxl/hQYNJeRYBz+OqfHUUd3mnjP9NX60OFR+tQmskkXGNXi86Vxx+
- YExQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWY6zhDoNGRGb/9zoJVAWmot3bQbG5GyyN4QmNmA9zdWn5gtrVKo+qGo3e8laV8UuC7sWietSdrLzm+W/rYIBWi99JkIIhMDBy8DG/XJmKY
-X-Gm-Message-State: AOJu0Yw6V4TD8A8CgyoM55GJ6lJemnQDvuETG5oWHjYw2yWUQG9YRf8z
- s8Ijn8dT1YwTu8IZ2wuBAN9K/nNKax59XZWJ9nV4tE32tGjt2IcQzWKhqAYWRfG9zmwlC+tP5V4
- C1UfAuWlQbgKnhz63WK7PNu0yw5EqGgQgy2CEMA==
-X-Google-Smtp-Source: AGHT+IGeTs1Ho4xT1vD0AtG1sUcXcPWckpX387Tbnox2NYhxA3B6vjqm2iUu6bzzPI7K/Q1ZanJhhYZPMa4ypePWBOs=
-X-Received: by 2002:a25:14d7:0:b0:dc2:65f4:1541 with SMTP id
- 206-20020a2514d7000000b00dc265f41541mr15310765ybu.41.1709847288971; Thu, 07
- Mar 2024 13:34:48 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85BAA10E28C;
+ Thu,  7 Mar 2024 21:46:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709847963; x=1741383963;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=mpYNyOhcfQ3l/JjKxTixECoVGkpEQfohqxtOszOcCPI=;
+ b=dt8PbyM+VOhML/OOiT2+4schCkCjMBaP28jVALABg438bdqIT8pzwQy4
+ 5ekmtRZS+ybyx8s6u2haIRxYMVP9ByaNgvbHLY6JjHVR5eQkIHBzz2h5i
+ MBvkHxdBUjKy2bEoZLocYoi0m6MkiDgmIy89mvr7LP29hByAQUwmwcOcB
+ oovFEP47rsjB+NITdZFbDNGgrvgTcKtmmI46qDj9Oqh4SMyYlKNYz526Z
+ 8juANEedYEDrV9HiK7bOFOhOkjSMthpEslnO9vA+BxXGkpf5Ghs0StT6p
+ pQXSPpnBaopGR/cIcEOSWXx3ub2T6YazCjGEDPlaF7kaJZsqAiiklTyfE w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="5141811"
+X-IronPort-AV: E=Sophos;i="6.07,107,1708416000"; 
+   d="scan'208";a="5141811"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2024 13:46:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,107,1708416000"; d="scan'208";a="10661367"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 07 Mar 2024 13:46:02 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 7 Mar 2024 13:46:01 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 7 Mar 2024 13:46:00 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Thu, 7 Mar 2024 13:46:00 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Thu, 7 Mar 2024 13:46:00 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eHI/jfyGFrTgc5g07oaLr8RCgiuQPYhF+nqAOL+YSPIeaVcUTKlKC0Rea5YzXLsj9HnM5Ihk5Qj/Ptxzm0GvjaIaMy49blVz7DK4YG1fG84sKCXw+9+bRGvairGEJfBUTkSX7bMCpO8MLjfBD0j/YxY0uiybw0MykYJF3IuRMg0BjfOcfAcNAYqkICPBWaPbQFeg9hpi4qkHgb3BfBVoUdPKsKBjl1oPbesli/pr4Z/q9PBc1p/5acpkOsdjX9OW2C6PENTH+T2K1MbwnGsaLbjTXx8Kmg1mdK0vi9F3mquh8PKuszRpYIzJaRW9UkucROhs3LoEAlIb/WIw4PVuvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xtLGOBfzwKZG1ofHLo+6OOtJyaS7s43u+kljougLHAs=;
+ b=UL9UVezh6edAy2iQxbxs/5znrOCj2131iQnFRZXxv1O5eIZHw+Zg7sPhwiDsUSBNwJJ24pBn1do7IFo3wkrXK4Zm8XrrFHGJntMiNXFQ5v77VoWNHA7NNJyYevlUIsDv+iHoqhQQwAKw/EyLTKLaY/u98dRzq3Xo1iGeZX1xFV90urqFuJjdGN3WH+brQeZdnDs5VQiHo2UvhDaF5NDR/3ZievUQp3NvUdCyDdscA6KyQybYbn0q4aF3VEiC5w2cZNOT5D48hwRm+B8WC0jkqPPYCur8kwoGeGgDoQC7ANP4xv1+ervrV2hszZ/tlVwC5ow/pYBNTzl1A7vc30/RyA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by SJ0PR11MB5039.namprd11.prod.outlook.com (2603:10b6:a03:2da::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.24; Thu, 7 Mar
+ 2024 21:45:58 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::e9dd:320:976f:e257]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::e9dd:320:976f:e257%4]) with mapi id 15.20.7386.006; Thu, 7 Mar 2024
+ 21:45:58 +0000
+Date: Thu, 7 Mar 2024 15:45:56 -0600
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: Yury Norov <yury.norov@gmail.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ <intel-xe@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>, "Jani
+ Nikula" <jani.nikula@intel.com>
+Subject: Re: [PATCH v3 1/3] bits: introduce fixed-type genmasks
+Message-ID: <cwdq47454ti5al7tqy4felzrys7w2la4djnwxvk3obj6x5pauy@rg535tmczv2c>
+References: <20240208074521.577076-2-lucas.demarchi@intel.com>
+ <CAA8EJpprfrtOjNzT6TFhV1n6MXzLdTahanfxcRW4uVjeHaBduA@mail.gmail.com>
+ <ZdZlVn9BI-0q1Xdn@smile.fi.intel.com>
+ <btssirjumey2kcp5dyhe6m3embdwd5bswjz3c6swrhxfijfhld@lztxaptkegw6>
+ <ZddfF7kb54o2c/QR@yury-ThinkPad>
+ <3o3nvkg76sofrhgcuogo3wuhitnz3bgus6qzle7pejng3v4s62@frdbuj46uiu7>
+ <ZeBhVb__VNQCgTQk@smile.fi.intel.com>
+ <xrqqqiizufjx75k7z32ajchgepjkdww22hddddwxwsxljq5uhf@4etg6et52grj>
+ <ZeDMkhJCvCa44lBM@smile.fi.intel.com>
+ <bgixixj5lxkqkje2jqvkfhpvzagqd5fnpw63of4pnxyxky6h3y@wof63znjmczz>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <bgixixj5lxkqkje2jqvkfhpvzagqd5fnpw63of4pnxyxky6h3y@wof63znjmczz>
+X-ClientProxiedBy: SJ0PR03CA0073.namprd03.prod.outlook.com
+ (2603:10b6:a03:331::18) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
-References: <20240307-kms-hdmi-connector-state-v8-0-ef6a6f31964b@kernel.org>
- <20240307-kms-hdmi-connector-state-v8-20-ef6a6f31964b@kernel.org>
-In-Reply-To: <20240307-kms-hdmi-connector-state-v8-20-ef6a6f31964b@kernel.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 7 Mar 2024 23:34:37 +0200
-Message-ID: <CAA8EJprSAzov9p92gscTxaKv+5Lc3rzm1NguqEeCKCArrEeV0A@mail.gmail.com>
-Subject: Re: [PATCH v8 20/27] drm/connector: hdmi: Add Infoframes generation
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
- Sebastian Wick <sebastian.wick@redhat.com>, 
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SJ0PR11MB5039:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0af3c91c-7a90-4ed7-efb3-08dc3eeff993
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: uHZ3tgSzWpxuiSKoJeeoO/GM1uyhaQf+x4ZKcYKSUDqhmjZ3F7NkuaL0mcIXrtd4hW64Xmk98QwfwUP4yslbhykJ2c+jjRt9QXE+cD5/HrOur7eTHADkxv2dV1M94jCNy08xo+wTndT4nRQjd3qMcP3I5eczmEOhSMV6FveiDyHzzf4X+zLXRMTy8xn8Kn7HL3RQdU8ZKM1alfFUD7Y/GiWETG3PzksgtMdQ75hHeRmXrhPYmvMp4vbbUbnJQjs+rroFB4Mhzb8IaKr0baWVlc1ZcXgut5rq9rs00Ie3qy6Hu4PsR53EG3BaM1eOILB02t3WzITEk8CHqaE7zMzYzfAnolPgxvZWae6HNh/891N8MYy83d8lJdSBE/J8aYFYr9BxqsBWeu40syXvv7kwNhJK1BpF6VF67wJzuxwbk3yDQBJ79zDh83JMy1uYR4WzXK+ewrbtwToDW7UhJE5aK/CCr0f4PVxMNbelOFtA8iCgPedD4Dn0pColu3O0UPMd1CdviAWaqt2mFcmCBMjFjDTHKwNbHE8PloQ1EJnlIS8Qf35x0JsWhlBnjEMs3k6VorDf98wB91XN+M47eJZeP4KGIrNNDuWkhcd197h2fH5JaNM3c+rvUDs5hfblOU/lJKBSblTHIwqeFjdG25vrUQ6lg0rCSXVqK9H7rRTqob0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376005); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hd07I2/zP+spIxjeOUR847usJryF05tVRJBOAZKz3uvmjBx/doJdX+JX6ztH?=
+ =?us-ascii?Q?sEFNEV3RUpxGfU48QffwPfn632s8w2g8h/BBCF2xZZy0ejDXVloT0N8O8hSV?=
+ =?us-ascii?Q?Ab7RGa1i/IdqUIPaFYaEDvD20+y2hvroPaUH38IJMF8rsYfd4NHsOtJWsOqY?=
+ =?us-ascii?Q?c75vLvlAIT3IA4hgur2FXoqU02hAm8rBbJ6yRO12RTeDc5cpAbjicwrmuL9v?=
+ =?us-ascii?Q?fCmW/SoKSwminSODm95nl+fAOEKTkZmCGMyMEdu+SCkVWxfkQ1KRjiKJ8b+j?=
+ =?us-ascii?Q?209xnNOaOuT81SrfAsPe6EuIXzEoSLCIEdx/6zKAwGhJlMGr31CWJXhKIxQ4?=
+ =?us-ascii?Q?NBPskSzBHFL33cpxSgzteuE9wqAGjAM+XruRIrDiT8MEwHYurBPNOguYtlUE?=
+ =?us-ascii?Q?jc17FTVgSxTaWBh4aGk/+ePHAFIklgseFVCm66bUQw2FjM1yU0mJlBcDj5aI?=
+ =?us-ascii?Q?y6MO/7k9DA/o9tz7E32Q/A5Iu4qP0R27WWc/sxFlT2Ia+ckn1PoE335Rycp5?=
+ =?us-ascii?Q?wHpcyE8cKP9FEimjYy6zUXIJmjq2dxwm0BfdT+WNzXnX6qdJSDG/WhlJI65c?=
+ =?us-ascii?Q?VRuUI2bPOKBfX45qcLdrfd/Gl41TL72U1yejLvXiWpjfZs6G+4/mKvpkJ4bT?=
+ =?us-ascii?Q?V1HfdvTIIcmlZJ6z53aOrLKYW9al7C5C22nJQnghHgU4Kya0jDlubAGGRbdQ?=
+ =?us-ascii?Q?edkCN3Z0daiEPPQBM2U7je4t5azMlmz++3EZqhLcuoTBVK97sQiPxUl31XdX?=
+ =?us-ascii?Q?44GdDbKlClrZa4R72ESA8KGsS469/22enFnZSQuOfg1UBgHTZ3vvhA7JBRZQ?=
+ =?us-ascii?Q?6wVLfdNJ8LJrPaTH+G9kPmqF+HFglKRt19YSf0G++MGD05RNLNGFPaP9S387?=
+ =?us-ascii?Q?61/pZqCxQ/NM8/IzB2sDES5TDpSAsvIU2ZyC185cAw1MODr6Kgf47yArhGD2?=
+ =?us-ascii?Q?DmortBuwfNXG8pRXGxU5/CduKEyujyo146Ee9a92K8HOTUwr5yWSgA5jSIoh?=
+ =?us-ascii?Q?KTNEWz0J6JaQTmnOgeDts6dkYWw4yHBTPhn4Rl9I0xYfOHBv4EVEbJtj+k+d?=
+ =?us-ascii?Q?g9CuanrM0cogSgtDFh9hoydn8YK8l3OHPs5VNB2fmLae59ABMx+xjQEhG7Jx?=
+ =?us-ascii?Q?0jqhtQMOtVlM2K+n/T/5JdwVGf4+X1y9V43Yi5SUcFI14PWOPMpUHIV10JMP?=
+ =?us-ascii?Q?GK7qO6MnSGZ6msOIf0yhtQHtx0yajunnqwItPuWftTVVesUV+/J03MVqu+dz?=
+ =?us-ascii?Q?xIrdrRf1TNYGsgV5FrEPat5ItpJ/qx1nmF2k54zh4uOTTyncvgf3qUySMIs/?=
+ =?us-ascii?Q?MJ/DSq8zeSsajICemlncU/eTHAAOAAU+V/u2ABznCnwMgGfI8kjkDxQk6Py0?=
+ =?us-ascii?Q?T/w2Vg1S+wAdpGrNfSCE30Rc/zXeT9P8ewR1y6ovbo+EmixapwqGtsR9c/b9?=
+ =?us-ascii?Q?8COOFm8HLHw4mg5touhXY4XBKbtDRXf4IdWKevcFAYPHKmNUXBw5kbBfW1zf?=
+ =?us-ascii?Q?rclgn6Bn15xbzQpREBCSbTa3qh0jZQ/xhX3aef9HlvV6ddN5U0jYgOuQYakS?=
+ =?us-ascii?Q?0A6a8WIZWpRvvFxcGVu8bmH6WPuK8qWHEjt3zwfwJiN69iFISqoJnnqEQO7x?=
+ =?us-ascii?Q?nQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0af3c91c-7a90-4ed7-efb3-08dc3eeff993
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2024 21:45:58.6978 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cPHY8THru7f8nekdt62DSrMZyWKGYzn9QX/f1H8CJ2ueAWfkUAiJSBT3nxSbSxbmAkTvOMFByGBw40yHUMLppY7hUhW68i9Xzpa0ApPFeeM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5039
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,913 +167,167 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 7 Mar 2024 at 15:39, Maxime Ripard <mripard@kernel.org> wrote:
+On Thu, Feb 29, 2024 at 10:06:02PM -0600, Lucas De Marchi wrote:
+>On Thu, Feb 29, 2024 at 08:27:30PM +0200, Andy Shevchenko wrote:
+>>On Thu, Feb 29, 2024 at 12:21:34PM -0600, Lucas De Marchi wrote:
+>>>On Thu, Feb 29, 2024 at 12:49:57PM +0200, Andy Shevchenko wrote:
+>>>> On Wed, Feb 28, 2024 at 05:39:21PM -0600, Lucas De Marchi wrote:
+>>>> > On Thu, Feb 22, 2024 at 06:49:59AM -0800, Yury Norov wrote:
+>>
+>>...
+>>
+>>>> > I build-tested this in x86-64, x86-32 and arm64. I didn't like much the
+>>>> > need to fork the __GENMASK() implementation on the 2 sides of the ifdef
+>>>> > since I think the GENMASK_INPUT_CHECK() should be the one covering the
+>>>> > input checks. However to make it common we'd need to solve 2 problems:
+>>>> > the casts and the sizeof. The sizeof can be passed as arg to
+>>>> > __GENMASK(), however the casts I think would need a __CAST_U8(x)
+>>>> > or the like and sprinkle it everywhere, which would hurt readability.
+>>>> > Not pretty. Or go back to the original submission and make it less
+>>>> > horrible :-/
+>>>>
+>>>> I'm wondering if we can use _Generic() approach here.
+>>>
+>>>in assembly?
+>>
+>>Yes.
 >
-> Infoframes in KMS is usually handled by a bunch of low-level helpers
-> that require quite some boilerplate for drivers. This leads to
-> discrepancies with how drivers generate them, and which are actually
-> sent.
+>I added a _Generic() in a random .S and to my surprise the build didn't
+>break. Then I went to implement, and couldn't find where the _Generic()
+>would actually be useful. What I came up with builds for me with gcc on
+>x86-64, x86-32 and arm64.
 >
-> Now that we have everything needed to generate them in the HDMI
-> connector state, we can generate them in our common logic so that
-> drivers can simply reuse what we precomputed.
+>I'm also adding some additional tests in lib/test_bits.c to cover the
+>expected values and types. Thoughts?
 >
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/gpu/drm/Kconfig                            |   1 +
->  drivers/gpu/drm/drm_atomic_state_helper.c          | 327 +++++++++++++++++++++
->  drivers/gpu/drm/drm_connector.c                    |  14 +
->  .../gpu/drm/tests/drm_atomic_state_helper_test.c   |   1 +
->  drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
->  include/drm/drm_atomic_state_helper.h              |   8 +
->  include/drm/drm_connector.h                        | 133 +++++++++
->  7 files changed, 496 insertions(+)
->
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 872edb47bb53..ad9c467e20ce 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -97,10 +97,11 @@ config DRM_KUNIT_TEST
->           If in doubt, say "N".
->
->  config DRM_KMS_HELPER
->         tristate
->         depends on DRM
-> +       select DRM_DISPLAY_HDMI_HELPER
->         help
->           CRTC helpers for KMS drivers.
->
->  config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
->          bool "Enable refcount backtrace history in the DP MST helpers"
-> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-> index e66272c0d006..46d9fd2ea8fa 100644
-> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> @@ -36,10 +36,12 @@
->  #include <drm/drm_plane.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_vblank.h>
->  #include <drm/drm_writeback.h>
->
-> +#include <drm/display/drm_hdmi_helper.h>
-> +
->  #include <linux/slab.h>
->  #include <linux/dma-fence.h>
->
->  /**
->   * DOC: atomic state reset and initialization
-> @@ -912,10 +914,146 @@ hdmi_compute_config(const struct drm_connector *connector,
->         }
->
->         return -EINVAL;
->  }
->
-> +static int hdmi_generate_avi_infoframe(const struct drm_connector *connector,
-> +                                      struct drm_connector_state *state)
-> +{
-> +       const struct drm_display_mode *mode =
-> +               connector_state_get_mode(state);
-> +       struct drm_connector_hdmi_infoframe *infoframe =
-> +               &state->hdmi.infoframes.avi;
-> +       struct hdmi_avi_infoframe *frame =
-> +               &infoframe->data.avi;
-> +       bool is_full_range = state->hdmi.is_full_range;
-> +       enum hdmi_quantization_range rgb_quant_range =
-> +               is_full_range ? HDMI_QUANTIZATION_RANGE_FULL : HDMI_QUANTIZATION_RANGE_LIMITED;
-> +       int ret;
-> +
-> +       ret = drm_hdmi_avi_infoframe_from_display_mode(frame, connector, mode);
-> +       if (ret)
-> +               return ret;
-> +
-> +       frame->colorspace = state->hdmi.output_format;
-> +
-> +       drm_hdmi_avi_infoframe_quant_range(frame, connector, mode, rgb_quant_range);
-> +       drm_hdmi_avi_infoframe_colorimetry(frame, state);
-> +       drm_hdmi_avi_infoframe_bars(frame, state);
-> +
-> +       infoframe->set = true;
-> +
-> +       return 0;
-> +}
-> +
-> +static int hdmi_generate_spd_infoframe(const struct drm_connector *connector,
-> +                                      struct drm_connector_state *state)
-> +{
-> +       struct drm_connector_hdmi_infoframe *infoframe =
-> +               &state->hdmi.infoframes.spd;
-> +       struct hdmi_spd_infoframe *frame =
-> +               &infoframe->data.spd;
-> +       int ret;
-> +
-> +       ret = hdmi_spd_infoframe_init(frame,
-> +                                     connector->hdmi.vendor,
-> +                                     connector->hdmi.product);
-> +       if (ret)
-> +               return ret;
-> +
-> +       frame->sdi = HDMI_SPD_SDI_PC;
-> +
-> +       infoframe->set = true;
-> +
-> +       return 0;
-> +}
-> +
-> +static int hdmi_generate_hdr_infoframe(const struct drm_connector *connector,
-> +                                      struct drm_connector_state *state)
-> +{
-> +       struct drm_connector_hdmi_infoframe *infoframe =
-> +               &state->hdmi.infoframes.hdr_drm;
-> +       struct hdmi_drm_infoframe *frame =
-> +               &infoframe->data.drm;
-> +       int ret;
-> +
-> +       if (connector->max_bpc < 10)
-> +               return 0;
-> +
-> +       if (!state->hdr_output_metadata)
-> +               return 0;
-> +
-> +       ret = drm_hdmi_infoframe_set_hdr_metadata(frame, state);
-> +       if (ret)
-> +               return ret;
-> +
-> +       infoframe->set = true;
-> +
-> +       return 0;
-> +}
-> +
-> +static int hdmi_generate_hdmi_vendor_infoframe(const struct drm_connector *connector,
-> +                                              struct drm_connector_state *state)
-> +{
-> +       const struct drm_display_mode *mode =
-> +               connector_state_get_mode(state);
-> +       struct drm_connector_hdmi_infoframe *infoframe =
-> +               &state->hdmi.infoframes.hdmi;
-> +       struct hdmi_vendor_infoframe *frame =
-> +               &infoframe->data.vendor.hdmi;
-> +       int ret;
-> +
-> +       ret = drm_hdmi_vendor_infoframe_from_display_mode(frame, connector, mode);
-> +       if (ret) {
-> +               if (ret == -EINVAL)
-> +                       return 0;
-> +
-> +               return ret;
-> +       }
-> +
-> +       infoframe->set = true;
-> +
-> +       return 0;
-> +}
-> +
-> +static int
-> +hdmi_generate_infoframes(const struct drm_connector *connector,
-> +                        struct drm_connector_state *state)
-> +{
-> +       const struct drm_display_info *info = &connector->display_info;
-> +       int ret;
-> +
-> +       if (!info->is_hdmi)
-> +               return 0;
-> +
-> +       if (!info->has_hdmi_infoframe)
-> +               return 0;
-> +
-> +       ret = hdmi_generate_avi_infoframe(connector, state);
-> +       if (ret)
-> +               return ret;
-> +
-> +       ret = hdmi_generate_spd_infoframe(connector, state);
-> +       if (ret)
-> +               return ret;
-> +
-> +       /*
-> +        * Audio Infoframes will be generated by ALSA, and updated by
-> +        * drm_atomic_helper_connector_hdmi_update_audio_infoframe().
-> +        */
-> +
-> +       ret = hdmi_generate_hdr_infoframe(connector, state);
-> +       if (ret)
-> +               return ret;
-> +
-> +       ret = hdmi_generate_hdmi_vendor_infoframe(connector, state);
-> +       if (ret)
-> +               return ret;
-> +
-> +       return 0;
-> +}
-> +
->  /**
->   * drm_atomic_helper_connector_hdmi_check() - Helper to check HDMI connector atomic state
->   * @connector: DRM Connector
->   * @state: the DRM State object
->   *
-> @@ -941,10 +1079,14 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
->
->         ret = hdmi_compute_config(connector, new_state, mode);
->         if (ret)
->                 return ret;
->
-> +       ret = hdmi_generate_infoframes(connector, new_state);
-> +       if (ret)
-> +               return ret;
-> +
->         if (old_state->hdmi.broadcast_rgb != new_state->hdmi.broadcast_rgb ||
->             old_state->hdmi.output_bpc != new_state->hdmi.output_bpc ||
->             old_state->hdmi.output_format != new_state->hdmi.output_format) {
->                 struct drm_crtc *crtc = new_state->crtc;
->                 struct drm_crtc_state *crtc_state;
-> @@ -958,10 +1100,195 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
->
->         return 0;
->  }
->  EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_check);
->
-> +#define HDMI_MAX_INFOFRAME_SIZE                29
-> +
-> +static int clear_device_infoframe(struct drm_connector *connector,
-> +                                 enum hdmi_infoframe_type type)
-> +{
-> +       const struct drm_connector_hdmi_funcs *funcs = connector->hdmi.funcs;
-> +
-> +       if (!funcs || !funcs->clear_infoframe)
-> +               return 0;
-> +
-> +       return funcs->clear_infoframe(connector, type);
-> +}
-> +
-> +static int clear_infoframe(struct drm_connector *connector,
-> +                          struct drm_connector_hdmi_infoframe *conn_frame,
-> +                          struct drm_connector_hdmi_infoframe *old_frame)
-> +{
-> +       int ret;
-> +
-> +       ret = clear_device_infoframe(connector, old_frame->data.any.type);
-> +       if (ret)
-> +               return ret;
-> +
-> +       memset(old_frame, 0, sizeof(*old_frame));
-> +
-> +       return 0;
-> +}
-> +
-> +static int write_device_infoframe(struct drm_connector *connector,
-> +                                 union hdmi_infoframe *frame)
-> +{
-> +       const struct drm_connector_hdmi_funcs *funcs = connector->hdmi.funcs;
-> +       u8 buffer[HDMI_MAX_INFOFRAME_SIZE];
-> +       int len;
-> +
-> +       if (!funcs || !funcs->write_infoframe)
-> +               return -ENOSYS;
-> +
-> +       len = hdmi_infoframe_pack(frame, buffer, sizeof(buffer));
-> +       if (len < 0)
-> +               return len;
-> +
-> +       return funcs->write_infoframe(connector, frame->any.type, buffer, len);
-> +}
-> +
-> +static int write_infoframe(struct drm_connector *connector,
-> +                          struct drm_connector_hdmi_infoframe *conn_frame,
-> +                          struct drm_connector_hdmi_infoframe *new_frame)
-> +{
-> +       int ret;
-> +
-> +       ret = write_device_infoframe(connector, &new_frame->data);
-> +       if (ret)
-> +               return ret;
-> +
-> +       if (conn_frame)
-> +               memcpy(conn_frame, new_frame, sizeof(*conn_frame));
-> +
-> +       return 0;
-> +}
-> +
-> +static int write_or_clear_infoframe(struct drm_connector *connector,
-> +                                   struct drm_connector_hdmi_infoframe *conn_frame,
-> +                                   struct drm_connector_hdmi_infoframe *old_frame,
-> +                                   struct drm_connector_hdmi_infoframe *new_frame)
-> +{
-> +       if (new_frame->set)
-> +               return write_infoframe(connector, conn_frame, new_frame);
-> +
-> +       if (old_frame->set && !new_frame->set)
-> +               return clear_infoframe(connector, conn_frame, old_frame);
-> +
-> +       return 0;
-> +}
-> +
-> +#define UPDATE_INFOFRAME(c, os, ns, i)                         \
-> +       write_or_clear_infoframe(c,                             \
-> +                                &(c)->hdmi.infoframes.i,       \
-> +                                &(os)->hdmi.infoframes.i,      \
-> +                                &(ns)->hdmi.infoframes.i)
-> +
-> +/**
-> + * drm_atomic_helper_connector_hdmi_update_infoframes - Update the Infoframes
-> + * @connector: A pointer to the HDMI connector
-> + * @state: The HDMI connector state to generate the infoframe from
-> + *
-> + * This function is meant for HDMI connector drivers to write their
-> + * infoframes. It will typically be used in a
-> + * @drm_connector_helper_funcs.atomic_enable implementation.
-> + *
-> + * Returns:
-> + * Zero on success, error code on failure.
-> + */
-> +int drm_atomic_helper_connector_hdmi_update_infoframes(struct drm_connector *connector,
-> +                                                      struct drm_atomic_state *state)
-> +{
-> +       struct drm_connector_state *old_state =
-> +               drm_atomic_get_old_connector_state(state, connector);
-> +       struct drm_connector_state *new_state =
-> +               drm_atomic_get_new_connector_state(state, connector);
-> +       struct drm_display_info *info = &connector->display_info;
-> +       int ret;
-> +
-> +       if (!info->is_hdmi)
-> +               return 0;
-> +
-> +       if (!info->has_hdmi_infoframe)
-> +               return 0;
-> +
-> +       mutex_lock(&connector->hdmi.infoframes.lock);
-> +
-> +       ret = UPDATE_INFOFRAME(connector, old_state, new_state, avi);
-> +       if (ret)
-> +               goto out;
-> +
-> +       if (connector->hdmi.infoframes.audio.set) {
-> +               ret = write_infoframe(connector,
-> +                                     NULL,
-> +                                     &connector->hdmi.infoframes.audio);
-> +               if (ret)
-> +                       goto out;
-> +       }
-> +
-> +       ret = UPDATE_INFOFRAME(connector, old_state, new_state, hdr_drm);
-> +       if (ret)
-> +               goto out;
-> +
-> +       ret = UPDATE_INFOFRAME(connector, old_state, new_state, spd);
-> +       if (ret)
-> +               goto out;
-> +
-> +       ret = UPDATE_INFOFRAME(connector, old_state, new_state, hdmi);
-> +       if (ret)
-> +               goto out;
-> +
-> +out:
-> +       mutex_unlock(&connector->hdmi.infoframes.lock);
-> +       return ret;
-> +}
-> +EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_update_infoframes);
-> +
-> +#undef UPDATE_INFOFRAME
-> +#undef UPDATE_INFOFRAME_TOGGLE
-> +
-> +/**
-> + * drm_atomic_helper_connector_hdmi_update_audio_infoframe - Update the Audio Infoframe
-> + * @connector: A pointer to the HDMI connector
-> + * @frame: A pointer to the audio infoframe to write
-> + *
-> + * This function is meant for HDMI connector drivers to update their
-> + * audio infoframe. It will typically be used in one of the ALSA hooks
-> + * (most likely prepare).
-> + *
-> + * Returns:
-> + * Zero on success, error code on failure.
-> + */
-> +int
-> +drm_atomic_helper_connector_hdmi_update_audio_infoframe(struct drm_connector *connector,
-> +                                                       struct hdmi_audio_infoframe *frame)
-> +{
-> +       struct drm_connector_hdmi_infoframe infoframe = {};
-> +       struct drm_display_info *info = &connector->display_info;
-> +       int ret;
-> +
-> +       if (!info->is_hdmi)
-> +               return 0;
-> +
-> +       if (!info->has_hdmi_infoframe)
-> +               return 0;
-> +
-> +       memcpy(&infoframe.data, frame, sizeof(infoframe.data));
-> +       infoframe.set = true;
-> +
-> +       mutex_lock(&connector->hdmi.infoframes.lock);
-> +
-> +       ret = write_infoframe(connector,
-> +                             &connector->hdmi.infoframes.audio,
-> +                             &infoframe);
-> +
-> +       mutex_unlock(&connector->hdmi.infoframes.lock);
-> +
-> +       return ret;
-> +}
-> +EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_update_audio_infoframe);
-> +
->  /**
->   * __drm_atomic_helper_connector_duplicate_state - copy atomic connector state
->   * @connector: connector object
->   * @state: atomic connector state
->   *
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> index 0272e1d05cc6..427816239038 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -276,10 +276,11 @@ static int __drm_connector_init(struct drm_device *dev,
->         INIT_LIST_HEAD(&connector->global_connector_list_entry);
->         INIT_LIST_HEAD(&connector->probed_modes);
->         INIT_LIST_HEAD(&connector->modes);
->         mutex_init(&connector->mutex);
->         mutex_init(&connector->edid_override_mutex);
-> +       mutex_init(&connector->hdmi.infoframes.lock);
->         connector->edid_blob_ptr = NULL;
->         connector->epoch_counter = 0;
->         connector->tile_blob_ptr = NULL;
->         connector->status = connector_status_unknown;
->         connector->display_info.panel_orientation =
-> @@ -454,10 +455,12 @@ EXPORT_SYMBOL(drmm_connector_init);
->
->  /**
->   * drmm_connector_hdmi_init - Init a preallocated HDMI connector
->   * @dev: DRM device
->   * @connector: A pointer to the HDMI connector to init
-> + * @vendor: HDMI Controller Vendor name
-> + * @product: HDMI Controller Product name
->   * @funcs: callbacks for this connector
->   * @hdmi_funcs: HDMI-related callbacks for this connector
->   * @connector_type: user visible type of the connector
->   * @ddc: optional pointer to the associated ddc adapter
->   * @supported_formats: Bitmask of @hdmi_colorspace listing supported output formats
-> @@ -474,19 +477,27 @@ EXPORT_SYMBOL(drmm_connector_init);
->   * Returns:
->   * Zero on success, error code on failure.
->   */
->  int drmm_connector_hdmi_init(struct drm_device *dev,
->                              struct drm_connector *connector,
-> +                            const char *vendor, const char *product,
->                              const struct drm_connector_funcs *funcs,
->                              const struct drm_connector_hdmi_funcs *hdmi_funcs,
->                              int connector_type,
->                              struct i2c_adapter *ddc,
->                              unsigned long supported_formats,
->                              unsigned int max_bpc)
->  {
->         int ret;
->
-> +       if (!vendor || !product)
-> +               return -EINVAL;
-> +
-> +       if ((strlen(vendor) > DRM_CONNECTOR_HDMI_VENDOR_LEN) ||
-> +           (strlen(product) > DRM_CONNECTOR_HDMI_PRODUCT_LEN))
-> +               return -EINVAL;
-> +
->         if (!(connector_type == DRM_MODE_CONNECTOR_HDMIA ||
->               connector_type == DRM_MODE_CONNECTOR_HDMIB))
->                 return -EINVAL;
->
->         if (!supported_formats || !(supported_formats & BIT(HDMI_COLORSPACE_RGB)))
-> @@ -498,10 +509,12 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
->         ret = drmm_connector_init(dev, connector, funcs, connector_type, ddc);
->         if (ret)
->                 return ret;
->
->         connector->hdmi.supported_formats = supported_formats;
-> +       strtomem_pad(connector->hdmi.vendor, vendor, 0);
-> +       strtomem_pad(connector->hdmi.product, product, 0);
->
->         /*
->          * drm_connector_attach_max_bpc_property() requires the
->          * connector to have a state.
->          */
-> @@ -650,10 +663,11 @@ void drm_connector_cleanup(struct drm_connector *connector)
->         WARN_ON(connector->state && !connector->funcs->atomic_destroy_state);
->         if (connector->state && connector->funcs->atomic_destroy_state)
->                 connector->funcs->atomic_destroy_state(connector,
->                                                        connector->state);
->
-> +       mutex_destroy(&connector->hdmi.infoframes.lock);
->         mutex_destroy(&connector->mutex);
->
->         memset(connector, 0, sizeof(*connector));
->
->         if (dev->registered)
-> diff --git a/drivers/gpu/drm/tests/drm_atomic_state_helper_test.c b/drivers/gpu/drm/tests/drm_atomic_state_helper_test.c
-> index dcc0f7486f49..b28409fe65dd 100644
-> --- a/drivers/gpu/drm/tests/drm_atomic_state_helper_test.c
-> +++ b/drivers/gpu/drm/tests/drm_atomic_state_helper_test.c
-> @@ -201,10 +201,11 @@ drm_atomic_helper_connector_hdmi_init(struct kunit *test,
->
->         enc->possible_crtcs = drm_crtc_mask(priv->crtc);
->
->         conn = &priv->connector;
->         ret = drmm_connector_hdmi_init(drm, conn,
-> +                                      "Vendor", "Product",
->                                        &dummy_connector_funcs,
->                                        &dummy_connector_hdmi_funcs,
->                                        DRM_MODE_CONNECTOR_HDMIA,
->                                        NULL,
->                                        formats,
-> diff --git a/drivers/gpu/drm/tests/drm_connector_test.c b/drivers/gpu/drm/tests/drm_connector_test.c
-> index d5320a089887..c3f7a3ba6808 100644
-> --- a/drivers/gpu/drm/tests/drm_connector_test.c
-> +++ b/drivers/gpu/drm/tests/drm_connector_test.c
-> @@ -187,10 +187,11 @@ static void drm_test_connector_hdmi_init_valid(struct kunit *test)
->  {
->         struct drm_connector_init_priv *priv = test->priv;
->         int ret;
->
->         ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
-> +                                      "Vendor", "Product",
->                                        &dummy_funcs,
->                                        &dummy_hdmi_funcs,
->                                        DRM_MODE_CONNECTOR_HDMIA,
->                                        &priv->ddc,
->                                        BIT(HDMI_COLORSPACE_RGB),
-> @@ -206,10 +207,11 @@ static void drm_test_connector_hdmi_init_null_ddc(struct kunit *test)
->  {
->         struct drm_connector_init_priv *priv = test->priv;
->         int ret;
->
->         ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
-> +                                      "Vendor", "Product",
->                                        &dummy_funcs,
->                                        &dummy_hdmi_funcs,
->                                        DRM_MODE_CONNECTOR_HDMIA,
->                                        NULL,
->                                        BIT(HDMI_COLORSPACE_RGB),
-> @@ -225,10 +227,11 @@ static void drm_test_connector_hdmi_init_bpc_invalid(struct kunit *test)
->  {
->         struct drm_connector_init_priv *priv = test->priv;
->         int ret;
->
->         ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
-> +                                      "Vendor", "Product",
->                                        &dummy_funcs,
->                                        &dummy_hdmi_funcs,
->                                        DRM_MODE_CONNECTOR_HDMIA,
->                                        &priv->ddc,
->                                        BIT(HDMI_COLORSPACE_RGB),
-> @@ -244,10 +247,11 @@ static void drm_test_connector_hdmi_init_bpc_null(struct kunit *test)
->  {
->         struct drm_connector_init_priv *priv = test->priv;
->         int ret;
->
->         ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
-> +                                      "Vendor", "Product",
->                                        &dummy_funcs,
->                                        &dummy_hdmi_funcs,
->                                        DRM_MODE_CONNECTOR_HDMIA,
->                                        &priv->ddc,
->                                        BIT(HDMI_COLORSPACE_RGB),
-> @@ -267,10 +271,11 @@ static void drm_test_connector_hdmi_init_bpc_8(struct kunit *test)
->         struct drm_property *prop;
->         uint64_t val;
->         int ret;
->
->         ret = drmm_connector_hdmi_init(&priv->drm, connector,
-> +                                      "Vendor", "Product",
->                                        &dummy_funcs,
->                                        &dummy_hdmi_funcs,
->                                        DRM_MODE_CONNECTOR_HDMIA,
->                                        &priv->ddc,
->                                        BIT(HDMI_COLORSPACE_RGB),
-> @@ -302,10 +307,11 @@ static void drm_test_connector_hdmi_init_bpc_10(struct kunit *test)
->         struct drm_property *prop;
->         uint64_t val;
->         int ret;
->
->         ret = drmm_connector_hdmi_init(&priv->drm, connector,
-> +                                      "Vendor", "Product",
->                                        &dummy_funcs,
->                                        &dummy_hdmi_funcs,
->                                        DRM_MODE_CONNECTOR_HDMIA,
->                                        &priv->ddc,
->                                        BIT(HDMI_COLORSPACE_RGB),
-> @@ -337,10 +343,11 @@ static void drm_test_connector_hdmi_init_bpc_12(struct kunit *test)
->         struct drm_property *prop;
->         uint64_t val;
->         int ret;
->
->         ret = drmm_connector_hdmi_init(&priv->drm, connector,
-> +                                      "Vendor", "Product",
->                                        &dummy_funcs,
->                                        &dummy_hdmi_funcs,
->                                        DRM_MODE_CONNECTOR_HDMIA,
->                                        &priv->ddc,
->                                        BIT(HDMI_COLORSPACE_RGB),
-> @@ -368,10 +375,11 @@ static void drm_test_connector_hdmi_init_formats_empty(struct kunit *test)
->  {
->         struct drm_connector_init_priv *priv = test->priv;
->         int ret;
->
->         ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
-> +                                      "Vendor", "Product",
->                                        &dummy_funcs,
->                                        &dummy_hdmi_funcs,
->                                        DRM_MODE_CONNECTOR_HDMIA,
->                                        &priv->ddc,
->                                        0,
-> @@ -387,10 +395,11 @@ static void drm_test_connector_hdmi_init_formats_no_rgb(struct kunit *test)
->  {
->         struct drm_connector_init_priv *priv = test->priv;
->         int ret;
->
->         ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
-> +                                      "Vendor", "Product",
->                                        &dummy_funcs,
->                                        &dummy_hdmi_funcs,
->                                        DRM_MODE_CONNECTOR_HDMIA,
->                                        &priv->ddc,
->                                        BIT(HDMI_COLORSPACE_YUV422),
-> @@ -407,10 +416,11 @@ static void drm_test_connector_hdmi_init_type_valid(struct kunit *test)
->         struct drm_connector_init_priv *priv = test->priv;
->         unsigned int connector_type = *(unsigned int *)test->param_value;
->         int ret;
->
->         ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
-> +                                      "Vendor", "Product",
->                                        &dummy_funcs,
->                                        &dummy_hdmi_funcs,
->                                        connector_type,
->                                        &priv->ddc,
->                                        BIT(HDMI_COLORSPACE_RGB),
-> @@ -441,10 +451,11 @@ static void drm_test_connector_hdmi_init_type_invalid(struct kunit *test)
->         struct drm_connector_init_priv *priv = test->priv;
->         unsigned int connector_type = *(unsigned int *)test->param_value;
->         int ret;
->
->         ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
-> +                                      "Vendor", "Product",
->                                        &dummy_funcs,
->                                        &dummy_hdmi_funcs,
->                                        connector_type,
->                                        &priv->ddc,
->                                        BIT(HDMI_COLORSPACE_RGB),
-> @@ -706,10 +717,11 @@ static void drm_test_drm_connector_attach_broadcast_rgb_property_hdmi_connector(
->         struct drm_connector *connector = &priv->connector;
->         struct drm_property *prop;
->         int ret;
->
->         ret = drmm_connector_hdmi_init(&priv->drm, connector,
-> +                                      "Vendor", "Product",
->                                        &dummy_funcs,
->                                        &dummy_hdmi_funcs,
->                                        DRM_MODE_CONNECTOR_HDMIA,
->                                        &priv->ddc,
->                                        BIT(HDMI_COLORSPACE_RGB),
-> diff --git a/include/drm/drm_atomic_state_helper.h b/include/drm/drm_atomic_state_helper.h
-> index d59d2b3aef9a..22f083968aa8 100644
-> --- a/include/drm/drm_atomic_state_helper.h
-> +++ b/include/drm/drm_atomic_state_helper.h
-> @@ -38,10 +38,12 @@ struct drm_connector_state;
->  struct drm_private_obj;
->  struct drm_private_state;
->  struct drm_modeset_acquire_ctx;
->  struct drm_device;
->
-> +struct hdmi_audio_infoframe;
-> +
->  void __drm_atomic_helper_crtc_state_reset(struct drm_crtc_state *state,
->                                           struct drm_crtc *crtc);
->  void __drm_atomic_helper_crtc_reset(struct drm_crtc *crtc,
->                                     struct drm_crtc_state *state);
->  void drm_atomic_helper_crtc_reset(struct drm_crtc *crtc);
-> @@ -86,10 +88,16 @@ struct drm_connector_state *
->  drm_atomic_helper_connector_duplicate_state(struct drm_connector *connector);
->  void
->  __drm_atomic_helper_connector_destroy_state(struct drm_connector_state *state);
->  void drm_atomic_helper_connector_destroy_state(struct drm_connector *connector,
->                                           struct drm_connector_state *state);
-> +
-> +int drm_atomic_helper_connector_hdmi_update_audio_infoframe(struct drm_connector *connector,
-> +                                                           struct hdmi_audio_infoframe *frame);
-> +int drm_atomic_helper_connector_hdmi_update_infoframes(struct drm_connector *connector,
-> +                                                      struct drm_atomic_state *state);
-> +
->  void __drm_atomic_helper_private_obj_duplicate_state(struct drm_private_obj *obj,
->                                                      struct drm_private_state *state);
->
->  void __drm_atomic_helper_bridge_duplicate_state(struct drm_bridge *bridge,
->                                                 struct drm_bridge_state *state);
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 3eaf4d54364d..5964ef283022 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -912,10 +912,25 @@ struct drm_tv_connector_state {
->         unsigned int overscan;
->         unsigned int saturation;
->         unsigned int hue;
->  };
->
-> +/**
-> + * struct drm_connector_hdmi_infoframe - HDMI Infoframe container
-> + */
-> +struct drm_connector_hdmi_infoframe {
-> +       /**
-> +        * @data: HDMI Infoframe structure
-> +        */
-> +       union hdmi_infoframe data;
-> +
-> +       /**
-> +        * @set: Is the content of @data valid?
-> +        */
-> +       bool set;
-> +};
-> +
->  /**
->   * struct drm_connector_state - mutable connector state
->   */
->  struct drm_connector_state {
->         /** @connector: backpointer to the connector */
-> @@ -1068,10 +1083,39 @@ struct drm_connector_state {
->                  * @broadcast_rgb: Connector property to pass the
->                  * Broadcast RGB selection value.
->                  */
->                 enum drm_hdmi_broadcast_rgb broadcast_rgb;
->
-> +               /**
-> +                * @infoframes: HDMI Infoframes matching that state
-> +                */
-> +               struct {
-> +                       /**
-> +                        * @avi: AVI Infoframes structure matching our
-> +                        * state.
-> +                        */
-> +                       struct drm_connector_hdmi_infoframe avi;
-> +
-> +                       /**
-> +                        * @hdr_drm: DRM (Dynamic Range and Mastering)
-> +                        * Infoframes structure matching our state.
-> +                        */
-> +                       struct drm_connector_hdmi_infoframe hdr_drm;
-> +
-> +                       /**
-> +                        * @spd: SPD Infoframes structure matching our
-> +                        * state.
-> +                        */
-> +                       struct drm_connector_hdmi_infoframe spd;
-> +
-> +                       /**
-> +                        * @vendor: HDMI Vendor Infoframes structure
-> +                        * matching our state.
-> +                        */
-> +                       struct drm_connector_hdmi_infoframe hdmi;
-> +               } infoframes;
-> +
->                 /**
->                  * @is_full_range: Is the output supposed to use a full
->                  * RGB Quantization Range or not?
->                  */
->                 bool is_full_range;
-> @@ -1113,10 +1157,45 @@ struct drm_connector_hdmi_funcs {
->          */
->         enum drm_mode_status
->         (*tmds_char_rate_valid)(const struct drm_connector *connector,
->                                 const struct drm_display_mode *mode,
->                                 unsigned long long tmds_rate);
-> +
-> +       /**
-> +        * @clear_infoframe:
-> +        *
-> +        * This callback is invoked through
-> +        * @drm_atomic_helper_hdmi_connector_update_infoframes during a
+>--------8<------------
+>Subject: [PATCH] bits: introduce fixed-type genmasks
 
-Nit: drm_atomic_helper_connector_hdmi_update_infoframes
+Yury, is this something you'd take through your tree? Should I prepare
+the other patches on top and get some more arch coverage?
 
-> +        * commit to clear the infoframes into the hardware. It will be
-> +        * called multiple times, once for every disabled infoframe
-> +        * type.
-> +        *
-> +        * The @clear_infoframe callback is optional.
-> +        *
-> +        * Returns:
-> +        * 0 on success, a negative error code otherwise
-> +        */
-> +       int (*clear_infoframe)(struct drm_connector *connector,
-> +                              enum hdmi_infoframe_type type);
-> +
-> +       /**
-> +        * @write_infoframe:
-> +        *
-> +        * This callback is invoked through
-> +        * @drm_atomic_helper_hdmi_connector_update_infoframes during a
+thanks
+Lucas De Marchi
 
-And here
-
-> +        * commit to program the infoframes into the hardware. It will
-> +        * be called multiple times, once for every updated infoframe
-> +        * type.
-> +        *
-> +        * The @write_infoframe callback is mandatory.
-> +        *
-> +        * Returns:
-> +        * 0 on success, a negative error code otherwise
-> +        */
-> +       int (*write_infoframe)(struct drm_connector *connector,
-> +                              enum hdmi_infoframe_type type,
-> +                              const u8 *buffer, size_t len);
->  };
 >
->  /**
->   * struct drm_connector_funcs - control connectors on a given device
->   *
-> @@ -1984,20 +2063,73 @@ struct drm_connector {
+>Generalize __GENMASK() to support different types, and implement
+>fixed-types versions of GENMASK() based on it. The fixed-type version
+>allows more strict checks to the min/max values accepted, which is
+>useful for defining registers like implemented by i915 and xe drivers
+>with their REG_GENMASK*() macros.
 >
->         /**
->          * @hdmi: HDMI-related variable and properties.
->          */
->         struct {
-> +#define DRM_CONNECTOR_HDMI_VENDOR_LEN  8
-> +               /**
-> +                * @vendor: HDMI Controller Vendor Name
-> +                */
-> +               unsigned char vendor[DRM_CONNECTOR_HDMI_VENDOR_LEN] __nonstring;
-> +
-> +#define DRM_CONNECTOR_HDMI_PRODUCT_LEN 16
-> +               /**
-> +                * @product: HDMI Controller Product Name
-> +                */
-> +               unsigned char product[DRM_CONNECTOR_HDMI_PRODUCT_LEN] __nonstring;
-> +
->                 /**
->                  * @supported_formats: Bitmask of @hdmi_colorspace
->                  * supported by the controller.
->                  */
->                 unsigned long supported_formats;
+>The strict checks rely on shift-count-overflow compiler check to
+>fail the build if a number outside of the range allowed is passed.
+>Example:
 >
->                 /**
->                  * @funcs: HDMI connector Control Functions
->                  */
->                 const struct drm_connector_hdmi_funcs *funcs;
-> +
-> +               /**
-> +                * @infoframes: Current Infoframes output by the connector
-> +                */
-> +               struct {
-> +                       /**
-> +                        * @lock: Mutex protecting against concurrent access to
-> +                        * the infoframes, most notably between KMS and ALSA.
-> +                        */
-> +                       struct mutex lock;
-> +
-> +                       /**
-> +                        * @audio: Current Audio Infoframes structure. Protected
-> +                        * by @lock.
-> +                        */
-> +                       struct drm_connector_hdmi_infoframe audio;
-> +
-> +                       /**
-> +                        * @avi: Current AVI Infoframes structure. Protected by
-> +                        * @lock.
-> +                        */
-> +                       struct drm_connector_hdmi_infoframe avi;
-> +
-> +                       /**
-> +                        * @hdr_drm: Current DRM (Dynamic Range and Mastering)
-> +                        * Infoframes structure. Protected by @lock.
-> +                        */
-> +                       struct drm_connector_hdmi_infoframe hdr_drm;
-> +
-> +                       /**
-> +                        * @spd: Current SPD Infoframes structure. Protected by
-> +                        * @lock.
-> +                        */
-> +                       struct drm_connector_hdmi_infoframe spd;
-> +
-> +                       /**
-> +                        * @vendor: Current HDMI Vendor Infoframes structure.
-> +                        * Protected by @lock.
-> +                        */
-> +                       struct drm_connector_hdmi_infoframe hdmi;
-> +               } infoframes;
->         } hdmi;
->  };
+>	#define FOO_MASK GENMASK_U32(33, 4)
 >
->  #define obj_to_connector(x) container_of(x, struct drm_connector, base)
+>will generate a warning like:
 >
-> @@ -2015,10 +2147,11 @@ int drmm_connector_init(struct drm_device *dev,
->                         const struct drm_connector_funcs *funcs,
->                         int connector_type,
->                         struct i2c_adapter *ddc);
->  int drmm_connector_hdmi_init(struct drm_device *dev,
->                              struct drm_connector *connector,
-> +                            const char *vendor, const char *product,
->                              const struct drm_connector_funcs *funcs,
->                              const struct drm_connector_hdmi_funcs *hdmi_funcs,
->                              int connector_type,
->                              struct i2c_adapter *ddc,
->                              unsigned long supported_formats,
+>	../include/linux/bits.h:48:23: warning: right shift count is negative [-Wshift-count-negative]
+>	   48 |          (~literal(0) >> ((w) - 1 - (h)))))
+>	      |                       ^~
 >
-> --
-> 2.43.2
+>Some additional tests in lib/test_bits.c are added to cover the
+>expected/non-expected values and also that the result value matches the
+>expected type. Since those are known at build time, use static_assert()
+>instead of normal kunit tests.
 >
-
-
--- 
-With best wishes
-Dmitry
+>Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+>---
+> include/linux/bits.h | 33 +++++++++++++++++++++++----------
+> lib/test_bits.c      | 21 +++++++++++++++++++--
+> 2 files changed, 42 insertions(+), 12 deletions(-)
+>
+>diff --git a/include/linux/bits.h b/include/linux/bits.h
+>index 7c0cf5031abe8..6f089e71a195c 100644
+>--- a/include/linux/bits.h
+>+++ b/include/linux/bits.h
+>@@ -22,24 +22,37 @@
+> #define GENMASK_INPUT_CHECK(h, l) \
+> 	(BUILD_BUG_ON_ZERO(__builtin_choose_expr( \
+> 		__is_constexpr((l) > (h)), (l) > (h), 0)))
+>+#define __CAST_T(t, v) ((t)v)
+> #else
+> /*
+>  * BUILD_BUG_ON_ZERO is not available in h files included from asm files,
+>  * disable the input check if that is the case.
+>  */
+> #define GENMASK_INPUT_CHECK(h, l) 0
+>+#define __CAST_T(t, v) v
+> #endif
+>-#define __GENMASK(h, l) \
+>-	(((~UL(0)) - (UL(1) << (l)) + 1) & \
+>-	 (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+>-#define GENMASK(h, l) \
+>-	(GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+>+/*
+>+ * Generate a mask for a specific type. @literal is the suffix to be used for
+>+ * an integer constant of that type and @width is the bits-per-type. Additional
+>+ * checks are made to guarantee the value returned fits in that type, relying
+>+ * on shift-count-overflow compiler check to detect incompatible arguments.
+>+ * For example, all these create build errors or warnings:
+>+ *
+>+ * - GENMASK(15, 20): wrong argument order
+>+ * - GENMASK(72, 15): doesn't fit unsigned long
+>+ * - GENMASK_U32(33, 15): doesn't fit in a u32
+>+ */
+>+#define __GENMASK(literal, w, h, l) \
+>+	(GENMASK_INPUT_CHECK(h, l) + \
+>+	 ((~literal(0) - (literal(1) << (l)) + 1) & \
+>+	 (~literal(0) >> ((w) - 1 - (h)))))
+>-#define __GENMASK_ULL(h, l) \
+>-	(((~ULL(0)) - (ULL(1) << (l)) + 1) & \
+>-	 (~ULL(0) >> (BITS_PER_LONG_LONG - 1 - (h))))
+>-#define GENMASK_ULL(h, l) \
+>-	(GENMASK_INPUT_CHECK(h, l) + __GENMASK_ULL(h, l))
+>+#define GENMASK(h, l)		__GENMASK(UL, BITS_PER_LONG, h, l)
+>+#define GENMASK_ULL(h, l)	__GENMASK(ULL, BITS_PER_LONG_LONG, h, l)
+>+#define GENMASK_U8(h, l)	__CAST_T(u8, __GENMASK(UL, 8, h, l))
+>+#define GENMASK_U16(h, l)	__CAST_T(u16, __GENMASK(UL, 16, h, l))
+>+#define GENMASK_U32(h, l)	__CAST_T(u32, __GENMASK(UL, 32, h, l))
+>+#define GENMASK_U64(h, l)	__CAST_T(u64, __GENMASK(ULL, 64, h, l))
+> #endif	/* __LINUX_BITS_H */
+>diff --git a/lib/test_bits.c b/lib/test_bits.c
+>index c9368a2314e7c..e2fc1a1d38702 100644
+>--- a/lib/test_bits.c
+>+++ b/lib/test_bits.c
+>@@ -5,7 +5,16 @@
+> #include <kunit/test.h>
+> #include <linux/bits.h>
+>+#include <linux/types.h>
+>+#define assert_type(t, x) _Generic(x, t: x, default: 0)
+>+
+>+static_assert(assert_type(unsigned long, GENMASK(31, 0)) == U32_MAX);
+>+static_assert(assert_type(unsigned long long, GENMASK_ULL(63, 0)) == U64_MAX);
+>+static_assert(assert_type(u64, GENMASK_U64(63, 0)) == U64_MAX);
+>+static_assert(assert_type(u32, GENMASK_U32(31, 0)) == U32_MAX);
+>+static_assert(assert_type(u16, GENMASK_U16(15, 0)) == U16_MAX);
+>+static_assert(assert_type(u8,  GENMASK_U8(7, 0))   == U8_MAX);
+> static void genmask_test(struct kunit *test)
+> {
+>@@ -14,14 +23,22 @@ static void genmask_test(struct kunit *test)
+> 	KUNIT_EXPECT_EQ(test, 6ul, GENMASK(2, 1));
+> 	KUNIT_EXPECT_EQ(test, 0xFFFFFFFFul, GENMASK(31, 0));
+>+	KUNIT_EXPECT_EQ(test, 1u, GENMASK_U8(0, 0));
+>+	KUNIT_EXPECT_EQ(test, 3u, GENMASK_U16(1, 0));
+>+	KUNIT_EXPECT_EQ(test, 0x10000, GENMASK_U32(16, 16));
+>+
+> #ifdef TEST_GENMASK_FAILURES
+> 	/* these should fail compilation */
+> 	GENMASK(0, 1);
+> 	GENMASK(0, 10);
+> 	GENMASK(9, 10);
+>-#endif
+>-
+>+	GENMASK_U32(0, 31);
+>+	GENMASK_U64(64, 0);
+>+	GENMASK_U32(32, 0);
+>+	GENMASK_U16(16, 0);
+>+	GENMASK_U8(8, 0);
+>+#endif
+> }
+> static void genmask_ull_test(struct kunit *test)
+>-- 
+>2.43.0
+>
