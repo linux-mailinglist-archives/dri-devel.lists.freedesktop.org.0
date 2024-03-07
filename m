@@ -2,58 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90CC9874C5D
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 11:28:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48B5A874C60
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 11:29:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A12D511374D;
-	Thu,  7 Mar 2024 10:28:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53A6D10EFB9;
+	Thu,  7 Mar 2024 10:29:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="zdq5LB51";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0k0+4sUj";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="SDlIs6zK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0D6310F390
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 10:28:01 +0000 (UTC)
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1709807279;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pvpQaRqkZ5EvxmbyEZYAfOs3FUMfWI2eXPxEPYp6c6E=;
- b=zdq5LB51dhn+hYSKCPGswihDZA/5/9oJJFevWxNr5BNRodutKjRX9htnxjmr/iWUrS3R7n
- p0j548tAOKY/OhVdzucVuVThG0Qm6250hCiCNayPc4G5k1tbIlQAPWnshfkuNTgyc4DmPj
- 90Qsau/3q2mGLJzj59i6bWxKwsq7muwZk7VcBRgHBJV4gF5oqwxX1oghHixPTB6yD8gjKt
- O0n02WcGquZc2z2mMmP5GrXTBWR2XwQUf+qFkcDP/l5rN7lZKWKd4w+pzZyElMad7LcOBZ
- 41T1EqTaUxsQXGtXtPrP8WcJ9F44wsi/4rmZmN0hHBLxogul61Kj+QU2EwfsAg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1709807279;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pvpQaRqkZ5EvxmbyEZYAfOs3FUMfWI2eXPxEPYp6c6E=;
- b=0k0+4sUjPNfIuNKWzC7LcOwtpAas0NqdmXh/bBAKdwM0q0dOfTPWNlBBElLDwsDOpvZY4Y
- SV//kvbTkPKMdhDA==
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
- javierm@redhat.com, bluescreen_avenger@verizon.net, noralf@tronnes.org
-Cc: gpiccoli@igalia.com, Daniel Vetter <daniel.vetter@ffwll.ch>, Daniel
- Vetter <daniel.vetter@intel.com>, Jocelyn Falempe <jfalempe@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, "Peter Zijlstra (Intel)"
- <peterz@infradead.org>, Lukas Wunner <lukas@wunner.de>, Petr Mladek
- <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, Sergey
- Senozhatsky <senozhatsky@chromium.org>, David Airlie <airlied@gmail.com>
-Subject: Re: [PATCH v9 1/9] drm/panic: Add drm panic locking
-In-Reply-To: <20240307091936.576689-2-jfalempe@redhat.com>
-References: <20240307091936.576689-1-jfalempe@redhat.com>
- <20240307091936.576689-2-jfalempe@redhat.com>
-Date: Thu, 07 Mar 2024 11:33:21 +0106
-Message-ID: <87r0gmmj5i.fsf@jogness.linutronix.de>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CF6710EFF8
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 10:29:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1709807365;
+ bh=qQoAPE4XH25CEU6J2ar4XCd0VI3maVhc+dknw7Ptp7s=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=SDlIs6zK3Jw1APuXKGz3rdR9MXqUnidA/kxzDEdgMbWOJi1AeTJIcxGwFy8m6C8jB
+ O2KiL1MSwcjvyQJ1h37VjXvfKnqDbCJY8ntQXWUlsYVXiX+TbDWUZE7lw850E5tAoi
+ gp01m3eoWF6RMIoDnKGrRFbJ27vMpY91S84kifbAGawBJr7fXWKYyNtSLTeGxTlom9
+ pp9d/5sq1nZ9ZH6Cc2OAEFLiCfNHCfjfQnt23MQ1p59Hr4F6S/bTDLrOdHPrwhKuwS
+ 14pLlgVPojJf/DQDJKqsQc5xB1IEwtiVXLvQ8qBVmtf1NkMu/nwH56OEZMLaoRcFN0
+ fzXVfVW6Rl6nA==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 02F193780EC6;
+ Thu,  7 Mar 2024 10:29:24 +0000 (UTC)
+Message-ID: <4c588295-d9aa-43fa-a2e7-adbace573b8c@collabora.com>
+Date: Thu, 7 Mar 2024 11:29:24 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/mediatek: Add 0 size check to mtk_drm_gem_obj
+To: Justin Green <greenjustin@chromium.org>, linux-mediatek@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, chunkuang.hu@kernel.org,
+ fshao@chromium.org
+References: <20240306203702.3924719-1-greenjustin@chromium.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240306203702.3924719-1-greenjustin@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,37 +61,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-03-07, Jocelyn Falempe <jfalempe@redhat.com> wrote:
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index 39ef0a6addeb..c0bb91312fb2 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -38,6 +38,7 @@
->  #include <drm/drm_drv.h>
->  #include <drm/drm_framebuffer.h>
->  #include <drm/drm_gem_atomic_helper.h>
-> +#include <drm/drm_panic.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_self_refresh_helper.h>
->  #include <drm/drm_vblank.h>
-> @@ -3099,6 +3100,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
->  		}
->  	}
->  
-> +	drm_panic_lock(state->dev);
->  	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
->  		WARN_ON(plane->state != old_plane_state);
->  
-> @@ -3108,6 +3110,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
->  		state->planes[i].state = old_plane_state;
->  		plane->state = new_plane_state;
->  	}
-> +	drm_panic_unlock(state->dev);
+Il 06/03/24 21:37, Justin Green ha scritto:
+> Add a check to mtk_drm_gem_init if we attempt to allocate a GEM object
+> of 0 bytes. Currently, no such check exists and the kernel will panic if
+> a userspace application attempts to allocate a 0x0 GBM buffer.
+> 
+> Tested by attempting to allocate a 0x0 GBM buffer on an MT8188 and
+> verifying that we now return EINVAL.
+> 
+> Signed-off-by: Justin green <greenjustin@chromium.org>
 
-Is there a reason irqsave/irqrestore variants are not used? Maybe this
-code path is too hot?
+You need a Fixes tag for this one. Please add the right one and resend.
 
-By leaving interrupts enabled, there is the risk that a panic from
-within any interrupt handler may block the drm panic handler.
+After adding the correct Fixes tag,
 
-John Ogness
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+Cheers,
+Angelo
+
+> ---
+>   drivers/gpu/drm/mediatek/mtk_drm_gem.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_gem.c b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+> index 4f2e3feabc0f..ee49367b6138 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+> @@ -38,6 +38,9 @@ static struct mtk_drm_gem_obj *mtk_drm_gem_init(struct drm_device *dev,
+>   
+>   	size = round_up(size, PAGE_SIZE);
+>   
+> +        if (size == 0)
+> +		return ERR_PTR(-EINVAL);
+> +
+>   	mtk_gem_obj = kzalloc(sizeof(*mtk_gem_obj), GFP_KERNEL);
+>   	if (!mtk_gem_obj)
+>   		return ERR_PTR(-ENOMEM);
+
+
