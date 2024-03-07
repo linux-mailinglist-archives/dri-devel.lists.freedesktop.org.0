@@ -2,82 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F0D8748D8
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 08:37:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF14874A85
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 10:17:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BCE910EFEB;
-	Thu,  7 Mar 2024 07:37:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B47F10F331;
+	Thu,  7 Mar 2024 09:17:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="YdJIO9k2";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=geanix.com header.i=@geanix.com header.b="rXx4gzSc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
- [209.85.208.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D537010EFEB
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 07:37:28 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id
- 4fb4d7f45d1cf-5643ae47cd3so641215a12.3
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Mar 2024 23:37:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709797047; x=1710401847; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1kw0N/eOAnZk7gfPXfHIs1qJP19DGGStl8rmjj+wRpo=;
- b=YdJIO9k2ijXlziHWP9LpQtNlA2kg07omI3x640FBW1iSwglAV16e/eddNHNh3WerGC
- zEAHFEFxfPc4Im8iNpb2WCB6KbzRzA1jxMrIRH3tsTdsGMqtsTF7e1atMPVxW6ooxuS8
- C8xggBsT2wYEfKEDCO1+bu7OFPABTLTlFDwxA3BDbtvZPP8wkZkTlwHx+0XInvHLkeoW
- 7tUWTD2B/6V7Au18JFxpOkNQJzVavyzcPAJeCQXQBxn0v1x9xprMBAqBHvlYl8tKQ/na
- mrm6IKylL3qnpzbVl0IApJH+Tiuhk2fn8cZAm4qYR4vWwMmD+YQMkRmkxOT5aptpbUQn
- wLDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709797047; x=1710401847;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1kw0N/eOAnZk7gfPXfHIs1qJP19DGGStl8rmjj+wRpo=;
- b=kWeTfuC9hMaOabQe44F2S4Dii9l9ll2xbqcrb37FIFSCqKM7+5+qBtLsaQUAqdDtZx
- ghg0oISBWJFAXMbb/LmegzkHGYwWDJLBvredo1wKlaZSouVfHacGv0NP6woPToMFY7v5
- QIwAPsDY7zkEf6Jqgy+e/wHTij+zbnu6xlYKjwFfzl8Mf7BACfVjIm6eHsCk6wUBtMom
- 5FyViAfW+tYeb1cNcBXgvoEFx/K5vfR0lUQ+iWMqmOmjK2BnfIe8C13AH5PZHgNFKKhz
- wxAMHpkbMj1+Jw7FQ/1I6yxIoRgs/8OtLatQyhnHz6j3PCp+kOXIlpTxv7t6OUHVwp1C
- PQIg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU5OihoHe57pyfiydlbQDJeTMhuImu5dIDvcHrjC+3K8RICmvtQnB1Zkg+ZCnw7Ft7SrUQIS2KBQY2QL1UrWnoxcqGgwLhjGORrqJTuLzh6
-X-Gm-Message-State: AOJu0YwsRg5cqwoPkX6AnO2FOvzqFwIpzjQsSYwaUFP/1Bm0lLc05jCG
- JBuy1jkXggb6PjSrmst4krFi1njtUENDJrQgliBp3Kle2kMugYwft7/ZE+w8Uc6toCpbmefSlK0
- UXcaB3UAL/lbpW+lCppSFgfaufxh3eus8FJl9Tw==
-X-Google-Smtp-Source: AGHT+IEanJhlxrJ0m3zCL0/FeuJM7oxCf5rvMMCu8nSAcar4vS1rMrFlRHpWwKJ8Ocvgn+dG5rIRCHc9Y5rV3Z2n5EY=
-X-Received: by 2002:a05:6402:1ec9:b0:568:316:2616 with SMTP id
- g9-20020a0564021ec900b0056803162616mr1744389edg.15.1709797046953; Wed, 06 Mar
- 2024 23:37:26 -0800 (PST)
-MIME-Version: 1.0
-References: <20240305-class_cleanup-drm-v1-0-94f82740525a@marliere.net>
- <20240305-class_cleanup-drm-v1-4-94f82740525a@marliere.net>
- <CABdmKX0VGyBdTo8gzEocyz2HFcqEtu_31PYVjWzioBdCbnXW6w@mail.gmail.com>
-In-Reply-To: <CABdmKX0VGyBdTo8gzEocyz2HFcqEtu_31PYVjWzioBdCbnXW6w@mail.gmail.com>
-From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Thu, 7 Mar 2024 13:07:15 +0530
-Message-ID: <CAO_48GH_RyeTkUsZ9Ad=o2D+Poh3DVQnXiOmyApuWy2Ycn5P5w@mail.gmail.com>
-Subject: Re: [PATCH RESEND drm-misc 4/4] dma-buf: heaps: make dma_heap_class
- constant
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: "Ricardo B. Marliere" <ricardo@marliere.net>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Hans de Goede <hdegoede@redhat.com>, Helge Deller <deller@gmx.de>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
+X-Greylist: delayed 1171 seconds by postgrey-1.36 at gabe;
+ Thu, 07 Mar 2024 08:29:09 UTC
+Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B8E610F207
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 08:29:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com; 
+ s=default2211; h=To:Cc:Date:Message-Id:Subject:Mime-Version:
+ Content-Transfer-Encoding:Content-Type:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References;
+ bh=UUbdPQi8tG7j606NaIsa+PxrC44yru1slUYi6vgAvWc=; b=rXx4gzScL9TlEerwK7bUz3UESy
+ useBo4N1NgbBcwNd5D7hfZ7Si86D0TDkQqNiwHHYyl39LKz8bIM9yN0nXd+4/G8uXHg1uz/wgdzOS
+ DeoImm5gEgzNKra7EkgGTWjfPzyRoVHxkhBJWDmFglObPc/5Sv6oG4tSjecoJYUTp6Nx24l8qcc0m
+ wSSQalleQ6i/LsO9nfn8KatYS9I4Wj3k6o7dlSliariM9xiiDZn58FXNzohLLT/Z2YqCL1+JT02hy
+ SRxQaQwvJbRs1tCppw70hMLuRxKh0Zz3M5aZ/zRpd8FXSepBi8Q8iiBP9482Ke8hAi/kcWCoRmGB5
+ rXyZiTRQ==;
+Received: from sslproxy07.your-server.de ([78.47.199.104])
+ by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (Exim 4.94.2) (envelope-from <sean@geanix.com>)
+ id 1ri8oo-0008a3-Uk; Thu, 07 Mar 2024 09:09:34 +0100
+Received: from [185.17.218.86] (helo=smtpclient.apple)
+ by sslproxy07.your-server.de with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <sean@geanix.com>) id 1ri8oo-0002Bl-1T;
+ Thu, 07 Mar 2024 09:09:34 +0100
+From: Sean Nyekjaer <sean@geanix.com>
+Content-Type: text/plain;
+	charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.400.31\))
+Subject: sn65dsi83: dsi burst mode
+Message-Id: <E35054BA-FBE5-4CEE-905C-1F5D20140590@geanix.com>
+Date: Thu, 7 Mar 2024 09:09:23 +0100
+Cc: dri-devel@lists.freedesktop.org
+To: marex@denx.de, andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+ rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com
+X-Mailer: Apple Mail (2.3774.400.31)
+X-Authenticated-Sender: sean@geanix.com
+X-Virus-Scanned: Clear (ClamAV 0.103.10/27206/Wed Mar  6 10:25:15 2024)
+X-Mailman-Approved-At: Thu, 07 Mar 2024 09:17:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,124 +68,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Ricardo,
+Hi,
 
-On Tue, 5 Mar 2024 at 22:37, T.J. Mercier <tjmercier@google.com> wrote:
->
-> On Tue, Mar 5, 2024 at 3:34=E2=80=AFAM Ricardo B. Marliere <ricardo@marli=
-ere.net> wrote:
-> >
-> > Since commit 43a7206b0963 ("driver core: class: make class_register() t=
-ake
-> > a const *"), the driver core allows for struct class to be in read-only
-> > memory, so move the dma_heap_class structure to be declared at build ti=
-me
-> > placing it into read-only memory, instead of having to be dynamically
-> > allocated at boot time.
-> >
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
-> > ---
-> >  drivers/dma-buf/dma-heap.c | 26 ++++++++++++++------------
-> >  1 file changed, 14 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-> > index 84ae708fafe7..bcca6a2bbce8 100644
-> > --- a/drivers/dma-buf/dma-heap.c
-> > +++ b/drivers/dma-buf/dma-heap.c
-> > @@ -43,10 +43,18 @@ struct dma_heap {
-> >         struct cdev heap_cdev;
-> >  };
-> >
-> > +static char *dma_heap_devnode(const struct device *dev, umode_t *mode)
-> > +{
-> > +       return kasprintf(GFP_KERNEL, "dma_heap/%s", dev_name(dev));
-> > +}
-> > +
-> >  static LIST_HEAD(heap_list);
-> >  static DEFINE_MUTEX(heap_list_lock);
-> >  static dev_t dma_heap_devt;
-> > -static struct class *dma_heap_class;
-> > +static struct class dma_heap_class =3D {
-> > +       .name =3D DEVNAME,
-> > +       .devnode =3D dma_heap_devnode,
-> > +};
-> >  static DEFINE_XARRAY_ALLOC(dma_heap_minors);
-> >
-> >  static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
-> > @@ -261,7 +269,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap=
-_export_info *exp_info)
-> >                 goto err1;
-> >         }
-> >
-> > -       dev_ret =3D device_create(dma_heap_class,
-> > +       dev_ret =3D device_create(&dma_heap_class,
-> >                                 NULL,
-> >                                 heap->heap_devt,
-> >                                 NULL,
-> > @@ -291,7 +299,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap=
-_export_info *exp_info)
-> >         return heap;
-> >
-> >  err3:
-> > -       device_destroy(dma_heap_class, heap->heap_devt);
-> > +       device_destroy(&dma_heap_class, heap->heap_devt);
-> >  err2:
-> >         cdev_del(&heap->heap_cdev);
-> >  err1:
-> > @@ -301,11 +309,6 @@ struct dma_heap *dma_heap_add(const struct dma_hea=
-p_export_info *exp_info)
-> >         return err_ret;
-> >  }
-> >
-> > -static char *dma_heap_devnode(const struct device *dev, umode_t *mode)
-> > -{
-> > -       return kasprintf(GFP_KERNEL, "dma_heap/%s", dev_name(dev));
-> > -}
-> > -
-> >  static int dma_heap_init(void)
-> >  {
-> >         int ret;
-> > @@ -314,12 +317,11 @@ static int dma_heap_init(void)
-> >         if (ret)
-> >                 return ret;
-> >
-> > -       dma_heap_class =3D class_create(DEVNAME);
-> > -       if (IS_ERR(dma_heap_class)) {
-> > +       ret =3D class_register(&dma_heap_class);
-> > +       if (ret) {
-> >                 unregister_chrdev_region(dma_heap_devt, NUM_HEAP_MINORS=
-);
-> > -               return PTR_ERR(dma_heap_class);
-> > +               return ret;
-> >         }
-> > -       dma_heap_class->devnode =3D dma_heap_devnode;
-> >
-> >         return 0;
-> >  }
-> >
-> > --
-> > 2.43.0
->
-> Reviewed-by: T.J. Mercier <tjmercier@google.com>
+We are using the stm32mp1 together with the sn65dsi83 bridge.
+The ti,sn65dsi83 driver is (hard) enabling MIPI_DSI_MODE_VIDEO_BURST, =
+then the st,stm32-dsi driver is adding +20% to the clock speed.
 
+That means our LVDS is +20% higher than expected.
 
-FWIW, please free to add my
-Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
+Any proposals for a fix? Could we add a devicetree option to opt out of =
+the burst mode?
 
->
->
-> Is this really a resend? I don't see anything on lore and I can't
-> recall seeing this patch in my inbox before.
-
-
-Best,
-Sumit.
-
---=20
-Thanks and regards,
-
-Sumit Semwal (he / him)
-Tech Lead - LCG, Vertical Technologies
-Linaro.org =E2=94=82 Open source software for ARM SoCs
+/Sean=
