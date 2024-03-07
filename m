@@ -2,79 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E613875756
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 20:37:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AE4187575C
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 20:40:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22E4C10F521;
-	Thu,  7 Mar 2024 19:37:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38ED410E7DF;
+	Thu,  7 Mar 2024 19:39:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="DxPY7EkK";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="VjIalN1Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com
- [209.85.219.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A980110E7DF
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 19:37:26 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id
- 3f1490d57ef6-dcc4de7d901so1216273276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Mar 2024 11:37:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709840245; x=1710445045; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=D+atELKvQOOLnHOaCYsPXNofIf9HuHvn8BNu51WCFxw=;
- b=DxPY7EkKHS+ta0C8zYXyzurWxE8ie/KxNZ/7NTdvDBoLKcEHPjyjJBugznK1xQzl0P
- FcrCTrvTXjBidsTapr7UlJyKz0axCrcOiTn7QpQcQhtYH26YYhwSEPlC4wiUiUVmjpD7
- Nq9Zo28LQL+xtYFnsopAkNleWxJKsFf41vXqbQ5lqQ9ONY4xhEPP1U3zBG4zeeQryx7i
- d1OLIrnjplKsWag5T0lu9lteHf59AKIloj7ewHRVoaledNea55YHCH7iHluZeOCKlqjk
- E05CyeSLPe82GR7hSaCfdyyEf77V/5YVJarPzHIH4WcCXGARKgdhImyhPXldnrsq2/3t
- +z+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709840245; x=1710445045;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=D+atELKvQOOLnHOaCYsPXNofIf9HuHvn8BNu51WCFxw=;
- b=C6dIEPMZfD8OKd0P4pkT7UDZzknQGhrVt/tCY/LYffh52AdqD49dfN921rH2hMoMud
- yHmG2NJ0VdR13qm7DXU8YcJuc1mcAUg9rtUrwMQHEilrbuhj4vNrb2DXn3q94OYYGnt1
- MDWQr9fYXM4E21UC3z15mYwCjEkmwq6eYDYJcn6pVJhd4aFa3hBgN4bBZqQsktvnhXzM
- 2dyOwXgQZxI2E3O6+4oHsqMf8KlQ8uEjnIxfY867gUzEtXy90KYwStXkD4sCesOkZpOe
- VkHI17QpfRmqqfeiDo3H8akvxQfZBImpOKb8tlCQZ0UXKCfL1mx+ZZatS2l74lkqkyui
- T2+w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWQCS/dDb32ImF2sTj1HIejF+L1YIL7xejgu412XLqM/2SN1Cm9ZLW97C0nLyNd9bEBtOV5cdbVwj6kZgz9iD2PaSnD2LSyI0dpOY9ORUwa
-X-Gm-Message-State: AOJu0YykPnRvF6DjXzi58QRdOOn9EMV5PJ2ShG+PQhQmTgWVEsYVA7at
- BYvvjmpa20stpng7jmPa6vmyA6gMFPyCcAExBF0rQxzElZxIb3FxSNe704cJ8qJJ+C2A5/VN74j
- h1C9aeWJyaTGAGYlohFL+UiPG1H+Ypf3KWiBrnQ==
-X-Google-Smtp-Source: AGHT+IFAnShZV5B8zjpb+Ymnm9dteFJx1LbcFdYtXwIKtOPBCLHsKmz4rnlqziHI0HmbJieqTl2MvvMl+PazihZSUw8=
-X-Received: by 2002:a25:d502:0:b0:dbd:553d:9d6a with SMTP id
- r2-20020a25d502000000b00dbd553d9d6amr15441308ybe.40.1709840245408; Thu, 07
- Mar 2024 11:37:25 -0800 (PST)
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com
+ [95.215.58.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6819E10E79A
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 19:39:55 +0000 (UTC)
+Message-ID: <9edaecbc-e6be-4518-b110-a6a574df967a@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1709840393;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ys8e9p5+eqfoxouq7g7nRJjBibIoxszrfaw3qqFo2uU=;
+ b=VjIalN1Yqh2hQdoHNxx3oiDZCfUrAraw+5VNiW1R1cP0ExjzcHMD4/Oz8nZXkPdxiI90ZX
+ PV0LZGZwSJXGQZQQh3CNFW+UQiJz+rrzvj0fG+Yiqnp6pAMFWbVL2mqCJvA/O4Vd/Zi/Tt
+ 91w6RSmjm/82DokulFLAi0+fgTtq8lk=
+Date: Fri, 8 Mar 2024 03:39:43 +0800
 MIME-Version: 1.0
-References: <20240307172334.1753343-1-sui.jingfeng@linux.dev>
- <20240307172334.1753343-2-sui.jingfeng@linux.dev>
- <CAA8EJpp8tsHi0RhsJXG+r6nOsV3AUC_n6jNHL0Cr6Ku2h3NMog@mail.gmail.com>
- <45f59f31-1f03-4a96-adb6-25c7cdd5e8a1@linux.dev>
-In-Reply-To: <45f59f31-1f03-4a96-adb6-25c7cdd5e8a1@linux.dev>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 7 Mar 2024 21:37:14 +0200
-Message-ID: <CAA8EJpqq1-cEke6wEFZFDnpz4tFBcL6HF3=Qtf-8Q3WbogLS8A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] drm/bridge: Add fwnode based helpers to get the
- next bridge
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Subject: Re: [PATCH v2 4/4] drm-bridge: it66121: Use fwnode API to acquire
+ device properties
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Phong LE <ple@baylibre.com>, dri-devel@lists.freedesktop.org, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Phong LE <ple@baylibre.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+References: <20240307172334.1753343-1-sui.jingfeng@linux.dev>
+ <20240307172334.1753343-5-sui.jingfeng@linux.dev>
+ <CAA8EJpqtPRfe1VL_ACYEOSq=iNMkZ03-fwVv3XdVrpTObZFu1w@mail.gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <CAA8EJpqtPRfe1VL_ACYEOSq=iNMkZ03-fwVv3XdVrpTObZFu1w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,71 +67,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 7 Mar 2024 at 21:20, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
->
-> Hi,
->
->
-> On 2024/3/8 02:43, Dmitry Baryshkov wrote:
-> >> +
-> >>   MODULE_AUTHOR("Ajay Kumar<ajaykumar.rs@samsung.com>");
-> >>   MODULE_DESCRIPTION("DRM bridge infrastructure");
-> >>   MODULE_LICENSE("GPL and additional rights");
-> >> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> >> index 3606e1a7f965..d4c95afdd662 100644
-> >> --- a/include/drm/drm_bridge.h
-> >> +++ b/include/drm/drm_bridge.h
-> >> @@ -26,6 +26,7 @@
-> >>   #include <linux/ctype.h>
-> >>   #include <linux/list.h>
-> >>   #include <linux/mutex.h>
-> >> +#include <linux/of.h>
-> >>
-> >>   #include <drm/drm_atomic.h>
-> >>   #include <drm/drm_encoder.h>
-> >> @@ -721,6 +722,8 @@ struct drm_bridge {
-> >>          struct list_head chain_node;
-> >>          /** @of_node: device node pointer to the bridge */
-> >>          struct device_node *of_node;
-> > In my opinion, if you are adding fwnode, we can drop of_node
-> > completely. There is no need to keep both of them.
->
->
-> But the 'struct device' have both of them contained, we should *follow the core*, right?
-> They are two major firmware subsystems (DT and ACPT), both are great and large, right?
-> Personally, I think the drm_bridge should embeds 'struct device', after all, drm bridge
-> are mainly stand for display bridges device. And also to reflect what you said: "to
-> reflect the hardware perfectly" and remove some boilerplate.
-
-struct device contains both because it is at the root of the hierarchy
-and it should support both API. drm_bridge is a consumer, so it's fine
-to have just one.
-
->
-> I think I'm not good enough to do such a big refactor, sorry. I believe that Maxime
-> and Laurent are the advanced programmers who is good enough to do such things, maybe
-> you can ask them for help?
-
-Well, you picked up the task ;-)
-
-But really, there is nothing so hard about it:
-- Change of_node to fw_node, apply an automatic patch changing this in
-bridge drivers.
-- Make drm_of_bridge functions convert passed of_node and comp
-
-After this we can start cleaning up bridge drivers to use fw_node API
-natively as you did in your patches 2-4.
-
->
-> Beside this, other reviews are acceptable and will be fixed at the next version,
-> thanks a lot for review.
->
->
-> Best Regards,
-> Sui
->
+Hi,
 
 
--- 
-With best wishes
-Dmitry
+On 2024/3/8 03:31, Dmitry Baryshkov wrote:
+> On Thu, 7 Mar 2024 at 19:24, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
+>> Make this driver less DT-dependent by calling the freshly created helpers,
+>> should be no functional changes for DT based systems. But open the door for
+>> otherwise use cases. Even though there is no user emerged yet, this still
+>> do no harms. In fact, we reduce some boilerplate across drm bridge drivers.
+>>
+>> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+>> ---
+>>   drivers/gpu/drm/bridge/ite-it66121.c | 63 ++++++++++++++++------------
+>>   1 file changed, 36 insertions(+), 27 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
+>> index 1c3433b5e366..a2cf2be86065 100644
+>> --- a/drivers/gpu/drm/bridge/ite-it66121.c
+>> +++ b/drivers/gpu/drm/bridge/ite-it66121.c
+>> @@ -15,7 +15,6 @@
+>>   #include <linux/bitfield.h>
+>>   #include <linux/property.h>
+>>   #include <linux/regmap.h>
+>> -#include <linux/of_graph.h>
+>>   #include <linux/gpio/consumer.h>
+>>   #include <linux/pinctrl/consumer.h>
+>>   #include <linux/regulator/consumer.h>
+>> @@ -1480,7 +1479,7 @@ static int it66121_audio_codec_init(struct it66121_ctx *ctx, struct device *dev)
+>>
+>>          dev_dbg(dev, "%s\n", __func__);
+>>
+>> -       if (!of_property_read_bool(dev->of_node, "#sound-dai-cells")) {
+>> +       if (!fwnode_property_present(dev_fwnode(dev), "#sound-dai-cells")) {
+>>                  dev_info(dev, "No \"#sound-dai-cells\", no audio\n");
+>>                  return 0;
+>>          }
+>> @@ -1503,13 +1502,37 @@ static const char * const it66121_supplies[] = {
+>>          "vcn33", "vcn18", "vrf12"
+>>   };
+>>
+>> +static int it66121_read_bus_width(struct fwnode_handle *fwnode, u32 port,
+>> +                                 u32 *bus_width)
+>> +{
+>> +       struct fwnode_handle *endpoint;
+>> +       u32 val;
+>> +       int ret;
+>> +
+>> +       endpoint = fwnode_graph_get_endpoint_by_id(fwnode, port, 0, 0);
+>> +       if (!endpoint)
+>> +               return -EINVAL;
+>> +
+>> +       ret = fwnode_property_read_u32(endpoint, "bus-width", &val);
+>> +       fwnode_handle_put(endpoint);
+>> +       if (ret)
+>> +               return ret;
+>> +
+>> +       if (val != 12 && val != 24)
+>> +               return -EINVAL;
+>> +
+>> +       *bus_width = val;
+>> +
+>> +       return 0;
+>> +}
+>> +
+>>   static int it66121_probe(struct i2c_client *client)
+>>   {
+>>          u32 revision_id, vendor_ids[2] = { 0 }, device_ids[2] = { 0 };
+>> -       struct device_node *ep;
+>>          int ret;
+>>          struct it66121_ctx *ctx;
+>>          struct device *dev = &client->dev;
+>> +       struct fwnode_handle *fwnode = dev_fwnode(dev);
+>>
+>>          if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+>>                  dev_err(dev, "I2C check functionality failed.\n");
+>> @@ -1520,37 +1543,23 @@ static int it66121_probe(struct i2c_client *client)
+>>          if (!ctx)
+>>                  return -ENOMEM;
+>>
+>> -       ep = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
+>> -       if (!ep)
+>> -               return -EINVAL;
+>> -
+>>          ctx->dev = dev;
+>>          ctx->client = client;
+>>          ctx->info = i2c_get_match_data(client);
+>>
+>> -       of_property_read_u32(ep, "bus-width", &ctx->bus_width);
+>> -       of_node_put(ep);
+>> -
+>> -       if (ctx->bus_width != 12 && ctx->bus_width != 24)
+>> -               return -EINVAL;
+>> -
+>> -       ep = of_graph_get_remote_node(dev->of_node, 1, -1);
+>> -       if (!ep) {
+>> -               dev_err(ctx->dev, "The endpoint is unconnected\n");
+>> -               return -EINVAL;
+>> -       }
+>> -
+>> -       if (!of_device_is_available(ep)) {
+>> -               of_node_put(ep);
+>> -               dev_err(ctx->dev, "The remote device is disabled\n");
+>> -               return -ENODEV;
+>> -       }
+>> +       /* Endpoint of port@0 contains the bus-width property */
+>> +       ret = it66121_read_bus_width(fwnode, 0, &ctx->bus_width);
+> There is no need to pass port as an argument to that function.
+>
+>
+Yeah, extremely correct. Because the bus width property should always
+located at the endpoint of the input port(port@0 for it66121).
+
+
+>> +       if (ret)
+>> +               return ret;
+>>
+>> -       ctx->next_bridge = of_drm_find_bridge(ep);
+>> -       of_node_put(ep);
+>> +       ctx->next_bridge = drm_bridge_find_next_bridge_by_fwnode(fwnode, 1);
+>>          if (!ctx->next_bridge) {
+>>                  dev_dbg(ctx->dev, "Next bridge not found, deferring probe\n");
+>>                  return -EPROBE_DEFER;
+>> +       } else if (IS_ERR(ctx->next_bridge)) {
+>> +               ret = PTR_ERR(ctx->next_bridge);
+>> +               dev_err(dev, "Error in founding the next bridge: %d\n", ret);
+>> +               return ret;
+> Nit: I'd usually expect this part to be in a different order: first
+> check for error, then check for absence. But that's a minor thing.
+
+
+OK,  fine, will be fixed at the next version if no other objects.
+
