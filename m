@@ -2,124 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353E88749D1
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 09:37:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EEB58749E8
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 09:42:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54C451136FA;
-	Thu,  7 Mar 2024 08:37:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7553210FB6F;
+	Thu,  7 Mar 2024 08:42:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="SpEf1iU5";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="hIaGTcnA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2074.outbound.protection.outlook.com [40.107.101.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABE581136F9;
- Thu,  7 Mar 2024 08:37:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Jfaoz6MS5M0YoAU62gz6D5/4OsL5VrFbQqopfJuC4beUvkQJJYKoQxo3exqDSpYr1QY72NHG/T7WKjdmYPiTfkouPExpDUD/q+wrX2o8Jn1yiM0a4tU6Ner7d8a4t4TylQztdzR2N6x1uaWBIoETndHUDmHd+4m2x4tfQuz7XIrt5+rHPK5drmCKSIuyjXXHwwLQ+kIpXTLFzuosbxDgi0YCswOAYjlDCpvlQDym8lnCNi73NaIfemaLpPxzGaL+juXmyiBJqHk1/gDDcXTvnFFKVev7gCil4tTYzBR4cyiZRb3JEg5Rj+kDytH3Avv1Xg6R7ZXel/vWXDm+/nacYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NyCL76XI5afMc/IM4xl/LWdPQMfSah03MlY+b5mbUtM=;
- b=lifJoLBD+xyVsT8CjrGqLzHC7zj16CvZnvgYbfqjKC4npaGFr/f6NG7F9/sjXI+dMBXG6bVOdTWvany49IQjnSOwL4w9+fkv0YAiNBdHptBRt7+wUAg0e4Rwuw+TvzYRYfONyqk5dHTVD9GaybZkYRCH9VWYwiIjTA8jTYEvooRMdpQXK5geoTXkNBDc5Zk41t6CuFjUvy5y/YYjfEtcVQKi8jyuUQQoYw2/xiyXQ+mPWKPsAyd5ZHGLSuqgcZgjYqNDfmmEqDsy6IUZt0BZ80FFtsIypYKxss0nikglstLWsTOagn6kDeP3SALhedvQ8ObsdsSUMJAe8w56gSWqJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NyCL76XI5afMc/IM4xl/LWdPQMfSah03MlY+b5mbUtM=;
- b=SpEf1iU5LC4dc7NjU7wI7007LdbcCEKA0k4JN4X3l2FV2oZayvhTXwOaZFJetRZSSErFlugAiAVsh28xL/RAOsyswIVoLxxHxzkoYRuauYn3++Qjpwl8z8fcx68Y/N/FySxa8u05XKLeGmd6pHNl79xm1nL9pIgd6L31YyGD8D4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5596.namprd12.prod.outlook.com (2603:10b6:510:136::13)
- by PH7PR12MB7236.namprd12.prod.outlook.com (2603:10b6:510:207::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.39; Thu, 7 Mar
- 2024 08:37:24 +0000
-Received: from PH7PR12MB5596.namprd12.prod.outlook.com
- ([fe80::6f48:e3f1:6ff9:75bd]) by PH7PR12MB5596.namprd12.prod.outlook.com
- ([fe80::6f48:e3f1:6ff9:75bd%4]) with mapi id 15.20.7362.019; Thu, 7 Mar 2024
- 08:37:24 +0000
-Message-ID: <bd6a70dc-d710-498e-b4ed-35c6106cd898@amd.com>
-Date: Thu, 7 Mar 2024 14:07:15 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amdgpu: add vm fault information to devcoredump
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Sunil Khatri <sunil.khatri@amd.com>, Alex Deucher
- <alexander.deucher@amd.com>, Shashank Sharma <shashank.sharma@amd.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Mukul Joshi <mukul.joshi@amd.com>,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-References: <20240306181937.3551648-1-sunil.khatri@amd.com>
- <20240306181937.3551648-2-sunil.khatri@amd.com>
- <f61edcbe-938f-4c48-920e-64c8352e87f4@amd.com>
-From: "Khatri, Sunil" <sukhatri@amd.com>
-In-Reply-To: <f61edcbe-938f-4c48-920e-64c8352e87f4@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN2PR01CA0162.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:26::17) To PH7PR12MB5596.namprd12.prod.outlook.com
- (2603:10b6:510:136::13)
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D434C10FB6F
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 08:42:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1709800925;
+ bh=USUiqAvoGE7+o32wLO4tteQywvAAkmi4uCjZ933thpw=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=hIaGTcnAXu2fNJovHDNfdIqUYvHUrZdK53yYmGa8Vuyz9o92DcK6AnN+avS0VEamv
+ YlecSnAJ1TYYZeWUBw9kOL8UgXu7PO5zt4Dq5B2NO/x839ghanCJigMBWlafPBbPyN
+ TfS3zQVNK2jEqJDurWSgjym+1JUSiSRRi/d9mQj5KMAcEwdTXQ5Haq2CEB8csckHGz
+ kBYQKeRUIo+faEDpnWdZiSX0yurjio4tpQ/Z2dvwa5oqfkdzHipcYWrjnNcZvETlOs
+ 0O0iwGhOHOIEAMzD1hYABbi93gDSq8FoWT72OLiAQsU0D70T07p/3egNntmVhl4pRU
+ dEAPF0SDfQEtw==
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 7D0C43781FDF;
+ Thu,  7 Mar 2024 08:42:04 +0000 (UTC)
+Date: Thu, 7 Mar 2024 10:42:03 +0200
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
+ <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com
+Subject: Re: [PATCH v2 3/9] drm/vkms: write/update the documentation for
+ pixel conversion and pixel write functions
+Message-ID: <20240307104203.72855d2a.pekka.paalanen@collabora.com>
+In-Reply-To: <ZeioEcyCo4XKHHX8@localhost.localdomain>
+References: <20240223-yuv-v2-0-aa6be2827bb7@bootlin.com>
+ <20240223-yuv-v2-3-aa6be2827bb7@bootlin.com>
+ <20240226133700.3fef91d9.pekka.paalanen@collabora.com>
+ <Zd35cimh8BLICUuY@localhost.localdomain>
+ <20240229104833.2a404d6b.pekka.paalanen@collabora.com>
+ <ZeXonl-jZq4xHnBK@localhost.localdomain>
+ <20240305115007.0d0d49ef.pekka.paalanen@collabora.com>
+ <ZeioEcyCo4XKHHX8@localhost.localdomain>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5596:EE_|PH7PR12MB7236:EE_
-X-MS-Office365-Filtering-Correlation-Id: 20973e5d-50b8-48d6-57dc-08dc3e81d010
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eIkTBd9yFVFyCAdwYU5w8CfbLtd9WSaXqxwBSq+Hs9sbAvJbOCUKdWEBDRRNAxm54c+y0M5IZyWGiIVbSkgE2Ub3ON5/sFQ0oHovQgfjUsKzRsKcVA5WM1MWpNhlHO2gG3LqMJE/vO1+MPtgZb0hoD6Euv5uaCSEQ+DElnx/5GbMr44yYnRwSqW4rR1W19KbOgoRYh/lFhgQCmOe9pGiTz6szDGCHJBdrtglhIYuH36x2Z2DBCLhX/3PNUtKnQousuIrswREKGKsgTDiM64sUzjKF1MBgHEcFNq5ITVMKzjwyukJd0dtOzffJxoI+L3bmMWnqbo0Jo1lBYcgqMjAKaUPXMFtXZhgvPqP6b6XkZIwu2OI9QSS6AYCILK5sE4LVVVp7px9BEkaPNzEufXo7aXsvlmFEbOi9CAF2/gBPs+7RMcFeaYIZuHyNW0aXSt3RYVa5NF1xevwH7YBdwBL4kEZNx3sRYNJVgE7rIGeWjQEqW+jyC5Q7EseH/d83i9S7kykhhtLAFSEpHArVZtAQKi4EL8zTesXHEm7hxlbHqmiAmbDCJeaBw4n33boaLH7uwIaS/vi3QsYDCDDaehsA7BNOIV4tRN3yXM5AoSorc8HM1ZoGoTjAki3cn9EkAIbRuaZkUUSgad/SDGmJPVIIZylSyjHT7qEPDPf++818cA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5596.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UjY3eGt5Wmo4ZHh3UEhrejJtRlFQMVdJTnlaUktrRmxaVDl3TEQvR21pRUVI?=
- =?utf-8?B?aVcrV2xUcm9UTmZkbUcwbUlOUVRPaWsrckJXRWZRZE1haGVFV0p3Ykd3REYv?=
- =?utf-8?B?d0FiQXJvT01naW5MNnVZZ0x0VDRyb25LMVdnQTVXSnRJZ1pRekprTG16eFBF?=
- =?utf-8?B?OThrQUI5L3BDdyt5dEtEQU5MTkJna3d0bkhCbG54ZUpSTnhkYnJZM2t3bTZL?=
- =?utf-8?B?YlcrM3hqMlY1NVhQeHZ0UVc3ME96Q0lVN3o3NGo3andCNXovZkdZQTJ3NU16?=
- =?utf-8?B?Y3EvOVlhSi9ST1NJOEh6c0pHZ1lOblN1UEZrWGZBVzRUTGN5N3BvNFNXWll3?=
- =?utf-8?B?Nms5aG83WTRHMUo4TDN5TW8rcE4rVmhlSzV4YkFzc3ZMR0YrTmM2RVk4YTFG?=
- =?utf-8?B?Rkxwcm5JUEZNUlpTRnVhT1NQQTJhOGgrM1c0TCs5MVlvUW1FakR2dmJaQnkz?=
- =?utf-8?B?VlVNcGp4ZTR6QjlKcmZyM2R5WXpzVUpFS2ZjUXZ3ZzJoaXFESndFRWMzbU1z?=
- =?utf-8?B?dCtwM3J1aUJjSmE1V25TOGpRdkFUUEhLdlJQSDZLWVVCUlV5RzBnKzJsRUhm?=
- =?utf-8?B?R3R4ZnloZXhab1A2aEF4YVBXRXcwWm9WYWg1cUIwSlpUdWRWZmh1cUZrbjFj?=
- =?utf-8?B?UHk3eDVjZXF2RWs5d0Nqb01BbnZpaS9LREx3bURoTHdNWklLSWg0MWpUd0h0?=
- =?utf-8?B?d3J2NnkxQ1BTcEtieVRaa2RjZVYzQ3pXcmZIRlNhckFMK0crU0ppTlZ5WVBC?=
- =?utf-8?B?ZUJnWjhrc2tSQ1JOanZZME1pMW5vOGdLVFBSVjByQWlsaU5hQVp2RTJINnU4?=
- =?utf-8?B?VmtCYXpSaUJ3KzFKRzBGNWc5b2ZzQjF5NnRoZXNMRVZFSTRmS3ZxeHFPSXRJ?=
- =?utf-8?B?T3VKYmxjUnh5SzhFMmt6RUdWaG1Sb3E5N1RLcDRobXQzbGFXNzQ3L2Q3b0Rv?=
- =?utf-8?B?ZWUvSG1ROUZCUmxpVXArazlnek51YWhWcVRJeEJ4WWtVa3RqazFzYnh3Mzha?=
- =?utf-8?B?VlVqZHNGLzNyOVJvenJ2REd5bFY0WDRZa014MWZsMUh1aU9Cb0t3cnkrQWZ1?=
- =?utf-8?B?b2pUMGtLZVkyNzJQVDRsV2dHRkg4Ly82ajZzdFJkL2ZVeWQxYUJlZ0Y0djdT?=
- =?utf-8?B?TkJCd3g0M01JZWpjSVNSNEQ3WFdTdUdGMjRxQTM3enFaOFZPczltY29lUFV0?=
- =?utf-8?B?a0UrZlBGWC9qMGVOMWxFN1RLWmtyby9rc1dLdVZCckQwVVg0c3FjL0NFb08w?=
- =?utf-8?B?cXB6alJkUThYRWlpRy9WcWlOVmY0aExvSkFvbWhhSmNDeGdDaHJkc2lyeExo?=
- =?utf-8?B?YS83OWR0TXhDbG5jWjBQMEdSTlRWUkFlRGIrYjJDTGRmRDROMmNQL05rNldZ?=
- =?utf-8?B?U0Znb2dENWVCeks1Y3RZcVpnOTdRcmE2QmdxOGU3QkhMNDZYTFoyS29Vd2pH?=
- =?utf-8?B?WHJzalNKUlJPWTZhMHY5b3IxK2FhYlhmTHR1UEI1MkFSS1o3VUwrYkI4V0U4?=
- =?utf-8?B?dTZwSExsUjZyMEVuOTgrTXNxVDRCNWZ5QUNtZWdkWGkxZm81cUp1cDRLTzRL?=
- =?utf-8?B?WktiU0hhWFo4aks3UGVnUlpnaTlrckw3d0pVbmt6SDlKa1cyRmoxRDNONktH?=
- =?utf-8?B?Sy9tKzJKTk9BOHZseEExUXp2K1pnTjVhaFU2bk4vd3oyS09xZDJlcFJIU0Nl?=
- =?utf-8?B?TFo5Qy84Zzh1cUZBWWlPaHpzanBIdDk2dWtNNTRqQTdvSjIzWTRzNVJHZDdx?=
- =?utf-8?B?UXBySkp1VGl4dzcxK0xWbjZ1NXpNMUZuUDZsc1M1SnJwWkJGdDJleW8rajZh?=
- =?utf-8?B?bGZwNjR3TnN5VHRVZkZLQ0J2K2lVUkRUaXZrc1k2M3lDd1RmSWJBYmhsSlpT?=
- =?utf-8?B?N01TUGdUMjUzbmFTQjh3amN0UUtOS1B0ZW9XUXdLc05mZ2M5WHgxQlcreWpW?=
- =?utf-8?B?RXk0Z0NEWGU5VWxOTXhxYmJWYVBLcnhsNTZ1ZWxTQmxHWldUeTIzSGVFc0hv?=
- =?utf-8?B?WE5Va1dleEZhSWtPSHJEWkRMeGhPV0k3SU5hQzdLaDZka0JZeTY3U2E1RzlB?=
- =?utf-8?B?LzNlS1BOY2NHV3pHbjYxc2VGdVBmbHRwamp5cFBsYkNJMEdRbGVPcVU3STNL?=
- =?utf-8?Q?HgYIk4mBZI0mE/SM8PpESZYU4?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20973e5d-50b8-48d6-57dc-08dc3e81d010
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5596.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2024 08:37:24.5854 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rRCwWpl8vnOAAYn+fkxEhd3vyVzHxFGyYMruOQzVBlPAjnOVuTCCk+MHJVgf9PJ6ymdBTTwTy5x4WFJ7LDaX7w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7236
+Content-Type: multipart/signed; boundary="Sig_/nkji33S6ZRTzPKMkx=bO7ep";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,99 +77,194 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--Sig_/nkji33S6ZRTzPKMkx=bO7ep
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On 3/7/2024 1:47 PM, Christian König wrote:
-> Am 06.03.24 um 19:19 schrieb Sunil Khatri:
->> Add page fault information to the devcoredump.
->>
->> Output of devcoredump:
->> **** AMDGPU Device Coredump ****
->> version: 1
->> kernel: 6.7.0-amd-staging-drm-next
->> module: amdgpu
->> time: 29.725011811
->> process_name: soft_recovery_p PID: 1720
->>
->> Ring timed out details
->> IP Type: 0 Ring Name: gfx_0.0.0
->>
->> [gfxhub] Page fault observed for GPU family:143
->> Faulty page starting at address 0x0000000000000000
->> Protection fault status register:0x301031
->>
->> VRAM is lost due to GPU reset!
->>
->> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c | 15 ++++++++++++++-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h |  1 +
->>   2 files changed, 15 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c 
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
->> index 147100c27c2d..d7fea6cdf2f9 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
->> @@ -203,8 +203,20 @@ amdgpu_devcoredump_read(char *buffer, loff_t 
->> offset, size_t count,
->>                  coredump->ring->name);
->>       }
->>   +    if (coredump->fault_info.status) {
->> +        struct amdgpu_vm_fault_info *fault_info = 
->> &coredump->fault_info;
->> +
->> +        drm_printf(&p, "\n[%s] Page fault observed for GPU 
->> family:%d\n",
->> +               fault_info->vmhub ? "mmhub" : "gfxhub",
->> +               coredump->adev->family);
->> +        drm_printf(&p, "Faulty page starting at address 0x%016llx\n",
->> +               fault_info->addr);
->> +        drm_printf(&p, "Protection fault status register:0x%x\n",
->> +               fault_info->status);
->> +    }
->> +
->>       if (coredump->reset_vram_lost)
->> -        drm_printf(&p, "VRAM is lost due to GPU reset!\n");
->> +        drm_printf(&p, "\nVRAM is lost due to GPU reset!\n");
->>       if (coredump->adev->reset_info.num_regs) {
->>           drm_printf(&p, "AMDGPU register dumps:\nOffset:     
->> Value:\n");
->>   @@ -253,6 +265,7 @@ void amdgpu_coredump(struct amdgpu_device 
->> *adev, bool vram_lost,
->>       if (job) {
->>           s_job = &job->base;
->>           coredump->ring = to_amdgpu_ring(s_job->sched);
->> +        coredump->fault_info = job->vm->fault_info;
->
-> That's illegal. The VM pointer might already be stale at this point.
->
-> I think you need to add the fault info of the last fault globally in 
-> the VRAM manager or move this to the process info Shashank is working on.
-> Are you saying that during the reset or otherwise a vm which is part 
-> of this job could have been freed  and we might have a NULL 
-> dereference or invalid reference? Till now based on the resets and 
-> pagefaults that i have created till now using the same app which we 
-> are using for IH overflow i am able to get the valid vm only.
->
-> Assuming  amdgpu_vm is freed for this job or stale, are you suggesting 
-> to update this information in adev-> vm_manager along with existing 
-> per vm fault_info or only in vm_manager ?
->
-> Regards,
-> Christian.
->
->>       }
->>         coredump->adev = adev;
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h 
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
->> index 60522963aaca..3197955264f9 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
->> @@ -98,6 +98,7 @@ struct amdgpu_coredump_info {
->>       struct timespec64               reset_time;
->>       bool                            reset_vram_lost;
->>       struct amdgpu_ring            *ring;
->> +    struct amdgpu_vm_fault_info    fault_info;
->>   };
->>   #endif
->
+On Wed, 6 Mar 2024 18:29:53 +0100
+Louis Chauvet <louis.chauvet@bootlin.com> wrote:
+
+> [...]
+>=20
+> > > > > > > +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+> > > > > > > @@ -9,6 +9,17 @@
+> > > > > > > =20
+> > > > > > >  #include "vkms_formats.h"
+> > > > > > > =20
+> > > > > > > +/**
+> > > > > > > + * packed_pixels_offset() - Get the offset of the block cont=
+aining the pixel at coordinates x/y
+> > > > > > > + * in the first plane
+> > > > > > > + *
+> > > > > > > + * @frame_info: Buffer metadata
+> > > > > > > + * @x: The x coordinate of the wanted pixel in the buffer
+> > > > > > > + * @y: The y coordinate of the wanted pixel in the buffer
+> > > > > > > + *
+> > > > > > > + * The caller must be aware that this offset is not always a=
+ pointer to a pixel. If individual
+> > > > > > > + * pixel values are needed, they have to be extracted from t=
+he resulting block.     =20
+> > > > > >=20
+> > > > > > Just wondering how the caller will be able to extract the right=
+ pixel
+> > > > > > from the block without re-using the knowledge already used in t=
+his
+> > > > > > function. I'd also expect the function to round down x,y to be
+> > > > > > divisible by block dimensions, but that's not visible in this e=
+mail.
+> > > > > > Then the caller needs the remainder from the round-down, too?  =
+   =20
+> > > > >=20
+> > > > > You are right, the current implementation is only working when bl=
+ock_h =3D=3D=20
+> > > > > block_w =3D=3D 1. I think I wrote the documentation for PATCHv2 5=
+/9, but when=20
+> > > > > backporting this comment for PATCHv2 3/9 I forgot to update it.
+> > > > > The new comment will be:
+> > > > >=20
+> > > > >  * pixels_offset() - Get the offset of a given pixel data at coor=
+dinate=20
+> > > > >  * x/y in the first plane
+> > > > >    [...]
+> > > > >  * The caller must ensure that the framebuffer associated with th=
+is=20
+> > > > >  * request uses a pixel format where block_h =3D=3D block_w =3D=
+=3D 1.
+> > > > >  * If this requirement is not fulfilled, the resulting offset can=
+ be=20
+> > > > >  * completly wrong.   =20
+> > > >=20
+> > > > Hi Louis,   =20
+> > >=20
+> > > Hi Pekka,
+> > >  =20
+> > > > if there is no plan for how non-1x1 blocks would work yet, then I t=
+hink
+> > > > the above wording is fine. In my mind, the below wording would
+> > > > encourage callers to seek out and try arbitrary tricks to make thin=
+gs
+> > > > work for non-1x1 without rewriting the function to actually work.
+> > > >
+> > > > I believe something would need to change in the function signature =
+to
+> > > > make it properly usable for non-1x1 blocks, but I too cannot suggest
+> > > > anything off-hand.   =20
+> > >=20
+> > > I already made the change to support non-1x1 blocks in Patchv2 5/9=20
+> > > (I will extract this modification in "drm/vkms: Update pixels accesso=
+r to=20
+> > > support packed and multi-plane formats"), this function is now able=20
+> > > to extract the pointer to the start of a block. But as stated in the=
+=20
+> > > comment, the caller must manually extract the correct pixel values (i=
+f the=20
+> > > format is 2x2, the pointer will point to the first byte of this block=
+, the=20
+> > > caller must do some computation to access the bottom-right value). =20
+> >=20
+> > Patchv2 5/9 is not enough.
+> >=20
+> > "Manually extract the correct pixels" is the thing I have a problem
+> > with here. The caller should not need to re-do any semantic
+> > calculations this function already did. Most likely this function
+> > should return the remainders from the x,y coordinate division, so that
+> > the caller can extract the right pixels from the block, or something
+> > else equivalent.
+> >=20
+> > That same semantic division should not be done in two different places.
+> > It is too easy for someone later to come and change one site while
+> > missing the other. =20
+>=20
+> I did not notice this, and I agree, thanks for this feedback. For the v5 =
+I=20
+> will change it and update the function signature to:
+>=20
+> static void packed_pixels_offset(const struct vkms_frame_info *frame_info=
+, int x, int y,
+> 				 size_t plane_index, size_t *offset, size_t *rem_x, size_t *rem_y)
+>=20
+> where rem_x and rem_y are those reminder.
+
+Ok, that's a start.
+
+Why size_t? It's unsigned. You'll probably be mixing signed and
+unsigned variables in computations again.
+
+> > I have a hard time finding in "[PATCH v2 6/9] drm/vkms: Add YUV
+> > support" how you actually handle blocks bigger than 1x1. I see
+> > get_subsampling() which returns format->{hsub,vsub}, and I see
+> > get_subsampling_offset() which combined with remainder-division gates U
+> > and V plane pixel pointer increments.
+> >=20
+> > However, I do not see you ever using
+> > drm_format_info_block_{width,height}() anywhere else. That makes me
+> > think you have no code to actually handle non-1x1 block formats, which
+> > means that you cannot get the function signature of
+> > packed_pixels_offset() right in this series either. It would be better
+> > to not even pretend the function works for non-1x1 blocks until you
+> > have code handling at least one such format.
+> >=20
+> > All of the YUV formats that patch 6 adds support for use 1x1 blocks all
+> > all their planes. =20
+>=20
+> Yes, none of the supported format have block_h !=3D block_w !=3D 1, so th=
+ere=20
+> is no need to drm_format_info_block*() helpers.
+>=20
+> I wrote the code for DRM_FORMAT_R*. They are packed, with block_w !=3D 1.=
+ I=20
+> will add this patch in the next revision. I also wrote the IGT test for=20
+> DRM_FORMAT_R1 [1].
+
+Excellent!
+
+> Everything will be in the v5 (I will send it when you have the=20
+> time to review the v4).
+
+I'm too busy this week, I think. Maybe next.
+
+Why should I review v4 when I already know you will be changing things
+again? I'd probably flag the same things I've already said.
+
+
+Thanks,
+pq
+
+> For information, I also have a series ready for adding more RGB variants
+> (I introduced a macro to make it easier and avoid copy/pasting the same
+> loop). I don't send them yet, because I realy want this series merged=20
+> first. I also have the work for the writeback "line-by-line" algorithm=20
+> ready (I just need to rebase it, but it will be fast).
+>=20
+> [1]: https://lore.kernel.org/igt-dev/20240306-b4-kms_tests-v1-0-8fe451efd=
+2ac@bootlin.com
+>=20
+> Kind regards,
+> Louis Chauvet
+>=20
+> [...]
+>=20
+
+
+--Sig_/nkji33S6ZRTzPKMkx=bO7ep
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXpfdsACgkQI1/ltBGq
+qqdiCA//R0EDhfyntzvtK1HCEb2lMdMVQMtVu0twsiUfLRYWnxwmVtTnoBC4C1oX
+VW1hAXvdhnVgXP97Uilb2jl5OW6OSetYnDEWb/HXhquitJkbwBCVieKWJQwnHUe3
+dVIJEYoUPqW4UAMtYRHrC22bN0aW0SAUGvnnIzIpX17Zh+hVNjfqOw8gCfAq3PyA
+27ycXSUzmf9AZ0orOnBdemaGRsyynJLPChEnidfwlH4kTE3Cco1GB+sbjusJd+Mh
+LmLxyTy0AOJlXVeDQCu4Rqtznm1g8yhv0QfmUl+N3fUKwccn7W/ytuQR9Arjku38
+idDLqzSQEKU0dts8EBO6BuOhVSvp5IBTOp9cudR37QjI2F2s1DjGbMnhe+If+v8Y
+2hAu3Kq8i7EWjiR66gC6hb4v+m2up0BPPIwvjSEi3t6vlgkkNOSCwghYUcxqQPot
+k6tCnGzBTnfPu/jUQd0S7YwTSpFYVnLLgU3rpSQ5Aat3yqYXP0fbR6n0uvaUQidh
+NS98joH/XT5UKPrgOXIGHiOuUk3SYGQOqvRrSFmDp9Mdh/P1kX9UWypTfJTZXAEd
+EQxhGPXiAGtCC8F3i9oqBt3kGbSFMCMFHvNeWNDZGhptlt6YZETSSKHigDoa9QSv
+Fn9gdFQg0UgSzB9Xev5vKHk+ivXH/F3H26Afh7HEMv9jzQEcnE0=
+=hf3I
+-----END PGP SIGNATURE-----
+
+--Sig_/nkji33S6ZRTzPKMkx=bO7ep--
