@@ -2,53 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D38F2874A97
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 10:19:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 853D2874A98
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 10:19:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FCAB10F345;
-	Thu,  7 Mar 2024 09:19:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5872F10F349;
+	Thu,  7 Mar 2024 09:19:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GgA2CBGU";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FCJk3EW0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FDA810F33D
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 09:19:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF61910F33D
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 09:19:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1709803186;
+ s=mimecast20190719; t=1709803191;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=mxxIiOMCdPd980lED7zXhQSahvrBrtFsewy6Hl1VYXQ=;
- b=GgA2CBGULRp0tvpqKpvoP41rjCEly5kJ9jda+/U3zwcbWUumjNeSf+qrRfIXICO4m/ZCks
- HOqjQHbsjvAOd8SCqUAkOQjNMsChIu9TU05peAumcYh/hUnc5mgIpv9aqe1dw4D0IEtclZ
- 0VDMv7c+eBeGPbMQmDOl8lk8iv5d/yY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-356-ue5mhnpUM7qFangAX2ofmg-1; Thu, 07 Mar 2024 04:19:43 -0500
-X-MC-Unique: ue5mhnpUM7qFangAX2ofmg-1
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5Jj0jHMwLDNEq2dcSQaar+AA4TMbe/8gK29ZJJt38rM=;
+ b=FCJk3EW0534PHs7qRlIEArCqdRJgZanO9B0FApVnkhBCyYRHAVQrm/zGcjbrcZ35I43owy
+ MGm5ovI84Yz9haxshvOOhN9we32UXYSKTliY5FVoY699vN5ViZuW5xfpk2wSAuzVgQGQ7B
+ 9CsAvXA+L+KKoyUaZqJXJsRNjmHRtLQ=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-618-8FLbw_UWNkmwM49QIPO5Ng-1; Thu,
+ 07 Mar 2024 04:19:47 -0500
+X-MC-Unique: 8FLbw_UWNkmwM49QIPO5Ng-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 15800186E122;
- Thu,  7 Mar 2024 09:19:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DDBBD3801F50;
+ Thu,  7 Mar 2024 09:19:46 +0000 (UTC)
 Received: from hydra.redhat.com (unknown [10.39.193.120])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1A05F1121306;
- Thu,  7 Mar 2024 09:19:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4D131111DD02;
+ Thu,  7 Mar 2024 09:19:43 +0000 (UTC)
 From: Jocelyn Falempe <jfalempe@redhat.com>
 To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
  javierm@redhat.com, bluescreen_avenger@verizon.net, noralf@tronnes.org
-Cc: gpiccoli@igalia.com,
-	Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH v9 0/9] drm/panic: Add a drm panic handler
-Date: Thu,  7 Mar 2024 10:14:42 +0100
-Message-ID: <20240307091936.576689-1-jfalempe@redhat.com>
+Cc: gpiccoli@igalia.com, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+ Lukas Wunner <lukas@wunner.de>, Petr Mladek <pmladek@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ John Ogness <john.ogness@linutronix.de>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ David Airlie <airlied@gmail.com>
+Subject: [PATCH v9 1/9] drm/panic: Add drm panic locking
+Date: Thu,  7 Mar 2024 10:14:43 +0100
+Message-ID: <20240307091936.576689-2-jfalempe@redhat.com>
+In-Reply-To: <20240307091936.576689-1-jfalempe@redhat.com>
+References: <20240307091936.576689-1-jfalempe@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
 X-Mimecast-Spam-Score: 0
@@ -70,124 +81,264 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-This introduces a new drm panic handler, which displays a message when a panic occurs.
-So when fbcon is disabled, you can still see a kernel panic.
+Rough sketch for the locking of drm panic printing code. The upshot of
+this approach is that we can pretty much entirely rely on the atomic
+commit flow, with the pair of raw_spin_lock/unlock providing any
+barriers we need, without having to create really big critical
+sections in code.
 
-This is one of the missing feature, when disabling VT/fbcon in the kernel:
-https://www.reddit.com/r/linux/comments/10eccv9/config_vtn_in_2023/
-Fbcon can be replaced by a userspace kms console, but the panic screen must be done in the kernel.
+This also avoids the need that drivers must explicitly update the
+panic handler state, which they might forget to do, or not do
+consistently, and then we blow up in the worst possible times.
 
-This is a proof of concept, and works with simpledrm, mgag200, ast, and imx.
+It is somewhat racy against a concurrent atomic update, and we might
+write into a buffer which the hardware will never display. But there's
+fundamentally no way to avoid that - if we do the panic state update
+explicitly after writing to the hardware, we might instead write to an
+old buffer that the user will barely ever see.
 
-To test it, make sure you're using one of the supported driver, and trigger a panic:
-echo c > /proc/sysrq-trigger
+Note that an rcu protected deference of plane->state would give us the
+the same guarantees, but it has the downside that we then need to
+protect the plane state freeing functions with call_rcu too. Which
+would very widely impact a lot of code and therefore doesn't seem
+worth the complexity compared to a raw spinlock with very tiny
+critical sections. Plus rcu cannot be used to protect access to
+peek/poke registers anyway, so we'd still need it for those cases.
 
-or you can enable CONFIG_DRM_PANIC_DEBUG and echo 1 > /sys/kernel/debug/dri/0/drm_panic_plane_0
+Peek/poke registers for vram access (or a gart pte reserved just for
+panic code) are also the reason I've gone with a per-device and not
+per-plane spinlock, since usually these things are global for the
+entire display. Going with per-plane locks would mean drivers for such
+hardware would need additional locks, which we don't want, since it
+deviates from the per-console takeoverlocks design.
 
+Longer term it might be useful if the panic notifiers grow a bit more
+structure than just the absolute bare
+EXPORT_SYMBOL(panic_notifier_list) - somewhat aside, why is that not
+EXPORT_SYMBOL_GPL ... If panic notifiers would be more like console
+drivers with proper register/unregister interfaces we could perhaps
+reuse the very fancy console lock with all it's check and takeover
+semantics that John Ogness is developing to fix the console_lock mess.
+But for the initial cut of a drm panic printing support I don't think
+we need that, because the critical sections are extremely small and
+only happen once per display refresh. So generally just 60 tiny locked
+sections per second, which is nothing compared to a serial console
+running a 115kbaud doing really slow mmio writes for each byte. So for
+now the raw spintrylock in drm panic notifier callback should be good
+enough.
+
+Another benefit of making panic notifiers more like full blown
+consoles (that are used in panics only) would be that we get the two
+stage design, where first all the safe outputs are used. And then the
+dangerous takeover tricks are deployed (where for display drivers we
+also might try to intercept any in-flight display buffer flips, which
+if we race and misprogram fifos and watermarks can hang the memory
+controller on some hw).
+
+For context the actual implementation on the drm side is by Jocelyn
+and this patch is meant to be combined with the overall approach in
+v7 (v8 is a bit less flexible, which I think is the wrong direction):
+
+https://lore.kernel.org/dri-devel/20240104160301.185915-1-jfalempe@redhat.com/
+
+Note that the locking is very much not correct there, hence this
+separate rfc.
 
 v2:
- * Use get_scanout_buffer() instead of the drm client API. (Thomas Zimmermann)
- * Add the panic reason to the panic message (Nerdopolis)
- * Add an exclamation mark (Nerdopolis)
- 
-v3:
- * Rework the drawing functions, to write the pixels line by line and
- to use the drm conversion helper to support other formats.
- (Thomas Zimmermann)
- 
-v4:
- * Fully support all simpledrm formats using drm conversion helpers
- * Rename dpanic_* to drm_panic_*, and have more coherent function name.
-   (Thomas Zimmermann)
- * Use drm_fb_r1_to_32bit for fonts (Thomas Zimmermann)
- * Remove the default y to DRM_PANIC config option (Thomas Zimmermann)
- * Add foreground/background color config option
- * Fix the bottom lines not painted if the framebuffer height
-   is not a multiple of the font height.
- * Automatically register the driver to drm_panic, if the function
-   get_scanout_buffer() exists. (Thomas Zimmermann)
- * Add mgag200 support.
- 
-v5:
- * Change the drawing API, use drm_fb_blit_from_r1() to draw the font.
-   (Thomas Zimmermann)
- * Also add drm_fb_fill() to fill area with background color.
- * Add draw_pixel_xy() API for drivers that can't provide a linear buffer.
- * Add a flush() callback for drivers that needs to synchronize the buffer.
- * Add a void *private field, so drivers can pass private data to
-   draw_pixel_xy() and flush(). 
- * Add ast support.
- * Add experimental imx/ipuv3 support, to test on an ARM hw. (Maxime Ripard)
+- fix authorship, this was all my typing
+- some typo oopsies
+- link to the drm panic work by Jocelyn for context
 
-v6:
- * Fix sparse and __le32 warnings
- * Drop the IMX/IPUV3 experiment, it was just to show that it works also on
-   ARM devices.
-
-v7:
- * Add a check to see if the 4cc format is supported by drm_panic.
- * Add a drm/plane helper to loop over all visible primary buffer,
-   simplifying the get_scanout_buffer implementations
- * Add a generic implementation for drivers that uses drm_fb_dma. (Maxime Ripard)
- * Add back the IMX/IPUV3 support, and use the generic implementation. (Maxime Ripard)
-
-v8:
- * Directly register each plane to the panic notifier (Sima)
- * Replace get_scanout_buffer() with set_scanout_buffer() to simplify
-   the locking. (Thomas Zimmermann)
- * Add a debugfs entry, to trigger the drm_panic without a real panic (Sima)
- * Fix the drm_panic Documentation, and include it in drm-kms.rst
-
-v9:
- * Revert to using get_scanout_buffer() (Sima)
- * Move get_scanout_buffer() and panic_flush() to the plane helper
-   functions (Thomas Zimmermann)
- * Register all planes with get_scanout_buffer() to the panic notifier
- * Use drm_panic_lock() to protect against race (Sima)
- * Create a debugfs file for each plane in the device's debugfs
-   directory. This allows to test for each plane of each GPU
-   independently.
-
-Daniel Vetter (1):
-  drm/panic: Add drm panic locking
-
-Jocelyn Falempe (8):
-  drm/format-helper: Add drm_fb_blit_from_r1 and drm_fb_fill
-  drm/panic: Add a drm panic handler
-  drm/panic: Add debugfs entry to test without triggering panic.
-  drm/fb_dma: Add generic get_scanout_buffer() for drm_panic
-  drm/simpledrm: Add drm_panic support
-  drm/mgag200: Add drm_panic support
-  drm/imx: Add drm_panic support
-  drm/ast: Add drm_panic support
-
- Documentation/gpu/drm-kms.rst            |  12 +
- drivers/gpu/drm/Kconfig                  |  32 ++
- drivers/gpu/drm/Makefile                 |   1 +
- drivers/gpu/drm/ast/ast_mode.c           |  18 +
- drivers/gpu/drm/drm_atomic_helper.c      |   3 +
- drivers/gpu/drm/drm_drv.c                |   5 +
- drivers/gpu/drm/drm_fb_dma_helper.c      |  47 +++
- drivers/gpu/drm/drm_format_helper.c      | 432 ++++++++++++++++++-----
- drivers/gpu/drm/drm_panic.c              | 360 +++++++++++++++++++
- drivers/gpu/drm/drm_plane.c              |   1 +
- drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c  |  11 +-
- drivers/gpu/drm/mgag200/mgag200_drv.h    |   7 +-
- drivers/gpu/drm/mgag200/mgag200_mode.c   |  18 +
- drivers/gpu/drm/tiny/simpledrm.c         |  16 +
- include/drm/drm_fb_dma_helper.h          |   4 +
- include/drm/drm_format_helper.h          |   9 +
- include/drm/drm_mode_config.h            |  10 +
- include/drm/drm_modeset_helper_vtables.h |  37 ++
- include/drm/drm_panic.h                  | 151 ++++++++
- include/drm/drm_plane.h                  |   5 +
- 20 files changed, 1096 insertions(+), 83 deletions(-)
- create mode 100644 drivers/gpu/drm/drm_panic.c
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+Cc: Lukas Wunner <lukas@wunner.de>
+Cc: Petr Mladek <pmladek@suse.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: John Ogness <john.ogness@linutronix.de>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+---
+ drivers/gpu/drm/drm_atomic_helper.c |  3 +
+ drivers/gpu/drm/drm_drv.c           |  1 +
+ include/drm/drm_mode_config.h       | 10 +++
+ include/drm/drm_panic.h             | 99 +++++++++++++++++++++++++++++
+ 4 files changed, 113 insertions(+)
  create mode 100644 include/drm/drm_panic.h
 
-
-base-commit: f89632a9e5fa6c4787c14458cd42a9ef42025434
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 39ef0a6addeb..c0bb91312fb2 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -38,6 +38,7 @@
+ #include <drm/drm_drv.h>
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_gem_atomic_helper.h>
++#include <drm/drm_panic.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_self_refresh_helper.h>
+ #include <drm/drm_vblank.h>
+@@ -3099,6 +3100,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
+ 		}
+ 	}
+ 
++	drm_panic_lock(state->dev);
+ 	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
+ 		WARN_ON(plane->state != old_plane_state);
+ 
+@@ -3108,6 +3110,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
+ 		state->planes[i].state = old_plane_state;
+ 		plane->state = new_plane_state;
+ 	}
++	drm_panic_unlock(state->dev);
+ 
+ 	for_each_oldnew_private_obj_in_state(state, obj, old_obj_state, new_obj_state, i) {
+ 		WARN_ON(obj->state != old_obj_state);
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index 243cacb3575c..c157500b3135 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -638,6 +638,7 @@ static int drm_dev_init(struct drm_device *dev,
+ 	mutex_init(&dev->filelist_mutex);
+ 	mutex_init(&dev->clientlist_mutex);
+ 	mutex_init(&dev->master_mutex);
++	raw_spin_lock_init(&dev->mode_config.panic_lock);
+ 
+ 	ret = drmm_add_action_or_reset(dev, drm_dev_init_release, NULL);
+ 	if (ret)
+diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+index 973119a9176b..e79f1a557a22 100644
+--- a/include/drm/drm_mode_config.h
++++ b/include/drm/drm_mode_config.h
+@@ -505,6 +505,16 @@ struct drm_mode_config {
+ 	 */
+ 	struct list_head plane_list;
+ 
++	/**
++	 * @panic_lock:
++	 *
++	 * Raw spinlock used to protect critical sections of code that access
++	 * the display hardware or modeset software state, which the panic
++	 * printing code must be protected against. See drm_panic_trylock(),
++	 * drm_panic_lock() and drm_panic_unlock().
++	 */
++	struct raw_spinlock panic_lock;
++
+ 	/**
+ 	 * @num_crtc:
+ 	 *
+diff --git a/include/drm/drm_panic.h b/include/drm/drm_panic.h
+new file mode 100644
+index 000000000000..f2135d03f1eb
+--- /dev/null
++++ b/include/drm/drm_panic.h
+@@ -0,0 +1,99 @@
++/* SPDX-License-Identifier: GPL-2.0 or MIT */
++#ifndef __DRM_PANIC_H__
++#define __DRM_PANIC_H__
++
++#include <drm/drm_device.h>
++/*
++ * Copyright (c) 2024 Intel
++ */
++
++/**
++ * drm_panic_trylock - try to enter the panic printing critical section
++ * @dev: struct drm_device
++ *
++ * This function must be called by any panic printing code. The panic printing
++ * attempt must be aborted if the trylock fails.
++ *
++ * Panic printing code can make the following assumptions while holding the
++ * panic lock:
++ *
++ * - Anything protected by drm_panic_lock() and drm_panic_unlock() pairs is safe
++ *   to access.
++ *
++ * - Furthermore the panic printing code only registers in drm_dev_unregister()
++ *   and gets removed in drm_dev_unregister(). This allows the panic code to
++ *   safely access any state which is invariant in between these two function
++ *   calls, like the list of planes drm_mode_config.plane_list or most of the
++ *   struct drm_plane structure.
++ *
++ * Specifically thanks to the protection around plane updates in
++ * drm_atomic_helper_swap_state() the following additional guarantees hold:
++ *
++ * - It is safe to deference the drm_plane.state pointer.
++ *
++ * - Anything in struct drm_plane_state or the driver's subclass thereof which
++ *   stays invariant after the atomic check code has finished is safe to access.
++ *   Specifically this includes the reference counted pointers to framebuffer
++ *   and buffer objects.
++ *
++ * - Anything set up by drm_plane_helper_funcs.fb_prepare and cleaned up
++ *   drm_plane_helper_funcs.fb_cleanup is safe to access, as long as it stays
++ *   invariant between these two calls. This also means that for drivers using
++ *   dynamic buffer management the framebuffer is pinned, and therefer all
++ *   relevant datastructures can be accessed without taking any further locks
++ *   (which would be impossible in panic context anyway).
++ *
++ * - Importantly, software and hardware state set up by
++ *   drm_plane_helper_funcs.begin_fb_access and
++ *   drm_plane_helper_funcs.end_fb_access is not safe to access.
++ *
++ * Drivers must not make any assumptions about the actual state of the hardware,
++ * unless they explicitly protected these hardware access with drm_panic_lock()
++ * and drm_panic_unlock().
++ *
++ * Returns:
++ *
++ * 0 when failing to acquire the raw spinlock, nonzero on success.
++ */
++static inline int drm_panic_trylock(struct drm_device *dev)
++{
++	return raw_spin_trylock(&dev->mode_config.panic_lock);
++}
++
++/**
++ * drm_panic_lock - protect panic printing relevant state
++ * @dev: struct drm_device
++ *
++ * This function must be called to protect software and hardware state that the
++ * panic printing code must be able to rely on. The protected sections must be
++ * as small as possible. Examples include:
++ *
++ * - Access to peek/poke or other similar registers, if that is the way the
++ *   driver prints the pixels into the scanout buffer at panic time.
++ *
++ * - Updates to pointers like drm_plane.state, allowing the panic handler to
++ *   safely deference these. This is done in drm_atomic_helper_swap_state().
++ *
++ * - An state that isn't invariant and that the driver must be able to access
++ *   during panic printing.
++ *
++ * Call drm_panic_unlock() to unlock the locked spinlock.
++ */
++static inline void drm_panic_lock(struct drm_device *dev)
++{
++	return raw_spin_lock(&dev->mode_config.panic_lock);
++}
++
++/**
++ * drm_panic_unlock - end of the panic printing critical section
++ * @dev: struct drm_device
++ *
++ * Unlocks the raw spinlock acquired by either drm_panic_lock() or
++ * drm_panic_trylock().
++ */
++static inline void drm_panic_unlock(struct drm_device *dev)
++{
++	raw_spin_unlock(&dev->mode_config.panic_lock);
++}
++
++#endif /* __DRM_PANIC_H__ */
 -- 
 2.43.2
 
