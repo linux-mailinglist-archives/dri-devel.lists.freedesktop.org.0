@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BFCC8745F0
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 03:10:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0BD874611
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 03:21:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B272E1136AB;
-	Thu,  7 Mar 2024 02:10:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CE451136D3;
+	Thu,  7 Mar 2024 02:21:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="ltpJub++";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YK8gescl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 366A610E85B;
- Thu,  7 Mar 2024 02:10:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1709777429;
- bh=aBC5lNlYQfzlwFaWA0idshYy9P2JYbt9Zw+CpC/ldcE=;
- h=Date:From:To:Cc:Subject:From;
- b=ltpJub++viAVgQpYOh1ttxr8ZbOLpl+tcVJqlwLV7b+RW312Eyc36mFq/hAfD9Qp7
- 7qSfXlLiBBGK8mvu09QBy10AjXytMpyV0gyrvOHcL8zVTa9Q856YOxVTUQPKw5oRkU
- qXuuic/xlKBXO6bRL6oKsDZdt4wByjuYdylp9PO7n+0KhvyF/HFDfIv7RJ+nf67d4H
- ZP1CdadB+0E0/hY/u27nwSsUBXoB6TOE4Ovyu7qOpAnHXZ0wZLkhxJ3kCkB41AN9VS
- R2w8xQ1PmvcZi/xmVHVOSJf2MQu69yd31LCoGq99iAtJ+LY+Rfpq/nJgCqc+iRfqIL
- p6SfX33zU9aMQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 982E11136D1;
+ Thu,  7 Mar 2024 02:21:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1709778108;
+ bh=wcNAje16nLUZs0HlstOnpDC5DqRaA1co8aNRDvbCu00=;
+ h=From:To:Cc:Subject:Date:From;
+ b=YK8gescl/5NNxDHgaHtwle1MrckketDstG9otWe59J776ReobQRKuJyYHBlD5auml
+ FoHuaHArOf+ULXKFLEK1RPuyIlNmOA10LeCnrW26dP/hCG2liEf4OwIlWH6bur5iG3
+ kKzTp6y9Gz1cxGnUzqhmHztC+nWiKur3rE5O8c1h8Wa3EGSrEpgCwk847kKVR9ckXb
+ wzYOCJCmqI5rjgWrbe1Jpao1SFShQ3vQAi+hZTyNC0BYPnO7Zf8d57GpEUlxmH/IZ+
+ oG2r/98BPG+j/eLLAM6dXMB4dSAH9C0Ho8E6Rr/onr/48o7S4MmztLM0SZEGEVw+NA
+ pmhlL3t4nEsWw==
+Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Tqt780clSz4wcC;
- Thu,  7 Mar 2024 13:10:28 +1100 (AEDT)
-Date: Thu, 7 Mar 2024 13:10:27 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@redhat.com>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, Joonas
- Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>
-Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>, Animesh Manna <animesh.manna@intel.com>,
- Imre Deak <imre.deak@intel.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: linux-next: manual merge of the drm tree with the drm-intel-fixes tree
-Message-ID: <20240307131027.66be2266@canb.auug.org.au>
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 95FF737820DA;
+ Thu,  7 Mar 2024 02:21:45 +0000 (UTC)
+From: Vignesh Raman <vignesh.raman@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Cc: daniels@collabora.com, helen.koike@collabora.com, airlied@gmail.com,
+ daniel@ffwll.ch, david.heidelberg@collabora.com,
+ sergi.blanch.torne@collabora.com, guilherme.gallo@collabora.com,
+ robdclark@gmail.com, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ tvrtko.ursulin@linux.intel.com, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v3] drm/ci: update device type for volteer devices
+Date: Thu,  7 Mar 2024 07:48:41 +0530
+Message-Id: <20240307021841.100561-1-vignesh.raman@collabora.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/gBe8YFdyBRsQQ7vG967EwEz";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,74 +62,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/gBe8YFdyBRsQQ7vG967EwEz
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Volteer devices in the collabora lab are categorized under the
+asus-cx9400-volteer device type. The majority of these units
+has an Intel Core i5-1130G7 CPU, while some of them have a
+Intel Core i7-1160G7 CPU instead. So due to this difference,
+new device type template is added for the Intel Core i5-1130G7
+and i7-1160G7 variants of the Acer Chromebook Spin 514 (CP514-2H)
+volteer Chromebooks. So update the same in drm-ci.
 
-Hi all,
+https://gitlab.collabora.com/lava/lava/-/merge_requests/149
 
-Today's linux-next merge of the drm tree got a conflict in:
+Fixes: 0119c894ab0d ("drm: Add initial ci/ subdirectory")
+Reviewed-by: David Heidelberg <david.heidelberg@collabora.com>
+Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+---
 
-  drivers/gpu/drm/i915/display/intel_dp.c
+v2:
+  - Add fixes tag so change gets propagated to stable.
+    https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1119672
 
-between commit:
+v3:
+  - Fix checkpatch warning.
+    Please use correct Fixes: style 'Fixes: <12 chars of sha1> ("<title line>")' 
 
-  984318aaf7b6 ("drm/i915/panelreplay: Move out psr_init_dpcd() from init_c=
-onnector()")
+---
+ drivers/gpu/drm/ci/test.yml | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-from the drm-intel-fixes tree and commit:
+diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
+index 0857773e5c5f..8bc63912fddb 100644
+--- a/drivers/gpu/drm/ci/test.yml
++++ b/drivers/gpu/drm/ci/test.yml
+@@ -252,11 +252,11 @@ i915:cml:
+ i915:tgl:
+   extends:
+     - .i915
+-  parallel: 8
++  parallel: 5
+   variables:
+-    DEVICE_TYPE: asus-cx9400-volteer
++    DEVICE_TYPE: acer-cp514-2h-1130g7-volteer
+     GPU_VERSION: tgl
+-    RUNNER_TAG: mesa-ci-x86-64-lava-asus-cx9400-volteer
++    RUNNER_TAG: mesa-ci-x86-64-lava-acer-cp514-2h-1130g7-volteer
+ 
+ .amdgpu:
+   extends:
+-- 
+2.40.1
 
-  e60cff453b82 ("drm/i915/dp: Enable DP tunnel BW allocation mode")
-
-from the drm tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/i915/display/intel_dp.c
-index 94d2a15d8444,6ece2c563c7a..000000000000
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@@ -5699,9 -5702,13 +5702,16 @@@ intel_dp_detect(struct drm_connector *c
-  		goto out;
-  	}
- =20
-+ 	ret =3D intel_dp_tunnel_detect(intel_dp, ctx);
-+ 	if (ret =3D=3D -EDEADLK)
-+ 		return ret;
-+=20
-+ 	if (ret =3D=3D 1)
-+ 		intel_connector->base.epoch_counter++;
-+=20
- +	if (!intel_dp_is_edp(intel_dp))
- +		intel_psr_init_dpcd(intel_dp);
- +
-  	intel_dp_detect_dsc_caps(intel_dp, intel_connector);
- =20
-  	intel_dp_configure_mst(intel_dp);
-
---Sig_/gBe8YFdyBRsQQ7vG967EwEz
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmXpIhMACgkQAVBC80lX
-0GxBvQf7BmI0o7dg07Jqo6rgMQ9Ay2p8WMp/6yyo8Jwhyb5JmFYD87E2QNv9HHfT
-HgoVX1Mb+jk665Q/obBnEcW1Hcp/sZuli4SU0FVufMV0DGCz/va+z8k2DhRTxgvq
-oDwInGOeOksje6o31zYGtvcbkZ4CA9/GAaOIN+h/U+eNqALRgMS5p6GAMfZUCOl/
-XipVMUDj8oqzgkeKY5rSop1lj0hF+Oi4NJSP4Z4W00+M/zB3QbyT4WzYRbLcloWH
-UWBFoyOUzo/ShztOMcR/cBOIDSiwWc/VQum4259wUwPJvIXqaipIXhTrNMgBMTx3
-m2UTeFGeAXW8d7sKGANRay06i4PH+Q==
-=14RR
------END PGP SIGNATURE-----
-
---Sig_/gBe8YFdyBRsQQ7vG967EwEz--
