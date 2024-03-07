@@ -2,55 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35987874FD7
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 14:21:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1084E874FF4
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 14:29:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D01510EF25;
-	Thu,  7 Mar 2024 13:21:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 834CA10F108;
+	Thu,  7 Mar 2024 13:28:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="EpJtF5QZ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XCS/fRzT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA91110EF25;
- Thu,  7 Mar 2024 13:21:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1709817695;
- bh=aGenckXGkrmLwEafuy5dZPtP7xfD+h/1iwwhHPnePH4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=EpJtF5QZFsd8vbZLtmFfgtRzkemMIYvCzLDRjJ9XAoAxJ9FeX9aTBKtG5bvOnfOYd
- +a+lSfyq2wdERSUAyA4Lfjmy6KPOMJsqdCD2Puri4cGGgQsECN0rcEmjQ9XkwOpvEk
- Nhc0syu31FVtQOlaSNQOMxaQo2tuXD8CX01FlaUfsZjmwM5LACErlTaX95v6fRyNje
- V1z6LoIRcJVd7omI0gXXhs8PZbTB4FuRo6mC5P0jmHbfgqNpESsa+NtOJyWRMjKh8P
- XLBAqR1bAnIWgEfQvZPMvHkm7GBabmnsfxmLC4FhlzMxCEic0eG6YeL45P/aU305VX
- Fsoy5dzKKALdg==
-Received: from [100.95.196.25] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: koike)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5AE2C3780B5F;
- Thu,  7 Mar 2024 13:21:30 +0000 (UTC)
-Message-ID: <a8ae3ca9-67d5-4d83-90e8-2777862473d7@collabora.com>
-Date: Thu, 7 Mar 2024 10:21:27 -0300
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 984AB10F108
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 13:28:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709818136; x=1741354136;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=yjdIRk7sd3qilCPNdIe1vadTlkaMwe9EisUimCP9pyw=;
+ b=XCS/fRzTsAsNU+dKE5mPnEbPyeSH4vGMSOB5Ok9jz96d6RY9WGCOdl5K
+ 1kBAN9io+QrDqdjAKKvnOprwJS2+ll7N+Vqjc4UiaxqzqmmbvIP0cS2jn
+ 42FJKovS1rvq0R95jb5zjvp6lzE2ECOAiBYNmyrVru4XxE1umDyT1K9Bu
+ CS4N0SaXPtawPfwhuWW4V8Ayq0v+ZCOMWaOmuJAJKgZYFMioFgweUZhHE
+ sIL1wvvL4gUwUZavNMZ7+Vr4V4Yh7ib4ymmy3D7N+c0GQseYNJaYbwcp4
+ AW+/exCfrqNqB2u4z0UutdV6I2tTqhHrYT/PIe6tLr7sZS9QyRpgaUSgV w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="4338654"
+X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
+   d="scan'208";a="4338654"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2024 05:28:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; d="scan'208";a="33260982"
+Received: from unknown (HELO localhost) ([10.237.66.160])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2024 05:28:51 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Doug Anderson <dianders@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 6/6] drm/panel-edp: Fix AUO 0x405c panel naming and
+ add a variant
+In-Reply-To: <CAD=FV=VvhKZHVzHQdOO=_p0E5m7ig1LY2s5MZRojRynKHbF1xw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240306200353.1436198-1-hsinyi@chromium.org>
+ <20240306200353.1436198-7-hsinyi@chromium.org>
+ <CAD=FV=VvhKZHVzHQdOO=_p0E5m7ig1LY2s5MZRojRynKHbF1xw@mail.gmail.com>
+Date: Thu, 07 Mar 2024 15:28:49 +0200
+Message-ID: <87msraw4q6.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm/ci: update device type for volteer devices
-Content-Language: en-US
-To: Vignesh Raman <vignesh.raman@collabora.com>,
- dri-devel@lists.freedesktop.org
-Cc: daniels@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
- david.heidelberg@collabora.com, sergi.blanch.torne@collabora.com,
- guilherme.gallo@collabora.com, robdclark@gmail.com,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240307021841.100561-1-vignesh.raman@collabora.com>
-From: Helen Koike <helen.koike@collabora.com>
-In-Reply-To: <20240307021841.100561-1-vignesh.raman@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,58 +74,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 06 Mar 2024, Doug Anderson <dianders@chromium.org> wrote:
+> Hi,
+>
+> On Wed, Mar 6, 2024 at 12:04=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.org=
+> wrote:
+>>
+>> @@ -1009,6 +1009,19 @@ static const struct panel_desc auo_b101ean01 =3D {
+>>         },
+>>  };
+>>
+>> +static const struct drm_display_mode auo_b116xa3_mode =3D {
+>> +       .clock =3D 70589,
+>> +       .hdisplay =3D 1366,
+>> +       .hsync_start =3D 1366 + 40,
+>> +       .hsync_end =3D 1366 + 40 + 40,
+>> +       .htotal =3D 1366 + 40 + 40 + 32,
+>> +       .vdisplay =3D 768,
+>> +       .vsync_start =3D 768 + 10,
+>> +       .vsync_end =3D 768 + 10 + 12,
+>> +       .vtotal =3D 768 + 10 + 12 + 6,
+>> +       .flags =3D DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
+>> +};
+>> +
+>>  static const struct drm_display_mode auo_b116xak01_mode =3D {
+>>         .clock =3D 69300,
+>>         .hdisplay =3D 1366,
+>> @@ -1990,7 +2003,9 @@ static const struct edp_panel_entry edp_panels[] =
+=3D {
+>>         EDP_PANEL_ENTRY('A', 'U', 'O', 0x239b, &delay_200_500_e50, "B116=
+XAN06.1"),
+>>         EDP_PANEL_ENTRY('A', 'U', 'O', 0x255c, &delay_200_500_e50, "B116=
+XTN02.5"),
+>>         EDP_PANEL_ENTRY('A', 'U', 'O', 0x403d, &delay_200_500_e50, "B140=
+HAN04.0"),
+>> -       EDP_PANEL_ENTRY('A', 'U', 'O', 0x405c, &auo_b116xak01.delay, "B1=
+16XAK01.0"),
+>> +       EDP_PANEL_ENTRY('A', 'U', 'O', 0x405c, &auo_b116xak01.delay, "B1=
+16XAN04.0"),
+>> +       EDP_PANEL_ENTRY2('A', 'U', 'O', 0x405c, &auo_b116xak01.delay, "B=
+116XAK01.0 ",
+>
+> Remove the trailing space from the string above now?
 
+Maybe it actually needs to be considered part of the name; see my other
+reply in the earlier patch.
 
-On 06/03/2024 23:18, Vignesh Raman wrote:
-> Volteer devices in the collabora lab are categorized under the
-> asus-cx9400-volteer device type. The majority of these units
-> has an Intel Core i5-1130G7 CPU, while some of them have a
-> Intel Core i7-1160G7 CPU instead. So due to this difference,
-> new device type template is added for the Intel Core i5-1130G7
-> and i7-1160G7 variants of the Acer Chromebook Spin 514 (CP514-2H)
-> volteer Chromebooks. So update the same in drm-ci.
-> 
-> https://gitlab.collabora.com/lava/lava/-/merge_requests/149
-> 
-> Fixes: 0119c894ab0d ("drm: Add initial ci/ subdirectory")
-> Reviewed-by: David Heidelberg <david.heidelberg@collabora.com>
-> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+>
+> Aside from that:
+>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-Acked-by: Helen Koike <helen.koike@collabora.com>
-
-Thanks
-Helen
-
-> ---
-> 
-> v2:
->    - Add fixes tag so change gets propagated to stable.
->      https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1119672
-> 
-> v3:
->    - Fix checkpatch warning.
->      Please use correct Fixes: style 'Fixes: <12 chars of sha1> ("<title line>")'
-> 
-> ---
->   drivers/gpu/drm/ci/test.yml | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-> index 0857773e5c5f..8bc63912fddb 100644
-> --- a/drivers/gpu/drm/ci/test.yml
-> +++ b/drivers/gpu/drm/ci/test.yml
-> @@ -252,11 +252,11 @@ i915:cml:
->   i915:tgl:
->     extends:
->       - .i915
-> -  parallel: 8
-> +  parallel: 5
->     variables:
-> -    DEVICE_TYPE: asus-cx9400-volteer
-> +    DEVICE_TYPE: acer-cp514-2h-1130g7-volteer
->       GPU_VERSION: tgl
-> -    RUNNER_TAG: mesa-ci-x86-64-lava-asus-cx9400-volteer
-> +    RUNNER_TAG: mesa-ci-x86-64-lava-acer-cp514-2h-1130g7-volteer
->   
->   .amdgpu:
->     extends:
+--=20
+Jani Nikula, Intel
