@@ -2,59 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81C71875121
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 15:02:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03109875126
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 15:02:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C08B410F145;
-	Thu,  7 Mar 2024 14:02:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3783D10F165;
+	Thu,  7 Mar 2024 14:02:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mp2hOEkq";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="zdg5y6GR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C9D310F145
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 14:02:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709820129; x=1741356129;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=1qluQbdxldcjdIAzSqLZp9dOHlsvydurHkEmIQx6vvo=;
- b=mp2hOEkqId68WL3KpwpARMiBxWq4RdJKq5v08Q4ixgMHZyVpJC8yM3FF
- GkcjDSyASCgVSjJjGuZFHZS6Lo3fUdBCuMXzqC5Xg7PUxCSp4kM2Vqxq9
- BYH03+eszLsszxwuPQVmhSk4NZtWQwMNrrTxWD02q8vNa6BlalQDDSNIy
- XcJTVXbBjp/A34eyFjpiOxZqjEPbbLxDxJGEyWYSJjZvWFwXq2WEOsTkS
- 8/kMmqeeDlS+QgykoCEa8tctBvgCik6qaTCTTIdysdCRFikd1RDp4goJ9
- /1L1K3WmBnH8fPvBqmxQT5v6PIuToJQrpr4eC3utLW30j9qCSCgiCdN1P g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="4416616"
-X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
-   d="scan'208";a="4416616"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2024 06:02:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; d="scan'208";a="10540142"
-Received: from unknown (HELO localhost) ([10.237.66.160])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2024 06:02:05 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie
- <airlied@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, Daniel Stone
- <daniels@collabora.com>
-Subject: Re: [PATCH v2 2/2] MAINTAINERS: Update drm-misc web page
-In-Reply-To: <20240306153841.698693-2-mripard@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <gnthy5o42kiyj63d2bkkxsc5krzf3wrwt23chh2kthkmlyjwbg@ybynvjvqdka7>
- <20240306153841.698693-1-mripard@kernel.org>
- <20240306153841.698693-2-mripard@kernel.org>
-Date: Thu, 07 Mar 2024 16:02:02 +0200
-Message-ID: <87jzmew36t.fsf@intel.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0320F10F165
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Mar 2024 14:02:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1709820155;
+ bh=ZIhPB/qLdXpK4MZKtW9rnHxM6+5wDqNGfhxfTeZKrO0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=zdg5y6GRQA4Yv2JLzuSfqTDEE1PR3nzF4aJiy4wpylltl0EbyfeJpBsGectXg8vky
+ DrPOARI+gbZDHAsgoUyxZ204EHuUxt+qX+W0Ad3uOOeb3brbPM0XjUvUS9L85whYIM
+ tyc+GApxOUeN3XsvhoStzUgsn06ztHgBKp2Y+BKqyqKH5MzkPA3PljScW60fPz4RsZ
+ M7BYYohhOV8epa0CyFF5pt2UIqAvRx0PrSa+uNpZnRgBUTMqBBUXa3FNO85us6/cBC
+ uekqJyVj0luROzmJkguMwiE8pt4/6Eslv7RyaPB/3sOj6TZCpL0EZ9+gYcpBMX/tsj
+ k46Qb5Pg9M1vg==
+Received: from [100.95.196.25] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: koike)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9610E3780624;
+ Thu,  7 Mar 2024 14:02:29 +0000 (UTC)
+Message-ID: <e53fd362-c2c2-4935-b6a3-c73decd23d10@collabora.com>
+Date: Thu, 7 Mar 2024 11:02:27 -0300
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 05/11] drm/ci: mediatek: Refactor existing mediatek jobs
+Content-Language: en-US
+To: Vignesh Raman <vignesh.raman@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Cc: daniels@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
+ emma@anholt.net, robdclark@gmail.com, david.heidelberg@collabora.com,
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
+ melissa.srw@gmail.com, mairacanal@riseup.net, mcanal@igalia.com,
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20240306030649.60269-1-vignesh.raman@collabora.com>
+ <20240306030649.60269-6-vignesh.raman@collabora.com>
+From: Helen Koike <helen.koike@collabora.com>
+In-Reply-To: <20240306030649.60269-6-vignesh.raman@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,37 +68,216 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 06 Mar 2024, Maxime Ripard <mripard@kernel.org> wrote:
-> This URL gets redirected to the Intel landing page now. Let's switch the
-> webpage to freedesktop.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+
+
+On 06/03/2024 00:06, Vignesh Raman wrote:
+> For mediatek mt8173 and mt8183, the display driver is mediatek.
+> Currently, in drm-ci for mediatek, only the display driver is
+> tested. Refactor the existing mediatek jobs so that gpu driver
+> testing jobs can be added later and update xfails accordingly.
+> Since the correct driver name is passed from the job to test gpu
+> and display driver, remove the check to set IGT_FORCE_DRIVER
+> based on driver name.
+> 
+> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
 > ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index d4e33b3a3bc0..cdd3ddd6efb5 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7019,11 +7019,11 @@ F:	include/uapi/drm/
->  DRM DRIVERS AND MISC GPU PATCHES
->  M:	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->  M:	Maxime Ripard <mripard@kernel.org>
->  M:	Thomas Zimmermann <tzimmermann@suse.de>
->  S:	Maintained
-> -W:	https://01.org/linuxgraphics/gfx-docs/maintainer-tools/drm-misc.html
-> +W:	https://drm.pages.freedesktop.org/maintainer-tools/drm-misc.html
+> 
+> v2:
+>    - Refactor the patch to rename job to indicate display driver testing,
+>      rename the existing xfail files, and remove IGT_FORCE_DRIVER from the
+>      script since it's now set by the job.
+> 
+> v3:
+>    - Add the job name in GPU_VERSION and use it for xfail file names instead
+>      of using DRIVER_NAME. Also update xfails.
+> 
+> v4:
+>    - Remove the display suffix in job and rename xfails accordingly.
+>      Remove the change adding job name in GPU_VERSION.
+> 
+> ---
+>   drivers/gpu/drm/ci/igt_runner.sh              | 10 ---------
+>   drivers/gpu/drm/ci/test.yml                   | 21 ++++++++++++++-----
+>   .../drm/ci/xfails/mediatek-mt8173-fails.txt   | 15 -------------
+>   .../drm/ci/xfails/mediatek-mt8173-flakes.txt  | 13 ++++++++++++
+>   .../drm/ci/xfails/mediatek-mt8183-fails.txt   | 21 ++++++++++++-------
+>   .../drm/ci/xfails/mediatek-mt8183-flakes.txt  |  8 +++++++
+>   6 files changed, 50 insertions(+), 38 deletions(-)
+>   create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-flakes.txt
+>   create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-flakes.txt
+> 
+> diff --git a/drivers/gpu/drm/ci/igt_runner.sh b/drivers/gpu/drm/ci/igt_runner.sh
+> index 77cd81fe6d1a..711f32772e48 100755
+> --- a/drivers/gpu/drm/ci/igt_runner.sh
+> +++ b/drivers/gpu/drm/ci/igt_runner.sh
+> @@ -20,16 +20,6 @@ cat /sys/kernel/debug/dri/*/state
+>   set -e
+>   
+>   case "$DRIVER_NAME" in
+> -    rockchip|meson)
+> -        export IGT_FORCE_DRIVER="panfrost"
+> -        ;;
+> -    mediatek)
+> -        if [ "$GPU_VERSION" = "mt8173" ]; then
+> -            export IGT_FORCE_DRIVER=${DRIVER_NAME}
+> -        elif [ "$GPU_VERSION" = "mt8183" ]; then
+> -            export IGT_FORCE_DRIVER="panfrost"
+> -        fi
+> -        ;;
+>       amdgpu)
+>           # Cannot use HWCI_KERNEL_MODULES as at that point we don't have the module in /lib
+>           mv /install/modules/lib/modules/* /lib/modules/.
+> diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
+> index 0857773e5c5f..f8f48523ada3 100644
+> --- a/drivers/gpu/drm/ci/test.yml
+> +++ b/drivers/gpu/drm/ci/test.yml
+> @@ -282,29 +282,40 @@ amdgpu:stoney:
+>       - .lava-igt:arm64
+>     stage: mediatek
+>     variables:
+> -    DRIVER_NAME: mediatek
+>       DTB: ${DEVICE_TYPE}
+>       BOOT_METHOD: depthcharge
+>       KERNEL_IMAGE_TYPE: ""
+>   
+> -mediatek:mt8173:
+> +.mt8173:
+>     extends:
+>       - .mediatek
+>     parallel: 4
+>     variables:
+>       DEVICE_TYPE: mt8173-elm-hana
+> -    GPU_VERSION: mt8173
 
-Maybe also add bug tracker link?
+Looks like it make sense to keep GPU_VERSION here, no?
+Same comment for .mt8183.
 
-B: https://gitlab.freedesktop.org/drm/misc/kernel/-/issues
+Regards,
+Helen
 
->  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->  F:	Documentation/devicetree/bindings/display/
->  F:	Documentation/devicetree/bindings/gpu/
->  F:	Documentation/gpu/
->  F:	drivers/gpu/drm/
-
--- 
-Jani Nikula, Intel
+>       RUNNER_TAG: mesa-ci-x86-64-lava-mt8173-elm-hana
+>   
+> -mediatek:mt8183:
+> +.mt8183:
+>     extends:
+>       - .mediatek
+>     parallel: 3
+>     variables:
+>       DEVICE_TYPE: mt8183-kukui-jacuzzi-juniper-sku16
+> -    GPU_VERSION: mt8183
+>       RUNNER_TAG: mesa-ci-x86-64-lava-mt8183-kukui-jacuzzi-juniper-sku16
+>   
+> +mediatek:mt8173:
+> +  extends:
+> +    - .mt8173
+> +  variables:
+> +    GPU_VERSION: mt8173
+> +    DRIVER_NAME: mediatek
+> +
+> +mediatek:mt8183:
+> +  extends:
+> +    - .mt8183
+> +  variables:
+> +    GPU_VERSION: mt8183
+> +    DRIVER_NAME: mediatek
+> +
+>   # drm-mtk doesn't even probe yet in mainline for mt8192
+>   .mediatek:mt8192:
+>     extends:
+> diff --git a/drivers/gpu/drm/ci/xfails/mediatek-mt8173-fails.txt b/drivers/gpu/drm/ci/xfails/mediatek-mt8173-fails.txt
+> index ef0cb7c3698c..c63abd603b02 100644
+> --- a/drivers/gpu/drm/ci/xfails/mediatek-mt8173-fails.txt
+> +++ b/drivers/gpu/drm/ci/xfails/mediatek-mt8173-fails.txt
+> @@ -9,28 +9,13 @@ kms_bw@linear-tiling-3-displays-1920x1080p,Fail
+>   kms_bw@linear-tiling-3-displays-2560x1440p,Fail
+>   kms_bw@linear-tiling-3-displays-3840x2160p,Fail
+>   kms_color@invalid-gamma-lut-sizes,Fail
+> -kms_color@pipe-A-invalid-gamma-lut-sizes,Fail
+> -kms_color@pipe-B-invalid-gamma-lut-sizes,Fail
+>   kms_cursor_legacy@cursor-vs-flip-atomic,Fail
+>   kms_cursor_legacy@cursor-vs-flip-legacy,Fail
+>   kms_flip@flip-vs-modeset-vs-hang,Fail
+>   kms_flip@flip-vs-panning-vs-hang,Fail
+>   kms_flip@flip-vs-suspend,Fail
+>   kms_flip@flip-vs-suspend-interruptible,Fail
+> -kms_force_connector_basic@force-edid,Fail
+> -kms_force_connector_basic@force-load-detect,Fail
+> -kms_force_connector_basic@prune-stale-modes,Fail
+> -kms_hdmi_inject@inject-4k,Fail
+> -kms_plane_scaling@planes-upscale-20x20,Fail
+> -kms_plane_scaling@planes-upscale-20x20-downscale-factor-0-25,Fail
+> -kms_plane_scaling@planes-upscale-20x20-downscale-factor-0-5,Fail
+> -kms_plane_scaling@planes-upscale-20x20-downscale-factor-0-75,Fail
+> -kms_plane_scaling@upscale-with-modifier-20x20,Fail
+> -kms_plane_scaling@upscale-with-pixel-format-20x20,Fail
+> -kms_plane_scaling@upscale-with-rotation-20x20,Fail
+>   kms_properties@get_properties-sanity-atomic,Fail
+>   kms_properties@plane-properties-atomic,Fail
+>   kms_properties@plane-properties-legacy,Fail
+>   kms_rmfb@close-fd,Fail
+> -kms_selftest@drm_format,Timeout
+> -kms_selftest@drm_format_helper,Timeout
+> diff --git a/drivers/gpu/drm/ci/xfails/mediatek-mt8173-flakes.txt b/drivers/gpu/drm/ci/xfails/mediatek-mt8173-flakes.txt
+> new file mode 100644
+> index 000000000000..64b30c092c85
+> --- /dev/null
+> +++ b/drivers/gpu/drm/ci/xfails/mediatek-mt8173-flakes.txt
+> @@ -0,0 +1,13 @@
+> +# Board Name: mt8173-elm-hana.dtb
+> +# Bug Report: https://lore.kernel.org/dri-devel/931e3f9a-9c5c-fc42-16fc-abaac4e0c0ff@collabora.com/T/#u
+> +# IGT Version: 1.28-gd2af13d9f
+> +# Failure Rate: 50
+> +# Linux Version: 6.7.0-rc3
+> +
+> +# Reported by deqp-runner
+> +kms_cursor_legacy@cursor-vs-flip-atomic-transitions
+> +
+> +# Below test shows inconsistency across multiple runs,
+> +# giving results of Pass and Timeout/Fail alternately
+> +kms_prop_blob@invalid-set-prop
+> +kms_prop_blob@invalid-set-prop-any
+> diff --git a/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt b/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
+> index 67d690fc4037..28c825c9cd60 100644
+> --- a/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
+> +++ b/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
+> @@ -1,13 +1,18 @@
+> -kms_addfb_basic@addfb25-bad-modifier,Fail
+> +core_setmaster_vs_auth,Fail
+> +kms_bw@linear-tiling-1-displays-1920x1080p,Fail
+>   kms_bw@linear-tiling-1-displays-2560x1440p,Fail
+> +kms_bw@linear-tiling-1-displays-3840x2160p,Fail
+>   kms_bw@linear-tiling-2-displays-1920x1080p,Fail
+>   kms_bw@linear-tiling-2-displays-2560x1440p,Fail
+>   kms_bw@linear-tiling-2-displays-3840x2160p,Fail
+> -kms_bw@linear-tiling-3-displays-2560x1440p,Fail
+> -kms_bw@linear-tiling-3-displays-3840x2160p,Fail
+> -kms_color@pipe-A-invalid-gamma-lut-sizes,Fail
+> -kms_plane_cursor@overlay,Fail
+> -kms_plane_cursor@primary,Fail
+> -kms_plane_cursor@viewport,Fail
+> -kms_plane_scaling@upscale-with-rotation-20x20,Fail
+> +kms_color@invalid-gamma-lut-sizes,Fail
+> +kms_cursor_legacy@cursor-vs-flip-atomic,Fail
+> +kms_cursor_legacy@cursor-vs-flip-legacy,Fail
+> +kms_flip@flip-vs-modeset-vs-hang,Fail
+> +kms_flip@flip-vs-panning-vs-hang,Fail
+> +kms_flip@flip-vs-suspend,Fail
+> +kms_prop_blob@invalid-set-prop-any,Fail
+> +kms_properties@get_properties-sanity-atomic,Fail
+> +kms_properties@plane-properties-atomic,Fail
+> +kms_properties@plane-properties-legacy,Fail
+>   kms_rmfb@close-fd,Fail
+> diff --git a/drivers/gpu/drm/ci/xfails/mediatek-mt8183-flakes.txt b/drivers/gpu/drm/ci/xfails/mediatek-mt8183-flakes.txt
+> new file mode 100644
+> index 000000000000..5885a950fa72
+> --- /dev/null
+> +++ b/drivers/gpu/drm/ci/xfails/mediatek-mt8183-flakes.txt
+> @@ -0,0 +1,8 @@
+> +# Board Name: mt8183-kukui-jacuzzi-juniper-sku16.dtb
+> +# Bug Report: https://lore.kernel.org/dri-devel/931e3f9a-9c5c-fc42-16fc-abaac4e0c0ff@collabora.com/T/#u
+> +# IGT Version: 1.28-gd2af13d9f
+> +# Failure Rate: 100
+> +# Linux Version: 6.7.0-rc3
+> +
+> +# Reported by deqp-runner
+> +kms_cursor_legacy@cursor-vs-flip-atomic-transitions
