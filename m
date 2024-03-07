@@ -2,75 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D37C0874C8C
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 11:41:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 297E4874CAD
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Mar 2024 11:48:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC5E5113764;
-	Thu,  7 Mar 2024 10:41:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A3EC11376B;
+	Thu,  7 Mar 2024 10:48:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="byp5MafG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Qr8J+ozK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C18A113764;
- Thu,  7 Mar 2024 10:41:24 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-4130e293686so5159935e9.3; 
- Thu, 07 Mar 2024 02:41:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1709808083; x=1710412883; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=qgaA4hwjMMxXsNn/H65VvY2aAb1+rjCArUM3dz35oeg=;
- b=byp5MafGv2wLNxvk3m3FyBOVZLN1ZzYDHNbYLazRhKdaBHclvy7eZxDG1F+IAAV0Mh
- LHGcEMhy1sM6Y/zGUtBTJYPakayVBQtfS3yFfDUfR+zJGye/F8pTtAiZzITtrHW76wlP
- XU6l+/5X0BIJ/T42e/UsU7W/z7GZSrL5Bgk5HiKZGf65tZOpBRUbkfKwAwOrrx1lYIps
- MPNgqvaayIBp1BEUw0MKhN/XWnn58NSl0yAmkEy/eCIAn3nSMthODjUEH8x+EbdJu6Kl
- eH87A7siGZepr0XXlEJGcfOFCy29HkIVk62WCTBds+lSEvQa+xFT77rHD3OEcozx09/1
- f9Rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709808083; x=1710412883;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=qgaA4hwjMMxXsNn/H65VvY2aAb1+rjCArUM3dz35oeg=;
- b=uraDFXjGSwxhzQ3qUWJwFzTLdEKd2PUwIsGbYMDHDrDe8Q18o/kW2H9OMb+9+SaJAX
- io65XgTSBbYb3GYGt6BG5PHTnVn4ZbChoVmsFyT7P3JToLtBV55B7Cb+HCkYYXP5dksN
- R6CHCVsDO70o+1cXsU6IuER+VU6K07w+8L/aazXUE755H1IKqNhJLlnzEyQrR7+B+1oE
- wcIil2rlzXCnngThV6TyxN38pdkRSo+uuDmsDhrxABYxRIB3585+WPgF7MEgjgkLfvxT
- v63kORiHpR8SRj19c7R9UZ/y2I788KE0LjeACD3kcL+4DoRDaN5WOOysdrcz1WY+/u8a
- v0PQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUWbDybxqGbl8hB+CrUJEE/2veZSjenTVn2MC8pSZZMgvn1wItjFeD3ucRQXNOQdYEaQvOHpSWcabtBMfaEx/qQqptTZCkRptDP6PUQ6ODmJTHVGn5KmRMQIOoklsi5q4x6z2nmtur8EwJ3Ah7PBL/A08g=
-X-Gm-Message-State: AOJu0Yw9UQHFmdZU/sFwz14fY9R850tmh4py3zBiMSaxH3BWQAChOB+S
- Ceneb1fwqkZT4Q0PaH2A/UftFkPp///jF7oj9eou1cuMObX/Wjbq
-X-Google-Smtp-Source: AGHT+IHFfQLpO+Ajim+32v9BfNQVyFeSt1SNjsGAX7r/QvA8WtdX08e2LuaNBQOxKkcCwOPQi0HNYg==
-X-Received: by 2002:a05:600c:4ecf:b0:412:b457:6303 with SMTP id
- g15-20020a05600c4ecf00b00412b4576303mr15685863wmq.21.1709808082840; 
- Thu, 07 Mar 2024 02:41:22 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
- fk15-20020a05600c0ccf00b00413133cb9b8sm384147wmb.19.2024.03.07.02.41.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Mar 2024 02:41:19 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CC2F113768;
+ Thu,  7 Mar 2024 10:48:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709808505; x=1741344505;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=I1OaocZO6q5qDlS1VvIDzGIoQDCebm0dvy3ty/aeExg=;
+ b=Qr8J+ozKqT/l85BMajoYZcENwToer8R1wbpBub92WuRiXBu8hfhrIaRO
+ mtUsIalu1I94s3n0gyLjg0f/5etKScyoj4ua4ArO0CTyQZzzv1gIkAEgk
+ GxHOdHZP16foVNqpSubJWgM5cdbvGXHkB9oTuhcojniDErXHwtAiT9qyP
+ GRvxvswtNUqAz9PFc4gXpWqJm+KoPedluP4nDlrS+GjUEawXM4VnAvcab
+ 9J7sGhrzNy5ZKqPGljcWZEQNdqa5mDyoIZnPabNnz7wmyi2W/irKgD19j
+ jNsmd1iSEIbgg8Dv0ssgKrnihpzzEqlxw4txCdMlB9abn3oobz7Mg+YW1 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="21920195"
+X-IronPort-AV: E=Sophos;i="6.06,211,1705392000"; d="scan'208";a="21920195"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2024 02:48:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,211,1705392000"; d="scan'208";a="41047635"
+Received: from nbint65x-mobl.gar.corp.intel.com (HELO fedora) ([10.249.254.43])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2024 02:48:20 -0800
+Date: Thu, 7 Mar 2024 11:48:10 +0100
+From: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] drm/qxl: remove unused variable num_relocs
-Date: Thu,  7 Mar 2024 10:41:19 +0000
-Message-Id: <20240307104119.1980621-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.2
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-xe-fixes
+Message-ID: <Zema9lLEdtMISljc@fedora>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,48 +71,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The variable num_relocs is being initialized and incremented but it is
-never actually referenced in any other way. The variable is redundant
-and can be removed.
+Hi Dave, Sima
 
-Cleans up clang scan build warning:
-drivers/gpu/drm/qxl/qxl_ioctl.c:148:14: warning: variable 'num_relocs'
-set but not used [-Wunused-but-set-variable]
+A single error path fix for 6.8 final (-rc8).
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/gpu/drm/qxl/qxl_ioctl.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Thanks,
+Thomas
 
-diff --git a/drivers/gpu/drm/qxl/qxl_ioctl.c b/drivers/gpu/drm/qxl/qxl_ioctl.c
-index dd0f834d881c..506ae1f5e099 100644
---- a/drivers/gpu/drm/qxl/qxl_ioctl.c
-+++ b/drivers/gpu/drm/qxl/qxl_ioctl.c
-@@ -145,7 +145,7 @@ static int qxl_process_single_command(struct qxl_device *qdev,
- 	struct qxl_release *release;
- 	struct qxl_bo *cmd_bo;
- 	void *fb_cmd;
--	int i, ret, num_relocs;
-+	int i, ret;
- 	int unwritten;
- 
- 	switch (cmd->type) {
-@@ -200,7 +200,6 @@ static int qxl_process_single_command(struct qxl_device *qdev,
- 	}
- 
- 	/* fill out reloc info structs */
--	num_relocs = 0;
- 	for (i = 0; i < cmd->relocs_num; ++i) {
- 		struct drm_qxl_reloc reloc;
- 		struct drm_qxl_reloc __user *u = u64_to_user_ptr(cmd->relocs);
-@@ -230,7 +229,6 @@ static int qxl_process_single_command(struct qxl_device *qdev,
- 			reloc_info[i].dst_bo = cmd_bo;
- 			reloc_info[i].dst_offset = reloc.dst_offset + release->release_offset;
- 		}
--		num_relocs++;
- 
- 		/* reserve and validate the reloc dst bo */
- 		if (reloc.reloc_type == QXL_RELOC_TYPE_BO || reloc.src_handle) {
--- 
-2.39.2
+drm-xe-fixes-2024-03-07:
+Driver Changes:
+- An error path fix.
 
+The following changes since commit 90d35da658da8cff0d4ecbb5113f5fac9d00eb72:
+
+  Linux 6.8-rc7 (2024-03-03 13:02:52 -0800)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2024-03-07
+
+for you to fetch changes up to a4e7596e209783a7be2727d6b947cbd863c2bbcb:
+
+  drm/xe: Return immediately on tile_init failure (2024-03-07 09:13:38 +0100)
+
+----------------------------------------------------------------
+Driver Changes:
+- An error path fix.
+
+----------------------------------------------------------------
+Rodrigo Vivi (1):
+      drm/xe: Return immediately on tile_init failure
+
+ drivers/gpu/drm/xe/xe_tile.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
