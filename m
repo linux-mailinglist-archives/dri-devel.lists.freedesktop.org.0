@@ -2,149 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCBBF8765FD
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 15:07:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F2D8765A6
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 14:52:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEFBF10EE43;
-	Fri,  8 Mar 2024 14:07:10 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="hckQ3MOs";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o+8D39/+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ihJIT1sN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="akOZjd/D";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56F921135E9;
+	Fri,  8 Mar 2024 13:52:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0386B10EE43
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 14:07:08 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 76534345D1;
- Fri,  8 Mar 2024 13:45:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1709905554; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=CuXq2eZ6klQN45NrJOcCDnbqaSlpdsE6EJO7/+krAjw=;
- b=hckQ3MOsgAiE1w2MS2BZ5V6MK84/mXr3Wd2+XsbxXDYcyannycvelDVXb2T2khDevXqtfh
- 83qgDtwcxYRX3waBgCiJZlQShSC0z1I3gUf86H8lH9B5eVwrTmX1NfC+441m5KtSfrLk7Z
- zhamrKrR9FM8xDXKZ9K442Niv2P8oF4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1709905554;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=CuXq2eZ6klQN45NrJOcCDnbqaSlpdsE6EJO7/+krAjw=;
- b=o+8D39/+iCzpYPAEG09z7rfaMqNLFYkBJuzsw0W4FhvVNRvjWiyQ7IpGGyiobBmyOp0oSW
- iN/JWYVRyj1f52CA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1709905553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=CuXq2eZ6klQN45NrJOcCDnbqaSlpdsE6EJO7/+krAjw=;
- b=ihJIT1sNUiH3GtO2/h/bdKfI5ljtXoAxvLNLYCOHGbisxYYSZUadw+bgvddiLyDWqO6tTx
- on6R5k89US4UPgOiuK9jxW36fO8Az8NibookxFj+FYSRamnpFBzRfsjHZlnehYLyCgDN4a
- 90nOku/nuSz/bYfatChHlNKdoxqJGRQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1709905553;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=CuXq2eZ6klQN45NrJOcCDnbqaSlpdsE6EJO7/+krAjw=;
- b=akOZjd/Dl/wwg0g8RbE6M2lNgz0yELDQhRLIasENknKhDIdS5Z63z0K5B8oSVy9mbuPSU/
- NrbVx9TyUJUl5/Aw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EB9AE13310;
- Fri,  8 Mar 2024 13:45:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
- by imap1.dmz-prg2.suse.org with ESMTPSA id FRZfOJAW62XWIgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 08 Mar 2024 13:45:52 +0000
-Message-ID: <7dd169fe-c6ff-408f-99b0-e2521dd6bd77@suse.de>
-Date: Fri, 8 Mar 2024 14:45:52 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 187661135E9
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 13:52:35 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 60FAD1474
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 05:53:11 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 3B7863F762
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 05:52:34 -0800 (PST)
+Date: Fri, 8 Mar 2024 13:52:18 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Mihail Atanassov <Mihail.Atanassov@arm.com>
+Subject: Re: [PATCH] drm/panthor: Add support for performance counters
+Message-ID: <ZesYErFVdqLyjblW@e110455-lin.cambridge.arm.com>
+References: <20240305165820.585245-1-adrian.larumbe@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 1/9] drm/panic: Add drm panic locking
-Content-Language: en-US
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- airlied@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net,
- noralf@tronnes.org
-Cc: gpiccoli@igalia.com, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Peter Zijlstra (Intel)" <peterz@infradead.org>,
- Lukas Wunner <lukas@wunner.de>, Petr Mladek <pmladek@suse.com>,
- Steven Rostedt <rostedt@goodmis.org>, John Ogness
- <john.ogness@linutronix.de>, Sergey Senozhatsky <senozhatsky@chromium.org>,
- David Airlie <airlied@gmail.com>
-References: <20240307091936.576689-1-jfalempe@redhat.com>
- <20240307091936.576689-2-jfalempe@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240307091936.576689-2-jfalempe@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ihJIT1sN;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="akOZjd/D"
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.50 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
- XM_UA_NO_VERSION(0.01)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_THREE(0.00)[3];
- DKIM_TRACE(0.00)[suse.de:+]; MX_GOOD(-0.01)[];
- NEURAL_HAM_SHORT(-0.20)[-1.000];
- FREEMAIL_TO(0.00)[redhat.com,lists.freedesktop.org,linux.intel.com,kernel.org,ffwll.ch,verizon.net,tronnes.org];
- FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+];
- MID_RHS_MATCH_FROM(0.00)[]; BAYES_HAM(-3.00)[100.00%];
- ARC_NA(0.00)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,verizon.net];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCPT_COUNT_TWELVE(0.00)[20]; FUZZY_BLOCKED(0.00)[rspamd.com];
- FREEMAIL_CC(0.00)[igalia.com,ffwll.ch,intel.com,linux-foundation.org,infradead.org,wunner.de,suse.com,goodmis.org,linutronix.de,chromium.org,gmail.com];
- RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -4.50
-X-Rspamd-Queue-Id: 76534345D1
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240305165820.585245-1-adrian.larumbe@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,288 +54,1112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Hi Adrián,
 
-Am 07.03.24 um 10:14 schrieb Jocelyn Falempe:
-> From: Daniel Vetter <daniel.vetter@ffwll.ch>
->
-> Rough sketch for the locking of drm panic printing code. The upshot of
-> this approach is that we can pretty much entirely rely on the atomic
-> commit flow, with the pair of raw_spin_lock/unlock providing any
-> barriers we need, without having to create really big critical
-> sections in code.
+Thanks for the patch and appologies for taking a bit longer to respond,
+I was trying to gather some internal Arm feedback before replying.
 
-The ast driver has a lock to protect modesetting and concurrent EDID 
-reads from each other. [1] That new panic_lock seems to serve the same 
-purpose.
+On Tue, Mar 05, 2024 at 04:58:16PM +0000, Adrián Larumbe wrote:
+> This brings in support for Panthor's HW performance counters and querying
+> them from UM through a specific ioctl(). The code is inspired by existing
+> functionality for the Panfrost driver, with some noteworthy differences:
+> 
+>  - Sample size is now reported by the firmware rather than having to reckon
+>  it by hand
+>  - Counter samples are chained in a ring buffer that can be accessed
+>  concurrently, but only from threads within a single context (this is
+>  because of a HW limitation).
+>  - List of enabled counters must be explicitly told from UM
+>  - Rather than allocating the BO that will contain the perfcounter values
+>  in the render context's address space, the samples ring buffer is mapped
+>  onto the MCU's VM.
+>  - If more than one thread within the same context tries to dump a sample,
+>  then the kernel will copy the same frame to every single thread that was
+>  able to join the dump queue right before the FW finished processing the
+>  sample request.
+>  - UM must provide a BO handle for retrieval of perfcnt values rather
+>  than passing a user virtual address.
+> 
+> The reason multicontext access to the driver's perfcnt ioctl interface
+> isn't tolerated is because toggling a different set of counters than the
+> current one implies a counter reset, which also messes up with the ring
+> buffer's extraction and insertion pointers. This is an unfortunate
+> hardware limitation.
 
-If we go that route, can we make this a bit more generic and call it 
-commit_lock? I could then remove the dedicated lock from ast.
+There are a few issues that we would like to improve with this patch.
 
-Best regards
-Thomas
+I'm not sure what user space app has been used for testing this (I'm guessing
+gputop from igt?) but whatever is used it needs to understand the counters
+being exposed. In your patch there is no information given to the user space
+about the layout of the counters and / or their order. Where is this being
+planned to be defined? Long term, I think it would be good to have details
+about the counters available.
 
-[1] 
-https://elixir.bootlin.com/linux/v6.7/source/drivers/gpu/drm/ast/ast_drv.h#L195
+The other issue we can see is with the perfcnt_process_sample() and its
+handling of threshold event and overflows. If the userspace doesn't sample
+quick enough and we cross the threshold we are going to lose samples and
+there is no mechanism to communicate to user space that the values they
+are getting have gaps. I believe the default mode for the firmware is to
+give you counter values relative to the last read value, so if you drop
+samples you're not going to make any sense of the data.
 
->
-> This also avoids the need that drivers must explicitly update the
-> panic handler state, which they might forget to do, or not do
-> consistently, and then we blow up in the worst possible times.
->
-> It is somewhat racy against a concurrent atomic update, and we might
-> write into a buffer which the hardware will never display. But there's
-> fundamentally no way to avoid that - if we do the panic state update
-> explicitly after writing to the hardware, we might instead write to an
-> old buffer that the user will barely ever see.
->
-> Note that an rcu protected deference of plane->state would give us the
-> the same guarantees, but it has the downside that we then need to
-> protect the plane state freeing functions with call_rcu too. Which
-> would very widely impact a lot of code and therefore doesn't seem
-> worth the complexity compared to a raw spinlock with very tiny
-> critical sections. Plus rcu cannot be used to protect access to
-> peek/poke registers anyway, so we'd still need it for those cases.
->
-> Peek/poke registers for vram access (or a gart pte reserved just for
-> panic code) are also the reason I've gone with a per-device and not
-> per-plane spinlock, since usually these things are global for the
-> entire display. Going with per-plane locks would mean drivers for such
-> hardware would need additional locks, which we don't want, since it
-> deviates from the per-console takeoverlocks design.
->
-> Longer term it might be useful if the panic notifiers grow a bit more
-> structure than just the absolute bare
-> EXPORT_SYMBOL(panic_notifier_list) - somewhat aside, why is that not
-> EXPORT_SYMBOL_GPL ... If panic notifiers would be more like console
-> drivers with proper register/unregister interfaces we could perhaps
-> reuse the very fancy console lock with all it's check and takeover
-> semantics that John Ogness is developing to fix the console_lock mess.
-> But for the initial cut of a drm panic printing support I don't think
-> we need that, because the critical sections are extremely small and
-> only happen once per display refresh. So generally just 60 tiny locked
-> sections per second, which is nothing compared to a serial console
-> running a 115kbaud doing really slow mmio writes for each byte. So for
-> now the raw spintrylock in drm panic notifier callback should be good
-> enough.
->
-> Another benefit of making panic notifiers more like full blown
-> consoles (that are used in panics only) would be that we get the two
-> stage design, where first all the safe outputs are used. And then the
-> dangerous takeover tricks are deployed (where for display drivers we
-> also might try to intercept any in-flight display buffer flips, which
-> if we race and misprogram fifos and watermarks can hang the memory
-> controller on some hw).
->
-> For context the actual implementation on the drm side is by Jocelyn
-> and this patch is meant to be combined with the overall approach in
-> v7 (v8 is a bit less flexible, which I think is the wrong direction):
->
-> https://lore.kernel.org/dri-devel/20240104160301.185915-1-jfalempe@redhat.com/
->
-> Note that the locking is very much not correct there, hence this
-> separate rfc.
->
-> v2:
-> - fix authorship, this was all my typing
-> - some typo oopsies
-> - link to the drm panic work by Jocelyn for context
->
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Jocelyn Falempe <jfalempe@redhat.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-> Cc: Lukas Wunner <lukas@wunner.de>
-> Cc: Petr Mladek <pmladek@suse.com>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> Cc: John Ogness <john.ogness@linutronix.de>
-> Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
+The third topic that is worth discussing is the runtime PM. Currently your
+patch will increment the runtime PM usage count when the performance
+counter dump is enabled, which means you will not be able to instrument
+your power saving modes. It might not be a concern for the current users
+of the driver, but it is worth discussing how to enable that workflow
+for future.
+
+Otherwise, from a quick look over the code it looks good to me.
+
+Best regards,
+Liviu
+
+> 
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 > ---
->   drivers/gpu/drm/drm_atomic_helper.c |  3 +
->   drivers/gpu/drm/drm_drv.c           |  1 +
->   include/drm/drm_mode_config.h       | 10 +++
->   include/drm/drm_panic.h             | 99 +++++++++++++++++++++++++++++
->   4 files changed, 113 insertions(+)
->   create mode 100644 include/drm/drm_panic.h
->
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index 39ef0a6addeb..c0bb91312fb2 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -38,6 +38,7 @@
->   #include <drm/drm_drv.h>
->   #include <drm/drm_framebuffer.h>
->   #include <drm/drm_gem_atomic_helper.h>
-> +#include <drm/drm_panic.h>
->   #include <drm/drm_print.h>
->   #include <drm/drm_self_refresh_helper.h>
->   #include <drm/drm_vblank.h>
-> @@ -3099,6 +3100,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
->   		}
->   	}
->   
-> +	drm_panic_lock(state->dev);
->   	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
->   		WARN_ON(plane->state != old_plane_state);
->   
-> @@ -3108,6 +3110,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
->   		state->planes[i].state = old_plane_state;
->   		plane->state = new_plane_state;
->   	}
-> +	drm_panic_unlock(state->dev);
->   
->   	for_each_oldnew_private_obj_in_state(state, obj, old_obj_state, new_obj_state, i) {
->   		WARN_ON(obj->state != old_obj_state);
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 243cacb3575c..c157500b3135 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -638,6 +638,7 @@ static int drm_dev_init(struct drm_device *dev,
->   	mutex_init(&dev->filelist_mutex);
->   	mutex_init(&dev->clientlist_mutex);
->   	mutex_init(&dev->master_mutex);
-> +	raw_spin_lock_init(&dev->mode_config.panic_lock);
->   
->   	ret = drmm_add_action_or_reset(dev, drm_dev_init_release, NULL);
->   	if (ret)
-> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-> index 973119a9176b..e79f1a557a22 100644
-> --- a/include/drm/drm_mode_config.h
-> +++ b/include/drm/drm_mode_config.h
-> @@ -505,6 +505,16 @@ struct drm_mode_config {
->   	 */
->   	struct list_head plane_list;
->   
-> +	/**
-> +	 * @panic_lock:
-> +	 *
-> +	 * Raw spinlock used to protect critical sections of code that access
-> +	 * the display hardware or modeset software state, which the panic
-> +	 * printing code must be protected against. See drm_panic_trylock(),
-> +	 * drm_panic_lock() and drm_panic_unlock().
+>  drivers/gpu/drm/panthor/Makefile          |   3 +-
+>  drivers/gpu/drm/panthor/panthor_device.c  |   6 +
+>  drivers/gpu/drm/panthor/panthor_device.h  |   6 +
+>  drivers/gpu/drm/panthor/panthor_drv.c     |  61 +++
+>  drivers/gpu/drm/panthor/panthor_fw.c      |  27 ++
+>  drivers/gpu/drm/panthor/panthor_fw.h      |  12 +
+>  drivers/gpu/drm/panthor/panthor_perfcnt.c | 551 ++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_perfcnt.h |  31 ++
+>  drivers/gpu/drm/panthor/panthor_sched.c   |   1 +
+>  include/uapi/drm/panthor_drm.h            |  72 +++
+>  10 files changed, 769 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_perfcnt.c
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_perfcnt.h
+> 
+> diff --git a/drivers/gpu/drm/panthor/Makefile b/drivers/gpu/drm/panthor/Makefile
+> index 15294719b09c..7f841fd053d4 100644
+> --- a/drivers/gpu/drm/panthor/Makefile
+> +++ b/drivers/gpu/drm/panthor/Makefile
+> @@ -9,6 +9,7 @@ panthor-y := \
+>  	panthor_gpu.o \
+>  	panthor_heap.o \
+>  	panthor_mmu.o \
+> -	panthor_sched.o
+> +	panthor_sched.o \
+> +	panthor_perfcnt.o
+>  
+>  obj-$(CONFIG_DRM_PANTHOR) += panthor.o
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> index bfe8da4a6e4c..5dfd82891063 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -20,6 +20,7 @@
+>  #include "panthor_mmu.h"
+>  #include "panthor_regs.h"
+>  #include "panthor_sched.h"
+> +#include "panthor_perfcnt.h"
+>  
+>  static int panthor_clk_init(struct panthor_device *ptdev)
+>  {
+> @@ -78,6 +79,7 @@ void panthor_device_unplug(struct panthor_device *ptdev)
+>  	/* Now, try to cleanly shutdown the GPU before the device resources
+>  	 * get reclaimed.
+>  	 */
+> +	panthor_perfcnt_unplug(ptdev);
+>  	panthor_sched_unplug(ptdev);
+>  	panthor_fw_unplug(ptdev);
+>  	panthor_mmu_unplug(ptdev);
+> @@ -233,6 +235,10 @@ int panthor_device_init(struct panthor_device *ptdev)
+>  	if (ret)
+>  		goto err_unplug_fw;
+>  
+> +	ret = panthor_perfcnt_init(ptdev);
+> +	if (ret)
+> +		goto err_rpm_put;
+> +
+>  	/* ~3 frames */
+>  	pm_runtime_set_autosuspend_delay(ptdev->base.dev, 50);
+>  	pm_runtime_use_autosuspend(ptdev->base.dev);
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> index 51c9d61b6796..adf0bd29deb0 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -100,6 +100,9 @@ struct panthor_device {
+>  	/** @csif_info: Command stream interface information. */
+>  	struct drm_panthor_csif_info csif_info;
+>  
+> +	/** @perfcnt_info: Performance counters interface information. */
+> +	struct drm_panthor_perfcnt_info perfcnt_info;
+> +
+>  	/** @gpu: GPU management data. */
+>  	struct panthor_gpu *gpu;
+>  
+> @@ -127,6 +130,9 @@ struct panthor_device {
+>  		struct completion done;
+>  	} unplug;
+>  
+> +	/** @perfcnt: Device performance counters data. */
+> +	struct panthor_perfcnt *perfcnt;
+> +
+>  	/** @reset: Reset related fields. */
+>  	struct {
+>  		/** @wq: Ordered worqueud used to schedule reset operations. */
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index ff484506229f..6cb9ea0aa553 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -27,6 +27,7 @@
+>  #include "panthor_mmu.h"
+>  #include "panthor_regs.h"
+>  #include "panthor_sched.h"
+> +#include "panthor_perfcnt.h"
+>  
+>  /**
+>   * DOC: user <-> kernel object copy helpers.
+> @@ -164,6 +165,7 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
+>  	_Generic(_obj_name, \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_gpu_info, tiler_present), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_csif_info, pad), \
+> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perfcnt_info, fw_size),	\
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_sync_op, timeline_value), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_submit, syncs), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_create, ringbuf_size), \
+> @@ -765,6 +767,10 @@ static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct d
+>  			args->size = sizeof(ptdev->csif_info);
+>  			return 0;
+>  
+> +		case DRM_PANTHOR_DEV_QUERY_PERFCNT_INFO:
+> +			args->size = sizeof(ptdev->perfcnt_info);
+> +			return 0;
+> +
+>  		default:
+>  			return -EINVAL;
+>  		}
+> @@ -777,6 +783,9 @@ static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct d
+>  	case DRM_PANTHOR_DEV_QUERY_CSIF_INFO:
+>  		return PANTHOR_UOBJ_SET(args->pointer, args->size, ptdev->csif_info);
+>  
+> +	case DRM_PANTHOR_DEV_QUERY_PERFCNT_INFO:
+> +		return PANTHOR_UOBJ_SET(args->pointer, args->size, ptdev->perfcnt_info);
+> +
+>  	default:
+>  		return -EINVAL;
+>  	}
+> @@ -1245,6 +1254,55 @@ static int panthor_ioctl_vm_get_state(struct drm_device *ddev, void *data,
+>  	return 0;
+>  }
+>  
+> +static bool perf_masks_zero(struct drm_panthor_perfcnt_config *req)
+> +{
+> +
+> +	u32 counters_mask = req->csg_select | req->fw_enable |
+> +		req->csg_enable | req->csf_enable | req->shader_enable |
+> +		req->tiler_enable | req->mmu_l2_enable;
+> +
+> +	return (!counters_mask) ? true : false;
+> +}
+> +
+> +static int panthor_ioctl_perfcnt_config(struct drm_device *dev, void *data,
+> +				  struct drm_file *file_priv)
+> +{
+> +	struct panthor_file *pfile = file_priv->driver_priv;
+> +	struct panthor_device *ptdev = pfile->ptdev;
+> +	struct drm_panthor_perfcnt_config *req = data;
+> +
+> +	/*
+> +	 * GLB_PRFCNT_CONFIG.SET_SELECT: This flag allows selection of different
+> +	 * sets of counter events. For those counter blocks that support it, this
+> +	 * effectively selects between up to four sets of the event count inputs to
+> +	 * the same counter block. All counter blocks support counter set 0.
 > +	 */
-> +	struct raw_spinlock panic_lock;
+> +	if (req->counterset > 3)
+> +		return -EINVAL;
 > +
->   	/**
->   	 * @num_crtc:
->   	 *
-> diff --git a/include/drm/drm_panic.h b/include/drm/drm_panic.h
+> +	return panthor_perfcnt_config(ptdev, req, pfile, perf_masks_zero(req));
+> +}
+> +
+> +static int panthor_ioctl_perfcnt_dump(struct drm_device *dev, void *data,
+> +				      struct drm_file *file_priv)
+> +{
+> +	struct panthor_file *pfile = file_priv->driver_priv;
+> +	struct panthor_device *ptdev = pfile->ptdev;
+> +	struct drm_panthor_perfcnt_dump *req = data;
+> +	struct drm_gem_object *obj;
+> +	int ret;
+> +
+> +	obj = drm_gem_object_lookup(file_priv, req->handle);
+> +	if (!obj)
+> +		return -ENOENT;
+> +
+> +	ret = panthor_perfcnt_dump(ptdev, obj, file_priv->driver_priv);
+> +
+> +	drm_gem_object_put(obj);
+> +
+> +	return ret;
+> +}
+> +
+>  static int
+>  panthor_open(struct drm_device *ddev, struct drm_file *file)
+>  {
+> @@ -1290,6 +1348,7 @@ panthor_postclose(struct drm_device *ddev, struct drm_file *file)
+>  {
+>  	struct panthor_file *pfile = file->driver_priv;
+>  
+> +	panthor_perfcnt_close(file);
+>  	panthor_group_pool_destroy(pfile);
+>  	panthor_vm_pool_destroy(pfile);
+>  
+> @@ -1314,6 +1373,8 @@ static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
+>  	PANTHOR_IOCTL(TILER_HEAP_CREATE, tiler_heap_create, DRM_RENDER_ALLOW),
+>  	PANTHOR_IOCTL(TILER_HEAP_DESTROY, tiler_heap_destroy, DRM_RENDER_ALLOW),
+>  	PANTHOR_IOCTL(GROUP_SUBMIT, group_submit, DRM_RENDER_ALLOW),
+> +	PANTHOR_IOCTL(PERFCNT_CONFIG, perfcnt_config, DRM_RENDER_ALLOW),
+> +	PANTHOR_IOCTL(PERFCNT_DUMP, perfcnt_dump, DRM_RENDER_ALLOW),
+>  };
+>  
+>  static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
+> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+> index 33c87a59834e..7b31bb6c21b9 100644
+> --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> @@ -23,6 +23,7 @@
+>  #include "panthor_mmu.h"
+>  #include "panthor_regs.h"
+>  #include "panthor_sched.h"
+> +#include "panthor_perfcnt.h"
+>  
+>  #define CSF_FW_NAME "mali_csffw.bin"
+>  
+> @@ -947,6 +948,7 @@ static void panthor_fw_init_global_iface(struct panthor_device *ptdev)
+>  					 GLB_PING |
+>  					 GLB_CFG_PROGRESS_TIMER |
+>  					 GLB_CFG_POWEROFF_TIMER |
+> +					 GLB_PERFCNT_SAMPLE |
+>  					 GLB_IDLE_EN |
+>  					 GLB_IDLE;
+>  
+> @@ -975,6 +977,10 @@ static void panthor_job_irq_handler(struct panthor_device *ptdev, u32 status)
+>  		return;
+>  
+>  	panthor_sched_report_fw_events(ptdev, status);
+> +
+> +	/* Let the perfcnt layer figure out if there are PERFCNT events to process. */
+> +	if (status & JOB_INT_GLOBAL_IF)
+> +		panthor_perfcnt_report_fw_events(ptdev, status);
+>  }
+>  PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
+>  
+> @@ -1213,6 +1219,26 @@ int panthor_fw_glb_wait_acks(struct panthor_device *ptdev,
+>  				    req_mask, acked, timeout_ms);
+>  }
+>  
+> +/**
+> + * panthor_fw_glb_state_change() - Notify change of state in a global request register flags
+> + * @ptdev: Device.
+> + * @req_mask: Mask of requests to check change of state for.
+> + * @flipped: Pointer to field that's updated with the flipped requests.
+> + * If the function returns false, *flipped == 0.
+> + *
+> + * Return: true on change, false otherwise.
+> + */
+> +bool panthor_fw_glb_state_change(struct panthor_device *ptdev,
+> +				 u32 req_mask, u32 *flipped)
+> +{
+> +	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
+> +	u32 req = READ_ONCE(glb_iface->input->req) & req_mask;
+> +	u32 ack = READ_ONCE(glb_iface->output->ack) & req_mask;
+> +
+> +	*flipped = (req ^ ack);
+> +	return (*flipped != 0);
+> +}
+> +
+>  /**
+>   * panthor_fw_csg_wait_acks() - Wait for command stream group requests to be acknowledged.
+>   * @ptdev: Device.
+> @@ -1352,6 +1378,7 @@ int panthor_fw_init(struct panthor_device *ptdev)
+>  		goto err_unplug_fw;
+>  
+>  	panthor_fw_init_global_iface(ptdev);
+> +
+>  	return 0;
+>  
+>  err_unplug_fw:
+> diff --git a/drivers/gpu/drm/panthor/panthor_fw.h b/drivers/gpu/drm/panthor/panthor_fw.h
+> index 22448abde992..682a02118077 100644
+> --- a/drivers/gpu/drm/panthor/panthor_fw.h
+> +++ b/drivers/gpu/drm/panthor/panthor_fw.h
+> @@ -11,6 +11,7 @@ struct panthor_kernel_bo;
+>  
+>  #define MAX_CSGS				31
+>  #define MAX_CS_PER_CSG                          32
+> +#define MAX_PERFCNT_BUF_SLOTS                   128
+>  
+>  struct panthor_fw_ringbuf_input_iface {
+>  	u64 insert;
+> @@ -197,6 +198,8 @@ struct panthor_fw_global_control_iface {
+>  	u32 output_va;
+>  	u32 group_num;
+>  	u32 group_stride;
+> +#define GLB_PERFCNT_FW_SIZE(x)                 ((((x) >> 16) << 8))
+> +#define GLB_PERFCNT_HW_SIZE(x)                 (((x) & GENMASK(15, 0)) << 8)
+>  	u32 perfcnt_size;
+>  	u32 instr_features;
+>  };
+> @@ -240,6 +243,8 @@ struct panthor_fw_global_input_iface {
+>  	u64 perfcnt_base;
+>  	u32 perfcnt_extract;
+>  	u32 reserved3[3];
+> +#define GLB_PERFCNT_CFG_SIZE(x)			((x) & GENMASK(7, 0))
+> +#define GLB_PERFCNT_CFG_SET(x)			((GENMASK(1, 0) & (x)) << 8)
+>  	u32 perfcnt_config;
+>  	u32 perfcnt_csg_select;
+>  	u32 perfcnt_fw_enable;
+> @@ -264,6 +269,11 @@ struct panthor_fw_global_output_iface {
+>  	u32 doorbell_ack;
+>  	u32 reserved2;
+>  	u32 halt_status;
+> +
+> +#define GLB_PERFCNT_STATUS_FAILED            BIT(0)
+> +#define GLB_PERFCNT_STATUS_POWERON           BIT(1)
+> +#define GLB_PERFCNT_STATUS_POWEROFF          BIT(2)
+> +#define GLB_PERFCNT_STATUS_PROTSESSION       BIT(3)
+>  	u32 perfcnt_status;
+>  	u32 perfcnt_insert;
+>  };
+> @@ -472,6 +482,8 @@ int panthor_fw_csg_wait_acks(struct panthor_device *ptdev, u32 csg_id, u32 req_m
+>  int panthor_fw_glb_wait_acks(struct panthor_device *ptdev, u32 req_mask, u32 *acked,
+>  			     u32 timeout_ms);
+>  
+> +bool panthor_fw_glb_state_change(struct panthor_device *ptdev, u32 req_mask, u32 *flipped);
+> +
+>  void panthor_fw_ring_csg_doorbells(struct panthor_device *ptdev, u32 csg_slot);
+>  
+>  struct panthor_kernel_bo *
+> diff --git a/drivers/gpu/drm/panthor/panthor_perfcnt.c b/drivers/gpu/drm/panthor/panthor_perfcnt.c
 > new file mode 100644
-> index 000000000000..f2135d03f1eb
+> index 000000000000..e223e44e3f35
 > --- /dev/null
-> +++ b/include/drm/drm_panic.h
-> @@ -0,0 +1,99 @@
-> +/* SPDX-License-Identifier: GPL-2.0 or MIT */
-> +#ifndef __DRM_PANIC_H__
-> +#define __DRM_PANIC_H__
+> +++ b/drivers/gpu/drm/panthor/panthor_perfcnt.c
+> @@ -0,0 +1,551 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/* Copyright 2023 Collabora Ltd */
 > +
-> +#include <drm/drm_device.h>
-> +/*
-> + * Copyright (c) 2024 Intel
-> + */
+> +#include "linux/mutex.h"
+> +#include <linux/completion.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/iosys-map.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/slab.h>
+> +#include <linux/uaccess.h>
+> +#include <linux/spinlock.h>
 > +
-> +/**
-> + * drm_panic_trylock - try to enter the panic printing critical section
-> + * @dev: struct drm_device
-> + *
-> + * This function must be called by any panic printing code. The panic printing
-> + * attempt must be aborted if the trylock fails.
-> + *
-> + * Panic printing code can make the following assumptions while holding the
-> + * panic lock:
-> + *
-> + * - Anything protected by drm_panic_lock() and drm_panic_unlock() pairs is safe
-> + *   to access.
-> + *
-> + * - Furthermore the panic printing code only registers in drm_dev_unregister()
-> + *   and gets removed in drm_dev_unregister(). This allows the panic code to
-> + *   safely access any state which is invariant in between these two function
-> + *   calls, like the list of planes drm_mode_config.plane_list or most of the
-> + *   struct drm_plane structure.
-> + *
-> + * Specifically thanks to the protection around plane updates in
-> + * drm_atomic_helper_swap_state() the following additional guarantees hold:
-> + *
-> + * - It is safe to deference the drm_plane.state pointer.
-> + *
-> + * - Anything in struct drm_plane_state or the driver's subclass thereof which
-> + *   stays invariant after the atomic check code has finished is safe to access.
-> + *   Specifically this includes the reference counted pointers to framebuffer
-> + *   and buffer objects.
-> + *
-> + * - Anything set up by drm_plane_helper_funcs.fb_prepare and cleaned up
-> + *   drm_plane_helper_funcs.fb_cleanup is safe to access, as long as it stays
-> + *   invariant between these two calls. This also means that for drivers using
-> + *   dynamic buffer management the framebuffer is pinned, and therefer all
-> + *   relevant datastructures can be accessed without taking any further locks
-> + *   (which would be impossible in panic context anyway).
-> + *
-> + * - Importantly, software and hardware state set up by
-> + *   drm_plane_helper_funcs.begin_fb_access and
-> + *   drm_plane_helper_funcs.end_fb_access is not safe to access.
-> + *
-> + * Drivers must not make any assumptions about the actual state of the hardware,
-> + * unless they explicitly protected these hardware access with drm_panic_lock()
-> + * and drm_panic_unlock().
-> + *
-> + * Returns:
-> + *
-> + * 0 when failing to acquire the raw spinlock, nonzero on success.
-> + */
-> +static inline int drm_panic_trylock(struct drm_device *dev)
+> +#include <drm/drm_file.h>
+> +#include <drm/drm_gem_shmem_helper.h>
+> +#include <drm/drm_managed.h>
+> +#include <drm/panthor_drm.h>
+> +
+> +#include "panthor_device.h"
+> +#include "panthor_gem.h"
+> +#include "panthor_mmu.h"
+> +#include "panthor_perfcnt.h"
+> +#include "panthor_regs.h"
+> +#include "panthor_gpu.h"
+> +#include "panthor_fw.h"
+> +
+> +#define SAMPLE_TIMEOUT_MS		1000
+> +#define SAMPLE_HDR_SIZE                 12
+> +#define SAMPLE_BLOCK_SIZE		0x100
+> +
+> +#define PERFCNT_OP_AFFECTED \
+> +	(GLB_PERFCNT_STATUS_POWEROFF | \
+> +	 GLB_PERFCNT_STATUS_POWERON | \
+> +	 GLB_PERFCNT_STATUS_PROTSESSION)
+> +
+> +enum perfcnt_status {
+> +	PERFCNT_STATUS_STARTED,
+> +	PERFCNT_STATUS_SUCCEEDED,
+> +	PERFCNT_STATUS_FAILED,
+> +	PERFCNT_STATUS_OVERFLOW,
+> +};
+> +
+> +struct panthor_perfcnt {
+> +	struct panthor_device *ptdev;
+> +	struct panthor_file *user;
+> +	struct mutex lock;
+> +
+> +	struct panthor_kernel_bo *bo;
+> +	size_t sample_size;
+> +	u32 ringslots;
+> +
+> +	struct workqueue_struct *dumper_wkq;
+> +	struct work_struct work;
+> +	atomic_t dump_requested;
+> +
+> +	struct list_head dumper_list;
+> +	wait_queue_head_t wq;
+> +};
+> +
+> +struct panthor_perfcnt_dumper {
+> +	struct list_head list;
+> +	struct completion comp;
+> +	void *user_bo;
+> +	int last_status;
+> +};
+> +
+> +struct perfcnt_counters {
+> +	u32 counterset;
+> +	u32 csg_select;
+> +	u32 fw_enable;
+> +	u32 csg_enable;
+> +	u32 csf_enable;
+> +	u32 shader_enable;
+> +	u32 tiler_enable;
+> +	u32 mmu_l2_enable;
+> +};
+> +
+> +static int panthor_perfcnt_enable_counters(struct panthor_device *ptdev,
+> +					   struct perfcnt_counters *counters)
 > +{
-> +	return raw_spin_trylock(&dev->mode_config.panic_lock);
+> +	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
+> +	u32 acked;
+> +
+> +	if (glb_iface->input->req & GLB_PERFCNT_EN) {
+> +		drm_info(&ptdev->base, "Performance counters aren't disabled!\n");
+> +		return -EBUSY;
+> +	}
+> +
+> +	glb_iface->input->perfcnt_config |= GLB_PERFCNT_CFG_SET(counters->counterset);
+> +	glb_iface->input->perfcnt_csg_select = counters->csg_select;
+> +	glb_iface->input->perfcnt_mmu_l2_enable = counters->mmu_l2_enable;
+> +	glb_iface->input->perfcnt_tiler_enable = counters->tiler_enable;
+> +	glb_iface->input->perfcnt_shader_enable = counters->shader_enable;
+> +	glb_iface->input->perfcnt_csf_enable = counters->csf_enable;
+> +	glb_iface->input->perfcnt_csg_enable = counters->csg_enable;
+> +	glb_iface->input->perfcnt_fw_enable = counters->fw_enable;
+> +
+> +	/* Enable/Disabled status is value-based, rather than change-of-value */
+> +	panthor_fw_update_reqs(glb_iface, req, GLB_PERFCNT_EN, GLB_PERFCNT_EN);
+> +	gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
+> +	return panthor_fw_glb_wait_acks(ptdev, GLB_PERFCNT_EN, &acked, 100);
 > +}
 > +
-> +/**
-> + * drm_panic_lock - protect panic printing relevant state
-> + * @dev: struct drm_device
-> + *
-> + * This function must be called to protect software and hardware state that the
-> + * panic printing code must be able to rely on. The protected sections must be
-> + * as small as possible. Examples include:
-> + *
-> + * - Access to peek/poke or other similar registers, if that is the way the
-> + *   driver prints the pixels into the scanout buffer at panic time.
-> + *
-> + * - Updates to pointers like drm_plane.state, allowing the panic handler to
-> + *   safely deference these. This is done in drm_atomic_helper_swap_state().
-> + *
-> + * - An state that isn't invariant and that the driver must be able to access
-> + *   during panic printing.
-> + *
-> + * Call drm_panic_unlock() to unlock the locked spinlock.
-> + */
-> +static inline void drm_panic_lock(struct drm_device *dev)
+> +static int
+> +panthor_perfcnt_disable_counters(struct panthor_device *ptdev)
 > +{
-> +	return raw_spin_lock(&dev->mode_config.panic_lock);
+> +	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
+> +	u32 acked;
+> +	int ret;
+> +
+> +	if (!(glb_iface->input->req & GLB_PERFCNT_EN)) {
+> +		drm_info(&ptdev->base, "Performance counters were already disabled\n");
+> +		return 0;
+> +	}
+> +
+> +	/* Enable/Disabled status is value-based, rather than change-of-value */
+> +	panthor_fw_update_reqs(glb_iface, req, 0, GLB_PERFCNT_EN);
+> +	gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
+> +	ret = panthor_fw_glb_wait_acks(ptdev, GLB_PERFCNT_EN, &acked, 100);
+> +	if (ret) {
+> +		drm_err(&ptdev->base, "Could not disable performance counters\n");
+> +		return ret;
+> +	}
+> +
+> +	glb_iface->input->perfcnt_csg_select = 0;
+> +	glb_iface->input->perfcnt_mmu_l2_enable = 0;
+> +	glb_iface->input->perfcnt_tiler_enable = 0;
+> +	glb_iface->input->perfcnt_shader_enable = 0;
+> +	glb_iface->input->perfcnt_csf_enable = 0;
+> +	glb_iface->input->perfcnt_csg_enable = 0;
+> +	glb_iface->input->perfcnt_fw_enable = 0;
+> +
+> +	return 0;
 > +}
 > +
-> +/**
-> + * drm_panic_unlock - end of the panic printing critical section
-> + * @dev: struct drm_device
-> + *
-> + * Unlocks the raw spinlock acquired by either drm_panic_lock() or
-> + * drm_panic_trylock().
-> + */
-> +static inline void drm_panic_unlock(struct drm_device *dev)
+> +static void perfcnt_copy_sample(struct panthor_device *ptdev,
+> +				struct panthor_perfcnt *perfcnt,
+> +				void *bo_va, unsigned int idx)
 > +{
-> +	raw_spin_unlock(&dev->mode_config.panic_lock);
+> +	/*
+> +	 * Ring buffer index calculation can be done in this way because it
+> +	 * is always guaranteed to be a power of 2
+> +	 */
+> +	memcpy(bo_va, perfcnt->bo->kmap +
+> +	       ((idx & (perfcnt->ringslots - 1)) * perfcnt->sample_size),
+> +	       perfcnt->sample_size);
 > +}
 > +
-> +#endif /* __DRM_PANIC_H__ */
+> +static void clear_slot_headers(struct panthor_device *ptdev, u32 ext_idx, u32 ins_idx)
+> +{
+> +	struct panthor_perfcnt *perfcnt = ptdev->perfcnt;
+> +	unsigned int offset;
+> +	unsigned int i;
+> +
+> +	if (WARN_ON(ext_idx >= ins_idx))  {
+> +		drm_warn(&ptdev->base, "Extraction index is greater or equal than insertion index %u-%u\n",
+> +			 ext_idx, ins_idx);
+> +		return;
+> +	}
+> +
+> +	drm_dbg(&ptdev->base, "Cleaning perfcnt ring buffer slots %u-%u\n", ext_idx, ins_idx);
+> +
+> +	for (i = ext_idx; i < ins_idx; i++) {
+> +		void *slot = perfcnt->bo->kmap +
+> +			((i & (ptdev->perfcnt->ringslots - 1)) * perfcnt->sample_size);
+> +
+> +		for (offset = 0; offset < perfcnt->sample_size; offset += SAMPLE_BLOCK_SIZE)
+> +			memset(slot + offset, 0, SAMPLE_HDR_SIZE);
+> +	}
+> +}
+> +
+> +static void clean_dumper_list(struct panthor_device *ptdev, unsigned int status)
+> +{
+> +	struct panthor_perfcnt *perfcnt = ptdev->perfcnt;
+> +	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
+> +	struct panthor_perfcnt_dumper *dumper, *dumper_tmp;
+> +
+> +	mutex_lock(&perfcnt->lock);
+> +	list_for_each_entry_safe(dumper, dumper_tmp, &perfcnt->dumper_list, list) {
+> +		if (status == PERFCNT_STATUS_SUCCEEDED)
+> +			perfcnt_copy_sample(ptdev, perfcnt, dumper->user_bo,
+> +					    glb_iface->output->perfcnt_insert - 1);
+> +		list_del(&dumper->list);
+> +		INIT_LIST_HEAD(&dumper->list);
+> +		dumper->last_status = status;
+> +		complete(&dumper->comp);
+> +	}
+> +	mutex_unlock(&perfcnt->lock);
+> +}
+> +
+> +static void perfcnt_process_sample(struct work_struct *work)
+> +{
+> +	struct panthor_perfcnt *perfcnt =
+> +		container_of(work, struct panthor_perfcnt, work);
+> +	struct panthor_device *ptdev = perfcnt->ptdev;
+> +	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
+> +	u32 acked, flipped;
+> +	int ret;
+> +
+> +	if (panthor_fw_glb_state_change(ptdev, GLB_PERFCNT_THRESHOLD, &flipped)) {
+> +		drm_dbg(&ptdev->base, "Performance counter buffer has reached 50%% capacity\n");
+> +		panthor_fw_toggle_reqs(glb_iface, req, ack, flipped);
+> +		gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
+> +		ret = panthor_fw_glb_wait_acks(ptdev, flipped, &acked, 100);
+> +		if (ret)
+> +			drm_warn(&ptdev->base, "Resetting Threshold flags failed\n");
+> +	}
+> +
+> +	if (glb_iface->output->perfcnt_status & GLB_PERFCNT_STATUS_FAILED) {
+> +		drm_err(&ptdev->base, "Perfcounter sampling failed\n");
+> +		clean_dumper_list(ptdev, PERFCNT_STATUS_FAILED);
+> +		goto worker_exit;
+> +	}
+> +
+> +	if (panthor_fw_glb_state_change(ptdev, GLB_PERFCNT_OVERFLOW, &flipped)) {
+> +		drm_info(&ptdev->base, "The performance counter buffer has overflowed. Some samples may have been lost\n");
+> +		panthor_fw_toggle_reqs(glb_iface, req, ack, flipped);
+> +		gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
+> +		ret = panthor_fw_glb_wait_acks(ptdev, flipped, &acked, 100);
+> +		if (ret)
+> +			drm_err(&ptdev->base, "Resetting Overflow flags failed\n");
+> +		clean_dumper_list(ptdev, PERFCNT_STATUS_OVERFLOW);
+> +		goto clear_inc_idx;
+> +	}
+> +
+> +	if (glb_iface->output->perfcnt_status & PERFCNT_OP_AFFECTED)
+> +		drm_warn(&ptdev->base, "Perfcnt sample operation might have been impacted by a power transition or protected session exec\n");
+> +
+> +	clean_dumper_list(ptdev, PERFCNT_STATUS_SUCCEEDED);
+> +
+> +clear_inc_idx:
+> +	clear_slot_headers(ptdev, glb_iface->input->perfcnt_extract,
+> +			   glb_iface->output->perfcnt_insert);
+> +	/*
+> +	 * TRM recommends increasing the extract pointer by one after every sample
+> +	 * operation, but because sample requests are processed sequentially and we
+> +	 * discard samples triggered by the HW automatically, it's best if we simply
+> +	 * set it to the next insert slot index.
+> +	 */
+> +	WRITE_ONCE(glb_iface->input->perfcnt_extract,
+> +		   READ_ONCE(glb_iface->output->perfcnt_insert));
+> +worker_exit:
+> +	wake_up_all(&perfcnt->wq);
+> +}
+> +
+> +int panthor_perfcnt_dump(struct panthor_device *ptdev,
+> +			 struct drm_gem_object *obj,
+> +			 struct panthor_file *pfile)
+> +{
+> +	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
+> +	struct panthor_perfcnt *perfcnt = ptdev->perfcnt;
+> +	struct panthor_perfcnt_dumper dumper;
+> +	struct iosys_map map;
+> +
+> +	int ret;
+> +
+> +	mutex_lock(&perfcnt->lock);
+> +	if (perfcnt->user != pfile) {
+> +		ret = -EINVAL;
+> +		goto err_dump;
+> +	}
+> +
+> +	ret = drm_gem_vmap_unlocked(obj, &map);
+> +	if (ret) {
+> +		drm_err(&ptdev->base, "Could not map the target BO\n");
+> +		goto err_dump;
+> +	}
+> +
+> +	dumper.user_bo = map.vaddr;
+> +	dumper.last_status = PERFCNT_STATUS_STARTED;
+> +	init_completion(&dumper.comp);
+> +	list_add_tail(&dumper.list, &perfcnt->dumper_list);
+> +
+> +	/* Start the sampling if list were empty */
+> +	if (list_is_first(&dumper.list, &perfcnt->dumper_list)) {
+> +		panthor_fw_toggle_reqs(glb_iface, req, ack, GLB_PERFCNT_SAMPLE);
+> +		atomic_set(&ptdev->perfcnt->dump_requested, 1);
+> +		gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
+> +	}
+> +	mutex_unlock(&perfcnt->lock);
+> +
+> +	ret = wait_for_completion_interruptible_timeout(&dumper.comp,
+> +							msecs_to_jiffies(SAMPLE_TIMEOUT_MS));
+> +	if (!ret)
+> +		/* Let's give the worker thread a chance to finish */
+> +		ret = flush_work(&perfcnt->work);
+> +
+> +	if (!ret && !try_wait_for_completion(&dumper.comp)) {
+> +		mutex_lock(&perfcnt->lock);
+> +		if (!list_empty(&dumper.list)) {
+> +			list_del(&dumper.list);
+> +			if (list_empty(&perfcnt->dumper_list)) {
+> +				atomic_set(&ptdev->perfcnt->dump_requested, 0);
+> +				wake_up_all(&perfcnt->wq);
+> +			}
+> +		}
+> +		mutex_unlock(&perfcnt->lock);
+> +
+> +		ret = -ETIMEDOUT;
+> +	} else {
+> +		WARN_ON(dumper.last_status == PERFCNT_STATUS_STARTED);
+> +		ret = (dumper.last_status >= PERFCNT_STATUS_FAILED) ? -EIO : 0;
+> +	}
+> +
+> +	drm_gem_vunmap_unlocked(obj, &map);
+> +
+> +	return ret;
+> +
+> +err_dump:
+> +	mutex_unlock(&perfcnt->lock);
+> +	return ret;
+> +}
+> +
+> +
+> +static int panthor_perfcnt_enable_locked(struct panthor_device *ptdev,
+> +				  struct panthor_file *pfile,
+> +				  struct drm_panthor_perfcnt_config *req)
+> +
+> +{
+> +	unsigned int perfcnt_ringbuf_slots = req->ringslots;
+> +	struct panthor_perfcnt *perfcnt = ptdev->perfcnt;
+> +	struct panthor_kernel_bo *bo;
+> +	int ret;
+> +
+> +	if (pfile == perfcnt->user)
+> +		return 0;
+> +	else if (perfcnt->user)
+> +		return -EBUSY;
+> +
+> +	if (perfcnt_ringbuf_slots != perfcnt->ringslots) {
+> +		struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
+> +
+> +		if (perfcnt->bo) {
+> +			panthor_kernel_bo_destroy(panthor_fw_vm(ptdev), perfcnt->bo);
+> +			perfcnt->bo = NULL;
+> +		}
+> +
+> +		if (perfcnt_ringbuf_slots > MAX_PERFCNT_BUF_SLOTS)
+> +			perfcnt_ringbuf_slots = MAX_PERFCNT_BUF_SLOTS;
+> +		if (!is_power_of_2(perfcnt_ringbuf_slots))
+> +			perfcnt_ringbuf_slots = rounddown_pow_of_two(perfcnt_ringbuf_slots);
+> +
+> +		/*
+> +		 * Create the perfcnt dump BO. We need to use the FW's VM because GLB_PRFCNT_JASID's
+> +		 * maximum implementation defined value is 7. The way AS are assigned to a VM
+> +		 * in panthor_vm_active means we cannot guarantee an AS between 1 and 7 would be
+> +		 * available. An alternative would be implementing some sort of AS eviction
+> +		 * mechanism, or perhaps setting one AS bit aside for perfcnt. However, given that
+> +		 * the counters are global, it's simpler to bind the perfcount ringbuf to the FW AS.
+> +		 */
+> +		bo = panthor_kernel_bo_create(ptdev, panthor_fw_vm(ptdev),
+> +					      perfcnt->sample_size * perfcnt_ringbuf_slots,
+> +					      DRM_PANTHOR_BO_NO_MMAP,
+> +					      DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
+> +					      DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
+> +					      PANTHOR_VM_KERNEL_AUTO_VA);
+> +		if (IS_ERR(bo))
+> +			return PTR_ERR(bo);
+> +
+> +		ret = panthor_kernel_bo_vmap(bo);
+> +		if (ret)
+> +			goto err_put_bo;
+> +
+> +		perfcnt->bo = bo;
+> +		perfcnt->ringslots = perfcnt_ringbuf_slots;
+> +		glb_iface->input->perfcnt_base = perfcnt->bo->va_node.start;
+> +		glb_iface->input->perfcnt_config |= GLB_PERFCNT_CFG_SIZE(perfcnt->ringslots);
+> +	}
+> +
+> +	ret = pm_runtime_get_sync(ptdev->base.dev);
+> +	if (ret < 0)
+> +		goto enable_err;
+> +
+> +	ret = panthor_perfcnt_disable_counters(ptdev);
+> +	if (ret)
+> +		goto enable_err;
+> +
+> +	ret = panthor_perfcnt_enable_counters(ptdev,
+> +					      (struct perfcnt_counters *) &req->counterset);
+> +	if (ret)
+> +		goto enable_err;
+> +
+> +	perfcnt->user =	pfile;
+> +
+> +	return 0;
+> +
+> +enable_err:
+> +	pm_runtime_put(ptdev->base.dev);
+> +	panthor_kernel_bo_vunmap(bo);
+> +err_put_bo:
+> +	panthor_kernel_bo_destroy(panthor_fw_vm(ptdev), bo);
+> +	perfcnt->bo = NULL;
+> +	return ret;
+> +}
+> +
+> +static int panthor_perfcnt_disable_locked(struct panthor_device *ptdev,
+> +					  struct panthor_file *pfile)
+> +{
+> +	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
+> +	struct panthor_perfcnt *perfcnt = ptdev->perfcnt;
+> +	int ret;
+> +
+> +	if (perfcnt->user != pfile)
+> +		return -EINVAL;
+> +
+> +	if (!list_empty(&perfcnt->dumper_list)) {
+> +		drm_warn(&ptdev->base, "A perfcnt dump is still running, let it finnish\n");
+> +		mutex_unlock(&perfcnt->lock);
+> +		ret  = wait_event_timeout(perfcnt->wq,
+> +				   list_empty(&perfcnt->dumper_list),
+> +				   msecs_to_jiffies(SAMPLE_TIMEOUT_MS));
+> +		mutex_lock(&perfcnt->lock);
+> +		if (!ret)
+> +			drm_warn(&ptdev->base, "Dump didn't finish, results will be undefined\n");
+> +	}
+> +
+> +	panthor_perfcnt_disable_counters(ptdev);
+> +	glb_iface->input->perfcnt_extract = 0;
+> +	perfcnt->user = NULL;
+> +
+> +	pm_runtime_mark_last_busy(ptdev->base.dev);
+> +	pm_runtime_put_autosuspend(ptdev->base.dev);
+> +
+> +	return 0;
+> +}
+> +
+> +int panthor_perfcnt_config(struct panthor_device *ptdev,
+> +			   struct drm_panthor_perfcnt_config *req,
+> +			   struct panthor_file *pfile,
+> +			   bool disable)
+> +{
+> +	struct panthor_perfcnt *perfcnt = ptdev->perfcnt;
+> +	int ret;
+> +
+> +	mutex_lock(&perfcnt->lock);
+> +	if (disable)
+> +		ret = panthor_perfcnt_disable_locked(ptdev, pfile);
+> +	else
+> +		ret = panthor_perfcnt_enable_locked(ptdev, pfile, req);
+> +	mutex_unlock(&perfcnt->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +void panthor_perfcnt_close(struct drm_file *file_priv)
+> +{
+> +	struct panthor_file *pfile = file_priv->driver_priv;
+> +	struct panthor_device *ptdev = pfile->ptdev;
+> +	struct panthor_perfcnt *perfcnt = ptdev->perfcnt;
+> +
+> +	pm_runtime_get_sync(ptdev->base.dev);
+> +
+> +	mutex_lock(&perfcnt->lock);
+> +	if (perfcnt->user == pfile)
+> +		panthor_perfcnt_disable_locked(ptdev, file_priv->driver_priv);
+> +	mutex_unlock(&perfcnt->lock);
+> +
+> +	pm_runtime_mark_last_busy(ptdev->base.dev);
+> +	pm_runtime_put_autosuspend(ptdev->base.dev);
+> +}
+> +
+> +void panthor_perfcnt_report_fw_events(struct panthor_device *ptdev, u32 status)
+> +{
+> +
+> +	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
+> +	struct panthor_perfcnt *perfcnt = ptdev->perfcnt;
+> +	u32 req, ack;
+> +
+> +	if (!perfcnt)
+> +		return;
+> +
+> +	req = READ_ONCE(glb_iface->input->req);
+> +	ack = READ_ONCE(glb_iface->output->ack);
+> +
+> +	if ((~(req ^ ack) & GLB_PERFCNT_SAMPLE) &&
+> +	    !panthor_device_reset_is_pending(ptdev)) {
+> +		if (atomic_cmpxchg(&ptdev->perfcnt->dump_requested, 1, 0))
+> +			queue_work(perfcnt->dumper_wkq, &perfcnt->work);
+> +	}
+> +}
+> +
+> +int panthor_perfcnt_init(struct panthor_device *ptdev)
+> +{
+> +	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
+> +	struct panthor_perfcnt *perfcnt;
+> +	int ret;
+> +
+> +	perfcnt = devm_kzalloc(ptdev->base.dev, sizeof(*perfcnt), GFP_KERNEL);
+> +	if (!perfcnt)
+> +		return -ENOMEM;
+> +
+> +	ptdev->perfcnt_info.fw_size = GLB_PERFCNT_FW_SIZE(glb_iface->control->perfcnt_size);
+> +	ptdev->perfcnt_info.hw_size = GLB_PERFCNT_HW_SIZE(glb_iface->control->perfcnt_size);
+> +
+> +	perfcnt->sample_size = ptdev->perfcnt_info.fw_size + ptdev->perfcnt_info.hw_size;
+> +	perfcnt->ringslots = 0;
+> +	perfcnt->bo = NULL;
+> +
+> +	perfcnt->dumper_wkq = alloc_workqueue("perfcnt-dumper", WQ_UNBOUND, 0);
+> +	if (!perfcnt->dumper_wkq) {
+> +		drm_err(&ptdev->base, "Failed to allocate perfcnt workqueue");
+> +		return -ENOMEM;
+> +	}
+> +	INIT_WORK(&perfcnt->work, perfcnt_process_sample);
+> +
+> +	/* Perfcnt configuration */
+> +	glb_iface->input->perfcnt_config |= GLB_PERFCNT_CFG_SIZE(perfcnt->ringslots);
+> +	glb_iface->input->perfcnt_as = panthor_vm_as(panthor_fw_vm(ptdev));
+> +	glb_iface->input->perfcnt_extract = 0;
+> +
+> +	/* Start with everything disabled. */
+> +	ret = panthor_perfcnt_disable_counters(ptdev);
+> +	if (ret)
+> +		goto err_dealloc_workqueue;
+> +
+> +	INIT_LIST_HEAD(&perfcnt->dumper_list);
+> +	init_waitqueue_head(&perfcnt->wq);
+> +	mutex_init(&perfcnt->lock);
+> +
+> +	perfcnt->ptdev = ptdev;
+> +	ptdev->perfcnt = perfcnt;
+> +
+> +	drm_info(&ptdev->base,
+> +		 "Perfcnt params: Sample size: %#zx Slots: %u\n",
+> +		 perfcnt->sample_size, perfcnt->ringslots);
+> +
+> +	return 0;
+> +
+> +err_dealloc_workqueue:
+> +	destroy_workqueue(perfcnt->dumper_wkq);
+> +
+> +	return ret;
+> +}
+> +
+> +void panthor_perfcnt_unplug(struct panthor_device *ptdev)
+> +{
+> +	struct panthor_perfcnt *perfcnt = ptdev->perfcnt;
+> +
+> +	WARN_ON(perfcnt->user);
+> +
+> +	panthor_perfcnt_disable_counters(ptdev);
+> +
+> +	cancel_work_sync(&perfcnt->work);
+> +	destroy_workqueue(perfcnt->dumper_wkq);
+> +
+> +	mutex_destroy(&perfcnt->lock);
+> +
+> +	if (perfcnt->bo) {
+> +		panthor_kernel_bo_vunmap(perfcnt->bo);
+> +		panthor_kernel_bo_destroy(panthor_fw_vm(ptdev), perfcnt->bo);
+> +	}
+> +}
+> diff --git a/drivers/gpu/drm/panthor/panthor_perfcnt.h b/drivers/gpu/drm/panthor/panthor_perfcnt.h
+> new file mode 100644
+> index 000000000000..6edcbe256f4a
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/panthor_perfcnt.h
+> @@ -0,0 +1,31 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/* Copyright 2023 Collabora Ltd */
+> +#ifndef __PANTHOR_PERFCNT_H__
+> +#define __PANTHOR_PERFCNT_H__
+> +
+> +#include <linux/types.h>
+> +
+> +struct panthor_device;
+> +struct panthor_file;
+> +struct drm_device;
+> +struct drm_file;
+> +struct drm_gem_object;
+> +struct drm_panthor_perfcnt_config;
+> +
+> +int panthor_perfcnt_init(struct panthor_device *ptdev);
+> +void panthor_perfcnt_unplug(struct panthor_device *ptdev);
+> +void panthor_perfcnt_close(struct drm_file *file_priv);
+> +
+> +int panthor_perfcnt_config(struct panthor_device *ptdev,
+> +			   struct drm_panthor_perfcnt_config *req,
+> +			   struct panthor_file *pfile,
+> +			   bool disable);
+> +int panthor_perfcnt_dump(struct panthor_device *ptdev,
+> +			 struct drm_gem_object *obj,
+> +			 struct panthor_file *pfile);
+> +
+> +void panthor_perfcnt_report_fw_events(struct panthor_device *ptdev,
+> +				      u32 status);
+> +
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index 5f7803b6fc48..cbd0ab77a3cd 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -31,6 +31,7 @@
+>  #include "panthor_mmu.h"
+>  #include "panthor_regs.h"
+>  #include "panthor_sched.h"
+> +#include "panthor_perfcnt.h"
+>  
+>  /**
+>   * DOC: Scheduler
+> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> index 373df80f41ed..0ca940529be4 100644
+> --- a/include/uapi/drm/panthor_drm.h
+> +++ b/include/uapi/drm/panthor_drm.h
+> @@ -127,6 +127,12 @@ enum drm_panthor_ioctl_id {
+>  
+>  	/** @DRM_PANTHOR_TILER_HEAP_DESTROY: Destroy a tiler heap. */
+>  	DRM_PANTHOR_TILER_HEAP_DESTROY,
+> +
+> +	/** @DRM_PANTHOR_PERFCNT_CONFIG: Enable or disable performance counters. */
+> +	DRM_PANTHOR_PERFCNT_CONFIG,
+> +
+> +	/** @DRM_PANTHOR_PERFCNT_DUMP: Sample and retrieve performance counters. */
+> +	DRM_PANTHOR_PERFCNT_DUMP,
+>  };
+>  
+>  /**
+> @@ -170,6 +176,10 @@ enum drm_panthor_ioctl_id {
+>  	DRM_IOCTL_PANTHOR(WR, TILER_HEAP_CREATE, tiler_heap_create)
+>  #define DRM_IOCTL_PANTHOR_TILER_HEAP_DESTROY \
+>  	DRM_IOCTL_PANTHOR(WR, TILER_HEAP_DESTROY, tiler_heap_destroy)
+> +#define DRM_IOCTL_PANTHOR_PERFCNT_CONFIG \
+> +	DRM_IOCTL_PANTHOR(WR, PERFCNT_CONFIG, perfcnt_config)
+> +#define DRM_IOCTL_PANTHOR_PERFCNT_DUMP \
+> +	DRM_IOCTL_PANTHOR(WR, PERFCNT_DUMP, perfcnt_dump)
+>  
+>  /**
+>   * DOC: IOCTL arguments
+> @@ -260,6 +270,9 @@ enum drm_panthor_dev_query_type {
+>  
+>  	/** @DRM_PANTHOR_DEV_QUERY_CSIF_INFO: Query command-stream interface information. */
+>  	DRM_PANTHOR_DEV_QUERY_CSIF_INFO,
+> +
+> +	/** @DRM_PANTHOR_DEV_QUERY_PERFCNT_INFO: Query perf counters interface information. */
+> +	DRM_PANTHOR_DEV_QUERY_PERFCNT_INFO,
+>  };
+>  
+>  /**
+> @@ -377,6 +390,19 @@ struct drm_panthor_csif_info {
+>  	__u32 pad;
+>  };
+>  
+> +/**
+> + * struct drm_panthor_perfcnt_info - Performance counters interface information
+> + *
+> + * Structure grouping all queryable information relating to the perfcnt interface.
+> + */
+> +struct drm_panthor_perfcnt_info {
+> +	/** @hw_size: Size of HW related performance counters. */
+> +	__u32 hw_size;
+> +
+> +	/** @fw_size: Size of FW related performance counters. */
+> +	__u32 fw_size;
+> +};
+> +
+>  /**
+>   * struct drm_panthor_dev_query - Arguments passed to DRM_PANTHOR_IOCTL_DEV_QUERY
+>   */
+> @@ -938,6 +964,52 @@ struct drm_panthor_tiler_heap_destroy {
+>  	__u32 pad;
+>  };
+>  
+> +/**
+> + * struct drm_panthor_perfcnt_config - Arguments passed to DRM_IOCTL_PANTHOR_PERFCNT_CONFIG
+> + */
+> +struct drm_panthor_perfcnt_config {
+> +	/** @ringslots: Size of the perfcnt ring buffer in slot count. */
+> +	__u32 ringslots;
+> +
+> +	/** @counterset: Counter set to enable in Panthor. */
+> +	__u32 counterset;
+> +
+> +	/** @csg_enable: List of CSG intances enabled for perf counting */
+> +	__u32 csg_select;
+> +
+> +	/** @fw_enable  FW counters to be enabled */
+> +	__u32 fw_enable;
+> +
+> +	/** @csg_enable  CSG counters to be enabled */
+> +	__u32 csg_enable;
+> +
+> +	/** @csf_enable  CSF counters to be enabled */
+> +	__u32 csf_enable;
+> +
+> +	/** @shader_enable  Shader unit counters to be enabled */
+> +	__u32 shader_enable;
+> +
+> +	/** @tiler_enable  Tiler unit counters to be enabled */
+> +	__u32 tiler_enable;
+> +
+> +	/** @mmu_l2_enable  L2 cache MMU counters to be enabled */
+> +	__u32 mmu_l2_enable;
+> +
+> +	/** @pad: Padding field, MBZ. */
+> +	__u32 pad;
+> +};
+> +
+> +/**
+> + * struct drm_panthor_perfcnt_dump - Arguments passed to DRM_IOCTL_PANTHOR_PERFCNT_DUMP
+> + */
+> +struct drm_panthor_perfcnt_dump {
+> +	/** @handle: Handle of the BO to write perfcnt dump into */
+> +	__u32 handle;
+> +
+> +	/** @pad: Padding field, MBZ. */
+> +	__u32 pad;
+> +};
+> +
+>  #if defined(__cplusplus)
+>  }
+>  #endif
+> 
+> base-commit: e635b7eb7062b464bbd9795308b1a80eac0b01f5
+> -- 
+> 2.43.0
+> 
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
