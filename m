@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AAAC8763C2
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 12:56:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E34388763C3
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 12:56:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EE79113883;
-	Fri,  8 Mar 2024 11:56:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F7DF11388C;
+	Fri,  8 Mar 2024 11:56:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fang5CYS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WDymRn06";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B213D11388F;
- Fri,  8 Mar 2024 11:56:37 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14E2811388C;
+ Fri,  8 Mar 2024 11:56:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709898998; x=1741434998;
+ t=1709899004; x=1741435004;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=mZ4QfHTH+CICXYP+1epY9WX7JiwgAqcPDAtQdheafXI=;
- b=fang5CYSw+7XncL294xjztfFai3AL2FFofIoiouUNwJjQ3fXI5uB+LIa
- UVCAMghsdbzzWm9HMlNJgvRSfq63dfi/ezf/xbAQbal+2o1xEO+h6W+XU
- sDCD2nwQ5d588brALHSqkZyMoLbRkZfnKcbuOi8ME3I3WEbQd1BvaJ2WW
- 3Mk6Nnl5L4fSnGKxW+Avow/YxErT6hg90b+hTo8ZL79T6BuiEDqE5ezFt
- yoU1Pg6mRCgmCnXTlEGqAktbrK3zgva6jFuhqaykkwbaJxRTvpjp2Jv4U
- QTR9rrC6JPCuK2bNQKiEfXgL//ZWC+j4v2Kem1BjCiV2JDe9vND5h34IJ g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="15262300"
-X-IronPort-AV: E=Sophos;i="6.07,109,1708416000"; d="scan'208";a="15262300"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2024 03:56:37 -0800
+ bh=veV3equEGpYJ2h8Ax6fu9UAn5vO9DE9popUiEGr9tjo=;
+ b=WDymRn06FxzjiTRdeyPNnaoSBMgIMDaMv2rw8ANh0rx17ecA0sFzbCF0
+ Y4LvdNoThS4ZiyVBCwplrMxuMPeLqbfite47TbJTfNph0fB56HSkiCTbo
+ JDRTZoFlL+OWUlkBo2JJ5LiZ8Im7LFUIFHMNLMMWSIAFIkJCU/erF0pfq
+ r7OWNrOVJBS1rxvjR+1W9GH6XYAFwQgK+epblkRKeNhm2sO9Wx6zTxsk0
+ RDvhzPt8NSbclaiblLZMRuMwohbVHa1gBz//19ELpHXonslkw9LT2c95A
+ dsxrfjTaxdYHr3y+n1oCns0m8DZ++BAd2rJF99jx/pURoh4oN/NOjkQD1 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="4794515"
+X-IronPort-AV: E=Sophos;i="6.07,109,1708416000"; 
+   d="scan'208";a="4794515"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2024 03:56:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,109,1708416000"; d="scan'208";a="10892643"
+X-IronPort-AV: E=Sophos;i="6.07,109,1708416000"; d="scan'208";a="10378505"
 Received: from unknown (HELO localhost) ([10.252.34.187])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2024 03:56:34 -0800
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2024 03:56:40 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
@@ -46,10 +47,10 @@ Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Masahiro Yamada <masahiroy@kernel.org>, lucas.demarchi@intel.com
-Subject: [PATCH v2 04/16] drm/i2c: silence ch7006.h and sil164.h kernel-doc
- warnings
-Date: Fri,  8 Mar 2024 13:55:42 +0200
-Message-Id: <ffc58be256d71e6a98eb9f13337add64458d3476.1709898638.git.jani.nikula@intel.com>
+Subject: [PATCH v2 05/16] drm/i915: fix i915_gsc_proxy_mei_interface.h
+ kernel-doc
+Date: Fri,  8 Mar 2024 13:55:43 +0200
+Message-Id: <a84bd76162290940f709f5cb6e432e5e1f75a3b9.1709898638.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1709898638.git.jani.nikula@intel.com>
 References: <cover.1709898638.git.jani.nikula@intel.com>
@@ -71,39 +72,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mark some members private to silence kernel-doc warnings, and add FIXME
-comments.
+There's no proper way to document function pointer members, but at least
+silence the warnings.
 
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- include/drm/i2c/ch7006.h | 1 +
- include/drm/i2c/sil164.h | 1 +
- 2 files changed, 2 insertions(+)
+ include/drm/i915_gsc_proxy_mei_interface.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/drm/i2c/ch7006.h b/include/drm/i2c/ch7006.h
-index 8390b437a1f8..5305b9797f93 100644
---- a/include/drm/i2c/ch7006.h
-+++ b/include/drm/i2c/ch7006.h
-@@ -37,6 +37,7 @@
-  * meaning.
-  */
- struct ch7006_encoder_params {
-+	/* private: FIXME: document the members */
- 	enum {
- 		CH7006_FORMAT_RGB16 = 0,
- 		CH7006_FORMAT_YCrCb24m16,
-diff --git a/include/drm/i2c/sil164.h b/include/drm/i2c/sil164.h
-index 205e27384c83..ddf248693c8b 100644
---- a/include/drm/i2c/sil164.h
-+++ b/include/drm/i2c/sil164.h
-@@ -36,6 +36,7 @@
-  * See "http://www.siliconimage.com/docs/SiI-DS-0021-E-164.pdf".
-  */
- struct sil164_encoder_params {
-+	/* private: FIXME: document the members */
- 	enum {
- 		SIL164_INPUT_EDGE_FALLING = 0,
- 		SIL164_INPUT_EDGE_RISING
+diff --git a/include/drm/i915_gsc_proxy_mei_interface.h b/include/drm/i915_gsc_proxy_mei_interface.h
+index 9462341d3ae1..850dfbf40607 100644
+--- a/include/drm/i915_gsc_proxy_mei_interface.h
++++ b/include/drm/i915_gsc_proxy_mei_interface.h
+@@ -21,7 +21,7 @@ struct i915_gsc_proxy_component_ops {
+ 	struct module *owner;
+ 
+ 	/**
+-	 * send - Sends a proxy message to ME FW.
++	 * @send: Sends a proxy message to ME FW.
+ 	 * @dev: device struct corresponding to the mei device
+ 	 * @buf: message buffer to send
+ 	 * @size: size of the message
+@@ -30,7 +30,7 @@ struct i915_gsc_proxy_component_ops {
+ 	int (*send)(struct device *dev, const void *buf, size_t size);
+ 
+ 	/**
+-	 * recv - Receives a proxy message from ME FW.
++	 * @recv: Receives a proxy message from ME FW.
+ 	 * @dev: device struct corresponding to the mei device
+ 	 * @buf: message buffer to contain the received message
+ 	 * @size: size of the buffer
 -- 
 2.39.2
 
