@@ -2,62 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BA5C875F13
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 09:07:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B2E875FA0
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 09:35:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C1A6113383;
-	Fri,  8 Mar 2024 08:07:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3231611344E;
+	Fri,  8 Mar 2024 08:35:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="A+FqdOrx";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=geanix.com header.i=@geanix.com header.b="Dqj2kPWH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDBC7113351
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 08:07:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709885240; x=1741421240;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=jDdOt/2/1csh8uzSIdh6Wlj1K1r1Sr6v5MZdPU3LtjA=;
- b=A+FqdOrxY5HZwlrQ00xB4Y5qSoZQYgGRpnyn5Vv9Ia0c7oZM77iWp1ZB
- vPdqrraL8RCYgG+6HIhlO1R6G4vK+UqmMAa/DcBEO+aqSiXWn/T4tZQde
- LJjxVpILZoe/UHLz8OOBp77wJpJjYOS8KwzgforkTZtMcQckBJFeQURRy
- 55am00vEzxmHw8KwWMilErjIGFOtrnqLj4qSOQcvqlkvwMc3RG6KlKts7
- QiAqLX3cJHlHocHlzgAnNftwcy5s4Ylp5b8PS3E05gu4zgYWKTzkiJO/3
- QYIazrrFmp0k4STbstrCyPzZdloATyo22X/6ABy70Zjqc2CWmLnM6magC w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="7541021"
-X-IronPort-AV: E=Sophos;i="6.07,108,1708416000"; 
-   d="scan'208";a="7541021"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2024 00:07:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,108,1708416000"; d="scan'208";a="33538663"
-Received: from tofferse-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.33.212])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2024 00:07:15 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Hsin-Yi Wang <hsinyi@chromium.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Douglas Anderson <dianders@chromium.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
- <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 2/5] drm/edid: Add a function to match EDID with
- identity
-In-Reply-To: <20240307230653.1807557-3-hsinyi@chromium.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240307230653.1807557-1-hsinyi@chromium.org>
- <20240307230653.1807557-3-hsinyi@chromium.org>
-Date: Fri, 08 Mar 2024 10:07:11 +0200
-Message-ID: <87jzmduoy8.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain
+Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FDFE11344E
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 08:35:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com; 
+ s=default2211; h=To:Cc:Date:Message-Id:Subject:Mime-Version:
+ Content-Transfer-Encoding:Content-Type:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References;
+ bh=EO0ldGpg9O+GJgqLq48vxSR6sHl0Gsnt3qgnSOjRNcw=; b=Dqj2kPWH+1uvSc3F08BZqW7Iwt
+ eSSXbNkzmmFxNkDeLkZ0MX/88B1HHt5tQ5RNdWdn9FgNJ1piKAttxtCotKcI8SHXbt/Dj2wAlUvd7
+ gzAlxP5Xkq28g/XsH/uSphzF/yM3GeUZujirRONm9Oj6q/s7pCTQV3P16f9SeKhalBkO7+vYYL6OY
+ qS8BFuE4d9fxfPJmYSpy6t6TWKFRT7sxLALV9zc/n56NDl0J2ABZTFNIqWTQW20ZsqP3ddsOsolM6
+ ytrc9s3zfn+5wCcVkt1XlXmcr1lwtBP5s0pgKnnhfBlMUjzQ7xZnCBsbaW/xnINF3CFs2uaDaUzfr
+ Du4BJaSA==;
+Received: from sslproxy04.your-server.de ([78.46.152.42])
+ by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (Exim 4.94.2) (envelope-from <sean@geanix.com>)
+ id 1riVhb-000Ion-1k; Fri, 08 Mar 2024 09:35:39 +0100
+Received: from [2a06:4004:10df:0:a93a:6c75:8ef3:361d] (helo=smtpclient.apple)
+ by sslproxy04.your-server.de with esmtpsa
+ (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.92)
+ (envelope-from <sean@geanix.com>)
+ id 1riVha-000Htc-Iu; Fri, 08 Mar 2024 09:35:38 +0100
+From: Sean Nyekjaer <sean@geanix.com>
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.400.31\))
+Subject: STM32 DSI controller driver: mode_valid clock tolerance
+Message-Id: <4A53A669-C3AF-4D29-B5A5-0F7FEBA79045@geanix.com>
+Date: Fri, 8 Mar 2024 09:35:27 +0100
+Cc: =?utf-8?Q?Martin_Hundeb=C3=B8ll?= <martin@geanix.com>
+To: yannick.fertre@foss.st.com, raphael.gallais-pou@foss.st.com,
+ philippe.cornu@foss.st.com, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com
+X-Mailer: Apple Mail (2.3774.400.31)
+X-Authenticated-Sender: sean@geanix.com
+X-Virus-Scanned: Clear (ClamAV 0.103.10/27207/Thu Mar  7 10:27:12 2024)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,25 +66,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 07 Mar 2024, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
-> Create a type drm_edid_ident as the identity of an EDID. Currently it
-> contains panel id and monitor name.
->
-> Create a function that can match a given EDID and an identity:
-> 1. Reject if the panel id doesn't match.
-> 2. If name is not null in identity, try to match it in the detailed timing
->    blocks. Note that some panel vendors put the monitor name after
->    EDID_DETAIL_MONITOR_STRING.
->
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+Hi,
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+I=E2=80=99m using a stm32mp157 with a sn65dsi83 DSI2LVDS bridge.
+The LVDS display is having a minimum clock of 25.2 MHz, typical of 27,2 =
+MHz and a max of 30,5 MHz.
 
-The series seems good to go. Thanks Hsin-Yi and Douglas for the
-constructive collaboration! I believe the end result is better now.
+I will fail the mode_valid check with MODE_CLOCK_RANGE.
+It will request 27200000 Hz, but is getting 27250000. Guess the display =
+is fine with this :)
 
-Thanks,
-Jani.
+In this case it seems a bit harsh to fail if the output clock isn=E2=80=99=
+t within 50 Hz of the requested clock.
 
--- 
-Jani Nikula, Intel
+If HDMI is requiring a tolerance of 50 Hz, would it be better to do the =
+check in the HDMI bridge driver?
+
+/Sean=
