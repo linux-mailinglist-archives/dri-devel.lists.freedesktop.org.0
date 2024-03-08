@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFE6A8763D1
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 12:57:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C09088763D3
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 12:57:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E0D111388D;
-	Fri,  8 Mar 2024 11:57:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0070B1138A4;
+	Fri,  8 Mar 2024 11:57:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CebGMTwz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jNXNObr2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFC5B11388D;
- Fri,  8 Mar 2024 11:57:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65E4511389F;
+ Fri,  8 Mar 2024 11:57:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709899050; x=1741435050;
+ t=1709899058; x=1741435058;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=elOtPKkOr4UKttRzpakNREhjj46j10Np7/4B9ThmkmE=;
- b=CebGMTwzt/vEbCkr7cKUDVhBnBq9kN7JMyiRBzE4tMa1jSu1Asdz7Dhy
- T8csmQEVrU8h+9liW6vwgjyKouMJCs2PVukvb/wf6+R1n/sI6ygaYZDyE
- FJ+d5kQN0ou/m56S0nUd/TtSq3J5V6XXx+WACZMHnQnzdJq4XlS60GxoX
- rcNBykGn5VE6guEHXRU5+rei/oClpnuFFRMuNO3+3Ejw1WW4JTjuyTJOQ
- PRuIywR9vV3+wrYt415Bj9jFBgIeXK1XAD9HO6VO9pnYLTFfaJQyNQ3F0
- RtUXcxlXtGsJiRxo+WZIuVugQ4IKuDqMSRHKOzFyDiCoKHkAuPaaZuJ5j A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="4794577"
+ bh=TF0lzgQn23Y7ii7VeTzRt/zkxkPp119DqGByGL8Vc+0=;
+ b=jNXNObr2vijVLyZp+4M5Jyw9Rsv3wzDoqTsiLbj7FellW8d5U4MGhmnF
+ FSVIavVgHNBjQMhvtRI7lU5lJLLycl7+JiirPhpsaFgAvE+sb6xHssvgY
+ Dz2k0iuyQXTHfI8+ScB3FxnRnOmyX8mk1FgSX7s2/hclaBWWa6sucqLdm
+ COa5M1Z59elV1BoyzYtFItXgLsD14ZL4Q6qHe1yqz7/lDKeSgas8dP3Or
+ auhuF2+J209EiaOiIlNGRunVtQvJW7hykd1n+BKK0mzWYjxXQUVxn+7el
+ y7GEUgCm2Bidfg+W/bPOWMhityxB0qRUQN0/ugJ/u+8JCgfgtx2FZlod2 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="4794590"
 X-IronPort-AV: E=Sophos;i="6.07,109,1708416000"; 
-   d="scan'208";a="4794577"
+   d="scan'208";a="4794590"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2024 03:57:29 -0800
+ 08 Mar 2024 03:57:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,109,1708416000"; d="scan'208";a="10378619"
+X-IronPort-AV: E=Sophos;i="6.07,109,1708416000"; d="scan'208";a="10378645"
 Received: from unknown (HELO localhost) ([10.252.34.187])
  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2024 03:57:26 -0800
+ 08 Mar 2024 03:57:32 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
@@ -47,10 +47,11 @@ Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Masahiro Yamada <masahiroy@kernel.org>, lucas.demarchi@intel.com,
- Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>
-Subject: [PATCH v2 12/16] drm/ttm: fix ttm_kmap_iter.h kernel-doc warnings
-Date: Fri,  8 Mar 2024 13:55:50 +0200
-Message-Id: <e80e74ac4b6c5f1df3bc2dd98651ba289aae8e83.1709898638.git.jani.nikula@intel.com>
+ Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
+ kernel test robot <lkp@intel.com>
+Subject: [PATCH v2 13/16] drm/ttm: make ttm_pool.h self-contained
+Date: Fri,  8 Mar 2024 13:55:51 +0200
+Message-Id: <b92373759bba305ddf8d24fdca345f195400e206.1709898638.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1709898638.git.jani.nikula@intel.com>
 References: <cover.1709898638.git.jani.nikula@intel.com>
@@ -72,39 +73,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There's no proper way to document function pointer members, but at least
-silence the warnings.
+struct seq_file needs a forward declaration in some configs. Sort the
+forward declarations while at it.
 
 Cc: Christian Koenig <christian.koenig@amd.com>
 Cc: Huang Rui <ray.huang@amd.com>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202403072259.EEC2Vf1X-lkp@intel.com/
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- include/drm/ttm/ttm_kmap_iter.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/drm/ttm/ttm_pool.h | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/include/drm/ttm/ttm_kmap_iter.h b/include/drm/ttm/ttm_kmap_iter.h
-index cc5c09a211b4..fe72631a6e93 100644
---- a/include/drm/ttm/ttm_kmap_iter.h
-+++ b/include/drm/ttm/ttm_kmap_iter.h
-@@ -20,7 +20,7 @@ struct iosys_map;
-  */
- struct ttm_kmap_iter_ops {
- 	/**
--	 * kmap_local() - Map a PAGE_SIZE part of the resource using
-+	 * @map_local: Map a PAGE_SIZE part of the resource using
- 	 * kmap_local semantics.
- 	 * @res_iter: Pointer to the struct ttm_kmap_iter representing
- 	 * the resource.
-@@ -31,7 +31,7 @@ struct ttm_kmap_iter_ops {
- 	void (*map_local)(struct ttm_kmap_iter *res_iter,
- 			  struct iosys_map *dmap, pgoff_t i);
- 	/**
--	 * unmap_local() - Unmap a PAGE_SIZE part of the resource previously
-+	 * @unmap_local: Unmap a PAGE_SIZE part of the resource previously
- 	 * mapped using kmap_local.
- 	 * @res_iter: Pointer to the struct ttm_kmap_iter representing
- 	 * the resource.
+diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
+index 4490d43c63e3..160d954a261e 100644
+--- a/include/drm/ttm/ttm_pool.h
++++ b/include/drm/ttm/ttm_pool.h
+@@ -32,9 +32,10 @@
+ #include <drm/ttm/ttm_caching.h>
+ 
+ struct device;
+-struct ttm_tt;
+-struct ttm_pool;
++struct seq_file;
+ struct ttm_operation_ctx;
++struct ttm_pool;
++struct ttm_tt;
+ 
+ /**
+  * struct ttm_pool_type - Pool for a certain memory type
 -- 
 2.39.2
 
