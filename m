@@ -2,91 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 083A2876675
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 15:38:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56C5C8766BF
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 15:56:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D5A41138D2;
-	Fri,  8 Mar 2024 14:38:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B2CE1138DF;
+	Fri,  8 Mar 2024 14:56:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Mj8Hziac";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="H5AgBLhs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
- [209.85.160.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3859D10E4F8
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 14:38:38 +0000 (UTC)
-Received: by mail-qt1-f182.google.com with SMTP id
- d75a77b69052e-42ef17b4021so4529861cf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Mar 2024 06:38:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1709908716; x=1710513516;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rfUzWRFLFY+rkoyDqY8l5et5GO0+hQpyzOAN51RCdxI=;
- b=Mj8HziacvEFgoEIbZEyUrMUu4bcY5Va6ja5XU8NPU1DeZIO0M3fgdRUeVqgAKyYVv6
- deZrA8avYVmMekfs31KPUPsjQVtaDDdjCz2ch4VnSulO0jsYB4CqeX2NthHAHRWEllHI
- HCfmfWJ8Dz7mZ2IAvqUsiOly7g/w8kreXZULE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709908716; x=1710513516;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rfUzWRFLFY+rkoyDqY8l5et5GO0+hQpyzOAN51RCdxI=;
- b=rotwlEHnrfXFkmpQVkT1DJN7z1BBt5ZQbPUu3zN86J9mJEB7td0jPib2hFyRpZTEZW
- PAqY3SQEKSEsdhCTu2eXHA8sh7Gzx9G55oAseIZl9vw+1cibTvFmxQxcjcM6B/wOLHDU
- aiJGdJQ+Q3UtkeROPstlB7Tl5ovm1VQY/TiROhnXUFuHynsk+RrVXIKTmFCKIrX4DnZ+
- a+Ng3f0lDHoopxv4IWnBTGqlnRTOruEaWEd5+hK6LC2bPh6qtUjYFlN/JmbValcapJzN
- 6t5RXHfxYV/0SFrnyPeL+NrhECRzTs20Upji6uj8D2xGtUjGQiq/A5KSZ8hpzf3L9vLV
- RDuA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXP2Kq5KL6iv+oiSMDCtAJYaTPaDRrfuyoHL6fM2tuLQgD0VgFjIdIFuD8XLOwy4lISNTzwgkl55jNcHimj5Uo8WoDUG35Bd8D5VlU37mEb
-X-Gm-Message-State: AOJu0YwXQ4ZCcEWO42TxIsI3bVcDvBHlrNou5+FwkfO7ois2opHw+V9e
- hMNQRTvJiXshldUjO4WDYRLVWCrWJo7TNdoOJu1WV1X1bGOAB0bGx9SYKsg1jcGPFDyssdaqojs
- =
-X-Google-Smtp-Source: AGHT+IFyfr514MK7EjcJn60osg5p2BT8Aq3YgoGhvE1qERZKy+52x0Fn7fmzTXYm7J5/tbsE8mNFNA==
-X-Received: by 2002:ac8:5815:0:b0:42e:e489:ad31 with SMTP id
- g21-20020ac85815000000b0042ee489ad31mr152924qtg.51.1709908715968; 
- Fri, 08 Mar 2024 06:38:35 -0800 (PST)
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com.
- [209.85.160.173]) by smtp.gmail.com with ESMTPSA id
- b17-20020ac86bd1000000b0042f192bced9sm1945577qtt.64.2024.03.08.06.38.34
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Mar 2024 06:38:34 -0800 (PST)
-Received: by mail-qt1-f173.google.com with SMTP id
- d75a77b69052e-42ef8193ae6so257071cf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Mar 2024 06:38:34 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCW6FOt9FGjeOXcWpw4a7kPUJeqS/+CmUne5EX/NE0fOqihvLE4TAeajXWEjSqbwC9s6HhDYc8NoaSTCozIcJAQ+R30cxjB9TfC8aknaQY/0
-X-Received: by 2002:a05:622a:1a25:b0:42e:b6df:819d with SMTP id
- f37-20020a05622a1a2500b0042eb6df819dmr680036qtb.24.1709908714154; Fri, 08 Mar
- 2024 06:38:34 -0800 (PST)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C44EA1138DE;
+ Fri,  8 Mar 2024 14:56:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=kyFdaFZn5fxDlyBsRXk/mw238QRIyiO/3fj7J8kHjNw=; b=H5AgBLhsvkRfuIv80r18F6uxFH
+ 3mzommNNDYBDIa5KLMtTPW6A5YvjaC8R4DrshbDWekHaNBgehR+Ma49Vfw9MsFghc2n53IhMhwK04
+ f1PEIbryunTIUbqr10vnICOY7r1+IjQHdqxW+jf1lI8r4MXgIZRwZeVF3dmGn6/z80cDXgmbFl7z2
+ SrcRx33EVFIpCritGKEkOJQDPr7vHoQg8/O4nF0B8oMvJiR6KGsq3I4vRigdse5hlwJvYGNDjiWST
+ 0BPx6FGB/Imrbi4MW08qlT4ovr2DNTnYPeqMj52laQEBWBOdLndkwjh0PDDM0CE8OmomLdSUfPyZ/
+ /eU+yLpQ==;
+Received: from [152.249.135.210] (helo=steammachine.lan)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1ribdg-007p93-HA; Fri, 08 Mar 2024 15:56:01 +0100
+From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ Simon Ser <contact@emersion.fr>, Pekka Paalanen <ppaalanen@gmail.com>,
+ daniel@ffwll.ch, Daniel Stone <daniel@fooishbar.org>,
+ =?UTF-8?q?=27Marek=20Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
+ Dave Airlie <airlied@gmail.com>, ville.syrjala@linux.intel.com,
+ Xaver Hugl <xaver.hugl@gmail.com>, Joshua Ashton <joshua@froggi.es>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+Subject: [RESEND PATCH v4 0/3] drm/atomic: Allow drivers to write their own
+ plane check for async
+Date: Fri,  8 Mar 2024 11:55:50 -0300
+Message-ID: <20240308145553.194165-1-andrealmeid@igalia.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-References: <20240307230653.1807557-1-hsinyi@chromium.org>
- <20240307230653.1807557-3-hsinyi@chromium.org>
- <87jzmduoy8.fsf@intel.com>
-In-Reply-To: <87jzmduoy8.fsf@intel.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 8 Mar 2024 06:38:18 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=VsTq_Yy14n5Ygbxqn4pnguG3wC2AQforP8vdX-Wgn0Dw@mail.gmail.com>
-Message-ID: <CAD=FV=VsTq_Yy14n5Ygbxqn4pnguG3wC2AQforP8vdX-Wgn0Dw@mail.gmail.com>
-Subject: Re: [PATCH v6 2/5] drm/edid: Add a function to match EDID with
- identity
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Hsin-Yi Wang <hsinyi@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,28 +68,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Fri, Mar 8, 2024 at 12:07=E2=80=AFAM Jani Nikula <jani.nikula@linux.inte=
-l.com> wrote:
->
-> On Thu, 07 Mar 2024, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
-> > Create a type drm_edid_ident as the identity of an EDID. Currently it
-> > contains panel id and monitor name.
-> >
-> > Create a function that can match a given EDID and an identity:
-> > 1. Reject if the panel id doesn't match.
-> > 2. If name is not null in identity, try to match it in the detailed tim=
-ing
-> >    blocks. Note that some panel vendors put the monitor name after
-> >    EDID_DETAIL_MONITOR_STRING.
-> >
-> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
->
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
->
-> The series seems good to go. Thanks Hsin-Yi and Douglas for the
-> constructive collaboration! I believe the end result is better now.
+AMD hardware can do async flips with overlay planes, so this patchset does a
+small redesign to allow drivers to choose per plane type if they can or cannot
+do async flips.
 
-Thanks! Unless there are any objections in the meantime, I'll plan to
-apply the whole series to drm-misc-next late next week.
+It also allows async commits with IN_FENCE_ID in any driver.
 
--Doug
+Changes from v3:
+- Major patchset redesign 
+v3: https://lore.kernel.org/lkml/20240128212515.630345-1-andrealmeid@igalia.com/
+
+Changes from v2:
+ - Allow IN_FENCE_ID for any driver
+ - Allow overlay planes again
+v2: https://lore.kernel.org/lkml/20240119181235.255060-1-andrealmeid@igalia.com/
+
+Changes from v1:
+ - Drop overlay planes option for now
+v1: https://lore.kernel.org/dri-devel/20240116045159.1015510-1-andrealmeid@igalia.com/
+
+André Almeida (3):
+  drm/atomic: Allow userspace to use explicit sync with atomic async
+    flips
+  drm: Allow drivers to choose plane types to async flip
+  drm/amdgpu: Make it possible to async flip overlay planes
+
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 1 +
+ drivers/gpu/drm/drm_atomic_uapi.c                       | 8 +++++---
+ drivers/gpu/drm/drm_plane.c                             | 3 +++
+ include/drm/drm_plane.h                                 | 5 +++++
+ 4 files changed, 14 insertions(+), 3 deletions(-)
+
+-- 
+2.43.0
+
