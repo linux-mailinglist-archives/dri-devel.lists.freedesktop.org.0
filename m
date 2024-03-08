@@ -2,78 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D5B875F63
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 09:24:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CDCF875BFE
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 02:30:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E71C110F4A1;
-	Fri,  8 Mar 2024 08:24:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0226810F094;
+	Fri,  8 Mar 2024 01:30:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EahIp2B3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WuK2qD6w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D07EB10F411;
- Fri,  8 Mar 2024 01:12:26 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-33d38c9ca5bso916503f8f.2; 
- Thu, 07 Mar 2024 17:12:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1709860345; x=1710465145; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Owx6jt72g5QT/V0uQHGstO9uCqzU46h0v31gh/DzxSw=;
- b=EahIp2B3uHgDLtwfNw3YxKWrpiQsStSs3gn9gSCl0fQuwMxPEhSe+4QD2+Ghui/7mf
- 3D20cyNuZeijjHV/7FllvFnZemygN6loQXZaJYhqEGQgQfOg6p6E9gjgimM55SaHDG2z
- T2kISG4AHCh1icTsrlz/wmVFYwFoC2S2pc2oX8TgimhZ/qVCfNw5mlZZUeZT+0f+O8hO
- L9u8pIO4/CjMxJRLjWkuYB6ZiC6ztTaMbjPsi3YGQziXLdrXkxK7MmVq+oZ9CX8jO5IT
- AdN+jYUPuPQgQ3jTW95kMnBnrJvcUPWnu0LGaFH4+LwhhuWrLHefZlx0n5Yd10MphFUC
- XpEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709860345; x=1710465145;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Owx6jt72g5QT/V0uQHGstO9uCqzU46h0v31gh/DzxSw=;
- b=cMiLRHvG8XSUqu4lbpze6lo5lyIqk13apSwbD7Q8l4aCYtOORbDlhPeGTE+tdlyEqL
- PAr1LAUVOml3x8ThoG1hnfbE1qUK4q6wvoQyVknINaJiiYkVlkFbNu7EV+Q4w6kA1e8+
- MQO7rc8kAbd+T2DOmHbjq/JMKi3U4aCbaztawkZKmmo2zC5sWDkVXinLA2QP1T/62Cah
- 6f7aB2eKEju5nzQQsyZY6s3vBn63X+D5CZJrmD/AJcxjhiQiCcby26San50j3j71U2uP
- JpGHvpGsXgt+cN+zIJO9Gs/vDyS6aonhs144wdpRsgTpbn2BzzdpRkKftLy2fkDYqiGS
- Ic4g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVN6gcPcMZyXuY+qtB7qnOxTSt1L5CZxmPx0g18ngW79V5p9ftUl6HJGnnY17MgyQ7ZQL7de64Tf7UTRGoBmyzY3ogbNveCnpq3t78/oSVKwqTNSNqEpYPI81y16HObNj97OF0dTnofNe/Ngh9RjeRwQG0=
-X-Gm-Message-State: AOJu0Yxx8ZkdT4Pd+lvFiWaf2CFq8g6vBIgjN1t/6PKZRLwnbUVZqwEV
- hE8AoSkKGMCq6QI1jNnnyVGokJUUMk5M+bIPx/x81E6ZBu6b/WQ/
-X-Google-Smtp-Source: AGHT+IGyFK85fLcK62sC298qj//c9CgMsC5e3P8Va0z/mRDqMFtCe0XGX8iOSmZnzWnJeMlfMP112A==
-X-Received: by 2002:a5d:554d:0:b0:33e:6760:6def with SMTP id
- g13-20020a5d554d000000b0033e67606defmr2195331wrw.56.1709860344707; 
- Thu, 07 Mar 2024 17:12:24 -0800 (PST)
-Received: from localhost (ec2-18-169-47-158.eu-west-2.compute.amazonaws.com.
- [18.169.47.158]) by smtp.gmail.com with ESMTPSA id
- f14-20020a5d50ce000000b0033b66c2d61esm21450770wrt.48.2024.03.07.17.12.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Mar 2024 17:12:24 -0800 (PST)
-From: Alex Constantino <dreaming.about.electric.sheep@gmail.com>
-To: regressions@leemhuis.info
-Cc: 1054514@bugs.debian.org, airlied@redhat.com, carnil@debian.org,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org, kraxel@redhat.com,
- linux-kernel@vger.kernel.org, regressions@lists.linux.dev,
- spice-devel@lists.freedesktop.org, timo.lindfors@iki.fi,
- tzimmermann@suse.de, virtualization@lists.linux-foundation.org,
- Alex Constantino <dreaming.about.electric.sheep@gmail.com>
-Subject: [PATCH 1/1] drm/qxl: fixes qxl_fence_wait
-Date: Fri,  8 Mar 2024 01:08:51 +0000
-Message-Id: <20240308010851.17104-2-dreaming.about.electric.sheep@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240308010851.17104-1-dreaming.about.electric.sheep@gmail.com>
-References: <fb0fda6a-3750-4e1b-893f-97a3e402b9af@leemhuis.info>
- <20240308010851.17104-1-dreaming.about.electric.sheep@gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07B9E10F094
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 01:30:43 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id D85D161D91;
+ Fri,  8 Mar 2024 01:30:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AD44C433F1;
+ Fri,  8 Mar 2024 01:30:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709861442;
+ bh=pWLPfbMGjAqOMIxZXwrouf7NrYnQYoQSjURpmCc84iU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=WuK2qD6wyzgEpkNGU94oUn6yHcPXxuUo3uJrLGDTiIGph4N/vCBqNc4nDv471KEn3
+ sm7aoyIlj2FlbTUAzqmFeQZ3jZxx8uq02/lwxrUs6Fs5ne1P7sc9b+jogdt2cNh5om
+ yy2pPOnMcP+HAkFrHyi8JDY6iodalicwb81v6rzeU0un9tw4HNH9vVQNofxBnlf4+6
+ iDppG8XOmWfXjccjhAEBc5TroehEx0EzshUNRujMpMwMXGGAQ6kBNOJtKint9xVpy2
+ SaraH4eSezKXfORbglRhjRO/jH8oAebaFTPdwegjG2bPLQMw9csoNK+YHGu0qpYXyY
+ O/jGEtvZeHEeQ==
+Date: Thu, 7 Mar 2024 17:30:39 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Richard Henderson
+ <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
+ <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai
+ Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
+ <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
+ <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
+ Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
+ <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, Willem de Bruijn
+ <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, Sumit
+ Semwal <sumit.semwal@linaro.org>, "Christian =?UTF-8?B?S8O2bmln?="
+ <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
+ Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeelb@google.com>,
+ Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>
+Subject: Re: [RFC PATCH net-next v6 01/15] queue_api: define queue api
+Message-ID: <20240307173039.00e6fbb7@kernel.org>
+In-Reply-To: <20240305020153.2787423-2-almasrymina@google.com>
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <20240305020153.2787423-2-almasrymina@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Fri, 08 Mar 2024 08:24:25 +0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,63 +88,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix OOM scenario by doing multiple notifications to the OOM handler through
-a busy wait logic.
-Changes from commit 5a838e5d5825 ("drm/qxl: simplify qxl_fence_wait") would
-result in a '[TTM] Buffer eviction failed' exception whenever it reached a
-timeout.
+On Mon,  4 Mar 2024 18:01:36 -0800 Mina Almasry wrote:
+> + * void *(*ndo_queue_mem_alloc)(struct net_device *dev, int idx);
+> + *	Allocate memory for an RX queue. The memory returned in the form of
+> + *	a void * can be passed to ndo_queue_mem_free() for freeing or to
+> + *	ndo_queue_start to create an RX queue with this memory.
+> + *
+> + * void	(*ndo_queue_mem_free)(struct net_device *dev, void *);
+> + *	Free memory from an RX queue.
+> + *
+> + * int (*ndo_queue_start)(struct net_device *dev, int idx, void *);
+> + *	Start an RX queue at the specified index.
+> + *
+> + * int (*ndo_queue_stop)(struct net_device *dev, int idx, void **);
+> + *	Stop the RX queue at the specified index.
+>   */
+>  struct net_device_ops {
+>  	int			(*ndo_init)(struct net_device *dev);
+> @@ -1679,6 +1693,16 @@ struct net_device_ops {
+>  	int			(*ndo_hwtstamp_set)(struct net_device *dev,
+>  						    struct kernel_hwtstamp_config *kernel_config,
+>  						    struct netlink_ext_ack *extack);
+> +	void *			(*ndo_queue_mem_alloc)(struct net_device *dev,
+> +						       int idx);
+> +	void			(*ndo_queue_mem_free)(struct net_device *dev,
+> +						      void *queue_mem);
+> +	int			(*ndo_queue_start)(struct net_device *dev,
+> +						   int idx,
+> +						   void *queue_mem);
+> +	int			(*ndo_queue_stop)(struct net_device *dev,
+> +						  int idx,
+> +						  void **out_queue_mem);
 
-Fixes: 5a838e5d5825 ("drm/qxl: simplify qxl_fence_wait")
-Link: https://lore.kernel.org/regressions/fb0fda6a-3750-4e1b-893f-97a3e402b9af@leemhuis.info
-Reported-by: Timo Lindfors <timo.lindfors@iki.fi>
-Closes: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1054514
-Signed-off-by: Alex Constantino <dreaming.about.electric.sheep@gmail.com>
----
- drivers/gpu/drm/qxl/qxl_release.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+The queue configuration object was quite an integral part of the design,
+I'm slightly worried that it's not here :) Also we may want to rename
+the about-to-be-merged ops from netdev_stat_ops and netdev_queue_ops,
+and add these there?
 
-diff --git a/drivers/gpu/drm/qxl/qxl_release.c b/drivers/gpu/drm/qxl/qxl_release.c
-index 368d26da0d6a..51c22e7f9647 100644
---- a/drivers/gpu/drm/qxl/qxl_release.c
-+++ b/drivers/gpu/drm/qxl/qxl_release.c
-@@ -20,8 +20,6 @@
-  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-  */
- 
--#include <linux/delay.h>
--
- #include <trace/events/dma_fence.h>
- 
- #include "qxl_drv.h"
-@@ -59,14 +57,24 @@ static long qxl_fence_wait(struct dma_fence *fence, bool intr,
- {
- 	struct qxl_device *qdev;
- 	unsigned long cur, end = jiffies + timeout;
-+	signed long iterations = 1;
-+	signed long timeout_fraction = timeout;
- 
- 	qdev = container_of(fence->lock, struct qxl_device, release_lock);
- 
--	if (!wait_event_timeout(qdev->release_event,
-+	// using HZ as a factor since it is used in ttm_bo_wait_ctx too
-+	if (timeout_fraction > HZ) {
-+		iterations = timeout_fraction / HZ;
-+		timeout_fraction = HZ;
-+	}
-+	for (int i = 0; i < iterations; i++) {
-+		if (wait_event_timeout(
-+				qdev->release_event,
- 				(dma_fence_is_signaled(fence) ||
--				 (qxl_io_notify_oom(qdev), 0)),
--				timeout))
--		return 0;
-+					(qxl_io_notify_oom(qdev), 0)),
-+				timeout_fraction))
-+			break;
-+	}
- 
- 	cur = jiffies;
- 	if (time_after(cur, end))
--- 
-2.39.2
+https://lore.kernel.org/all/20240306195509.1502746-2-kuba@kernel.org/
 
+Very excited to hear that you made progress on this and ported GVE over!
