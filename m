@@ -2,77 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03B3B875C1C
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 02:53:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A98E875C33
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 03:03:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79A97112420;
-	Fri,  8 Mar 2024 01:52:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4206210F765;
+	Fri,  8 Mar 2024 02:03:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="j1e2eFrn";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lDcjsq5n";
 	dkim-atps=neutral
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13870112420
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 01:52:56 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8805F61D7D;
- Fri,  8 Mar 2024 01:52:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3C15C433C7;
- Fri,  8 Mar 2024 01:52:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709862775;
- bh=fz2pz2qjIfAAtut6NhHBeh0SUMiiU7K6EGRFxYVj02A=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=j1e2eFrnn2oGzuVI3SS8F8y9zj4WESKfPCGRxrfE8ZJwdFzIUuvscskwKoFmi+DTe
- UQmZ0KaIT3FF+FRpvXC6we5R6cqKVQ7PxIT27sMixkPliMu3Q10jSkbVbV5UEqldl7
- g/9r/3K4E7HEUji3HbNPzbY8omvaOXtRxaoIHdESIZ07gj3Ebg3Tdiz+dxppi8+jVN
- BX5lADSuUgx4Ca1OlmwBB9024w6TIVf/My/1+BI6NipJq3nAC/RvlOAv/pJv1Kh/oq
- jrMd8QyNrvFBw/AxA8zJ5pfQk2+B6Nc/DvQ9ALIqVkGZAgwr5qSmd+ZDwfJUQwO1jV
- eIx8mkvdJmylw==
-Date: Thu, 7 Mar 2024 17:52:51 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Richard Henderson
- <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
- <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai
- Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
- <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
- Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, Willem de Bruijn
- <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, Sumit
- Semwal <sumit.semwal@linaro.org>, "Christian =?UTF-8?B?S8O2bmln?="
- <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
- Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
- <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeelb@google.com>,
- Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
- <pkaligineedi@google.com>
-Subject: Re: [RFC PATCH net-next v6 14/15] net: add devmem TCP documentation
-Message-ID: <20240307175251.309837e1@kernel.org>
-In-Reply-To: <20240305020153.2787423-15-almasrymina@google.com>
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-15-almasrymina@google.com>
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 279F810F765;
+ Fri,  8 Mar 2024 02:03:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709863398; x=1741399398;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=N/ReINGNe1GlfcxvWO3VnOGkB1IBjcLiduhhLtEsG5o=;
+ b=lDcjsq5ngoWS92mxSyaZZBAM/lMXDW0J8oo8USknx/IK69HeVbJoI2XW
+ HlQuXAo1ouexMGVLuAwp6Cv6oMqEMe2d2GwFJWm1eNfkUubxYskGb7dBY
+ 20nJmjyGdpWl1EJ83LO5U0s75SJdBpqwp+T19NKcFNjj2kIRsYkeQa94S
+ rWOtQDLnV3HePuk8+VTPxnlcfSmm2qxMIXBWCKIxHXS07VO5MEr79F0Y5
+ 2YPkYv0KyvKJar3+ARVYgIyeXV2lTcig1Oy5s6s/GbsGt26JxJFnuRZJV
+ YTiJIGtug+ROMCiZtjZg5B6YZMZLAPZA9hQjVyKaAsKaZF3Ij9n6zU76f A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="7516225"
+X-IronPort-AV: E=Sophos;i="6.07,108,1708416000"; 
+   d="scan'208";a="7516225"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2024 18:03:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,108,1708416000"; d="scan'208";a="10864818"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
+ by orviesa008.jf.intel.com with ESMTP; 07 Mar 2024 18:03:17 -0800
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Cc: DRI-Devel@Lists.FreeDesktop.Org, John Harrison <John.C.Harrison@Intel.com>
+Subject: [PATCH] drm/i915/guc: Update w/a 14019159160
+Date: Thu,  7 Mar 2024 18:01:29 -0800
+Message-ID: <20240308020129.728799-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,95 +63,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon,  4 Mar 2024 18:01:49 -0800 Mina Almasry wrote:
-> +Intro
-> +=====
-> +
-> +Device memory TCP (devmem TCP) enables receiving data directly into device
-> +memory (dmabuf). The feature is currently implemented for TCP sockets.
-> +
-> +
-> +Opportunity
-> +-----------
-> +
-> +A large amount of data transfers have device memory as the source and/or
+From: John Harrison <John.C.Harrison@Intel.com>
 
-s/amount/number/
+An existing workaround has been extended in both platforms affected
+and implementation complexity.
 
-> +destination. Accelerators drastically increased the volume of such transfers.
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+---
+ drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h |  3 ++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  3 ++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    | 21 ++++++++++---------
+ 3 files changed, 15 insertions(+), 12 deletions(-)
 
-s/volume/prevalence/
+diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
+index bebf28e3c4794..3e7060e859794 100644
+--- a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
++++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
+@@ -105,7 +105,8 @@ enum {
+  * Workaround keys:
+  */
+ enum {
+-	GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE				= 0x9001,
++	GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE				= 0x9001,	/* Wa_14019159160 */
++	GUC_WORKAROUND_KLV_AVOID_GFX_CLEAR_WHILE_ACTIVE			= 0x9006,	/* Wa_14019159160 */
+ };
+ 
+ #endif /* _ABI_GUC_KLVS_ABI_H */
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+index 0c67d674c94de..4c3dae98656af 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+@@ -296,7 +296,8 @@ static u32 guc_ctl_wa_flags(struct intel_guc *guc)
+ 
+ 	/* Wa_16019325821 */
+ 	/* Wa_14019159160 */
+-	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71)))
++	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71)) ||
++	    IS_DG2(gt->i915))
+ 		flags |= GUC_WA_RCS_CCS_SWITCHOUT;
+ 
+ 	/*
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+index 5c9908b56616e..00fe3c21a9b1c 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+@@ -815,23 +815,23 @@ guc_capture_prep_lists(struct intel_guc *guc)
+ 	return PAGE_ALIGN(total_size);
+ }
+ 
+-/* Wa_14019159160 */
+-static u32 guc_waklv_ra_mode(struct intel_guc *guc, u32 offset, u32 remain)
++static void guc_waklv_enable_simple(struct intel_guc *guc, u32 *offset, u32 *remain, u32 klv_id)
+ {
+ 	u32 size;
+ 	u32 klv_entry[] = {
+ 		/* 16:16 key/length */
+-		FIELD_PREP(GUC_KLV_0_KEY, GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE) |
++		FIELD_PREP(GUC_KLV_0_KEY, klv_id) |
+ 		FIELD_PREP(GUC_KLV_0_LEN, 0),
+ 		/* 0 dwords data */
+ 	};
+ 
+ 	size = sizeof(klv_entry);
+-	GEM_BUG_ON(remain < size);
++	GEM_BUG_ON(*remain < size);
+ 
+-	iosys_map_memcpy_to(&guc->ads_map, offset, klv_entry, size);
++	iosys_map_memcpy_to(&guc->ads_map, *offset, klv_entry, size);
+ 
+-	return size;
++	*offset += size;
++	*remain -= size;
+ }
+ 
+ static void guc_waklv_init(struct intel_guc *guc)
+@@ -850,10 +850,11 @@ static void guc_waklv_init(struct intel_guc *guc)
+ 	remain = guc_ads_waklv_size(guc);
+ 
+ 	/* Wa_14019159160 */
+-	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71))) {
+-		size = guc_waklv_ra_mode(guc, offset, remain);
+-		offset += size;
+-		remain -= size;
++	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71)) || IS_DG2(gt->i915)) {
++		guc_waklv_enable_simple(guc, &offset, &remain,
++					GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE);
++		guc_waklv_enable_simple(guc, &offset, &remain,
++					GUC_WORKAROUND_KLV_AVOID_GFX_CLEAR_WHILE_ACTIVE);
+ 	}
+ 
+ 	size = guc_ads_waklv_size(guc) - remain;
+-- 
+2.43.0
 
-> +Some examples include:
-> +
-> +- Distributed training, where ML accelerators, such as GPUs on different hosts,
-> +  exchange data among them.
-
-s/among them//
-
-> +- Distributed raw block storage applications transfer large amounts of data with
-> +  remote SSDs, much of this data does not require host processing.
-> +
-> +Today, the majority of the Device-to-Device data transfers the network are
-
-"Today" won't age well.
-
-> +implemented as the following low level operations: Device-to-Host copy,
-> +Host-to-Host network transfer, and Host-to-Device copy.
-> +
-> +The implementation is suboptimal, especially for bulk data transfers, and can
-
-/The implementation/The flow involving host copies/
-
-> +put significant strains on system resources such as host memory bandwidth and
-> +PCIe bandwidth.
-> +
-> +Devmem TCP optimizes this use case by implementing socket APIs that enable
-> +the user to receive incoming network packets directly into device memory.
-
-> +More Info
-> +---------
-> +
-> +  slides, video
-> +    https://netdevconf.org/0x17/sessions/talk/device-memory-tcp.html
-> +
-> +  patchset
-> +    [RFC PATCH v3 00/12] Device Memory TCP
-> +    https://lore.kernel.org/lkml/20231106024413.2801438-1-almasrymina@google.com/T/
-
-Won't age well? :)
-
-> +Interface
-> +=========
-> +
-> +Example
-> +-------
-> +
-> +tools/testing/selftests/net/ncdevmem.c:do_server shows an example of setting up
-> +the RX path of this API.
-> +
-> +NIC Setup
-> +---------
-> +
-> +Header split, flow steering, & RSS are required features for devmem TCP.
-> +
-> +Header split is used to split incoming packets into a header buffer in host
-> +memory, and a payload buffer in device memory.
-> +
-> +Flow steering & RSS are used to ensure that only flows targeting devmem land on
-> +RX queue bound to devmem.
-> +
-> +Enable header split & flow steering:
-> +
-> +::
-
-You can put the :: at the end of the text, IIRC, like this:
-
-Enable header split & flow steering::
-
-> +
-> +	# enable header split (assuming priv-flag)
-> +	ethtool --set-priv-flags eth1 enable-header-split on
-
-Olek added the "set" in commit 50d73710715d ("ethtool: add SET for
-TCP_DATA_SPLIT ringparam"), no need for the priv flag any more.
