@@ -2,123 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E53818760AD
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 10:09:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09A058760B7
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 10:16:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8771710EF02;
-	Fri,  8 Mar 2024 09:09:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D78A810F14D;
+	Fri,  8 Mar 2024 09:16:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Sr8pb2Hf";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="fY9bTfV+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2073.outbound.protection.outlook.com [40.107.95.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B480210EF02;
- Fri,  8 Mar 2024 09:09:42 +0000 (UTC)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2069.outbound.protection.outlook.com [40.107.94.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5199D10F14D;
+ Fri,  8 Mar 2024 09:16:52 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ddp1veaUjlSKTueYt6II+8SeEsgXrm8Mk7pZpYVkuHKybGNvP6c3qqOzfT17LlXEeTE4uhHGS61UvOKgxX8bHrbOkqxybwJZ+SeXiMP2brSRnuy2+Qk0K+1jA8I0ykfP1hpAQHa70mYJmz9QihsuUuef9p0aEZVNOaGhoZX5bkYB9o0k2XdgqqYoZ8jqzlaCq+Kp9ISoPkLIigaNNeWwWYdbSzPe//xcIgzfJc9mULsIMKGL48MsUUUyfMinIcqdGw1f0n32FA5+qAPMbS2s504ytHstR0rRtirm8rWkP6+q7O0+X5Bb7FwuGUkNBoKqwjaBLKuNOvH2POUk3uo5vQ==
+ b=R8GJyLfJW3DmhqlCxy3vvQ8T0RVWG1hGGTXjEgNAEImWndi8Qaz6z5OJk+7Yaa/sUUCrLJkl9pogRk3OcRdl6dviEchbRDuN7VJAzAtdmplMo6mP80peTRr7NE8+ZHWBocCcF8R0HtrzlKmSzHB7GwGU34DngNmLL2Ml9o9derqTeevQPs6vu08ZYlCx/ehI1lpo8rDi1GY4EvdubtW8G1D07JBe0H020xtKunWVPqbC5C8pbW4cBmUcoUqLtjsv2jkMwt40Fwl/NCKEB+JlCJhZ8ziJU/2A+hfTBHJbfd/IcRWiqOsu2FYWoi33IVULeKb9kkwYKi6RkjgaoIIQXg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oJ+hgpIpmrgFSWj7zYIadNN5nLbc9kpT9/Y50n6URzc=;
- b=ioCUNtjO02fG6D4Za63kvQvY4olBEVK4rn4oNkGVWYMFgrVoiai1PqR9EyR9+I2fBzyU8+xhsHlzPsd4CrEG+sYwU4496V/Tml/YrpD5iV7AlFf5apLTO6BHxDfw+goOlfJieK8hs4S8ctcwkQ1ICITuN5pqbOV8lB7bKh2F+3bmx5uYoV24o0xkHTYDdvuoqNMspU/ntOHaaRdoxR0Fxb2yB2zEJ2taoGiaOV+FVolHai19ZmNWIuVGPUy8M60aC2btstgdX6l3iVFiwLrI6yGJ97p4RXEl9YGKeMg6+5qZaqR0dDRGzH4EP0zox9PRqweMWQDyfwBeNED4g4tKFA==
+ bh=7od7hNH/LWOT7S86wWzepCW3T7vMRzkgIYYKEq2Xa3k=;
+ b=cQlbbw34kcarpSthrO45wP42VUVcQX7H7mCNjUgimMrgFMmDPfdQn2ff4YHOo0v9HUesksIuamDhOP2ZWuJVaqpWkjkbeH1QkjWDehz9E5MKs5cxcrf9TwUgIe0MOK8I+upmv2vnfYFeRGTOKZyQa2Eljs1DAlbkGa7y9TR7srY26aFV7CYxdQ2BcpFlFff6isTtfBA1h0MJZjkfvzjXD2pwxn0mS0t2g8l3EK9DZU+2LZ0StRlsNvRRZoe4kTkbLXPKPr2HwnP2OW64C8RN/pjMwOG0pJnl26yXLL5GeuNuSVo6dJcJ+KyjLH6UJuTrJpCu8RfsnKocAQX1jMxnmA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oJ+hgpIpmrgFSWj7zYIadNN5nLbc9kpT9/Y50n6URzc=;
- b=Sr8pb2HfjWGETTMJ2rOS5tVRoL+Bg1ty3qCD985a1GrpDxEG+8KnRDHVlp0WAqiAOcXQDOI6bLJ6qVeqLHQcjrQEqZMNNMe1QMXMXDeGcSA8fsBsxFGTJtxxHGGvAFpeyneOlu8ZooRyW5ai30mxslQiVXCn6aMKAOFbkYg6wXk=
+ bh=7od7hNH/LWOT7S86wWzepCW3T7vMRzkgIYYKEq2Xa3k=;
+ b=fY9bTfV++eTl/GZbIqEDl7Nkvb/DWrqbp7Yklbf75H4NjGPgu4ANusPxwJ41fkvxtLE28LX9uASXSn3pqcCZcUTsrqOMbLPkoO0x7lYEBcpEd9rJPSGwSk6Dn17J28sz2YiPCzb+cGX6NH1mwVAW2LNehdKJm/7CpEfnMVihlE4=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SJ1PR12MB6100.namprd12.prod.outlook.com (2603:10b6:a03:45d::20)
+Received: from PH7PR12MB5596.namprd12.prod.outlook.com (2603:10b6:510:136::13)
+ by LV3PR12MB9401.namprd12.prod.outlook.com (2603:10b6:408:21c::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.26; Fri, 8 Mar
- 2024 09:09:40 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7362.024; Fri, 8 Mar 2024
- 09:09:40 +0000
-Message-ID: <ab7c8dde-c914-4e07-a95a-126976917416@amd.com>
-Date: Fri, 8 Mar 2024 10:09:34 +0100
+ 2024 09:16:47 +0000
+Received: from PH7PR12MB5596.namprd12.prod.outlook.com
+ ([fe80::6f48:e3f1:6ff9:75bd]) by PH7PR12MB5596.namprd12.prod.outlook.com
+ ([fe80::6f48:e3f1:6ff9:75bd%4]) with mapi id 15.20.7362.019; Fri, 8 Mar 2024
+ 09:16:47 +0000
+Message-ID: <83c46d51-7d4c-4a2f-b34e-8b6700a5fca7@amd.com>
+Date: Fri, 8 Mar 2024 14:46:39 +0530
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 2/2] drm/amdgpu: add vm fault information to devcoredump
 Content-Language: en-US
-To: Sunil Khatri <sunil.khatri@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sunil Khatri <sunil.khatri@amd.com>, Alex Deucher
+ <alexander.deucher@amd.com>, Shashank Sharma <shashank.sharma@amd.com>
 Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Mukul Joshi <mukul.joshi@amd.com>,
  Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
 References: <20240307205054.3904657-1-sunil.khatri@amd.com>
  <20240307205054.3904657-3-sunil.khatri@amd.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240307205054.3904657-3-sunil.khatri@amd.com>
+ <ab7c8dde-c914-4e07-a95a-126976917416@amd.com>
+From: "Khatri, Sunil" <sukhatri@amd.com>
+In-Reply-To: <ab7c8dde-c914-4e07-a95a-126976917416@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0004.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::14) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN2P287CA0011.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:21b::18) To PH7PR12MB5596.namprd12.prod.outlook.com
+ (2603:10b6:510:136::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ1PR12MB6100:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6f0c8874-5f29-4e46-84f0-08dc3f4f7c69
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5596:EE_|LV3PR12MB9401:EE_
+X-MS-Office365-Filtering-Correlation-Id: 16fb616a-23e7-47bc-5abd-08dc3f507af6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yeiwqgii0XQ/tw74QmuZNBoAiZG5tpbHMp5r8AiiuYE85GuqrhKtsQSDNCGb34NDbRUPn12P4UmJl0BDiQcRMLcbL5C+wmFHGlvdeZx95CoWJZqhEWdwun6GqXhabH0k4JdsUFZL65qVjr5X7pGpGL5MYza2j2KNLACXg1avRcCTFt5LeYwlPavRWwD6sBx/E/ht+OUcft5PPgoLZhVOWDiO4Mv6A/wYv54DSLKtPF2QkYrQH+pM+EJzlep9ortT096RB0kMjR5Kp7AHDhdBypHjPcnMURlKkI8nbFvKS1Zh2Wrv3Vhx5hH6+dsi9K5/2x5tAfsLLIox5jcrO0bYfkGR4+C+esGlJCKTkRDymuv/TM5ZUctLmWpB3pWYeeY9hSF4exSrnsDI73/1CkFOwMM5MK5mPYhQ2V8zJBHU9i2qjl7oVdIw/lgo+QGaf7U7Ka1SEZWX1YQJ39W54CirlQQ95DBC+8CZEu3mkIAEqpk6SSNXZo4tHdvFOZQmV210NIaMs9xoV1VpQkJoIUz0omwAS/GjloFXpHVDbY1x2jI9Vog852A9SgE6//tvi8Juc9juCaWZIeXQBjjXWq32q1DL6IXlo3jJvkLNOY2VScKPnCox13sG5SRaKKtrR2NF9wj/RPkKenlqCiQfYJi6hothX3i0kxidBnTTTcViltk=
+X-Microsoft-Antispam-Message-Info: jriUsw9JsiOXH9sPD7G/2faV15olJCu4WfntL0IyNOHDSe20Vwj42xsxm/lLEZqAe67nPUGAKlgN7AQg3zzwmNCp9qC0AK9bRgxl+EJbP7vdUSByplcii2ivBhOjqQ5kJraZT4uawpfDHo1VvOa3GvVhFFxn3rUMgY0kXRNqkz2oyagQlqe1Jy29CE10oaDJGR2FQQqhd13ZkA44DzrnNOqOMQIaph0AdT/FobHq3+ZJJgcTyiqe5ZlZg+3N7pIokP1fRj98GNDQO8hWSUCPme/AQE13UMRDmmkIPLzm6xEHMF1OEoZuc5HVz79Re+Qb7u64YycqG6tPQiG67F3OUxgo97ciRJIQleprg0YV9QxtqpYmssqpID0hrL9PLs1rq7ViPddlJELOPak9rZ+uq75MU3bkwWpKY3DG7LBfwP6KiylmYIDIU0IGFDPYikN+1WVJfFnQif74SmkJICC8aEqWj0b4UHNqdi4s/2WLkD7wOgQfPiBMV1Kgs7+fKCb0W4ULhO1rdjR79169BuzuIlmqF0tAFlbiYMCc2tDwDixE6iSHKbYrZen5SfbGrwr7Y7WfCOO8jeFz8CLT0nu72eCdGMqEVNTTaHtp+8AvMIXIKhpxj4Weye0q4UsQmbgNyTep+OuxxxYMpZCOwNioVxhkX+NQ9w7BKZgTmzllO6w=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5596.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230031)(376005)(1800799015); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dUpjaGdUaDI5dTFZMWxHdXRZMnFMZ1YvUlhNNHBYUlBqMjg0R0JlNzEwNEww?=
- =?utf-8?B?YkVHcWVyQ3VTaUpHYmJvVDl4cyt4MDVpNnlUeTVGRGNURThIVEhSMUt6dHpK?=
- =?utf-8?B?L0FmSVNORnVQS1RkakZoakFrVi9uTDdIMTN5amVab3R2R2I5b1l2Y3YrNHhv?=
- =?utf-8?B?RndibzEwSXJGR3pESkg4SWo3bVFiY2FRaGdYWXloTnlESWEvN2c3UW5zblkz?=
- =?utf-8?B?aW02YlFFRUI1enNrdEx0NHZheTk5aWVYM25uNXJ2SXU1K0prem1BTU9DdEtl?=
- =?utf-8?B?eHN2R1Q2bUswaFhYdWVVK2tLelpHditCY0ZjUUg4ejYvOW5XSVdjTTd5c2Y0?=
- =?utf-8?B?NFhxSEdXMUpTNkNjeHkyS0RwOVFlL0NjS3oycmNPY05sMmRVaTlTMHlEU0hE?=
- =?utf-8?B?ZTU3dFd2VUFpalpETEZZMVA5dWhYU0xDVTNwU1F3RXIxU3ppNW40aXByWU5P?=
- =?utf-8?B?TlQzcW9INkJBODIzaTdQWjlGd3JreTVzL2lQbHYzcnhRR0swZ1QwRXNjelNU?=
- =?utf-8?B?UXV0ZkFrbTU0RlM1NVRaTnR6TVJnc080Mm9qeml1TUFiVGpiQ2Fva29rNTA3?=
- =?utf-8?B?Vm1ZMzNXYnYyVE9TcnR3WDJNTTVySWJ4WEkwbVFSMmxMRFVncVhjMWdUN1Bn?=
- =?utf-8?B?UVkrNHZTZGFRMEZrNXpTcXFGSGIremdubzJLdHcxMFlRZlhIU3B6Q2hwbVRp?=
- =?utf-8?B?Um81dWNEdndEeVFKYVUzbU9CREp5V253bkxzM25zNmk4dGpzdFkwWmNva2pn?=
- =?utf-8?B?dEpOOG9GdWN3cWFlbC9WYkpwQW1uaFhHN0F6c1FMcnZYSEs2QzRkYkVjeHJk?=
- =?utf-8?B?VWpVaGhmS2ZoeU5Fa09JdVpySWZtbmx6dFllRG12eU84SEo4a0phK0VFUkdP?=
- =?utf-8?B?MVJuaGdUMUNvajluSWV5U1JVYjQ0Y25aTUcyRXZVUEdxU0NKY3ZjeWhnbnd2?=
- =?utf-8?B?NjBBTzlBblFyVVlwc3RkNU05bGJCZlNHbVJTeGt2MEZadmNKRE1jYTdqbElZ?=
- =?utf-8?B?dlY4SzIvVXJPQWFOM3VZUFNMY1VMeXpTSFdxR25TZDNSMStjZUtmc1FuL3g0?=
- =?utf-8?B?Skt5dEhPY2ZlT203ZHJBa0ZTUGRxanJoMVh6WEo0VWNlRUZYNUpSNkFZTVdy?=
- =?utf-8?B?cFBvdWcxY2htb1NCclJHSFR2K1c4a1NTSTlFRWIxblZmVmFGZ2pEcnhjQVVP?=
- =?utf-8?B?YmZzdFJpMlloMWI0WDVlZjJ0SWlKZjd0RTJVRi8xM0laVk5lZDFFbFRrTXBT?=
- =?utf-8?B?NUkyNnVRZHVZNnlMdW5pMzJEaitrenpJZ1d0bnZha0kwK2pzZ1JxMm9pR1JM?=
- =?utf-8?B?SHBjc04vV0puSjBjaUs1bkoyd0F2MDdSbzBlL01INmpZSjZDTVUzNEEvZmg4?=
- =?utf-8?B?dmJmbXgzZXhoQkJlM1lJajluMFhVZFhiL01aanRxOGgrMmtabEczcnNvZlhj?=
- =?utf-8?B?M0ZYWldBcjNxNHEwd2JFSzBYSDJ1UUhCSlJ6NFBMam1scTFKalNuQW1BUXNS?=
- =?utf-8?B?NVdVTHVmUEJXMXliclByNzFRalFlN1F5SDNPQy9XZElIaFZTOU8xVzN3WHhz?=
- =?utf-8?B?NXNjSDd3TjhqZk1JdllkUHRsUXRXejM1REQxMmY1TXhkQ2JpSm5wZU81WVFY?=
- =?utf-8?B?azZwV3NpNGhqUnRsVHljWTM3R3lEU0tLU2xPenhHZ0tpVTlkWFZzY0o1NDcy?=
- =?utf-8?B?c0dsQm56T2NFUExHTENJc0l3UHFwWkpJVTh0ZHhYNzNmSkd0WnM3WGcvb0Vm?=
- =?utf-8?B?OHY3UWlqV2o2T1J0YzdhcTY5azc0eGpvTGgrK05aQzJPYmRGTzZINUtodTFW?=
- =?utf-8?B?QXV1cWh6M1pGL1hCVUVjN3VKbC9mc1NvbEJXQjM2YkZSVDFaV282Y29BZTAy?=
- =?utf-8?B?ZFpoSjdhNnN0NXl0ODhCa2ZhSFZ5U09LaW9hdHdvM3RaUEJDN2dLZXdCS29E?=
- =?utf-8?B?ZUhWUThqTXd2cE50QThLbW9nOWdscGVnV29MU1N5QlVKaW5kSjdRMWhFVVlJ?=
- =?utf-8?B?QlFubSt0ZHQ0Z254cmZiTkxjM1F6dlFBSk1oQjRMU3NiT3NPbEdVN09JaUVW?=
- =?utf-8?B?enJrNlZSUnpMc2ZKTk43Y1UxbzJhb0c4ZUQ3dWhpTXplQTUxOWlBN28wT0Qr?=
- =?utf-8?Q?g0wBRaCCARAZz4KDRG1RmSy8R?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RWtmSXZvUTUzUGJhUDcyK081aGdDOTdMWVJ0d1FqZitodWt0MHVUeVp5MVZu?=
+ =?utf-8?B?R0pidEh6TzNjY3VJUTd3UmliZ0U0TjJ2cXc4R0Y3NXA2RTZSbHZ4VkVjbXlW?=
+ =?utf-8?B?NFk1RUZqQmY2UGR4YjJ2L01MeEUvSzRwUUFmSVZDUE5sdVI3M3FlMGZrR0Ri?=
+ =?utf-8?B?ckFXMnBWekhrcmRFMW9ZSDRTZFpaZ1RFbXZjQ3FQVkxIVmV2VnZXSERWRXJ0?=
+ =?utf-8?B?M1pHVlZkWis1L1BSM0c5bkloM3NXSDMvQTdWS1IxZ01rcEx6TDliQ2FZRVFy?=
+ =?utf-8?B?QmliZW9hZHoxUHVOQlhEeXZWcElodXBicU9XR2RpUFY0TjdRUUpFcHJ5ZWdK?=
+ =?utf-8?B?R3BFT1JoYm9OUXJ1TlkzcUJGMnNyUkJHUGt3UmNpUjY3V2RUTjZHNWZBSlFX?=
+ =?utf-8?B?SEw5N05oc1ZOVnhrK21LdFRaR2tZdlBKZjhjUGZFUTdwSWJxNVRGT21ZR2tt?=
+ =?utf-8?B?QzRzejZZVlRpTzM0ZEc3VEV2UGVsZUVCaHB6TXA1VEVGRUF3MWdFaFF6amFB?=
+ =?utf-8?B?WnQybEl5dEsvcks3c2tldzlMbi9iOGR3UXNHY1VuZG5Sd1pYT3F0eXBvQTI1?=
+ =?utf-8?B?T2dNelVMaWtyZ2NVNnczald1cG9mWnRyS0ZRSzkvdXJ3UnQxSWxZdzFWQUJK?=
+ =?utf-8?B?TTZkNS9DdGxYWnQ0M0JCT09aZ1dWZnFRV1M2a0dSdVh5MU03N3hZZGZqcHVB?=
+ =?utf-8?B?QzNIbzFNc2FWZGY1Zk43RUJYTHdtNmp4b1ZxcmlsUGFmbGk2cEswclFWdTVn?=
+ =?utf-8?B?ZlZSR005NnNwZisxZkZOR05teDJoODh3UHRpY052eGY2TStSNVpWTXFtZ1Qy?=
+ =?utf-8?B?SkYyOGw1Zlp2RG1ZSkxqVUVlOU9FSmViZTgwSWcvdTBtRlFZVkQ5bFZrR3F3?=
+ =?utf-8?B?YmtVZUJ6V3ByZmxMaUo5amhpWDNGdjlWd0NYV1NsaHMzQzY0akw5NDBQWWxw?=
+ =?utf-8?B?eFlZVUszSi9Uci9OaFZaVFE0UVc5dk9ScDhhbUlabzN2K00rN08wOC9FUUVn?=
+ =?utf-8?B?djhLMzRnSU0zaWN4ZDgxTkx3TmhYaGFKYTNIYlRtckt4TmhoemFPUG1xQ1Ay?=
+ =?utf-8?B?czgxUFVEb1A1NFg3Q2tBZlpaa2xQb1J3WmZidWY1TWpLd0JmRXVCRmVtTmlB?=
+ =?utf-8?B?b2xMM2Z1N24xRS9jSVNROFc4WmpJK2RJbnRlODRySVlPQ1JySFIwV0NJZ1Jv?=
+ =?utf-8?B?WEp3SUYvUnFvMmMzSDJlT3JJTzRvb1VSVXl5eWJPUElhcUhqUXpmZDVOUm5J?=
+ =?utf-8?B?dUFPaFlVa3Z6QzU1WE9wcXBXSzluMGtqMWMvUnBuR3lyU2wxL3N3cGpVbDJ4?=
+ =?utf-8?B?NW9NZlgyOXpZMGZGWG9BMERWb3Y2Nk9zbVpvN3hpRDg1dnQyNitRaHN0R1Zi?=
+ =?utf-8?B?U2lKQ0p1dGRFNGJjN0R1V0ZFd0Y0RVpQTi95REp6R2RxL0ZzSHJFYkhEWHpM?=
+ =?utf-8?B?UmpCNjMzL1kvNDk4S0N1a3IvN0FCQjMxRjVLYWlpdGtHbzhJcmk4d1I4eWdo?=
+ =?utf-8?B?Zmh3c1VudDJzYlA0OXRVUTFubFEyZVpiL294L2puSGlLS1VCbUcrN0dnQXVK?=
+ =?utf-8?B?bVYyK1hhRGQyeGdlU2tYZi9HV3k1ZysrOVlJYk1sRThreU9qNzRJWDNQeUQ0?=
+ =?utf-8?B?UzdLclRvUEdFWkpPV2lSbTZoV1ZNSTdFQzBBMUowd2tndzcrNlh1SUxvRVlN?=
+ =?utf-8?B?bXJLY3cwMWlMVEt0dUdreW5yOEl4WklXUFdMK2EzWDdrdlJ2S3Z6a1dDZ1kz?=
+ =?utf-8?B?R3QwT2FyYzBqRExNK2lPS291cHVJNGQzZXJOQTQxUHA1eSttK0tkQitkeS9F?=
+ =?utf-8?B?bnBqcVd2NnZMRmxmNVpiKzVvQUF0K0MyWFNNdXFJZFFWYzNLcHZZR29tcXJK?=
+ =?utf-8?B?UEFNbGVzR3JhNWJQMVBhMzZtN1duWFdzNFlrdUgrZ204QmlsTjkwbnllcldH?=
+ =?utf-8?B?L3hCdzNHdEZ4Z3FBcGxyU1hJb2xpTkdtQXV5SVVHNERvWnZkaTRGanBiTXRF?=
+ =?utf-8?B?aHoyV0lOdFEzbkFUN3FRQ1ZWdTNGUW9CMEpsSjNBdTZ1QUZIUXpMZFd6NjJK?=
+ =?utf-8?B?ZWZBSEtlNXFCVHZBMkFKVStIVnA4ZUptQ2tCckVjVTVNT05NZW1waE1GbUVW?=
+ =?utf-8?Q?USF0Toh3JIAhx5f3pSrjcPUxQ?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f0c8874-5f29-4e46-84f0-08dc3f4f7c69
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 16fb616a-23e7-47bc-5abd-08dc3f507af6
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5596.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2024 09:09:40.3511 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2024 09:16:47.6008 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oEfB4/Jb/jG5kOdF79+w9vaoW/9943os9NYmSLh+c07M5doKTQcT1CyInlFEemwH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6100
+X-MS-Exchange-CrossTenant-UserPrincipalName: f4VnuwpMCQJgr/BiLQuKpKqzFUavL+f3LuanL42kgUsThDQn1VZWtBgE/vWLP4g1REj7RuNZUlN6urfQcoTstA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9401
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,63 +135,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 07.03.24 um 21:50 schrieb Sunil Khatri:
-> Add page fault information to the devcoredump.
->
-> Output of devcoredump:
-> **** AMDGPU Device Coredump ****
-> version: 1
-> kernel: 6.7.0-amd-staging-drm-next
-> module: amdgpu
-> time: 29.725011811
-> process_name: soft_recovery_p PID: 1720
->
-> Ring timed out details
-> IP Type: 0 Ring Name: gfx_0.0.0
->
-> [gfxhub] Page fault observed
-> Faulty page starting at address: 0x0000000000000000
-> Protection fault status register: 0x301031
->
-> VRAM is lost due to GPU reset!
->
-> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c | 14 +++++++++++++-
->   1 file changed, 13 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
-> index 147100c27c2d..8794a3c21176 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
-> @@ -203,8 +203,20 @@ amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
->   			   coredump->ring->name);
->   	}
->   
-> +	if (coredump->adev) {
-> +		struct amdgpu_vm_fault_info *fault_info =
-> +			&coredump->adev->vm_manager.fault_info;
-> +
-> +		drm_printf(&p, "\n[%s] Page fault observed\n",
-> +			   fault_info->vmhub ? "mmhub" : "gfxhub");
-> +		drm_printf(&p, "Faulty page starting at address: 0x%016llx\n",
-> +			   fault_info->addr);
-> +		drm_printf(&p, "Protection fault status register: 0x%x\n",
-> +			   fault_info->status);
-> +	}
-> +
->   	if (coredump->reset_vram_lost)
-> -		drm_printf(&p, "VRAM is lost due to GPU reset!\n");
-> +		drm_printf(&p, "\nVRAM is lost due to GPU reset!\n");
 
-Why this additional new line?
+On 3/8/2024 2:39 PM, Christian König wrote:
+> Am 07.03.24 um 21:50 schrieb Sunil Khatri:
+>> Add page fault information to the devcoredump.
+>>
+>> Output of devcoredump:
+>> **** AMDGPU Device Coredump ****
+>> version: 1
+>> kernel: 6.7.0-amd-staging-drm-next
+>> module: amdgpu
+>> time: 29.725011811
+>> process_name: soft_recovery_p PID: 1720
+>>
+>> Ring timed out details
+>> IP Type: 0 Ring Name: gfx_0.0.0
+>>
+>> [gfxhub] Page fault observed
+>> Faulty page starting at address: 0x0000000000000000
+>> Protection fault status register: 0x301031
+>>
+>> VRAM is lost due to GPU reset!
+>>
+>> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c | 14 +++++++++++++-
+>>   1 file changed, 13 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c 
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
+>> index 147100c27c2d..8794a3c21176 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
+>> @@ -203,8 +203,20 @@ amdgpu_devcoredump_read(char *buffer, loff_t 
+>> offset, size_t count,
+>>                  coredump->ring->name);
+>>       }
+>>   +    if (coredump->adev) {
+>> +        struct amdgpu_vm_fault_info *fault_info =
+>> +            &coredump->adev->vm_manager.fault_info;
+>> +
+>> +        drm_printf(&p, "\n[%s] Page fault observed\n",
+>> +               fault_info->vmhub ? "mmhub" : "gfxhub");
+>> +        drm_printf(&p, "Faulty page starting at address: 0x%016llx\n",
+>> +               fault_info->addr);
+>> +        drm_printf(&p, "Protection fault status register: 0x%x\n",
+>> +               fault_info->status);
+>> +    }
+>> +
+>>       if (coredump->reset_vram_lost)
+>> -        drm_printf(&p, "VRAM is lost due to GPU reset!\n");
+>> +        drm_printf(&p, "\nVRAM is lost due to GPU reset!\n");
+>
+> Why this additional new line?
+The intent is the devcoredump have different sections clearly demarcated 
+with an new line else "VRAM is lost due to GPU reset!" seems part of the 
+page fault information.
+[gfxhub] Page fault observed
+Faulty page starting at address: 0x0000000000000000
+Protection fault status register: 0x301031
 
-Apart from that looks really good to me.
+VRAM is lost due to GPU reset!
 
-Regards,
-Christian.
+Regards
+Sunil
 
->   	if (coredump->adev->reset_info.num_regs) {
->   		drm_printf(&p, "AMDGPU register dumps:\nOffset:     Value:\n");
->   
-
+>
+> Apart from that looks really good to me.
+>
+> Regards,
+> Christian.
+>
+>>       if (coredump->adev->reset_info.num_regs) {
+>>           drm_printf(&p, "AMDGPU register dumps:\nOffset:     
+>> Value:\n");
+>
