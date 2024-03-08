@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CDCF875BFE
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 02:30:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03B3B875C1C
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 02:53:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0226810F094;
-	Fri,  8 Mar 2024 01:30:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79A97112420;
+	Fri,  8 Mar 2024 01:52:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WuK2qD6w";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="j1e2eFrn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07B9E10F094
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 01:30:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13870112420
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 01:52:56 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D85D161D91;
- Fri,  8 Mar 2024 01:30:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AD44C433F1;
- Fri,  8 Mar 2024 01:30:40 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8805F61D7D;
+ Fri,  8 Mar 2024 01:52:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3C15C433C7;
+ Fri,  8 Mar 2024 01:52:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709861442;
- bh=pWLPfbMGjAqOMIxZXwrouf7NrYnQYoQSjURpmCc84iU=;
+ s=k20201202; t=1709862775;
+ bh=fz2pz2qjIfAAtut6NhHBeh0SUMiiU7K6EGRFxYVj02A=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=WuK2qD6wyzgEpkNGU94oUn6yHcPXxuUo3uJrLGDTiIGph4N/vCBqNc4nDv471KEn3
- sm7aoyIlj2FlbTUAzqmFeQZ3jZxx8uq02/lwxrUs6Fs5ne1P7sc9b+jogdt2cNh5om
- yy2pPOnMcP+HAkFrHyi8JDY6iodalicwb81v6rzeU0un9tw4HNH9vVQNofxBnlf4+6
- iDppG8XOmWfXjccjhAEBc5TroehEx0EzshUNRujMpMwMXGGAQ6kBNOJtKint9xVpy2
- SaraH4eSezKXfORbglRhjRO/jH8oAebaFTPdwegjG2bPLQMw9csoNK+YHGu0qpYXyY
- O/jGEtvZeHEeQ==
-Date: Thu, 7 Mar 2024 17:30:39 -0800
+ b=j1e2eFrnn2oGzuVI3SS8F8y9zj4WESKfPCGRxrfE8ZJwdFzIUuvscskwKoFmi+DTe
+ UQmZ0KaIT3FF+FRpvXC6we5R6cqKVQ7PxIT27sMixkPliMu3Q10jSkbVbV5UEqldl7
+ g/9r/3K4E7HEUji3HbNPzbY8omvaOXtRxaoIHdESIZ07gj3Ebg3Tdiz+dxppi8+jVN
+ BX5lADSuUgx4Ca1OlmwBB9024w6TIVf/My/1+BI6NipJq3nAC/RvlOAv/pJv1Kh/oq
+ jrMd8QyNrvFBw/AxA8zJ5pfQk2+B6Nc/DvQ9ALIqVkGZAgwr5qSmd+ZDwfJUQwO1jV
+ eIx8mkvdJmylw==
+Date: Thu, 7 Mar 2024 17:52:51 -0800
 From: Jakub Kicinski <kuba@kernel.org>
 To: Mina Almasry <almasrymina@google.com>
 Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -65,11 +65,11 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeelb@google.com>,
  Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
  <pkaligineedi@google.com>
-Subject: Re: [RFC PATCH net-next v6 01/15] queue_api: define queue api
-Message-ID: <20240307173039.00e6fbb7@kernel.org>
-In-Reply-To: <20240305020153.2787423-2-almasrymina@google.com>
+Subject: Re: [RFC PATCH net-next v6 14/15] net: add devmem TCP documentation
+Message-ID: <20240307175251.309837e1@kernel.org>
+In-Reply-To: <20240305020153.2787423-15-almasrymina@google.com>
 References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-2-almasrymina@google.com>
+ <20240305020153.2787423-15-almasrymina@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -88,43 +88,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon,  4 Mar 2024 18:01:36 -0800 Mina Almasry wrote:
-> + * void *(*ndo_queue_mem_alloc)(struct net_device *dev, int idx);
-> + *	Allocate memory for an RX queue. The memory returned in the form of
-> + *	a void * can be passed to ndo_queue_mem_free() for freeing or to
-> + *	ndo_queue_start to create an RX queue with this memory.
-> + *
-> + * void	(*ndo_queue_mem_free)(struct net_device *dev, void *);
-> + *	Free memory from an RX queue.
-> + *
-> + * int (*ndo_queue_start)(struct net_device *dev, int idx, void *);
-> + *	Start an RX queue at the specified index.
-> + *
-> + * int (*ndo_queue_stop)(struct net_device *dev, int idx, void **);
-> + *	Stop the RX queue at the specified index.
->   */
->  struct net_device_ops {
->  	int			(*ndo_init)(struct net_device *dev);
-> @@ -1679,6 +1693,16 @@ struct net_device_ops {
->  	int			(*ndo_hwtstamp_set)(struct net_device *dev,
->  						    struct kernel_hwtstamp_config *kernel_config,
->  						    struct netlink_ext_ack *extack);
-> +	void *			(*ndo_queue_mem_alloc)(struct net_device *dev,
-> +						       int idx);
-> +	void			(*ndo_queue_mem_free)(struct net_device *dev,
-> +						      void *queue_mem);
-> +	int			(*ndo_queue_start)(struct net_device *dev,
-> +						   int idx,
-> +						   void *queue_mem);
-> +	int			(*ndo_queue_stop)(struct net_device *dev,
-> +						  int idx,
-> +						  void **out_queue_mem);
+On Mon,  4 Mar 2024 18:01:49 -0800 Mina Almasry wrote:
+> +Intro
+> +=====
+> +
+> +Device memory TCP (devmem TCP) enables receiving data directly into device
+> +memory (dmabuf). The feature is currently implemented for TCP sockets.
+> +
+> +
+> +Opportunity
+> +-----------
+> +
+> +A large amount of data transfers have device memory as the source and/or
 
-The queue configuration object was quite an integral part of the design,
-I'm slightly worried that it's not here :) Also we may want to rename
-the about-to-be-merged ops from netdev_stat_ops and netdev_queue_ops,
-and add these there?
+s/amount/number/
 
-https://lore.kernel.org/all/20240306195509.1502746-2-kuba@kernel.org/
+> +destination. Accelerators drastically increased the volume of such transfers.
 
-Very excited to hear that you made progress on this and ported GVE over!
+s/volume/prevalence/
+
+> +Some examples include:
+> +
+> +- Distributed training, where ML accelerators, such as GPUs on different hosts,
+> +  exchange data among them.
+
+s/among them//
+
+> +- Distributed raw block storage applications transfer large amounts of data with
+> +  remote SSDs, much of this data does not require host processing.
+> +
+> +Today, the majority of the Device-to-Device data transfers the network are
+
+"Today" won't age well.
+
+> +implemented as the following low level operations: Device-to-Host copy,
+> +Host-to-Host network transfer, and Host-to-Device copy.
+> +
+> +The implementation is suboptimal, especially for bulk data transfers, and can
+
+/The implementation/The flow involving host copies/
+
+> +put significant strains on system resources such as host memory bandwidth and
+> +PCIe bandwidth.
+> +
+> +Devmem TCP optimizes this use case by implementing socket APIs that enable
+> +the user to receive incoming network packets directly into device memory.
+
+> +More Info
+> +---------
+> +
+> +  slides, video
+> +    https://netdevconf.org/0x17/sessions/talk/device-memory-tcp.html
+> +
+> +  patchset
+> +    [RFC PATCH v3 00/12] Device Memory TCP
+> +    https://lore.kernel.org/lkml/20231106024413.2801438-1-almasrymina@google.com/T/
+
+Won't age well? :)
+
+> +Interface
+> +=========
+> +
+> +Example
+> +-------
+> +
+> +tools/testing/selftests/net/ncdevmem.c:do_server shows an example of setting up
+> +the RX path of this API.
+> +
+> +NIC Setup
+> +---------
+> +
+> +Header split, flow steering, & RSS are required features for devmem TCP.
+> +
+> +Header split is used to split incoming packets into a header buffer in host
+> +memory, and a payload buffer in device memory.
+> +
+> +Flow steering & RSS are used to ensure that only flows targeting devmem land on
+> +RX queue bound to devmem.
+> +
+> +Enable header split & flow steering:
+> +
+> +::
+
+You can put the :: at the end of the text, IIRC, like this:
+
+Enable header split & flow steering::
+
+> +
+> +	# enable header split (assuming priv-flag)
+> +	ethtool --set-priv-flags eth1 enable-header-split on
+
+Olek added the "set" in commit 50d73710715d ("ethtool: add SET for
+TCP_DATA_SPLIT ringparam"), no need for the priv flag any more.
