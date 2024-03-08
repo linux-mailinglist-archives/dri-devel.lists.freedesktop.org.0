@@ -2,84 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48BD28760EE
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 10:29:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DB56876123
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 10:44:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DE9210F586;
-	Fri,  8 Mar 2024 09:29:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 973FC10E2E3;
+	Fri,  8 Mar 2024 09:44:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fairphone.com header.i=@fairphone.com header.b="OMwNtvZX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cyRkqWW+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82E3610F586
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 09:29:45 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id
- 4fb4d7f45d1cf-5682360e095so877351a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Mar 2024 01:29:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fairphone.com; s=fair; t=1709890183; x=1710494983; darn=lists.freedesktop.org;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xTJ56TsgHxx+ey5O16dDKClnhRLxsOWJSpToCms/BRE=;
- b=OMwNtvZXPK6GRFqqYLiz7c0Pmy5ovT/sbdVFtNzhkfYEa/ScRtKK6ShzM6Ltd/y5xZ
- GEiE5MlkC54Wz4dNIAR20OYx35V+bkCtxYDAEThBUoSbZzrGxETpX1SwB4Qrwarifqey
- 0eotMmdHEnNWEUTJ+wHUBfSMjC29uYIaj+jPNn9/CEDeyEb5m7RxCWv32HbMLRKqg5Gg
- ULrY7m2KWiRWwP5mC2jOfSM81vUHbdvRvDuWHm63c8NMKP0qL5PDyLVscxLMzaUEJBVq
- UPDp6ETC+H0QkZsbmZr2FN+rhOpeRnvngu88cleSUnBs7gxF041TLTCWksji559UNHUN
- JG2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709890183; x=1710494983;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=xTJ56TsgHxx+ey5O16dDKClnhRLxsOWJSpToCms/BRE=;
- b=n4NKeQAeuDqHICov5Xit48KYHA/q0UTt1b5TrW6Ipu5MTHM2ExW8Ccpnpb+ogJCF05
- KMUopcMpSQXl25KmIpId2sqeIdl/I6DY9zGtlQAEFiW4J5muCZ7WirKDV1Zsf3CVc7O7
- HV/k76h6F8Tvd+0axDeiIMr/1hRQ4kKd3/6xJ06FifZ8jtC8kQT7+JwgJK6ao7V6PsAQ
- Cp9D1VCKK6btM2twL0DaiK+XOZ6u6JkL0vGaqLmdwZK9H1EFxXK4WCAbLndXEa5iZ8fK
- 6oFGuR62LbChi7frAYNlp6M8onWNTdgo73fyBd0wUBIb/7jo98T2/pdvUndkYFOBLJGp
- 6S9g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXwggsI6bCyLpxntTaksJXv6bHCRtexTI1Or6rCOteXW1VIJyfNjdxWa2n7yoOiDSSxmgSWAkmdnXRggIfsw04zk5Ah34DqDTCSLflULObY
-X-Gm-Message-State: AOJu0Yx05iXYR7RZFkgWI8zo3+KOkr0Ll9m7apd3bkLr2rwViKsn8Jmz
- 4cs8iii+ctVKYxKiSEKFgn0Bigf7KDAs4vpjUlYJIoeQSZ8PXJzsd/Oagjcz5gA=
-X-Google-Smtp-Source: AGHT+IEVEG7pI97UFUoSKdm0T77oCm/IjNnF2X00bMMaoqhxQZtaQiQDnkm1z665OJP8Smo71pGd9A==
-X-Received: by 2002:a17:906:b78c:b0:a44:44e0:868f with SMTP id
- dt12-20020a170906b78c00b00a4444e0868fmr12636544ejb.11.1709890183560; 
- Fri, 08 Mar 2024 01:29:43 -0800 (PST)
-Received: from localhost (144-178-202-138.static.ef-service.nl.
- [144.178.202.138]) by smtp.gmail.com with ESMTPSA id
- p5-20020a1709060dc500b00a4537466591sm5611025eji.32.2024.03.08.01.29.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Mar 2024 01:29:43 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 08 Mar 2024 10:29:42 +0100
-Message-Id: <CZO9HDL1N45S.1JIXM2QUFTQCS@fairphone.com>
-Cc: <neil.armstrong@linaro.org>, "Andrzej Hajda" <andrzej.hajda@intel.com>,
- "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
- <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm/bridge: Select DRM_KMS_HELPER for DRM_PANEL_BRIDGE
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
-X-Mailer: aerc 0.15.2
-References: <20240111-drm-panel-bridge-fixup-v1-1-e06292f6f500@fairphone.com>
- <b1da07f9-7e15-4d83-bef3-d0ce157654bc@linaro.org>
- <CYGUWBAM3D62.35CPP5HGEYJ3Y@fairphone.com>
- <CZHGFD9QYM82.371U2DPG1AEGQ@fairphone.com>
- <CAA8EJppZRABYGuoDc-6e6VMwtAo3LvEyDpsHdkHFckrR=q+0ig@mail.gmail.com>
-In-Reply-To: <CAA8EJppZRABYGuoDc-6e6VMwtAo3LvEyDpsHdkHFckrR=q+0ig@mail.gmail.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8194010E2E3;
+ Fri,  8 Mar 2024 09:44:22 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 58A87CE27E8;
+ Fri,  8 Mar 2024 09:44:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20F6BC43390;
+ Fri,  8 Mar 2024 09:44:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709891059;
+ bh=eEB+hAuKoNrPdDYaycXpcwfaebe90mW/HxdMYYDcttE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cyRkqWW+LW/ke/gpuDynJ5AciE9MpGkSDO+pjM5vf7rr70ywN3xll5osPCpW1g1c5
+ KB2NuWOytozO6mFrt+mbQABZEF3GN4nb7aJD0unXr5gntfW3clFSUKGcImtML5dzU+
+ wJd7CQSjsE7JhZtO6vDRHfOvnYZU3eEOf/u9oVVWwFN8fgDmCXJ7f2rYdZA7z1W4Up
+ a/js87x1zldnfRFYAfqrPK0ci8Y7959harTJlzo1zTPUK6Hxe2mVeS/b0uzwY4uuqz
+ FgpUc0btEEv0U8/EA9IZJuLGIuMh5AAJqZcZQePNCTp9EE0tnvclEQ1iwUujHUl522
+ cR4W/k0eWgm+Q==
+Date: Fri, 8 Mar 2024 10:44:16 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH RFC 3/6] drm/connector: hdmi: split setup code of the
+ HDMI connector
+Message-ID: <20240308-provocative-pumpkin-hoatzin-f9f31e@houat>
+References: <20240308-bridge-hdmi-connector-v1-0-90b693550260@linaro.org>
+ <20240308-bridge-hdmi-connector-v1-3-90b693550260@linaro.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="rwr34okuhqr4me67"
+Content-Disposition: inline
+In-Reply-To: <20240308-bridge-hdmi-connector-v1-3-90b693550260@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,135 +69,163 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun Mar 3, 2024 at 9:37 PM CET, Dmitry Baryshkov wrote:
-> On Thu, 29 Feb 2024 at 11:27, Luca Weiss <luca.weiss@fairphone.com> wrote=
-:
-> >
-> > On Wed Jan 17, 2024 at 9:59 AM CET, Luca Weiss wrote:
-> > > On Mon Jan 15, 2024 at 9:43 AM CET, Neil Armstrong wrote:
-> > > > Hi Luca,
-> > > >
-> > > > On 11/01/2024 13:38, Luca Weiss wrote:
-> > > > > Since the kconfig symbol of DRM_PANEL_BRIDGE is only adding
-> > > > > bridge/panel.o to drm_kms_helper object, we need to select
-> > > > > DRM_KMS_HELPER to make sure the file is actually getting built.
-> > > > >
-> > > > > Otherwise with certain defconfigs e.g. devm_drm_of_get_bridge wil=
-l not
-> > > > > be properly available:
-> > > > >
-> > > > >    aarch64-linux-gnu-ld: drivers/phy/qualcomm/phy-qcom-qmp-combo.=
-o: in function `qmp_combo_bridge_attach':
-> > > > >    drivers/phy/qualcomm/phy-qcom-qmp-combo.c:3204:(.text+0x8f4): =
-undefined reference to `devm_drm_of_get_bridge'
-> > > > >
-> > > > > Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
-> > > > > ---
-> > > > > I can see "depends on DRM_KMS_HELPER" was removed with commit
-> > > > > 3c3384050d68 ("drm: Don't make DRM_PANEL_BRIDGE dependent on DRM_=
-KMS_HELPERS")
->
-> Could you please make sure that the usecase described in the mentioned
-> commit message doesn't get broken by your change?
 
-Hi Neil,
+--rwr34okuhqr4me67
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The problem fixed in that linked patch (3c3384050d68) is about fixing
-undefined reference errors with specific .config setups - similar to
-this patch.
+Hi Dmitry,
 
-Since we're only adding a 'select' and not removing anything I don't see
-how it could cause new errors like that, and it does fix the one I'm
-describing.
+Thanks a lot for working on that, it's greatly appreciated :)
 
-And also I checked again and I don't see any circular dependencies
-(something that was also mentioned in the linked patch), so apart from
-what I mentioned with that I'm not too familiar when 'select' should be
-used and when 'depend' should be used, it's good from my perspective.
+On Fri, Mar 08, 2024 at 01:57:02AM +0200, Dmitry Baryshkov wrote:
+> In order to use HDMI connector extensions from the bridge drivers, carve
+> out the drm_connector_hdmi_setup() from drmm_connector_hdmi_init(). This
+> way the drm_bridge drivers can call new function from their
+> setup_connector callbacks.
+>=20
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/drm_connector.c | 67 ++++++++++++++++++++++++++++++-----=
+------
+>  include/drm/drm_connector.h     |  5 +++
+>  2 files changed, 54 insertions(+), 18 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
+tor.c
+> index 427816239038..ba953eb45557 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -454,15 +454,11 @@ int drmm_connector_init(struct drm_device *dev,
+>  EXPORT_SYMBOL(drmm_connector_init);
+> =20
+>  /**
+> - * drmm_connector_hdmi_init - Init a preallocated HDMI connector
+> - * @dev: DRM device
+> + * drm_connector_hdmi_setup - Init a preallocated HDMI connector
+>   * @connector: A pointer to the HDMI connector to init
+>   * @vendor: HDMI Controller Vendor name
+>   * @product: HDMI Controller Product name
+> - * @funcs: callbacks for this connector
+>   * @hdmi_funcs: HDMI-related callbacks for this connector
+> - * @connector_type: user visible type of the connector
+> - * @ddc: optional pointer to the associated ddc adapter
+>   * @supported_formats: Bitmask of @hdmi_colorspace listing supported out=
+put formats
+>   * @max_bpc: Maximum bits per char the HDMI connector supports
+>   *
+> @@ -477,18 +473,12 @@ EXPORT_SYMBOL(drmm_connector_init);
+>   * Returns:
+>   * Zero on success, error code on failure.
+>   */
+> -int drmm_connector_hdmi_init(struct drm_device *dev,
+> -			     struct drm_connector *connector,
+> +int drm_connector_hdmi_setup(struct drm_connector *connector,
+>  			     const char *vendor, const char *product,
+> -			     const struct drm_connector_funcs *funcs,
+>  			     const struct drm_connector_hdmi_funcs *hdmi_funcs,
+> -			     int connector_type,
+> -			     struct i2c_adapter *ddc,
+>  			     unsigned long supported_formats,
+>  			     unsigned int max_bpc)
+>  {
+> -	int ret;
+> -
+>  	if (!vendor || !product)
+>  		return -EINVAL;
+> =20
+> @@ -496,8 +486,8 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+>  	    (strlen(product) > DRM_CONNECTOR_HDMI_PRODUCT_LEN))
+>  		return -EINVAL;
+> =20
+> -	if (!(connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA ||
+> -	      connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIB))
+> +	if (connector->connector_type !=3D DRM_MODE_CONNECTOR_HDMIA &&
+> +	    connector->connector_type !=3D DRM_MODE_CONNECTOR_HDMIB)
+>  		return -EINVAL;
+> =20
+>  	if (!supported_formats || !(supported_formats & BIT(HDMI_COLORSPACE_RGB=
+)))
+> @@ -506,10 +496,6 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+>  	if (!(max_bpc =3D=3D 8 || max_bpc =3D=3D 10 || max_bpc =3D=3D 12))
+>  		return -EINVAL;
+> =20
+> -	ret =3D drmm_connector_init(dev, connector, funcs, connector_type, ddc);
+> -	if (ret)
+> -		return ret;
+> -
+>  	connector->hdmi.supported_formats =3D supported_formats;
+>  	strtomem_pad(connector->hdmi.vendor, vendor, 0);
+>  	strtomem_pad(connector->hdmi.product, product, 0);
+> @@ -531,6 +517,51 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+> =20
+>  	return 0;
+>  }
+> +EXPORT_SYMBOL(drm_connector_hdmi_setup);
 
-Regards
-Luca
+I guess it's more of a general comment on the whole design of things,
+but this is the starting point I think.
 
->
-> > > > >
-> > > > > I'm not too familiar with Kconfig but it feels more correct if
-> > > > > PHY_QCOM_QMP_COMBO selects DRM_PANEL_BRIDGE that that's enough; a=
-nd it
-> > > > > doesn't also has to explicitly select DRM_KMS_HELPER because of h=
-ow the
-> > > > > objects are built in the Makefile.
-> > > > >
-> > > > > Alternatively solution to this patch could be adjusting this line=
- in
-> > > > > include/drm/drm_bridge.h:
-> > > > >
-> > > > >    -#if defined(CONFIG_OF) && defined(CONFIG_DRM_PANEL_BRIDGE)
-> > > > >    +#if defined(CONFIG_OF) && defined(CONFIG_DRM_PANEL_BRIDGE) &&=
- defined(CONFIG_DRM_KMS_HELPER)
-> > > > >     struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,=
- struct device_node *node,
-> > > > >                                              u32 port, u32 endpoi=
-nt);
-> > > > >
-> > > > > .. and then selecting DRM_KMS_HELPER for PHY_QCOM_QMP_COMBO.
-> > > > >
-> > > > > But I think the solution in this patch is better. Let me know wha=
-t you
-> > > > > think.
-> > > >
-> > > > I think this is no more the case after on linux-next:
-> > > > 35921910bbd0 phy: qcom: qmp-combo: switch to DRM_AUX_BRIDGE
-> > > >
-> > > > But could you still check ?
-> > >
-> > > On next-20240117 the error happens in the aux-bridge file instead the=
-n.
-> > >
-> > > aarch64-linux-gnu-ld: drivers/gpu/drm/bridge/aux-bridge.o: in functio=
-n `drm_aux_bridge_probe':
-> > > drivers/gpu/drm/bridge/aux-bridge.c:115:(.text+0xe0): undefined refer=
-ence to `devm_drm_of_get_bridge'
-> > >
-> > > I'm attaching the defconfig with which I can reproduce this but it's
-> > > really just DRM_KMS_HELPER=3Dn and PHY_QCOM_QMP_COMBO=3Dy I believe.
-> >
-> > Hi Neil,
-> >
-> > Ping on this patch
-> >
-> > Regards
-> > Luca
-> >
-> > >
-> > > Regards
-> > > Luca
-> > >
-> > >
-> > > >
-> > > > Neil
-> > > >
-> > > > > ---
-> > > > >   drivers/gpu/drm/bridge/Kconfig | 1 +
-> > > > >   1 file changed, 1 insertion(+)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bri=
-dge/Kconfig
-> > > > > index ac9ec5073619..ae782b427829 100644
-> > > > > --- a/drivers/gpu/drm/bridge/Kconfig
-> > > > > +++ b/drivers/gpu/drm/bridge/Kconfig
-> > > > > @@ -8,6 +8,7 @@ config DRM_BRIDGE
-> > > > >   config DRM_PANEL_BRIDGE
-> > > > >           def_bool y
-> > > > >           depends on DRM_BRIDGE
-> > > > > + select DRM_KMS_HELPER
-> > > > >           select DRM_PANEL
-> > > > >           help
-> > > > >             DRM bridge wrapper of DRM panels
-> > > > >
-> > > > > ---
-> > > > > base-commit: b9c3a1fa6fb324e691a03cf124b79f4842e65d76
-> > > > > change-id: 20240111-drm-panel-bridge-fixup-5c2977fb969f
-> > > > >
-> > > > > Best regards,
-> >
+None of the other DRM entities have the split between init and setup,
+connectors included. So this creates a bit of oddity in the API which I
+think we should avoid at all cost. API consistency is the most
+important.
 
+If I got the rest of your series properly, this all stems from the fact
+that since connectors are disconnected from bridges nowadays, there's no
+way to implement drm_connector_hdmi_funcs on an HDMI bridge, and
+especially to get those hooks called with some sort of pointer to the
+bridge private instance.
+
+And so I assume this is why you split init in two here, and added a data
+field to the HDMI part of drm_connector, so that you can init the
+connector in drm_bridge_connector, and then call setup with your
+drm_connector_hdmi_funcs and the private data pointer in setup so it all
+works out. Right?
+
+If so, I believe this doesn't only create an inconsistency at the KMS
+core API level, but also in the bridge API. To me, bridges are meant to
+fill the encoder gap, so we shouldn't special-case the core API to
+accomodate the bridge design. And the bridge framework has been designed
+that way too.
+
+If you look at the way EDID or HPD handling, we fundamentally have the
+same problem: the connector is supposed to implement it, but it really
+is handled by the bridge driver that wants to operate with its private
+instance data.
+
+So I think we should go for a similar approach:
+
+  - We keep the drm_hdmi_connector_init function only
+
+  - If the drm_bridge_connector has an HDMI type, we can
+    drm_hdmi_connector_init and call
+    drm_atomic_helper_connector_hdmi_check() at atomic_check time.
+
+  - We create a drm_bridge_* set of functions and associated hooks to
+    handle HDMI TMDS char rate filtering and infoframes setup that gets
+    called by drm_bridge_connector, and pass the bridge, connector and
+    all the extra arguments we need.
+
+Once we've done that, we're probably in a good position to support what
+we want to support. The drm_connector_state is passed to the atomic set
+of bridges hooks so they can just read the content from there and we
+should be good?
+
+What do you think?
+
+Maxime
+
+--rwr34okuhqr4me67
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZerd8AAKCRDj7w1vZxhR
+xT4HAP96uOnXBFe77jq9k6qT7BICRfTWa8xqDjmUkpdzJHgiVAD/YbxizR1gWQhX
+Z/+a+RsSES7mly95bFAVEfekFHxIhQY=
+=Y8xr
+-----END PGP SIGNATURE-----
+
+--rwr34okuhqr4me67--
