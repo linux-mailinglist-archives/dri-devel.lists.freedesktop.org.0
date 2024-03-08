@@ -2,74 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E2387607C
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 09:59:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64456876098
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 10:05:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFB2B10EBA2;
-	Fri,  8 Mar 2024 08:59:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B36B110E800;
+	Fri,  8 Mar 2024 09:05:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="CcYXZQ4A";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="duRn1SRP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ironport.ite.com.tw
- (HC210-202-87-179.vdslpro.static.apol.com.tw [210.202.87.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4FE410EB39
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 08:59:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=m/Qd/jNyLRwRhfzNfiKmPzkZGpGSFMRbERjzfYUVHBw=;
- b=CcYXZQ4A2D+IXBtVR4MuGx3QtpI63yGmKRacY1iaCks3afjThGIzAdhY
- 7yPPxUHm2zi0DBvRcRo4UxCv3pgmwfBl9U1c7eloZs10spQRyvh1PsNRZ
- KJd1Qud6lRD9SB/AFrPqYlAnUgYBU1w/WM9ni66an+yMRQNxuwnIM0ZVM
- lPo6J3Smib3WqW+0LOT7j7x605hE0bGs+4ilponyjZY7suEwmY9lcQdmQ
- nfrTbH72feo11Bx70W31qFLVWZ5uA5VvEl9x45GUzZpS7RNKoaCrOuSu2
- GkjMm9Bm5sytGrS6DfZaWrQgtuimoI90ky8ygi/RZcyPJoigF+ZH8YfhY A==;
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 08 Mar 2024 16:59:34 +0800
-Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL2.internal.ite.com.tw
- [192.168.65.41]) by mse.ite.com.tw with ESMTP id 4288xV7t083761;
- Fri, 8 Mar 2024 16:59:31 +0800 (GMT-8)
- (envelope-from kuro.chung@ite.com.tw)
-Received: from CSBMAIL1.internal.ite.com.tw (192.168.65.58) by
- CSBMAIL2.internal.ite.com.tw (192.168.65.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Fri, 8 Mar 2024 16:59:30 +0800
-Received: from CSBMAIL1.internal.ite.com.tw ([fe80::c9da:6689:2b22:a2d6]) by
- CSBMAIL1.internal.ite.com.tw ([fe80::c9da:6689:2b22:a2d6%3]) with mapi id
- 15.01.2507.035; Fri, 8 Mar 2024 16:59:30 +0800
-From: <kuro.chung@ite.com.tw>
-To: <treapking@chromium.org>
-CC: <allen.chen@ite.com.tw>, <Kenneth.Hung@ite.com.tw>,
- <allen.chen@ite.corp-partner.google.com>, <andrzej.hajda@intel.com>,
- <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v3 1/1] UPSTREAM: drm/bridge: it6505: fix hibernate to
- resume no display issue
-Thread-Topic: [PATCH v3 1/1] UPSTREAM: drm/bridge: it6505: fix hibernate to
- resume no display issue
-Thread-Index: AQHacGI5enQsNeEpPEi+my2OeMnhv7Eti/+Q
-Date: Fri, 8 Mar 2024 08:59:30 +0000
-Message-ID: <e74654f515ac47f18163d5ad6364239b@ite.com.tw>
-References: <20240306022003.259245-1-kuro.chung@ite.com.tw>
- <20240306022003.259245-2-kuro.chung@ite.com.tw>
- <CAEXTbpccS64sb9_Ocjby1UxDWfkEPU6-JYRP4dWCKqGRe3Ux0A@mail.gmail.com>
-In-Reply-To: <CAEXTbpccS64sb9_Ocjby1UxDWfkEPU6-JYRP4dWCKqGRe3Ux0A@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.70.11]
-x-tm-snts-smtp: E29482C4A663611D01ECBFE1967ABA62BCEE8334DCC858AF7825E8BD0B5A3EAE2002:8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC30410E800
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 09:05:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 3052BCE1DA2;
+ Fri,  8 Mar 2024 09:05:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62A2DC43390;
+ Fri,  8 Mar 2024 09:05:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709888714;
+ bh=Wa1CCeGm7aGsyJ70EYwRjL0CHz7Mbn5iEzYxL4NaEK4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=duRn1SRPSaLGXolrWDQvKS+HoVctSh7jbAYlJ8DvxG8Cvy9rpBsXPhDWU6tbvBNDm
+ jDisxatsNjaGtq0h+FLGFRHhYcoTuQ3pmINxwNbAECqIKRJzA8QZrmkIABCkJCMdIH
+ u4iyFN8rbS5E0xGnuT9ldN6cYr/FwqcE+XgWUPcJWgQ6Z6oV3KGPLv77ip1WAToVTr
+ 075s3rOt+2M2mBUVVTiKd49ThhbIUmjaz/PKW6MQ8X3kYuIy0Bh8qPYLrJIJ8gwmfG
+ kPRufdRlvFmqR8LSoKyum+mWgyZsliICJvV8oMGnRMpF/TXQiLIE4dVtGGISRKDdJE
+ dXwJv7CT+9dbQ==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+ (envelope-from <johan+linaro@kernel.org>) id 1riWAL-000000002I0-0dHq;
+ Fri, 08 Mar 2024 10:05:21 +0100
+From: Johan Hovold <johan+linaro@kernel.org>
+To: stable@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Johan Hovold <johan+linaro@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH stable-6.7] soc: qcom: pmic_glink_altmode: fix drm bridge
+ use-after-free
+Date: Fri,  8 Mar 2024 10:03:57 +0100
+Message-ID: <20240308090357.8758-1-johan+linaro@kernel.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MAIL: mse.ite.com.tw 4288xV7t083761
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,147 +63,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgUGluLVllbiwNCg0KCVBsZWFzZSByZWFkIG15IGNvbW1lbnQgYXMgYmxvdywgdGhhbmsgeW91
-IHZlcnkgbXVjaC4NCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IFBpbi15ZW4g
-TGluIDx0cmVhcGtpbmdAY2hyb21pdW0ub3JnPiANClNlbnQ6IFRodXJzZGF5LCBNYXJjaCA3LCAy
-MDI0IDM6MzcgUE0NClRvOiBLdXJvIENodW5nICjpkJjku5Xlu7cpIDxrdXJvLmNodW5nQGl0ZS5j
-b20udHc+DQpDYzogQWxsZW4gQ2hlbiA8YWxsZW4uY2hlbkBpdGUuY29tLnR3PjsgS2VubmV0aCBI
-dW5nICjmtKrlrrblgKspIDxLZW5uZXRoLkh1bmdAaXRlLmNvbS50dz47IEFsbGVuIENoZW4gPGFs
-bGVuLmNoZW5AaXRlLmNvcnAtcGFydG5lci5nb29nbGUuY29tPjsgQW5kcnplaiBIYWpkYSA8YW5k
-cnplai5oYWpkYUBpbnRlbC5jb20+OyBOZWlsIEFybXN0cm9uZyA8bmVpbC5hcm1zdHJvbmdAbGlu
-YXJvLm9yZz47IFJvYmVydCBGb3NzIDxyZm9zc0BrZXJuZWwub3JnPjsgTGF1cmVudCBQaW5jaGFy
-dCA8TGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPjsgSm9uYXMgS2FybG1hbiA8am9u
-YXNAa3dpYm9vLnNlPjsgSmVybmVqIFNrcmFiZWMgPGplcm5lai5za3JhYmVjQGdtYWlsLmNvbT47
-IE1hYXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+OyBN
-YXhpbWUgUmlwYXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+OyBUaG9tYXMgWmltbWVybWFubiA8dHpp
-bW1lcm1hbm5Ac3VzZS5kZT47IERhdmlkIEFpcmxpZSA8YWlybGllZEBnbWFpbC5jb20+OyBEYW5p
-ZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+OyBvcGVuIGxpc3Q6RFJNIERSSVZFUlMgPGRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc+OyBvcGVuIGxpc3QgPGxpbnV4LWtlcm5lbEB2Z2Vy
-Lmtlcm5lbC5vcmc+DQpTdWJqZWN0OiBSZTogW1BBVENIIHYzIDEvMV0gVVBTVFJFQU06IGRybS9i
-cmlkZ2U6IGl0NjUwNTogZml4IGhpYmVybmF0ZSB0byByZXN1bWUgbm8gZGlzcGxheSBpc3N1ZQ0K
-DQpIaSBLdXJvLA0KDQpGb2xsb3dpbmcgdXAgbXkgY29tbWVudHMgZnJvbSB2MiBbMV06DQoNCk9u
-IFdlZCwgTWFyIDYsIDIwMjQgYXQgMTA6MDnigK9BTSBrdXJvIDxrdXJvLmNodW5nQGl0ZS5jb20u
-dHc+IHdyb3RlOg0KPg0KPiBGcm9tOiBrdXJvIGNodW5nIDxrdXJvLmNodW5nQGl0ZS5jb20udHc+
-DQo+DQo+IElURSBhZGRlZCBhIEZJRk8gcmVzZXQgYml0IGZvciBpbnB1dCB2aWRlby4gV2hlbiBz
-eXN0ZW0gcG93ZXIgcmVzdW1lLCANCj4gdGhlIFRUTCBpbnB1dCBvZiBpdDY1MDUgbWF5IGdldCBz
-b21lIG5vaXNlIGJlZm9yZSB2aWRlbyBzaWduYWwgc3RhYmxlIA0KPiBhbmQgdGhlIGhhcmR3YXJl
-IGZ1bmN0aW9uIHJlc2V0IGlzIHJlcXVpcmVkLg0KPiBCdXQgdGhlIGlucHV0IEZJRk8gcmVzZXQg
-d2lsbCBhbHNvIHRyaWdnZXIgZXJyb3IgaW50ZXJydXB0cyBvZiBvdXRwdXQgbW9kdWxlIHJpc2lu
-Zy4NCj4gVGh1cywgaXQ2NTA1IGhhdmUgdG8gd2FpdCBhIHBlcmlvZCBjYW4gY2xlYXIgdGhvc2Ug
-ZXhwZWN0ZWQgZXJyb3IgDQo+IGludGVycnVwdHMgY2F1c2VkIGJ5IG1hbnVhbCBoYXJkd2FyZSBy
-ZXNldCBpbiBvbmUgaW50ZXJydXB0IGhhbmRsZXIgY2FsbGluZyB0byBhdm9pZCBpbnRlcnJ1cHQg
-bG9vcGluZy4NCj4NCj4gU2lnbmVkLW9mZi1ieTogQWxsZW4gQ2hlbiA8YWxsZW4uY2hlbkBpdGUu
-Y29ycC1wYXJ0bmVyLmdvb2dsZS5jb20+DQoNCklJVUMgeW91IG5lZWQgdG8gc2lnbiB0aGlzIG9m
-ZiB3aXRoIHlvdXIgbmFtZSBhcyB3ZWxsLiBTZWUgWzJdIGZvciBtb3JlIGRldGFpbHMuDQotPiBJ
-IHVwZGF0ZSBpbiB0aGUgbGFzdCBwYXRjaCB2NCANCg0KDQoNCg0KDQo+IC0tLQ0KPiAgZHJpdmVy
-cy9ncHUvZHJtL2JyaWRnZS9pdGUtaXQ2NTA1LmMgfCA1NCANCj4gKysrKysrKysrKysrKysrKysr
-KysrKysrLS0tLS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCA0NSBpbnNlcnRpb25zKCspLCA5IGRlbGV0
-aW9ucygtKQ0KPg0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9pdGUtaXQ2
-NTA1LmMgDQo+IGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9pdGUtaXQ2NTA1LmMNCj4gaW5kZXgg
-YjUzZGE5YmI2NWExNi4uZTU5MmUxNGE0ODU3OCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL2JyaWRnZS9pdGUtaXQ2NTA1LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9p
-dGUtaXQ2NTA1LmMNCj4gQEAgLTEzMTgsNiArMTMxOCw4IEBAIHN0YXRpYyB2b2lkIGl0NjUwNV92
-aWRlb19yZXNldChzdHJ1Y3QgaXQ2NTA1ICppdDY1MDUpDQo+ICAgICAgICAgaXQ2NTA1X3NldF9i
-aXRzKGl0NjUwNSwgUkVHX0RBVEFfTVVURV9DVFJMLCBFTl9WSURfTVVURSwgRU5fVklEX01VVEUp
-Ow0KPiAgICAgICAgIGl0NjUwNV9zZXRfYml0cyhpdDY1MDUsIFJFR19JTkZPRlJBTUVfQ1RSTCwg
-RU5fVklEX0NUUkxfUEtULCAweDAwKTsNCj4gICAgICAgICBpdDY1MDVfc2V0X2JpdHMoaXQ2NTA1
-LCBSRUdfUkVTRVRfQ1RSTCwgVklERU9fUkVTRVQsIA0KPiBWSURFT19SRVNFVCk7DQo+ICsgICAg
-ICAgaXQ2NTA1X3NldF9iaXRzKGl0NjUwNSwgUkVHX1ZJRF9CVVNfQ1RSTDEsIFRYX0ZJRk9fUkVT
-RVQsIDB4MDIpOw0KPiArICAgICAgIGl0NjUwNV9zZXRfYml0cyhpdDY1MDUsIFJFR19WSURfQlVT
-X0NUUkwxLCBUWF9GSUZPX1JFU0VULCANCj4gKyAweDAwKTsNCj4gICAgICAgICBpdDY1MDVfc2V0
-X2JpdHMoaXQ2NTA1LCBSRUdfNTAxX0ZJRk9fQ1RSTCwgUlNUXzUwMV9GSUZPLCBSU1RfNTAxX0ZJ
-Rk8pOw0KPiAgICAgICAgIGl0NjUwNV9zZXRfYml0cyhpdDY1MDUsIFJFR181MDFfRklGT19DVFJM
-LCBSU1RfNTAxX0ZJRk8sIDB4MDApOw0KPiAgICAgICAgIGl0NjUwNV9zZXRfYml0cyhpdDY1MDUs
-IFJFR19SRVNFVF9DVFJMLCBWSURFT19SRVNFVCwgMHgwMCk7IEBAIA0KPiAtMjQ4MCwxMCArMjQ4
-Miw2IEBAIHN0YXRpYyB2b2lkIGl0NjUwNV9pcnFfdmlkZW9fZmlmb19lcnJvcihzdHJ1Y3QgaXQ2
-NTA1ICppdDY1MDUpDQo+ICAgICAgICAgc3RydWN0IGRldmljZSAqZGV2ID0gJml0NjUwNS0+Y2xp
-ZW50LT5kZXY7DQo+DQo+ICAgICAgICAgRFJNX0RFVl9ERUJVR19EUklWRVIoZGV2LCAidmlkZW8g
-ZmlmbyBvdmVyZmxvdyBpbnRlcnJ1cHQiKTsNCj4gLSAgICAgICBpdDY1MDUtPmF1dG9fdHJhaW5f
-cmV0cnkgPSBBVVRPX1RSQUlOX1JFVFJZOw0KPiAtICAgICAgIGZsdXNoX3dvcmsoJml0NjUwNS0+
-bGlua193b3Jrcyk7DQo+IC0gICAgICAgaXQ2NTA1X3N0b3BfaGRjcChpdDY1MDUpOw0KPiAtICAg
-ICAgIGl0NjUwNV92aWRlb19yZXNldChpdDY1MDUpOw0KPiAgfQ0KPg0KPiAgc3RhdGljIHZvaWQg
-aXQ2NTA1X2lycV9pb19sYXRjaF9maWZvX292ZXJmbG93KHN0cnVjdCBpdDY1MDUgKml0NjUwNSkg
-DQo+IEBAIC0yNDkxLDEwICsyNDg5LDYgQEAgc3RhdGljIHZvaWQgaXQ2NTA1X2lycV9pb19sYXRj
-aF9maWZvX292ZXJmbG93KHN0cnVjdCBpdDY1MDUgKml0NjUwNSkNCj4gICAgICAgICBzdHJ1Y3Qg
-ZGV2aWNlICpkZXYgPSAmaXQ2NTA1LT5jbGllbnQtPmRldjsNCj4NCj4gICAgICAgICBEUk1fREVW
-X0RFQlVHX0RSSVZFUihkZXYsICJJTyBsYXRjaCBmaWZvIG92ZXJmbG93IGludGVycnVwdCIpOw0K
-PiAtICAgICAgIGl0NjUwNS0+YXV0b190cmFpbl9yZXRyeSA9IEFVVE9fVFJBSU5fUkVUUlk7DQo+
-IC0gICAgICAgZmx1c2hfd29yaygmaXQ2NTA1LT5saW5rX3dvcmtzKTsNCj4gLSAgICAgICBpdDY1
-MDVfc3RvcF9oZGNwKGl0NjUwNSk7DQo+IC0gICAgICAgaXQ2NTA1X3ZpZGVvX3Jlc2V0KGl0NjUw
-NSk7DQo+ICB9DQoNCkkgZG9uJ3QgcmVhbGx5IGxpa2UgZnVuY3Rpb25zIHRoYXQgb25seSBwcmlu
-dCBvbmUgbGluZSBvZiBkZWJ1ZyBsb2csIGJ1dCBJJ20gbm90IHN1cmUgd2hhdCBvdGhlciByZXZp
-ZXdlcnMgdGhpbmsgYWJvdXQgdGhpcy4NCi0+IEkgdG90YWxseSByZW1vdmUgdGhvc2UgdHdvIGZ1
-bmN0aW9uIGluIHRoZSBuZXcgcGF0Y2ggdjQuDQoNCg0KDQoNCg0KDQoNCj4NCj4gIHN0YXRpYyBi
-b29sIGl0NjUwNV90ZXN0X2JpdCh1bnNpZ25lZCBpbnQgYml0LCBjb25zdCB1bnNpZ25lZCBpbnQg
-DQo+ICphZGRyKSBAQCAtMjUwMiw2ICsyNDk2LDQ2IEBAIHN0YXRpYyBib29sIGl0NjUwNV90ZXN0
-X2JpdCh1bnNpZ25lZCBpbnQgYml0LCBjb25zdCB1bnNpZ25lZCBpbnQgKmFkZHIpDQo+ICAgICAg
-ICAgcmV0dXJuIDEgJiAoYWRkcltiaXQgLyBCSVRTX1BFUl9CWVRFXSA+PiAoYml0ICUgDQo+IEJJ
-VFNfUEVSX0JZVEUpKTsgIH0NCj4NCj4gK3N0YXRpYyBib29sIGl0NjUwNV9pc192aWRlb19lcnJv
-cl9pbnQoY29uc3QgaW50ICppbnRfc3RhdHVzKSB7DQo+ICsgICAgICAgaWYgKChpdDY1MDVfdGVz
-dF9iaXQoQklUX0lOVF9WSURfRklGT19FUlJPUiwgKHVuc2lnbmVkIGludCAqKWludF9zdGF0dXMp
-KSB8fCAoaXQ2NTA1X3Rlc3RfYml0KEJJVF9JTlRfSU9fRklGT19PVkVSRkxPVywgKHVuc2lnbmVk
-IGludCAqKWludF9zdGF0dXMpKSkNCj4gKyAgICAgICAgICAgICAgIHJldHVybiAxOw0KPiArICAg
-ICAgIHJldHVybiAwOw0KPiArfQ0KPiArDQo+ICtzdGF0aWMgdm9pZCBpdDY1MDVfaXJxX3ZpZGVv
-X2Vycm9yX2hhbmRsZXIoc3RydWN0IGl0NjUwNSAqaXQ2NTA1KSB7DQo+ICsgICAgICAgc3RydWN0
-IGRldmljZSAqZGV2ID0gJml0NjUwNS0+Y2xpZW50LT5kZXY7DQo+ICsgICAgICAgaW50IGludF9z
-dGF0dXNbM10gPSB7MH07DQo+ICsgICAgICAgaW50IHJlZ18wZDsNCj4gKyAgICAgICBpbnQgaTsN
-Cj4gKw0KPiArICAgICAgIGl0NjUwNS0+YXV0b190cmFpbl9yZXRyeSA9IEFVVE9fVFJBSU5fUkVU
-Ulk7DQo+ICsgICAgICAgZmx1c2hfd29yaygmaXQ2NTA1LT5saW5rX3dvcmtzKTsNCj4gKyAgICAg
-ICBpdDY1MDVfc3RvcF9oZGNwKGl0NjUwNSk7DQo+ICsgICAgICAgaXQ2NTA1X3ZpZGVvX3Jlc2V0
-KGl0NjUwNSk7DQo+ICsNCj4gKyAgICAgICBEUk1fREVWX0RFQlVHX0RSSVZFUihkZXYsICJWaWRl
-byBFcnJvciByZXNldCB3YWl0IHZpZGVvLi4uIik7DQo+ICsNCj4gKyAgICAgICBmb3IgKGkgPSAw
-OyBpIDwgMTA7IGkrKykgew0KPiArICAgICAgICAgICAgICAgdXNsZWVwX3JhbmdlKDEwMDAwLCAx
-MTAwMCk7DQo+ICsgICAgICAgICAgICAgICBpbnRfc3RhdHVzWzJdID0gaXQ2NTA1X3JlYWQoaXQ2
-NTA1LCBJTlRfU1RBVFVTXzAzKTsNCj4gKyAgICAgICAgICAgICAgIHJlZ18wZCA9IGl0NjUwNV9y
-ZWFkKGl0NjUwNSwgUkVHX1NZU1RFTV9TVFMpOw0KPiArICAgICAgICAgICAgICAgaXQ2NTA1X3dy
-aXRlKGl0NjUwNSwgSU5UX1NUQVRVU18wMywgaW50X3N0YXR1c1syXSk7DQo+ICsNCj4gKyAgICAg
-ICAgICAgICAgIERSTV9ERVZfREVCVUdfRFJJVkVSKGRldiwgInJlZzA4ID0gMHglMDJ4IiwgaW50
-X3N0YXR1c1syXSk7DQo+ICsgICAgICAgICAgICAgICBEUk1fREVWX0RFQlVHX0RSSVZFUihkZXYs
-ICJyZWcwRCA9IDB4JTAyeCIsIHJlZ18wZCk7DQo+ICsNCj4gKyAgICAgICAgICAgICAgIGlmICgo
-cmVnXzBkICYgVklERU9fU1RCKSAmJiAocmVnXzBkID49IDApKQ0KPiArICAgICAgICAgICAgICAg
-ICAgICAgICBicmVhazsNCj4gKw0KPiArICAgICAgICAgICAgICAgaWYgKGl0NjUwNV9pc192aWRl
-b19lcnJvcl9pbnQoaW50X3N0YXR1cykpIHsNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgaXQ2
-NTA1X3ZpZGVvX3Jlc2V0KGl0NjUwNSk7DQo+ICsgICAgICAgICAgICAgICAgICAgICAgIERSTV9E
-RVZfREVCVUdfRFJJVkVSKGRldiwgIlZpZGVvIEVycm9yIHJlc2V0IHdhaXQgdmlkZW8gKCVkKSIs
-IGkpOw0KPiArICAgICAgICAgICAgICAgfQ0KPiArICAgICAgIH0NCg0KQWdhaW4sIEkgdGhpbmsg
-d2UgbmVlZCBzb21lIGNvZGUgY29tbWVudHMgZm9yIHRoaXMgc2VjdGlvbiwgYW5kIHNvbWUgb2Yg
-eW91ciByZXBsaWVzIHNob3VsZCBiZSBpbmNsdWRlZCB0aGVyZS4NCg0KQW5kIGNhbiB5b3UgZWxh
-Ym9yYXRlIG1vcmUgYWJvdXQgaG93IHRoaXMgc3BlZWRzIHVwIHRoZSB2aWRlbyBzdGFiaWxpemF0
-aW9uPyBXaGF0IHdvdWxkIGhhcHBlbiBpZiB3ZSBvbmx5IGNsZWFyIHRoZSBpbnRlcnJ1cHRzIG9u
-Y2UgaW5zdGVhZCBvZiBkb2luZyBhIGxvb3A/DQoNCi0+IA0KVGhlIG9yaWdpbmFsIGRlc2lnbiBp
-cyBlYWNoIElOVCBiaXQgaGFuZGxlciBieSBmdW5jdGlvbiBpdDY1MDVfaXJxX3ZpZGVvX2ZpZm9f
-ZXJyb3IgYW5kIGl0NjUwNV9pcnFfaW9fbGF0Y2hfZmlmb19vdmVyZmxvdy4gDQpCdXQgdGhlIGhh
-bmRsZXIgZmxvdyBpcyBpbmZsdWVuY2UgZWFjaCBvdGhlci4oSXQgbWF5IG9jY3VyIHJlY3Vyc2l2
-ZWx5IHJzdC0+SU5ULT5yc3QpIA0KQWZ0ZXIgY29uc2lkZXJhdGlvbiBJVEUgaGF2ZSBkZWNpZGVk
-IHRvIGhhbmRsZSB0aG9zZSB0d28gYml0IGluIHRoaXMgc2VjdGlvbi4NCg0KVGhlIHZpZGVvIGZp
-Zm8gcmVzZXQgd2lsbCBjYXVzZSBTQ0RUIGxvc3MgYW5kIHRyaWdnZXIgU0NEVCBJTlQNClNDRFQg
-Y2hhbmdlIGludGVycnVwdCBhbHNvIGhhbmRsaW5nIHRoZSBsaW5rIHRyYWluaW5nIGhhbmRsZXIu
-IFdlIG5lZWQgdG8gYXZvaWQgU0NEVCBjaGFuZ2UgcmVjdXJzaXZlbHkgaWYgY3JlYXRlIG5ldyB2
-aWRlbyBoYW5kbGVyLg0KDQpJZiB0aGUgRklGTyBlcnJvciBpcyB0cmlnZ2VyIGJ5IEZJRk8gcmVz
-dCAsIGl0IHdpbGwgaGFwcGVuIHdpdGhpbiAxMG1zLg0KVG8gc3BlZWQgdXAgdmlkZW8gc3RhYmxl
-IHRvIGxpbmsgdHJhaW5pbmcsIGRvIDEwIHRpbWUgY2hlY2sgaW4gaW50ZXJydXB0Lg0KSWYgdGhl
-IHZpZGVvIGNhbid0IHN0YWJsZSBpbiAxMDBtcyg2IGZyYW1lIGluIDYwaHopLCB0aGUgdmlkZW8g
-c2lnbmFsIGZyb20gSU8gYnVzIG1heSBub3Qgc3RhYmxlLg0KDQoNCg0KDQoNCj4gK30NCj4gKw0K
-PiAgc3RhdGljIGlycXJldHVybl90IGl0NjUwNV9pbnRfdGhyZWFkZWRfaGFuZGxlcihpbnQgdW51
-c2VkLCB2b2lkIA0KPiAqZGF0YSkgIHsNCj4gICAgICAgICBzdHJ1Y3QgaXQ2NTA1ICppdDY1MDUg
-PSBkYXRhOw0KPiBAQCAtMjUyMiw3ICsyNTU2LDcgQEAgc3RhdGljIGlycXJldHVybl90IGl0NjUw
-NV9pbnRfdGhyZWFkZWRfaGFuZGxlcihpbnQgdW51c2VkLCB2b2lkICpkYXRhKQ0KPiAgICAgICAg
-ICAgICAgICAgeyBCSVRfSU5UX1ZJRF9GSUZPX0VSUk9SLCBpdDY1MDVfaXJxX3ZpZGVvX2ZpZm9f
-ZXJyb3IgfSwNCj4gICAgICAgICAgICAgICAgIHsgQklUX0lOVF9JT19GSUZPX09WRVJGTE9XLCBp
-dDY1MDVfaXJxX2lvX2xhdGNoX2ZpZm9fb3ZlcmZsb3cgfSwNCj4gICAgICAgICB9Ow0KPiAtICAg
-ICAgIGludCBpbnRfc3RhdHVzWzNdLCBpOw0KPiArICAgICAgIGludCBpbnRfc3RhdHVzWzNdLCBp
-LCByZWdfMGQ7DQo+DQo+ICAgICAgICAgaWYgKGl0NjUwNS0+ZW5hYmxlX2Rydl9ob2xkIHx8ICFp
-dDY1MDUtPnBvd2VyZWQpDQo+ICAgICAgICAgICAgICAgICByZXR1cm4gSVJRX0hBTkRMRUQ7DQo+
-IEBAIC0yNTUwLDYgKzI1ODQsOCBAQCBzdGF0aWMgaXJxcmV0dXJuX3QgaXQ2NTA1X2ludF90aHJl
-YWRlZF9oYW5kbGVyKGludCB1bnVzZWQsIHZvaWQgKmRhdGEpDQo+ICAgICAgICAgICAgICAgICAg
-ICAgICAgIGlmIChpdDY1MDVfdGVzdF9iaXQoaXJxX3ZlY1tpXS5iaXQsICh1bnNpZ25lZCBpbnQg
-KilpbnRfc3RhdHVzKSkNCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpcnFfdmVj
-W2ldLmhhbmRsZXIoaXQ2NTA1KTsNCj4gICAgICAgICAgICAgICAgIH0NCj4gKyAgICAgICAgICAg
-ICAgIGlmIChpdDY1MDVfaXNfdmlkZW9fZXJyb3JfaW50KGludF9zdGF0dXMpKQ0KPiArICAgICAg
-ICAgICAgICAgICAgICAgICBpdDY1MDVfaXJxX3ZpZGVvX2Vycm9yX2hhbmRsZXIoaXQ2NTA1KTsN
-Cj4gICAgICAgICB9DQo+DQo+ICAgICAgICAgcG1fcnVudGltZV9wdXRfc3luYyhkZXYpOw0KPiAt
-LQ0KPiAyLjI1LjENCj4NCg0KWzFdOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvQ0FFWFRi
-cGM2MDg0cmNtaEZBQnc1MVNpYlU3RlZ5VFdvPXRlUXNFVHE1dkN1akdLV25nQG1haWwuZ21haWwu
-Y29tLw0KWzJdOiBodHRwczovL3d3dy5rZXJuZWwub3JnL2RvYy9odG1sL2xhdGVzdC9wcm9jZXNz
-L3N1Ym1pdHRpbmctcGF0Y2hlcy5odG1sI3NpZ24teW91ci13b3JrLXRoZS1kZXZlbG9wZXItcy1j
-ZXJ0aWZpY2F0ZS1vZi1vcmlnaW4NCg0KUmVnYXJkcywNClBpbi15ZW4NCg==
+commit b979f2d50a099f3402418d7ff5f26c3952fb08bb upstream.
+
+A recent DRM series purporting to simplify support for "transparent
+bridges" and handling of probe deferrals ironically exposed a
+use-after-free issue on pmic_glink_altmode probe deferral.
+
+This has manifested itself as the display subsystem occasionally failing
+to initialise and NULL-pointer dereferences during boot of machines like
+the Lenovo ThinkPad X13s.
+
+Specifically, the dp-hpd bridge is currently registered before all
+resources have been acquired which means that it can also be
+deregistered on probe deferrals.
+
+In the meantime there is a race window where the new aux bridge driver
+(or PHY driver previously) may have looked up the dp-hpd bridge and
+stored a (non-reference-counted) pointer to the bridge which is about to
+be deallocated.
+
+When the display controller is later initialised, this triggers a
+use-after-free when attaching the bridges:
+
+	dp -> aux -> dp-hpd (freed)
+
+which may, for example, result in the freed bridge failing to attach:
+
+	[drm:drm_bridge_attach [drm]] *ERROR* failed to attach bridge /soc@0/phy@88eb000 to encoder TMDS-31: -16
+
+or a NULL-pointer dereference:
+
+	Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
+	...
+	Call trace:
+	  drm_bridge_attach+0x70/0x1a8 [drm]
+	  drm_aux_bridge_attach+0x24/0x38 [aux_bridge]
+	  drm_bridge_attach+0x80/0x1a8 [drm]
+	  dp_bridge_init+0xa8/0x15c [msm]
+	  msm_dp_modeset_init+0x28/0xc4 [msm]
+
+The DRM bridge implementation is clearly fragile and implicitly built on
+the assumption that bridges may never go away. In this case, the fix is
+to move the bridge registration in the pmic_glink_altmode driver to
+after all resources have been looked up.
+
+Incidentally, with the new dp-hpd bridge implementation, which registers
+child devices, this is also a requirement due to a long-standing issue
+in driver core that can otherwise lead to a probe deferral loop (see
+commit fbc35b45f9f6 ("Add documentation on meaning of -EPROBE_DEFER")).
+
+[DB: slightly fixed commit message by adding the word 'commit']
+Fixes: 080b4e24852b ("soc: qcom: pmic_glink: Introduce altmode support")
+Fixes: 2bcca96abfbf ("soc: qcom: pmic-glink: switch to DRM_AUX_HPD_BRIDGE")
+Cc: <stable@vger.kernel.org>      # 6.3
+Cc: Bjorn Andersson <andersson@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+Reviewed-by: Bjorn Andersson <andersson@kernel.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240217150228.5788-4-johan+linaro@kernel.org
+[ johan: backport to 6.7 which does not have DRM aux bridge ]
+Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+---
+ drivers/soc/qcom/pmic_glink_altmode.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/soc/qcom/pmic_glink_altmode.c b/drivers/soc/qcom/pmic_glink_altmode.c
+index ad922f0dca6b..a890fafdafb8 100644
+--- a/drivers/soc/qcom/pmic_glink_altmode.c
++++ b/drivers/soc/qcom/pmic_glink_altmode.c
+@@ -469,12 +469,6 @@ static int pmic_glink_altmode_probe(struct auxiliary_device *adev,
+ 		alt_port->bridge.ops = DRM_BRIDGE_OP_HPD;
+ 		alt_port->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
+ 
+-		ret = devm_drm_bridge_add(dev, &alt_port->bridge);
+-		if (ret) {
+-			fwnode_handle_put(fwnode);
+-			return ret;
+-		}
+-
+ 		alt_port->dp_alt.svid = USB_TYPEC_DP_SID;
+ 		alt_port->dp_alt.mode = USB_TYPEC_DP_MODE;
+ 		alt_port->dp_alt.active = 1;
+@@ -525,6 +519,16 @@ static int pmic_glink_altmode_probe(struct auxiliary_device *adev,
+ 		}
+ 	}
+ 
++	for (port = 0; port < ARRAY_SIZE(altmode->ports); port++) {
++		alt_port = &altmode->ports[port];
++		if (!alt_port->altmode)
++			continue;
++
++		ret = devm_drm_bridge_add(dev, &alt_port->bridge);
++		if (ret)
++			return ret;
++	}
++
+ 	altmode->client = devm_pmic_glink_register_client(dev,
+ 							  altmode->owner_id,
+ 							  pmic_glink_altmode_callback,
+-- 
+2.43.0
+
