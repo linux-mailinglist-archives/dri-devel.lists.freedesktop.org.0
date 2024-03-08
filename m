@@ -2,95 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64159876575
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 14:38:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCBBF8765FD
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 15:07:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A82F510F9FB;
-	Fri,  8 Mar 2024 13:37:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEFBF10EE43;
+	Fri,  8 Mar 2024 14:07:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="XDQHLQUV";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="hckQ3MOs";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o+8D39/+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ihJIT1sN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="akOZjd/D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4740910F9FB
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 13:37:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1709905075;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0386B10EE43
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 14:07:08 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 76534345D1;
+ Fri,  8 Mar 2024 13:45:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1709905554; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Sdx4785Ipwisl1ArTBqV52xgOgASQAP7d6PS01jYkGE=;
- b=XDQHLQUV2OMmC+oUiZsY2oYVBQI+JUAdHzxFfYtc3b6ep45kTm2075E6HM6HBMGoFigXzk
- f9TLibTpBBJbQFSo93yTEoFIFnx13LoSLukngg6HCwfl7NFlsRJPjbrppayhHwTfJsFYq+
- y0FSvzARNF7YGQPvcH7rNN9rFKrW3H4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-384-zDIvdmP7NWykTz_lOhpV5Q-1; Fri, 08 Mar 2024 08:37:54 -0500
-X-MC-Unique: zDIvdmP7NWykTz_lOhpV5Q-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-412de861228so4632955e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Mar 2024 05:37:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709905073; x=1710509873;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Sdx4785Ipwisl1ArTBqV52xgOgASQAP7d6PS01jYkGE=;
- b=nOjNBBTj94ZYGA8Fuo/Q7RidlsLQItv1yhM2YEMzfTQM7cDSYC3MB0qX69FLT4G8MC
- P873TWTlhJQSl8nUzbyj09A834sCsmqG8pph6qd/DFAbECzm6Kz+TazOWDDRGq7Yf+ES
- 2lNsQxVcBFZCnQwygvX6w2PmJFJpif4unEcaHfMlFz1gwBst0C1OjOlsTONK30jcPmKN
- jTQgQL8gf7+EG+PzGmLa5EioB/eA3KMggzXwLicSTl0aiP0A2omn789q4mdUnE5ojCTs
- ZXgDucsHl/EMs/obGviq6Kg3vI5y6GzO4Kg4+yY7Pdf/bcbmW9F4k8pJAnLiFOb5K8t+
- OYkw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVHsdk/9RfW9CAsrg70MXuE740U2fVib/qbIgUHVXC01APaMclfOUx3m+gALU7/tK0Ycx5diYGT4zlZ+yVZi42QMgkQfCOhc4L7kXvpeq/h
-X-Gm-Message-State: AOJu0YzcCj8NqtVGzKbPaXPhKSz9FOtBdaCCFSTWCFGoxEf+Vv3+HAXG
- OdjX9jmN+2GwlazpleYODGIMp8S+818YzLm1Pa3SQqHWaYUQVSwYPwIe+yMuKMgW/q9Lq2JTvGy
- vwMSLf84RPTxYJH7Pp3L3VqdTZF59qtA5e6HElKPb+TJRzgkfoPBu9cLldnfOOSwbGg==
-X-Received: by 2002:a05:600c:4f56:b0:411:a751:322b with SMTP id
- m22-20020a05600c4f5600b00411a751322bmr16958189wmq.18.1709905073076; 
- Fri, 08 Mar 2024 05:37:53 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEExHzCIjNtdnL3LoJThmDzUp6nj0k64eeVYvBng+2l1Hbe9ghWFF9uqUL164t5T+Og5HTGFw==
-X-Received: by 2002:a05:600c:4f56:b0:411:a751:322b with SMTP id
- m22-20020a05600c4f5600b00411a751322bmr16958167wmq.18.1709905072739; 
- Fri, 08 Mar 2024 05:37:52 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- n9-20020a05600c3b8900b0041310142e37sm5525337wms.47.2024.03.08.05.37.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Mar 2024 05:37:52 -0800 (PST)
-Message-ID: <193a4534-0fe0-49d9-baff-a9c9e39483a7@redhat.com>
-Date: Fri, 8 Mar 2024 14:37:51 +0100
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=CuXq2eZ6klQN45NrJOcCDnbqaSlpdsE6EJO7/+krAjw=;
+ b=hckQ3MOsgAiE1w2MS2BZ5V6MK84/mXr3Wd2+XsbxXDYcyannycvelDVXb2T2khDevXqtfh
+ 83qgDtwcxYRX3waBgCiJZlQShSC0z1I3gUf86H8lH9B5eVwrTmX1NfC+441m5KtSfrLk7Z
+ zhamrKrR9FM8xDXKZ9K442Niv2P8oF4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1709905554;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=CuXq2eZ6klQN45NrJOcCDnbqaSlpdsE6EJO7/+krAjw=;
+ b=o+8D39/+iCzpYPAEG09z7rfaMqNLFYkBJuzsw0W4FhvVNRvjWiyQ7IpGGyiobBmyOp0oSW
+ iN/JWYVRyj1f52CA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1709905553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=CuXq2eZ6klQN45NrJOcCDnbqaSlpdsE6EJO7/+krAjw=;
+ b=ihJIT1sNUiH3GtO2/h/bdKfI5ljtXoAxvLNLYCOHGbisxYYSZUadw+bgvddiLyDWqO6tTx
+ on6R5k89US4UPgOiuK9jxW36fO8Az8NibookxFj+FYSRamnpFBzRfsjHZlnehYLyCgDN4a
+ 90nOku/nuSz/bYfatChHlNKdoxqJGRQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1709905553;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=CuXq2eZ6klQN45NrJOcCDnbqaSlpdsE6EJO7/+krAjw=;
+ b=akOZjd/Dl/wwg0g8RbE6M2lNgz0yELDQhRLIasENknKhDIdS5Z63z0K5B8oSVy9mbuPSU/
+ NrbVx9TyUJUl5/Aw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EB9AE13310;
+ Fri,  8 Mar 2024 13:45:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id FRZfOJAW62XWIgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 08 Mar 2024 13:45:52 +0000
+Message-ID: <7dd169fe-c6ff-408f-99b0-e2521dd6bd77@suse.de>
+Date: Fri, 8 Mar 2024 14:45:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v9 1/9] drm/panic: Add drm panic locking
-To: John Ogness <john.ogness@linutronix.de>, dri-devel@lists.freedesktop.org, 
- tzimmermann@suse.de, airlied@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, daniel@ffwll.ch, javierm@redhat.com,
- bluescreen_avenger@verizon.net, noralf@tronnes.org
+Content-Language: en-US
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net,
+ noralf@tronnes.org
 Cc: gpiccoli@igalia.com, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Daniel Vetter <daniel.vetter@intel.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  "Peter Zijlstra (Intel)" <peterz@infradead.org>,
  Lukas Wunner <lukas@wunner.de>, Petr Mladek <pmladek@suse.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Steven Rostedt <rostedt@goodmis.org>, John Ogness
+ <john.ogness@linutronix.de>, Sergey Senozhatsky <senozhatsky@chromium.org>,
  David Airlie <airlied@gmail.com>
 References: <20240307091936.576689-1-jfalempe@redhat.com>
  <20240307091936.576689-2-jfalempe@redhat.com>
- <87r0gmmj5i.fsf@jogness.linutronix.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <87r0gmmj5i.fsf@jogness.linutronix.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240307091936.576689-2-jfalempe@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ihJIT1sN;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="akOZjd/D"
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.50 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ XM_UA_NO_VERSION(0.01)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_THREE(0.00)[3];
+ DKIM_TRACE(0.00)[suse.de:+]; MX_GOOD(-0.01)[];
+ NEURAL_HAM_SHORT(-0.20)[-1.000];
+ FREEMAIL_TO(0.00)[redhat.com,lists.freedesktop.org,linux.intel.com,kernel.org,ffwll.ch,verizon.net,tronnes.org];
+ FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+];
+ MID_RHS_MATCH_FROM(0.00)[]; BAYES_HAM(-3.00)[100.00%];
+ ARC_NA(0.00)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,verizon.net];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCPT_COUNT_TWELVE(0.00)[20]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_CC(0.00)[igalia.com,ffwll.ch,intel.com,linux-foundation.org,infradead.org,wunner.de,suse.com,goodmis.org,linutronix.de,chromium.org,gmail.com];
+ RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -4.50
+X-Rspamd-Queue-Id: 76534345D1
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,62 +160,288 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi
 
+Am 07.03.24 um 10:14 schrieb Jocelyn Falempe:
+> From: Daniel Vetter <daniel.vetter@ffwll.ch>
+>
+> Rough sketch for the locking of drm panic printing code. The upshot of
+> this approach is that we can pretty much entirely rely on the atomic
+> commit flow, with the pair of raw_spin_lock/unlock providing any
+> barriers we need, without having to create really big critical
+> sections in code.
 
-On 07/03/2024 11:27, John Ogness wrote:
-> On 2024-03-07, Jocelyn Falempe <jfalempe@redhat.com> wrote:
->> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
->> index 39ef0a6addeb..c0bb91312fb2 100644
->> --- a/drivers/gpu/drm/drm_atomic_helper.c
->> +++ b/drivers/gpu/drm/drm_atomic_helper.c
->> @@ -38,6 +38,7 @@
->>   #include <drm/drm_drv.h>
->>   #include <drm/drm_framebuffer.h>
->>   #include <drm/drm_gem_atomic_helper.h>
->> +#include <drm/drm_panic.h>
->>   #include <drm/drm_print.h>
->>   #include <drm/drm_self_refresh_helper.h>
->>   #include <drm/drm_vblank.h>
->> @@ -3099,6 +3100,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
->>   		}
->>   	}
->>   
->> +	drm_panic_lock(state->dev);
->>   	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
->>   		WARN_ON(plane->state != old_plane_state);
->>   
->> @@ -3108,6 +3110,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
->>   		state->planes[i].state = old_plane_state;
->>   		plane->state = new_plane_state;
->>   	}
->> +	drm_panic_unlock(state->dev);
-> 
-> Is there a reason irqsave/irqrestore variants are not used? Maybe this
-> code path is too hot?
+The ast driver has a lock to protect modesetting and concurrent EDID 
+reads from each other. [1] That new panic_lock seems to serve the same 
+purpose.
 
-This lock will be taken for each page flip, so typically at 60Hz (or 
-maybe 144Hz for gamers). I don't know what are the performance impacts 
-of the irqsave/irqrestore variant.
-> 
-> By leaving interrupts enabled, there is the risk that a panic from
-> within any interrupt handler may block the drm panic handler.
+If we go that route, can we make this a bit more generic and call it 
+commit_lock? I could then remove the dedicated lock from ast.
 
-The current design is that the panic handler will just use try_lock(), 
-and if it can't take it, the panic screen will not be seen.
-The goal is to make sure drm_panic won't crash the machine and prevent 
-kdump or other panic handler to run. So there is a very small race 
-chance that the panic screen won't be seen, but that's ok.
+Best regards
+Thomas
 
-So I think in this case the drm panic handler shouldn't be blocked, as 
-it only use try_lock().
+[1] 
+https://elixir.bootlin.com/linux/v6.7/source/drivers/gpu/drm/ast/ast_drv.h#L195
 
-Best regards,
+>
+> This also avoids the need that drivers must explicitly update the
+> panic handler state, which they might forget to do, or not do
+> consistently, and then we blow up in the worst possible times.
+>
+> It is somewhat racy against a concurrent atomic update, and we might
+> write into a buffer which the hardware will never display. But there's
+> fundamentally no way to avoid that - if we do the panic state update
+> explicitly after writing to the hardware, we might instead write to an
+> old buffer that the user will barely ever see.
+>
+> Note that an rcu protected deference of plane->state would give us the
+> the same guarantees, but it has the downside that we then need to
+> protect the plane state freeing functions with call_rcu too. Which
+> would very widely impact a lot of code and therefore doesn't seem
+> worth the complexity compared to a raw spinlock with very tiny
+> critical sections. Plus rcu cannot be used to protect access to
+> peek/poke registers anyway, so we'd still need it for those cases.
+>
+> Peek/poke registers for vram access (or a gart pte reserved just for
+> panic code) are also the reason I've gone with a per-device and not
+> per-plane spinlock, since usually these things are global for the
+> entire display. Going with per-plane locks would mean drivers for such
+> hardware would need additional locks, which we don't want, since it
+> deviates from the per-console takeoverlocks design.
+>
+> Longer term it might be useful if the panic notifiers grow a bit more
+> structure than just the absolute bare
+> EXPORT_SYMBOL(panic_notifier_list) - somewhat aside, why is that not
+> EXPORT_SYMBOL_GPL ... If panic notifiers would be more like console
+> drivers with proper register/unregister interfaces we could perhaps
+> reuse the very fancy console lock with all it's check and takeover
+> semantics that John Ogness is developing to fix the console_lock mess.
+> But for the initial cut of a drm panic printing support I don't think
+> we need that, because the critical sections are extremely small and
+> only happen once per display refresh. So generally just 60 tiny locked
+> sections per second, which is nothing compared to a serial console
+> running a 115kbaud doing really slow mmio writes for each byte. So for
+> now the raw spintrylock in drm panic notifier callback should be good
+> enough.
+>
+> Another benefit of making panic notifiers more like full blown
+> consoles (that are used in panics only) would be that we get the two
+> stage design, where first all the safe outputs are used. And then the
+> dangerous takeover tricks are deployed (where for display drivers we
+> also might try to intercept any in-flight display buffer flips, which
+> if we race and misprogram fifos and watermarks can hang the memory
+> controller on some hw).
+>
+> For context the actual implementation on the drm side is by Jocelyn
+> and this patch is meant to be combined with the overall approach in
+> v7 (v8 is a bit less flexible, which I think is the wrong direction):
+>
+> https://lore.kernel.org/dri-devel/20240104160301.185915-1-jfalempe@redhat.com/
+>
+> Note that the locking is very much not correct there, hence this
+> separate rfc.
+>
+> v2:
+> - fix authorship, this was all my typing
+> - some typo oopsies
+> - link to the drm panic work by Jocelyn for context
+>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Jocelyn Falempe <jfalempe@redhat.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+> Cc: Lukas Wunner <lukas@wunner.de>
+> Cc: Petr Mladek <pmladek@suse.com>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: John Ogness <john.ogness@linutronix.de>
+> Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> ---
+>   drivers/gpu/drm/drm_atomic_helper.c |  3 +
+>   drivers/gpu/drm/drm_drv.c           |  1 +
+>   include/drm/drm_mode_config.h       | 10 +++
+>   include/drm/drm_panic.h             | 99 +++++++++++++++++++++++++++++
+>   4 files changed, 113 insertions(+)
+>   create mode 100644 include/drm/drm_panic.h
+>
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index 39ef0a6addeb..c0bb91312fb2 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -38,6 +38,7 @@
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_framebuffer.h>
+>   #include <drm/drm_gem_atomic_helper.h>
+> +#include <drm/drm_panic.h>
+>   #include <drm/drm_print.h>
+>   #include <drm/drm_self_refresh_helper.h>
+>   #include <drm/drm_vblank.h>
+> @@ -3099,6 +3100,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
+>   		}
+>   	}
+>   
+> +	drm_panic_lock(state->dev);
+>   	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
+>   		WARN_ON(plane->state != old_plane_state);
+>   
+> @@ -3108,6 +3110,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
+>   		state->planes[i].state = old_plane_state;
+>   		plane->state = new_plane_state;
+>   	}
+> +	drm_panic_unlock(state->dev);
+>   
+>   	for_each_oldnew_private_obj_in_state(state, obj, old_obj_state, new_obj_state, i) {
+>   		WARN_ON(obj->state != old_obj_state);
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 243cacb3575c..c157500b3135 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -638,6 +638,7 @@ static int drm_dev_init(struct drm_device *dev,
+>   	mutex_init(&dev->filelist_mutex);
+>   	mutex_init(&dev->clientlist_mutex);
+>   	mutex_init(&dev->master_mutex);
+> +	raw_spin_lock_init(&dev->mode_config.panic_lock);
+>   
+>   	ret = drmm_add_action_or_reset(dev, drm_dev_init_release, NULL);
+>   	if (ret)
+> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+> index 973119a9176b..e79f1a557a22 100644
+> --- a/include/drm/drm_mode_config.h
+> +++ b/include/drm/drm_mode_config.h
+> @@ -505,6 +505,16 @@ struct drm_mode_config {
+>   	 */
+>   	struct list_head plane_list;
+>   
+> +	/**
+> +	 * @panic_lock:
+> +	 *
+> +	 * Raw spinlock used to protect critical sections of code that access
+> +	 * the display hardware or modeset software state, which the panic
+> +	 * printing code must be protected against. See drm_panic_trylock(),
+> +	 * drm_panic_lock() and drm_panic_unlock().
+> +	 */
+> +	struct raw_spinlock panic_lock;
+> +
+>   	/**
+>   	 * @num_crtc:
+>   	 *
+> diff --git a/include/drm/drm_panic.h b/include/drm/drm_panic.h
+> new file mode 100644
+> index 000000000000..f2135d03f1eb
+> --- /dev/null
+> +++ b/include/drm/drm_panic.h
+> @@ -0,0 +1,99 @@
+> +/* SPDX-License-Identifier: GPL-2.0 or MIT */
+> +#ifndef __DRM_PANIC_H__
+> +#define __DRM_PANIC_H__
+> +
+> +#include <drm/drm_device.h>
+> +/*
+> + * Copyright (c) 2024 Intel
+> + */
+> +
+> +/**
+> + * drm_panic_trylock - try to enter the panic printing critical section
+> + * @dev: struct drm_device
+> + *
+> + * This function must be called by any panic printing code. The panic printing
+> + * attempt must be aborted if the trylock fails.
+> + *
+> + * Panic printing code can make the following assumptions while holding the
+> + * panic lock:
+> + *
+> + * - Anything protected by drm_panic_lock() and drm_panic_unlock() pairs is safe
+> + *   to access.
+> + *
+> + * - Furthermore the panic printing code only registers in drm_dev_unregister()
+> + *   and gets removed in drm_dev_unregister(). This allows the panic code to
+> + *   safely access any state which is invariant in between these two function
+> + *   calls, like the list of planes drm_mode_config.plane_list or most of the
+> + *   struct drm_plane structure.
+> + *
+> + * Specifically thanks to the protection around plane updates in
+> + * drm_atomic_helper_swap_state() the following additional guarantees hold:
+> + *
+> + * - It is safe to deference the drm_plane.state pointer.
+> + *
+> + * - Anything in struct drm_plane_state or the driver's subclass thereof which
+> + *   stays invariant after the atomic check code has finished is safe to access.
+> + *   Specifically this includes the reference counted pointers to framebuffer
+> + *   and buffer objects.
+> + *
+> + * - Anything set up by drm_plane_helper_funcs.fb_prepare and cleaned up
+> + *   drm_plane_helper_funcs.fb_cleanup is safe to access, as long as it stays
+> + *   invariant between these two calls. This also means that for drivers using
+> + *   dynamic buffer management the framebuffer is pinned, and therefer all
+> + *   relevant datastructures can be accessed without taking any further locks
+> + *   (which would be impossible in panic context anyway).
+> + *
+> + * - Importantly, software and hardware state set up by
+> + *   drm_plane_helper_funcs.begin_fb_access and
+> + *   drm_plane_helper_funcs.end_fb_access is not safe to access.
+> + *
+> + * Drivers must not make any assumptions about the actual state of the hardware,
+> + * unless they explicitly protected these hardware access with drm_panic_lock()
+> + * and drm_panic_unlock().
+> + *
+> + * Returns:
+> + *
+> + * 0 when failing to acquire the raw spinlock, nonzero on success.
+> + */
+> +static inline int drm_panic_trylock(struct drm_device *dev)
+> +{
+> +	return raw_spin_trylock(&dev->mode_config.panic_lock);
+> +}
+> +
+> +/**
+> + * drm_panic_lock - protect panic printing relevant state
+> + * @dev: struct drm_device
+> + *
+> + * This function must be called to protect software and hardware state that the
+> + * panic printing code must be able to rely on. The protected sections must be
+> + * as small as possible. Examples include:
+> + *
+> + * - Access to peek/poke or other similar registers, if that is the way the
+> + *   driver prints the pixels into the scanout buffer at panic time.
+> + *
+> + * - Updates to pointers like drm_plane.state, allowing the panic handler to
+> + *   safely deference these. This is done in drm_atomic_helper_swap_state().
+> + *
+> + * - An state that isn't invariant and that the driver must be able to access
+> + *   during panic printing.
+> + *
+> + * Call drm_panic_unlock() to unlock the locked spinlock.
+> + */
+> +static inline void drm_panic_lock(struct drm_device *dev)
+> +{
+> +	return raw_spin_lock(&dev->mode_config.panic_lock);
+> +}
+> +
+> +/**
+> + * drm_panic_unlock - end of the panic printing critical section
+> + * @dev: struct drm_device
+> + *
+> + * Unlocks the raw spinlock acquired by either drm_panic_lock() or
+> + * drm_panic_trylock().
+> + */
+> +static inline void drm_panic_unlock(struct drm_device *dev)
+> +{
+> +	raw_spin_unlock(&dev->mode_config.panic_lock);
+> +}
+> +
+> +#endif /* __DRM_PANIC_H__ */
 
 -- 
-
-Jocelyn
-
-> 
-> John Ogness
-> 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
