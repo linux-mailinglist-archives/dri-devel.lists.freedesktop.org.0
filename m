@@ -2,48 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A3C1876915
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 18:01:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30410876922
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 18:02:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5B8A113927;
-	Fri,  8 Mar 2024 17:01:51 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="cfe3jGSB";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5291A113915;
+	Fri,  8 Mar 2024 17:02:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36527113928
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 17:01:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1709917273;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2zetX9Ab4rI9KD/Qs27nOHFRQ3+katPydkX7yEGprj4=;
- b=cfe3jGSBYDasKN6ckheBBouRjThZ6zA+AxR3dGNEkoLdqhufOpbu7M6odg6P7rT/uuch58
- esoVNMuN6Z6uW3zMqk5PMUuTSEp85/SJCW5tY9HonKYfgtv9kxn5nwwtXX4GAkBrzj1X+I
- +40Yq3c7kjnqQjbwQRwKNMBegpWSS6o=
-From: Paul Cercueil <paul@crapouillou.net>
-To: Jonathan Cameron <jic23@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Jonathan Corbet <corbet@lwn.net>, Lars-Peter Clausen <lars@metafoo.de>,
- Vinod Koul <vkoul@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Nuno Sa <nuno.sa@analog.com>,
- Michael Hennerich <michael.hennerich@analog.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v8 6/6] Documentation: iio: Document high-speed DMABUF based
- API
-Date: Fri,  8 Mar 2024 18:00:46 +0100
-Message-ID: <20240308170046.92899-7-paul@crapouillou.net>
-In-Reply-To: <20240308170046.92899-1-paul@crapouillou.net>
-References: <20240308170046.92899-1-paul@crapouillou.net>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6109E113915
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 17:02:29 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 379481474
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 09:03:05 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5B7013F73F
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 09:02:28 -0800 (PST)
+Date: Fri, 8 Mar 2024 17:02:15 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Mihail Atanassov <Mihail.Atanassov@arm.com>
+Subject: Re: [PATCH] drm/panthor: Add support for performance counters
+Message-ID: <ZetEl5h40pcB73t7@e110455-lin.cambridge.arm.com>
+References: <20240305165820.585245-1-adrian.larumbe@collabora.com>
+ <ZesYErFVdqLyjblW@e110455-lin.cambridge.arm.com>
+ <20240308161515.1d74fd55@collabora.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240308161515.1d74fd55@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,104 +56,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document the new DMABUF based API.
+On Fri, Mar 08, 2024 at 04:15:15PM +0100, Boris Brezillon wrote:
+> On Fri, 8 Mar 2024 13:52:18 +0000
+> Liviu Dudau <liviu.dudau@arm.com> wrote:
+> 
+> > Hi Adrián,
+> > 
+> > Thanks for the patch and appologies for taking a bit longer to respond,
+> > I was trying to gather some internal Arm feedback before replying.
+> > 
+> > On Tue, Mar 05, 2024 at 04:58:16PM +0000, Adrián Larumbe wrote:
+> > > This brings in support for Panthor's HW performance counters and querying
+> > > them from UM through a specific ioctl(). The code is inspired by existing
+> > > functionality for the Panfrost driver, with some noteworthy differences:
+> > > 
+> > >  - Sample size is now reported by the firmware rather than having to reckon
+> > >  it by hand
+> > >  - Counter samples are chained in a ring buffer that can be accessed
+> > >  concurrently, but only from threads within a single context (this is
+> > >  because of a HW limitation).
+> > >  - List of enabled counters must be explicitly told from UM
+> > >  - Rather than allocating the BO that will contain the perfcounter values
+> > >  in the render context's address space, the samples ring buffer is mapped
+> > >  onto the MCU's VM.
+> > >  - If more than one thread within the same context tries to dump a sample,
+> > >  then the kernel will copy the same frame to every single thread that was
+> > >  able to join the dump queue right before the FW finished processing the
+> > >  sample request.
+> > >  - UM must provide a BO handle for retrieval of perfcnt values rather
+> > >  than passing a user virtual address.
+> > > 
+> > > The reason multicontext access to the driver's perfcnt ioctl interface
+> > > isn't tolerated is because toggling a different set of counters than the
+> > > current one implies a counter reset, which also messes up with the ring
+> > > buffer's extraction and insertion pointers. This is an unfortunate
+> > > hardware limitation.  
+> > 
+> > There are a few issues that we would like to improve with this patch.
+> > 
+> > I'm not sure what user space app has been used for testing this (I'm guessing
+> > gputop from igt?) but whatever is used it needs to understand the counters
+> > being exposed.
+> 
+> We are using perfetto to expose perfcounters.
+> 
+> > In your patch there is no information given to the user space
+> > about the layout of the counters and / or their order. Where is this being
+> > planned to be defined?
+> 
+> That's done on purpose. We want to keep the kernel side as dumb as
+> possible so we don't have to maintain a perfcounter database there. All
+> the kernel needs to know is how much data it should transfer pass to
+> userspace, and that's pretty much it.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+I was not thinking about a perfcounter database but hints about counter value
+size. In the future we might have 64bits counters and you will not be able to
+tell only from the sample size if you're talking with an old firmware or not.
+(Read: future GPUs are likely to go bigger on number of perf counters before
+they gain higher definition).
 
----
-v2: - Explicitly state that the new interface is optional and is
-      not implemented by all drivers.
-    - The IOCTLs can now only be called on the buffer FD returned by
-      IIO_BUFFER_GET_FD_IOCTL.
-    - Move the page up a bit in the index since it is core stuff and not
-      driver-specific.
+> 
+> > Long term, I think it would be good to have details
+> > about the counters available.
+> 
+> The perfcounter definitions are currently declared in mesa (see the G57
+> perfcounter definitions for instance [1]). Mesa also contains a perfetto
+> datasource for Panfrost [2].
 
-v3: Update the documentation to reflect the new API.
+Sorry, I've missed that perfetto got updated.
 
-v5: Use description lists for the documentation of the three new IOCTLs
-    instead of abusing subsections.
+> 
+> > 
+> > The other issue we can see is with the perfcnt_process_sample() and its
+> > handling of threshold event and overflows. If the userspace doesn't sample
+> > quick enough and we cross the threshold we are going to lose samples and
+> > there is no mechanism to communicate to user space that the values they
+> > are getting have gaps. I believe the default mode for the firmware is to
+> > give you counter values relative to the last read value, so if you drop
+> > samples you're not going to make any sense of the data.
+> 
+> If we get relative values, that's indeed a problem. I thought we were
+> getting absolute values though, in which case, if you miss two 32-bit
+> wraparounds, either your sampling rate is very slow, or events occur at
+> a high rate.
 
-v8: Renamed dmabuf_api.rst -> iio_dmabuf_api.rst, and updated index.rst
-    whose format changed in iio/togreg.
----
- Documentation/iio/iio_dmabuf_api.rst | 54 ++++++++++++++++++++++++++++
- Documentation/iio/index.rst          |  1 +
- 2 files changed, 55 insertions(+)
- create mode 100644 Documentation/iio/iio_dmabuf_api.rst
+First CSF GPUs have some erratas around perf counters that firmware tries to
+hide. I need to dig a bit deeper into what firmware does for each GPU before
+confirming the counting mode.
 
-diff --git a/Documentation/iio/iio_dmabuf_api.rst b/Documentation/iio/iio_dmabuf_api.rst
-new file mode 100644
-index 000000000000..1cd6cd51a582
---- /dev/null
-+++ b/Documentation/iio/iio_dmabuf_api.rst
-@@ -0,0 +1,54 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===================================
-+High-speed DMABUF interface for IIO
-+===================================
-+
-+1. Overview
-+===========
-+
-+The Industrial I/O subsystem supports access to buffers through a
-+file-based interface, with read() and write() access calls through the
-+IIO device's dev node.
-+
-+It additionally supports a DMABUF based interface, where the userspace
-+can attach DMABUF objects (externally created) to a IIO buffer, and
-+subsequently use them for data transfers.
-+
-+A userspace application can then use this interface to share DMABUF
-+objects between several interfaces, allowing it to transfer data in a
-+zero-copy fashion, for instance between IIO and the USB stack.
-+
-+The userspace application can also memory-map the DMABUF objects, and
-+access the sample data directly. The advantage of doing this vs. the
-+read() interface is that it avoids an extra copy of the data between the
-+kernel and userspace. This is particularly useful for high-speed devices
-+which produce several megabytes or even gigabytes of data per second.
-+It does however increase the userspace-kernelspace synchronization
-+overhead, as the DMA_BUF_SYNC_START and DMA_BUF_SYNC_END IOCTLs have to
-+be used for data integrity.
-+
-+2. User API
-+===========
-+
-+As part of this interface, three new IOCTLs have been added. These three
-+IOCTLs have to be performed on the IIO buffer's file descriptor,
-+obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
-+
-+  ``IIO_BUFFER_DMABUF_ATTACH_IOCTL(int)``
-+    Attach the DMABUF object, identified by its file descriptor, to the
-+    IIO buffer. Returns zero on success, and a negative errno value on
-+    error.
-+
-+  ``IIO_BUFFER_DMABUF_DETACH_IOCTL(int)``
-+    Detach the given DMABUF object, identified by its file descriptor,
-+    from the IIO buffer. Returns zero on success, and a negative errno
-+    value on error.
-+
-+    Note that closing the IIO buffer's file descriptor will
-+    automatically detach all previously attached DMABUF objects.
-+
-+  ``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *iio_dmabuf)``
-+    Enqueue a previously attached DMABUF object to the buffer queue.
-+    Enqueued DMABUFs will be read from (if output buffer) or written to
-+    (if input buffer) as long as the buffer is enabled.
-diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-index 30b09eefe75e..feb50b61aac0 100644
---- a/Documentation/iio/index.rst
-+++ b/Documentation/iio/index.rst
-@@ -9,6 +9,7 @@ Industrial I/O
- 
-    iio_configfs
-    iio_devbuf
-+   iio_dmabuf_api
- 
- Industrial I/O Kernel Drivers
- =============================
+The main issue with the code is that we should not be dropping samples at
+all, even if they are absolute values, as there will be gaps in the analysis.
+Looking at perfcnt_process_sample(), it does not increase the sampling rate
+if we reach the threshold, nor does it tell the user space to do so. From our
+DDK experience, if you've reached the threshold with the app sampling
+then you're likely to overflow as well, missing samples.
+
+> 
+> > 
+> > The third topic that is worth discussing is the runtime PM. Currently your
+> > patch will increment the runtime PM usage count when the performance
+> > counter dump is enabled, which means you will not be able to instrument
+> > your power saving modes. It might not be a concern for the current users
+> > of the driver, but it is worth discussing how to enable that workflow
+> > for future.
+> 
+> I guess we could add a flags field to drm_panthor_perfcnt_config and
+> declare a DRM_PANTHOR_PERFCNT_CFG_ALLOW_GPU_SUSPEND flag to support this
+> use case.
+
+Yes, sounds like a good plan. Doesn't have to be included in this patch.
+
+Best regards,
+Liviu
+
+> 
+> [1]https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/panfrost/perf/G57.xml?ref_type=heads
+> [2]https://gitlab.freedesktop.org/mesa/mesa/-/tree/main/src/panfrost/ds?ref_type=heads
+
 -- 
-2.43.0
-
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
