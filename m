@@ -2,78 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3B9875CC6
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 04:36:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EC76875CEB
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 04:53:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6630310ED7E;
-	Fri,  8 Mar 2024 03:36:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3518A10F72E;
+	Fri,  8 Mar 2024 03:52:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Rm4QdZGl";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RxBY7cF1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1B6D10ED7E
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 03:36:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9F6B661CE8;
- Fri,  8 Mar 2024 03:36:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 406A1C433F1;
- Fri,  8 Mar 2024 03:36:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709869009;
- bh=vAK5UsAi1mlbmfS8eyss1ed3F+nyC6FU4MtAV8GtcKY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Rm4QdZGlRLCr8AAepoUDwXNJRdT/41xTmy7pgW1hC/Vkc6H2ViLXJ61BdpMlwF47t
- wEiZLKsT0zHiG2vaTdBjyw8Yz2Jhir4s0t8rTTdInCx5QEDONETMnmxo2+grPUr68A
- 1wYgYLcJoM+s4pjo+N3FD/kjR3CM/uidkwekXtRA1OmDZpHzegKXJooc6N/abyAZ/d
- GgwtlPgImcuZGYVCBU104HdirTzkdsXA7ah6zKSSw8gWaeFm3PGbV+wN0Ue2c0ZfvM
- o0hGEwYCGMHnOhPGoNDMRCNboOR4rsdMIGrUcszugDtYPt5QWmNqXKb6y1C9r+LSjB
- ENxvIiLB7g1Fg==
-Date: Thu, 7 Mar 2024 19:36:46 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Richard Henderson
- <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
- <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai
- Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
- <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
- Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, Willem de Bruijn
- <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, Sumit
- Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
- Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
- <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeelb@google.com>,
- Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
- <pkaligineedi@google.com>
-Subject: Re: [RFC PATCH net-next v6 01/15] queue_api: define queue api
-Message-ID: <20240307193646.70ef5243@kernel.org>
-In-Reply-To: <CAHS8izPyxn2LsOsxL98WAHse21tq3i9MCp_Xn8AA8sx5iettNQ@mail.gmail.com>
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-2-almasrymina@google.com>
- <20240307173039.00e6fbb7@kernel.org>
- <CAHS8izPyxn2LsOsxL98WAHse21tq3i9MCp_Xn8AA8sx5iettNQ@mail.gmail.com>
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AC2F10F72D
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 03:52:54 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id
+ 4fb4d7f45d1cf-56781070f38so4747799a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Mar 2024 19:52:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1709869972; x=1710474772; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=yaQRbk5QmEJP3wwqgTNAEXZGVsVjV/bZr84Z3Hdwx5g=;
+ b=RxBY7cF1RbC98RqZ/rs0kb6mUexl9CfWIGiPiy67p/b5J8bfngGJxxMjLBIfG7LNxo
+ CaQHAawrf/bUpQ8P4CdJBlc1yZRb0/N7mGJjt8pUFDGcu9Do0KeP04BPurOHrE0PhGar
+ hlDCyT4zfMPpuDl2ulYESRuVMa3c3qw5hj0T/P6v0/8z6boVV5f7KJQrIf5eatXwhkRw
+ mlEUQHtcs9vtzhT+24ehQo9SCCOhxU8BYuQ93CfuYtwziE5S+97wMdwOmQtBRCMLtYg5
+ W72IOTzQuWX5sDnGQMXWTktilVS0WkXflhxMlRjLODDmQn0dmUAGl3EbNODX9cFCHs7C
+ YmlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709869972; x=1710474772;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yaQRbk5QmEJP3wwqgTNAEXZGVsVjV/bZr84Z3Hdwx5g=;
+ b=Y0vjVl66YHI4A+2yZvhw7XQoYnWYQWWcSBMroGFxQxK7c6/aEMZuVJQINMn4fZCTV/
+ srCStAc76jkZYrdOO9Ooq+1PgeCkbzaxEibYds3Xg6ihJqAjcPH5j2clP29lPGyQ7eWc
+ qIh5T9kazNUkOuhNaeaYyCkS0Vp29VHv+pXhTPhwpn01HUWAKt505nXbVcIx0dJ3v4mg
+ r2AVF1ROX+4xikgN3epV1mJjaVCPHB50+a7k6+Qn3oVKITUN7N6mB0YeX64zlvBqeNiD
+ tMysCH9vqJLNGiugsvYZzjTBrvB3UH+tlKPdxIeUqkLJ+K8DlP0gLwgyUOekSqRBv9Dn
+ 7Scw==
+X-Gm-Message-State: AOJu0YzpVkTReCFkMVDY5HlTYEzUnTZXhPgBYMUIvrXxVR+A9bLfrUzF
+ oFwH+wESd48eMtRgcdWlYVNq9Sq5rQL75ZlfKYvAd34r9NXGbvDIcdf0UbNW8Sbm7FsXYq9BM6i
+ riSmJhnbK+QwEwo5BN/7odPTJz2s=
+X-Google-Smtp-Source: AGHT+IHnv0YHHWkoO2WX34G9FH8gXPrK1s2Qe2DPcmRL3JizKCox9A4TZ9lr3cjysLeq+OmUGsUxTgFtfkIqhvpziGQ=
+X-Received: by 2002:a17:906:f352:b0:a45:af32:5e04 with SMTP id
+ hg18-20020a170906f35200b00a45af325e04mr2841791ejb.30.1709869971794; Thu, 07
+ Mar 2024 19:52:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 8 Mar 2024 13:52:40 +1000
+Message-ID: <CAPM=9tzTeAgY3rUR_KC8=q5MybJ5PDAyzXJyh0RUigR6_ccyZA@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.8 final
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,101 +75,202 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 7 Mar 2024 18:08:24 -0800 Mina Almasry wrote:
-> On Thu, Mar 7, 2024 at 5:30=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> w=
-rote:
-> > On Mon,  4 Mar 2024 18:01:36 -0800 Mina Almasry wrote: =20
-> > > + * void *(*ndo_queue_mem_alloc)(struct net_device *dev, int idx);
-> > > + *   Allocate memory for an RX queue. The memory returned in the for=
-m of
-> > > + *   a void * can be passed to ndo_queue_mem_free() for freeing or to
-> > > + *   ndo_queue_start to create an RX queue with this memory.
-> > > + *
-> > > + * void      (*ndo_queue_mem_free)(struct net_device *dev, void *);
-> > > + *   Free memory from an RX queue.
-> > > + *
-> > > + * int (*ndo_queue_start)(struct net_device *dev, int idx, void *);
-> > > + *   Start an RX queue at the specified index.
-> > > + *
-> > > + * int (*ndo_queue_stop)(struct net_device *dev, int idx, void **);
-> > > + *   Stop the RX queue at the specified index.
-> > >   */
-> > >  struct net_device_ops {
-> > >       int                     (*ndo_init)(struct net_device *dev);
-> > > @@ -1679,6 +1693,16 @@ struct net_device_ops {
-> > >       int                     (*ndo_hwtstamp_set)(struct net_device *=
-dev,
-> > >                                                   struct kernel_hwtst=
-amp_config *kernel_config,
-> > >                                                   struct netlink_ext_=
-ack *extack);
-> > > +     void *                  (*ndo_queue_mem_alloc)(struct net_devic=
-e *dev,
-> > > +                                                    int idx);
-> > > +     void                    (*ndo_queue_mem_free)(struct net_device=
- *dev,
-> > > +                                                   void *queue_mem);
-> > > +     int                     (*ndo_queue_start)(struct net_device *d=
-ev,
-> > > +                                                int idx,
-> > > +                                                void *queue_mem);
-> > > +     int                     (*ndo_queue_stop)(struct net_device *de=
-v,
-> > > +                                               int idx,
-> > > +                                               void **out_queue_mem)=
-; =20
-> >
-> > The queue configuration object was quite an integral part of the design,
-> > I'm slightly worried that it's not here :) =20
->=20
-> That was a bit of a simplification I'm making since we just want to
-> restart the queue. I thought it was OK to define some minimal version
-> here and extend it later with configuration? Because in this context
-> all we really need is to restart the queue, yes?
+Hi Linus,
 
-Right, I think it's perfectly fine for the time being.
-It works, and is internal to the kernel.
+not sure if -final is correct but guess I'll find out if it should
+have said rc8.
 
-> If extending with some configuration is a must please let me know what
-> configuration struct you're envisioning. Were you envisioning a stub?
-> Or some real configuration struct that we just don't use at the
-> moment? Or one that we use for this use case somehow?
+Regular fixes (two weeks for i915), scattered across drivers, amdgpu
+and i915 being the main ones, with nouveau having a couple of fixes.
+One patch got applied for udl, but reverted soon after as the
+maintainer has missed some crucial prior discussion.
 
-I had some ideas about storing the configuration as rules,
-instead of directly in struct netdev_rx_queue.
-E.g. default queue length =3D 2000, but for select queues you may
-want a different length.
-But application binding to a queue would always take precedence,=20
-so even if the ideas ever materialize there will be no uAPI change.
+Seems quiet and normal enough for this stage.
 
-> > Also we may want to rename
-> > the about-to-be-merged ops from netdev_stat_ops and netdev_queue_ops,
-> > and add these there?
-> >
-> > https://lore.kernel.org/all/20240306195509.1502746-2-kuba@kernel.org/
->=20
-> Yeah, that sounds reasonable! Thanks! We could also keep the
-> netdev_stat_ops and add new netdev_queue_ops alongside them if you
-> prefer.
+Dave.
 
-Up to you, after some soul searching we renamed the uAPI to call these
-stats qstats, I just forgot to rename the op struct. But it doesn't
-matter much.
+drm-fixes-2024-03-08:
+drm fixes for 6.8 final
 
-> > Very excited to hear that you made progress on this and ported GVE over=
-! =20
->=20
-> Actually, we're still discussing but it looks like my GVE queue API
-> implementation I proposed earlier may be a no-go. Likely someone from
-> the GVE team will follow up here with this piece, probably in a
-> separate series.
+MAINTAINERS
+- update email address
 
-Well, it's going to be ready when it's ready :)
-Speaking of things which can be merged independently,
-feel free to post patch 3, maybe it can make v6.9..
+core:
+- fix polling in certain configurations
 
-> For now I'm carrying my POC for the GVE implementation out of tree
-> with the rest of the driver changes:
->=20
-> https://github.com/mina/linux/commit/501b734c80186545281e9edb1bf313f5a2d8=
-cbee
+buddy:
+- fix kunit test warning
+
+panel:
+- boe-tv101wum-nl6: timing tuning fixes
+
+i915:
+- Fix to extract HDCP information from primary connector
+- Check for NULL mmu_interval_notifier before removing
+- Fix for #10184: Kernel crash on UHD Graphics 730 (Cc stable)
+- Fix for #10284: Boot delay regresion with PSR
+- Fix DP connector DSC HW state readout
+- Selftest fix to convert msecs to jiffies
+
+xe:
+- error path fix
+
+amdgpu:
+- SMU14 fix
+- Fix possible NULL pointer
+- VRR fix
+- pwm fix
+
+nouveau:
+- fix deadlock in new ioctls fail path
+- fix missing locking around object rbtree
+
+udl:
+- apply and revert format change
+The following changes since commit 90d35da658da8cff0d4ecbb5113f5fac9d00eb72=
+:
+
+  Linux 6.8-rc7 (2024-03-03 13:02:52 -0800)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-03-08
+
+for you to fetch changes up to b7cc4ff787a572edf2c55caeffaa88cd801eb135:
+
+  nouveau: lock the client object tree. (2024-03-08 13:40:56 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.8 final
+
+MAINTAINERS
+- update email address
+
+core:
+- fix polling in certain configurations
+
+buddy:
+- fix kunit test warning
+
+panel:
+- boe-tv101wum-nl6: timing tuning fixes
+
+i915:
+- Fix to extract HDCP information from primary connector
+- Check for NULL mmu_interval_notifier before removing
+- Fix for #10184: Kernel crash on UHD Graphics 730 (Cc stable)
+- Fix for #10284: Boot delay regresion with PSR
+- Fix DP connector DSC HW state readout
+- Selftest fix to convert msecs to jiffies
+
+xe:
+- error path fix
+
+amdgpu:
+- SMU14 fix
+- Fix possible NULL pointer
+- VRR fix
+- pwm fix
+
+nouveau:
+- fix deadlock in new ioctls fail path
+- fix missing locking around object rbtree
+
+udl:
+- apply and revert format change
+
+----------------------------------------------------------------
+Alex Deucher (1):
+      drm/amd/display: handle range offsets in VRR ranges
+
+Animesh Manna (1):
+      drm/i915/panelreplay: Move out psr_init_dpcd() from init_connector()
+
+Cong Yang (1):
+      drm/panel: boe-tv101wum-nl6: Fine tune Himax83102-j02 panel HFP
+and HBP (again)
+
+Daniel Vetter (1):
+      Merge tag 'drm-intel-fixes-2024-03-01' of
+https://anongit.freedesktop.org/git/drm/drm-intel into drm-fixes
+
+Dave Airlie (5):
+      Merge tag 'drm-intel-fixes-2024-03-07' of
+https://anongit.freedesktop.org/git/drm/drm-intel into drm-fixes
+      Merge tag 'drm-xe-fixes-2024-03-07' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+      Merge tag 'amd-drm-fixes-6.8-2024-03-07' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'drm-misc-fixes-2024-03-07' of
+https://anongit.freedesktop.org/git/drm/drm-misc into drm-fixes
+      nouveau: lock the client object tree.
+
+Douglas Anderson (2):
+      drm/udl: Add ARGB8888 as a format
+      Revert "drm/udl: Add ARGB8888 as a format"
+
+Imre Deak (2):
+      drm: Fix output poll work for drm_kms_helper_poll=3Dn
+      drm/i915/dp: Fix connector DSC HW state readout
+
+Janusz Krzysztofik (1):
+      drm/i915/selftests: Fix dependency of some timeouts on HZ
+
+Karol Herbst (1):
+      drm/nouveau: fix stale locked mutex in nouveau_gem_ioctl_pushbuf
+
+Li Ma (1):
+      drm/amd/swsmu: modify the gfx activity scaling
+
+Ma Jun (1):
+      drm/amdgpu/pm: Fix the error of pwm1_enable setting
+
+Matthew Auld (1):
+      drm/tests/buddy: fix print format
+
+Melissa Wen (1):
+      drm/amd/display: check dc_link before dereferencing
+
+Nirmoy Das (1):
+      drm/i915: Check before removing mm notifier
+
+Rodrigo Vivi (1):
+      drm/xe: Return immediately on tile_init failure
+
+Suraj Kandpal (3):
+      drm/i915/hdcp: Move to direct reads for HDCP
+      drm/i915/hdcp: Remove additional timing for reading mst hdcp message
+      drm/i915/hdcp: Extract hdcp structure from correct connector
+
+Tvrtko Ursulin (1):
+      MAINTAINERS: Update email address for Tvrtko Ursulin
+
+Ville Syrj=C3=A4l=C3=A4 (1):
+      drm/i915: Don't explode when the dig port we don't have an AUX CH
+
+ .mailmap                                           |  5 +++
+ MAINTAINERS                                        |  2 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 21 +++++++---
+ drivers/gpu/drm/amd/pm/amdgpu_pm.c                 | 12 +++++-
+ drivers/gpu/drm/amd/pm/swsmu/smu14/smu_v14_0.c     |  2 -
+ .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_0_ppt.c   |  5 ++-
+ drivers/gpu/drm/drm_probe_helper.c                 |  8 ++--
+ .../drm/i915/display/intel_display_power_well.c    | 17 ++++++--
+ drivers/gpu/drm/i915/display/intel_display_types.h |  7 ++++
+ drivers/gpu/drm/i915/display/intel_dp.c            | 16 ++++++++
+ drivers/gpu/drm/i915/display/intel_dp.h            |  2 +
+ drivers/gpu/drm/i915/display/intel_dp_hdcp.c       | 47 ++++++++----------=
+----
+ drivers/gpu/drm/i915/display/intel_dp_mst.c        |  1 +
+ drivers/gpu/drm/i915/display/intel_modeset_setup.c | 13 +++---
+ drivers/gpu/drm/i915/display/intel_psr.c           |  3 --
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c        |  3 ++
+ .../drm/i915/selftests/intel_scheduler_helpers.c   |  6 ++-
+ drivers/gpu/drm/nouveau/include/nvkm/core/client.h |  1 +
+ drivers/gpu/drm/nouveau/nouveau_gem.c              |  2 +-
+ drivers/gpu/drm/nouveau/nvkm/core/client.c         |  1 +
+ drivers/gpu/drm/nouveau/nvkm/core/object.c         | 26 +++++++++---
+ drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c     |  8 ++--
+ drivers/gpu/drm/tests/drm_buddy_test.c             |  2 +-
+ drivers/gpu/drm/xe/xe_tile.c                       |  5 ++-
+ 24 files changed, 141 insertions(+), 74 deletions(-)
