@@ -2,90 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F30875B62
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 01:04:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFAF3875B98
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 01:48:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4207810EA9D;
-	Fri,  8 Mar 2024 00:04:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0329E10FBC6;
+	Fri,  8 Mar 2024 00:48:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="jGbskCRo";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="vBUvEBZf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
- [209.85.160.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D9EC10EA9D
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 00:04:35 +0000 (UTC)
-Received: by mail-qt1-f171.google.com with SMTP id
- d75a77b69052e-42ee33b2d58so9997601cf.3
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Mar 2024 16:04:35 -0800 (PST)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+ [209.85.214.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47C1E10FBC6
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 00:48:11 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id
+ d9443c01a7336-1dd10a37d68so13619215ad.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Mar 2024 16:48:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1709856272; x=1710461072;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=K6zr9T8K6LSYxoWWjQTrp1KLLoOTIIRDfeq7Eu5cxkE=;
- b=jGbskCRoqPCmOn44H97KtO3QAbzugFMecmVhcXgQuFihOd7ayF70+EwGul8sVLUwAq
- zRoPaEqO+DTZTBZgtTYDLLIe5sfXK3X42RCP2mizEadBRZGBSr7Z97X/bxuSZVQulVJ8
- 9rHUYriY9hEyGeU2E1U/bYW4i48qpIc51B/Wc=
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1709858890; x=1710463690; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=cRm8D61etT1wEE9ZqTXPR465tYE154OjnBr2zkyvLfY=;
+ b=vBUvEBZfFVJMRqufhI7UEOOskyJJBs4Qe229Y0Cg5qeoJNGQZT/Wq1lZH39dyv3ulN
+ jmZT5G44nmWwDKoFT3uhvVAQbS3Ym7rzT3ljlzrIsLcHRIFzCwdPLMp3V6+kxoEUARXj
+ PTD29DDzC9nrvg9FU5xA9O2kvniq1+1iAi+rMCjo736OBJG9keSDR4gLAj/tEJRhtMVo
+ ZiKjAXnJLFcmyE5rBBNRwZ5wR9RcM5S999NOda8CFhTLqRPlPfPCdITGbiqVFehLFMRw
+ EOGcmSf4d6uz5HAmmKUi1snsSnbLJweJFqMRzC5szbf/6E6DfZYHx7gi/Tfd+vmcQz1M
+ BYqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709856272; x=1710461072;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=K6zr9T8K6LSYxoWWjQTrp1KLLoOTIIRDfeq7Eu5cxkE=;
- b=Vgum2oLMGZRQPDZYpwmzTyx6hh/0P/mHGEoYfg/n9EbM7XzI3xx3EC5toHNFw0kM6C
- SGi/v30zjl+KO8b3ero2+p3O/Um5sfWTx0Jam/+gaQM72NP3T7UmdKV+aUzEKAltaCJi
- 63yansjJFkQS2rj4ybHIr/HvIldTuyjFLQ1GfPQ29azOSvbcGubPNQDSW9RoZVoXK0ge
- IUMI+3lfSpnoJJsjaz0UGInFwYGSGHE7iuontnvGG/L8I18h3mLuPkuwh6OQHvqge6gV
- bCWXU9+iZlzFw1JVtK2Xqcvuh6lyo2NFHlhm0Yf/8eoSvHuz9pY+RLW6MqhlWz2RerqV
- 9NaA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCULS7HwMhGZJTuB1NEsCC3OIwIk2nrS5WOTfbHDjOEJoKS/SXTCWKv+sSwHVseLKhAkdmZbcNz2+xGc6EivXZfUmSu1NvqE09beGnbKmGpx
-X-Gm-Message-State: AOJu0Yy0oTxJeBQtnwEqbgL+AQXM9AKmz9z2iW7c1J419jSW6ZnltXxo
- FnknqlXUB+kWyUHyGOHyy5VA7sLGLiSUQBZkDpNtBVWs4hO7nCEVs669zdxhwFpNWDs8wA4qzHw
- =
-X-Google-Smtp-Source: AGHT+IFsP3EzPyDHarAuPg+n+LILCydC9n0iiqP9MRgUIZfNvP0yVXxxB47M6JQaKsxJ1J41yIf1+w==
-X-Received: by 2002:ac8:7d81:0:b0:42f:10f5:1f9f with SMTP id
- c1-20020ac87d81000000b0042f10f51f9fmr6262820qtd.42.1709856272197; 
- Thu, 07 Mar 2024 16:04:32 -0800 (PST)
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com.
- [209.85.160.171]) by smtp.gmail.com with ESMTPSA id
- c26-20020ac84e1a000000b0042f26bc3457sm286723qtw.52.2024.03.07.16.04.31
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Mar 2024 16:04:31 -0800 (PST)
-Received: by mail-qt1-f171.google.com with SMTP id
- d75a77b69052e-42ef8193ae6so62321cf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Mar 2024 16:04:31 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCV+fAGoMqOwJBboJPy7El7DyLCW4YZq6cKilM7C/bXLJC2ckFFIfbk5dauD/wtfJCYHIEewttos7ic567/DGH2B8uZtRDwLwt2mg2Jt+BIV
-X-Received: by 2002:a05:622a:148a:b0:42e:f45c:6761 with SMTP id
- t10-20020a05622a148a00b0042ef45c6761mr466501qtx.22.1709856270686; Thu, 07 Mar
- 2024 16:04:30 -0800 (PST)
+ d=1e100.net; s=20230601; t=1709858890; x=1710463690;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cRm8D61etT1wEE9ZqTXPR465tYE154OjnBr2zkyvLfY=;
+ b=jeb+gguPobCEE/lqnNMwaCN9WjQYPR3CcJ5mDxzwpe9IzrC6jRRa1UoqMZF6BhgWbo
+ iodDUAnP/VfFrLFnLI83X9y4NIfLAc2LR4dZ70r9BTkKGvsihhYmEnuLJnhVV96vdZAy
+ ZVd8E5ayw/7bI8JKUF2VWpsJKS8UpHqso41YJZAlax6tLpfZxsmogOftGFUN8kXjzD6g
+ N35WSUPkkB3mWooRhIRiDeYHc5tbX/IoZnETPU/qdiWjslbxehyE3Lw8E5RpXlx+mr3x
+ Sn58BAE69+XHkucbMuwhujqY7W5TrJbsRGRkfj0f5rGujKtVBcZwhYtaJFqKV42NWD9P
+ kcdg==
+X-Gm-Message-State: AOJu0YzopmDOmys8BFnwrkCGRkWegE1JT2VnsjKK+63sMZxeRv7dkMZV
+ yuQTOmtgmn9cpE5xv2CrwAtcruTBlVK0FPZlUmnSmZ/QEaIUwsF6bCn7Pkr9S0c=
+X-Google-Smtp-Source: AGHT+IENi1OtAYtCq66iswHj76HX1V9umjMChq2vno/A5VuNp8Xeqzs/a0D0DwP3R6xNOwINfRfFcg==
+X-Received: by 2002:a17:902:f705:b0:1dc:a844:a38b with SMTP id
+ h5-20020a170902f70500b001dca844a38bmr10788072plo.67.1709858890503; 
+ Thu, 07 Mar 2024 16:48:10 -0800 (PST)
+Received: from xu.huaqin.com ([116.66.212.162])
+ by smtp.gmail.com with ESMTPSA id
+ g12-20020a170902c38c00b001dc819f157dsm15233055plg.251.2024.03.07.16.48.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Mar 2024 16:48:10 -0800 (PST)
+From: Xuxin Xiong <xuxinxiong@huaqin.corp-partner.google.com>
+To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
+ dianders@google.com, hsinyi@google.com
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Xuxin Xiong <xuxinxiong@huaqin.corp-partner.google.com>,
+ Douglas Anderson <dianders@chromium.org>
+Subject: [V2] drm/panel-edp: Add BOE NT116WHM-N44 and CMN N116BCA-EA1
+Date: Fri,  8 Mar 2024 08:47:57 +0800
+Message-Id: <20240308004757.1048284-1-xuxinxiong@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <20240307230653.1807557-1-hsinyi@chromium.org>
- <20240307230653.1807557-3-hsinyi@chromium.org>
-In-Reply-To: <20240307230653.1807557-3-hsinyi@chromium.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 7 Mar 2024 16:04:14 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UXUpf3H=fnQTZhUq5aDXFeVGW9OJuA5BmnRRvWQz6qaA@mail.gmail.com>
-Message-ID: <CAD=FV=UXUpf3H=fnQTZhUq5aDXFeVGW9OJuA5BmnRRvWQz6qaA@mail.gmail.com>
-Subject: Re: [PATCH v6 2/5] drm/edid: Add a function to match EDID with
- identity
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,28 +82,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Add support for the following 2 panels:
+1. BOE NT116WHM-N44
+2. CMN N116BCA-EA1
 
-On Thu, Mar 7, 2024 at 3:07=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.org> w=
-rote:
->
-> Create a type drm_edid_ident as the identity of an EDID. Currently it
-> contains panel id and monitor name.
->
-> Create a function that can match a given EDID and an identity:
-> 1. Reject if the panel id doesn't match.
-> 2. If name is not null in identity, try to match it in the detailed timin=
-g
->    blocks. Note that some panel vendors put the monitor name after
->    EDID_DETAIL_MONITOR_STRING.
->
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> ---
-> v5->v6: finalize the trailing white space and/or NUL decision:
-> Allow only white space before \n.
-> ---
->  drivers/gpu/drm/drm_edid.c | 65 ++++++++++++++++++++++++++++++++++++++
->  include/drm/drm_edid.h     |  9 ++++++
->  2 files changed, 74 insertions(+)
-
+Signed-off-by: Xuxin Xiong <xuxinxiong@huaqin.corp-partner.google.com>
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
+
+---
+Changes in V2:
+  - Updated the subject of commit message.
+link to V1: https://patchwork.freedesktop.org/patch/msgid/20240307094433.3440431-1-xuxinxiong@huaqin.corp-partner.google.com
+---
+ drivers/gpu/drm/panel/panel-edp.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index a0b6f69b916f..e21b4bb2bb3c 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1952,6 +1952,7 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b43, &delay_200_500_e200, "NV140FHM-T09"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b56, &delay_200_500_e80, "NT140FHM-N47"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0c20, &delay_200_500_e80, "NT140FHM-N47"),
++	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0cb6, &delay_200_500_e200, "NT116WHM-N44"),
+ 
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1132, &delay_200_500_e80_d50, "N116BGE-EA2"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1138, &innolux_n116bca_ea1.delay, "N116BCA-EA1-RC4"),
+@@ -1963,6 +1964,7 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1154, &delay_200_500_e80_d50, "N116BCA-EA2"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1157, &delay_200_500_e80_d50, "N116BGE-EA2"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x115b, &delay_200_500_e80_d50, "N116BCN-EB1"),
++	EDP_PANEL_ENTRY('C', 'M', 'N', 0x115e, &delay_200_500_e80_d50, "N116BCA-EA1"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1247, &delay_200_500_e80_d50, "N120ACA-EA1"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x142b, &delay_200_500_e80_d50, "N140HCA-EAC"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x144f, &delay_200_500_e80_d50, "N140HGA-EA1"),
+-- 
+2.40.1
+
