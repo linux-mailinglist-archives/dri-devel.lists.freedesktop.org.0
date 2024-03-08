@@ -2,85 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D93F88768BD
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 17:45:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A51F38768E1
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 17:52:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 923081124C4;
-	Fri,  8 Mar 2024 16:45:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92D27113912;
+	Fri,  8 Mar 2024 16:52:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="f0brdvUs";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="kOGl/9do";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A9FF10EAA7
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 16:45:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1709916339;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=534u/67YBq7t7mIqXOVTlZcmBGl/1NW7WJ5BcOAUIpI=;
- b=f0brdvUslL+caXpPbaPPjyQlygwZHyTz/CML7EmmUYrJPWqQ3RyMTa5kqh93osuROnaUos
- CA0sy3jt9xDMYoEU7LiSNiCX1V3JZb2InKvFVyCDs6SlQg6373rtZ8naVl1lHi8ZGWpK8D
- 03Zl549/XetUI/Iz6kGVxJ0PoWNf2No=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-581-F8XaLccrNty8Q7Vftm71Rw-1; Fri, 08 Mar 2024 11:45:35 -0500
-X-MC-Unique: F8XaLccrNty8Q7Vftm71Rw-1
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-a45bb7840cdso142686866b.1
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Mar 2024 08:45:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709916334; x=1710521134;
- h=content-transfer-encoding:in-reply-to:organization:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=534u/67YBq7t7mIqXOVTlZcmBGl/1NW7WJ5BcOAUIpI=;
- b=g3I8PqE+oyEjlTKUd1sikAsTXPB2w6mMC+vXjvFgEQfUaxEa31X7ZMFgBrmbsNwui6
- gCTXCqbisvSzLQt7Sv8Zu1BJaf1U6JhPFgUQyKYGlihpceIxWg4nLgsV9eEHq9PIVyIh
- kf+vyJtCuDg6aCBNNBpSKAxrU9ZvihTZhtEBUTfqusTpOqDY2iuGBhHeRks6TYCZ+uqv
- V/52hULRQ9WLTD1Y/ojjS6THuZf/YIcpfQtHv8JPzz+uzWQ85oKCS40OdhjL0yyBS/PY
- ECJ6MuHLNzxwxResjAnY2TJrEzRs0heYYyfJOY2oqD+sTvr0JRWiyl3NwVguIBrIUCz1
- 1Y0A==
-X-Gm-Message-State: AOJu0Yx5o8ztBnOq3Aa9OVF/+Bo0ZnhsFe4wT0UjOwhEuJU1mz8IUOW7
- aZZ4ZVzWkYNGLeGiGVgeqPuBjVtnQm7HlrKoaUBc2gN24UBTZv7g7FQdzBZuft0I1QTRSP2LvHE
- m+k87olzEs/qtWqJJnmZd61qDcKOvtizUEdmPWfx64u2dg/QnZ2OYu1F0ipLMNNzf9A==
-X-Received: by 2002:a17:907:d301:b0:a45:f4d9:d911 with SMTP id
- vg1-20020a170907d30100b00a45f4d9d911mr1172174ejc.34.1709916334743; 
- Fri, 08 Mar 2024 08:45:34 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEn7ZndBGszHKq0H8y6c/T3rs7VSPm+fqpniPAcpA1gNnmrOtVIRBYfNM3Sudcp2tOC29DwLw==
-X-Received: by 2002:a17:907:d301:b0:a45:f4d9:d911 with SMTP id
- vg1-20020a170907d30100b00a45f4d9d911mr1172156ejc.34.1709916334330; 
- Fri, 08 Mar 2024 08:45:34 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
- ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- n18-20020a170906119200b00a45e04e3ebdsm1409444eja.83.2024.03.08.08.45.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Mar 2024 08:45:33 -0800 (PST)
-Message-ID: <fc80adaa-3bbc-4331-abd3-3cfbff9b3dcd@redhat.com>
-Date: Fri, 8 Mar 2024 17:45:32 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 073C611392B;
+ Fri,  8 Mar 2024 16:52:27 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 428EaMvx025654; Fri, 8 Mar 2024 16:52:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=4h1nrQ0ADPnyDAxNzGXA7guhmQW/Wg/2BTZTLzTrfME=; b=kO
+ Gl/9donaWIaz988tbIl0waBPR1q5/dNV1I0gqapiy5YycaOGrUGUallwHYnjAjTO
+ Fypn2TSFtCHR/fPd1OGovByWwbBI4ABG+uViYKWeq8vkO7AqzOYOXza6NLV7C59/
+ zgmoOSxs+oX9llsfOCvlAnOOZAXoYvHSzxb9VpT0au5XTdq+L5KgxErfD9X8gb2F
+ V1lGWTW+VZcF1ez7poKWp9/dE11Z2w40a9tHGlP++SHSbtkhFeWDbeFHNGBcNF5J
+ Wr6Q7+sjUhiiKMJjOtXrxKsdqZHm8m3YHQsMMRda5dRnaulTxlJmFVpg3FdSztJi
+ Sr85yOxS2BqbzZxx748w==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wr1wj0n1n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 08 Mar 2024 16:52:23 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 428GqMJF002623
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 8 Mar 2024 16:52:22 GMT
+Received: from [10.110.41.90] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 8 Mar
+ 2024 08:52:21 -0800
+Message-ID: <ab68d7a0-44a0-4e6a-82ea-7d7e3e9a718e@quicinc.com>
+Date: Fri, 8 Mar 2024 08:52:09 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] nouveau/dmem: handle kcalloc() allocation failure
-To: Duoming Zhou <duoming@zju.edu.cn>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- daniel@ffwll.ch, airlied@gmail.com, lyude@redhat.com, kherbst@redhat.com,
- timur@kernel.org, jani.nikula@linux.intel.com, nouveau@lists.freedesktop.org
-References: <20240306050104.11259-1-duoming@zju.edu.cn>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20240306050104.11259-1-duoming@zju.edu.cn>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH 2/8] drm/panel: do not return negative error codes from
+ drm_panel_get_modes()
+To: Jani Nikula <jani.nikula@intel.com>, <dri-devel@lists.freedesktop.org>
+CC: <intel-gfx@lists.freedesktop.org>, Neil Armstrong
+ <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, <stable@vger.kernel.org>
+References: <cover.1709913674.git.jani.nikula@intel.com>
+ <79f559b72d8c493940417304e222a4b04dfa19c4.1709913674.git.jani.nikula@intel.com>
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <79f559b72d8c493940417304e222a4b04dfa19c4.1709913674.git.jani.nikula@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: gyFQ5eOq4cAxLZEH7jMfOsYt57sPU1Ol
+X-Proofpoint-GUID: gyFQ5eOq4cAxLZEH7jMfOsYt57sPU1Ol
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-08_08,2024-03-06_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1011
+ mlxscore=0 priorityscore=1501 mlxlogscore=999 malwarescore=0
+ suspectscore=0 lowpriorityscore=0 spamscore=0 impostorscore=0 bulkscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2403080134
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,63 +92,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/6/24 06:01, Duoming Zhou wrote:
-> The kcalloc() in nouveau_dmem_evict_chunk() will return null if
-> the physical memory has run out. As a result, if we dereference
-> src_pfns, dst_pfns or dma_addrs, the null pointer dereference bugs
-> will happen.
-> 
-> Moreover, the GPU is going away. If the kcalloc() fails, we could not
-> evict all pages mapping a chunk. So this patch adds a __GFP_NOFAIL
-> flag in kcalloc().
-> 
-> Finally, as there is no need to have physically contiguous memory,
-> this patch switches kcalloc() to kvcalloc() in order to avoid
-> failing allocations.
-> 
-> Fixes: 249881232e14 ("nouveau/dmem: evict device private memory during release")
-> Suggested-by: Danilo Krummrich <dakr@redhat.com>
-> Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
 
-Applied to drm-misc-fixes, thanks!
 
+On 3/8/2024 8:03 AM, Jani Nikula wrote:
+> None of the callers of drm_panel_get_modes() expect it to return
+> negative error codes. Either they propagate the return value in their
+> struct drm_connector_helper_funcs .get_modes() hook (which is also not
+> supposed to return negative codes), or add it to other counts leading to
+> bogus values.
+> 
+> On the other hand, many of the struct drm_panel_funcs .get_modes() hooks
+> do return negative error codes, so handle them gracefully instead of
+> propagating further.
+> 
+> Return 0 for no modes, whatever the reason.
+> 
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 > ---
-> Changes in v3:
->    - Switch kcalloc() to kvcalloc().
+>   drivers/gpu/drm/drm_panel.c | 17 +++++++++++------
+>   1 file changed, 11 insertions(+), 6 deletions(-)
 > 
->   drivers/gpu/drm/nouveau/nouveau_dmem.c | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> index 12feecf71e7..6fb65b01d77 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> @@ -378,9 +378,9 @@ nouveau_dmem_evict_chunk(struct nouveau_dmem_chunk *chunk)
->   	dma_addr_t *dma_addrs;
->   	struct nouveau_fence *fence;
+> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+> index e814020bbcd3..cfbe020de54e 100644
+> --- a/drivers/gpu/drm/drm_panel.c
+> +++ b/drivers/gpu/drm/drm_panel.c
+> @@ -274,19 +274,24 @@ EXPORT_SYMBOL(drm_panel_disable);
+>    * The modes probed from the panel are automatically added to the connector
+>    * that the panel is attached to.
+>    *
+> - * Return: The number of modes available from the panel on success or a
+> - * negative error code on failure.
+> + * Return: The number of modes available from the panel on success, or 0 on
+> + * failure (no modes).
+>    */
+>   int drm_panel_get_modes(struct drm_panel *panel,
+>   			struct drm_connector *connector)
+>   {
+>   	if (!panel)
+> -		return -EINVAL;
+> +		return 0;
 >   
-> -	src_pfns = kcalloc(npages, sizeof(*src_pfns), GFP_KERNEL);
-> -	dst_pfns = kcalloc(npages, sizeof(*dst_pfns), GFP_KERNEL);
-> -	dma_addrs = kcalloc(npages, sizeof(*dma_addrs), GFP_KERNEL);
-> +	src_pfns = kvcalloc(npages, sizeof(*src_pfns), GFP_KERNEL | __GFP_NOFAIL);
-> +	dst_pfns = kvcalloc(npages, sizeof(*dst_pfns), GFP_KERNEL | __GFP_NOFAIL);
-> +	dma_addrs = kvcalloc(npages, sizeof(*dma_addrs), GFP_KERNEL | __GFP_NOFAIL);
+> -	if (panel->funcs && panel->funcs->get_modes)
+> -		return panel->funcs->get_modes(panel, connector);
+> +	if (panel->funcs && panel->funcs->get_modes) {
+> +		int num;
 >   
->   	migrate_device_range(src_pfns, chunk->pagemap.range.start >> PAGE_SHIFT,
->   			npages);
-> @@ -406,11 +406,11 @@ nouveau_dmem_evict_chunk(struct nouveau_dmem_chunk *chunk)
->   	migrate_device_pages(src_pfns, dst_pfns, npages);
->   	nouveau_dmem_fence_done(&fence);
->   	migrate_device_finalize(src_pfns, dst_pfns, npages);
-> -	kfree(src_pfns);
-> -	kfree(dst_pfns);
-> +	kvfree(src_pfns);
-> +	kvfree(dst_pfns);
->   	for (i = 0; i < npages; i++)
->   		dma_unmap_page(chunk->drm->dev->dev, dma_addrs[i], PAGE_SIZE, DMA_BIDIRECTIONAL);
-> -	kfree(dma_addrs);
-> +	kvfree(dma_addrs);
->   }
->   
->   void
+> -	return -EOPNOTSUPP;
+> +		num = panel->funcs->get_modes(panel, connector);
+> +		if (num > 0)
+> +			return num;
 
+Hi Jani,
+
+The change LGTM:
+
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+
+Thanks,
+
+Jessica Zhang
+
+> +	}
+> +
+> +	return 0;
+>   }
+>   EXPORT_SYMBOL(drm_panel_get_modes);
+>   
+> -- 
+> 2.39.2
+> 
