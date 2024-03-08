@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3FD18769B3
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 18:21:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 237C98769B6
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 18:21:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39747113930;
-	Fri,  8 Mar 2024 17:21:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20C2111392F;
+	Fri,  8 Mar 2024 17:21:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="O71TsUHG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SS0W6aKs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
- [209.85.215.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D3E7113840;
- Fri,  8 Mar 2024 17:21:15 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id
- 41be03b00d2f7-5d4a1e66750so1578236a12.0; 
- Fri, 08 Mar 2024 09:21:15 -0800 (PST)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 890B6113840;
+ Fri,  8 Mar 2024 17:21:34 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-1dbd32cff0bso20307165ad.0; 
+ Fri, 08 Mar 2024 09:21:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1709918475; x=1710523275; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1709918494; x=1710523294; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=k0qxuntNkcbVC7Fn83HWGHLvc9TEYSSVaA9/QNYBA4g=;
- b=O71TsUHGNwcsttomMw/17aMWOZ/t0qCvOW6lchzH1tclnKJ5rNW3L96F9oJSrpGBzl
- 765mbD/LumLm4Wtl0MsBf/LUkE/fjJg+2aJmJto9vgG30a4o2M80R6zwYe8+P9efdXiV
- eLYFOpfpKSZX5pztnjmrWtPp55YIpyMc+8RpZwKL8i0cj8WNELieHc1EwGAPxGThbSxJ
- dAHfke8vcsPrja8nV68vctKGM/VoShzLJMHb2hqrI+c9JPS+Qy/n41xBLFY3Sn+3dBHj
- y7pLt9iQcrMHOmkXxjz7fAP3ee6Zt3CPtAtx4EkL/npVywucMr1My/gVOgvfREkczAZV
- mNJg==
+ bh=pFFqbUaUZ91/redb4BpojzOLms6LZJHbUlerYTkapPM=;
+ b=SS0W6aKsls+49cWZ63EbjIvl+6ImRaorXRX2Crcv6QYyFa5SqqVYNnrizVHmKXrygW
+ GL6SmSgNWdUE8rEpxWUhWOdkgtajy6Vk/zCOPzmKJdr8i8Ls12pzeRTtFTS2xA/MtCn9
+ 0Uu//lWEPOvCrcIvDEjJlHWDd0KblfD7V2uqeht8uuTZB8AS2QlsWZz5zs++DntNdUiu
+ UMiloQm3D4exB4P4mkTzUWCsZku4qSAOf7T5ddXSg4PNCk5RrvlzCM3GtsXYNFPsZ6ot
+ z3YZqFxX/1kiq34gkGWm59q6FONpuGjizCxQqJj4zg/a0J5ynJeUDGjINVZUfHxFm0Oe
+ o6gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709918475; x=1710523275;
+ d=1e100.net; s=20230601; t=1709918494; x=1710523294;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=k0qxuntNkcbVC7Fn83HWGHLvc9TEYSSVaA9/QNYBA4g=;
- b=V1NPZ97d87+ySKzLVDe0qdxDjxhiozIinI4XCM1zDb5/5E0w6VNe71AVHpU745taDB
- SktfhhnAIWTPDQzZxuJtHvToIBayvQYpN45I2uOWl6fEJVD30ifM623dU+6s+igf9vQs
- IR8XFGj+3WhFXIyvoUV2ULLkbGu8GGzcgjqluPaCcu2GphX8GkujYR+PkTiT3fBwRtz+
- uh7cdh3Snw/5C+9qY3X1Fg2uPFJJ1Kk2Bb2V2Iugr7RVEjaElTkvuVNR4SkuJiwPTRvr
- 8arPGY1RcHuKwxDyGr+IuHm54KP4GxHnMMfq/URCyE9iWpD8mqFjnia65DDzkdqM1GhY
- GgcA==
+ bh=pFFqbUaUZ91/redb4BpojzOLms6LZJHbUlerYTkapPM=;
+ b=Py3Kui3WrsbFPrZjV0XdP3L9Up9MhhjT6woyW9tDrmoyg6hvTkJ0HUc/ne21C2cJQz
+ OlG3yIjH5XxYoxHR0hFoVhunerRgYunFiSHPYEfIFRrEIHXxPd4gZ5uXEFLqMSB8XwPK
+ nVreCj2sVAo2bCwa8P79KlM08G4y+r5C9sAF6Y8quG/pn/Fw8lPiIDGEGoq/sN3W2KtB
+ SN7t19E4ys9J2RMHwVttqBtsxoq000Ivc9KEnF3x6WvORny4dG/bgWtuB454HNIUewoG
+ Gd6y4UD7dWyGU+AFqQdnUYEha0BJHBJGA6+qdFPpzlxxyHsDNQH238xXMmxh4l+0bibG
+ hk7g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWk6lc7UuXCw5VlDSv/bfsH8fhZU54+tD2465cF7YEX/MlkAFGUe8EHfVVhUdgxLKrZpMBDbIYcFq/PW6lLllWSB3CXB3kRidvEw+9AgVpWvhSIZA82xCVW2KiKLkF5kcYMQBe9Sa2Ee6lAUW2KaKw=
-X-Gm-Message-State: AOJu0Yzm75AXjiSp9GQO80KvpUQak8Obs6+HObc2hY1f6/leCuOehqnY
- /fZAajXX1KX/aVzPJCIa8GUX0KasN3r3ehfXSTTjPz+lbzaMeE7c2t+CwZZcLBhh5U8E8dO5oo2
- omTq9SsL9fUrh622RLwnhrYKiS0E=
-X-Google-Smtp-Source: AGHT+IGk7IOKeQWk9E5lsNO42nowEDoUOzycxvHTDvDoXo5PL+nZWTD0YsHKdoud2vwyWSFXnncyk6mPQvnmI/1KDnM=
-X-Received: by 2002:a17:90a:fe8a:b0:29b:a4d9:b125 with SMTP id
- co10-20020a17090afe8a00b0029ba4d9b125mr640748pjb.30.1709918474773; Fri, 08
- Mar 2024 09:21:14 -0800 (PST)
+ AJvYcCXz4ksJFmGIGqH6I1biqxsvAwaXh2oRb7YaG0u15bkzM6xEcLLbAhicACrJMAtd0/4TfdJrVyiEbzSp3peaILhGyks3h2FJ7bqFbdpuLELAwGJPA99KBmiV1Xka5gZFo+f96RFzzZSSmugOmu13diY=
+X-Gm-Message-State: AOJu0YypPVO/phEqkclDjBvmCpLC8GWjqXkt32+5Ga6th/84YVb8jJxq
+ yDqJk5OXmBwHgDYwz51SdojdDChdaxzHOQFgyWsPbmjQNN0Ptb8hitscoh9ArGAxwhCS0oMc3ct
+ GlFa5cK5QUyW0f9TAL4/IM06ynLg=
+X-Google-Smtp-Source: AGHT+IE23dKbLQdzd5dRA3NjCWcXgMyZNisauEi4jzpLzrrZ5ASD7lUVadhQMkL4o8WfUTNZpHE9ZgPdPt29WcQb0G8=
+X-Received: by 2002:a17:90a:d255:b0:29b:ae11:7da6 with SMTP id
+ o21-20020a17090ad25500b0029bae117da6mr675120pjw.16.1709918493930; Fri, 08 Mar
+ 2024 09:21:33 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1709898638.git.jani.nikula@intel.com>
- <19bc9672c8ae4f7aee235665a4d2360e8790193d.1709898638.git.jani.nikula@intel.com>
-In-Reply-To: <19bc9672c8ae4f7aee235665a4d2360e8790193d.1709898638.git.jani.nikula@intel.com>
+ <b5020cdc2ff6d2f4992ea25cf88d528e4738d700.1709898638.git.jani.nikula@intel.com>
+In-Reply-To: <b5020cdc2ff6d2f4992ea25cf88d528e4738d700.1709898638.git.jani.nikula@intel.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 8 Mar 2024 12:21:03 -0500
-Message-ID: <CADnq5_N6GkDJu3Uq_cBQrDHRR7Fg8+pn3-acJxkYoKr14bP6Pg@mail.gmail.com>
-Subject: Re: [PATCH v2 03/16] drm/encoder: improve drm_encoder_slave.h
- kernel-doc
+Date: Fri, 8 Mar 2024 12:21:22 -0500
+Message-ID: <CADnq5_P+drjzACKvwfx3j_E81iqpEiJiayAEbazABiG=L+u0Tw@mail.gmail.com>
+Subject: Re: [PATCH v2 02/16] drm: add missing header guards to
+ drm_crtc_helper_internal.h
 To: Jani Nikula <jani.nikula@intel.com>
 Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
  intel-xe@lists.freedesktop.org, David Airlie <airlied@gmail.com>, 
@@ -85,207 +85,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 8, 2024 at 7:08=E2=80=AFAM Jani Nikula <jani.nikula@intel.com> =
+On Fri, Mar 8, 2024 at 7:23=E2=80=AFAM Jani Nikula <jani.nikula@intel.com> =
 wrote:
 >
-> Document structs drm_encoder_slave_funcs, drm_encoder_slave, and
-> drm_i2c_encoder_driver.
->
-> v2: Actually document the structs instead of just silencing kernel-doc
+> Including the file twice can lead to errors.
 >
 > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
 Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
 > ---
->  include/drm/drm_encoder_slave.h | 91 +++++++++++++++++++++++++++------
->  1 file changed, 74 insertions(+), 17 deletions(-)
+>  drivers/gpu/drm/drm_crtc_helper_internal.h | 5 +++++
+>  1 file changed, 5 insertions(+)
 >
-> diff --git a/include/drm/drm_encoder_slave.h b/include/drm/drm_encoder_sl=
-ave.h
-> index 7214101fd731..49172166a164 100644
-> --- a/include/drm/drm_encoder_slave.h
-> +++ b/include/drm/drm_encoder_slave.h
-> @@ -34,12 +34,6 @@
->
->  /**
->   * struct drm_encoder_slave_funcs - Entry points exposed by a slave enco=
-der driver
-> - * @set_config:        Initialize any encoder-specific modesetting param=
-eters.
-> - *             The meaning of the @params parameter is implementation
-> - *             dependent. It will usually be a structure with DVO port
-> - *             data format settings or timings. It's not required for
-> - *             the new parameters to take effect until the next mode
-> - *             is set.
->   *
->   * Most of its members are analogous to the function pointers in
->   * &drm_encoder_helper_funcs and they can optionally be used to
-> @@ -48,41 +42,85 @@
->   * if the encoder is the currently selected one for the connector.
+> diff --git a/drivers/gpu/drm/drm_crtc_helper_internal.h b/drivers/gpu/drm=
+/drm_crtc_helper_internal.h
+> index 28e04e750130..ed4deed07abd 100644
+> --- a/drivers/gpu/drm/drm_crtc_helper_internal.h
+> +++ b/drivers/gpu/drm/drm_crtc_helper_internal.h
+> @@ -26,6 +26,9 @@
+>   * implementation details and are not exported to drivers.
 >   */
->  struct drm_encoder_slave_funcs {
-> +       /**
-> +        * @set_config: Initialize any encoder-specific modesetting param=
-eters.
-> +        * The meaning of the @params parameter is implementation depende=
-nt. It
-> +        * will usually be a structure with DVO port data format settings=
- or
-> +        * timings. It's not required for the new parameters to take effe=
-ct
-> +        * until the next mode is set.
-> +        */
->         void (*set_config)(struct drm_encoder *encoder,
->                            void *params);
 >
-> +       /**
-> +        * @destroy: Analogous to &drm_encoder_funcs @destroy callback.
-> +        */
->         void (*destroy)(struct drm_encoder *encoder);
+> +#ifndef __DRM_CRTC_HELPER_INTERNAL_H__
+> +#define __DRM_CRTC_HELPER_INTERNAL_H__
 > +
-> +       /**
-> +        * @dpms: Analogous to &drm_encoder_helper_funcs @dpms callback. =
-Wrapped
-> +        * by drm_i2c_encoder_dpms().
-> +        */
->         void (*dpms)(struct drm_encoder *encoder, int mode);
-> +
-> +       /**
-> +        * @save: Save state. Wrapped by drm_i2c_encoder_save().
-> +        */
->         void (*save)(struct drm_encoder *encoder);
-> +
-> +       /**
-> +        * @restore: Restore state. Wrapped by drm_i2c_encoder_restore().
-> +        */
->         void (*restore)(struct drm_encoder *encoder);
-> +
-> +       /**
-> +        * @mode_fixup: Analogous to &drm_encoder_helper_funcs @mode_fixu=
-p
-> +        * callback. Wrapped by drm_i2c_encoder_mode_fixup().
-> +        */
->         bool (*mode_fixup)(struct drm_encoder *encoder,
->                            const struct drm_display_mode *mode,
->                            struct drm_display_mode *adjusted_mode);
-> +
-> +       /**
-> +        * @mode_valid: Analogous to &drm_encoder_helper_funcs @mode_vali=
-d.
-> +        */
->         int (*mode_valid)(struct drm_encoder *encoder,
->                           struct drm_display_mode *mode);
-> +       /**
-> +        * @mode_set: Analogous to &drm_encoder_helper_funcs @mode_set
-> +        * callback. Wrapped by drm_i2c_encoder_mode_set().
-> +        */
->         void (*mode_set)(struct drm_encoder *encoder,
->                          struct drm_display_mode *mode,
->                          struct drm_display_mode *adjusted_mode);
+>  #include <drm/drm_connector.h>
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_encoder.h>
+> @@ -44,3 +47,5 @@ drm_connector_mode_valid(struct drm_connector *connecto=
+r,
 >
-> +       /**
-> +        * @detect: Analogous to &drm_encoder_helper_funcs @detect
-> +        * callback. Wrapped by drm_i2c_encoder_detect().
-> +        */
->         enum drm_connector_status (*detect)(struct drm_encoder *encoder,
->                                             struct drm_connector *connect=
-or);
-> +       /**
-> +        * @get_modes: Get modes.
-> +        */
->         int (*get_modes)(struct drm_encoder *encoder,
->                          struct drm_connector *connector);
-> +       /**
-> +        * @create_resources: Create resources.
-> +        */
->         int (*create_resources)(struct drm_encoder *encoder,
->                                  struct drm_connector *connector);
-> +       /**
-> +        * @set_property: Set property.
-> +        */
->         int (*set_property)(struct drm_encoder *encoder,
->                             struct drm_connector *connector,
->                             struct drm_property *property,
->                             uint64_t val);
-> -
->  };
->
->  /**
->   * struct drm_encoder_slave - Slave encoder struct
-> - * @base: DRM encoder object.
-> - * @slave_funcs: Slave encoder callbacks.
-> - * @slave_priv: Slave encoder private data.
-> - * @bus_priv: Bus specific data.
->   *
->   * A &drm_encoder_slave has two sets of callbacks, @slave_funcs and the
->   * ones in @base. The former are never actually called by the common
-> @@ -95,10 +133,24 @@ struct drm_encoder_slave_funcs {
->   * this.
->   */
->  struct drm_encoder_slave {
-> +       /**
-> +        * @base: DRM encoder object.
-> +        */
->         struct drm_encoder base;
->
-> +       /**
-> +        * @slave_funcs: Slave encoder callbacks.
-> +        */
->         const struct drm_encoder_slave_funcs *slave_funcs;
+>  struct drm_encoder *
+>  drm_connector_get_single_encoder(struct drm_connector *connector);
 > +
-> +       /**
-> +        * @slave_priv: Slave encoder private data.
-> +        */
->         void *slave_priv;
-> +
-> +       /**
-> +        * @bus_priv: Bus specific data.
-> +        */
->         void *bus_priv;
->  };
->  #define to_encoder_slave(x) container_of((x), struct drm_encoder_slave, =
-base)
-> @@ -112,16 +164,20 @@ int drm_i2c_encoder_init(struct drm_device *dev,
->  /**
->   * struct drm_i2c_encoder_driver
->   *
-> - * Describes a device driver for an encoder connected to the GPU
-> - * through an I2C bus. In addition to the entry points in @i2c_driver
-> - * an @encoder_init function should be provided. It will be called to
-> - * give the driver an opportunity to allocate any per-encoder data
-> - * structures and to initialize the @slave_funcs and (optionally)
-> - * @slave_priv members of @encoder.
-> + * Describes a device driver for an encoder connected to the GPU through=
- an I2C
-> + * bus.
->   */
->  struct drm_i2c_encoder_driver {
-> +       /**
-> +        * @i2c_driver: I2C device driver description.
-> +        */
->         struct i2c_driver i2c_driver;
->
-> +       /**
-> +        * @encoder_init: Callback to allocate any per-encoder data struc=
-tures
-> +        * and to initialize the @slave_funcs and (optionally) @slave_pri=
-v
-> +        * members of @encoder.
-> +        */
->         int (*encoder_init)(struct i2c_client *client,
->                             struct drm_device *dev,
->                             struct drm_encoder_slave *encoder);
-> @@ -133,6 +189,7 @@ struct drm_i2c_encoder_driver {
->
->  /**
->   * drm_i2c_encoder_get_client - Get the I2C client corresponding to an e=
-ncoder
-> + * @encoder: The encoder
->   */
->  static inline struct i2c_client *drm_i2c_encoder_get_client(struct drm_e=
-ncoder *encoder)
->  {
+> +#endif /* __DRM_CRTC_HELPER_INTERNAL_H__ */
 > --
 > 2.39.2
 >
