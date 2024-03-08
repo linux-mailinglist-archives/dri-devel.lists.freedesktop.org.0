@@ -2,59 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51235876BBF
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 21:23:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1FA7876BF0
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Mar 2024 21:38:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6966E113996;
-	Fri,  8 Mar 2024 20:23:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6B6710E259;
+	Fri,  8 Mar 2024 20:38:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Go9kNZ5V";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="P+psoRYM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0E00113994;
- Fri,  8 Mar 2024 20:23:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709929410; x=1741465410;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=sRS510tc2alM2s/b9oICV9tf4PD9QaVf/Eur0al4FoY=;
- b=Go9kNZ5VO0egh7CNvySyi56eAgPm+WdZT7Q7jbaw1WaREpt+p2P8EN35
- 7tNb/nxyR2Nwv2WI4XGIeC5rLnqF/IhczvLznWYJ86rnd6UhwxL7LLbnU
- D0DsZPxEZgpKqn6WLmrOvqaLIThrOE5loUEZ6nigNeFxFhgXNbnLwvyn3
- nh45nLlTAp+bmB9FQyKQYrjMGPpXmWmyCeWlN74lT7I4M8B5vQ2pHeZ1c
- xivT8WARRUyRJJvES6buAT81OoteqomtaipbTG9NNnyJcqIENEdx9RyZP
- qqhKzV0HuYkyB7Ojvri5IhljnD0ZoDFtRTWFakyzNwWdI6AqhJP6137bC A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11007"; a="4523639"
-X-IronPort-AV: E=Sophos;i="6.07,110,1708416000"; 
-   d="scan'208";a="4523639"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2024 12:23:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,110,1708416000"; d="scan'208";a="15059077"
-Received: from unknown (HELO intel.com) ([10.247.118.109])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2024 12:23:23 -0800
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>, stable@vger.kernel.org,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Andi Shyti <andi.shyti@kernel.org>, Tvrtko Ursulin <tursulin@ursulin.net>
-Subject: [PATCH v5 4/4] drm/i915/gt: Enable only one CCS for compute workload
-Date: Fri,  8 Mar 2024 21:22:19 +0100
-Message-ID: <20240308202223.406384-5-andi.shyti@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240308202223.406384-1-andi.shyti@linux.intel.com>
-References: <20240308202223.406384-1-andi.shyti@linux.intel.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98DCD10E259
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Mar 2024 20:38:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=/47zSNS8X3eOPzjZdvlkdHcgjIKBxlrq4BUs8maJTKI=; b=P+psoRYM5z3lfXYWFwEz/bAINB
+ OPOxutLt5xDfXAWdDKQpYEoteejZVcbRTgwcL5gWxB6YQBIlcM928wCP3ORY0SB6AtDgpXfRmfJ6W
+ O6WiGduHj8ETWuoDJElwDFkf7KtsF01vYBDlglzNb5jy9s3fp/XVi7qNDiYiAKJXJxduI9SBwA5AG
+ FGFY6sBpwcAXQ+UjRfQ0IDlv5ENI+LPo1yeB6ObG0g9KgE3rMTNIrIsW0V9zYbLRlSnZ42GKeKc6p
+ gmO20XmEZYn5mFQEt6pd/HVxnHy2yiQes02adum0ST3BaFnT7KbtZJHN9jpiiivU1aBZ0YPBbpQMY
+ 5YSHJUKg==;
+Received: from [186.230.26.74] (helo=[10.39.29.45])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1rigyw-007xOC-Fz; Fri, 08 Mar 2024 21:38:18 +0100
+Message-ID: <4b01ba61-9184-4a17-9fe6-59eb88a21214@igalia.com>
+Date: Fri, 8 Mar 2024 17:38:07 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/7] Additions to "Reimplement line-per-line pixel
+ conversion for plane reading" series
+Content-Language: en-US
+To: Arthur Grillo <arthurgrillo@riseup.net>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ pekka.paalanen@haloniitty.fi, Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com,
+ nicolejadeyee@google.com, Pekka Paalanen <pekka.paalanen@collabora.com>
+References: <20240306-louis-vkms-conv-v1-0-5bfe7d129fdd@riseup.net>
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
+ H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
+ hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
+ GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
+ rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
+ s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
+ GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
+ pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
+In-Reply-To: <20240306-louis-vkms-conv-v1-0-5bfe7d129fdd@riseup.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,180 +81,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable only one CCS engine by default with all the compute sices
-allocated to it.
+Hi Arthur,
 
-While generating the list of UABI engines to be exposed to the
-user, exclude any additional CCS engines beyond the first
-instance.
+Would it be possible for you to coordinate with Louis and create a
+single series with all the modification?
 
-This change can be tested with igt i915_query.
+I don't see a reason to submit fixes to a series that it is still
+on review.
 
-Fixes: d2eae8e98d59 ("drm/i915/dg2: Drop force_probe requirement")
-Requires: 075e003a9e22 ("drm/i915/gt: Refactor uabi engine class/instance list creation")
-Requires: 58b935268238 ("drm/i915/gt: Disable tests for CCS engines beyond the first")
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: <stable@vger.kernel.org> # v6.2+
----
- drivers/gpu/drm/i915/Makefile               |  1 +
- drivers/gpu/drm/i915/gt/intel_engine_user.c | 11 ++++++
- drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c | 39 +++++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h | 13 +++++++
- drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  5 +++
- drivers/gpu/drm/i915/gt/intel_workarounds.c |  7 ++++
- 6 files changed, 76 insertions(+)
- create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
- create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h
+Best Regards,
+- Maíra
 
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 3ef6ed41e62b..a6885a1d41a1 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -118,6 +118,7 @@ gt-y += \
- 	gt/intel_ggtt_fencing.o \
- 	gt/intel_gt.o \
- 	gt/intel_gt_buffer_pool.o \
-+	gt/intel_gt_ccs_mode.o \
- 	gt/intel_gt_clock_utils.o \
- 	gt/intel_gt_debugfs.o \
- 	gt/intel_gt_engines_debugfs.o \
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-index 11cc06c0c785..9ef1c4ce252d 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-@@ -208,6 +208,7 @@ void intel_engines_driver_register(struct drm_i915_private *i915)
- 	struct list_head *it, *next;
- 	struct rb_node **p, *prev;
- 	LIST_HEAD(engines);
-+	u16 uabi_ccs = 0;
- 
- 	sort_engines(i915, &engines);
- 
-@@ -244,6 +245,16 @@ void intel_engines_driver_register(struct drm_i915_private *i915)
- 		if (uabi_class > I915_LAST_UABI_ENGINE_CLASS)
- 			continue;
- 
-+		/*
-+		 * The load is balanced among all the available compute
-+		 * slices. Expose only the first instance of the compute
-+		 * engine.
-+		 */
-+		if (IS_DG2(i915) &&
-+		    uabi_class == I915_ENGINE_CLASS_COMPUTE &&
-+		    uabi_ccs++)
-+			continue;
-+
- 		GEM_BUG_ON(uabi_class >=
- 			   ARRAY_SIZE(i915->engine_uabi_class_count));
- 		i915->engine_uabi_class_count[uabi_class]++;
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
-new file mode 100644
-index 000000000000..044219c5960a
---- /dev/null
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
-@@ -0,0 +1,39 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright © 2024 Intel Corporation
-+ */
-+
-+#include "i915_drv.h"
-+#include "intel_gt.h"
-+#include "intel_gt_ccs_mode.h"
-+#include "intel_gt_regs.h"
-+
-+void intel_gt_apply_ccs_mode(struct intel_gt *gt)
-+{
-+	int cslice;
-+	u32 mode = 0;
-+	int first_ccs = __ffs(CCS_MASK(gt));
-+
-+	if (!IS_DG2(gt->i915))
-+		return;
-+
-+	/* Build the value for the fixed CCS load balancing */
-+	for (cslice = 0; cslice < I915_MAX_CCS; cslice++) {
-+		if (CCS_MASK(gt) & BIT(cslice))
-+			/*
-+			 * If available, assign the cslice
-+			 * to the first available engine...
-+			 */
-+			mode |= XEHP_CCS_MODE_CSLICE(cslice, first_ccs);
-+
-+		else
-+			/*
-+			 * ... otherwise, mark the cslice as
-+			 * unavailable if no CCS dispatches here
-+			 */
-+			mode |= XEHP_CCS_MODE_CSLICE(cslice,
-+						     XEHP_CCS_MODE_CSLICE_MASK);
-+	}
-+
-+	intel_uncore_write(gt->uncore, XEHP_CCS_MODE, mode);
-+}
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h
-new file mode 100644
-index 000000000000..9e5549caeb26
---- /dev/null
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h
-@@ -0,0 +1,13 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright © 2024 Intel Corporation
-+ */
-+
-+#ifndef __INTEL_GT_CCS_MODE_H__
-+#define __INTEL_GT_CCS_MODE_H__
-+
-+struct intel_gt;
-+
-+void intel_gt_apply_ccs_mode(struct intel_gt *gt);
-+
-+#endif /* __INTEL_GT_CCS_MODE_H__ */
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-index cf709f6c05ae..8224dd99c7d7 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-@@ -1480,6 +1480,11 @@
- #define   GEN12_RCU_MODE_CCS_ENABLE		REG_BIT(0)
- #define   XEHP_RCU_MODE_FIXED_SLICE_CCS_MODE	REG_BIT(1)
- 
-+#define XEHP_CCS_MODE				_MMIO(0x14804)
-+#define   XEHP_CCS_MODE_CSLICE_MASK		REG_GENMASK(2, 0) /* CCS0-3 + rsvd */
-+#define   XEHP_CCS_MODE_CSLICE_WIDTH		ilog2(XEHP_CCS_MODE_CSLICE_MASK + 1)
-+#define   XEHP_CCS_MODE_CSLICE(cslice, ccs)	(ccs << (cslice * XEHP_CCS_MODE_CSLICE_WIDTH))
-+
- #define CHV_FUSE_GT				_MMIO(VLV_GUNIT_BASE + 0x2168)
- #define   CHV_FGT_DISABLE_SS0			(1 << 10)
- #define   CHV_FGT_DISABLE_SS1			(1 << 11)
-diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-index 4865eb5ca9c9..6ec3582c9735 100644
---- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-+++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-@@ -10,6 +10,7 @@
- #include "intel_engine_regs.h"
- #include "intel_gpu_commands.h"
- #include "intel_gt.h"
-+#include "intel_gt_ccs_mode.h"
- #include "intel_gt_mcr.h"
- #include "intel_gt_print.h"
- #include "intel_gt_regs.h"
-@@ -2869,6 +2870,12 @@ static void ccs_engine_wa_mode(struct intel_engine_cs *engine, struct i915_wa_li
- 	 * made to completely disable automatic CCS load balancing.
- 	 */
- 	wa_masked_en(wal, GEN12_RCU_MODE, XEHP_RCU_MODE_FIXED_SLICE_CCS_MODE);
-+
-+	/*
-+	 * After having disabled automatic load balancing we need to
-+	 * assign all slices to a single CCS. We will call it CCS mode 1
-+	 */
-+	intel_gt_apply_ccs_mode(gt);
- }
- 
- /*
--- 
-2.43.0
-
+On 3/6/24 17:03, Arthur Grillo wrote:
+> These are some patches that add some fixes/features to the series by
+> Louis Chauvet[1], it was based on top of the patches from v4.
+> 
+> Patches #2 and #3 should be amended to "[PATCH v4 11/14] drm/vkms: Add
+> YUV support". To make patch #3 work, we need patch #1. So, please, add
+> it before the patch that #2 and #3 amend to.
+> 
+> Patches #4 to #6 should be amended to "[PATCH v4 14/14] drm/vkms: Create
+> KUnit tests for YUV conversions". While doing the additions, I found
+> some compilation issues, so I fixed them (patch #4). That's when I
+> thought that it would be good to add some documentation on how to run
+> them (patch #7), this patch should be added to the series as new patch.
+> 
+> [1]: https://lore.kernel.org/r/20240304-yuv-v4-0-76beac8e9793@bootlin.com
+> 
+> To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> To: Melissa Wen <melissa.srw@gmail.com>
+> To: Maíra Canal <mairacanal@riseup.net>
+> To: Haneen Mohammed <hamohammed.sa@gmail.com>
+> To: Daniel Vetter <daniel@ffwll.ch>
+> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> To: Maxime Ripard <mripard@kernel.org>
+> To: Thomas Zimmermann <tzimmermann@suse.de>
+> To: David Airlie <airlied@gmail.com>
+> To: arthurgrillo@riseup.net
+> To: Jonathan Corbet <corbet@lwn.net>
+> To: pekka.paalanen@haloniitty.fi
+> To: Louis Chauvet <louis.chauvet@bootlin.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: jeremie.dautheribes@bootlin.com
+> Cc: miquel.raynal@bootlin.com
+> Cc: thomas.petazzoni@bootlin.com
+> Cc: seanpaul@google.com
+> Cc: marcheu@google.com
+> Cc: nicolejadeyee@google.com
+> 
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> ---
+> Arthur Grillo (7):
+>        drm: Fix drm_fixp2int_round() making it add 0.5
+>        drm/vkms: Add comments
+>        drm/vkmm: Use drm_fixed api
+>        drm/vkms: Fix compilation issues
+>        drm/vkms: Add comments to format tests
+>        drm/vkms: Change the gray RGB representation
+>        drm/vkms: Add how to run the Kunit tests
+> 
+>   Documentation/gpu/vkms.rst                    |  11 +++
+>   drivers/gpu/drm/vkms/tests/vkms_format_test.c |  81 +++++++++++++++++++--
+>   drivers/gpu/drm/vkms/vkms_drv.h               |   4 +
+>   drivers/gpu/drm/vkms/vkms_formats.c           | 101 +++++++++++++++++++-------
+>   include/drm/drm_fixed.h                       |   2 +-
+>   5 files changed, 165 insertions(+), 34 deletions(-)
+> ---
+> base-commit: 9658aba38ae9f3f3068506c9c8e93e85b500fcb4
+> change-id: 20240306-louis-vkms-conv-61362ff12ab8
+> 
+> Best regards,
