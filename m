@@ -2,58 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 095C48771A2
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Mar 2024 15:33:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A79248771B7
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Mar 2024 15:54:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0CFD1120E3;
-	Sat,  9 Mar 2024 14:33:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C16CE11211D;
+	Sat,  9 Mar 2024 14:54:02 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dHxYVhVz";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DCB81120DF
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Mar 2024 14:33:16 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-253-14N-Did4PAW8hIsoNs_d-Q-1; Sat, 09 Mar 2024 14:33:12 +0000
-X-MC-Unique: 14N-Did4PAW8hIsoNs_d-Q-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sat, 9 Mar
- 2024 14:33:26 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Sat, 9 Mar 2024 14:33:26 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Maxime Ripard' <mripard@kernel.org>, Arnd Bergmann <arnd@arndb.de>
-CC: Naresh Kamboju <naresh.kamboju@linaro.org>, open list
- <linux-kernel@vger.kernel.org>, Linux ARM
- <linux-arm-kernel@lists.infradead.org>, "linux-sunxi@lists.linux.dev"
- <linux-sunxi@lists.linux.dev>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "lkft-triage@lists.linaro.org"
- <lkft-triage@lists.linaro.org>, Dave Airlie <airlied@redhat.com>, "Dan
- Carpenter" <dan.carpenter@linaro.org>, Ard Biesheuvel <ardb@kernel.org>
-Subject: RE: arm: ERROR: modpost: "__aeabi_uldivmod"
- [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
-Thread-Topic: arm: ERROR: modpost: "__aeabi_uldivmod"
- [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
-Thread-Index: AQHabimenIC0ADhmjUqxSQo36gIP17EvfaYA
-Date: Sat, 9 Mar 2024 14:33:26 +0000
-Message-ID: <85b807289ff2400ea5887ced63655862@AcuMS.aculab.com>
-References: <CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+kK9Zop6u=ywmw@mail.gmail.com>
- <338c89bb-a70b-4f35-b71b-f974e90e3383@app.fastmail.com>
- <20240304-brawny-goshawk-of-sorcery-860cef@houat>
-In-Reply-To: <20240304-brawny-goshawk-of-sorcery-860cef@houat>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com
+ [209.85.210.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 893CB11211D
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Mar 2024 14:54:01 +0000 (UTC)
+Received: by mail-ot1-f43.google.com with SMTP id
+ 46e09a7af769-6e4de6fb7f9so1476952a34.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 09 Mar 2024 06:54:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1709996040; x=1710600840; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=eA04sqjyv1s/Dz3T5kRYEcPdCWodFVKdwAB148+mkYo=;
+ b=dHxYVhVzW3j6AbxDEzKpf/cCIrDLfSewa9AFtDJ7CbsbgOgWcdKQkZO0nHLMqdappu
+ DD2cbSSMY0IoEbN7TknUyNhwpbXV8N6PH6rDn4U9cf+9M/yCqHzFYJyJ5OyeyXyqBiZ/
+ fESAqvoCe/jA6b8DOZSFKOeYr5Xm1zDJNshvlKIHi1PzmBTYc7gcq+ZFEQqWRlSpfgo9
+ gvjc/a59WgKhCF86aVTR7v6Mg4fw6L9IjwB7I8+teE4fU83wSpKlRXlHPx79m3vYEjIk
+ 0ij7fdY/Wr8PpMy7yuKD0FrPju69vrlAUKPmD5oXsRhUmQKTwttj4d7AsXCkKGK4srev
+ Oegw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709996040; x=1710600840;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eA04sqjyv1s/Dz3T5kRYEcPdCWodFVKdwAB148+mkYo=;
+ b=oJ8C9MTnVYhlJ6We6Of8EXkY7tBrjd/en12P2pxAbkT60Q2vD7niCkzkOvd/Z/yNgc
+ 2PblOWqP4pJ99QuPEltT2+nsfr86Ync77wyWztqkSlb/hibeoz+OXX+CwT9iWuMDkql2
+ rafmmVbt8MwAO/aXpfsJpDY1NxQAS1JD0ZU5wi7R0JsJfayKz6zYFZSdNx0+ZchlMTfY
+ 4E7WX3MGrgMoKZsc2ZE30SBiuwVhtgZ2LcinafzsGEfcDKj89wXFsCVWRWdUneF48cno
+ wQCO7uuAlZELWVwZI4EeBuZgKArE7Bj1ay+PGRCdhZXFtfUqP7mnQZGtmz6Elkd6cCNs
+ 90Hw==
+X-Gm-Message-State: AOJu0Yzpk0JUq01hDizXYBXUufxeeZ/qT4drDtWulvVcF+wKm3jZ43FW
+ D1uXWBt/8P5eQLaHwhNvS4T51hKWOt0qQXQf3NWSa9hRm+1naCVp39y5V/vVAC7bHiZi7j6A56W
+ mI9JpztSOY/vuaWhY3UlgLesJ6Mv9db4ilzcTgg==
+X-Google-Smtp-Source: AGHT+IGh+XRVvBrKiaVYq3PacuzxQQy/9lP1FD2uNT0gS6x67HG5T1oQcujWS6KkWYVspsQstMOvbHfqwxCdAZfKq98=
+X-Received: by 2002:a05:6808:4483:b0:3c2:1596:d5e7 with SMTP id
+ eq3-20020a056808448300b003c21596d5e7mr3213978oib.46.1709996040196; Sat, 09
+ Mar 2024 06:54:00 -0800 (PST)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <20240309-bridge-hdmi-connector-v2-0-1380bea3ee70@linaro.org>
+ <20240309-bridge-hdmi-connector-v2-3-1380bea3ee70@linaro.org>
+In-Reply-To: <20240309-bridge-hdmi-connector-v2-3-1380bea3ee70@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sat, 9 Mar 2024 16:53:48 +0200
+Message-ID: <CAA8EJpoBO--ZrOjJqWwmcKV+tEvyJ-H9jGxkhK0rAZ3Tw2gVMQ@mail.gmail.com>
+Subject: Re: [PATCH RFC v2 3/5] drm/bridge-connector: implement glue code for
+ HDMI connector
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,61 +87,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maxime Ripard
-> Sent: 04 March 2024 11:46
->=20
-> On Mon, Mar 04, 2024 at 12:11:36PM +0100, Arnd Bergmann wrote:
-> > On Mon, Mar 4, 2024, at 09:07, Naresh Kamboju wrote:
-> > > The arm defconfig builds failed on today's Linux next tag next-202403=
-04.
-> > >
-> > > Build log:
-> > > ---------
-> > > ERROR: modpost: "__aeabi_uldivmod"
-> > > [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
-> > >
-> >
-> > Apparently caused by the 64-bit division in 358e76fd613a
-> > ("drm/sun4i: hdmi: Consolidate atomic_check and mode_valid"):
-> >
-> >
-> > +static enum drm_mode_status
-> > +sun4i_hdmi_connector_clock_valid(const struct drm_connector *connector=
-,
-> > +                                const struct drm_display_mode *mode,
-> > +                                unsigned long long clock)
-> >  {
-> > -       struct sun4i_hdmi *hdmi =3D drm_encoder_to_sun4i_hdmi(encoder);
-> > -       unsigned long rate =3D mode->clock * 1000;
-> > -       unsigned long diff =3D rate / 200; /* +-0.5% allowed by HDMI sp=
-ec */
-> > +       const struct sun4i_hdmi *hdmi =3D drm_connector_to_sun4i_hdmi(c=
-onnector);
-> > +       unsigned long diff =3D clock / 200; /* +-0.5% allowed by HDMI s=
-pec */
-> >         long rounded_rate;
-> >
-> > This used to be a 32-bit division. If the rate is never more than
-> > 4.2GHz, clock could be turned back into 'unsigned long' to avoid
-> > the expensive div_u64().
->=20
-> I sent a fix for it this morning:
-> https://lore.kernel.org/r/20240304091225.366325-1-mripard@kernel.org
->=20
-> The framework will pass an unsigned long long because HDMI character
-> rates can go up to 5.9GHz.
+On Sat, 9 Mar 2024 at 12:31, Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> In order to let bridge chains implement HDMI connector infrastructure,
+> add necessary glue code to the drm_bridge_connector. In case there is a
+> bridge that sets DRM_BRIDGE_OP_HDMI, drm_bridge_connector will register
+> itself as a HDMI connector and provide proxy drm_connector_hdmi_funcs
+> implementation.
+>
+> Note, to simplify implementation, there can be only one bridge in a
+> chain that sets DRM_BRIDGE_OP_HDMI. Setting more than one is considered
+> an error. This limitation can be lifted later, if the need arises.
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/drm_bridge_connector.c | 118 ++++++++++++++++++++++++++++++++-
+>  include/drm/drm_bridge.h               |  82 +++++++++++++++++++++++
+>  2 files changed, 197 insertions(+), 3 deletions(-)
+>
+>
 
-You could do:
-=09/* The max clock is 5.9GHz, split the divide */
-=09u32 diff =3D (u32)(clock / 8) / (200/8);
+[skipped]
 
-The code should really use u32 and u64.
-Otherwise the sizes are different on 32bit.
+> @@ -705,6 +753,16 @@ enum drm_bridge_ops {
+>          * this flag shall implement the &drm_bridge_funcs->get_modes callback.
+>          */
+>         DRM_BRIDGE_OP_MODES = BIT(3),
+> +       /**
+> +        * @DRM_BRIDGE_OP_HDMI: The bridge provides HDMI connector operations,
+> +        * including infoframes support. Bridges that set this flag must
+> +        * implement the &drm_bridge_funcs->write_infoframe callback.
+> +        *
+> +        * Note: currently there can be at most one bridge in a chain that sets
+> +        * this bit. This is to simplify corresponding glue code in connector
+> +        * drivers.
+> +        */
+> +       DRM_BRIDGE_OP_HDMI = BIT(4),
 
-=09David
+Note for myself: before v3, handle this bit in drm_debugfs.c / bridges_show.
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+>  };
 
+
+-- 
+With best wishes
+Dmitry
