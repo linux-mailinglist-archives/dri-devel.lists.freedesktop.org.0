@@ -2,76 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A79248771B7
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Mar 2024 15:54:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C93338771CB
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Mar 2024 16:09:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C16CE11211D;
-	Sat,  9 Mar 2024 14:54:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6761C10E295;
+	Sat,  9 Mar 2024 15:09:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dHxYVhVz";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="DFblhfr9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com
- [209.85.210.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 893CB11211D
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Mar 2024 14:54:01 +0000 (UTC)
-Received: by mail-ot1-f43.google.com with SMTP id
- 46e09a7af769-6e4de6fb7f9so1476952a34.0
- for <dri-devel@lists.freedesktop.org>; Sat, 09 Mar 2024 06:54:01 -0800 (PST)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DEE210E295
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Mar 2024 15:09:10 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-2d2fad80eacso20417311fa.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 09 Mar 2024 07:09:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709996040; x=1710600840; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=eA04sqjyv1s/Dz3T5kRYEcPdCWodFVKdwAB148+mkYo=;
- b=dHxYVhVzW3j6AbxDEzKpf/cCIrDLfSewa9AFtDJ7CbsbgOgWcdKQkZO0nHLMqdappu
- DD2cbSSMY0IoEbN7TknUyNhwpbXV8N6PH6rDn4U9cf+9M/yCqHzFYJyJ5OyeyXyqBiZ/
- fESAqvoCe/jA6b8DOZSFKOeYr5Xm1zDJNshvlKIHi1PzmBTYc7gcq+ZFEQqWRlSpfgo9
- gvjc/a59WgKhCF86aVTR7v6Mg4fw6L9IjwB7I8+teE4fU83wSpKlRXlHPx79m3vYEjIk
- 0ij7fdY/Wr8PpMy7yuKD0FrPju69vrlAUKPmD5oXsRhUmQKTwttj4d7AsXCkKGK4srev
- Oegw==
+ d=linaro.org; s=google; t=1709996948; x=1710601748; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=XrNsYekci5CYEjDTgEQhnAxlRrrD/1mcwKaN+sZjKnc=;
+ b=DFblhfr96A94P+sFnDXos3HBle5WcuFH8i0sqZ8A7/eriAadhsYsiYAVlJTdXwk/yK
+ In9l1dg9fRz47LzNbu8L3L4AMOK6OrJoPxHQMT5ERRaqDW+3ebj5Z4MJ99JPcbKfmT5T
+ mZAqU3H3lp3cbAdUpqL4r0cIRfwdOEtM9Z6sCwytDLbIevsb8ufaPmT7EwV1mx7qhiat
+ QjSaQo7yJfPRvKq4ZOBaNMSBvMujxcEP2QYeQmH1TF78EUaeuiwhl6AvyZlRVK7w73YK
+ 2npoS8H/qGaFEiuOE36NQgJQl4HRh0mNLuHUlFlEZzaJ8puUoqAYpmZH/w/My6F3kqOn
+ qNEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709996040; x=1710600840;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1709996948; x=1710601748;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=eA04sqjyv1s/Dz3T5kRYEcPdCWodFVKdwAB148+mkYo=;
- b=oJ8C9MTnVYhlJ6We6Of8EXkY7tBrjd/en12P2pxAbkT60Q2vD7niCkzkOvd/Z/yNgc
- 2PblOWqP4pJ99QuPEltT2+nsfr86Ync77wyWztqkSlb/hibeoz+OXX+CwT9iWuMDkql2
- rafmmVbt8MwAO/aXpfsJpDY1NxQAS1JD0ZU5wi7R0JsJfayKz6zYFZSdNx0+ZchlMTfY
- 4E7WX3MGrgMoKZsc2ZE30SBiuwVhtgZ2LcinafzsGEfcDKj89wXFsCVWRWdUneF48cno
- wQCO7uuAlZELWVwZI4EeBuZgKArE7Bj1ay+PGRCdhZXFtfUqP7mnQZGtmz6Elkd6cCNs
- 90Hw==
-X-Gm-Message-State: AOJu0Yzpk0JUq01hDizXYBXUufxeeZ/qT4drDtWulvVcF+wKm3jZ43FW
- D1uXWBt/8P5eQLaHwhNvS4T51hKWOt0qQXQf3NWSa9hRm+1naCVp39y5V/vVAC7bHiZi7j6A56W
- mI9JpztSOY/vuaWhY3UlgLesJ6Mv9db4ilzcTgg==
-X-Google-Smtp-Source: AGHT+IGh+XRVvBrKiaVYq3PacuzxQQy/9lP1FD2uNT0gS6x67HG5T1oQcujWS6KkWYVspsQstMOvbHfqwxCdAZfKq98=
-X-Received: by 2002:a05:6808:4483:b0:3c2:1596:d5e7 with SMTP id
- eq3-20020a056808448300b003c21596d5e7mr3213978oib.46.1709996040196; Sat, 09
- Mar 2024 06:54:00 -0800 (PST)
-MIME-Version: 1.0
-References: <20240309-bridge-hdmi-connector-v2-0-1380bea3ee70@linaro.org>
- <20240309-bridge-hdmi-connector-v2-3-1380bea3ee70@linaro.org>
-In-Reply-To: <20240309-bridge-hdmi-connector-v2-3-1380bea3ee70@linaro.org>
+ bh=XrNsYekci5CYEjDTgEQhnAxlRrrD/1mcwKaN+sZjKnc=;
+ b=uA3oDKgrZLD6MiJ1E1mmTQaL1y6sYv45gPMaj9qT7xMFXB31/xjBMFu/BHnpzjlgbf
+ 1qENQjb46CQuNeArOTv7nemnvOX3s2kACRid4Vqhm/eaehwgTtRey/6x4O19XxrozvDt
+ /W8f48Y1Dl6p4s7Jp1f1fZjDVJJSV56PpfWyanFePVxQlYBw2T42KB3KqqDo/tHwXSQI
+ CSrcGQXn2TrYjkr7jnzseuT/m+eLANGc653qXuxefI58SNfE6LdDPWloeM9Xq0ULPNvo
+ lLxKOeMH1nxCOYVotbC3rZFWKLVfl8uq08/HlS6TU/U4Pwd6FZ77ldmL/tDtZwl3+BN2
+ Lm0g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVpR4bQhfYI3e4ESKDb26y2oXLhgQCrKroM8ccjzXIwP8/YGWQlq6A6re5RhgKRuy6pP0zJP0oeRGY3DOzuIJqG0/fYq2pjwpcDJvhcinog
+X-Gm-Message-State: AOJu0Yx8GW2ytrAErtfbzf31lRBK+fhmc63seMHYEd+XNAZe9Bc+5dD5
+ mU4T5Oc2s+XZJ0qWEdA++1Km438OnOYw2qqqIn3cvlTQHSNgZpng0HSDVp1j/iw=
+X-Google-Smtp-Source: AGHT+IHvRBgYgZ//RQt2vAgiHNTLu3ncmyojF3L+YMiUCRElmdKSMqu7wJDelxowfAyxLdtXB5EmQQ==
+X-Received: by 2002:a2e:a30f:0:b0:2d4:2b0a:7ace with SMTP id
+ l15-20020a2ea30f000000b002d42b0a7acemr892884lje.37.1709996947928; 
+ Sat, 09 Mar 2024 07:09:07 -0800 (PST)
+Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
+ m1-20020a2eb6c1000000b002d4062c833dsm328511ljo.98.2024.03.09.07.09.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 09 Mar 2024 07:09:07 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 9 Mar 2024 16:53:48 +0200
-Message-ID: <CAA8EJpoBO--ZrOjJqWwmcKV+tEvyJ-H9jGxkhK0rAZ3Tw2gVMQ@mail.gmail.com>
-Subject: Re: [PATCH RFC v2 3/5] drm/bridge-connector: implement glue code for
- HDMI connector
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: [PATCH 0/3] drm/msm/dsi: rework drm_connector instantiation
+Date: Sat, 09 Mar 2024 17:09:04 +0200
+Message-Id: <20240309-fd-dsi-cleanup-bridges-v1-0-962ebdba82ed@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJB77GUC/x3MPQqAMAxA4atIZgP9c9CriIM2UQNSpUERxLtbH
+ L/hvQeUs7BCVz2Q+RKVPRXYuoK4jmlhFCoGZ1ww3rQ4E5IKxo3HdB44ZaGFFZ2jhqKN1gcLJT4
+ yz3L/43543w8rr3teaAAAAA==
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=942;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=TCJyDJHulubow8UZZZPWkWBavBy/rH3xyYFqzk9GND4=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBl7HuSyTk+2g3RwzE5e5s/iqeIFPp6kazGi0Wqn
+ 9fQ9vUfKbyJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZex7kgAKCRCLPIo+Aiko
+ 1eDbB/9ocFnN4oYGbkjz6af6h0Sbe7G6r0NozB6/2jNnKjmuzPwSm0uqOkGvi1+gy3QAEIHVEJN
+ F3PWZ0rU3yeTaEbP7Lz5RnEuZL6tA+CvN4o3VA9dNB+sh6s7RF1H1kzy/dEMW1WzK68Me/PqjqZ
+ 8Lqat3hiwiPpKIz/WoCPKmm/aVQwGu13xN3OQEg7Gjz2UUSsRRgcFQmrtLR8ZbCgTVLhiOZCNBl
+ +DvEXqPhjg9D0/nj8WJGm8jTKJA5p0HrLVeTZCZghy9ozd8+mAtdcCiJUdD7kE6UybWgPE0XVHh
+ Ls64h7kyULsP9y0gR8A8FppTnVO+APdO+X6gJ6i/qH8Z/1kx
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,49 +99,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 9 Mar 2024 at 12:31, Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> In order to let bridge chains implement HDMI connector infrastructure,
-> add necessary glue code to the drm_bridge_connector. In case there is a
-> bridge that sets DRM_BRIDGE_OP_HDMI, drm_bridge_connector will register
-> itself as a HDMI connector and provide proxy drm_connector_hdmi_funcs
-> implementation.
->
-> Note, to simplify implementation, there can be only one bridge in a
-> chain that sets DRM_BRIDGE_OP_HDMI. Setting more than one is considered
-> an error. This limitation can be lifted later, if the need arises.
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/drm_bridge_connector.c | 118 ++++++++++++++++++++++++++++++++-
->  include/drm/drm_bridge.h               |  82 +++++++++++++++++++++++
->  2 files changed, 197 insertions(+), 3 deletions(-)
->
->
+- Drop attempts to call drm_bridge_attach with 0 flags, require that
+  downstream bridges support DRM_BRIDGE_ATTACH_NO_CONNECTOR
 
-[skipped]
+- Acquire next bridge during dsi_bind, making sure that it doesn't cause
+  -EPROBE_DEFER later during modeset_init.
 
-> @@ -705,6 +753,16 @@ enum drm_bridge_ops {
->          * this flag shall implement the &drm_bridge_funcs->get_modes callback.
->          */
->         DRM_BRIDGE_OP_MODES = BIT(3),
-> +       /**
-> +        * @DRM_BRIDGE_OP_HDMI: The bridge provides HDMI connector operations,
-> +        * including infoframes support. Bridges that set this flag must
-> +        * implement the &drm_bridge_funcs->write_infoframe callback.
-> +        *
-> +        * Note: currently there can be at most one bridge in a chain that sets
-> +        * this bit. This is to simplify corresponding glue code in connector
-> +        * drivers.
-> +        */
-> +       DRM_BRIDGE_OP_HDMI = BIT(4),
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Dmitry Baryshkov (3):
+      drm/msm/dsi: remove the drm_bridge_attach fallback
+      drm/msm/dsi: move next bridge acquisition to dsi_bind
+      drm/msm/dsi: simplify connector creation
 
-Note for myself: before v3, handle this bit in drm_debugfs.c / bridges_show.
+ drivers/gpu/drm/msm/dsi/dsi.c         | 26 ++++++++----
+ drivers/gpu/drm/msm/dsi/dsi.h         |  7 ++--
+ drivers/gpu/drm/msm/dsi/dsi_manager.c | 79 ++++++++++++-----------------------
+ 3 files changed, 48 insertions(+), 64 deletions(-)
+---
+base-commit: 1843e16d2df9d98427ef8045589571749d627cf7
+change-id: 20240309-fd-dsi-cleanup-bridges-22d5dc1c1341
 
->  };
-
-
+Best regards,
 -- 
-With best wishes
-Dmitry
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
