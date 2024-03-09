@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A94958772AD
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Mar 2024 19:16:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A5D48772B7
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Mar 2024 19:16:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 816131122AC;
-	Sat,  9 Mar 2024 18:15:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FE621122B0;
+	Sat,  9 Mar 2024 18:15:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XhCRqoA1";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IvFVbhha";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4F501122A8
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AF641122A7
  for <dri-devel@lists.freedesktop.org>; Sat,  9 Mar 2024 18:15:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id DF9B860ABB;
+ by dfw.source.kernel.org (Postfix) with ESMTP id CA54960AB4;
  Sat,  9 Mar 2024 18:15:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BAE6DC43601;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C3F0DC43141;
  Sat,  9 Mar 2024 18:15:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1710008148;
- bh=m9rDGJG3yT0hInpV7CP8HSKCj+Qqpk8lQAChvTHQ+JI=;
+ bh=lp5nxy6HNnZpATxvd/HFI6c0ISHq5as3xBX7Ze1jJ4o=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=XhCRqoA1LUAdAsPrelPfBQKSairM63iEyzo/2MnuJMeI1JHoXH6nMw8oEEIHQ/syI
- v4vLygGU8cGtoOkHJHokSSl4Il2nyP7hd5QW5CitlrjA8h0CMiZxuhR4iONO7B6Bc5
- XHfgqjiOTrE6BIvC3qpJn4h89nj3vxKxNyOZH/N5kkFHI2jyBKKf8mdbr+YS6t8HQb
- SSBjC6LTMA/rwxiQwzLvvMAYm6zJS0r92d6oYi2gQhv5iLzXCKWM3bTJVowhsQdWPP
- sEQK+rahsrpcdtkCA1EOg2nfQwp2Xd/eXpjQMiWPdhjUdp+/4M73Y/p0ftL9HGCjWW
- +VsFEKtdE8RsQ==
+ b=IvFVbhhaIt2cnGt1uVOhUw3Vr1WpCCRm81sb1aSvwhgrb1d+DsSyo84xKr8s90Sh0
+ buHJTxJnG+Q1XBGAf5yK0t4rKzfA832uzQfgWp0UxUHVoyWFCy5OLeHNX8Vnw2euOH
+ ZfOwFr/R5/MvTvciK1y/pUEuc7r+/okzGci7r+SLTU02SIrnnPPiu919KoItZwDx+F
+ oRjMYKrybgPlrEVhslkeLRZ8HB+BViBqBlBnz2U2Jyz3ltZupUF5fHgNXSNIyUaR88
+ z0UbBTk6Wal7u4yAWelvCP2M0LD3bbXPF84gWJKoIM3sgwdl4xJRXX4Jz8pQqiF6Y1
+ 74dtd/1VIadFg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id A187EC54E63;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id B3CD6C54798;
  Sat,  9 Mar 2024 18:15:48 +0000 (UTC)
 From: Sam Ravnborg via B4 Relay <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 09 Mar 2024 19:15:26 +0100
-Subject: [PATCH v2 05/28] sparc32: Drop sun specific power management drivers
+Date: Sat, 09 Mar 2024 19:15:27 +0100
+Subject: [PATCH v2 06/28] sparc32: Drop auxio support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240309-sunset-v2-5-f09912574d2c@ravnborg.org>
+Message-Id: <20240309-sunset-v2-6-f09912574d2c@ravnborg.org>
 References: <20240309-sunset-v2-0-f09912574d2c@ravnborg.org>
 In-Reply-To: <20240309-sunset-v2-0-f09912574d2c@ravnborg.org>
 To: "David S. Miller" <davem@davemloft.net>, 
@@ -57,11 +57,11 @@ Cc: Helge Deller <deller@gmx.de>, Randy Dunlap <rdunlap@infradead.org>,
  linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  linux-sound@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1710008145; l=8732;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1710008145; l=11011;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=xfye2ufSuL0q3FGRI3G6gKy5PSSX4RF61bEbgiVwBO8=; =?utf-8?q?b=3D/u2Vf5aiwBMX?=
- =?utf-8?q?tpyvGyUoEm7qRPdOrPBd/CSU00cO28yLEKxrUTuJzRxxHNZp85vOc/+aOenx79R2?=
- udWx8gu8B3xzaHXB7DQ7zqAbNkE0+WQLJ3zD335/prJJc7YcbIrd
+ bh=kS0/BIH7BBM9lnNQLzENuAHEbFjw7m4PEBWcl87r9p8=; =?utf-8?q?b=3D1HDLRsNCBANH?=
+ =?utf-8?q?U1cDtDjMqyDGeMj6dYTpJrmxgjYPYcUAdxFrhvLhxrIfnKBup7IDK2s5HliYjsdx?=
+ vVGthHtNDStGTILoVfjD2wycdU3O9fQmatWkdJ2lTIxmMbk0XjkL
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Relay for sam@ravnborg.org/20230107 with auth_id=22
@@ -84,7 +84,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sam Ravnborg <sam@ravnborg.org>
 
-Drop the two sun specific apc and pmc drivers.
+auxio is not supported by LEON - so drop it.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Acked-by: Arnd Bergmann <arnd@kernel.org>
@@ -92,350 +92,350 @@ Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Arnd Bergmann <arnd@kernel.org>
 Cc: Andreas Larsson <andreas@gaisler.com>
 ---
- arch/sparc/Kconfig         |   7 --
- arch/sparc/kernel/Makefile |   1 -
- arch/sparc/kernel/apc.c    | 196 ---------------------------------------------
- arch/sparc/kernel/pmc.c    | 100 -----------------------
- 4 files changed, 304 deletions(-)
+ arch/sparc/include/asm/auxio_32.h |  73 +-------------------
+ arch/sparc/kernel/Makefile        |   2 +-
+ arch/sparc/kernel/auxio_32.c      | 139 --------------------------------------
+ arch/sparc/kernel/devices.c       |   3 -
+ arch/sparc/kernel/kernel.h        |   4 --
+ arch/sparc/kernel/process_32.c    |  10 ---
+ arch/sparc/prom/misc_32.c         |   2 -
+ 7 files changed, 3 insertions(+), 230 deletions(-)
 
-diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
-index df88ad5df470..23cdf1959991 100644
---- a/arch/sparc/Kconfig
-+++ b/arch/sparc/Kconfig
-@@ -320,13 +320,6 @@ config CMDLINE
+diff --git a/arch/sparc/include/asm/auxio_32.h b/arch/sparc/include/asm/auxio_32.h
+index 852457c7a265..e2335ddd359d 100644
+--- a/arch/sparc/include/asm/auxio_32.h
++++ b/arch/sparc/include/asm/auxio_32.h
+@@ -1,43 +1,12 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ /*
+- * auxio.h:  Definitions and code for the Auxiliary I/O register.
++ * Dummy definitions for the Auxiliary I/O register.
+  *
+  * Copyright (C) 1995 David S. Miller (davem@caip.rutgers.edu)
+  */
+ #ifndef _SPARC_AUXIO_H
+ #define _SPARC_AUXIO_H
  
- 	  NOTE: This option WILL override the PROM bootargs setting!
- 
--config SUN_PM
--	bool
--	default y if SPARC32
--	help
--	  Enable power management and CPU standby features on supported
--	  SPARC platforms.
+-#include <asm/vaddrs.h>
 -
- config SERIAL_CONSOLE
- 	bool
- 	depends on SPARC32
+-/* This register is an unsigned char in IO space.  It does two things.
+- * First, it is used to control the front panel LED light on machines
+- * that have it (good for testing entry points to trap handlers and irq's)
+- * Secondly, it controls various floppy drive parameters.
+- */
+-#define AUXIO_ORMEIN      0xf0    /* All writes must set these bits. */
+-#define AUXIO_ORMEIN4M    0xc0    /* sun4m - All writes must set these bits. */
+-#define AUXIO_FLPY_DENS   0x20    /* Floppy density, high if set. Read only. */
+-#define AUXIO_FLPY_DCHG   0x10    /* A disk change occurred.  Read only. */
+-#define AUXIO_EDGE_ON     0x10    /* sun4m - On means Jumper block is in. */
+-#define AUXIO_FLPY_DSEL   0x08    /* Drive select/start-motor. Write only. */
+-#define AUXIO_LINK_TEST   0x08    /* sun4m - On means TPE Carrier detect. */
+-
+-/* Set the following to one, then zero, after doing a pseudo DMA transfer. */
+-#define AUXIO_FLPY_TCNT   0x04    /* Floppy terminal count. Write only. */
+-
+-/* Set the following to zero to eject the floppy. */
+-#define AUXIO_FLPY_EJCT   0x02    /* Eject floppy disk.  Write only. */
+-#define AUXIO_LED         0x01    /* On if set, off if unset. Read/Write */
+-
+-#ifndef __ASSEMBLY__
+-
+-/*
+- * NOTE: these routines are implementation dependent--
+- * understand the hardware you are querying!
+- */
+-void set_auxio(unsigned char bits_on, unsigned char bits_off);
+-unsigned char get_auxio(void); /* .../asm/floppy.h */
+-
+ /*
+  * The following routines are provided for driver-compatibility
+  * with sparc64 (primarily sunlance.c)
+@@ -46,44 +15,6 @@ unsigned char get_auxio(void); /* .../asm/floppy.h */
+ #define AUXIO_LTE_ON    1
+ #define AUXIO_LTE_OFF   0
+ 
+-/* auxio_set_lte - Set Link Test Enable (TPE Link Detect)
+- *
+- * on - AUXIO_LTE_ON or AUXIO_LTE_OFF
+- */
+-#define auxio_set_lte(on) \
+-do { \
+-	if(on) { \
+-		set_auxio(AUXIO_LINK_TEST, 0); \
+-	} else { \
+-		set_auxio(0, AUXIO_LINK_TEST); \
+-	} \
+-} while (0)
+-
+-#define AUXIO_LED_ON    1
+-#define AUXIO_LED_OFF   0
+-
+-/* auxio_set_led - Set system front panel LED
+- *
+- * on - AUXIO_LED_ON or AUXIO_LED_OFF
+- */
+-#define auxio_set_led(on) \
+-do { \
+-	if(on) { \
+-		set_auxio(AUXIO_LED, 0); \
+-	} else { \
+-		set_auxio(0, AUXIO_LED); \
+-	} \
+-} while (0)
+-
+-#endif /* !(__ASSEMBLY__) */
+-
+-
+-/* AUXIO2 (Power Off Control) */
+-extern volatile u8 __iomem *auxio_power_register;
+-
+-#define	AUXIO_POWER_DETECT_FAILURE	32
+-#define	AUXIO_POWER_CLEAR_FAILURE	2
+-#define	AUXIO_POWER_OFF			1
+-
++#define auxio_set_lte(on)
+ 
+ #endif /* !(_SPARC_AUXIO_H) */
 diff --git a/arch/sparc/kernel/Makefile b/arch/sparc/kernel/Makefile
-index d3a0e0ebcfe7..1a942546dd00 100644
+index 1a942546dd00..b253b7e132ce 100644
 --- a/arch/sparc/kernel/Makefile
 +++ b/arch/sparc/kernel/Makefile
-@@ -83,7 +83,6 @@ obj-$(CONFIG_SPARC32_SMP) += sun4m_smp.o sun4d_smp.o leon_smp.o
+@@ -82,7 +82,7 @@ obj-$(CONFIG_SMP)         += trampoline_$(BITS).o smp_$(BITS).o
+ obj-$(CONFIG_SPARC32_SMP) += sun4m_smp.o sun4d_smp.o leon_smp.o
  obj-$(CONFIG_SPARC64_SMP) += hvtramp.o
  
- obj-y                     += auxio_$(BITS).o
--obj-$(CONFIG_SUN_PM)      += apc.o pmc.o
+-obj-y                     += auxio_$(BITS).o
++obj-$(CONFIG_SPARC64)     += auxio_64.o
  
  obj-y                     += termios.o
  
-diff --git a/arch/sparc/kernel/apc.c b/arch/sparc/kernel/apc.c
+diff --git a/arch/sparc/kernel/auxio_32.c b/arch/sparc/kernel/auxio_32.c
 deleted file mode 100644
-index d44725d37e30..000000000000
---- a/arch/sparc/kernel/apc.c
+index 989860e890c4..000000000000
+--- a/arch/sparc/kernel/auxio_32.c
 +++ /dev/null
-@@ -1,196 +0,0 @@
+@@ -1,139 +0,0 @@
 -// SPDX-License-Identifier: GPL-2.0
--/* apc - Driver implementation for power management functions
-- * of Aurora Personality Chip (APC) on SPARCstation-4/5 and
-- * derivatives.
+-/* auxio.c: Probing for the Sparc AUXIO register at boot time.
 - *
-- * Copyright (c) 2002 Eric Brower (ebrower@usa.net)
+- * Copyright (C) 1996 David S. Miller (davem@caip.rutgers.edu)
 - */
 -
--#include <linux/kernel.h>
--#include <linux/fs.h>
--#include <linux/errno.h>
+-#include <linux/stddef.h>
 -#include <linux/init.h>
--#include <linux/miscdevice.h>
--#include <linux/pm.h>
+-#include <linux/spinlock.h>
 -#include <linux/of.h>
--#include <linux/platform_device.h>
--#include <linux/module.h>
+-#include <linux/export.h>
 -
--#include <asm/io.h>
 -#include <asm/oplib.h>
--#include <linux/uaccess.h>
+-#include <asm/io.h>
 -#include <asm/auxio.h>
--#include <asm/apc.h>
--#include <asm/processor.h>
+-#include <asm/string.h>		/* memset(), Linux has no bzero() */
+-#include <asm/cpu_type.h>
 -
--/* Debugging
-- * 
-- * #define APC_DEBUG_LED
+-#include "kernel.h"
+-
+-/* Probe and map in the Auxiliary I/O register */
+-
+-/* auxio_register is not static because it is referenced 
+- * in entry.S::floppy_tdone
 - */
+-void __iomem *auxio_register = NULL;
+-static DEFINE_SPINLOCK(auxio_lock);
 -
--#define APC_MINOR	MISC_DYNAMIC_MINOR
--#define APC_OBPNAME	"power-management"
--#define APC_DEVNAME "apc"
--
--static u8 __iomem *regs;
--static int apc_no_idle = 0;
--
--#define apc_readb(offs)		(sbus_readb(regs+offs))
--#define apc_writeb(val, offs) 	(sbus_writeb(val, regs+offs))
--
--/* Specify "apc=noidle" on the kernel command line to 
-- * disable APC CPU standby support.  Certain prototype
-- * systems (SPARCstation-Fox) do not play well with APC
-- * CPU idle, so disable this if your system has APC and 
-- * crashes randomly.
-- */
--static int __init apc_setup(char *str) 
+-void __init auxio_probe(void)
 -{
--	if(!strncmp(str, "noidle", strlen("noidle"))) {
--		apc_no_idle = 1;
--		return 1;
--	}
--	return 0;
--}
--__setup("apc=", apc_setup);
+-	phandle node, auxio_nd;
+-	struct linux_prom_registers auxregs[1];
+-	struct resource r;
 -
--/* 
-- * CPU idle callback function
-- * See .../arch/sparc/kernel/process.c
-- */
--static void apc_swift_idle(void)
--{
--#ifdef APC_DEBUG_LED
--	set_auxio(0x00, AUXIO_LED); 
--#endif
--
--	apc_writeb(apc_readb(APC_IDLE_REG) | APC_IDLE_ON, APC_IDLE_REG);
--
--#ifdef APC_DEBUG_LED
--	set_auxio(AUXIO_LED, 0x00); 
--#endif
--} 
--
--static inline void apc_free(struct platform_device *op)
--{
--	of_iounmap(&op->resource[0], regs, resource_size(&op->resource[0]));
--}
--
--static int apc_open(struct inode *inode, struct file *f)
--{
--	return 0;
--}
--
--static int apc_release(struct inode *inode, struct file *f)
--{
--	return 0;
--}
--
--static long apc_ioctl(struct file *f, unsigned int cmd, unsigned long __arg)
--{
--	__u8 inarg, __user *arg = (__u8 __user *) __arg;
--
--	switch (cmd) {
--	case APCIOCGFANCTL:
--		if (put_user(apc_readb(APC_FANCTL_REG) & APC_REGMASK, arg))
--			return -EFAULT;
--		break;
--
--	case APCIOCGCPWR:
--		if (put_user(apc_readb(APC_CPOWER_REG) & APC_REGMASK, arg))
--			return -EFAULT;
--		break;
--
--	case APCIOCGBPORT:
--		if (put_user(apc_readb(APC_BPORT_REG) & APC_BPMASK, arg))
--			return -EFAULT;
--		break;
--
--	case APCIOCSFANCTL:
--		if (get_user(inarg, arg))
--			return -EFAULT;
--		apc_writeb(inarg & APC_REGMASK, APC_FANCTL_REG);
--		break;
--
--	case APCIOCSCPWR:
--		if (get_user(inarg, arg))
--			return -EFAULT;
--		apc_writeb(inarg & APC_REGMASK, APC_CPOWER_REG);
--		break;
--
--	case APCIOCSBPORT:
--		if (get_user(inarg, arg))
--			return -EFAULT;
--		apc_writeb(inarg & APC_BPMASK, APC_BPORT_REG);
--		break;
--
+-	switch (sparc_cpu_model) {
+-	case sparc_leon:
+-	case sun4d:
+-		return;
 -	default:
--		return -EINVAL;
+-		break;
 -	}
+-	node = prom_getchild(prom_root_node);
+-	auxio_nd = prom_searchsiblings(node, "auxiliary-io");
+-	if(!auxio_nd) {
+-		node = prom_searchsiblings(node, "obio");
+-		node = prom_getchild(node);
+-		auxio_nd = prom_searchsiblings(node, "auxio");
+-		if(!auxio_nd) {
+-#ifdef CONFIG_PCI
+-			/* There may be auxio on Ebus */
+-			return;
+-#else
+-			if(prom_searchsiblings(node, "leds")) {
+-				/* VME chassis sun4m machine, no auxio exists. */
+-				return;
+-			}
+-			prom_printf("Cannot find auxio node, cannot continue...\n");
+-			prom_halt();
+-#endif
+-		}
+-	}
+-	if(prom_getproperty(auxio_nd, "reg", (char *) auxregs, sizeof(auxregs)) <= 0)
+-		return;
+-	prom_apply_obio_ranges(auxregs, 0x1);
+-	/* Map the register both read and write */
+-	r.flags = auxregs[0].which_io & 0xF;
+-	r.start = auxregs[0].phys_addr;
+-	r.end = auxregs[0].phys_addr + auxregs[0].reg_size - 1;
+-	auxio_register = of_ioremap(&r, 0, auxregs[0].reg_size, "auxio");
+-	/* Fix the address on sun4m. */
+-	if ((((unsigned long) auxregs[0].phys_addr) & 3) == 3)
+-		auxio_register += (3 - ((unsigned long)auxio_register & 3));
 -
+-	set_auxio(AUXIO_LED, 0);
+-}
+-
+-unsigned char get_auxio(void)
+-{
+-	if(auxio_register) 
+-		return sbus_readb(auxio_register);
 -	return 0;
 -}
+-EXPORT_SYMBOL(get_auxio);
 -
--static const struct file_operations apc_fops = {
--	.unlocked_ioctl =	apc_ioctl,
--	.open =			apc_open,
--	.release =		apc_release,
--	.llseek =		noop_llseek,
--};
--
--static struct miscdevice apc_miscdev = { APC_MINOR, APC_DEVNAME, &apc_fops };
--
--static int apc_probe(struct platform_device *op)
+-void set_auxio(unsigned char bits_on, unsigned char bits_off)
 -{
--	int err;
--
--	regs = of_ioremap(&op->resource[0], 0,
--			  resource_size(&op->resource[0]), APC_OBPNAME);
--	if (!regs) {
--		printk(KERN_ERR "%s: unable to map registers\n", APC_DEVNAME);
--		return -ENODEV;
+-	unsigned char regval;
+-	unsigned long flags;
+-	spin_lock_irqsave(&auxio_lock, flags);
+-	switch (sparc_cpu_model) {
+-	case sun4m:
+-		if(!auxio_register)
+-			break;     /* VME chassis sun4m, no auxio. */
+-		regval = sbus_readb(auxio_register);
+-		sbus_writeb(((regval | bits_on) & ~bits_off) | AUXIO_ORMEIN4M,
+-			auxio_register);
+-		break;
+-	case sun4d:
+-		break;
+-	default:
+-		panic("Can't set AUXIO register on this machine.");
 -	}
--
--	err = misc_register(&apc_miscdev);
--	if (err) {
--		printk(KERN_ERR "%s: unable to register device\n", APC_DEVNAME);
--		apc_free(op);
--		return -ENODEV;
--	}
--
--	/* Assign power management IDLE handler */
--	if (!apc_no_idle)
--		sparc_idle = apc_swift_idle;
--
--	printk(KERN_INFO "%s: power management initialized%s\n", 
--	       APC_DEVNAME, apc_no_idle ? " (CPU idle disabled)" : "");
--
--	return 0;
+-	spin_unlock_irqrestore(&auxio_lock, flags);
 -}
+-EXPORT_SYMBOL(set_auxio);
 -
--static const struct of_device_id apc_match[] = {
--	{
--		.name = APC_OBPNAME,
--	},
--	{},
--};
--MODULE_DEVICE_TABLE(of, apc_match);
+-/* sun4m power control register (AUXIO2) */
 -
--static struct platform_driver apc_driver = {
--	.driver = {
--		.name = "apc",
--		.of_match_table = apc_match,
--	},
--	.probe		= apc_probe,
--};
+-volatile u8 __iomem *auxio_power_register = NULL;
 -
--static int __init apc_init(void)
+-void __init auxio_power_probe(void)
 -{
--	return platform_driver_register(&apc_driver);
+-	struct linux_prom_registers regs;
+-	phandle node;
+-	struct resource r;
+-
+-	/* Attempt to find the sun4m power control node. */
+-	node = prom_getchild(prom_root_node);
+-	node = prom_searchsiblings(node, "obio");
+-	node = prom_getchild(node);
+-	node = prom_searchsiblings(node, "power");
+-	if (node == 0 || (s32)node == -1)
+-		return;
+-
+-	/* Map the power control register. */
+-	if (prom_getproperty(node, "reg", (char *)&regs, sizeof(regs)) <= 0)
+-		return;
+-	prom_apply_obio_ranges(&regs, 1);
+-	memset(&r, 0, sizeof(r));
+-	r.flags = regs.which_io & 0xF;
+-	r.start = regs.phys_addr;
+-	r.end = regs.phys_addr + regs.reg_size - 1;
+-	auxio_power_register =
+-		(u8 __iomem *)of_ioremap(&r, 0, regs.reg_size, "auxpower");
+-
+-	/* Display a quick message on the console. */
+-	if (auxio_power_register)
+-		printk(KERN_INFO "Power off control detected.\n");
 -}
+diff --git a/arch/sparc/kernel/devices.c b/arch/sparc/kernel/devices.c
+index 23b6e50d4ada..b3c2d51b22c4 100644
+--- a/arch/sparc/kernel/devices.c
++++ b/arch/sparc/kernel/devices.c
+@@ -132,7 +132,4 @@ void __init device_scan(void)
+ 							    0);
+ 	}
+ #endif /* !CONFIG_SMP */
 -
--/* This driver is not critical to the boot process
-- * and is easiest to ioremap when SBus is already
-- * initialized, so we install ourselves thusly:
-- */
--__initcall(apc_init);
-diff --git a/arch/sparc/kernel/pmc.c b/arch/sparc/kernel/pmc.c
-deleted file mode 100644
-index 69a0206e56f0..000000000000
---- a/arch/sparc/kernel/pmc.c
-+++ /dev/null
-@@ -1,100 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/* pmc - Driver implementation for power management functions
-- * of Power Management Controller (PMC) on SPARCstation-Voyager.
-- *
-- * Copyright (c) 2002 Eric Brower (ebrower@usa.net)
-- */
+-	auxio_probe();
+-	auxio_power_probe();
+ }
+diff --git a/arch/sparc/kernel/kernel.h b/arch/sparc/kernel/kernel.h
+index 3a0d39caa42a..64703be6c015 100644
+--- a/arch/sparc/kernel/kernel.h
++++ b/arch/sparc/kernel/kernel.h
+@@ -174,10 +174,6 @@ asmlinkage void user_unaligned_trap(struct pt_regs *regs, unsigned int insn);
+ /* windows.c */
+ void try_to_clear_window_buffer(struct pt_regs *regs, int who);
+ 
+-/* auxio_32.c */
+-void __init auxio_probe(void);
+-void __init auxio_power_probe(void);
 -
--#include <linux/kernel.h>
--#include <linux/fs.h>
--#include <linux/errno.h>
--#include <linux/init.h>
--#include <linux/pm.h>
--#include <linux/of.h>
--#include <linux/platform_device.h>
--#include <linux/module.h>
--
--#include <asm/io.h>
--#include <asm/oplib.h>
--#include <linux/uaccess.h>
+ /* pcic.c */
+ extern void __iomem *pcic_regs;
+ void pcic_nmi(unsigned int pend, struct pt_regs *regs);
+diff --git a/arch/sparc/kernel/process_32.c b/arch/sparc/kernel/process_32.c
+index 9c7c662cb565..2e2836f314ca 100644
+--- a/arch/sparc/kernel/process_32.c
++++ b/arch/sparc/kernel/process_32.c
+@@ -27,7 +27,6 @@
+ #include <linux/slab.h>
+ #include <linux/cpu.h>
+ 
 -#include <asm/auxio.h>
--#include <asm/processor.h>
--
--/* Debug
-- *
-- * #define PMC_DEBUG_LED
-- * #define PMC_NO_IDLE
-- */
--
--#define PMC_OBPNAME	"SUNW,pmc"
--#define PMC_DEVNAME	"pmc"
--
--#define PMC_IDLE_REG	0x00
--#define PMC_IDLE_ON	0x01
--
--static u8 __iomem *regs;
--
--#define pmc_readb(offs)		(sbus_readb(regs+offs))
--#define pmc_writeb(val, offs)	(sbus_writeb(val, regs+offs))
--
--/*
-- * CPU idle callback function
-- * See .../arch/sparc/kernel/process.c
-- */
--static void pmc_swift_idle(void)
--{
--#ifdef PMC_DEBUG_LED
--	set_auxio(0x00, AUXIO_LED);
--#endif
--
--	pmc_writeb(pmc_readb(PMC_IDLE_REG) | PMC_IDLE_ON, PMC_IDLE_REG);
--
--#ifdef PMC_DEBUG_LED
--	set_auxio(AUXIO_LED, 0x00);
--#endif
--}
--
--static int pmc_probe(struct platform_device *op)
--{
--	regs = of_ioremap(&op->resource[0], 0,
--			  resource_size(&op->resource[0]), PMC_OBPNAME);
--	if (!regs) {
--		printk(KERN_ERR "%s: unable to map registers\n", PMC_DEVNAME);
--		return -ENODEV;
+ #include <asm/oplib.h>
+ #include <linux/uaccess.h>
+ #include <asm/page.h>
+@@ -49,8 +48,6 @@ void (*sparc_idle)(void);
+ 
+ /* 
+  * Power-off handler instantiation for pm.h compliance
+- * This is done via auxio, but could be used as a fallback
+- * handler when auxio is not present-- unused for now...
+  */
+ void (*pm_power_off)(void) = machine_power_off;
+ EXPORT_SYMBOL(pm_power_off);
+@@ -103,13 +100,6 @@ void machine_restart(char * cmd)
+ 
+ void machine_power_off(void)
+ {
+-	if (auxio_power_register &&
+-	    (!of_node_is_type(of_console_device, "serial") || scons_pwroff)) {
+-		u8 power_register = sbus_readb(auxio_power_register);
+-		power_register |= AUXIO_POWER_OFF;
+-		sbus_writeb(power_register, auxio_power_register);
 -	}
 -
--#ifndef PMC_NO_IDLE
--	/* Assign power management IDLE handler */
--	sparc_idle = pmc_swift_idle;
--#endif
--
--	printk(KERN_INFO "%s: power management initialized\n", PMC_DEVNAME);
--	return 0;
--}
--
--static const struct of_device_id pmc_match[] = {
--	{
--		.name = PMC_OBPNAME,
--	},
--	{},
--};
--MODULE_DEVICE_TABLE(of, pmc_match);
--
--static struct platform_driver pmc_driver = {
--	.driver = {
--		.name = "pmc",
--		.of_match_table = pmc_match,
--	},
--	.probe		= pmc_probe,
--};
--
--static int __init pmc_init(void)
--{
--	return platform_driver_register(&pmc_driver);
--}
--
--/* This driver is not critical to the boot process
-- * and is easiest to ioremap when SBus is already
-- * initialized, so we install ourselves thusly:
-- */
--__initcall(pmc_init);
+ 	machine_halt();
+ }
+ 
+diff --git a/arch/sparc/prom/misc_32.c b/arch/sparc/prom/misc_32.c
+index 625750924860..78dde6bfbf0f 100644
+--- a/arch/sparc/prom/misc_32.c
++++ b/arch/sparc/prom/misc_32.c
+@@ -13,7 +13,6 @@
+ 
+ #include <asm/openprom.h>
+ #include <asm/oplib.h>
+-#include <asm/auxio.h>
+ 
+ extern void restore_current(void);
+ 
+@@ -60,7 +59,6 @@ prom_cmdline(void)
+ 	(*(romvec->pv_abort))();
+ 	restore_current();
+ 	spin_unlock_irqrestore(&prom_lock, flags);
+-	set_auxio(AUXIO_LED, 0);
+ }
+ 
+ /* Drop into the prom, but completely terminate the program.
 
 -- 
 2.34.1
