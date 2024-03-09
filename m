@@ -2,78 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C31D58770E1
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Mar 2024 12:58:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5CFC8770EF
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Mar 2024 13:03:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF9A910E3AC;
-	Sat,  9 Mar 2024 11:58:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CE6210FF7D;
+	Sat,  9 Mar 2024 12:03:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="mqw/Fo2g";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="i0E6pVN2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 202B210E3AC
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Mar 2024 11:58:40 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E2D521BF203;
- Sat,  9 Mar 2024 11:58:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1709985518;
+Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com
+ [95.215.58.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07B2310FF7E
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Mar 2024 12:03:27 +0000 (UTC)
+Message-ID: <28492cfb-5327-46d5-8c08-233f1786ff44@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1709985804;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YeJuGxy7IMp2CtzAyuorWvkKuxtOwV9FaaLvZ5RlJaQ=;
- b=mqw/Fo2gmyLahOaZ3SozUt8O5PlHBXFjoVVfpAARskZd/VWkFBe4x+XmkaLjfJYgHyXWrL
- /IXkANV6aKoqD0HHaJA9DSGsTsoE0OamW+mmiT4kc6g/Afnfh348G1ycgjQja9dm4pfA7f
- ixZ3MD+NmdISNQxEiaPAID+mXiW+4MQkgIUMoos9uO0RwqvsxtHs81d8/lf1/8M+t8bAEh
- fEC+XFitRxfneaISR+sjsYfXTc02xIsVxSdNAWQCXwXjIolap2zGCJP/XWCPoXk9upY4GJ
- 2G5mQ17W2cakOZx9SSWbcnN2/ZYmizLN6hQTR+yTZW9VDB/zz+k0q3KswJNVjA==
-Date: Sat, 9 Mar 2024 12:58:33 +0100
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
-Cc: Arthur Grillo <arthurgrillo@riseup.net>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- pekka.paalanen@haloniitty.fi, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
- Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH 0/7] Additions to "Reimplement line-per-line pixel
- conversion for plane reading" series
-Message-ID: <ZexO6SOeQFnYMl_G@localhost.localdomain>
-Mail-Followup-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Arthur Grillo <arthurgrillo@riseup.net>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- pekka.paalanen@haloniitty.fi, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
- Pekka Paalanen <pekka.paalanen@collabora.com>
-References: <20240306-louis-vkms-conv-v1-0-5bfe7d129fdd@riseup.net>
- <4b01ba61-9184-4a17-9fe6-59eb88a21214@igalia.com>
+ bh=axQl+5LrcSwPQ7Y79L1XQ/DDezVoFDIXlwRR++4w7oE=;
+ b=i0E6pVN2RsKFRkkKlIL4UD3RFZkn0fPIwWzAu9aj89oddtgk9EwIl36OgqpuVwhcHs996e
+ kcfXE839mR/cszn9zYEcFBz6g9CT0p5c4iKVsaD2nTiOhcmv/pRza/V7QrlFr7gduwZhuu
+ JC2wELPl4O9bjqYGSEAYemZpwc0xPF8=
+Date: Sat, 9 Mar 2024 20:03:14 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4b01ba61-9184-4a17-9fe6-59eb88a21214@igalia.com>
-X-GND-Sasl: louis.chauvet@bootlin.com
+Subject: Re: [PATCH v2 1/4] drm/bridge: Add fwnode based helpers to get the
+ next bridge
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Phong LE <ple@baylibre.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240307172334.1753343-1-sui.jingfeng@linux.dev>
+ <20240307172334.1753343-2-sui.jingfeng@linux.dev>
+ <CAA8EJpp8tsHi0RhsJXG+r6nOsV3AUC_n6jNHL0Cr6Ku2h3NMog@mail.gmail.com>
+ <45f59f31-1f03-4a96-adb6-25c7cdd5e8a1@linux.dev>
+ <CAA8EJpqq1-cEke6wEFZFDnpz4tFBcL6HF3=Qtf-8Q3WbogLS8A@mail.gmail.com>
+ <c84fcdba-af50-4212-a8e3-f492c2b02ce4@linux.dev>
+ <CAA8EJppTcPO3j7GpGcGbKPUjQ=3rTMMOrU1SYR3mtkWLztf2qQ@mail.gmail.com>
+ <7535b3ba-6bbb-411c-82a4-cd4ac45de1a6@linux.dev>
+ <CAA8EJpp3yd33pYweL_exrXMJ3g-m7-yjJrjiVMVMevOadBtt8g@mail.gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <CAA8EJpp3yd33pYweL_exrXMJ3g-m7-yjJrjiVMVMevOadBtt8g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,90 +73,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 08/03/24 - 17:38, Maíra Canal a écrit :
-> Hi Arthur,
+Hi,
 
-Hi Maíra,
 
-> Would it be possible for you to coordinate with Louis and create a
-> single series with all the modification?
+On 2024/3/9 18:39, Dmitry Baryshkov wrote:
+>> The code path of "creating a connector" plus the code path of "not creating a connector"
+>> forms a 'side-by-side' implementation imo.
+>>
+>> Besides, I have repeated many times: the DT already speak everything.
+>> Device drivers can completely know if there is a display connector OF device created and how many
+>> display bridges in the whole chain. If there are connector device node in the DT, then it should
+>> has a device driver bound to it(instead of create it manually) for a perfect implementation. As
+>> you told me we should not*over play*  the device-driver model, right?
+> Please, don't mix the connector node in DT and the drm_connector. If
+> you check the code, you will see that the driver for hdmi-connector,
+> dp-connector and other such devices creates a drm_bridge.
 
-This is already the case, [1] contains all our work. But as there were a 
-lot of things to change in the YUV part, it was easier for Arthur to send 
-a "real" series over [1]. I've already merged everything, and it'll all be 
-in v5 (probably Monday or Tuesday).
 
-Kind regards,
-Louis Chauvet
+OK, I'm not mixed them, I'm very clear from the very beginning. I have checked
+the code years ago. Let's make it clear by iterating one more time:
 
-> I don't see a reason to submit fixes to a series that it is still
-> on review.
->
-> Best Regards,
-> - Maíra
-> 
-> On 3/6/24 17:03, Arthur Grillo wrote:
-> > These are some patches that add some fixes/features to the series by
-> > Louis Chauvet[1], it was based on top of the patches from v4.
-> > 
-> > Patches #2 and #3 should be amended to "[PATCH v4 11/14] drm/vkms: Add
-> > YUV support". To make patch #3 work, we need patch #1. So, please, add
-> > it before the patch that #2 and #3 amend to.
-> > 
-> > Patches #4 to #6 should be amended to "[PATCH v4 14/14] drm/vkms: Create
-> > KUnit tests for YUV conversions". While doing the additions, I found
-> > some compilation issues, so I fixed them (patch #4). That's when I
-> > thought that it would be good to add some documentation on how to run
-> > them (patch #7), this patch should be added to the series as new patch.
-> > 
-> > [1]: https://lore.kernel.org/r/20240304-yuv-v4-0-76beac8e9793@bootlin.com
-> > 
-> > To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> > To: Melissa Wen <melissa.srw@gmail.com>
-> > To: Maíra Canal <mairacanal@riseup.net>
-> > To: Haneen Mohammed <hamohammed.sa@gmail.com>
-> > To: Daniel Vetter <daniel@ffwll.ch>
-> > To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > To: Maxime Ripard <mripard@kernel.org>
-> > To: Thomas Zimmermann <tzimmermann@suse.de>
-> > To: David Airlie <airlied@gmail.com>
-> > To: arthurgrillo@riseup.net
-> > To: Jonathan Corbet <corbet@lwn.net>
-> > To: pekka.paalanen@haloniitty.fi
-> > To: Louis Chauvet <louis.chauvet@bootlin.com>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: linux-kernel@vger.kernel.org
-> > Cc: jeremie.dautheribes@bootlin.com
-> > Cc: miquel.raynal@bootlin.com
-> > Cc: thomas.petazzoni@bootlin.com
-> > Cc: seanpaul@google.com
-> > Cc: marcheu@google.com
-> > Cc: nicolejadeyee@google.com
-> > 
-> > Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> > ---
-> > Arthur Grillo (7):
-> >        drm: Fix drm_fixp2int_round() making it add 0.5
-> >        drm/vkms: Add comments
-> >        drm/vkmm: Use drm_fixed api
-> >        drm/vkms: Fix compilation issues
-> >        drm/vkms: Add comments to format tests
-> >        drm/vkms: Change the gray RGB representation
-> >        drm/vkms: Add how to run the Kunit tests
-> > 
-> >   Documentation/gpu/vkms.rst                    |  11 +++
-> >   drivers/gpu/drm/vkms/tests/vkms_format_test.c |  81 +++++++++++++++++++--
-> >   drivers/gpu/drm/vkms/vkms_drv.h               |   4 +
-> >   drivers/gpu/drm/vkms/vkms_formats.c           | 101 +++++++++++++++++++-------
-> >   include/drm/drm_fixed.h                       |   2 +-
-> >   5 files changed, 165 insertions(+), 34 deletions(-)
-> > ---
-> > base-commit: 9658aba38ae9f3f3068506c9c8e93e85b500fcb4
-> > change-id: 20240306-louis-vkms-conv-61362ff12ab8
-> > 
-> > Best regards,
+If DT contains one or more HDMI connector node, then there will be one or
+more display connector platform devices created by OF core, Then, according to
+your "don't overplay device-driver model" criterion or modern drm bridge standard,
+we shouldn't create a display connector instance in the drm birdge driver, right?
 
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+As otherwise we will have two display connector driver (or code) for a single entity,
+right?
+
+Another side effect is that
+when you create a hdmi display connector instance manually without reference to the
+DT, then *you made an assumption!*. But there are users who have don't a different
+need(or  different typology), for example, they need to read edid directly from the
+KMS driver side. This may because the i2c bus is directly connected to the connector
+part, but the display bridge's I2C slave interface. sii9022, it66121 and tfp410 support
+this kind of usage.
+
+So the real problem is that it is a policy level code  when you creating a hdmi
+display connector instance manually without reference to the DT in a common drm bridge
+driver, not a mechanism.
+
