@@ -2,62 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5CFC8770EF
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Mar 2024 13:03:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CA1C8770F6
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Mar 2024 13:10:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CE6210FF7D;
-	Sat,  9 Mar 2024 12:03:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BFFE10E408;
+	Sat,  9 Mar 2024 12:09:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="i0E6pVN2";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=paroga.com header.i=@paroga.com header.b="fKWSQkd6";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=paroga.com header.i=@paroga.com header.b="fKWSQkd6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com
- [95.215.58.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07B2310FF7E
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Mar 2024 12:03:27 +0000 (UTC)
-Message-ID: <28492cfb-5327-46d5-8c08-233f1786ff44@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1709985804;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=axQl+5LrcSwPQ7Y79L1XQ/DDezVoFDIXlwRR++4w7oE=;
- b=i0E6pVN2RsKFRkkKlIL4UD3RFZkn0fPIwWzAu9aj89oddtgk9EwIl36OgqpuVwhcHs996e
- kcfXE839mR/cszn9zYEcFBz6g9CT0p5c4iKVsaD2nTiOhcmv/pRza/V7QrlFr7gduwZhuu
- JC2wELPl4O9bjqYGSEAYemZpwc0xPF8=
-Date: Sat, 9 Mar 2024 20:03:14 +0800
+Received: from mx101.easyname.com (mx101.easyname.com [217.74.15.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA7E310E408
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Mar 2024 12:09:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=paroga.com; 
+ s=easyname;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=w4ocZVhEdKKPZzJiQi1Os36YGF2u8UmwpmBh4wF94S0=; b=fKWSQkd6emr+rkBfyho12CbqhA
+ SPKYMOToBfuYlZ/LVWg60EcYRZyOQPRozGlG/8984+ELG50NVyWvJP7+1WgNcfjdkpYwSWOvA6pPD
+ m+UwWtG+LR1GAOn8fepJuUPECAbdRW1W7whE2JPabxkgBvdfO2+EMtp4X/g/6fkQb8KTNsHKZKvup
+ 2LAkUVB7FxLnn7P8PuqkxUzGmH7l9ROzgWyGn3beyFKzs+AJ0KLNGOSUR8LvoX3lWSSoZ0WeUOVXe
+ dYcrYQkY+x0gCDILJ2PHEPNaonXVKJS7oZz4scbuvqdGYPv2oQVhthpUZuxuXEzDW+osYZMpTM5JV
+ BaJypPSQ==;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=paroga.com; 
+ s=easyname;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=w4ocZVhEdKKPZzJiQi1Os36YGF2u8UmwpmBh4wF94S0=; b=fKWSQkd6emr+rkBfyho12CbqhA
+ SPKYMOToBfuYlZ/LVWg60EcYRZyOQPRozGlG/8984+ELG50NVyWvJP7+1WgNcfjdkpYwSWOvA6pPD
+ m+UwWtG+LR1GAOn8fepJuUPECAbdRW1W7whE2JPabxkgBvdfO2+EMtp4X/g/6fkQb8KTNsHKZKvup
+ 2LAkUVB7FxLnn7P8PuqkxUzGmH7l9ROzgWyGn3beyFKzs+AJ0KLNGOSUR8LvoX3lWSSoZ0WeUOVXe
+ dYcrYQkY+x0gCDILJ2PHEPNaonXVKJS7oZz4scbuvqdGYPv2oQVhthpUZuxuXEzDW+osYZMpTM5JV
+ BaJypPSQ==;
+Received: from 84-115-228-205.cable.dynamic.surfer.at ([84.115.228.205]
+ helo=[192.168.0.94])
+ by mx.easyname.com with esmtpsa (TLSv1.3:TLS_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <paroga@paroga.com>)
+ id 1rivWR-0002vO-09; Sat, 09 Mar 2024 12:09:55 +0000
+Message-ID: <f97b4a8e-7944-496d-9bed-20e8076a327b@paroga.com>
+Date: Sat, 9 Mar 2024 13:09:48 +0100
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 1/4] drm/bridge: Add fwnode based helpers to get the
- next bridge
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] dt-bindings: backlight: Add Texas Instruments
+ LM3509
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Phong LE <ple@baylibre.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240307172334.1753343-1-sui.jingfeng@linux.dev>
- <20240307172334.1753343-2-sui.jingfeng@linux.dev>
- <CAA8EJpp8tsHi0RhsJXG+r6nOsV3AUC_n6jNHL0Cr6Ku2h3NMog@mail.gmail.com>
- <45f59f31-1f03-4a96-adb6-25c7cdd5e8a1@linux.dev>
- <CAA8EJpqq1-cEke6wEFZFDnpz4tFBcL6HF3=Qtf-8Q3WbogLS8A@mail.gmail.com>
- <c84fcdba-af50-4212-a8e3-f492c2b02ce4@linux.dev>
- <CAA8EJppTcPO3j7GpGcGbKPUjQ=3rTMMOrU1SYR3mtkWLztf2qQ@mail.gmail.com>
- <7535b3ba-6bbb-411c-82a4-cd4ac45de1a6@linux.dev>
- <CAA8EJpp3yd33pYweL_exrXMJ3g-m7-yjJrjiVMVMevOadBtt8g@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <CAA8EJpp3yd33pYweL_exrXMJ3g-m7-yjJrjiVMVMevOadBtt8g@mail.gmail.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+References: <20240308215617.1729664-1-paroga@paroga.com>
+ <cb220c6f-086c-4995-b2e2-bce78b9a4b04@linaro.org>
+From: Patrick Gansterer <paroga@paroga.com>
+In-Reply-To: <cb220c6f-086c-4995-b2e2-bce78b9a4b04@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,43 +81,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 09/03/2024 12:53, Krzysztof Kozlowski wrote:
+>> +  - compatible
+>> +  - reg
+>> +
+>> +patternProperties:
+>> +  "^led@[01]$":
+>> +    type: object
+>> +    description: Properties for a string of connected LEDs.
+> 
+> Are you sure this is a string of LEDs? How does a string/tape work with
+> a backlight, I mean physically? How could it look like?
 
+I just took most of the descriptions/names from lm3630a-backlight.yaml. 
+I understand it in this context as multiple serial connected LEDs (as 
+shown in the circuit diagram in the datasheet), so that each of them 
+gets the same current when connected to the output of the chip.
 
-On 2024/3/9 18:39, Dmitry Baryshkov wrote:
->> The code path of "creating a connector" plus the code path of "not creating a connector"
->> forms a 'side-by-side' implementation imo.
->>
->> Besides, I have repeated many times: the DT already speak everything.
->> Device drivers can completely know if there is a display connector OF device created and how many
->> display bridges in the whole chain. If there are connector device node in the DT, then it should
->> has a device driver bound to it(instead of create it manually) for a perfect implementation. As
->> you told me we should not*over play*  the device-driver model, right?
-> Please, don't mix the connector node in DT and the drm_connector. If
-> you check the code, you will see that the driver for hdmi-connector,
-> dp-connector and other such devices creates a drm_bridge.
+Maybe a more general question: Is there any easy accessible information 
+about which code is the best used as example/reference? I tried to align 
+my code very close to the LM3630, but you gave me a bunch of comments on 
+that ;-). And would you like see patches cleaning up some of the code 
+with bad/outdated style?
 
-
-OK, I'm not mixed them, I'm very clear from the very beginning. I have checked
-the code years ago. Let's make it clear by iterating one more time:
-
-If DT contains one or more HDMI connector node, then there will be one or
-more display connector platform devices created by OF core, Then, according to
-your "don't overplay device-driver model" criterion or modern drm bridge standard,
-we shouldn't create a display connector instance in the drm birdge driver, right?
-
-As otherwise we will have two display connector driver (or code) for a single entity,
-right?
-
-Another side effect is that
-when you create a hdmi display connector instance manually without reference to the
-DT, then *you made an assumption!*. But there are users who have don't a different
-need(or  different typology), for example, they need to read edid directly from the
-KMS driver side. This may because the i2c bus is directly connected to the connector
-part, but the display bridge's I2C slave interface. sii9022, it66121 and tfp410 support
-this kind of usage.
-
-So the real problem is that it is a policy level code  when you creating a hdmi
-display connector instance manually without reference to the DT in a common drm bridge
-driver, not a mechanism.
-
+- Patrick
