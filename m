@@ -2,62 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64D8D8770A7
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Mar 2024 12:25:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2F268770C7
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Mar 2024 12:53:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A16610FF23;
-	Sat,  9 Mar 2024 11:25:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA05810FF5E;
+	Sat,  9 Mar 2024 11:53:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="FZd5WXe+";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="joKOexLV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-187.mta0.migadu.com (out-187.mta0.migadu.com
- [91.218.175.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD24B10FF1F
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Mar 2024 11:25:50 +0000 (UTC)
-Message-ID: <b573ec32-fe07-498c-abe7-f9a16bdc1c21@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1709983547;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JWRrdfVsYkQ+30BxDLA3NCMXnwM3kUkO1xE8cyE4gSs=;
- b=FZd5WXe+Nbya9sRvuKEsSuvLJiaoVaqBCyOHKmuiZoy3pFTz9CLxm1/1GoA7hcqrvGu3vG
- WN9M0MgNu8+Rw5sgQ6ubSzaZrJJCxplzQ0JhvKUtbi9/VGnAOx+WA9W7qjvHAk8BIkAt5U
- AKVyaH83deaQ1JyEsRy6DDzOHWYzaN4=
-Date: Sat, 9 Mar 2024 19:25:36 +0800
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE44410FF5E
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Mar 2024 11:53:05 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-33e7946bddfso920534f8f.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 09 Mar 2024 03:53:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1709985184; x=1710589984; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=N/g0ylk5OXw5DuRDSC0jhgh8ENyy6UvA2w58cji7f7k=;
+ b=joKOexLVQQ3j6B6/9B0FZZW5PGjgUi6UHWdmg5D7vgFDFdLFeO9Al0AB+dPFCPc2+5
+ eMrXxZp6GTcFIsFOPv15toU8IV0FZAdc68IEK/rac3dw9AHLcdth8TIzGS+5R3Ts8Hpp
+ EfC8IT43saK9/8Sz3Vq5aS2zMHJs/f+dPB2VNHePsV4SIU8fgP4rzkOobbzZFoGBAn9u
+ k0l0agOhyadMamJIGxbKHuEINkVaN06oy9+45D+dchnPcdSS3lJjdaOzGRW0bMimmicr
+ 0drUKuloNIvn8ULrssEU7RI+gysHq4baVsNpJVZ5ST0xCfewd32dul5PaDotw76DHEEt
+ JGJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709985184; x=1710589984;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=N/g0ylk5OXw5DuRDSC0jhgh8ENyy6UvA2w58cji7f7k=;
+ b=YcTCdp129TZh+rgFB+Y7dxlqUkRYhLgLmDJSbe+R/dyY903REt+n2w7beagWaPryp3
+ O0rEB08d8DJqUXUXsi7CMtHxXbVNTz0KE3ZVrRzPrd/9fS+2gnqzN5uEKhywImSPGmzs
+ tdeaeJwgBZFDWKuVBkbfNxLujHBctwKvZ1zmOkYxgJFLsJN9lXZ3vHtp8B71a9WLRjdp
+ bsv+DEM8IslOKlQpW1vsjU/igUkGtCyKJ+jXF48xU1CcSeS6Lp3TThRSwObEtbJY9iZb
+ FNxwOvksKn/Oz5wDrH2chAX7CMWbYPWL5WHKFn/pinDsUopSsTnW+jOTl0MvGa4ZoCBY
+ SrEg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVFfgRxiNWkJUJIEGKkkQ3Piv1ZnVWXf1uMS4Bl9B4E9PaCTTmQc9l1gHw5lF2lZ6eGDdPFBSs5Gnc3pX+s7fCAP6PGag+DlEJb9RjSo6e4
+X-Gm-Message-State: AOJu0YzgFI4DGoMwSlbe5Opp5mhT6pXoHxFWjoJcbtLIkSXg0wToYJCX
+ lKZAOdnbreyZ6nyRqy+JvPlyFq78Ih51Dsyq+WnCgx0tnByBQMyIq5ACtXfW8To=
+X-Google-Smtp-Source: AGHT+IEkrG+sQciYU+nX3qFZsHXjs9Iwb9k+xeRcbKkrN9JkycTcr5mtjiUouh+/DjcEorUTmh6AvQ==
+X-Received: by 2002:adf:e6cf:0:b0:33d:29c1:c28c with SMTP id
+ y15-20020adfe6cf000000b0033d29c1c28cmr1234225wrm.66.1709985183886; 
+ Sat, 09 Mar 2024 03:53:03 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.222.97])
+ by smtp.gmail.com with ESMTPSA id
+ m7-20020a5d4a07000000b0033e5c54d0d9sm1692690wrq.38.2024.03.09.03.53.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 09 Mar 2024 03:53:03 -0800 (PST)
+Message-ID: <cb220c6f-086c-4995-b2e2-bce78b9a4b04@linaro.org>
+Date: Sat, 9 Mar 2024 12:53:02 +0100
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 1/4] drm/bridge: Add fwnode based helpers to get the
- next bridge
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Phong LE <ple@baylibre.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240307172334.1753343-1-sui.jingfeng@linux.dev>
- <20240307172334.1753343-2-sui.jingfeng@linux.dev>
- <CAA8EJpp8tsHi0RhsJXG+r6nOsV3AUC_n6jNHL0Cr6Ku2h3NMog@mail.gmail.com>
- <45f59f31-1f03-4a96-adb6-25c7cdd5e8a1@linux.dev>
- <CAA8EJpqq1-cEke6wEFZFDnpz4tFBcL6HF3=Qtf-8Q3WbogLS8A@mail.gmail.com>
- <c84fcdba-af50-4212-a8e3-f492c2b02ce4@linux.dev>
- <CAA8EJppTcPO3j7GpGcGbKPUjQ=3rTMMOrU1SYR3mtkWLztf2qQ@mail.gmail.com>
- <7535b3ba-6bbb-411c-82a4-cd4ac45de1a6@linux.dev>
- <CAA8EJpp3yd33pYweL_exrXMJ3g-m7-yjJrjiVMVMevOadBtt8g@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] dt-bindings: backlight: Add Texas Instruments
+ LM3509
 Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <CAA8EJpp3yd33pYweL_exrXMJ3g-m7-yjJrjiVMVMevOadBtt8g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+To: Patrick Gansterer <paroga@paroga.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+References: <20240308215617.1729664-1-paroga@paroga.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
+ m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
+ HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
+ XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
+ mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
+ v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
+ cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
+ rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
+ qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
+ aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
+ gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
+ dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
+ NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
+ hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
+ oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
+ H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
+ yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
+ 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
+ 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
+ +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
+ FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
+ 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
+ DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
+ oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
+ 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
+ Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
+ qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
+ /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
+ qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
+ EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
+ KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
+ fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240308215617.1729664-1-paroga@paroga.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,60 +133,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 08/03/2024 22:50, Patrick Gansterer wrote:
+> Add Device Tree bindings for Texas Instruments LM3509 - a
+> High Efficiency Boost for White LED's and/or OLED Displays
+> 
+> Signed-off-by: Patrick Gansterer <paroga@paroga.com>
+
+Thank you for your patch. There is something to discuss/improve.
 
 
-On 2024/3/9 18:39, Dmitry Baryshkov wrote:
-> On Sat, 9 Mar 2024 at 11:33, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
->> Hi,
->>
->>
->> On 2024/3/8 04:40, Dmitry Baryshkov wrote:
->>>>> But really, there is nothing so hard about it:
->>>>> - Change of_node to fw_node, apply an automatic patch changing this in
->>>>> bridge drivers.
->>>>> - Make drm_of_bridge functions convert passed of_node and comp
->>>>>
->>>>> After this we can start cleaning up bridge drivers to use fw_node API
->>>>> natively as you did in your patches 2-4.
->>>> Yes, it's not so hard. But I'm a little busy due to other downstream developing
->>>> tasks. Sorry, very sorry!
->>>>
->>>> During the talk with you, I observed that you are very good at fwnode domain.
->>>> Are you willing to help the community to do something? For example, currently
->>>> the modern drm bridge framework is corrupted by legacy implement, is it possible
->>>> for us to migrate them to modern? Instead of rotting there? such as the lontium-lt9611uxc.c
->>>> which create a drm connector manually, not modernized yet and it's DT dependent.
->>>> So, there are a lot things to do.
->>> Actually, lontium-lt9611uxc.c does both of that 😉 It supports
->>> creating a connector and it as well supports attaching to a chain
->>> without creating a connector. Pretty nice, isn't it?
->>
->> But why the drm_bridge_connector helpers and/or the drm_connector bridge can't suit you need?
->> Coding this way just add boilerplate into drm bridge subsystem, right?
-> Because there are platforms, like iMX LCDIF which can use the
-> lt9611uxc bridge, but do not make use of the drm_bridge_connector yet.
->
+> +  compatible:
+> +    const: ti,lm3509
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +
+> +  ti,brightness-rate-of-change-us:
+> +    description: Brightness Rate of Change in microseconds.
+> +    enum: [51, 13000, 26000, 52000]
+> +
+> +  ti,oled-mode:
+> +    description: Enable OLED mode.
+> +    type: boolean
+> +
+> +required:
 
-Well, I have just grepped across the drm-tip kernel branch, but I don't find
-iMX LCDIF you mentioned. See the search results pasted at bellow.
+required: goes after all properties.
+
+> +  - compatible
+> +  - reg
+> +
+> +patternProperties:
+> +  "^led@[01]$":
+> +    type: object
+> +    description: Properties for a string of connected LEDs.
+
+Are you sure this is a string of LEDs? How does a string/tape work with
+a backlight, I mean physically? How could it look like?
+
+> +
+> +    allOf:
+> +      - $ref: common.yaml#
+> +
+> +    properties:
+> +      reg:
+> +        description:
+> +          The control register that is used to program the two current sinks.
+> +          The LM3509 has two registers (BMAIN and BSUB) and are represented
+> +          as 0 or 1 in this property. The two current sinks can be controlled
+> +          independently with both registers, or register BMAIN can be
+> +          configured to control both sinks with the led-sources property.
+> +        minimum: 0
+> +        maximum: 1
+> +
+> +      label:
+> +        maxItems: 1
+
+It's a string, not string-array, so maxItems are not needed, just ":true".
 
 
-$ find . -name "*.dts" -type f | xargs grep "lontium,lt9611uxc"
-./arm64/boot/dts/qcom/sm8450-hdk.dts:		compatible = "lontium,lt9611uxc";
-./arm64/boot/dts/qcom/qrb5165-rb5.dts:		compatible = "lontium,lt9611uxc";
-./arm64/boot/dts/qcom/qrb2210-rb1.dts:		compatible = "lontium,lt9611uxc";
-./arm64/boot/dts/qcom/qrb4210-rb2.dts:		compatible = "lontium,lt9611uxc";
-./arm64/boot/dts/qcom/sm8350-hdk.dts:		compatible = "lontium,lt9611uxc";
+> +
+> +      led-sources:
+> +        allOf:
+> +          - minItems: 1
+> +            maxItems: 2
+> +            items:
+> +              minimum: 0
+> +              maximum: 1
+> +
+> +      default-brightness:
+> +        minimum: 0
+> +        maximum: 31
+
+Not a required property? Then "default:".
+> +
+> +      max-brightness:
+> +        minimum: 0
+> +        maximum: 31
+
+Some of your examples miss it, so there is some kind of default. Add it.
+> +
+> +    required:
+> +      - reg
+> +
+> +    unevaluatedProperties: false
+> +
+> +unevaluatedProperties: false
+
+You rewrote everything, so my previous comment obviously does not make
+sense in such case. This must be additionalProperties: false. Look at
+other bindings or example-schema how it is done (to repeat myself).
+
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        backlight@36 {
+> +            compatible = "ti,lm3509";
+> +            reg = <0x36>;
+> +            reset-gpios = <&gpio2 5 GPIO_ACTIVE_LOW>;
+> +
+> +            ti,oled-mode;
+> +            ti,brightness-rate-of-change-us = <52000>;
+> +
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            led@0 {
 
 
-So I can't see the drm driver that you refer to, can you pointed it out for study
-purpose? Even it's exist, however, back to that time, why don't you posting a patch
-to switch it to the canonical design as you mentioned and give the community a clean
-design?
-  
-And those are just *reasons*, from the viewpoint of the *result*.
-The merged patch results in a 'side-by-side' implement and boilerplate added
-into drm bridges subsystem, the results doesn't change no matter what the
-reason is, right?
+Best regards,
+Krzysztof
 
