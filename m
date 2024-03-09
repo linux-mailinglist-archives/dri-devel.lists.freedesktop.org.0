@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86B548772BC
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Mar 2024 19:16:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CB7A8772D7
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Mar 2024 19:16:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FB101122BA;
-	Sat,  9 Mar 2024 18:16:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C16BF1122C2;
+	Sat,  9 Mar 2024 18:16:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="luH3//cD";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="scyjuXY+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8427A1122B2
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Mar 2024 18:15:55 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B6B81122AD
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Mar 2024 18:15:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 7165FCE0948;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1ADC460AEF;
  Sat,  9 Mar 2024 18:15:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B934EC3278B;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D17B6C3278C;
  Sat,  9 Mar 2024 18:15:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1710008149;
- bh=CMOmzTl3Gh0b3oru1EplV7+/OIJRkbU2sBgCDsaSWjU=;
+ bh=0VCXBiwzC90YjKNdUsX8kETQWPy1wB26/Mhwc19cjOA=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=luH3//cDS+cmesir3kHAGiQjtvoBNSxSFcAJQqAYI4WPzEAlJuVobr0yvHxT7Mipo
- zE4OJLaDBV5i3r5P1zLf++oOR/NfR/GtDiCkAjfvLvbzoJkdriSrP3EjzlSlPFTCuj
- Sl/KczlgRPMIsM7sFy7oWkbp4w2M97rnKCUajFZR5msHVOHEldpTcnFYT/rGdq46Ux
- D5LJ+UBCrJjVhQUACfXq/2lgDP8xZMOgrf51E1aZqkhEoDcOPkkNGbdHJlqpPZZI98
- 9LK6p7MpazdGN7G1OcyA6EynRMlfryMRKgWyhdAz1StSbaGLopwilTxPCsFBZVi2t2
- PqygEdmmwWVxg==
+ b=scyjuXY+5+jdF3Ia8fPLEUCfN1VGsiKB+WAtUJ5My7vSkXAeEXaxY5ljr2bzof/LC
+ a1I23bKcTnihbCbv5w+vcBjacwoMaOstiV6jA/8Pey0RtIN08ufv4ujdZNafRhSNao
+ 4rjvIeun6rnfj17Z11a7wj7EaB5NezlY+hwYJzI3+231SDRhll5Cj5FP8xz1azobIH
+ 3x5uTvaTgR5aF8Bo47sexumDMjF0HIRmlMlYB/BZmD82E1fdJCJgdzZpla3KA835Ye
+ sn5SbgvjPjJfm0d1tO4hXd7py9YX2RN4ViufUuWmtohYLmA7XsNg4pq+XHl6P78gUI
+ zFCS4X4OdwYLQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id A8FC8C54E66;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id BF2FBC54E60;
  Sat,  9 Mar 2024 18:15:49 +0000 (UTC)
 From: Sam Ravnborg via B4 Relay <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 09 Mar 2024 19:15:39 +0100
-Subject: [PATCH v2 18/28] sparc32: Drop run-time patching of ASI instructions
+Date: Sat, 09 Mar 2024 19:15:40 +0100
+Subject: [PATCH v2 19/28] sparc32: Drop support for 7 register windows
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240309-sunset-v2-18-f09912574d2c@ravnborg.org>
+Message-Id: <20240309-sunset-v2-19-f09912574d2c@ravnborg.org>
 References: <20240309-sunset-v2-0-f09912574d2c@ravnborg.org>
 In-Reply-To: <20240309-sunset-v2-0-f09912574d2c@ravnborg.org>
 To: "David S. Miller" <davem@davemloft.net>, 
@@ -57,11 +57,11 @@ Cc: Helge Deller <deller@gmx.de>, Randy Dunlap <rdunlap@infradead.org>,
  linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  linux-sound@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1710008145; l=15091;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1710008145; l=15096;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=OR3+xi6Vz+6TSKjVmSuoidSli8x59movdv9gYDnB34g=; =?utf-8?q?b=3DN84dKZDl0J9n?=
- =?utf-8?q?sGMWSMrRdHcjDwYOVGFrf+ui42ELPnK6UQqxoqBuyF1Rii7Hjlrr9uo+XaQREO4s?=
- j9bfLethAonLzSyIdQhZV6Jcvt7ZhOgjknXwNKMcQf2fVvS5ZFqj
+ bh=i+m0W45prBw8L2Lt1MhAhMvAPieQsxfCpMmkDdh8Aro=; =?utf-8?q?b=3DijX07UaRDJ0B?=
+ =?utf-8?q?6eVBid6NVDVJpiQmhzDDF77r3ESA7t9jpp60yWcOfc2fCMULYe2riEvoHKMFKZs5?=
+ 3QZLHlDDC3PDfoLW9qV1Ct9n110CJVTM7lodk8iUUfdbsFDZck6m
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Relay for sam@ravnborg.org/20230107 with auth_id=22
@@ -84,430 +84,473 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sam Ravnborg <sam@ravnborg.org>
 
-With only LEON supported there is no need to run-time patch
-the instructions to match ASI.
+Some older SPARC CPUs had support for only 7 register windows.
+To support this run-time patching was used.
 
-Move a few functions back to C with inline asm, now that
-run-time patching is not needed.
+LEON demand 8 register windows for use with Linux so
+there is no need to support the 7 window configuration.
 
-Deleted a few functions that turns out not to be used rather
-than re-implement them in C.
+The complexity of the assembler code is reduced
+when dropping the run-time patching, thus increasing
+the maintainability.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Acked-by: Arnd Bergmann <arnd@kernel.org>
 Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Arnd Bergmann <arnd@kernel.org>
 Cc: Andreas Larsson <andreas@gaisler.com>
 ---
- arch/sparc/include/asm/asmmacro.h | 22 -----------
- arch/sparc/include/asm/pgtsrmmu.h | 28 ++++++-------
- arch/sparc/include/asm/sections.h |  3 --
- arch/sparc/kernel/entry.S         |  7 +---
- arch/sparc/kernel/etrap_32.S      | 15 +++----
- arch/sparc/kernel/rtrap_32.S      | 18 +++------
- arch/sparc/kernel/vmlinux.lds.S   |  5 ---
- arch/sparc/kernel/wof.S           | 18 +++------
- arch/sparc/kernel/wuf.S           | 21 ++++------
- arch/sparc/mm/Makefile            |  1 -
- arch/sparc/mm/srmmu_access.S      | 83 ---------------------------------------
- 11 files changed, 40 insertions(+), 181 deletions(-)
+ arch/sparc/include/asm/switch_to_32.h |  1 -
+ arch/sparc/kernel/entry.S             | 28 ++++-----------
+ arch/sparc/kernel/etrap_32.S          | 35 +++++--------------
+ arch/sparc/kernel/head_32.S           | 65 -----------------------------------
+ arch/sparc/kernel/rtrap_32.S          | 55 +++++++++++++----------------
+ arch/sparc/kernel/wof.S               | 43 ++++++++---------------
+ arch/sparc/kernel/wuf.S               | 20 +++--------
+ 7 files changed, 57 insertions(+), 190 deletions(-)
 
-diff --git a/arch/sparc/include/asm/asmmacro.h b/arch/sparc/include/asm/asmmacro.h
-index 49aaf6f3bc55..d5782dbc7810 100644
---- a/arch/sparc/include/asm/asmmacro.h
-+++ b/arch/sparc/include/asm/asmmacro.h
-@@ -21,26 +21,4 @@
- /* All traps low-level code here must end with this macro. */
- #define RESTORE_ALL b ret_trap_entry; clr %l6;
+diff --git a/arch/sparc/include/asm/switch_to_32.h b/arch/sparc/include/asm/switch_to_32.h
+index 42eeafcb8a41..7aaaf31c09b4 100644
+--- a/arch/sparc/include/asm/switch_to_32.h
++++ b/arch/sparc/include/asm/switch_to_32.h
+@@ -37,7 +37,6 @@ extern struct thread_info *current_set[NR_CPUS];
  
--/* Support for run-time patching of single instructions.
-- * This is used to handle the differences in the ASI for
-- * MMUREGS for LEON and SUN.
-- *
-- * Sample:
-- * LEON_PI(lda [%g0] ASI_LEON_MMUREGS, %o0
-- * SUN_PI_(lda [%g0] ASI_M_MMUREGS, %o0
-- * PI == Patch Instruction
-- *
-- * For LEON we will use the first variant,
-- * and for all other we will use the SUN variant.
-- * The order is important.
-- */
--#define LEON_PI(...)				\
--662:	__VA_ARGS__
--
--#define SUN_PI_(...)				\
--	.section .leon_1insn_patch, "ax";	\
--	.word 662b;				\
--	__VA_ARGS__;				\
--	.previous
--
- #endif /* !(_SPARC_ASMMACRO_H) */
-diff --git a/arch/sparc/include/asm/pgtsrmmu.h b/arch/sparc/include/asm/pgtsrmmu.h
-index 7cb5cbc83211..69c28ff3c4c4 100644
---- a/arch/sparc/include/asm/pgtsrmmu.h
-+++ b/arch/sparc/include/asm/pgtsrmmu.h
-@@ -107,22 +107,22 @@ extern void *srmmu_nocache_pool;
- #define __nocache_va(PADDR) (__va((unsigned long)PADDR) - (unsigned long)srmmu_nocache_pool + SRMMU_NOCACHE_VADDR)
- #define __nocache_fix(VADDR) ((__typeof__(VADDR))__va(__nocache_pa(VADDR)))
- 
--/* Accessing the MMU control register. */
--unsigned int srmmu_get_mmureg(void);
--void srmmu_set_mmureg(unsigned long regval);
--void srmmu_set_ctable_ptr(unsigned long paddr);
--void srmmu_set_context(int context);
--int srmmu_get_context(void);
--unsigned int srmmu_get_fstatus(void);
--unsigned int srmmu_get_faddr(void);
--
--/* This is guaranteed on all SRMMU's. */
--static inline void srmmu_flush_whole_tlb(void)
-+static inline void srmmu_set_ctable_ptr(unsigned long paddr)
- {
--	__asm__ __volatile__("sta %%g0, [%0] %1\n\t": :
--			     "r" (0x400),        /* Flush entire TLB!! */
--			     "i" (ASI_M_FLUSH_PROBE) : "memory");
-+	paddr = ((paddr >> 4) & SRMMU_CTX_PMASK);
-+	asm volatile("sta %0, [%1] %2\n\t" : : "r" (paddr), "r" (SRMMU_CTXTBL_PTR), "i" (ASI_LEON_MMUREGS) : "memory");
-+}
- 
-+static inline void srmmu_set_context(int context)
-+{
-+	asm volatile("sta %0, [%1] %2\n\t" : : "r" (context), "r" (SRMMU_CTX_REG), "i" (ASI_LEON_MMUREGS) : "memory");
-+}
-+
-+static inline int srmmu_get_context(void)
-+{
-+	register int retval;
-+	asm volatile("lda [%1] %2, %0\n\t" : "=r" (retval) : "r" (SRMMU_CTX_REG), "i" (ASI_LEON_MMUREGS));
-+	return retval;
- }
- 
- #endif /* !(__ASSEMBLY__) */
-diff --git a/arch/sparc/include/asm/sections.h b/arch/sparc/include/asm/sections.h
-index 08f833453ab3..e9d28148850b 100644
---- a/arch/sparc/include/asm/sections.h
-+++ b/arch/sparc/include/asm/sections.h
-@@ -8,7 +8,4 @@
- /* sparc entry point */
- extern char _start[];
- 
--extern char __leon_1insn_patch[];
--extern char __leon_1insn_patch_end[];
--
- #endif
+ #define prepare_arch_switch(next) do { \
+ 	__asm__ __volatile__( \
+-	".globl\tflush_patch_switch\nflush_patch_switch:\n\t" \
+ 	"save %sp, -0x40, %sp; save %sp, -0x40, %sp; save %sp, -0x40, %sp\n\t" \
+ 	"save %sp, -0x40, %sp; save %sp, -0x40, %sp; save %sp, -0x40, %sp\n\t" \
+ 	"save %sp, -0x40, %sp\n\t" \
 diff --git a/arch/sparc/kernel/entry.S b/arch/sparc/kernel/entry.S
-index f158cbca3e62..18c67b4fb017 100644
+index 18c67b4fb017..ea51a17ac3fc 100644
 --- a/arch/sparc/kernel/entry.S
 +++ b/arch/sparc/kernel/entry.S
-@@ -469,11 +469,8 @@ srmmu_fault:
- 	mov	0x400, %l5
- 	mov	0x300, %l4
+@@ -384,11 +384,8 @@ do_flush_windows:
  
--LEON_PI(lda	[%l5] ASI_LEON_MMUREGS, %l6)	! read sfar first
--SUN_PI_(lda	[%l5] ASI_M_MMUREGS, %l6)	! read sfar first
+ 	RESTORE_ALL
+ 
+-	.globl	flush_patch_one
 -
--LEON_PI(lda	[%l4] ASI_LEON_MMUREGS, %l5)	! read sfsr last
--SUN_PI_(lda	[%l4] ASI_M_MMUREGS, %l5)	! read sfsr last
-+	lda	[%l5] ASI_LEON_MMUREGS, %l6	! read sfar first
-+	lda	[%l4] ASI_LEON_MMUREGS, %l5	! read sfsr last
+ 	/* We get these for debugging routines using __builtin_return_address() */
+ dfw_kernel:
+-flush_patch_one:
+ 	FLUSH_ALL_KERNEL_WINDOWS
  
- 	andn	%l6, 0xfff, %l6
- 	srl	%l5, 6, %l5			! and encode all info into l7
+ 	/* Advance over the trap instruction. */
+@@ -558,10 +555,9 @@ sys_rt_sigreturn:
+ 	 * XXX code just like on sparc64... -DaveM
+ 	 */
+ 	.align	4
+-	.globl	sys_fork, flush_patch_two
++	.globl	sys_fork
+ sys_fork:
+ 	mov	%o7, %l5
+-flush_patch_two:
+ 	FLUSH_ALL_KERNEL_WINDOWS;
+ 	ld	[%curptr + TI_TASK], %o4
+ 	rd	%psr, %g4
+@@ -574,10 +570,9 @@ flush_patch_two:
+ 	 mov	%l5, %o7
+ 
+ 	/* Whee, kernel threads! */
+-	.globl	sys_clone, flush_patch_three
++	.globl	sys_clone
+ sys_clone:
+ 	mov	%o7, %l5
+-flush_patch_three:
+ 	FLUSH_ALL_KERNEL_WINDOWS;
+ 	ld	[%curptr + TI_TASK], %o4
+ 	rd	%psr, %g4
+@@ -590,9 +585,8 @@ flush_patch_three:
+ 	 mov	%l5, %o7
+ 
+ 	/* Whee, real vfork! */
+-	.globl	sys_vfork, flush_patch_four
++	.globl	sys_vfork
+ sys_vfork:
+-flush_patch_four:
+ 	FLUSH_ALL_KERNEL_WINDOWS;
+ 	ld	[%curptr + TI_TASK], %o4
+ 	rd	%psr, %g4
+@@ -909,17 +903,7 @@ breakpoint_trap:
+ #endif
+ 
+ 	.align	4
+-	.globl	flush_patch_exception
+-flush_patch_exception:
+-	FLUSH_ALL_KERNEL_WINDOWS;
+-	ldd	[%o0], %o6
+-	jmpl	%o7 + 0xc, %g0			! see asm-sparc/processor.h
+-	 mov	1, %g1				! signal EFAULT condition
+-
+-	.align	4
+-	.globl	kill_user_windows, kuw_patch1_7win
+-	.globl	kuw_patch1
+-kuw_patch1_7win:	sll	%o3, 6, %o3
++	.globl	kill_user_windows
+ 
+ 	/* No matter how much overhead this routine has in the worst
+ 	 * case scenario, it is several times better than taking the
+@@ -939,11 +923,11 @@ kill_user_windows:
+ 	be	4f				! yep, we are done
+ 	 rd	%wim, %o3			! get current wim
+ 	srl	%o3, 1, %o4			! simulate a save
+-kuw_patch1:
++kuw_next:
+ 	sll	%o3, 7, %o3			! compute next wim
+ 	or	%o4, %o3, %o3			! result
+ 	andncc	%o0, %o3, %o0			! clean this bit in umask
+-	bne	kuw_patch1			! not done yet
++	bne	kuw_next			! not done yet
+ 	 srl	%o3, 1, %o4			! begin another save simulation
+ 	wr	%o3, 0x0, %wim			! set the new wim
+ 	st	%g0, [%g6 + TI_UWINMASK]	! clear uwinmask
 diff --git a/arch/sparc/kernel/etrap_32.S b/arch/sparc/kernel/etrap_32.S
-index 9f243f918619..bb222459f097 100644
+index bb222459f097..95dfdea1f36c 100644
 --- a/arch/sparc/kernel/etrap_32.S
 +++ b/arch/sparc/kernel/etrap_32.S
-@@ -235,8 +235,7 @@ tsetup_srmmu_stackchk:
+@@ -30,18 +30,6 @@
+ 	.text
+ 	.align 4
  
- 	cmp	%glob_tmp, %sp
- 	bleu,a	1f
--LEON_PI( lda	[%g0] ASI_LEON_MMUREGS, %glob_tmp)	! read MMU control
--SUN_PI_( lda	[%g0] ASI_M_MMUREGS, %glob_tmp)		! read MMU control
-+	 lda	[%g0] ASI_LEON_MMUREGS, %glob_tmp	! read MMU control
+-	/* SEVEN WINDOW PATCH INSTRUCTIONS */
+-	.globl	tsetup_7win_patch1, tsetup_7win_patch2
+-	.globl	tsetup_7win_patch3, tsetup_7win_patch4
+-	.globl	tsetup_7win_patch5, tsetup_7win_patch6
+-tsetup_7win_patch1:	sll	%t_wim, 0x6, %t_wim
+-tsetup_7win_patch2:	and	%g2, 0x7f, %g2
+-tsetup_7win_patch3:	and	%g2, 0x7f, %g2
+-tsetup_7win_patch4:	and	%g1, 0x7f, %g1
+-tsetup_7win_patch5:	sll	%t_wim, 0x6, %t_wim
+-tsetup_7win_patch6:	and	%g2, 0x7f, %g2
+-	/* END OF PATCH INSTRUCTIONS */
+-
+ 	/* At trap time, interrupts and all generic traps do the
+ 	 * following:
+ 	 *
+@@ -72,9 +60,7 @@ tsetup_7win_patch6:	and	%g2, 0x7f, %g2
+ 	 * trap pc and npc, and %l3 contains the trap time %wim.
+ 	 */
  
- trap_setup_user_stack_is_bolixed:
- 	/* From user/kernel into invalid window w/bad user
-@@ -251,24 +250,20 @@ trap_setup_user_stack_is_bolixed:
- 1:
- 	/* Clear the fault status and turn on the no_fault bit. */
- 	or	%glob_tmp, 0x2, %glob_tmp		! or in no_fault bit
--LEON_PI(sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS)		! set it
--SUN_PI_(sta	%glob_tmp, [%g0] ASI_M_MMUREGS)		! set it
-+	sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS	! set it
+-	.globl	trap_setup, tsetup_patch1, tsetup_patch2
+-	.globl	tsetup_patch3, tsetup_patch4
+-	.globl	tsetup_patch5, tsetup_patch6
++	.globl	trap_setup
+ trap_setup:
+ 	/* Calculate mask of trap window.  See if from user
+ 	 * or kernel and branch conditionally.
+@@ -109,11 +95,10 @@ trap_setup_kernel_spill:
+ 	 * %wim and go.
+ 	 */
+ 	 srl	%t_wim, 0x1, %g2	! begin computation of new %wim
+-tsetup_patch1:
+-	sll	%t_wim, 0x7, %t_wim	! patched on 7 window Sparcs
++
++	sll	%t_wim, 0x7, %t_wim
+ 	or	%t_wim, %g2, %g2
+-tsetup_patch2:
+-	and	%g2, 0xff, %g2		! patched on 7 window Sparcs
++	and	%g2, 0xff, %g2
  
- 	/* Dump the registers and cross fingers. */
- 	STORE_WINDOW(sp)
- 
- 	/* Clear the no_fault bit and check the status. */
- 	andn	%glob_tmp, 0x2, %glob_tmp
--LEON_PI(sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS)
--SUN_PI_(sta	%glob_tmp, [%g0] ASI_M_MMUREGS)
-+	sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS
- 
- 	mov	AC_M_SFAR, %glob_tmp
--LEON_PI(lda	[%glob_tmp] ASI_LEON_MMUREGS, %g0)
--SUN_PI_(lda	[%glob_tmp] ASI_M_MMUREGS, %g0)
-+	lda	[%glob_tmp] ASI_LEON_MMUREGS, %g0
- 
- 	mov	AC_M_SFSR, %glob_tmp
--LEON_PI(lda	[%glob_tmp] ASI_LEON_MMUREGS, %glob_tmp)! save away status of winstore
--SUN_PI_(lda	[%glob_tmp] ASI_M_MMUREGS, %glob_tmp)	! save away status of winstore
-+	lda	[%glob_tmp] ASI_LEON_MMUREGS, %glob_tmp	! save away status of winstore
- 
- 	andcc	%glob_tmp, 0x2, %g0			! did we fault?
- 	bne	trap_setup_user_stack_is_bolixed	! failure
-diff --git a/arch/sparc/kernel/rtrap_32.S b/arch/sparc/kernel/rtrap_32.S
-index 8931fe266346..a232b367c219 100644
---- a/arch/sparc/kernel/rtrap_32.S
-+++ b/arch/sparc/kernel/rtrap_32.S
-@@ -232,14 +232,11 @@ srmmu_rett_stackchk:
- 	cmp	%g1, %fp
- 	bleu	ret_trap_user_stack_is_bolixed
- 	 mov	AC_M_SFSR, %g1
--LEON_PI(lda	[%g1] ASI_LEON_MMUREGS, %g0)
--SUN_PI_(lda	[%g1] ASI_M_MMUREGS, %g0)
-+	lda	[%g1] ASI_LEON_MMUREGS, %g0
- 
--LEON_PI(lda	[%g0] ASI_LEON_MMUREGS, %g1)
--SUN_PI_(lda	[%g0] ASI_M_MMUREGS, %g1)
-+	lda	[%g0] ASI_LEON_MMUREGS, %g1
- 	or	%g1, 0x2, %g1
--LEON_PI(sta	%g1, [%g0] ASI_LEON_MMUREGS)
--SUN_PI_(sta	%g1, [%g0] ASI_M_MMUREGS)
-+	sta	%g1, [%g0] ASI_LEON_MMUREGS
- 
- 	restore	%g0, %g0, %g0
- 
-@@ -248,16 +245,13 @@ SUN_PI_(sta	%g1, [%g0] ASI_M_MMUREGS)
  	save	%g0, %g0, %g0
  
- 	andn	%g1, 0x2, %g1
--LEON_PI(sta	%g1, [%g0] ASI_LEON_MMUREGS)
--SUN_PI_(sta	%g1, [%g0] ASI_M_MMUREGS)
-+	sta	%g1, [%g0] ASI_LEON_MMUREGS
+@@ -185,8 +170,7 @@ trap_setup_from_user:
+ 	 sub	%g2, 0x1, %g2
+ 1:
+ 	andn	%g2, %t_twinmask, %g2
+-tsetup_patch3:
+-	and	%g2, 0xff, %g2			! patched on 7win Sparcs
++	and	%g2, 0xff, %g2
+ 	st	%g2, [%curptr + TI_UWINMASK]	! store new umask
  
- 	mov	AC_M_SFAR, %g2
--LEON_PI(lda	[%g2] ASI_LEON_MMUREGS, %g2)
--SUN_PI_(lda	[%g2] ASI_M_MMUREGS, %g2)
-+	lda	[%g2] ASI_LEON_MMUREGS, %g2
+ 	jmpl	%t_retpc + 0x8, %g0		! return to caller
+@@ -199,14 +183,11 @@ trap_setup_user_spill:
+ 	 * is in %g1 upon entry to here.
+ 	 */
  
- 	mov	AC_M_SFSR, %g1
--LEON_PI(lda	[%g1] ASI_LEON_MMUREGS, %g1)
--SUN_PI_(lda	[%g1] ASI_M_MMUREGS, %g1)
-+	lda	[%g1] ASI_LEON_MMUREGS, %g1
- 	andcc	%g1, 0x2, %g0
- 	be	ret_trap_userwins_ok
+-tsetup_patch4:
+-	and	%g1, 0xff, %g1		! patched on 7win Sparcs, mask
++	and	%g1, 0xff, %g1
+ 	srl	%t_wim, 0x1, %g2	! compute new %wim
+-tsetup_patch5:
+-	sll	%t_wim, 0x7, %t_wim	! patched on 7win Sparcs
++	sll	%t_wim, 0x7, %t_wim
+ 	or	%t_wim, %g2, %g2	! %g2 is new %wim
+-tsetup_patch6:
+-	and	%g2, 0xff, %g2		! patched on 7win Sparcs
++	and	%g2, 0xff, %g2
+ 	andn	%g1, %g2, %g1		! clear this bit in %g1
+ 	st	%g1, [%curptr + TI_UWINMASK]
+ 
+diff --git a/arch/sparc/kernel/head_32.S b/arch/sparc/kernel/head_32.S
+index 03dc232dd235..908c77cb456e 100644
+--- a/arch/sparc/kernel/head_32.S
++++ b/arch/sparc/kernel/head_32.S
+@@ -404,71 +404,6 @@ leon_init:
+ 		wr	%g1, 0x0, %wim			! make window 1 invalid
+ 		WRITE_PAUSE
+ 
+-		cmp	%g3, 0x7
+-		bne	2f
+-		 nop
+-
+-		/* Adjust our window handling routines to
+-		 * do things correctly on 7 window Sparcs.
+-		 */
+-
+-#define		PATCH_INSN(src, dest) \
+-		set	src, %g5; \
+-		set	dest, %g2; \
+-		ld	[%g5], %g4; \
+-		st	%g4, [%g2];
+-
+-		/* Patch for window spills... */
+-		PATCH_INSN(spnwin_patch1_7win, spnwin_patch1)
+-		PATCH_INSN(spnwin_patch2_7win, spnwin_patch2)
+-		PATCH_INSN(spnwin_patch3_7win, spnwin_patch3)
+-
+-		/* Patch for window fills... */
+-		PATCH_INSN(fnwin_patch1_7win, fnwin_patch1)
+-		PATCH_INSN(fnwin_patch2_7win, fnwin_patch2)
+-
+-		/* Patch for trap entry setup... */
+-		PATCH_INSN(tsetup_7win_patch1, tsetup_patch1)
+-		PATCH_INSN(tsetup_7win_patch2, tsetup_patch2)
+-		PATCH_INSN(tsetup_7win_patch3, tsetup_patch3)
+-		PATCH_INSN(tsetup_7win_patch4, tsetup_patch4)
+-		PATCH_INSN(tsetup_7win_patch5, tsetup_patch5)
+-		PATCH_INSN(tsetup_7win_patch6, tsetup_patch6)
+-
+-		/* Patch for returning from traps... */
+-		PATCH_INSN(rtrap_7win_patch1, rtrap_patch1)
+-		PATCH_INSN(rtrap_7win_patch2, rtrap_patch2)
+-		PATCH_INSN(rtrap_7win_patch3, rtrap_patch3)
+-		PATCH_INSN(rtrap_7win_patch4, rtrap_patch4)
+-		PATCH_INSN(rtrap_7win_patch5, rtrap_patch5)
+-
+-		/* Patch for killing user windows from the register file. */
+-		PATCH_INSN(kuw_patch1_7win, kuw_patch1)
+-
+-		/* Now patch the kernel window flush sequences.
+-		 * This saves 2 traps on every switch and fork.
+-		 */
+-		set	0x01000000, %g4
+-		set	flush_patch_one, %g5
+-		st	%g4, [%g5 + 0x18]
+-		st	%g4, [%g5 + 0x1c]
+-		set	flush_patch_two, %g5
+-		st	%g4, [%g5 + 0x18]
+-		st	%g4, [%g5 + 0x1c]
+-		set	flush_patch_three, %g5
+-		st	%g4, [%g5 + 0x18]
+-		st	%g4, [%g5 + 0x1c]
+-		set	flush_patch_four, %g5
+-		st	%g4, [%g5 + 0x18]
+-		st	%g4, [%g5 + 0x1c]
+-		set	flush_patch_exception, %g5
+-		st	%g4, [%g5 + 0x18]
+-		st	%g4, [%g5 + 0x1c]
+-		set	flush_patch_switch, %g5
+-		st	%g4, [%g5 + 0x18]
+-		st	%g4, [%g5 + 0x1c]
+-
+-2:
+ 		sethi	%hi(nwindows), %g4
+ 		st	%g3, [%g4 + %lo(nwindows)]	! store final value
+ 		sub	%g3, 0x1, %g3
+diff --git a/arch/sparc/kernel/rtrap_32.S b/arch/sparc/kernel/rtrap_32.S
+index a232b367c219..8383048c3b5e 100644
+--- a/arch/sparc/kernel/rtrap_32.S
++++ b/arch/sparc/kernel/rtrap_32.S
+@@ -23,15 +23,6 @@
+ #define glob_tmp  g4
+ #define curptr    g6
+ 
+-	/* 7 WINDOW SPARC PATCH INSTRUCTIONS */
+-	.globl	rtrap_7win_patch1, rtrap_7win_patch2, rtrap_7win_patch3
+-	.globl	rtrap_7win_patch4, rtrap_7win_patch5
+-rtrap_7win_patch1:	srl	%t_wim, 0x6, %glob_tmp
+-rtrap_7win_patch2:	and	%glob_tmp, 0x7f, %glob_tmp
+-rtrap_7win_patch3:	srl	%g1, 7, %g2
+-rtrap_7win_patch4:	srl	%g2, 6, %g2
+-rtrap_7win_patch5:	and	%g1, 0x7f, %g1
+-	/* END OF PATCH INSTRUCTIONS */
+ 
+ 	/* We need to check for a few things which are:
+ 	 * 1) The need to call schedule() because this
+@@ -117,17 +108,17 @@ ret_trap_nobufwins:
+ 	bne	ret_trap_userwins_ok
  	 nop
-diff --git a/arch/sparc/kernel/vmlinux.lds.S b/arch/sparc/kernel/vmlinux.lds.S
-index d317a843f7ea..1cc4d3e79321 100644
---- a/arch/sparc/kernel/vmlinux.lds.S
-+++ b/arch/sparc/kernel/vmlinux.lds.S
-@@ -113,11 +113,6 @@ SECTIONS
- 		*(.sun4v_2insn_patch)
- 		__sun4v_2insn_patch_end = .;
- 	}
--	.leon_1insn_patch : {
--		__leon_1insn_patch = .;
--		*(.leon_1insn_patch)
--		__leon_1insn_patch_end = .;
--	}
- 	.swapper_tsb_phys_patch : {
- 		__swapper_tsb_phys_patch = .;
- 		*(.swapper_tsb_phys_patch)
+ 
+-		/* Calculate new %wim, we have to pull a register
+-		 * window from the users stack.
+-		 */
++	/* Calculate new %wim, we have to pull a register
++	 * window from the users stack.
++	 */
+ ret_trap_pull_one_window:
+-		rd	%wim, %t_wim
+-		sll	%t_wim, 0x1, %twin_tmp1
+-rtrap_patch1:	srl	%t_wim, 0x7, %glob_tmp
+-		or	%glob_tmp, %twin_tmp1, %glob_tmp
+-rtrap_patch2:	and	%glob_tmp, 0xff, %glob_tmp
++	rd	%wim, %t_wim
++	sll	%t_wim, 0x1, %twin_tmp1
++	srl	%t_wim, 0x7, %glob_tmp
++	or	%glob_tmp, %twin_tmp1, %glob_tmp
++	and	%glob_tmp, 0xff, %glob_tmp
+ 
+-		wr	%glob_tmp, 0x0, %wim
++	wr	%glob_tmp, 0x0, %wim
+ 
+ 	/* Here comes the architecture specific
+ 	 * branch to the user stack checking routine
+@@ -174,20 +165,20 @@ ret_trap_unaligned_pc:
+ 	 ld	[%curptr + TI_FLAGS], %g2
+ 
+ ret_trap_kernel:
+-		/* Will the rett land us in the invalid window? */
+-		mov	2, %g1
+-		sll	%g1, %t_psr, %g1
+-rtrap_patch3:	srl	%g1, 8, %g2
+-		or	%g1, %g2, %g1
+-		rd	%wim, %g2
+-		andcc	%g2, %g1, %g0
+-		be	1f		! Nope, just return from the trap
+-		 sll	%g2, 0x1, %g1
+-
+-		/* We have to grab a window before returning. */
+-rtrap_patch4:	srl	%g2, 7,  %g2
+-		or	%g1, %g2, %g1
+-rtrap_patch5:	and	%g1, 0xff, %g1
++	/* Will the rett land us in the invalid window? */
++	mov	2, %g1
++	sll	%g1, %t_psr, %g1
++	srl	%g1, 8, %g2
++	or	%g1, %g2, %g1
++	rd	%wim, %g2
++	andcc	%g2, %g1, %g0
++	be	1f		! Nope, just return from the trap
++	 sll	%g2, 0x1, %g1
++
++	/* We have to grab a window before returning. */
++	srl	%g2, 7,  %g2
++	or	%g1, %g2, %g1
++	and	%g1, 0xff, %g1
+ 
+ 	wr	%g1, 0x0, %wim
+ 
 diff --git a/arch/sparc/kernel/wof.S b/arch/sparc/kernel/wof.S
-index 96a3a112423a..fe4cfd4abcd2 100644
+index fe4cfd4abcd2..30c5ebdd035c 100644
 --- a/arch/sparc/kernel/wof.S
 +++ b/arch/sparc/kernel/wof.S
-@@ -333,30 +333,24 @@ spwin_srmmu_stackchk:
- 	 mov	AC_M_SFSR, %glob_tmp
+@@ -43,18 +43,6 @@
+ #define twin_tmp    l4 /* Temp reg, only usable in trap window  T */
+ #define glob_tmp    g5 /* Global temporary reg, usable anywhere G */
  
- 	/* Clear the fault status and turn on the no_fault bit. */
--LEON_PI(lda	[%glob_tmp] ASI_LEON_MMUREGS, %g0)	! eat SFSR
--SUN_PI_(lda	[%glob_tmp] ASI_M_MMUREGS, %g0)		! eat SFSR
-+	lda	[%glob_tmp] ASI_LEON_MMUREGS, %g0	! eat SFSR
+-	.text
+-	.align	4
+-	/* BEGINNING OF PATCH INSTRUCTIONS */
+-	/* On a 7-window Sparc the boot code patches spnwin_*
+-	 * instructions with the following ones.
+-	 */
+-	.globl	spnwin_patch1_7win, spnwin_patch2_7win, spnwin_patch3_7win
+-spnwin_patch1_7win:	sll	%t_wim, 6, %glob_tmp
+-spnwin_patch2_7win:	and	%glob_tmp, 0x7f, %glob_tmp
+-spnwin_patch3_7win:	and	%twin_tmp, 0x7f, %twin_tmp
+-	/* END OF PATCH INSTRUCTIONS */
+-
+ 	/* The trap entry point has done the following:
+ 	 *
+ 	 * rd    %psr, %l0
+@@ -69,7 +57,6 @@ spnwin_patch3_7win:	and	%twin_tmp, 0x7f, %twin_tmp
+ 	 * will be all zeroes.
+ 	 */
+ 	.globl	spill_window_entry 
+-	.globl	spnwin_patch1, spnwin_patch2, spnwin_patch3
+ spill_window_entry:
+ 	/* LOCATION: Trap Window */
  
--LEON_PI(lda	[%g0] ASI_LEON_MMUREGS, %glob_tmp)	! read MMU control
--SUN_PI_(lda	[%g0] ASI_M_MMUREGS, %glob_tmp)		! read MMU control
-+	lda	[%g0] ASI_LEON_MMUREGS, %glob_tmp	! read MMU control
- 	or	%glob_tmp, 0x2, %glob_tmp		! or in no_fault bit
--LEON_PI(sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS)	! set it
--SUN_PI_(sta	%glob_tmp, [%g0] ASI_M_MMUREGS)		! set it
-+	sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS	! set it
+@@ -81,10 +68,10 @@ spill_window_entry:
+ 	 *
+ 	 * newwim = ((%wim>>1) | (%wim<<(nwindows - 1)));
+ 	 */
+-		srl	%t_wim, 0x1, %twin_tmp
+-spnwin_patch1:	sll	%t_wim, 7, %glob_tmp
+-		or	%glob_tmp, %twin_tmp, %glob_tmp
+-spnwin_patch2:	and	%glob_tmp, 0xff, %glob_tmp
++	srl	%t_wim, 0x1, %twin_tmp
++	sll	%t_wim, 7, %glob_tmp
++	or	%glob_tmp, %twin_tmp, %glob_tmp
++	and	%glob_tmp, 0xff, %glob_tmp
  
- 	/* Dump the registers and cross fingers. */
- 	STORE_WINDOW(sp)
+ 	/* The trap entry point has set the condition codes
+ 	 * up for us to see if this is from user or kernel.
+@@ -222,17 +209,17 @@ spwin_user_stack_is_bolixed:
+ 	mov	1, %twin_tmp
+ 	st	%twin_tmp, [%curptr + TI_W_SAVED]
  
- 	/* Clear the no_fault bit and check the status. */
- 	andn	%glob_tmp, 0x2, %glob_tmp
--LEON_PI(sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS)
--SUN_PI_(sta	%glob_tmp, [%g0] ASI_M_MMUREGS)
-+	sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS
+-		/* Compute new user window mask.  What we are basically
+-		 * doing is taking two windows, the invalid one at trap
+-		 * time and the one we attempted to throw onto the users
+-		 * stack, and saying that everything else is an ok user
+-		 * window.  umask = ((~(%t_wim | %wim)) & valid_wim_bits)
+-		 */
+-		rd	%wim, %twin_tmp
+-		or	%twin_tmp, %t_wim, %twin_tmp
+-		not	%twin_tmp
+-spnwin_patch3:	and	%twin_tmp, 0xff, %twin_tmp	! patched on 7win Sparcs
+-		st	%twin_tmp, [%curptr + TI_UWINMASK]
++	/* Compute new user window mask.  What we are basically
++	 * doing is taking two windows, the invalid one at trap
++	 * time and the one we attempted to throw onto the users
++	 * stack, and saying that everything else is an ok user
++	 * window.  umask = ((~(%t_wim | %wim)) & valid_wim_bits)
++	 */
++	rd	%wim, %twin_tmp
++	or	%twin_tmp, %t_wim, %twin_tmp
++	not	%twin_tmp
++	and	%twin_tmp, 0xff, %twin_tmp
++	st	%twin_tmp, [%curptr + TI_UWINMASK]
  
- 	mov	AC_M_SFAR, %glob_tmp
--LEON_PI(lda	[%glob_tmp] ASI_LEON_MMUREGS, %g0)
--SUN_PI_(lda	[%glob_tmp] ASI_M_MMUREGS, %g0)
-+	lda	[%glob_tmp] ASI_LEON_MMUREGS, %g0
+ #define STACK_OFFSET (THREAD_SIZE - TRACEREG_SZ - STACKFRAME_SZ)
  
- 	mov	AC_M_SFSR, %glob_tmp
--LEON_PI(lda	[%glob_tmp] ASI_LEON_MMUREGS, %glob_tmp)
--SUN_PI_(lda	[%glob_tmp] ASI_M_MMUREGS, %glob_tmp)
-+	lda	[%glob_tmp] ASI_LEON_MMUREGS, %glob_tmp
- 	andcc	%glob_tmp, 0x2, %g0			! did we fault?
- 	be,a	spwin_finish_up + 0x4			! cool beans, success
- 	 restore %g0, %g0, %g0
 diff --git a/arch/sparc/kernel/wuf.S b/arch/sparc/kernel/wuf.S
-index 1a4ca490e9c2..4c52b69d4b7a 100644
+index 4c52b69d4b7a..dd2a539f92ff 100644
 --- a/arch/sparc/kernel/wuf.S
 +++ b/arch/sparc/kernel/wuf.S
-@@ -255,19 +255,16 @@ srmmu_fwin_stackchk:
- 	mov	AC_M_SFSR, %l4
- 	cmp	%l5, %sp
- 	bleu	fwin_user_stack_is_bolixed
--LEON_PI( lda	[%l4] ASI_LEON_MMUREGS, %g0)	! clear fault status
--SUN_PI_( lda	[%l4] ASI_M_MMUREGS, %g0)	! clear fault status
-+	 lda	[%l4] ASI_LEON_MMUREGS, %g0	! clear fault status
- 
- 	/* The technique is, turn off faults on this processor,
- 	 * just let the load rip, then check the sfsr to see if
- 	 * a fault did occur.  Then we turn on fault traps again
- 	 * and branch conditionally based upon what happened.
+@@ -68,27 +68,17 @@
+ 	 *           are done and return from trap if successful
  	 */
--LEON_PI(lda	[%g0] ASI_LEON_MMUREGS, %l5)	! read mmu-ctrl reg
--SUN_PI_(lda	[%g0] ASI_M_MMUREGS, %l5)	! read mmu-ctrl reg
-+	lda	[%g0] ASI_LEON_MMUREGS, %l5	! read mmu-ctrl reg
- 	or	%l5, 0x2, %l5			! turn on no-fault bit
--LEON_PI(sta	%l5, [%g0] ASI_LEON_MMUREGS)	! store it
--SUN_PI_(sta	%l5, [%g0] ASI_M_MMUREGS)	! store it
-+	sta	%l5, [%g0] ASI_LEON_MMUREGS	! store it
  
- 	/* Cross fingers and go for it. */
- 	LOAD_WINDOW(sp)
-@@ -279,19 +276,15 @@ SUN_PI_(sta	%l5, [%g0] ASI_M_MMUREGS)	! store it
- 
+-	/* BEGINNING OF PATCH INSTRUCTIONS */
+-
+-	/* On 7-window Sparc the boot code patches fnwin_patch1
+-	 * with the following instruction.
+-	 */
+-	.globl	fnwin_patch1_7win, fnwin_patch2_7win
+-fnwin_patch1_7win:	srl	%t_wim, 6, %twin_tmp2
+-fnwin_patch2_7win:	and	%twin_tmp1, 0x7f, %twin_tmp1
+-	/* END OF PATCH INSTRUCTIONS */
+-
+-	.globl	fill_window_entry, fnwin_patch1, fnwin_patch2
++	.globl	fill_window_entry
+ fill_window_entry:
  	/* LOCATION: Window 'T' */
  
--LEON_PI(lda	[%g0] ASI_LEON_MMUREGS, %twin_tmp1)	! load mmu-ctrl again
--SUN_PI_(lda	[%g0] ASI_M_MMUREGS, %twin_tmp1)	! load mmu-ctrl again
-+	lda	[%g0] ASI_LEON_MMUREGS, %twin_tmp1	! load mmu-ctrl again
- 	andn	%twin_tmp1, 0x2, %twin_tmp1		! clear no-fault bit
--LEON_PI(sta	%twin_tmp1, [%g0] ASI_LEON_MMUREGS)	! store it
--SUN_PI_(sta	%twin_tmp1, [%g0] ASI_M_MMUREGS)	! store it
-+	sta	%twin_tmp1, [%g0] ASI_LEON_MMUREGS	! store it
+ 	/* Compute what the new %wim is going to be if we retrieve
+ 	 * the proper window off of the stack.
+ 	 */
+-		sll	%t_wim, 1, %twin_tmp1
+-fnwin_patch1:	srl	%t_wim, 7, %twin_tmp2
+-		or	%twin_tmp1, %twin_tmp2, %twin_tmp1
+-fnwin_patch2:	and	%twin_tmp1, 0xff, %twin_tmp1
++	sll	%t_wim, 1, %twin_tmp1
++	srl	%t_wim, 7, %twin_tmp2
++	or	%twin_tmp1, %twin_tmp2, %twin_tmp1
++	and	%twin_tmp1, 0xff, %twin_tmp1
  
- 	mov	AC_M_SFAR, %twin_tmp2
--LEON_PI(lda	[%twin_tmp2] ASI_LEON_MMUREGS, %g0)	! read fault address
--SUN_PI_(lda	[%twin_tmp2] ASI_M_MMUREGS, %g0)	! read fault address
-+	lda	[%twin_tmp2] ASI_LEON_MMUREGS, %g0	! read fault address
+ 	wr	%twin_tmp1, 0x0, %wim	/* Make window 'I' invalid */
  
- 	mov	AC_M_SFSR, %twin_tmp2
--LEON_PI(lda	[%twin_tmp2] ASI_LEON_MMUREGS, %twin_tmp2) ! read fault status
--SUN_PI_(lda	[%twin_tmp2] ASI_M_MMUREGS, %twin_tmp2)	   ! read fault status
-+	lda	[%twin_tmp2] ASI_LEON_MMUREGS, %twin_tmp2 ! read fault status
- 	andcc	%twin_tmp2, 0x2, %g0			   ! did fault occur?
- 
- 	bne	1f					   ! yep, cleanup
-diff --git a/arch/sparc/mm/Makefile b/arch/sparc/mm/Makefile
-index 7b3ff6dd382e..f0560eea2958 100644
---- a/arch/sparc/mm/Makefile
-+++ b/arch/sparc/mm/Makefile
-@@ -8,7 +8,6 @@ obj-$(CONFIG_SPARC64)   += ultra.o tlb.o tsb.o
- obj-y                   += fault_$(BITS).o
- obj-y                   += init_$(BITS).o
- obj-$(CONFIG_SPARC32)   += srmmu.o iommu.o io-unit.o
--obj-$(CONFIG_SPARC32)   += srmmu_access.o
- obj-$(CONFIG_SPARC32)   += leon_mm.o
- 
- # Only used by sparc64
-diff --git a/arch/sparc/mm/srmmu_access.S b/arch/sparc/mm/srmmu_access.S
-deleted file mode 100644
-index d8d2e644a5ca..000000000000
---- a/arch/sparc/mm/srmmu_access.S
-+++ /dev/null
-@@ -1,83 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/* Assembler variants of srmmu access functions.
-- * Implemented in assembler to allow run-time patching.
-- * LEON uses a different ASI for MMUREGS than SUN.
-- *
-- * The leon_1insn_patch infrastructure is used
-- * for the run-time patching.
-- */
--
--#include <linux/linkage.h>
--
--#include <asm/asmmacro.h>
--#include <asm/pgtsrmmu.h>
--#include <asm/asi.h>
--
--/* unsigned int srmmu_get_mmureg(void) */
--ENTRY(srmmu_get_mmureg)
--LEON_PI(lda	[%g0] ASI_LEON_MMUREGS, %o0)
--SUN_PI_(lda	[%g0] ASI_M_MMUREGS, %o0)
--	retl
--	 nop
--ENDPROC(srmmu_get_mmureg)
--
--/* void srmmu_set_mmureg(unsigned long regval) */
--ENTRY(srmmu_set_mmureg)
--LEON_PI(sta	%o0, [%g0] ASI_LEON_MMUREGS)
--SUN_PI_(sta	%o0, [%g0] ASI_M_MMUREGS)
--	retl
--	 nop
--ENDPROC(srmmu_set_mmureg)
--
--/* void srmmu_set_ctable_ptr(unsigned long paddr) */
--ENTRY(srmmu_set_ctable_ptr)
--	/* paddr = ((paddr >> 4) & SRMMU_CTX_PMASK); */
--	srl	%o0, 4, %g1
--	and	%g1, SRMMU_CTX_PMASK, %g1
--
--	mov	SRMMU_CTXTBL_PTR, %g2
--LEON_PI(sta	%g1, [%g2] ASI_LEON_MMUREGS)
--SUN_PI_(sta	%g1, [%g2] ASI_M_MMUREGS)
--	retl
--	 nop
--ENDPROC(srmmu_set_ctable_ptr)
--
--
--/* void srmmu_set_context(int context) */
--ENTRY(srmmu_set_context)
--	mov	SRMMU_CTX_REG, %g1
--LEON_PI(sta	%o0, [%g1] ASI_LEON_MMUREGS)
--SUN_PI_(sta	%o0, [%g1] ASI_M_MMUREGS)
--	retl
--	 nop
--ENDPROC(srmmu_set_context)
--
--
--/* int srmmu_get_context(void) */
--ENTRY(srmmu_get_context)
--	mov	SRMMU_CTX_REG, %o0
--LEON_PI(lda     [%o0] ASI_LEON_MMUREGS, %o0)
--SUN_PI_(lda	[%o0] ASI_M_MMUREGS, %o0)
--	retl
--	 nop
--ENDPROC(srmmu_get_context)
--
--
--/* unsigned int srmmu_get_fstatus(void) */
--ENTRY(srmmu_get_fstatus)
--	mov	SRMMU_FAULT_STATUS, %o0
--LEON_PI(lda     [%o0] ASI_LEON_MMUREGS, %o0)
--SUN_PI_(lda	[%o0] ASI_M_MMUREGS, %o0)
--	retl
--	 nop
--ENDPROC(srmmu_get_fstatus)
--
--
--/* unsigned int srmmu_get_faddr(void) */
--ENTRY(srmmu_get_faddr)
--	mov	SRMMU_FAULT_ADDR, %o0
--LEON_PI(lda     [%o0] ASI_LEON_MMUREGS, %o0)
--SUN_PI_(lda	[%o0] ASI_M_MMUREGS, %o0)
--	retl
--	 nop
--ENDPROC(srmmu_get_faddr)
 
 -- 
 2.34.1
