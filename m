@@ -2,85 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43E4B87715E
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Mar 2024 14:29:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 095C48771A2
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Mar 2024 15:33:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6737112067;
-	Sat,  9 Mar 2024 13:29:43 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="AEnBv473";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0CFD1120E3;
+	Sat,  9 Mar 2024 14:33:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com
- [209.85.219.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7046411206A
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Mar 2024 13:29:42 +0000 (UTC)
-Received: by mail-yb1-f174.google.com with SMTP id
- 3f1490d57ef6-d9b9adaf291so1630618276.1
- for <dri-devel@lists.freedesktop.org>; Sat, 09 Mar 2024 05:29:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709990981; x=1710595781; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Q7Taks8J4Q9sFVLRwiypdMlNYDVyNw9PbFVLyOKOfmc=;
- b=AEnBv473yJqd02B40Uy4tJhbc8OyCBB/eJSn6LWyOvlJ5opQ4rcoE2RdlmtjHQjX39
- /AQJZv9l4a+XFP7zR0IEEleLDBrqCt3BMsIs6daXuBR5DZJ5DuFI4nG4x/tRJPNVltaj
- X4xFzK6fp8XPGB7XWPKB6vUaabbNTkC7V6yexjagdDMohg1Kr4psWOYgd5IrJ/jX7KWM
- bRyFaVfypmLS7QRNscGALyGlmqS2+20QPN0GsB3ua89ryWkn3QkcA8rKf8d0B/3mNiM0
- nJyA+RYsEZEgfOZ+t2kgMLlTaIZBO4DX0G+Xt9lDVlS4a3jydZUdxJnU/aufdS2wAOMQ
- nbvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709990981; x=1710595781;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Q7Taks8J4Q9sFVLRwiypdMlNYDVyNw9PbFVLyOKOfmc=;
- b=JQRoFbCQu5qPXsczFHgkpstiUdS/Kpcm9r763Mf3JmM8Quws9+2x/bYj7wj1lqbxtv
- hNGRIaMb4+KQUEgQhubW8NxEfxB0kSiCXf3NVaDtoA12xUQ7XzEeFn1Ypp8ESThtrYir
- IdRwrRZbnNW2am0MM7tESmdmsp4l0/Olz3P4plOR886AiLiGjWdDGgp+9iMIhHrfmG5V
- FUpNUUHUW9TFc2NCaQvm3zQatiSl54EEOlfbhqSOA1Ic4m4OqhUQRKLTMRL34/yYrd4X
- YtS/x0tYCErQJI86wRhIhTY086PoCa42SsPsTssvH9Iz62X1IITPpt/Tgqca1I7UZdUC
- nxFg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUvA5hjjuAaI+5hZsaAr9CAloalyGApqFD+6gP/8eC+iyll0rDEt7FZHDo8U+FjsRTZReobar8I2JbN4KDOhexcUWFL8eJkYwwMjI3vq2iI
-X-Gm-Message-State: AOJu0YyfTNIldXZfn/FRs7eMdGlnVXj8iMURnzjZ+DyescCMhH88ds9+
- u7ZyigD99EBGAL1mJbhoNE6ffNkVeO4X0AMVuYpAN6By9hkL+sFtV8Hg5bGtapqEsQW+L3dq7Ty
- mTGOctwX5iksYGWmNqwHx1r5yEWyXJuwoo9HpUA==
-X-Google-Smtp-Source: AGHT+IEU99pr/n1rIb3maLzCnZ8v4EqdMm5b+eo+nyeZpNwNODRAEJabBbvcmArDjxlPH5orGzupS8f8fkVQ6IaybiE=
-X-Received: by 2002:a25:aa84:0:b0:dd0:467:2e48 with SMTP id
- t4-20020a25aa84000000b00dd004672e48mr984517ybi.40.1709990981142; Sat, 09 Mar
- 2024 05:29:41 -0800 (PST)
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DCB81120DF
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Mar 2024 14:33:16 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-253-14N-Did4PAW8hIsoNs_d-Q-1; Sat, 09 Mar 2024 14:33:12 +0000
+X-MC-Unique: 14N-Did4PAW8hIsoNs_d-Q-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sat, 9 Mar
+ 2024 14:33:26 +0000
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Sat, 9 Mar 2024 14:33:26 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Maxime Ripard' <mripard@kernel.org>, Arnd Bergmann <arnd@arndb.de>
+CC: Naresh Kamboju <naresh.kamboju@linaro.org>, open list
+ <linux-kernel@vger.kernel.org>, Linux ARM
+ <linux-arm-kernel@lists.infradead.org>, "linux-sunxi@lists.linux.dev"
+ <linux-sunxi@lists.linux.dev>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "lkft-triage@lists.linaro.org"
+ <lkft-triage@lists.linaro.org>, Dave Airlie <airlied@redhat.com>, "Dan
+ Carpenter" <dan.carpenter@linaro.org>, Ard Biesheuvel <ardb@kernel.org>
+Subject: RE: arm: ERROR: modpost: "__aeabi_uldivmod"
+ [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
+Thread-Topic: arm: ERROR: modpost: "__aeabi_uldivmod"
+ [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
+Thread-Index: AQHabimenIC0ADhmjUqxSQo36gIP17EvfaYA
+Date: Sat, 9 Mar 2024 14:33:26 +0000
+Message-ID: <85b807289ff2400ea5887ced63655862@AcuMS.aculab.com>
+References: <CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+kK9Zop6u=ywmw@mail.gmail.com>
+ <338c89bb-a70b-4f35-b71b-f974e90e3383@app.fastmail.com>
+ <20240304-brawny-goshawk-of-sorcery-860cef@houat>
+In-Reply-To: <20240304-brawny-goshawk-of-sorcery-860cef@houat>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-References: <20240307172334.1753343-1-sui.jingfeng@linux.dev>
- <20240307172334.1753343-2-sui.jingfeng@linux.dev>
- <CAA8EJpp8tsHi0RhsJXG+r6nOsV3AUC_n6jNHL0Cr6Ku2h3NMog@mail.gmail.com>
- <45f59f31-1f03-4a96-adb6-25c7cdd5e8a1@linux.dev>
- <CAA8EJpqq1-cEke6wEFZFDnpz4tFBcL6HF3=Qtf-8Q3WbogLS8A@mail.gmail.com>
- <c84fcdba-af50-4212-a8e3-f492c2b02ce4@linux.dev>
- <CAA8EJppTcPO3j7GpGcGbKPUjQ=3rTMMOrU1SYR3mtkWLztf2qQ@mail.gmail.com>
- <7535b3ba-6bbb-411c-82a4-cd4ac45de1a6@linux.dev>
- <CAA8EJpp3yd33pYweL_exrXMJ3g-m7-yjJrjiVMVMevOadBtt8g@mail.gmail.com>
- <28492cfb-5327-46d5-8c08-233f1786ff44@linux.dev>
-In-Reply-To: <28492cfb-5327-46d5-8c08-233f1786ff44@linux.dev>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 9 Mar 2024 15:29:29 +0200
-Message-ID: <CAA8EJpphapGxz9ztD7FUE5y_CVuuz=gySbOJquNXSw29vexKgQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] drm/bridge: Add fwnode based helpers to get the
- next bridge
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Phong LE <ple@baylibre.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,59 +69,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 9 Mar 2024 at 14:03, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
->
-> Hi,
->
->
-> On 2024/3/9 18:39, Dmitry Baryshkov wrote:
-> >> The code path of "creating a connector" plus the code path of "not creating a connector"
-> >> forms a 'side-by-side' implementation imo.
-> >>
-> >> Besides, I have repeated many times: the DT already speak everything.
-> >> Device drivers can completely know if there is a display connector OF device created and how many
-> >> display bridges in the whole chain. If there are connector device node in the DT, then it should
-> >> has a device driver bound to it(instead of create it manually) for a perfect implementation. As
-> >> you told me we should not*over play*  the device-driver model, right?
-> > Please, don't mix the connector node in DT and the drm_connector. If
-> > you check the code, you will see that the driver for hdmi-connector,
-> > dp-connector and other such devices creates a drm_bridge.
->
->
-> OK, I'm not mixed them, I'm very clear from the very beginning. I have checked
-> the code years ago. Let's make it clear by iterating one more time:
->
-> If DT contains one or more HDMI connector node, then there will be one or
-> more display connector platform devices created by OF core, Then, according to
-> your "don't overplay device-driver model" criterion or modern drm bridge standard,
-> we shouldn't create a display connector instance in the drm birdge driver, right?
+From: Maxime Ripard
+> Sent: 04 March 2024 11:46
+>=20
+> On Mon, Mar 04, 2024 at 12:11:36PM +0100, Arnd Bergmann wrote:
+> > On Mon, Mar 4, 2024, at 09:07, Naresh Kamboju wrote:
+> > > The arm defconfig builds failed on today's Linux next tag next-202403=
+04.
+> > >
+> > > Build log:
+> > > ---------
+> > > ERROR: modpost: "__aeabi_uldivmod"
+> > > [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
+> > >
+> >
+> > Apparently caused by the 64-bit division in 358e76fd613a
+> > ("drm/sun4i: hdmi: Consolidate atomic_check and mode_valid"):
+> >
+> >
+> > +static enum drm_mode_status
+> > +sun4i_hdmi_connector_clock_valid(const struct drm_connector *connector=
+,
+> > +                                const struct drm_display_mode *mode,
+> > +                                unsigned long long clock)
+> >  {
+> > -       struct sun4i_hdmi *hdmi =3D drm_encoder_to_sun4i_hdmi(encoder);
+> > -       unsigned long rate =3D mode->clock * 1000;
+> > -       unsigned long diff =3D rate / 200; /* +-0.5% allowed by HDMI sp=
+ec */
+> > +       const struct sun4i_hdmi *hdmi =3D drm_connector_to_sun4i_hdmi(c=
+onnector);
+> > +       unsigned long diff =3D clock / 200; /* +-0.5% allowed by HDMI s=
+pec */
+> >         long rounded_rate;
+> >
+> > This used to be a 32-bit division. If the rate is never more than
+> > 4.2GHz, clock could be turned back into 'unsigned long' to avoid
+> > the expensive div_u64().
+>=20
+> I sent a fix for it this morning:
+> https://lore.kernel.org/r/20240304091225.366325-1-mripard@kernel.org
+>=20
+> The framework will pass an unsigned long long because HDMI character
+> rates can go up to 5.9GHz.
 
-Yeah, if the platform is updated, yes, we do. If there is an
-hdmi-connector node, I can only assume that the DRM driver also has
-been updated to pass the DRM_BRIDGE_ATTACH_NO_CONNECTOR. In such case
-the lt9611uxc driver will not create the drm_connector and everything
-works as expected. If this is one of the legacy platforms, the DRM
-driver will not pass the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag, but at
-the same time the DT will not have the connector node.
+You could do:
+=09/* The max clock is 5.9GHz, split the divide */
+=09u32 diff =3D (u32)(clock / 8) / (200/8);
 
->
-> As otherwise we will have two display connector driver (or code) for a single entity,
-> right?
->
-> Another side effect is that
-> when you create a hdmi display connector instance manually without reference to the
-> DT, then *you made an assumption!*. But there are users who have don't a different
-> need(or  different typology), for example, they need to read edid directly from the
-> KMS driver side. This may because the i2c bus is directly connected to the connector
-> part, but the display bridge's I2C slave interface. sii9022, it66121 and tfp410 support
-> this kind of usage.
->
-> So the real problem is that it is a policy level code  when you creating a hdmi
-> display connector instance manually without reference to the DT in a common drm bridge
-> driver, not a mechanism.
+The code should really use u32 and u64.
+Otherwise the sizes are different on 32bit.
 
-Only if requested by the DRM driver itself.
+=09David
 
---
-With best wishes
-Dmitry
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
+
