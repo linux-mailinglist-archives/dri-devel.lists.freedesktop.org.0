@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8494B8776F9
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Mar 2024 14:22:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42EEB8776FC
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Mar 2024 14:22:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8A6610E112;
-	Sun, 10 Mar 2024 13:22:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A835710E171;
+	Sun, 10 Mar 2024 13:22:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="AnZC+e2a";
+	dkim=pass (2048-bit key; unprotected) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="X+LJ+PCX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E602B10E112
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 13:22:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5749510E171
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 13:22:32 +0000 (UTC)
 Received: from smtp1.mailbox.org (smtp1.mailbox.org
  [IPv6:2001:67c:2050:b231:465::1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Tt0v45hX5z9sps;
- Sun, 10 Mar 2024 14:22:24 +0100 (CET)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Tt0v91JvGz9sqF;
+ Sun, 10 Mar 2024 14:22:29 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
- s=MBO0001; t=1710076944;
+ s=MBO0001; t=1710076949;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ugKhzTVt1AcqmTVj4/zhKrifJsgXqt3bG4BPHQ/PtEk=;
- b=AnZC+e2aF9e/e3raZ/HmFBI4rZRzDxjSUpTqCLeG4rYtcC5y+uQRv0VBaHDuFvWyVgBGEt
- 13ZjpOSpnsEblHujKJi0Df8cjDegZrSVOBa4QGQTRJKyCxnjEAsrl8CuJj2s7jpdH6j7rH
- HLKxss97dZkioiI2Epp6WoXokXv8BcXgxAYKNApVmMQeJY2BB+jxgFf6/AE7IufSyFZ7dm
- Z7PElD3n0t9L077DNF62pyIFKBc7Ep6lFHpb9x7hPnV1T3O73LLb3KkzkyHbhITkmfRNB7
- bneU5+OVIFnPEvIsJlCjxlRbh8txufGpI8koVFI6vN4jXSEOhmmwztby2LkWVg==
+ bh=mSwEbrk7HLbiVNg/S8Upg2syVPjC3LO4YtPCBym8jns=;
+ b=X+LJ+PCXGwxG9G4WS/TRRQQWedm3WrIvjNGcf3IyPuDYlUdkiR8+aKGzow9mcas8qKnQRc
+ YGAWtICRa3gwaSG28TKplt4sqEY+4NUQmZ0zL+6hYrWsIWUtn91n5bqKyqg2Wjd1mQXvBL
+ adkL/gXYJtM6gtLySg6aq4Ut0PxfzncW71dPvTN5I8wlyeutdRULyOCh6mRDQZJAXyeCni
+ 4GFFGLolP9o/Ouaog8EbHezhjNKSdGhE0vDOe+xPOOfrSr2GrUqJfB3tyy7cmzKo4fjzwG
+ NiwFP9RBa/Et2VvysOvVi9wnvUOaU3baDGHcIoqF2ihzLO2IaBWLZDMIXpSV5Q==
 From: Frank Oltmanns <frank@oltmanns.dev>
-Date: Sun, 10 Mar 2024 14:21:13 +0100
-Subject: [PATCH v4 3/5] clk: sunxi-ng: nkm: Support constraints on m/n
- ratio and parent rate
+Date: Sun, 10 Mar 2024 14:21:14 +0100
+Subject: [PATCH v4 4/5] clk: sunxi-ng: a64: Add constraints on PLL-MIPI's
+ n/m ratio and parent rate
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240310-pinephone-pll-fixes-v4-3-46fc80c83637@oltmanns.dev>
+Message-Id: <20240310-pinephone-pll-fixes-v4-4-46fc80c83637@oltmanns.dev>
 References: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev>
 In-Reply-To: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev>
 To: Michael Turquette <mturquette@baylibre.com>, 
@@ -62,20 +62,20 @@ Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
  Frank Oltmanns <frank@oltmanns.dev>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2581; i=frank@oltmanns.dev;
- h=from:subject:message-id; bh=sz8/RCE/mblTN6+mQB7r6nXbctInrDxt2wSc2tr+a2Q=;
- b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBl7bP5Pva37Lqxh7aeU4Ge0T48bdNaev/Ytwhzh
- xTIwi0Pf9OJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZe2z+QAKCRCaaaIIlErT
- x47kC/0bWCWj4UUKuy1/lJZ2Qaz5o9QjWH//p6UhSvRoMO0PW67MWT5weXPqpq0fdxfkTHVM/S8
- 9vM1SBGW/C7VN/eVTeIvfsCBGlk3IGMMyJ7uVnUSrPJQD+fgw6dexD5qI2hNQRy5mgVAqUv5SZ2
- kPf6MemGxZfwsI0fxaavcUiQARZWRtcNar3ybbnoIIb0BWzVeaXCuLWyKcNYjbph6pETDAJFSLF
- /0sBarC6qWNPJAeFEc0I7hSXc8ysA5ws9MSADrZDxQFtQbOBDCqGwW+jPf9+L/9jDaLLtWNQDsh
- aPwY3HPk4T3yaYefRX5idT6w0M0qy7lkB1d5mZb6ArQOZ/sKv01aNs6PfJy4bJQzyJi8ZpR8wqk
- Yv0gV5EEHLz3goA/nReyrB4xtxxGwuwwOotKrXOoLmACBbNy2iB/KztRCdbIvrnx59ZqQ2AZmsq
- fXlbL1/lDQrwjeNt8J2vrPQ4twmiZPPELa81VB0jmGBACqkE6btneLjYRmhnCSb/kQj0I=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1259; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=ZV5lBxre/6M2MuCOOKXnH1cRS8cfBKGM9w8C16rRn4M=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBl7bP5PzKfaGxOhYTmRIANrgQLfc29z0qkcLMY5
+ hLBpAPDsGyJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZe2z+QAKCRCaaaIIlErT
+ x4qGC/9nHquFxNJvKofeUqKDlB8/fyTNUMkYgkr2J09KVCyCOfKhKLCLPq1RbvhQHYMFO+KkUVi
+ y09BPXCYu7AzXNqEIRKtZukM9fWHve4cd4fn87D+lG71JxXN00HbEXZm1dgoL0g7PPhI1rtkpkh
+ cEQk4PpdAm5ES+3EA0gIisbpVs2dDJiBke4aib93cTm0KUGdaLdePvgGbiqRI5oW0h85QSEDYCZ
+ bN5UgmdeX2wdyPM9YAgVh0eK7uzfFYC0lXvOBN+Tf2gWOYWTQTcerLgSAzSyAvt7YSBwFd8rmxC
+ mbBedFXmxAD1HzkgRCB+raRJF2V6Gx8Itmz78c15p0/X5+Ci0BURgx74ArMWF3d+o96FD30kvh9
+ MURe4DjLkNSjQ1wlKtBIerPYzvzllO/ffiZYcBxhFF0qy6WFQ4BDY6xBsayaq5T2Kxb8N13aMp/
+ S77ODkYZ1lsCkQhkMtZ/6r4PLF3vDI+AiEsk02A0igrDst6vqtx9CCYEGZxXgJEMDgCH0=
 X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
  fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
-X-Rspamd-Queue-Id: 4Tt0v45hX5z9sps
+X-Rspamd-Queue-Id: 4Tt0v91JvGz9sqF
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,75 +96,37 @@ PLL-MIPI clock:
  - M/N <= 3
  - (PLL_VIDEO0)/M >= 24MHz
 
-The PLL-MIPI clock is implemented as ccu_nkm. Therefore, add support for
-these constraints.
+Use these constraints.
 
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
 ---
- drivers/clk/sunxi-ng/ccu_nkm.c | 21 +++++++++++++++++++++
- drivers/clk/sunxi-ng/ccu_nkm.h |  2 ++
- 2 files changed, 23 insertions(+)
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
-index 853f84398e2b..1168d894d636 100644
---- a/drivers/clk/sunxi-ng/ccu_nkm.c
-+++ b/drivers/clk/sunxi-ng/ccu_nkm.c
-@@ -16,6 +16,20 @@ struct _ccu_nkm {
- 	unsigned long	m, min_m, max_m;
- };
- 
-+static bool ccu_nkm_is_valid_rate(struct ccu_common *common, unsigned long parent,
-+				  unsigned long n, unsigned long m)
-+{
-+	struct ccu_nkm *nkm = container_of(common, struct ccu_nkm, common);
-+
-+	if (nkm->max_m_n_ratio && (m > nkm->max_m_n_ratio * n))
-+		return false;
-+
-+	if (nkm->min_parent_m_ratio && (parent < nkm->min_parent_m_ratio * m))
-+		return false;
-+
-+	return true;
-+}
-+
- static unsigned long ccu_nkm_find_best_with_parent_adj(struct ccu_common *common,
- 						       struct clk_hw *parent_hw,
- 						       unsigned long *parent, unsigned long rate,
-@@ -31,6 +45,10 @@ static unsigned long ccu_nkm_find_best_with_parent_adj(struct ccu_common *common
- 				unsigned long tmp_rate, tmp_parent;
- 
- 				tmp_parent = clk_hw_round_rate(parent_hw, rate * _m / (_n * _k));
-+
-+				if (!ccu_nkm_is_valid_rate(common, tmp_parent, _n, _m))
-+					continue;
-+
- 				tmp_rate = tmp_parent * _n * _k / _m;
- 
- 				if (ccu_is_better_rate(common, rate, tmp_rate, best_rate) ||
-@@ -64,6 +82,9 @@ static unsigned long ccu_nkm_find_best(unsigned long parent, unsigned long rate,
- 	for (_k = nkm->min_k; _k <= nkm->max_k; _k++) {
- 		for (_n = nkm->min_n; _n <= nkm->max_n; _n++) {
- 			for (_m = nkm->min_m; _m <= nkm->max_m; _m++) {
-+				if (!ccu_nkm_is_valid_rate(common, parent, _n, _m))
-+					continue;
-+
- 				unsigned long tmp_rate;
- 
- 				tmp_rate = parent * _n * _k / _m;
-diff --git a/drivers/clk/sunxi-ng/ccu_nkm.h b/drivers/clk/sunxi-ng/ccu_nkm.h
-index 6601defb3f38..c409212ee40e 100644
---- a/drivers/clk/sunxi-ng/ccu_nkm.h
-+++ b/drivers/clk/sunxi-ng/ccu_nkm.h
-@@ -27,6 +27,8 @@ struct ccu_nkm {
- 	struct ccu_mux_internal	mux;
- 
- 	unsigned int		fixed_post_div;
-+	unsigned long		max_m_n_ratio;
-+	unsigned long		min_parent_m_ratio;
- 
- 	struct ccu_common	common;
- };
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+index 6a4b2b9ef30a..07796c79a23e 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+@@ -171,11 +171,13 @@ static struct ccu_nkm pll_mipi_clk = {
+ 	 * user manual, and by experiments the PLL doesn't work without
+ 	 * these bits toggled.
+ 	 */
+-	.enable		= BIT(31) | BIT(23) | BIT(22),
+-	.lock		= BIT(28),
+-	.n		= _SUNXI_CCU_MULT(8, 4),
+-	.k		= _SUNXI_CCU_MULT_MIN(4, 2, 2),
+-	.m		= _SUNXI_CCU_DIV(0, 4),
++	.enable			= BIT(31) | BIT(23) | BIT(22),
++	.lock			= BIT(28),
++	.n			= _SUNXI_CCU_MULT(8, 4),
++	.k			= _SUNXI_CCU_MULT_MIN(4, 2, 2),
++	.m			= _SUNXI_CCU_DIV(0, 4),
++	.max_m_n_ratio		= 3,
++	.min_parent_m_ratio	= 24000000,
+ 	.common		= {
+ 		.reg		= 0x040,
+ 		.hw.init	= CLK_HW_INIT("pll-mipi", "pll-video0",
 
 -- 
 2.44.0
