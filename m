@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C33D48775DE
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Mar 2024 09:48:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D66EA8775DF
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Mar 2024 09:49:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C4EF1127BA;
-	Sun, 10 Mar 2024 08:48:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C5B510FFBB;
+	Sun, 10 Mar 2024 08:49:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="p+EQRoIO";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="etR/Pp0T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 173B31127BA
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 08:48:17 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id
- 4fb4d7f45d1cf-566e869f631so3906952a12.0
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 00:48:17 -0800 (PST)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
+ [209.85.208.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 784EB10FFBB
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 08:49:08 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id
+ 4fb4d7f45d1cf-56845954ffeso750908a12.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 00:49:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1710060496; x=1710665296; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1710060546; x=1710665346; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=rorBlMQzJ327LZF40dBTjHqqROWq7LkNPcnzNYQ2hk4=;
- b=p+EQRoIO3u+5QWKuna3+FuNYXigywnv2PQCqkDbt1wA4VgLhITVEykXXqoAhDWaS+e
- aP+bzMBeuizOCGCgxQSwYDNsYgJXyrNDUWFL0lk7ZLGuOntWfF5Tt7thRKFG73hG19cj
- ZGHZ7fI4oRhfIPMGkpkwdyfR8Xw2xSYGQBb159N+MMhsMlJyz85XtzDf1hAMsoB/0Kgf
- JfT9Z/ndEl6I8mw0DdLc0rdyQE8xQT089Wz3FaIiH1yxpeENa/u7QHhMUu8GkCGL2HZX
- /XZquoSQGY8M5uMCUelA/gBdYHPfp3cy0pjzMRNjNVrhbv8smtV5EQ9rulKyOK8ToH4A
- h/wg==
+ bh=PBxoj6XrLWAnYHXsZF0FhFwVka2iFjaNzeYMXspcwm4=;
+ b=etR/Pp0Tsh9ubSMU0eJHGUtwl91i19wHtTBjXr4vwotePQC71+zRtbvEk2QKBTAE22
+ cEAz6UiY5Ffv3QRJozAzczZjLAaCMwdyYHw9Kf5SMAlCRxgFOCBpqqLap7kNONwyPIKn
+ Q9z7fs6QA4eTq1GHhp+8mA0B4JWcohNlOpg/Co+oxB9T7njK7txNW72SRC87/zO9pZEZ
+ SLLQ9PDSLS3skMQfx9vD6PvCFaUgHe+4Qcm7EInKt8hsPN+D/EjzSdO/NjsKRjs+2Px7
+ Kh63DdzqFFKMWjFYSAJOpIfFb+3xojHbMcoJeGYPESCbflKR73LrcOimNBLl0A+5nn5x
+ 2apQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710060496; x=1710665296;
+ d=1e100.net; s=20230601; t=1710060546; x=1710665346;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rorBlMQzJ327LZF40dBTjHqqROWq7LkNPcnzNYQ2hk4=;
- b=H8Wge/jkVKZb/nd7lWXThSAo6RLtoBMWK0Js9d1Oi4r5u+MlJTNWSzXRCimnLHjENB
- i0hig8zEQ4F3jUzy2jsH+r6Lox7p/BnRET7inY2e4EewZs6LqgRtRHCh/tmsKiK+7+44
- 159hxEG/Wgk58mqoNpOljSLAEdZmI+1pyK6SpujSyj1yDtZvuDTfIBHCKKlD4apElt8h
- 4EbdIK8nDIKAVeSnoFOMJzdxRktybRjkCJpTPg/P1N3ySGpq6p3x5xz6kEreKP4gKAC3
- DfmyT3950mYv9tw9IXIUEE537aNlg3qkahRbKwMvvLtz7H0Pe0KleckN9AEPJOf3GAyC
- ju1A==
+ bh=PBxoj6XrLWAnYHXsZF0FhFwVka2iFjaNzeYMXspcwm4=;
+ b=v6EEb6M5KhnXcYdmzo/20n/50NfYOhe2ymMEt6OX/P+O4+s7GrKc8h7K5tkyOcwigE
+ 5S7CODPwP5kttOckoWrz8JMH23ixsH5uAWArafYPyoUmtLJZRcbjm9DG/WfcL28OYRKK
+ kz7XB3x2H/XM6PqmcVkjxnoqkjjz+Wa0b7ztTg+QAbHrbfTlFLEHVTXBK3v5s82eAWtI
+ yfAF2bHXZ9CwjwrJX6s1iMVo5/LFVsoE0t4ENCexSeVlYR9wD7j0UQia081xskDZnldo
+ ZD86NoNGdemaaa9ukXVaqqsXtpkOIc5JOAX7oMCPSJhbvdblu2CXNGKoga8JR9Ef/MW9
+ sRbA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUkEYEBN2UuvBzVH8EJE2++e9ZNvO+AZRZf1QnOS+aOVMoHChDzhZJ2yyA+eBbtUkU/e0QvPdTJ3ucIfjxY/TUGPhr6D7ulPBbGAbbe68aJ
-X-Gm-Message-State: AOJu0YwSi207Dbw7iXdsNFuBHrvuk3COFjYuRoktrE/pI/Uq7geSXGpt
- XLFKEAbMajAqgwZtCtAC0Q17p3HZUuOdRirfu8LZJjhd4HHRnZN8O49FabCC04E=
-X-Google-Smtp-Source: AGHT+IFBdpIr+eAcfqQmJZR60pxr/sf2e2HA4n+S1Wto2bETDRiqaD8ZTqozr9v/CHkOeNMXNRDojQ==
-X-Received: by 2002:a50:bac1:0:b0:567:6c79:c6ef with SMTP id
- x59-20020a50bac1000000b005676c79c6efmr2564632ede.29.1710060496028; 
- Sun, 10 Mar 2024 00:48:16 -0800 (PST)
+ AJvYcCX/OItrfDe9R1hkVMaRjqn6OljAIqMNLfR6Pd1d/NB0vs1zoLnVo6Jky0fHgg5g0EVB/gO8xzEhlKCPDS3QAdsplRz/hxhyMi3P/PyhXTNx
+X-Gm-Message-State: AOJu0Yzy+eLLiRN2Cit3w96gLnhXqBLdZCED+DJCqN8YSrFfiUr2+hwg
+ 5ZZEhriTLgTBVknwFg7rQ+9vGMg3/yGtv65lBwO95FYV1N1zT4byNoEMxVg008A=
+X-Google-Smtp-Source: AGHT+IGRWkYXsalGOBzXJf4afXKb6gxBuX5JoOyiacPQBMlGRJ1AQQtC5lCe8voI8++hdbEH5xPzrg==
+X-Received: by 2002:a50:d715:0:b0:568:3551:5904 with SMTP id
+ t21-20020a50d715000000b0056835515904mr2385731edi.30.1710060546558; 
+ Sun, 10 Mar 2024 00:49:06 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.222.97])
  by smtp.gmail.com with ESMTPSA id
- b2-20020aa7c902000000b00564e489ce9asm1765052edt.12.2024.03.10.00.48.14
+ b2-20020aa7c902000000b00564e489ce9asm1765052edt.12.2024.03.10.00.49.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 10 Mar 2024 00:48:15 -0800 (PST)
-Message-ID: <5d5d6e7f-9c3d-491f-8813-f86ebab0897c@linaro.org>
-Date: Sun, 10 Mar 2024 09:48:14 +0100
+ Sun, 10 Mar 2024 00:49:06 -0800 (PST)
+Message-ID: <65658bc7-7500-494a-9604-a91b2117bbd1@linaro.org>
+Date: Sun, 10 Mar 2024 09:49:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 1/2] dt-bindings: backlight: Add Texas Instruments
@@ -139,12 +139,8 @@ On 09/03/2024 14:24, Patrick Gansterer wrote:
 > 
 > Signed-off-by: Patrick Gansterer <paroga@paroga.com>
 > ---
-> Changes in v3:
->   Improved device tree bindings documentation style
 
-That's way too generic. Everything can be called style. If you only
-improved style, then my comments regarding real issues like missing
-defaults were not implemented?
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
