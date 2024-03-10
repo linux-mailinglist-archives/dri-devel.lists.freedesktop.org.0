@@ -2,28 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C580F8776A7
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Mar 2024 13:48:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CF578776A9
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Mar 2024 13:48:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2FF210E132;
-	Sun, 10 Mar 2024 12:48:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85A4110E137;
+	Sun, 10 Mar 2024 12:48:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="ttoxhuAU";
+	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="qZz9g0hO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78A6B10E132
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 12:48:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C76D310E137
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 12:48:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1710074925;
+ s=mail; t=1710074926;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=3MP05RR+wbCQqXOr0sgjO6JV62/cP9unyj6X/qG6Ojo=;
- b=ttoxhuAUS6+ngXFZaEOsmMvJ9SGESgjp3LJpwJyYloA440908l3ZTN8L2EaWDJNf6eEHW8
- KvUriPAWywZN95WcbPKCTaNJswgorMkKgnn/JB1c5uU/8O6oHiJbUM9MJMBMLQNIIljr1r
- zJnmTqxJB+Oz7iOFywn3b8s8tHqIepM=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tTnfJ7u5064ZSLz1RAOyX6FudlHZyR78isy9u39T0jc=;
+ b=qZz9g0hOmfhMisq22neBHRgqfkb3CD0BVUxPI9+c6N7IFFYYEU+gnGiM1O9J4knC3ExjC/
+ A4z3TjzTtsKVUzIg/4O2lqkpnfG45lG+BQ5dwB4x5WawfdBG4bXo5bqMwRZaykUNJczOzG
+ k9RTZA0FCvi8EYc6wDKsEsdRJ9cGK5g=
 From: Paul Cercueil <paul@crapouillou.net>
 To: Jonathan Cameron <jic23@kernel.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -35,9 +36,12 @@ Cc: Nuno Sa <nuno.sa@analog.com>,
  dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v9 0/6] iio: new DMABUF based API
-Date: Sun, 10 Mar 2024 13:48:29 +0100
-Message-ID: <20240310124836.31863-1-paul@crapouillou.net>
+Subject: [PATCH v9 1/6] dmaengine: Add API function
+ dmaengine_prep_peripheral_dma_vec()
+Date: Sun, 10 Mar 2024 13:48:30 +0100
+Message-ID: <20240310124836.31863-2-paul@crapouillou.net>
+In-Reply-To: <20240310124836.31863-1-paul@crapouillou.net>
+References: <20240310124836.31863-1-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,47 +59,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jonathan,
+This function can be used to initiate a scatter-gather DMA transfer,
+where the address and size of each segment is located in one entry of
+the dma_vec array.
 
-Here's the final-er version of the IIO DMABUF patchset.
+The major difference with dmaengine_prep_slave_sg() is that it supports
+specifying the lengths of each DMA transfer; as trying to override the
+length of the transfer with dmaengine_prep_slave_sg() is a very tedious
+process. The introduction of a new API function is also justified by the
+fact that scatterlists are on their way out.
 
-This v9 fixes the few issues reported by the kernel bot.
+Note that dmaengine_prep_interleaved_dma() is not helpful either in that
+case, as it assumes that the address of each segment will be higher than
+the one of the previous segment, which we just cannot guarantee in case
+of a scatter-gather transfer.
 
-This was based on next-20240308.
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Signed-off-by: Nuno Sa <nuno.sa@analog.com>
 
-Changelog:
+---
+v3: New patch
 
-- [3/6]:
-    - Select DMA_SHARED_BUFFER in Kconfig
-    - Remove useless forward declaration of 'iio_dma_fence'
-    - Import DMA-BUF namespace
-    - Add missing __user tag to iio_buffer_detach_dmabuf() argument
+v5: Replace with function dmaengine_prep_slave_dma_vec(), and struct
+    'dma_vec'.
+    Note that at some point we will need to support cyclic transfers
+    using dmaengine_prep_slave_dma_vec(). Maybe with a new "flags"
+    parameter to the function?
 
-Cheers,
--Paul
+v7:
+  - Renamed *device_prep_slave_dma_vec() -> device_prep_peripheral_dma_vec();
+  - Added a new flag parameter to the function as agreed between Paul
+    and Vinod. I renamed the first parameter to prep_flags as it's supposed to
+    be used (I think) with enum dma_ctrl_flags. I'm not really sure how that API
+    can grow but I was thinking in just having a bool cyclic parameter (as the
+    first intention of the flags is to support cyclic transfers) but ended up
+    "respecting" the previously agreed approach.
+---
+ include/linux/dmaengine.h | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-Paul Cercueil (6):
-  dmaengine: Add API function dmaengine_prep_peripheral_dma_vec()
-  dmaengine: dma-axi-dmac: Implement device_prep_peripheral_dma_vec
-  iio: core: Add new DMABUF interface infrastructure
-  iio: buffer-dma: Enable support for DMABUFs
-  iio: buffer-dmaengine: Support new DMABUF based userspace API
-  Documentation: iio: Document high-speed DMABUF based API
-
- Documentation/iio/iio_dmabuf_api.rst          |  54 ++
- Documentation/iio/index.rst                   |   1 +
- drivers/dma/dma-axi-dmac.c                    |  40 ++
- drivers/iio/Kconfig                           |   1 +
- drivers/iio/buffer/industrialio-buffer-dma.c  | 181 ++++++-
- .../buffer/industrialio-buffer-dmaengine.c    |  59 ++-
- drivers/iio/industrialio-buffer.c             | 462 ++++++++++++++++++
- include/linux/dmaengine.h                     |  27 +
- include/linux/iio/buffer-dma.h                |  31 ++
- include/linux/iio/buffer_impl.h               |  30 ++
- include/uapi/linux/iio/buffer.h               |  22 +
- 11 files changed, 891 insertions(+), 17 deletions(-)
- create mode 100644 Documentation/iio/iio_dmabuf_api.rst
-
+diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
+index 752dbde4cec1..856df8cd9a4e 100644
+--- a/include/linux/dmaengine.h
++++ b/include/linux/dmaengine.h
+@@ -160,6 +160,16 @@ struct dma_interleaved_template {
+ 	struct data_chunk sgl[];
+ };
+ 
++/**
++ * struct dma_vec - DMA vector
++ * @addr: Bus address of the start of the vector
++ * @len: Length in bytes of the DMA vector
++ */
++struct dma_vec {
++	dma_addr_t addr;
++	size_t len;
++};
++
+ /**
+  * enum dma_ctrl_flags - DMA flags to augment operation preparation,
+  *  control completion, and communicate status.
+@@ -910,6 +920,10 @@ struct dma_device {
+ 	struct dma_async_tx_descriptor *(*device_prep_dma_interrupt)(
+ 		struct dma_chan *chan, unsigned long flags);
+ 
++	struct dma_async_tx_descriptor *(*device_prep_peripheral_dma_vec)(
++		struct dma_chan *chan, const struct dma_vec *vecs,
++		size_t nents, enum dma_transfer_direction direction,
++		unsigned long prep_flags, unsigned long flags);
+ 	struct dma_async_tx_descriptor *(*device_prep_slave_sg)(
+ 		struct dma_chan *chan, struct scatterlist *sgl,
+ 		unsigned int sg_len, enum dma_transfer_direction direction,
+@@ -973,6 +987,19 @@ static inline struct dma_async_tx_descriptor *dmaengine_prep_slave_single(
+ 						  dir, flags, NULL);
+ }
+ 
++static inline struct dma_async_tx_descriptor *dmaengine_prep_peripheral_dma_vec(
++	struct dma_chan *chan, const struct dma_vec *vecs, size_t nents,
++	enum dma_transfer_direction dir, unsigned long prep_flags,
++	unsigned long flags)
++{
++	if (!chan || !chan->device || !chan->device->device_prep_peripheral_dma_vec)
++		return NULL;
++
++	return chan->device->device_prep_peripheral_dma_vec(chan, vecs, nents,
++							    dir, prep_flags,
++							    flags);
++}
++
+ static inline struct dma_async_tx_descriptor *dmaengine_prep_slave_sg(
+ 	struct dma_chan *chan, struct scatterlist *sgl,	unsigned int sg_len,
+ 	enum dma_transfer_direction dir, unsigned long flags)
 -- 
 2.43.0
 
