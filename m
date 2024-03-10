@@ -2,48 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 508138776B9
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Mar 2024 13:49:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D43F8776F6
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Mar 2024 14:22:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6534A10E160;
-	Sun, 10 Mar 2024 12:49:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A691110E0C6;
+	Sun, 10 Mar 2024 13:22:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="LgQ5kVEB";
+	dkim=pass (2048-bit key; unprotected) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="IcxkRY0Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 372E910E160
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 12:49:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1710074932;
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F52410E0C6
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 13:22:14 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Tt0tp1rRlz9spD;
+ Sun, 10 Mar 2024 14:22:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+ s=MBO0001; t=1710076930;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2zetX9Ab4rI9KD/Qs27nOHFRQ3+katPydkX7yEGprj4=;
- b=LgQ5kVEBKsl1tPmpaqeayrkOe46ZnML5PzzLNkMZVhwbgn/6SaiKV5Fy+C9lDLy4GFYSzB
- EaeGEzsHjeuS2Ajouwx8S4rpkTygI5n7990v40U/VhWuiNZxOZLQQnYcLfjL8KHElkBS71
- nF9kj04Z0OuVQLFzEapD4DXvGc/xvSE=
-From: Paul Cercueil <paul@crapouillou.net>
-To: Jonathan Cameron <jic23@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Jonathan Corbet <corbet@lwn.net>, Lars-Peter Clausen <lars@metafoo.de>,
- Vinod Koul <vkoul@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Nuno Sa <nuno.sa@analog.com>,
- Michael Hennerich <michael.hennerich@analog.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v9 6/6] Documentation: iio: Document high-speed DMABUF based
- API
-Date: Sun, 10 Mar 2024 13:48:35 +0100
-Message-ID: <20240310124836.31863-7-paul@crapouillou.net>
-In-Reply-To: <20240310124836.31863-1-paul@crapouillou.net>
-References: <20240310124836.31863-1-paul@crapouillou.net>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=7pDxrp57wx9o7KlpdNomdNkpvEajcJRh1HWy8ymb1TQ=;
+ b=IcxkRY0ZfCl+CWr6HBvQUc0iV8ZKtTO66RsauQCGeLaUidZo1DTj3oAFF0BRhU13NianJC
+ 1rEyqW5NF+xKAGn69TPbf38fHNWUB3Kjs5aFKiKCrLxFXmCiV00sPvc/mh/+XyQKUlfchQ
+ RJY9VzLTUslf67dVSZbAkB22Q3EmSAs1jXnYwUlPApYOKpcPIsP0ilxbzBhki81LdR1P0x
+ 2ZU+EnFEXR8dNa0NDrfRWYxpw4fxVWnzHjPsmAKlNBjD6HiZsjIUApGqMFU7rM/k5EchJy
+ 5dLfwOB5VzTfdmlT/w5aywrW8a4n9ga/MtaS3Gfmr5f1sljsjxPI7QtSkNfDrA==
+From: Frank Oltmanns <frank@oltmanns.dev>
+Subject: [PATCH v4 0/5] Pinephone video out fixes (flipping between two frames)
+Date: Sun, 10 Mar 2024 14:21:10 +0100
+Message-Id: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMaz7WUC/33N0QrCIBQG4FcJrzP0aOa66j2iC6dnTVg65pBi7
+ N1zgwhidPn/h/87E0k4eEzkvJvIgNknH0MJcr8jtjXhjtS7kgkwEBy4pr0P2LcxIO27jjb+iYk
+ ya13jEE4CJSnLfsD1UIbXW8mtT2McXuuTzJf2v5c5ZRRB6FqhU87yS+zGhwkhHRxmspAZPoxkw
+ I7bDBSmUkYqA07bqt5gxJcRTG4zYmGkqTXoBlRlfph5nt/WupvcRwEAAA==
+To: Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
+ Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ Frank Oltmanns <frank@oltmanns.dev>, stable@vger.kernel.org, 
+ Diego Roversi <diegor@tiscali.it>, Erico Nunes <nunes.erico@gmail.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3141; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=dw/JY7X0b1qIdVh3YqU3FmxjxhhOr+GpN4Q08vUxodw=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBl7bP5B8rBUL/f+zksM5cLQwOBM5UrlgbQZQd5X
+ nem3BA//m+JAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZe2z+QAKCRCaaaIIlErT
+ x+trC/4xNVjCoMGliDsJxBS1gmnUIXkpwRCAmpBcLNTFd06mbn5edQXj1n6fGGcsCyJUnVZg2ZM
+ pTz4c4lenL+0cYZHrkNXk5sHZqDYEE1VKsV6kKqsSBS7/361lEZiwtmAu/2/yqWDQPGgVjqPX4u
+ semTG1gvzKNvFu/Dhm1MSgO3VCvvfx8xX8hwiQXvSOOBoVNmfw7vtP+zO4w2wTyS9jWGI3Tq/ZB
+ FyVozS8DcPf+ADw1z4cShXxU2lXMZIisKiXL0LD5edCE1iz7P55NJPYrz76okDbCYxmBBCZTY62
+ OsMi3NkmCa2f4vtdsBtQ0Pdc7gSayyUQK5VV2Wm8fvr3L9me5Hta67WyC+Yo5bfEFQyJ37iD8yv
+ dSwYAtfBeiuX6qywJvd/gXIVIA6St5vlfJRTAwZ9CZY0b0w8RdutOVJixFM+YkhnHIWy6yzTV5J
+ y3qAwYR1XkIOc1iKk7fyniLzYpzDTCH0yBZW4cTTanNPJ5zfxsOF2TSJwSj6NKRuqMrQE=
+X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
+ fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,104 +90,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document the new DMABUF based API.
+On some pinephones the video output sometimes freezes (flips between two
+frames) [1]. It seems to be that the reason for this behaviour is that
+PLL-MIPI is outside its limits, and the GPU is not running at a fixed
+rate.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+In this patch series I propose the following changes:
+  1. sunxi-ng: Adhere to the following constraints given in the
+     Allwinner A64 Manual regarding PLL-MIPI:
+      * M/N <= 3
+      * (PLL_VIDEO0)/M >= 24MHz
+      * 500MHz <= clockrate <= 1400MHz
+
+  2. Remove two operating points from the A64 DTS OPPs, so that the GPU
+     runs at a fixed rate of 432 MHz.
+
+Note, that when pinning the GPU to 432 MHz the issue [1] completely
+disappears for me. I've searched the BSP and could not find any
+indication that supports the idea of having the three OPPs. The only
+frequency I found in the BPSs for A64 is 432 MHz, which has also proven
+stable for me.
+
+I very much appreciate your feedback!
+
+[1] https://gitlab.com/postmarketOS/pmaports/-/issues/805
+
+Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+---
+Changes in v4:
+- sunxi-ng: common: Address review comments.
+- Link to v3: https://lore.kernel.org/r/20240304-pinephone-pll-fixes-v3-0-94ab828f269a@oltmanns.dev
+
+Changes in v3:
+- dts: Pin GPU to 432 MHz.
+- nkm and a64: Move minimum and maximum rate handling to the common part
+  of the sunxi-ng driver.
+- Removed st7703 patch from series.
+- Link to v2: https://lore.kernel.org/r/20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev
+
+Changes in v2:
+- dts: Increase minimum GPU frequency to 192 MHz.
+- nkm and a64: Add minimum and maximum rate for PLL-MIPI.
+- nkm: Use the same approach for skipping invalid rates in
+  ccu_nkm_find_best() as in ccu_nkm_find_best_with_parent_adj().
+- nkm: Improve names for ratio struct members and hence get rid of
+  describing comments.
+- nkm and a64: Correct description in the commit messages: M/N <= 3
+- Remove patches for nm as they were not needed.
+- st7703: Rework the commit message to cover more background for the
+  change.
+- Link to v1: https://lore.kernel.org/r/20231218-pinephone-pll-fixes-v1-0-e238b6ed6dc1@oltmanns.dev
 
 ---
-v2: - Explicitly state that the new interface is optional and is
-      not implemented by all drivers.
-    - The IOCTLs can now only be called on the buffer FD returned by
-      IIO_BUFFER_GET_FD_IOCTL.
-    - Move the page up a bit in the index since it is core stuff and not
-      driver-specific.
+Frank Oltmanns (5):
+      clk: sunxi-ng: common: Support minimum and maximum rate
+      clk: sunxi-ng: a64: Set minimum and maximum rate for PLL-MIPI
+      clk: sunxi-ng: nkm: Support constraints on m/n ratio and parent rate
+      clk: sunxi-ng: a64: Add constraints on PLL-MIPI's n/m ratio and parent rate
+      arm64: dts: allwinner: a64: Run GPU at 432 MHz
 
-v3: Update the documentation to reflect the new API.
-
-v5: Use description lists for the documentation of the three new IOCTLs
-    instead of abusing subsections.
-
-v8: Renamed dmabuf_api.rst -> iio_dmabuf_api.rst, and updated index.rst
-    whose format changed in iio/togreg.
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi |  8 --------
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c         | 14 +++++++++-----
+ drivers/clk/sunxi-ng/ccu_common.c             | 19 +++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu_common.h             |  3 +++
+ drivers/clk/sunxi-ng/ccu_nkm.c                | 21 +++++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu_nkm.h                |  2 ++
+ 6 files changed, 54 insertions(+), 13 deletions(-)
 ---
- Documentation/iio/iio_dmabuf_api.rst | 54 ++++++++++++++++++++++++++++
- Documentation/iio/index.rst          |  1 +
- 2 files changed, 55 insertions(+)
- create mode 100644 Documentation/iio/iio_dmabuf_api.rst
+base-commit: dcb6c8ee6acc6c347caec1e73fb900c0f4ff9806
+change-id: 20231218-pinephone-pll-fixes-0ccdfde273e4
 
-diff --git a/Documentation/iio/iio_dmabuf_api.rst b/Documentation/iio/iio_dmabuf_api.rst
-new file mode 100644
-index 000000000000..1cd6cd51a582
---- /dev/null
-+++ b/Documentation/iio/iio_dmabuf_api.rst
-@@ -0,0 +1,54 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===================================
-+High-speed DMABUF interface for IIO
-+===================================
-+
-+1. Overview
-+===========
-+
-+The Industrial I/O subsystem supports access to buffers through a
-+file-based interface, with read() and write() access calls through the
-+IIO device's dev node.
-+
-+It additionally supports a DMABUF based interface, where the userspace
-+can attach DMABUF objects (externally created) to a IIO buffer, and
-+subsequently use them for data transfers.
-+
-+A userspace application can then use this interface to share DMABUF
-+objects between several interfaces, allowing it to transfer data in a
-+zero-copy fashion, for instance between IIO and the USB stack.
-+
-+The userspace application can also memory-map the DMABUF objects, and
-+access the sample data directly. The advantage of doing this vs. the
-+read() interface is that it avoids an extra copy of the data between the
-+kernel and userspace. This is particularly useful for high-speed devices
-+which produce several megabytes or even gigabytes of data per second.
-+It does however increase the userspace-kernelspace synchronization
-+overhead, as the DMA_BUF_SYNC_START and DMA_BUF_SYNC_END IOCTLs have to
-+be used for data integrity.
-+
-+2. User API
-+===========
-+
-+As part of this interface, three new IOCTLs have been added. These three
-+IOCTLs have to be performed on the IIO buffer's file descriptor,
-+obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
-+
-+  ``IIO_BUFFER_DMABUF_ATTACH_IOCTL(int)``
-+    Attach the DMABUF object, identified by its file descriptor, to the
-+    IIO buffer. Returns zero on success, and a negative errno value on
-+    error.
-+
-+  ``IIO_BUFFER_DMABUF_DETACH_IOCTL(int)``
-+    Detach the given DMABUF object, identified by its file descriptor,
-+    from the IIO buffer. Returns zero on success, and a negative errno
-+    value on error.
-+
-+    Note that closing the IIO buffer's file descriptor will
-+    automatically detach all previously attached DMABUF objects.
-+
-+  ``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *iio_dmabuf)``
-+    Enqueue a previously attached DMABUF object to the buffer queue.
-+    Enqueued DMABUFs will be read from (if output buffer) or written to
-+    (if input buffer) as long as the buffer is enabled.
-diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-index 30b09eefe75e..feb50b61aac0 100644
---- a/Documentation/iio/index.rst
-+++ b/Documentation/iio/index.rst
-@@ -9,6 +9,7 @@ Industrial I/O
- 
-    iio_configfs
-    iio_devbuf
-+   iio_dmabuf_api
- 
- Industrial I/O Kernel Drivers
- =============================
+Best regards,
 -- 
-2.43.0
+Frank Oltmanns <frank@oltmanns.dev>
 
