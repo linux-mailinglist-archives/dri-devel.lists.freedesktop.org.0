@@ -2,69 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B542877694
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Mar 2024 13:35:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72FF687769F
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Mar 2024 13:42:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3D2F10E113;
-	Sun, 10 Mar 2024 12:35:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8731110E12C;
+	Sun, 10 Mar 2024 12:41:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ravnborg.org header.i=@ravnborg.org header.b="XrZGVqiL";
-	dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="m3RslpyQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Hn884P6N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay4-1.pub.mailoutpod2-cph3.one.com
- (mailrelay4-1.pub.mailoutpod2-cph3.one.com [46.30.211.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 222FE10E113
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 12:35:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=YPj7mJSOmbCaNiEGC/t0Gr13wSnOz33kScWhnHNog2A=;
- b=XrZGVqiLZ7HmxgauHv34KliKYg3bdIPWco3WbmOUS/lB8zsCC5CO+ZmGjgOxo2GjOG74rWmUTzeTD
- b/mY6sUBDEHan3+MiNqavhep1+qPHkyBDaWl6exwf4yZnQXZflm2ZNKhjgrSRP7oI7myR7O69SGebo
- XlYfPZUDqofK/AVeAQ8SbwF/6PyanxchTuw/gVeaNJjgYIqCt52w0/UnbwyIPRtB3Doc3R096J0hgI
- 65BFZAHEQ6DOTY5XCc3HExn3ycYD4hb6fzaL/ouKN7wTNatsDLSWPfo0LIq8G88c92fKpkXAryb068
- idmG4syFCwOqfBYTzt3xyh947vR51BQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=YPj7mJSOmbCaNiEGC/t0Gr13wSnOz33kScWhnHNog2A=;
- b=m3RslpyQ6rat08/y9fWoWhKLFFXulH2lxA/XDZXt362zndzEJbzwHFpTAVufQTF1BKRUZp5V6l5Ws
- lWldjHQAQ==
-X-HalOne-ID: 84422ca7-deda-11ee-9cef-31e85a7fa845
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay4.pub.mailoutpod2-cph3.one.com (Halon) with ESMTPSA
- id 84422ca7-deda-11ee-9cef-31e85a7fa845;
- Sun, 10 Mar 2024 12:34:22 +0000 (UTC)
-Date: Sun, 10 Mar 2024 13:34:20 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Sam Ravnborg via B4 Relay <devnull+sam.ravnborg.org@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Arnd Bergmann <arnd@kernel.org>,
- Andreas Larsson <andreas@gaisler.com>,
- oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
- Helge Deller <deller@gmx.de>, Randy Dunlap <rdunlap@infradead.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Kjetil Oftedal <oftedal@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alan Stern <stern@rowland.harvard.edu>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 14/28] sparc32: Drop unused mmu models
-Message-ID: <20240310123420.GA989676@ravnborg.org>
-References: <20240309-sunset-v2-14-f09912574d2c@ravnborg.org>
- <202403101854.Z94SAU13-lkp@intel.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68A2810E12C
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 12:41:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 564F8CE0ACC;
+ Sun, 10 Mar 2024 12:41:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DD6CC433F1;
+ Sun, 10 Mar 2024 12:41:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1710074510;
+ bh=T2hnsj3TXxdQauhbrydhvVMlAp4FlGMF27ltKRC1xko=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Hn884P6NYCntbYCwhViso8xYitvz/SDSeAYZDfK/+/NNFWBfgkkuxX3gzjYVAT4X2
+ 75YA8TLBgLTHDzXhVe9CfMjGsat0po8S88pq9OfxKLhWElwY7q8w398qcNRr7wwN5g
+ L5w8HVcrSrqFvtdBU1pSnG4cz71f0xxJMCuP9M5TjxD/GmmO3G4A3kP2ex7IuhABAK
+ uY76WFjb0LdEG8cy+J2DWRuRgFQhs8QF02ONHzFh4Uhfm5xBQ569mHBp6as4id/fWy
+ eCUPv+d/UamjMG0dqiKxynXZjHK2WenzLrZnNFt0PLWrVd3K/mhz/nx/8KLipkUqLE
+ tljcQNovP1rgw==
+Date: Sun, 10 Mar 2024 12:41:33 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Jonathan
+ Corbet <corbet@lwn.net>, Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul
+ <vkoul@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Nuno Sa
+ <nuno.sa@analog.com>, Michael Hennerich <michael.hennerich@analog.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v8 0/6] iio: new DMABUF based API
+Message-ID: <20240310124133.683e8853@jic23-huawei>
+In-Reply-To: <20240308170046.92899-1-paul@crapouillou.net>
+References: <20240308170046.92899-1-paul@crapouillou.net>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202403101854.Z94SAU13-lkp@intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,52 +64,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi kernel test robot et al.
+On Fri,  8 Mar 2024 18:00:40 +0100
+Paul Cercueil <paul@crapouillou.net> wrote:
 
-On Sun, Mar 10, 2024 at 06:37:53PM +0800, kernel test robot wrote:
-> Hi Sam,
+> Hi Jonathan,
 > 
-> kernel test robot noticed the following build warnings:
+> Here's the final(tm) version of the IIO DMABUF patchset.
 > 
-> [auto build test WARNING on 84b76d05828a1909e20d0f66553b876b801f98c8]
+> This v8 fixes the remaining few issues that Christian reported.
 > 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sam-Ravnborg-via-B4-Relay/sparc32-Update-defconfig-to-LEON-SMP/20240310-021717
-> base:   84b76d05828a1909e20d0f66553b876b801f98c8
-> patch link:    https://lore.kernel.org/r/20240309-sunset-v2-14-f09912574d2c%40ravnborg.org
-> patch subject: [PATCH v2 14/28] sparc32: Drop unused mmu models
-> config: sparc-randconfig-r113-20240310 (https://download.01.org/0day-ci/archive/20240310/202403101854.Z94SAU13-lkp@intel.com/config)
-> compiler: sparc-linux-gcc (GCC) 13.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20240310/202403101854.Z94SAU13-lkp@intel.com/reproduce)
+> I also updated the documentation patch as there has been changes to
+> index.rst.
 > 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403101854.Z94SAU13-lkp@intel.com/
+> This was based on next-20240308.
 > 
-> sparse warnings: (new ones prefixed by >>)
-> >> arch/sparc/mm/srmmu.c:49:5: sparse: sparse: symbol 'vac_line_size' was not declared. Should it be static?
+> Changelog:
 > 
-> vim +/vac_line_size +49 arch/sparc/mm/srmmu.c
+> - [3/6]:
+>     - Fix swapped fence direction
+>     - Simplify fence wait mechanism
+>     - Remove "Buffer closed with active transfers" print, as it was dead
+>       code
+>     - Un-export iio_buffer_dmabuf_{get,put}. They are not used anywhere
+>       else so they can even be static.
+>     - Prevent attaching already-attached DMABUFs
+> - [6/6]:
+>     Renamed dmabuf_api.rst -> iio_dmabuf_api.rst, and updated index.rst
+>     whose format changed in iio/togreg.
 > 
-> accf032cfa582e Sam Ravnborg   2012-05-19  46  
-> ^1da177e4c3f41 Linus Torvalds 2005-04-16  47  int vac_cache_size;
-> 9d262d95114cf2 Guenter Roeck  2017-04-01  48  EXPORT_SYMBOL(vac_cache_size);
-> ^1da177e4c3f41 Linus Torvalds 2005-04-16 @49  int vac_line_size;
-> ^1da177e4c3f41 Linus Torvalds 2005-04-16  50  
+> Cheers,
+> -Paul
+Given nature of the build bug issues reported, I'm guessing you never
+built this as a module :(  Not sure how one instance of a missing 
+user marking got through but also easy to fix.
 
-vac_line_size is no longer used and can be deleted.
-vac_cache_size is never written to and can be deleted too.
+Anyhow, no need to wait before sending a v9 with those sorted.
 
-vac_cache_size is used in shmparam_32.h like this:
-#define SHMLBA (vac_cache_size ? vac_cache_size : PAGE_SIZE)
+0-day does it's job again - even better is that it's whilst it's
+still your problem and not mine :)
 
-The same file has:
-#define __ARCH_FORCE_SHMLBA	1
+Jonathan
 
-If I understand it right then when SHMLBA equals PAGE_SIZE then there is
-no need to define __ARCH_FORCE_SHMLBA and sparc32 can use the asm-generic
-variant of shmparam.h
+> 
+> Paul Cercueil (6):
+>   dmaengine: Add API function dmaengine_prep_peripheral_dma_vec()
+>   dmaengine: dma-axi-dmac: Implement device_prep_peripheral_dma_vec
+>   iio: core: Add new DMABUF interface infrastructure
+>   iio: buffer-dma: Enable support for DMABUFs
+>   iio: buffer-dmaengine: Support new DMABUF based userspace API
+>   Documentation: iio: Document high-speed DMABUF based API
+> 
+>  Documentation/iio/iio_dmabuf_api.rst          |  54 ++
+>  Documentation/iio/index.rst                   |   1 +
+>  drivers/dma/dma-axi-dmac.c                    |  40 ++
+>  drivers/iio/buffer/industrialio-buffer-dma.c  | 181 ++++++-
+>  .../buffer/industrialio-buffer-dmaengine.c    |  59 ++-
+>  drivers/iio/industrialio-buffer.c             | 462 ++++++++++++++++++
+>  include/linux/dmaengine.h                     |  27 +
+>  include/linux/iio/buffer-dma.h                |  31 ++
+>  include/linux/iio/buffer_impl.h               |  30 ++
+>  include/uapi/linux/iio/buffer.h               |  22 +
+>  10 files changed, 890 insertions(+), 17 deletions(-)
+>  create mode 100644 Documentation/iio/iio_dmabuf_api.rst
+> 
 
-I will do this change in v3.
-
-	Sam
