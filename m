@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3201D8776F7
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Mar 2024 14:22:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B62AF8776F8
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Mar 2024 14:22:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D82A10E15B;
-	Sun, 10 Mar 2024 13:22:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67CF610E147;
+	Sun, 10 Mar 2024 13:22:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="jL1TKCmJ";
+	dkim=pass (2048-bit key; unprotected) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="PtV2RTRT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1B3410E112
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 13:22:17 +0000 (UTC)
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01C2D10E147
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 13:22:23 +0000 (UTC)
 Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Tt0tt2fVBz9sp0;
- Sun, 10 Mar 2024 14:22:14 +0100 (CET)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Tt0v0060fz9sb6;
+ Sun, 10 Mar 2024 14:22:20 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
- s=MBO0001; t=1710076934;
+ s=MBO0001; t=1710076940;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iuVCUppc+ddFR8UUDWGyNuWRGBDXVACD/i0UBw2FfT0=;
- b=jL1TKCmJxkYKSofV18GqqZidtQ6dBS0RSdbNryORV2eglYdk8CpD9Nl6NSPIuMKvcba6gL
- VczhR8HuAoPuf57nciEQdJX7aGSHGaq0o4vzG1E4gd2EcTGF7kdpeyfIxpD1EB7ogSFbL3
- BbmtwgkbdDBOJQYXEmncAWexysEWh4SwpbhG1+QD0sMWZQSys4mMHxmkJZ653zRJivGHqW
- D9p4WWXPNh5uShxkZT1GxlQSZ/BP8hIZpiCm+Bn6K3EuYd9CA6NGdJh80SUt548YDQi7+b
- 2a6GKhWXuOriRWixcOXSmJ45B0LDxVKC50YcSNotAN4hKJHSktMB1QZPJxKfbw==
+ bh=tUAFtRbxGvc8iX6JY0PD4/Rc4PD2SEcW1+r17X7Ljv4=;
+ b=PtV2RTRTPN8N2u0CbqIk/J2x29QlvCvhfSqZ9jvdnx5h1KlTJUgOsv9FPD36tVuGM8Ll7r
+ ufXYBil6l95z/DoPr6cQX09Bk6e8YxJWcxXlTMkw3Sef8rEFkym5vtzKN7bz+70XohTV0q
+ SaFw21g+kDqtvvXdP52avUU4Z72gbVev9WNLLj03M2Rig9ucpwGOt7rnk3Xu7ZdGDwENDJ
+ SLCCZ4aTADDyJRNxowwriiA3lIUcNsJ9jDIB/IFa2Nm7c/nmc1GGq545htNocfQEpikZoF
+ NOZ+c+akJRL5myjHnxqyErHyC2TjrTVAgX2e0CecgRNieiADS3BAAvoLrWcm1Q==
 From: Frank Oltmanns <frank@oltmanns.dev>
-Date: Sun, 10 Mar 2024 14:21:11 +0100
-Subject: [PATCH v4 1/5] clk: sunxi-ng: common: Support minimum and maximum rate
+Date: Sun, 10 Mar 2024 14:21:12 +0100
+Subject: [PATCH v4 2/5] clk: sunxi-ng: a64: Set minimum and maximum rate
+ for PLL-MIPI
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240310-pinephone-pll-fixes-v4-1-46fc80c83637@oltmanns.dev>
+Message-Id: <20240310-pinephone-pll-fixes-v4-2-46fc80c83637@oltmanns.dev>
 References: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev>
 In-Reply-To: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev>
 To: Michael Turquette <mturquette@baylibre.com>, 
@@ -59,18 +60,19 @@ To: Michael Turquette <mturquette@baylibre.com>,
 Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- Frank Oltmanns <frank@oltmanns.dev>, stable@vger.kernel.org
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2480; i=frank@oltmanns.dev;
- h=from:subject:message-id; bh=CqzJhF4o2XVhzVlKqVuKVOUwZQAnduWDJhne+0nY6oQ=;
- b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBl7bP5kCr8X0Jr9HHd3T424gfP8km/HgWZfPQml
- DbUiRGKwIqJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZe2z+QAKCRCaaaIIlErT
- x06dDACAZf8e15F20tsk2AJ2y+vPgbtV7PitDHlG2/P3dLpBvPQ4GJAHi7ReDu+fsWJn/0bmkxO
- 8u0uLux/EGhhpuxCa0o5NP0w9tzUvTo+1XYDZ9cAhXXbDkraBMnYff7BXutewjjbj8HjDXV6Z2p
- CrYYT/22bbb00DY0KVjqTHRWq5dDzyO8ymWvdkfG28vBpEeHYOoG/Zyp45EG6p2zf1Gqp0ew9Bz
- pPDqdYka3MQovp53e7GHFeOD8/0sVBvAXJGripG1awS/rVsT7Hq0GY6XKTVZNEY69+dR4u4mYgv
- qc/x+lx9MhMDvTfwv9MH72Y/yCIs1xJ1ulmUPS8rpdrO71f3lYJe7zBFYgLzsG0dyiFRBwNPIP0
- /EBfNGpeLQkenimONtJE9B/BrWWCs7C8OM22CNYbQVGKsIiH+JWW9xHU0WUJivrSr1nV4bqYE6A
- IyeFmD0oXLGrt/liRNxEWvMYOoM/xskY+oKeMve6o0RhihHV5ljc2jEHSb+6dxd5AreAE=
+ Frank Oltmanns <frank@oltmanns.dev>, Diego Roversi <diegor@tiscali.it>, 
+ stable@vger.kernel.org
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1520; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=cWJvD4kuynMAtMT5uLtxnwY8oLH1NsilC8b3ZEB8+cU=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBl7bP53Lez98R5l+BpPUkN4t68Hnq58iOfjCT0n
+ da5fIrwczOJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZe2z+QAKCRCaaaIIlErT
+ x5S3C/0ZYTeWiGBr+WsKmwU0bXaq4u1nkNKkN86DZhDhY7+qYYBhUS1VUprNX6a539W+8/J60UM
+ X4E3yj8ku48Mr7w1+9dZC9H7bnzZEf6YMrdGrL2tg883LIKMgsvSyn+JgapZrTE+vG6USzZMDzc
+ ptH9ALrIIN2f9Ih8D9drPECcKXhRzEweBhUpWoff18M5C25xew2/rJWqNebefGMwSoVEm/28h0i
+ ECegQwZDItrOLlTeeYvmrXnURm71z2cIPB3QdUMYkB8z3CSZNvgSFuHykY4aJGJvZUsnR4/TNzy
+ jhGXSXTF7dRShqnvO1C4xK5ZnRkya1xgOOe04U/k2sLekzL5y7VChTCnYZjiITZ79tb24Go/NDa
+ LkTYoZIr0glgk8Zk8p4Pvp2lfs7xlxBR5Dr69ZnVvr62LNhKFGTy2gJy3w7MSn3bwwlTh9j7VTb
+ ORbor/d01S4sFolpZHe7vMfLPIpsRxlh3KDWrfdMrxij9YdnKi1S/nrzhBTGfftAJPNos=
 X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
  fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,80 +90,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Allwinner SoC's typically have an upper and lower limit for their
-clocks' rates. Up until now, support for that has been implemented
-separately for each clock type.
+When the Allwinner A64's TCON0 searches the ideal rate for the connected
+panel, it may happen that it requests a rate from its parent PLL-MIPI
+which PLL-MIPI does not support.
 
-Implement that functionality in the sunxi-ng's common part making use of
-the CCF rate liming capabilities, so that it is available for all clock
-types.
+This happens for example on the Olimex TERES-I laptop where TCON0
+requests PLL-MIPI to change to a rate of several GHz which causes the
+panel to stay blank. It also happens on the pinephone where a rate of
+less than 500 MHz is requested which causes instabilities on some
+phones.
 
-Suggested-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+Set the minimum and maximum rate of Allwinner A64's PLL-MIPI according
+to the Allwinner User Manual.
+
+Fixes: ca1170b69968 ("clk: sunxi-ng: a64: force select PLL_MIPI in TCON0 mux")
+Reported-by: Diego Roversi <diegor@tiscali.it>
+Closes: https://groups.google.com/g/linux-sunxi/c/Rh-Uqqa66bw
+Tested-by: Diego Roversi <diegor@tiscali.it>
 Cc: stable@vger.kernel.org
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
 ---
- drivers/clk/sunxi-ng/ccu_common.c | 19 +++++++++++++++++++
- drivers/clk/sunxi-ng/ccu_common.h |  3 +++
- 2 files changed, 22 insertions(+)
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/clk/sunxi-ng/ccu_common.c b/drivers/clk/sunxi-ng/ccu_common.c
-index 8babce55302f..ac0091b4ce24 100644
---- a/drivers/clk/sunxi-ng/ccu_common.c
-+++ b/drivers/clk/sunxi-ng/ccu_common.c
-@@ -44,6 +44,16 @@ bool ccu_is_better_rate(struct ccu_common *common,
- 			unsigned long current_rate,
- 			unsigned long best_rate)
- {
-+	unsigned long min_rate, max_rate;
-+
-+	clk_hw_get_rate_range(&common->hw, &min_rate, &max_rate);
-+
-+	if (current_rate > max_rate)
-+		return false;
-+
-+	if (current_rate < min_rate)
-+		return false;
-+
- 	if (common->features & CCU_FEATURE_CLOSEST_RATE)
- 		return abs(current_rate - target_rate) < abs(best_rate - target_rate);
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+index 8951ffc14ff5..6a4b2b9ef30a 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+@@ -182,6 +182,8 @@ static struct ccu_nkm pll_mipi_clk = {
+ 					      &ccu_nkm_ops,
+ 					      CLK_SET_RATE_UNGATE | CLK_SET_RATE_PARENT),
+ 		.features	= CCU_FEATURE_CLOSEST_RATE,
++		.min_rate	= 500000000,
++		.max_rate	= 1400000000,
+ 	},
+ };
  
-@@ -122,6 +132,7 @@ static int sunxi_ccu_probe(struct sunxi_ccu *ccu, struct device *dev,
- 
- 	for (i = 0; i < desc->hw_clks->num ; i++) {
- 		struct clk_hw *hw = desc->hw_clks->hws[i];
-+		struct ccu_common *common = hw_to_ccu_common(hw);
- 		const char *name;
- 
- 		if (!hw)
-@@ -136,6 +147,14 @@ static int sunxi_ccu_probe(struct sunxi_ccu *ccu, struct device *dev,
- 			pr_err("Couldn't register clock %d - %s\n", i, name);
- 			goto err_clk_unreg;
- 		}
-+
-+		if (common->max_rate)
-+			clk_hw_set_rate_range(hw, common->min_rate,
-+					      common->max_rate);
-+		else
-+			WARN(common->min_rate,
-+			     "No max_rate, ignoring min_rate of clock %d - %s\n",
-+			     i, name);
- 	}
- 
- 	ret = of_clk_add_hw_provider(node, of_clk_hw_onecell_get,
-diff --git a/drivers/clk/sunxi-ng/ccu_common.h b/drivers/clk/sunxi-ng/ccu_common.h
-index 942a72c09437..329734f8cf42 100644
---- a/drivers/clk/sunxi-ng/ccu_common.h
-+++ b/drivers/clk/sunxi-ng/ccu_common.h
-@@ -31,6 +31,9 @@ struct ccu_common {
- 	u16		lock_reg;
- 	u32		prediv;
- 
-+	unsigned long	min_rate;
-+	unsigned long	max_rate;
-+
- 	unsigned long	features;
- 	spinlock_t	*lock;
- 	struct clk_hw	hw;
 
 -- 
 2.44.0
