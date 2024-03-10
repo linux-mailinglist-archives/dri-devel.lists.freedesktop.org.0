@@ -2,67 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D264877733
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Mar 2024 14:54:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9116E87777D
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Mar 2024 16:29:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CED010E048;
-	Sun, 10 Mar 2024 13:54:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0366810E05C;
+	Sun, 10 Mar 2024 15:29:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=paroga.com header.i=@paroga.com header.b="iaLHU3Iv";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=paroga.com header.i=@paroga.com header.b="iaLHU3Iv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="X50e96Zl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx206.easyname.com (mx206.easyname.com [212.232.28.125])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DDAD10E048
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 13:54:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=paroga.com; 
- s=easyname;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=5OuCJAQxq6Wf26ZAGXFB/UwBBrOR6ZRKt30K5R/sbEM=; b=iaLHU3IvzIurAI7LJisI/P1t++
- X6uhrEVAyu3AyXrPc8WS/IxqjjM+3QSu/DGJgTWnUuFG/zG5+4Q0ycT3phvE4O1lmqcFXY2jiSVad
- 3oCLxNoK08b3maiG+1KEwZZj66i/lPzuz7i63Wtva+WOyyaFZSRQtrfnY+MYRvIepeDtIwouvRzW5
- gegKgTm1J2AbzSSNFo2cnFtpDXAIaAzh3i1mY8ZKPnqQX4XSPw2NhRlF4ynjWZUCc5GbU2vgfFEMI
- hUfpuGEdpDfcCauuFBcvWZKAnJ7igunKSTKrrE6lwdZhafEQDafLCEEFXTsHInVRBUfiq+aV2o+Bv
- 6ESUu8JA==;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=paroga.com; 
- s=easyname;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=5OuCJAQxq6Wf26ZAGXFB/UwBBrOR6ZRKt30K5R/sbEM=; b=iaLHU3IvzIurAI7LJisI/P1t++
- X6uhrEVAyu3AyXrPc8WS/IxqjjM+3QSu/DGJgTWnUuFG/zG5+4Q0ycT3phvE4O1lmqcFXY2jiSVad
- 3oCLxNoK08b3maiG+1KEwZZj66i/lPzuz7i63Wtva+WOyyaFZSRQtrfnY+MYRvIepeDtIwouvRzW5
- gegKgTm1J2AbzSSNFo2cnFtpDXAIaAzh3i1mY8ZKPnqQX4XSPw2NhRlF4ynjWZUCc5GbU2vgfFEMI
- hUfpuGEdpDfcCauuFBcvWZKAnJ7igunKSTKrrE6lwdZhafEQDafLCEEFXTsHInVRBUfiq+aV2o+Bv
- 6ESUu8JA==;
-Received: from 84-115-228-205.cable.dynamic.surfer.at ([84.115.228.205]
- helo=localhost.localdomain)
- by mx.easyname.com with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <paroga@paroga.com>)
- id 1rjJdD-0004yN-OW; Sun, 10 Mar 2024 13:54:32 +0000
-From: Patrick Gansterer <paroga@paroga.com>
-To: dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Patrick Gansterer <paroga@paroga.com>
-Subject: [PATCH v4 2/2] backlight: Add new lm3509 backlight driver
-Date: Sun, 10 Mar 2024 14:52:57 +0100
-Message-ID: <20240310135344.3455294-2-paroga@paroga.com>
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE74A10E05C
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 15:29:39 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-513298d6859so3239082e87.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 08:29:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1710084577; x=1710689377; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=K6H55q1iw/mSiSbGdXBAQ1bJbWPVp1l+9lky4PtCrOI=;
+ b=X50e96ZlMYR6PK+G3LDRXLdNcezNcGuebtBnCLKDLQYCItWbl0+nJ4NHF4FToAAtTr
+ SjTa0kW5V4GJ5h2DlYFintc9ZV92N04ppf3RHr9TJiUfDw8uBQ5lC5lkVjZjHOI44eOs
+ Wcmi60TZ1woAnIhoODQqeGEXsSy3r4Ess108MgpILO9Vfz7tmaHe6iYUvzuslhGpwJWR
+ qQsB9vgDIHMtSxYatGW8ig4knC7M6RDmqrcIbYfIOk9nZx2yeIRZXgtMRTh7r85FpIcX
+ PxkDlOKEgP3ZdYtJxt4QOmTN84Tn5QMwdyWei/XfceFUHjtPiYgBalER/MigYqCcde5X
+ wq2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710084577; x=1710689377;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=K6H55q1iw/mSiSbGdXBAQ1bJbWPVp1l+9lky4PtCrOI=;
+ b=DRKe75B6uP4XGetm5oCFQ8PoR8nIbln3fLgpDqyvVk23NV1Zxn7c5RObqvG4P5dQZ1
+ 609EkS/n7xfItcOyLuNkg+CQCpyBNmnglFdXBindTNq8uShnM4Hwms5055yWV06+3gcJ
+ kpaFfcj8aogDOOWmT7Cv0i7yOrYH2qLUqQ0+XmY2AYp0lNw/GAgW4gz/LUdoEH3/3aGD
+ g9IFWd5+YS3j7051xA9IuWKoLxZeux2KyzxhWGwMolSEbVlnFu/9OYqzdCl0KjPNMbt5
+ 10J4w40Y4thfvwHQUMGwOaPnTFIUNSVgPEPuZHWVX34j2CLt8VG9BslWUOQUcwIQAFlF
+ BzLg==
+X-Gm-Message-State: AOJu0Yxf+Qsr1IwWaGrXSxGuSuJcHVa5q1Mb9IrZNquPVBdwKh2Kydwq
+ KcvUvDXJCy9L7cYGRT5PMCLjkYRZApcjj5GIdpyXNxyj88SGM42uzxEk9jeB80M=
+X-Google-Smtp-Source: AGHT+IEGLNxsHQar1zC+kAzqyhEs8tshHEH8y7bfNjlds8VGm4xtRAnXFyVyIKH7uZWxVlPucNuuRQ==
+X-Received: by 2002:a05:6512:2388:b0:513:a724:3b9f with SMTP id
+ c8-20020a056512238800b00513a7243b9fmr1318551lfv.7.1710084577187; 
+ Sun, 10 Mar 2024 08:29:37 -0700 (PDT)
+Received: from betty.fdsoft.se (213-67-237-183-no99.tbcn.telia.com.
+ [213.67.237.183]) by smtp.gmail.com with ESMTPSA id
+ fb8-20020a056512124800b00513a7d633e9sm167582lfb.82.2024.03.10.08.29.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 10 Mar 2024 08:29:36 -0700 (PDT)
+Received: from ester.fdsoft.se ([192.168.1.2])
+ by betty.fdsoft.se with esmtp (Exim 4.97.1)
+ (envelope-from <frej.drejhammar@gmail.com>)
+ id 1rjL7H-000000002E9-3im8; Sun, 10 Mar 2024 16:29:36 +0100
+From: Frej Drejhammar <frej.drejhammar@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Frej Drejhammar <frej.drejhammar@gmail.com>, stable@vger.kernel.org,
+ Russell King <linux@armlinux.org.uk>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+Subject: [PATCH] drm: Don't return unsupported formats in
+ drm_mode_legacy_fb_format
+Date: Sun, 10 Mar 2024 16:28:03 +0100
+Message-ID: <20240310152803.3315-1-frej.drejhammar@gmail.com>
 X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240310135344.3455294-1-paroga@paroga.com>
-References: <20240310135344.3455294-1-paroga@paroga.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Easy-Autoreply: EN
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,394 +96,464 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a general driver for LM3509 backlight chip of TI.
-LM3509 is High Efficiency Boost for White LEDs and/or OLED Displays with
-Dual Current Sinks. This driver supports OLED/White LED select, brightness
-control and sub/main control.
-The datasheet can be found at http://www.ti.com/product/lm3509.
+This patch changes drm_mode_legacy_fb_format() to only return formats
+which are supported by the current drm-device. The motivation for this
+change is to fix a regression introduced by commit
+c91acda3a380 ("drm/gem: Check for valid formats") which stops the Xorg
+modesetting driver from working on the Beagleboard Black (it uses the
+tilcdc kernel driver).
 
-Signed-off-by: Patrick Gansterer <paroga@paroga.com>
+When the Xorg modesetting driver starts up, it tries to determine the
+default bpp for the device. It does this by allocating a dumb 32bpp
+frame buffer (using DRM_IOCTL_MODE_CREATE_DUMB) and then calling
+drmModeAddFB() with that frame buffer asking for a 24-bit depth and 32
+bpp. As the modesetting driver uses drmModeAddFB() which doesn't
+supply a format, the kernel's drm_mode_legacy_fb_format() is called to
+provide a format matching the requested depth and bpp. If the
+drmModeAddFB() call fails, it forces both depth and bpp to 24. If
+drmModeAddFB() succeeds, depth is assumed to be 24 and bpp 32. The
+dummy frame buffer is then removed (using drmModeRmFB()).
+
+If the modesetting driver finds that both the default bpp and depth
+are 24, it forces the use of a 32bpp shadow buffer and a 24bpp front
+buffer. Following this, the driver reads the user-specified color
+depth option and tries to create a framebuffer of that depth, but if
+the use of a shadow buffer has been forced, the bpp and depth of it
+overrides the user-supplied option.
+
+The Xorg modesetting driver on top of the tilcdc kernel driver used to
+work on the Beagleboard Black if a 16 bit color depth was
+configured. The hardware in the Beagleboard Black supports the RG16,
+BG24, and XB24 formats. When drm_mode_legacy_fb_format() was called to
+request a format for a 24-bit depth and 32 bpp, it would return the
+unsupported RG24 format which drmModeAddFB() would happily accept (as
+there was no check for a valid format). As a shadow buffer wasn't
+forced, the modesetting driver would try the user specified 16 bit
+color depth and drm_mode_legacy_fb_format() would return RG16 which is
+supported by the hardware. Color depths of 24 bits were not supported,
+as the unsupported RG24 would be detected when drmModeSetCrtc() was
+called.
+
+Following commit c91acda3a380 ("drm/gem: Check for valid formats"),
+which adds a check for a valid (supported by the hardware) format to
+the code path for the kernel part of drmModeAddFB(), the modesetting
+driver fails to configure and add a frame buffer. This is because the
+call to create a 24-bit depth and 32 bpp framebuffer during detection
+of the default bpp will now fail and a 24-bit depth and 24 bpp front
+buffer will be forced. As drm_mode_legacy_fb_format() will return RG24
+which isn't supported, the creation of that framebuffer will also
+fail.
+
+To fix the regression, this patch extends drm_mode_legacy_fb_format()
+to list all formats with a particular bpp and color depth known to the
+kernel, and have it probe the current drm-device for a supported
+format. This fixes the regression and, as a bonus, a color depth of 24
+bits on the Beagleboard Black is now working.
+
+As this patch changes drm_mode_legacy_fb_format() which is used by
+other drivers, it has, in addition to the Beagleboard Black, also been
+tested with the nouveau and modesetting drivers on a NVIDIA NV96, and
+with the intel and modesetting drivers on an intel HD Graphics 4000
+chipset.
+
+Signed-off-by: Frej Drejhammar <frej.drejhammar@gmail.com>
+Fixes: c91acda3a380 ("drm/gem: Check for valid formats")
+Cc: stable@vger.kernel.org
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: "Maíra Canal" <mcanal@igalia.com>
+Cc: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org
 ---
- drivers/video/backlight/Kconfig     |   7 +
- drivers/video/backlight/Makefile    |   1 +
- drivers/video/backlight/lm3509_bl.c | 338 ++++++++++++++++++++++++++++
- 3 files changed, 346 insertions(+)
- create mode 100644 drivers/video/backlight/lm3509_bl.c
+ drivers/gpu/drm/armada/armada_fbdev.c         |  2 +-
+ drivers/gpu/drm/drm_fb_helper.c               |  2 +-
+ drivers/gpu/drm/drm_fbdev_dma.c               |  3 +-
+ drivers/gpu/drm/drm_fbdev_generic.c           |  3 +-
+ drivers/gpu/drm/drm_fourcc.c                  | 91 ++++++++++++++++---
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c     |  3 +-
+ drivers/gpu/drm/gma500/fbdev.c                |  2 +-
+ drivers/gpu/drm/i915/display/intel_fbdev_fb.c |  3 +-
+ drivers/gpu/drm/msm/msm_fbdev.c               |  3 +-
+ drivers/gpu/drm/omapdrm/omap_fbdev.c          |  2 +-
+ drivers/gpu/drm/radeon/radeon_fbdev.c         |  3 +-
+ drivers/gpu/drm/tegra/fbdev.c                 |  3 +-
+ drivers/gpu/drm/tiny/ofdrm.c                  |  6 +-
+ drivers/gpu/drm/xe/display/intel_fbdev_fb.c   |  3 +-
+ include/drm/drm_fourcc.h                      |  3 +-
+ 15 files changed, 104 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-index ea2d0d69bd8c..96ad5dc584b6 100644
---- a/drivers/video/backlight/Kconfig
-+++ b/drivers/video/backlight/Kconfig
-@@ -366,6 +366,13 @@ config BACKLIGHT_AAT2870
- 	  If you have a AnalogicTech AAT2870 say Y to enable the
- 	  backlight driver.
+diff --git a/drivers/gpu/drm/armada/armada_fbdev.c b/drivers/gpu/drm/armada/armada_fbdev.c
+index d223176912b6..82f312f76980 100644
+--- a/drivers/gpu/drm/armada/armada_fbdev.c
++++ b/drivers/gpu/drm/armada/armada_fbdev.c
+@@ -54,7 +54,7 @@ static int armada_fbdev_create(struct drm_fb_helper *fbh,
+ 	mode.width = sizes->surface_width;
+ 	mode.height = sizes->surface_height;
+ 	mode.pitches[0] = armada_pitch(mode.width, sizes->surface_bpp);
+-	mode.pixel_format = drm_mode_legacy_fb_format(sizes->surface_bpp,
++	mode.pixel_format = drm_mode_legacy_fb_format(dev, sizes->surface_bpp,
+ 					sizes->surface_depth);
  
-+config BACKLIGHT_LM3509
-+	tristate "Backlight Driver for LM3509"
-+	depends on I2C
-+	select REGMAP_I2C
-+	help
-+	  This supports TI LM3509 Backlight Driver
+ 	size = mode.pitches[0] * mode.height;
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index d612133e2cf7..62f81a14fb2e 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -1453,7 +1453,7 @@ static uint32_t drm_fb_helper_find_format(struct drm_fb_helper *fb_helper, const
+ 	 * the framebuffer emulation can only deal with such
+ 	 * formats, specifically RGB/BGA formats.
+ 	 */
+-	format = drm_mode_legacy_fb_format(bpp, depth);
++	format = drm_mode_legacy_fb_format(dev, bpp, depth);
+ 	if (!format)
+ 		goto err;
+ 
+diff --git a/drivers/gpu/drm/drm_fbdev_dma.c b/drivers/gpu/drm/drm_fbdev_dma.c
+index 6c9427bb4053..cdb315c6d110 100644
+--- a/drivers/gpu/drm/drm_fbdev_dma.c
++++ b/drivers/gpu/drm/drm_fbdev_dma.c
+@@ -90,7 +90,8 @@ static int drm_fbdev_dma_helper_fb_probe(struct drm_fb_helper *fb_helper,
+ 		    sizes->surface_width, sizes->surface_height,
+ 		    sizes->surface_bpp);
+ 
+-	format = drm_mode_legacy_fb_format(sizes->surface_bpp, sizes->surface_depth);
++	format = drm_mode_legacy_fb_format(dev,
++					   sizes->surface_bpp, sizes->surface_depth);
+ 	buffer = drm_client_framebuffer_create(client, sizes->surface_width,
+ 					       sizes->surface_height, format);
+ 	if (IS_ERR(buffer))
+diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
+index d647d89764cb..aba8c272560c 100644
+--- a/drivers/gpu/drm/drm_fbdev_generic.c
++++ b/drivers/gpu/drm/drm_fbdev_generic.c
+@@ -84,7 +84,8 @@ static int drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
+ 		    sizes->surface_width, sizes->surface_height,
+ 		    sizes->surface_bpp);
+ 
+-	format = drm_mode_legacy_fb_format(sizes->surface_bpp, sizes->surface_depth);
++	format = drm_mode_legacy_fb_format(dev,
++					   sizes->surface_bpp, sizes->surface_depth);
+ 	buffer = drm_client_framebuffer_create(client, sizes->surface_width,
+ 					       sizes->surface_height, format);
+ 	if (IS_ERR(buffer))
+diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+index 193cf8ed7912..034f2087af9a 100644
+--- a/drivers/gpu/drm/drm_fourcc.c
++++ b/drivers/gpu/drm/drm_fourcc.c
+@@ -29,47 +29,97 @@
+ 
+ #include <drm/drm_device.h>
+ #include <drm/drm_fourcc.h>
++#include <drm/drm_plane.h>
++#include <drm/drm_print.h>
 +
- config BACKLIGHT_LM3630A
- 	tristate "Backlight Driver for LM3630A"
- 	depends on I2C && PWM
-diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
-index 06966cb20459..51a4ac5d0530 100644
---- a/drivers/video/backlight/Makefile
-+++ b/drivers/video/backlight/Makefile
-@@ -35,6 +35,7 @@ obj-$(CONFIG_BACKLIGHT_HP700)		+= jornada720_bl.o
- obj-$(CONFIG_BACKLIGHT_IPAQ_MICRO)	+= ipaq_micro_bl.o
- obj-$(CONFIG_BACKLIGHT_KTD253)		+= ktd253-backlight.o
- obj-$(CONFIG_BACKLIGHT_KTZ8866)		+= ktz8866.o
-+obj-$(CONFIG_BACKLIGHT_LM3509)		+= lm3509_bl.o
- obj-$(CONFIG_BACKLIGHT_LM3533)		+= lm3533_bl.o
- obj-$(CONFIG_BACKLIGHT_LM3630A)		+= lm3630a_bl.o
- obj-$(CONFIG_BACKLIGHT_LM3639)		+= lm3639_bl.o
-diff --git a/drivers/video/backlight/lm3509_bl.c b/drivers/video/backlight/lm3509_bl.c
-new file mode 100644
-index 000000000000..696ec8aab6aa
---- /dev/null
-+++ b/drivers/video/backlight/lm3509_bl.c
-@@ -0,0 +1,338 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+#include <linux/backlight.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/regmap.h>
-+
-+#define LM3509_NAME "lm3509_bl"
-+
-+#define LM3509_SINK_MAIN 0
-+#define LM3509_SINK_SUB 1
-+#define LM3509_NUM_SINKS 2
-+
-+#define LM3509_DEF_BRIGHTNESS 0x12
-+#define LM3509_MAX_BRIGHTNESS 0x1F
-+
-+#define REG_GP 0x10
-+#define REG_BMAIN 0xA0
-+#define REG_BSUB 0xB0
-+#define REG_MAX 0xFF
-+
-+enum {
-+	REG_GP_ENM_BIT = 0,
-+	REG_GP_ENS_BIT,
-+	REG_GP_UNI_BIT,
-+	REG_GP_RMP0_BIT,
-+	REG_GP_RMP1_BIT,
-+	REG_GP_OLED_BIT,
-+};
-+
-+struct lm3509_bl {
-+	struct regmap *regmap;
-+	struct backlight_device *bl_main;
-+	struct backlight_device *bl_sub;
-+	struct gpio_desc *reset_gpio;
-+};
-+
-+struct lm3509_bl_led_pdata {
-+	const char *label;
-+	int led_sources;
-+	u32 brightness;
-+	u32 max_brightness;
-+};
-+
-+static void lm3509_reset(struct lm3509_bl *data)
++/*
++ * Internal helper to find a valid format among a list of potentially
++ * valid formats.
++ *
++ * Traverses the variadic arguments until a format supported by @dev
++ * or an DRM_FORMAT_INVALID argument is found. If a supported format
++ * is found it is returned, otherwise DRM_FORMAT_INVALID is returned.
++ */
++static uint32_t select_valid_format(struct drm_device *dev, ...)
 +{
-+	if (data->reset_gpio) {
-+		gpiod_set_value(data->reset_gpio, 1);
-+		udelay(1);
-+		gpiod_set_value(data->reset_gpio, 0);
-+		udelay(10);
-+	}
-+}
++	va_list va;
++	uint32_t fmt = DRM_FORMAT_INVALID;
++	uint32_t to_try;
 +
-+static int lm3509_update_status(struct backlight_device *bl,
-+				unsigned int en_mask, unsigned int br_reg)
-+{
-+	struct lm3509_bl *data = bl_get_data(bl);
-+	int ret;
-+	bool en;
++	va_start(va, dev);
 +
-+	ret = regmap_write(data->regmap, br_reg, backlight_get_brightness(bl));
-+	if (ret < 0)
-+		return ret;
-+
-+	en = !backlight_is_blank(bl);
-+	return regmap_update_bits(data->regmap, REG_GP, en_mask,
-+				  en ? en_mask : 0);
-+}
-+
-+static int lm3509_main_update_status(struct backlight_device *bl)
-+{
-+	return lm3509_update_status(bl, BIT(REG_GP_ENM_BIT), REG_BMAIN);
-+}
-+
-+static const struct backlight_ops lm3509_main_ops = {
-+	.options = BL_CORE_SUSPENDRESUME,
-+	.update_status = lm3509_main_update_status,
-+};
-+
-+static int lm3509_sub_update_status(struct backlight_device *bl)
-+{
-+	return lm3509_update_status(bl, BIT(REG_GP_ENS_BIT), REG_BSUB);
-+}
-+
-+static const struct backlight_ops lm3509_sub_ops = {
-+	.options = BL_CORE_SUSPENDRESUME,
-+	.update_status = lm3509_sub_update_status,
-+};
-+
-+static struct backlight_device *
-+lm3509_backlight_register(struct device *dev, const char *name_suffix,
-+			  struct lm3509_bl *data,
-+			  const struct backlight_ops *ops,
-+			  const struct lm3509_bl_led_pdata *pdata)
-+
-+{
-+	struct backlight_device *bd;
-+	struct backlight_properties props;
-+	const char *label = pdata->label;
-+	char name[64];
-+
-+	memset(&props, 0, sizeof(props));
-+	props.type = BACKLIGHT_RAW;
-+	props.brightness = pdata->brightness;
-+	props.max_brightness = pdata->max_brightness;
-+
-+	if (!label) {
-+		snprintf(name, sizeof(name), "lm3509-%s-%s", dev_name(dev),
-+			 name_suffix);
-+		label = name;
-+	}
-+
-+	bd = devm_backlight_device_register(dev, label, dev, data, ops, &props);
-+	if (bd)
-+		backlight_update_status(bd);
-+
-+	return bd;
-+}
-+
-+static const struct regmap_config lm3509_regmap = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = REG_MAX,
-+};
-+
-+static int lm3509_parse_led_sources(struct device_node *node,
-+				    int default_led_sources)
-+{
-+	u32 sources[LM3509_NUM_SINKS];
-+	int ret, num_sources, i;
-+
-+	num_sources = of_property_count_u32_elems(node, "led-sources");
-+	if (num_sources < 0)
-+		return default_led_sources;
-+	else if (num_sources > ARRAY_SIZE(sources))
-+		return -EINVAL;
-+
-+	ret = of_property_read_u32_array(node, "led-sources", sources,
-+					 num_sources);
-+	if (ret)
-+		return ret;
-+
-+	for (i = 0; i < num_sources; i++) {
-+		if (sources[i] >= LM3509_NUM_SINKS)
-+			return -EINVAL;
-+
-+		ret |= BIT(sources[i]);
-+	}
-+
-+	return ret;
-+}
-+
-+static int lm3509_parse_dt_node(struct device *dev,
-+				struct lm3509_bl_led_pdata *pdata)
-+{
-+	struct device_node *child;
-+	int seen_led_sources = 0;
-+
-+	for_each_child_of_node(dev->of_node, child) {
-+		struct lm3509_bl_led_pdata *pd;
-+		int ret;
-+		u32 reg;
-+		int valid_led_sources;
-+
-+		ret = of_property_read_u32(child, "reg", &reg);
-+		if (ret < 0)
-+			return ret;
-+		if (reg >= LM3509_NUM_SINKS)
-+			return -EINVAL;
-+		pd = &pdata[reg];
-+
-+		pd->led_sources = lm3509_parse_led_sources(child, BIT(reg));
-+		if (pd->led_sources < 0)
-+			return pd->led_sources;
-+
-+		if (reg == 0)
-+			valid_led_sources = BIT(LM3509_SINK_MAIN) |
-+					    BIT(LM3509_SINK_SUB);
-+		else
-+			valid_led_sources = BIT(LM3509_SINK_SUB);
-+
-+		if (pd->led_sources != (pd->led_sources & valid_led_sources))
-+			return -EINVAL;
-+
-+		if (seen_led_sources & pd->led_sources)
-+			return -EINVAL;
-+
-+		seen_led_sources |= pd->led_sources;
-+
-+		pd->label = NULL;
-+		of_property_read_string(child, "label", &pd->label);
-+
-+		pd->max_brightness = LM3509_MAX_BRIGHTNESS;
-+		of_property_read_u32(child, "max-brightness",
-+				     &pd->max_brightness);
-+		pd->max_brightness =
-+			min_t(u32, pd->max_brightness, LM3509_MAX_BRIGHTNESS);
-+
-+		pd->brightness = LM3509_DEF_BRIGHTNESS;
-+		of_property_read_u32(child, "default-brightness",
-+				     &pd->brightness);
-+		pd->brightness = min_t(u32, pd->brightness, pd->max_brightness);
-+	}
-+
-+	return 0;
-+}
-+
-+static int lm3509_probe(struct i2c_client *client)
-+{
-+	struct lm3509_bl *data;
-+	struct device *dev = &client->dev;
-+	int ret;
-+	bool oled_mode = false;
-+	unsigned int reg_gp_val = 0;
-+	struct lm3509_bl_led_pdata pdata[LM3509_NUM_SINKS];
-+	u32 rate_of_change = 0;
-+
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-+		dev_err(dev, "i2c functionality check failed\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	data = devm_kzalloc(dev, sizeof(struct lm3509_bl), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	data->regmap = devm_regmap_init_i2c(client, &lm3509_regmap);
-+	if (IS_ERR(data->regmap))
-+		return PTR_ERR(data->regmap);
-+	i2c_set_clientdata(client, data);
-+
-+	data->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(data->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(data->reset_gpio),
-+				     "Failed to get 'reset' gpio\n");
-+
-+	lm3509_reset(data);
-+
-+	memset(pdata, 0, sizeof(pdata));
-+	ret = lm3509_parse_dt_node(dev, pdata);
-+	if (ret)
-+		return ret;
-+
-+	oled_mode = of_property_read_bool(dev->of_node, "ti,oled-mode");
-+
-+	if (!of_property_read_u32(dev->of_node,
-+				  "ti,brightness-rate-of-change-us",
-+				  &rate_of_change)) {
-+		switch (rate_of_change) {
-+		case 51:
-+			reg_gp_val = 0;
-+			break;
-+		case 13000:
-+			reg_gp_val = BIT(REG_GP_RMP1_BIT);
-+			break;
-+		case 26000:
-+			reg_gp_val = BIT(REG_GP_RMP0_BIT);
-+			break;
-+		case 52000:
-+			reg_gp_val = BIT(REG_GP_RMP0_BIT) |
-+				     BIT(REG_GP_RMP1_BIT);
-+			break;
-+		default:
-+			dev_warn(dev, "invalid rate of change %u\n",
-+				 rate_of_change);
++	for (to_try = va_arg(va, uint32_t);
++	     to_try != DRM_FORMAT_INVALID;
++	     to_try = va_arg(va, uint32_t)) {
++		if (drm_any_plane_has_format(dev, to_try, 0)) {
++			fmt = to_try;
 +			break;
 +		}
 +	}
 +
-+	if (pdata[0].led_sources ==
-+	    (BIT(LM3509_SINK_MAIN) | BIT(LM3509_SINK_SUB)))
-+		reg_gp_val |= BIT(REG_GP_UNI_BIT);
-+	if (oled_mode)
-+		reg_gp_val |= BIT(REG_GP_OLED_BIT);
++	va_end(va);
 +
-+	ret = regmap_write(data->regmap, REG_GP, reg_gp_val);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (pdata[0].led_sources) {
-+		data->bl_main = lm3509_backlight_register(
-+			dev, "main", data, &lm3509_main_ops, &pdata[0]);
-+		if (IS_ERR(data->bl_main)) {
-+			dev_err(dev, "failed to register main backlight\n");
-+			return PTR_ERR(data->bl_main);
-+		}
-+	}
-+
-+	if (pdata[1].led_sources) {
-+		data->bl_sub = lm3509_backlight_register(
-+			dev, "sub", data, &lm3509_sub_ops, &pdata[1]);
-+		if (IS_ERR(data->bl_sub)) {
-+			dev_err(dev,
-+				"failed to register secondary backlight\n");
-+			return PTR_ERR(data->bl_sub);
-+		}
-+	}
-+
-+	return 0;
++	return fmt;
 +}
-+
-+static void lm3509_remove(struct i2c_client *client)
-+{
-+	struct lm3509_bl *data = i2c_get_clientdata(client);
-+
-+	regmap_write(data->regmap, REG_GP, 0x00);
-+}
-+
-+static const struct i2c_device_id lm3509_id[] = { { LM3509_NAME, 0 }, {} };
-+
-+MODULE_DEVICE_TABLE(i2c, lm3509_id);
-+
-+static const struct of_device_id lm3509_match_table[] = {
-+	{
-+		.compatible = "ti,lm3509",
-+	},
-+	{},
-+};
-+
-+MODULE_DEVICE_TABLE(of, lm3509_match_table);
-+
-+static struct i2c_driver lm3509_i2c_driver = {
-+	.driver = {
-+		.name = LM3509_NAME,
-+		.of_match_table = lm3509_match_table,
-+	},
-+	.probe = lm3509_probe,
-+	.remove = lm3509_remove,
-+	.id_table = lm3509_id,
-+};
-+
-+module_i2c_driver(lm3509_i2c_driver);
-+
-+MODULE_DESCRIPTION("Texas Instruments Backlight driver for LM3509");
-+MODULE_AUTHOR("Patrick Gansterer <paroga@paroga.com>");
-+MODULE_LICENSE("GPL");
+ 
+ /**
+  * drm_mode_legacy_fb_format - compute drm fourcc code from legacy description
++ * @dev: DRM device
+  * @bpp: bits per pixels
+  * @depth: bit depth per pixel
+  *
+  * Computes a drm fourcc pixel format code for the given @bpp/@depth values.
+  * Useful in fbdev emulation code, since that deals in those values.
+  */
+-uint32_t drm_mode_legacy_fb_format(uint32_t bpp, uint32_t depth)
++uint32_t drm_mode_legacy_fb_format(struct drm_device *dev,
++				   uint32_t bpp, uint32_t depth)
+ {
+ 	uint32_t fmt = DRM_FORMAT_INVALID;
+ 
+ 	switch (bpp) {
+ 	case 1:
+ 		if (depth == 1)
+-			fmt = DRM_FORMAT_C1;
++			fmt = select_valid_format(dev,
++						  DRM_FORMAT_C1,
++						  DRM_FORMAT_INVALID);
+ 		break;
+ 
+ 	case 2:
+ 		if (depth == 2)
+-			fmt = DRM_FORMAT_C2;
++			fmt = select_valid_format(dev,
++						  DRM_FORMAT_C2,
++						  DRM_FORMAT_INVALID);
+ 		break;
+ 
+ 	case 4:
+ 		if (depth == 4)
+-			fmt = DRM_FORMAT_C4;
++			fmt = select_valid_format(dev,
++						  DRM_FORMAT_C4,
++						  DRM_FORMAT_INVALID);
+ 		break;
+ 
+ 	case 8:
+ 		if (depth == 8)
+-			fmt = DRM_FORMAT_C8;
++			fmt = select_valid_format(dev,
++						  DRM_FORMAT_C8,
++						  DRM_FORMAT_INVALID);
+ 		break;
+ 
+ 	case 16:
+ 		switch (depth) {
+ 		case 15:
+-			fmt = DRM_FORMAT_XRGB1555;
++			fmt = select_valid_format(dev,
++						  DRM_FORMAT_XRGB1555,
++						  DRM_FORMAT_XBGR1555,
++						  DRM_FORMAT_RGBX5551,
++						  DRM_FORMAT_BGRX5551,
++						  DRM_FORMAT_INVALID);
+ 			break;
+ 		case 16:
+-			fmt = DRM_FORMAT_RGB565;
++			fmt = select_valid_format(dev,
++						  DRM_FORMAT_RGB565,
++						  DRM_FORMAT_BGR565,
++						  DRM_FORMAT_INVALID);
+ 			break;
+ 		default:
+ 			break;
+@@ -78,19 +128,36 @@ uint32_t drm_mode_legacy_fb_format(uint32_t bpp, uint32_t depth)
+ 
+ 	case 24:
+ 		if (depth == 24)
+-			fmt = DRM_FORMAT_RGB888;
++			fmt = select_valid_format(dev,
++						  DRM_FORMAT_RGB888,
++						  DRM_FORMAT_BGR888);
+ 		break;
+ 
+ 	case 32:
+ 		switch (depth) {
+ 		case 24:
+-			fmt = DRM_FORMAT_XRGB8888;
++			fmt = select_valid_format(dev,
++						  DRM_FORMAT_XRGB8888,
++						  DRM_FORMAT_XBGR8888,
++						  DRM_FORMAT_RGBX8888,
++						  DRM_FORMAT_BGRX8888,
++						  DRM_FORMAT_INVALID);
+ 			break;
+ 		case 30:
+-			fmt = DRM_FORMAT_XRGB2101010;
++			fmt = select_valid_format(dev,
++						  DRM_FORMAT_XRGB2101010,
++						  DRM_FORMAT_XBGR2101010,
++						  DRM_FORMAT_RGBX1010102,
++						  DRM_FORMAT_BGRX1010102,
++						  DRM_FORMAT_INVALID);
+ 			break;
+ 		case 32:
+-			fmt = DRM_FORMAT_ARGB8888;
++			fmt = select_valid_format(dev,
++						  DRM_FORMAT_ARGB8888,
++						  DRM_FORMAT_ABGR8888,
++						  DRM_FORMAT_RGBA8888,
++						  DRM_FORMAT_BGRA8888,
++						  DRM_FORMAT_INVALID);
+ 			break;
+ 		default:
+ 			break;
+@@ -119,7 +186,7 @@ EXPORT_SYMBOL(drm_mode_legacy_fb_format);
+ uint32_t drm_driver_legacy_fb_format(struct drm_device *dev,
+ 				     uint32_t bpp, uint32_t depth)
+ {
+-	uint32_t fmt = drm_mode_legacy_fb_format(bpp, depth);
++	uint32_t fmt = drm_mode_legacy_fb_format(dev, bpp, depth);
+ 
+ 	if (dev->mode_config.quirk_addfb_prefer_host_byte_order) {
+ 		if (fmt == DRM_FORMAT_XRGB8888)
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
+index a379c8ca435a..e114ebd44169 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
+@@ -104,7 +104,8 @@ static int exynos_drm_fbdev_create(struct drm_fb_helper *helper,
+ 	mode_cmd.width = sizes->surface_width;
+ 	mode_cmd.height = sizes->surface_height;
+ 	mode_cmd.pitches[0] = sizes->surface_width * (sizes->surface_bpp >> 3);
+-	mode_cmd.pixel_format = drm_mode_legacy_fb_format(sizes->surface_bpp,
++	mode_cmd.pixel_format = drm_mode_legacy_fb_format(dev,
++							  sizes->surface_bpp,
+ 							  sizes->surface_depth);
+ 
+ 	size = mode_cmd.pitches[0] * mode_cmd.height;
+diff --git a/drivers/gpu/drm/gma500/fbdev.c b/drivers/gpu/drm/gma500/fbdev.c
+index 98b44974d42d..811ae5cccf2c 100644
+--- a/drivers/gpu/drm/gma500/fbdev.c
++++ b/drivers/gpu/drm/gma500/fbdev.c
+@@ -189,7 +189,7 @@ static int psb_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
+ 	mode_cmd.width = sizes->surface_width;
+ 	mode_cmd.height = sizes->surface_height;
+ 	mode_cmd.pitches[0] = ALIGN(mode_cmd.width * DIV_ROUND_UP(bpp, 8), 64);
+-	mode_cmd.pixel_format = drm_mode_legacy_fb_format(bpp, depth);
++	mode_cmd.pixel_format = drm_mode_legacy_fb_format(dev, bpp, depth);
+ 
+ 	size = mode_cmd.pitches[0] * mode_cmd.height;
+ 	size = ALIGN(size, PAGE_SIZE);
+diff --git a/drivers/gpu/drm/i915/display/intel_fbdev_fb.c b/drivers/gpu/drm/i915/display/intel_fbdev_fb.c
+index 0665f943f65f..cb32fcff8fb5 100644
+--- a/drivers/gpu/drm/i915/display/intel_fbdev_fb.c
++++ b/drivers/gpu/drm/i915/display/intel_fbdev_fb.c
+@@ -30,7 +30,8 @@ struct drm_framebuffer *intel_fbdev_fb_alloc(struct drm_fb_helper *helper,
+ 
+ 	mode_cmd.pitches[0] = ALIGN(mode_cmd.width *
+ 				    DIV_ROUND_UP(sizes->surface_bpp, 8), 64);
+-	mode_cmd.pixel_format = drm_mode_legacy_fb_format(sizes->surface_bpp,
++	mode_cmd.pixel_format = drm_mode_legacy_fb_format(dev,
++							  sizes->surface_bpp,
+ 							  sizes->surface_depth);
+ 
+ 	size = mode_cmd.pitches[0] * mode_cmd.height;
+diff --git a/drivers/gpu/drm/msm/msm_fbdev.c b/drivers/gpu/drm/msm/msm_fbdev.c
+index 030bedac632d..8748610299b4 100644
+--- a/drivers/gpu/drm/msm/msm_fbdev.c
++++ b/drivers/gpu/drm/msm/msm_fbdev.c
+@@ -77,7 +77,8 @@ static int msm_fbdev_create(struct drm_fb_helper *helper,
+ 	uint32_t format;
+ 	int ret, pitch;
+ 
+-	format = drm_mode_legacy_fb_format(sizes->surface_bpp, sizes->surface_depth);
++	format = drm_mode_legacy_fb_format(dev,
++					   sizes->surface_bpp, sizes->surface_depth);
+ 
+ 	DBG("create fbdev: %dx%d@%d (%dx%d)", sizes->surface_width,
+ 			sizes->surface_height, sizes->surface_bpp,
+diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
+index 6b08b137af1a..98f01d80abd8 100644
+--- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
++++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
+@@ -139,7 +139,7 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
+ 			sizes->surface_height, sizes->surface_bpp,
+ 			sizes->fb_width, sizes->fb_height);
+ 
+-	mode_cmd.pixel_format = drm_mode_legacy_fb_format(sizes->surface_bpp,
++	mode_cmd.pixel_format = drm_mode_legacy_fb_format(dev, sizes->surface_bpp,
+ 			sizes->surface_depth);
+ 
+ 	mode_cmd.width = sizes->surface_width;
+diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c b/drivers/gpu/drm/radeon/radeon_fbdev.c
+index 02bf25759059..bf1843529c7c 100644
+--- a/drivers/gpu/drm/radeon/radeon_fbdev.c
++++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
+@@ -221,7 +221,8 @@ static int radeon_fbdev_fb_helper_fb_probe(struct drm_fb_helper *fb_helper,
+ 	if ((sizes->surface_bpp == 24) && ASIC_IS_AVIVO(rdev))
+ 		sizes->surface_bpp = 32;
+ 
+-	mode_cmd.pixel_format = drm_mode_legacy_fb_format(sizes->surface_bpp,
++	mode_cmd.pixel_format = drm_mode_legacy_fb_format(dev,
++							  sizes->surface_bpp,
+ 							  sizes->surface_depth);
+ 
+ 	ret = radeon_fbdev_create_pinned_object(fb_helper, &mode_cmd, &gobj);
+diff --git a/drivers/gpu/drm/tegra/fbdev.c b/drivers/gpu/drm/tegra/fbdev.c
+index db6eaac3d30e..290e8c426b0c 100644
+--- a/drivers/gpu/drm/tegra/fbdev.c
++++ b/drivers/gpu/drm/tegra/fbdev.c
+@@ -87,7 +87,8 @@ static int tegra_fbdev_probe(struct drm_fb_helper *helper,
+ 	cmd.pitches[0] = round_up(sizes->surface_width * bytes_per_pixel,
+ 				  tegra->pitch_align);
+ 
+-	cmd.pixel_format = drm_mode_legacy_fb_format(sizes->surface_bpp,
++	cmd.pixel_format = drm_mode_legacy_fb_format(dev,
++						     sizes->surface_bpp,
+ 						     sizes->surface_depth);
+ 
+ 	size = cmd.pitches[0] * cmd.height;
+diff --git a/drivers/gpu/drm/tiny/ofdrm.c b/drivers/gpu/drm/tiny/ofdrm.c
+index ab89b7fc7bf6..ded868601aea 100644
+--- a/drivers/gpu/drm/tiny/ofdrm.c
++++ b/drivers/gpu/drm/tiny/ofdrm.c
+@@ -100,14 +100,14 @@ static const struct drm_format_info *display_get_validated_format(struct drm_dev
+ 
+ 	switch (depth) {
+ 	case 8:
+-		format = drm_mode_legacy_fb_format(8, 8);
++		format = drm_mode_legacy_fb_format(dev, 8, 8);
+ 		break;
+ 	case 15:
+ 	case 16:
+-		format = drm_mode_legacy_fb_format(16, depth);
++		format = drm_mode_legacy_fb_format(dev, 16, depth);
+ 		break;
+ 	case 32:
+-		format = drm_mode_legacy_fb_format(32, 24);
++		format = drm_mode_legacy_fb_format(dev, 32, 24);
+ 		break;
+ 	default:
+ 		drm_err(dev, "unsupported framebuffer depth %u\n", depth);
+diff --git a/drivers/gpu/drm/xe/display/intel_fbdev_fb.c b/drivers/gpu/drm/xe/display/intel_fbdev_fb.c
+index 51ae3561fd0d..a38a8143d632 100644
+--- a/drivers/gpu/drm/xe/display/intel_fbdev_fb.c
++++ b/drivers/gpu/drm/xe/display/intel_fbdev_fb.c
+@@ -32,7 +32,8 @@ struct drm_framebuffer *intel_fbdev_fb_alloc(struct drm_fb_helper *helper,
+ 
+ 	mode_cmd.pitches[0] = ALIGN(mode_cmd.width *
+ 				    DIV_ROUND_UP(sizes->surface_bpp, 8), XE_PAGE_SIZE);
+-	mode_cmd.pixel_format = drm_mode_legacy_fb_format(sizes->surface_bpp,
++	mode_cmd.pixel_format = drm_mode_legacy_fb_format(dev,
++							  sizes->surface_bpp,
+ 							  sizes->surface_depth);
+ 
+ 	size = mode_cmd.pitches[0] * mode_cmd.height;
+diff --git a/include/drm/drm_fourcc.h b/include/drm/drm_fourcc.h
+index ccf91daa4307..75d06393a564 100644
+--- a/include/drm/drm_fourcc.h
++++ b/include/drm/drm_fourcc.h
+@@ -310,7 +310,8 @@ const struct drm_format_info *drm_format_info(u32 format);
+ const struct drm_format_info *
+ drm_get_format_info(struct drm_device *dev,
+ 		    const struct drm_mode_fb_cmd2 *mode_cmd);
+-uint32_t drm_mode_legacy_fb_format(uint32_t bpp, uint32_t depth);
++uint32_t drm_mode_legacy_fb_format(struct drm_device *dev,
++				   uint32_t bpp, uint32_t depth);
+ uint32_t drm_driver_legacy_fb_format(struct drm_device *dev,
+ 				     uint32_t bpp, uint32_t depth);
+ unsigned int drm_format_info_block_width(const struct drm_format_info *info,
+
+base-commit: b9511c6d277c31b13d4f3128eba46f4e0733d734
 -- 
 2.44.0
 
