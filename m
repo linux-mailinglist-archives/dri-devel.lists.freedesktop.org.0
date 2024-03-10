@@ -2,122 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66EA8775DF
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Mar 2024 09:49:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 877A28775F4
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Mar 2024 10:26:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C5B510FFBB;
-	Sun, 10 Mar 2024 08:49:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38A3310E096;
+	Sun, 10 Mar 2024 09:26:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="etR/Pp0T";
+	dkim=pass (2048-bit key; unprotected) header.d=ravnborg.org header.i=@ravnborg.org header.b="HWl8yCaX";
+	dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="kr87XSiC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 784EB10FFBB
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 08:49:08 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-56845954ffeso750908a12.2
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 00:49:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1710060546; x=1710665346; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=PBxoj6XrLWAnYHXsZF0FhFwVka2iFjaNzeYMXspcwm4=;
- b=etR/Pp0Tsh9ubSMU0eJHGUtwl91i19wHtTBjXr4vwotePQC71+zRtbvEk2QKBTAE22
- cEAz6UiY5Ffv3QRJozAzczZjLAaCMwdyYHw9Kf5SMAlCRxgFOCBpqqLap7kNONwyPIKn
- Q9z7fs6QA4eTq1GHhp+8mA0B4JWcohNlOpg/Co+oxB9T7njK7txNW72SRC87/zO9pZEZ
- SLLQ9PDSLS3skMQfx9vD6PvCFaUgHe+4Qcm7EInKt8hsPN+D/EjzSdO/NjsKRjs+2Px7
- Kh63DdzqFFKMWjFYSAJOpIfFb+3xojHbMcoJeGYPESCbflKR73LrcOimNBLl0A+5nn5x
- 2apQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710060546; x=1710665346;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PBxoj6XrLWAnYHXsZF0FhFwVka2iFjaNzeYMXspcwm4=;
- b=v6EEb6M5KhnXcYdmzo/20n/50NfYOhe2ymMEt6OX/P+O4+s7GrKc8h7K5tkyOcwigE
- 5S7CODPwP5kttOckoWrz8JMH23ixsH5uAWArafYPyoUmtLJZRcbjm9DG/WfcL28OYRKK
- kz7XB3x2H/XM6PqmcVkjxnoqkjjz+Wa0b7ztTg+QAbHrbfTlFLEHVTXBK3v5s82eAWtI
- yfAF2bHXZ9CwjwrJX6s1iMVo5/LFVsoE0t4ENCexSeVlYR9wD7j0UQia081xskDZnldo
- ZD86NoNGdemaaa9ukXVaqqsXtpkOIc5JOAX7oMCPSJhbvdblu2CXNGKoga8JR9Ef/MW9
- sRbA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX/OItrfDe9R1hkVMaRjqn6OljAIqMNLfR6Pd1d/NB0vs1zoLnVo6Jky0fHgg5g0EVB/gO8xzEhlKCPDS3QAdsplRz/hxhyMi3P/PyhXTNx
-X-Gm-Message-State: AOJu0Yzy+eLLiRN2Cit3w96gLnhXqBLdZCED+DJCqN8YSrFfiUr2+hwg
- 5ZZEhriTLgTBVknwFg7rQ+9vGMg3/yGtv65lBwO95FYV1N1zT4byNoEMxVg008A=
-X-Google-Smtp-Source: AGHT+IGRWkYXsalGOBzXJf4afXKb6gxBuX5JoOyiacPQBMlGRJ1AQQtC5lCe8voI8++hdbEH5xPzrg==
-X-Received: by 2002:a50:d715:0:b0:568:3551:5904 with SMTP id
- t21-20020a50d715000000b0056835515904mr2385731edi.30.1710060546558; 
- Sun, 10 Mar 2024 00:49:06 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.222.97])
- by smtp.gmail.com with ESMTPSA id
- b2-20020aa7c902000000b00564e489ce9asm1765052edt.12.2024.03.10.00.49.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 10 Mar 2024 00:49:06 -0800 (PST)
-Message-ID: <65658bc7-7500-494a-9604-a91b2117bbd1@linaro.org>
-Date: Sun, 10 Mar 2024 09:49:05 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] dt-bindings: backlight: Add Texas Instruments
- LM3509
-Content-Language: en-US
-To: Patrick Gansterer <paroga@paroga.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
+Received: from mailrelay5-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay5-1.pub.mailoutpod2-cph3.one.com [46.30.211.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8B0C10E096
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 09:26:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=+WfJ7IZT4YujSG0MObaMV24x5YmLTfgI703rzFU8kQo=;
+ b=HWl8yCaXGa14chA+vkSRZwH+v91wkd36QtHu8oxkQgGl6eO4UhQRhLTVNbpZycM6MMOESkD6nJBON
+ FvkVWhug0ViBU2pur4q9LaLhpXqqzdockH4ZDfvm69O/g/7Ie1bU3cyUbjdR/h0nXyagCUGI41jMAH
+ k0x6600Nd7ASrWwulyXKsOPOAmRRSTmCP9BbXyj4eSJyxvw5qrKMAN8vfZPgamN7f5Mc4OCTJ7vHyn
+ 7OQhiCAo25x5e29I/ibaftk32eQ+ltT/WC0b2BqHQfr0rc7Op/QYXcPaE9dtmmPnemyhfvoMZStRkt
+ an/HjplwTuuMRrnd/aMTdVcdBRI8lIw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=+WfJ7IZT4YujSG0MObaMV24x5YmLTfgI703rzFU8kQo=;
+ b=kr87XSiCoYZ2IS7ijW+9XG72kcSOfIqj7F+9LjcZSOXLu4KwSTSOiuKAJ6eK22kCRFnugbInrmXhv
+ Lw9Tli3Cw==
+X-HalOne-ID: 1444c15d-dec0-11ee-9c81-657a30c718c6
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay5.pub.mailoutpod2-cph3.one.com (Halon) with ESMTPSA
+ id 1444c15d-dec0-11ee-9c81-657a30c718c6;
+ Sun, 10 Mar 2024 09:25:07 +0000 (UTC)
+Date: Sun, 10 Mar 2024 10:25:06 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Patrick Gansterer <paroga@paroga.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
  Jingoo Han <jingoohan1@gmail.com>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH v3 2/2] backlight: Add new lm3509 backlight driver
+Message-ID: <20240310092506.GA981663@ravnborg.org>
 References: <20240309132521.1290173-1-paroga@paroga.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240309132521.1290173-1-paroga@paroga.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <20240309132521.1290173-2-paroga@paroga.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240309132521.1290173-2-paroga@paroga.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,15 +69,184 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/03/2024 14:24, Patrick Gansterer wrote:
-> Add Device Tree bindings for Texas Instruments LM3509 - a
-> High Efficiency Boost for White LED's and/or OLED Displays
+Hi Patrick,
+
+a few comments in the following.
+
+	Sam
+
+On Sat, Mar 09, 2024 at 02:24:56PM +0100, Patrick Gansterer wrote:
+> This is a general driver for LM3509 backlight chip of TI.
+> LM3509 is High Efficiency Boost for White LEDs and/or OLED Displays with
+> Dual Current Sinks. This driver supports OLED/White LED select, brightness
+> control and sub/main control.
+> The datasheet can be found at http://www.ti.com/product/lm3509.
 > 
 > Signed-off-by: Patrick Gansterer <paroga@paroga.com>
 > ---
+>  drivers/video/backlight/Kconfig     |   7 +
+>  drivers/video/backlight/Makefile    |   1 +
+>  drivers/video/backlight/lm3509_bl.c | 340 ++++++++++++++++++++++++++++
+>  3 files changed, 348 insertions(+)
+>  create mode 100644 drivers/video/backlight/lm3509_bl.c
+> 
+> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+> index ea2d0d69bd8c..96ad5dc584b6 100644
+> --- a/drivers/video/backlight/Kconfig
+> +++ b/drivers/video/backlight/Kconfig
+> @@ -366,6 +366,13 @@ config BACKLIGHT_AAT2870
+>  	  If you have a AnalogicTech AAT2870 say Y to enable the
+>  	  backlight driver.
+>  
+> +config BACKLIGHT_LM3509
+> +	tristate "Backlight Driver for LM3509"
+> +	depends on I2C
+> +	select REGMAP_I2C
+> +	help
+> +	  This supports TI LM3509 Backlight Driver
+> +
+>  config BACKLIGHT_LM3630A
+>  	tristate "Backlight Driver for LM3630A"
+>  	depends on I2C && PWM
+> diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
+> index 06966cb20459..51a4ac5d0530 100644
+> --- a/drivers/video/backlight/Makefile
+> +++ b/drivers/video/backlight/Makefile
+> @@ -35,6 +35,7 @@ obj-$(CONFIG_BACKLIGHT_HP700)		+= jornada720_bl.o
+>  obj-$(CONFIG_BACKLIGHT_IPAQ_MICRO)	+= ipaq_micro_bl.o
+>  obj-$(CONFIG_BACKLIGHT_KTD253)		+= ktd253-backlight.o
+>  obj-$(CONFIG_BACKLIGHT_KTZ8866)		+= ktz8866.o
+> +obj-$(CONFIG_BACKLIGHT_LM3509)		+= lm3509_bl.o
+>  obj-$(CONFIG_BACKLIGHT_LM3533)		+= lm3533_bl.o
+>  obj-$(CONFIG_BACKLIGHT_LM3630A)		+= lm3630a_bl.o
+>  obj-$(CONFIG_BACKLIGHT_LM3639)		+= lm3639_bl.o
+> diff --git a/drivers/video/backlight/lm3509_bl.c b/drivers/video/backlight/lm3509_bl.c
+> new file mode 100644
+> index 000000000000..bfad0aaffa0d
+> --- /dev/null
+> +++ b/drivers/video/backlight/lm3509_bl.c
+> @@ -0,0 +1,340 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +#include <linux/backlight.h>
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/regmap.h>
+> +
+> +#define LM3509_NAME "lm3509_bl"
+> +
+> +#define LM3509_SINK_MAIN 0
+> +#define LM3509_SINK_SUB 1
+> +#define LM3509_NUM_SINKS 2
+> +
+> +#define LM3509_DEF_BRIGHTNESS 0x12
+> +#define LM3509_MAX_BRIGHTNESS 0x1F
+> +
+> +#define REG_GP 0x10
+> +#define REG_BMAIN 0xA0
+> +#define REG_BSUB 0xB0
+> +#define REG_MAX 0xFF
+> +
+> +enum {
+> +	REG_GP_ENM_BIT = 0,
+> +	REG_GP_ENS_BIT,
+> +	REG_GP_UNI_BIT,
+> +	REG_GP_RMP0_BIT,
+> +	REG_GP_RMP1_BIT,
+> +	REG_GP_OLED_BIT,
+> +};
+> +
+> +struct lm3509_bl {
+> +	struct regmap *regmap;
+> +	struct backlight_device *bl_main;
+> +	struct backlight_device *bl_sub;
+> +	struct gpio_desc *reset_gpio;
+> +};
+> +
+> +struct lm3509_bl_led_pdata {
+> +	const char *label;
+> +	int led_sources;
+> +	u32 brightness;
+> +	u32 max_brightness;
+> +};
+> +
+> +static void lm3509_reset(struct lm3509_bl *data)
+> +{
+> +	if (data->reset_gpio) {
+> +		gpiod_set_value(data->reset_gpio, 1);
+> +		udelay(1);
+> +		gpiod_set_value(data->reset_gpio, 0);
+> +		udelay(10);
+> +	}
+> +}
+> +
+> +static int lm3509_update_status(struct backlight_device *bl,
+> +				unsigned int en_mask, unsigned int br_reg)
+> +{
+> +	struct lm3509_bl *data = bl_get_data(bl);
+> +	int ret;
+> +	bool en;
+> +
+> +	ret = regmap_write(data->regmap, br_reg, bl->props.brightness);
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Here you can use backlight_get_brightness() thus avoiding direct access
+to backlight internal properties.
 
-Best regards,
-Krzysztof
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	en = bl->props.power <= FB_BLANK_NORMAL;
+Use backlight_is_blank() here.
 
+	Sam
+
+
+
+> +	return regmap_update_bits(data->regmap, REG_GP, en_mask,
+> +				  en ? en_mask : 0);
+> +}
+> +
+> +static int lm3509_main_update_status(struct backlight_device *bl)
+> +{
+> +	return lm3509_update_status(bl, BIT(REG_GP_ENM_BIT), REG_BMAIN);
+> +}
+> +
+> +static const struct backlight_ops lm3509_main_ops = {
+> +	.options = BL_CORE_SUSPENDRESUME,
+> +	.update_status = lm3509_main_update_status,
+> +};
+> +
+> +static int lm3509_sub_update_status(struct backlight_device *bl)
+> +{
+> +	return lm3509_update_status(bl, BIT(REG_GP_ENS_BIT), REG_BSUB);
+> +}
+> +
+> +static const struct backlight_ops lm3509_sub_ops = {
+> +	.options = BL_CORE_SUSPENDRESUME,
+> +	.update_status = lm3509_sub_update_status,
+> +};
+> +
+> +static struct backlight_device *
+> +lm3509_backlight_register(struct device *dev, const char *name_suffix,
+> +			  struct lm3509_bl *data,
+> +			  const struct backlight_ops *ops,
+> +			  const struct lm3509_bl_led_pdata *pdata)
+> +
+> +{
+> +	struct backlight_device *bd;
+> +	struct backlight_properties props;
+> +	const char *label = pdata->label;
+> +	char name[64];
+> +
+> +	memset(&props, 0, sizeof(props));
+> +	props.type = BACKLIGHT_RAW;
+> +	props.brightness = pdata->brightness;
+> +	props.max_brightness = pdata->max_brightness;
+> +	props.power = pdata->brightness > 0 ? FB_BLANK_UNBLANK :
+> +					      FB_BLANK_POWERDOWN;
+props.power is not supposed to be set by the user - is is maintained by
+the backlight core.
+
+
+	Sam
