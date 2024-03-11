@@ -2,90 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 019E3878496
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 17:06:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52C908784A5
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 17:09:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A501112B4E;
-	Mon, 11 Mar 2024 16:06:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A543C112B51;
+	Mon, 11 Mar 2024 16:09:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="VU6wQ54Q";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IXRabgK1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DD2B112B4E
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 16:06:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1710173199;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QNJHLR0yNjNcJydH+HbGTVl6vOCkvHLtHR5rRbxrvfo=;
- b=VU6wQ54QHrB1fFPBjuE6KDFZBBedZI/gvhQ1EGwgZahALshACuTKVc/1R77CNVtlmAm50i
- 4LM/wUsuUd4erumCwZJjgxsXBcrUCWAD3vZ3mYsrXtaOkInYwP2RZo3QkJ0RnSOnEPBpFF
- SfltTRiv1wUIPd4oi+TK54k25/tawVI=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-632-tVeY4HPfMASO0R3Md2QubA-1; Mon, 11 Mar 2024 12:06:38 -0400
-X-MC-Unique: tVeY4HPfMASO0R3Md2QubA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-33e67c6b7bdso2239096f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 09:06:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710173197; x=1710777997;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QNJHLR0yNjNcJydH+HbGTVl6vOCkvHLtHR5rRbxrvfo=;
- b=hGMVQi8GC6tuJTDCjukOhyNRMMb7F/2KdbCohL5ZUVX0mNn8cQEeF6ZhX5dV2RRxxR
- 1c0r6riHpG2gYcJRzp8YwNSDC590vPogXiKpohlsh31h/I89wQ1J1ENufPMeozNpMCfe
- ydPinENUQw37mSBXPVtFOwSRq0mSuQzq+onkRmkkYQdS1VAQ59OzU+IfKTSccEgsEOnC
- hTdmOueVf6WNfCXpwo/LLNGojwX3wXJPiyuXngDTPO5Wf9vMh3/3G9vgJXiceLBLH4X5
- aAtLx1+lPvmajaDxOLrCdDdB84Ahw1SyWIKeBnhji1g2Rv8LF8Qwb4qVc/dxk5fLloev
- IyvQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUnhsukJietZOCY32+lmb3EjuRiIR/mT6KQwKo9RS8uvRKTN+oDR0SkenUdpLKaZQB+ZC6LnZHkAeCGaYIJv2ABoWThB3eVZFU40Br+m7aL
-X-Gm-Message-State: AOJu0YyM9X7MPTnZdeEKTkbrxt5V5/hqFUVXH3O6wJQs0ZWMyawL9PZu
- aWH/QbJmX7yc5ylhnVsLJXOKv3o2s1Qcw3zND6cPf842rmE+TKVP1eqSaLfUJAjLP+CukEvkUIh
- aL9SOXpezNf55RZWXQnkFXCzRRIGMxQTXod3OiNkCwUN+HvIqBv1kEU1fzYvVP1cz6w==
-X-Received: by 2002:a5d:4088:0:b0:33e:7a10:4d6e with SMTP id
- o8-20020a5d4088000000b0033e7a104d6emr4220095wrp.32.1710173197130; 
- Mon, 11 Mar 2024 09:06:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFIHQ4IsSr7/EQIzMSsVUeLFmRLgG/+RHWPw63nSJAHInZRyoeJJPvp9gsj1QT60M0fJVsTgg==
-X-Received: by 2002:a5d:4088:0:b0:33e:7a10:4d6e with SMTP id
- o8-20020a5d4088000000b0033e7a104d6emr4220075wrp.32.1710173196698; 
- Mon, 11 Mar 2024 09:06:36 -0700 (PDT)
-Received: from toolbox ([2001:9e8:89a8:bc00:4f1a:435e:d5a8:5d5a])
- by smtp.gmail.com with ESMTPSA id
- c17-20020a5d5291000000b0033d2ae84fafsm6757931wrv.52.2024.03.11.09.06.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Mar 2024 09:06:36 -0700 (PDT)
-Date: Mon, 11 Mar 2024 17:06:34 +0100
-From: Sebastian Wick <sebastian.wick@redhat.com>
-To: Pekka Paalanen <pekka.paalanen@collabora.com>
-Cc: Harry Wentland <harry.wentland@amd.com>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- Xaver Hugl <xaver.hugl@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/drm_connector: Document Colorspace property
- variants
-Message-ID: <20240311160634.GA323822@toolbox>
-References: <20240305135155.231687-1-sebastian.wick@redhat.com>
- <20240306102721.3c9c3785.pekka.paalanen@collabora.com>
- <20240306164209.GA11561@toolbox>
- <20240307102922.0f3701cb.pekka.paalanen@collabora.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F9BB112B50;
+ Mon, 11 Mar 2024 16:09:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1710173352; x=1741709352;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=bsgQwhdPDHOrO5Hr13IZ/xGW0vh6+IcTsgQ/U+/Tw80=;
+ b=IXRabgK11hy0OH7qJkrj6TjYm9ERLgUM6ltjgAcw5K/Iz1DM1UJGU6uj
+ ROFc9Vsxv/laGwkRMTFv4Awu0RNA6A052GE2OaYzM1TWLw5ijDWZKtlmr
+ pKKaunIWRRju6YOLNKAuEIagMSOs7AwTA2kg53S7voOd5tQGeIivRfwW9
+ BlvM9gjQdCTodZXUedBl2mBqXOJB9fTkI6cn1xCqLmKN9rGdmIRtgRPGb
+ AW8LiWZM+motjlZpao7QiAWaOcVQOCk2xqgD26tZhyfO93tMfzTLIuW/3
+ NSXp/UOUcs2V4RxwDdAUpKqI9RwAFxgK+EU6J3QhAVI6TmYMlSi8MPr+5 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="16250360"
+X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; d="scan'208";a="16250360"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2024 09:09:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; d="scan'208";a="11131080"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2024 09:09:03 -0700
+Date: Mon, 11 Mar 2024 18:09:29 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: Chris Bainbridge <chris.bainbridge@gmail.com>,
+ "Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ lyude@redhat.com, ville.syrjala@linux.intel.com,
+ stanislav.lisovskiy@intel.com, mripard@kernel.org
+Subject: Re: [PATCH] Fix divide-by-zero on DP unplug with nouveau
+Message-ID: <Ze8suV5ox+43/wAC@ideak-desk.fi.intel.com>
+References: <ZcfpqwnkSoiJxeT9@debian.local>
 MIME-Version: 1.0
-In-Reply-To: <20240307102922.0f3701cb.pekka.paalanen@collabora.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <ZcfpqwnkSoiJxeT9@debian.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,228 +64,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 07, 2024 at 10:29:22AM +0200, Pekka Paalanen wrote:
-> On Wed, 6 Mar 2024 17:42:09 +0100
-> Sebastian Wick <sebastian.wick@redhat.com> wrote:
-> 
-> > On Wed, Mar 06, 2024 at 10:27:21AM +0200, Pekka Paalanen wrote:
-> > > On Tue,  5 Mar 2024 14:51:49 +0100
-> > > Sebastian Wick <sebastian.wick@redhat.com> wrote:
-> > >   
-> > > > The initial idea of the Colorspace prop was that this maps 1:1 to
-> > > > InfoFrames/SDP but KMS does not give user space enough information nor
-> > > > control over the output format to figure out which variants can be used
-> > > > for a given KMS commit. At the same time, properties like Broadcast RGB
-> > > > expect full range quantization range being produced by user space from
-> > > > the CRTC and drivers to convert to the range expected by the sink for
-> > > > the chosen output format, mode, InfoFrames, etc.
-> > > > 
-> > > > This change documents the reality of the Colorspace property. The
-> > > > Default variant unfortunately is very much driver specific and not
-> > > > reflected by the EDID. The BT2020 variants are in active use by generic
-> > > > compositors which have expectations from the driver about the
-> > > > conversions it has to do when selecting certain output formats.
-> > > > 
-> > > > Everything else is also marked as undefined. Coming up with valid
-> > > > behavior that makes it usable from user space and consistent with other
-> > > > KMS properties for those variants is left as an exercise for whoever
-> > > > wants to use them.
-> > > > 
-> > > > v2:
-> > > >  * Talk about "pixel operation properties" that user space configures
-> > > >  * Mention that user space is responsible for checking the EDID for sink
-> > > >    support
-> > > >  * Make it clear that drivers can choose between RGB and YCbCr on their
-> > > >    own
-> > > > 
-> > > > Signed-off-by: Sebastian Wick <sebastian.wick@redhat.com>
-> > > > ---
-> > > >  drivers/gpu/drm/drm_connector.c | 79 +++++++++++++++++++++++++--------
-> > > >  include/drm/drm_connector.h     |  8 ----
-> > > >  2 files changed, 61 insertions(+), 26 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> > > > index b0516505f7ae..65cdcc7d22db 100644
-> > > > --- a/drivers/gpu/drm/drm_connector.c
-> > > > +++ b/drivers/gpu/drm/drm_connector.c
-> > > > @@ -2147,24 +2147,67 @@ EXPORT_SYMBOL(drm_mode_create_aspect_ratio_property);
-> > > >   * DOC: standard connector properties
-> > > >   *
-> > > >   * Colorspace:
-> > > > - *     This property helps select a suitable colorspace based on the sink
-> > > > - *     capability. Modern sink devices support wider gamut like BT2020.
-> > > > - *     This helps switch to BT2020 mode if the BT2020 encoded video stream
-> > > > - *     is being played by the user, same for any other colorspace. Thereby
-> > > > - *     giving a good visual experience to users.
-> > > > - *
-> > > > - *     The expectation from userspace is that it should parse the EDID
-> > > > - *     and get supported colorspaces. Use this property and switch to the
-> > > > - *     one supported. Sink supported colorspaces should be retrieved by
-> > > > - *     userspace from EDID and driver will not explicitly expose them.
-> > > > - *
-> > > > - *     Basically the expectation from userspace is:
-> > > > - *      - Set up CRTC DEGAMMA/CTM/GAMMA to convert to some sink
-> > > > - *        colorspace
-> > > > - *      - Set this new property to let the sink know what it
-> > > > - *        converted the CRTC output to.
-> > > > - *      - This property is just to inform sink what colorspace
-> > > > - *        source is trying to drive.
-> > > > + *	This property is used to inform the driver about the color encoding
-> > > > + *	user space configured the pixel operation properties to produce.
-> > > > + *	The variants set the colorimetry, transfer characteristics, and which
-> > > > + *	YCbCr conversion should be used when necessary.
-> > > > + *	The transfer characteristics from HDR_OUTPUT_METADATA takes precedence
-> > > > + *	over this property.
-> > > > + *	User space always configures the pixel operation properties to produce
-> > > > + *	full quantization range data (see the Broadcast RGB property).
-> > > > + *
-> > > > + *	Drivers inform the sink about what colorimetry, transfer
-> > > > + *	characteristics, YCbCr conversion, and quantization range to expect
-> > > > + *	(this can depend on the output mode, output format and other
-> > > > + *	properties). Drivers also convert the user space provided data to what
-> > > > + *	the sink expects.  
-> > > 
-> > > Hi Sebastian,
-> > > 
-> > > should it be more explicit that drivers are allowed to do only
-> > > RGB->YCbCr and quantization range conversions, but not TF nor gamut
-> > > conversions?
-> > > 
-> > > That is, if the driver cannot pick the TF implied by "Colorspace"
-> > > property for the sink, then it cannot pick another TF for the sink and
-> > > silently convert. It think this should apply to all options including
-> > > the undefined ones. Or is that too much to guess?  
-> > 
-> > That's a really good point. I'll add it in the next revision.
-> > 
-> > > > + *
-> > > > + *	User space has to check if the sink supports all of the possible
-> > > > + *	colorimetries that the driver is allowed to pick by parsing the EDID.  
-> > > 
-> > > All? Rather than at least one?
-> > > 
-> > > Is this how it has been implemented for BT2020, that userspace picked
-> > > colorimetry and driver picked color model and quantization are
-> > > completely independent, and drivers do not check the combination
-> > > against EDID?  
-> > 
-> > AFAIK the driver exposes all Colorspace variants that it can support in
-> > the driver, independent of the sink. That means user space has to make
-> > sure that the sink supports all colorimetry variants the driver can
-> > pick.
-> 
-> I didn't mean exposing but the driver could reject the atomic commit
-> that would lead to a combination not advertised as supported in EDID.
-> If drivers reject, then userspace does not need to check for all
-> driver-choosable variants, just one would be enough. Theoretically not
-> needing all might allow some cases to work that don't support all.
-> "Colorspace" property value could direct the driver's choice based on
-> what EDID claims to support.
+On Sat, Feb 10, 2024 at 09:24:59PM +0000, Chris Bainbridge wrote:
 
-Right, this could be possible and is probably even better than what I
-wrote down but...
+Sorry for the delay.
 
-> Of course, if drivers don't do that already, then "all" it must be.
+> The following trace occurs when using nouveau and unplugging a DP MST
+> adaptor:
+>=20
+>  divide error: 0000 [#1] PREEMPT SMP PTI
+>  CPU: 7 PID: 2962 Comm: Xorg Not tainted 6.8.0-rc3+ #744
+>  Hardware name: Razer Blade/DANA_MB, BIOS 01.01 08/31/2018
+>  RIP: 0010:drm_dp_bw_overhead+0xb4/0x110 [drm_display_helper]
+>  Code: c6 b8 01 00 00 00 75 61 01 c6 41 0f af f3 41 0f af f1 c1 e1 04 48 =
+63 c7 31 d2 89 ff 48 8b 5d f8 c9 48 0f af f1 48 8d 44 06 ff <48> f7 f7 31 d=
+2 31 c9 31 f6 31 ff 45 31 c0 45 31 c9 45 31 d2 45 31
+>  RSP: 0018:ffffb2c5c211fa30 EFLAGS: 00010206
+>  RAX: ffffffffffffffff RBX: 0000000000000000 RCX: 0000000000f59b00
+>  RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+>  RBP: ffffb2c5c211fa48 R08: 0000000000000001 R09: 0000000000000020
+>  R10: 0000000000000004 R11: 0000000000000000 R12: 0000000000023b4a
+>  R13: ffff91d37d165800 R14: ffff91d36fac6d80 R15: ffff91d34a764010
+>  FS:  00007f4a1ca3fa80(0000) GS:ffff91d6edbc0000(0000) knlGS:000000000000=
+0000
+>  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>  CR2: 0000559491d49000 CR3: 000000011d180002 CR4: 00000000003706f0
+>  Call Trace:
+>   <TASK>
+>   ? show_regs+0x6d/0x80
+>   ? die+0x37/0xa0
+>   ? do_trap+0xd4/0xf0
+>   ? do_error_trap+0x71/0xb0
+>   ? drm_dp_bw_overhead+0xb4/0x110 [drm_display_helper]
+>   ? exc_divide_error+0x3a/0x70
+>   ? drm_dp_bw_overhead+0xb4/0x110 [drm_display_helper]
+>   ? asm_exc_divide_error+0x1b/0x20
+>   ? drm_dp_bw_overhead+0xb4/0x110 [drm_display_helper]
+>   ? drm_dp_calc_pbn_mode+0x2e/0x70 [drm_display_helper]
+>   nv50_msto_atomic_check+0xda/0x120 [nouveau]
+>   drm_atomic_helper_check_modeset+0xa87/0xdf0 [drm_kms_helper]
+>   drm_atomic_helper_check+0x19/0xa0 [drm_kms_helper]
+>   nv50_disp_atomic_check+0x13f/0x2f0 [nouveau]
+>   drm_atomic_check_only+0x668/0xb20 [drm]
+>   ? drm_connector_list_iter_next+0x86/0xc0 [drm]
+>   drm_atomic_commit+0x58/0xd0 [drm]
+>   ? __pfx___drm_printfn_info+0x10/0x10 [drm]
+>   drm_atomic_connector_commit_dpms+0xd7/0x100 [drm]
+>   drm_mode_obj_set_property_ioctl+0x1c5/0x450 [drm]
+>   ? __pfx_drm_connector_property_set_ioctl+0x10/0x10 [drm]
+>   drm_connector_property_set_ioctl+0x3b/0x60 [drm]
+>   drm_ioctl_kernel+0xb9/0x120 [drm]
+>   drm_ioctl+0x2d0/0x550 [drm]
+>   ? __pfx_drm_connector_property_set_ioctl+0x10/0x10 [drm]
+>   nouveau_drm_ioctl+0x61/0xc0 [nouveau]
+>   __x64_sys_ioctl+0xa0/0xf0
+>   do_syscall_64+0x76/0x140
+>   ? do_syscall_64+0x85/0x140
+>   ? do_syscall_64+0x85/0x140
+>   entry_SYSCALL_64_after_hwframe+0x6e/0x76
+>  RIP: 0033:0x7f4a1cd1a94f
+>  Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 =
+44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <41> 89 c0 3d 0=
+0 f0 ff ff 77 1f 48 8b 44 24 18 64 48 2b 04 25 28 00
+>  RSP: 002b:00007ffd2f1df520 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+>  RAX: ffffffffffffffda RBX: 00007ffd2f1df5b0 RCX: 00007f4a1cd1a94f
+>  RDX: 00007ffd2f1df5b0 RSI: 00000000c01064ab RDI: 000000000000000f
+>  RBP: 00000000c01064ab R08: 000056347932deb8 R09: 000056347a7d99c0
+>  R10: 0000000000000000 R11: 0000000000000246 R12: 000056347938a220
+>  R13: 000000000000000f R14: 0000563479d9f3f0 R15: 0000000000000000
+>   </TASK>
+>  Modules linked in: rfcomm xt_conntrack nft_chain_nat xt_MASQUERADE nf_na=
+t nf_conntrack_netlink nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 xfrm_user=
+ xfrm_algo xt_addrtype nft_compat nf_tables nfnetlink br_netfilter bridge s=
+tp llc ccm cmac algif_hash overlay algif_skcipher af_alg bnep binfmt_misc s=
+nd_sof_pci_intel_cnl snd_sof_intel_hda_common snd_soc_hdac_hda snd_sof_pci =
+snd_sof_xtensa_dsp snd_sof_intel_hda snd_sof snd_sof_utils snd_soc_acpi_int=
+el_match snd_soc_acpi snd_soc_core snd_compress snd_sof_intel_hda_mlink snd=
+_hda_ext_core iwlmvm intel_rapl_msr intel_rapl_common intel_tcc_cooling x86=
+_pkg_temp_thermal intel_powerclamp mac80211 coretemp kvm_intel snd_hda_code=
+c_hdmi kvm snd_hda_codec_realtek snd_hda_codec_generic uvcvideo libarc4 snd=
+_hda_intel snd_intel_dspcfg snd_hda_codec iwlwifi videobuf2_vmalloc videobu=
+f2_memops uvc irqbypass btusb videobuf2_v4l2 snd_seq_midi crct10dif_pclmul =
+hid_multitouch crc32_pclmul snd_seq_midi_event btrtl snd_hwdep videodev pol=
+yval_clmulni polyval_generic snd_rawmidi
+>   ghash_clmulni_intel aesni_intel btintel crypto_simd snd_hda_core cryptd=
+ snd_seq btbcm ee1004 8250_dw videobuf2_common btmtk rapl nls_iso8859_1 mei=
+_hdcp thunderbolt bluetooth intel_cstate wmi_bmof intel_wmi_thunderbolt cfg=
+80211 snd_pcm mc snd_seq_device i2c_i801 r8169 ecdh_generic snd_timer i2c_s=
+mbus ecc snd mei_me intel_lpss_pci mei ahci intel_lpss soundcore realtek li=
+bahci idma64 intel_pch_thermal i2c_hid_acpi i2c_hid acpi_pad sch_fq_codel m=
+sr parport_pc ppdev lp parport efi_pstore ip_tables x_tables autofs4 dm_cry=
+pt raid10 raid456 libcrc32c async_raid6_recov async_memcpy async_pq async_x=
+or xor async_tx raid6_pq raid1 raid0 joydev input_leds hid_generic usbhid h=
+id nouveau i915 drm_ttm_helper gpu_sched drm_gpuvm drm_exec i2c_algo_bit dr=
+m_buddy ttm drm_display_helper drm_kms_helper cec rc_core drm nvme nvme_cor=
+e mxm_wmi xhci_pci xhci_pci_renesas video wmi pinctrl_cannonlake mac_hid
+>  ---[ end trace 0000000000000000 ]---
+>=20
+> Fix this by avoiding the divide if bpp is 0.
+>=20
+> Fixes: c1d6a22b7219 ("drm/dp: Add helpers to calculate the link BW overhe=
+ad")
+> Signed-off-by: Chris Bainbridge <chris.bainbridge@gmail.com>
+> ---
+>  drivers/gpu/drm/display/drm_dp_helper.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/di=
+splay/drm_dp_helper.c
+> index b1ca3a1100da..bb8794c8f99c 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -4024,6 +4024,9 @@ int drm_dp_bw_overhead(int lane_count, int hactive,
+>  							  bpp_x16, symbol_size,
+>  							  is_mst);
+> =20
+> +	/* Avoid potential divide by zero in DIV_ROUND_UP_ULL */
 
-...unfortunately that seems to be the case. Maybe we can get away with
-changing it though?
+The above comment is redundant.
 
-> 
-> Thanks,
-> pq
-> 
-> > Would be good to get a confirmation from Harry and Ville.
-> > 
-> > > If so, "all" it is. Would be good to explain this in the commit message.  
-> > 
-> > Will do.
-> > 
-> > > > + *
-> > > > + *	For historical reasons this property exposes a number of variants which
-> > > > + *	result in undefined behavior.
-> > > > + *
-> > > > + *	Default:
-> > > > + *		The behavior is driver-specific.
-> > > > + *	BT2020_RGB:
-> > > > + *	BT2020_YCC:
-> > > > + *		User space configures the pixel operation properties to produce
-> > > > + *		RGB content with Rec. ITU-R BT.2020 colorimetry, Rec.
-> > > > + *		ITU-R BT.2020 (Table 4, RGB) transfer characteristics and full
-> > > > + *		quantization range.
-> > > > + *		User space can use the HDR_OUTPUT_METADATA property to set the
-> > > > + *		transfer characteristics to PQ (Rec. ITU-R BT.2100 Table 4) or
-> > > > + *		HLG (Rec. ITU-R BT.2100 Table 5) in which case, user space
-> > > > + *		configures pixel operation properties to produce content with
-> > > > + *		the respective transfer characteristics.
-> > > > + *		User space has to make sure the sink supports Rec.
-> > > > + *		ITU-R BT.2020 R'G'B' and Rec. ITU-R BT.2020 Y'C'BC'R
-> > > > + *		colorimetry.
-> > > > + *		Drivers can configure the sink to use an RGB format, tell the
-> > > > + *		sink to expect Rec. ITU-R BT.2020 R'G'B' colorimetry and convert
-> > > > + *		to the appropriate quantization range.
-> > > > + *		Drivers can configure the sink to use a YCbCr format, tell the
-> > > > + *		sink to expect Rec. ITU-R BT.2020 Y'C'BC'R colorimetry, convert
-> > > > + *		to YCbCr using the Rec. ITU-R BT.2020 non-constant luminance
-> > > > + *		conversion matrix and convert to the appropriate quantization
-> > > > + *		range.
-> > > > + *		The variants BT2020_RGB and BT2020_YCC are equivalent and the
-> > > > + *		driver chooses between RGB and YCbCr on its own.
-> > > > + *	SMPTE_170M_YCC:
-> > > > + *	BT709_YCC:
-> > > > + *	XVYCC_601:
-> > > > + *	XVYCC_709:
-> > > > + *	SYCC_601:
-> > > > + *	opYCC_601:
-> > > > + *	opRGB:
-> > > > + *	BT2020_CYCC:
-> > > > + *	DCI-P3_RGB_D65:
-> > > > + *	DCI-P3_RGB_Theater:
-> > > > + *	RGB_WIDE_FIXED:
-> > > > + *	RGB_WIDE_FLOAT:
-> > > > + *	BT601_YCC:
-> > > > + *		The behavior is undefined.
-> > > >   *
-> > > >   * Because between HDMI and DP have different colorspaces,
-> > > >   * drm_mode_create_hdmi_colorspace_property() is used for HDMI connector and
-> > > > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> > > > index fe88d7fc6b8f..02c42b01a3a7 100644
-> > > > --- a/include/drm/drm_connector.h
-> > > > +++ b/include/drm/drm_connector.h
-> > > > @@ -437,14 +437,6 @@ enum drm_privacy_screen_status {
-> > > >   *
-> > > >   * DP definitions come from the DP v2.0 spec
-> > > >   * HDMI definitions come from the CTA-861-H spec
-> > > > - *
-> > > > - * A note on YCC and RGB variants:
-> > > > - *
-> > > > - * Since userspace is not aware of the encoding on the wire
-> > > > - * (RGB or YCbCr), drivers are free to pick the appropriate
-> > > > - * variant, regardless of what userspace selects. E.g., if
-> > > > - * BT2020_RGB is selected by userspace a driver will pick
-> > > > - * BT2020_YCC if the encoding on the wire is YUV444 or YUV420.
-> > > >    *
-> > > >   * @DRM_MODE_COLORIMETRY_DEFAULT:
-> > > >   *   Driver specific behavior.  
-> > > 
-> > > This looks really good. This also makes me need to revisit the Weston
-> > > series I've been brewing that adds "Colorspace" KMS support.
-> > > 
-> > > I think the two questions I had may be slightly too much in the
-> > > direction of improving rather than just documenting this property, so
-> > > I'll already give
-> > > 
-> > > Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>  
-> > 
-> > Thanks.
-> > 
-> > > 
-> > > Thanks,
-> > > pq  
-> > 
-> > 
-> 
+> +	if (bpp_x16 =3D=3D 0)
+> +		return 0;
 
+Could you please move the check to the beginnig of the function and add
+a debug message in case bpp_x16 is 0?
 
+It looks odd that a driver calls this function with a 0 bpp_x16, and
+ideally it should be fixed in the driver. However as it's a regression
+and we don't have a better idea now:
+
+Acked-by: Imre Deak <imre.deak@intel.com>
+
+>  	return DIV_ROUND_UP_ULL(mul_u32_u32(symbol_cycles * symbol_size * lane_=
+count,
+>  					    overhead * 16),
+>  				hactive * bpp_x16);
+> --=20
+> 2.39.2
+>=20
