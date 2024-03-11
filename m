@@ -2,161 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18792878494
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 17:06:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 019E3878496
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 17:06:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A14C112B4D;
-	Mon, 11 Mar 2024 16:05:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A501112B4E;
+	Mon, 11 Mar 2024 16:06:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KkxCODQS";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="VU6wQ54Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FFE3112B48;
- Mon, 11 Mar 2024 16:05:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710173156; x=1741709156;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=I/qGqd2iNO0nhL3R9aHvNfKwPvwzJd9W1NwAjUjvwGA=;
- b=KkxCODQSDQGjYTcQOymlhajSZjX+50QPviEDSt9PklTMJCrvD7KiSspj
- C207NmBTy1oef/vvr+Gsg1bTwIvQyPsaUGPKAqzALmYTYU/A2y2MuDNb8
- Sur5aKprBPVj7Mv3TPMk9NhXffTqXRgMfZwAVzQ+XM1W3KHYQB3aRF3Fb
- eH5U2HorZPWnvP4I8zAcPy6rDVxtIB4cjecycTpKjl7nfovBJpXMdiam3
- XThmsY2PAcSPcaM7AmVdGlQ6BqcTkRrgFYFmdFSNoOvTLZpA1NLuNX3S3
- GqInpNtXaHn3226ZV8CzbNb8RlnQuUfAaJRYvUQQ3rnhKfzRtMtKsjCEd w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="4697968"
-X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
-   d="scan'208";a="4697968"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2024 09:05:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; d="scan'208";a="11097171"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 11 Mar 2024 09:05:24 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 11 Mar 2024 09:05:23 -0700
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 11 Mar 2024 09:05:23 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Mon, 11 Mar 2024 09:05:23 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 11 Mar 2024 09:05:22 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SYkq6BpXHZM/JEzXwn8PF94oSeASbhzujdZebmRTvTjMQ92ZBIkGpfJiUfYi69yr3+3gV14YOC3cOw9l+A3UWgD7rhePBDZ78Ly7nvl11Z+6SuX0LtACDOBM6Wua+nmtU5QpB0mK9oMCmgSZzi4ZThVzQY/ikl6dKu0hnk/8BHtS9FlXAbedSokAua4GpUZylA2ZS3aNNuh0U9BqSGHSNQnnh3n5rZqM5JCnKm/iZ3Ik06PSbi71B+2iYggipKx/xmmiB6jLX4gsMjW7Z70j3RltrybRwFR99P0H/Z8IhSoq6Y7cHDdclTPUu5uKVodaZ9WUiNHQlV4gR7ffx0jV3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I/qGqd2iNO0nhL3R9aHvNfKwPvwzJd9W1NwAjUjvwGA=;
- b=FZV2QD6FasdmYS5dCx8zOzlx2bmS51YmIJbBrUDnGfNfPkYpr41CDOLHtH52sjWEheGt3D/5Voe5iy5sncoBR+RC/J+sL1UVNDP5RP6oVeadOJupPV/fE6PAcnJeT/K3PP4H1QO3fN90sCnwBENwqqJdriRvFi9A5+nVV4vim1BF6LTc8Zzdwwd6qBfTxSAOEYeCPARJwcvbwzFH7PXi9pEkMr5oX9UA91DMQStvpUKWgMKbba7dpIr9t7U2tB8pg2BaWUlkHZ5WN27gjT3n507qikUYl8PLmpM0uw6tGeTqr7F0G9T/3JZc0T67tRDm6Rf0peegv5/AGbXBn3rhiw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM8PR11MB5655.namprd11.prod.outlook.com (2603:10b6:8:28::10) by
- SJ0PR11MB8272.namprd11.prod.outlook.com (2603:10b6:a03:47d::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.15; Mon, 11 Mar
- 2024 16:05:15 +0000
-Received: from DM8PR11MB5655.namprd11.prod.outlook.com
- ([fe80::7232:ae38:bcdf:ef14]) by DM8PR11MB5655.namprd11.prod.outlook.com
- ([fe80::7232:ae38:bcdf:ef14%2]) with mapi id 15.20.7386.015; Mon, 11 Mar 2024
- 16:05:14 +0000
-From: "Saarinen, Jani" <jani.saarinen@intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>, Linux regressions mailing list
- <regressions@lists.linux.dev>, "Deak, Imre" <imre.deak@intel.com>
-CC: Chris Bainbridge <chris.bainbridge@gmail.com>, intel-gfx
- <intel-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>, "Daniel
- Vetter" <daniel@ffwll.ch>, ML dri-devel <dri-devel@lists.freedesktop.org>
-Subject: RE: [REGRESSION] Divide-by-zero on DisplayPort MST unplug with nouveau
-Thread-Topic: [REGRESSION] Divide-by-zero on DisplayPort MST unplug with
- nouveau
-Thread-Index: AQHac8xWUw8p1oyLikCIQFI4fUX8JbEysk5ggAABLQCAAAClYA==
-Date: Mon, 11 Mar 2024 16:05:14 +0000
-Message-ID: <DM8PR11MB56555163C94CEB1220393037E0242@DM8PR11MB5655.namprd11.prod.outlook.com>
-References: <ZeoAPFIF6NClUl4P@debian.local>
- <ee2e74d2-1a7a-4e24-8502-80cf2ffad59d@leemhuis.info>
- <DM8PR11MB56555E5992E299F1EA4BEE98E0242@DM8PR11MB5655.namprd11.prod.outlook.com>
- <87v85ssqn5.fsf@intel.com>
-In-Reply-To: <87v85ssqn5.fsf@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR11MB5655:EE_|SJ0PR11MB8272:EE_
-x-ms-office365-filtering-correlation-id: 9c3e07c1-ccf3-40a4-8703-08dc41e509e7
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 34OiRlnQ0b4fNvD5UHW4UeE4dhil4dy9awW/l/szXsCJUYqycWFbVHbFWdNNOAfmT17T9YIWp+PjuaL3FHBlwWvNh+/dVFOuJCRTJsMbaUsKK5Npx3zrOBsq6KKWYH8j1YrHsDYsxayBOG/061ADoiyMmnIETxSWZ+RtcWaLwocPLDiTkg5oyd9uHEfenIIwf+VYAGu3kXc6hJbjoUfUKXawK+KZT+6rsWMGG38RSZT+WjK6ulvS59Hr3JRSiLI2+ZVqDgidkOQHiqppaTYmq5oCV7a99sT5sGtZezVq5j6W7FnCeroi3XVedXJhDa7UzY7NjedA92CqE1A5CN0r6/OPmrDiSo2xXoS+iOp+JXZ30nZSZKQbUySPWHN0KZecD/+YpjWDFTdG+iJGuu9pbtPJ75XhEg8vF9oMmT6BdoqNvC22HdVsIY4ywQ3472h0BbnYCeXHlAT+wXpY/2xeEuz6EiXXwITDHnPf2U/FrRrKhuzHm1nzaF+IAQKWNn+nD1YsJP6lENbpamkiQgQIHZbGg5cZ6ix+3aHAe4TL7DXbKb1VSM/pSQDqd5E9mZPOFvBIQgJSA2HeYHg+KvmmCu8AwzBkRA5KbOTe+NVeVeiu5OrN8cgvkGy0f7BefQBRzzW/ApmLPhdq0rJh8AYd1viyGZRmdoVxiyaM/MkQ5sbiHF8qHRYCNWqxAnh254Wc
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR11MB5655.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005)(1800799015)(38070700009); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZHdLaEMwRXJWWjhwamJTSWxWYWtCYlk3bnlneEdJL1hGaC9tQ1NNVCtoRnNi?=
- =?utf-8?B?NU9nUG5hS1dzUng0ZW8rTTdzRXZEOEttd2hwenNSdk12T2ZKbC9KQ1ROR2pk?=
- =?utf-8?B?Yi9yQm9LbmpxVjNYUWxaSGRwYUl3WkxaUm1IaDluem5LZHhieXZrQXJoSGJ0?=
- =?utf-8?B?MUZCTGZlMDV2dElTYW5xOFlwakJhc2V5OEJWbG9PTjRSYU9keUpodmlaR2JR?=
- =?utf-8?B?STV5TlBaRnVaTUorZ3c3YlVkTU9VTksvMVBoSGE2OXZPaldjNjhlcURLRzdS?=
- =?utf-8?B?UmRna0FUaUdtTDNxVUx3U3k0R0J2L2owUytDVHZ5YnRKVk0vWDRZTmR2NVBB?=
- =?utf-8?B?Uk1Tb1h0TndVeDVxbTVmM1FqSnpLRHEzVmRhaTU4VU1JOVRTR3VGcC9sRGJF?=
- =?utf-8?B?OEplL29sRDJQeDk3dS9oeTNrNFBrdmpqZ0RXSGhYUXdmL0R4dFJzR213UnAy?=
- =?utf-8?B?TllqMXlQZm03MFJNQWFaaUpyMlZQSjU2RnFMaldka3NTNy9LcUtUeWVVRTE4?=
- =?utf-8?B?SFJqSUFHa3E4anl1MnNjcEI2NHF3aGhXeFNLMGRFSTVUVE5jQm0wMCt6NkJ5?=
- =?utf-8?B?a09TNDhoVkptTnhGZ3E0dWd5V0ZXNndkUlllT2cwMkcyUHg0OXBLZGhjdTgv?=
- =?utf-8?B?M3RWQ0xjdXZJVWJEWTY4OUYzYUFNbmtMVHl5TzdCVVdKdmk3b1g0Rk1FLzRp?=
- =?utf-8?B?aVBpZllOMzJ5L3ZteUVWcTRMWkN0aUtzL3krVmFZaTg5bkpXOUJVM0QyUHdp?=
- =?utf-8?B?S3RBVWVxVlN4bVozNkE0ck9ZSmZ6RERSVGhzcm9XSE9wTEpoYUtjWmZ4RTNF?=
- =?utf-8?B?VkFBekF3cEpsdktrVUhDTlhUMm01NTg3OXNNTldlSEFKSnhjYWZUT0YwRmR5?=
- =?utf-8?B?SHN2SW5hQnVKSmN4TTRNczdXd0hocWdFSnRraEJQamxGWkhkVDhjVzNqMGM0?=
- =?utf-8?B?ZmkvNFhTNjlaNHlibTgwVXVhaDR5czRKRWRMRFJKK1NxVG1hbFlZcmFvMjYw?=
- =?utf-8?B?eWx2Qk9mUk1hdkYvSmZocHA3R2FJYzVZYWZ6b08xNGUrT0NLU0gzR2J4ajFT?=
- =?utf-8?B?ZlltYlVvWVE0S3VUYU5sTjY1eEZ4eDhONnF5YWx4NXdnRHBxOUVBU0hpUDZF?=
- =?utf-8?B?ZlZXTEp4NDhxOEh6d2ZXekNNZjJoOE0yWjdqeEZWbFgrU3duUFdMSnpDODBP?=
- =?utf-8?B?WDFmOFJ2YmVpWFJ6dEpnbVk4NjByVGxsaDdkNHpwTlZmMnJweS9VTGFvVXJO?=
- =?utf-8?B?dWU2NU5vSUx3WUM5VDZOU0ljSDhFMnBpRkdlbnBsTjJJdmJvc0x0N3BVbXdK?=
- =?utf-8?B?T28remdvR29VY2xUNlpnUDF1MWNJNTB2UVhiVjFkZmhjYnozaUFmWE9jZjhY?=
- =?utf-8?B?TkR2QlJ0Ni9FNnE4VS9vakJyZTBZeG5jcW13N3p4M2JnTzlBZWF2cnVFOWJp?=
- =?utf-8?B?Z1cxVWVHYTdIcFp3dWxtU2c4Z25QMzYzQkVubFF3aHBqMVNNQW1ZTkczTzlV?=
- =?utf-8?B?Q0owL2JiK2drbVl4bzNlakVzWUE0VVlIT0xyYXg1ckwwS3RPclJjZXVYQzFM?=
- =?utf-8?B?eHdjckcyTThIZHhXR21IWXFhWVlpRTd6ZnZWNFhya0trekZmYmY5cEpEK2V2?=
- =?utf-8?B?cU1BSEpCTlFXdXlKU0tBMzhYaEZDTHBIYUtubmc1L3JGSGQ4RDk3TzZiMlQ5?=
- =?utf-8?B?S1owR1hPb2N5ckc3K1RWTDNzRkROMzNBTE02M1lvMitJckhsU2E5VWhmeGNk?=
- =?utf-8?B?bDdiL1FJQVJLVnErMzN6TW1vZzkwbkc5aEYxR2wxR1JYT1E0TnF6ZmU1dkoz?=
- =?utf-8?B?MWtEa2JveVlpTTFiSVd4bS9FdjA5MGxuQ2JpZ3hFd0tST0UxTE9VaGZuaW9H?=
- =?utf-8?B?ZDM5Qy91YmpKYTN0RE5OSFprOUlvcnBsOEJiQ2JyTi9weDJUVWN0dDBhWTNv?=
- =?utf-8?B?UlhoNnRVNXNuc2VoeUJvWWVvMFlBVkdkdFdqazRXNkZVRGEzdDliMDQreUty?=
- =?utf-8?B?T09Sd2Ezd0NBNElJY0gwTmdkWERnK0hNT0tmZ21WUTAyZEx4aTJzcDFtdm5y?=
- =?utf-8?B?YVA5OWh6a2xQbFZEMjlwRG1oVWdYQVlRS2hJeVkrRDdYb2lTUHdoR2dYWVRi?=
- =?utf-8?Q?y8ErQVn8uCRHSJDyw2IwIk8DO?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DD2B112B4E
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 16:06:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1710173199;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QNJHLR0yNjNcJydH+HbGTVl6vOCkvHLtHR5rRbxrvfo=;
+ b=VU6wQ54QHrB1fFPBjuE6KDFZBBedZI/gvhQ1EGwgZahALshACuTKVc/1R77CNVtlmAm50i
+ 4LM/wUsuUd4erumCwZJjgxsXBcrUCWAD3vZ3mYsrXtaOkInYwP2RZo3QkJ0RnSOnEPBpFF
+ SfltTRiv1wUIPd4oi+TK54k25/tawVI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-632-tVeY4HPfMASO0R3Md2QubA-1; Mon, 11 Mar 2024 12:06:38 -0400
+X-MC-Unique: tVeY4HPfMASO0R3Md2QubA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-33e67c6b7bdso2239096f8f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 09:06:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710173197; x=1710777997;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=QNJHLR0yNjNcJydH+HbGTVl6vOCkvHLtHR5rRbxrvfo=;
+ b=hGMVQi8GC6tuJTDCjukOhyNRMMb7F/2KdbCohL5ZUVX0mNn8cQEeF6ZhX5dV2RRxxR
+ 1c0r6riHpG2gYcJRzp8YwNSDC590vPogXiKpohlsh31h/I89wQ1J1ENufPMeozNpMCfe
+ ydPinENUQw37mSBXPVtFOwSRq0mSuQzq+onkRmkkYQdS1VAQ59OzU+IfKTSccEgsEOnC
+ hTdmOueVf6WNfCXpwo/LLNGojwX3wXJPiyuXngDTPO5Wf9vMh3/3G9vgJXiceLBLH4X5
+ aAtLx1+lPvmajaDxOLrCdDdB84Ahw1SyWIKeBnhji1g2Rv8LF8Qwb4qVc/dxk5fLloev
+ IyvQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUnhsukJietZOCY32+lmb3EjuRiIR/mT6KQwKo9RS8uvRKTN+oDR0SkenUdpLKaZQB+ZC6LnZHkAeCGaYIJv2ABoWThB3eVZFU40Br+m7aL
+X-Gm-Message-State: AOJu0YyM9X7MPTnZdeEKTkbrxt5V5/hqFUVXH3O6wJQs0ZWMyawL9PZu
+ aWH/QbJmX7yc5ylhnVsLJXOKv3o2s1Qcw3zND6cPf842rmE+TKVP1eqSaLfUJAjLP+CukEvkUIh
+ aL9SOXpezNf55RZWXQnkFXCzRRIGMxQTXod3OiNkCwUN+HvIqBv1kEU1fzYvVP1cz6w==
+X-Received: by 2002:a5d:4088:0:b0:33e:7a10:4d6e with SMTP id
+ o8-20020a5d4088000000b0033e7a104d6emr4220095wrp.32.1710173197130; 
+ Mon, 11 Mar 2024 09:06:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFIHQ4IsSr7/EQIzMSsVUeLFmRLgG/+RHWPw63nSJAHInZRyoeJJPvp9gsj1QT60M0fJVsTgg==
+X-Received: by 2002:a5d:4088:0:b0:33e:7a10:4d6e with SMTP id
+ o8-20020a5d4088000000b0033e7a104d6emr4220075wrp.32.1710173196698; 
+ Mon, 11 Mar 2024 09:06:36 -0700 (PDT)
+Received: from toolbox ([2001:9e8:89a8:bc00:4f1a:435e:d5a8:5d5a])
+ by smtp.gmail.com with ESMTPSA id
+ c17-20020a5d5291000000b0033d2ae84fafsm6757931wrv.52.2024.03.11.09.06.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Mar 2024 09:06:36 -0700 (PDT)
+Date: Mon, 11 Mar 2024 17:06:34 +0100
+From: Sebastian Wick <sebastian.wick@redhat.com>
+To: Pekka Paalanen <pekka.paalanen@collabora.com>
+Cc: Harry Wentland <harry.wentland@amd.com>,
+ Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm/drm_connector: Document Colorspace property
+ variants
+Message-ID: <20240311160634.GA323822@toolbox>
+References: <20240305135155.231687-1-sebastian.wick@redhat.com>
+ <20240306102721.3c9c3785.pekka.paalanen@collabora.com>
+ <20240306164209.GA11561@toolbox>
+ <20240307102922.0f3701cb.pekka.paalanen@collabora.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5655.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9c3e07c1-ccf3-40a4-8703-08dc41e509e7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Mar 2024 16:05:14.9115 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wdnsWGEn8giiWLa6EOOi8LR/nXUqgbEXWdDK2fHVprco4qGsjKzSiDItxfQIL8j+FLcb9RjIlcTSHa6nib6zEA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB8272
-X-OriginatorOrg: intel.com
+In-Reply-To: <20240307102922.0f3701cb.pekka.paalanen@collabora.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -172,181 +101,225 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogSmFuaSBOaWt1bGEgPGph
-bmkubmlrdWxhQGxpbnV4LmludGVsLmNvbT4NCj4gU2VudDogTW9uZGF5LCAxMSBNYXJjaCAyMDI0
-IDE4LjAzDQo+IFRvOiBTYWFyaW5lbiwgSmFuaSA8amFuaS5zYWFyaW5lbkBpbnRlbC5jb20+OyBM
-aW51eCByZWdyZXNzaW9ucyBtYWlsaW5nIGxpc3QNCj4gPHJlZ3Jlc3Npb25zQGxpc3RzLmxpbnV4
-LmRldj47IERlYWssIEltcmUgPGltcmUuZGVha0BpbnRlbC5jb20+DQo+IENjOiBDaHJpcyBCYWlu
-YnJpZGdlIDxjaHJpcy5iYWluYnJpZGdlQGdtYWlsLmNvbT47IGludGVsLWdmeCA8aW50ZWwtDQo+
-IGdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmc+OyBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXgu
-aWU+OyBEYW5pZWwgVmV0dGVyDQo+IDxkYW5pZWxAZmZ3bGwuY2g+OyBNTCBkcmktZGV2ZWwgPGRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc+DQo+IFN1YmplY3Q6IFJFOiBbUkVHUkVTU0lP
-Tl0gRGl2aWRlLWJ5LXplcm8gb24gRGlzcGxheVBvcnQgTVNUIHVucGx1ZyB3aXRoDQo+IG5vdXZl
-YXUNCj4gDQo+IE9uIE1vbiwgMTEgTWFyIDIwMjQsICJTYWFyaW5lbiwgSmFuaSIgPGphbmkuc2Fh
-cmluZW5AaW50ZWwuY29tPiB3cm90ZToNCj4gPiBIaSwNCj4gPg0KPiA+PiAtLS0tLU9yaWdpbmFs
-IE1lc3NhZ2UtLS0tLQ0KPiA+PiBGcm9tOiBJbnRlbC1nZnggPGludGVsLWdmeC1ib3VuY2VzQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZz4gT24gQmVoYWxmDQo+ID4+IE9mIExpbnV4IHJlZ3Jlc3Npb24g
-dHJhY2tpbmcgKFRob3JzdGVuIExlZW1odWlzKQ0KPiA+PiBTZW50OiBNb25kYXksIDExIE1hcmNo
-IDIwMjQgMTcuNTMNCj4gPj4gVG86IERlYWssIEltcmUgPGltcmUuZGVha0BpbnRlbC5jb20+DQo+
-ID4+IENjOiByZWdyZXNzaW9uc0BsaXN0cy5saW51eC5kZXY7IENocmlzIEJhaW5icmlkZ2UNCj4g
-Pj4gPGNocmlzLmJhaW5icmlkZ2VAZ21haWwuY29tPjsgaW50ZWwtZ2Z4DQo+ID4+IDxpbnRlbC1n
-ZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPjsNCj4gPj4gRGF2aWQgQWlybGllIDxhaXJsaWVkQGxp
-bnV4LmllPjsgRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPjsgTUwNCj4gPj4gZHJpLWRl
-dmVsIDxkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPg0KPiA+PiBTdWJqZWN0OiBSZTog
-W1JFR1JFU1NJT05dIERpdmlkZS1ieS16ZXJvIG9uIERpc3BsYXlQb3J0IE1TVCB1bnBsdWcNCj4g
-Pj4gd2l0aCBub3V2ZWF1DQo+ID4+DQo+ID4+IE9uIDA3LjAzLjI0IDE4OjU4LCBDaHJpcyBCYWlu
-YnJpZGdlIHdyb3RlOg0KPiA+PiA+IC0tLS0tIEZvcndhcmRlZCBtZXNzYWdlIGZyb20gQ2hyaXMg
-QmFpbmJyaWRnZQ0KPiA+PiA+IDxjaHJpcy5iYWluYnJpZGdlQGdtYWlsLmNvbT4gLS0tLS0NCj4g
-Pj4gPg0KPiA+PiA+IERhdGU6IFNhdCwgMTAgRmViIDIwMjQgMjE6MjQ6NTkgKzAwMDANCj4gPj4N
-Cj4gPj4gSG1tLCBpdCBsb29rcyBsaWtlIG5vYm9keSBpcyBsb29raW5nIGludG8gdGhpcyByZWdy
-ZXNzaW9uLiBJcyB0aGVyZSBhDQo+ID4+IGdvb2QgcmVhc29uPw0KPiA+Pg0KPiA+PiBJbXJlLCBv
-ciBkaWQgeW91IG1heWJlIGp1c3QgbWlzcyB0aGF0IENocmlzJyByZWdyZXNzaW9uIHNlZW1zIHRv
-IGJlDQo+ID4+IGNhdXNlZCBieSBhIGNvbW1pdCBvZiB5b3Vycz8gSGUgaW5pdGFsbHkgcHJvcG9z
-ZWQgYSBmaXggKHRoZQ0KPiA+PiBmb3J3YXJkZWQgbWFpbCB0aGF0IGlzIHF1b3RlZCBoZXJlKSBt
-b3JlIGEgbW9udGggYWdvIGFscmVhZHkgaGVyZToNCj4gPj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5v
-cmcvYWxsL1pjZnBxd25rU29pSnhlVDlAZGViaWFuLmxvY2FsLw0KPiA+Pg0KPiA+PiBDaHJpcyBy
-ZWNlbnRseSBmaWxlZCBhIHRpY2tldCwgdG9vOg0KPiA+PiBodHRwczovL2dpdGxhYi5mcmVlZGVz
-a3RvcC5vcmcvZHJtL21pc2Mva2VybmVsLy0vaXNzdWVzLzM2DQo+ID4gUGxlYXNlIGZpbGUNCj4g
-PiBodHRwczovL2RybS5wYWdlcy5mcmVlZGVza3RvcC5vcmcvaW50ZWwtZG9jcy9ob3ctdG8tZmls
-ZS1pOTE1LWJ1Z3MuaHRtDQo+ID4gbA0KPiANCj4gV2VsbCwgcGxlYXNlIGRvbid0LiBJdCdzICpu
-b3QqIGFuIGk5MTUgYnVnLg0KUmlnaHQsIHNvcnJ5IGFib3V0IHRoaXMuIExldCBJbXJlIHRvIGNv
-bW1lbnQgdGhlbi4gDQoNCj4gDQo+IEJSLA0KPiBKYW5pLg0KPiANCj4gPj4NCj4gPj4gTW9zdGx5
-IHNpbGVuY2UgdGhlcmUgYXMgd2VsbC4gOi0vDQo+ID4+DQo+ID4+IENpYW8sIFRob3JzdGVuICh3
-ZWFyaW5nIGhpcyAndGhlIExpbnV4IGtlcm5lbCdzIHJlZ3Jlc3Npb24gdHJhY2tlcicNCj4gPj4g
-aGF0KQ0KPiA+Pg0KPiA+PiBQLlM6IENocmlzLCBzb3JyeSwgSSBoYWQgbWlzc2VkIHRoYXQgeW91
-IGluaXRpYWxseSBwcm9wb3NlZCB0aGUgZml4IGENCj4gPj4gbW9udGggYWdvOyBpZiBJIGhhZCBu
-b3RpY2VkIHRoaXMgZWFybGllciBJIGhhZCBzZW50IGEgbWFpbCBsaWtlIHRoaXMgb25lIGVhcmxp
-ZXIuDQo+ID4+IC0tDQo+ID4+IEV2ZXJ5dGhpbmcgeW91IHdhbm5hIGtub3cgYWJvdXQgTGludXgg
-a2VybmVsIHJlZ3Jlc3Npb24gdHJhY2tpbmc6DQo+ID4+IGh0dHBzOi8vbGludXgtcmVndHJhY2tp
-bmcubGVlbWh1aXMuaW5mby9hYm91dC8jdGxkcg0KPiA+PiBJZiBJIGRpZCBzb21ldGhpbmcgc3R1
-cGlkLCBwbGVhc2UgdGVsbCBtZSwgYXMgZXhwbGFpbmVkIG9uIHRoYXQgcGFnZS4NCj4gPj4NCj4g
-Pj4gPiBGcm9tOiBDaHJpcyBCYWluYnJpZGdlIDxjaHJpcy5iYWluYnJpZGdlQGdtYWlsLmNvbT4N
-Cj4gPj4gPiBUbzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPiA+PiA+IENjOiBs
-eXVkZUByZWRoYXQuY29tLCB2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbSwNCj4gPj4gc3Rh
-bmlzbGF2Lmxpc292c2tpeUBpbnRlbC5jb20sDQo+ID4+ID4gCW1yaXBhcmRAa2VybmVsLm9yZywg
-aW1yZS5kZWFrQGludGVsLmNvbQ0KPiA+PiA+IFN1YmplY3Q6IFtQQVRDSF0gRml4IGRpdmlkZS1i
-eS16ZXJvIG9uIERQIHVucGx1ZyB3aXRoIG5vdXZlYXUNCj4gPj4gPg0KPiA+PiA+IFRoZSBmb2xs
-b3dpbmcgdHJhY2Ugb2NjdXJzIHdoZW4gdXNpbmcgbm91dmVhdSBhbmQgdW5wbHVnZ2luZyBhIERQ
-DQo+ID4+ID4gTVNUDQo+ID4+ID4gYWRhcHRvcjoNCj4gPj4gPj4gIGRpdmlkZSBlcnJvcjogMDAw
-MCBbIzFdIFBSRUVNUFQgU01QIFBUSQ0KPiA+PiA+ICBDUFU6IDcgUElEOiAyOTYyIENvbW06IFhv
-cmcgTm90IHRhaW50ZWQgNi44LjAtcmMzKyAjNzQ0ICBIYXJkd2FyZQ0KPiA+PiA+IG5hbWU6IFJh
-emVyIEJsYWRlL0RBTkFfTUIsIEJJT1MgMDEuMDEgMDgvMzEvMjAxOA0KPiA+PiA+ICBSSVA6IDAw
-MTA6ZHJtX2RwX2J3X292ZXJoZWFkKzB4YjQvMHgxMTAgW2RybV9kaXNwbGF5X2hlbHBlcl0NCj4g
-Pj4gPiAgQ29kZTogYzYgYjggMDEgMDAgMDAgMDAgNzUgNjEgMDEgYzYgNDEgMGYgYWYgZjMgNDEg
-MGYgYWYgZjEgYzEgZTENCj4gPj4gPiAwNA0KPiA+PiA+IDQ4IDYzIGM3IDMxIGQyIDg5IGZmIDQ4
-IDhiIDVkIGY4IGM5IDQ4IDBmIGFmIGYxIDQ4IDhkIDQ0IDA2IGZmIDw0OD4NCj4gPj4gPiBmNw0K
-PiA+PiA+IGY3IDMxIGQyIDMxIGM5IDMxIGY2IDMxIGZmIDQ1IDMxIGMwIDQ1IDMxIGM5IDQ1IDMx
-IGQyIDQ1IDMxDQo+ID4+ID4gIFJTUDogMDAxODpmZmZmYjJjNWMyMTFmYTMwIEVGTEFHUzogMDAw
-MTAyMDYNCj4gPj4gPiAgUkFYOiBmZmZmZmZmZmZmZmZmZmZmIFJCWDogMDAwMDAwMDAwMDAwMDAw
-MCBSQ1g6IDAwMDAwMDAwMDBmNTliMDANCj4gPj4gPiAgUkRYOiAwMDAwMDAwMDAwMDAwMDAwIFJT
-STogMDAwMDAwMDAwMDAwMDAwMCBSREk6DQo+ID4+IDAwMDAwMDAwMDAwMDAwMDANCj4gPj4gPiAg
-UkJQOiBmZmZmYjJjNWMyMTFmYTQ4IFIwODogMDAwMDAwMDAwMDAwMDAwMSBSMDk6DQo+ID4+IDAw
-MDAwMDAwMDAwMDAwMjANCj4gPj4gPiAgUjEwOiAwMDAwMDAwMDAwMDAwMDA0IFIxMTogMDAwMDAw
-MDAwMDAwMDAwMCBSMTI6DQo+ID4+IDAwMDAwMDAwMDAwMjNiNGENCj4gPj4gPiAgUjEzOiBmZmZm
-OTFkMzdkMTY1ODAwIFIxNDogZmZmZjkxZDM2ZmFjNmQ4MCBSMTU6IGZmZmY5MWQzNGE3NjQwMTAN
-Cj4gPj4gPiAgRlM6ICAwMDAwN2Y0YTFjYTNmYTgwKDAwMDApIEdTOmZmZmY5MWQ2ZWRiYzAwMDAo
-MDAwMCkNCj4gPj4gPiBrbmxHUzowMDAwMDAwMDAwMDAwMDAwDQo+ID4+ID4gIENTOiAgMDAxMCBE
-UzogMDAwMCBFUzogMDAwMCBDUjA6IDAwMDAwMDAwODAwNTAwMzMNCj4gPj4gPiAgQ1IyOiAwMDAw
-NTU5NDkxZDQ5MDAwIENSMzogMDAwMDAwMDExZDE4MDAwMiBDUjQ6DQo+ID4+IDAwMDAwMDAwMDAz
-NzA2ZjANCj4gPj4gPiBDYWxsIFRyYWNlOg0KPiA+PiA+ICAgPFRBU0s+DQo+ID4+ID4gICA/IHNo
-b3dfcmVncysweDZkLzB4ODANCj4gPj4gPiAgID8gZGllKzB4MzcvMHhhMA0KPiA+PiA+ICAgPyBk
-b190cmFwKzB4ZDQvMHhmMA0KPiA+PiA+ICAgPyBkb19lcnJvcl90cmFwKzB4NzEvMHhiMA0KPiA+
-PiA+ICAgPyBkcm1fZHBfYndfb3ZlcmhlYWQrMHhiNC8weDExMCBbZHJtX2Rpc3BsYXlfaGVscGVy
-XQ0KPiA+PiA+ICAgPyBleGNfZGl2aWRlX2Vycm9yKzB4M2EvMHg3MA0KPiA+PiA+ICAgPyBkcm1f
-ZHBfYndfb3ZlcmhlYWQrMHhiNC8weDExMCBbZHJtX2Rpc3BsYXlfaGVscGVyXQ0KPiA+PiA+ICAg
-PyBhc21fZXhjX2RpdmlkZV9lcnJvcisweDFiLzB4MjANCj4gPj4gPiAgID8gZHJtX2RwX2J3X292
-ZXJoZWFkKzB4YjQvMHgxMTAgW2RybV9kaXNwbGF5X2hlbHBlcl0NCj4gPj4gPiAgID8gZHJtX2Rw
-X2NhbGNfcGJuX21vZGUrMHgyZS8weDcwIFtkcm1fZGlzcGxheV9oZWxwZXJdDQo+ID4+ID4gICBu
-djUwX21zdG9fYXRvbWljX2NoZWNrKzB4ZGEvMHgxMjAgW25vdXZlYXVdDQo+ID4+ID4gICBkcm1f
-YXRvbWljX2hlbHBlcl9jaGVja19tb2Rlc2V0KzB4YTg3LzB4ZGYwIFtkcm1fa21zX2hlbHBlcl0N
-Cj4gPj4gPiAgIGRybV9hdG9taWNfaGVscGVyX2NoZWNrKzB4MTkvMHhhMCBbZHJtX2ttc19oZWxw
-ZXJdDQo+ID4+ID4gICBudjUwX2Rpc3BfYXRvbWljX2NoZWNrKzB4MTNmLzB4MmYwIFtub3V2ZWF1
-XQ0KPiA+PiA+ICAgZHJtX2F0b21pY19jaGVja19vbmx5KzB4NjY4LzB4YjIwIFtkcm1dDQo+ID4+
-ID4gICA/IGRybV9jb25uZWN0b3JfbGlzdF9pdGVyX25leHQrMHg4Ni8weGMwIFtkcm1dDQo+ID4+
-ID4gICBkcm1fYXRvbWljX2NvbW1pdCsweDU4LzB4ZDAgW2RybV0NCj4gPj4gPiAgID8gX19wZnhf
-X19kcm1fcHJpbnRmbl9pbmZvKzB4MTAvMHgxMCBbZHJtXQ0KPiA+PiA+ICAgZHJtX2F0b21pY19j
-b25uZWN0b3JfY29tbWl0X2RwbXMrMHhkNy8weDEwMCBbZHJtXQ0KPiA+PiA+ICAgZHJtX21vZGVf
-b2JqX3NldF9wcm9wZXJ0eV9pb2N0bCsweDFjNS8weDQ1MCBbZHJtXQ0KPiA+PiA+ICAgPyBfX3Bm
-eF9kcm1fY29ubmVjdG9yX3Byb3BlcnR5X3NldF9pb2N0bCsweDEwLzB4MTAgW2RybV0NCj4gPj4g
-PiAgIGRybV9jb25uZWN0b3JfcHJvcGVydHlfc2V0X2lvY3RsKzB4M2IvMHg2MCBbZHJtXQ0KPiA+
-PiA+ICAgZHJtX2lvY3RsX2tlcm5lbCsweGI5LzB4MTIwIFtkcm1dDQo+ID4+ID4gICBkcm1faW9j
-dGwrMHgyZDAvMHg1NTAgW2RybV0NCj4gPj4gPiAgID8gX19wZnhfZHJtX2Nvbm5lY3Rvcl9wcm9w
-ZXJ0eV9zZXRfaW9jdGwrMHgxMC8weDEwIFtkcm1dDQo+ID4+ID4gICBub3V2ZWF1X2RybV9pb2N0
-bCsweDYxLzB4YzAgW25vdXZlYXVdDQo+ID4+ID4gICBfX3g2NF9zeXNfaW9jdGwrMHhhMC8weGYw
-DQo+ID4+ID4gICBkb19zeXNjYWxsXzY0KzB4NzYvMHgxNDANCj4gPj4gPiAgID8gZG9fc3lzY2Fs
-bF82NCsweDg1LzB4MTQwDQo+ID4+ID4gICA/IGRvX3N5c2NhbGxfNjQrMHg4NS8weDE0MA0KPiA+
-PiA+ICAgZW50cnlfU1lTQ0FMTF82NF9hZnRlcl9od2ZyYW1lKzB4NmUvMHg3Ng0KPiA+PiA+ICBS
-SVA6IDAwMzM6MHg3ZjRhMWNkMWE5NGYNCj4gPj4gPiAgQ29kZTogMDAgNDggODkgNDQgMjQgMTgg
-MzEgYzAgNDggOGQgNDQgMjQgNjAgYzcgMDQgMjQgMTAgMDAgMDAgMDANCj4gPj4gPiA0OA0KPiA+
-PiA+IDg5IDQ0IDI0IDA4IDQ4IDhkIDQ0IDI0IDIwIDQ4IDg5IDQ0IDI0IDEwIGI4IDEwIDAwIDAw
-IDAwIDBmIDA1IDw0MT4NCj4gPj4gPiA4OQ0KPiA+PiA+IGMwIDNkIDAwIGYwIGZmIGZmIDc3IDFm
-IDQ4IDhiIDQ0IDI0IDE4IDY0IDQ4IDJiIDA0IDI1IDI4IDAwDQo+ID4+ID4gIFJTUDogMDAyYjow
-MDAwN2ZmZDJmMWRmNTIwIEVGTEFHUzogMDAwMDAyNDYgT1JJR19SQVg6DQo+ID4+ID4gMDAwMDAw
-MDAwMDAwMDAxMA0KPiA+PiA+ICBSQVg6IGZmZmZmZmZmZmZmZmZmZGEgUkJYOiAwMDAwN2ZmZDJm
-MWRmNWIwIFJDWDogMDAwMDdmNGExY2QxYTk0Zg0KPiA+PiA+ICBSRFg6IDAwMDA3ZmZkMmYxZGY1
-YjAgUlNJOiAwMDAwMDAwMGMwMTA2NGFiIFJESToNCj4gMDAwMDAwMDAwMDAwMDAwZg0KPiA+PiA+
-ICBSQlA6IDAwMDAwMDAwYzAxMDY0YWIgUjA4OiAwMDAwNTYzNDc5MzJkZWI4IFIwOToNCj4gPj4g
-MDAwMDU2MzQ3YTdkOTljMA0KPiA+PiA+ICBSMTA6IDAwMDAwMDAwMDAwMDAwMDAgUjExOiAwMDAw
-MDAwMDAwMDAwMjQ2IFIxMjoNCj4gPj4gMDAwMDU2MzQ3OTM4YTIyMA0KPiA+PiA+ICBSMTM6IDAw
-MDAwMDAwMDAwMDAwMGYgUjE0OiAwMDAwNTYzNDc5ZDlmM2YwIFIxNToNCj4gPj4gMDAwMDAwMDAw
-MDAwMDAwMA0KPiA+PiA+ICAgPC9UQVNLPg0KPiA+PiA+ICBNb2R1bGVzIGxpbmtlZCBpbjogcmZj
-b21tIHh0X2Nvbm50cmFjayBuZnRfY2hhaW5fbmF0IHh0X01BU1FVRVJBREUNCj4gPj4gbmZfbmF0
-IG5mX2Nvbm50cmFja19uZXRsaW5rIG5mX2Nvbm50cmFjayBuZl9kZWZyYWdfaXB2Ng0KPiA+PiBu
-Zl9kZWZyYWdfaXB2NCB4ZnJtX3VzZXIgeGZybV9hbGdvIHh0X2FkZHJ0eXBlIG5mdF9jb21wYXQg
-bmZfdGFibGVzDQo+ID4+IG5mbmV0bGluayBicl9uZXRmaWx0ZXIgYnJpZGdlIHN0cCBsbGMgY2Nt
-IGNtYWMgYWxnaWZfaGFzaCBvdmVybGF5DQo+ID4+IGFsZ2lmX3NrY2lwaGVyIGFmX2FsZyBibmVw
-IGJpbmZtdF9taXNjIHNuZF9zb2ZfcGNpX2ludGVsX2NubA0KPiA+PiBzbmRfc29mX2ludGVsX2hk
-YV9jb21tb24gc25kX3NvY19oZGFjX2hkYSBzbmRfc29mX3BjaQ0KPiA+PiBzbmRfc29mX3h0ZW5z
-YV9kc3Agc25kX3NvZl9pbnRlbF9oZGEgc25kX3NvZiBzbmRfc29mX3V0aWxzDQo+ID4+IHNuZF9z
-b2NfYWNwaV9pbnRlbF9tYXRjaCBzbmRfc29jX2FjcGkgc25kX3NvY19jb3JlIHNuZF9jb21wcmVz
-cw0KPiA+PiBzbmRfc29mX2ludGVsX2hkYV9tbGluayBzbmRfaGRhX2V4dF9jb3JlIGl3bG12bSBp
-bnRlbF9yYXBsX21zcg0KPiA+PiBpbnRlbF9yYXBsX2NvbW1vbiBpbnRlbF90Y2NfY29vbGluZyB4
-ODZfcGtnX3RlbXBfdGhlcm1hbA0KPiA+PiBpbnRlbF9wb3dlcmNsYW1wIG1hYzgwMjExIGNvcmV0
-ZW1wIGt2bV9pbnRlbCBzbmRfaGRhX2NvZGVjX2hkbWkNCj4ga3ZtDQo+ID4+IHNuZF9oZGFfY29k
-ZWNfcmVhbHRlayBzbmRfaGRhX2NvZGVjX2dlbmVyaWMgdXZjdmlkZW8gbGliYXJjNA0KPiA+PiBz
-bmRfaGRhX2ludGVsIHNuZF9pbnRlbF9kc3BjZmcgc25kX2hkYV9jb2RlYyBpd2x3aWZpDQo+ID4+
-IHZpZGVvYnVmMl92bWFsbG9jIHZpZGVvYnVmMl9tZW1vcHMgdXZjIGlycWJ5cGFzcyBidHVzYg0K
-PiB2aWRlb2J1ZjJfdjRsMg0KPiA+PiBzbmRfc2VxX21pZGkgY3JjdDEwZGlmX3BjbG11bCBoaWRf
-bXVsdGl0b3VjaCBjcmMzMl9wY2xtdWwNCj4gPj4gc25kX3NlcV9taWRpX2V2ZW50IGJ0cnRsIHNu
-ZF9od2RlcCB2aWRlb2RldiBwb2x5dmFsX2NsbXVsbmkNCj4gPj4gcG9seXZhbF9nZW5lcmljIHNu
-ZF9yYXdtaWRpDQo+ID4+ID4gICBnaGFzaF9jbG11bG5pX2ludGVsIGFlc25pX2ludGVsIGJ0aW50
-ZWwgY3J5cHRvX3NpbWQgc25kX2hkYV9jb3JlDQo+ID4+ID4gY3J5cHRkIHNuZF9zZXEgYnRiY20g
-ZWUxMDA0IDgyNTBfZHcgdmlkZW9idWYyX2NvbW1vbiBidG10ayByYXBsDQo+ID4+ID4gbmxzX2lz
-bzg4NTlfMSBtZWlfaGRjcCB0aHVuZGVyYm9sdCBibHVldG9vdGggaW50ZWxfY3N0YXRlIHdtaV9i
-bW9mDQo+ID4+ID4gaW50ZWxfd21pX3RodW5kZXJib2x0IGNmZzgwMjExIHNuZF9wY20gbWMgc25k
-X3NlcV9kZXZpY2UgaTJjX2k4MDENCj4gPj4gPiByODE2OSBlY2RoX2dlbmVyaWMgc25kX3RpbWVy
-IGkyY19zbWJ1cyBlY2Mgc25kIG1laV9tZQ0KPiA+PiA+IGludGVsX2xwc3NfcGNpIG1laSBhaGNp
-IGludGVsX2xwc3Mgc291bmRjb3JlIHJlYWx0ZWsgbGliYWhjaSBpZG1hNjQNCj4gPj4gPiBpbnRl
-bF9wY2hfdGhlcm1hbCBpMmNfaGlkX2FjcGkgaTJjX2hpZCBhY3BpX3BhZCBzY2hfZnFfY29kZWwg
-bXNyDQo+ID4+ID4gcGFycG9ydF9wYyBwcGRldiBscCBwYXJwb3J0IGVmaV9wc3RvcmUgaXBfdGFi
-bGVzIHhfdGFibGVzIGF1dG9mczQNCj4gPj4gPiBkbV9jcnlwdCByYWlkMTAgcmFpZDQ1NiBsaWJj
-cmMzMmMgYXN5bmNfcmFpZDZfcmVjb3YgYXN5bmNfbWVtY3B5DQo+ID4+ID4gYXN5bmNfcHEgYXN5
-bmNfeG9yIHhvciBhc3luY190eCByYWlkNl9wcSByYWlkMSByYWlkMCBqb3lkZXYNCj4gPj4gPiBp
-bnB1dF9sZWRzIGhpZF9nZW5lcmljIHVzYmhpZCBoaWQgbm91dmVhdSBpOTE1IGRybV90dG1faGVs
-cGVyDQo+ID4+ID4gZ3B1X3NjaGVkIGRybV9ncHV2bSBkcm1fZXhlYw0KPiA+PiBpMmNfYWxnb19i
-aXQNCj4gPj4gPiBkcm1fYnVkZHkgdHRtIGRybV9kaXNwbGF5X2hlbHBlciBkcm1fa21zX2hlbHBl
-ciBjZWMgcmNfY29yZSBkcm0NCj4gPj4gPiBudm1lIG52bWVfY29yZSBteG1fd21pIHhoY2lfcGNp
-IHhoY2lfcGNpX3JlbmVzYXMgdmlkZW8gd21pDQo+ID4+ID4gcGluY3RybF9jYW5ub25sYWtlIG1h
-Y19oaWQgIC0tLVsgZW5kIHRyYWNlIDAwMDAwMDAwMDAwMDAwMDAgXS0tLQ0KPiA+PiA+DQo+ID4+
-ID4gRml4IHRoaXMgYnkgYXZvaWRpbmcgdGhlIGRpdmlkZSBpZiBicHAgaXMgMC4NCj4gPj4gPg0K
-PiA+PiA+IEZpeGVzOiBjMWQ2YTIyYjcyMTkgKCJkcm0vZHA6IEFkZCBoZWxwZXJzIHRvIGNhbGN1
-bGF0ZSB0aGUgbGluayBCVw0KPiA+PiA+IG92ZXJoZWFkIikNCj4gPj4gPiBTaWduZWQtb2ZmLWJ5
-OiBDaHJpcyBCYWluYnJpZGdlIDxjaHJpcy5iYWluYnJpZGdlQGdtYWlsLmNvbT4NCj4gPj4gPiAt
-LS0NCj4gPj4gPiAgZHJpdmVycy9ncHUvZHJtL2Rpc3BsYXkvZHJtX2RwX2hlbHBlci5jIHwgMyAr
-KysNCj4gPj4gPiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQ0KPiA+PiA+DQo+ID4+
-ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kaXNwbGF5L2RybV9kcF9oZWxwZXIuYw0K
-PiA+PiA+IGIvZHJpdmVycy9ncHUvZHJtL2Rpc3BsYXkvZHJtX2RwX2hlbHBlci5jDQo+ID4+ID4g
-aW5kZXggYjFjYTNhMTEwMGRhLi5iYjg3OTRjOGY5OWMgMTAwNjQ0DQo+ID4+ID4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL2Rpc3BsYXkvZHJtX2RwX2hlbHBlci5jDQo+ID4+ID4gKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL2Rpc3BsYXkvZHJtX2RwX2hlbHBlci5jDQo+ID4+ID4gQEAgLTQwMjQsNiArNDAy
-NCw5IEBAIGludCBkcm1fZHBfYndfb3ZlcmhlYWQoaW50IGxhbmVfY291bnQsIGludA0KPiA+PiBo
-YWN0aXZlLA0KPiA+PiA+ICAJCQkJCQkJICBicHBfeDE2LA0KPiA+PiBzeW1ib2xfc2l6ZSwNCj4g
-Pj4gPiAgCQkJCQkJCSAgaXNfbXN0KTsNCj4gPj4gPg0KPiA+PiA+ICsJLyogQXZvaWQgcG90ZW50
-aWFsIGRpdmlkZSBieSB6ZXJvIGluIERJVl9ST1VORF9VUF9VTEwgKi8NCj4gPj4gPiArCWlmIChi
-cHBfeDE2ID09IDApDQo+ID4+ID4gKwkJcmV0dXJuIDA7DQo+ID4+ID4gIAlyZXR1cm4gRElWX1JP
-VU5EX1VQX1VMTChtdWxfdTMyX3UzMihzeW1ib2xfY3ljbGVzICoNCj4gPj4gc3ltYm9sX3NpemUg
-KiBsYW5lX2NvdW50LA0KPiA+PiA+ICAJCQkJCSAgICBvdmVyaGVhZCAqIDE2KSwNCj4gPj4gPiAg
-CQkJCWhhY3RpdmUgKiBicHBfeDE2KTsNCj4gPj4NCj4gPj4gUC4gUC5TLjoNCj4gPj4NCj4gPj4g
-I3JlZ3pib3QgZHVwbGljYXRlOg0KPiA+PiBodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvWmNm
-cHF3bmtTb2lKeGVUOUBkZWJpYW4ubG9jYWwvDQo+ID4+ICNyZWd6Ym90IHBva2UNCj4gDQo+IC0t
-DQo+IEphbmkgTmlrdWxhLCBJbnRlbA0K
+On Thu, Mar 07, 2024 at 10:29:22AM +0200, Pekka Paalanen wrote:
+> On Wed, 6 Mar 2024 17:42:09 +0100
+> Sebastian Wick <sebastian.wick@redhat.com> wrote:
+> 
+> > On Wed, Mar 06, 2024 at 10:27:21AM +0200, Pekka Paalanen wrote:
+> > > On Tue,  5 Mar 2024 14:51:49 +0100
+> > > Sebastian Wick <sebastian.wick@redhat.com> wrote:
+> > >   
+> > > > The initial idea of the Colorspace prop was that this maps 1:1 to
+> > > > InfoFrames/SDP but KMS does not give user space enough information nor
+> > > > control over the output format to figure out which variants can be used
+> > > > for a given KMS commit. At the same time, properties like Broadcast RGB
+> > > > expect full range quantization range being produced by user space from
+> > > > the CRTC and drivers to convert to the range expected by the sink for
+> > > > the chosen output format, mode, InfoFrames, etc.
+> > > > 
+> > > > This change documents the reality of the Colorspace property. The
+> > > > Default variant unfortunately is very much driver specific and not
+> > > > reflected by the EDID. The BT2020 variants are in active use by generic
+> > > > compositors which have expectations from the driver about the
+> > > > conversions it has to do when selecting certain output formats.
+> > > > 
+> > > > Everything else is also marked as undefined. Coming up with valid
+> > > > behavior that makes it usable from user space and consistent with other
+> > > > KMS properties for those variants is left as an exercise for whoever
+> > > > wants to use them.
+> > > > 
+> > > > v2:
+> > > >  * Talk about "pixel operation properties" that user space configures
+> > > >  * Mention that user space is responsible for checking the EDID for sink
+> > > >    support
+> > > >  * Make it clear that drivers can choose between RGB and YCbCr on their
+> > > >    own
+> > > > 
+> > > > Signed-off-by: Sebastian Wick <sebastian.wick@redhat.com>
+> > > > ---
+> > > >  drivers/gpu/drm/drm_connector.c | 79 +++++++++++++++++++++++++--------
+> > > >  include/drm/drm_connector.h     |  8 ----
+> > > >  2 files changed, 61 insertions(+), 26 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> > > > index b0516505f7ae..65cdcc7d22db 100644
+> > > > --- a/drivers/gpu/drm/drm_connector.c
+> > > > +++ b/drivers/gpu/drm/drm_connector.c
+> > > > @@ -2147,24 +2147,67 @@ EXPORT_SYMBOL(drm_mode_create_aspect_ratio_property);
+> > > >   * DOC: standard connector properties
+> > > >   *
+> > > >   * Colorspace:
+> > > > - *     This property helps select a suitable colorspace based on the sink
+> > > > - *     capability. Modern sink devices support wider gamut like BT2020.
+> > > > - *     This helps switch to BT2020 mode if the BT2020 encoded video stream
+> > > > - *     is being played by the user, same for any other colorspace. Thereby
+> > > > - *     giving a good visual experience to users.
+> > > > - *
+> > > > - *     The expectation from userspace is that it should parse the EDID
+> > > > - *     and get supported colorspaces. Use this property and switch to the
+> > > > - *     one supported. Sink supported colorspaces should be retrieved by
+> > > > - *     userspace from EDID and driver will not explicitly expose them.
+> > > > - *
+> > > > - *     Basically the expectation from userspace is:
+> > > > - *      - Set up CRTC DEGAMMA/CTM/GAMMA to convert to some sink
+> > > > - *        colorspace
+> > > > - *      - Set this new property to let the sink know what it
+> > > > - *        converted the CRTC output to.
+> > > > - *      - This property is just to inform sink what colorspace
+> > > > - *        source is trying to drive.
+> > > > + *	This property is used to inform the driver about the color encoding
+> > > > + *	user space configured the pixel operation properties to produce.
+> > > > + *	The variants set the colorimetry, transfer characteristics, and which
+> > > > + *	YCbCr conversion should be used when necessary.
+> > > > + *	The transfer characteristics from HDR_OUTPUT_METADATA takes precedence
+> > > > + *	over this property.
+> > > > + *	User space always configures the pixel operation properties to produce
+> > > > + *	full quantization range data (see the Broadcast RGB property).
+> > > > + *
+> > > > + *	Drivers inform the sink about what colorimetry, transfer
+> > > > + *	characteristics, YCbCr conversion, and quantization range to expect
+> > > > + *	(this can depend on the output mode, output format and other
+> > > > + *	properties). Drivers also convert the user space provided data to what
+> > > > + *	the sink expects.  
+> > > 
+> > > Hi Sebastian,
+> > > 
+> > > should it be more explicit that drivers are allowed to do only
+> > > RGB->YCbCr and quantization range conversions, but not TF nor gamut
+> > > conversions?
+> > > 
+> > > That is, if the driver cannot pick the TF implied by "Colorspace"
+> > > property for the sink, then it cannot pick another TF for the sink and
+> > > silently convert. It think this should apply to all options including
+> > > the undefined ones. Or is that too much to guess?  
+> > 
+> > That's a really good point. I'll add it in the next revision.
+> > 
+> > > > + *
+> > > > + *	User space has to check if the sink supports all of the possible
+> > > > + *	colorimetries that the driver is allowed to pick by parsing the EDID.  
+> > > 
+> > > All? Rather than at least one?
+> > > 
+> > > Is this how it has been implemented for BT2020, that userspace picked
+> > > colorimetry and driver picked color model and quantization are
+> > > completely independent, and drivers do not check the combination
+> > > against EDID?  
+> > 
+> > AFAIK the driver exposes all Colorspace variants that it can support in
+> > the driver, independent of the sink. That means user space has to make
+> > sure that the sink supports all colorimetry variants the driver can
+> > pick.
+> 
+> I didn't mean exposing but the driver could reject the atomic commit
+> that would lead to a combination not advertised as supported in EDID.
+> If drivers reject, then userspace does not need to check for all
+> driver-choosable variants, just one would be enough. Theoretically not
+> needing all might allow some cases to work that don't support all.
+> "Colorspace" property value could direct the driver's choice based on
+> what EDID claims to support.
+
+Right, this could be possible and is probably even better than what I
+wrote down but...
+
+> Of course, if drivers don't do that already, then "all" it must be.
+
+...unfortunately that seems to be the case. Maybe we can get away with
+changing it though?
+
+> 
+> Thanks,
+> pq
+> 
+> > Would be good to get a confirmation from Harry and Ville.
+> > 
+> > > If so, "all" it is. Would be good to explain this in the commit message.  
+> > 
+> > Will do.
+> > 
+> > > > + *
+> > > > + *	For historical reasons this property exposes a number of variants which
+> > > > + *	result in undefined behavior.
+> > > > + *
+> > > > + *	Default:
+> > > > + *		The behavior is driver-specific.
+> > > > + *	BT2020_RGB:
+> > > > + *	BT2020_YCC:
+> > > > + *		User space configures the pixel operation properties to produce
+> > > > + *		RGB content with Rec. ITU-R BT.2020 colorimetry, Rec.
+> > > > + *		ITU-R BT.2020 (Table 4, RGB) transfer characteristics and full
+> > > > + *		quantization range.
+> > > > + *		User space can use the HDR_OUTPUT_METADATA property to set the
+> > > > + *		transfer characteristics to PQ (Rec. ITU-R BT.2100 Table 4) or
+> > > > + *		HLG (Rec. ITU-R BT.2100 Table 5) in which case, user space
+> > > > + *		configures pixel operation properties to produce content with
+> > > > + *		the respective transfer characteristics.
+> > > > + *		User space has to make sure the sink supports Rec.
+> > > > + *		ITU-R BT.2020 R'G'B' and Rec. ITU-R BT.2020 Y'C'BC'R
+> > > > + *		colorimetry.
+> > > > + *		Drivers can configure the sink to use an RGB format, tell the
+> > > > + *		sink to expect Rec. ITU-R BT.2020 R'G'B' colorimetry and convert
+> > > > + *		to the appropriate quantization range.
+> > > > + *		Drivers can configure the sink to use a YCbCr format, tell the
+> > > > + *		sink to expect Rec. ITU-R BT.2020 Y'C'BC'R colorimetry, convert
+> > > > + *		to YCbCr using the Rec. ITU-R BT.2020 non-constant luminance
+> > > > + *		conversion matrix and convert to the appropriate quantization
+> > > > + *		range.
+> > > > + *		The variants BT2020_RGB and BT2020_YCC are equivalent and the
+> > > > + *		driver chooses between RGB and YCbCr on its own.
+> > > > + *	SMPTE_170M_YCC:
+> > > > + *	BT709_YCC:
+> > > > + *	XVYCC_601:
+> > > > + *	XVYCC_709:
+> > > > + *	SYCC_601:
+> > > > + *	opYCC_601:
+> > > > + *	opRGB:
+> > > > + *	BT2020_CYCC:
+> > > > + *	DCI-P3_RGB_D65:
+> > > > + *	DCI-P3_RGB_Theater:
+> > > > + *	RGB_WIDE_FIXED:
+> > > > + *	RGB_WIDE_FLOAT:
+> > > > + *	BT601_YCC:
+> > > > + *		The behavior is undefined.
+> > > >   *
+> > > >   * Because between HDMI and DP have different colorspaces,
+> > > >   * drm_mode_create_hdmi_colorspace_property() is used for HDMI connector and
+> > > > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> > > > index fe88d7fc6b8f..02c42b01a3a7 100644
+> > > > --- a/include/drm/drm_connector.h
+> > > > +++ b/include/drm/drm_connector.h
+> > > > @@ -437,14 +437,6 @@ enum drm_privacy_screen_status {
+> > > >   *
+> > > >   * DP definitions come from the DP v2.0 spec
+> > > >   * HDMI definitions come from the CTA-861-H spec
+> > > > - *
+> > > > - * A note on YCC and RGB variants:
+> > > > - *
+> > > > - * Since userspace is not aware of the encoding on the wire
+> > > > - * (RGB or YCbCr), drivers are free to pick the appropriate
+> > > > - * variant, regardless of what userspace selects. E.g., if
+> > > > - * BT2020_RGB is selected by userspace a driver will pick
+> > > > - * BT2020_YCC if the encoding on the wire is YUV444 or YUV420.
+> > > >    *
+> > > >   * @DRM_MODE_COLORIMETRY_DEFAULT:
+> > > >   *   Driver specific behavior.  
+> > > 
+> > > This looks really good. This also makes me need to revisit the Weston
+> > > series I've been brewing that adds "Colorspace" KMS support.
+> > > 
+> > > I think the two questions I had may be slightly too much in the
+> > > direction of improving rather than just documenting this property, so
+> > > I'll already give
+> > > 
+> > > Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>  
+> > 
+> > Thanks.
+> > 
+> > > 
+> > > Thanks,
+> > > pq  
+> > 
+> > 
+> 
+
+
