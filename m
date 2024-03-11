@@ -2,60 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C880877BC5
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 09:40:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F24D4877BC9
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 09:40:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E2F010FCFE;
-	Mon, 11 Mar 2024 08:40:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E6D210FD0D;
+	Mon, 11 Mar 2024 08:40:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mPs1yrMD";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="nhLR0DFM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LihrBgwI";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nhLR0DFM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LihrBgwI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5639D10FD0D
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 08:40:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4B19460C72;
- Mon, 11 Mar 2024 08:40:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A79ECC433F1;
- Mon, 11 Mar 2024 08:40:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1710146405;
- bh=u/HzVfHPDgGvIAyVqL6vd1wQwhGAYlAumZCp5eqbyZk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mPs1yrMDOT4qu17gVzoFqHfD4/PcM1EpPKdEPlw3EefZynzxlRt6TBYS3+2x0CI4R
- 9ff17zB0FfByX522iSHZlUvLdYAJ5nllg8UXRfswuqzd5gjQyhTSG0oFQVVmTEntlB
- hvicqBKOTNktm1zDi4GeTX4dN/b6WbQVLwO9l0oI5wRPTtKh1bQ4Q32CZlXuUnI2ZI
- 2utVOpkbR6jcDVWmcszNaCCXbMaftHFTu+jSW5LLcoqczwPxiLWpC/+5oXZF9nR+qj
- Xo05gL0o8n4cgAWxXIq/96y9SlCc2s3lRdOkoCXiMJ+Yl3+AHEYQl2OFLyaVVoo12l
- 3hydjp0gbZyAQ==
-Date: Mon, 11 Mar 2024 09:40:02 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org, 
- dave.pigott@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- linux-kselftest@vger.kernel.org, gustavo.padovan@collabora.com,
- pawiecz@collabora.com, 
- spbnick@gmail.com, tales.aparecida@gmail.com, workflows@vger.kernel.org, 
- kernelci@lists.linux.dev, skhan@linuxfoundation.org, kunit-dev@googlegroups.com,
- nfraprado@collabora.com, davidgow@google.com, cocci@inria.fr,
- Julia.Lawall@inria.fr, 
- laura.nao@collabora.com, ricardo.canuelo@collabora.com, kernel@collabora.com, 
- torvalds@linuxfoundation.org, gregkh@linuxfoundation.org
-Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for
- Kernel Testing
-Message-ID: <20240311-electric-cream-hippo-20eada@houat>
-References: <20240228225527.1052240-1-helen.koike@collabora.com>
- <20240228225527.1052240-2-helen.koike@collabora.com>
- <20240229-dancing-laughing-groundhog-d85161@houat>
- <d417daa2a8e3951da44bf2d555e04d98c83a3c5c.camel@collabora.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C89C10FD4C
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 08:40:28 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 97F3934A17;
+ Mon, 11 Mar 2024 08:40:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1710146426; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=cRc0a+aATq2UY+1X/t+lznE5No0cAlgFI2V7cc5rHLg=;
+ b=nhLR0DFMkYmbzMsWsbSWwm75eLBJrO8Q/aNxZ8RVlahBOtRg301vkARt3vewss0Qe74fIr
+ d6dpYgqlUSejDeOY3clJ77NQ9Bd5tj4B6bM59eF8JCyhR8NEw4ZEQlMYYOE/bIKpLCbddc
+ pHh2B1unNwOZFLOsjUB3Wq6YCdImkxA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1710146426;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=cRc0a+aATq2UY+1X/t+lznE5No0cAlgFI2V7cc5rHLg=;
+ b=LihrBgwIdFhdq+W93tYbVxmJgutU4RRHiAL+cmI2BrIi+EQ3bWq+SPpGzp2Li6drwH+AV7
+ D2PJz3L7kq8wrKAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1710146426; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=cRc0a+aATq2UY+1X/t+lznE5No0cAlgFI2V7cc5rHLg=;
+ b=nhLR0DFMkYmbzMsWsbSWwm75eLBJrO8Q/aNxZ8RVlahBOtRg301vkARt3vewss0Qe74fIr
+ d6dpYgqlUSejDeOY3clJ77NQ9Bd5tj4B6bM59eF8JCyhR8NEw4ZEQlMYYOE/bIKpLCbddc
+ pHh2B1unNwOZFLOsjUB3Wq6YCdImkxA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1710146426;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=cRc0a+aATq2UY+1X/t+lznE5No0cAlgFI2V7cc5rHLg=;
+ b=LihrBgwIdFhdq+W93tYbVxmJgutU4RRHiAL+cmI2BrIi+EQ3bWq+SPpGzp2Li6drwH+AV7
+ D2PJz3L7kq8wrKAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2CBC613695;
+ Mon, 11 Mar 2024 08:40:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 5l1DCXrD7mXBcQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 11 Mar 2024 08:40:26 +0000
+Message-ID: <c3203f70-0e8c-493b-813e-1dff93a28323@suse.de>
+Date: Mon, 11 Mar 2024 09:40:25 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="w77ek3n4gomubfzs"
-Content-Disposition: inline
-In-Reply-To: <d417daa2a8e3951da44bf2d555e04d98c83a3c5c.camel@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: Don't return unsupported formats in
+ drm_mode_legacy_fb_format
+Content-Language: en-US
+To: Frej Drejhammar <frej.drejhammar@gmail.com>,
+ dri-devel@lists.freedesktop.org
+Cc: stable@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20240310152803.3315-1-frej.drejhammar@gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240310152803.3315-1-frej.drejhammar@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -2.76
+X-Spamd-Result: default: False [-2.76 / 50.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; XM_UA_NO_VERSION(0.01)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; TAGGED_RCPT(0.00)[];
+ MIME_GOOD(-0.10)[text/plain]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_COUNT_THREE(0.00)[3];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.17)[-0.828]; BAYES_HAM(-3.00)[100.00%];
+ RCPT_COUNT_TWELVE(0.00)[17];
+ FREEMAIL_TO(0.00)[gmail.com,lists.freedesktop.org];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+];
+ FREEMAIL_CC(0.00)[vger.kernel.org,armlinux.org.uk,gmail.com,ffwll.ch,linux.intel.com,kernel.org,linaro.org,quicinc.com,ideasonboard.com,redhat.com,igalia.com];
+ RCVD_TLS_ALL(0.00)[]; SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,106 +154,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---w77ek3n4gomubfzs
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+thanks for the patch.
 
-Hi Nicolas,
+Am 10.03.24 um 16:28 schrieb Frej Drejhammar:
+[...]
+>   	size = cmd.pitches[0] * cmd.height;
+> diff --git a/drivers/gpu/drm/tiny/ofdrm.c b/drivers/gpu/drm/tiny/ofdrm.c
+> index ab89b7fc7bf6..ded868601aea 100644
+> --- a/drivers/gpu/drm/tiny/ofdrm.c
+> +++ b/drivers/gpu/drm/tiny/ofdrm.c
+> @@ -100,14 +100,14 @@ static const struct drm_format_info *display_get_validated_format(struct drm_dev
+>   
+>   	switch (depth) {
+>   	case 8:
+> -		format = drm_mode_legacy_fb_format(8, 8);
+> +		format = drm_mode_legacy_fb_format(dev, 8, 8);
+>   		break;
+>   	case 15:
+>   	case 16:
+> -		format = drm_mode_legacy_fb_format(16, depth);
+> +		format = drm_mode_legacy_fb_format(dev, 16, depth);
+>   		break;
+>   	case 32:
+> -		format = drm_mode_legacy_fb_format(32, 24);
+> +		format = drm_mode_legacy_fb_format(dev, 32, 24);
+>   		break;
 
-On Thu, Mar 07, 2024 at 01:05:12PM -0500, Nicolas Dufresne wrote:
-> Le jeudi 29 f=E9vrier 2024 =E0 10:02 +0100, Maxime Ripard a =E9crit=A0:
-> > On Wed, Feb 28, 2024 at 07:55:25PM -0300, Helen Koike wrote:
-> > > This patch introduces a `.gitlab-ci` file along with a `ci/` folder,
-> > > defininga basic test pipeline triggered by code pushes to a GitLab-CI
-> > > instance. This initial version includes static checks (checkpatch and
-> > > smatch for now) and build tests across various architectures and
-> > > configurations. It leverages an integrated cache for efficient build
-> > > times and introduces a flexible 'scenarios' mechanism for
-> > > subsystem-specific extensions.
-> > >=20
-> > > [ci: add prerequisites to run check-patch on MRs]
-> > > Co-developed-by: Tales Aparecida <tales.aparecida@redhat.com>
-> > > Signed-off-by: Tales Aparecida <tales.aparecida@redhat.com>
-> > > Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> > >=20
-> > > ---
-> > >=20
-> > > Hey all,
-> > >=20
-> > > You can check the validation of this patchset on:
-> > >         https://gitlab.collabora.com/koike/linux/-/pipelines/87035
-> > >=20
-> > > I would appreciate your feedback on this work, what do you think?
-> > >=20
-> > > If you would rate from 0 to 5, where:
-> > >=20
-> > > [ ] 0. I don't think this is useful at all, and I doubt it will ever =
-be. It doesn't seem worthwhile.
-> > > [ ] 1. I don't find it useful in its current form.
-> > > [ ] 2. It might be useful to others, but not for me.
-> > > [ ] 3. It has potential, but it's not yet something I can incorporate=
- into my workflow.
-> > > [ ] 4. This is useful, but it needs some adjustments before I can inc=
-lude it in my workflow.
-> > > [ ] 5. This is really useful! I'm eager to start using it right away.=
- Why didn't you send this earlier? :)
-> > >=20
-> > > Which rating would you select?
-> >=20
-> > 4.5 :)
-> >=20
-> > One thing I'm wondering here is how we're going to cope with the
-> > different requirements each user / framework has.
-> >=20
-> > Like, Linus probably want to have a different set of CI before merging a
-> > PR than (say) linux-next does, or stable, or before doing an actual
-> > release.
-> >=20
-> > Similarly, DRM probably has a different set of requirements than
-> > drm-misc, drm-amd or nouveau.
-> >=20
-> > I don't see how the current architecture could accomodate for that. I
-> > know that Gitlab allows to store issues template in a separate repo,
-> > maybe we could ask them to provide a feature where the actions would be
-> > separate from the main repo? That way, any gitlab project could provide
-> > its own set of tests, without conflicting with each others (and we could
-> > still share them if we wanted to)
-> >=20
-> > I know some of use had good relationship with Gitlab, so maybe it would
-> > be worth asking?
->=20
-> As agreed, the .gitlab-ci.yaml file at the list will go away. Its a defau=
-lt
-> location, but not a required location. This way, each sub-system can have=
- their
-> own (or not have one). The different sub-system forks will have to be con=
-figured
-> to point to their respective CI main configuration.
->=20
-> Of course nothing prevents having common set of configuration for jobs an=
-d jobs
-> template. As an example, we could have a job template common for checkpat=
-ch, and
-> allow each subsystem adding their own sauce on top. It can save the dupli=
-cate
-> effort of parsing the tool results and reporting it in a format gitlab
-> understand.
+This will break ofdrm, which needs the returned value as-is to build its 
+internal list of plane formats.
 
-That makes total sense to me and would be incredibly useful indeed.
+I suggest to switch all fbdev code over to drm_driver_legacy_fb_format 
+<https://elixir.bootlin.com/linux/latest/C/ident/drm_driver_legacy_fb_format>() 
+first and then modify the format indrm_driver_legacy_fb_format 
+<https://elixir.bootlin.com/linux/latest/C/ident/drm_driver_legacy_fb_format>() 
+after reading it from drm_fb_legacy_fb_format(). I can help a bit with 
+testing the fbdev changes.
 
-Maxime
+Best regards
+Thomas
 
---w77ek3n4gomubfzs
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+>   	default:
+>   		drm_err(dev, "unsupported framebuffer depth %u\n", depth);
+> diff --git a/drivers/gpu/drm/xe/display/intel_fbdev_fb.c b/drivers/gpu/drm/xe/display/intel_fbdev_fb.c
+> index 51ae3561fd0d..a38a8143d632 100644
+> --- a/drivers/gpu/drm/xe/display/intel_fbdev_fb.c
+> +++ b/drivers/gpu/drm/xe/display/intel_fbdev_fb.c
+> @@ -32,7 +32,8 @@ struct drm_framebuffer *intel_fbdev_fb_alloc(struct drm_fb_helper *helper,
+>   
+>   	mode_cmd.pitches[0] = ALIGN(mode_cmd.width *
+>   				    DIV_ROUND_UP(sizes->surface_bpp, 8), XE_PAGE_SIZE);
+> -	mode_cmd.pixel_format = drm_mode_legacy_fb_format(sizes->surface_bpp,
+> +	mode_cmd.pixel_format = drm_mode_legacy_fb_format(dev,
+> +							  sizes->surface_bpp,
+>   							  sizes->surface_depth);
+>   
+>   	size = mode_cmd.pitches[0] * mode_cmd.height;
+> diff --git a/include/drm/drm_fourcc.h b/include/drm/drm_fourcc.h
+> index ccf91daa4307..75d06393a564 100644
+> --- a/include/drm/drm_fourcc.h
+> +++ b/include/drm/drm_fourcc.h
+> @@ -310,7 +310,8 @@ const struct drm_format_info *drm_format_info(u32 format);
+>   const struct drm_format_info *
+>   drm_get_format_info(struct drm_device *dev,
+>   		    const struct drm_mode_fb_cmd2 *mode_cmd);
+> -uint32_t drm_mode_legacy_fb_format(uint32_t bpp, uint32_t depth);
+> +uint32_t drm_mode_legacy_fb_format(struct drm_device *dev,
+> +				   uint32_t bpp, uint32_t depth);
+>   uint32_t drm_driver_legacy_fb_format(struct drm_device *dev,
+>   				     uint32_t bpp, uint32_t depth);
+>   unsigned int drm_format_info_block_width(const struct drm_format_info *info,
+>
+> base-commit: b9511c6d277c31b13d4f3128eba46f4e0733d734
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZe7DYQAKCRDj7w1vZxhR
-xV1bAP9SznauRTHmk6BDIF8VURG655ttC42MmrZ8cF89TuL8fgEAr49BYmklqUpK
-gyHR4Xi8NBxGUOVUbAeJr+Ys4vmCPA8=
-=ZXTU
------END PGP SIGNATURE-----
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
---w77ek3n4gomubfzs--
