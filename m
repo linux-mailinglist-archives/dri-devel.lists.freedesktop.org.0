@@ -2,72 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03181878678
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 18:43:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2637E87869F
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 18:48:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 482B210E8B0;
-	Mon, 11 Mar 2024 17:43:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 187FF10E954;
+	Mon, 11 Mar 2024 17:48:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="T7adUkqN";
+	dkim=pass (2048-bit key; unprotected) header.d=ravnborg.org header.i=@ravnborg.org header.b="V7yP0SMK";
+	dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="nS1rWewz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
- [209.85.128.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E07B310E8B0
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 17:43:02 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id
- 5b1f17b1804b1-4132a5b38fbso6264215e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 10:43:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1710178981; x=1710783781;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=tupqyVGlgzFh6svrG6NEDlDmwrx0fvi73o1aCOzD3eo=;
- b=T7adUkqNLs3hZvHs8nCyEPZBnkk3ubl2PmQhauwN3fXVWUHAsxymTjTzc3roh1ogcg
- lXS0HYlwBG5caiRBbOlqE8TUG1vOi63O5UBC2SW8GXiT0wKRL30Gpc2FCoI4ezJKAnQU
- CRbxvUFVup2IQaTIsY8eqagg//Bmo/PaD6ZFqcf+MhUKhjbJsReGnWR640en07EF8Ljk
- sxpCqdoDyDPRs6sTt8h6K1e/wW6TKRKR1MACkiN9d3z2pMa4kPlHyedA/glBp2ZEF4jI
- tvIeZteIq7pRMPtyRgcaeIvg6lob1PlcmRkrLRnTbvmbWx6NppMkx622eMuqBXhcUpwo
- pFHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710178981; x=1710783781;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tupqyVGlgzFh6svrG6NEDlDmwrx0fvi73o1aCOzD3eo=;
- b=GshcyxQzUbQCDAN48EsW+CrHZ5rFGyCvriEcQ70eQE24+OgKjpFknf3WJqXKsYwyhc
- iuIjhyztM9cTlMyTWO4SSWQXs8aDOJUh9MnM5Tz3QYHPP1tEmR+eiq9ZPyH3r2wD6Na/
- x9RmNUK37WjATHHY3Bhg+0SNKm7Oivica0yLgiRNUembSZmtQLIoBUsW5VQkCAYfvyI9
- ewHNzVa45KTmCYqt9+/p0MmuUkpELLTNjNfH/kBhMG9pIh4ZYpGYG8QVeCpp1w9MLtSR
- hpvLdp1AG5TB4wUqEcNajrOq5Vb8gPXG2pQezgiFWXNyPtsCbseLiwXayZaFLtCgomun
- nUww==
-X-Gm-Message-State: AOJu0YxSwvZZsJgltVvICOhL/mOO0JEKtHK8l84MgrehLERHQgbRHrRw
- UDkUSSInbQRqVlJVCsKzgs+YfuOtuYO7LeTzqT1CwDEMg387QfbJ1aJYRZp6r0E=
-X-Google-Smtp-Source: AGHT+IG1yUMq1v6D4X9V8cHowRLL9A9KqrQNz4mava9aV9JnpFbNCUCcIWV5Yb4nMzPBUaZYl4ZXAg==
-X-Received: by 2002:a05:600c:6a1a:b0:413:1285:6e40 with SMTP id
- jj26-20020a05600c6a1a00b0041312856e40mr5522716wmb.20.1710178981022; 
- Mon, 11 Mar 2024 10:43:01 -0700 (PDT)
-Received: from [192.168.0.101] ([84.65.0.132])
- by smtp.gmail.com with ESMTPSA id
- p27-20020a05600c1d9b00b004132cf7c349sm2532208wms.38.2024.03.11.10.43.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Mar 2024 10:43:00 -0700 (PDT)
-Message-ID: <3e260fe4-9e21-4997-a41d-8b547612b65c@ursulin.net>
-Date: Mon, 11 Mar 2024 17:43:00 +0000
+Received: from mailrelay1-1.pub.mailoutpod3-cph3.one.com
+ (mailrelay1-1.pub.mailoutpod3-cph3.one.com [46.30.211.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3B0110E1D4
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 17:48:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=cd5g7+y3ZJJCh2Ko+xCMBEZ+m4kbDCL/fdaw/LYfBo8=;
+ b=V7yP0SMKbtgW1/HQYCOzC88dDIeiQDR2Ols3pu6JLi17oRPwJyP2/PaicGD4OjxZngIUcb3JaUQg6
+ vAwkp8FiBv58goGE3h6vex+GEXo5WLLp1G0/IcHBC9vQYgRlp852LiD+c0eKSza2vdgF4yMh1bmcfP
+ PiF/bnUtIcH+ABSO+CJTZnvKLreabOzhsT7cE0lpeP0YQMCGeYLUrb0zHfwEr6TKykJaUqqhp8fqrz
+ 3jdnm/+lvXEUco7FgFCmoFDFSLyxNoOwZ4T/HV/51c3onW24oZaKZHdwiNSUKTs3hVlvYu94UYgbC5
+ fGk0kFjSIRt2l6TwkcX31WZGQ87b2nA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=cd5g7+y3ZJJCh2Ko+xCMBEZ+m4kbDCL/fdaw/LYfBo8=;
+ b=nS1rWewzFdGnrHoc1+TIrcLhB69z5yEplIxJH+LbMmLD1HhpYnBKAKBpO7Dyn2rNeb/sLg+/4KKdR
+ oCgyyaDCA==
+X-HalOne-ID: 6f272b20-dfcf-11ee-93aa-1ff1563c5748
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay1.pub.mailoutpod3-cph3.one.com (Halon) with ESMTPSA
+ id 6f272b20-dfcf-11ee-93aa-1ff1563c5748;
+ Mon, 11 Mar 2024 17:47:32 +0000 (UTC)
+Date: Mon, 11 Mar 2024 18:47:31 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: "David S . Miller" <davem@davemloft.net>,
+ Andreas Larsson <andreas@gaisler.com>, Helge Deller <deller@gmx.de>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Kjetil Oftedal <oftedal@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alan Stern <stern@rowland.harvard.edu>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 28/28] fbdev/p9100: Drop now unused driver p9100
+Message-ID: <20240311174731.GB1369531@ravnborg.org>
+References: <20240309-sunset-v2-0-f09912574d2c@ravnborg.org>
+ <20240309-sunset-v2-28-f09912574d2c@ravnborg.org>
+ <e387ad3c-7646-49b6-a5f5-afd287556d8c@app.fastmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] drm/i915: cleanup dead code
-Content-Language: en-GB
-To: Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-References: <20240306193643.1897026-1-lucas.demarchi@intel.com>
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20240306193643.1897026-1-lucas.demarchi@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e387ad3c-7646-49b6-a5f5-afd287556d8c@app.fastmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,82 +79,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Arnd.
 
-On 06/03/2024 19:36, Lucas De Marchi wrote:
-> Remove platforms that never had their PCI IDs added to the driver and
-> are of course marked with requiring force_probe. Note that most of the
-> code for those platforms is actually used by subsequent ones, so it's
-> not a huge amount of code being removed.
-
-I had PVC and xehpsdv back in October but could not collect all acks. :(
-
-Last two patches from https://patchwork.freedesktop.org/series/124705/.
-
-Regards,
-
-Tvrtko
-
-> drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h is also changed on the
-> xe side, but that should be ok: the defines are there only for compat
-> reasons while building the display side (and none of these platforms
-> have display, so it's build-issue only).
+On Mon, Mar 11, 2024 at 03:05:25PM +0100, Arnd Bergmann wrote:
+> On Sat, Mar 9, 2024, at 19:15, Sam Ravnborg via B4 Relay wrote:
+> > From: Sam Ravnborg <sam@ravnborg.org>
+> >
+> > The p9100 driver is only relevant for the Sparcbook 3 machine,
+> > and with sun4m support removed this driver is no longer relevant.
+> >
+> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > Acked-by: Arnd Bergmann <arnd@kernel.org>
+> > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: "David S. Miller" <davem@davemloft.net>
+> > Cc: Arnd Bergmann <arnd@kernel.org>
+> > Cc: Andreas Larsson <andreas@gaisler.com>
+> > Cc: Helge Deller <deller@gmx.de>
+> > ---
+> >  drivers/video/fbdev/Kconfig  |   8 -
+> >  drivers/video/fbdev/Makefile |   1 -
+> >  drivers/video/fbdev/p9100.c  | 372 -------------------------------------------
+> >  3 files changed, 381 deletions(-)
 > 
-> First patch is what motivated the others and was submitted alone
-> @ 20240306144723.1826977-1-lucas.demarchi@intel.com .
-> While loooking at this WA I was wondering why we still had some of that
-> code around.
+> I tried to figure out if there are other drivers in the same
+> category and found the list at
+> https://everything2.com/title/Sun+graphics+cards
 > 
-> Build-tested only for now.
-> 
-> Lucas De Marchi (5):
->    drm/i915: Drop WA 16015675438
->    drm/i915: Drop dead code for xehpsdv
->    drm/i915: Update IP_VER(12, 50)
->    drm/i915: Drop dead code for pvc
->    drm/i915: Remove special handling for !RCS_MASK()
-> 
->   Documentation/gpu/rfc/i915_vm_bind.h          |  11 +-
->   .../gpu/drm/i915/gem/i915_gem_object_types.h  |   2 +-
->   .../gpu/drm/i915/gem/selftests/huge_pages.c   |   4 +-
->   .../i915/gem/selftests/i915_gem_client_blt.c  |   8 +-
->   drivers/gpu/drm/i915/gt/gen8_engine_cs.c      |   5 +-
->   drivers/gpu/drm/i915/gt/gen8_ppgtt.c          |  40 ++--
->   drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  43 +---
->   .../drm/i915/gt/intel_execlists_submission.c  |  10 +-
->   drivers/gpu/drm/i915/gt/intel_gsc.c           |  15 --
->   drivers/gpu/drm/i915/gt/intel_gt.c            |   4 +-
->   drivers/gpu/drm/i915/gt/intel_gt_mcr.c        |  52 +----
->   drivers/gpu/drm/i915/gt/intel_gt_mcr.h        |   2 +-
->   drivers/gpu/drm/i915/gt/intel_gt_regs.h       |  59 ------
->   drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c   |  21 +-
->   drivers/gpu/drm/i915/gt/intel_gtt.c           |   2 +-
->   drivers/gpu/drm/i915/gt/intel_lrc.c           |  51 +----
->   drivers/gpu/drm/i915/gt/intel_migrate.c       |  22 +-
->   drivers/gpu/drm/i915/gt/intel_mocs.c          |  52 +----
->   drivers/gpu/drm/i915/gt/intel_rps.c           |   6 +-
->   drivers/gpu/drm/i915/gt/intel_sseu.c          |  13 +-
->   drivers/gpu/drm/i915/gt/intel_workarounds.c   | 193 +-----------------
->   drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   6 +-
->   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |   4 +-
->   drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     |   2 +-
->   drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   1 -
->   .../gpu/drm/i915/gt/uc/intel_guc_submission.c |   2 +-
->   drivers/gpu/drm/i915/gt/uc/intel_uc.c         |   4 -
->   drivers/gpu/drm/i915/i915_debugfs.c           |  12 --
->   drivers/gpu/drm/i915/i915_drv.h               |  13 --
->   drivers/gpu/drm/i915/i915_getparam.c          |   4 +-
->   drivers/gpu/drm/i915/i915_gpu_error.c         |   5 +-
->   drivers/gpu/drm/i915/i915_hwmon.c             |   6 -
->   drivers/gpu/drm/i915/i915_pci.c               |  61 +-----
->   drivers/gpu/drm/i915/i915_perf.c              |  19 +-
->   drivers/gpu/drm/i915/i915_query.c             |   2 +-
->   drivers/gpu/drm/i915/i915_reg.h               |   4 +-
->   drivers/gpu/drm/i915/intel_clock_gating.c     |  26 +--
->   drivers/gpu/drm/i915/intel_device_info.c      |   2 -
->   drivers/gpu/drm/i915/intel_device_info.h      |   2 -
->   drivers/gpu/drm/i915/intel_step.c             |  80 +-------
->   drivers/gpu/drm/i915/intel_uncore.c           | 159 +--------------
->   drivers/gpu/drm/i915/selftests/intel_uncore.c |   3 -
->   .../gpu/drm/xe/compat-i915-headers/i915_drv.h |   6 -
->   43 files changed, 110 insertions(+), 928 deletions(-)
-> 
+> As far as I can tell, the only SBUS graphics that were
+> shipped on sparc64 are FB_FFB and FB_CG6, so we could
+> go further and remove BW2, CG3, TCX, CG14 and LEO as
+> well.
+
+Looks like you are right, so we can drop more - good.
+As you already wrote - let's get the current patch set processed first.
+
+I did a quick hack on top of my current sparc32 patches.
+This is nice reduction of ~2700 lines and 5 fbdev drivers less to care
+about.
+
+	Sam
