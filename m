@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF7A877EDD
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 12:20:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E079A877EE6
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 12:21:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F14A112777;
-	Mon, 11 Mar 2024 11:20:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE90B112864;
+	Mon, 11 Mar 2024 11:21:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hua6G3h3";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="JNrgy6dj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
- [209.85.208.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 093DF112752
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 11:20:48 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id
- 38308e7fff4ca-2d220e39907so69056201fa.1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 04:20:47 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8570B11275A
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 11:20:49 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-2d28e465655so63817681fa.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 04:20:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1710156046; x=1710760846; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1710156048; x=1710760848; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=DIYz4B8ZOSG+Y7DKuT4sPVVM3JvUfc/5hNpGzRUmXfM=;
- b=hua6G3h3yhxNkJHFuRDCr0L4gabRB28bxOZLW9c9CaV4APjOvwoy1YsyiX3KYrn9TA
- 2cp+gbbuPkJ5slzlG5xYbEvkfHaDIL70jGQQWAY7nGD34E29lbWbR9MqAZPo1XxK/4pM
- tLNDkNa9xa1l6V4m8eAXt7PfxObDKlK04q0g7Zb778/dHAUU/7sBB8tNvXTjTfP2r7Kn
- kP90IY2B7vo4u4Er1XXkcblO5lBi3EatqQZCz7XMfxeB3qSmEVNYLu5EUctc9dPez3cs
- DhlhLWKk8aFWSOfweq+nSNkZL8Ty/raXpFfg8P6VPFcFqF8ycAzUgeX1vVCiO428a6Vk
- q6NQ==
+ :reply-to; bh=QJK48DZXSr/5AkPi4/t7u5Zi6emJ5qg5sN5jW9/objc=;
+ b=JNrgy6dj+1D9zksr4+3DUp4ckyddWVbpyZkGqeOAoigu4dkxn37Ciff5LIsbrduHjI
+ 5IaIxwozucR/aPU53B74XMExHokNU7IYmBThfs/y6GKJdNg2w1GJ+Cm7Y56dCrRwrQyT
+ QYjR/N9kRLskR0lVeule8tvUJO17Nw1JqAigsn1mnm6enSk3oipZAyenWyrk+kO+C/qc
+ Fn6XSYVgitFUcFCAGIT/i08NyrI7/y0jhP9QX/De3+uUFMRhwIcQFeGau7KCPPY0NJTy
+ XXT1F9MSTnoV4L2+a6dFLx5Qx5BCBlPBiUBWurq9MnJ3gLgXC5Wb8uV4Qyf+lml++yk4
+ 4V/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710156046; x=1710760846;
+ d=1e100.net; s=20230601; t=1710156048; x=1710760848;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=DIYz4B8ZOSG+Y7DKuT4sPVVM3JvUfc/5hNpGzRUmXfM=;
- b=bR509+PgQBAdCQ2g8pFfopm1syvYGEOavQpBL+fv1nRk5sYYK4Z/cKrA6TOxcm9pDE
- L3IBgD0Q+Zc5VRxMNjpJkHqMf+6yMORKaOPNm/uFUGNBdCQkNopa9aiSnr5pMKdrtDiq
- bys80d6gZKf47wysVq3RCNIhbQ9CzWd9VKYLHe/xNKMk5lQ8oKwtnpgkfL2c8OYY/7ON
- Vly/NFkPSBJESdVQIL9RDp9Dmue2TLvB1aAqUKw+vOS9AqbbQwBtiZ9IbRCIP7iZYRdh
- gNVUv4A4xHoNUBKx2sSLpfepCrrD/uyY2QnazqqtdmWEqtdMtXBpR80wfz44loiHDFIw
- PDOA==
+ bh=QJK48DZXSr/5AkPi4/t7u5Zi6emJ5qg5sN5jW9/objc=;
+ b=VYJQGqNGP6dkdbmwp+O9Cgqmaykgmtoj1SzcVnQHXLuuThhZwZR5yXCh6/aC6ZUPI1
+ 8MXUepxoPUvE4RIkid/mWoDsTojg4yE31XpEl+KSQZ5PqbHWycTzV5aq0ZMtoF1Hxxkj
+ 1gUT20ZLYTEVffU25DAoyWFPgSwD/r7xQGg/OnN+JD+w7d3oZRjXqnGX9aFY5yBEyB1N
+ jxla3XYZo2anAo47DngG2zoCEsOInMiH4bxg7FATX+eQeDiC/WU1D2Sfb51s5CEO4UDm
+ bfAe4K+gVaogq4HOB4OIo53Y2UuuN12EaTe13J7JKyLK6PujTkawSWcjEzp8I0hA+7Zo
+ srKQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX8r7zGcx+f7BPgEccufqMHjtt8Un1zWRPjj2j0M2aQqgFavsHpoBO2QwgdvKlhc7yvEqnTV3qI+u8iMm+wdBIu/GY9xC75tvcXIpGr+5EY
-X-Gm-Message-State: AOJu0YzsxuE4tnWaFXPY8gs2o5Nnyvj2OANEq48v7smAcn5L0OYeM/wz
- I9l/hmB58al50v5zaKsSVrVYaqiwYUjIMsyqPX6GEvZZo3SWy4d2CiCx2XUoUCo=
-X-Google-Smtp-Source: AGHT+IGU/7/dwO3YAwA43NYcOB8G8o2RoIjLDiWIgVyxQPGvLLiCKMFIsjTxtWIzaK9CURl38ycFKQ==
-X-Received: by 2002:a2e:7c10:0:b0:2d4:24cc:b499 with SMTP id
- x16-20020a2e7c10000000b002d424ccb499mr110587ljc.15.1710156046254; 
- Mon, 11 Mar 2024 04:20:46 -0700 (PDT)
+ AJvYcCXS6Bivp4X5WDqtLbAJohYQB9e0+nyL0T4Kgb08WEcN/uakeDo0cYmPGQ7kJelmffi2QYHtfTYEMEfXnBfsC53sLv7eh+XUH+HJnR5oCIId
+X-Gm-Message-State: AOJu0YyiQEhGjyCMmBGzYiO7myLiA4Z49oALb+87p4rBPpaJ9KxzA9WO
+ 5A8daFthJa+LIlnyOI9lZaHScvTJLFULtlO1QBzLBHF90rNJZobYAL8CtZzJ52A=
+X-Google-Smtp-Source: AGHT+IG1/i8rgtxmep3hUGXbRushzFp9Ad6WkRyc/SX1zThpevPnmWtOKvna1/sbAc57cyIU7ha73A==
+X-Received: by 2002:a2e:9c9a:0:b0:2d2:6ed5:e45a with SMTP id
+ x26-20020a2e9c9a000000b002d26ed5e45amr3497683lji.12.1710156047097; 
+ Mon, 11 Mar 2024 04:20:47 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- by10-20020a05651c1a0a00b002d2aa0b0d01sm1075200ljb.82.2024.03.11.04.20.45
+ by10-20020a05651c1a0a00b002d2aa0b0d01sm1075200ljb.82.2024.03.11.04.20.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Mar 2024 04:20:45 -0700 (PDT)
+ Mon, 11 Mar 2024 04:20:46 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 11 Mar 2024 13:20:17 +0200
-Subject: [PATCH 09/12] drm/imx: add internal bridge handling
- display-timings DT node
+Date: Mon, 11 Mar 2024 13:20:18 +0200
+Subject: [PATCH 10/12] drm/imx: ldb: switch to imx_legacy_bridge /
+ drm_bridge_connector
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240311-drm-imx-cleanup-v1-9-e104f05caa51@linaro.org>
+Message-Id: <20240311-drm-imx-cleanup-v1-10-e104f05caa51@linaro.org>
 References: <20240311-drm-imx-cleanup-v1-0-e104f05caa51@linaro.org>
 In-Reply-To: <20240311-drm-imx-cleanup-v1-0-e104f05caa51@linaro.org>
 To: Philipp Zabel <p.zabel@pengutronix.de>, 
@@ -79,16 +79,16 @@ Cc: Chris Healy <cphealy@gmail.com>, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5036;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6822;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=3H9fCE7mPj818x+Q1/UwHSmVLPut7h2b14rUQzFEIk8=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBl7ukE4AP8YIIr6aZRHLy1srF2zcsnsshABwwfU
- UzNfZKIAweJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZe7pBAAKCRCLPIo+Aiko
- 1bcDB/9jr4bSDVP/hHMlo3Q1hfu2LW9AjVffzljxaiUsM+DUqg9thoMTnwySV+eJjTqvqoI+6mt
- LxaeK7GPxnXVK2xLnErJRJtKZptWuUNG9RDeg9yP6IGjB5e00P5FwWVAFSIyikE2lKvVJLu0bZA
- RoCbHEhlqvKOrGF1GoSH7c6QR06zGxgX67Px4UjwlOB6nTSJKJ9+F4lGoEq4NaXQAhF1FjW9zK2
- INz2yDbxUjE1UQuL/rNQIz0j+twJfXxHAmT/NI6Iz6AqUgvrzCcM2S0Pwks+I3cUZdOv//uTfxW
- Y57+PAdwMm8csec7+NcVSt8gO5zI5bXvT0HnGq88WbzGaV3W
+ bh=mxqxcoV4ywHN4eRiFdbf9wh8Q/v6lSDoITt0+PUutvI=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBl7ukEbA1Mk28fKywnUCRBjFDy98932CZYFRLYg
+ 6ZPZqvOgBWJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZe7pBAAKCRCLPIo+Aiko
+ 1WAwCACB/ueqYnYQhWGKCt49o1RIVn4xuhow2xGa5GqhlntPVPDJ+hEwT7PqmHBY/VZhbwozIhr
+ rvwmj/IIe2nh1cPtQ3t7sxdbyW/LQz8yx0SuI7xXZigMm/UrU+pQ3aPIYsuZ40vCQYL+nES4ZHN
+ scISduv5glpkuKPLZvU0tQatrJs8KPjEbpMlahFeZz61c2HRuhhl696ARB04w2lb7x0fdSok75i
+ 4hArju0y9yqEhbGLQy+2zJcaQlZLJIM9Td+lArfYuShT2ORrdG/DDIyGkMEEu06KpqaLrE5jNfF
+ sQS1tu1WfKKHdp7RY5RcOIZ52BOX6UsZY0BBb/npU/hPyvA2
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,164 +106,218 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-i.MX DRM DT bindings allow using either a proper panel / bridge graph to
-provide information about connected panels, or just a display-timings DT
-node, describing just the timings and the flags. Add helper bridge
-driver supporting the latter usecase. It will be used by both LDB and
-parallel-display drivers.
+Use the imx_legacy bridge driver instead of handlign display modes via
+the connector node.
+
+All existing usecases already support attaching using
+the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag, while the imx_legacy bridge
+doesn't support creating connector at all. Switch to
+drm_bridge_connector at the same time.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/imx/ipuv3/Kconfig             | 10 ++++
- drivers/gpu/drm/imx/ipuv3/Makefile            |  2 +
- drivers/gpu/drm/imx/ipuv3/imx-drm.h           |  5 ++
- drivers/gpu/drm/imx/ipuv3/imx-legacy-bridge.c | 85 +++++++++++++++++++++++++++
- 4 files changed, 102 insertions(+)
+ drivers/gpu/drm/imx/ipuv3/Kconfig   |   1 +
+ drivers/gpu/drm/imx/ipuv3/imx-ldb.c | 102 ++++++++++--------------------------
+ 2 files changed, 29 insertions(+), 74 deletions(-)
 
 diff --git a/drivers/gpu/drm/imx/ipuv3/Kconfig b/drivers/gpu/drm/imx/ipuv3/Kconfig
-index 8aaf2441bcef..119e1431177f 100644
+index 119e1431177f..35518ecb1c6f 100644
 --- a/drivers/gpu/drm/imx/ipuv3/Kconfig
 +++ b/drivers/gpu/drm/imx/ipuv3/Kconfig
-@@ -37,6 +37,16 @@ config DRM_IMX_LDB
+@@ -33,6 +33,7 @@ config DRM_IMX_LDB
+ 	depends on DRM_BRIDGE
+ 	select DRM_PANEL
+ 	select DRM_PANEL_BRIDGE
++	select DRM_IMX_LEGACY_BRIDGE
+ 	help
  	  Choose this to enable the internal LVDS Display Bridge (LDB)
  	  found on i.MX53 and i.MX6 processors.
+diff --git a/drivers/gpu/drm/imx/ipuv3/imx-ldb.c b/drivers/gpu/drm/imx/ipuv3/imx-ldb.c
+index 74b41a507219..b29253df40ec 100644
+--- a/drivers/gpu/drm/imx/ipuv3/imx-ldb.c
++++ b/drivers/gpu/drm/imx/ipuv3/imx-ldb.c
+@@ -19,12 +19,10 @@
+ #include <linux/regmap.h>
+ #include <linux/videodev2.h>
  
-+config DRM_IMX_LEGACY_BRIDGE
-+	tristate
-+	depends on DRM_IMX
-+	help
-+	  This is a DRM bridge implementation for the DRM i.MX driver, which
-+	  uses of_get_drm_display_mode to acquire display mode.
-+
-+	  Newer designs should not use this bridge and should use proper panel
-+	  driver instead.
-+
- config DRM_IMX_HDMI
- 	tristate "Freescale i.MX DRM HDMI"
- 	select DRM_DW_HDMI
-diff --git a/drivers/gpu/drm/imx/ipuv3/Makefile b/drivers/gpu/drm/imx/ipuv3/Makefile
-index 21cdcc2faabc..dfc495e495ec 100644
---- a/drivers/gpu/drm/imx/ipuv3/Makefile
-+++ b/drivers/gpu/drm/imx/ipuv3/Makefile
-@@ -8,4 +8,6 @@ obj-$(CONFIG_DRM_IMX_PARALLEL_DISPLAY) += parallel-display.o
- obj-$(CONFIG_DRM_IMX_TVE) += imx-tve.o
- obj-$(CONFIG_DRM_IMX_LDB) += imx-ldb.o
+-#include <video/of_display_timing.h>
+-#include <video/of_videomode.h>
+-
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
++#include <drm/drm_bridge_connector.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_managed.h>
+ #include <drm/drm_of.h>
+@@ -54,7 +52,6 @@
+ struct imx_ldb_channel;
  
-+obj-$(CONFIG_DRM_IMX_LEGACY_BRIDGE) += imx-legacy-bridge.o
-+
- obj-$(CONFIG_DRM_IMX_HDMI) += dw_hdmi-imx.o
-diff --git a/drivers/gpu/drm/imx/ipuv3/imx-drm.h b/drivers/gpu/drm/imx/ipuv3/imx-drm.h
-index e01f026047de..57a95926c492 100644
---- a/drivers/gpu/drm/imx/ipuv3/imx-drm.h
-+++ b/drivers/gpu/drm/imx/ipuv3/imx-drm.h
-@@ -3,6 +3,7 @@
- #define _IMX_DRM_H_
+ struct imx_ldb_encoder {
+-	struct drm_connector connector;
+ 	struct drm_encoder encoder;
+ 	struct imx_ldb_channel *channel;
+ };
+@@ -68,17 +65,9 @@ struct imx_ldb_channel {
  
- struct device_node;
-+struct drm_bridge;
- struct drm_connector;
- struct drm_device;
- struct drm_encoder;
-@@ -30,4 +31,8 @@ void imx_drm_connector_destroy(struct drm_connector *connector);
- int ipu_planes_assign_pre(struct drm_device *dev,
- 			  struct drm_atomic_state *state);
+ 	struct device_node *child;
+ 	int chno;
+-	struct drm_display_mode mode;
+-	int mode_valid;
+ 	u32 bus_format;
+-	u32 bus_flags;
+ };
  
-+struct drm_bridge *devm_imx_drm_legacy_bridge(struct device *dev,
-+					      struct device_node *np,
-+					      int type);
+-static inline struct imx_ldb_channel *con_to_imx_ldb_ch(struct drm_connector *c)
+-{
+-	return container_of(c, struct imx_ldb_encoder, connector)->channel;
+-}
+-
+ static inline struct imx_ldb_channel *enc_to_imx_ldb_ch(struct drm_encoder *e)
+ {
+ 	return container_of(e, struct imx_ldb_encoder, encoder)->channel;
+@@ -128,25 +117,6 @@ static void imx_ldb_ch_set_bus_format(struct imx_ldb_channel *imx_ldb_ch,
+ 	}
+ }
+ 
+-static int imx_ldb_connector_get_modes(struct drm_connector *connector)
+-{
+-	struct imx_ldb_channel *imx_ldb_ch = con_to_imx_ldb_ch(connector);
+-	int num_modes;
+-
+-	if (imx_ldb_ch->mode_valid) {
+-		struct drm_display_mode *mode;
+-
+-		mode = drm_mode_duplicate(connector->dev, &imx_ldb_ch->mode);
+-		if (!mode)
+-			return -EINVAL;
+-		mode->type |= DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+-		drm_mode_probed_add(connector, mode);
+-		num_modes++;
+-	}
+-
+-	return num_modes;
+-}
+-
+ static void imx_ldb_set_clock(struct imx_ldb *ldb, int mux, int chno,
+ 		unsigned long serial_clk, unsigned long di_clk)
+ {
+@@ -348,11 +318,12 @@ static int imx_ldb_encoder_atomic_check(struct drm_encoder *encoder,
+ 	/* Bus format description in DT overrides connector display info. */
+ 	if (!bus_format && di->num_bus_formats) {
+ 		bus_format = di->bus_formats[0];
+-		imx_crtc_state->bus_flags = di->bus_flags;
+ 	} else {
+ 		bus_format = imx_ldb_ch->bus_format;
+-		imx_crtc_state->bus_flags = imx_ldb_ch->bus_flags;
+ 	}
 +
- #endif /* _IMX_DRM_H_ */
-diff --git a/drivers/gpu/drm/imx/ipuv3/imx-legacy-bridge.c b/drivers/gpu/drm/imx/ipuv3/imx-legacy-bridge.c
-new file mode 100644
-index 000000000000..4853e0c41ab2
---- /dev/null
-+++ b/drivers/gpu/drm/imx/ipuv3/imx-legacy-bridge.c
-@@ -0,0 +1,85 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Freescale i.MX drm driver
-+ * 
-+ * bridge driver for legacy DT bindings, utilizing display-timings node
-+ */
++	imx_crtc_state->bus_flags = di->bus_flags;
 +
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_probe_helper.h>
-+
-+#include <video/of_display_timing.h>
-+#include <video/of_videomode.h>
-+
-+#include "imx-drm.h"
-+
-+struct imx_legacy_bridge {
-+	struct drm_bridge base;
-+
-+	struct drm_display_mode mode;
-+	u32 bus_flags;
-+};
-+
-+#define to_imx_legacy_bridge(bridge)	container_of(bridge, struct imx_legacy_bridge, base)
-+
-+static int imx_legacy_bridge_attach(struct drm_bridge *bridge,
-+				   enum drm_bridge_attach_flags flags)
-+{
-+	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int imx_legacy_bridge_get_modes(struct drm_bridge *bridge,
-+				       struct drm_connector *connector)
-+{
-+	struct imx_legacy_bridge *imx_bridge = to_imx_legacy_bridge(bridge);
-+	int ret;
-+
-+	ret = drm_connector_helper_get_modes_fixed(connector, &imx_bridge->mode);
+ 	switch (bus_format) {
+ 	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
+ 		imx_crtc_state->bus_format = MEDIA_BUS_FMT_RGB666_1X18;
+@@ -372,18 +343,6 @@ static int imx_ldb_encoder_atomic_check(struct drm_encoder *encoder,
+ }
+ 
+ 
+-static const struct drm_connector_funcs imx_ldb_connector_funcs = {
+-	.fill_modes = drm_helper_probe_single_connector_modes,
+-	.destroy = imx_drm_connector_destroy,
+-	.reset = drm_atomic_helper_connector_reset,
+-	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+-	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+-};
+-
+-static const struct drm_connector_helper_funcs imx_ldb_connector_helper_funcs = {
+-	.get_modes = imx_ldb_connector_get_modes,
+-};
+-
+ static const struct drm_encoder_helper_funcs imx_ldb_encoder_helper_funcs = {
+ 	.atomic_mode_set = imx_ldb_encoder_atomic_mode_set,
+ 	.enable = imx_ldb_encoder_enable,
+@@ -421,7 +380,6 @@ static int imx_ldb_register(struct drm_device *drm,
+ 		return PTR_ERR(ldb_encoder);
+ 
+ 	ldb_encoder->channel = imx_ldb_ch;
+-	connector = &ldb_encoder->connector;
+ 	encoder = &ldb_encoder->encoder;
+ 
+ 	ret = imx_drm_encoder_parse_of(drm, encoder, imx_ldb_ch->child);
+@@ -440,24 +398,16 @@ static int imx_ldb_register(struct drm_device *drm,
+ 
+ 	drm_encoder_helper_add(encoder, &imx_ldb_encoder_helper_funcs);
+ 
+-	if (imx_ldb_ch->bridge) {
+-		ret = drm_bridge_attach(encoder, imx_ldb_ch->bridge, NULL, 0);
+-		if (ret)
+-			return ret;
+-	} else {
+-		/*
+-		 * We want to add the connector whenever there is no bridge
+-		 * that brings its own, not only when there is a panel. For
+-		 * historical reasons, the ldb driver can also work without
+-		 * a panel.
+-		 */
+-		drm_connector_helper_add(connector,
+-					 &imx_ldb_connector_helper_funcs);
+-		drm_connector_init(drm, connector,
+-				   &imx_ldb_connector_funcs,
+-				   DRM_MODE_CONNECTOR_LVDS);
+-		drm_connector_attach_encoder(connector, encoder);
+-	}
++	ret = drm_bridge_attach(encoder, imx_ldb_ch->bridge, NULL,
++				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
 +	if (ret)
 +		return ret;
 +
-+	connector->display_info.bus_flags = imx_bridge->bus_flags;
++	connector = drm_bridge_connector_init(drm, encoder);
++	if (IS_ERR(connector))
++		return PTR_ERR(connector);
 +
-+	return 0;
-+}
++	drm_connector_attach_encoder(connector, encoder);
+ 
+ 	return 0;
+ }
+@@ -632,17 +582,7 @@ static int imx_ldb_probe(struct platform_device *pdev)
+ 			ret = PTR_ERR(channel->bridge);
+ 			if (ret != -ENODEV)
+ 				goto free_child;
+-
+ 			channel->bridge = NULL;
+-
+-			ret = of_get_drm_display_mode(child,
+-						      &channel->mode,
+-						      &channel->bus_flags,
+-						      OF_USE_NATIVE_MODE);
+-			if (ret)
+-				goto free_child;
+-
+-			channel->mode_valid = 1;
+ 		}
+ 
+ 		bus_format = of_get_bus_format(dev, child);
+@@ -659,6 +599,20 @@ static int imx_ldb_probe(struct platform_device *pdev)
+ 			goto free_child;
+ 		}
+ 		channel->bus_format = bus_format;
 +
-+struct drm_bridge_funcs imx_legacy_bridge_funcs = {
-+	.attach = imx_legacy_bridge_attach,
-+	.get_modes = imx_legacy_bridge_get_modes,
-+};
++		/*
++		 * legacy bridge doesn't handle bus_format, so create it after
++		 * checking the bus_format property.
++		 */
++		if (!channel->bridge) {
++			channel->bridge = devm_imx_drm_legacy_bridge(dev, child,
++								     DRM_MODE_CONNECTOR_LVDS);
++			if (IS_ERR(channel->bridge)) {
++				ret = PTR_ERR(channel->bridge);
++				goto free_child;
++			}
++		}
 +
-+struct drm_bridge *devm_imx_drm_legacy_bridge(struct device *dev,
-+					      struct device_node *np,
-+					      int type)
-+{
-+	struct imx_legacy_bridge *imx_bridge;
-+	int ret;
-+
-+	imx_bridge = devm_kzalloc(dev, sizeof(*imx_bridge), GFP_KERNEL);
-+	if (!imx_bridge)
-+		return ERR_PTR(-ENOMEM);
-+
-+	ret = of_get_drm_display_mode(np,
-+				      &imx_bridge->mode,
-+				      &imx_bridge->bus_flags,
-+				      OF_USE_NATIVE_MODE);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	imx_bridge->mode.type |= DRM_MODE_TYPE_DRIVER;
-+
-+	imx_bridge->base.funcs = &imx_legacy_bridge_funcs;
-+	imx_bridge->base.of_node = np;
-+	imx_bridge->base.ops = DRM_BRIDGE_OP_MODES;
-+	imx_bridge->base.type = type;
-+
-+	ret = devm_drm_bridge_add(dev, &imx_bridge->base);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	return &imx_bridge->base;
-+}
+ 		channel->child = child;
+ 	}
+ 
 
 -- 
 2.39.2
