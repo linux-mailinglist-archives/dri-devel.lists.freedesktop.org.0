@@ -2,43 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55AE58784C9
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 17:17:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5941D8784CC
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 17:18:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4C1110EE13;
-	Mon, 11 Mar 2024 16:17:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87BAB112B72;
+	Mon, 11 Mar 2024 16:18:12 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.b="qYQXlSiZ";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id BCDFA10EE13
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 16:17:42 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C22EAFEC
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 09:18:18 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id BBBD63F762
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 09:17:41 -0700 (PDT)
-Date: Mon, 11 Mar 2024 16:17:38 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH] Revert "drm/panthor: Fix undefined
- panthor_device_suspend/resume symbol issue"
-Message-ID: <Ze8uovqU4lSmmx51@e110455-lin.cambridge.arm.com>
-References: <20240311111619.249776-1-jani.nikula@intel.com>
- <20240311124826.44cc69ba@collabora.com> <87cys1t299.fsf@intel.com>
- <20240311125445.4bab1712@collabora.com> <87a5n5t0mt.fsf@intel.com>
- <Ze8YJhmZgruRfNBo@e110455-lin.cambridge.arm.com>
- <871q8gu8lh.fsf@intel.com>
- <Ze8k2Mbmw4IaGgv8@e110455-lin.cambridge.arm.com>
- <87y1aosr38.fsf@intel.com>
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [80.237.130.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E07610E65C;
+ Mon, 11 Mar 2024 16:18:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
+ Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+ In-Reply-To:References; bh=BQlVn0sfGO/6FRkWMHBIjA018n1pfP/VCDtJm/lkcHE=;
+ t=1710173891; x=1710605891; b=qYQXlSiZxMka4Ablhx/E3AMgCxBZExYu5rCrcENQULZ7UUY
+ fFrYCVHd/EPXSDTKYRghsinKQ56SubnKZK4Sbl2VsJ/sNnlBywvi6cpuirCEUIVPB4p22mkWEyfpZ
+ deQvr3t/gAuEQ2mhPRO4TUD2EBMDAZQfEbkzYzfPi07LHy6HcU+kffym75UOxYpVjOxfbHNYUW3Zn
+ sGgIN15Ydi3abVB7kEciD4EoTr1yPqGn+CvLTvGo6v2B7T6Mw+SOeWX1VOomcALBB1u7s/fkf8Btb
+ Q5m+BiITSt+uPC8piqIr033EICzEsBis0w+PDID3z3FMBZ6L3YJL3RO7Be3PjKKw==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1rjiLo-0000Fx-4Z; Mon, 11 Mar 2024 17:18:08 +0100
+Message-ID: <fc215679-e5f8-4d1e-bd70-c940d40a01e3@leemhuis.info>
+Date: Mon, 11 Mar 2024 17:18:07 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87y1aosr38.fsf@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Fix divide-by-zero on DP unplug with nouveau
+Content-Language: en-US, de-DE
+To: imre.deak@intel.com, Chris Bainbridge <chris.bainbridge@gmail.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ lyude@redhat.com, ville.syrjala@linux.intel.com,
+ stanislav.lisovskiy@intel.com, mripard@kernel.org,
+ Linux kernel regressions list <regressions@lists.linux.dev>
+References: <ZcfpqwnkSoiJxeT9@debian.local>
+ <Ze8suV5ox+43/wAC@ideak-desk.fi.intel.com>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+In-Reply-To: <Ze8suV5ox+43/wAC@ideak-desk.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1710173891;
+ 3612b31d; 
+X-HE-SMSGID: 1rjiLo-0000Fx-4Z
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,60 +64,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 11, 2024 at 05:52:59PM +0200, Jani Nikula wrote:
-> On Mon, 11 Mar 2024, Liviu Dudau <liviu.dudau@arm.com> wrote:
-> > On Mon, Mar 11, 2024 at 04:49:30PM +0200, Jani Nikula wrote:
-> >> On Mon, 11 Mar 2024, Liviu Dudau <liviu.dudau@arm.com> wrote:
-> >> > So with this revert we're OK with an undefined symbol if !CONFIG_PM, but we're not happy
-> >> > with a recursive dependency that is only triggered for COMPILE_TEST? I would've thought
-> >> > IOMMU_SUPPORT options is a better one.
-> >> 
-> >> It's a real config.
-> >> 
-> >> # CONFIG_COMPILE_TEST is not set
-> >
-> > So I can select CONFIG_ARM64 and CONFIG_X86_LOCAL_APIC at the same time? DRM_PANTHOR depends on ARM || ARM64
-> > and X86_LOCAL_APIC depends on X86_64. At some moment the recursive dependency detector should've stopped as
-> > there are no common dependencies between DRM_PANTHOR and X86_LOCAL_APIC and going further just triggers false
-> > positives. I'm curious how you've created your config now.
-> 
-> The thing is, I don't have *any* of the dependencies ARM || ARM64 ||
-> COMPILE_TEST set in the config that triggered this. I don't have
-> DRM_PANTHOR set. But make olddefconfig detects a circular dependency
-> nonetheless.
-> 
-> It's possible the issue is in kconfig. I don't know. But not being able
-> to even dodge the warning makes it a show stopper. I wouldn't even know
-> what to change in the config.
+On 11.03.24 17:09, Imre Deak wrote:
+> On Sat, Feb 10, 2024 at 09:24:59PM +0000, Chris Bainbridge wrote:
+> Sorry for the delay.
 
-Understood, thanks for clarifying the condition under which you've discovered
-the issue. I assumed (appologies!) that you were generating or using a crafted
-.config for testing new drivers.
+Happens, thx for looking onto this!
 
-Reverting is then a better option for olddefconfig case, thanks for the patch
-and the quick merge.
+>> The following trace occurs when using nouveau and unplugging a DP MST
+>> adaptor:
+> [...] 
+>> +	if (bpp_x16 == 0)
+>> +		return 0;
+> 
+> Could you please move the check to the beginnig of the function and add
+> a debug message in case bpp_x16 is 0?
+> 
+> It looks odd that a driver calls this function with a 0 bpp_x16, and
+> ideally it should be fixed in the driver. However as it's a regression
+> and we don't have a better idea now:
+> 
+> Acked-by: Imre Deak <imre.deak@intel.com>
 
-Best regards,
-Liviu
+Chris: as this went into 6.8, please consider adding a stable-tag to
+ensure Greg picks this up.
 
-> 
-> 
-> BR,
-> Jani.
-> 
-> 
-> -- 
-> Jani Nikula, Intel
+Ciao, Thorsten
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
