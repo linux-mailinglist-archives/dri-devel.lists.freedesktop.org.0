@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A36718783F8
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 16:38:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 849C8878407
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 16:42:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07C0D10EB64;
-	Mon, 11 Mar 2024 15:38:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF92510E63D;
+	Mon, 11 Mar 2024 15:42:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DpZsuNBV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ljKD6Epw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18F5D10EB64;
- Mon, 11 Mar 2024 15:38:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A454E10E63D;
+ Mon, 11 Mar 2024 15:42:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 32DB5CE1142;
- Mon, 11 Mar 2024 15:38:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED03DC433F1;
- Mon, 11 Mar 2024 15:38:14 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id C94E9CE113D;
+ Mon, 11 Mar 2024 15:42:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3E20C433F1;
+ Mon, 11 Mar 2024 15:42:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1710171495;
- bh=l8qq6wUuYhli1TsejzCL26/yitH72h4PpTLNMVrhoUQ=;
+ s=k20201202; t=1710171748;
+ bh=aqhRjI76v+bv52khrO1HHXTz4mSJ69TVhYQBRbIrjI0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DpZsuNBVQlikV302rjM/FPdiyYLgF6+V2S51GDh8xpNk6+552pmSse69VA1oOa6Y8
- wWgglFfU9mIJ3EvuBeqYFx302K12g+7xYQsUHkE7pm0wWr5jdCJfufJ9gddqNNY1qP
- wRSDHgflHTi4pR4md5Dk7LqGfvryDPgzsCOi9pYKZqO0DL0jfQhPFVuBXMze96P6s0
- WGKFwDSKKAcLlUeayWlnzP2xaAsyRV2Hci9vUrmOdAL6imloIz41WWYgexX7/Wcgkr
- MIbfSgL0HNDCLd8qn2MTdV+13NykA3gQ1LHzzUzriDFrXSDuam6bbvTfH137qmSV6K
- 7I4gyUWWYS1Rg==
-Date: Mon, 11 Mar 2024 16:38:12 +0100
+ b=ljKD6EpwoFLjSS4NUkRSNv5QCKEkV1Soa3UBNbqaBi1tLy86AtWL1kWu0sBMkqnLI
+ iWq2vGEDY0ffMq13hVolyRefUmq27ybVPa8d5tS3IdHdYHLBJxDmWMOIkJbTObYuVv
+ hRWKDp3gipZrnWuiozcxU8pxo2dgp3XfmDsXS7+OBfu54JvVnVrrdFCIrwsuBnZWUE
+ FnB18KdTUSMnhHY/oZe+bj0yN7/DDPCuywdqBxxGKwiHhP45V2gHFLj+jNp1AE+2f4
+ Bi50iXDJ9r6fiUranXbeRMb5asS56xEAPJeqdQs04fnBNrwZzpfeZnlJJRynf77wOL
+ VBYJAz/eUTsSw==
+Date: Mon, 11 Mar 2024 16:42:25 +0100
 From: Maxime Ripard <mripard@kernel.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -44,16 +44,15 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
  Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH RFC v2 2/5] drm/connector: hdmi: add
- drm_connector_hdmi_init
-Message-ID: <20240311-important-whippet-of-force-f112a6@houat>
+Subject: Re: [PATCH RFC v2 0/5] drm/msm: make use of the HDMI connector
+ infrastructure
+Message-ID: <20240311-hypnotic-asparagus-shark-efe75a@houat>
 References: <20240309-bridge-hdmi-connector-v2-0-1380bea3ee70@linaro.org>
- <20240309-bridge-hdmi-connector-v2-2-1380bea3ee70@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="iym5gqunsc3erwmp"
+ protocol="application/pgp-signature"; boundary="telqess2t2hb5icb"
 Content-Disposition: inline
-In-Reply-To: <20240309-bridge-hdmi-connector-v2-2-1380bea3ee70@linaro.org>
+In-Reply-To: <20240309-bridge-hdmi-connector-v2-0-1380bea3ee70@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,37 +69,51 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---iym5gqunsc3erwmp
+--telqess2t2hb5icb
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-On Sat, Mar 09, 2024 at 12:31:29PM +0200, Dmitry Baryshkov wrote:
-> To support connectors which do all the management on their own (like
-> drm_bridge_connector), add drm_connector_hdmi_init() in addition to
-> drmm_connector_hdmi_init().
+On Sat, Mar 09, 2024 at 12:31:27PM +0200, Dmitry Baryshkov wrote:
+> This patchset sits on top Maxime's HDMI connector patchset ([1]).
+>=20
+> Currently this is an RFC exploring the interface between HDMI bridges
+> and HDMI connector code. This has been lightly verified on the Qualcomm
+> DB820c, which has native HDMI output. If this approach is considered to
+> be acceptable, I'll finish MSM HDMI bridge conversion (reworking the
+> Audio Infoframe code). Other bridges can follow the same approach (we
+> have lt9611 / lt9611uxc / adv7511 on Qualcomm hardware).
+>=20
+> [1] https://patchwork.freedesktop.org/series/122421/
 >=20
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+> Changes in v2:
+> - Dropped drm_connector_hdmi_setup(). Instead added
+>   drm_connector_hdmi_init() to be used by drm_bridge_connector.
+> - Changed the drm_bridge_connector to act as a proxy for the HDMI
+>   connector  infrastructure. This removes most of the logic from
+>   the bridge drivers.
+> - Link to v1: https://lore.kernel.org/r/20240308-bridge-hdmi-connector-v1=
+-0-90b693550260@linaro.org
 
-That's only slightly relevante, but I think it could be occasion to
-switch to drmm_connector_init for drm_bridge_connector too.
+Overall, aside from the small comments on individual patches, I think
+it's in good shape right now.
 
-It's something we want to migrate to anyway, so it would be nice to do
-it as part of this series so we don't need the extra init function.
-
+Thanks!
 Maxime
 
---iym5gqunsc3erwmp
+--telqess2t2hb5icb
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZe8lZAAKCRDj7w1vZxhR
-xSoWAP4sI2aJ30w/BG40q0QaQlyXiXxlfaLReirBQUMGCgX38wEA6qS6KIWeZ19f
-aP+ORaD1cIcYnnabKg/WShgn8z6DngE=
-=hOCy
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZe8mYAAKCRDj7w1vZxhR
+xcJYAPsE9OUfafDUvbdD0djMOBMzoNkIx6BIzOWyl2qfbh3lUAD/cmCv01v/WK2d
++MTdWYpHjGsC79o9SGj1M6F8WW5tOwU=
+=bKi3
 -----END PGP SIGNATURE-----
 
---iym5gqunsc3erwmp--
+--telqess2t2hb5icb--
