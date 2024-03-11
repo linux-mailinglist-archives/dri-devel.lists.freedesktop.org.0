@@ -2,63 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 155A3877B83
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 09:07:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11BB8877BA4
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 09:23:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1282410F485;
-	Mon, 11 Mar 2024 08:07:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9766010F579;
+	Mon, 11 Mar 2024 08:23:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="i7tOLlB9";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IlBEz50c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CD3410E03D;
- Mon, 11 Mar 2024 08:07:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710144456; x=1741680456;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=I7u9annVMHjI9g9xtP+CG+L80OiPWZVm/RFQY+6KBQE=;
- b=i7tOLlB9Bk/LN5g1IH7LrZU2s75CyV50sExqbs9p+dy4PnBE/rdc2hHI
- cLHun+/hEb2/vH6pOXbIhIbLgUksmmsD5V4GpMz3sk/cz+WPB9OZkUQPV
- 4fYe1aIAT5FW1pPhOSc6zyzFrqJDgrbyxdGQzqfCgO7KzYsk+pENQ54ko
- EmRLSVW1GCGGuzOboNaQOTloSxgjuEh0KTXlnqs2fnlmSY043EMBc64Zd
- AaqBMCDMvzhnjiMuPK9V/k2KmK/CyRO9G4RLxxJZIyfgnjXnQM8E1kqHL
- 5bFbb8bPF5VQqMHy53EqQbAkYNWjSuuT2LPHzsDN7ZEdTmWvKpCnkoEVt g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="4716568"
-X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="4716568"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2024 01:07:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; d="scan'208";a="15582890"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO
- jkrzyszt-mobl2.intranet) ([10.213.25.93])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2024 01:07:31 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Ashutosh Dixit <ashutosh.dixit@intel.com>,
- Anshuman Gupta <anshuman.gupta@intel.com>,
- Badal Nilawar <badal.nilawar@intel.com>,
- Guenter Roeck <linux@roeck-us.net>,
- Dale B Stimson <dale.b.stimson@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
-Subject: [PATCH] drm/i915/hwmon: Fix locking inversion in sysfs getter
-Date: Mon, 11 Mar 2024 09:06:46 +0100
-Message-ID: <20240311080717.421152-2-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CC6010EEAB
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 08:23:31 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-413286f8985so4702755e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 01:23:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1710145409; x=1710750209; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=AMJIYAT1aoLggdRB8puSiHOpe8FLhZyNAYzFcBUjOwA=;
+ b=IlBEz50ceCci+DrWnj21VU3tyuvK/eS68XaDbW3ORwlu/6j1ML7Dg/P98AYbquCKuE
+ Ferl0guqZ6ZoRfbuTDeupOFbcwlzM33eVnjyp+/BN6YX5+27UCyQ0qLDot8sWCTQ6BXL
+ qnAVfFXvODg67CA2KddLJAZk/LUnNiZ/P7NqcfBFNpO5l12mZDuVKbIu9PhoZluI07ia
+ xxQkz8L6WAEMgtt5G1kUhqJAq0+u8WkxI9SY/lXzo31uWDjqxBtBkrU447y0INlwLGv5
+ OMBEJH4N1dEe/Rzn+gzlVV4MTdz4/72BdgzqQXa/vg6S51z2w8oLKdGkJyTfAEbbEW65
+ Vj9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710145409; x=1710750209;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=AMJIYAT1aoLggdRB8puSiHOpe8FLhZyNAYzFcBUjOwA=;
+ b=B18IfXLl6Ld7SwdI+mPclyWLK5EAYKmtea/hQ/EKPNfX5cQlK2VeWlnU5mpcpJ/b/s
+ +BGIzPl3PEGIJhXrYNMqgiloMMjZA1ITDcm6/yBwhhlSCYGYlX+QyeWLcdndBetzUgn3
+ BmMkwtSFp8rC7j3xokH88jJZ6UcerQdKbw50CAdzCDSXh4USWNdPfiViflu0IRS8uv9m
+ Yw4EzSXX8mjmaD5vB/RgiTAJddgEF4g+wJMpz4zqFL8XYziHvZYjt0yLbPa6uimZTn75
+ /FUrp1FjmY3RXMh3SXDjcUnFFC87oTnjv37GVCGWAtBr/C8K3/0i7HIqR/PZWyJ/aS74
+ f7RA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWiMRui/jA+y8XMgrR3OUk5llQ09drPQ4HLieLHD/BVX0czM+FmFCB/SUlO9ycoZPdmedpxYoozqO+YuKt8Ry2lFFK+j1WQkeYTjV9jXvvv
+X-Gm-Message-State: AOJu0YzdzFdhaz2EeDbCF8le9ZSHRIOBbofwKxGz7dj0uMKSGwuV/RtF
+ xLdU/k0tIiFl+L9sqSE3EeH6jqVTsGwot8umtid5i2XuOrueiDQFo21n6RR9C70=
+X-Google-Smtp-Source: AGHT+IGojr92IZ9JNjUk6i05tLWnB0/kzB3DppIN43i5jY2MgknDStpDu7m0C6KmkiaP5e7N7wDdDA==
+X-Received: by 2002:a05:600c:3d88:b0:413:2a07:20d3 with SMTP id
+ bi8-20020a05600c3d8800b004132a0720d3mr1254967wmb.35.1710145409494; 
+ Mon, 11 Mar 2024 01:23:29 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:48be:feb9:192b:f402?
+ ([2a01:e0a:982:cbb0:48be:feb9:192b:f402])
+ by smtp.gmail.com with ESMTPSA id
+ u12-20020a05600c19cc00b004126afe04f6sm14688429wmq.32.2024.03.11.01.23.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Mar 2024 01:23:29 -0700 (PDT)
+Message-ID: <af099226-6644-46c5-b424-3c3a61e454c4@linaro.org>
+Date: Mon, 11 Mar 2024 09:23:28 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 2/8] drm/panel: do not return negative error codes from
+ drm_panel_get_modes()
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, Jessica Zhang
+ <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ stable@vger.kernel.org
+References: <cover.1709913674.git.jani.nikula@intel.com>
+ <79f559b72d8c493940417304e222a4b04dfa19c4.1709913674.git.jani.nikula@intel.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+In-Reply-To: <79f559b72d8c493940417304e222a4b04dfa19c4.1709913674.git.jani.nikula@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,97 +112,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In i915 hwmon sysfs getter path we now take a hwmon_lock, then acquire an
-rpm wakeref.  That results in lock inversion:
+On 08/03/2024 17:03, Jani Nikula wrote:
+> None of the callers of drm_panel_get_modes() expect it to return
+> negative error codes. Either they propagate the return value in their
+> struct drm_connector_helper_funcs .get_modes() hook (which is also not
+> supposed to return negative codes), or add it to other counts leading to
+> bogus values.
+> 
+> On the other hand, many of the struct drm_panel_funcs .get_modes() hooks
+> do return negative error codes, so handle them gracefully instead of
+> propagating further.
+> 
+> Return 0 for no modes, whatever the reason.
+> 
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>   drivers/gpu/drm/drm_panel.c | 17 +++++++++++------
+>   1 file changed, 11 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+> index e814020bbcd3..cfbe020de54e 100644
+> --- a/drivers/gpu/drm/drm_panel.c
+> +++ b/drivers/gpu/drm/drm_panel.c
+> @@ -274,19 +274,24 @@ EXPORT_SYMBOL(drm_panel_disable);
+>    * The modes probed from the panel are automatically added to the connector
+>    * that the panel is attached to.
+>    *
+> - * Return: The number of modes available from the panel on success or a
+> - * negative error code on failure.
+> + * Return: The number of modes available from the panel on success, or 0 on
+> + * failure (no modes).
+>    */
+>   int drm_panel_get_modes(struct drm_panel *panel,
+>   			struct drm_connector *connector)
+>   {
+>   	if (!panel)
+> -		return -EINVAL;
+> +		return 0;
+>   
+> -	if (panel->funcs && panel->funcs->get_modes)
+> -		return panel->funcs->get_modes(panel, connector);
+> +	if (panel->funcs && panel->funcs->get_modes) {
+> +		int num;
+>   
+> -	return -EOPNOTSUPP;
+> +		num = panel->funcs->get_modes(panel, connector);
+> +		if (num > 0)
+> +			return num;
+> +	}
+> +
+> +	return 0;
+>   }
+>   EXPORT_SYMBOL(drm_panel_get_modes);
+>   
 
-<4> [197.079335] ======================================================
-<4> [197.085473] WARNING: possible circular locking dependency detected
-<4> [197.091611] 6.8.0-rc7-Patchwork_129026v7-gc4dc92fb1152+ #1 Not tainted
-<4> [197.098096] ------------------------------------------------------
-<4> [197.104231] prometheus-node/839 is trying to acquire lock:
-<4> [197.109680] ffffffff82764d80 (fs_reclaim){+.+.}-{0:0}, at: __kmalloc+0x9a/0x350
-<4> [197.116939]
-but task is already holding lock:
-<4> [197.122730] ffff88811b772a40 (&hwmon->hwmon_lock){+.+.}-{3:3}, at: hwm_energy+0x4b/0x100 [i915]
-<4> [197.131543]
-which lock already depends on the new lock.
-...
-<4> [197.507922] Chain exists of:
-  fs_reclaim --> &gt->reset.mutex --> &hwmon->hwmon_lock
-<4> [197.518528]  Possible unsafe locking scenario:
-<4> [197.524411]        CPU0                    CPU1
-<4> [197.528916]        ----                    ----
-<4> [197.533418]   lock(&hwmon->hwmon_lock);
-<4> [197.537237]                                lock(&gt->reset.mutex);
-<4> [197.543376]                                lock(&hwmon->hwmon_lock);
-<4> [197.549682]   lock(fs_reclaim);
-...
-<4> [197.632548] Call Trace:
-<4> [197.634990]  <TASK>
-<4> [197.637088]  dump_stack_lvl+0x64/0xb0
-<4> [197.640738]  check_noncircular+0x15e/0x180
-<4> [197.652968]  check_prev_add+0xe9/0xce0
-<4> [197.656705]  __lock_acquire+0x179f/0x2300
-<4> [197.660694]  lock_acquire+0xd8/0x2d0
-<4> [197.673009]  fs_reclaim_acquire+0xa1/0xd0
-<4> [197.680478]  __kmalloc+0x9a/0x350
-<4> [197.689063]  acpi_ns_internalize_name.part.0+0x4a/0xb0
-<4> [197.694170]  acpi_ns_get_node_unlocked+0x60/0xf0
-<4> [197.720608]  acpi_ns_get_node+0x3b/0x60
-<4> [197.724428]  acpi_get_handle+0x57/0xb0
-<4> [197.728164]  acpi_has_method+0x20/0x50
-<4> [197.731896]  acpi_pci_set_power_state+0x43/0x120
-<4> [197.736485]  pci_power_up+0x24/0x1c0
-<4> [197.740047]  pci_pm_default_resume_early+0x9/0x30
-<4> [197.744725]  pci_pm_runtime_resume+0x2d/0x90
-<4> [197.753911]  __rpm_callback+0x3c/0x110
-<4> [197.762586]  rpm_callback+0x58/0x70
-<4> [197.766064]  rpm_resume+0x51e/0x730
-<4> [197.769542]  rpm_resume+0x267/0x730
-<4> [197.773020]  rpm_resume+0x267/0x730
-<4> [197.776498]  rpm_resume+0x267/0x730
-<4> [197.779974]  __pm_runtime_resume+0x49/0x90
-<4> [197.784055]  __intel_runtime_pm_get+0x19/0xa0 [i915]
-<4> [197.789070]  hwm_energy+0x55/0x100 [i915]
-<4> [197.793183]  hwm_read+0x9a/0x310 [i915]
-<4> [197.797124]  hwmon_attr_show+0x36/0x120
-<4> [197.800946]  dev_attr_show+0x15/0x60
-<4> [197.804509]  sysfs_kf_seq_show+0xb5/0x100
-
-However, the lock is only intended to protect either a hwmon overflow
-counter or rmw hardware operations.  There is no need to hold the lock,
-only the wakeref, while reading from hardware.
-
-Acquire the lock after hardware read under rpm wakeref.
-
-Fixes: c41b8bdcc297 ("drm/i915/hwmon: Show device level energy usage")
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Cc: <stable@vger.kernel.org> # v6.2+
----
- drivers/gpu/drm/i915/i915_hwmon.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
-index 8c3f443c8347e..faf7670de6e06 100644
---- a/drivers/gpu/drm/i915/i915_hwmon.c
-+++ b/drivers/gpu/drm/i915/i915_hwmon.c
-@@ -136,11 +136,11 @@ hwm_energy(struct hwm_drvdata *ddat, long *energy)
- 	else
- 		rgaddr = hwmon->rg.energy_status_all;
- 
--	mutex_lock(&hwmon->hwmon_lock);
--
- 	with_intel_runtime_pm(uncore->rpm, wakeref)
- 		reg_val = intel_uncore_read(uncore, rgaddr);
- 
-+	mutex_lock(&hwmon->hwmon_lock);
-+
- 	if (reg_val >= ei->reg_val_prev)
- 		ei->accum_energy += reg_val - ei->reg_val_prev;
- 	else
--- 
-2.43.0
-
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
