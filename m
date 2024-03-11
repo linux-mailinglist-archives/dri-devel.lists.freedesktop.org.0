@@ -2,60 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF2F877BF0
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 09:53:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB2BB877C00
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 09:58:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CB5710EBC2;
-	Mon, 11 Mar 2024 08:53:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4088D10EA9A;
+	Mon, 11 Mar 2024 08:58:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="sHrHGthp";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="ELkA1rAv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85A9610EBC2
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 08:53:50 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org
- [IPv6:2001:67c:2050:b231:465::202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4TtVtf1CRMz9sZh;
- Mon, 11 Mar 2024 09:53:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
- s=MBO0001; t=1710147226;
+Received: from out-175.mta0.migadu.com (out-175.mta0.migadu.com
+ [91.218.175.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F87110EA9A
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 08:58:13 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1710147490;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tBxxMeFHaNTIFVvrYkndR+gcWNWRWVLtfGRhdSP2/6o=;
- b=sHrHGthpynjybtW3iaYqn4VDz8W2mUnv6z71ZcETVBTQpDmc7sauHjv28wVIESNz/NT4JO
- /eVM/ApgVTwerUaZtR+crPq/PZ9QfQrPX1WDUb9R/U+hQMeqrmn84ffVdA6EYR8U8fVs6Q
- 6MKWrZ3VMg106rd65FLMhOoNk88XdMcm1C0OOax6wn91vCLFoo+dRCog61XZh0FdNhLrDV
- G4ztOUTIEG0WWo+/ygkJP0lKF5CIN1zlM1Yx+VoYodoBkIzP1n5ZyULYJ9x4RqUUP0uzUp
- U3GKlswqNYL8bbUzk07xidLNJSJeVygSFU7YDvFnpK2JjH330jL778xHvnsOSw==
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <x@xnux.eu>
-Cc: Maxime Ripard <mripard@kernel.org>,  Chen-Yu Tsai <wens@csie.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,  Thomas Zimmermann
- <tzimmermann@suse.de>,  David Airlie <airlied@gmail.com>,  Daniel Vetter
- <daniel@ffwll.ch>,  Jernej Skrabec <jernej.skrabec@gmail.com>,  Samuel
- Holland <samuel@sholland.org>,  Icenowy Zheng <uwu@icenowy.me>,
- dri-devel@lists.freedesktop.org,  linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sun4i: tcon: Support keeping dclk rate upon
- ancestor clock changes
-In-Reply-To: <s3iqqnqiqnlujncbb6vnip7hvofgbom54on7fx4hxmyfsk2v2w@gbvpkptsa5g3>
- (=?utf-8?Q?=22Ond=C5=99ej?= Jirman"'s message of "Sun, 10 Mar 2024 23:23:57
- +0100")
-References: <20240310-tcon_keep_stable_rate-v1-1-0296b0a85c02@oltmanns.dev>
- <s3iqqnqiqnlujncbb6vnip7hvofgbom54on7fx4hxmyfsk2v2w@gbvpkptsa5g3>
-Date: Mon, 11 Mar 2024 09:53:41 +0100
-Message-ID: <87le6pcfoq.fsf@oltmanns.dev>
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xbTltqoLlmFssK6yUo+EQC4DqOFHNmiIvuznM++ubag=;
+ b=ELkA1rAvL8X3fhBwm/BggL/K/gCJmwY/bRxMmagZI8Q/f2bxox3Ki7/+UXRyHWXDCzmpaw
+ 7r33pZoipgUM/mx8Rz45cc60eNt8nr5zbjvamrB6ESw2932aEIQ0TSo23IkuVsZR1qPh8A
+ /8pL3PYukDW+tfc5iKKVCEb8geXxaAA=
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Phong LE <ple@baylibre.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Sui Jingfeng <sui.jingfeng@linux.dev>
+Subject: [PATCH v3 0/5] drm/bridge: Allow using fwnode API to get the next
+ bridge
+Date: Mon, 11 Mar 2024 16:56:54 +0800
+Message-Id: <20240311085659.244043-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 4TtVtf1CRMz9sZh
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,65 +60,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Ond=C5=99ej,
+Currently, the various drm bridge drivers relay on OF infrastructures to
+works very well. Yet there are platforms and/or devices absence of OF
+support. Such as virtual display drivers, USB display apapters and ACPI
+based systems etc.
 
-On 2024-03-10 at 23:23:57 +0100, Ond=C5=99ej Jirman <x@xnux.eu> wrote:
-> Hello Frank,
->
-> On Sun, Mar 10, 2024 at 02:32:29PM +0100, Frank Oltmanns wrote:
->> +static int sun4i_rate_reset_notifier_cb(struct notifier_block *nb,
->> +				      unsigned long event, void *data)
->> +{
->> +	struct sun4i_rate_reset_nb *rate_reset =3D to_sun4i_rate_reset_nb(nb);
->> +
->> +	if (event =3D=3D POST_RATE_CHANGE)
->> +		schedule_delayed_work(&rate_reset->reset_rate_work, msecs_to_jiffies(=
-100));
->
-> If you get multiple reset notifier calls within 100ms of the first one,
-> the delay from the last one will not be 100ms, so this may violate expect=
-ations
-> you're describing in the commit message.
+Add fwnode based helpers to fill the niche, this allows part of the drm
+display bridge drivers to work across systems. As the fwnode based API
+has wider coverage than DT and the fwnode graphs are compatible with
+the OF graph, so the provided helpers can be used on all systems in theory.
+Assumed that the system has valid fwnode graphs established before the
+drm bridge driver is probed, and there is a fwnode assigned to the instance
+of specific drm bridge driver.
 
-Let me start by saying, the implicit expectation is that the new user of
-pll-video0 will get an exclusive lock on pll-video0 (otherwise,
-data-clock would reset pll-video0 after those 100ms rendering the whole
-endeavor of the new user pointless). This constraint makes the chances
-that the above event (two consecutive rate changes within 100ms) occurs
-very slim.
+Tested on TI BeaglePlay board and other platforms.
 
-That being said, I don't see a problem with cancelling the delayed work
-on PRE_RATE_CHANGE and restarting it on ABORT_RATE_CHANGE like this:
+v1 -> v2:
+	 * Modify it66121 to switch togather
+	 * Drop the 'side-by-side' implement
+	 * Add drm_bridge_find_next_bridge_by_fwnode() helper
+	 * Add drm_bridge_set_node() helper
 
-+static int sun4i_rate_reset_notifier_cb(struct notifier_block *nb,
-+				      unsigned long event, void *data)
-+{
-+	struct sun4i_rate_reset_nb *rate_reset =3D to_sun4i_rate_reset_nb(nb);
-+
-+	if (event =3D=3D PRE_RATE_CHANGE) {
-+		rate_reset->is_cancelled =3D cancel_delayed_work(&rate_reset->reset_rate=
-_work);
-+	} else if ((event =3D=3D POST_RATE_CHANGE) ||
-+		 (event =3D=3D ABORT_RATE_CHANGE) && rate_reset->is_cancelled) {
-+		schedule_delayed_work(&rate_reset->reset_rate_work, msecs_to_jiffies(100=
-));
-+		rate_reset->is_cancelled =3D false;
-+	}
-+
-+	return NOTIFY_DONE;
-+}
+v2 -> v3:
+	 * Read kernel-doc and improve function comments
+	 * Drop the 'port' argument of it66121_read_bus_width() (Dmitry)
+	 * Do more by covertering the sii902x drm bridge drviers
 
-The need for this new code is slim (IMHO) but on the other hand it
-doesn't add much complexity. I'll add it in V2 including the
-is_cancelled member in sun4i_rate_reset_nb if I don't receive any
-objections during this week.
+Sui Jingfeng (5):
+  drm/bridge: Add fwnode based helpers to get the next bridge
+  drm/bridge: simple-bridge: Use fwnode API to acquire device properties
+  drm-bridge: display-connector: Use fwnode API to acquire device
+    properties
+  drm-bridge: it66121: Use fwnode API to acquire device properties
+  drm-bridge: sii902x: Use fwnode API to acquire device properties
 
-Thanks,
-  Frank
+ drivers/gpu/drm/bridge/display-connector.c | 24 ++++----
+ drivers/gpu/drm/bridge/ite-it66121.c       | 63 ++++++++++---------
+ drivers/gpu/drm/bridge/sii902x.c           | 43 +++++--------
+ drivers/gpu/drm/bridge/simple-bridge.c     | 22 +++----
+ drivers/gpu/drm/drm_bridge.c               | 72 ++++++++++++++++++++++
+ include/drm/drm_bridge.h                   | 16 +++++
+ 6 files changed, 159 insertions(+), 81 deletions(-)
 
->
-> schedule_delayed_work doesn't re-schedule the work if it's already pendin=
-g.
->
-> Kind regards,
-> 	o.
+
+base-commit: 3fde6df89bac97416ce1c82b14237a1a67ce3285
+-- 
+2.34.1
+
