@@ -2,54 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFD6C878285
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 15:58:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A76E18782C8
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 16:11:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1606810E399;
-	Mon, 11 Mar 2024 14:58:27 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="SHLbD192";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83D6F112AF1;
+	Mon, 11 Mar 2024 15:11:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82E5510E399
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 14:58:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1710169103;
- bh=JYEfv+pOAbE2mpU6/gSIH2E4PeWMoYpcS68sBcZCRgc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=SHLbD192KRwwN3uzu/SenK0eBbjwG8Qf/DNNW5agjKlAt+OhshCEPDMkHXzeyWVtv
- 8EItQvEDIf7bv1Q0SXhuBkgltbufhRjrYsikVnxy1+Bm6Ng/+EFgsjesTUjk0gCZYN
- 61XxS392aC9RYGYbdMlpD+hTfHFr0xoo6Pi5/RHg8H/EYfgpyUpG+eX3/zA+QmcuK8
- AY+Voysxq7g4deOZGEOMzV3+0e9mm9HAMsIg4+8FIFQdhfV0Yc1z+tF8KKCad/VU+l
- s5LAk6Al/xVGwlRjOyIxoTI7mswYI8ids7TP3k9TLmS1WCUntfw4hYz2KFQHELSPqY
- iwSZCu0kzGtgQ==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 69F0637813B6;
- Mon, 11 Mar 2024 14:58:23 +0000 (UTC)
-Date: Mon, 11 Mar 2024 15:58:22 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Liviu Dudau <liviu.dudau@arm.com>
-Cc: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH] Revert "drm/panthor: Fix undefined
- panthor_device_suspend/resume symbol issue"
-Message-ID: <20240311155822.2a8507aa@collabora.com>
-In-Reply-To: <Ze8YJhmZgruRfNBo@e110455-lin.cambridge.arm.com>
-References: <20240311111619.249776-1-jani.nikula@intel.com>
- <20240311124826.44cc69ba@collabora.com> <87cys1t299.fsf@intel.com>
- <20240311125445.4bab1712@collabora.com> <87a5n5t0mt.fsf@intel.com>
- <Ze8YJhmZgruRfNBo@e110455-lin.cambridge.arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from rtg-sunil-navi33.amd.com (unknown [165.204.156.251])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B272112AF1;
+ Mon, 11 Mar 2024 15:11:22 +0000 (UTC)
+Received: from rtg-sunil-navi33.amd.com (localhost [127.0.0.1])
+ by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP id
+ 42BFBB8s005368; Mon, 11 Mar 2024 20:41:11 +0530
+Received: (from sunil@localhost)
+ by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Submit) id 42BFBB3J005367;
+ Mon, 11 Mar 2024 20:41:11 +0530
+From: Sunil Khatri <sunil.khatri@amd.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Shashank Sharma <shashank.sharma@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Sunil Khatri <sunil.khatri@amd.com>
+Subject: [PATCH v2] drm/amdgpu: add ring buffer information in devcoredump
+Date: Mon, 11 Mar 2024 20:41:09 +0530
+Message-Id: <20240311151109.5336-1-sunil.khatri@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,60 +45,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 11 Mar 2024 14:41:42 +0000
-Liviu Dudau <liviu.dudau@arm.com> wrote:
+Add relevant ringbuffer information such as
+rptr, wptr,rb mask, ring name, ring size and also
+the rings content for each ring on a gpu reset.
 
-> On Mon, Mar 11, 2024 at 02:26:50PM +0200, Jani Nikula wrote:
-> > On Mon, 11 Mar 2024, Boris Brezillon <boris.brezillon@collabora.com> wrote:  
-> > > On Mon, 11 Mar 2024 13:51:46 +0200
-> > > Jani Nikula <jani.nikula@intel.com> wrote:
-> > >  
-> > >> On Mon, 11 Mar 2024, Boris Brezillon <boris.brezillon@collabora.com> wrote:  
-> > >> > On Mon, 11 Mar 2024 13:16:19 +0200
-> > >> > Jani Nikula <jani.nikula@intel.com> wrote:
-> > >> >    
-> > >> >> This reverts commit 674dc7f61aefea81901c21402946074927e63f1a.
-> > >> >> 
-> > >> >> The commit causes a recursive dependency in kconfig:
-> > >> >> 
-> > >> >> drivers/iommu/Kconfig:14:error: recursive dependency detected!
-> > >> >> drivers/iommu/Kconfig:14:	symbol IOMMU_SUPPORT is selected by DRM_PANTHOR
-> > >> >> drivers/gpu/drm/panthor/Kconfig:3:	symbol DRM_PANTHOR depends on PM
-> > >> >> kernel/power/Kconfig:183:	symbol PM is selected by PM_SLEEP
-> > >> >> kernel/power/Kconfig:117:	symbol PM_SLEEP depends on HIBERNATE_CALLBACKS
-> > >> >> kernel/power/Kconfig:35:	symbol HIBERNATE_CALLBACKS is selected by XEN_SAVE_RESTORE
-> > >> >> arch/x86/xen/Kconfig:67:	symbol XEN_SAVE_RESTORE depends on XEN
-> > >> >> arch/x86/xen/Kconfig:6:	symbol XEN depends on PARAVIRT
-> > >> >> arch/x86/Kconfig:781:	symbol PARAVIRT is selected by HYPERV
-> > >> >> drivers/hv/Kconfig:5:	symbol HYPERV depends on X86_LOCAL_APIC
-> > >> >> arch/x86/Kconfig:1106:	symbol X86_LOCAL_APIC depends on X86_UP_APIC
-> > >> >> arch/x86/Kconfig:1081:	symbol X86_UP_APIC prompt is visible depending on PCI_MSI
-> > >> >> drivers/pci/Kconfig:39:	symbol PCI_MSI is selected by AMD_IOMMU
-> > >> >> drivers/iommu/amd/Kconfig:3:	symbol AMD_IOMMU depends on IOMMU_SUPPORT
-> > >> >> For a resolution refer to Documentation/kbuild/kconfig-language.rst
-> > >> >> subsection "Kconfig recursive dependency limitations"
-> > >> >> 
-> > >> >> Fixes: 674dc7f61aef ("drm/panthor: Fix undefined panthor_device_suspend/resume symbol issue")
-> > >> >> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> > >> >> Cc: Liviu Dudau <liviu.dudau@arm.com>
-> > >> >> Cc: Steven Price <steven.price@arm.com>
-> > >> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>    
-> > >> >
-> > >> > Acked-by: Boris Brezillon <boris.brezillon@collabora.com>    
-> > >> 
-> > >> Your suggestion select -> depends on IOMMU_SUPPORT seems to also work,
-> > >> at least for me. Want to send a patch for that instead of me merging the
-> > >> revert?  
-> > >
-> > > I replied on the other thread :-). I think we're better off reverting
-> > > the faulty commit, so we can discuss how to fix the original issue
-> > > properly without blocking the build.  
-> > 
-> > Thanks, pushed to drm-misc-next.  
-> 
-> So with this revert we're OK with an undefined symbol if !CONFIG_PM, but we're not happy
-> with a recursive dependency that is only triggered for COMPILE_TEST? I would've thought
-> IOMMU_SUPPORT options is a better one.
+Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-No worries, we have plenty of time to fix this. Just didn't want to
-rush a fix before discussing it with you and Steve.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
+index 6d059f853adc..a0dbccad2f53 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
+@@ -215,6 +215,27 @@ amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
+ 			   fault_info->status);
+ 	}
+ 
++	drm_printf(&p, "Ring buffer information\n");
++	for (int i = 0; i < coredump->adev->num_rings; i++) {
++		int j = 0;
++		struct amdgpu_ring *ring = coredump->adev->rings[i];
++
++		drm_printf(&p, "ring name: %s\n", ring->name);
++		drm_printf(&p, "Rptr: 0x%llx Wptr: 0x%llx RB mask: %x\n",
++			   amdgpu_ring_get_rptr(ring),
++			   amdgpu_ring_get_wptr(ring),
++			   ring->buf_mask);
++		drm_printf(&p, "Ring size in dwords: %d\n",
++			   ring->ring_size / 4);
++		drm_printf(&p, "Ring contents\n");
++		drm_printf(&p, "Offset \t Value\n");
++
++		while (j < ring->ring_size) {
++			drm_printf(&p, "0x%x \t 0x%x\n", j, ring->ring[j/4]);
++			j += 4;
++		}
++	}
++
+ 	if (coredump->reset_vram_lost)
+ 		drm_printf(&p, "VRAM is lost due to GPU reset!\n");
+ 	if (coredump->adev->reset_info.num_regs) {
+-- 
+2.34.1
+
