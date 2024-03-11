@@ -2,59 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C13BD8778CB
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Mar 2024 23:33:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8DE5877970
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 02:12:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 082AB10E0A2;
-	Sun, 10 Mar 2024 22:33:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5740C10E0D6;
+	Mon, 11 Mar 2024 01:12:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=xnux.eu header.i=@xnux.eu header.b="GTkGpEn3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cPm6Sx4E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 321 seconds by postgrey-1.36 at gabe;
- Sun, 10 Mar 2024 22:29:25 UTC
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A098910E0A2
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 22:29:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xnux.eu; s=mail;
- t=1710109441; bh=0dh7I6BWcg7FvSd5QFiZfq+RVCTqyfeXWc/UPHa5atk=;
- h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
- b=GTkGpEn3N5HcVUAR98jLSZy17qzKnKu8TgBB3cjtDGJQwkOzKb2yJp+bqFI3joH8J
- uxgzo2F5cx7Ie2uyLtEtjQHwljMVm3T9ziyfDh8cfCjn0rjENGS4QXMOWjo56VdoDY
- MuQU5vWCEQULn3w6drNgNV6COrsqnjUR85xMS+IE=
-Date: Sun, 10 Mar 2024 23:23:57 +0100
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <x@xnux.eu>
-To: Frank Oltmanns <frank@oltmanns.dev>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Icenowy Zheng <uwu@icenowy.me>, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sun4i: tcon: Support keeping dclk rate upon ancestor
- clock changes
-Message-ID: <s3iqqnqiqnlujncbb6vnip7hvofgbom54on7fx4hxmyfsk2v2w@gbvpkptsa5g3>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <x@xnux.eu>, 
- Frank Oltmanns <frank@oltmanns.dev>, Maxime Ripard <mripard@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Icenowy Zheng <uwu@icenowy.me>, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20240310-tcon_keep_stable_rate-v1-1-0296b0a85c02@oltmanns.dev>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71AA510E0D6
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 01:12:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 2E636CE0C06;
+ Mon, 11 Mar 2024 01:12:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76CBFC433C7;
+ Mon, 11 Mar 2024 01:12:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1710119558;
+ bh=2z5jInwHvNUuGQ13fZ+9l+YxupANHQadDhz4Wpt4Yg4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=cPm6Sx4E1EG59Iov80OXl2MFAXOcYsH6sW5GBiEeM0WcaeXdKWeKnjLgnzkJAJNUQ
+ ZGzu+uinfXZiBrCQs/BnKum3xWBjuxiG2Jnz71jbsD0IMC436SUkVVtHUBc/15b5J5
+ FlPk3Ywx0H9l5f6XBzTHnrtsVcxrCsUls2TXOjJDboqFM5zle++N9DatBuzt45gQv9
+ A18j7hc9e2S5CULTkLup888zf+AZXZNNkNXEhSYF1+RpxOAoMtWrJsod25hXkO9GSU
+ RHXZrgsBmlzTI8CgfJbqud+ntqAvcBQ37IkpFwFwxWMNfwcwgLu6iaf5Hgq8eaTHuq
+ I4nNxU2JaTS7Q==
+Message-ID: <9bd5ff0c-2f56-4fa5-9a78-f3b8981c970f@kernel.org>
+Date: Sun, 10 Mar 2024 19:12:34 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240310-tcon_keep_stable_rate-v1-1-0296b0a85c02@oltmanns.dev>
-X-Mailman-Approved-At: Sun, 10 Mar 2024 22:33:18 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH net-next v6 01/15] queue_api: define queue api
+Content-Language: en-US
+To: David Wei <dw@davidwei.uk>, Mina Almasry <almasrymina@google.com>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pavel Begunkov <asml.silence@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <20240305020153.2787423-2-almasrymina@google.com>
+ <54891f27-555a-4ed1-b92f-668813c18c37@davidwei.uk>
+From: David Ahern <dsahern@kernel.org>
+In-Reply-To: <54891f27-555a-4ed1-b92f-668813c18c37@davidwei.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,22 +94,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Frank,
+On 3/8/24 4:47 PM, David Wei wrote:
+> 
+> I'm working to port bnxt over to using this API. What are your thoughts
+> on maybe pulling this out and use bnxt to drive it?
+> 
 
-On Sun, Mar 10, 2024 at 02:32:29PM +0100, Frank Oltmanns wrote:
-> +static int sun4i_rate_reset_notifier_cb(struct notifier_block *nb,
-> +				      unsigned long event, void *data)
-> +{
-> +	struct sun4i_rate_reset_nb *rate_reset = to_sun4i_rate_reset_nb(nb);
-> +
-> +	if (event == POST_RATE_CHANGE)
-> +		schedule_delayed_work(&rate_reset->reset_rate_work, msecs_to_jiffies(100));
+I would love to see a second nic implementation; this patch set and
+overall design is driven by GVE limitations.
 
-If you get multiple reset notifier calls within 100ms of the first one,
-the delay from the last one will not be 100ms, so this may violate expectations
-you're describing in the commit message.
-
-schedule_delayed_work doesn't re-schedule the work if it's already pending.
-
-Kind regards,
-	o.
