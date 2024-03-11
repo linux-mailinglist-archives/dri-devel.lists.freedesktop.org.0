@@ -2,61 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 212138780CF
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 14:43:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73A478780D4
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 14:45:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C795E112A7A;
-	Mon, 11 Mar 2024 13:43:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2A4C112A80;
+	Mon, 11 Mar 2024 13:45:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GV/0NXmK";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="v4iEn+1n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B43FA112A7A;
- Mon, 11 Mar 2024 13:43:24 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 0DEDFCE1099;
- Mon, 11 Mar 2024 13:43:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 260F3C433F1;
- Mon, 11 Mar 2024 13:43:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1710164601;
- bh=EQLrk4lEo8JQyIRC1uzMsMtwYo6qr93Gpah+oQB54Gc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GV/0NXmKMKHV8YsKqvZ+lK8pIUdJzyxA2KrxaL3W1WqST9taiaQwzwIqO1omg1sZ5
- PWMdbV67YUfyxv3wwKt0Rzj96o+Us3aiwDyeUFwTOYYODX/NPbV+Gzenj645QjZS0W
- rpOYfjNrsi8LQfl+f1jz4k/MJ+ocGec1oe/RUdjrOcYffzOoJ0rUfkECBUFa9gXfQ0
- HX0N+H6AvK5YsByEZX3pQWmBxzx7CPfDFXOjrJtCD3R9aTKNdmY3UAbO6wrPR686oi
- UlLMIN2IM0JtuCB7El2on1+lK96Z7LcADOn0ss8uX+EFI/qHTl1WUCVq+JMxAbFflW
- yGhh0+NIX74cQ==
-Received: from johan by xi.lan with local (Exim 4.97.1)
- (envelope-from <johan@kernel.org>) id 1rjfw3-000000004f7-2Bbs;
- Mon, 11 Mar 2024 14:43:24 +0100
-Date: Mon, 11 Mar 2024 14:43:23 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Daniel Thompson <daniel.thompson@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Bjorn Andersson <quic_bjorande@quicinc.com>,
- quic_jesszhan@quicinc.com, quic_sbillaka@quicinc.com,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, regressions@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: drm/msm: DisplayPort hard-reset on hotplug regression in 6.8-rc1
-Message-ID: <Ze8Ke_M2xHyPYCu-@hovoldconsulting.com>
-References: <Zd3kvD02Qvsh2Sid@hovoldconsulting.com>
- <ZesH21DcfOldRD9g@hovoldconsulting.com>
- <56de6cfb-fe0f-de30-d4d0-03c0fbb0afbb@quicinc.com>
- <ZeyOmJLlBbwnmaJN@hovoldconsulting.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE64E112A80;
+ Mon, 11 Mar 2024 13:45:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1710164728;
+ bh=etQPVIeGvQgyTSZasgOHIek7mA2WMk1LPG637qsf5+c=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=v4iEn+1nUs5M4IHZTU+k9h5Suiq7v0BGy8IwTM+3BIJQQo5iG+VJP/M/zKNFFGG3M
+ QMCFj9cvEXmfJGoFiMBXcBeBz3pG2gwnZUCMb/ZV+EpQtWkasc8UPCsmiCWgcIiGEQ
+ SrC9FeZ8DGaf+UtipLs4qa7VpufCVkzjpYgIwi6zOQcuOfgWX3RbnPS8R8b1MwfFPf
+ C7SAuBk1vdvs7KbJMuW3Q5u/V7R0YcH2Z8lbe9wxG9LffcHHwXBT979NoG6ayZ4K5H
+ pyoktUSgSLqCC05DKZya8aVNjiSS/Yl82N3cE6TEn+YPrJT4bq7GIHSdtCtz5HIZYJ
+ fPrM/zCcN948A==
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1D5213780894;
+ Mon, 11 Mar 2024 13:45:28 +0000 (UTC)
+Date: Mon, 11 Mar 2024 15:45:26 +0200
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Cc: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <wayland-devel@lists.freedesktop.org>, Arthur Grillo
+ <arthurgrillo@riseup.net>
+Subject: Re: [RFC PATCH v4 06/42] drm/vkms: Add kunit tests for VKMS LUT
+ handling
+Message-ID: <20240311154526.1f8f6c4b.pekka.paalanen@collabora.com>
+In-Reply-To: <20240226211100.100108-7-harry.wentland@amd.com>
+References: <20240226211100.100108-1-harry.wentland@amd.com>
+ <20240226211100.100108-7-harry.wentland@amd.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZeyOmJLlBbwnmaJN@hovoldconsulting.com>
+Content-Type: multipart/signed; boundary="Sig_/3ma91tD+lI03d5cv3keYP/l";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,165 +64,328 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Mar 09, 2024 at 05:30:17PM +0100, Johan Hovold wrote:
-> On Fri, Mar 08, 2024 at 09:50:17AM -0800, Abhinav Kumar wrote:
-> > On 3/8/2024 4:43 AM, Johan Hovold wrote:
-> 
-> > For this last remaining reset with the stacktrace you have mentioned 
-> > below, I do not think this was introduced due to PM runtime series. We 
-> > have had this report earlier with the same stacktrace as well in earlier 
-> > kernels which didnt have PM runtime support:
-> 
-> > But, it seems like there is another race condition in this code 
-> > resulting in this issue again.
-> > 
-> > I have posted my analysis with the patch here as a RFC y'day:
-> > 
-> > https://patchwork.freedesktop.org/patch/581758/
-> > 
-> > I missed CCing you and Bjorn on the RFC but when I post it as a patch 
-> > either today/tomm, will CC you both.
-> 
-> Ok, thanks. I'll take a closer look at that next week. It's not clear to
-> me what that race looks like after reading the commit message. It would
-> be good to have some more details in there (e.g. the sequence of events
-> that breaks the state machine) and some way to reproduce the issue
-> reliably.
+--Sig_/3ma91tD+lI03d5cv3keYP/l
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I was able to reproduce the reset with some of my debug printks in place
-after reapplying the reverted hpd notify change so I have an explanation
-for (one of) the ways we can up in this state now.
+On Mon, 26 Feb 2024 16:10:20 -0500
+Harry Wentland <harry.wentland@amd.com> wrote:
 
-This does not match description of the problem in the fix linked to
-above and I don't think that patch solves the underlying issue even if
-it may make the race window somewhat smaller. More details below.
- 
-> > > We now also have Bjorn's call trace from a different Qualcomm platform
-> > > triggering an unclocked access on disconnect, something which would
-> > > trigger a reset by the hypervisor on sc8280xp platforms like the X13s:
-> 
-> > > [ 2030.379583] Kernel panic - not syncing: Asynchronous SError Interrupt
-> > > [ 2030.379586] CPU: 0 PID: 239 Comm: kworker/0:2 Not tainted 6.8.0-rc4-next-20240216-00015-gc937d3c43ffe-dirty #219
-> > > [ 2030.379590] Hardware name: Qualcomm Technologies, Inc. Robotics RB3gen2 (DT)
-> > > [ 2030.379592] Workqueue: events output_poll_execute [drm_kms_helper]
-> > > [ 2030.379642] Call trace:
-> 
-> > > [ 2030.379722]  wait_for_completion_timeout+0x14/0x20
-> > > [ 2030.379727]  dp_ctrl_push_idle+0x34/0x8c [msm]
-> > > [ 2030.379844]  dp_bridge_atomic_disable+0x18/0x24 [msm]
-> > > [ 2030.379959]  drm_atomic_bridge_chain_disable+0x6c/0xb4 [drm]
-> > > [ 2030.380150]  drm_atomic_helper_commit_modeset_disables+0x174/0x57c [drm_kms_helper]
-> > > [ 2030.380200]  msm_atomic_commit_tail+0x1b4/0x474 [msm]
-> > > [ 2030.380316]  commit_tail+0xa4/0x158 [drm_kms_helper]
-> > > [ 2030.380369]  drm_atomic_helper_commit+0x24c/0x26c [drm_kms_helper]
-> > > [ 2030.380418]  drm_atomic_commit+0xa8/0xd4 [drm]
-> > > [ 2030.380529]  drm_client_modeset_commit_atomic+0x16c/0x244 [drm]
-> > > [ 2030.380641]  drm_client_modeset_commit_locked+0x50/0x168 [drm]
-> > > [ 2030.380753]  drm_client_modeset_commit+0x2c/0x54 [drm]
-> > > [ 2030.380865]  __drm_fb_helper_restore_fbdev_mode_unlocked+0x60/0xa4 [drm_kms_helper]
-> > > [ 2030.380915]  drm_fb_helper_hotplug_event+0xe0/0xf4 [drm_kms_helper]
-> > > [ 2030.380965]  msm_fbdev_client_hotplug+0x28/0xc8 [msm]
-> > > [ 2030.381081]  drm_client_dev_hotplug+0x94/0x118 [drm]
-> > > [ 2030.381192]  output_poll_execute+0x214/0x26c [drm_kms_helper]
-> > > [ 2030.381241]  process_scheduled_works+0x19c/0x2cc
-> > > [ 2030.381249]  worker_thread+0x290/0x3cc
-> > > [ 2030.381255]  kthread+0xfc/0x184
-> > > [ 2030.381260]  ret_from_fork+0x10/0x20
-> > > 
-> > > The above could happen if the convoluted hotplug state machine breaks
-> > > down so that the device is runtime suspended before
-> > > dp_bridge_atomic_disable() is called.
-> 
-> > Yes, state machine got broken and I have explained how in the commit 
-> > text of the RFC. But its not necessarily due to PM runtime but a 
-> > sequence of events happening from userspace exposing this breakage.
-> 
-> After looking at this some more today, I agree with you. The
-> observations I've reported are consistent with what would happen if the
-> link clock is disabled when dp_bridge_atomic_disable() is called.
-> 
-> That clock is disabled in dp_bridge_atomic_post_disable() before runtime
-> suspending, but perhaps there are some further paths that can end up
-> disabling it.
+> Debugging LUT math is much easier when we can unit test
+> it. Add kunit functionality to VKMS and add tests for
+>  - get_lut_index
+>  - lerp_u16
+>=20
+> v4:
+>  - Test the critical points of the lerp function (Pekka)
+>=20
+> v3:
+>  - Use include way of testing static functions (Arthur)
+>=20
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> Cc: Arthur Grillo <arthurgrillo@riseup.net>
+> ---
+>  drivers/gpu/drm/vkms/Kconfig                  |   5 +
+>  drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
+>  drivers/gpu/drm/vkms/tests/vkms_color_tests.c | 163 ++++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_composer.c          |   8 +-
+>  4 files changed, 178 insertions(+), 2 deletions(-)
+>  create mode 100644 drivers/gpu/drm/vkms/tests/.kunitconfig
+>  create mode 100644 drivers/gpu/drm/vkms/tests/vkms_color_tests.c
+>=20
 
-Turns out there are paths like that and we hit those more often before
-reverting e467e0bde881 ("drm/msm/dp: use drm_bridge_hpd_notify().
+Hi Harry,
 
-Specifically, when a previous connect attempt did not enable the bridge
-fully so that it is still in the ST_MAINLINK_READY when we receive a
-disconnect event, dp_hpd_unplug_handle() will turn of the link clock.
+since fixed point math is hard, please allow me to nitpick so maybe
+these patches could be landed ahead of time.
 
-[  204.527625] msm-dp-display ae98000.displayport-controller: dp_bridge_hpd_notify - link_ready = 1, status = 2
-[  204.531553] msm-dp-display ae98000.displayport-controller: dp_hpd_unplug_handle
-[  204.533261] msm-dp-display ae98000.displayport-controller: dp_ctrl_off_link
+> diff --git a/drivers/gpu/drm/vkms/Kconfig b/drivers/gpu/drm/vkms/Kconfig
+> index b9ecdebecb0b..c1f8b343ff0e 100644
+> --- a/drivers/gpu/drm/vkms/Kconfig
+> +++ b/drivers/gpu/drm/vkms/Kconfig
+> @@ -13,3 +13,8 @@ config DRM_VKMS
+>  	  a VKMS.
+> =20
+>  	  If M is selected the module will be called vkms.
+> +
+> +config DRM_VKMS_KUNIT_TESTS
+> +	tristate "Tests for VKMS" if !KUNIT_ALL_TESTS
+> +	depends on DRM_VKMS && KUNIT
+> +	default KUNIT_ALL_TESTS
+> diff --git a/drivers/gpu/drm/vkms/tests/.kunitconfig b/drivers/gpu/drm/vk=
+ms/tests/.kunitconfig
+> new file mode 100644
+> index 000000000000..70e378228cbd
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vkms/tests/.kunitconfig
+> @@ -0,0 +1,4 @@
+> +CONFIG_KUNIT=3Dy
+> +CONFIG_DRM=3Dy
+> +CONFIG_DRM_VKMS=3Dy
+> +CONFIG_DRM_VKMS_KUNIT_TESTS=3Dy
+> diff --git a/drivers/gpu/drm/vkms/tests/vkms_color_tests.c b/drivers/gpu/=
+drm/vkms/tests/vkms_color_tests.c
+> new file mode 100644
+> index 000000000000..fc73e48aa57c
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vkms/tests/vkms_color_tests.c
+> @@ -0,0 +1,163 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +
+> +#include <kunit/test.h>
+> +
+> +#include <drm/drm_fixed.h>
+> +
+> +#define TEST_LUT_SIZE 16
+> +
+> +static struct drm_color_lut test_linear_array[TEST_LUT_SIZE] =3D {
+> +	{ 0x0, 0x0, 0x0, 0 },
+> +	{ 0x1111, 0x1111, 0x1111, 0 },
+> +	{ 0x2222, 0x2222, 0x2222, 0 },
+> +	{ 0x3333, 0x3333, 0x3333, 0 },
+> +	{ 0x4444, 0x4444, 0x4444, 0 },
+> +	{ 0x5555, 0x5555, 0x5555, 0 },
+> +	{ 0x6666, 0x6666, 0x6666, 0 },
+> +	{ 0x7777, 0x7777, 0x7777, 0 },
+> +	{ 0x8888, 0x8888, 0x8888, 0 },
+> +	{ 0x9999, 0x9999, 0x9999, 0 },
+> +	{ 0xaaaa, 0xaaaa, 0xaaaa, 0 },
+> +	{ 0xbbbb, 0xbbbb, 0xbbbb, 0 },
+> +	{ 0xcccc, 0xcccc, 0xcccc, 0 },
+> +	{ 0xdddd, 0xdddd, 0xdddd, 0 },
+> +	{ 0xeeee, 0xeeee, 0xeeee, 0 },
+> +	{ 0xffff, 0xffff, 0xffff, 0 },
+> +};
+> +
+> +const struct vkms_color_lut test_linear_lut =3D {
+> +	.base =3D test_linear_array,
+> +	.lut_length =3D TEST_LUT_SIZE,
+> +	.channel_value2index_ratio =3D 0xf000fll
 
-A racing connect event, such as the one I described earlier, can then
-try to enable the bridge again but dp_bridge_atomic_enable() just bails
-out early (and leaks a rpm reference) because we're now in
-ST_DISCONNECTED:
+Where does 0xf000f come from? Could it be computed from DRM_FIXED_ONE
+and ARRAY_LENGTH()?
 
-[  204.535773] msm-dp-display ae98000.displayport-controller: dp_bridge_hpd_notify - link_ready = 1, status = 1
-[  204.536187] [CONNECTOR:35:DP-2] status updated from disconnected to connected
-[  204.536905] msm-dp-display ae98000.displayport-controller: dp_display_notify_disconnect - would clear link ready (1), state = 0
-[  204.537821] msm-dp-display ae98000.displayport-controller: dp_bridge_atomic_check - link_ready = 1
-[  204.538063] msm-dp-display ae98000.displayport-controller: dp_display_send_hpd_notification - hpd = 0, link_ready = 1
-[  204.542778] msm-dp-display ae98000.displayport-controller: dp_bridge_atomic_enable
-[  204.586547] msm-dp-display ae98000.displayport-controller: dp_bridge_atomic_enable - state = 0 (rpm leak?)
+> +};
+> +
+> +
+> +static void vkms_color_test_get_lut_index(struct kunit *test)
+> +{
+> +	int i;
+> +
+> +	KUNIT_EXPECT_EQ(test, drm_fixp2int(get_lut_index(&test_linear_lut, test=
+_linear_array[0].red)), 0);
+> +
+> +	for (i =3D 0; i < TEST_LUT_SIZE; i++)
+> +		KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(get_lut_index(&test_linear_lut=
+, test_linear_array[i].red)), i);
 
-Clearing link_ready already in dp_display_notify_disconnect() would make
-the race window slightly smaller, but it would essentially just paper
-over the bug as the events are still not serialised. Notably, there is
-no user space interaction involved here and it's the spurious connect
-event that triggers the bridge enable.
+Why this instead of
 
-When the fbdev hotplug code later disables the never-enabled bridge,
-things go boom:
++	for (i =3D 0; i < TEST_LUT_SIZE; i++)
++		KUNIT_EXPECT_EQ(test, get_lut_index(&test_linear_lut, test_linear_array[=
+i].red), drm_int2fixp(i));
 
-[  204.649072] msm-dp-display ae98000.displayport-controller: dp_bridge_hpd_notify - link_ready = 0, status = 2
-[  204.650378] [CONNECTOR:35:DP-2] status updated from connected to disconnected
-[  204.651111] msm-dp-display ae98000.displayport-controller: dp_bridge_atomic_disable
+and
 
-as the link clock has already been disabled when accessing the link
-registers.
++	for (i =3D 0; i < 0xffff; i++)
++		KUNIT_EXPECT_EQ(test, drm_fixp2int(get_lut_index(&test_linear_lut, i)), =
+i / 0x1111);
 
-The stack trace for the bridge enable above is:
+?
 
-[  204.553922]  dp_bridge_atomic_enable+0x40/0x2f0 [msm]
-[  204.555241]  drm_atomic_bridge_chain_enable+0x54/0xc8 [drm]
-[  204.556557]  drm_atomic_helper_commit_modeset_enables+0x194/0x26c [drm_kms_helper]
-[  204.557853]  msm_atomic_commit_tail+0x204/0x804 [msm]
-[  204.559173]  commit_tail+0xa4/0x18c [drm_kms_helper]
-[  204.560450]  drm_atomic_helper_commit+0x19c/0x1b0 [drm_kms_helper]
-[  204.561743]  drm_atomic_commit+0xa4/0xdc [drm]
-[  204.563065]  drm_client_modeset_commit_atomic+0x22c/0x298 [drm]
-[  204.564402]  drm_client_modeset_commit_locked+0x60/0x1c0 [drm]
-[  204.565733]  drm_client_modeset_commit+0x30/0x58 [drm]
-[  204.567055]  __drm_fb_helper_restore_fbdev_mode_unlocked+0xbc/0xfc [drm_kms_helper]
-[  204.568381]  drm_fb_helper_hotplug_event.part.0+0xd4/0x110 [drm_kms_helper]
-[  204.569708]  drm_fb_helper_hotplug_event+0x38/0x44 [drm_kms_helper]
-[  204.571032]  msm_fbdev_client_hotplug+0x28/0xd4 [msm]
-[  204.572395]  drm_client_dev_hotplug+0xcc/0x130 [drm]
-[  204.573755]  drm_kms_helper_connector_hotplug_event+0x34/0x44 [drm_kms_helper]
-[  204.575114]  drm_bridge_connector_hpd_cb+0x90/0xa4 [drm_kms_helper]
-[  204.576465]  drm_bridge_hpd_notify+0x40/0x5c [drm]
-[  204.577842]  drm_aux_hpd_bridge_notify+0x18/0x28 [aux_hpd_bridge]
-[  204.579184]  pmic_glink_altmode_worker+0xc0/0x23c [pmic_glink_altmode]
+I think your original form is leaving quite much room for error in
+precision.
 
-> > > For some reason, possibly due to unrelated changes in timing, possibly
-> > > after the hotplug revert, I am no longer able to reproduce the reset
-> > > with 6.8-rc7 on the X13s.
-> 
-> > I do not know how the hotplug revert fixed this stack because I think 
-> > this can still happen.
+> +}
+> +
+> +static void vkms_color_test_lerp(struct kunit *test)
+> +{
+> +	/*** half-way round down ***/
+> +	s64 t =3D 0x80000000 - 1;
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x8);
+> +
+> +	/* odd a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x8);
+> +
+> +	/* odd b */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x8);
+> +
+> +	/* b =3D a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
+> +
+> +	/* b =3D a + 1 */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x10);
+> +
+> +
+> +	/*** half-way round up ***/
+> +	t =3D 0x80000000;
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x8);
+> +
+> +	/* odd a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x9);
+> +
+> +	/* odd b */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x8);
+> +
+> +	/* b =3D a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
+> +
+> +	/* b =3D a + 1 */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x11);
+> +
+> +	/*** t =3D 0.0 ***/
+> +	t =3D 0x0;
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x0);
+> +
+> +	/* odd a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x1);
+> +
+> +	/* odd b */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x1);
+> +
+> +	/* b =3D a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
+> +
+> +	/* b =3D a + 1 */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x10);
+> +
+> +	/*** t =3D 1.0 ***/
+> +	t =3D 0x100000000;
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x10);
+> +
+> +	/* odd a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x10);
+> +
+> +	/* odd b */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0xf);
+> +
+> +	/* b =3D a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
+> +
+> +	/* b =3D a + 1 */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x11);
+> +
+> +
+> +	/*** t =3D 0.0 + 1 ***/
+> +	t =3D 0x0 + 1;
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x0);
+> +
+> +	/* odd a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x1);
+> +
+> +	/* odd b */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x1);
+> +
+> +	/* b =3D a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
+> +
+> +	/* b =3D a + 1 */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x10);
+> +
+> +	/*** t =3D 1.0 - 1 ***/
+> +	t =3D 0x100000000 - 1;
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x10);
+> +
+> +	/* odd a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x10);
+> +
+> +	/* odd b */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0xf);
+> +
+> +	/* b =3D a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
+> +
+> +	/* b =3D a + 1 */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x11);
+> +
+> +
+> +	/*** t chosen to verify the flipping point of result a (or b) to a+1 (o=
+r b-1) ***/
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x1, 0x80000000 - 1), 0x0);
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x1, 0x80000000), 0x1);
 
-So, while it may still be theoretically possible to hit the resets after
-the revert, the HPD notify revert effectively "fixed" the regression in
-6.8-rc1 by removing the preconditions that now made us hit it (i.e. the
-half-initialised bridge).
+What about b =3D 0xfffd also? The smaller number in b, and especially in
+b - a, the more precision error the rounding will forgive.
 
-It seems the hotplug state machine needs to be reworked completely, but
-at least we're roughly back where we were with 6.7 (including that the
-bus clocks will never be turned of because of the rpm leaks on
-disconnect).
+> +}
+> +
+> +static struct kunit_case vkms_color_test_cases[] =3D {
+> +	KUNIT_CASE(vkms_color_test_get_lut_index),
+> +	KUNIT_CASE(vkms_color_test_lerp),
+> +	{}
+> +};
+> +
+> +static struct kunit_suite vkms_color_test_suite =3D {
+> +	.name =3D "vkms-color",
+> +	.test_cases =3D vkms_color_test_cases,
+> +};
+> +kunit_test_suite(vkms_color_test_suite);
+> +
+> +MODULE_LICENSE("GPL");
+> \ No newline at end of file
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/=
+vkms_composer.c
+> index e70cd473e3be..d178f2a400f6 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -91,7 +91,7 @@ static void fill_background(const struct pixel_argb_u16=
+ *background_color,
+>  }
+> =20
+>  // lerp(a, b, t) =3D a + (b - a) * t
+> -static u16 lerp_u16(u16 a, u16 b, s64 t)
+> +u16 lerp_u16(u16 a, u16 b, s64 t)
+>  {
+>  	s64 a_fp =3D drm_int2fixp(a);
+>  	s64 b_fp =3D drm_int2fixp(b);
+> @@ -101,7 +101,7 @@ static u16 lerp_u16(u16 a, u16 b, s64 t)
+>  	return drm_fixp2int_round(a_fp + delta);
 
-Johan
+Given the past, I guess it wouldn't hurt if all drm fixp functions had
+a few tests of their own.
+
+
+Thanks,
+pq
+
+>  }
+> =20
+> -static s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_v=
+alue)
+> +s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
+>  {
+>  	s64 color_channel_fp =3D drm_int2fixp(channel_value);
+> =20
+> @@ -429,3 +429,7 @@ int vkms_set_crc_source(struct drm_crtc *crtc, const =
+char *src_name)
+> =20
+>  	return ret;
+>  }
+> +
+> +#ifdef CONFIG_DRM_VKMS_KUNIT_TESTS
+> +#include "tests/vkms_color_tests.c"
+> +#endif
+
+
+--Sig_/3ma91tD+lI03d5cv3keYP/l
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXvCvYACgkQI1/ltBGq
+qqd0Hg//cupZg7EUEcGvadI9RT13UFBDy/nncgdbp1qQw9c9b1+sKhn90aTSA0jz
+4TKULCnuNco2I/HrNk+U/ftNDIV9L5/YSk+iYmvn3c+PgkK7lwsvkUARZZTJiixV
+GRZopuJifTnvwTlLGUJ70+coVfySznKnycSs2S1wVN8GdquMB+G0v/zxSe1XDkJi
+lYqZBJwAugm3he2aCddtGAgd0mlUwJr9jM0s+VdPyOAzsVritzFMEbGTwgaqDRSm
+H45dNpwVgbkDY8zVhrheX0PhidWKa4iM6UkXzs77AAEKaFv0Sy9vuhN4Jzuzao4g
+3GXvmko9+0Y2xf02BvDhbB58j7OEq8YkmKpGO0RiuymGZ0pmQDgeeiAjWD537b1W
+aooj4cUjjjj7/tb46tsjhh1r0tidqng2SAnpDEG8vj8KKWIwlmMBm5TEhOqLf942
+6FP23kZNsvKAfq70Z8vaRdBjdfTKCoZnFfHNDKcIfBFnbcjd0+bI5TYqsfDT91QX
+aEBDQ/iM6OMmFGMsu2gjWEtlRTvSWASoJaRUxZUQwhUqFiD4bjVn1+/xEuafg9iu
+dh4jZZWtp7Jcgr9TaA+0AwWAqvJjtbJjejSwqqHopu3Iu23M/R9Rv/LIz4+0bQ0K
+1hD/mF9CfiqOnpVYzq34Nqx9q++8ScnHJ64hvamja2RLymNEV0A=
+=2rEQ
+-----END PGP SIGNATURE-----
+
+--Sig_/3ma91tD+lI03d5cv3keYP/l--
