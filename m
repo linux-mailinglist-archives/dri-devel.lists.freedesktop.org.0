@@ -2,76 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11BB8877BA4
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 09:23:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E16CC877BAD
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 09:28:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9766010F579;
-	Mon, 11 Mar 2024 08:23:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7716D10EBD6;
+	Mon, 11 Mar 2024 08:28:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IlBEz50c";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FjzyfUCy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CC6010EEAB
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 08:23:31 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-413286f8985so4702755e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 01:23:31 -0700 (PDT)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 240DD10E8D2
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 08:28:09 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id
+ ffacd0b85a97d-33e959d8bc0so707796f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 01:28:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1710145409; x=1710750209; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1710145687; x=1710750487; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=AMJIYAT1aoLggdRB8puSiHOpe8FLhZyNAYzFcBUjOwA=;
- b=IlBEz50ceCci+DrWnj21VU3tyuvK/eS68XaDbW3ORwlu/6j1ML7Dg/P98AYbquCKuE
- Ferl0guqZ6ZoRfbuTDeupOFbcwlzM33eVnjyp+/BN6YX5+27UCyQ0qLDot8sWCTQ6BXL
- qnAVfFXvODg67CA2KddLJAZk/LUnNiZ/P7NqcfBFNpO5l12mZDuVKbIu9PhoZluI07ia
- xxQkz8L6WAEMgtt5G1kUhqJAq0+u8WkxI9SY/lXzo31uWDjqxBtBkrU447y0INlwLGv5
- OMBEJH4N1dEe/Rzn+gzlVV4MTdz4/72BdgzqQXa/vg6S51z2w8oLKdGkJyTfAEbbEW65
- Vj9A==
+ :reply-to; bh=eQZyryN683D1UORfEZL6ek1zynUu6qJYsZX7VCDYtD0=;
+ b=FjzyfUCyQTkFcEV0U+wW1/bHDpEAvdYrGp9EGW1cSP7tYi8dvj/FFNnBv9hIkAVNZH
+ mOrXdKsmZBvfvWv32bBvt3sk4X5BYeygEd9ajL0qQQvKXhU+e6LUp7EecOawIcL7TWXq
+ D/oQCFM25csErfYmhjxnFBjtUnSLQDsg26spg1FtBAQiuUHgh7we9nGqLlBQJJtwJsx3
+ NtppcK8c8+NvLOi6auhG4liFmhyOsstLy3KiEFImdOeQRuh4YS0xcyBrZX3o1mZhV6lI
+ v3T48gG76nWeb/qtBuzW0MZa+dEUvhIiq11K4uvgasIhDAARSOcWaQAvJWka75ziAF6+
+ KInA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710145409; x=1710750209;
+ d=1e100.net; s=20230601; t=1710145687; x=1710750487;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=AMJIYAT1aoLggdRB8puSiHOpe8FLhZyNAYzFcBUjOwA=;
- b=B18IfXLl6Ld7SwdI+mPclyWLK5EAYKmtea/hQ/EKPNfX5cQlK2VeWlnU5mpcpJ/b/s
- +BGIzPl3PEGIJhXrYNMqgiloMMjZA1ITDcm6/yBwhhlSCYGYlX+QyeWLcdndBetzUgn3
- BmMkwtSFp8rC7j3xokH88jJZ6UcerQdKbw50CAdzCDSXh4USWNdPfiViflu0IRS8uv9m
- Yw4EzSXX8mjmaD5vB/RgiTAJddgEF4g+wJMpz4zqFL8XYziHvZYjt0yLbPa6uimZTn75
- /FUrp1FjmY3RXMh3SXDjcUnFFC87oTnjv37GVCGWAtBr/C8K3/0i7HIqR/PZWyJ/aS74
- f7RA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWiMRui/jA+y8XMgrR3OUk5llQ09drPQ4HLieLHD/BVX0czM+FmFCB/SUlO9ycoZPdmedpxYoozqO+YuKt8Ry2lFFK+j1WQkeYTjV9jXvvv
-X-Gm-Message-State: AOJu0YzdzFdhaz2EeDbCF8le9ZSHRIOBbofwKxGz7dj0uMKSGwuV/RtF
- xLdU/k0tIiFl+L9sqSE3EeH6jqVTsGwot8umtid5i2XuOrueiDQFo21n6RR9C70=
-X-Google-Smtp-Source: AGHT+IGojr92IZ9JNjUk6i05tLWnB0/kzB3DppIN43i5jY2MgknDStpDu7m0C6KmkiaP5e7N7wDdDA==
-X-Received: by 2002:a05:600c:3d88:b0:413:2a07:20d3 with SMTP id
- bi8-20020a05600c3d8800b004132a0720d3mr1254967wmb.35.1710145409494; 
- Mon, 11 Mar 2024 01:23:29 -0700 (PDT)
+ bh=eQZyryN683D1UORfEZL6ek1zynUu6qJYsZX7VCDYtD0=;
+ b=nFfE/wKvW8HvwQyvbEeXCzDOZMN6PgSsWw9uThy4EMLJ8BsBPBCOhlF7sux6j+6wqf
+ PclyvsRAg362QTDLvdiMFEZZ/iqCA6y6S7fYsFcc6EEo2rA9xZE0YFCJGul9i2guAWU1
+ Bn8Tueue078Gllcq64fYLPan4prLEKuRpk80c5aPVpJTdM2p2cRZ+yRFm1qkmSjYatg4
+ eWHfpbv8khGDVhEa6FSkaoee8dfEg0er5OKOL7NC92xhz0ANn29Hmh8Af6lnNbQfDjhg
+ TkvfucSEZK6dcbT2jJfB83jJFt+kw8s/Ms+BoJAhqilYQ0h53IeQ8ycjScpKgD2aCi4K
+ sefg==
+X-Gm-Message-State: AOJu0Yys4vojjaoLOSDOWAOF4Ziv8pJ4faBhR97oI4sW5BZeziKOQnC6
+ bGpaeHhel1M2j/wdW9Q8asfERZAdLsL7ZYxScAbj0tTOM2qKRC3Pb8U1lCppb+4=
+X-Google-Smtp-Source: AGHT+IHbINzanyldEvlkSmneibzkSqU3a6J2oI5FuF7IR6+MnKCfeZNBOEClLGNdmRT/njkWXqrDlg==
+X-Received: by 2002:adf:efc9:0:b0:33d:d96b:2614 with SMTP id
+ i9-20020adfefc9000000b0033dd96b2614mr3432292wrp.54.1710145687199; 
+ Mon, 11 Mar 2024 01:28:07 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:48be:feb9:192b:f402?
  ([2a01:e0a:982:cbb0:48be:feb9:192b:f402])
  by smtp.gmail.com with ESMTPSA id
- u12-20020a05600c19cc00b004126afe04f6sm14688429wmq.32.2024.03.11.01.23.28
+ bx27-20020a5d5b1b000000b0033e7eba040dsm2892975wrb.97.2024.03.11.01.28.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Mar 2024 01:23:29 -0700 (PDT)
-Message-ID: <af099226-6644-46c5-b424-3c3a61e454c4@linaro.org>
-Date: Mon, 11 Mar 2024 09:23:28 +0100
+ Mon, 11 Mar 2024 01:28:06 -0700 (PDT)
+Message-ID: <e06f2792-d8d9-436e-980b-43fb2b27dda2@linaro.org>
+Date: Mon, 11 Mar 2024 09:28:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 2/8] drm/panel: do not return negative error codes from
- drm_panel_get_modes()
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, Jessica Zhang
- <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- stable@vger.kernel.org
-References: <cover.1709913674.git.jani.nikula@intel.com>
- <79f559b72d8c493940417304e222a4b04dfa19c4.1709913674.git.jani.nikula@intel.com>
+Subject: Re: [PATCH] drm/bridge: correct DRM_BRIDGE_OP_EDID documentation
 Content-Language: en-US, fr
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jani Nikula <jani.nikula@intel.com>
+Cc: dri-devel@lists.freedesktop.org
+References: <20240310-drm-bridge-fix-docs-v1-1-70d3d741cb7a@linaro.org>
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
  GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
@@ -97,7 +98,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro Developer Services
-In-Reply-To: <79f559b72d8c493940417304e222a4b04dfa19c4.1709913674.git.jani.nikula@intel.com>
+In-Reply-To: <20240310-drm-bridge-fix-docs-v1-1-70d3d741cb7a@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -116,62 +117,46 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/03/2024 17:03, Jani Nikula wrote:
-> None of the callers of drm_panel_get_modes() expect it to return
-> negative error codes. Either they propagate the return value in their
-> struct drm_connector_helper_funcs .get_modes() hook (which is also not
-> supposed to return negative codes), or add it to other counts leading to
-> bogus values.
+On 10/03/2024 00:38, Dmitry Baryshkov wrote:
+> While the commit d807ad80d811 ("drm/bridge: add ->edid_read hook and
+> drm_bridge_edid_read()") and the commit 27b8f91c08d9 ("drm/bridge:
+> remove ->get_edid callback") replaced ->get_edid() callback with the
+> ->edid_read(), they failed to update documentation. Fix the drm_bridge
+> docs to point to edid_read().
 > 
-> On the other hand, many of the struct drm_panel_funcs .get_modes() hooks
-> do return negative error codes, so handle them gracefully instead of
-> propagating further.
-> 
-> Return 0 for no modes, whatever the reason.
-> 
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> Fixes: 27b8f91c08d9 ("drm/bridge: remove ->get_edid callback")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->   drivers/gpu/drm/drm_panel.c | 17 +++++++++++------
->   1 file changed, 11 insertions(+), 6 deletions(-)
+>   include/drm/drm_bridge.h | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-> index e814020bbcd3..cfbe020de54e 100644
-> --- a/drivers/gpu/drm/drm_panel.c
-> +++ b/drivers/gpu/drm/drm_panel.c
-> @@ -274,19 +274,24 @@ EXPORT_SYMBOL(drm_panel_disable);
->    * The modes probed from the panel are automatically added to the connector
->    * that the panel is attached to.
->    *
-> - * Return: The number of modes available from the panel on success or a
-> - * negative error code on failure.
-> + * Return: The number of modes available from the panel on success, or 0 on
-> + * failure (no modes).
->    */
->   int drm_panel_get_modes(struct drm_panel *panel,
->   			struct drm_connector *connector)
->   {
->   	if (!panel)
-> -		return -EINVAL;
-> +		return 0;
->   
-> -	if (panel->funcs && panel->funcs->get_modes)
-> -		return panel->funcs->get_modes(panel, connector);
-> +	if (panel->funcs && panel->funcs->get_modes) {
-> +		int num;
->   
-> -	return -EOPNOTSUPP;
-> +		num = panel->funcs->get_modes(panel, connector);
-> +		if (num > 0)
-> +			return num;
-> +	}
-> +
-> +	return 0;
->   }
->   EXPORT_SYMBOL(drm_panel_get_modes);
->   
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index 3606e1a7f965..4baca0d9107b 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -541,7 +541,7 @@ struct drm_bridge_funcs {
+>   	 * The @get_modes callback is mostly intended to support non-probeable
+>   	 * displays such as many fixed panels. Bridges that support reading
+>   	 * EDID shall leave @get_modes unimplemented and implement the
+> -	 * &drm_bridge_funcs->get_edid callback instead.
+> +	 * &drm_bridge_funcs->edid_read callback instead.
+>   	 *
+>   	 * This callback is optional. Bridges that implement it shall set the
+>   	 * DRM_BRIDGE_OP_MODES flag in their &drm_bridge->ops.
+> @@ -687,7 +687,7 @@ enum drm_bridge_ops {
+>   	/**
+>   	 * @DRM_BRIDGE_OP_EDID: The bridge can retrieve the EDID of the display
+>   	 * connected to its output. Bridges that set this flag shall implement
+> -	 * the &drm_bridge_funcs->get_edid callback.
+> +	 * the &drm_bridge_funcs->edid_read callback.
+>   	 */
+>   	DRM_BRIDGE_OP_EDID = BIT(1),
+>   	/**
+> 
+> ---
+> base-commit: 1843e16d2df9d98427ef8045589571749d627cf7
+> change-id: 20240310-drm-bridge-fix-docs-0fd12bc6a041
+> 
+> Best regards,
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
