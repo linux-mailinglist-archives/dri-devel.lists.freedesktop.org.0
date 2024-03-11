@@ -2,84 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24F5B877A63
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 05:36:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 848AA877A93
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 06:29:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B114A10E0D7;
-	Mon, 11 Mar 2024 04:36:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC4C310E0F0;
+	Mon, 11 Mar 2024 05:29:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Hu2yRVqA";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Hu/RgToO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3587210E0D7
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 04:36:13 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id
- 98e67ed59e1d1-299b818d63aso2670878a91.0
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 21:36:13 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6986110E0F5
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 05:29:31 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-4132600824bso4186615e9.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Mar 2024 22:29:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1710131772; x=1710736572; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
- :reply-to; bh=QiEYgTiVIfRWezz5AaQue6rBdCpnJEAVy8ZiGZDVI+E=;
- b=Hu2yRVqAAffAgodMHoMdR6PJ2eMwyWHL6/mxj9/JyyCa2zSOiT+CuSKATzhif5nyDH
- 3Z4rP2tdQPdff8JUAT6mDn+0f26gifLUTsCfThMkmr/n6Kfa/N75iu7/ON+07f7ip1Kj
- OLauvYzAqm5WNw5kjwXriPYqY72AHBMs1uZr/dQic9Zdfc4W1mnzGBtx5by5aKaexv9L
- WHsTnz3i8oNiyByplfj0TufAnilV2GEAe5UE4xNJpgsX7oGPwM96UbeTOgZhIeAiydqG
- Wo9vmMqrTQviVegmCYV8K23arhnDwvQQCfiLibvjxhvSjj6SnAhpwjQDg6d0yyGWEM27
- Dung==
+ d=linaro.org; s=google; t=1710134969; x=1710739769; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=yXtTMiB8yTd0V/j3N7+/pDxtaVI46E/s8QpgcfA5miU=;
+ b=Hu/RgToOy4/2rKT/AYTC8/nO1obmbQMCWd3lJAJKD1qxsgNgQiK9j5Ptw25K+z31If
+ KEhw+8Yw9l8XZLz/ES56oYEr6IAf7WnQm1WwWpQR2+rnkkkfdzP+5Fa3QBi0CR1cgbmr
+ 8nOk8+5FXSS9UTmikiBn4AJbj2LSFB5nbtcOzi9z3UciQGVf/7nv9e9Hu1eStlGHX/vg
+ MPjmQ8VDq2HLJFw9PHlpVKLJ0ZPmPy8p3FDQkFvcHjvVcHe31d37IQ/RdAvahorQ0s3k
+ czd/vdPx9O0zgrcUWTxINzUOHnHTxmzTRbPiSvEdQ68RV9OZtp6o5pxoGTRhWVkwStTM
+ 4wyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710131772; x=1710736572;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=QiEYgTiVIfRWezz5AaQue6rBdCpnJEAVy8ZiGZDVI+E=;
- b=sSkTY5nxfDz1TFHLg3SuT4OkzK3hG+OkER1JOC3VsdoV9gK9+DOElAwbsSIb0a+OHE
- NV9bhE8tZkdS/0IC6se4ymkgpN2UMCGJsYc2r0G9zG+IFvEbO5xfasiAk2/Qveb+y7o5
- PHhJR6q3H3ZnECBf0CAWFqWs+VIInr/PmzlSlCLx+RJPRwhjQZMQl8TBvITKYUNUtQYt
- 7eJQIClZrqU7EvzNh1iHHPANo24VExcRbq4/dMnv0Sexh3M51Z4Fv1D8388ONond8vxx
- r+jR2oAxHpsz8gwkCatY1pkoOPEErpvfS0b2LVFdejWPLQwc6D7/M2ZCpwrXthZC/SjX
- MKFA==
+ d=1e100.net; s=20230601; t=1710134969; x=1710739769;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=yXtTMiB8yTd0V/j3N7+/pDxtaVI46E/s8QpgcfA5miU=;
+ b=gWVB9pI1uGF0LL55TqsecwswpuQzs9wSNY8ux1qMJxJZGnQwvWH36jd3y/sXuUdmNc
+ Id3Q9LWEZXC/59U9ZehxSKZIUtWoD418jUniRcIQGwsncoDnCl1CwPV0GLsw2LX28l78
+ 86EDXQU+mq/xqdEHH8wBCF+dq4m2iEwzYwyOd8B25w+s1ednnFl6kibofmbajiT3KBao
+ s+j6SGXyEcjN6wFtDQbCMJ/k1EH14B5qrVfbyTzUPmxyRCOQhqPUCTuPdsTz/nkIvAHv
+ FQO38rhB4o7zehyRmTCbVYLSY1q57kPgsQQ5eE7/u1LBT4jbE+WqKMsYimuBuF6s5fOG
+ z78g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXvW/6g0/E/NNJc4jK33mDq+IPSTZvwQEavFxzUjx0dxOh/M/NOhEKzYaDsnL0tGOnMZEwoncZB0payQBcbQKEuDUdXaaol+6vNelhqWmWJ
-X-Gm-Message-State: AOJu0Yxg2XR1sNi+2dNhRLQ+ogmmOmx/snnok9K9WVu/efsKcnXRYj24
- dgdOpj0SPlJP3/4GmU+0IOFWff5cSM7UyNx/kW3Rx1qA9gYiUxfQ
-X-Google-Smtp-Source: AGHT+IH+D9y4G7q+l3gX0afrHis3jTndC+4q6rRWXxESOkmoncT+9xkRPwtY2kgZHGqK0rqBuSHufw==
-X-Received: by 2002:a17:90b:e8a:b0:29b:6cfb:14a6 with SMTP id
- fv10-20020a17090b0e8a00b0029b6cfb14a6mr8043401pjb.11.1710131772355; 
- Sun, 10 Mar 2024 21:36:12 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- q10-20020a170902e30a00b001d9aa663282sm3583751plc.266.2024.03.10.21.36.11
+ AJvYcCWzbk1eaP0BfIqRbneaejvi0OYBa34ZqdPQsTzhzil/CLlhAg3LPNugDvLQtRcAqYRva6eknd5MVqVwQslUXpFh4pp0SiQEV8c29mdOBl3Z
+X-Gm-Message-State: AOJu0YxHEh1ULqF4Wls05zgz4yQFKYmsQeHD9VqEGrzWaf70o/S6vMp9
+ zgPIAdQcGvzc+rUF1MwZWTwe6CCBrjoN9JnLTFaSFzT+MHmT6W0sQ84D5AlK8QI=
+X-Google-Smtp-Source: AGHT+IHYUa4ArbYV8kRh62gYfLFJDZQGldanR4MfH6+U3Md4RBM8ptSDsifeiueN7QKuXmCkWJp9SA==
+X-Received: by 2002:a05:600c:5120:b0:413:2e49:3e05 with SMTP id
+ o32-20020a05600c512000b004132e493e05mr920wms.12.1710134969020; 
+ Sun, 10 Mar 2024 22:29:29 -0700 (PDT)
+Received: from localhost ([102.222.70.76]) by smtp.gmail.com with ESMTPSA id
+ v9-20020a05600c470900b0041312e8ef2bsm7784219wmo.26.2024.03.10.22.29.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 Mar 2024 21:36:11 -0700 (PDT)
-Date: Sun, 10 Mar 2024 21:36:10 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: linux-kselftest@vger.kernel.org
-Cc: David Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>,
- David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Maxime Ripard <mripard@kernel.org>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- loongarch@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- kunit-dev@googlegroups.com, linux-arch@vger.kernel.org
-Subject: Re: [RFC PATCH 0/5] Add support for suppressing warning backtraces
-Message-ID: <d24f147c-a304-4395-aefc-bed7490278b6@roeck-us.net>
-References: <20240305184033.425294-1-linux@roeck-us.net>
+ Sun, 10 Mar 2024 22:29:28 -0700 (PDT)
+Date: Mon, 11 Mar 2024 08:29:25 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ John Harrison <John.C.Harrison@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: [drm-intel:for-linux-next-gt 1/4]
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:2680
+ guc_context_policy_init_v70() warn: variable dereferenced before check 'ce'
+ (see line 2663)
+Message-ID: <17e29db7-04a8-4894-bf4b-6773b14d113f@moroto.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240305184033.425294-1-linux@roeck-us.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,81 +84,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 05, 2024 at 10:40:28AM -0800, Guenter Roeck wrote:
-> Some unit tests intentionally trigger warning backtraces by passing bad
-> parameters to kernel API functions. Such unit tests typically check the
-> return value from such calls, not the existence of the warning backtrace.
-> 
-> Such intentionally generated warning backtraces are neither desirable
-> nor useful for a number of reasons.
-> - They can result in overlooked real problems.
-> - A warning that suddenly starts to show up in unit tests needs to be
->   investigated and has to be marked to be ignored, for example by
->   adjusting filter scripts. Such filters are ad-hoc because there is
->   no real standard format for warnings. On top of that, such filter
->   scripts would require constant maintenance.
-> 
-> One option to address problem would be to add messages such as "expected
-> warning backtraces start / end here" to the kernel log.  However, that
-> would again require filter scripts, it might result in missing real
-> problematic warning backtraces triggered while the test is running, and
-> the irrelevant backtrace(s) would still clog the kernel log.
-> 
-> Solve the problem by providing a means to identify and suppress specific
-> warning backtraces while executing test code. Support suppressing multiple
-> backtraces while at the same time limiting changes to generic code to the
-> absolute minimum. Architecture specific changes are kept at minimum by
-> retaining function names only if both CONFIG_DEBUG_BUGVERBOSE and
-> CONFIG_KUNIT are enabled.
-> 
-> The first patch of the series introduces the necessary infrastructure.
-> The second patch marks the warning message in drm_calc_scale() in the DRM
-> subsystem as intentional where warranted. This patch is intended to serve
-> as an example for the use of the functionality introduced with this series.
-> The last three patches in the series introduce the necessary architecture
-> specific changes for x86, arm64, and loongarch.
-> 
-> This series is based on the RFC patch and subsequent discussion at
-> https://patchwork.kernel.org/project/linux-kselftest/patch/02546e59-1afe-4b08-ba81-d94f3b691c9a@moroto.mountain/
-> and offers a more comprehensive solution of the problem discussed there.
-> 
-> Checkpatch note:
->   Remaining checkpatch errors and warnings were deliberately ignored.
->   Some are triggered by matching coding style or by comments interpreted
->   as code, others by assembler macros which are disliked by checkpatch.
->   Suggestions for improvements are welcome.
-> 
-> Some questions:
-> 
-> - Is the general approach promising ? If not, are there other possible
->   solutions ?
-> - Function pointers are only added to the __bug_table section if both
->   CONFIG_KUNIT and CONFIG_DEBUG_BUGVERBOSE are enabled. This avoids image
->   size increases if CONFIG_KUNIT=n. Downside is slightly more complex
->   architecture specific assembler code. If function pointers were always
->   added to the __bug_table section, vmlinux image size would increase by
->   approximately 0.6-0.7%. Is the increased complexity in assembler code
->   worth the reduced image size ? I think so, but I would like to hear
->   other opinions.
-> - There are additional possibilities associated with storing the bug
->   function name in the __bug_table section. It could be independent of
->   KUNIT, it could be a configuration flag, and/or it could be used to
->   display the name of the offending function in BUG/WARN messages.
->   Is any of those of interest ?
-> 
+tree:   git://anongit.freedesktop.org/drm-intel for-linux-next-gt
+head:   7ad6a8fae597af7fae5193efc73276609337c360
+commit: cec82816d0d018f178b9b7f88fe4bf80d66954e9 [1/4] drm/i915/guc: Use context hints for GT frequency
+config: i386-randconfig-141-20240309 (https://download.01.org/0day-ci/archive/20240310/202403101225.7AheJhZJ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
-I am ready to send a full version of this series with support for
-all affected architectures. I am undecided if I should send it now,
-based on v6.8, and send v2 after rebasing it to v6.9-rc1, or if I
-should just wait for v6.9-rc1.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202403101225.7AheJhZJ-lkp@intel.com/
 
-I understand that some maintainers dislike getting new patch series
-while the commit window is is open. On the ther side, I tested the
-series thoroughly on top of v6.8-rc7, and initial v6.9 release candidates
-may have their own problems. Given that, I tend to send the series now.
+New smatch warnings:
+drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:2680 guc_context_policy_init_v70() warn: variable dereferenced before check 'ce' (see line 2663)
 
-Any thoughts ? Unless there is strong negative feedback, I'll likely
-do that in a day or two.
+vim +/ce +2680 drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 
-Thanks,
-Guenter
+774ce1510e6ccb Daniele Ceraolo Spurio 2022-07-18  2661  static int guc_context_policy_init_v70(struct intel_context *ce, bool loop)
+2584b3549f4c40 John Harrison          2022-04-12  2662  {
+2584b3549f4c40 John Harrison          2022-04-12 @2663  	struct intel_engine_cs *engine = ce->engine;
+                                                                                                 ^^^^^^^^^^
+Unchecked dereference
+
+3f2f20da79b208 Andi Shyti             2023-12-29  2664  	struct intel_guc *guc = gt_to_guc(engine->gt);
+2584b3549f4c40 John Harrison          2022-04-12  2665  	struct context_policy policy;
+2584b3549f4c40 John Harrison          2022-04-12  2666  	u32 execution_quantum;
+2584b3549f4c40 John Harrison          2022-04-12  2667  	u32 preemption_timeout;
+cec82816d0d018 Vinay Belgaumkar       2024-03-05  2668  	u32 slpc_ctx_freq_req = 0;
+2584b3549f4c40 John Harrison          2022-04-12  2669  	unsigned long flags;
+2584b3549f4c40 John Harrison          2022-04-12  2670  	int ret;
+3a4bfa091c46e9 Rahul Kumar Singh      2021-07-26  2671  
+7935785240508c John Harrison          2021-07-26  2672  	/* NB: For both of these, zero means disabled. */
+568944af44e753 John Harrison          2022-10-06  2673  	GEM_BUG_ON(overflows_type(engine->props.timeslice_duration_ms * 1000,
+568944af44e753 John Harrison          2022-10-06  2674  				  execution_quantum));
+568944af44e753 John Harrison          2022-10-06  2675  	GEM_BUG_ON(overflows_type(engine->props.preempt_timeout_ms * 1000,
+568944af44e753 John Harrison          2022-10-06  2676  				  preemption_timeout));
+2584b3549f4c40 John Harrison          2022-04-12  2677  	execution_quantum = engine->props.timeslice_duration_ms * 1000;
+2584b3549f4c40 John Harrison          2022-04-12  2678  	preemption_timeout = engine->props.preempt_timeout_ms * 1000;
+2584b3549f4c40 John Harrison          2022-04-12  2679  
+cec82816d0d018 Vinay Belgaumkar       2024-03-05 @2680  	if (ce && (ce->flags & BIT(CONTEXT_LOW_LATENCY)))
+                                                                    ^^
+NULL check is too late.
+
+cec82816d0d018 Vinay Belgaumkar       2024-03-05  2681  		slpc_ctx_freq_req |= SLPC_CTX_FREQ_REQ_IS_COMPUTE;
+cec82816d0d018 Vinay Belgaumkar       2024-03-05  2682  
+2584b3549f4c40 John Harrison          2022-04-12  2683  	__guc_context_policy_start_klv(&policy, ce->guc_id.id);
+2584b3549f4c40 John Harrison          2022-04-12  2684  
+2584b3549f4c40 John Harrison          2022-04-12  2685  	__guc_context_policy_add_priority(&policy, ce->guc_state.prio);
+2584b3549f4c40 John Harrison          2022-04-12  2686  	__guc_context_policy_add_execution_quantum(&policy, execution_quantum);
+2584b3549f4c40 John Harrison          2022-04-12  2687  	__guc_context_policy_add_preemption_timeout(&policy, preemption_timeout);
+cec82816d0d018 Vinay Belgaumkar       2024-03-05  2688  	__guc_context_policy_add_slpc_ctx_freq_req(&policy, slpc_ctx_freq_req);
+2584b3549f4c40 John Harrison          2022-04-12  2689  
+2584b3549f4c40 John Harrison          2022-04-12  2690  	if (engine->flags & I915_ENGINE_WANT_FORCED_PREEMPTION)
+2584b3549f4c40 John Harrison          2022-04-12  2691  		__guc_context_policy_add_preempt_to_idle(&policy, 1);
+2584b3549f4c40 John Harrison          2022-04-12  2692  
+2584b3549f4c40 John Harrison          2022-04-12  2693  	ret = __guc_context_set_context_policies(guc, &policy, loop);
+2584b3549f4c40 John Harrison          2022-04-12  2694  
+2584b3549f4c40 John Harrison          2022-04-12  2695  	spin_lock_irqsave(&ce->guc_state.lock, flags);
+6c82c75230b87d Daniele Ceraolo Spurio 2022-07-27  2696  	if (ret != 0)
+2584b3549f4c40 John Harrison          2022-04-12  2697  		set_context_policy_required(ce);
+2584b3549f4c40 John Harrison          2022-04-12  2698  	else
+2584b3549f4c40 John Harrison          2022-04-12  2699  		clr_context_policy_required(ce);
+2584b3549f4c40 John Harrison          2022-04-12  2700  	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+2584b3549f4c40 John Harrison          2022-04-12  2701  
+2584b3549f4c40 John Harrison          2022-04-12  2702  	return ret;
+3a4cdf1982f05d Matthew Brost          2021-07-21  2703  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
