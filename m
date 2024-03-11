@@ -2,121 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AA1D8786BE
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 18:53:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 398448786D0
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 18:57:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1F6510E8AE;
-	Mon, 11 Mar 2024 17:53:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AB8210FB5F;
+	Mon, 11 Mar 2024 17:57:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="txaR7T4E";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="hTyIn061";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2056.outbound.protection.outlook.com [40.107.94.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BBE110E7E9;
- Mon, 11 Mar 2024 17:53:18 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X4oGMgune31lH2UEYi3ECF4wuHSRhxnlZ7ifVrjLrYD/74b2hN+hk31vececGZCPw9p6ZVPXSkTNHzWyrzsjbc5H05RDAO0xmx9Uft6XLxmsWpwDgoXQOvkG0p5Z21DWCvhVukReCdXWyHMazL/MS4ML9/xA+xAzKi4Y+ByP6HcxWnoOuCCUYdxWN1NQPkFDsWl3CdygyL7Lv+lcdQ7kr+2dg3OhjiBHCVeyIjQKQDIoFQXX1t00No7zueakTcGR0qBto0NpnWLz4kHkAvRXtt8nDm6FXEIFeqnim2F/3c3MGF83Mf5VGgEiXwhcpeKOnKucNTdtzG27kOdYjHbCFA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RE93fuFQII58KMsWvEkHZhB7aaBgFa+z1ntygROVoCU=;
- b=XCI6++w7AN9+qGDiQP3XfC/ywTwSLQbEc1pO6UzTpEVIYEu+X781xuSNod7DLZZvkeH51eD/R5KZtuJJkoAT6hZTZy9x5/D94EUtkrVPu3HKxTQl/yO6iInuRB0PfNGm1JQuJcQ37QJjEiKy4YpqCTcnQXqq4kKUzEiV/BYb68j7EFrSRiuC/jvG3cVucPNhshNXxyNHGjq/89TJg0ruSVG9YAcXX6vzhmnV2ZZekOSUWs8bC4qlZ1H365MJhhbhHYt5lfheHSzcdqZ1XXGa/hPS/XC5anGaTFK0twNFPm7+1BiDHD9VTTFxm+cSqGartCoydOr92k1v/vjXU33ZLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RE93fuFQII58KMsWvEkHZhB7aaBgFa+z1ntygROVoCU=;
- b=txaR7T4E1UfzEOdAhJxyno2lLwctKP5TADwmnzgVDVrhkNX4DrO8+Q7/sR0A/WSi7KHvwLU5uEdI0Ox62/jUiz7v54V6W9H93zqvZB5zjqJnt4E4Oxwvb28WyTxFcwWpJxoqdErawpCylpp8Ynky1//bXShXH78/6B+UMxAJmEo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MW3PR12MB4396.namprd12.prod.outlook.com (2603:10b6:303:59::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.35; Mon, 11 Mar
- 2024 17:53:16 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7362.031; Mon, 11 Mar 2024
- 17:53:16 +0000
-Message-ID: <16c80cd7-9b1a-4361-bf00-9b1ae49ff653@amd.com>
-Date: Mon, 11 Mar 2024 18:52:56 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/amdgpu: add ring buffer information in devcoredump
-Content-Language: en-US
-To: Sunil Khatri <sunil.khatri@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240311151109.5336-1-sunil.khatri@amd.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240311151109.5336-1-sunil.khatri@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0165.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ba::20) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CAA510FB5F;
+ Mon, 11 Mar 2024 17:57:26 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 42B8UEPR010665; Mon, 11 Mar 2024 17:57:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=+BdaFrwNgX3LEXWnHtSpoGJGl5G3NqlZlETyFowVpWM=; b=hT
+ yIn061GCDQXqgsgtQ03x860vREnY+H0Li4pmgt+MXbm/Vq3eFrnEClYU3PB3esVA
+ C7Boq4qpCXlalLIyxGVe5xaLERdTJ9YD88tBlLPutbOa/8H5C3oSlDUQjzx0N3pi
+ 9QZuNTwXP8brlyWoPBqwKxQkSdy7QOQDqh1Zu4aZmLTrSEAnva/aYWAtkJAjkzPM
+ kXnhyM3sLjZiBmNXF9O90gM2Vj10uFbCrrGkiRrLf1wBzanMusA3EMK1RvvOrgxu
+ pilsBUG2uqrA8gTMXBwH5Ayd0fVIgk7nVm4IYHThJHSDwoD9W8qxA7mJIGbb0jTy
+ boSvu2SccQrwz+6iTcEA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wsx48snmq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Mar 2024 17:57:14 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42BHvD2r020790
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Mar 2024 17:57:13 GMT
+Received: from [10.110.0.139] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 11 Mar
+ 2024 10:57:12 -0700
+Message-ID: <1fb0d3b1-4248-f7eb-4d67-5c1b15082fc1@quicinc.com>
+Date: Mon, 11 Mar 2024 10:57:03 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW3PR12MB4396:EE_
-X-MS-Office365-Filtering-Correlation-Id: 811de83f-acb4-456b-8f99-08dc41f42127
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xVeyoAleG6BZX64HK6hq6vWbrQDrxdxu+pwd0hSjJbx+VthTbskP89yiUnA/dxgxa8bR/AMEJ7fk6SvIsbKNcDu5UaqzHicliOJEYlAM7SBDpBOO4G+NKqLO2kWvIpZszGaQu3F7pdMCzyvH2DB0SnkbDfRAQr/sr7gPg45i/kgICwKUsVtrI0H9xrLMC+wahgdPXelRpWocuwHe1vTPnE8OK7pdZ00/VCwYt6fNOIOL4d+Rxf/g5HV9maKEcMP360sulT5oDYOk4UJCVGEx/xDTEHNA64t39RvDS2/CJSVDopW+B2h3B6s0SuXldwOoTT+X4HNLj781uPotwQfC3xqx+AftdI/7MxW5UW2BEgK1tC1zRy4eExRMzXiX53rV81MjlIqoFNxjecDYNytV171LlKCUUyQzoXGI8ucvBY0WPs/GJE2/FmEbORXJK4dTxUIG1qcaM52dAp6t06lPLzXrg0g5DjoVuc8GdUEYxF/VCMAhqhAJr7g752XNZ0MWBPX0G2ZgMa+PMjuZ3D3/T0kQ7gtjZRv0dtuorJZ5BdJllEmNUoJieT5p6EC9GQweylLUBu4iHShKjRGBibuWZmqWqJzQE6w1yKhdwPZ+zNBoB+UmsDDcgRxvUm3VLz14Rv6pHOVglgktsMTQTTYcPG0332SqhYMNjvLoVqWWtXg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(1800799015)(376005); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a0RqUTdjTkFVaHU5ellPSWNGUTBqNktKc0dURk9jVC9kODU3c3hxZU5hbE9D?=
- =?utf-8?B?dmRiUERGdWxzTnh6VlFFcCtXVnlrcnMxYWV5ek5nbFBGYXlBWWtOdTF2ZXVw?=
- =?utf-8?B?VnRSRElrWUJiWnNseXlpRzJZYmw4ajFhYTJ5a250N1F2b0pzNkRmQTRBdTY3?=
- =?utf-8?B?WDR4SWNTZnEvUy9oSmQ3YjRObnRFM3ByejQrbzU4MEJpZzIxaVZwL3o5ZHND?=
- =?utf-8?B?RFh3TDl6ViszM0EzTStWVlByaWJqcVdyRUlMa01wbnVEc1NNNUFhenBjOG5q?=
- =?utf-8?B?RGNPdkxVV2RwK2RjSDBpNXNHVGJxNUIyM1lHdElDcW9WNUVXNlpCTUJIaVlH?=
- =?utf-8?B?eXVOZFZsbTRmZmt0cy8ySjdBU3pkNnRJMnljS0NWRnkxTWphNkoySDlkNk9Q?=
- =?utf-8?B?dXZRalJoSzUzLy9hVHRPZFoxSTd4c3ZmMHlCNlc2YTNxNFU5WHFaVHhsMmQz?=
- =?utf-8?B?ZVVxRzFrTFZnUXVRRnBBOTNUMTVVaTd1eUU1MDJEUGRjS0ljTlRyajJRcVBO?=
- =?utf-8?B?ckVCOW9INnZhQW5LL1gwRi9GRHBnNmVNbks3cjF5WGhNQjltMjhIcGUyU290?=
- =?utf-8?B?Zk5ySlBGVDVJRDNxdXpTbXp6WWxGK3c3S1lmMUNUeUhVOGJYZkY5bHllZXJ2?=
- =?utf-8?B?cGQvVU4vUTdGbkx3T0xwZVZ1SjcyQlFselRWaElzaDZ2ekFxQktIa0RkalAz?=
- =?utf-8?B?bDJ2NGdTUFZRWGgyRlFoTzc3NkVGenoxWjRvQ2l4RkNYMGgvSzhPRkRYMkdv?=
- =?utf-8?B?N1dnR0lLR2FZb0U4eGUyR3NWNzdtNHBFbmNMTnVSRUVlVWQ5N2ZKcjRLMXE0?=
- =?utf-8?B?Z3AxUVdocmgwaHRIK3VveHloMzRCWHVyRjZBQlFnRVpEREc0UnhoL0dJTUV1?=
- =?utf-8?B?MzdGRjFmZzZZWXc2VnJNVGZKekFLczVoR2dsVW4yYkJoQm9jRldXUTB5bEJK?=
- =?utf-8?B?QU80TEdNNWxDeUQwK2d3T0ZSdjk5ZXdIM2lNRVlDOWMyZUxVYzI3SlpPUndx?=
- =?utf-8?B?Y3MzZ25Mc3NmRTB5WEQ4MWczZFdsdDBzcmFVNmdIenAwS2dXVnVMZE9wMUpV?=
- =?utf-8?B?QlRuQyt1VWppSEdYOThvOXVVbHl6eXhTYkdiYWNzcjFhVDNZOEs3Z3RoM1E0?=
- =?utf-8?B?TFhDMU94eTV3eTFic1p2eEU4bUEvVjRrU0NOZGkwOXJtczROM2FjT1MzUW1F?=
- =?utf-8?B?NDMwMXAwWjZGQUM1WHhVY1Q0d25NeDJiMTd4bHk1NUdTbTlQODA4bmIvRjRz?=
- =?utf-8?B?dnpkUzcvUnhkUFVlTmV4UzhGT3p4aXVvQmVBYUZDRUloZE1SZlR5b2lvbTNS?=
- =?utf-8?B?MEYySksrQUUxK2I1SU5nL3R2VzRObzRzeEh2aFBISllwOGlPSnNzamtCNmZT?=
- =?utf-8?B?QjFnTnBkQjFYMmRrMm9wNlN2OHJzVXM3RUNNa2Z1SE9zMWZUK3BVaXUwL1Fj?=
- =?utf-8?B?UjZIZ2h6SU1JVzVNS1VKMEFzdVUyanVPZVBMVlhPZmpsZjk5YW01akxoM1dH?=
- =?utf-8?B?bnprUW1tS1plQXJYZm93Mnl2QWxXS3NXUjhVL0tNMWU0Y3pWektEcTRKampQ?=
- =?utf-8?B?UDlUOTNLU0lJbFVzeWt4WUl1UGhnL2lqOE1EcUNpcWtDVnp6NUIvRElrdGh0?=
- =?utf-8?B?bndyd2JjcWpFZ3ZTc0tvMkJ3UXdNVCtVUmZUdmhZRWpDSWRiT2RjQWlrbGto?=
- =?utf-8?B?S2NlWWFIVTlBSVZhblBta0JyTDVJazFPTHpQUnFzc1JETU4zMUZXNCs4MkJY?=
- =?utf-8?B?RTVNWnZzQ2tDZFpoY1ozNlV6QnBNK3crcEZoV1gwekl2d25MSDJ2bUV1aGY1?=
- =?utf-8?B?SWdHTHJsYWhPYWNKR0hwU0V2RmxJd21CK2VURjE2ZXJkZE1FL0pVOGUyRFVh?=
- =?utf-8?B?MDRCNW92YWlCQ1RmOVZkT0VuL2JpNkV0Ym1oN3M4MkM1dG9Na1UweHRYUWVB?=
- =?utf-8?B?SEJSdUk0OEZycnhESEJLRlUxL3p4dGJ1ZERsSXFNWW1jMXpRREhzclJhTkJN?=
- =?utf-8?B?MVFnYmNmOHB4bE8zY3BRUmg1R3RRVmw0YkpKemZoR3lhQjFCdkZjT2duOUdk?=
- =?utf-8?B?UnRTQ2VFYWdlRG94bUZQVWFCU3QwN1ZIUHl3a2FZb0cxVzdkWHRZY1Y0QVl2?=
- =?utf-8?Q?dn3egcX2Pwem55tDN+XKD86yu?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 811de83f-acb4-456b-8f99-08dc41f42127
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2024 17:53:16.5850 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: d5cR+V0oMfLUvkyqpfSh73vqT9sb1N92wGsPC0JUk77uWBnfYo01/Ls2TvnGIHx4
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4396
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] drm/msm/dp: move link_ready out of HPD event thread
+Content-Language: en-US
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>, "Dmitry
+ Baryshkov" <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ "Marijn Suijten" <marijn.suijten@somainline.org>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+CC: <dri-devel@lists.freedesktop.org>, <swboyd@chromium.org>,
+ <quic_jesszhan@quicinc.com>, <quic_parellan@quicinc.com>,
+ <johan@kernel.org>, <quic_bjorande@quicinc.com>,
+ Rob Clark <robdclark@chromium.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20240308214532.1404038-1-quic_abhinavk@quicinc.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <20240308214532.1404038-1-quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: YqMFmqfM_C1fyOnyvSMx2GDfS3K5YZXv
+X-Proofpoint-ORIG-GUID: YqMFmqfM_C1fyOnyvSMx2GDfS3K5YZXv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-11_10,2024-03-11_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 mlxlogscore=999
+ spamscore=0 impostorscore=0 adultscore=0 phishscore=0 bulkscore=0
+ lowpriorityscore=0 suspectscore=0 priorityscore=1501 malwarescore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2403110136
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,55 +97,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 11.03.24 um 16:11 schrieb Sunil Khatri:
-> Add relevant ringbuffer information such as
-> rptr, wptr,rb mask, ring name, ring size and also
-> the rings content for each ring on a gpu reset.
+
+On 3/8/2024 1:45 PM, Abhinav Kumar wrote:
+> There are cases where the userspace might still send another
+> frame after the HPD disconnect causing a modeset cycle after
+> a disconnect. This messes the internal state machine of MSM DP driver
+> and can lead to a crash as there can be an imbalance between
+> bridge_disable() and bridge_enable().
 >
-> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
-
-I think printing the mask still might be useful, but that's just a nit pick.
-
-With or without it the patch is Reviewed-by: Christian König 
-<christian.koenig@amd.com>
-
-Regards,
-Christian.
-
+> This was also previously reported on [1] for which [2] was posted
+> and helped resolve the issue by rejecting commits if the DP is not
+> in connected state.
+>
+> The change resolved the bug but there can also be another race condition.
+> If hpd_event_thread does not pick up the EV_USER_NOTIFICATION and process it
+> link_ready will also not be set to false allowing the frame to sneak in.
+>
+> Lets move setting link_ready outside of hpd_event_thread() processing to
+> eliminate a window of race condition.
+>
+> [1] : https://gitlab.freedesktop.org/drm/msm/-/issues/17
+> [2] : https://lore.kernel.org/all/1664408211-25314-1-git-send-email-quic_khsieh@quicinc.com/
+>
+> Fixes: 8a3b4c17f863 ("drm/msm/dp: employ bridge mechanism for display enable and disable")
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Tested-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> Reviewed-by: Kuogee Hsieh<quic_khsieh@quicinc.com>
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c | 21 +++++++++++++++++++++
->   1 file changed, 21 insertions(+)
+>   drivers/gpu/drm/msm/dp/dp_display.c | 7 +++++--
+>   1 file changed, 5 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
-> index 6d059f853adc..a0dbccad2f53 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
-> @@ -215,6 +215,27 @@ amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
->   			   fault_info->status);
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 068d44eeaa07..e00092904ccc 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -345,8 +345,6 @@ static int dp_display_send_hpd_notification(struct dp_display_private *dp,
+>   							 dp->panel->downstream_ports);
 >   	}
 >   
-> +	drm_printf(&p, "Ring buffer information\n");
-> +	for (int i = 0; i < coredump->adev->num_rings; i++) {
-> +		int j = 0;
-> +		struct amdgpu_ring *ring = coredump->adev->rings[i];
+> -	dp->dp_display.link_ready = hpd;
+> -
+>   	drm_dbg_dp(dp->drm_dev, "type=%d hpd=%d\n",
+>   			dp->dp_display.connector_type, hpd);
+>   	drm_bridge_hpd_notify(bridge, dp->dp_display.link_ready);
+> @@ -399,6 +397,8 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
+>   		goto end;
+>   	}
+>   
+> +	dp->dp_display.link_ready = true;
 > +
-> +		drm_printf(&p, "ring name: %s\n", ring->name);
-> +		drm_printf(&p, "Rptr: 0x%llx Wptr: 0x%llx RB mask: %x\n",
-> +			   amdgpu_ring_get_rptr(ring),
-> +			   amdgpu_ring_get_wptr(ring),
-> +			   ring->buf_mask);
-> +		drm_printf(&p, "Ring size in dwords: %d\n",
-> +			   ring->ring_size / 4);
-> +		drm_printf(&p, "Ring contents\n");
-> +		drm_printf(&p, "Offset \t Value\n");
+>   	dp_add_event(dp, EV_USER_NOTIFICATION, true, 0);
+>   
+>   end:
+> @@ -466,6 +466,8 @@ static int dp_display_notify_disconnect(struct device *dev)
+>   {
+>   	struct dp_display_private *dp = dev_get_dp_display_private(dev);
+>   
+> +	dp->dp_display.link_ready = false;
 > +
-> +		while (j < ring->ring_size) {
-> +			drm_printf(&p, "0x%x \t 0x%x\n", j, ring->ring[j/4]);
-> +			j += 4;
-> +		}
-> +	}
-> +
->   	if (coredump->reset_vram_lost)
->   		drm_printf(&p, "VRAM is lost due to GPU reset!\n");
->   	if (coredump->adev->reset_info.num_regs) {
-
+>   	dp_add_event(dp, EV_USER_NOTIFICATION, false, 0);
+>   
+>   	return 0;
+> @@ -487,6 +489,7 @@ static int dp_display_handle_port_status_changed(struct dp_display_private *dp)
+>   		drm_dbg_dp(dp->drm_dev, "sink count is zero, nothing to do\n");
+>   		if (dp->hpd_state != ST_DISCONNECTED) {
+>   			dp->hpd_state = ST_DISCONNECT_PENDING;
+> +			dp->dp_display.link_ready = false;
+>   			dp_add_event(dp, EV_USER_NOTIFICATION, false, 0);
+>   		}
+>   	} else {
