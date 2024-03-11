@@ -2,77 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E16CC877BAD
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 09:28:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4580C877BB0
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 09:29:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7716D10EBD6;
-	Mon, 11 Mar 2024 08:28:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C17CF10EBE0;
+	Mon, 11 Mar 2024 08:29:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FjzyfUCy";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MkMEiD6I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 240DD10E8D2
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 08:28:09 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-33e959d8bc0so707796f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 01:28:08 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7569A10E8D2
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 08:29:01 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-33e9def4a6dso79063f8f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 01:29:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1710145687; x=1710750487; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1710145740; x=1710750540; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=eQZyryN683D1UORfEZL6ek1zynUu6qJYsZX7VCDYtD0=;
- b=FjzyfUCyQTkFcEV0U+wW1/bHDpEAvdYrGp9EGW1cSP7tYi8dvj/FFNnBv9hIkAVNZH
- mOrXdKsmZBvfvWv32bBvt3sk4X5BYeygEd9ajL0qQQvKXhU+e6LUp7EecOawIcL7TWXq
- D/oQCFM25csErfYmhjxnFBjtUnSLQDsg26spg1FtBAQiuUHgh7we9nGqLlBQJJtwJsx3
- NtppcK8c8+NvLOi6auhG4liFmhyOsstLy3KiEFImdOeQRuh4YS0xcyBrZX3o1mZhV6lI
- v3T48gG76nWeb/qtBuzW0MZa+dEUvhIiq11K4uvgasIhDAARSOcWaQAvJWka75ziAF6+
- KInA==
+ :reply-to; bh=zQAXL321JQwnIXqnCCeFivDaPKXAJJGBvxgE+6Zz8oU=;
+ b=MkMEiD6IlmxFV4xNZFuUj76A6JGYRyfKGxIGuvKkWe8ndxPLTfqP5tEve+jWPLfCGf
+ XcltF+9cVzLoLBE63DrtVgAOUeTq/8M+AoNQmtG0GbT0VUQQwIumh3ofyRtgYt5GPXUM
+ SbSU3UdyMy9mSxiKIKU8PpXco5CJuCuis1MpCeL555Q0qbBI4XNs0tad1cNWo6ZDL5sc
+ 6btymYV/AlcEpQp4Ngn9TZtwkGnKkbC80QcevAho58anHuZuNJEFaaKq90+I3sNuxLGK
+ Hq+SR05hioTsSj4/I2ySBdg+7VfrHpTEQUHQmHJuFAl4hF5ElJ/15dpU81OoSbysajbc
+ lB8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710145687; x=1710750487;
+ d=1e100.net; s=20230601; t=1710145740; x=1710750540;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=eQZyryN683D1UORfEZL6ek1zynUu6qJYsZX7VCDYtD0=;
- b=nFfE/wKvW8HvwQyvbEeXCzDOZMN6PgSsWw9uThy4EMLJ8BsBPBCOhlF7sux6j+6wqf
- PclyvsRAg362QTDLvdiMFEZZ/iqCA6y6S7fYsFcc6EEo2rA9xZE0YFCJGul9i2guAWU1
- Bn8Tueue078Gllcq64fYLPan4prLEKuRpk80c5aPVpJTdM2p2cRZ+yRFm1qkmSjYatg4
- eWHfpbv8khGDVhEa6FSkaoee8dfEg0er5OKOL7NC92xhz0ANn29Hmh8Af6lnNbQfDjhg
- TkvfucSEZK6dcbT2jJfB83jJFt+kw8s/Ms+BoJAhqilYQ0h53IeQ8ycjScpKgD2aCi4K
- sefg==
-X-Gm-Message-State: AOJu0Yys4vojjaoLOSDOWAOF4Ziv8pJ4faBhR97oI4sW5BZeziKOQnC6
- bGpaeHhel1M2j/wdW9Q8asfERZAdLsL7ZYxScAbj0tTOM2qKRC3Pb8U1lCppb+4=
-X-Google-Smtp-Source: AGHT+IHbINzanyldEvlkSmneibzkSqU3a6J2oI5FuF7IR6+MnKCfeZNBOEClLGNdmRT/njkWXqrDlg==
-X-Received: by 2002:adf:efc9:0:b0:33d:d96b:2614 with SMTP id
- i9-20020adfefc9000000b0033dd96b2614mr3432292wrp.54.1710145687199; 
- Mon, 11 Mar 2024 01:28:07 -0700 (PDT)
+ bh=zQAXL321JQwnIXqnCCeFivDaPKXAJJGBvxgE+6Zz8oU=;
+ b=w9PkZr6wvLRN+qLrWVeZ6eutmA4BGThyx27smIqChooFwPVOUXltass5erDT12jwjU
+ TiIZPGhCXbi6YbXP0NJYOWIDS4UTKtiO4RW7SdeTODXAl0GNsbPjdYVXKfFzEYjho0Ub
+ DOW/RLBUb5nay6PgbePiCrSEzNs20GgVRzjzPRCXzEHtlBS73PJ6abyZTZzXuXRiGkQ6
+ aK+yvYeIEEcGEExIe6gnA/IGcN1wBjuRwuRdxm/++roGrUPyDfVB/STqAuJHY0WQN8z+
+ VVJQfrVLW8yh7wv5WWa/Ns30gKKcFi2/0Z5fhXtlj5FG5k6gWLJUZhNKdCbZndnhwXqB
+ uGOA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX0moeZjKBDRMyb1hx1YVtcxRAgXZoCauNEGgDIssBoZ7pCR0b/+J6Dryzr7htBgkGLxM8/evkfQPpShiUVelkInc5EgZyOYd8Gz2WsekFx
+X-Gm-Message-State: AOJu0YxeknWs44bqFHPAZ3AMfSWlW+Sq+wkn8194qjp0pnFZcK2lNmPB
+ t6PFz9NIwORYW7WE/fjNbP8l/ma9ibXzoQ3YqbrkHjHDnZrajLMQsLuHyOrMQKQ=
+X-Google-Smtp-Source: AGHT+IHEN3loKqI+Ct2m21UTsJhhjV14Q7edCHB7+TEqeh9C/JUqcyFDfyQ98UIohTx4OLx3X8uCeQ==
+X-Received: by 2002:adf:e389:0:b0:33e:12a2:297f with SMTP id
+ e9-20020adfe389000000b0033e12a2297fmr5113096wrm.41.1710145739483; 
+ Mon, 11 Mar 2024 01:28:59 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:48be:feb9:192b:f402?
  ([2a01:e0a:982:cbb0:48be:feb9:192b:f402])
  by smtp.gmail.com with ESMTPSA id
- bx27-20020a5d5b1b000000b0033e7eba040dsm2892975wrb.97.2024.03.11.01.28.06
+ bx27-20020a5d5b1b000000b0033e7eba040dsm2892975wrb.97.2024.03.11.01.28.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Mar 2024 01:28:06 -0700 (PDT)
-Message-ID: <e06f2792-d8d9-436e-980b-43fb2b27dda2@linaro.org>
-Date: Mon, 11 Mar 2024 09:28:05 +0100
+ Mon, 11 Mar 2024 01:28:58 -0700 (PDT)
+Message-ID: <e71f3596-65de-47e7-a23d-700111f55ee4@linaro.org>
+Date: Mon, 11 Mar 2024 09:28:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/bridge: correct DRM_BRIDGE_OP_EDID documentation
+Subject: Re: [PATCH 7/8] drm/bridge: lt9611uxc: use int for holding number of
+ modes
 Content-Language: en-US, fr
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jani Nikula <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org
-References: <20240310-drm-bridge-fix-docs-v1-1-70d3d741cb7a@linaro.org>
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Robert Foss <rfoss@kernel.org>
+References: <cover.1709913674.git.jani.nikula@intel.com>
+ <ed97f4f036263cdc4f34330cef91214970f99a77.1709913674.git.jani.nikula@intel.com>
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
  GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
@@ -98,7 +96,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro Developer Services
-In-Reply-To: <20240310-drm-bridge-fix-docs-v1-1-70d3d741cb7a@linaro.org>
+In-Reply-To: <ed97f4f036263cdc4f34330cef91214970f99a77.1709913674.git.jani.nikula@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -117,46 +115,32 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/03/2024 00:38, Dmitry Baryshkov wrote:
-> While the commit d807ad80d811 ("drm/bridge: add ->edid_read hook and
-> drm_bridge_edid_read()") and the commit 27b8f91c08d9 ("drm/bridge:
-> remove ->get_edid callback") replaced ->get_edid() callback with the
-> ->edid_read(), they failed to update documentation. Fix the drm_bridge
-> docs to point to edid_read().
+On 08/03/2024 17:03, Jani Nikula wrote:
+> lt9611uxc_connector_get_modes() propagates the return value of
+> drm_edid_connector_add_modes() but stores the int temporarily in an
+> unsigned int. Use the correct type.
 > 
-> Fixes: 27b8f91c08d9 ("drm/bridge: remove ->get_edid callback")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 > ---
->   include/drm/drm_bridge.h | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 3606e1a7f965..4baca0d9107b 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -541,7 +541,7 @@ struct drm_bridge_funcs {
->   	 * The @get_modes callback is mostly intended to support non-probeable
->   	 * displays such as many fixed panels. Bridges that support reading
->   	 * EDID shall leave @get_modes unimplemented and implement the
-> -	 * &drm_bridge_funcs->get_edid callback instead.
-> +	 * &drm_bridge_funcs->edid_read callback instead.
->   	 *
->   	 * This callback is optional. Bridges that implement it shall set the
->   	 * DRM_BRIDGE_OP_MODES flag in their &drm_bridge->ops.
-> @@ -687,7 +687,7 @@ enum drm_bridge_ops {
->   	/**
->   	 * @DRM_BRIDGE_OP_EDID: The bridge can retrieve the EDID of the display
->   	 * connected to its output. Bridges that set this flag shall implement
-> -	 * the &drm_bridge_funcs->get_edid callback.
-> +	 * the &drm_bridge_funcs->edid_read callback.
->   	 */
->   	DRM_BRIDGE_OP_EDID = BIT(1),
->   	/**
-> 
-> ---
-> base-commit: 1843e16d2df9d98427ef8045589571749d627cf7
-> change-id: 20240310-drm-bridge-fix-docs-0fd12bc6a041
-> 
-> Best regards,
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> index bcf8bccd86d6..f4f593ad8f79 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> @@ -294,8 +294,8 @@ static struct mipi_dsi_device *lt9611uxc_attach_dsi(struct lt9611uxc *lt9611uxc,
+>   static int lt9611uxc_connector_get_modes(struct drm_connector *connector)
+>   {
+>   	struct lt9611uxc *lt9611uxc = connector_to_lt9611uxc(connector);
+> -	unsigned int count;
+>   	const struct drm_edid *drm_edid;
+> +	int count;
+>   
+>   	drm_edid = drm_bridge_edid_read(&lt9611uxc->bridge, connector);
+>   	drm_edid_connector_update(connector, drm_edid);
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
