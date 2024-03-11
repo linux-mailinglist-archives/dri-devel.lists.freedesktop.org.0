@@ -2,69 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754E8878A22
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 22:37:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6380B878A36
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 22:52:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C3DB112C98;
-	Mon, 11 Mar 2024 21:37:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2946A112CAA;
+	Mon, 11 Mar 2024 21:52:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hCVIIxZJ";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="gTEP+qU+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 959E2112CA1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 21:37:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710193027; x=1741729027;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=zlhU1U9j2gqIlgHNCt0syz3JwXwlqVO6QdgqJNcgZ9I=;
- b=hCVIIxZJlY3kHa7T3av/FPU1s74q0VEmzrdnt2GN7IUaXRic9UUdK1Kv
- sqISe1qKe0Gt4ppfq0mxmK3CeXsFIhKpB7dEGrupR6TGQ40kXERaTe5lq
- S2ez4gQkheuiBeWxfFF8opBP4yVsoKPDJAUobNH8bCd8HqfDSzxtCtvFS
- aKKj9ZDBrqniCQ+SkbLtMz6/t8VaF0exb5fTJXBaE/MXCpDk2N60TnFdq
- pbERgCXDPXdHpkPSgxKje1Y3yjmgPbueOM4nzBMtjB5MzqHNT0JJlKk23
- V/7ftzO4EQbsGudRF0XtDpnHs0uHKgeg234GpZFnrQZKSqiy/ofIR7G+Y w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="8641363"
-X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
-   d="scan'208";a="8641363"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2024 14:37:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; d="scan'208";a="11375548"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
- by orviesa009.jf.intel.com with ESMTP; 11 Mar 2024 14:37:01 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rjnKM-0009Tr-0Q;
- Mon, 11 Mar 2024 21:36:58 +0000
-Date: Tue, 12 Mar 2024 05:36:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Chris Healy <cphealy@gmail.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 10/12] drm/imx: ldb: switch to imx_legacy_bridge /
- drm_bridge_connector
-Message-ID: <202403120545.CbwFr4SU-lkp@intel.com>
-References: <20240311-drm-imx-cleanup-v1-10-e104f05caa51@linaro.org>
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com
+ [91.218.175.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6AF9112CA7
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 21:52:12 +0000 (UTC)
+Message-ID: <03fe26b2-1b6b-49c8-ac34-e90c76562114@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1710193930;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=G3PsOHFrYJtHkNhKadH4zMG3Rkf5nMiw+jz9fku5Ijs=;
+ b=gTEP+qU+CrDNEe+UqbIGyHEDITEIH6ZCbnXqkhAaC/NEp/42LkFaVLwHPSvhKmRFh4EXoK
+ 7wAIXQFNQ8YGzxV+NiKnK3uIzUx+SctMmQPXRsxBs27pV4tQA3PPx+ydlh7ZPc6jVOlLSV
+ NKQQ0EZZCwY6ASqyrph/T80T22GVoQ4=
+Date: Tue, 12 Mar 2024 05:51:42 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240311-drm-imx-cleanup-v1-10-e104f05caa51@linaro.org>
+Subject: Re: [09/13] drm/gem: Acquire reservation lock in drm_gem_{pin/unpin}()
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ christian.koenig@amd.com, sumit.semwal@linaro.org,
+ dmitry.osipenko@collabora.com, robdclark@gmail.com,
+ quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
+ marijn.suijten@somainline.org, kherbst@redhat.com, lyude@redhat.com,
+ dakr@redhat.com, airlied@redhat.com, kraxel@redhat.com,
+ alexander.deucher@amd.com, Xinhui.Pan@amd.com, zack.rusin@broadcom.com,
+ bcm-kernel-feedback-list@broadcom.com
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+References: <20240227113853.8464-10-tzimmermann@suse.de>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <20240227113853.8464-10-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,130 +67,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+Hi,
 
-kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 1843e16d2df9d98427ef8045589571749d627cf7]
+On 2024/2/27 18:14, Thomas Zimmermann wrote:
+> Acquire the buffer object's reservation lock in drm_gem_pin() and
+> remove locking the drivers' GEM callbacks where necessary. Same for
+> unpin().
+>
+> DRM drivers and memory managers modified by this patch will now have
+> correct dma-buf locking semantics: the caller is responsible for
+> holding the reservation lock when calling the pin or unpin callback.
+>
+> DRM drivers and memory managers that are not modified will now be
+> protected against concurent invocation of their pin and unpin callbacks.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/dt-bindings-display-fsl-imx-drm-drop-edid-property-support/20240311-192356
-base:   1843e16d2df9d98427ef8045589571749d627cf7
-patch link:    https://lore.kernel.org/r/20240311-drm-imx-cleanup-v1-10-e104f05caa51%40linaro.org
-patch subject: [PATCH 10/12] drm/imx: ldb: switch to imx_legacy_bridge / drm_bridge_connector
-config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20240312/202403120545.CbwFr4SU-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240312/202403120545.CbwFr4SU-lkp@intel.com/reproduce)
+'concurent' -> 'concurrent'
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403120545.CbwFr4SU-lkp@intel.com/
+> PRIME does not implement struct dma_buf_ops.pin, which requires
+> the caller to hold the reservation lock. It does implement struct
+> dma_buf_ops.attach, which requires to callee to acquire the
+> reservation lock.
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+which requires 'the' callee to acquire the reservation lock.
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_pruss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_mf624.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/yenta_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82092.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/counter/ftm-quaddec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/sound_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/drivers/snd-pcmtest.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/pci/hda/snd-hda-cirrus-scodec-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/soc-topology-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-ab8500-codec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
-WARNING: modpost: sound/soc/codecs/snd-soc-tlv320adc3xxx: section mismatch in reference: adc3xxx_i2c_driver+0x10 (section: .data) -> adc3xxx_i2c_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-da7219.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-dmic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-i2s-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-max98927.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-max98357a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-max98373.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-nau8825.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-probe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt274.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt286.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt298.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt5514.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt5663.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt5682.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-ssm4567.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/mxs/snd-soc-mxs-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-sdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/qdsp6/snd-q6dsp-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-byt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-bdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda-mlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-skl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-apl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-cnl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-icl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tgl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-mtl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-lnl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8m.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8ulp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/imx-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mtk-adsp-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8195/snd-sof-mt8195.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8186/snd-sof-mt8186.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-of.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-pci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mtty.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy-fb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/configfs/configfs_sample.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kprobe_example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kretprobe_example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kmemleak/kmemleak-test.o
->> ERROR: modpost: "devm_imx_drm_legacy_bridge" [drivers/gpu/drm/imx/ipuv3/imx-ldb.ko] undefined!
-ERROR: modpost: "__bswapdi2" [drivers/md/dm-vdo/dm-vdo.ko] undefined!
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> The PRIME code uses drm_gem_pin(), so locks
+> are now taken as specified. Same for unpin and detach.
+>
+> The patch harmonizes GEM pin and unpin to have non-interruptible
+> reservation locking across all drivers, as is already the case for
+> vmap and vunmap. This affects gem-shmem, gem-vram, loongson, qxl and
+> radeon.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Zack Rusin <zack.rusin@broadcom.com>
+
+
+Tested with drm/loongson, play with a few days.
+Switch to virtual terminal, then switch back is fine.
+not found problems yet. So,
+
+Tested-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+
