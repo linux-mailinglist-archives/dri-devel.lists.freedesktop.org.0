@@ -2,151 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC2CF8787B8
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 19:41:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB558788EB
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 20:28:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDE8010EFFA;
-	Mon, 11 Mar 2024 18:41:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C6F5112C36;
+	Mon, 11 Mar 2024 19:27:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="B8xzzLfS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YoGhPOAT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 849A510EA44;
- Mon, 11 Mar 2024 18:41:32 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8DEE112C35;
+ Mon, 11 Mar 2024 19:27:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710182492; x=1741718492;
+ t=1710185278; x=1741721278;
  h=date:from:to:cc:subject:message-id:references:
  in-reply-to:mime-version;
- bh=pCCyJ20uTpQAH4M5hq48Nbi5LcyQ9KtQ9/Ga+Nrakpo=;
- b=B8xzzLfSNeuAXuTXlrjooDdeNSwu/jt0+qTp+OGoUYkHNBPtLUCYLoqU
- 0sUPSKRjcrIylYVXbGzSonFCbpTzyvzMALYfqdbz7FJh2cFNPZBJ5nEfB
- 4d+lhDhFJvsMQPFJLDSixYDY+qEWp43KQf/oGDq7/TZ0L6rU0iimkzR5x
- CY6wPkAZ17xpL3udYgARLuR/cHu+dpAZgNz54gkxMrGv7ULi5JBFwGhSW
- IYRjXfAYfeHTX+nwcI6+9qfJWIA+L/zbrlWP4VFTnqz0ERT8yGxEApVHE
- HS77QzIt+zfjkkitOELxoj84umaRFq/zdfDYNg8YlKQXQSnbi/MOEgp65 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="8622298"
+ bh=OrrHyJLcdjUrpBj/xTQAC2i01vhnAs6IYElTyq3rUpo=;
+ b=YoGhPOATgxhOkYJCro55S3uJmb3tnVdS7TZO6H7igK8hvblaru2BxSkW
+ ckuG/hD1aNIFSUE65qyWQ9mJWNMUWS2DroG0qKww9xZkQXGJRX30G4gs9
+ bKw89rnRuZh33RWSoakYUfK+7bkLIBmaeH1NOip331th7il/onHdiUel2
+ 60rJCZUq9U9JayL5XKoiLkUV+APvqdHMk6e+Gni8D1kE8tvU/di8uMPaZ
+ C622ngt+h81YTk7rG/tN/GW8YUw4srgHdyXXnlBv/GmPvI9FQkbCbO6lq
+ 8ilpyHA36MruBx/Ak7EMG5YffUC+0ct/k58cwhPjcLWdNPdXcFJA3UOJ3 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="4793243"
 X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
-   d="scan'208";a="8622298"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2024 11:41:32 -0700
+   d="scan'208";a="4793243"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2024 12:27:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; d="scan'208";a="11687152"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 11 Mar 2024 11:41:32 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; d="scan'208";a="15924119"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 11 Mar 2024 12:27:55 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 11 Mar 2024 11:41:31 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.1.2507.35; Mon, 11 Mar 2024 12:27:54 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 11 Mar 2024 11:41:30 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Mon, 11 Mar 2024 11:41:30 -0700
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.40) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ 15.1.2507.35 via Frontend Transport; Mon, 11 Mar 2024 12:27:53 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 11 Mar 2024 11:41:30 -0700
+ 15.1.2507.35; Mon, 11 Mar 2024 12:27:53 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b6sgLjlXeag1JYo9qyrFn39cMs2WtxcuSYM/ERFaKlCZSiDN3XGJt9r1EZWKojrvFl5TA6h8vgl3oWTQqfp/7CSUQ8cyFiIenYEnPUok7Fzamcs6QT46xhkn6teDo0roJM7JAB8OnlSxlSBTDEHcJQhlp7s/4EBow1NKDOh3y544TFeVSR+3qNsfbZZIdiXvh6SGgHzFrhzKfM8lX+aWBkVT+4i/wCCWKbYZcmarEtQk6/sxgf631T8fC0Q2eOO+kB3tmX3AldPI5jbFYfWWXX8G6Rt+C6Y48xDqunVgkpUize3GyOL+nVQzGPc3UBGLQGokJZHuqTJdsTmhhikUQQ==
+ b=dMPv602PgIoPPYbeA6T8hDeko3HgAQhNNe5soNKkKlL6u0w/cr9WSKiHE440jQHwQPgNCOj57L6x7RMfZsOfHOsW28yWqk8RjJLQUaJxHB+L4f+fd75he+I5Vz7HeXuLmX7Mt0DbBJEqkO04+ap/DHxP9sqSNLOKBAk2aCutNtwEDZxk/NCdM+qvSyYick9h5s7u9f0tABpcds78rFg62na74Znjo20ycNp8SxIC5dJ5PryC0YbCijOxgXkkLDOqqckSj1ZYNGN01elBcYIJPeiOkfCATX2+kHweYCiN8Z+rwUzcasbH6ZIRRUORNi0XHYYDpcZVlP7zZFJhrKxQ1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uelJ9D6UbJIBNQr8oAUUGFBSkvpT7uVY1C6OCdFiufo=;
- b=V9MS38Mlbq4T7QBy2XvbE9zCeOCKPRzgJCRTOQu90q++xv/hZwoTKpm9zFJA+23U5xTqm0jHLjjQ88PqFA7t65SlTcyEABFx6tpkeiz9EOgR5FPksjVX6w6nXfJzn5XJDDYvp4gwJVyzqVAzDh6dHniLb5XzVbS5eYM8wpZNN9+SXMrZHPvx4L2X85oDKhVjg0K7e+FeNudqN+l5Eyu3S3PKlfa13K3Z3bz8pnkwFQA3DGP65LHGJCHAwKIMEDsRzLHQlUcTCs1gIcnTLFxF+k2YZWhlRIvF+RkfS4gEQYknfxQFPbZuiLJN1cn1WhbPSAyPcTFNvvC+BGFwqa0ScA==
+ bh=QP8zKWPwqNgRwx65afasiemtG9AQDpIV/k8wMjM0w1s=;
+ b=JArTxbF49uf2NI8Td3gyB2CustkZByXe8eVG4Ftl+rSKdeod24XbKcktASASjDRSAL+Ll80R/f+slb9D/yZ4BpFa2PaE/KB+E/o9cQvfBYU0UwlTX9sxB6moHdSO3zx9chAqSFLF4eVxIoPJPci/cXLA/96qbOutG43/+nEfeENrwn06eN6hKOhs2O/hcWTdPolIKS5rnDbQ2eIQMLXByiwABYkOsjHEro8CLD+5uoSgd0ZAZyAvrAg3lKKeoTP3xEdH+lSVp23lPfZnLIpqKITWNgC+UKT/szKHU5iYCPXjVqMLoh1P5gGzuFnx6ZRwFZI6HhG9wso0qY39WSBNmg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by MN6PR11MB8218.namprd11.prod.outlook.com (2603:10b6:208:47c::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.16; Mon, 11 Mar
- 2024 18:41:28 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::7607:bd60:9638:7189]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::7607:bd60:9638:7189%4]) with mapi id 15.20.7386.016; Mon, 11 Mar 2024
- 18:41:28 +0000
-Date: Mon, 11 Mar 2024 14:41:23 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-CC: Guenter Roeck <linux@roeck-us.net>, <intel-gfx@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Ashutosh Dixit <ashutosh.dixit@intel.com>, "Anshuman
- Gupta" <anshuman.gupta@intel.com>, Badal Nilawar <badal.nilawar@intel.com>,
- Dale B Stimson <dale.b.stimson@intel.com>, Andi Shyti
- <andi.shyti@linux.intel.com>, Jonathan Cavitt <jonathan.cavitt@intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
-Subject: Re: [PATCH] drm/i915/hwmon: Fix locking inversion in sysfs getter
-Message-ID: <Ze9QU6ONoYEgnMkl@intel.com>
-References: <20240311080717.421152-2-janusz.krzysztofik@linux.intel.com>
- <Ze84MKyzFzTRq_Fm@intel.com>
- <cb72e724-232f-4134-befd-f3c7144e1105@roeck-us.net>
- <4317935.24cOQSKZR9@jkrzyszt-mobl2.ger.corp.intel.com>
-Content-Type: text/plain; charset="us-ascii"
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by DS0PR11MB7530.namprd11.prod.outlook.com (2603:10b6:8:146::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.17; Mon, 11 Mar
+ 2024 19:27:51 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::e9dd:320:976f:e257]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::e9dd:320:976f:e257%4]) with mapi id 15.20.7386.016; Mon, 11 Mar 2024
+ 19:27:51 +0000
+Date: Mon, 11 Mar 2024 14:27:48 -0500
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Tvrtko Ursulin <tursulin@ursulin.net>
+CC: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH 0/5] drm/i915: cleanup dead code
+Message-ID: <ib5axtjg4z5tdteclrvisvmjvvtvfytw6onisbt3jes4lvfsk2@afattpxmdnqn>
+References: <20240306193643.1897026-1-lucas.demarchi@intel.com>
+ <3e260fe4-9e21-4997-a41d-8b547612b65c@ursulin.net>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
 Content-Disposition: inline
-In-Reply-To: <4317935.24cOQSKZR9@jkrzyszt-mobl2.ger.corp.intel.com>
-X-ClientProxiedBy: BYAPR02CA0004.namprd02.prod.outlook.com
- (2603:10b6:a02:ee::17) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+In-Reply-To: <3e260fe4-9e21-4997-a41d-8b547612b65c@ursulin.net>
+X-ClientProxiedBy: SJ0P220CA0004.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:a03:41b::9) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|MN6PR11MB8218:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5fcaa0e3-d2f6-461b-e2d0-08dc41fadcde
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|DS0PR11MB7530:EE_
+X-MS-Office365-Filtering-Correlation-Id: ce5a69ac-15d1-4197-a81b-08dc42015773
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FBHRT8jYtNqnKATxxijkMAL8f6s34bym7hlE+W747wPmZTFZgyi/mA+7asbTaXiWORKjbt32N4yJFvQ1GrnrBQlB1RMMaA5h6QnY5Uz9uJiI4nRtFU9Qf1zliRhUgTSlQU4tgnnjTW07s8xem8fYpj9fxlK700pcaxGJ53Sl2l5Lj27HkhC+SyWBCCntNWokjK+4IYvNaAmnaj7GmAanIdlEk+J548WoLb6iffEpcNYJyIaOzH8mrYZvd1C5ZNR7TWMJOzBVGv+tczDXKsz1s/vqxt0OVScS6gF7q/xCyfy/iocOIWRcpNB0TGhSeFznk3zfH6hn+7LjKt0OLsl+avMMz545rixKT8s27/ibRftybmm8uMH5eH6iK/ApaijA0Lt4APUoSOiqb+2mTuNHi/nG8WDV7PudhvSBOWXDdBK3SO4SSjRC4BDtl7NmkCqoM1E5NDM6mDcI1JHH6ja/wUgqmHOVTWwhRKar55LxwZFU19RbRoPvpWEVx74Z9Hnhremi0f0InImdmPOOpgbIQtgZo4vmj/r17txH5cEp+TyjvkPZD3ze+ysaNsMAOI1qODVi64bFJ37W89ZiFAfMTt1IUyR8xDV1OTYbFGCEzNz9xmsiUcqtUaqXfPHif/8c2KeAQHZos3mR9YMrGvxLMgcr/zO3WguHBV2lboPDUwY=
+X-Microsoft-Antispam-Message-Info: Ez7/tBBFmyC9cylc6XL9VBlX7GetgLW9oeFyxF1eStdbC7RoyIqfh5ZM3oUh/K/Lb1bZqJ5SAQh3oBISaQTAYxbLo/pDJxls38Z+Jqq3TO5YPWztUmUqEkAbUl94MET4GTgk9UA/cVbY/UH9uXEY/SnCtyHGw9Es7WKZu8mdZrZiAsd96mKfp1iwy5+gJCu0VRXRXyTw535PhfTgAENel0knxg4lRny8h9xrpQmXdT+zmHOzHofrJwnZjvEYupzAYlr8HS3l6c1UfR/tr88b8dOLR0ihZH8IkbLsuB9bmWrZFxbRPWWGe1RQdK5QefXjsPp3Hxcoanup1DR1rHykEC+9vzumF0J596sqpHILyUI4/TDsAq8iOGh977kmCgiC/K66X23RrxXxLGM8o56JBJw+a+aCenUP4NxrDVXgvRf9bDM/tDac5WcKyfv6hn5rXMGqR2OJRpptAN+5/XACb6tegUWr+8SsdQNOVcE5KRSY74ElbpmC/7a+/R6f0jyQAyJFn0l0US8021L14M6XAgAsbru4lDJcsq0cvVpoPqOE6CxZd/NIECRq4Kb5UepWUK+nX6C1EPsjbwYWDHcBGz3wIQttV8qKpLZs/2TZJ1hQQXqgrhsznLLf2NR/1DO6pbvs00JVyEmI2847GjBHFTmWCBF3q8Ka6pfm7SMsgQU=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005)(1800799015); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376005)(1800799015)(27256008); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?llXPseHKAOQUq96+ko0MVPeRz0VTTlX8JZMdT548dGwvdQx8KBwls9H3hJ7p?=
- =?us-ascii?Q?srHk5j8F8j0iHCYhtXlnAkLZ8Kw9/EIvPhrTAq3GhS73xNp0HI3b1o3Z06mg?=
- =?us-ascii?Q?BZ8/R40W5ajgvYjCc+4/7jt+YQ4Yrz8hJrU/l/zD26B6T8VhTiwY7GEf/nEn?=
- =?us-ascii?Q?/UpDrJs8SCS1+1hRyCUvyMMpTeNbXv8gbGtWT8ojcuQ1RFlAFERpmBjKNGVy?=
- =?us-ascii?Q?g8sFWUu6OenNGEen6cyAPlwtSRQxKHOttfakvvyR4gokIz/B1PqIlguxNXFr?=
- =?us-ascii?Q?uRe+FTxYAWFhr7hTsYKTe/sIxvdDteu98+GMnm8E1RgBvfZI6IqdXct8rVjI?=
- =?us-ascii?Q?iA1mKbgS3r3TvjSWtizQqylsageJAP6sGpLGlGJ5tgBKEmA7z7HI1+WhO4L2?=
- =?us-ascii?Q?2rNc2oLFsz5N6SmjmUL7D8DlX56dOoIaA/YvTH8aNNjv3TMk0Kd1mAKNwFfD?=
- =?us-ascii?Q?47eXm7yLJMGsuT8l0u5pb8H4Rup4dsW9WliRA45hgoOicMjDi3msjFOgdDRr?=
- =?us-ascii?Q?tVd1IABwW7zcN5tgzszU8GHwEX4RCiqMT6aglSUOqt26wF204gqwDK6ZDB5N?=
- =?us-ascii?Q?43mitd0iAItR5AUp5HnQx8g3r4ys5zkQkwwX9s4w2IJEEFpHk780lehOXIE8?=
- =?us-ascii?Q?ISSXu15SDQ0Lr+xXwtU27ckBCfg2H5Ut0QEIdoZ9SktBN1d5As3HfayvqsZY?=
- =?us-ascii?Q?GViLInJpp0SC7H0I2LMBQJj1TYait8Qr7Qwi1yEiFnj0GKbz9TVhHjKELlz7?=
- =?us-ascii?Q?F/f0BeJOWtesHdzfjUhq17mu/FeL4fgMSUEgumM4dJbS42nRMagQRAGqZaUh?=
- =?us-ascii?Q?+2Avp84VvWY3C/wf+E6ZrQKyjpxoDNqi8qcXPmRZmkt0aTScDAGSiVY/LgFx?=
- =?us-ascii?Q?nPjixYmyLZWXFMuNgISTTAtzHJaxUH1eoQxwB63IfgIjouk1Qo/iwXH4ZEHE?=
- =?us-ascii?Q?nK4ALMg74cnV5Nhp+JNa3/H3S9fqApt1QamyH9l4AfQsSHLiv3+0nOvTN+OG?=
- =?us-ascii?Q?Em+8RW6wXQG2PNiTRcSKUja63P/z/hlCefzHH6U+AMxxrXES62S6kDZNFunW?=
- =?us-ascii?Q?yww1pgSahbesLkdnIIU37XTJuBwQebKyISZpVyRG5Jcm0yWFRgXpgk0oQ2ne?=
- =?us-ascii?Q?StK5WLfUpONslxTlJec/FNJqfBQByUmK4hQfZlVllcgchL/Lh2ef8WT+WIcw?=
- =?us-ascii?Q?MaP9sFN3OuW0YXYoa4U01EzCUNLYHfbYEWtHFGu2O3jLAcSdEc+VHMrCzCpy?=
- =?us-ascii?Q?c+fFOlDY47TLyq20QBDF09SiZ49OgfXyNSHMPqBsvsl6poaWQSaRVkc2WdPk?=
- =?us-ascii?Q?6ih2oMmUB6w+beAiXhLZiSoUiCilKXIeIBKg5Pn6dj3brUnMXl4yJbssF0Lq?=
- =?us-ascii?Q?uZ8l8JbGI2d/cOE0ZDW53SdMEIIZ1z8sLA2NuqBNENQxuPxB1zBAz2twSkOO?=
- =?us-ascii?Q?+vZS6eaYABn39piQ1Dj7oU1cR0xICxJWTcuMApdhn/NjejD6ZVuGn09OjE0c?=
- =?us-ascii?Q?y4JTsdtvWTsKcxoQkrwvE3VPAAJb+3nIxO6Kmfezi+On6PJ06V98u9zrZaGW?=
- =?us-ascii?Q?Dp0Jgc2BntXUemUA6jCtoeSU5OfFf+sZwDYu07RE//gG/tjXwwhYCnocRMhB?=
- =?us-ascii?Q?ww=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5fcaa0e3-d2f6-461b-e2d0-08dc41fadcde
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?F+VKhgnz4PlVLS9F3owd01qGHPwTIUIR03S2evl3Ys0iys+4Qrie/vvZfbui?=
+ =?us-ascii?Q?bR/LYsftBacVJNI6uA/U1kGuNvNj/UOacpWomDVV6oz1SOrXFsiK6lAxKuhN?=
+ =?us-ascii?Q?Gjq5J027XlIwB7Yzh2SdfQh/Mz4AR58eIBQaGU19Ww4n+VDW1LHXzrqG/I29?=
+ =?us-ascii?Q?7cav2wdta4qA5cfsmTC0FTO+q1QZauUGJJMTd5P0G6hL797UcKHDXZwkyiB+?=
+ =?us-ascii?Q?8lXBvGz+DyWkZbyImfCusKpuNk9f8cBd6j3A4uqO1v9ziGpKN65IXlbwHyno?=
+ =?us-ascii?Q?2mKqON9pFmqHSlxwrh08wonmwfrmdu5lj6YreVPU38oi5jDBnv4weUuSix0Y?=
+ =?us-ascii?Q?VDpXmh4P0+lWKCd1xoDlFDdbMcT8ttJEO1UxOjukCfxVaZhpUkBap91pdqLp?=
+ =?us-ascii?Q?UrC4Dk4vrCvwMNokS8fAEd9UZ3tG95Ju04oADB9WMcbd6VGfLJnn+U2zjQLR?=
+ =?us-ascii?Q?izt+NCHWQiYlpe/vSyecYzKqN3HIqw5c4QlwGCC3E7/SgAIxYAqy2ltZNfVy?=
+ =?us-ascii?Q?nCmQZ0c9g1MiHy4CY63d8Y5SNAB0nJPzJSNl35YgyGrqsCJnkkkbUtXoCeE1?=
+ =?us-ascii?Q?9RDqxSk4VXAWBysM7/Ofiy88cUQBlnbSCHlwE67fYdSh+LFjJn/5GgD/qxd3?=
+ =?us-ascii?Q?i4xTtg1qpIHN9E0H310HpeuvxR9L9ahS5qMypwxPPCYoZ/2S+LbKPUVOyUW+?=
+ =?us-ascii?Q?xpUiAtFNBlhBxVDCRfql05uz8ZlY8bt4nViE0QgbBs0uPPtC7pdseMnCTR1K?=
+ =?us-ascii?Q?kHKJpBkhxSSli1ivEEUrUVdI1p/oiF1l/tuCYBrxkzCCMIlvA0hkHSbrGncb?=
+ =?us-ascii?Q?5fDOvMbjGwdZFu3b3t+4rMtFGXs7d9bWlG2vhIWyDnSVzUqWFZxDi0Il6FzQ?=
+ =?us-ascii?Q?QalozJPY7qKegWzUY9kP2a8uMKBACgAWNMsNq+2NoFaexouw9zniXzY2Njkd?=
+ =?us-ascii?Q?DDCv+6XslhH9hYLlisNgI8cJfhTuEya1jaDPY3kiFhowOjHv9w7+WVXjpHWx?=
+ =?us-ascii?Q?lVkh1LSx8mBh2HlWsWR1uImNGw9T3qLhjFK+ko15gsqo8C3eWQO/arGZ6dQG?=
+ =?us-ascii?Q?Zn4473DhX//WAinEuOFDGtHg+va9pyU3UuRVkzTYIDp+AVXF0BGUXXDl6eX4?=
+ =?us-ascii?Q?xk/LYwJJhhHoDSpE0Vbq3WEjasXCpdkqDlZnRKAV3gZAkhpDllAvPRFilF/H?=
+ =?us-ascii?Q?0MqHQOgmGicJaWh3oxTnA2NczKr/jIlYaXZOJx4CH39MxNL8MO1zMqNjG86/?=
+ =?us-ascii?Q?kCQmQbUUhXeJsl3Zu5/lIAVzHX4F//PEnI7GEOyUQ38VZLBOgU4wgv+fZldA?=
+ =?us-ascii?Q?+kEYc8VzBtp202HLksln536Ym3rp4N+OOgPlMFP1LjO1nAKsgTH3SA3B0fzp?=
+ =?us-ascii?Q?gVzu2MAZH6WiLnvvrbtg4KhVL6r7ZxFD6/Li+2o+DOAht+IX4SL3dQIZcX3N?=
+ =?us-ascii?Q?igShsLQavogJcSDV/o4sxKSJGskpa2Ih1MNee6BjV33hajl7+Zd3dNTHiWp0?=
+ =?us-ascii?Q?EMipU484FMsv/Lf8OvqvEfFI9CYl/zd9tlq3KN+5d+V0WAnkYrjZxKOTpIAf?=
+ =?us-ascii?Q?dwop9LxkSI3RZXCCapLfUushecKdtIP0nfIQBDSGJ4vf0WQ7Jnd/FKF6lVgK?=
+ =?us-ascii?Q?zg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce5a69ac-15d1-4197-a81b-08dc42015773
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2024 18:41:28.5295 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2024 19:27:51.1675 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ak3fNXroZ5k+FtXqU65qzN7qPYS+X2YsYFuNfq42Mh9FiN/z6sHAXppVJ0gQbu2u9c8o2an0//oVTlBJZElpow==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR11MB8218
+X-MS-Exchange-CrossTenant-UserPrincipalName: CYXHscEHFoIBSQQM8OyqAt5yPiQLiR8Dt1yqXJ2dm3vQZnr4zaFywvpbZ2WW0pT4Lb56viCHSGyPlzxDvuddlSbediw1oA7yK8O8nIgnJnI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7530
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -163,132 +151,686 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 11, 2024 at 07:14:09PM +0100, Janusz Krzysztofik wrote:
-> On Monday, 11 March 2024 18:35:43 CET Guenter Roeck wrote:
-> > On 3/11/24 09:58, Rodrigo Vivi wrote:
-> > > On Mon, Mar 11, 2024 at 09:06:46AM +0100, Janusz Krzysztofik wrote:
-> > >> In i915 hwmon sysfs getter path we now take a hwmon_lock, then acquire an
-> > >> rpm wakeref.  That results in lock inversion:
-> > >>
-> > >> <4> [197.079335] ======================================================
-> > >> <4> [197.085473] WARNING: possible circular locking dependency detected
-> > >> <4> [197.091611] 6.8.0-rc7-Patchwork_129026v7-gc4dc92fb1152+ #1 Not tainted
-> > >> <4> [197.098096] ------------------------------------------------------
-> > >> <4> [197.104231] prometheus-node/839 is trying to acquire lock:
-> > >> <4> [197.109680] ffffffff82764d80 (fs_reclaim){+.+.}-{0:0}, at: __kmalloc+0x9a/0x350
-> > >> <4> [197.116939]
-> > >> but task is already holding lock:
-> > >> <4> [197.122730] ffff88811b772a40 (&hwmon->hwmon_lock){+.+.}-{3:3}, at: hwm_energy+0x4b/0x100 [i915]
-> > >> <4> [197.131543]
-> > >> which lock already depends on the new lock.
-> > >> ...
-> > >> <4> [197.507922] Chain exists of:
-> > >>    fs_reclaim --> &gt->reset.mutex --> &hwmon->hwmon_lock
-> > >> <4> [197.518528]  Possible unsafe locking scenario:
-> > >> <4> [197.524411]        CPU0                    CPU1
-> > >> <4> [197.528916]        ----                    ----
-> > >> <4> [197.533418]   lock(&hwmon->hwmon_lock);
-> > >> <4> [197.537237]                                lock(&gt->reset.mutex);
-> > >> <4> [197.543376]                                lock(&hwmon->hwmon_lock);
-> > >> <4> [197.549682]   lock(fs_reclaim);
-> > >> ...
-> > >> <4> [197.632548] Call Trace:
-> > >> <4> [197.634990]  <TASK>
-> > >> <4> [197.637088]  dump_stack_lvl+0x64/0xb0
-> > >> <4> [197.640738]  check_noncircular+0x15e/0x180
-> > >> <4> [197.652968]  check_prev_add+0xe9/0xce0
-> > >> <4> [197.656705]  __lock_acquire+0x179f/0x2300
-> > >> <4> [197.660694]  lock_acquire+0xd8/0x2d0
-> > >> <4> [197.673009]  fs_reclaim_acquire+0xa1/0xd0
-> > >> <4> [197.680478]  __kmalloc+0x9a/0x350
-> > >> <4> [197.689063]  acpi_ns_internalize_name.part.0+0x4a/0xb0
-> > >> <4> [197.694170]  acpi_ns_get_node_unlocked+0x60/0xf0
-> > >> <4> [197.720608]  acpi_ns_get_node+0x3b/0x60
-> > >> <4> [197.724428]  acpi_get_handle+0x57/0xb0
-> > >> <4> [197.728164]  acpi_has_method+0x20/0x50
-> > >> <4> [197.731896]  acpi_pci_set_power_state+0x43/0x120
-> > >> <4> [197.736485]  pci_power_up+0x24/0x1c0
-> > >> <4> [197.740047]  pci_pm_default_resume_early+0x9/0x30
-> > >> <4> [197.744725]  pci_pm_runtime_resume+0x2d/0x90
-> > >> <4> [197.753911]  __rpm_callback+0x3c/0x110
-> > >> <4> [197.762586]  rpm_callback+0x58/0x70
-> > >> <4> [197.766064]  rpm_resume+0x51e/0x730
-> > >> <4> [197.769542]  rpm_resume+0x267/0x730
-> > >> <4> [197.773020]  rpm_resume+0x267/0x730
-> > >> <4> [197.776498]  rpm_resume+0x267/0x730
-> > >> <4> [197.779974]  __pm_runtime_resume+0x49/0x90
-> > >> <4> [197.784055]  __intel_runtime_pm_get+0x19/0xa0 [i915]
-> > >> <4> [197.789070]  hwm_energy+0x55/0x100 [i915]
-> > >> <4> [197.793183]  hwm_read+0x9a/0x310 [i915]
-> > >> <4> [197.797124]  hwmon_attr_show+0x36/0x120
-> > >> <4> [197.800946]  dev_attr_show+0x15/0x60
-> > >> <4> [197.804509]  sysfs_kf_seq_show+0xb5/0x100
-> > >>
-> > >> However, the lock is only intended to protect either a hwmon overflow
-> > >> counter or rmw hardware operations.  There is no need to hold the lock,
-> > >> only the wakeref, while reading from hardware.
-> > >>
-> > >> Acquire the lock after hardware read under rpm wakeref.
-> > >>
-> > >> Fixes: c41b8bdcc297 ("drm/i915/hwmon: Show device level energy usage")
-> > >> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-> > >> Cc: <stable@vger.kernel.org> # v6.2+
-> > >> ---
-> > >>   drivers/gpu/drm/i915/i915_hwmon.c | 4 ++--
-> > >>   1 file changed, 2 insertions(+), 2 deletions(-)
-> > >>
-> > >> diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
-> > >> index 8c3f443c8347e..faf7670de6e06 100644
-> > >> --- a/drivers/gpu/drm/i915/i915_hwmon.c
-> > >> +++ b/drivers/gpu/drm/i915/i915_hwmon.c
-> > >> @@ -136,11 +136,11 @@ hwm_energy(struct hwm_drvdata *ddat, long *energy)
-> > >>   	else
-> > >>   		rgaddr = hwmon->rg.energy_status_all;
-> > >>   
-> > >> -	mutex_lock(&hwmon->hwmon_lock);
-> > >> -
-> > >>   	with_intel_runtime_pm(uncore->rpm, wakeref)
-> > >>   		reg_val = intel_uncore_read(uncore, rgaddr);
-> > >>   
-> > >> +	mutex_lock(&hwmon->hwmon_lock);
-> > >> +
-> > > 
-> > > This is not enough.
-> > > check hwm_locked_with_pm_intel_uncore_rmw()
-> > > 
-> > > It looks like we need to rethink this lock entirely here.
-> > > 
-> > 
-> > I would have assumed that the lock was supposed to ensure that
-> > reading the register value and the subsequent update of accum_energy
-> > and reg_val_prev was synchronized. This is no longer the case
-> > after this patch has been applied. Given that, I would agree that
-> > it would make sense to define what the lock is supposed to protect
-> > before changing its scope.
-> 
-> Right.  In that case, I propose to take the wakeref before the lock, and keep 
-> it while the lock is held around the calculations.  Would that be acceptable 
-> as a quick fix?  If yes then I can take the same approach to also fix other 
-> places in i915_hwmon.c for now where similar lock inversion can happen, as 
-> Rodrigo pointed out.  Without that, we are stuck with another series that 
-> cleans up excessive use of rpm wakerefs by other users, since those wakerefs 
-> evidently help with the issue in hwmon by hiding it, even if not related, and 
-> dropping them will expose it.
+On Mon, Mar 11, 2024 at 05:43:00PM +0000, Tvrtko Ursulin wrote:
+>
+>On 06/03/2024 19:36, Lucas De Marchi wrote:
+>>Remove platforms that never had their PCI IDs added to the driver and
+>>are of course marked with requiring force_probe. Note that most of the
+>>code for those platforms is actually used by subsequent ones, so it's
+>>not a huge amount of code being removed.
+>
+>I had PVC and xehpsdv back in October but could not collect all acks. :(
+>
+>Last two patches from https://patchwork.freedesktop.org/series/124705/.
 
-That would work. It is what we have on drivers/gpu/drm/xe/xe_hwmon.c already.
+oh... I was actually surprised we still had xehpsdv while removing a
+WA for PVC, which made me look into removing these platforms.
 
-Please convert every case and ensure that we are using pm_runtime_get on every
-path. Likely same places already in xe_hwmon.c
+rebasing your series and comparing yours..my-v2, where my-v2 only has
+patches 2 and 4, I have the diff below. I think it's small enough that I
+can just take your commits and squash delta. Is that ok to you?
 
-> 
-> Thanks,
-> Janusz
-> 
-> > 
-> > Guenter
-> > 
-> > 
-> 
-> 
-> 
-> 
+my version is a little bit more aggressive, also doing some renames
+s/xehpsdv/xehp/ and dropping some more code
+(engine_mask_apply_copy_fuses(), unused registers, default ctx, fw
+ranges).
+
+	diff --git a/Documentation/gpu/rfc/i915_vm_bind.h b/Documentation/gpu/rfc/i915_vm_bind.h
+	index 8a8fcd4fceac..bc26dc126104 100644
+	--- a/Documentation/gpu/rfc/i915_vm_bind.h
+	+++ b/Documentation/gpu/rfc/i915_vm_bind.h
+	@@ -93,12 +93,11 @@ struct drm_i915_gem_timeline_fence {
+	  * Multiple VA mappings can be created to the same section of the object
+	  * (aliasing).
+	  *
+	- * The @start, @offset and @length must be 4K page aligned. However the DG2
+	- * and XEHPSDV has 64K page size for device local memory and has compact page
+	- * table. On those platforms, for binding device local-memory objects, the
+	- * @start, @offset and @length must be 64K aligned. Also, UMDs should not mix
+	- * the local memory 64K page and the system memory 4K page bindings in the same
+	- * 2M range.
+	+ * The @start, @offset and @length must be 4K page aligned. However the DG2 has
+	+ * 64K page size for device local memory and has compact page table. On that
+	+ * platform, for binding device local-memory objects, the @start, @offset and
+	+ * @length must be 64K aligned. Also, UMDs should not mix the local memory 64K
+	+ * page and the system memory 4K page bindings in the same 2M range.
+	  *
+	  * Error code -EINVAL will be returned if @start, @offset and @length are not
+	  * properly aligned. In version 1 (See I915_PARAM_VM_BIND_VERSION), error code
+	diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+	index 1495b6074492..d3300ae3053f 100644
+	--- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+	+++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+	@@ -386,7 +386,7 @@ struct drm_i915_gem_object {
+		 * and kernel mode driver for caching policy control after GEN12.
+		 * In the meantime platform specific tables are created to translate
+		 * i915_cache_level into pat index, for more details check the macros
+	-	 * defined i915/i915_pci.c, e.g. TGL_CACHELEVEL.
+	+	 * defined i915/i915_pci.c, e.g. MTL_CACHELEVEL.
+		 * For backward compatibility, this field contains values exactly match
+		 * the entries of enum i915_cache_level for pre-GEN12 platforms (See
+		 * LEGACY_CACHELEVEL), so that the PTE encode functions for these
+	diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+	index fa46d2308b0e..1bd0e041e15c 100644
+	--- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+	+++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+	@@ -500,11 +500,11 @@ gen8_ppgtt_insert_pte(struct i915_ppgtt *ppgtt,
+	 }
+	 
+	 static void
+	-xehpsdv_ppgtt_insert_huge(struct i915_address_space *vm,
+	-			  struct i915_vma_resource *vma_res,
+	-			  struct sgt_dma *iter,
+	-			  unsigned int pat_index,
+	-			  u32 flags)
+	+xehp_ppgtt_insert_huge(struct i915_address_space *vm,
+	+		       struct i915_vma_resource *vma_res,
+	+		       struct sgt_dma *iter,
+	+		       unsigned int pat_index,
+	+		       u32 flags)
+	 {
+		const gen8_pte_t pte_encode = vm->pte_encode(0, pat_index, flags);
+		unsigned int rem = sg_dma_len(iter->sg);
+	@@ -741,8 +741,8 @@ static void gen8_ppgtt_insert(struct i915_address_space *vm,
+		struct sgt_dma iter = sgt_dma(vma_res);
+	 
+		if (vma_res->bi.page_sizes.sg > I915_GTT_PAGE_SIZE) {
+	-		if (GRAPHICS_VER_FULL(vm->i915) >= IP_VER(12, 50))
+	-			xehpsdv_ppgtt_insert_huge(vm, vma_res, &iter, pat_index, flags);
+	+		if (GRAPHICS_VER_FULL(vm->i915) >= IP_VER(12, 55))
+	+			xehp_ppgtt_insert_huge(vm, vma_res, &iter, pat_index, flags);
+			else
+				gen8_ppgtt_insert_huge(vm, vma_res, &iter, pat_index, flags);
+		} else  {
+	@@ -781,11 +781,11 @@ static void gen8_ppgtt_insert_entry(struct i915_address_space *vm,
+		drm_clflush_virt_range(&vaddr[gen8_pd_index(idx, 0)], sizeof(*vaddr));
+	 }
+	 
+	-static void __xehpsdv_ppgtt_insert_entry_lm(struct i915_address_space *vm,
+	-					    dma_addr_t addr,
+	-					    u64 offset,
+	-					    unsigned int pat_index,
+	-					    u32 flags)
+	+static void xehp_ppgtt_insert_entry_lm(struct i915_address_space *vm,
+	+				       dma_addr_t addr,
+	+				       u64 offset,
+	+				       unsigned int pat_index,
+	+				       u32 flags)
+	 {
+		u64 idx = offset >> GEN8_PTE_SHIFT;
+		struct i915_page_directory * const pdp =
+	@@ -810,15 +810,15 @@ static void __xehpsdv_ppgtt_insert_entry_lm(struct i915_address_space *vm,
+		vaddr[gen8_pd_index(idx, 0) / 16] = vm->pte_encode(addr, pat_index, flags);
+	 }
+	 
+	-static void xehpsdv_ppgtt_insert_entry(struct i915_address_space *vm,
+	-				       dma_addr_t addr,
+	-				       u64 offset,
+	-				       unsigned int pat_index,
+	-				       u32 flags)
+	+static void xehp_ppgtt_insert_entry(struct i915_address_space *vm,
+	+				    dma_addr_t addr,
+	+				    u64 offset,
+	+				    unsigned int pat_index,
+	+				    u32 flags)
+	 {
+		if (flags & PTE_LM)
+	-		return __xehpsdv_ppgtt_insert_entry_lm(vm, addr, offset,
+	-						       pat_index, flags);
+	+		return xehp_ppgtt_insert_entry_lm(vm, addr, offset,
+	+						  pat_index, flags);
+	 
+		return gen8_ppgtt_insert_entry(vm, addr, offset, pat_index, flags);
+	 }
+	@@ -1042,7 +1042,7 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt,
+		ppgtt->vm.bind_async_flags = I915_VMA_LOCAL_BIND;
+		ppgtt->vm.insert_entries = gen8_ppgtt_insert;
+		if (HAS_64K_PAGES(gt->i915))
+	-		ppgtt->vm.insert_page = xehpsdv_ppgtt_insert_entry;
+	+		ppgtt->vm.insert_page = xehp_ppgtt_insert_entry;
+		else
+			ppgtt->vm.insert_page = gen8_ppgtt_insert_entry;
+		ppgtt->vm.allocate_va_range = gen8_ppgtt_alloc;
+	diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+	index f553cf4e6449..423d72115af0 100644
+	--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+	+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+	@@ -839,38 +839,6 @@ static void engine_mask_apply_compute_fuses(struct intel_gt *gt)
+		}
+	 }
+	 
+	-static void engine_mask_apply_copy_fuses(struct intel_gt *gt)
+	-{
+	-	struct drm_i915_private *i915 = gt->i915;
+	-	struct intel_gt_info *info = &gt->info;
+	-	unsigned long meml3_mask;
+	-	unsigned long quad;
+	-
+	-	if (!(GRAPHICS_VER_FULL(i915) >= IP_VER(12, 60) &&
+	-	      GRAPHICS_VER_FULL(i915) < IP_VER(12, 70)))
+	-		return;
+	-
+	-	meml3_mask = intel_uncore_read(gt->uncore, GEN10_MIRROR_FUSE3);
+	-	meml3_mask = REG_FIELD_GET(GEN12_MEML3_EN_MASK, meml3_mask);
+	-
+	-	/*
+	-	 * Link Copy engines may be fused off according to meml3_mask. Each
+	-	 * bit is a quad that houses 2 Link Copy and two Sub Copy engines.
+	-	 */
+	-	for_each_clear_bit(quad, &meml3_mask, GEN12_MAX_MSLICES) {
+	-		unsigned int instance = quad * 2 + 1;
+	-		intel_engine_mask_t mask = GENMASK(_BCS(instance + 1),
+	-						   _BCS(instance));
+	-
+	-		if (mask & info->engine_mask) {
+	-			gt_dbg(gt, "bcs%u fused off\n", instance);
+	-			gt_dbg(gt, "bcs%u fused off\n", instance + 1);
+	-
+	-			info->engine_mask &= ~mask;
+	-		}
+	-	}
+	-}
+	-
+	 /*
+	  * Determine which engines are fused off in our particular hardware.
+	  * Note that we have a catch-22 situation where we need to be able to access
+	@@ -889,7 +857,6 @@ static intel_engine_mask_t init_engine_mask(struct intel_gt *gt)
+	 
+		engine_mask_apply_media_fuses(gt);
+		engine_mask_apply_compute_fuses(gt);
+	-	engine_mask_apply_copy_fuses(gt);
+	 
+		/*
+		 * The only use of the GSC CS is to load and communicate with the GSC
+	diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+	index 2f386f531c55..ee5115b12a21 100644
+	--- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+	+++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+	@@ -57,7 +57,7 @@ static const struct intel_mmio_range icl_l3bank_steering_table[] = {
+	  * are of a "GAM" subclass that has special rules.  Thus we use a separate
+	  * GAM table farther down for those.
+	  */
+	-static const struct intel_mmio_range xehpsdv_mslice_steering_table[] = {
+	+static const struct intel_mmio_range dg2_mslice_steering_table[] = {
+		{ 0x00DD00, 0x00DDFF },
+		{ 0x00E900, 0x00FFFF }, /* 0xEA00 - OxEFFF is unused */
+		{},
+	@@ -153,7 +153,7 @@ void intel_gt_mcr_init(struct intel_gt *gt)
+			gt->steering_table[L3BANK] = xelpg_l3bank_steering_table;
+			gt->steering_table[DSS] = xelpg_dss_steering_table;
+		} else if (IS_DG2(i915)) {
+	-		gt->steering_table[MSLICE] = xehpsdv_mslice_steering_table;
+	+		gt->steering_table[MSLICE] = dg2_mslice_steering_table;
+			gt->steering_table[LNCF] = dg2_lncf_steering_table;
+			/*
+			 * No need to hook up the GAM table since it has a dedicated
+	diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+	index 0635c9288742..8d8d781b44b6 100644
+	--- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+	+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+	@@ -723,38 +723,6 @@
+	 #define   HSUNIT_CLKGATE_DIS			REG_BIT(8)
+	 #define   VSUNIT_CLKGATE_DIS			REG_BIT(3)
+	 
+	-#define UNSLCGCTL9440				_MMIO(0x9440)
+	-#define   GAMTLBOACS_CLKGATE_DIS		REG_BIT(28)
+	-#define   GAMTLBVDBOX5_CLKGATE_DIS		REG_BIT(27)
+	-#define   GAMTLBVDBOX6_CLKGATE_DIS		REG_BIT(26)
+	-#define   GAMTLBVDBOX3_CLKGATE_DIS		REG_BIT(24)
+	-#define   GAMTLBVDBOX4_CLKGATE_DIS		REG_BIT(23)
+	-#define   GAMTLBVDBOX7_CLKGATE_DIS		REG_BIT(22)
+	-#define   GAMTLBVDBOX2_CLKGATE_DIS		REG_BIT(21)
+	-#define   GAMTLBVDBOX0_CLKGATE_DIS		REG_BIT(17)
+	-#define   GAMTLBKCR_CLKGATE_DIS			REG_BIT(16)
+	-#define   GAMTLBGUC_CLKGATE_DIS			REG_BIT(15)
+	-#define   GAMTLBBLT_CLKGATE_DIS			REG_BIT(14)
+	-#define   GAMTLBVDBOX1_CLKGATE_DIS		REG_BIT(6)
+	-
+	-#define UNSLCGCTL9444				_MMIO(0x9444)
+	-#define   GAMTLBGFXA0_CLKGATE_DIS		REG_BIT(30)
+	-#define   GAMTLBGFXA1_CLKGATE_DIS		REG_BIT(29)
+	-#define   GAMTLBCOMPA0_CLKGATE_DIS		REG_BIT(28)
+	-#define   GAMTLBCOMPA1_CLKGATE_DIS		REG_BIT(27)
+	-#define   GAMTLBCOMPB0_CLKGATE_DIS		REG_BIT(26)
+	-#define   GAMTLBCOMPB1_CLKGATE_DIS		REG_BIT(25)
+	-#define   GAMTLBCOMPC0_CLKGATE_DIS		REG_BIT(24)
+	-#define   GAMTLBCOMPC1_CLKGATE_DIS		REG_BIT(23)
+	-#define   GAMTLBCOMPD0_CLKGATE_DIS		REG_BIT(22)
+	-#define   GAMTLBCOMPD1_CLKGATE_DIS		REG_BIT(21)
+	-#define   GAMTLBMERT_CLKGATE_DIS		REG_BIT(20)
+	-#define   GAMTLBVEBOX3_CLKGATE_DIS		REG_BIT(19)
+	-#define   GAMTLBVEBOX2_CLKGATE_DIS		REG_BIT(18)
+	-#define   GAMTLBVEBOX1_CLKGATE_DIS		REG_BIT(17)
+	-#define   GAMTLBVEBOX0_CLKGATE_DIS		REG_BIT(16)
+	-#define   LTCDD_CLKGATE_DIS			REG_BIT(10)
+	-
+	 #define GEN11_SLICE_UNIT_LEVEL_CLKGATE		_MMIO(0x94d4)
+	 #define XEHP_SLICE_UNIT_LEVEL_CLKGATE		MCR_REG(0x94d4)
+	 #define   SARBUNIT_CLKGATE_DIS			(1 << 5)
+	@@ -764,9 +732,6 @@
+	 #define   L3_CLKGATE_DIS			REG_BIT(16)
+	 #define   L3_CR2X_CLKGATE_DIS			REG_BIT(17)
+	 
+	-#define SCCGCTL94DC				MCR_REG(0x94dc)
+	-#define   CG3DDISURB				REG_BIT(14)
+	-
+	 #define UNSLICE_UNIT_LEVEL_CLKGATE2		_MMIO(0x94e4)
+	 #define   VSUNIT_CLKGATE_DIS_TGL		REG_BIT(19)
+	 #define   PSDUNIT_CLKGATE_DIS			REG_BIT(5)
+	@@ -988,10 +953,6 @@
+	 #define   GEN7_WA_FOR_GEN7_L3_CONTROL		0x3C47FF8C
+	 #define   GEN7_L3AGDIS				(1 << 19)
+	 
+	-#define XEHPC_LNCFMISCCFGREG0			MCR_REG(0xb01c)
+	-#define   XEHPC_HOSTCACHEEN			REG_BIT(1)
+	-#define   XEHPC_OVRLSCCC			REG_BIT(0)
+	-
+	 #define GEN7_L3CNTLREG2				_MMIO(0xb020)
+	 
+	 /* MOCS (Memory Object Control State) registers */
+	@@ -1045,20 +1006,9 @@
+	 #define XEHP_L3SQCREG5				MCR_REG(0xb158)
+	 #define   L3_PWM_TIMER_INIT_VAL_MASK		REG_GENMASK(9, 0)
+	 
+	-#define MLTICTXCTL				MCR_REG(0xb170)
+	-#define   TDONRENDER				REG_BIT(2)
+	-
+	 #define XEHP_L3SCQREG7				MCR_REG(0xb188)
+	 #define   BLEND_FILL_CACHING_OPT_DIS		REG_BIT(3)
+	 
+	-#define XEHPC_L3SCRUB				MCR_REG(0xb18c)
+	-#define   SCRUB_CL_DWNGRADE_SHARED		REG_BIT(12)
+	-#define   SCRUB_RATE_PER_BANK_MASK		REG_GENMASK(2, 0)
+	-#define   SCRUB_RATE_4B_PER_CLK			REG_FIELD_PREP(SCRUB_RATE_PER_BANK_MASK, 0x6)
+	-
+	-#define L3SQCREG1_CCS0				MCR_REG(0xb200)
+	-#define   FLUSHALLNONCOH			REG_BIT(5)
+	-
+	 #define GEN11_GLBLINVL				_MMIO(0xb404)
+	 #define   GEN11_BANK_HASH_ADDR_EXCL_MASK	(0x7f << 5)
+	 #define   GEN11_BANK_HASH_ADDR_EXCL_BIT0	(1 << 5)
+	@@ -1108,7 +1058,6 @@
+	 #define XEHP_COMPCTX_TLB_INV_CR			MCR_REG(0xcf04)
+	 #define XELPMP_GSC_TLB_INV_CR			_MMIO(0xcf04)   /* media GT only */
+	 
+	-#define XEHP_MERT_MOD_CTRL			MCR_REG(0xcf28)
+	 #define RENDER_MOD_CTRL				MCR_REG(0xcf2c)
+	 #define COMP_MOD_CTRL				MCR_REG(0xcf30)
+	 #define XELPMP_GSC_MOD_CTRL			_MMIO(0xcf30)	/* media GT only */
+	@@ -1184,7 +1133,6 @@
+	 #define EU_PERF_CNTL4				PERF_REG(0xe45c)
+	 
+	 #define GEN9_ROW_CHICKEN4			MCR_REG(0xe48c)
+	-#define   GEN12_DISABLE_GRF_CLEAR		REG_BIT(13)
+	 #define   XEHP_DIS_BBL_SYSPIPE			REG_BIT(11)
+	 #define   GEN12_DISABLE_TDL_PUSH		REG_BIT(9)
+	 #define   GEN11_DIS_PICK_2ND_EU			REG_BIT(7)
+	@@ -1201,7 +1149,6 @@
+	 #define   FLOW_CONTROL_ENABLE			REG_BIT(15)
+	 #define   UGM_BACKUP_MODE			REG_BIT(13)
+	 #define   MDQ_ARBITRATION_MODE			REG_BIT(12)
+	-#define   SYSTOLIC_DOP_CLOCK_GATING_DIS		REG_BIT(10)
+	 #define   PARTIAL_INSTRUCTION_SHOOTDOWN_DISABLE	REG_BIT(8)
+	 #define   STALL_DOP_GATING_DISABLE		REG_BIT(5)
+	 #define   THROTTLE_12_5				REG_GENMASK(4, 2)
+	@@ -1678,11 +1625,6 @@
+	 
+	 #define GEN12_SFC_DONE(n)			_MMIO(0x1cc000 + (n) * 0x1000)
+	 
+	-#define GT0_PACKAGE_ENERGY_STATUS		_MMIO(0x250004)
+	-#define GT0_PACKAGE_RAPL_LIMIT			_MMIO(0x250008)
+	-#define GT0_PACKAGE_POWER_SKU_UNIT		_MMIO(0x250068)
+	-#define GT0_PLATFORM_ENERGY_STATUS		_MMIO(0x25006c)
+	-
+	 /*
+	  * Standalone Media's non-engine GT registers are located at their regular GT
+	  * offsets plus 0x380000.  This extra offset is stored inside the intel_uncore
+	diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+	index 90644e47d261..d7784650e4d9 100644
+	--- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+	+++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+	@@ -582,9 +582,10 @@ static ssize_t media_freq_factor_show(struct kobject *kobj,
+		 */
+		with_intel_runtime_pm(gt->uncore->rpm, wakeref)
+			mode = intel_uncore_read(gt->uncore, GEN6_RPNSWREQ);
+	+
+		mode = REG_FIELD_GET(GEN12_MEDIA_FREQ_RATIO, mode) ?
+	-	       SLPC_MEDIA_RATIO_MODE_FIXED_ONE_TO_ONE :
+	-	       SLPC_MEDIA_RATIO_MODE_FIXED_ONE_TO_TWO;
+	+		SLPC_MEDIA_RATIO_MODE_FIXED_ONE_TO_ONE :
+	+		SLPC_MEDIA_RATIO_MODE_FIXED_ONE_TO_TWO;
+	 
+		return sysfs_emit(buff, "%u\n", media_ratio_mode_to_factor(mode));
+	 }
+	diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
+	index 7c367ba8d9dc..7f1b00cb9924 100644
+	--- a/drivers/gpu/drm/i915/gt/intel_lrc.c
+	+++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
+	@@ -546,47 +546,6 @@ static const u8 gen12_rcs_offsets[] = {
+		END
+	 };
+	 
+	-static const u8 xehp_rcs_offsets[] = {
+	-	NOP(1),
+	-	LRI(13, POSTED),
+	-	REG16(0x244),
+	-	REG(0x034),
+	-	REG(0x030),
+	-	REG(0x038),
+	-	REG(0x03c),
+	-	REG(0x168),
+	-	REG(0x140),
+	-	REG(0x110),
+	-	REG(0x1c0),
+	-	REG(0x1c4),
+	-	REG(0x1c8),
+	-	REG(0x180),
+	-	REG16(0x2b4),
+	-
+	-	NOP(5),
+	-	LRI(9, POSTED),
+	-	REG16(0x3a8),
+	-	REG16(0x28c),
+	-	REG16(0x288),
+	-	REG16(0x284),
+	-	REG16(0x280),
+	-	REG16(0x27c),
+	-	REG16(0x278),
+	-	REG16(0x274),
+	-	REG16(0x270),
+	-
+	-	LRI(3, POSTED),
+	-	REG(0x1b0),
+	-	REG16(0x5a8),
+	-	REG16(0x5ac),
+	-
+	-	NOP(6),
+	-	LRI(1, 0),
+	-	REG(0x0c8),
+	-
+	-	END
+	-};
+	-
+	 static const u8 dg2_rcs_offsets[] = {
+		NOP(1),
+		LRI(15, POSTED),
+	@@ -695,8 +654,6 @@ static const u8 *reg_offsets(const struct intel_engine_cs *engine)
+				return mtl_rcs_offsets;
+			else if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
+				return dg2_rcs_offsets;
+	-		else if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 50))
+	-			return xehp_rcs_offsets;
+			else if (GRAPHICS_VER(engine->i915) >= 12)
+				return gen12_rcs_offsets;
+			else if (GRAPHICS_VER(engine->i915) >= 11)
+	diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+	index 576e5ef0289b..86ba2f2e485c 100644
+	--- a/drivers/gpu/drm/i915/gt/intel_migrate.c
+	+++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+	@@ -35,9 +35,9 @@ static bool engine_supports_migration(struct intel_engine_cs *engine)
+		return true;
+	 }
+	 
+	-static void xehpsdv_toggle_pdes(struct i915_address_space *vm,
+	-				struct i915_page_table *pt,
+	-				void *data)
+	+static void xehp_toggle_pdes(struct i915_address_space *vm,
+	+			     struct i915_page_table *pt,
+	+			     void *data)
+	 {
+		struct insert_pte_data *d = data;
+	 
+	@@ -52,9 +52,9 @@ static void xehpsdv_toggle_pdes(struct i915_address_space *vm,
+		d->offset += SZ_2M;
+	 }
+	 
+	-static void xehpsdv_insert_pte(struct i915_address_space *vm,
+	-			       struct i915_page_table *pt,
+	-			       void *data)
+	+static void xehp_insert_pte(struct i915_address_space *vm,
+	+			    struct i915_page_table *pt,
+	+			    void *data)
+	 {
+		struct insert_pte_data *d = data;
+	 
+	@@ -120,7 +120,7 @@ static struct i915_address_space *migrate_vm(struct intel_gt *gt)
+		 * 512 entry layout using 4K GTT pages. The other two windows just map
+		 * lmem pages and must use the new compact 32 entry layout using 64K GTT
+		 * pages, which ensures we can address any lmem object that the user
+	-	 * throws at us. We then also use the xehpsdv_toggle_pdes as a way of
+	+	 * throws at us. We then also use the xehp_toggle_pdes as a way of
+		 * just toggling the PDE bit(GEN12_PDE_64K) for us, to enable the
+		 * compact layout for each of these page-tables, that fall within the
+		 * [CHUNK_SIZE, 3 * CHUNK_SIZE) range.
+	@@ -209,12 +209,12 @@ static struct i915_address_space *migrate_vm(struct intel_gt *gt)
+			/* Now allow the GPU to rewrite the PTE via its own ppGTT */
+			if (HAS_64K_PAGES(gt->i915)) {
+				vm->vm.foreach(&vm->vm, base, d.offset - base,
+	-				       xehpsdv_insert_pte, &d);
+	+				       xehp_insert_pte, &d);
+				d.offset = base + CHUNK_SZ;
+				vm->vm.foreach(&vm->vm,
+					       d.offset,
+					       2 * CHUNK_SZ,
+	-				       xehpsdv_toggle_pdes, &d);
+	+				       xehp_toggle_pdes, &d);
+			} else {
+				vm->vm.foreach(&vm->vm, base, d.offset - base,
+					       insert_pte, &d);
+	diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+	index 7889147b44b7..804654ab80ec 100644
+	--- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
+	+++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+	@@ -2661,6 +2661,7 @@ xcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+	 static void
+	 ccs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+	 {
+	+	/* boilerplate for any CCS engine workaround */
+	 }
+	 
+	 /*
+	diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
+	index f68ec0a1c17d..1637c1d235e9 100644
+	--- a/drivers/gpu/drm/i915/i915_perf.c
+	+++ b/drivers/gpu/drm/i915/i915_perf.c
+	@@ -2881,7 +2881,7 @@ gen12_enable_metric_set(struct i915_perf_stream *stream,
+		int ret;
+	 
+		/*
+	-	 * Wa_1508761755:xehpsdv, dg2
+	+	 * Wa_1508761755
+		 * EU NOA signals behave incorrectly if EU clock gating is enabled.
+		 * Disable thread stall DOP gating and EU DOP gating.
+		 */
+	@@ -2911,7 +2911,7 @@ gen12_enable_metric_set(struct i915_perf_stream *stream,
+		/*
+		 * Initialize Super Queue Internal Cnt Register
+		 * Set PMON Enable in order to collect valid metrics.
+	-	 * Enable byets per clock reporting in OA for XEHPSDV onward.
+	+	 * Enable byets per clock reporting in OA.
+		 */
+		sqcnt1 = GEN12_SQCNT1_PMON_ENABLE |
+			 (HAS_OA_BPC_REPORTING(i915) ? GEN12_SQCNT1_OABPC : 0);
+	@@ -2971,8 +2971,7 @@ static void gen12_disable_metric_set(struct i915_perf_stream *stream)
+		u32 sqcnt1;
+	 
+		/*
+	-	 * Wa_1508761755:xehpsdv, dg2
+	-	 * Enable thread stall DOP gating and EU DOP gating.
+	+	 * Wa_1508761755: Enable thread stall DOP gating and EU DOP gating.
+		 */
+		if (IS_DG2(i915)) {
+			intel_gt_mcr_multicast_write(uncore->gt, GEN8_ROW_CHICKEN,
+	diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+	index bdc409085b9a..f62573d48c76 100644
+	--- a/drivers/gpu/drm/i915/i915_reg.h
+	+++ b/drivers/gpu/drm/i915/i915_reg.h
+	@@ -5399,7 +5399,7 @@
+	 #define	    POWER_SETUP_I1_SHIFT		6	/* 10.6 fixed point format */
+	 #define	    POWER_SETUP_I1_DATA_MASK		REG_GENMASK(15, 0)
+	 #define GEN12_PCODE_READ_SAGV_BLOCK_TIME_US	0x23
+	-#define   XEHP_PCODE_FREQUENCY_CONFIG		0x6e	/* xehpsdv, pvc */
+	+#define   XEHP_PCODE_FREQUENCY_CONFIG		0x6e
+	 /* XEHP_PCODE_FREQUENCY_CONFIG sub-commands (param1) */
+	 #define     PCODE_MBOX_FC_SC_READ_FUSED_P0	0x0
+	 #define     PCODE_MBOX_FC_SC_READ_FUSED_PN	0x1
+	diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+	index 58d6c68195e0..40d56f02b5c6 100644
+	--- a/drivers/gpu/drm/i915/intel_uncore.c
+	+++ b/drivers/gpu/drm/i915/intel_uncore.c
+	@@ -1497,17 +1497,16 @@ static const struct intel_forcewake_range __gen12_fw_ranges[] = {
+		GEN_FW_RANGE(0x13200, 0x13fff, FORCEWAKE_MEDIA_VDBOX2), /*		\
+			0x13200 - 0x133ff: VD2 (DG2 only)				\
+			0x13400 - 0x13fff: reserved */					\
+	-	GEN_FW_RANGE(0x14000, 0x141ff, FORCEWAKE_MEDIA_VDBOX0), /* XEHPSDV only */	\
+	-	GEN_FW_RANGE(0x14200, 0x143ff, FORCEWAKE_MEDIA_VDBOX2), /* XEHPSDV only */	\
+	-	GEN_FW_RANGE(0x14400, 0x145ff, FORCEWAKE_MEDIA_VDBOX4), /* XEHPSDV only */	\
+	-	GEN_FW_RANGE(0x14600, 0x147ff, FORCEWAKE_MEDIA_VDBOX6), /* XEHPSDV only */	\
+	+	GEN_FW_RANGE(0x14000, 0x141ff, FORCEWAKE_MEDIA_VDBOX0),			\
+	+	GEN_FW_RANGE(0x14200, 0x143ff, FORCEWAKE_MEDIA_VDBOX2),			\
+	+	GEN_FW_RANGE(0x14400, 0x145ff, FORCEWAKE_MEDIA_VDBOX4),			\
+	+	GEN_FW_RANGE(0x14600, 0x147ff, FORCEWAKE_MEDIA_VDBOX6),			\
+		GEN_FW_RANGE(0x14800, 0x14fff, FORCEWAKE_RENDER),			\
+		GEN_FW_RANGE(0x15000, 0x16dff, FORCEWAKE_GT), /*			\
+			0x15000 - 0x15fff: gt (DG2 only)				\
+			0x16000 - 0x16dff: reserved */					\
+		GEN_FW_RANGE(0x16e00, 0x1ffff, FORCEWAKE_RENDER),			\
+	-	GEN_FW_RANGE(0x20000, 0x21fff, FORCEWAKE_MEDIA_VDBOX0), /*		\
+	-		0x20000 - 0x20fff: VD0 (XEHPSDV only)				\
+	+	GEN_FW_RANGE(0x21000, 0x21fff, FORCEWAKE_MEDIA_VDBOX0), /*		\
+			0x21000 - 0x21fff: reserved */					\
+		GEN_FW_RANGE(0x22000, 0x23fff, FORCEWAKE_GT),				\
+		GEN_FW_RANGE(0x24000, 0x2417f, 0), /*					\
+	@@ -1588,10 +1587,6 @@ static const struct intel_forcewake_range __gen12_fw_ranges[] = {
+			0x1f6e00 - 0x1f7fff: reserved */				\
+		GEN_FW_RANGE(0x1f8000, 0x1fa0ff, FORCEWAKE_MEDIA_VEBOX3),
+	 
+	-static const struct intel_forcewake_range __xehp_fw_ranges[] = {
+	-	XEHP_FWRANGES(FORCEWAKE_GT)
+	-};
+	-
+	 static const struct intel_forcewake_range __dg2_fw_ranges[] = {
+		XEHP_FWRANGES(FORCEWAKE_RENDER)
+	 };
+	@@ -2442,10 +2437,6 @@ static int uncore_forcewake_init(struct intel_uncore *uncore)
+			ASSIGN_FW_DOMAINS_TABLE(uncore, __dg2_fw_ranges);
+			ASSIGN_SHADOW_TABLE(uncore, dg2_shadowed_regs);
+			ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
+	-	} else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50)) {
+	-		ASSIGN_FW_DOMAINS_TABLE(uncore, __xehp_fw_ranges);
+	-		ASSIGN_SHADOW_TABLE(uncore, gen12_shadowed_regs);
+	-		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
+		} else if (GRAPHICS_VER(i915) >= 12) {
+			ASSIGN_FW_DOMAINS_TABLE(uncore, __gen12_fw_ranges);
+			ASSIGN_SHADOW_TABLE(uncore, gen12_shadowed_regs);
+	diff --git a/drivers/gpu/drm/i915/selftests/intel_uncore.c b/drivers/gpu/drm/i915/selftests/intel_uncore.c
+	index c998f15d505c..41eaa9b7f67d 100644
+	--- a/drivers/gpu/drm/i915/selftests/intel_uncore.c
+	+++ b/drivers/gpu/drm/i915/selftests/intel_uncore.c
+	@@ -118,7 +118,6 @@ int intel_uncore_mock_selftests(void)
+			{ __gen9_fw_ranges, ARRAY_SIZE(__gen9_fw_ranges), true },
+			{ __gen11_fw_ranges, ARRAY_SIZE(__gen11_fw_ranges), true },
+			{ __gen12_fw_ranges, ARRAY_SIZE(__gen12_fw_ranges), true },
+	-		{ __xehp_fw_ranges, ARRAY_SIZE(__xehp_fw_ranges), true },
+			{ __mtl_fw_ranges, ARRAY_SIZE(__mtl_fw_ranges), true },
+			{ __xelpmp_fw_ranges, ARRAY_SIZE(__xelpmp_fw_ranges), true },
+		};
+	diff --git a/drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h b/drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h
+	index a86d00a9758f..a01d1b869c2d 100644
+	--- a/drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h
+	+++ b/drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h
+	@@ -85,9 +85,7 @@ static inline struct drm_i915_private *kdev_to_i915(struct device *kdev)
+	 #define IS_DG1(dev_priv)        IS_PLATFORM(dev_priv, XE_DG1)
+	 #define IS_ALDERLAKE_S(dev_priv) IS_PLATFORM(dev_priv, XE_ALDERLAKE_S)
+	 #define IS_ALDERLAKE_P(dev_priv) IS_PLATFORM(dev_priv, XE_ALDERLAKE_P)
+	-#define IS_XEHPSDV(dev_priv) (dev_priv && 0)
+	 #define IS_DG2(dev_priv)	IS_PLATFORM(dev_priv, XE_DG2)
+	-#define IS_PONTEVECCHIO(dev_priv) IS_PLATFORM(dev_priv, XE_PVC)
+	 #define IS_METEORLAKE(dev_priv) IS_PLATFORM(dev_priv, XE_METEORLAKE)
+	 #define IS_LUNARLAKE(dev_priv) IS_PLATFORM(dev_priv, XE_LUNARLAKE)
+	 
+	@@ -130,7 +128,6 @@ static inline struct drm_i915_private *kdev_to_i915(struct device *kdev)
+	 #define IS_DG2_GRAPHICS_STEP(xe, variant, first, last) \
+		((xe)->info.subplatform == XE_SUBPLATFORM_DG2_ ## variant && \
+		 IS_GRAPHICS_STEP(xe, first, last))
+	-#define IS_XEHPSDV_GRAPHICS_STEP(xe, first, last) (IS_XEHPSDV(xe) && IS_GRAPHICS_STEP(xe, first, last))
+	 
+	 #define IS_TIGERLAKE_DISPLAY_STEP(xe, first, last) (IS_TIGERLAKE(xe) && IS_DISPLAY_STEP(xe, first, last))
+	 #define IS_ROCKETLAKE_DISPLAY_STEP(xe, first, last) (IS_ROCKETLAKE(xe) && IS_DISPLAY_STEP(xe, first, last))
+
+
+Let me know what you prefer. If squashing these changes to your patches,
+then I'd add the other patches in this series on top.
+
+thanks
+Lucas De Marchi
+
+>
+>Regards,
+>
+>Tvrtko
+>
+>>drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h is also changed on the
+>>xe side, but that should be ok: the defines are there only for compat
+>>reasons while building the display side (and none of these platforms
+>>have display, so it's build-issue only).
+>>
+>>First patch is what motivated the others and was submitted alone
+>>@ 20240306144723.1826977-1-lucas.demarchi@intel.com .
+>>While loooking at this WA I was wondering why we still had some of that
+>>code around.
+>>
+>>Build-tested only for now.
+>>
+>>Lucas De Marchi (5):
+>>   drm/i915: Drop WA 16015675438
+>>   drm/i915: Drop dead code for xehpsdv
+>>   drm/i915: Update IP_VER(12, 50)
+>>   drm/i915: Drop dead code for pvc
+>>   drm/i915: Remove special handling for !RCS_MASK()
+>>
+>>  Documentation/gpu/rfc/i915_vm_bind.h          |  11 +-
+>>  .../gpu/drm/i915/gem/i915_gem_object_types.h  |   2 +-
+>>  .../gpu/drm/i915/gem/selftests/huge_pages.c   |   4 +-
+>>  .../i915/gem/selftests/i915_gem_client_blt.c  |   8 +-
+>>  drivers/gpu/drm/i915/gt/gen8_engine_cs.c      |   5 +-
+>>  drivers/gpu/drm/i915/gt/gen8_ppgtt.c          |  40 ++--
+>>  drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  43 +---
+>>  .../drm/i915/gt/intel_execlists_submission.c  |  10 +-
+>>  drivers/gpu/drm/i915/gt/intel_gsc.c           |  15 --
+>>  drivers/gpu/drm/i915/gt/intel_gt.c            |   4 +-
+>>  drivers/gpu/drm/i915/gt/intel_gt_mcr.c        |  52 +----
+>>  drivers/gpu/drm/i915/gt/intel_gt_mcr.h        |   2 +-
+>>  drivers/gpu/drm/i915/gt/intel_gt_regs.h       |  59 ------
+>>  drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c   |  21 +-
+>>  drivers/gpu/drm/i915/gt/intel_gtt.c           |   2 +-
+>>  drivers/gpu/drm/i915/gt/intel_lrc.c           |  51 +----
+>>  drivers/gpu/drm/i915/gt/intel_migrate.c       |  22 +-
+>>  drivers/gpu/drm/i915/gt/intel_mocs.c          |  52 +----
+>>  drivers/gpu/drm/i915/gt/intel_rps.c           |   6 +-
+>>  drivers/gpu/drm/i915/gt/intel_sseu.c          |  13 +-
+>>  drivers/gpu/drm/i915/gt/intel_workarounds.c   | 193 +-----------------
+>>  drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   6 +-
+>>  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |   4 +-
+>>  drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     |   2 +-
+>>  drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   1 -
+>>  .../gpu/drm/i915/gt/uc/intel_guc_submission.c |   2 +-
+>>  drivers/gpu/drm/i915/gt/uc/intel_uc.c         |   4 -
+>>  drivers/gpu/drm/i915/i915_debugfs.c           |  12 --
+>>  drivers/gpu/drm/i915/i915_drv.h               |  13 --
+>>  drivers/gpu/drm/i915/i915_getparam.c          |   4 +-
+>>  drivers/gpu/drm/i915/i915_gpu_error.c         |   5 +-
+>>  drivers/gpu/drm/i915/i915_hwmon.c             |   6 -
+>>  drivers/gpu/drm/i915/i915_pci.c               |  61 +-----
+>>  drivers/gpu/drm/i915/i915_perf.c              |  19 +-
+>>  drivers/gpu/drm/i915/i915_query.c             |   2 +-
+>>  drivers/gpu/drm/i915/i915_reg.h               |   4 +-
+>>  drivers/gpu/drm/i915/intel_clock_gating.c     |  26 +--
+>>  drivers/gpu/drm/i915/intel_device_info.c      |   2 -
+>>  drivers/gpu/drm/i915/intel_device_info.h      |   2 -
+>>  drivers/gpu/drm/i915/intel_step.c             |  80 +-------
+>>  drivers/gpu/drm/i915/intel_uncore.c           | 159 +--------------
+>>  drivers/gpu/drm/i915/selftests/intel_uncore.c |   3 -
+>>  .../gpu/drm/xe/compat-i915-headers/i915_drv.h |   6 -
+>>  43 files changed, 110 insertions(+), 928 deletions(-)
+>>
