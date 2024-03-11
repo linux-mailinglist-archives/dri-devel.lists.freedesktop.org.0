@@ -2,85 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 447A28788F8
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 20:34:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19BE4878988
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 21:35:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EB0D112C3B;
-	Mon, 11 Mar 2024 19:34:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14B8E10FFDC;
+	Mon, 11 Mar 2024 20:35:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lq5eTZoJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jaBZFtfM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9580B112C3B
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 19:34:50 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-51380c106d9so3678012e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 12:34:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1710185688; x=1710790488; darn=lists.freedesktop.org;
- h=mime-version:message-id:date:user-agent:references:in-reply-to
- :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=vItOGAE1mo8UPNsHcTm5CJt+36XtbkZUfhA7CGS+Q5s=;
- b=lq5eTZoJ/jH4TjdDlaliIOcYIZ+54/ErQ43g8YNHz5FFa2Ngbtpr413+2PhI9K+/sT
- BoZaMZnQGQrnYzfzbJ90mjMqvkNKgjl/tJRiPYspH7yxWy/fIZfACqdbWEg209XIbzW6
- uBZG2ZIprfqlTAnG8NDsY8qhMeSq7eAArcKaDVb5OzgRAfdN7qmBDAY+KWZAR93Ot4z2
- IRDMeOe+ZkMYS6XZBViPjVphC6w8y2Ef/ZOrJyj3HLjcbz55bZrD8pXPPQrIvXaNtPXh
- IdJaARu9MaDO2mdG+d2M6EWUMr6rUScWdgrFWNp715K15NA8r24wHvM79nm4IIBh7CeV
- uMXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710185688; x=1710790488;
- h=mime-version:message-id:date:user-agent:references:in-reply-to
- :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vItOGAE1mo8UPNsHcTm5CJt+36XtbkZUfhA7CGS+Q5s=;
- b=S3SlupDeCC0kVTpwLneTq2FqheNTiE3FfpDd0bDdz2Fyixg3wAXQMnMSOTCEPlNzAO
- dixcxprYvK32LZuXR0ahw0MBWB0o+4KGoo/pFagvZYb22qelpaM6WUe1K02KInOMV0b0
- 6g90BfZfwgCllUdgVe+rQZYEJHEAFseD8ZYKVp5ennUzLrrSsRV6YpyUZvD0+6zAhEUW
- iXRZcDjHTJH7RbqPk0eqX5fqmwpChBfTx2YQn0ai7UQ3W3XYChZEhnxkQ8LiGpTKnXYM
- 3dqPGYXWEMMhDw8dCmigCJygDasTRovV2qHAZ5UEHh1U23lN/0ZhY24IXxM2OODLbSi9
- Ztsw==
-X-Gm-Message-State: AOJu0YxAq4vw0N0zzZJcppblRqjDRNjc5ahyXBGxjk9TWT4pXbJIdEHj
- gkgmmBgBPou1N0J/C9tBMQ/JhJ74f7YKe8Mdr4TAYZosxv/NLaxu
-X-Google-Smtp-Source: AGHT+IGfFhmGTMjXICg8H9pNe3sH/IrXbSxx62pUvcrljYSUXFZpVBbNt84FZwLkCCIVVQukY8Cpsw==
-X-Received: by 2002:a05:6512:239f:b0:513:aa43:811b with SMTP id
- c31-20020a056512239f00b00513aa43811bmr2578981lfv.0.1710185688073; 
- Mon, 11 Mar 2024 12:34:48 -0700 (PDT)
-Received: from betty.fdsoft.se (213-67-237-183-no99.tbcn.telia.com.
- [213.67.237.183]) by smtp.gmail.com with ESMTPSA id
- fb6-20020a056512124600b005139cbb1695sm1143826lfb.264.2024.03.11.12.34.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Mar 2024 12:34:47 -0700 (PDT)
-Received: from ester.fdsoft.se ([192.168.1.2] helo=ester)
- by betty.fdsoft.se with esmtp (Exim 4.97.1)
- (envelope-from <frej.drejhammar@gmail.com>)
- id 1rjlQ6-000000004JO-3At1; Mon, 11 Mar 2024 20:34:46 +0100
-From: Frej Drejhammar <frej.drejhammar@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org,  Russell King <linux@armlinux.org.uk>,
- David Airlie <airlied@gmail.com>,  Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,  Maxime Ripard
- <mripard@kernel.org>,  Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>,  Patrik Jakobsson
- <patrik.r.jakobsson@gmail.com>,  Rob Clark <robdclark@gmail.com>,  Abhinav
- Kumar <quic_abhinavk@quicinc.com>,  Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>,  Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>,  Javier Martinez Canillas
- <javierm@redhat.com>,  =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>,
- Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH] drm: Don't return unsupported formats in
- drm_mode_legacy_fb_format
-In-Reply-To: <c3203f70-0e8c-493b-813e-1dff93a28323@suse.de> (Thomas
- Zimmermann's message of "Mon, 11 Mar 2024 09:40:25 +0100")
-References: <20240310152803.3315-1-frej.drejhammar@gmail.com>
- <c3203f70-0e8c-493b-813e-1dff93a28323@suse.de>
-User-Agent: Gnus/5.13 (Gnus v5.13)
-Date: Mon, 11 Mar 2024 20:34:46 +0100
-Message-ID: <ko7bky33d.fsf@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B8AB10FFDC;
+ Mon, 11 Mar 2024 20:35:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1710189324; x=1741725324;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=yfJCKzuALB15/FqEipqi0uCNNaEPRKVBSD43k66TkaQ=;
+ b=jaBZFtfMxGp6lWF2KM97COjOjtGtr3cs/I8vrfJNcLtUFTbCkDjs1fBw
+ igNUJ0aE403N7JNsocMuRsZwL5aJVkZHmaEYBhWjgX0O9NF7PuG3Oepay
+ f0ZknuVmuWg71VAsEVVPsjBTaMhla081vVgimcu6t2IYzBeM0QYVwVy+1
+ Ru+hPDY7vQa0p5QcYuLdJjx+0XVdt7Q7RkbkVzG1mJq7ZEgumT3IgNroL
+ YqjMuV2EypOPL9xYjAErPQCE5Y2+VxdCZBiHLgOzqAtqAYe4eTuZDL9fq
+ 8ZBPFPqY7GPcD9odYsDVrHQwQdeZgO9DNqE91x62XTJfGYvfq2+R+T8gD A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="4729220"
+X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
+   d="scan'208";a="4729220"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2024 13:35:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; d="scan'208";a="11383222"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO
+ jkrzyszt-mobl2.intranet) ([10.213.25.93])
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2024 13:35:20 -0700
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Ashutosh Dixit <ashutosh.dixit@intel.com>,
+ Anshuman Gupta <anshuman.gupta@intel.com>,
+ Badal Nilawar <badal.nilawar@intel.com>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Dale B Stimson <dale.b.stimson@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Subject: [PATCH v2] drm/i915/hwmon: Fix locking inversion in sysfs getter
+Date: Mon, 11 Mar 2024 21:34:58 +0100
+Message-ID: <20240311203500.518675-2-janusz.krzysztofik@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,43 +75,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+In i915 hwmon sysfs getter path we now take a hwmon_lock, then acquire an
+rpm wakeref.  That results in lock inversion:
 
-Thanks for the review and suggestions. My experience with the drm parts
-of the kernel is limited to some weekends trying to fix the regression,
-so I'm afraid I have some questions to check my understanding before
-making a v2 of the patch.
+<4> [197.079335] ======================================================
+<4> [197.085473] WARNING: possible circular locking dependency detected
+<4> [197.091611] 6.8.0-rc7-Patchwork_129026v7-gc4dc92fb1152+ #1 Not tainted
+<4> [197.098096] ------------------------------------------------------
+<4> [197.104231] prometheus-node/839 is trying to acquire lock:
+<4> [197.109680] ffffffff82764d80 (fs_reclaim){+.+.}-{0:0}, at: __kmalloc+0x9a/0x350
+<4> [197.116939]
+but task is already holding lock:
+<4> [197.122730] ffff88811b772a40 (&hwmon->hwmon_lock){+.+.}-{3:3}, at: hwm_energy+0x4b/0x100 [i915]
+<4> [197.131543]
+which lock already depends on the new lock.
+...
+<4> [197.507922] Chain exists of:
+  fs_reclaim --> &gt->reset.mutex --> &hwmon->hwmon_lock
+<4> [197.518528]  Possible unsafe locking scenario:
+<4> [197.524411]        CPU0                    CPU1
+<4> [197.528916]        ----                    ----
+<4> [197.533418]   lock(&hwmon->hwmon_lock);
+<4> [197.537237]                                lock(&gt->reset.mutex);
+<4> [197.543376]                                lock(&hwmon->hwmon_lock);
+<4> [197.549682]   lock(fs_reclaim);
+...
+<4> [197.632548] Call Trace:
+<4> [197.634990]  <TASK>
+<4> [197.637088]  dump_stack_lvl+0x64/0xb0
+<4> [197.640738]  check_noncircular+0x15e/0x180
+<4> [197.652968]  check_prev_add+0xe9/0xce0
+<4> [197.656705]  __lock_acquire+0x179f/0x2300
+<4> [197.660694]  lock_acquire+0xd8/0x2d0
+<4> [197.673009]  fs_reclaim_acquire+0xa1/0xd0
+<4> [197.680478]  __kmalloc+0x9a/0x350
+<4> [197.689063]  acpi_ns_internalize_name.part.0+0x4a/0xb0
+<4> [197.694170]  acpi_ns_get_node_unlocked+0x60/0xf0
+<4> [197.720608]  acpi_ns_get_node+0x3b/0x60
+<4> [197.724428]  acpi_get_handle+0x57/0xb0
+<4> [197.728164]  acpi_has_method+0x20/0x50
+<4> [197.731896]  acpi_pci_set_power_state+0x43/0x120
+<4> [197.736485]  pci_power_up+0x24/0x1c0
+<4> [197.740047]  pci_pm_default_resume_early+0x9/0x30
+<4> [197.744725]  pci_pm_runtime_resume+0x2d/0x90
+<4> [197.753911]  __rpm_callback+0x3c/0x110
+<4> [197.762586]  rpm_callback+0x58/0x70
+<4> [197.766064]  rpm_resume+0x51e/0x730
+<4> [197.769542]  rpm_resume+0x267/0x730
+<4> [197.773020]  rpm_resume+0x267/0x730
+<4> [197.776498]  rpm_resume+0x267/0x730
+<4> [197.779974]  __pm_runtime_resume+0x49/0x90
+<4> [197.784055]  __intel_runtime_pm_get+0x19/0xa0 [i915]
+<4> [197.789070]  hwm_energy+0x55/0x100 [i915]
+<4> [197.793183]  hwm_read+0x9a/0x310 [i915]
+<4> [197.797124]  hwmon_attr_show+0x36/0x120
+<4> [197.800946]  dev_attr_show+0x15/0x60
+<4> [197.804509]  sysfs_kf_seq_show+0xb5/0x100
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+Acquire the wakeref before the lock and hold it as long as the lock is
+also held.  Follow that pattern across the whole source file where similar
+lock inversion can happen.
 
-> I suggest to switch all fbdev code over to drm_driver_legacy_fb_format
-> <https://elixir.bootlin.com/linux/latest/C/ident/drm_driver_legacy_fb_format>()
-> first and then modify the format indrm_driver_legacy_fb_format
-> <https://elixir.bootlin.com/linux/latest/C/ident/drm_driver_legacy_fb_format>()
-> after reading it from drm_fb_legacy_fb_format().
+v2: Keep hardware read under the lock so the whole operation of updating
+    energy from hardware is still atomic (Guenter),
+  - instead, acquire the rpm wakeref before the lock and hold it as long
+    as the lock is held,
+  - use the same aproach for other similar places across the i915_hwmon.c
+    source file (Rodrigo).
 
-I see how doing the format massaging in drm_driver_legacy_fb_format()
-would fix the original regression (starting with the format returned by
-drm_mode_legacy_fb_format(), drm_fb_legacy_fb_format() is a typo,
-right?). As drm_driver_legacy_fb_format() has only two callers,
-drm_mode_addfb() and __drm_fb_helper_find_sizes() that change is
-probably less likely to do something unintended. As far as I can tell,
-drm_driver_legacy_fb_format() is only used when userland hasn't
-specified a format or the kernel is initializing and have no format
-information. For these code paths it's clear that only formats which are
-actually supported by the hardware are meaningful.
+Fixes: c41b8bdcc297 ("drm/i915/hwmon: Show device level energy usage")
+Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Cc: <stable@vger.kernel.org> # v6.2+
+---
+ drivers/gpu/drm/i915/i915_hwmon.c | 37 ++++++++++++++++---------------
+ 1 file changed, 19 insertions(+), 18 deletions(-)
 
-What I can't really see is what "switch all fbdev code over to
-drm_driver_legacy_fb_format" would entail and what the benefit would
-be. How do I determine when drm_mode_legacy_fb_format() should be
-replaced with drm_driver_legacy_fb_format()? I have already mistakenly
-considered the change to drm_mode_legacy_fb_format() as harmless and
-broken ofdrm... Shouldn't it be enough to make
-drm_driver_legacy_fb_format() select a format which is supported by the
-driver?
-
-Best regards,
-
-Frej
-
+diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
+index 8c3f443c8347e..b758fd110c204 100644
+--- a/drivers/gpu/drm/i915/i915_hwmon.c
++++ b/drivers/gpu/drm/i915/i915_hwmon.c
+@@ -72,12 +72,13 @@ hwm_locked_with_pm_intel_uncore_rmw(struct hwm_drvdata *ddat,
+ 	struct intel_uncore *uncore = ddat->uncore;
+ 	intel_wakeref_t wakeref;
+ 
+-	mutex_lock(&hwmon->hwmon_lock);
++	with_intel_runtime_pm(uncore->rpm, wakeref) {
++		mutex_lock(&hwmon->hwmon_lock);
+ 
+-	with_intel_runtime_pm(uncore->rpm, wakeref)
+ 		intel_uncore_rmw(uncore, reg, clear, set);
+ 
+-	mutex_unlock(&hwmon->hwmon_lock);
++		mutex_unlock(&hwmon->hwmon_lock);
++	}
+ }
+ 
+ /*
+@@ -136,20 +137,21 @@ hwm_energy(struct hwm_drvdata *ddat, long *energy)
+ 	else
+ 		rgaddr = hwmon->rg.energy_status_all;
+ 
+-	mutex_lock(&hwmon->hwmon_lock);
++	with_intel_runtime_pm(uncore->rpm, wakeref) {
++		mutex_lock(&hwmon->hwmon_lock);
+ 
+-	with_intel_runtime_pm(uncore->rpm, wakeref)
+ 		reg_val = intel_uncore_read(uncore, rgaddr);
+ 
+-	if (reg_val >= ei->reg_val_prev)
+-		ei->accum_energy += reg_val - ei->reg_val_prev;
+-	else
+-		ei->accum_energy += UINT_MAX - ei->reg_val_prev + reg_val;
+-	ei->reg_val_prev = reg_val;
++		if (reg_val >= ei->reg_val_prev)
++			ei->accum_energy += reg_val - ei->reg_val_prev;
++		else
++			ei->accum_energy += UINT_MAX - ei->reg_val_prev + reg_val;
++		ei->reg_val_prev = reg_val;
+ 
+-	*energy = mul_u64_u32_shr(ei->accum_energy, SF_ENERGY,
+-				  hwmon->scl_shift_energy);
+-	mutex_unlock(&hwmon->hwmon_lock);
++		*energy = mul_u64_u32_shr(ei->accum_energy, SF_ENERGY,
++					  hwmon->scl_shift_energy);
++		mutex_unlock(&hwmon->hwmon_lock);
++	}
+ }
+ 
+ static ssize_t
+@@ -404,6 +406,7 @@ hwm_power_max_write(struct hwm_drvdata *ddat, long val)
+ 
+ 	/* Block waiting for GuC reset to complete when needed */
+ 	for (;;) {
++		wakeref = intel_runtime_pm_get(ddat->uncore->rpm);
+ 		mutex_lock(&hwmon->hwmon_lock);
+ 
+ 		prepare_to_wait(&ddat->waitq, &wait, TASK_INTERRUPTIBLE);
+@@ -417,14 +420,13 @@ hwm_power_max_write(struct hwm_drvdata *ddat, long val)
+ 		}
+ 
+ 		mutex_unlock(&hwmon->hwmon_lock);
++		intel_runtime_pm_put(ddat->uncore->rpm, wakeref);
+ 
+ 		schedule();
+ 	}
+ 	finish_wait(&ddat->waitq, &wait);
+ 	if (ret)
+-		goto unlock;
+-
+-	wakeref = intel_runtime_pm_get(ddat->uncore->rpm);
++		goto exit;
+ 
+ 	/* Disable PL1 limit and verify, because the limit cannot be disabled on all platforms */
+ 	if (val == PL1_DISABLE) {
+@@ -444,9 +446,8 @@ hwm_power_max_write(struct hwm_drvdata *ddat, long val)
+ 	intel_uncore_rmw(ddat->uncore, hwmon->rg.pkg_rapl_limit,
+ 			 PKG_PWR_LIM_1_EN | PKG_PWR_LIM_1, nval);
+ exit:
+-	intel_runtime_pm_put(ddat->uncore->rpm, wakeref);
+-unlock:
+ 	mutex_unlock(&hwmon->hwmon_lock);
++	intel_runtime_pm_put(ddat->uncore->rpm, wakeref);
+ 	return ret;
+ }
+ 
+-- 
+2.43.0
 
