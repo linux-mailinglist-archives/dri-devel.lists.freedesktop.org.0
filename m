@@ -2,125 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C710787803E
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 14:02:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB34878044
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 14:05:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9252810ECB2;
-	Mon, 11 Mar 2024 13:02:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7D8810FE0A;
+	Mon, 11 Mar 2024 13:05:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="FxFeWB1I";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eAjp1l+A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2061.outbound.protection.outlook.com [40.107.95.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7114810ECB2;
- Mon, 11 Mar 2024 13:02:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=muLWfc1nKeEsZPI2By8UKAOzcuK6sQhO/ka8dX/CG6jvkrQbmX73XFBRIuavzrVk+deZDqVXyz+23jXtrstjgZQp1sgYm/7fmy8jyPe8DT2oBevm8acLkKsuN1GK3MQMqF70jJ8IoGnGMI1WWhRyzewWvIrPxxAeUm9A6Uy3uUJE1vhkcQyy5r+e5l5jYDN4mtFDw4ySRWeTR+wne3DoWEaiA/8QsjUtTPlCJ+UnwXW1TvC5oJT9YdMt8J9AcKRharZgxgyu7U+NcbJaI6OiaozHo1cA5VyOb/kSa1aLSiVHBDycFI36Od1mva+7GG6ybkKstcTWMglmwHEMI8Tl9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k0jLPtirJY+RE7dg7moUnP8VqbgTqovX4QWHm8XyecU=;
- b=E2SU6drup+IybkKsB7di6hB8KqM2ayVuHXDpZv8XEYHmmeGoGfr4D2F0PeWxt6zTM5IZ2ajC60vtXzIHnedcKUJyPxzm4AoMfoJiuE0ixaKICk2ppexzBnbIi7zTe445uy5bSfc2HrIr/e3vUGFAxIlVcvl+/Zq4Om0w7XtzHbmsthSqhmQQanpm9h15E3/FC8Vc3ZePPeoLk2Y3cNbrL7+5NrNIwfq46BpMbAFzQGmLyekTT7QUxlkB1fKnxcXmA93TlIp/yhClbRMJ5+haodK6fBPnBWcW0cfxmpeesA1PsxGzaa6I589CScpTPVBMFMezr2E8Oi7EjZuVvrtSTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k0jLPtirJY+RE7dg7moUnP8VqbgTqovX4QWHm8XyecU=;
- b=FxFeWB1IWvTi+th+T3h7MZs1WZ+jMa/Ib19oo0rZukTeq2Sc3RFqnIyxrZW/pW2efIlTHSLomMuTyDSS1CjSWF6j+wpmWtQfMggP9OndlGWLfrxtLvIrZdyjWfHNa2gVhwobErJtExPsb5y4YDHYOzF1NoWlIYuOQCCORzAkY68+Lg1Ii64ff5U7gVfSSNLffqi6Zq4HWud2kOfFVItkoi8ktF31zcT/SBVi6OY/ZzJW5rta+jk4C3nhQcLhUX0zjv9D5DLuWtFaMiLkOkMcpn7aNYGW7Tz8y7QTStBncp/3OiyVq2wWnjQoT6nPk8HF7NkN2mZBKHA4PIUP1mc0Qw==
-Received: from SN7PR12MB8769.namprd12.prod.outlook.com (2603:10b6:806:34b::12)
- by PH8PR12MB7422.namprd12.prod.outlook.com (2603:10b6:510:22a::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.35; Mon, 11 Mar
- 2024 13:02:50 +0000
-Received: from SN7PR12MB8769.namprd12.prod.outlook.com
- ([fe80::5971:c817:90dd:4fe6]) by SN7PR12MB8769.namprd12.prod.outlook.com
- ([fe80::5971:c817:90dd:4fe6%5]) with mapi id 15.20.7362.031; Mon, 11 Mar 2024
- 13:02:50 +0000
-From: Timur Tabi <ttabi@nvidia.com>
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "airlied@gmail.com" <airlied@gmail.com>
-CC: "airlied@redhat.com" <airlied@redhat.com>, "nouveau@lists.freedesktop.org"
- <nouveau@lists.freedesktop.org>, "christian.koenig@amd.com"
- <christian.koenig@amd.com>
-Subject: Re: [PATCH] nouveau: reset the bo resource bus info after an eviction
-Thread-Topic: [PATCH] nouveau: reset the bo resource bus info after an eviction
-Thread-Index: AQHac4SqlLf21l6PrEujF/m+IOE2tbEygcyA
-Date: Mon, 11 Mar 2024 13:02:50 +0000
-Message-ID: <cb0550d573676489954d3f7f241dc291bec0205d.camel@nvidia.com>
-References: <20240311072037.287905-1-airlied@gmail.com>
-In-Reply-To: <20240311072037.287905-1-airlied@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.44.4-0ubuntu2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN7PR12MB8769:EE_|PH8PR12MB7422:EE_
-x-ms-office365-filtering-correlation-id: 349f22c8-bf16-4d31-eec5-08dc41cb8e62
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: DgEKRHvL/jAcJxThIQpMVhnYG3f8Shiz0FCyRDT6hrbBgdvP//rJLLcPkLkMVi91RsfQM320/Nzr4reQZRxjCOx+QN8xv6R3E+OKAPkOaZYzbmGIkUG+PL1eGX0RqE5bzn43rEK/pwnD3uepC2G8Lq0Mo9SSpMrhf90qK+TkwoZfiCDj74ouvhxbsZa3pOf9dHf7AfPVy2TnlzzNXJnAYzOMXe4jr43XswGROsTiec7h9lHHwWSgLmhE/Sy46kAgr5DAwfgZSpcTbG8E26x5tFIQKpL1f2jFDB6IZC+tTRy/5csTVT59B/O4WNncXEeo7C/dxDrUW/Ig8+gGN4lsOrhwiz7wTKVspzpRBQ27b+iVuVOM+wdT+f+JwS69ZlyylIUfMP/6nMugtTWWLMZVIJRKUT9jFgOc0EAp702RGYUv6RaCgc6173YlpS17gUKk7Kerj9zeci0AjCMzqEk8TIOauax6p5t2xFojtOv174WNQ8l5Wrsq5fhUTFjoqhQtoDCNy2DV2bOI8LxBtdVhDqd6V3cGXicEXiRTitk2q/11+YqKsGK5bhGFuZ751evG82K2m7xVU5tuv2bkFOYX904XbfukB6PyVCa5nO9HFTmhqBQTDgAcIfH9Xkz8MwOhy2gq4Hs/gkwYUSnks7LffL+Z6ZR2RNvAGhP6+C8GIx/W0g2dTuKlqzCDdyD+hpF44y0W9f1/JKRykD0DsmuODpcBVD9fxCEA1veokOdBzTg=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR12MB8769.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(1800799015)(376005)(38070700009); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?T3k4ZXB3cHBWeWRHVDJzV3krWloveisrMDhsTktESFpUS1hHKy9jVXJBTnFp?=
- =?utf-8?B?cEl5RGM2YjJ5VTFtUWVjRHZ1NkZEMGI0RXlvY2JLM0QwQUhoQUtYenFNSFYw?=
- =?utf-8?B?eFdvN3V3Vm1aYWhwcEx2dUduYVlYMFRKVGg1cHBYRkdhTWVNSlVBYjRwL3M3?=
- =?utf-8?B?c05Md1FQRWd6NVYrRHdZdElZNVNMckkyUllIMjBBNDErVmh0MUhtLzRGUHdn?=
- =?utf-8?B?N0ttTEdrcGRhdnRkRXQzTi9nMWxBdHVzMllYZDc4Z3NiWU1MZmxBZVhEQzNw?=
- =?utf-8?B?MzhicG9QdHpPdU9FTjJtZWF1NzN4Vm4yVlVubk1sQVlSbG9XenFscW92MzFI?=
- =?utf-8?B?Ty95cXNiZ2hXenNQM3hza0JNekt3U3R3QThkeXZQN1FGazR5c1BhTVVDOXBh?=
- =?utf-8?B?dm10TXo1dWNrVDJyVkdYTVRZeTlzeklzdkpRa0Z1bmtsMWkwb2hPMjM1NHg2?=
- =?utf-8?B?a2F6RUJoVzhmdkVoTlJNa1R2MzRlQytydGprTjk1SURPdW82dFlwbjJoclhT?=
- =?utf-8?B?SlIzbVd1TC9HT1djeFNDV2p0VkZnSnk3MjVKcTMzNzlTajVuUU45blVkZHV4?=
- =?utf-8?B?L0JJUklsOEdUbHg0czVkTXdYMmZjZ25KdDNFNm1IQ1ViWkovMTRrSWpHUFFY?=
- =?utf-8?B?dTRxY3d5Mm9VR1VFT1VUUW43T3JXeURiRFVHZFpsQXZsU2I1TW5ScERLV01m?=
- =?utf-8?B?YzNpR1VjQmtrZW5taVRza0FwZksxSEkwWXE5ZE5hZ1hNU2JYRDFLR0N2d3Bt?=
- =?utf-8?B?eE40MGhaN1RuOWFtK2Q0WFo3QmlxbWg2Z0FScTRPUk9iVWpPMThkZHo4NjdH?=
- =?utf-8?B?ZlRySVdNenliZEc0aW15SUptaGJoZDBLaHBWZ2ZTVm1nekNjdjJHU2hTOGM3?=
- =?utf-8?B?anFjRldhRlptYXJ2S2hvTDhid3hHV2NPYzJ1MzZScjdjT0FENGQ1SzBoZ01o?=
- =?utf-8?B?MVNab0xSOUExTlB1SmdTYmFtbTJLNDk1SFQ2NW5uQjlxTFl5V1BpQVJrZWYr?=
- =?utf-8?B?SmhKNHV1OGJ3UzUwWURxTktsYXE2cVllVEZ4SVhEWDgzc0J3bFNJUFQrMUNT?=
- =?utf-8?B?UG45QVkxelZ1Tmc1eHZuamQ2SVdhaENnWVdNcS9rS3FOYVdyNlMrb0dOSzlY?=
- =?utf-8?B?b2hwOUQ0NElTQVBPL0hYVzk3NXREMXY5SWtKbkxFVHRTd2NQc3p4bHphaHJt?=
- =?utf-8?B?Z1hWbTBKM2lubmkyS1l0bTNWdmdPQ2tIeXlRN05iM3RBdjNySEZ2aTc3S0Zu?=
- =?utf-8?B?VGNQNXdMTWt4TStlTzlndDU2ZkV0NzZ6MU56Qzl0M0NqeEt3RzhPTHdFb3Nk?=
- =?utf-8?B?R1hoWnl6S2o5LzFqN0F6emZaWG94aXNtYjVRczBQRGZEK29FVGE2eHFFWWRL?=
- =?utf-8?B?SVNHa3FTV3FITzN4QW5Bd3VoR0xJaEpMR2NLQ1NwaGE5WFpyR0xnM3E3aG9D?=
- =?utf-8?B?Sy9CYWpGc0VRV2dLQXFVdU9LSkJ4Q1NLZUZFVXp1OERjaGdYbDJrOXk5emxX?=
- =?utf-8?B?OFVJQWw2YUcweEVPN0lTM0xta3cyVDY5b25FNENqczdydC9vZE1zL0NmSVAx?=
- =?utf-8?B?L2tUUDd1dHhJZnhHMEYvSFlPR0hvVE05L2J2NDAwbHRqaXpJUmQyWXNjczBz?=
- =?utf-8?B?NlByUG92NEMrSTBEQm1VeHhwRWpDdkt2QnF2N2hjTnI1eHpQcmRVcVpmOGNG?=
- =?utf-8?B?VThPdFo3V3pCMTRXOUxmU2tySnVvdFMyOCsyZ3U5amg1NkhTaHBsWjBIT1p6?=
- =?utf-8?B?YlovellMUjNKcmJwazJFQVFjbWxacys5dW9HckdjVzdPeHV6alQyOWxQZHZW?=
- =?utf-8?B?N3p3Z2swcmlRazBMVGpEMjVZWmpBVHVFZkQ5UDVPQWpyZGxya1VGNk50bDls?=
- =?utf-8?B?ZHZ4VnJzTkZ5QXpOQktiQVhQd1RVNFRQNTVUUXNtcTNaajE4VzNxaW4rcVM2?=
- =?utf-8?B?RTR4QVlsbnlmcFdnSGZGNHlmNjhjdEtlOG5VOFBUeHZpMHcybUZXNXUwdG1V?=
- =?utf-8?B?ZTJMSE81NWxHN2tsZ1VraWlHclh1ZUtVS2FqTHllMTIzY0RjaGVBUUx3RTlP?=
- =?utf-8?B?cVNKWGhRTlpUQ29aQVlYaGUrcEJ5Rk43bVZoK2tuT282MWppVHVIU29vYXov?=
- =?utf-8?Q?hm7/wEn4qOew7bzM+Sv5ghOZo?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6DED9E7472D44D48A223E0345FDECB52@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3E9D10FE0A;
+ Mon, 11 Mar 2024 13:05:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1710162304; x=1741698304;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=HVlzt7Ux3P5rLd2aTIy7aTc2MTdxFsLP8NELuHU9gBs=;
+ b=eAjp1l+ACnsxWFGLvSe3D9D3Wcvj5IiDvyTScGfz3ElCfnNrzymSvSUz
+ fAQbCzURzYn7PRxQBNGKDke5eWNGPWdCY3VC3ocx8l6jhjlMGSKaxyddJ
+ sNQoFEe5d6sW2p2ixzJKR+I1b8RsSt8415sQZCKM3YY4r3Rs+ZCTNcbN0
+ OCb0AoH5r4ZLwAGgKlTUaza5Ftkl8ApkidvtxFqI3RXqg6CoHnhHersv2
+ ja3vvDhShW6oJuOyIjnFvGI8imftxMoCMYzaDwuW5sInTjJFD3DgET5d4
+ JypSAWTKqrhZdXrSEY3vgGSiTqgOju+T/VJNTnaOkSEaNCDxaRrsRrzgN A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="4698997"
+X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
+   d="scan'208";a="4698997"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2024 06:05:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; d="scan'208";a="11231800"
+Received: from binis42x-mobl.gar.corp.intel.com (HELO [10.249.254.59])
+ ([10.249.254.59])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2024 06:05:03 -0700
+Message-ID: <69a4781527ff385895c7ecb02848db384cff2375.camel@linux.intel.com>
+Subject: Re: [PATCH v4 2/4] drm/ttm: Use LRU hitches
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: "Somalapuram, Amaranath" <asomalap@amd.com>, 
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Cc: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+ Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+ dri-devel@lists.freedesktop.org
+Date: Mon, 11 Mar 2024 14:04:59 +0100
+In-Reply-To: <40fd8ad3-c63f-ce79-461c-519d273c2d36@amd.com>
+References: <20240306070125.27071-1-thomas.hellstrom@linux.intel.com>
+ <20240306070125.27071-3-thomas.hellstrom@linux.intel.com>
+ <40fd8ad3-c63f-ce79-461c-519d273c2d36@amd.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8769.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 349f22c8-bf16-4d31-eec5-08dc41cb8e62
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Mar 2024 13:02:50.2588 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aHh08UZOAWUTwwV15QHWDPcwePhXfjSyDaJ6X+xcoYVGhPSJtjZOE7iHJ1KLvTIkSLUtnZLVAbdhjYkXvEounw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7422
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,7 +74,312 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAyMDI0LTAzLTExIGF0IDE3OjIwICsxMDAwLCBEYXZlIEFpcmxpZSB3cm90ZToNCj4g
-TGF0ZXIgYXR0ZW1wdHMgdG8gcmVmYXVsdCB0aGUgYm8gd29uJ3QgaGFwcGVuIGFuZCB0aGUgd2hv
-bGUNCj4gR1BVIGRvZXMgdG8gbHVuY2guIEkgdGhpbmsgQ2hyaXN0aWFuJ3MgcmVmYWN0b3Jpbmcg
-b2YgdGhpcw0KDQpUeXBvOiAgSSB0aGluayB5b3UgbWVhbnQgImdvZXMgdG8gbHVuY2giLg0KDQo=
+Hi! Thanks for reviewing.=20
+On Fri, 2024-03-08 at 18:50 +0530, Somalapuram, Amaranath wrote:
+>=20
+> On 3/6/2024 12:31 PM, Thomas Hellstr=C3=B6m wrote:
+> > Have iterators insert themselves into the list they are iterating
+> > over using hitch list nodes. Since only the iterator owner
+> > can remove these list nodes from the list, it's safe to unlock
+> > the list and when continuing, use them as a starting point. Due to
+> > the way LRU bumping works in TTM, newly added items will not be
+> > missed, and bumped items will be iterated over a second time before
+> > reaching the end of the list.
+> >=20
+> > The exception is list with bulk move sublists. When bumping a
+> > sublist, a hitch that is part of that sublist will also be moved
+> > and we might miss items if restarting from it. This will be
+> > addressed in a later patch.
+> >=20
+> > v2:
+> > - Updated ttm_resource_cursor_fini() documentation.
+> >=20
+> > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+> > Cc: <dri-devel@lists.freedesktop.org>
+> > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> > ---
+> > =C2=A0 drivers/gpu/drm/ttm/ttm_bo.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ |=C2=A0 1 +
+> > =C2=A0 drivers/gpu/drm/ttm/ttm_device.c=C2=A0=C2=A0 |=C2=A0 9 ++-
+> > =C2=A0 drivers/gpu/drm/ttm/ttm_resource.c | 94 ++++++++++++++++++++----=
+-
+> > -----
+> > =C2=A0 include/drm/ttm/ttm_resource.h=C2=A0=C2=A0=C2=A0=C2=A0 | 16 +++-=
+-
+> > =C2=A0 4 files changed, 82 insertions(+), 38 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
+> > b/drivers/gpu/drm/ttm/ttm_bo.c
+> > index e059b1e1b13b..b6f75a0ff2e5 100644
+> > --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> > @@ -622,6 +622,7 @@ int ttm_mem_evict_first(struct ttm_device
+> > *bdev,
+> > =C2=A0=C2=A0		if (locked)
+> > =C2=A0=C2=A0			dma_resv_unlock(res->bo->base.resv);
+> > =C2=A0=C2=A0	}
+> > +	ttm_resource_cursor_fini_locked(&cursor);
+> > =C2=A0=20
+> > =C2=A0=C2=A0	if (!bo) {
+> > =C2=A0=C2=A0		if (busy_bo && !ttm_bo_get_unless_zero(busy_bo))
+> > diff --git a/drivers/gpu/drm/ttm/ttm_device.c
+> > b/drivers/gpu/drm/ttm/ttm_device.c
+> > index f27406e851e5..e8a6a1dab669 100644
+> > --- a/drivers/gpu/drm/ttm/ttm_device.c
+> > +++ b/drivers/gpu/drm/ttm/ttm_device.c
+> > @@ -169,12 +169,17 @@ int ttm_device_swapout(struct ttm_device
+> > *bdev, struct ttm_operation_ctx *ctx,
+> > =C2=A0=C2=A0			num_pages =3D PFN_UP(bo->base.size);
+> > =C2=A0=C2=A0			ret =3D ttm_bo_swapout(bo, ctx, gfp_flags);
+> > =C2=A0=C2=A0			/* ttm_bo_swapout has dropped the lru_lock
+> > */
+> > -			if (!ret)
+> > +			if (!ret) {
+> > +				ttm_resource_cursor_fini(&cursor);
+>=20
+> is spin_unlock(&bdev->lru_lock) missing ?
+>=20
+> > =C2=A0=C2=A0				return num_pages;
+> > -			if (ret !=3D -EBUSY)
+> > +			}
+> > +			if (ret !=3D -EBUSY) {
+> > +				ttm_resource_cursor_fini(&cursor);
+>=20
+> is spin_unlock(&bdev->lru_lock) missing ?
+
+The ttm_bo_swapout() function returns unlocked depending on the error
+code. IIRC it only returns locked on -EBUSY. That is something we
+hopefully can change when this series is in place.
+
+/Thomas
+
+
+>=20
+> Regards,
+> S.Amarnath
+> > =C2=A0=C2=A0				return ret;
+> > +			}
+> > =C2=A0=C2=A0		}
+> > =C2=A0=C2=A0	}
+> > +	ttm_resource_cursor_fini_locked(&cursor);
+> > =C2=A0=C2=A0	spin_unlock(&bdev->lru_lock);
+> > =C2=A0=C2=A0	return 0;
+> > =C2=A0 }
+> > diff --git a/drivers/gpu/drm/ttm/ttm_resource.c
+> > b/drivers/gpu/drm/ttm/ttm_resource.c
+> > index ee1865f82cb4..971014fca10a 100644
+> > --- a/drivers/gpu/drm/ttm/ttm_resource.c
+> > +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+> > @@ -32,6 +32,37 @@
+> > =C2=A0=20
+> > =C2=A0 #include <drm/drm_util.h>
+> > =C2=A0=20
+> > +/**
+> > + * ttm_resource_cursor_fini_locked() - Finalize the LRU list
+> > cursor usage
+> > + * @cursor: The struct ttm_resource_cursor to finalize.
+> > + *
+> > + * The function pulls the LRU list cursor off any lists it was
+> > previusly
+> > + * attached to. Needs to be called with the LRU lock held. The
+> > function
+> > + * can be called multiple times after eachother.
+> > + */
+> > +void ttm_resource_cursor_fini_locked(struct ttm_resource_cursor
+> > *cursor)
+> > +{
+> > +	lockdep_assert_held(&cursor->man->bdev->lru_lock);
+> > +	list_del_init(&cursor->hitch.link);
+> > +}
+> > +
+> > +/**
+> > + * ttm_resource_cursor_fini() - Finalize the LRU list cursor usage
+> > + * @cursor: The struct ttm_resource_cursor to finalize.
+> > + *
+> > + * The function pulls the LRU list cursor off any lists it was
+> > previusly
+> > + * attached to. Needs to be called without the LRU list lock held.
+> > The
+> > + * function can be called multiple times after eachother.
+> > + */
+> > +void ttm_resource_cursor_fini(struct ttm_resource_cursor *cursor)
+> > +{
+> > +	spinlock_t *lru_lock =3D &cursor->man->bdev->lru_lock;
+> > +
+> > +	spin_lock(lru_lock);
+> > +	ttm_resource_cursor_fini_locked(cursor);
+> > +	spin_unlock(lru_lock);
+> > +}
+> > +
+> > =C2=A0 /**
+> > =C2=A0=C2=A0 * ttm_lru_bulk_move_init - initialize a bulk move structur=
+e
+> > =C2=A0=C2=A0 * @bulk: the structure to init
+> > @@ -483,62 +514,63 @@ void ttm_resource_manager_debug(struct
+> > ttm_resource_manager *man,
+> > =C2=A0 EXPORT_SYMBOL(ttm_resource_manager_debug);
+> > =C2=A0=20
+> > =C2=A0 /**
+> > - * ttm_resource_manager_first
+> > - *
+> > - * @man: resource manager to iterate over
+> > + * ttm_resource_manager_next() - Continue iterating over the
+> > resource manager
+> > + * resources
+> > =C2=A0=C2=A0 * @cursor: cursor to record the position
+> > =C2=A0=C2=A0 *
+> > - * Returns the first resource from the resource manager.
+> > + * Return: The next resource from the resource manager.
+> > =C2=A0=C2=A0 */
+> > =C2=A0 struct ttm_resource *
+> > -ttm_resource_manager_first(struct ttm_resource_manager *man,
+> > -			=C2=A0=C2=A0 struct ttm_resource_cursor *cursor)
+> > +ttm_resource_manager_next(struct ttm_resource_cursor *cursor)
+> > =C2=A0 {
+> > +	struct ttm_resource_manager *man =3D cursor->man;
+> > =C2=A0=C2=A0	struct ttm_lru_item *lru;
+> > =C2=A0=20
+> > =C2=A0=C2=A0	lockdep_assert_held(&man->bdev->lru_lock);
+> > =C2=A0=20
+> > -	for (cursor->priority =3D 0; cursor->priority <
+> > TTM_MAX_BO_PRIORITY;
+> > -	=C2=A0=C2=A0=C2=A0=C2=A0 ++cursor->priority)
+> > -		list_for_each_entry(lru, &man->lru[cursor-
+> > >priority], link) {
+> > -			if (ttm_lru_item_is_res(lru))
+> > +	do {
+> > +		lru =3D &cursor->hitch;
+> > +		list_for_each_entry_continue(lru, &man-
+> > >lru[cursor->priority], link) {
+> > +			if (ttm_lru_item_is_res(lru)) {
+> > +				list_move(&cursor->hitch.link,
+> > &lru->link);
+> > =C2=A0=C2=A0				return ttm_lru_item_to_res(lru);
+> > +			}
+> > =C2=A0=C2=A0		}
+> > =C2=A0=20
+> > +		if (++cursor->priority >=3D TTM_MAX_BO_PRIORITY)
+> > +			break;
+> > +
+> > +		list_move(&cursor->hitch.link, &man->lru[cursor-
+> > >priority]);
+> > +	} while (true);
+> > +
+> > +	list_del_init(&cursor->hitch.link);
+> > +
+> > =C2=A0=C2=A0	return NULL;
+> > =C2=A0 }
+> > =C2=A0=20
+> > =C2=A0 /**
+> > - * ttm_resource_manager_next
+> > - *
+> > + * ttm_resource_manager_first() - Start iterating over the
+> > resources
+> > + * of a resource manager
+> > =C2=A0=C2=A0 * @man: resource manager to iterate over
+> > =C2=A0=C2=A0 * @cursor: cursor to record the position
+> > - * @res: the current resource pointer
+> > =C2=A0=C2=A0 *
+> > - * Returns the next resource from the resource manager.
+> > + * Initializes the cursor and starts iterating. When done
+> > iterating,
+> > + * the caller must explicitly call ttm_resource_cursor_fini().
+> > + *
+> > + * Return: The first resource from the resource manager.
+> > =C2=A0=C2=A0 */
+> > =C2=A0 struct ttm_resource *
+> > -ttm_resource_manager_next(struct ttm_resource_manager *man,
+> > -			=C2=A0 struct ttm_resource_cursor *cursor,
+> > -			=C2=A0 struct ttm_resource *res)
+> > +ttm_resource_manager_first(struct ttm_resource_manager *man,
+> > +			=C2=A0=C2=A0 struct ttm_resource_cursor *cursor)
+> > =C2=A0 {
+> > -	struct ttm_lru_item *lru =3D &res->lru;
+> > -
+> > =C2=A0=C2=A0	lockdep_assert_held(&man->bdev->lru_lock);
+> > =C2=A0=20
+> > -	list_for_each_entry_continue(lru, &man->lru[cursor-
+> > >priority], link) {
+> > -		if (ttm_lru_item_is_res(lru))
+> > -			return ttm_lru_item_to_res(lru);
+> > -	}
+> > +	cursor->priority =3D 0;
+> > +	cursor->man =3D man;
+> > +	ttm_lru_item_init(&cursor->hitch, TTM_LRU_HITCH);
+> > +	list_move(&cursor->hitch.link, &man->lru[cursor-
+> > >priority]);
+> > =C2=A0=20
+> > -	for (++cursor->priority; cursor->priority <
+> > TTM_MAX_BO_PRIORITY;
+> > -	=C2=A0=C2=A0=C2=A0=C2=A0 ++cursor->priority)
+> > -		list_for_each_entry(lru, &man->lru[cursor-
+> > >priority], link) {
+> > -			if (ttm_lru_item_is_res(lru))
+> > -				ttm_lru_item_to_res(lru);
+> > -		}
+> > -
+> > -	return NULL;
+> > +	return ttm_resource_manager_next(cursor);
+> > =C2=A0 }
+> > =C2=A0=20
+> > =C2=A0 static void ttm_kmap_iter_iomap_map_local(struct ttm_kmap_iter
+> > *iter,
+> > diff --git a/include/drm/ttm/ttm_resource.h
+> > b/include/drm/ttm/ttm_resource.h
+> > index cad8c5476198..b9043c183205 100644
+> > --- a/include/drm/ttm/ttm_resource.h
+> > +++ b/include/drm/ttm/ttm_resource.h
+> > @@ -271,15 +271,23 @@ ttm_lru_item_to_res(struct ttm_lru_item
+> > *item)
+> > =C2=A0=20
+> > =C2=A0 /**
+> > =C2=A0=C2=A0 * struct ttm_resource_cursor
+> > - *
+> > + * @man: The resource manager currently being iterated over
+> > + * @hitch: A hitch list node inserted before the next resource
+> > + * to iterate over.
+> > =C2=A0=C2=A0 * @priority: the current priority
+> > =C2=A0=C2=A0 *
+> > =C2=A0=C2=A0 * Cursor to iterate over the resources in a manager.
+> > =C2=A0=C2=A0 */
+> > =C2=A0 struct ttm_resource_cursor {
+> > +	struct ttm_resource_manager *man;
+> > +	struct ttm_lru_item hitch;
+> > =C2=A0=C2=A0	unsigned int priority;
+> > =C2=A0 };
+> > =C2=A0=20
+> > +void ttm_resource_cursor_fini_locked(struct ttm_resource_cursor
+> > *cursor);
+> > +
+> > +void ttm_resource_cursor_fini(struct ttm_resource_cursor *cursor);
+> > +
+> > =C2=A0 /**
+> > =C2=A0=C2=A0 * struct ttm_lru_bulk_move_pos
+> > =C2=A0=C2=A0 *
+> > @@ -435,9 +443,7 @@ struct ttm_resource *
+> > =C2=A0 ttm_resource_manager_first(struct ttm_resource_manager *man,
+> > =C2=A0=C2=A0			=C2=A0=C2=A0 struct ttm_resource_cursor *cursor);
+> > =C2=A0 struct ttm_resource *
+> > -ttm_resource_manager_next(struct ttm_resource_manager *man,
+> > -			=C2=A0 struct ttm_resource_cursor *cursor,
+> > -			=C2=A0 struct ttm_resource *res);
+> > +ttm_resource_manager_next(struct ttm_resource_cursor *cursor);
+> > =C2=A0=20
+> > =C2=A0 /**
+> > =C2=A0=C2=A0 * ttm_resource_manager_for_each_res - iterate over all res=
+ources
+> > @@ -449,7 +455,7 @@ ttm_resource_manager_next(struct
+> > ttm_resource_manager *man,
+> > =C2=A0=C2=A0 */
+> > =C2=A0 #define ttm_resource_manager_for_each_res(man, cursor,
+> > res)		\
+> > =C2=A0=C2=A0	for (res =3D ttm_resource_manager_first(man, cursor);
+> > res;	\
+> > -	=C2=A0=C2=A0=C2=A0=C2=A0 res =3D ttm_resource_manager_next(man, curso=
+r, res))
+> > +	=C2=A0=C2=A0=C2=A0=C2=A0 res =3D ttm_resource_manager_next(cursor))
+> > =C2=A0=20
+> > =C2=A0 struct ttm_kmap_iter *
+> > =C2=A0 ttm_kmap_iter_iomap_init(struct ttm_kmap_iter_iomap *iter_io,
+
