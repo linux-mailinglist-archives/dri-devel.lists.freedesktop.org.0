@@ -2,60 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34419877C40
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 10:05:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D53A7877C75
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 10:17:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55E7B1128E2;
-	Mon, 11 Mar 2024 09:05:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74C7C10E2B4;
+	Mon, 11 Mar 2024 09:17:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NKACIwGf";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DHt1LppH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB22A112900
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 09:05:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710147928; x=1741683928;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=rImkqM/I/bYKr0LnvGSDk6a0kXoGqUeX9ScOOvPWmR0=;
- b=NKACIwGfu2/MWxUlbTOozHglyvEI1kfo8JyLD+EdIh3phB35DF3qrzYu
- 7fgezY7taYwDjZAawSekBcHB8VSWBlaLuavShO10TAByoOu7E/JCzQ6nT
- 3i2m5Zfn+qBIcxSwiDMOkViRfw3aWbxB/rksvPzXaCP5nj8gdmTp7esVx
- xBZNrGx+vM0GLFbYW4zQSJP77wefdI7eC8QJFrO/w/d/BaHG/YwjBPYzA
- exkMZ2Sem/qpgxi35+CJLXWtdXi2xQndSBYI9dMeJqk9czbXbWhYNVO1x
- zsnfQ2LBH5ioTOJCg1dIhJFYcRNAHf5vK85sLK22ehDBrbUPtaStsexKK A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="15437808"
-X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; d="scan'208";a="15437808"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2024 02:05:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; d="scan'208";a="15600083"
-Received: from tbeaumon-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.34.24])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2024 02:05:19 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/bridge: correct DRM_BRIDGE_OP_EDID documentation
-In-Reply-To: <20240310-drm-bridge-fix-docs-v1-1-70d3d741cb7a@linaro.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240310-drm-bridge-fix-docs-v1-1-70d3d741cb7a@linaro.org>
-Date: Mon, 11 Mar 2024 11:05:16 +0200
-Message-ID: <87v85tt9yr.fsf@intel.com>
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
+ [209.85.219.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EFE110E1DB
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 09:17:37 +0000 (UTC)
+Received: by mail-yb1-f172.google.com with SMTP id
+ 3f1490d57ef6-dc745927098so3613164276.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 02:17:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1710148657; x=1710753457; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=M+1SkM0ODd2CKqsVxZGXnA9O/skjPPIIln7iOxk5hQM=;
+ b=DHt1LppHs137g5nhlifBYaphgDDrI4mK80h8p2n4qv2xdAcNcjwsPuEmvliIJehHfI
+ S+6DpLPHbTWDcuDOwKikF3Cqk+5a1ZilhtoDYleYCibzamJhw+NQLg+uni8+65xoir53
+ X5mS+KPwq/fzfYExc+zqQ0rIBHzykrLGz8encSS9Ka2XBRXO/P/2g1t2btveCwsV7Sxh
+ prFbSsQ647/nlIIvwiuiiNUc2GYzQaUOfm2IQGdC5zyysUSzRZvRQ+RulUzGFw575buJ
+ Oe/a+2LZQDAl6j2l1tzKpOm7eOwiyObFGIg3Y5dBNcI5dE3pcfb6wQ9KhSjH7yNrijwx
+ GPqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710148657; x=1710753457;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=M+1SkM0ODd2CKqsVxZGXnA9O/skjPPIIln7iOxk5hQM=;
+ b=jCbLT2NAFyJa98udfPqDcteO7qIgrjPslXbU9FKZFmh52INcTez+w/aH/SVojoXd7y
+ xcM1TffeOSoLFHx0s5QHdUDt+r6hnnPL+2Dgty7+BrVeiBcJFoTx2+02/t87IjvNgC8X
+ LFaWemKEkLWq983JOHfWMv+lj9Ftnd0AQAb+eXf5OLRJPh1SmL1SQJ76/CMxW8AX0+Vc
+ RgvMeEphnGy9wZuBJ8ldLdRxcGAsCujgBjQN8B56ymm0i09DNovrKf84mPfzXc8Nmyws
+ GKvBVP4NCU3Fem74wXijjgEODv+Rx58fUs88QSeSIVGX7eggvm39DBFNBULbR8NE/8BB
+ 1vBg==
+X-Gm-Message-State: AOJu0YyWxnZTSfxxx/JJfMPcFcWqfL7NjITVjr7EagcOyNouo5FYVisu
+ tRNe56PI9BH7LyYsC1C5Y8Rz87HJMfGlnui8aE3RXTtscL3mijILC4Ut9nxkBbYCdYUgau84tk7
+ 7YrYtl6CiMb6YTN/kXk+ky8RB9R4=
+X-Google-Smtp-Source: AGHT+IFKKGTpBd3b/HphE+pp0f/oX3wCJ2i4qtFaoZ+Tiib1TohKa+wlIuvcEOog/K/bqRCdFei/1O6RYZg+7urpuJo=
+X-Received: by 2002:a25:850d:0:b0:dcf:4793:9a25 with SMTP id
+ w13-20020a25850d000000b00dcf47939a25mr4576097ybk.44.1710148656709; Mon, 11
+ Mar 2024 02:17:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20240305160902.1363835-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20240305160902.1363835-1-andriy.shevchenko@linux.intel.com>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Mon, 11 Mar 2024 10:17:25 +0100
+Message-ID: <CAMeQTsbbXxoAtYDPuUdByvBNgs=23tn7ZhYAanCyUtELJq7HBA@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] drm/gma500: Remove unused intel-mid.h
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,52 +80,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 10 Mar 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> While the commit d807ad80d811 ("drm/bridge: add ->edid_read hook and
-> drm_bridge_edid_read()") and the commit 27b8f91c08d9 ("drm/bridge:
-> remove ->get_edid callback") replaced ->get_edid() callback with the
-> ->edid_read(), they failed to update documentation. Fix the drm_bridge
-> docs to point to edid_read().
+On Tue, Mar 5, 2024 at 5:09=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 >
-> Fixes: 27b8f91c08d9 ("drm/bridge: remove ->get_edid callback")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> intel-mid.h is providing some core parts of the South Complex PM,
+> which are usually are not used by individual drivers. In particular,
+> this driver doesn't use it, so simply remove the unused header.
+>
 
-My bad, thanks for fixing it!
+Applied to drm-misc-next
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Thanks
+Patrik
 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > ---
->  include/drm/drm_bridge.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/gma500/oaktrail_lvds.c | 2 --
+>  1 file changed, 2 deletions(-)
 >
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 3606e1a7f965..4baca0d9107b 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -541,7 +541,7 @@ struct drm_bridge_funcs {
->  	 * The @get_modes callback is mostly intended to support non-probeable
->  	 * displays such as many fixed panels. Bridges that support reading
->  	 * EDID shall leave @get_modes unimplemented and implement the
-> -	 * &drm_bridge_funcs->get_edid callback instead.
-> +	 * &drm_bridge_funcs->edid_read callback instead.
->  	 *
->  	 * This callback is optional. Bridges that implement it shall set the
->  	 * DRM_BRIDGE_OP_MODES flag in their &drm_bridge->ops.
-> @@ -687,7 +687,7 @@ enum drm_bridge_ops {
->  	/**
->  	 * @DRM_BRIDGE_OP_EDID: The bridge can retrieve the EDID of the display
->  	 * connected to its output. Bridges that set this flag shall implement
-> -	 * the &drm_bridge_funcs->get_edid callback.
-> +	 * the &drm_bridge_funcs->edid_read callback.
->  	 */
->  	DRM_BRIDGE_OP_EDID = BIT(1),
->  	/**
+> diff --git a/drivers/gpu/drm/gma500/oaktrail_lvds.c b/drivers/gpu/drm/gma=
+500/oaktrail_lvds.c
+> index d974d0c60d2a..72191d6f0d06 100644
+> --- a/drivers/gpu/drm/gma500/oaktrail_lvds.c
+> +++ b/drivers/gpu/drm/gma500/oaktrail_lvds.c
+> @@ -11,8 +11,6 @@
+>  #include <linux/i2c.h>
+>  #include <linux/pm_runtime.h>
 >
-> ---
-> base-commit: 1843e16d2df9d98427ef8045589571749d627cf7
-> change-id: 20240310-drm-bridge-fix-docs-0fd12bc6a041
+> -#include <asm/intel-mid.h>
+> -
+>  #include <drm/drm_edid.h>
+>  #include <drm/drm_modeset_helper_vtables.h>
+>  #include <drm/drm_simple_kms_helper.h>
+> --
+> 2.43.0.rc1.1.gbec44491f096
 >
-> Best regards,
-
--- 
-Jani Nikula, Intel
