@@ -2,59 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94BF4878206
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 15:49:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C094487820D
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 15:50:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D671D10F67A;
-	Mon, 11 Mar 2024 14:49:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B5DF10FC68;
+	Mon, 11 Mar 2024 14:50:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JC4Voeks";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="g5/oMlIu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1ECF10F138
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 14:49:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710168578; x=1741704578;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=TT1fFUKNFv0KH/fXWbRwVQwGaPBA0T/N20h0i5lLVyc=;
- b=JC4VoekspQcyO4j3FH/lzyzojjxGJ7cnG0HJTfrdnPfU8PLBUSq6neb0
- DFUBfbc0Pr3vlazRehmF2ic/BzNSOXC+bQiwd5Qq3P7Xtms87Mt4X/rNe
- C2ynHdZx79+Eqk1d15F25hWdbk7g90vpayMHMj11NjHeSKr98zSMn0lkz
- lLEwXV3PK4rqSnPEqK+LY3poW2Bwjg6qygtv/LKMuoT7KmYQCbxFxWW83
- Ehd67Z0h67CsoYwkAL7wJiyx6+fPyB5m1P1gZFlG8xlcmIefuIvfT/fzv
- FN0vHXNmWmBJv1V9CxbCZIdVqPqPc5pjvt0gTR8jVzYVQIsrt9vI0rTWf A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="8648002"
-X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="8648002"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2024 07:49:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; d="scan'208";a="11264639"
-Received: from tbeaumon-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.34.24])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2024 07:49:33 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Liviu Dudau <liviu.dudau@arm.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH] Revert "drm/panthor: Fix undefined
- panthor_device_suspend/resume symbol issue"
-In-Reply-To: <Ze8YJhmZgruRfNBo@e110455-lin.cambridge.arm.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240311111619.249776-1-jani.nikula@intel.com>
- <20240311124826.44cc69ba@collabora.com> <87cys1t299.fsf@intel.com>
- <20240311125445.4bab1712@collabora.com> <87a5n5t0mt.fsf@intel.com>
- <Ze8YJhmZgruRfNBo@e110455-lin.cambridge.arm.com>
-Date: Mon, 11 Mar 2024 16:49:30 +0200
-Message-ID: <871q8gu8lh.fsf@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1780510F138
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 14:50:07 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id D829F60EBC;
+ Mon, 11 Mar 2024 14:50:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 562AAC43399;
+ Mon, 11 Mar 2024 14:50:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1710168606;
+ bh=CjIGYTbMXVCqb3XcBIX9A123T+vivJfkGlKpICpmC2k=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=g5/oMlIubhSeW1B2smF0/CI/QbzSzy8nDue4iZqfCebGwJxg14bY1ZH5JKRwaNKHc
+ uVN5MPSENnqg+8BH0bf+iPWp7O6+vX02BruS5df+oPKnpARtXuvB1TxylceYabXe0N
+ uFLHa0ILkKHMRLA8a3ATYtzxzINtcfu/Q7qItRm83i/yNSNHiCSxzakyhHKEWgm34h
+ S7Zh8CH6sMp6PK+uwsawuIMpHU8TA8Zirdf4cDGHOFG40+qbg8nIz5Y4DF3sJsEZhx
+ gfslY4KA0DCIvDCQc1wd06EPsheQqwOdYXmcnwH6KSNOpouIPxqzMGT25B4mqlTz2D
+ Iw2P8e5c30a1g==
+From: Maxime Ripard <mripard@kernel.org>
+Date: Mon, 11 Mar 2024 15:49:30 +0100
+Subject: [PATCH v9 02/27] drm/tests: connector: Add tests for
+ drmm_connector_hdmi_init
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240311-kms-hdmi-connector-state-v9-2-d45890323344@kernel.org>
+References: <20240311-kms-hdmi-connector-state-v9-0-d45890323344@kernel.org>
+In-Reply-To: <20240311-kms-hdmi-connector-state-v9-0-d45890323344@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
+ Sebastian Wick <sebastian.wick@redhat.com>, 
+ =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5120; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=CjIGYTbMXVCqb3XcBIX9A123T+vivJfkGlKpICpmC2k=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKnvpVhf7L0052D+ouA5+8S8bF+veO3akh8pJ/3EVrAlx
+ OplIo9+RykLgxgXg6yYIkuMsPmSuFOzXney8c2DmcPKBDKEgYtTACayfQLD/7S3OulSB7+2LfVc
+ /31dSHy7wOvfx5j5Jhg9d3N5zDHnNj/D/xyNHiExpuyQXS/MxV0Pp0TFlbLJ7v/UZ2zPnhl9zHg
+ 9OwA=
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,77 +79,165 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 11 Mar 2024, Liviu Dudau <liviu.dudau@arm.com> wrote:
-> On Mon, Mar 11, 2024 at 02:26:50PM +0200, Jani Nikula wrote:
->> On Mon, 11 Mar 2024, Boris Brezillon <boris.brezillon@collabora.com> wrote:
->> > On Mon, 11 Mar 2024 13:51:46 +0200
->> > Jani Nikula <jani.nikula@intel.com> wrote:
->> >
->> >> On Mon, 11 Mar 2024, Boris Brezillon <boris.brezillon@collabora.com> wrote:
->> >> > On Mon, 11 Mar 2024 13:16:19 +0200
->> >> > Jani Nikula <jani.nikula@intel.com> wrote:
->> >> >  
->> >> >> This reverts commit 674dc7f61aefea81901c21402946074927e63f1a.
->> >> >> 
->> >> >> The commit causes a recursive dependency in kconfig:
->> >> >> 
->> >> >> drivers/iommu/Kconfig:14:error: recursive dependency detected!
->> >> >> drivers/iommu/Kconfig:14:	symbol IOMMU_SUPPORT is selected by DRM_PANTHOR
->> >> >> drivers/gpu/drm/panthor/Kconfig:3:	symbol DRM_PANTHOR depends on PM
->> >> >> kernel/power/Kconfig:183:	symbol PM is selected by PM_SLEEP
->> >> >> kernel/power/Kconfig:117:	symbol PM_SLEEP depends on HIBERNATE_CALLBACKS
->> >> >> kernel/power/Kconfig:35:	symbol HIBERNATE_CALLBACKS is selected by XEN_SAVE_RESTORE
->> >> >> arch/x86/xen/Kconfig:67:	symbol XEN_SAVE_RESTORE depends on XEN
->> >> >> arch/x86/xen/Kconfig:6:	symbol XEN depends on PARAVIRT
->> >> >> arch/x86/Kconfig:781:	symbol PARAVIRT is selected by HYPERV
->> >> >> drivers/hv/Kconfig:5:	symbol HYPERV depends on X86_LOCAL_APIC
->> >> >> arch/x86/Kconfig:1106:	symbol X86_LOCAL_APIC depends on X86_UP_APIC
->> >> >> arch/x86/Kconfig:1081:	symbol X86_UP_APIC prompt is visible depending on PCI_MSI
->> >> >> drivers/pci/Kconfig:39:	symbol PCI_MSI is selected by AMD_IOMMU
->> >> >> drivers/iommu/amd/Kconfig:3:	symbol AMD_IOMMU depends on IOMMU_SUPPORT
->> >> >> For a resolution refer to Documentation/kbuild/kconfig-language.rst
->> >> >> subsection "Kconfig recursive dependency limitations"
->> >> >> 
->> >> >> Fixes: 674dc7f61aef ("drm/panthor: Fix undefined panthor_device_suspend/resume symbol issue")
->> >> >> Cc: Boris Brezillon <boris.brezillon@collabora.com>
->> >> >> Cc: Liviu Dudau <liviu.dudau@arm.com>
->> >> >> Cc: Steven Price <steven.price@arm.com>
->> >> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>  
->> >> >
->> >> > Acked-by: Boris Brezillon <boris.brezillon@collabora.com>  
->> >> 
->> >> Your suggestion select -> depends on IOMMU_SUPPORT seems to also work,
->> >> at least for me. Want to send a patch for that instead of me merging the
->> >> revert?
->> >
->> > I replied on the other thread :-). I think we're better off reverting
->> > the faulty commit, so we can discuss how to fix the original issue
->> > properly without blocking the build.
->> 
->> Thanks, pushed to drm-misc-next.
->
-> So with this revert we're OK with an undefined symbol if !CONFIG_PM, but we're not happy
-> with a recursive dependency that is only triggered for COMPILE_TEST? I would've thought
-> IOMMU_SUPPORT options is a better one.
+We just introduced a new initialization function for our connectors, so
+let's build a kunit test suite for it as well.
 
-It's a real config.
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+ drivers/gpu/drm/tests/drm_connector_test.c | 123 +++++++++++++++++++++++++++++
+ 1 file changed, 123 insertions(+)
 
-# CONFIG_COMPILE_TEST is not set
-
-BR,
-Jani.
-
->
-> Best regards,
-> Liviu
->
->> 
->> BR,
->> Jani.
->> 
->> 
->> -- 
->> Jani Nikula, Intel
+diff --git a/drivers/gpu/drm/tests/drm_connector_test.c b/drivers/gpu/drm/tests/drm_connector_test.c
+index 44f82ed2a958..261d4109946d 100644
+--- a/drivers/gpu/drm/tests/drm_connector_test.c
++++ b/drivers/gpu/drm/tests/drm_connector_test.c
+@@ -170,10 +170,132 @@ static struct kunit_suite drmm_connector_init_test_suite = {
+ 	.name = "drmm_connector_init",
+ 	.init = drm_test_connector_init,
+ 	.test_cases = drmm_connector_init_tests,
+ };
+ 
++/*
++ * Test that the registration of a bog standard connector works as
++ * expected and doesn't report any error.
++ */
++static void drm_test_connector_hdmi_init_valid(struct kunit *test)
++{
++	struct drm_connector_init_priv *priv = test->priv;
++	int ret;
++
++	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
++				       &dummy_funcs,
++				       DRM_MODE_CONNECTOR_HDMIA,
++				       &priv->ddc);
++	KUNIT_EXPECT_EQ(test, ret, 0);
++}
++
++/*
++ * Test that the registration of a connector without a DDC adapter
++ * doesn't report any error.
++ */
++static void drm_test_connector_hdmi_init_null_ddc(struct kunit *test)
++{
++	struct drm_connector_init_priv *priv = test->priv;
++	int ret;
++
++	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
++				       &dummy_funcs,
++				       DRM_MODE_CONNECTOR_HDMIA,
++				       NULL);
++	KUNIT_EXPECT_EQ(test, ret, 0);
++}
++
++/*
++ * Test that the registration of an HDMI connector with an HDMI
++ * connector type succeeds.
++ */
++static void drm_test_connector_hdmi_init_type_valid(struct kunit *test)
++{
++	struct drm_connector_init_priv *priv = test->priv;
++	unsigned int connector_type = *(unsigned int *)test->param_value;
++	int ret;
++
++	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
++				       &dummy_funcs,
++				       connector_type,
++				       &priv->ddc);
++	KUNIT_EXPECT_EQ(test, ret, 0);
++}
++
++static const unsigned int drm_connector_hdmi_init_type_valid_tests[] = {
++	DRM_MODE_CONNECTOR_HDMIA,
++	DRM_MODE_CONNECTOR_HDMIB,
++};
++
++static void drm_connector_hdmi_init_type_desc(const unsigned int *type, char *desc)
++{
++	sprintf(desc, "%s", drm_get_connector_type_name(*type));
++}
++
++KUNIT_ARRAY_PARAM(drm_connector_hdmi_init_type_valid,
++		  drm_connector_hdmi_init_type_valid_tests,
++		  drm_connector_hdmi_init_type_desc);
++
++/*
++ * Test that the registration of an HDMI connector with an !HDMI
++ * connector type fails.
++ */
++static void drm_test_connector_hdmi_init_type_invalid(struct kunit *test)
++{
++	struct drm_connector_init_priv *priv = test->priv;
++	unsigned int connector_type = *(unsigned int *)test->param_value;
++	int ret;
++
++	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
++				       &dummy_funcs,
++				       connector_type,
++				       &priv->ddc);
++	KUNIT_EXPECT_LT(test, ret, 0);
++}
++
++static const unsigned int drm_connector_hdmi_init_type_invalid_tests[] = {
++	DRM_MODE_CONNECTOR_Unknown,
++	DRM_MODE_CONNECTOR_VGA,
++	DRM_MODE_CONNECTOR_DVII,
++	DRM_MODE_CONNECTOR_DVID,
++	DRM_MODE_CONNECTOR_DVIA,
++	DRM_MODE_CONNECTOR_Composite,
++	DRM_MODE_CONNECTOR_SVIDEO,
++	DRM_MODE_CONNECTOR_LVDS,
++	DRM_MODE_CONNECTOR_Component,
++	DRM_MODE_CONNECTOR_9PinDIN,
++	DRM_MODE_CONNECTOR_DisplayPort,
++	DRM_MODE_CONNECTOR_TV,
++	DRM_MODE_CONNECTOR_eDP,
++	DRM_MODE_CONNECTOR_VIRTUAL,
++	DRM_MODE_CONNECTOR_DSI,
++	DRM_MODE_CONNECTOR_DPI,
++	DRM_MODE_CONNECTOR_WRITEBACK,
++	DRM_MODE_CONNECTOR_SPI,
++	DRM_MODE_CONNECTOR_USB,
++};
++
++KUNIT_ARRAY_PARAM(drm_connector_hdmi_init_type_invalid,
++		  drm_connector_hdmi_init_type_invalid_tests,
++		  drm_connector_hdmi_init_type_desc);
++
++static struct kunit_case drmm_connector_hdmi_init_tests[] = {
++	KUNIT_CASE(drm_test_connector_hdmi_init_valid),
++	KUNIT_CASE(drm_test_connector_hdmi_init_null_ddc),
++	KUNIT_CASE_PARAM(drm_test_connector_hdmi_init_type_valid,
++			 drm_connector_hdmi_init_type_valid_gen_params),
++	KUNIT_CASE_PARAM(drm_test_connector_hdmi_init_type_invalid,
++			 drm_connector_hdmi_init_type_invalid_gen_params),
++	{ }
++};
++
++static struct kunit_suite drmm_connector_hdmi_init_test_suite = {
++	.name = "drmm_connector_hdmi_init",
++	.init = drm_test_connector_init,
++	.test_cases = drmm_connector_hdmi_init_tests,
++};
++
+ struct drm_get_tv_mode_from_name_test {
+ 	const char *name;
+ 	enum drm_connector_tv_mode expected_mode;
+ };
+ 
+@@ -234,10 +356,11 @@ static struct kunit_suite drm_get_tv_mode_from_name_test_suite = {
+ 	.name = "drm_get_tv_mode_from_name",
+ 	.test_cases = drm_get_tv_mode_from_name_tests,
+ };
+ 
+ kunit_test_suites(
++	&drmm_connector_hdmi_init_test_suite,
+ 	&drmm_connector_init_test_suite,
+ 	&drm_get_tv_mode_from_name_test_suite
+ );
+ 
+ MODULE_AUTHOR("Maxime Ripard <maxime@cerno.tech>");
 
 -- 
-Jani Nikula, Intel
+2.43.2
+
