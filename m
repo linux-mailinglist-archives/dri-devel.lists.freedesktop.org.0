@@ -2,69 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D53A7877C75
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 10:17:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41C3C877C77
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 10:18:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74C7C10E2B4;
-	Mon, 11 Mar 2024 09:17:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A91E10E2D4;
+	Mon, 11 Mar 2024 09:18:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DHt1LppH";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yJFEsWbm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
- [209.85.219.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EFE110E1DB
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 09:17:37 +0000 (UTC)
-Received: by mail-yb1-f172.google.com with SMTP id
- 3f1490d57ef6-dc745927098so3613164276.3
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 02:17:37 -0700 (PDT)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
+ [209.85.128.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EEAB10E11F
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 09:18:24 +0000 (UTC)
+Received: by mail-yw1-f174.google.com with SMTP id
+ 00721157ae682-60a434ea806so3689087b3.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 02:18:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1710148657; x=1710753457; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=M+1SkM0ODd2CKqsVxZGXnA9O/skjPPIIln7iOxk5hQM=;
- b=DHt1LppHs137g5nhlifBYaphgDDrI4mK80h8p2n4qv2xdAcNcjwsPuEmvliIJehHfI
- S+6DpLPHbTWDcuDOwKikF3Cqk+5a1ZilhtoDYleYCibzamJhw+NQLg+uni8+65xoir53
- X5mS+KPwq/fzfYExc+zqQ0rIBHzykrLGz8encSS9Ka2XBRXO/P/2g1t2btveCwsV7Sxh
- prFbSsQ647/nlIIvwiuiiNUc2GYzQaUOfm2IQGdC5zyysUSzRZvRQ+RulUzGFw575buJ
- Oe/a+2LZQDAl6j2l1tzKpOm7eOwiyObFGIg3Y5dBNcI5dE3pcfb6wQ9KhSjH7yNrijwx
- GPqQ==
+ d=linaro.org; s=google; t=1710148703; x=1710753503; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=OddnUvr2yeelUv7t7V53Ryf3xtKdhUkQoQ3ZQBksq5s=;
+ b=yJFEsWbmMndrjSnbaYiDFI+CEgTvq9J79ruLZVEsj0i78FqPrvcEGjXGmUy+z7apjL
+ PvEHw8VOcaTrvB4zLECez0kFG4rvBQaqok/apsuTUI6q94w0IPSad3q8pOdYSIRFfp+i
+ PJpKU7bWLaBAgTu0QLuYEix7/qOMx6FiXtEjw5sq3yI7HIi5+yCjrC1OEQQCM5J8u0wS
+ 0QIcbddDtZcPxg0N6eEIhDBka6wIZYUgTDvb0tLB7FlH2w6VO8Y2+yweuCeBwX5Y0bgr
+ nawoOBjUZRZceJfCgiDfutR6S4t0g6cwEQEZBtiD6Sq47UCYHldomXn2YQ0T9p7RAJDw
+ Uhfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710148657; x=1710753457;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=M+1SkM0ODd2CKqsVxZGXnA9O/skjPPIIln7iOxk5hQM=;
- b=jCbLT2NAFyJa98udfPqDcteO7qIgrjPslXbU9FKZFmh52INcTez+w/aH/SVojoXd7y
- xcM1TffeOSoLFHx0s5QHdUDt+r6hnnPL+2Dgty7+BrVeiBcJFoTx2+02/t87IjvNgC8X
- LFaWemKEkLWq983JOHfWMv+lj9Ftnd0AQAb+eXf5OLRJPh1SmL1SQJ76/CMxW8AX0+Vc
- RgvMeEphnGy9wZuBJ8ldLdRxcGAsCujgBjQN8B56ymm0i09DNovrKf84mPfzXc8Nmyws
- GKvBVP4NCU3Fem74wXijjgEODv+Rx58fUs88QSeSIVGX7eggvm39DBFNBULbR8NE/8BB
- 1vBg==
-X-Gm-Message-State: AOJu0YyWxnZTSfxxx/JJfMPcFcWqfL7NjITVjr7EagcOyNouo5FYVisu
- tRNe56PI9BH7LyYsC1C5Y8Rz87HJMfGlnui8aE3RXTtscL3mijILC4Ut9nxkBbYCdYUgau84tk7
- 7YrYtl6CiMb6YTN/kXk+ky8RB9R4=
-X-Google-Smtp-Source: AGHT+IFKKGTpBd3b/HphE+pp0f/oX3wCJ2i4qtFaoZ+Tiib1TohKa+wlIuvcEOog/K/bqRCdFei/1O6RYZg+7urpuJo=
-X-Received: by 2002:a25:850d:0:b0:dcf:4793:9a25 with SMTP id
- w13-20020a25850d000000b00dcf47939a25mr4576097ybk.44.1710148656709; Mon, 11
- Mar 2024 02:17:36 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1710148703; x=1710753503;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=OddnUvr2yeelUv7t7V53Ryf3xtKdhUkQoQ3ZQBksq5s=;
+ b=ViRJY8+tS08tGnJTSu9gmdXtHA4ISc9oecs7q93lLv8VXy3+S9JaMM+0AboiLW+S+Q
+ DNeXVpnAdO6mT+vMWvHgRZG0dAIsA5OPwiHrkh1GKmnE3/Sq3ISb0Et9kB4od9HsFFM5
+ hivYY8iAxdL+JHSpo3ITwXrJ0oTklRcBe0zKLEqW3CfCDLiBBuScLOnsw8F9BU77/cW3
+ P/UFbiq03Pj6uXiyIDtjPi3/4Yy44qqreU7m/3QRRzpBxJwexBUJ7cbKuu/gI3ty0nSZ
+ D/UcT9cJ/aWWxbau+fE0mf2csmLL/KlYlBzkzcriehFRIjr/8oqJT2PAQtL3xWvydXGD
+ XWsA==
+X-Gm-Message-State: AOJu0YzhhumGdyVLrJcXyew9JiF3AZ78+oFW5q0lDXhQtSNHZ1hcgoxg
+ 7KbRLBmOhvZwP78UlYtx+KYrJm+EE+0RkDMNI8l8Tk6kgAUukzDLWnI47tWe1b3tvOVRwC55SEe
+ 5xVFAFYlTwh7sNH0rAHNdHIzT8eAs5RvQ8mGkQw==
+X-Google-Smtp-Source: AGHT+IHEX1iouU1yG/Awb1oFLg4oNi0bkStT6aw9cSPtx0U9ZVN9BP/7gw+E3Mt6fNXAm4zl1ZbFZpP2n1nW2HL9IDk=
+X-Received: by 2002:a81:60c5:0:b0:609:879a:aef7 with SMTP id
+ u188-20020a8160c5000000b00609879aaef7mr5710333ywb.30.1710148703159; Mon, 11
+ Mar 2024 02:18:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240305160902.1363835-1-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20240305160902.1363835-1-andriy.shevchenko@linux.intel.com>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Mon, 11 Mar 2024 10:17:25 +0100
-Message-ID: <CAMeQTsbbXxoAtYDPuUdByvBNgs=23tn7ZhYAanCyUtELJq7HBA@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] drm/gma500: Remove unused intel-mid.h
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
+References: <cover.1709913674.git.jani.nikula@intel.com>
+ <ed97f4f036263cdc4f34330cef91214970f99a77.1709913674.git.jani.nikula@intel.com>
+In-Reply-To: <ed97f4f036263cdc4f34330cef91214970f99a77.1709913674.git.jani.nikula@intel.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 11 Mar 2024 11:18:11 +0200
+Message-ID: <CAA8EJprRWrGsDPtAyTT=Vq7nDVkmx4DJ35xn9VAE+tzxfcKNWQ@mail.gmail.com>
+Subject: Re: [PATCH 7/8] drm/bridge: lt9611uxc: use int for holding number of
+ modes
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,38 +78,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 5, 2024 at 5:09=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+On Fri, 8 Mar 2024 at 18:04, Jani Nikula <jani.nikula@intel.com> wrote:
 >
-> intel-mid.h is providing some core parts of the South Complex PM,
-> which are usually are not used by individual drivers. In particular,
-> this driver doesn't use it, so simply remove the unused header.
+> lt9611uxc_connector_get_modes() propagates the return value of
+> drm_edid_connector_add_modes() but stores the int temporarily in an
+> unsigned int. Use the correct type.
 >
-
-Applied to drm-misc-next
-
-Thanks
-Patrik
-
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 > ---
->  drivers/gpu/drm/gma500/oaktrail_lvds.c | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/gma500/oaktrail_lvds.c b/drivers/gpu/drm/gma=
-500/oaktrail_lvds.c
-> index d974d0c60d2a..72191d6f0d06 100644
-> --- a/drivers/gpu/drm/gma500/oaktrail_lvds.c
-> +++ b/drivers/gpu/drm/gma500/oaktrail_lvds.c
-> @@ -11,8 +11,6 @@
->  #include <linux/i2c.h>
->  #include <linux/pm_runtime.h>
->
-> -#include <asm/intel-mid.h>
-> -
->  #include <drm/drm_edid.h>
->  #include <drm/drm_modeset_helper_vtables.h>
->  #include <drm/drm_simple_kms_helper.h>
-> --
-> 2.43.0.rc1.1.gbec44491f096
->
+>  drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+
+
+-- 
+With best wishes
+Dmitry
