@@ -2,53 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F6EE878A9E
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 23:15:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B79FF878ACF
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 23:37:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20BAD112932;
-	Mon, 11 Mar 2024 22:15:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEEEB112CE4;
+	Mon, 11 Mar 2024 22:36:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PPek5Isx";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="HqhuOUUr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFFC8112CC6
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 22:15:17 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 176C1CE131D;
- Mon, 11 Mar 2024 22:15:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 237E0C433C7;
- Mon, 11 Mar 2024 22:15:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1710195313;
- bh=bgdC0mJstQ1eno0f2EP+4ez6XIDUdcKeIs+d0Nm+Yz0=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=PPek5Isx03UQi4OcxnweJPdHuRntpxKlCwWZ+1iSRDZ4swl9x8aeTlCbK7J8C6GUg
- stKGJSbO/bY/TT6OTW53HHlF4uvI6BcGFnWjLQL9DhwqQcNCPbZ0F822OjNIXnjWUf
- 81b1moEi66FT+ldpYGdFZazTQ66I0txaBnApYHK0dm3/+nXg3JBZrSCOHkWylP4YwU
- V9resfOfk9143rrXdAw8BGuaqKrcLelRagmxtt9nFH3GjfvbWoLGx1JRWHzWRFEOFx
- rKZ3vSd7IR3ges1/5NFg+jJeG80s8h1ps30EUOqPauOuOX88sYgHggTADATNtryxJD
- MFGdnS//mXQYA==
-Date: Mon, 11 Mar 2024 17:15:11 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Sam Ravnborg <sam@ravnborg.org>, dakr@redhat.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org
-Subject: Re: [PATCH v4 00/10] Make PCI's devres API more consistent
-Message-ID: <20240311221511.GA821021@bhelgaas>
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com
+ [95.215.58.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24D9E112CE4
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 22:36:57 +0000 (UTC)
+Message-ID: <83e2d77c-d12b-4f4f-a759-8e97fd86eff5@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1710196614;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kUQPkht64sWX7JVV8v7D7kaGK+/xr09KYmGxuaLQzAo=;
+ b=HqhuOUUrijOnMo8iwXnOShESjlO2ucwqsLA1yJ3Ss3rkH6Yd1JmhQ4kEi35gjRlnEl+W5y
+ WbO5+7os9DpccK6BVJft3mXh5wSgShvrwfDcOXvh0m84UdqUgJQjPU/E7xJsQIpKyNC+zm
+ tIAJuScW36ApYLQ4wf4CbL+4aD0kEj4=
+Date: Tue, 12 Mar 2024 06:36:31 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e1e0044a364b218fea285b1c9e80d925ad4c9d90.camel@redhat.com>
+Subject: Re: [10/13] drm/fbdev-generic: Fix locking with
+ drm_client_buffer_vmap_local()
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ christian.koenig@amd.com, sumit.semwal@linaro.org,
+ dmitry.osipenko@collabora.com, robdclark@gmail.com,
+ quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
+ marijn.suijten@somainline.org, kherbst@redhat.com, lyude@redhat.com,
+ dakr@redhat.com, airlied@redhat.com, kraxel@redhat.com,
+ alexander.deucher@amd.com, Xinhui.Pan@amd.com, zack.rusin@broadcom.com,
+ bcm-kernel-feedback-list@broadcom.com
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+References: <20240227113853.8464-11-tzimmermann@suse.de>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <20240227113853.8464-11-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,131 +68,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 11, 2024 at 12:45:15PM +0100, Philipp Stanner wrote:
-> Gentle ping because the Merge Window opened 8-)
+Hi,
 
-Thanks; I'll look at this for v6.10.  It's too late to add significant
-changes for the v6.9 merge window since it's already open.
 
-Bjorn
+On 2024/2/27 18:14, Thomas Zimmermann wrote:
+> Temporarily lock the fbdev buffer object during updates to prevent
+> memory managers from evicting/moving the buffer. Moving a buffer
+> object while update its content results in undefined behaviour.
+>
+> Fbdev-generic updates its buffer object from a shadow buffer. Gem-shmem
+> and gem-dma helpers do not move buffer objects, so they are safe to be
+> used with fbdev-generic. Gem-vram and qxl are based on TTM, but pin
+> buffer objects are part of the vmap operation. So both are also safe
+> to be used with fbdev-generic.
+>
+> Amdgpu and nouveau do not pin or lock the buffer object during an
+> update. Their TTM-based memory management could move the buffer object
+> while the update is ongoing.
+>
+> The new vmap_local and vunmap_local helpers hold the buffer object's
+> reservation lock during the buffer update. This prevents moving the
+> buffer object on all memory managers.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>   drivers/gpu/drm/drm_client.c        | 68 +++++++++++++++++++++++++----
+>   drivers/gpu/drm/drm_fbdev_generic.c |  4 +-
+>   drivers/gpu/drm/drm_gem.c           | 12 +++++
+>   include/drm/drm_client.h            | 10 +++++
+>   include/drm/drm_gem.h               |  3 ++
+>   5 files changed, 87 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
+> index 9403b3f576f7b..2cc81831236b5 100644
+> --- a/drivers/gpu/drm/drm_client.c
+> +++ b/drivers/gpu/drm/drm_client.c
+> @@ -304,6 +304,66 @@ drm_client_buffer_create(struct drm_client_dev *client, u32 width, u32 height,
+>   	return ERR_PTR(ret);
+>   }
+>   
+> +/**
+> + * drm_client_buffer_vmap_local - Map DRM client buffer into address space
+> + * @buffer: DRM client buffer
+> + * @map_copy: Returns the mapped memory's address
+> + *
+> + * This function maps a client buffer into kernel address space. If the
+> + * buffer is already mapped, it returns the existing mapping's address.
+> + *
+> + * Client buffer mappings are not ref'counted. Each call to
+> + * drm_client_buffer_vmap_local() should be closely followed by a call to
+> + * drm_client_buffer_vunmap_local(). See drm_client_buffer_vmap() for
+> + * long-term mappings.
+> + *
+> + * The returned address is a copy of the internal value. In contrast to
+> + * other vmap interfaces, you don't need it for the client's vunmap
+> + * function. So you can modify it at will during blit and draw operations.
+> + *
+> + * Returns:
+> + *	0 on success, or a negative errno code otherwise.
+> + */
+> +int drm_client_buffer_vmap_local(struct drm_client_buffer *buffer,
+> +				 struct iosys_map *map_copy)
+> +{
+> +	struct drm_gem_object *gem = buffer->gem;
+> +	struct iosys_map *map = &buffer->map;
+> +	int ret;
+> +
+> +	drm_gem_lock(gem);
+> +
+> +	ret = drm_gem_vmap(gem, map);
+> +	if (ret)
+> +		goto err_drm_gem_vmap_unlocked;
+> +	*map_copy = *map;
+> +
+> +	return 0;
+> +
+> +err_drm_gem_vmap_unlocked:
+> +	drm_gem_unlock(gem);
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_client_buffer_vmap_local);
+> +
+> +/**
+> + * drm_client_buffer_vunmap_local - Unmap DRM client buffer
+> + * @buffer: DRM client buffer
+> + *
+> + * This function removes a client buffer's memory mapping established
+> + * with drm_client_buffer_vunmap_local(). Calling this function is only
+> + * required by clients that manage their buffer mappings by themselves.
+> + */
+> +void drm_client_buffer_vunmap_local(struct drm_client_buffer *buffer)
+> +{
+> +	struct drm_gem_object *gem = buffer->gem;
+> +	struct iosys_map *map = &buffer->map;
+> +
+> +	drm_gem_vunmap(gem, map);
+> +	drm_gem_unlock(gem);
+> +}
+> +EXPORT_SYMBOL(drm_client_buffer_vunmap_local);
+> +
+>   /**
+>    * drm_client_buffer_vmap - Map DRM client buffer into address space
+>    * @buffer: DRM client buffer
+> @@ -331,14 +391,6 @@ drm_client_buffer_vmap(struct drm_client_buffer *buffer,
+>   	struct iosys_map *map = &buffer->map;
+>   	int ret;
+>   
+> -	/*
+> -	 * FIXME: The dependency on GEM here isn't required, we could
+> -	 * convert the driver handle to a dma-buf instead and use the
+> -	 * backend-agnostic dma-buf vmap support instead. This would
+> -	 * require that the handle2fd prime ioctl is reworked to pull the
+> -	 * fd_install step out of the driver backend hooks, to make that
+> -	 * final step optional for internal users.
+> -	 */
+>   	ret = drm_gem_vmap_unlocked(buffer->gem, map);
+>   	if (ret)
+>   		return ret;
+> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
+> index d647d89764cb9..be357f926faec 100644
+> --- a/drivers/gpu/drm/drm_fbdev_generic.c
+> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
+> @@ -197,14 +197,14 @@ static int drm_fbdev_generic_damage_blit(struct drm_fb_helper *fb_helper,
+>   	 */
+>   	mutex_lock(&fb_helper->lock);
+>   
+> -	ret = drm_client_buffer_vmap(buffer, &map);
+> +	ret = drm_client_buffer_vmap_local(buffer, &map);
+>   	if (ret)
+>   		goto out;
+>   
+>   	dst = map;
 
-> On Fri, 2024-03-01 at 12:29 +0100, Philipp Stanner wrote:
-> > This v4 now can (hopefully) be applied to linux-next, but not to
-> > mainline/master.
-> > 
-> > Changes in v4:
-> >   - Rebase against linux-next
-> > 
-> > Changes in v3:
-> >   - Use the term "PCI devres API" at some forgotten places.
-> >   - Fix more grammar errors in patch #3.
-> >   - Remove the comment advising to call (the outdated) pcim_intx() in
-> > pci.c
-> >   - Rename __pcim_request_region_range() flags-field "exclusive" to
-> >     "req_flags", since this is what the int actually represents.
-> >   - Remove the call to pcim_region_request() from patch #10. (Hans)
-> > 
-> > Changes in v2:
-> >   - Make commit head lines congruent with PCI's style (Bjorn)
-> >   - Add missing error checks for devm_add_action(). (Andy)
-> >   - Repair the "Returns: " marks for docu generation (Andy)
-> >   - Initialize the addr_devres struct with memset(). (Andy)
-> >   - Make pcim_intx() a PCI-internal function so that new drivers
-> > won't
-> >     be encouraged to use the outdated pci_intx() mechanism.
-> >     (Andy / Philipp)
-> >   - Fix grammar and spelling (Bjorn)
-> >   - Be more precise on why pcim_iomap_table() is problematic (Bjorn)
-> >   - Provide the actual structs' and functions' names in the commit
-> >     messages (Bjorn)
-> >   - Remove redundant variable initializers (Andy)
-> >   - Regroup PM bitfield members in struct pci_dev (Andy)
-> >   - Make pcim_intx() visible only for the PCI subsystem so that
-> > new    
-> >     drivers won't use this outdated API (Andy, Myself)
-> >   - Add a NOTE to pcim_iomap() to warn about this function being
-> > the    onee
-> >     xception that does just return NULL.
-> >   - Consistently use the term "PCI devres API"; also in Patch #10
-> > (Bjorn)
-> > 
-> > 
-> > ¡Hola!
-> > 
-> > PCI's devres API suffers several weaknesses:
-> > 
-> > 1. There are functions prefixed with pcim_. Those are always managed
-> >    counterparts to never-managed functions prefixed with pci_ – or so
-> > one
-> >    would like to think. There are some apparently unmanaged functions
-> >    (all region-request / release functions, and pci_intx()) which
-> >    suddenly become managed once the user has initialized the device
-> > with
-> >    pcim_enable_device() instead of pci_enable_device(). This
-> > "sometimes
-> >    yes, sometimes no" nature of those functions is confusing and
-> >    therefore bug-provoking. In fact, it has already caused a bug in
-> > DRM.
-> >    The last patch in this series fixes that bug.
-> > 2. iomappings: Instead of giving each mapping its own callback, the
-> >    existing API uses a statically allocated struct tracking one
-> > mapping
-> >    per bar. This is not extensible. Especially, you can't create
-> >    _ranged_ managed mappings that way, which many drivers want.
-> > 3. Managed request functions only exist as "plural versions" with a
-> >    bit-mask as a parameter. That's quite over-engineered considering
-> >    that each user only ever mapps one, maybe two bars.
-> > 
-> > This series:
-> > - add a set of new "singular" devres functions that use devres the
-> > way
-> >   its intended, with one callback per resource.
-> > - deprecates the existing iomap-table mechanism.
-> > - deprecates the hybrid nature of pci_ functions.
-> > - preserves backwards compatibility so that drivers using the
-> > existing
-> >   API won't notice any changes.
-> > - adds documentation, especially some warning users about the
-> >   complicated nature of PCI's devres.
-> > 
-> > 
-> > Note that this series is based on my "unify pci_iounmap"-series from
-> > a
-> > few weeks ago. [1]
-> > 
-> > I tested this on a x86 VM with a simple pci test-device with two
-> > regions. Operates and reserves resources as intended on my system.
-> > Kasan and kmemleak didn't find any problems.
-> > 
-> > I believe this series cleans the API up as much as possible without
-> > having to port all existing drivers to the new API. Especially, I
-> > think
-> > that this implementation is easy to extend if the need for new
-> > managed
-> > functions arises :)
-> > 
-> > Greetings,
-> > P.
-> > 
-> > Philipp Stanner (10):
-> >   PCI: Add new set of devres functions
-> >   PCI: Deprecate iomap-table functions
-> >   PCI: Warn users about complicated devres nature
-> >   PCI: Make devres region requests consistent
-> >   PCI: Move dev-enabled status bit to struct pci_dev
-> >   PCI: Move pinned status bit to struct pci_dev
-> >   PCI: Give pcim_set_mwi() its own devres callback
-> >   PCI: Give pci(m)_intx its own devres callback
-> >   PCI: Remove legacy pcim_release()
-> >   drm/vboxvideo: fix mapping leaks
-> > 
-> >  drivers/gpu/drm/vboxvideo/vbox_main.c |   20 +-
-> >  drivers/pci/devres.c                  | 1013 +++++++++++++++++++++--
-> > --
-> >  drivers/pci/iomap.c                   |   18 +
-> >  drivers/pci/pci.c                     |  123 ++-
-> >  drivers/pci/pci.h                     |   21 +-
-> >  include/linux/pci.h                   |   18 +-
-> >  6 files changed, 1001 insertions(+), 212 deletions(-)
-> > 
-> 
+Then, please remove the local variable 'dst' (struct iosys_map) at here.
+As you said, the returned iosys_map is another copy of the original backup,
+we can play with this local variable at will, there no need to duplicate
+another time again.
+
+I have modified and tested with fbdev generic, no problem. With this trivial
+issue resolved. For fbdev-generic:
+
+
+Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+
+
