@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AB34878044
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 14:05:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 525FF87804B
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 14:07:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7D8810FE0A;
-	Mon, 11 Mar 2024 13:05:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE024112A5F;
+	Mon, 11 Mar 2024 13:07:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eAjp1l+A";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="E7RoZj2U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3E9D10FE0A;
- Mon, 11 Mar 2024 13:05:04 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02A64112A59;
+ Mon, 11 Mar 2024 13:07:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710162304; x=1741698304;
+ t=1710162436; x=1741698436;
  h=message-id:subject:from:to:cc:date:in-reply-to:
  references:content-transfer-encoding:mime-version;
- bh=HVlzt7Ux3P5rLd2aTIy7aTc2MTdxFsLP8NELuHU9gBs=;
- b=eAjp1l+ACnsxWFGLvSe3D9D3Wcvj5IiDvyTScGfz3ElCfnNrzymSvSUz
- fAQbCzURzYn7PRxQBNGKDke5eWNGPWdCY3VC3ocx8l6jhjlMGSKaxyddJ
- sNQoFEe5d6sW2p2ixzJKR+I1b8RsSt8415sQZCKM3YY4r3Rs+ZCTNcbN0
- OCb0AoH5r4ZLwAGgKlTUaza5Ftkl8ApkidvtxFqI3RXqg6CoHnhHersv2
- ja3vvDhShW6oJuOyIjnFvGI8imftxMoCMYzaDwuW5sInTjJFD3DgET5d4
- JypSAWTKqrhZdXrSEY3vgGSiTqgOju+T/VJNTnaOkSEaNCDxaRrsRrzgN A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="4698997"
+ bh=q9gdu9OzzJHtm3rmIhmHGmUx8M9j4VLWcCi9yJ7uPBQ=;
+ b=E7RoZj2UGWVeScHN/wZQRDSlO/xtGpKlG83BBO27WPC0I/chGL/liJ/n
+ FprpS641A+SsizzeeEI7dwaWqsjkY5lAMfH8U+H8aJnW9r+yndB2g0sel
+ 34D28ic6+VHfbSCZahAjFl54U1uVHvcQIdyohkeGs55Ii0LayTAtBHGZM
+ JDVjZ0z1PCzIEJpsJOGa+i1+JYY1mJvsFAL4mJ19fgSsPruRzG7GDm6I0
+ 6p6lfN09haOwmx2bVlkwICeNS27/PCRJtQEgw4zRAHWgBa1nLzVr/lopM
+ XetGrZoEv7PKcXfpQwEI3HxlkGzkuVaj+qdGTARtFXtrWhLXbvrKAaagO w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="8637510"
 X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="4698997"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2024 06:05:03 -0700
+   d="scan'208";a="8637510"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2024 06:07:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; d="scan'208";a="11231800"
+X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; d="scan'208";a="15655642"
 Received: from binis42x-mobl.gar.corp.intel.com (HELO [10.249.254.59])
  ([10.249.254.59])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2024 06:05:03 -0700
-Message-ID: <69a4781527ff385895c7ecb02848db384cff2375.camel@linux.intel.com>
-Subject: Re: [PATCH v4 2/4] drm/ttm: Use LRU hitches
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2024 06:07:13 -0700
+Message-ID: <cb473e3de479d55cb3cfb2cc0b8ce6ecfd8d5b0c.camel@linux.intel.com>
+Subject: Re: [PATCH v4 0/4] TTM unlockable restartable LRU list iteration
 From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
 To: "Somalapuram, Amaranath" <asomalap@amd.com>, 
  intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Cc: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- dri-devel@lists.freedesktop.org
-Date: Mon, 11 Mar 2024 14:04:59 +0100
-In-Reply-To: <40fd8ad3-c63f-ce79-461c-519d273c2d36@amd.com>
+Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>, Christian
+ =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org
+Date: Mon, 11 Mar 2024 14:07:11 +0100
+In-Reply-To: <13884e7d-f18c-f7a6-97d7-eb57f2bd2100@amd.com>
 References: <20240306070125.27071-1-thomas.hellstrom@linux.intel.com>
- <20240306070125.27071-3-thomas.hellstrom@linux.intel.com>
- <40fd8ad3-c63f-ce79-461c-519d273c2d36@amd.com>
+ <13884e7d-f18c-f7a6-97d7-eb57f2bd2100@amd.com>
 Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
  keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
 Organization: Intel Sweden AB, Registration Number: 556189-6027
@@ -74,312 +73,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi! Thanks for reviewing.=20
-On Fri, 2024-03-08 at 18:50 +0530, Somalapuram, Amaranath wrote:
->=20
-> On 3/6/2024 12:31 PM, Thomas Hellstr=C3=B6m wrote:
-> > Have iterators insert themselves into the list they are iterating
-> > over using hitch list nodes. Since only the iterator owner
-> > can remove these list nodes from the list, it's safe to unlock
-> > the list and when continuing, use them as a starting point. Due to
-> > the way LRU bumping works in TTM, newly added items will not be
-> > missed, and bumped items will be iterated over a second time before
-> > reaching the end of the list.
-> >=20
-> > The exception is list with bulk move sublists. When bumping a
-> > sublist, a hitch that is part of that sublist will also be moved
-> > and we might miss items if restarting from it. This will be
-> > addressed in a later patch.
-> >=20
-> > v2:
-> > - Updated ttm_resource_cursor_fini() documentation.
-> >=20
-> > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
-> > Cc: <dri-devel@lists.freedesktop.org>
-> > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> > ---
-> > =C2=A0 drivers/gpu/drm/ttm/ttm_bo.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0 1 +
-> > =C2=A0 drivers/gpu/drm/ttm/ttm_device.c=C2=A0=C2=A0 |=C2=A0 9 ++-
-> > =C2=A0 drivers/gpu/drm/ttm/ttm_resource.c | 94 ++++++++++++++++++++----=
--
-> > -----
-> > =C2=A0 include/drm/ttm/ttm_resource.h=C2=A0=C2=A0=C2=A0=C2=A0 | 16 +++-=
--
-> > =C2=A0 4 files changed, 82 insertions(+), 38 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
-> > b/drivers/gpu/drm/ttm/ttm_bo.c
-> > index e059b1e1b13b..b6f75a0ff2e5 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> > @@ -622,6 +622,7 @@ int ttm_mem_evict_first(struct ttm_device
-> > *bdev,
-> > =C2=A0=C2=A0		if (locked)
-> > =C2=A0=C2=A0			dma_resv_unlock(res->bo->base.resv);
-> > =C2=A0=C2=A0	}
-> > +	ttm_resource_cursor_fini_locked(&cursor);
-> > =C2=A0=20
-> > =C2=A0=C2=A0	if (!bo) {
-> > =C2=A0=C2=A0		if (busy_bo && !ttm_bo_get_unless_zero(busy_bo))
-> > diff --git a/drivers/gpu/drm/ttm/ttm_device.c
-> > b/drivers/gpu/drm/ttm/ttm_device.c
-> > index f27406e851e5..e8a6a1dab669 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_device.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_device.c
-> > @@ -169,12 +169,17 @@ int ttm_device_swapout(struct ttm_device
-> > *bdev, struct ttm_operation_ctx *ctx,
-> > =C2=A0=C2=A0			num_pages =3D PFN_UP(bo->base.size);
-> > =C2=A0=C2=A0			ret =3D ttm_bo_swapout(bo, ctx, gfp_flags);
-> > =C2=A0=C2=A0			/* ttm_bo_swapout has dropped the lru_lock
-> > */
-> > -			if (!ret)
-> > +			if (!ret) {
-> > +				ttm_resource_cursor_fini(&cursor);
->=20
-> is spin_unlock(&bdev->lru_lock) missing ?
->=20
-> > =C2=A0=C2=A0				return num_pages;
-> > -			if (ret !=3D -EBUSY)
-> > +			}
-> > +			if (ret !=3D -EBUSY) {
-> > +				ttm_resource_cursor_fini(&cursor);
->=20
-> is spin_unlock(&bdev->lru_lock) missing ?
+On Fri, 2024-03-08 at 13:13 +0530, Somalapuram, Amaranath wrote:
+> Patches are tested on AMD platform.
+> Repeated stress test on Unigine Heaven, memory full (VRAM + GTT +
+> system=20
+> SWAP), then free.
+> No errors/warning in kernel log.
+> Any suggestion specific tests?
 
-The ttm_bo_swapout() function returns unlocked depending on the error
-code. IIRC it only returns locked on -EBUSY. That is something we
-hopefully can change when this series is in place.
+We are testing locally against Intel Xe CI and Intel i915 CI which
+should give rather good coverage. If there are some amdgpu tests that
+exercise eviction / swapping also with a lot of local objects (Vulkan
+apps?) that would be great.
 
-/Thomas
+Thanks,
+Thomas
+
 
 
 >=20
 > Regards,
 > S.Amarnath
-> > =C2=A0=C2=A0				return ret;
-> > +			}
-> > =C2=A0=C2=A0		}
-> > =C2=A0=C2=A0	}
-> > +	ttm_resource_cursor_fini_locked(&cursor);
-> > =C2=A0=C2=A0	spin_unlock(&bdev->lru_lock);
-> > =C2=A0=C2=A0	return 0;
-> > =C2=A0 }
-> > diff --git a/drivers/gpu/drm/ttm/ttm_resource.c
-> > b/drivers/gpu/drm/ttm/ttm_resource.c
-> > index ee1865f82cb4..971014fca10a 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_resource.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-> > @@ -32,6 +32,37 @@
-> > =C2=A0=20
-> > =C2=A0 #include <drm/drm_util.h>
-> > =C2=A0=20
-> > +/**
-> > + * ttm_resource_cursor_fini_locked() - Finalize the LRU list
-> > cursor usage
-> > + * @cursor: The struct ttm_resource_cursor to finalize.
-> > + *
-> > + * The function pulls the LRU list cursor off any lists it was
-> > previusly
-> > + * attached to. Needs to be called with the LRU lock held. The
-> > function
-> > + * can be called multiple times after eachother.
-> > + */
-> > +void ttm_resource_cursor_fini_locked(struct ttm_resource_cursor
-> > *cursor)
-> > +{
-> > +	lockdep_assert_held(&cursor->man->bdev->lru_lock);
-> > +	list_del_init(&cursor->hitch.link);
-> > +}
-> > +
-> > +/**
-> > + * ttm_resource_cursor_fini() - Finalize the LRU list cursor usage
-> > + * @cursor: The struct ttm_resource_cursor to finalize.
-> > + *
-> > + * The function pulls the LRU list cursor off any lists it was
-> > previusly
-> > + * attached to. Needs to be called without the LRU list lock held.
-> > The
-> > + * function can be called multiple times after eachother.
-> > + */
-> > +void ttm_resource_cursor_fini(struct ttm_resource_cursor *cursor)
-> > +{
-> > +	spinlock_t *lru_lock =3D &cursor->man->bdev->lru_lock;
-> > +
-> > +	spin_lock(lru_lock);
-> > +	ttm_resource_cursor_fini_locked(cursor);
-> > +	spin_unlock(lru_lock);
-> > +}
-> > +
-> > =C2=A0 /**
-> > =C2=A0=C2=A0 * ttm_lru_bulk_move_init - initialize a bulk move structur=
-e
-> > =C2=A0=C2=A0 * @bulk: the structure to init
-> > @@ -483,62 +514,63 @@ void ttm_resource_manager_debug(struct
-> > ttm_resource_manager *man,
-> > =C2=A0 EXPORT_SYMBOL(ttm_resource_manager_debug);
-> > =C2=A0=20
-> > =C2=A0 /**
-> > - * ttm_resource_manager_first
-> > - *
-> > - * @man: resource manager to iterate over
-> > + * ttm_resource_manager_next() - Continue iterating over the
-> > resource manager
-> > + * resources
-> > =C2=A0=C2=A0 * @cursor: cursor to record the position
-> > =C2=A0=C2=A0 *
-> > - * Returns the first resource from the resource manager.
-> > + * Return: The next resource from the resource manager.
-> > =C2=A0=C2=A0 */
-> > =C2=A0 struct ttm_resource *
-> > -ttm_resource_manager_first(struct ttm_resource_manager *man,
-> > -			=C2=A0=C2=A0 struct ttm_resource_cursor *cursor)
-> > +ttm_resource_manager_next(struct ttm_resource_cursor *cursor)
-> > =C2=A0 {
-> > +	struct ttm_resource_manager *man =3D cursor->man;
-> > =C2=A0=C2=A0	struct ttm_lru_item *lru;
-> > =C2=A0=20
-> > =C2=A0=C2=A0	lockdep_assert_held(&man->bdev->lru_lock);
-> > =C2=A0=20
-> > -	for (cursor->priority =3D 0; cursor->priority <
-> > TTM_MAX_BO_PRIORITY;
-> > -	=C2=A0=C2=A0=C2=A0=C2=A0 ++cursor->priority)
-> > -		list_for_each_entry(lru, &man->lru[cursor-
-> > >priority], link) {
-> > -			if (ttm_lru_item_is_res(lru))
-> > +	do {
-> > +		lru =3D &cursor->hitch;
-> > +		list_for_each_entry_continue(lru, &man-
-> > >lru[cursor->priority], link) {
-> > +			if (ttm_lru_item_is_res(lru)) {
-> > +				list_move(&cursor->hitch.link,
-> > &lru->link);
-> > =C2=A0=C2=A0				return ttm_lru_item_to_res(lru);
-> > +			}
-> > =C2=A0=C2=A0		}
-> > =C2=A0=20
-> > +		if (++cursor->priority >=3D TTM_MAX_BO_PRIORITY)
-> > +			break;
-> > +
-> > +		list_move(&cursor->hitch.link, &man->lru[cursor-
-> > >priority]);
-> > +	} while (true);
-> > +
-> > +	list_del_init(&cursor->hitch.link);
-> > +
-> > =C2=A0=C2=A0	return NULL;
-> > =C2=A0 }
-> > =C2=A0=20
-> > =C2=A0 /**
-> > - * ttm_resource_manager_next
-> > - *
-> > + * ttm_resource_manager_first() - Start iterating over the
-> > resources
-> > + * of a resource manager
-> > =C2=A0=C2=A0 * @man: resource manager to iterate over
-> > =C2=A0=C2=A0 * @cursor: cursor to record the position
-> > - * @res: the current resource pointer
-> > =C2=A0=C2=A0 *
-> > - * Returns the next resource from the resource manager.
-> > + * Initializes the cursor and starts iterating. When done
-> > iterating,
-> > + * the caller must explicitly call ttm_resource_cursor_fini().
-> > + *
-> > + * Return: The first resource from the resource manager.
-> > =C2=A0=C2=A0 */
-> > =C2=A0 struct ttm_resource *
-> > -ttm_resource_manager_next(struct ttm_resource_manager *man,
-> > -			=C2=A0 struct ttm_resource_cursor *cursor,
-> > -			=C2=A0 struct ttm_resource *res)
-> > +ttm_resource_manager_first(struct ttm_resource_manager *man,
-> > +			=C2=A0=C2=A0 struct ttm_resource_cursor *cursor)
-> > =C2=A0 {
-> > -	struct ttm_lru_item *lru =3D &res->lru;
-> > -
-> > =C2=A0=C2=A0	lockdep_assert_held(&man->bdev->lru_lock);
-> > =C2=A0=20
-> > -	list_for_each_entry_continue(lru, &man->lru[cursor-
-> > >priority], link) {
-> > -		if (ttm_lru_item_is_res(lru))
-> > -			return ttm_lru_item_to_res(lru);
-> > -	}
-> > +	cursor->priority =3D 0;
-> > +	cursor->man =3D man;
-> > +	ttm_lru_item_init(&cursor->hitch, TTM_LRU_HITCH);
-> > +	list_move(&cursor->hitch.link, &man->lru[cursor-
-> > >priority]);
-> > =C2=A0=20
-> > -	for (++cursor->priority; cursor->priority <
-> > TTM_MAX_BO_PRIORITY;
-> > -	=C2=A0=C2=A0=C2=A0=C2=A0 ++cursor->priority)
-> > -		list_for_each_entry(lru, &man->lru[cursor-
-> > >priority], link) {
-> > -			if (ttm_lru_item_is_res(lru))
-> > -				ttm_lru_item_to_res(lru);
-> > -		}
-> > -
-> > -	return NULL;
-> > +	return ttm_resource_manager_next(cursor);
-> > =C2=A0 }
-> > =C2=A0=20
-> > =C2=A0 static void ttm_kmap_iter_iomap_map_local(struct ttm_kmap_iter
-> > *iter,
-> > diff --git a/include/drm/ttm/ttm_resource.h
-> > b/include/drm/ttm/ttm_resource.h
-> > index cad8c5476198..b9043c183205 100644
-> > --- a/include/drm/ttm/ttm_resource.h
-> > +++ b/include/drm/ttm/ttm_resource.h
-> > @@ -271,15 +271,23 @@ ttm_lru_item_to_res(struct ttm_lru_item
-> > *item)
-> > =C2=A0=20
-> > =C2=A0 /**
-> > =C2=A0=C2=A0 * struct ttm_resource_cursor
-> > - *
-> > + * @man: The resource manager currently being iterated over
-> > + * @hitch: A hitch list node inserted before the next resource
-> > + * to iterate over.
-> > =C2=A0=C2=A0 * @priority: the current priority
-> > =C2=A0=C2=A0 *
-> > =C2=A0=C2=A0 * Cursor to iterate over the resources in a manager.
-> > =C2=A0=C2=A0 */
-> > =C2=A0 struct ttm_resource_cursor {
-> > +	struct ttm_resource_manager *man;
-> > +	struct ttm_lru_item hitch;
-> > =C2=A0=C2=A0	unsigned int priority;
-> > =C2=A0 };
-> > =C2=A0=20
-> > +void ttm_resource_cursor_fini_locked(struct ttm_resource_cursor
-> > *cursor);
-> > +
-> > +void ttm_resource_cursor_fini(struct ttm_resource_cursor *cursor);
-> > +
-> > =C2=A0 /**
-> > =C2=A0=C2=A0 * struct ttm_lru_bulk_move_pos
-> > =C2=A0=C2=A0 *
-> > @@ -435,9 +443,7 @@ struct ttm_resource *
-> > =C2=A0 ttm_resource_manager_first(struct ttm_resource_manager *man,
-> > =C2=A0=C2=A0			=C2=A0=C2=A0 struct ttm_resource_cursor *cursor);
-> > =C2=A0 struct ttm_resource *
-> > -ttm_resource_manager_next(struct ttm_resource_manager *man,
-> > -			=C2=A0 struct ttm_resource_cursor *cursor,
-> > -			=C2=A0 struct ttm_resource *res);
-> > +ttm_resource_manager_next(struct ttm_resource_cursor *cursor);
-> > =C2=A0=20
-> > =C2=A0 /**
-> > =C2=A0=C2=A0 * ttm_resource_manager_for_each_res - iterate over all res=
-ources
-> > @@ -449,7 +455,7 @@ ttm_resource_manager_next(struct
-> > ttm_resource_manager *man,
-> > =C2=A0=C2=A0 */
-> > =C2=A0 #define ttm_resource_manager_for_each_res(man, cursor,
-> > res)		\
-> > =C2=A0=C2=A0	for (res =3D ttm_resource_manager_first(man, cursor);
-> > res;	\
-> > -	=C2=A0=C2=A0=C2=A0=C2=A0 res =3D ttm_resource_manager_next(man, curso=
-r, res))
-> > +	=C2=A0=C2=A0=C2=A0=C2=A0 res =3D ttm_resource_manager_next(cursor))
-> > =C2=A0=20
-> > =C2=A0 struct ttm_kmap_iter *
-> > =C2=A0 ttm_kmap_iter_iomap_init(struct ttm_kmap_iter_iomap *iter_io,
+> On 3/6/2024 12:31 PM, Thomas Hellstr=C3=B6m wrote:
+> > This patch-set is a prerequisite for a standalone TTM shrinker
+> > and for exhaustive TTM eviction using sleeping dma_resv locks,
+> > which is the motivation for it.
+> >=20
+> > Currently when unlocking the TTM lru list lock, iteration needs
+> > to be restarted from the beginning, rather from the next LRU list
+> > node. This can potentially be a big problem, because if eviction
+> > or shrinking fails for whatever reason after unlock, restarting
+> > is likely to cause the same failure over and over again.
+> >=20
+> > There are various schemes to be able to continue the list
+> > iteration from where we left off. One such scheme used by the
+> > GEM LRU list traversal is to pull items already considered off
+> > the LRU list and reinsert them when iteration is done.
+> > This has the drawback that concurrent list iteration doesn't see
+> > the complete list (which is bad for exhaustive eviction) and also
+> > doesn't lend itself well to bulk-move sublists since these will
+> > be split in the process where items from those lists are
+> > temporarily pulled from the list and moved to the list tail.
+> >=20
+> > The approach taken here is that list iterators insert themselves
+> > into the list next position using a special list node. Iteration
+> > is then using that list node as starting point when restarting.
+> > Concurrent iterators just skip over the special list nodes.
+> >=20
+> > This is implemented in patch 1 and 2.
+> >=20
+> > For bulk move sublist the approach is the same, but when a bulk
+> > move sublist is moved to the tail, the iterator is also moved,
+> > causing us to skip parts of the list. That is undesirable.
+> > Patch 3 deals with that, and when iterator detects it is
+> > traversing a sublist, it registers with the ttm_lru_bulk_move
+> > struct using a linked list, and when that bulk move sublist
+> > is moved to the tail, any iterator registered with it will
+> > first be moved to the tail of the sublist.
+> > This is implemented in patch 3.
+> >=20
+> > The restartable property is used in patch 4 to restart swapout if
+> > needed, but the main purpose is this paves the way for
+> > shrinker- and exhaustive eviction.
+> >=20
+> > v2:
+> > - Rework patch 3 completely.
+> > v3:
+> > - Fix a NULL pointer dereference found by Xe CI.
+> > v4:
+> > - Remove some leftover code causing build problems.
+> >=20
+> > Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+> > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > Cc: <dri-devel@lists.freedesktop.org>
+> >=20
+> > Thomas Hellstr=C3=B6m (4):
+> > =C2=A0=C2=A0 drm/ttm: Allow TTM LRU list nodes of different types
+> > =C2=A0=C2=A0 drm/ttm: Use LRU hitches
+> > =C2=A0=C2=A0 drm/ttm, drm/amdgpu, drm/xe: Consider hitch moves within b=
+ulk
+> > sublist
+> > =C2=A0=C2=A0=C2=A0=C2=A0 moves
+> > =C2=A0=C2=A0 drm/ttm: Allow continued swapout after -ENOSPC falure
+> >=20
+> > =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c |=C2=A0=C2=A0 4 +
+> > =C2=A0 drivers/gpu/drm/ttm/ttm_bo.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> > =C2=A0 drivers/gpu/drm/ttm/ttm_device.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0 33 +++-
+> > =C2=A0 drivers/gpu/drm/ttm/ttm_resource.c=C2=A0=C2=A0=C2=A0=C2=A0 | 228
+> > ++++++++++++++++++++-----
+> > =C2=A0 drivers/gpu/drm/xe/xe_vm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +
+> > =C2=A0 include/drm/ttm/ttm_device.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
+> > =C2=A0 include/drm/ttm/ttm_resource.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0 96 +++++++++--
+> > =C2=A0 7 files changed, 308 insertions(+), 60 deletions(-)
+> >=20
 
