@@ -2,58 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6BA877CD3
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 10:34:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 188C0877D37
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Mar 2024 10:49:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40C4D10E644;
-	Mon, 11 Mar 2024 09:33:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B52410E1FB;
+	Mon, 11 Mar 2024 09:49:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="TjqqdeVm";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ncd7L8Qy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59BC210E138;
- Mon, 11 Mar 2024 09:33:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
- Message-ID:Content-Type:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=g40y392xKIqdGa+vT+kTxJImxyl/efNeS0HftGPfc3A=; b=TjqqdeVm8WXDpewugzxiOqY3a5
- SRtG+45CmTlM2I3yM0vjIZMz+jxD+9KepEKo99FH+xLm0pNp+N4z6yP+Q1fh8tIq6e+XptQALBJb6
- v2hGyaSYaS2Jr+4y56KMcsgGq2GiR8CJ6I1rlUxMTQz4NgmJSyvTncEWxXIr+yVJLzGmjsec+yaJU
- wQXT2T02UDKnxcuP88vHbw5EV1e2DpA6gI0GFg7xQfmZ6QQouopfVyWuDtpRbFdu9rNnHCHaBRyz9
- gx7mWPhitVmztLwZ4xrDALCUFh9glqUuob/c8whA9I+RQC1Ubm6qMmm9YgEHOgQgdO7/VjLE35/Tt
- 5EHBHh8A==;
-Received: from c-71-59-88-35.hsd1.nj.comcast.net ([71.59.88.35]
- helo=[192.168.1.99]) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1rjc2X-008oGi-67; Mon, 11 Mar 2024 10:33:49 +0100
-Content-Type: multipart/alternative;
- boundary="------------U1ylqVfCa6riox0GKTHn0D2R"
-Message-ID: <9c6b497c-5210-447a-adcf-8eb7546fa85a@igalia.com>
-Date: Mon, 11 Mar 2024 05:33:44 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3FEA10E9FB;
+ Mon, 11 Mar 2024 09:49:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1710150558; x=1741686558;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Ykm5Xh0Z5y+uFOS/bCHUxi5t/q2FVOEzszxJbyc2hwA=;
+ b=ncd7L8QyODBIgyuEyRdBDht1FsmuqYo11DPh4BPFEe1JlSHqCRAO2f6m
+ EyPrTg5f8+OkJhzuPEfkqLFZdU4wfeLzjNsmuauClAgL1TuU4TwrMHvcZ
+ Iql8v32QkLD16MuIC/5LTNttXZxWyX3t3dTnGDbe+wNChhxeOykSboYVV
+ SAu6Ru00vi1ZJFGD6l5UIAp7WqZ8GktuuRfdPyWzgHVlaw8WJs/GVASNz
+ gs+XyydvlZeeZR4BJlLCMI80OwUcp2vrVnVjAFe+ogAnHcQlP5P/+iEOR
+ ZjwzFQIwASpVjfeGx3ZDWOICfO3aAYEqRDrglHhvpsAbv1UlsToe0kQBm A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="8619203"
+X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
+   d="scan'208";a="8619203"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2024 02:49:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; d="scan'208";a="11198007"
+Received: from mgolanimitul-x299-ud4-pro.iind.intel.com ([10.190.239.114])
+ by fmviesa006.fm.intel.com with ESMTP; 11 Mar 2024 02:49:15 -0700
+From: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: ankit.k.nautiyal@intel.com, dri-devel@lists.freedesktop.org,
+ jani.nikula@intel.com, Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+Subject: [PATCH v17 0/9] Enable Adaptive Sync SDP Support for DP
+Date: Mon, 11 Mar 2024 15:12:29 +0530
+Message-Id: <20240311094238.3320888-1-mitulkumar.ajitkumar.golani@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Reminder: 2024 X.Org Board of Directors Elections timeline
- extended, request for nominations
-From: Christopher Michael <cmichael@igalia.com>
-To: events@lists.x.org, xorg-devel@lists.x.org,
- wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- libre-soc-dev@lists.libre-soc.org, elections@x.org, members@x.org,
- xorg@lists.freedesktop.org
-Cc: board <board@foundation.x.org>
-References: <0efcdfe3-ea9e-43e5-ab07-6d69dca2c04a@igalia.com>
- <08f8a967-25e1-4362-be38-3f1b050ec6f2@igalia.com>
- <39fac3a4-f9de-4968-b0ff-ac3bf503a4fb@igalia.com>
-Content-Language: en-US
-In-Reply-To: <39fac3a4-f9de-4968-b0ff-ac3bf503a4fb@igalia.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,204 +62,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------U1ylqVfCa6riox0GKTHn0D2R
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ An Adaptive-Sync-capable DP protocol converter indicates its
+support by setting the related bit in the DPCD register. This
+is valid for DP and edp as well.
 
-This is a reminder that we are still looking for candidates for the 
-upcoming X.Org Board of Directors elections, and that today is the last 
-day to submit personal statements for nomination. X.org membership 
-renewals are still open and will be needed to vote on those elections.
+Computes AS SDP values based on the display configuration,
+ensuring proper handling of Variable Refresh Rate (VRR)
+in the context of Adaptive Sync.
 
+--v2:
+- Update logging to Patch-1
+- use as_sdp instead of async
+- Put definitions to correct placeholders from where it is defined.
+- Update member types of as_sdp for uniformity.
+- Correct use of REG_BIT and REG_GENMASK.
+- Remove unrelated comments and changes.
+- Correct code indents.
+- separate out patch changes for intel_read/write_dp_sdp.
 
-Please read below for more details.
+--v3:
+- Add VIDEO_DIP_ASYNC_DATA_SIZE definition and comment in as_sdp_pack
+  function to patch 2 as originally used there. [Patch 2].
+- Add VIDEO_DIP_ENABLE_AS_HSW flag to intel_dp_set_infoframes [Patch 3].
 
+--v4:
+- Add check for HAS_VRR before writing AS SDP. [Patch 3].
 
-Cheers,
+--v5:
+- Add missing check for HAS_VRR before reading AS SDP as well [Patch 3].
 
-Christopher Michael, on behalf of the X.Org BoD
+--v6:
+- Rebase all patches.
+- Compute TRANS_VRR_VSYNC.
 
+-v7:
+- Move vrr_vsync_start/end to compute config.
+- Use correct function for drm_debug_printer.
 
+-v8:
+- Code refactoring.
+- Update, VSYNC_START/END macros to VRR_VSYNC_START/END.(Ankit)
+- Update bit fields of VRR_VSYNC_START/END.(Ankit)
+- Send patches to dri-devel.(Ankit)
+- Update definition names for AS SDP which are starting from
+HSW, as these defines are applicable for ADLP+.(Ankit)
+- Remove unused bitfield define, AS_SDP_ENABLE.
+- Add support in drm for Adaptive Sync sink status, which can be
+used later as a check for read/write sdp. (Ankit)
 
-On 3/5/24 05:49, Christopher Michael wrote:
->
-> This is a reminder that we are still looking for candidates for the 
-> upcoming X.Org Board of Directors elections, and that membership 
-> renewals are still open and will be needed to vote on those elections. 
-> Please read below for more details.
->
->
-> Cheers,
->
-> Christopher Michael, on behalf of the X.Org BoD
->
->
-> On 3/1/24 06:25, Christopher Michael wrote:
->>
->> We are seeking nominations for candidates for election to the X.org 
->> Foundation Board of Directors. However, as we presently do not have 
->> enough nominations to start the election - the decision has been made 
->> to extend the timeline by 2 weeks. Note this is a fairly regular part 
->> of the elections process.
->>
->>
->> The new deadline for nominations to the X.org Board of Directors is 
->> 23:59 UTC on 11 March 2024
->>
->>
->> The Board consists of directors elected from the membership. Each 
->> year, an election is held to bring the total number of directors to 
->> eight. The four members receiving the highest vote totals will serve 
->> as directors for two year terms.
->>
->> The directors who received two year terms starting in 2023 were 
->> Arkadiusz Hiler, Christopher Michael, Lyude Paul, and Daniel Vetter. 
->> They will continue to serve until their term ends in 2024. Current 
->> directors whose term expires in 2024 are Emma Anholt, Mark Filion, 
->> Ricardo Garcia, and Alyssa Rosenzweig.
->> <https://rosenzweig.io/>
->>
->> A director is expected to participate in the fortnightly IRC meeting 
->> to discuss current business and to attend the annual meeting of the 
->> X.Org Foundation, which will be held at a location determined in 
->> advance by the Board of Directors.
->>
->> A member may nominate themselves or any other member they feel is 
->> qualified. Nominations should be sent to the Election Committee at 
->> elections@x.org.
->>
->> Nominees shall be required to be current members of the X.Org 
->> Foundation, and submit a personal statement of up to 200 words that 
->> will be provided to prospective voters. The collected statements, 
->> along with the statement of contribution to the X.Org Foundation in 
->> the member's account page on http://members.x.org, will be made 
->> available to all voters to help them make their voting decisions.
->>
->> Nominations and completed personal statements must be received no 
->> later than 23:59 UTC on 11 March 2024.
->>
->> The slate of candidates will be published 18 March 2024 and candidate 
->> Q&A will begin then. The deadline for Xorg membership applications 
->> and renewals has also been extended 2 weeks and is now 25 March 2024.
->>
->>
->> Cheers,
->>
->> Christopher Michael, on behalf of the X.Org BoD
->>
->>
---------------U1ylqVfCa6riox0GKTHn0D2R
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+-v9:
+- Add enum to operation mode to represent different AVT and
+FAVT modes. (Ankit)
+- Operation_mode, target_rr etc should be filled from as_sdp struct. (Ankit)
+- Fill as_sdp->*All Params* from compute config, read from the sdp. (Ankit)
+- Move configs to the appropriate patch where it used first.(Ankit)
+- There should be a check if as sdp is enable is set or not. (Ankit)
+- Add variables in crtc state->vrr for ad sdp enable and operation mode. (Ankit)
+- Use above variables for tracking AS SDP. (Ankit)
+- Revert unused changes. (Ankit)
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>This is a reminder that we are still looking for candidates for
-      the upcoming X.Org Board of Directors elections, and that today is
-      the last day to submit personal statements for nomination. X.org
-      membership renewals are still open and will be needed to vote on
-      those elections. </p>
-    <p><br>
-    </p>
-    <p>Please read below for more details. <br>
-    </p>
-    <p><br>
-    </p>
-    <p>Cheers,</p>
-    <p>Christopher Michael, on behalf of the X.Org BoD</p>
-    <p><br>
-    </p>
-    <p><br>
-    </p>
-    <p></p>
-    <div class="moz-cite-prefix">On 3/5/24 05:49, Christopher Michael
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:39fac3a4-f9de-4968-b0ff-ac3bf503a4fb@igalia.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <p>This is a reminder that we are still looking for candidates for
-        the upcoming X.Org Board of Directors elections, and that
-        membership renewals are still open and will be needed to vote on
-        those elections. Please read below for more details. <br>
-      </p>
-      <p><br>
-      </p>
-      <p>Cheers,</p>
-      <p>Christopher Michael, on behalf of the X.Org BoD</p>
-      <p><br>
-      </p>
-      <div class="moz-cite-prefix">On 3/1/24 06:25, Christopher Michael
-        wrote:<br>
-      </div>
-      <blockquote type="cite"
-        cite="mid:08f8a967-25e1-4362-be38-3f1b050ec6f2@igalia.com">
-        <meta http-equiv="Content-Type"
-          content="text/html; charset=UTF-8">
-        <p>We are seeking nominations for candidates for election to the
-          X.org Foundation Board of Directors. However, as we presently
-          do not have enough nominations to start the election - the
-          decision has been made to extend the timeline by 2 weeks. Note
-          this is a fairly regular part of the elections process.</p>
-        <p><br>
-        </p>
-        <p>The new deadline for nominations to the X.org Board of
-          Directors is 23:59 UTC on 11 March 2024</p>
-        <br>
-        The Board consists of directors elected from the membership.
-        Each year, an election is held to bring the total number of
-        directors to eight. The four members receiving the highest vote
-        totals will serve as directors for two year terms.
-        <p>The directors who received two year terms starting in 2023
-          were <span class="createlink">Arkadiusz Hiler, </span><span
-            class="createlink">Christopher Michael, </span><span
-            class="createlink">Lyude Paul, and Daniel Vetter</span>.
-          They will continue to serve until their term ends in 2024.
-          Current directors whose term expires in 2024 are <span
-            class="createlink">Emma Anholt, </span><span
-            class="createlink">Mark Filion, </span><span
-            class="createlink">Ricardo Garcia, and Alyssa Rosenzweig.</span><a
-            href="https://rosenzweig.io/" moz-do-not-send="true"><br>
-          </a></p>
-        <p>A director is expected to participate in the fortnightly IRC
-          meeting to discuss current business and to attend the annual
-          meeting of the X.Org Foundation, which will be held at a
-          location determined in advance by the Board of Directors.</p>
-        <p>A member may nominate themselves or any other member they
-          feel is qualified. Nominations should be sent to the Election
-          Committee at <a
-            class="moz-txt-link-abbreviated moz-txt-link-freetext"
-            href="mailto:elections@x.org" moz-do-not-send="true">elections@x.org</a>.<br>
-        </p>
-        <p>Nominees shall be required to be current members of the X.Org
-          Foundation, and submit a personal statement of up to 200 words
-          that will be provided to prospective voters. The collected
-          statements, along with the statement of contribution to the
-          X.Org Foundation in the member's account page on <a
-            class="moz-txt-link-freetext" href="http://members.x.org"
-            moz-do-not-send="true">http://members.x.org</a>, will be
-          made available to all voters to help them make their voting
-          decisions.</p>
-        <p>Nominations and completed personal statements must be
-          received no later than 23:59 UTC on 11 March 2024.</p>
-        <p>The slate of candidates will be published 18 March 2024 and
-          candidate Q&amp;A will begin then. The deadline for Xorg
-          membership applications and renewals has also been extended 2
-          weeks and is now 25 March 2024.</p>
-        <p><br>
-        </p>
-        <p>Cheers,</p>
-        <p>Christopher Michael, on behalf of the X.Org BoD</p>
-        <p><br>
-        </p>
-      </blockquote>
-    </blockquote>
-  </body>
-</html>
+-v10:
+- Send Patches to dri-devel (Ankit).
 
---------------U1ylqVfCa6riox0GKTHn0D2R--
+-v11:
+- Remove as_sdp_mode and enable from crtc_state.
+- For consistency, update ADL_ prefix or post fix as required.
+- Add a comment mentioning current support of
+  DP_AS_SDP_AVT_FIXED_VTOTAL.
+- Add state checker for AS_SDP infoframe enable.
+- Add PIPE_CONF_CHECK_I(vrr.vsync_start/end).
+- Read/write vrr_vsync params only when we intend to send
+adaptive_sync sdp.
+
+-v12:
+- Update cover letter
+
+-v13:
+- Add correct place holder and name change for AS_SDP_OP_MODE.
+- Separate i915 changes from drm changes.
+- Remove extra lines.
+- Check if AS_SDP bit is set in crtc_state->infoframes.enable. If not
+  return.
+- Check for HAS_AS_SDP() before setting VIDEO_DIP_ENABLE_AS_ADL mask.
+- Just use drm/i915/dp in subject line.
+- Drop conn_state from intel_dp_compute_as_sdp, as not used.
+- Remove fullstop in subject line.
+- crtc_state->infoframes.enable, to add on correct place holder.
+
+--v14:
+- Mistakenly dropped first patch, adding back.
+
+--v15:
+- Rename intel_read_dp_infoframe_as_sdp to intel_read_dp_as_sdp.
+- Add an entry in g4x_infoframe_enable.
+- Instead of intel_vrr_is_in_range, use crtc_state->vrr.enable in AS SDP
+compute config.
+
+--v16:
+- Add drm/i915/display in subject line.
+- Use as_sdp->target_rr & 0xFF.
+- Shift by 8 instead of 32, and drop casting to u64.
+- Remove does not belong to respective patch.
+- Remove vrefresh and connector, as they are no longer required.
+- Use VRR_SYNC_START/END macros correctly.
+- Update commit message for Patch#9
+
+--v17:
+- Relocate vrr vsync params.
+
+Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+
+Mitul Golani (9):
+  drm/dp: Add support to indicate if sink supports AS SDP
+  drm: Add Adaptive Sync SDP logging
+  drm/i915/display: Add crtc state dump for Adaptive Sync SDP
+  drm/i915/dp: Add Read/Write support for Adaptive Sync SDP
+  drm/i915/dp: Add wrapper function to check AS SDP
+  drm/i915/display: Compute AS SDP parameters
+  drm/i915/display: Add state checker for Adaptive Sync SDP
+  drm/i915/display: Compute vrr_vsync params
+  drm/i915/display: Read/Write Adaptive Sync SDP
+
+ drivers/gpu/drm/display/drm_dp_helper.c       |  37 ++++++
+ .../drm/i915/display/intel_crtc_state_dump.c  |  13 ++
+ drivers/gpu/drm/i915/display/intel_ddi.c      |   1 +
+ drivers/gpu/drm/i915/display/intel_display.c  |  48 +++++++
+ .../drm/i915/display/intel_display_device.h   |   1 +
+ .../drm/i915/display/intel_display_types.h    |   2 +
+ drivers/gpu/drm/i915/display/intel_dp.c       | 125 ++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_dp.h       |   1 +
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |  14 +-
+ drivers/gpu/drm/i915/display/intel_vrr.c      |  30 ++++-
+ drivers/gpu/drm/i915/i915_reg.h               |  15 +++
+ include/drm/display/drm_dp.h                  |  11 ++
+ include/drm/display/drm_dp_helper.h           |  30 +++++
+ 13 files changed, 325 insertions(+), 3 deletions(-)
+
+-- 
+2.25.1
+
