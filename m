@@ -2,70 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7794879B26
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 19:16:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 360C18798A0
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 17:12:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFBEC10F29E;
-	Tue, 12 Mar 2024 18:16:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBBFB10F058;
+	Tue, 12 Mar 2024 16:12:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kElx5qNX";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zA87kdqQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
- [209.85.208.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6373110E178
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 16:08:19 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id
- 38308e7fff4ca-2d28387db09so62775381fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 09:08:19 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B38D10EC0E
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 16:12:24 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-513b1e1724bso136654e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 09:12:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1710259697; x=1710864497; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0X3bh6regalLfza/VqXtw3dY8qNGGSgfK0NBO0mq7Yo=;
- b=kElx5qNXRNEe4Vh6VXUwevq8SL659x1QhVCCEQ2uaVJOxqHZoX9az+0anwFHJ/lVso
- 1n49qN8iLdc6fS5Fv1G02Yl7jJgW2+L35jLvewE6cmMf8HAPL54cc4595k0tdqO8Al5p
- 3dEP1iWUbmLuFvPLENUoOcS4RsKSyi5cLr77fZp82qpgTSiq5TH4GwRfdxOp8fetvWmp
- TB1+r7jvAP4AtoAFdq5cFfOyiy+0LDLyYOcAvo2fDL6r8z1SpR+fLLjbHvZYOaD7SgqC
- SGtCM11rraXWUE1P3L3WYut5MZUaAfkkM1fZbfY2PMqwSAAwG5nuNVciMQHZ/ehuvOX2
- 3wHA==
+ d=linaro.org; s=google; t=1710259942; x=1710864742; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=zLG0VkRk9T+MqlwYSwMr85lswH7UeBe9EKEDGZIjNWM=;
+ b=zA87kdqQgbnXsMmzRRot9NQ3lnUbCr6thnEyi/uhoQT9AH9IuFi4hS+b2btJCYevmz
+ uxUAkqo2VoTjknCKMO5ORuawmvNiHcnu7ul9NFz1dFBBMKuGziCaPoDYJ4Ve7d22YYWV
+ 4X6Ail9PhUglaQGtyKTSndKEkbxKtcehYL0h9LgkeV+UBKdKWpuuMYUpck8E9w9P4lZx
+ j1UKqgRJ/u4BVPDw7U20BIO1O15u4rBjiPI3/0dwA5R9w4ENYzjKxjfUoOvmw7eJzIYo
+ RBFKnUj0u8xLnFf73jZooqpt0rwni38RaR9cI0tH/0Iil7y7BxNqLdArZH3ZxK7/5N3Q
+ Ac0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710259697; x=1710864497;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0X3bh6regalLfza/VqXtw3dY8qNGGSgfK0NBO0mq7Yo=;
- b=lurpR7/l2ppKLD+h95WL1qeOLbEtUEymNW4X5Ho+SUzu4zDNRD6tbYqGAM8h3ZpUfF
- YYpE22zgYiqReVeT2zlDXb04yE0YMeUtGY73UEQcFlAuwsmNTEIz19+fUzAGuHi3bl+M
- qtUFpbRjC/cARBE+2prtDFlO8N6xyBAor+M42szPS55QSBGR/KjZUJS3PYVkDJHLcH4y
- VCmWRyqLJ3LmnOn+3ADeZIKqVyWgkbN2yO3+n1Nrbhq8yMqzihfnITywPRvu75svUAeO
- fUo3Pv40UAoQYpzJZI7behl3Uwp03pUg00jf+IH//PAE3uJYDe8ipc0zafseBRGNWcGc
- yylA==
+ d=1e100.net; s=20230601; t=1710259942; x=1710864742;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=zLG0VkRk9T+MqlwYSwMr85lswH7UeBe9EKEDGZIjNWM=;
+ b=e/irTdO9iPsJ36n32pHKxqvLiM81aFTZ3BAj++zsV4d8LqmwYtWRMU79+HyJLVSu5H
+ ip/mRWbmD330fkBnZrDdtf5R1nns9bqj1PT/whx8sr0RW7oOFa2Tph7gUYO196r3Ey5K
+ qOXqSbjKiuwNf3F/HvaP7ufeyl4Vd/rgPs8o9ly99wJtlDRdgFQDYUAMJ43JjHnERThI
+ grIgqKAxrnJt5+AN7AEIg4uk+BOMrPV5e4cqLeuG7jDaVaf0eRYC/N/I1JjOoJfU2xGv
+ wVBIK+Vg0CHKt79wjXDMsA/I4s35V1wIRPhjrENTP9O2TIBhVhiC5/FH8ZUYWVsILujb
+ 9R8g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVINAypqpoJ37TtWA4eQfhVDTOUw9p7yJXpOjBvsswVeZHCQLMwxkahlD0CNCeewnsASqRNqvWLHO6pC6br3dFRjo6kc/YFCIks3lTwdkCn
-X-Gm-Message-State: AOJu0YxQGQm9errK/AIwIdsPaqX3zgaHzXguqmEGgYiXefalnYD6rpLh
- hP28dj9gpcC4W2M7KhoMfoBmhY99qtcBdA8Oj3uGz/WG3j7dQwA0GqvRKkXfsV1DFUlxKxL71Zc
- CV2y3rovdYkSGF4brSW+pmKVfX0Q=
-X-Google-Smtp-Source: AGHT+IGYIvZqarMg5Vm2nKOnutiSU8XvApjVKUHqujlgz1UN8eZq3ic9oExfiZabCfDqH/yPYDlMcbT3eWthw0T2HO8=
-X-Received: by 2002:a05:651c:2207:b0:2d4:4777:e2d8 with SMTP id
- y7-20020a05651c220700b002d44777e2d8mr3555811ljq.13.1710259697156; Tue, 12 Mar
- 2024 09:08:17 -0700 (PDT)
+ AJvYcCWI6AyyWxURRbuanNFg5KzsPVk0sYW7dRU9OeeCwc/ddC+rBAMTEKuErFoHAN4IEpnb8ksrEo8LntBiE/FGPHyyOxaJH+SCuLgcSl0iF6L3
+X-Gm-Message-State: AOJu0YzbBimwqjqi1qSta8sb2ZfGPN+uhJuRS2iL/leTrtyGhLiH5S/z
+ ATb55GgdOtUSUxOHQUKV7MXbFdmNOXCVdQuSy4p+WMOoACQqSGJzT7a94TUrasU=
+X-Google-Smtp-Source: AGHT+IHFOEHl33gs0on8qTVXiyJ+aHRxksDiQ505Q8fof/YGiXciDjx8sbsbVrPzSuDgBdzksPF1+g==
+X-Received: by 2002:ac2:4d0f:0:b0:513:488a:95af with SMTP id
+ r15-20020ac24d0f000000b00513488a95afmr1774lfi.15.1710259942295; 
+ Tue, 12 Mar 2024 09:12:22 -0700 (PDT)
+Received: from [87.246.221.205]
+ (netpanel-87-246-221-205.pol.akademiki.lublin.pl. [87.246.221.205])
+ by smtp.gmail.com with ESMTPSA id
+ o5-20020ac24945000000b0051321db6a0dsm1634984lfi.139.2024.03.12.09.12.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Mar 2024 09:12:21 -0700 (PDT)
+Message-ID: <83734790-85c5-446f-b353-f3765cb10d41@linaro.org>
+Date: Tue, 12 Mar 2024 17:12:19 +0100
 MIME-Version: 1.0
-References: <20240312154834.26178-1-tzimmermann@suse.de>
- <20240312154834.26178-12-tzimmermann@suse.de>
-In-Reply-To: <20240312154834.26178-12-tzimmermann@suse.de>
-From: Deepak Rawat <drawat.floss@gmail.com>
-Date: Tue, 12 Mar 2024 09:08:06 -0700
-Message-ID: <CAHFnvW2-QYRCXdYe47txBvpj4N=NNLsPqS0pkRAiJBJMsE+Ksg@mail.gmail.com>
-Subject: Re: [PATCH 11/43] drm/hyperv: Use fbdev-shmem
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: daniel@ffwll.ch, airlied@gmail.com, deller@gmx.de, javierm@redhat.com, 
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Tue, 12 Mar 2024 18:16:28 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/7] clk: qcom: clk-alpha-pll: Add HUAYRA_2290 support
+Content-Language: en-US
+To: Trilok Soni <quic_tsoni@quicinc.com>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+References: <20240219-topic-rb1_gpu-v2-0-2d3d6a0db040@linaro.org>
+ <20240219-topic-rb1_gpu-v2-2-2d3d6a0db040@linaro.org>
+ <605d9e50-d61b-b0ce-1664-00554ba70b41@quicinc.com>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <605d9e50-d61b-b0ce-1664-00554ba70b41@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,43 +101,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Deepak Rawat <drawat.floss@gmail.com>
 
-On Tue, Mar 12, 2024 at 8:48=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
->
-> Implement fbdev emulation with fbdev-shmem. Avoids the overhead of
-> fbdev-generic's additional shadow buffering. No functional changes.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Deepak Rawat <drawat.floss@gmail.com>
-> ---
->  drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hy=
-perv/hyperv_drm_drv.c
-> index cff85086f2d66..ff93e08d5036d 100644
-> --- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> @@ -11,7 +11,7 @@
->  #include <drm/drm_aperture.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_drv.h>
-> -#include <drm/drm_fbdev_generic.h>
-> +#include <drm/drm_fbdev_shmem.h>
->  #include <drm/drm_gem_shmem_helper.h>
->  #include <drm/drm_simple_kms_helper.h>
->
-> @@ -149,7 +149,7 @@ static int hyperv_vmbus_probe(struct hv_device *hdev,
->                 goto err_free_mmio;
->         }
->
-> -       drm_fbdev_generic_setup(dev, 0);
-> +       drm_fbdev_shmem_setup(dev, 0);
->
->         return 0;
->
-> --
-> 2.44.0
->
+
+On 2/23/24 23:48, Trilok Soni wrote:
+> On 2/23/2024 1:21 PM, Konrad Dybcio wrote:
+>> +	/* Wait 50us for PLL_LOCK_DET bit to go high */
+>> +	usleep_range(50, 55);
+>> +
+>> +	/* Enable PLL output */
+>> +	regmap_update_bits(regmap, PLL_MODE(pll), PLL_OUTCTRL, PLL_OUTCTRL);
+>> +}
+>> +EXPORT_SYMBOL(clk_huayra_2290_pll_configure);
+> 
+> Please use EXPORT_SYMBOL_GPL.
+
+Sure, I glanced over this!
+
+I've also noticed that it's a very common oversight.. would you be
+interested in extending scripts/checkpatch.pl to suggest the _GPL
+variant?
+
+Konrad
