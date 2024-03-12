@@ -2,57 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 169D9879665
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 15:34:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F738796D4
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 15:50:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 334A910F1FB;
-	Tue, 12 Mar 2024 14:34:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6200310E484;
+	Tue, 12 Mar 2024 14:50:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="L2ZtlRMm";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Tqq6DNn+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CA6510F45F;
- Tue, 12 Mar 2024 14:34:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710254043; x=1741790043;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=JbBuKm6jMRiPBhq30ZlUQnNdW4tko3qPauFBuhDD83E=;
- b=L2ZtlRMmTxE5dAO9nVlXDNgwmEi7Qzeo7VvwHjq+K/v7Xrisnex0RnSL
- xRs3X2NerjIQsoKYWVzRfuJ3pumhMot1wV40qAMHC9PSxOks/iJY320Jp
- A9N9Mqpyrw/UqwiD5OReLrtJntUH5P8Mbz/+VasQKFHlFCLB9Rz1moVDW
- frjKd2SKGi0ou3hTKeJUH/UP/fwG1TKykiGyODt94wQDmRH+9fRPOMhVt
- 3Zn9dmFfqCvwp3xVqBoQghG2kw9abArkI+B4UsaLbcpzlLSBf//mO6i85
- M13MknyyCrU254zmfs1hcQx5TaBphBXRHHXJz4uZ/szIzL/zdxuz7U+5O A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="7912641"
-X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="7912641"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2024 07:34:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; d="scan'208";a="11466250"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.246.35.214])
- ([10.246.35.214])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2024 07:33:59 -0700
-Message-ID: <70a177b3-5872-4d85-acad-e0458a0d318e@linux.intel.com>
-Date: Tue, 12 Mar 2024 15:33:56 +0100
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 073A110E484
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 14:50:21 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-51320ca689aso4830807e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 07:50:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710255020; x=1710859820;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=cdxOToZtr3MgG8M5yCGfJbtM/oXC1jGaY0CYXkO7JjE=;
+ b=Tqq6DNn+cJNcoxgasPGVegwwWcUWeDvrr7NmK8Y3SYTcjI1S5ocjF/2+fOxuDO7HdO
+ EXLRQgtKfc+NezeW2aGVvXdXklBd8ob9qkJSs8FF5zmPJ4EZIdCDDYnioCkee6lvNyuK
+ 9NvQcBBbGDfKbbV6y0UOwDhaD2wGlZ6yh9eErZjCZ+cdJvtsQy4fQs0tzPCalov8PWjN
+ acaqJwrn+8vK796LEiUo6RS8pEmz0Q2YUk1/t+4UJ6DbZQU09BAyPYJJ2uXycDMkIOPM
+ P1EdPbr1j4o1sARmQiZfDY2Y4UcOwGUaBBODLBD3hFQLOzJ6HbRxnOMB6H4uCkIbysRx
+ QHnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710255020; x=1710859820;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=cdxOToZtr3MgG8M5yCGfJbtM/oXC1jGaY0CYXkO7JjE=;
+ b=hSv73dFBdjrYLxRTh2G0HDGcBwvDTbxOA/cHKiS0m1+H07Zm68B5X89/VW/gLb4k8S
+ /Km59FRpiKJUHa+zbwxSPZTLhrRCYjKA4LEhDkjKu+PS7P7a856ib+d2Y0FXVnncb01N
+ rRrub9Pvh+F6zKG21ds6n1/bDB7yPm+yq3H9Jduy/4rB5Y4t/M5Q0s/ouDM7mA3vLOaJ
+ ETWjOkUqpbeZABX+F6nK8fDtHV9zGWJJtrZ/I1/HeVzDXBeK09gjQqKgWWkF5JcA+1Xo
+ KW75BphcmEEv67YPbQhNXrz+jS0ONkPVR9nTntK5Esm2W/NRvTwSHtx6ura9Zg3QOnB1
+ wg/Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUVohrGml5Udls7rpnzWKi22+v9WU1VldLveHinPPvJRXumTgzorSVAbW1ScKNQ0u3vf0HLjsz+Y2nkharqvyTpg2VDQD1qvBacvJQaOG1t
+X-Gm-Message-State: AOJu0YwHj42ex9KJbQwTLw9LrhHv93VPsA7y2qMTsuVMfXvL4O13vNAs
+ indvhCmOvweXL3mwl7jfk61KJZIMYzX+UmVw7/DqEsKf7JXGh52F1heEPRle1dw=
+X-Google-Smtp-Source: AGHT+IF4U7++EP6lI1eUA5YZ5DAJajTZAe48hL6g0In91UMupEHYzfMoae2xpi5b5/CBMmyo7KWbtw==
+X-Received: by 2002:ac2:51a5:0:b0:512:bf99:7d80 with SMTP id
+ f5-20020ac251a5000000b00512bf997d80mr6373397lfk.1.1710255019673; 
+ Tue, 12 Mar 2024 07:50:19 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+ by smtp.gmail.com with ESMTPSA id
+ u18-20020a05600c19d200b0041316e91c99sm12715808wmq.1.2024.03.12.07.50.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Mar 2024 07:50:19 -0700 (PDT)
+Message-ID: <253b4b6c-d8ba-40a3-adbb-4455af57d780@baylibre.com>
+Date: Tue, 12 Mar 2024 15:50:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/i915/selftests: Pick correct caching mode.
+Subject: Re: [PATCH 12/18] ASoC: codecs: mt6357: add MT6357 codec
 Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>
-References: <20240312111815.18083-1-nirmoy.das@intel.com>
- <ZfBmpJE7xKsZMgh5@ashyti-mobl2.lan>
-From: Nirmoy Das <nirmoy.das@linux.intel.com>
-In-Reply-To: <ZfBmpJE7xKsZMgh5@ashyti-mobl2.lan>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Flora Fu <flora.fu@mediatek.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Mark Brown <broonie@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Takashi Iwai <tiwai@suse.com>,
+ Jaroslav Kysela <perex@perex.cz>, Will Deacon <will@kernel.org>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Nicolas Belin <nbelin@baylibre.com>
+References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+ <20240226-audio-i350-v1-12-4fa1cea1667f@baylibre.com>
+ <1641a853-88cb-43a8-bb95-653f5329a682@collabora.com>
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <1641a853-88cb-43a8-bb95-653f5329a682@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,30 +101,25 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 3/12/2024 3:28 PM, Andi Shyti wrote:
-> Hi Nirmoy,
->
-> On Tue, Mar 12, 2024 at 12:18:15PM +0100, Nirmoy Das wrote:
->> Caching mode is HW dependent so pick a correct one using
->> intel_gt_coherent_map_type().
->>
->> Cc: Andi Shyti <andi.shyti@linux.intel.com>
->> Cc: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
->> Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
->> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/10249
->> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-> I think it's a good choice not to have the Fixes tag here either.
 
-Yes,  fixes tag isn't needed for selftests
+On 26/02/2024 16:25, AngeloGioacchino Del Regno wrote:
+>> +    if (enable) {
+>> +        /* set gpio mosi mode */
+>> +        regmap_write(priv->regmap, MT6357_GPIO_MODE2_CLR, 
+>> GPIO_MODE2_CLEAR_ALL);
+>> +        regmap_write(priv->regmap, MT6357_GPIO_MODE2_SET, 
+>> GPIO8_MODE_SET_AUD_CLK_MOSI |
+>> +                                  GPIO9_MODE_SET_AUD_DAT_MOSI0 |
+>> +                                  GPIO10_MODE_SET_AUD_DAT_MOSI1 |
+>> +                                  GPIO11_MODE_SET_AUD_SYNC_MOSI);
+> 
+> Are you sure that you need to write to MODE2_SET *and* to MODE2?!
 
+This is downstream code and these registers aren't in my documentation.
+I've removed the MODE2_SET write and test the audio: it's still working.
 
->
-> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+So I will keep the spurious write removed for v2. :)
 
-Thanks,
-
-Nirmoy
-
->
-> Thanks,
-> Andi
+-- 
+Regards,
+Alexandre
