@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 993F2879E06
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 23:02:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C51A4879E12
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 23:02:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEACF10EDB7;
-	Tue, 12 Mar 2024 22:02:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC98710E842;
+	Tue, 12 Mar 2024 22:02:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="KYSqP4Ll";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="iMgS34b2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
  [209.85.210.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8823F10EDB7
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 22:02:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A00C10E842
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 22:02:47 +0000 (UTC)
 Received: by mail-pf1-f172.google.com with SMTP id
- d2e1a72fcca58-6e46dcd8feaso3736993b3a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 15:02:07 -0700 (PDT)
+ d2e1a72fcca58-6e6afb754fcso694216b3a.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 15:02:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1710280927; x=1710885727;
+ d=chromium.org; s=google; t=1710280967; x=1710885767;
  darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=HfVz/RhW1d+ABxE62vHBaQjSqXe83Qgl8810kDikh7s=;
- b=KYSqP4LltTmWKfJAQmt+sskfroZEA0p890BLKa+VYjSqpkB9hgqglUY5wen7AQLAsl
- 04k/bNFcmx3swUyQ0oqqT3mFz8S1yA5IPONjnH+o7B8DbLXHKq/wGHxwhA+K85+HJC1K
- Dw08mkgupAyLAb3r5k1La5cSV1dDfif/EEdDg=
+ bh=1akdFCp/NrQTZkdZoE61av7sk42pTtpjjQoFP3uV05s=;
+ b=iMgS34b2+tdC1GlzQR1ztbXd8umtVJo7Lj7hkovAGk/ZAKN+mGAke9tuXZupzAu+aT
+ 0LpmOUD+RanWrYSkSWGaLSCvtWkrCJctoJ+i6f2EptYu4utEO+dB/hIqB0v2J27SORt1
+ DoFFA1IA9V6PoAaNQuXmkthwx4ZrDabKd3fy8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710280927; x=1710885727;
+ d=1e100.net; s=20230601; t=1710280967; x=1710885767;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=HfVz/RhW1d+ABxE62vHBaQjSqXe83Qgl8810kDikh7s=;
- b=BNPf+jonqYO2oeekZAEUAmhM3EkFvclGM6w1xVO36a4O5gdYhKG92ihZe1O0uMEuh4
- PruyPweLqSRBOBAWJ3vwPbdUUI3qqk/6queCX1m546apnAdVatRCR4rmhjiNpW2uiHgx
- sYvL2yjrkoKoxTVxwDgnePJqGnJ9bM27cqPh2HSUAdQfiD8pwLj5mjricTwzo40SKW43
- JbRplJoIVB9T07hyr11NfSaw/sy0FM9pFK64OFQLg4WVNRXtpuh7dUSNmSL8KWU6wGBS
- gZNaUdOeDHQhgC9KonCuB29j1LbnKnN29E8vBGR6VdzhUkber/xdTnti6KGKJSO5n1uU
- Dpjw==
+ bh=1akdFCp/NrQTZkdZoE61av7sk42pTtpjjQoFP3uV05s=;
+ b=OynGRRVYOpsiaD2KuU7a/5g6hiNHBrOKM7m9xJYQPeBxQhCtIc5mOce7gBz2tKreRl
+ xplbKkR6Y1UcEqCdZmVrBsQh27BTY0CXVG5pbOegD1dTEXx+7ityP4CGMhq/txDm6Esg
+ BDUkJpwLUnPt4JKwdhSpAMDoXf2mrNHd+TIfskYjAQqtIXC/xjRcEyGLYklnCzNpN/Z+
+ otU2sA8+Cf0SP1O5ojguFiC4aM7NXRlCgAEZdf7vOlxWyOUT4r8KKqZ6K4SWamD2eGWH
+ 5dlqzLJSdd+4mInCPylDYF7CWGLtsKtxOUij1NJR+hWhBu6ZB92XlaeqYnk80d8TGE+D
+ aEjA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWDhuoveZktEW88DAxs69YsG6FPN9XkUPt0d9jMdkQ4eXhgVgPOYgFknY5bK5S5cJkwjCrLkeliE9Yv7Kp1CELd1SIp6LCJTklJUAQkuu6F
-X-Gm-Message-State: AOJu0YxsMbhwJiEEoRWOuIhnkMfT8k4Zyd9J3ajrEuoH/sLkxEMGzLQY
- JzY4KcFYUOA5S/grdOggERkHyipjU3icO6cUu6oZFcv5F7IZ0QF3ln14SNj1Yg==
-X-Google-Smtp-Source: AGHT+IFaAzHiJbVMwydAnFUAbBGgB4TiVXgXXf4Bmn7UNMuMdpujdzLwHr5uC0yhXwauRYk5a8qmzQ==
-X-Received: by 2002:a05:6a00:4fcb:b0:6e6:afa3:7b32 with SMTP id
- le11-20020a056a004fcb00b006e6afa37b32mr865695pfb.6.1710280926942; 
- Tue, 12 Mar 2024 15:02:06 -0700 (PDT)
+ AJvYcCWb6+KLiyC5NiHeZ6DtWStTC/jvylwZgcj1MdX+XbQaDABC+2vOhj8zLg9N6laWTKqZnOEhvOWXqHfWUKHnLR9k8pciAV006flA1XLRTlUC
+X-Gm-Message-State: AOJu0YyKLDlvtK47SyL5c+90IoU6ysud3UORU7B6yUvswNwWMA0Th966
+ xu8zcsPs+KIeFxuKePadL+2gzvDOGRfDoaoQbhziB0Sv7E6cEnE5oqMpXXZ4Kg==
+X-Google-Smtp-Source: AGHT+IFKZ+X2o3xvUM/DPjpn5dJMdSK/7jBm9riFOy6GxFDG2jNN2P7xmSx2+ecCvjPJ+atiR43WGA==
+X-Received: by 2002:a05:6a20:9382:b0:1a0:efd0:b183 with SMTP id
+ x2-20020a056a20938200b001a0efd0b183mr14145890pzh.44.1710280967019; 
+ Tue, 12 Mar 2024 15:02:47 -0700 (PDT)
 Received: from www.outflux.net ([198.0.35.241])
  by smtp.gmail.com with ESMTPSA id
- p35-20020a056a000a2300b006e6ab799457sm1315765pfh.110.2024.03.12.15.02.06
+ e11-20020a17090301cb00b001dd6c0800b4sm7193896plh.188.2024.03.12.15.02.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Mar 2024 15:02:06 -0700 (PDT)
-Date: Tue, 12 Mar 2024 15:02:05 -0700
+ Tue, 12 Mar 2024 15:02:46 -0700 (PDT)
+Date: Tue, 12 Mar 2024 15:02:46 -0700
 From: Kees Cook <keescook@chromium.org>
 To: Guenter Roeck <linux@roeck-us.net>
 Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
@@ -75,14 +75,15 @@ Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
  linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
  linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
  linux-sh@vger.kernel.org, loongarch@lists.linux.dev, netdev@lists.linux.dev
-Subject: Re: [PATCH 02/14] kunit: bug: Count suppressed warning backtraces
-Message-ID: <202403121501.F7CA06C@keescook>
+Subject: Re: [PATCH 03/14] kunit: Add test cases for backtrace warning
+ suppression
+Message-ID: <202403121502.95F27A01@keescook>
 References: <20240312170309.2546362-1-linux@roeck-us.net>
- <20240312170309.2546362-3-linux@roeck-us.net>
+ <20240312170309.2546362-4-linux@roeck-us.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240312170309.2546362-3-linux@roeck-us.net>
+In-Reply-To: <20240312170309.2546362-4-linux@roeck-us.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,81 +99,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 12, 2024 at 10:02:57AM -0700, Guenter Roeck wrote:
-> Count suppressed warning backtraces to enable code which suppresses
-> warning backtraces to check if the expected backtrace(s) have been
-> observed.
+On Tue, Mar 12, 2024 at 10:02:58AM -0700, Guenter Roeck wrote:
+> Add unit tests to verify that warning backtrace suppression works.
 > 
-> Using atomics for the backtrace count resulted in build errors on some
-> architectures due to include file recursion, so use a plain integer
-> for now.
+> If backtrace suppression does _not_ work, the unit tests will likely
+> trigger unsuppressed backtraces, which should actually help to get
+> the affected architectures / platforms fixed.
 > 
 > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> ---
->  include/kunit/bug.h | 7 ++++++-
->  lib/kunit/bug.c     | 4 +++-
->  2 files changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/kunit/bug.h b/include/kunit/bug.h
-> index 1e34da961599..2097a854ac8c 100644
-> --- a/include/kunit/bug.h
-> +++ b/include/kunit/bug.h
-> @@ -20,6 +20,7 @@
->  struct __suppressed_warning {
->  	struct list_head node;
->  	const char *function;
-> +	int counter;
-
-Thanks for adding a counter!
-
->  };
->  
->  void __start_suppress_warning(struct __suppressed_warning *warning);
-> @@ -28,7 +29,7 @@ bool __is_suppressed_warning(const char *function);
->  
->  #define DEFINE_SUPPRESSED_WARNING(func)	\
->  	struct __suppressed_warning __kunit_suppress_##func = \
-> -		{ .function = __stringify(func) }
-> +		{ .function = __stringify(func), .counter = 0 }
->  
->  #define START_SUPPRESSED_WARNING(func) \
->  	__start_suppress_warning(&__kunit_suppress_##func)
-> @@ -39,12 +40,16 @@ bool __is_suppressed_warning(const char *function);
->  #define IS_SUPPRESSED_WARNING(func) \
->  	__is_suppressed_warning(func)
->  
-> +#define SUPPRESSED_WARNING_COUNT(func) \
-> +	(__kunit_suppress_##func.counter)
-> +
->  #else /* CONFIG_KUNIT */
->  
->  #define DEFINE_SUPPRESSED_WARNING(func)
->  #define START_SUPPRESSED_WARNING(func)
->  #define END_SUPPRESSED_WARNING(func)
->  #define IS_SUPPRESSED_WARNING(func) (false)
-> +#define SUPPRESSED_WARNING_COUNT(func) (0)
->  
->  #endif /* CONFIG_KUNIT */
->  #endif /* __ASSEMBLY__ */
-> diff --git a/lib/kunit/bug.c b/lib/kunit/bug.c
-> index f93544d7a9d1..13b3d896c114 100644
-> --- a/lib/kunit/bug.c
-> +++ b/lib/kunit/bug.c
-> @@ -32,8 +32,10 @@ bool __is_suppressed_warning(const char *function)
->  		return false;
->  
->  	list_for_each_entry(warning, &suppressed_warnings, node) {
-> -		if (!strcmp(function, warning->function))
-> +		if (!strcmp(function, warning->function)) {
-> +			warning->counter++;
->  			return true;
-> +		}
->  	}
->  	return false;
->  }
-> -- 
-> 2.39.2
-> 
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
