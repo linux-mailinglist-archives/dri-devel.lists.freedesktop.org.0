@@ -2,137 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA6198798E2
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 17:25:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0C418798E5
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 17:25:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA59710E767;
-	Tue, 12 Mar 2024 16:24:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12DA510F1FC;
+	Tue, 12 Mar 2024 16:25:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GiZY8gd7";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ee86q56V";
 	dkim-atps=neutral
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5EA810E767;
- Tue, 12 Mar 2024 16:24:55 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9740410F439;
+ Tue, 12 Mar 2024 16:25:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710260697; x=1741796697;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=CERhUV5SC6i7rQBQlwwfmQ+oaJD19NO9ttg+S53flCw=;
- b=GiZY8gd71frdzur425VCwv7JzB7lZdxTqqRFRL1YT2P4ZOWA0C26gvrT
- 8a5s83tYZsBvIdLax/ijyLLv3B1kEZQNPXW9hU/hTnB8XQToK7yubCzfR
- KdRqZ7NLKt4nW2PmC4dVrOaG7IsLxSdJjLFdW3xCHWXqhfCZir0iB6m6f
- aGILSlpLBkaQsBaQwrM/rtSwmmwoc88PqXf5L23802+lAR6Wbl2Xt7mud
- 8sid65m4ha2QH8D6RPYNuov3G9ZHRsZm2kldBtFnFoI7vm4ultfZUGam8
- e1kpumHThtnP36vtFsngigv1ptK2iYcdoU8DumA/2+vgsBWXrB1aWNkGA w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="16382372"
-X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; d="scan'208";a="16382372"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2024 09:24:55 -0700
+ t=1710260715; x=1741796715;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=+MPXvyYNJYib1bQ1dRQ22YOCsLt/rHnd/cQVcx71UAA=;
+ b=ee86q56VVRKKI16hjJFBEetzG5nxtC62MBhhMCe0TgbwUHCeQ50E26jR
+ M9xjk3oZJlMWWsbOynrTqfuCU1zMQWQuRCPbBGA31WUBgg6QsNx6X1unX
+ H/tPEpI5R+92M5VRDd0O+sHAJijTmrNSQSThZ0IQFX0JmUktJPdu1qHr7
+ QkfFJwv4Vinxgf8oGY8dEupfr83U6GNkteZymgEQKusaVJgG0HZzWEsWa
+ HzlS8AcJUlWMspXw0kWRLY4m3dnLcAYHaE4QKWLuRbxtH94QndFI+8nfJ
+ twbPUNuZdX+5nhiJno7jBb1y97x2DtmZpJw3C7KBRFfgnYfgkbbISEJ/r A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="22500685"
+X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; d="scan'208";a="22500685"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Mar 2024 09:25:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; d="scan'208";a="11496834"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 12 Mar 2024 09:24:55 -0700
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 12 Mar 2024 09:24:54 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Tue, 12 Mar 2024 09:24:54 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 12 Mar 2024 09:24:54 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ed7yKg4dUmUK74gMAcBYtUAgmgQgm0atOEXE6YgShuk20Gaj41J2XT16T0rW8mKZAkmK3s4w9vHX37dcO5QfBKjUfsgOpbUoOgM6LxEge6ubVuNOkMpES5A1MB50gNNe31bD/IaTV1QiE5mtbuAeSCZePWZPpeme4jZ7RM4EKHWoofeR5tDubFTTL4zgnO8fIZWXzX6nfNW00Q8/PAxrApalbS725IHwjrCZqqCG/1i0aeJms8AxyViTqe2WihJlHcGxUcLsvCU7Wpkb5xLfeeTuAKbuqKE2YD58pR552j6KVPHuGV4grSUYDVZ0GlA1RJG72tOMOfO2zrICwmRE4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rhHf1sAczdiIFXuJWlNQhjj9BvJZaLhIO2MXBrcwVSs=;
- b=HgiDbx6jZN5+e0HPi3979k9YAJMDqkGsLZi+DGcbi73YGpmZNVSiodKnQmmcx2DD+TkEzi9xYUxWGO7/dLt2uCpTD+pKgyipHxTTVcu2TOjnWfz6BRzs84HKE4IuQJmWob8dsCT8ISq8X7RyCYwEjnqB3FmLCfqERyu7fIU3YDelZisfVZT0Ey3e0Ci5/vPfaCnaeZFzmeShfpSsNQ5ZB/dYra3OnpKWwJ+P+XTyyZQRHqGtckKpXaEcAftnOX0TpXNO03xK2RrJuz19zJvQcnlla0brlvRL3ZBJzXeVbf95Ud1AiOfoH1ThONCDP7s76DqjWbPt3EpLKrM1gYqa8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB8182.namprd11.prod.outlook.com (2603:10b6:8:163::17)
- by SA1PR11MB8326.namprd11.prod.outlook.com (2603:10b6:806:379::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.18; Tue, 12 Mar
- 2024 16:24:52 +0000
-Received: from DS0PR11MB8182.namprd11.prod.outlook.com
- ([fe80::45cf:261e:c084:9493]) by DS0PR11MB8182.namprd11.prod.outlook.com
- ([fe80::45cf:261e:c084:9493%6]) with mapi id 15.20.7386.016; Tue, 12 Mar 2024
- 16:24:52 +0000
-Date: Tue, 12 Mar 2024 09:24:49 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: <John.C.Harrison@intel.com>
-CC: <Intel-GFX@lists.freedesktop.org>, <DRI-Devel@lists.freedesktop.org>
-Subject: Re: [PATCH] drm/i915/guc: Update w/a 14019159160
-Message-ID: <20240312162449.GH718896@mdroper-desk1.amr.corp.intel.com>
-References: <20240308020129.728799-1-John.C.Harrison@Intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240308020129.728799-1-John.C.Harrison@Intel.com>
-X-ClientProxiedBy: SJ0PR03CA0176.namprd03.prod.outlook.com
- (2603:10b6:a03:338::31) To DS0PR11MB8182.namprd11.prod.outlook.com
- (2603:10b6:8:163::17)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB8182:EE_|SA1PR11MB8326:EE_
-X-MS-Office365-Filtering-Correlation-Id: 302899f8-9c06-437c-802d-08dc42b0f1a7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: R+SMNcz6H78lZ3M+lh8idKDaXSLKlbNqfHA+DZM+I8vqRMxxCdhgT7nwTAqqybq6RLXTmfdDCnTFkmVTMaYlOQg/8S7APilsjOQy3BC/F4e+G8+mdG9tYZMbXt1EpQFsB+NQdW6BvfeD99+MGucGhi+5xBPHTGST0pAh7PoKSkLGj/mNkkiHBXQbVL6JT5rclKAsGJEwaeNvcGP3C319g7TJ/UjSeVnQKdNZ2M5ZguizPb51jGYkDQMNCnYOojGxeoyYuxfv4g7hacudO3S6q5NgQIbBO5zOWevg1U6AonotYSplitsSkU3ruybUvKAB3X+iD7H6fghd+4T8oxJpQxszn1sVVPcoR0TvIy6s2DKtypGtuQOxAFm45MVdAyd9EZ66ghZ24Ohq/uw3CFl+4AXEe6vSy7fK+HzmdcR/tDfGIXoDa4rXla3qsF4Kx2J5E+BxD881sRkF4kyAKfBIiKu98CDhj0mrQdvktMklHpt3xPizDLT2Rr8Kl5OtRPSs2rgvFD52rc7UKeKmfInQuOmbSmvV6k7RzZiHkmaKZAci06gOBg/UmPXG7WZaUU5ZMnyvkTZY9cIFeHmqCk7jlPh9nyQYDqIcDIe3l3WgrVvi/yWTESg40loCo9AImDRTDHkgD+IbOs4TQ/VUJN179sCF9BcoEH5mduoIep1uG+g=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR11MB8182.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005)(1800799015); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QGrFL3QwUF5sx+0u4ArhkP3YQQYqRFnxW0PXindjsL+B9eWxKrzPrsPA8nNQ?=
- =?us-ascii?Q?gYMnnO+MPjkgMKvZnyiuDVKXGm74JBebg1fepkYrVbwLbKipAMpMUD+byecG?=
- =?us-ascii?Q?npvYDJ6orp+bVkbEkHim/eK+4OJQGkXLCje+oVrcaPXxdcM5QVVpolQw5Ta7?=
- =?us-ascii?Q?ibn675J5nfWCDnyxa7MQS67k0yoE5ZyDkTtTrErkti86OHqGoCNlNtFsLmDn?=
- =?us-ascii?Q?zH1I4EUQnADlX35B+m6leserxDAfRtj8IQaqj4Bl1RKsZVyxBXYgqppYwJU7?=
- =?us-ascii?Q?j5nbKS33MNl++AUD13r1MX1rA2batWT/L31QPselHqzsKSkcBdAWuFV+oUXM?=
- =?us-ascii?Q?RBntsQ8Gbem1pVXCVWc9ywWkExgTP+BspzvL+KVJlNSwUQ3HJaI8hF3dMSWF?=
- =?us-ascii?Q?lNr1VWEnrD6wVSLiOL2E9bEwozz2jev6eWtT/LsVepoWo6wbmDqb2mPcRgcl?=
- =?us-ascii?Q?9Rebe9RqIPv4LWcd5rixJJsRtfCPoC4RuFnFr4Xr5FDMsAiAdz4mfbGw++ZY?=
- =?us-ascii?Q?6Cl5GwHjJDfDuio34YE1Qz3WZF8cPdc/Zw8mE7+4yDjYmMRNBBQlaf940O7l?=
- =?us-ascii?Q?gjNFp1cyFHAW/XYV6yTrwY6ziyQ/dingpvNvj5+Js7OhHj/OubWcUXblgmXh?=
- =?us-ascii?Q?Y240o3naHNi7mdKgKIoSg1zNLXPRacGeGG443f8LUP+ifDq944Qm9rEdyu2k?=
- =?us-ascii?Q?IhNbw+90kjKgMuj4YRkrhOfLwtRXtOeicRCZtKQxHXnLAlznM5K/4R4JgxpB?=
- =?us-ascii?Q?mPwZmhXW+sA1qd3ErC4zYmIgyPwOZcbhAq15aiDW9xfr9yO+pP65ztSGJbU2?=
- =?us-ascii?Q?eWHMZeX3Mh2hXQA3YUAgsHjgX7jP3Or9+txgo3Q/7MbStSO++r0A+Snm4U0V?=
- =?us-ascii?Q?zrSMKbT+RABdqJVNdjAlfkJWC07JG6G74qGich4yzUhcg5xs5UtpWREPf4C3?=
- =?us-ascii?Q?7uBgf1fOGVEYFHX1eI54Ucfd22u1sQAK6MmamGY/DWxGD2VfxhTVzO/JYpqw?=
- =?us-ascii?Q?Ip7AJu/iP6VrYaQpnyDHl5X/+qGHUl+s56L/+0PTxgto29mXXomcZgovv35x?=
- =?us-ascii?Q?xabTpnt8TCAzH5QAOTHId0u2xQGzbKZfcPtFQWO0yWdckcqcbSrfS+HCNpDs?=
- =?us-ascii?Q?T5cUxB9E04jBJuvUoYOxSbwJP5ogfOnk0rbZpxkK2Ap01x+xxZAD0IVJyg+N?=
- =?us-ascii?Q?coh55LTQOSPDzS3lQ2Zu9LbODCZuZvTUdrp0NC7gy12zoAC9BUIbcxNmGH94?=
- =?us-ascii?Q?eomTxYAWya5BGye/weig9WVn/RKNV6aRCc5fQ63JXt9GqiOJ35JBrbnAqcm7?=
- =?us-ascii?Q?xactx+57Tv9nEzEIteErm8KE/B3aqC/ZWlpk7pOt//xs94ANflVm5KGGqokz?=
- =?us-ascii?Q?0JafZ27ju4rA7ssZlPUxcWekvC4gi/I9z8oXN3swTOIoVb1nm0RJNLnhm0vs?=
- =?us-ascii?Q?5nEY8YKsNfWpQ+G1MWcG4IJ7NSeFVLDTJKqaZi+QyzOQpPDUnLzZb8yqD2uI?=
- =?us-ascii?Q?8+t1JncdDaL0Z0msr90PyOqRNjuq9igBvNZw+odj2f0hb+vxRQ7psjb/54U7?=
- =?us-ascii?Q?GRfJHvBg7UaMB3ZN7lKGp2CasqKH0LV0oGQb1u8ab5gBUu0UQFIW9nLxxPEk?=
- =?us-ascii?Q?EA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 302899f8-9c06-437c-802d-08dc42b0f1a7
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB8182.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2024 16:24:51.8436 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: e/h+o+xVIvAZcuTI07zELa01ZlrW5goYFEWB4uJMPr8wAitPT/vbncWLGhYO2dOuDIXokRqiLegN7j5mC5QtcEnvhJiMDVvcTxE0ZLZHScQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8326
-X-OriginatorOrg: intel.com
+X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; d="scan'208";a="16240920"
+Received: from orsosgc001.jf.intel.com (HELO unerlige-ril.intel.com)
+ ([10.165.21.138])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Mar 2024 09:25:15 -0700
+Date: Tue, 12 Mar 2024 09:25:14 -0700
+Message-ID: <85zfv35set.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Cc: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Anshuman Gupta <anshuman.gupta@intel.com>, "Badal\
+ Nilawar" <badal.nilawar@intel.com>,
+ Guenter Roeck <linux@roeck-us.net>, "Dale\
+ B Stimson" <dale.b.stimson@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>, 
+ Nirmoy Das <nirmoy.das@intel.com>
+Subject: Re: [PATCH v2] drm/i915/hwmon: Fix locking inversion in sysfs getter
+In-Reply-To: <20240311203500.518675-2-janusz.krzysztofik@linux.intel.com>
+References: <20240311203500.518675-2-janusz.krzysztofik@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-redhat-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,110 +76,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 07, 2024 at 06:01:29PM -0800, John.C.Harrison@Intel.com wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
-> 
-> An existing workaround has been extended in both platforms affected
-> and implementation complexity.
-> 
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h |  3 ++-
->  drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  3 ++-
->  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    | 21 ++++++++++---------
->  3 files changed, 15 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
-> index bebf28e3c4794..3e7060e859794 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
-> @@ -105,7 +105,8 @@ enum {
->   * Workaround keys:
->   */
->  enum {
-> -	GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE				= 0x9001,
-> +	GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE				= 0x9001,	/* Wa_14019159160 */
-> +	GUC_WORKAROUND_KLV_AVOID_GFX_CLEAR_WHILE_ACTIVE			= 0x9006,	/* Wa_14019159160 */
->  };
->  
->  #endif /* _ABI_GUC_KLVS_ABI_H */
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> index 0c67d674c94de..4c3dae98656af 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> @@ -296,7 +296,8 @@ static u32 guc_ctl_wa_flags(struct intel_guc *guc)
->  
->  	/* Wa_16019325821 */
->  	/* Wa_14019159160 */
-> -	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71)))
-> +	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71)) ||
+On Mon, 11 Mar 2024 13:34:58 -0700, Janusz Krzysztofik wrote:
+>
+> In i915 hwmon sysfs getter path we now take a hwmon_lock, then acquire an
+> rpm wakeref.  That results in lock inversion:
+>
+> <4> [197.079335] ======================================================
+> <4> [197.085473] WARNING: possible circular locking dependency detected
+> <4> [197.091611] 6.8.0-rc7-Patchwork_129026v7-gc4dc92fb1152+ #1 Not tainted
+> <4> [197.098096] ------------------------------------------------------
+> <4> [197.104231] prometheus-node/839 is trying to acquire lock:
+> <4> [197.109680] ffffffff82764d80 (fs_reclaim){+.+.}-{0:0}, at: __kmalloc+0x9a/0x350
+> <4> [197.116939]
+> but task is already holding lock:
+> <4> [197.122730] ffff88811b772a40 (&hwmon->hwmon_lock){+.+.}-{3:3}, at: hwm_energy+0x4b/0x100 [i915]
+> <4> [197.131543]
+> which lock already depends on the new lock.
+> ...
+> <4> [197.507922] Chain exists of:
+>   fs_reclaim --> &gt->reset.mutex --> &hwmon->hwmon_lock
+> <4> [197.518528]  Possible unsafe locking scenario:
+> <4> [197.524411]        CPU0                    CPU1
+> <4> [197.528916]        ----                    ----
+> <4> [197.533418]   lock(&hwmon->hwmon_lock);
+> <4> [197.537237]                                lock(&gt->reset.mutex);
+> <4> [197.543376]                                lock(&hwmon->hwmon_lock);
+> <4> [197.549682]   lock(fs_reclaim);
+> ...
+> <4> [197.632548] Call Trace:
+> <4> [197.634990]  <TASK>
+> <4> [197.637088]  dump_stack_lvl+0x64/0xb0
+> <4> [197.640738]  check_noncircular+0x15e/0x180
+> <4> [197.652968]  check_prev_add+0xe9/0xce0
+> <4> [197.656705]  __lock_acquire+0x179f/0x2300
+> <4> [197.660694]  lock_acquire+0xd8/0x2d0
+> <4> [197.673009]  fs_reclaim_acquire+0xa1/0xd0
+> <4> [197.680478]  __kmalloc+0x9a/0x350
+> <4> [197.689063]  acpi_ns_internalize_name.part.0+0x4a/0xb0
+> <4> [197.694170]  acpi_ns_get_node_unlocked+0x60/0xf0
+> <4> [197.720608]  acpi_ns_get_node+0x3b/0x60
+> <4> [197.724428]  acpi_get_handle+0x57/0xb0
+> <4> [197.728164]  acpi_has_method+0x20/0x50
+> <4> [197.731896]  acpi_pci_set_power_state+0x43/0x120
+> <4> [197.736485]  pci_power_up+0x24/0x1c0
+> <4> [197.740047]  pci_pm_default_resume_early+0x9/0x30
+> <4> [197.744725]  pci_pm_runtime_resume+0x2d/0x90
+> <4> [197.753911]  __rpm_callback+0x3c/0x110
+> <4> [197.762586]  rpm_callback+0x58/0x70
+> <4> [197.766064]  rpm_resume+0x51e/0x730
+> <4> [197.769542]  rpm_resume+0x267/0x730
+> <4> [197.773020]  rpm_resume+0x267/0x730
+> <4> [197.776498]  rpm_resume+0x267/0x730
+> <4> [197.779974]  __pm_runtime_resume+0x49/0x90
+> <4> [197.784055]  __intel_runtime_pm_get+0x19/0xa0 [i915]
+> <4> [197.789070]  hwm_energy+0x55/0x100 [i915]
+> <4> [197.793183]  hwm_read+0x9a/0x310 [i915]
+> <4> [197.797124]  hwmon_attr_show+0x36/0x120
+> <4> [197.800946]  dev_attr_show+0x15/0x60
+> <4> [197.804509]  sysfs_kf_seq_show+0xb5/0x100
+>
+> Acquire the wakeref before the lock and hold it as long as the lock is
+> also held.  Follow that pattern across the whole source file where similar
+> lock inversion can happen.
+>
+> v2: Keep hardware read under the lock so the whole operation of updating
+>     energy from hardware is still atomic (Guenter),
+>   - instead, acquire the rpm wakeref before the lock and hold it as long
+>     as the lock is held,
+>   - use the same aproach for other similar places across the i915_hwmon.c
+>     source file (Rodrigo).
+>
+> Fixes: c41b8bdcc297 ("drm/i915/hwmon: Show device level energy usage")
 
-From what I can see, this workaround is also needed on Xe_LPG+ (12.74)
-now.
+I would think that the lock inversion issue was introduced here:
 
+1b44019a93e2 ("drm/i915/guc: Disable PL1 power limit when loading GuC firmware")
 
-Matt
+This is the commit which introduced this sequence:
+	lock(&gt->reset.mutex);
+	lock(&hwmon->hwmon_lock);
 
-> +	    IS_DG2(gt->i915))
->  		flags |= GUC_WA_RCS_CCS_SWITCHOUT;
->  
->  	/*
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> index 5c9908b56616e..00fe3c21a9b1c 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> @@ -815,23 +815,23 @@ guc_capture_prep_lists(struct intel_guc *guc)
->  	return PAGE_ALIGN(total_size);
->  }
->  
-> -/* Wa_14019159160 */
-> -static u32 guc_waklv_ra_mode(struct intel_guc *guc, u32 offset, u32 remain)
-> +static void guc_waklv_enable_simple(struct intel_guc *guc, u32 *offset, u32 *remain, u32 klv_id)
->  {
->  	u32 size;
->  	u32 klv_entry[] = {
->  		/* 16:16 key/length */
-> -		FIELD_PREP(GUC_KLV_0_KEY, GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE) |
-> +		FIELD_PREP(GUC_KLV_0_KEY, klv_id) |
->  		FIELD_PREP(GUC_KLV_0_LEN, 0),
->  		/* 0 dwords data */
->  	};
->  
->  	size = sizeof(klv_entry);
-> -	GEM_BUG_ON(remain < size);
-> +	GEM_BUG_ON(*remain < size);
->  
-> -	iosys_map_memcpy_to(&guc->ads_map, offset, klv_entry, size);
-> +	iosys_map_memcpy_to(&guc->ads_map, *offset, klv_entry, size);
->  
-> -	return size;
-> +	*offset += size;
-> +	*remain -= size;
->  }
->  
->  static void guc_waklv_init(struct intel_guc *guc)
-> @@ -850,10 +850,11 @@ static void guc_waklv_init(struct intel_guc *guc)
->  	remain = guc_ads_waklv_size(guc);
->  
->  	/* Wa_14019159160 */
-> -	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71))) {
-> -		size = guc_waklv_ra_mode(guc, offset, remain);
-> -		offset += size;
-> -		remain -= size;
-> +	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71)) || IS_DG2(gt->i915)) {
-> +		guc_waklv_enable_simple(guc, &offset, &remain,
-> +					GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE);
-> +		guc_waklv_enable_simple(guc, &offset, &remain,
-> +					GUC_WORKAROUND_KLV_AVOID_GFX_CLEAR_WHILE_ACTIVE);
->  	}
->  
->  	size = guc_ads_waklv_size(guc) - remain;
-> -- 
-> 2.43.0
-> 
+Before this, everything was fine. So perhaps the Fixes tag should reference
+this commit?
 
--- 
-Matt Roper
-Graphics Software Engineer
-Linux GPU Platform Enablement
-Intel Corporation
+Otherwise the patch LGTM:
+
+Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
