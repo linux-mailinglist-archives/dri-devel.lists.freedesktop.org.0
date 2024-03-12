@@ -2,56 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD57878BA8
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 00:53:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE33878BDB
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 01:20:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4469F112897;
-	Mon, 11 Mar 2024 23:53:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D82210EDC4;
+	Tue, 12 Mar 2024 00:20:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YOWK4nTz";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kQ0LvP0P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF47D10FB92;
- Mon, 11 Mar 2024 23:53:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710201185; x=1741737185;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=p48JOH9V4XWyzs3yJclUYkG1DZg+f1rPC2Al4AQV1wg=;
- b=YOWK4nTzJRYqneqEXVaHacTvCWzUpofek82ZuQWPp89CeFmO6nzRSd84
- q4HmU6vyv7p/BdbnEjDBVBpxcr8OKDAR8rKv9JV5x853moh4H9RP3+7cz
- kc5InKDSeCKWnTUI0IHsHeJs+Gaudtw9OMFhiu4Q0pOI+DlSePMttKlD+
- KBMAIsb8RPpR8/rzO3x5kK2lLFYfn7BKZyu2LGnlZN0TA4oaa2G5yAFFv
- cdOZjYhSnmWxe8wHNn4g1UT6eu83Fv0LyJ4epimKDSc+2a4MJ28UXB+fG
- PlOs1tpSvM1SOahKj1F8/KO8L3Vt8GmRlDkd+5eogpwLo2LHpTLsl/2NU Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="5026469"
-X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
-   d="scan'208";a="5026469"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2024 16:53:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; d="scan'208";a="15990183"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
- by orviesa004.jf.intel.com with ESMTP; 11 Mar 2024 16:53:03 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rjpS0-0009YN-1U;
- Mon, 11 Mar 2024 23:53:00 +0000
-Date: Tue, 12 Mar 2024 07:52:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>
-Subject: [drm-intel:for-linux-next 4/6]
- drivers/gpu/drm/i915/display/intel_bios.c:3417:24: error: implicit
- declaration of function 'intel_opregion_vbt_present'; did you mean
- 'intel_opregion_asle_present'?
-Message-ID: <202403120756.JTkGHCip-lkp@intel.com>
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 913FA10EA4E
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 00:20:27 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id
+ 2adb3069b0e04-513a81b717cso1906884e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Mar 2024 17:20:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1710202825; x=1710807625; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Y6Qj+d193V6vAwzUIxkG37xPPAUPTTqW49/CnKjXQd8=;
+ b=kQ0LvP0PR5rwha0BFRvrK79ua9alYl99Xh7eF/dYOvG8Dy7PE/mpb0EDSk3kBdgsjN
+ iHB2fLEzJsYhGa1Mqe+jEodmLo8RGEJEwU0YYrPI/CexobzahWk/dyk/feFO5IngsoOi
+ 343wKYjIpRaxFhwnXZyVivM53OwSURJNsHdMxkBBcUj7BRsvE7SXZW52c00UHjQg3x1Q
+ d9jsMziMVlftmTWe2hKtjCXNcGg/NsdfGqQmhOo7H1/iLwR/9eNcgSqNcg9/46dIHDTd
+ dB8/QhKY/VBUXDT+geHFC5FMs3rUQuAX36SnXQYkEr44D6Ua2XD7TyQmnkggJf66c0Lc
+ e2Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710202825; x=1710807625;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y6Qj+d193V6vAwzUIxkG37xPPAUPTTqW49/CnKjXQd8=;
+ b=eZw3Ii+k1lac7VZkqiSc2W76KaTdRtO1O0MFKIKixL7gvfLuWeaAVbxtf0rX1BBmqc
+ VryI1VjH19IH2LsRudToi6ceD3gn8vsCYgOOVPay/qZAZmfY2wvpmO70+fcsTN9vPby4
+ IYs0zWDO5XIhPX5YwWfZD7JH732AnHNxrjVOE2I77g/Yu4DekqGB+edp13BM8on3ogy2
+ 9an+2xy0NVV44GZAfidfFMINhRjr1CWfRi9IkUR4VNhygRRr4o7vigcCEXcRFElYtz/i
+ S53UlWgSZIt27OQhjsUpBbuilDvEIdRaC68bJwuFa5QjI4If1EbGS0O5J5gxl9Yw5tzI
+ MTbg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVbxJAbXpeJJ/rcNfYPg20mIzhGMADOcN7GhG+7FQN10C5JZxkiTjWBMUk046Dd++KiFHodh/kWWwBx/v6xiGoDpgryUrCAnM1i4vQFhYEe
+X-Gm-Message-State: AOJu0YzQVpRC9NKEsjniVnsPlFJf16qMea0CczzhI49+PbbFORSzjxuK
+ UL2JUujlCvsq0N/IaLXiXfVgDejdXkKltnW6e1uo2S4WwoEKf3PX1VWOuZ7qPAI=
+X-Google-Smtp-Source: AGHT+IECykpsirV8o3fAnfpG+ZqnLDETPl8qxRjl1ccJmT0u7F6lmAy4sP57NbpxufW8iWZ12UsN4w==
+X-Received: by 2002:ac2:485c:0:b0:513:c3:1d94 with SMTP id
+ 28-20020ac2485c000000b0051300c31d94mr4909736lfy.52.1710202825462; 
+ Mon, 11 Mar 2024 17:20:25 -0700 (PDT)
+Received: from [172.30.205.61] (UNUSED.212-182-62-129.lubman.net.pl.
+ [212.182.62.129]) by smtp.gmail.com with ESMTPSA id
+ h18-20020a056512221200b0051354f006b9sm1316460lfu.56.2024.03.11.17.20.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Mar 2024 17:20:25 -0700 (PDT)
+Message-ID: <58d5b209-94f6-43be-89e0-b14f5e30fd8c@linaro.org>
+Date: Tue, 12 Mar 2024 01:20:21 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 6/7] arm64: dts: qcom: sm8650: add GPU nodes
+Content-Language: en-US
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Bjorn Andersson <andersson@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ iommu@lists.linux.dev, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20240216-topic-sm8650-gpu-v3-0-eb1f4b86d8d3@linaro.org>
+ <20240216-topic-sm8650-gpu-v3-6-eb1f4b86d8d3@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20240216-topic-sm8650-gpu-v3-6-eb1f4b86d8d3@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,80 +99,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm-intel for-linux-next
-head:   0e7dd6fe96020e6b7f5e068bf1c66078e0b145d3
-commit: 9d9bb71f3e115b75ec5e38f087e159a87fc0413a [4/6] drm/i915: Extract opregion vbt presence check
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20240312/202403120756.JTkGHCip-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240312/202403120756.JTkGHCip-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403120756.JTkGHCip-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/i915/display/intel_bios.c: In function 'intel_bios_is_lvds_present':
->> drivers/gpu/drm/i915/display/intel_bios.c:3417:24: error: implicit declaration of function 'intel_opregion_vbt_present'; did you mean 'intel_opregion_asle_present'? [-Werror=implicit-function-declaration]
-    3417 |                 return intel_opregion_vbt_present(i915);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                        intel_opregion_asle_present
-   cc1: some warnings being treated as errors
 
 
-vim +3417 drivers/gpu/drm/i915/display/intel_bios.c
+On 2/16/24 12:03, Neil Armstrong wrote:
+> Add GPU nodes for the SM8650 platform.
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>   arch/arm64/boot/dts/qcom/sm8650.dtsi | 166 +++++++++++++++++++++++++++++++++++
+>   1 file changed, 166 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sm8650.dtsi b/arch/arm64/boot/dts/qcom/sm8650.dtsi
+> index 62e6ae93a9a8..27dcef27b6ad 100644
+> --- a/arch/arm64/boot/dts/qcom/sm8650.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sm8650.dtsi
+> @@ -2589,6 +2589,128 @@ tcsr: clock-controller@1fc0000 {
+>   			#reset-cells = <1>;
+>   		};
+>   
+> +		gpu: gpu@3d00000 {
+> +			compatible = "qcom,adreno-43051401", "qcom,adreno";
+> +			reg = <0x0 0x03d00000 0x0 0x40000>,
+> +			      <0x0 0x03d9e000 0x0 0x1000>,
+> +			      <0x0 0x03d61000 0x0 0x800>;
+> +			reg-names = "kgsl_3d0_reg_memory",
+> +				    "cx_mem",
+> +				    "cx_dbgc";
+> +
+> +			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +			iommus = <&adreno_smmu 0 0x0>,
+> +				 <&adreno_smmu 1 0x0>;
+> +
+> +			operating-points-v2 = <&gpu_opp_table>;
+> +
+> +			qcom,gmu = <&gmu>;
+> +
+> +			status = "disabled";
+> +
+> +			zap-shader {
+> +				memory-region = <&gpu_micro_code_mem>;
+> +			};
+> +
+> +			/* Speedbin needs more work on A740+, keep only lower freqs */
+> +			gpu_opp_table: opp-table {
+> +				compatible = "operating-points-v2";
+> +
+> +				opp-680000000 {
+> +					opp-hz = /bits/ 64 <680000000>;
+> +					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
+> +				};
 
-  3374	
-  3375	/**
-  3376	 * intel_bios_is_lvds_present - is LVDS present in VBT
-  3377	 * @i915:	i915 device instance
-  3378	 * @i2c_pin:	i2c pin for LVDS if present
-  3379	 *
-  3380	 * Return true if LVDS is present. If no child devices were parsed from VBT,
-  3381	 * assume LVDS is present.
-  3382	 */
-  3383	bool intel_bios_is_lvds_present(struct drm_i915_private *i915, u8 *i2c_pin)
-  3384	{
-  3385		const struct intel_bios_encoder_data *devdata;
-  3386	
-  3387		if (list_empty(&i915->display.vbt.display_devices))
-  3388			return true;
-  3389	
-  3390		list_for_each_entry(devdata, &i915->display.vbt.display_devices, node) {
-  3391			const struct child_device_config *child = &devdata->child;
-  3392	
-  3393			/* If the device type is not LFP, continue.
-  3394			 * We have to check both the new identifiers as well as the
-  3395			 * old for compatibility with some BIOSes.
-  3396			 */
-  3397			if (child->device_type != DEVICE_TYPE_INT_LFP &&
-  3398			    child->device_type != DEVICE_TYPE_LFP)
-  3399				continue;
-  3400	
-  3401			if (intel_gmbus_is_valid_pin(i915, child->i2c_pin))
-  3402				*i2c_pin = child->i2c_pin;
-  3403	
-  3404			/* However, we cannot trust the BIOS writers to populate
-  3405			 * the VBT correctly.  Since LVDS requires additional
-  3406			 * information from AIM blocks, a non-zero addin offset is
-  3407			 * a good indicator that the LVDS is actually present.
-  3408			 */
-  3409			if (child->addin_offset)
-  3410				return true;
-  3411	
-  3412			/* But even then some BIOS writers perform some black magic
-  3413			 * and instantiate the device without reference to any
-  3414			 * additional data.  Trust that if the VBT was written into
-  3415			 * the OpRegion then they have validated the LVDS's existence.
-  3416			 */
-> 3417			return intel_opregion_vbt_present(i915);
-  3418		}
-  3419	
-  3420		return false;
-  3421	}
-  3422	
+I got a memo from krzk that we should be sorting OPPs low-to-high,
+could you please reorder these (and under gmu)?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Otherwise lgtm
+
+Konrad
