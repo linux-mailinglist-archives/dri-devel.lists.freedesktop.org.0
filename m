@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51A4879E12
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 23:02:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F3D6879E1B
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 23:03:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC98710E842;
-	Tue, 12 Mar 2024 22:02:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA22C10F12B;
+	Tue, 12 Mar 2024 22:03:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="iMgS34b2";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Iu6fIeJl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
- [209.85.210.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A00C10E842
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 22:02:47 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id
- d2e1a72fcca58-6e6afb754fcso694216b3a.3
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 15:02:47 -0700 (PDT)
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com
+ [209.85.166.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FBFA10F123
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 22:03:07 +0000 (UTC)
+Received: by mail-il1-f173.google.com with SMTP id
+ e9e14a558f8ab-366753f1477so956855ab.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 15:03:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1710280967; x=1710885767;
+ d=chromium.org; s=google; t=1710280986; x=1710885786;
  darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=1akdFCp/NrQTZkdZoE61av7sk42pTtpjjQoFP3uV05s=;
- b=iMgS34b2+tdC1GlzQR1ztbXd8umtVJo7Lj7hkovAGk/ZAKN+mGAke9tuXZupzAu+aT
- 0LpmOUD+RanWrYSkSWGaLSCvtWkrCJctoJ+i6f2EptYu4utEO+dB/hIqB0v2J27SORt1
- DoFFA1IA9V6PoAaNQuXmkthwx4ZrDabKd3fy8=
+ bh=bFZkOPzjUiG9hBeGxmULl/XMqNk9IbEaqEvdeXcgD8s=;
+ b=Iu6fIeJlVNXlTumBA3PDJDcckVbaCtriMANvbst2H8ukgYHQ3hYtwcpuUBwoJhLrZ7
+ RzoNTC1xlQPfNh6i5Clsjl8VbmiK3YNYIZcmSinohOSfhr3bFe1UzprFeKcfJLq4uGVB
+ 8cqaXzepfFLg18pW/niF/uI4KueuIB5E5DUqo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710280967; x=1710885767;
+ d=1e100.net; s=20230601; t=1710280986; x=1710885786;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=1akdFCp/NrQTZkdZoE61av7sk42pTtpjjQoFP3uV05s=;
- b=OynGRRVYOpsiaD2KuU7a/5g6hiNHBrOKM7m9xJYQPeBxQhCtIc5mOce7gBz2tKreRl
- xplbKkR6Y1UcEqCdZmVrBsQh27BTY0CXVG5pbOegD1dTEXx+7ityP4CGMhq/txDm6Esg
- BDUkJpwLUnPt4JKwdhSpAMDoXf2mrNHd+TIfskYjAQqtIXC/xjRcEyGLYklnCzNpN/Z+
- otU2sA8+Cf0SP1O5ojguFiC4aM7NXRlCgAEZdf7vOlxWyOUT4r8KKqZ6K4SWamD2eGWH
- 5dlqzLJSdd+4mInCPylDYF7CWGLtsKtxOUij1NJR+hWhBu6ZB92XlaeqYnk80d8TGE+D
- aEjA==
+ bh=bFZkOPzjUiG9hBeGxmULl/XMqNk9IbEaqEvdeXcgD8s=;
+ b=IzSTyz9M2Hwtv5tPd+xJnVgOEvj+rBqe/WwJ+oxUVWsvkF8U+qjMIxwyJjtFZnUXmL
+ dxqt+zehEQlsbPgyGf1D04jmJGZj5D0Y4rnYMorU6IQOu013Mrsr1DK/yIfyZM4M2xvC
+ etucr6TkQrWGInEBzL9KfhKrhwVMi1EcBi+VHfIOoZugwAA53iDz2mI5H97opnHQo6wU
+ mgepxXf8Cf7L0q9fU+Welz4lPnnKpG7yPX4Qdw7AKZFrQnzq1YFOLfkmUuDXowgawjdI
+ p7TBeEjKqF4BSh3cp2Uuluam9SidqqFkIofHqt5V27o00+CRIBDvXxibCqpxd9BdxSDt
+ DYGA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWb6+KLiyC5NiHeZ6DtWStTC/jvylwZgcj1MdX+XbQaDABC+2vOhj8zLg9N6laWTKqZnOEhvOWXqHfWUKHnLR9k8pciAV006flA1XLRTlUC
-X-Gm-Message-State: AOJu0YyKLDlvtK47SyL5c+90IoU6ysud3UORU7B6yUvswNwWMA0Th966
- xu8zcsPs+KIeFxuKePadL+2gzvDOGRfDoaoQbhziB0Sv7E6cEnE5oqMpXXZ4Kg==
-X-Google-Smtp-Source: AGHT+IFKZ+X2o3xvUM/DPjpn5dJMdSK/7jBm9riFOy6GxFDG2jNN2P7xmSx2+ecCvjPJ+atiR43WGA==
-X-Received: by 2002:a05:6a20:9382:b0:1a0:efd0:b183 with SMTP id
- x2-20020a056a20938200b001a0efd0b183mr14145890pzh.44.1710280967019; 
- Tue, 12 Mar 2024 15:02:47 -0700 (PDT)
+ AJvYcCUIhUBD2zSBnsky63pFyW/+jplTV441fw6fBh81C/DYodZZJBgBh4wVzZ3vaYhCskAJ545EeIZrP0CUV82O7ZTZh1Sv6xVmnuAwVjxd9gcp
+X-Gm-Message-State: AOJu0YzNFQMu0T6ja6SjZcMnH3Bfx2ajTg0UmHl4V5R6COEGyQUQyyDv
+ VwwnXiw4e5mRSxG3gVtD+ebE8lWGkfUH6JjmtLZ5SdTiGw5SeoG+jyba78A/gQ==
+X-Google-Smtp-Source: AGHT+IEdwN1SY2GeciEHPDmRWgTgdPa04evl6KEFQYoPJeYQSV2BmWI4216WoCmzy6l7zJDsrZVhNw==
+X-Received: by 2002:a6b:e719:0:b0:7c8:bf15:5653 with SMTP id
+ b25-20020a6be719000000b007c8bf155653mr4918871ioh.20.1710280986087; 
+ Tue, 12 Mar 2024 15:03:06 -0700 (PDT)
 Received: from www.outflux.net ([198.0.35.241])
  by smtp.gmail.com with ESMTPSA id
- e11-20020a17090301cb00b001dd6c0800b4sm7193896plh.188.2024.03.12.15.02.46
+ m14-20020a63ed4e000000b005dc816b2369sm6650251pgk.28.2024.03.12.15.03.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Mar 2024 15:02:46 -0700 (PDT)
-Date: Tue, 12 Mar 2024 15:02:46 -0700
+ Tue, 12 Mar 2024 15:03:05 -0700 (PDT)
+Date: Tue, 12 Mar 2024 15:03:05 -0700
 From: Kees Cook <keescook@chromium.org>
 To: Guenter Roeck <linux@roeck-us.net>
 Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
@@ -75,15 +75,15 @@ Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
  linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
  linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
  linux-sh@vger.kernel.org, loongarch@lists.linux.dev, netdev@lists.linux.dev
-Subject: Re: [PATCH 03/14] kunit: Add test cases for backtrace warning
- suppression
-Message-ID: <202403121502.95F27A01@keescook>
+Subject: Re: [PATCH 04/14] kunit: Add documentation for warning backtrace
+ suppression API
+Message-ID: <202403121503.B97DE8A60E@keescook>
 References: <20240312170309.2546362-1-linux@roeck-us.net>
- <20240312170309.2546362-4-linux@roeck-us.net>
+ <20240312170309.2546362-5-linux@roeck-us.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240312170309.2546362-4-linux@roeck-us.net>
+In-Reply-To: <20240312170309.2546362-5-linux@roeck-us.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,12 +99,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 12, 2024 at 10:02:58AM -0700, Guenter Roeck wrote:
-> Add unit tests to verify that warning backtrace suppression works.
-> 
-> If backtrace suppression does _not_ work, the unit tests will likely
-> trigger unsuppressed backtraces, which should actually help to get
-> the affected architectures / platforms fixed.
+On Tue, Mar 12, 2024 at 10:02:59AM -0700, Guenter Roeck wrote:
+> Document API functions for suppressing warning backtraces.
 > 
 > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 
