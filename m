@@ -2,143 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8285878FBC
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 09:31:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9648C878FBE
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 09:31:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 075A410FDDD;
-	Tue, 12 Mar 2024 08:31:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8BF2112292;
+	Tue, 12 Mar 2024 08:31:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="YfcvIilb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hxfe/spn";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YfcvIilb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hxfe/spn";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ArsYcGPK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B0C310FDDD
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 08:31:04 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id BC71737445;
- Tue, 12 Mar 2024 08:31:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1710232262; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=AGlnmPv0lfHidIIxXfv+Erf5+8tGkP3JSrqEGw4oP1A=;
- b=YfcvIilbTMo8ef5MDXFlmsFz7gBMonVqoOBj0zokzExnKaymTYvIQvFM7nP4pnd7qX9MaC
- 1bdpDWGK2HQAA6iQ5s+LYtvz3jqupqb+7vtRKJ1JAnAfFTO3wqlQWjboq143M7263P3jLD
- eg5BOV1AaaH3/brRXmFfvGgG2a62X2Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1710232262;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=AGlnmPv0lfHidIIxXfv+Erf5+8tGkP3JSrqEGw4oP1A=;
- b=hxfe/spn6lQH8DRZz4Q0QDcDAXSEtnkjYuDOZoxV7KMijJbUFG4DMCmTxLz+t9P/+67OWi
- Rq+N6hLd9NH3hKBg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1710232262; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=AGlnmPv0lfHidIIxXfv+Erf5+8tGkP3JSrqEGw4oP1A=;
- b=YfcvIilbTMo8ef5MDXFlmsFz7gBMonVqoOBj0zokzExnKaymTYvIQvFM7nP4pnd7qX9MaC
- 1bdpDWGK2HQAA6iQ5s+LYtvz3jqupqb+7vtRKJ1JAnAfFTO3wqlQWjboq143M7263P3jLD
- eg5BOV1AaaH3/brRXmFfvGgG2a62X2Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1710232262;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=AGlnmPv0lfHidIIxXfv+Erf5+8tGkP3JSrqEGw4oP1A=;
- b=hxfe/spn6lQH8DRZz4Q0QDcDAXSEtnkjYuDOZoxV7KMijJbUFG4DMCmTxLz+t9P/+67OWi
- Rq+N6hLd9NH3hKBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5C6B713795;
- Tue, 12 Mar 2024 08:31:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
- by imap1.dmz-prg2.suse.org with ESMTPSA id umMCFcYS8GXmIgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 12 Mar 2024 08:31:02 +0000
-Message-ID: <6921cc7a-93c6-49a5-bf87-a166f4fcdce7@suse.de>
-Date: Tue, 12 Mar 2024 09:31:02 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: Don't return unsupported formats in
- drm_mode_legacy_fb_format
-To: Frej Drejhammar <frej.drejhammar@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, Russell King <linux@armlinux.org.uk>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FC73112268;
+ Tue, 12 Mar 2024 08:31:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id E468861036;
+ Tue, 12 Mar 2024 08:31:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 969D2C433C7;
+ Tue, 12 Mar 2024 08:31:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1710232282;
+ bh=ncyot6GZVlpy2LYZy0ZH/PUatwzNeQz1tW9YE81ui3c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ArsYcGPK1Nefx4rCHDQ5BLI3uYbqXqHkK96AybpsjZT7FAKKxhDT5Z4mUffTfMlWl
+ Fxzphszn3bX/RXuJCge442ZflprWulEV1qLtYVbEPRhYefNHp+XNT9xHWWlwEFJaFG
+ iJXdp7rBBmI5NFQDh8t925ZE4jpQ79M1rSeuCpL2ErLl7iQb1xHiGyf/Vxmtx7Y6AZ
+ hMqm/DWW+CUhqMrW//3EX1oEBBWHIcBqedYtrWwH8OpP+zp4wIJfwlWS8FLUkMC3Ax
+ IUZt3iMScNzb2t4hH/ddHY2xZUEXdVlh+vBEtayNtjGV5k5c7kGRDKDWK1VKHAdB6e
+ BnZn2hH4i+OoA==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+ (envelope-from <johan@kernel.org>) id 1rjxXk-000000007Ib-21Kk;
+ Tue, 12 Mar 2024 09:31:28 +0100
+Date: Tue, 12 Mar 2024 09:31:28 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20240310152803.3315-1-frej.drejhammar@gmail.com>
- <c3203f70-0e8c-493b-813e-1dff93a28323@suse.de> <ko7bky33d.fsf@gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <ko7bky33d.fsf@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [-1.59 / 50.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; XM_UA_NO_VERSION(0.01)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; TAGGED_RCPT(0.00)[];
- MIME_GOOD(-0.10)[text/plain]; MID_RHS_MATCH_FROM(0.00)[];
- URIBL_BLOCKED(0.00)[suse.de:email,bootlin.com:url];
- RCVD_COUNT_THREE(0.00)[3];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- BAYES_HAM(-3.00)[100.00%]; RCPT_COUNT_TWELVE(0.00)[16];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
- FREEMAIL_TO(0.00)[gmail.com]; FUZZY_BLOCKED(0.00)[rspamd.com];
- FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_CC(0.00)[lists.freedesktop.org,armlinux.org.uk,gmail.com,ffwll.ch,linux.intel.com,kernel.org,linaro.org,quicinc.com,ideasonboard.com,redhat.com,igalia.com];
- RCVD_TLS_ALL(0.00)[]; SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Score: -1.59
-X-Spam-Flag: NO
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>,
+ quic_jesszhan@quicinc.com, quic_sbillaka@quicinc.com,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, regressions@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: drm/msm: DisplayPort hard-reset on hotplug regression in 6.8-rc1
+Message-ID: <ZfAS4MOXn_3Nk2OR@hovoldconsulting.com>
+References: <Zd3kvD02Qvsh2Sid@hovoldconsulting.com>
+ <ZesH21DcfOldRD9g@hovoldconsulting.com>
+ <56de6cfb-fe0f-de30-d4d0-03c0fbb0afbb@quicinc.com>
+ <ZeyOmJLlBbwnmaJN@hovoldconsulting.com>
+ <Ze8Ke_M2xHyPYCu-@hovoldconsulting.com>
+ <b1ae6e39-10c3-0ee1-11f4-3436c3e4ec1a@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b1ae6e39-10c3-0ee1-11f4-3436c3e4ec1a@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,82 +74,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On Mon, Mar 11, 2024 at 09:51:29AM -0700, Abhinav Kumar wrote:
+> On 3/11/2024 6:43 AM, Johan Hovold wrote:
+> > On Sat, Mar 09, 2024 at 05:30:17PM +0100, Johan Hovold wrote:
+> >> On Fri, Mar 08, 2024 at 09:50:17AM -0800, Abhinav Kumar wrote:
 
-Am 11.03.24 um 20:34 schrieb Frej Drejhammar:
-> Hi Thomas,
->
-> Thanks for the review and suggestions. My experience with the drm parts
-> of the kernel is limited to some weekends trying to fix the regression,
-> so I'm afraid I have some questions to check my understanding before
-> making a v2 of the patch.
->
-> Thomas Zimmermann <tzimmermann@suse.de> writes:
->
->> I suggest to switch all fbdev code over to drm_driver_legacy_fb_format
->> <https://elixir.bootlin.com/linux/latest/C/ident/drm_driver_legacy_fb_format>()
->> first and then modify the format indrm_driver_legacy_fb_format
->> <https://elixir.bootlin.com/linux/latest/C/ident/drm_driver_legacy_fb_format>()
->> after reading it from drm_fb_legacy_fb_format().
-> I see how doing the format massaging in drm_driver_legacy_fb_format()
-> would fix the original regression (starting with the format returned by
-> drm_mode_legacy_fb_format(), drm_fb_legacy_fb_format() is a typo,
-> right?).
+> >>> I have posted my analysis with the patch here as a RFC y'day:
+> >>>
+> >>> https://patchwork.freedesktop.org/patch/581758/
 
-Yeah, a typo.
+> > I was able to reproduce the reset with some of my debug printks in place
+> > after reapplying the reverted hpd notify change so I have an explanation
+> > for (one of) the ways we can up in this state now.
+> > 
+> > This does not match description of the problem in the fix linked to
+> > above and I don't think that patch solves the underlying issue even if
+> > it may make the race window somewhat smaller. More details below.
 
->   As drm_driver_legacy_fb_format() has only two callers,
-> drm_mode_addfb() and __drm_fb_helper_find_sizes() that change is
-> probably less likely to do something unintended. As far as I can tell,
-> drm_driver_legacy_fb_format() is only used when userland hasn't
-> specified a format or the kernel is initializing and have no format
-> information. For these code paths it's clear that only formats which are
-> actually supported by the hardware are meaningful.
+> Its the same condition you described below that enable does not go 
+> through and we bail out as we are in ST_DISCONNECTED.
 
-Right.
+It's closely related but clearly not the same as user space is not
+involved in the reset I see.
+ 
+> > Turns out there are paths like that and we hit those more often before
+> > reverting e467e0bde881 ("drm/msm/dp: use drm_bridge_hpd_notify().
+> > 
+> > Specifically, when a previous connect attempt did not enable the bridge
+> > fully so that it is still in the ST_MAINLINK_READY when we receive a
+> > disconnect event, dp_hpd_unplug_handle() will turn of the link clock.
+> > 
+> > [  204.527625] msm-dp-display ae98000.displayport-controller: dp_bridge_hpd_notify - link_ready = 1, status = 2
+> > [  204.531553] msm-dp-display ae98000.displayport-controller: dp_hpd_unplug_handle
+> > [  204.533261] msm-dp-display ae98000.displayport-controller: dp_ctrl_off_link
+> > 
+> > A racing connect event, such as the one I described earlier, can then
+> > try to enable the bridge again but dp_bridge_atomic_enable() just bails
+> > out early (and leaks a rpm reference) because we're now in
+> > ST_DISCONNECTED:
+> > 
+> > [  204.535773] msm-dp-display ae98000.displayport-controller: dp_bridge_hpd_notify - link_ready = 1, status = 1
+> > [  204.536187] [CONNECTOR:35:DP-2] status updated from disconnected to connected
+> > [  204.536905] msm-dp-display ae98000.displayport-controller: dp_display_notify_disconnect - would clear link ready (1), state = 0
+> > [  204.537821] msm-dp-display ae98000.displayport-controller: dp_bridge_atomic_check - link_ready = 1
+> > [  204.538063] msm-dp-display ae98000.displayport-controller: dp_display_send_hpd_notification - hpd = 0, link_ready = 1
+> > [  204.542778] msm-dp-display ae98000.displayport-controller: dp_bridge_atomic_enable
+> > [  204.586547] msm-dp-display ae98000.displayport-controller: dp_bridge_atomic_enable - state = 0 (rpm leak?)
+> > 
+> > Clearing link_ready already in dp_display_notify_disconnect() would make
+> > the race window slightly smaller, but it would essentially just paper
+> > over the bug as the events are still not serialised. Notably, there is
+> > no user space interaction involved here and it's the spurious connect
+> > event that triggers the bridge enable.
 
->
-> What I can't really see is what "switch all fbdev code over to
-> drm_driver_legacy_fb_format" would entail and what the benefit would
-> be. How do I determine when drm_mode_legacy_fb_format() should be
-> replaced with drm_driver_legacy_fb_format()? I have already mistakenly
-> considered the change to drm_mode_legacy_fb_format() as harmless and
-> broken ofdrm... Shouldn't it be enough to make
-> drm_driver_legacy_fb_format() select a format which is supported by the
-> driver?
+> Yes, it only narrows down the race condition window. The issue can still 
+> happen if the commit / modeset was issued before we marked link_ready as 
+> false.
+> 
+> And yes, I was only targetting a short term fix till we rework the HPD. 
+> That will happen only incrementally as its a delicate piece of code.
 
-Your patch modifies drm_mode_legacy_fb_format() in a number of 
-*_fbdev_*.c files. In those instances, the code could certainly use 
-drm_driver_legacy_fb_format() instead.
+Ok, thanks for confirming. Please also make that clear in the commit
+message of any patch.
 
-The fbdev files provide the base for the kernel framebuffer console and 
-should behave like DRM clients in userspace; just that they are 
-implemented in the kernel. As userspace ioctls use 
-drm_driver_legacy_fb_format(), converting the in-kernel clients makes 
-sense. And that's it. We keep drm_mode_legacy_fb_format(), but call 
-drm_driver_legacy_fb_format() where necessary.
+I am however not sure that your patch (RFC) is needed at this point as
+the HPD revert fixes the 6.8-rc1 regression, and moving the clearing of
+link_ready can actually make things worse as it makes any spurious
+hotplug event always be processed (not just if they happen after
+dp_display_send_hpd_notification()).
 
-About tilcdc: it uses fbdev-dma, which sets up an XRGB format [1]. 
-Shouldn't this already fail? Do you see a framebuffer console?
+I'll reply to you patch as well.
+ 
+> > So, while it may still be theoretically possible to hit the resets after
+> > the revert, the HPD notify revert effectively "fixed" the regression in
+> > 6.8-rc1 by removing the preconditions that now made us hit it (i.e. the
+> > half-initialised bridge).
 
-[1] 
-https://elixir.bootlin.com/linux/v6.8/source/drivers/gpu/drm/drm_fbdev_dma.c#L93
+> Not entirely. In the bug which was reported before the patch 
+> e467e0bde881 ("drm/msm/dp: use drm_bridge_hpd_notify() got landed, its a 
+> classic example of how this issue can happen with userspace involvement 
+> and not just fbdev client which was your case.
 
+Sure, but you already added some kind of band-aid for that issue, right?
 
+	https://lore.kernel.org/all/1664408211-25314-1-git-send-email-quic_khsieh@quicinc.com/
 
->
-> Best regards,
->
-> Frej
->
->
+How likely is it that you'd still hit that? Have you had an reports of
+anyone actually hitting that issue since the above workaround was
+merged?
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Note that I, and other users of the X13s, only started hitting the
+resets with 6.8-rc1, which broke hotplug notification and resulted in
+the half-initialised bridges.
 
+I'm not saying it's impossible to hit the unclocked access still, just
+that that does not seem to be relevant for the regression.
+ 
+> > It seems the hotplug state machine needs to be reworked completely, but
+> > at least we're roughly back where we were with 6.7 (including that the
+> > bus clocks will never be turned of because of the rpm leaks on
+> > disconnect).
+
+> Yes, we already landed that revert but I am also planning to land the 
+> patch I had posted till we rework HPD.
+
+Ok, but please consider the implications that would have for any
+spurious connect events first.
+
+Johan
