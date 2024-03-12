@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23446879D16
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 21:50:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E23B879D4A
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 22:11:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 088BE10ED54;
-	Tue, 12 Mar 2024 20:50:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32CA310F205;
+	Tue, 12 Mar 2024 21:11:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Q3KpBxgN";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="V/LAhfpw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEF2D10EB34;
- Tue, 12 Mar 2024 20:50:00 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33A1010F200;
+ Tue, 12 Mar 2024 21:11:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710276601; x=1741812601;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=VFMRSQKdUMwPfeCwMiU1+0F+7PNO1K6kfl4Elf7RG9I=;
- b=Q3KpBxgNWtuyuH2g80kV5rrgaFlPlNCKmqdZgoWxQQngCxaVVUOh6cWH
- 7kZZkcFT85zqALN32ErxVpuvtwk4HGsX4POL1vLQcUxPb+sV/CTBRO6qG
- F/UU9/Xat8lspKKSBnXTHm+xeqf3YiT7fY7hV7m068yJTYn7MpcMST40s
- l01eBMhj/cc89QYyrXNbpC6PJFDlekm8g8WXayfDd3uihUZCvFLhRhOxA
- /Hs2ZRsJYkd9fR4C+ZT+c+ZzKBS2LNVQfd1CRZEgXspqaLNOrwOeasGP1
- z6Hpnvkc+XKtOFtTaUMxXzzMEqRXrTslaCsksog4M9mvB/jCF3ZfdqY/P g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="8832988"
-X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="8832988"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2024 13:49:52 -0700
+ t=1710277865; x=1741813865;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=nmPl40c0tZBW4hzHOfMvLl9IEv79K9AIb0Jj919tuSs=;
+ b=V/LAhfpw158L00Mcqx5LkOxdj1Bei7cTTCJcn9jLtbzfF+CGJiHnMi62
+ QxUNNy1wu12Mc1SqrgITfNt1LgVDOtKPuHyT+aN3F339kwdMRXlsuWJFq
+ 26dNCDBLnSIcQdC2LLrriihleB1HHoyemzdJLRlnavS6TxWH15kKtVNPx
+ thUZCMF1RhLNwRZcKc9riuvaHisKU3yuxZA0F+QWQb++IsFoF2AA8xhm0
+ HwRJjoKOXhAbilDTknvThsA89feou+XuUraT+a/8X3GAKhz3QS7nhSevV
+ tdwyiVtIW1krKOVS/1yUm6rf3lGpH/RnIFzrv70Qzj+MPWJmZklm+qfiq g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="27490970"
+X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; d="scan'208";a="27490970"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Mar 2024 14:11:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; d="scan'208";a="12267870"
-Received: from unknown (HELO intel.com) ([10.247.118.142])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2024 13:49:46 -0700
-Date: Tue, 12 Mar 2024 21:49:39 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- John Harrison <John.C.Harrison@intel.com>, stable@vger.kernel.org,
- Andi Shyti <andi.shyti@kernel.org>, Tvrtko Ursulin <tursulin@ursulin.net>
-Subject: Re: [PATCH v5 2/4] drm/i915/gt: Refactor uabi engine class/instance
- list creation
-Message-ID: <ZfC_4ztSF7Nv0F1m@ashyti-mobl2.lan>
-References: <20240308202223.406384-1-andi.shyti@linux.intel.com>
- <20240308202223.406384-3-andi.shyti@linux.intel.com>
- <20240312170833.GL718896@mdroper-desk1.amr.corp.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240312170833.GL718896@mdroper-desk1.amr.corp.intel.com>
+X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; d="scan'208";a="16242498"
+Received: from orsosgc001.jf.intel.com (HELO unerlige-ril.intel.com)
+ ([10.165.21.138])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Mar 2024 14:11:03 -0700
+Date: Tue, 12 Mar 2024 14:11:02 -0700
+Message-ID: <85y1an5f6h.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Cc: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ "Jani Nikula" <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Anshuman Gupta
+ <anshuman.gupta@intel.com>, Badal Nilawar <badal.nilawar@intel.com>,
+ "Guenter\ Roeck" <linux@roeck-us.net>,
+ Dale B Stimson <dale.b.stimson@intel.com>, "Andi\
+ Shyti" <andi.shyti@linux.intel.com>, Jonathan Cavitt
+ <jonathan.cavitt@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+Subject: Re: [PATCH v2] drm/i915/hwmon: Fix locking inversion in sysfs getter
+In-Reply-To: <1841305.FMhQkTaH9n@jkrzyszt-mobl2.ger.corp.intel.com>
+References: <20240311203500.518675-2-janusz.krzysztofik@linux.intel.com>
+ <85zfv35set.wl-ashutosh.dixit@intel.com>
+ <1841305.FMhQkTaH9n@jkrzyszt-mobl2.ger.corp.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-redhat-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,71 +76,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 12, 2024 at 10:08:33AM -0700, Matt Roper wrote:
-> On Fri, Mar 08, 2024 at 09:22:17PM +0100, Andi Shyti wrote:
-> > For the upcoming changes we need a cleaner way to build the list
-> > of uabi engines.
-> > 
-> > Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> > Cc: <stable@vger.kernel.org> # v6.2+
-> 
-> I don't really see why we need patches 2 & 3 in this series. 
+On Tue, 12 Mar 2024 13:34:25 -0700, Janusz Krzysztofik wrote:
+>
 
-For patch number '2' We had a round of review with Tvrtko and we
-wanted to avoid the change I pasted at the bottom[*], which would
-decrease something that was increased earlier.
+Hi Janusz,
 
-> If we want
-> to restrict the platform to a single CCS engine for now (and give that
-> single engine access to all of the cslices), it would be much simpler to
-> only create a single intel_engine_cs which which would then cause both
-> i915 and userspace to only consider a single engine, even if more than
-> one is physically present.  That could be done with a simple adjustment
-> to engine_mask_apply_compute_fuses() to mask off extra bits from the
-> engine mask such that only a single CCS can get returned rather than the
-> mask of all CCSs that are present.
-> 
-> Managing all of the engines in the KMD but only exposing one (some) of
-> them to userspace might be something we need if you want to add extra
-> functionality down to road to "hotplug" extra engines, or to allow
-> userspace to explicitly request multi-CCS mode.  But none of that seems
-> necessary for this series, especially for something you're backporting
-> to stable kernels.
+> On Tuesday, 12 March 2024 17:25:14 CET Dixit, Ashutosh wrote:
+> > On Mon, 11 Mar 2024 13:34:58 -0700, Janusz Krzysztofik wrote:
+> > >
+> > > In i915 hwmon sysfs getter path we now take a hwmon_lock, then acquire an
+> > > rpm wakeref.  That results in lock inversion:
+> > >
+> > > <4> [197.079335] ======================================================
+> > > <4> [197.085473] WARNING: possible circular locking dependency detected
+> > > <4> [197.091611] 6.8.0-rc7-Patchwork_129026v7-gc4dc92fb1152+ #1 Not tainted
+> > > <4> [197.098096] ------------------------------------------------------
+> > > <4> [197.104231] prometheus-node/839 is trying to acquire lock:
+> > > <4> [197.109680] ffffffff82764d80 (fs_reclaim){+.+.}-{0:0}, at: __kmalloc+0x9a/0x350
+> > > <4> [197.116939]
+> > > but task is already holding lock:
+> > > <4> [197.122730] ffff88811b772a40 (&hwmon->hwmon_lock){+.+.}-{3:3}, at: hwm_energy+0x4b/0x100 [i915]
+> > > <4> [197.131543]
+> > > which lock already depends on the new lock.
+> > > ...
+> > > <4> [197.507922] Chain exists of:
+> > >   fs_reclaim --> &gt->reset.mutex --> &hwmon->hwmon_lock
+> > > <4> [197.518528]  Possible unsafe locking scenario:
+> > > <4> [197.524411]        CPU0                    CPU1
+> > > <4> [197.528916]        ----                    ----
+> > > <4> [197.533418]   lock(&hwmon->hwmon_lock);
+> > > <4> [197.537237]                                lock(&gt->reset.mutex);
+> > > <4> [197.543376]                                lock(&hwmon->hwmon_lock);
+> > > <4> [197.549682]   lock(fs_reclaim);
+> > > ...
+> > > <4> [197.632548] Call Trace:
+> > > <4> [197.634990]  <TASK>
+> > > <4> [197.637088]  dump_stack_lvl+0x64/0xb0
+> > > <4> [197.640738]  check_noncircular+0x15e/0x180
+> > > <4> [197.652968]  check_prev_add+0xe9/0xce0
+> > > <4> [197.656705]  __lock_acquire+0x179f/0x2300
+> > > <4> [197.660694]  lock_acquire+0xd8/0x2d0
+> > > <4> [197.673009]  fs_reclaim_acquire+0xa1/0xd0
+> > > <4> [197.680478]  __kmalloc+0x9a/0x350
+> > > <4> [197.689063]  acpi_ns_internalize_name.part.0+0x4a/0xb0
+> > > <4> [197.694170]  acpi_ns_get_node_unlocked+0x60/0xf0
+> > > <4> [197.720608]  acpi_ns_get_node+0x3b/0x60
+> > > <4> [197.724428]  acpi_get_handle+0x57/0xb0
+> > > <4> [197.728164]  acpi_has_method+0x20/0x50
+> > > <4> [197.731896]  acpi_pci_set_power_state+0x43/0x120
+> > > <4> [197.736485]  pci_power_up+0x24/0x1c0
+> > > <4> [197.740047]  pci_pm_default_resume_early+0x9/0x30
+> > > <4> [197.744725]  pci_pm_runtime_resume+0x2d/0x90
+> > > <4> [197.753911]  __rpm_callback+0x3c/0x110
+> > > <4> [197.762586]  rpm_callback+0x58/0x70
+> > > <4> [197.766064]  rpm_resume+0x51e/0x730
+> > > <4> [197.769542]  rpm_resume+0x267/0x730
+> > > <4> [197.773020]  rpm_resume+0x267/0x730
+> > > <4> [197.776498]  rpm_resume+0x267/0x730
+> > > <4> [197.779974]  __pm_runtime_resume+0x49/0x90
+> > > <4> [197.784055]  __intel_runtime_pm_get+0x19/0xa0 [i915]
+> > > <4> [197.789070]  hwm_energy+0x55/0x100 [i915]
+> > > <4> [197.793183]  hwm_read+0x9a/0x310 [i915]
+> > > <4> [197.797124]  hwmon_attr_show+0x36/0x120
+> > > <4> [197.800946]  dev_attr_show+0x15/0x60
+> > > <4> [197.804509]  sysfs_kf_seq_show+0xb5/0x100
+> > >
+> > > Acquire the wakeref before the lock and hold it as long as the lock is
+> > > also held.  Follow that pattern across the whole source file where similar
+> > > lock inversion can happen.
+> > >
+> > > v2: Keep hardware read under the lock so the whole operation of updating
+> > >     energy from hardware is still atomic (Guenter),
+> > >   - instead, acquire the rpm wakeref before the lock and hold it as long
+> > >     as the lock is held,
+> > >   - use the same aproach for other similar places across the i915_hwmon.c
+> > >     source file (Rodrigo).
+> > >
+> > > Fixes: c41b8bdcc297 ("drm/i915/hwmon: Show device level energy usage")
+> >
+> > I would think that the lock inversion issue was introduced here:
+> >
+> > 1b44019a93e2 ("drm/i915/guc: Disable PL1 power limit when loading GuC firmware")
+> >
+> > This is the commit which introduced this sequence:
+> >	lock(&gt->reset.mutex);
+> >	lock(&hwmon->hwmon_lock);
+> >
+> > Before this, everything was fine. So perhaps the Fixes tag should reference
+> > this commit?
+>
+> OK, thanks for pointing that out.
+>
+> > Otherwise the patch LGTM:
+> >
+> > Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
 
-It's true, it would even be easier to mask out all the CCS
-engines after the first. I thought of this.
+Thanks for fixing this. Somehow I didn't see it when I did
+1b44019a93e2. Maybe just didn't have lockdep enabled in the kernel.
 
-On one hand hand, adding a for_each_available_engine() throught
-the stable path its a bit of abusing, but it's functional to the
-single CCS mode.
-
-I was aiming for a longer term solution. If I add a patch to mask
-off CCS engines, then I will need to revert it quite soon for
-the stable release.
-
-I'm not sure which one is better, though.
-
-Thanks,
-Andi
-
-[*]
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-index 833987015b8b..7041acc77810 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-@@ -243,6 +243,15 @@  void intel_engines_driver_register(struct drm_i915_private *i915)
- 		if (engine->uabi_class == I915_NO_UABI_CLASS)
- 			continue;
-
-+		/*
-+		 * Do not list and do not count CCS engines other than the first
-+		 */
-+		if (engine->uabi_class == I915_ENGINE_CLASS_COMPUTE &&
-+		    engine->uabi_instance > 0) {
-+			i915->engine_uabi_class_count[engine->uabi_class]--;
-+			continue;
-+		}
-+
- 		rb_link_node(&engine->uabi_node, prev, p);
- 		rb_insert_color(&engine->uabi_node, &i915->uabi_engines);
+Thanks.
+--
+Ashutosh
