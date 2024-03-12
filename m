@@ -2,68 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E618787960C
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 15:26:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA9E87960F
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 15:26:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F8F7112E50;
-	Tue, 12 Mar 2024 14:26:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBDAE112E65;
+	Tue, 12 Mar 2024 14:26:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="iW2NIMW5";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Uy8D8rAY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE353112E50;
- Tue, 12 Mar 2024 14:26:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=aTN3+6tI0P36YuQw1m41QrzrNjQyR4whYl6ctM+BlQI=; b=iW2NIMW5eVjhTwmnv8y2OYvQMJ
- pj0UfKwl4zNNbVAOn6lriSnv6L5VUVnJzquXwuVvyHKkZ6c7iKakfQuGInd4pGGpd9vS/M7YFRJtS
- 3IPZLge94jPw5GrGW94EvyjVzYo7u3Dw8JhYT6cYxpB8RiJ6AHwde3Hk0FXKqJlMsHM816VrNPFw7
- ajBBA7h0QTQxMpRBLHkdVjuG51UKVwhQgXZuWoDagxQvieZio/gtsuX9kCpYldbpyrzs6WaZKYmdy
- 38kZDifW7QdLGllAypyAgSZ7YhdoR6IZTUra7Gis2BiabaEoTgvBQvs+Th+rQVKtBSXJenTUxkNy9
- wF1dnz+w==;
-Received: from [194.136.85.206] (port=55942 helo=eldfell)
- by whm50.louhi.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <pekka.paalanen@haloniitty.fi>) id 1rk34y-0005vN-1S;
- Tue, 12 Mar 2024 16:26:08 +0200
-Date: Tue, 12 Mar 2024 16:26:00 +0200
-From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-To: "Garg, Nemesa" <nemesa.garg@intel.com>
-Cc: Simon Ser <contact@emersion.fr>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "G M, Adarsh" <adarsh.g.m@intel.com>
-Subject: Re: [RFC 0/5]  Introduce drm sharpening property
-Message-ID: <20240312162600.7358e146@eldfell>
-In-Reply-To: <IA1PR11MB6467C642ABBD54BD82DF46B9E32B2@IA1PR11MB6467.namprd11.prod.outlook.com>
-References: <20240214112457.3734871-1-nemesa.garg@intel.com>
- <8Ma-GlU3bFAuSPpFhGbYYuXQ8OeeDjMK9WiWO6KP-4pPO41fLnLrgABkRfhjHY6XlIh5u67vcEbD8ejDq7-zo5BXf-too0Pt7oTDhWCOPlU=@emersion.fr>
- <IA1PR11MB6467A91412978DE0FFCAB50FE34C2@IA1PR11MB6467.namprd11.prod.outlook.com>
- <20240216103620.33deabb1@eldfell>
- <IA1PR11MB6467F801FFB564769E357EA9E3232@IA1PR11MB6467.namprd11.prod.outlook.com>
- <uL84QKNtst1cp9uG3HqNAqEpJS2pT07qxwufONZx8Zq3t665BwY15fHRm3cZxMtiecQlPlNTs9srrmlIzRKmRYItWUv6cQbDEkms8eUT84Y=@emersion.fr>
- <IA1PR11MB6467C642ABBD54BD82DF46B9E32B2@IA1PR11MB6467.namprd11.prod.outlook.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 921E5112E65
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 14:26:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1710253597;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qscJDfRCQcCfV2ZaWpNKEX1/zPnts270hoXgjIYZr90=;
+ b=Uy8D8rAYOUxxxlBOsivsZ03YEWxZl8La5py7pfKy7Xt9qfhVe8v8+aUK4W7SPHnIKMTRza
+ ldLHaWX7vF4SmcYKl+3ANObThonfoPOYkgflsV9ogGycjz4hGsHJ6d0nrjKdHvJiip6XtY
+ nHAgL5dprpGmfREUwjVZWsUAsQCCpNM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-674-mc2NKznsOgKZ9P_u2bjqng-1; Tue, 12 Mar 2024 10:26:36 -0400
+X-MC-Unique: mc2NKznsOgKZ9P_u2bjqng-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-412edc9d70aso33582095e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 07:26:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710253595; x=1710858395;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qscJDfRCQcCfV2ZaWpNKEX1/zPnts270hoXgjIYZr90=;
+ b=OySS0Pc5S4fSuChB8N5j8xQVznav7RReD8eIR/hu6UYMsuJBv4cqAmKqLI13KeODpO
+ kw9GYpiI9I0+8pCK/a7iz1WII00KKvWloKX+h1kpRLrgFHxnqG2atUvBPAZFKOV/u+fX
+ Q+uw5GttFly0H+6vOk/cq04qfsTbYhJrZxs9dfC/PXQ3yOgaZKUjIz0vLXOeOCyCZXyH
+ 663KO+s61d4FKWgZiaoKoX2PJZO1xf0ON9FvGoOr9Tv6DpTCNJHhEvFNj8zjwmNbi6T8
+ rNx2/QLFMO72+flPvCRP39pHBd7DnC/64t3bLrkAgKVlyApaeyeMHlGeInHPdI0GXaHU
+ hMmA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWNd0qR8KDUPen8YkZ78vLgMCfe+WRBpkl5u0u6DyDrZ5E8qtmbp/JgcZCiYwyAFcNPSPdo93/NRKDCgHYqef7+sjiCtH6CiD0xI4nanZDD
+X-Gm-Message-State: AOJu0Yy5/COoB3hJvP8+ICq+e478GI5y28HB+CEA/K+sDdGf4bB/ZDdz
+ khP6fdAdidUpMmXghj4Bv26QShc7uykgwmVhiLRLZ0LRjZRfcQkAy7FFVEr1BE0Hg6HwoYBqglC
+ uQIKKJTmOleP8EOq5Y1U2xzxM2YIXlek8abbeYBGyDmprQnX66hFD9/50RAFx2DZVxoRyuXNKBQ
+ ==
+X-Received: by 2002:a05:600c:5253:b0:412:ee24:5711 with SMTP id
+ fc19-20020a05600c525300b00412ee245711mr1598072wmb.16.1710253594811; 
+ Tue, 12 Mar 2024 07:26:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGY8NhEfj4JM9F3wL6fABF5cUqU5KXWfFmZOATf3DS373UOh6nuNZG6uT0Qwe5UlTFCNqPs7g==
+X-Received: by 2002:a05:600c:5253:b0:412:ee24:5711 with SMTP id
+ fc19-20020a05600c525300b00412ee245711mr1598058wmb.16.1710253594470; 
+ Tue, 12 Mar 2024 07:26:34 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ fc20-20020a05600c525400b00412ae4b45b3sm18797103wmb.30.2024.03.12.07.26.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Mar 2024 07:26:34 -0700 (PDT)
+Message-ID: <d63bcfdc-53ab-4791-b13e-1f3f1cc8430c@redhat.com>
+Date: Tue, 12 Mar 2024 15:26:33 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/e0PcxZ.bQOVy4=4jLebtNyB";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - whm50.louhi.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - haloniitty.fi
-X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
- pekka.paalanen@haloniitty.fi
-X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v9,3/9] drm/panic: Add a drm panic handler
+To: Sui Jingfeng <sui.jingfeng@linux.dev>, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, airlied@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, daniel@ffwll.ch, javierm@redhat.com,
+ bluescreen_avenger@verizon.net, noralf@tronnes.org
+Cc: gpiccoli@igalia.com
+References: <20240307091936.576689-4-jfalempe@redhat.com>
+ <43a752f1-7ad5-49e0-b64b-66fdebbaa1ab@linux.dev>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <43a752f1-7ad5-49e0-b64b-66fdebbaa1ab@linux.dev>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,104 +99,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/e0PcxZ.bQOVy4=4jLebtNyB
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 12 Mar 2024 08:30:34 +0000
-"Garg, Nemesa" <nemesa.garg@intel.com> wrote:
-
-> This  KMS property is not implementing any formula
-
-Sure it is. Maybe Intel just does not want to tell what the algorithm
-is, or maybe it's even patented.
-
-> and the values
-> that are being used are based on empirical analysis and certain
-> experiments done on the hardware. These values are fixed and is not
-> expected to change and this can change from vendor to vendor. The
-> client can choose any sharpness value on the scale and on the basis
-> of it the sharpness will be set. The sharpness effect can be changed
-> from content to content and from display to display so user needs to
-> adjust the optimum intensity value so as to get good experience on
-> the screen.
->=20
-
-IOW, it's an opaque box operation, and there is no way to reproduce its
-results without the specific Intel hardware. Definitely no way to
-reproduce its results in free open source software alone.
-
-Such opaque box operations can only occur after KMS blending, at the
-CRTC or later stage. They cannot appear before blending, not in the new
-KMS color pipeline design at least. The reason is that the modern way
-to use KMS planes is opportunistic composition off-loading.
-Opportunistic means that userspace decides from time to time whether it
-composes the final picture using KMS or some other rendering method
-(usually GPU and shaders). Since userspace will arbitrarily switch
-between KMS and render composition, both must result in the exact same
-image, or end users will observe unwanted flicker.
-
-Such opaque box operations are fine after blending, because there they
-can be configured once and remain on forever. No switching, no flicker.
-
-Where does "sharpeness" operation occur in the Intel color processing
-chain? Is it before or after blending?
-
-What kind of transfer characteristics does it expect from the image,
-and can those be realized with KMS CRTC properties if KMS is configured
-such that the blending happens using some other characteristics (e.g.
-blending in optical space)?
-
-What about SDR vs. HDR imagery?
 
 
-Thanks,
-pq
+On 12/03/2024 14:18, Sui Jingfeng wrote:
+> Hi,
+> 
+> 
+[...]
+> 
+> 
+> While applying you patch, there is new blank line at EOF reported, see 
+> below.
+> This is not an issue, but I want to report this to you.
+> 
+Hi,
 
-> > -----Original Message-----
-> > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of =
-Simon
-> > Ser
-> > Sent: Monday, March 4, 2024 7:46 PM
-> > To: Garg, Nemesa <nemesa.garg@intel.com>
-> > Cc: Pekka Paalanen <pekka.paalanen@haloniitty.fi>; intel-
-> > gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; G M, Adarsh
-> > <adarsh.g.m@intel.com>
-> > Subject: RE: [RFC 0/5] Introduce drm sharpening property
-> >=20
-> > On Monday, March 4th, 2024 at 15:04, Garg, Nemesa <nemesa.garg@intel.co=
-m>
-> > wrote:
-> >  =20
-> > > This is generic as sharpness effect is applied post blending.
-> > > Depending on the color gamut, pixel format and other inputs the image
-> > > gets blended and once we get blended output it can be sharpened based
-> > > on strength value provided by the user. =20
-> >=20
-> > It would really help if you could provide the exact mathematical formul=
-a applied
-> > by this KMS property. =20
+Thanks, I will remove it for the next version.
 
+-- 
 
---Sig_/e0PcxZ.bQOVy4=4jLebtNyB
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Jocelyn
 
------BEGIN PGP SIGNATURE-----
+> 
+> git am ../drm-panic-Add-a-drm-panic-handler.mbox
+> Applying: drm/panic: Add drm panic locking
+> Applying: drm/format-helper: Add drm_fb_blit_from_r1 and drm_fb_fill
+> Applying: drm/panic: Add a drm panic handler
+> .git/rebase-apply/patch:439: new blank line at EOF.
+> +
+> warning: 1 line adds whitespace errors.
+> Applying: drm/panic: Add debugfs entry to test without triggering panic.
+> Applying: drm/fb_dma: Add generic get_scanout_buffer() for drm_panic
+> Applying: drm/simpledrm: Add drm_panic support
+> Applying: drm/mgag200: Add drm_panic support
+> Applying: drm/imx: Add drm_panic support
+> Applying: drm/ast: Add drm_panic support
+> 
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXwZfgACgkQI1/ltBGq
-qqd+YRAAk4wIJUzCiETKUbrBuh1M1K7+H+H1RQPmv9a6ExdzpydvCE8oh3tT75VU
-RI3uQwWaSHdwlqIfdXNctJ2YzanzV84YYBWzove9PDZwEcVNZe/WQHDNQTWkpN/N
-n/dprXwUPn+uMTv1sys94qIvSRGKscopoc1hNSmKTHHz6zA9t8iPT90bZyoWMIm8
-c87DIAk+TJ1jjgas5oe4UW+zhLaLHmhKzgswi0YB3zUY5FU25wYCGEDyzJkL3W4g
-xP7zu70nfLDFORWCDp7q2QZH/qm4EnqY9hKK4I8beN+FDwYGGafCLIoswzPoLWZB
-MEkbR7NhHXxcDODLurnr+tsQ62iaMy2Hl/IBhkSWAwSQzhpqfTPcL5urC2447Xgo
-lPqRE8c5CFTrqPh8vCetP4v4VyBzRqRjc6VEPRbES29gGjXjfqscqtwE+LINZoq1
-r2jjG2FPPeFnhQmiYWMn1IZC+4x7yEJNGbVuR3eTSdx71LRmYSdhDaXDvTTTUwJk
-fCGUTHgX0KBQdzXsruAFLvRci9nslG24X+nN/7XJbCIYBQNSPxSE/3D+qsU17Eyv
-BY+MnVvtCEQlRmFsvwf0jRtmtLWjE9dBPYzO5uyy3LJFPSnZF/gF4lAp1pc2KX7p
-UqZ3pCWz+mayHOAV3X799F5hTjoiC6/m6JyStO4rO8EXrKHGO8M=
-=oqsm
------END PGP SIGNATURE-----
-
---Sig_/e0PcxZ.bQOVy4=4jLebtNyB--
