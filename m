@@ -2,62 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40C4F879512
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 14:25:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A5F87953E
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 14:42:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA4EA112E23;
-	Tue, 12 Mar 2024 13:25:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 046D310FBCA;
+	Tue, 12 Mar 2024 13:42:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FPxDSJh1";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="rVDSafJB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0773F112E23;
- Tue, 12 Mar 2024 13:25:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710249922; x=1741785922;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=gb0GQk34GeW2AhQgCxLH+lcWdEPLDPYfsuZSc8itias=;
- b=FPxDSJh1POJjPPLTPTeyJ2u6iEs/M0p6vojbUqVezC/yQQafKyMV5mkh
- ZISYopj1kvAjmLDpjGAP/xch1NU8jozu3nHj2sUlVA3u4k9o1jcVCYA/O
- rkw0r8qxhNhVIyQcL1KRC9324JK/qmtKDE6y5FESfECEhZZ6OxYK+3baD
- ut6EAVEhRgvKt90+TsDuKotzpBl021RZbACpww1VC9ZNc+5nAeybE8Ocu
- HD/4r5p3jE3ogwqkOwmrWTmGyT1yio4glSVze99QjGZJeeOVJ3LVy9a5O
- 7w8NuNT8tiVkErTpDCfrVcosjmlAMFovaUySvlwCIerAGWoNLbvLfxe2l g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="5127593"
-X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="5127593"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2024 06:25:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; d="scan'208";a="12002597"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2024 06:25:12 -0700
-Date: Tue, 12 Mar 2024 15:25:38 +0200
-From: Imre Deak <imre.deak@intel.com>
-To: Chris Bainbridge <chris.bainbridge@gmail.com>
-Cc: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>, 
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- lyude@redhat.com, ville.syrjala@linux.intel.com,
- stanislav.lisovskiy@intel.com, mripard@kernel.org
-Subject: Re: [PATCH v2] Fix divide-by-zero regression on DP MST unplug with
- nouveau
-Message-ID: <ZfBX0rrIpWMZbmRp@ideak-desk.fi.intel.com>
-References: <ZcfpqwnkSoiJxeT9@debian.local>
- <Ze8suV5ox+43/wAC@ideak-desk.fi.intel.com>
- <Ze8vVffBaWY9f/Mu@ideak-desk.fi.intel.com>
- <Ze-Pf1_E-p4G8o0l@debian.local>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9017810FBCA
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 13:42:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Li85itgO0ita94ZvSSvDtFmxlVuDNF3anfUf5oqoxaI=; b=rVDSafJBsb1jTuT7W/HPsCRb0V
+ 6gTt8B2npoZ5WXgD1taceMW56q2mRj3JYvoz6DbrQCkDUU3I9koJnij0kylFnfxwYszvqt+bsuDGx
+ AO4pTbF5Gb3zmXUs4mtTxcjPWSd9fuQsnoil/IeXWB5NeSoVs+9/uoY70gysSxWTBtPc5ILEFVb7s
+ 3P/3VxZ4NMkZnuKhCE6O1EzxYJm0aGZEanZJ9LcuNecwyY8n97njGRcZfYxSD63Fb1YI0L10bTVvO
+ YGQsws6vh6LegrUCkcco7JVF8htejqEufxhtexpiaqUbNkap8kr7ZVRyofrk1gvWpVnFqNKnnSssr
+ iP+E1U7Q==;
+Received: from [84.65.0.132] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1rk2OE-009L1F-Ng; Tue, 12 Mar 2024 14:41:58 +0100
+Message-ID: <d4f01931-6f9f-415c-999b-6f008b0d6431@igalia.com>
+Date: Tue, 12 Mar 2024 13:41:57 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <Ze-Pf1_E-p4G8o0l@debian.local>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/5] drm/v3d: Enable super pages
+Content-Language: en-GB
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20240311100959.205545-1-mcanal@igalia.com>
+ <20240311100959.205545-6-mcanal@igalia.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20240311100959.205545-6-mcanal@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,138 +62,259 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 11, 2024 at 11:10:55PM +0000, Chris Bainbridge wrote:
-> Fix a regression when using nouveau and unplugging a StarTech MSTDP122DP
-> DisplaypPort 1.2 MST hub (the same regression does not appear when using
-> a Cable Matters DisplayPort 1.4 MST hub). Trace:
->=20
->  divide error: 0000 [#1] PREEMPT SMP PTI
->  CPU: 7 PID: 2962 Comm: Xorg Not tainted 6.8.0-rc3+ #744
->  Hardware name: Razer Blade/DANA_MB, BIOS 01.01 08/31/2018
->  RIP: 0010:drm_dp_bw_overhead+0xb4/0x110 [drm_display_helper]
->  Code: c6 b8 01 00 00 00 75 61 01 c6 41 0f af f3 41 0f af f1 c1 e1 04 48 =
-63 c7 31 d2 89 ff 48 8b 5d f8 c9 48 0f af f1 48 8d 44 06 ff <48> f7 f7 31 d=
-2 31 c9 31 f6 31 ff 45 31 c0 45 31 c9 45 31 d2 45 31
->  RSP: 0018:ffffb2c5c211fa30 EFLAGS: 00010206
->  RAX: ffffffffffffffff RBX: 0000000000000000 RCX: 0000000000f59b00
->  RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
->  RBP: ffffb2c5c211fa48 R08: 0000000000000001 R09: 0000000000000020
->  R10: 0000000000000004 R11: 0000000000000000 R12: 0000000000023b4a
->  R13: ffff91d37d165800 R14: ffff91d36fac6d80 R15: ffff91d34a764010
->  FS:  00007f4a1ca3fa80(0000) GS:ffff91d6edbc0000(0000) knlGS:000000000000=
-0000
->  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->  CR2: 0000559491d49000 CR3: 000000011d180002 CR4: 00000000003706f0
->  Call Trace:
->   <TASK>
->   ? show_regs+0x6d/0x80
->   ? die+0x37/0xa0
->   ? do_trap+0xd4/0xf0
->   ? do_error_trap+0x71/0xb0
->   ? drm_dp_bw_overhead+0xb4/0x110 [drm_display_helper]
->   ? exc_divide_error+0x3a/0x70
->   ? drm_dp_bw_overhead+0xb4/0x110 [drm_display_helper]
->   ? asm_exc_divide_error+0x1b/0x20
->   ? drm_dp_bw_overhead+0xb4/0x110 [drm_display_helper]
->   ? drm_dp_calc_pbn_mode+0x2e/0x70 [drm_display_helper]
->   nv50_msto_atomic_check+0xda/0x120 [nouveau]
->   drm_atomic_helper_check_modeset+0xa87/0xdf0 [drm_kms_helper]
->   drm_atomic_helper_check+0x19/0xa0 [drm_kms_helper]
->   nv50_disp_atomic_check+0x13f/0x2f0 [nouveau]
->   drm_atomic_check_only+0x668/0xb20 [drm]
->   ? drm_connector_list_iter_next+0x86/0xc0 [drm]
->   drm_atomic_commit+0x58/0xd0 [drm]
->   ? __pfx___drm_printfn_info+0x10/0x10 [drm]
->   drm_atomic_connector_commit_dpms+0xd7/0x100 [drm]
->   drm_mode_obj_set_property_ioctl+0x1c5/0x450 [drm]
->   ? __pfx_drm_connector_property_set_ioctl+0x10/0x10 [drm]
->   drm_connector_property_set_ioctl+0x3b/0x60 [drm]
->   drm_ioctl_kernel+0xb9/0x120 [drm]
->   drm_ioctl+0x2d0/0x550 [drm]
->   ? __pfx_drm_connector_property_set_ioctl+0x10/0x10 [drm]
->   nouveau_drm_ioctl+0x61/0xc0 [nouveau]
->   __x64_sys_ioctl+0xa0/0xf0
->   do_syscall_64+0x76/0x140
->   ? do_syscall_64+0x85/0x140
->   ? do_syscall_64+0x85/0x140
->   entry_SYSCALL_64_after_hwframe+0x6e/0x76
->  RIP: 0033:0x7f4a1cd1a94f
->  Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 =
-44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <41> 89 c0 3d 0=
-0 f0 ff ff 77 1f 48 8b 44 24 18 64 48 2b 04 25 28 00
->  RSP: 002b:00007ffd2f1df520 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
->  RAX: ffffffffffffffda RBX: 00007ffd2f1df5b0 RCX: 00007f4a1cd1a94f
->  RDX: 00007ffd2f1df5b0 RSI: 00000000c01064ab RDI: 000000000000000f
->  RBP: 00000000c01064ab R08: 000056347932deb8 R09: 000056347a7d99c0
->  R10: 0000000000000000 R11: 0000000000000246 R12: 000056347938a220
->  R13: 000000000000000f R14: 0000563479d9f3f0 R15: 0000000000000000
->   </TASK>
->  Modules linked in: rfcomm xt_conntrack nft_chain_nat xt_MASQUERADE nf_na=
-t nf_conntrack_netlink nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 xfrm_user=
- xfrm_algo xt_addrtype nft_compat nf_tables nfnetlink br_netfilter bridge s=
-tp llc ccm cmac algif_hash overlay algif_skcipher af_alg bnep binfmt_misc s=
-nd_sof_pci_intel_cnl snd_sof_intel_hda_common snd_soc_hdac_hda snd_sof_pci =
-snd_sof_xtensa_dsp snd_sof_intel_hda snd_sof snd_sof_utils snd_soc_acpi_int=
-el_match snd_soc_acpi snd_soc_core snd_compress snd_sof_intel_hda_mlink snd=
-_hda_ext_core iwlmvm intel_rapl_msr intel_rapl_common intel_tcc_cooling x86=
-_pkg_temp_thermal intel_powerclamp mac80211 coretemp kvm_intel snd_hda_code=
-c_hdmi kvm snd_hda_codec_realtek snd_hda_codec_generic uvcvideo libarc4 snd=
-_hda_intel snd_intel_dspcfg snd_hda_codec iwlwifi videobuf2_vmalloc videobu=
-f2_memops uvc irqbypass btusb videobuf2_v4l2 snd_seq_midi crct10dif_pclmul =
-hid_multitouch crc32_pclmul snd_seq_midi_event btrtl snd_hwdep videodev pol=
-yval_clmulni polyval_generic snd_rawmidi
->   ghash_clmulni_intel aesni_intel btintel crypto_simd snd_hda_core cryptd=
- snd_seq btbcm ee1004 8250_dw videobuf2_common btmtk rapl nls_iso8859_1 mei=
-_hdcp thunderbolt bluetooth intel_cstate wmi_bmof intel_wmi_thunderbolt cfg=
-80211 snd_pcm mc snd_seq_device i2c_i801 r8169 ecdh_generic snd_timer i2c_s=
-mbus ecc snd mei_me intel_lpss_pci mei ahci intel_lpss soundcore realtek li=
-bahci idma64 intel_pch_thermal i2c_hid_acpi i2c_hid acpi_pad sch_fq_codel m=
-sr parport_pc ppdev lp parport efi_pstore ip_tables x_tables autofs4 dm_cry=
-pt raid10 raid456 libcrc32c async_raid6_recov async_memcpy async_pq async_x=
-or xor async_tx raid6_pq raid1 raid0 joydev input_leds hid_generic usbhid h=
-id nouveau i915 drm_ttm_helper gpu_sched drm_gpuvm drm_exec i2c_algo_bit dr=
-m_buddy ttm drm_display_helper drm_kms_helper cec rc_core drm nvme nvme_cor=
-e mxm_wmi xhci_pci xhci_pci_renesas video wmi pinctrl_cannonlake mac_hid
->  ---[ end trace 0000000000000000 ]---
->=20
-> Fix this by avoiding the divide if bpp is 0.
->=20
-> Fixes: c1d6a22b7219 ("drm/dp: Add helpers to calculate the link BW overhe=
-ad")
-> Signed-off-by: Chris Bainbridge <chris.bainbridge@gmail.com>
-> Acked-by: Imre Deak <imre.deak@intel.com>
+
+Hi Maira,
+
+On 11/03/2024 10:06, Maíra Canal wrote:
+> The V3D MMU also supports 1MB pages, called super pages. In order to
+> set a 1MB page in the MMU, we need to make sure that page table entries
+> for all 4KB pages within a super page must be correctly configured.
+> 
+> Therefore, if the BO is larger than 2MB, we allocate it in a separate
+> mountpoint that uses THP. This will allow us to create a contiguous
+> memory region to create our super pages. In order to place the page
+> table entries in the MMU, we iterate over the 256 4KB pages and insert
+> the PTE.
+> 
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
 > ---
->  drivers/gpu/drm/display/drm_dp_helper.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/di=
-splay/drm_dp_helper.c
-> index b1ca3a1100da..9f0e7142f174 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -3982,6 +3982,13 @@ int drm_dp_bw_overhead(int lane_count, int hactive,
->  	u32 overhead =3D 1000000;
->  	int symbol_cycles;
-> =20
-> +	if (bpp_x16 =3D=3D 0) {
-> +		DRM_DEBUG("drm_dp_bw_overhead called with bpp 0\n");
-> +	}
-> +	if (lane_count =3D=3D 0 || hactive =3D=3D 0 || bpp_x16 =3D=3D 0) {
-
-Could you add lane_count and hactive to the debug print as well?
-Something like "Invalid BW overhead params: lane_count %d, hactive %d, bpp_=
-x16 %d.04d".=20
-
-> +		return 0;
-> +	}
+>   drivers/gpu/drm/v3d/v3d_bo.c    | 19 +++++++++++++++++--
+>   drivers/gpu/drm/v3d/v3d_drv.c   |  7 +++++++
+>   drivers/gpu/drm/v3d/v3d_drv.h   |  6 ++++--
+>   drivers/gpu/drm/v3d/v3d_gemfs.c |  6 ++++++
+>   drivers/gpu/drm/v3d/v3d_mmu.c   | 24 ++++++++++++++++++++++--
+>   5 files changed, 56 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
+> index a07ede668cc1..cb8e49a33be7 100644
+> --- a/drivers/gpu/drm/v3d/v3d_bo.c
+> +++ b/drivers/gpu/drm/v3d/v3d_bo.c
+> @@ -94,6 +94,7 @@ v3d_bo_create_finish(struct drm_gem_object *obj)
+>   	struct v3d_dev *v3d = to_v3d_dev(obj->dev);
+>   	struct v3d_bo *bo = to_v3d_bo(obj);
+>   	struct sg_table *sgt;
+> +	u64 align;
+>   	int ret;
+> 
+>   	/* So far we pin the BO in the MMU for its lifetime, so use
+> @@ -103,6 +104,9 @@ v3d_bo_create_finish(struct drm_gem_object *obj)
+>   	if (IS_ERR(sgt))
+>   		return PTR_ERR(sgt);
+> 
+> +	bo->huge_pages = (obj->size >= SZ_2M && v3d->super_pages);
+> +	align = bo->huge_pages ? SZ_1M : SZ_4K;
 > +
->  	/*
->  	 * DP Standard v2.1 2.6.4.1
->  	 * SSC downspread and ref clock variation margin:
-> --=20
-> 2.39.2
->=20
+>   	spin_lock(&v3d->mm_lock);
+>   	/* Allocate the object's space in the GPU's page tables.
+>   	 * Inserting PTEs will happen later, but the offset is for the
+> @@ -110,7 +114,7 @@ v3d_bo_create_finish(struct drm_gem_object *obj)
+>   	 */
+>   	ret = drm_mm_insert_node_generic(&v3d->mm, &bo->node,
+>   					 obj->size >> V3D_MMU_PAGE_SHIFT,
+> -					 GMP_GRANULARITY >> V3D_MMU_PAGE_SHIFT, 0, 0);
+> +					 align >> V3D_MMU_PAGE_SHIFT, 0, 0);
+>   	spin_unlock(&v3d->mm_lock);
+>   	if (ret)
+>   		return ret;
+> @@ -130,10 +134,21 @@ struct v3d_bo *v3d_bo_create(struct drm_device *dev, struct drm_file *file_priv,
+>   			     size_t unaligned_size)
+>   {
+>   	struct drm_gem_shmem_object *shmem_obj;
+> +	struct v3d_dev *v3d = to_v3d_dev(dev);
+>   	struct v3d_bo *bo;
+> +	size_t size;
+>   	int ret;
+> 
+> -	shmem_obj = drm_gem_shmem_create(dev, unaligned_size);
+> +	size = PAGE_ALIGN(unaligned_size);
+> +
+> +	/* To avoid memory fragmentation, we only use THP if the BO is bigger
+> +	 * than two Super Pages (1MB).
+> +	 */
+> +	if (size >= SZ_2M && v3d->super_pages)
+> +		shmem_obj = drm_gem_shmem_create_with_mnt(dev, size, v3d->gemfs);
+> +	else
+> +		shmem_obj = drm_gem_shmem_create(dev, size);
+> +
+>   	if (IS_ERR(shmem_obj))
+>   		return ERR_CAST(shmem_obj);
+>   	bo = to_v3d_bo(&shmem_obj->base);
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+> index 3debf37e7d9b..96f4d8227407 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.c
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
+> @@ -36,6 +36,11 @@
+>   #define DRIVER_MINOR 0
+>   #define DRIVER_PATCHLEVEL 0
+> 
+> +static bool super_pages = true;
+> +module_param_named(super_pages, super_pages, bool, 0400);
+> +MODULE_PARM_DESC(super_pages, "Enable/Disable Super Pages support. Note: \
+> +			       To enable Super Pages, you need support to THP.");
+> +
+>   static int v3d_get_param_ioctl(struct drm_device *dev, void *data,
+>   			       struct drm_file *file_priv)
+>   {
+> @@ -308,6 +313,8 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
+>   		return -ENOMEM;
+>   	}
+> 
+> +	v3d->super_pages = super_pages;
+> +
+>   	ret = v3d_gem_init(drm);
+>   	if (ret)
+>   		goto dma_free;
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
+> index d2ce8222771a..795087663739 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.h
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
+> @@ -17,9 +17,8 @@ struct clk;
+>   struct platform_device;
+>   struct reset_control;
+> 
+> -#define GMP_GRANULARITY (128 * 1024)
+> -
+>   #define V3D_MMU_PAGE_SHIFT 12
+> +#define V3D_PAGE_FACTOR (PAGE_SIZE >> V3D_MMU_PAGE_SHIFT)
+> 
+>   #define V3D_MAX_QUEUES (V3D_CPU + 1)
+> 
+> @@ -123,6 +122,7 @@ struct v3d_dev {
+>   	 * tmpfs instance used for shmem backed objects
+>   	 */
+>   	struct vfsmount *gemfs;
+> +	bool super_pages;
+
+One not very important comment just in passing: Does v3d->super_pages == 
+!!v3d->gemfs always holds at runtime? Thinking if you really need to add 
+v3d->super_pages, or could just infer from v3d->gemfs, maybe via a 
+wrapper or whatever pattern is used in v3d.
+
+> 
+>   	struct work_struct overflow_mem_work;
+> 
+> @@ -211,6 +211,8 @@ struct v3d_bo {
+>   	struct list_head unref_head;
+> 
+>   	void *vaddr;
+> +
+> +	bool huge_pages;
+>   };
+> 
+>   static inline struct v3d_bo *
+> diff --git a/drivers/gpu/drm/v3d/v3d_gemfs.c b/drivers/gpu/drm/v3d/v3d_gemfs.c
+> index 8518b7da6f73..bcde3138f555 100644
+> --- a/drivers/gpu/drm/v3d/v3d_gemfs.c
+> +++ b/drivers/gpu/drm/v3d/v3d_gemfs.c
+> @@ -12,6 +12,10 @@ void v3d_gemfs_init(struct v3d_dev *v3d)
+>   	struct file_system_type *type;
+>   	struct vfsmount *gemfs;
+> 
+> +	/* The user doesn't want support for Super Pages */
+> +	if (!v3d->super_pages)
+> +		goto err;
+> +
+>   	/*
+>   	 * By creating our own shmemfs mountpoint, we can pass in
+>   	 * mount flags that better match our usecase. However, we
+> @@ -35,6 +39,8 @@ void v3d_gemfs_init(struct v3d_dev *v3d)
+> 
+>   err:
+>   	v3d->gemfs = NULL;
+> +	v3d->super_pages = false;
+> +
+>   	drm_notice(&v3d->drm,
+>   		   "Transparent Hugepage support is recommended for optimal performance on this platform!\n");
+>   }
+> diff --git a/drivers/gpu/drm/v3d/v3d_mmu.c b/drivers/gpu/drm/v3d/v3d_mmu.c
+> index 14f3af40d6f6..2f368dc2c0ca 100644
+> --- a/drivers/gpu/drm/v3d/v3d_mmu.c
+> +++ b/drivers/gpu/drm/v3d/v3d_mmu.c
+> @@ -89,6 +89,9 @@ void v3d_mmu_insert_ptes(struct v3d_bo *bo)
+>   	u32 page = bo->node.start;
+>   	u32 page_prot = V3D_PTE_WRITEABLE | V3D_PTE_VALID;
+>   	struct sg_dma_page_iter dma_iter;
+> +	int ctg_size = drm_prime_get_contiguous_size(shmem_obj->sgt);
+
+Coming from the i915 background, this call looked suspicios to me. First 
+of all the helper seems to be for prime import and secondly I don't know 
+if v3d supports non-contigous DMA addresses even? Like can the IOMMU on 
+the respective platform create such mappings? If it can not and does 
+not, then the return value is just equal to object size.
+
+Hmm no.. it cannot be mapping non-contiguous because then 
+drm_prime_get_contiguous_size() could return you smaller than total 
+object size and the loop below would underflow ctg_size.
+
+So it looks it would dtrt just a bit misleading.
+
+I also wonder if even before using THP there was no chance on this 
+platform to get accidentally coalesced pages?
+
+[Goes and looks.]
+
+Donsn't seem so. V3d uses drm_gem_get_pages() right? And there it 
+doesn't use page coalescing but just assigns them 1:1.
+
+Maybe there is some scope to save some memory for all drivers which use 
+the common helpers. See 0c40ce130e38 ("drm/i915: Trim the object sg 
+table") for reference, and also code which compares the PFN as it builds 
+the sg list in i915 shmem_sg_alloc_table. Although I suspect to make 
+moving this approach into core drm I should really figure out a way to 
+make without i915_sg_trim and allow building the sg list incrementally 
+with some new scatterlist.h|c APIs.
+
+Presumably when dma_map_sg is called on v3d platforms it also maps 1:1 
+even if pages are neighbouring by chance? DMA API allows it but maybe 
+platform does not?
+
+A long digression.. to go back to original point.. Do you think you can 
+just replace drm_prime_get_contiguous_size() with bo->base.size and 
+everything keeps working as is, or I am missing something?
+
+Regards,
+
+Tvrtko
+
+> +	u32 page_size = 0;
+> +	u32 npages = 0;
+> 
+>   	for_each_sgtable_dma_page(shmem_obj->sgt, &dma_iter, 0) {
+>   		dma_addr_t dma_addr = sg_page_iter_dma_address(&dma_iter);
+> @@ -96,10 +99,27 @@ void v3d_mmu_insert_ptes(struct v3d_bo *bo)
+>   		u32 pte = page_prot | page_address;
+>   		u32 i;
+> 
+> -		BUG_ON(page_address + (PAGE_SIZE >> V3D_MMU_PAGE_SHIFT) >=
+> +		if (npages == 0) {
+> +			if (ctg_size >= SZ_1M && bo->huge_pages) {
+> +				page_size = SZ_1M;
+> +				npages = 256;
+> +			} else {
+> +				page_size = SZ_4K;
+> +				npages = V3D_PAGE_FACTOR;
+> +			}
+> +
+> +			ctg_size -= npages * SZ_4K;
+> +		}
+> +
+> +		if (page_size == SZ_1M)
+> +			pte |= V3D_PTE_SUPERPAGE;
+> +
+> +		BUG_ON(page_address + V3D_PAGE_FACTOR >=
+>   		       BIT(24));
+> -		for (i = 0; i < PAGE_SIZE >> V3D_MMU_PAGE_SHIFT; i++)
+> +		for (i = 0; i < V3D_PAGE_FACTOR; i++)
+>   			v3d->pt[page++] = pte + i;
+> +
+> +		npages -= V3D_PAGE_FACTOR;
+>   	}
+> 
+>   	WARN_ON_ONCE(page - bo->node.start !=
+> --
+> 2.43.0
+> 
+> 
