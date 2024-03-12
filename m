@@ -2,49 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97DDF879F10
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 23:43:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B811879F12
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 23:43:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A659210F4EA;
-	Tue, 12 Mar 2024 22:43:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7B7610F519;
+	Tue, 12 Mar 2024 22:43:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=lechnology.com header.i=@lechnology.com header.b="1CkLrVad";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=lechnology.com header.i=@lechnology.com header.b="f7BQ3/NU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1371 seconds by postgrey-1.36 at gabe;
- Tue, 12 Mar 2024 22:43:42 UTC
 Received: from vern.gendns.com (vern.gendns.com [98.142.107.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49F6D10EBAA
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 22:43:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E3FD10EBAA
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 22:43:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
  :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=8bpIdd3zxFSgnsVtpa/X5e5qanpEpPooRSM39Q40DaM=; b=1CkLrVad7ctnpggclaBS7J0VHt
- 2KdMtWrZcCAcY+9urLm/UrwgqcWm7oDYrBNhMRWTbQO/4L0V2gwHcduGqY4v4SND95oElKkhQx8Uf
- d0nn9ZzA4M1IfA4EQNMgsdk2ZKAGKUk5itsys0+56Cjd7UpdZjBBaBIgpeufQPJSsWlL6YJaaO6xs
- W56fWSDdpk9ajjsdlGr1tGGl//SKLhW5AvhgUpktNju4oIcGK7KuVTBEmNC3kPkoVD60pKJv/Sh8b
- nmHR8FQOil34zNPgTmBZU/rUDOcKRK4EtZCyrAV9Oc5WAo0B3o/jk0mSuVibzuN43Y7fnI6vP5jfn
- iD3W2Q8Q==;
+ bh=9aa2ye3Zag5hNT3ydhHengIjs6DAAqNnjpk1R1p1xSE=; b=f7BQ3/NUv7kSiDnTuvxvlTfXLl
+ G1oKZqTGxVdfihFMqxzinOQDdgUVirhTuwGBVD6rE/orJm+32+/FTs8Iu4R28/qp+5FnWe87ch0Bb
+ UGBOnMOl8kqNmPnh3Tc5B7mQDPIi11/DieHpz+b+NP8nZXQiySjjUDFGgxDt71Kea9j70rbVGgPSJ
+ H7FrI2atO7d9b95mKZ67seBOvvtDJv8MiObogewT7EcfnS4ytXabYbkmtNp9nYNI0XN9eceXCjz6I
+ Tipi144s4/zy2ZVJPPn4kiZbbWNiMF7LF2UcI3Emb/bDhsxuoNOnYLcQYc9Il+9iYDHEy4VsbTpmd
+ aA9KDXFg==;
 Received: from ip98-183-112-25.ok.ok.cox.net ([98.183.112.25]:57282
  helo=[192.168.0.142]) by vern.gendns.com with esmtpsa (TLS1.2) tls
  TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96.2)
- (envelope-from <david@lechnology.com>) id 1rkAWG-00035r-30;
- Tue, 12 Mar 2024 18:21:02 -0400
-Message-ID: <71275d0d-37f0-4a68-ba3d-d1d358afb60b@lechnology.com>
-Date: Tue, 12 Mar 2024 17:21:02 -0500
+ (envelope-from <david@lechnology.com>) id 1rkAWQ-00035r-33;
+ Tue, 12 Mar 2024 18:21:12 -0400
+Message-ID: <ebf80582-39fb-40c4-920d-9dde562f4224@lechnology.com>
+Date: Tue, 12 Mar 2024 17:21:12 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 40/43] drm/tiny/st7586: Use fbdev-dma
+Subject: Re: [PATCH 41/43] drm/tiny/st7735r: Use fbdev-dma
 Content-Language: en-US
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@gmail.com, deller@gmx.de, javierm@redhat.com
 Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 References: <20240312154834.26178-1-tzimmermann@suse.de>
- <20240312154834.26178-41-tzimmermann@suse.de>
+ <20240312154834.26178-42-tzimmermann@suse.de>
 From: David Lechner <david@lechnology.com>
 Autocrypt: addr=david@lechnology.com; keydata=
  xsFNBFFxkZ8BEADXzbnj9t8XSZYxKJGHdHqYgEBVzRElb3+f11qhDZKzVCMsn1+AN+PlHqC7
@@ -88,7 +86,7 @@ Autocrypt: addr=david@lechnology.com; keydata=
  +M4GyTil33pnBXEZp29nh7ev4VJ96sVvnQFzls3motvG+pq/c37Ms1gYayeCzA2iCDuKx6Zk
  ybHg7IzNEduqZQ4bkaBpnEt+vwE3Gg5l4dAUFWAs9qY13nyBANQ282FNctziEHCUJZ/Map6T
  dzHWO6hU1HuvmlwcJSFCOey8yhkt386E6KfVYzrIhwTtabg+DLyMZK40Rop1VcU7Nx0M
-In-Reply-To: <20240312154834.26178-41-tzimmermann@suse.de>
+In-Reply-To: <20240312154834.26178-42-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-AntiAbuse: This header was added to track abuse,
@@ -120,7 +118,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 3/12/24 10:45 AM, Thomas Zimmermann wrote:
 > Implement fbdev emulation with fbdev-dma. Fbdev-dma now supports
-> damage handling, which is required by st7586. Avoids the overhead of
+> damage handling, which is required by st7735r. Avoids the overhead of
 > fbdev-generic's additional shadow buffering. No functional changes.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
