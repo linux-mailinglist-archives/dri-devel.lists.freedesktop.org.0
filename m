@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A54879556
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 14:49:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71090879562
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 14:52:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8743D10F106;
-	Tue, 12 Mar 2024 13:49:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B8D010EE41;
+	Tue, 12 Mar 2024 13:52:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="txqGyP7I";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fzDDuE+s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD3AB10F106
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 13:49:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B20B1611E2;
- Tue, 12 Mar 2024 13:49:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47DD5C43390;
- Tue, 12 Mar 2024 13:49:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1710251349;
- bh=gQOndgtic22jBUvA6JtP0OZkfHWdF7w1Uwcr114J8+E=;
- h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
- b=txqGyP7INBJyRGU+aRYSqv1aNw001UvRkMWVoxb5QWnhK2Rv7mvVAVVXuhCfZwjAv
- mdLlq2EjEEkchwYFVOxeVzc15RTPXs/703VmeNZmywulSJ8dwCB/MSQasCbHgeQaCm
- KqAk6gUvzBMtd1RQq3B/2xdMF2gy0toBQewwFY7SXH5pHgYjJop4RaZ8H5JF+tlJr/
- syoDKPub+ddnIWI6wJu2tXaS2UO61sSDsUwqJC861DOOX55Cv32e7qurOpCFilWXkY
- GMg1PV+R0sA/bBrkQNHs2TXG2fbGqL2afl1fpCTu81Z2B7uMXL/DPAAR1PTdq0wLrF
- jg3UXa20Ks1MQ==
-Date: Tue, 12 Mar 2024 07:49:08 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BC5410E9D5;
+ Tue, 12 Mar 2024 13:52:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1710251558; x=1741787558;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=wiqT5YC3NI3QH9hweZQu5q5agU/RBrYXqrA9c0sUyF0=;
+ b=fzDDuE+s8UfMgsA4yI3H1zDs/OUZcVjcjVu3U9m/OguWNQpGD0bi9e4Z
+ a1sEilxJhmVdG7+SoTxiqck5RR+vIEiy5jC7f5Pjj6qkaV8yw34G+N9vg
+ s/mb5y1ptvFMQiqo7y5pOee8b5GAp4kIjGHTaTEYZj6E26zx7sYa8vTXt
+ 1TPY0emMrr2FvfE4M9XfJNSUqU6WcUl1jc0LmwggVQfsjqdnKMeS+8p8M
+ iwV98QbIKhO9EA0iao4d8VURXNOnrwNSSqHIPPQdzRO9vvGoYUx5DCY8+
+ ahMKwGikhhTEj6RVI5rzmETB7RkocBal7PqdiUcFFzeS7l/qvy8XCE/Rq w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="15516053"
+X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; d="scan'208";a="15516053"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Mar 2024 06:52:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; d="scan'208";a="11619550"
+Received: from rfreedx-mobl.amr.corp.intel.com (HELO localhost)
+ ([10.252.35.216])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Mar 2024 06:52:35 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: imre.deak@intel.com, Chris Bainbridge <chris.bainbridge@gmail.com>
+Cc: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, lyude@redhat.com,
+ ville.syrjala@linux.intel.com, stanislav.lisovskiy@intel.com,
+ mripard@kernel.org
+Subject: Re: [PATCH v2] Fix divide-by-zero regression on DP MST unplug with
+ nouveau
+In-Reply-To: <ZfBX0rrIpWMZbmRp@ideak-desk.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <ZcfpqwnkSoiJxeT9@debian.local>
+ <Ze8suV5ox+43/wAC@ideak-desk.fi.intel.com>
+ <Ze8vVffBaWY9f/Mu@ideak-desk.fi.intel.com> <Ze-Pf1_E-p4G8o0l@debian.local>
+ <ZfBX0rrIpWMZbmRp@ideak-desk.fi.intel.com>
+Date: Tue, 12 Mar 2024 15:52:32 +0200
+Message-ID: <87jzm7sgkf.fsf@intel.com>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, David Airlie <airlied@gmail.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mark Brown <broonie@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Rob Herring <robh+dt@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
- Lars-Peter Clausen <lars@metafoo.de>, 
- =?utf-8?q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>, 
- Michal Simek <michal.simek@amd.com>, Maxime Ripard <mripard@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- linux-sound@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- Jaroslav Kysela <perex@perex.cz>, devicetree@vger.kernel.org, 
- Daniel Vetter <daniel@ffwll.ch>, 
- Anatoliy Klymenko <anatoliy.klymenko@amd.com>, 
- Vishal Sagar <vishal.sagar@amd.com>
-In-Reply-To: <20240312-xilinx-dp-audio-v1-2-696c79facbb9@ideasonboard.com>
-References: <20240312-xilinx-dp-audio-v1-0-696c79facbb9@ideasonboard.com>
- <20240312-xilinx-dp-audio-v1-2-696c79facbb9@ideasonboard.com>
-Message-Id: <171025134476.2083292.14206241408846166502.robh@kernel.org>
-Subject: Re: [PATCH 2/4] dt-bindings: display/xlnx/zynqmp-dpsub: Add audio DMAs
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,48 +73,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 12 Mar 2024, Imre Deak <imre.deak@intel.com> wrote:
+> On Mon, Mar 11, 2024 at 11:10:55PM +0000, Chris Bainbridge wrote:
+>> Fix a regression when using nouveau and unplugging a StarTech MSTDP122DP
+>> DisplaypPort 1.2 MST hub (the same regression does not appear when using
+>> a Cable Matters DisplayPort 1.4 MST hub). Trace:
+>>=20
+>>  divide error: 0000 [#1] PREEMPT SMP PTI
+>>  CPU: 7 PID: 2962 Comm: Xorg Not tainted 6.8.0-rc3+ #744
+>>  Hardware name: Razer Blade/DANA_MB, BIOS 01.01 08/31/2018
+>>  RIP: 0010:drm_dp_bw_overhead+0xb4/0x110 [drm_display_helper]
+>>  Code: c6 b8 01 00 00 00 75 61 01 c6 41 0f af f3 41 0f af f1 c1 e1 04 48=
+ 63 c7 31 d2 89 ff 48 8b 5d f8 c9 48 0f af f1 48 8d 44 06 ff <48> f7 f7 31 =
+d2 31 c9 31 f6 31 ff 45 31 c0 45 31 c9 45 31 d2 45 31
+>>  RSP: 0018:ffffb2c5c211fa30 EFLAGS: 00010206
+>>  RAX: ffffffffffffffff RBX: 0000000000000000 RCX: 0000000000f59b00
+>>  RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+>>  RBP: ffffb2c5c211fa48 R08: 0000000000000001 R09: 0000000000000020
+>>  R10: 0000000000000004 R11: 0000000000000000 R12: 0000000000023b4a
+>>  R13: ffff91d37d165800 R14: ffff91d36fac6d80 R15: ffff91d34a764010
+>>  FS:  00007f4a1ca3fa80(0000) GS:ffff91d6edbc0000(0000) knlGS:00000000000=
+00000
+>>  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>  CR2: 0000559491d49000 CR3: 000000011d180002 CR4: 00000000003706f0
+>>  Call Trace:
+>>   <TASK>
+>>   ? show_regs+0x6d/0x80
+>>   ? die+0x37/0xa0
+>>   ? do_trap+0xd4/0xf0
+>>   ? do_error_trap+0x71/0xb0
+>>   ? drm_dp_bw_overhead+0xb4/0x110 [drm_display_helper]
+>>   ? exc_divide_error+0x3a/0x70
+>>   ? drm_dp_bw_overhead+0xb4/0x110 [drm_display_helper]
+>>   ? asm_exc_divide_error+0x1b/0x20
+>>   ? drm_dp_bw_overhead+0xb4/0x110 [drm_display_helper]
+>>   ? drm_dp_calc_pbn_mode+0x2e/0x70 [drm_display_helper]
+>>   nv50_msto_atomic_check+0xda/0x120 [nouveau]
+>>   drm_atomic_helper_check_modeset+0xa87/0xdf0 [drm_kms_helper]
+>>   drm_atomic_helper_check+0x19/0xa0 [drm_kms_helper]
+>>   nv50_disp_atomic_check+0x13f/0x2f0 [nouveau]
+>>   drm_atomic_check_only+0x668/0xb20 [drm]
+>>   ? drm_connector_list_iter_next+0x86/0xc0 [drm]
+>>   drm_atomic_commit+0x58/0xd0 [drm]
+>>   ? __pfx___drm_printfn_info+0x10/0x10 [drm]
+>>   drm_atomic_connector_commit_dpms+0xd7/0x100 [drm]
+>>   drm_mode_obj_set_property_ioctl+0x1c5/0x450 [drm]
+>>   ? __pfx_drm_connector_property_set_ioctl+0x10/0x10 [drm]
+>>   drm_connector_property_set_ioctl+0x3b/0x60 [drm]
+>>   drm_ioctl_kernel+0xb9/0x120 [drm]
+>>   drm_ioctl+0x2d0/0x550 [drm]
+>>   ? __pfx_drm_connector_property_set_ioctl+0x10/0x10 [drm]
+>>   nouveau_drm_ioctl+0x61/0xc0 [nouveau]
+>>   __x64_sys_ioctl+0xa0/0xf0
+>>   do_syscall_64+0x76/0x140
+>>   ? do_syscall_64+0x85/0x140
+>>   ? do_syscall_64+0x85/0x140
+>>   entry_SYSCALL_64_after_hwframe+0x6e/0x76
+>>  RIP: 0033:0x7f4a1cd1a94f
+>>  Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89=
+ 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <41> 89 c0 3d =
+00 f0 ff ff 77 1f 48 8b 44 24 18 64 48 2b 04 25 28 00
+>>  RSP: 002b:00007ffd2f1df520 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+>>  RAX: ffffffffffffffda RBX: 00007ffd2f1df5b0 RCX: 00007f4a1cd1a94f
+>>  RDX: 00007ffd2f1df5b0 RSI: 00000000c01064ab RDI: 000000000000000f
+>>  RBP: 00000000c01064ab R08: 000056347932deb8 R09: 000056347a7d99c0
+>>  R10: 0000000000000000 R11: 0000000000000246 R12: 000056347938a220
+>>  R13: 000000000000000f R14: 0000563479d9f3f0 R15: 0000000000000000
+>>   </TASK>
+>>  Modules linked in: rfcomm xt_conntrack nft_chain_nat xt_MASQUERADE nf_n=
+at nf_conntrack_netlink nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 xfrm_use=
+r xfrm_algo xt_addrtype nft_compat nf_tables nfnetlink br_netfilter bridge =
+stp llc ccm cmac algif_hash overlay algif_skcipher af_alg bnep binfmt_misc =
+snd_sof_pci_intel_cnl snd_sof_intel_hda_common snd_soc_hdac_hda snd_sof_pci=
+ snd_sof_xtensa_dsp snd_sof_intel_hda snd_sof snd_sof_utils snd_soc_acpi_in=
+tel_match snd_soc_acpi snd_soc_core snd_compress snd_sof_intel_hda_mlink sn=
+d_hda_ext_core iwlmvm intel_rapl_msr intel_rapl_common intel_tcc_cooling x8=
+6_pkg_temp_thermal intel_powerclamp mac80211 coretemp kvm_intel snd_hda_cod=
+ec_hdmi kvm snd_hda_codec_realtek snd_hda_codec_generic uvcvideo libarc4 sn=
+d_hda_intel snd_intel_dspcfg snd_hda_codec iwlwifi videobuf2_vmalloc videob=
+uf2_memops uvc irqbypass btusb videobuf2_v4l2 snd_seq_midi crct10dif_pclmul=
+ hid_multitouch crc32_pclmul snd_seq_midi_event btrtl snd_hwdep videodev po=
+lyval_clmulni polyval_generic snd_rawmidi
+>>   ghash_clmulni_intel aesni_intel btintel crypto_simd snd_hda_core crypt=
+d snd_seq btbcm ee1004 8250_dw videobuf2_common btmtk rapl nls_iso8859_1 me=
+i_hdcp thunderbolt bluetooth intel_cstate wmi_bmof intel_wmi_thunderbolt cf=
+g80211 snd_pcm mc snd_seq_device i2c_i801 r8169 ecdh_generic snd_timer i2c_=
+smbus ecc snd mei_me intel_lpss_pci mei ahci intel_lpss soundcore realtek l=
+ibahci idma64 intel_pch_thermal i2c_hid_acpi i2c_hid acpi_pad sch_fq_codel =
+msr parport_pc ppdev lp parport efi_pstore ip_tables x_tables autofs4 dm_cr=
+ypt raid10 raid456 libcrc32c async_raid6_recov async_memcpy async_pq async_=
+xor xor async_tx raid6_pq raid1 raid0 joydev input_leds hid_generic usbhid =
+hid nouveau i915 drm_ttm_helper gpu_sched drm_gpuvm drm_exec i2c_algo_bit d=
+rm_buddy ttm drm_display_helper drm_kms_helper cec rc_core drm nvme nvme_co=
+re mxm_wmi xhci_pci xhci_pci_renesas video wmi pinctrl_cannonlake mac_hid
+>>  ---[ end trace 0000000000000000 ]---
+>>=20
+>> Fix this by avoiding the divide if bpp is 0.
+>>=20
+>> Fixes: c1d6a22b7219 ("drm/dp: Add helpers to calculate the link BW overh=
+ead")
+>> Signed-off-by: Chris Bainbridge <chris.bainbridge@gmail.com>
+>> Acked-by: Imre Deak <imre.deak@intel.com>
+>> ---
+>>  drivers/gpu/drm/display/drm_dp_helper.c | 7 +++++++
+>>  1 file changed, 7 insertions(+)
+>>=20
+>> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/d=
+isplay/drm_dp_helper.c
+>> index b1ca3a1100da..9f0e7142f174 100644
+>> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+>> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+>> @@ -3982,6 +3982,13 @@ int drm_dp_bw_overhead(int lane_count, int hactiv=
+e,
+>>  	u32 overhead =3D 1000000;
+>>  	int symbol_cycles;
+>>=20=20
+>> +	if (bpp_x16 =3D=3D 0) {
+>> +		DRM_DEBUG("drm_dp_bw_overhead called with bpp 0\n");
+>> +	}
+>> +	if (lane_count =3D=3D 0 || hactive =3D=3D 0 || bpp_x16 =3D=3D 0) {
+>
+> Could you add lane_count and hactive to the debug print as well?
+> Something like "Invalid BW overhead params: lane_count %d, hactive %d, bp=
+p_x16 %d.04d".=20
 
-On Tue, 12 Mar 2024 11:41:03 +0200, Tomi Valkeinen wrote:
-> The DP subsystem for ZynqMP support audio via two channels, and the DP
-> DMA has dma-engines for those channels. For some reason the DT binding
-> has not specified those channels, even if the picture included in
-> xlnx,zynqmp-dpsub.yaml shows "2 x aud" DMAs.
-> 
-> Add the two audio DMAs to the binding.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  .../devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml    | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
+And within one if instead of two, and use DRM_DEBUG_KMS, and it debug
+logs the function, no need to duplicate it.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+BR,
+Jani.
 
-yamllint warnings/errors:
+>
+>> +		return 0;
+>> +	}
+>> +
+>>  	/*
+>>  	 * DP Standard v2.1 2.6.4.1
+>>  	 * SSC downspread and ref clock variation margin:
+>> --=20
+>> 2.39.2
+>>=20
 
-dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.example.dts:54.26-27 syntax error
-FATAL ERROR: Unable to parse input tree
-make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.example.dtb] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1428: dt_binding_check] Error 2
-make: *** [Makefile:240: __sub-make] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240312-xilinx-dp-audio-v1-2-696c79facbb9@ideasonboard.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+--=20
+Jani Nikula, Intel
