@@ -2,89 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67223879AC0
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 18:40:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97328879AEB
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 19:03:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFB3210E238;
-	Tue, 12 Mar 2024 17:40:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C98D10F4F2;
+	Tue, 12 Mar 2024 18:03:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="mxWqv2o3";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="aeuRIq49";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B12D10E238;
- Tue, 12 Mar 2024 17:39:58 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 42CGm89f012778; Tue, 12 Mar 2024 17:39:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=a7qnMApgBR/eHj6sfot4oJkw/Nh/flE5MclON4r0cOk=; b=mx
- Wqv2o3w7B6mN112SxJn55l3i3amgVtjVMveg1aXHIN+5SFaWREGqy2Q2PjuUzIot
- 4c+CQToony2BBMP+pYRdO0dD5Xelg3Xj0h4Y1yy44LDYhROSMnqyNyVCzlxGv7Wd
- sLQpRDtrCXD2ZZ4IA/ROLBN/GvbDBBm4okw4cQXiVtWHmW5AuSZTZaVCCA4XC5q8
- m0a4UyzA0q0ajU4IPgsKeNDKzG8FwF6RNJAYSfrrusCxY5Olk24QJhe/g8P6R3+0
- nXkzvqyOXus8vigpNv8hU4hcULq9Btv/Nt1W08Rgg7LqKTY6M5WXSnnOzY+a1JV9
- WcHl9tQeHUSo215fB+Ig==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wtfwn1nd3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Mar 2024 17:39:53 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42CHdqvU026374
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Mar 2024 17:39:52 GMT
-Received: from [10.110.70.168] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 12 Mar
- 2024 10:39:48 -0700
-Message-ID: <8e125a99-543d-8328-a2a9-100e223e4faf@quicinc.com>
-Date: Tue, 12 Mar 2024 10:39:46 -0700
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D945B10F5F3
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 18:03:30 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-513298d6859so5732544e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 11:03:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710266608; x=1710871408;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=HREX7H/9qDu7coR15IdnVSKnBY8ogVJjtclSGzuYtSo=;
+ b=aeuRIq49fkNkcU13OE1JStax3juUb/STgqOlsqkq9vH+5TgYLjU1tKdlWDUzOKikvK
+ OjF8yEcuuA7+pZK1oUhXnSzscb+Sb/ZKV9LQ201w+qAWSqnbeK6oKsP8A4sVCvHfZnSk
+ Kz7PR0WoBq2Wt1WxUQXoF9o6sdb+69cwaBAzm2S3k6JuB+6A+TAxmxj3MyBh7p1wkw7X
+ QyFCQ6sOq7WY+/tLN02Pb6JfJJWUnjZ9IP4WvWLLu31z4ViqqGApF9zyvKrULwnj7vB6
+ jrd0/zaIA1jEVI0hNSXXwfITlcvpNNdr/mJP8Z7/WhD2Qo0E3v7Dd8y+tSB+sfTYdUHq
+ tYqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710266608; x=1710871408;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HREX7H/9qDu7coR15IdnVSKnBY8ogVJjtclSGzuYtSo=;
+ b=Aufd+NXKBJHXTkWBBKuwEOGDAbGD1FFIbPZ5P63hUgK0Ba7KVGkegzjNwGmESpvAJL
+ hyQlpsGlNhGGSzlWfyD0GCCFDIierwrzGIR8cY6uurRiBo2HJL9mOiyv1pC8mF/olN3C
+ 3sxfO4nxhzQItpEqX5zKYJOwkyY/jRrFVtrlXjf8Dss+Nd+y/ECAuHG1qm/5gDdogjY3
+ GpfXKaUDG5sDQNrPXrpcFr7ZoYbiq1P/4Wl6e9QNqrSzEOHU+pT/aZq82ooTAijaVkZc
+ o3gbmTM1MZyFC/0Ylbawt+sMBIN3HwisEWm2U4rC55mZs5qnD8EWlDIS1f80LXH+jVIz
+ hkmg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXkUOzIOHtUP5ctaKyVf2CATcglotAiQ5CFPKvNDM+BHT8jtdG3WXEeSkTm90IVgWmW/0lTxUgjYAUp0nASp9ZdNSk9Xg5EDojYnWHGdGr2
+X-Gm-Message-State: AOJu0Yx/YfQhrfah+FR9apakej2SOrs0OIdXJY37ixMQCf75eWUBa2WG
+ b3mpBUpH5k5xgqV43pvxgEqK9DN07ZgkrpN7kLyUcdVTZi+kBvowj7dZz97Q47Y=
+X-Google-Smtp-Source: AGHT+IH4QkVIYDqyhzAKmOcXC+nBQU3/7sOVXezpH3hXulIwAWJtf0fWxm8Rb21sEMqvyOTNR1ZG+Q==
+X-Received: by 2002:a05:6512:ba4:b0:513:a72c:de7c with SMTP id
+ b36-20020a0565120ba400b00513a72cde7cmr2898449lfv.46.1710266608394; 
+ Tue, 12 Mar 2024 11:03:28 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+ by smtp.gmail.com with ESMTPSA id
+ bq7-20020a5d5a07000000b0033e95794186sm6250688wrb.83.2024.03.12.11.03.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Mar 2024 11:03:27 -0700 (PDT)
+Message-ID: <c441a132-b16b-4244-a712-8971c902d4d7@baylibre.com>
+Date: Tue, 12 Mar 2024 19:03:25 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/msm/dp: move link_ready out of HPD event thread
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 12/18] ASoC: codecs: mt6357: add MT6357 codec
 Content-Language: en-US
-To: Johan Hovold <johan@kernel.org>
-CC: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>,
- "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, Sean Paul
- <sean@poorly.run>, "Marijn Suijten" <marijn.suijten@somainline.org>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Kuogee Hsieh
- <quic_khsieh@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <swboyd@chromium.org>,
- <quic_jesszhan@quicinc.com>, <quic_parellan@quicinc.com>,
- <quic_bjorande@quicinc.com>, Rob Clark <robdclark@chromium.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240308214532.1404038-1-quic_abhinavk@quicinc.com>
- <ZfApxyVAJMK4bL8O@hovoldconsulting.com>
- <ZfCFsmNv62-KMkA6@hovoldconsulting.com>
- <ZfCKDGq9n9WG3Quj@hovoldconsulting.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <ZfCKDGq9n9WG3Quj@hovoldconsulting.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Nicolas Belin <nbelin@baylibre.com>
+References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+ <20240226-audio-i350-v1-12-4fa1cea1667f@baylibre.com>
+ <9891855d-2284-42e4-9d3a-35ba406540e8@sirena.org.uk>
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <9891855d-2284-42e4-9d3a-35ba406540e8@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 2wSykTCw-l23V69a4tWlgiYfn4H8PA7w
-X-Proofpoint-GUID: 2wSykTCw-l23V69a4tWlgiYfn4H8PA7w
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-12_10,2024-03-12_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0
- bulkscore=0 clxscore=1015 lowpriorityscore=0 mlxscore=0 priorityscore=1501
- suspectscore=0 impostorscore=0 malwarescore=0 mlxlogscore=999 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2402120000
- definitions=main-2403120133
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,62 +103,145 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 3/12/2024 9:59 AM, Johan Hovold wrote:
-> On Tue, Mar 12, 2024 at 05:41:23PM +0100, Johan Hovold wrote:
->> On Tue, Mar 12, 2024 at 11:09:11AM +0100, Johan Hovold wrote:
->>> On Fri, Mar 08, 2024 at 01:45:32PM -0800, Abhinav Kumar wrote:
->>
->>>> @@ -466,6 +466,8 @@ static int dp_display_notify_disconnect(struct device *dev)
->>>>   {
->>>>   	struct dp_display_private *dp = dev_get_dp_display_private(dev);
->>>>   
->>>> +	dp->dp_display.link_ready = false;
->>>
->>> As I also pointed out in the other thread, setting link_ready to false
->>> here means that any spurious connect event (during physical disconnect)
->>> will always be processed, something which can currently lead to a leaked
->>> runtime pm reference.
->>>
->>> Wasting some power is of course preferred over crashing the machine, but
->>> please take it into consideration anyway.
->>>
->>> Especially if your intention with this patch was to address the resets
->>> we saw with sc8280xp which are gone since the HPD notify revert (which
->>> fixed the hotplug detect issue that left the bridge in a
->>> half-initialised state).
->>
->> Heh. This is getting ridiculous. I just tried running with this patch
->> and it again breaks hotplug detect in a VT console and in X (where I
->> could enable a reconnected external display by running xrandr twice
->> before).
->>
->> So, please, do not apply this one.
+On 26/02/2024 17:09, Mark Brown wrote:
+> On Mon, Feb 26, 2024 at 03:01:50PM +0100, amergnat@baylibre.com wrote:
 > 
-> To make things worse, I indeed also hit the reset when disconnecting
-> after such a failed hotplug.
+>> index 000000000000..13e95c227114
+>> --- /dev/null
+>> +++ b/sound/soc/codecs/mt6357.c
+>> @@ -0,0 +1,1805 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * MT6357 ALSA SoC audio codec driver
+>> + *
 > 
-> Johan
+> Please use a C++ comment for the whole comment to make it clearer that
+> this is intentional.
 
-Ack, I will hold off till I analyze your issues more which you have 
-listed in separate replies. Especially about the spurious connect, I 
-believe you are trying to mention that, by adding logs, you are able to 
-delay the processing of a connect event to *make* it like a spurious 
-one? In case, I got this part wrong, can you pls explain the spurious 
-connect scenario again?
+ok
 
-A short response on why this change was made is that commit can be 
-issued by userspace or the fbdev client. So userspace involvement only 
-makes commit happen from a different path. It would be incorrect to 
-assume the issues from the earlier bug and the current one are different 
-only because there was userspace involvement in that one and not this.
+> 
+>> +static void set_playback_gpio(struct mt6357_priv *priv, bool enable)
+>> +{
+>> +	if (enable) {
+>> +		/* set gpio mosi mode */
+>> +		regmap_write(priv->regmap, MT6357_GPIO_MODE2_CLR, GPIO_MODE2_CLEAR_ALL);
+>> +		regmap_write(priv->regmap, MT6357_GPIO_MODE2_SET, GPIO8_MODE_SET_AUD_CLK_MOSI |
+>> +								  GPIO9_MODE_SET_AUD_DAT_MOSI0 |
+>> +								  GPIO10_MODE_SET_AUD_DAT_MOSI1 |
+>> +								  GPIO11_MODE_SET_AUD_SYNC_MOSI);
+> 
+> This would be a lot more legible if you worked out the values to set and
+> then had a single set of writes, currently the indentation makes it very
+> hard to read.  Similarly for other similar functions.
 
-Because in the end, it manifests itself in the same way that 
-atomic_enable() did not go through after an atomic_disable() and the 
-next atomic_disable() crashes.
+ok
 
-Reverting the hpd_notify patch only eliminated some paths but I think 
-both you and me agree the issue can still happen and in the very same 
-way. So till someone else reports this issue, till HPD is reworked, I 
-wanted to do whats possible to avoid this situation. If users are fine 
-with what we have, I have no inclination to push this.
+> 
+>> +static int mt6357_put_volsw(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
+>> +{
+>> +	struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
+>> +	struct mt6357_priv *priv = snd_soc_component_get_drvdata(component);
+>> +	struct soc_mixer_control *mc = (struct soc_mixer_control *)kcontrol->private_value;
+>> +	unsigned int reg;
+>> +	int ret;
+>> +
+>> +	ret = snd_soc_put_volsw(kcontrol, ucontrol);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>> +	switch (mc->reg) {
+>> +	case MT6357_ZCD_CON2:
+>> +		regmap_read(priv->regmap, MT6357_ZCD_CON2, &reg);
+>> +		priv->ana_gain[ANALOG_VOLUME_HPOUTL] =
+>> +			(reg & AUD_HPL_GAIN_MASK) >> AUD_HPL_GAIN_SFT;
+>> +		priv->ana_gain[ANALOG_VOLUME_HPOUTR] =
+>> +			(reg & AUD_HPR_GAIN_MASK) >> AUD_HPR_GAIN_SFT;
+>> +		break;
+> 
+> It would probably be less code and would definitely be clearer and
+> simpler to just read the values when we need them rather than constatly
+> keeping a cache separate to the register cache.
 
+Actually you must save the values because the gain selected by the user 
+will be override to do a ramp => volume_ramp(.....):
+- When you switch on the HP, you start from gain=-40db to final_gain 
+(selected by user).
+- When you switch off the HP, you start from final_gain (selected by 
+user) to gain=-40db.
+
+Also, the microphone's gain change when it's enabled/disabled.
+
+So, it can implemented differently but currently it's aligned with the 
+other MTK codecs and I don't see any resource wasted here.
+
+> 
+>> +	/* ul channel swap */
+>> +	SOC_SINGLE("UL LR Swap", MT6357_AFE_UL_DL_CON0, AFE_UL_LR_SWAP_SFT, 1, 0),
+> 
+> On/off controls should end in Switch.
+
+Sorry, I don't understand your comment. Can you reword it please ?
+
+> 
+>> +static const char * const hslo_mux_map[] = {
+>> +	"Open", "DACR", "Playback", "Test mode"
+>> +};
+>> +
+>> +static int hslo_mux_map_value[] = {
+>> +	0x0, 0x1, 0x2, 0x3,
+>> +};
+> 
+> Why not just use a normal mux here, there's no missing values or
+> reordering?  Similarly for other muxes.
+
+I've dug into some other codecs and it's done like that, but I've 
+probably misunderstood something.
+
+The only bad thing I see is enum is missing currently:
+
+enum {
+	PGA_MUX_OPEN = 0,
+	PGA_MUX_DACR,
+	PGA_MUX_PB,
+	PGA_MUX_TM,
+	PGA_MUX_MASK = 0x3,
+};
+
+static const char * const hslo_mux_map[] = {
+	"Open", "DACR", "Playback", "Test mode"
+};
+
+static int hslo_mux_map_value[] = {
+	PGA_MUX_OPEN, PGA_MUX_DACR, PGA_MUX_PB, PGA_MUX_TM,
+};
+
+> 
+>> +static unsigned int mt6357_read(struct snd_soc_component *codec, unsigned int reg)
+>> +{
+>> +	struct mt6357_priv *priv = snd_soc_component_get_drvdata(codec);
+>> +	unsigned int val;
+>> +
+>> +	pr_debug("%s() reg = 0x%x", __func__, reg);
+>> +	regmap_read(priv->regmap, reg, &val);
+>> +	return val;
+>> +}
+> 
+> Remove these, there are vastly more logging facilities as standard in
+> the regmap core.
+
+ok
+
+> 
+>> +/* Reg bit defines */
+>> +/* MT6357_GPIO_DIR0 */
+>> +#define GPIO8_DIR_MASK				BIT(8)
+>> +#define GPIO8_DIR_INPUT				0
+> 
+> Please namespace your defines, these look very generic.
+
+ok
+
+-- 
+Regards,
+Alexandre
