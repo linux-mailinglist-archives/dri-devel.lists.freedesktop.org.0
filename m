@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 210B6879CF1
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 21:34:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09E4C879CF9
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 21:35:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0723810E7A0;
-	Tue, 12 Mar 2024 20:34:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DC0410EE0F;
+	Tue, 12 Mar 2024 20:35:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Gjeu+zww";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="guj+oPSJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58E2210E7A0;
- Tue, 12 Mar 2024 20:34:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 439E510EE25;
+ Tue, 12 Mar 2024 20:35:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710275672; x=1741811672;
+ t=1710275731; x=1741811731;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=IIyA24Ww4q+YFVBHrpK9di1rGUh6VhtHOSecH2SUB/w=;
- b=Gjeu+zww5ZbYlWuLNGrvUU8IHlDX/qrPmrZOslXzbgVAGet6QIzkKAj/
- 1FIZndaMa7y6QPhgnpt8D1paAFFEiPm87yIJAPFjuSH6+Pmj6TQQDA9we
- dldrNFDmjH29W/HOEiR3l5DuHImx/G4erUin8UX5mceCftEB1UUOEoHUI
- OvlFeOExEJlt1x+u6GiDPjpvHG2dovSZEFHT9UJqcy4CPeyrUZeazngGe
- Rh3Ynff5FMipyUw9pg+5OE63PGn+HV6tMrKQ1r/2yZgSUd1hlpnHZav4+
- C2t2cmUwI1WQ0Cl7v1TYORxuufIlAET9cKKfN531nQpXy0VoqOTvyhZOA g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="4861597"
+ bh=UdyV/I4cWbDXWAq+dCl9Y08RKAYNv/HZMoOc6zDhGkw=;
+ b=guj+oPSJQUuh165qt/oRDPt2JbxzMuz0WOt01FQO9AwhxH9z+tW/UpwB
+ EUQOX5EzRk8G1ndewyajbhCH9uyVlfRTCTOC9rAUw6TwBIeqcOjtlbNU6
+ a95m4/RbKCzDquEbszGmxrtPi74FVcypojmPtySvaL2CG2QK5E5oPSrNr
+ nGsS6SDHaWshjgOGN72UFrBSX7H4yO8FQRQm3MSjytM7HAmAoLvBjD6Zk
+ n1xpZIjWk4/AOQqWUE7gLLhziAuO9k+5ZwWcoAujO9vjG/+4bzDCSMxMf
+ No4hM6MgKSi8Cp6MFDHrG8VVaC22fWvVmZX6UWx66UiMnNketcRmmuwm2 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="4861667"
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="4861597"
+   d="scan'208";a="4861667"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2024 13:34:32 -0700
+ 12 Mar 2024 13:35:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; d="scan'208";a="11562599"
+X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; d="scan'208";a="11562674"
 Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.213.6.110])
  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2024 13:34:28 -0700
+ 12 Mar 2024 13:35:25 -0700
 From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
 Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Ashutosh Dixit <ashutosh.dixit@intel.com>,
  Anshuman Gupta <anshuman.gupta@intel.com>,
  Badal Nilawar <badal.nilawar@intel.com>, Guenter Roeck <linux@roeck-us.net>,
  Dale B Stimson <dale.b.stimson@intel.com>,
@@ -51,13 +52,13 @@ Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Jonathan Cavitt <jonathan.cavitt@intel.com>,
  Nirmoy Das <nirmoy.das@intel.com>
 Subject: Re: [PATCH v2] drm/i915/hwmon: Fix locking inversion in sysfs getter
-Date: Tue, 12 Mar 2024 21:34:25 +0100
-Message-ID: <1841305.FMhQkTaH9n@jkrzyszt-mobl2.ger.corp.intel.com>
+Date: Tue, 12 Mar 2024 21:35:22 +0100
+Message-ID: <2422411.DCRlREXTYf@jkrzyszt-mobl2.ger.corp.intel.com>
 Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
  80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <85zfv35set.wl-ashutosh.dixit@intel.com>
+In-Reply-To: <ZfCMURcKRUYJxaOu@ashyti-mobl2.lan>
 References: <20240311203500.518675-2-janusz.krzysztofik@linux.intel.com>
- <85zfv35set.wl-ashutosh.dixit@intel.com>
+ <ZfCMURcKRUYJxaOu@ashyti-mobl2.lan>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -76,14 +77,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ashutosh,
-
-On Tuesday, 12 March 2024 17:25:14 CET Dixit, Ashutosh wrote:
-> On Mon, 11 Mar 2024 13:34:58 -0700, Janusz Krzysztofik wrote:
-> >
+On Tuesday, 12 March 2024 18:09:37 CET Andi Shyti wrote:
+> Hi Janusz,
+> 
+> On Mon, Mar 11, 2024 at 09:34:58PM +0100, Janusz Krzysztofik wrote:
 > > In i915 hwmon sysfs getter path we now take a hwmon_lock, then acquire an
 > > rpm wakeref.  That results in lock inversion:
-> >
+> > 
 > > <4> [197.079335] ======================================================
 > > <4> [197.085473] WARNING: possible circular locking dependency detected
 > > <4> [197.091611] 6.8.0-rc7-Patchwork_129026v7-gc4dc92fb1152+ #1 Not tainted
@@ -137,39 +137,38 @@ On Tuesday, 12 March 2024 17:25:14 CET Dixit, Ashutosh wrote:
 > > <4> [197.797124]  hwmon_attr_show+0x36/0x120
 > > <4> [197.800946]  dev_attr_show+0x15/0x60
 > > <4> [197.804509]  sysfs_kf_seq_show+0xb5/0x100
-> >
+> > 
 > > Acquire the wakeref before the lock and hold it as long as the lock is
 > > also held.  Follow that pattern across the whole source file where similar
 > > lock inversion can happen.
-> >
+> > 
 > > v2: Keep hardware read under the lock so the whole operation of updating
 > >     energy from hardware is still atomic (Guenter),
 > >   - instead, acquire the rpm wakeref before the lock and hold it as long
 > >     as the lock is held,
 > >   - use the same aproach for other similar places across the i915_hwmon.c
 > >     source file (Rodrigo).
-> >
+> > 
 > > Fixes: c41b8bdcc297 ("drm/i915/hwmon: Show device level energy usage")
+> > Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > Cc: Guenter Roeck <linux@roeck-us.net>
+> > Cc: <stable@vger.kernel.org> # v6.2+
 > 
-> I would think that the lock inversion issue was introduced here:
+> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 > 
-> 1b44019a93e2 ("drm/i915/guc: Disable PL1 power limit when loading GuC firmware")
-> 
-> This is the commit which introduced this sequence:
-> 	lock(&gt->reset.mutex);
-> 	lock(&hwmon->hwmon_lock);
-> 
-> Before this, everything was fine. So perhaps the Fixes tag should reference
-> this commit?
+> If you want I can change the Fixes tag as suggested by Ashutosh
+> before applying the patch before pushing the change.
 
-OK, thanks for pointing that out.
+Yes, please do, and then also s/v6.2+/v6.5+/.
 
-> Otherwise the patch LGTM:
-> 
-> Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-
-Thank you,
+Thanks,
 Janusz
+
+> 
+> Andi
+> 
+
 
 
 
