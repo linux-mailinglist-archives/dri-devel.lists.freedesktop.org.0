@@ -2,51 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C62F879DB2
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 22:46:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9573879DFD
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 23:01:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C88C010E970;
-	Tue, 12 Mar 2024 21:46:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A01D410EDA4;
+	Tue, 12 Mar 2024 22:01:01 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="eLXfl2gF";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 414 seconds by postgrey-1.36 at gabe;
- Tue, 12 Mar 2024 21:45:59 UTC
-Received: from sonata.ens-lyon.org (sonata.ens-lyon.org [140.77.166.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AD4310E970
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 21:45:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by sonata.ens-lyon.org (Postfix) with ESMTP id 70816A034B;
- Tue, 12 Mar 2024 22:39:03 +0100 (CET)
-Received: from sonata.ens-lyon.org ([127.0.0.1])
- by localhost (sonata.ens-lyon.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lKQgqEeYEGbq; Tue, 12 Mar 2024 22:39:03 +0100 (CET)
-Received: from begin.home (aamiens-653-1-111-57.w83-192.abo.wanadoo.fr
- [83.192.234.57])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by sonata.ens-lyon.org (Postfix) with ESMTPSA id 1ECC4A02D1;
- Tue, 12 Mar 2024 22:39:03 +0100 (CET)
-Received: from samy by begin.home with local (Exim 4.97)
- (envelope-from <samuel.thibault@ens-lyon.org>)
- id 1rk9pu-000000076so-2s5z; Tue, 12 Mar 2024 22:39:02 +0100
-Date: Tue, 12 Mar 2024 22:39:02 +0100
-From: Samuel Thibault <samuel.thibault@ens-lyon.org>
-To: Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Alexey Gladkov <legion@kernel.org>, Jiry Slaby <jirislaby@kernel.org>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] fbcon: Increase maximum font width x height to 64 x 64
-Message-ID: <20240312213902.3zvqaghlopjusv6m@begin>
-Mail-Followup-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Alexey Gladkov <legion@kernel.org>,
- Jiry Slaby <jirislaby@kernel.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 612EC10EDA4
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 22:01:00 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id
+ 98e67ed59e1d1-29be5386b74so2218408a91.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 15:01:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1710280859; x=1710885659;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=lLq08iYnVcnWuDzFJHO0LDnyeIZ1/WCj/v6YSvUnsiY=;
+ b=eLXfl2gFc95uN0PYrfLNKv1V7YRdN0HUgCgCvmdBFyFF6cN2QN05JmywSoynIrh/3I
+ idIfbLfob9mCISggViB3zyu+E399+/nyudpI2fpQe2IHPguOsmaAUrs0O7VPsyAHkpGF
+ 4q0b1Zvj/IKdIFrhakrIw3hm/aeybyF8d+QZs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710280859; x=1710885659;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lLq08iYnVcnWuDzFJHO0LDnyeIZ1/WCj/v6YSvUnsiY=;
+ b=V76z/JycPorn5Tjs2x3vzohUcz9sCOe/Gkm7NVBeBrfgUFBsc/rVw6W7xic/L0x3Jz
+ ty6mLJAE+IwX7Y+8IE5iXQVRxuZgBwft9LH9mhprKP13UPJvJj9B5XOPk2QHkagPkxsY
+ P/WEkgcSEFHbh2tqBC7i+tv2A+2ChRn3W5I2eM7DnMBDs9EyqzVC7k48EZW7WFqQxbSe
+ ROS5SC47URvRFJLyUaP1NgZkzdtmGew0V4drrS566U0646RIPKleIF0zIA9OCA1h0HLt
+ E4WW41L4ld0tbVxKykGjel0SoheBxbu0fB32vWeiszBUn4tXGOSPMcdRRY6e064lyZfV
+ 7P8g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUtqXSVboWNvAto9cRZuwRHHi4x07BLpFizhysUW0mG5L4h7PO7UcC9JhI2C9a1HThhW2OGYWZ034cADEC/zNnyimiPoiauA+gnWIsoh035
+X-Gm-Message-State: AOJu0Yw0afTyVfXWUGR3yPi9PwxbK8NSzEWBs4g4LF4gnIWjEQcL8N3v
+ lTyh9pyR3wjcrm3RThhjoJYcCiT2TsXEWyCY6+Uvdz79y9VeJHcvO0zdrJ20MA==
+X-Google-Smtp-Source: AGHT+IHdha0C7GHgTOtn+h7GC1nV2SuVFIKnwQ0XR5LyRaxyHLt5ciUVNw2VJKedo24c6BQYxDb+PA==
+X-Received: by 2002:a17:90a:8b02:b0:299:4cc5:aa25 with SMTP id
+ y2-20020a17090a8b0200b002994cc5aa25mr2853635pjn.25.1710280859551; 
+ Tue, 12 Mar 2024 15:00:59 -0700 (PDT)
+Received: from www.outflux.net ([198.0.35.241])
+ by smtp.gmail.com with ESMTPSA id
+ u8-20020a170902e5c800b001ddb57a4dffsm2232631plf.132.2024.03.12.15.00.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Mar 2024 15:00:59 -0700 (PDT)
+Date: Tue, 12 Mar 2024 15:00:58 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Daniel Diaz <daniel.diaz@linaro.org>, David Gow <davidgow@google.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+ linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, loongarch@lists.linux.dev, netdev@lists.linux.dev
+Subject: Re: [PATCH 01/14] bug/kunit: Core support for suppressing warning
+ backtraces
+Message-ID: <202403121500.64A2C02@keescook>
+References: <20240312170309.2546362-1-linux@roeck-us.net>
+ <20240312170309.2546362-2-linux@roeck-us.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: NeoMutt/20170609 (1.8.3)
+In-Reply-To: <20240312170309.2546362-2-linux@roeck-us.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,91 +99,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This remains relatively simple by just enlarging integers.
+On Tue, Mar 12, 2024 at 10:02:56AM -0700, Guenter Roeck wrote:
+> Some unit tests intentionally trigger warning backtraces by passing
+> bad parameters to API functions. Such unit tests typically check the
+> return value from those calls, not the existence of the warning backtrace.
+> 
+> Such intentionally generated warning backtraces are neither desirable
+> nor useful for a number of reasons.
+> - They can result in overlooked real problems.
+> - A warning that suddenly starts to show up in unit tests needs to be
+>   investigated and has to be marked to be ignored, for example by
+>   adjusting filter scripts. Such filters are ad-hoc because there is
+>   no real standard format for warnings. On top of that, such filter
+>   scripts would require constant maintenance.
+> 
+> One option to address problem would be to add messages such as "expected
+> warning backtraces start / end here" to the kernel log.  However, that
+> would again require filter scripts, it might result in missing real
+> problematic warning backtraces triggered while the test is running, and
+> the irrelevant backtrace(s) would still clog the kernel log.
+> 
+> Solve the problem by providing a means to identify and suppress specific
+> warning backtraces while executing test code.
+> 
+> Cc: Dan Carpenter <dan.carpenter@linaro.org>
+> Cc: Daniel Diaz <daniel.diaz@linaro.org>
+> Cc: Naresh Kamboju <naresh.kamboju@linaro.org>
+> Cc: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 
-It wouldn't be that simple to get to the console's 64x128 maximum, as it would
-require 128b integers.
+Yup, this looks fine to me.
 
-Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Index: linux-6.4/drivers/video/fbdev/core/fbcon.c
-===================================================================
---- linux-6.4.orig/drivers/video/fbdev/core/fbcon.c
-+++ linux-6.4/drivers/video/fbdev/core/fbcon.c
-@@ -101,6 +101,9 @@ enum {
- 	FBCON_LOGO_DONTSHOW	= -3	/* do not show the logo */
- };
- 
-+#define FBCON_MAX_FONT_WIDTH	(sizeof(((struct fb_pixmap *) 0)->blit_x) * 8)
-+#define FBCON_MAX_FONT_HEIGHT	(sizeof(((struct fb_pixmap *) 0)->blit_y) * 8)
-+
- static struct fbcon_display fb_display[MAX_NR_CONSOLES];
- 
- struct fb_info *fbcon_registered_fb[FB_MAX];
-@@ -2485,12 +2488,12 @@ static int fbcon_set_font(struct vc_data
- 	    h > FBCON_SWAP(info->var.rotate, info->var.yres, info->var.xres))
- 		return -EINVAL;
- 
--	if (font->width > 32 || font->height > 32)
-+	if (font->width > FBCON_MAX_FONT_WIDTH || font->height > FBCON_MAX_FONT_HEIGHT)
- 		return -EINVAL;
- 
- 	/* Make sure drawing engine can handle the font */
--	if (!(info->pixmap.blit_x & BIT(font->width - 1)) ||
--	    !(info->pixmap.blit_y & BIT(font->height - 1)))
-+	if (!(info->pixmap.blit_x & BIT_ULL(font->width - 1)) ||
-+	    !(info->pixmap.blit_y & BIT_ULL(font->height - 1)))
- 		return -EINVAL;
- 
- 	/* Make sure driver can handle the font length */
-@@ -3084,8 +3087,8 @@ void fbcon_get_requirement(struct fb_inf
- 			vc = vc_cons[i].d;
- 			if (vc && vc->vc_mode == KD_TEXT &&
- 			    info->node == con2fb_map[i]) {
--				caps->x |= 1 << (vc->vc_font.width - 1);
--				caps->y |= 1 << (vc->vc_font.height - 1);
-+				caps->x |= 1ULL << (vc->vc_font.width - 1);
-+				caps->y |= 1ULL << (vc->vc_font.height - 1);
- 				charcnt = vc->vc_font.charcount;
- 				if (caps->len < charcnt)
- 					caps->len = charcnt;
-@@ -3096,8 +3099,8 @@ void fbcon_get_requirement(struct fb_inf
- 
- 		if (vc && vc->vc_mode == KD_TEXT &&
- 		    info->node == con2fb_map[fg_console]) {
--			caps->x = 1 << (vc->vc_font.width - 1);
--			caps->y = 1 << (vc->vc_font.height - 1);
-+			caps->x = 1ULL << (vc->vc_font.width - 1);
-+			caps->y = 1ULL << (vc->vc_font.height - 1);
- 			caps->len = vc->vc_font.charcount;
- 		}
- 	}
-Index: linux-6.4/include/linux/fb.h
-===================================================================
---- linux-6.4.orig/include/linux/fb.h
-+++ linux-6.4/include/linux/fb.h
-@@ -143,8 +143,8 @@ struct fb_event {
- };
- 
- struct fb_blit_caps {
--	u32 x;
--	u32 y;
-+	u64 x;
-+	u64 y;
- 	u32 len;
- 	u32 flags;
- };
-@@ -191,10 +191,10 @@ struct fb_pixmap {
- 	u32 scan_align;		/* alignment per scanline		*/
- 	u32 access_align;	/* alignment per read/write (bits)	*/
- 	u32 flags;		/* see FB_PIXMAP_*			*/
--	u32 blit_x;             /* supported bit block dimensions (1-32)*/
--	u32 blit_y;             /* Format: blit_x = 1 << (width - 1)    */
-+	u64 blit_x;             /* supported bit block dimensions (1-64)*/
-+	u64 blit_y;             /* Format: blit_x = 1 << (width - 1)    */
- 	                        /*         blit_y = 1 << (height - 1)   */
--	                        /* if 0, will be set to 0xffffffff (all)*/
-+	                        /* if 0, will be set to ~0ull (all)     */
- 	/* access methods */
- 	void (*writeio)(struct fb_info *info, void __iomem *dst, void *src, unsigned int size);
- 	void (*readio) (struct fb_info *info, void *dst, void __iomem *src, unsigned int size);
+-- 
+Kees Cook
