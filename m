@@ -2,84 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DDC3879606
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 15:25:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E618787960C
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 15:26:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFBE1112400;
-	Tue, 12 Mar 2024 14:25:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F8F7112E50;
+	Tue, 12 Mar 2024 14:26:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="hM8z751l";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="iW2NIMW5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B81C9112400
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 14:25:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1710253512;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mHTAr71y7pGMMfB6Zkn8DP5pBzVAx1tYjAwh1VoMvMk=;
- b=hM8z751lMe9gFwNa1CQW92xAHFd8ArkmI6Q9Jyp7e53uGjBmiAieDQUeLpLfO4ECK3vPd+
- J0QyOHDi91NpYvwlDxUIKpJr/F8vthbqQgqmuE0CtStwxeNexPQEvXTHRMQf4kThEcd2uG
- j3G9iF2+P+MWuRMzrDZjMhBB4pR7Ph8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-264-Dv8TqEW5NdWO_bCI0NJ3Lg-1; Tue, 12 Mar 2024 10:25:11 -0400
-X-MC-Unique: Dv8TqEW5NdWO_bCI0NJ3Lg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-40e435a606aso33420565e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 07:25:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710253510; x=1710858310;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mHTAr71y7pGMMfB6Zkn8DP5pBzVAx1tYjAwh1VoMvMk=;
- b=HBIIIuRtzcwTXiTFSAXJVM3VwJSRPp/Dt1LXBi/GkbGtrVwNbhvRDrX6gKs/isrpJs
- wwXGYwSscxFcRHVQcGgGpWWfqKNKgRoNlvdTRVtzIHSmUrWpvdFPCLtJCmdaP/fkDW8a
- X55pSyM4cyfrKblkHqvpgNQAlDd8OwYCKynaFd5khuvNfRUzKAgqrthQjfyx+qjwQKzl
- VLs752/ShwBPZa6mD5kID4xA1zUhOgo53Snm0ktb3sN772PejINsYaoSqrvNG1Yqyv+h
- xfSgX75vU3Av7NneUiGF/ga2vE4CdmQS5RtjstzLkW2HXsDW8LzpvcNULDlkr35VUWJP
- rVQg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVakElMD3DjQkXHc7AvcxwgMSznNBEiFEFotNq2Al98piOTS9Hi0/uHFM9jKG9RV9Lbvnb2Uf11ORloyGznNyh1NgJA6jlmb3pJrHWUO5uh
-X-Gm-Message-State: AOJu0YwGXpbpYiFzYNxJs/zs4PHtTZPHBjONj+zlg3XW7CTp7ghr+4QJ
- 4LaInRNA4QcE7DSua53ldHSKjbaNYay5JD+x1il0PvXMuoHMx5q0XWnsVW4FO/YBi0drby8yD2u
- zd0PjbAfKD8S+qd5JJb4PpXifhY/6j9eMEk8dn4Zo9K1u2rxcu/JBm6JcfI1OhgDkLg==
-X-Received: by 2002:a05:600c:1e19:b0:413:2d05:7de3 with SMTP id
- ay25-20020a05600c1e1900b004132d057de3mr1571626wmb.3.1710253509973; 
- Tue, 12 Mar 2024 07:25:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH00Nh7bnoQLpmDSBwT+2EAOUi7PE4qgUUe09ya9JZINXPB4EDHU/T7R19/Xu0REtthSySngA==
-X-Received: by 2002:a05:600c:1e19:b0:413:2d05:7de3 with SMTP id
- ay25-20020a05600c1e1900b004132d057de3mr1571613wmb.3.1710253509592; 
- Tue, 12 Mar 2024 07:25:09 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- fc20-20020a05600c525400b00412ae4b45b3sm18797103wmb.30.2024.03.12.07.25.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Mar 2024 07:25:09 -0700 (PDT)
-Message-ID: <4167f9f8-07c6-46ba-975e-3481bb334749@redhat.com>
-Date: Tue, 12 Mar 2024 15:25:08 +0100
+Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE353112E50;
+ Tue, 12 Mar 2024 14:26:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=aTN3+6tI0P36YuQw1m41QrzrNjQyR4whYl6ctM+BlQI=; b=iW2NIMW5eVjhTwmnv8y2OYvQMJ
+ pj0UfKwl4zNNbVAOn6lriSnv6L5VUVnJzquXwuVvyHKkZ6c7iKakfQuGInd4pGGpd9vS/M7YFRJtS
+ 3IPZLge94jPw5GrGW94EvyjVzYo7u3Dw8JhYT6cYxpB8RiJ6AHwde3Hk0FXKqJlMsHM816VrNPFw7
+ ajBBA7h0QTQxMpRBLHkdVjuG51UKVwhQgXZuWoDagxQvieZio/gtsuX9kCpYldbpyrzs6WaZKYmdy
+ 38kZDifW7QdLGllAypyAgSZ7YhdoR6IZTUra7Gis2BiabaEoTgvBQvs+Th+rQVKtBSXJenTUxkNy9
+ wF1dnz+w==;
+Received: from [194.136.85.206] (port=55942 helo=eldfell)
+ by whm50.louhi.net with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
+ (envelope-from <pekka.paalanen@haloniitty.fi>) id 1rk34y-0005vN-1S;
+ Tue, 12 Mar 2024 16:26:08 +0200
+Date: Tue, 12 Mar 2024 16:26:00 +0200
+From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+To: "Garg, Nemesa" <nemesa.garg@intel.com>
+Cc: Simon Ser <contact@emersion.fr>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "G M, Adarsh" <adarsh.g.m@intel.com>
+Subject: Re: [RFC 0/5]  Introduce drm sharpening property
+Message-ID: <20240312162600.7358e146@eldfell>
+In-Reply-To: <IA1PR11MB6467C642ABBD54BD82DF46B9E32B2@IA1PR11MB6467.namprd11.prod.outlook.com>
+References: <20240214112457.3734871-1-nemesa.garg@intel.com>
+ <8Ma-GlU3bFAuSPpFhGbYYuXQ8OeeDjMK9WiWO6KP-4pPO41fLnLrgABkRfhjHY6XlIh5u67vcEbD8ejDq7-zo5BXf-too0Pt7oTDhWCOPlU=@emersion.fr>
+ <IA1PR11MB6467A91412978DE0FFCAB50FE34C2@IA1PR11MB6467.namprd11.prod.outlook.com>
+ <20240216103620.33deabb1@eldfell>
+ <IA1PR11MB6467F801FFB564769E357EA9E3232@IA1PR11MB6467.namprd11.prod.outlook.com>
+ <uL84QKNtst1cp9uG3HqNAqEpJS2pT07qxwufONZx8Zq3t665BwY15fHRm3cZxMtiecQlPlNTs9srrmlIzRKmRYItWUv6cQbDEkms8eUT84Y=@emersion.fr>
+ <IA1PR11MB6467C642ABBD54BD82DF46B9E32B2@IA1PR11MB6467.namprd11.prod.outlook.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v2] drm/mgag200: Add a workaround for low-latency
-To: Sui Jingfeng <sui.jingfeng@linux.dev>, dri-devel@lists.freedesktop.org,
- airlied@redhat.com, tzimmermann@suse.de, daniel@ffwll.ch
-References: <20240208095125.377908-1-jfalempe@redhat.com>
- <212a3a40-e1d1-4e2f-97f1-7039f92121f5@linux.dev>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <212a3a40-e1d1-4e2f-97f1-7039f92121f5@linux.dev>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/e0PcxZ.bQOVy4=4jLebtNyB";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - whm50.louhi.net
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - haloniitty.fi
+X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
+ pekka.paalanen@haloniitty.fi
+X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,79 +79,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--Sig_/e0PcxZ.bQOVy4=4jLebtNyB
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, 12 Mar 2024 08:30:34 +0000
+"Garg, Nemesa" <nemesa.garg@intel.com> wrote:
+
+> This  KMS property is not implementing any formula
+
+Sure it is. Maybe Intel just does not want to tell what the algorithm
+is, or maybe it's even patented.
+
+> and the values
+> that are being used are based on empirical analysis and certain
+> experiments done on the hardware. These values are fixed and is not
+> expected to change and this can change from vendor to vendor. The
+> client can choose any sharpness value on the scale and on the basis
+> of it the sharpness will be set. The sharpness effect can be changed
+> from content to content and from display to display so user needs to
+> adjust the optimum intensity value so as to get good experience on
+> the screen.
+>=20
+
+IOW, it's an opaque box operation, and there is no way to reproduce its
+results without the specific Intel hardware. Definitely no way to
+reproduce its results in free open source software alone.
+
+Such opaque box operations can only occur after KMS blending, at the
+CRTC or later stage. They cannot appear before blending, not in the new
+KMS color pipeline design at least. The reason is that the modern way
+to use KMS planes is opportunistic composition off-loading.
+Opportunistic means that userspace decides from time to time whether it
+composes the final picture using KMS or some other rendering method
+(usually GPU and shaders). Since userspace will arbitrarily switch
+between KMS and render composition, both must result in the exact same
+image, or end users will observe unwanted flicker.
+
+Such opaque box operations are fine after blending, because there they
+can be configured once and remain on forever. No switching, no flicker.
+
+Where does "sharpeness" operation occur in the Intel color processing
+chain? Is it before or after blending?
+
+What kind of transfer characteristics does it expect from the image,
+and can those be realized with KMS CRTC properties if KMS is configured
+such that the blending happens using some other characteristics (e.g.
+blending in optical space)?
+
+What about SDR vs. HDR imagery?
 
 
-On 12/03/2024 13:56, Sui Jingfeng wrote:
-> Hi,
-> 
-> 
-> Interesting patch! I know this patch already merged.
-> While study this patch, I have a few questions.
-> 
-> 
-> On 2024/2/8 17:51, Jocelyn Falempe wrote:
->> We found a regression in v5.10 on real-time server, using the
->> rt-kernel and the mgag200 driver. It's some really specialized
->> workload, with <10us latency expectation on isolated core.
->> After the v5.10, the real time tasks missed their <10us latency
->> when something prints on the screen (fbcon or printk)
->>
->> The regression has been bisected to 2 commits:
->> commit 0b34d58b6c32 ("drm/mgag200: Enable caching for SHMEM pages")
->> commit 4862ffaec523 ("drm/mgag200: Move vmap out of commit tail")
->>
->> The first one changed the system memory framebuffer from Write-Combine
->> to the default caching.
->> Before the second commit, the mgag200 driver used to unmap the
->> framebuffer after each frame, which implicitly does a cache flush.
-> 
-> 
-> I don't know why it need to do a cache flush, where is the code.
-> I'm asking because I want to study this technique.
-> 
-> Generally speaking, X86-64 platform's default page caching is cached.
-> And I think the cached mapping is fastest for software rendering. And
-> the platform guaranteed the coherency for us, right?
-> 
-> Because X86-64 platform(or CPU)'s write buffer is implemented on the
-> top of cache? I'm means that for ARM(or other) CPU, when using 
-> Write-combine
-> the data will has nothing to do with cache.
-> 
->> Both regressions are fixed by this commit, which restore WC mapping
->> for the framebuffer in system memory, and add a cache flush.
-> 
-> So switch back to WC probably will decrease overall performance, I think.
-> And the cache flush operation should not have a impact. Except X86-64's
-> Write-Combine is different other platform's Write-Combine?
+Thanks,
+pq
 
-Yes this patch is a bit weird. Usually you want your VRAM mapping to be 
-Write-Combine. Here it also set the system memory framebuffer as 
-Write-Combine. On most x86-64, Write Combine uses its own hardware 
-buffer that is not in L1/L2/L3. So when it copies the framebuffer from 
-WC system memory to VRAM, it doesn't involve the cache, and have less 
-impact on latency for other tasks running on other CPU.
-Also I think the cache flush is important to flush those WC buffers, so 
-when the next frame comes, it won't have to wait for the buffers to be 
-copied to the slow VRAM.
-When running the latency tests, it's obvious that both are needed.
-This is how I understand it, but I may be wrong.
+> > -----Original Message-----
+> > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of =
+Simon
+> > Ser
+> > Sent: Monday, March 4, 2024 7:46 PM
+> > To: Garg, Nemesa <nemesa.garg@intel.com>
+> > Cc: Pekka Paalanen <pekka.paalanen@haloniitty.fi>; intel-
+> > gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; G M, Adarsh
+> > <adarsh.g.m@intel.com>
+> > Subject: RE: [RFC 0/5] Introduce drm sharpening property
+> >=20
+> > On Monday, March 4th, 2024 at 15:04, Garg, Nemesa <nemesa.garg@intel.co=
+m>
+> > wrote:
+> >  =20
+> > > This is generic as sharpness effect is applied post blending.
+> > > Depending on the color gamut, pixel format and other inputs the image
+> > > gets blended and once we get blended output it can be sharpened based
+> > > on strength value provided by the user. =20
+> >=20
+> > It would really help if you could provide the exact mathematical formul=
+a applied
+> > by this KMS property. =20
 
--- 
 
-Jocelyn
+--Sig_/e0PcxZ.bQOVy4=4jLebtNyB
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-> 
-> 
->> This is only needed on x86_64, for low-latency workload,
->> so the new kconfig DRM_MGAG200_IOBURST_WORKAROUND depends on
->> PREEMPT_RT and X86.
->>
->> For more context, the whole thread can be found here [1]
->>
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> Link: 
->> https://lore.kernel.org/dri-devel/20231019135655.313759-1-jfalempe@redhat.com/ # 1
->> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> 
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXwZfgACgkQI1/ltBGq
+qqd+YRAAk4wIJUzCiETKUbrBuh1M1K7+H+H1RQPmv9a6ExdzpydvCE8oh3tT75VU
+RI3uQwWaSHdwlqIfdXNctJ2YzanzV84YYBWzove9PDZwEcVNZe/WQHDNQTWkpN/N
+n/dprXwUPn+uMTv1sys94qIvSRGKscopoc1hNSmKTHHz6zA9t8iPT90bZyoWMIm8
+c87DIAk+TJ1jjgas5oe4UW+zhLaLHmhKzgswi0YB3zUY5FU25wYCGEDyzJkL3W4g
+xP7zu70nfLDFORWCDp7q2QZH/qm4EnqY9hKK4I8beN+FDwYGGafCLIoswzPoLWZB
+MEkbR7NhHXxcDODLurnr+tsQ62iaMy2Hl/IBhkSWAwSQzhpqfTPcL5urC2447Xgo
+lPqRE8c5CFTrqPh8vCetP4v4VyBzRqRjc6VEPRbES29gGjXjfqscqtwE+LINZoq1
+r2jjG2FPPeFnhQmiYWMn1IZC+4x7yEJNGbVuR3eTSdx71LRmYSdhDaXDvTTTUwJk
+fCGUTHgX0KBQdzXsruAFLvRci9nslG24X+nN/7XJbCIYBQNSPxSE/3D+qsU17Eyv
+BY+MnVvtCEQlRmFsvwf0jRtmtLWjE9dBPYzO5uyy3LJFPSnZF/gF4lAp1pc2KX7p
+UqZ3pCWz+mayHOAV3X799F5hTjoiC6/m6JyStO4rO8EXrKHGO8M=
+=oqsm
+-----END PGP SIGNATURE-----
+
+--Sig_/e0PcxZ.bQOVy4=4jLebtNyB--
