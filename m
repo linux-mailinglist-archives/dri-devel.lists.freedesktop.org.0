@@ -2,62 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71090879562
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 14:52:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3D9879567
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 14:54:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B8D010EE41;
-	Tue, 12 Mar 2024 13:52:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB7E810F17B;
+	Tue, 12 Mar 2024 13:54:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fzDDuE+s";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FsLXzVhM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BC5410E9D5;
- Tue, 12 Mar 2024 13:52:38 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE12810F109;
+ Tue, 12 Mar 2024 13:54:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710251558; x=1741787558;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=wiqT5YC3NI3QH9hweZQu5q5agU/RBrYXqrA9c0sUyF0=;
- b=fzDDuE+s8UfMgsA4yI3H1zDs/OUZcVjcjVu3U9m/OguWNQpGD0bi9e4Z
- a1sEilxJhmVdG7+SoTxiqck5RR+vIEiy5jC7f5Pjj6qkaV8yw34G+N9vg
- s/mb5y1ptvFMQiqo7y5pOee8b5GAp4kIjGHTaTEYZj6E26zx7sYa8vTXt
- 1TPY0emMrr2FvfE4M9XfJNSUqU6WcUl1jc0LmwggVQfsjqdnKMeS+8p8M
- iwV98QbIKhO9EA0iao4d8VURXNOnrwNSSqHIPPQdzRO9vvGoYUx5DCY8+
- ahMKwGikhhTEj6RVI5rzmETB7RkocBal7PqdiUcFFzeS7l/qvy8XCE/Rq w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="15516053"
-X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; d="scan'208";a="15516053"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2024 06:52:38 -0700
+ t=1710251643; x=1741787643;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=l7fTLAMqO97ikpOOfyGHKqZUfak7JnMjeaL/aASys+8=;
+ b=FsLXzVhMA2sqRaBw0iT/byM9j6tk0ZLQrxu/5DZ0+ITEspMVzgvD08+m
+ abnn5H/uDxD1LwU7aEHnUjR9CDQhPmDN7mE9rNVVuibx4VL23VCO3HK8Y
+ ep145gU9Xp74XVBPbqnDtCkuGgVQOQAdu0EvZdOpGlJZArVsJtWw6vFo4
+ RrTv71RKeB5XUlCwNjBOEh9CS+bYrILR6tNLm23BTiQZBMrZIFkb41pLQ
+ lQEz/a9ua01J4A6kqVFzl+G2/UBlYI8n6MOGfmb88GqZAe2hYYSQ4gC0Z
+ 20thy003JotGig7H8M1n14xV4n1316FUeuTkI47Te3clMQuLVSg8iH3ei w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="16099930"
+X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; d="scan'208";a="16099930"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Mar 2024 06:54:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; d="scan'208";a="11619550"
-Received: from rfreedx-mobl.amr.corp.intel.com (HELO localhost)
- ([10.252.35.216])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2024 06:52:35 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: imre.deak@intel.com, Chris Bainbridge <chris.bainbridge@gmail.com>
-Cc: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, lyude@redhat.com,
- ville.syrjala@linux.intel.com, stanislav.lisovskiy@intel.com,
- mripard@kernel.org
-Subject: Re: [PATCH v2] Fix divide-by-zero regression on DP MST unplug with
- nouveau
-In-Reply-To: <ZfBX0rrIpWMZbmRp@ideak-desk.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <ZcfpqwnkSoiJxeT9@debian.local>
- <Ze8suV5ox+43/wAC@ideak-desk.fi.intel.com>
- <Ze8vVffBaWY9f/Mu@ideak-desk.fi.intel.com> <Ze-Pf1_E-p4G8o0l@debian.local>
- <ZfBX0rrIpWMZbmRp@ideak-desk.fi.intel.com>
-Date: Tue, 12 Mar 2024 15:52:32 +0200
-Message-ID: <87jzm7sgkf.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain
+X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; d="scan'208";a="12009782"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 12 Mar 2024 06:54:02 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 12 Mar 2024 06:54:01 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 12 Mar 2024 06:54:01 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 12 Mar 2024 06:54:01 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Z40sf8bBeRtUddAn6dLlUfmTOmWDlnryNaa0roMBHku/zp/rfxX+FkkH2MdxKEiHxMVBP132ohJY5v9/NX3EbnzudoTQMcf9aZGygfrkoUuOszio50FG3FF7ITtNg4gD5FOnhw92eC3M0VbSO+YIJe9/C8zcxiIj6sNzU10rYV77lVC9SCPzx/mh+bC3ar26f6ZoBwPuEf0lrWfhlhLf3+11C5AQSLQ7Z+Ulw9f27od8fRYFrCnddqdQYYGoPJIGiuhJblGN6UU11q3BuKBXkwLuZNiURNoOrjiBlOVXgHiOxsJ9RZQJ6ukA4n0um0qJDOWf91ER2W+NVEY2CgUEGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UAFDM5UWYr4RzoHO/GDI3tMjE71QNHt01axh7H09ap0=;
+ b=FXEdVbTlSbY2tH18L/o0p4+q4ya7ZL9sVczYxxtmtPa34d01BKOdGiJrJ1PS0G0YykXCLiTzM+wusnx4adVxGXxlcWYIygxlaFpJA+XNpSB5NAyUhubHMWbJJZqoxz6U4SciN8I07aD2eXJVB0Rkr0NdED68hA3f+OkY1h3oh6pugrstrT9/GAarxNUmlj/OABJLzkKtDbX7lOkFwR89hO7RP/wKCybbal48KnD+uKsr3iC4oMlCyKqP3gg9DAS2x/xpDa8SsYgb0gK56//C+SS+Yjkk3UPsjv5Hu/om3K+bL0iuiurx5pIJUmlKYsD29o/p/wPSLUbT34zs4WJnSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CH0PR11MB5444.namprd11.prod.outlook.com (2603:10b6:610:d3::13)
+ by SJ0PR11MB6813.namprd11.prod.outlook.com (2603:10b6:a03:47f::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.16; Tue, 12 Mar
+ 2024 13:53:58 +0000
+Received: from CH0PR11MB5444.namprd11.prod.outlook.com
+ ([fe80::f061:a0b9:4a91:b27c]) by CH0PR11MB5444.namprd11.prod.outlook.com
+ ([fe80::f061:a0b9:4a91:b27c%7]) with mapi id 15.20.7386.015; Tue, 12 Mar 2024
+ 13:53:58 +0000
+From: "Cavitt, Jonathan" <jonathan.cavitt@intel.com>
+To: "Das, Nirmoy" <nirmoy.das@intel.com>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Andi
+ Shyti" <andi.shyti@linux.intel.com>, Janusz Krzysztofik
+ <janusz.krzysztofik@linux.intel.com>
+Subject: RE: [PATCH] drm/i915/selftests: Pick correct caching mode.
+Thread-Topic: [PATCH] drm/i915/selftests: Pick correct caching mode.
+Thread-Index: AQHadHDpkf3UKmkEIUy2uesWhy6owLE0IFpQ
+Date: Tue, 12 Mar 2024 13:53:57 +0000
+Message-ID: <CH0PR11MB544475991384F86EB10A4B1CE52B2@CH0PR11MB5444.namprd11.prod.outlook.com>
+References: <20240312111815.18083-1-nirmoy.das@intel.com>
+In-Reply-To: <20240312111815.18083-1-nirmoy.das@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CH0PR11MB5444:EE_|SJ0PR11MB6813:EE_
+x-ms-office365-filtering-correlation-id: 61c93a6c-53a9-4660-b84e-08dc429bdd46
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: IBSYtXXC4pIy0yiTnNcVqerMuBU8MIq4NVL+tJAp1sDgsZ2VktKYugnElj2sHWZqMb3FfQ7oEocDjkwuZCS4HpPDDodyJDCmtV2uZjLQk1T+p6tJOQYeR+Qv2eK8lIWAqPI4nxBkJZUwfTb4kuS8SfNO54UKpQ7e7fFSHeEMuiPJZ5elCeiAlBheNSVC2i1y90YYJmJNqUZ7LTcsiZ3KvznUFMup5ckizMsuSAMXgJRruMsipkuftiYsEcZkYNVer9nLaptlTtcqpk3SiD78edDFl4XFe9jN6QPuDLf2QukxYQqlSoRB8K6AdpfP7+8hXH9OrTrZsM3Ycszt1a5u5zeakNpTdkS50CiMnJYYQRBSqBzsiZsih7abliEcohpSa+k9gDMjMBvNt7kCACqHQV2IohZzRBCd9cBYcLXkqt4NmS/6NfuCWdK7TrOHdPpryBogNVYNBCb5SoEwjr5w0DdQek0JaVWUVXYiVZ3cT+KHOqCLtKTn3f88ZzPnnttt9kbLopd3InvI8bmDhg2FjXt3Z4VC97AjPStFL+qbsrUFdcRNwKZUW20rgkgCM7J7g++cUoOYLWGYnx3Yh9oivIVY6HGf06K2zjuW92p2Y75VzH2xZxRVp8Igb1539p06/JVK4gWTgLp7D6a4FcMYsAG608GppLXInKT3v37afgM=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH0PR11MB5444.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376005)(1800799015)(38070700009); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?R+s/Ubtm9fMz+YcOOlMJKDEL7orhkCVHsSl5QbeBYdlafMbha7Lo+whlrnYb?=
+ =?us-ascii?Q?O/mp+4Wu/rfRgE150WL1A+M5Y2aWROhiIepqOe2iPK4GrUgPKX8Npv+IexiW?=
+ =?us-ascii?Q?zx689sYOcHACSJBhYtGfo76346+dCPezX3keiGNW9Kx7e/MWozuWZyZngSCh?=
+ =?us-ascii?Q?+TL9bAWNNg0DqLu5BLDFytoGbHZinadlClOFRz6s7bu4hFgYL4ICfriR2nfp?=
+ =?us-ascii?Q?tGwK/608SU2hV11cPsaV5HM8r41EUVkZf7+l5zyE9marS9b3aSJGoAoJElQF?=
+ =?us-ascii?Q?2t0IEiRR+SH+tEVqBXRBxOlTMUqhMN/zeGck03eUFgHpxkLliDp5CmV8qVU+?=
+ =?us-ascii?Q?W69iin4tm4bYLYIFwHF6v29indZM5lP5XAcCacgGn+DQyteNaRzKdvE9arOZ?=
+ =?us-ascii?Q?NNTQfW+aL2Ns/8/y2bQu1GKrIsq6vrFK6g9PyvEFJdnmUWmjLa65GlGkea8t?=
+ =?us-ascii?Q?5+L+jcGuJ8vBBjvQ2DYh0SIDvQFVeWp/uOeOifGrSrFh033X7Wj7pBySQHwh?=
+ =?us-ascii?Q?JDe5ictubih/T1FBSoGc/WDMoL0rb+TAyWNuD/HdntOrZIDrMkI6222XRQXI?=
+ =?us-ascii?Q?42mwuF9EhT/uJc3TzL4nqE2FhX6uxsHuZos6/jCrYJS9w/iy0L0rGLtopOPk?=
+ =?us-ascii?Q?Bj7AhSLaXfrlZYx5tVPTpPjpBWt8U0nQZ0jicIDBUs5rCoElpDzGrssL4Ey7?=
+ =?us-ascii?Q?Zb9H6GvXK+qQ8o5VAPHgeG5tFxVBKyQNdrHdhyl6paOS0gIoHtps2sURC/S3?=
+ =?us-ascii?Q?ZmHk0i4m0aMtkmVbr92lG1O/K+IwCQeFLH/qpb22GgZFidj4xRz0G3cUWQTX?=
+ =?us-ascii?Q?x/e4WoA2KbODhP8uFqyRVo0ucsiI/eu0rh7dzuJWCI1EnK9SejLCXhxZBCfq?=
+ =?us-ascii?Q?2eSnww6JjofY9xjUVxwhQhFxOypdx99wwCEjdnCmxE7B0RsLZLp6fj+Spnqg?=
+ =?us-ascii?Q?ha7gEEmSYOKEQXu4kwdZgQXH/F9oecmDvWnsG3MhTa9GMzJt03AracaSxChz?=
+ =?us-ascii?Q?RD11+m86yXU3U+bfQIkQ/d5L2AZoPhctiEFUGVurdfS9hSNipLLzFrV2oDSZ?=
+ =?us-ascii?Q?knF5hh4SXlBvses20vPpA3Axx69/BEFDyfmztmCQ2PrgPE5O5gGQqVgZ3PaC?=
+ =?us-ascii?Q?uDJa1b9R06zNRZcEMwq5gQLiYk/TxEDNK+L8Ff7eUgCspdQdgN437kIY6MsR?=
+ =?us-ascii?Q?+5el39ZpXXlsJV7guWJC/zBdLTC3kzFyiucovspZRJFmHm2W0snIxH7+582F?=
+ =?us-ascii?Q?HpHMlqiM/b5PgKDG0hGEhNOtS2wx29BPtlugI8A6W5d8nXTwq3f9jpn/Yw9I?=
+ =?us-ascii?Q?hkoF0lToEBGMl8sXjY/yp2LaHKWn2nesSR6AGmmZIB6TMziROiQI6FSrqLyi?=
+ =?us-ascii?Q?ESvmZHloJEyck5ZrrmamR9aZeSavYxrARHwdvoT2NYt35tLHMvzPs0s11SP0?=
+ =?us-ascii?Q?arL52h8ewCSnl5iF0qPYAnMpJFMwc+9ccQApWIKnG7xuWHUnyG1Z0jZzBNMR?=
+ =?us-ascii?Q?xTo/uZeXhlNsKMRaWgSSNzR45iiCeLfutghJRwNnkaQt0rSo2a+lhCMGgW7g?=
+ =?us-ascii?Q?11NKRJAb+jsIGqvdK0JrcgKuyLEOn1K7leAfam9g?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5444.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61c93a6c-53a9-4660-b84e-08dc429bdd46
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Mar 2024 13:53:57.9152 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2rZWLbfDASj7Sfw10kSPDtM8RM1vnSIZTdncze0BrsCCZghg4/KzuhyQwGfTofskjpCwx3f5DAGhuzN3Yhm10K06/RxdJtuVx473G0oqfaE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB6813
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,146 +153,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 12 Mar 2024, Imre Deak <imre.deak@intel.com> wrote:
-> On Mon, Mar 11, 2024 at 11:10:55PM +0000, Chris Bainbridge wrote:
->> Fix a regression when using nouveau and unplugging a StarTech MSTDP122DP
->> DisplaypPort 1.2 MST hub (the same regression does not appear when using
->> a Cable Matters DisplayPort 1.4 MST hub). Trace:
->>=20
->>  divide error: 0000 [#1] PREEMPT SMP PTI
->>  CPU: 7 PID: 2962 Comm: Xorg Not tainted 6.8.0-rc3+ #744
->>  Hardware name: Razer Blade/DANA_MB, BIOS 01.01 08/31/2018
->>  RIP: 0010:drm_dp_bw_overhead+0xb4/0x110 [drm_display_helper]
->>  Code: c6 b8 01 00 00 00 75 61 01 c6 41 0f af f3 41 0f af f1 c1 e1 04 48=
- 63 c7 31 d2 89 ff 48 8b 5d f8 c9 48 0f af f1 48 8d 44 06 ff <48> f7 f7 31 =
-d2 31 c9 31 f6 31 ff 45 31 c0 45 31 c9 45 31 d2 45 31
->>  RSP: 0018:ffffb2c5c211fa30 EFLAGS: 00010206
->>  RAX: ffffffffffffffff RBX: 0000000000000000 RCX: 0000000000f59b00
->>  RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
->>  RBP: ffffb2c5c211fa48 R08: 0000000000000001 R09: 0000000000000020
->>  R10: 0000000000000004 R11: 0000000000000000 R12: 0000000000023b4a
->>  R13: ffff91d37d165800 R14: ffff91d36fac6d80 R15: ffff91d34a764010
->>  FS:  00007f4a1ca3fa80(0000) GS:ffff91d6edbc0000(0000) knlGS:00000000000=
-00000
->>  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>  CR2: 0000559491d49000 CR3: 000000011d180002 CR4: 00000000003706f0
->>  Call Trace:
->>   <TASK>
->>   ? show_regs+0x6d/0x80
->>   ? die+0x37/0xa0
->>   ? do_trap+0xd4/0xf0
->>   ? do_error_trap+0x71/0xb0
->>   ? drm_dp_bw_overhead+0xb4/0x110 [drm_display_helper]
->>   ? exc_divide_error+0x3a/0x70
->>   ? drm_dp_bw_overhead+0xb4/0x110 [drm_display_helper]
->>   ? asm_exc_divide_error+0x1b/0x20
->>   ? drm_dp_bw_overhead+0xb4/0x110 [drm_display_helper]
->>   ? drm_dp_calc_pbn_mode+0x2e/0x70 [drm_display_helper]
->>   nv50_msto_atomic_check+0xda/0x120 [nouveau]
->>   drm_atomic_helper_check_modeset+0xa87/0xdf0 [drm_kms_helper]
->>   drm_atomic_helper_check+0x19/0xa0 [drm_kms_helper]
->>   nv50_disp_atomic_check+0x13f/0x2f0 [nouveau]
->>   drm_atomic_check_only+0x668/0xb20 [drm]
->>   ? drm_connector_list_iter_next+0x86/0xc0 [drm]
->>   drm_atomic_commit+0x58/0xd0 [drm]
->>   ? __pfx___drm_printfn_info+0x10/0x10 [drm]
->>   drm_atomic_connector_commit_dpms+0xd7/0x100 [drm]
->>   drm_mode_obj_set_property_ioctl+0x1c5/0x450 [drm]
->>   ? __pfx_drm_connector_property_set_ioctl+0x10/0x10 [drm]
->>   drm_connector_property_set_ioctl+0x3b/0x60 [drm]
->>   drm_ioctl_kernel+0xb9/0x120 [drm]
->>   drm_ioctl+0x2d0/0x550 [drm]
->>   ? __pfx_drm_connector_property_set_ioctl+0x10/0x10 [drm]
->>   nouveau_drm_ioctl+0x61/0xc0 [nouveau]
->>   __x64_sys_ioctl+0xa0/0xf0
->>   do_syscall_64+0x76/0x140
->>   ? do_syscall_64+0x85/0x140
->>   ? do_syscall_64+0x85/0x140
->>   entry_SYSCALL_64_after_hwframe+0x6e/0x76
->>  RIP: 0033:0x7f4a1cd1a94f
->>  Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89=
- 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <41> 89 c0 3d =
-00 f0 ff ff 77 1f 48 8b 44 24 18 64 48 2b 04 25 28 00
->>  RSP: 002b:00007ffd2f1df520 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
->>  RAX: ffffffffffffffda RBX: 00007ffd2f1df5b0 RCX: 00007f4a1cd1a94f
->>  RDX: 00007ffd2f1df5b0 RSI: 00000000c01064ab RDI: 000000000000000f
->>  RBP: 00000000c01064ab R08: 000056347932deb8 R09: 000056347a7d99c0
->>  R10: 0000000000000000 R11: 0000000000000246 R12: 000056347938a220
->>  R13: 000000000000000f R14: 0000563479d9f3f0 R15: 0000000000000000
->>   </TASK>
->>  Modules linked in: rfcomm xt_conntrack nft_chain_nat xt_MASQUERADE nf_n=
-at nf_conntrack_netlink nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 xfrm_use=
-r xfrm_algo xt_addrtype nft_compat nf_tables nfnetlink br_netfilter bridge =
-stp llc ccm cmac algif_hash overlay algif_skcipher af_alg bnep binfmt_misc =
-snd_sof_pci_intel_cnl snd_sof_intel_hda_common snd_soc_hdac_hda snd_sof_pci=
- snd_sof_xtensa_dsp snd_sof_intel_hda snd_sof snd_sof_utils snd_soc_acpi_in=
-tel_match snd_soc_acpi snd_soc_core snd_compress snd_sof_intel_hda_mlink sn=
-d_hda_ext_core iwlmvm intel_rapl_msr intel_rapl_common intel_tcc_cooling x8=
-6_pkg_temp_thermal intel_powerclamp mac80211 coretemp kvm_intel snd_hda_cod=
-ec_hdmi kvm snd_hda_codec_realtek snd_hda_codec_generic uvcvideo libarc4 sn=
-d_hda_intel snd_intel_dspcfg snd_hda_codec iwlwifi videobuf2_vmalloc videob=
-uf2_memops uvc irqbypass btusb videobuf2_v4l2 snd_seq_midi crct10dif_pclmul=
- hid_multitouch crc32_pclmul snd_seq_midi_event btrtl snd_hwdep videodev po=
-lyval_clmulni polyval_generic snd_rawmidi
->>   ghash_clmulni_intel aesni_intel btintel crypto_simd snd_hda_core crypt=
-d snd_seq btbcm ee1004 8250_dw videobuf2_common btmtk rapl nls_iso8859_1 me=
-i_hdcp thunderbolt bluetooth intel_cstate wmi_bmof intel_wmi_thunderbolt cf=
-g80211 snd_pcm mc snd_seq_device i2c_i801 r8169 ecdh_generic snd_timer i2c_=
-smbus ecc snd mei_me intel_lpss_pci mei ahci intel_lpss soundcore realtek l=
-ibahci idma64 intel_pch_thermal i2c_hid_acpi i2c_hid acpi_pad sch_fq_codel =
-msr parport_pc ppdev lp parport efi_pstore ip_tables x_tables autofs4 dm_cr=
-ypt raid10 raid456 libcrc32c async_raid6_recov async_memcpy async_pq async_=
-xor xor async_tx raid6_pq raid1 raid0 joydev input_leds hid_generic usbhid =
-hid nouveau i915 drm_ttm_helper gpu_sched drm_gpuvm drm_exec i2c_algo_bit d=
-rm_buddy ttm drm_display_helper drm_kms_helper cec rc_core drm nvme nvme_co=
-re mxm_wmi xhci_pci xhci_pci_renesas video wmi pinctrl_cannonlake mac_hid
->>  ---[ end trace 0000000000000000 ]---
->>=20
->> Fix this by avoiding the divide if bpp is 0.
->>=20
->> Fixes: c1d6a22b7219 ("drm/dp: Add helpers to calculate the link BW overh=
-ead")
->> Signed-off-by: Chris Bainbridge <chris.bainbridge@gmail.com>
->> Acked-by: Imre Deak <imre.deak@intel.com>
->> ---
->>  drivers/gpu/drm/display/drm_dp_helper.c | 7 +++++++
->>  1 file changed, 7 insertions(+)
->>=20
->> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/d=
-isplay/drm_dp_helper.c
->> index b1ca3a1100da..9f0e7142f174 100644
->> --- a/drivers/gpu/drm/display/drm_dp_helper.c
->> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
->> @@ -3982,6 +3982,13 @@ int drm_dp_bw_overhead(int lane_count, int hactiv=
-e,
->>  	u32 overhead =3D 1000000;
->>  	int symbol_cycles;
->>=20=20
->> +	if (bpp_x16 =3D=3D 0) {
->> +		DRM_DEBUG("drm_dp_bw_overhead called with bpp 0\n");
->> +	}
->> +	if (lane_count =3D=3D 0 || hactive =3D=3D 0 || bpp_x16 =3D=3D 0) {
->
-> Could you add lane_count and hactive to the debug print as well?
-> Something like "Invalid BW overhead params: lane_count %d, hactive %d, bp=
-p_x16 %d.04d".=20
+-----Original Message-----
+From: Das, Nirmoy <nirmoy.das@intel.com>=20
+Sent: Tuesday, March 12, 2024 4:18 AM
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org; Das, Nirmoy <nirmoy.das@intel.com>; An=
+di Shyti <andi.shyti@linux.intel.com>; Janusz Krzysztofik <janusz.krzysztof=
+ik@linux.intel.com>; Cavitt, Jonathan <jonathan.cavitt@intel.com>
+Subject: [PATCH] drm/i915/selftests: Pick correct caching mode.
+>=20
+> Caching mode is HW dependent so pick a correct one using
+> intel_gt_coherent_map_type().
+>=20
+> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/10249
+> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
 
-And within one if instead of two, and use DRM_DEBUG_KMS, and it debug
-logs the function, no need to duplicate it.
+LGTM
+Acked-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+-Jonathan Cavitt
 
-BR,
-Jani.
-
->
->> +		return 0;
->> +	}
->> +
->>  	/*
->>  	 * DP Standard v2.1 2.6.4.1
->>  	 * SSC downspread and ref clock variation margin:
->> --=20
->> 2.39.2
->>=20
-
---=20
-Jani Nikula, Intel
+> ---
+>  drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drive=
+rs/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+> index d684a70f2c04..65a931ea80e9 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+> @@ -7,6 +7,7 @@
+>  #include "i915_drv.h"
+>  #include "i915_selftest.h"
+>  #include "gem/i915_gem_context.h"
+> +#include "gt/intel_gt.h"
+> =20
+>  #include "mock_context.h"
+>  #include "mock_dmabuf.h"
+> @@ -155,6 +156,7 @@ static int verify_access(struct drm_i915_private *i91=
+5,
+>  	struct file *file;
+>  	u32 *vaddr;
+>  	int err =3D 0, i;
+> +	unsigned int mode;
+> =20
+>  	file =3D mock_file(i915);
+>  	if (IS_ERR(file))
+> @@ -194,7 +196,8 @@ static int verify_access(struct drm_i915_private *i91=
+5,
+>  	if (err)
+>  		goto out_file;
+> =20
+> -	vaddr =3D i915_gem_object_pin_map_unlocked(native_obj, I915_MAP_WB);
+> +	mode =3D intel_gt_coherent_map_type(to_gt(i915), native_obj, true);
+> +	vaddr =3D i915_gem_object_pin_map_unlocked(native_obj, mode);
+>  	if (IS_ERR(vaddr)) {
+>  		err =3D PTR_ERR(vaddr);
+>  		goto out_file;
+> --=20
+> 2.42.0
+>=20
+>=20
