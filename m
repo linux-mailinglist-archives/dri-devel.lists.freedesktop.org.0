@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 665518799A7
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 18:03:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CFBF8799A5
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 18:03:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A623112F28;
-	Tue, 12 Mar 2024 17:03:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F2D1112F29;
+	Tue, 12 Mar 2024 17:03:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jJ/l38QA";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kz23VamI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFFA610E789
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 17:03:26 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id
- d9443c01a7336-1dd5df90170so518545ad.0
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 10:03:26 -0700 (PDT)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+ [209.85.215.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5271C10E789
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 17:03:29 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id
+ 41be03b00d2f7-5e4613f2b56so4042580a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 10:03:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1710263006; x=1710867806; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1710263009; x=1710867809; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
  :message-id:reply-to;
- bh=mFp+F6/qbMDKwppN9CX4ZWrh/15b9XKC6E4V4vAKNpU=;
- b=jJ/l38QAAfKHsn/mMBgG2rFtxpXpPOSyBSKtOAvGtZxn28RQN9ILgC7wQacquGGjfR
- kLkXDkLq+8CwIdEpTjQK8WQw/fxNnJmGDbhWa7lbG17i7ZkdOtu2G/ZTK43lg0xsuzXt
- jj2vUuI+E79wVX3hYYMXJzioEWzTwddPhWHTt2dVmTEiYzHNmSPa+XdK4TUWIO526A1O
- EaU9wPZ1Nk4QQhMgJOqoueAF5V9igk492SMmKCcCchaj4Q42CIhhDS3JXh6sCXgB0x7g
- bW+brBfMIiyNvLo53Um3fG8KKS2yKF5jihg+3OBs4dMY0CHhhR0f3aps8RuDCjCTMh3o
- 5jlQ==
+ bh=5e/E6ddr2rv0O0qI6ESGYNVGq97JQ/YRs1mbYMxZhW0=;
+ b=kz23VamIN6lZGFQ6uozDqOViiEfMICe2P0xCr6tm1DeJRVkt5lyzFC7laBKbh5QSNp
+ fXM7ypzMpDfavbTqtZzyxkrk9PyT1od14Y6sBCO26SlUU50VCOebKDoXS5UEpXIffRJu
+ HLGyHDVWqBGmgJmdCVNvtyzjCmKieOG7bzO324dRMN8WUPsyKjttBhhkc1XCPBK513VD
+ 2Qh97Z0PABys0yLBsLq1hbyRP5w+APy7Ax2MRCOJbnXvCPtVKCinAOOVSQ9ZFNrHuHoc
+ 18VgxF0taxNxJI9RPPsBJFdWnptIDAmO2h521UQ3az4sF0Xr0uZSy1fRe1thd0iq3msm
+ P6mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710263006; x=1710867806;
+ d=1e100.net; s=20230601; t=1710263009; x=1710867809;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=mFp+F6/qbMDKwppN9CX4ZWrh/15b9XKC6E4V4vAKNpU=;
- b=uzi5f0KaoKUr0smu1E7Cllwf5wmimUY+0ByWccsV0qWkybEBVWehL4aR4+eY+XGnjI
- c7xPGlfMVXOL0UltlnS0tWKApTNq40Ms0hKr7LYV629dORJ/jT3k1uOWAbQIBr1hgZko
- y8KbSFYt0baSTCb695CYKrOtv+ziz+F7+Lj/4VkRDRhjyN2fJjVyv9j39tKWKFnjYOKi
- kkrlwWIqOMKTwjKmAbYYHnqm1zRHeX0MqYyxIKFXqj/F9lmt1NMWm523aP0IfIZQ95sE
- kAKhoeYZpKVcXeuq2FIuacDDL4Ib1IhMfjgjHzE9UiFvxsj8WICC9aZ2f3Gyia9YWO4x
- kXsA==
+ bh=5e/E6ddr2rv0O0qI6ESGYNVGq97JQ/YRs1mbYMxZhW0=;
+ b=vWbpGj8Q8kl5HiTw75LQRO52Nq2NmfMKmJ2XTtd9WQkkTdrqXlm3cfePI5xjgqRl4O
+ J82f0dlwog7mUPzC57ENF/NjUozmPDUxifROupkKmAYn3BMxI5ouLA2zfk2Iqh/2xfmS
+ 7kldn9zOeGWnwn/06iQuyRFaLyKmuG2EwPmqdm9hYtvE7JSkgAOHOfUd5PwtaAwIeray
+ UlIITRDBENjZm5E82mP0geEBfO1z370NvHzFFqLR2fLuGkT7SVf9PCz8frr0HMZc/fMt
+ 2BsQihzCCEMGvfZXhKoLw7LolxtznRJQW1gYQGYXmo8+Pj3FKSHeIQVidsf0Amq/ZYWv
+ s2Xw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUUOi0VUnCNMdEijE5PNBOr7sC8HJ9cxDCi4LOTOEhN8seujI4BtqSBDBfl7/KaR6418KkGWLfhhUaM7VUnFRyTuFosZSV28hQbEcRNOoG3
-X-Gm-Message-State: AOJu0Yxzgk4jeZa3UT//AxBmdTJtXMILB8dlTDVwY2FmmmFuXwSg4aOW
- RuJgh4hRU3pGOgknVJo1kBFB1ej9OQktuAF1Qrxif/pXLzPr0fDf
-X-Google-Smtp-Source: AGHT+IFHgAu4TIvnFI5COGYb5tswxOQ5AvbfbseYntF0tu2SzSXjMyu1g4BetZFgaKzrp5WqY1rOuQ==
-X-Received: by 2002:a17:902:db10:b0:1dd:8ed0:59d0 with SMTP id
- m16-20020a170902db1000b001dd8ed059d0mr179469plx.17.1710263006272; 
- Tue, 12 Mar 2024 10:03:26 -0700 (PDT)
+ AJvYcCX2qYRcMBmGr2ZXYiaXVsF2hBYg/qPJO2wuEydwg4etnLX17nefbpcscTzt0nQnQcmh3yweYF05K0KTQrd/8rZ0AuMM6p+3JfdynaWA47Ie
+X-Gm-Message-State: AOJu0Yww+DBR9czTkvlKzYXnx+zgnpaYogD/5vPm5x8bRD5QWS/jYpJl
+ fvFnP266MS8Ev2XyAdcxvPQ6iUMm2IUEbcFeahbSpGjCmcFSiW3B
+X-Google-Smtp-Source: AGHT+IHnpV6pQ4sbhTQFUz6ATEKXpUTcdarefNsnZ32RzB7TxwrdDKUDIv3vmdM+PJbrepqm0Atu1Q==
+X-Received: by 2002:a17:90a:ba93:b0:29c:844:a91 with SMTP id
+ t19-20020a17090aba9300b0029c08440a91mr5600961pjr.48.1710263008670; 
+ Tue, 12 Mar 2024 10:03:28 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
  by smtp.gmail.com with ESMTPSA id
- b21-20020a170902ed1500b001d9a42f6183sm6958740pld.45.2024.03.12.10.03.25
+ bf20-20020a17090b0b1400b0029bc2b845c4sm5986405pjb.11.2024.03.12.10.03.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Mar 2024 10:03:25 -0700 (PDT)
+ Tue, 12 Mar 2024 10:03:28 -0700 (PDT)
 From: Guenter Roeck <linux@roeck-us.net>
 To: linux-kselftest@vger.kernel.org
 Cc: David Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
@@ -76,12 +76,10 @@ Cc: David Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
  linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
  linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
  linux-sh@vger.kernel.org, loongarch@lists.linux.dev,
- netdev@lists.linux.dev, Guenter Roeck <linux@roeck-us.net>,
- Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH 06/14] net: kunit: Suppress lock warning noise at end of
- dev_addr_lists tests
-Date: Tue, 12 Mar 2024 10:03:01 -0700
-Message-Id: <20240312170309.2546362-7-linux@roeck-us.net>
+ netdev@lists.linux.dev, Guenter Roeck <linux@roeck-us.net>
+Subject: [PATCH 07/14] x86: Add support for suppressing warning backtraces
+Date: Tue, 12 Mar 2024 10:03:02 -0700
+Message-Id: <20240312170309.2546362-8-linux@roeck-us.net>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240312170309.2546362-1-linux@roeck-us.net>
 References: <20240312170309.2546362-1-linux@roeck-us.net>
@@ -102,65 +100,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-dev_addr_lists_test generates lock warning noise at the end of tests
-if lock debugging is enabled. There are two sets of warnings.
+Add name of functions triggering warning backtraces to the __bug_table
+object section to enable support for suppressing WARNING backtraces.
 
-WARNING: CPU: 0 PID: 689 at kernel/locking/mutex.c:923 __mutex_unlock_slowpath.constprop.0+0x13c/0x368
-DEBUG_LOCKS_WARN_ON(__owner_task(owner) != __get_current())
+To limit image size impact, the pointer to the function name is only added
+to the __bug_table section if both CONFIG_KUNIT and CONFIG_DEBUG_BUGVERBOSE
+are enabled. Otherwise, the __func__ assembly parameter is replaced with a
+(dummy) NULL parameter to avoid an image size increase due to unused
+__func__ entries (this is necessary because __func__ is not a define but a
+virtual variable).
 
-WARNING: kunit_try_catch/1336 still has locks held!
-
-KUnit test cleanup is not guaranteed to run in the same thread as the test
-itself. For this test, this means that rtnl_lock() and rtnl_unlock() may
-be called from different threads. This triggers the warnings.
-Suppress the warnings because they are irrelevant for the test and just
-confusing.
-
-The first warning can be suppressed by using START_SUPPRESSED_WARNING()
-and END_SUPPRESSED_WARNING() around the call to rtnl_unlock(). To suppress
-the second warning, it is necessary to set debug_locks_silent while the
-rtnl lock is held.
-
-Cc: David Gow <davidgow@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>
 Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 ---
- net/core/dev_addr_lists_test.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ arch/x86/include/asm/bug.h | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
 
-diff --git a/net/core/dev_addr_lists_test.c b/net/core/dev_addr_lists_test.c
-index 4dbd0dc6aea2..b427dd1a3c93 100644
---- a/net/core/dev_addr_lists_test.c
-+++ b/net/core/dev_addr_lists_test.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
+diff --git a/arch/x86/include/asm/bug.h b/arch/x86/include/asm/bug.h
+index a3ec87d198ac..d87bf8bab238 100644
+--- a/arch/x86/include/asm/bug.h
++++ b/arch/x86/include/asm/bug.h
+@@ -23,18 +23,28 @@
  
- #include <kunit/test.h>
-+#include <linux/debug_locks.h>
- #include <linux/etherdevice.h>
- #include <linux/netdevice.h>
- #include <linux/rtnetlink.h>
-@@ -49,6 +50,7 @@ static int dev_addr_test_init(struct kunit *test)
- 		KUNIT_FAIL(test, "Can't register netdev %d", err);
- 	}
+ #ifdef CONFIG_DEBUG_BUGVERBOSE
  
-+	debug_locks_silent = 1;
- 	rtnl_lock();
- 	return 0;
- }
-@@ -56,8 +58,12 @@ static int dev_addr_test_init(struct kunit *test)
- static void dev_addr_test_exit(struct kunit *test)
- {
- 	struct net_device *netdev = test->priv;
-+	DEFINE_SUPPRESSED_WARNING(__mutex_unlock_slowpath);
++#if IS_ENABLED(CONFIG_KUNIT)
++# define HAVE_BUG_FUNCTION
++# define __BUG_FUNC_PTR	__BUG_REL(%c1)
++# define __BUG_FUNC	__func__
++#else
++# define __BUG_FUNC_PTR
++# define __BUG_FUNC	NULL
++#endif /* IS_ENABLED(CONFIG_KUNIT) */
++
+ #define _BUG_FLAGS(ins, flags, extra)					\
+ do {									\
+ 	asm_inline volatile("1:\t" ins "\n"				\
+ 		     ".pushsection __bug_table,\"aw\"\n"		\
+ 		     "2:\t" __BUG_REL(1b) "\t# bug_entry::bug_addr\n"	\
+ 		     "\t"  __BUG_REL(%c0) "\t# bug_entry::file\n"	\
+-		     "\t.word %c1"        "\t# bug_entry::line\n"	\
+-		     "\t.word %c2"        "\t# bug_entry::flags\n"	\
+-		     "\t.org 2b+%c3\n"					\
++		     "\t"  __BUG_FUNC_PTR "\t# bug_entry::function\n"	\
++		     "\t.word %c2"        "\t# bug_entry::line\n"	\
++		     "\t.word %c3"        "\t# bug_entry::flags\n"	\
++		     "\t.org 2b+%c4\n"					\
+ 		     ".popsection\n"					\
+ 		     extra						\
+-		     : : "i" (__FILE__), "i" (__LINE__),		\
++		     : : "i" (__FILE__), "i" (__BUG_FUNC), "i" (__LINE__),\
+ 			 "i" (flags),					\
+ 			 "i" (sizeof(struct bug_entry)));		\
+ } while (0)
+@@ -80,7 +90,8 @@ do {								\
+ do {								\
+ 	__auto_type __flags = BUGFLAG_WARNING|(flags);		\
+ 	instrumentation_begin();				\
+-	_BUG_FLAGS(ASM_UD2, __flags, ASM_REACHABLE);		\
++	if (!IS_SUPPRESSED_WARNING(__func__))			\
++		_BUG_FLAGS(ASM_UD2, __flags, ASM_REACHABLE);	\
+ 	instrumentation_end();					\
+ } while (0)
  
-+	START_SUPPRESSED_WARNING(__mutex_unlock_slowpath);
- 	rtnl_unlock();
-+	END_SUPPRESSED_WARNING(__mutex_unlock_slowpath);
-+	debug_locks_silent = 0;
- 	unregister_netdev(netdev);
- 	free_netdev(netdev);
- }
 -- 
 2.39.2
 
