@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1C4C878FCF
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 09:36:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41D71878FD0
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 09:37:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68AE810F1C5;
-	Tue, 12 Mar 2024 08:35:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73FF510F0AE;
+	Tue, 12 Mar 2024 08:37:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="a+nnY3MB";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Fdc/Gb06";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB9FD10F1C5
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 08:35:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B37681124A3
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 08:37:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
@@ -22,18 +22,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=646dSER5GBOlaCQcJgVIMmkKzY1ewaNHORt1h/UvWF4=; b=a+nnY3MBzE2GDeEXowpkO9N2Cr
- /G+OUAMzuEZmE5iF6mJ2CFn4chkIqu8DktS7S4VQAlY5mswkJLio4XDYhfXW36ADsSDfw7m2NNzfc
- LD5ZpAJNfF5wo9unocqmJea13BA6fAI09I7wLAf2mbcU7x75wzEQOSI5/Dt5ldxkUKQ4EWAJ+tOJf
- QIvrJtifUn++Z+Vhg5z9x3znm5VE79BExBOJTyOzGbhJMllIczWfy0b/TDHh0NUcVkcs/Q6ygILYi
- IyP6kzD49FF5kkYSTCyd4tCgvPXH8FGaK3oRicJNGtj4Zzv51rlRPBG375zSL65KDgAQHhVgSH5Qr
- EmS7suUw==;
+ bh=PosLtgXA5iPLcUMpXWMtjhMws8x/EAq+QXh6Rxhci84=; b=Fdc/Gb06diph4RMXXPzU/jubgh
+ 5JhMNz+K5FYLZ9N7SyCCdVhPU9eKJXQZthx1Z093UvraBuQuj8cCqbtf6rpDOHU2ZoUAsZf9JqIim
+ X5lqe+zuiu4q/WedJ+qM9LacUWlBTle/Dzrvinw4HRxW9vu1VFCTbJmtkH8VixPsVJ2kvnp+w+fdU
+ GJebvW4K/nMRdJnYo08hIkyJSdKzY6ju9YAdIWTCb+zwZVHDcSxUHMkOblgkxQQzEZknFSDvQN6Dw
+ QD8DvxrWMeUGcrzrOcRCFlrFzmk5JVHH8g34Y6VsogFC6DFPbkIjKJx/4cdgdc9kc1vpHeYQeyUYy
+ sG9bh6XA==;
 Received: from cm-81-9-209-58.telecable.es ([81.9.209.58] helo=[192.168.1.135])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1rjxbx-009DcW-1Q; Tue, 12 Mar 2024 09:35:49 +0100
-Message-ID: <bc2023918f0aeedad0bb7b8f236733841a18099b.camel@igalia.com>
-Subject: Re: [PATCH 3/5] drm/v3d: Introduce gemfs
+ id 1rjxdO-009DeS-B1; Tue, 12 Mar 2024 09:37:18 +0100
+Message-ID: <139b193f14f9d55bb71271294971398f4895ba60.camel@igalia.com>
+Subject: Re: [PATCH 0/5] drm/v3d: Enable Super Pages
 From: Iago Toral <itoral@igalia.com>
 To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Melissa Wen
  <mwen@igalia.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -41,12 +41,11 @@ To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Melissa Wen
  <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,  Daniel Vetter
  <daniel@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-Date: Tue, 12 Mar 2024 09:35:48 +0100
-In-Reply-To: <20240311100959.205545-4-mcanal@igalia.com>
+Date: Tue, 12 Mar 2024 09:37:17 +0100
+In-Reply-To: <20240311100959.205545-1-mcanal@igalia.com>
 References: <20240311100959.205545-1-mcanal@igalia.com>
- <20240311100959.205545-4-mcanal@igalia.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,149 +63,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch is: Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
-
-Iago
-
-El lun, 11-03-2024 a las 07:06 -0300, Ma=C3=ADra Canal escribi=C3=B3:
-> Create a separate "tmpfs" kernel mount for V3D. This will allow us to
-> move away from the shmemfs `shm_mnt` and gives the flexibility to do
-> things like set our own mount options. Here, the interest is to use
-> "huge=3D", which should allow us to enable the use of THP for our
-> shmem-backed objects.
->=20
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> ---
-> =C2=A0drivers/gpu/drm/v3d/Makefile=C2=A0=C2=A0=C2=A0 |=C2=A0 3 ++-
-> =C2=A0drivers/gpu/drm/v3d/v3d_drv.h=C2=A0=C2=A0 |=C2=A0 9 +++++++
-> =C2=A0drivers/gpu/drm/v3d/v3d_gem.c=C2=A0=C2=A0 |=C2=A0 3 +++
-> =C2=A0drivers/gpu/drm/v3d/v3d_gemfs.c | 46
-> +++++++++++++++++++++++++++++++++
-> =C2=A04 files changed, 60 insertions(+), 1 deletion(-)
-> =C2=A0create mode 100644 drivers/gpu/drm/v3d/v3d_gemfs.c
->=20
-> diff --git a/drivers/gpu/drm/v3d/Makefile
-> b/drivers/gpu/drm/v3d/Makefile
-> index b7d673f1153b..fcf710926057 100644
-> --- a/drivers/gpu/drm/v3d/Makefile
-> +++ b/drivers/gpu/drm/v3d/Makefile
-> @@ -13,7 +13,8 @@ v3d-y :=3D \
-> =C2=A0	v3d_trace_points.o \
-> =C2=A0	v3d_sched.o \
-> =C2=A0	v3d_sysfs.o \
-> -	v3d_submit.o
-> +	v3d_submit.o \
-> +	v3d_gemfs.o
->=20
-> =C2=A0v3d-$(CONFIG_DEBUG_FS) +=3D v3d_debugfs.o
->=20
-> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h
-> b/drivers/gpu/drm/v3d/v3d_drv.h
-> index 1950c723dde1..d2ce8222771a 100644
-> --- a/drivers/gpu/drm/v3d/v3d_drv.h
-> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
-> @@ -119,6 +119,11 @@ struct v3d_dev {
-> =C2=A0	struct drm_mm mm;
-> =C2=A0	spinlock_t mm_lock;
->=20
-> +	/*
-> +	 * tmpfs instance used for shmem backed objects
-> +	 */
-> +	struct vfsmount *gemfs;
-> +
-> =C2=A0	struct work_struct overflow_mem_work;
->=20
-> =C2=A0	struct v3d_bin_job *bin_job;
-> @@ -519,6 +524,10 @@ void v3d_reset(struct v3d_dev *v3d);
-> =C2=A0void v3d_invalidate_caches(struct v3d_dev *v3d);
-> =C2=A0void v3d_clean_caches(struct v3d_dev *v3d);
->=20
-> +/* v3d_gemfs.c */
-> +void v3d_gemfs_init(struct v3d_dev *v3d);
-> +void v3d_gemfs_fini(struct v3d_dev *v3d);
-> +
-> =C2=A0/* v3d_submit.c */
-> =C2=A0void v3d_job_cleanup(struct v3d_job *job);
-> =C2=A0void v3d_job_put(struct v3d_job *job);
-> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c
-> b/drivers/gpu/drm/v3d/v3d_gem.c
-> index 66f4b78a6b2e..faefbe497e8d 100644
-> --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> @@ -287,6 +287,8 @@ v3d_gem_init(struct drm_device *dev)
-> =C2=A0	v3d_init_hw_state(v3d);
-> =C2=A0	v3d_mmu_set_page_table(v3d);
->=20
-> +	v3d_gemfs_init(v3d);
-> +
-> =C2=A0	ret =3D v3d_sched_init(v3d);
-> =C2=A0	if (ret) {
-> =C2=A0		drm_mm_takedown(&v3d->mm);
-> @@ -304,6 +306,7 @@ v3d_gem_destroy(struct drm_device *dev)
-> =C2=A0	struct v3d_dev *v3d =3D to_v3d_dev(dev);
->=20
-> =C2=A0	v3d_sched_fini(v3d);
-> +	v3d_gemfs_fini(v3d);
->=20
-> =C2=A0	/* Waiting for jobs to finish would need to be done before
-> =C2=A0	 * unregistering V3D.
-> diff --git a/drivers/gpu/drm/v3d/v3d_gemfs.c
-> b/drivers/gpu/drm/v3d/v3d_gemfs.c
-> new file mode 100644
-> index 000000000000..8518b7da6f73
-> --- /dev/null
-> +++ b/drivers/gpu/drm/v3d/v3d_gemfs.c
-> @@ -0,0 +1,46 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/* Copyright (C) 2024 Raspberry Pi */
-> +
-> +#include <linux/fs.h>
-> +#include <linux/mount.h>
-> +
-> +#include "v3d_drv.h"
-> +
-> +void v3d_gemfs_init(struct v3d_dev *v3d)
-> +{
-> +	char huge_opt[] =3D "huge=3Dalways";
-> +	struct file_system_type *type;
-> +	struct vfsmount *gemfs;
-> +
-> +	/*
-> +	 * By creating our own shmemfs mountpoint, we can pass in
-> +	 * mount flags that better match our usecase. However, we
-> +	 * only do so on platforms which benefit from it.
-> +	 */
-> +	if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
-> +		goto err;
-> +
-> +	type =3D get_fs_type("tmpfs");
-> +	if (!type)
-> +		goto err;
-> +
-> +	gemfs =3D vfs_kern_mount(type, SB_KERNMOUNT, type->name,
-> huge_opt);
-> +	if (IS_ERR(gemfs))
-> +		goto err;
-> +
-> +	v3d->gemfs =3D gemfs;
-> +	drm_info(&v3d->drm, "Using Transparent Hugepages\n");
-> +
-> +	return;
-> +
-> +err:
-> +	v3d->gemfs =3D NULL;
-> +	drm_notice(&v3d->drm,
-> +		=C2=A0=C2=A0 "Transparent Hugepage support is recommended for
-> optimal performance on this platform!\n");
-> +}
-> +
-> +void v3d_gemfs_fini(struct v3d_dev *v3d)
-> +{
-> +	if (v3d->gemfs)
-> +		kern_unmount(v3d->gemfs);
-> +}
-> --
-> 2.43.0
->=20
->=20
+SGkgTWHDrXJhLAoKRWwgbHVuLCAxMS0wMy0yMDI0IGEgbGFzIDA3OjA1IC0wMzAwLCBNYcOtcmEg
+Q2FuYWwgZXNjcmliacOzOgo+IFRoaXMgc2VyaWVzIGludHJvZHVjZXMgc3VwcG9ydCBmb3Igc3Vw
+ZXIgcGFnZXMgaW4gVjNELiBUaGUgVjNEIE1NVQo+IGhhcyBzdXBwb3J0Cj4gZm9yIDFNQiBwYWdl
+cywgY2FsbGVkIHN1cGVyIHBhZ2VzLCB3aGljaCBpcyBjdXJyZW50bHkgbm90IHVzZWQuCj4gVGhl
+cmVmb3JlLAo+IHRoaXMgcGF0Y2hzZXQgaGFzIHRoZSBpbnRlbnRpb24gdG8gZW5hYmxlIHN1cGVy
+IHBhZ2VzIGluIFYzRC4gVGhlCj4gYWR2YW50YWdlIG9mCj4gZW5hYmxpbmcgc3VwZXIgcGFnZXMg
+c2l6ZSBpcyB0aGF0IGlmIGFueSBlbnRyeSBmb3IgYSBwYWdlIHdpdGhpbiBhCj4gc3VwZXIgcGFn
+ZQo+IGlzIGNhY2hlZCBpbiB0aGUgTU1VLCBpdCB3aWxsIGJlIHVzZWQgZm9yIHRyYW5zbGF0aW9u
+IG9mIGFsbCB2aXJ0dWFsCj4gYWRkcmVzc2VzCj4gaW4gdGhlIHJhbmdlIG9mIHRoYXQgc3VwZXIg
+cGFnZXMgd2l0aG91dCByZXF1aXJpbmcgZmV0Y2hpbmcgYW55IG90aGVyCj4gZW50cmllcy4KPiAK
+PiBTdXBlciBwYWdlcyBlc3NlbnRpYWxseSBtZWFucyBhIHNsaWdodGx5IGJldHRlciBwZXJmb3Jt
+YW5jZSBmb3IKPiB1c2VycywKPiBlc3BlY2lhbGx5IGluIGFwcGxpY2F0aW9ucyB3aXRoIGhpZ2gg
+bWVtb3J5IHJlcXVpcmVtZW50cyAoZS5nLgo+IGFwcGxpY2F0aW9ucwo+IHRoYXQgdXNlcyBtdWx0
+aXBsZSBsYXJnZSBCT3MpLgo+IAo+IFVzaW5nIGEgUmFzcGJlcnJ5IFBpIDQgKHdpdGggYSBQQUdF
+X1NJWkU9NEtCIGRvd25zdHJlYW0ga2VybmVsKSwgd2hlbgo+IHJ1bm5pbmcKPiB0cmFjZXMgZnJv
+bSBtdWx0aXBsZSBhcHBsaWNhdGlvbnMsIHdlIHdlcmUgYWJsZSB0byBzZWUgdGhlIGZvbGxvd2lu
+Zwo+IGltcHJvdmVtZW50czoKPiAKPiBmcHNfYXZnwqAgaGVscGVkOsKgCj4gd2Fyem9uZTIxMDAu
+NzBzZWNzLjEwMjR4NzY4LnRyYWNlOsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIDEuODEgLT4gMi41Ngo+ICg0MS44MiUpCj4gZnBzX2F2Z8KgIGhlbHBlZDrCoAo+
+IHdhcnpvbmUyMTAwLjMwc2Vjcy4xMDI0eDc2OC50cmFjZTrCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAyLjAwIC0+IDIuMzkKPiAoMTkuNjIlKQo+IGZwc19hdmfC
+oCBoZWxwZWQ6wqAgcXVha2UyLWdsMS40LQo+IDEyODB4NzIwLnRyYWNlOsKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDM1LjAxIC0+IDM2LjU3
+ICg0LjQ3JSkKPiBmcHNfYXZnwqAgaGVscGVkOsKgIHN1cGVydHV4a2FydC0KPiBtZW51c18xMDI0
+eDc2OC50cmFjZTrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAx
+MjAuNzUgLT4gMTI1LjUwICgzLjkzJSkKPiBmcHNfYXZnwqAgaGVscGVkOsKgIHF1YWtlMi1nbGVz
+My0KPiAxMjgweDcyMC50cmFjZTrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCA2Mi42OSAtPiA2NC4yOSAoMi41NSUpCj4gZnBzX2F2Z8KgIGhl
+bHBlZDrCoAo+IHVlNF9zaG9vdGVyX2dhbWVfc2hvb3RpbmdfbG93X3F1YWxpdHlfNjQweDQ4MC5n
+ZnhyOsKgwqDCoMKgwqAgMjYuMTMgLT4KPiAyNi43NSAoMi4zOSUpCj4gZnBzX2F2Z8KgIGhlbHBl
+ZDrCoAo+IHZrUXVha2VfY2FwdHVyZV9mcmFtZXNfMV90aHJvdWdoXzEyMDBfMTI4MHg3MjAuZ2Z4
+cjrCoMKgwqDCoCA2MC4zNSAtPgo+IDYxLjM2ICgxLjY3JSkKPiBmcHNfYXZnwqAgaGVscGVkOsKg
+Cj4gdWU0X3N1bl90ZW1wbGVfNjQweDQ4MC5nZnhyOsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDI0LjYwIC0+Cj4gMjQuOTQgKDEuNDAlKQo+
+IGZwc19hdmfCoCBoZWxwZWQ6wqAKPiB1ZTRfc2hvb3Rlcl9nYW1lX3Nob290aW5nX2hpZ2hfcXVh
+bGl0eV82NDB4NDgwLmdmeHI6wqDCoMKgwqAgMjMuMDcgLT4KPiAyMy4zNCAoMS4xNSUpCj4gZnBz
+X2F2Z8KgIGhlbHBlZDrCoAo+IHNlcmlvdXNfc2FtX3RyYWNlMDJfMTI4MHg3MjAuZ2Z4cjrCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA0Ny40NCAtPgo+IDQ3Ljc0
+ICgwLjYzJSkKPiBmcHNfYXZnwqAgaGVscGVkOsKgCj4gdWU0X3Nob290ZXJfZ2FtZV9oaWdoX3F1
+YWxpdHlfNjQweDQ4MC5nZnhyOsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDE4LjkxIC0+Cj4g
+MTkuMDIgKDAuNTklKQo+IAo+IFVzaW5nIGEgUmFzcGJlcnJ5IFBpIDUgKHdpdGggYSBQQUdFX1NJ
+WkU9MTZLQiBkb3duc3RyZWFtIGtlcm5lbCksCj4gd2hlbiBydW5uaW5nCj4gdHJhY2VzIGZyb20g
+bXVsdGlwbGUgYXBwbGljYXRpb25zLCB3ZSB3ZXJlIGFibGUgdG8gc2VlIHRoZSBmb2xsb3dpbmcK
+PiBpbXByb3ZlbWVudHM6Cj4gCj4gZnBzX2F2Z8KgIGhlbHBlZDrCoAo+IHdhcnpvbmUyMTAwLjMw
+c2Vjcy4xMDI0eDc2OC50cmFjZTrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCAzLjYwIC0+IDQuNDkKPiAoMjQuNzIlKQo+IGZwc19hdmfCoCBoZWxwZWQ6wqAKPiBz
+cG9uemFfZGVtbzAyXzgwMHg2MDAuZ2Z4cjrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDQ2LjMzIC0+Cj4gNDkuMzQgKDYuNDklKQo+IGZw
+c19hdmfCoCBoZWxwZWQ6wqAKPiBxdWFrZTNlX2NhcHR1cmVfZnJhbWVzXzFfdGhyb3VnaF8xODAw
+XzE5MjB4MTA4MC5nZnhyOsKgwqDCoCAxNTUuNzAgLT4KPiAxNjUuNzEgKDYuNDMlKQo+IGZwc19h
+dmfCoCBoZWxwZWQ6wqAgZ2wtMTE3LQo+IDEwMjR4NzY4LnRyYWNlOsKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDMxLjgy
+IC0+IDMzLjg1Cj4gKDYuNDElKQo+IGZwc19hdmfCoCBoZWxwZWQ6wqAgc3VwZXJ0dXhrYXJ0LQo+
+IG1lbnVzXzEwMjR4NzY4LnRyYWNlOsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIDI4Ny44MCAtPiAzMDMuODAgKDUuNTYlKQo+IGZwc19hdmfCoCBoZWxwZWQ6wqAK
+PiB1ZTRfc2hvb3Rlcl9nYW1lX3Nob290aW5nX2xvd19xdWFsaXR5XzY0MHg0ODAuZ2Z4cjrCoMKg
+wqDCoMKgIDQ1LjI3IC0+Cj4gNDcuMzAgKDQuNDklKQo+IGZwc19hdmfCoCBoZWxwZWQ6wqAKPiBz
+cG9uemFfZGVtbzAxXzgwMHg2MDAuZ2Z4cjrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDQyLjA1IC0+Cj4gNDMuNjggKDMuODklKQo+IGZw
+c19hdmfCoCBoZWxwZWQ6wqAgc3VwZXJ0dXhrYXJ0LQo+IHJhY2luZ18xMDI0eDc2OC50cmFjZTrC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMTkuOTQgLT4gMjAuNTkg
+KDMuMjYlKQo+IGZwc19hdmfCoCBoZWxwZWQ6wqAKPiB2a1F1YWtlX2NhcHR1cmVfZnJhbWVzXzFf
+dGhyb3VnaF8xMjAwXzEyODB4NzIwLmdmeHI6wqDCoMKgwqAgMTM1LjE5IC0+Cj4gMTM5LjQ1ICgz
+LjE1JSkKPiBmcHNfYXZnwqAgaGVscGVkOsKgIHF1YWtlMi1nbGVzMy0KPiAxMjgweDcyMC50cmFj
+ZTrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCAxNTEuNzEgLT4gMTU2LjEzICgyLjkyJSkKPiBmcHNfYXZnwqAgaGVscGVkOsKgCj4gdWU0X3No
+b290ZXJfZ2FtZV9oaWdoX3F1YWxpdHlfNjQweDQ4MC5nZnhyOsKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIDMwLjI4IC0+Cj4gMzEuMDUgKDIuNTQlKQo+IGZwc19hdmfCoCBoZWxwZWQ6wqAgcmJk
+b29tLTMtCj4gYmZnXzY0MHg0ODAuZ2Z4cjrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMzEuNTIgLT4gMzIuMzAKPiAoMi40OSUpCj4g
+ZnBzX2F2Z8KgIGhlbHBlZDrCoAo+IHF1YWtlM2VfY2FwdHVyZV9mcmFtZXNfMTgwMF90aHJvdWdo
+XzI0MDBfMTkyMHgxMDgwLmdmeHI6IDE1Ny4yOSAtPgo+IDE2MC4zNSAoMS45NCUpCj4gZnBzX2F2
+Z8KgIGhlbHBlZDrCoCBxdWFrZTNlLQo+IDEyODB4NzIwLnRyYWNlOsKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAyMzAuNDgg
+LT4gMjM0LjUxCj4gKDEuNzUlKQo+IGZwc19hdmfCoCBoZWxwZWQ6wqAKPiB1ZTRfc2hvb3Rlcl9n
+YW1lX3Nob290aW5nX2hpZ2hfcXVhbGl0eV82NDB4NDgwLmdmeHI6wqDCoMKgwqAgNDkuNjcgLT4K
+PiA1MC40NiAoMS42MCUpCj4gZnBzX2F2Z8KgIGhlbHBlZDrCoAo+IHVlNF9zdW5fdGVtcGxlXzY0
+MHg0ODAuZ2Z4cjrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCAzOS43MCAtPgo+IDQwLjIzICgxLjM0JSkKPiAKPiBUaGlzIHNlcmllcyBhbHNv
+IGludHJvZHVjZXMgY2hhbmdlcyBpbiB0aGUgR0VNIGhlbHBlcnMsIGluIG9yZGVyIHRvCj4gZW5h
+YmxlIFYzRAo+IHRvIGhhdmUgYSBzZXBhcmF0ZWQgbW91bnRwb2ludCBmb3Igc2htZW0gR0VNIG9i
+amVjdHMuIEFueSBmZWVkYmFjawo+IGZyb20gdGhlCj4gY29tbXVuaXR5IGFib3V0IHRoZSBjaGFu
+Z2VzIGluIHRoZSBHRU0gaGVscGVycyBpcyB3ZWxjb21lZCEKPiAKPiBCZXN0IFJlZ2FyZHMsCj4g
+LSBNYcOtcmEKPiAKPiBNYcOtcmEgQ2FuYWwgKDUpOgo+IMKgIGRybS92M2Q6IEZpeCByZXR1cm4g
+aWYgc2NoZWR1bGVyIGluaXRpYWxpemF0aW9uIGZhaWxzCj4gwqAgZHJtL2dlbTogQWRkIGEgbW91
+bnRwb2ludCBwYXJhbWV0ZXIgdG8gZHJtX2dlbV9vYmplY3RfaW5pdCgpCj4gwqAgZHJtL3YzZDog
+SW50cm9kdWNlIGdlbWZzCj4gwqAgZHJtL2dlbTogQ3JlYXRlIHNobWVtIEdFTSBvYmplY3QgaW4g
+YSBnaXZlbiBtb3VudHBvaW50Cj4gwqAgZHJtL3YzZDogRW5hYmxlIHN1cGVyIHBhZ2VzCj4gCgpJ
+IHJldmlld2VkIHRoZSAzIHYzZCBwYXRjaGVzIGluIHRoZSBzZXJpZXMsIGdhdmUgUi1CIGZvciB0
+aGUgZmlyc3QgdHdvCmFuZCBtYWRlIGEgY291cGxlIG9mIGNvbW1lbnRzIHRvIHRoZSBsYXN0IG9u
+ZS4gRm9yIHRoZSBkcm0vZ2VtIHBhdGNoZXMKSSB0aGluayB5b3Ugd2FudCBzb21lb25lIG1vcmUg
+cXVhbGlmaWVkIHRvIHJldmlldyB0aGVtLgoKSWFnbwoKPiDCoGRyaXZlcnMvZ3B1L2RybS9hcm1h
+ZGEvYXJtYWRhX2dlbS5jwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDIgKy0KPiDCoGRyaXZlcnMv
+Z3B1L2RybS9kcm1fZ2VtLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IHwgMTIgKysrKy0KPiDCoGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2RtYV9oZWxwZXIuY8KgwqDC
+oMKgwqDCoMKgwqDCoCB8wqAgMiArLQo+IMKgZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1f
+aGVscGVyLmPCoMKgwqDCoMKgwqDCoCB8IDMwICsrKysrKysrKy0tCj4gwqBkcml2ZXJzL2dwdS9k
+cm0vZHJtX2dlbV92cmFtX2hlbHBlci5jwqDCoMKgwqDCoMKgwqDCoCB8wqAgMiArLQo+IMKgZHJp
+dmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW0uY8KgwqDCoMKgwqDCoMKgwqAgfMKgIDIg
+Ky0KPiDCoGRyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9nZW0uY8KgwqDCoMKgwqDC
+oCB8wqAgMiArLQo+IMKgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9nZW0uY8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDIgKy0KPiDCoGRyaXZlcnMvZ3B1L2RybS9sb29uZ3Nv
+bi9sc2RjX3R0bS5jwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDIgKy0KPiDCoGRyaXZlcnMvZ3B1
+L2RybS9tZWRpYXRlay9tdGtfZHJtX2dlbS5jwqDCoMKgwqDCoMKgwqAgfMKgIDIgKy0KPiDCoGRy
+aXZlcnMvZ3B1L2RybS9tc20vbXNtX2dlbS5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgfMKgIDIgKy0KPiDCoGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZ2VtLmPCoMKg
+wqDCoMKgwqDCoMKgIHzCoCAyICstCj4gwqBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1
+X3ByaW1lLmPCoMKgwqDCoMKgwqAgfMKgIDIgKy0KPiDCoGRyaXZlcnMvZ3B1L2RybS9vbWFwZHJt
+L29tYXBfZ2VtLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAyICstCj4gwqBkcml2ZXJzL2dw
+dS9kcm0vcXhsL3F4bF9vYmplY3QuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAyICst
+Cj4gwqBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX2dlbS5jwqDCoCB8wqAg
+MiArLQo+IMKgZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2dlbS5jwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIHzCoCAyICstCj4gwqBkcml2ZXJzL2dwdS9kcm0vdHRtL3Rlc3RzL3R0
+bV9rdW5pdF9oZWxwZXJzLmMgfMKgIDIgKy0KPiDCoGRyaXZlcnMvZ3B1L2RybS92M2QvTWFrZWZp
+bGXCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAzICstCj4gwqBkcml2ZXJz
+L2dwdS9kcm0vdjNkL3YzZF9iby5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8
+IDE5ICsrKysrKy0KPiDCoGRyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2Rydi5jwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDcgKysrCj4gwqBkcml2ZXJzL2dwdS9kcm0vdjNkL3Yz
+ZF9kcnYuaMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgMTUgKysrKystCj4gwqBk
+cml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9nZW0uY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIHzCoCA2ICsrLQo+IMKgZHJpdmVycy9ncHUvZHJtL3YzZC92M2RfZ2VtZnMuY8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgfCA1Mgo+ICsrKysrKysrKysrKysrKysrKysKPiDCoGRyaXZl
+cnMvZ3B1L2RybS92M2QvdjNkX21tdS5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+fCAyNCArKysrKysrKy0KPiDCoGRyaXZlcnMvZ3B1L2RybS94ZW4veGVuX2RybV9mcm9udF9nZW0u
+Y8KgwqDCoMKgwqDCoCB8wqAgMiArLQo+IMKgaW5jbHVkZS9kcm0vZHJtX2dlbS5owqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAzICstCj4gwqBpbmNs
+dWRlL2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAg
+MyArKwo+IMKgMjggZmlsZXMgY2hhbmdlZCwgMTc2IGluc2VydGlvbnMoKyksIDMyIGRlbGV0aW9u
+cygtKQo+IMKgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2dlbWZz
+LmMKPiAKPiAtLQo+IDIuNDMuMAo+IAo+IAoK
 
