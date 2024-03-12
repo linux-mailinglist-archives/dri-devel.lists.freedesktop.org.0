@@ -2,72 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D121D879831
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 16:49:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D155879806
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Mar 2024 16:48:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B716112ECC;
-	Tue, 12 Mar 2024 15:49:03 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="x8yWxvCP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WfbxwxrU";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="x8yWxvCP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WfbxwxrU";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF754112EC5;
+	Tue, 12 Mar 2024 15:48:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E96F7112EBC
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 15:48:40 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 283F7112EBE
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 15:48:41 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id AA0E35D6CD;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id F0BB45D6CE;
  Tue, 12 Mar 2024 15:48:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1710258519; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D3jobBYVSb7aHLcyPcp4C70Q5yD6wk7vtIK+a1bf1GE=;
- b=x8yWxvCPc4fPODFFHiOnL57Yfp/Zev8noyolJDwM53W7dkVjwiGVEdMnodJOst4WGqqN8H
- W0nx2tjPq4RcoQnJ9blyDgemSELTYbIbfZuRyG0GmuJFPyHEhZ93Wf/DJWmFfxEqgW5Bpp
- JhJhSk3phmrsEYWqMY6ogExkdGrr2u4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1710258519;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D3jobBYVSb7aHLcyPcp4C70Q5yD6wk7vtIK+a1bf1GE=;
- b=WfbxwxrU3ghgHtWrPsdkJQgHJmaJGcPrul9aEplkeyHfrdcauFbsCy8aBzTwMk7xLzRbBW
- Xtqoflrzb+myM/Dw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1710258519; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D3jobBYVSb7aHLcyPcp4C70Q5yD6wk7vtIK+a1bf1GE=;
- b=x8yWxvCPc4fPODFFHiOnL57Yfp/Zev8noyolJDwM53W7dkVjwiGVEdMnodJOst4WGqqN8H
- W0nx2tjPq4RcoQnJ9blyDgemSELTYbIbfZuRyG0GmuJFPyHEhZ93Wf/DJWmFfxEqgW5Bpp
- JhJhSk3phmrsEYWqMY6ogExkdGrr2u4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1710258519;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D3jobBYVSb7aHLcyPcp4C70Q5yD6wk7vtIK+a1bf1GE=;
- b=WfbxwxrU3ghgHtWrPsdkJQgHJmaJGcPrul9aEplkeyHfrdcauFbsCy8aBzTwMk7xLzRbBW
- Xtqoflrzb+myM/Dw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 641FF13976;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B26151364F;
  Tue, 12 Mar 2024 15:48:39 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 0Fe8Fld58GUhPwAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id ILEsKld58GUhPwAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Tue, 12 Mar 2024 15:48:39 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
@@ -75,32 +34,25 @@ To: daniel@ffwll.ch,
 	deller@gmx.de,
 	javierm@redhat.com
 Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>,
- Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH 09/43] drm/ast: Use fbdev-shmem
-Date: Tue, 12 Mar 2024 16:45:04 +0100
-Message-ID: <20240312154834.26178-10-tzimmermann@suse.de>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: [PATCH 10/43] drm/gud: Use fbdev-shmem
+Date: Tue, 12 Mar 2024 16:45:05 +0100
+Message-ID: <20240312154834.26178-11-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240312154834.26178-1-tzimmermann@suse.de>
 References: <20240312154834.26178-1-tzimmermann@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
 Authentication-Results: smtp-out2.suse.de;
 	none
-X-Spamd-Result: default: False [0.87 / 50.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
- R_MISSING_CHARSET(2.50)[]; MIME_GOOD(-0.10)[text/plain];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; REPLY(-4.00)[];
- BROKEN_CONTENT_TYPE(1.50)[]; RCVD_COUNT_THREE(0.00)[3];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCPT_COUNT_SEVEN(0.00)[9]; MID_CONTAINS_FROM(1.00)[];
- FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,gmx.de,redhat.com];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
- BAYES_HAM(-0.03)[56.96%]
-X-Spam-Score: 0.87
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	 REPLY(-4.00)[]
+X-Spam-Score: -4.00
+X-Rspamd-Queue-Id: F0BB45D6CE
 X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -121,32 +73,30 @@ Implement fbdev emulation with fbdev-shmem. Avoids the overhead of
 fbdev-generic's additional shadow buffering. No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: "Noralf Trønnes" <noralf@tronnes.org>
 ---
- drivers/gpu/drm/ast/ast_drv.c | 4 ++--
+ drivers/gpu/drm/gud/gud_drv.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-index 90bcb1eb9cd94..4fcab4304e176 100644
---- a/drivers/gpu/drm/ast/ast_drv.c
-+++ b/drivers/gpu/drm/ast/ast_drv.c
-@@ -32,7 +32,7 @@
- #include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
+diff --git a/drivers/gpu/drm/gud/gud_drv.c b/drivers/gpu/drm/gud/gud_drv.c
+index 9d7bf8ee45f13..4f5aa2e5cb890 100644
+--- a/drivers/gpu/drm/gud/gud_drv.c
++++ b/drivers/gpu/drm/gud/gud_drv.c
+@@ -18,7 +18,7 @@
+ #include <drm/drm_damage_helper.h>
+ #include <drm/drm_debugfs.h>
  #include <drm/drm_drv.h>
 -#include <drm/drm_fbdev_generic.h>
 +#include <drm/drm_fbdev_shmem.h>
- #include <drm/drm_gem_shmem_helper.h>
- #include <drm/drm_module.h>
- #include <drm/drm_probe_helper.h>
-@@ -359,7 +359,7 @@ static int ast_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	if (ret)
- 		return ret;
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_gem_atomic_helper.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
+@@ -622,7 +622,7 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
  
--	drm_fbdev_generic_setup(drm, 32);
-+	drm_fbdev_shmem_setup(drm, 32);
+ 	drm_kms_helper_poll_init(drm);
+ 
+-	drm_fbdev_generic_setup(drm, 0);
++	drm_fbdev_shmem_setup(drm, 0);
  
  	return 0;
  }
