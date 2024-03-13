@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E0187B537
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 00:34:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48A3A87B563
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 00:54:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85FDE10EAF8;
-	Wed, 13 Mar 2024 23:34:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D65E610E320;
+	Wed, 13 Mar 2024 23:54:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="ZlnC1hRU";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="bvX/By1g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com
- [95.215.58.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4FDB10EAF8
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 23:34:38 +0000 (UTC)
-Message-ID: <4b1c71bd-10fb-4177-bacf-44ce77ae1c52@linux.dev>
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com
+ [91.218.175.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 771F210E320
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 23:54:37 +0000 (UTC)
+Message-ID: <22f5c178-5c7b-4971-a93c-020913decfa0@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1710372875;
+ t=1710374074;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aXQaEFsum6OMqBMgCJr/1CyC37B3P/uDQXWPsVF6tQE=;
- b=ZlnC1hRUo5KNFY1GdEQxvESkKLLFy9LfseRTKgurcQl5VqEAS6NqtJ23muCOZCtFNcVyx5
- Hgz0dsyvNEqIn/lPi6JC0iuMzOy4GDuZcbBmtjPssNR0X6rvxpZJS+dxntt0oAuAjRY2GK
- kVFTgeWNsYzTiABktxLawoErr4pl6mI=
-Date: Thu, 14 Mar 2024 07:34:11 +0800
+ bh=qKbcUpCMjFnZRisiSg2oV2LxlfIvDrhVcsFE8vaadrE=;
+ b=bvX/By1gaQjqJ3GwgA2ebPhlrc8TYjpI9pXhYZbFTtAg0b5O3cvI0IsH+y+wV50DwNbn9n
+ lZUhWobGPAWNrR/IqL8/tK6QK2S2+Ws/VZRF9C/+9CTHqWftoAMwckKhqpwOnLEhMMBd5Q
+ p+oRXN01WLRuJ8tPvZ5Ukyvuj0oj934=
+Date: Thu, 14 Mar 2024 07:54:02 +0800
 MIME-Version: 1.0
-Subject: Re: [v9,01/27] drm/connector: Introduce an HDMI connector
- initialization function
+Subject: Re: [v9,23/27] drm/vc4: hdmi: Switch to HDMI connector
 Content-Language: en-US
 To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -46,12 +45,12 @@ Cc: Hans Verkuil <hverkuil@xs4all.nl>,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Dave Stevenson <dave.stevenson@raspberrypi.com>
-References: <20240311-kms-hdmi-connector-state-v9-1-d45890323344@kernel.org>
+ linux-sunxi@lists.linux.dev
+References: <20240311-kms-hdmi-connector-state-v9-23-d45890323344@kernel.org>
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20240311-kms-hdmi-connector-state-v9-1-d45890323344@kernel.org>
+In-Reply-To: <20240311-kms-hdmi-connector-state-v9-23-d45890323344@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
@@ -73,31 +72,18 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi,
 
 
+LGTM,
+
+
 On 2024/3/11 22:49, Maxime Ripard wrote:
-> A lot of the various HDMI drivers duplicate some logic that depends on
-> the HDMI spec itself and not really a particular hardware
-> implementation.
+> The new HDMI connector infrastructure allows us to remove a lot of
+> boilerplate, so let's switch to it.
 >
-> Output BPC or format selection, infoframe generation are good examples
-> of such areas.
->
-> This creates a lot of boilerplate, with a lot of variations, which makes
-> it hard for userspace to rely on, and makes it difficult to get it right
-> for drivers.
->
-> In the next patches, we'll add a lot of infrastructure around the
-> drm_connector and drm_connector_state structures, which will allow to
-> abstract away the duplicated logic. This infrastructure comes with a few
-> requirements though, and thus we need a new initialization function.
->
-> Hopefully, this will make drivers simpler to handle, and their behaviour
-> more consistent.
->
-> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
 
-Reviewed-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+
 
 -- 
 Best regards,
