@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3D8787A2F7
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 07:28:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9273487A30B
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 07:49:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A13E10E96B;
-	Wed, 13 Mar 2024 06:28:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65A9D10F68B;
+	Wed, 13 Mar 2024 06:49:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 408 seconds by postgrey-1.36 at gabe;
- Wed, 13 Mar 2024 06:28:02 UTC
-Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.209.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66CBC10E96B;
- Wed, 13 Mar 2024 06:28:02 +0000 (UTC)
-X-QQ-mid: bizesmtp80t1710310709trkc2gr1
-X-QQ-Originating-IP: GLC8Iu67rXhV6eCFYKQmrbl6IkFlciWctK/Tvp2LRJk=
-Received: from john-PC ( [123.114.60.34]) by bizesmtp.qq.com (ESMTP) with 
- id ; Wed, 13 Mar 2024 14:18:27 +0800 (CST)
-X-QQ-SSF: 01400000000000E0L000000A0000000
-X-QQ-FEAT: RmDZc/K2LPGX8QM1YeXZshthElQ2uZpSSUsxNZv7fWEpt0RBL4E/tI9skKcKk
- 5ZKVyGSJl6s0vhpvrJ0lBNIiqBablTIX6rfDaqRRdX6YMmoXIHmkJyt5dkxecksOnZBvLTS
- BvY8b8+x3uU3l2ZZvXdM41PEGNgsaaYJIbyoSn8GSP+5p9ISHi7kqDiHsnaJ7aVOBgpCTeL
- I75T0mKZGigjLTDDU29Hd1eflwxhYelYIPNV8gy3o3aadoOjBG2MIAeyshmJETwXq8tHCV0
- 2Fp/Cz4T88wyf6HnXL0/43kW5pTFj8E6AiLizSKrWJitqyZfUkVGWf9+ZSEVUOEnFU+1tTi
- Yk/Uh1FEKP4ICh+IFZEYZODJxIog/wakp2B9pTWCdpCzfemdPy8z/Q4ZgoHhT06jdcMv7t9
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 17432395954863793065
-Date: Wed, 13 Mar 2024 14:18:27 +0800
-From: Qiang Ma <maqianga@uniontech.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, srinivasan.shanmugam@amd.com,
- sunran001@208suo.com
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/amdgpu: Clear the hotplug interrupt ack bit
- before hpd initialization
-Message-ID: <A65A2F93D9F165EC+20240313141827.40f30bd5@john-PC>
-In-Reply-To: <20240131075703.24600-1-maqianga@uniontech.com>
-References: <20240131075703.24600-1-maqianga@uniontech.com>
-Organization: UOS
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D120E10F68B
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 06:49:07 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rkIQ5-0003qH-Ik; Wed, 13 Mar 2024 07:48:57 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rkIQ3-006404-W6; Wed, 13 Mar 2024 07:48:56 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+ (envelope-from <ukl@pengutronix.de>) id 1rkIQ3-005E6s-2f;
+ Wed, 13 Mar 2024 07:48:55 +0100
+Date: Wed, 13 Mar 2024 07:48:55 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: lee@kernel.org, andy@kernel.org, daniel.thompson@linaro.org, 
+ jingoohan1@gmail.com, deller@gmx.de, robin@protonic.nl, javierm@redhat.com, 
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v4 00/10] backlight: Replace struct fb_info in interfaces
+Message-ID: <heasef3pdfyj7xyngnvbg527pc5uyy2v6hatz4wr6q3sfkhw3h@f4lnresjcnmb>
+References: <20240305162425.23845-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrsz:qybglogicsvrsz4a-0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="fazplp4fyrovvxv2"
+Content-Disposition: inline
+In-Reply-To: <20240305162425.23845-1-tzimmermann@suse.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,186 +61,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 31 Jan 2024 15:57:03 +0800
-Qiang Ma <maqianga@uniontech.com> wrote:
 
-Hello everyone, please help review this patch.
+--fazplp4fyrovvxv2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  Qiang Ma
+Hello Thomas,
 
-> Problem:
-> The computer in the bios initialization process, unplug the HDMI
-> display, wait until the system up, plug in the HDMI display, did not
-> enter the hotplug interrupt function, the display is not bright.
-> 
-> Fix:
-> After the above problem occurs, and the hpd ack interrupt bit is 1,
-> the interrupt should be cleared during hpd_init initialization so that
-> when the driver is ready, it can respond to the hpd interrupt
-> normally.
-> 
-> Signed-off-by: Qiang Ma <maqianga@uniontech.com>
-> ---
-> v2:
->  - Remove unused variable 'tmp'
->  - Fixed function spelling errors
->  
-> drivers/gpu/drm/amd/amdgpu/dce_v10_0.c |  2 ++
->  drivers/gpu/drm/amd/amdgpu/dce_v11_0.c |  2 ++
->  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c  | 22 ++++++++++++++++++----
->  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c  | 22 ++++++++++++++++++----
->  4 files changed, 40 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-> b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c index
-> bb666cb7522e..12a8ba929a72 100644 ---
-> a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c +++
-> b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c @@ -51,6 +51,7 @@
->  
->  static void dce_v10_0_set_display_funcs(struct amdgpu_device *adev);
->  static void dce_v10_0_set_irq_funcs(struct amdgpu_device *adev);
-> +static void dce_v10_0_hpd_int_ack(struct amdgpu_device *adev, int
-> hpd); 
->  static const u32 crtc_offsets[] = {
->  	CRTC0_REGISTER_OFFSET,
-> @@ -363,6 +364,7 @@ static void dce_v10_0_hpd_init(struct
-> amdgpu_device *adev) AMDGPU_HPD_DISCONNECT_INT_DELAY_IN_MS);
->  		WREG32(mmDC_HPD_TOGGLE_FILT_CNTL +
-> hpd_offsets[amdgpu_connector->hpd.hpd], tmp); 
-> +		dce_v10_0_hpd_int_ack(adev,
-> amdgpu_connector->hpd.hpd); dce_v10_0_hpd_set_polarity(adev,
-> amdgpu_connector->hpd.hpd); amdgpu_irq_get(adev, &adev->hpd_irq,
->  			       amdgpu_connector->hpd.hpd);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-> b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c index
-> 7af277f61cca..745e4fdffade 100644 ---
-> a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c +++
-> b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c @@ -51,6 +51,7 @@
->  
->  static void dce_v11_0_set_display_funcs(struct amdgpu_device *adev);
->  static void dce_v11_0_set_irq_funcs(struct amdgpu_device *adev);
-> +static void dce_v11_0_hpd_int_ack(struct amdgpu_device *adev, int
-> hpd); 
->  static const u32 crtc_offsets[] =
->  {
-> @@ -387,6 +388,7 @@ static void dce_v11_0_hpd_init(struct
-> amdgpu_device *adev) AMDGPU_HPD_DISCONNECT_INT_DELAY_IN_MS);
->  		WREG32(mmDC_HPD_TOGGLE_FILT_CNTL +
-> hpd_offsets[amdgpu_connector->hpd.hpd], tmp); 
-> +		dce_v11_0_hpd_int_ack(adev,
-> amdgpu_connector->hpd.hpd); dce_v11_0_hpd_set_polarity(adev,
-> amdgpu_connector->hpd.hpd); amdgpu_irq_get(adev, &adev->hpd_irq,
-> amdgpu_connector->hpd.hpd); }
-> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-> b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c index
-> 143efc37a17f..28c4a735716b 100644 ---
-> a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c +++
-> b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c @@ -272,6 +272,21 @@ static
-> void dce_v6_0_hpd_set_polarity(struct amdgpu_device *adev,
-> WREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd], tmp); }
->  
-> +static void dce_v6_0_hpd_int_ack(struct amdgpu_device *adev,
-> +				 int hpd)
-> +{
-> +	u32 tmp;
-> +
-> +	if (hpd >= adev->mode_info.num_hpd) {
-> +		DRM_DEBUG("invalid hdp %d\n", hpd);
-> +		return;
-> +	}
-> +
-> +	tmp = RREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd]);
-> +	tmp |= DC_HPD1_INT_CONTROL__DC_HPD1_INT_ACK_MASK;
-> +	WREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd], tmp);
-> +}
-> +
->  /**
->   * dce_v6_0_hpd_init - hpd setup callback.
->   *
-> @@ -311,6 +326,7 @@ static void dce_v6_0_hpd_init(struct
-> amdgpu_device *adev) continue;
->  		}
->  
-> +		dce_v6_0_hpd_int_ack(adev,
-> amdgpu_connector->hpd.hpd); dce_v6_0_hpd_set_polarity(adev,
-> amdgpu_connector->hpd.hpd); amdgpu_irq_get(adev, &adev->hpd_irq,
-> amdgpu_connector->hpd.hpd); }
-> @@ -3088,7 +3104,7 @@ static int dce_v6_0_hpd_irq(struct
-> amdgpu_device *adev, struct amdgpu_irq_src *source,
->  			    struct amdgpu_iv_entry *entry)
->  {
-> -	uint32_t disp_int, mask, tmp;
-> +	uint32_t disp_int, mask;
->  	unsigned hpd;
->  
->  	if (entry->src_data[0] >= adev->mode_info.num_hpd) {
-> @@ -3101,9 +3117,7 @@ static int dce_v6_0_hpd_irq(struct
-> amdgpu_device *adev, mask = interrupt_status_offsets[hpd].hpd;
->  
->  	if (disp_int & mask) {
-> -		tmp = RREG32(mmDC_HPD1_INT_CONTROL +
-> hpd_offsets[hpd]);
-> -		tmp |= DC_HPD1_INT_CONTROL__DC_HPD1_INT_ACK_MASK;
-> -		WREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd],
-> tmp);
-> +		dce_v6_0_hpd_int_ack(adev, hpd);
->  		schedule_delayed_work(&adev->hotplug_work, 0);
->  		DRM_DEBUG("IH: HPD%d\n", hpd + 1);
->  	}
-> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-> b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c index
-> adeddfb7ff12..8ff2b5adfd95 100644 ---
-> a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c +++
-> b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c @@ -264,6 +264,21 @@ static
-> void dce_v8_0_hpd_set_polarity(struct amdgpu_device *adev,
-> WREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd], tmp); }
->  
-> +static void dce_v8_0_hpd_int_ack(struct amdgpu_device *adev,
-> +				 int hpd)
-> +{
-> +	u32 tmp;
-> +
-> +	if (hpd >= adev->mode_info.num_hpd) {
-> +		DRM_DEBUG("invalid hdp %d\n", hpd);
-> +		return;
-> +	}
-> +
-> +	tmp = RREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd]);
-> +	tmp |= DC_HPD1_INT_CONTROL__DC_HPD1_INT_ACK_MASK;
-> +	WREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd], tmp);
-> +}
-> +
->  /**
->   * dce_v8_0_hpd_init - hpd setup callback.
->   *
-> @@ -303,6 +318,7 @@ static void dce_v8_0_hpd_init(struct
-> amdgpu_device *adev) continue;
->  		}
->  
-> +		dce_v8_0_hpd_int_ack(adev,
-> amdgpu_connector->hpd.hpd); dce_v8_0_hpd_set_polarity(adev,
-> amdgpu_connector->hpd.hpd); amdgpu_irq_get(adev, &adev->hpd_irq,
-> amdgpu_connector->hpd.hpd); }
-> @@ -3176,7 +3192,7 @@ static int dce_v8_0_hpd_irq(struct
-> amdgpu_device *adev, struct amdgpu_irq_src *source,
->  			    struct amdgpu_iv_entry *entry)
->  {
-> -	uint32_t disp_int, mask, tmp;
-> +	uint32_t disp_int, mask;
->  	unsigned hpd;
->  
->  	if (entry->src_data[0] >= adev->mode_info.num_hpd) {
-> @@ -3189,9 +3205,7 @@ static int dce_v8_0_hpd_irq(struct
-> amdgpu_device *adev, mask = interrupt_status_offsets[hpd].hpd;
->  
->  	if (disp_int & mask) {
-> -		tmp = RREG32(mmDC_HPD1_INT_CONTROL +
-> hpd_offsets[hpd]);
-> -		tmp |= DC_HPD1_INT_CONTROL__DC_HPD1_INT_ACK_MASK;
-> -		WREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd],
-> tmp);
-> +		dce_v8_0_hpd_int_ack(adev, hpd);
->  		schedule_delayed_work(&adev->hotplug_work, 0);
->  		DRM_DEBUG("IH: HPD%d\n", hpd + 1);
->  	}
+On Tue, Mar 05, 2024 at 05:22:33PM +0100, Thomas Zimmermann wrote:
+> Backlight drivers implement struct backlight_ops.check_fb, which
+> uses struct fb_info in its interface. Replace the callback with one
+> that does not use fb_info.
+>=20
+> In DRM, we have several drivers that implement backlight support. By
+> including <linux/backlight.h> these drivers depend on <linux/fb.h>.
+> At the same time, fbdev is deprecated for new drivers and likely to
+> be replaced on many systems.
+>=20
+> This patchset is part of a larger effort to implement the backlight
+> code without depending on fbdev.
+>=20
+> Patch 1 makes the backlight core match backlight and framebuffer
+> devices via struct fb_info.bl_dev. Patches 2 to 9 then go through
+> drivers and remove unnecessary implementations of check_fb. Finally,
+> patch 10 replaces the check_fb hook with controls_device, which
+> uses the framebuffer's Linux device instead of the framebuffer.
 
+I assume the merge plan for this series is via drm-misc in one go?
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--fazplp4fyrovvxv2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmXxTFYACgkQj4D7WH0S
+/k4WCgf+N9+ghi7jxWwK3i7nnF9402Id/hmnbKSiQ/2mzmtMu7hWnXpywzKwVGNy
+JuwbngFjANW8HquzInPZ0cOClpGx2dm5i2YsAqyDnOZO2Jg3zT1VOVZkd+/YzOI4
+FWBxp3T0ZUTmE1Fh0ohTEL+lL49F7nJXmeZNUMqWec4BwT09Eu71ZRseDMjL4Ar3
+bO9k6WkqF7/v+sWljRUWjvcAvRC/El4JMjyLTb9xS/UarDtjSbxePHZB6d9lf6St
+Dm0sgkqb/+jaZhY5kM1d0HJaEE1Wdef63pW2tDIunfj5L5PBveSw8xHMiipSCd4e
+9krdHDOzOyL/lPFi7CSq7i85LSyypg==
+=uhXV
+-----END PGP SIGNATURE-----
+
+--fazplp4fyrovvxv2--
