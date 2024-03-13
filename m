@@ -2,86 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE66E87AF16
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 19:17:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9916087AF1E
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 19:17:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E3DF10F1EA;
-	Wed, 13 Mar 2024 18:17:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9296610EE8B;
+	Wed, 13 Mar 2024 18:17:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="jUHSSKEu";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fLAQ/CSx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6924A10F1EA;
- Wed, 13 Mar 2024 18:17:01 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 42DHQSY8032501; Wed, 13 Mar 2024 18:16:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=v5wjPJyxlyZSgw7QRNfZacYjQP379B5XDAXYyxrHWgs=; b=jU
- HSSKEujd5ST8b01tUiDMG1O7g5X2v+xnubLImtNi7WfDCndpJ5rXjKVhTJ+OmFFE
- 3oUCfmRtyIFaMEUymVBNI0axtLJsKfJB/sGvxwFGBwSlYL5CiocXEkYP+TI0j0HW
- cwgAHrwih4tZ2Slt2ONptz25D73MeRycR6yzKt99i3s7YKnv1TIH1TcsDdDvNXYc
- iQ7v3UpLs84C+iPP1ioVWwnuq7kLFrYxY7YV9qcznp5wgQ3DMrdCKoMRE5fbsFXu
- 4Ll1QwCIo35W2siD5vYMWjzHjb+3i8gUnxUQpA8R6QnUB2/fFhjYWnKslKlmhVUf
- wpb8qauhpeF2Y/NQsZQQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wu9xas35m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Mar 2024 18:16:56 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42DIGsBQ004907
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Mar 2024 18:16:55 GMT
-Received: from [10.110.70.168] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 13 Mar
- 2024 11:16:50 -0700
-Message-ID: <2020929f-c9a5-1209-78cb-ca75db44a432@quicinc.com>
-Date: Wed, 13 Mar 2024 11:16:48 -0700
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A92B410EE8B
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 18:17:47 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-33e9ba0eadcso51922f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 11:17:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1710353866; x=1710958666; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=dxB79hpmOYEV/Wa5xEjs3BbB8JPGXY5M54cM2DcOGjk=;
+ b=fLAQ/CSxpRc9R+Tb4PPQZXZUYwTTaiZhCUOrq13mqjv6lQXfJhIoeFVGnAfGQrqB9m
+ v4DZawDkt7BMYP96sRNiIzQxQtecMfd+58GneyHrY2trMoj9+8y/rvklHS1QVMyGpDhD
+ 7Q/JSxPm/s96K3uYU8gHKH8wLKZtgw7gbVtO6IOrhN6iRwahSwtaaVAjhEDb/GbtAW/w
+ inYuaiA/iTeu1sX4TFqZdPTNaWttH94zhxeBAUGKg0BbKPqT4RBSU90YoEP+E/TwEBRY
+ ub3tWeD6q378vuAw806OV5lE0r6/n8VOlck+FrJYz4NMS3MmZ+n5B9P1WZrCnbbZtSN/
+ ovYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710353866; x=1710958666;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=dxB79hpmOYEV/Wa5xEjs3BbB8JPGXY5M54cM2DcOGjk=;
+ b=lHnil6l0NM3qg/zoIveWTsXvUBNIVnV+Lh8Lsie+5vEuPoF8KM3hbs+COs6JTTalsB
+ q6TBhyC6xO20qXlBgOOJw9XiZp7i2BCa3rQ4h2ICA6OTxqYNfURzDP5Ov4EOvYZxYbwV
+ tEOe4ti0RxCq86loydv4d5QZStHOS1eYmRncrlwOgWmVW7S9LC3ck2h/UuPrf7QKLlHk
+ wsTyuaj5kz9XGtb9PJeFYcdpu1UT86cQRu0en2p8ufzRnMFofrPv3R4w3ERUwXSET/oo
+ E76NBDsp9ulmV/4DSfO1NdqAoCXmkm8qBhwEqCoEMFJIjnxMXGWywi5Mw7zeCRFSO+z4
+ jXHQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVpRgE2Hb/kFCdD6rKhxgtSFdhvEWtw2pYsCBh3iG1ytmK8cMBIVXft0yMdnimwMoVgmYYr7qe9yalRNcwB/qC71/T1euRd9P3EkacvfkNT
+X-Gm-Message-State: AOJu0Yyh2M3DPZMPsOHj7DOZJMXl+o14OjLOdt9NTmkeFjIvWf4DTMrT
+ HHgP0qRPvCBxn7pFrbTRNEaF0vzvRrLm5VdsCwh9GhvABYgViL4+
+X-Google-Smtp-Source: AGHT+IGKbeIwigUlBRsdMhJK7OomlBsIup1DbJY8unvtALG2eksaRqlMkijulA70G2ebsv8fF6clmw==
+X-Received: by 2002:a5d:644d:0:b0:33e:7896:a9d7 with SMTP id
+ d13-20020a5d644d000000b0033e7896a9d7mr2108713wrw.67.1710353865784; 
+ Wed, 13 Mar 2024 11:17:45 -0700 (PDT)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net.
+ [86.58.6.171]) by smtp.gmail.com with ESMTPSA id
+ ch9-20020a5d5d09000000b0033eab3520a9sm4381264wrb.43.2024.03.13.11.17.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Mar 2024 11:17:45 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Frank Oltmanns <frank@oltmanns.dev>
+Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Frank Oltmanns <frank@oltmanns.dev>, stable@vger.kernel.org
+Subject: Re: [PATCH v4 1/5] clk: sunxi-ng: common: Support minimum and maximum
+ rate
+Date: Wed, 13 Mar 2024 19:17:43 +0100
+Message-ID: <3210009.5fSG56mABF@jernej-laptop>
+In-Reply-To: <20240310-pinephone-pll-fixes-v4-1-46fc80c83637@oltmanns.dev>
+References: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev>
+ <20240310-pinephone-pll-fixes-v4-1-46fc80c83637@oltmanns.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 2/2] drm/msm/dp: fix runtime PM leak on connect failure
-Content-Language: en-US
-To: Johan Hovold <johan+linaro@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
- Vetter" <daniel@ffwll.ch>, Kuogee Hsieh <quic_khsieh@quicinc.com>, "Bjorn
- Andersson" <quic_bjorande@quicinc.com>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <stable@vger.kernel.org>
-References: <20240313164306.23133-1-johan+linaro@kernel.org>
- <20240313164306.23133-3-johan+linaro@kernel.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240313164306.23133-3-johan+linaro@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: BNNegcXJxongtAGZIx1lIDE54NIYGZW8
-X-Proofpoint-GUID: BNNegcXJxongtAGZIx1lIDE54NIYGZW8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-13_09,2024-03-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015
- lowpriorityscore=0 impostorscore=0 adultscore=0 mlxlogscore=999 mlxscore=0
- priorityscore=1501 phishscore=0 malwarescore=0 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2402120000
- definitions=main-2403130138
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,16 +99,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 3/13/2024 9:43 AM, Johan Hovold wrote:
-> Make sure to balance the runtime PM usage counter (and suspend) before
-> returning on connect failures (e.g. DPCD read failures after a spurious
-> connect event or if link training fails).
+Dne nedelja, 10. marec 2024 ob 14:21:11 CET je Frank Oltmanns napisal(a):
+> The Allwinner SoC's typically have an upper and lower limit for their
+> clocks' rates. Up until now, support for that has been implemented
+> separately for each clock type.
 > 
-> Fixes: 5814b8bf086a ("drm/msm/dp: incorporate pm_runtime framework into DP driver")
-> Cc: stable@vger.kernel.org      # 6.8
-> Cc: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+> Implement that functionality in the sunxi-ng's common part making use of
+> the CCF rate liming capabilities, so that it is available for all clock
+> types.
+> 
+> Suggested-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+> Cc: stable@vger.kernel.org
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+This looks pretty nice now.
+
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Best regards,
+Jernej
+
+> ---
+>  drivers/clk/sunxi-ng/ccu_common.c | 19 +++++++++++++++++++
+>  drivers/clk/sunxi-ng/ccu_common.h |  3 +++
+>  2 files changed, 22 insertions(+)
+> 
+> diff --git a/drivers/clk/sunxi-ng/ccu_common.c b/drivers/clk/sunxi-ng/ccu_common.c
+> index 8babce55302f..ac0091b4ce24 100644
+> --- a/drivers/clk/sunxi-ng/ccu_common.c
+> +++ b/drivers/clk/sunxi-ng/ccu_common.c
+> @@ -44,6 +44,16 @@ bool ccu_is_better_rate(struct ccu_common *common,
+>  			unsigned long current_rate,
+>  			unsigned long best_rate)
+>  {
+> +	unsigned long min_rate, max_rate;
+> +
+> +	clk_hw_get_rate_range(&common->hw, &min_rate, &max_rate);
+> +
+> +	if (current_rate > max_rate)
+> +		return false;
+> +
+> +	if (current_rate < min_rate)
+> +		return false;
+> +
+>  	if (common->features & CCU_FEATURE_CLOSEST_RATE)
+>  		return abs(current_rate - target_rate) < abs(best_rate - target_rate);
+>  
+> @@ -122,6 +132,7 @@ static int sunxi_ccu_probe(struct sunxi_ccu *ccu, struct device *dev,
+>  
+>  	for (i = 0; i < desc->hw_clks->num ; i++) {
+>  		struct clk_hw *hw = desc->hw_clks->hws[i];
+> +		struct ccu_common *common = hw_to_ccu_common(hw);
+>  		const char *name;
+>  
+>  		if (!hw)
+> @@ -136,6 +147,14 @@ static int sunxi_ccu_probe(struct sunxi_ccu *ccu, struct device *dev,
+>  			pr_err("Couldn't register clock %d - %s\n", i, name);
+>  			goto err_clk_unreg;
+>  		}
+> +
+> +		if (common->max_rate)
+> +			clk_hw_set_rate_range(hw, common->min_rate,
+> +					      common->max_rate);
+> +		else
+> +			WARN(common->min_rate,
+> +			     "No max_rate, ignoring min_rate of clock %d - %s\n",
+> +			     i, name);
+>  	}
+>  
+>  	ret = of_clk_add_hw_provider(node, of_clk_hw_onecell_get,
+> diff --git a/drivers/clk/sunxi-ng/ccu_common.h b/drivers/clk/sunxi-ng/ccu_common.h
+> index 942a72c09437..329734f8cf42 100644
+> --- a/drivers/clk/sunxi-ng/ccu_common.h
+> +++ b/drivers/clk/sunxi-ng/ccu_common.h
+> @@ -31,6 +31,9 @@ struct ccu_common {
+>  	u16		lock_reg;
+>  	u32		prediv;
+>  
+> +	unsigned long	min_rate;
+> +	unsigned long	max_rate;
+> +
+>  	unsigned long	features;
+>  	spinlock_t	*lock;
+>  	struct clk_hw	hw;
+> 
+> 
+
+
+
+
