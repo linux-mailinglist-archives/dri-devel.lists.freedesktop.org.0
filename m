@@ -2,79 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F9F587AF95
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 19:29:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ACE387B03A
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 19:47:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B714310E93B;
-	Wed, 13 Mar 2024 18:29:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A18610ECFF;
+	Wed, 13 Mar 2024 18:47:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="W7AvSEqs";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="oYAAN2Cy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C3BA10E93B
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 18:29:01 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id
- ffacd0b85a97d-33e9990da78so88046f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 11:29:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1710354540; x=1710959340; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=cumHnSAU0uyTVlzJRc7lws76GfX96Vv3WFCUpPGbENc=;
- b=W7AvSEqs5w09BMhbNBSbGZ0lEeVWjG/ZV+dhZqRA2KQedH80HS37QFGsC7h04qootC
- 1V8Y0wkGt3Jm88AUwSy9PN6ERLriWAV+hnRBJ/EnZ8r6pLhEyW9e1f5D6Wps0QZOC5/V
- mUua/haBS8gN0Hgt1cgshpCtzKoQkfIH6pUnsEbspx6t8hUzI2xDXf6XZgi+XOdyv43X
- Y6zinFwG6nyADYJfkXTCnrGe4Zy+yfLmUkOqINS3Gc+ooq7Fc40IRMYFE1Tz6sSBg3VS
- sYdHbGlVD8YOpZjEqIZx5yv3o5EvOylIeJ3ChI1fcFWvclPg6CghHvYtbVT1RwPTRNQl
- S9kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710354540; x=1710959340;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cumHnSAU0uyTVlzJRc7lws76GfX96Vv3WFCUpPGbENc=;
- b=hPmKqd74NlXFnFO8FtVzM9QJ+bbwOUGIgQsMUpgyFRf8cQN4kxDGZ7OZWHOT1Mzkw5
- W7MiQ/Uih2DYyjT1hZrArdNAWGHsb9EZnT/GnUMbatLE3uyhdBs2T6wwPyCyKPg+oesy
- YnwEjXT+GuI9R2yq5Kt+bWWidLBfFxrfo0clpWh9xaxn3eHFv5wZQLAKBkXdHfKS6BDO
- q3BJYOanMGPEy5v5TsauK4p/Yzp40hQbgX7Nkw+HTbE0jcBIT8A1ITUIedQmiPDjL39g
- wEzZEgzmUNFpXLcHGN89th5bLdCW9l86uEJZNi3ZG8dJQWrgtOYw4hE4DHdn0SjgZ5qy
- ho8g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUwxB0/Sc+URcZUlRlQhUk6foqpCHNOhou2OsFaOfU91S81EmreddByeAy6oHc3Ovp7m5MEv0KfFGdxc7XF2sQkO6z20vdCixrA/zOeDOJh
-X-Gm-Message-State: AOJu0YygyerFF8CoD1BvZCrOl9HN7aQstQEBnBEip9O+eamfteSNBPS7
- SmQ6KrAA5JqCMecPzglYpTKMtJnCYODACfJ7iX0Lfaciy6IKFYnmNJD/k7BEHvgYAWTjbw3demp
- T
-X-Google-Smtp-Source: AGHT+IGaE5/7m97Nm1cHOLOaHT9aDnr7ULEzW5g83EPcGdB1e1IkqWmmmUrcRYQgLIheC701iDYxBA==
-X-Received: by 2002:a5d:6a52:0:b0:33e:7942:4139 with SMTP id
- t18-20020a5d6a52000000b0033e79424139mr2723567wrw.61.1710354540100; 
- Wed, 13 Mar 2024 11:29:00 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.222.97]) by smtp.gmail.com with ESMTPSA id
- z4-20020adff744000000b0033e7910ae23sm12218118wrp.49.2024.03.13.11.28.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Mar 2024 11:28:59 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2] dt-bindings: display: samsung,
- exynos5-dp: convert to DT Schema
-Date: Wed, 13 Mar 2024 19:28:55 +0100
-Message-Id: <20240313182855.14140-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E790310ECFF
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 18:47:22 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx0.riseup.net (Postfix) with ESMTPS id 4Tvzyd6D47z9tJs;
+ Wed, 13 Mar 2024 18:47:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1710355642; bh=2251ikvWdPMlqi5xbxTBSf33KyzLUDpjezbwNx4ZjUc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=oYAAN2Cyip9Gck7IiIBhIBeHOMAvpckXj0D8mE5HmH1otlCjZynvUFCtK8gPOdLco
+ 3Iai7fsa9m84FaTWX4R+JaCs1DFXK4me7PtR2J+buh8RrLfzR2zpVBSAZENJ8WRZaX
+ Xrr2B+sibHjMidkxUrMiM+fJww35MnX9DrPRS8ic=
+X-Riseup-User-ID: 6FD4C10D02BAAE4E66CFC01A5A1821683586697382E1A5F6321CA09D508FA355
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4TvzyV1b1lzJrqD;
+ Wed, 13 Mar 2024 18:47:13 +0000 (UTC)
+Message-ID: <16f8867c-147a-4149-ba96-ae70f8eaf903@riseup.net>
+Date: Wed, 13 Mar 2024 15:47:11 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 1/7] drm: Fix drm_fixp2int_round() making it add 0.5
+Content-Language: en-US
+To: Melissa Wen <mwen@igalia.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ pekka.paalanen@haloniitty.fi, Louis Chauvet <louis.chauvet@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com,
+ nicolejadeyee@google.com, Pekka Paalanen <pekka.paalanen@collabora.com>
+References: <20240306-louis-vkms-conv-v1-0-5bfe7d129fdd@riseup.net>
+ <20240306-louis-vkms-conv-v1-1-5bfe7d129fdd@riseup.net>
+ <yyrvbqpmqplwtqfdsjkhzmx7wrk4h67kn5443bdou7c7uciouy@hac7zfxiff7t>
+From: Arthur Grillo <arthurgrillo@riseup.net>
+In-Reply-To: <yyrvbqpmqplwtqfdsjkhzmx7wrk4h67kn5443bdou7c7uciouy@hac7zfxiff7t>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,315 +71,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert Samsung Exynos5250/5420 SoC Display Port Controller bindings to
-DT schema with a change: add power-domains, already used in DTS.
 
-This Display Port controller is actually variant of Analogix Display
-Port bridge, however new DT Schema does not reference analogix,dp.yaml,
-because of incompatibilities in the driver.  The analogix,dp.yaml
-expects two ports, input and output, but Linux Exynos DP DRM driver and
-DTS use only one port: output.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On 12/03/24 15:27, Melissa Wen wrote:
+> On 03/06, Arthur Grillo wrote:
+>> As well noted by Pekka[1], the rounding of drm_fixp2int_round is wrong.
+>> To round a number, you need to add 0.5 to the number and floor that,
+>> drm_fixp2int_round() is adding 0.0000076. Make it add 0.5.
+>>
+>> [1]: https://lore.kernel.org/all/20240301135327.22efe0dd.pekka.paalanen@collabora.com/
+>>
+> Hi Arthur,
+> 
+> thanks for addressing this issue.
+> 
+> Please, add a fix tag to the commit that you are fixing, so we can
+> easily backport. Might be this commit:
+> https://cgit.freedesktop.org/drm/drm-misc/commit/drivers/gpu/drm/vkms?id=ab87f558dcfb2562c3497e89600dec798a446665
+>> Suggested-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+>> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+>> ---
+>>  include/drm/drm_fixed.h | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/include/drm/drm_fixed.h b/include/drm/drm_fixed.h
+>> index 0c9f917a4d4b..de3a79909ac9 100644
+>> --- a/include/drm/drm_fixed.h
+>> +++ b/include/drm/drm_fixed.h
+>> @@ -90,7 +90,7 @@ static inline int drm_fixp2int(s64 a)
+>>  
+>>  static inline int drm_fixp2int_round(s64 a)
+>>  {
+>> -	return drm_fixp2int(a + (1 << (DRM_FIXED_POINT_HALF - 1)));
+> Also, this is the only usage of DRM_FIXED_POINT_HALF. Can you also
+> remove it as it won't be used anymore?
+> 
+>> +	return drm_fixp2int(a + DRM_FIXED_ONE / 2);
+> Would this division be equivalent to just shifting 1ULL by 31 instead of
+> 32 as done in DRM_FIXED_ONE?
 
----
+Yes, but I think the division makes it easier to understand what is
+going on.
 
-Changes in v2:
-1. Document deprecated samsung,hpd-gpios
----
- .../bindings/display/exynos/exynos_dp.txt     | 112 ------------
- .../display/samsung/samsung,exynos5-dp.yaml   | 163 ++++++++++++++++++
- 2 files changed, 163 insertions(+), 112 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/exynos/exynos_dp.txt
- create mode 100644 Documentation/devicetree/bindings/display/samsung/samsung,exynos5-dp.yaml
+Best Regards,
+~Arthur Grillo
 
-diff --git a/Documentation/devicetree/bindings/display/exynos/exynos_dp.txt b/Documentation/devicetree/bindings/display/exynos/exynos_dp.txt
-deleted file mode 100644
-index 3a401590320f..000000000000
---- a/Documentation/devicetree/bindings/display/exynos/exynos_dp.txt
-+++ /dev/null
-@@ -1,112 +0,0 @@
--The Exynos display port interface should be configured based on
--the type of panel connected to it.
--
--We use two nodes:
--	-dp-controller node
--	-dptx-phy node(defined inside dp-controller node)
--
--For the DP-PHY initialization, we use the dptx-phy node.
--Required properties for dptx-phy: deprecated, use phys and phy-names
--	-reg: deprecated
--		Base address of DP PHY register.
--	-samsung,enable-mask: deprecated
--		The bit-mask used to enable/disable DP PHY.
--
--For the Panel initialization, we read data from dp-controller node.
--Required properties for dp-controller:
--	-compatible:
--		should be "samsung,exynos5-dp".
--	-reg:
--		physical base address of the controller and length
--		of memory mapped region.
--	-interrupts:
--		interrupt combiner values.
--	-clocks:
--		from common clock binding: handle to dp clock.
--	-clock-names:
--		from common clock binding: Shall be "dp".
--	-phys:
--		from general PHY binding: the phandle for the PHY device.
--	-phy-names:
--		from general PHY binding: Should be "dp".
--
--Optional properties for dp-controller:
--	-interlaced:
--		interlace scan mode.
--			Progressive if defined, Interlaced if not defined
--	-vsync-active-high:
--		VSYNC polarity configuration.
--			High if defined, Low if not defined
--	-hsync-active-high:
--		HSYNC polarity configuration.
--			High if defined, Low if not defined
--	-samsung,hpd-gpio:
--		Hotplug detect GPIO.
--			Indicates which GPIO should be used for hotplug
--			detection
--	-video interfaces: Device node can contain video interface port
--			nodes according to [1].
--	- display-timings: timings for the connected panel as described by
--		Documentation/devicetree/bindings/display/panel/display-timing.txt
--
--For the below properties, please refer to Analogix DP binding document:
-- * Documentation/devicetree/bindings/display/bridge/analogix,dp.yaml
--	-phys (required)
--	-phy-names (required)
--	-hpd-gpios (optional)
--	 force-hpd (optional)
--
--Deprecated properties for DisplayPort:
---interlaced:            deprecated prop that can parsed from drm_display_mode.
---vsync-active-high:     deprecated prop that can parsed from drm_display_mode.
---hsync-active-high:     deprecated prop that can parsed from drm_display_mode.
---samsung,ycbcr-coeff:   deprecated prop that can parsed from drm_display_mode.
---samsung,dynamic-range: deprecated prop that can parsed from drm_display_mode.
---samsung,color-space:   deprecated prop that can parsed from drm_display_info.
---samsung,color-depth:   deprecated prop that can parsed from drm_display_info.
---samsung,link-rate:     deprecated prop that can reading from monitor by dpcd method.
---samsung,lane-count:    deprecated prop that can reading from monitor by dpcd method.
---samsung,hpd-gpio:      deprecated name for hpd-gpios.
--
---------------------------------------------------------------------------------
--
--Example:
--
--SOC specific portion:
--	dp-controller {
--		compatible = "samsung,exynos5-dp";
--		reg = <0x145b0000 0x10000>;
--		interrupts = <10 3>;
--		interrupt-parent = <&combiner>;
--		clocks = <&clock 342>;
--		clock-names = "dp";
--
--		phys = <&dp_phy>;
--		phy-names = "dp";
--	};
--
--Board Specific portion:
--	dp-controller {
--		display-timings {
--			native-mode = <&lcd_timing>;
--			lcd_timing: 1366x768 {
--				clock-frequency = <70589280>;
--				hactive = <1366>;
--				vactive = <768>;
--				hfront-porch = <40>;
--				hback-porch = <40>;
--				hsync-len = <32>;
--				vback-porch = <10>;
--				vfront-porch = <12>;
--				vsync-len = <6>;
--			};
--		};
--
--		ports {
--			port@0 {
--				dp_out: endpoint {
--					remote-endpoint = <&bridge_in>;
--				};
--			};
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/display/samsung/samsung,exynos5-dp.yaml b/Documentation/devicetree/bindings/display/samsung/samsung,exynos5-dp.yaml
-new file mode 100644
-index 000000000000..dda9097a7911
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/samsung/samsung,exynos5-dp.yaml
-@@ -0,0 +1,163 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/samsung/samsung,exynos5-dp.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Samsung Exynos5250/Exynos5420 SoC Display Port
-+
-+maintainers:
-+  - Inki Dae <inki.dae@samsung.com>
-+  - Seung-Woo Kim <sw0312.kim@samsung.com>
-+  - Kyungmin Park <kyungmin.park@samsung.com>
-+  - Krzysztof Kozlowski <krzk@kernel.org>
-+
-+properties:
-+  compatible:
-+    const: samsung,exynos5-dp
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    items:
-+      - const: dp
-+
-+  display-timings:
-+    $ref: /schemas/display/panel/display-timings.yaml#
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  hpd-gpios:
-+    description:
-+      Hotplug detect GPIO.
-+      Indicates which GPIO should be used for hotplug detection
-+
-+  phys:
-+    maxItems: 1
-+
-+  phy-names:
-+    items:
-+      - const: dp
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  interlaced:
-+    type: boolean
-+    deprecated: true
-+    description:
-+      Interlace scan mode. Progressive if defined, interlaced if not defined.
-+
-+  vsync-active-high:
-+    type: boolean
-+    deprecated: true
-+    description:
-+      VSYNC polarity configuration. High if defined, low if not defined
-+
-+  hsync-active-high:
-+    type: boolean
-+    deprecated: true
-+    description:
-+      HSYNC polarity configuration. High if defined, low if not defined
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description:
-+          Port node with one endpoint connected to a dp-connector node.
-+
-+    required:
-+      - port
-+
-+  samsung,hpd-gpios:
-+    maxItems: 1
-+    deprecated: true
-+
-+  samsung,ycbcr-coeff:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    deprecated: true
-+    description:
-+      Deprecated prop that can parsed from drm_display_mode.
-+
-+  samsung,dynamic-range:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    deprecated: true
-+    description:
-+      Deprecated prop that can parsed from drm_display_mode.
-+
-+  samsung,color-space:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    deprecated: true
-+    description:
-+      Deprecated prop that can parsed from drm_display_info.
-+
-+  samsung,color-depth:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    deprecated: true
-+    description:
-+      Deprecated prop that can parsed from drm_display_info.
-+
-+  samsung,link-rate:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    deprecated: true
-+    description:
-+      Deprecated prop that can reading from monitor by dpcd method.
-+
-+  samsung,lane-count:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    deprecated: true
-+    description:
-+      Deprecated prop that can reading from monitor by dpcd method.
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - interrupts
-+  - phys
-+  - phy-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/exynos5250.h>
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    dp-controller@145b0000 {
-+        compatible = "samsung,exynos5-dp";
-+        reg = <0x145b0000 0x1000>;
-+        clocks = <&clock CLK_DP>;
-+        clock-names = "dp";
-+        interrupts = <10 3>;
-+        interrupt-parent = <&combiner>;
-+        phys = <&dp_phy>;
-+        phy-names = "dp";
-+        pinctrl-0 = <&dp_hpd>;
-+        pinctrl-names = "default";
-+        power-domains = <&pd_disp1>;
-+
-+        samsung,color-space = <0>;
-+        samsung,color-depth = <1>;
-+        samsung,link-rate = <0x0a>;
-+        samsung,lane-count = <2>;
-+        hpd-gpios = <&gpx0 7 GPIO_ACTIVE_HIGH>;
-+
-+        ports {
-+            port {
-+                dp_out: endpoint {
-+                    remote-endpoint = <&bridge_in>;
-+                };
-+            };
-+        };
-+    };
--- 
-2.34.1
-
+> 
+> Melissa
+> 
+>>  }
+>>  
+>>  static inline int drm_fixp2int_ceil(s64 a)
+>>
+>> -- 
+>> 2.43.0
+>>
