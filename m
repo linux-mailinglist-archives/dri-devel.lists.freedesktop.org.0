@@ -2,76 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB8687B301
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 21:46:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ED1D87B349
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 22:12:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 524AC10F4C5;
-	Wed, 13 Mar 2024 20:46:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36AD510E0B6;
+	Wed, 13 Mar 2024 21:12:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cG7BM2cT";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OVVLp0ng";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
- [209.85.216.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4517B10F4C5;
- Wed, 13 Mar 2024 20:46:17 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id
- 98e67ed59e1d1-29bb3d62949so269714a91.1; 
- Wed, 13 Mar 2024 13:46:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1710362777; x=1710967577; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Ts6uCQCSR583D5MrwHjGerF6k57417HU7JnE/j9wabs=;
- b=cG7BM2cT/64AyEQ2AvE3WYo/VeCo2EfVn7UgINgZo3xt+PpXtj5xtJCO+b3RSlIG2N
- NED9U3QIcynJF4woLaUtA//E42Pt52yEp0l91FGu1GYZLJJBZmc9Joxi5QwQOmhJ+MQa
- 4K4+xr3F5yEjjuPQzvUXzjeANN6kbC64Jm/fRDB22afJkIw0jRK7nTKjHu5RqIzFs2qd
- p1+t4W7MbT9Jtd6vQlZen2VlQYvNWl/5EP4hD1kFAvPZ0D+4IUycCx1DUCwoPCo5cYOj
- w0bdBxhyojCXtaacJA52K4Zy/sOd8G++iIgPFjaxdIla1JdzPMpuWwjxdqwD6W0Hi+Wg
- uGVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710362777; x=1710967577;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Ts6uCQCSR583D5MrwHjGerF6k57417HU7JnE/j9wabs=;
- b=R2/2oozLY1FcWqqUNeqnp2GhPKq0jR0F3h6sZN2yUOvv8EH9vEdtYnAmH5/t1iwE8R
- CSK9QPx2kPr9Ggax2R/PxtcIxpaZq99bFXnerRLfI3PjwRqDeWeQi3U+1EmY1Rv41dbS
- Q6ifXwW43zjwOw04ze8V+dAZJdVsTwtxAfT/DWijPnjuNj0xJDzaZi69hEtZreGFB77u
- lziAyLPI5Z/ZxkAK7Z0Qyeh1FAYpO4+NYZc53d6AiSAPJrAXuzr6pet1Ve6WQ86yALD0
- IuE25HTQLcIqJwJl3PunA/3++97RrpkNbixz1/4V9m/zFO1ar+ha7bqtwcJ5tn0qQ3JH
- IRdQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVWg6A65nZyBDZ7sHQBC5IXe9jkaAKPu++Kz2T7c2sAg4BYENzrOf2+Vl3Ba5u7ahbz8BS9u31FTjPyVgHdiQZIg043XMsyU4jiHgM+bFGndoTvD46Ew97v8crZfd27N8/YfDoW7sV4oaQqs6ij3A==
-X-Gm-Message-State: AOJu0Yx8ZUwt4vFbpwrkoagHqpAea8dFBGSyISkOrfYdy2ZGkmz+M6Kk
- RdwYVeDEPyo6XQG71zPXWh74EszWmys3m5ufT5SlXXs0mm/Qa+5EwUrVWXoD3BnPMXvhzbR8ojZ
- jgm4PTysON3nOxCQ6pjVcxcgCV1U=
-X-Google-Smtp-Source: AGHT+IGYqfS5DvWMkzgnBKtCUoh0ekfjB6vYZlQVJbjyvNRGm42ddMgr01CInYZAvgWcnusQw48HiAHusT46XBd+NFM=
-X-Received: by 2002:a17:90a:be08:b0:29c:3c56:a4f5 with SMTP id
- a8-20020a17090abe0800b0029c3c56a4f5mr5840535pjs.26.1710362776624; Wed, 13 Mar
- 2024 13:46:16 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B7AF10E0B6
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 21:12:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3A24D60DF3;
+ Wed, 13 Mar 2024 21:12:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D14B7C433C7;
+ Wed, 13 Mar 2024 21:12:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1710364346;
+ bh=pn/5tZr/4USUk6Xl24wnyddCOFjB3FKvA39M4UJsywA=;
+ h=From:Date:Subject:To:Cc:Reply-To:From;
+ b=OVVLp0ngrjEYvpCQp85XBLMBGVNfeDd+jUm1srgzNoDnDyDrATHtsTaMRJjDAAz2n
+ SPeyfyN7XDvrFM+pP7Z+KpTTVBqgUNDZ7GFoWQOb2QQrA76SAEWW+KtlK2WVAzkOaW
+ Mu9v6lAeldFor/kreLZP+qeO0g4rwAibD5qiBg9RAjP1Ips659p0GcW48VRG7DiRK5
+ hD1HAC7qg6ex8Q3POGlp08U/W22rSypG+5WAqBr9HK6wf96Y+Voyqn1sopodg9ZUDk
+ 4UlsgSRl8f+r0yKyJ6L5H5i3x87m2AIegX2RRgvNCwOFC5wBP7rfuwxvfRDWkJ3FQh
+ JiMVjoweSBAQQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id B5BDFC54E66;
+ Wed, 13 Mar 2024 21:12:26 +0000 (UTC)
+From: Douglas Anderson via B4 Relay <devnull+dianders.chromium.org@kernel.org>
+Date: Wed, 13 Mar 2024 14:12:14 -0700
+Subject: [PATCH] drm/panel: atna33xc20: Fix unbalanced regulator in the
+ case HPD doesn't assert
 MIME-Version: 1.0
-References: <20240311151424.318621-1-sashal@kernel.org>
- <20240311151424.318621-3-sashal@kernel.org>
- <65d9f97b-95a8-474f-a716-32f810cbb1bc@amd.com>
-In-Reply-To: <65d9f97b-95a8-474f-a716-32f810cbb1bc@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 13 Mar 2024 16:46:04 -0400
-Message-ID: <CADnq5_OHW9Sw5quFqk52ymGVKXe3PGidB9uLW9wcQcA=pCOTCA@mail.gmail.com>
-Subject: Re: [PATCH AUTOSEL 5.15 3/5] drm/amdgpu: Enable gpu reset for S3
- abort cases on Raven series
-To: Felix Kuehling <felix.kuehling@amd.com>
-Cc: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, 
- Prike Liang <Prike.Liang@amd.com>, Alex Deucher <alexander.deucher@amd.com>, 
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com, 
- daniel@ffwll.ch, Hawking.Zhang@amd.com, lijo.lazar@amd.com, le.ma@amd.com, 
- James.Zhu@amd.com, shane.xiao@amd.com, sonny.jiang@amd.com, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240313-homestarpanel-regulator-v1-1-b8e3a336da12@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAK0W8mUC/x2MywqAIBAAfyX2nKAl9PiV6GC12kJprBZB9O9Jp
+ 2EOMw9EZMIIffEA40WRgs+iygLm1XiHgpbsUMlKy1opsYYdYzJ8GI+bYHTnZlJgYfXUdtJmNDP
+ k+mC0dP/nYXzfD1GOg+BpAAAA
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Douglas Anderson <dianders@chromium.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1710364346; l=2015;
+ i=dianders@chromium.org; s=20240311; h=from:subject:message-id;
+ bh=/jgB/LgJDly6Altvbipo14aZmr/j8F+XuDmbB4fICv0=;
+ b=ZSkyjZHVIxke1plTs0iVfALVXhp73xvZV1inGwLQ3nW5eOV+sfMENciF2dYF1l2+2oZFBEoiT
+ vi6lBPds8GkA6mNzmas1XXWF4TafE7e2SSJw22U5dDDFyN3gdum072f
+X-Developer-Key: i=dianders@chromium.org; a=ed25519;
+ pk=3pyAfvsLkkkp4Xpq0XV7ZHOoA0WmPoJTE/BIAhunPKg=
+X-Endpoint-Received: by B4 Relay for dianders@chromium.org/20240311 with
+ auth_id=138
+X-Original-From: Douglas Anderson <dianders@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,112 +76,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: dianders@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 13, 2024 at 4:12=E2=80=AFPM Felix Kuehling <felix.kuehling@amd.=
-com> wrote:
->
-> On 2024-03-11 11:14, Sasha Levin wrote:
-> > From: Prike Liang <Prike.Liang@amd.com>
-> >
-> > [ Upstream commit c671ec01311b4744b377f98b0b4c6d033fe569b3 ]
-> >
-> > Currently, GPU resets can now be performed successfully on the Raven
-> > series. While GPU reset is required for the S3 suspend abort case.
-> > So now can enable gpu reset for S3 abort cases on the Raven series.
->
-> This looks suspicious to me. I'm not sure what conditions made the GPU
-> reset successful. But unless all the changes involved were also
-> backported, this should probably not be applied to older kernel
-> branches. I'm speculating it may be related to the removal of AMD IOMMUv2=
-.
->
+From: Douglas Anderson <dianders@chromium.org>
 
-We should get confirmation from Prike, but I think he tested this on
-older kernels as well.
+When the atna33xc20 driver was first written the resume code never
+returned an error. If there was a problem waiting for HPD it just
+printed a warning and moved on. This changed in response to review
+feedback [1] on a future patch but I accidentally didn't account for
+rolling back the regulator enable in the error cases. Do so now.
 
-Alex
+[1] https://lore.kernel.org/all/5f3cf3a6-1cc2-63e4-f76b-4ee686764705@linaro.org/
 
-> Regards,
->    Felix
->
->
-> >
-> > Signed-off-by: Prike Liang <Prike.Liang@amd.com>
-> > Acked-by: Alex Deucher <alexander.deucher@amd.com>
-> > Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> > Signed-off-by: Sasha Levin <sashal@kernel.org>
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/soc15.c | 45 +++++++++++++++++------------=
+Fixes: 3b5765df375c ("drm/panel: atna33xc20: Take advantage of wait_hpd_asserted() in struct drm_dp_aux")
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+ drivers/gpu/drm/panel/panel-samsung-atna33xc20.c | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
+index 76c2a8f6718c..9c336c71562b 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
++++ b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
+@@ -109,19 +109,17 @@ static int atana33xc20_resume(struct device *dev)
+ 		if (hpd_asserted < 0)
+ 			ret = hpd_asserted;
+ 
+-		if (ret)
++		if (ret) {
+ 			dev_warn(dev, "Error waiting for HPD GPIO: %d\n", ret);
 -
-> >   1 file changed, 25 insertions(+), 20 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/soc15.c b/drivers/gpu/drm/amd/a=
-mdgpu/soc15.c
-> > index 6a3486f52d698..ef5b3eedc8615 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/soc15.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/soc15.c
-> > @@ -605,11 +605,34 @@ soc15_asic_reset_method(struct amdgpu_device *ade=
-v)
-> >               return AMD_RESET_METHOD_MODE1;
-> >   }
-> >
-> > +static bool soc15_need_reset_on_resume(struct amdgpu_device *adev)
-> > +{
-> > +     u32 sol_reg;
-> > +
-> > +     sol_reg =3D RREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_81);
-> > +
-> > +     /* Will reset for the following suspend abort cases.
-> > +      * 1) Only reset limit on APU side, dGPU hasn't checked yet.
-> > +      * 2) S3 suspend abort and TOS already launched.
-> > +      */
-> > +     if (adev->flags & AMD_IS_APU && adev->in_s3 &&
-> > +                     !adev->suspend_complete &&
-> > +                     sol_reg)
-> > +             return true;
-> > +
-> > +     return false;
-> > +}
-> > +
-> >   static int soc15_asic_reset(struct amdgpu_device *adev)
-> >   {
-> >       /* original raven doesn't have full asic reset */
-> > -     if ((adev->apu_flags & AMD_APU_IS_RAVEN) ||
-> > -         (adev->apu_flags & AMD_APU_IS_RAVEN2))
-> > +     /* On the latest Raven, the GPU reset can be performed
-> > +      * successfully. So now, temporarily enable it for the
-> > +      * S3 suspend abort case.
-> > +      */
-> > +     if (((adev->apu_flags & AMD_APU_IS_RAVEN) ||
-> > +         (adev->apu_flags & AMD_APU_IS_RAVEN2)) &&
-> > +             !soc15_need_reset_on_resume(adev))
-> >               return 0;
-> >
-> >       switch (soc15_asic_reset_method(adev)) {
-> > @@ -1490,24 +1513,6 @@ static int soc15_common_suspend(void *handle)
-> >       return soc15_common_hw_fini(adev);
-> >   }
-> >
-> > -static bool soc15_need_reset_on_resume(struct amdgpu_device *adev)
-> > -{
-> > -     u32 sol_reg;
-> > -
-> > -     sol_reg =3D RREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_81);
-> > -
-> > -     /* Will reset for the following suspend abort cases.
-> > -      * 1) Only reset limit on APU side, dGPU hasn't checked yet.
-> > -      * 2) S3 suspend abort and TOS already launched.
-> > -      */
-> > -     if (adev->flags & AMD_IS_APU && adev->in_s3 &&
-> > -                     !adev->suspend_complete &&
-> > -                     sol_reg)
-> > -             return true;
-> > -
-> > -     return false;
-> > -}
-> > -
-> >   static int soc15_common_resume(void *handle)
-> >   {
-> >       struct amdgpu_device *adev =3D (struct amdgpu_device *)handle;
+-		return ret;
+-	}
+-
+-	if (p->aux->wait_hpd_asserted) {
++			goto error;
++		}
++	} else if (p->aux->wait_hpd_asserted) {
+ 		ret = p->aux->wait_hpd_asserted(p->aux, HPD_MAX_US);
+ 
+-		if (ret)
++		if (ret) {
+ 			dev_warn(dev, "Controller error waiting for HPD: %d\n", ret);
+-
+-		return ret;
++			goto error;
++		}
+ 	}
+ 
+ 	/*
+@@ -133,6 +131,12 @@ static int atana33xc20_resume(struct device *dev)
+ 	 * right times.
+ 	 */
+ 	return 0;
++
++error:
++	drm_dp_dpcd_set_powered(p->aux, false);
++	regulator_disable(p->supply);
++
++	return ret;
+ }
+ 
+ static int atana33xc20_disable(struct drm_panel *panel)
+
+---
+base-commit: b33651a5c98dbd5a919219d8c129d0674ef74299
+change-id: 20240311-homestarpanel-regulator-f4b890ff4b7c
+
+Best regards,
+-- 
+Douglas Anderson <dianders@chromium.org>
+
