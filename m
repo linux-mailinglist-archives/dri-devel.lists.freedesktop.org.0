@@ -2,86 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5490A87A3AB
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 08:39:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 551A387A3DB
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 09:03:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 063C910F2FE;
-	Wed, 13 Mar 2024 07:39:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A58F610E2E5;
+	Wed, 13 Mar 2024 08:03:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="TTyNetms";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mGvEuauO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4179510ED65
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 07:39:34 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-a4663b29334so1398666b.0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 00:39:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1710315572; x=1710920372; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=AvANucvrZ/fsPo2yOI31iWo1FDKNiABMfD22ldNz5dc=;
- b=TTyNetmsfM2BTIeELtxMDTh0IWzfFg+kaCKObsFjWnSynqldFQ1Ijh2p5ewT4eah1F
- 5gGKhNdI/ZTcBJfUwzPTULJsiGPhrdTdaubrth9dJxyhtIOXrofl/C4y1Kniq5UMu0me
- DCVFnyTFRF6RSy2UNit62edeERwid47D9k6AghqkL0HSPJ/mIlEC93hOFPtOzgQtaz9C
- OL7HiJWYW2szXUlArV4+szBp90ibEw08gXhUIF2x1FunbEu6Z7z9lvP5ZkrPcE52Rjdh
- Vm66dffeuujcQ5Hhvy4hcMjt4mSlDrwvrCigc9BjOcyqAMSN9FP2SYRO3nuxCawCa89C
- ILOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710315572; x=1710920372;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AvANucvrZ/fsPo2yOI31iWo1FDKNiABMfD22ldNz5dc=;
- b=Lf4EOMEcLeXAPMWON+jY1TXs6zNE68uja8EkVCLC4wLjhwFBywig2R0bpgc5GQUZaB
- QCrsnwOf9JFtMoK2nIwUGECmLi786wXlR3Q+UbePIL+Li9XO4202omEf+eU/4H8eP+c4
- Mm0uFiSkOrvj+HjSkRUPWENQxYxRoRq7oIjXsLI7tY+Jqb6y2iTDsDmeFC8tOH6f44KX
- XzESpoCHESaUTMTI7dJKtofPNIkDqGEpWs/ofwmGdLoJXSiOQDzDLONITXPCRFoVlPjU
- Xe9dxiZtkvbGkdj9fZLDTseo6ws4Oly7nsbclAAHc1M91aWEOidwZxu6UjCdCbA/SQKf
- wlAw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWfbQv/zN1B/gVPoGBm6tqu8zRPwGnBFHfE/IeZTUx6iA0SfSwO45RyW2Z+JN3y97oFiAYFA7W2lJW/3nIkceDqFM17atPPn1MbG4fTrdD8
-X-Gm-Message-State: AOJu0Yy4VfoOY6yDBINXwe7lp6KR6xvRbV2GTH0NzT/abHbMLutxz4V9
- n51jRCbr1HO+fdpae17JZdSuoIuPl5AEmiMfn9foPPTk3w1gXIwQt4FQtTkzEgw=
-X-Google-Smtp-Source: AGHT+IH38GneADkyKtRbEkb8+HLK5ZsZNpyhD22lE4uk6eUmiwmdHa00scLatPQEFNYx/T2Y2VkSUg==
-X-Received: by 2002:a17:906:2ccb:b0:a41:3e39:b918 with SMTP id
- r11-20020a1709062ccb00b00a413e39b918mr7484516ejr.24.1710315572226; 
- Wed, 13 Mar 2024 00:39:32 -0700 (PDT)
-Received: from localhost ([102.222.70.76]) by smtp.gmail.com with ESMTPSA id
- qx26-20020a170906fcda00b00a45a687b52asm4578781ejb.213.2024.03.13.00.39.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Mar 2024 00:39:31 -0700 (PDT)
-Date: Wed, 13 Mar 2024 10:39:28 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>,
- David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Maxime Ripard <mripard@kernel.org>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, loongarch@lists.linux.dev, netdev@lists.linux.dev
-Subject: Re: [PATCH 00/14] Add support for suppressing warning backtraces
-Message-ID: <43ef4ef4-303b-45c6-aa50-3e0982c93bd7@moroto.mountain>
-References: <20240312170309.2546362-1-linux@roeck-us.net>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5A2D10E2E5
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 08:03:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id D57BC61326;
+ Wed, 13 Mar 2024 08:03:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BA46C433F1;
+ Wed, 13 Mar 2024 08:03:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1710317007;
+ bh=l0tGitGHLV1/9HpYMoRsuk1aHCzZMdgkRs83nroWmVg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mGvEuauOZjLA4AeWdQaZ+xmqo10WtmE5pwVpnPX0E/aJ2es93C2b/33NpdvX41Aqh
+ gmn2AcTYEcTBCbwGAS08SmV7apHF6Ia/fwgWiu2ZC7kQt/+za5mMddJl3353b9zc7/
+ ydJv/hB/0SJFpCfzLw44FqdT7MsMYvOcsdw4BBtzsylthkA1KFP6BHfRVXVNxmOjA7
+ sIhOceZC222dV5+vlAqoITB63IXiljpNJ7skvwjHL7HV1lbKha+Pgv0tKqyY8m6n3w
+ vQy8PYF3SfKvrWI/LT8SB6rnBwC09gx7SP8hLJQ0EJgMMr3FzSkTtTwsBIEIQFX3qn
+ tjoEKqVFkKZUw==
+Date: Wed, 13 Mar 2024 08:03:21 +0000
+From: Lee Jones <lee@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, andy@kernel.org,
+ daniel.thompson@linaro.org, jingoohan1@gmail.com, deller@gmx.de,
+ robin@protonic.nl, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v4 00/10] backlight: Replace struct fb_info in interfaces
+Message-ID: <20240313080321.GE1522089@google.com>
+References: <20240305162425.23845-1-tzimmermann@suse.de>
+ <heasef3pdfyj7xyngnvbg527pc5uyy2v6hatz4wr6q3sfkhw3h@f4lnresjcnmb>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240312170309.2546362-1-linux@roeck-us.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <heasef3pdfyj7xyngnvbg527pc5uyy2v6hatz4wr6q3sfkhw3h@f4lnresjcnmb>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,10 +62,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks!
+On Wed, 13 Mar 2024, Uwe Kleine-König wrote:
 
-Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Hello Thomas,
+> 
+> On Tue, Mar 05, 2024 at 05:22:33PM +0100, Thomas Zimmermann wrote:
+> > Backlight drivers implement struct backlight_ops.check_fb, which
+> > uses struct fb_info in its interface. Replace the callback with one
+> > that does not use fb_info.
+> > 
+> > In DRM, we have several drivers that implement backlight support. By
+> > including <linux/backlight.h> these drivers depend on <linux/fb.h>.
+> > At the same time, fbdev is deprecated for new drivers and likely to
+> > be replaced on many systems.
+> > 
+> > This patchset is part of a larger effort to implement the backlight
+> > code without depending on fbdev.
+> > 
+> > Patch 1 makes the backlight core match backlight and framebuffer
+> > devices via struct fb_info.bl_dev. Patches 2 to 9 then go through
+> > drivers and remove unnecessary implementations of check_fb. Finally,
+> > patch 10 replaces the check_fb hook with controls_device, which
+> > uses the framebuffer's Linux device instead of the framebuffer.
+> 
+> I assume the merge plan for this series is via drm-misc in one go?
 
-regards,
-dan carpenter
+Backlight in one go.  This will be the second attempt at applying it.
 
+-- 
+Lee Jones [李琼斯]
