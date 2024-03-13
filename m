@@ -2,56 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E85887AB9B
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 17:44:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E87F487ABAA
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 17:45:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFD3F10EAA4;
-	Wed, 13 Mar 2024 16:44:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E75C710EBC1;
+	Wed, 13 Mar 2024 16:45:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tiTMbvmK";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="DkRIXAEy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 044E010E927;
- Wed, 13 Mar 2024 16:44:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5EA6E614A1;
- Wed, 13 Mar 2024 16:44:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0640C433F1;
- Wed, 13 Mar 2024 16:44:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1710348252;
- bh=hu6DpvE5WrtXLVtktC2RDOr1HzwCQFEFXKkD6CCXoEY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tiTMbvmKsyx73w93QN46IBb2DHWPyCDhJne0/OXUI93WUuu8GYWMh4rALJ94WrhDP
- 2WgG2A221GyBBoNi2aWVhvfTtJLxvqVAIN6wdoGd4u+FccgB772Kh8gVWQjYo/HSN8
- obGqFzUrEBNJVdvsPdJUkHpK9feCq7n9kYwo7VUC8fdL96HvKpVbbCA++qr782BkUl
- RRAo71ipEk7P3TxmY5bn7KcWAWhcxtrqlZo6k6IsV7/kwZldlzlNd8Ec79ScfBZDOI
- cSHmgkHo+ClUz4L9C7HDxiG+2+P+wUB996/Sz/xLhANkWP2ynLBlL2LWIw4d5fWdd0
- ZTt79M+XF0wJg==
-Received: from johan by xi.lan with local (Exim 4.97.1)
- (envelope-from <johan+linaro@kernel.org>) id 1rkRiG-0000000062D-0QH9;
- Wed, 13 Mar 2024 17:44:20 +0100
-From: Johan Hovold <johan+linaro@kernel.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Bjorn Andersson <quic_bjorande@quicinc.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Johan Hovold <johan+linaro@kernel.org>,
- stable@vger.kernel.org
-Subject: [PATCH 2/2] drm/msm/dp: fix runtime PM leak on connect failure
-Date: Wed, 13 Mar 2024 17:43:06 +0100
-Message-ID: <20240313164306.23133-3-johan+linaro@kernel.org>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240313164306.23133-1-johan+linaro@kernel.org>
-References: <20240313164306.23133-1-johan+linaro@kernel.org>
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A65110EBC1
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 16:45:36 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 39FC71C0008;
+ Wed, 13 Mar 2024 16:45:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1710348334;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XuQ0UqQl11m0NvvFOq43PqxRfN+fKrgvj7VWFDw8fu8=;
+ b=DkRIXAEyUDiUQjQZfqTt26mQA8FYL6PzLpC4AgCnEmDFvlAqW+OPoXDI9PhHHoV0PP5oFl
+ cuho564tPB50t6qdDQm97ywWKsVAJVvw/ytOG2N+sNf3MP91DMwN/JxYfr+CTmglUzvByl
+ bRU5Y9hNmN5ZsaFgWRG/8wXjVQ53HzvzawOPfKWiH4vX9q5tSGAfm1LSH+pLErftptCpBw
+ TXfT0mj5/I9SL09ifeBRTSB5vywWBXDG9isFgnbZQ0UAuvRt9wpmzztTVjgajt98o6gW8I
+ ieNOllXoFMT4e8IhbIPcQMMLqnYvgS8MR0tjZT3rVTzP8OoIRcys2hRN1ECokA==
+Date: Wed, 13 Mar 2024 17:45:31 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>, Alexey
+ Gladkov <legion@kernel.org>, Jiry Slaby <jirislaby@kernel.org>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] fbcon: Increase maximum font width x height to 64 x 64
+Message-ID: <20240313174531.2579df0f@booty>
+In-Reply-To: <20240312213902.3zvqaghlopjusv6m@begin>
+References: <20240312213902.3zvqaghlopjusv6m@begin>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,30 +62,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make sure to balance the runtime PM usage counter (and suspend) before
-returning on connect failures (e.g. DPCD read failures after a spurious
-connect event or if link training fails).
+Hello Samuel,
 
-Fixes: 5814b8bf086a ("drm/msm/dp: incorporate pm_runtime framework into DP driver")
-Cc: stable@vger.kernel.org      # 6.8
-Cc: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
----
- drivers/gpu/drm/msm/dp/dp_display.c | 1 +
- 1 file changed, 1 insertion(+)
+On Tue, 12 Mar 2024 22:39:02 +0100
+Samuel Thibault <samuel.thibault@ens-lyon.org> wrote:
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 8e8cf531da45..78464c395c3d 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -598,6 +598,7 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
- 	ret = dp_display_usbpd_configure_cb(&pdev->dev);
- 	if (ret) {	/* link train failed */
- 		dp->hpd_state = ST_DISCONNECTED;
-+		pm_runtime_put_sync(&pdev->dev);
- 	} else {
- 		dp->hpd_state = ST_MAINLINK_READY;
- 	}
+> This remains relatively simple by just enlarging integers.
+> 
+> It wouldn't be that simple to get to the console's 64x128 maximum, as it would
+> require 128b integers.
+> 
+> Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+> 
+> Index: linux-6.4/drivers/video/fbdev/core/fbcon.c
+> ===================================================================
+
+This patch is clearly not formatted according to the standard format
+and it does not apply with 'git am'.
+
+Using 'git format-patch' and 'git send-email' is *very* recommended as
+it will take care of all the formatting for you. Maintainers and
+anybody interested in your patch will be able to apply it easily.
+
+All the info you need are at
+https://docs.kernel.org/process/submitting-patches.html
+
+> --- linux-6.4.orig/drivers/video/fbdev/core/fbcon.c
+> +++ linux-6.4/drivers/video/fbdev/core/fbcon.c
+
+Apparently you are not using git to track your changes, so I recommend
+using it to have all the git utilities available.
+
+Best regards,
+Luca
+
 -- 
-2.43.2
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
