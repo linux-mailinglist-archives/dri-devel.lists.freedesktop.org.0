@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ACE387B03A
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 19:47:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F5587B0DB
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 20:02:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A18610ECFF;
-	Wed, 13 Mar 2024 18:47:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD33D10E4A7;
+	Wed, 13 Mar 2024 19:02:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="oYAAN2Cy";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="nqJQixae";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E790310ECFF
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 18:47:22 +0000 (UTC)
-Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx0.riseup.net (Postfix) with ESMTPS id 4Tvzyd6D47z9tJs;
- Wed, 13 Mar 2024 18:47:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1710355642; bh=2251ikvWdPMlqi5xbxTBSf33KyzLUDpjezbwNx4ZjUc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=oYAAN2Cyip9Gck7IiIBhIBeHOMAvpckXj0D8mE5HmH1otlCjZynvUFCtK8gPOdLco
- 3Iai7fsa9m84FaTWX4R+JaCs1DFXK4me7PtR2J+buh8RrLfzR2zpVBSAZENJ8WRZaX
- Xrr2B+sibHjMidkxUrMiM+fJww35MnX9DrPRS8ic=
-X-Riseup-User-ID: 6FD4C10D02BAAE4E66CFC01A5A1821683586697382E1A5F6321CA09D508FA355
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4TvzyV1b1lzJrqD;
- Wed, 13 Mar 2024 18:47:13 +0000 (UTC)
-Message-ID: <16f8867c-147a-4149-ba96-ae70f8eaf903@riseup.net>
-Date: Wed, 13 Mar 2024 15:47:11 -0300
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6362A10E4A7
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 19:02:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=rIJP/2UJwo6seYvgvi0OmkEBz55Yak5Htnxi3myTKu8=; b=nqJQixaelhfIlCtIrd1vO8BEV0
+ PZDMhh4NiN+/ct17a5eR3LnU4zyGsAWNx6XwhHoUlSiiSqSvHKQqEcMMb3g9QJCBA+WJCSD6HNJDr
+ WOaFKLWNb6UZMaGaEy/SwAa9MefGcFxOFMqCbKOgvp7V5VTZLBT/gOUnh1kFvj9eH+BTqxZyg84aj
+ t5gCEQYwvGPOt/RL8Wybru6ZnNMJ2LdJeHxT4jE+/quDaREQeut52+AmrTxW/pNTOsvCnI2Q1L+Ks
+ 2kSHf5pg15e6zpJe+b9iw5/zwUCTLORVlyOcNz+lHH1EBw5YBAgqxnnhz6VqroVbXsS4ihBAtWBhY
+ /X9x7byQ==;
+Received: from [50.53.2.121] (helo=[192.168.254.15])
+ by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+ id 1rkTs6-0000000BUAS-3Dl5; Wed, 13 Mar 2024 19:02:38 +0000
+Message-ID: <1cda54fb-a61d-4485-b9fe-338a935d7980@infradead.org>
+Date: Wed, 13 Mar 2024 12:02:37 -0700
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/7] drm: Fix drm_fixp2int_round() making it add 0.5
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 03/16] drm/vkms: write/update the documentation for
+ pixel conversion and pixel write functions
 Content-Language: en-US
-To: Melissa Wen <mwen@igalia.com>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
  Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
  <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- pekka.paalanen@haloniitty.fi, Louis Chauvet <louis.chauvet@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ David Airlie <airlied@gmail.com>, arthurgrillo@riseup.net,
+ Jonathan Corbet <corbet@lwn.net>, pekka.paalanen@haloniitty.fi
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
  thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com,
- nicolejadeyee@google.com, Pekka Paalanen <pekka.paalanen@collabora.com>
-References: <20240306-louis-vkms-conv-v1-0-5bfe7d129fdd@riseup.net>
- <20240306-louis-vkms-conv-v1-1-5bfe7d129fdd@riseup.net>
- <yyrvbqpmqplwtqfdsjkhzmx7wrk4h67kn5443bdou7c7uciouy@hac7zfxiff7t>
-From: Arthur Grillo <arthurgrillo@riseup.net>
-In-Reply-To: <yyrvbqpmqplwtqfdsjkhzmx7wrk4h67kn5443bdou7c7uciouy@hac7zfxiff7t>
+ nicolejadeyee@google.com
+References: <20240313-yuv-v5-0-e610cbd03f52@bootlin.com>
+ <20240313-yuv-v5-3-e610cbd03f52@bootlin.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240313-yuv-v5-3-e610cbd03f52@bootlin.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,58 +70,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
+
+On 3/13/24 10:44, Louis Chauvet wrote:
+> Add some documentation on pixel conversion functions.
+> Update of outdated comments for pixel_write functions.
+> 
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>  drivers/gpu/drm/vkms/vkms_composer.c |  7 ++++
+>  drivers/gpu/drm/vkms/vkms_drv.h      | 13 ++++++++
+>  drivers/gpu/drm/vkms/vkms_formats.c  | 62 ++++++++++++++++++++++++++++++------
+>  3 files changed, 73 insertions(+), 9 deletions(-)
+> 
+
+> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+> index 172830a3936a..6e3dc8682ff9 100644
+> --- a/drivers/gpu/drm/vkms/vkms_formats.c
+> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
 
 
-On 12/03/24 15:27, Melissa Wen wrote:
-> On 03/06, Arthur Grillo wrote:
->> As well noted by Pekka[1], the rounding of drm_fixp2int_round is wrong.
->> To round a number, you need to add 0.5 to the number and floor that,
->> drm_fixp2int_round() is adding 0.0000076. Make it add 0.5.
->>
->> [1]: https://lore.kernel.org/all/20240301135327.22efe0dd.pekka.paalanen@collabora.com/
->>
-> Hi Arthur,
-> 
-> thanks for addressing this issue.
-> 
-> Please, add a fix tag to the commit that you are fixing, so we can
-> easily backport. Might be this commit:
-> https://cgit.freedesktop.org/drm/drm-misc/commit/drivers/gpu/drm/vkms?id=ab87f558dcfb2562c3497e89600dec798a446665
->> Suggested-by: Pekka Paalanen <pekka.paalanen@collabora.com>
->> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
->> ---
->>  include/drm/drm_fixed.h | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/include/drm/drm_fixed.h b/include/drm/drm_fixed.h
->> index 0c9f917a4d4b..de3a79909ac9 100644
->> --- a/include/drm/drm_fixed.h
->> +++ b/include/drm/drm_fixed.h
->> @@ -90,7 +90,7 @@ static inline int drm_fixp2int(s64 a)
->>  
->>  static inline int drm_fixp2int_round(s64 a)
->>  {
->> -	return drm_fixp2int(a + (1 << (DRM_FIXED_POINT_HALF - 1)));
-> Also, this is the only usage of DRM_FIXED_POINT_HALF. Can you also
-> remove it as it won't be used anymore?
-> 
->> +	return drm_fixp2int(a + DRM_FIXED_ONE / 2);
-> Would this division be equivalent to just shifting 1ULL by 31 instead of
-> 32 as done in DRM_FIXED_ONE?
+> @@ -216,6 +238,14 @@ static void argb_u16_to_RGB565(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
+>  	*pixels = cpu_to_le16(r << 11 | g << 5 | b);
+>  }
+>  
+> +/**
 
-Yes, but I think the division makes it easier to understand what is
-going on.
+This comment is not in kernel-doc format, so either use "/*" to begin the comment
+or add the function name in the first comment line, like:
 
-Best Regards,
-~Arthur Grillo
 
++ * vkms_writeback_row - Generic loop for all supported writeback format. It is executed just after the blending to
+
+> + * Generic loop for all supported writeback format. It is executed just after the blending to
+> + * write a line in the writeback buffer.
+> + *
+> + * @wb: Job where to insert the final image
+> + * @src_buffer: Line to write
+> + * @y: Row to write in the writeback buffer
+> + */
+>  void vkms_writeback_row(struct vkms_writeback_job *wb,
+>  			const struct line_buffer *src_buffer, int y)
+>  {
+> @@ -229,6 +259,13 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
+>  		wb->pixel_write(dst_pixels, &in_pixels[x]);
+>  }
+>  
+> +/**
+
+Needs function name or don't use "/**" to begin the comment.
+
+> + * Retrieve the correct read_pixel function for a specific format.
+> + * The returned pointer is NULL for unsupported pixel formats. The caller must ensure that the
+> + * pointer is valid before using it in a vkms_plane_state.
+> + *
+> + * @format: DRM_FORMAT_* value for which to obtain a conversion function (see [drm_fourcc.h])
+> + */
+>  void *get_pixel_conversion_function(u32 format)
+>  {
+>  	switch (format) {
+> @@ -247,6 +284,13 @@ void *get_pixel_conversion_function(u32 format)
+>  	}
+>  }
+>  
+> +/**
+
+Same here.
+
+> + * Retrieve the correct write_pixel function for a specific format.
+> + * The returned pointer is NULL for unsupported pixel formats. The caller must ensure that the
+> + * pointer is valid before using it in a vkms_writeback_job.
+> + *
+> + * @format: DRM_FORMAT_* value for which to obtain a conversion function (see [drm_fourcc.h])
+> + */
+>  void *get_pixel_write_function(u32 format)
+>  {
+>  	switch (format) {
 > 
-> Melissa
-> 
->>  }
->>  
->>  static inline int drm_fixp2int_ceil(s64 a)
->>
->> -- 
->> 2.43.0
->>
+
+thanks.
+-- 
+#Randy
