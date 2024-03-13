@@ -2,85 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFA5287A8F4
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 15:03:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 927E587A8F7
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 15:03:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5507B10F32C;
-	Wed, 13 Mar 2024 14:03:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8762C10F3B2;
+	Wed, 13 Mar 2024 14:03:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="NPJdBEwB";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="H49ytbqv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com
- [209.85.160.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ADD610F322
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 14:03:40 +0000 (UTC)
-Received: by mail-oa1-f46.google.com with SMTP id
- 586e51a60fabf-22002fbbd6bso3394726fac.3
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 07:03:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710338619; x=1710943419;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ubMufnhLcTOoAqfT9+1T3xyWYqQSUC7Sbpi7BUH1NZE=;
- b=NPJdBEwBFCo3meszHK0AxPIQltP6cSulW4I19Q0d29AAA2F8znRnI3trH5A02fW8G/
- JH7jjQlxngXC0Nm/n6nsDQVhtaoiq6owD5fwTxCYxKFinPbo6b/TEgcjXyZD7IU+N8GK
- UyhBRwhwe8xEQU/8MR9pGD2xf9FcMzUvM9EumR+Y9C5ZPh79w2QeNCGkoExI7eb0HNTm
- A/ht0rgR5tVIHFBQVnV5zwroV8gHpiK9NAbNPZdx2+oppGaAq2LnMG54653AuPdioGXK
- iigDQR2wOvtdxp8/Z8b7nVM4uu8ezRfA1J89JHD51pXqpcThziFuYdl8kf+2EPYcCYSk
- GD6Q==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CB2010F322
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 14:03:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1710338621;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Gxcyuud9PUU21oCT7HcyvGU9X3hZha1Ay6YbgZqHGYc=;
+ b=H49ytbqv2Cv1yPdI7eVoFiIeDqMzYV9HbVAaItrtSQqbMzlLcHdFBkVIAmf8vtwIlJ3gFa
+ g9G+YE7s+zYMzjm74yW5BhAlAkv9QVtkMfb+kct/cNhkl+OygUG5nc9HGGLOPR/g9sTrMX
+ 6BDrdtMVjjkkjksC9iiiRtD50fg5uyY=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-635-frM_hxmyOqyMhSq7UM4aPw-1; Wed, 13 Mar 2024 10:03:39 -0400
+X-MC-Unique: frM_hxmyOqyMhSq7UM4aPw-1
+Received: by mail-yw1-f200.google.com with SMTP id
+ 00721157ae682-60a04bc559fso84824207b3.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 07:03:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1710338619; x=1710943419;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ubMufnhLcTOoAqfT9+1T3xyWYqQSUC7Sbpi7BUH1NZE=;
- b=Gcl5qpNalKtMn6KL2M6BZUHDI9EtV11sTLCXYG13GtAZpx98sD1Zoc5hIrsOXrp8/0
- 45I+KvPu6RCHlaoY6Lv0OayA+IZMBxrPkjHlh/XVEeDH7LGv6ihKLYua5NPjeBt320lO
- 7mT3AVHDEDdyfC1K36QmpYKsUrN4jFi0TX++Lyflo/526X3SySHvSZ5NQFgPcHsiJwSg
- Ik/VroGNmTxO+HzG7i2vzYvjDEOdNchHLt/o4kTfpdrylzWjK9Sap9JPv67JVpX91n+Z
- e0gXIbwBzNc/AoGDxz5AtXU8VPYZEtN+8bGDvmxFtold4cW/JkrwfNTZRzAAvC3fazb3
- Y17Q==
+ bh=Gxcyuud9PUU21oCT7HcyvGU9X3hZha1Ay6YbgZqHGYc=;
+ b=mxAEFQWBpTravUPP4djTGEwDAGgrcr3h1xDBReTm+vwsLE1AIKR8zS2k9Jx4HjmpZn
+ +OBthHO0aJOGxCr5OrL1+Z4w8c1P5S8efUp5bXVmf+xvq5ELoS1oGjjkWUCNB6oRQe8j
+ ypCUfvKFZuUTyY9vyRtwBhIysb3BzvcD+umRKioBle2hQySk40B3lBGdKE2z68NqtAN0
+ LZ70KeN7T94V4nqu9j73rt2cefcC7LLRAuG+R1LmgnMliH4vAoXyD2ZGNQi8r1UMYzvM
+ QQWqzS+Rda8KmJ79+ZGmKQDyIW9ze3cQXjBHUalpHsC8RnGD1M0LyG73mrifIrPO1IuD
+ fUvA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXbFlYkzg/OL2l3kijESG7eRd/vikEXBmAClr3lYTZqTRq37mLhIK11vl9CmUyz2P0nsn+2l58Lw9zU9njjvymOgjh7faAtEIiB+tNtRej+
-X-Gm-Message-State: AOJu0YwWjLuO8CadqqX4d8/icMOkon+8phfNOWAu8GlpPX7oJ23dkpGr
- HbNiY1YBZeNnW0vPv+OpNhT+FEcMdDq3fPYKR7TzkxQUVGqTnhPCuHxOFiWXC2c=
-X-Google-Smtp-Source: AGHT+IEKcPIJIxJN3LZm3uy5vBq1aiBgTaIu0YfiiPG9DOTPOxQSlz/QEM8ItgImfrBXmN837WZOiw==
-X-Received: by 2002:a05:6871:b0c:b0:221:1f78:566f with SMTP id
- fq12-20020a0568710b0c00b002211f78566fmr13760475oab.7.1710338619646; 
+ AJvYcCUU6vfTRLfUUerya+XzDcFZKZ2CbR3LQAV3U2jcEUq/MeSt04q4Y3PC0jCcRzp64/V/5uiQQ1TQUnqSY31JfYODZCrZcYk62pGjL8e5Jg3z
+X-Gm-Message-State: AOJu0YzPtb9G5gid9NUGEiJLKiBPnDItDhsDIt8AMqHAk/3PicpAXZ4N
+ 6M4ad00u7HVDxoz1AIqngNL6JdvbeuI9Lb0aRxoUE+rgwCfaQh81DenB3HFqQDJlhHJg5iPb7qI
+ i+eYbKZ+dPPd3sJ6LMA643Nn2GJ2pjIuOj6AJHjUH/ksH0BKhABTCk1BWZz2dTrcSIQ==
+X-Received: by 2002:a0d:eb81:0:b0:60a:15c9:1600 with SMTP id
+ u123-20020a0deb81000000b0060a15c91600mr2846639ywe.37.1710338619044; 
  Wed, 13 Mar 2024 07:03:39 -0700 (PDT)
-Received: from [192.168.1.70] ([84.102.31.243])
+X-Google-Smtp-Source: AGHT+IGPG5IRrHrKwPgd/9Dh8Z9VwqPTesqBfo+4n0SoH+KhHZfNsII+UVsHejM49YUTC1uVCrEY0g==
+X-Received: by 2002:a0d:eb81:0:b0:60a:15c9:1600 with SMTP id
+ u123-20020a0deb81000000b0060a15c91600mr2846610ywe.37.1710338618766; 
+ Wed, 13 Mar 2024 07:03:38 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- a16-20020a9d4710000000b006e540a9026fsm478137otf.48.2024.03.13.07.03.34
+ v17-20020a81b711000000b0060a3b09a5c2sm1705232ywh.84.2024.03.13.07.03.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Mar 2024 07:03:39 -0700 (PDT)
-Message-ID: <9016930f-d90b-4a7a-b6fb-80cf56a94bd8@baylibre.com>
-Date: Wed, 13 Mar 2024 15:03:32 +0100
+ Wed, 13 Mar 2024 07:03:38 -0700 (PDT)
+Message-ID: <b35f1b2f-82c1-4c7e-a449-54e29000cfb6@redhat.com>
+Date: Wed, 13 Mar 2024 15:03:37 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/3] Add minimal XDP support to TI AM65 CPSW Ethernet
- driver
-Content-Language: en-US
-To: Ratheesh Kannoth <rkannoth@marvell.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Simon Horman <horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <20240223-am65-cpsw-xdp-basic-v4-0-38361a63a48b@baylibre.com>
- <20240313134441.GA1263398@maili.marvell.com>
-From: Julien Panis <jpanis@baylibre.com>
-In-Reply-To: <20240313134441.GA1263398@maili.marvell.com>
+Subject: Re: [PATCH 12/43] drm/mgag200: Use fbdev-shmem
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, deller@gmx.de, javierm@redhat.com
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>
+References: <20240312154834.26178-1-tzimmermann@suse.de>
+ <20240312154834.26178-13-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20240312154834.26178-13-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,21 +97,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/13/24 14:44, Ratheesh Kannoth wrote:
-> On 2024-03-12 at 18:52:39, Julien Panis (jpanis@baylibre.com) wrote:
->> This patch adds XDP support to TI AM65 CPSW Ethernet driver.
-> is this a net-next item ?
+Hi,
 
-Initially I worked on top of mainline kernel v6.8-rc1. Then, I also ensured that
-the series could be applied on top of net-next/main.
+Thanks, it looks good to me.
 
->> The following features are implemented: NETDEV_XDP_ACT_BASIC,
->> NETDEV_XDP_ACT_REDIRECT, and NETDEV_XDP_ACT_NDO_XMIT.
->>
->> Zero-copy and non-linear XDP buffer supports are NOT implemented.
->>
->> Besides, the page pool memory model is used to get better performance.
->>
->> Signed-off-by: Julien Panis <jpanis@baylibre.com>
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
+-- 
+
+Jocelyn
+
+On 12/03/2024 16:45, Thomas Zimmermann wrote:
+> Implement fbdev emulation with fbdev-shmem. Avoids the overhead of
+> fbdev-generic's additional shadow buffering. No functional changes.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
+>   drivers/gpu/drm/mgag200/mgag200_drv.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
+> index 573dbe256aa8b..65f2ed18b31c5 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
+> @@ -12,7 +12,7 @@
+>   #include <drm/drm_aperture.h>
+>   #include <drm/drm_atomic_helper.h>
+>   #include <drm/drm_drv.h>
+> -#include <drm/drm_fbdev_generic.h>
+> +#include <drm/drm_fbdev_shmem.h>
+>   #include <drm/drm_file.h>
+>   #include <drm/drm_ioctl.h>
+>   #include <drm/drm_managed.h>
+> @@ -285,7 +285,7 @@ mgag200_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+>   	 * FIXME: A 24-bit color depth does not work with 24 bpp on
+>   	 * G200ER. Force 32 bpp.
+>   	 */
+> -	drm_fbdev_generic_setup(dev, 32);
+> +	drm_fbdev_shmem_setup(dev, 32);
+>   
+>   	return 0;
+>   }
 
