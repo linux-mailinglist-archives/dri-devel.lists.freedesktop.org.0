@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68A2087B115
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 20:08:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2404F87B198
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 20:21:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C17D410E6E1;
-	Wed, 13 Mar 2024 19:08:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0B5B10F223;
+	Wed, 13 Mar 2024 19:21:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="BMsm9s2l";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="oqeT8VHO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21CC910EAE4
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 19:08:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 672FD10F223
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 19:21:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
  Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=S4RVqXzF13y0CJV+kmNbU9l+QECvaduFB2onsfFa8UE=; b=BMsm9s2lN63/CsRPp7HRg/iSHJ
- uFEE4BHSNcctHMSlBioSWDsdjHGP1+0l5c7ULsON17Yhyykcr0Uqf8RCV/MkTNcFd7SlVKCvmu2Zb
- hmpI2fVgp4bOn+zufJ+8CNBmbETd9JvyPOV1pIvyN6FkVyvOWrvnjysMqpa2B0RkP3knmqmdP7r3p
- Mhrir3AwbgNp7NiV4lhVto0G7htl8C7VtQW3MvH6jACifqz5FTppxSm2yAgsL8ymE3Ml0vrGHJHp1
- MmDeW/lWnqGsOXfCMBIheCCGMGXAJlj7NFnEg8/1vs5ia5xIOtODGsQKWJxXF7C35CLRtKB5hKblW
- 3jr2/8fQ==;
+ bh=75WVLbdwI+iDn1zwGEAUGq3py3zyrknBJPOCRtfKgus=; b=oqeT8VHOM5Ys7DVNGOQYq9T/Qa
+ pQoxGa3NprcqJtXMbujtg5idZDjeTniP60jiiC2TiCTOx1D4CO5Qt/SajoAHJg+Xk4fQeaxMLJz27
+ JgvpxyjHawliDFL+XKyBeh+l3o/Gb1ZeoMoirQv+DpWxk7qb9Is+wOS6kD2hhYGDydLprhJG3An0p
+ 0NSwjmn/ISlGvXM80dvpc6BXrkuhTpQk1wEukj8RXpsEeCuOEOdiSzPqPh8huOCbiCxv2ez5QgsEj
+ vOJp6bQztpJURPz9GtYin1eeRQmwj4Q6NAu1dAxO2ioQ2FZvlggyYD3H54s/ZoNaEblA/+7623R2e
+ V61Gn5xA==;
 Received: from [50.53.2.121] (helo=[192.168.254.15])
  by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
- id 1rkTxV-0000000BVpl-1QZv; Wed, 13 Mar 2024 19:08:13 +0000
-Message-ID: <9c12e240-271a-4bf5-a946-7a2a25d1b18a@infradead.org>
-Date: Wed, 13 Mar 2024 12:08:12 -0700
+ id 1rkU9p-0000000BZfK-0aN9; Wed, 13 Mar 2024 19:20:57 +0000
+Message-ID: <f0fe1d62-ee99-4576-ad27-62de98f9ad39@infradead.org>
+Date: Wed, 13 Mar 2024 12:20:56 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 05/16] drm/vkms: Add dummy pixel_read/pixel_write
- callbacks to avoid NULL pointers
+Subject: Re: [PATCH v5 11/16] drm/vkms: Add YUV support
 Content-Language: en-US
 To: Louis Chauvet <louis.chauvet@bootlin.com>,
  Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
@@ -50,9 +49,9 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com,
  nicolejadeyee@google.com
 References: <20240313-yuv-v5-0-e610cbd03f52@bootlin.com>
- <20240313-yuv-v5-5-e610cbd03f52@bootlin.com>
+ <20240313-yuv-v5-11-e610cbd03f52@bootlin.com>
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240313-yuv-v5-5-e610cbd03f52@bootlin.com>
+In-Reply-To: <20240313-yuv-v5-11-e610cbd03f52@bootlin.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,70 +69,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
+On 3/13/24 10:45, Louis Chauvet wrote:
+> From: Arthur Grillo <arthurgrillo@riseup.net>
+> 
 
-On 3/13/24 10:44, Louis Chauvet wrote:
-> Introduce two callbacks which does nothing. They are used in replacement
-> of NULL and it avoid kernel OOPS if this NULL is called.
 > 
-> If those callback are used, it means that there is a mismatch between
-> what formats are announced by atomic_check and what is realy supported by
-> atomic_update.
-> 
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> [Louis Chauvet:
+> - Adapted Arthur's work
+> - Implemented the read_line_t callbacks for yuv
+> - add struct conversion_matrix
+> - remove struct pixel_yuv_u8
+> - update the commit message
+> - Merge the modifications from Arthur]
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > ---
->  drivers/gpu/drm/vkms/vkms_formats.c | 43 +++++++++++++++++++++++++++++++------
->  1 file changed, 37 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/vkms/vkms_drv.h     |  22 ++
+>  drivers/gpu/drm/vkms/vkms_formats.c | 431 ++++++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_formats.h |   4 +
+>  drivers/gpu/drm/vkms/vkms_plane.c   |  17 +-
+>  4 files changed, 473 insertions(+), 1 deletion(-)
 > 
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index 23e1d247468d..f3116084de5a 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -99,6 +99,27 @@ typedef void (*pixel_read_line_t)(const struct vkms_plane_state *plane, int x_st
+>  				  int y_start, enum pixel_read_direction direction, int count,
+>  				  struct pixel_argb_u16 out_pixel[]);
+>  
+> +/**
+> + * CONVERSION_MATRIX_FLOAT_DEPTH - Number of digits after the point for conversion matrix values
+
+This should be
+
++ * define CONVERSION_MATRIX_FLOAT_DEPTH - Number of digits after the point for conversion matrix values
+
+to conform to kernel-doc format.
+
+> + */
+> +#define CONVERSION_MATRIX_FLOAT_DEPTH 32
+> +
+
 > diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-> index 55a4365d21a4..b57d85b8b935 100644
+> index 1449a0e6c706..edbf4b321b91 100644
 > --- a/drivers/gpu/drm/vkms/vkms_formats.c
 > +++ b/drivers/gpu/drm/vkms/vkms_formats.c
 
+> +/**
+> + * get_conversion_matrix_to_argb_u16() - Retrieve the correct yuv to rgb conversion matrix for a
+> + * given encoding and range.
+> + *
+> + * If the matrix is not found, return a null pointer. In all other cases, it return a simple
+> + * diagonal matrix, which act as a "no-op".
+> + *
+> + * @format: DRM_FORMAT_* value for which to obtain a conversion function (see [drm_fourcc.h])
+> + * @encoding: DRM_COLOR_* value for which to obtain a conversion matrix
+> + * @range: DRM_COLOR_*_RANGE value for which to obtain a conversion matrix
+> + */
+> +struct conversion_matrix *
+> +get_conversion_matrix_to_argb_u16(u32 format, enum drm_color_encoding encoding,
+> +				  enum drm_color_range range)
+> +{
+> +	static struct conversion_matrix no_operation = {
+> +		.matrix = {
+> +			{ 4294967296, 0,          0, },
+> +			{ 0,          4294967296, 0, },
+> +			{ 0,          0,          4294967296, },
+> +		},
+> +		.y_offset = 0,
+> +	};
+> +
+> +	/*
+> +	 * Those matrixies were generated using the colour python framework
 
-> @@ -261,8 +286,8 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
->  
+	         matrices
+
+> +	 *
+> +	 * Below are the function calls used to generate eac matrix, go to
+
+	                                                 each
+
+> +	 * https://colour.readthedocs.io/en/develop/generated/colour.matrix_YCbCr.html
+> +	 * for more info:
+> +	 *
+> +	 * numpy.around(colour.matrix_YCbCr(K=colour.WEIGHTS_YCBCR["ITU-R BT.601"],
+> +	 *                                  is_legal = False,
+> +	 *                                  bits = 8) * 2**32).astype(int)
+> +	 */
+
+> +
 >  /**
 
-Please mak this comment conform to kernel-doc format or don't use "/**" to
-begin the comment.
-
->   * Retrieve the correct read_pixel function for a specific format.
-> - * The returned pointer is NULL for unsupported pixel formats. The caller must ensure that the
-> - * pointer is valid before using it in a vkms_plane_state.
-> + * If the format is not supported by VKMS a warn is emitted and a dummy "always read black"
-> + * function is returned.
->   *
->   * @format: DRM_FORMAT_* value for which to obtain a conversion function (see [drm_fourcc.h])
->   */
-> @@ -285,18 +310,21 @@ pixel_read_t get_pixel_read_function(u32 format)
->  		 * format must:
->  		 * - Be listed in vkms_formats in vkms_plane.c
->  		 * - Have a pixel_read callback defined here
-> +		 *
-> +		 * To avoid kernel crash, a dummy "always read black" function is used. It means
-> +		 * that during the composition, this plane will always be black.
->  		 */
->  		WARN(true,
->  		     "Pixel format %p4cc is not supported by VKMS planes. This is a kernel bug, atomic check must forbid this configuration.\n",
->  		     &format);
-> -		return (pixel_read_t)NULL;
-> +		return &black_to_argb_u16;
->  	}
->  }
->  
->  /**
-
-Same here.
+Please convert this comment to kernel-doc format or just use "/*" to begin
+the comment.
 
 >   * Retrieve the correct write_pixel function for a specific format.
-> - * The returned pointer is NULL for unsupported pixel formats. The caller must ensure that the
-> - * pointer is valid before using it in a vkms_writeback_job.
-> + * If the format is not supported by VKMS a warn is emitted and a dummy "don't do anything"
-> + * function is returned.
->   *
->   * @format: DRM_FORMAT_* value for which to obtain a conversion function (see [drm_fourcc.h])
->   */
+>   * If the format is not supported by VKMS a warn is emitted and a dummy "don't do anything"
+
+> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+> index 8875bed76410..987dd2b686a8 100644
+> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+
 
 thanks.
 -- 
