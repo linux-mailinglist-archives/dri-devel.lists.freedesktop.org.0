@@ -2,140 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38A07879FCF
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 00:50:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE0787A008
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 01:14:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B88B10E71B;
-	Tue, 12 Mar 2024 23:50:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2243210F532;
+	Wed, 13 Mar 2024 00:13:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eJL5ntKM";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="nhBftxKP";
 	dkim-atps=neutral
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A096B10E71B;
- Tue, 12 Mar 2024 23:50:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710287440; x=1741823440;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=o8DLKLAoO/+Dl6O4p+xJqeWWwVavwAF3sKxw4Dh/asc=;
- b=eJL5ntKMiuEBz/Ub65raKSxVtqxV4s/i6FLnRWouhA7Wmkz0zaqZPPlP
- LbE1X0C8XQAeY5hkbq2ZO2IUsDqXqmaNX0fsb01CNjyK5GecYecvRav24
- qbstr0q3ahMeFDksVldpeCXzcMSgn7k+Nhabnkp4IBjmnktLKAHWL07Wq
- cQL/vZLLMKrodbjTXQ3rnBD2Mv2Xd7FfodNwvtIRbXu4bVWSsu3udt/Hp
- GZibhVT1gOOMWzs2nMgnul/jFe9EIrFCWJyXMzpselHJK2c2M3QTz/X4e
- QmPzSbKIBrdUMb2uXYu2j9bgXxhEyDcZWI+vKZ3biaLXj6e/t0hCChLno A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="22482940"
-X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; d="scan'208";a="22482940"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2024 16:50:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; d="scan'208";a="16307842"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmviesa004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 12 Mar 2024 16:50:39 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 12 Mar 2024 16:50:38 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Tue, 12 Mar 2024 16:50:38 -0700
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.41) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 12 Mar 2024 16:50:38 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DFmPRzl3In8BLhibTsjEgVLFSWcy7/YEFRqgcx3uLcL6oKWyXOaSDkPut/xrWoTFyg6zTJRf3POq23Jg+rsPWxnYNRUgeParfBwgyQp9Fvs8YInrGQxvV2uy17o/37qmBajwr97ra9tTvN7lgkNG/82PM8l+O31240fVmXz/ipY9VFY1Ml7h6GJCb9KFTuWgLfV3kV5Nm8Z5WonRrZ6X7zTGwzGKfSPnYewPpEJl9HZKSWxGKx8bvfiJyXhjccxhyfGy1+c30Kh11sWocmmZkLSWzGCd8WS1qgFY3keNpcHat4vNDr/DTDPqlPl5pMZB6x7FPkAi+Sz84IOoI6wIjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=y3WAyj/uVU+YamJT49GmVFr5/vsCEvbRsRvCTV3uZFA=;
- b=Qjv6rgZ44KzX06ev+lEdVE7m9wieSFH2ojdY/EoFFy5Wx5Nr5wBK8chRxrAK0n+XV64raMNn9q6XXIqOTNbDaTHsj8TqmKBfD1T90zdvrLqqVkXpPV+DGXFpN1z8lghdVL2tePtLlahN1iv7RvGoRqpJkfet+NjNM7t+Ht1enoTmbFfzPbY57aOVv0yfsBKl8+fXrcdV1B8FX5mlKmYFYnC+NAXQWyZ+2gK2YWprSCd1aJQ/IFvrrkr/TL74A/hduu+KCnI2pUG24PMScz/t2H/yQlr8cQAZW+WzKd46Plwric2fAEjQ0eWAyVyR6nUAdzVG9h2OeTBWeMSSlCr+fg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by DS0PR11MB7484.namprd11.prod.outlook.com (2603:10b6:8:14c::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.17; Tue, 12 Mar
- 2024 23:50:36 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::e9dd:320:976f:e257]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::e9dd:320:976f:e257%4]) with mapi id 15.20.7386.017; Tue, 12 Mar 2024
- 23:50:36 +0000
-Date: Tue, 12 Mar 2024 18:50:32 -0500
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: John Harrison <john.c.harrison@intel.com>
-CC: Matt Roper <matthew.d.roper@intel.com>, <Intel-GFX@lists.freedesktop.org>, 
- <DRI-Devel@lists.freedesktop.org>
-Subject: Re: [PATCH] drm/i915/guc: Update w/a 14019159160
-Message-ID: <r7luaeos5pjdf2vvvm3pa3czs6rjvsn26sqc5fvju4injdmzga@rxkbkqfqgi6m>
-References: <20240308020129.728799-1-John.C.Harrison@Intel.com>
- <20240312162449.GH718896@mdroper-desk1.amr.corp.intel.com>
- <5d68e959-7c4f-44ec-94b4-51489f3dfdc7@intel.com>
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <5d68e959-7c4f-44ec-94b4-51489f3dfdc7@intel.com>
-X-ClientProxiedBy: SJ0PR13CA0118.namprd13.prod.outlook.com
- (2603:10b6:a03:2c5::33) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B414E10F3E3
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 00:13:57 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-1dc49b00bdbso37227775ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Mar 2024 17:13:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1710288837; x=1710893637;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=roioUGnaxY6AvjIUwtL2u9LanxRAGecYCXou90dLIu4=;
+ b=nhBftxKP14Px4+BBEzBU+o8Zrme3AgMdTg+fYFNe3HRdZebJpC4ooZopU/JVdovw2T
+ OVpnduMtKczBidQ6SFc8QFX4zHPQ18GEGZ8hu5Y/kqkDXtuvdUM8QPyH2kUXFphLhmxH
+ RNILB7/kCRl2FwB8c8ndv+mvjF4e5lxCsJw9Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710288837; x=1710893637;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=roioUGnaxY6AvjIUwtL2u9LanxRAGecYCXou90dLIu4=;
+ b=IasCcw4ozkriEzIKO2Zlkgh20+6hbOSm1C8IYWqF9DB0Hzppb3OnedXa91oVYacdrU
+ CO9JcQGBKNqJa7u+EuL0zGOn5aSFSaqmilB9yWzrQZ9QY5DsOS2/qnWjBsGXT+y0dQdn
+ u/5mxp2u4xUgWvgHq/gN6Q4RMEdaHautz8ksBJINn8yWZB6jm6kcIL9MUAC4cqP8fCcZ
+ yYRT23L0aly+pn5ANo7dDYW4b3EV0Jx38LZnGhItAHIuHA2lO097H5lhBEdqjQQd/gPN
+ 6gvdQlU6rR7QTQCmOeftx3AzGHQ3b5bc+h8QfPxuHjiL3XK8RbU7afEJaAeYha7nWHsB
+ JsRA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVXSCfLx3k5pRKA/crqGPgYhXd9VOFMoBcWcBgIXV6oH6fe++FOdjYOy6IlhzS5E2LaZTY2oWryufvpcdNNRYttVP/NH7lnour/JsVewrGw
+X-Gm-Message-State: AOJu0Yx3Wj6q3NF2f0Zh6SJQlejwpRMpF3SzAtQfQHy+graNJSwUVz/7
+ FnWm21dI+/TVpnjGuh0+TAxlp1BGlPPbJx2YLMfcA9HCIuHgvUUk1GzCMmkrhg==
+X-Google-Smtp-Source: AGHT+IG58PN3ouLt4+V6o22EJ3ezJVOTQSf28+tSjOkyWRU31OXa8iIFliZtabjLxDQCMZq9cqjRsA==
+X-Received: by 2002:a17:902:c947:b0:1dd:8daf:99b2 with SMTP id
+ i7-20020a170902c94700b001dd8daf99b2mr9535150pla.13.1710288837058; 
+ Tue, 12 Mar 2024 17:13:57 -0700 (PDT)
+Received: from dianders.sjc.corp.google.com
+ ([2620:15c:9d:2:f8dd:895c:e876:6edb])
+ by smtp.gmail.com with ESMTPSA id
+ x8-20020a170902a38800b001dd761faec3sm7432924pla.251.2024.03.12.17.13.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Mar 2024 17:13:56 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Douglas Anderson <dianders@chromium.org>,
+ Bjorn Andersson <andersson@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Guenter Roeck <groeck@chromium.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Tanmay Shah <tanmay@codeaurora.org>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] drm/msm/dp: Improve DP AUX transfer vs. HPD interactions
+Date: Tue, 12 Mar 2024 17:13:15 -0700
+Message-ID: <20240313001345.2623074-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.44.0.278.ge034bb2e1d-goog
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|DS0PR11MB7484:EE_
-X-MS-Office365-Filtering-Correlation-Id: ae3fd83c-4eba-4fef-7ef6-08dc42ef36a3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: j0JUzV7AuG+bkEsxqhKI5QQycP1r5UmhRl+Y6s9UAq2hUtmZn/VPllA5vg68MCCku7grhaHym0Ee/dIqhzLHNyZchWeoSMklVLVIAlQcDA/zQEGkwJ+hFinImuvvrMBQt/O6ESYw3EhJwYYKuErYMe6kXDwk2AQDStKiVnOtuJZTrH21I2AEEMng5VcdGtd9CJJ9eOo06MgiWAXbaN56LuSbGmR+tYO8JlrnAznUo+MYKN1vhsqx85euol50NSJAlRyCKgNevag2uuQmoRwp7PKkI8u8O+8z8+vBlfaxo8VhNUrKud3VZJbJz3vc7Db+4jdXAXiZeMehgTnX5ac4I89ziCP0bA3Tq1hB8+C467ULq6iqtNK7Vkmhu6FkbqhgkcBB5bC40l+2Qj5Tcvzaly1Cl79C70cOMLt1zS7bRQxV3myJh0noSKSbXX9TMnVgtGhNOmh1zgAGAYrucSPT3Afev2BZPpp9XkGrl/8Zq1a7xyM4kAdPZUnxHAII2L7IN+5h7tkYwR5L9N3PjzWZltAaR80UUqabWNCoAduIGiyEfjZapvfmPDMpfPhfUbVXg2fGCsKDiRfFRTTu27bFbB940PLkKZ3ywS2y3Wv4q6TCwF7knXDCeh6REXal2do0xAE8AOKMOgm6JHMGSOSjX+zyLvDPkIC8mWQbvEfcoQg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005)(1800799015); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XfifLEg7x6dNbqQL94OdaCcHQwd/PZnff5BE89ANvWXZXj/Q5M/DXmRyuWpj?=
- =?us-ascii?Q?fNIjgj9pXPiNklFWh4BTyjgpS+4ZsA3IudVDMQrnangd2PHCOT/2iy5obg3U?=
- =?us-ascii?Q?dhvREOci72QE7rEn7uG2oYAVx43KJkRZBZtwZkEyPdqfeMHv66hclXWBUJ+p?=
- =?us-ascii?Q?LSUv1ZNNgsEWY55h8VL4OMfXWeMnohs97gQz+7B46+e2H6/ZkOyRcife2yKG?=
- =?us-ascii?Q?wQLmdvYa1m92LR3DMlDxDISPuC8qo6DyreMgjDXTMBN3LEYQVM4RYeTRUBcV?=
- =?us-ascii?Q?st/+wlp/pHaPlxn98fRJ+AkmSBX8BDozH1arkPbNfzMtvcgl4hXMVXM+JX+w?=
- =?us-ascii?Q?Fd73yA+VEYdI+4ZUns/O2XGNWCwBmlA24509CWsN10yrV1d4QvfLP1rSf7pt?=
- =?us-ascii?Q?qqUxKQCuXXNejoHR/Bxlhpg+jK5xd52Z5lyzIgaKRkhlnJTLZrJtvdlsNxre?=
- =?us-ascii?Q?Lip3F8V4S1W9/dFzDTvgY09m7h8EMqI1Ie1nv5EGp8Kb3EQQKUq8SbqkMPM4?=
- =?us-ascii?Q?e4gE5h65L5ZugMtTfFmgn/mKJ0o2xw9zau5MX5wAw98Rn0EYl38z0bDB4wkt?=
- =?us-ascii?Q?kDF2jg1F03O1u95Yx0GSMV3K8PUd6iShpeYEuYWFq3hP21OMFncIK9yJZpav?=
- =?us-ascii?Q?psJC9hzE7iQL+2DvIs6lyell66ZjRwfn0GwW/UhC4BmBkxMoIFebWEpXTLko?=
- =?us-ascii?Q?yYrt7arWoEw5PeyFVc3k74Pt3cyaEdYtGWfSWZCY5rNrSIt3uDhcmxJJLmPn?=
- =?us-ascii?Q?JGBelMpr970ur1w9InfX0eTS9VmheXc7xkQFqUQTj7scd6gFcaBgH82nIF8h?=
- =?us-ascii?Q?2vbOy8DgP0fAFQQY1F194W9cfcSAvEcWNiojuNM7jNOvH8yIkfFZO2c24nSh?=
- =?us-ascii?Q?iINoVskY3oRBTcsrqnnNkSbylfg2X/sT4wmX358z/sfbZQkaB2e0MylfxqLF?=
- =?us-ascii?Q?eMjgKj1ERemz8yAKaBH7zCreljmLNxThAs56cph1bqXxmR1hfyRBUbJz26Tu?=
- =?us-ascii?Q?bmw86/uXKO0YrXnohx1cpR5VQdeLGemaqSCCqLiis0iESwdDQasHU+YEZyCR?=
- =?us-ascii?Q?XTIIFxHIGe2rpAjmoFDawIlFHr/ctDTxAjL6h+hHVh4LRfRp9pOlX+BWU0UG?=
- =?us-ascii?Q?MSG6fIzacsqiWq6iXFyiWiSr8MW9VCz8yVFNgjkPZ2iQ8BoEsPLosF1HzDbw?=
- =?us-ascii?Q?EYlOVbPhQUEDbfgUh4FA2f113mKqfcNKMnGdtN9hm5iei680iwopakTwHagr?=
- =?us-ascii?Q?hz3gShz4h6iUfNLSecftQV6ncIf6FPxfm4mvV3/ye1mVdTiHMAZ+SMseYFIm?=
- =?us-ascii?Q?n2iVo53uOMkbMkbJ0rpwC8Yi/CTyd2Q+jxeYfwslWyixOxX8MqITNFQO896k?=
- =?us-ascii?Q?ideswuPguQ5QTf5ToOt5j5HSKKLkb0TCwD2K+125NGKzWgRui1h6sT4NTQgi?=
- =?us-ascii?Q?FEOMReITgxRO1ZESdt3EizahIqDnF58OC0H5qUyLY9hw9XcZq53aAPMT6dZT?=
- =?us-ascii?Q?uEiYwFSZLvPTg/xkY+tM9tbZCF/1vd8gj6bc7QzZkJBeI+zUDiL2hcF7RQzi?=
- =?us-ascii?Q?nUYJDBxOh/OtBmehmx28SbHv2ZTvL/RJz3JiVIUvi4S6bgDLmG0sHLnqeZnp?=
- =?us-ascii?Q?gQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae3fd83c-4eba-4fef-7ef6-08dc42ef36a3
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2024 23:50:36.2149 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: trowvOP14fxH193z6PnVGRuBY5SteQGPTzX+qHC8cnaptOdl4R7p1FZIQftoAwkVwfqfe3iuRiuBDgbPJo6fBFvt6tvwDMHGsfM9fY9FCEE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7484
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,20 +88,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 12, 2024 at 04:43:06PM -0700, John Harrison wrote:
->On 3/12/2024 09:24, Matt Roper wrote:
->>>diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
->>>index 0c67d674c94de..4c3dae98656af 100644
->>>--- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
->>>+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
->>>@@ -296,7 +296,8 @@ static u32 guc_ctl_wa_flags(struct intel_guc *guc)
->>>  	/* Wa_16019325821 */
->>>  	/* Wa_14019159160 */
->>>-	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71)))
->>>+	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71)) ||
->> From what I can see, this workaround is also needed on Xe_LPG+ (12.74)
->Isn't that an Xe platform? Or is 12.74 just ARL?
 
-official xe platforms start with Xe2, with graphics version being 20
+The main goal of this patch series is to avoid problems running
+"fwupd" on Qualcomm devices. Right now several of the plugins used
+with fwupd try talking over all DP AUX busses and this results in a
+very long timeout on Qualcomm devices.
 
-Lucas De Marchi
+As part of fixing this, I noticed a case where the MSM DP code wasn't
+respecing the timeout properly when asked to wait for HPD. I also
+noticed that, now that we've implemented wait_hpd_asserted(), we no
+longer need the long hardcoded timeout / special cse for eDP in the
+AUX transfer function.
+
+NOTE: I no longer have any hardware setup that uses this driver for
+eDP so I've only tested the DP case. The eDP changes are
+straightforward so hopefully there are no problems there.
+
+
+Douglas Anderson (3):
+  drm/msm/dp: Avoid a long timeout for AUX transfer if nothing connected
+  drm/msm/dp: Account for the timeout in wait_hpd_asserted() callback
+  drm/msm/dp: Delete the old 500 ms wait for eDP HPD in aux transfer
+
+ drivers/gpu/drm/msm/dp/dp_aux.c     | 21 ++++++++-------------
+ drivers/gpu/drm/msm/dp/dp_catalog.c | 17 ++++++++++++++---
+ drivers/gpu/drm/msm/dp/dp_catalog.h |  4 +++-
+ 3 files changed, 25 insertions(+), 17 deletions(-)
+
+-- 
+2.44.0.278.ge034bb2e1d-goog
+
