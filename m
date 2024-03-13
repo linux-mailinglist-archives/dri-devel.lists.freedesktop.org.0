@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2404F87B198
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 20:21:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C2A87B206
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 20:39:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0B5B10F223;
-	Wed, 13 Mar 2024 19:21:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49B7510E5A1;
+	Wed, 13 Mar 2024 19:39:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="oqeT8VHO";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="el2pJEeG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 672FD10F223
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 19:21:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=75WVLbdwI+iDn1zwGEAUGq3py3zyrknBJPOCRtfKgus=; b=oqeT8VHOM5Ys7DVNGOQYq9T/Qa
- pQoxGa3NprcqJtXMbujtg5idZDjeTniP60jiiC2TiCTOx1D4CO5Qt/SajoAHJg+Xk4fQeaxMLJz27
- JgvpxyjHawliDFL+XKyBeh+l3o/Gb1ZeoMoirQv+DpWxk7qb9Is+wOS6kD2hhYGDydLprhJG3An0p
- 0NSwjmn/ISlGvXM80dvpc6BXrkuhTpQk1wEukj8RXpsEeCuOEOdiSzPqPh8huOCbiCxv2ez5QgsEj
- vOJp6bQztpJURPz9GtYin1eeRQmwj4Q6NAu1dAxO2ioQ2FZvlggyYD3H54s/ZoNaEblA/+7623R2e
- V61Gn5xA==;
-Received: from [50.53.2.121] (helo=[192.168.254.15])
- by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
- id 1rkU9p-0000000BZfK-0aN9; Wed, 13 Mar 2024 19:20:57 +0000
-Message-ID: <f0fe1d62-ee99-4576-ad27-62de98f9ad39@infradead.org>
-Date: Wed, 13 Mar 2024 12:20:56 -0700
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45AC610E5A1;
+ Wed, 13 Mar 2024 19:39:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1710358783; x=1741894783;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=hP51Mm0AciQDP+IQLyCe+K1HU+tgmUtTsBVz5z5MNlE=;
+ b=el2pJEeGKLikrc6kpTFtUwJY6plCnojaTn79OffdA3+t3AwNoLtw0K1Z
+ kEyJh4sEQJjCN8UwnNUkU8xo4LYQ6gFn6iRBhK/x2zcq/22iw3icokOF/
+ GvbP309ZuaORo4CHF6sj3ser5bxvXWCQatG450nl5/LZLGEc44MsruxJq
+ Psbc0cuFOuNOTLnSrGbMdUGI24g03jaD1MG1zjN2auY73ryGH6pCSxS34
+ irKi/Uo9uRwwYijfVTkNXkwM9VnWLZY3FSRBhJWH3s2/JKwLvCDwrI4gG
+ DQUV/ItoNkrSAqp7sndXgsoxf8IIoRgf7cO6ou/pT0jcH+5BFhKAGY1a7 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="4996557"
+X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
+   d="scan'208";a="4996557"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Mar 2024 12:39:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; d="scan'208";a="16633361"
+Received: from unknown (HELO intel.com) ([10.247.118.152])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Mar 2024 12:39:36 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Andi Shyti <andi.shyti@kernel.org>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Michal Mrozek <michal.mrozek@intel.com>, Nirmoy Das <nirmoy.das@intel.com>,
+ stable@vger.kernel.org
+Subject: [PATCH] drm/i915/gt: Report full vm address range
+Date: Wed, 13 Mar 2024 20:39:06 +0100
+Message-ID: <20240313193907.95205-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 11/16] drm/vkms: Add YUV support
-Content-Language: en-US
-To: Louis Chauvet <louis.chauvet@bootlin.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, arthurgrillo@riseup.net,
- Jonathan Corbet <corbet@lwn.net>, pekka.paalanen@haloniitty.fi
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com,
- nicolejadeyee@google.com
-References: <20240313-yuv-v5-0-e610cbd03f52@bootlin.com>
- <20240313-yuv-v5-11-e610cbd03f52@bootlin.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240313-yuv-v5-11-e610cbd03f52@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,112 +69,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Commit 9bb66c179f50 ("drm/i915: Reserve some kernel space per
+vm") has reserved an object for kernel space usage.
 
-On 3/13/24 10:45, Louis Chauvet wrote:
-> From: Arthur Grillo <arthurgrillo@riseup.net>
-> 
+Userspace, though, needs to know the full address range.
 
-> 
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> [Louis Chauvet:
-> - Adapted Arthur's work
-> - Implemented the read_line_t callbacks for yuv
-> - add struct conversion_matrix
-> - remove struct pixel_yuv_u8
-> - update the commit message
-> - Merge the modifications from Arthur]
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_drv.h     |  22 ++
->  drivers/gpu/drm/vkms/vkms_formats.c | 431 ++++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/vkms/vkms_formats.h |   4 +
->  drivers/gpu/drm/vkms/vkms_plane.c   |  17 +-
->  4 files changed, 473 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> index 23e1d247468d..f3116084de5a 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -99,6 +99,27 @@ typedef void (*pixel_read_line_t)(const struct vkms_plane_state *plane, int x_st
->  				  int y_start, enum pixel_read_direction direction, int count,
->  				  struct pixel_argb_u16 out_pixel[]);
->  
-> +/**
-> + * CONVERSION_MATRIX_FLOAT_DEPTH - Number of digits after the point for conversion matrix values
+Fixes: 9bb66c179f50 ("drm/i915: Reserve some kernel space per vm")
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
+Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Cc: Michal Mrozek <michal.mrozek@intel.com>
+Cc: Nirmoy Das <nirmoy.das@intel.com>
+Cc: <stable@vger.kernel.org> # v6.2+
+---
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-This should be
-
-+ * define CONVERSION_MATRIX_FLOAT_DEPTH - Number of digits after the point for conversion matrix values
-
-to conform to kernel-doc format.
-
-> + */
-> +#define CONVERSION_MATRIX_FLOAT_DEPTH 32
-> +
-
-> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-> index 1449a0e6c706..edbf4b321b91 100644
-> --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-
-> +/**
-> + * get_conversion_matrix_to_argb_u16() - Retrieve the correct yuv to rgb conversion matrix for a
-> + * given encoding and range.
-> + *
-> + * If the matrix is not found, return a null pointer. In all other cases, it return a simple
-> + * diagonal matrix, which act as a "no-op".
-> + *
-> + * @format: DRM_FORMAT_* value for which to obtain a conversion function (see [drm_fourcc.h])
-> + * @encoding: DRM_COLOR_* value for which to obtain a conversion matrix
-> + * @range: DRM_COLOR_*_RANGE value for which to obtain a conversion matrix
-> + */
-> +struct conversion_matrix *
-> +get_conversion_matrix_to_argb_u16(u32 format, enum drm_color_encoding encoding,
-> +				  enum drm_color_range range)
-> +{
-> +	static struct conversion_matrix no_operation = {
-> +		.matrix = {
-> +			{ 4294967296, 0,          0, },
-> +			{ 0,          4294967296, 0, },
-> +			{ 0,          0,          4294967296, },
-> +		},
-> +		.y_offset = 0,
-> +	};
-> +
-> +	/*
-> +	 * Those matrixies were generated using the colour python framework
-
-	         matrices
-
-> +	 *
-> +	 * Below are the function calls used to generate eac matrix, go to
-
-	                                                 each
-
-> +	 * https://colour.readthedocs.io/en/develop/generated/colour.matrix_YCbCr.html
-> +	 * for more info:
-> +	 *
-> +	 * numpy.around(colour.matrix_YCbCr(K=colour.WEIGHTS_YCBCR["ITU-R BT.601"],
-> +	 *                                  is_legal = False,
-> +	 *                                  bits = 8) * 2**32).astype(int)
-> +	 */
-
-> +
->  /**
-
-Please convert this comment to kernel-doc format or just use "/*" to begin
-the comment.
-
->   * Retrieve the correct write_pixel function for a specific format.
->   * If the format is not supported by VKMS a warn is emitted and a dummy "don't do anything"
-
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> index 8875bed76410..987dd2b686a8 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-
-
-thanks.
+diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+index fa46d2308b0e..d76831f50106 100644
+--- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
++++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+@@ -982,8 +982,9 @@ static int gen8_init_rsvd(struct i915_address_space *vm)
+ 
+ 	vm->rsvd.vma = i915_vma_make_unshrinkable(vma);
+ 	vm->rsvd.obj = obj;
+-	vm->total -= vma->node.size;
++
+ 	return 0;
++
+ unref:
+ 	i915_gem_object_put(obj);
+ 	return ret;
 -- 
-#Randy
+2.43.0
+
