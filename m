@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE17D87AB36
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 17:34:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04BDC87AB9D
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Mar 2024 17:44:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 310D510EA30;
-	Wed, 13 Mar 2024 16:33:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D379B10E92D;
+	Wed, 13 Mar 2024 16:44:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="B1mcMxZY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tCOqwPWn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E96BE10E834
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 16:33:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B0F510E92D;
+ Wed, 13 Mar 2024 16:44:12 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1E23761491;
- Wed, 13 Mar 2024 16:33:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4303DC43390;
- Wed, 13 Mar 2024 16:33:54 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5EA5861491;
+ Wed, 13 Mar 2024 16:44:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECAADC433C7;
+ Wed, 13 Mar 2024 16:44:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1710347635;
- bh=Z8+NUNpRE+2VDl0oGhDDoGU2zsP/cVwd07jGMJxdApE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=B1mcMxZY2FUzH8ySkDlroxMN/syRJftbD0gVPi2ZOlRKaZf+rc5UBbvcr1apBJHtK
- tv3LB+b+KJm5anJtYokkac4MlQJ1q94JpldrlZLhHN/QUfqg6ipUdnAHGkNbtUs/jc
- mpaVb68go5pPQwRsM02tzbpQcU89FO7zIOBB15oaNgn11w+lAgEUuPXFkAFleH5bJn
- obcLd1E9pAciaXEaSBA999ISHlXaHotl+/x6wWULWhpxZOa9z0LbVCDruZ1LGmMQFn
- CYLGRVeV5NKZS6UNp32PlJIWYYFHYaWcSUf96MJXxn+NIo0BTLC9lt3c29st1hf5v0
- 5fFzDzpRnRkdw==
-Date: Wed, 13 Mar 2024 16:33:51 +0000
-From: Lee Jones <lee@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: daniel.thompson@linaro.org, jingoohan1@gmail.com, deller@gmx.de,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH 2/6] backlight/omap1-bl: Remove unused struct
- omap_backlight_config.set_power
-Message-ID: <20240313163351.GH1522089@google.com>
-References: <20240313154857.12949-1-tzimmermann@suse.de>
- <20240313154857.12949-3-tzimmermann@suse.de>
+ s=k20201202; t=1710348252;
+ bh=VTTFzsvOky8Qg//+bu+HuHKwbeUvi/yDE2Nv0TmQXFA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=tCOqwPWnVDgFqUw57rmRyoo3rHLoHwfG3u55CePgkDiSmjYDbAx2fhiVZxkji1HC4
+ CYdEaDIRvXg1oaynhHYPzkG54TYgWvpHxOgaXYnzxN/NDmlPQs5LzPlWOfPx0zeVF4
+ kW/aaP6eVMI665RHYe+rlbiAY7zcw+cw8EpKw55H1Qn34yPAkt5UWz8mu8ygRI6mYS
+ sWMHnjAmL221X2fHAVCTs5yunVrHfwVKKQCeIT26y0KT1DcNYC19+Su3C+eVil/1Ec
+ +aAnqWlBAk0ZGZqOwwRkSrMzBWNtXKdbIA8Zq3Ow9Tu9LZvO0gFERwvPZ2m8/C26gx
+ C0C1BD5Xd3eEw==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+ (envelope-from <johan+linaro@kernel.org>) id 1rkRiF-00000000629-17bo;
+ Wed, 13 Mar 2024 17:44:19 +0100
+From: Johan Hovold <johan+linaro@kernel.org>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Johan Hovold <johan+linaro@kernel.org>
+Subject: [PATCH 0/2] drm/msm/dp: fix runtime PM leaks on hotplug
+Date: Wed, 13 Mar 2024 17:43:04 +0100
+Message-ID: <20240313164306.23133-1-johan+linaro@kernel.org>
+X-Mailer: git-send-email 2.43.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240313154857.12949-3-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,26 +64,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 13 Mar 2024, Thomas Zimmermann wrote:
+As I've reported elsewhere, I've been hitting runtime PM usage count
+leaks when investigated a DisplayPort hotplug regression on the Lenovo
+ThinkPad X13s. [1]
 
-> The callback set_power in struct omap_backlight_config is not
-> implemented anywhere. Remove it from the structure and driver.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/video/backlight/omap1_bl.c     | 3 ---
->  include/linux/platform_data/omap1_bl.h | 1 -
->  2 files changed, 4 deletions(-)
+This series addresses two obvious leaks on disconnect and on connect
+failures, respectively.
 
-Just a quick one - I'm sure Daniel will be here soon to conduct a proper
-review.
+Johan
 
-Could you attempt to use the subject line format expected by a given
-subsystem please?
 
-`git log --oneline -- <subsystem>` is your friend.
+[1] https://lore.kernel.org/lkml/Ze8Ke_M2xHyPYCu-@hovoldconsulting.com/
 
-Thanks.
+
+Johan Hovold (2):
+  drm/msm/dp: fix runtime PM leak on disconnect
+  drm/msm/dp: fix runtime PM leak on connect failure
+
+ drivers/gpu/drm/msm/dp/dp_display.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 -- 
-Lee Jones [李琼斯]
+2.43.2
+
