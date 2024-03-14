@@ -2,71 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B754D87C0A1
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 16:49:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8545087C0E2
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 17:02:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF8F10E39C;
-	Thu, 14 Mar 2024 15:49:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1440F10E295;
+	Thu, 14 Mar 2024 16:02:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lXNt2Ldh";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="29rXDjsT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8BF210E39C
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 15:49:50 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id
- 4fb4d7f45d1cf-5682ecd1f81so1671317a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 08:49:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1710431389; x=1711036189; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=UoYqTJjbAWbKASaNyW64iARhPN3viTnTzys+DL4s3qM=;
- b=lXNt2Ldhhk27SNR/zE6mjuQWVJOABjNxIcNNGsx2t/DtPs0LLkmq9Ke7eWnWF4EuQ/
- DkkOgzQWuxwAcTG6a9sZ8z/9CT7JZsdPRQq4CWZWco1DiK7wuwNG2sIdLMxZw5hVNF5M
- fvPHQV9bMxpEV3SyRglIB0zd3win6Pbr5d+zvHhAbSeGYmBfbHkiBjLpGsxekEBK6exV
- OJJbZvQ8DkpIgZrCWCZN0rnVvim2fEnPsnEbpyaRjzV3hV0PTjp05MardGBKNdHNZ4FW
- QtwhPyTJeyNS42ThRTQ0Uabv9yzfuDMC5fRKELgdhNXBPsZ32Nf4+4f/PAgIcebsOce/
- wwlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710431389; x=1711036189;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=UoYqTJjbAWbKASaNyW64iARhPN3viTnTzys+DL4s3qM=;
- b=Gf8kQdodIgTNAs+vUWj8j9wcbDJmALlA3B9/TQYA8XvRXjY13IHDJ3TUiiWcejUBeH
- 4yoAvFU3h2ppvkfnQs6BuU1qGkC41xpGNUeyzvwTe5M/JaHYJE7pJyCQESVxEdKPsuuf
- hWZ7U9A5neax4fc3qREBbKqXDg0SJDePTI0PFJbXTKuk/LGTFXpwCDSjHW4zewEdSpii
- 0PuKrdIB9inKlEvcQZTZtBRl5Qj/DD7ddmXVQTco1qLuc8qh393Pjt12bmOAiSIB23z6
- gIxkkGMudQCbnJv9zTU6WX1um200wNViTdxKOTAHE4pFbjdNXFWF4FRQ2JWd5wHhWBro
- dYMQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUTe4QRGPL8KfCEJW+Mw5U91lboA9+4Uq8B4iB7Y64hYXDSS2HxLSRh+XFBcJm3cpZsaNon+U5YTYFoN+WEk5LkNpPmiYYzNW1GYOx5GgeR
-X-Gm-Message-State: AOJu0YwiG7pnGx41jSh9HwfwHyBdE0tego3IlUVvhvNfHKuPY9j6NDQq
- BlMzfLrtBY1qWrBXQNqJBPAs9GBCsu/X8YW91kongzY2GDy/NByg
-X-Google-Smtp-Source: AGHT+IHJuEtl91TfCZ4KZZ4Sz6nunyNoL7j5bIkGvOI3TniyhZhZk6mX5MDqEb9xOuiYmazGIBgYEQ==
-X-Received: by 2002:a17:907:c205:b0:a46:5eea:aece with SMTP id
- ti5-20020a170907c20500b00a465eeaaecemr1592117ejc.3.1710431388601; 
- Thu, 14 Mar 2024 08:49:48 -0700 (PDT)
-Received: from localhost
- (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- f23-20020a1709067f9700b00a45a62e0ed0sm824296ejr.98.2024.03.14.08.49.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Mar 2024 08:49:48 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Jon Hunter <jonathanh@nvidia.com>, "Jason Gunthorpe" <jgg@nvidia.com>,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH] gpu: host1x: Do not setup DMA for virtual devices
-Date: Thu, 14 Mar 2024 16:49:43 +0100
-Message-ID: <20240314154943.2487549-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.44.0
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2A8D10E295;
+ Thu, 14 Mar 2024 16:02:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1710432145;
+ bh=OebvIykPnKzFMgLsQYXofT9STmJeJ3CQ/dvUuXmK/2w=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=29rXDjsTaXvDSR5XeYHhZalxfUGQcTCkmIKYraxN+mMpUOTNsGt4tLgKcSqWjuncX
+ mGN+0z9gOemN8cRQHvnVaYqLI04kOJj2FoCHiqjuDP2vd3qKelULGy6ef3Met5tnNO
+ /9P0QM/IqIpgEUJMcOmMUx9lLRRwPjKOJaBljV9rNsIkvrzM0pgRFMvWK1k8KXpYNM
+ GfKD4HT/j2USDXqaMx1UNKqV7k1FbdBQAwqHMIOLLpvVX9PmOPKTTz5+oY/wPSX72a
+ tjIC1dh0pkqTLkzN8TI/jClz9DWv2Kso4sA4grPyq1GQ6owKASZbcUL/cX4A/pzSEF
+ 742ZyrdQdPm3g==
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 7DF8B37820F5;
+ Thu, 14 Mar 2024 16:02:25 +0000 (UTC)
+Date: Thu, 14 Mar 2024 18:02:23 +0200
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Cc: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <wayland-devel@lists.freedesktop.org>
+Subject: Re: [RFC PATCH v4 25/42] drm/vkms: Add tests for CTM handling
+Message-ID: <20240314180223.65ab8777.pekka.paalanen@collabora.com>
+In-Reply-To: <20240226211100.100108-26-harry.wentland@amd.com>
+References: <20240226211100.100108-1-harry.wentland@amd.com>
+ <20240226211100.100108-26-harry.wentland@amd.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/lB/ul+0s_RsGEiR.Q42ykxb";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,53 +62,381 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thierry Reding <treding@nvidia.com>
+--Sig_/lB/ul+0s_RsGEiR.Q42ykxb
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-The host1x devices are virtual compound devices and do not perform DMA
-accesses themselves, so they do not need to be set up for DMA.
+On Mon, 26 Feb 2024 16:10:39 -0500
+Harry Wentland <harry.wentland@amd.com> wrote:
 
-Ideally we would also not need to set up DMA masks for the virtual
-devices, but we currently still need those for legacy support on old
-hardware.
+> A whole slew of tests for CTM handling that greatly helped in
+> debugging the CTM code. The extent of tests might seem a bit
+> silly but they're fast and might someday help save someone
+> else's day when debugging this.
+>=20
+> v4:
+>  - Comment on origin of bt709_enc matrix (Pekka)
+>  - Use full opaque alpha (Pekka)
+>  - Add additional check for Y < 0xffff (Pekka)
+>  - Remove unused code (Pekka)
+>  - Rename red, green, blue to Y, U, V where applicable
+>=20
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> ---
+>  drivers/gpu/drm/vkms/tests/vkms_color_tests.c | 251 ++++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_composer.c          |   2 +-
+>  2 files changed, 252 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/vkms/tests/vkms_color_tests.c b/drivers/gpu/=
+drm/vkms/tests/vkms_color_tests.c
+> index e6ac01dee830..83d07f7bae37 100644
+> --- a/drivers/gpu/drm/vkms/tests/vkms_color_tests.c
+> +++ b/drivers/gpu/drm/vkms/tests/vkms_color_tests.c
+> @@ -3,6 +3,7 @@
+>  #include <kunit/test.h>
+> =20
+>  #include <drm/drm_fixed.h>
+> +#include <drm/drm_mode.h>
+> =20
+>  #define TEST_LUT_SIZE 16
+> =20
+> @@ -181,11 +182,261 @@ static void vkms_color_srgb_inv_srgb(struct kunit =
+*test)
+>  	}
+>  }
+> =20
+> +#define FIXPT_HALF        (DRM_FIXED_ONE >> 1)
+> +#define FIXPT_QUARTER     (DRM_FIXED_ONE >> 2)
+> +
+> +const struct drm_color_ctm_3x4 test_matrix_3x4_50_desat =3D { {
+> +	FIXPT_HALF, FIXPT_QUARTER, FIXPT_QUARTER, 0,
+> +	FIXPT_QUARTER, FIXPT_HALF, FIXPT_QUARTER, 0,
+> +	FIXPT_QUARTER, FIXPT_QUARTER, FIXPT_HALF, 0
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/gpu/host1x/bus.c | 8 --------
- 1 file changed, 8 deletions(-)
+These are supposed to be sign-magnitude, not fixed-point, to my
+understanding. It just happens that these specific values have the same
+bit pattern in both representations.
 
-diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
-index 783975d1384f..7c52757a89db 100644
---- a/drivers/gpu/host1x/bus.c
-+++ b/drivers/gpu/host1x/bus.c
-@@ -351,11 +351,6 @@ static int host1x_device_uevent(const struct device *dev,
- 	return 0;
- }
- 
--static int host1x_dma_configure(struct device *dev)
--{
--	return of_dma_configure(dev, dev->of_node, true);
--}
--
- static const struct dev_pm_ops host1x_device_pm_ops = {
- 	.suspend = pm_generic_suspend,
- 	.resume = pm_generic_resume,
-@@ -369,7 +364,6 @@ const struct bus_type host1x_bus_type = {
- 	.name = "host1x",
- 	.match = host1x_device_match,
- 	.uevent = host1x_device_uevent,
--	.dma_configure = host1x_dma_configure,
- 	.pm = &host1x_device_pm_ops,
- };
- 
-@@ -458,8 +452,6 @@ static int host1x_device_add(struct host1x *host1x,
- 	device->dev.bus = &host1x_bus_type;
- 	device->dev.parent = host1x->dev;
- 
--	of_dma_configure(&device->dev, host1x->dev->of_node, true);
--
- 	device->dev.dma_parms = &device->dma_parms;
- 	dma_set_max_seg_size(&device->dev, UINT_MAX);
- 
--- 
-2.44.0
 
+> +} };
+> +
+> +static void vkms_color_ctm_3x4_50_desat(struct kunit *test)
+> +{
+> +	struct pixel_argb_s32 ref, out;
+> +
+> +	/* full white */
+> +	ref.a =3D 0xffff;
+> +	ref.r =3D 0xffff;
+> +	ref.g =3D 0xffff;
+> +	ref.b =3D 0xffff;
+> +
+> +	memcpy(&out, &ref, sizeof(out));
+> +	apply_3x4_matrix(&out, &test_matrix_3x4_50_desat);
+> +
+> +	KUNIT_EXPECT_MEMEQ(test, &ref, &out, sizeof(out));
+> +
+> +	/* full black */
+> +	ref.a =3D 0xffff;
+> +	ref.r =3D 0x0;
+> +	ref.g =3D 0x0;
+> +	ref.b =3D 0x0;
+> +
+> +	memcpy(&out, &ref, sizeof(out));
+> +	apply_3x4_matrix(&out, &test_matrix_3x4_50_desat);
+> +
+> +	KUNIT_EXPECT_MEMEQ(test, &ref, &out, sizeof(out));
+> +
+> +	/* 50% grey */
+> +	ref.a =3D 0xffff;
+> +	ref.r =3D 0x8000;
+> +	ref.g =3D 0x8000;
+> +	ref.b =3D 0x8000;
+> +
+> +	memcpy(&out, &ref, sizeof(out));
+> +	apply_3x4_matrix(&out, &test_matrix_3x4_50_desat);
+> +
+> +	KUNIT_EXPECT_MEMEQ(test, &ref, &out, sizeof(out));
+> +
+> +	/* full red to 50% desat */
+> +	ref.a =3D 0xffff;
+> +	ref.r =3D 0x7fff;
+> +	ref.g =3D 0x3fff;
+> +	ref.b =3D 0x3fff;
+> +
+> +	out.a =3D 0xffff;
+> +	out.r =3D 0xffff;
+> +	out.g =3D 0x0;
+> +	out.b =3D 0x0;
+> +
+> +	apply_3x4_matrix(&out, &test_matrix_3x4_50_desat);
+> +
+> +	KUNIT_EXPECT_MEMEQ(test, &ref, &out, sizeof(out));
+> +}
+> +
+> +/*
+> + * BT.709 encoding matrix
+> + *
+> + * Values printed from within IGT when converting
+> + * igt_matrix_3x4_bt709_enc to the fixed-point format expected
+> + * by DRM/KMS.
+
+Shouldn't that be sign-magnitude, not fixed point?
+
+I was hoping to get a reference to a spec like BT.709 and a formula for
+getting the blow out of it. IGT can change over time, and I don't know
+where IGT for that matrix from.
+
+But ok, this is a test with an arbitrary matrix, not necessarily the
+BT.709 matrix specifically.
+
+Btw. which BT.709 matrix is this? YUV->RGB, RGB->XYZ, or the inverse of
+one of those? Limited or full quantization range?
+
+Judging by the tests, I guess RGB->YUV full range.
+
+> + */
+> +const struct drm_color_ctm_3x4 test_matrix_3x4_bt709_enc =3D { {
+> +	0x00000000366cf400ull, 0x00000000b7175900ull, 0x0000000127bb300ull, 0,
+> +	0x800000001993b3a0ull, 0x800000005609fe80ull, 0x000000006f9db200ull, 0,
+> +	0x000000009d70a400ull, 0x800000008f011100ull, 0x800000000e6f9330ull, 0
+> +} };
+> +
+> +static void vkms_color_ctm_3x4_bt709(struct kunit *test)
+> +{
+> +	struct pixel_argb_s32 out;
+> +
+> +	/* full white to bt709 */
+> +	out.a =3D 0xffff;
+> +	out.r =3D 0xffff;
+> +	out.g =3D 0xffff;
+> +	out.b =3D 0xffff;
+> +
+> +	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_enc);
+> +
+> +	/* Y 255 */
+> +	KUNIT_EXPECT_GT(test, out.r, 0xfe00);
+> +	KUNIT_EXPECT_LT(test, out.r, 0x10000);
+> +
+> +	/* U 0 */
+> +	KUNIT_EXPECT_LT(test, out.g, 0x0100);
+
+For all of these U/V too, you may want to enforce a range. The value
+must be approximately 0x100. Something like 0x17 would very wrong.
+
+Hmm, wait...
+
+Neutral color should have U and V neutral, that is, zero, right? So
+what is zero in this integer representation?
+
+You don't seem to be testing negative U or V...
+
+
+Thanks,
+pq
+
+> +
+> +	/* V 0 */
+> +	KUNIT_EXPECT_LT(test, out.b, 0x0100);
+> +
+> +	/* full black to bt709 */
+> +	out.a =3D 0xffff;
+> +	out.r =3D 0x0;
+> +	out.g =3D 0x0;
+> +	out.b =3D 0x0;
+> +
+> +	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_enc);
+> +
+> +	/* Y 0 */
+> +	KUNIT_EXPECT_LT(test, out.r, 0x100);
+> +
+> +	/* U 0 */
+> +	KUNIT_EXPECT_LT(test, out.g, 0x0100);
+> +
+> +	/* V 0 */
+> +	KUNIT_EXPECT_LT(test, out.b, 0x0100);
+> +
+> +	/* gray to bt709 */
+> +	out.a =3D 0xffff;
+> +	out.r =3D 0x7fff;
+> +	out.g =3D 0x7fff;
+> +	out.b =3D 0x7fff;
+> +
+> +	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_enc);
+> +
+> +	/* Y 127 */
+> +	KUNIT_EXPECT_GT(test, out.r, 0x7e00);
+> +	KUNIT_EXPECT_LT(test, out.r, 0x8000);
+> +
+> +	/* U 0 */
+> +	KUNIT_EXPECT_LT(test, out.g, 0x0100);
+> +
+> +	/* V 0 */
+> +	KUNIT_EXPECT_LT(test, out.b, 0x0100);
+> +
+> +	/* =3D=3D red 255 - bt709 enc =3D=3D */
+> +	out.a =3D 0xffff;
+> +	out.r =3D 0xffff;
+> +	out.g =3D 0x0;
+> +	out.b =3D 0x0;
+> +
+> +	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_enc);
+> +
+> +	/* Y 54 */
+> +	KUNIT_EXPECT_GT(test, out.r, 0x3500);
+> +	KUNIT_EXPECT_LT(test, out.r, 0x3700);
+> +
+> +	/* U 0 */
+> +	KUNIT_EXPECT_LT(test, out.g, 0x0100);
+> +
+> +	/* V 157 */
+> +	KUNIT_EXPECT_GT(test, out.b, 0x9C00);
+> +	KUNIT_EXPECT_LT(test, out.b, 0x9E00);
+> +
+> +
+> +	/* =3D=3D green 255 - bt709 enc =3D=3D */
+> +	out.a =3D 0xffff;
+> +	out.r =3D 0x0;
+> +	out.g =3D 0xffff;
+> +	out.b =3D 0x0;
+> +
+> +	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_enc);
+> +
+> +	/* Y 182 */
+> +	KUNIT_EXPECT_GT(test, out.r, 0xB500);
+> +	KUNIT_EXPECT_LT(test, out.r, 0xB780); /* laxed by half*/
+> +
+> +	/* U 0 */
+> +	KUNIT_EXPECT_LT(test, out.g, 0x0100);
+> +
+> +	/* V 0 */
+> +	KUNIT_EXPECT_LT(test, out.b, 0x0100);
+> +
+> +	/* =3D=3D blue 255 - bt709 enc =3D=3D */
+> +	out.a =3D 0xffff;
+> +	out.r =3D 0x0;
+> +	out.g =3D 0x0;
+> +	out.b =3D 0xffff;
+> +
+> +	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_enc);
+> +
+> +	/* Y 18 */
+> +	KUNIT_EXPECT_GT(test, out.r, 0x1100);
+> +	KUNIT_EXPECT_LT(test, out.r, 0x1300);
+> +
+> +	/* U 111 */
+> +	KUNIT_EXPECT_GT(test, out.g, 0x6E00);
+> +	KUNIT_EXPECT_LT(test, out.g, 0x7000);
+> +
+> +	/* V 0 */
+> +	KUNIT_EXPECT_LT(test, out.b, 0x0100);
+> +
+> +	/* =3D=3D red 140 - bt709 enc =3D=3D */
+> +	out.a =3D 0xffff;
+> +	out.r =3D 0x8c8c;
+> +	out.g =3D 0x0;
+> +	out.b =3D 0x0;
+> +
+> +	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_enc);
+> +
+> +	/* Y 30 */
+> +	KUNIT_EXPECT_GT(test, out.r, 0x1D00);
+> +	KUNIT_EXPECT_LT(test, out.r, 0x1F00);
+> +
+> +	/* U 0 */
+> +	KUNIT_EXPECT_LT(test, out.g, 0x100);
+> +
+> +	/* V 87 */
+> +	KUNIT_EXPECT_GT(test, out.b, 0x5600);
+> +	KUNIT_EXPECT_LT(test, out.b, 0x5800);
+> +
+> +	/* =3D=3D green 140 - bt709 enc =3D=3D */
+> +	out.a =3D 0xffff;
+> +	out.r =3D 0x0;
+> +	out.g =3D 0x8c8c;
+> +	out.b =3D 0x0;
+> +
+> +	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_enc);
+> +
+> +	/* Y 30 */
+> +	KUNIT_EXPECT_GT(test, out.r, 0x6400);
+> +	KUNIT_EXPECT_LT(test, out.r, 0x6600);
+> +
+> +	/* U 0 */
+> +	KUNIT_EXPECT_LT(test, out.g, 0x100);
+> +
+> +	/* V 0 */
+> +	KUNIT_EXPECT_LT(test, out.b, 0x100);
+> +
+> +
+> +	/* =3D=3D blue 140 - bt709 enc =3D=3D */
+> +	out.a =3D 0xffff;
+> +	out.r =3D 0x0;
+> +	out.g =3D 0x0;
+> +	out.b =3D 0x8c8c;
+> +
+> +	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_enc);
+> +
+> +	/* Y 30 */
+> +	KUNIT_EXPECT_GT(test, out.r, 0x900);
+> +	KUNIT_EXPECT_LT(test, out.r, 0xB00);
+> +
+> +	/* U 61 */
+> +	KUNIT_EXPECT_GT(test, out.g, 0x3C00);
+> +	KUNIT_EXPECT_LT(test, out.g, 0x3E00);
+> +
+> +	/* V 0 */
+> +	KUNIT_EXPECT_LT(test, out.b, 0x100);
+> +
+> +}
+> +
+>  static struct kunit_case vkms_color_test_cases[] =3D {
+>  	KUNIT_CASE(vkms_color_test_get_lut_index),
+>  	KUNIT_CASE(vkms_color_test_lerp),
+>  	KUNIT_CASE(vkms_color_test_linear),
+>  	KUNIT_CASE(vkms_color_srgb_inv_srgb),
+> +	KUNIT_CASE(vkms_color_ctm_3x4_50_desat),
+> +	KUNIT_CASE(vkms_color_ctm_3x4_bt709),
+>  	{}
+>  };
+> =20
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/=
+vkms_composer.c
+> index 8bbfce651526..2c5715242f91 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -164,7 +164,7 @@ static void apply_lut(const struct vkms_crtc_state *c=
+rtc_state, struct line_buff
+>  	}
+>  }
+> =20
+> -static void apply_3x4_matrix(struct pixel_argb_s32 *pixel, const struct =
+drm_color_ctm_3x4 *matrix)
+> +void apply_3x4_matrix(struct pixel_argb_s32 *pixel, const struct drm_col=
+or_ctm_3x4 *matrix)
+>  {
+>  	s64 rf, gf, bf;
+> =20
+
+
+--Sig_/lB/ul+0s_RsGEiR.Q42ykxb
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXzH5AACgkQI1/ltBGq
+qqfFqhAAr0AiOdy/HOICE0PXjQKjyRXAaNot7DUhuQoJSQRxn9GjINFQXHLHL6eA
+On9XjRidYCvlVs5tj9qCC0/1oZjvg1dML6G3E2fp2WDQWHdGaBiWt0JoZj4VniLE
+QshBkrMmQBb05ITRzxkxRPyR6eRWJOomXkpHqL/U75oWnuwFJQqKT2ixvocbji3v
+YpesxMGTSXag0G0o2nvJmLdApD/y6Heo6WvJQBW/7SL6IfGENzvrJ/QDMA4lAQNf
+HYfFOzH6KqNlBQj5TOgGBKSJBzM7ZQ9pbwBfd5ZVg6Dhk6mVcQdo0IXw+IjI4o7u
+Ose04PN9PWLaQgJAOUfz9J1Bxo/Bx+OgTpsu14npvPj886ejmCAgOnDqZWb+/icL
+N2oozekELf3d67Ciwdkavm3seAvEsTxZ94JniraoSrHCsdFgSESkLIHZ9Q4CJU/X
+/eVJrIxw8WkVk3W4V2eNzeaC5kgHbvmW/EE30+ZK8tdV21YAbif/TGgwUsISpi+R
+U0V60hhzzxABCPe/tFOL0DuqZn9MhumpOJJIu4+qdgU6BhL2DfV8jQBV9pKDls+h
+JNAyuG/SHVWTlVbvP1D/ODAQgEanqhnJd77SFPTJYo5457oe2PsqMwPvwF4/fR+9
+uGCnaBK8yntCyR49ZHtpmgIyCYZ+5zGAd0XB77yTImhVv/aX9jo=
+=Fj1L
+-----END PGP SIGNATURE-----
+
+--Sig_/lB/ul+0s_RsGEiR.Q42ykxb--
