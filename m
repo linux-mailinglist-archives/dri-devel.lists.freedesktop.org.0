@@ -2,81 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 177CB87C2E8
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 19:41:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14CE687C20F
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 18:21:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96F3910FCD7;
-	Thu, 14 Mar 2024 18:41:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1638F10FC2E;
+	Thu, 14 Mar 2024 17:21:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="dYYTe1XJ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Xdcs9T8g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com
- [209.85.219.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD7FE10EC23
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 17:09:58 +0000 (UTC)
-Received: by mail-qv1-f52.google.com with SMTP id
- 6a1803df08f44-691583aebc7so4189096d6.3
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 10:09:58 -0700 (PDT)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
+ [209.85.218.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E884B10FC2D
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 17:21:01 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id
+ a640c23a62f3a-a466381b411so145825766b.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 10:21:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1710436197; x=1711040997;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=wq3tDY8BbJifWyupgIyZpzh/9hWKNCkxl+BfruynXAQ=;
- b=dYYTe1XJU2M6Oz5ItN9uVdmRBCN8g8yCZFLPcCqbUuGVtA9frFsyByCCDSAoKGbypm
- ZVFqw2l32Vqebi0QaRzga3HaYVIBGZB6my60BL1Tb9IsAwqDjUSRVz4Qk1dZoEcdYxk3
- 5tV0xm4ldx2CAW8TyMq6sUbagB51Zc6maBXYVDJG42Ci84/PkfnklzWVkugJ2dogsKMh
- 4hJhpGOJtXpGwjAEGlRwmdMf4vzPo73n90x8BN9KpuBsQqWxAazFeDxYYWqGPkDLL69y
- cG0Cc6/gojglVk9ONICIXnlai4ZsDBE//wcZBPW35xQyX9krmVA9mqY6s3vqpGUqmlRF
- DTkg==
+ d=gmail.com; s=20230601; t=1710436860; x=1711041660; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uvthK6ZPHv9ziKLsWHO3MPl4ZybvCCopm0QV4LX8UkQ=;
+ b=Xdcs9T8ga0TzqsjL2CJxiYvv/OQYWvML91Nsmm/hT2z3YRcWzHZmOy2rf9kWY4b6oM
+ YNDKcoFEJEJE8IVR+zRHZbqESZtdyxQx83DQPuypGRMDyHP84tTGfYBM2/hhQ4rovG+O
+ jp3/QQcuYkSjLtSmMRA1oTzaR6xQU+uJWR135buM7+ZIw6guhlrimAflRzYg0O3hACR7
+ slfKHxvH9tcq/I3taS4ob1RWypA60rVb9HnpesyprNToXB373yqpJBBULmUwvNHu7dlJ
+ UXSC16j/K7Xzo4LYmDvHrP1sC682Uz0Pl/72EhIa7bwIytJMrM20NlIk7eA0/GFPGfXz
+ jpUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710436197; x=1711040997;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wq3tDY8BbJifWyupgIyZpzh/9hWKNCkxl+BfruynXAQ=;
- b=F8hNwvyo4Gs8IYbmGA2bwyTYw80sXwzw9oUg3zH2+Ncvr/Si14OuPxq4g55DfiAkTP
- 4hSIDp1uqYrIDS4P67wX/68gSA3l//stuumxgJmg0cbHTBWCrvmfh9Q+oaFaJPn1fcC4
- IADgrVgiemLfaIV2+8cGcvB2hXXALzt06OsVkEqL3PIJF9dhP0yGVm0sIiyvIsXL5uIo
- S0HIVD8k1VJLsjRNf7+1OL7UVOdAPVVg9tfmNJbtdxmACx9QSVhkPYkqf9w4EPzbGKs9
- kT/0zwGbwwKUVAowX0K88ZMM7U5vwSAbfUCPMB2Pfh8HEOwr+p9G9fLSG+dhxJEUQ2sz
- RAIw==
+ d=1e100.net; s=20230601; t=1710436860; x=1711041660;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=uvthK6ZPHv9ziKLsWHO3MPl4ZybvCCopm0QV4LX8UkQ=;
+ b=IgepR0ofu2EsRFKa8nQ/5t9+FaY1yR2x5AviCE49Q61VBwDMDeka5YkGpN7DRrkkHG
+ aiv74/mayS1S8qoqbpDWdA6xAYkXtu3Nqe+P0CFwZspa+fY1nUcFrR3u2mUvFr25OzGQ
+ A3TqwPe2vMTOKrH/v9cypY+exJSd2IUuPrAl5IsHY0YRN2RV6N6XjUzHiZebIFUB0bGa
+ i5D+MnDjkQ5tmKKFDEXDXjcbfuIEu5HoPPn7boxpVnKtoBuePW7r89fbUKGdB1x+nD3c
+ b0cS6EjY7nwKvChW1sa+LuqtiGvgMjGXk6bUSGngBoT3itZnFO3jdhbU0u7NaJsUEcjX
+ l/Jw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUEi6F0YvoUlmqAj0MTmuOG7oqu9/X3IyQDEqw4t3Z6KrbKplOHhrBzYGX+hKLFAwaM18hBz53O50BtZlRUJ1iXK0XtXsBz5KnGF5OuxsWS
-X-Gm-Message-State: AOJu0YxxBTMivuayLFseO4hBOCwWaSBkCE8cIY91iFhpfMJIm53uXaur
- 3ITafhKbGB3I7qUQtywHRv4x5IinZCsREE6seMt6WyhoIn8Vgiwh+AEe31j/qTU=
-X-Google-Smtp-Source: AGHT+IG9aYKr3SLrUEGgyDZji2FG4IGp3KCRhhwIdIrak8oLuo4wulKWroEURFFbiWSVw95P6gj41A==
-X-Received: by 2002:a0c:d989:0:b0:691:6dd8:4606 with SMTP id
- y9-20020a0cd989000000b006916dd84606mr65545qvj.30.1710436197410; 
- Thu, 14 Mar 2024 10:09:57 -0700 (PDT)
-Received: from localhost
- (2603-7000-0c01-2716-da5e-d3ff-fee7-26e7.res6.spectrum.com.
- [2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
- by smtp.gmail.com with ESMTPSA id
- z10-20020a056214040a00b00690d951b7d9sm700131qvx.6.2024.03.14.10.09.56
+ AJvYcCWS/yzlFb4Oh1n/nQJvSoViJC797pDwoRIsPAlEj8eMP0tjDoqVcwedKFqgjeOncJWdX4EvetSXgN1L6v/HSXR9BRbUMWj5Z3wcx/JI4IiX
+X-Gm-Message-State: AOJu0YybhFNJVf7GkGYqN4k5OC/RsuqTRwBZKKuk6O/PqVqP6QFXoDCW
+ ctDBveeZn24j95TnyP1ExG4A3aJxrp30eZ6c1zpYII837u2YE8Vb
+X-Google-Smtp-Source: AGHT+IEwb/JV3ROy5jBsR2h0x53EOam5x48bXCQzKOeUat4Rg2BPQuqlegOQyDv9bGsdCWC9AfeGSw==
+X-Received: by 2002:a17:907:2da1:b0:a45:ab9b:4a28 with SMTP id
+ gt33-20020a1709072da100b00a45ab9b4a28mr552954ejc.60.1710436860023; 
+ Thu, 14 Mar 2024 10:21:00 -0700 (PDT)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net.
+ [86.58.6.171]) by smtp.gmail.com with ESMTPSA id
+ o26-20020a17090608da00b00a461c637eddsm881549eje.223.2024.03.14.10.20.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Mar 2024 10:09:56 -0700 (PDT)
-Date: Thu, 14 Mar 2024 13:09:48 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- "Sharma, Shashank" <Shashank.Sharma@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/amdgpu: fix deadlock while reading mqd from debugfs
-Message-ID: <20240314170948.GA581298@cmpxchg.org>
-References: <20240307221609.7651-1-hannes@cmpxchg.org>
- <c411dce6-faaf-46c3-8bb6-8c4db871e598@gmail.com>
+ Thu, 14 Mar 2024 10:20:59 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Frank Oltmanns <frank@oltmanns.dev>, Maxime Ripard <mripard@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Samuel Holland <samuel@sholland.org>,
+ Icenowy Zheng <uwu@icenowy.me>, Ondrej Jirman <x@xnux.eu>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sun4i: tcon: Support keeping dclk rate upon ancestor
+ clock changes
+Date: Thu, 14 Mar 2024 18:20:58 +0100
+Message-ID: <5448341.Sb9uPGUboI@jernej-laptop>
+In-Reply-To: <20240314-careful-silky-bear-8ee43f@houat>
+References: <20240310-tcon_keep_stable_rate-v1-1-0296b0a85c02@oltmanns.dev>
+ <20240314-careful-silky-bear-8ee43f@houat>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c411dce6-faaf-46c3-8bb6-8c4db871e598@gmail.com>
-X-Mailman-Approved-At: Thu, 14 Mar 2024 18:41:51 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,25 +90,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Dne =C4=8Detrtek, 14. marec 2024 ob 15:42:24 CET je Maxime Ripard napisal(a=
+):
+> Hi,
+>=20
+> On Sun, Mar 10, 2024 at 02:32:29PM +0100, Frank Oltmanns wrote:
+> > Allow the dclk to reset its rate when a rate change is initiated from an
+> > ancestor clock. This makes it possible to no longer to get an exclusive
+> > lock. As a consequence, it is now possible to set new rates if
+> > necessary, e.g. when an external display is connected.
+> >=20
+> > The first user of this functionality is the A64 because PLL-VIDEO0 is an
+> > ancestor for both HDMI and TCON0. This allows to select an optimal rate
+> > for TCON0 as long as there is no external HDMI connection. Once a change
+> > in PLL-VIDEO0 is performed when an HDMI connection is established, TCON0
+> > can react gracefully and select an optimal rate based on this the new
+> > constraint.
+> >=20
+> > Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+> > ---
+> > I would like to make the Allwinner A64's data-clock keep its rate
+> > when its ancestor's (pll-video0) rate changes. Keeping data-clock's rate
+> > is required, to let the A64 drive both an LCD and HDMI display at the
+> > same time, because both have pll-video0 as an ancestor.
+> >=20
+> > TCONs that use this flag store the ideal rate for their data-clock and
+> > subscribe to be notified when data-clock changes. When rate setting has
+> > finished (indicated by a POST_RATE_CHANGE event) the call back function
+> > schedules delayed work to set the data-clock's rate to the initial value
+> > after 100 ms. Using delayed work maks sure that the clock setting is
+> > finished.
+> >=20
+> > I've implemented this functionality as a quirk, so that it is possible
+> > to use it only for the A64.
+> >=20
+> > This patch supersedes [1].
+> >=20
+> > This work is inspired by an out-of-tree patchset [2] [3] [4].
+> > Unfortunately, the patchset uses clk_set_rate() directly in a notifier
+> > callback, which the following comment on clk_notifier_register()
+> > forbids: "The callbacks associated with the notifier must not re-enter
+> > into the clk framework by calling any top-level clk APIs." [5]
+> > Furthermore, that out-of-tree patchset no longer works since 6.6,
+> > because setting pll-mipi is now also resetting pll-video0 and therefore
+> > causes a race condition.
+>=20
+> Workqueues don't have an upper boundary on when they execute. As we
+> discussed multiple times, this should be solved in the clock framework
+> itself, not bypassing it.
 
-On Fri, Mar 08, 2024 at 12:32:33PM +0100, Christian König wrote:
-> Am 07.03.24 um 23:07 schrieb Johannes Weiner:
-> > Lastly I went with an open loop instead of a memcpy() as I wasn't
-> > sure if that memory is safe to address a byte at at time.
+I think TCON code still needs to be touched due to clk_rate_exclusive_get()
+calls which effectively lock whole chain. You can't have both TCONs locking
+rate on A64 for this to work correctly.
 
-Shashank pointed out to me in private that byte access would indeed be
-safe. However, after actually trying it it won't work because memcpy()
-doesn't play nice with mqd being volatile:
+What was original reason for clk_rate_exclusive_get()? I forgot already.
 
-/home/hannes/src/linux/linux/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c: In function 'amdgpu_debugfs_mqd_read':
-/home/hannes/src/linux/linux/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:550:22: warning: passing argument 1 of '__builtin_dynamic_object_size' discards 'volatil' qualifier from pointer target type [-Wdiscarded-qualifiers]
-  550 |         memcpy(kbuf, mqd, ring->mqd_size);
+Best regards,
+Jernej
 
-So I would propose leaving the patch as-is. Shashank, does that sound
-good to you?
+>=20
+> Maxime
+>=20
 
-(Please keep me CC'd on replies, as I'm not subscribed to the graphics
-lists.)
 
-Thanks!
+
+
