@@ -2,59 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5763587BC00
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 12:35:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69E1187BC10
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 12:42:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DFD510FA80;
-	Thu, 14 Mar 2024 11:35:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAE0110F3C3;
+	Thu, 14 Mar 2024 11:41:57 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Vl3f40yJ";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4406010FA21
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 11:35:36 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1rkjMz-0006vq-E7; Thu, 14 Mar 2024 12:35:33 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1rkjMy-006IlX-BZ; Thu, 14 Mar 2024 12:35:32 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
- (envelope-from <ukl@pengutronix.de>) id 1rkjMy-0060TP-0q;
- Thu, 14 Mar 2024 12:35:32 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- kernel@pengutronix.de, linux-pwm@vger.kernel.org
-Subject: [PATCH v2] backlight: lp8788: Drop support for platform data
-Date: Thu, 14 Mar 2024 12:35:28 +0100
-Message-ID: <20240314113529.923708-2-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.43.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AEC010F3C3
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 11:41:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1710416516; x=1741952516;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=30pvyIV+cW7okQGQmlvCv/g42GGl2E4HHvcdiqL1sEo=;
+ b=Vl3f40yJ71IhMKJ8xh6O1HbnkZsJ48SymlU+4PEVqj/oWeKnJNRJmjvM
+ 7IgFQGpyMVnspbmM2eGsS3OVR7cm2/dInVNt7LqJKb6H4mnTcbch6AWmQ
+ YpntaYNW2/tLA6mdJrj/tCSNt4q8pxZrMg/KgiwfB+DiK4NhCCKgstKgR
+ 4v8nTi3QuIFqnyyy9zLMQRRCpbJZMErFUrloTD2izu9S344Bm65aDIrKJ
+ ULUvz1gX99lvraAwCKrcV6oRMvVxqaGQ1nSEyHSl++kJ1hvHI0WQLMp0m
+ RBLHuNPMm8DrkHanlBXFDxsrserF2c1568wx6t+eh+B5tlyJp3kR5tbUy g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="9006267"
+X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
+   d="scan'208";a="9006267"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Mar 2024 04:41:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; d="scan'208";a="43299005"
+Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.217.160.171])
+ ([10.217.160.171])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Mar 2024 04:41:54 -0700
+Message-ID: <2b00ea2c-3193-48fb-bb61-c96a87db44a6@linux.intel.com>
+Date: Thu, 14 Mar 2024 12:41:51 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] accel/qaic: Add bootlog debugfs
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, quic_carlv@quicinc.com,
+ quic_pkanojiy@quicinc.com, stanislaw.gruszka@linux.intel.com
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ ogabbay@kernel.org
+References: <20240311165826.1728693-1-quic_jhugo@quicinc.com>
+ <20240311165826.1728693-2-quic_jhugo@quicinc.com>
+Content-Language: en-US
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20240311165826.1728693-2-quic_jhugo@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10006;
- i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=g2FvV2a/76PoLAhdO8gpdq5YlLgPaBxWjYrgLTRBR20=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBl8uECYhOw+Z3KflaiPkVaU63r+1ZPfAAMMzjEF
- 9glc8EAYzuJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZfLhAgAKCRCPgPtYfRL+
- Tnm4B/0YHLgD8QKnOqM5I6xI7VAHP8MyGa/w0KShtQPv3VWODnzxtZL5yVroY/yEHEY0M0Z2cIN
- m6t5Hbr7MUgOx7TdwOyMd1sTlO62WIMauQ/ohMus1yPX1DY3el6VmPt5vCRtTjRNyb05NJlIX/s
- lepSh3ekFc7+93rP2TjSPOxe8IurA7N9xS1oGVAjJeqA58Z80rxw0zWJ63iE9D8EVVExULhNwNx
- r+sUPFtmXuNOWWa7uyMVKIWopShFfb+mBmyILrFLyQE4ZqYT8BSVL3XtfkqxO/yjU/hz0qcCs5e
- MeC/LHdsAmGhmiNVNrxhvOBYB4fCbSLuWJAWnkIbf2JnznFt
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,330 +72,446 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The backlight driver supports getting passed platform data. However this
-isn't used. This allows to remove quite some dead code from the driver
-because bl->pdata is always NULL, and so bl->mode is always
-LP8788_BL_REGISTER_ONLY.
+Hi,
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
-Changes since (implicit) v1 archived at
-https://lkml.kernel.org/20240313124828.861731-2-u.kleine-koenig@pengutronix.de:
+On 11.03.2024 17:58, Jeffrey Hugo wrote:
+> During the boot process of AIC100, the bootloaders (PBL and SBL) log
+> messages to device RAM. During SBL, if the host opens the QAIC_LOGGING
+> channel, SBL will offload the contents of the log buffer to the host,
+> and stream any new messages that SBL logs.
+> 
+> This log of the boot process can be very useful for an initial triage of
+> any boot related issues. For example, if SBL rejects one of the runtime
+> firmware images for a validation failure, SBL will log a reason why.
+> 
+> Add the ability of the driver to open the logging channel, receive the
+> messages, and store them. Also define a debugfs entry called "bootlog"
+> by hooking into the DRM debugfs framework. When the bootlog debugfs
+> entry is read, the current contents of the log that the host is caching
+> is displayed to the user. The driver will retain the cache until it
+> detects that the device has rebooted.  At that point, the cache will be
+> freed, and the driver will wait for a new log. With this scheme, the
+> driver will only have a cache of the log from the current device boot.
+> Note that if the driver initializes a device and it is already in the
+> runtime state (QSM), no bootlog will be available through this mechanism
+> because the driver and SBL have not communicated.
+> 
+> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
+> Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+> ---
+>  drivers/accel/qaic/Makefile       |   2 +
+>  drivers/accel/qaic/qaic.h         |   8 +
+>  drivers/accel/qaic/qaic_debugfs.c | 271 ++++++++++++++++++++++++++++++
+>  drivers/accel/qaic/qaic_debugfs.h |  20 +++
+>  drivers/accel/qaic/qaic_drv.c     |  16 +-
+>  5 files changed, 316 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/accel/qaic/qaic_debugfs.c
+>  create mode 100644 drivers/accel/qaic/qaic_debugfs.h
+> 
+> diff --git a/drivers/accel/qaic/Makefile b/drivers/accel/qaic/Makefile
+> index 3f7f6dfde7f2..2cadcc1baa0e 100644
+> --- a/drivers/accel/qaic/Makefile
+> +++ b/drivers/accel/qaic/Makefile
+> @@ -11,3 +11,5 @@ qaic-y := \
+>  	qaic_data.o \
+>  	qaic_drv.o \
+>  	qaic_timesync.o
+> +
+> +qaic-$(CONFIG_DEBUG_FS) += qaic_debugfs.o
+> diff --git a/drivers/accel/qaic/qaic.h b/drivers/accel/qaic/qaic.h
+> index 9256653b3036..03d9c9fbffb3 100644
+> --- a/drivers/accel/qaic/qaic.h
+> +++ b/drivers/accel/qaic/qaic.h
+> @@ -153,6 +153,14 @@ struct qaic_device {
+>  	struct mhi_device	*qts_ch;
+>  	/* Work queue for tasks related to MHI "QAIC_TIMESYNC" channel */
+>  	struct workqueue_struct	*qts_wq;
+> +	/* Head of list of page allocated by MHI bootlog device */
+> +	struct list_head        bootlog;
+> +	/* MHI bootlog channel device */
+> +	struct mhi_device       *bootlog_ch;
+> +	/* Work queue for tasks related to MHI bootlog device */
+> +	struct workqueue_struct *bootlog_wq;
+> +	/* Synchronizes access of pages in MHI bootlog device */
+> +	struct mutex            bootlog_mutex;
+>  };
+>  
+>  struct qaic_drm_device {
+> diff --git a/drivers/accel/qaic/qaic_debugfs.c b/drivers/accel/qaic/qaic_debugfs.c
+> new file mode 100644
+> index 000000000000..4f87fe29be1a
+> --- /dev/null
+> +++ b/drivers/accel/qaic/qaic_debugfs.c
+> @@ -0,0 +1,271 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +
+> +/* Copyright (c) 2020, The Linux Foundation. All rights reserved. */
+> +/* Copyright (c) 2021-2024 Qualcomm Innovation Center, Inc. All rights reserved. */
+> +
+> +#include <linux/debugfs.h>
+> +#include <linux/device.h>
+> +#include <linux/fs.h>
+> +#include <linux/list.h>
+> +#include <linux/mhi.h>
+> +#include <linux/mutex.h>
+> +#include <linux/pci.h>
+> +#include <linux/seq_file.h>
+> +#include <linux/string.h>
+> +#include <linux/types.h>
+> +#include <linux/workqueue.h>
+> +
+> +#include "qaic.h"
+> +#include "qaic_debugfs.h"
+> +
+> +#define BOOTLOG_POOL_SIZE		16
+> +#define BOOTLOG_MSG_SIZE		512
+> +
+> +struct bootlog_msg {
+> +	/* Buffer for bootlog messages */
+> +	char str[BOOTLOG_MSG_SIZE];
+> +	/* Root struct of device, used to access device resources */
+> +	struct qaic_device *qdev;
+> +	/* Work struct to schedule work coming on QAIC_LOGGING channel */
+> +	struct work_struct work;
+> +};
+> +
+> +struct bootlog_page {
+> +	/* Node in list of bootlog pages maintained by root device struct */
+> +	struct list_head node;
+> +	/* Total size of the buffer that holds the bootlogs. It is PAGE_SIZE */
+> +	unsigned int size;
+> +	/* Offset for the next bootlog */
+> +	unsigned int offset;
+> +};
+> +
+> +static int bootlog_show(struct seq_file *s, void *unused)
+> +{
+> +	struct bootlog_page *page;
+> +	struct qaic_device *qdev;
+> +	void *page_end;
+> +	void *log;
+> +
+> +	qdev = s->private;
+> +	mutex_lock(&qdev->bootlog_mutex);
+> +	list_for_each_entry(page, &qdev->bootlog, node) {
+> +		log = page + 1;
+> +		page_end = (void *)page + page->offset;
+> +		while (log < page_end) {
+> +			seq_printf(s, "%s", (char *)log);
+> +			log += strlen(log) + 1;
+> +		}
+> +	}
+> +	mutex_unlock(&qdev->bootlog_mutex);
+> +
+> +	return 0;
+> +}
+> +
+> +static int bootlog_fops_open(struct inode *inode, struct file *file)
+> +{
+> +	return single_open(file, bootlog_show, inode->i_private);
+> +}
+> +
+> +static const struct file_operations bootlog_fops = {
+> +	.owner = THIS_MODULE,
+> +	.open = bootlog_fops_open,
+> +	.read = seq_read,
+> +	.llseek = seq_lseek,
+> +	.release = single_release,
+> +};
+> +
+> +void qaic_debugfs_init(struct qaic_drm_device *qddev)
+> +{
+> +	struct qaic_device *qdev = qddev->qdev;
+> +	struct dentry *debugfs_root;
+> +
+> +	debugfs_root = to_drm(qddev)->debugfs_root;
+> +
+> +	debugfs_create_file("bootlog", 0400, debugfs_root, qdev, &bootlog_fops);
+> +}
+> +
+> +static struct bootlog_page *alloc_bootlog_page(struct qaic_device *qdev)
+> +{
+> +	struct bootlog_page *page;
+> +
+> +	page = (struct bootlog_page *)devm_get_free_pages(&qdev->pdev->dev, GFP_KERNEL, 0);
+> +	if (!page)
+> +		return page;
+> +
+> +	page->size = PAGE_SIZE;
+> +	page->offset = sizeof(*page);
+> +	list_add_tail(&page->node, &qdev->bootlog);
+> +
+> +	return page;
+> +}
+> +
+> +static int reset_bootlog(struct qaic_device *qdev)
+> +{
+> +	struct bootlog_page *page;
+> +	struct bootlog_page *i;
+> +
+> +	list_for_each_entry_safe(page, i, &qdev->bootlog, node) {
+> +		list_del(&page->node);
+> +		devm_free_pages(&qdev->pdev->dev, (unsigned long)page);
+> +	}
+This is currently dead code. reset is only used to init the bootlog. You may consider making this init_bootlog() if you are not planning to actually reset the bootlog.
+> +
+> +	page = alloc_bootlog_page(qdev);
+> +	if (!page)
+> +		return -ENOMEM;
+> +
+> +	return 0;
+> +}
+> +
+> +static void *bootlog_get_space(struct qaic_device *qdev, unsigned int size)
+> +{
+> +	struct bootlog_page *page;
+> +
+> +	page = list_last_entry(&qdev->bootlog, struct bootlog_page, node);
+> +
+> +	if (size > page->size - sizeof(*page))
+Not critical but would be safer to use this condition: "sizeof(*page) + size > page->size"
 
- - Also drop struct pwm_device *pwm member from struct lp8788_bl
+> +		return NULL;
+> +
+> +	if (page->offset + size > page->size) {
+> +		page = alloc_bootlog_page(qdev);
+> +		if (!page)
+> +			return NULL;
+> +	}
+> +
+> +	return (void *)page + page->offset;
+> +}
+> +
+> +static void bootlog_commit(struct qaic_device *qdev, unsigned int size)
+> +{
+> +	struct bootlog_page *page;
+> +
+> +	page = list_last_entry(&qdev->bootlog, struct bootlog_page, node);
+> +
+> +	page->offset += size;
+> +}
+> +
+> +static void bootlog_log(struct work_struct *work)
+> +{
+> +	struct bootlog_msg *msg = container_of(work, struct bootlog_msg, work);
+> +	unsigned int len = strlen(msg->str) + 1;
+> +	struct qaic_device *qdev = msg->qdev;
+> +	void *log;
+> +
+> +	mutex_lock(&qdev->bootlog_mutex);
+> +	log = bootlog_get_space(qdev, len);
+> +	if (log) {
+> +		memcpy(log, msg, len);
+> +		bootlog_commit(qdev, len);
+> +	}
+> +	mutex_unlock(&qdev->bootlog_mutex);
+> +
+> +	if (mhi_queue_buf(qdev->bootlog_ch, DMA_FROM_DEVICE, msg, BOOTLOG_MSG_SIZE, MHI_EOT))
+> +		devm_kfree(&qdev->pdev->dev, msg);
+You are freeing `struct work` while still in work callback. This is unsafe.
+See https://elixir.bootlin.com/linux/v6.8/source/kernel/workqueue.c#L2564.
+Work ptr is kept in busy_hash after the callback has finished and may be still be accessed.
 
-I'm surprised that this didn't fail to compile ...
+> +}
+> +
+> +static int qaic_bootlog_mhi_probe(struct mhi_device *mhi_dev, const struct mhi_device_id *id)
+> +{
+> +	struct qaic_device *qdev = pci_get_drvdata(to_pci_dev(mhi_dev->mhi_cntrl->cntrl_dev));
+> +	struct bootlog_msg *msg;
+> +	int i, ret;
+> +
+> +	qdev->bootlog_wq = alloc_ordered_workqueue("qaic_bootlog", 0);
+> +	if (!qdev->bootlog_wq) {
+> +		ret = -ENOMEM;
+> +		goto out;
+> +	}
+> +
+> +	mutex_lock(&qdev->bootlog_mutex);
+Looks like locking should be inside reset_bootlog(), like in other places.
 
-Best regards
-Uwe
+> +	ret = reset_bootlog(qdev);
+> +	mutex_unlock(&qdev->bootlog_mutex);
+> +	if (ret)
+> +		goto destroy_workqueue;
+> +
+> +	ret = mhi_prepare_for_transfer(mhi_dev);
+> +	if (ret)
+> +		goto destroy_workqueue;
+> +
+> +	for (i = 0; i < BOOTLOG_POOL_SIZE; i++) {
+> +		msg = devm_kzalloc(&qdev->pdev->dev, sizeof(*msg), GFP_KERNEL);
+> +		if (!msg) {
+> +			ret = -ENOMEM;
+> +			goto mhi_unprepare;
+> +		}
+> +
+> +		msg->qdev = qdev;
+> +		INIT_WORK(&msg->work, bootlog_log);
+> +
+> +		ret = mhi_queue_buf(mhi_dev, DMA_FROM_DEVICE, msg, BOOTLOG_MSG_SIZE, MHI_EOT);
+> +		if (ret)
+> +			goto mhi_unprepare;
+> +	}
+> +
+> +	dev_set_drvdata(&mhi_dev->dev, qdev);
+> +	qdev->bootlog_ch = mhi_dev;
+> +	return 0;
+> +
+> +mhi_unprepare:
+> +	mhi_unprepare_from_transfer(mhi_dev);
+> +destroy_workqueue:
+> +	flush_workqueue(qdev->bootlog_wq);
+> +	destroy_workqueue(qdev->bootlog_wq);
+> +out:
+> +	return ret;
+> +}
+> +
+> +static void qaic_bootlog_mhi_remove(struct mhi_device *mhi_dev)
+> +{
+> +	struct qaic_device *qdev;
+> +
+> +	qdev = dev_get_drvdata(&mhi_dev->dev);
+> +
+> +	mhi_unprepare_from_transfer(qdev->bootlog_ch);
+> +	flush_workqueue(qdev->bootlog_wq);
+> +	destroy_workqueue(qdev->bootlog_wq);
+> +	qdev->bootlog_ch = NULL;
+> +}
+> +
+> +static void qaic_bootlog_mhi_ul_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result *mhi_result)
+> +{
+> +}
+> +
+> +static void qaic_bootlog_mhi_dl_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result *mhi_result)
+> +{
+> +	struct qaic_device *qdev = dev_get_drvdata(&mhi_dev->dev);
+> +	struct bootlog_msg *msg = mhi_result->buf_addr;
+> +
+> +	if (mhi_result->transaction_status) {
+> +		devm_kfree(&qdev->pdev->dev, msg);
+> +		return;
+> +	}
+> +
+> +	/* Force a null at the end of the transferred string */
+> +	msg->str[mhi_result->bytes_xferd - 1] = 0;
+Is it guaranteed that bytes_xferd will always be within valid range here?
 
- drivers/video/backlight/lp8788_bl.c | 151 ++--------------------------
- include/linux/mfd/lp8788.h          |  36 -------
- 2 files changed, 8 insertions(+), 179 deletions(-)
-
-diff --git a/drivers/video/backlight/lp8788_bl.c b/drivers/video/backlight/lp8788_bl.c
-index d1a14b0db265..d173e93f6348 100644
---- a/drivers/video/backlight/lp8788_bl.c
-+++ b/drivers/video/backlight/lp8788_bl.c
-@@ -12,7 +12,6 @@
- #include <linux/mfd/lp8788.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
--#include <linux/pwm.h>
- #include <linux/slab.h>
- 
- /* Register address */
-@@ -31,149 +30,40 @@
- #define MAX_BRIGHTNESS			127
- #define DEFAULT_BL_NAME			"lcd-backlight"
- 
--struct lp8788_bl_config {
--	enum lp8788_bl_ctrl_mode bl_mode;
--	enum lp8788_bl_dim_mode dim_mode;
--	enum lp8788_bl_full_scale_current full_scale;
--	enum lp8788_bl_ramp_step rise_time;
--	enum lp8788_bl_ramp_step fall_time;
--	enum pwm_polarity pwm_pol;
--};
--
- struct lp8788_bl {
- 	struct lp8788 *lp;
- 	struct backlight_device *bl_dev;
--	struct lp8788_backlight_platform_data *pdata;
--	enum lp8788_bl_ctrl_mode mode;
--	struct pwm_device *pwm;
- };
- 
--static struct lp8788_bl_config default_bl_config = {
--	.bl_mode    = LP8788_BL_REGISTER_ONLY,
--	.dim_mode   = LP8788_DIM_EXPONENTIAL,
--	.full_scale = LP8788_FULLSCALE_1900uA,
--	.rise_time  = LP8788_RAMP_8192us,
--	.fall_time  = LP8788_RAMP_8192us,
--	.pwm_pol    = PWM_POLARITY_NORMAL,
--};
--
--static inline bool is_brightness_ctrl_by_pwm(enum lp8788_bl_ctrl_mode mode)
--{
--	return mode == LP8788_BL_COMB_PWM_BASED;
--}
--
--static inline bool is_brightness_ctrl_by_register(enum lp8788_bl_ctrl_mode mode)
--{
--	return mode == LP8788_BL_REGISTER_ONLY ||
--		mode == LP8788_BL_COMB_REGISTER_BASED;
--}
--
- static int lp8788_backlight_configure(struct lp8788_bl *bl)
- {
--	struct lp8788_backlight_platform_data *pdata = bl->pdata;
--	struct lp8788_bl_config *cfg = &default_bl_config;
- 	int ret;
- 	u8 val;
- 
--	/*
--	 * Update chip configuration if platform data exists,
--	 * otherwise use the default settings.
--	 */
--	if (pdata) {
--		cfg->bl_mode    = pdata->bl_mode;
--		cfg->dim_mode   = pdata->dim_mode;
--		cfg->full_scale = pdata->full_scale;
--		cfg->rise_time  = pdata->rise_time;
--		cfg->fall_time  = pdata->fall_time;
--		cfg->pwm_pol    = pdata->pwm_pol;
--	}
--
- 	/* Brightness ramp up/down */
--	val = (cfg->rise_time << LP8788_BL_RAMP_RISE_SHIFT) | cfg->fall_time;
-+	val = (LP8788_RAMP_8192us << LP8788_BL_RAMP_RISE_SHIFT) | LP8788_RAMP_8192us;
- 	ret = lp8788_write_byte(bl->lp, LP8788_BL_RAMP, val);
- 	if (ret)
- 		return ret;
- 
- 	/* Fullscale current setting */
--	val = (cfg->full_scale << LP8788_BL_FULLSCALE_SHIFT) |
--		(cfg->dim_mode << LP8788_BL_DIM_MODE_SHIFT);
-+	val = (LP8788_FULLSCALE_1900uA << LP8788_BL_FULLSCALE_SHIFT) |
-+		(LP8788_DIM_EXPONENTIAL << LP8788_BL_DIM_MODE_SHIFT);
- 
- 	/* Brightness control mode */
--	switch (cfg->bl_mode) {
--	case LP8788_BL_REGISTER_ONLY:
--		val |= LP8788_BL_EN;
--		break;
--	case LP8788_BL_COMB_PWM_BASED:
--	case LP8788_BL_COMB_REGISTER_BASED:
--		val |= LP8788_BL_EN | LP8788_BL_PWM_INPUT_EN |
--			(cfg->pwm_pol << LP8788_BL_PWM_POLARITY_SHIFT);
--		break;
--	default:
--		dev_err(bl->lp->dev, "invalid mode: %d\n", cfg->bl_mode);
--		return -EINVAL;
--	}
--
--	bl->mode = cfg->bl_mode;
-+	val |= LP8788_BL_EN;
- 
- 	return lp8788_write_byte(bl->lp, LP8788_BL_CONFIG, val);
- }
- 
--static void lp8788_pwm_ctrl(struct lp8788_bl *bl, int br, int max_br)
--{
--	unsigned int period;
--	unsigned int duty;
--	struct device *dev;
--	struct pwm_device *pwm;
--
--	if (!bl->pdata)
--		return;
--
--	period = bl->pdata->period_ns;
--	duty = br * period / max_br;
--	dev = bl->lp->dev;
--
--	/* request PWM device with the consumer name */
--	if (!bl->pwm) {
--		pwm = devm_pwm_get(dev, LP8788_DEV_BACKLIGHT);
--		if (IS_ERR(pwm)) {
--			dev_err(dev, "can not get PWM device\n");
--			return;
--		}
--
--		bl->pwm = pwm;
--
--		/*
--		 * FIXME: pwm_apply_args() should be removed when switching to
--		 * the atomic PWM API.
--		 */
--		pwm_apply_args(pwm);
--	}
--
--	pwm_config(bl->pwm, duty, period);
--	if (duty)
--		pwm_enable(bl->pwm);
--	else
--		pwm_disable(bl->pwm);
--}
--
- static int lp8788_bl_update_status(struct backlight_device *bl_dev)
- {
- 	struct lp8788_bl *bl = bl_get_data(bl_dev);
--	enum lp8788_bl_ctrl_mode mode = bl->mode;
- 
- 	if (bl_dev->props.state & BL_CORE_SUSPENDED)
- 		bl_dev->props.brightness = 0;
- 
--	if (is_brightness_ctrl_by_pwm(mode)) {
--		int brt = bl_dev->props.brightness;
--		int max = bl_dev->props.max_brightness;
--
--		lp8788_pwm_ctrl(bl, brt, max);
--	} else if (is_brightness_ctrl_by_register(mode)) {
--		u8 brt = bl_dev->props.brightness;
--
--		lp8788_write_byte(bl->lp, LP8788_BL_BRIGHTNESS, brt);
--	}
-+	lp8788_write_byte(bl->lp, LP8788_BL_BRIGHTNESS, bl_dev->props.brightness);
- 
- 	return 0;
- }
-@@ -187,29 +77,15 @@ static int lp8788_backlight_register(struct lp8788_bl *bl)
- {
- 	struct backlight_device *bl_dev;
- 	struct backlight_properties props;
--	struct lp8788_backlight_platform_data *pdata = bl->pdata;
--	int init_brt;
--	char *name;
- 
- 	props.type = BACKLIGHT_PLATFORM;
- 	props.max_brightness = MAX_BRIGHTNESS;
- 
- 	/* Initial brightness */
--	if (pdata)
--		init_brt = min_t(int, pdata->initial_brightness,
--				props.max_brightness);
--	else
--		init_brt = 0;
--
--	props.brightness = init_brt;
-+	props.brightness = 0;
- 
- 	/* Backlight device name */
--	if (!pdata || !pdata->name)
--		name = DEFAULT_BL_NAME;
--	else
--		name = pdata->name;
--
--	bl_dev = backlight_device_register(name, bl->lp->dev, bl,
-+	bl_dev = backlight_device_register(DEFAULT_BL_NAME, bl->lp->dev, bl,
- 				       &lp8788_bl_ops, &props);
- 	if (IS_ERR(bl_dev))
- 		return PTR_ERR(bl_dev);
-@@ -229,16 +105,7 @@ static void lp8788_backlight_unregister(struct lp8788_bl *bl)
- static ssize_t lp8788_get_bl_ctl_mode(struct device *dev,
- 				     struct device_attribute *attr, char *buf)
- {
--	struct lp8788_bl *bl = dev_get_drvdata(dev);
--	enum lp8788_bl_ctrl_mode mode = bl->mode;
--	char *strmode;
--
--	if (is_brightness_ctrl_by_pwm(mode))
--		strmode = "PWM based";
--	else if (is_brightness_ctrl_by_register(mode))
--		strmode = "Register based";
--	else
--		strmode = "Invalid mode";
-+	const char *strmode = "Register based";
- 
- 	return scnprintf(buf, PAGE_SIZE, "%s\n", strmode);
- }
-@@ -265,8 +132,6 @@ static int lp8788_backlight_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	bl->lp = lp;
--	if (lp->pdata)
--		bl->pdata = lp->pdata->bl_pdata;
- 
- 	platform_set_drvdata(pdev, bl);
- 
-diff --git a/include/linux/mfd/lp8788.h b/include/linux/mfd/lp8788.h
-index 3d5c480d58ea..46d8fa779134 100644
---- a/include/linux/mfd/lp8788.h
-+++ b/include/linux/mfd/lp8788.h
-@@ -12,7 +12,6 @@
- 
- #include <linux/gpio.h>
- #include <linux/irqdomain.h>
--#include <linux/pwm.h>
- #include <linux/regmap.h>
- 
- #define LP8788_DEV_BUCK		"lp8788-buck"
-@@ -88,12 +87,6 @@ enum lp8788_charger_event {
- 	CHARGER_DETECTED,
- };
- 
--enum lp8788_bl_ctrl_mode {
--	LP8788_BL_REGISTER_ONLY,
--	LP8788_BL_COMB_PWM_BASED,	/* PWM + I2C, changed by PWM input */
--	LP8788_BL_COMB_REGISTER_BASED,	/* PWM + I2C, changed by I2C */
--};
--
- enum lp8788_bl_dim_mode {
- 	LP8788_DIM_EXPONENTIAL,
- 	LP8788_DIM_LINEAR,
-@@ -206,31 +199,6 @@ struct lp8788_charger_platform_data {
- 				enum lp8788_charger_event event);
- };
- 
--/*
-- * struct lp8788_backlight_platform_data
-- * @name                  : backlight driver name. (default: "lcd-backlight")
-- * @initial_brightness    : initial value of backlight brightness
-- * @bl_mode               : brightness control by pwm or lp8788 register
-- * @dim_mode              : dimming mode selection
-- * @full_scale            : full scale current setting
-- * @rise_time             : brightness ramp up step time
-- * @fall_time             : brightness ramp down step time
-- * @pwm_pol               : pwm polarity setting when bl_mode is pwm based
-- * @period_ns             : platform specific pwm period value. unit is nano.
--			    Only valid when bl_mode is LP8788_BL_COMB_PWM_BASED
-- */
--struct lp8788_backlight_platform_data {
--	char *name;
--	int initial_brightness;
--	enum lp8788_bl_ctrl_mode bl_mode;
--	enum lp8788_bl_dim_mode dim_mode;
--	enum lp8788_bl_full_scale_current full_scale;
--	enum lp8788_bl_ramp_step rise_time;
--	enum lp8788_bl_ramp_step fall_time;
--	enum pwm_polarity pwm_pol;
--	unsigned int period_ns;
--};
--
- /*
-  * struct lp8788_led_platform_data
-  * @name         : led driver name. (default: "keyboard-backlight")
-@@ -272,7 +240,6 @@ struct lp8788_vib_platform_data {
-  * @buck2_dvs    : gpio configurations for buck2 dvs
-  * @chg_pdata    : platform data for charger driver
-  * @alarm_sel    : rtc alarm selection (1 or 2)
-- * @bl_pdata     : configurable data for backlight driver
-  * @led_pdata    : configurable data for led driver
-  * @vib_pdata    : configurable data for vibrator driver
-  * @adc_pdata    : iio map data for adc driver
-@@ -294,9 +261,6 @@ struct lp8788_platform_data {
- 	/* rtc alarm */
- 	enum lp8788_alarm_sel alarm_sel;
- 
--	/* backlight */
--	struct lp8788_backlight_platform_data *bl_pdata;
--
- 	/* current sinks */
- 	struct lp8788_led_platform_data *led_pdata;
- 	struct lp8788_vib_platform_data *vib_pdata;
-
-base-commit: e8f897f4afef0031fe618a8e94127a0934896aba
--- 
-2.43.0
-
+> +
+> +	queue_work(qdev->bootlog_wq, &msg->work);
+> +}
+> +
+> +static const struct mhi_device_id qaic_bootlog_mhi_match_table[] = {
+> +	{ .chan = "QAIC_LOGGING", },
+> +	{},
+> +};
+> +
+> +static struct mhi_driver qaic_bootlog_mhi_driver = {
+> +	.id_table = qaic_bootlog_mhi_match_table,
+> +	.remove = qaic_bootlog_mhi_remove,
+> +	.probe = qaic_bootlog_mhi_probe,
+> +	.ul_xfer_cb = qaic_bootlog_mhi_ul_xfer_cb,
+> +	.dl_xfer_cb = qaic_bootlog_mhi_dl_xfer_cb,
+> +	.driver = {
+> +		.name = "qaic_bootlog",
+> +	},
+> +};
+> +
+> +int qaic_bootlog_register(void)
+> +{
+> +	return mhi_driver_register(&qaic_bootlog_mhi_driver);
+> +}
+> +
+> +void qaic_bootlog_unregister(void)
+> +{
+> +	mhi_driver_unregister(&qaic_bootlog_mhi_driver);
+> +}
+> diff --git a/drivers/accel/qaic/qaic_debugfs.h b/drivers/accel/qaic/qaic_debugfs.h
+> new file mode 100644
+> index 000000000000..ea3fd1a88405
+> --- /dev/null
+> +++ b/drivers/accel/qaic/qaic_debugfs.h
+> @@ -0,0 +1,20 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +
+> +/* Copyright (c) 2020, The Linux Foundation. All rights reserved. */
+> +/* Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved. */
+> +
+> +#ifndef __QAIC_DEBUGFS_H__
+> +#define __QAIC_DEBUGFS_H__
+> +
+> +#include <drm/drm_file.h>
+> +
+> +#ifdef CONFIG_DEBUG_FS
+> +int qaic_bootlog_register(void);
+> +void qaic_bootlog_unregister(void);
+> +void qaic_debugfs_init(struct qaic_drm_device *qddev);
+> +#else
+> +int qaic_bootlog_register(void) { return 0; }
+> +void qaic_bootlog_unregister(void) {}
+> +void qaic_debugfs_init(struct qaic_drm_device *qddev) {}
+> +#endif /* CONFIG_DEBUG_FS */
+> +#endif /* __QAIC_DEBUGFS_H__ */
+> diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
+> index d1a632dbaec6..f072edb74f22 100644
+> --- a/drivers/accel/qaic/qaic_drv.c
+> +++ b/drivers/accel/qaic/qaic_drv.c
+> @@ -28,6 +28,7 @@
+>  
+>  #include "mhi_controller.h"
+>  #include "qaic.h"
+> +#include "qaic_debugfs.h"
+>  #include "qaic_timesync.h"
+>  
+>  MODULE_IMPORT_NS(DMA_BUF);
+> @@ -229,8 +230,12 @@ static int qaic_create_drm_device(struct qaic_device *qdev, s32 partition_id)
+>  	qddev->partition_id = partition_id;
+>  
+>  	ret = drm_dev_register(drm, 0);
+> -	if (ret)
+> +	if (ret) {
+>  		pci_dbg(qdev->pdev, "drm_dev_register failed %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	qaic_debugfs_init(qddev);
+>  
+>  	return ret;
+>  }
+> @@ -380,6 +385,9 @@ static struct qaic_device *create_qdev(struct pci_dev *pdev, const struct pci_de
+>  	if (ret)
+>  		return NULL;
+>  	ret = drmm_mutex_init(drm, &qdev->cntl_mutex);
+> +	if (ret)
+> +		return NULL;
+> +	ret = drmm_mutex_init(drm, &qdev->bootlog_mutex);
+>  	if (ret)
+>  		return NULL;
+>  
+> @@ -399,6 +407,7 @@ static struct qaic_device *create_qdev(struct pci_dev *pdev, const struct pci_de
+>  	qddev->qdev = qdev;
+>  
+>  	INIT_LIST_HEAD(&qdev->cntl_xfer_list);
+> +	INIT_LIST_HEAD(&qdev->bootlog);
+>  	INIT_LIST_HEAD(&qddev->users);
+>  
+>  	for (i = 0; i < qdev->num_dbc; ++i) {
+> @@ -639,6 +648,10 @@ static int __init qaic_init(void)
+>  	if (ret)
+>  		pr_debug("qaic: qaic_timesync_init failed %d\n", ret);
+>  
+> +	ret = qaic_bootlog_register();
+> +	if (ret)
+> +		pr_debug("qaic: qaic_bootlog_register failed %d\n", ret);
+> +
+>  	return 0;
+>  
+>  free_pci:
+> @@ -664,6 +677,7 @@ static void __exit qaic_exit(void)
+>  	 * reinitializing the link_up state after the cleanup is done.
+>  	 */
+>  	link_up = true;
+> +	qaic_bootlog_unregister();
+>  	qaic_timesync_deinit();
+>  	mhi_driver_unregister(&qaic_mhi_driver);
+>  	pci_unregister_driver(&qaic_pci_driver);
