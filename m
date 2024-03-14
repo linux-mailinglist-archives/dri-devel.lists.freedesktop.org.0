@@ -2,50 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 375B187BB26
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 11:20:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C8CD87BB39
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 11:28:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 760C410EDC0;
-	Thu, 14 Mar 2024 10:20:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7600610FA2A;
+	Thu, 14 Mar 2024 10:28:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aGd6GxVu";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mnIvgLPJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 809AB10FA35
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 10:20:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9A77061616;
- Thu, 14 Mar 2024 10:20:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8974BC433F1;
- Thu, 14 Mar 2024 10:20:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1710411640;
- bh=ngB6lPw5E5YduqZY9oFh10xcMS09OfDy2k7K4Z+l75I=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aGd6GxVugJMP71VjabhDcHE4Sa68HXsLA3xQe5Uy9CBAJ/OGNgezLljw1E0kxjO11
- 1i/anEQCKL2CVaoxNtQAz1tUyNQ20ZdsGlyKspkkmUFojfZ4OFKOZEH/MLz16Kj4J4
- dlhuOL/zxQBeh7Y+H6xqK0v8GDdgr780JPmciPgq4iDc4UhMLVTB3tiOCSwVn8CXmN
- RZdgmVi7oIhcBAZzLfeB6xDsT1wuMK1s/7yTA4gxECoE00jxW4Yc/Lj6WYJ8tYUG7u
- ZqKnnP2zn3g9HFdN5mnhDYOF+I7e9HNFjfrTFH0VXuS5Y6cBSq2lT1IbXVEjda9vS9
- bxeH905BBub1g==
-Date: Thu, 14 Mar 2024 10:20:35 +0000
-From: Lee Jones <lee@kernel.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- kernel@pengutronix.de, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] backlight: lp8788: Drop support for platform data
-Message-ID: <20240314102035.GI1522089@google.com>
-References: <20240313124828.861731-2-u.kleine-koenig@pengutronix.de>
- <7nvqboywxhviyuzkiesy4qfqybxx7vc5sw2seluc3dwnhk3q5h@hlzwxhnm2q6r>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F43C10FA2A
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 10:28:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1710412086; x=1741948086;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=3AdoF7PXMMauR/QLjhj/rHqOnywAffnOLLq68/SM3B0=;
+ b=mnIvgLPJV+zhEmWst8jDhrxDDJX2meNtxfEVqsOhl3pGEtQqE3nOSgM9
+ iTeovITun/DZHEt0osEEIpVGJfO+U/Psw+KZ6X+3FdtSIuq7pSDaFglwn
+ VHH5yz6fyU8Y0uyPFx4sCP+XHOnscIrhTKMxFQcpWg+Jk5MooLoSMMYHA
+ MVXKn7WiVMKnO7D2D4ebSmfFoaDFW5pXjYxIfjkXsJ1xWANcEHxpoYCDh
+ /Z6RgfaFsI/QSNI2AWMFxAehsR5Eah6XpSp+iKg1Zp5HH/P32zFBBi5yU
+ Y+iapoJf7xsTBBvKD3XjdX6ALkMCyLhSIXg/FQCvwUDE0LVxanAr7Kui1 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5079857"
+X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
+   d="scan'208";a="5079857"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Mar 2024 03:28:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; d="scan'208";a="12177178"
+Received: from rboza-mobl.ger.corp.intel.com (HELO localhost) ([10.252.53.139])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Mar 2024 03:28:03 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-m68k@lists.linux-m68k.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH] m68k: pgtable: Add missing #include <asm/page.h>
+In-Reply-To: <8734t2xsde.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <ba359be013f379ff10f3afcea13e2f78dd9717be.1709804021.git.geert@linux-m68k.org>
+ <8734t2xsde.fsf@intel.com>
+Date: Thu, 14 Mar 2024 12:28:00 +0200
+Message-ID: <87ttl9qf9r.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7nvqboywxhviyuzkiesy4qfqybxx7vc5sw2seluc3dwnhk3q5h@hlzwxhnm2q6r>
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,50 +67,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 13 Mar 2024, Uwe Kleine-König wrote:
+On Thu, 07 Mar 2024, Jani Nikula <jani.nikula@intel.com> wrote:
+> On Thu, 07 Mar 2024, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>> When just including <linux/pgtable.h>:
+>>
+>>     include/asm-generic/pgtable-nop4d.h:9:18: error: unknown type name =
+=E2=80=98pgd_t=E2=80=99
+>> 	9 | typedef struct { pgd_t pgd; } p4d_t;
+>> 	  |                  ^~~~~
+>>
+>> Make <asm/pgtable.h> self-contained by including <asm/page.h>.
+>>
+>> Reported-by: Jani Nikula <jani.nikula@intel.com>
+>> Closes: https://lore.kernel.org/r/878r2uxwha.fsf@intel.com
+>> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+>> ---
+>> Jani: Feel free to pick this up as a dependency.
+>> Else I will queue this in the m68k tree for v6.10.
+>
+> Thanks, I'd like to pick this up as a dependency, so I can proceed with
+> my series. It'll also be queued for v6.10 via the drm subsystem.
 
-> Hello,
-> 
-> On Wed, Mar 13, 2024 at 01:48:27PM +0100, Uwe Kleine-König wrote:
-> > diff --git a/drivers/video/backlight/lp8788_bl.c b/drivers/video/backlight/lp8788_bl.c
-> > index 31f97230ee50..f3a89677c31c 100644
-> > --- a/drivers/video/backlight/lp8788_bl.c
-> > +++ b/drivers/video/backlight/lp8788_bl.c
-> > @@ -12,7 +12,6 @@
-> >  #include <linux/mfd/lp8788.h>
-> >  #include <linux/module.h>
-> >  #include <linux/platform_device.h>
-> > -#include <linux/pwm.h>
-> >  #include <linux/slab.h>
-> >  
-> >  /* Register address */
-> > @@ -31,149 +30,41 @@
-> >  #define MAX_BRIGHTNESS			127
-> >  #define DEFAULT_BL_NAME			"lcd-backlight"
-> >  
-> > -struct lp8788_bl_config {
-> > -	enum lp8788_bl_ctrl_mode bl_mode;
-> > -	enum lp8788_bl_dim_mode dim_mode;
-> > -	enum lp8788_bl_full_scale_current full_scale;
-> > -	enum lp8788_bl_ramp_step rise_time;
-> > -	enum lp8788_bl_ramp_step fall_time;
-> > -	enum pwm_polarity pwm_pol;
-> > -};
-> > -
-> >  struct lp8788_bl {
-> >  	struct lp8788 *lp;
-> >  	struct backlight_device *bl_dev;
-> > -	struct lp8788_backlight_platform_data *pdata;
-> > -	enum lp8788_bl_ctrl_mode mode;
-> >  	struct pwm_device *pwm;
-> 
-> Actually this pwm_device member should be dropped, too. I wonder why
-> this even passes a W=1 build without a warning ...
-> 
-> @Lee: Feel free to fix this up while applying, or tell me if you prefer
-> an incremental fixup or a complete v2.
+Replying here too, I've merged this via drm-misc-next as d1815393cac0
+("m68k: pgtable: Add missing #include <asm/page.h>").
 
-Either of the last 2 options would be fine.
+Thanks for the patch!
 
--- 
-Lee Jones [李琼斯]
+BR,
+Jani.
+
+
+--=20
+Jani Nikula, Intel
