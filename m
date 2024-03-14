@@ -2,86 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 363C487C02A
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 16:29:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 627B387C024
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 16:29:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 544E410EEA6;
-	Thu, 14 Mar 2024 15:29:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41C9C10FBBC;
+	Thu, 14 Mar 2024 15:29:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="j1xM3MVu";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="krlISYHb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com
- [209.85.219.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37E2510E995
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 15:29:34 +0000 (UTC)
-Received: by mail-qv1-f54.google.com with SMTP id
- 6a1803df08f44-690bd329df2so7522636d6.2
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 08:29:34 -0700 (PDT)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
+ [209.85.215.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95B3A10EEA6
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 15:29:25 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id
+ 41be03b00d2f7-5c229dabbb6so704275a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 08:29:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1710430171; x=1711034971;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tuhQc5l9apEej2H4LOTY9yaoxPUBJy/wLmmpg/Pkruk=;
- b=j1xM3MVup0J/mS1dIYCQ8JpKmOo92XsbhDyEaRH4RigNTgX8zzx4PkzeSvLi8jBRR9
- 5PqpTmTDe68D/ng3vBQOR0OJQW6ag5HQA7frcXaiOTRwQ7gEaEtfeaoRIuRFJidDl20a
- mBD7Pc6wNdIurlESu1g9pWPemqDhrpdfCbq1o=
+ d=gmail.com; s=20230601; t=1710430165; x=1711034965; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=LY7692bTyayLkoksNBH6BmxzoRrgRDh0JILFH+Hu4mE=;
+ b=krlISYHb9SVADkNS7KZU3C9NR1BI70WQDIqS/xSM3SpbRHPgvdK+d7zi1vFmqUMqs7
+ EqUGPz//lsi2nOZUP1uyLEEDRkP3fXNiwzACO9IjY+U5OJBZdqU1lGoW8J+mnvKavhuv
+ PTSHuyIK0IUDYUvbxvRMY+PiT5t1jUAuCtKFjD2K9fjbFMWX1ZBDDtut0y/6Yb8Oh70F
+ BZiO5HzCXKxuodM15StBUMZNCl2Vev/3I+K9T1h/nUAu+b9ZjFXQDDGhEXf2X5bMvk5Y
+ +MuQUxUY1l9qcL1K9jKLVD6xVlL2OVscl6srn3yDd276KNLhOCFxCDtz56Hml2HzaGWx
+ x1tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710430171; x=1711034971;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tuhQc5l9apEej2H4LOTY9yaoxPUBJy/wLmmpg/Pkruk=;
- b=sqs3F6fTFfUVRcs2W7SrXRT5DtzV/lgXY8N1uRtwH6e8GRDQM0X/SYfyURA84eCLz8
- 5+k3Ielbf2ilJ085R0cMxm/zh3wLn+P/NVjNVHxRWiEb5OgxN+PYWFJ/vH4MOya38DpU
- C3VBS9NC8IT0cSh9yvVGAxUC0uRWVBcaRXWo4C1XDHiV/qIGS/lzfFtiyV0NImLjTjfj
- 2+7Ys4Bevp9rvFLU/UAipaOVEZLMKbPCTGQGtwZtLrbB22oXHa6ltKnMs+O1sl0+UeWy
- 7acVw2J4A/XLJmIGtXGZ8HC3jdTABncM+rt0sDz1Z7KVzmNo2FhFTCy+1u3OBH+ykk2V
- KsFA==
+ d=1e100.net; s=20230601; t=1710430165; x=1711034965;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LY7692bTyayLkoksNBH6BmxzoRrgRDh0JILFH+Hu4mE=;
+ b=AIWbGumAspWJGGESZOA+CsaHgRqtO85Uex4qHvKEmq8RHHOOd44i3KDNPetyO0rduJ
+ Qlhttz76+coEWonFboIJsXud89lfG/zo/eRAIYnAJet51E3ni1tnfpeawioSb+joO1+G
+ QaJlT4Vh30Pl+Xv9wAB6GYON1J4hIrZ5FTsz7wWGk63LH4h5S84JVC1hy6S/bH2EDUCS
+ /wkpe/zBEhvWB7z8qRwOpxhTr03jLrQ7wFed8KXoiXEYP9qgTRkPhH30kDiyp4oLsqRQ
+ UBZMKRMKhIoEiPyhQ3zt3Mf6sTuNjClJd1KywXaosylG24XEGGxBOQZ9Exm97ld57Q74
+ OtVQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUU/+raEyfSl+yoM+Rc4iYoPXEthgmTK1cZoyyaRmUfE4ITf1iPTzLgCYv6C9yUIXdQJ5wUa+VN2IY1CBS1MjOzsNQ5FGBV+M8c5IasGs8/
-X-Gm-Message-State: AOJu0YzwF3pYOVdfN95DowyydnDjLrZ7GRio5r78vtRLmTM6eTxGdAks
- XGNblbvGdQVpyhHpaHO3I0bSINq9O1xKyxd+KIpTBdCZsTgWy9P7g1HjqQpsM5XpJVxLn3Oq0Iw
- 8CA==
-X-Google-Smtp-Source: AGHT+IFLxUQby2Ufqh6F5otJi/vPkj/TiEv0bBcalyCQ4crn86KS5Qx/gM36kM3Nejhf6X/jCur//g==
-X-Received: by 2002:a0c:e608:0:b0:691:1fcc:e26d with SMTP id
- z8-20020a0ce608000000b006911fcce26dmr2299555qvm.31.1710430170926; 
- Thu, 14 Mar 2024 08:29:30 -0700 (PDT)
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com.
- [209.85.160.173]) by smtp.gmail.com with ESMTPSA id
- jm14-20020ad45ece000000b00690c5cc0ff6sm577683qvb.124.2024.03.14.08.29.29
- for <dri-devel@lists.freedesktop.org>
+ AJvYcCUnrbJLSNkQT2TDCChWcVSdylcmzsu4gKopV9/DQvIoNXEL4aNAyMe6EjnWn7RlaIVjR04aipmNrvhHALi2wBho+H2qW3civcYL5kAB4yu4
+X-Gm-Message-State: AOJu0YxPi115MC9zSQV5Mpm+xT0yWsboGeaftrR36B8AoxnGGwl+EHbP
+ IJb0LuAsX9wfWTXri+YxwsvmTmq/g5Ce2aG7tB5PB5IyFUcdjggZ
+X-Google-Smtp-Source: AGHT+IEWwlqh10aaLXnz79mTPQ/n+RJWvWMKiaSxEVVrgfvkkAPUMESJkl3thWtTXScKP4Egfyd75w==
+X-Received: by 2002:a17:903:1cf:b0:1dd:afa1:3094 with SMTP id
+ e15-20020a17090301cf00b001ddafa13094mr2404810plh.36.1710430164855; 
+ Thu, 14 Mar 2024 08:29:24 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ k18-20020a170902f29200b001dee5da5f3dsm425201plc.100.2024.03.14.08.29.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Mar 2024 08:29:30 -0700 (PDT)
-Received: by mail-qt1-f173.google.com with SMTP id
- d75a77b69052e-43095dcbee6so324211cf.0
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 08:29:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWSlMrviTwY8GEby8vMQOb+rBQsRtHg1TmSgKiz3cyFIkLmHrgnNLLyvYGpt0gKN8W1+YACj2vFQ0ZUwYc//LZBECbzn5O6I6ENcBQ5Ui8/
-X-Received: by 2002:ac8:474e:0:b0:430:90af:43c3 with SMTP id
- k14-20020ac8474e000000b0043090af43c3mr272846qtp.21.1710430169466; Thu, 14 Mar
- 2024 08:29:29 -0700 (PDT)
+ Thu, 14 Mar 2024 08:29:24 -0700 (PDT)
+Message-ID: <3f43bbdf-7ad2-4ca8-ba06-e32876cc8e53@roeck-us.net>
+Date: Thu, 14 Mar 2024 08:29:22 -0700
 MIME-Version: 1.0
-References: <20240307093727.1978126-1-colin.i.king@gmail.com>
-In-Reply-To: <20240307093727.1978126-1-colin.i.king@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 14 Mar 2024 08:29:12 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XQ5XBT4Jt6VUgVqxsn7NQZjDCTRFOFk5Fr+Fxkpv55SQ@mail.gmail.com>
-Message-ID: <CAD=FV=XQ5XBT4Jt6VUgVqxsn7NQZjDCTRFOFk5Fr+Fxkpv55SQ@mail.gmail.com>
-Subject: Re: [PATCH][next] drm/msm: remove unused variable 'out'
-To: Colin Ian King <colin.i.king@gmail.com>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/14] Add support for suppressing warning backtraces
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
+ Arnd Bergmann <arnd@arndb.de>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, Dan Carpenter <dan.carpenter@linaro.org>,
+ Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>,
+ David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+ linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, loongarch@lists.linux.dev, netdev@lists.linux.dev
+References: <20240312170309.2546362-1-linux@roeck-us.net>
+ <CAMuHMdUkvagJVEfnhq=Nx2jnmdS0Ax+zy1CvyN0k7k1EwUpu+g@mail.gmail.com>
+ <6d9269c0-bd38-4965-a454-4358e0a182e3@roeck-us.net>
+ <20240314-victorious-chupacabra-of-management-baa5c4@houat>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20240314-victorious-chupacabra-of-management-baa5c4@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,22 +149,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 3/14/24 08:02, Maxime Ripard wrote:
+> On Thu, Mar 14, 2024 at 07:37:13AM -0700, Guenter Roeck wrote:
+>> On 3/14/24 06:36, Geert Uytterhoeven wrote:
+>>> Hi Günter,
+>>>
+>>> On Tue, Mar 12, 2024 at 6:03 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>>>> Some unit tests intentionally trigger warning backtraces by passing bad
+>>>> parameters to kernel API functions. Such unit tests typically check the
+>>>> return value from such calls, not the existence of the warning backtrace.
+>>>>
+>>>> Such intentionally generated warning backtraces are neither desirable
+>>>> nor useful for a number of reasons.
+>>>> - They can result in overlooked real problems.
+>>>> - A warning that suddenly starts to show up in unit tests needs to be
+>>>>     investigated and has to be marked to be ignored, for example by
+>>>>     adjusting filter scripts. Such filters are ad-hoc because there is
+>>>>     no real standard format for warnings. On top of that, such filter
+>>>>     scripts would require constant maintenance.
+>>>>
+>>>> One option to address problem would be to add messages such as "expected
+>>>> warning backtraces start / end here" to the kernel log.  However, that
+>>>> would again require filter scripts, it might result in missing real
+>>>> problematic warning backtraces triggered while the test is running, and
+>>>> the irrelevant backtrace(s) would still clog the kernel log.
+>>>>
+>>>> Solve the problem by providing a means to identify and suppress specific
+>>>> warning backtraces while executing test code. Support suppressing multiple
+>>>> backtraces while at the same time limiting changes to generic code to the
+>>>> absolute minimum. Architecture specific changes are kept at minimum by
+>>>> retaining function names only if both CONFIG_DEBUG_BUGVERBOSE and
+>>>> CONFIG_KUNIT are enabled.
+>>>>
+>>>> The first patch of the series introduces the necessary infrastructure.
+>>>> The second patch introduces support for counting suppressed backtraces.
+>>>> This capability is used in patch three to implement unit tests.
+>>>> Patch four documents the new API.
+>>>> The next two patches add support for suppressing backtraces in drm_rect
+>>>> and dev_addr_lists unit tests. These patches are intended to serve as
+>>>> examples for the use of the functionality introduced with this series.
+>>>> The remaining patches implement the necessary changes for all
+>>>> architectures with GENERIC_BUG support.
+>>>
+>>> Thanks for your series!
+>>>
+>>> I gave it a try on m68k, just running backtrace-suppression-test,
+>>> and that seems to work fine.
+>>>
+>>>> Design note:
+>>>>     Function pointers are only added to the __bug_table section if both
+>>>>     CONFIG_KUNIT and CONFIG_DEBUG_BUGVERBOSE are enabled to avoid image
+>>>>     size increases if CONFIG_KUNIT=n. There would be some benefits to
+>>>>     adding those pointers all the time (reduced complexity, ability to
+>>>>     display function names in BUG/WARNING messages). That change, if
+>>>>     desired, can be made later.
+>>>
+>>> Unfortunately this also increases kernel size in the CONFIG_KUNIT=m
+>>> case (ca. 80 KiB for atari_defconfig), making it less attractive to have
+>>> kunit and all tests enabled as modules in my standard kernel.
+>>>
+>>
+>> Good point. Indeed, it does. I wanted to avoid adding a configuration option,
+>> but maybe I should add it after all. How about something like this ?
+>>
+>> +config KUNIT_SUPPRESS_BACKTRACE
+>> +       bool "KUnit - Enable backtrace suppression"
+>> +       default y
+>> +       help
+>> +         Enable backtrace suppression for KUnit. If enabled, backtraces
+>> +         generated intentionally by KUnit tests can be suppressed. Disable
+>> +         to reduce kernel image size if image size is more important than
+>> +         suppression of backtraces generated by KUnit tests.
+>> +
+> 
+> How are tests using that API supposed to handle it then?
+> 
+> Select the config option or put an ifdef?
+> 
+> If the former, we end up in the same situation than without the symbol.
+> If the latter, we end up in a similar situation than disabling KUNIT
+> entirely, with some tests not being run which is just terrible.
+> 
 
-On Thu, Mar 7, 2024 at 1:37=E2=80=AFAM Colin Ian King <colin.i.king@gmail.c=
-om> wrote:
->
-> The variable out is being initialized and incremented but it is never
-> actually referenced in any other way. The variable is redundant and can
-> be removed.
->
-> Cleans up clang scan build warning:
-> drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:843:6: warning: variable
-> 'out' set but not used [-Wunused-but-set-variable]
->
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 3 ---
->  1 file changed, 3 deletions(-)
+The API definitions are themselves within #ifdef and dummies if
+KUNIT_SUPPRESS_BACKTRACE (currently CONFIG_KUNIT) is disabled.
+In include/kunit/bug.h:
 
-Tested-by: Douglas Anderson <dianders@chromium.org>
+#ifdef CONFIG_KUNIT_SUPPRESS_BACKTRACE
+...
+#else
+#define DEFINE_SUPPRESSED_WARNING(func)
+#define START_SUPPRESSED_WARNING(func)
+#define END_SUPPRESSED_WARNING(func)
+#define IS_SUPPRESSED_WARNING(func) (false)
+#define SUPPRESSED_WARNING_COUNT(func) (0)
+#endif
+
+Only difference to the current patch series would be
+
+- #if IS_ENABLED(CONFIG_KUNIT)
++ #ifdef CONFIG_KUNIT_SUPPRESS_BACKTRACE
+
+in that file and elsewhere.
+
+With KUNIT_SUPPRESS_BACKTRACE=n you'd still get warning backtraces
+triggered by the tests, but the number of tests executed as well
+as the test results would still be the same.
+
+Thanks,
+Guenter
+
