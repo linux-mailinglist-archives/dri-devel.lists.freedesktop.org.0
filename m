@@ -2,47 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6833A87BB08
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 11:12:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E43E87BB24
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 11:20:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55BDD10E213;
-	Thu, 14 Mar 2024 10:12:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEA6410EA23;
+	Thu, 14 Mar 2024 10:20:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="V7wtY5KK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o3jZCmdL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA76510E213
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 10:12:51 +0000 (UTC)
-Received: from ideasonboard.com (unknown
- [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B0717675;
- Thu, 14 Mar 2024 11:12:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1710411146;
- bh=+eHS2rKe70PuRbJnY07cW0cCXhsjiiln12b2PllfoTw=;
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 423B010F48E
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 10:20:15 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id A55EDCE1BD8;
+ Thu, 14 Mar 2024 10:20:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FC75C43390;
+ Thu, 14 Mar 2024 10:20:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1710411611;
+ bh=fBCom8ToeEHNjaY4G4ZUw7DCMQHUdPGYRbplhPNNJdQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=V7wtY5KKxQVqSfRbMjruIj5J3JdBR5ze9p68w893V1XtIFHHk+AFCPAgA9S4bssEB
- ZtgO/S0ValK3U4qT4S/YYLDnfeV+m+yv2Tt5kdabm68Cn2eqbE3OXLkaKFdQxo1No+
- WX4tsRhOUn3Femw2OCj7Y+Xp2nSIuonqQy7sZmQQ=
-Date: Thu, 14 Mar 2024 11:12:47 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+ b=o3jZCmdLz0MJiL87yzSPhpH3N4OXRQqpvwtPd9bkpdzIDFbwCYwOz7qazVlamnJc+
+ yvfyj1dV9jdCcGaa2v0awM+1BjEKjxj+wLxT4gc2PjRVxJVRJ2f2SUEQnSaVVtD6ps
+ c7/z+xyjToqTsVWsBsqt5zPkNgHAqmjUWZ6vqQsRMMCxOspwhO5GsymU7RWvFTgDFb
+ +aKvRsiZ5872SfRhsZIjc0oDC+e4aSn9vHs4bjYD/7+dk6ud9Ep/fhZRaWli1V9aDz
+ 81OaQ/Nr0WnKXIoVwRK5UblC1CBe4vnqSUFOFHn3q74ZlTmbO7ddwNbnS3LvfUNtsG
+ EMbWa8/KuHd9g==
+Date: Thu, 14 Mar 2024 11:20:09 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Sebastian Wick <sebastian.wick@redhat.com>
 Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Naushir Patuck <naush@raspberrypi.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- libcamera-devel@lists.libcamera.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 0/2] drm/fourcc.h: Add libcamera to Open Source Waiver
-Message-ID: <7frycd5jnd674cily3xz3p2yl2bjc2yrn3z6sw3dzqdpl4widp@hrgyml6b7vh5>
-References: <20240228102245.80469-1-jacopo.mondi@ideasonboard.com>
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm: Document requirements for driver-specific KMS
+ props in new drivers
+Message-ID: <20240314-portable-pragmatic-weasel-7dd91e@houat>
+References: <20240311155904.323488-1-sebastian.wick@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="w57l5nqlkliw3m2d"
 Content-Disposition: inline
-In-Reply-To: <20240228102245.80469-1-jacopo.mondi@ideasonboard.com>
+In-Reply-To: <20240311155904.323488-1-sebastian.wick@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,31 +62,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello
 
-gentle nudge for
+--w57l5nqlkliw3m2d
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-*) libcamera: are we ok being listed here ?
-*) DRM/KMS: is it ok splitting the list of projects in the way I've
-   done ?
+On Mon, Mar 11, 2024 at 04:58:58PM +0100, Sebastian Wick wrote:
+> When extending support for a driver-specific KMS property to additional
+> drivers, we should apply all the requirements for new properties and
+> make sure the semantics are the same and documented.
+>=20
+> v2: devs of the driver which introduced property shall help and ack
+>=20
+> Signed-off-by: Sebastian Wick <sebastian.wick@redhat.com>
 
-Thanks
-   j
+Acked-by: Maxime Ripard <mripard@kernel.org>
 
-On Wed, Feb 28, 2024 at 11:22:42AM +0100, Jacopo Mondi wrote:
-> As suggested by Sima, add libcamera to the list of projects to which the
-> Open Source Waiver notice applies.
->
-> To maintain the paragraph readable, make a list out of the projects to which
-> such notice applies.
->
-> Jacopo Mondi (2):
->   drm/fourcc.h: List of Open Source Waiver projects
->   drm/fourcc.h: Add libcamera to Open Source Waiver
->
->  include/uapi/drm/drm_fourcc.h | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
->
-> --
-> 2.43.2
->
+We probably want to have Dave or Sima ack on that one too
+
+Maxime
+
+--w57l5nqlkliw3m2d
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZfLPWAAKCRDj7w1vZxhR
+xfghAQC7OSZf7yywB2sm09qtEq9WVbV1okCQlxILrOaq2QR50AEAmpIZIpqTPGyg
+bxCHCG25dSkSR8Z7mCnUI41Wkl38DQg=
+=SJRy
+-----END PGP SIGNATURE-----
+
+--w57l5nqlkliw3m2d--
