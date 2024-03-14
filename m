@@ -2,77 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D72B487B59E
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 01:02:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F28D487B5B0
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 01:04:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A996410F079;
-	Thu, 14 Mar 2024 00:02:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE6CF10E54C;
+	Thu, 14 Mar 2024 00:04:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="eLig0BNf";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BjqVXXFM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69B5B10E432
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 00:02:31 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-513b1e1724bso458473e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 17:02:31 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
+ [209.85.128.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E78410E68F
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 00:04:50 +0000 (UTC)
+Received: by mail-yw1-f170.google.com with SMTP id
+ 00721157ae682-60a0599f631so3786227b3.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 17:04:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1710374549; x=1710979349; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PAS0pluJVyXsp6jVYhZTGdSQ3udV3IrTqeal2WShYuU=;
- b=eLig0BNfPlO7U36ESS2NzbaZ+nm1FDAOujTApnP555CYqholE+gdSEZkfRTMAQDqK+
- cF3cAKvz18H3WVGIFOa0kyrc1jDN5whzkX9i0z/hwoDRMNUqep1jha7LKkamuckYTM7w
- GBHl01GFpjfW6BrRU2yGVcARa1ZxDKKq6I95uIQ/g5Oa9Dv9vLgOGZMU3ctq9/MUD1hd
- vV4aDYPeypqu7VqgNTh8JT6ImgArwQ3d4Wnrco+94oCHAyu9aWZ19KHkXU9WtgaPvkSk
- geaC3SkJBhIOVC/sQW2E+kqtuv61L2BlzgPHfNr/n96zn4VvZ6yJXpY4XJXiluHSiemS
- b+tw==
+ d=linaro.org; s=google; t=1710374689; x=1710979489; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=rYpa9v/Uvcp+vP4bhmnZATlh/YoneUhRNbvkfQ+Gd6c=;
+ b=BjqVXXFMM8ULHj68pvh4C8q9HVh444+9fONdaUfuRzOrR1VmgRv5wn5fs5rMdPOoGs
+ 21M4iMjtm3qNp6KLJoZ410n0PXQuftQKdY5frvWfna3S38I0xc9VCXW2AU6T2vLsEGcz
+ q+ZJwzh5G2mzY/M8TmtqKwpbNh0LYe0zi4PjJQKPN/KnfbHhbLv2nvgrn3ZZxo4IJSoX
+ D/T2q5+pa6rBgJC2X7DFODyqMZWIRCujy67CODTyBi5YNey/LbPvnO440hjolyIDihCg
+ e8+cD6pjp4ha7oXGFIiJNtTTX+eszIjAJnDUVaj2nhxxFxxVmEp0t4P59TDBevjeVW+y
+ 6/ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710374549; x=1710979349;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PAS0pluJVyXsp6jVYhZTGdSQ3udV3IrTqeal2WShYuU=;
- b=TWN13PXN85QhlJzd1wyeINCRZomrs0B4sk61pqkfcA0FzrAes0lH2CU2NWl13XsULe
- qQ3Rbh9qSOE0r0U4tUZ5WkVyMvVXU+zpsH6VBYS5VbTHBAhcYaTrYCu/NS2cjLLr3A+U
- xwaEanrmq/47K/qM2q/XyUDHyoYgxUndrE1rvW6XLwQ1fkom+94FK+s4kcAxzDAfBOfB
- Kq09TI1gfmCD/O1XMzZuC59Edsoe12m5Agi2JS93GdoGDbl9zQDVCsVrCcwtLIQLwNXP
- zC29b0M1jR/qvl5wl5g8IjnPkHyklkUZYB2uf49ErmOVaoESW8JAzuBWy4Wk90aJYXJF
- WoBA==
+ d=1e100.net; s=20230601; t=1710374689; x=1710979489;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rYpa9v/Uvcp+vP4bhmnZATlh/YoneUhRNbvkfQ+Gd6c=;
+ b=N0XIzZnD3aAe6UiX6Tt8m75P2zL1+HKXKu0mjV8wj4KRD7DnpbTAvRt7MnFuqk46WH
+ M7n0XwXfivRVKcKjQkXO2s+bDBgapzC1h8u5LeNqLArV2xAqvCecdLO92QsbRzFJUHi2
+ RrMMGTmTaqpD+ylz8+yoLwSbmBEkWAFGpNSGanTxB4dQTNU42yOwzkVDXpWVPdwBv0FW
+ +N8Ot6+xxci4WcGfgqYs8Nqp22/YCQAanpFkAUEEPktrFij8Gju6FQTzlk5NVccqXcu9
+ 5L1Nf+3LlnhTbeN6lP7ghy0Gh6Li6UQN7qkAX1d1pQ9ukS/s1+fvMCeFeqU6rt/YFAYo
+ 0n7w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXek8rsS+nRGGDiQB2igMXlBuraczyodeYvEDdqEWitBJWuEdlRAzLAwQHu6Lx6OGjBtsduY2tKTrZMkH8+jK8Gd1lsm1OsbzJ1T3iUep+I
-X-Gm-Message-State: AOJu0Yw6h8rXJbphr9ZxQBEj3J4/aCSNZAKF3WwOISjNqBha4SebM3Fr
- GIsq6yk6v48jXW22cpleJIRCf+EiKIwEqZ2SCLX4vewifuvxr0+qFIEMPp7vx44=
-X-Google-Smtp-Source: AGHT+IEdie8MACkhAj7NV2jIC3MvktUrsBN4mHTmfGXCaNUNwtX842uUnkuTTJA+Vg3GTr7xjJ8Yfg==
-X-Received: by 2002:a19:9109:0:b0:513:cdde:2f6 with SMTP id
- t9-20020a199109000000b00513cdde02f6mr308457lfd.32.1710374549755; 
- Wed, 13 Mar 2024 17:02:29 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- x5-20020a19e005000000b00513360ebd22sm46111lfg.118.2024.03.13.17.02.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Mar 2024 17:02:29 -0700 (PDT)
+ AJvYcCX2l5yA+4YW7Mg/MeVW1ygO2XZVc4U7Si+5YqLJsJMmCTbhEpvYL2gktcbCpFXSTd4eYYF7eU53cCqUlZSyZBP+fXXVQ3cPGklLOBPwC1NA
+X-Gm-Message-State: AOJu0Yxri56kkwCXu7gmw/keXaVpeY6X8Kki485CwV60UsCDmp5I92n3
+ Ee/35vY2vDnII0lbC2J+1taoTCk/53iWYzCzDYl7IP/wMa6L7LejEMA5uJuqE2xFNnwpCV5PV6b
+ /NbL9kM4gLaVmzYKvOLhgiOjxAaTIW5ZCby6lwQ==
+X-Google-Smtp-Source: AGHT+IFgh160t5mc/VHtCKkq3crL5g/DfQmXNTqe7xSm5+kcqpj76uD36nWOSG4DWnAY5RxZbDwsXSC49FuQsA3G5EM=
+X-Received: by 2002:a0d:d90e:0:b0:60c:753e:1e0 with SMTP id
+ b14-20020a0dd90e000000b0060c753e01e0mr193025ywe.3.1710374689266; Wed, 13 Mar
+ 2024 17:04:49 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240314000216.392549-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20240314000216.392549-1-dmitry.baryshkov@linaro.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+Date: Thu, 14 Mar 2024 02:04:37 +0200
+Message-ID: <CAA8EJppoBY7Unq+LmPbQAvipU+HnJ0EmUkQdRBrp0=LezBAXvA@mail.gmail.com>
+Subject: Re: [PATCH v4 00/13] drm/msm/dpu: support virtual wide planes
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Cc: Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
+Cc: Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>, 
  Daniel Vetter <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: [PATCH v4 13/13] drm/msm/dpu: include SSPP allocation state into the
- dumped state
-Date: Thu, 14 Mar 2024 02:02:16 +0200
-Message-Id: <20240314000216.392549-14-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240314000216.392549-1-dmitry.baryshkov@linaro.org>
-References: <20240314000216.392549-1-dmitry.baryshkov@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,29 +81,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make dpu_rm_print_state() also output the SSPP allocation state.
+On Thu, 14 Mar 2024 at 02:02, Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> As promised in the basic wide planes support ([1]) here comes a series
+> supporting 2*max_linewidth for all the planes.
+>
+> Note: Unlike v1 and v2 this series finally includes support for
+> additional planes - having more planes than the number of SSPP blocks.
+>
+> Note: this iteration features handling of rotation and reflection of the
+> wide plane. However rot90 is still not tested: it is enabled on sc7280
+> and it only supports UBWC (tiled) framebuffers, it was quite low on my
+> priority list.
+>
+> [1] https://patchwork.freedesktop.org/series/99909/
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Forgot to mention dependencies, https://patchwork.freedesktop.org/series/130086/
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-index 7264a4d44a14..7997df340f72 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-@@ -890,4 +890,11 @@ void dpu_rm_print_state(struct drm_printer *p,
- 	dpu_rm_print_state_helper(p, rm->cdm_blk,
- 				  global_state->cdm_to_enc_id);
- 	drm_puts(p, "\n");
-+
-+	drm_puts(p, "\tsspp=");
-+	/* skip SSPP_NONE and start from the next index */
-+	for (i = SSPP_NONE + 1; i < ARRAY_SIZE(global_state->sspp_to_crtc_id); i++)
-+		dpu_rm_print_state_helper(p, rm->hw_sspp[i] ? &rm->hw_sspp[i]->base : NULL,
-+					  global_state->sspp_to_crtc_id[i]);
-+	drm_puts(p, "\n");
- }
+
 -- 
-2.39.2
-
+With best wishes
+Dmitry
