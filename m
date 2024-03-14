@@ -2,71 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 444A987B95A
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 09:35:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1132F87B968
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 09:39:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7667610F990;
-	Thu, 14 Mar 2024 08:35:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58BFD10F0C0;
+	Thu, 14 Mar 2024 08:39:31 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QS/fWrLW";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com
- [209.85.219.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F96910F990
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 08:35:08 +0000 (UTC)
-Received: by mail-yb1-f173.google.com with SMTP id
- 3f1490d57ef6-dcbcea9c261so624149276.3
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 01:35:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710405306; x=1711010106;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jZOxcwDirhcwqixj1qjfT/PStYtmu0hBzxyawzPkVJ0=;
- b=VnuaoTndHr48wfFp5WGuvYcHAkhiWgLw9JoXHdrzmgt/Z8T16YrGsTbmH5b7/Tz8wn
- jTTyiXES/3/HTHEfW9OHNeFMsqBofSuQNd84+55GBoVAAIFeMfpD4BUBE8/SR7l2Q4DK
- T2eoiK+j1kZWDww4geW3cA50MQ3F8yxkIW/DWqH0J725yJ0kKb4GTTLkD3Oly9GgY8Fz
- U4AOAkbzqj91D4Ss1xUx3oMvPbn7FpZvB2lCe+I5Q2vjbQZxc2NgKUJn40Mt8jhD7tC4
- HM2RO8jmekznZAzy6cY96BqsrwsOMSSQB+2i8bmnADa34r96hY872w5uJOUwNSrtLP+c
- xKug==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWQVg4gF95VUB9jiY1FPctDHjbVgBCCFuIkJQKC2xE4LOIp1sIn/YvSraAxg3MDul2AvdLn2v/i/PrvVQqJwf12n1lMxLjiM8xuduZygbsW
-X-Gm-Message-State: AOJu0Yw2R/M5zFkG4S0gv1+0xRvmZ9FZllwaaOR23JzIdJGyCTM5t7bU
- +A8WE7+V/kYd0M9cPT/F71IT5TIAKeGXsZQRBxwRnPHca90D2gvHY5eMbMf0bqs=
-X-Google-Smtp-Source: AGHT+IFAJTWYvztMHBZeBLeyRNCsypIq2wvWdDVAf6XLIW9SYdUGJwSXeY4HFB1q+1v+neUtAdfwbA==
-X-Received: by 2002:a25:a06:0:b0:dcb:e82c:f7d with SMTP id
- 6-20020a250a06000000b00dcbe82c0f7dmr823710ybk.41.1710405306126; 
- Thu, 14 Mar 2024 01:35:06 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com.
- [209.85.128.169]) by smtp.gmail.com with ESMTPSA id
- b11-20020a252e4b000000b00dc7622402b9sm169525ybn.43.2024.03.14.01.35.05
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Mar 2024 01:35:05 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-60cbcd04de9so7456517b3.2
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 01:35:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXw0GJ2JTpeEJzN0XZah4R72g2TbqRzo+RmwTSCnEnq7beDQzAI6QyZIPCIVHqjSxLny4t6bCUDLmm983ASI93RJlEZvy5WZdIcNsC8Gp7r
-X-Received: by 2002:a25:aa2d:0:b0:dca:c369:fac8 with SMTP id
- s42-20020a25aa2d000000b00dcac369fac8mr1122089ybi.1.1710405305661; Thu, 14 Mar
- 2024 01:35:05 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A81810F041
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 08:39:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id BB49061473;
+ Thu, 14 Mar 2024 08:39:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1379FC433C7;
+ Thu, 14 Mar 2024 08:39:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1710405567;
+ bh=/ELEpd3loWqEYnrBAx+1MhUOk7DrtryVYadoSYORomI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QS/fWrLWOsrlHWSTdVe6z4Y/0pcGZoOBORhriukAoDwddgPyEAN0to35DfMH3sIAX
+ qLAN+rop0SkcKpcWdO+w3TTtivJJM8LFyCvL3CtJ5lsy6Tt0OQDlpfO/9ll4gb2FPZ
+ fcOv7opr0UUsqDLfl7ZpV9tTavwDH4bTDf/SVEDT8WcqWwkXGA74hyLYG2+uXq5cJP
+ +6QwVIPjlynxSIzCmT3oR5Z06JAtxOj2IWr4+KrPeYc+9HY4gbbgBEpTAqU01HRKNs
+ asW5b+NTOS+RFqBloU7B6iXGncCIcux1jsgY5/1AyK36tqc1ACcUKTeD+A4DW8XZcJ
+ ooDmLv6j5tt/g==
+Date: Thu, 14 Mar 2024 09:39:24 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: Daniel Stone <daniel@fooishbar.org>, dri-devel@lists.freedesktop.org, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Daniel Stone <daniels@collabora.com>
+Subject: Re: drm-misc migration to Gitlab server
+Message-ID: <20240314-heavy-polite-mantis-bfbb84@houat>
+References: <gnthy5o42kiyj63d2bkkxsc5krzf3wrwt23chh2kthkmlyjwbg@ybynvjvqdka7>
+ <akb3fluuli75vh5due5ll7t5igg7oo5vqwkal645hkjkhyqz6w@qu62f5l6joy6>
+ <CAPj87rMYC3D-PYtMcTXD3=HqNSpyyVj9jp0nodO+2PebP1guAA@mail.gmail.com>
+ <20240221094643.4496313a@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20240313154857.12949-1-tzimmermann@suse.de>
- <20240313154857.12949-2-tzimmermann@suse.de>
-In-Reply-To: <20240313154857.12949-2-tzimmermann@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 14 Mar 2024 09:34:53 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXE+ZjQjdKz15enO9MJBu=LjmP=06RPMrtWVkzXqvoVXA@mail.gmail.com>
-Message-ID: <CAMuHMdXE+ZjQjdKz15enO9MJBu=LjmP=06RPMrtWVkzXqvoVXA@mail.gmail.com>
-Subject: Re: [PATCH 1/6] auxdisplay/ht16k33: Replace use of fb_blank with
- backlight helper
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com, 
- deller@gmx.de, dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-staging@lists.linux.dev, Robin van der Gracht <robin@protonic.nl>, 
- Miguel Ojeda <ojeda@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="s646bghbpxjx43h4"
+Content-Disposition: inline
+In-Reply-To: <20240221094643.4496313a@canb.auug.org.au>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,26 +64,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 13, 2024 at 4:49=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
-> Replace the use of struct backlight_properties.fb_blank with a
-> call to backlight_get_brightness(). The helper implement the same
-> logic as the driver's function.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
+--s646bghbpxjx43h4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Gr{oetje,eeting}s,
+Hi Stephen,
 
-                        Geert
+On Wed, Feb 21, 2024 at 09:46:43AM +1100, Stephen Rothwell wrote:
+> Hi Daniel,
+>=20
+> On Tue, 20 Feb 2024 11:25:05 +0000 Daniel Stone <daniel@fooishbar.org> wr=
+ote:
+> >
+> > On Tue, 20 Feb 2024 at 09:05, Maxime Ripard <mripard@kernel.org> wrote:
+> > > On Tue, Feb 20, 2024 at 09:49:25AM +0100, Maxime Ripard wrote: =20
+> > > > This will be mostly transparent to current committers and users: we=
+'ll
+> > > > still use dim, in the exact same way, the only change will be the U=
+RL of
+> > > > the repo. This will also be transparent to linux-next, since the
+> > > > linux-next branch lives in its own repo and is pushed by dim when
+> > > > pushing a branch. =20
+> > >
+> > > Actually, I double-checked and linux-next pulls our branches directly,
+> > > so once the transition is over we'll have to notify them too. =20
+> >=20
+> > cc sfr - once we move the DRM repos to a different location, what's
+> > the best way to update linux-next?
+> >=20
+> > That being said, we could set up read-only pull mirrors in the old
+> > location ... something I want to do in March (because what else are
+> > you going to do on holiday?) is to kill the write repos on kemper
+> > (git.fd.o), move them to being on molly (cgit/anongit.fd.o) only, and
+> > just have a cronjob that regularly pulls from all the gl.fd.o repos,
+> > rather than pushing from GitLab.
+>=20
+> These are (I think) all the drm trees/branches that I fetch every day:
+>=20
+> git://anongit.freedesktop.org/drm-intel#for-linux-next
+> git://anongit.freedesktop.org/drm-intel#for-linux-next-fixes
+> git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+> git://anongit.freedesktop.org/drm/drm-misc#for-linux-next-fixes
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+We've migrated the drm-misc repo to:
+https://gitlab.freedesktop.org/drm/misc/kernel.git
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+The branch names are the same
+
+Maxime
+
+--s646bghbpxjx43h4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZfK3qwAKCRDj7w1vZxhR
+xfjfAP0eK0TSEC5qedOVeQWCi9hvS9DqRGyb77VWzGrpooMJ4AEAojV8wWpwoM0d
+cQrcPzTYWGRG5Ati244OMkD5E3c2iQI=
+=hR+S
+-----END PGP SIGNATURE-----
+
+--s646bghbpxjx43h4--
