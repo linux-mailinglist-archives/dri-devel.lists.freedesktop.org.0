@@ -2,69 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC3ED87BF7B
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 16:02:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CDB887BF85
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 16:04:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49DBB10FBAA;
-	Thu, 14 Mar 2024 15:02:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89C9E10E738;
+	Thu, 14 Mar 2024 15:04:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GRtU3Red";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CW3gfuAu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D21CE10FBAA
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 15:02:03 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D71DA10FB9A
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 15:04:35 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id ED6C5614E2;
- Thu, 14 Mar 2024 15:02:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B709C433C7;
- Thu, 14 Mar 2024 15:02:02 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 11CC5CE0E49;
+ Thu, 14 Mar 2024 15:04:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE71EC43390;
+ Thu, 14 Mar 2024 15:04:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1710428522;
- bh=M6nhtT/evAJaEm9Lfp2nSLULi/q0+AGWGYq3q98wPSs=;
+ s=k20201202; t=1710428672;
+ bh=6P2LfVI5ti9AMF7ok98eGXZ4p8eeBn7+IOGZj+oGtQg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GRtU3RedkF+6bGv6rzD962qdrdCPt5XDgiXEplTNKVxkNx+BIuJnWhNCE1d7fglx6
- mD3/UhHdcLJkAegeGIp8aMtrgg1f0b/y3UcqWwJZgrDfVLPpuqICk/x/OHh10mfWf9
- 9YsckKa2LEMMFO1+nFohOEHh+n7JxokMvrZ7AY1lPZ93C5+da+53H8uiN9lkIsn/mG
- PbIjyh8D25M/ryqLm3+qk7RRQZ75o0LR1Q14YeW1VbwFKaB6HUyEob0DHjjeglxh26
- cOsiuXf/CpzhFvKk1cwkdBdstXFvCjaK7r6v+TsM8RvqXnl/V2kmn1OvsPAOnwiReg
- I0c47dK/Lzi0A==
-Date: Thu, 14 Mar 2024 16:02:00 +0100
+ b=CW3gfuAuCwxjr9HzOCCsYaD4IGJFlf+7m3r5gtdj73datUqZH5K4bZBIlzoHEp4EG
+ s7b+oApWzWyv4SHNmiaRZPpLN9IE6ZASCQY8YpSbpCwuuQuJqir+CbpE0/DvaPl+No
+ hHoGYga0Cow/amTVofqHKl2rhr8c2yfyjskaRYFZWysBegJCkyBMkZZF4Etdk6q/U8
+ ioB3t+kvr34JNxjQPUGBRVpen66UVVAzXCuutuaHTTSKaEY2wsTSiQyc+DjoOYdlND
+ 19ABvjYS5nYdBnBRbP3g79ZIY12W006rpoU7xqqyQcEournDhY3rIKvfp1YUnGibD8
+ PT8IYkHIv4iKg==
+Date: Thu, 14 Mar 2024 16:04:29 +0100
 From: Maxime Ripard <mripard@kernel.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, 
- linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>, 
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Dan Carpenter <dan.carpenter@linaro.org>, 
- Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>, 
- David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>, 
- Brendan Higgins <brendan.higgins@linux.dev>,
- Naresh Kamboju <naresh.kamboju@linaro.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- kunit-dev@googlegroups.com, 
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, 
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, 
- loongarch@lists.linux.dev, netdev@lists.linux.dev
-Subject: Re: [PATCH 00/14] Add support for suppressing warning backtraces
-Message-ID: <20240314-victorious-chupacabra-of-management-baa5c4@houat>
-References: <20240312170309.2546362-1-linux@roeck-us.net>
- <CAMuHMdUkvagJVEfnhq=Nx2jnmdS0Ax+zy1CvyN0k7k1EwUpu+g@mail.gmail.com>
- <6d9269c0-bd38-4965-a454-4358e0a182e3@roeck-us.net>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: David Laight <David.Laight@aculab.com>, Arnd Bergmann <arnd@arndb.de>, 
+ Naresh Kamboju <naresh.kamboju@linaro.org>,
+ open list <linux-kernel@vger.kernel.org>, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "lkft-triage@lists.linaro.org" <lkft-triage@lists.linaro.org>, 
+ Dave Airlie <airlied@redhat.com>, Dan Carpenter <dan.carpenter@linaro.org>, 
+ Ard Biesheuvel <ardb@kernel.org>
+Subject: Re: arm: ERROR: modpost: "__aeabi_uldivmod"
+ [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
+Message-ID: <20240314-thundering-steadfast-goat-a685cc@houat>
+References: <CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+kK9Zop6u=ywmw@mail.gmail.com>
+ <338c89bb-a70b-4f35-b71b-f974e90e3383@app.fastmail.com>
+ <20240304-brawny-goshawk-of-sorcery-860cef@houat>
+ <85b807289ff2400ea5887ced63655862@AcuMS.aculab.com>
+ <CAMuHMdUuOnXVpocYU02Mx3_KrPow-=+WgLJqy_ku=AN52SvQiA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="nbx7v4z25kdu2nok"
+ protocol="application/pgp-signature"; boundary="myyknztutswewlxd"
 Content-Disposition: inline
-In-Reply-To: <6d9269c0-bd38-4965-a454-4358e0a182e3@roeck-us.net>
+In-Reply-To: <CAMuHMdUuOnXVpocYU02Mx3_KrPow-=+WgLJqy_ku=AN52SvQiA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,115 +71,80 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---nbx7v4z25kdu2nok
+--myyknztutswewlxd
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 14, 2024 at 07:37:13AM -0700, Guenter Roeck wrote:
-> On 3/14/24 06:36, Geert Uytterhoeven wrote:
-> > Hi G=C3=BCnter,
-> >=20
-> > On Tue, Mar 12, 2024 at 6:03=E2=80=AFPM Guenter Roeck <linux@roeck-us.n=
-et> wrote:
-> > > Some unit tests intentionally trigger warning backtraces by passing b=
-ad
-> > > parameters to kernel API functions. Such unit tests typically check t=
-he
-> > > return value from such calls, not the existence of the warning backtr=
-ace.
-> > >=20
-> > > Such intentionally generated warning backtraces are neither desirable
-> > > nor useful for a number of reasons.
-> > > - They can result in overlooked real problems.
-> > > - A warning that suddenly starts to show up in unit tests needs to be
-> > >    investigated and has to be marked to be ignored, for example by
-> > >    adjusting filter scripts. Such filters are ad-hoc because there is
-> > >    no real standard format for warnings. On top of that, such filter
-> > >    scripts would require constant maintenance.
-> > >=20
-> > > One option to address problem would be to add messages such as "expec=
-ted
-> > > warning backtraces start / end here" to the kernel log.  However, that
-> > > would again require filter scripts, it might result in missing real
-> > > problematic warning backtraces triggered while the test is running, a=
-nd
-> > > the irrelevant backtrace(s) would still clog the kernel log.
-> > >=20
-> > > Solve the problem by providing a means to identify and suppress speci=
-fic
-> > > warning backtraces while executing test code. Support suppressing mul=
-tiple
-> > > backtraces while at the same time limiting changes to generic code to=
- the
-> > > absolute minimum. Architecture specific changes are kept at minimum by
-> > > retaining function names only if both CONFIG_DEBUG_BUGVERBOSE and
-> > > CONFIG_KUNIT are enabled.
-> > >=20
-> > > The first patch of the series introduces the necessary infrastructure.
-> > > The second patch introduces support for counting suppressed backtrace=
-s.
-> > > This capability is used in patch three to implement unit tests.
-> > > Patch four documents the new API.
-> > > The next two patches add support for suppressing backtraces in drm_re=
-ct
-> > > and dev_addr_lists unit tests. These patches are intended to serve as
-> > > examples for the use of the functionality introduced with this series.
-> > > The remaining patches implement the necessary changes for all
-> > > architectures with GENERIC_BUG support.
-> >=20
-> > Thanks for your series!
-> >=20
-> > I gave it a try on m68k, just running backtrace-suppression-test,
-> > and that seems to work fine.
-> >=20
-> > > Design note:
-> > >    Function pointers are only added to the __bug_table section if both
-> > >    CONFIG_KUNIT and CONFIG_DEBUG_BUGVERBOSE are enabled to avoid image
-> > >    size increases if CONFIG_KUNIT=3Dn. There would be some benefits to
-> > >    adding those pointers all the time (reduced complexity, ability to
-> > >    display function names in BUG/WARNING messages). That change, if
-> > >    desired, can be made later.
-> >=20
-> > Unfortunately this also increases kernel size in the CONFIG_KUNIT=3Dm
-> > case (ca. 80 KiB for atari_defconfig), making it less attractive to have
-> > kunit and all tests enabled as modules in my standard kernel.
-> >=20
+On Thu, Mar 14, 2024 at 10:27:23AM +0100, Geert Uytterhoeven wrote:
+> On Sat, Mar 9, 2024 at 3:34=E2=80=AFPM David Laight <David.Laight@aculab.=
+com> wrote:
+> > From: Maxime Ripard
+> > > Sent: 04 March 2024 11:46
+> > >
+> > > On Mon, Mar 04, 2024 at 12:11:36PM +0100, Arnd Bergmann wrote:
+> > > > On Mon, Mar 4, 2024, at 09:07, Naresh Kamboju wrote:
+> > > > > The arm defconfig builds failed on today's Linux next tag next-20=
+240304.
+> > > > >
+> > > > > Build log:
+> > > > > ---------
+> > > > > ERROR: modpost: "__aeabi_uldivmod"
+> > > > > [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
+> > > > >
+> > > >
+> > > > Apparently caused by the 64-bit division in 358e76fd613a
+> > > > ("drm/sun4i: hdmi: Consolidate atomic_check and mode_valid"):
+> > > >
+> > > >
+> > > > +static enum drm_mode_status
+> > > > +sun4i_hdmi_connector_clock_valid(const struct drm_connector *conne=
+ctor,
+> > > > +                                const struct drm_display_mode *mod=
+e,
+> > > > +                                unsigned long long clock)
+> > > >  {
+> > > > -       struct sun4i_hdmi *hdmi =3D drm_encoder_to_sun4i_hdmi(encod=
+er);
+> > > > -       unsigned long rate =3D mode->clock * 1000;
+> > > > -       unsigned long diff =3D rate / 200; /* +-0.5% allowed by HDM=
+I spec */
+> > > > +       const struct sun4i_hdmi *hdmi =3D drm_connector_to_sun4i_hd=
+mi(connector);
+> > > > +       unsigned long diff =3D clock / 200; /* +-0.5% allowed by HD=
+MI spec */
+> > > >         long rounded_rate;
+> > > >
+> > > > This used to be a 32-bit division. If the rate is never more than
+> > > > 4.2GHz, clock could be turned back into 'unsigned long' to avoid
+> > > > the expensive div_u64().
+> > >
+> > > I sent a fix for it this morning:
+> > > https://lore.kernel.org/r/20240304091225.366325-1-mripard@kernel.org
+> > >
+> > > The framework will pass an unsigned long long because HDMI character
+> > > rates can go up to 5.9GHz.
+> >
+> > You could do:
+> >         /* The max clock is 5.9GHz, split the divide */
+> >         u32 diff =3D (u32)(clock / 8) / (200/8);
 >=20
-> Good point. Indeed, it does. I wanted to avoid adding a configuration opt=
-ion,
-> but maybe I should add it after all. How about something like this ?
->=20
-> +config KUNIT_SUPPRESS_BACKTRACE
-> +       bool "KUnit - Enable backtrace suppression"
-> +       default y
-> +       help
-> +         Enable backtrace suppression for KUnit. If enabled, backtraces
-> +         generated intentionally by KUnit tests can be suppressed. Disab=
-le
-> +         to reduce kernel image size if image size is more important than
-> +         suppression of backtraces generated by KUnit tests.
-> +
+> +1, as the issue is still present in current next, as per the recent
+> nagging from the build bots.
 
-How are tests using that API supposed to handle it then?
-
-Select the config option or put an ifdef?
-
-If the former, we end up in the same situation than without the symbol.
-If the latter, we end up in a similar situation than disabling KUNIT
-entirely, with some tests not being run which is just terrible.
+A patch to fix it has been merged today and will show up tomorrow in next.
 
 Maxime
 
---nbx7v4z25kdu2nok
+--myyknztutswewlxd
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZfMRZwAKCRDj7w1vZxhR
-xZe7AQCF0lwXl8k+ok+x1wLmfAsWf12MJtiFkJfF2M8fieBWywEA7IBXKWN1hKUp
-6rSvzAgaLFB/0eisZYO9FXDq5sROGw0=
-=qLwX
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZfMR/QAKCRDj7w1vZxhR
+xeThAP9hu9uZyhsosg4xaXjQSqrklVzWAccxuvVo+wD/BvBe5AD7BfMoiWAkmZWD
+we529wvyNXrp/62iho4i01acFGaHUgA=
+=x+QF
 -----END PGP SIGNATURE-----
 
---nbx7v4z25kdu2nok--
+--myyknztutswewlxd--
