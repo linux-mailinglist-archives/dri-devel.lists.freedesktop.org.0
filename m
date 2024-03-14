@@ -2,56 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C8CD87BB39
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 11:28:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD3DB87BB9A
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 11:56:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7600610FA2A;
-	Thu, 14 Mar 2024 10:28:07 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mnIvgLPJ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BEE310FA51;
+	Thu, 14 Mar 2024 10:56:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F43C10FA2A
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 10:28:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710412086; x=1741948086;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=3AdoF7PXMMauR/QLjhj/rHqOnywAffnOLLq68/SM3B0=;
- b=mnIvgLPJV+zhEmWst8jDhrxDDJX2meNtxfEVqsOhl3pGEtQqE3nOSgM9
- iTeovITun/DZHEt0osEEIpVGJfO+U/Psw+KZ6X+3FdtSIuq7pSDaFglwn
- VHH5yz6fyU8Y0uyPFx4sCP+XHOnscIrhTKMxFQcpWg+Jk5MooLoSMMYHA
- MVXKn7WiVMKnO7D2D4ebSmfFoaDFW5pXjYxIfjkXsJ1xWANcEHxpoYCDh
- /Z6RgfaFsI/QSNI2AWMFxAehsR5Eah6XpSp+iKg1Zp5HH/P32zFBBi5yU
- Y+iapoJf7xsTBBvKD3XjdX6ALkMCyLhSIXg/FQCvwUDE0LVxanAr7Kui1 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5079857"
-X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
-   d="scan'208";a="5079857"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Mar 2024 03:28:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; d="scan'208";a="12177178"
-Received: from rboza-mobl.ger.corp.intel.com (HELO localhost) ([10.252.53.139])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Mar 2024 03:28:03 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-m68k@lists.linux-m68k.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH] m68k: pgtable: Add missing #include <asm/page.h>
-In-Reply-To: <8734t2xsde.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <ba359be013f379ff10f3afcea13e2f78dd9717be.1709804021.git.geert@linux-m68k.org>
- <8734t2xsde.fsf@intel.com>
-Date: Thu, 14 Mar 2024 12:28:00 +0200
-Message-ID: <87ttl9qf9r.fsf@intel.com>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD2D210FA51
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 10:56:41 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rkil9-0003Sm-F8; Thu, 14 Mar 2024 11:56:27 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rkil8-006IHm-3C; Thu, 14 Mar 2024 11:56:26 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+ (envelope-from <ukl@pengutronix.de>) id 1rkil8-005zWW-00;
+ Thu, 14 Mar 2024 11:56:26 +0100
+Date: Thu, 14 Mar 2024 11:56:25 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Lee Jones <lee@kernel.org>
+Cc: linux-pwm@vger.kernel.org, 
+ Daniel Thompson <daniel.thompson@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, 
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kernel@pengutronix.de
+Subject: Re: [PATCH] backlight: lp8788: Drop support for platform data
+Message-ID: <ccvjubtxqqd445yb6g5smjko6p3d3ss337waqeoaray2imogyx@zo5hhnbipokv>
+References: <20240313124828.861731-2-u.kleine-koenig@pengutronix.de>
+ <7nvqboywxhviyuzkiesy4qfqybxx7vc5sw2seluc3dwnhk3q5h@hlzwxhnm2q6r>
+ <20240314102035.GI1522089@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ozpx575aexkagfrb"
+Content-Disposition: inline
+In-Reply-To: <20240314102035.GI1522089@google.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,35 +64,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 07 Mar 2024, Jani Nikula <jani.nikula@intel.com> wrote:
-> On Thu, 07 Mar 2024, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->> When just including <linux/pgtable.h>:
->>
->>     include/asm-generic/pgtable-nop4d.h:9:18: error: unknown type name =
-=E2=80=98pgd_t=E2=80=99
->> 	9 | typedef struct { pgd_t pgd; } p4d_t;
->> 	  |                  ^~~~~
->>
->> Make <asm/pgtable.h> self-contained by including <asm/page.h>.
->>
->> Reported-by: Jani Nikula <jani.nikula@intel.com>
->> Closes: https://lore.kernel.org/r/878r2uxwha.fsf@intel.com
->> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
->> ---
->> Jani: Feel free to pick this up as a dependency.
->> Else I will queue this in the m68k tree for v6.10.
->
-> Thanks, I'd like to pick this up as a dependency, so I can proceed with
-> my series. It'll also be queued for v6.10 via the drm subsystem.
 
-Replying here too, I've merged this via drm-misc-next as d1815393cac0
-("m68k: pgtable: Add missing #include <asm/page.h>").
+--ozpx575aexkagfrb
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the patch!
+Hey Lee,
 
-BR,
-Jani.
+On Thu, Mar 14, 2024 at 10:20:35AM +0000, Lee Jones wrote:
+> On Wed, 13 Mar 2024, Uwe Kleine-K=F6nig wrote:
+> > On Wed, Mar 13, 2024 at 01:48:27PM +0100, Uwe Kleine-K=F6nig wrote:
+> > >  struct lp8788_bl {
+> > >  	struct lp8788 *lp;
+> > >  	struct backlight_device *bl_dev;
+> > > -	struct lp8788_backlight_platform_data *pdata;
+> > > -	enum lp8788_bl_ctrl_mode mode;
+> > >  	struct pwm_device *pwm;
+> >=20
+> > Actually this pwm_device member should be dropped, too. I wonder why
+> > this even passes a W=3D1 build without a warning ...
+> >=20
+> > @Lee: Feel free to fix this up while applying, or tell me if you prefer
+> > an incremental fixup or a complete v2.
+>=20
+> Either of the last 2 options would be fine.
 
+I'd prefert a v2 then. Added to my today's todo list.
+
+Best regards
+Uwe
 
 --=20
-Jani Nikula, Intel
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--ozpx575aexkagfrb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmXy19kACgkQj4D7WH0S
+/k4nfAf+OQrf3llV5RSiTXvYqQ5I+p8EfNgaMwsW7vdlhFNXtVZRVorG1ikkWhSD
+xa+tG8NM7HdSqfd+wtGF13UVzsXtQXgn7ILWePxen58V/rHq3VVYFn+wk7o2ciJB
+B5Z9mZKLN2VSHR9AbJiOXCF8Ij0ROr83wqtkkH6Ahv/cWRbN6oyXMU3ECmQIBaFB
+P8777pkXgGBslkn0YfIBQwrWT+gTXC9Yr+ptH1rr/B0VoPvhtB03epw5698eUk4h
+ppoBrpQegRwd+MFwVMb+36wFx1LPpMK432J1uNe7OPbX6QC7Fzq6+p8tDJckUX2L
+/mVGM3JtStRsgL9hY8kZNSaVeIgCoQ==
+=rMia
+-----END PGP SIGNATURE-----
+
+--ozpx575aexkagfrb--
