@@ -2,45 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3052587B62F
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 02:45:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9534387B633
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 02:49:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D5EC10EA18;
-	Thu, 14 Mar 2024 01:45:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 839D210ED42;
+	Thu, 14 Mar 2024 01:49:36 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="iBkY+0lK";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [205.139.111.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C029210E99D
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 01:45:29 +0000 (UTC)
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-482-QWl8yqlGOp2WSlimDf4IBw-1; Wed,
- 13 Mar 2024 21:45:25 -0400
-X-MC-Unique: QWl8yqlGOp2WSlimDf4IBw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B1D838157BC;
- Thu, 14 Mar 2024 01:45:25 +0000 (UTC)
-Received: from dreadlord.redhat.com (unknown [10.64.136.106])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3330D492BD0;
- Thu, 14 Mar 2024 01:45:22 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: dakr@redhat.com,
-	nouveau@lists.freedesktop.org
-Subject: [PATCH] nouveau/gsp: don't check devinit disable on GSP.
-Date: Thu, 14 Mar 2024 11:45:21 +1000
-Message-ID: <20240314014521.2695233-1-airlied@gmail.com>
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C852D10ED42
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 01:49:34 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-33e570ef661so174135f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 18:49:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google; t=1710380973; x=1710985773;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=t319UmoMBPRcB8lPsWRleDMOWnBo8zQ3du7ZSGpezIE=;
+ b=iBkY+0lKoYvWoOs1sYKRvNmiMNAWlTzj0XYELdsTsKg5YukejlDLG1sJrhS//RiCCO
+ YKNfW/AeUeI5q33Qjj6K+hHQy+03tQh6P1XzJPkkBB7TS25oqxvArzqHu4T1jBOzM8Vt
+ j8jeKB/6fxadRYe0oXFcYWf7W2MVb49sfn0LM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710380973; x=1710985773;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=t319UmoMBPRcB8lPsWRleDMOWnBo8zQ3du7ZSGpezIE=;
+ b=o1LnVGITVHOv5apBCKHo4fJUmk1NBKvSDVjGsz8AlvyjLynNjdzg+sJmMHQWS0usFd
+ +p3lI33RAjL8NY1zHSWvhxugJzRZzUDDTiaK/TfpBeqd0+cHOIn40uH29iBmGX4jS4ld
+ HR8YBwuzrKG0h+uCedoNDLVFARzKluHreM89349ojaaXbKyBdq1XzSQKpPfb/PuZiG3F
+ 9IE2hD+MqSc+gitQdS8gDvCbBxuTvHxwpUJ2mMPPYs7eVMpsC2kwGlPWNpwUTQZ6JOaO
+ 7id/VWKtnrHP1wqCFYIf9ldnHZKm7OvjABV0l51ko7SO0XKdliE/99hx2guOC6FLPYZO
+ DYBQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVo5H1OHFZJnp4VtzqoxTz/4Unbebn8M/FFxLVYTejST/O9uL+g/a+cjVbt4O5WbREo0+r4Bdd7BtwG0mExXjBh3vEjgnnQD0FQYHc4TS5H
+X-Gm-Message-State: AOJu0Yw1LSDbFN7fJDxmSl4dYq7oYEfNdWF2veIyV5p+iESfsnRoD0dM
+ f3+Yzt9x37vt4+kqE+b+3xIdJYht7L4HFcSWyk8XuUEw+5jAZy/+M80V7sLChnhT10giOYmqrF8
+ lSeBMIQ==
+X-Google-Smtp-Source: AGHT+IG/fdJiHtHK7gi5HjPulrR4L//6DCOuthifzrn6CCHFTdVjQuISlBxQpa7jqc7EO4fvhYSpOA==
+X-Received: by 2002:a5d:6505:0:b0:33e:1e0:2679 with SMTP id
+ x5-20020a5d6505000000b0033e01e02679mr176720wru.47.1710380972663; 
+ Wed, 13 Mar 2024 18:49:32 -0700 (PDT)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com.
+ [209.85.218.45]) by smtp.gmail.com with ESMTPSA id
+ v21-20020aa7cd55000000b005689f9158ddsm127861edw.23.2024.03.13.18.49.31
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Mar 2024 18:49:31 -0700 (PDT)
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-a45bb2a9c20so40497166b.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 18:49:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVGFZwieStVgmHmgm+nwWi6Mr9NmcMghmApkqhzkNEfiIyNN7bSxgO4f7Rno55obmda66AwRlcQ4/JDNkQdiemBRWbKx6ECfQfhopwZqwfY
+X-Received: by 2002:a17:906:a449:b0:a45:ac3b:4aca with SMTP id
+ cb9-20020a170906a44900b00a45ac3b4acamr157510ejb.44.1710380971337; Wed, 13 Mar
+ 2024 18:49:31 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: gmail.com
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
+References: <CAPM=9twR+WnE3GGqyeh1cuGVmpADPTwDPK10625RP--rLrqkxA@mail.gmail.com>
+In-Reply-To: <CAPM=9twR+WnE3GGqyeh1cuGVmpADPTwDPK10625RP--rLrqkxA@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 13 Mar 2024 18:49:15 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiTWLKkg0Hht4ofDTVsebD2Zq-m4UP-DsiZjM+w4b7qug@mail.gmail.com>
+Message-ID: <CAHk-=wiTWLKkg0Hht4ofDTVsebD2Zq-m4UP-DsiZjM+w4b7qug@mail.gmail.com>
+Subject: Re: [git pull] drm for 6.9-rc1
+To: Dave Airlie <airlied@gmail.com>, Animesh Manna <animesh.manna@intel.com>, 
+ Jani Nikula <jani.nikula@intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,33 +92,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
+On Tue, 12 Mar 2024 at 21:07, Dave Airlie <airlied@gmail.com> wrote:
+>
+> I've done a trial merge into your tree from a few hours ago, there
+> are definitely some slighty messy conflicts, I've pushed a sample
+> branch here:
 
-GSP should be handling this and I can see no evidence in opengpu
-driver that this register should be touched.
+I appreciate your sample merges since I like verifying my end result,
+but I think your merge is wrong.
 
-Fixed acceleration on 2080 Ti GPUs.
+I got two differences when I did the merge. The one in
+intel_dp_detect() I think is just syntactic - I ended up placing the
 
-Fixes: 15740541e8f0 ("drm/nouveau/devinit/tu102-: prepare for GSP-RM")
+        if (!intel_dp_is_edp(intel_dp))
+                intel_psr_init_dpcd(intel_dp);
 
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/r535.c | 1 -
- 1 file changed, 1 deletion(-)
+differently than you did (I did it *after* the tunnel_detect()).
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/r535.c b/drivers/g=
-pu/drm/nouveau/nvkm/subdev/devinit/r535.c
-index 666eb93b1742..11b4c9c274a1 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/r535.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/r535.c
-@@ -41,7 +41,6 @@ r535_devinit_new(const struct nvkm_devinit_func *hw,
-=20
- =09rm->dtor =3D r535_devinit_dtor;
- =09rm->post =3D hw->post;
--=09rm->disable =3D hw->disable;
-=20
- =09ret =3D nv50_devinit_new_(rm, device, type, inst, pdevinit);
- =09if (ret)
---=20
-2.43.2
+I don't _think,_ that placement matters, but somebody more familiar
+with the code should check it out. Added Animesh and Jani to the
+participants.
 
+But I think your merge gets the TP_printk() for the xe_bo_move trace
+event is actively wrong. You don't have the destination for the move
+in the printk.
+
+Or maybe I got it wrong. Our merges end up _close_, but not identical.
+
+               Linus
