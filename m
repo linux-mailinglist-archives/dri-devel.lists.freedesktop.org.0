@@ -2,59 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CDB887BF85
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 16:04:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F98A87BFCF
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 16:24:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89C9E10E738;
-	Thu, 14 Mar 2024 15:04:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AD2F10E529;
+	Thu, 14 Mar 2024 15:23:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CW3gfuAu";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="lp2A1u66";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D71DA10FB9A
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 15:04:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 11CC5CE0E49;
- Thu, 14 Mar 2024 15:04:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE71EC43390;
- Thu, 14 Mar 2024 15:04:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1710428672;
- bh=6P2LfVI5ti9AMF7ok98eGXZ4p8eeBn7+IOGZj+oGtQg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CW3gfuAuCwxjr9HzOCCsYaD4IGJFlf+7m3r5gtdj73datUqZH5K4bZBIlzoHEp4EG
- s7b+oApWzWyv4SHNmiaRZPpLN9IE6ZASCQY8YpSbpCwuuQuJqir+CbpE0/DvaPl+No
- hHoGYga0Cow/amTVofqHKl2rhr8c2yfyjskaRYFZWysBegJCkyBMkZZF4Etdk6q/U8
- ioB3t+kvr34JNxjQPUGBRVpen66UVVAzXCuutuaHTTSKaEY2wsTSiQyc+DjoOYdlND
- 19ABvjYS5nYdBnBRbP3g79ZIY12W006rpoU7xqqyQcEournDhY3rIKvfp1YUnGibD8
- PT8IYkHIv4iKg==
-Date: Thu, 14 Mar 2024 16:04:29 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: David Laight <David.Laight@aculab.com>, Arnd Bergmann <arnd@arndb.de>, 
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- open list <linux-kernel@vger.kernel.org>, 
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "lkft-triage@lists.linaro.org" <lkft-triage@lists.linaro.org>, 
- Dave Airlie <airlied@redhat.com>, Dan Carpenter <dan.carpenter@linaro.org>, 
- Ard Biesheuvel <ardb@kernel.org>
-Subject: Re: arm: ERROR: modpost: "__aeabi_uldivmod"
- [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
-Message-ID: <20240314-thundering-steadfast-goat-a685cc@houat>
-References: <CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+kK9Zop6u=ywmw@mail.gmail.com>
- <338c89bb-a70b-4f35-b71b-f974e90e3383@app.fastmail.com>
- <20240304-brawny-goshawk-of-sorcery-860cef@houat>
- <85b807289ff2400ea5887ced63655862@AcuMS.aculab.com>
- <CAMuHMdUuOnXVpocYU02Mx3_KrPow-=+WgLJqy_ku=AN52SvQiA@mail.gmail.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBE4110E529;
+ Thu, 14 Mar 2024 15:23:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1710429837;
+ bh=VNcT3RuFVLB5eXXbqaDWJMjkWNlBbyMqSBKU6p8wgjU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=lp2A1u66JEpyrSUvs29wUITPceJmETVaB78xpcnLqIZSzr9EWBk4GtZGg/P1GugmO
+ B9/4q1Un0O3e61gY6a1il0Jkj24pr5bCoIdTLoESOxDY0hUoh8zMhonkGmy9Cq1xsp
+ aYZyTxP4ZJOEpDpNC3sAlDuPKndGeiVY1cqi3mTSt8WjO9TiaXwfP+zDlHIMlcoSRk
+ WvgPLRKRXBFF5QT8C88hh+ggt+N8p5aulDc49tHeL6sZTvIXXjG8oLxgM8j4CpPMUL
+ T144cmH6hCRHjwVKaurp38/+bcHzNNO+6ilRD62FUKZkDnMJtjMHa6DH8N0fa9R0Xs
+ BQn8Yl6iJrmJw==
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 192B1378209A;
+ Thu, 14 Mar 2024 15:23:57 +0000 (UTC)
+Date: Thu, 14 Mar 2024 17:23:39 +0200
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Cc: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <wayland-devel@lists.freedesktop.org>
+Subject: Re: [RFC PATCH v4 23/42] drm/vkms: add 3x4 matrix in color pipeline
+Message-ID: <20240314172339.4cbf3a7b.pekka.paalanen@collabora.com>
+In-Reply-To: <20240226211100.100108-24-harry.wentland@amd.com>
+References: <20240226211100.100108-1-harry.wentland@amd.com>
+ <20240226211100.100108-24-harry.wentland@amd.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="myyknztutswewlxd"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUuOnXVpocYU02Mx3_KrPow-=+WgLJqy_ku=AN52SvQiA@mail.gmail.com>
+Content-Type: multipart/signed; boundary="Sig_/9Zg0taUTa7H5G5hF=l+3vTq";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,81 +62,189 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---myyknztutswewlxd
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+--Sig_/9Zg0taUTa7H5G5hF=l+3vTq
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 14, 2024 at 10:27:23AM +0100, Geert Uytterhoeven wrote:
-> On Sat, Mar 9, 2024 at 3:34=E2=80=AFPM David Laight <David.Laight@aculab.=
-com> wrote:
-> > From: Maxime Ripard
-> > > Sent: 04 March 2024 11:46
-> > >
-> > > On Mon, Mar 04, 2024 at 12:11:36PM +0100, Arnd Bergmann wrote:
-> > > > On Mon, Mar 4, 2024, at 09:07, Naresh Kamboju wrote:
-> > > > > The arm defconfig builds failed on today's Linux next tag next-20=
-240304.
-> > > > >
-> > > > > Build log:
-> > > > > ---------
-> > > > > ERROR: modpost: "__aeabi_uldivmod"
-> > > > > [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
-> > > > >
-> > > >
-> > > > Apparently caused by the 64-bit division in 358e76fd613a
-> > > > ("drm/sun4i: hdmi: Consolidate atomic_check and mode_valid"):
-> > > >
-> > > >
-> > > > +static enum drm_mode_status
-> > > > +sun4i_hdmi_connector_clock_valid(const struct drm_connector *conne=
-ctor,
-> > > > +                                const struct drm_display_mode *mod=
-e,
-> > > > +                                unsigned long long clock)
-> > > >  {
-> > > > -       struct sun4i_hdmi *hdmi =3D drm_encoder_to_sun4i_hdmi(encod=
-er);
-> > > > -       unsigned long rate =3D mode->clock * 1000;
-> > > > -       unsigned long diff =3D rate / 200; /* +-0.5% allowed by HDM=
-I spec */
-> > > > +       const struct sun4i_hdmi *hdmi =3D drm_connector_to_sun4i_hd=
-mi(connector);
-> > > > +       unsigned long diff =3D clock / 200; /* +-0.5% allowed by HD=
-MI spec */
-> > > >         long rounded_rate;
-> > > >
-> > > > This used to be a 32-bit division. If the rate is never more than
-> > > > 4.2GHz, clock could be turned back into 'unsigned long' to avoid
-> > > > the expensive div_u64().
-> > >
-> > > I sent a fix for it this morning:
-> > > https://lore.kernel.org/r/20240304091225.366325-1-mripard@kernel.org
-> > >
-> > > The framework will pass an unsigned long long because HDMI character
-> > > rates can go up to 5.9GHz.
-> >
-> > You could do:
-> >         /* The max clock is 5.9GHz, split the divide */
-> >         u32 diff =3D (u32)(clock / 8) / (200/8);
+On Mon, 26 Feb 2024 16:10:37 -0500
+Harry Wentland <harry.wentland@amd.com> wrote:
+
+> We add two 3x4 matrices into the VKMS color pipeline. The reason
+> we're adding matrices is so that we can test that application
+> of a matrix and its inverse yields an output equal to the input
+> image.
+
+You will test also cases where the matrix configuration will not
+produce output equal to input, right?
+
+Otherwise one can accidentally pass the matrix test by ignoring all
+matrices.
+
+> One complication with the matrix implementation has to do with
+> the fact that the matrix entries are in signed-magnitude fixed
+> point, whereas the drm_fixed.h implementation uses 2s-complement.
+> The latter one is the one that we want for easy addition and
+> subtraction, so we convert all entries to 2s-complement.
 >=20
-> +1, as the issue is still present in current next, as per the recent
-> nagging from the build bots.
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> ---
+>  drivers/gpu/drm/vkms/vkms_colorop.c  | 32 +++++++++++++++++++++++++++-
+>  drivers/gpu/drm/vkms/vkms_composer.c | 27 +++++++++++++++++++++++
+>  include/drm/drm_colorop.h            |  2 ++
+>  3 files changed, 60 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/vkms/vkms_colorop.c b/drivers/gpu/drm/vkms/v=
+kms_colorop.c
+> index d2db366da6d3..a0e54b2c1f7a 100644
+> --- a/drivers/gpu/drm/vkms/vkms_colorop.c
+> +++ b/drivers/gpu/drm/vkms/vkms_colorop.c
+> @@ -35,7 +35,37 @@ const int vkms_initialize_color_pipeline(struct drm_pl=
+ane *plane, struct drm_pro
+> =20
+>  	prev_op =3D op;
+> =20
+> -	/* 2nd op: 1d curve */
+> +	/* 2nd op: 3x4 matrix */
+> +	op =3D kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
+> +	if (!op) {
+> +		DRM_ERROR("KMS: Failed to allocate colorop\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	ret =3D drm_colorop_ctm_3x4_init(dev, op, plane);
+> +	if (ret)
+> +		return ret;
+> +
+> +	drm_colorop_set_next_property(prev_op, op);
+> +
+> +	prev_op =3D op;
+> +
+> +	/* 3rd op: 3x4 matrix */
+> +	op =3D kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
+> +	if (!op) {
+> +		DRM_ERROR("KMS: Failed to allocate colorop\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	ret =3D drm_colorop_ctm_3x4_init(dev, op, plane);
+> +	if (ret)
+> +		return ret;
+> +
+> +	drm_colorop_set_next_property(prev_op, op);
+> +
+> +	prev_op =3D op;
+> +
+> +	/* 4th op: 1d curve */
+>  	op =3D kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
+>  	if (!op) {
+>  		DRM_ERROR("KMS: Failed to allocate colorop\n");
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/=
+vkms_composer.c
+> index d2101fa55aa3..8bbfce651526 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -164,6 +164,30 @@ static void apply_lut(const struct vkms_crtc_state *=
+crtc_state, struct line_buff
+>  	}
+>  }
+> =20
+> +static void apply_3x4_matrix(struct pixel_argb_s32 *pixel, const struct =
+drm_color_ctm_3x4 *matrix)
+> +{
+> +	s64 rf, gf, bf;
+> +
+> +	rf =3D drm_fixp_mul(drm_sm2fixp(matrix->matrix[0]), drm_int2fixp(pixel-=
+>r)) +
+> +	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[1]), drm_int2fixp(pixel->g=
+)) +
+> +	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[2]), drm_int2fixp(pixel->b=
+)) +
+> +	     drm_sm2fixp(matrix->matrix[3]);
 
-A patch to fix it has been merged today and will show up tomorrow in next.
+It would be nice if the driver had its private data for the matrix
+colorop state, so it could convert the matrix only once when userspace
+sets it.
 
-Maxime
 
---myyknztutswewlxd
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks,
+pq
+
+> +
+> +	gf =3D drm_fixp_mul(drm_sm2fixp(matrix->matrix[4]), drm_int2fixp(pixel-=
+>r)) +
+> +	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[5]), drm_int2fixp(pixel->g=
+)) +
+> +	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[6]), drm_int2fixp(pixel->b=
+)) +
+> +	     drm_sm2fixp(matrix->matrix[7]);
+> +
+> +	bf =3D drm_fixp_mul(drm_sm2fixp(matrix->matrix[8]), drm_int2fixp(pixel-=
+>r)) +
+> +	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[9]), drm_int2fixp(pixel->g=
+)) +
+> +	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[10]), drm_int2fixp(pixel->=
+b)) +
+> +	     drm_sm2fixp(matrix->matrix[11]);
+> +
+> +	pixel->r =3D drm_fixp2int(rf);
+> +	pixel->g =3D drm_fixp2int(gf);
+> +	pixel->b =3D drm_fixp2int(bf);
+> +}
+> +
+>  static void apply_colorop(struct pixel_argb_s32 *pixel, struct drm_color=
+op *colorop)
+>  {
+>  	/* TODO is this right? */
+> @@ -185,6 +209,9 @@ static void apply_colorop(struct pixel_argb_s32 *pixe=
+l, struct drm_colorop *colo
+>  				DRM_DEBUG_DRIVER("unkown colorop 1D curve type %d\n", colorop_state-=
+>curve_1d_type);
+>  				break;
+>  		}
+> +	} else if (colorop->type =3D=3D DRM_COLOROP_CTM_3X4) {
+> +		if (colorop_state->data)
+> +			apply_3x4_matrix(pixel, (struct drm_color_ctm_3x4 *) colorop_state->d=
+ata->data);
+>  	}
+> =20
+>  }
+> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
+> index 4aee29e161d6..8710e550790c 100644
+> --- a/include/drm/drm_colorop.h
+> +++ b/include/drm/drm_colorop.h
+> @@ -224,6 +224,8 @@ int drm_colorop_init(struct drm_device *dev, struct d=
+rm_colorop *colorop,
+> =20
+>  int drm_colorop_curve_1d_init(struct drm_device *dev, struct drm_colorop=
+ *colorop,
+>  			      struct drm_plane *plane, u64 supported_tfs);
+> +int drm_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop =
+*colorop,
+> +			     struct drm_plane *plane);
+> =20
+>  struct drm_colorop_state *
+>  drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop);
+
+
+--Sig_/9Zg0taUTa7H5G5hF=l+3vTq
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZfMR/QAKCRDj7w1vZxhR
-xeThAP9hu9uZyhsosg4xaXjQSqrklVzWAccxuvVo+wD/BvBe5AD7BfMoiWAkmZWD
-we529wvyNXrp/62iho4i01acFGaHUgA=
-=x+QF
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXzFnsACgkQI1/ltBGq
+qqeW2hAAkswLaQZrCXe7Zsbze3mzvHrny69Hpvsuxej/HZMCJ9b5/9YHa6S4d/M4
+7TWZpELcfMvIPMKKX+uuPCEl5jrBJ8r/dJkYxLl8ItL1hPTkPXk0kP64cI19qetL
+VrpnplA2o5pGScHvA6uVY8hbtHfd5DzyTw59BtCi6ci4Jhof4m12WLLpo6Fw6WdT
+Q1JC+0mqqdbU5Hqo+XmTIZOBv8KklksIWwGMZmnlj0V9sJ9thNKkebaFfWUR3/wu
+QFe7y/bvuMZSPZVCSJIHzvEuyCEozsT9AHulFGARgAv/60ojbSWGsdAZQWNP3DIv
+yXVgo4HqQX8PWABD7JwfCjrb5LFJTJw5E4HXyN/TYr0Hq85Ch5zx5VqF59sSca9I
+pb7W1dVn4Mo8d8envYipWPwLUzFbTry8R+3+flbG7ELVp46T7NvX0dmp/31w9qNp
+FrpXiNqIbaAhT7WkrgEEVdZjE6l3MwGxj6AJwgxck3nv7oOyLshvvVJ6v2mOKSIw
+ulY3N7pGF+q44SRlwoSdFmzNl+aA69ebpTQhjMsmqu53ZpWCAganHN8II3LjEL/I
+XW16zjrQWhCIQkK4fyAhkY3O1PQ8JyzAlmp2D4DDcAcjSpM3imJXzI8wIJv3jahT
+7oM+T3K6tfxFz9iZ4iEwvMOWJTojjZCv4j7vsOb4sb/50jhc/k8=
+=91hl
 -----END PGP SIGNATURE-----
 
---myyknztutswewlxd--
+--Sig_/9Zg0taUTa7H5G5hF=l+3vTq--
