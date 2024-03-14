@@ -2,57 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1B2C87B958
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 09:34:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 444A987B95A
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 09:35:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5924010F98D;
-	Thu, 14 Mar 2024 08:34:18 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Nnw0sE2w";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7667610F990;
+	Thu, 14 Mar 2024 08:35:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ED4C10F98E
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 08:34:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710405256; x=1741941256;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=qd4eqTBkHcwbLo7eSV2Kedg+vbWdERUbOG59W19P5oY=;
- b=Nnw0sE2w5WgLU+U9KmeF5rShXpeSoUEeIQ57MOzzS6IRowS5H+7JEUNM
- gRy3xaxbna2fO0BYWYeBx6nF9q3hBUO6M6NLyORLR+dCy8DdYF4Ka5LUb
- XoBadCjDWwWVXdwi1F91+Mvqc43HOuZcJivvtO0K10mv0XKCVZB2cN/Ks
- XQ9xhVwcqUnEsOCR+NbnXg4CZ2RLKPv6laPCXd5rqt3NyK8lP9xMhevMd
- iZcobWkCx0jn4f8ZdAlPZ4T74zYDkaIG2aZDn9JvUJrRBvjar8gv/XtpS
- ksM/TeZYAIT5Xo1uk+IIrRhf7Ki/KNUDmLeyinfSq0gXRFIldNj85nQg5 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="22669295"
-X-IronPort-AV: E=Sophos;i="6.07,124,1708416000"; d="scan'208";a="22669295"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Mar 2024 01:34:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,124,1708416000"; d="scan'208";a="12669113"
-Received: from rboza-mobl.ger.corp.intel.com (HELO localhost) ([10.252.53.139])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Mar 2024 01:34:13 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Linus Torvalds
- <torvalds@linux-foundation.org>
-Cc: Animesh Manna <animesh.manna@intel.com>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [git pull] drm for 6.9-rc1
-In-Reply-To: <CAPM=9twwZ-u7_8sRRRf5kRnuRa44ixzM8dHZUs6f5wLnQi90Zw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <CAPM=9twR+WnE3GGqyeh1cuGVmpADPTwDPK10625RP--rLrqkxA@mail.gmail.com>
- <CAHk-=wiTWLKkg0Hht4ofDTVsebD2Zq-m4UP-DsiZjM+w4b7qug@mail.gmail.com>
- <CAPM=9twwZ-u7_8sRRRf5kRnuRa44ixzM8dHZUs6f5wLnQi90Zw@mail.gmail.com>
-Date: Thu, 14 Mar 2024 10:34:10 +0200
-Message-ID: <87zfv1qkjh.fsf@intel.com>
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com
+ [209.85.219.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F96910F990
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 08:35:08 +0000 (UTC)
+Received: by mail-yb1-f173.google.com with SMTP id
+ 3f1490d57ef6-dcbcea9c261so624149276.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 01:35:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710405306; x=1711010106;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jZOxcwDirhcwqixj1qjfT/PStYtmu0hBzxyawzPkVJ0=;
+ b=VnuaoTndHr48wfFp5WGuvYcHAkhiWgLw9JoXHdrzmgt/Z8T16YrGsTbmH5b7/Tz8wn
+ jTTyiXES/3/HTHEfW9OHNeFMsqBofSuQNd84+55GBoVAAIFeMfpD4BUBE8/SR7l2Q4DK
+ T2eoiK+j1kZWDww4geW3cA50MQ3F8yxkIW/DWqH0J725yJ0kKb4GTTLkD3Oly9GgY8Fz
+ U4AOAkbzqj91D4Ss1xUx3oMvPbn7FpZvB2lCe+I5Q2vjbQZxc2NgKUJn40Mt8jhD7tC4
+ HM2RO8jmekznZAzy6cY96BqsrwsOMSSQB+2i8bmnADa34r96hY872w5uJOUwNSrtLP+c
+ xKug==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWQVg4gF95VUB9jiY1FPctDHjbVgBCCFuIkJQKC2xE4LOIp1sIn/YvSraAxg3MDul2AvdLn2v/i/PrvVQqJwf12n1lMxLjiM8xuduZygbsW
+X-Gm-Message-State: AOJu0Yw2R/M5zFkG4S0gv1+0xRvmZ9FZllwaaOR23JzIdJGyCTM5t7bU
+ +A8WE7+V/kYd0M9cPT/F71IT5TIAKeGXsZQRBxwRnPHca90D2gvHY5eMbMf0bqs=
+X-Google-Smtp-Source: AGHT+IFAJTWYvztMHBZeBLeyRNCsypIq2wvWdDVAf6XLIW9SYdUGJwSXeY4HFB1q+1v+neUtAdfwbA==
+X-Received: by 2002:a25:a06:0:b0:dcb:e82c:f7d with SMTP id
+ 6-20020a250a06000000b00dcbe82c0f7dmr823710ybk.41.1710405306126; 
+ Thu, 14 Mar 2024 01:35:06 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com.
+ [209.85.128.169]) by smtp.gmail.com with ESMTPSA id
+ b11-20020a252e4b000000b00dc7622402b9sm169525ybn.43.2024.03.14.01.35.05
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Mar 2024 01:35:05 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-60cbcd04de9so7456517b3.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 01:35:05 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXw0GJ2JTpeEJzN0XZah4R72g2TbqRzo+RmwTSCnEnq7beDQzAI6QyZIPCIVHqjSxLny4t6bCUDLmm983ASI93RJlEZvy5WZdIcNsC8Gp7r
+X-Received: by 2002:a25:aa2d:0:b0:dca:c369:fac8 with SMTP id
+ s42-20020a25aa2d000000b00dcac369fac8mr1122089ybi.1.1710405305661; Thu, 14 Mar
+ 2024 01:35:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20240313154857.12949-1-tzimmermann@suse.de>
+ <20240313154857.12949-2-tzimmermann@suse.de>
+In-Reply-To: <20240313154857.12949-2-tzimmermann@suse.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 14 Mar 2024 09:34:53 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXE+ZjQjdKz15enO9MJBu=LjmP=06RPMrtWVkzXqvoVXA@mail.gmail.com>
+Message-ID: <CAMuHMdXE+ZjQjdKz15enO9MJBu=LjmP=06RPMrtWVkzXqvoVXA@mail.gmail.com>
+Subject: Re: [PATCH 1/6] auxdisplay/ht16k33: Replace use of fb_blank with
+ backlight helper
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com, 
+ deller@gmx.de, dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-staging@lists.linux.dev, Robin van der Gracht <robin@protonic.nl>, 
+ Miguel Ojeda <ojeda@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,49 +82,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 14 Mar 2024, Dave Airlie <airlied@gmail.com> wrote:
-> On Thu, 14 Mar 2024 at 11:49, Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
->>
->> On Tue, 12 Mar 2024 at 21:07, Dave Airlie <airlied@gmail.com> wrote:
->> >
->> > I've done a trial merge into your tree from a few hours ago, there
->> > are definitely some slighty messy conflicts, I've pushed a sample
->> > branch here:
->>
->> I appreciate your sample merges since I like verifying my end result,
->> but I think your merge is wrong.
->>
->> I got two differences when I did the merge. The one in
->> intel_dp_detect() I think is just syntactic - I ended up placing the
->>
->>         if (!intel_dp_is_edp(intel_dp))
->>                 intel_psr_init_dpcd(intel_dp);
->>
->> differently than you did (I did it *after* the tunnel_detect()).
->>
->> I don't _think,_ that placement matters, but somebody more familiar
->> with the code should check it out. Added Animesh and Jani to the
->> participants.
->>
->> But I think your merge gets the TP_printk() for the xe_bo_move trace
->> event is actively wrong. You don't have the destination for the move
->> in the printk.
->>
->> Or maybe I got it wrong. Our merges end up _close_, but not identical.
+On Wed, Mar 13, 2024 at 4:49=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
+> Replace the use of struct backlight_properties.fb_blank with a
+> call to backlight_get_brightness(). The helper implement the same
+> logic as the driver's function.
 >
-> You are right, I lost a line there, I've repushed mine just for
-> prosperity with that fixed.
->
-> The other one I'm not sure on and will defer to the i915 maintainers
-> if ordering matters.
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-I don't think the ordering matters, but Linus' solution matches what we
-have in our -next, and has been tested.
+Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-BR,
-Jani.
+Gr{oetje,eeting}s,
 
+                        Geert
 
--- 
-Jani Nikula, Intel
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
