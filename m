@@ -2,59 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71DDE87BC79
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 13:05:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 723F187BC80
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 13:07:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD9C210E1FC;
-	Thu, 14 Mar 2024 12:05:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C20F10F21A;
+	Thu, 14 Mar 2024 12:07:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="O3L14v3U";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="We50L1xr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47F8510E1FC
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 12:05:12 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id E761DCE1D2A;
- Thu, 14 Mar 2024 12:05:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A75D7C433F1;
- Thu, 14 Mar 2024 12:05:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1710417909;
- bh=JZwrOZDBFM4h/ynerY9rzycucCItCakGta+7niAWv34=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=O3L14v3UAfRtphABQURAy5hQTD8gXfvP+lZKPlr74q8Kz6VP/Mai4gnpuAA2jcgrt
- EOY6WTGmaqw+zR0YwGPUakdMF9ysfVJHD+FOMYVG0es/sFTOZbC2B0HFrencD1+Bjd
- HThHKuJcu+DeY0YJ+/0E87pn38YjoV+J3VMdHY1Xrnll7FhtMe8nhwNjfAVYd4GveJ
- bJNd+Ee99OLBrJgzSQZF1KoSbjTNkVACbSrgrL3glcUaOfCvK1Eq3sIiZVYXpTrqlN
- y/L1gSHlZZ0v/f2rPzMc+hdX1ifSpU7oPTbwJMK7+r8/mgU3Pl6STUuw+to239Zt39
- XwJuUTioiZpkQ==
-Date: Thu, 14 Mar 2024 13:05:02 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Michal Simek <michal.simek@amd.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 8/8] drm: xlnx: Intoduce TPG CRTC driver
-Message-ID: <20240314-esoteric-delicate-sidewinder-5dc4db@houat>
-References: <20240312-dp-live-fmt-v2-0-a9c35dc5c50d@amd.com>
- <20240312-dp-live-fmt-v2-8-a9c35dc5c50d@amd.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 346AE10F21A;
+ Thu, 14 Mar 2024 12:07:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1710418066; x=1741954066;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=PLPAoVjq0t4xaNG0muI4Yd+yt2YiB407PxAHXEz9hF0=;
+ b=We50L1xrOr+rZ46mZ6FpZy6Lz+uQ13AhrSBtBFHJ34GIpy5OJml2P+gK
+ 1Qa9vgVUmU3lNwKtCJWGbOQLurri2zWfYCpS6o+8+M7XZLYGPX0wavM0P
+ uVd0Amb6mwJxhL33UPJI3V0WMUuXFWifIVlYdKHCMXf7kn2Re5Lg4RHxs
+ pi3rI0+L9TA5M+WnsYXb3Fnh+yjaDZXyMEjqX4CdUKuAgVfdztQQL4g2G
+ FLA/tYsSCIhZAxk9dxz+DOwoSiwm4lyyiPZvpPb1ADVXY7qXUumAStTsV
+ g7Bsshx9MZ64cy12IvXCoFRhXGADDKTb3IdXPM4sXRhmxREEunhMg7Dvr w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5082286"
+X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
+   d="scan'208";a="5082286"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Mar 2024 05:07:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; d="scan'208";a="16929659"
+Received: from unknown (HELO localhost) ([10.237.66.160])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Mar 2024 05:07:44 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH 0/6] drm: debug logging improvements
+In-Reply-To: <cover.1709843865.git.jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1709843865.git.jani.nikula@intel.com>
+Date: Thu, 14 Mar 2024 14:07:41 +0200
+Message-ID: <87r0gdqanm.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="kwejoxn4vhiy7i6i"
-Content-Disposition: inline
-In-Reply-To: <20240312-dp-live-fmt-v2-8-a9c35dc5c50d@amd.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,110 +64,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 07 Mar 2024, Jani Nikula <jani.nikula@intel.com> wrote:
+> Switch a handful of places over to drm device based logging and WARNs,
+> unify connector and crtc logging, etc.
 
---kwejoxn4vhiy7i6i
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ping for review, please. :)
 
-Hi,
 
-On Tue, Mar 12, 2024 at 05:55:05PM -0700, Anatoliy Klymenko wrote:
-> DO NOT MERGE. REFERENCE ONLY.
->=20
-> Add CRTC driver based on AMD/Xilinx Video Test Pattern Generator IP. TPG
-> based FPGA design represents minimalistic harness useful for testing links
-> between FPGA based CRTC and external DRM encoders, both FPGA and hardened
-> IP based.
->=20
-> Add driver for AMD/Xilinx Video Timing Controller. The VTC, working in
-> generator mode, suplements TPG with video timing signals.
->=20
-> Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+>
+> Jani Nikula (6):
+>   drm/modes: add drm_mode_print() to dump mode in drm_printer
+>   drm/probe-helper: switch to drm device based logging
+>   drm/modes: switch drm_mode_prune_invalid() to use struct drm_printer
+>   drm/modes: switch to drm device based error logging
+>   drm/sysfs: switch to drm device based logging
+>   drm/client: switch to drm device based logging, and more
+>
+>  drivers/gpu/drm/drm_client_modeset.c | 129 +++++++++++++++------------
+>  drivers/gpu/drm/drm_modes.c          |  51 +++++++----
+>  drivers/gpu/drm/drm_probe_helper.c   |  41 ++++-----
+>  drivers/gpu/drm/drm_sysfs.c          |  21 +++--
+>  include/drm/drm_modes.h              |   2 +
+>  5 files changed, 137 insertions(+), 107 deletions(-)
 
-As I said previously, we don't want to have unused APIs, so this patch
-should be in a good enough state to be merged if we want to merge the
-whole API.
-
-> +/* ---------------------------------------------------------------------=
---------
-> + * DRM CRTC
-> + */
-> +
-> +static enum drm_mode_status xlnx_tpg_crtc_mode_valid(struct drm_crtc *cr=
-tc,
-> +						     const struct drm_display_mode *mode)
-> +{
-> +	return MODE_OK;
-> +}
-> +
-> +static int xlnx_tpg_crtc_check(struct drm_crtc *crtc,
-> +			       struct drm_atomic_state *state)
-> +{
-> +	struct drm_crtc_state *crtc_state =3D drm_atomic_get_new_crtc_state(sta=
-te, crtc);
-> +	int ret;
-> +
-> +	if (!crtc_state->enable)
-> +		goto out;
-> +
-> +	ret =3D drm_atomic_helper_check_crtc_primary_plane(crtc_state);
-> +	if (ret)
-> +		return ret;
-> +
-> +out:
-> +	return drm_atomic_add_affected_planes(state, crtc);
-> +}
-> +
-
-[...]
-
-> +
-> +static u32 xlnx_tpg_crtc_select_output_bus_format(struct drm_crtc *crtc,
-> +						  struct drm_crtc_state *crtc_state,
-> +						  const u32 *in_bus_fmts,
-> +						  unsigned int num_in_bus_fmts)
-> +{
-> +	struct xlnx_tpg *tpg =3D crtc_to_tpg(crtc);
-> +	unsigned int i;
-> +
-> +	for (i =3D 0; i < num_in_bus_fmts; ++i)
-> +		if (in_bus_fmts[i] =3D=3D tpg->output_bus_format)
-> +			return tpg->output_bus_format;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct drm_crtc_helper_funcs xlnx_tpg_crtc_helper_funcs =3D=
- {
-> +	.mode_valid =3D xlnx_tpg_crtc_mode_valid,
-> +	.atomic_check =3D xlnx_tpg_crtc_check,
-> +	.atomic_enable =3D xlnx_tpg_crtc_enable,
-> +	.atomic_disable =3D xlnx_tpg_crtc_disable,
-> +	.select_output_bus_format =3D xlnx_tpg_crtc_select_output_bus_format,
-> +};
-
-=46rom that code, it's not clear to me how the CRTC is going to be able to
-get what the format is.
-
-It looks like you hardcode it here, but what if there's several that
-would fit the bill? Is the CRTC expected to store it into its private
-structure?
-
-If so, I would expect it to be in the crtc state, and atomic_enable to
-just reuse whatever is in the state.
-
-Maxime
-
---kwejoxn4vhiy7i6i
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZfLn7QAKCRDj7w1vZxhR
-xSvRAQDBl2QlIoZyi0ODQ+MZMNWBU6kh/mje8vQzNdYdrUgsbQEApcQO+aeY7fXf
-KFceNVFn3+gdg8H4vaDQkRqOjheGcg8=
-=knUA
------END PGP SIGNATURE-----
-
---kwejoxn4vhiy7i6i--
+-- 
+Jani Nikula, Intel
