@@ -2,64 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C159787BDBF
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 14:32:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE3187BDD0
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 14:37:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09BB710F7CF;
-	Thu, 14 Mar 2024 13:31:59 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="klcVKh1w";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09AD410FB18;
+	Thu, 14 Mar 2024 13:37:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 510BE10F7CF
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 13:31:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=s/0FdWk5XGUyqBACzBKt0C5ouVnbDInJpotxpm6FY0U=; b=klcVKh1wMlvaqagVsgKd3o91I7
- Wzzz8EZCgUdZFgi72k8zovFPFxQ+KluyMxWKm+39aEBa3x2L6/bk07soevl3sC+qZ/ONgTWzZTYgF
- jfrfaLroef/2JlWo97lbWUN9UiaQ1FlBV9KxhFoZ4vwynxkxv4YLbIXM6Kr/FGgLYhp05nsASPL1G
- OmX0hZAq5oox7Atd3KWNi9KBvE29xRAVGjde0FuIs20JuSeESN+gPn876fmW+1PeyuzMYfPLRTLqb
- SA3WfQe+j4PIq0tTU/a5vPSWjLoYsxPqyaQUGQXfc92W7nv87EcFiZQ+rWN+GH7rKSgrmRbV50Qsd
- U115Jzbw==;
-Received: from [189.6.17.125] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1rklBI-00AMX3-BG; Thu, 14 Mar 2024 14:31:36 +0100
-Date: Thu, 14 Mar 2024 10:31:13 -0300
-From: Melissa Wen <mwen@igalia.com>
-To: Arthur Grillo <arthurgrillo@riseup.net>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
- Melissa Wen <melissa.srw@gmail.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, 
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, pekka.paalanen@haloniitty.fi, 
- Louis Chauvet <louis.chauvet@bootlin.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, 
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com, 
- Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH 1/7] drm: Fix drm_fixp2int_round() making it add 0.5
-Message-ID: <qabkvxajmothdzi4x6p56sehs4tmqgpniki5vyzu55gz6ogkmt@mypwkdofe2kt>
-References: <20240306-louis-vkms-conv-v1-0-5bfe7d129fdd@riseup.net>
- <20240306-louis-vkms-conv-v1-1-5bfe7d129fdd@riseup.net>
- <yyrvbqpmqplwtqfdsjkhzmx7wrk4h67kn5443bdou7c7uciouy@hac7zfxiff7t>
- <16f8867c-147a-4149-ba96-ae70f8eaf903@riseup.net>
- <nzce3m2okiqdd6iqj6ynymus64vjcpdep3jwqgs4uw3rvkvqkz@tz4i34w7b6es>
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
+ [209.85.128.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1E5010FB18
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 13:37:09 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-60a0a54869bso8985077b3.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 06:37:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710423428; x=1711028228;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QDiARA/24cHYG8FRrouoTvUxwp5WbH/hNpGJ/9ezCCU=;
+ b=AQ3JkHYTq5ZCTX2RuQqBsLGSFUcBK3Q/hFwAb5jSP3gwwzhzIpaMg2dtCavIFb9rZy
+ t5GWtm+7KolqsH0fBPhEw/Mktw4kV1JLmWCc0UAeNTXHdDbeyjL3w5LQkx1rzwT8ZNQv
+ XWE+vPgEgAvpJ9v48n4CjgVcpmZvU+GvDsjx6Y9tDNnS8CPSsrHZX9BFDvJq/yQ84mm1
+ s8V2xtW68Qy4Ouvj6iYiLEMXfUioAIq0t52Z1XY0V5XLr8+zh7ZPIJz7/XMz1z1F5gyu
+ hwdOFGo6RWPk/UQg/sRmZIMu2adJsr2rdDstsk411uhWlgj+JwJvY0xK0JaAAuWpoSbn
+ U57Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVMtO16jLAB6hcjur6WVNbbNA9yyjsNk09ozg3Va8Ylgb4OJdPlGxJcFXMYrxZ24NEkEZQHmYjpEEBAu6zTF7KTF3OMp5qewEY7IoUutLsc
+X-Gm-Message-State: AOJu0Yz7XuXr8dQjNYyJstL/VL7jC6mnO/JYaMg7ZujUmMkvzSDGijZz
+ gTZrBjuC4zwCUpkKS6Hyt4SY6rQLh5a+pMse3Kiwqjq0kVxUE2NPZ9fom1Sh+yI=
+X-Google-Smtp-Source: AGHT+IHzTBuulfFzbfZlMUrBX9GFkMFKzxurUTLPGcuEgWd5cCFH212cCf4UO8S6bYgGWTQUOQcuhw==
+X-Received: by 2002:a0d:dbd0:0:b0:60c:c62d:516e with SMTP id
+ d199-20020a0ddbd0000000b0060cc62d516emr1122151ywe.15.1710423427571; 
+ Thu, 14 Mar 2024 06:37:07 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com.
+ [209.85.128.171]) by smtp.gmail.com with ESMTPSA id
+ fn18-20020a05690c341200b0060a08edc81dsm269421ywb.4.2024.03.14.06.37.04
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Mar 2024 06:37:06 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id
+ 00721157ae682-60cbcd04de8so7768397b3.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 06:37:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV1j/FQddhMGORhwnqp1nMM970rYjMKIdL2NgTgETwFIJsC71Ebz0sYZkAOWowmvmvN7viYSTv5h1PrHkUimvAd9+FlxwqXtEeb1H+4t24v
+X-Received: by 2002:a0d:fe04:0:b0:60a:4930:5bb1 with SMTP id
+ o4-20020a0dfe04000000b0060a49305bb1mr1000757ywf.5.1710423424398; Thu, 14 Mar
+ 2024 06:37:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <nzce3m2okiqdd6iqj6ynymus64vjcpdep3jwqgs4uw3rvkvqkz@tz4i34w7b6es>
+References: <20240312170309.2546362-1-linux@roeck-us.net>
+In-Reply-To: <20240312170309.2546362-1-linux@roeck-us.net>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 14 Mar 2024 14:36:52 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUkvagJVEfnhq=Nx2jnmdS0Ax+zy1CvyN0k7k1EwUpu+g@mail.gmail.com>
+Message-ID: <CAMuHMdUkvagJVEfnhq=Nx2jnmdS0Ax+zy1CvyN0k7k1EwUpu+g@mail.gmail.com>
+Subject: Re: [PATCH 00/14] Add support for suppressing warning backtraces
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>, 
+ Arnd Bergmann <arnd@arndb.de>, =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>, Kees Cook <keescook@chromium.org>, 
+ Daniel Diaz <daniel.diaz@linaro.org>, David Gow <davidgow@google.com>, 
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ Brendan Higgins <brendan.higgins@linux.dev>, 
+ Naresh Kamboju <naresh.kamboju@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, Maxime Ripard <mripard@kernel.org>, 
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, 
+ kunit-dev@googlegroups.com, linux-arch@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
+ loongarch@lists.linux.dev, netdev@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,79 +94,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/14, Melissa Wen wrote:
-> On 03/13, Arthur Grillo wrote:
-> > 
-> > 
-> > On 12/03/24 15:27, Melissa Wen wrote:
-> > > On 03/06, Arthur Grillo wrote:
-> > >> As well noted by Pekka[1], the rounding of drm_fixp2int_round is wrong.
-> > >> To round a number, you need to add 0.5 to the number and floor that,
-> > >> drm_fixp2int_round() is adding 0.0000076. Make it add 0.5.
-> > >>
-> > >> [1]: https://lore.kernel.org/all/20240301135327.22efe0dd.pekka.paalanen@collabora.com/
-> > >>
-> > > Hi Arthur,
-> > > 
-> > > thanks for addressing this issue.
-> > > 
-> > > Please, add a fix tag to the commit that you are fixing, so we can
-> > > easily backport. Might be this commit:
-> > > https://cgit.freedesktop.org/drm/drm-misc/commit/drivers/gpu/drm/vkms?id=ab87f558dcfb2562c3497e89600dec798a446665
-> > >> Suggested-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > >> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> > >> ---
-> > >>  include/drm/drm_fixed.h | 2 +-
-> > >>  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >>
-> > >> diff --git a/include/drm/drm_fixed.h b/include/drm/drm_fixed.h
-> > >> index 0c9f917a4d4b..de3a79909ac9 100644
-> > >> --- a/include/drm/drm_fixed.h
-> > >> +++ b/include/drm/drm_fixed.h
-> > >> @@ -90,7 +90,7 @@ static inline int drm_fixp2int(s64 a)
-> > >>  
-> > >>  static inline int drm_fixp2int_round(s64 a)
-> > >>  {
-> > >> -	return drm_fixp2int(a + (1 << (DRM_FIXED_POINT_HALF - 1)));
-> > > Also, this is the only usage of DRM_FIXED_POINT_HALF. Can you also
-> > > remove it as it won't be used anymore?
-> > > 
-> > >> +	return drm_fixp2int(a + DRM_FIXED_ONE / 2);
-> > > Would this division be equivalent to just shifting 1ULL by 31 instead of
-> > > 32 as done in DRM_FIXED_ONE?
-> > 
-> > Yes, but I think the division makes it easier to understand what is
-> > going on.
-> 
-> Right. I was thinking about slightly better performance, but I don't
-> have any data. We can go with this since you consider more readable,
-> anyway.
+Hi G=C3=BCnter,
 
-Just checked that Harry proposed in another patch[1] this:
-`#define DRM_FIXED_HALF		0x80000000ll` for the 0.5 const
+On Tue, Mar 12, 2024 at 6:03=E2=80=AFPM Guenter Roeck <linux@roeck-us.net> =
+wrote:
+> Some unit tests intentionally trigger warning backtraces by passing bad
+> parameters to kernel API functions. Such unit tests typically check the
+> return value from such calls, not the existence of the warning backtrace.
+>
+> Such intentionally generated warning backtraces are neither desirable
+> nor useful for a number of reasons.
+> - They can result in overlooked real problems.
+> - A warning that suddenly starts to show up in unit tests needs to be
+>   investigated and has to be marked to be ignored, for example by
+>   adjusting filter scripts. Such filters are ad-hoc because there is
+>   no real standard format for warnings. On top of that, such filter
+>   scripts would require constant maintenance.
+>
+> One option to address problem would be to add messages such as "expected
+> warning backtraces start / end here" to the kernel log.  However, that
+> would again require filter scripts, it might result in missing real
+> problematic warning backtraces triggered while the test is running, and
+> the irrelevant backtrace(s) would still clog the kernel log.
+>
+> Solve the problem by providing a means to identify and suppress specific
+> warning backtraces while executing test code. Support suppressing multipl=
+e
+> backtraces while at the same time limiting changes to generic code to the
+> absolute minimum. Architecture specific changes are kept at minimum by
+> retaining function names only if both CONFIG_DEBUG_BUGVERBOSE and
+> CONFIG_KUNIT are enabled.
+>
+> The first patch of the series introduces the necessary infrastructure.
+> The second patch introduces support for counting suppressed backtraces.
+> This capability is used in patch three to implement unit tests.
+> Patch four documents the new API.
+> The next two patches add support for suppressing backtraces in drm_rect
+> and dev_addr_lists unit tests. These patches are intended to serve as
+> examples for the use of the functionality introduced with this series.
+> The remaining patches implement the necessary changes for all
+> architectures with GENERIC_BUG support.
 
-Doesn't it sounds better?
+Thanks for your series!
 
-[1] https://lore.kernel.org/dri-devel/20240226211100.100108-4-harry.wentland@amd.com/
-> 
-> Can you send another version addressing the other comments? Then I can
-> cherry-pick and already apply the fix.
-> 
-> Thanks,
-> 
-> Melissa
-> 
-> > 
-> > Best Regards,
-> > ~Arthur Grillo
-> > 
-> > > 
-> > > Melissa
-> > > 
-> > >>  }
-> > >>  
-> > >>  static inline int drm_fixp2int_ceil(s64 a)
-> > >>
-> > >> -- 
-> > >> 2.43.0
-> > >>
+I gave it a try on m68k, just running backtrace-suppression-test,
+and that seems to work fine.
+
+> Design note:
+>   Function pointers are only added to the __bug_table section if both
+>   CONFIG_KUNIT and CONFIG_DEBUG_BUGVERBOSE are enabled to avoid image
+>   size increases if CONFIG_KUNIT=3Dn. There would be some benefits to
+>   adding those pointers all the time (reduced complexity, ability to
+>   display function names in BUG/WARNING messages). That change, if
+>   desired, can be made later.
+
+Unfortunately this also increases kernel size in the CONFIG_KUNIT=3Dm
+case (ca. 80 KiB for atari_defconfig), making it less attractive to have
+kunit and all tests enabled as modules in my standard kernel.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
