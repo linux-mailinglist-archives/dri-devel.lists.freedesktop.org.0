@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93A9A87BAD3
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 11:00:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A24A487BB03
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 11:10:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E635010FA0B;
-	Thu, 14 Mar 2024 10:00:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 072F310FA1C;
+	Thu, 14 Mar 2024 10:10:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="TdlY9saL";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="bjILxDdc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C089A10FA0B
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 10:00:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1710410435;
- bh=qTUSe00wy7swqxvIMkJ/BMa2N9lVsORNASuFfYjpEDk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=TdlY9saLJh+pTI2x6CT45wZNK3eMu3DNCS/6mX62puma0BfWpNgZf9OHMZvxghSeV
- eg5CYTciQM0uGVgH6KlJcLBb85LeQsIXx8pvOTylvuaDfl5u9NKubaZS+9+QtXJNJS
- 75l6ObHCpjLW6Tl2g3cFKuB8X08ZiceF8HUurpo5KnXUJUcFvCZ3AxtVvuMFLG++nv
- 8AzcW8b3/dPfDrLAnSH+YK1RwFEpUyl2ZNKEY36kWpEEDIFZeHlvUYMmP9niBXTql9
- gxhp6P8ivyse1cRS53e5BVQPpw6CmW64mlFs2yR4ifdQhiHp6o9fO5EiqMDp5TPO3W
- r5BWMuE5xArlQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5054810FA1C
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 10:10:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1710411050;
+ bh=U4YEsnxniAk2SJLiG1F83BQacHJwGqbY26ZK4ZuBGU4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=bjILxDdcv8hqfkJ3jPKQcKll9Dhmzpmz4gtJDn+MDmhHnhkt6dtxbf92y4n13yFy6
+ Xbgn5Q0F1C4rQoBoyU1zmgLanTjYlWCJrf9/S/tz/OHuCx7tV4qQtphxDWDsqIfcXK
+ GgUCZfb57loUs9n9Xin8Jtbb67xTi6oUKf4IsW+6g1VOdw/XhKiaT7YNWZRDdExadv
+ Mfm43/FafPrjrMf/C/Vhl0E7vI9+XvfL1xWsuyCqAJrsQH7VAzPQshcgE7Gz+qqDlN
+ LVc7gE3bPRqpoFKavWy7XVCctJqSkEtb9QC4O4MLV0lxT8WV+jM/qXBTSB8kLQRBjM
+ KZxdHsKvARF5A==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4TwNDK6Cbtz4wd7;
- Thu, 14 Mar 2024 21:00:33 +1100 (AEDT)
-Date: Thu, 14 Mar 2024 21:00:32 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Daniel Stone <daniel@fooishbar.org>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Daniel Stone <daniels@collabora.com>
-Subject: Re: drm-misc migration to Gitlab server
-Message-ID: <20240314210032.2c08ffbd@canb.auug.org.au>
-In-Reply-To: <20240314-heavy-polite-mantis-bfbb84@houat>
-References: <gnthy5o42kiyj63d2bkkxsc5krzf3wrwt23chh2kthkmlyjwbg@ybynvjvqdka7>
- <akb3fluuli75vh5due5ll7t5igg7oo5vqwkal645hkjkhyqz6w@qu62f5l6joy6>
- <CAPj87rMYC3D-PYtMcTXD3=HqNSpyyVj9jp0nodO+2PebP1guAA@mail.gmail.com>
- <20240221094643.4496313a@canb.auug.org.au>
- <20240314-heavy-polite-mantis-bfbb84@houat>
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id A20D137820A3;
+ Thu, 14 Mar 2024 10:10:49 +0000 (UTC)
+Message-ID: <b7addbd1-d199-4734-9db6-d7dbc3a7f7d9@collabora.com>
+Date: Thu, 14 Mar 2024 11:10:48 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/cJjLF7w7UPvX_hLY7m=FDKJ";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mediatek: dsi: Add dsi per-frame lp code for mt8188
+Content-Language: en-US
+To: Shuijing Li <shuijing.li@mediatek.com>, chunkuang.hu@kernel.org,
+ p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ matthias.bgg@gmail.com, jitao.shi@mediatek.com
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20240314094238.3315-1-shuijing.li@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240314094238.3315-1-shuijing.li@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,39 +64,188 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/cJjLF7w7UPvX_hLY7m=FDKJ
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Il 14/03/24 10:41, Shuijing Li ha scritto:
+> Adding the per-frame lp function of mt8188, which can keep HFP in HS and
+> reduce the time required for each line to enter and exit low power.
+> Per Frame LP:
+>    |<----------One Active Frame-------->|
+> --______________________________________----___________________
+>    ^HSA+HBP^^RGB^^HFP^^HSA+HBP^^RGB^^HFP^    ^HSA+HBP^^RGB^^HFP^
+> 
+> Per Line LP:
+>    |<---------------One Active Frame----------->|
+> --______________--______________--______________----______________
+>    ^HSA+HBP^^RGB^  ^HSA+HBP^^RGB^  ^HSA+HBP^^RGB^    ^HSA+HBP^^RGB^
+> 
+> Signed-off-by: Shuijing Li <shuijing.li@mediatek.com>
+> ---
+>   drivers/gpu/drm/mediatek/mtk_dsi.c | 100 +++++++++++++++++++++++++++++
+>   1 file changed, 100 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> index a2fdfc8ddb15..e6f4807c8711 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -83,6 +83,7 @@
+>   #define DSI_HSA_WC		0x50
+>   #define DSI_HBP_WC		0x54
+>   #define DSI_HFP_WC		0x58
+> +#define DSI_BLLP_WC		0x5C
+>   
+>   #define DSI_CMDQ_SIZE		0x60
+>   #define CMDQ_SIZE			0x3f
+> @@ -180,6 +181,7 @@ struct mtk_dsi_driver_data {
+>   	bool has_shadow_ctl;
+>   	bool has_size_ctl;
+>   	bool cmdq_long_packet_ctl;
+> +	bool support_per_frame_lp;
+>   };
+>   
+>   struct mtk_dsi {
+> @@ -516,6 +518,103 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
+>   			(vm->hactive * dsi_tmp_buf_bpp + 2) % dsi->lanes;
+>   	}
+>   
+> +	if (dsi->driver_data->support_per_frame_lp) {
 
-Hi Maxime,
+This really looks like a good candidate to fit in a function on its own...
 
-On Thu, 14 Mar 2024 09:39:24 +0100 Maxime Ripard <mripard@kernel.org> wrote:
->
-> We've migrated the drm-misc repo to:
-> https://gitlab.freedesktop.org/drm/misc/kernel.git
->=20
-> The branch names are the same
+> +		unsigned int lpx = 0, da_hs_exit = 0, da_hs_prep = 0, da_hs_trail = 0;
+> +		unsigned int da_hs_zero = 0, ps_wc = 0, hs_vb_ps_wc = 0;
+> +		u32 bllp_wc, bllp_en, v_active_roundup, hstx_cklp_wc;
+> +		u32 hstx_cklp_wc_max, hstx_cklp_wc_min;
+> +
+> +		da_hs_trail = (readl(dsi->regs + DSI_PHY_TIMECON0) >> 24) & 0xff;
+> +		bllp_en = (readl(dsi->regs + DSI_TXRX_CTRL) >> 7) & 0x1;
 
-I have switched over for tomorrow and test fetches work fine.
+(somewhere: #define HSTX_BLLP_EN BIT(7))
 
---=20
-Cheers,
-Stephen Rothwell
+u32 timecon0, txrx_ctrl;
 
---Sig_/cJjLF7w7UPvX_hLY7m=FDKJ
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+timecon0 = readl(....DSI_PHY_TIMECON0);
+txrx_ctrl = readl(.....);
 
------BEGIN PGP SIGNATURE-----
+da_hs_trail = FIELD_GET(HS_TRAIL, timecon0);
+bllp_en = FIELD_GET(HSTX_BLLP_EN, txrx_ctrl);
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmXyysAACgkQAVBC80lX
-0GxVcQf/V1P8Md6aALDn1OGwAYV6WB0U0hOe91Qk4JSVeXGwSMEpWHhvSePr6+Ew
-0eXM4rfA5hQaob11ca95FHWM7KCJ6/H3P3myVaBATEh3bBWahtsyFQu97mjOv1uR
-hUX5bjN1H6fpO5LJVW684bGtuIYHFSi7f8fA09qOZZOl0A9DVtT0AIBNL2GObJhs
-Z6+YM7vO6zGPsPUHw3cXnnx/RlS936fyuV8cQO7ontwLsmLBTRMGKOnMaXvNc+Er
-xVw3Gl93Krjc46RMrcyeTcFXXTsjpeGdL+srPOPF5Ot0g1myknMHWPOLIFzJLJKt
-05bkG9LyJ51UwSTFK4l5Fi/rNweZ+A==
-=4v0j
------END PGP SIGNATURE-----
+> +		if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) {
+> +			horizontal_sync_active_byte =
+> +				(vm->hsync_len * dsi_tmp_buf_bpp - 10);
+> +			horizontal_backporch_byte =
+> +				(vm->hback_porch * dsi_tmp_buf_bpp - 10);
+> +			horizontal_frontporch_byte =
+> +				(vm->hfront_porch * dsi_tmp_buf_bpp - 12);
+> +
+> +			ps_wc = readl(dsi->regs + DSI_PSCTRL) & 0x7fff;
+> +			v_active_roundup = (32 + horizontal_sync_active_byte +
+> +				horizontal_backporch_byte + ps_wc +
+> +				horizontal_frontporch_byte) % dsi->lanes;
+> +			if (v_active_roundup)
+> +				horizontal_backporch_byte = horizontal_backporch_byte +
+> +					dsi->lanes - v_active_roundup;
+> +			hstx_cklp_wc_min = (DIV_ROUND_UP((12 + 2 + 4 +
 
---Sig_/cJjLF7w7UPvX_hLY7m=FDKJ--
+Please document those "magic numbers": why is this 12 + 2 + 4 ?
+What is 12? what is 2? what is 4?
+
+> +				horizontal_sync_active_byte), dsi->lanes) + da_hs_trail + 1)
+> +				* dsi->lanes / 6 - 1;
+> +			hstx_cklp_wc_max = (DIV_ROUND_UP((20 + 6 + 4 +
+> +				horizontal_sync_active_byte + horizontal_backporch_byte +
+> +				ps_wc), dsi->lanes) + da_hs_trail + 1) * dsi->lanes / 6 - 1;
+> +		} else {
+> +			horizontal_sync_active_byte = vm->hsync_len * dsi_tmp_buf_bpp - 4;
+> +
+> +			horizontal_backporch_byte = (vm->hback_porch + vm->hsync_len) *
+> +				dsi_tmp_buf_bpp - 10;
+> +			hstx_cklp_wc_min = (DIV_ROUND_UP(4, dsi->lanes) + da_hs_trail + 1)
+> +				* dsi->lanes / 6 - 1;
+> +
+> +			if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) {
+> +				ps_wc = readl(dsi->regs + DSI_PSCTRL) & 0x7fff;
+> +				bllp_wc = readl(dsi->regs + DSI_BLLP_WC) & 0xfff;
+
+Please use bitfield macros here as well.
+
+> +				horizontal_frontporch_byte = (vm->hfront_porch *
+> +					dsi_tmp_buf_bpp - 18);
+> +
+> +				v_active_roundup = (28 + horizontal_backporch_byte + ps_wc +
+> +					horizontal_frontporch_byte + bllp_wc) % dsi->lanes;
+> +				if (v_active_roundup)
+> +					horizontal_backporch_byte = horizontal_backporch_byte +
+> +					dsi->lanes - v_active_roundup;
+> +				if (bllp_en) {
+> +					hstx_cklp_wc_max = (DIV_ROUND_UP((16 + 6 + 4 +
+> +						horizontal_backporch_byte + bllp_wc + ps_wc),
+> +						dsi->lanes) + da_hs_trail + 1) * dsi->lanes / 6 - 1;
+> +				} else {
+> +					hstx_cklp_wc_max = (DIV_ROUND_UP((12 + 4 + 4 +
+> +						horizontal_backporch_byte + bllp_wc + ps_wc),
+> +						dsi->lanes) + da_hs_trail + 1) * dsi->lanes / 6 - 1;
+> +				}
+> +			} else {
+> +				ps_wc = readl(dsi->regs + DSI_PSCTRL) & 0x7fff;
+> +				horizontal_frontporch_byte = (vm->hfront_porch *
+> +					dsi_tmp_buf_bpp - 12);
+> +
+> +				v_active_roundup = (22 + horizontal_backporch_byte + ps_wc +
+> +					horizontal_frontporch_byte) % dsi->lanes;
+> +				if (v_active_roundup)
+> +					horizontal_backporch_byte = horizontal_backporch_byte +
+> +					dsi->lanes - v_active_roundup;
+> +
+> +				hstx_cklp_wc_max = (DIV_ROUND_UP((12 + 4 + 4 +
+> +					horizontal_backporch_byte + ps_wc),
+> +					dsi->lanes) + da_hs_trail + 1) * dsi->lanes / 6 - 1;
+> +			}
+> +		}
+> +		hstx_cklp_wc = (readl(dsi->regs + DSI_HSTX_CKL_WC) >> 2) & 0x3fff;
+
+same here
+
+> +		if (hstx_cklp_wc <= hstx_cklp_wc_min ||
+> +			hstx_cklp_wc >= hstx_cklp_wc_max) {
+> +			hstx_cklp_wc = (hstx_cklp_wc_max / 2) << 2;
+
+and same here... and everywhere else.
+
+> +			writel(hstx_cklp_wc, dsi->regs + DSI_HSTX_CKL_WC);
+> +		}
+> +		hstx_cklp_wc = hstx_cklp_wc >> 2;
+> +		if (hstx_cklp_wc <= hstx_cklp_wc_min ||
+> +			hstx_cklp_wc >= hstx_cklp_wc_max) {
+> +			DRM_WARN("Wrong setting of hstx_ckl_wc\n");
+> +		}
+> +
+> +		lpx = readl(dsi->regs + DSI_PHY_TIMECON0) & 0xff;
+> +		da_hs_exit = (readl(dsi->regs + DSI_PHY_TIMECON1) >> 24) & 0xff;
+> +		da_hs_prep = (readl(dsi->regs + DSI_PHY_TIMECON0) >> 8) & 0xff;
+> +		da_hs_zero = (readl(dsi->regs + DSI_PHY_TIMECON0) >> 16) & 0xff;
+> +		ps_wc = readl(dsi->regs + DSI_PSCTRL) & 0x7fff;
+> +		hs_vb_ps_wc = ps_wc -
+> +			(lpx + da_hs_exit + da_hs_prep + da_hs_zero + 2)
+> +			* dsi->lanes;
+> +		horizontal_frontporch_byte = (1 << 31)
+> +			| (hs_vb_ps_wc << 16)
+> +			| (horizontal_frontporch_byte);
+> +	}
+>   	writel(horizontal_sync_active_byte, dsi->regs + DSI_HSA_WC);
+>   	writel(horizontal_backporch_byte, dsi->regs + DSI_HBP_WC);
+>   	writel(horizontal_frontporch_byte, dsi->regs + DSI_HFP_WC);
+> @@ -1246,6 +1345,7 @@ static const struct mtk_dsi_driver_data mt8188_dsi_driver_data = {
+>   	.has_shadow_ctl = true,
+>   	.has_size_ctl = true,
+>   	.cmdq_long_packet_ctl = true,
+> +	.support_per_frame_lp = true,
+
+Is this supported only on MT8188? Are you sure that MT8195 doesn't support that?
+
+Regards,
+Angelo
+
+>   };
+>   
+>   static const struct of_device_id mtk_dsi_of_match[] = {
+
+
