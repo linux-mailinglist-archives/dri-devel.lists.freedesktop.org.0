@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C96387B60F
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 02:11:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 303B087B611
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 02:11:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56E3210E8BF;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7C4610E990;
 	Thu, 14 Mar 2024 01:10:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Av1T74oV";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uhzr8XPQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
- [209.85.208.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4CC710E396
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 01:10:48 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id
- 38308e7fff4ca-2d4541bf57eso4947201fa.2
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 18:10:48 -0700 (PDT)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
+ [209.85.208.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AACA510E700
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 01:10:49 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id
+ 38308e7fff4ca-2d46c44dcc0so5140351fa.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Mar 2024 18:10:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1710378647; x=1710983447; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1710378648; x=1710983448; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=H05lkKyWbPVJPRRlJwmLAAiEv2sm+h09AW5BdkwY1QU=;
- b=Av1T74oVzUm95y9sHz9OqTUH3S8PHfwbH7DotsGNbrHt8i0N4DknspoT9Mxmla0bb1
- AJlqcH4m/69FmYvslp3kPBGYZxs/S+F1C058khlbRL/HXNnbOmh/EZyuXQaUJhED6Nut
- KKbKOKn3zP00+lC62/X7fpYwSwkQPgUGJxpU1QS34OVWxyYWpREaDazd46i5ferJAea2
- ooz894JVWCf0XrOPLqMBJr8McKHP17nS276wCAqQHjkiMzcKrgpeYfI7ZZeamAO+zYjW
- r6ExWo19D3jEsLhLlxFyI+lzQ0vv7ZAK0F7CqBvk8Kn+BmFdUSJ4JsXnVj0Be1ulOOe7
- ZtZA==
+ :reply-to; bh=t+mg/QgGY9aZHLSlX/LvtBL3FjmiyE45LaEWnMCzc0I=;
+ b=uhzr8XPQikc8uBZtaWawUieDSo0JQs07smx7usPUnVjHZS9KWzJ9wkKI4G12Iaj0HJ
+ NbuonXGWjZQTcA86HYjj14plNsWmESmdHGI9OupCwlBEmTWIDpX9bgtRM/9Y1cvzeFr5
+ mTCoZYA5l20wK1mrqDdR4pVWZbt6nYTy1N20OFNWKMuwTZZ+hUpnFXmR+FHnFDc5PWl5
+ t7Dd7O9vQngwBXIR9pLd41tLw51R6s8epML13cy23dUi7yIVic2/RO1B3Uu+OQNaYiaa
+ n7IDz4kozu+cOXs0e4tCwKYvtSpg0xKBtBnHV1OOwS/HthWoCPypAIagkuuhuBBB1Z0X
+ oVgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710378647; x=1710983447;
+ d=1e100.net; s=20230601; t=1710378648; x=1710983448;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=H05lkKyWbPVJPRRlJwmLAAiEv2sm+h09AW5BdkwY1QU=;
- b=Wmo57HN97+5uteGzK+L/XY0HqirjRH+s4tZowCBFkxvY7bHW1eYXQy+Dqi+CIS917I
- jwvv3xbgqpmTzisPM232BRLtwTQLZRUJAA00YHe5qkZ+dqenwMB3/KRHk45RrPD8Wg+/
- 3o8Tbl+7wjEx0sQfJAopoK/ebafaYmLaXjJscOZYf0MaIdbXobVgyLqK1I+j6ploKLXW
- G43OIvFvAuCvF8rxYyHO8KmkkajbDh4ZCzzOwb9L2w+xCCNxgVzeWhW1e2QTNIMb2TgX
- QhTXABKp9ji3lgpCDdTMp92JSOiJ6AxaRBBZSV8zTARArb3E8xMuuKpswWRxjSe7rUlI
- 8IAQ==
+ bh=t+mg/QgGY9aZHLSlX/LvtBL3FjmiyE45LaEWnMCzc0I=;
+ b=tnQyF8gUo/mOwkDA6re00b4v1K5I66YTBpPDXoZaTonmlk5ND+bYclVAGeZ460s1gU
+ WtxY61Q4QQSdFKFUk/MC6+NLrcwzVw6YE/DuDGtODYule/uZA9bCCoI0BMO1tL+jobc8
+ r9ubH0Vf/6+Sdj5fAY0nADzwLQh6gvDw3TMquaA7HGdVF9ajoW9IEtvKofEiHP/HMFDc
+ MVQkdfX9TV2+fTHFbZUjCdsqtOyIiFTNJd5MmB7DV3wD/3qOA/vevkAwJQKZ1vk3WEfD
+ h1qe+/kBNKcDOeE/uoNvXvp0tsA1PTMA2YnGp4kG7QXRpEZiOFO2OzeJj3rGejYgPDe+
+ TKaw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVxrlq989T/US1Ra+2PqyNsNezXzvhq8UwIr2esasDyDkw/CfeyiYS6jVU6R0pwkH5sCqkAx3imq9AGUAFW5drPBjgLEDW9qLNomYoA0kmY
-X-Gm-Message-State: AOJu0YxqKgzeGfEjx7AKezkUF8SuJG5NumSVdO6is6INGtGR8sBLtCCj
- lyyaio/9oZZhCToSVc0fK0jVEUP6oYkxaJo4IsZGx827r9fjVlVPawybkG/IqDg=
-X-Google-Smtp-Source: AGHT+IGW4KP56dB8kSZt72D48OJV+VAsUXapGyd7phHEUjL0KU73SEVc2EAO3GOCJO0b2LhW1PtD8Q==
-X-Received: by 2002:a2e:be83:0:b0:2d4:64b1:25e2 with SMTP id
- a3-20020a2ebe83000000b002d464b125e2mr124380ljr.44.1710378646791; 
- Wed, 13 Mar 2024 18:10:46 -0700 (PDT)
+ AJvYcCWkS4yq3bZNG2rFoPj/7EMGOvFrys6Z91HI5X1MCOtpAXL20YCGJPvmuIVmYnPaNLTaaMYiV1aKrifFy9wEGaO4IoHYlkDu6cdTZ1AsTojU
+X-Gm-Message-State: AOJu0YwcyOiFLyUMu32QzDiQM6hurnyy/HFK1nxgfJ5fLOPI7a1vKQJk
+ 3+iLOyQPbhuS1sUZHcSo2OkcIm1lojEd6/9ieW+QOnPQ6ZggG4BTZllVtbXEiI0=
+X-Google-Smtp-Source: AGHT+IHBe82yWu81fztcxeSaXu7xVdPyduDpAFU3wzVXa2k2jd69py2qrnLPHlLMY+WKqqnY9ZTvKw==
+X-Received: by 2002:a2e:9c07:0:b0:2d2:eeda:c019 with SMTP id
+ s7-20020a2e9c07000000b002d2eedac019mr128385lji.28.1710378647800; 
+ Wed, 13 Mar 2024 18:10:47 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
  u19-20020a2e91d3000000b002d2ab6ae675sm48917ljg.137.2024.03.13.18.10.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Mar 2024 18:10:46 -0700 (PDT)
+ Wed, 13 Mar 2024 18:10:47 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 14 Mar 2024 03:10:42 +0200
-Subject: [PATCH v3 2/5] drm/msm/dpu: core_perf: extract bandwidth
- aggregation function
+Date: Thu, 14 Mar 2024 03:10:43 +0200
+Subject: [PATCH v3 3/5] drm/msm/dpu: handle perf mode in
+ _dpu_core_perf_crtc_update_bus()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240314-dpu-perf-rework-v3-2-79fa4e065574@linaro.org>
+Message-Id: <20240314-dpu-perf-rework-v3-3-79fa4e065574@linaro.org>
 References: <20240314-dpu-perf-rework-v3-0-79fa4e065574@linaro.org>
 In-Reply-To: <20240314-dpu-perf-rework-v3-0-79fa4e065574@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -72,16 +72,16 @@ To: Rob Clark <robdclark@gmail.com>,
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2547;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2836;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=XB5qQZ6AM1gMdqH09M2m8W3Q7FcCw/TC5ffKreIP0Lc=;
- b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ+onv0kXr8re+i35+SlTdqBy1spZr5luMYQ+snYTuNj6O
- 6JZfClnJ6MxCwMjF4OsmCKLT0HL1JhNyWEfdkythxnEygQyhYGLUwAmkqbI/ovJbPuPd+LrnBLP
- Tzjj+pppSZDAq3k2HdHLK9qCywxrw9/c6V5y+t237E2zk/2+xlQpRP5e/OeBUA1v0IEpz1feM4h
- Z0R9XlnT6WMya/UpCbr7JgUZyu1Vsi8sXZib8047gDkg6qL4pdXlnwIOde01Xzlg+02oh27aUe4
- b7uqYtEyh+v8aSyYHbS2We+vwJ3HosssyhCXUZH0z/Jkm0q7PtrHoZ773c8ADLA8kbp45YF0XUH
- Gwp0GNJdcn9u9BOVb3z/6f+O7ZzjFIu2QpM+CKa1md/rLSNaVFz3mnrHfxSCVHuJWzHygWzAo+J
- Razje3jyZcabDgb/JtE3vgkf/eR+typM5tRJqTm8aW4mAA==
+ bh=thk7wK1FydPIdoBcFyLFgX//qapGQtCBVVmk3tJhOWI=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBl8k6ScKobsIPOE/hOw550JGULOX1nrrox+Dnov
+ CdrJ/Ys+TOJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZfJOkgAKCRCLPIo+Aiko
+ 1f8JCACr/qopx9NwwqC7LgXMdW2hItrEVb5W9z3cNXNh3so9MAaCV0oldYq6/rlgHUzwjYaBBzJ
+ atC7SM1afc56E5BHWLyj+2NfkXNGVunm7Lr8VxJsAW09ABAZaT10aDEHbTWBA4igCWO21uffIvs
+ Iabcf9CzR0a2plZaBiiU53p2/9iXHkrEne4BNykBunLXVdniMnWu6FbEYDOQciWY9RMG+IzMmRC
+ 6oIq1ThDUdCbqQpgRKLdWB8NULAEunTVu5ZgZ95j71LvTOquQCd7MHmzjN8bqt0vh7S/8P0GBg7
+ undfAeSrJClKMOotZjNenQe8QNl5IXy2jtK9z68aHAuxOrPi
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -99,81 +99,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In preparation to refactoring the dpu_core_perf debugfs interface,
-extract the bandwidth aggregation function from
-_dpu_core_perf_crtc_update_bus().
+Move perf mode handling for the bandwidth to
+_dpu_core_perf_crtc_update_bus() rather than overriding per-CRTC data
+and then aggregating known values.
+
+Note, this changes the fix_core_ab_vote. Previously it would be
+multiplied per the CRTC number, now it will be used directly for
+interconnect voting.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 45 +++++++++++++++------------
- 1 file changed, 25 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 39 +++++++++++++--------------
+ 1 file changed, 19 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-index 68fae048a9a8..87b892069526 100644
+index 87b892069526..ff2942a6a678 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-@@ -204,36 +204,41 @@ int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
- 	return 0;
- }
- 
--static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
--		struct drm_crtc *crtc)
-+static void dpu_core_perf_aggregate(struct drm_device *ddev,
-+				    enum dpu_crtc_client_type curr_client_type,
-+				    struct dpu_core_perf_params *perf)
- {
--	struct dpu_core_perf_params perf = { 0 };
--	enum dpu_crtc_client_type curr_client_type
--					= dpu_crtc_get_client_type(crtc);
--	struct drm_crtc *tmp_crtc;
- 	struct dpu_crtc_state *dpu_cstate;
--	int i, ret = 0;
--	u64 avg_bw;
--
--	if (!kms->num_paths)
--		return 0;
-+	struct drm_crtc *tmp_crtc;
- 
--	drm_for_each_crtc(tmp_crtc, crtc->dev) {
-+	drm_for_each_crtc(tmp_crtc, ddev) {
- 		if (tmp_crtc->enabled &&
--			curr_client_type ==
--				dpu_crtc_get_client_type(tmp_crtc)) {
-+		    curr_client_type == dpu_crtc_get_client_type(tmp_crtc)) {
- 			dpu_cstate = to_dpu_crtc_state(tmp_crtc->state);
- 
--			perf.max_per_pipe_ib = max(perf.max_per_pipe_ib,
--					dpu_cstate->new_perf.max_per_pipe_ib);
-+			perf->max_per_pipe_ib = max(perf->max_per_pipe_ib,
-+						    dpu_cstate->new_perf.max_per_pipe_ib);
- 
--			perf.bw_ctl += dpu_cstate->new_perf.bw_ctl;
-+			perf->bw_ctl += dpu_cstate->new_perf.bw_ctl;
- 
--			DRM_DEBUG_ATOMIC("crtc=%d bw=%llu paths:%d\n",
--				  tmp_crtc->base.id,
--				  dpu_cstate->new_perf.bw_ctl, kms->num_paths);
-+			DRM_DEBUG_ATOMIC("crtc=%d bw=%llu\n",
-+					 tmp_crtc->base.id,
-+					 dpu_cstate->new_perf.bw_ctl);
- 		}
+@@ -118,21 +118,9 @@ static void _dpu_core_perf_calc_crtc(const struct dpu_core_perf *core_perf,
+ 		return;
  	}
-+}
-+
-+static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
-+		struct drm_crtc *crtc)
-+{
-+	struct dpu_core_perf_params perf = { 0 };
-+	int i, ret = 0;
-+	u64 avg_bw;
-+
-+	if (!kms->num_paths)
-+		return 0;
-+
-+	dpu_core_perf_aggregate(crtc->dev, dpu_crtc_get_client_type(crtc), &perf);
  
- 	avg_bw = perf.bw_ctl;
- 	do_div(avg_bw, (kms->num_paths * 1000)); /*Bps_to_icc*/
+-	memset(perf, 0, sizeof(struct dpu_core_perf_params));
+-
+-	if (core_perf->perf_tune.mode == DPU_PERF_MODE_MINIMUM) {
+-		perf->bw_ctl = 0;
+-		perf->max_per_pipe_ib = 0;
+-		perf->core_clk_rate = 0;
+-	} else if (core_perf->perf_tune.mode == DPU_PERF_MODE_FIXED) {
+-		perf->bw_ctl = core_perf->fix_core_ab_vote;
+-		perf->max_per_pipe_ib = core_perf->fix_core_ib_vote;
+-		perf->core_clk_rate = core_perf->fix_core_clk_rate;
+-	} else {
+-		perf->bw_ctl = _dpu_core_perf_calc_bw(perf_cfg, crtc);
+-		perf->max_per_pipe_ib = perf_cfg->min_dram_ib;
+-		perf->core_clk_rate = _dpu_core_perf_calc_clk(perf_cfg, crtc, state);
+-	}
++	perf->bw_ctl = _dpu_core_perf_calc_bw(perf_cfg, crtc);
++	perf->max_per_pipe_ib = perf_cfg->min_dram_ib;
++	perf->core_clk_rate = _dpu_core_perf_calc_clk(perf_cfg, crtc, state);
+ 
+ 	DRM_DEBUG_ATOMIC(
+ 		"crtc=%d clk_rate=%llu core_ib=%llu core_ab=%llu\n",
+@@ -233,18 +221,29 @@ static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
+ {
+ 	struct dpu_core_perf_params perf = { 0 };
+ 	int i, ret = 0;
+-	u64 avg_bw;
++	u32 avg_bw;
++	u32 peak_bw;
+ 
+ 	if (!kms->num_paths)
+ 		return 0;
+ 
+-	dpu_core_perf_aggregate(crtc->dev, dpu_crtc_get_client_type(crtc), &perf);
++	if (kms->perf.perf_tune.mode == DPU_PERF_MODE_MINIMUM) {
++		avg_bw = 0;
++		peak_bw = 0;
++	} else if (kms->perf.perf_tune.mode == DPU_PERF_MODE_FIXED) {
++		avg_bw = kms->perf.fix_core_ab_vote;
++		peak_bw = kms->perf.fix_core_ib_vote;
++	} else {
++		dpu_core_perf_aggregate(crtc->dev, dpu_crtc_get_client_type(crtc), &perf);
++
++		avg_bw = div_u64(perf.bw_ctl, 1000); /*Bps_to_icc*/
++		peak_bw = perf.max_per_pipe_ib;
++	}
+ 
+-	avg_bw = perf.bw_ctl;
+-	do_div(avg_bw, (kms->num_paths * 1000)); /*Bps_to_icc*/
++	avg_bw /= kms->num_paths;
+ 
+ 	for (i = 0; i < kms->num_paths; i++)
+-		icc_set_bw(kms->path[i], avg_bw, perf.max_per_pipe_ib);
++		icc_set_bw(kms->path[i], avg_bw, peak_bw);
+ 
+ 	return ret;
+ }
 
 -- 
 2.39.2
