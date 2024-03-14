@@ -2,138 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B09E87B91A
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 09:09:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B294687B925
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 09:14:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36D3610F93E;
-	Thu, 14 Mar 2024 08:09:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2288C10E1B1;
+	Thu, 14 Mar 2024 08:14:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="w/frsO9v";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YQJLL+pe";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="w/frsO9v";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YQJLL+pe";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="DiPirn7X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 097D910F93E
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 08:09:32 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2F97E1F813;
- Thu, 14 Mar 2024 08:09:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1710403771; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D1DE10E1B1
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 08:14:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1710404069;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OXsoJdwthfxseiuRkEHlo9tV1JLIcCtYreIwZngMfH0=;
- b=w/frsO9viiD2WCPbq2chXoemepyvOfA/u9jsxljHGv1YLjLTFkzOwZicneRdpExJsza743
- hoxmb240/950sOMEeEjPS1GV9mjjMlatzjLRzLgx6qL8qyEqEHNNG963baREhC+SpjYWmD
- OTP5e8cARHnBNkbLno0HPuv1jxpcmVQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1710403771;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OXsoJdwthfxseiuRkEHlo9tV1JLIcCtYreIwZngMfH0=;
- b=YQJLL+peahm2cmmQXdnHI4l2sbrkr0ml6SNAulegqUoD7swFNQDj/TDB3glNLmmZ2hiiOv
- t0tygG1h3bqCSJDg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1710403771; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OXsoJdwthfxseiuRkEHlo9tV1JLIcCtYreIwZngMfH0=;
- b=w/frsO9viiD2WCPbq2chXoemepyvOfA/u9jsxljHGv1YLjLTFkzOwZicneRdpExJsza743
- hoxmb240/950sOMEeEjPS1GV9mjjMlatzjLRzLgx6qL8qyEqEHNNG963baREhC+SpjYWmD
- OTP5e8cARHnBNkbLno0HPuv1jxpcmVQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1710403771;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OXsoJdwthfxseiuRkEHlo9tV1JLIcCtYreIwZngMfH0=;
- b=YQJLL+peahm2cmmQXdnHI4l2sbrkr0ml6SNAulegqUoD7swFNQDj/TDB3glNLmmZ2hiiOv
- t0tygG1h3bqCSJDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 879AB139D0;
- Thu, 14 Mar 2024 08:09:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
- by imap1.dmz-prg2.suse.org with ESMTPSA id D/nEH7qw8mULHgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 14 Mar 2024 08:09:30 +0000
-Message-ID: <f17e7660-ea10-4d5b-8234-79251c4c3483@suse.de>
-Date: Thu, 14 Mar 2024 09:09:30 +0100
+ in-reply-to:in-reply-to:references:references;
+ bh=S5BKMxqgK8DcYP7YR28rxy8fp44suCGcVHuCxmOCymU=;
+ b=DiPirn7Xzvvxm5EP68hCrrUGBq7ZHHJ0rCDnqR60svKd9i2QAj9Ihs744qWcKAI7+aikwt
+ +00K3/NTr372qKvorBM9HKdD/NX7CrOO+2xDm0EVWROcjzaoE4S8GUwhzBkklJGSL++Y8I
+ IJuXoO+AjpLTaQzN3Lad6CKAggQG67g=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-184-OWtUk_bYOuub5F_CE9wZ-Q-1; Thu, 14 Mar 2024 04:14:27 -0400
+X-MC-Unique: OWtUk_bYOuub5F_CE9wZ-Q-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-412db0e24aeso3533225e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 01:14:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710404066; x=1711008866;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=S5BKMxqgK8DcYP7YR28rxy8fp44suCGcVHuCxmOCymU=;
+ b=KevNuGEFyLvuKEUj5Rs9PLvEL1KKrMhHQxO82O11I7Av5GyvpZFmQI8PRFzZTa+Oh7
+ PSDwt970LuLTcC/N3cZGDGBvz6XNJ4bVODIapTgMch9ZduXTTLXk5pt8WJRIoi1H3aOa
+ xGnqGYdsZ6V8rBxgsBTzs43b+qKvnLCiHNDwgE1ZodMgtkxOtkGPSlNINeRp5WNrkWWd
+ CJEAcbi608V+IauUJlpsBXw0W/CLAEyzh5A4BNN7iemHdE7dCU+YbzGORP/VuoCJu581
+ WLyv46wXmTbHAWKSPcSK5lQHRCvsvVnkdFw/qmkVg5y/w4z3fi+r/yTQTRx3Uq1x+Wgj
+ XLxg==
+X-Gm-Message-State: AOJu0Ywl1Foh7kiR0+BwrVRfNo6nRV6haNXM992Nk8xElENgUNuTGs+q
+ Ql7XAklxMpdXy+FY0M57MOwZaRFEo/oAQcIfTq6VmbGlo0qUYOaeHLI65HwcckWYwN75F8J4xaK
+ FJ9aZI6yfX2X7IJWcMDQAmE6mrptdGlk13QTxJKvAQr/7hJWxAMvY8omKgXJEq47puQ==
+X-Received: by 2002:a05:600c:82c9:b0:413:e956:6893 with SMTP id
+ eo9-20020a05600c82c900b00413e9566893mr1004023wmb.41.1710404066766; 
+ Thu, 14 Mar 2024 01:14:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE+8Dpw7ORtoJWMmvhFrCQjByB/znNGYlVHAzzlBWehAOxiErr8eo03IZPpfW9sVU5/VPvdjw==
+X-Received: by 2002:a05:600c:82c9:b0:413:e956:6893 with SMTP id
+ eo9-20020a05600c82c900b00413e9566893mr1003998wmb.41.1710404066469; 
+ Thu, 14 Mar 2024 01:14:26 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ r8-20020a05600c458800b00413e8df267bsm1596777wmo.48.2024.03.14.01.14.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Mar 2024 01:14:26 -0700 (PDT)
+Message-ID: <0e1ed380-a25a-4a57-9395-56a13bf298c8@redhat.com>
+Date: Thu, 14 Mar 2024 09:14:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] auxdisplay/ht16k33: Replace use of fb_blank with
- backlight helper
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Andy Shevchenko <andy@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
- deller@gmx.de, dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, Robin van der Gracht <robin@protonic.nl>,
- Miguel Ojeda <ojeda@kernel.org>
-References: <20240313154857.12949-1-tzimmermann@suse.de>
- <20240313154857.12949-2-tzimmermann@suse.de>
- <CANiq72=5V_XChzDhaaWNC+B4LP7gqivPZj5Y10qqS4SkQTGB_A@mail.gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CANiq72=5V_XChzDhaaWNC+B4LP7gqivPZj5Y10qqS4SkQTGB_A@mail.gmail.com>
+Subject: Re: [PATCH] vmwgfx: Create debugfs ttm_resource_manager entry only if
+ needed
+To: Zack Rusin <zack.rusin@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ tzimmermann@suse.de, airlied@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, daniel@ffwll.ch, stable@vger.kernel.org
+References: <20240312093551.196609-1-jfalempe@redhat.com>
+ <CABQX2QN729DjtdOzAS9jeEP_xHXT4zNaOcP59pa-KyXnME=xaw@mail.gmail.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <CABQX2QN729DjtdOzAS9jeEP_xHXT4zNaOcP59pa-KyXnME=xaw@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -0.44
-X-Spamd-Result: default: False [-0.44 / 50.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; XM_UA_NO_VERSION(0.01)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; TAGGED_RCPT(0.00)[];
- MIME_GOOD(-0.10)[text/plain]; NEURAL_HAM_LONG(-1.00)[-1.000];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_COUNT_THREE(0.00)[3];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; BAYES_HAM(-0.65)[82.60%];
- RCPT_COUNT_TWELVE(0.00)[12];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
- FREEMAIL_TO(0.00)[gmail.com,kernel.org,linux-m68k.org];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+];
- FREEMAIL_CC(0.00)[kernel.org,linaro.org,gmail.com,gmx.de,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,protonic.nl];
- RCVD_TLS_ALL(0.00)[]; SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,47 +96,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-Am 13.03.24 um 17:08 schrieb Miguel Ojeda:
-> Hi Thomas,
->
-> Thanks for this!
->
-> Cc'ing Andy and Geert -- the new maintainer and reviewer.
 
-Ah, sorry. They are not yet in my MAINTAINERS file.
+On 13/03/2024 18:57, Zack Rusin wrote:
+> On Tue, Mar 12, 2024 at 5:36 AM Jocelyn Falempe <jfalempe@redhat.com> wrote:
+[...]
+> 
+> Thanks! That looks great. I can push it through drm-misc-fixes.
 
->
-> Also, a couple quick notes below since I am here...
->
-> On Wed, Mar 13, 2024 at 4:49 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->> Replace the use of struct backlight_properties.fb_blank with a
->> call to backlight_get_brightness(). The helper implement the same
->> logic as the driver's function.
-> It is not exactly the same logic since `backlight_is_blank` accounts
-> for `BL_CORE_SUSPENDED`.
+Thanks,
 
-As Sam already said, it doesn't seem to make different in practice. I'd 
-mention it in the commit message and that's it. Ok?
+I think I only forget the "drm/" in the commit title, but yes you can 
+push it with this small correction.
 
-Best regards
-Thomas
+> 
+> Reviewed-by: Zack Rusin <zack.rusin@broadcom.com>
+> 
+> z
+> 
 
->
->> -       int brightness = bl->props.brightness;
->> +       int brightness = backlight_get_brightness(bl);
-> This can be `const` now (or even removed and have the call embedded below).
->
-> Cheers,
-> Miguel
+Best regards,
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+
+Jocelyn
 
