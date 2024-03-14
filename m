@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE4D87BE80
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 15:09:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A41687BEB4
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Mar 2024 15:18:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFB9F10E429;
-	Thu, 14 Mar 2024 14:09:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 979F210E0AA;
+	Thu, 14 Mar 2024 14:18:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="geUrobTt";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="MwK8fikb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D680110F91B
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 14:09:10 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id
- ffacd0b85a97d-33e972c8b67so263265f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 07:09:10 -0700 (PDT)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3919B10E0AA
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 14:18:04 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id
+ ffacd0b85a97d-33e808c70a6so241890f8f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Mar 2024 07:18:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1710425349; x=1711030149; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MTds7Ku0Y0zvROnkAd1fx4mLoDwEPxMJou4VP4zGo0A=;
- b=geUrobTtbtEHNs41RwG5Qdgu1XXUkdhckCCEyp/kvwGleQmJf6XcassZ4LfXKlmJ3m
- a0qqQMUL0oa2/V45F8MgAHz7xWKxcT46RZLdcXc8bxHM2lrmXnKlxCakglGZAD44XKxZ
- LD3REpLDI+bj7hyzRqEgVFKaP9nerzJut/ZPA=
+ d=ffwll.ch; s=google; t=1710425882; x=1711030682; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=2Jq77xyPxtTedMmn8HBLyS574/buJqg/ZEuY7P8anIY=;
+ b=MwK8fikbtd6xUhnuGxDb5rr0BdFWadMfVDuJ2/0PT7GoMC47Jg9qflJfldxowN44kC
+ ZVP7v5eIqn4fN3RfFesUxmpgTW+QQwBt2xC/mRrOotzZrLvI8U7H+AmYG+W3DEfO8Xi+
+ wnSPYbnPvUY+HwRpAin78M6qMxbOWWuX9enTY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710425349; x=1711030149;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MTds7Ku0Y0zvROnkAd1fx4mLoDwEPxMJou4VP4zGo0A=;
- b=R+4HUz4m7Y2wUFsjxaEsuvQtP2TwR5unXj+Qqq7u1CX5IT6bYUa5A0/18f3yOgOEh6
- CIpzRpTNIRbr3cHAPJCnnkK7BZk5voy2RM3iiRV9eBYP0hnDt0jxHqjMxZHgK1+CVWs1
- inlnqw0FtOtZqicdIQUlAFjHza6L1spj3J5Fkf8g+ByIdgEawCy/BqyyUeeNfYJMVHLF
- jK0hUtFrLbk4qMm1vRas9p2ktlX3xAInSp4GJPoV2DlRMjUWAlOX1PhoA0DyTyXA7JuG
- C853EoJlJImf+AG+qxq/ozXGEeON4DCktCwclh3f9gRxxBSQShn9mW4MpADTE3WVKq9x
- 5cjw==
+ d=1e100.net; s=20230601; t=1710425882; x=1711030682;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2Jq77xyPxtTedMmn8HBLyS574/buJqg/ZEuY7P8anIY=;
+ b=ndPXiSS5Yqlt4m+LQGAF6mr1t8SU3BzSoyzk8S4EPwxsXZtH5x/3U1ElvGDx3PoPgW
+ PoQs+3awIiZEvTXME2RFvj9HAzbhqVvK2/HCu7K4KlMlXtSfyRt2xVIMPuQYHMNX9Fq4
+ K1hL1kiFsh7zck7KURe/X7+R3rSNE7XODIMncnOkDSscLogB29nbepjuqhQkb9pJ70ns
+ y/42RgTZb4P0Hya81MRMz6ysK7w5hj49rU+nQaaynTGd4HQFSE9CMu1+OYRQdxbK8u8n
+ lc8U8h9HblgW9S4RpHThuQdjCTOlcQ7ZEeN2pT+LFiiJzVfziDHGCC+RJZmt20mt+WUm
+ r0cA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV+PZ7KCxlQdKtPASaz72OtFQr4ihOiQkr+QEPJ0rrHCfEgLpUxix/s8q+mc4kB7DMMX2d0YdRFyeqDH3PeAFewpvDf2Ea3SYhV7vNzlPl6
-X-Gm-Message-State: AOJu0YyLgCMLarUyNC2EZDzMHiUOsVdsdQpglSJNxcMreaH2sZZ1rK2r
- 1ISEPgK+q1JUOD/SwBCZ1+BpENzN6Tqc+s1WocLvXncjgUvhHq/K3eSq1acLTU8=
-X-Google-Smtp-Source: AGHT+IEkDOQeLZzZYiLsR9q8/J5l47gcQmwzXWbQB4zXmpD6uvYlhNv+7u2b8F5SkGubDSvpWP1QDw==
-X-Received: by 2002:a05:600c:1e0a:b0:413:2ab0:873e with SMTP id
- ay10-20020a05600c1e0a00b004132ab0873emr26408wmb.3.1710425349040; 
- Thu, 14 Mar 2024 07:09:09 -0700 (PDT)
+ AJvYcCUxjlySsYSAHCMr+PShnO9YKD04kOhe3oMtn5DZRlTKv2eTipzQ9BBRzgfVE7gyN3j0K9j/xH9uh2XV3kTMbyxEZ4Rk0t9+f4BTqT0B7btJ
+X-Gm-Message-State: AOJu0YymIR47kaqoDztbSPHhBb1fL0F/FHecBty+fIEhunXwSU70oeot
+ 1ms2EbHvFYSNy8/W2svEUkdQFtANvtJPrNyuAuWOGWNxnsiMnAI9PZxUnpAcZmk=
+X-Google-Smtp-Source: AGHT+IFaxCC/FNJYxoNVMeK7oUvNiA3VhK5muhmJf6E5CzrCAzHhEl5XNjJP/TU4Xu5bUzz5mZ5eSg==
+X-Received: by 2002:a05:600c:b8d:b0:413:eb09:9bd8 with SMTP id
+ fl13-20020a05600c0b8d00b00413eb099bd8mr1616536wmb.0.1710425882355; 
+ Thu, 14 Mar 2024 07:18:02 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- h15-20020a05600016cf00b0033dc931eb06sm944331wrf.0.2024.03.14.07.09.08
+ fa11-20020a05600c518b00b00413f0347a3dsm2781546wmb.12.2024.03.14.07.18.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Mar 2024 07:09:08 -0700 (PDT)
-Date: Thu, 14 Mar 2024 15:09:06 +0100
+ Thu, 14 Mar 2024 07:18:01 -0700 (PDT)
+Date: Thu, 14 Mar 2024 15:17:59 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, daniel@ffwll.ch, javierm@redhat.com,
+ bluescreen_avenger@verizon.net, noralf@tronnes.org,
+ gpiccoli@igalia.com, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Daniel Vetter <daniel.vetter@intel.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  "Peter Zijlstra (Intel)" <peterz@infradead.org>,
@@ -66,33 +67,16 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  Steven Rostedt <rostedt@goodmis.org>,
  John Ogness <john.ogness@linutronix.de>,
  Sergey Senozhatsky <senozhatsky@chromium.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [RFC] drm/panic: Add drm panic locking
-Message-ID: <ZfMFAse426sG8OEA@phenom.ffwll.local>
-Mail-Followup-To: Jocelyn Falempe <jfalempe@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Peter Zijlstra (Intel)" <peterz@infradead.org>,
- Lukas Wunner <lukas@wunner.de>, Petr Mladek <pmladek@suse.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- John Ogness <john.ogness@linutronix.de>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>
-References: <20240301100516.2516297-1-daniel.vetter@ffwll.ch>
- <20240301103903.2538083-1-daniel.vetter@ffwll.ch>
- <78087e9b-533a-4d74-9ffe-8e4eb36e448a@redhat.com>
+Subject: Re: [PATCH v9 1/9] drm/panic: Add drm panic locking
+Message-ID: <ZfMHFzWd94DpJri7@phenom.ffwll.local>
+References: <20240307091936.576689-1-jfalempe@redhat.com>
+ <20240307091936.576689-2-jfalempe@redhat.com>
+ <7dd169fe-c6ff-408f-99b0-e2521dd6bd77@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <78087e9b-533a-4d74-9ffe-8e4eb36e448a@redhat.com>
+In-Reply-To: <7dd169fe-c6ff-408f-99b0-e2521dd6bd77@suse.de>
 X-Operating-System: Linux phenom 6.6.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -109,37 +93,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 01, 2024 at 02:03:12PM +0100, Jocelyn Falempe wrote:
-> Thanks for the patch.
+On Fri, Mar 08, 2024 at 02:45:52PM +0100, Thomas Zimmermann wrote:
+> Hi
 > 
-> I think it misses to initialize the lock, so we need to add a
-> raw_spin_lock_init() in the drm device initialization.
-> 
-> Also I'm wondering if it make sense to put that under the CONFIG_DRM_PANIC
-> flag, so that if you don't enable it, panic_lock() and panic_unlock() would
-> be no-op.
-> But that may not work if the driver uses this lock to protect some register
-> access.
-
-If we get drivers to use this for some of their own locking we have to
-keep it enabled unconditionally. Also I think locking that's only
-conditional on Kconfig is just a bit too suprising to be a good idea
-irrespective of this specific case.
--Sima
-
-> 
-> Best regards,
-> 
-> -- 
-> 
-> Jocelyn
-> 
-> On 01/03/2024 11:39, Daniel Vetter wrote:
+> Am 07.03.24 um 10:14 schrieb Jocelyn Falempe:
+> > From: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > 
 > > Rough sketch for the locking of drm panic printing code. The upshot of
 > > this approach is that we can pretty much entirely rely on the atomic
 > > commit flow, with the pair of raw_spin_lock/unlock providing any
 > > barriers we need, without having to create really big critical
 > > sections in code.
+> 
+> The ast driver has a lock to protect modesetting and concurrent EDID reads
+> from each other. [1] That new panic_lock seems to serve the same purpose.
+> 
+> If we go that route, can we make this a bit more generic and call it
+> commit_lock? I could then remove the dedicated lock from ast.
+
+No, because the drm_panic_lock/unlock sections must be as small as
+possible for two reasons:
+
+- Anything we do while holding this lock that isn'st strictly needed for
+  the panic code (like edid reading or more than the scanout address
+  registers) will reduce the chances that the drm panic handler can run,
+  since all we can do is try_lock.
+
+- it's a raw spinlock, if you do more than a handful of instructions
+  you'll really annoy the -rt people, because raw spinlocks are not
+  converted to sleeping locks with the realtime config enabled. Reading an
+  EDID (which takes upwards of tens of ms) is definitely about 4-5 orders
+  of magnitudes to much at least.
+
+The mutex is really the right lock here for protecting modesets against
+edid reads here, and the panic lock is at most on top of that very, very
+small and specific things.
+-Sima
+
+> 
+> Best regards
+> Thomas
+> 
+> [1] https://elixir.bootlin.com/linux/v6.7/source/drivers/gpu/drm/ast/ast_drv.h#L195
+> 
 > > 
 > > This also avoids the need that drivers must explicitly update the
 > > panic handler state, which they might forget to do, or not do
@@ -219,13 +215,14 @@ irrespective of this specific case.
 > > Cc: Daniel Vetter <daniel@ffwll.ch>
 > > ---
 > >   drivers/gpu/drm/drm_atomic_helper.c |  3 +
+> >   drivers/gpu/drm/drm_drv.c           |  1 +
 > >   include/drm/drm_mode_config.h       | 10 +++
 > >   include/drm/drm_panic.h             | 99 +++++++++++++++++++++++++++++
-> >   3 files changed, 112 insertions(+)
+> >   4 files changed, 113 insertions(+)
 > >   create mode 100644 include/drm/drm_panic.h
 > > 
 > > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> > index 40c2bd3e62e8..5a908c186037 100644
+> > index 39ef0a6addeb..c0bb91312fb2 100644
 > > --- a/drivers/gpu/drm/drm_atomic_helper.c
 > > +++ b/drivers/gpu/drm/drm_atomic_helper.c
 > > @@ -38,6 +38,7 @@
@@ -236,19 +233,30 @@ irrespective of this specific case.
 > >   #include <drm/drm_print.h>
 > >   #include <drm/drm_self_refresh_helper.h>
 > >   #include <drm/drm_vblank.h>
-> > @@ -3086,6 +3087,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
+> > @@ -3099,6 +3100,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
 > >   		}
 > >   	}
 > > +	drm_panic_lock(state->dev);
 > >   	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
 > >   		WARN_ON(plane->state != old_plane_state);
-> > @@ -3095,6 +3097,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
+> > @@ -3108,6 +3110,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
 > >   		state->planes[i].state = old_plane_state;
 > >   		plane->state = new_plane_state;
 > >   	}
 > > +	drm_panic_unlock(state->dev);
 > >   	for_each_oldnew_private_obj_in_state(state, obj, old_obj_state, new_obj_state, i) {
 > >   		WARN_ON(obj->state != old_obj_state);
+> > diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> > index 243cacb3575c..c157500b3135 100644
+> > --- a/drivers/gpu/drm/drm_drv.c
+> > +++ b/drivers/gpu/drm/drm_drv.c
+> > @@ -638,6 +638,7 @@ static int drm_dev_init(struct drm_device *dev,
+> >   	mutex_init(&dev->filelist_mutex);
+> >   	mutex_init(&dev->clientlist_mutex);
+> >   	mutex_init(&dev->master_mutex);
+> > +	raw_spin_lock_init(&dev->mode_config.panic_lock);
+> >   	ret = drmm_add_action_or_reset(dev, drm_dev_init_release, NULL);
+> >   	if (ret)
 > > diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
 > > index 973119a9176b..e79f1a557a22 100644
 > > --- a/include/drm/drm_mode_config.h
@@ -374,6 +382,15 @@ irrespective of this specific case.
 > > +}
 > > +
 > > +#endif /* __DRM_PANIC_H__ */
+> 
+> -- 
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
 > 
 
 -- 
