@@ -2,127 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DC3987CCA4
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 12:46:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D90DD87CCA7
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 12:46:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B38161121D6;
-	Fri, 15 Mar 2024 11:46:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 397971121D9;
+	Fri, 15 Mar 2024 11:46:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="McITOoD1";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="r0kdI/aB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEC551121D6
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 11:46:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1710503142; x=1711107942; i=deller@gmx.de;
- bh=7qGxCcL79dacW1v0qhsaH7joRGKSBJXder9Wljx7Ons=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
- In-Reply-To;
- b=McITOoD1wQOPR5qsD5lJhrmT4u/2I6i5oTsCyoNQ+HyXnnYr9lHABJxJNEfBVmE1
- bnJ1MnmdGbKRpaekbFqJ1Sc+YOT1phsYE+jnd8d6asLVVMKrY40M8xgREptIDnbvH
- y2mErimBTccXiuWpmxUyFOdhtGVN+4463Qd0hpgSpmcplUGnYfMiAp+tngIYhhhNY
- pTEncmqpqTVo8ts2zW4JmtQY4Lbszh3JX7Wwh1SGisRNpGW+I3Ws6naI1vcEx94jS
- in2nmK4ujOjNzcgmIbahRICBxVzYe1HEkJgrelpkTzJ9xyTl7FxGwxIDRdG1Cv2cw
- feVm70l0GQvaQdmRfQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([94.134.155.107]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mo6ux-1r1oxZ2Eln-00pdXJ; Fri, 15
- Mar 2024 12:45:42 +0100
-Message-ID: <d6436a8f-a1d3-421c-a5e0-5bebd18134bf@gmx.de>
-Date: Fri, 15 Mar 2024 12:45:35 +0100
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95D661121D7
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 11:46:30 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-513d9176cf9so686517e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 04:46:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1710503188; x=1711107988; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=JxuX+Ti8fZn5m/f6VGuBCXk/rLdBCegJSuZBjwwF710=;
+ b=r0kdI/aBXJrgZUM+6ZezX4ebKzboJJsq7geK4H98jGTIuy/QIrIjZonaMAVgCKDd8M
+ znn70J7gKcAducpgYw80jbetRvbyIScAlVlNvmgWEpfOXmDibNjfUFCe741kxFWcsQ6Q
+ 7/wFO4qt3Qv0D4y7EdYfvtVmryB8GEIIu+trCyMvzmSpGeMjMhSW7TQYRtXSJR9KIbb2
+ O0ZpPBMUEujRuHHOIUXf3y2pumX7X8tNYh9pMwN0hQ3BDtpBYKrAKJ/nZPge7PwSqJPr
+ TQ2pWx7f/Xm2xsmtU9qb6hym8fuGENvbDV0AEUEIDD1So9xVyXSqHtTXiG+BVeB15GZl
+ XgCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710503188; x=1711107988;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=JxuX+Ti8fZn5m/f6VGuBCXk/rLdBCegJSuZBjwwF710=;
+ b=LTWXintUkyuNCK0KE9e2TPKXgRrxg1312c+zeq0zOPWa7SUR9NMCySKdrhYpj1Z9Fc
+ 4CDr3QXX45dewOVXEYCrWeSppTlYaH26VMPV3K5bouWWy5DhbzCBuTlPTFKl67QrwOdS
+ oJxgSY8ZYniHfFeuOo33qAeCMTG8SIqO+XfqwNW1K38D7Y2YhoJeefmZUvYXe8bdIIez
+ ZNUmuJMouTfOk9NID7au2gWOLU6o2pRrovV/WQm/0WSDELB0VEqAam0OF9/9VwSPgxT2
+ YIHiBm9Xi40L6La/1hnRq5onjnzsIvf2Z+UjCPbRtBYrCEOEcdv/AIi4vHg2Z8puz+P1
+ hGlA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWMU7E/bL0WWsvWwSr4y6+SDJSxx0UmfJjhpi6ekzIXwO5TaGvQanbeLyX9W+KqrLDtuDtUVORJWbQnFkBqq8fWvEIGZRvFYB5EPMlebLBP
+X-Gm-Message-State: AOJu0Yy+6URXQzzauBop59sfEqjwmKFbAz3pM6QnJTSDH/dSy4RA2h8e
+ K8HaBC8dyAoeqCmRFnuirk6OwRL4/mq6EoGxG9iODF9LIcF7pREHb2mrTpKm8rE=
+X-Google-Smtp-Source: AGHT+IG9loNuyVc8//m6ic0j8Svp2nfhDtNubUz8f7QGRIjouieDxv551LYQkLnlsit4nPLk8OzCpQ==
+X-Received: by 2002:ac2:4902:0:b0:513:ba9b:80ea with SMTP id
+ n2-20020ac24902000000b00513ba9b80eamr1897125lfi.63.1710503188171; 
+ Fri, 15 Mar 2024 04:46:28 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
+ l17-20020ac24a91000000b00513b024b232sm619987lfp.10.2024.03.15.04.46.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Mar 2024 04:46:27 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH RFC v3 00/12] drm/msm: generate register header files
+Date: Fri, 15 Mar 2024 13:46:22 +0200
+Message-Id: <20240315-fd-xml-shipped-v3-0-0fc122e36c53@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/14] parisc: Add support for suppressing warning
- backtraces
-Content-Language: en-US
-To: Guenter Roeck <linux@roeck-us.net>, linux-kselftest@vger.kernel.org
-Cc: David Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Dan Carpenter <dan.carpenter@linaro.org>, Kees Cook <keescook@chromium.org>,
- Daniel Diaz <daniel.diaz@linaro.org>, David Gow <davidgow@google.com>,
- Arthur Grillo <arthurgrillo@riseup.net>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Maxime Ripard
- <mripard@kernel.org>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- kunit-dev@googlegroups.com, linux-arch@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- loongarch@lists.linux.dev, netdev@lists.linux.dev
-References: <20240312170309.2546362-1-linux@roeck-us.net>
- <20240312170309.2546362-11-linux@roeck-us.net>
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <20240312170309.2546362-11-linux@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:qslnWwQiqg/DP5uqDNLV3ORiPULWbHV951NE0QBTZs+dRkfEELc
- Ui2EMTRqay5IFJgqBwNMOkZVxe2c2qIfhYvjWW11LmmVcUomylCerubebwaET5SdJ38HAfD
- biq5BtQDRRP7q1ov0JwyIPdpf3SRZ5rDbJ6vwSOAbcLsxrExJtjMmO4CHxfr09ugU+u+RTP
- QxkoLU7U56gOrWo57hroQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:wcEf58u/OD8=;/Vsuh9wNc66rAcyGNGklDP7P14y
- /KBt0M11EmbCmzLloMdXx4rUW/NT78LYr0GB36xaGvqIn+7+J10HViYMoBef4puW+1Zy+ERmU
- uCXPBCihgVu3H/tHpbrx7bQVb06U4Fe3PY9DeOnQN/AUubRpBj2Rs4xe7Rklg9dw2ak6y+FDH
- p6J2fQ/4hN/oaJv4Q0RYeZ2c+7Gsj9OcOVk5yv2q9P5gbpwbCrz+zdvIgeqV0IWNePAXeGLDZ
- Knwkvjmpt4FHk6T6GRU4nHOKpcR139cvr2sNU1GNyYLwU6LZmOtm8Knrm2XY0W4/z3Yz/QAUZ
- 8NtDanG36laI9TlZEesDorYKUVcjiZLhO/SW+ejfUMU5w11qdv5iouwWykFJjScDCk2rTsKyP
- Ob/kkVyAkyZpQBV6eWLvvkxksEdC8e+kBpMuB4zA/7SAuNwm8muKntfI2AP/nHnmMPmJVDgpS
- R957ToiHNzK38Im3ZMOOvrxjeHFQPGcJSI16olUHuvsUqbU8e7DCw3ZbDUub7HAizDcjnT1To
- YYIzxaQC4VoEQfmXNYZLQTFN7E0Y7NfVdNAgFho96LriyB+oNgtLnz2CHpPtxLbr0Cw6fx9P3
- i5SQarSEbvdxpOjqBmI4m1AVvAaJ9M0+aZ8Bntm8DFLec27wgKSKsaxIgy01c089l/7pD0787
- enyXVSs1ynlfngUb7TBdFbbaxID7J+fg/jdqQ2Qh2ej5EI6n8+19vo0FOS5YP4EE+1vARK9FA
- /6h5HW8J6ILML8R/YmYavoxbPMJ+ayDR53mwD0Prwij9SmhTtbk+2zLY5cRUJuXCQQAXWgikZ
- Bi6lPrjOdd/CuHHo38k1VOtLEpGzkK7j/EfuuR6AghFNI=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAA419GUC/2WOQQrCMBBFryJZG0knNVZXguAB3IqLNJm2A7Upi
+ YRK6d0NQRB1+efz3vyZBfSEgR1WM/MYKZAbUpDrFTOdHlrkZFNmIKAUAFveWD7dex46Gke0vNZ
+ 7LaEwFm3DEjR6bGjKwiu7nE/slo4dhYfzz/wkFrl6+9SvLxZc8ErVtTJSlsrCsadBe7dxvs2uC
+ B9eFn97IiR+Z6yq0JhSgvjil2V5AdjevhryAAAA
+To: Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-kbuild@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5696;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=9bSTjD6AablTExbFVQTQerY0tTFpkWHBp91hc5H4cUI=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBl9DUQ1vnb905j4UscY4QZmZYGeF6jFRsUj0dRE
+ RZHB73ol7GJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZfQ1EAAKCRCLPIo+Aiko
+ 1UYhCAClgd8Y5INWbu6fvY7IYqDegE8lnXbaciORcH7QIUzQM0yn8mW3EJ1XG/hwCGvvsfH68H+
+ GnVaIds3A6UjmImexoUoNOqK+yOfyt8347G1R5nim7gNZTC3IbRiobW1rIbegYp308TWXqUMBZX
+ rjBQEa3OG+AZsMC6yZlKQONDH6c6uhBOkbyL5S6LBEA34K5P8XXgtWhfWAIrsM4vMxotWUzf0fN
+ 9heRihYI9GIe647vpWdv2wCRK7CXpb+mqIJFOWBNxtrbIwng2Fq3VjQIq6yCQhyZCbiyvb2/tmf
+ DgbGhhfBfYiaNYYMibJxt0Yx9GRPIpl8JZNN8VjP3lL2Adea
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,100 +101,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/12/24 18:03, Guenter Roeck wrote:
-> Add name of functions triggering warning backtraces to the __bug_table
-> object section to enable support for suppressing WARNING backtraces.
->
-> To limit image size impact, the pointer to the function name is only add=
-ed
-> to the __bug_table section if both CONFIG_KUNIT and CONFIG_DEBUG_BUGVERB=
-OSE
-> are enabled. Otherwise, the __func__ assembly parameter is replaced with=
- a
-> (dummy) NULL parameter to avoid an image size increase due to unused
-> __func__ entries (this is necessary because __func__ is not a define but=
- a
-> virtual variable).
->
-> While at it, declare assembler parameters as constants where possible.
-> Refine .blockz instructions to calculate the necessary padding instead
-> of using fixed values.
->
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Currently display-related register headers are generated from XML files
+shipped withing Mesa source tree. This is not fully optimal: it requires
+multi-stage process of the changes first being landed to Mesa and only
+then synced to the kernel tree.
 
+Move original XML files to the kernel tree and generate header files
+when required.
 
-Acked-by: Helge Deller <deller@gmx.de>
+NOTE: the gen_header.py script is based on the non-merged Mesa MR [1].
+Once that MR lands, I will update the script and commit messages and
+send the next iteration.
 
-Helge
+[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/28193
 
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Changes in v3:
+- Split XML and git rm patches in hope to pass ML limitations
+- Link to v2: https://lore.kernel.org/r/20240315-fd-xml-shipped-v2-0-7cd68ecc4320@linaro.org
 
-> ---
->   arch/parisc/include/asm/bug.h | 29 +++++++++++++++++++++--------
->   1 file changed, 21 insertions(+), 8 deletions(-)
->
-> diff --git a/arch/parisc/include/asm/bug.h b/arch/parisc/include/asm/bug=
-.h
-> index 833555f74ffa..792dacc2a653 100644
-> --- a/arch/parisc/include/asm/bug.h
-> +++ b/arch/parisc/include/asm/bug.h
-> @@ -23,8 +23,17 @@
->   # define __BUG_REL(val) ".word " __stringify(val)
->   #endif
->
-> -
->   #ifdef CONFIG_DEBUG_BUGVERBOSE
-> +
-> +#if IS_ENABLED(CONFIG_KUNIT)
-> +# define HAVE_BUG_FUNCTION
-> +# define __BUG_FUNC_PTR	__BUG_REL(%c1)
-> +# define __BUG_FUNC	__func__
-> +#else
-> +# define __BUG_FUNC_PTR
-> +# define __BUG_FUNC	NULL
-> +#endif /* IS_ENABLED(CONFIG_KUNIT) */
-> +
->   #define BUG()								\
->   	do {								\
->   		asm volatile("\n"					\
-> @@ -33,10 +42,12 @@
->   			     "\t.align 4\n"				\
->   			     "2:\t" __BUG_REL(1b) "\n"			\
->   			     "\t" __BUG_REL(%c0)  "\n"			\
-> -			     "\t.short %1, %2\n"			\
-> -			     "\t.blockz %3-2*4-2*2\n"			\
-> +			     "\t" __BUG_FUNC_PTR  "\n"			\
-> +			     "\t.short %c2, %c3\n"			\
-> +			     "\t.blockz %c4-(.-2b)\n"			\
->   			     "\t.popsection"				\
-> -			     : : "i" (__FILE__), "i" (__LINE__),	\
-> +			     : : "i" (__FILE__), "i" (__BUG_FUNC),	\
-> +			     "i" (__LINE__),				\
->   			     "i" (0), "i" (sizeof(struct bug_entry)) );	\
->   		unreachable();						\
->   	} while(0)
-> @@ -58,10 +69,12 @@
->   			     "\t.align 4\n"				\
->   			     "2:\t" __BUG_REL(1b) "\n"			\
->   			     "\t" __BUG_REL(%c0)  "\n"			\
-> -			     "\t.short %1, %2\n"			\
-> -			     "\t.blockz %3-2*4-2*2\n"			\
-> +			     "\t" __BUG_FUNC_PTR  "\n"			\
-> +			     "\t.short %c2, %3\n"			\
-> +			     "\t.blockz %c4-(.-2b)\n"			\
->   			     "\t.popsection"				\
-> -			     : : "i" (__FILE__), "i" (__LINE__),	\
-> +			     : : "i" (__FILE__), "i" (__BUG_FUNC),	\
-> +			     "i" (__LINE__),				\
->   			     "i" (BUGFLAG_WARNING|(flags)),		\
->   			     "i" (sizeof(struct bug_entry)) );		\
->   	} while(0)
-> @@ -74,7 +87,7 @@
->   			     "\t.align 4\n"				\
->   			     "2:\t" __BUG_REL(1b) "\n"			\
->   			     "\t.short %0\n"				\
-> -			     "\t.blockz %1-4-2\n"			\
-> +			     "\t.blockz %c1-(.-2b)\n"			\
->   			     "\t.popsection"				\
->   			     : : "i" (BUGFLAG_WARNING|(flags)),		\
->   			     "i" (sizeof(struct bug_entry)) );		\
+Changes in v2:
+- Removed the _shipped files, always generating the headers (Masahiro
+  Yamada)
+- Replaced headergen2 with gen_headers.py
+- Simplify Makefile rules, making all Adreno objects depend on Adreno
+  headers and all displau objects depend on all display headers
+- Also handle Adreno registers
+- Link to v1: https://lore.kernel.org/r/20240226-fd-xml-shipped-v1-0-86bb6c3346d2@linaro.org
+
+---
+Dmitry Baryshkov (12):
+      drm/msm/mdp5: add writeback block bases
+      drm/msm/hdmi: drop qfprom.xml.h
+      drm/msm/dsi: drop mmss_cc.xml.h
+      drm/msm: move msm_gpummu.c to adreno/a2xx_gpummu.c
+      drm/msm: import XML display registers database
+      drm/msm: import A2xx-A4xx XML display registers database
+      drm/msm: import A5xx-A7xx XML display registers database
+      drm/msm: import gen_header.py script from Mesa
+      drm/msm: generate headers on the fly
+      drm/msm: drop display-related headers
+      drm/msm: drop A5xx, A6xx headers
+      drm/msm: drop A2xx-A4xx headers
+
+ drivers/gpu/drm/msm/.gitignore                     |     6 +
+ drivers/gpu/drm/msm/Makefile                       |    97 +-
+ drivers/gpu/drm/msm/adreno/a2xx.xml.h              |  3251 -----
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |     4 +-
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.h              |     4 +
+ .../drm/msm/{msm_gpummu.c => adreno/a2xx_gpummu.c} |    45 +-
+ drivers/gpu/drm/msm/adreno/a3xx.xml.h              |  3268 -----
+ drivers/gpu/drm/msm/adreno/a4xx.xml.h              |  4379 -------
+ drivers/gpu/drm/msm/adreno/a5xx.xml.h              |  5572 ---------
+ drivers/gpu/drm/msm/adreno/a6xx.xml.h              | 11858 -------------------
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h          |   422 -
+ drivers/gpu/drm/msm/adreno/adreno_common.xml.h     |   539 -
+ drivers/gpu/drm/msm/adreno/adreno_pm4.xml.h        |  2803 -----
+ drivers/gpu/drm/msm/disp/mdp4/mdp4.xml.h           |  1181 --
+ drivers/gpu/drm/msm/disp/mdp5/mdp5.xml.h           |  1979 ----
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.h           |    11 +
+ drivers/gpu/drm/msm/disp/mdp_common.xml.h          |   111 -
+ drivers/gpu/drm/msm/dsi/dsi.xml.h                  |   790 --
+ drivers/gpu/drm/msm/dsi/dsi_phy_10nm.xml.h         |   227 -
+ drivers/gpu/drm/msm/dsi/dsi_phy_14nm.xml.h         |   309 -
+ drivers/gpu/drm/msm/dsi/dsi_phy_20nm.xml.h         |   237 -
+ drivers/gpu/drm/msm/dsi/dsi_phy_28nm.xml.h         |   384 -
+ drivers/gpu/drm/msm/dsi/dsi_phy_28nm_8960.xml.h    |   286 -
+ drivers/gpu/drm/msm/dsi/dsi_phy_7nm.xml.h          |   483 -
+ drivers/gpu/drm/msm/dsi/mmss_cc.xml.h              |   131 -
+ drivers/gpu/drm/msm/dsi/sfpb.xml.h                 |    70 -
+ drivers/gpu/drm/msm/hdmi/hdmi.xml.h                |  1399 ---
+ drivers/gpu/drm/msm/hdmi/qfprom.xml.h              |    61 -
+ drivers/gpu/drm/msm/msm_drv.c                      |     3 +-
+ drivers/gpu/drm/msm/msm_gpu.c                      |     2 +-
+ drivers/gpu/drm/msm/msm_mmu.h                      |     5 -
+ drivers/gpu/drm/msm/registers/adreno/a2xx.xml      |  1865 +++
+ drivers/gpu/drm/msm/registers/adreno/a3xx.xml      |  1751 +++
+ drivers/gpu/drm/msm/registers/adreno/a4xx.xml      |  2409 ++++
+ drivers/gpu/drm/msm/registers/adreno/a5xx.xml      |  3039 +++++
+ drivers/gpu/drm/msm/registers/adreno/a6xx.xml      |  4969 ++++++++
+ drivers/gpu/drm/msm/registers/adreno/a6xx_gmu.xml  |   228 +
+ .../gpu/drm/msm/registers/adreno/adreno_common.xml |   399 +
+ .../gpu/drm/msm/registers/adreno/adreno_pm4.xml    |  2267 ++++
+ drivers/gpu/drm/msm/registers/display/dsi.xml      |   390 +
+ .../gpu/drm/msm/registers/display/dsi_phy_10nm.xml |   102 +
+ .../gpu/drm/msm/registers/display/dsi_phy_14nm.xml |   135 +
+ .../gpu/drm/msm/registers/display/dsi_phy_20nm.xml |   100 +
+ .../gpu/drm/msm/registers/display/dsi_phy_28nm.xml |   180 +
+ .../msm/registers/display/dsi_phy_28nm_8960.xml    |   134 +
+ .../gpu/drm/msm/registers/display/dsi_phy_7nm.xml  |   230 +
+ drivers/gpu/drm/msm/registers/display/edp.xml      |   239 +
+ drivers/gpu/drm/msm/registers/display/hdmi.xml     |  1015 ++
+ drivers/gpu/drm/msm/registers/display/mdp4.xml     |   504 +
+ drivers/gpu/drm/msm/registers/display/mdp5.xml     |   806 ++
+ .../gpu/drm/msm/registers/display/mdp_common.xml   |    89 +
+ drivers/gpu/drm/msm/registers/display/msm.xml      |    32 +
+ drivers/gpu/drm/msm/registers/display/sfpb.xml     |    17 +
+ .../gpu/drm/msm/registers/freedreno_copyright.xml  |    40 +
+ drivers/gpu/drm/msm/registers/gen_header.py        |   958 ++
+ drivers/gpu/drm/msm/registers/rules-ng.xsd         |   457 +
+ 56 files changed, 22480 insertions(+), 39792 deletions(-)
+---
+base-commit: 8ffc8b1bbd505e27e2c8439d326b6059c906c9dd
+change-id: 20240225-fd-xml-shipped-ba9a321cdedf
+
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
