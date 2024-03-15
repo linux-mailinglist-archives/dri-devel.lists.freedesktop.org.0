@@ -2,59 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0F0D87D043
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 16:29:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C5DE87D03F
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 16:28:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 376E41122EB;
-	Fri, 15 Mar 2024 15:29:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3A1E1122BD;
+	Fri, 15 Mar 2024 15:28:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="lQCVzD8U";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="V5xi7Z6v";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="BllimOu5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACDA11122EB
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 15:29:06 +0000 (UTC)
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1710516544;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ATlCjYZH5WhO81b4XvMZY1HJXm9F4f7CX+hL3Qf5Czs=;
- b=lQCVzD8Uirr4+GWwJjsstrqbXKK4v4EXlUFa1M58uTvACUge2a3DLQiOxhJNhuxQ8CrS/6
- 0mvhkAGuiNOLilQz6KaweU3hEhV/c0Jf8pL6Cf80DWjxM02FiugnNTnDU5Vo6HJW42TPdH
- N/YdYeD5PPtXwEPdkJPYQXr59IoHsgfT37TaeAeaigZJzbF3TVJneFCGkFZ40o8rrPeZqO
- o2Ls3FzkqNQ27ACPaZ5uVXvGZVXW/YVwNKJXWF/2f6m0ruaCF9tlo6lVtbXjiMxwmz2XAm
- xuRs52THPeNyiujYuYfImOAaXiLEU7INNMS6h2VBVKfYDYF2IZV2FEGfPnKsSg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1710516544;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ATlCjYZH5WhO81b4XvMZY1HJXm9F4f7CX+hL3Qf5Czs=;
- b=V5xi7Z6vPn1aLLWRzV5lGRqdcDqx1dOpFe4vAS7I1Kjiozr9w3LjTmta8GAGX2EFehZQi8
- mnN4Esf0x3le8ODw==
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
- javierm@redhat.com, bluescreen_avenger@verizon.net, noralf@tronnes.org,
- sui.jingfeng@linux.dev
-Cc: gpiccoli@igalia.com, Daniel Vetter <daniel.vetter@ffwll.ch>, Jocelyn
- Falempe <jfalempe@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- "Peter Zijlstra (Intel)" <peterz@infradead.org>, Lukas Wunner
- <lukas@wunner.de>, Petr Mladek <pmladek@suse.com>, Steven Rostedt
- <rostedt@goodmis.org>, Sergey Senozhatsky <senozhatsky@chromium.org>,
- David Airlie <airlied@gmail.com>
-Subject: Re: [PATCH v10 1/9] drm/panic: Add drm panic locking
-In-Reply-To: <20240315151317.857684-2-jfalempe@redhat.com>
-References: <20240315151317.857684-1-jfalempe@redhat.com>
- <20240315151317.857684-2-jfalempe@redhat.com>
-Date: Fri, 15 Mar 2024 16:34:18 +0106
-Message-ID: <87plvvbjl9.fsf@jogness.linutronix.de>
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+ [209.85.208.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DCF111222B
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 15:28:23 +0000 (UTC)
+Received: by mail-lj1-f179.google.com with SMTP id
+ 38308e7fff4ca-2d24a727f78so26573711fa.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 08:28:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710516501; x=1711121301;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Vy8mkoyNdDIbEjZYoeFWO0a66QImPA2CQk2NlxXrdT8=;
+ b=BllimOu5kiz/6BSCxo3lSWA6sMvNhe2AFWLaRVQVa5twpahjWsOsRSM/lcRMYsWhdL
+ Vg5tGZfubHFNwG13rcNMfIKfyR2f0QBhN7Nrcfee2htXj0+X/NlBMq48KdRiQ75JxSyg
+ u4pA5NN1+5FbVVriyi/hjEAi/sGXy9h53rqKLopI5kC3e4RClFcOmRyQ1fcAm7zNY7sv
+ SSs4Sq057U5X2VdtmvHo+VI/KawbSdamZmPVJjqDkixDgUwMnn4XdQeVHUA0/0t89TBI
+ Ad2UlBbOGo1bs6gnDXbvxCA208YFSwIK6Usftgj+tXvC95YHkc2QqGTki81nBvoXvD9S
+ gygw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710516501; x=1711121301;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Vy8mkoyNdDIbEjZYoeFWO0a66QImPA2CQk2NlxXrdT8=;
+ b=AyVSzbMoitqKrTDBXU/WyuyYEFiyaRhqw2wST1gPqrOCCSVPX2j9lF9cxeEn4vvwr4
+ 7q89Dh33uW4cvJnSEEsg7g2xq+K2x+t3WpbjRwyNUKlaLTQt97MCWE4eyFl6sQIR97/5
+ YBDwoSnNQ9jRqXkHsrHTE8O4NHctgQwtqUhm5ffQXRA3kEXKazUxKB9qiknXuWbr1Rac
+ z0om5oVJd36PZwWI2vO28qG2Hig5Vc2hAmYnYqT15pVdHOP4IaNquoYOYhBK9H6CVkCa
+ sQcOEz8tcuFGBuSdFDJzxymLYD83/pRp7MOOZmnp10YjGchViyG6xgOIvd2bCQJ5PPuU
+ p84A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXeVbl7r+50mRTRNqYo55mR6PDQr/u2ZmsguQoPUyVoibQ3ZoF9jTmIgDft5qmj4Y9vsV1qbhUa0HZ+ZwvjjI/Ibzw6NMbgW3CTfP85ufh+
+X-Gm-Message-State: AOJu0YzBa53JVx2phRHv+l9PWJa2+6HYM728kDGOKgokbIBVIvDZ82xj
+ AI/E8+pZHOjM0hXcPsMucsI5J7kH3gwxucZ77exnuYR7ZvNUqE80ODpXoeDtc1I=
+X-Google-Smtp-Source: AGHT+IEv4KiX0VUKEaEam0pND8+D1J+qGZNRSiefb3SsE1hMQAKXvSamp9kPr2MXTXqoHfBaWZW3RA==
+X-Received: by 2002:a2e:a68d:0:b0:2d4:57c5:886c with SMTP id
+ q13-20020a2ea68d000000b002d457c5886cmr2953623lje.13.1710516501469; 
+ Fri, 15 Mar 2024 08:28:21 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+ by smtp.gmail.com with ESMTPSA id
+ c17-20020aa7c751000000b00568b43fffb0sm527149eds.96.2024.03.15.08.28.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 Mar 2024 08:28:20 -0700 (PDT)
+Message-ID: <65cf39ab-6813-4412-9e45-30c26ab27cd6@baylibre.com>
+Date: Fri, 15 Mar 2024 16:28:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/18] Add audio support for the MediaTek Genio 350-evk
+ board
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Nicolas Belin <nbelin@baylibre.com>, Fabien Parent <fparent@baylibre.com>
+References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+ <4ffde184-cf68-4b71-b81d-9b5894529926@sirena.org.uk>
+ <7ddad394-e880-4ef8-8591-cb803a2086ae@baylibre.com>
+ <bf418207-7f13-4ced-8c21-2824dd07fab5@sirena.org.uk>
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <bf418207-7f13-4ced-8c21-2824dd07fab5@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,24 +103,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-03-15, Jocelyn Falempe <jfalempe@redhat.com> wrote:
-> +static inline int drm_panic_trylock(struct drm_device *dev, unsigned long *flags)
-> +{
-> +	return raw_spin_trylock_irqsave(&dev->mode_config.panic_lock, *flags);
-> +}
 
-[...]
 
-> +static inline unsigned long drm_panic_lock(struct drm_device *dev)
-> +{
-> +	unsigned long flags;
-> +
-> +	raw_spin_lock_irqsave(&dev->mode_config.panic_lock, flags);
-> +	return flags;
-> +}
+On 15/03/2024 15:38, Mark Brown wrote:
+> On Tue, Mar 12, 2024 at 09:58:05AM +0100, Alexandre Mergnat wrote:
+> 
+>> I'm a bit lost for mixer-test and pcm-test.
+>> Currently, I cross-compile the alsa lib project to be able to build the
+>> tests and put it on my board.
+> 
+>> I can execute it, but I still have 2 issues:
+> 
+>> 1) I've a lot of missing module in my environment (Encode.so, Encode.pm,
+>> Symbol.pm, IO/Handle.pm, ...). AFAII, I've to cross compile the missing perl
+>> modules and install them in the rootfs
+> 
+> These tests are both simple C programs...
+> 
+>> 2) I don't know how to configure pcm-test.conf &
+>> Lenovo_ThinkPad_P1_Gen2.conf (or new file to match with my board).
+> 
+> The configuration is optional.
+> 
+>> My test cmd:
+>> ./run_kselftest.sh -c alsa
+> 
+> Just run the programs directly.  I'm only asking for the output from two
+> of them anyway.
 
-I find it a bit strange that @flags is passed as an argument in the
-trylock variant but returned in the lock variant. I would pass it as an
-argument in both variants. Just a suggestion.
+ok
 
-John Ogness
+-- 
+Regards,
+Alexandre
