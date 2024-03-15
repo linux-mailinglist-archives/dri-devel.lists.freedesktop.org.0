@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5303F87CC2D
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 12:18:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F13187CC39
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 12:24:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8611010FC01;
-	Fri, 15 Mar 2024 11:18:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 885A110E817;
+	Fri, 15 Mar 2024 11:24:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="wOCFsgeA";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="MsfFOs2Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44BE710FC01
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 11:18:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C9B310E817
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 11:24:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1710501509;
- bh=3jAxlkMS2UWb35oBck4irZ8AXTG1g/crD+E/7tbIdFo=;
+ s=mail; t=1710501840;
+ bh=uABvPXOqq/Tla+Cl257JwPcyrRf1VhVmEZ2NakP1f7Y=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=wOCFsgeAbfgoyN81XVt5eyBvSartapUpl06usVO450bohkUaTdtmLXLk7GR9J3LrI
- WRhvtfnUACBEHFVwT/lFW33jWeZO5ZojLljvka9yzUm+0YhQhfUQHRYVyAbQpjNr9U
- 4kCNVfXgl8w4sAey6ccVW3MfW8IssAm0jOX2rTVJPKfpiXviwOF44tK5+rQnnKht7J
- DvgYsGrGwRvyUu6wI3ZHh6kGLBAWVPRcgXmZZJwHs2f8nvS/4GjavdtnP+Jt0KpF7U
- 4rg7xGBGAyPaRFiLpMbg7vEoPFqmYwCm/FiSqKtzC1qXETkIZcEct2wgbKIWXmxJ10
- vOsWbaMwSqihA==
+ b=MsfFOs2ZYu+BQgQDviu0tZEHVVU8he4yCSLf2PFK5ZcEkAh9y/w+V0kUvefrTlE+i
+ BVQO+/8MmT/ZloAKZNC9kOl74Ju83Uk9kybn/K8qLVeA2yu8NI7/3IVTB1E14OMBGt
+ FefOx23cfRZ1N095xm64zGX3ddp6IBx6j1MSebmoYWc1SKYt1T6izxYd2QuVNrk3JV
+ Kblz3U7J4V9jPqFD9czrxC8wJkOP9ltogw5DLsG64OPzF/HEyM/qEWGUQyqB1Pgok/
+ N9iXEeK15XZ7mmQibOUFVX66F18q1/X6yQMV5orY/j9oz7xsdZM53cW2Rj3qXnfbLS
+ FWtHAJlrROiXg==
 Received: from [100.66.96.193] (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested) (Authenticated sender: vignesh)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1D762378105A;
- Fri, 15 Mar 2024 11:18:24 +0000 (UTC)
-Message-ID: <f53c716d-6d11-13f6-0ecf-ec02f4debcfa@collabora.com>
-Date: Fri, 15 Mar 2024 16:48:23 +0530
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id D1575378105A;
+ Fri, 15 Mar 2024 11:23:56 +0000 (UTC)
+Message-ID: <1cbe364d-465a-ccba-a446-5f98b9e0efc4@collabora.com>
+Date: Fri, 15 Mar 2024 16:53:55 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v4 09/11] drm/ci: rockchip: Refactor existing rockchip jobs
+Subject: Re: [PATCH v4 00/11] drm/ci: Add support for GPU and display testing
 Content-Language: en-US
 To: Helen Koike <helen.koike@collabora.com>, dri-devel@lists.freedesktop.org
 Cc: daniels@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
@@ -48,12 +48,11 @@ Cc: daniels@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
  linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
  linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
 References: <20240306030649.60269-1-vignesh.raman@collabora.com>
- <20240306030649.60269-10-vignesh.raman@collabora.com>
- <098d2345-df99-4ad2-bc1c-9641662ed9bd@collabora.com>
+ <5559672d-4f62-4ad1-95b7-94f69b8bb9ac@collabora.com>
 From: Vignesh Raman <vignesh.raman@collabora.com>
-In-Reply-To: <098d2345-df99-4ad2-bc1c-9641662ed9bd@collabora.com>
+In-Reply-To: <5559672d-4f62-4ad1-95b7-94f69b8bb9ac@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,89 +74,60 @@ On 07/03/24 19:32, Helen Koike wrote:
 > 
 > 
 > On 06/03/2024 00:06, Vignesh Raman wrote:
->> For rockchip rk3288 and rk3399, the display driver is rockchip.
->> Currently, in drm-ci for rockchip, only the display driver is
->> tested. Refactor the existing rockchip jobs so that gpu driver
->> testing jobs can be added later and update xfails accordingly.
+>> Some ARM SOCs have a separate display controller and GPU, each with
+>> different drivers. For mediatek mt8173, the GPU driver is powervr,
+>> and the display driver is mediatek. In the case of mediatek mt8183,
+>> the GPU driver is panfrost, and the display driver is mediatek.
+>> With rockchip rk3288/rk3399, the GPU driver is panfrost, while the
+>> display driver is rockchip. For amlogic meson, the GPU driver is
+>> panfrost, and the display driver is meson.
 >>
->> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
->> ---
+>> IGT tests run various tests with different xfails and can test both
+>> GPU devices and KMS/display devices. Currently, in drm-ci for MediaTek,
+>> Rockchip, and Amlogic Meson platforms, only the GPU driver is tested.
+>> This leads to incomplete coverage since the display is never tested on
+>> these platforms. This commit series adds support in drm-ci to run tests
+>> for both GPU and display drivers for MediaTek, Rockchip, and Amlogic
+>> Meson platforms.
 >>
->> v2:
->>    - Refactor the patch to rename job to indicate display driver testing,
->>      rename the existing xfail files.
+>> Uprev mesa and IGT in drm-ci and add amd, v3d, vc4 and vgem specific
+>> tests to testlist. Have testlist.txt per driver and include a base
+>> testlist so that the driver specific tests will run only on those 
+>> hardware
+>> and add testlists to the MAINTAINERS file.
 >>
->> v3:
->>    - Add the job name in GPU_VERSION and use it for xfail file names
->>      instead of using DRIVER_NAME. Also update xfails.
+>> This series also includes patch to add vkms testing to drm-ci.
 >>
->> v4:
->>    - Remove the display suffix in job and rename xfails accordingly.
->>      Remove the change adding job name in GPU_VERSION.
->>
->> ---
->>   drivers/gpu/drm/ci/test.yml                   | 36 ++++++++----
->>   .../drm/ci/xfails/rockchip-rk3288-fails.txt   | 58 ++++++-------------
->>   .../drm/ci/xfails/rockchip-rk3288-flakes.txt  | 20 +++++++
->>   .../drm/ci/xfails/rockchip-rk3288-skips.txt   | 54 ++---------------
->>   .../drm/ci/xfails/rockchip-rk3399-fails.txt   | 38 ++++++------
->>   .../drm/ci/xfails/rockchip-rk3399-flakes.txt  | 28 +++++++--
->>   .../drm/ci/xfails/rockchip-rk3399-skips.txt   |  5 +-
->>   7 files changed, 110 insertions(+), 129 deletions(-)
->>   create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt
->>
->> diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
->> index 6ae6398b3d88..831e580e6dfd 100644
->> --- a/drivers/gpu/drm/ci/test.yml
->> +++ b/drivers/gpu/drm/ci/test.yml
->> @@ -153,33 +153,45 @@ msm:sdm845:
->>     script:
->>       - ./install/bare-metal/cros-servo.sh
->> -rockchip:rk3288:
->> -  extends:
->> -    - .lava-igt:arm32
->> +.rockchip:
->>     stage: rockchip
->>     variables:
->> -    DRIVER_NAME: rockchip
+>> Working pipeline link,
+>> https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1119859
 > 
-> Looks like it make sense to keep DRIVER_NAME here, no?
+> Hi Vignesh, thanks for this patchset.
 > 
->> -    DEVICE_TYPE: rk3288-veyron-jaq
->>       DTB: ${DEVICE_TYPE}
->>       BOOT_METHOD: depthcharge
->> +
->> +.rk3288:
->> +  extends:
->> +    - .lava-igt:arm32
->> +    - .rockchip
+> Just to confirm, the new convention is:
 > 
-> Maybe, instead of extending .rockchip here, make .rockchip tied to the 
-> DRIVER_NAME and .rk3288 tied to the GPU_VERSION, and on rockchip:rk3288 
-> you can extend both .rockchip and .rk3288, what do you think?
-> So rockchip:rk3399 you can extend .rockchip and .rk3399.
-> 
-> and in the panfrost one you can have a .panfrost (that can extend 
-> .rockchip if they are the same definition).
-> 
-> I feel it becomes less confusing, what do you think?
-> 
-> I would even add some prefix or suffix to make it less confusing, like 
-> .driver-rockchip and .gpu-rk3288 for instance, making it a bit more 
-> intuitive and helping our future selves :)
+> stages are named per DRIVER_NAME
 
-Thanks for the suggestion. This can be done. Should we do it only
-for rockchip jobs or others also (meson, mediatek) ?
+Yes correct.
+
+> jobs are named DRIVER_NAME:GPU_VERSION
+
+Yes
+
+> xfails files and testlist files are named DRIVER_NAME-<xfails-suffix>.txt
+
+Base testlist is named as testlist.txt
+driver specific testlist is named as testlist-$DRIVER_NAME.txt
+
+xfails files are named as $DRIVER_NAME-$GPU_VERSION-<xfails-suffix>.txt 
+(mediatek-mt8183-fails.txt)
 
 > 
->> +  variables:
->> +    DEVICE_TYPE: rk3288-veyron-jaq
->>       KERNEL_IMAGE_TYPE: "zimage"
->> -    GPU_VERSION: rk3288
+> Looks good.
 > 
-> Looks like it make sense to keep GPU_VERSION here, no? Same comment for 
-> .rk3399.
-Yes, will fix this.
+> I just have some minor comments/questions in the series, please check.
+
+Will address those and send v5.
 
 Regards,
 Vignesh
+
