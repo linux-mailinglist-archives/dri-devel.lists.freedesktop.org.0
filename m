@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 964F187CC02
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 12:13:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D3E587CC17
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 12:15:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D13D112179;
-	Fri, 15 Mar 2024 11:13:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DC9F112183;
+	Fri, 15 Mar 2024 11:15:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="fIY2rkPW";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="LZAY3hiq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A910112179
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 11:13:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A271112183
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 11:15:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1710501179;
- bh=0CXDKtVLaMZDoZYYFTaEKJbdWnIjyLWhv+rAJccVjpA=;
+ s=mail; t=1710501328;
+ bh=dl7ZhBIyNJ+zkeATWSO3R1GGYspWpDZBRDyyr6jhFxI=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=fIY2rkPWBdmvDpr0Wom4qFXXVpArrafGToPCZp2XjR+O80luPezh2WtvoB3kopjKr
- oQM1rDX8QxVgnC0rE+1xABQXLuPNKswAqJj66NifFvNwa7+MgV8MFzCOjplUqw4rtK
- dEcaa0n2ZT6NGPO+E+gTfBvySKTndwpcEVLH/JKUis2SjV3g5J9V77IBHmQrhpQWb+
- mQYhWbyUb4wHLO17kp868XgQqVt09ivekV05vVdtlW0zGjNvMIUe7NyOfzj+XOCdor
- mrCBuo4qHQPe6Dhk7W5kjWq0ieFwu5eLMYdbRxilEedc385U9pBLiK71caXIr5efUX
- mJqVSIf0ziBLg==
+ b=LZAY3hiq1mwwA9m59SLy+T5ZuyG+SM7R9K57TZdw85wxld+66CUWGg0yvUtTXQO9D
+ pKbyloDvRwGnDg1vBhSyXLJe6gJT0BNToA7zZaayOesHRR9Tpsf1391diB/dUnRHl0
+ g2XY6gmD+97I6E7ftZRYWQX+1yu1aY4StsUWhGewTo0Dzhv+qWUIpdI2cLEuj77axT
+ QzXGamsy7SRP5kXVa4v2eiO6L9jk0R7xrWxeiz01jTL1521s1ulgHBPOanmL0yqFAx
+ MzP7PrH37lOM/mKdm+Od5RmybnW4NakayucXCBEoztypsIGWC+NoSszFhyfvNBx2ci
+ 9ZMN33QjAeDbQ==
 Received: from [100.66.96.193] (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested) (Authenticated sender: vignesh)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1EF11378210F;
- Fri, 15 Mar 2024 11:12:54 +0000 (UTC)
-Message-ID: <af5b6e38-306d-ae79-42af-88e6e9a32cff@collabora.com>
-Date: Fri, 15 Mar 2024 16:42:52 +0530
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 6B6FE37820D8;
+ Fri, 15 Mar 2024 11:15:24 +0000 (UTC)
+Message-ID: <4b88ae15-ac1c-c77f-69cf-26cd192ee908@collabora.com>
+Date: Fri, 15 Mar 2024 16:45:22 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v4 03/11] drm/ci: uprev IGT and update testlist
+Subject: Re: [PATCH v4 05/11] drm/ci: mediatek: Refactor existing mediatek jobs
 Content-Language: en-US
 To: Helen Koike <helen.koike@collabora.com>, dri-devel@lists.freedesktop.org
 Cc: daniels@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
@@ -48,10 +48,10 @@ Cc: daniels@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
  linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
  linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
 References: <20240306030649.60269-1-vignesh.raman@collabora.com>
- <20240306030649.60269-4-vignesh.raman@collabora.com>
- <4f927c99-9ea2-424e-85a7-bd05d0817dab@collabora.com>
+ <20240306030649.60269-6-vignesh.raman@collabora.com>
+ <e53fd362-c2c2-4935-b6a3-c73decd23d10@collabora.com>
 From: Vignesh Raman <vignesh.raman@collabora.com>
-In-Reply-To: <4f927c99-9ea2-424e-85a7-bd05d0817dab@collabora.com>
+In-Reply-To: <e53fd362-c2c2-4935-b6a3-c73decd23d10@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,96 +71,95 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Helen,
 
-On 07/03/24 19:05, Helen Koike wrote:
+On 07/03/24 19:32, Helen Koike wrote:
 > 
 > 
 > On 06/03/2024 00:06, Vignesh Raman wrote:
->> Uprev IGT and add amd, v3d, vc4 and vgem specific
->> tests to testlist. Have testlist.txt per driver
->> and include a base testlist so that the driver
->> specific tests will run only on those hardware.
->> Also add testlists to the MAINTAINERS file.
+>> For mediatek mt8173 and mt8183, the display driver is mediatek.
+>> Currently, in drm-ci for mediatek, only the display driver is
+>> tested. Refactor the existing mediatek jobs so that gpu driver
+>> testing jobs can be added later and update xfails accordingly.
+>> Since the correct driver name is passed from the job to test gpu
+>> and display driver, remove the check to set IGT_FORCE_DRIVER
+>> based on driver name.
 >>
 >> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
 >> ---
 >>
+>> v2:
+>>    - Refactor the patch to rename job to indicate display driver testing,
+>>      rename the existing xfail files, and remove IGT_FORCE_DRIVER from 
+>> the
+>>      script since it's now set by the job.
+>>
 >> v3:
->>    - New patch in series to uprev IGT and update testlist.
+>>    - Add the job name in GPU_VERSION and use it for xfail file names 
+>> instead
+>>      of using DRIVER_NAME. Also update xfails.
 >>
 >> v4:
->>    - Add testlists to the MAINTAINERS file and remove amdgpu xfails 
->> changes.
+>>    - Remove the display suffix in job and rename xfails accordingly.
+>>      Remove the change adding job name in GPU_VERSION.
 >>
 >> ---
->>   MAINTAINERS                              |  11 ++
->>   drivers/gpu/drm/ci/gitlab-ci.yml         |   2 +-
->>   drivers/gpu/drm/ci/igt_runner.sh         |  12 +-
->>   drivers/gpu/drm/ci/testlist-amdgpu.txt   | 151 +++++++++++++++++++++++
->>   drivers/gpu/drm/ci/testlist-msm.txt      |  50 ++++++++
->>   drivers/gpu/drm/ci/testlist-panfrost.txt |  17 +++
->>   drivers/gpu/drm/ci/testlist-v3d.txt      |  73 +++++++++++
->>   drivers/gpu/drm/ci/testlist-vc4.txt      |  49 ++++++++
->>   drivers/gpu/drm/ci/testlist.txt          |  84 ++++++-------
->>   9 files changed, 398 insertions(+), 51 deletions(-)
->>   create mode 100644 drivers/gpu/drm/ci/testlist-amdgpu.txt
->>   create mode 100644 drivers/gpu/drm/ci/testlist-msm.txt
->>   create mode 100644 drivers/gpu/drm/ci/testlist-panfrost.txt
->>   create mode 100644 drivers/gpu/drm/ci/testlist-v3d.txt
->>   create mode 100644 drivers/gpu/drm/ci/testlist-vc4.txt
+>>   drivers/gpu/drm/ci/igt_runner.sh              | 10 ---------
+>>   drivers/gpu/drm/ci/test.yml                   | 21 ++++++++++++++-----
+>>   .../drm/ci/xfails/mediatek-mt8173-fails.txt   | 15 -------------
+>>   .../drm/ci/xfails/mediatek-mt8173-flakes.txt  | 13 ++++++++++++
+>>   .../drm/ci/xfails/mediatek-mt8183-fails.txt   | 21 ++++++++++++-------
+>>   .../drm/ci/xfails/mediatek-mt8183-flakes.txt  |  8 +++++++
+>>   6 files changed, 50 insertions(+), 38 deletions(-)
+>>   create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-flakes.txt
+>>   create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-flakes.txt
 >>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 3bc7e122a094..4da66ca92f1a 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -1665,6 +1665,8 @@ L:    dri-devel@lists.freedesktop.org
->>   S:    Supported
->>   T:    git git://anongit.freedesktop.org/drm/drm-misc
->>   F:    Documentation/gpu/panfrost.rst
->> +F:    drivers/gpu/drm/ci/testlist-panfrost.txt
->> +F:    drivers/gpu/drm/ci/testlist.txt
-> 
-> I wonder if we should have both here, since the second is not used right?
-
-Yes, we need to use both here. testlist-panfrost.txt includes 
-testlist.txt. So we have moved the driver specific tests to
-testlist-panfrost.txt and have a base testlist.txt.
-
-
 >> diff --git a/drivers/gpu/drm/ci/igt_runner.sh 
 >> b/drivers/gpu/drm/ci/igt_runner.sh
->> index f1a08b9b146f..77cd81fe6d1a 100755
+>> index 77cd81fe6d1a..711f32772e48 100755
 >> --- a/drivers/gpu/drm/ci/igt_runner.sh
 >> +++ b/drivers/gpu/drm/ci/igt_runner.sh
->> @@ -74,10 +74,20 @@ if ! grep -q "core_getversion" 
->> /install/testlist.txt; then
->>   fi
->>   set +e
->> +if [ "$DRIVER_NAME" = "amdgpu" ]; then
->> +    TEST_LIST="/install/testlist-amdgpu.txt"
->> +elif [ "$DRIVER_NAME" = "msm" ]; then
->> +    TEST_LIST="/install/testlist-msm.txt"
->> +elif [ "$DRIVER_NAME" = "panfrost" ]; then
->> +    TEST_LIST="/install/testlist-panfrost.txt"
->> +else
->> +    TEST_LIST="/install/testlist.txt"
->> +fi
+>> @@ -20,16 +20,6 @@ cat /sys/kernel/debug/dri/*/state
+>>   set -e
+>>   case "$DRIVER_NAME" in
+>> -    rockchip|meson)
+>> -        export IGT_FORCE_DRIVER="panfrost"
+>> -        ;;
+>> -    mediatek)
+>> -        if [ "$GPU_VERSION" = "mt8173" ]; then
+>> -            export IGT_FORCE_DRIVER=${DRIVER_NAME}
+>> -        elif [ "$GPU_VERSION" = "mt8183" ]; then
+>> -            export IGT_FORCE_DRIVER="panfrost"
+>> -        fi
+>> -        ;;
+>>       amdgpu)
+>>           # Cannot use HWCI_KERNEL_MODULES as at that point we don't 
+>> have the module in /lib
+>>           mv /install/modules/lib/modules/* /lib/modules/.
+>> diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
+>> index 0857773e5c5f..f8f48523ada3 100644
+>> --- a/drivers/gpu/drm/ci/test.yml
+>> +++ b/drivers/gpu/drm/ci/test.yml
+>> @@ -282,29 +282,40 @@ amdgpu:stoney:
+>>       - .lava-igt:arm64
+>>     stage: mediatek
+>>     variables:
+>> -    DRIVER_NAME: mediatek
+>>       DTB: ${DEVICE_TYPE}
+>>       BOOT_METHOD: depthcharge
+>>       KERNEL_IMAGE_TYPE: ""
+>> -mediatek:mt8173:
+>> +.mt8173:
+>>     extends:
+>>       - .mediatek
+>>     parallel: 4
+>>     variables:
+>>       DEVICE_TYPE: mt8173-elm-hana
+>> -    GPU_VERSION: mt8173
 > 
-> Maybe simplify this with:
-> 
-> TEST_LIST="/install/testlist-$DRIVER_NAME.txt"
-> 
-> if [ ! -f "$TEST_LIST" ]; then
->      TEST_LIST="/install/testlist.txt"
-> fi
+> Looks like it make sense to keep GPU_VERSION here, no?
+> Same comment for .mt8183.
 
-Yes, this is much better. Thanks.
-
-> 
-> Another question I have: shouldn't testlist-$DRIVER_NAME.txt and 
-> testlist.txt be merged? Or they are really mutually exclusive?
-
-We have testlist-$DRIVER_NAME.txt per driver and it includes a base 
-testlist.txt
+Yes, will keep the GPU_VERSION here for mediatek jobs and others also.
 
 Regards,
 Vignesh
+
