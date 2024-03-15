@@ -2,71 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EC4D87CC68
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 12:37:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6752F87D11E
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 17:22:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 795781121BF;
-	Fri, 15 Mar 2024 11:37:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA887112354;
+	Fri, 15 Mar 2024 16:22:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="z7O98KkM";
+	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="R7b9bhqn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
- [209.85.219.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BFD41121C0
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 11:37:37 +0000 (UTC)
-Received: by mail-yb1-f175.google.com with SMTP id
- 3f1490d57ef6-dcbc6a6808fso1906141276.2
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 04:37:37 -0700 (PDT)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07DBC1121C2;
+ Fri, 15 Mar 2024 11:39:03 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-a3ddc13bbb3so562203266b.0; 
+ Fri, 15 Mar 2024 04:39:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1710502656; x=1711107456; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=W1YjIjeqOSOzfGq2xXT4IYkQmnAHVepprgGXQRagfTY=;
- b=z7O98KkMa0DkrG1o/qLi0SsOG53KgVgwdyEalhbzlDMOBXhpNc3768zFUyi52i6zoQ
- o8Auaxm6l+LWbKgg98GIUBFqEIa+SBXD+B04HObK0wace7gGrz4fZhRLzLPqy+K0Iy7P
- dRL1sXExjW8sGM+7EQH4o+OhLnqCVGgFjy+Xrc5MwE99mDNdhC9QA8WfPQ0h0pDOlkh+
- QTOzSYW+jam+fM6yg2GWYV85lTCcSiVWHobYr9tTJoTaD0yu0CyhXohI/NkLIGlb7DNr
- NvTCw+x8IVnkgmInsVo9wpmTf+ffpiyX3No1c2E5b6GG2NNWLJQNBiWczlHt9x2ES0NC
- HFUg==
+ d=googlemail.com; s=20230601; t=1710502742; x=1711107542;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ajSGsc6A/F/qkby1cV3DFijz3ujuoh7yFblhBSAWTk4=;
+ b=R7b9bhqnJUp3E8d4suy65iFCwcwScI5+MICGcrLDUXNqM3Ghlr9uZXCebETrFQU/85
+ udeRglq0rpnFTtlbJbfPLyQxMb5crhiFP82FIlQdK9ajEECeU1gdfdV1ErGRA49UoZgd
+ i0FFBFTIZuanV9Jx0/QZyVj4uNojq1jKZxKOY7COHIwji6l8bwss1UVyyHMbeCfPtyNC
+ MW8qwNuRIO8R0T5BXDBaJzIvPg/lBwW2a423dpOMYJ/iCAg3V7E3EgDlO4MnfWqjWTvY
+ 3SD/fZ5WRkVs2E7m6ULHhobxdCEfc/8UKVKYLrO17QV9YK112znBKsaptSqt6k5xTHzA
+ 91KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710502656; x=1711107456;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=W1YjIjeqOSOzfGq2xXT4IYkQmnAHVepprgGXQRagfTY=;
- b=sHwhAtg+vX6ymOY4gVi6xp5y19sjhurTOpQ5W47oMzh7rHNqhKfP2sdrYV3adS9Vav
- 8tDqI+0ulf9fDU7dzDjzRvONorn/SJZizBlO2ZRRUc6G2jzTYvmsUGobNQ7pT+uorY+J
- eDoFHhdvpn8mfBlnGCygbvRcDekmPp19vw48FcxSs7Bq1XQY/YN6ZiX1mhwaIYZ0xz/G
- I3Pr/+b78mu0Mi+lAaGKq66m4w5VRlY3sdXNe9NKfp9+vzVWF5wAySqH53DCOI7Shykk
- W153VqseiSY1fSf6bx5UUtzCHMoif2xQC5yzEj7iYyNcaKb3MtGPCXUUd4oUJh/epBYd
- Pw5g==
-X-Gm-Message-State: AOJu0YwqPfmXXAl7U/hFj80t9yRUzgxRfNC+9F81W1F1mUNMnoN1HW6+
- fgj7bzlAfCJCzYO7QH8qLqyiQxDFggvVSq4dKCPvtDLlc63TLw3ucThdqG8WZd6yMsyrYxyVI2U
- ENvJnzjEEbQ0Zy1Eg3HbPQmStizDrn7DpFG85jA==
-X-Google-Smtp-Source: AGHT+IGNjJToPdVH5hgnrzbo2/Y+N7SoBZsHPueEWHCi3sAAnAaUw/tww8bYLv5uKat8ny98eFlvnQEHDXDY2PazX2c=
-X-Received: by 2002:a25:c5cb:0:b0:dc6:c2b2:c039 with SMTP id
- v194-20020a25c5cb000000b00dc6c2b2c039mr4303557ybe.41.1710502656113; Fri, 15
- Mar 2024 04:37:36 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1710502742; x=1711107542;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ajSGsc6A/F/qkby1cV3DFijz3ujuoh7yFblhBSAWTk4=;
+ b=FKQJQKPQ0qJ8mnjEN+VnMNTvm9vmH79kaK/fUseD9lC/VsbzXl9MiUKYJHD93OnZNd
+ 8BxuvwmqNBP8NaEvl1KPS97vfV82GGX+MAGeKfxMWQdjF/49IzGgJ2HGZ8Wlg2xDvwmb
+ DJg42uE1tfAEtXNH6KlqcivvR+jtambpFcTqLAdyDgGLt6f7AIGOH4XFBeakkBE2Rmrg
+ zmsE6ijWw90dytFc01NRJ6Q2f9l+w+4lZfy2i9QtHhdysK+KH9lbkgWNxdfEXlPvMSQG
+ DNwUGxAnpvQKiB4WiS4JCSbLlPjU3C1PnQLRgXATSPxAIoftGA8s0eO4Kk/MOB63Y5Mo
+ HIJw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXfhAlF7tsmzg4IjzoEEqtvr/LeQfOQ5jERQ9U04iuqUNmh5Q86LbWflH/RUoLA+ObkT49SxtAXdwVz1Wf3gZV7OFL6AudL9e2moiKSsS4cyCP/r+Eyn2Y9w9766JocBwEvqE1Y83iHby5QUEX9TQ==
+X-Gm-Message-State: AOJu0Yzwep3sB55R2PiKRL6WYwOHSpPPHJxlHxd+vSTGh825+cpDIQ2N
+ 2IWVLiOPTjl89XTw98K8xFVi0pjrZgbkRkBfo9mOpS1bR34cftPc
+X-Google-Smtp-Source: AGHT+IHJJjdK95FxiFWtuKqFb5okKLCX+Xl17xr9ZeV/oMTb5MlWFKMC//tYf9kBKFRK8DaZbTEwfQ==
+X-Received: by 2002:a17:906:1501:b0:a45:d7fb:8423 with SMTP id
+ b1-20020a170906150100b00a45d7fb8423mr7825935ejd.9.1710502741739; 
+ Fri, 15 Mar 2024 04:39:01 -0700 (PDT)
+Received: from ddev.DebianHome
+ (dynamic-095-119-217-226.95.119.pool.telefonica.de. [95.119.217.226])
+ by smtp.gmail.com with ESMTPSA id
+ fg3-20020a056402548300b005682f47aea7sm1610024edb.94.2024.03.15.04.39.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Mar 2024 04:39:01 -0700 (PDT)
+From: =?UTF-8?q?Christian=20G=C3=B6ttsche?= <cgzones@googlemail.com>
+To: linux-security-module@vger.kernel.org
+Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Stefan Haberland <sth@linux.ibm.com>,
+ Jan Hoeppner <hoeppner@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Mark Brown <broonie@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-s390@vger.kernel.org, bpf@vger.kernel.org
+Subject: [PATCH 05/10] drivers: use new capable_any functionality
+Date: Fri, 15 Mar 2024 12:37:26 +0100
+Message-ID: <20240315113828.258005-5-cgzones@googlemail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240315113828.258005-1-cgzones@googlemail.com>
+References: <20240315113828.258005-1-cgzones@googlemail.com>
 MIME-Version: 1.0
-References: <20240306030649.60269-1-vignesh.raman@collabora.com>
- <20240306030649.60269-4-vignesh.raman@collabora.com>
-In-Reply-To: <20240306030649.60269-4-vignesh.raman@collabora.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 15 Mar 2024 13:37:25 +0200
-Message-ID: <CAA8EJpo=OXUitC+NPjZd5Kpq9dF04BSffvgsMYnn7LmmEoh09A@mail.gmail.com>
-Subject: Re: [PATCH v4 03/11] drm/ci: uprev IGT and update testlist
-To: Vignesh Raman <vignesh.raman@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com, 
- helen.koike@collabora.com, airlied@gmail.com, daniel@ffwll.ch, 
- emma@anholt.net, robdclark@gmail.com, david.heidelberg@collabora.com, 
- guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com, 
- hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com, 
- mairacanal@riseup.net, mcanal@igalia.com, linux-mediatek@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Fri, 15 Mar 2024 16:22:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,21 +101,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 6 Mar 2024 at 05:08, Vignesh Raman <vignesh.raman@collabora.com> wrote:
->
-> Uprev IGT and add amd, v3d, vc4 and vgem specific
-> tests to testlist. Have testlist.txt per driver
-> and include a base testlist so that the driver
-> specific tests will run only on those hardware.
-> Also add testlists to the MAINTAINERS file.
+Use the new added capable_any function in appropriate cases, where a
+task is required to have any of two capabilities.
 
-I think we should move away from specifying tests explicitly. They can
-easily get out of sync. A month ago I had to manually go through the
-list of the tests and update it to follow changes in the IGT.
+Reorder CAP_SYS_ADMIN last.
 
-I think we should directly use testlist.txt from IGT and then filter
-it out using skips.
+Signed-off-by: Christian Göttsche <cgzones@googlemail.com>
+Acked-by: Alexander Gordeev <agordeev@linux.ibm.com> (s390 portion)
+---
+v4:
+   Additional usage in kfd_ioctl()
+v3:
+   rename to capable_any()
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 3 +--
+ drivers/net/caif/caif_serial.c           | 2 +-
+ drivers/s390/block/dasd_eckd.c           | 2 +-
+ 3 files changed, 3 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+index dfa8c69532d4..8c7ebca01c17 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+@@ -3290,8 +3290,7 @@ static long kfd_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+ 	 * more priviledged access.
+ 	 */
+ 	if (unlikely(ioctl->flags & KFD_IOC_FLAG_CHECKPOINT_RESTORE)) {
+-		if (!capable(CAP_CHECKPOINT_RESTORE) &&
+-						!capable(CAP_SYS_ADMIN)) {
++		if (!capable_any(CAP_CHECKPOINT_RESTORE, CAP_SYS_ADMIN)) {
+ 			retcode = -EACCES;
+ 			goto err_i1;
+ 		}
+diff --git a/drivers/net/caif/caif_serial.c b/drivers/net/caif/caif_serial.c
+index ed3a589def6b..e908b9ce57dc 100644
+--- a/drivers/net/caif/caif_serial.c
++++ b/drivers/net/caif/caif_serial.c
+@@ -326,7 +326,7 @@ static int ldisc_open(struct tty_struct *tty)
+ 	/* No write no play */
+ 	if (tty->ops->write == NULL)
+ 		return -EOPNOTSUPP;
+-	if (!capable(CAP_SYS_ADMIN) && !capable(CAP_SYS_TTY_CONFIG))
++	if (!capable_any(CAP_SYS_TTY_CONFIG, CAP_SYS_ADMIN))
+ 		return -EPERM;
+ 
+ 	/* release devices to avoid name collision */
+diff --git a/drivers/s390/block/dasd_eckd.c b/drivers/s390/block/dasd_eckd.c
+index 373c1a86c33e..8f9a5136306a 100644
+--- a/drivers/s390/block/dasd_eckd.c
++++ b/drivers/s390/block/dasd_eckd.c
+@@ -5384,7 +5384,7 @@ static int dasd_symm_io(struct dasd_device *device, void __user *argp)
+ 	char psf0, psf1;
+ 	int rc;
+ 
+-	if (!capable(CAP_SYS_ADMIN) && !capable(CAP_SYS_RAWIO))
++	if (!capable_any(CAP_SYS_RAWIO, CAP_SYS_ADMIN))
+ 		return -EACCES;
+ 	psf0 = psf1 = 0;
+ 
 -- 
-With best wishes
-Dmitry
+2.43.0
+
