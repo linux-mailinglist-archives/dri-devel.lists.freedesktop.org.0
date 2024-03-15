@@ -2,92 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AA4F87CBCC
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 12:01:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 964F187CC02
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 12:13:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3358F10F346;
-	Fri, 15 Mar 2024 11:01:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D13D112179;
+	Fri, 15 Mar 2024 11:13:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ApsBotS5";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="fIY2rkPW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
- [209.85.160.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33D8410F346
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 11:01:19 +0000 (UTC)
-Received: by mail-qt1-f172.google.com with SMTP id
- d75a77b69052e-430a65e973bso7787661cf.3
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 04:01:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710500478; x=1711105278;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=5DsyBbYAZw/09Nakq0pDw/8yd9OC3IgRs2xlCXHLsrE=;
- b=ApsBotS5Ei/gmYUHhGx8WppoE/Xu89u7XVTFX0L0migCvs3kz2Bajl8lFH0zoJuZtz
- QA0yBl4sqmW8hL4fsdM/gqBxJqrcB+HKz0gd2W4xedm1pPCf8XE/aSVJtS3n7UCUbPvK
- T/EITZ8yko55f+WNWxouEGp2YOYW87Uf9Tg44N1C9pUvQIo33+WNeVWrDaICzgYjJ1jo
- Jo+nDnpn/gEs7Rj9y0GOA2x49sLbgqCVefFHRnVOvn2/ywUnZdopTWAz4MK6tU4sAw7c
- A+Xq/8UuiCsD/mMqq/3z33Pfg48O/6FvWFBICVinwMp3kAn29pkl+6E3rn88HlgW1oQt
- v03g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710500478; x=1711105278;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5DsyBbYAZw/09Nakq0pDw/8yd9OC3IgRs2xlCXHLsrE=;
- b=w+VQHvOyv/QpVEd0V1kozVykunYQZxOPUIgaXcqSwImHZJuaG+b408MxnwYZgwF4kV
- vU3y9EcFJHvcOkthrhB2bEsSTjQmqb/YPObM96YCvqQkmz8nF/5F/U9xuA4aRz5dflPw
- H1kVswTg7I8fcDpJPYocl4jzo51t2SGx0QKJtlzNg28x0/OsMbhUlcjirTTExs8f/mgi
- dL+0wcOq+DPwX6+1fP1UEKwuhq+y1Wry2BMbelTN/12Y+QGZm0Dk4hCHnvx0OrCnVI/B
- fBp0SFNzVNF9D4Wjus2RzNl0ZioOXg9GrgEHM2pPE0QHT7oeyb8AG7/cBWBeyF0TCE6F
- OloA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXAVkGk/krGYpdQXnQn6lGzSftFHkC2hqgftodRjY26p6uSdGpHwGLUr4pwaeNJCAhagtD4qBGyPye1PlvDpA/3q0nnZb5CleMePxdy6r5t
-X-Gm-Message-State: AOJu0YzF2CLNjUjKVWLu/vQS060nlzHeRtT8Cuk7IWvOx3sLeaDc4mUc
- UGdQrYzB3+Z36bwsOk26Mx8FUpCMikoORIlO84OltSq+RsoBxjhkPI4/ft216kE=
-X-Google-Smtp-Source: AGHT+IEVOOgZFoxsLMo3B/9DgMlPg+8mCIQzmFSjWr5NC1POGFlHlr6r0UtoZZxyVjffb0W7416VFg==
-X-Received: by 2002:ac8:5783:0:b0:42e:b90c:c5a9 with SMTP id
- v3-20020ac85783000000b0042eb90cc5a9mr5156478qta.51.1710500478406; 
- Fri, 15 Mar 2024 04:01:18 -0700 (PDT)
-Received: from [192.168.1.172] ([93.5.22.158])
- by smtp.gmail.com with ESMTPSA id
- p3-20020a05622a00c300b0042ef88b7daesm1838670qtw.19.2024.03.15.04.01.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Mar 2024 04:01:17 -0700 (PDT)
-Message-ID: <dda0e6ba-4538-47a0-95e9-6adcfd4169a7@baylibre.com>
-Date: Fri, 15 Mar 2024 12:01:12 +0100
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A910112179
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 11:13:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1710501179;
+ bh=0CXDKtVLaMZDoZYYFTaEKJbdWnIjyLWhv+rAJccVjpA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=fIY2rkPWBdmvDpr0Wom4qFXXVpArrafGToPCZp2XjR+O80luPezh2WtvoB3kopjKr
+ oQM1rDX8QxVgnC0rE+1xABQXLuPNKswAqJj66NifFvNwa7+MgV8MFzCOjplUqw4rtK
+ dEcaa0n2ZT6NGPO+E+gTfBvySKTndwpcEVLH/JKUis2SjV3g5J9V77IBHmQrhpQWb+
+ mQYhWbyUb4wHLO17kp868XgQqVt09ivekV05vVdtlW0zGjNvMIUe7NyOfzj+XOCdor
+ mrCBuo4qHQPe6Dhk7W5kjWq0ieFwu5eLMYdbRxilEedc385U9pBLiK71caXIr5efUX
+ mJqVSIf0ziBLg==
+Received: from [100.66.96.193] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1EF11378210F;
+ Fri, 15 Mar 2024 11:12:54 +0000 (UTC)
+Message-ID: <af5b6e38-306d-ae79-42af-88e6e9a32cff@collabora.com>
+Date: Fri, 15 Mar 2024 16:42:52 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/18] ASoC: codecs: mt6357: add MT6357 codec
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v4 03/11] drm/ci: uprev IGT and update testlist
 Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nicolas Belin <nbelin@baylibre.com>
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <20240226-audio-i350-v1-12-4fa1cea1667f@baylibre.com>
- <9891855d-2284-42e4-9d3a-35ba406540e8@sirena.org.uk>
- <c441a132-b16b-4244-a712-8971c902d4d7@baylibre.com>
- <ff3d2db1-697b-42c6-a0f2-74276e9fc098@sirena.org.uk>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <ff3d2db1-697b-42c6-a0f2-74276e9fc098@sirena.org.uk>
+To: Helen Koike <helen.koike@collabora.com>, dri-devel@lists.freedesktop.org
+Cc: daniels@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
+ emma@anholt.net, robdclark@gmail.com, david.heidelberg@collabora.com,
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
+ melissa.srw@gmail.com, mairacanal@riseup.net, mcanal@igalia.com,
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20240306030649.60269-1-vignesh.raman@collabora.com>
+ <20240306030649.60269-4-vignesh.raman@collabora.com>
+ <4f927c99-9ea2-424e-85a7-bd05d0817dab@collabora.com>
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <4f927c99-9ea2-424e-85a7-bd05d0817dab@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,89 +69,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Helen,
 
-
-On 13/03/2024 18:23, Mark Brown wrote:
-> On Tue, Mar 12, 2024 at 07:03:25PM +0100, Alexandre Mergnat wrote:
->> On 26/02/2024 17:09, Mark Brown wrote:
+On 07/03/24 19:05, Helen Koike wrote:
 > 
->>>> +	case MT6357_ZCD_CON2:
->>>> +		regmap_read(priv->regmap, MT6357_ZCD_CON2, &reg);
->>>> +		priv->ana_gain[ANALOG_VOLUME_HPOUTL] =
->>>> +			(reg & AUD_HPL_GAIN_MASK) >> AUD_HPL_GAIN_SFT;
->>>> +		priv->ana_gain[ANALOG_VOLUME_HPOUTR] =
->>>> +			(reg & AUD_HPR_GAIN_MASK) >> AUD_HPR_GAIN_SFT;
->>>> +		break;
 > 
->>> It would probably be less code and would definitely be clearer and
->>> simpler to just read the values when we need them rather than constatly
->>> keeping a cache separate to the register cache.
+> On 06/03/2024 00:06, Vignesh Raman wrote:
+>> Uprev IGT and add amd, v3d, vc4 and vgem specific
+>> tests to testlist. Have testlist.txt per driver
+>> and include a base testlist so that the driver
+>> specific tests will run only on those hardware.
+>> Also add testlists to the MAINTAINERS file.
+>>
+>> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+>> ---
+>>
+>> v3:
+>>    - New patch in series to uprev IGT and update testlist.
+>>
+>> v4:
+>>    - Add testlists to the MAINTAINERS file and remove amdgpu xfails 
+>> changes.
+>>
+>> ---
+>>   MAINTAINERS                              |  11 ++
+>>   drivers/gpu/drm/ci/gitlab-ci.yml         |   2 +-
+>>   drivers/gpu/drm/ci/igt_runner.sh         |  12 +-
+>>   drivers/gpu/drm/ci/testlist-amdgpu.txt   | 151 +++++++++++++++++++++++
+>>   drivers/gpu/drm/ci/testlist-msm.txt      |  50 ++++++++
+>>   drivers/gpu/drm/ci/testlist-panfrost.txt |  17 +++
+>>   drivers/gpu/drm/ci/testlist-v3d.txt      |  73 +++++++++++
+>>   drivers/gpu/drm/ci/testlist-vc4.txt      |  49 ++++++++
+>>   drivers/gpu/drm/ci/testlist.txt          |  84 ++++++-------
+>>   9 files changed, 398 insertions(+), 51 deletions(-)
+>>   create mode 100644 drivers/gpu/drm/ci/testlist-amdgpu.txt
+>>   create mode 100644 drivers/gpu/drm/ci/testlist-msm.txt
+>>   create mode 100644 drivers/gpu/drm/ci/testlist-panfrost.txt
+>>   create mode 100644 drivers/gpu/drm/ci/testlist-v3d.txt
+>>   create mode 100644 drivers/gpu/drm/ci/testlist-vc4.txt
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 3bc7e122a094..4da66ca92f1a 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -1665,6 +1665,8 @@ L:    dri-devel@lists.freedesktop.org
+>>   S:    Supported
+>>   T:    git git://anongit.freedesktop.org/drm/drm-misc
+>>   F:    Documentation/gpu/panfrost.rst
+>> +F:    drivers/gpu/drm/ci/testlist-panfrost.txt
+>> +F:    drivers/gpu/drm/ci/testlist.txt
 > 
->> Actually you must save the values because the gain selected by the user will
->> be override to do a ramp => volume_ramp(.....):
->> - When you switch on the HP, you start from gain=-40db to final_gain
->> (selected by user).
->> - When you switch off the HP, you start from final_gain (selected by user)
->> to gain=-40db.
+> I wonder if we should have both here, since the second is not used right?
+
+Yes, we need to use both here. testlist-panfrost.txt includes 
+testlist.txt. So we have moved the driver specific tests to
+testlist-panfrost.txt and have a base testlist.txt.
+
+
+>> diff --git a/drivers/gpu/drm/ci/igt_runner.sh 
+>> b/drivers/gpu/drm/ci/igt_runner.sh
+>> index f1a08b9b146f..77cd81fe6d1a 100755
+>> --- a/drivers/gpu/drm/ci/igt_runner.sh
+>> +++ b/drivers/gpu/drm/ci/igt_runner.sh
+>> @@ -74,10 +74,20 @@ if ! grep -q "core_getversion" 
+>> /install/testlist.txt; then
+>>   fi
+>>   set +e
+>> +if [ "$DRIVER_NAME" = "amdgpu" ]; then
+>> +    TEST_LIST="/install/testlist-amdgpu.txt"
+>> +elif [ "$DRIVER_NAME" = "msm" ]; then
+>> +    TEST_LIST="/install/testlist-msm.txt"
+>> +elif [ "$DRIVER_NAME" = "panfrost" ]; then
+>> +    TEST_LIST="/install/testlist-panfrost.txt"
+>> +else
+>> +    TEST_LIST="/install/testlist.txt"
+>> +fi
 > 
-> You can just read the value back when you need to do a ramp?
-
-You can't. Because you will read -40db when HP isn't playing sound. That 
-is why the gain is saved into the struct.
-
-Let me know, when you change de gain to do a ramp down (start from user 
-gain to gain=-40db), next time for the ramp up, how/where do you find 
-the user gain ?
-
-
+> Maybe simplify this with:
 > 
->> Also, the microphone's gain change when it's enabled/disabled.
+> TEST_LIST="/install/testlist-$DRIVER_NAME.txt"
 > 
-> I don't understand what this means?
+> if [ ! -f "$TEST_LIST" ]; then
+>      TEST_LIST="/install/testlist.txt"
+> fi
 
-When microphone isn't capturing, the gain read back from the register is 
-0dB. I've put some logs in my code and do capture to show how it works:
-
-root@i350-evk:~# arecord -D hw:mt8365evk,2,0 -r 48000 -c2 -f s32_le -d 
-10 recorded_file.wav
-[Mar15 09:31] mt8365-afe-pcm 11220000.audio-controller: 
-mt8365_afe_fe_hw_params AWB period = 6000 rate = 48000 channels = 2
-[  +0.000126] mt8365-afe-pcm 11220000.audio-controller: 
-mt8365_dai_int_adda_prepare 'Capture' rate = 48000
-[  +0.107688] mt6357-sound mt6357-sound: TOTO set mic to stored value
-[ +10.072648] mt6357-sound mt6357-sound: TOTO set mic to 0dB
-
-root@i350-evk:~# arecord -D hw:mt8365evk,2,0 -r 48000 -c2 -f s32_le -d 
-10 recorded_file.wav
-[Mar15 09:32] mt8365-afe-pcm 11220000.audio-controller: 
-mt8365_afe_fe_hw_params AWB period = 6000 rate = 48000 channels = 2
-[  +0.000133] mt8365-afe-pcm 11220000.audio-controller: 
-mt8365_dai_int_adda_prepare 'Capture' rate = 48000
-[  +0.109418] mt6357-sound mt6357-sound: TOTO set mic to stored value
-[ +10.164197] mt6357-sound mt6357-sound: TOTO set mic to 0dB
-
+Yes, this is much better. Thanks.
 
 > 
->>>> +	/* ul channel swap */
->>>> +	SOC_SINGLE("UL LR Swap", MT6357_AFE_UL_DL_CON0, AFE_UL_LR_SWAP_SFT, 1, 0),
-> 
->>> On/off controls should end in Switch.
-> 
->> Sorry, I don't understand your comment. Can you reword it please ?
-> 
-> See control-names.rst.  Run mixer-test on a card with this driver and
-> fix all the issues it reports.
+> Another question I have: shouldn't testlist-$DRIVER_NAME.txt and 
+> testlist.txt be merged? Or they are really mutually exclusive?
 
-Ok the name is the issue for you AFAII.
-This control isn't for on/off but swap Left and Right.
- From the codec documentation:
-"Swaps audio UL L/R channel before UL SRC"
-This control is overkill, I will remove it
+We have testlist-$DRIVER_NAME.txt per driver and it includes a base 
+testlist.txt
 
-I'm stuck to run mixer-test, please check the following message: 
-https://lore.kernel.org/all/7ddad394-e880-4ef8-8591-cb803a2086ae@baylibre.com/
-
-
--- 
 Regards,
-Alexandre
+Vignesh
