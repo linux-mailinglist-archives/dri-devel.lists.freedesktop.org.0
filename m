@@ -2,53 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB9E87CA7A
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 10:15:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 728AC87CAAC
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 10:28:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD2B3112058;
-	Fri, 15 Mar 2024 09:15:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 931D211207C;
+	Fri, 15 Mar 2024 09:28:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="j7CQdFq4";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZT6mpraC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BA4E112058
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 09:15:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1710494124;
- bh=acrQ5oOzFvIptP0m55ggct7J15MBntUB7Hgt+FmRFRg=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=j7CQdFq496EcdadWXv01UmcL6cPMnEne0Ve8NgUX6EIsZfO28poLm/zYFElsRmg8r
- L02tS8PomCFcYDO2g/Fpm6YlBqVX/p3IqIaxspuWPkGOYg1N1bGS+r6vAxDsKVKg+e
- xiDOpoNn6GD1INtI2opCCnng8fin2PPXPROdpsqeOZhWLzYqRG/i+eHB+mYljXN4CE
- sBKniqwVIkFU3vB2+zdfX0ICiRTuEItOr+lnz/V2pFkMZrcCk4q5rvTxNqt5uvNxXJ
- AewYrKTKhrLaqm9vCBSfDpgEFOzbsvh9u3hyfcFeMqChvHglqGLhJr0cKE8r+7M/1i
- pTRd13IOCOfWg==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 36ED137820FD;
- Fri, 15 Mar 2024 09:15:23 +0000 (UTC)
-Message-ID: <d295a448-1b50-47be-92a2-770501c83e18@collabora.com>
-Date: Fri, 15 Mar 2024 10:15:22 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A48F011207C
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 09:28:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1710494901; x=1742030901;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=MGYNWlWsopnRvwXHYNUgynG6Nap5bDj2+hfijJqWPm4=;
+ b=ZT6mpraCy3B/bwJ1FD78j6YuUIbuCchiFqp6jgDCjMCJPCnwZO89smDN
+ eBFzWfR2J8z0MoY3NAXPmnJduM5WLrsZh8FsgoPIVf1gdpDJoNIIk3aUf
+ w9kyBikRCXM9/cJ8hRr4d4a1qZOqXnwBxfu/vqBzrcMGeKxK7mODU9hQW
+ tQ0hRyBntalJfu/Pvlhn9BQb4fZ+PnGdcgp5yaNAO2mRR4fhmEt5a/iEw
+ HXlLK4ntPowACqBjrHIUPqUPjioAOXdarzKPU8W9Fmgej6H911DYWTgGP
+ 6uinrADgRs++MFU+EDQXngdr7esJozGHI7D6B8F+fpdasAnIM2UWP+Gb8 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="15999577"
+X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; d="scan'208";a="15999577"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Mar 2024 02:28:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; d="scan'208";a="12530343"
+Received: from denache-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.36.82])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Mar 2024 02:28:14 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Rob Clark <robdclark@gmail.com>, Helen Koike
+ <helen.koike@collabora.com>, Vignesh Raman <vignesh.raman@collabora.com>,
+ Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Subject: Re: Time for drm-ci-next?
+In-Reply-To: <CAF6AEGsRLPqddgc2MKCXKD1TDFuwxRs_6Pj=oDuj4gah0D-07Q@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <CAF6AEGsRLPqddgc2MKCXKD1TDFuwxRs_6Pj=oDuj4gah0D-07Q@mail.gmail.com>
+Date: Fri, 15 Mar 2024 11:28:09 +0200
+Message-ID: <87a5mzrgie.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mediatek: dsi: Correct calculation formula of PHY Timing
-To: Shuijing Li <shuijing.li@mediatek.com>, chunkuang.hu@kernel.org,
- p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
- matthias.bgg@gmail.com, jitao.shi@mediatek.com
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20240315072945.19502-1-shuijing.li@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20240315072945.19502-1-shuijing.li@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,68 +66,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 15/03/24 08:29, Shuijing Li ha scritto:
-> This patch correct calculation formula of PHY timing.
-> Make actual phy timing more accurate.
-> 
+On Thu, 14 Mar 2024, Rob Clark <robdclark@gmail.com> wrote:
+> When we first merged drm/ci I was unsure if it would need it's own
+> -next branch.  But after using it for a couple releases, a few times
+> I've found myself wanting to backmerge drm/ci changes without
+> necessarily backmerging all of drm-misc-next.
+>
+> So, maybe it makes some sense to have a drm-ci-next branch that
+> driver-maintainers could back-merge as-needed?
 
-More accurate in which cases? By how much? On which SoC(s)?
+That's a crossmerge instead of a backmerge, and I feel that could get
+messy. What if folks crossmerge drm-ci-next but it gets rejected for
+drm-next? Or the baselines are different, and the crossmerge pulls in
+way more stuff than it should?
 
-I agree about those changes if those are improving the PHY timing, but
-can you please document what's going on?
+IMO the route should be drm-ci-next -> pull request to drm-next ->
+backmerge drm-next to drivers and drm-misc-next.
 
-Thanks,
-Angelo
-
-> Signed-off-by: Shuijing Li <shuijing.li@mediatek.com>
-> ---
->   drivers/gpu/drm/mediatek/mtk_dsi.c | 33 +++++++++++++++---------------
->   1 file changed, 17 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index a2fdfc8ddb15..d1bd7d671880 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -235,22 +235,23 @@ static void mtk_dsi_phy_timconfig(struct mtk_dsi *dsi)
->   	u32 data_rate_mhz = DIV_ROUND_UP(dsi->data_rate, 1000000);
->   	struct mtk_phy_timing *timing = &dsi->phy_timing;
->   
-> -	timing->lpx = (60 * data_rate_mhz / (8 * 1000)) + 1;
-> -	timing->da_hs_prepare = (80 * data_rate_mhz + 4 * 1000) / 8000;
-> -	timing->da_hs_zero = (170 * data_rate_mhz + 10 * 1000) / 8000 + 1 -
-> -			     timing->da_hs_prepare;
-> -	timing->da_hs_trail = timing->da_hs_prepare + 1;
-> -
-> -	timing->ta_go = 4 * timing->lpx - 2;
-> -	timing->ta_sure = timing->lpx + 2;
-> -	timing->ta_get = 4 * timing->lpx;
-> -	timing->da_hs_exit = 2 * timing->lpx + 1;
-> -
-> -	timing->clk_hs_prepare = 70 * data_rate_mhz / (8 * 1000);
-> -	timing->clk_hs_post = timing->clk_hs_prepare + 8;
-> -	timing->clk_hs_trail = timing->clk_hs_prepare;
-> -	timing->clk_hs_zero = timing->clk_hs_trail * 4;
-> -	timing->clk_hs_exit = 2 * timing->clk_hs_trail;
-> +	timing->lpx = (80 * data_rate_mhz / (8 * 1000)) + 1;
-> +	timing->da_hs_prepare = (59 * data_rate_mhz + 4 * 1000) / 8000 + 1;
-> +	timing->da_hs_zero = (163 * data_rate_mhz + 11 * 1000) / 8000 + 1 -
-> +		timing->da_hs_prepare;
-> +	timing->da_hs_trail = (78 * data_rate_mhz + 7 * 1000) / 8000 + 1;
-> +
-> +	timing->ta_go = 4 * timing->lpx;
-> +	timing->ta_sure = 3 * timing->lpx / 2;
-> +	timing->ta_get = 5 * timing->lpx;
-> +	timing->da_hs_exit = (118 * data_rate_mhz / (8 * 1000)) + 1;
-> +
-> +	timing->clk_hs_prepare = (57 * data_rate_mhz / (8 * 1000)) + 1;
-> +	timing->clk_hs_post = (65 * data_rate_mhz + 53 * 1000) / 8000 + 1;
-> +	timing->clk_hs_trail = (78 * data_rate_mhz + 7 * 1000) / 8000 + 1;
-> +	timing->clk_hs_zero = (330 * data_rate_mhz / (8 * 1000)) + 1 -
-> +		timing->clk_hs_prepare;
-> +	timing->clk_hs_exit = (118 * data_rate_mhz / (8 * 1000)) + 1;
->   
->   	timcon0 = timing->lpx | timing->da_hs_prepare << 8 |
->   		  timing->da_hs_zero << 16 | timing->da_hs_trail << 24;
+I'm not opposed to having drm-ci-next at all, mainly indifferent, but I
+question the merge flows. And then the question becomes, does my
+suggested merge flow complicate your original goal?
 
 
+BR,
+Jani.
 
+
+-- 
+Jani Nikula, Intel
