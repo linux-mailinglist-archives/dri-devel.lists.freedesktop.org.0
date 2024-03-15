@@ -2,90 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6752F87D11E
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 17:22:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC3987CCA4
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 12:46:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA887112354;
-	Fri, 15 Mar 2024 16:22:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B38161121D6;
+	Fri, 15 Mar 2024 11:46:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="R7b9bhqn";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="McITOoD1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07DBC1121C2;
- Fri, 15 Mar 2024 11:39:03 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id
- a640c23a62f3a-a3ddc13bbb3so562203266b.0; 
- Fri, 15 Mar 2024 04:39:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20230601; t=1710502742; x=1711107542;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ajSGsc6A/F/qkby1cV3DFijz3ujuoh7yFblhBSAWTk4=;
- b=R7b9bhqnJUp3E8d4suy65iFCwcwScI5+MICGcrLDUXNqM3Ghlr9uZXCebETrFQU/85
- udeRglq0rpnFTtlbJbfPLyQxMb5crhiFP82FIlQdK9ajEECeU1gdfdV1ErGRA49UoZgd
- i0FFBFTIZuanV9Jx0/QZyVj4uNojq1jKZxKOY7COHIwji6l8bwss1UVyyHMbeCfPtyNC
- MW8qwNuRIO8R0T5BXDBaJzIvPg/lBwW2a423dpOMYJ/iCAg3V7E3EgDlO4MnfWqjWTvY
- 3SD/fZ5WRkVs2E7m6ULHhobxdCEfc/8UKVKYLrO17QV9YK112znBKsaptSqt6k5xTHzA
- 91KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710502742; x=1711107542;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ajSGsc6A/F/qkby1cV3DFijz3ujuoh7yFblhBSAWTk4=;
- b=FKQJQKPQ0qJ8mnjEN+VnMNTvm9vmH79kaK/fUseD9lC/VsbzXl9MiUKYJHD93OnZNd
- 8BxuvwmqNBP8NaEvl1KPS97vfV82GGX+MAGeKfxMWQdjF/49IzGgJ2HGZ8Wlg2xDvwmb
- DJg42uE1tfAEtXNH6KlqcivvR+jtambpFcTqLAdyDgGLt6f7AIGOH4XFBeakkBE2Rmrg
- zmsE6ijWw90dytFc01NRJ6Q2f9l+w+4lZfy2i9QtHhdysK+KH9lbkgWNxdfEXlPvMSQG
- DNwUGxAnpvQKiB4WiS4JCSbLlPjU3C1PnQLRgXATSPxAIoftGA8s0eO4Kk/MOB63Y5Mo
- HIJw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXfhAlF7tsmzg4IjzoEEqtvr/LeQfOQ5jERQ9U04iuqUNmh5Q86LbWflH/RUoLA+ObkT49SxtAXdwVz1Wf3gZV7OFL6AudL9e2moiKSsS4cyCP/r+Eyn2Y9w9766JocBwEvqE1Y83iHby5QUEX9TQ==
-X-Gm-Message-State: AOJu0Yzwep3sB55R2PiKRL6WYwOHSpPPHJxlHxd+vSTGh825+cpDIQ2N
- 2IWVLiOPTjl89XTw98K8xFVi0pjrZgbkRkBfo9mOpS1bR34cftPc
-X-Google-Smtp-Source: AGHT+IHJJjdK95FxiFWtuKqFb5okKLCX+Xl17xr9ZeV/oMTb5MlWFKMC//tYf9kBKFRK8DaZbTEwfQ==
-X-Received: by 2002:a17:906:1501:b0:a45:d7fb:8423 with SMTP id
- b1-20020a170906150100b00a45d7fb8423mr7825935ejd.9.1710502741739; 
- Fri, 15 Mar 2024 04:39:01 -0700 (PDT)
-Received: from ddev.DebianHome
- (dynamic-095-119-217-226.95.119.pool.telefonica.de. [95.119.217.226])
- by smtp.gmail.com with ESMTPSA id
- fg3-20020a056402548300b005682f47aea7sm1610024edb.94.2024.03.15.04.39.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Mar 2024 04:39:01 -0700 (PDT)
-From: =?UTF-8?q?Christian=20G=C3=B6ttsche?= <cgzones@googlemail.com>
-To: linux-security-module@vger.kernel.org
-Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Stefan Haberland <sth@linux.ibm.com>,
- Jan Hoeppner <hoeppner@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Mark Brown <broonie@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-s390@vger.kernel.org, bpf@vger.kernel.org
-Subject: [PATCH 05/10] drivers: use new capable_any functionality
-Date: Fri, 15 Mar 2024 12:37:26 +0100
-Message-ID: <20240315113828.258005-5-cgzones@googlemail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240315113828.258005-1-cgzones@googlemail.com>
-References: <20240315113828.258005-1-cgzones@googlemail.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEC551121D6
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 11:46:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1710503142; x=1711107942; i=deller@gmx.de;
+ bh=7qGxCcL79dacW1v0qhsaH7joRGKSBJXder9Wljx7Ons=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+ In-Reply-To;
+ b=McITOoD1wQOPR5qsD5lJhrmT4u/2I6i5oTsCyoNQ+HyXnnYr9lHABJxJNEfBVmE1
+ bnJ1MnmdGbKRpaekbFqJ1Sc+YOT1phsYE+jnd8d6asLVVMKrY40M8xgREptIDnbvH
+ y2mErimBTccXiuWpmxUyFOdhtGVN+4463Qd0hpgSpmcplUGnYfMiAp+tngIYhhhNY
+ pTEncmqpqTVo8ts2zW4JmtQY4Lbszh3JX7Wwh1SGisRNpGW+I3Ws6naI1vcEx94jS
+ in2nmK4ujOjNzcgmIbahRICBxVzYe1HEkJgrelpkTzJ9xyTl7FxGwxIDRdG1Cv2cw
+ feVm70l0GQvaQdmRfQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.55] ([94.134.155.107]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mo6ux-1r1oxZ2Eln-00pdXJ; Fri, 15
+ Mar 2024 12:45:42 +0100
+Message-ID: <d6436a8f-a1d3-421c-a5e0-5bebd18134bf@gmx.de>
+Date: Fri, 15 Mar 2024 12:45:35 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Fri, 15 Mar 2024 16:22:04 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 10/14] parisc: Add support for suppressing warning
+ backtraces
+Content-Language: en-US
+To: Guenter Roeck <linux@roeck-us.net>, linux-kselftest@vger.kernel.org
+Cc: David Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>, Kees Cook <keescook@chromium.org>,
+ Daniel Diaz <daniel.diaz@linaro.org>, David Gow <davidgow@google.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Maxime Ripard
+ <mripard@kernel.org>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?=
+ <ville.syrjala@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ kunit-dev@googlegroups.com, linux-arch@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+ loongarch@lists.linux.dev, netdev@lists.linux.dev
+References: <20240312170309.2546362-1-linux@roeck-us.net>
+ <20240312170309.2546362-11-linux@roeck-us.net>
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <20240312170309.2546362-11-linux@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:qslnWwQiqg/DP5uqDNLV3ORiPULWbHV951NE0QBTZs+dRkfEELc
+ Ui2EMTRqay5IFJgqBwNMOkZVxe2c2qIfhYvjWW11LmmVcUomylCerubebwaET5SdJ38HAfD
+ biq5BtQDRRP7q1ov0JwyIPdpf3SRZ5rDbJ6vwSOAbcLsxrExJtjMmO4CHxfr09ugU+u+RTP
+ QxkoLU7U56gOrWo57hroQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:wcEf58u/OD8=;/Vsuh9wNc66rAcyGNGklDP7P14y
+ /KBt0M11EmbCmzLloMdXx4rUW/NT78LYr0GB36xaGvqIn+7+J10HViYMoBef4puW+1Zy+ERmU
+ uCXPBCihgVu3H/tHpbrx7bQVb06U4Fe3PY9DeOnQN/AUubRpBj2Rs4xe7Rklg9dw2ak6y+FDH
+ p6J2fQ/4hN/oaJv4Q0RYeZ2c+7Gsj9OcOVk5yv2q9P5gbpwbCrz+zdvIgeqV0IWNePAXeGLDZ
+ Knwkvjmpt4FHk6T6GRU4nHOKpcR139cvr2sNU1GNyYLwU6LZmOtm8Knrm2XY0W4/z3Yz/QAUZ
+ 8NtDanG36laI9TlZEesDorYKUVcjiZLhO/SW+ejfUMU5w11qdv5iouwWykFJjScDCk2rTsKyP
+ Ob/kkVyAkyZpQBV6eWLvvkxksEdC8e+kBpMuB4zA/7SAuNwm8muKntfI2AP/nHnmMPmJVDgpS
+ R957ToiHNzK38Im3ZMOOvrxjeHFQPGcJSI16olUHuvsUqbU8e7DCw3ZbDUub7HAizDcjnT1To
+ YYIzxaQC4VoEQfmXNYZLQTFN7E0Y7NfVdNAgFho96LriyB+oNgtLnz2CHpPtxLbr0Cw6fx9P3
+ i5SQarSEbvdxpOjqBmI4m1AVvAaJ9M0+aZ8Bntm8DFLec27wgKSKsaxIgy01c089l/7pD0787
+ enyXVSs1ynlfngUb7TBdFbbaxID7J+fg/jdqQ2Qh2ej5EI6n8+19vo0FOS5YP4EE+1vARK9FA
+ /6h5HW8J6ILML8R/YmYavoxbPMJ+ayDR53mwD0Prwij9SmhTtbk+2zLY5cRUJuXCQQAXWgikZ
+ Bi6lPrjOdd/CuHHo38k1VOtLEpGzkK7j/EfuuR6AghFNI=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,64 +138,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the new added capable_any function in appropriate cases, where a
-task is required to have any of two capabilities.
+On 3/12/24 18:03, Guenter Roeck wrote:
+> Add name of functions triggering warning backtraces to the __bug_table
+> object section to enable support for suppressing WARNING backtraces.
+>
+> To limit image size impact, the pointer to the function name is only add=
+ed
+> to the __bug_table section if both CONFIG_KUNIT and CONFIG_DEBUG_BUGVERB=
+OSE
+> are enabled. Otherwise, the __func__ assembly parameter is replaced with=
+ a
+> (dummy) NULL parameter to avoid an image size increase due to unused
+> __func__ entries (this is necessary because __func__ is not a define but=
+ a
+> virtual variable).
+>
+> While at it, declare assembler parameters as constants where possible.
+> Refine .blockz instructions to calculate the necessary padding instead
+> of using fixed values.
+>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 
-Reorder CAP_SYS_ADMIN last.
 
-Signed-off-by: Christian Göttsche <cgzones@googlemail.com>
-Acked-by: Alexander Gordeev <agordeev@linux.ibm.com> (s390 portion)
----
-v4:
-   Additional usage in kfd_ioctl()
-v3:
-   rename to capable_any()
----
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 3 +--
- drivers/net/caif/caif_serial.c           | 2 +-
- drivers/s390/block/dasd_eckd.c           | 2 +-
- 3 files changed, 3 insertions(+), 4 deletions(-)
+Acked-by: Helge Deller <deller@gmx.de>
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-index dfa8c69532d4..8c7ebca01c17 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-@@ -3290,8 +3290,7 @@ static long kfd_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
- 	 * more priviledged access.
- 	 */
- 	if (unlikely(ioctl->flags & KFD_IOC_FLAG_CHECKPOINT_RESTORE)) {
--		if (!capable(CAP_CHECKPOINT_RESTORE) &&
--						!capable(CAP_SYS_ADMIN)) {
-+		if (!capable_any(CAP_CHECKPOINT_RESTORE, CAP_SYS_ADMIN)) {
- 			retcode = -EACCES;
- 			goto err_i1;
- 		}
-diff --git a/drivers/net/caif/caif_serial.c b/drivers/net/caif/caif_serial.c
-index ed3a589def6b..e908b9ce57dc 100644
---- a/drivers/net/caif/caif_serial.c
-+++ b/drivers/net/caif/caif_serial.c
-@@ -326,7 +326,7 @@ static int ldisc_open(struct tty_struct *tty)
- 	/* No write no play */
- 	if (tty->ops->write == NULL)
- 		return -EOPNOTSUPP;
--	if (!capable(CAP_SYS_ADMIN) && !capable(CAP_SYS_TTY_CONFIG))
-+	if (!capable_any(CAP_SYS_TTY_CONFIG, CAP_SYS_ADMIN))
- 		return -EPERM;
- 
- 	/* release devices to avoid name collision */
-diff --git a/drivers/s390/block/dasd_eckd.c b/drivers/s390/block/dasd_eckd.c
-index 373c1a86c33e..8f9a5136306a 100644
---- a/drivers/s390/block/dasd_eckd.c
-+++ b/drivers/s390/block/dasd_eckd.c
-@@ -5384,7 +5384,7 @@ static int dasd_symm_io(struct dasd_device *device, void __user *argp)
- 	char psf0, psf1;
- 	int rc;
- 
--	if (!capable(CAP_SYS_ADMIN) && !capable(CAP_SYS_RAWIO))
-+	if (!capable_any(CAP_SYS_RAWIO, CAP_SYS_ADMIN))
- 		return -EACCES;
- 	psf0 = psf1 = 0;
- 
--- 
-2.43.0
+Helge
+
+
+> ---
+>   arch/parisc/include/asm/bug.h | 29 +++++++++++++++++++++--------
+>   1 file changed, 21 insertions(+), 8 deletions(-)
+>
+> diff --git a/arch/parisc/include/asm/bug.h b/arch/parisc/include/asm/bug=
+.h
+> index 833555f74ffa..792dacc2a653 100644
+> --- a/arch/parisc/include/asm/bug.h
+> +++ b/arch/parisc/include/asm/bug.h
+> @@ -23,8 +23,17 @@
+>   # define __BUG_REL(val) ".word " __stringify(val)
+>   #endif
+>
+> -
+>   #ifdef CONFIG_DEBUG_BUGVERBOSE
+> +
+> +#if IS_ENABLED(CONFIG_KUNIT)
+> +# define HAVE_BUG_FUNCTION
+> +# define __BUG_FUNC_PTR	__BUG_REL(%c1)
+> +# define __BUG_FUNC	__func__
+> +#else
+> +# define __BUG_FUNC_PTR
+> +# define __BUG_FUNC	NULL
+> +#endif /* IS_ENABLED(CONFIG_KUNIT) */
+> +
+>   #define BUG()								\
+>   	do {								\
+>   		asm volatile("\n"					\
+> @@ -33,10 +42,12 @@
+>   			     "\t.align 4\n"				\
+>   			     "2:\t" __BUG_REL(1b) "\n"			\
+>   			     "\t" __BUG_REL(%c0)  "\n"			\
+> -			     "\t.short %1, %2\n"			\
+> -			     "\t.blockz %3-2*4-2*2\n"			\
+> +			     "\t" __BUG_FUNC_PTR  "\n"			\
+> +			     "\t.short %c2, %c3\n"			\
+> +			     "\t.blockz %c4-(.-2b)\n"			\
+>   			     "\t.popsection"				\
+> -			     : : "i" (__FILE__), "i" (__LINE__),	\
+> +			     : : "i" (__FILE__), "i" (__BUG_FUNC),	\
+> +			     "i" (__LINE__),				\
+>   			     "i" (0), "i" (sizeof(struct bug_entry)) );	\
+>   		unreachable();						\
+>   	} while(0)
+> @@ -58,10 +69,12 @@
+>   			     "\t.align 4\n"				\
+>   			     "2:\t" __BUG_REL(1b) "\n"			\
+>   			     "\t" __BUG_REL(%c0)  "\n"			\
+> -			     "\t.short %1, %2\n"			\
+> -			     "\t.blockz %3-2*4-2*2\n"			\
+> +			     "\t" __BUG_FUNC_PTR  "\n"			\
+> +			     "\t.short %c2, %3\n"			\
+> +			     "\t.blockz %c4-(.-2b)\n"			\
+>   			     "\t.popsection"				\
+> -			     : : "i" (__FILE__), "i" (__LINE__),	\
+> +			     : : "i" (__FILE__), "i" (__BUG_FUNC),	\
+> +			     "i" (__LINE__),				\
+>   			     "i" (BUGFLAG_WARNING|(flags)),		\
+>   			     "i" (sizeof(struct bug_entry)) );		\
+>   	} while(0)
+> @@ -74,7 +87,7 @@
+>   			     "\t.align 4\n"				\
+>   			     "2:\t" __BUG_REL(1b) "\n"			\
+>   			     "\t.short %0\n"				\
+> -			     "\t.blockz %1-4-2\n"			\
+> +			     "\t.blockz %c1-(.-2b)\n"			\
+>   			     "\t.popsection"				\
+>   			     : : "i" (BUGFLAG_WARNING|(flags)),		\
+>   			     "i" (sizeof(struct bug_entry)) );		\
 
