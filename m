@@ -2,78 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D455C87D67A
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 23:19:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7478C87D6C9
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 23:46:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F02C2112603;
-	Fri, 15 Mar 2024 22:19:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 118B9112652;
+	Fri, 15 Mar 2024 22:46:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="4zPEIrt1";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Gfs98Wq/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
- [209.85.160.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C543D112603
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 22:19:22 +0000 (UTC)
-Received: by mail-qt1-f173.google.com with SMTP id
- d75a77b69052e-43095dcbee6so95471cf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 15:19:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1710541161; x=1711145961;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uGbXyxh9lPDMGwwcLAjwgGrEcCAIj7UP9zCDYhA4zzQ=;
- b=4zPEIrt14HTsvs7ubjqoyimVxYvs2rBGhKmAPOsCTmVlrkv37ItS7mNPmolAOL97S/
- O4i8g6ZRPV1GlmZtjHrz7ch8rq+Ate/RG+te3S9Zbkp9dqkq1qz0t1KaVj8jT+WrfwFT
- wqx27+U1jS4a4/GswCzJV31NayLYFxUsizwlgvooDhXb7pIVwyhon4q7q6hq3WqG25nE
- s5FqO4yWWQZu0XLff5tvCiLEf5WadDhtjKms+daKxufBKaEFgWJy1K4tcGmoLHjEzdSM
- rEEaRk4U9usoPwe9eV4V/fFaCWoALx740UI8hIpd7DnrF7cmVOqFz5O6uD4V680se7EL
- 4MIQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 634ED112652
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 22:46:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1710542773;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cRIxaUBnHKjzxk/w28aUKJW59ZRRorJbI8C2dVILdKc=;
+ b=Gfs98Wq/VWMOUyvaAvzznL2UsWKpn2pWc7MfU8nyFgMMlLyJdMj1UXvO+QwyuS9Beskw6N
+ PnxJjF4p0J6Tg+4UWqXFoaMjaXTEechF0eC3RB1HQogpu8/07FZm9VutHMfYLnbGPhtogM
+ bFogl4CCKgLbUcnSVjvq4Zsrbg+iO5M=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-625-V0N2G0t1PxS-bGzbQA9tiw-1; Fri, 15 Mar 2024 18:46:11 -0400
+X-MC-Unique: V0N2G0t1PxS-bGzbQA9tiw-1
+Received: by mail-yw1-f198.google.com with SMTP id
+ 00721157ae682-60a0a5bf550so48528237b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 15:46:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710541161; x=1711145961;
+ d=1e100.net; s=20230601; t=1710542771; x=1711147571;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uGbXyxh9lPDMGwwcLAjwgGrEcCAIj7UP9zCDYhA4zzQ=;
- b=S22YMNPs3vGarjyalJFhovau/9coXXJcDUNq62CEXmLvB33MlHtGPUeId/q6jJzu40
- JeCgtOK95yYEOeT7SbrWHEIVXVEEaEmpS73iMX9fmEsd8X2NnzpEWVEa8Apnp/WOwEjv
- zDR6WqaVwZBTKl4xrdewMf7jfB5VDRAi9QV40TEeXMpzZk3d2FDodfDfd9E0evxyPsht
- a4bdtD6BDj6Q2OaF3RyXUlkYtjEwxfr4hkM91pYpRABLAvkasiVxBTCaDqtrwTRh0PKX
- 0bhPM7cr7WAFaA0mkczMxsSbK10e7+EZrreVFXkmKnJpqWgIC13pTRcn8ZRve5JEPh9y
- CV5A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWarqBVw9+fqlGggtPzFGod385yjpplfiEGHXdiVbD1w7mji9XULi2j4idAWFyVMQc4gGr/IafTDkZR3rjiPDPRSzUlnHoQASRiB4DX1jFp
-X-Gm-Message-State: AOJu0YzNrnu8zRVeaV9zZAue+P9n6ArmwABiVbGeohEVBIygrWXMarHV
- wIBHBUYKVK1LRDBjYCUZdVVhK2hxcrQ5BLHZ8bp98Bfq45KOHM/5psSTcjhU66nqiuWSM8q5pqw
- mGTwqkW90sEdzdiY1kyA0xS9xboLweMNU+E3l
-X-Google-Smtp-Source: AGHT+IF5aE3FAQmefnHVNwEtb6k1Zffv9Um1vh+H3378WyxNWP45BWPFL4v4HGvSMNt4R1eN2uzB4Tld6uV0gxwIAD0=
-X-Received: by 2002:a05:622a:1a97:b0:430:b7dd:c175 with SMTP id
- s23-20020a05622a1a9700b00430b7ddc175mr3086qtc.23.1710541161346; Fri, 15 Mar
- 2024 15:19:21 -0700 (PDT)
+ bh=cRIxaUBnHKjzxk/w28aUKJW59ZRRorJbI8C2dVILdKc=;
+ b=K4oP6JdwP0LMIofIowyg9Rd0fxzJPhATe5aS/JK3aTqdAQLYM7zgDrEi+tGfi5TnU7
+ Ieuu6Tfl5XE9hkQKdthAtjJxIKuyg8qQ1GkQ/j5DuC543WMwCkn4UNLtVLFiDVXKEhy8
+ +EvKMRPq7JGcw9ynUJB6tJtnABlMlCTd0DXHeQtI5U/uHyV+RSf2ZoH4n6WC5AkqLp/u
+ EoaNfbcwyJp7MHgvw70G4bNl4Qw+rHQSpZukk8QLH35sun4tOc0lucED1xnADVyRT/ZZ
+ 47oCf9jlHBzJzaUVONx+3qf8gIXiYt8K1twRFSYckEFy9LK6S1K3DYKtiabna8uEh9cQ
+ vZZA==
+X-Gm-Message-State: AOJu0YyEvt74CmkRRUCkM38dXveB8oSpvuykrE+yisTwYbG0jWRTmeDo
+ rJazIP5YbaSzRdMjQq5isbOlTCbXwHiUU2iMdo9IQvuA17Q500xwp2VwjSrCmuAZYRzW4dLMBJQ
+ apfgbewSAYwCC9tA7WdsGO4uJU4lOT1D8Jfykl+itX59Ib94A5vImRoZ2hifQ91Fy+eVvayNtvl
+ AxL43N9QWTV8L4K0+b7635Ehrj1wCkIkvz5LnBOrux
+X-Received: by 2002:a0d:c806:0:b0:5ff:7cca:a434 with SMTP id
+ k6-20020a0dc806000000b005ff7ccaa434mr6671704ywd.51.1710542771358; 
+ Fri, 15 Mar 2024 15:46:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE546xo3HvJPY2qu672aEMFegdumCBfdse8Abcj5PGVflapFASYr5pywdAPdVOlwGoIO8LpM2ar7PP1CaBsKGQ=
+X-Received: by 2002:a0d:c806:0:b0:5ff:7cca:a434 with SMTP id
+ k6-20020a0dc806000000b005ff7ccaa434mr6671688ywd.51.1710542771075; Fri, 15 Mar
+ 2024 15:46:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240315213717.1411017-1-dianders@chromium.org>
- <20240315143621.v2.1.I16aff881c9fe82b5e0fc06ca312da017aa7b5b3e@changeid>
-In-Reply-To: <20240315143621.v2.1.I16aff881c9fe82b5e0fc06ca312da017aa7b5b3e@changeid>
-From: Guenter Roeck <groeck@google.com>
-Date: Fri, 15 Mar 2024 15:19:07 -0700
-Message-ID: <CABXOdTcfb9F8mKSNnQKWRCAgANyJMNn1yzk4n_E_MpUgH23KCw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] drm/msm/dp: Avoid a long timeout for AUX transfer
- if nothing connected
-To: Douglas Anderson <dianders@chromium.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bjorn Andersson <quic_bjorande@quicinc.com>, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Guenter Roeck <groeck@chromium.org>, 
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Sean Paul <sean@poorly.run>, Stephen Boyd <swboyd@chromium.org>, 
- Vara Reddy <quic_varar@quicinc.com>, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org
+References: <20240315212104.776936-1-lyude@redhat.com>
+In-Reply-To: <20240315212104.776936-1-lyude@redhat.com>
+From: David Airlie <airlied@redhat.com>
+Date: Sat, 16 Mar 2024 08:45:59 +1000
+Message-ID: <CAMwc25qaqyJa179rkBUgZKU5Otne1S07Z3ir0qK6a9mc=U3EZA@mail.gmail.com>
+Subject: Re: [PATCH] drm/nouveau/dp: Fix incorrect return code in
+ r535_dp_aux_xfer()
+To: Lyude Paul <lyude@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ Karol Herbst <kherbst@redhat.com>, Danilo Krummrich <dakr@redhat.com>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Ben Skeggs <bskeggs@redhat.com>, 
+ open list <linux-kernel@vger.kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,141 +90,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 15, 2024 at 2:37=E2=80=AFPM Douglas Anderson <dianders@chromium=
-.org> wrote:
->
-> As documented in the description of the transfer() function of
-> "struct drm_dp_aux", the transfer() function can be called at any time
-> regardless of the state of the DP port. Specifically if the kernel has
-> the DP AUX character device enabled and userspace accesses
-> "/dev/drm_dp_auxN" directly then the AUX transfer function will be
-> called regardless of whether a DP device is connected.
->
-> For eDP panels we have a special rule where we wait (with a 5 second
-> timeout) for HPD to go high. This rule was important before all panels
-> drivers were converted to call wait_hpd_asserted() and actually can be
-> removed in a future commit.
->
-> For external DP devices we never checked for HPD. That means that
-> trying to access the DP AUX character device (AKA `hexdump -C
-> /dev/drm_dp_auxN`) would very, very slowly timeout. Specifically on my
-> system:
->   $ time hexdump -C /dev/drm_dp_aux0
->   hexdump: /dev/drm_dp_aux0: Connection timed out
->   real    0m8.200s
-> We want access to the drm_dp_auxN character device to fail faster than
-> 8 seconds when no DP cable is plugged in.
->
-> Let's add a test to make transfers fail right away if a device isn't
-> plugged in. Rather than testing the HPD line directly, we have the
-> dp_display module tell us when AUX transfers should be enabled so we
-> can handle cases where HPD is signaled out of band like with Type C.
->
-> Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Reviewed-by: Dave Airlie <airlied@redhat.com>
 
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
-
+On Sat, Mar 16, 2024 at 7:21=E2=80=AFAM Lyude Paul <lyude@redhat.com> wrote=
+:
+>
+> I've recently been seeing some unexplained GSP errors on my RTX 6000 from
+> failed aux transactions:
+>
+>   [  132.915867] nouveau 0000:1f:00.0: gsp: cli:0xc1d00002 obj:0x00730000
+>   ctrl cmd:0x00731341 failed: 0x0000ffff
+>
+> While the cause of these is not yet clear, these messages made me notice
+> that the aux transactions causing these transactions were succeeding - no=
+t
+> failing. As it turns out, this is because we're currently not returning t=
+he
+> correct variable when r535_dp_aux_xfer() hits an error - causing us to
+> never propagate GSP errors for failed aux transactions to userspace.
+>
+> So, let's fix that.
+>
+> Fixes: 4ae3a20102b2 ("nouveau/gsp: don't free ctrl messages on errors")
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
 > ---
+>  drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Changes in v2:
-> - Don't look at the HPD line directly; have dp_display call us.
->
->  drivers/gpu/drm/msm/dp/dp_aux.c     | 20 ++++++++++++++++++++
->  drivers/gpu/drm/msm/dp/dp_aux.h     |  1 +
->  drivers/gpu/drm/msm/dp/dp_display.c |  4 ++++
->  3 files changed, 25 insertions(+)
->
-> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_=
-aux.c
-> index 03f4951c49f4..e67a80d56948 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
-> @@ -35,6 +35,7 @@ struct dp_aux_private {
->         bool no_send_stop;
->         bool initted;
->         bool is_edp;
-> +       bool enable_xfers;
->         u32 offset;
->         u32 segment;
->
-> @@ -301,6 +302,17 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp=
-_aux,
->                 goto exit;
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c b/drivers/gp=
+u/drm/nouveau/nvkm/engine/disp/r535.c
+> index 6a0a4d3b8902d..027867c2a8c5b 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c
+> @@ -1080,7 +1080,7 @@ r535_dp_aux_xfer(struct nvkm_outp *outp, u8 type, u=
+32 addr, u8 *data, u8 *psize)
+>         ret =3D nvkm_gsp_rm_ctrl_push(&disp->rm.objcom, &ctrl, sizeof(*ct=
+rl));
+>         if (ret) {
+>                 nvkm_gsp_rm_ctrl_done(&disp->rm.objcom, ctrl);
+> -               return PTR_ERR(ctrl);
+> +               return ret;
 >         }
 >
-> +       /*
-> +        * If we're using DP and an external display isn't connected then=
- the
-> +        * transfer won't succeed. Return right away. If we don't do this=
- we
-> +        * can end up with long timeouts if someone tries to access the D=
-P AUX
-> +        * character device when no DP device is connected.
-> +        */
-> +       if (!aux->is_edp && !aux->enable_xfers) {
-> +               ret =3D -ENXIO;
-> +               goto exit;
-> +       }
-> +
->         /*
->          * For eDP it's important to give a reasonably long wait here for=
- HPD
->          * to be asserted. This is because the panel driver may have _jus=
-t_
-> @@ -433,6 +445,14 @@ irqreturn_t dp_aux_isr(struct drm_dp_aux *dp_aux)
->         return IRQ_HANDLED;
->  }
->
-> +void dp_aux_enable_xfers(struct drm_dp_aux *dp_aux, bool enabled)
-> +{
-> +       struct dp_aux_private *aux;
-> +
-> +       aux =3D container_of(dp_aux, struct dp_aux_private, dp_aux);
-> +       aux->enable_xfers =3D enabled;
-> +}
-> +
->  void dp_aux_reconfig(struct drm_dp_aux *dp_aux)
->  {
->         struct dp_aux_private *aux;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.h b/drivers/gpu/drm/msm/dp/dp_=
-aux.h
-> index 511305da4f66..f3052cb43306 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_aux.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_aux.h
-> @@ -12,6 +12,7 @@
->  int dp_aux_register(struct drm_dp_aux *dp_aux);
->  void dp_aux_unregister(struct drm_dp_aux *dp_aux);
->  irqreturn_t dp_aux_isr(struct drm_dp_aux *dp_aux);
-> +void dp_aux_enable_xfers(struct drm_dp_aux *dp_aux, bool enabled);
->  void dp_aux_init(struct drm_dp_aux *dp_aux);
->  void dp_aux_deinit(struct drm_dp_aux *dp_aux);
->  void dp_aux_reconfig(struct drm_dp_aux *dp_aux);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp=
-/dp_display.c
-> index 4c72124ffb5d..b0f3e2ef5a6b 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -565,6 +565,8 @@ static int dp_hpd_plug_handle(struct dp_display_priva=
-te *dp, u32 data)
->         int ret;
->         struct platform_device *pdev =3D dp->dp_display.pdev;
->
-> +       dp_aux_enable_xfers(dp->aux, true);
-> +
->         mutex_lock(&dp->event_mutex);
->
->         state =3D  dp->hpd_state;
-> @@ -629,6 +631,8 @@ static int dp_hpd_unplug_handle(struct dp_display_pri=
-vate *dp, u32 data)
->         u32 state;
->         struct platform_device *pdev =3D dp->dp_display.pdev;
->
-> +       dp_aux_enable_xfers(dp->aux, false);
-> +
->         mutex_lock(&dp->event_mutex);
->
->         state =3D dp->hpd_state;
+>         memcpy(data, ctrl->data, size);
 > --
-> 2.44.0.291.gc1ea87d7ee-goog
+> 2.43.0
 >
+
