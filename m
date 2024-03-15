@@ -2,65 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 166D387CF1C
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 15:38:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD40287CF76
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 15:51:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4433F10FA35;
-	Fri, 15 Mar 2024 14:38:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BABF1122D7;
+	Fri, 15 Mar 2024 14:51:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pfLF0Y3A";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ZEL6GqBW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92BCA10EEFB
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 14:38:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 8307BCE20A8;
- Fri, 15 Mar 2024 14:38:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37258C433C7;
- Fri, 15 Mar 2024 14:38:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1710513524;
- bh=LWOPGxaWjPP8E3hvpb0v/9QUSjPMu3aHfXD/4e34bMg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pfLF0Y3Aw17VSoUcFU9nXUe7DJBTJnsvXRSp5JM2LcK8rgXc6Uqcotv7Rmcu/5y0r
- /k6jI4bvcl7jt+qndKxRPxKCuZU89MT7ts52FJGGSvHCZWLkGEMpmCxiaerdnhxlP4
- eca3MDnsqT6qnrh/36IIbVKpEABMWOLcMD840rxSlrl3WJKTxBSuQiGU2islj0xuUz
- VXPkRyigmU8/GmAk0LgZFCWSwIVB7rmY+yJiXtDISqyjOeYDHvGXasd3yu4D+lLUKl
- bbYt5HZZ/xwVfB+zMv4jDhP1WyyDmY5pb+X7Fmh9+K/LpfAq+PwR3Wf4s4A1UU0UjJ
- J5HVGG/SCVpew==
-Date: Fri, 15 Mar 2024 14:38:37 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Alexandre Mergnat <amergnat@baylibre.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nicolas Belin <nbelin@baylibre.com>, Fabien Parent <fparent@baylibre.com>
-Subject: Re: [PATCH 00/18] Add audio support for the MediaTek Genio 350-evk
- board
-Message-ID: <bf418207-7f13-4ced-8c21-2824dd07fab5@sirena.org.uk>
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <4ffde184-cf68-4b71-b81d-9b5894529926@sirena.org.uk>
- <7ddad394-e880-4ef8-8591-cb803a2086ae@baylibre.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CFAB1122D7
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 14:51:24 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 42FCrYnC009153; Fri, 15 Mar 2024 14:50:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding:content-type; s=qcppdkim1; bh=TdBYzz9
+ Aiu8H6fml6vrhyIEOauZI+DX0mxiVPF0VEbg=; b=ZEL6GqBWGweL514yPKfCzlO
+ I/ZXtsL1Xcq3uDzMAKjFQ1mEA3rZhH4YmMzMQ6w/W4kaF5NxVzFspE0WRBXE0U0a
+ 5XrevTKKrafc6DHSUmAj5HIOn54xvjUhNbXyztInHibc3HQq2dMiHG2KWFLqLB43
+ F37c+SsUFVMRlM1RfbMBkm2I/vMAZnVVVqlmn7Tecz/d9wYcOkMhxv0qeT5Vmeqj
+ IAcu9vvZpNRSsO1Fuo6VSn87zeMMWcR2AxfNh/cRZ488QriJNIM1Us/M1qNn/OFW
+ +knbr7FkyCuU2FdUII8UfP/venJoCkRJbmDfrC4gvwNV7c2rzjD9hU5xs8ZGOIA=
+ =
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wva081djg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 15 Mar 2024 14:50:53 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42FEopFa017161
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 15 Mar 2024 14:50:51 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Fri, 15 Mar 2024 07:50:50 -0700
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <daniel@ffwll.ch>, <jiasheng@iscas.ac.cn>, <quic_carlv@quicinc.com>,
+ <quic_pkanojiy@quicinc.com>, <stanislaw.gruszka@linux.intel.com>,
+ <jacek.lawrynowicz@linux.intel.com>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: [PATCH 0/2] drm: Add DRM managed workqueues
+Date: Fri, 15 Mar 2024 08:50:32 -0600
+Message-ID: <20240315145034.3972749-1-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="Y91BRilVEGdxtZCJ"
-Content-Disposition: inline
-In-Reply-To: <7ddad394-e880-4ef8-8591-cb803a2086ae@baylibre.com>
-X-Cookie: If rash develops, discontinue use.
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: uOmer71bkRCjl-1ZUteohymqAwl9-nON
+X-Proofpoint-GUID: uOmer71bkRCjl-1ZUteohymqAwl9-nON
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-15_02,2024-03-13_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1011
+ bulkscore=0 mlxlogscore=999 priorityscore=1501 mlxscore=0 spamscore=0
+ malwarescore=0 impostorscore=0 phishscore=0 lowpriorityscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2403140001 definitions=main-2403150120
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,49 +88,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Based on work at https://lore.kernel.org/dri-devel/20230118032413.6496-1-jiasheng@iscas.ac.cn/
 
---Y91BRilVEGdxtZCJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The API in the origional work seemed to have two issues:
+1. The output parameter was not correctly defined
+2. The allocating functions did not return the allocated object like the
+other drmm functions
 
-On Tue, Mar 12, 2024 at 09:58:05AM +0100, Alexandre Mergnat wrote:
+I tweaked the implementation to address both of these.
 
-> I'm a bit lost for mixer-test and pcm-test.
-> Currently, I cross-compile the alsa lib project to be able to build the
-> tests and put it on my board.
+From what I can tell, the i915 change no longer applies to the code
+base, likely due to refactoring from merging xe.  I dropped it.
 
-> I can execute it, but I still have 2 issues:
+Jeffrey Hugo (1):
+  accel/qaic: Use drmm_alloc_workqueue()
 
-> 1) I've a lot of missing module in my environment (Encode.so, Encode.pm,
-> Symbol.pm, IO/Handle.pm, ...). AFAII, I've to cross compile the missing perl
-> modules and install them in the rootfs
+Jiasheng Jiang (1):
+  drm: Add DRM-managed alloc_workqueue() and alloc_ordered_workqueue()
 
-These tests are both simple C programs...
+ drivers/accel/qaic/qaic_drv.c | 30 ++-----------
+ drivers/gpu/drm/drm_managed.c | 82 +++++++++++++++++++++++++++++++++++
+ include/drm/drm_managed.h     |  8 ++++
+ 3 files changed, 94 insertions(+), 26 deletions(-)
 
-> 2) I don't know how to configure pcm-test.conf &
-> Lenovo_ThinkPad_P1_Gen2.conf (or new file to match with my board).
+-- 
+2.34.1
 
-The configuration is optional.
-
-> My test cmd:
-> ./run_kselftest.sh -c alsa
-
-Just run the programs directly.  I'm only asking for the output from two
-of them anyway.
-
---Y91BRilVEGdxtZCJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmX0XWwACgkQJNaLcl1U
-h9BnLAf/e1vJ3Zr2d9fJBV1LV7sal34lcNVLD3JRrMKuk6bdnA2S2RYAgOf0UJwl
-cRuGTcq2lBneNaYnb9jgaf1C7i5kuXvnMG0IJuqVBrTZwiN5SbGhpmdvZj6HLwPu
-a8Q5MEwz/DrIXqjghxcXr5bjKi6XJ/9RRB1QpfxQFIwAOYQPNAG2F0j4SrD8zcbA
-O2dO4KRIjYUBBnpP5maQh3R3yr+TEEdolkib2FyoHL2jo2Vv1zOiTK2382kuTnKA
-y+GgUm8tQ4HiGZdAJqZAPh+Of86A9Rwl2133Tp1dxkFWlOamtyhfYbPESyNchUrV
-qduBr5NQ0tnTuAoEKttdYckFHYq6Bg==
-=FScF
------END PGP SIGNATURE-----
-
---Y91BRilVEGdxtZCJ--
