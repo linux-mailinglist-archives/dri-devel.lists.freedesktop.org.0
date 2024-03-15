@@ -2,63 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F1A87D267
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 18:09:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AFA587D27E
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 18:11:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A64D31123A4;
-	Fri, 15 Mar 2024 17:09:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F8651123AE;
+	Fri, 15 Mar 2024 17:11:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OJNcpa3q";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Qts1sw3x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9B9A1123A4;
- Fri, 15 Mar 2024 17:09:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710522544; x=1742058544;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=rDKBtEaBZintqNzBGvOPMViXG4XBLyFGvbuLLtaRa7E=;
- b=OJNcpa3ql2R7NbdKsCced/oT7tTAVAf/6j7xnT4ITjBZdJQCUllPEmtb
- uEfM6oRgvDSgOffehxDvjt5bxtiU9NdhQokrd90qZdxs29+Kc1/HfvvLv
- CllANlCT2CMRQRGdDIARL3zsvSiK6TeqsAT3YtvziJb6Ss4hVEpnVcmkE
- IgXlbd9Z3vFm2pqouHhEoUpE/PBf/eFGLbKod5mGtZhby55l1LkdXxMqd
- vF4LTXkmugdZGQKmIDzfJ1TqQ8199AV+CVgLGcSVkO/ebIM7wIejUicqy
- A/FsF8zX5ZBHab3eP+PP/AaNs6CUegp6RzASfPk63P4JT63N1+ohZqgKc w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="5590129"
-X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="5590129"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2024 10:09:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; d="scan'208";a="12659293"
-Received: from unknown (HELO intel.com) ([10.247.118.169])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2024 10:08:57 -0700
-Date: Fri, 15 Mar 2024 18:08:51 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Nirmoy Das <nirmoy.das@linux.intel.com>
-Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andi Shyti <andi.shyti@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Michal Mrozek <michal.mrozek@intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>, stable@vger.kernel.org
-Subject: Re: [PATCH] drm/i915/gt: Report full vm address range
-Message-ID: <ZfSAo791UDRnBSwc@ashyti-mobl2.lan>
-References: <20240313193907.95205-1-andi.shyti@linux.intel.com>
- <46ab1d25-5d16-4610-8b8f-2ee07064ec2e@intel.com>
- <35df0767-384f-49f2-806a-f83765ca7c4c@linux.intel.com>
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2076.outbound.protection.outlook.com [40.107.223.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C6DE1123AE;
+ Fri, 15 Mar 2024 17:11:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MQalvg1/KwKTWqQtmt/TYWBIGcrz7y/UfmMPxs63bNVEMupsXfaFFqkUt9yZqTjfsM3kivwyd4TDMb6Nnk3nVW6TPChrv81ucp5CuSpNGJ95rPukNh+FkoTpqqzlAqAEzB7E/KUnabnlohKJlX1+zj9vmGhDnTIi69BNiq9JDyO+D0VPST4W7vbsHUcryad85+/6kSi62bT8rITlzOpK8QUGbvim6bPyYLG+xGVM9kI3q2M/15DqfLcGfgmYPYqWpOqBYCC8XdF+BHCR02a5jmV1yyRqf9zvPbPGikBNdWYDcs+/N9kXHuTOL44KRIVHvVxOI3Ln7AF0bczJljPGCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mYsDASjighoGf97P1Te0CaT7ij+Q3ogtri7+S0ufsGw=;
+ b=RRk6DhOQM8/1m6GOlYJoLx8j/4u7paneNu5idBMNUsOZp+Avkao6P4J8GBwQXK3T/LtI5VI5Q3YHunbc0h+thwxjXf2P5tSdn35umjioTwBlOSLytiuza3x8oO7x2dkxse9lQ/w8FgNGgRnioBZeC5DDvCEmvHtcZSVdriwthkK8dxJCEyzsi0z1fZHsxfqZzvWePANwj2Cri2pEQI8mSb76ZwkoNL+karajzc44BT1SEg9g9yUgQqM73mqckzmPWwZYUaF5u35iQ/Yb1JLRHqYQVGXuKNDsOqic13wvhGWAG0h8JADjc6OZ6m6mWDXsUiJSJ5/lc94Sm66/bNGLyw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mYsDASjighoGf97P1Te0CaT7ij+Q3ogtri7+S0ufsGw=;
+ b=Qts1sw3xGMIEsvKd6/HMgHqRuhzUWc/aGoWAqgkC0Rckue8EuipjwHlfkhAkB53C0ZMhBDh7xa72cExFZ31WBSkeR/lUkpOlkZLKKlk/qR4Q5PfOhRSZhvvlbfOT9fzzKm5FHe+Q4/L7LGLbWo/iBSrmyZ7J9hlU44jucEKehUk=
+Received: from BN0PR07CA0017.namprd07.prod.outlook.com (2603:10b6:408:141::31)
+ by BY5PR12MB4324.namprd12.prod.outlook.com (2603:10b6:a03:209::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.22; Fri, 15 Mar
+ 2024 17:11:22 +0000
+Received: from BN2PEPF0000449F.namprd02.prod.outlook.com
+ (2603:10b6:408:141:cafe::47) by BN0PR07CA0017.outlook.office365.com
+ (2603:10b6:408:141::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.36 via Frontend
+ Transport; Fri, 15 Mar 2024 17:11:22 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN2PEPF0000449F.mail.protection.outlook.com (10.167.243.150) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7386.12 via Frontend Transport; Fri, 15 Mar 2024 17:11:21 +0000
+Received: from thonkpad.localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Fri, 15 Mar
+ 2024 12:11:20 -0500
+From: <sunpeng.li@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
+CC: Joshua Ashton <joshua@froggi.es>, =?UTF-8?q?Michel=20D=C3=A4nzer?=
+ <mdaenzer@redhat.com>, Chao Guo <chao.guo@nxp.com>, Xaver Hugl
+ <xaver.hugl@gmail.com>, Vikas Korjani <Vikas.Korjani@amd.com>, Robert Mader
+ <robert.mader@posteo.de>, Pekka Paalanen <pekka.paalanen@collabora.com>,
+ "Sean Paul" <sean@poorly.run>, Simon Ser <contact@emersion.fr>, Shashank
+ Sharma <shashank.sharma@amd.com>, Harry Wentland <harry.wentland@amd.com>,
+ "Sebastian Wick" <sebastian.wick@redhat.com>, Leo Li <sunpeng.li@amd.com>
+Subject: [PATCH 0/2] drm/amdgpu/display: Make multi-plane configurations more
+ flexible
+Date: Fri, 15 Mar 2024 13:09:56 -0400
+Message-ID: <20240315170959.165505-1-sunpeng.li@amd.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <35df0767-384f-49f2-806a-f83765ca7c4c@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF0000449F:EE_|BY5PR12MB4324:EE_
+X-MS-Office365-Filtering-Correlation-Id: b7ae4110-5b41-49ef-9867-08dc4512f018
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dAVzMBAvBkQdl7iWBsdJf7w/9HAlp0F7vTwarbd5TN9RfkC3SurdzNkxljKRdOuFpkUVykX9YllLEpoWhndPQIMGAJaNljVfK9G9wHF/INOUzROBt1HloX6zdsSXlPmZMHpSoEpabfqkWQUB3JyP7Wzc0zOPe/SxA4/D5sWmiRTO8yItuvp5rAldD5apHuw+fFcIvx5ehM2q5Bk75Sad034RYaOljzt8T+KTC6PMCS244kl/BL3bgvi11fIOK+XyRuNs1SeW6bKX4dqKwEQTR/tJUU5b2o2xq+Ni4iTSyQmXdtHt9MKyLPIe3gdepyfY/zjxNAkYF29D/6vI+p12vy7PnTB9fs8z5Vxl8GiycMYVyTK1hSHr0bSQKQzr1RaUyNjh259ozCvIW+i/HwWBP1UCav4fmWZnYFqDM4d2eZSh0W7G+hCk7lDMAQGiTdYVQZ0hMTderEGmbDhpyIdBBT7omJwgQ5749ku5wUAPCOId6aGqkWIHuOUJta2OpNU3fX8NgpI0y69aj+taSEyPA2LH7Tfv2f/JQXbhjYFNnhk8lJkmbAXiWy5PTI25ZzyO+ntM/5TmJWUGbOr5XnAgFbrV/jeicybxQWqLGauWJ1pPeWtLmGICP4qtXFfTHusYvLEgu9nMXpBxF0LWAqNJ0/SSrgN2WVt+zG4VShGyJTyH60Y+dUT8Vo3J+vAfG2XyMAAYdnSEoJeyGFrtqwuaPg==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(36860700004)(82310400014)(376005)(1800799015)(7416005); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2024 17:11:21.9326 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b7ae4110-5b41-49ef-9867-08dc4512f018
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF0000449F.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4324
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,38 +112,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nirmoy,
+From: Leo Li <sunpeng.li@amd.com>
 
-> > In Mesa we've been relying on I915_CONTEXT_PARAM_GTT_SIZE so as long as
-> > that is adjusted by the kernel
-> 
-> What do you mean by adjusted by, should it be a aligned size?
-> 
-> I915_CONTEXT_PARAM_GTT_SIZE ioctl is returning vm->total which is
-> adjusted(reduced by a page).
-> 
-> This patch might cause silent error as it is not removing WABB which is
-> using the reserved page to add dummy blt and if userspace is using that
-> 
-> page then it will be overwritten.
+These patches aim to make the amdgpgu KMS driver play nicer with compositors
+when building multi-plane scanout configurations. They do so by:
 
-yes, I think this could happen, but there is no solution,
-unfortunately. We need to fail at some point.
+1. Making cursor behavior more sensible.
+2. Allowing placement of DRM OVERLAY planes underneath the PRIMARY plane for
+   'underlay' configurations (perhaps more of a RFC, see below).
 
-On the other hand, I think mesa is miscalculating the vm size. In
-userspace the total size is derived by the bit size
-(maxNBitValue()).
+Please see the commit messages for details.
 
-By doing so, I guess there will always be cases of
-miscalculation.
 
-There are two solutions here:
+For #2, the simplest way to accomplish this was to increase the value of the
+immutable zpos property for the PRIMARY plane. This allowed OVERLAY planes with
+a mutable zpos range of (0-254) to be positioned underneath the PRIMARY for an
+underlay scanout configuration.
 
- 1. we track two sizes, one the true available size and one the
-    total size. But this looks like a dirty hack to me.
- 2. UMD fixes the size calculation by taking for granted what the
-    driver provides and we don't have anything to do in KMD.
+Technically speaking, DCN hardware does not have a concept of primary or overlay
+planes - there are simply 4 general purpose hardware pipes that can be maped in
+any configuration. So the immutable zpos restriction on the PRIMARY plane is
+kind of arbitrary; it can have a mutable range of (0-254) just like the
+OVERLAYs. The distinction between PRIMARY and OVERLAY planes is also somewhat
+arbitrary. We can interpret PRIMARY as the first plane that should be enabled on
+a CRTC, but beyond that, it doesn't mean much for amdgpu.
 
-Lionel, Michal, thoughts?
+Therefore, I'm curious about how compositors devs understand KMS planes and
+their zpos properties, and how we would like to use them. It isn't clear to me
+how compositors wish to interpret and use the DRM zpos property, or
+differentiate between OVERLAY and PRIMARY planes, when it comes to setting up
+multi-plane scanout.
 
-Andi
+Ultimately, what I'd like to answer is "What can we do on the KMS driver and DRM
+plane API side, that can make building multi-plane scanout configurations easier
+for compositors?" I'm hoping we can converge on something, whether that be
+updating the existing documentation to better define the usage, or update the
+API to provide support for something that is lacking.
+
+Thanks,
+Leo
+
+
+Some links to provide context and details:
+* What is underlay?: https://gitlab.freedesktop.org/emersion/libliftoff/-/issues/76
+* Discussion on how to implement underlay on Weston: https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/1258#note_2325164
+
+Cc: Joshua Ashton <joshua@froggi.es>
+Cc: Michel Dänzer <mdaenzer@redhat.com>
+Cc: Chao Guo <chao.guo@nxp.com>
+Cc: Xaver Hugl <xaver.hugl@gmail.com>
+Cc: Vikas Korjani <Vikas.Korjani@amd.com>
+Cc: Robert Mader <robert.mader@posteo.de>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+Cc: Sean Paul <sean@poorly.run>
+Cc: Simon Ser <contact@emersion.fr>
+Cc: Shashank Sharma <shashank.sharma@amd.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>
+
+Leo Li (2):
+  drm/amd/display: Introduce overlay cursor mode
+  drm/amd/display: Move PRIMARY plane zpos higher
+
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 405 ++++++++++++++++--
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |   7 +
+ .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    |   1 +
+ .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   |  28 +-
+ 4 files changed, 391 insertions(+), 50 deletions(-)
+
+-- 
+2.44.0
+
