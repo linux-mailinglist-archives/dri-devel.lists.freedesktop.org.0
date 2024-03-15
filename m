@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D06087D72C
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Mar 2024 00:09:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFDB187D72D
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Mar 2024 00:09:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E47CD112698;
-	Fri, 15 Mar 2024 23:09:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10ECE11269A;
+	Fri, 15 Mar 2024 23:09:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="sCTuaiSC";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="U7Rkcebb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com
- [95.215.58.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08FBC112697
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 23:09:30 +0000 (UTC)
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com
+ [95.215.58.183])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B40D112697
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 23:09:33 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1710544169;
+ t=1710544171;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x3+PPHKFdpXChJ2kv+csEq7dgWK3ohjxhbsPdG1wSL8=;
- b=sCTuaiSCAibV4U3YanvC1CP7RQ4P/1K1uVl4TF+QK3DoU//lK/I48pIMz7ptYb/yNP48IV
- 1EGWc9lPRUdMfu7SNC87Rl5ZkIedou7jEXCMxqE3IHEIhcF6SexqcRCgcOwl/I0QqPYYuF
- FnBDtEn2cPx1zIM/RQVpgv64myIUmRo=
+ bh=GuGHTETxhmXOcV9deAeLZwjxRa5UHxis9t8GwbgUvBg=;
+ b=U7RkcebbeeF0JxQ3NK0tDUhd5nFg5+xGDimuRl5C8+9syvJe/Dao5gZlVOFqPGA8foblDq
+ DjWXA6u3aTWi95egf3KpX+h/u/wVLv62F8FQarmCTHAbAk3Ck64Qid+tq/cxM1wg8zvgmA
+ zFKMnVoJqvLFUoV7uacLm1rSVEqL/Rc=
 From: Sean Anderson <sean.anderson@linux.dev>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -36,9 +36,9 @@ To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 Cc: David Airlie <airlied@gmail.com>, linux-kernel@vger.kernel.org,
  Michal Simek <michal.simek@amd.com>, linux-arm-kernel@lists.infradead.org,
  Daniel Vetter <daniel@ffwll.ch>, Sean Anderson <sean.anderson@linux.dev>
-Subject: [PATCH 3/6] drm: zynqmp_dp: Add locking
-Date: Fri, 15 Mar 2024 19:09:13 -0400
-Message-Id: <20240315230916.1759060-4-sean.anderson@linux.dev>
+Subject: [PATCH 4/6] drm: zynqmp_dp: Split off several helper functions
+Date: Fri, 15 Mar 2024 19:09:14 -0400
+Message-Id: <20240315230916.1759060-5-sean.anderson@linux.dev>
 In-Reply-To: <20240315230916.1759060-1-sean.anderson@linux.dev>
 References: <20240315230916.1759060-1-sean.anderson@linux.dev>
 MIME-Version: 1.0
@@ -59,192 +59,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add some locking, since none is provided by the drm subsystem. This will
-prevent the IRQ/workers/bridge API calls from stepping on each other's
-toes.
+In preparation for supporting compliance testing, split off several
+helper functions. No functional change intended.
 
 Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
 ---
 
- drivers/gpu/drm/xlnx/zynqmp_dp.c | 59 +++++++++++++++++++++++---------
- 1 file changed, 42 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/xlnx/zynqmp_dp.c | 49 +++++++++++++++++++++-----------
+ 1 file changed, 33 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-index 8635b5673386..d2dee58e7bf2 100644
+index d2dee58e7bf2..24043847dab4 100644
 --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
 +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-@@ -279,6 +279,7 @@ struct zynqmp_dp_config {
-  * @dpsub: Display subsystem
-  * @iomem: device I/O memory for register access
-  * @reset: reset controller
-+ * @lock: Mutex protecting this struct and register access (but not AUX)
-  * @irq: irq
-  * @bridge: DRM bridge for the DP encoder
-  * @next_bridge: The downstream bridge
-@@ -299,6 +300,7 @@ struct zynqmp_dp {
- 	struct zynqmp_dpsub *dpsub;
- 	void __iomem *iomem;
- 	struct reset_control *reset;
-+	struct mutex lock;
- 	int irq;
- 
- 	struct drm_bridge bridge;
-@@ -308,7 +310,7 @@ struct zynqmp_dp {
- 	struct drm_dp_aux aux;
- 	struct phy *phy[ZYNQMP_DP_MAX_LANES];
- 	u8 num_lanes;
--	struct delayed_work hpd_work;
-+	struct delayed_work hpd_work, hpd_irq_work;
- 	enum drm_connector_status status;
- 	bool enabled;
- 
-@@ -1371,8 +1373,10 @@ zynqmp_dp_bridge_mode_valid(struct drm_bridge *bridge,
- 	}
- 
- 	/* Check with link rate and lane count */
-+	mutex_lock(&dp->lock);
- 	rate = zynqmp_dp_max_rate(dp->link_config.max_rate,
- 				  dp->link_config.max_lanes, dp->config.bpp);
-+	mutex_unlock(&dp->lock);
- 	if (mode->clock > rate) {
- 		dev_dbg(dp->dev, "filtered mode %s for high pixel rate\n",
- 			mode->name);
-@@ -1399,6 +1403,7 @@ static void zynqmp_dp_bridge_atomic_enable(struct drm_bridge *bridge,
- 
- 	pm_runtime_get_sync(dp->dev);
- 
-+	mutex_lock(&dp->lock);
- 	zynqmp_dp_disp_enable(dp, old_bridge_state);
- 
- 	/*
-@@ -1459,6 +1464,7 @@ static void zynqmp_dp_bridge_atomic_enable(struct drm_bridge *bridge,
- 	zynqmp_dp_write(dp, ZYNQMP_DP_SOFTWARE_RESET,
- 			ZYNQMP_DP_SOFTWARE_RESET_ALL);
- 	zynqmp_dp_write(dp, ZYNQMP_DP_MAIN_STREAM_ENABLE, 1);
-+	mutex_unlock(&dp->lock);
- }
- 
- static void zynqmp_dp_bridge_atomic_disable(struct drm_bridge *bridge,
-@@ -1466,6 +1472,7 @@ static void zynqmp_dp_bridge_atomic_disable(struct drm_bridge *bridge,
+@@ -627,6 +627,7 @@ static void zynqmp_dp_adjust_train(struct zynqmp_dp *dp,
+ /**
+  * zynqmp_dp_update_vs_emph - Update the training values
+  * @dp: DisplayPort IP core structure
++ * @train_set: A set of training values
+  *
+  * Update the training values based on the request from sink. The mapped values
+  * are predefined, and values(vs, pe, pc) are from the device manual.
+@@ -634,12 +635,12 @@ static void zynqmp_dp_adjust_train(struct zynqmp_dp *dp,
+  * Return: 0 if vs and emph are updated successfully, or the error code returned
+  * by drm_dp_dpcd_write().
+  */
+-static int zynqmp_dp_update_vs_emph(struct zynqmp_dp *dp)
++static int zynqmp_dp_update_vs_emph(struct zynqmp_dp *dp, u8 *train_set)
  {
- 	struct zynqmp_dp *dp = bridge_to_dp(bridge);
- 
-+	mutex_lock(&dp->lock);
- 	dp->enabled = false;
- 	cancel_delayed_work(&dp->hpd_work);
- 	zynqmp_dp_write(dp, ZYNQMP_DP_MAIN_STREAM_ENABLE, 0);
-@@ -1476,6 +1483,7 @@ static void zynqmp_dp_bridge_atomic_disable(struct drm_bridge *bridge,
- 		zynqmp_dp_write(dp, ZYNQMP_DP_TX_AUDIO_CONTROL, 0);
- 
- 	zynqmp_dp_disp_disable(dp, old_bridge_state);
-+	mutex_unlock(&dp->lock);
- 
- 	pm_runtime_put_sync(dp->dev);
- }
-@@ -1518,6 +1526,8 @@ static enum drm_connector_status zynqmp_dp_bridge_detect(struct drm_bridge *brid
- 	u32 state, i;
+ 	unsigned int i;
  	int ret;
  
-+	mutex_lock(&dp->lock);
-+
- 	/*
- 	 * This is from heuristic. It takes some delay (ex, 100 ~ 500 msec) to
- 	 * get the HPD signal with some monitors.
-@@ -1545,11 +1555,13 @@ static enum drm_connector_status zynqmp_dp_bridge_detect(struct drm_bridge *brid
- 					       dp->num_lanes);
+-	ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET, dp->train_set,
++	ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET, train_set,
+ 				dp->mode.lane_cnt);
+ 	if (ret < 0)
+ 		return ret;
+@@ -647,7 +648,7 @@ static int zynqmp_dp_update_vs_emph(struct zynqmp_dp *dp)
+ 	for (i = 0; i < dp->mode.lane_cnt; i++) {
+ 		u32 reg = ZYNQMP_DP_SUB_TX_PHY_PRECURSOR_LANE_0 + i * 4;
+ 		union phy_configure_opts opts = { 0 };
+-		u8 train = dp->train_set[i];
++		u8 train = train_set[i];
  
- 		dp->status = connector_status_connected;
-+		mutex_unlock(&dp->lock);
- 		return connector_status_connected;
+ 		opts.dp.voltage[0] = (train & DP_TRAIN_VOLTAGE_SWING_MASK)
+ 				   >> DP_TRAIN_VOLTAGE_SWING_SHIFT;
+@@ -691,7 +692,7 @@ static int zynqmp_dp_link_train_cr(struct zynqmp_dp *dp)
+ 	 * So, This loop should exit before 512 iterations
+ 	 */
+ 	for (max_tries = 0; max_tries < 512; max_tries++) {
+-		ret = zynqmp_dp_update_vs_emph(dp);
++		ret = zynqmp_dp_update_vs_emph(dp, dp->train_set);
+ 		if (ret)
+ 			return ret;
+ 
+@@ -756,7 +757,7 @@ static int zynqmp_dp_link_train_ce(struct zynqmp_dp *dp)
+ 		return ret;
+ 
+ 	for (tries = 0; tries < DP_MAX_TRAINING_TRIES; tries++) {
+-		ret = zynqmp_dp_update_vs_emph(dp);
++		ret = zynqmp_dp_update_vs_emph(dp, dp->train_set);
+ 		if (ret)
+ 			return ret;
+ 
+@@ -779,28 +780,28 @@ static int zynqmp_dp_link_train_ce(struct zynqmp_dp *dp)
+ }
+ 
+ /**
+- * zynqmp_dp_train - Train the link
+- * @dp: DisplayPort IP core structure
++ * zynqmp_dp_setup() - Set up major link parameters
++ * @bw_code: The link bandwidth as a multiple of 270 MHz
++ * @lane_cnt: The number of lanes to use
++ * @enhanced: Use enhanced framing
++ * @downspread: Enable spread-spectrum clocking
+  *
+- * Return: 0 if all trains are done successfully, or corresponding error code.
++ * Return: 0 on success, or -errno on failure
+  */
+-static int zynqmp_dp_train(struct zynqmp_dp *dp)
++static int zynqmp_dp_setup(struct zynqmp_dp *dp, u8 bw_code, u8 lane_cnt,
++			   bool enhanced, bool downspread)
+ {
+ 	u32 reg;
+-	u8 bw_code = dp->mode.bw_code;
+-	u8 lane_cnt = dp->mode.lane_cnt;
+ 	u8 aux_lane_cnt = lane_cnt;
+-	bool enhanced;
+ 	int ret;
+ 
+ 	zynqmp_dp_write(dp, ZYNQMP_DP_LANE_COUNT_SET, lane_cnt);
+-	enhanced = drm_dp_enhanced_frame_cap(dp->dpcd);
+ 	if (enhanced) {
+ 		zynqmp_dp_write(dp, ZYNQMP_DP_ENHANCED_FRAME_EN, 1);
+ 		aux_lane_cnt |= DP_LANE_COUNT_ENHANCED_FRAME_EN;
  	}
  
- disconnected:
- 	dp->status = connector_status_disconnected;
-+	mutex_unlock(&dp->lock);
- 	return connector_status_disconnected;
- }
+-	if (dp->dpcd[3] & 0x1) {
++	if (downspread) {
+ 		zynqmp_dp_write(dp, ZYNQMP_DP_DOWNSPREAD_CTL, 1);
+ 		drm_dp_dpcd_writeb(&dp->aux, DP_DOWNSPREAD_CTRL,
+ 				   DP_SPREAD_AMP_0_5);
+@@ -843,8 +844,24 @@ static int zynqmp_dp_train(struct zynqmp_dp *dp)
+ 	}
  
-@@ -1611,6 +1623,29 @@ static void zynqmp_dp_hpd_work_func(struct work_struct *work)
- 	drm_bridge_hpd_notify(&dp->bridge, status);
- }
- 
-+static void zynqmp_dp_hpd_irq_work_func(struct work_struct *work)
-+{
-+	struct zynqmp_dp *dp = container_of(work, struct zynqmp_dp,
-+					    hpd_irq_work.work);
-+	u8 status[DP_LINK_STATUS_SIZE + 2];
-+	int err;
-+
-+	mutex_lock(&dp->lock);
-+	err = drm_dp_dpcd_read(&dp->aux, DP_SINK_COUNT, status,
-+			       DP_LINK_STATUS_SIZE + 2);
-+	if (err < 0) {
-+		dev_dbg_ratelimited(dp->dev,
-+				    "could not read sink status: %d\n", err);
-+	} else {
-+		if (status[4] & DP_LINK_STATUS_UPDATED ||
-+		    !drm_dp_clock_recovery_ok(&status[2], dp->mode.lane_cnt) ||
-+		    !drm_dp_channel_eq_ok(&status[2], dp->mode.lane_cnt)) {
-+			zynqmp_dp_train_loop(dp);
-+		}
-+	}
-+	mutex_unlock(&dp->lock);
+ 	zynqmp_dp_write(dp, ZYNQMP_DP_PHY_CLOCK_SELECT, reg);
+-	ret = zynqmp_dp_phy_ready(dp);
+-	if (ret < 0)
++	return zynqmp_dp_phy_ready(dp);
 +}
 +
- static irqreturn_t zynqmp_dp_irq_handler(int irq, void *data)
- {
- 	struct zynqmp_dp *dp = (struct zynqmp_dp *)data;
-@@ -1635,23 +1670,9 @@ static irqreturn_t zynqmp_dp_irq_handler(int irq, void *data)
- 	if (status & ZYNQMP_DP_INT_HPD_EVENT)
- 		schedule_delayed_work(&dp->hpd_work, 0);
++
++/**
++ * zynqmp_dp_train - Train the link
++ * @dp: DisplayPort IP core structure
++ *
++ * Return: 0 if all trains are done successfully, or corresponding error code.
++ */
++static int zynqmp_dp_train(struct zynqmp_dp *dp)
++{
++	int ret;
++
++	ret = zynqmp_dp_setup(dp, dp->mode.bw_code, dp->mode.lane_cnt,
++			      drm_dp_enhanced_frame_cap(dp->dpcd),
++			      dp->dpcd[3] & 0x1);
++	if (ret)
+ 		return ret;
  
--	if (status & ZYNQMP_DP_INT_HPD_IRQ) {
--		int ret;
--		u8 status[DP_LINK_STATUS_SIZE + 2];
-+	if (status & ZYNQMP_DP_INT_HPD_IRQ)
-+		schedule_delayed_work(&dp->hpd_irq_work, 0);
- 
--		ret = drm_dp_dpcd_read(&dp->aux, DP_SINK_COUNT, status,
--				       DP_LINK_STATUS_SIZE + 2);
--		if (ret < 0)
--			goto handled;
--
--		if (status[4] & DP_LINK_STATUS_UPDATED ||
--		    !drm_dp_clock_recovery_ok(&status[2], dp->mode.lane_cnt) ||
--		    !drm_dp_channel_eq_ok(&status[2], dp->mode.lane_cnt)) {
--			zynqmp_dp_train_loop(dp);
--		}
--	}
--
--handled:
- 	return IRQ_HANDLED;
- }
- 
-@@ -1674,8 +1695,10 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
- 	dp->dev = &pdev->dev;
- 	dp->dpsub = dpsub;
- 	dp->status = connector_status_disconnected;
-+	mutex_init(&dp->lock);
- 
- 	INIT_DELAYED_WORK(&dp->hpd_work, zynqmp_dp_hpd_work_func);
-+	INIT_DELAYED_WORK(&dp->hpd_irq_work, zynqmp_dp_hpd_irq_work_func);
- 
- 	/* Acquire all resources (IOMEM, IRQ and PHYs). */
- 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dp");
-@@ -1775,6 +1798,7 @@ void zynqmp_dp_remove(struct zynqmp_dpsub *dpsub)
- 	zynqmp_dp_write(dp, ZYNQMP_DP_INT_DS, ZYNQMP_DP_INT_ALL);
- 	disable_irq(dp->irq);
- 
-+	cancel_delayed_work_sync(&dp->hpd_irq_work);
- 	cancel_delayed_work_sync(&dp->hpd_work);
- 
- 	zynqmp_dp_write(dp, ZYNQMP_DP_TRANSMITTER_ENABLE, 0);
-@@ -1782,4 +1806,5 @@ void zynqmp_dp_remove(struct zynqmp_dpsub *dpsub)
- 
- 	zynqmp_dp_phy_exit(dp);
- 	zynqmp_dp_reset(dp, true);
-+	mutex_destroy(&dp->lock);
- }
+ 	zynqmp_dp_write(dp, ZYNQMP_DP_SCRAMBLING_DISABLE, 1);
 -- 
 2.35.1.1320.gc452695387.dirty
 
