@@ -2,58 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81ABF87D617
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 22:21:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71DA987D63F
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 22:37:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4C2A112567;
-	Fri, 15 Mar 2024 21:21:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB30111259A;
+	Fri, 15 Mar 2024 21:37:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="OBFtGEYF";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="AG4jRRLP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60639112567
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 21:21:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1710537675;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=uWWH3DahxJ2nBN/Bu4D0efrmCV07cU3Ea/yIHo4hP08=;
- b=OBFtGEYFqEsnzG6pMPQ+vW5EAPkgTZWswxWqdSuxZo3Kfps+C76RMkVXnynKFZStnXCoXQ
- PiudZdDOtsXzBpT75ZBTuaiSsoyRblOYwedzmXZIgZcSzcKF4n0GGwOJag7XzW+f3Zrx0C
- Rf1TBbvHqmzO1cVnobCmiPkMPVHS6vk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-251-eCBD3m3rN-CyA72eU5p7kg-1; Fri, 15 Mar 2024 17:21:11 -0400
-X-MC-Unique: eCBD3m3rN-CyA72eU5p7kg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 71F6B8007A4;
- Fri, 15 Mar 2024 21:21:11 +0000 (UTC)
-Received: from emerald.redhat.com (unknown [10.22.8.58])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B20AC492BC6;
- Fri, 15 Mar 2024 21:21:09 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: dri-devel@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org
-Cc: Karol Herbst <kherbst@redhat.com>, Danilo Krummrich <dakr@redhat.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Dave Airlie <airlied@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] drm/nouveau/dp: Fix incorrect return code in
- r535_dp_aux_xfer()
-Date: Fri, 15 Mar 2024 17:20:56 -0400
-Message-ID: <20240315212104.776936-1-lyude@redhat.com>
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+ [209.85.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38C61112599
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 21:37:38 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id
+ d2e1a72fcca58-6e6ee9e3cffso1432871b3a.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 14:37:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1710538658; x=1711143458;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=JcjIzpIf3M0tslD3zrN0DmNXzOjKP0xQjzG1iMsY+AU=;
+ b=AG4jRRLPFIhvRFmIwJwQ6bIChV99lFMjsRHiD/V4zbIEYWXMUQYdizQtC2njlBwaGi
+ mMsWZBelbIoQXRbWESDe13/UEaEFzWWIhqEMuhJoHDbJpP0uWdSucER9h9CTOkyD/DpN
+ GL43KOtNzSqB48zk99KocEdsEudAfaKgrp3/c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710538658; x=1711143458;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=JcjIzpIf3M0tslD3zrN0DmNXzOjKP0xQjzG1iMsY+AU=;
+ b=w+VEEB+c44nUg/UCPMWc5Lvr7rU9EK8E0b1UCoAHaWTBFPYwfRSHYj4Ye5q0T1li2d
+ VlNwNmSdtxp6Lyl4/aTLrudWnbVnFJd5f6GswTGB554u0KlLcvbTTQiR+LDkoTObEJD3
+ 2AZEEr20/56kkABZhe9+MlLsiE5XWXCXopMRJOzHktGL4IKf8B752WNhAcDDgTgfHXM6
+ JOyud+WjPdHmRC8lrG5RuP6SbDpMzgJFwcuhhsUZjqNTK53Swe9nGe8sgH2NyHJXAxsc
+ Fmx/6AeBNesEFCrmER3+5l5hBY0q2/qe45uvFLUPUL02do17FwIxiqIkhsFPVwdI+/Lr
+ N3aQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVGDRjcjXoO4kGms1aBpLQaDdcFcG9sNLC4myR+hZsWicd/cjJa4tTyq+WnGrZ3SW/xKGfyM8hgFaMq/L1BqvcE6llwh0fVCZEN/NevZNoa
+X-Gm-Message-State: AOJu0YyKGtaIjq8OweaM6S/xvu5pmTLfwDiCEFsDjL1plcb2lWGIkzK8
+ SZQivubWOBiL1D69oUBmN35drIGyjlFhzs+oVysWhx5xwKKK2J4bX1r5yxYeDw==
+X-Google-Smtp-Source: AGHT+IFjUmHac2Bq6KdiZW/REPm92doVaTzd5QixixIP9P8bacTyl7uoL/ZLpufE9uq3gSzkN3xgmQ==
+X-Received: by 2002:a05:6a00:2d1d:b0:6e6:fb9a:fb45 with SMTP id
+ fa29-20020a056a002d1d00b006e6fb9afb45mr3949524pfb.1.1710538657710; 
+ Fri, 15 Mar 2024 14:37:37 -0700 (PDT)
+Received: from dianders.sjc.corp.google.com
+ ([2620:15c:9d:2:b23e:e8dc:3df4:aa2a])
+ by smtp.gmail.com with ESMTPSA id
+ a26-20020aa7865a000000b006e6b5e65579sm3837142pfo.106.2024.03.15.14.37.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Mar 2024 14:37:37 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Douglas Anderson <dianders@chromium.org>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Guenter Roeck <groeck@chromium.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Sean Paul <sean@poorly.run>, Stephen Boyd <swboyd@chromium.org>,
+ Vara Reddy <quic_varar@quicinc.com>, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/4] drm/msm/dp: Improve DP AUX transfer vs. HPD
+ interactions
+Date: Fri, 15 Mar 2024 14:36:28 -0700
+Message-ID: <20240315213717.1411017-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.44.0.291.gc1ea87d7ee-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,39 +89,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I've recently been seeing some unexplained GSP errors on my RTX 6000 from
-failed aux transactions:
 
-  [  132.915867] nouveau 0000:1f:00.0: gsp: cli:0xc1d00002 obj:0x00730000
-  ctrl cmd:0x00731341 failed: 0x0000ffff
+The main goal of this patch series is to avoid problems running
+"fwupd" on Qualcomm devices. Right now several of the plugins used
+with fwupd try talking over all DP AUX busses and this results in a
+very long timeout on Qualcomm devices.
 
-While the cause of these is not yet clear, these messages made me notice
-that the aux transactions causing these transactions were succeeding - not
-failing. As it turns out, this is because we're currently not returning the
-correct variable when r535_dp_aux_xfer() hits an error - causing us to
-never propagate GSP errors for failed aux transactions to userspace.
+As part of fixing this, I noticed a case where the MSM DP code wasn't
+respecing the timeout properly when asked to wait for HPD. I also
+noticed that, now that we've implemented wait_hpd_asserted(), we no
+longer need the long hardcoded timeout / special case for eDP in the
+AUX transfer function.
 
-So, let's fix that.
+NOTE: I managed to dig up some hardware to test the eDP case and my
+basic testing shows that everything still works fine there after this
+series.
 
-Fixes: 4ae3a20102b2 ("nouveau/gsp: don't free ctrl messages on errors")
-Signed-off-by: Lyude Paul <lyude@redhat.com>
----
- drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v2:
+- Don't look at the HPD line directly; have dp_display call us.
+- ("Fix typo in static function (ststus => status)") new for v2.
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c
-index 6a0a4d3b8902d..027867c2a8c5b 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c
-@@ -1080,7 +1080,7 @@ r535_dp_aux_xfer(struct nvkm_outp *outp, u8 type, u32 addr, u8 *data, u8 *psize)
- 	ret = nvkm_gsp_rm_ctrl_push(&disp->rm.objcom, &ctrl, sizeof(*ctrl));
- 	if (ret) {
- 		nvkm_gsp_rm_ctrl_done(&disp->rm.objcom, ctrl);
--		return PTR_ERR(ctrl);
-+		return ret;
- 	}
- 
- 	memcpy(data, ctrl->data, size);
+Douglas Anderson (4):
+  drm/msm/dp: Avoid a long timeout for AUX transfer if nothing connected
+  drm/msm/dp: Account for the timeout in wait_hpd_asserted() callback
+  drm/msm/dp: Delete the old 500 ms wait for eDP HPD in aux transfer
+  drm/msm/dp: Fix typo in static function (ststus => status)
+
+ drivers/gpu/drm/msm/dp/dp_aux.c     | 30 ++++++++++++++++-------------
+ drivers/gpu/drm/msm/dp/dp_aux.h     |  1 +
+ drivers/gpu/drm/msm/dp/dp_catalog.c |  7 ++++---
+ drivers/gpu/drm/msm/dp/dp_catalog.h |  3 ++-
+ drivers/gpu/drm/msm/dp/dp_display.c |  8 ++++++--
+ 5 files changed, 30 insertions(+), 19 deletions(-)
+
 -- 
-2.43.0
+2.44.0.291.gc1ea87d7ee-goog
 
