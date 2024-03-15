@@ -2,69 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39ECA87C9DA
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 09:22:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CA5287C9F8
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 09:34:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DCF810FFD9;
-	Fri, 15 Mar 2024 08:22:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E21910FFFF;
+	Fri, 15 Mar 2024 08:34:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DVYsipqX";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="QtFd0oRm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C725E10FFDF
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 08:22:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710490935; x=1742026935;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=nVn3aX7+3f9iTQBAed2ZqWdElNcvvfVXItbazWoBUAw=;
- b=DVYsipqXahegvYW06lv5WQjniA33WCJAh1CUDYKwkMwlSDkcHO/AHGGh
- H4iH5MmuJbZRuura6BSXt+fWQj95winS1nbnxwot1fFxsyCKDe/PZxfTM
- 9v6TP0KfPaem8hmuo1KpU0N50WCk5qtYSL2v6mZUiUsDd33EbiYdmhcbR
- BfuO5l6kRsNsd8kScFfE/Tcy2e9LR8XQ6mb0L8ZwOJdBLZdaBG5l3i3S8
- 0caS8eVvefr68tExfbJsA0P/F2nug4v8mKmYeBtUS+8US5R79FuZosq5Z
- ZjvokeO7QsukkC9eYL4LrF5jAKKnJp9JRFXLnd6yeO0n5Ao1jcAz7Oxne w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="5534233"
-X-IronPort-AV: E=Sophos;i="6.07,127,1708416000"; 
-   d="scan'208";a="5534233"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2024 01:22:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="827780535"
-X-IronPort-AV: E=Sophos;i="6.07,127,1708416000"; d="scan'208";a="827780535"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 15 Mar 2024 01:22:06 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 15 Mar 2024 10:22:05 +0200
-Date: Fri, 15 Mar 2024 10:22:05 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
- Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v9 20/27] drm/connector: hdmi: Add Infoframes generation
-Message-ID: <ZfQFLR2xO6vUpAJ9@intel.com>
-References: <20240311-kms-hdmi-connector-state-v9-0-d45890323344@kernel.org>
- <20240311-kms-hdmi-connector-state-v9-20-d45890323344@kernel.org>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97C3110FFFF
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 08:34:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1710491681; x=1711096481; i=deller@gmx.de;
+ bh=DRERBXkYgd3InDo5KZv6bhRTudaIQNVFtDngTRSzu00=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+ In-Reply-To;
+ b=QtFd0oRm1qb5TpdKPpnR9YQ5MprzfLbwFaOz7juPhh9u068pZaOyYnKSbj+9BSTG
+ neKSN7JPv7r7AJ+vI9nq3Rq22Uow4UK8zttOsSdNoC4bVbAD3YWkn7QdkNOfb1BVR
+ zs19izLFuvoqJaGxnh2Mll3JQ5Z8VDkzTY55HaUqvwoFTv/vr7pXTOHNfedjNZl9k
+ cFGElaZ2fH8s2NzwV4LiYtICb29uJq94mqFyXlen/8itzoAh8zWPArWmgr6OcFPqO
+ 0237MYa59MnUe44KhHuu/OK19pQghpjBdlguLSaCjns24VTu4/l75vJC50enTMp23
+ zLeNJZ0VHUdAyYiv8g==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.55] ([94.134.155.107]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MGhyc-1rYRkh23wg-00DmtN; Fri, 15
+ Mar 2024 09:29:29 +0100
+Message-ID: <a12e7880-6337-4172-9c2d-c44d90581d07@gmx.de>
+Date: Fri, 15 Mar 2024 09:29:28 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240311-kms-hdmi-connector-state-v9-20-d45890323344@kernel.org>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] fbdev: uvesafb: Convert sprintf/snprintf to sysfs_emit
+Content-Language: en-US
+To: Li Zhijian <lizhijian@fujitsu.com>, linux-kernel@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20240314095813.1326057-1-lizhijian@fujitsu.com>
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <20240314095813.1326057-1-lizhijian@fujitsu.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:xn68aHE0I10lrYhDuFJEntWUTBud3XFbNkHauGlzZ+JdzkYhLxB
+ zqe/aUQon1nQJhj3c5fcrGQelUTd9J1fAUTes1tg5rwO5V0OI+yWUdM4kH+havHpXgPtlBi
+ wqlNgaLX8RCejbEZ0pNfc2MnSUQGm4jDmB8QK3P6pB+EEVRHIezTzA2R2oFTFwtWcbgZOPv
+ 8ug6c09GDPmhEWRNeKSvA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:+bTiOMeZ3tI=;PhamjQlW8wZvjuOUpH90Hg2youz
+ tltP77yYwD+3ocgiiypyOniRlLHmNvKjQSdQvo1s0DmxvTGFt5ScQsZiWj/sE9DTOvz1phwEe
+ hPQ/99GXbyKgmuRP6ZkM0S44H+Ui6vfGedvVf0UegSBd0KICPPebMYLxIGvccXpZeCLwGW4CF
+ IAQIG+yu6A9gRILowRSg7Ni7SNCSXOdmRJGowt38YN66e/j5zqN7geC5HEI8NawLt0sB7ogxI
+ /BrGxdLH92cuhM9yOIgHshwtEsM6OogL6wAbBL76TXDulDv8DpL9p9UHf/6y739xzPLhP7IlV
+ 7P5sQIF7uoNzR4+Yy81MrxzxRjYC0aoUNXNkM0QLtUJ5qOzP+ISED27+BZO6Ywg2XilL5EoVt
+ cevGfNwATRR+glbiHn7U8H1J4GtTg2As3PhprAEzmz18QgtI+2dvbCkzWHwSnghM+fFlmyfrq
+ 0Ep+WKDn6l/ZjBYQu1Ov+R0ZTKErN7BzKdEWXAKO9CqF+tXtE8cXQXUfZVgijs3ki5hsy/EfT
+ UEGv1zdWP44oK9vh0aJmZU2SeKsdCc5czKyQL5jx4AHBThpW3ueWA6dKTzwxVKskYGLVRBw6N
+ bYg9Qk6pnKpYJ7CF3H7nFbW94KHTGhGIuLXnP4UhEFV5osRpr4BUXHC5oZmPuaP03befK5l07
+ 6nUbq5Mh9iFTq+Zd88rkqnVGXCsMCPDEftyUx3O6zaGB6x2SQlNwmXaz/Ig7dwppPeVfogvBY
+ 1HNL+wjYh145NCSyQzEnxdGQPO/6miYSE5iuVJG9yZTX3Rrql0HCSUqWEJHJz63xKDo8sxqUa
+ M38aINoZCegJHNGoCHHSrxg2mqnXZrzjgv0VnaVCS5f1A=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,203 +119,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 11, 2024 at 03:49:48PM +0100, Maxime Ripard wrote:
-> Infoframes in KMS is usually handled by a bunch of low-level helpers
-> that require quite some boilerplate for drivers. This leads to
-> discrepancies with how drivers generate them, and which are actually
-> sent.
-> 
-> Now that we have everything needed to generate them in the HDMI
-> connector state, we can generate them in our common logic so that
-> drivers can simply reuse what we precomputed.
-> 
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+On 3/14/24 10:58, Li Zhijian wrote:
+> Per filesystems/sysfs.rst, show() should only use sysfs_emit()
+> or sysfs_emit_at() when formatting the value to be returned to user spac=
+e.
+>
+> coccinelle complains that there are still a couple of functions that use
+> snprintf(). Convert them to sysfs_emit().
+>
+> sprintf() will be converted as weel if they have.
+>
+> Generally, this patch is generated by
+> make coccicheck M=3D<path/to/file> MODE=3Dpatch \
+> COCCI=3Dscripts/coccinelle/api/device_attr_show.cocci
+>
+> No functional change intended
+>
+> CC: Helge Deller <deller@gmx.de>
+> CC: linux-fbdev@vger.kernel.org
+> CC: dri-devel@lists.freedesktop.org
+> Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
+
+applied.
+
+Thanks!
+Helge
+
+
 > ---
->  drivers/gpu/drm/Kconfig                            |   1 +
->  drivers/gpu/drm/drm_atomic_state_helper.c          | 323 +++++++++++++++++++++
->  drivers/gpu/drm/drm_connector.c                    |  14 +
->  .../gpu/drm/tests/drm_atomic_state_helper_test.c   |   1 +
->  drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
->  include/drm/drm_atomic_state_helper.h              |   8 +
->  include/drm/drm_connector.h                        | 133 +++++++++
->  7 files changed, 492 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 872edb47bb53..ad9c467e20ce 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -97,10 +97,11 @@ config DRM_KUNIT_TEST
->  	  If in doubt, say "N".
->  
->  config DRM_KMS_HELPER
->  	tristate
->  	depends on DRM
-> +	select DRM_DISPLAY_HDMI_HELPER
->  	help
->  	  CRTC helpers for KMS drivers.
->  
->  config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
->          bool "Enable refcount backtrace history in the DP MST helpers"
-> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-> index e66272c0d006..2bf53666fc9d 100644
-> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> @@ -36,10 +36,12 @@
->  #include <drm/drm_plane.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_vblank.h>
->  #include <drm/drm_writeback.h>
->  
-> +#include <drm/display/drm_hdmi_helper.h>
-> +
->  #include <linux/slab.h>
->  #include <linux/dma-fence.h>
->  
->  /**
->   * DOC: atomic state reset and initialization
-> @@ -912,10 +914,143 @@ hdmi_compute_config(const struct drm_connector *connector,
->  	}
->  
->  	return -EINVAL;
->  }
->  
-> +static int hdmi_generate_avi_infoframe(const struct drm_connector *connector,
-> +				       struct drm_connector_state *state)
-> +{
-> +	const struct drm_display_mode *mode =
-> +		connector_state_get_mode(state);
-> +	struct drm_connector_hdmi_infoframe *infoframe =
-> +		&state->hdmi.infoframes.avi;
-> +	struct hdmi_avi_infoframe *frame =
-> +		&infoframe->data.avi;
-> +	bool is_full_range = state->hdmi.is_full_range;
-> +	enum hdmi_quantization_range rgb_quant_range =
-> +		is_full_range ? HDMI_QUANTIZATION_RANGE_FULL : HDMI_QUANTIZATION_RANGE_LIMITED;
-> +	int ret;
-> +
-> +	ret = drm_hdmi_avi_infoframe_from_display_mode(frame, connector, mode);
-> +	if (ret)
-> +		return ret;
-> +
-> +	frame->colorspace = state->hdmi.output_format;
-> +
-> +	drm_hdmi_avi_infoframe_quant_range(frame, connector, mode, rgb_quant_range);
+> This is a part of the work "Fix coccicheck device_attr_show warnings"[1]
+> Split them per subsystem so that the maintainer can review it easily
+> [1] https://lore.kernel.org/lkml/20240116041129.3937800-1-lizhijian@fuji=
+tsu.com/
+> ---
+>   drivers/video/fbdev/uvesafb.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/video/fbdev/uvesafb.c b/drivers/video/fbdev/uvesafb=
+.c
+> index e1f421e91b4f..73f00c079a94 100644
+> --- a/drivers/video/fbdev/uvesafb.c
+> +++ b/drivers/video/fbdev/uvesafb.c
+> @@ -1546,7 +1546,7 @@ static ssize_t uvesafb_show_vbe_ver(struct device =
+*dev,
+>   	struct fb_info *info =3D dev_get_drvdata(dev);
+>   	struct uvesafb_par *par =3D info->par;
+>
+> -	return snprintf(buf, PAGE_SIZE, "%.4x\n", par->vbe_ib.vbe_version);
+> +	return sysfs_emit(buf, "%.4x\n", par->vbe_ib.vbe_version);
+>   }
+>
+>   static DEVICE_ATTR(vbe_version, S_IRUGO, uvesafb_show_vbe_ver, NULL);
 
-drm_hdmi_avi_infoframe_quant_range() doesn't handle YCbCr currently.
-
-> +	drm_hdmi_avi_infoframe_colorimetry(frame, state);
-> +	drm_hdmi_avi_infoframe_bars(frame, state);
-> +
-> +	infoframe->set = true;
-> +
-> +	return 0;
-> +}
-> +
-<snip>
-> +
-> +#define UPDATE_INFOFRAME(c, os, ns, i)				\
-> +	write_or_clear_infoframe(c,				\
-> +				 &(c)->hdmi.infoframes.i,	\
-> +				 &(os)->hdmi.infoframes.i,	\
-> +				 &(ns)->hdmi.infoframes.i)
-
-This macro feels like pointless obfuscation to me.
-
-<snip>
-> @@ -1984,20 +2063,73 @@ struct drm_connector {
->  
->  	/**
->  	 * @hdmi: HDMI-related variable and properties.
->  	 */
->  	struct {
-> +#define DRM_CONNECTOR_HDMI_VENDOR_LEN	8
-> +		/**
-> +		 * @vendor: HDMI Controller Vendor Name
-> +		 */
-> +		unsigned char vendor[DRM_CONNECTOR_HDMI_VENDOR_LEN] __nonstring;
-> +
-> +#define DRM_CONNECTOR_HDMI_PRODUCT_LEN	16
-> +		/**
-> +		 * @product: HDMI Controller Product Name
-> +		 */
-> +		unsigned char product[DRM_CONNECTOR_HDMI_PRODUCT_LEN] __nonstring;
-> +
->  		/**
->  		 * @supported_formats: Bitmask of @hdmi_colorspace
->  		 * supported by the controller.
->  		 */
->  		unsigned long supported_formats;
->  
->  		/**
->  		 * @funcs: HDMI connector Control Functions
->  		 */
->  		const struct drm_connector_hdmi_funcs *funcs;
-> +
-> +		/**
-> +		 * @infoframes: Current Infoframes output by the connector
-> +		 */
-> +		struct {
-> +			/**
-> +			 * @lock: Mutex protecting against concurrent access to
-> +			 * the infoframes, most notably between KMS and ALSA.
-> +			 */
-> +			struct mutex lock;
-> +
-> +			/**
-> +			 * @audio: Current Audio Infoframes structure. Protected
-> +			 * by @lock.
-> +			 */
-> +			struct drm_connector_hdmi_infoframe audio;
-> +
-> +			/**
-> +			 * @avi: Current AVI Infoframes structure. Protected by
-> +			 * @lock.
-> +			 */
-> +			struct drm_connector_hdmi_infoframe avi;
-> +
-> +			/**
-> +			 * @hdr_drm: Current DRM (Dynamic Range and Mastering)
-> +			 * Infoframes structure. Protected by @lock.
-> +			 */
-> +			struct drm_connector_hdmi_infoframe hdr_drm;
-> +
-> +			/**
-> +			 * @spd: Current SPD Infoframes structure. Protected by
-> +			 * @lock.
-> +			 */
-> +			struct drm_connector_hdmi_infoframe spd;
-> +
-> +			/**
-> +			 * @vendor: Current HDMI Vendor Infoframes structure.
-> +			 * Protected by @lock.
-> +			 */
-> +			struct drm_connector_hdmi_infoframe hdmi;
-> +		} infoframes;
->  	} hdmi;
-
-What's the deal with this bloat? These are already tracked in the
-connector's state so this looks entirely redundant.
-
->  };
->  
->  #define obj_to_connector(x) container_of(x, struct drm_connector, base)
->  
-> @@ -2015,10 +2147,11 @@ int drmm_connector_init(struct drm_device *dev,
->  			const struct drm_connector_funcs *funcs,
->  			int connector_type,
->  			struct i2c_adapter *ddc);
->  int drmm_connector_hdmi_init(struct drm_device *dev,
->  			     struct drm_connector *connector,
-> +			     const char *vendor, const char *product,
->  			     const struct drm_connector_funcs *funcs,
->  			     const struct drm_connector_hdmi_funcs *hdmi_funcs,
->  			     int connector_type,
->  			     struct i2c_adapter *ddc,
->  			     unsigned long supported_formats,
-> 
-> -- 
-> 2.43.2
-
--- 
-Ville Syrjälä
-Intel
