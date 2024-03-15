@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1CB687CCC2
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 12:46:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60EBA87CCB2
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 12:46:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87AF81121DF;
-	Fri, 15 Mar 2024 11:46:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A02E51121E1;
+	Fri, 15 Mar 2024 11:46:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="flDYGSP5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="o+GnoRgT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 408101121D7
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 11:46:33 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-513dd2d2415so132697e87.3
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07A251121DB
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 11:46:34 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id
+ 2adb3069b0e04-513d3746950so2013407e87.1
  for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 04:46:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1710503191; x=1711107991; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1710503192; x=1711107992; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=kbFUU4iMew5gCyNhy6Z/kEtYbNuf40upf3sZEP5LUHU=;
- b=flDYGSP5UAOp8tojD1nxzrJNKB7gokx6wwXCx8DnE45/tvH6eauWQirVWWGoPPW1y9
- I4Tws1OPIFROj7nB1kU0CSNyszweiMKuucAbY/+JqDDgGRHEFNslhy+Vraj3gdAVZtbp
- rAVaUd4vjcY0zKOUj34mW0s1rH5Dv6QkOFXZOVYJaqBpUmFLJ8EX6Rx6/3g4wJKTEh3N
- P/Ubwg0NBEJoaIh7zZT3w3F7H75X7pUyVmwOrv3yi/Sg2Q+Rv0ZcAg5kCgOBrwOzqBIF
- oDsIqVogdOdoqFoOBcs0uqA1PqZdB8zKvwpcOKmO0mVDd1hhQ062iU01Y9k87kaVwKjk
- 4anA==
+ :reply-to; bh=jnTUQM6F1e6b3ELJmMukNHuHn8ljSCVj2rp0eJe9i4Q=;
+ b=o+GnoRgTj7lncEkfhvSGNL2t37b7QEW9Aw0Lytl/dvTj6Wn0Tkvu+QZZ3GfNXOJI5p
+ EOA+BVAz+x9/CMrSNoq3uhry64unkSNIgEm9yAvwZej9NIuI47QrFjSzpmHkBrSOaCHw
+ qiPxDr8H6kGRvdCxeDiRm5iTW5bInek4V1N7D2/JhInwBGHqtccP9FPl4fkeoPDOCXh0
+ oPvwTlwzEI7Tl8BfH/X+CcsrPnu5vmYrb3btFixkDFShro4PCnz1FdNtrk4CVMlou02Z
+ HCzVmoqm08sK1hkmOYVhruKVFIhhMsi7NxKl/8IUx/GQjhDeSwL2kXI+o4bysNEKshZq
+ g0Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710503191; x=1711107991;
+ d=1e100.net; s=20230601; t=1710503192; x=1711107992;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kbFUU4iMew5gCyNhy6Z/kEtYbNuf40upf3sZEP5LUHU=;
- b=PahzxVOmYHRSJIoI6Onb7jIxUh5960GxmsprFQuRVc9S8GLQCTXMa1lBu5qoHfWwKF
- TpC4kXjUk6r/ZUgmFuuioU/GOvWyDd/urjNUINziBJTm9uFxawnZBFlkc3CnXCWsl4iP
- l7nDppDIwAtCFR/bHDhabJxBkX3n8f4P6zNBxD3YuIXe87z73zoSHAHOfjAOq6pFpkTt
- A0JdNXI4Pt+1gyH+/K+Qq73KtkTI5mgKRkvDSw24xohSi6XFXSW6C1KbdxQHseWkplfa
- kfbX6wWYkv8iGXk9f21w3Qj424P8oQUdXNZrBBsl5u+pCrDmabmvJoVHH0ZlrzUTFwqq
- hjkQ==
+ bh=jnTUQM6F1e6b3ELJmMukNHuHn8ljSCVj2rp0eJe9i4Q=;
+ b=O535atneZpDm4Xa7rw7PJy0bOt3+bLWS4Jp/vh99PteZqKtv6gjCMLaP/SVrfeoCAv
+ 0if+/Z/zRA0km43UVcWRjY+rvRqYb2NK7hDl8YJrlz/kXvGh7aYnh5XzxqIpBcyiR/tX
+ AfCqReHUtvy3b5uMyYFbZKtYGDbf2RWKZBOQCd0kexK0tDpjlBWDToB+uNOfiF480W/e
+ Ljg1Rqn3bo5ZEBoY903151Jue3weYW/2j2pj/VdBTyeOUufBuwX81qdds2H3/vay38oN
+ aePqKKCDyKUHsXivt/IVp09BVK8qSfJPZmmkh3o6rAlh2Yq1KhvSNtbCyp64pfLVi4VM
+ 03YA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUmMaw5jSvE/FhAOtWnj9loPUXCerVfAZj4jj5ZQF2RdvG1NfwRcqphV0P638cA76eibTNEpI9GGO3nRfZsnig+z81A6Tj1LDEgGM/rt0ej
-X-Gm-Message-State: AOJu0YwTRaOVaUW8r6yoIynsWMZSL5QRH/HyOy7ebJnjTO+vs2et9aI2
- rIZiaddbNJHmJ4lC0PaxWihbo7H06UYOboBujnVpiyl+6TYjEtIWjRF4HzERyqA=
-X-Google-Smtp-Source: AGHT+IEra5GU+8/AOetmK7nxauvnJXf86OMdZiW6kboqGK50veynyAiu1151wcCi1PSc6+ipWlNlCQ==
-X-Received: by 2002:a19:a412:0:b0:513:c2aa:6b87 with SMTP id
- q18-20020a19a412000000b00513c2aa6b87mr2009115lfc.39.1710503191335; 
- Fri, 15 Mar 2024 04:46:31 -0700 (PDT)
+ AJvYcCUdNJy+zJ6Y1Fdh+ssDnBie0YL8YfF5ep/O8wUUULbX3oS4GGlyYfKRCX02Yp8fXUYRrn82wg3n5k0D+MoXDRt/MEVghfDDbqgG3gwWfohn
+X-Gm-Message-State: AOJu0Yy0f4UdAloWgW60fAV/Cwh91R/IfB0qfyn0ozTlZODLnNZcQCBT
+ Rf2Zy9cHPEIRr6bbCFft6u0gtZ7W7xeF7j7YwQGC+cKjYe6TbIuNMgkmqhb/plc=
+X-Google-Smtp-Source: AGHT+IEoRfNR3y0gEgP/uDmw8F0W15ppQGrWxJ2gVDuaoQKG4dgQpzYvzZt33ety/zxtkVVFJ3KDnw==
+X-Received: by 2002:a19:430b:0:b0:513:32b1:9654 with SMTP id
+ q11-20020a19430b000000b0051332b19654mr1886658lfa.25.1710503192064; 
+ Fri, 15 Mar 2024 04:46:32 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- l17-20020ac24a91000000b00513b024b232sm619987lfp.10.2024.03.15.04.46.30
+ l17-20020ac24a91000000b00513b024b232sm619987lfp.10.2024.03.15.04.46.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Mar 2024 04:46:30 -0700 (PDT)
+ Fri, 15 Mar 2024 04:46:31 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 15 Mar 2024 13:46:25 +0200
-Subject: [PATCH RFC v3 03/12] drm/msm/dsi: drop mmss_cc.xml.h
+Date: Fri, 15 Mar 2024 13:46:26 +0200
+Subject: [PATCH RFC v3 04/12] drm/msm: move msm_gpummu.c to
+ adreno/a2xx_gpummu.c
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240315-fd-xml-shipped-v3-3-0fc122e36c53@linaro.org>
+Message-Id: <20240315-fd-xml-shipped-v3-4-0fc122e36c53@linaro.org>
 References: <20240315-fd-xml-shipped-v3-0-0fc122e36c53@linaro.org>
 In-Reply-To: <20240315-fd-xml-shipped-v3-0-0fc122e36c53@linaro.org>
 To: Masahiro Yamada <masahiroy@kernel.org>, 
@@ -72,16 +73,16 @@ Cc: linux-kbuild@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7249;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7616;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=gqKp1S6/zn30s6BNuSQoNE5FrMLSKTVvFXbaJQz/Q24=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBl9DUQwXRuuCJ9SGGqhEoiK2ohvVDMgtgdXwHCR
- UJ9D+RVRqCJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZfQ1EAAKCRCLPIo+Aiko
- 1VATB/0aasCxWsyUKnPePlKkzVlVFQP3BtA8urkXlcHA6cb01HV+54ZrdjkYzl/neX8Qh2LkAqj
- CKFeTrp9ihCRaa5mzpS7A27P29bQDux/cTxBhuA4N1m9OxubiZo09pdyF0bkftMzoo/NYnkOFYf
- FgrwCTA58jvDGsiFgbQKPV17O6Qe1/AY7u9oVXeeA1ofgq3f+/uwtmd1mlxxLxTTQbP29PlRTqH
- GitXrhXYv6GPPgR5FuqylXGRPpq8SarTCmffy1e6EASQKFYAAAWWKqyT2w7qbQJSrkuCcPm1+I+
- 3eXNGIDzn28FFISaBp8gG8PRXnWbxvB46XDMkQ4YOHhpB5GN
+ bh=LFBCygmQugB1B+c89cDmQuXR1TkW2sehOLTqu9Lzsnw=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBl9DURJ8VZSfcPhA2hplZSVG4kk9mT8ibTeU+Da
+ oBKruluvnyJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZfQ1EQAKCRCLPIo+Aiko
+ 1WaYB/9rdIObPs25SPYC3qhW4NvqjqGjV/RlE/Na1A3V4aCpsFJPaXbNELqDxwOV8yP2s5YfmSr
+ ZmiNezDGID/gOAFald5S0XE35UA9DUGGPxWGVPtfsgxBuomsN6pdrdNPeZN0u4+Cn6VnLaOfENr
+ 7IQei+0hb/P7Jk+GYPhmFgVJqaITdq1g87H/bEPjqJ3pJmLk7HPBdwHHs6KAIdY1/gBBU1BLksq
+ M8Iw8NP1R2RcMprMQpQ99z61dJlu9rAX6vi7eAGpj6dXjIrTqdqSa/UXM/I7z2VOiAplIBuWz3V
+ tu4XPQmP0rOJQUTW0W2BA1eC3IhOAGeAi/bVvqExPCKQGkpJ
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -99,152 +100,210 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mmss_cc.xml.h file describes bits of the MMSS clock controller on
-APQ8064 / MSM8960 platforms. They are not used by the driver and do not
-belong to the DRM MSM driver. Drop the file.
+The msm_gpummu.c implementation is used only on A2xx and it is tied to
+the A2xx registers. Rename the source file accordingly.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dsi/mmss_cc.xml.h | 131 ----------------------------------
- 1 file changed, 131 deletions(-)
+ drivers/gpu/drm/msm/Makefile                       |  2 +-
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |  4 +-
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.h              |  4 ++
+ .../drm/msm/{msm_gpummu.c => adreno/a2xx_gpummu.c} | 45 ++++++++++++----------
+ drivers/gpu/drm/msm/msm_mmu.h                      |  5 ---
+ 5 files changed, 31 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/mmss_cc.xml.h b/drivers/gpu/drm/msm/dsi/mmss_cc.xml.h
-deleted file mode 100644
-index 7062f7164216..000000000000
---- a/drivers/gpu/drm/msm/dsi/mmss_cc.xml.h
-+++ /dev/null
-@@ -1,131 +0,0 @@
--#ifndef MMSS_CC_XML
--#define MMSS_CC_XML
+diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+index b21ae2880c71..26ed4f443149 100644
+--- a/drivers/gpu/drm/msm/Makefile
++++ b/drivers/gpu/drm/msm/Makefile
+@@ -8,6 +8,7 @@ msm-y := \
+ 	adreno/adreno_device.o \
+ 	adreno/adreno_gpu.o \
+ 	adreno/a2xx_gpu.o \
++	adreno/a2xx_gpummu.o \
+ 	adreno/a3xx_gpu.o \
+ 	adreno/a4xx_gpu.o \
+ 	adreno/a5xx_gpu.o \
+@@ -113,7 +114,6 @@ msm-y += \
+ 	msm_ringbuffer.o \
+ 	msm_submitqueue.o \
+ 	msm_gpu_tracepoints.o \
+-	msm_gpummu.o
+ 
+ msm-$(CONFIG_DEBUG_FS) += adreno/a5xx_debugfs.o \
+ 	dp/dp_debug.o
+diff --git a/drivers/gpu/drm/msm/adreno/a2xx_gpu.c b/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
+index 0d8133f3174b..0dc255ddf5ce 100644
+--- a/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
+@@ -113,7 +113,7 @@ static int a2xx_hw_init(struct msm_gpu *gpu)
+ 	uint32_t *ptr, len;
+ 	int i, ret;
+ 
+-	msm_gpummu_params(gpu->aspace->mmu, &pt_base, &tran_error);
++	a2xx_gpummu_params(gpu->aspace->mmu, &pt_base, &tran_error);
+ 
+ 	DBG("%s", gpu->name);
+ 
+@@ -469,7 +469,7 @@ static struct msm_gpu_state *a2xx_gpu_state_get(struct msm_gpu *gpu)
+ static struct msm_gem_address_space *
+ a2xx_create_address_space(struct msm_gpu *gpu, struct platform_device *pdev)
+ {
+-	struct msm_mmu *mmu = msm_gpummu_new(&pdev->dev, gpu);
++	struct msm_mmu *mmu = a2xx_gpummu_new(&pdev->dev, gpu);
+ 	struct msm_gem_address_space *aspace;
+ 
+ 	aspace = msm_gem_address_space_create(mmu, "gpu", SZ_16M,
+diff --git a/drivers/gpu/drm/msm/adreno/a2xx_gpu.h b/drivers/gpu/drm/msm/adreno/a2xx_gpu.h
+index 161a075f94af..53702f19990f 100644
+--- a/drivers/gpu/drm/msm/adreno/a2xx_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/a2xx_gpu.h
+@@ -19,4 +19,8 @@ struct a2xx_gpu {
+ };
+ #define to_a2xx_gpu(x) container_of(x, struct a2xx_gpu, base)
+ 
++struct msm_mmu *a2xx_gpummu_new(struct device *dev, struct msm_gpu *gpu);
++void a2xx_gpummu_params(struct msm_mmu *mmu, dma_addr_t *pt_base,
++		dma_addr_t *tran_error);
++
+ #endif /* __A2XX_GPU_H__ */
+diff --git a/drivers/gpu/drm/msm/msm_gpummu.c b/drivers/gpu/drm/msm/adreno/a2xx_gpummu.c
+similarity index 67%
+rename from drivers/gpu/drm/msm/msm_gpummu.c
+rename to drivers/gpu/drm/msm/adreno/a2xx_gpummu.c
+index f7d1945e0c9f..39641551eeb6 100644
+--- a/drivers/gpu/drm/msm/msm_gpummu.c
++++ b/drivers/gpu/drm/msm/adreno/a2xx_gpummu.c
+@@ -5,30 +5,33 @@
+ 
+ #include "msm_drv.h"
+ #include "msm_mmu.h"
+-#include "adreno/adreno_gpu.h"
+-#include "adreno/a2xx.xml.h"
+ 
+-struct msm_gpummu {
++#include "adreno_gpu.h"
++#include "a2xx_gpu.h"
++
++#include "a2xx.xml.h"
++
++struct a2xx_gpummu {
+ 	struct msm_mmu base;
+ 	struct msm_gpu *gpu;
+ 	dma_addr_t pt_base;
+ 	uint32_t *table;
+ };
+-#define to_msm_gpummu(x) container_of(x, struct msm_gpummu, base)
++#define to_a2xx_gpummu(x) container_of(x, struct a2xx_gpummu, base)
+ 
+ #define GPUMMU_VA_START SZ_16M
+ #define GPUMMU_VA_RANGE (0xfff * SZ_64K)
+ #define GPUMMU_PAGE_SIZE SZ_4K
+ #define TABLE_SIZE (sizeof(uint32_t) * GPUMMU_VA_RANGE / GPUMMU_PAGE_SIZE)
+ 
+-static void msm_gpummu_detach(struct msm_mmu *mmu)
++static void a2xx_gpummu_detach(struct msm_mmu *mmu)
+ {
+ }
+ 
+-static int msm_gpummu_map(struct msm_mmu *mmu, uint64_t iova,
++static int a2xx_gpummu_map(struct msm_mmu *mmu, uint64_t iova,
+ 		struct sg_table *sgt, size_t len, int prot)
+ {
+-	struct msm_gpummu *gpummu = to_msm_gpummu(mmu);
++	struct a2xx_gpummu *gpummu = to_a2xx_gpummu(mmu);
+ 	unsigned idx = (iova - GPUMMU_VA_START) / GPUMMU_PAGE_SIZE;
+ 	struct sg_dma_page_iter dma_iter;
+ 	unsigned prot_bits = 0;
+@@ -53,9 +56,9 @@ static int msm_gpummu_map(struct msm_mmu *mmu, uint64_t iova,
+ 	return 0;
+ }
+ 
+-static int msm_gpummu_unmap(struct msm_mmu *mmu, uint64_t iova, size_t len)
++static int a2xx_gpummu_unmap(struct msm_mmu *mmu, uint64_t iova, size_t len)
+ {
+-	struct msm_gpummu *gpummu = to_msm_gpummu(mmu);
++	struct a2xx_gpummu *gpummu = to_a2xx_gpummu(mmu);
+ 	unsigned idx = (iova - GPUMMU_VA_START) / GPUMMU_PAGE_SIZE;
+ 	unsigned i;
+ 
+@@ -68,13 +71,13 @@ static int msm_gpummu_unmap(struct msm_mmu *mmu, uint64_t iova, size_t len)
+ 	return 0;
+ }
+ 
+-static void msm_gpummu_resume_translation(struct msm_mmu *mmu)
++static void a2xx_gpummu_resume_translation(struct msm_mmu *mmu)
+ {
+ }
+ 
+-static void msm_gpummu_destroy(struct msm_mmu *mmu)
++static void a2xx_gpummu_destroy(struct msm_mmu *mmu)
+ {
+-	struct msm_gpummu *gpummu = to_msm_gpummu(mmu);
++	struct a2xx_gpummu *gpummu = to_a2xx_gpummu(mmu);
+ 
+ 	dma_free_attrs(mmu->dev, TABLE_SIZE, gpummu->table, gpummu->pt_base,
+ 		DMA_ATTR_FORCE_CONTIGUOUS);
+@@ -83,16 +86,16 @@ static void msm_gpummu_destroy(struct msm_mmu *mmu)
+ }
+ 
+ static const struct msm_mmu_funcs funcs = {
+-		.detach = msm_gpummu_detach,
+-		.map = msm_gpummu_map,
+-		.unmap = msm_gpummu_unmap,
+-		.destroy = msm_gpummu_destroy,
+-		.resume_translation = msm_gpummu_resume_translation,
++		.detach = a2xx_gpummu_detach,
++		.map = a2xx_gpummu_map,
++		.unmap = a2xx_gpummu_unmap,
++		.destroy = a2xx_gpummu_destroy,
++		.resume_translation = a2xx_gpummu_resume_translation,
+ };
+ 
+-struct msm_mmu *msm_gpummu_new(struct device *dev, struct msm_gpu *gpu)
++struct msm_mmu *a2xx_gpummu_new(struct device *dev, struct msm_gpu *gpu)
+ {
+-	struct msm_gpummu *gpummu;
++	struct a2xx_gpummu *gpummu;
+ 
+ 	gpummu = kzalloc(sizeof(*gpummu), GFP_KERNEL);
+ 	if (!gpummu)
+@@ -111,10 +114,10 @@ struct msm_mmu *msm_gpummu_new(struct device *dev, struct msm_gpu *gpu)
+ 	return &gpummu->base;
+ }
+ 
+-void msm_gpummu_params(struct msm_mmu *mmu, dma_addr_t *pt_base,
++void a2xx_gpummu_params(struct msm_mmu *mmu, dma_addr_t *pt_base,
+ 		dma_addr_t *tran_error)
+ {
+-	dma_addr_t base = to_msm_gpummu(mmu)->pt_base;
++	dma_addr_t base = to_a2xx_gpummu(mmu)->pt_base;
+ 
+ 	*pt_base = base;
+ 	*tran_error = base + TABLE_SIZE; /* 32-byte aligned */
+diff --git a/drivers/gpu/drm/msm/msm_mmu.h b/drivers/gpu/drm/msm/msm_mmu.h
+index eb72d3645c1d..88af4f490881 100644
+--- a/drivers/gpu/drm/msm/msm_mmu.h
++++ b/drivers/gpu/drm/msm/msm_mmu.h
+@@ -42,7 +42,6 @@ static inline void msm_mmu_init(struct msm_mmu *mmu, struct device *dev,
+ 
+ struct msm_mmu *msm_iommu_new(struct device *dev, unsigned long quirks);
+ struct msm_mmu *msm_iommu_gpu_new(struct device *dev, struct msm_gpu *gpu, unsigned long quirks);
+-struct msm_mmu *msm_gpummu_new(struct device *dev, struct msm_gpu *gpu);
+ 
+ static inline void msm_mmu_set_fault_handler(struct msm_mmu *mmu, void *arg,
+ 		int (*handler)(void *arg, unsigned long iova, int flags, void *data))
+@@ -53,10 +52,6 @@ static inline void msm_mmu_set_fault_handler(struct msm_mmu *mmu, void *arg,
+ 
+ struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent);
+ 
+-void msm_gpummu_params(struct msm_mmu *mmu, dma_addr_t *pt_base,
+-		dma_addr_t *tran_error);
 -
--/* Autogenerated file, DO NOT EDIT manually!
 -
--This file was generated by the rules-ng-ng headergen tool in this git repository:
--http://github.com/freedreno/envytools/
--git clone https://github.com/freedreno/envytools.git
--
--The rules-ng-ng source files this header was generated from are:
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/msm.xml                   (    944 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/freedreno_copyright.xml   (   1572 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp4.xml              (  20912 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp_common.xml        (   2849 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp5.xml              (  37461 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi.xml               (  18746 bytes, from 2022-04-28 17:29:36)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_v2.xml        (   3236 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm_8960.xml (   4935 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm.xml      (   7004 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_20nm.xml      (   3712 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_14nm.xml      (   5381 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_10nm.xml      (   4499 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_7nm.xml       (  11007 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/sfpb.xml              (    602 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/mmss_cc.xml           (   1686 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/qfprom.xml           (    600 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/hdmi.xml             (  42350 bytes, from 2022-09-20 17:45:56)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/edp/edp.xml               (  10416 bytes, from 2022-03-08 17:40:42)
--
--Copyright (C) 2013-2022 by the following authors:
--- Rob Clark <robdclark@gmail.com> (robclark)
--- Ilia Mirkin <imirkin@alum.mit.edu> (imirkin)
--
--Permission is hereby granted, free of charge, to any person obtaining
--a copy of this software and associated documentation files (the
--"Software"), to deal in the Software without restriction, including
--without limitation the rights to use, copy, modify, merge, publish,
--distribute, sublicense, and/or sell copies of the Software, and to
--permit persons to whom the Software is furnished to do so, subject to
--the following conditions:
--
--The above copyright notice and this permission notice (including the
--next paragraph) shall be included in all copies or substantial
--portions of the Software.
--
--THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
--EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
--MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
--IN NO EVENT SHALL THE COPYRIGHT OWNER(S) AND/OR ITS SUPPLIERS BE
--LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
--OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
--WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
--*/
--
--
--enum mmss_cc_clk {
--	CLK = 0,
--	PCLK = 1,
--};
--
--#define REG_MMSS_CC_AHB						0x00000008
--
--static inline uint32_t __offset_CLK(enum mmss_cc_clk idx)
--{
--	switch (idx) {
--		case CLK: return 0x0000004c;
--		case PCLK: return 0x00000130;
--		default: return INVALID_IDX(idx);
--	}
--}
--static inline uint32_t REG_MMSS_CC_CLK(enum mmss_cc_clk i0) { return 0x00000000 + __offset_CLK(i0); }
--
--static inline uint32_t REG_MMSS_CC_CLK_CC(enum mmss_cc_clk i0) { return 0x00000000 + __offset_CLK(i0); }
--#define MMSS_CC_CLK_CC_CLK_EN					0x00000001
--#define MMSS_CC_CLK_CC_ROOT_EN					0x00000004
--#define MMSS_CC_CLK_CC_MND_EN					0x00000020
--#define MMSS_CC_CLK_CC_MND_MODE__MASK				0x000000c0
--#define MMSS_CC_CLK_CC_MND_MODE__SHIFT				6
--static inline uint32_t MMSS_CC_CLK_CC_MND_MODE(uint32_t val)
--{
--	return ((val) << MMSS_CC_CLK_CC_MND_MODE__SHIFT) & MMSS_CC_CLK_CC_MND_MODE__MASK;
--}
--#define MMSS_CC_CLK_CC_PMXO_SEL__MASK				0x00000300
--#define MMSS_CC_CLK_CC_PMXO_SEL__SHIFT				8
--static inline uint32_t MMSS_CC_CLK_CC_PMXO_SEL(uint32_t val)
--{
--	return ((val) << MMSS_CC_CLK_CC_PMXO_SEL__SHIFT) & MMSS_CC_CLK_CC_PMXO_SEL__MASK;
--}
--
--static inline uint32_t REG_MMSS_CC_CLK_MD(enum mmss_cc_clk i0) { return 0x00000004 + __offset_CLK(i0); }
--#define MMSS_CC_CLK_MD_D__MASK					0x000000ff
--#define MMSS_CC_CLK_MD_D__SHIFT					0
--static inline uint32_t MMSS_CC_CLK_MD_D(uint32_t val)
--{
--	return ((val) << MMSS_CC_CLK_MD_D__SHIFT) & MMSS_CC_CLK_MD_D__MASK;
--}
--#define MMSS_CC_CLK_MD_M__MASK					0x0000ff00
--#define MMSS_CC_CLK_MD_M__SHIFT					8
--static inline uint32_t MMSS_CC_CLK_MD_M(uint32_t val)
--{
--	return ((val) << MMSS_CC_CLK_MD_M__SHIFT) & MMSS_CC_CLK_MD_M__MASK;
--}
--
--static inline uint32_t REG_MMSS_CC_CLK_NS(enum mmss_cc_clk i0) { return 0x00000008 + __offset_CLK(i0); }
--#define MMSS_CC_CLK_NS_SRC__MASK				0x0000000f
--#define MMSS_CC_CLK_NS_SRC__SHIFT				0
--static inline uint32_t MMSS_CC_CLK_NS_SRC(uint32_t val)
--{
--	return ((val) << MMSS_CC_CLK_NS_SRC__SHIFT) & MMSS_CC_CLK_NS_SRC__MASK;
--}
--#define MMSS_CC_CLK_NS_PRE_DIV_FUNC__MASK			0x00fff000
--#define MMSS_CC_CLK_NS_PRE_DIV_FUNC__SHIFT			12
--static inline uint32_t MMSS_CC_CLK_NS_PRE_DIV_FUNC(uint32_t val)
--{
--	return ((val) << MMSS_CC_CLK_NS_PRE_DIV_FUNC__SHIFT) & MMSS_CC_CLK_NS_PRE_DIV_FUNC__MASK;
--}
--#define MMSS_CC_CLK_NS_VAL__MASK				0xff000000
--#define MMSS_CC_CLK_NS_VAL__SHIFT				24
--static inline uint32_t MMSS_CC_CLK_NS_VAL(uint32_t val)
--{
--	return ((val) << MMSS_CC_CLK_NS_VAL__SHIFT) & MMSS_CC_CLK_NS_VAL__MASK;
--}
--
--#define REG_MMSS_CC_DSI2_PIXEL_CC				0x00000094
--
--#define REG_MMSS_CC_DSI2_PIXEL_NS				0x000000e4
--
--#define REG_MMSS_CC_DSI2_PIXEL_CC2				0x00000264
--
--
--#endif /* MMSS_CC_XML */
+ int msm_iommu_pagetable_params(struct msm_mmu *mmu, phys_addr_t *ttbr,
+ 		int *asid);
+ struct iommu_domain_geometry *msm_iommu_get_geometry(struct msm_mmu *mmu);
 
 -- 
 2.39.2
