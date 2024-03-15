@@ -2,73 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F40287CA6D
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 10:09:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB9E87CA7A
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 10:15:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB0A411204F;
-	Fri, 15 Mar 2024 09:09:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD2B3112058;
+	Fri, 15 Mar 2024 09:15:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KY1alzzU";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="j7CQdFq4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D07F11204E;
- Fri, 15 Mar 2024 09:09:33 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-414025406d7so1204635e9.2; 
- Fri, 15 Mar 2024 02:09:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1710493771; x=1711098571; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=rGxpqeVYITmqsu8ISYbdggA8wEernvQ3qM2whpST9xA=;
- b=KY1alzzU9Sxpef7sbq38DwdJVWUsuQeUuBLBpATLeGn5Zb3JkHNkQqmtM2yOohlXti
- NvUZQx02u/mI84HP492KJIKHFzc5K4JTMyLNkQMyTgBcOFgvlMNGdrP5wA/XdlQffVN+
- G1LnYfG4BG1xz/rYcJnSSwDHSRJhn7uUMW7ImoQde56J3rzpomT/hNhmsBudZ7rkW+cV
- Z2JkdpDxm+kWSDQ54GWwVjQYNial72+1KRxLMn5vLD9C4Xmx6lPhbdp8/r6FAOhM8zvU
- PdYpjomoVkUk4KGJp6XXAAZYDtclZ/53DcgARwIlaJFVJGADdlJZTmeTESvJifWgbqxa
- 1fkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710493771; x=1711098571;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=rGxpqeVYITmqsu8ISYbdggA8wEernvQ3qM2whpST9xA=;
- b=ZVSUsVudnPsxPoLiIEBqdwWPOEKVVz1jS703K4EvrxfXuuNALcPrywk+g9ijt4kXZE
- VWRBFe/lBBe2OFvNoIU41YeDBFUno4kn8Hvk1jvfX5bHX/wpQ8gCvZhx5xoM8YTke4UP
- Fc3ZYHRJFrXZHvqKBKxOmlcrDUiQbqC6o0BcE9ruofbCiXi1+t9czIByjB2qsdCYeem8
- xu6XCXRzk6EaFKwXN99iY/JyllQMlaAMrTJAopUdbzbsHYvpzHYfjFVL+YeNRHaeB3hp
- JVYl9mw8PUl+T9shmlFhAsyWSTyX7pv8MYXBflU1r1Ttey9iTwaazQiMjShcjNA52cE/
- ZFiQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWLw49EyK0EoD81Cp8WReCNmi1AS1wZJUD9yZniFkfaHyi5b0pkiA3GaUf/tDDzPOeH6m01mqhIK9kqIeRPuA2wmWkrj4Hzt9FmN4fuijkjDRDnmEEl74v1jbuLDBjkSr+rMAt0iVQF/vK863Ww6Q==
-X-Gm-Message-State: AOJu0Yxq7z5EaOxl5ZMPWgSpSJJzJgftJZesBcX9F2X8Ao+WI0W313I5
- F6rtFuvMI3bqBA/hV879AZ7b4XtYW4XURzY5mpZ7uJdSe21xUaxt
-X-Google-Smtp-Source: AGHT+IH4hfq7wKhnrhc38RUmnv/6x309HrRcxXSHxhQRObiDiRWGWskNZ5S1CEfcYDXBUw1fO9QhWA==
-X-Received: by 2002:a05:600c:4f07:b0:413:1139:3bec with SMTP id
- l7-20020a05600c4f0700b0041311393becmr2890485wmq.35.1710493771112; 
- Fri, 15 Mar 2024 02:09:31 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
- bi10-20020a05600c3d8a00b00414009768b0sm1499649wmb.33.2024.03.15.02.09.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Mar 2024 02:09:30 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Ben Skeggs <bskeggs@redhat.com>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] drm/nouveau/gr/gf100: Remove second semicolon
-Date: Fri, 15 Mar 2024 09:09:30 +0000
-Message-Id: <20240315090930.2429958-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.2
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BA4E112058
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 09:15:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1710494124;
+ bh=acrQ5oOzFvIptP0m55ggct7J15MBntUB7Hgt+FmRFRg=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=j7CQdFq496EcdadWXv01UmcL6cPMnEne0Ve8NgUX6EIsZfO28poLm/zYFElsRmg8r
+ L02tS8PomCFcYDO2g/Fpm6YlBqVX/p3IqIaxspuWPkGOYg1N1bGS+r6vAxDsKVKg+e
+ xiDOpoNn6GD1INtI2opCCnng8fin2PPXPROdpsqeOZhWLzYqRG/i+eHB+mYljXN4CE
+ sBKniqwVIkFU3vB2+zdfX0ICiRTuEItOr+lnz/V2pFkMZrcCk4q5rvTxNqt5uvNxXJ
+ AewYrKTKhrLaqm9vCBSfDpgEFOzbsvh9u3hyfcFeMqChvHglqGLhJr0cKE8r+7M/1i
+ pTRd13IOCOfWg==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 36ED137820FD;
+ Fri, 15 Mar 2024 09:15:23 +0000 (UTC)
+Message-ID: <d295a448-1b50-47be-92a2-770501c83e18@collabora.com>
+Date: Fri, 15 Mar 2024 10:15:22 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mediatek: dsi: Correct calculation formula of PHY Timing
+To: Shuijing Li <shuijing.li@mediatek.com>, chunkuang.hu@kernel.org,
+ p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ matthias.bgg@gmail.com, jitao.shi@mediatek.com
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20240315072945.19502-1-shuijing.li@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240315072945.19502-1-shuijing.li@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,27 +64,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a statement with two semicolons. Remove the second one, it
-is redundant.
+Il 15/03/24 08:29, Shuijing Li ha scritto:
+> This patch correct calculation formula of PHY timing.
+> Make actual phy timing more accurate.
+> 
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+More accurate in which cases? By how much? On which SoC(s)?
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
-index 986e8d547c94..060c74a80eb1 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
-@@ -420,7 +420,7 @@ gf100_gr_chan_new(struct nvkm_gr *base, struct nvkm_chan *fifoch,
- 			return ret;
- 	} else {
- 		ret = nvkm_memory_map(gr->attrib_cb, 0, chan->vmm, chan->attrib_cb,
--				      &args, sizeof(args));;
-+				      &args, sizeof(args));
- 		if (ret)
- 			return ret;
- 	}
--- 
-2.39.2
+I agree about those changes if those are improving the PHY timing, but
+can you please document what's going on?
+
+Thanks,
+Angelo
+
+> Signed-off-by: Shuijing Li <shuijing.li@mediatek.com>
+> ---
+>   drivers/gpu/drm/mediatek/mtk_dsi.c | 33 +++++++++++++++---------------
+>   1 file changed, 17 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> index a2fdfc8ddb15..d1bd7d671880 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -235,22 +235,23 @@ static void mtk_dsi_phy_timconfig(struct mtk_dsi *dsi)
+>   	u32 data_rate_mhz = DIV_ROUND_UP(dsi->data_rate, 1000000);
+>   	struct mtk_phy_timing *timing = &dsi->phy_timing;
+>   
+> -	timing->lpx = (60 * data_rate_mhz / (8 * 1000)) + 1;
+> -	timing->da_hs_prepare = (80 * data_rate_mhz + 4 * 1000) / 8000;
+> -	timing->da_hs_zero = (170 * data_rate_mhz + 10 * 1000) / 8000 + 1 -
+> -			     timing->da_hs_prepare;
+> -	timing->da_hs_trail = timing->da_hs_prepare + 1;
+> -
+> -	timing->ta_go = 4 * timing->lpx - 2;
+> -	timing->ta_sure = timing->lpx + 2;
+> -	timing->ta_get = 4 * timing->lpx;
+> -	timing->da_hs_exit = 2 * timing->lpx + 1;
+> -
+> -	timing->clk_hs_prepare = 70 * data_rate_mhz / (8 * 1000);
+> -	timing->clk_hs_post = timing->clk_hs_prepare + 8;
+> -	timing->clk_hs_trail = timing->clk_hs_prepare;
+> -	timing->clk_hs_zero = timing->clk_hs_trail * 4;
+> -	timing->clk_hs_exit = 2 * timing->clk_hs_trail;
+> +	timing->lpx = (80 * data_rate_mhz / (8 * 1000)) + 1;
+> +	timing->da_hs_prepare = (59 * data_rate_mhz + 4 * 1000) / 8000 + 1;
+> +	timing->da_hs_zero = (163 * data_rate_mhz + 11 * 1000) / 8000 + 1 -
+> +		timing->da_hs_prepare;
+> +	timing->da_hs_trail = (78 * data_rate_mhz + 7 * 1000) / 8000 + 1;
+> +
+> +	timing->ta_go = 4 * timing->lpx;
+> +	timing->ta_sure = 3 * timing->lpx / 2;
+> +	timing->ta_get = 5 * timing->lpx;
+> +	timing->da_hs_exit = (118 * data_rate_mhz / (8 * 1000)) + 1;
+> +
+> +	timing->clk_hs_prepare = (57 * data_rate_mhz / (8 * 1000)) + 1;
+> +	timing->clk_hs_post = (65 * data_rate_mhz + 53 * 1000) / 8000 + 1;
+> +	timing->clk_hs_trail = (78 * data_rate_mhz + 7 * 1000) / 8000 + 1;
+> +	timing->clk_hs_zero = (330 * data_rate_mhz / (8 * 1000)) + 1 -
+> +		timing->clk_hs_prepare;
+> +	timing->clk_hs_exit = (118 * data_rate_mhz / (8 * 1000)) + 1;
+>   
+>   	timcon0 = timing->lpx | timing->da_hs_prepare << 8 |
+>   		  timing->da_hs_zero << 16 | timing->da_hs_trail << 24;
+
+
 
