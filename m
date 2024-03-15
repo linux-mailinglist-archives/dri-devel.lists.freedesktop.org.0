@@ -2,71 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E12687D29C
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 18:20:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AEDB87D2E5
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 18:36:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D5D61123C7;
-	Fri, 15 Mar 2024 17:20:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB2F01123E0;
+	Fri, 15 Mar 2024 17:36:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LgAdGsvf";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="GgKqFrxX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
- [209.85.208.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3A921123C7
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 17:20:27 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id
- 4fb4d7f45d1cf-5684ea117a3so3281285a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 10:20:27 -0700 (PDT)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51E901123E0
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 17:36:24 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-2d204e102a9so28835061fa.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 10:36:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1710523226; x=1711128026; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FwAX4nwSw1BpGWmAiiHfKPKPhAsbNxBwd5lUsCTzQaI=;
- b=LgAdGsvfWkfjXehpZKoblZTYqQZtANQ0W9w8b+Xy0/NdHuwZZmJO0aB6cZt5byz3Vw
- DK6D07iiHgZgv+Y0597yY+HAIWJNpkxVkkgaA0kjgr/2mLDT33b1coj3IA7RQGIYgOjm
- EroF204Q0cVaU3eUIDHthv59EJK8YMSGY4u52SJFyIapirFx2Qsi+3vacQThwyBHK+h8
- wenFE0/1hfAk3CgPmtHVrmLF5EFXW21sV6Gy0CV2CPXGrBSLTR8DdoZwFiPqFMbZh5qU
- eKrFwIFbij+UHQEddrb1Lhzh9+AlmJULt5Y+XrAtqm0Vh8uX+CHjPKtiOFUFDucbcKGA
- /6hw==
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710524183; x=1711128983;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4ec9RrIuQWFrWDmIdusRv4/vXGJuKnTeszoS+IpWRfc=;
+ b=GgKqFrxXFvly37dqvowxeNp3Zhc19BHTL0bhQie4QA5fhll1+2gOygNLLFpVpQ9Z9k
+ m08UHRKaUnGq3qKrdw53hAJYMXd4DAAnpXBMcDK+mf5NKqPpepq4sEIoRhEb8xQUqq6o
+ o6qP+Kj94W3OOy0ndcCssu0S7j4Mej4+O68FqgXSbvsO7wcz1ydMquErzsunJv0lpNLl
+ A+SCI5RS48loQC5Hb9eJWOoeuNFtw+c8Lmb17AmXxjUggpxEj3mOWjH5hpzG1ePefJ7d
+ vayttM2YFQu52XaUTgdZcjkCLUlnnMfQiRK/ixfK9jb3dIetfjSg7Wv75lJyASsXjq31
+ 5rMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710523226; x=1711128026;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FwAX4nwSw1BpGWmAiiHfKPKPhAsbNxBwd5lUsCTzQaI=;
- b=DjKOi0mZjOan9kBkxnQA84hsXRfeMpJdfpeZKLgWMWkkHe1SgpLhNvePcpQQxDEXVz
- mYtWpwPUbU8Aj7HFalATATL9OOdm4uNlFOITczvwPII1F7TUw94LdvGKQj58QG7PTgkI
- TUq6zNv22SxeeKLFJGRUJHQkty//Vf/gW/qi9Clc33nprVspj8bf1UDhuZYykksAiNaL
- VfACuD0KakwccFhOuoVudoKO2HxvEtvymsl3OXP/xYEKNBFNLp9UQRPvaNIlKyaM5R/R
- nPc3E2EkxlFO97U8fK05D8/4eJZZ23lHsMyli4ul+QxIWEVJpgHmZlK3pyINYo+gcNqH
- 9B4A==
+ d=1e100.net; s=20230601; t=1710524183; x=1711128983;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4ec9RrIuQWFrWDmIdusRv4/vXGJuKnTeszoS+IpWRfc=;
+ b=Yzh/c9oZqcgupfElFgOZbUBDA5fiFssSzon0Bz8cn6d9BXNhocdVvNIwPSRr/gLiQy
+ QtAWW3G6oEr3z2nc+VPn7TnF/6rrH+n0J8G2c13JnEmAI8TypdWQr01m8i/S9Q5KFYxR
+ WIu8foiArCEiUSku+nbOcKI2cpgsxhaschUfrq/3FpnYnF9SrovVjdhvmdzsh9p7L+nB
+ G5BI/bV1ddTdIlHjgfPSSmScT0hAt25maEbDNBULVfSuLANeQI0oJgbTrbapqnn00I0t
+ QoZ0IAJzG5JYEXQzpujJV2HUOGCu8/HyzxWZ25xmpYmS7degXXRZv2ucJ8dhcUBakrPv
+ hFwg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW6ZxsEts9MeG5njhuZo/YSw6oeT3Lq0ZPQWF37/qdLlXRLzghVa8LvR3yBINNMfk7/9mbhrcATlgwXfLAjNvbRfuO7nv8wIQcrOOKSDTwX
-X-Gm-Message-State: AOJu0YyYZpZE+1F4a20tmLZT5p2Gb1UPX3TcbLnKRl7iGm07RQMvsj+W
- WBjBa2eMfXqGNuCrnzHlmoXq/Esv2hn9d+wg9g5KeMDvaG9auTWtTRflzFY18W1dT8A3nk5D5E+
- X9osSMNFHb7ly8jbT8+VJOZb2xCU=
-X-Google-Smtp-Source: AGHT+IH3oICyMBuaPYkH/vdPPUm0CFjSt4vNdxpkF2VIOGaHx8olpd7wN05RI0TOibBnfV66eaTs9EbyMQKXPpkJx2w=
-X-Received: by 2002:a05:6402:1f82:b0:567:3ed0:47ec with SMTP id
- c2-20020a0564021f8200b005673ed047ecmr4813763edc.23.1710523225862; Fri, 15 Mar
- 2024 10:20:25 -0700 (PDT)
+ AJvYcCU0nkee1fd2uMVfLqnhWD/glqd1sF9H6DkxtSmWqrlwi5U6zYdkTlr2PN+pADALSlCQvDN0wvfdvC4ZviurKyUZM8VrQdAO8ZUBaPlVoVZw
+X-Gm-Message-State: AOJu0YzFNeltY/LwS/MqvFmM0Co1+GQsvItiFL0Nw/eZ4st/qe1PXjQ2
+ 4OuNwpfK4ZPat7azU8sBBdXHAO+LQtHAVNEZppfNmDnCZhbq6VX4E/k1W6l5IMY=
+X-Google-Smtp-Source: AGHT+IFk5NGPtCj8mXhvsYrdH1nre5XfSVGVRBDeRwQi7zLXGNIq4CodW9FczpHV1YSFYg82SuoADQ==
+X-Received: by 2002:a05:651c:23a:b0:2d3:3b37:db78 with SMTP id
+ z26-20020a05651c023a00b002d33b37db78mr3420227ljn.16.1710524182477; 
+ Fri, 15 Mar 2024 10:36:22 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+ by smtp.gmail.com with ESMTPSA id
+ ca18-20020a170906a3d200b00a469ebf37dfsm46312ejb.203.2024.03.15.10.36.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 Mar 2024 10:36:21 -0700 (PDT)
+Message-ID: <a9ad625a-c6fd-44f1-8776-aa5d54b448ae@baylibre.com>
+Date: Fri, 15 Mar 2024 18:36:19 +0100
 MIME-Version: 1.0
-References: <CAF6AEGsRLPqddgc2MKCXKD1TDFuwxRs_6Pj=oDuj4gah0D-07Q@mail.gmail.com>
- <87a5mzrgie.fsf@intel.com>
-In-Reply-To: <87a5mzrgie.fsf@intel.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 15 Mar 2024 10:20:13 -0700
-Message-ID: <CAF6AEGt=8mz8S+nBQ1a3mCNLFhBrfcc5XfmNrTQ=62J-m+_3Jg@mail.gmail.com>
-Subject: Re: Time for drm-ci-next?
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Helen Koike <helen.koike@collabora.com>,
- Vignesh Raman <vignesh.raman@collabora.com>, 
- Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 12/18] ASoC: codecs: mt6357: add MT6357 codec
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Nicolas Belin <nbelin@baylibre.com>
+References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+ <20240226-audio-i350-v1-12-4fa1cea1667f@baylibre.com>
+ <9891855d-2284-42e4-9d3a-35ba406540e8@sirena.org.uk>
+ <c441a132-b16b-4244-a712-8971c902d4d7@baylibre.com>
+ <ff3d2db1-697b-42c6-a0f2-74276e9fc098@sirena.org.uk>
+ <dda0e6ba-4538-47a0-95e9-6adcfd4169a7@baylibre.com>
+ <0d31ffb2-9df5-4c3e-a728-902b71a1a713@sirena.org.uk>
+ <fd53a0e7-fa70-4c0d-b578-393183487335@baylibre.com>
+ <0a41b498-5cca-4487-a0e0-0df749f6e796@sirena.org.uk>
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <0a41b498-5cca-4487-a0e0-0df749f6e796@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,52 +107,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 15, 2024 at 2:28=E2=80=AFAM Jani Nikula <jani.nikula@linux.inte=
-l.com> wrote:
->
-> On Thu, 14 Mar 2024, Rob Clark <robdclark@gmail.com> wrote:
-> > When we first merged drm/ci I was unsure if it would need it's own
-> > -next branch.  But after using it for a couple releases, a few times
-> > I've found myself wanting to backmerge drm/ci changes without
-> > necessarily backmerging all of drm-misc-next.
-> >
-> > So, maybe it makes some sense to have a drm-ci-next branch that
-> > driver-maintainers could back-merge as-needed?
->
-> That's a crossmerge instead of a backmerge, and I feel that could get
-> messy. What if folks crossmerge drm-ci-next but it gets rejected for
-> drm-next? Or the baselines are different, and the crossmerge pulls in
-> way more stuff than it should?
-
-Yeah, it would defeat the point a bit of drm-ci-next was on too new of
-a baseline, the whole point is to be able to merge CI changes without
-pulling in unrelated changes.  So drm-ci-next would need to base on
-something older, like the previous kernel release tag.
-
-> IMO the route should be drm-ci-next -> pull request to drm-next ->
-> backmerge drm-next to drivers and drm-misc-next.
->
-> I'm not opposed to having drm-ci-next at all, mainly indifferent, but I
-> question the merge flows. And then the question becomes, does my
-> suggested merge flow complicate your original goal?
->
-
-I guess we could avoid merging drm-ci-next until it had been merged
-into drm-next?
-
-Basically, I often find myself needing to merge CI patches on top of
-msm-next in order to run CI, and then after a clean CI run, reset HEAD
-back before the merge and force-push.  Which isn't really how things
-should work.
-
-BR,
--R
 
 
->
-> BR,
-> Jani.
->
->
-> --
-> Jani Nikula, Intel
+On 15/03/2024 16:15, Mark Brown wrote:
+> On Fri, Mar 15, 2024 at 04:05:21PM +0100, Alexandre Mergnat wrote:
+>> On 15/03/2024 15:30, Mark Brown wrote:
+> 
+>>>> Let me know, when you change de gain to do a ramp down (start from user gain
+>>>> to gain=-40db), next time for the ramp up, how/where do you find the user
+>>>> gain ?
+> 
+>>> In the register.  You only need to reset the gain to -40dB at the start
+>>> of the ramp.
+> 
+>> Sorry but I don't understand your logic, I'm not able to implement it...
+>> If I'm at -10dB and doing a ramp to reach -40dB, next time I will read the
+>> register the value will be -40dB.
+> 
+> After we've done the ramp and turned the amplifier off we can just
+> restore the desired value?  The hardware is not going to care what the
+> volume is while it's not enabled.
+
+If you do that, HP will be enabled at the saved gain, and after that you 
+will do the ramp. To avoid pop, the driver should be rewrite to:
+
+   Read gain in the reg and save it locally
+   Set -40dB in the reg
+   Enable HP
+   Do ramp
+
+And for the shutdown:
+
+   Read gain in the reg and save it locally
+   Do ramp
+   Disable HP
+   Set saved gain in the reg
+
+
+To resume, that add 4 more steps to save 2 integers into the driver 
+structure.
+
+IMHO, I don't think it make the code more readable or optimized, but I 
+don't have a strong opinion about that, so if you think it's better, I 
+will change it.
+
+
+> 
+>> This implementation is also done in other MTK audio codec drivers.
+> 
+> Perhaps they should be updated too?
+> 
+>>>> When microphone isn't capturing, the gain read back from the register is
+>>>> 0dB. I've put some logs in my code and do capture to show how it works:
+> 
+>>> Is this a property of the hardware or a property of your driver?
+> 
+>> At the end of the capture, the gain is set to 0dB by the driver.
+>> At the start of the capture, the gain is set to the setup gain.
+> 
+> So that's a property of the driver then?
+
+Yes
+
+> 
+>> AFAII from the comment in the code, it's done to avoid the "pop noises".
+> 
+> Yes, that's the usual reason to ramp gains.  Though if you've just
+> copied the code without checking that it's needed it's possible that
+> this is something that's been fixed in current hardware.
+
+I did the test at 24dB with and without the "pop filter". Isn't big but 
+I ear the pop at the start of the record without the "pop filter".
+
+To be clear, the algo/behavior of this code is an implementation based 
+on the 6k+ lines downstream code for this specific audio codec. But the 
+shape/style is based on upstreamed drivers like mt6358.c.
+
+-- 
+Regards,
+Alexandre
