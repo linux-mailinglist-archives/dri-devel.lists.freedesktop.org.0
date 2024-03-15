@@ -2,69 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3828987CFF5
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 16:16:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ADBD87D022
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Mar 2024 16:24:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52C8E10F024;
-	Fri, 15 Mar 2024 15:16:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED6FC10F02B;
+	Fri, 15 Mar 2024 15:24:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Z6UQVzJD";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="q3FqpOfr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D298210F024
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 15:16:04 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DC4B10F02B
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Mar 2024 15:24:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 65B1CCE20D8;
- Fri, 15 Mar 2024 15:16:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C680C433F1;
- Fri, 15 Mar 2024 15:15:56 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0961B60C06;
+ Fri, 15 Mar 2024 15:24:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D9BEC43399;
+ Fri, 15 Mar 2024 15:24:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1710515761;
- bh=JetYKg36RGIdkXrH8sSoGmguKkbdT3c+edAG3vVoLks=;
+ s=k20201202; t=1710516270;
+ bh=dv2BQE3C1SVPJZ9yimIjK4LwzWdStVZ/9oh5jMElhhY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Z6UQVzJDHdLFI/FI8NYnDUEw4xnU4jAVfiYnJa7PImFmHArIldd+gIV3Sv2UQwCGZ
- 9Ax3SpbT9vkcMC7t4p3Zfj1jIn4bGhzHu4dq2KCraI7LAE/NU3z54DZji/qrZXXo61
- sptSTer//vPtvWSriM+ymuqmO77T0AvZg1YzEQw/BPikvjeE+M1R/KsxX/MLlKhBzY
- jbHmdHzfeyUuZoWykiI8NkuSojEMzfOk4bj14VxQxqGF5lq2Wd6y+agWxXx+vx29oh
- BWLxPgFUv8c8QrU2p+BHTR1HgmqxOZM93ujA2zaLrLXUvLusk84biWueGVvifRqFhn
- SwYBfpHlb7iKw==
-Date: Fri, 15 Mar 2024 15:15:54 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Alexandre Mergnat <amergnat@baylibre.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ b=q3FqpOfrAyIR0n1E/BYxHdrafNQUI/II/3xPBGFjRQNvkIA01sH3u4copbooOrd3l
+ cRwBP0tW8u99Seoh6KsfPE1T1QtAsMbO4zDIIF7MqubfKvhbJT3QT7LuxU791IX8GM
+ UYz2rm9RIu2cFyNcBJjktCKjMZDq9YLqSWcfrs9bEa/ncZjulHerbNMkbnI07kw/ai
+ OoMWt4pwdQzPG/WHuiPEx+viosvck3Xd+K48mJL/SOPmw/pq1eHIa/T8ejz0Gm7LIY
+ kHEsgUD9Xm4HNHRh58vrGDimxevSRqZlNwLT/ZnktUXTFGENoXw00lLYMqUqOUDI0f
+ oAU6KTk/Sgo9A==
+Date: Fri, 15 Mar 2024 16:24:27 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: "Klymenko, Anatoliy" <Anatoliy.Klymenko@amd.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ "Simek, Michal" <michal.simek@amd.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nicolas Belin <nbelin@baylibre.com>
-Subject: Re: [PATCH 12/18] ASoC: codecs: mt6357: add MT6357 codec
-Message-ID: <0a41b498-5cca-4487-a0e0-0df749f6e796@sirena.org.uk>
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <20240226-audio-i350-v1-12-4fa1cea1667f@baylibre.com>
- <9891855d-2284-42e4-9d3a-35ba406540e8@sirena.org.uk>
- <c441a132-b16b-4244-a712-8971c902d4d7@baylibre.com>
- <ff3d2db1-697b-42c6-a0f2-74276e9fc098@sirena.org.uk>
- <dda0e6ba-4538-47a0-95e9-6adcfd4169a7@baylibre.com>
- <0d31ffb2-9df5-4c3e-a728-902b71a1a713@sirena.org.uk>
- <fd53a0e7-fa70-4c0d-b578-393183487335@baylibre.com>
+ Conor Dooley <conor+dt@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v2 8/8] drm: xlnx: Intoduce TPG CRTC driver
+Message-ID: <20240315-quiet-pragmatic-capuchin-79c2ab@houat>
+References: <20240312-dp-live-fmt-v2-0-a9c35dc5c50d@amd.com>
+ <20240312-dp-live-fmt-v2-8-a9c35dc5c50d@amd.com>
+ <20240314-esoteric-delicate-sidewinder-5dc4db@houat>
+ <MW4PR12MB7165A15E233957E3914AA297E6292@MW4PR12MB7165.namprd12.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="fgDyTJrdbX73HLO7"
+ protocol="application/pgp-signature"; boundary="uhyiww26fdxh7rdb"
 Content-Disposition: inline
-In-Reply-To: <fd53a0e7-fa70-4c0d-b578-393183487335@baylibre.com>
-X-Cookie: A well-known friend is a treasure.
+In-Reply-To: <MW4PR12MB7165A15E233957E3914AA297E6292@MW4PR12MB7165.namprd12.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,61 +76,117 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---fgDyTJrdbX73HLO7
+--uhyiww26fdxh7rdb
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 15, 2024 at 04:05:21PM +0100, Alexandre Mergnat wrote:
-> On 15/03/2024 15:30, Mark Brown wrote:
+On Thu, Mar 14, 2024 at 07:43:30PM +0000, Klymenko, Anatoliy wrote:
+> > > +/*
+> > > +---------------------------------------------------------------------
+> > > +--------
+> > > + * DRM CRTC
+> > > + */
+> > > +
+> > > +static enum drm_mode_status xlnx_tpg_crtc_mode_valid(struct drm_crtc
+> > *crtc,
+> > > +						     const struct
+> > drm_display_mode *mode) {
+> > > +	return MODE_OK;
+> > > +}
+> > > +
+> > > +static int xlnx_tpg_crtc_check(struct drm_crtc *crtc,
+> > > +			       struct drm_atomic_state *state) {
+> > > +	struct drm_crtc_state *crtc_state =3D
+> > drm_atomic_get_new_crtc_state(state, crtc);
+> > > +	int ret;
+> > > +
+> > > +	if (!crtc_state->enable)
+> > > +		goto out;
+> > > +
+> > > +	ret =3D drm_atomic_helper_check_crtc_primary_plane(crtc_state);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +out:
+> > > +	return drm_atomic_add_affected_planes(state, crtc); }
+> > > +
+> >=20
+> > [...]
+> >=20
+> > > +
+> > > +static u32 xlnx_tpg_crtc_select_output_bus_format(struct drm_crtc *c=
+rtc,
+> > > +						  struct drm_crtc_state
+> > *crtc_state,
+> > > +						  const u32 *in_bus_fmts,
+> > > +						  unsigned int
+> > num_in_bus_fmts) {
+> > > +	struct xlnx_tpg *tpg =3D crtc_to_tpg(crtc);
+> > > +	unsigned int i;
+> > > +
+> > > +	for (i =3D 0; i < num_in_bus_fmts; ++i)
+> > > +		if (in_bus_fmts[i] =3D=3D tpg->output_bus_format)
+> > > +			return tpg->output_bus_format;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static const struct drm_crtc_helper_funcs xlnx_tpg_crtc_helper_funcs=
+ =3D {
+> > > +	.mode_valid =3D xlnx_tpg_crtc_mode_valid,
+> > > +	.atomic_check =3D xlnx_tpg_crtc_check,
+> > > +	.atomic_enable =3D xlnx_tpg_crtc_enable,
+> > > +	.atomic_disable =3D xlnx_tpg_crtc_disable,
+> > > +	.select_output_bus_format =3D xlnx_tpg_crtc_select_output_bus_forma=
+t,
+> > > +};
+> >=20
+> > From that code, it's not clear to me how the CRTC is going to be able t=
+o get what
+> > the format is.
+> >=20
+>=20
+> It's coming from DT "bus-format" property. The idea is that this
+> property will reflect the FPGA design variation synthesized.
+>=20
+> > It looks like you hardcode it here, but what if there's several that
+> > would fit the bill? Is the CRTC expected to store it into its
+> > private structure?
+> >=20
+>=20
+> It's impractical from the resources utilization point of view to
+> support multiple runtime options for FPGA-based CRTCs output signal
+> format, so the bus-format will be runtime fixed but can vary between
+> differently synthesized instances.
+>
+> > If so, I would expect it to be in the crtc state, and atomic_enable to =
+just reuse
+> > whatever is in the state.
+> >=20
+>=20
+> This could be totally valid for different kinds of CRTCs, although for
+> this particular case, the bus-fomat choice is runtime immutable.
 
-> > > Let me know, when you change de gain to do a ramp down (start from user gain
-> > > to gain=-40db), next time for the ramp up, how/where do you find the user
-> > > gain ?
+Sure, but we're still discussing an API to accomodate your use-case
+here. Your usecase is one thing, but the API has to be cover all cases,
+and there's definitely some CRTCs out there that support multiple output
+formats that would benefit from that API.
 
-> > In the register.  You only need to reset the gain to -40dB at the start
-> > of the ramp.
+And it would mimic the drm_bridge API, which is a nice consistency
+bonus.
 
-> Sorry but I don't understand your logic, I'm not able to implement it...
-> If I'm at -10dB and doing a ramp to reach -40dB, next time I will read the
-> register the value will be -40dB.
+Maxime
 
-After we've done the ramp and turned the amplifier off we can just
-restore the desired value?  The hardware is not going to care what the
-volume is while it's not enabled.
-
-> This implementation is also done in other MTK audio codec drivers.
-
-Perhaps they should be updated too?
-
-> > > When microphone isn't capturing, the gain read back from the register is
-> > > 0dB. I've put some logs in my code and do capture to show how it works:
-
-> > Is this a property of the hardware or a property of your driver?
-
-> At the end of the capture, the gain is set to 0dB by the driver.
-> At the start of the capture, the gain is set to the setup gain.
-
-So that's a property of the driver then?
-
-> AFAII from the comment in the code, it's done to avoid the "pop noises".
-
-Yes, that's the usual reason to ramp gains.  Though if you've just
-copied the code without checking that it's needed it's possible that
-this is something that's been fixed in current hardware.
-
---fgDyTJrdbX73HLO7
+--uhyiww26fdxh7rdb
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmX0ZikACgkQJNaLcl1U
-h9ANMQf7BdfrOiW1Xoo2hUjwcif1X0ikLf9S3dwVoevqKNXQHOBvrNlZo0hx8Lpc
-cb7BxhcMn0yDAdJKRd5N4p/THoafHtJ/+pYuLVB1xyz9W0OB/x+RZEMBDUv+AOIG
-gN4Pb9xiFL55ELmhLXdQcmyccdi3RjnnGK07tD3gwqiHgilNQazB2sqKf+bUrs0f
-P5pJpmnh6QWxyMnyI9Mby7N/c4LDtVKMyBeptA631XeUyiPnlhN2Y8E4aZo0u5+p
-qg/zSbEy39TWoCI69lQkJX7MYeoTDzuKCmaGdolnVUjOsm0ZWpxt5iuxdyq4Yhl/
-65is6JhRr0irTBQKv824acHouSjrkw==
-=GmOx
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZfRoKwAKCRDj7w1vZxhR
+xbZ6AQCqyIWNrOekCzZErEBBgva8wYYFUxOXwSWD2p63fto44AEArbdEKOyhIRfR
+TluOQSyvoL63/q0ohUCoINatpqawVQo=
+=Yted
 -----END PGP SIGNATURE-----
 
---fgDyTJrdbX73HLO7--
+--uhyiww26fdxh7rdb--
