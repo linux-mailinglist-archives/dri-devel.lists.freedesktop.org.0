@@ -2,110 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A432587D92B
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Mar 2024 08:32:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B652F87D952
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Mar 2024 09:38:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA60E10E199;
-	Sat, 16 Mar 2024 07:32:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 784C710E3F4;
+	Sat, 16 Mar 2024 08:38:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="OXE4AGwQ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Vf30+wbH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3D9B10E1A4
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Mar 2024 07:32:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1710574361; x=1711179161; i=deller@gmx.de;
- bh=IUVRNktEF5qyN2N92BM2yiE5i46ZHJ2SadyCFnH9ar0=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
- In-Reply-To;
- b=OXE4AGwQU4IA3WONzUB3+EBHr1NWu4oOe5oRerQ6DPf07dSpzyW41TnLF9FsVIOq
- 6T23oAVzgPE2/LhGuLhs/dmu0Nr2p5sXKBGtLqxZEMNrsTAg1UJvjrV784PhA/Gwo
- i0Ev5/fIIe0OhgjT82gxiRZKU/AXUPm1e+VKECFAA7FE65g0v1Dc/5Rv+vhB1Z/zC
- PUUp7wJr50kKnU5CuLXZGiXmiw6sc/90OBO9Y1pCsOnPD8IcrcIrRFY4Eraa1MI9X
- RVTCsv3TOnZg3Zh22HPEVdd+Cx5d58h2Zjn8u+VUs6x1j/Ca3LhXCeo7DOiwAk62O
- 1awHvs4fRDHQE+Vc9w==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([94.134.153.236]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MYeMt-1rGqrK2KkF-00VjgH; Sat, 16
- Mar 2024 08:32:41 +0100
-Message-ID: <183ae8fd-c727-4afc-a50f-d73ca1bd7437@gmx.de>
-Date: Sat, 16 Mar 2024 08:32:40 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F031710E3F4;
+ Sat, 16 Mar 2024 08:38:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1710578325; x=1742114325;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=sJRKQDEF/mYELqYtfcMtuHA2PeZPlAzaD9jEf0e7JP0=;
+ b=Vf30+wbH1k5m19sxzDCeIzqlTwYRnedAL3qJkgSHxVB4Z1U1jcECw+jT
+ 75i5Uq34pvAKJlyR9uBQpOreK4pCwtdh1LWoL9rnOdGj60BEYbWTxIE2o
+ leRKTz9KGvnyQzSCuaO8ZGMl2BhEYV+BQKXZf3d+0nPq4sPaYcaqYR4Tj
+ 7GxjlolL1O/pAYaLiTATkgHkD6IIYMwz/xYCAVsij6pBgwvT/kRvg0lUi
+ h1Yc1Kl2Hi0ILI8bCf5SDgOeNZmZYZw3XnyyFq4cpZvM65fKxr+cUjxeU
+ aCVVzhFlfTUCCzzVmT84tj60AGhJsRj3HKtdZ3rCZs+KcPPmjMke51gIt Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="5310435"
+X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
+   d="scan'208";a="5310435"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Mar 2024 01:38:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; d="scan'208";a="17525738"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+ by fmviesa003.fm.intel.com with ESMTP; 16 Mar 2024 01:38:40 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rlPYr-000FEP-2e;
+ Sat, 16 Mar 2024 08:38:37 +0000
+Date: Sat, 16 Mar 2024 16:38:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: sunpeng.li@amd.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Joshua Ashton <joshua@froggi.es>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <mdaenzer@redhat.com>,
+ Chao Guo <chao.guo@nxp.com>, Xaver Hugl <xaver.hugl@gmail.com>,
+ Vikas Korjani <Vikas.Korjani@amd.com>,
+ Robert Mader <robert.mader@posteo.de>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Sean Paul <sean@poorly.run>, Simon Ser <contact@emersion.fr>,
+ Shashank Sharma <shashank.sharma@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Sebastian Wick <sebastian.wick@redhat.com>, Leo Li <sunpeng.li@amd.com>
+Subject: Re: [PATCH 1/2] drm/amd/display: Introduce overlay cursor mode
+Message-ID: <202403161600.6KspdesJ-lkp@intel.com>
+References: <20240315170959.165505-2-sunpeng.li@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2] fbcon: Increase maximum font width x height to 64 x 128
-Content-Language: en-US
-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
- Alexey Gladkov <legion@kernel.org>, Jiry Slaby <jirislaby@kernel.org>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20240316001022.2963072-1-samuel.thibault@ens-lyon.org>
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <20240316001022.2963072-1-samuel.thibault@ens-lyon.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:7xtn56jekvVrObFVgCrDwqRuO1M/snv78q83k+LYL16jI4btnnA
- otcHBGVPxStd01jLGqpw1e9N16kDO8S/D1BKr1Hr0KCElr9oFlcc8PbTPUB0SA20ycSwqgr
- n6gFO4W64CcLC0ZWqh9I6XWoCkroj1cN5/Vf44hICxuloBRVqdjN2SRv+PovE7HJOEniFuo
- g9Pim1YPGhLwDzVW4TCAA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:rSD0zMmCO3s=;Ytz+c/8IJJ9Wa2VWlFit6mquqlw
- YjA9Yeb8ZBxi5fi8pGfYYgTBMZaJ7x5Lr1aiJvOE9oVMCWHP5b5mOWhvHnhzgGKQcN6Z3S0hj
- mo6zUwo6ZbnLq3VyDymNTXaOKir4Ru0rhCjIXXl3tKVsDQOiDRncRmaG6tts2MW1ZdpkzrQbW
- ri5al+H9zGR6ZkI632oHRkqiqv2HEIDKLaVajGrAHZCk4UNjBrbrZjVXC1Ex5D6G20BH2Md12
- N6pgbImy9bblVFXqwhxH7ib522RvR+MZZnjrpQ/1eyMXMV56B5qKr1GZ6KpxS3GAV9sJCqvQD
- jZpz53EMOVi6ZiTH3zfFVgeZggIsHZTTn0PQQQweEBNbry84dLh6F03NqPrePr8zSDvej4L5F
- wIumY+ANbSTTRZeDrQWPuMBd0QUfPNsUHIkMzDy3+CrjDrJX+hrWIaM+QMPA3QlQ5RkTdgbPX
- sBv8Drd3El3UsKallaYlAgabydmPyXj/Ug6usPYvdOdGW9UOsyrbo0PFg9tHgm+fRNawEhLhH
- EC7oeIEFw41OJkqqEfXMsUdXpKEPe0Q3aYiDRmfkmzLXQCXFOdsnb9geUcb0QNctp7d1AuKaY
- TLzsGRCI61MFW/BuFDSW4WYd1z3zyDdJuBblR3W5hSpOvlvnXrLNeTLLs2iCnAVNrvmMVqk9B
- sW2MMm5zXTby4UFGWcnoQNrNiEaPNwvBkuZHTYB56Vems8cdhNQlVZvyfuJ7zHH5HBMfkHvg1
- GvyH7mgyjX/yyh5IyEdkW6vjl+C0saHPzbI5XnTwX0YtuyfyPSBA2A8j2Dvixf/hiXvTaW7PN
- Ok2xxMzdc1gHItkmiBAiU/TrSf1UGxRhTzZ9bR9V0iLXw=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240315170959.165505-2-sunpeng.li@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,383 +76,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/16/24 01:10, Samuel Thibault wrote:
-> By using bitmaps we actually support whatever size we would want, but th=
-e
-> console currently limits fonts to 64x128 (which gives 60x16 text on 4k
-> screens), so we don't need more for now, and we can easily increase late=
-r.
->
-> Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Hi,
 
-I cleaned up the tabs & spaces in your patch, fixed the missing
-get_default_font() change in sticore.c and applied it to the fbdev git tre=
-e.
-Let's keep it for a few days in for-next...
+kernel test robot noticed the following build warnings:
 
-Thanks!
-Helge
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.8 next-20240315]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> ---
-> Difference from v1:
-> - use a bitmap rather than just extending the integer size
-> - add missing updates in drivers
-> ---
->   drivers/firmware/efi/earlycon.c    |  2 +-
->   drivers/video/fbdev/arkfb.c        | 15 +++++++++++----
->   drivers/video/fbdev/core/fbcon.c   | 16 +++++++++-------
->   drivers/video/fbdev/core/fbmem.c   | 12 ++++++------
->   drivers/video/fbdev/core/svgalib.c | 15 +++++++++++----
->   drivers/video/fbdev/s3fb.c         | 15 +++++++++++----
->   drivers/video/fbdev/vga16fb.c      |  6 +++++-
->   drivers/video/fbdev/vt8623fb.c     | 15 +++++++++++----
->   include/linux/fb.h                 | 18 ++++++++++++------
->   include/linux/font.h               |  3 ++-
->   lib/fonts/fonts.c                  | 15 +++++++++------
->   11 files changed, 88 insertions(+), 44 deletions(-)
->
-> diff --git a/drivers/firmware/efi/earlycon.c b/drivers/firmware/efi/earl=
-ycon.c
-> index f80a9af3d16e..d18a1a5de144 100644
-> --- a/drivers/firmware/efi/earlycon.c
-> +++ b/drivers/firmware/efi/earlycon.c
-> @@ -252,7 +252,7 @@ static int __init efi_earlycon_setup(struct earlycon=
-_device *device,
->   	if (si->lfb_depth !=3D 32)
->   		return -ENODEV;
->
-> -	font =3D get_default_font(xres, yres, -1, -1);
-> +	font =3D get_default_font(xres, yres, NULL, NULL);
->   	if (!font)
->   		return -ENODEV;
->
-> diff --git a/drivers/video/fbdev/arkfb.c b/drivers/video/fbdev/arkfb.c
-> index dca9c0325b3f..082501feceb9 100644
-> --- a/drivers/video/fbdev/arkfb.c
-> +++ b/drivers/video/fbdev/arkfb.c
-> @@ -622,8 +622,13 @@ static int arkfb_set_par(struct fb_info *info)
->   		info->tileops =3D NULL;
->
->   		/* in 4bpp supports 8p wide tiles only, any tiles otherwise */
-> -		info->pixmap.blit_x =3D (bpp =3D=3D 4) ? (1 << (8 - 1)) : (~(u32)0);
-> -		info->pixmap.blit_y =3D ~(u32)0;
-> +		if (bpp =3D=3D 4) {
-> +			bitmap_zero(info->pixmap.blit_x, FB_MAX_BLIT_WIDTH);
-> +			set_bit(8 - 1, info->pixmap.blit_x);
-> +		} else {
-> +			bitmap_fill(info->pixmap.blit_x, FB_MAX_BLIT_WIDTH);
-> +		}
-> +		bitmap_fill(info->pixmap.blit_y, FB_MAX_BLIT_HEIGHT);
->
->   		offset_value =3D (info->var.xres_virtual * bpp) / 64;
->   		screen_size =3D info->var.yres_virtual * info->fix.line_length;
-> @@ -635,8 +640,10 @@ static int arkfb_set_par(struct fb_info *info)
->   		info->tileops =3D &arkfb_tile_ops;
->
->   		/* supports 8x16 tiles only */
-> -		info->pixmap.blit_x =3D 1 << (8 - 1);
-> -		info->pixmap.blit_y =3D 1 << (16 - 1);
-> +		bitmap_zero(info->pixmap.blit_x, FB_MAX_BLIT_WIDTH);
-> +		set_bit(8 - 1, info->pixmap.blit_x);
-> +		bitmap_zero(info->pixmap.blit_y, FB_MAX_BLIT_HEIGHT);
-> +		set_bit(16 - 1, info->pixmap.blit_y);
->
->   		offset_value =3D info->var.xres_virtual / 16;
->   		screen_size =3D (info->var.xres_virtual * info->var.yres_virtual) / =
-64;
-> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core=
-/fbcon.c
-> index 46823c2e2ba1..72ff3147a3bf 100644
-> --- a/drivers/video/fbdev/core/fbcon.c
-> +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -2483,12 +2483,12 @@ static int fbcon_set_font(struct vc_data *vc, st=
-ruct console_font *font,
->   	    h > FBCON_SWAP(info->var.rotate, info->var.yres, info->var.xres))
->   		return -EINVAL;
->
-> -	if (font->width > 32 || font->height > 32)
-> +	if (font->width > FB_MAX_BLIT_WIDTH || font->height > FB_MAX_BLIT_HEIG=
-HT)
->   		return -EINVAL;
->
->   	/* Make sure drawing engine can handle the font */
-> -	if (!(info->pixmap.blit_x & BIT(font->width - 1)) ||
-> -	    !(info->pixmap.blit_y & BIT(font->height - 1)))
-> +	if (!test_bit(font->width - 1, info->pixmap.blit_x) ||
-> +	    !test_bit(font->height - 1, info->pixmap.blit_y))
->   		return -EINVAL;
->
->   	/* Make sure driver can handle the font length */
-> @@ -3082,8 +3082,8 @@ void fbcon_get_requirement(struct fb_info *info,
->   			vc =3D vc_cons[i].d;
->   			if (vc && vc->vc_mode =3D=3D KD_TEXT &&
->   			    info->node =3D=3D con2fb_map[i]) {
-> -				caps->x |=3D 1 << (vc->vc_font.width - 1);
-> -				caps->y |=3D 1 << (vc->vc_font.height - 1);
-> +				set_bit(vc->vc_font.width - 1, caps->x);
-> +				set_bit(vc->vc_font.height - 1, caps->y);
->   				charcnt =3D vc->vc_font.charcount;
->   				if (caps->len < charcnt)
->   					caps->len =3D charcnt;
-> @@ -3094,8 +3094,10 @@ void fbcon_get_requirement(struct fb_info *info,
->
->   		if (vc && vc->vc_mode =3D=3D KD_TEXT &&
->   		    info->node =3D=3D con2fb_map[fg_console]) {
-> -			caps->x =3D 1 << (vc->vc_font.width - 1);
-> -			caps->y =3D 1 << (vc->vc_font.height - 1);
-> +			bitmap_zero(caps->x, FB_MAX_BLIT_WIDTH);
-> +			set_bit(vc->vc_font.width - 1, caps->x);
-> +			bitmap_zero(caps->y, FB_MAX_BLIT_HEIGHT);
-> +			set_bit(vc->vc_font.height - 1, caps->y);
->   			caps->len =3D vc->vc_font.charcount;
->   		}
->   	}
-> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core=
-/fbmem.c
-> index fc206755f5f6..5ca18bfe11f6 100644
-> --- a/drivers/video/fbdev/core/fbmem.c
-> +++ b/drivers/video/fbdev/core/fbmem.c
-> @@ -212,8 +212,8 @@ static int fb_check_caps(struct fb_info *info, struc=
-t fb_var_screeninfo *var,
->   	fbcon_get_requirement(info, &caps);
->   	info->fbops->fb_get_caps(info, &fbcaps, var);
->
-> -	if (((fbcaps.x ^ caps.x) & caps.x) ||
-> -	    ((fbcaps.y ^ caps.y) & caps.y) ||
-> +	if (!bitmap_subset(caps.x, fbcaps.x, FB_MAX_BLIT_WIDTH) ||
-> +	    !bitmap_subset(caps.y, fbcaps.y, FB_MAX_BLIT_HEIGHT) ||
->   	    (fbcaps.len < caps.len))
->   		err =3D -EINVAL;
->
-> @@ -420,11 +420,11 @@ static int do_register_framebuffer(struct fb_info =
-*fb_info)
->   	}
->   	fb_info->pixmap.offset =3D 0;
->
-> -	if (!fb_info->pixmap.blit_x)
-> -		fb_info->pixmap.blit_x =3D ~(u32)0;
-> +	if (bitmap_empty(fb_info->pixmap.blit_x, FB_MAX_BLIT_WIDTH))
-> +		bitmap_fill(fb_info->pixmap.blit_x, FB_MAX_BLIT_WIDTH);
->
-> -	if (!fb_info->pixmap.blit_y)
-> -		fb_info->pixmap.blit_y =3D ~(u32)0;
-> +	if (bitmap_empty(fb_info->pixmap.blit_y, FB_MAX_BLIT_HEIGHT))
-> +		bitmap_fill(fb_info->pixmap.blit_y, FB_MAX_BLIT_HEIGHT);
->
->   	if (!fb_info->modelist.prev || !fb_info->modelist.next)
->   		INIT_LIST_HEAD(&fb_info->modelist);
-> diff --git a/drivers/video/fbdev/core/svgalib.c b/drivers/video/fbdev/co=
-re/svgalib.c
-> index 2cba158888ea..821b89a0a645 100644
-> --- a/drivers/video/fbdev/core/svgalib.c
-> +++ b/drivers/video/fbdev/core/svgalib.c
-> @@ -354,12 +354,19 @@ void svga_get_caps(struct fb_info *info, struct fb=
-_blit_caps *caps,
->   {
->   	if (var->bits_per_pixel =3D=3D 0) {
->   		/* can only support 256 8x16 bitmap */
-> -		caps->x =3D 1 << (8 - 1);
-> -		caps->y =3D 1 << (16 - 1);
-> +		bitmap_zero(caps->x, FB_MAX_BLIT_WIDTH);
-> +		set_bit(8 - 1, caps->x);
-> +		bitmap_zero(caps->y, FB_MAX_BLIT_HEIGHT);
-> +		set_bit(16 - 1, caps->y);
->   		caps->len =3D 256;
->   	} else {
-> -		caps->x =3D (var->bits_per_pixel =3D=3D 4) ? 1 << (8 - 1) : ~(u32)0;
-> -		caps->y =3D ~(u32)0;
-> +		if (var->bits_per_pixel =3D=3D 4) {
-> +			bitmap_zero(caps->x, FB_MAX_BLIT_WIDTH);
-> +			set_bit(8 - 1, caps->x);
-> +		} else {
-> +			bitmap_fill(caps->x, FB_MAX_BLIT_WIDTH);
-> +		}
-> +		bitmap_fill(caps->y, FB_MAX_BLIT_HEIGHT);
->   		caps->len =3D ~(u32)0;
->   	}
->   }
-> diff --git a/drivers/video/fbdev/s3fb.c b/drivers/video/fbdev/s3fb.c
-> index 07722a5ea8ef..ff84106ecf1c 100644
-> --- a/drivers/video/fbdev/s3fb.c
-> +++ b/drivers/video/fbdev/s3fb.c
-> @@ -617,8 +617,13 @@ static int s3fb_set_par(struct fb_info *info)
->   		info->tileops =3D NULL;
->
->   		/* in 4bpp supports 8p wide tiles only, any tiles otherwise */
-> -		info->pixmap.blit_x =3D (bpp =3D=3D 4) ? (1 << (8 - 1)) : (~(u32)0);
-> -		info->pixmap.blit_y =3D ~(u32)0;
-> +		if (bpp =3D=3D 4) {
-> +			bitmap_zero(info->pixmap.blit_x, FB_MAX_BLIT_WIDTH);
-> +			set_bit(8 - 1, info->pixmap.blit_x);
-> +		} else {
-> +			bitmap_fill(info->pixmap.blit_x, FB_MAX_BLIT_WIDTH);
-> +		}
-> +		bitmap_fill(info->pixmap.blit_y, FB_MAX_BLIT_HEIGHT);
->
->   		offset_value =3D (info->var.xres_virtual * bpp) / 64;
->   		screen_size =3D info->var.yres_virtual * info->fix.line_length;
-> @@ -630,8 +635,10 @@ static int s3fb_set_par(struct fb_info *info)
->   		info->tileops =3D fasttext ? &s3fb_fast_tile_ops : &s3fb_tile_ops;
->
->   		/* supports 8x16 tiles only */
-> -		info->pixmap.blit_x =3D 1 << (8 - 1);
-> -		info->pixmap.blit_y =3D 1 << (16 - 1);
-> +		bitmap_zero(info->pixmap.blit_x, FB_MAX_BLIT_WIDTH);
-> +		set_bit(8 - 1, info->pixmap.blit_x);
-> +		bitmap_zero(info->pixmap.blit_y, FB_MAX_BLIT_HEIGHT);
-> +		set_bit(16 - 1, info->pixmap.blit_y);
->
->   		offset_value =3D info->var.xres_virtual / 16;
->   		screen_size =3D (info->var.xres_virtual * info->var.yres_virtual) / =
-64;
-> diff --git a/drivers/video/fbdev/vga16fb.c b/drivers/video/fbdev/vga16fb=
-.c
-> index b485e9198201..a87bafbb119c 100644
-> --- a/drivers/video/fbdev/vga16fb.c
-> +++ b/drivers/video/fbdev/vga16fb.c
-> @@ -1353,7 +1353,11 @@ static int vga16fb_probe(struct platform_device *=
-dev)
->   	info->var =3D vga16fb_defined;
->   	info->fix =3D vga16fb_fix;
->   	/* supports rectangles with widths of multiples of 8 */
-> -	info->pixmap.blit_x =3D 1 << 7 | 1 << 15 | 1 << 23 | 1 << 31;
-> +	bitmap_zero(info->pixmap.blit_x, FB_MAX_BLIT_WIDTH);
-> +	set_bit(8 - 1, info->pixmap.blit_x);
-> +	set_bit(16 - 1, info->pixmap.blit_x);
-> +	set_bit(24 - 1, info->pixmap.blit_x);
-> +	set_bit(32 - 1, info->pixmap.blit_x);
->   	info->flags =3D FBINFO_HWACCEL_YPAN;
->
->   	i =3D (info->var.bits_per_pixel =3D=3D 8) ? 256 : 16;
-> diff --git a/drivers/video/fbdev/vt8623fb.c b/drivers/video/fbdev/vt8623=
-fb.c
-> index f8d022cb61e8..df984f3a7ff6 100644
-> --- a/drivers/video/fbdev/vt8623fb.c
-> +++ b/drivers/video/fbdev/vt8623fb.c
-> @@ -390,8 +390,13 @@ static int vt8623fb_set_par(struct fb_info *info)
->   		info->tileops =3D NULL;
->
->   		/* in 4bpp supports 8p wide tiles only, any tiles otherwise */
-> -		info->pixmap.blit_x =3D (bpp =3D=3D 4) ? (1 << (8 - 1)) : (~(u32)0);
-> -		info->pixmap.blit_y =3D ~(u32)0;
-> +		if (bpp =3D=3D 4) {
-> +			bitmap_zero(info->pixmap.blit_x, FB_MAX_BLIT_WIDTH);
-> +			set_bit(8 - 1, info->pixmap.blit_x);
-> +		} else {
-> +			bitmap_fill(info->pixmap.blit_x, FB_MAX_BLIT_WIDTH);
-> +		}
-> +		bitmap_fill(info->pixmap.blit_y, FB_MAX_BLIT_HEIGHT);
->
->   		offset_value =3D (info->var.xres_virtual * bpp) / 64;
->   		fetch_value  =3D ((info->var.xres * bpp) / 128) + 4;
-> @@ -408,8 +413,10 @@ static int vt8623fb_set_par(struct fb_info *info)
->   		info->tileops =3D &vt8623fb_tile_ops;
->
->   		/* supports 8x16 tiles only */
-> -		info->pixmap.blit_x =3D 1 << (8 - 1);
-> -		info->pixmap.blit_y =3D 1 << (16 - 1);
-> +		bitmap_zero(info->pixmap.blit_x, FB_MAX_BLIT_WIDTH);
-> +		set_bit(8 - 1, info->pixmap.blit_x);
-> +		bitmap_zero(info->pixmap.blit_y, FB_MAX_BLIT_HEIGHT);
-> +		set_bit(16 - 1, info->pixmap.blit_y);
->
->   		offset_value =3D info->var.xres_virtual / 16;
->   		fetch_value  =3D (info->var.xres / 8) + 8;
-> diff --git a/include/linux/fb.h b/include/linux/fb.h
-> index 05dc9624897d..3003436d1e3b 100644
-> --- a/include/linux/fb.h
-> +++ b/include/linux/fb.h
-> @@ -143,9 +143,13 @@ struct fb_event {
->   	void *data;
->   };
->
-> +/*	Enough for the VT console needs, see its max_font_width/height */
-> +#define FB_MAX_BLIT_WIDTH	64
-> +#define FB_MAX_BLIT_HEIGHT	128
-> +
->   struct fb_blit_caps {
-> -	u32 x;
-> -	u32 y;
-> +	DECLARE_BITMAP(x, FB_MAX_BLIT_WIDTH);
-> +	DECLARE_BITMAP(y, FB_MAX_BLIT_HEIGHT);
->   	u32 len;
->   	u32 flags;
->   };
-> @@ -192,10 +196,12 @@ struct fb_pixmap {
->   	u32 scan_align;		/* alignment per scanline		*/
->   	u32 access_align;	/* alignment per read/write (bits)	*/
->   	u32 flags;		/* see FB_PIXMAP_*			*/
-> -	u32 blit_x;             /* supported bit block dimensions (1-32)*/
-> -	u32 blit_y;             /* Format: blit_x =3D 1 << (width - 1)    */
-> -	                        /*         blit_y =3D 1 << (height - 1)   */
-> -	                        /* if 0, will be set to 0xffffffff (all)*/
-> +	                        /* supported bit block dimensions       */
-> +	                        /* Format: test_bit(width - 1, blit_x)  */
-> +	                        /*         test_bit(height - 1, blit_y) */
-> +	                        /* if zero, will be set to full (all)   */
-> +	DECLARE_BITMAP(blit_x, FB_MAX_BLIT_WIDTH);
-> +	DECLARE_BITMAP(blit_y, FB_MAX_BLIT_HEIGHT);
->   	/* access methods */
->   	void (*writeio)(struct fb_info *info, void __iomem *dst, void *src, u=
-nsigned int size);
->   	void (*readio) (struct fb_info *info, void *dst, void __iomem *src, u=
-nsigned int size);
-> diff --git a/include/linux/font.h b/include/linux/font.h
-> index abf1442ce719..81caffd51bb4 100644
-> --- a/include/linux/font.h
-> +++ b/include/linux/font.h
-> @@ -57,7 +57,8 @@ extern const struct font_desc *find_font(const char *n=
-ame);
->   /* Get the default font for a specific screen size */
->
->   extern const struct font_desc *get_default_font(int xres, int yres,
-> -						u32 font_w, u32 font_h);
-> +						unsigned long *font_w,
-> +						unsigned long *font_h);
->
->   /* Max. length for the name of a predefined font */
->   #define MAX_FONT_NAME	32
-> diff --git a/lib/fonts/fonts.c b/lib/fonts/fonts.c
-> index 973866438608..409f3e4103a2 100644
-> --- a/lib/fonts/fonts.c
-> +++ b/lib/fonts/fonts.c
-> @@ -96,18 +96,21 @@ EXPORT_SYMBOL(find_font);
->    *	get_default_font - get default font
->    *	@xres: screen size of X
->    *	@yres: screen size of Y
-> - *      @font_w: bit array of supported widths (1 - 32)
-> - *      @font_h: bit array of supported heights (1 - 32)
-> + *	@font_w: bit array of supported widths (1 - FB_MAX_BLIT_WIDTH)
-> + *	@font_h: bit array of supported heights (1 - FB_MAX_BLIT_HEIGHT)
->    *
->    *	Get the default font for a specified screen size.
->    *	Dimensions are in pixels.
->    *
-> + *	font_w or font_h being NULL means all values are supported.
-> + *
->    *	Returns %NULL if no font is found, or a pointer to the
->    *	chosen font.
->    *
->    */
-> -const struct font_desc *get_default_font(int xres, int yres, u32 font_w=
-,
-> -					 u32 font_h)
-> +const struct font_desc *get_default_font(int xres, int yres,
-> +                                         unsigned long *font_w,
-> +                                         unsigned long *font_h)
->   {
->   	int i, c, cc, res;
->   	const struct font_desc *f, *g;
-> @@ -135,8 +138,8 @@ const struct font_desc *get_default_font(int xres, i=
-nt yres, u32 font_w,
->   		if (res > 20)
->   			c +=3D 20 - res;
->
-> -		if ((font_w & (1U << (f->width - 1))) &&
-> -		    (font_h & (1U << (f->height - 1))))
-> +		if ((!font_w || test_bit(f->width - 1, font_w)) &&
-> +		    (!font_h || test_bit(f->height - 1, font_h)))
->   			c +=3D 1000;
->
->   		if (c > cc) {
+url:    https://github.com/intel-lab-lkp/linux/commits/sunpeng-li-amd-com/drm-amd-display-Introduce-overlay-cursor-mode/20240316-011404
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240315170959.165505-2-sunpeng.li%40amd.com
+patch subject: [PATCH 1/2] drm/amd/display: Introduce overlay cursor mode
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240316/202403161600.6KspdesJ-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403161600.6KspdesJ-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403161600.6KspdesJ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:10639: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Set whether the cursor should be enabled in native mode, or overlay mode, on
+
+
+vim +10639 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c
+
+ 10637	
+ 10638	/**
+ 10639	 * Set whether the cursor should be enabled in native mode, or overlay mode, on
+ 10640	 * the dm_crtc_state.
+ 10641	 *
+ 10642	 * The cursor should be enabled in overlay mode if the immediate underlying
+ 10643	 * plane contains a video format.
+ 10644	 *
+ 10645	 * Since zpos info is required, drm_atomic_normalize_zpos must be called before
+ 10646	 * calling this function.
+ 10647	*/
+ 10648	static int dm_crtc_set_cursor_mode(struct drm_atomic_state *state,
+ 10649					    struct dm_crtc_state *dm_crtc_state)
+ 10650	{
+ 10651		struct drm_plane_state *plane_state, *old_plane_state, *target_plane_state;
+ 10652		struct drm_crtc_state *crtc_state = &dm_crtc_state->base;
+ 10653		struct drm_plane *plane;
+ 10654		bool consider_mode_change = false;
+ 10655		bool cursor_changed = false;
+ 10656		unsigned int target_zpos;
+ 10657		unsigned int cursor_zpos;
+ 10658		int i;
+ 10659	
+ 10660		/*
+ 10661		 * Cursor mode can change if a plane's format changes, is
+ 10662		 * enabled/disabled, or z-order changes.
+ 10663		 */
+ 10664		for_each_oldnew_plane_in_state(state, plane, old_plane_state, plane_state, i) {
+ 10665	
+ 10666			/* Only care about planes on this CRTC */
+ 10667			if ((drm_plane_mask(plane) & crtc_state->plane_mask) == 0)
+ 10668				continue;
+ 10669	
+ 10670			if (plane->type == DRM_PLANE_TYPE_CURSOR)
+ 10671				cursor_changed = true;
+ 10672	
+ 10673			if (drm_atomic_plane_enabling(old_plane_state, plane_state) ||
+ 10674			    drm_atomic_plane_disabling(old_plane_state, plane_state) ||
+ 10675			    old_plane_state->fb->format != plane_state->fb->format) {
+ 10676				consider_mode_change = true;
+ 10677				break;
+ 10678			}
+ 10679		}
+ 10680	
+ 10681		if (!consider_mode_change && !crtc_state->zpos_changed) {
+ 10682			return 0;
+ 10683		}
+ 10684	
+ 10685		/*
+ 10686		 * If no cursor change on this CRTC, and not enabled on this CRTC, then
+ 10687		 * no need to set cursor mode. This avoids needlessly locking the cursor
+ 10688		 * state.
+ 10689		 */
+ 10690		if (!cursor_changed &&
+ 10691		    !(drm_plane_mask(crtc_state->crtc->cursor) & crtc_state->plane_mask)) {
+ 10692			return 0;
+ 10693		}
+ 10694	
+ 10695		plane_state = drm_atomic_get_plane_state(state,
+ 10696							 crtc_state->crtc->cursor);
+ 10697		if (IS_ERR(plane_state))
+ 10698			return PTR_ERR(plane_state);
+ 10699	
+ 10700		/* Cursor is disabled */
+ 10701		if (!plane_state->fb)
+ 10702			return 0;
+ 10703	
+ 10704		cursor_zpos = plane_state->normalized_zpos;
+ 10705	
+ 10706		/* Get enabled plane immediately below cursor. */
+ 10707		target_plane_state = NULL;
+ 10708		target_zpos = 0;
+ 10709		drm_for_each_plane_mask(plane, state->dev, crtc_state->plane_mask) {
+ 10710			if (plane->type == DRM_PLANE_TYPE_CURSOR)
+ 10711				continue;
+ 10712	
+ 10713			plane_state = drm_atomic_get_plane_state(state, plane);
+ 10714			if (IS_ERR(plane_state))
+ 10715				return PTR_ERR(plane_state);
+ 10716	
+ 10717			if (!plane_state->fb ||
+ 10718			    plane_state->normalized_zpos >= cursor_zpos)
+ 10719				continue;
+ 10720	
+ 10721			if (plane_state->normalized_zpos >= target_zpos) {
+ 10722				target_zpos = plane_state->normalized_zpos;
+ 10723				target_plane_state = plane_state;
+ 10724			}
+ 10725		}
+ 10726	
+ 10727		/* Nothing below cursor - use overlay mode */
+ 10728		if (target_plane_state == NULL) {
+ 10729			dm_crtc_state->cursor_mode = DM_CURSOR_OVERLAY_MODE;
+ 10730			return 0;
+ 10731		}
+ 10732	
+ 10733		if (amdgpu_dm_plane_is_video_format(target_plane_state->fb->format->format)) {
+ 10734			dm_crtc_state->cursor_mode = DM_CURSOR_OVERLAY_MODE;
+ 10735		} else {
+ 10736			dm_crtc_state->cursor_mode = DM_CURSOR_NATIVE_MODE;
+ 10737		}
+ 10738	
+ 10739		return 0;
+ 10740	}
+ 10741	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
