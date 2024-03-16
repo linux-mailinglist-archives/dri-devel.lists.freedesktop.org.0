@@ -2,63 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9E4887DA6B
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Mar 2024 15:11:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FA5B87DAAD
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Mar 2024 17:06:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA0B210ED0E;
-	Sat, 16 Mar 2024 14:11:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4249710F388;
+	Sat, 16 Mar 2024 16:05:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="FLN/sEIB";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="PQAfczqn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8940010ED0E
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Mar 2024 14:11:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=KdHqSaYihPn5FB720GQj2s6e6OT+vaWHkLMQ10Tlf5U=; b=FLN/sEIBe7DtAcqD80jbTa/MT+
- 2oM1hX2RwwJjw5gcYnjVhh5yIZDVgI11ghnTr7zL+JIhiXSNKoIr86u5BqKmhJcAcyKqq7+D9JU2D
- 7s5Ls3iebh+Qzz1v6OkepMpkONJeFzJwiRShTA2LeV3xbBeMJUMaZak5Kc6QMuEcVE1hGKMVUcZW2
- JxHKBIk67H24X4zvSa3Wr60cl6Qj+HGDTEBks18y+zIoRBeTlVsqwDvrhV1Ue7VtNUbS8OMgzwaVv
- 8RBH8yON97dmuyvIu6H9fpqiNbL9XnkkKcCukMdnVocYMKwVq13XjSeQ8lJGP1SqikDeUjRucrFFM
- YaWzYkug==;
-Received: from [189.6.17.125] (helo=[192.168.0.55])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1rlUkH-00BGTR-2S; Sat, 16 Mar 2024 15:10:45 +0100
-Message-ID: <1950f7fb-d326-4074-ba7c-8c5622eebb2e@igalia.com>
-Date: Sat, 16 Mar 2024 11:10:34 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/7] drm: Fix drm_fixp2int_round() making it add 0.5
-To: Arthur Grillo <arthurgrillo@riseup.net>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com
+ [91.218.175.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3966E10F388
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Mar 2024 16:05:53 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1710605151;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+Mq/6HxdR67XTNnr1mfKX0S56ljquTrLxh/6FJkkRZY=;
+ b=PQAfczqnBDSKaqj6dXm4XielO0qFiCvfWtyR/Mz4cEKzUA9ou5mIouLXmoJXG5GcukQgU3
+ /SUE7e5CAo6H4NYazTk/e90kUKva0CttZke1+fh9MSX0kHBZ5ZilWnKwStzD9ckXjCeXTw
+ vg7Br6bwub5vXAhREs1k7YtDBDGbkSA=
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+To: Phong LE <ple@baylibre.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- pekka.paalanen@haloniitty.fi, Louis Chauvet <louis.chauvet@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com,
- nicolejadeyee@google.com, Pekka Paalanen <pekka.paalanen@collabora.com>
-References: <20240306-louis-vkms-conv-v1-0-5bfe7d129fdd@riseup.net>
- <20240306-louis-vkms-conv-v1-1-5bfe7d129fdd@riseup.net>
- <yyrvbqpmqplwtqfdsjkhzmx7wrk4h67kn5443bdou7c7uciouy@hac7zfxiff7t>
- <2aa81b6b-0eb1-46d6-8e36-3bd43b8961c4@riseup.net>
-Content-Language: en-US
-From: Melissa Wen <mwen@igalia.com>
-In-Reply-To: <2aa81b6b-0eb1-46d6-8e36-3bd43b8961c4@riseup.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
+Subject: [PATCH] drm/bridge: ite66121: Register HPD interrupt handler only
+ when 'client->irq > 0'
+Date: Sun, 17 Mar 2024 00:05:36 +0800
+Message-Id: <20240316160536.1051513-1-sui.jingfeng@linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,64 +60,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+If a specific design doesn't wire IT66121's interrupt signal output pin up
+to the display controller side, then we should not register the interrupt
+handler. Such a decision is valid usage, as we can fall back to polling
+mode. So, don't make the assumption that a specific board always supports
+HPD. Carry out a sanity check on 'client->irq' before using it, fall back
+to polling mode if client->irq < 0 is true. Such a design increases the
+overall flexibility.
 
+Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+---
+ drivers/gpu/drm/bridge/ite-it66121.c | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-On 16/03/2024 08:59, Arthur Grillo wrote:
->
-> On 12/03/24 15:27, Melissa Wen wrote:
->> On 03/06, Arthur Grillo wrote:
->>> As well noted by Pekka[1], the rounding of drm_fixp2int_round is wrong.
->>> To round a number, you need to add 0.5 to the number and floor that,
->>> drm_fixp2int_round() is adding 0.0000076. Make it add 0.5.
->>>
->>> [1]: https://lore.kernel.org/all/20240301135327.22efe0dd.pekka.paalanen@collabora.com/
->>>
->> Hi Arthur,
->>
->> thanks for addressing this issue.
->>
->> Please, add a fix tag to the commit that you are fixing, so we can
->> easily backport. Might be this commit:
->> https://cgit.freedesktop.org/drm/drm-misc/commit/drivers/gpu/drm/vkms?id=ab87f558dcfb2562c3497e89600dec798a446665
-> Wouldn't be this commit instead?
-> https://cgit.freedesktop.org/drm/drm-misc/commit/?id=8b25320887d7feac98875546ea0f521628b745bb
-Yes, you're right!
-
-Melissa
->
-> Best Regards,
-> ~Arthur Grillo
->
->
->>> Suggested-by: Pekka Paalanen <pekka.paalanen@collabora.com>
->>> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
->>> ---
->>>   include/drm/drm_fixed.h | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/include/drm/drm_fixed.h b/include/drm/drm_fixed.h
->>> index 0c9f917a4d4b..de3a79909ac9 100644
->>> --- a/include/drm/drm_fixed.h
->>> +++ b/include/drm/drm_fixed.h
->>> @@ -90,7 +90,7 @@ static inline int drm_fixp2int(s64 a)
->>>   
->>>   static inline int drm_fixp2int_round(s64 a)
->>>   {
->>> -	return drm_fixp2int(a + (1 << (DRM_FIXED_POINT_HALF - 1)));
->> Also, this is the only usage of DRM_FIXED_POINT_HALF. Can you also
->> remove it as it won't be used anymore?
->>
->>> +	return drm_fixp2int(a + DRM_FIXED_ONE / 2);
->> Would this division be equivalent to just shifting 1ULL by 31 instead of
->> 32 as done in DRM_FIXED_ONE?
->>
->> Melissa
->>
->>>   }
->>>   
->>>   static inline int drm_fixp2int_ceil(s64 a)
->>>
->>> -- 
->>> 2.43.0
->>>
+diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
+index 1c3433b5e366..052884058644 100644
+--- a/drivers/gpu/drm/bridge/ite-it66121.c
++++ b/drivers/gpu/drm/bridge/ite-it66121.c
+@@ -1586,13 +1586,18 @@ static int it66121_probe(struct i2c_client *client)
+ 	ctx->bridge.funcs = &it66121_bridge_funcs;
+ 	ctx->bridge.of_node = dev->of_node;
+ 	ctx->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
+-	ctx->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_HPD;
+-
+-	ret = devm_request_threaded_irq(dev, client->irq, NULL,	it66121_irq_threaded_handler,
+-					IRQF_ONESHOT, dev_name(dev), ctx);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to request irq %d:%d\n", client->irq, ret);
+-		return ret;
++	ctx->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID;
++	if (client->irq > 0) {
++		ctx->bridge.ops |= DRM_BRIDGE_OP_HPD;
++
++		ret = devm_request_threaded_irq(dev, client->irq, NULL,
++						it66121_irq_threaded_handler,
++						IRQF_ONESHOT, dev_name(dev),
++						ctx);
++		if (ret < 0) {
++			dev_err(dev, "Failed to request irq %d:%d\n", client->irq, ret);
++			return ret;
++		}
+ 	}
+ 
+ 	it66121_audio_codec_init(ctx, dev);
+-- 
+2.34.1
 
