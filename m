@@ -2,75 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5184E87D995
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Mar 2024 10:28:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4597B87D9A3
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Mar 2024 10:45:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EA2610E572;
-	Sat, 16 Mar 2024 09:28:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3346D10E5DC;
+	Sat, 16 Mar 2024 09:45:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Mr/B79zO";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ml+lzZc3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E55B10E572
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Mar 2024 09:28:13 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-513a6416058so4057904e87.1
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Mar 2024 02:28:13 -0700 (PDT)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C42CA10E5DC
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Mar 2024 09:45:32 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-41400a9844aso7377615e9.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Mar 2024 02:45:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1710581291; x=1711186091; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1710582331; x=1711187131; darn=lists.freedesktop.org;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :from:to:cc:subject:date:message-id:reply-to;
- bh=aohr4d7BClKxelEDFFKHCRuY2eGHwzyMDzY2KtCl00o=;
- b=Mr/B79zO2450rREBZK9OSogeY3jh7KqKmtU0fH4ZHrwfmUb1NkTiX/EeFjC1S3TVbf
- f85GNLaKkgS3xI1TDjIW47BnUNIeyrj1BcJlr1GZV2USEphS/2nxnJ+rd+EREUnc8jOg
- SJ7CVAvXFTOHBlkKiFwIt7m5u/UIa7YRWz4uFBkfCYH+DtjQzMwqZFtWrkD/+pEQj1d9
- C0UGMzNRc3dfVWGvoVs2vtXY2UQsseE2rf9CIZ8C6KwwabaF/NFUuNBFFLu2+UGoa5b3
- cATtaxd/z6MVcBJs6KYKILh2XGBv4MgrJvioOObRSQ2PGxfVX0H8T1T2JYPkaBGc7qSl
- Q4Rw==
+ bh=gmf+EhkCbPD4zN6pmu9jbRwb1AOtk+4/VyFIevrMxPI=;
+ b=ml+lzZc3EiqNh1NlvQRcN0EBzEqLIWqASuO5ck4H0sVeR0hkYzc335qCWPZuvTby15
+ 6VWNYP9y4dPuaNke5SwSK1DhbCWk5FX4zwmi+pPgyejBvgkAAGO5eTUyBTrxP/NA/tIx
+ XGY3oztzOwnCwLaCP4nEBK6NF/YL/yCjmm8E2V3pUToG0jr6C8XfxTGpPyDUfYF978gw
+ T0qldPmwLQiEXAQNP8PpsyU4mDa0/k+dqyXmZvUy+kiV7EPFsCf4Ir6EJnglY1E0gxX3
+ qZTEppZ4nyAp+rJMQN6fzmRaIzDpli9FAso5slc49kQlj/IbfmTkxgG6bw2OXSXdLzK2
+ RyYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710581291; x=1711186091;
+ d=1e100.net; s=20230601; t=1710582331; x=1711187131;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aohr4d7BClKxelEDFFKHCRuY2eGHwzyMDzY2KtCl00o=;
- b=P8oTf333qiEssXeqe9nWzYWSC5QGpwdI06oeOID7Sey6p6qfxAYcbvMpnOENmlEfed
- mmcy8PVx0IQExss5lL2/o7c8IOYr6bON0JRdkRuYlMZl7lQdJ4aM7907eEDJtJxPR62f
- quv9IrmPHo9m94hUhA42wBkOYzw1c7Hh9mZaOdUk4jiQ387Xs1eMwi0vJyvclWdyH4sY
- J2GjCBgd5iMIXjExZsjNQzWYf6LcY3yQ/BiZ5sJ9EPjEtdoNXuqn/ze/rTt/r4YC6mxK
- pVtpz+aSy/xDx9tLpLhhceUqfF++wA+By9G/Pdld6nW4cEnUKwSqkSRJOdd6hOH6Zxm/
- 4dkg==
+ bh=gmf+EhkCbPD4zN6pmu9jbRwb1AOtk+4/VyFIevrMxPI=;
+ b=YrHA+3prbbnJO8I28ffKV0rWOoDwUnRxRn9Ky4v+EUPhYmvyLU9TaDIzZQtHgUch9o
+ elJt7NwimVebbomSDoNTFr1n8ryHdQZStc8RSknm95lpwc+8o8OtYXbokuB+du1ECSQ5
+ On09hP2GjeT7abuNyIy8LloUEjBIeHOMp32eZ9JvmmKvuFL6D4txOUU1FY2OpEJIk4hA
+ cY+yBp6aBBhHAF/SV0aQoHKSWt4rU0SisMk+7pC1nl++ttFbtJLnVaBGolCYu3bejLOV
+ 92qkTHtrGeDR/d5Z19WN8An35j+IvndeyPA55G3aKb75yK48eJJ/9p5eCx8s15IM2Zce
+ Q3eA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW90gWwBYKmlOhpU5sAPqW7WnjQe8C2uJjg9mk6z0WHQT1hkNwNBmfT6kKUmpnhd4VRISfceTLEpx7/cDnxDfHvx50JpbfLj8es5KsERLP1
-X-Gm-Message-State: AOJu0YzQF8VH/bGQQrJXoA/KP6MQURGqwDtTXTHMdRV+PF957d0diLDv
- Rb3Lczj4PSmJ5NeD22GhQpHg7ew1EwXUxw0hByZn3IIcnuVVL/iEDmsnGn0M1FE=
-X-Google-Smtp-Source: AGHT+IEcnp7qiM6IXTp0ox63XBBssfGbXKm5O93H133J9J0QTjrgFwKlcFwMjSWaSlH8P9wUdPdZJQ==
-X-Received: by 2002:a19:4353:0:b0:513:cc34:342a with SMTP id
- m19-20020a194353000000b00513cc34342amr4706454lfj.14.1710581290898; 
- Sat, 16 Mar 2024 02:28:10 -0700 (PDT)
+ AJvYcCUJLVxskPcc93tiU0j344mvxBPwXw7p7S/a4dqXTS1Zlv1h12Nl0aRw03jhsJ/W/5ra+UOEUuV+O2lT7sZJp9vcwCsmdz+FrgUy9PHM9/x7
+X-Gm-Message-State: AOJu0YweyfFTrylP/CZdJGWtZNaLmi2Fa3HE5WliL6/zaNaguTHKXaPB
+ P2LKg/lggBavlOJhP0f12vB8vzEdbyf3L6RKtCdJzsleB+gl5DhRVQAGZfsqYk8=
+X-Google-Smtp-Source: AGHT+IHauOfu90GrAhcslu1pR8/IgIcfemYw9G775rZSF8H7HGHaPyO9in3oux43aPDC6swiuJd29w==
+X-Received: by 2002:a5d:6a89:0:b0:33e:c236:ccb1 with SMTP id
+ s9-20020a5d6a89000000b0033ec236ccb1mr7746624wru.15.1710582330925; 
+ Sat, 16 Mar 2024 02:45:30 -0700 (PDT)
 Received: from localhost ([102.222.70.76]) by smtp.gmail.com with ESMTPSA id
- n20-20020a05600c4f9400b00412f8bf2d82sm11391125wmq.28.2024.03.16.02.28.09
+ bs8-20020a056000070800b0033e3a24f17esm5221863wrb.76.2024.03.16.02.45.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 16 Mar 2024 02:28:10 -0700 (PDT)
-Date: Sat, 16 Mar 2024 12:28:06 +0300
+ Sat, 16 Mar 2024 02:45:30 -0700 (PDT)
+Date: Sat, 16 Mar 2024 12:45:27 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Harry Wentland <harry.wentland@amd.com>
-Cc: Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Charlene Liu <charlene.liu@amd.com>, Jun Lei <jun.lei@amd.com>,
- Alex Hung <alex.hung@amd.com>, Daniel Miess <daniel.miess@amd.com>,
- Sung Joon Kim <sungkim@amd.com>,
- Yang Li <yang.lee@linux.alibaba.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: [PATCH] drm/amd/display: delete unnecessary check in
- dcn35_set_long_vblank()
-Message-ID: <56712ad5-ed41-4d64-a317-10cc1275137a@moroto.mountain>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Flavio Suligoi <f.suligoi@asem.it>, Lee Jones <lee@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] backlight: mp3309c: fix signedness bug in
+ mp3309c_parse_fwnode()
+Message-ID: <74347f67-360d-4513-8939-595e3c4764fa@moroto.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -90,31 +83,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-"timing" is "&pipe_ctx[i]->stream->timing" where ->timing is not the
-first struct member of ->stream.  So it's the address which points into
-the middle of a struct.  It can't be NULL so delete the NULL check.
+The "num_levels" variable is used to store error codes from
+device_property_count_u32() so it needs to be signed.  This doesn't
+cause an issue at runtime because devm_kcalloc() won't allocate negative
+sizes.  However, it's still worth fixing.
 
+Fixes: b54c828bdba9 ("backlight: mp3309c: Make use of device properties")
 Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- drivers/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/video/backlight/mp3309c.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c
-index 2e8ec58a16eb..87cfd9f1cec9 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c
-@@ -1411,10 +1411,7 @@ void dcn35_set_long_vblank(struct pipe_ctx **pipe_ctx,
- 		if (pipe_ctx[i]->stream) {
- 			struct dc_crtc_timing *timing = &pipe_ctx[i]->stream->timing;
+diff --git a/drivers/video/backlight/mp3309c.c b/drivers/video/backlight/mp3309c.c
+index c80a1481e742..4e98e60417d2 100644
+--- a/drivers/video/backlight/mp3309c.c
++++ b/drivers/video/backlight/mp3309c.c
+@@ -205,8 +205,9 @@ static int mp3309c_parse_fwnode(struct mp3309c_chip *chip,
+ 				struct mp3309c_platform_data *pdata)
+ {
+ 	int ret, i;
+-	unsigned int num_levels, tmp_value;
++	unsigned int tmp_value;
+ 	struct device *dev = chip->dev;
++	int num_levels;
  
--			if (timing)
--				params.vertical_blank_start = timing->v_total - timing->v_front_porch;
--			else
--				params.vertical_blank_start = 0;
-+			params.vertical_blank_start = timing->v_total - timing->v_front_porch;
- 
- 			if ((pipe_ctx[i]->stream_res.tg != NULL) && pipe_ctx[i]->stream_res.tg->funcs &&
- 				pipe_ctx[i]->stream_res.tg->funcs->set_long_vtotal)
+ 	if (!dev_fwnode(dev))
+ 		return dev_err_probe(dev, -ENODEV, "failed to get firmware node\n");
 -- 
 2.43.0
 
