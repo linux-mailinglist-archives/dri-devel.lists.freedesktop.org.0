@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B51787DB59
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Mar 2024 20:51:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF7887DBF5
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Mar 2024 00:13:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A0E810FAA7;
-	Sat, 16 Mar 2024 19:51:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B6BC10F48C;
+	Sat, 16 Mar 2024 23:13:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="D9DxHyYr";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PjZnPFEY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp-24.smtpout.orange.fr
- [80.12.242.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8659710FAA7
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Mar 2024 19:51:29 +0000 (UTC)
-Received: from fedora.home ([92.140.202.140]) by smtp.orange.fr with ESMTPA
- id la3vrEPOXk8gIla3vrpUVD; Sat, 16 Mar 2024 20:51:27 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1710618687;
- bh=SjbNtOBQ+cS5fJj7smJylRnTlii80ZoATXXlQUbJZNQ=;
- h=From:To:Subject:Date:Message-ID:MIME-Version;
- b=D9DxHyYrkaOm5kE1mLlkXYRjXycXxsTBWVhnZ8Z9aVjjq+D6t1RBVaxow3EeogIP5
- IM8Xv/gAhp/8W0xITHPIPKeeeMDDP1e2QqRPDB90yamocgV2NaU+1sN+IooU3WZJv/
- 5OjbTL/v2Y9NagH5qxNgBXRLe0a5NPm+eb8SyBwWD+YvsW2IR9Dh2pz4BmvkBixD+/
- G8a4e+q30hS8hVo+0UJJ4APTF0fifdeurMlzzvjpN87gJzeWJBFvwZASjlRzKyC1Wk
- uOj5Aufzu3x9taZdnIWltPU9E9HRp5PihX25hIsMzVEWvPGp2L/4MSHZGgsplBKvci
- t72o/8I9nifHw==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 16 Mar 2024 20:51:27 +0100
-X-ME-IP: 92.140.202.140
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FE3710F31D
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Mar 2024 23:13:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1710630796;
+ bh=IhpBXYmi/BsEsq/CSAb6QqrLjEY2i/Yps1Od4RNhUH8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=PjZnPFEYAUQQQG4/5HoJ3yMf5wRmZ+oxtmYJcXJq0qpIUlLS7HCVBsNgTWSPRL3g9
+ QnxyEuWAjUg0iGqVLcNj1xQ9oAJqlwLThwZkO8SfAd/TYvXDRpiO1uyxFgpdTe2qN7
+ /ZkTelRCYSlR8e/9pUvP9h5RrBmBH2BYRe/7QG4vKZxn3+NPfmwd+GL1c1bkqG2Uv4
+ AXQoQizkCZBHZqcE+8NuhqAt0eRMizUJ9MfSVcAaOqeYUup5opRFQWOmm0zSB/q7tr
+ fY/Cs1ufXMrenlU2T7MJ01FKEng6+ydGyeAeFipjSD0g+Nqz5/DJmWcMZ6+27hsQXf
+ I48YaIaHeyumA==
+Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: alarumbe)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 726D6378020D;
+ Sat, 16 Mar 2024 23:13:15 +0000 (UTC)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/bridge: lt9611uxc: Fix an error handling path in
- lt9611uxc_probe()
-Date: Sat, 16 Mar 2024 20:51:21 +0100
-Message-ID: <e09122722190d052cee792a9246c274510f3b928.1710618660.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.44.0
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: kernel@collabora.com,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/panfrost: Only display fdinfo's engine and cycle tags
+ when profiling is on
+Date: Sat, 16 Mar 2024 23:13:04 +0000
+Message-ID: <20240316231306.293817-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,36 +65,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If lt9611uxc_audio_init() fails, some resources still need to be released
-before returning the error code.
+If job accounting is disabled, then both fdinfo's drm-engine and drm-cycle
+key values will remain immutable. In that case, it makes more sense not to
+display them at all to avoid confusing user space profiling tools.
 
-Use the existing error handling path.
-
-Fixes: 0cbbd5b1a012 ("drm: bridge: add support for lontium LT9611UXC bridge")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 ---
-Compile tested only.
----
- drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-index f4f593ad8f79..d0c77630a2f9 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-@@ -965,7 +965,11 @@ static int lt9611uxc_probe(struct i2c_client *client)
- 		}
- 	}
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index eec250114114..ef9f6c0716d5 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -550,10 +550,12 @@ static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
+ 	BUILD_BUG_ON(ARRAY_SIZE(engine_names) != NUM_JOB_SLOTS);
  
--	return lt9611uxc_audio_init(dev, lt9611uxc);
-+	ret = lt9611uxc_audio_init(dev, lt9611uxc);
-+	if (ret)
-+		goto err_remove_bridge;
-+
-+	return 0;
- 
- err_remove_bridge:
- 	free_irq(client->irq, lt9611uxc);
+ 	for (i = 0; i < NUM_JOB_SLOTS - 1; i++) {
+-		drm_printf(p, "drm-engine-%s:\t%llu ns\n",
+-			   engine_names[i], panfrost_priv->engine_usage.elapsed_ns[i]);
+-		drm_printf(p, "drm-cycles-%s:\t%llu\n",
+-			   engine_names[i], panfrost_priv->engine_usage.cycles[i]);
++		if (pfdev->profile_mode) {
++			drm_printf(p, "drm-engine-%s:\t%llu ns\n",
++				   engine_names[i], panfrost_priv->engine_usage.elapsed_ns[i]);
++			drm_printf(p, "drm-cycles-%s:\t%llu\n",
++				   engine_names[i], panfrost_priv->engine_usage.cycles[i]);
++		}
+ 		drm_printf(p, "drm-maxfreq-%s:\t%lu Hz\n",
+ 			   engine_names[i], pfdev->pfdevfreq.fast_rate);
+ 		drm_printf(p, "drm-curfreq-%s:\t%lu Hz\n",
+
+base-commit: 97252d0a4bfbb07079503d059f7522d305fe0f7a
 -- 
-2.44.0
+2.43.0
 
