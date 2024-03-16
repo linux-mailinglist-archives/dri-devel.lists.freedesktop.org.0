@@ -2,53 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C224C87DA0A
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Mar 2024 12:59:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18B0A87DA0C
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Mar 2024 12:59:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADA6910E9F4;
-	Sat, 16 Mar 2024 11:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C965510E9F8;
+	Sat, 16 Mar 2024 11:59:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DUvLq37E";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="f64dPdfa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB5F210E9F4
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Mar 2024 11:59:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710590389; x=1742126389;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=GQaOmXx49F22BsoNWUl25IfPcwQiWW9FchaNzSXZqtI=;
- b=DUvLq37EQ2ecisSA4AvTZ7CN18gb5vyAmxE9MBqt16D5EOWlabMT3yiN
- 0u3/fbk+tpCKQJLOgDOM6WQM+AZqfQdz0AePqW/bZ9Q5INVrbaUDFZjAY
- 8isvtaGCQRWT42Wt1/7H0N5QreBzIsWW7RvAkd/t3jmUOc8m6uH/zAbsR
- U7LMeoE/xxMyEuaXqW414hK7TpJgXIZl+hVTgnf1Gwf1mBZMYAyhRc+8D
- gg9LAkVzbkiXZ//Jg3JSN2ELKcDEMwEv1HInr6/pdMwnbxjmiX0F9XSS0
- 5e3/gvSUsKyLTBfe1h+EXG9eSBVyQfWBPHcacUsah+9RVGNdlQUsKVaei A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="6064481"
-X-IronPort-AV: E=Sophos;i="6.07,130,1708416000"; d="scan'208,217";a="6064481"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Mar 2024 04:59:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,130,1708416000"; d="scan'208,217";a="17669188"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
- by orviesa003.jf.intel.com with ESMTP; 16 Mar 2024 04:59:46 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rlShT-000FNn-1x;
- Sat, 16 Mar 2024 11:59:43 +0000
-Date: Sat, 16 Mar 2024 19:59:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Asahi Lina <lina@asahilina.net>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Danilo Krummrich <dakr@redhat.com>
-Subject: [drm-misc:topic/rust-drm 10/18] error[E0425]: cannot find function
- `my_get_param_handler` in this scope
-Message-ID: <202403161916.bAUNmINI-lkp@intel.com>
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78CB510E9F8
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Mar 2024 11:59:52 +0000 (UTC)
+Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx0.riseup.net (Postfix) with ESMTPS id 4Txfn31qT3z9vDX;
+ Sat, 16 Mar 2024 11:59:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1710590391; bh=WQmxlTwntkNSsllxZyg/C1a/cT0ISfU7jYv4Gvy4DNg=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=f64dPdfaX8zGoyN4b9rG4CEgoLbOj3lPAZkAPG7E0t67dZoFJkjm5J3cT6tgbIKQ9
+ gXM+AK3QTLvRv6WAx5a3Q/93n/+uH7tp9c+yzfyIka6lfkSJoYEN31v/szESXHoMK6
+ 10LDCYhAvPFNsFVqv9VzzRgzlbfZrPlt4MDgyymI=
+X-Riseup-User-ID: 6C74F281042F65B51CCBE0B3DA10EC412235F4C595D00882D3E048DA1DED345E
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4Txfmv1rZqzFtSW;
+ Sat, 16 Mar 2024 11:59:42 +0000 (UTC)
+Message-ID: <2aa81b6b-0eb1-46d6-8e36-3bd43b8961c4@riseup.net>
+Date: Sat, 16 Mar 2024 08:59:40 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Subject: Re: [PATCH 1/7] drm: Fix drm_fixp2int_round() making it add 0.5
+Content-Language: en-US
+To: Melissa Wen <mwen@igalia.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ pekka.paalanen@haloniitty.fi, Louis Chauvet <louis.chauvet@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com,
+ nicolejadeyee@google.com, Pekka Paalanen <pekka.paalanen@collabora.com>
+References: <20240306-louis-vkms-conv-v1-0-5bfe7d129fdd@riseup.net>
+ <20240306-louis-vkms-conv-v1-1-5bfe7d129fdd@riseup.net>
+ <yyrvbqpmqplwtqfdsjkhzmx7wrk4h67kn5443bdou7c7uciouy@hac7zfxiff7t>
+From: Arthur Grillo <arthurgrillo@riseup.net>
+In-Reply-To: <yyrvbqpmqplwtqfdsjkhzmx7wrk4h67kn5443bdou7c7uciouy@hac7zfxiff7t>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,99 +71,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc topic/rust-drm
-head:   42abbd1bc1f3362a9adee3d05e54518de90f2205
-commit: 6f60fd0a4eca6108d590543d3ce3707706dedaa2 [10/18] rust: drm: ioctl: Add DRM ioctl abstraction
-config: x86_64-randconfig-r113-20240315 (https://download.01.org/0day-ci/archive/20240316/202403161916.bAUNmINI-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403161916.bAUNmINI-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403161916.bAUNmINI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+On 12/03/24 15:27, Melissa Wen wrote:
+> On 03/06, Arthur Grillo wrote:
+>> As well noted by Pekka[1], the rounding of drm_fixp2int_round is wrong.
+>> To round a number, you need to add 0.5 to the number and floor that,
+>> drm_fixp2int_round() is adding 0.0000076. Make it add 0.5.
+>>
+>> [1]: https://lore.kernel.org/all/20240301135327.22efe0dd.pekka.paalanen@collabora.com/
+>>
+> Hi Arthur,
+> 
+> thanks for addressing this issue.
+> 
+> Please, add a fix tag to the commit that you are fixing, so we can
+> easily backport. Might be this commit:
+> https://cgit.freedesktop.org/drm/drm-misc/commit/drivers/gpu/drm/vkms?id=ab87f558dcfb2562c3497e89600dec798a446665
 
->> error: expected one of `->`, `where`, or `{`, found `}`
-   --> rust/doctests_kernel_generated.rs:352:1
-   |
-   348 | fn foo(device: &kernel::drm::device::Device<Self>,
-   |    --- while parsing this `fn`
-   ...
-   351 | )
-   |  - expected one of `->`, `where`, or `{`
-   352 | } _doctest_main__kbuild_src_consumer_rust_kernel_drm_ioctl_rs_81_0() }
-   | ^ unexpected token
---
->> error: free function without a body
-   --> rust/doctests_kernel_generated.rs:348:1
-   |
-   348 | / fn foo(device: &kernel::drm::device::Device<Self>,
-   349 | |        data: &mut bindings::argument_type,
-   350 | |        file: &kernel::drm::file::File<Self::File>,
-   351 | | )
-   | | ^- help: provide a definition for the function: `{ <body> }`
-   | |_|
-   |
---
->> error[E0425]: cannot find function `my_get_param_handler` in this scope
-   --> rust/doctests_kernel_generated.rs:400:61
-   |
-   400 |     (FOO_GET_PARAM, drm_foo_get_param, ioctl::RENDER_ALLOW, my_get_param_handler),
-   |                                                             ^^^^^^^^^^^^^^^^^^^^ not found in this scope
---
->> error[E0599]: no method named `to_errno` found for type `u32` in the current scope
-   --> rust/doctests_kernel_generated.rs:399:1
-   |
-   399 | / kernel::declare_drm_ioctls! {
-   400 | |     (FOO_GET_PARAM, drm_foo_get_param, ioctl::RENDER_ALLOW, my_get_param_handler),
-   401 | | }
-   | |_^ method not found in `u32`
-   |
-   = note: this error originates in the macro `kernel::declare_drm_ioctls` (in Nightly builds, run with -Z macro-backtrace for more info)
---
->> error[E0433]: failed to resolve: use of undeclared crate or module `bindings`
-   --> rust/doctests_kernel_generated.rs:349:19
-   |
-   349 |        data: &mut bindings::argument_type,
-   |                   ^^^^^^^^ use of undeclared crate or module `bindings`
---
->> error[E0433]: failed to resolve: `Self` is only available in impls, traits, and type definitions
-   --> rust/doctests_kernel_generated.rs:350:39
-   |
-   350 |        file: &kernel::drm::file::File<Self::File>,
-   |                                       ^^^^ `Self` is only available in impls, traits, and type definitions
---
->> error[E0411]: cannot find type `Self` in this scope
-   --> rust/doctests_kernel_generated.rs:348:45
-   |
-   348 | fn foo(device: &kernel::drm::device::Device<Self>,
-   |    --- `Self` not allowed in a function     ^^^^ `Self` is only available in impls, traits, and type definitions
---
->> error[E0425]: cannot find value `DRM_IOCTL_FOO_GET_PARAM` in this scope
-   --> rust/doctests_kernel_generated.rs:400:6
-   |
-   400 |     (FOO_GET_PARAM, drm_foo_get_param, ioctl::RENDER_ALLOW, my_get_param_handler),
-   |      ^^^^^^^^^^^^^ not found in this scope
---
->> error[E0412]: cannot find type `drm_foo_get_param` in crate `$crate::uapi`
-   --> rust/doctests_kernel_generated.rs:400:21
-   |
-   400 |     (FOO_GET_PARAM, drm_foo_get_param, ioctl::RENDER_ALLOW, my_get_param_handler),
-   |                     ^^^^^^^^^^^^^^^^^ not found in `$crate::uapi`
---
->> error[E0433]: failed to resolve: use of undeclared crate or module `ioctl`
-   --> rust/doctests_kernel_generated.rs:400:40
-   |
-   400 |     (FOO_GET_PARAM, drm_foo_get_param, ioctl::RENDER_ALLOW, my_get_param_handler),
-   |                                        ^^^^^ use of undeclared crate or module `ioctl`
-   |
-   help: consider importing this module
-   |
-   3   + use kernel::drm::ioctl;
-   |
+Wouldn't be this commit instead?
+https://cgit.freedesktop.org/drm/drm-misc/commit/?id=8b25320887d7feac98875546ea0f521628b745bb
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best Regards,
+~Arthur Grillo
+
+
+>> Suggested-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+>> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+>> ---
+>>  include/drm/drm_fixed.h | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/include/drm/drm_fixed.h b/include/drm/drm_fixed.h
+>> index 0c9f917a4d4b..de3a79909ac9 100644
+>> --- a/include/drm/drm_fixed.h
+>> +++ b/include/drm/drm_fixed.h
+>> @@ -90,7 +90,7 @@ static inline int drm_fixp2int(s64 a)
+>>  
+>>  static inline int drm_fixp2int_round(s64 a)
+>>  {
+>> -	return drm_fixp2int(a + (1 << (DRM_FIXED_POINT_HALF - 1)));
+> Also, this is the only usage of DRM_FIXED_POINT_HALF. Can you also
+> remove it as it won't be used anymore?
+> 
+>> +	return drm_fixp2int(a + DRM_FIXED_ONE / 2);
+> Would this division be equivalent to just shifting 1ULL by 31 instead of
+> 32 as done in DRM_FIXED_ONE?
+> 
+> Melissa
+> 
+>>  }
+>>  
+>>  static inline int drm_fixp2int_ceil(s64 a)
+>>
+>> -- 
+>> 2.43.0
+>>
