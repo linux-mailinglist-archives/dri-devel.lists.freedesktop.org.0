@@ -2,78 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B543587DF99
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Mar 2024 20:19:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A74187DFDD
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Mar 2024 20:59:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6350B10E69A;
-	Sun, 17 Mar 2024 19:19:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6625610E2BC;
+	Sun, 17 Mar 2024 19:59:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QNIHUP4r";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=tronnes.org header.i=@tronnes.org header.b="bJ1KRpox";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F9DF10E69A
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Mar 2024 19:19:01 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-2d204e102a9so44021071fa.0
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Mar 2024 12:19:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1710703139; x=1711307939; darn=lists.freedesktop.org;
- h=mime-version:message-id:date:user-agent:references:in-reply-to
- :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Qfst673t7C8jXg66iNdTygTbdYEEGywEvce8gfb8oBM=;
- b=QNIHUP4r8QWz/pwIF2RNxDOQmZ4NmlfO7T6Qq9kT0cAddCf6wB0HvWKWWq9A0MQwP1
- 9mug5M37nKmEkArEUlBLyiA8JbntGAeHYC+HPXMwXE5mWtm1YbhkU+f3uDBtrc6k0z3p
- iC3R9mf09OGYDOr6o3CcWrmuFR2eahwb//6/HetqFEv0gf+o5JLF2FuDVjtqRkEgwq5f
- jcj2LUft/dp7xCvmLm6Q8rIUA/0Bm3Y7O9gyIz9+Deszk7my9vwlVhcKWmu43aMxTMKj
- Eq/cu8blpgEVufVPnbUTK0KExfipVd5wqhhEpA6R6EWMb4lQzk64pI4RSUhSrCnfBUna
- MaFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710703139; x=1711307939;
- h=mime-version:message-id:date:user-agent:references:in-reply-to
- :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Qfst673t7C8jXg66iNdTygTbdYEEGywEvce8gfb8oBM=;
- b=ujSTvZSZJUCTHiBdWHLySW/E2YIiYuo96MBTlcW7tQ3z6tZMNQNOLnLAxRrRkUxrHU
- 6fMUWv+rxP9OTY8oHb3o0Bk/nhis4MTOGf2XPpi74uN8dyHkUsNLp98J8hurTZjzc3q/
- 2q6eW9RomU0dA7zpyOz+c8qycexDFYjR4KsZyxvBIbVc14ECwnLYSYsI3yIYEZjvg7d8
- IBp2ZmySDC1GyWNGmcBCvMxi9x+yqngpsemYfMWi6RVADO2HPEVTpWFsIzbu7GgoJADA
- eEtDAEOlQ8nyl7xSuUw3Z+N0lIlxktkuTCvHfMirfFyDJb68aEfucT3rVuZ9WKIxkD+L
- J3mw==
-X-Gm-Message-State: AOJu0YyLTOR5wXl8uzAahvoR2/YiV3HH2RkCF+2BJRh7hYlRgS5UWu9T
- 0n9kG64nMtSokT+CAtwopCNEt9KzgWRDvhoGDUunswC3mCr6XW9S
-X-Google-Smtp-Source: AGHT+IF90IVvI0Ut4QFZTaXM+AVlBrBtbktFiXN815gXm1IZi+DmsOxC6n6I2KBamUNHG/Qv5hnXdw==
-X-Received: by 2002:a2e:a0c8:0:b0:2d2:4fa4:f4b2 with SMTP id
- f8-20020a2ea0c8000000b002d24fa4f4b2mr6722521ljm.28.1710703138673; 
- Sun, 17 Mar 2024 12:18:58 -0700 (PDT)
-Received: from betty.fdsoft.se (213-67-237-183-no99.tbcn.telia.com.
- [213.67.237.183]) by smtp.gmail.com with ESMTPSA id
- x26-20020a2e7c1a000000b002d401463895sm1187247ljc.69.2024.03.17.12.18.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Mar 2024 12:18:58 -0700 (PDT)
-Received: from ester.fdsoft.se ([192.168.1.2] helo=ester)
- by betty.fdsoft.se with esmtp (Exim 4.97.1)
- (envelope-from <frej.drejhammar@gmail.com>)
- id 1rlw25-000000007hk-2zrp; Sun, 17 Mar 2024 20:18:57 +0100
-From: Frej Drejhammar <frej.drejhammar@gmail.com>
-To: Kevin Hao <haokexin@gmail.com>
-Cc: dri-devel@lists.freedesktop.org,  Jyri Sarha <jyri.sarha@iki.fi>,  Tomi
- Valkeinen <tomi.valkeinen@ideasonboard.com>,  Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,  David Airlie
- <airlied@gmail.com>,  Daniel Vetter <daniel@ffwll.ch>,  =?utf-8?Q?Ma?=
- =?utf-8?Q?=C3=ADra?= Canal <mcanal@igalia.com>
-Subject: Re: [PATCH] drm/tilcdc: Set preferred depth
-In-Reply-To: <20240317033918.535716-1-haokexin@gmail.com> (Kevin Hao's message
- of "Sun, 17 Mar 2024 11:39:18 +0800")
-References: <20240317033918.535716-1-haokexin@gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
-Date: Sun, 17 Mar 2024 20:18:57 +0100
-Message-ID: <kh6h4bra6.fsf@gmail.com>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F39910E2BC
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Mar 2024 19:58:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202312;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=oCAlG+NauGSjJyPDaULovlfJyBBFh1H+GxIHtBEWSk8=; b=bJ1KRpoxPHO9Fl7hh5XLacnps4
+ BXxHJX3GUvX03NqjMabSdptaSUqcyZ76HqlwgiQz+Db1kOUsf9VaX9XGDWDtseNi7ZM8VblboaQjR
+ dUIBHFNcwK1Viti1TkeJ/leo9B1pdkZLw0uqc0P5O96AYmZ7j1kUSYoGPyTkScLiDLIXSNiwv7Gg9
+ VAXmhMExhrpyMgLsgdvRu5LuBEqvyPA0JSzlR1dKnoqSRwfyhch9AS+Gi0gOHEL+YGbm1qK6HqZru
+ 4rZm9CyW+6yViQ/zfupc2uBK91GdHAijFugS9YD1NuzfJWKex1uBaStefc+iVrgAdu+vn1nBVJO9h
+ zXyS6oLg==;
+Received: from [2a01:799:950:4300:268a:bbd3:738c:c4c6] (port=39794)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ (envelope-from <noralf@tronnes.org>) id 1rlw4O-00HYIi-J3;
+ Sun, 17 Mar 2024 20:21:20 +0100
+Message-ID: <836275ee-b8dc-4e73-b4c0-defe64e9f69a@tronnes.org>
+Date: Sun, 17 Mar 2024 20:21:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 10/43] drm/gud: Use fbdev-shmem
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, deller@gmx.de, javierm@redhat.com
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ noralf@tronnes.org
+References: <20240312154834.26178-1-tzimmermann@suse.de>
+ <20240312154834.26178-11-tzimmermann@suse.de>
+Content-Language: en-US
+From: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20240312154834.26178-11-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,31 +64,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kevin,
 
-Kevin Hao <haokexin@gmail.com> writes:
 
-> But after kernel commit c91acda3a380, the FB will not be created
-> successfully due to the check of the valid pixel format. Then the bpp
-> is set to 24, but the 'depth = 16' and 'bpp = 24' combo is not a valid
-> pixel format.
->
-> Fix this issue by explicitly setting the preferred_depth in this driver.
-> With this change, the modesetting driver would choose the correct
-> depth/bpp combo based on our setting in xorg.conf.
+On 3/12/24 16:45, Thomas Zimmermann wrote:
+> Implement fbdev emulation with fbdev-shmem. Avoids the overhead of
+> fbdev-generic's additional shadow buffering. No functional changes.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: "Noralf Trønnes" <noralf@tronnes.org>
+> ---
 
-Check the fix in [1], with it not only does the X-server work with a
-color depth of 16 bits, it also enables the use of a 24 bit color depth.
-
-As I'm the author of the solution in [1] I'm partial to it as it is a
-more general solution to the regression. I have no standing in this
-community as [1] is my first contribution to the DRM system, but if I
-had, I would NAK this patch as it only fixes the regression for one
-driver and does not enable the use of a 24 bit color depth which is
-something the hardware is capable of.
-
-Best regards,
-
---Frej
-
-[1] https://lore.kernel.org/all/e7ef6d422365986f49746b596735f7a0b939574d.1710698387.git.frej.drejhammar@gmail.com/
+Acked-by: Noralf Trønnes <noralf@tronnes.org>
