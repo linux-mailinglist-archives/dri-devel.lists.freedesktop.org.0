@@ -2,55 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED3E87DC36
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Mar 2024 02:52:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39BE687DC39
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Mar 2024 03:03:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42F4810E1A2;
-	Sun, 17 Mar 2024 01:52:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2288110E1E8;
+	Sun, 17 Mar 2024 02:03:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DGaXupo1";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Rm1H1fFT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1244610E1A2
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Mar 2024 01:52:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710640329; x=1742176329;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=TkFsXH3F7LQN7sxtntbCDN2txd6xcwLzuOMJ1XCkVqk=;
- b=DGaXupo1Ipjtt+cor3vTP0JEUvOza3Vb2V/ZW66ZqcrvmlaWy/GBdpP6
- yCF8375dxMyAYB09J0qsP7wLea6LfvvgVY03NoBftmkXRippn2GgwnR8P
- dGXkkBHQ6dA2Xd4fnGQyfN6HQEwuF487SQuQOVX7MeAYKDV5Tmtu2EakM
- i6ynO1hyjp7HiRDkBpIAEl5n/CWX7nrMJIiWiN2bvCvlqOerdTSnwoed5
- +Jz7J290e55tK7g2eEW8/tFbrV33pMQDoiKPPjFiv5NMwz1UcvKPlyoi4
- 6616Qa1cI5IIohdpqYzzF4EWEGZVZnULQ1q+3P9Al2+Sb3nGYWSjaEqRU w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11015"; a="16030611"
-X-IronPort-AV: E=Sophos;i="6.07,132,1708416000"; d="scan'208";a="16030611"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Mar 2024 18:52:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,132,1708416000"; d="scan'208";a="36214339"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
- by fmviesa002.fm.intel.com with ESMTP; 16 Mar 2024 18:52:06 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rlfgx-000FvJ-31;
- Sun, 17 Mar 2024 01:52:03 +0000
-Date: Sun, 17 Mar 2024 09:51:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wedson Almeida Filho <wedsonaf@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Danilo Krummrich <dakr@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
- =?iso-8859-1?B?TOlv?= Lanteri Thauvin <leseulartichaut@gmail.com>,
- Asahi Lina <lina@asahilina.net>
-Subject: [drm-misc:topic/rust-drm 14/18] error[E0606]: casting `&u32` as
- `*const u8` is invalid
-Message-ID: <202403170956.7RqBDSvN-lkp@intel.com>
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
+ [209.85.219.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5726A10E224
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Mar 2024 02:03:34 +0000 (UTC)
+Received: by mail-yb1-f179.google.com with SMTP id
+ 3f1490d57ef6-dcc6fc978ddso2733399276.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Mar 2024 19:03:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1710641013; x=1711245813; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=fDawv7n/Hl1MA12W63Wi04iWswIJUMGvTr6PyC7EIoE=;
+ b=Rm1H1fFTy53jVUNjJ+v6pevg2rDSwPZPxF0JnIdGYs5CHiPbKUSPraLkWEtXBg6tUk
+ DDSFG7R2J5VuNcGgYXhPHXNvX9N8MES3cS7+yzDt1675V2EDW20Db0NaseBD5IZ2v5+j
+ rHyvDroRGLAjhfxQmDbfhi0Q4VVPHYj5MzRITOh3fBtsFNpI+Nk/CdqjDvABtZkmFVyr
+ yDUOUd4gA8IyhnzaMQMB3iLR9wHLRw40U7Mep3KP8tb3ba3ctJRWKOf+jF+Kn4Mdwc5p
+ CBlvn5NmxwEz7dA6KkqMR103K/ALbJYwZ0s5L8zRNuYIchaVZN9GZTlDWQE248qWR9Mj
+ XL5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710641013; x=1711245813;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fDawv7n/Hl1MA12W63Wi04iWswIJUMGvTr6PyC7EIoE=;
+ b=oTJk1rd91RVrWFGH+SGeRvtf3p2tVp7e5saP0fok5b8Y+x/rHLgLOi1Slv7oLV0NQn
+ u0PkNOfa239xTdKeLygbBocMTAQKxyc4oU13CGsJgoa763PItwcNNyRU8R/jJ9/9jLd4
+ Sn8rFGUqsZAfmqbJMrCwMhKwaevYN7hf1d7Ig4lOFdhkzCn5duMuz/X3puc3gNw7537K
+ PPFm3Y7ygoolpIJ7ujAg6YUj0EzMF7RS6ew1gS8LhM/d3ynXo5BYH/S7BrGL49alqOcX
+ jCLv0rKR3hU5DeYwogpjBUt9Wd9WoJDw3jTqaRLTuA512hkH/VOOwawp0F8zHLkK2y7k
+ Baew==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUR2wDipB0ewtuDUaMGlCzBw9zPO5+kQNGNuuIUFS1I+vTrCspfKBU/87dRHRujozy08OXRXpI9uPr+HN4pHSF4u1JXy6/TAuFmyua4cHOS
+X-Gm-Message-State: AOJu0Yw0v32SuoNfFCrBruqVjnnLX1pl2nt1cqONIDxO353/VbJutBpO
+ WxA+vaJ4cVhD+1ZWLek9Q5Pmx1HInuiapoPmIsDNJ1N2IM5d+2xe4dwfzWPyfSW4j4ctDdGy0Cw
+ Vo2UIxWblvkKkgKDDb5xJcszApSLSX5IBQcrCnA==
+X-Google-Smtp-Source: AGHT+IGKP5/QVTFeKJWp0LE2bmqx8+bXO7FoyJVOXlQK9kdHfeZzWq2GYg6yprxmFWn55gcVROku92p+nT0HUkQ0/Ik=
+X-Received: by 2002:a05:6902:1348:b0:dcf:ecce:b2da with SMTP id
+ g8-20020a056902134800b00dcfecceb2damr6226829ybu.19.1710641013131; Sat, 16 Mar
+ 2024 19:03:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <e09122722190d052cee792a9246c274510f3b928.1710618660.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <e09122722190d052cee792a9246c274510f3b928.1710618660.git.christophe.jaillet@wanadoo.fr>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sun, 17 Mar 2024 04:03:21 +0200
+Message-ID: <CAA8EJppcODOQPaP1=0hfb72egS=Nca82OZV1SH1gw9XDubYaSg@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: lt9611uxc: Fix an error handling path in
+ lt9611uxc_probe()
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org, 
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,28 +87,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc topic/rust-drm
-head:   42abbd1bc1f3362a9adee3d05e54518de90f2205
-commit: 6c0514c3f46ec15b72726e2a930262a0225e7942 [14/18] rust: Add `container_of` and `offset_of` macros
-config: x86_64-randconfig-r113-20240315 (https://download.01.org/0day-ci/archive/20240317/202403170956.7RqBDSvN-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240317/202403170956.7RqBDSvN-lkp@intel.com/reproduce)
+On Sat, 16 Mar 2024 at 21:51, Christophe JAILLET
+<christophe.jaillet@wanadoo.fr> wrote:
+>
+> If lt9611uxc_audio_init() fails, some resources still need to be released
+> before returning the error code.
+>
+> Use the existing error handling path.
+>
+> Fixes: 0cbbd5b1a012 ("drm: bridge: add support for lontium LT9611UXC bridge")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+> Compile tested only.
+> ---
+>  drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403170956.7RqBDSvN-lkp@intel.com/
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-All errors (new ones prefixed by >>):
-
->> error[E0606]: casting `&u32` as `*const u8` is invalid
-   --> rust/doctests_kernel_generated.rs:1725:18
-   |
-   1725 | let test_alias = container_of!(b_ptr, Test, b);
-   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = note: this error originates in the macro `container_of` (in Nightly builds, run with -Z macro-backtrace for more info)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With best wishes
+Dmitry
