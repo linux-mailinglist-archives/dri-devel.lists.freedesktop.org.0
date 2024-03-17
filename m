@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEF7887DBF5
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Mar 2024 00:13:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED3E87DC36
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Mar 2024 02:52:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B6BC10F48C;
-	Sat, 16 Mar 2024 23:13:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42F4810E1A2;
+	Sun, 17 Mar 2024 01:52:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PjZnPFEY";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DGaXupo1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FE3710F31D
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Mar 2024 23:13:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1710630796;
- bh=IhpBXYmi/BsEsq/CSAb6QqrLjEY2i/Yps1Od4RNhUH8=;
- h=From:To:Cc:Subject:Date:From;
- b=PjZnPFEYAUQQQG4/5HoJ3yMf5wRmZ+oxtmYJcXJq0qpIUlLS7HCVBsNgTWSPRL3g9
- QnxyEuWAjUg0iGqVLcNj1xQ9oAJqlwLThwZkO8SfAd/TYvXDRpiO1uyxFgpdTe2qN7
- /ZkTelRCYSlR8e/9pUvP9h5RrBmBH2BYRe/7QG4vKZxn3+NPfmwd+GL1c1bkqG2Uv4
- AXQoQizkCZBHZqcE+8NuhqAt0eRMizUJ9MfSVcAaOqeYUup5opRFQWOmm0zSB/q7tr
- fY/Cs1ufXMrenlU2T7MJ01FKEng6+ydGyeAeFipjSD0g+Nqz5/DJmWcMZ6+27hsQXf
- I48YaIaHeyumA==
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: alarumbe)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 726D6378020D;
- Sat, 16 Mar 2024 23:13:15 +0000 (UTC)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: kernel@collabora.com,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panfrost: Only display fdinfo's engine and cycle tags
- when profiling is on
-Date: Sat, 16 Mar 2024 23:13:04 +0000
-Message-ID: <20240316231306.293817-1-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1244610E1A2
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Mar 2024 01:52:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1710640329; x=1742176329;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=TkFsXH3F7LQN7sxtntbCDN2txd6xcwLzuOMJ1XCkVqk=;
+ b=DGaXupo1Ipjtt+cor3vTP0JEUvOza3Vb2V/ZW66ZqcrvmlaWy/GBdpP6
+ yCF8375dxMyAYB09J0qsP7wLea6LfvvgVY03NoBftmkXRippn2GgwnR8P
+ dGXkkBHQ6dA2Xd4fnGQyfN6HQEwuF487SQuQOVX7MeAYKDV5Tmtu2EakM
+ i6ynO1hyjp7HiRDkBpIAEl5n/CWX7nrMJIiWiN2bvCvlqOerdTSnwoed5
+ +Jz7J290e55tK7g2eEW8/tFbrV33pMQDoiKPPjFiv5NMwz1UcvKPlyoi4
+ 6616Qa1cI5IIohdpqYzzF4EWEGZVZnULQ1q+3P9Al2+Sb3nGYWSjaEqRU w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11015"; a="16030611"
+X-IronPort-AV: E=Sophos;i="6.07,132,1708416000"; d="scan'208";a="16030611"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Mar 2024 18:52:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,132,1708416000"; d="scan'208";a="36214339"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+ by fmviesa002.fm.intel.com with ESMTP; 16 Mar 2024 18:52:06 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rlfgx-000FvJ-31;
+ Sun, 17 Mar 2024 01:52:03 +0000
+Date: Sun, 17 Mar 2024 09:51:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Wedson Almeida Filho <wedsonaf@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Danilo Krummrich <dakr@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
+ =?iso-8859-1?B?TOlv?= Lanteri Thauvin <leseulartichaut@gmail.com>,
+ Asahi Lina <lina@asahilina.net>
+Subject: [drm-misc:topic/rust-drm 14/18] error[E0606]: casting `&u32` as
+ `*const u8` is invalid
+Message-ID: <202403170956.7RqBDSvN-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,38 +66,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If job accounting is disabled, then both fdinfo's drm-engine and drm-cycle
-key values will remain immutable. In that case, it makes more sense not to
-display them at all to avoid confusing user space profiling tools.
+tree:   git://anongit.freedesktop.org/drm/drm-misc topic/rust-drm
+head:   42abbd1bc1f3362a9adee3d05e54518de90f2205
+commit: 6c0514c3f46ec15b72726e2a930262a0225e7942 [14/18] rust: Add `container_of` and `offset_of` macros
+config: x86_64-randconfig-r113-20240315 (https://download.01.org/0day-ci/archive/20240317/202403170956.7RqBDSvN-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240317/202403170956.7RqBDSvN-lkp@intel.com/reproduce)
 
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
----
- drivers/gpu/drm/panfrost/panfrost_drv.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403170956.7RqBDSvN-lkp@intel.com/
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index eec250114114..ef9f6c0716d5 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -550,10 +550,12 @@ static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
- 	BUILD_BUG_ON(ARRAY_SIZE(engine_names) != NUM_JOB_SLOTS);
- 
- 	for (i = 0; i < NUM_JOB_SLOTS - 1; i++) {
--		drm_printf(p, "drm-engine-%s:\t%llu ns\n",
--			   engine_names[i], panfrost_priv->engine_usage.elapsed_ns[i]);
--		drm_printf(p, "drm-cycles-%s:\t%llu\n",
--			   engine_names[i], panfrost_priv->engine_usage.cycles[i]);
-+		if (pfdev->profile_mode) {
-+			drm_printf(p, "drm-engine-%s:\t%llu ns\n",
-+				   engine_names[i], panfrost_priv->engine_usage.elapsed_ns[i]);
-+			drm_printf(p, "drm-cycles-%s:\t%llu\n",
-+				   engine_names[i], panfrost_priv->engine_usage.cycles[i]);
-+		}
- 		drm_printf(p, "drm-maxfreq-%s:\t%lu Hz\n",
- 			   engine_names[i], pfdev->pfdevfreq.fast_rate);
- 		drm_printf(p, "drm-curfreq-%s:\t%lu Hz\n",
+All errors (new ones prefixed by >>):
 
-base-commit: 97252d0a4bfbb07079503d059f7522d305fe0f7a
+>> error[E0606]: casting `&u32` as `*const u8` is invalid
+   --> rust/doctests_kernel_generated.rs:1725:18
+   |
+   1725 | let test_alias = container_of!(b_ptr, Test, b);
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: this error originates in the macro `container_of` (in Nightly builds, run with -Z macro-backtrace for more info)
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
