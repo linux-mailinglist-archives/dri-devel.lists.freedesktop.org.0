@@ -2,55 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5878187DFC5
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Mar 2024 20:44:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3A1587E033
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Mar 2024 22:15:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C69E10E06A;
-	Sun, 17 Mar 2024 19:44:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1944D10ECEB;
+	Sun, 17 Mar 2024 21:15:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=tronnes.org header.i=@tronnes.org header.b="jRfeZ9jz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="F7tBEoEd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1240 seconds by postgrey-1.36 at gabe;
- Sun, 17 Mar 2024 19:44:12 UTC
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C67C710E093
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Mar 2024 19:44:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202312;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=J3rmugwOBqmFCeFyr0Zq+TggeSH2clrkfuPS4qvEykI=; b=jRfeZ9jz7BCQwAjeWxqiHzCmuy
- tG+mi++H6GCvv4BsixXRgsUb0m8M9O+uhbvJOhEgT6LsobxFXafX36u0ZV5ct8aGq8R9RXWI9TN01
- EWHrQEYIBLIilmSkagD184HJvil+Sah3ejBKBOdseNTLZM6UNQgFNrKQBNPw5k90UU5ckaf93rarr
- Pmpf96MaizDICLWBhyrWvPNljqffU2ZZvr/15zeL6cfzOHMDruRW6botEdjIrWBw7UvxUdNrU2Avq
- V78vqKwZqjiBC/HixE0adYrS20ap6cTJv/cNz4HxMwuhEbSMFw8y4V7MvOUcVl1V7HkLp3a7zzJSx
- W46zdywQ==;
-Received: from [2a01:799:950:4300:268a:bbd3:738c:c4c6] (port=39794)
- by smtp.domeneshop.no with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
- (envelope-from <noralf@tronnes.org>) id 1rlw5n-00HYIi-25;
- Sun, 17 Mar 2024 20:22:47 +0100
-Message-ID: <d56769a1-e96f-42ab-b38d-b8d6525da288@tronnes.org>
-Date: Sun, 17 Mar 2024 20:22:46 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADA0910ECEB
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Mar 2024 21:14:59 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id B539760B91;
+ Sun, 17 Mar 2024 21:14:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42890C433C7;
+ Sun, 17 Mar 2024 21:14:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1710710098;
+ bh=nwlvfWIiZZrwsODtnjPTrwvwT3eKt6Da7MTY2x+lvVk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=F7tBEoEdWQvvtEHdUHM8jNS7xcYThmcCGJkO5GzbZKQADDLdICjzW1C8bw4Hr7vjP
+ RYz6nHcdS4mD03HxX9VyFl++38tXX3hyU0diAmbrRDgwIdvjI/rDFheX6nWPud8Dd6
+ A8bCRtWHOGM3vUl+ylI+m1TomnxrF5u4JXqB4lftvwTs2I4xWxmEofysvVivapmnK0
+ f7bP6YNdX0zrkixeCcS60vrCMLK9USGH+0r1UvzCD8Nb1PJXgFRudlfjb+lt+jmakI
+ vwU1cNVPuoOm8bNLewV4XYuVGdbz/2b1CMU/60KdMdDo1ocjergIqHzn685mSrgeH2
+ XQ0WnU0/t6uxA==
+Date: Sun, 17 Mar 2024 16:14:55 -0500
+From: Rob Herring <robh@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: ili9881c: Add Startek
+ KD050HDFIA020-C020A support
+Message-ID: <171071009452.2391266.6225826463039032160.robh@kernel.org>
+References: <20240317155746.23034-1-laurent.pinchart@ideasonboard.com>
+ <20240317155746.23034-2-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 39/43] drm/tiny/repaper: Use fbdev-dma
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, deller@gmx.de, javierm@redhat.com
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- noralf@tronnes.org
-References: <20240312154834.26178-1-tzimmermann@suse.de>
- <20240312154834.26178-40-tzimmermann@suse.de>
-From: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20240312154834.26178-40-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240317155746.23034-2-laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,17 +64,14 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-
-On 3/12/24 16:45, Thomas Zimmermann wrote:
-> Implement fbdev emulation with fbdev-dma. Fbdev-dma now supports
-> damage handling, which is required by repaper. Avoids the overhead of
-> fbdev-generic's additional shadow buffering. No functional changes.
+On Sun, 17 Mar 2024 17:57:45 +0200, Laurent Pinchart wrote:
+> Document the compatible value for Startek KD050HDFIA020-C020A panels.
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: "Noralf Trønnes" <noralf@tronnes.org>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->  drivers/gpu/drm/tiny/repaper.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  .../devicetree/bindings/display/panel/ilitek,ili9881c.yaml       | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 
-Acked-by: Noralf Trønnes <noralf@tronnes.org>
+Acked-by: Rob Herring <robh@kernel.org>
+
