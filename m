@@ -2,46 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7019A87DE2E
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Mar 2024 16:57:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F5E87DECF
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Mar 2024 17:36:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2577010EFD7;
-	Sun, 17 Mar 2024 15:57:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08FF810E32F;
+	Sun, 17 Mar 2024 16:36:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Z9CuqPpu";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QFn1Lz0H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24E4B10EE5C
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Mar 2024 15:57:52 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9BB5814B1;
- Sun, 17 Mar 2024 16:57:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1710691045;
- bh=HTy1msE032RVtYRYpLhsmxcDMN38C+1O/FmvyD+hUjk=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Z9CuqPpux8ToIvf0FnKRrh3Ize2t5asffeTN5KKaOWJRGemioA8zV2H73ZER1Z1AJ
- aed+FT6ks8iDskOqqWoP17J7p19sKus/FJwpM8d5covaR/Ldo9NAgPOYdABx4SKZHg
- cvAC+9mVpqI2xC/okj3DqGKAch492TjZTzn657eI=
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-Subject: [PATCH 2/2] drm/panel: ilitek-ili9881c: Add Startek
- KD050HDFIA020-C020A support
-Date: Sun, 17 Mar 2024 17:57:46 +0200
-Message-ID: <20240317155746.23034-3-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240317155746.23034-1-laurent.pinchart@ideasonboard.com>
-References: <20240317155746.23034-1-laurent.pinchart@ideasonboard.com>
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
+ [209.85.210.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5E0410E32F
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Mar 2024 16:36:18 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id
+ d2e1a72fcca58-6e6ee9e3cffso2050402b3a.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Mar 2024 09:36:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1710693378; x=1711298178; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=OF79KXhVjtXexZ/GpI6MkY7a20tX+4xRmIvmqST+AnU=;
+ b=QFn1Lz0HbcQGzJ005x35UB4PYTGukHwtZ/m0nEjDe+VBDy2rYZZm4Wd30t0fgjnqpr
+ HsJ4NiYzpyAFUmar44ZVMSwPzDwnGg05TLyZH5Cm78KzBu0204zVuGgS+OUAEZeiUK1L
+ AGLwSaZLMxuuV0GA+rk6pHIg14gU/kOSmxaWb9hKMvskGG0fFOewW07bC9/7UhdV7ZjA
+ AK5ujJpUrd6kiGs/wwC+5ITwYn33utlZOf9pAUQS7482tdvt3uSA2a8QI/SOA+nWUvUF
+ 6XiTYyMizLXzvK1hkmijgIm9AwnJVoiBlKlhdEGEHNAWxowqK6BeKavKas6o7aosjnp1
+ cgGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710693378; x=1711298178;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OF79KXhVjtXexZ/GpI6MkY7a20tX+4xRmIvmqST+AnU=;
+ b=tdyPGJcJcQc954669YSdYXUv2GYxt+MLQ17NZGjAqUHJ/b1pbKJshoV1/aYU9LI3F0
+ RuYlZ4SugOy00UW9ewL7GQ1LdFDWSLQSnry1f38lONQcmIHNz0I0GxAYxp+k3CyaoFM6
+ +kBsgtzRRl5JC0KhOte84mqkGV904LlyCyjYy4/JawSq90dDih2VD1thJ9x85Gz29kgG
+ stT+JQzF24MPT/ZgtZvrdMTG8Anh8rX3Qdu3JpIbQJxqt9/1+JUsB69c6udkMycz1xeM
+ i8Yt4fbd2xYca+GKLTR4uhsMOHEBGdvIcaCUXc3rQkZqf9Gf4dYCLTnI6tqZN7EhOkzn
+ HE1Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVphD1Sp9P+0+4nT5/E8PLi4gtUCEoKNhk2aCfbB53iT35+FikTI041jjjaELErzJ4LYO4+vFao2e8xKkLKSioSQ6BL06ZuxIJPB9HqKISz
+X-Gm-Message-State: AOJu0YzTG0wP08qxHrLEn/YP8MR6N09ggtBaZRVkz35LHZgaKfnBf7b0
+ tuCCRR1XEjuf5a7HjuZXfFAzwP2JRdu2TsxMZpH/RPirjWsqQ2zd
+X-Google-Smtp-Source: AGHT+IGa2J0FGsz6KPc52ig70pMekzfNXoYYgf9jnNcxMqsM/th4nXVjaLrcgxRudeFE0v35xphm8A==
+X-Received: by 2002:a05:6a20:e123:b0:1a3:4ff4:219b with SMTP id
+ kr35-20020a056a20e12300b001a34ff4219bmr9172546pzb.12.1710693378049; 
+ Sun, 17 Mar 2024 09:36:18 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ p24-20020aa78618000000b006e4f311f61bsm6373725pfn.103.2024.03.17.09.36.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 17 Mar 2024 09:36:17 -0700 (PDT)
+From: Guenter Roeck <linux@roeck-us.net>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>
+Subject: [PATCH] drm/sun4i: Drop COMPILE_TEST
+Date: Sun, 17 Mar 2024 09:36:15 -0700
+Message-Id: <20240317163615.563428-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,273 +85,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the Startek KD050HDFIA020-C020A panel.
+Attempts to build the sun4i drm code on various architectures using gcc 11.x
+or older fails with
 
-The init table comes from the Compulab BSP ([1]).
+ERROR: modpost: "__udivdi3" [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
 
-[1] https://github.com/compulab-yokneam/meta-bsp-imx8mp/blob/ucm-imx8m-plus-r1.1/recipes-kernel/linux/compulab/imx8mp/0000-compulab-imx8m-plus-Add-boards-support.patch
+This is due to commit 358e76fd613a ("drm/sun4i: hdmi: Consolidate
+atomic_check and mode_valid") which introduces a constant 64-bit divide
+operation. Some compilers / compiler versions fail to translate this
+operation into fixed code.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Manual exclusion lists such as "Only build test this code on this subset of
+architectures" or "Do not test this code on this set of architectures"
+do not scale. Remove COMPILE_TEST support for the suni4 drm driver instead
+to ensure that test builds are only performed on supported architectures.
+
+Fixes: 358e76fd613a ("drm/sun4i: hdmi: Consolidate atomic_check and mode_valid")
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 ---
- drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 222 ++++++++++++++++++
- 1 file changed, 222 insertions(+)
+ drivers/gpu/drm/sun4i/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-index 2ffe5f68a890..80b386f91320 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-@@ -455,6 +455,202 @@ static const struct ili9881c_instr k101_im2byl02_init[] = {
- 	ILI9881C_COMMAND_INSTR(0xD3, 0x3F), /* VN0 */
- };
- 
-+static const struct ili9881c_instr kd050hdfia020_init[] = {
-+	ILI9881C_SWITCH_PAGE_INSTR(3),
-+	ILI9881C_COMMAND_INSTR(0x01, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x02, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x03, 0x72),
-+	ILI9881C_COMMAND_INSTR(0x04, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x05, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x06, 0x09),
-+	ILI9881C_COMMAND_INSTR(0x07, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x08, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x09, 0x01),
-+	ILI9881C_COMMAND_INSTR(0x0a, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x0b, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x0c, 0x01),
-+	ILI9881C_COMMAND_INSTR(0x0d, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x0e, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x0f, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x10, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x11, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x12, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x13, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x14, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x15, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x16, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x17, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x18, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x19, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x1a, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x1b, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x1c, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x1d, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x1e, 0x40),
-+	ILI9881C_COMMAND_INSTR(0x1f, 0x80),
-+	ILI9881C_COMMAND_INSTR(0x20, 0x05),
-+	ILI9881C_COMMAND_INSTR(0x20, 0x05),
-+	ILI9881C_COMMAND_INSTR(0x21, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x22, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x23, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x24, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x25, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x26, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x27, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x28, 0x33),
-+	ILI9881C_COMMAND_INSTR(0x29, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x2a, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x2b, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x2c, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x2d, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x2e, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x2f, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x30, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x31, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x32, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x32, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x33, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x34, 0x04),
-+	ILI9881C_COMMAND_INSTR(0x35, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x36, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x37, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x38, 0x3C),
-+	ILI9881C_COMMAND_INSTR(0x39, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x3a, 0x40),
-+	ILI9881C_COMMAND_INSTR(0x3b, 0x40),
-+	ILI9881C_COMMAND_INSTR(0x3c, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x3d, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x3e, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x3f, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x40, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x41, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x42, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x43, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x44, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x50, 0x01),
-+	ILI9881C_COMMAND_INSTR(0x51, 0x23),
-+	ILI9881C_COMMAND_INSTR(0x52, 0x45),
-+	ILI9881C_COMMAND_INSTR(0x53, 0x67),
-+	ILI9881C_COMMAND_INSTR(0x54, 0x89),
-+	ILI9881C_COMMAND_INSTR(0x55, 0xab),
-+	ILI9881C_COMMAND_INSTR(0x56, 0x01),
-+	ILI9881C_COMMAND_INSTR(0x57, 0x23),
-+	ILI9881C_COMMAND_INSTR(0x58, 0x45),
-+	ILI9881C_COMMAND_INSTR(0x59, 0x67),
-+	ILI9881C_COMMAND_INSTR(0x5a, 0x89),
-+	ILI9881C_COMMAND_INSTR(0x5b, 0xab),
-+	ILI9881C_COMMAND_INSTR(0x5c, 0xcd),
-+	ILI9881C_COMMAND_INSTR(0x5d, 0xef),
-+	ILI9881C_COMMAND_INSTR(0x5e, 0x11),
-+	ILI9881C_COMMAND_INSTR(0x5f, 0x01),
-+	ILI9881C_COMMAND_INSTR(0x60, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x61, 0x15),
-+	ILI9881C_COMMAND_INSTR(0x62, 0x14),
-+	ILI9881C_COMMAND_INSTR(0x63, 0x0E),
-+	ILI9881C_COMMAND_INSTR(0x64, 0x0F),
-+	ILI9881C_COMMAND_INSTR(0x65, 0x0C),
-+	ILI9881C_COMMAND_INSTR(0x66, 0x0D),
-+	ILI9881C_COMMAND_INSTR(0x67, 0x06),
-+	ILI9881C_COMMAND_INSTR(0x68, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x69, 0x07),
-+	ILI9881C_COMMAND_INSTR(0x6a, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x6b, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x6c, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x6d, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x6e, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x6f, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x70, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x71, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x72, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x73, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x74, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x75, 0x01),
-+	ILI9881C_COMMAND_INSTR(0x76, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x77, 0x14),
-+	ILI9881C_COMMAND_INSTR(0x78, 0x15),
-+	ILI9881C_COMMAND_INSTR(0x79, 0x0E),
-+	ILI9881C_COMMAND_INSTR(0x7a, 0x0F),
-+	ILI9881C_COMMAND_INSTR(0x7b, 0x0C),
-+	ILI9881C_COMMAND_INSTR(0x7c, 0x0D),
-+	ILI9881C_COMMAND_INSTR(0x7d, 0x06),
-+	ILI9881C_COMMAND_INSTR(0x7e, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x7f, 0x07),
-+	ILI9881C_COMMAND_INSTR(0x80, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x81, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x83, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x84, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x85, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x86, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x87, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x88, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x89, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x8A, 0x02),
-+	ILI9881C_SWITCH_PAGE_INSTR(0x4),
-+	ILI9881C_COMMAND_INSTR(0x6C, 0x15),
-+	ILI9881C_COMMAND_INSTR(0x6E, 0x2A),
-+	ILI9881C_COMMAND_INSTR(0x6F, 0x33),
-+	ILI9881C_COMMAND_INSTR(0x3A, 0x94),
-+	ILI9881C_COMMAND_INSTR(0x8D, 0x15),
-+	ILI9881C_COMMAND_INSTR(0x87, 0xBA),
-+	ILI9881C_COMMAND_INSTR(0x26, 0x76),
-+	ILI9881C_COMMAND_INSTR(0xB2, 0xD1),
-+	ILI9881C_COMMAND_INSTR(0xB5, 0x06),
-+	ILI9881C_SWITCH_PAGE_INSTR(0x1),
-+	ILI9881C_COMMAND_INSTR(0x22, 0x0A),
-+	ILI9881C_COMMAND_INSTR(0x31, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x53, 0x90),
-+	ILI9881C_COMMAND_INSTR(0x55, 0xA2),
-+	ILI9881C_COMMAND_INSTR(0x50, 0xB7),
-+	ILI9881C_COMMAND_INSTR(0x51, 0xB7),
-+	ILI9881C_COMMAND_INSTR(0x60, 0x22),
-+	ILI9881C_COMMAND_INSTR(0x61, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x62, 0x19),
-+	ILI9881C_COMMAND_INSTR(0x63, 0x10),
-+	ILI9881C_COMMAND_INSTR(0xA0, 0x08),
-+	ILI9881C_COMMAND_INSTR(0xA1, 0x1A),
-+	ILI9881C_COMMAND_INSTR(0xA2, 0x27),
-+	ILI9881C_COMMAND_INSTR(0xA3, 0x15),
-+	ILI9881C_COMMAND_INSTR(0xA4, 0x17),
-+	ILI9881C_COMMAND_INSTR(0xA5, 0x2A),
-+	ILI9881C_COMMAND_INSTR(0xA6, 0x1E),
-+	ILI9881C_COMMAND_INSTR(0xA7, 0x1F),
-+	ILI9881C_COMMAND_INSTR(0xA8, 0x8B),
-+	ILI9881C_COMMAND_INSTR(0xA9, 0x1B),
-+	ILI9881C_COMMAND_INSTR(0xAA, 0x27),
-+	ILI9881C_COMMAND_INSTR(0xAB, 0x78),
-+	ILI9881C_COMMAND_INSTR(0xAC, 0x18),
-+	ILI9881C_COMMAND_INSTR(0xAD, 0x18),
-+	ILI9881C_COMMAND_INSTR(0xAE, 0x4C),
-+	ILI9881C_COMMAND_INSTR(0xAF, 0x21),
-+	ILI9881C_COMMAND_INSTR(0xB0, 0x27),
-+	ILI9881C_COMMAND_INSTR(0xB1, 0x54),
-+	ILI9881C_COMMAND_INSTR(0xB2, 0x67),
-+	ILI9881C_COMMAND_INSTR(0xB3, 0x39),
-+	ILI9881C_COMMAND_INSTR(0xC0, 0x08),
-+	ILI9881C_COMMAND_INSTR(0xC1, 0x1A),
-+	ILI9881C_COMMAND_INSTR(0xC2, 0x27),
-+	ILI9881C_COMMAND_INSTR(0xC3, 0x15),
-+	ILI9881C_COMMAND_INSTR(0xC4, 0x17),
-+	ILI9881C_COMMAND_INSTR(0xC5, 0x2A),
-+	ILI9881C_COMMAND_INSTR(0xC6, 0x1E),
-+	ILI9881C_COMMAND_INSTR(0xC7, 0x1F),
-+	ILI9881C_COMMAND_INSTR(0xC8, 0x8B),
-+	ILI9881C_COMMAND_INSTR(0xC9, 0x1B),
-+	ILI9881C_COMMAND_INSTR(0xCA, 0x27),
-+	ILI9881C_COMMAND_INSTR(0xCB, 0x78),
-+	ILI9881C_COMMAND_INSTR(0xCC, 0x18),
-+	ILI9881C_COMMAND_INSTR(0xCD, 0x18),
-+	ILI9881C_COMMAND_INSTR(0xCE, 0x4C),
-+	ILI9881C_COMMAND_INSTR(0xCF, 0x21),
-+	ILI9881C_COMMAND_INSTR(0xD0, 0x27),
-+	ILI9881C_COMMAND_INSTR(0xD1, 0x54),
-+	ILI9881C_COMMAND_INSTR(0xD2, 0x67),
-+	ILI9881C_COMMAND_INSTR(0xD3, 0x39),
-+	ILI9881C_SWITCH_PAGE_INSTR(0),
-+	ILI9881C_COMMAND_INSTR(0x35, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x3A, 0x7),
-+};
-+
- static const struct ili9881c_instr tl050hdv35_init[] = {
- 	ILI9881C_SWITCH_PAGE_INSTR(3),
- 	ILI9881C_COMMAND_INSTR(0x01, 0x00),
-@@ -1177,6 +1373,23 @@ static const struct drm_display_mode k101_im2byl02_default_mode = {
- 	.height_mm	= 217,
- };
- 
-+static const struct drm_display_mode kd050hdfia020_default_mode = {
-+	.clock		= 62000,
-+
-+	.hdisplay	= 720,
-+	.hsync_start	= 720 + 10,
-+	.hsync_end	= 720 + 10 + 20,
-+	.htotal		= 720 + 10 + 20 + 30,
-+
-+	.vdisplay	= 1280,
-+	.vsync_start	= 1280 + 10,
-+	.vsync_end	= 1280 + 10 + 10,
-+	.vtotal		= 1280 + 10 + 10 + 20,
-+
-+	.width_mm	= 62,
-+	.height_mm	= 110,
-+};
-+
- static const struct drm_display_mode tl050hdv35_default_mode = {
- 	.clock		= 59400,
- 
-@@ -1345,6 +1558,14 @@ static const struct ili9881c_desc k101_im2byl02_desc = {
- 	.mode_flags = MIPI_DSI_MODE_VIDEO_SYNC_PULSE,
- };
- 
-+static const struct ili9881c_desc kd050hdfia020_desc = {
-+	.init = kd050hdfia020_init,
-+	.init_length = ARRAY_SIZE(kd050hdfia020_init),
-+	.mode = &kd050hdfia020_default_mode,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
-+		      MIPI_DSI_MODE_LPM,
-+};
-+
- static const struct ili9881c_desc tl050hdv35_desc = {
- 	.init = tl050hdv35_init,
- 	.init_length = ARRAY_SIZE(tl050hdv35_init),
-@@ -1372,6 +1593,7 @@ static const struct ili9881c_desc am8001280g_desc = {
- static const struct of_device_id ili9881c_of_match[] = {
- 	{ .compatible = "bananapi,lhr050h41", .data = &lhr050h41_desc },
- 	{ .compatible = "feixin,k101-im2byl02", .data = &k101_im2byl02_desc },
-+	{ .compatible = "startek,kd050hdfia020", .data = &kd050hdfia020_desc },
- 	{ .compatible = "tdo,tl050hdv35", .data = &tl050hdv35_desc },
- 	{ .compatible = "wanchanglong,w552946aba", .data = &w552946aba_desc },
- 	{ .compatible = "ampire,am8001280g", .data = &am8001280g_desc },
+diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
+index 4741d9f6544c..015539bfda2a 100644
+--- a/drivers/gpu/drm/sun4i/Kconfig
++++ b/drivers/gpu/drm/sun4i/Kconfig
+@@ -2,7 +2,7 @@
+ config DRM_SUN4I
+ 	tristate "DRM Support for Allwinner A10 Display Engine"
+ 	depends on DRM && COMMON_CLK
+-	depends on ARCH_SUNXI || COMPILE_TEST
++	depends on ARCH_SUNXI
+ 	select DRM_GEM_DMA_HELPER
+ 	select DRM_KMS_HELPER
+ 	select DRM_PANEL
 -- 
-Regards,
-
-Laurent Pinchart
+2.39.2
 
