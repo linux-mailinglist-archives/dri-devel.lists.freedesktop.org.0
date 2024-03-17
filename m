@@ -2,73 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 421F387DDDF
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Mar 2024 16:20:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9D4F87DD31
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Mar 2024 13:44:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D285210F0F7;
-	Sun, 17 Mar 2024 15:20:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E66110EDDE;
+	Sun, 17 Mar 2024 12:43:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="a2dRGiud";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="YeSKGQjq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
- [209.85.216.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67E9510E613
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Mar 2024 03:39:35 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id
- 98e67ed59e1d1-29dedcd244dso1798757a91.0
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Mar 2024 20:39:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1710646773; x=1711251573; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=XOijO3kp7/7Q2+hjIpHdWpk05IBBzZe9ngcvgY3sOsc=;
- b=a2dRGiudYjc/rd0ptyzb7+2JW/qjutX/jnM6TH+8jRuNuyHXBCvJ7RGMAr2XDni8hK
- IAjWuLRRKzzgq9zf98sYSUyec4Cr80uo0tXZOOA5dNqGbuJrmxdHPPSVVgfGzK9csWyE
- aBxoFs7xNKFRVW/4jflmWfkwL+pRQxPGOjbGxQZ9ThW8kSj2YBYS5Zg4URLN7FPO3qVL
- TsQPjcuVgzyMobdYY+Ptq+s3DMUu5wT5YVztYRWkQHrPXBgf7in+N/zQsJyueAJ+M6x5
- jdqMRS+hh7By04AZTDg4VCZ2jlorGeDMJTN5q7rY1h9oEQsEZ0eNBn5p65mAfC8Ws3QU
- N/kQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFDC310EDDE
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Mar 2024 12:43:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1710679435;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=g97Ft8nUAWlVJEyr5loNfYtK+BYJCYuBkpmr21j3gu4=;
+ b=YeSKGQjqWJbPRB1kQJbo+hbsYv+Xvg9m/HJ2qYiTUoxrAttEGMhAdsdCKKSKIDS3mEji0D
+ vXmSIZxxa2O9JI8/SftM5Ys3AIBQgkhaBAuaJsQhfo77KtSYzuheTiLZUU1P8jMIG2YyJt
+ aMsfcb2tl4/xByr28FMKgIEzq1NhYtk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-477-n6Atx-eSP7m7hpfeow9DmQ-1; Sun, 17 Mar 2024 08:43:53 -0400
+X-MC-Unique: n6Atx-eSP7m7hpfeow9DmQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-341726a5f6cso87492f8f.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Mar 2024 05:43:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710646773; x=1711251573;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XOijO3kp7/7Q2+hjIpHdWpk05IBBzZe9ngcvgY3sOsc=;
- b=wm8xIkWf8fIjMK/9rG4hpoSyZl7HEO6BCbDzPDKHzYYrnMty2WES2139igS+48uJih
- pwxpVJ3WTDs4GDCshaqsiH6sXI7KEOkeqboKxnMs+lIrKiMloLM+NlT4lvGuuw8yKzoB
- wdW9sGYhAeXw70RhTUdVkMwQJZv0kgoIcRCfQ0daTqWFTMYyKJORv6nf6KUoQKKE7VZa
- rWPaCIAf93z0nO04MukGhCMcwYH6KaAYArui/gXJpYMKWzFEjCDDv4WIQ8fZ+ux+VnZP
- kDE4KeLPY4n+K2datZ+zvQUUJUBEkkPWBAyau1XNhv8iHL9XvHrwzbwAmCrPRgrxMZU1
- hPoQ==
-X-Gm-Message-State: AOJu0YxdtUHEJSNGbHihQ0lhTW5IULrOnGNzpx0psYmtG8T1/Kpyd6FX
- MCVEeNkeiUvHYtJi28v9MDWKId8H+KG8AhB+p+VQZl7/p492ZGFngmNoivTxZpI=
-X-Google-Smtp-Source: AGHT+IGCx338OV8LiGJ7bIyHHFDaUNofgyZhHTck10Mi/2fS4Jqi0O3rvSUYIU0NaouGUrErOVoBoQ==
-X-Received: by 2002:a17:902:e94d:b0:1e0:384:ecb9 with SMTP id
- b13-20020a170902e94d00b001e00384ecb9mr2608432pll.8.1710646773371; 
- Sat, 16 Mar 2024 20:39:33 -0700 (PDT)
-Received: from pek-lpggp6.wrs.com (unknown-105-121.windriver.com.
- [147.11.105.121]) by smtp.gmail.com with ESMTPSA id
- h5-20020a170902680500b001d8f111804asm6635759plk.113.2024.03.16.20.39.29
+ d=1e100.net; s=20230601; t=1710679432; x=1711284232;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=g97Ft8nUAWlVJEyr5loNfYtK+BYJCYuBkpmr21j3gu4=;
+ b=Z3wcqx+bvgrRUo3IIlGoGj9+N8+lzRgclyFkciGkfaD8VPnYyL5Rlqlx9vPPhxA5Oq
+ vMK8KDImi4PGr6RJ6WKfhEGjUdeMCxpdTeBjHTJuozXxrnCF1/sEmusV8hFamPAWk4fK
+ cw3GTzDrywXtcz5qv2FgMceeq8QDjCUv1p99wCKbG55M16TUh5ft0lzAtp3iIMyFw0hl
+ ees9sLKNVqTGZiUE/3ZplHmI9lFJ+hphUvTPrRSXeKd9A7ie+9NRUkjeAMfkerX0iqzo
+ DC6EsDzvhtv+LA/gwas0aJtq2h3qhbpox7acGs/MPnvcmzFIjyg3XAHmo7C/+eH+oZmH
+ NpXw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV/+9yowPHifkchzNUljbQIuD7bJvN4S4G9Zu0EeOsUrwAyq9zpG9jDZ3NbViDWbZISK7eQtXgDQVIGuyiX0kkqtfpx8w+Jbq6IPK5sJiCF
+X-Gm-Message-State: AOJu0YxBBWLhvXRtVGE45MepzMigvNA07/K21SXl1dPguH8rn81G8azs
+ la6xzlqdvV06Sx7AxluJfIj3tgll94pKlO5S6E3D4u5/lCJeMmxEK/M1h/GSxDwhb/9/pB/Jkyo
+ kVSBB4WtXV8d+rKu7atebLg645+uODlUWqWYwCHxiwYacbDzJqklaU63CimkcHnJK/Q==
+X-Received: by 2002:adf:ec11:0:b0:33e:bdea:629e with SMTP id
+ x17-20020adfec11000000b0033ebdea629emr6419953wrn.37.1710679432558; 
+ Sun, 17 Mar 2024 05:43:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEb8z95q6yjzbWmLdjxBFXe9pJhFiak8PYhL/obq1KoS1/orvJFLwJ2wJ3LLVi5KBSwFjnBaA==
+X-Received: by 2002:adf:ec11:0:b0:33e:bdea:629e with SMTP id
+ x17-20020adfec11000000b0033ebdea629emr6419935wrn.37.1710679432123; 
+ Sun, 17 Mar 2024 05:43:52 -0700 (PDT)
+Received: from localhost (231.red-83-48-46.staticip.rima-tde.net.
+ [83.48.46.231]) by smtp.gmail.com with ESMTPSA id
+ bk28-20020a0560001d9c00b0033e22a7b3f8sm2503074wrb.75.2024.03.17.05.43.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 16 Mar 2024 20:39:32 -0700 (PDT)
-From: Kevin Hao <haokexin@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-Subject: [PATCH] drm/tilcdc: Set preferred depth
-Date: Sun, 17 Mar 2024 11:39:18 +0800
-Message-ID: <20240317033918.535716-1-haokexin@gmail.com>
-X-Mailer: git-send-email 2.44.0
+ Sun, 17 Mar 2024 05:43:51 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, deller@gmx.de
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, Thomas
+ Zimmermann <tzimmermann@suse.de>, Zack Rusin <zackr@vmware.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH 01/43] drm/fbdev-generic: Do not set physical
+ framebuffer address
+In-Reply-To: <20240312154834.26178-2-tzimmermann@suse.de>
+References: <20240312154834.26178-1-tzimmermann@suse.de>
+ <20240312154834.26178-2-tzimmermann@suse.de>
+Date: Sun, 17 Mar 2024 13:43:51 +0100
+Message-ID: <87a5mxgha0.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 17 Mar 2024 15:20:16 +0000
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,52 +94,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The commit c91acda3a380 ("drm/gem: Check for valid formats") adds a
-check for valid pixel formats on drm_gem_fb_create(), but this breaks
-the X server on the beaglebone black board.
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-We have set 'DefaultDepth' to 16 in our xorg.conf. In the X modesetting
-driver, the drmmode_get_default_bpp() is used to guess the default
-depth/bpp. First it tries to get them via DRM_CAP_DUMB_PREFERRED_DEPTH
-ioctl, and if it fail, then try to create a FB with 'depth = 24' and
-'bpp = 32' to check whether this depth/dpp is a valid combo. Before the
-kernel commit c91acda3a380, the FB always can be created successfully.
-This will avoid the bpp to be set to 24 forcibly. But after kernel
-commit c91acda3a380, the FB will not be created successfully due to the
-check of the valid pixel format. Then the bpp is set to 24, but the
-'depth = 16' and 'bpp = 24' combo is not a valid pixel format.
+Hello Thomas,
 
-Fix this issue by explicitly setting the preferred_depth in this driver.
-With this change, the modesetting driver would choose the correct
-depth/bpp combo based on our setting in xorg.conf.
+> Framebuffer memory is allocated via vmalloc() from non-contiguous
 
-Fixes: c91acda3a380 ("drm/gem: Check for valid formats")
-Cc: stable@vger.kernel.org
-Signed-off-by: Kevin Hao <haokexin@gmail.com>
----
- drivers/gpu/drm/tilcdc/tilcdc_drv.c | 2 ++
- 1 file changed, 2 insertions(+)
+It's vmalloc() true, but through vzmalloc() so I would mention that
+function instead in the commit message.
 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-index cd5eefa06060..d4bd4ebeff78 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-@@ -258,6 +258,7 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
- 
- 	pm_runtime_put_sync(dev);
- 
-+	ddev->mode_config.preferred_depth = 16;
- 	if (priv->rev == 1) {
- 		DBG("Revision 1 LCDC supports only RGB565 format");
- 		priv->pixelformats = tilcdc_rev1_formats;
-@@ -273,6 +274,7 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
- 			priv->num_pixelformats =
- 				ARRAY_SIZE(tilcdc_crossed_formats);
- 			bpp = 32; /* Choose bpp with RGB support for fbdef */
-+			ddev->mode_config.preferred_depth = 24;
- 		} else if (0 == strcmp(str, "straight")) {
- 			DBG("Configured for straight blue and red wires");
- 			priv->pixelformats = tilcdc_straight_formats;
--- 
-2.44.0
+> physical pages. The physical framebuffer start address is therefore
+> meaningless. Do not set it.
+>
+> The value is not used within the kernel and only exported to userspace
+> on dedicated ARM configs. No functional change is expected.
+>
+
+How's that info used? Does user-space assumes that the whole memory range
+is contiguous in physical memory or just cares about the phyisical start
+address ?
+
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: a5b44c4adb16 ("drm/fbdev-generic: Always use shadow buffering")
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Zack Rusin <zackr@vmware.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: <stable@vger.kernel.org> # v6.4+
+> ---
+>  drivers/gpu/drm/drm_fbdev_generic.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
+> index d647d89764cb9..b4659cd6285ab 100644
+> --- a/drivers/gpu/drm/drm_fbdev_generic.c
+> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
+> @@ -113,7 +113,6 @@ static int drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
+>  	/* screen */
+>  	info->flags |= FBINFO_VIRTFB | FBINFO_READS_FAST;
+>  	info->screen_buffer = screen_buffer;
+> -	info->fix.smem_start = page_to_phys(vmalloc_to_page(info->screen_buffer));
+>  	info->fix.smem_len = screen_size;
+>  
+
+Makes sense:
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+What about drivers/gpu/drm/drm_fb_helper.c btw? Since the memory range
+allocated may not be physically contiguous if a platform uses an IOMMU ?
+
+Asking because I don't really know how these exported values are used...
+I just know that is when the CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM is enabled.
+
+--
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
