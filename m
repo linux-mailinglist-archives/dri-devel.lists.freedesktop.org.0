@@ -2,76 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39BE687DC39
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Mar 2024 03:03:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 421F387DDDF
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Mar 2024 16:20:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2288110E1E8;
-	Sun, 17 Mar 2024 02:03:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D285210F0F7;
+	Sun, 17 Mar 2024 15:20:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Rm1H1fFT";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="a2dRGiud";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
- [209.85.219.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5726A10E224
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Mar 2024 02:03:34 +0000 (UTC)
-Received: by mail-yb1-f179.google.com with SMTP id
- 3f1490d57ef6-dcc6fc978ddso2733399276.0
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Mar 2024 19:03:34 -0700 (PDT)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67E9510E613
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Mar 2024 03:39:35 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id
+ 98e67ed59e1d1-29dedcd244dso1798757a91.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Mar 2024 20:39:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1710641013; x=1711245813; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=fDawv7n/Hl1MA12W63Wi04iWswIJUMGvTr6PyC7EIoE=;
- b=Rm1H1fFTy53jVUNjJ+v6pevg2rDSwPZPxF0JnIdGYs5CHiPbKUSPraLkWEtXBg6tUk
- DDSFG7R2J5VuNcGgYXhPHXNvX9N8MES3cS7+yzDt1675V2EDW20Db0NaseBD5IZ2v5+j
- rHyvDroRGLAjhfxQmDbfhi0Q4VVPHYj5MzRITOh3fBtsFNpI+Nk/CdqjDvABtZkmFVyr
- yDUOUd4gA8IyhnzaMQMB3iLR9wHLRw40U7Mep3KP8tb3ba3ctJRWKOf+jF+Kn4Mdwc5p
- CBlvn5NmxwEz7dA6KkqMR103K/ALbJYwZ0s5L8zRNuYIchaVZN9GZTlDWQE248qWR9Mj
- XL5A==
+ d=gmail.com; s=20230601; t=1710646773; x=1711251573; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=XOijO3kp7/7Q2+hjIpHdWpk05IBBzZe9ngcvgY3sOsc=;
+ b=a2dRGiudYjc/rd0ptyzb7+2JW/qjutX/jnM6TH+8jRuNuyHXBCvJ7RGMAr2XDni8hK
+ IAjWuLRRKzzgq9zf98sYSUyec4Cr80uo0tXZOOA5dNqGbuJrmxdHPPSVVgfGzK9csWyE
+ aBxoFs7xNKFRVW/4jflmWfkwL+pRQxPGOjbGxQZ9ThW8kSj2YBYS5Zg4URLN7FPO3qVL
+ TsQPjcuVgzyMobdYY+Ptq+s3DMUu5wT5YVztYRWkQHrPXBgf7in+N/zQsJyueAJ+M6x5
+ jdqMRS+hh7By04AZTDg4VCZ2jlorGeDMJTN5q7rY1h9oEQsEZ0eNBn5p65mAfC8Ws3QU
+ N/kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710641013; x=1711245813;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1710646773; x=1711251573;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=fDawv7n/Hl1MA12W63Wi04iWswIJUMGvTr6PyC7EIoE=;
- b=oTJk1rd91RVrWFGH+SGeRvtf3p2tVp7e5saP0fok5b8Y+x/rHLgLOi1Slv7oLV0NQn
- u0PkNOfa239xTdKeLygbBocMTAQKxyc4oU13CGsJgoa763PItwcNNyRU8R/jJ9/9jLd4
- Sn8rFGUqsZAfmqbJMrCwMhKwaevYN7hf1d7Ig4lOFdhkzCn5duMuz/X3puc3gNw7537K
- PPFm3Y7ygoolpIJ7ujAg6YUj0EzMF7RS6ew1gS8LhM/d3ynXo5BYH/S7BrGL49alqOcX
- jCLv0rKR3hU5DeYwogpjBUt9Wd9WoJDw3jTqaRLTuA512hkH/VOOwawp0F8zHLkK2y7k
- Baew==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUR2wDipB0ewtuDUaMGlCzBw9zPO5+kQNGNuuIUFS1I+vTrCspfKBU/87dRHRujozy08OXRXpI9uPr+HN4pHSF4u1JXy6/TAuFmyua4cHOS
-X-Gm-Message-State: AOJu0Yw0v32SuoNfFCrBruqVjnnLX1pl2nt1cqONIDxO353/VbJutBpO
- WxA+vaJ4cVhD+1ZWLek9Q5Pmx1HInuiapoPmIsDNJ1N2IM5d+2xe4dwfzWPyfSW4j4ctDdGy0Cw
- Vo2UIxWblvkKkgKDDb5xJcszApSLSX5IBQcrCnA==
-X-Google-Smtp-Source: AGHT+IGKP5/QVTFeKJWp0LE2bmqx8+bXO7FoyJVOXlQK9kdHfeZzWq2GYg6yprxmFWn55gcVROku92p+nT0HUkQ0/Ik=
-X-Received: by 2002:a05:6902:1348:b0:dcf:ecce:b2da with SMTP id
- g8-20020a056902134800b00dcfecceb2damr6226829ybu.19.1710641013131; Sat, 16 Mar
- 2024 19:03:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <e09122722190d052cee792a9246c274510f3b928.1710618660.git.christophe.jaillet@wanadoo.fr>
-In-Reply-To: <e09122722190d052cee792a9246c274510f3b928.1710618660.git.christophe.jaillet@wanadoo.fr>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 17 Mar 2024 04:03:21 +0200
-Message-ID: <CAA8EJppcODOQPaP1=0hfb72egS=Nca82OZV1SH1gw9XDubYaSg@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: lt9611uxc: Fix an error handling path in
- lt9611uxc_probe()
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ bh=XOijO3kp7/7Q2+hjIpHdWpk05IBBzZe9ngcvgY3sOsc=;
+ b=wm8xIkWf8fIjMK/9rG4hpoSyZl7HEO6BCbDzPDKHzYYrnMty2WES2139igS+48uJih
+ pwxpVJ3WTDs4GDCshaqsiH6sXI7KEOkeqboKxnMs+lIrKiMloLM+NlT4lvGuuw8yKzoB
+ wdW9sGYhAeXw70RhTUdVkMwQJZv0kgoIcRCfQ0daTqWFTMYyKJORv6nf6KUoQKKE7VZa
+ rWPaCIAf93z0nO04MukGhCMcwYH6KaAYArui/gXJpYMKWzFEjCDDv4WIQ8fZ+ux+VnZP
+ kDE4KeLPY4n+K2datZ+zvQUUJUBEkkPWBAyau1XNhv8iHL9XvHrwzbwAmCrPRgrxMZU1
+ hPoQ==
+X-Gm-Message-State: AOJu0YxdtUHEJSNGbHihQ0lhTW5IULrOnGNzpx0psYmtG8T1/Kpyd6FX
+ MCVEeNkeiUvHYtJi28v9MDWKId8H+KG8AhB+p+VQZl7/p492ZGFngmNoivTxZpI=
+X-Google-Smtp-Source: AGHT+IGCx338OV8LiGJ7bIyHHFDaUNofgyZhHTck10Mi/2fS4Jqi0O3rvSUYIU0NaouGUrErOVoBoQ==
+X-Received: by 2002:a17:902:e94d:b0:1e0:384:ecb9 with SMTP id
+ b13-20020a170902e94d00b001e00384ecb9mr2608432pll.8.1710646773371; 
+ Sat, 16 Mar 2024 20:39:33 -0700 (PDT)
+Received: from pek-lpggp6.wrs.com (unknown-105-121.windriver.com.
+ [147.11.105.121]) by smtp.gmail.com with ESMTPSA id
+ h5-20020a170902680500b001d8f111804asm6635759plk.113.2024.03.16.20.39.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 16 Mar 2024 20:39:32 -0700 (PDT)
+From: Kevin Hao <haokexin@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
+ Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org, 
- kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+ Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+Subject: [PATCH] drm/tilcdc: Set preferred depth
+Date: Sun, 17 Mar 2024 11:39:18 +0800
+Message-ID: <20240317033918.535716-1-haokexin@gmail.com>
+X-Mailer: git-send-email 2.44.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sun, 17 Mar 2024 15:20:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,25 +84,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 16 Mar 2024 at 21:51, Christophe JAILLET
-<christophe.jaillet@wanadoo.fr> wrote:
->
-> If lt9611uxc_audio_init() fails, some resources still need to be released
-> before returning the error code.
->
-> Use the existing error handling path.
->
-> Fixes: 0cbbd5b1a012 ("drm: bridge: add support for lontium LT9611UXC bridge")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
-> Compile tested only.
-> ---
->  drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+The commit c91acda3a380 ("drm/gem: Check for valid formats") adds a
+check for valid pixel formats on drm_gem_fb_create(), but this breaks
+the X server on the beaglebone black board.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+We have set 'DefaultDepth' to 16 in our xorg.conf. In the X modesetting
+driver, the drmmode_get_default_bpp() is used to guess the default
+depth/bpp. First it tries to get them via DRM_CAP_DUMB_PREFERRED_DEPTH
+ioctl, and if it fail, then try to create a FB with 'depth = 24' and
+'bpp = 32' to check whether this depth/dpp is a valid combo. Before the
+kernel commit c91acda3a380, the FB always can be created successfully.
+This will avoid the bpp to be set to 24 forcibly. But after kernel
+commit c91acda3a380, the FB will not be created successfully due to the
+check of the valid pixel format. Then the bpp is set to 24, but the
+'depth = 16' and 'bpp = 24' combo is not a valid pixel format.
 
+Fix this issue by explicitly setting the preferred_depth in this driver.
+With this change, the modesetting driver would choose the correct
+depth/bpp combo based on our setting in xorg.conf.
 
+Fixes: c91acda3a380 ("drm/gem: Check for valid formats")
+Cc: stable@vger.kernel.org
+Signed-off-by: Kevin Hao <haokexin@gmail.com>
+---
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+index cd5eefa06060..d4bd4ebeff78 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+@@ -258,6 +258,7 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
+ 
+ 	pm_runtime_put_sync(dev);
+ 
++	ddev->mode_config.preferred_depth = 16;
+ 	if (priv->rev == 1) {
+ 		DBG("Revision 1 LCDC supports only RGB565 format");
+ 		priv->pixelformats = tilcdc_rev1_formats;
+@@ -273,6 +274,7 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
+ 			priv->num_pixelformats =
+ 				ARRAY_SIZE(tilcdc_crossed_formats);
+ 			bpp = 32; /* Choose bpp with RGB support for fbdef */
++			ddev->mode_config.preferred_depth = 24;
+ 		} else if (0 == strcmp(str, "straight")) {
+ 			DBG("Configured for straight blue and red wires");
+ 			priv->pixelformats = tilcdc_straight_formats;
 -- 
-With best wishes
-Dmitry
+2.44.0
+
