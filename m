@@ -2,73 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4FEC87DF1E
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Mar 2024 19:02:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BCC887DF27
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Mar 2024 19:02:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D982510F036;
-	Sun, 17 Mar 2024 18:02:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AB8A10F121;
+	Sun, 17 Mar 2024 18:02:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DALAM6hk";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="naNp6x9Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24DB210F00D
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Mar 2024 18:02:21 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-513cf9bacf1so4568242e87.0
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Mar 2024 11:02:20 -0700 (PDT)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C24610ED0F
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Mar 2024 18:02:24 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-2d4ad3a80b7so131391fa.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Mar 2024 11:02:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1710698539; x=1711303339; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1710698543; x=1711303343; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ezi2HuRiomJRtYvRwXzpGA8rya2T0vjTa5wf3YQ6Xp8=;
- b=DALAM6hkKzq0ULUUakBQxoSDC5ry50GGQ4CP0Zi9L3MciLMhEj9dVjHFMXB7cXuGe/
- ILoIyAcRhEDHbPMgCex8+f8ZFtj5ag7GUXuXivxgWdX7zb/67bEuaEy3zT5S3f05Vjw8
- WfLVSZ0lCuNcXOPFinCqGJYjdYBaIMM3xurxJeOFsAfaNhzD51EP6Rhrf5mPIiokVlpN
- vxctb2gDFDOsoC+/IPManYnNtWr/+ctescQbiEahwaMBSogIWmm2AyEsuYncQ0n1H76I
- I9fDIJ0g3udoX5qkzaTtwsD0fwKU0zwCMx/RplpShEN6Vn7N/icG0Ev9aj+Q1FAB3sBC
- VRDA==
+ bh=p0U0bqOuHsZY1MSSLB1DRocFHCE1lUuGbf1SYaBHlsc=;
+ b=naNp6x9Zf4tsZIN0W8MwRW/MgnDEqocBSwfXEgqMbIh0vfzA4R8hXtH40CK9VZh5x3
+ O9Wq8cxYMJaC0olccYTeF9GsDsgilA36sYXG31MWNfuL54qqOYunMmerRwcrAIbokT8s
+ gjud+OFSxYjk7h+JQNi4sa4nVWylKmiEGxatwsqd9A6xX0J7zq06ujEd9qncFIhWIb45
+ DjVPo/TmTw0QVhDwMS3B1c4mLZyCQFvwYVlgnnvDUgLFWlWNuXchx8mEOn5UgSOv9YsX
+ aHOktE2elJvuVj9LLDG24tnDkz0Gl60KDpcLq+Odjo4mynZR1LERzCZ8QqpHfMnksmqS
+ yNTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710698539; x=1711303339;
+ d=1e100.net; s=20230601; t=1710698543; x=1711303343;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ezi2HuRiomJRtYvRwXzpGA8rya2T0vjTa5wf3YQ6Xp8=;
- b=jhOr7Pls7AMw8sCJ5UQ+2WYX1K0g0KZHW+QuDl5OHfzEU9Z/eQOb8sE3m6Sb6x5mIf
- MX05SioHMqwMviukVk3A4kpNlqGoZydpGWQEr4LxTeIj7Fv+FldYdPZxlMFk3+dZL/mV
- NvDIRFnfjW84OvLw8AWiATwq0dh92KbaBHbkDfJMbiwntVUbjX33Kdbe+gD+E87xKFMi
- ky1jsk28kBnY3lRkuM3iACeKWNOo31tRRsHwWtNv85SLvW9/oJDaeBU5xk6EYnDBOWra
- 0WpWcpB9KCATEaFHz8oCSMK/iuA46qPjqeq3yweES3Jwv/B6ye8MMpX32nAC5gdUsmjL
- p9LQ==
-X-Gm-Message-State: AOJu0YzmyBb0qED2ECeW35LtjygIkR2Q8Xk3OT1PiIxp3I/qdsGvuZPO
- arGuw00mVHVXBXpSRDG6jF7Qb8xMcp89BlkIMY/vk9E7xYgyPUnn/mzVzJRiUBE=
-X-Google-Smtp-Source: AGHT+IEks3Py1UYR/fPmmd+8VNI8lwKQ7fB/YQVpIpegoH8KzhVFzAwbt8Ga0cHH3JBIaucJmkAWsA==
-X-Received: by 2002:ac2:4985:0:b0:513:9f14:8f73 with SMTP id
- f5-20020ac24985000000b005139f148f73mr6114093lfl.36.1710698538958; 
- Sun, 17 Mar 2024 11:02:18 -0700 (PDT)
+ bh=p0U0bqOuHsZY1MSSLB1DRocFHCE1lUuGbf1SYaBHlsc=;
+ b=asMYN8ei/q3Ss1IFOax++77+/IVR6zFTlsrHjrHKYaTfF74ELjwunl7ssQYuOliwjL
+ TEsokFtzyGEkoPZ3I5l/K/JuBN82QK04wVTtuDKI1XrYKxT7ZJZMs9B36ZBZ/TdeLvbu
+ VQ5RhlriMGeXLEAC9EhPVwYERZRmXF0AiuYyuuleqJ9NkVaKszMOAvS7cgOjIuZ+eYO5
+ pmB+zhy0Ipf3BVs8Wk2WunhotxwHsf77rgaR7WQnxVYEK6zNZxBVZcp0QpoL9pNdooBs
+ hgy14w2hGzmB6r2t3vGMtUU0kPNv179sJClSCcE0OSmO/j75+M1ngLcIdrA6Ti9dL02I
+ PcLQ==
+X-Gm-Message-State: AOJu0YwClSmKsQzpOba72UVxLWcvD/xkTe8vHCjleuSOyMTcBjDMO1NU
+ Zmyef0r1rFxgpgWJGMcKSrPTHW1kbCnuWUbIO/0JEOj/ksnsdlMqI5ljs8B0yso=
+X-Google-Smtp-Source: AGHT+IFKWfi30rs+Lnu0FKoHSwp11Wo+LNgGZ0T2ypot6QoRPFBI5pxVPIt7vUgidX9y3/VMfk4scA==
+X-Received: by 2002:a2e:9c07:0:b0:2d2:eeda:c019 with SMTP id
+ s7-20020a2e9c07000000b002d2eedac019mr7086335lji.28.1710698542658; 
+ Sun, 17 Mar 2024 11:02:22 -0700 (PDT)
 Received: from betty.fdsoft.se (213-67-237-183-no99.tbcn.telia.com.
  [213.67.237.183]) by smtp.gmail.com with ESMTPSA id
- j2-20020ac253a2000000b00513d82a8003sm958308lfh.160.2024.03.17.11.02.18
+ a27-20020a05651c031b00b002d4aa0bcf1esm122661ljp.5.2024.03.17.11.02.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Mar 2024 11:02:18 -0700 (PDT)
+ Sun, 17 Mar 2024 11:02:22 -0700 (PDT)
 Received: from ester.fdsoft.se ([192.168.1.2])
  by betty.fdsoft.se with esmtp (Exim 4.97.1)
  (envelope-from <frej.drejhammar@gmail.com>)
- id 1rlupu-000000005e0-0OVO; Sun, 17 Mar 2024 19:02:18 +0100
+ id 1rlupx-000000005e0-3eOh; Sun, 17 Mar 2024 19:02:21 +0100
 From: Frej Drejhammar <frej.drejhammar@gmail.com>
 To: dri-devel@lists.freedesktop.org
 Cc: Frej Drejhammar <frej.drejhammar@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 02/11] drm/fbdev_generic: Use drm_driver_legacy_fb_format()
- for fbdev
-Date: Sun, 17 Mar 2024 19:01:27 +0100
-Message-ID: <41ec14423c2066255430fa45321156216281a9d2.1710698387.git.frej.drejhammar@gmail.com>
+Subject: [PATCH 03/11] drm/armada: Use drm_driver_legacy_fb_format() for fbdev
+Date: Sun, 17 Mar 2024 19:01:28 +0100
+Message-ID: <599c1e1cf218bb9b9b5fb4f13022d9a507da42ca.1710698387.git.frej.drejhammar@gmail.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <cover.1710698386.git.frej.drejhammar@gmail.com>
 References: <cover.1710698386.git.frej.drejhammar@gmail.com>
@@ -94,9 +91,7 @@ drm_mode_legacy_fb_format() to use the same logic as for the
 DRM_IOCTL_MODE_ADDFB ioctl when selecting a framebuffer format.
 
 Signed-off-by: Frej Drejhammar <frej.drejhammar@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Russell King <linux@armlinux.org.uk>
 Cc: David Airlie <airlied@gmail.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 
@@ -108,54 +103,25 @@ the suggestions of Thomas Zimmermann.
 
 [1] https://lore.kernel.org/all/20240310152803.3315-1-frej.drejhammar@gmail.com/
 ---
- drivers/gpu/drm/drm_fb_helper.c     | 2 +-
- drivers/gpu/drm/drm_fbdev_dma.c     | 4 +++-
- drivers/gpu/drm/drm_fbdev_generic.c | 4 +++-
- 3 files changed, 7 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/armada/armada_fbdev.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index d612133e2cf7..61c22e6c72af 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -1453,7 +1453,7 @@ static uint32_t drm_fb_helper_find_format(struct drm_fb_helper *fb_helper, const
- 	 * the framebuffer emulation can only deal with such
- 	 * formats, specifically RGB/BGA formats.
- 	 */
--	format = drm_mode_legacy_fb_format(bpp, depth);
-+	format = drm_driver_legacy_fb_format(dev, bpp, depth);
- 	if (!format)
- 		goto err;
+diff --git a/drivers/gpu/drm/armada/armada_fbdev.c b/drivers/gpu/drm/armada/armada_fbdev.c
+index d223176912b6..3a7258de323f 100644
+--- a/drivers/gpu/drm/armada/armada_fbdev.c
++++ b/drivers/gpu/drm/armada/armada_fbdev.c
+@@ -54,8 +54,9 @@ static int armada_fbdev_create(struct drm_fb_helper *fbh,
+ 	mode.width = sizes->surface_width;
+ 	mode.height = sizes->surface_height;
+ 	mode.pitches[0] = armada_pitch(mode.width, sizes->surface_bpp);
+-	mode.pixel_format = drm_mode_legacy_fb_format(sizes->surface_bpp,
+-					sizes->surface_depth);
++	mode.pixel_format = drm_driver_legacy_fb_format(dev,
++							sizes->surface_bpp,
++							sizes->surface_depth);
  
-diff --git a/drivers/gpu/drm/drm_fbdev_dma.c b/drivers/gpu/drm/drm_fbdev_dma.c
-index 6c9427bb4053..f6c89b62b177 100644
---- a/drivers/gpu/drm/drm_fbdev_dma.c
-+++ b/drivers/gpu/drm/drm_fbdev_dma.c
-@@ -90,7 +90,9 @@ static int drm_fbdev_dma_helper_fb_probe(struct drm_fb_helper *fb_helper,
- 		    sizes->surface_width, sizes->surface_height,
- 		    sizes->surface_bpp);
- 
--	format = drm_mode_legacy_fb_format(sizes->surface_bpp, sizes->surface_depth);
-+	format = drm_driver_legacy_fb_format(dev,
-+					     sizes->surface_bpp,
-+					     sizes->surface_depth);
- 	buffer = drm_client_framebuffer_create(client, sizes->surface_width,
- 					       sizes->surface_height, format);
- 	if (IS_ERR(buffer))
-diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
-index d647d89764cb..0a567f37d127 100644
---- a/drivers/gpu/drm/drm_fbdev_generic.c
-+++ b/drivers/gpu/drm/drm_fbdev_generic.c
-@@ -84,7 +84,9 @@ static int drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
- 		    sizes->surface_width, sizes->surface_height,
- 		    sizes->surface_bpp);
- 
--	format = drm_mode_legacy_fb_format(sizes->surface_bpp, sizes->surface_depth);
-+	format = drm_driver_legacy_fb_format(dev,
-+					     sizes->surface_bpp,
-+					     sizes->surface_depth);
- 	buffer = drm_client_framebuffer_create(client, sizes->surface_width,
- 					       sizes->surface_height, format);
- 	if (IS_ERR(buffer))
+ 	size = mode.pitches[0] * mode.height;
+ 	obj = armada_gem_alloc_private_object(dev, size);
 -- 
 2.44.0
 
