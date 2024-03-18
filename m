@@ -2,121 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606BD87EB17
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 15:34:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF23D87EB28
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 15:38:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE8D210F665;
-	Mon, 18 Mar 2024 14:34:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA4D810EDE4;
+	Mon, 18 Mar 2024 14:38:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="f5qLNDAi";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZpsUwayc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
- [209.85.215.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8EA610EE9C;
- Mon, 18 Mar 2024 14:34:14 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id
- 41be03b00d2f7-5d3912c9a83so2241247a12.3; 
- Mon, 18 Mar 2024 07:34:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1710772454; x=1711377254; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date:message-id:reply-to;
- bh=pCUApaONo8ehyXHQqRUbNVk/TB7fiQ1m1hWXI6brQnc=;
- b=f5qLNDAisbgxBeF+pyT4hkn+9Bi0TjTiclAa0kZg7vkFUVFBq52yDWJPHoP9KGO3O0
- ba8oANo/j5ETy55pYqXjjJowOyn9aEASwztdThDnnFniTYu5s3DLMObi+205KerJ4YNk
- af5LqsDwKUApB8tzc4CLHvY1W9hj7z1uSd3T3HHOnMDFcVH2sIwmeOJjrTnwX5y7Uki3
- 8NepNXk9UOlAAHX4wqWRu3OclP32mSBgrnrlEx5K59UB8vjzqepB9My6BCwP8t+N7w+3
- 4n7TS63l8638VAr1YliAnIGMiDamI+ODRYP3PZpaPwSR9I9iaUjrR2gpWevK0/iVAYGq
- zg3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710772454; x=1711377254;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=pCUApaONo8ehyXHQqRUbNVk/TB7fiQ1m1hWXI6brQnc=;
- b=UxCLeDRLjagy6bototFKpPVKQDGDttkLK/g1+hhKNAkIVIdPOsQWS29yL3Brk/GUjm
- +3JNlOZLpril228VqwOXfOIv1RZ9u7fs8Z4g36bmV2ncjE5c/WftfbHSIbHzaSeC2MY5
- 7YDIsQoYONAE6SDlbExrHvDWCPsKFTzE70ue6uxb0rEQAO/Y+fhQRKIjGjeFvV/Ukz+u
- Cy4qp3D0w2XAFb+kBxb2Si5kumiOWc2BCKLMOy/8KLryiQdd2b5k/7xK+qfWFaIJW1MH
- hBB/q843hdn+5ID5G2V+8E5yVpo5pq96Knm6dkB6bUZsn1/6RdTH94vGpGIKA3WCv42B
- JIlA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWG7OUbUQtUt3tiQtZoV8W0LFfb9tPgi6vahHLwgAZn8AR/PpG1no9akhRIJVWvDq0wwvo9eOcm712uzw0+Uiqxx8Mr5FHfxZ9tsOj4VZAQ
-X-Gm-Message-State: AOJu0YwkK7h9hB7IhW2DTP/gouSHixpVmqk5HhVjCAFNPSPxAFqSqISJ
- w3ncExtMHsWmZ8bSSVGO9zS+ESOZmeLni7ZdnlrDIucxM9U92AgF
-X-Google-Smtp-Source: AGHT+IFhgkXLDH1Nsb2bn/tOkKam9Q5dzrQx71TLlzh9hIPane69cJemjbETVa60AWVap2hwH8gRGg==
-X-Received: by 2002:a17:90b:60e:b0:29d:eea9:c800 with SMTP id
- gb14-20020a17090b060e00b0029deea9c800mr7483571pjb.7.1710772454041; 
- Mon, 18 Mar 2024 07:34:14 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
- ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- nc16-20020a17090b37d000b0029bb5a95a3csm7697477pjb.55.2024.03.18.07.34.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Mar 2024 07:34:13 -0700 (PDT)
-Message-ID: <e6ebb8ee-406e-4d2d-9932-7b48ae3721e3@roeck-us.net>
-Date: Mon, 18 Mar 2024 07:34:11 -0700
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 706D410E26C;
+ Mon, 18 Mar 2024 14:38:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1710772685; x=1742308685;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=E/TWm7rpdk4KyK1snuFJ7hfjQG5X7/S6Tjivqk5S4PU=;
+ b=ZpsUwaycgXJmoTS3tMHmX17FPcoyqe+9QYYgnBD202MjkHPhJh0BSJlI
+ r9tLJ+vKfpaKot74PRhhHvBJTn3q9N+IxuGsujKmr8Tbx3IROhRlv+xIP
+ QEPXGSmt2ZUMh29mUjKG9+7T4xJpwB8Ck8+csHeBujYYudbJkS13ASQzY
+ y6NWO0hQ7FjZ62T9KK7+FMu/yPzxwK8le4atEh6WXD912P9G+aR5NCoPl
+ VeUf15/uRI0TOvQITLxBJCP30oz+zmRqokcLUryB9mobGVKrgNRKcFIkm
+ 61kghkI2qJaNyZiCluYpeUzk5wH91Xli1nOyvSpcQzyCPwABdYz6cZoMX w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11016"; a="5451363"
+X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
+   d="scan'208";a="5451363"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2024 07:38:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; d="scan'208";a="18156116"
+Received: from ahmedess-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.53.133])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2024 07:38:01 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
+ intel-gfx@lists.freedesktop.org
+Cc: ankit.k.nautiyal@intel.com, dri-devel@lists.freedesktop.org, Mitul
+ Golani <mitulkumar.ajitkumar.golani@intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v17 0/9] Enable Adaptive Sync SDP Support for DP
+In-Reply-To: <20240311094238.3320888-1-mitulkumar.ajitkumar.golani@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240311094238.3320888-1-mitulkumar.ajitkumar.golani@intel.com>
+Date: Mon, 18 Mar 2024 16:37:58 +0200
+Message-ID: <87a5mvppvd.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v3,5/5] drm/xe: Enable 32bits build
-Content-Language: en-US
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: intel-xe@lists.freedesktop.org, Matt Roper <matthew.d.roper@intel.com>,
- dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com
-References: <20240119001612.2991381-6-lucas.demarchi@intel.com>
- <d53d2da5-22de-4f81-9fbc-2f54e5da9ac6@roeck-us.net>
- <qm5q44hs7vmq6erio7ome323xemwrg5mrxhaozkwblf6qjjvow@dqwy2oz2rrrj>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <qm5q44hs7vmq6erio7ome323xemwrg5mrxhaozkwblf6qjjvow@dqwy2oz2rrrj>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,70 +69,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/18/24 06:28, Lucas De Marchi wrote:
-> On Sun, Mar 17, 2024 at 09:14:14AM -0700, Guenter Roeck wrote:
->> Hi,
->>
->> On Thu, Jan 18, 2024 at 04:16:12PM -0800, Lucas De Marchi wrote:
->>> Now that all the issues with 32bits are fixed, enable it again.
->>>
->>> Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
->>> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
->>> ---
->>>  drivers/gpu/drm/xe/Kconfig | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig
->>> index 1b57ae38210d..1b0ef91a5d2c 100644
->>> --- a/drivers/gpu/drm/xe/Kconfig
->>> +++ b/drivers/gpu/drm/xe/Kconfig
->>> @@ -1,7 +1,7 @@
->>>  # SPDX-License-Identifier: GPL-2.0-only
->>>  config DRM_XE
->>>      tristate "Intel Xe Graphics"
->>> -    depends on DRM && PCI && MMU && (m || (y && KUNIT=y)) && 64BIT
->>> +    depends on DRM && PCI && MMU && (m || (y && KUNIT=y))
->>
->> I am curious about changes like this. Enabling 32-bit builds results in
->> build failures for mips_allmodconfig because the driver redefines END.
->> END is also used as macro in assembler code, the define happens to be
->> included for mips builds, and it would be difficult to change it there.
->>
->> Unlike the i915 code, DRM_XE is not marked as depending on x86. This means
->> it will be built for pretty much all "allmodconfig" builds for all
->> architectures. Yet, there have been recent complaints about "allmodconfig"
->> builds of drm code causing build failures on "oddball" architectures.
->> Is there an assumption that DRM_XE (or DRM in general) is manually
->> excluded from all architectures where it fails to build ? If so, would
-> 
-> for all the reports we've been receiving we fixed the build and improved
-> CI to try to avoid the regressions. DRM_XE doesn't really depend on x86,
-> but I see your point of filtering out the "oddball architectures" or just
-> expose the ones we know it builds against. Yet, I don't see that
-> approach done in the wild in other drivers. At least on the build side, we
-> constantly check the reports from lkp like
-> 
-> https://lore.kernel.org/all/202403152008.KlwyYggO-lkp@intel.com/
-> 
-> which also includes mips:
-> 
->      mips                              allnoconfig   gcc
->      mips                             allyesconfig   gcc
-> 
-> is that not sufficient? allyesconfig should be covering it afaics
-> 
+On Mon, 11 Mar 2024, Mitul Golani <mitulkumar.ajitkumar.golani@intel.com> wrote:
+>  An Adaptive-Sync-capable DP protocol converter indicates its
+> support by setting the related bit in the DPCD register. This
+> is valid for DP and edp as well.
+>
+> Computes AS SDP values based on the display configuration,
+> ensuring proper handling of Variable Refresh Rate (VRR)
+> in the context of Adaptive Sync.
 
-All I can say is that drivers/gpu/drm/xe/xe_lrc.c doesn't build for
-mips builds in the mainline kernel. This is for both allmodconfig and
-allyesconfig. Both automatically build 32-bit kernels. Those builds are
-only enabled with this commit. The problem is also seen with 64-bit
-builds, but those are not enabled with allmodconfig/alldefconfig.
-I don't know what and how exactly 0-day runs its tests, but the failure
-is also seen in the drm-xe-next branch.
+[snip]
 
-I am going to blame this on my environment and just exclude DRM_XE
-from mips test builds going forward.
+> Mitul Golani (9):
+>   drm/dp: Add support to indicate if sink supports AS SDP
+>   drm: Add Adaptive Sync SDP logging
 
-Thanks,
-Guenter
+Maarten, Maxime, Thomas, ack for merging these two patches via
+drm-intel-next?
 
+BR,
+Jani.
+
+>   drm/i915/display: Add crtc state dump for Adaptive Sync SDP
+>   drm/i915/dp: Add Read/Write support for Adaptive Sync SDP
+>   drm/i915/dp: Add wrapper function to check AS SDP
+>   drm/i915/display: Compute AS SDP parameters
+>   drm/i915/display: Add state checker for Adaptive Sync SDP
+>   drm/i915/display: Compute vrr_vsync params
+>   drm/i915/display: Read/Write Adaptive Sync SDP
+>
+>  drivers/gpu/drm/display/drm_dp_helper.c       |  37 ++++++
+>  .../drm/i915/display/intel_crtc_state_dump.c  |  13 ++
+>  drivers/gpu/drm/i915/display/intel_ddi.c      |   1 +
+>  drivers/gpu/drm/i915/display/intel_display.c  |  48 +++++++
+>  .../drm/i915/display/intel_display_device.h   |   1 +
+>  .../drm/i915/display/intel_display_types.h    |   2 +
+>  drivers/gpu/drm/i915/display/intel_dp.c       | 125 ++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_dp.h       |   1 +
+>  drivers/gpu/drm/i915/display/intel_hdmi.c     |  14 +-
+>  drivers/gpu/drm/i915/display/intel_vrr.c      |  30 ++++-
+>  drivers/gpu/drm/i915/i915_reg.h               |  15 +++
+>  include/drm/display/drm_dp.h                  |  11 ++
+>  include/drm/display/drm_dp_helper.h           |  30 +++++
+>  13 files changed, 325 insertions(+), 3 deletions(-)
+
+-- 
+Jani Nikula, Intel
