@@ -2,47 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BE4E87F14C
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 21:39:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C937A87FA86
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 10:14:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E79E411206F;
-	Mon, 18 Mar 2024 20:39:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1426C10F8D6;
+	Tue, 19 Mar 2024 09:14:39 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BMLsvD1M";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2893611206D
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 20:39:38 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1rmJlY-0004vG-1b; Mon, 18 Mar 2024 21:39:28 +0100
-Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <l.stach@pengutronix.de>)
- id 1rmJlV-0078y6-Id; Mon, 18 Mar 2024 21:39:25 +0100
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
- patchwork-lst@pengutronix.de
-Subject: [PATCH 3/3] drm/bridge: analogix_dp: don't adjust further when clock
- recovery succeeded
-Date: Mon, 18 Mar 2024 21:39:25 +0100
-Message-Id: <20240318203925.2837689-3-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240318203925.2837689-1-l.stach@pengutronix.de>
-References: <20240318203925.2837689-1-l.stach@pengutronix.de>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B6C810F8D7
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 09:14:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1710839678; x=1742375678;
+ h=resent-from:resent-date:resent-message-id:resent-to:from:
+ to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=DYk1kkQmtaawJ6CjjwaxJSU6NAhmGbkgyXFZBhjn/mM=;
+ b=BMLsvD1Md3/MSrBJLdeWUUjgWJZhT6aoMhWhCs6SOndoXMA8wekH/ncr
+ 03EnTWujTGAZWIXCBLm59RFfnIRwICAOyTeALsXlNKsPPSfA8m9UIFvtb
+ 3PGt7IqtlqVjyW0Oou/G2mH23DNT/GHvXoidDQ1APDXIWrgo94pOWBoPN
+ aIfqazOoB4cERohXFst0YOmASlEEnvp1mJpG10plRNtMFdZ3d0ailpbtM
+ RAlHgCZewObXeGkAKBI4MhXiq/b1QKIDO9ac7BinJpWEVM+SagOReraIZ
+ fX55jy9KdF8NRsdtU+WtLZa+mmk5Wzi7Xa9F7dWJ+glvT+dizxOpU1rhw w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="5529710"
+X-IronPort-AV: E=Sophos;i="6.07,136,1708416000"; 
+   d="scan'208";a="5529710"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Mar 2024 02:14:37 -0700
+X-ExtLoopCount2: 2 from 10.237.72.74
+X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="827782078"
+X-IronPort-AV: E=Sophos;i="6.07,136,1708416000"; d="scan'208";a="827782078"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga001.jf.intel.com with SMTP; 19 Mar 2024 02:14:34 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 19 Mar 2024 11:14:33 +0200
+Resent-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Resent-Date: Tue, 19 Mar 2024 11:14:33 +0200
+Resent-Message-ID: <ZflXefCKTRQBRysW@intel.com>
+Resent-To: dri-devel@lists.freedesktop.org
+X-Original-To: ville.syrjala@linux.intel.com
+Delivered-To: ville.syrjala@linux.intel.com
+Received: from linux.intel.com [10.54.29.200]
+ by stinkbox.stink.local with IMAP (fetchmail-6.4.37)
+ for <vsyrjala@localhost> (single-drop); Mon, 18 Mar 2024 22:49:02 +0200 (EET)
+Received: from orsmga001.jf.intel.com (orsmga001.jf.intel.com [10.7.209.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by linux.intel.com (Postfix) with ESMTPS id B119B580D4E
+ for <ville.syrjala@linux.intel.com>; Mon, 18 Mar 2024 13:44:12 -0700 (PDT)
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="827781920"
+X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; d="scan'208";a="827781920"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga001.jf.intel.com with SMTP; 18 Mar 2024 13:44:09 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 18 Mar 2024 22:44:08 +0200
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: Simon Ser <contact@emersion.fr>,
+ =?UTF-8?q?Jonas=20=C3=85dahl?= <jadahl@redhat.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Sameer Lattannavar <sameer.lattannavar@intel.com>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: [PATCH v3 0/2] drm: Add plane SIZE_HINTS property
+Date: Mon, 18 Mar 2024 22:44:06 +0200
+Message-ID: <20240318204408.9687-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.43.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,91 +93,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Take a early return from the clock recovery training when the sink reports
-CR_DONE for all lanes. There is no point in trying to adjust the link
-parameters further.
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
----
- .../drm/bridge/analogix/analogix_dp_core.c    | 58 +++++++++----------
- 1 file changed, 29 insertions(+), 29 deletions(-)
+Final final version I hope. Mainly for CI to test against the
+new IGTs.
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index 300385db7502..98454f0af90e 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -410,11 +410,6 @@ static int analogix_dp_process_clock_recovery(struct analogix_dp_device *dp)
- 	if (retval < 0)
- 		return retval;
- 
--	retval = drm_dp_dpcd_read(&dp->aux, DP_ADJUST_REQUEST_LANE0_1,
--				  adjust_request, 2);
--	if (retval < 0)
--		return retval;
--
- 	if (analogix_dp_clock_recovery_ok(link_status, lane_count) == 0) {
- 		/* set training pattern 2 for EQ */
- 		analogix_dp_set_training_pattern(dp, TRAINING_PTN2);
-@@ -427,30 +422,35 @@ static int analogix_dp_process_clock_recovery(struct analogix_dp_device *dp)
- 
- 		dev_dbg(dp->dev, "Link Training Clock Recovery success\n");
- 		dp->link_train.lt_state = EQUALIZER_TRAINING;
--	} else {
--		for (lane = 0; lane < lane_count; lane++) {
--			training_lane = analogix_dp_get_lane_link_training(
--							dp, lane);
--			voltage_swing = analogix_dp_get_adjust_request_voltage(
--							adjust_request, lane);
--			pre_emphasis = analogix_dp_get_adjust_request_pre_emphasis(
--							adjust_request, lane);
--
--			if (DPCD_VOLTAGE_SWING_GET(training_lane) ==
--					voltage_swing &&
--			    DPCD_PRE_EMPHASIS_GET(training_lane) ==
--					pre_emphasis)
--				dp->link_train.cr_loop[lane]++;
--
--			if (dp->link_train.cr_loop[lane] == MAX_CR_LOOP ||
--			    voltage_swing == VOLTAGE_LEVEL_3 ||
--			    pre_emphasis == PRE_EMPHASIS_LEVEL_3) {
--				dev_err(dp->dev, "CR Max reached (%d,%d,%d)\n",
--					dp->link_train.cr_loop[lane],
--					voltage_swing, pre_emphasis);
--				analogix_dp_reduce_link_rate(dp);
--				return -EIO;
--			}
-+
-+		return 0;
-+	}
-+
-+	retval = drm_dp_dpcd_read(&dp->aux, DP_ADJUST_REQUEST_LANE0_1,
-+				  adjust_request, 2);
-+	if (retval < 0)
-+		return retval;
-+
-+	for (lane = 0; lane < lane_count; lane++) {
-+		training_lane = analogix_dp_get_lane_link_training(
-+						dp, lane);
-+		voltage_swing = analogix_dp_get_adjust_request_voltage(
-+						adjust_request, lane);
-+		pre_emphasis = analogix_dp_get_adjust_request_pre_emphasis(
-+						adjust_request, lane);
-+
-+		if (DPCD_VOLTAGE_SWING_GET(training_lane) == voltage_swing &&
-+		    DPCD_PRE_EMPHASIS_GET(training_lane) == pre_emphasis)
-+			dp->link_train.cr_loop[lane]++;
-+
-+		if (dp->link_train.cr_loop[lane] == MAX_CR_LOOP ||
-+		    voltage_swing == VOLTAGE_LEVEL_3 ||
-+		    pre_emphasis == PRE_EMPHASIS_LEVEL_3) {
-+			dev_err(dp->dev, "CR Max reached (%d,%d,%d)\n",
-+				dp->link_train.cr_loop[lane],
-+				voltage_swing, pre_emphasis);
-+			analogix_dp_reduce_link_rate(dp);
-+			return -EIO;
- 		}
- 	}
- 
+Real userspace implementation:
+https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/3165                                                           
+
+IGT:
+https://patchwork.freedesktop.org/series/131199/
+
+Changes from v2:
+- Limit to cursor planes only (Simon)
+
+Test-with: 20240315191505.27620-1-ville.syrjala@linux.intel.com
+Cc: Simon Ser <contact@emersion.fr>
+Cc: Jonas Ådahl <jadahl@redhat.com>
+Cc: Daniel Stone <daniel@fooishbar.org>
+Cc: Sameer Lattannavar <sameer.lattannavar@intel.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+
+Ville Syrjälä (2):
+  drm: Introduce plane SIZE_HINTS property
+  drm/i915: Add SIZE_HINTS property for cursors
+
+ drivers/gpu/drm/drm_mode_config.c           |  7 +++
+ drivers/gpu/drm/drm_plane.c                 | 56 +++++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_cursor.c | 24 +++++++++
+ include/drm/drm_mode_config.h               |  5 ++
+ include/drm/drm_plane.h                     |  4 ++
+ include/uapi/drm/drm_mode.h                 | 11 ++++
+ 6 files changed, 107 insertions(+)
+
 -- 
-2.39.2
-
+2.43.2
