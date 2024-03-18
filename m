@@ -2,71 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB6EF87ED14
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 17:11:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6035087ED18
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 17:11:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAE6B10FB7D;
-	Mon, 18 Mar 2024 16:11:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 986F010F0B2;
+	Mon, 18 Mar 2024 16:11:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kaX0kFNn";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="eQs+GjUG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6CFD10F0B2
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 16:11:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710778298; x=1742314298;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=84xfgGQdhPYLNJtOqDpwXG2/hc97FrIjHbfrfTzN6qs=;
- b=kaX0kFNnWUc1eAyNhyCJWDvMd8hydTtjYl0xxJp+AU7aS5LMUOR1SHLa
- 8/UDyuj8xGdtnU+nkQTuHnpLX9l4YquZFTSPsXWURmVIX1rS33DA7+TWU
- 6lAc6kJIsisIYbrTnJ/ANORaW+5y2WBpTd0hSOPofUQ+sLhpy+arxI0BQ
- MrdUT7RVJEg2XiQQ6UGsx3jzez9q6bDrJUCfmWn9r1Qfy8TMsxjITViUs
- pvyUEOhyDDweByUltMA71RPbb6sBRqVIc6dcgtWFiH6CINd7IGWOBQCBV
- gJE5cKl+DfOdyT/id+tejEDH8j96xYkbHXMMqdpOtvd8gU8j4L9MjQU/Q g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="5536449"
-X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
-   d="scan'208";a="5536449"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2024 09:11:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="827781855"
-X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; d="scan'208";a="827781855"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 18 Mar 2024 09:11:31 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 18 Mar 2024 18:11:30 +0200
-Date: Mon, 18 Mar 2024 18:11:30 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
- Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v9 20/27] drm/connector: hdmi: Add Infoframes generation
-Message-ID: <ZfhnsgYfwe_3mpWx@intel.com>
-References: <20240311-kms-hdmi-connector-state-v9-0-d45890323344@kernel.org>
- <20240311-kms-hdmi-connector-state-v9-20-d45890323344@kernel.org>
- <ZfQFLR2xO6vUpAJ9@intel.com>
- <20240318-abstract-myna-of-exercise-adfcde@houat>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DAAB10F0B2
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 16:11:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1710778307;
+ bh=kPlYGEQu74PvUp1/tZo6hwoYhmbphKRB0Kc0zbXjSP8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=eQs+GjUG2FOVZosLcMPsnMjQuHbWeHng0qA4pbPZ2yDms8fD7SWpOynFdOnA3XvNF
+ nIJ9jceYg39BN37qA/NUHwIOQoycFe1+iJxsAKBFrtTDMfQggfZUIT85Q2sgpo9BR2
+ T+qcddu7926oPQh9X454zmmqpJHaO+sgfHm1r80LBVlAjfw7Tj3VEnB32cy9DfIzwa
+ 3A140cgIINuO3rPUBRTKxbeIeRYDm2FIzl503Y6oq+2vD0zXjLlFnE4UtH1tJ8vUYD
+ 4wZtcO5sl3S6O/BeSXSXEOX0PcAWRBAdsgxleL57M4/A/Wb1fei12OP4/qIpehUX5o
+ +rUxc+c59Tu2Q==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id A74D03782033;
+ Mon, 18 Mar 2024 16:11:46 +0000 (UTC)
+Message-ID: <f065367e-2097-4f6f-866f-2113780ee8bb@collabora.com>
+Date: Mon, 18 Mar 2024 17:11:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240318-abstract-myna-of-exercise-adfcde@houat>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/panthor: Fix the CONFIG_PM=n case
+Content-Language: en-US
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, Robin Murphy <robin.murphy@arm.com>,
+ kernel@collabora.com, kernel test robot <lkp@intel.com>
+References: <20240318153117.1321544-1-boris.brezillon@collabora.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240318153117.1321544-1-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,206 +63,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 18, 2024 at 02:49:47PM +0100, Maxime Ripard wrote:
-> Hi,
+Il 18/03/24 16:31, Boris Brezillon ha scritto:
+> Putting a hard dependency on CONFIG_PM is not possible because of a
+> circular dependency issue, and it's actually not desirable either. In
+> order to support this use case, we forcibly resume at init time, and
+> suspend at unplug time.
 > 
-> On Fri, Mar 15, 2024 at 10:22:05AM +0200, Ville Syrjälä wrote:
-> > On Mon, Mar 11, 2024 at 03:49:48PM +0100, Maxime Ripard wrote:
-> > > Infoframes in KMS is usually handled by a bunch of low-level helpers
-> > > that require quite some boilerplate for drivers. This leads to
-> > > discrepancies with how drivers generate them, and which are actually
-> > > sent.
-> > > 
-> > > Now that we have everything needed to generate them in the HDMI
-> > > connector state, we can generate them in our common logic so that
-> > > drivers can simply reuse what we precomputed.
-> > > 
-> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > ---
-> > >  drivers/gpu/drm/Kconfig                            |   1 +
-> > >  drivers/gpu/drm/drm_atomic_state_helper.c          | 323 +++++++++++++++++++++
-> > >  drivers/gpu/drm/drm_connector.c                    |  14 +
-> > >  .../gpu/drm/tests/drm_atomic_state_helper_test.c   |   1 +
-> > >  drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
-> > >  include/drm/drm_atomic_state_helper.h              |   8 +
-> > >  include/drm/drm_connector.h                        | 133 +++++++++
-> > >  7 files changed, 492 insertions(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> > > index 872edb47bb53..ad9c467e20ce 100644
-> > > --- a/drivers/gpu/drm/Kconfig
-> > > +++ b/drivers/gpu/drm/Kconfig
-> > > @@ -97,10 +97,11 @@ config DRM_KUNIT_TEST
-> > >  	  If in doubt, say "N".
-> > >  
-> > >  config DRM_KMS_HELPER
-> > >  	tristate
-> > >  	depends on DRM
-> > > +	select DRM_DISPLAY_HDMI_HELPER
-> > >  	help
-> > >  	  CRTC helpers for KMS drivers.
-> > >  
-> > >  config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
-> > >          bool "Enable refcount backtrace history in the DP MST helpers"
-> > > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-> > > index e66272c0d006..2bf53666fc9d 100644
-> > > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> > > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> > > @@ -36,10 +36,12 @@
-> > >  #include <drm/drm_plane.h>
-> > >  #include <drm/drm_print.h>
-> > >  #include <drm/drm_vblank.h>
-> > >  #include <drm/drm_writeback.h>
-> > >  
-> > > +#include <drm/display/drm_hdmi_helper.h>
-> > > +
-> > >  #include <linux/slab.h>
-> > >  #include <linux/dma-fence.h>
-> > >  
-> > >  /**
-> > >   * DOC: atomic state reset and initialization
-> > > @@ -912,10 +914,143 @@ hdmi_compute_config(const struct drm_connector *connector,
-> > >  	}
-> > >  
-> > >  	return -EINVAL;
-> > >  }
-> > >  
-> > > +static int hdmi_generate_avi_infoframe(const struct drm_connector *connector,
-> > > +				       struct drm_connector_state *state)
-> > > +{
-> > > +	const struct drm_display_mode *mode =
-> > > +		connector_state_get_mode(state);
-> > > +	struct drm_connector_hdmi_infoframe *infoframe =
-> > > +		&state->hdmi.infoframes.avi;
-> > > +	struct hdmi_avi_infoframe *frame =
-> > > +		&infoframe->data.avi;
-> > > +	bool is_full_range = state->hdmi.is_full_range;
-> > > +	enum hdmi_quantization_range rgb_quant_range =
-> > > +		is_full_range ? HDMI_QUANTIZATION_RANGE_FULL : HDMI_QUANTIZATION_RANGE_LIMITED;
-> > > +	int ret;
-> > > +
-> > > +	ret = drm_hdmi_avi_infoframe_from_display_mode(frame, connector, mode);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	frame->colorspace = state->hdmi.output_format;
-> > > +
-> > > +	drm_hdmi_avi_infoframe_quant_range(frame, connector, mode, rgb_quant_range);
-> > 
-> > drm_hdmi_avi_infoframe_quant_range() doesn't handle YCbCr currently.
+> v2:
+> - Drop the #ifdef CONFIG_PM section around panthor_pm_ops's definition
 > 
-> I guess it's not really a problem anymore if we drop YUV422 selection,
-> but I'll add a comment.
-> 
-> > > +	drm_hdmi_avi_infoframe_colorimetry(frame, state);
-> > > +	drm_hdmi_avi_infoframe_bars(frame, state);
-> > > +
-> > > +	infoframe->set = true;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > <snip>
-> > > +
-> > > +#define UPDATE_INFOFRAME(c, os, ns, i)				\
-> > > +	write_or_clear_infoframe(c,				\
-> > > +				 &(c)->hdmi.infoframes.i,	\
-> > > +				 &(os)->hdmi.infoframes.i,	\
-> > > +				 &(ns)->hdmi.infoframes.i)
-> > 
-> > This macro feels like pointless obfuscation to me.
-> 
-> I'll remove it then.
-> 
-> > <snip>
-> > > @@ -1984,20 +2063,73 @@ struct drm_connector {
-> > >  
-> > >  	/**
-> > >  	 * @hdmi: HDMI-related variable and properties.
-> > >  	 */
-> > >  	struct {
-> > > +#define DRM_CONNECTOR_HDMI_VENDOR_LEN	8
-> > > +		/**
-> > > +		 * @vendor: HDMI Controller Vendor Name
-> > > +		 */
-> > > +		unsigned char vendor[DRM_CONNECTOR_HDMI_VENDOR_LEN] __nonstring;
-> > > +
-> > > +#define DRM_CONNECTOR_HDMI_PRODUCT_LEN	16
-> > > +		/**
-> > > +		 * @product: HDMI Controller Product Name
-> > > +		 */
-> > > +		unsigned char product[DRM_CONNECTOR_HDMI_PRODUCT_LEN] __nonstring;
-> > > +
-> > >  		/**
-> > >  		 * @supported_formats: Bitmask of @hdmi_colorspace
-> > >  		 * supported by the controller.
-> > >  		 */
-> > >  		unsigned long supported_formats;
-> > >  
-> > >  		/**
-> > >  		 * @funcs: HDMI connector Control Functions
-> > >  		 */
-> > >  		const struct drm_connector_hdmi_funcs *funcs;
-> > > +
-> > > +		/**
-> > > +		 * @infoframes: Current Infoframes output by the connector
-> > > +		 */
-> > > +		struct {
-> > > +			/**
-> > > +			 * @lock: Mutex protecting against concurrent access to
-> > > +			 * the infoframes, most notably between KMS and ALSA.
-> > > +			 */
-> > > +			struct mutex lock;
-> > > +
-> > > +			/**
-> > > +			 * @audio: Current Audio Infoframes structure. Protected
-> > > +			 * by @lock.
-> > > +			 */
-> > > +			struct drm_connector_hdmi_infoframe audio;
-> > > +
-> > > +			/**
-> > > +			 * @avi: Current AVI Infoframes structure. Protected by
-> > > +			 * @lock.
-> > > +			 */
-> > > +			struct drm_connector_hdmi_infoframe avi;
-> > > +
-> > > +			/**
-> > > +			 * @hdr_drm: Current DRM (Dynamic Range and Mastering)
-> > > +			 * Infoframes structure. Protected by @lock.
-> > > +			 */
-> > > +			struct drm_connector_hdmi_infoframe hdr_drm;
-> > > +
-> > > +			/**
-> > > +			 * @spd: Current SPD Infoframes structure. Protected by
-> > > +			 * @lock.
-> > > +			 */
-> > > +			struct drm_connector_hdmi_infoframe spd;
-> > > +
-> > > +			/**
-> > > +			 * @vendor: Current HDMI Vendor Infoframes structure.
-> > > +			 * Protected by @lock.
-> > > +			 */
-> > > +			struct drm_connector_hdmi_infoframe hdmi;
-> > > +		} infoframes;
-> > >  	} hdmi;
-> > 
-> > What's the deal with this bloat? These are already tracked in the
-> > connector's state so this looks entirely redundant.
-> 
-> The next patch in this series is about adding debugfs entries to read
-> the infoframes, and thus we need to care about concurrency between
-> debugfs files accesses and commits. Copying the things we care about
-> from the state to the entity is the typical solution for that, but I
-> guess we could also take the proper locks and access the current
-> connector state.
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202403031944.EOimQ8WK-lkp@intel.com/
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Yeah, just lock and dump the latest state. That is the only thing
-that should of interest to anyone in userspace.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Also are you actually adding some kind of ad-hoc state dump things
-just for these? Why not do whatever is needed to include them in
-the normal .atomic_state_print() stuff?
+> ---
+> Tested by faking CONFIG_PM=n in the driver (basically commenting
+> all pm_runtime calls, and making the panthor_device_suspend/resume()
+> calls unconditional in the panthor_device_unplug/init() path) since
+> CONFIG_ARCH_ROCKCHIP selects CONFIG_PM. Seems to work fine, but I
+> can't be 100% sure this will work correctly on a platform that has
+> CONFIG_PM=n.
+> ---
+>   drivers/gpu/drm/panthor/panthor_device.c | 13 +++++++++++--
+>   drivers/gpu/drm/panthor/panthor_drv.c    |  2 +-
+>   2 files changed, 12 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> index 69deb8e17778..ba7aedbb4931 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -87,6 +87,10 @@ void panthor_device_unplug(struct panthor_device *ptdev)
+>   	pm_runtime_dont_use_autosuspend(ptdev->base.dev);
+>   	pm_runtime_put_sync_suspend(ptdev->base.dev);
+>   
+> +	/* If PM is disabled, we need to call the suspend handler manually. */
+> +	if (!IS_ENABLED(CONFIG_PM))
+> +		panthor_device_suspend(ptdev->base.dev);
+> +
+>   	/* Report the unplug operation as done to unblock concurrent
+>   	 * panthor_device_unplug() callers.
+>   	 */
+> @@ -218,6 +222,13 @@ int panthor_device_init(struct panthor_device *ptdev)
+>   	if (ret)
+>   		return ret;
+>   
+> +	/* If PM is disabled, we need to call panthor_device_resume() manually. */
+> +	if (!IS_ENABLED(CONFIG_PM)) {
+> +		ret = panthor_device_resume(ptdev->base.dev);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+>   	ret = panthor_gpu_init(ptdev);
+>   	if (ret)
+>   		goto err_rpm_put;
+> @@ -402,7 +413,6 @@ int panthor_device_mmap_io(struct panthor_device *ptdev, struct vm_area_struct *
+>   	return 0;
+>   }
+>   
+> -#ifdef CONFIG_PM
+>   int panthor_device_resume(struct device *dev)
+>   {
+>   	struct panthor_device *ptdev = dev_get_drvdata(dev);
+> @@ -547,4 +557,3 @@ int panthor_device_suspend(struct device *dev)
+>   	mutex_unlock(&ptdev->pm.mmio_lock);
+>   	return ret;
+>   }
+> -#endif
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index ff484506229f..11b3ccd58f85 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1417,7 +1417,7 @@ static struct platform_driver panthor_driver = {
+>   	.remove_new = panthor_remove,
+>   	.driver = {
+>   		.name = "panthor",
+> -		.pm = &panthor_pm_ops,
+> +		.pm = pm_ptr(&panthor_pm_ops),
+>   		.of_match_table = dt_match,
+>   	},
+>   };
 
--- 
-Ville Syrjälä
-Intel
