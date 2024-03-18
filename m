@@ -2,56 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9612087EB67
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 15:49:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9FE887EB6D
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 15:51:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 771DB10F7F5;
-	Mon, 18 Mar 2024 14:49:20 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="L3UV5OL3";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90A0510F81A;
+	Mon, 18 Mar 2024 14:51:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A03BE10F7FA
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 14:49:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1710773357;
- bh=bE2nWzls1YcYabi97blaNSNi0m5l8fHT80127WzLpoA=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=L3UV5OL3ur4F5EfM1c91gi36v6jA4R9Vs5ctOwv5j9J8hIpPCbKtXqm4qmKWMR20v
- mi8zF+cgsBSYi7HGC0yyphViies0tfsbBogtYTlKNaJuyjaqXV08gVL6LU1gsgiTXR
- 2Cjgwt0v/WaN2cxpPPKA8cvoJc/gdFFK2XHGX/27rtKn9oOEF6murnxX0+ljpQrJF8
- kMX3klnV8i9rRkP8ldHt13iTewUGULvsktTIhTNIuGJ1CRfpEXB0L6o1iQ0sL9+o6t
- S9y6+1f+SpC+HH7og77XgpVf948v084T0vjdiDxA0zNOSUsIfoSVgezd+z5U7093Ca
- fIRbDXDPnPW2A==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 0C1263782087;
- Mon, 18 Mar 2024 14:49:17 +0000 (UTC)
-Date: Mon, 18 Mar 2024 15:49:15 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
- Robin Murphy <robin.murphy@arm.com>, kernel@collabora.com, kernel test
- robot <lkp@intel.com>
-Subject: Re: [PATCH] drm/panthor: Fix the CONFIG_PM=n case
-Message-ID: <20240318154915.2efa165a@collabora.com>
-In-Reply-To: <ec80a6bb-63f4-436b-bd64-64c12cdaef92@arm.com>
-References: <20240318085855.994179-1-boris.brezillon@collabora.com>
- <2af13565-f3d7-47c3-8083-da86669a34e1@arm.com>
- <20240318140815.44de8110@collabora.com>
- <5c9257cb-8307-4f9e-9323-2ed367c48a11@arm.com>
- <20240318151814.725002c5@collabora.com>
- <ec80a6bb-63f4-436b-bd64-64c12cdaef92@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D8E4D10F81A
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 14:51:36 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 074D2DA7;
+ Mon, 18 Mar 2024 07:52:11 -0700 (PDT)
+Received: from e122027.arm.com (unknown [10.57.12.69])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 089643F67D;
+ Mon, 18 Mar 2024 07:51:34 -0700 (PDT)
+From: Steven Price <steven.price@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>
+Cc: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
+ Robin Murphy <robin.murphy@arm.com>
+Subject: [PATCH] drm/panthor: Don't use virt_to_pfn()
+Date: Mon, 18 Mar 2024 14:51:19 +0000
+Message-Id: <20240318145119.368582-1-steven.price@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,118 +44,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 18 Mar 2024 14:34:07 +0000
-Steven Price <steven.price@arm.com> wrote:
+virt_to_pfn() isn't available on x86 (except to xen) so breaks
+COMPILE_TEST builds. Avoid its use completely by instead storing the
+struct page pointer allocated in panthor_device_init() and using
+page_to_pfn() instead.
 
-> On 18/03/2024 14:18, Boris Brezillon wrote:
-> > On Mon, 18 Mar 2024 13:49:52 +0000
-> > Steven Price <steven.price@arm.com> wrote:
-> >   
-> >> On 18/03/2024 13:08, Boris Brezillon wrote:  
-> >>> On Mon, 18 Mar 2024 11:31:05 +0000
-> >>> Steven Price <steven.price@arm.com> wrote:
-> >>>     
-> >>>> On 18/03/2024 08:58, Boris Brezillon wrote:    
-> >>>>> Putting a hard dependency on CONFIG_PM is not possible because of a
-> >>>>> circular dependency issue, and it's actually not desirable either. In
-> >>>>> order to support this use case, we forcibly resume at init time, and
-> >>>>> suspend at unplug time.
-> >>>>>
-> >>>>> Reported-by: kernel test robot <lkp@intel.com>
-> >>>>> Closes: https://lore.kernel.org/oe-kbuild-all/202403031944.EOimQ8WK-lkp@intel.com/
-> >>>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>      
-> >>>>
-> >>>> Reviewed-by: Steven Price <steven.price@arm.com>
-> >>>>    
-> >>>>> ---
-> >>>>> Tested by faking CONFIG_PM=n in the driver (basically commenting
-> >>>>> all pm_runtime calls, and making the panthor_device_suspend/resume()
-> >>>>> calls unconditional in the panthor_device_unplug/init() path) since
-> >>>>> CONFIG_ARCH_ROCKCHIP selects CONFIG_PM. Seems to work fine, but I
-> >>>>> can't be 100% sure this will work correctly on a platform that has
-> >>>>> CONFIG_PM=n.      
-> >>>>
-> >>>> The same - I can't test this properly :(
-> >>>>
-> >>>> Note that the other option (which AFAICT doesn't cause any problems) is
-> >>>> to "select PM" rather than depend on it - AIUI the 'select' dependency
-> >>>> is considered in the opposite direction by kconfig so won't cause the
-> >>>> dependency loop.    
-> >>>
-> >>> Doesn't seem to work with COMPILE_TEST though? I mean, we need
-> >>> something like
-> >>>
-> >>> 	depends on ARM || ARM64 || (COMPILE_TEST && PM)
-> >>> 	...
-> >>> 	select PM
-> >>>
-> >>> but kconfig doesn't like that    
-> >>
-> >> Why do we need the "&& PM" part? Just:
-> >>
-> >> 	depends on ARM || ARM64 || COMPILE_TEST
-> >> 	...
-> >> 	select PM
-> >>
-> >> Or at least that appears to work for me.  
-> > 
-> > Uh, you're right, sorry for the brain fart. This is being said, I
-> > see no other driver selecting the PM option directly (if you grep for
-> > 'select PM' in drivers/, you'll find occurrences in drivers/soc, but
-> > those are under ARCH_/SOC_ options, which means they are indirectly
-> > arch/platform dependent, not driver dependent). I'm really not sure
-> > selecting PM here from a driver is right to be honest.  
-> 
-> Yeah, I'm not very convinced about that either. It's just a pain that
-> the code is going to go untested.
+Signed-off-by: Steven Price <steven.price@arm.com>
+---
+ drivers/gpu/drm/panthor/panthor_device.c | 10 ++++++----
+ drivers/gpu/drm/panthor/panthor_device.h |  2 +-
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
-If that's really bothering you, let's just return an error in the
-probe path when CONFIG_PM=n as you were suggesting last week.
+diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+index 69deb8e17778..3c30da03fa48 100644
+--- a/drivers/gpu/drm/panthor/panthor_device.c
++++ b/drivers/gpu/drm/panthor/panthor_device.c
+@@ -154,6 +154,7 @@ int panthor_device_init(struct panthor_device *ptdev)
+ {
+ 	struct resource *res;
+ 	struct page *p;
++	u32 *dummy_page_virt;
+ 	int ret;
+ 
+ 	ptdev->coherent = device_get_dma_attr(ptdev->base.dev) == DEV_DMA_COHERENT;
+@@ -172,9 +173,10 @@ int panthor_device_init(struct panthor_device *ptdev)
+ 	if (!p)
+ 		return -ENOMEM;
+ 
+-	ptdev->pm.dummy_latest_flush = page_address(p);
++	ptdev->pm.dummy_latest_flush = p;
++	dummy_page_virt = page_address(p);
+ 	ret = drmm_add_action_or_reset(&ptdev->base, panthor_device_free_page,
+-				       ptdev->pm.dummy_latest_flush);
++				       dummy_page_virt);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -184,7 +186,7 @@ int panthor_device_init(struct panthor_device *ptdev)
+ 	 * happens while the dummy page is mapped. Zero cannot be used because
+ 	 * that means 'always flush'.
+ 	 */
+-	*ptdev->pm.dummy_latest_flush = 1;
++	*dummy_page_virt = 1;
+ 
+ 	INIT_WORK(&ptdev->reset.work, panthor_device_reset_work);
+ 	ptdev->reset.wq = alloc_ordered_workqueue("panthor-reset-wq", 0);
+@@ -353,7 +355,7 @@ static vm_fault_t panthor_mmio_vm_fault(struct vm_fault *vmf)
+ 		if (active)
+ 			pfn = __phys_to_pfn(ptdev->phys_addr + CSF_GPU_LATEST_FLUSH_ID);
+ 		else
+-			pfn = virt_to_pfn(ptdev->pm.dummy_latest_flush);
++			pfn = page_to_pfn(ptdev->pm.dummy_latest_flush);
+ 		break;
+ 
+ 	default:
+diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+index 51c9d61b6796..c84c27dcc92c 100644
+--- a/drivers/gpu/drm/panthor/panthor_device.h
++++ b/drivers/gpu/drm/panthor/panthor_device.h
+@@ -160,7 +160,7 @@ struct panthor_device {
+ 		 * Used to replace the real LATEST_FLUSH page when the GPU
+ 		 * is suspended.
+ 		 */
+-		u32 *dummy_latest_flush;
++		struct page *dummy_latest_flush;
+ 	} pm;
+ };
+ 
+-- 
+2.39.2
 
-> 
-> >>  
-> >>> drivers/gpu/drm/panthor/Kconfig:3:error: recursive dependency detected!
-> >>> drivers/gpu/drm/panthor/Kconfig:3:	symbol DRM_PANTHOR depends on
-> >>> PM kernel/power/Kconfig:183:	symbol PM is selected by DRM_PANTHOR
-> >>>
-> >>> which id why I initially when for a depends on PM
-> >>>
-> >>>     
-> >>>> Of course if there is actually anyone who has a
-> >>>> platform which can be built !CONFIG_PM then that won't help. But the
-> >>>> inability of anyone to actually properly test this configuration does
-> >>>> worry me a little.    
-> >>>
-> >>> Well, as long as it doesn't regress the PM behavior, I think I'm happy
-> >>> to take the risk. Worst case scenario, someone complains that this is
-> >>> not working properly when they do the !PM bringup :-).    
-> >>
-> >> Indeed, I've no objection to this patch - although I really should have
-> >> compiled tested it as Robin pointed out ;)
-> >>
-> >> But one other thing I've noticed when compile testing it - we don't
-> >> appear to have fully fixed the virt_to_pfn() problem. On x86 with
-> >> COMPILE_TEST I still get an error. Looking at the code it appears that
-> >> virt_to_pfn() isn't available on x86... it overrides asm/page.h and
-> >> doesn't provide a definition. The definition on x86 is hiding in
-> >> asm/xen/page.h.  
-> > 
-> > Looks like the kbuild bot didn't catch that yet :-).
-> >   
-> >>
-> >> Outside of arch code it's only drivers/xen that currently uses that
-> >> function. So I guess it's probably best to do a
-> >> PFN_DOWN(virt_to_phys(...)) instead. Or look to fix x86 :)  
-> > 
-> > Mind sending a fix for that?  
-> 
-> Yeah, I'll have a go at Robin's suggestion of storing the struct page
-> instead.
-
-If that's not too much to ask, could you also send a variant of this
-patch returning an error when CONFIG_PM is disabled (and fixing the
-other mistake I made, of course)?
-
-Thanks,
-
-Boris
