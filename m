@@ -2,73 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC05587EBC9
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 16:13:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8F6887EC03
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 16:22:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E378010ED95;
-	Mon, 18 Mar 2024 15:13:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E2E710E35C;
+	Mon, 18 Mar 2024 15:22:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="p3V7vNCW";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="xOz+5+hc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A76910ED95
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 15:13:07 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-41411421113so6842485e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 08:13:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1710774785; x=1711379585; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=x6p00R0RAxuLkgIZ84IADZKmz8eDY7A+/cZOcv6ZG04=;
- b=p3V7vNCWN8WG096xLDFGS8jL1IV0YOZSPK8PwaqMQp/XZZ0iphtmyodIH8K2QhgymD
- fSFh78UKQJ9IlxL3SmLr00YIh46KVb84hd298x2Obq5odhCtidOT8VzsLeV7H4+iPJ8q
- 9TQKArVUcChp+EqA+QwjX+4ZFV/U5+9HiHLWGleJNolrnhf6VNU4ikJfCSQq7idynSPF
- qAaFTAzaMPAEcHBeCWLWZNUcqeBRKgGOmcfFhC0LsUt4wijb03+kWHiFeH0TMP5YvKmq
- Hg1QaK25oHuWPq0Igy6VmyMZkZ22fTLES23Bgok5/q7L7++/o/KGtyHPbqJ/AC129d/o
- G7GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710774785; x=1711379585;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=x6p00R0RAxuLkgIZ84IADZKmz8eDY7A+/cZOcv6ZG04=;
- b=asCss+5xSmy1p5ZB9KtDEdmcgx8BYhou1UjB01ds0e38N9YmykVODKcrBD1AraBNT3
- hIDTnNqZbiutPhdJTgS+Xq/NQIzuuK0nF5jwO2DU10T/REvLtAGbNyBJ+PWEHl+YqJeh
- 5DAnNLG9GPgDrE9wH9Aq7fQU2MONJcTr0FQERlVvWH6Ovi0rw5yE7nUI7jNnx9qDdzf7
- JYVSHAoTUiFOco57iSdF/6H6n/ACkwgMY5t3yGZ27lz+YUtzlkk18oMp52/j3YwwQfwX
- E4KjN3bGGIqYYc5hu0XeTJTUb8D76Y1t0jVyqj7R8/b5Z54o1UD6alFBHOkS8ckxaGF5
- 3Vgg==
-X-Gm-Message-State: AOJu0Yz5AoRR3iQD9tZsHOSzmHkTb5oMx2oukYMbyTb9LgdbcD6XWdsw
- tgd4gYeE6jhD+knG2LfUswjoFmgytBQ5/s6bhDpYpRD4qcxMGymm1zwFRQcuvJH/LYkPSlTFPz0
- 61TI=
-X-Google-Smtp-Source: AGHT+IECl44lt7QT0fQLuN1Ima10XlWNmUklC92M1E6tyRhdx1nLXSI4gkxmF7e75N/NKDg1NIoPNg==
-X-Received: by 2002:a05:600c:19ca:b0:414:66d:db7f with SMTP id
- u10-20020a05600c19ca00b00414066ddb7fmr5095338wmq.10.1710774785385; 
- Mon, 18 Mar 2024 08:13:05 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
- by smtp.gmail.com with ESMTPSA id
- m8-20020a05600c4f4800b00413ea26f942sm17880628wmq.14.2024.03.18.08.13.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Mar 2024 08:13:05 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: dri-devel@lists.freedesktop.org, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
-In-Reply-To: <20240317154839.21260-1-laurent.pinchart@ideasonboard.com>
-References: <20240317154839.21260-1-laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH] drm/panel: ilitek-ili9881c: Fix warning with GPIO
- controllers that sleep
-Message-Id: <171077478483.2130203.17923228102140385955.b4-ty@linaro.org>
-Date: Mon, 18 Mar 2024 16:13:04 +0100
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com
+ [95.215.58.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6821410E35C
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 15:22:32 +0000 (UTC)
+Message-ID: <cda22b0c-8d7c-4ce2-9a7c-3b5ab540fa1f@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1710775350;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xy6k9xRVjS7ywoka2yI3ZucurvNu1EJ6Z2EBQrWjdzQ=;
+ b=xOz+5+hcR3hKGDRU3ohsK+6VDQuGZv/ehTx44Lwrda532CNJzZ26SE81f1eaVswBP7xJgD
+ OsKb59CCUyjuj86kKDxZmTPO9n5jD9j4wk2Rh+lLNorNhvJUa4E7GZcb/7Da0zhlDsDpHr
+ qXRNLP+60xgxGa2ZVvXFCBCRs6HZsfg=
+Date: Mon, 18 Mar 2024 11:22:26 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Subject: Re: [PATCH 6/6] drm: zynqmp_dp: Add debugfs interface for compliance
+ testing
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ linux-kernel@vger.kernel.org, Michal Simek <michal.simek@amd.com>,
+ linux-arm-kernel@lists.infradead.org, Daniel Vetter <daniel@ffwll.ch>
+References: <20240315230916.1759060-1-sean.anderson@linux.dev>
+ <20240315230916.1759060-7-sean.anderson@linux.dev>
+ <CAA8EJpoh_5EB5H8yf2yQhRYovXPo0QgrzssDHUzcoFo7rik5Bw@mail.gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sean Anderson <sean.anderson@linux.dev>
+In-Reply-To: <CAA8EJpoh_5EB5H8yf2yQhRYovXPo0QgrzssDHUzcoFo7rik5Bw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.4
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,21 +64,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Sun, 17 Mar 2024 17:48:39 +0200, Laurent Pinchart wrote:
-> The ilitek-ili9881c controls the reset GPIO using the non-sleeping
-> gpiod_set_value() function. This complains loudly when the GPIO
-> controller needs to sleep. As the caller can sleep, use
-> gpiod_set_value_cansleep() to fix the issue.
+On 3/16/24 13:56, Dmitry Baryshkov wrote:
+> On Sat, 16 Mar 2024 at 01:09, Sean Anderson <sean.anderson@linux.dev> wrote:
+>>
+>> Add a debugfs interface for exercising the various test modes supported
+>> by the DisplayPort controller. This allows performing compliance
+>> testing, or performing signal integrity measurements on a failing link.
+>> At the moment, we do not support sink-driven link quality testing,
+>> although such support would be fairly easy to add.
 > 
+> Could you please point out how this is used for compliance testing? We
+> have been using the msm_dp_compliance tool [1].
+
+Here's some quick documentation I wrote up. This probably could be put
+under Documentation for v2.
+
+The following files in /sys/kernel/debug/dri/1/DP-1/test/ control the
+DisplayPort test modes:
+
+active:
+  Writing a 1 to this file will activate test mode, and writing a 0 will
+  deactivate test mode. Writing a 1 or 0 when the test mode is already
+  active/inactive will reactivate/re-deactivate test mode. When test mode
+  is inactive, changes made to other files will have no effect. When
+  test mode is active, changes made to other files will apply instantly.
+  Additionally, hotplug events (as removing the cable or if the monitor
+  requests link retraining) are ignored.
+custom:
+  Custom test pattern value
+downspread:
+  Enable/disable clock downspreading (spread-spectrum clocking) by
+  writing 1/0
+enhanced:
+  Enable/disable enhanced framing
+lane0_preemphasis:
+  Preemphasis from 0 (lowest) to 2 (most) for lane 0
+lane0_swing:
+  Voltage swing from 0 (lowest) to 3 (most) for lane 0
+lane1_preemphasis:
+  Preemphasis from 0 (lowest) to 2 (most) for lane 1
+lane1_swing:
+  Voltage swing from 0 (lowest) to 3 (most) for lane 1
+lanes:
+  Number of lanes to use (1 or 2)
+pattern:
+  Test pattern. May be one of:
+    - video: Use regular video input
+    - symbol-error: Symbol error measurement pattern
+    - prbs7: Output of the PRBS7 (x^7 + x^6 + 1) polynomial
+    - 80bit-custom: A custom 80-bit pattern
+    - cp2520: HBR2 compliance eye pattern
+    - tps1: Link training symbol pattern TPS1 (/D10.2/)
+    - tps2: Link training symbol pattern TPS2
+    - tps3: Link training symbol pattern TPS3 (for HBR2)
+rate:
+  Rate in hertz. One of
+    - 5400000000: HBR2
+    - 2700000000: HBR
+    - 1620000000: RBR
+
+You can dump the displayport test settings with the following command:
+
+for prop in /sys/kernel/debug/dri/1/DP-1/test/*; do
+	printf '%-20s ' ${prop##*/}
+	if [ ${prop##*/} = custom ]; then
+		hexdump -C $prop | head -1
+	else
+		cat $prop
+	fi
+done
+
+The output could look something like
+
+active               1
+custom               00000000  00 00 00 00 00 00 00 00  00 00                    |..........|
+downspread           0
+enhanced             1
+lane0_preemphasis    0
+lane0_swing          3
+lane1_preemphasis    0
+lane1_swing          3
+lanes                2
+pattern              prbs7
+rate                 1620000000
+
+The recommended test procedure is to connect the board to a monitor,
+configure test mode, activate test mode, and then disconnect the cable
+and connect it to your test equipment of choice. For example, one
+sequence of commands could be:
+
+echo 1 > /sys/kernel/debug/dri/1/DP-1/test/enhanced
+echo tps1 > /sys/kernel/debug/dri/1/DP-1/test/pattern
+echo 1620000000 > /sys/kernel/debug/dri/1/DP-1/test/rate
+echo 1 > /sys/kernel/debug/dri/1/DP-1/test/active
+
+at which point the cable could be disconnected from the monitor. When
+the cable is disconnected there will be several errors while changing
+the settings. This is expected.
+
+> I think it would be nice to rework our drivers towards a common
+> debugfs interface used for DP connectors, maybe defining generic
+> internal interface/helpers like Maxime is implementing for HDMI
+> connectors.
 > 
+> [1] https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/blob/master/tools/msm_dp_compliance.c?ref_type=heads
 
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
+I was definitely inspired by the msm, intel, and amd approaches.
+However, those debugfs implementations seem to be oriented towards
+DisplayPort text fixtures which emulate DPRXs. In particular, both the
+intel and msm debugfs interfaces provide no method for configuring test
+parameters in userspace. As test fixtures supporting DPCD can run into
+the thousands of dollars, I think it is more economical to support
+userspace-driven testing. I was particularly inspired by the AMD
+approach:
 
-[1/1] drm/panel: ilitek-ili9881c: Fix warning with GPIO controllers that sleep
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/ee7860cd8b5763017f8dc785c2851fecb7a0c565
+	/* Usage: set DP physical test pattern using debugfs with normal DP
+	 * panel. Then plug out DP panel and connect a scope to measure
+	 * For normal video mode and test pattern generated from CRCT,
+	 * they are visibile to user. So do not disable HPD.
+	 * Video Mode is also set to clear the test pattern, so enable HPD
+	 * because it might have been disabled after a test pattern was set.
+	 * AUX depends on HPD * sequence dependent, do not move!
+	 */
 
--- 
-Neil
+But I chose to always disable HPD events and ignore DPCD
+errors in test mode. I think this is pretty convenient, since you can
+run the same commands regardless of whether you have a monitor attached.
+Although the initial setup does need a monitor (which is likely since
+not everything gets set up by activating test mode; definitely fixable
+but I didn't need it).
 
+--Sean
