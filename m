@@ -2,92 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A645F87EA15
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 14:29:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F48987EA30
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 14:37:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCC1A10EF17;
-	Mon, 18 Mar 2024 13:29:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 860D110F736;
+	Mon, 18 Mar 2024 13:37:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="A/gSzD4e";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="g/W52bOv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D89610EF17
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 13:29:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=qgHnDPJ+yC3AE5RlZPlQZbvJLonyUbRaZ243RZL3aLk=; b=A/gSzD4eNX+ADn7TrrxEGaDcZ/
- 6LYT2hQzKMP655UsQhcWaByfegUjDTxld2A9F7EAuFFTuQyRyI8lgkjdjSkBtVu8G0wfrumVG4xmf
- zB9lijahpvGIcLZbLhF8Jtu7i/WgK2HLEgvPD30LW1i7U3+Q6F0Ktdu1z82cRbOo1lwZE+X3MHEdX
- VRKAs9BjI9yCzBkACyXHID4zbTUBgeLFZzkWdH+GFsD6SjmzPv3VnR9dQ1E/BpPvKxfmdxHQFdGpd
- H1v+3iRoKpXZApx+dNIyBh4+XiPATcjY2bZHwDSh3iWnVjyelg5Glop3C9ME2sYo4RvNL12oWcu2C
- srhJOKlw==;
-Received: from [143.107.231.30] (helo=[172.26.121.144])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1rmD2v-00Bxj6-0Z; Mon, 18 Mar 2024 14:28:57 +0100
-Message-ID: <a07e4bc2-04af-4e98-8a9c-ccab31bca854@igalia.com>
-Date: Mon, 18 Mar 2024 10:28:34 -0300
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59B6210F736
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 13:37:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1710769034; x=1742305034;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=u82l/MBNpObPyrd/rtRsi0HOp2zPMN16KTaVMbMuxec=;
+ b=g/W52bOvg1nojzVS8oWtoLSlc1oJB0n3n89PsCtBILIanthIsfuPe/Xz
+ GHjX7e2K3kq+x7/lHl2sd32abzsJxVVkryPqrW4/BQZCeefiMjdq6JWyr
+ A0wEJBOJT6/iwXhlCl9HGKUyC9pU78/6uRlhdSVAOmkr7ohVB/gPhOrS9
+ MKY7a0It+NqJRYjg7XUkbmgip0x0fOmdFV3KE1/lE33MKA5Ey3hHr5RG7
+ fQQ7t2ei4XYYU5yy0ElREC/oLcsRx1r2I64RgYDBWfKt8nIK0wzB4IKhU
+ I22B7FOz5aq/skE1Ofzr9XA/u72D7vAMixYz1x2ugslsBPt6RoqP5qDDW g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11016"; a="5765130"
+X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
+   d="scan'208";a="5765130"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2024 06:37:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11016"; a="827781787"
+X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; d="scan'208";a="827781787"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga001.jf.intel.com with SMTP; 18 Mar 2024 06:37:05 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 18 Mar 2024 15:37:05 +0200
+Date: Mon, 18 Mar 2024 15:37:05 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v9 14/27] drm/connector: hdmi: Compute bpc and format
+ automatically
+Message-ID: <ZfhDgRcC6sdGmcmH@intel.com>
+References: <20240311-kms-hdmi-connector-state-v9-0-d45890323344@kernel.org>
+ <20240311-kms-hdmi-connector-state-v9-14-d45890323344@kernel.org>
+ <ZfQBPHoAvI1dquEY@intel.com>
+ <20240318-organic-debonair-beetle-b2817b@houat>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] drm/gem: Add a mountpoint parameter to
- drm_gem_object_init()
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Melissa Wen <mwen@igalia.com>,
- Iago Toral <itoral@igalia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- Russell King <linux@armlinux.org.uk>, Lucas Stach <l.stach@pengutronix.de>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Sui Jingfeng <suijingfeng@loongson.cn>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Thierry Reding
- <thierry.reding@gmail.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Huang Rui <ray.huang@amd.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Karolina Stolarek <karolina.stolarek@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>
-References: <20240311100959.205545-1-mcanal@igalia.com>
- <20240311100959.205545-3-mcanal@igalia.com>
- <30a7f20b-1f2c-41cb-b193-03429c160b63@igalia.com>
- <3a5d07c0-120f-47f9-a35a-31f3bfcc9330@amd.com>
- <07885e3b-ee7b-456b-9fad-17d9009a4cb7@igalia.com>
- <a0ac2e10-f5f5-4fbb-b591-bd188967ce53@amd.com>
- <e8165baa-9ded-4149-aaa6-6713d112b621@igalia.com>
- <69576e6d-9704-42b9-905f-289f9f9017b9@amd.com>
- <ed7ecd56-0b5e-4543-80f6-7d28ddf8e2ec@igalia.com>
- <9cfb7f83-2d76-4e8d-9052-5975da71e0dc@amd.com>
- <2118492c-f223-41e9-8c1e-3c03d976301e@igalia.com>
- <68452c6c-12d7-4e60-9598-369acc9fc360@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <68452c6c-12d7-4e60-9598-369acc9fc360@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240318-organic-debonair-beetle-b2817b@houat>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,171 +83,179 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
-
-On 3/18/24 10:10, Christian König wrote:
-> Am 18.03.24 um 13:42 schrieb Maíra Canal:
->> Hi Christian,
->>
->> On 3/12/24 10:48, Christian König wrote:
->>> Am 12.03.24 um 14:09 schrieb Tvrtko Ursulin:
->>>>
->>>> On 12/03/2024 10:37, Christian König wrote:
->>>>> Am 12.03.24 um 11:31 schrieb Tvrtko Ursulin:
->>>>>>
->>>>>> On 12/03/2024 10:23, Christian König wrote:
->>>>>>> Am 12.03.24 um 10:30 schrieb Tvrtko Ursulin:
->>>>>>>>
->>>>>>>> On 12/03/2024 08:59, Christian König wrote:
->>>>>>>>> Am 12.03.24 um 09:51 schrieb Tvrtko Ursulin:
->>>>>>>>>>
->>>>>>>>>> Hi Maira,
->>>>>>>>>>
->>>>>>>>>> On 11/03/2024 10:05, Maíra Canal wrote:
->>>>>>>>>>> For some applications, such as using huge pages, we might 
->>>>>>>>>>> want to have a
->>>>>>>>>>> different mountpoint, for which we pass in mount flags that 
->>>>>>>>>>> better match
->>>>>>>>>>> our usecase.
->>>>>>>>>>>
->>>>>>>>>>> Therefore, add a new parameter to drm_gem_object_init() that 
->>>>>>>>>>> allow us to
->>>>>>>>>>> define the tmpfs mountpoint where the GEM object will be 
->>>>>>>>>>> created. If
->>>>>>>>>>> this parameter is NULL, then we fallback to shmem_file_setup().
->>>>>>>>>>
->>>>>>>>>> One strategy for reducing churn, and so the number of drivers 
->>>>>>>>>> this patch touches, could be to add a lower level 
->>>>>>>>>> drm_gem_object_init() (which takes vfsmount, call it 
->>>>>>>>>> __drm_gem_object_init(), or drm__gem_object_init_mnt(), and 
->>>>>>>>>> make drm_gem_object_init() call that one with a NULL argument.
->>>>>>>>>
->>>>>>>>> I would even go a step further into the other direction. The 
->>>>>>>>> shmem backed GEM object is just some special handling as far as 
->>>>>>>>> I can see.
->>>>>>>>>
->>>>>>>>> So I would rather suggest to rename all drm_gem_* function 
->>>>>>>>> which only deal with the shmem backed GEM object into 
->>>>>>>>> drm_gem_shmem_*.
->>>>>>>>
->>>>>>>> That makes sense although it would be very churny. I at least 
->>>>>>>> would be on the fence regarding the cost vs benefit.
->>>>>>>
->>>>>>> Yeah, it should clearly not be part of this patch here.
->>>>>>>
->>>>>>>>
->>>>>>>>> Also the explanation why a different mount point helps with 
->>>>>>>>> something isn't very satisfying.
->>>>>>>>
->>>>>>>> Not satisfying as you think it is not detailed enough to say 
->>>>>>>> driver wants to use huge pages for performance? Or not satisying 
->>>>>>>> as you question why huge pages would help?
->>>>>>>
->>>>>>> That huge pages are beneficial is clear to me, but I'm missing 
->>>>>>> the connection why a different mount point helps with using huge 
->>>>>>> pages.
->>>>>>
->>>>>> Ah right, same as in i915, one needs to mount a tmpfs instance 
->>>>>> passing huge=within_size or huge=always option. Default is 
->>>>>> 'never', see man 5 tmpfs.
->>>>>
->>>>> Thanks for the explanation, I wasn't aware of that.
->>>>>
->>>>> Mhm, shouldn't we always use huge pages? Is there a reason for a 
->>>>> DRM device to not use huge pages with the shmem backend?
->>>>
->>>> AFAIU, according to b901bb89324a ("drm/i915/gemfs: enable THP"), 
->>>> back then the understanding was within_size may overallocate, 
->>>> meaning there would be some space wastage, until the memory pressure 
->>>> makes the thp code split the trailing huge page. I haven't checked 
->>>> if that still applies.
->>>>
->>>> Other than that I don't know if some drivers/platforms could have 
->>>> problems if they have some limitations or hardcoded assumptions when 
->>>> they iterate the sg list.
->>>
->>> Yeah, that was the whole point behind my question. As far as I can 
->>> see this isn't driver specific, but platform specific.
->>>
->>> I might be wrong here, but I think we should then probably not have 
->>> that handling in each individual driver, but rather centralized in 
->>> the DRM code.
->>
->> I don't see a point in enabling THP for all shmem drivers. A huge page
->> is only useful if the driver is going to use it. On V3D, for example,
->> I only need huge pages because I need the memory contiguously allocated
->> to implement Super Pages. Otherwise, if we don't have the Super Pages
->> support implemented in the driver, I would be creating memory pressure
->> without any performance gain.
+On Mon, Mar 18, 2024 at 01:05:22PM +0100, Maxime Ripard wrote:
+> Hi Ville,
 > 
-> Well that's the point I'm disagreeing with. THP doesn't seem to create 
-> much extra memory pressure for this use case.
+> Thanks for your review !
 > 
-> As far as I can see background for the option is that files in tmpfs 
-> usually have a varying size, so it usually isn't beneficial to allocate 
-> a huge page just to find that the shmem file is much smaller than what's 
-> needed.
+> On Fri, Mar 15, 2024 at 10:05:16AM +0200, Ville Syrjälä wrote:
+> > On Mon, Mar 11, 2024 at 03:49:42PM +0100, Maxime Ripard wrote:
+> > > +static bool
+> > > +sink_supports_format_bpc(const struct drm_connector *connector,
+> > > +			 const struct drm_display_info *info,
+> > > +			 const struct drm_display_mode *mode,
+> > > +			 unsigned int format, unsigned int bpc)
+> > > +{
+> > > +	struct drm_device *dev = connector->dev;
+> > > +	u8 vic = drm_match_cea_mode(mode);
+> > > +
+> > > +	if (vic == 1 && bpc != 8) {
+> > > +		drm_dbg(dev, "VIC1 requires a bpc of 8, got %u\n", bpc);
+> > 
+> > Use of drm_dbg() for kms stuff is surprising.
+> > 
+> > > +		return false;
+> > > +	}
+> > 
+> > I don't think we have this in i915. My original impression was that you
+> > can use higher color depth if you can determine the sink capabilities,
+> > but all sinks are required to accept 640x480@8bpc as a fallback.
+> > 
+> > but CTA-861-H says:
+> > "5.4 Color Coding & Quantization
+> >  Component Depth: The coding shall be N-bit, where N = 8, 10, 12, or 16
+> >  bits/component — except in the case of the default 640x480 Video Timing 1,
+> >  where the value of N shall be 8."
+> > 
+> > So that does seem to imply that you're supposed to use exactly 8bpc.
+> > Though the word "default" in there is confusing. Are they specifically
+> > using that to indicate that this is about the fallback behaviour, or
+> > is it just indicating that it is a "default mode that always has to
+> > be supported". Dunno. I guess no real harm in forcing 8bpc for 640x480
+> > since no one is likely to use that for any high fidelity stuff.
 > 
-> But GEM objects have a fixed size. So we of hand knew if we need 4KiB or 
-> 1GiB and can therefore directly allocate huge pages if they are 
-> available and object large enough to back them with.
+> My understanding was that CTA-861 mandates that 640x480@60Hz is
+> supported, and mentions it being the default timing on a few occurences,
+> like in section 4 - Video Formats and Waveform Timings that states "This
+> section describes the default IT 640x480 Video Timing as well as all of
+> the standard CE Video Timings.", or Section 6.2 - Describing Video
+> Formats in EDID "The 640x480@60Hz flag, in the Established Timings area,
+> shall always be set, since the 640x480p format is a mandatory default
+> timing."
 > 
-> If the memory pressure is so high that we don't have huge pages 
-> available the shmem code falls back to standard pages anyway.
+> So my understanding is that default here applies to the timing itself,
+> and not the bpc, and is thus the second interpretation you suggested.
+> 
+> I'll add a comment to make it clearer.
+> 
+> > > +static int
+> > > +hdmi_compute_format(const struct drm_connector *connector,
+> > > +		    struct drm_connector_state *state,
+> > > +		    const struct drm_display_mode *mode,
+> > > +		    unsigned int bpc)
+> > > +{
+> > > +	struct drm_device *dev = connector->dev;
+> > > +
+> > > +	if (hdmi_try_format_bpc(connector, state, mode, bpc, HDMI_COLORSPACE_RGB)) {
+> > > +		state->hdmi.output_format = HDMI_COLORSPACE_RGB;
+> > > +		return 0;
+> > > +	}
+> > > +
+> > > +	if (hdmi_try_format_bpc(connector, state, mode, bpc, HDMI_COLORSPACE_YUV422)) {
+> > > +		state->hdmi.output_format = HDMI_COLORSPACE_YUV422;
+> > > +		return 0;
+> > > +	}
+> > 
+> > Looks like you're preferring YCbCr 4:2:2 over RGB 8bpc. Not sure
+> > if that's a good tradeoff to make.
+> 
+> Yeah, indeed. I guess it's a judgement call on whether we prioritise
+> lowering the bpc over selecting YUV422, but I guess I can try all
+> available RGB bpc before falling back to YUV422.
+> 
+> > In i915 we don't currently expose 4:2:2 at all because it doesn't
+> > help in getting a working display, and we have no uapi for the
+> > user to force it if they really want 4:2:2 over RGB.
+> 
+> I guess if the priority is given to lowering bpc, then it indeed doesn't
+> make sense to support YUV422, since the limiting factor is likely to be
+> the TMDS char rate and YUV422 12 bpc is equivalent to RGB 8bpc there.
+> 
+> dw-hdmi on the other hand will always put YUV422 and YUV444 before RGB
+> for a given bpc, which is weird to me:
+> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c#L2696
+> 
+> What is even weirder to me is that YUV422 is explicitly stated to be
+> 12bpc only, so there's some invalid configurations there (8 and 10 bpc).
+> 
+> And given that it's order by decreasing order of preference, I'm pretty
+> sure it'll never actually pick any YUV or RGB > 8bpc format since RGB
+> 8bpc is super likely to be always available and thus picked first.
 
-The matter is: how do we define the point where the memory pressure is 
-high? For example, notice that in this implementation of Super Pages
-for the V3D driver, I only use a Super Page if the BO is bigger than 
-2MB. I'm doing that because the Raspberry Pi only has 4GB of RAM 
-available for the GPU. If I created huge pages for every BO allocation 
-(and initially, I tried that), I would end up with hangs in some 
-applications.
-
-At least, for V3D, I wouldn't like to see THP being used for all the 
-allocations. But, we have maintainers of other drivers in the CC.
-
-Best Regards,
-- Maíra
+8bpc RGB is in fact mandatory.
 
 > 
-> So THP is almost always beneficial for GEM even if the driver doesn't 
-> actually need it. The only potential case I can think of which might not 
-> be handled gracefully is the tail pages, e.g. huge + 4kib.
+> If we want to converge, I think we should amend this code to support
+> YUV420 for YUV420-only modes first, and then the RGB options like i915
+> is doing. And then if someone is interested in more, we can always
+> expand it to other formats.
 > 
-> But that is trivial to optimize in the shmem code when the final size of 
-> the file is known beforehand.
+> > > +
+> > > +	drm_dbg(dev, "Failed. No Format Supported for that bpc count.\n");
+> > > +
+> > > +	return -EINVAL;
+> > > +}
+> > > +
+> > > +static int
+> > > +hdmi_compute_config(const struct drm_connector *connector,
+> > > +		    struct drm_connector_state *state,
+> > > +		    const struct drm_display_mode *mode)
+> > > +{
+> > > +	struct drm_device *dev = connector->dev;
+> > > +	unsigned int max_bpc = clamp_t(unsigned int,
+> > > +				       state->max_bpc,
+> > > +				       8, connector->max_bpc);
+> > > +	unsigned int bpc;
+> > > +	int ret;
+> > > +
+> > > +	for (bpc = max_bpc; bpc >= 8; bpc -= 2) {
+> > > +		drm_dbg(dev, "Trying with a %d bpc output\n", bpc);
+> > > +
+> > > +		ret = hdmi_compute_format(connector, state, mode, bpc);
+> > 
+> > Hmm. Actually I'm not sure your 4:2:2 stuff even works since you 
+> > check for bpc==12 in there and only call this based on the max_bpc.
+> > I'm not convinced max_bpc would actually be 12 for a sink that
+> > supports YCbCr 4:2:2 but not 12bpc RGB.
 > 
-> Regards,
-> Christian.
+> It's another discussion we had in an earlier version, but yeah we lack
+> the infrastructure to support those for now. I still believe it would
+> require an increased max_bpc to select YUV422, otherwise things would be
+> pretty inconsistent with other YUV formats.
+
+Ideally I'd like to know the actual color depth of the panel
+independently of the supported signal color depths. Unfortunately
+I don't think EDID gives us that. Can't recall if DisplayID might
+have something a bit more sensible.
+
+Given how info->bpc works right now, I suppose it would make sense
+to bump it up to 12 when 4:2:2 is supported. But I've not thought
+through the actual implications such a change.
+
+> But yeah, we need to provide a hook to report we don't support RGB >
+> 8bpc for HDMI 1.4 devices. Which goes back to the previous question
+> actually, I believe it would still provide value to support YUV422 on
+> those devices, with something like:
 > 
->>
->> Best Regards,
->> - Maíra
->>
->>>
->>> Regards,
->>> Christian.
->>>
->>>
->>>>
->>>> Te Cc is plenty large so perhaps someone else will have additional 
->>>> information. :)
->>>>
->>>> Regards,
->>>>
->>>> Tvrtko
->>>>
->>>>>
->>>>> I mean it would make this patch here even smaller.
->>>>>
->>>>> Regards,
->>>>> Christian.
->>>>>
->>>>>>
->>>>>>
->>>>>> Regards,
->>>>>>
->>>>>> Tvrtko
->>>>>
->>>
+> for (bpc = max_bpc; bpc >= 8; bpc -= 2) {
+>     if (!connector->hdmi->funcs->validate_config(mode, RGB, bpc))
+>        continue;
 > 
+>     // Select RGB with bpc
+>     ...
+> }
+> 
+> if (connector->hdmi->funcs->validate_config(mode, YUV) &&
+>     hdmi_try_format_bpc(..., mode, 12, YUV422) {
+>    // Select YUV422, 12 bpc
+>    ...
+> }
+> 
+> What do you think?
+
+Since 8bpc RGB must always be supported this looks
+like dead code to me.
+
+-- 
+Ville Syrjälä
+Intel
