@@ -2,48 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89E0887EF29
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 18:48:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4F487EF2D
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 18:50:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 057B410F26B;
-	Mon, 18 Mar 2024 17:48:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5379A10FD41;
+	Mon, 18 Mar 2024 17:50:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="keHalQh7";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XlZWs+Jf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 276E710F373
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 17:48:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAF2310FD73
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 17:50:35 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
  [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C4CDA7E9;
- Mon, 18 Mar 2024 18:47:33 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 94D937E9;
+ Mon, 18 Mar 2024 18:50:08 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1710784054;
- bh=aB4QjsntkdeRYm++bGJb+vjHJ2yqUXdl8ugiaR8bOXE=;
+ s=mail; t=1710784208;
+ bh=pQUEXLiwsG9pj5PVCtfU0JO6LrCsUmWuFBjSmI5msyE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=keHalQh7OiuMolxVYz3XObQAl6X5j8WHviwPmOqz703pAGv0AVNwvCLXiQG7LjIqG
- IfxT+TGpn5FZZk31VSmJU1uqFS8UhAcGmXlDh5IeYKurKXpoj4Un1wWQleLOEZt2id
- 069Z2DlJifS5UlRrJN75rkj7oPIE9hfKsDsMiQsA=
-Date: Mon, 18 Mar 2024 19:47:57 +0200
+ b=XlZWs+Jf10VPkSIZExabneHvJ8lPq37tytooEGy4gXnTQOUn+SBX64FjyPPL5IiiN
+ 92deGuT2P4WZHtLhdkYdvo6BzTg7FIN57y0JL/vEG/n61IUsahuTfD9wmQLYjST/81
+ pETs6/R8TlJ4l5MEDjO7d2427SLRIfRFb4Q1I0X4=
+Date: Mon, 18 Mar 2024 19:50:32 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sean Anderson <sean.anderson@linux.dev>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Cc: kernel test robot <lkp@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- linux-kernel@vger.kernel.org, Michal Simek <michal.simek@amd.com>,
- linux-arm-kernel@lists.infradead.org, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 5/6] drm: zynqmp_dp: Optionally ignore DPCD errors
-Message-ID: <20240318174757.GL13682@pendragon.ideasonboard.com>
-References: <20240315230916.1759060-1-sean.anderson@linux.dev>
- <20240315230916.1759060-6-sean.anderson@linux.dev>
+ dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev,
+ David Airlie <airlied@gmail.com>, linux-kernel@vger.kernel.org,
+ Michal Simek <monstr@monstr.eu>, linux-arm-kernel@lists.infradead.org,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 6/6] drm: zynqmp_dp: Add debugfs interface for compliance
+ testing
+Message-ID: <20240318175032.GM13682@pendragon.ideasonboard.com>
+References: <20240315230916.1759060-7-sean.anderson@linux.dev>
+ <202403161704.ACHJdSJG-lkp@intel.com>
+ <ce1190ad-27c2-4a16-b36f-442c0c419dcc@linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240315230916.1759060-6-sean.anderson@linux.dev>
+In-Reply-To: <ce1190ad-27c2-4a16-b36f-442c0c419dcc@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,143 +63,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sean,
-
-Thank you for the patch.
-
-On Fri, Mar 15, 2024 at 07:09:15PM -0400, Sean Anderson wrote:
-> When testing, it's convenient to be able to ignore DPCD errors if there
-> is test equipment which can't emulate a DPRX connected to the output.
-> Add some (currently-unused) options to ignore these errors and just
-> reconfigure our internal registers as we usually would.
-
-This seems to be a problem that is not limited to the ZynqMP DP.
-Wouldn't it be better to solve it in the DRM DP DPCD helpers instead ?
-You could expose a parameter on the AUX bus in debugfs to ignore errors,
-and cause the drm_dp_dpcd_write*() functions to return 0.
-
-> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
-> ---
+On Mon, Mar 18, 2024 at 11:06:40AM -0400, Sean Anderson wrote:
+> On 3/16/24 06:14, kernel test robot wrote:
+> > Hi Sean,
+> > 
+> > kernel test robot noticed the following build warnings:
+> > 
+> > [auto build test WARNING on v6.8]
+> > [cannot apply to drm-misc/drm-misc-next linus/master next-20240315]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Anderson/drm-zynqmp_dp-Downgrade-log-level-for-aux-retries-message/20240316-071208
+> > base:   v6.8
+> > patch link:    https://lore.kernel.org/r/20240315230916.1759060-7-sean.anderson%40linux.dev
+> > patch subject: [PATCH 6/6] drm: zynqmp_dp: Add debugfs interface for compliance testing
+> > config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240316/202403161704.ACHJdSJG-lkp@intel.com/config)
+> > compiler: microblaze-linux-gcc (GCC) 13.2.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403161704.ACHJdSJG-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202403161704.ACHJdSJG-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> >    drivers/gpu/drm/xlnx/zynqmp_dp.c: In function 'zynqmp_dp_bridge_debugfs_init':
+> >>> drivers/gpu/drm/xlnx/zynqmp_dp.c:2168:31: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
+> >     2168 |                 sprintf(name, fmt, i);
+> >          |                               ^~~
+> >    drivers/gpu/drm/xlnx/zynqmp_dp.c:2168:17: note: 'sprintf' output between 18 and 20 bytes into a destination of size 19
+> >     2168 |                 sprintf(name, fmt, i);
+> >          |                 ^~~~~~~~~~~~~~~~~~~~~
 > 
->  drivers/gpu/drm/xlnx/zynqmp_dp.c | 37 ++++++++++++++++++++------------
->  1 file changed, 23 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> index 24043847dab4..040f7b88ee51 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> @@ -628,6 +628,7 @@ static void zynqmp_dp_adjust_train(struct zynqmp_dp *dp,
->   * zynqmp_dp_update_vs_emph - Update the training values
->   * @dp: DisplayPort IP core structure
->   * @train_set: A set of training values
-> + * @ignore_dpcd: Ignore DPCD errors
->   *
->   * Update the training values based on the request from sink. The mapped values
->   * are predefined, and values(vs, pe, pc) are from the device manual.
-> @@ -635,15 +636,19 @@ static void zynqmp_dp_adjust_train(struct zynqmp_dp *dp,
->   * Return: 0 if vs and emph are updated successfully, or the error code returned
->   * by drm_dp_dpcd_write().
->   */
-> -static int zynqmp_dp_update_vs_emph(struct zynqmp_dp *dp, u8 *train_set)
-> +static int zynqmp_dp_update_vs_emph(struct zynqmp_dp *dp, u8 *train_set,
-> +				    bool ignore_dpcd)
->  {
->  	unsigned int i;
->  	int ret;
->  
->  	ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET, train_set,
->  				dp->mode.lane_cnt);
-> -	if (ret < 0)
-> -		return ret;
-> +	if (ret < 0) {
-> +		if (!ignore_dpcd)
-> +			return ret;
-> +		dev_warn(dp->dev, "failed to update vs/emph\n");
-> +	}
->  
->  	for (i = 0; i < dp->mode.lane_cnt; i++) {
->  		u32 reg = ZYNQMP_DP_SUB_TX_PHY_PRECURSOR_LANE_0 + i * 4;
-> @@ -692,7 +697,7 @@ static int zynqmp_dp_link_train_cr(struct zynqmp_dp *dp)
->  	 * So, This loop should exit before 512 iterations
->  	 */
->  	for (max_tries = 0; max_tries < 512; max_tries++) {
-> -		ret = zynqmp_dp_update_vs_emph(dp, dp->train_set);
-> +		ret = zynqmp_dp_update_vs_emph(dp, dp->train_set, false);
->  		if (ret)
->  			return ret;
->  
-> @@ -757,7 +762,7 @@ static int zynqmp_dp_link_train_ce(struct zynqmp_dp *dp)
->  		return ret;
->  
->  	for (tries = 0; tries < DP_MAX_TRAINING_TRIES; tries++) {
-> -		ret = zynqmp_dp_update_vs_emph(dp, dp->train_set);
-> +		ret = zynqmp_dp_update_vs_emph(dp, dp->train_set, false);
->  		if (ret)
->  			return ret;
->  
-> @@ -785,11 +790,12 @@ static int zynqmp_dp_link_train_ce(struct zynqmp_dp *dp)
->   * @lane_cnt: The number of lanes to use
->   * @enhanced: Use enhanced framing
->   * @downspread: Enable spread-spectrum clocking
-> + * @ignore_dpcd: Ignore DPCD errors; useful for testing
->   *
->   * Return: 0 on success, or -errno on failure
->   */
->  static int zynqmp_dp_setup(struct zynqmp_dp *dp, u8 bw_code, u8 lane_cnt,
-> -			   bool enhanced, bool downspread)
-> +			   bool enhanced, bool downspread, bool ignore_dpcd)
->  {
->  	u32 reg;
->  	u8 aux_lane_cnt = lane_cnt;
-> @@ -812,21 +818,24 @@ static int zynqmp_dp_setup(struct zynqmp_dp *dp, u8 bw_code, u8 lane_cnt,
->  
->  	ret = drm_dp_dpcd_writeb(&dp->aux, DP_LANE_COUNT_SET, aux_lane_cnt);
->  	if (ret < 0) {
-> -		dev_err(dp->dev, "failed to set lane count\n");
-> -		return ret;
-> +		dev_warn(dp->dev, "failed to set lane count\n");
-> +		if (!ignore_dpcd)
-> +			return ret;
->  	}
->  
->  	ret = drm_dp_dpcd_writeb(&dp->aux, DP_MAIN_LINK_CHANNEL_CODING_SET,
->  				 DP_SET_ANSI_8B10B);
->  	if (ret < 0) {
-> -		dev_err(dp->dev, "failed to set ANSI 8B/10B encoding\n");
-> -		return ret;
-> +		dev_warn(dp->dev, "failed to set ANSI 8B/10B encoding\n");
-> +		if (!ignore_dpcd)
-> +			return ret;
->  	}
->  
->  	ret = drm_dp_dpcd_writeb(&dp->aux, DP_LINK_BW_SET, bw_code);
->  	if (ret < 0) {
-> -		dev_err(dp->dev, "failed to set DP bandwidth\n");
-> -		return ret;
-> +		dev_warn(dp->dev, "failed to set DP bandwidth\n");
-> +		if (!ignore_dpcd)
-> +			return ret;
->  	}
->  
->  	zynqmp_dp_write(dp, ZYNQMP_DP_LINK_BW_SET, bw_code);
-> @@ -860,7 +869,7 @@ static int zynqmp_dp_train(struct zynqmp_dp *dp)
->  
->  	ret = zynqmp_dp_setup(dp, dp->mode.bw_code, dp->mode.lane_cnt,
->  			      drm_dp_enhanced_frame_cap(dp->dpcd),
-> -			      dp->dpcd[3] & 0x1);
-> +			      dp->dpcd[3] & 0x1, false);
->  	if (ret)
->  		return ret;
->  
-> @@ -877,7 +886,7 @@ static int zynqmp_dp_train(struct zynqmp_dp *dp)
->  	ret = drm_dp_dpcd_writeb(&dp->aux, DP_TRAINING_PATTERN_SET,
->  				 DP_TRAINING_PATTERN_DISABLE);
->  	if (ret < 0) {
-> -		dev_err(dp->dev, "failed to disable training pattern\n");
-> +		dev_warn(dp->dev, "failed to disable training pattern\n");
->  		return ret;
->  	}
->  	zynqmp_dp_write(dp, ZYNQMP_DP_TRAINING_PATTERN_SET,
+> Not a bug, as i will be at most 4, which uses 1 digit.
+
+The compiler can't know that. Please fix this, there's a zero warning
+policy.
+
+> > vim +/sprintf +2168 drivers/gpu/drm/xlnx/zynqmp_dp.c
+> > 
+> >   2136	
+> >   2137	DEFINE_DEBUGFS_ATTRIBUTE(fops_zynqmp_dp_rate, zynqmp_dp_rate_get,
+> >   2138				 zynqmp_dp_rate_set, "%llu\n");
+> >   2139	
+> >   2140	static void zynqmp_dp_bridge_debugfs_init(struct drm_bridge *bridge,
+> >   2141						  struct dentry *root)
+> >   2142	{
+> >   2143		struct zynqmp_dp *dp = bridge_to_dp(bridge);
+> >   2144		struct dentry *test;
+> >   2145		int i;
+> >   2146	
+> >   2147		dp->test.bw_code = DP_LINK_BW_5_4;
+> >   2148		dp->test.link_cnt = dp->num_lanes;
+> >   2149	
+> >   2150		test = debugfs_create_dir("test", root);
+> >   2151	#define CREATE_FILE(name) \
+> >   2152		debugfs_create_file(#name, 0600, test, dp, &fops_zynqmp_dp_##name)
+> >   2153		CREATE_FILE(pattern);
+> >   2154		CREATE_FILE(enhanced);
+> >   2155		CREATE_FILE(downspread);
+> >   2156		CREATE_FILE(active);
+> >   2157		CREATE_FILE(custom);
+> >   2158		CREATE_FILE(rate);
+> >   2159		CREATE_FILE(lanes);
+> >   2160	
+> >   2161		for (i = 0; i < dp->num_lanes; i++) {
+> >   2162			static const char fmt[] = "lane%d_preemphasis";
+> >   2163			char name[sizeof(fmt)];
+> >   2164	
+> >   2165			dp->debugfs_train_set[i].dp = dp;
+> >   2166			dp->debugfs_train_set[i].lane = i;
+> >   2167	
+> >> 2168			sprintf(name, fmt, i);
+> >   2169			debugfs_create_file(name, 0600, test,
+> >   2170					    &dp->debugfs_train_set[i],
+> >   2171					    &fops_zynqmp_dp_preemphasis);
+> >   2172	
+> >   2173			sprintf(name, "lane%d_swing", i);
+> >   2174			debugfs_create_file(name, 0600, test,
+> >   2175					    &dp->debugfs_train_set[i],
+> >   2176					    &fops_zynqmp_dp_swing);
+> >   2177		}
+> >   2178	}
+> >   2179	
 
 -- 
 Regards,
