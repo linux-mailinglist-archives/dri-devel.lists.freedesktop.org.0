@@ -2,79 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31A7287F05A
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 20:21:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43DE187F05F
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 20:24:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6341210FDE5;
-	Mon, 18 Mar 2024 19:21:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CB6D10E3C5;
+	Mon, 18 Mar 2024 19:24:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AyueREGc";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="mikmlv6l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40C8310FDE5
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 19:21:50 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-5148ea935b8so1018480e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 12:21:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1710789708; x=1711394508; darn=lists.freedesktop.org;
- h=mime-version:message-id:date:user-agent:references:in-reply-to
- :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=euQVyNb7pnK4bYmyXoWjONnMEhXoEF7EGsu6/hlhooQ=;
- b=AyueREGc8t3WAl3V8kWQWYa98t+U61+sOt8n5o2que4jsjXTTpah30/UXQK77UvgOh
- a4W9H96C6RnZc3uFbVvRZOOmDJEjO9vRRihM9mkilwPejis2oO8HmaTCbiZruNmx/L4T
- PIdQUN6QxmrNDt+u8KAJofLitC/7LvBuqMyXzNV1vFgdspGJMCaBNiPfcvts95tuPEC7
- 3D81BLu8b+mTZZ6qHkfP0Mu3XapziX13ahAn97DuU9Oi2wGqX2BxdOafJQJQ1ShZVXL/
- zvxw0zIsCfiqYAmFKnDxT1DNNrFCbYdmcMTZS2wdp828ncvI0WFCZB8k9aAWku1JGC+9
- jxgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710789708; x=1711394508;
- h=mime-version:message-id:date:user-agent:references:in-reply-to
- :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=euQVyNb7pnK4bYmyXoWjONnMEhXoEF7EGsu6/hlhooQ=;
- b=ZzQWCOJwjNQSvkJdzvAFBv/4Fi8Awead3HxulI95TRRJMJrfLE2ePF0Ua4bZUQFZXI
- YgZ0WnANY9UHWCXW68irxstVRJ+ygir5qnq+5W4aqsfX+w7JOUFy8X+eMgblohBNyJgP
- G3Y+DySNIoe7yWMx4K0OUpiawSwFkSbaQfLktdvJfA63Dk6oftX4INl9P3Nm4Zt6WmU3
- F/xjm1JSJV1BNPKtsjry61HQEP78inOCe/u8AV026ntatdwNbc9EZGeStxHDWTbmJTRm
- E0anrOYGEbgH/BdD8BnyuJAxwH/atC6Oc1Y3kE5pvKwnlr1Z5e29CUaGNICXxyb6ZI5U
- X+0w==
-X-Gm-Message-State: AOJu0YyvLK0kfmzAvRlFSRzrZP89C+eWEaKAjS/Cnge9+KTs9PUtETRK
- gQ1seoIfVlQ2kYJmJ7u3TPWmse3mZlr/YkXZASRgm2vLysVMZA99
-X-Google-Smtp-Source: AGHT+IFzlUzULLvziB7EIXKLti/g36Z9oDR1evlsr8YKyPFcym7N5T2p2fbqRasSOKvh3O6acV9qdg==
-X-Received: by 2002:a19:6914:0:b0:513:ec32:aa86 with SMTP id
- e20-20020a196914000000b00513ec32aa86mr298754lfc.1.1710789707650; 
- Mon, 18 Mar 2024 12:21:47 -0700 (PDT)
-Received: from betty.fdsoft.se (213-67-237-183-no99.tbcn.telia.com.
- [213.67.237.183]) by smtp.gmail.com with ESMTPSA id
- k8-20020a0565123d8800b00513c7c7879fsm1665711lfv.259.2024.03.18.12.21.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Mar 2024 12:21:47 -0700 (PDT)
-Received: from ester.fdsoft.se ([192.168.1.2] helo=ester)
- by betty.fdsoft.se with esmtp (Exim 4.97.1)
- (envelope-from <frej.drejhammar@gmail.com>)
- id 1rmIYM-000000004jv-286r; Mon, 18 Mar 2024 20:21:46 +0100
-From: Frej Drejhammar <frej.drejhammar@gmail.com>
-To: Kevin Hao <haokexin@gmail.com>
-Cc: dri-devel@lists.freedesktop.org,  Jyri Sarha <jyri.sarha@iki.fi>,  Tomi
- Valkeinen <tomi.valkeinen@ideasonboard.com>,  Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,  David Airlie
- <airlied@gmail.com>,  Daniel Vetter <daniel@ffwll.ch>,  =?utf-8?Q?Ma?=
- =?utf-8?Q?=C3=ADra?= Canal <mcanal@igalia.com>
-Subject: Re: [PATCH] drm/tilcdc: Set preferred depth
-In-Reply-To: <ZfePYNWY5_1XwS_A@pek-khao-d3> (Kevin Hao's message of "Mon, 18
- Mar 2024 08:48:32 +0800")
-References: <20240317033918.535716-1-haokexin@gmail.com>
- <kh6h4bra6.fsf@gmail.com> <ZfePYNWY5_1XwS_A@pek-khao-d3>
-User-Agent: Gnus/5.13 (Gnus v5.13)
-Date: Mon, 18 Mar 2024 20:21:46 +0100
-Message-ID: <kle6f8hx1.fsf@gmail.com>
+Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com
+ [95.215.58.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1A9610FDEB
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 19:24:05 +0000 (UTC)
+Message-ID: <9d894bd2-c92e-4d08-8643-be88a203879c@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1710789843;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BI/HR4kmZi9eYYX3fHtixI9MLag8g+58iGjeaGFJliE=;
+ b=mikmlv6l59xdwDI+K3W4JMFjCmjyhCthwimWorGvm3wtWONQ6R499oW56ByIit2kuJquik
+ AGyltIo6L4rU7njDzYDmJUdNU2kKYu67RxbKdvjVGqJ1yxkv8J3BdkDzFMgv2qHdX2olOT
+ 4qzmqCRgUXjvHEMFFTqFFJnb2PyL6po=
+Date: Tue, 19 Mar 2024 03:23:54 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
+Subject: Re: [PATCH] drm: bridge: thc63lvd1024: Print error message when DT
+ parsing fails
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+References: <20240318160601.2813-1-laurent.pinchart+renesas@ideasonboard.com>
+ <78739dfe-c6ee-44bd-a2e6-2ced24ff15c1@linux.dev>
+ <20240318180420.GP13682@pendragon.ideasonboard.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <20240318180420.GP13682@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,24 +61,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Kevin
+Hi,
 
-Kevin Hao <haokexin@gmail.com> writes:
 
-> I had also thought about a similar modification before, but personally,
-> I considered such changes a bit aggressive for a patch that needs to be
-> backported to a stable kernel (especially for a LTS kernel such as v6.6
-> which I am working on). That's why I opted for minimal changes to fix this
-> regression, reducing the risk when we backport it to the stable kernel.
+On 2024/3/19 02:04, Laurent Pinchart wrote:
+> Improving core helpers is certainly a good idea, and if we do so, we can
+> simplify drivers. What I'm concerned is that commit 00084f0c01bf creates
+> a silent probe failure path,
 
-Personally I only work with the latest stable mainline kernel, so I want
-to fix both the regression and enable a 24 bit color depth...
 
-> Additionally, my patch and your patch don't conflict semantically, and
-> setting a driver's preferred_depth shouldn't cause any other issues.
+No, I can't agree here. It doesn't creates a silent probe failure path.
 
-True, we'll see what the maintainers say.
+Simply because
 
-Regards,
+1) It is NOT silent.
+2) It should be exist at product level kernel.
 
---Frej
+
+> which didn't exist before it.
+
+
+Again, it shouldn't be exist.
+
+Otherwise it hints us that there is ill-behavior-ed DT in the mainstream kernel
+or a specific product(or development board). If I were you, I would like to fix
+the boot failure first.
+
+In the earlier stage of my attempt to contribute, I also would like to enable
+debug output as much as possible. Just like you, the benefit is obvious: It really
+eliminate the pain on developing stage and when bugs happens.
+
+But I was told many many times that mainstream kernel is not for debug, it is
+for sound products. I bet you have seen some product level drivers print very less.
+I'm not understand why in the past, but I think I could understand something now.
+Probably because professional programmers really confident about what they have
+wrote. As they have been tested and/or reviewed thousands or ten thousands times.
+
+Enable this debug output by default can only prove to the community that you are
+not confident about something, either the community's reviewing power on DTS or
+your debug techniques.
+
+
+> This is why
+> this patch references it in the Fixes: tag, making sure that this patch
+> will get backported to any stable kernel that includes commit
+> 00084f0c01bf.
+
+
+No, I keep insist on my judgement. A fixes tag is only meant for cases where your
+patch fixes a bug. The bug should really be happened. All of the discussion ongoing
+here are just things imaginary about the *debug* phase and development phase.
+
+
+>   As far as I understand, this is business as usual. There's
+> nothing personal here, and no judgement on the quality of your code.
+>
+Please don't misunderstanding, I do cares the quality of my code.
+If it is really introduce a bug, I will responsible and help to solve.
+But this is not the case. Sorry.
+
+
+>>> Signed-off-by: Laurent Pinchart<laurent.pinchart+renesas@ideasonboard.com>
+>>> ---
+>>>    drivers/gpu/drm/bridge/thc63lvd1024.c | 5 ++++-
+>>>    1 file changed, 4 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/bridge/thc63lvd1024.c b/drivers/gpu/drm/bridge/thc63lvd1024.c
+>>> index 5f99f9724081..674efc489e3a 100644
+>>> --- a/drivers/gpu/drm/bridge/thc63lvd1024.c
+>>> +++ b/drivers/gpu/drm/bridge/thc63lvd1024.c
+>>> @@ -125,8 +125,11 @@ static int thc63_parse_dt(struct thc63_dev *thc63)
+>>>    
+>>>    	remote = of_graph_get_remote_node(thc63->dev->of_node,
+>>>    					  THC63_RGB_OUT0, -1);
+>>> -	if (!remote)
+>>> +	if (!remote) {
+>>> +		dev_err(thc63->dev, "No remote endpoint for port@%u\n",
+>>> +			THC63_RGB_OUT0);
+>>>    		return -ENODEV;
+>>> +	}
+>>>    
+
+An side effect of this patch is that we will add one more extra error message in the console.
+As the of_graph_get_remote_node() function already print one for us if I add '#define DEBUG 1'
+on the top of this source file. What's worse, it does not really tell us what's really the
+error is.
+
+It could be no valid endpoint or no valid remote node because of bad coding in DT, or It is
+also simply because the remove node(or device) is being disabled intentionally by adding
+'status = "disabled"' clause. Therefore, the error printing code added here is very confusing
+in practice. It cannot really help for locating the root cause of the problem.
+
+After think about this more than twice, either help to improve the core of_graph_get_remote_node()
+function or just to drop this. This what I can tell as a ordinary reviewer. Despite you and/or
+other more advanced programmer & reviewer could override what I said though.
+
+-- 
+Best regards,
+Sui
+
+>>>    	thc63->next = of_drm_find_bridge(remote);
+>>>    	of_node_put(remote);
+>>>
+>>> base-commit: 00084f0c01bf3a2591d007010b196e048281c455
+
+-- 
+Best regards,
+Sui
+
