@@ -2,83 +2,165 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2622E87EB93
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 16:05:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D75B87EB95
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 16:06:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5043610E8F7;
-	Mon, 18 Mar 2024 15:05:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B97910F927;
+	Mon, 18 Mar 2024 15:06:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Oborg7CM";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="2eI8wO6V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D88EF10E8F7
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 15:05:27 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-513da1c1f26so4798715e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 08:05:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1710774326; x=1711379126; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Lw55mJTDDxZ1K/cIy6WxXdv3l0985blDRwLkE03YRpI=;
- b=Oborg7CMAL0qHANoAuJ7Y09hp5QKE1Ne1zS4gjK7mr+9CPxGtDK/UOh5NniR1xW0YJ
- xQu7x4q8enAD+ahs/vlvqNJ1jDmhpO3AxBT8ydMs2L5foSyWdyUtRSL0iwRs2lxKhYF2
- isM/JQe5JGd5SaGZFEdbJxJ8iqZJ4jlly8ZLX0/fPtdqZUTTh+WnuGrBHxGURv7cs4zd
- wrGuG91npXXqSQ8sN9MSNxpAngRN24ls1HQCBgpRmJCSb9gt8sx5X3BDcZsrHvpKIGs6
- ucsIokO3negHOCiYiqKWyvpho5GxFDwxHCwqfLfkxq3bBGbbDfexRgbRzDWyxxr1+19i
- VYdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710774326; x=1711379126;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Lw55mJTDDxZ1K/cIy6WxXdv3l0985blDRwLkE03YRpI=;
- b=B8fcJwMefixj4e12FH7oMuqTj7+0o8tCr9apMmY5h0lIdlDSSAkxjgH6E4Kf8Fi+U5
- rH9XhSX/NVXYFW8Cxnx6N3JgUqS1pm4lroJlJfx5Z+OPCWmq1+DeDHKRjxQ5WNJhXF3L
- y+rBaKWNwEin/y4sGD2xk7GD4sHLCNDS7ybOLOSvFI/IOiWamG125L9ZtwiJj3jnhxEf
- aMjOHRcDGz/+WDbEYZv8gd+a6hKdqeL2XypxLMXwY9a7hqS05URNji5HgpCZqceUAscd
- auhh0sr5sFTT+WL1n8kLKqaGi01eZVgPcZtBGIABcrF8jjhXHJJHAeSNTptxKIAzjdFj
- eEFA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVAhoUCl32kl1vK8uoiMzRk5KMrPbiLknJ6HF7p7Da6IH+TDYUEup8xjlRP1h44ALcQHYnOfx2eO0ts3Ga/uHaPZYBUimuFT0RwD+pwvYSG
-X-Gm-Message-State: AOJu0YxIJw+1K77FDm9qzYLyCsdulJSZ6rvZFqjqSGGKw8ZGNNDyJgDt
- WnyIkKLfwtaOJretvNtVdeZBdwT1dTwhaGKcJtk9ZJCySeqMrwlY6da7k0r8jMY=
-X-Google-Smtp-Source: AGHT+IHCgOcwR7UDs/bvxSOUb3fBuHIJicmJyacnVaRq5aIkQS/vidxg7StuFD6lZdBoGgYfzuNIPw==
-X-Received: by 2002:a19:3850:0:b0:513:5a9e:78af with SMTP id
- d16-20020a193850000000b005135a9e78afmr8028856lfj.58.1710774325631; 
- Mon, 18 Mar 2024 08:05:25 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- v17-20020a05600c471100b004140e9211e7sm4556317wmo.35.2024.03.18.08.05.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Mar 2024 08:05:25 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Luca Weiss <luca.weiss@fairphone.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- Imre Deak <imre.deak@intel.com>, 
- =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20240318-revert-select-drm_kms_helper-for-drm_panel_bridge-v1-1-52a42a116286@linaro.org>
-References: <20240318-revert-select-drm_kms_helper-for-drm_panel_bridge-v1-1-52a42a116286@linaro.org>
-Subject: Re: [PATCH] Revert "drm/bridge: Select DRM_KMS_HELPER for
- DRM_PANEL_BRIDGE"
-Message-Id: <171077432467.2094782.16965623014261223688.b4-ty@linaro.org>
-Date: Mon, 18 Mar 2024 16:05:24 +0100
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2065.outbound.protection.outlook.com [40.107.237.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AC3810F915
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 15:06:00 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XybSpaNmtj6YzmYj5nyMwwEXoZcsHbhEjdZmzEy0iD26KuPbn0mzrG6Jv/AD6Z2WUG4l5qzvDiAqahnMbXQH+BxRoXV/iWC9L56jjy6b4GYBrDjYXpex9AxMS1k8q2UE8tJZWfLDdBhQzRGhhe+ZyWTnwzjEzIKleqfcfe7gkR5u+8sUnK8+wg8SlfpmE9ZMdpUm5EWlpXdL1Oco9sE2Ff74bW3+zywb+H07r9FG64FcvM1yA7E7qk2WG0o/SS+k7cbSMi8ihpGSNpW+lQdk9i02iQhOoWIZGGPEuqL1+0od6ufF9rVMuVv/GlYgoADUCo1dgXfMtKHYkd7+jfbyXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZdJv3sYCMTyxYq5f6Nj6kh4WjI1kbl8yXmumblAL3XA=;
+ b=CGvU2XNiqRGaDk1F2IK7IlEJzIQEVPK3ERA4Nt7i+0nnJm81JYNZHNdgMPxoe7jhbzQnV5/soyNTfj7dU6yTpxx6XjB5A8/wGuc0ZJ9b1VgWXp89BcmhMjfrm+Fhga/2Q1kF6Er1Z25dENtgeWT/T+p0gseoYQYN5F4QrdtesrnTNg7pqPqePBHySWI6l9b2HQxEm/OE4krQ/GNurIQl19U+XILsiB2pdxF7Tj4ZcLLQ5ZipAPylXh7tNmJcYYjB51HfPx8qMINqo+aS2YV3CHF3mCDzjwFDth7h/xbiz5Z3O354ktY5lNYankZVCn5iRGoRJRtYT5gc7jQjTGnK/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZdJv3sYCMTyxYq5f6Nj6kh4WjI1kbl8yXmumblAL3XA=;
+ b=2eI8wO6VhX2XURos9KwlnFi5SkePowNSgFFpNamDm3obo/SiDBB4pMAh+ohJTl2B/HZp2OcHrvdcYmJxHJG+0E3uj5fzvw+3FsHSFM16rD6aGd2SSm5G6Hlj6VcSX/oXzOBqHEPRxoMHClU8ATc3kyDoJ9I04CGTZtToYtKsRug=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MN6PR12MB8472.namprd12.prod.outlook.com (2603:10b6:208:46c::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.27; Mon, 18 Mar
+ 2024 15:05:55 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7386.023; Mon, 18 Mar 2024
+ 15:05:54 +0000
+Message-ID: <28ee9d07-059b-4ac1-97f7-21a74b532b12@amd.com>
+Date: Mon, 18 Mar 2024 16:05:40 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/5] drm/gem: Add a mountpoint parameter to
+ drm_gem_object_init()
+Content-Language: en-US
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Melissa Wen <mwen@igalia.com>,
+ Iago Toral <itoral@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ Russell King <linux@armlinux.org.uk>, Lucas Stach <l.stach@pengutronix.de>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Sui Jingfeng <suijingfeng@loongson.cn>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@redhat.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Huang Rui <ray.huang@amd.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Karolina Stolarek <karolina.stolarek@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Hugh Dickins <hughd@google.com>,
+ linux-mm@kvack.org
+References: <20240311100959.205545-1-mcanal@igalia.com>
+ <20240311100959.205545-3-mcanal@igalia.com>
+ <30a7f20b-1f2c-41cb-b193-03429c160b63@igalia.com>
+ <3a5d07c0-120f-47f9-a35a-31f3bfcc9330@amd.com>
+ <07885e3b-ee7b-456b-9fad-17d9009a4cb7@igalia.com>
+ <a0ac2e10-f5f5-4fbb-b591-bd188967ce53@amd.com>
+ <e8165baa-9ded-4149-aaa6-6713d112b621@igalia.com>
+ <69576e6d-9704-42b9-905f-289f9f9017b9@amd.com>
+ <ed7ecd56-0b5e-4543-80f6-7d28ddf8e2ec@igalia.com>
+ <9cfb7f83-2d76-4e8d-9052-5975da71e0dc@amd.com>
+ <2118492c-f223-41e9-8c1e-3c03d976301e@igalia.com>
+ <68452c6c-12d7-4e60-9598-369acc9fc360@amd.com>
+ <a07e4bc2-04af-4e98-8a9c-ccab31bca854@igalia.com>
+ <5f1a758b-b4f6-4fc3-b16b-29d731415636@amd.com>
+ <00a4aa2e-e279-48ff-bc1f-8a72ef5b4491@igalia.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <00a4aa2e-e279-48ff-bc1f-8a72ef5b4491@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0103.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a9::16) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.4
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN6PR12MB8472:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6010c350-7c1c-4c89-a063-08dc475ce83e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Svrn0j/AOfolT6KcpcH0kbyDhGPHLIbwq5tTkiOV1nnAILeNX9LMrMV4AmQylvaVzN6UTXHeCicDa2n72WmHUoFhxOkk39SzdJNDawR7iqq6bFYCZpKpCp7sFAaFMTX0nYy5Butaq2dO4ArxRnzwx2/zkI7wx9+yQ7E1hD/yhfIJMUfTZtYZMKBkloLtlTAT8HDkDixhvK67C6+X7bBK/EMpURPZiFLRx3S07CSPmvlCVqnYyYht0QrzY1Qo8WH8a4O5KSBTfd/9bVR2j0px2fcbPNLIWRzMcpO3odPwWLKCJwRGRRV+S8oPLD676MxrcTNp2O8VCVWPOMSpSitrj+z+dOG3phCM2LnsKrR/uNU74A1KjCiULcJvgeB/AjcMywGravugF2MGOcGnL+FIKeNtHZvbbcYFXJD7JdlBVYoOr0Sx23RwE+EtqMZSK0lqh6mYRlI4AapBmQxmwN4+O3neJcZ5DCrshbP57oj9tyd/JgtXM1jEFZIUKaj5hBUmxbB0qUFDXR6d6Myv0GN/c29eksEO5SovPHnpe9MthpM2s1p2DoK7sXSrBdqdq1o38rRl7xH5fgEcp9tdD+c4bjvArU+/B3xKqBBYCrNujIelhG2Zk+5WcrKtBbqCHBMX5rxreFvIR0EGxfWF4rVNkVlpCrBbUQUPvMzum6G7kTw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366007)(1800799015)(7416005)(376005); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UmJzMXhxWjFiY1VINHkvcCtnOHljdXRJcnEzR0ZEYWkwanNSeCtsaEgyb3ZB?=
+ =?utf-8?B?M3phcHAveUR4dzlZamZyZ0QyejAvN1k1ZURIVmtjRm9JZ0owNlRqU2s5SURV?=
+ =?utf-8?B?V0lQVVBvRm1BSis4M241YmVxR3A5K2RKUndzTXdUbDI2bzJlM0k5Q0pZZm40?=
+ =?utf-8?B?WlM0NFI4aHpPUXlIK0FFVlgya3dJL21FUmVmQjNOUlgwVXpGeGhOM0Vud0tL?=
+ =?utf-8?B?R3BieStzT25QRWw0VDBjdk5zOTZrc1RlamxmRFV5bEw1cEhDeFNkNGRKbmFJ?=
+ =?utf-8?B?Ny9WK2Urc0c2b1Rzd1NlazRPdzRZOGZaVUhTNFBNVGNFUkZtclhWaEtEdE4w?=
+ =?utf-8?B?NG9sbUw4TnBKOTZJRzVzb0U2c0xzM0wrUU5MbE45Yjlja1ovcW9BZ04xWjlX?=
+ =?utf-8?B?dWdVWERJTWhmdi9TTTQ5NGF6QXNOSXJlVjdRN1ZGTjYzT0ZpdUJKR3J2Zy9s?=
+ =?utf-8?B?aXhnZTVwZ24yVGtyMFJBcWVYb0lNa2hwdFc4MVdtQXc2bElnR3hWbXFnZm52?=
+ =?utf-8?B?eWhFcGRhV0tkaEpvMWcraE1VQzMxM0ZXNW9pbCs4RDR0bHNVLzhWUVdPRGp1?=
+ =?utf-8?B?NmpkcTVxaFVMc2JzZ0grenVHS2dzdVo5dXBpV2pYTFFIU1JzUm9obGtUQjFF?=
+ =?utf-8?B?VDc5ZnhySGhzVEVsdVdlQ3c0UHc1SXdaRXpPNTcvS0FCNlFrYUtMMnV0dUVK?=
+ =?utf-8?B?Sy9VVGo3dzF1NTljMkVGTDFOM1U2RmR4QW1GRGlnMEszNnlPSnRMeXhmdWs5?=
+ =?utf-8?B?M2lEMk5ycklYamNIODArVFJKNXVxQXdkNERPaFlnMXlxYTN4V1JSL2Ntc0N5?=
+ =?utf-8?B?WFFRbzh3MVI4aU9SVWxnZHhlQk8rOVZvcTJkc3c3UWZ4L0lmLzNUbGlkZWV0?=
+ =?utf-8?B?RWM3cVB6UnJoV09tZjVSWW5Vclo3ZVdWRUNQM3M1REpVRUs5eUQzOHhHbHdn?=
+ =?utf-8?B?NU5xQXljR2c5bHJiNVEyWG9yRm1KZmdGeW1zZ1UwYmlZQVd3aTN4d3dEcUdX?=
+ =?utf-8?B?NkgrYVBWdVZPc1BUbE5nYTYzeCs4OGxHSExTaERuazZKUmhEZEVpeGpPQWI4?=
+ =?utf-8?B?bjcvTVFCbnRGejBoSHg0cnpvWGFtZVhTQ3JpOWdSS2tzQkFxS0dzZFB3RmlD?=
+ =?utf-8?B?QlBxSitHd2dXYW9yem85R0w5cGwxVlVVRi9pdVFjQjBPR3VSNGFoTVBmcWNj?=
+ =?utf-8?B?SzlTNFVhNFlocEg0YVVISUN2YmNOQmFGckhxeVBNNmNNMVZ3eC9VdlFIUWZw?=
+ =?utf-8?B?THdPTXJGKzFuU3EzYzBWY1JyZzd3cER5bUFIRDIrUFRnNTc0R0JxZGRmbkRR?=
+ =?utf-8?B?Y29UbVhUU21IcnlHQzlJUnNpWGsyK1Z3LzdwdytwWUNYQnhZbzE2M1M1amdj?=
+ =?utf-8?B?ZXgydHp1MnJMK3d4Wm1IcmhuRWl0YjhWazY1ZTJnSVk0Snh5b1FpQURYMnJW?=
+ =?utf-8?B?c0NSdmVNVW9xbDVFa3c5STZjNUhZMi9xeXZwOThYeU03dURneFFXKzRTczF1?=
+ =?utf-8?B?NnpPQ25OeHhtYU42SG9oS0REOWQ1NlFHdUdWUFJxMmhzcHN2Y0NUY29zRUFU?=
+ =?utf-8?B?R284djhsemRUL0liWUpTUW80bVhIVzZWODJBenZvOTVkR1FIM2dmTE5WY29q?=
+ =?utf-8?B?S1MyeFZMcldmb3pXaTNiQ2NuR1EwRDN3WDFpeDcrcXd5SmFWK002TSt5WWlB?=
+ =?utf-8?B?MEhqdk4xdVFHc0pkT1hudGdsMFVYVG9lTXZzcE45ZnE2Q01SVmF3VCszaHE2?=
+ =?utf-8?B?UFBtUmR3WGpHellSRkRzTEsvTHVQU2tmRHAvTldVKzZvRFFuYm0zcGJ6Ujdx?=
+ =?utf-8?B?NjY1OFo2ajJOV2JlWjNSaFA1REFDRHcyU1NzZkJTdWlwU1ZjcVlySisyTUZz?=
+ =?utf-8?B?andINTB0WU9pZ1NDSkZMa2ZScENqUXIrOUEwZllxSXZsK2lUc01HTm5naExJ?=
+ =?utf-8?B?d1Q2WHhJcE9lcHEyTjIvVmF0ZzdPZVdxb3hoZ1ZtTE5nZkJzZnh5a1E0Z2xG?=
+ =?utf-8?B?SlhmSVFSeE5CUFpLNHVLUk5IWVpnK3NxSzkzVGZsUEtpNC9PbFdJS1NacHpQ?=
+ =?utf-8?B?ckk4OFlSdXlUU3dNZGhVUHNzNFI3Q0VLOXpKM1B6VjBJOTFGTE93V1RpNi81?=
+ =?utf-8?Q?BbPayQ8FZ4oTSQ2uXVhSpVH2o?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6010c350-7c1c-4c89-a063-08dc475ce83e
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2024 15:05:54.2201 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7LgeUoKeLKaUT7K/P8n4z6jwIap7pFZXip5HlFlsW8E/LmxuncJtOVEjzl+zEZdL
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8472
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,23 +176,229 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Am 18.03.24 um 15:24 schrieb Maíra Canal:
+> Not that the CC list wasn't big enough, but I'm adding MM folks
+> in the CC list.
+>
+> On 3/18/24 11:04, Christian König wrote:
+>> Am 18.03.24 um 14:28 schrieb Maíra Canal:
+>>> Hi Christian,
+>>>
+>>> On 3/18/24 10:10, Christian König wrote:
+>>>> Am 18.03.24 um 13:42 schrieb Maíra Canal:
+>>>>> Hi Christian,
+>>>>>
+>>>>> On 3/12/24 10:48, Christian König wrote:
+>>>>>> Am 12.03.24 um 14:09 schrieb Tvrtko Ursulin:
+>>>>>>>
+>>>>>>> On 12/03/2024 10:37, Christian König wrote:
+>>>>>>>> Am 12.03.24 um 11:31 schrieb Tvrtko Ursulin:
+>>>>>>>>>
+>>>>>>>>> On 12/03/2024 10:23, Christian König wrote:
+>>>>>>>>>> Am 12.03.24 um 10:30 schrieb Tvrtko Ursulin:
+>>>>>>>>>>>
+>>>>>>>>>>> On 12/03/2024 08:59, Christian König wrote:
+>>>>>>>>>>>> Am 12.03.24 um 09:51 schrieb Tvrtko Ursulin:
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Hi Maira,
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> On 11/03/2024 10:05, Maíra Canal wrote:
+>>>>>>>>>>>>>> For some applications, such as using huge pages, we might 
+>>>>>>>>>>>>>> want to have a
+>>>>>>>>>>>>>> different mountpoint, for which we pass in mount flags 
+>>>>>>>>>>>>>> that better match
+>>>>>>>>>>>>>> our usecase.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> Therefore, add a new parameter to drm_gem_object_init() 
+>>>>>>>>>>>>>> that allow us to
+>>>>>>>>>>>>>> define the tmpfs mountpoint where the GEM object will be 
+>>>>>>>>>>>>>> created. If
+>>>>>>>>>>>>>> this parameter is NULL, then we fallback to 
+>>>>>>>>>>>>>> shmem_file_setup().
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> One strategy for reducing churn, and so the number of 
+>>>>>>>>>>>>> drivers this patch touches, could be to add a lower level 
+>>>>>>>>>>>>> drm_gem_object_init() (which takes vfsmount, call it 
+>>>>>>>>>>>>> __drm_gem_object_init(), or drm__gem_object_init_mnt(), 
+>>>>>>>>>>>>> and make drm_gem_object_init() call that one with a NULL 
+>>>>>>>>>>>>> argument.
+>>>>>>>>>>>>
+>>>>>>>>>>>> I would even go a step further into the other direction. 
+>>>>>>>>>>>> The shmem backed GEM object is just some special handling 
+>>>>>>>>>>>> as far as I can see.
+>>>>>>>>>>>>
+>>>>>>>>>>>> So I would rather suggest to rename all drm_gem_* function 
+>>>>>>>>>>>> which only deal with the shmem backed GEM object into 
+>>>>>>>>>>>> drm_gem_shmem_*.
+>>>>>>>>>>>
+>>>>>>>>>>> That makes sense although it would be very churny. I at 
+>>>>>>>>>>> least would be on the fence regarding the cost vs benefit.
+>>>>>>>>>>
+>>>>>>>>>> Yeah, it should clearly not be part of this patch here.
+>>>>>>>>>>
+>>>>>>>>>>>
+>>>>>>>>>>>> Also the explanation why a different mount point helps with 
+>>>>>>>>>>>> something isn't very satisfying.
+>>>>>>>>>>>
+>>>>>>>>>>> Not satisfying as you think it is not detailed enough to say 
+>>>>>>>>>>> driver wants to use huge pages for performance? Or not 
+>>>>>>>>>>> satisying as you question why huge pages would help?
+>>>>>>>>>>
+>>>>>>>>>> That huge pages are beneficial is clear to me, but I'm 
+>>>>>>>>>> missing the connection why a different mount point helps with 
+>>>>>>>>>> using huge pages.
+>>>>>>>>>
+>>>>>>>>> Ah right, same as in i915, one needs to mount a tmpfs instance 
+>>>>>>>>> passing huge=within_size or huge=always option. Default is 
+>>>>>>>>> 'never', see man 5 tmpfs.
+>>>>>>>>
+>>>>>>>> Thanks for the explanation, I wasn't aware of that.
+>>>>>>>>
+>>>>>>>> Mhm, shouldn't we always use huge pages? Is there a reason for 
+>>>>>>>> a DRM device to not use huge pages with the shmem backend?
+>>>>>>>
+>>>>>>> AFAIU, according to b901bb89324a ("drm/i915/gemfs: enable THP"), 
+>>>>>>> back then the understanding was within_size may overallocate, 
+>>>>>>> meaning there would be some space wastage, until the memory 
+>>>>>>> pressure makes the thp code split the trailing huge page. I 
+>>>>>>> haven't checked if that still applies.
+>>>>>>>
+>>>>>>> Other than that I don't know if some drivers/platforms could 
+>>>>>>> have problems if they have some limitations or hardcoded 
+>>>>>>> assumptions when they iterate the sg list.
+>>>>>>
+>>>>>> Yeah, that was the whole point behind my question. As far as I 
+>>>>>> can see this isn't driver specific, but platform specific.
+>>>>>>
+>>>>>> I might be wrong here, but I think we should then probably not 
+>>>>>> have that handling in each individual driver, but rather 
+>>>>>> centralized in the DRM code.
+>>>>>
+>>>>> I don't see a point in enabling THP for all shmem drivers. A huge 
+>>>>> page
+>>>>> is only useful if the driver is going to use it. On V3D, for example,
+>>>>> I only need huge pages because I need the memory contiguously 
+>>>>> allocated
+>>>>> to implement Super Pages. Otherwise, if we don't have the Super Pages
+>>>>> support implemented in the driver, I would be creating memory 
+>>>>> pressure
+>>>>> without any performance gain.
+>>>>
+>>>> Well that's the point I'm disagreeing with. THP doesn't seem to 
+>>>> create much extra memory pressure for this use case.
+>>>>
+>>>> As far as I can see background for the option is that files in 
+>>>> tmpfs usually have a varying size, so it usually isn't beneficial 
+>>>> to allocate a huge page just to find that the shmem file is much 
+>>>> smaller than what's needed.
+>>>>
+>>>> But GEM objects have a fixed size. So we of hand knew if we need 
+>>>> 4KiB or 1GiB and can therefore directly allocate huge pages if they 
+>>>> are available and object large enough to back them with.
+>>>>
+>>>> If the memory pressure is so high that we don't have huge pages 
+>>>> available the shmem code falls back to standard pages anyway.
+>>>
+>>> The matter is: how do we define the point where the memory pressure 
+>>> is high?
+>>
+>> Well as driver developers/maintainers we simply don't do that. This 
+>> is the job of the shmem code.
+>>
+>>> For example, notice that in this implementation of Super Pages
+>>> for the V3D driver, I only use a Super Page if the BO is bigger than 
+>>> 2MB. I'm doing that because the Raspberry Pi only has 4GB of RAM 
+>>> available for the GPU. If I created huge pages for every BO 
+>>> allocation (and initially, I tried that), I would end up with hangs 
+>>> in some applications.
+>>
+>> Yeah, that is what I meant with the trivial optimisation to the shmem 
+>> code. Essentially when you have 2MiB+4KiB as BO size then the shmem 
+>> code should use a 2MiB and a 4KiB page to back them, but what it 
+>> currently does is to use two 2MiB pages and then split up the second 
+>> page when it find that it isn't needed.
+>>
+>> That is wasteful and leads to fragmentation, but as soon as we stop 
+>> doing that we should be fine to enable it unconditionally for all 
+>> drivers.
+>
+> I see your point, but I believe that it would be tangent to the goal of
+> this series. As you mentioned, currently, we have a lot of memory
+> fragmentation when using THP and while we don't solve that (at the tmpfs
+> level), I believe we could move on with the current implementation (with
+> improvements proposed by Tvrtko).
 
-On Mon, 18 Mar 2024 15:16:21 +0100, Neil Armstrong wrote:
-> This reverts commit e3f18b0dd1db242791afbc3bd173026163ce0ccc.
-> 
-> Selecting DRM_KMS_HELPER for DRM_PANEL_BRIDGE leads to:
-> WARNING: unmet direct dependencies detected for DRM_KMS_HELPER
->   Depends on [m]: HAS_IOMEM [=y] && DRM [=m]
->   ...
-> 
-> [...]
+Oh, I seriously don't want to block this patch set here. Just asking if 
+it's the right approach.
 
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
+Point is we might need to revert the driver changes again when THP is 
+further optimized and the options aren't needed any more.
 
-[1/1] Revert "drm/bridge: Select DRM_KMS_HELPER for DRM_PANEL_BRIDGE"
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/dbd9698830ebafcb6f3be6498fd4a6968dcbf89a
+But if and how that should happen is perfectly up to Tvrtko.
 
--- 
-Neil
+Regards,
+Christian.
+
+>
+> Best Regards,
+> - Maíra
+>
+>>
+>> TTM does essentially the same thing for years.
+>>
+>> Regards,
+>> Christian.
+>>
+>>>
+>>>
+>>> At least, for V3D, I wouldn't like to see THP being used for all the 
+>>> allocations. But, we have maintainers of other drivers in the CC.
+>>>
+>>> Best Regards,
+>>> - Maíra
+>>>
+>>>>
+>>>> So THP is almost always beneficial for GEM even if the driver 
+>>>> doesn't actually need it. The only potential case I can think of 
+>>>> which might not be handled gracefully is the tail pages, e.g. huge 
+>>>> + 4kib.
+>>>>
+>>>> But that is trivial to optimize in the shmem code when the final 
+>>>> size of the file is known beforehand.
+>>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>>>
+>>>>> Best Regards,
+>>>>> - Maíra
+>>>>>
+>>>>>>
+>>>>>> Regards,
+>>>>>> Christian.
+>>>>>>
+>>>>>>
+>>>>>>>
+>>>>>>> Te Cc is plenty large so perhaps someone else will have 
+>>>>>>> additional information. :)
+>>>>>>>
+>>>>>>> Regards,
+>>>>>>>
+>>>>>>> Tvrtko
+>>>>>>>
+>>>>>>>>
+>>>>>>>> I mean it would make this patch here even smaller.
+>>>>>>>>
+>>>>>>>> Regards,
+>>>>>>>> Christian.
+>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> Regards,
+>>>>>>>>>
+>>>>>>>>> Tvrtko
+>>>>>>>>
+>>>>>>
+>>>>
+>>
 
