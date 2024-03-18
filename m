@@ -2,58 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AED0387EA7D
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 14:59:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC64C87EA82
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 15:02:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDEC310F74D;
-	Mon, 18 Mar 2024 13:59:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1436B10F78D;
+	Mon, 18 Mar 2024 14:02:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hOn9Ajdt";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="YwqKtjch";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA6CC10F23F;
- Mon, 18 Mar 2024 13:59:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710770367; x=1742306367;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=ZOoETLwrD5AvG8eqhqsrACUvAPC0+rlO76iWsrgPEqY=;
- b=hOn9Ajdtl8TZwf7zsKmcOcUAo1Wq8tZ8+W9gvf3uv6/Qqn7xAK/dZx9W
- S6mtwlgxEA25w9A7E4AmVpJYfSgAxoVnSJs14ZF3bDqY7m0Fb1tAmcHSg
- 258An8J0LeSJXfQHoajHtyEtkacX1PbgS0eLmJ0HyVmXLcMVygA0NkjO4
- XllsFPHyGodujZncj5Jk7omXeO2Vljv5Vs9NoS5lohoaYcbFOHc1fZuYf
- CQHQ7ZAqdAlYAZ5Kb5OU9Fk4qNMfOTlhxYLChC/GAW8Jz4A089a1aVxOq
- yY6Bk402WdiYbJjy/Laj59vczXgsn8d1Y51K72tjXTIjWKc6kjnnOt4no w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11016"; a="5416535"
-X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
-   d="scan'208";a="5416535"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2024 06:59:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; d="scan'208";a="13426584"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.213.26.105])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2024 06:59:22 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: [PATCH] drm/i915/gt: Reset queue_priority_hint on parking
-Date: Mon, 18 Mar 2024 14:58:47 +0100
-Message-ID: <20240318135906.716055-2-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 301F810F78D
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 14:02:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
+ Cc:To:From:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=MowW+z48ZbZXbCORT4eYBMdUW07S4Zyh1t8dBwDNulo=; b=YwqKtjchBKQJDzX6oMMSSXAtny
+ fua7A/NN8rO3ibVWlWHHVrkG8aOZOEQi5Dz42qoYDJQaz/zdnc49EFoOO5x1nc43Byt8gzzWQIJcJ
+ xaRtfnmquX0QSkeYPsIfKz+RMqRpX6klaOmG2FPAbcD8D/yvPB3Iz3v214wXxiSDNmQCe6DyQewl3
+ jRlJYo43+xE8LKG5oJQhFu87YEm0LimU3eUOzGwb7VcHkbbtOWfuiycPeMuMBLTI89diQF0iZoF5H
+ tNZcatBwlLXyjuj1vFn8LGaNF7qDQcLt9FzxB6Do3XTUhcBsc94Mn6E5HFArGYxnxV01mrsZgB/uU
+ l2vj/SGQ==;
+Received: from [143.107.231.30] (helo=[172.26.121.144])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1rmDYc-00ByNN-PU; Mon, 18 Mar 2024 15:01:43 +0100
+Message-ID: <90dda44f-d18c-46f6-a7d7-c1364396124c@igalia.com>
+Date: Mon, 18 Mar 2024 11:01:27 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/5] drm/gem: Add a mountpoint parameter to
+ drm_gem_object_init()
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Melissa Wen <mwen@igalia.com>,
+ Iago Toral <itoral@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ Russell King <linux@armlinux.org.uk>, Lucas Stach <l.stach@pengutronix.de>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Sui Jingfeng <suijingfeng@loongson.cn>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@redhat.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Huang Rui <ray.huang@amd.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Karolina Stolarek <karolina.stolarek@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>
+References: <20240311100959.205545-1-mcanal@igalia.com>
+ <20240311100959.205545-3-mcanal@igalia.com>
+ <30a7f20b-1f2c-41cb-b193-03429c160b63@igalia.com>
+ <3a5d07c0-120f-47f9-a35a-31f3bfcc9330@amd.com>
+ <07885e3b-ee7b-456b-9fad-17d9009a4cb7@igalia.com>
+ <a0ac2e10-f5f5-4fbb-b591-bd188967ce53@amd.com>
+ <e8165baa-9ded-4149-aaa6-6713d112b621@igalia.com>
+ <69576e6d-9704-42b9-905f-289f9f9017b9@amd.com>
+ <ed7ecd56-0b5e-4543-80f6-7d28ddf8e2ec@igalia.com>
+ <9cfb7f83-2d76-4e8d-9052-5975da71e0dc@amd.com>
+ <2118492c-f223-41e9-8c1e-3c03d976301e@igalia.com>
+ <68452c6c-12d7-4e60-9598-369acc9fc360@amd.com>
+ <a07e4bc2-04af-4e98-8a9c-ccab31bca854@igalia.com>
+In-Reply-To: <a07e4bc2-04af-4e98-8a9c-ccab31bca854@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,118 +104,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Wilson <chris@chris-wilson.co.uk>
+On 3/18/24 10:28, Maíra Canal wrote:
+> Hi Christian,
+> 
+> On 3/18/24 10:10, Christian König wrote:
+>> Am 18.03.24 um 13:42 schrieb Maíra Canal:
+>>> Hi Christian,
+>>>
+>>> On 3/12/24 10:48, Christian König wrote:
+>>>> Am 12.03.24 um 14:09 schrieb Tvrtko Ursulin:
+>>>>>
+>>>>> On 12/03/2024 10:37, Christian König wrote:
+>>>>>> Am 12.03.24 um 11:31 schrieb Tvrtko Ursulin:
+>>>>>>>
+>>>>>>> On 12/03/2024 10:23, Christian König wrote:
+>>>>>>>> Am 12.03.24 um 10:30 schrieb Tvrtko Ursulin:
+>>>>>>>>>
+>>>>>>>>> On 12/03/2024 08:59, Christian König wrote:
+>>>>>>>>>> Am 12.03.24 um 09:51 schrieb Tvrtko Ursulin:
+>>>>>>>>>>>
+>>>>>>>>>>> Hi Maira,
+>>>>>>>>>>>
+>>>>>>>>>>> On 11/03/2024 10:05, Maíra Canal wrote:
+>>>>>>>>>>>> For some applications, such as using huge pages, we might 
+>>>>>>>>>>>> want to have a
+>>>>>>>>>>>> different mountpoint, for which we pass in mount flags that 
+>>>>>>>>>>>> better match
+>>>>>>>>>>>> our usecase.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Therefore, add a new parameter to drm_gem_object_init() that 
+>>>>>>>>>>>> allow us to
+>>>>>>>>>>>> define the tmpfs mountpoint where the GEM object will be 
+>>>>>>>>>>>> created. If
+>>>>>>>>>>>> this parameter is NULL, then we fallback to shmem_file_setup().
+>>>>>>>>>>>
+>>>>>>>>>>> One strategy for reducing churn, and so the number of drivers 
+>>>>>>>>>>> this patch touches, could be to add a lower level 
+>>>>>>>>>>> drm_gem_object_init() (which takes vfsmount, call it 
+>>>>>>>>>>> __drm_gem_object_init(), or drm__gem_object_init_mnt(), and 
+>>>>>>>>>>> make drm_gem_object_init() call that one with a NULL argument.
+>>>>>>>>>>
+>>>>>>>>>> I would even go a step further into the other direction. The 
+>>>>>>>>>> shmem backed GEM object is just some special handling as far 
+>>>>>>>>>> as I can see.
+>>>>>>>>>>
+>>>>>>>>>> So I would rather suggest to rename all drm_gem_* function 
+>>>>>>>>>> which only deal with the shmem backed GEM object into 
+>>>>>>>>>> drm_gem_shmem_*.
+>>>>>>>>>
+>>>>>>>>> That makes sense although it would be very churny. I at least 
+>>>>>>>>> would be on the fence regarding the cost vs benefit.
+>>>>>>>>
+>>>>>>>> Yeah, it should clearly not be part of this patch here.
+>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>> Also the explanation why a different mount point helps with 
+>>>>>>>>>> something isn't very satisfying.
+>>>>>>>>>
+>>>>>>>>> Not satisfying as you think it is not detailed enough to say 
+>>>>>>>>> driver wants to use huge pages for performance? Or not 
+>>>>>>>>> satisying as you question why huge pages would help?
+>>>>>>>>
+>>>>>>>> That huge pages are beneficial is clear to me, but I'm missing 
+>>>>>>>> the connection why a different mount point helps with using huge 
+>>>>>>>> pages.
+>>>>>>>
+>>>>>>> Ah right, same as in i915, one needs to mount a tmpfs instance 
+>>>>>>> passing huge=within_size or huge=always option. Default is 
+>>>>>>> 'never', see man 5 tmpfs.
+>>>>>>
+>>>>>> Thanks for the explanation, I wasn't aware of that.
+>>>>>>
+>>>>>> Mhm, shouldn't we always use huge pages? Is there a reason for a 
+>>>>>> DRM device to not use huge pages with the shmem backend?
+>>>>>
+>>>>> AFAIU, according to b901bb89324a ("drm/i915/gemfs: enable THP"), 
+>>>>> back then the understanding was within_size may overallocate, 
+>>>>> meaning there would be some space wastage, until the memory 
+>>>>> pressure makes the thp code split the trailing huge page. I haven't 
+>>>>> checked if that still applies.
+>>>>>
+>>>>> Other than that I don't know if some drivers/platforms could have 
+>>>>> problems if they have some limitations or hardcoded assumptions 
+>>>>> when they iterate the sg list.
+>>>>
+>>>> Yeah, that was the whole point behind my question. As far as I can 
+>>>> see this isn't driver specific, but platform specific.
+>>>>
+>>>> I might be wrong here, but I think we should then probably not have 
+>>>> that handling in each individual driver, but rather centralized in 
+>>>> the DRM code.
+>>>
+>>> I don't see a point in enabling THP for all shmem drivers. A huge page
+>>> is only useful if the driver is going to use it. On V3D, for example,
+>>> I only need huge pages because I need the memory contiguously allocated
+>>> to implement Super Pages. Otherwise, if we don't have the Super Pages
+>>> support implemented in the driver, I would be creating memory pressure
+>>> without any performance gain.
+>>
+>> Well that's the point I'm disagreeing with. THP doesn't seem to create 
+>> much extra memory pressure for this use case.
+>>
+>> As far as I can see background for the option is that files in tmpfs 
+>> usually have a varying size, so it usually isn't beneficial to 
+>> allocate a huge page just to find that the shmem file is much smaller 
+>> than what's needed.
+>>
+>> But GEM objects have a fixed size. So we of hand knew if we need 4KiB 
+>> or 1GiB and can therefore directly allocate huge pages if they are 
+>> available and object large enough to back them with.
+>>
+>> If the memory pressure is so high that we don't have huge pages 
+>> available the shmem code falls back to standard pages anyway.
+> 
+> The matter is: how do we define the point where the memory pressure is 
+> high? For example, notice that in this implementation of Super Pages
+> for the V3D driver, I only use a Super Page if the BO is bigger than 
+> 2MB. I'm doing that because the Raspberry Pi only has 4GB of RAM 
+> available for the GPU. If I created huge pages for every BO allocation 
+> (and initially, I tried that), I would end up with hangs in some 
+> applications.
+> 
+> At least, for V3D, I wouldn't like to see THP being used for all the 
+> allocations. But, we have maintainers of other drivers in the CC.
 
-Originally, with strict in order execution, we could complete execution
-only when the queue was empty. Preempt-to-busy allows replacement of an
-active request that may complete before the preemption is processed by
-HW. If that happens, the request is retired from the queue, but the
-queue_priority_hint remains set, preventing direct submission until
-after the next CS interrupt is processed.
+Okay, I'm thinking about a compromise. What if we create a gemfs 
+mountpoint in the DRM core and everytime we init a object, we can
+choose if we will use huge pages or not. Therefore,
+drm_gem_shmem_create() would have a new parameter called huge_pages, 
+that can be true or false.
 
-This preempt-to-busy race can be triggered by the heartbeat, which will
-also act as the power-management barrier and upon completion allow us to
-idle the HW. We may process the completion of the heartbeat, and begin
-parking the engine before the CS event that restores the
-queue_priority_hint, causing us to fail the assertion that it is MIN.
+This way each driver would have the opportunity to use its own
+heuristics to create huge pages.
 
-<3>[  166.210729] __engine_park:283 GEM_BUG_ON(engine->sched_engine->queue_priority_hint != (-((int)(~0U >> 1)) - 1))
-<0>[  166.210781] Dumping ftrace buffer:
-<0>[  166.210795] ---------------------------------
-...
-<0>[  167.302811] drm_fdin-1097      2..s1. 165741070us : trace_ports: 0000:00:02.0 rcs0: promote { ccid:20 1217:2 prio 0 }
-<0>[  167.302861] drm_fdin-1097      2d.s2. 165741072us : execlists_submission_tasklet: 0000:00:02.0 rcs0: preempting last=1217:2, prio=0, hint=2147483646
-<0>[  167.302928] drm_fdin-1097      2d.s2. 165741072us : __i915_request_unsubmit: 0000:00:02.0 rcs0: fence 1217:2, current 0
-<0>[  167.302992] drm_fdin-1097      2d.s2. 165741073us : __i915_request_submit: 0000:00:02.0 rcs0: fence 3:4660, current 4659
-<0>[  167.303044] drm_fdin-1097      2d.s1. 165741076us : execlists_submission_tasklet: 0000:00:02.0 rcs0: context:3 schedule-in, ccid:40
-<0>[  167.303095] drm_fdin-1097      2d.s1. 165741077us : trace_ports: 0000:00:02.0 rcs0: submit { ccid:40 3:4660* prio 2147483646 }
-<0>[  167.303159] kworker/-89       11..... 165741139us : i915_request_retire.part.0: 0000:00:02.0 rcs0: fence c90:2, current 2
-<0>[  167.303208] kworker/-89       11..... 165741148us : __intel_context_do_unpin: 0000:00:02.0 rcs0: context:c90 unpin
-<0>[  167.303272] kworker/-89       11..... 165741159us : i915_request_retire.part.0: 0000:00:02.0 rcs0: fence 1217:2, current 2
-<0>[  167.303321] kworker/-89       11..... 165741166us : __intel_context_do_unpin: 0000:00:02.0 rcs0: context:1217 unpin
-<0>[  167.303384] kworker/-89       11..... 165741170us : i915_request_retire.part.0: 0000:00:02.0 rcs0: fence 3:4660, current 4660
-<0>[  167.303434] kworker/-89       11d..1. 165741172us : __intel_context_retire: 0000:00:02.0 rcs0: context:1216 retire runtime: { total:56028ns, avg:56028ns }
-<0>[  167.303484] kworker/-89       11..... 165741198us : __engine_park: 0000:00:02.0 rcs0: parked
-<0>[  167.303534]   <idle>-0         5d.H3. 165741207us : execlists_irq_handler: 0000:00:02.0 rcs0: semaphore yield: 00000040
-<0>[  167.303583] kworker/-89       11..... 165741397us : __intel_context_retire: 0000:00:02.0 rcs0: context:1217 retire runtime: { total:325575ns, avg:0ns }
-<0>[  167.303756] kworker/-89       11..... 165741777us : __intel_context_retire: 0000:00:02.0 rcs0: context:c90 retire runtime: { total:0ns, avg:0ns }
-<0>[  167.303806] kworker/-89       11..... 165742017us : __engine_park: __engine_park:283 GEM_BUG_ON(engine->sched_engine->queue_priority_hint != (-((int)(~0U >> 1)) - 1))
-<0>[  167.303811] ---------------------------------
-<4>[  167.304722] ------------[ cut here ]------------
-<2>[  167.304725] kernel BUG at drivers/gpu/drm/i915/gt/intel_engine_pm.c:283!
-<4>[  167.304731] invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
-<4>[  167.304734] CPU: 11 PID: 89 Comm: kworker/11:1 Tainted: G        W          6.8.0-rc2-CI_DRM_14193-gc655e0fd2804+ #1
-<4>[  167.304736] Hardware name: Intel Corporation Rocket Lake Client Platform/RocketLake S UDIMM 6L RVP, BIOS RKLSFWI1.R00.3173.A03.2204210138 04/21/2022
-<4>[  167.304738] Workqueue: i915-unordered retire_work_handler [i915]
-<4>[  167.304839] RIP: 0010:__engine_park+0x3fd/0x680 [i915]
-<4>[  167.304937] Code: 00 48 c7 c2 b0 e5 86 a0 48 8d 3d 00 00 00 00 e8 79 48 d4 e0 bf 01 00 00 00 e8 ef 0a d4 e0 31 f6 bf 09 00 00 00 e8 03 49 c0 e0 <0f> 0b 0f 0b be 01 00 00 00 e8 f5 61 fd ff 31 c0 e9 34 fd ff ff 48
-<4>[  167.304940] RSP: 0018:ffffc9000059fce0 EFLAGS: 00010246
-<4>[  167.304942] RAX: 0000000000000200 RBX: 0000000000000000 RCX: 0000000000000006
-<4>[  167.304944] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000009
-<4>[  167.304946] RBP: ffff8881330ca1b0 R08: 0000000000000001 R09: 0000000000000001
-<4>[  167.304947] R10: 0000000000000001 R11: 0000000000000001 R12: ffff8881330ca000
-<4>[  167.304948] R13: ffff888110f02aa0 R14: ffff88812d1d0205 R15: ffff88811277d4f0
-<4>[  167.304950] FS:  0000000000000000(0000) GS:ffff88844f780000(0000) knlGS:0000000000000000
-<4>[  167.304952] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-<4>[  167.304953] CR2: 00007fc362200c40 CR3: 000000013306e003 CR4: 0000000000770ef0
-<4>[  167.304955] PKRU: 55555554
-<4>[  167.304957] Call Trace:
-<4>[  167.304958]  <TASK>
-<4>[  167.305573]  ____intel_wakeref_put_last+0x1d/0x80 [i915]
-<4>[  167.305685]  i915_request_retire.part.0+0x34f/0x600 [i915]
-<4>[  167.305800]  retire_requests+0x51/0x80 [i915]
-<4>[  167.305892]  intel_gt_retire_requests_timeout+0x27f/0x700 [i915]
-<4>[  167.305985]  process_scheduled_works+0x2db/0x530
-<4>[  167.305990]  worker_thread+0x18c/0x350
-<4>[  167.305993]  kthread+0xfe/0x130
-<4>[  167.305997]  ret_from_fork+0x2c/0x50
-<4>[  167.306001]  ret_from_fork_asm+0x1b/0x30
-<4>[  167.306004]  </TASK>
+What do you think?
 
-It is necessary for the queue_priority_hint to be lower than the next
-request submission upon waking up, as we rely on the hint to decide when
-to kick the tasklet to submit that first request.
+Best Regards,
+- Maíra
 
-Fixes: 22b7a426bbe1 ("drm/i915/execlists: Preempt-to-busy")
-Closes: https://gitlab.freedesktop.org/drm/intel/issues/10154
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-Cc: <stable@vger.kernel.org> # v5.4+
----
- drivers/gpu/drm/i915/gt/intel_engine_pm.c            | 3 ---
- drivers/gpu/drm/i915/gt/intel_execlists_submission.c | 3 +++
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-index 96bdb93a948d1..fb7bff27b45a3 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-@@ -279,9 +279,6 @@ static int __engine_park(struct intel_wakeref *wf)
- 	intel_engine_park_heartbeat(engine);
- 	intel_breadcrumbs_park(engine->breadcrumbs);
- 
--	/* Must be reset upon idling, or we may miss the busy wakeup. */
--	GEM_BUG_ON(engine->sched_engine->queue_priority_hint != INT_MIN);
--
- 	if (engine->park)
- 		engine->park(engine);
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-index 42aade0faf2d1..b061a0a0d6b08 100644
---- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-+++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-@@ -3272,6 +3272,9 @@ static void execlists_park(struct intel_engine_cs *engine)
- {
- 	cancel_timer(&engine->execlists.timer);
- 	cancel_timer(&engine->execlists.preempt);
-+
-+	/* Reset upon idling, or we may delay the busy wakeup. */
-+	WRITE_ONCE(engine->sched_engine->queue_priority_hint, INT_MIN);
- }
- 
- static void add_to_engine(struct i915_request *rq)
--- 
-2.43.0
-
+> 
+> Best Regards,
+> - Maíra
+> 
+>>
+>> So THP is almost always beneficial for GEM even if the driver doesn't 
+>> actually need it. The only potential case I can think of which might 
+>> not be handled gracefully is the tail pages, e.g. huge + 4kib.
+>>
+>> But that is trivial to optimize in the shmem code when the final size 
+>> of the file is known beforehand.
+>>
+>> Regards,
+>> Christian.
+>>
+>>>
+>>> Best Regards,
+>>> - Maíra
+>>>
+>>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>>
+>>>>>
+>>>>> Te Cc is plenty large so perhaps someone else will have additional 
+>>>>> information. :)
+>>>>>
+>>>>> Regards,
+>>>>>
+>>>>> Tvrtko
+>>>>>
+>>>>>>
+>>>>>> I mean it would make this patch here even smaller.
+>>>>>>
+>>>>>> Regards,
+>>>>>> Christian.
+>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>> Regards,
+>>>>>>>
+>>>>>>> Tvrtko
+>>>>>>
+>>>>
+>>
