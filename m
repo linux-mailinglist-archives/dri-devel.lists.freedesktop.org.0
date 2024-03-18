@@ -2,37 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CCCD87E8A8
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 12:31:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44FA787E8DA
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 12:45:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 758FC10F5B9;
-	Mon, 18 Mar 2024 11:31:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AA3E10F2E4;
+	Mon, 18 Mar 2024 11:45:27 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="TG/cBT6X";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8548410F5C1
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 11:31:06 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DD0DCDA7;
- Mon, 18 Mar 2024 04:31:40 -0700 (PDT)
-Received: from [10.57.12.69] (unknown [10.57.12.69])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B9C2A3F762;
- Mon, 18 Mar 2024 04:31:04 -0700 (PDT)
-Message-ID: <2af13565-f3d7-47c3-8083-da86669a34e1@arm.com>
-Date: Mon, 18 Mar 2024 11:31:05 +0000
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63DDB10F2E4
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 11:45:26 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-513dd2d2415so2665097e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 04:45:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1710762324; x=1711367124; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=DAioQ/fXGesI6b7MLNItTlGNHaD8NUjTvUnQ6rS0NfQ=;
+ b=TG/cBT6Xmdf6vnhsjoCsZsDIAX4JS7mputkZs4BB2irymXYy0DfhPdb2eQzRL/E53m
+ QlVxs7Nm7qB+WaHe8b3jXmdOvwLqOE2JqZ0K/7iSnR+a68bcT+iALRTImCvU9DtT4sBw
+ 5YerG6Zyo1oBQQSuNZNHwVlb23yoeoDDya70D2+5GMHloZK1ph/3jSQbbnp2r+h/Xk04
+ vnQMUPYbxQ0jeYGDLAFVfzVbG9k1UBAu8FRh+frOmJdcEPSzG8H9/PODdN9wTvwcGfL2
+ vY7XWC8mzkhb3rIFKPuB96KvL1kD02ShL64LbAsY56Z7hQ0jyMfdEpNmgCYEBClQl1/m
+ y4uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710762324; x=1711367124;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DAioQ/fXGesI6b7MLNItTlGNHaD8NUjTvUnQ6rS0NfQ=;
+ b=dxO9qeFwLThLfgNwjahBXK4fqVDauKIjOeMj4kJpYt5Rxm4jz8xd7nao/bkxK5TDQg
+ taGT8Osr3tvwNGHWX5x1aBXpd/5/99OFz9mgySmMN92WzcvpunOw11M9nWSqTkQrcr4A
+ diSWQdGS5VJeY8ibjtvySBPCdbZnfFHIj8LhfLkhF5ADiXjBecI0UI60qPSdiXZumGCo
+ cdmn7addkTeKccy8JgPPIULaXUxq+qlWcpmQIzA9QkuAtdF45JkZpueljzCnV5eTKDZQ
+ yuFGhJmanN0JRGaoASb4pgFYu/GPEwDby9AnwgGM//811/4MC44Pq9gxsU0342muOtoj
+ Y4Ew==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU6ZoGE2s/v+fltYquFeXZng46AJ1+GwdlmP4TLORBmd9HSC2xE4PmYejMXK9iucIbF3rjwKt7LBA5Zuiw2mF/CP5cXk4EioPxmxJYpUnZR
+X-Gm-Message-State: AOJu0YwxGoz01sZWQxhcbF0GFnsHw81sHM44HP7Y+yIs+spDwoT7jlzZ
+ aIsenC4siHQegxpplb5Owxxo1Bdz65vykzqotOqEEJAgWPKGHZgY2iSLpmiBYX0=
+X-Google-Smtp-Source: AGHT+IG8MlqV0IFElrl61OyL7fOfY/41Sw8w0N8TxSEMfr6QmXvjIx0dLThL/ol2w3e+kJgFYFOgnA==
+X-Received: by 2002:a05:6512:348a:b0:513:ca72:7229 with SMTP id
+ v10-20020a056512348a00b00513ca727229mr6293669lfr.69.1710762324024; 
+ Mon, 18 Mar 2024 04:45:24 -0700 (PDT)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ m2-20020a05600c3b0200b004142894df64sm976341wms.5.2024.03.18.04.45.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Mar 2024 04:45:23 -0700 (PDT)
+Date: Mon, 18 Mar 2024 11:45:21 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: lee@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Subject: Re: [PATCH 2/6] backlight/omap1-bl: Remove unused struct
+ omap_backlight_config.set_power
+Message-ID: <20240318114521.GC16260@aspen.lan>
+References: <20240313154857.12949-1-tzimmermann@suse.de>
+ <20240313154857.12949-3-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panthor: Fix the CONFIG_PM=n case
-Content-Language: en-GB
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>
-Cc: dri-devel@lists.freedesktop.org, Robin Murphy <robin.murphy@arm.com>,
- kernel@collabora.com, kernel test robot <lkp@intel.com>
-References: <20240318085855.994179-1-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20240318085855.994179-1-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240313154857.12949-3-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,108 +86,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/03/2024 08:58, Boris Brezillon wrote:
-> Putting a hard dependency on CONFIG_PM is not possible because of a
-> circular dependency issue, and it's actually not desirable either. In
-> order to support this use case, we forcibly resume at init time, and
-> suspend at unplug time.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202403031944.EOimQ8WK-lkp@intel.com/
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+On Wed, Mar 13, 2024 at 04:45:01PM +0100, Thomas Zimmermann wrote:
+> The callback set_power in struct omap_backlight_config is not
+> implemented anywhere. Remove it from the structure and driver.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-> ---
-> Tested by faking CONFIG_PM=n in the driver (basically commenting
-> all pm_runtime calls, and making the panthor_device_suspend/resume()
-> calls unconditional in the panthor_device_unplug/init() path) since
-> CONFIG_ARCH_ROCKCHIP selects CONFIG_PM. Seems to work fine, but I
-> can't be 100% sure this will work correctly on a platform that has
-> CONFIG_PM=n.
 
-The same - I can't test this properly :(
-
-Note that the other option (which AFAICT doesn't cause any problems) is
-to "select PM" rather than depend on it - AIUI the 'select' dependency
-is considered in the opposite direction by kconfig so won't cause the
-dependency loop. Of course if there is actually anyone who has a
-platform which can be built !CONFIG_PM then that won't help. But the
-inability of anyone to actually properly test this configuration does
-worry me a little.
-
-Steve
-
-> ---
->  drivers/gpu/drm/panthor/panthor_device.c | 13 +++++++++++--
->  drivers/gpu/drm/panthor/panthor_drv.c    |  4 +++-
->  2 files changed, 14 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index 69deb8e17778..ba7aedbb4931 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -87,6 +87,10 @@ void panthor_device_unplug(struct panthor_device *ptdev)
->  	pm_runtime_dont_use_autosuspend(ptdev->base.dev);
->  	pm_runtime_put_sync_suspend(ptdev->base.dev);
->  
-> +	/* If PM is disabled, we need to call the suspend handler manually. */
-> +	if (!IS_ENABLED(CONFIG_PM))
-> +		panthor_device_suspend(ptdev->base.dev);
-> +
->  	/* Report the unplug operation as done to unblock concurrent
->  	 * panthor_device_unplug() callers.
->  	 */
-> @@ -218,6 +222,13 @@ int panthor_device_init(struct panthor_device *ptdev)
->  	if (ret)
->  		return ret;
->  
-> +	/* If PM is disabled, we need to call panthor_device_resume() manually. */
-> +	if (!IS_ENABLED(CONFIG_PM)) {
-> +		ret = panthor_device_resume(ptdev->base.dev);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
->  	ret = panthor_gpu_init(ptdev);
->  	if (ret)
->  		goto err_rpm_put;
-> @@ -402,7 +413,6 @@ int panthor_device_mmap_io(struct panthor_device *ptdev, struct vm_area_struct *
->  	return 0;
->  }
->  
-> -#ifdef CONFIG_PM
->  int panthor_device_resume(struct device *dev)
->  {
->  	struct panthor_device *ptdev = dev_get_drvdata(dev);
-> @@ -547,4 +557,3 @@ int panthor_device_suspend(struct device *dev)
->  	mutex_unlock(&ptdev->pm.mmio_lock);
->  	return ret;
->  }
-> -#endif
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index ff484506229f..2ea6a9f436db 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -1407,17 +1407,19 @@ static const struct of_device_id dt_match[] = {
->  };
->  MODULE_DEVICE_TABLE(of, dt_match);
->  
-> +#ifdef CONFIG_PM
->  static DEFINE_RUNTIME_DEV_PM_OPS(panthor_pm_ops,
->  				 panthor_device_suspend,
->  				 panthor_device_resume,
->  				 NULL);
-> +#endif
->  
->  static struct platform_driver panthor_driver = {
->  	.probe = panthor_probe,
->  	.remove_new = panthor_remove,
->  	.driver = {
->  		.name = "panthor",
-> -		.pm = &panthor_pm_ops,
-> +		.pm = pm_ptr(&panthor_pm_ops),
->  		.of_match_table = dt_match,
->  	},
->  };
-
+Daniel.
