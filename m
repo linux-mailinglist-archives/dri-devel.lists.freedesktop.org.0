@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 021E387F173
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 21:46:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E4687F174
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 21:46:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F1111120D9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0A621120DD;
 	Mon, 18 Mar 2024 20:46:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=phytec.com header.i=@phytec.com header.b="UZDROOE8";
+	dkim=pass (1024-bit key; unprotected) header.d=phytec.com header.i=@phytec.com header.b="Z7FUS8pb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM12-BN8-obe.outbound.protection.outlook.com
  (mail-bn8nam12on2121.outbound.protection.outlook.com [40.107.237.121])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7EEF10E0FA
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 16:17:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34E4110E0FA
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 16:17:27 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fRVsj/jFS3B4gzL21Xiw1qiKbjmjcc7WhyBdZGSmAwNReWZ1AHUech1s9AwbbINSIn9IRq66bC44RSMTQeSbkFJvDn0JnttQKFOzmrBfkX1gPt5HwxSODUtULsvB/NSpUgn4poPJJ7bfqlG0x0q4HrK9aBHibT4frDFmCHXfX23f5nBcq6KZn5pYKlK9DL+8cNqx+a+E4BSv7MTJl9frg5ERbVQLjxh/tbF8jK/Sq8DoV5euELFO2Jzk0GDIcjgWlpJITA1Vfik0FhOn4sCKTwr6EjY8c1//WO+A8cHUfJTkKRKCIGzcYoTm0ZSQPMQB/SKzEvKa+V7FR83laLTjkA==
+ b=EBblPC3Lrrps4HHxXG3olPF/jmBuuo9hO4TAc1XTaMefz8s/VU3S8VcyyBmWfGN0ZcSCZ6gOCfPF24KimSCCJrBi7wD2EOjQPzEl4i2mdRfMnqpF8Og6AZLimcRtHG5GUtRmhUStKRwLu1k8Mn/9SZo0nNEN5kSi38oKz3A/aKde4KwuYgfLpj2nZoaY5ufSJj67jBDgdOEAUrkdjaX8PHNM/YwQJWuHDsqP8XHOBq/xdnArplRsvzNY7czu329pkSqNb/vIta0pbosrLkh7lxMuzYerKVHkwQPj2HAlzBaT6zoTvJXk6No52BqCgUdYPVZ570e7e8JA8O3yYiKYBw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mJ42JRc1ZYJcMhGdgyZ6tCHc2Yn+0aiyyZgddRpoGrE=;
- b=ax2lcnLDvpB3WvV1OoDGpEde656gEXeVoyiPLalIq4l/xZLNAt7nfxvayEAj37Zi0rqb5DlQ4voabYdUuEdgYHuTgHTVaESURPd6T9NjJ9inJguGn75g3YXRV4hqcXpETTYD8V9NugpXroZAbMMFdyCBXPnb9hvqYpY8CCDlIroPFloTAQjkXQfC2qIgFgVh95bT4YqbqZGJaqLMt9giMrrRctU1rqFlCUkFZzRVo5fxK5YxXs7rSdHDeQxmSMiOgH9GGEG+0MnWqkGBvN8vR2yt/H9Y3bRITCZ/6mEUaNhxIqkUMDIUs8YQD1OB35SKn4XhpZp64LqaepsmFDrAXA==
+ bh=GzhK0qnD3B5Pun4lOJC7rJFkUbceTgytlef1+yOP/T0=;
+ b=dnSY7mJ0L3KzzhkW7ynIj/LrA6wTWG3FuZB6s4aJnucM3uG+Lv8N/FT9EN9giUPlg+hzoSMTMZc5ymPr0owvMhPAaV2u46vi3Kagi/xEAAoZBO65jjN5Ui7o+JYxSK3IKojzOoA2udUc1YX+VjaP9ye0g2fh5sP9FH3LGh87Qf9ZS8AkD9Hiyo+l5YGsXjIzkMud/oapxcO08a4PB9H3rZ4cRANAjrZ7nm15/GrRhzyYZa7FPBkcrv4UBldGuCH+ibJjpDSj8Wc4LTBSYlKmT/FB44jkGxfxZcNqT+3Cczc3vKXRzpYPN8vXHEyzk5JkxePzAoPVpXro1NnTpf2tyw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=phytec.com; dmarc=pass action=none header.from=phytec.com;
  dkim=pass header.d=phytec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=phytec.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mJ42JRc1ZYJcMhGdgyZ6tCHc2Yn+0aiyyZgddRpoGrE=;
- b=UZDROOE8bUm9tueNI9Mi96utDu3sJ/2zMdm5EftcvvYHfhv4I/1E04yjqOuVFENWohX60bTuabxwVXUdbHiBYrX0UE4B7EtBO2HCigHI+EkM2eILxiu/yN0m3RKa7LgA5DNHsshlW9I23/n0WyHNsvjXzSa6C4r/SJcg2UNVDx0=
+ bh=GzhK0qnD3B5Pun4lOJC7rJFkUbceTgytlef1+yOP/T0=;
+ b=Z7FUS8pbklmIyQ2iun/weXfEJSWcsdYbsjIniHQDfRzsJ8spI+MlnG6OR1aqXPpZkmM7s/PUiz6jlYVJ3NAeYqFs0Ndp1lfwrNAzdqoZtF1BIXWzsJW8tV4wtKpsXxJ5xI1ZFh91EvG6DqrrqeYNlMSKO2ik3xRXgF4eyniJdes=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=phytec.com;
 Received: from SA1PR22MB5636.namprd22.prod.outlook.com (2603:10b6:806:3e2::15)
  by MW4PR22MB3715.namprd22.prod.outlook.com (2603:10b6:303:1be::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.27; Mon, 18 Mar
- 2024 16:17:22 +0000
+ 2024 16:17:24 +0000
 Received: from SA1PR22MB5636.namprd22.prod.outlook.com
  ([fe80::e6c9:dbd4:f002:212f]) by SA1PR22MB5636.namprd22.prod.outlook.com
  ([fe80::e6c9:dbd4:f002:212f%7]) with mapi id 15.20.7386.025; Mon, 18 Mar 2024
- 16:17:22 +0000
+ 16:17:24 +0000
 From: Nathan Morrisson <nmorrisson@phytec.com>
 To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, sam@ravnborg.org,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
@@ -51,10 +51,13 @@ To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, sam@ravnborg.org,
 Cc: w.egorov@phytec.de, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  upstream@lists.phytec.de
-Subject: [PATCH 0/2] Add POWERTIP PH128800T006-ZHC01 panel
-Date: Mon, 18 Mar 2024 09:17:06 -0700
-Message-Id: <20240318161708.1415484-1-nmorrisson@phytec.com>
+Subject: [PATCH 1/2] dt-bindings: display: simple: Add POWERTIP
+ PH128800T-006-ZHC01 panel
+Date: Mon, 18 Mar 2024 09:17:07 -0700
+Message-Id: <20240318161708.1415484-2-nmorrisson@phytec.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240318161708.1415484-1-nmorrisson@phytec.com>
+References: <20240318161708.1415484-1-nmorrisson@phytec.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: CH0PR03CA0279.namprd03.prod.outlook.com
@@ -63,52 +66,52 @@ X-ClientProxiedBy: CH0PR03CA0279.namprd03.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SA1PR22MB5636:EE_|MW4PR22MB3715:EE_
-X-MS-Office365-Filtering-Correlation-Id: abe7dc9a-73c6-42b8-7fe5-08dc4766e47a
+X-MS-Office365-Filtering-Correlation-Id: 8ae7f441-b027-41cd-3c27-08dc4766e5c7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: U9hWc4cGSj4JP8g23Y1es3oMPZuzkc7G42ISFIUmaP4VQ0BXOO1FlHC+MVnIcV3CP8eFvIUwH7Mi+1XKz3BFGyYl2YQvUDmS6h/Kiku3Zo3hf6D3jzIb8gKUxT38dZxFXXbwKK9Zz6ipQyNHOdHgLzo52bUAb1Y2x4VuaEH6C96cgZFI2iDlhMRad1JcTwVqWK+dzbgagykQPXXVVl1NFD69m5f+WpeEKw/Mc9bfxl2pefBBom6QYiXQdV4xh8MqCxG8W4qbYNJirTx8E0XZ9Ebgx6R/8c4FoQKPaaSDEhboOZARCsHfausllF6MAoKmafCZci7SHspp99Ls1eHKTAmUS6w3bNgPVJeKGk2ZdxD75/MBS/gOo7LqCAU06+1xk/lM0rLmCk1al1pyGRY6OYPB+G0qau4gtuIAm/67350oCIPzZGiSmBPpGRI9i5XRfkPXvfG2oZcDbTOQUJnxVwFwFSK0qe8/UAdBpPZqEy3pBIMLRMoIBriL0B/TDoYTatMnf1SKEIc6uO1JI3WzUqwVJZa7ou5Noy3FPtQnOsRncAcqll5w721+/EjjK3db43BwFI9tINDINpHhq6SYichV9Oq3lfPKT82H3dWEGg6/EgSzjpB5dJ+ylwym0oxE9xWGcBFBZACwn49Egk/wRdXZMuIquBEcRaSYmI6q/yX7bk6wFhCn3M8pCJqnzyHNHYyCxTNzW/f9HkK99nwx2zZruv4U8hnUvjUfSPMV/XE=
+X-Microsoft-Antispam-Message-Info: 13xPiiaaTyyaDImy+RwSUYKzLSkGmY5aJIJalvn6n63zWN/atVYQF1z7bcrpCshhIyi33bV/On9tX2SZQGlWLg/OgBizLMCrGRBZw4BIFqoKGeSVT6MZWAzVh9UDPqFHB1/3v3imd7rHY7VOlz6Y7Qvep8LETDhxH0YErd6IxyjMQTg7jY41ao5uPVXPYD6ocImoKcaFyiMOET877YgyQ82YugJK3S4tDU7qcFFdL5rcsrM3WChLXIV0FNmz2UYmyBwNMB2pKGFRJI7XQMeHbZiFRIDZrLoITR38JHiNPNYg7RId5659VzlUNfqINiX8X1VuuKGIAzlsTCxjgRFBf5KA7ICMAdYH0q3y4FvQvObM/pDcF27f9xmoDcMEKC4B4njshXp2jEv3LKZLCTLo87zD2ybSqD5S2taLbD/L/MitvBGM3oeZNCdvq5YF9QzLYjRrIIp9ASo/9bdq0aKsB1epk1n+uqtOLUvhKLvKZn13ZhTQJpaIiG7yP9g6S0kUL5vRSb6FyAHHIj0dPOxGPMY1yqrhmmcgLryPNqrLfni+E8DtqCQkWqP//h5VCVY8Q4sAw9/x1H1WoK6Hp3sbt621pqgTjkxxQ43p6Wc1ySyq7L1R6GQZ+76aII5IQs4DWJjQgv68swid8LJKpcOcj14L8IGEQxVZYoZysB65UCghoMUywbW22r+sO4kuKCAm9IMRVw99yBJdrTlmZlSqItyT7zjBIl46YHayzNSKw94=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SA1PR22MB5636.namprd22.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230031)(366007)(376005)(7416005)(52116005)(1800799015)(38350700005)(921011);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+XYM3M/E6XMC2x2mPrwO8Z9vUsEp5fUVPrJN099bhcjVcei5XOytbCfH/Iv2?=
- =?us-ascii?Q?0NyGNK4Ahzu/+R9jLch7le9uCn+j7YIMuCPiG2qMIGwPAgQMEkoGdBJnzOa6?=
- =?us-ascii?Q?MI2SApcCsO+jGkJjQ5F9er9SQKYwJfuQpFGhdwPCVAfYYDFWpdwDBM8h0GvO?=
- =?us-ascii?Q?o9YdPUGKpl9kmXHw81Bwnyva43fDgeMRvz/K4iZkAfe3bDXgi3/ymjDEtkNg?=
- =?us-ascii?Q?quseJB3MQeITM7AuwOWLCHTF/ZSXV5isflIIZJkPoxuznWJCP/aPF9lwvJex?=
- =?us-ascii?Q?rZXKpeNZ9wEKvZvK64m91uwDLcyR5zNGjJQi0fnWpXm3hy7YZsMU8Qo3ihrO?=
- =?us-ascii?Q?925blju4L1es8CtaG0o3JYG4lXwhs1ksdmwIkQgiZcCJTAsLze0ER2ddp9LH?=
- =?us-ascii?Q?OwDFbkVsJXOGfoXollmXswjT7dJCrPM3JHj2ct+GiMep1MFm9vU8egLj3dkH?=
- =?us-ascii?Q?pO/Vj0rwRMlQtTTkkcS6ArYCPpH7SecFQWgCG1xFYQ+nYjRiNCz+lcZoGzjE?=
- =?us-ascii?Q?UjrEM/YB57E1Y0ZwF4jOM7KH5Puaiq/0tXH5OY0iM2chSiL/KsryTMd/5T5H?=
- =?us-ascii?Q?g0PmIttrFjykLfACcVHoA9PTStN5fsFnPsK+yw+k080+AMR/kTGi1XKFlq3O?=
- =?us-ascii?Q?gp8zlYCMXEjT+xz5VvUq6eX12yqhVzDqhKa0JlMP3iJ9aSC3FKIEUfJej9ju?=
- =?us-ascii?Q?ZqtKVwdGiSvfEXS/j+Y7VmChuW2eMsmHrsmqt2EcRgsG+/I0TiRYo2MAKLHd?=
- =?us-ascii?Q?pqR29iFL7qm0POifW2gzZqxDNLQAlQmjJe6B+O7Rnz08EUiMYxvdGcUIswBy?=
- =?us-ascii?Q?+bWVtyCOqcGCZYGviW7rdzRHw/9HiuwZQwT6DvvHrL2sNgkgco25EK8sI0b4?=
- =?us-ascii?Q?RdZ4WqhxCc5NDU4fNN/+X6ixQsrQvG6B7X0nbZu0IWPBdrKZe2zgmNUL3ovj?=
- =?us-ascii?Q?HYP7I5TGNZyKhcwsTBZRJ4dHuL+EIrVDIk6YBf3mUHixTBARerZOkJcVBHwF?=
- =?us-ascii?Q?jYEM15vfk93NiGcji9t1CWOrZOqSPZpEWkt5NR16dqXAEswD97IReGpvTv2P?=
- =?us-ascii?Q?FxKx7PDGBW8WKmngsJQkV1Z0cGaeQFlmq0iysEq+QGsm2gK0aXVyYYf5I4e2?=
- =?us-ascii?Q?k1YMol43QX6uGyccYZTcKrrRJxbqnfbLI/6DNBWRa3aYBx13FUB/9K4YpH7I?=
- =?us-ascii?Q?7A3P7gr3e63Od1f3TFa87TsKoJHDv64UNX34RF2hva5sAEXHmkSkGSfWt0M/?=
- =?us-ascii?Q?zhtzjsUZ/ZoLx9ViEx865RYE22pGMCoJnS6Pxx/yO1iSF/kQT5nFshgbHb+D?=
- =?us-ascii?Q?SAXbJanhAm98Jmb14/Xro5BpRMB85CSK9UBuLjb4iTWMdph8DD3J3fsLzzcY?=
- =?us-ascii?Q?xnWHER3D0ZuPsr4dud4QsC4fo1hPcaSnOo6ccpZWSrymeS4WBzGDA6kohRO8?=
- =?us-ascii?Q?0olfwFot3XDUTm3NWw9CPNOwe6a+1qtYonG3xQBMJ6vl1BixIRB4MXP1vP//?=
- =?us-ascii?Q?gub16JITss5bFtiA1+/1OOVJeSGtu3LUH+M8JPVY5NeAV+23WbgVHJvZl//y?=
- =?us-ascii?Q?2uudU1TeoSK8YY3ZmF2J2i1985d8kXOBK/1zhPQv?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1x7JfZJRDbDlisFD6wvtHyP7pwZnO2hZqUMybhQNAA2pPfS0QGCBtmh/q3Ln?=
+ =?us-ascii?Q?rxGR3hdTrA4kkODSSMVDB+iwlZoeWRRD0MDb1Yp9Ofwx+zox6REhezBBkSo6?=
+ =?us-ascii?Q?64oW1KXmP+tSSXtwJbz2SVXwQqLHr8Cd5I9nvNAn3+JqA8bcfUMnSYIji6Aa?=
+ =?us-ascii?Q?1tOqctocVmU5hBj4SDrUlpsvN3qdlIRtMcr/bQ4U+WtRearo/dN4P7fWL+UE?=
+ =?us-ascii?Q?auaOgToPkPSCu+ZKqSot1Va66pdsqF5BDISspoyBUVQcutYwEWbGgWPCSV8L?=
+ =?us-ascii?Q?J/G4AzPaawj3ESU7RPtq72XMqaSPEkksy0aPME08DuJYz1WLtPeY2Dn50NXf?=
+ =?us-ascii?Q?KIxAJA5uFavBAV2m27DOwf1zpJif8TuY6uDVH/Zsd3hw/BuXCPSpKakvWkst?=
+ =?us-ascii?Q?RAg2OziRq/tatC8m8kNBCu5Gy0EIqcjTk9VqltVc79YQ2/lT9iekIVaSU/gg?=
+ =?us-ascii?Q?uyMhyw4KEMjLjkOFWzTljA/7MXM3ebo50aDlHeKmXkWMjbtLfCbxuxRNbnHI?=
+ =?us-ascii?Q?EIy+Tb9oCBdIihBUjvXMfr4AsUW0laiczzw4T4g4mZ22i8kCStJQDC/BPs5u?=
+ =?us-ascii?Q?k8zgAdJrFeAuV6fC0Vmmh+2badpQVp9cps0ioW+KImRZzacqs7ijTDgk++Ua?=
+ =?us-ascii?Q?KAjK0VSBUK6ONFi0fKA0PgHHLWbP4J8beXAINRYW+yUq/dQGWPrmhQJ1OUiq?=
+ =?us-ascii?Q?wDX0wwJpyifHudQe5SpkXgGQczbMXbnBhy7MfmKNq6aIl0x5hDSsPZKxGKUj?=
+ =?us-ascii?Q?hx/iwHdQMONilwMsb2joJBqa9E7ZULCo+pV2Ci8N+MO0cw+fEd94MBP3bgRZ?=
+ =?us-ascii?Q?K7EIEABCX1QUmvu7uvmwDfHvuCbhZ8X1QKSmA0akIelr1t6uulz8Bp4uA364?=
+ =?us-ascii?Q?uSkVvqb+WDIDXQX5+j1tTfqSta4G6/FA7T8MWX3ddxjUZ0wDkMWJyD1EOdDQ?=
+ =?us-ascii?Q?27y8QalQ8AmYB+hTaac/jgerpz4s0bt1iu552IHTY8E+lsZpm8Hbd+haBvU6?=
+ =?us-ascii?Q?zH2SYPthQDJzlC3nCADSAozVushOYqb8mm+TSFldW9mnJKo9ojxB3aXRKAJh?=
+ =?us-ascii?Q?1wZTQJoWAuym08da0+A+VaW9K2YY6AAoJNZs9EH6zjkLn8rGqIFdBH+lidBx?=
+ =?us-ascii?Q?DvbK6/bVqxzX6BucF291L+/GFZ0T/cCHyL+VjJqsb/ydYLQJ6+v4e0yIZyZp?=
+ =?us-ascii?Q?uwvzf0Ua0DgoNlCU5SoJW7QB1NYjt2D4cTYsmkmWmq3n0FyE7vEfiOJOX2KS?=
+ =?us-ascii?Q?jSQNx1RAeoFlZW9LFhGQ1K00xjZhV+Wiwj5LU+78cnGeL7oI2XwIhdYLJfIZ?=
+ =?us-ascii?Q?Vkgzd+zod2t1M/mLygHVZ8J2hM4crSu5lcaK1+NAnSbQ4KPoxkYeTu5qLRVn?=
+ =?us-ascii?Q?wmL+gzYShtW8dpUD8jesjRin0cQv54rAkvvVuOmbtPwuBq9640yRcveeBOSj?=
+ =?us-ascii?Q?rutE6A7LnrcZMpUWJXbH5cpc50BQv1E2EtZ+tum9vjKnJC8FWoveNtyaYpB/?=
+ =?us-ascii?Q?jM5wPJ3r3ZxbNo/OvJMK0RN83YGgaViPZN7jP/FzLw1cAvfMmKZ2FsA92QGX?=
+ =?us-ascii?Q?1YJkpZI7j4rAnVuHhtR/x0FJdbLDyWkGlxQtmBTf?=
 X-OriginatorOrg: phytec.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: abe7dc9a-73c6-42b8-7fe5-08dc4766e47a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8ae7f441-b027-41cd-3c27-08dc4766e5c7
 X-MS-Exchange-CrossTenant-AuthSource: SA1PR22MB5636.namprd22.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2024 16:17:22.7274 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2024 16:17:24.8584 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 67bcab1a-5db0-4ee8-86f4-1533d0b4b5c7
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Fo3Cuo3LmvTQF+sKuz42chpIi6kqscdcfBSMd4rC3S4PksXXXuiRXEDdELmuhkEWmv4HyGJ0gmM7dI3J5m6UUw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: PDsfWkkFwy7xpIrtZatwtkAOhLuYZt9DwrkDHMXffTkkBps97WOvJ3oh6HO3jJ+9a79s/ECkSkyyP59CkLnbig==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR22MB3715
 X-Mailman-Approved-At: Mon, 18 Mar 2024 20:46:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,17 +129,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the device tree bindings, timings, and compatible string for the
-POWERTIP PH128800T006-ZHC01 panel.
+Add POWERTIP PH128800T-006-ZHC01 10.1" LCD-TFT LVDS panel compatible
+string.
 
-Nathan Morrisson (2):
-  dt-bindings: display: simple: Add POWERTIP PH128800T-006-ZHC01 panel
-  drm/panel: simple: Add POWERTIP PH128800T006-ZHC01 panel entry
+Signed-off-by: Nathan Morrisson <nmorrisson@phytec.com>
+---
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
- .../bindings/display/panel/panel-simple.yaml  |  2 ++
- drivers/gpu/drm/panel/panel-simple.c          | 29 +++++++++++++++++++
- 2 files changed, 31 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index a95445f40870..312e760d7225 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -272,6 +272,8 @@ properties:
+       - osddisplays,osd070t1718-19ts
+         # One Stop Displays OSD101T2045-53TS 10.1" 1920x1200 panel
+       - osddisplays,osd101t2045-53ts
++        # POWERTIP PH128800T006-ZHC01 10.1" WXGA TFT LCD panel
++      - powertip,ph128800t006-zhc01
+         # POWERTIP PH800480T013-IDF2 7.0" WVGA TFT LCD panel
+       - powertip,ph800480t013-idf02
+         # QiaoDian XianShi Corporation 4"3 TFT LCD panel
 -- 
 2.25.1
 
