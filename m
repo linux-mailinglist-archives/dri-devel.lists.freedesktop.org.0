@@ -2,87 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3046687E635
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 10:48:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 606E887E6D6
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 11:10:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E83B010E90E;
-	Mon, 18 Mar 2024 09:48:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C403110E3F1;
+	Mon, 18 Mar 2024 10:10:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="LZKQ28FT";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="3NTy04CC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4277010E90E
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 09:48:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1710755301;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=p4y4SgSMn0xhvmoHXkMRxARRoLMhg77gR29I4xBsDe8=;
- b=LZKQ28FTW2evtqzzXtrigNIcD6IakQILD8HVAx32MCoMKBGEdYPN4vPLwS9JqmWsCxtIuE
- K2/OOOR4kJDm0BUQMV7dbFEAHONgWFdO0kTI2q2tIIg5fAwF6XlZHCn7lcOPc7a182ePp4
- EmtC4iyYOMrP26u2ScCGKfOpUnJdudE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-136-fet7Y4ooP_yPk3kpsFJZvQ-1; Mon, 18 Mar 2024 05:48:19 -0400
-X-MC-Unique: fet7Y4ooP_yPk3kpsFJZvQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-33ed2677640so1656083f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 02:48:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710755298; x=1711360098;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=p4y4SgSMn0xhvmoHXkMRxARRoLMhg77gR29I4xBsDe8=;
- b=MhgMEZVUgFN5+c/U4vO37Rg0idOXViZPt61PuODRyfFEYNYcJhwOChNSZhbzUlWlGu
- glCcMT9vH0not4FzVMAbe2ygC8uo0loUJi21jCpBthLL2Oi7o7MPGm0/AXBbo9AqMW79
- Kqc5C/XOrJEjK25H3zCgk+EVC4RFQU7z9EkS8kxc4EtMmp9Mwjh6twED9X8hBRWfpurt
- eIl6hKaJi609QF+4y9KYVeM5oq5LUV5Gm6zPTSMnY6+k7f5VSFRT3spjiQuYOXkhRL3H
- b86QntmcB/rix+V1qVupvGfFeDS4G8ZWSOj1tOxqgUJrCYy+kNcA/VoUmtH2G6N9+rIZ
- auNA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWvDcQ8s0yKKT6qEkvJflza+gWpSXQW2iIiNxsHVM2DpNl+ruAtoN09cHwrXwmHLsgacY9yFcekJZA+31BmJ68n+hdZiS/jbZp5akBHiFDm
-X-Gm-Message-State: AOJu0Yz0mRTlHSYzZcmXYKFBzE9rbwftcr2mJceyEODKeG6DHDziO8v3
- QZjwfavVK/XDQ1Pw+Pw0NBFQNgHS4AHf914r6E2IHAaqgqk2w7DsVbr6ShS/f/sCjYkStCFCS6Q
- 30DV8bftiaiL4u9SqFJOvqhKnKiHRzpHOVBg63kCGvaXNW+0Ehi7vqm8rR/9BaDheVw==
-X-Received: by 2002:adf:f3d2:0:b0:33e:8ba7:e53d with SMTP id
- g18-20020adff3d2000000b0033e8ba7e53dmr8843523wrp.7.1710755298491; 
- Mon, 18 Mar 2024 02:48:18 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEWQR49MtOFntHhQbEWdf58/z7aANwNdxsBw8JKFRo6fJ8CfctzQV4HlXJ4mhfSmdeTYWfwNQ==
-X-Received: by 2002:adf:f3d2:0:b0:33e:8ba7:e53d with SMTP id
- g18-20020adff3d2000000b0033e8ba7e53dmr8843502wrp.7.1710755298029; 
- Mon, 18 Mar 2024 02:48:18 -0700 (PDT)
-Received: from localhost ([90.167.94.24]) by smtp.gmail.com with ESMTPSA id
- m10-20020adffe4a000000b0033de10c9efcsm9324992wrs.114.2024.03.18.02.48.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Mar 2024 02:48:17 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Zack Rusin <zack.rusin@broadcom.com>, daniel@ffwll.ch,
- airlied@gmail.com, deller@gmx.de, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Zack Rusin <zackr@vmware.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, stable@vger.kernel.org
-Subject: Re: [PATCH 01/43] drm/fbdev-generic: Do not set physical
- framebuffer address
-In-Reply-To: <20240318-dark-mongoose-of-camouflage-7ac6ed@houat>
-References: <20240312154834.26178-1-tzimmermann@suse.de>
- <20240312154834.26178-2-tzimmermann@suse.de>
- <CABQX2QPJJFrARdteFFZ8f33hvDx-HSyOQJQ7AMFK4C8C=BquTQ@mail.gmail.com>
- <e684558e-8308-4d73-b920-547f9012a2cb@suse.de>
- <20240318-dark-mongoose-of-camouflage-7ac6ed@houat>
-Date: Mon, 18 Mar 2024 10:48:16 +0100
-Message-ID: <87y1afg9b3.fsf@minerva.mail-host-address-is-not-set>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA2F310E3F1
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 10:10:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1710756646;
+ bh=vNcOM4WmDvXVUR5M6HphO7eli9upH40kK4nrr3dJVd8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=3NTy04CCWD2+LQwm0MGE6B6dMMSEPHqqOSYeA36i7gPuNZ+7P3k14oKDmE0xJq6g5
+ wdtRB6XuZeWLAWOSDQgI81+CaMekWKjr4BGS+Lg1TnVaRPJUGP//pM8F4LoGHPpmJB
+ M/kMSB+bu6axufG2OQaRVoHqpbaz5ssDit5YNxYEH4PL5bysBx9qb0zUrw4phir48c
+ Ub1EySBjwNNx59kwXEVZ5w0uLqGqEbaY5VY8Lq2Plc19QrsKX57kXEGlMkKbVP2pzg
+ te6RhRlN+r7SoBEDkUhh1gfT2sKAOOdbIWKVmbKL1qsVjCRUloBFMryyXFjF+Qoq/s
+ p7o6spxF1qN3A==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 4F50E3781FCD;
+ Mon, 18 Mar 2024 10:10:45 +0000 (UTC)
+Message-ID: <5abc673e-b3d2-4a33-9b18-17a073b8315c@collabora.com>
+Date: Mon, 18 Mar 2024 11:10:44 +0100
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/1] drm/mediatek/ dp: Adjust bandwidth limit for DP
+To: Liankun Yang <liankun.yang@mediatek.com>, chunkuang.hu@kernel.org,
+ p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ matthias.bgg@gmail.com, jitao.shi@mediatek.com, mac.shen@mediatek.com
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20240315015233.2023-1-liankun.yang@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240315015233.2023-1-liankun.yang@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,82 +63,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Maxime Ripard <mripard@kernel.org> writes:
+Il 15/03/24 02:52, Liankun Yang ha scritto:
+> By adjusting the order of link training and relocating it to HPD,
+> link training can identify the usability of each lane in the current link.
+> 
+> It also supports handling signal instability and weakness due to
+> environmental issues, enabling the acquisition of a stable bandwidth
+> for the current link. Subsequently, DP work can proceed based on
+> the actual maximum bandwidth.
+> 
+> It should training in the hpd event thread.
+> Check the mode with lane count and link rate of training.
+> 
+> Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
 
-> On Mon, Mar 18, 2024 at 08:59:01AM +0100, Thomas Zimmermann wrote:
->> Hi
->>=20
->> Am 18.03.24 um 03:35 schrieb Zack Rusin:
->> > On Tue, Mar 12, 2024 at 11:48=E2=80=AFAM Thomas Zimmermann <tzimmerman=
-n@suse.de> wrote:
->> > > Framebuffer memory is allocated via vmalloc() from non-contiguous
->> > > physical pages. The physical framebuffer start address is therefore
->> > > meaningless. Do not set it.
->> > >=20
->> > > The value is not used within the kernel and only exported to userspa=
-ce
->> > > on dedicated ARM configs. No functional change is expected.
->> > >=20
->> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> > > Fixes: a5b44c4adb16 ("drm/fbdev-generic: Always use shadow buffering=
-")
->> > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> > > Cc: Javier Martinez Canillas <javierm@redhat.com>
->> > > Cc: Zack Rusin <zackr@vmware.com>
->> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> > > Cc: Maxime Ripard <mripard@kernel.org>
->> > > Cc: <stable@vger.kernel.org> # v6.4+
->> > > ---
->> > >   drivers/gpu/drm/drm_fbdev_generic.c | 1 -
->> > >   1 file changed, 1 deletion(-)
->> > >=20
->> > > diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/d=
-rm_fbdev_generic.c
->> > > index d647d89764cb9..b4659cd6285ab 100644
->> > > --- a/drivers/gpu/drm/drm_fbdev_generic.c
->> > > +++ b/drivers/gpu/drm/drm_fbdev_generic.c
->> > > @@ -113,7 +113,6 @@ static int drm_fbdev_generic_helper_fb_probe(str=
-uct drm_fb_helper *fb_helper,
->> > >          /* screen */
->> > >          info->flags |=3D FBINFO_VIRTFB | FBINFO_READS_FAST;
->> > >          info->screen_buffer =3D screen_buffer;
->> > > -       info->fix.smem_start =3D page_to_phys(vmalloc_to_page(info->=
-screen_buffer));
->> > >          info->fix.smem_len =3D screen_size;
->> > >=20
->> > >          /* deferred I/O */
->> > > --
->> > > 2.44.0
->> > >=20
->> > Good idea. I think given that drm_leak_fbdev_smem is off by default we
->> > could remove the setting of smem_start by all of the in-tree drm
->> > drivers (they all have open source userspace that won't mess around
->> > with fbdev fb) - it will be reset to 0 anyway. Actually, I wonder if
->> > we still need drm_leak_fbdev_smem at all...
->>=20
->> All I know is that there's an embedded userspace driver that requires th=
-at
->> setting. I don't even know which hardware.
->
-> The original Mali driver (ie, lima) used to require it, that's why we
-> introduced it in the past.
->
-> I'm not sure if the newer versions of that driver, or if newer Mali
-> generations (ie, panfrost and panthor) closed source driver would
-> require it, so it might be worth removing if it's easy enough to revert.
->
+This patch breaks both the internal eDP display *and* external DP on
+at least the MT8195 Cherry Tomato Chromebook.
 
-Agreed. The DRM_FBDEV_LEAK_PHYS_SMEM symbol already depends on EXPERT and
-defaults to 'n', which implies that isn't enabled by most kernels AFAICT.
+Regards,
+Angelo
 
-So dropping it and see if anyone complains sounds like a good idea to me.
-
-> Maxime
-
---=20
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+> ---
+>   drivers/gpu/drm/mediatek/mtk_dp.c | 57 +++++++++++++++----------------
+>   1 file changed, 28 insertions(+), 29 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+> index 2136a596efa1..14da6077f947 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+> @@ -1870,6 +1870,7 @@ static irqreturn_t mtk_dp_hpd_event_thread(int hpd, void *dev)
+>   	struct mtk_dp *mtk_dp = dev;
+>   	unsigned long flags;
+>   	u32 status;
+> +	int ret;
+>   
+>   	if (mtk_dp->need_debounce && mtk_dp->train_info.cable_plugged_in)
+>   		msleep(100);
+> @@ -1888,9 +1889,28 @@ static irqreturn_t mtk_dp_hpd_event_thread(int hpd, void *dev)
+>   			memset(&mtk_dp->info.audio_cur_cfg, 0,
+>   			       sizeof(mtk_dp->info.audio_cur_cfg));
+>   
+> +			mtk_dp->enabled = false;
+> +			/* power off aux */
+> +			mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
+> +			       DP_PWR_STATE_BANDGAP_TPLL,
+> +			       DP_PWR_STATE_MASK);
+> +
+>   			mtk_dp->need_debounce = false;
+>   			mod_timer(&mtk_dp->debounce_timer,
+>   				  jiffies + msecs_to_jiffies(100) - 1);
+> +		} else {
+> +			mtk_dp_aux_panel_poweron(mtk_dp, true);
+> +
+> +			ret = mtk_dp_parse_capabilities(mtk_dp);
+> +			if (ret)
+> +				drm_err(mtk_dp->drm_dev, "Can't parse capabilities\n");
+> +
+> +			/* Training */
+> +			ret = mtk_dp_training(mtk_dp);
+> +			if (ret)
+> +				drm_err(mtk_dp->drm_dev, "Training failed, %d\n", ret);
+> +
+> +			mtk_dp->enabled = true;
+>   		}
+>   	}
+>   
+> @@ -2057,16 +2077,6 @@ static struct edid *mtk_dp_get_edid(struct drm_bridge *bridge,
+>   
+>   	new_edid = drm_get_edid(connector, &mtk_dp->aux.ddc);
+>   
+> -	/*
+> -	 * Parse capability here to let atomic_get_input_bus_fmts and
+> -	 * mode_valid use the capability to calculate sink bitrates.
+> -	 */
+> -	if (mtk_dp_parse_capabilities(mtk_dp)) {
+> -		drm_err(mtk_dp->drm_dev, "Can't parse capabilities\n");
+> -		kfree(new_edid);
+> -		new_edid = NULL;
+> -	}
+> -
+>   	if (new_edid) {
+>   		struct cea_sad *sads;
+>   
+> @@ -2243,14 +2253,10 @@ static void mtk_dp_bridge_atomic_enable(struct drm_bridge *bridge,
+>   		return;
+>   	}
+>   
+> -	mtk_dp_aux_panel_poweron(mtk_dp, true);
+> -
+> -	/* Training */
+> -	ret = mtk_dp_training(mtk_dp);
+> -	if (ret) {
+> -		drm_err(mtk_dp->drm_dev, "Training failed, %d\n", ret);
+> -		goto power_off_aux;
+> -	}
+> +	/* power on aux */
+> +	mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
+> +			   DP_PWR_STATE_BANDGAP_TPLL_LANE,
+> +			   DP_PWR_STATE_MASK);
+>   
+>   	ret = mtk_dp_video_config(mtk_dp);
+>   	if (ret)
+> @@ -2269,7 +2275,6 @@ static void mtk_dp_bridge_atomic_enable(struct drm_bridge *bridge,
+>   		       sizeof(mtk_dp->info.audio_cur_cfg));
+>   	}
+>   
+> -	mtk_dp->enabled = true;
+>   	mtk_dp_update_plugged_status(mtk_dp);
+>   
+>   	return;
+> @@ -2284,16 +2289,10 @@ static void mtk_dp_bridge_atomic_disable(struct drm_bridge *bridge,
+>   {
+>   	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
+>   
+> -	mtk_dp->enabled = false;
+>   	mtk_dp_update_plugged_status(mtk_dp);
+>   	mtk_dp_video_enable(mtk_dp, false);
+>   	mtk_dp_audio_mute(mtk_dp, true);
+>   
+> -	if (mtk_dp->train_info.cable_plugged_in) {
+> -		drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POWER_D3);
+> -		usleep_range(2000, 3000);
+> -	}
+> -
+>   	/* power off aux */
+>   	mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
+>   			   DP_PWR_STATE_BANDGAP_TPLL,
+> @@ -2310,10 +2309,10 @@ mtk_dp_bridge_mode_valid(struct drm_bridge *bridge,
+>   {
+>   	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
+>   	u32 bpp = info->color_formats & DRM_COLOR_FORMAT_YCBCR422 ? 16 : 24;
+> -	u32 rate = min_t(u32, drm_dp_max_link_rate(mtk_dp->rx_cap) *
+> -			      drm_dp_max_lane_count(mtk_dp->rx_cap),
+> -			 drm_dp_bw_code_to_link_rate(mtk_dp->max_linkrate) *
+> -			 mtk_dp->max_lanes);
+> +
+> +	u32 lane_count_min = mtk_dp->train_info.lane_count;
+> +	u32 rate = drm_dp_bw_code_to_link_rate(mtk_dp->train_info.link_rate) *
+> +			 lane_count_min;
+>   
+>   	if (rate < mode->clock * bpp / 8)
+>   		return MODE_CLOCK_HIGH;
 
