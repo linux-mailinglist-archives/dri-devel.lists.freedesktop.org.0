@@ -2,53 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAAF687EB9B
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 16:06:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7906787EBB2
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 16:09:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B811110F90A;
-	Mon, 18 Mar 2024 15:06:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3868F10EBD3;
+	Mon, 18 Mar 2024 15:09:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="PRAXt+D+";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="0KtRVOKt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com
- [95.215.58.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C27C710F90A
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 15:06:54 +0000 (UTC)
-Message-ID: <c05fe1c4-569a-4b7d-a53f-938c0b470600@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1710774412;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pkX+ZZDRxq0hnwohy4/NEYPdtVJTyCK6MVxLwPlhAKI=;
- b=PRAXt+D+9ygCxcSLtqW0JZdUF+ZbKwoCuP2VpeRWiFbzaE58BE6dZXkMbFA8TBwL4mWqHl
- C/KEkQNCVv3s6vT//kUTFU98oxlF4QQNvs8ZPY9GfGFK+W7s6HdaYLSRkD3+2O4sbOZQof
- jkTNslI0N5qHobO4rhRxyCKOjH1TCuY=
-Date: Mon, 18 Mar 2024 11:06:51 -0400
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D57B510EBD3
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 15:09:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1710774553;
+ bh=iw8RLP+57lSzz2/XcRNL53C/05RUReh85K6q3MlmL40=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=0KtRVOKtDyE5trADOruzao6Az6mFJvrJT8i5tx7VysgZSkLQYUURX/vqBguffGdH+
+ 9tstj8X1eBB/lfztYqsWd9wYZQUCZ29R8TXn82chBLcsZ7kuyux1dh7MArNxYpbGCA
+ Rzup7oQhM28j202oKBqC0AsnBxrqJospjJZMpOLdZMF5uzviGNvBNgIIRlziZ1TqMU
+ vGt5TtFCEsTzsf9zj7yLSSL164/hjLjvmt9O/9H/8SFqQ/FpLrrvoDbF2kUGolZzbS
+ dew7YfC7IKLogcOYOLuK0d5uqjxDMuLi1zE8QadktgWGZbwENhGYSfd+3to/936Ynv
+ YWPLKRYavoZoA==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 4BD8537811D1;
+ Mon, 18 Mar 2024 15:09:13 +0000 (UTC)
+Date: Mon, 18 Mar 2024 16:09:11 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
+ Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH] drm/panthor: Don't use virt_to_pfn()
+Message-ID: <20240318160911.16ba951f@collabora.com>
+In-Reply-To: <20240318145119.368582-1-steven.price@arm.com>
+References: <20240318145119.368582-1-steven.price@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Subject: Re: [PATCH 6/6] drm: zynqmp_dp: Add debugfs interface for compliance
- testing
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, David Airlie <airlied@gmail.com>,
- linux-kernel@vger.kernel.org, Michal Simek <monstr@monstr.eu>,
- linux-arm-kernel@lists.infradead.org, Daniel Vetter <daniel@ffwll.ch>
-References: <20240315230916.1759060-7-sean.anderson@linux.dev>
- <202403161837.76okceZN-lkp@intel.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sean Anderson <sean.anderson@linux.dev>
-In-Reply-To: <202403161837.76okceZN-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,36 +61,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/16/24 06:55, kernel test robot wrote:
-> Hi Sean,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on v6.8]
-> [cannot apply to drm-misc/drm-misc-next linus/master next-20240315]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Anderson/drm-zynqmp_dp-Downgrade-log-level-for-aux-retries-message/20240316-071208
-> base:   v6.8
-> patch link:    https://lore.kernel.org/r/20240315230916.1759060-7-sean.anderson%40linux.dev
-> patch subject: [PATCH 6/6] drm: zynqmp_dp: Add debugfs interface for compliance testing
-> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240316/202403161837.76okceZN-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403161837.76okceZN-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403161837.76okceZN-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    m68k-linux-ld: drivers/gpu/drm/xlnx/zynqmp_dp.o: in function `zynqmp_dp_rate_set':
->>> zynqmp_dp.c:(.text+0x1a7a): undefined reference to `__udivdi3'
-> 
+On Mon, 18 Mar 2024 14:51:19 +0000
+Steven Price <steven.price@arm.com> wrote:
 
-Will fix.
+> virt_to_pfn() isn't available on x86 (except to xen) so breaks
+> COMPILE_TEST builds. Avoid its use completely by instead storing the
+> struct page pointer allocated in panthor_device_init() and using
+> page_to_pfn() instead.
+> 
+> Signed-off-by: Steven Price <steven.price@arm.com>
 
---Sean
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
+Thanks,
+
+Boris
+
+> ---
+>  drivers/gpu/drm/panthor/panthor_device.c | 10 ++++++----
+>  drivers/gpu/drm/panthor/panthor_device.h |  2 +-
+>  2 files changed, 7 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> index 69deb8e17778..3c30da03fa48 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -154,6 +154,7 @@ int panthor_device_init(struct panthor_device *ptdev)
+>  {
+>  	struct resource *res;
+>  	struct page *p;
+> +	u32 *dummy_page_virt;
+>  	int ret;
+>  
+>  	ptdev->coherent = device_get_dma_attr(ptdev->base.dev) == DEV_DMA_COHERENT;
+> @@ -172,9 +173,10 @@ int panthor_device_init(struct panthor_device *ptdev)
+>  	if (!p)
+>  		return -ENOMEM;
+>  
+> -	ptdev->pm.dummy_latest_flush = page_address(p);
+> +	ptdev->pm.dummy_latest_flush = p;
+> +	dummy_page_virt = page_address(p);
+>  	ret = drmm_add_action_or_reset(&ptdev->base, panthor_device_free_page,
+> -				       ptdev->pm.dummy_latest_flush);
+> +				       dummy_page_virt);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -184,7 +186,7 @@ int panthor_device_init(struct panthor_device *ptdev)
+>  	 * happens while the dummy page is mapped. Zero cannot be used because
+>  	 * that means 'always flush'.
+>  	 */
+> -	*ptdev->pm.dummy_latest_flush = 1;
+> +	*dummy_page_virt = 1;
+>  
+>  	INIT_WORK(&ptdev->reset.work, panthor_device_reset_work);
+>  	ptdev->reset.wq = alloc_ordered_workqueue("panthor-reset-wq", 0);
+> @@ -353,7 +355,7 @@ static vm_fault_t panthor_mmio_vm_fault(struct vm_fault *vmf)
+>  		if (active)
+>  			pfn = __phys_to_pfn(ptdev->phys_addr + CSF_GPU_LATEST_FLUSH_ID);
+>  		else
+> -			pfn = virt_to_pfn(ptdev->pm.dummy_latest_flush);
+> +			pfn = page_to_pfn(ptdev->pm.dummy_latest_flush);
+>  		break;
+>  
+>  	default:
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> index 51c9d61b6796..c84c27dcc92c 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -160,7 +160,7 @@ struct panthor_device {
+>  		 * Used to replace the real LATEST_FLUSH page when the GPU
+>  		 * is suspended.
+>  		 */
+> -		u32 *dummy_latest_flush;
+> +		struct page *dummy_latest_flush;
+>  	} pm;
+>  };
+>  
+
