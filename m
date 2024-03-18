@@ -2,118 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15A8887F171
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 21:46:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDCC687ED3F
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 17:17:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 088F41120D6;
-	Mon, 18 Mar 2024 20:46:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ACD610FBB6;
+	Mon, 18 Mar 2024 16:17:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=phytec.com header.i=@phytec.com header.b="K6TTDt2R";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="sDMIoY2x";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QopC2bzt";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sDMIoY2x";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QopC2bzt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2093.outbound.protection.outlook.com [40.107.237.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C6C910E0FA
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 16:17:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AjliZ2wjDzUcxsWSjhWAT3GD1Yw+e11+5+tAWBVJIGtZ6eFv2XMWNWfRfRBkVXmDlnlmHHouN5hxjuJ6zMnwmNkDoLksC65QcOL2omeghmEqJz0ISw2iAn0hG6gEgtAO0tpywuY+NykAfdz/pBopYIHJ62Gr+NYcNK8yLmc3+eE4aMywU8ul4rM++22Nfpzou0rHpkEJqN6f++ennLXVMp1468r/l1ePYG/gB8vorFM3ol0npsEFd1pD/9px0+u1ssRfqT7pIN20f1ZnxmVdF/5iDO36d+A5IuwcKx/NTRZaQKhI+nFl/4t4qZagckNghJF8cUg+zqjRs/q2wlznGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EBL2LU10Nu68/Zcjr+eUKKLvc9DaE68xyjHdvsdOzLA=;
- b=Q9iyMHw+1pl41tgxjgossk2zyznOBQZkyIm7s+Ga3XwRI/bu/BfwJtwNeMCfuVVQO4VJUA8G6dxuVcfC+mlHTIizHk2qFKyxjPB1KBlxqwVCh21cCNPYsYSHqfxv/1RW65FDl9R7l3fVi8E5/NunJdYndl9cAYFAgCXNUUdaGs0C+Zia4u7d4S+h+PMA8wyF8376dQTcThThkJ4EDh5sx3MhL65el+Ws799W2PpC3gpj7LbQge2u0AXBvbqgbG7cElIctTNYN4R/rxAjndzmZ5bZcauFct54uxtRajkvPCN8GC8p7j+Z3vZ6cLj1tHjNY4HGN9gxe3ILZH5VEy4a2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=phytec.com; dmarc=pass action=none header.from=phytec.com;
- dkim=pass header.d=phytec.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=phytec.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EBL2LU10Nu68/Zcjr+eUKKLvc9DaE68xyjHdvsdOzLA=;
- b=K6TTDt2RBrttiMCsQrGaxZa+DUeCSfbYCPWVBo0Oqk0NZS1xWlVgjsOrzjm61jwHhtRbqnxq1uWjC7F+2DJBly57lhpYLXzOXy7HZA/CHCh0g54K2HE3TLyJ6b0hKV/RVDG82C3dwaZpVn4pEiDG4CowtJF+7EdODtA1rM43T94=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=phytec.com;
-Received: from SA1PR22MB5636.namprd22.prod.outlook.com (2603:10b6:806:3e2::15)
- by MW4PR22MB3715.namprd22.prod.outlook.com (2603:10b6:303:1be::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.27; Mon, 18 Mar
- 2024 16:17:27 +0000
-Received: from SA1PR22MB5636.namprd22.prod.outlook.com
- ([fe80::e6c9:dbd4:f002:212f]) by SA1PR22MB5636.namprd22.prod.outlook.com
- ([fe80::e6c9:dbd4:f002:212f%7]) with mapi id 15.20.7386.025; Mon, 18 Mar 2024
- 16:17:26 +0000
-From: Nathan Morrisson <nmorrisson@phytec.com>
-To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, sam@ravnborg.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- thierry.reding@gmail.com
-Cc: w.egorov@phytec.de, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- upstream@lists.phytec.de
-Subject: [PATCH 2/2] drm/panel: simple: Add POWERTIP PH128800T006-ZHC01 panel
- entry
-Date: Mon, 18 Mar 2024 09:17:08 -0700
-Message-Id: <20240318161708.1415484-3-nmorrisson@phytec.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240318161708.1415484-1-nmorrisson@phytec.com>
-References: <20240318161708.1415484-1-nmorrisson@phytec.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: CH0PR03CA0279.namprd03.prod.outlook.com
- (2603:10b6:610:e6::14) To SA1PR22MB5636.namprd22.prod.outlook.com
- (2603:10b6:806:3e2::15)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13C3510FBB6
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 16:17:43 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 9D9405C72B;
+ Mon, 18 Mar 2024 16:17:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1710778659; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=2Rn0qfH2TwfVCYVB0JLiqP7xxZv4bz9lQj8zYVyEtSY=;
+ b=sDMIoY2x+N86dSRv7x2Vqo44btvFw20A48ideLmZfZKv5Vd6i6wlC53RPiq9aVDnGx4LbT
+ eCqWhyslXWYuqxUvD2/mQZ9gZovFkyzo04TO10pTId0pNj5lIxUZY07Ce+ScNFSApoMCzf
+ FX7KtZJZN1dArJyNIOr4GnOvZMit9Ec=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1710778659;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=2Rn0qfH2TwfVCYVB0JLiqP7xxZv4bz9lQj8zYVyEtSY=;
+ b=QopC2bztargtS9HsAxjQgy/NA7j13z4FGALLL7ChXAYzIW9hxUPLKwXoGNb/XtWy/KFkBL
+ 7l8V6X8Wvc0c2pAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1710778659; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=2Rn0qfH2TwfVCYVB0JLiqP7xxZv4bz9lQj8zYVyEtSY=;
+ b=sDMIoY2x+N86dSRv7x2Vqo44btvFw20A48ideLmZfZKv5Vd6i6wlC53RPiq9aVDnGx4LbT
+ eCqWhyslXWYuqxUvD2/mQZ9gZovFkyzo04TO10pTId0pNj5lIxUZY07Ce+ScNFSApoMCzf
+ FX7KtZJZN1dArJyNIOr4GnOvZMit9Ec=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1710778659;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=2Rn0qfH2TwfVCYVB0JLiqP7xxZv4bz9lQj8zYVyEtSY=;
+ b=QopC2bztargtS9HsAxjQgy/NA7j13z4FGALLL7ChXAYzIW9hxUPLKwXoGNb/XtWy/KFkBL
+ 7l8V6X8Wvc0c2pAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 666F51349D;
+ Mon, 18 Mar 2024 16:17:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 6tOQFyNp+GUlYgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 18 Mar 2024 16:17:39 +0000
+Message-ID: <13c99de1-5940-4075-8be6-77e004e767b0@suse.de>
+Date: Mon, 18 Mar 2024 17:17:38 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR22MB5636:EE_|MW4PR22MB3715:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1e378082-4652-419c-a27e-08dc4766e706
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: e7TRDS7JfqXOFxzIeiP4jE4Ie4ts9ScM8h/AKnC4dJUC6tn+OwQzJ9H7kjoMFNeI9PAbVecvrd5lDcYNyE/pdmKqRdKRF2nKgZHLylsIxjMqwoqYAPqpqD3e18M1PxUfkoFnStZYWjIjXa1PsjzcgQtK9aOeSG8lOgsTDbNcA8tOS1iVYHO8MQSMLJF5mDlAiOeB3ebBNkftX9iztZkAt02du2o2eZpgF+cFXpsCrAF9Lb30CN2FWCjw0MzfyHkxs0MnzVIqSkd3is3exVtCt0PZGTe9WRN7fJiIOJT/6SFirdH/1BXpbvIW0pdNOmlkulRqJzoKlwETn9oNMOn5zTY8qFoRW0kobrMX2qr3P5FK7e+ep50VgKxla7FPcG4Dmm9nrlCgjgz6SVRclI9Sx+EpgTTIV21iAZ6L2vT9kipruCMbhjqCzsEdm+mbJ6b+1TyNkCiu9iDEBqSDpMIYTdmJvnjDBtXIuBO70WS+cpJDoY6bRAk1WfNQgUPIthjJSbK0EmrwcBQX39m6SjF0kO+g/2FmcWjnjT/v/u/mtwUf7EKKAoT1q6wLgZn45e2F3eQNqgC2q0xXgu5qSSvxOcxmY9SVtDV3q19PP9oPitkqRMeR9DGcQoIzH8YpQmyx2iW7ylEBSQmKer6G5FAjH10C+cqWcprSNN7fmasqpe30vbfn6pm2ybvc5alecIAVSQ8yUXMWItW2xZDvgirmLadt0zrR8i7EOPlJUNzG6FU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR22MB5636.namprd22.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366007)(376005)(7416005)(52116005)(1800799015)(38350700005)(921011);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pirDlMFXaVZ/AYaWROgyo92g+QC6qxe23B4qTdq6yNwWsKnd7GJjWF/Afznh?=
- =?us-ascii?Q?WCqhImkOOHZ91zGi1YM/Y3NdhBxPwBiVnGZEE1OiBLHK5g5sfCQMz7a1ormY?=
- =?us-ascii?Q?2SsI6yt0Qok1jFTVmDtOEW9/jO54a4nzQaJm1OnBXicjhHdNBBsZ6ukkmuOu?=
- =?us-ascii?Q?hueoT6YgFuBhSy84wYRjNtY8VIdWHm5cFRPWmsFqog7zqADaqfIy8+xWeWDV?=
- =?us-ascii?Q?iFCSZ+87Qx34bHmR8qchqrD2jVOCxMWgVCE23ZWKNw4WhGvCg3uJXsqjqnnv?=
- =?us-ascii?Q?rsaJUep/P43xCkrDs/9VLyNRGAibP5flPtfw7LwOLjCGzsfH8y0h8FcKVQZc?=
- =?us-ascii?Q?S2ZLfMHxfcVEcVLxJWyWltQI4SVryJ6zf5MOWRmQfF37B6fC9/qUjKreCeaX?=
- =?us-ascii?Q?sTtCCkEsP15R2HEr4GxJzGFOrDB4/baTahjWfBmoKzcy12l5ZyujksgFTU6m?=
- =?us-ascii?Q?XcanP+eImFL4H+KVTiEarnClOeb9fO0w1WQ1+YO7YvVcemiBtBREBsK2BnBv?=
- =?us-ascii?Q?KhKPBjkQfL8uOl5Bx6VSUVB0EiSTOE3pX6wcoaQlI5a80BLxmAVt56nda+sO?=
- =?us-ascii?Q?O3SRm5mpTms70AWPKetotJ3EfRR05qA4WnKHXsEvwir1nwvWHJllluEP2sYD?=
- =?us-ascii?Q?5SzHhczKBTyVUPI1RRb8R/zyta/INEOzCgVKLmnh+iDVu/f4bsxaRulzpC4G?=
- =?us-ascii?Q?BbW8mZGxNhTcKeeXGPsRfGEoU1zYEjdZl2UPPbB/xFvylMOmhm/g1KFFkAkB?=
- =?us-ascii?Q?GXt0/MQUJ0pYX4QSi9kREUFI/5i2jUzPeoHVWCirnTR0u7X/J4pbCrNvpOBJ?=
- =?us-ascii?Q?OkmdNZsDBu+6gMD4Ce6DFg4T/KUBsHb9cN9Ye9G3KvNEbT3pT1JW1qx/Bwyn?=
- =?us-ascii?Q?7HvR65lKi7FXRd1kysXIwN4Q7kxJIU3Y6dJaAyTDg3+ycULb2/xDLMewc6x2?=
- =?us-ascii?Q?sKRhZR4Opz9ZsOclXrS1mMBZW4F3gCo8eMxlKLK19jlonQExDO+SL9y91LvH?=
- =?us-ascii?Q?0+EHVBhsobEEstgRYbLk6bT29+0G2XqflsYK/gNjrp0QcIJnMEB+V9yDJCqT?=
- =?us-ascii?Q?6iCehXeQtUdAO1dbTST1fVRDQs5smUrQpvyolsYoCXZjlRIK+hz4y0w+tONt?=
- =?us-ascii?Q?lyrxU1wUd9GTTmsy/x4G0Zbvgv5KVySOzRKs16KiojsRW2iRqeKHxnao1e1M?=
- =?us-ascii?Q?0UghKV+DFqvfAQ7WfQc+BkihDlaxgHRp55p5p6/xtjpPwXl8F5dV8o4xogBb?=
- =?us-ascii?Q?s4pLt2aziXxYP5JaBR/QYfNfX/0NzbmrtFvD2MQGaBmuZ58TAJ+gIFpR7hUe?=
- =?us-ascii?Q?kKf2sLSIcPc181dQnO7yQZCw4FBP9cg1THsFBvDefd2DJF3mPEoiWgL1edrY?=
- =?us-ascii?Q?vHm7qzf9nn8xZM4ElZ+rG5NWG5sUAa39QWun0G1q5MDqpkMA/ze5LnRZjF2u?=
- =?us-ascii?Q?3lro2K1erYUosyz/SkHv17dLFY/o5Z64JbqCVraXEw4tffecIvVcm1VBBa9j?=
- =?us-ascii?Q?zghyg68n+XG4yekf1uICfvvUORNXqjOMEK9wz8WqQYdQH/TX+DBS7/QKUml0?=
- =?us-ascii?Q?Iqp8+Gh0De5sVhGUnUKHglt27U49tSUzvdPaL7n8?=
-X-OriginatorOrg: phytec.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1e378082-4652-419c-a27e-08dc4766e706
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR22MB5636.namprd22.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2024 16:17:26.9113 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 67bcab1a-5db0-4ee8-86f4-1533d0b4b5c7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jn1iYHMJ9hRWxhw4kW5ffo3ohJvS5HY2+3e/rcTxF72Tluuzl4qi5pc2bNo/GryHuCD8MYjrzTn1pMA/cqvcRA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR22MB3715
-X-Mailman-Approved-At: Mon, 18 Mar 2024 20:46:02 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/Makefile: Move tiny drivers before native drivers
+Content-Language: en-US
+To: Jaak Ristioja <jaak@ristioja.ee>, Huacai Chen <chenhuacai@kernel.org>
+Cc: Javier Martinez Canillas <javierm@redhat.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Huacai Chen <chenhuacai@loongson.cn>
+References: <20231108024613.2898921-1-chenhuacai@loongson.cn>
+ <f461f122-d3e4-4ffb-a252-543f9b6e4e5a@suse.de>
+ <CAFOAJEfDZGRY42SRGF64cFbN1e8sBhYsQw_uou8hxTYfyxkhdw@mail.gmail.com>
+ <CAAhV-H52y902nP6nPeghLqs+K8gNzCc3DHTU1C0AQcD0TXHMAQ@mail.gmail.com>
+ <32b4b912-794f-42b6-b666-5faea8e98d7c@ristioja.ee>
+ <CAAhV-H5gFqd3z4Etzuz_q3Hs6A4BP0yzJ69GgMcJzJBRdOwGSA@mail.gmail.com>
+ <5f52d611-6ec9-429c-aabf-956d23a8c74d@ristioja.ee>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <5f52d611-6ec9-429c-aabf-956d23a8c74d@ristioja.ee>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=sDMIoY2x;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QopC2bzt
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.50 / 50.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ XM_UA_NO_VERSION(0.01)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ BAYES_HAM(-3.00)[100.00%]; MIME_GOOD(-0.10)[text/plain];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; RCVD_COUNT_THREE(0.00)[3];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]; MX_GOOD(-0.01)[];
+ RCPT_COUNT_SEVEN(0.00)[7];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ RCVD_TLS_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[]
+X-Spam-Score: -4.50
+X-Rspamd-Queue-Id: 9D9405C72B
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,61 +153,150 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the POWERTIP PH128800T006-ZHC01 10.1" (1280x800)
-LCD-TFT panel.
+Hi
 
-Signed-off-by: Nathan Morrisson <nmorrisson@phytec.com>
----
- drivers/gpu/drm/panel/panel-simple.c | 29 ++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+Am 18.03.24 um 16:42 schrieb Jaak Ristioja:
+> Hi Huacai,
+>
+> Uh, no, sorry, I did not get to test such changes. From what Thomas 
+> wrote I presumed that this got fixed and no further action would be 
+> required.
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 20e3df1c59d4..02d238123753 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -3465,6 +3465,32 @@ static const struct panel_desc pda_91_00156_a0  = {
- 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
- };
- 
-+static const struct drm_display_mode powertip_ph128800t006_zhc01_mode = {
-+	.clock = 66500,
-+	.hdisplay = 1280,
-+	.hsync_start = 1280 + 12,
-+	.hsync_end = 1280 + 12 + 20,
-+	.htotal = 1280 + 12 + 20 + 56,
-+	.vdisplay = 800,
-+	.vsync_start = 800 + 1,
-+	.vsync_end = 800 + 1 + 3,
-+	.vtotal = 800 + 1 + 3 + 20,
-+	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC,
-+};
-+
-+static const struct panel_desc powertip_ph128800t006_zhc01 = {
-+	.modes = &powertip_ph128800t006_zhc01_mode,
-+	.num_modes = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 216,
-+		.height = 135,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-+};
-+
- static const struct drm_display_mode powertip_ph800480t013_idf02_mode = {
- 	.clock = 24750,
- 	.hdisplay = 800,
-@@ -4639,6 +4665,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "pda,91-00156-a0",
- 		.data = &pda_91_00156_a0,
-+	}, {
-+		.compatible = "powertip,ph128800t006-zhc01",
-+		.data = &powertip_ph128800t006_zhc01,
- 	}, {
- 		.compatible = "powertip,ph800480t013-idf02",
- 		.data = &powertip_ph800480t013_idf02,
+Right. We reverted the problematic patch and the issue should be gone now.
+
+Best regards
+Thomas
+
+>
+> To speed things up I would appreciate it if you provided a patch. As I 
+> worked around the problem for the end user by changing the kernel 
+> configuration, I have long forgotten the exact details. It would 
+> otherwise probably take me a while to understand what and where you 
+> propose to change exactly.
+>
+> Also, do you want me to test it on some newer kernel or should I 
+> re-download the 6.5.# version sources?
+>
+>
+> Best regards,
+> Jaak
+>
+> On 18.03.24 16:43, Huacai Chen wrote:
+>> Hi, Jaak,
+>>
+>> I'm still here as a boring man. :)
+>> Have you ever tested whether using "fs_initcall(sysfb_init)" works
+>> fine on your machine?
+>>
+>> Huacai
+>>
+>> On Wed, Jan 24, 2024 at 5:21 AM Jaak Ristioja <jaak@ristioja.ee> wrote:
+>>>
+>>> Hi,
+>>>
+>>> I apologize for not finding the time to test this earlier.
+>>>
+>>> On 11.12.23 05:08, Huacai Chen wrote:
+>>>> And Jaak, could you please test with the below patch (but keep the
+>>>> original order in Makefile) and then give me the dmesg output?
+>>>>
+>>>> diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
+>>>> index 561be8feca96..cc2e39fb98f5 100644
+>>>> --- a/drivers/video/aperture.c
+>>>> +++ b/drivers/video/aperture.c
+>>>> @@ -350,21 +350,29 @@ int
+>>>> aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const
+>>>> char *na
+>>>>           resource_size_t base, size;
+>>>>           int bar, ret = 0;
+>>>>
+>>>> -       if (pdev == vga_default_device())
+>>>> +       printk("DEBUG: remove 1\n");
+>>>> +
+>>>> +       if (pdev == vga_default_device()) {
+>>>> +               printk("DEBUG: primary = true\n");
+>>>>                   primary = true;
+>>>> +       }
+>>>>
+>>>> -       if (primary)
+>>>> +       if (primary) {
+>>>> +               printk("DEBUG: disable sysfb\n");
+>>>>                   sysfb_disable();
+>>>> +       }
+>>>>
+>>>>           for (bar = 0; bar < PCI_STD_NUM_BARS; ++bar) {
+>>>>                   if (!(pci_resource_flags(pdev, bar) & 
+>>>> IORESOURCE_MEM))
+>>>>                           continue;
+>>>>
+>>>> +               printk("DEBUG: remove 2\n");
+>>>>                   base = pci_resource_start(pdev, bar);
+>>>>                   size = pci_resource_len(pdev, bar);
+>>>>                   aperture_detach_devices(base, size);
+>>>>           }
+>>>>
+>>>> +       printk("DEBUG: remove 3\n");
+>>>>           /*
+>>>>            * If this is the primary adapter, there could be a VGA 
+>>>> device
+>>>>            * that consumes the VGA framebuffer I/O range. Remove this
+>>>>
+>>>> [1] 
+>>>> https://lore.kernel.org/lkml/170222766284.86103.11020060769330721008@leemhuis.info/T/#u
+>>>
+>>> Copy-pasting this from the e-mail body didn't work well, but I applied
+>>> the changes manually to a 6.5.9 kernel without any of the other 
+>>> patches.
+>>> Here's the relevant dmesg output on the Lenovo L570:
+>>>
+>>> ...
+>>> [    2.953405] ACPI: bus type drm_connector registered
+>>> [    2.954014] i915 0000:00:02.0: [drm] VT-d active for gfx access
+>>> [    2.954018] DEBUG: remove 1
+>>> [    2.954020] DEBUG: remove 2
+>>> [    2.954021] DEBUG: remove 2
+>>> [    2.954023] DEBUG: remove 3
+>>> [    2.954029] resource: resource sanity check: requesting [mem
+>>> 0x00000000e0000000-0x00000000efffffff], which spans more than BOOTFB
+>>> [mem 0xe0000000-0xe012bfff]
+>>> [    2.954035] caller i915_ggtt_init_hw+0x88/0x120 mapping multiple 
+>>> BARs
+>>> [    2.954061] i915 0000:00:02.0: [drm] Using Transparent Hugepages
+>>> [    2.955103] Loading firmware: i915/kbl_dmc_ver1_04.bin
+>>> [    2.955384] i915 0000:00:02.0: [drm] Finished loading DMC firmware
+>>> i915/kbl_dmc_ver1_04.bin (v1.4)
+>>> ...
+>>> [    4.145013] [drm] Initialized i915 1.6.0 20201103 for 
+>>> 0000:00:02.0 on
+>>> minor 0
+>>> [    4.147101] ACPI: video: Video Device [GFX0] (multi-head: yes  rom:
+>>> no  post: no)
+>>> [    4.147244] input: Video Bus as
+>>> /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/LNXVIDEO:00/input/input4
+>>> [    4.147410] [drm] Initialized vgem 1.0.0 20120112 for vgem on 
+>>> minor 1
+>>> [    4.147420] usbcore: registered new interface driver udl
+>>> [    4.147500] [drm] Initialized simpledrm 1.0.0 20200625 for
+>>> simple-framebuffer.0 on minor 2
+>>> [    4.148643] Console: switching to colour frame buffer device 80x30
+>>> [    4.153216] simple-framebuffer simple-framebuffer.0: [drm] fb0:
+>>> simpledrmdrmfb frame buffer device
+>>> [    4.154043] loop: module loaded
+>>> [    4.156017] ahci 0000:00:17.0: version 3.0
+>>> [    4.157373] i915 0000:00:02.0: [drm] fb1: i915drmfb frame buffer 
+>>> device
+>>> ...
+>>>
+>>> J
+>>>
+>
+
 -- 
-2.25.1
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
