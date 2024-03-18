@@ -2,53 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F6887EC03
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 16:22:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F80287EC05
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 16:23:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E2E710E35C;
-	Mon, 18 Mar 2024 15:22:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A219E10E9BC;
+	Mon, 18 Mar 2024 15:23:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="xOz+5+hc";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KNrnHHFK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com
- [95.215.58.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6821410E35C
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 15:22:32 +0000 (UTC)
-Message-ID: <cda22b0c-8d7c-4ce2-9a7c-3b5ab540fa1f@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1710775350;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xy6k9xRVjS7ywoka2yI3ZucurvNu1EJ6Z2EBQrWjdzQ=;
- b=xOz+5+hcR3hKGDRU3ohsK+6VDQuGZv/ehTx44Lwrda532CNJzZ26SE81f1eaVswBP7xJgD
- OsKb59CCUyjuj86kKDxZmTPO9n5jD9j4wk2Rh+lLNorNhvJUa4E7GZcb/7Da0zhlDsDpHr
- qXRNLP+60xgxGa2ZVvXFCBCRs6HZsfg=
-Date: Mon, 18 Mar 2024 11:22:26 -0400
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF57510E9BC
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 15:23:02 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-41400a9844aso16414315e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 08:23:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1710775381; x=1711380181; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=eM5Vyp4val6gHlW4UCse9Nuq31PUAHMp+cCr8q2taE0=;
+ b=KNrnHHFKjwe/9urskUxizX0Jud01G/ZQ0Ah5hg+tXUgqJVZ8MxdcdX2aj+hRPto6Nz
+ iAegawcme9E3CVrNojVVcdGkgNz2o9P5KC/OZGWfBPakJFut7NpWX/P0IF9WYahFuwD3
+ 5X1NK7Juz41sLdz6UBWlleBc207hVy6oSJ3R9ya8en/w5cTJQwERJfIjAZFME/Z9QHGX
+ tygJeNMgevA3NkLXvu904iR9LcoKi1R9r9io+o2F+/SHyAsefMYfidaLZwk0JaUzC2w/
+ HOCy+PLAK+09ALH2mqy395v0kvEfNNh+JvcN+RXstD/SoCQ+r9ECjRgjrZ7N3CH0cL3f
+ XauA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710775381; x=1711380181;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=eM5Vyp4val6gHlW4UCse9Nuq31PUAHMp+cCr8q2taE0=;
+ b=mzDRLjsc9LpC9k9t8E8nafUtlGv/4CdZyaP51JW327n4JRSL4KUSATS7Lmvssi0cEb
+ SHRTBmacXWZB6oauIbN3ISW6iQGjSNiyMdm3LNlwE5ApIvT+mm9cfugevssDJCOOsbkj
+ 89t2NkojDOVqki/qXkBr1aJzYm4SRSI3ufZQwfuqolNw0WNI8Knh0J4OyiwkllOCtk5k
+ c5OpZV2OGsF8bvtxhHeUdk2R9dcCqDv3z1i3YgBPsXITbhzkPfsdsxrTo1C5nA/O7fME
+ orN/xaBfy1Puf/lzJtj3ATJvxmwvBaeZKHeruqIHuxK9KEuFGnRJazsWwaQVix0OHrsm
+ fHRA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWxn/hWWABuBu/Jx2oZ13nPnEpOp7QkGm0tZ4bBBq2juXwqVJIantKb4TJhIJ3pfbNHJkq59XdVRDqR1KuU8fMjQ4GrVIq+KgeuBHHOVLul
+X-Gm-Message-State: AOJu0YzKNQKX9N0hokiMSPOFv1rVxn604YkBiTsK0kxO22nZF/tWPSc6
+ gHV3UGm8OA0HoQ4FqvsY8E4EIfoY7lYSnzMBIsGtTCp0Owwv8rqOq+pDLq06mLo=
+X-Google-Smtp-Source: AGHT+IHoIC01uPMLs6tirF+4ySOyl4RckmNhZ1au3ma150he5IpBM7GCFHMdYmG14h8iY7QX2EY+Lg==
+X-Received: by 2002:adf:f68e:0:b0:33e:9f16:33c with SMTP id
+ v14-20020adff68e000000b0033e9f16033cmr10363269wrp.18.1710775380663; 
+ Mon, 18 Mar 2024 08:23:00 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ by smtp.gmail.com with ESMTPSA id
+ g6-20020a05600c310600b00413294ddb72sm15047500wmo.20.2024.03.18.08.22.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Mar 2024 08:23:00 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Phong LE <ple@baylibre.com>, Sui Jingfeng <sui.jingfeng@linux.dev>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240316160536.1051513-1-sui.jingfeng@linux.dev>
+References: <20240316160536.1051513-1-sui.jingfeng@linux.dev>
+Subject: Re: [PATCH] drm/bridge: ite66121: Register HPD interrupt handler
+ only when 'client->irq > 0'
+Message-Id: <171077537978.2168000.7565900207355472778.b4-ty@linaro.org>
+Date: Mon, 18 Mar 2024 16:22:59 +0100
 MIME-Version: 1.0
-Subject: Re: [PATCH 6/6] drm: zynqmp_dp: Add debugfs interface for compliance
- testing
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- linux-kernel@vger.kernel.org, Michal Simek <michal.simek@amd.com>,
- linux-arm-kernel@lists.infradead.org, Daniel Vetter <daniel@ffwll.ch>
-References: <20240315230916.1759060-1-sean.anderson@linux.dev>
- <20240315230916.1759060-7-sean.anderson@linux.dev>
- <CAA8EJpoh_5EB5H8yf2yQhRYovXPo0QgrzssDHUzcoFo7rik5Bw@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sean Anderson <sean.anderson@linux.dev>
-In-Reply-To: <CAA8EJpoh_5EB5H8yf2yQhRYovXPo0QgrzssDHUzcoFo7rik5Bw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-Mailer: b4 0.12.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,134 +90,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/16/24 13:56, Dmitry Baryshkov wrote:
-> On Sat, 16 Mar 2024 at 01:09, Sean Anderson <sean.anderson@linux.dev> wrote:
->>
->> Add a debugfs interface for exercising the various test modes supported
->> by the DisplayPort controller. This allows performing compliance
->> testing, or performing signal integrity measurements on a failing link.
->> At the moment, we do not support sink-driven link quality testing,
->> although such support would be fairly easy to add.
+Hi,
+
+On Sun, 17 Mar 2024 00:05:36 +0800, Sui Jingfeng wrote:
+> If a specific design doesn't wire IT66121's interrupt signal output pin up
+> to the display controller side, then we should not register the interrupt
+> handler. Such a decision is valid usage, as we can fall back to polling
+> mode. So, don't make the assumption that a specific board always supports
+> HPD. Carry out a sanity check on 'client->irq' before using it, fall back
+> to polling mode if client->irq < 0 is true. Such a design increases the
+> overall flexibility.
 > 
-> Could you please point out how this is used for compliance testing? We
-> have been using the msm_dp_compliance tool [1].
+> [...]
 
-Here's some quick documentation I wrote up. This probably could be put
-under Documentation for v2.
+Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
 
-The following files in /sys/kernel/debug/dri/1/DP-1/test/ control the
-DisplayPort test modes:
+[1/1] drm/bridge: ite66121: Register HPD interrupt handler only when 'client->irq > 0'
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/ba2d3e6709681b6c16ba8d65a23d72c706d82b5c
 
-active:
-  Writing a 1 to this file will activate test mode, and writing a 0 will
-  deactivate test mode. Writing a 1 or 0 when the test mode is already
-  active/inactive will reactivate/re-deactivate test mode. When test mode
-  is inactive, changes made to other files will have no effect. When
-  test mode is active, changes made to other files will apply instantly.
-  Additionally, hotplug events (as removing the cable or if the monitor
-  requests link retraining) are ignored.
-custom:
-  Custom test pattern value
-downspread:
-  Enable/disable clock downspreading (spread-spectrum clocking) by
-  writing 1/0
-enhanced:
-  Enable/disable enhanced framing
-lane0_preemphasis:
-  Preemphasis from 0 (lowest) to 2 (most) for lane 0
-lane0_swing:
-  Voltage swing from 0 (lowest) to 3 (most) for lane 0
-lane1_preemphasis:
-  Preemphasis from 0 (lowest) to 2 (most) for lane 1
-lane1_swing:
-  Voltage swing from 0 (lowest) to 3 (most) for lane 1
-lanes:
-  Number of lanes to use (1 or 2)
-pattern:
-  Test pattern. May be one of:
-    - video: Use regular video input
-    - symbol-error: Symbol error measurement pattern
-    - prbs7: Output of the PRBS7 (x^7 + x^6 + 1) polynomial
-    - 80bit-custom: A custom 80-bit pattern
-    - cp2520: HBR2 compliance eye pattern
-    - tps1: Link training symbol pattern TPS1 (/D10.2/)
-    - tps2: Link training symbol pattern TPS2
-    - tps3: Link training symbol pattern TPS3 (for HBR2)
-rate:
-  Rate in hertz. One of
-    - 5400000000: HBR2
-    - 2700000000: HBR
-    - 1620000000: RBR
+-- 
+Neil
 
-You can dump the displayport test settings with the following command:
-
-for prop in /sys/kernel/debug/dri/1/DP-1/test/*; do
-	printf '%-20s ' ${prop##*/}
-	if [ ${prop##*/} = custom ]; then
-		hexdump -C $prop | head -1
-	else
-		cat $prop
-	fi
-done
-
-The output could look something like
-
-active               1
-custom               00000000  00 00 00 00 00 00 00 00  00 00                    |..........|
-downspread           0
-enhanced             1
-lane0_preemphasis    0
-lane0_swing          3
-lane1_preemphasis    0
-lane1_swing          3
-lanes                2
-pattern              prbs7
-rate                 1620000000
-
-The recommended test procedure is to connect the board to a monitor,
-configure test mode, activate test mode, and then disconnect the cable
-and connect it to your test equipment of choice. For example, one
-sequence of commands could be:
-
-echo 1 > /sys/kernel/debug/dri/1/DP-1/test/enhanced
-echo tps1 > /sys/kernel/debug/dri/1/DP-1/test/pattern
-echo 1620000000 > /sys/kernel/debug/dri/1/DP-1/test/rate
-echo 1 > /sys/kernel/debug/dri/1/DP-1/test/active
-
-at which point the cable could be disconnected from the monitor. When
-the cable is disconnected there will be several errors while changing
-the settings. This is expected.
-
-> I think it would be nice to rework our drivers towards a common
-> debugfs interface used for DP connectors, maybe defining generic
-> internal interface/helpers like Maxime is implementing for HDMI
-> connectors.
-> 
-> [1] https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/blob/master/tools/msm_dp_compliance.c?ref_type=heads
-
-I was definitely inspired by the msm, intel, and amd approaches.
-However, those debugfs implementations seem to be oriented towards
-DisplayPort text fixtures which emulate DPRXs. In particular, both the
-intel and msm debugfs interfaces provide no method for configuring test
-parameters in userspace. As test fixtures supporting DPCD can run into
-the thousands of dollars, I think it is more economical to support
-userspace-driven testing. I was particularly inspired by the AMD
-approach:
-
-	/* Usage: set DP physical test pattern using debugfs with normal DP
-	 * panel. Then plug out DP panel and connect a scope to measure
-	 * For normal video mode and test pattern generated from CRCT,
-	 * they are visibile to user. So do not disable HPD.
-	 * Video Mode is also set to clear the test pattern, so enable HPD
-	 * because it might have been disabled after a test pattern was set.
-	 * AUX depends on HPD * sequence dependent, do not move!
-	 */
-
-But I chose to always disable HPD events and ignore DPCD
-errors in test mode. I think this is pretty convenient, since you can
-run the same commands regardless of whether you have a monitor attached.
-Although the initial setup does need a monitor (which is likely since
-not everything gets set up by activating test mode; definitely fixable
-but I didn't need it).
-
---Sean
