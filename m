@@ -2,88 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97CBE87E5A4
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 10:24:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3046687E635
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 10:48:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1079810E013;
-	Mon, 18 Mar 2024 09:24:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E83B010E90E;
+	Mon, 18 Mar 2024 09:48:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ADi7DTXC";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="LZKQ28FT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13E1810E013
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 09:24:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4277010E90E
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 09:48:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1710753844;
+ s=mimecast20190719; t=1710755301;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/N8QI1fD+bgjmIz5nIr2cRdeL0rDB9RnDP3ak0Rbm4Y=;
- b=ADi7DTXCPehcG557R1qB2xSd7LldfUeOQmUDCXMv3m1IAr7uwMnvZwWmW4VtaxEMk4RI+d
- povQV8+CBT35svGVwPQD0k6ld86jqmaenKNxrj/u/H1z5mR/kMYdytAxwhRQtLu/QMxjAp
- tLAEqxlnfbkjHGiTbRn3gBRtgIUGyKo=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=p4y4SgSMn0xhvmoHXkMRxARRoLMhg77gR29I4xBsDe8=;
+ b=LZKQ28FTW2evtqzzXtrigNIcD6IakQILD8HVAx32MCoMKBGEdYPN4vPLwS9JqmWsCxtIuE
+ K2/OOOR4kJDm0BUQMV7dbFEAHONgWFdO0kTI2q2tIIg5fAwF6XlZHCn7lcOPc7a182ePp4
+ EmtC4iyYOMrP26u2ScCGKfOpUnJdudE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-304-tZG900ZJPpOVR6-C30Ek3Q-1; Mon, 18 Mar 2024 05:24:00 -0400
-X-MC-Unique: tZG900ZJPpOVR6-C30Ek3Q-1
-Received: by mail-lf1-f72.google.com with SMTP id
- 2adb3069b0e04-513e0c5f399so1381813e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 02:24:00 -0700 (PDT)
+ us-mta-136-fet7Y4ooP_yPk3kpsFJZvQ-1; Mon, 18 Mar 2024 05:48:19 -0400
+X-MC-Unique: fet7Y4ooP_yPk3kpsFJZvQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-33ed2677640so1656083f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 02:48:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710753839; x=1711358639;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/N8QI1fD+bgjmIz5nIr2cRdeL0rDB9RnDP3ak0Rbm4Y=;
- b=rdgfJjFDD3fs57e1XRh/KGwoG2zr7w3koWiw0/boVLyaJsx7ZH1ConrBE2cAiSsVp7
- sxTE9s6lvHCoruRl5EqqVci0uOkVebsHI55imfz29FtJyiaxn6d7OJocw/DdyIS+Lmy6
- 8nf646UhVSeci0VgYW5Uz2rgJxs1lv9g5ULcXoBZgdlMSsDYGioMhOgITQvltBaFhP2h
- mW8YKL0QPZZxsrwhpj374OuETZ/gfLtwfaV55sJTfayZ2+oKq5wzgTCA8B7uqhjrWVNK
- cZxYUpnu2VSjzz/a0tgqpGzgHwRa3rSLZBBS5LMzsJ5eYHmJq1ydpWzfaBoBpgSFlJeT
- DMtQ==
+ d=1e100.net; s=20230601; t=1710755298; x=1711360098;
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=p4y4SgSMn0xhvmoHXkMRxARRoLMhg77gR29I4xBsDe8=;
+ b=MhgMEZVUgFN5+c/U4vO37Rg0idOXViZPt61PuODRyfFEYNYcJhwOChNSZhbzUlWlGu
+ glCcMT9vH0not4FzVMAbe2ygC8uo0loUJi21jCpBthLL2Oi7o7MPGm0/AXBbo9AqMW79
+ Kqc5C/XOrJEjK25H3zCgk+EVC4RFQU7z9EkS8kxc4EtMmp9Mwjh6twED9X8hBRWfpurt
+ eIl6hKaJi609QF+4y9KYVeM5oq5LUV5Gm6zPTSMnY6+k7f5VSFRT3spjiQuYOXkhRL3H
+ b86QntmcB/rix+V1qVupvGfFeDS4G8ZWSOj1tOxqgUJrCYy+kNcA/VoUmtH2G6N9+rIZ
+ auNA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWtEZsTWcVh0YbENrt+pfBGY/OVk7M9i334+YAUPSnHHfFzlv02d9DNokqsz7diLKqqYf479ZaiZasV1h3nS4wybw2ZHQ5TAw2/ojx1Oj4z
-X-Gm-Message-State: AOJu0YxG0u4Pudu+hmp3/jYXlzrDATejhXm0hFVAna55qf8FqH+ca5kF
- u019x159wT51q7bf3wHEDpHEc4z+UCywtsliMcn3iSI/cSoAsmNUZncVGbHgb0vePSTuuNADEjq
- 2EfRUw3pOUxcHwIfbHvExnDankkgnXNsTXOMEUUTLWWzf1qHQiYpnZqeit+iYmQMDSQ==
-X-Received: by 2002:ac2:5b5e:0:b0:513:d1cd:b902 with SMTP id
- i30-20020ac25b5e000000b00513d1cdb902mr7025555lfp.32.1710753839203; 
- Mon, 18 Mar 2024 02:23:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHkd8Us4BsgSEBSOtJqvIraSi5b4WjtSpS7BNTLWU2+C3Ui6W+LGv0gz1InPWlQ6qJvrN+wzw==
-X-Received: by 2002:ac2:5b5e:0:b0:513:d1cd:b902 with SMTP id
- i30-20020ac25b5e000000b00513d1cdb902mr7025539lfp.32.1710753838871; 
- Mon, 18 Mar 2024 02:23:58 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- u6-20020a05600c19c600b0041413546e5bsm1270407wmq.0.2024.03.18.02.23.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Mar 2024 02:23:58 -0700 (PDT)
-Message-ID: <20d4da39-8dbc-4593-87b8-308c75c0fa82@redhat.com>
-Date: Mon, 18 Mar 2024 10:23:57 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/43] drm/mgag200: Use fbdev-shmem
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, deller@gmx.de, javierm@redhat.com
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Dave Airlie <airlied@redhat.com>
+ AJvYcCWvDcQ8s0yKKT6qEkvJflza+gWpSXQW2iIiNxsHVM2DpNl+ruAtoN09cHwrXwmHLsgacY9yFcekJZA+31BmJ68n+hdZiS/jbZp5akBHiFDm
+X-Gm-Message-State: AOJu0Yz0mRTlHSYzZcmXYKFBzE9rbwftcr2mJceyEODKeG6DHDziO8v3
+ QZjwfavVK/XDQ1Pw+Pw0NBFQNgHS4AHf914r6E2IHAaqgqk2w7DsVbr6ShS/f/sCjYkStCFCS6Q
+ 30DV8bftiaiL4u9SqFJOvqhKnKiHRzpHOVBg63kCGvaXNW+0Ehi7vqm8rR/9BaDheVw==
+X-Received: by 2002:adf:f3d2:0:b0:33e:8ba7:e53d with SMTP id
+ g18-20020adff3d2000000b0033e8ba7e53dmr8843523wrp.7.1710755298491; 
+ Mon, 18 Mar 2024 02:48:18 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEWQR49MtOFntHhQbEWdf58/z7aANwNdxsBw8JKFRo6fJ8CfctzQV4HlXJ4mhfSmdeTYWfwNQ==
+X-Received: by 2002:adf:f3d2:0:b0:33e:8ba7:e53d with SMTP id
+ g18-20020adff3d2000000b0033e8ba7e53dmr8843502wrp.7.1710755298029; 
+ Mon, 18 Mar 2024 02:48:18 -0700 (PDT)
+Received: from localhost ([90.167.94.24]) by smtp.gmail.com with ESMTPSA id
+ m10-20020adffe4a000000b0033de10c9efcsm9324992wrs.114.2024.03.18.02.48.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Mar 2024 02:48:17 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Zack Rusin <zack.rusin@broadcom.com>, daniel@ffwll.ch,
+ airlied@gmail.com, deller@gmx.de, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Zack Rusin <zackr@vmware.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, stable@vger.kernel.org
+Subject: Re: [PATCH 01/43] drm/fbdev-generic: Do not set physical
+ framebuffer address
+In-Reply-To: <20240318-dark-mongoose-of-camouflage-7ac6ed@houat>
 References: <20240312154834.26178-1-tzimmermann@suse.de>
- <20240312154834.26178-13-tzimmermann@suse.de>
- <b35f1b2f-82c1-4c7e-a449-54e29000cfb6@redhat.com>
- <1fb62a54-ee77-46bf-9d38-dcc0ceb37533@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <1fb62a54-ee77-46bf-9d38-dcc0ceb37533@suse.de>
+ <20240312154834.26178-2-tzimmermann@suse.de>
+ <CABQX2QPJJFrARdteFFZ8f33hvDx-HSyOQJQ7AMFK4C8C=BquTQ@mail.gmail.com>
+ <e684558e-8308-4d73-b920-547f9012a2cb@suse.de>
+ <20240318-dark-mongoose-of-camouflage-7ac6ed@houat>
+Date: Mon, 18 Mar 2024 10:48:16 +0100
+Message-ID: <87y1afg9b3.fsf@minerva.mail-host-address-is-not-set>
+MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,30 +98,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Maxime Ripard <mripard@kernel.org> writes:
 
+> On Mon, Mar 18, 2024 at 08:59:01AM +0100, Thomas Zimmermann wrote:
+>> Hi
+>>=20
+>> Am 18.03.24 um 03:35 schrieb Zack Rusin:
+>> > On Tue, Mar 12, 2024 at 11:48=E2=80=AFAM Thomas Zimmermann <tzimmerman=
+n@suse.de> wrote:
+>> > > Framebuffer memory is allocated via vmalloc() from non-contiguous
+>> > > physical pages. The physical framebuffer start address is therefore
+>> > > meaningless. Do not set it.
+>> > >=20
+>> > > The value is not used within the kernel and only exported to userspa=
+ce
+>> > > on dedicated ARM configs. No functional change is expected.
+>> > >=20
+>> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> > > Fixes: a5b44c4adb16 ("drm/fbdev-generic: Always use shadow buffering=
+")
+>> > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> > > Cc: Javier Martinez Canillas <javierm@redhat.com>
+>> > > Cc: Zack Rusin <zackr@vmware.com>
+>> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> > > Cc: Maxime Ripard <mripard@kernel.org>
+>> > > Cc: <stable@vger.kernel.org> # v6.4+
+>> > > ---
+>> > >   drivers/gpu/drm/drm_fbdev_generic.c | 1 -
+>> > >   1 file changed, 1 deletion(-)
+>> > >=20
+>> > > diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/d=
+rm_fbdev_generic.c
+>> > > index d647d89764cb9..b4659cd6285ab 100644
+>> > > --- a/drivers/gpu/drm/drm_fbdev_generic.c
+>> > > +++ b/drivers/gpu/drm/drm_fbdev_generic.c
+>> > > @@ -113,7 +113,6 @@ static int drm_fbdev_generic_helper_fb_probe(str=
+uct drm_fb_helper *fb_helper,
+>> > >          /* screen */
+>> > >          info->flags |=3D FBINFO_VIRTFB | FBINFO_READS_FAST;
+>> > >          info->screen_buffer =3D screen_buffer;
+>> > > -       info->fix.smem_start =3D page_to_phys(vmalloc_to_page(info->=
+screen_buffer));
+>> > >          info->fix.smem_len =3D screen_size;
+>> > >=20
+>> > >          /* deferred I/O */
+>> > > --
+>> > > 2.44.0
+>> > >=20
+>> > Good idea. I think given that drm_leak_fbdev_smem is off by default we
+>> > could remove the setting of smem_start by all of the in-tree drm
+>> > drivers (they all have open source userspace that won't mess around
+>> > with fbdev fb) - it will be reset to 0 anyway. Actually, I wonder if
+>> > we still need drm_leak_fbdev_smem at all...
+>>=20
+>> All I know is that there's an embedded userspace driver that requires th=
+at
+>> setting. I don't even know which hardware.
+>
+> The original Mali driver (ie, lima) used to require it, that's why we
+> introduced it in the past.
+>
+> I'm not sure if the newer versions of that driver, or if newer Mali
+> generations (ie, panfrost and panthor) closed source driver would
+> require it, so it might be worth removing if it's easy enough to revert.
+>
 
-On 18/03/2024 08:56, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 13.03.24 um 15:03 schrieb Jocelyn Falempe:
->> Hi,
->>
->> Thanks, it looks good to me.
->>
->> Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-> 
-> Thanks. Do you still have access to that broken realtime system? I 
-> wonder if this patch makes a difference, as there's now one large 
-> memcpy() less.
+Agreed. The DRM_FBDEV_LEAK_PHYS_SMEM symbol already depends on EXPERT and
+defaults to 'n', which implies that isn't enabled by most kernels AFAICT.
 
-Hi,
+So dropping it and see if anyone complains sounds like a good idea to me.
 
-Sure, I'll do some latency tests if I can get access to that server again.
+> Maxime
 
+--=20
 Best regards,
 
-> 
-> Best regards
-> Thomas
-> 
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
