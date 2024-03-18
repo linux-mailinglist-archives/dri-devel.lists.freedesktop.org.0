@@ -2,95 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61CFF87EF68
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 19:01:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AAEF87EF6A
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 19:02:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 392F310F800;
-	Mon, 18 Mar 2024 18:01:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1A4710FD8C;
+	Mon, 18 Mar 2024 18:02:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="UAeDBALZ";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="iMrEI2uO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 125FD10F664;
- Mon, 18 Mar 2024 18:01:42 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 42IHfZd0026628; Mon, 18 Mar 2024 18:01:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=qSI1sdsTiph9RZvhdAC7pZQBrBCG43U53azau8lu5Ps=; b=UA
- eDBALZDDXSnCXfylWfq538S09qPcKLf0NsHE2q3v9j/fntIlZt5qhALsmBLQ2iic
- OhrA/LKIXbgZJwvZUYJ81HbjaJgC6F6BPlrGsISzG4ogsKrzWPMswRyuUMKU3inM
- H6kAEiWOU0DuSLJ36NKdP3w7d/xWgYHdMHNCPLal2UDJqLCDPyXCH7T0kG29ijc3
- RRyQ3QGa1tphUlhkMgcEZGGnL5G5PicdYFQn/hRYVDARqXjPOA2svvV2hf/IVZRu
- Fq0qC7sUG+fJBpUB0vgmw9vortSeimuB6PPMIYhI5+T43M4du+dLDU1pU73DYu/m
- 4oMw1vSfT81m5RJiEJhg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wxq7p0ksf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 18 Mar 2024 18:01:34 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42II1WAe018878
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 18 Mar 2024 18:01:32 GMT
-Received: from [10.110.10.159] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 18 Mar
- 2024 11:01:27 -0700
-Message-ID: <a1152afe-b652-d83e-05e4-25c07292b568@quicinc.com>
-Date: Mon, 18 Mar 2024 11:01:25 -0700
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com
+ [91.218.175.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E9E610F664
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 18:02:01 +0000 (UTC)
+Message-ID: <bda83141-1350-4517-8b83-10cf48135b17@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1710784919;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pmygLB5mwmDf7ougxQc0mLDBWEO79RLREmB0n06npVo=;
+ b=iMrEI2uOCru32Fbz5NDN82nYVdskyAlEjAkmIFRUuQRyKU2mBr7B9BPizOZeDKltxcBCSR
+ datpU3d1yZvpr39mHLlqbLmMdSmnuzRipC+EamMQPxtOrKB2LYxgI+SqXD2IV9q4sB9GQx
+ Qt72cls9B9A3E/3Lyhw2WM3O5QaU2/0=
+Date: Mon, 18 Mar 2024 14:01:55 -0400
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/msm/dp: move link_ready out of HPD event thread
+Subject: Re: [PATCH 3/6] drm: zynqmp_dp: Add locking
 Content-Language: en-US
-To: Johan Hovold <johan@kernel.org>
-CC: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>,
- "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, Sean Paul
- <sean@poorly.run>, "Marijn Suijten" <marijn.suijten@somainline.org>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Kuogee Hsieh
- <quic_khsieh@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <swboyd@chromium.org>,
- <quic_jesszhan@quicinc.com>, <quic_parellan@quicinc.com>,
- <quic_bjorande@quicinc.com>, Rob Clark <robdclark@chromium.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240308214532.1404038-1-quic_abhinavk@quicinc.com>
- <ZfApxyVAJMK4bL8O@hovoldconsulting.com>
- <ZfCFsmNv62-KMkA6@hovoldconsulting.com>
- <ZfCKDGq9n9WG3Quj@hovoldconsulting.com>
- <8e125a99-543d-8328-a2a9-100e223e4faf@quicinc.com>
- <ZfFhXG5yd6O29spS@hovoldconsulting.com>
- <ec2cba17-5644-6cf6-f6c9-d37d7ca56204@quicinc.com>
- <ZfMaEIzv3Z3ny3y0@hovoldconsulting.com>
- <9313aa00-41f0-15af-a646-3f4e4b3098c7@quicinc.com>
- <ZfRv5le7Bfdiwrk_@hovoldconsulting.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <ZfRv5le7Bfdiwrk_@hovoldconsulting.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ linux-kernel@vger.kernel.org, Michal Simek <michal.simek@amd.com>,
+ linux-arm-kernel@lists.infradead.org, Daniel Vetter <daniel@ffwll.ch>
+References: <20240315230916.1759060-1-sean.anderson@linux.dev>
+ <20240315230916.1759060-4-sean.anderson@linux.dev>
+ <20240318171651.GJ13682@pendragon.ideasonboard.com>
+ <7e8e5e8e-ad50-4a6a-ac47-7fb1536a9df8@linux.dev>
+ <20240318175921.GO13682@pendragon.ideasonboard.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sean Anderson <sean.anderson@linux.dev>
+In-Reply-To: <20240318175921.GO13682@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: pqxdgPBrULBwzC0zfLcxtmEBjfajNgtU
-X-Proofpoint-ORIG-GUID: pqxdgPBrULBwzC0zfLcxtmEBjfajNgtU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-18_12,2024-03-18_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- impostorscore=0 malwarescore=0 bulkscore=0 adultscore=0 spamscore=0
- clxscore=1015 mlxlogscore=999 lowpriorityscore=0 suspectscore=0
- phishscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2403140001 definitions=main-2403180136
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,122 +64,245 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 3/15/2024 8:57 AM, Johan Hovold wrote:
-> On Thu, Mar 14, 2024 at 09:30:57AM -0700, Abhinav Kumar wrote:
->> On 3/14/2024 8:38 AM, Johan Hovold wrote:
->>> On Wed, Mar 13, 2024 at 10:24:08AM -0700, Abhinav Kumar wrote:
+On 3/18/24 13:59, Laurent Pinchart wrote:
+> Hi Sean,
 > 
->>> Perhaps I'm missing something in the race that you are trying to
->>> describe (and which I've asked you to describe in more detail so that I
->>> don't have to spend more time trying to come up with a reproducer
->>> myself).
+> On Mon, Mar 18, 2024 at 01:29:12PM -0400, Sean Anderson wrote:
+>> On 3/18/24 13:16, Laurent Pinchart wrote:
+>> > On Fri, Mar 15, 2024 at 07:09:13PM -0400, Sean Anderson wrote:
+>> >> Add some locking, since none is provided by the drm subsystem. This will
+>> > 
+>> > That's not quite right, the DRM core doesn't call bridge operations
+>> > concurrently.
+>> 
+>> I figured something like this was going on.
+>> 
+>> > We may need locking to protect against race conditions
+>> > between bridge operations and interrupts though.
+>> 
+>> And of course this will only get worse once we let userspace get involved.
+>> 
+>> >> prevent the IRQ/workers/bridge API calls from stepping on each other's
+>> >> toes.
+>> >> 
+>> >> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
+>> >> ---
+>> >> 
+>> >>  drivers/gpu/drm/xlnx/zynqmp_dp.c | 59 +++++++++++++++++++++++---------
+>> >>  1 file changed, 42 insertions(+), 17 deletions(-)
+>> >> 
+>> >> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+>> >> index 8635b5673386..d2dee58e7bf2 100644
+>> >> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
+>> >> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+>> >> @@ -279,6 +279,7 @@ struct zynqmp_dp_config {
+>> >>   * @dpsub: Display subsystem
+>> >>   * @iomem: device I/O memory for register access
+>> >>   * @reset: reset controller
+>> >> + * @lock: Mutex protecting this struct and register access (but not AUX)
+>> > 
+>> > This patch does two things at once, it defers link training from the IRQ
+>> > handler to a work queue, and covers everything with a big lock. The
+>> > scope is too large.
+>> 
+>> OK, I can split this.
+>> 
+>> > Please restrict the lock scope and document the
+>> > individual fields that need to be protected, and explain the locking
+>> > design in the commit message (or comments in the code).
+>> 
+>> As said, this lock protects
+>> 
+>> - Non-atomic registers configuring the link. That is, everything but the IRQ
+>>   registers (since these are accessed in an atomic fashion), and the DP AUX
+>>   registers (since these don't affect the link).
+>> - Link configuration. This is effectively everything in zynqmp_dp which isn't
+>>   read-only after probe time. So from next_bridge onward.
+>> 
+>> It's designed to protect configuration changes so we don't have to do anything
+>> tricky. Configuration should never be in the hot path, so I'm not worried about
+>> performance.
 > 
->> The race condition is between the time we get disconnect event and set
->> link_ready to false, a commit can come in. Because setting link_ready to
->> false happens in the event thread so it could be slightly delayed.
+> If userspace can control all this directly through debugfs, can you
+> guarantee that locks will be enough ? The driver doesn't expect direct
+> userspace access. I have a feeling this is really quite hacky.
+
+Yes, this is fine. The most userspace can do is force a lot of retraining. But we
+have timeouts on everything so I'm not really concerned.
+
+--Sean
+
+>> >>   * @irq: irq
+>> >>   * @bridge: DRM bridge for the DP encoder
+>> >>   * @next_bridge: The downstream bridge
+>> >> @@ -299,6 +300,7 @@ struct zynqmp_dp {
+>> >>  	struct zynqmp_dpsub *dpsub;
+>> >>  	void __iomem *iomem;
+>> >>  	struct reset_control *reset;
+>> >> +	struct mutex lock;
+>> >>  	int irq;
+>> >>  
+>> >>  	struct drm_bridge bridge;
+>> >> @@ -308,7 +310,7 @@ struct zynqmp_dp {
+>> >>  	struct drm_dp_aux aux;
+>> >>  	struct phy *phy[ZYNQMP_DP_MAX_LANES];
+>> >>  	u8 num_lanes;
+>> >> -	struct delayed_work hpd_work;
+>> >> +	struct delayed_work hpd_work, hpd_irq_work;
+>> > 
+>> > One variable per line please.
+>> 
+>> OK
+>> 
+>> >>  	enum drm_connector_status status;
+>> >>  	bool enabled;
+>> >>  
+>> >> @@ -1371,8 +1373,10 @@ zynqmp_dp_bridge_mode_valid(struct drm_bridge *bridge,
+>> >>  	}
+>> >>  
+>> >>  	/* Check with link rate and lane count */
+>> >> +	mutex_lock(&dp->lock);
+>> >>  	rate = zynqmp_dp_max_rate(dp->link_config.max_rate,
+>> >>  				  dp->link_config.max_lanes, dp->config.bpp);
+>> >> +	mutex_unlock(&dp->lock);
+>> >>  	if (mode->clock > rate) {
+>> >>  		dev_dbg(dp->dev, "filtered mode %s for high pixel rate\n",
+>> >>  			mode->name);
+>> >> @@ -1399,6 +1403,7 @@ static void zynqmp_dp_bridge_atomic_enable(struct drm_bridge *bridge,
+>> >>  
+>> >>  	pm_runtime_get_sync(dp->dev);
+>> >>  
+>> >> +	mutex_lock(&dp->lock);
+>> >>  	zynqmp_dp_disp_enable(dp, old_bridge_state);
+>> >>  
+>> >>  	/*
+>> >> @@ -1459,6 +1464,7 @@ static void zynqmp_dp_bridge_atomic_enable(struct drm_bridge *bridge,
+>> >>  	zynqmp_dp_write(dp, ZYNQMP_DP_SOFTWARE_RESET,
+>> >>  			ZYNQMP_DP_SOFTWARE_RESET_ALL);
+>> >>  	zynqmp_dp_write(dp, ZYNQMP_DP_MAIN_STREAM_ENABLE, 1);
+>> >> +	mutex_unlock(&dp->lock);
+>> >>  }
+>> >>  
+>> >>  static void zynqmp_dp_bridge_atomic_disable(struct drm_bridge *bridge,
+>> >> @@ -1466,6 +1472,7 @@ static void zynqmp_dp_bridge_atomic_disable(struct drm_bridge *bridge,
+>> >>  {
+>> >>  	struct zynqmp_dp *dp = bridge_to_dp(bridge);
+>> >>  
+>> >> +	mutex_lock(&dp->lock);
+>> >>  	dp->enabled = false;
+>> >>  	cancel_delayed_work(&dp->hpd_work);
+>> >>  	zynqmp_dp_write(dp, ZYNQMP_DP_MAIN_STREAM_ENABLE, 0);
+>> >> @@ -1476,6 +1483,7 @@ static void zynqmp_dp_bridge_atomic_disable(struct drm_bridge *bridge,
+>> >>  		zynqmp_dp_write(dp, ZYNQMP_DP_TX_AUDIO_CONTROL, 0);
+>> >>  
+>> >>  	zynqmp_dp_disp_disable(dp, old_bridge_state);
+>> >> +	mutex_unlock(&dp->lock);
+>> >>  
+>> >>  	pm_runtime_put_sync(dp->dev);
+>> >>  }
+>> >> @@ -1518,6 +1526,8 @@ static enum drm_connector_status zynqmp_dp_bridge_detect(struct drm_bridge *brid
+>> >>  	u32 state, i;
+>> >>  	int ret;
+>> >>  
+>> >> +	mutex_lock(&dp->lock);
+>> >> +
+>> >>  	/*
+>> >>  	 * This is from heuristic. It takes some delay (ex, 100 ~ 500 msec) to
+>> >>  	 * get the HPD signal with some monitors.
+>> >> @@ -1545,11 +1555,13 @@ static enum drm_connector_status zynqmp_dp_bridge_detect(struct drm_bridge *brid
+>> >>  					       dp->num_lanes);
+>> >>  
+>> >>  		dp->status = connector_status_connected;
+>> >> +		mutex_unlock(&dp->lock);
+>> >>  		return connector_status_connected;
+>> >>  	}
+>> >>  
+>> >>  disconnected:
+>> >>  	dp->status = connector_status_disconnected;
+>> >> +	mutex_unlock(&dp->lock);
+>> >>  	return connector_status_disconnected;
+>> >>  }
+>> >>  
+>> >> @@ -1611,6 +1623,29 @@ static void zynqmp_dp_hpd_work_func(struct work_struct *work)
+>> >>  	drm_bridge_hpd_notify(&dp->bridge, status);
+>> >>  }
+>> >>  
+>> >> +static void zynqmp_dp_hpd_irq_work_func(struct work_struct *work)
+>> >> +{
+>> >> +	struct zynqmp_dp *dp = container_of(work, struct zynqmp_dp,
+>> >> +					    hpd_irq_work.work);
+>> >> +	u8 status[DP_LINK_STATUS_SIZE + 2];
+>> >> +	int err;
+>> >> +
+>> >> +	mutex_lock(&dp->lock);
+>> >> +	err = drm_dp_dpcd_read(&dp->aux, DP_SINK_COUNT, status,
+>> >> +			       DP_LINK_STATUS_SIZE + 2);
+>> >> +	if (err < 0) {
+>> >> +		dev_dbg_ratelimited(dp->dev,
+>> >> +				    "could not read sink status: %d\n", err);
+>> >> +	} else {
+>> >> +		if (status[4] & DP_LINK_STATUS_UPDATED ||
+>> >> +		    !drm_dp_clock_recovery_ok(&status[2], dp->mode.lane_cnt) ||
+>> >> +		    !drm_dp_channel_eq_ok(&status[2], dp->mode.lane_cnt)) {
+>> >> +			zynqmp_dp_train_loop(dp);
+>> >> +		}
+>> >> +	}
+>> >> +	mutex_unlock(&dp->lock);
+>> >> +}
+>> >> +
+>> >>  static irqreturn_t zynqmp_dp_irq_handler(int irq, void *data)
+>> >>  {
+>> >>  	struct zynqmp_dp *dp = (struct zynqmp_dp *)data;
+>> >> @@ -1635,23 +1670,9 @@ static irqreturn_t zynqmp_dp_irq_handler(int irq, void *data)
+>> >>  	if (status & ZYNQMP_DP_INT_HPD_EVENT)
+>> >>  		schedule_delayed_work(&dp->hpd_work, 0);
+>> >>  
+>> >> -	if (status & ZYNQMP_DP_INT_HPD_IRQ) {
+>> >> -		int ret;
+>> >> -		u8 status[DP_LINK_STATUS_SIZE + 2];
+>> >> +	if (status & ZYNQMP_DP_INT_HPD_IRQ)
+>> >> +		schedule_delayed_work(&dp->hpd_irq_work, 0);
+>> >>  
+>> >> -		ret = drm_dp_dpcd_read(&dp->aux, DP_SINK_COUNT, status,
+>> >> -				       DP_LINK_STATUS_SIZE + 2);
+>> >> -		if (ret < 0)
+>> >> -			goto handled;
+>> >> -
+>> >> -		if (status[4] & DP_LINK_STATUS_UPDATED ||
+>> >> -		    !drm_dp_clock_recovery_ok(&status[2], dp->mode.lane_cnt) ||
+>> >> -		    !drm_dp_channel_eq_ok(&status[2], dp->mode.lane_cnt)) {
+>> >> -			zynqmp_dp_train_loop(dp);
+>> >> -		}
+>> >> -	}
+>> >> -
+>> >> -handled:
+>> >>  	return IRQ_HANDLED;
+>> >>  }
+>> >>  
+>> >> @@ -1674,8 +1695,10 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
+>> >>  	dp->dev = &pdev->dev;
+>> >>  	dp->dpsub = dpsub;
+>> >>  	dp->status = connector_status_disconnected;
+>> >> +	mutex_init(&dp->lock);
+>> >>  
+>> >>  	INIT_DELAYED_WORK(&dp->hpd_work, zynqmp_dp_hpd_work_func);
+>> >> +	INIT_DELAYED_WORK(&dp->hpd_irq_work, zynqmp_dp_hpd_irq_work_func);
+>> >>  
+>> >>  	/* Acquire all resources (IOMEM, IRQ and PHYs). */
+>> >>  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dp");
+>> >> @@ -1775,6 +1798,7 @@ void zynqmp_dp_remove(struct zynqmp_dpsub *dpsub)
+>> >>  	zynqmp_dp_write(dp, ZYNQMP_DP_INT_DS, ZYNQMP_DP_INT_ALL);
+>> >>  	disable_irq(dp->irq);
+>> >>  
+>> >> +	cancel_delayed_work_sync(&dp->hpd_irq_work);
+>> >>  	cancel_delayed_work_sync(&dp->hpd_work);
+>> >>  
+>> >>  	zynqmp_dp_write(dp, ZYNQMP_DP_TRANSMITTER_ENABLE, 0);
+>> >> @@ -1782,4 +1806,5 @@ void zynqmp_dp_remove(struct zynqmp_dpsub *dpsub)
+>> >>  
+>> >>  	zynqmp_dp_phy_exit(dp);
+>> >>  	zynqmp_dp_reset(dp, true);
+>> >> +	mutex_destroy(&dp->lock);
+>> >>  }
 > 
-> I get this part, just not why, or rather when, that becomes a problem.
-> 
-> Once the disconnect event is processed, dp_hpd_unplug_handle() will
-> update the state to ST_DISCONNECT_PENDING, and queue a notification
-> event. link_ready is (before this patch) still set to 1.
-> 
 
-This is the case I am thinking of:
-
-1) Disconnect event happens which will call dp_hpd_unplug_handle() but 
-link_ready is not false yet.
-
-2) There is a commit with a modeset, which shall trigger 
-atomic_disable() followed by an atomic_enable()
-
-atomic_disable() will go through disable clocks and set hpd_state to 
-ST_DISCONNECTED.
-
-3) atomic_enable() will not go through because we will bail out because 
-state was ST_DISCONNECTED.
-
-         if (state != ST_DISPLAY_OFF && state != ST_MAINLINK_READY) {
-                 mutex_unlock(&dp_display->event_mutex);
-                 return;
-         }
-
-4) Now, if there is another commit with a modeset, it will go and crash 
-at atomic_disable()
-
-> Here a commit comes in; what exactly are you suggesting would trigger
-> that? And in such a way that it breaks the state machine?
-> 
-
-Like we have seen, the commit can either come directly from userspace as 
-one last frame (the original bug I had given the link to) or from the 
-__drm_fb_helper_restore_fbdev_mode_unlocked() which happened in 
-sc8280xp's case. This is totally independent of the hpd_thread() with no 
-mutual exclusion.
-
-This commit() can come before the link_ready was set to false. If it had 
-come after link_ready was set to false, atomic_check() would have failed 
-and no issue would have been seen.
-
-My change is making the link_ready false sooner in the disconnect case.
-
-> One way this could cause trouble is if you end up with a call to
-> dp_bridge_atomic_post_disable() which updates the state to
-> ST_DISCONNECTED. (1)
-> 
-> This would then need to be followed by another call to
-> dp_bridge_atomic_enable() which bails out early with the link clock
-> disabled. (2) (And if link_ready were to be set to 0 sooner, the
-> likelihood of this is reduced.)
-> 
-> This in turn, would trigger a reset when dp_bridge_atomic_disable() is
-> later called.
-> 
-
-Yes, this is exactly what I have written above.
-
-> This is the kind of description of the race I expect to see in the
-> commit message, and I'm still not sure what would trigger the call to
-> dp_bridge_atomic_post_disable() and dp_bridge_atomic_enable() (i.e. (1)
-> and (2) above) and whether this is a real issue or not.
-> 
-
-I have explained what triggers the disable/enable call below.
-
-> Also note that the above scenario is quite different from the one I've
-> hit and described earlier.
-> 
-
-Why is that so? Eventually it will also translate to the same scenario. 
-I would like to understand why this is different. I think in your case, 
-probably we do not know what triggers the modeset, but its a minor 
-detail like I have written before.
-
->> It will be hard to reproduce this. Only way I can think of is to delay
->> the EV_NOTIFICATION for sometime and see in dp_bridge_hpd_notify()
->>
->>           else if (dp_display->link_ready && status ==
->> connector_status_disconnected)
->>                   dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
->>
->> as dp_add_event() will add the event, then wakeup the event_q.
-> 
-> Sure that would increase the race window with the current code, but that
-> alone isn't enough to trigger the bug AFAICT.
-> 
->> Before the event thread wakes up and processes this unplug event, the
->> commit can come in. This is the race condition i was thinking of.
-> 
-> Yes, but what triggers the commit? And why would it lead to a mode set
-> that disables the bridge?
-> 
-
-Commit was triggered from the userspace as it did not process the 
-disconnect event on time and the userspace was triggering a couple of 
-modesets by by changing the mode on the CRTC from 1080P to NONE to 1080P.
-
-[drm:drm_atomic_helper_check_modeset] [CRTC:60:crtc-1] mode changed
-
-> Johan
