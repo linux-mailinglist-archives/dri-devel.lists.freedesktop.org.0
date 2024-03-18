@@ -2,50 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43DE187F05F
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 20:24:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63D3287F069
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 20:26:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CB6D10E3C5;
-	Mon, 18 Mar 2024 19:24:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26D4410FE0A;
+	Mon, 18 Mar 2024 19:26:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="mikmlv6l";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="VabCl7Ib";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com
- [95.215.58.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1A9610FDEB
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 19:24:05 +0000 (UTC)
-Message-ID: <9d894bd2-c92e-4d08-8643-be88a203879c@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1710789843;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BI/HR4kmZi9eYYX3fHtixI9MLag8g+58iGjeaGFJliE=;
- b=mikmlv6l59xdwDI+K3W4JMFjCmjyhCthwimWorGvm3wtWONQ6R499oW56ByIit2kuJquik
- AGyltIo6L4rU7njDzYDmJUdNU2kKYu67RxbKdvjVGqJ1yxkv8J3BdkDzFMgv2qHdX2olOT
- 4qzmqCRgUXjvHEMFFTqFFJnb2PyL6po=
-Date: Tue, 19 Mar 2024 03:23:54 +0800
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E04B10FE08
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 19:26:30 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-2d29aad15a5so58568591fa.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 12:26:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1710789988; x=1711394788;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+ :reply-to; bh=xvwBqy02Lt//XY7TKf5p6Szodv2siVQMtlWkmKgSadE=;
+ b=VabCl7IbsKnw8R1sT5EpIepwRphz8Vo6CqtGwXOtSdFcaBkfglMclbzg2oAZqp6O5A
+ 3oo39f+CI2GNqTExetKDd6buVuhxnF2UcwdEl+viP4Mr/X12Mr8gdCHAvZgxU99bY535
+ R3swwGI0VCYBhCtQXAck2pGciP+zgQePkOC4I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710789988; x=1711394788;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xvwBqy02Lt//XY7TKf5p6Szodv2siVQMtlWkmKgSadE=;
+ b=jgpxSUtj/cu2U3NPZ180g0MPHIA2YwzWl07knsekkBg3MOQDoKv3shlUNNYqDwZhTD
+ iTtHfwuxlwpWWj/yuzzZUsBBYpaX2k83nw5xmdHci5c3ejw/y/Nshd9rgI9Q+2/peak1
+ uJm72zdIM3nRhbIuqvy0SR6msFiokBJsbOJAyc6ky36KEjcBd2/vlUDbPXHnlFCco0MK
+ ZGXahHURxKWMPmUVYhocaSpwaN2cRangx+sIqfEUZ4ntpb6cLwGNUeWnvb/dOQ1lAGn7
+ iL5hSlC4T369ECWhL0Ej2S7U8G/wkK8S7lnDSmE+Md6s1+ASL9wIz3+VjLYRu2J+eiI1
+ 3rog==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWO/K94tUvBsX5m1mxq5TVCa6vwuNODdJVmxXTikqm9D+Y+a6tJbnCP/8CkrUSIdE8hPqySwTlftv3QC64KCROY5JbPcWktURmb540aavqR
+X-Gm-Message-State: AOJu0YzRdgsjICR6o4F+D+OH90GGQFriVAfGNqd8qRYa1s+5aTnHngCP
+ /ni0oaDC70LI9d8MPD3ASiqjWMP7csVB/K9xqRiQ3kQtJjmPm0gddjH0oE1iI1ShjTryEBVXgRc
+ u/SAWDBWho2hzYLeUm9vkRdZFF89gEIQXGI1d
+X-Google-Smtp-Source: AGHT+IFe4SIqBk2a4Gcqz06qiXmOLolMnAnmlf22UjLfTc3cWz8vho8vUCaBS8BcelwlfYICaPBpPRtqxlh+N67N26o=
+X-Received: by 2002:a2e:7c19:0:b0:2d4:b061:d9f8 with SMTP id
+ x25-20020a2e7c19000000b002d4b061d9f8mr1711566ljc.39.1710789988109; Mon, 18
+ Mar 2024 12:26:28 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 18 Mar 2024 12:26:27 -0700
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm: bridge: thc63lvd1024: Print error message when DT
- parsing fails
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-References: <20240318160601.2813-1-laurent.pinchart+renesas@ideasonboard.com>
- <78739dfe-c6ee-44bd-a2e6-2ced24ff15c1@linux.dev>
- <20240318180420.GP13682@pendragon.ideasonboard.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20240318180420.GP13682@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20240315143621.v2.4.Ia5dd755f81d7cc9a4393c43f77b9be4ed2278ee3@changeid>
+References: <20240315213717.1411017-1-dianders@chromium.org>
+ <20240315143621.v2.4.Ia5dd755f81d7cc9a4393c43f77b9be4ed2278ee3@changeid>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Mon, 18 Mar 2024 12:26:27 -0700
+Message-ID: <CAE-0n51baqN8cEubSqDegqDwL7O6=iEfN5Ho2OykqjmkjQDcvQ@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] drm/msm/dp: Fix typo in static function (ststus =>
+ status)
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Douglas Anderson <dianders@chromium.org>, Rob Clark <robdclark@gmail.com>
+Cc: Bjorn Andersson <quic_bjorande@quicinc.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@gmail.com>, Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,111 +86,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-
-On 2024/3/19 02:04, Laurent Pinchart wrote:
-> Improving core helpers is certainly a good idea, and if we do so, we can
-> simplify drivers. What I'm concerned is that commit 00084f0c01bf creates
-> a silent probe failure path,
-
-
-No, I can't agree here. It doesn't creates a silent probe failure path.
-
-Simply because
-
-1) It is NOT silent.
-2) It should be exist at product level kernel.
-
-
-> which didn't exist before it.
-
-
-Again, it shouldn't be exist.
-
-Otherwise it hints us that there is ill-behavior-ed DT in the mainstream kernel
-or a specific product(or development board). If I were you, I would like to fix
-the boot failure first.
-
-In the earlier stage of my attempt to contribute, I also would like to enable
-debug output as much as possible. Just like you, the benefit is obvious: It really
-eliminate the pain on developing stage and when bugs happens.
-
-But I was told many many times that mainstream kernel is not for debug, it is
-for sound products. I bet you have seen some product level drivers print very less.
-I'm not understand why in the past, but I think I could understand something now.
-Probably because professional programmers really confident about what they have
-wrote. As they have been tested and/or reviewed thousands or ten thousands times.
-
-Enable this debug output by default can only prove to the community that you are
-not confident about something, either the community's reviewing power on DTS or
-your debug techniques.
-
-
-> This is why
-> this patch references it in the Fixes: tag, making sure that this patch
-> will get backported to any stable kernel that includes commit
-> 00084f0c01bf.
-
-
-No, I keep insist on my judgement. A fixes tag is only meant for cases where your
-patch fixes a bug. The bug should really be happened. All of the discussion ongoing
-here are just things imaginary about the *debug* phase and development phase.
-
-
->   As far as I understand, this is business as usual. There's
-> nothing personal here, and no judgement on the quality of your code.
+Quoting Douglas Anderson (2024-03-15 14:36:32)
+> This is a no-op change to just fix a typo in the name of a static function.
 >
-Please don't misunderstanding, I do cares the quality of my code.
-If it is really introduce a bug, I will responsible and help to solve.
-But this is not the case. Sorry.
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+>
+> Changes in v2:
+> - ("Fix typo in static function (ststus => status)") new for v2.
 
-
->>> Signed-off-by: Laurent Pinchart<laurent.pinchart+renesas@ideasonboard.com>
->>> ---
->>>    drivers/gpu/drm/bridge/thc63lvd1024.c | 5 ++++-
->>>    1 file changed, 4 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/bridge/thc63lvd1024.c b/drivers/gpu/drm/bridge/thc63lvd1024.c
->>> index 5f99f9724081..674efc489e3a 100644
->>> --- a/drivers/gpu/drm/bridge/thc63lvd1024.c
->>> +++ b/drivers/gpu/drm/bridge/thc63lvd1024.c
->>> @@ -125,8 +125,11 @@ static int thc63_parse_dt(struct thc63_dev *thc63)
->>>    
->>>    	remote = of_graph_get_remote_node(thc63->dev->of_node,
->>>    					  THC63_RGB_OUT0, -1);
->>> -	if (!remote)
->>> +	if (!remote) {
->>> +		dev_err(thc63->dev, "No remote endpoint for port@%u\n",
->>> +			THC63_RGB_OUT0);
->>>    		return -ENODEV;
->>> +	}
->>>    
-
-An side effect of this patch is that we will add one more extra error message in the console.
-As the of_graph_get_remote_node() function already print one for us if I add '#define DEBUG 1'
-on the top of this source file. What's worse, it does not really tell us what's really the
-error is.
-
-It could be no valid endpoint or no valid remote node because of bad coding in DT, or It is
-also simply because the remove node(or device) is being disabled intentionally by adding
-'status = "disabled"' clause. Therefore, the error printing code added here is very confusing
-in practice. It cannot really help for locating the root cause of the problem.
-
-After think about this more than twice, either help to improve the core of_graph_get_remote_node()
-function or just to drop this. This what I can tell as a ordinary reviewer. Despite you and/or
-other more advanced programmer & reviewer could override what I said though.
-
--- 
-Best regards,
-Sui
-
->>>    	thc63->next = of_drm_find_bridge(remote);
->>>    	of_node_put(remote);
->>>
->>> base-commit: 00084f0c01bf3a2591d007010b196e048281c455
-
--- 
-Best regards,
-Sui
-
+This was sent at
+https://lore.kernel.org/r/20240306193515.455388-1-quic_abhinavk@quicinc.com
