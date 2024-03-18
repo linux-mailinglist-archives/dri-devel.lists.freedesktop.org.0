@@ -2,79 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC36B87E91D
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 13:09:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F2FA87E933
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 13:19:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0809110E8AD;
-	Mon, 18 Mar 2024 12:09:04 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="C4aMbNoQ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0780B10F62A;
+	Mon, 18 Mar 2024 12:19:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF82810EB7B
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 12:09:02 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-2d49f7e5c2cso21182141fa.2
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 05:09:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1710763741; x=1711368541; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=xAybBLkWgFxKDG7sYQQx+lNSx140fHQbpq7UeP5HG4I=;
- b=C4aMbNoQHQTb6RKrBKCKdb+zCfdzjA5+FbekTtVYD9E4+adRnRIeWd3qsOmdXAn3rQ
- nvtmkTFAPip4Det4SGLNz5kEaSiII0Q9Krw2mUzV1IOx4VXRDo8MUixzxVpjbFG82e9s
- 70gUQ41qEflsc3E/Y7gB6G7zvitMQcM2EzLmJswhTHVvC/kChBAvWDf66KtzWW2Ayr8B
- xVwprEuZyoqp902mY+Y3la6jXY6vnaIkTAviUe9evrsm4vJwOjpsmgqtb512Z649kolG
- Zo+xLX52xZ5r21ZTJmsrz5CqbPaX6d7vI9QgmqAtlkJoWhMmlUcS2s+CqhuY9lcJcGyg
- C7Kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710763741; x=1711368541;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xAybBLkWgFxKDG7sYQQx+lNSx140fHQbpq7UeP5HG4I=;
- b=TvZHSQMgz+8wKdh402TXfjwaDHEAn/A5XezQlGe/UPuUkIq+WJJsH3OsZDQ7n0Prie
- CV8VSXIs7o7Ljm+wE4Vo4JffaVszehruv3KQKZW3A9YjoGpOjMAWjC8RjayDK7f8Odhj
- ReCYguY6ul1PyiypNsR/bWYFAFNOCAPauqHVbzX49cturIW2pITWLe66HjTBKFhD0Nmb
- Law41Jv14VaUU9njT6IslXOb2qM7LEuNhEAJn1nLJMuO1nv5ysQMrsiCDxUguG0Sy0gg
- 3gTH2fHooKifrKnJJkSPOQ4h6hMKEYsCzL1wcDE5FOLN4023XluhFJVOFdzW/jqpno5C
- j5rg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW6K61kuCniuXM6G67IHec8eUKJt++6TB/+WsJk+YhMMMp5eiIwFnn6WL5j2VUSFu1oY2k6Q/Uyz+gSiFF0z3P/uQFO7j7rUjN0lMLmbw8v
-X-Gm-Message-State: AOJu0YyuLM9aCl4OeYzkZz1l6ebuv8wS7A5OCBs87h3vZs2PXDb2awMJ
- RrTFq1m11Z2/b0N2BVdM6J047p0SWEwytUCx6ECpdd3HNzH618+4CuvFQZtHarT0ZusTKsPyac3
- 3GVU=
-X-Google-Smtp-Source: AGHT+IH0Qo1V/USqCdqcNMm459DG/tRzeARTYW0jeYurKwM5uusC9A3CrTByB/OVG1fAn26K2fG9eA==
-X-Received: by 2002:a2e:9cc2:0:b0:2d4:8d75:7a69 with SMTP id
- g2-20020a2e9cc2000000b002d48d757a69mr4921690ljj.45.1710763740965; 
- Mon, 18 Mar 2024 05:09:00 -0700 (PDT)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- k3-20020adff5c3000000b0033e7eba040dsm9779310wrp.97.2024.03.18.05.08.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Mar 2024 05:09:00 -0700 (PDT)
-Date: Mon, 18 Mar 2024 12:08:58 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: lee@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, Flavio Suligoi <f.suligoi@asem.it>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Subject: Re: [PATCH 6/6] backlight: Remove fb_blank from struct
- backlight_properties
-Message-ID: <20240318120858.GE16260@aspen.lan>
-References: <20240313154857.12949-1-tzimmermann@suse.de>
- <20240313154857.12949-7-tzimmermann@suse.de>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1120610F62A
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 12:19:01 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CB656DA7;
+ Mon, 18 Mar 2024 05:19:35 -0700 (PDT)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C84E63F762;
+ Mon, 18 Mar 2024 05:18:59 -0700 (PDT)
+Message-ID: <70bdc326-3e97-4f6b-ad6d-09473ee85b97@arm.com>
+Date: Mon, 18 Mar 2024 12:18:53 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240313154857.12949-7-tzimmermann@suse.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panthor: Fix the CONFIG_PM=n case
+Content-Language: en-GB
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
+ kernel test robot <lkp@intel.com>
+References: <20240318085855.994179-1-boris.brezillon@collabora.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20240318085855.994179-1-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,24 +48,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 13, 2024 at 04:45:05PM +0100, Thomas Zimmermann wrote:
-> Remove the field fb_blank from struct backlight_properties and remove
-> all code that still sets or reads it. Backlight blank status is now
-> tracked exclusively in struct backlight_properties.state.
->
-> The core backlight code keeps the fb_blank and state fields in sync,
-> but doesn't do anything else with fb_blank. Several drivers initialize
-> fb_blank to FB_BLANK_UNBLANK to enable the backlight. This is already
-> the default for the state field. So we can delete the fb_blank code
-> from core and drivers and rely on the state field.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Flavio Suligoi <f.suligoi@asem.it>
-> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+On 18/03/2024 8:58 am, Boris Brezillon wrote:
+> Putting a hard dependency on CONFIG_PM is not possible because of a
+> circular dependency issue, and it's actually not desirable either. In
+> order to support this use case, we forcibly resume at init time, and
+> suspend at unplug time.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202403031944.EOimQ8WK-lkp@intel.com/
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> ---
+> Tested by faking CONFIG_PM=n in the driver (basically commenting
+> all pm_runtime calls, and making the panthor_device_suspend/resume()
+> calls unconditional in the panthor_device_unplug/init() path) since
+> CONFIG_ARCH_ROCKCHIP selects CONFIG_PM. Seems to work fine, but I
+> can't be 100% sure this will work correctly on a platform that has
+> CONFIG_PM=n.
+> ---
+>   drivers/gpu/drm/panthor/panthor_device.c | 13 +++++++++++--
+>   drivers/gpu/drm/panthor/panthor_drv.c    |  4 +++-
+>   2 files changed, 14 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> index 69deb8e17778..ba7aedbb4931 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -87,6 +87,10 @@ void panthor_device_unplug(struct panthor_device *ptdev)
+>   	pm_runtime_dont_use_autosuspend(ptdev->base.dev);
+>   	pm_runtime_put_sync_suspend(ptdev->base.dev);
+>   
+> +	/* If PM is disabled, we need to call the suspend handler manually. */
+> +	if (!IS_ENABLED(CONFIG_PM))
+> +		panthor_device_suspend(ptdev->base.dev);
+> +
+>   	/* Report the unplug operation as done to unblock concurrent
+>   	 * panthor_device_unplug() callers.
+>   	 */
+> @@ -218,6 +222,13 @@ int panthor_device_init(struct panthor_device *ptdev)
+>   	if (ret)
+>   		return ret;
+>   
+> +	/* If PM is disabled, we need to call panthor_device_resume() manually. */
+> +	if (!IS_ENABLED(CONFIG_PM)) {
+> +		ret = panthor_device_resume(ptdev->base.dev);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+>   	ret = panthor_gpu_init(ptdev);
+>   	if (ret)
+>   		goto err_rpm_put;
+> @@ -402,7 +413,6 @@ int panthor_device_mmap_io(struct panthor_device *ptdev, struct vm_area_struct *
+>   	return 0;
+>   }
+>   
+> -#ifdef CONFIG_PM
+>   int panthor_device_resume(struct device *dev)
+>   {
+>   	struct panthor_device *ptdev = dev_get_drvdata(dev);
+> @@ -547,4 +557,3 @@ int panthor_device_suspend(struct device *dev)
+>   	mutex_unlock(&ptdev->pm.mmio_lock);
+>   	return ret;
+>   }
+> -#endif
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index ff484506229f..2ea6a9f436db 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1407,17 +1407,19 @@ static const struct of_device_id dt_match[] = {
+>   };
+>   MODULE_DEVICE_TABLE(of, dt_match);
+>   
+> +#ifdef CONFIG_PM
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+This #ifdef isn't necessary, and in fact will break the !PM build - 
+pm_ptr() already takes care of allowing the compiler to optimise out the 
+ops structure itself without any further annotations.
 
+Thanks,
+Robin.
 
-Daniel.
+>   static DEFINE_RUNTIME_DEV_PM_OPS(panthor_pm_ops,
+>   				 panthor_device_suspend,
+>   				 panthor_device_resume,
+>   				 NULL);
+> +#endif
+>   
+>   static struct platform_driver panthor_driver = {
+>   	.probe = panthor_probe,
+>   	.remove_new = panthor_remove,
+>   	.driver = {
+>   		.name = "panthor",
+> -		.pm = &panthor_pm_ops,
+> +		.pm = pm_ptr(&panthor_pm_ops),
+>   		.of_match_table = dt_match,
+>   	},
+>   };
