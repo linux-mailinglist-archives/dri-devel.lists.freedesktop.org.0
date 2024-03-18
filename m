@@ -2,99 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9D9787EAA6
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 15:16:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 661E787EAB7
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 15:18:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE8C910F7BB;
-	Mon, 18 Mar 2024 14:16:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88F4910EF1F;
+	Mon, 18 Mar 2024 14:18:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="GGFPw6Fr";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="mtcxD59m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47B0110F7AE
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 14:16:30 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-41409fd8b6eso18124635e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 07:16:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1710771388; x=1711376188; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=6hoHJPzKivMW1yEjOBGD1bftC6F87yAj85WAtXr98Do=;
- b=GGFPw6Frw4nF87PJlrT+RvrtKd1IPAoOA4SHj71rVAyG6q7YLARsdPEFyeAB9VairM
- 2lAwv1+lwmoF7cAf/NoKhSm2xlO/VgyjWr8CEKebDQMEw21aZ7Ddit1uo9XD9B04LzJU
- vY4TSqAkOfibF7LUpwfF69YE3ewolUzpd7W9DGXO+ftrjTCrgmdYy0sDd4lXnSw3WJ+D
- mDir5U1MaiDvGkWivWGxYjN/ysNTz9s30DbyO6Ppb84yNiHmGGNl4sUPxOlD5YdUUh2L
- iB6Slxt/DrR3jNbRy/6yjgpU5PUPBLucaoj99IODon1aU4uT9+YrYqGhTU7GZyhB3yav
- cR8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710771388; x=1711376188;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6hoHJPzKivMW1yEjOBGD1bftC6F87yAj85WAtXr98Do=;
- b=huGMMbNV7ciSIBFl+g8mGjAA8ermFfxMRBJrcojzEEbEYPwYJ63gXa+nSg2yw2cbXa
- p17ZiK4JhatsKanYlfHpqFwq2/4RUMy+OqS3pWQiMYNHVlo3avT9ZcAfuS8Q6LxMOfck
- 3JuItU1KIcJRST45OssrdqSbSBSz9BXp4Ji+xmv2eitdbgj6bmKh2C6uoZgCWFF5oMgb
- n7ahQ4Xw9nwh0JAK7SrFvWyQ7DkMq61jFT+87n7QiQurYyJQz5YM15Qnbg4aCLv+an2A
- 8PZEibvA6CKil4egQJLveT04c3mpgI8AX42Y8Nd5vg4ouoBdNp/zSCy5JzKdaUWyaIZE
- Xacw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXTIoaoQMUJQvR1WQ9zYSGVSRGFYl6ZmgO21NG9bcEoqJzsTNV+NJ6ihk52trFUSnNhH4vs5NIExaVzcbXw7YVUZUgGtHkGIIfy676+KK1k
-X-Gm-Message-State: AOJu0YxpriLk/Xv/o1OInVhN5XQF7S/Vrcb7uGcislsLp93dQlnJ7uGJ
- ltxYb1iJy0Dd+hmqlxLJLOItdVG3DRUYWE47VKHu4Ciq5FViIyuC5driqEwQB98=
-X-Google-Smtp-Source: AGHT+IEqzbstFUamf1dr3ZQZI+3TDFusQzNphV5aLQUHgxcZhBUC+9G9ERQlw3BfIaiybAdjAODiyA==
-X-Received: by 2002:a05:600c:314b:b0:413:7f3:8d5 with SMTP id
- h11-20020a05600c314b00b0041307f308d5mr6541011wmo.0.1710771388257; 
- Mon, 18 Mar 2024 07:16:28 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- a18-20020a05600c349200b0041413d11838sm1642584wmq.26.2024.03.18.07.16.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Mar 2024 07:16:27 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Mon, 18 Mar 2024 15:16:21 +0100
-Subject: [PATCH] Revert "drm/bridge: Select DRM_KMS_HELPER for
- DRM_PANEL_BRIDGE"
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A5D410EF1F
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 14:18:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1710771496;
+ bh=otcoHtF6sASMgicPcPM31Hta1yw/5DShqfaSsJ3gTdY=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=mtcxD59mmjCTky4QUHI4Ctxe7pzPHPEroiEZEOxmlMwyNwOPlENt9lSHXZ6mgtf8Q
+ KzvgMct+JNErFGI+dT399TajjE7PCz+osuKcqGJx9Tq1w/qqvon+VmPtkikS9vMP2j
+ UUIbhQs4aKJjPydvMRZKpVBbUGOpdllaEEFXK6Neavxr6dZBFjwRxBiHdjTlBvhTlh
+ UQQZqhT/jl+jn73ZG/GGJF54wUD6kgNrtbSjav5VqEgGFnLZFXISlX5HsJ+76j3e9/
+ ZkXA9lX91xPi6fT5CXaK90gr1fFBUnvcrwI38bqETSoYNSeisPsoApf+sD0aevnqky
+ v5+/WEYLgqc+w==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9F0DA37811D1;
+ Mon, 18 Mar 2024 14:18:15 +0000 (UTC)
+Date: Mon, 18 Mar 2024 15:18:14 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
+ Robin Murphy <robin.murphy@arm.com>, kernel@collabora.com, kernel test
+ robot <lkp@intel.com>
+Subject: Re: [PATCH] drm/panthor: Fix the CONFIG_PM=n case
+Message-ID: <20240318151814.725002c5@collabora.com>
+In-Reply-To: <5c9257cb-8307-4f9e-9323-2ed367c48a11@arm.com>
+References: <20240318085855.994179-1-boris.brezillon@collabora.com>
+ <2af13565-f3d7-47c3-8083-da86669a34e1@arm.com>
+ <20240318140815.44de8110@collabora.com>
+ <5c9257cb-8307-4f9e-9323-2ed367c48a11@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240318-revert-select-drm_kms_helper-for-drm_panel_bridge-v1-1-52a42a116286@linaro.org>
-X-B4-Tracking: v=1; b=H4sIALRM+GUC/x2NUQqDMBAFryL73UDUUNtepUhIk2ddGmPYSCmId
- 2/wc4bHvJ0KhFHo0ewk+HLhNVVoLw352aU3FIfK1OnO6L69qTqCbKogwm8qyGI/S7EzYoaoaZV
- TZZcQ7Us41ICGcWHwQ2/uV6rdLJj4d34+x+P4A5vjllqDAAAA
-To: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Luca Weiss <luca.weiss@fairphone.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- Imre Deak <imre.deak@intel.com>, 
- =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1324;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=AVO0CRv0JE94l/fO/dv5SVK7xIoOeyHJggaKr7jbwXQ=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBl+Ey6S6ifjkU3YMO3rgKK5FOvKjMM3uGWoM5xG2o7
- N201Wu+JAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZfhMugAKCRB33NvayMhJ0e9SEA
- CcbN4WdLH4CEADtmqIVE2Xtq5X2X7rEhhGy6VcD2y4DKdXTRz53ijDHOVdnkeo0/hos94YeCl4qufj
- AFN2UxsLFgB3NHZVzY9L0Y5B0vvDUcIZEaYDReC286ANi4fgXvDJOjL4FvyKQCvMjqPpvmaiDNYcXM
- pynfskGc4LNdzgxcjnYOzO7tx9j/h4XS0D5ogPJUd8NYl0lE6tPfG9fYkLg+X4JiNZQzX3+GO2zJD/
- kryghoe9ixPlOQM6QwdH0U3CStqM52jLURE6DgBooJX7HJ8sWiKlIFVhW4S+EG/8px030HS6ltIuwX
- xNkFLQh3ZJ0woCwRdWJM1m8pH3zOenMvAGqPS1dK4IyhJCXd4VpiVNiM1M866FIaNnowS/aEh/AFlE
- dPCuWeeSery+dIe6I+JLZtS9xee3eGEQyuKJrw3PtrfTWzvozMfDE7LXz24uvR2Bf16WkVTeN8QVrV
- 8JF+qUfBIAt/Rq24jpZez7sHq93f0RQcKuhRXO8kq7erV2f5Qu2AYG3avsbvhDdkG6dBExIyz9CUXu
- jei7sjB7c6UUJiCIrhzGvY/X8crqRNh380If+QzxuwlQurGXCSZAO9ZhZ00MJdQm7yrmtwcq6M/D3k
- BEw4+Qtzzo1LTnkF1Z/kN/wjS1TtA38o77pfiX58P7Hz970ttecQw8vRweWA==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,43 +65,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit e3f18b0dd1db242791afbc3bd173026163ce0ccc.
+On Mon, 18 Mar 2024 13:49:52 +0000
+Steven Price <steven.price@arm.com> wrote:
 
-Selecting DRM_KMS_HELPER for DRM_PANEL_BRIDGE leads to:
-WARNING: unmet direct dependencies detected for DRM_KMS_HELPER
-  Depends on [m]: HAS_IOMEM [=y] && DRM [=m]
-  ...
+> On 18/03/2024 13:08, Boris Brezillon wrote:
+> > On Mon, 18 Mar 2024 11:31:05 +0000
+> > Steven Price <steven.price@arm.com> wrote:
+> >   
+> >> On 18/03/2024 08:58, Boris Brezillon wrote:  
+> >>> Putting a hard dependency on CONFIG_PM is not possible because of a
+> >>> circular dependency issue, and it's actually not desirable either. In
+> >>> order to support this use case, we forcibly resume at init time, and
+> >>> suspend at unplug time.
+> >>>
+> >>> Reported-by: kernel test robot <lkp@intel.com>
+> >>> Closes: https://lore.kernel.org/oe-kbuild-all/202403031944.EOimQ8WK-lkp@intel.com/
+> >>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>    
+> >>
+> >> Reviewed-by: Steven Price <steven.price@arm.com>
+> >>  
+> >>> ---
+> >>> Tested by faking CONFIG_PM=n in the driver (basically commenting
+> >>> all pm_runtime calls, and making the panthor_device_suspend/resume()
+> >>> calls unconditional in the panthor_device_unplug/init() path) since
+> >>> CONFIG_ARCH_ROCKCHIP selects CONFIG_PM. Seems to work fine, but I
+> >>> can't be 100% sure this will work correctly on a platform that has
+> >>> CONFIG_PM=n.    
+> >>
+> >> The same - I can't test this properly :(
+> >>
+> >> Note that the other option (which AFAICT doesn't cause any problems) is
+> >> to "select PM" rather than depend on it - AIUI the 'select' dependency
+> >> is considered in the opposite direction by kconfig so won't cause the
+> >> dependency loop.  
+> > 
+> > Doesn't seem to work with COMPILE_TEST though? I mean, we need
+> > something like
+> > 
+> > 	depends on ARM || ARM64 || (COMPILE_TEST && PM)
+> > 	...
+> > 	select PM
+> > 
+> > but kconfig doesn't like that  
+> 
+> Why do we need the "&& PM" part? Just:
+> 
+> 	depends on ARM || ARM64 || COMPILE_TEST
+> 	...
+> 	select PM
+> 
+> Or at least that appears to work for me.
 
-and builds with CONFIG_DRM=m will fail with the above kconfig
-warns and then multiple linker error.
+Uh, you're right, sorry for the brain fart. This is being said, I
+see no other driver selecting the PM option directly (if you grep for
+'select PM' in drivers/, you'll find occurrences in drivers/soc, but
+those are under ARCH_/SOC_ options, which means they are indirectly
+arch/platform dependent, not driver dependent). I'm really not sure
+selecting PM here from a driver is right to be honest.
 
-Reported-by: Imre Deak <imre.deak@intel.com>
-Reported-by: Jani Nikula <jani.nikula@linux.intel.com>
-Reported-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Fixes: e3f18b0dd1db ("drm/bridge: Select DRM_KMS_HELPER for DRM_PANEL_BRIDGE")
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- drivers/gpu/drm/bridge/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+> 
+> > drivers/gpu/drm/panthor/Kconfig:3:error: recursive dependency detected!
+> > drivers/gpu/drm/panthor/Kconfig:3:	symbol DRM_PANTHOR depends on
+> > PM kernel/power/Kconfig:183:	symbol PM is selected by DRM_PANTHOR
+> > 
+> > which id why I initially when for a depends on PM
+> > 
+> >   
+> >> Of course if there is actually anyone who has a
+> >> platform which can be built !CONFIG_PM then that won't help. But the
+> >> inability of anyone to actually properly test this configuration does
+> >> worry me a little.  
+> > 
+> > Well, as long as it doesn't regress the PM behavior, I think I'm happy
+> > to take the risk. Worst case scenario, someone complains that this is
+> > not working properly when they do the !PM bringup :-).  
+> 
+> Indeed, I've no objection to this patch - although I really should have
+> compiled tested it as Robin pointed out ;)
+> 
+> But one other thing I've noticed when compile testing it - we don't
+> appear to have fully fixed the virt_to_pfn() problem. On x86 with
+> COMPILE_TEST I still get an error. Looking at the code it appears that
+> virt_to_pfn() isn't available on x86... it overrides asm/page.h and
+> doesn't provide a definition. The definition on x86 is hiding in
+> asm/xen/page.h.
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index 1d4f010af97b..efd996f6c138 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -8,7 +8,6 @@ config DRM_BRIDGE
- config DRM_PANEL_BRIDGE
- 	def_bool y
- 	depends on DRM_BRIDGE
--	select DRM_KMS_HELPER
- 	select DRM_PANEL
- 	help
- 	  DRM bridge wrapper of DRM panels
+Looks like the kbuild bot didn't catch that yet :-).
 
----
-base-commit: e3f18b0dd1db242791afbc3bd173026163ce0ccc
-change-id: 20240318-revert-select-drm_kms_helper-for-drm_panel_bridge-0e4ad7c73496
+> 
+> Outside of arch code it's only drivers/xen that currently uses that
+> function. So I guess it's probably best to do a
+> PFN_DOWN(virt_to_phys(...)) instead. Or look to fix x86 :)
 
-Best regards,
--- 
-Neil Armstrong <neil.armstrong@linaro.org>
-
+Mind sending a fix for that?
