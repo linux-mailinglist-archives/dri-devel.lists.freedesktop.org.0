@@ -2,80 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E25D187EC09
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 16:23:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B3F87EC0D
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 16:24:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46FF010F9C3;
-	Mon, 18 Mar 2024 15:23:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D95410F9CD;
+	Mon, 18 Mar 2024 15:24:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Jx/aSujB";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CUYs6qZd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D26D110ED05
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 15:23:05 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-513e10a4083so2300152e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 08:23:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1710775384; x=1711380184; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CHYqxUZiYcMsHyyVaTfgVdhGSdNorfQ+WAKs2dhWXW0=;
- b=Jx/aSujBoe5Wsz6LapX4EmXXDdrvERhzlUYFGQ/KK7z8L43Z8Z2ZDJZfd5M7KDqGQb
- zaPskcHIihKIBTKGrSx0mQeo3ifTcJq2G/4vcUa+xGl+zXHvc9db8mb3sHrdOLfwwwEC
- 5jpRZRpsliDWGNlrSLtCaOXqELCiGn0Gk7NVy6ZUXHBcBZ8TxkZKoPmA4cJezFBRSmyn
- V6MxOzjTkCJidq/mnVkeqcR3r3CM4hX/s4/rV11o/qNDOD9TjZJMKQzDmPYtlkbXJyb8
- N6Plq8iujOJhFAN3ytRkqSeDx1+1VPzVEtsIQlZoWAWKFS6yMjBtMPy7a77+Ai9EsZvE
- mtUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710775384; x=1711380184;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=CHYqxUZiYcMsHyyVaTfgVdhGSdNorfQ+WAKs2dhWXW0=;
- b=vNudgbKDI/quwuRaeWt7zxGKOd5med1ezdWDtd/CX5Q+MItK4Dmo+jWbbRd061hbbb
- JCSA7v3758mh8rqerdmaovE9op3aOGDdVykRMiT3w8/7M7Yb5N/cb4JEYKBZvpZ98Gb2
- 6p3ze1bSzLw5wSq+NVVVkFkmrgGD2KJj3Ih5xO3t/6fI5ozYWcj4DWh2nkjB8j819zd5
- 9bqeC1sd18xN9lIIySj+JMHkvbXVdX0GU8DKT6JihKymZg3TbF23WQzAd0WFP0ge9mTZ
- QabppfQUymU0CYKXZPqT7BoRUvSFQFxoyva/pgwytVpvO80ZDmCdeSX/PYp3d979LKB/
- Cg3w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWA0v2zxdQ4VkhxS8TUIH3GDcZ+n18jgJbEja3SyGAePB/QaYa77cCiYxKRY67UxSvf6QT46BRMCl19s9JwuFOWDeGrh3GsUl7h/MuNWRZC
-X-Gm-Message-State: AOJu0YxOI7Ouck27W4wqdFMe1O2fTxlubteg2NZJjkdIHaY+TOfYDpet
- 8eDQJKPwuK/+P2k+LY0IJHgT5blismEmkutyrI+pIBWK6Ai0DiNRZYb8Ont58V0=
-X-Google-Smtp-Source: AGHT+IGdW6Rs9fAb/f5/EuohFyICrbr9FOyNrbeWuCtyQ7XWcKBTHyHyNwheZWb/cVMxxMAURmY5WQ==
-X-Received: by 2002:ac2:5b03:0:b0:513:bd72:a677 with SMTP id
- v3-20020ac25b03000000b00513bd72a677mr8323420lfn.19.1710775383623; 
- Mon, 18 Mar 2024 08:23:03 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- g6-20020a05600c310600b00413294ddb72sm15047500wmo.20.2024.03.18.08.23.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Mar 2024 08:23:03 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20240316172800.1168390-1-sui.jingfeng@linux.dev>
-References: <20240316172800.1168390-1-sui.jingfeng@linux.dev>
-Subject: Re: [PATCH] drm: bridge: thc63lvd1024: Switch to use
- of_graph_get_remote_node()
-Message-Id: <171077538263.2168000.4639473590716964266.b4-ty@linaro.org>
-Date: Mon, 18 Mar 2024 16:23:02 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86EBA10F9CD
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 15:24:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1710775460; x=1742311460;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=H5Yl2+KH5clpDAidnyUJS6JZKwl1txrmCW3WlkQErtY=;
+ b=CUYs6qZdtfdoS5y8xzNSgNbD+RchsJQE1vINYs1OLw+kpJ1vtAZFF7MV
+ GtZuKt3JSop+VcqZGLNxd+d95UGRMn0hAN3KrJ7Se005Eqquh0TwRoWPC
+ QmvDJY/lbx9G4lxa3dd/PXdBpx3J8DC/WZEngtKu7Y5o+PyHZdwcyorDz
+ JcPReHQsdS5sZm/jJ2aeujDzshLBjU0RBT1CUFo7Z/lzKsY6Pm2b7ce/K
+ UVU2wUcyhJqQntF6FlT0TgIREB6PbxX4+J55f66lg2HRlE8v7G/8PzeDy
+ HJqAAdATQLGGxP9+q0o8IwjDWpenWyGRsZKC1rCTQrcsOc/wxqFuECWxQ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="5456395"
+X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
+   d="scan'208";a="5456395"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2024 08:24:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; d="scan'208";a="13398989"
+Received: from ahmedess-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.53.133])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2024 08:24:13 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Luca Weiss <luca.weiss@fairphone.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Masahiro
+ Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH] drm/bridge: Select DRM_KMS_HELPER for DRM_PANEL_BRIDGE
+In-Reply-To: <CZWX8POMMGS3.1YJ0MLS9HO90L@fairphone.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240111-drm-panel-bridge-fixup-v1-1-e06292f6f500@fairphone.com>
+ <171075294759.1615603.8073986785380285265.b4-ty@linaro.org>
+ <87wmpzq0bp.fsf@intel.com> <87ttl3pzzi.fsf@intel.com>
+ <CZWX8POMMGS3.1YJ0MLS9HO90L@fairphone.com>
+Date: Mon, 18 Mar 2024 17:24:10 +0200
+Message-ID: <8734snpnqd.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.4
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,19 +77,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, 18 Mar 2024, "Luca Weiss" <luca.weiss@fairphone.com> wrote:
+> Would you know the correct fix for this? I'm aware of the pattern
+> "select FOO || !FOO" but I guess it's also not applicable here?
 
-On Sun, 17 Mar 2024 01:28:00 +0800, Sui Jingfeng wrote:
-> To reduce boilerplate, use of_graph_get_remote_node() helper instead of
-> the hand-rolling code.
-> 
-> 
+I don't think that pattern works for select, only for depends on.
 
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
+And I think the problem, again, is the abuse of select for symbols with
+dependencies.
 
-[1/1] drm: bridge: thc63lvd1024: Switch to use of_graph_get_remote_node()
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/00084f0c01bf3a2591d007010b196e048281c455
+$ git grep "select DRM_KMS_HELPER" | wc -l
+122
+
+I'm guessing these only work because a) they are tristates, and b) they
+directly or indirectly already "depends on DRM", which satisfies
+DRM_KMS_HELPER's "depends on DRM".
+
+I think the correct fix for this, and a plethora of other kconfig
+problems, is adhering to the note in
+Documentation/kbuild/kconfig-language.rst:
+
+  Note:
+	select should be used with care. select will force
+	a symbol to a value without visiting the dependencies.
+	By abusing select you are able to select a symbol FOO even
+	if FOO depends on BAR that is not set.
+	In general use select only for non-visible symbols
+	(no prompts anywhere) and for symbols with no dependencies.
+	That will limit the usefulness but on the other hand avoid
+	the illegal configurations all over.
+
+The downsides are that it's a lot of churn to fix them, they'll creep
+back in, and kconfig doesn't warn about these cases up front while it
+could, and menuconfig etc. aren't helpful in enabling dependencies for
+you recursively. So here we are, adding bandaid year after year. :(
+
+
+BR,
+Jani.
+
 
 -- 
-Neil
-
+Jani Nikula, Intel
