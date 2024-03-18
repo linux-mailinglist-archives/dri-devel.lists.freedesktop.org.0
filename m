@@ -2,92 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FA9F87E8DD
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 12:45:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10D4F87E916
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 13:05:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE23710E8D2;
-	Mon, 18 Mar 2024 11:45:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F38E210F5FC;
+	Mon, 18 Mar 2024 12:05:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vUjgoQkP";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Xzowg3dC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D916C10F2E4
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 11:45:26 +0000 (UTC)
-Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
- [91.154.34.181])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CCFFC7E9;
- Mon, 18 Mar 2024 12:44:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1710762299;
- bh=be7OLiwDtXiXg4HWzormu0V9WhxKXXtlnHhYFcoHQOs=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=vUjgoQkP0unfftql9Wmue7kAWlmaaKO4V6Y3si9Sufg6TQCxNEmKO3wWMXIqR0uR4
- fVG8evQ5Z00OiAhYB2z5ETFh+umsK3HVmTgPp3wXhd62lK/Xk2N7HSphR23JJdw+3J
- 56ehimYXR83Yr5L3JmYR7qeN8HH/nEu8yQXyFFDU=
-Message-ID: <6e2bc221-6cb2-436c-b8fd-4c2feb405904@ideasonboard.com>
-Date: Mon, 18 Mar 2024 13:45:21 +0200
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B11910F5FC
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 12:05:29 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 08119CE0174;
+ Mon, 18 Mar 2024 12:05:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7343C433F1;
+ Mon, 18 Mar 2024 12:05:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1710763525;
+ bh=spmrgaz+d/ratRJa6u45mh5Puc6y8qRKDT0QzweebPA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Xzowg3dCqvKCrmwUvVrmZOIsNPFQ91DMwOyBdDwGAkpb3RjqIXONdZL/m7DCkru99
+ nnjm+uEuQtmkeSWSj3GzxIuM+dZZ0Kx+zqXahFUwqZkIvf64vdCUKhMh77dS/roHQ3
+ 17uG5BGhjDelIH0ETt/cjidm7xdOybiRTez3lmLKVoes/btZ1ZL7/ji+evkLIN+JKr
+ NnD0elvM1gzu5WMMuFSQKsn/ttxyB1UOKTVnJU4YJ/GeFxq2FZHzNzq7ky5cFW1tfs
+ yyjDyZhHd8YmM5FDcEZ3UkpqfH4GAgFqvEQ09BZlo6fnrxT+fnGzcsae8xxNGBr9SE
+ bm99p/nQn5vZw==
+Date: Mon, 18 Mar 2024 13:05:22 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+ Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v9 14/27] drm/connector: hdmi: Compute bpc and format
+ automatically
+Message-ID: <20240318-organic-debonair-beetle-b2817b@houat>
+References: <20240311-kms-hdmi-connector-state-v9-0-d45890323344@kernel.org>
+ <20240311-kms-hdmi-connector-state-v9-14-d45890323344@kernel.org>
+ <ZfQBPHoAvI1dquEY@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] Fixes for omapdrm console
-Content-Language: en-US
-To: Tony Lindgren <tony@atomide.com>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>
-References: <20240228063540.4444-1-tony@atomide.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20240228063540.4444-1-tony@atomide.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="xdawchznocicixqa"
+Content-Disposition: inline
+In-Reply-To: <ZfQBPHoAvI1dquEY@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,44 +71,184 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 28/02/2024 08:35, Tony Lindgren wrote:
-> Here are two fixes for omapdrm for missing drm_framebuffer_funcs.dirty
-> that needs to be paired with omap_framebuffer_dirty(), and to add
-> FB_GEN_DEFAULT_DEFERRED_DMAMEM_OPS so things behave as earlier with
-> drm_fb_helper_sys_write(). Without these fixes, the console won't update
-> for the command mode displays. And likely mmap() using writes can miss
-> updates as noted by Thomas.
-> 
-> Regards,
-> 
-> Tony
-> 
-> Changes since v2:
-> - Fix cache issue noted by Tomi using custom omap_fbdev_fb_mmap() as
->    suggested by Thomas
-> 
-> - Add FB_DMAMEM_HELPERS_DEFERRED Kconfig option and use it for omapdrm
->    as noted by Thomas
-> 
-> Changes since v1:
-> 
-> - Add FB_GEN_DEFAULT_DEFERRED_DMAMEM_OPS to use with
->    FB_DEFAULT_DEFERRED_OPS as suggested by Thomas
-> 
-> Tony Lindgren (2):
->    drm/omapdrm: Fix console by implementing fb_dirty
->    drm/omapdrm: Fix console with deferred ops
-> 
->   drivers/gpu/drm/omapdrm/Kconfig      |  2 +-
->   drivers/gpu/drm/omapdrm/omap_fbdev.c | 40 +++++++++++++++++++++++-----
->   drivers/video/fbdev/core/Kconfig     |  6 +++++
->   include/linux/fb.h                   |  4 +++
->   4 files changed, 45 insertions(+), 7 deletions(-)
-> 
+--xdawchznocicixqa
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Looks fine to me, I'll apply to drm-misc-next.
+Hi Ville,
 
-  Tomi
+Thanks for your review !
 
+On Fri, Mar 15, 2024 at 10:05:16AM +0200, Ville Syrj=C3=A4l=C3=A4 wrote:
+> On Mon, Mar 11, 2024 at 03:49:42PM +0100, Maxime Ripard wrote:
+> > +static bool
+> > +sink_supports_format_bpc(const struct drm_connector *connector,
+> > +			 const struct drm_display_info *info,
+> > +			 const struct drm_display_mode *mode,
+> > +			 unsigned int format, unsigned int bpc)
+> > +{
+> > +	struct drm_device *dev =3D connector->dev;
+> > +	u8 vic =3D drm_match_cea_mode(mode);
+> > +
+> > +	if (vic =3D=3D 1 && bpc !=3D 8) {
+> > +		drm_dbg(dev, "VIC1 requires a bpc of 8, got %u\n", bpc);
+>=20
+> Use of drm_dbg() for kms stuff is surprising.
+>=20
+> > +		return false;
+> > +	}
+>=20
+> I don't think we have this in i915. My original impression was that you
+> can use higher color depth if you can determine the sink capabilities,
+> but all sinks are required to accept 640x480@8bpc as a fallback.
+>=20
+> but CTA-861-H says:
+> "5.4 Color Coding & Quantization
+>  Component Depth: The coding shall be N-bit, where N =3D 8, 10, 12, or 16
+>  bits/component =E2=80=94 except in the case of the default 640x480 Video=
+ Timing 1,
+>  where the value of N shall be 8."
+>=20
+> So that does seem to imply that you're supposed to use exactly 8bpc.
+> Though the word "default" in there is confusing. Are they specifically
+> using that to indicate that this is about the fallback behaviour, or
+> is it just indicating that it is a "default mode that always has to
+> be supported". Dunno. I guess no real harm in forcing 8bpc for 640x480
+> since no one is likely to use that for any high fidelity stuff.
+
+My understanding was that CTA-861 mandates that 640x480@60Hz is
+supported, and mentions it being the default timing on a few occurences,
+like in section 4 - Video Formats and Waveform Timings that states "This
+section describes the default IT 640x480 Video Timing as well as all of
+the standard CE Video Timings.", or Section 6.2 - Describing Video
+Formats in EDID "The 640x480@60Hz flag, in the Established Timings area,
+shall always be set, since the 640x480p format is a mandatory default
+timing."
+
+So my understanding is that default here applies to the timing itself,
+and not the bpc, and is thus the second interpretation you suggested.
+
+I'll add a comment to make it clearer.
+
+> > +static int
+> > +hdmi_compute_format(const struct drm_connector *connector,
+> > +		    struct drm_connector_state *state,
+> > +		    const struct drm_display_mode *mode,
+> > +		    unsigned int bpc)
+> > +{
+> > +	struct drm_device *dev =3D connector->dev;
+> > +
+> > +	if (hdmi_try_format_bpc(connector, state, mode, bpc, HDMI_COLORSPACE_=
+RGB)) {
+> > +		state->hdmi.output_format =3D HDMI_COLORSPACE_RGB;
+> > +		return 0;
+> > +	}
+> > +
+> > +	if (hdmi_try_format_bpc(connector, state, mode, bpc, HDMI_COLORSPACE_=
+YUV422)) {
+> > +		state->hdmi.output_format =3D HDMI_COLORSPACE_YUV422;
+> > +		return 0;
+> > +	}
+>=20
+> Looks like you're preferring YCbCr 4:2:2 over RGB 8bpc. Not sure
+> if that's a good tradeoff to make.
+
+Yeah, indeed. I guess it's a judgement call on whether we prioritise
+lowering the bpc over selecting YUV422, but I guess I can try all
+available RGB bpc before falling back to YUV422.
+
+> In i915 we don't currently expose 4:2:2 at all because it doesn't
+> help in getting a working display, and we have no uapi for the
+> user to force it if they really want 4:2:2 over RGB.
+
+I guess if the priority is given to lowering bpc, then it indeed doesn't
+make sense to support YUV422, since the limiting factor is likely to be
+the TMDS char rate and YUV422 12 bpc is equivalent to RGB 8bpc there.
+
+dw-hdmi on the other hand will always put YUV422 and YUV444 before RGB
+for a given bpc, which is weird to me:
+https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/bridge/synop=
+sys/dw-hdmi.c#L2696
+
+What is even weirder to me is that YUV422 is explicitly stated to be
+12bpc only, so there's some invalid configurations there (8 and 10 bpc).
+
+And given that it's order by decreasing order of preference, I'm pretty
+sure it'll never actually pick any YUV or RGB > 8bpc format since RGB
+8bpc is super likely to be always available and thus picked first.
+
+If we want to converge, I think we should amend this code to support
+YUV420 for YUV420-only modes first, and then the RGB options like i915
+is doing. And then if someone is interested in more, we can always
+expand it to other formats.
+
+> > +
+> > +	drm_dbg(dev, "Failed. No Format Supported for that bpc count.\n");
+> > +
+> > +	return -EINVAL;
+> > +}
+> > +
+> > +static int
+> > +hdmi_compute_config(const struct drm_connector *connector,
+> > +		    struct drm_connector_state *state,
+> > +		    const struct drm_display_mode *mode)
+> > +{
+> > +	struct drm_device *dev =3D connector->dev;
+> > +	unsigned int max_bpc =3D clamp_t(unsigned int,
+> > +				       state->max_bpc,
+> > +				       8, connector->max_bpc);
+> > +	unsigned int bpc;
+> > +	int ret;
+> > +
+> > +	for (bpc =3D max_bpc; bpc >=3D 8; bpc -=3D 2) {
+> > +		drm_dbg(dev, "Trying with a %d bpc output\n", bpc);
+> > +
+> > +		ret =3D hdmi_compute_format(connector, state, mode, bpc);
+>=20
+> Hmm. Actually I'm not sure your 4:2:2 stuff even works since you=20
+> check for bpc=3D=3D12 in there and only call this based on the max_bpc.
+> I'm not convinced max_bpc would actually be 12 for a sink that
+> supports YCbCr 4:2:2 but not 12bpc RGB.
+
+It's another discussion we had in an earlier version, but yeah we lack
+the infrastructure to support those for now. I still believe it would
+require an increased max_bpc to select YUV422, otherwise things would be
+pretty inconsistent with other YUV formats.
+
+But yeah, we need to provide a hook to report we don't support RGB >
+8bpc for HDMI 1.4 devices. Which goes back to the previous question
+actually, I believe it would still provide value to support YUV422 on
+those devices, with something like:
+
+for (bpc =3D max_bpc; bpc >=3D 8; bpc -=3D 2) {
+    if (!connector->hdmi->funcs->validate_config(mode, RGB, bpc))
+       continue;
+
+    // Select RGB with bpc
+    ...
+}
+
+if (connector->hdmi->funcs->validate_config(mode, YUV) &&
+    hdmi_try_format_bpc(..., mode, 12, YUV422) {
+   // Select YUV422, 12 bpc
+   ...
+}
+
+What do you think?
+
+Maxime
+
+--xdawchznocicixqa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZfguAgAKCRDj7w1vZxhR
+xYX7AP9YL4GNF0yRNJ7z070+Yv3mLmj5X5hTspQ7QEnH+S7OjAD9Fq5i530AZlv4
+skxZS8QVnm8P0o92d7zjzIdrvZFL/QQ=
+=HIYX
+-----END PGP SIGNATURE-----
+
+--xdawchznocicixqa--
