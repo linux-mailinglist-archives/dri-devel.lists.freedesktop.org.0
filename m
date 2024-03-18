@@ -2,82 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83BFB87EA50
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 14:48:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A4A287EA5D
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 14:49:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF30A10F751;
-	Mon, 18 Mar 2024 13:48:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7147310F778;
+	Mon, 18 Mar 2024 13:49:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fairphone.com header.i=@fairphone.com header.b="ONkIsu6y";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="slqWXRSw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D50C10F774
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 13:48:17 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-2d27184197cso59752111fa.1
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 06:48:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fairphone.com; s=fair; t=1710769695; x=1711374495; darn=lists.freedesktop.org;
- h=in-reply-to:references:cc:to:from:subject:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=U0AQrSb2a+lzMoRPNmdl1WH+tKIo050nITB8DgR+osk=;
- b=ONkIsu6yUrFIgO0ZcB7bJlFod2PFqegMt5AcwCuYPcobDrINDoEN4IyTq+jE0OHvjN
- PIzMJ7wCWi4GSnW2z5hrtOdiivWHPpcx2zm7JVlrZvlUj4p4/4gT9FypDRwCpu3cCFHj
- nx0JaGEBsyYEvJyAnwMVtYyDod22ygo1NQb6FX6MbYcNzUplvu6vfJ9f8rEWs1VfjyEf
- QuDbCVcVexYrN7yR96PV1ycSRKTzgVMkzWCESODB9Ci2nplcSz+VuOxe4UNq32Ws06x3
- E8jwXWJAiijsBjhJkjW+Ym087ElCGMO9T7VylIUnN7CGoqSkEhDH/jjJegT/6DenZTVL
- wkLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710769695; x=1711374495;
- h=in-reply-to:references:cc:to:from:subject:message-id:date
- :content-transfer-encoding:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=U0AQrSb2a+lzMoRPNmdl1WH+tKIo050nITB8DgR+osk=;
- b=ZOw7gQbtoSIfL2G6t6t6GineQdL46K5XgpvZxxHP2e18+9S64YPFZ44s8T3S37Ii2N
- Y4sMufgtsf0mA9Zc+M9c7+qc4DDK82Kj/AKyTyWP/P7NQ/94vkNVtuNDf7W/jwKq9ylS
- 4A/zoUgmZt2aYT9fJaw7RGHKhzOtxbPB2OS4vAb37DS76/7scrrNn8ggd9TmRkXvoeQ7
- r/i19/fFREYoS495X3/Qh8EkXvV/AGv8LM+nZhO0lgG7wBrcGieVcKT0OilknxQfUbb3
- iuApbDGv6nyLxhkOxF2+m4CfqWwXoNBKuDWEo5ucmoHJzuJZ72yr+rc1IeqjtNQ1aafz
- HRXw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXUSKz3uwsU+XzFE352nxfzKg7BL0saNyKQgwje8/U9DdXnrhaP0w6jq/+mzJNs9iCrWRC7xVyRX+ry60VCQDzBW8M3y2lyYZQMK2TBwrql
-X-Gm-Message-State: AOJu0YyisNDhZHxilgpICLeRUQ6EgKR1mGR0Kn6L0npJ4M8Q/vtWKfn2
- nz1OQPQZMgyMSjuonxuj/6lz7PqxFp6RqdW+rVt+Illg/S48CSuWbVB8LxeTZl8=
-X-Google-Smtp-Source: AGHT+IFaxpl58hma4pvlO2gkQlFKb6UCdUfMVcmqVrqrduWOm/5xCqq0bUd5UNzGpakdAwXRnuRWVw==
-X-Received: by 2002:a2e:8949:0:b0:2d2:a3c4:4f with SMTP id
- b9-20020a2e8949000000b002d2a3c4004fmr8596189ljk.35.1710769695247; 
- Mon, 18 Mar 2024 06:48:15 -0700 (PDT)
-Received: from localhost (046125249120.public.t-mobile.at. [46.125.249.120])
- by smtp.gmail.com with ESMTPSA id
- az12-20020a05620a170c00b0078a0d65e968sm98832qkb.52.2024.03.18.06.48.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Mar 2024 06:48:14 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 18 Mar 2024 14:48:09 +0100
-Message-Id: <CZWX8POMMGS3.1YJ0MLS9HO90L@fairphone.com>
-Subject: Re: [PATCH] drm/bridge: Select DRM_KMS_HELPER for DRM_PANEL_BRIDGE
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Jani Nikula" <jani.nikula@linux.intel.com>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, "Andrzej Hajda" <andrzej.hajda@intel.com>,
- "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>
-Cc: <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-X-Mailer: aerc 0.15.2
-References: <20240111-drm-panel-bridge-fixup-v1-1-e06292f6f500@fairphone.com>
- <171075294759.1615603.8073986785380285265.b4-ty@linaro.org>
- <87wmpzq0bp.fsf@intel.com> <87ttl3pzzi.fsf@intel.com>
-In-Reply-To: <87ttl3pzzi.fsf@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE67810F778
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 13:49:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id F3BAA60C44;
+ Mon, 18 Mar 2024 13:49:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F7EEC433F1;
+ Mon, 18 Mar 2024 13:49:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1710769789;
+ bh=YOEzrHatFx0jJiBRWLd82LEi0v2Xjx5N3Is/qlRet7I=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=slqWXRSwUpMKJX228WDSzX4o7zRh8HSBkbb/2NM3B//SpqXngmTq/4wk3WM97JShS
+ nbn2LASnZStxFfxzfSrpJcqe3cevdN3VV9mtW/WTFBcx43KOb10DbUyrFLQE12r7s1
+ ud/b3imUL5kefI0gfv91z6We00gawo2BAyddGZ/g2RAf052B3uGABawH1Ih2G2RK6i
+ OK9pj6bDKv4tAAAfn2EOrjGa65ygcoDvQ1Xyih1Y8TO4xDmweK/gOUs4VBSTmlC1LC
+ PsU5X/flh6Zsgtoh4RGm1fWDggOFGtk3SIOF7iMxu/eMrmNp5NaDUTRV9DjZo2Hi1S
+ zkjFapGMK4pTA==
+Date: Mon, 18 Mar 2024 14:49:47 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+ Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v9 20/27] drm/connector: hdmi: Add Infoframes generation
+Message-ID: <20240318-abstract-myna-of-exercise-adfcde@houat>
+References: <20240311-kms-hdmi-connector-state-v9-0-d45890323344@kernel.org>
+ <20240311-kms-hdmi-connector-state-v9-20-d45890323344@kernel.org>
+ <ZfQFLR2xO6vUpAJ9@intel.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="3fi5t7l5bdbcyjok"
+Content-Disposition: inline
+In-Reply-To: <ZfQFLR2xO6vUpAJ9@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,121 +70,222 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon Mar 18, 2024 at 11:59 AM CET, Jani Nikula wrote:
-> On Mon, 18 Mar 2024, Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> > On Mon, 18 Mar 2024, Neil Armstrong <neil.armstrong@linaro.org> wrote:
-> >> Hi,
-> >>
-> >> On Thu, 11 Jan 2024 13:38:04 +0100, Luca Weiss wrote:
-> >>> Since the kconfig symbol of DRM_PANEL_BRIDGE is only adding
-> >>> bridge/panel.o to drm_kms_helper object, we need to select
-> >>> DRM_KMS_HELPER to make sure the file is actually getting built.
-> >>>=20
-> >>> Otherwise with certain defconfigs e.g. devm_drm_of_get_bridge will no=
-t
-> >>> be properly available:
-> >>>=20
-> >>> [...]
-> >>
-> >> Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git =
-(drm-misc-fixes)
-> >>
-> >> [1/1] drm/bridge: Select DRM_KMS_HELPER for DRM_PANEL_BRIDGE
-> >>       https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/e3f18b0d=
-d1db242791afbc3bd173026163ce0ccc
-> >
-> > With my kernel config, e3f18b0dd1db ("drm/bridge: Select DRM_KMS_HELPER
-> > for DRM_PANEL_BRIDGE") leads to:
-> >
-> > WARNING: unmet direct dependencies detected for DRM_KMS_HELPER
-> >   Depends on [m]: HAS_IOMEM [=3Dy] && DRM [=3Dm]
-> >   Selected by [y]:
-> >   - DRM_PANEL_BRIDGE [=3Dy] && HAS_IOMEM [=3Dy] && DRM_BRIDGE [=3Dy]
-> >   Selected by [m]:
-> >   - DRM [=3Dm] && HAS_IOMEM [=3Dy] && (AGP [=3Dy] || AGP [=3Dy]=3Dn) &&=
- !EMULATED_CMPXCHG && HAS_DMA [=3Dy] && DRM_FBDEV_EMULATION [=3Dy]
-> >   - DRM_MIPI_DBI [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm]
-> >   - DRM_KUNIT_TEST [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && KUNIT [=
-=3Dy] && MMU [=3Dy]
-> >   - DRM_RADEON [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && PCI [=3Dy] &=
-& MMU [=3Dy] && (AGP [=3Dy] || !AGP [=3Dy])
-> >   - DRM_AMDGPU [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && PCI [=3Dy] &=
-& MMU [=3Dy] && !UML
-> >   - DRM_NOUVEAU [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && PCI [=3Dy] =
-&& MMU [=3Dy]
-> >   - DRM_I915 [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && X86 [=3Dy] && =
-PCI [=3Dy] && !PREEMPT_RT [=3Dn]
-> >   - DRM_XE [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && PCI [=3Dy] && MM=
-U [=3Dy] && (m && MODULES [=3Dy] || y && KUNIT [=3Dy]=3Dy) && 64BIT [=3Dy]
-> >   - DRM_VKMS [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && MMU [=3Dy]
-> >   - DRM_VMWGFX [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && PCI [=3Dy] &=
-& MMU [=3Dy] && (X86 [=3Dy] || ARM64)
-> >   - DRM_GMA500 [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && PCI [=3Dy] &=
-& X86 [=3Dy] && MMU [=3Dy]
-> >   - DRM_UDL [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && USB [=3Dm] && U=
-SB_ARCH_HAS_HCD [=3Dy] && MMU [=3Dy]
-> >   - DRM_AST [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && PCI [=3Dy] && M=
-MU [=3Dy]
-> >   - DRM_MGAG200 [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && PCI [=3Dy] =
-&& MMU [=3Dy]
-> >   - DRM_QXL [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && PCI [=3Dy] && M=
-MU [=3Dy]
-> >   - DRM_VIRTIO_GPU [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && VIRTIO_M=
-ENU [=3Dy] && MMU [=3Dy]
-> >   - DRM_BOCHS [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && PCI [=3Dy] &&=
- MMU [=3Dy]
-> >   - DRM_CIRRUS_QEMU [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && PCI [=
-=3Dy] && MMU [=3Dy]
-> >   - DRM_GM12U320 [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && USB [=3Dm]=
- && MMU [=3Dy]
-> >   - DRM_PANEL_MIPI_DBI [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && SPI =
-[=3Dy]
-> >   - DRM_SIMPLEDRM [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && MMU [=3Dy=
-]
-> >   - TINYDRM_HX8357D [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && SPI [=
-=3Dy]
-> >   - TINYDRM_ILI9163 [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && SPI [=
-=3Dy]
-> >   - TINYDRM_ILI9225 [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && SPI [=
-=3Dy]
-> >   - TINYDRM_ILI9341 [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && SPI [=
-=3Dy]
-> >   - TINYDRM_ILI9486 [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && SPI [=
-=3Dy]
-> >   - TINYDRM_MI0283QT [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && SPI [=
-=3Dy]
-> >   - TINYDRM_REPAPER [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && SPI [=
-=3Dy]
-> >   - TINYDRM_ST7586 [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && SPI [=3D=
-y]
-> >   - TINYDRM_ST7735R [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && SPI [=
-=3Dy]
-> >   - DRM_XEN_FRONTEND [=3Dm] && HAS_IOMEM [=3Dy] && XEN [=3Dy] && DRM [=
-=3Dm]
-> >   - DRM_VBOXVIDEO [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && X86 [=3Dy=
-] && PCI [=3Dy]
-> >   - DRM_GUD [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && USB [=3Dm] && M=
-MU [=3Dy]
-> >   - DRM_SSD130X [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && MMU [=3Dy]
-> >   - DRM_ANALOGIX_ANX78XX [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && DR=
-M_BRIDGE [=3Dy]
->
-> Please read Documentation/kbuild/kconfig-language.rst.
->
-> Basically boolean DRM_PANEL_BRIDGE selecting tristate DRM_KMS_HELPER
-> forces it to y while it should remain m.
 
-Would you know the correct fix for this? I'm aware of the pattern
-"select FOO || !FOO" but I guess it's also not applicable here?
+--3fi5t7l5bdbcyjok
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In any case building DRM_PANEL_BRIDGE also needs to build
-DRM_KMS_HELPER, otherwise the object files just don't get used.
+Hi,
 
-Unfortunately I'm not versed well enough at all in Kconfig :/
+On Fri, Mar 15, 2024 at 10:22:05AM +0200, Ville Syrj=E4l=E4 wrote:
+> On Mon, Mar 11, 2024 at 03:49:48PM +0100, Maxime Ripard wrote:
+> > Infoframes in KMS is usually handled by a bunch of low-level helpers
+> > that require quite some boilerplate for drivers. This leads to
+> > discrepancies with how drivers generate them, and which are actually
+> > sent.
+> >=20
+> > Now that we have everything needed to generate them in the HDMI
+> > connector state, we can generate them in our common logic so that
+> > drivers can simply reuse what we precomputed.
+> >=20
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >  drivers/gpu/drm/Kconfig                            |   1 +
+> >  drivers/gpu/drm/drm_atomic_state_helper.c          | 323 +++++++++++++=
+++++++++
+> >  drivers/gpu/drm/drm_connector.c                    |  14 +
+> >  .../gpu/drm/tests/drm_atomic_state_helper_test.c   |   1 +
+> >  drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
+> >  include/drm/drm_atomic_state_helper.h              |   8 +
+> >  include/drm/drm_connector.h                        | 133 +++++++++
+> >  7 files changed, 492 insertions(+)
+> >=20
+> > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> > index 872edb47bb53..ad9c467e20ce 100644
+> > --- a/drivers/gpu/drm/Kconfig
+> > +++ b/drivers/gpu/drm/Kconfig
+> > @@ -97,10 +97,11 @@ config DRM_KUNIT_TEST
+> >  	  If in doubt, say "N".
+> > =20
+> >  config DRM_KMS_HELPER
+> >  	tristate
+> >  	depends on DRM
+> > +	select DRM_DISPLAY_HDMI_HELPER
+> >  	help
+> >  	  CRTC helpers for KMS drivers.
+> > =20
+> >  config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
+> >          bool "Enable refcount backtrace history in the DP MST helpers"
+> > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/dr=
+m/drm_atomic_state_helper.c
+> > index e66272c0d006..2bf53666fc9d 100644
+> > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> > @@ -36,10 +36,12 @@
+> >  #include <drm/drm_plane.h>
+> >  #include <drm/drm_print.h>
+> >  #include <drm/drm_vblank.h>
+> >  #include <drm/drm_writeback.h>
+> > =20
+> > +#include <drm/display/drm_hdmi_helper.h>
+> > +
+> >  #include <linux/slab.h>
+> >  #include <linux/dma-fence.h>
+> > =20
+> >  /**
+> >   * DOC: atomic state reset and initialization
+> > @@ -912,10 +914,143 @@ hdmi_compute_config(const struct drm_connector *=
+connector,
+> >  	}
+> > =20
+> >  	return -EINVAL;
+> >  }
+> > =20
+> > +static int hdmi_generate_avi_infoframe(const struct drm_connector *con=
+nector,
+> > +				       struct drm_connector_state *state)
+> > +{
+> > +	const struct drm_display_mode *mode =3D
+> > +		connector_state_get_mode(state);
+> > +	struct drm_connector_hdmi_infoframe *infoframe =3D
+> > +		&state->hdmi.infoframes.avi;
+> > +	struct hdmi_avi_infoframe *frame =3D
+> > +		&infoframe->data.avi;
+> > +	bool is_full_range =3D state->hdmi.is_full_range;
+> > +	enum hdmi_quantization_range rgb_quant_range =3D
+> > +		is_full_range ? HDMI_QUANTIZATION_RANGE_FULL : HDMI_QUANTIZATION_RAN=
+GE_LIMITED;
+> > +	int ret;
+> > +
+> > +	ret =3D drm_hdmi_avi_infoframe_from_display_mode(frame, connector, mo=
+de);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	frame->colorspace =3D state->hdmi.output_format;
+> > +
+> > +	drm_hdmi_avi_infoframe_quant_range(frame, connector, mode, rgb_quant_=
+range);
+>=20
+> drm_hdmi_avi_infoframe_quant_range() doesn't handle YCbCr currently.
 
->
-> Please revert.
->
-> BR,
-> Jani.
+I guess it's not really a problem anymore if we drop YUV422 selection,
+but I'll add a comment.
 
+> > +	drm_hdmi_avi_infoframe_colorimetry(frame, state);
+> > +	drm_hdmi_avi_infoframe_bars(frame, state);
+> > +
+> > +	infoframe->set =3D true;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> <snip>
+> > +
+> > +#define UPDATE_INFOFRAME(c, os, ns, i)				\
+> > +	write_or_clear_infoframe(c,				\
+> > +				 &(c)->hdmi.infoframes.i,	\
+> > +				 &(os)->hdmi.infoframes.i,	\
+> > +				 &(ns)->hdmi.infoframes.i)
+>=20
+> This macro feels like pointless obfuscation to me.
+
+I'll remove it then.
+
+> <snip>
+> > @@ -1984,20 +2063,73 @@ struct drm_connector {
+> > =20
+> >  	/**
+> >  	 * @hdmi: HDMI-related variable and properties.
+> >  	 */
+> >  	struct {
+> > +#define DRM_CONNECTOR_HDMI_VENDOR_LEN	8
+> > +		/**
+> > +		 * @vendor: HDMI Controller Vendor Name
+> > +		 */
+> > +		unsigned char vendor[DRM_CONNECTOR_HDMI_VENDOR_LEN] __nonstring;
+> > +
+> > +#define DRM_CONNECTOR_HDMI_PRODUCT_LEN	16
+> > +		/**
+> > +		 * @product: HDMI Controller Product Name
+> > +		 */
+> > +		unsigned char product[DRM_CONNECTOR_HDMI_PRODUCT_LEN] __nonstring;
+> > +
+> >  		/**
+> >  		 * @supported_formats: Bitmask of @hdmi_colorspace
+> >  		 * supported by the controller.
+> >  		 */
+> >  		unsigned long supported_formats;
+> > =20
+> >  		/**
+> >  		 * @funcs: HDMI connector Control Functions
+> >  		 */
+> >  		const struct drm_connector_hdmi_funcs *funcs;
+> > +
+> > +		/**
+> > +		 * @infoframes: Current Infoframes output by the connector
+> > +		 */
+> > +		struct {
+> > +			/**
+> > +			 * @lock: Mutex protecting against concurrent access to
+> > +			 * the infoframes, most notably between KMS and ALSA.
+> > +			 */
+> > +			struct mutex lock;
+> > +
+> > +			/**
+> > +			 * @audio: Current Audio Infoframes structure. Protected
+> > +			 * by @lock.
+> > +			 */
+> > +			struct drm_connector_hdmi_infoframe audio;
+> > +
+> > +			/**
+> > +			 * @avi: Current AVI Infoframes structure. Protected by
+> > +			 * @lock.
+> > +			 */
+> > +			struct drm_connector_hdmi_infoframe avi;
+> > +
+> > +			/**
+> > +			 * @hdr_drm: Current DRM (Dynamic Range and Mastering)
+> > +			 * Infoframes structure. Protected by @lock.
+> > +			 */
+> > +			struct drm_connector_hdmi_infoframe hdr_drm;
+> > +
+> > +			/**
+> > +			 * @spd: Current SPD Infoframes structure. Protected by
+> > +			 * @lock.
+> > +			 */
+> > +			struct drm_connector_hdmi_infoframe spd;
+> > +
+> > +			/**
+> > +			 * @vendor: Current HDMI Vendor Infoframes structure.
+> > +			 * Protected by @lock.
+> > +			 */
+> > +			struct drm_connector_hdmi_infoframe hdmi;
+> > +		} infoframes;
+> >  	} hdmi;
+>=20
+> What's the deal with this bloat? These are already tracked in the
+> connector's state so this looks entirely redundant.
+
+The next patch in this series is about adding debugfs entries to read
+the infoframes, and thus we need to care about concurrency between
+debugfs files accesses and commits. Copying the things we care about
+=66rom the state to the entity is the typical solution for that, but I
+guess we could also take the proper locks and access the current
+connector state.
+
+Maxime
+
+--3fi5t7l5bdbcyjok
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZfhGegAKCRDj7w1vZxhR
+xdWSAP0cFkWN2I/JOojZFtaGuV+9tSlOV/CstHMih6nVLQ2EWgEA2ebJLFm5BKD3
+79egYvDYViJCIyv4yrAkflJfyTWEeQs=
+=h0zT
+-----END PGP SIGNATURE-----
+
+--3fi5t7l5bdbcyjok--
