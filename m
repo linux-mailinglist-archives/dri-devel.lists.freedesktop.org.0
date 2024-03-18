@@ -2,81 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2DBB87EE84
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 18:12:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 398DF87EE92
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 18:17:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B4F310FCF4;
-	Mon, 18 Mar 2024 17:12:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 420BA10FCFA;
+	Mon, 18 Mar 2024 17:16:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="XRaom1ps";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="freZd4F0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3A2C10FCF4
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 17:12:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1710781922;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3vRhrKj0eRcdwyPwJxDdsdwXT1UnIfJmB27QpA0tWJU=;
- b=XRaom1psS3Tczzb2ECtJ/o9InBsa+xOPRYJ4ily5G+bP396v26Cf4UWyPIvwnmCgUdqDGw
- qEYwa9bmLN99RDY5I6z71nVXjhsSYuFpOC7SvWW0wGOSgAtN9aUftcx1k9IenD/LR/nzaX
- 3bZl6m6WRNgyCx0z4KrBA2JY3firiOs=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-582-juHC1lbDM2WpHeGhKN_jrA-1; Mon, 18 Mar 2024 13:11:59 -0400
-X-MC-Unique: juHC1lbDM2WpHeGhKN_jrA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-33e7ef510aaso2903414f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 10:11:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710781918; x=1711386718;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3vRhrKj0eRcdwyPwJxDdsdwXT1UnIfJmB27QpA0tWJU=;
- b=Jec59qmm+N0A4ll4h93cbnUX74NvLUXdnNLApFvXz8mieekRhpqSdUObn/TmAKNKb7
- Vc65jxAn3pC1D1qB+j8ijsbhy4lb6q1cuStG7danSZl5ciI774rLHWtZ5h3sMqBKBZp/
- 2FXpL0rc87Es/uwqihgkEY4NLKMLUYuSkWKaWFGirDnqSltSLlnaRqN6acE8ZvSKqiiy
- KUjcwZNtgdrlm7/H07Wlu6z3rmTBbGfRrlgNFU2icRt1ujAsCsR6B3PyyV7x+Pqk/Jxp
- mE0TOpBplrI7dwilCkhFgUH9qmvwZb+gR54NY/lVuZx97F+ulT9Y28buPh0wS71e47Lo
- XLsw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXasyYxFM3nETB/mu89GcN3DWiv5jo/78Mb1WcQQKUNhZ8AKqW4LpqzJUSU3OBaT7fsY+Bon+ztWogdE5HgLTvsbMC08YjZnS9CYMMq8/Ep
-X-Gm-Message-State: AOJu0YxKkxS521w0OjEOpg5KlByjFqoLGJ6BBBkliz8QeNYinjFDqpb0
- YTRdwC3euJ5xTZqrmHdPHrNTes4BkiqNAEZnI+XSELAEPYv67NNXjxJVGzxj5O8kGeOnBpOOZx/
- o2ccBiVTc7feL4lnYGt8tp+iISCEtmhqY8e+CT8DLBqwwaA98bUFVgzrhBZlVdzey0g==
-X-Received: by 2002:a5d:65ca:0:b0:33e:7873:e235 with SMTP id
- e10-20020a5d65ca000000b0033e7873e235mr6095771wrw.43.1710781918436; 
- Mon, 18 Mar 2024 10:11:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGqEfk0sICBaJNhEW1F/tUVU2GCwld0u8wBxQ3mmJGAa7E6HV9dWIbdUf1By66F59dzlYyHog==
-X-Received: by 2002:a5d:65ca:0:b0:33e:7873:e235 with SMTP id
- e10-20020a5d65ca000000b0033e7873e235mr6095758wrw.43.1710781918016; 
- Mon, 18 Mar 2024 10:11:58 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- v3-20020adfe4c3000000b0033e052be14fsm10228243wrm.98.2024.03.18.10.11.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Mar 2024 10:11:57 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, deller@gmx.de
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, Thomas
- Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 07/43] fbdev/deferred-io: Provide get_page hook in
- struct fb_deferred_io
-In-Reply-To: <20240312154834.26178-8-tzimmermann@suse.de>
-References: <20240312154834.26178-1-tzimmermann@suse.de>
- <20240312154834.26178-8-tzimmermann@suse.de>
-Date: Mon, 18 Mar 2024 18:11:57 +0100
-Message-ID: <87il1jform.fsf@minerva.mail-host-address-is-not-set>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1993610FCFA
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 17:16:55 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id BAAF87E9;
+ Mon, 18 Mar 2024 18:16:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1710782187;
+ bh=sSz3J6DdrpfFg+fiM5uwo3CSw8bryn65eUaO1X2q4CI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=freZd4F0xyzGCudVLWlDsfpirbzAWyc2efjwWyaxIcmfzrxU1TubtiI6tfnpN6I7D
+ PnqeMQIMPtyCqV/2AsdLvCa5qbuhAZ2Yc2hyibzUREqODuCT3P22X4Iux6fBJ3vPA/
+ /6i5e46s3LU0vL+LockMBi0Hr1nATn24f2MRCjoA=
+Date: Mon, 18 Mar 2024 19:16:51 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sean Anderson <sean.anderson@linux.dev>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ linux-kernel@vger.kernel.org, Michal Simek <michal.simek@amd.com>,
+ linux-arm-kernel@lists.infradead.org, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 3/6] drm: zynqmp_dp: Add locking
+Message-ID: <20240318171651.GJ13682@pendragon.ideasonboard.com>
+References: <20240315230916.1759060-1-sean.anderson@linux.dev>
+ <20240315230916.1759060-4-sean.anderson@linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240315230916.1759060-4-sean.anderson@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,28 +59,214 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+Hi Sean,
 
-> Add a callback for drivers to provide framebuffer pages to fbdev's
-> deferred-I/O helpers. Implementations need to acquire a reference on
-> the page before returning it. Returning NULL generates a SIGBUS
-> signal.
->
-> This will be useful for DRM's fbdev emulation with GEM-shemem buffer
+Thank you for the patch.
 
-GEM-shmem
+On Fri, Mar 15, 2024 at 07:09:13PM -0400, Sean Anderson wrote:
+> Add some locking, since none is provided by the drm subsystem. This will
 
-> objects.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+That's not quite right, the DRM core doesn't call bridge operations
+concurrently. We may need locking to protect against race conditions
+between bridge operations and interrupts though.
+
+> prevent the IRQ/workers/bridge API calls from stepping on each other's
+> toes.
+> 
+> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
 > ---
+> 
+>  drivers/gpu/drm/xlnx/zynqmp_dp.c | 59 +++++++++++++++++++++++---------
+>  1 file changed, 42 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> index 8635b5673386..d2dee58e7bf2 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> @@ -279,6 +279,7 @@ struct zynqmp_dp_config {
+>   * @dpsub: Display subsystem
+>   * @iomem: device I/O memory for register access
+>   * @reset: reset controller
+> + * @lock: Mutex protecting this struct and register access (but not AUX)
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+This patch does two things at once, it defers link training from the IRQ
+handler to a work queue, and covers everything with a big lock. The
+scope is too large. Please restrict the lock scope and document the
+individual fields that need to be protected, and explain the locking
+design in the commit message (or comments in the code).
+
+>   * @irq: irq
+>   * @bridge: DRM bridge for the DP encoder
+>   * @next_bridge: The downstream bridge
+> @@ -299,6 +300,7 @@ struct zynqmp_dp {
+>  	struct zynqmp_dpsub *dpsub;
+>  	void __iomem *iomem;
+>  	struct reset_control *reset;
+> +	struct mutex lock;
+>  	int irq;
+>  
+>  	struct drm_bridge bridge;
+> @@ -308,7 +310,7 @@ struct zynqmp_dp {
+>  	struct drm_dp_aux aux;
+>  	struct phy *phy[ZYNQMP_DP_MAX_LANES];
+>  	u8 num_lanes;
+> -	struct delayed_work hpd_work;
+> +	struct delayed_work hpd_work, hpd_irq_work;
+
+One variable per line please.
+
+>  	enum drm_connector_status status;
+>  	bool enabled;
+>  
+> @@ -1371,8 +1373,10 @@ zynqmp_dp_bridge_mode_valid(struct drm_bridge *bridge,
+>  	}
+>  
+>  	/* Check with link rate and lane count */
+> +	mutex_lock(&dp->lock);
+>  	rate = zynqmp_dp_max_rate(dp->link_config.max_rate,
+>  				  dp->link_config.max_lanes, dp->config.bpp);
+> +	mutex_unlock(&dp->lock);
+>  	if (mode->clock > rate) {
+>  		dev_dbg(dp->dev, "filtered mode %s for high pixel rate\n",
+>  			mode->name);
+> @@ -1399,6 +1403,7 @@ static void zynqmp_dp_bridge_atomic_enable(struct drm_bridge *bridge,
+>  
+>  	pm_runtime_get_sync(dp->dev);
+>  
+> +	mutex_lock(&dp->lock);
+>  	zynqmp_dp_disp_enable(dp, old_bridge_state);
+>  
+>  	/*
+> @@ -1459,6 +1464,7 @@ static void zynqmp_dp_bridge_atomic_enable(struct drm_bridge *bridge,
+>  	zynqmp_dp_write(dp, ZYNQMP_DP_SOFTWARE_RESET,
+>  			ZYNQMP_DP_SOFTWARE_RESET_ALL);
+>  	zynqmp_dp_write(dp, ZYNQMP_DP_MAIN_STREAM_ENABLE, 1);
+> +	mutex_unlock(&dp->lock);
+>  }
+>  
+>  static void zynqmp_dp_bridge_atomic_disable(struct drm_bridge *bridge,
+> @@ -1466,6 +1472,7 @@ static void zynqmp_dp_bridge_atomic_disable(struct drm_bridge *bridge,
+>  {
+>  	struct zynqmp_dp *dp = bridge_to_dp(bridge);
+>  
+> +	mutex_lock(&dp->lock);
+>  	dp->enabled = false;
+>  	cancel_delayed_work(&dp->hpd_work);
+>  	zynqmp_dp_write(dp, ZYNQMP_DP_MAIN_STREAM_ENABLE, 0);
+> @@ -1476,6 +1483,7 @@ static void zynqmp_dp_bridge_atomic_disable(struct drm_bridge *bridge,
+>  		zynqmp_dp_write(dp, ZYNQMP_DP_TX_AUDIO_CONTROL, 0);
+>  
+>  	zynqmp_dp_disp_disable(dp, old_bridge_state);
+> +	mutex_unlock(&dp->lock);
+>  
+>  	pm_runtime_put_sync(dp->dev);
+>  }
+> @@ -1518,6 +1526,8 @@ static enum drm_connector_status zynqmp_dp_bridge_detect(struct drm_bridge *brid
+>  	u32 state, i;
+>  	int ret;
+>  
+> +	mutex_lock(&dp->lock);
+> +
+>  	/*
+>  	 * This is from heuristic. It takes some delay (ex, 100 ~ 500 msec) to
+>  	 * get the HPD signal with some monitors.
+> @@ -1545,11 +1555,13 @@ static enum drm_connector_status zynqmp_dp_bridge_detect(struct drm_bridge *brid
+>  					       dp->num_lanes);
+>  
+>  		dp->status = connector_status_connected;
+> +		mutex_unlock(&dp->lock);
+>  		return connector_status_connected;
+>  	}
+>  
+>  disconnected:
+>  	dp->status = connector_status_disconnected;
+> +	mutex_unlock(&dp->lock);
+>  	return connector_status_disconnected;
+>  }
+>  
+> @@ -1611,6 +1623,29 @@ static void zynqmp_dp_hpd_work_func(struct work_struct *work)
+>  	drm_bridge_hpd_notify(&dp->bridge, status);
+>  }
+>  
+> +static void zynqmp_dp_hpd_irq_work_func(struct work_struct *work)
+> +{
+> +	struct zynqmp_dp *dp = container_of(work, struct zynqmp_dp,
+> +					    hpd_irq_work.work);
+> +	u8 status[DP_LINK_STATUS_SIZE + 2];
+> +	int err;
+> +
+> +	mutex_lock(&dp->lock);
+> +	err = drm_dp_dpcd_read(&dp->aux, DP_SINK_COUNT, status,
+> +			       DP_LINK_STATUS_SIZE + 2);
+> +	if (err < 0) {
+> +		dev_dbg_ratelimited(dp->dev,
+> +				    "could not read sink status: %d\n", err);
+> +	} else {
+> +		if (status[4] & DP_LINK_STATUS_UPDATED ||
+> +		    !drm_dp_clock_recovery_ok(&status[2], dp->mode.lane_cnt) ||
+> +		    !drm_dp_channel_eq_ok(&status[2], dp->mode.lane_cnt)) {
+> +			zynqmp_dp_train_loop(dp);
+> +		}
+> +	}
+> +	mutex_unlock(&dp->lock);
+> +}
+> +
+>  static irqreturn_t zynqmp_dp_irq_handler(int irq, void *data)
+>  {
+>  	struct zynqmp_dp *dp = (struct zynqmp_dp *)data;
+> @@ -1635,23 +1670,9 @@ static irqreturn_t zynqmp_dp_irq_handler(int irq, void *data)
+>  	if (status & ZYNQMP_DP_INT_HPD_EVENT)
+>  		schedule_delayed_work(&dp->hpd_work, 0);
+>  
+> -	if (status & ZYNQMP_DP_INT_HPD_IRQ) {
+> -		int ret;
+> -		u8 status[DP_LINK_STATUS_SIZE + 2];
+> +	if (status & ZYNQMP_DP_INT_HPD_IRQ)
+> +		schedule_delayed_work(&dp->hpd_irq_work, 0);
+>  
+> -		ret = drm_dp_dpcd_read(&dp->aux, DP_SINK_COUNT, status,
+> -				       DP_LINK_STATUS_SIZE + 2);
+> -		if (ret < 0)
+> -			goto handled;
+> -
+> -		if (status[4] & DP_LINK_STATUS_UPDATED ||
+> -		    !drm_dp_clock_recovery_ok(&status[2], dp->mode.lane_cnt) ||
+> -		    !drm_dp_channel_eq_ok(&status[2], dp->mode.lane_cnt)) {
+> -			zynqmp_dp_train_loop(dp);
+> -		}
+> -	}
+> -
+> -handled:
+>  	return IRQ_HANDLED;
+>  }
+>  
+> @@ -1674,8 +1695,10 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
+>  	dp->dev = &pdev->dev;
+>  	dp->dpsub = dpsub;
+>  	dp->status = connector_status_disconnected;
+> +	mutex_init(&dp->lock);
+>  
+>  	INIT_DELAYED_WORK(&dp->hpd_work, zynqmp_dp_hpd_work_func);
+> +	INIT_DELAYED_WORK(&dp->hpd_irq_work, zynqmp_dp_hpd_irq_work_func);
+>  
+>  	/* Acquire all resources (IOMEM, IRQ and PHYs). */
+>  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dp");
+> @@ -1775,6 +1798,7 @@ void zynqmp_dp_remove(struct zynqmp_dpsub *dpsub)
+>  	zynqmp_dp_write(dp, ZYNQMP_DP_INT_DS, ZYNQMP_DP_INT_ALL);
+>  	disable_irq(dp->irq);
+>  
+> +	cancel_delayed_work_sync(&dp->hpd_irq_work);
+>  	cancel_delayed_work_sync(&dp->hpd_work);
+>  
+>  	zynqmp_dp_write(dp, ZYNQMP_DP_TRANSMITTER_ENABLE, 0);
+> @@ -1782,4 +1806,5 @@ void zynqmp_dp_remove(struct zynqmp_dpsub *dpsub)
+>  
+>  	zynqmp_dp_phy_exit(dp);
+>  	zynqmp_dp_reset(dp, true);
+> +	mutex_destroy(&dp->lock);
+>  }
 
 -- 
-Best regards,
+Regards,
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Laurent Pinchart
