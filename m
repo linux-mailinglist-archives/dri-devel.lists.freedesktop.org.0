@@ -2,190 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 343A987FA88
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 10:14:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1557787F1EE
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 22:21:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 632AE10F8DD;
-	Tue, 19 Mar 2024 09:14:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A40611227C;
+	Mon, 18 Mar 2024 21:21:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bR5F1/qL";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="bvhR7yZk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8BC010F8DD
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 09:14:44 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="5529741"
-X-IronPort-AV: E=Sophos;i="6.07,136,1708416000"; 
-   d="scan'208";a="5529741"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Mar 2024 02:14:44 -0700
-X-ExtLoopCount2: 2 from 10.237.72.74
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="827782081"
-X-IronPort-AV: E=Sophos;i="6.07,136,1708416000"; d="scan'208";a="827782081"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 19 Mar 2024 02:14:42 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 19 Mar 2024 11:14:41 +0200
-Resent-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Resent-Date: Tue, 19 Mar 2024 11:14:41 +0200
-Resent-Message-ID: <ZflXgefiO4VJGRtb@intel.com>
-Resent-To: dri-devel@lists.freedesktop.org
-X-Original-To: ville.syrjala@linux.intel.com
-Delivered-To: ville.syrjala@linux.intel.com
-Received: from linux.intel.com [10.54.29.200]
- by stinkbox.stink.local with IMAP (fetchmail-6.4.37)
- for <vsyrjala@localhost> (single-drop); Mon, 18 Mar 2024 22:49:06 +0200 (EET)
-Received: from orviesa003.jf.intel.com (ORVIESA003.jf.intel.com
- [10.64.159.143])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by linux.intel.com (Postfix) with ESMTPS id BE3C0580E3B;
- Mon, 18 Mar 2024 13:44:25 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; d="scan'208";a="18315601"
-Received: from fmvoesa102.fm.intel.com ([10.64.2.12])
- by ORVIESA003-1.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2024 13:44:26 -0700
-X-IPAS-Result: =?us-ascii?q?A0E6AQCypvhlmLHS/INaHQEBAQEJARIBBQUBQIFPgjkZA?=
- =?us-ascii?q?YE4gQmEGjyIfIhuFp8xMxoBAQEBAQEBAQEJLhMBAgQBAQMEhH+IBQImOBMBA?=
- =?us-ascii?q?gQBAQEBAwIBAgEBAQEBAQgBAQECAgEBAQIBAQYDAQEBAQIQAQEBAQEBAQEeG?=
- =?us-ascii?q?QUQDieFLz0NgjclAYEeXgcJOAEBAQEBAQEBAQEBAQEBAQEBAQEBARQCDVsBA?=
- =?us-ascii?q?R4BAQEDAQEBCRcECwENAQEECikBAgMBAgYBAQgXBQIeBAQCAgMBUhkFgnuCY?=
- =?us-ascii?q?AMFl3CbOnp/M4EBggoBAQaxIIFhCYEaLogmAYRThGR6Jw+BVUR6UIMzgVKDB?=
- =?us-ascii?q?jiDDoJogUFWgzuFRRCMb4tySoEJHAOBBWsbEB43ERATDQMIbh0CMToDBQMEM?=
- =?us-ascii?q?goSDAsfBVQDQwZJCwMCGgUDAwSBLgUNGgIQLCYDAxJJAhAUAzgDAwYDCjEwV?=
- =?us-ascii?q?UEMUANkHxoYCTwLBAwaAhsUDSQjAiw+AwkKEAIWAx0WBDARCQsmAyoGNgISD?=
- =?us-ascii?q?AYGBl0gFgkEJQMIBAMQQgMgchEDBBoECwdSJoM/BBNEAxCBNIoig0IqgXeCR?=
- =?us-ascii?q?QMJAwcFLB1AAwsYDUgRLBYfFBsoHgFvB6UVKmSVdwGDIa8ENAeEFYFbBgyfO?=
- =?us-ascii?q?hozl1OSWy6YMah8gXsjAoFaMxojgzdSGQ+OIAwWg1iPe0E1AjkCBwEKAQEDC?=
- =?us-ascii?q?YVGAQGDWQGBRwEB?=
-IronPort-PHdr: A9a23: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
- xitHV4L1MKyegaVdxr6
-IronPort-Data: A9a23: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
- PCC6i6Cu9pSGcpOQv0m
-IronPort-HdrOrdr: A9a23:oG6kBajrij7zqcCmtH6FyNBZlXBQXk0ji2hC6mlwRA09TyX5ra
- qTdTogpGTJYVEqKQMdcLG7Sdq9qBbnm6KdjrNhQItKNjOLhIKXFvAv0WKP+UyYJ8S6zJ8i6U
- +PG5IOQOEZIzBB/IzHCSODYqAdKODuytHiuQ81p00dAD2CEpsQpjuRaTzrYnGeJjM2eabRT6
- DskfavzgDIER95H6fLYQhiYwGAnay7qHvIW29IO/dN0nj1sdrH0s+DL/BYti1uJg+nho1Sk1
- QtlTaZhtTHwpWGI2fnphDuBxs/oqqU9jIvPqGxtvQ=
-X-Talos-CUID: =?us-ascii?q?9a23=3A1cf9amlNMNFHdnJxUxke+Nxp7JzXOXON6VLwOxS?=
- =?us-ascii?q?XMnZseKTSRmW1xJ1Ao8U7zg=3D=3D?=
-X-Talos-MUID: 9a23:QXjVCgQwxKrQzKpbRXTTpxh6Mp5n5Z+sUm0knqck4PG8LyNJbmI=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="23142925"
-X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; d="scan'208";a="23142925"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from gabe.freedesktop.org ([131.252.210.177])
- by mtab.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2024 13:44:24 -0700
-Received: from gabe.freedesktop.org (localhost [127.0.0.1])
- by gabe.freedesktop.org (Postfix) with ESMTP id BD13C1120B2;
- Mon, 18 Mar 2024 20:44:23 +0000 (UTC)
-X-Original-To: intel-gfx@lists.freedesktop.org
-Delivered-To: intel-gfx@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E317E1120B2
- for <intel-gfx@lists.freedesktop.org>; Mon, 18 Mar 2024 20:44:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710794662; x=1742330662;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=HZsgmxpn/d7I73aHkhjqcb9wJ8ucpOy6Wqvzh/mhEpU=;
- b=bR5F1/qLXL9zpkwSOT3xdUw5/V/I3RCgm/JFVDlFKrMaC80mzVOiNEXS
- YrEInu5lXymHB1ZoSkuc4NzRTMR+2yxgfOm2X0PXbOpUW3hDOecZQlf/t
- QWwp5z6nNfveAwfHj+pETexLutvXiKj+HRQxASRvaNS/YZv3xx5YjmfDM
- 4AfFc7+vzphebhjDFAX93gxlB/UL5LRw5Cz8VCWKwr+cwzHCi2OpGQLtT
- VJJBBN16cIzM6CH6umiVlLF2QUUMHQvEenTOfKMcESX92zTGQsRbEs5dh
- FiC0hpACSslwlqPGjcTWABAsZBjEXcSY5Yn589tgCh0aAmoAoSYoN11RB w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="16273739"
-X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; d="scan'208";a="16273739"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2024 13:44:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="827781926"
-X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; d="scan'208";a="827781926"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 18 Mar 2024 13:44:18 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 18 Mar 2024 22:44:17 +0200
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: Simon Ser <contact@emersion.fr>,
- =?UTF-8?q?Jonas=20=C3=85dahl?= <jadahl@redhat.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Sameer Lattannavar <sameer.lattannavar@intel.com>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: [PATCH v3 2/2] drm/i915: Add SIZE_HINTS property for cursors
-Date: Mon, 18 Mar 2024 22:44:08 +0200
-Message-ID: <20240318204408.9687-3-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240318204408.9687-1-ville.syrjala@linux.intel.com>
-References: <20240318204408.9687-1-ville.syrjala@linux.intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DC5811227C
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 21:21:34 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 42IJt2GS009316; Mon, 18 Mar 2024 21:21:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=oFYfnk2O3YStsV4mePQQV328nUghUPgKz5O4fwliaZI=; b=bv
+ hR7yZki+rdmcH1i0csdYxqW6YCkO1QYneIn+DYy8N9tZ6cmd0eYjO1Bdh+LhDwFb
+ vo0aUzAysOEVKXeYL/P5HsauVoe+49K67kdPUszMhCIXTAigMA5qc+UOE7pm14dI
+ 1J59V+jYfYkCaq86yF/U25RnFFFaLcYV2KCAup7COqb0yB8kEA3jhZGz7z2yU9qt
+ 7aIMOvXz8U6m8rsxg6F1E7N4fofI+bKZ/qJLf8Y8IHL8lhyAG8oH9gnBdurL9S+E
+ 0Z42qS+Q2IPjB4q680s6dsQ3PuMm0qkgrgymbN5oTQte88SzrDbmVVO18Ul9lCGr
+ utxES1eGpkBBWVLAnzuA==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wxjt4shng-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 18 Mar 2024 21:21:27 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42ILLPNF003847
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 18 Mar 2024 21:21:25 GMT
+Received: from [10.110.31.51] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 18 Mar
+ 2024 14:21:24 -0700
+Message-ID: <4a69382c-5fb2-4703-8176-f1833eeffcc1@quicinc.com>
+Date: Mon, 18 Mar 2024 14:21:12 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-BeenThere: intel-gfx@lists.freedesktop.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] drm/panel: simple: Add POWERTIP PH128800T006-ZHC01
+ panel entry
+To: Nathan Morrisson <nmorrisson@phytec.com>, <neil.armstrong@linaro.org>,
+ <sam@ravnborg.org>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <robh@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+ <thierry.reding@gmail.com>
+CC: <w.egorov@phytec.de>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <upstream@lists.phytec.de>
+References: <20240318161708.1415484-1-nmorrisson@phytec.com>
+ <20240318161708.1415484-3-nmorrisson@phytec.com>
+Content-Language: en-US
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20240318161708.1415484-3-nmorrisson@phytec.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: tFW9EyK9fLbzGgYliH7Z-zohIbyfg0cz
+X-Proofpoint-ORIG-GUID: tFW9EyK9fLbzGgYliH7Z-zohIbyfg0cz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-18_12,2024-03-18_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ adultscore=0 malwarescore=0 clxscore=1011 phishscore=0 priorityscore=1501
+ suspectscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 bulkscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2403140001 definitions=main-2403180161
+X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
-X-BeenThere: dri-devel@lists.freedesktop.org
 List-Id: Direct Rendering Infrastructure - Development
  <dri-devel.lists.freedesktop.org>
 List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/dri-devel>,
@@ -198,75 +97,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Advertize more suitable cursor sizes via the new SIZE_HINTS
-plane property.
 
-We can't really enumerate all supported cursor sizes on
-the platforms where the cursor height can vary freely, so
-for simplicity we'll just expose all square+POT sizes between
-each platform's min and max cursor limits.
+On 3/18/2024 9:17 AM, Nathan Morrisson wrote:
+> Add support for the POWERTIP PH128800T006-ZHC01 10.1" (1280x800)
+> LCD-TFT panel.
+> 
+> Signed-off-by: Nathan Morrisson <nmorrisson@phytec.com>
 
-Depending on the platform this will give us one of three
-results:
-- 64x64,128x128,256x256,512x512
-- 64x64,128x128,256x256
-- 64x64
+Hi Nathan,
 
-Cc: Simon Ser <contact@emersion.fr>
-Cc: Jonas Ådahl <jadahl@redhat.com>
-Cc: Daniel Stone <daniel@fooishbar.org>
-Cc: Sameer Lattannavar <sameer.lattannavar@intel.com>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
----
- drivers/gpu/drm/i915/display/intel_cursor.c | 24 +++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+Acked-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 
-diff --git a/drivers/gpu/drm/i915/display/intel_cursor.c b/drivers/gpu/drm/i915/display/intel_cursor.c
-index f8b33999d43f..49e9b9be2235 100644
---- a/drivers/gpu/drm/i915/display/intel_cursor.c
-+++ b/drivers/gpu/drm/i915/display/intel_cursor.c
-@@ -823,6 +823,28 @@ static const struct drm_plane_funcs intel_cursor_plane_funcs = {
- 	.format_mod_supported = intel_cursor_format_mod_supported,
- };
- 
-+static void intel_cursor_add_size_hints_property(struct intel_plane *plane)
-+{
-+	struct drm_i915_private *i915 = to_i915(plane->base.dev);
-+	const struct drm_mode_config *config = &i915->drm.mode_config;
-+	struct drm_plane_size_hint hints[4];
-+	int size, max_size, num_hints = 0;
-+
-+	max_size = min(config->cursor_width, config->cursor_height);
-+
-+	/* for simplicity only enumerate the supported square+POT sizes */
-+	for (size = 64; size <= max_size; size *= 2) {
-+		if (drm_WARN_ON(&i915->drm, num_hints >= ARRAY_SIZE(hints)))
-+			break;
-+
-+		hints[num_hints].width = size;
-+		hints[num_hints].height = size;
-+		num_hints++;
-+	}
-+
-+	drm_plane_add_size_hints_property(&plane->base, hints, num_hints);
-+}
-+
- struct intel_plane *
- intel_cursor_plane_create(struct drm_i915_private *dev_priv,
- 			  enum pipe pipe)
-@@ -881,6 +903,8 @@ intel_cursor_plane_create(struct drm_i915_private *dev_priv,
- 						   DRM_MODE_ROTATE_0 |
- 						   DRM_MODE_ROTATE_180);
- 
-+	intel_cursor_add_size_hints_property(cursor);
-+
- 	zpos = DISPLAY_RUNTIME_INFO(dev_priv)->num_sprites[pipe] + 1;
- 	drm_plane_create_zpos_immutable_property(&cursor->base, zpos);
- 
--- 
-2.43.2
+Thanks,
+
+Jessica Zhang
+
+> ---
+>   drivers/gpu/drm/panel/panel-simple.c | 29 ++++++++++++++++++++++++++++
+>   1 file changed, 29 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 20e3df1c59d4..02d238123753 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -3465,6 +3465,32 @@ static const struct panel_desc pda_91_00156_a0  = {
+>   	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+>   };
+>   
+> +static const struct drm_display_mode powertip_ph128800t006_zhc01_mode = {
+> +	.clock = 66500,
+> +	.hdisplay = 1280,
+> +	.hsync_start = 1280 + 12,
+> +	.hsync_end = 1280 + 12 + 20,
+> +	.htotal = 1280 + 12 + 20 + 56,
+> +	.vdisplay = 800,
+> +	.vsync_start = 800 + 1,
+> +	.vsync_end = 800 + 1 + 3,
+> +	.vtotal = 800 + 1 + 3 + 20,
+> +	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC,
+> +};
+> +
+> +static const struct panel_desc powertip_ph128800t006_zhc01 = {
+> +	.modes = &powertip_ph128800t006_zhc01_mode,
+> +	.num_modes = 1,
+> +	.bpc = 8,
+> +	.size = {
+> +		.width = 216,
+> +		.height = 135,
+> +	},
+> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+> +};
+> +
+>   static const struct drm_display_mode powertip_ph800480t013_idf02_mode = {
+>   	.clock = 24750,
+>   	.hdisplay = 800,
+> @@ -4639,6 +4665,9 @@ static const struct of_device_id platform_of_match[] = {
+>   	}, {
+>   		.compatible = "pda,91-00156-a0",
+>   		.data = &pda_91_00156_a0,
+> +	}, {
+> +		.compatible = "powertip,ph128800t006-zhc01",
+> +		.data = &powertip_ph128800t006_zhc01,
+>   	}, {
+>   		.compatible = "powertip,ph800480t013-idf02",
+>   		.data = &powertip_ph800480t013_idf02,
+> -- 
+> 2.25.1
+> 
