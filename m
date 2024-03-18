@@ -2,93 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC64C87EA82
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 15:02:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD82C87EA84
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 15:04:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1436B10F78D;
-	Mon, 18 Mar 2024 14:02:14 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="YwqKtjch";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBDFE10E8A7;
+	Mon, 18 Mar 2024 14:04:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 301F810F78D
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 14:02:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
- Cc:To:From:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=MowW+z48ZbZXbCORT4eYBMdUW07S4Zyh1t8dBwDNulo=; b=YwqKtjchBKQJDzX6oMMSSXAtny
- fua7A/NN8rO3ibVWlWHHVrkG8aOZOEQi5Dz42qoYDJQaz/zdnc49EFoOO5x1nc43Byt8gzzWQIJcJ
- xaRtfnmquX0QSkeYPsIfKz+RMqRpX6klaOmG2FPAbcD8D/yvPB3Iz3v214wXxiSDNmQCe6DyQewl3
- jRlJYo43+xE8LKG5oJQhFu87YEm0LimU3eUOzGwb7VcHkbbtOWfuiycPeMuMBLTI89diQF0iZoF5H
- tNZcatBwlLXyjuj1vFn8LGaNF7qDQcLt9FzxB6Do3XTUhcBsc94Mn6E5HFArGYxnxV01mrsZgB/uU
- l2vj/SGQ==;
-Received: from [143.107.231.30] (helo=[172.26.121.144])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1rmDYc-00ByNN-PU; Mon, 18 Mar 2024 15:01:43 +0100
-Message-ID: <90dda44f-d18c-46f6-a7d7-c1364396124c@igalia.com>
-Date: Mon, 18 Mar 2024 11:01:27 -0300
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 13C7F10E8A7
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 14:04:21 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8B01CDA7;
+ Mon, 18 Mar 2024 07:04:56 -0700 (PDT)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AC3033F67D;
+ Mon, 18 Mar 2024 07:04:20 -0700 (PDT)
+Message-ID: <689eed7c-836f-4ca8-9d57-f7ff045a6cf8@arm.com>
+Date: Mon, 18 Mar 2024 14:04:19 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] drm/gem: Add a mountpoint parameter to
- drm_gem_object_init()
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Melissa Wen <mwen@igalia.com>,
- Iago Toral <itoral@igalia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- Russell King <linux@armlinux.org.uk>, Lucas Stach <l.stach@pengutronix.de>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Sui Jingfeng <suijingfeng@loongson.cn>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Thierry Reding
- <thierry.reding@gmail.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Huang Rui <ray.huang@amd.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Karolina Stolarek <karolina.stolarek@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>
-References: <20240311100959.205545-1-mcanal@igalia.com>
- <20240311100959.205545-3-mcanal@igalia.com>
- <30a7f20b-1f2c-41cb-b193-03429c160b63@igalia.com>
- <3a5d07c0-120f-47f9-a35a-31f3bfcc9330@amd.com>
- <07885e3b-ee7b-456b-9fad-17d9009a4cb7@igalia.com>
- <a0ac2e10-f5f5-4fbb-b591-bd188967ce53@amd.com>
- <e8165baa-9ded-4149-aaa6-6713d112b621@igalia.com>
- <69576e6d-9704-42b9-905f-289f9f9017b9@amd.com>
- <ed7ecd56-0b5e-4543-80f6-7d28ddf8e2ec@igalia.com>
- <9cfb7f83-2d76-4e8d-9052-5975da71e0dc@amd.com>
- <2118492c-f223-41e9-8c1e-3c03d976301e@igalia.com>
- <68452c6c-12d7-4e60-9598-369acc9fc360@amd.com>
- <a07e4bc2-04af-4e98-8a9c-ccab31bca854@igalia.com>
-In-Reply-To: <a07e4bc2-04af-4e98-8a9c-ccab31bca854@igalia.com>
+Subject: Re: [PATCH] drm/panthor: Fix the CONFIG_PM=n case
+Content-Language: en-GB
+To: Steven Price <steven.price@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
+ kernel@collabora.com, kernel test robot <lkp@intel.com>
+References: <20240318085855.994179-1-boris.brezillon@collabora.com>
+ <2af13565-f3d7-47c3-8083-da86669a34e1@arm.com>
+ <20240318140815.44de8110@collabora.com>
+ <5c9257cb-8307-4f9e-9323-2ed367c48a11@arm.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <5c9257cb-8307-4f9e-9323-2ed367c48a11@arm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,187 +51,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/18/24 10:28, Maíra Canal wrote:
-> Hi Christian,
-> 
-> On 3/18/24 10:10, Christian König wrote:
->> Am 18.03.24 um 13:42 schrieb Maíra Canal:
->>> Hi Christian,
+On 18/03/2024 1:49 pm, Steven Price wrote:
+> On 18/03/2024 13:08, Boris Brezillon wrote:
+>> On Mon, 18 Mar 2024 11:31:05 +0000
+>> Steven Price <steven.price@arm.com> wrote:
+>>
+>>> On 18/03/2024 08:58, Boris Brezillon wrote:
+>>>> Putting a hard dependency on CONFIG_PM is not possible because of a
+>>>> circular dependency issue, and it's actually not desirable either. In
+>>>> order to support this use case, we forcibly resume at init time, and
+>>>> suspend at unplug time.
+>>>>
+>>>> Reported-by: kernel test robot <lkp@intel.com>
+>>>> Closes: https://lore.kernel.org/oe-kbuild-all/202403031944.EOimQ8WK-lkp@intel.com/
+>>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 >>>
->>> On 3/12/24 10:48, Christian König wrote:
->>>> Am 12.03.24 um 14:09 schrieb Tvrtko Ursulin:
->>>>>
->>>>> On 12/03/2024 10:37, Christian König wrote:
->>>>>> Am 12.03.24 um 11:31 schrieb Tvrtko Ursulin:
->>>>>>>
->>>>>>> On 12/03/2024 10:23, Christian König wrote:
->>>>>>>> Am 12.03.24 um 10:30 schrieb Tvrtko Ursulin:
->>>>>>>>>
->>>>>>>>> On 12/03/2024 08:59, Christian König wrote:
->>>>>>>>>> Am 12.03.24 um 09:51 schrieb Tvrtko Ursulin:
->>>>>>>>>>>
->>>>>>>>>>> Hi Maira,
->>>>>>>>>>>
->>>>>>>>>>> On 11/03/2024 10:05, Maíra Canal wrote:
->>>>>>>>>>>> For some applications, such as using huge pages, we might 
->>>>>>>>>>>> want to have a
->>>>>>>>>>>> different mountpoint, for which we pass in mount flags that 
->>>>>>>>>>>> better match
->>>>>>>>>>>> our usecase.
->>>>>>>>>>>>
->>>>>>>>>>>> Therefore, add a new parameter to drm_gem_object_init() that 
->>>>>>>>>>>> allow us to
->>>>>>>>>>>> define the tmpfs mountpoint where the GEM object will be 
->>>>>>>>>>>> created. If
->>>>>>>>>>>> this parameter is NULL, then we fallback to shmem_file_setup().
->>>>>>>>>>>
->>>>>>>>>>> One strategy for reducing churn, and so the number of drivers 
->>>>>>>>>>> this patch touches, could be to add a lower level 
->>>>>>>>>>> drm_gem_object_init() (which takes vfsmount, call it 
->>>>>>>>>>> __drm_gem_object_init(), or drm__gem_object_init_mnt(), and 
->>>>>>>>>>> make drm_gem_object_init() call that one with a NULL argument.
->>>>>>>>>>
->>>>>>>>>> I would even go a step further into the other direction. The 
->>>>>>>>>> shmem backed GEM object is just some special handling as far 
->>>>>>>>>> as I can see.
->>>>>>>>>>
->>>>>>>>>> So I would rather suggest to rename all drm_gem_* function 
->>>>>>>>>> which only deal with the shmem backed GEM object into 
->>>>>>>>>> drm_gem_shmem_*.
->>>>>>>>>
->>>>>>>>> That makes sense although it would be very churny. I at least 
->>>>>>>>> would be on the fence regarding the cost vs benefit.
->>>>>>>>
->>>>>>>> Yeah, it should clearly not be part of this patch here.
->>>>>>>>
->>>>>>>>>
->>>>>>>>>> Also the explanation why a different mount point helps with 
->>>>>>>>>> something isn't very satisfying.
->>>>>>>>>
->>>>>>>>> Not satisfying as you think it is not detailed enough to say 
->>>>>>>>> driver wants to use huge pages for performance? Or not 
->>>>>>>>> satisying as you question why huge pages would help?
->>>>>>>>
->>>>>>>> That huge pages are beneficial is clear to me, but I'm missing 
->>>>>>>> the connection why a different mount point helps with using huge 
->>>>>>>> pages.
->>>>>>>
->>>>>>> Ah right, same as in i915, one needs to mount a tmpfs instance 
->>>>>>> passing huge=within_size or huge=always option. Default is 
->>>>>>> 'never', see man 5 tmpfs.
->>>>>>
->>>>>> Thanks for the explanation, I wasn't aware of that.
->>>>>>
->>>>>> Mhm, shouldn't we always use huge pages? Is there a reason for a 
->>>>>> DRM device to not use huge pages with the shmem backend?
->>>>>
->>>>> AFAIU, according to b901bb89324a ("drm/i915/gemfs: enable THP"), 
->>>>> back then the understanding was within_size may overallocate, 
->>>>> meaning there would be some space wastage, until the memory 
->>>>> pressure makes the thp code split the trailing huge page. I haven't 
->>>>> checked if that still applies.
->>>>>
->>>>> Other than that I don't know if some drivers/platforms could have 
->>>>> problems if they have some limitations or hardcoded assumptions 
->>>>> when they iterate the sg list.
->>>>
->>>> Yeah, that was the whole point behind my question. As far as I can 
->>>> see this isn't driver specific, but platform specific.
->>>>
->>>> I might be wrong here, but I think we should then probably not have 
->>>> that handling in each individual driver, but rather centralized in 
->>>> the DRM code.
+>>> Reviewed-by: Steven Price <steven.price@arm.com>
 >>>
->>> I don't see a point in enabling THP for all shmem drivers. A huge page
->>> is only useful if the driver is going to use it. On V3D, for example,
->>> I only need huge pages because I need the memory contiguously allocated
->>> to implement Super Pages. Otherwise, if we don't have the Super Pages
->>> support implemented in the driver, I would be creating memory pressure
->>> without any performance gain.
->>
->> Well that's the point I'm disagreeing with. THP doesn't seem to create 
->> much extra memory pressure for this use case.
->>
->> As far as I can see background for the option is that files in tmpfs 
->> usually have a varying size, so it usually isn't beneficial to 
->> allocate a huge page just to find that the shmem file is much smaller 
->> than what's needed.
->>
->> But GEM objects have a fixed size. So we of hand knew if we need 4KiB 
->> or 1GiB and can therefore directly allocate huge pages if they are 
->> available and object large enough to back them with.
->>
->> If the memory pressure is so high that we don't have huge pages 
->> available the shmem code falls back to standard pages anyway.
-> 
-> The matter is: how do we define the point where the memory pressure is 
-> high? For example, notice that in this implementation of Super Pages
-> for the V3D driver, I only use a Super Page if the BO is bigger than 
-> 2MB. I'm doing that because the Raspberry Pi only has 4GB of RAM 
-> available for the GPU. If I created huge pages for every BO allocation 
-> (and initially, I tried that), I would end up with hangs in some 
-> applications.
-> 
-> At least, for V3D, I wouldn't like to see THP being used for all the 
-> allocations. But, we have maintainers of other drivers in the CC.
-
-Okay, I'm thinking about a compromise. What if we create a gemfs 
-mountpoint in the DRM core and everytime we init a object, we can
-choose if we will use huge pages or not. Therefore,
-drm_gem_shmem_create() would have a new parameter called huge_pages, 
-that can be true or false.
-
-This way each driver would have the opportunity to use its own
-heuristics to create huge pages.
-
-What do you think?
-
-Best Regards,
-- Maíra
-
-> 
-> Best Regards,
-> - Maíra
-> 
->>
->> So THP is almost always beneficial for GEM even if the driver doesn't 
->> actually need it. The only potential case I can think of which might 
->> not be handled gracefully is the tail pages, e.g. huge + 4kib.
->>
->> But that is trivial to optimize in the shmem code when the final size 
->> of the file is known beforehand.
->>
->> Regards,
->> Christian.
->>
+>>>> ---
+>>>> Tested by faking CONFIG_PM=n in the driver (basically commenting
+>>>> all pm_runtime calls, and making the panthor_device_suspend/resume()
+>>>> calls unconditional in the panthor_device_unplug/init() path) since
+>>>> CONFIG_ARCH_ROCKCHIP selects CONFIG_PM. Seems to work fine, but I
+>>>> can't be 100% sure this will work correctly on a platform that has
+>>>> CONFIG_PM=n.
 >>>
->>> Best Regards,
->>> - Maíra
+>>> The same - I can't test this properly :(
 >>>
->>>>
->>>> Regards,
->>>> Christian.
->>>>
->>>>
->>>>>
->>>>> Te Cc is plenty large so perhaps someone else will have additional 
->>>>> information. :)
->>>>>
->>>>> Regards,
->>>>>
->>>>> Tvrtko
->>>>>
->>>>>>
->>>>>> I mean it would make this patch here even smaller.
->>>>>>
->>>>>> Regards,
->>>>>> Christian.
->>>>>>
->>>>>>>
->>>>>>>
->>>>>>> Regards,
->>>>>>>
->>>>>>> Tvrtko
->>>>>>
->>>>
+>>> Note that the other option (which AFAICT doesn't cause any problems) is
+>>> to "select PM" rather than depend on it - AIUI the 'select' dependency
+>>> is considered in the opposite direction by kconfig so won't cause the
+>>> dependency loop.
 >>
+>> Doesn't seem to work with COMPILE_TEST though? I mean, we need
+>> something like
+>>
+>> 	depends on ARM || ARM64 || (COMPILE_TEST && PM)
+>> 	...
+>> 	select PM
+>>
+>> but kconfig doesn't like that
+> 
+> Why do we need the "&& PM" part? Just:
+> 
+> 	depends on ARM || ARM64 || COMPILE_TEST
+> 	...
+> 	select PM
+> 
+> Or at least that appears to work for me.
+> 
+>> drivers/gpu/drm/panthor/Kconfig:3:error: recursive dependency detected!
+>> drivers/gpu/drm/panthor/Kconfig:3:	symbol DRM_PANTHOR depends on
+>> PM kernel/power/Kconfig:183:	symbol PM is selected by DRM_PANTHOR
+>>
+>> which id why I initially when for a depends on PM
+>>
+>>
+>>> Of course if there is actually anyone who has a
+>>> platform which can be built !CONFIG_PM then that won't help. But the
+>>> inability of anyone to actually properly test this configuration does
+>>> worry me a little.
+>>
+>> Well, as long as it doesn't regress the PM behavior, I think I'm happy
+>> to take the risk. Worst case scenario, someone complains that this is
+>> not working properly when they do the !PM bringup :-).
+> 
+> Indeed, I've no objection to this patch - although I really should have
+> compiled tested it as Robin pointed out ;)
+> 
+> But one other thing I've noticed when compile testing it - we don't
+> appear to have fully fixed the virt_to_pfn() problem. On x86 with
+> COMPILE_TEST I still get an error. Looking at the code it appears that
+> virt_to_pfn() isn't available on x86... it overrides asm/page.h and
+> doesn't provide a definition. The definition on x86 is hiding in
+> asm/xen/page.h.
+> 
+> Outside of arch code it's only drivers/xen that currently uses that
+> function. So I guess it's probably best to do a
+> PFN_DOWN(virt_to_phys(...)) instead. Or look to fix x86 :)
+
+FWIW from a quick look it might be cleaner to store the struct page 
+pointer for the dummy page - especially since the VA only seems to be 
+used once in panthor_device_init() anyway - then use page_to_pfn() at 
+the business end.
+
+Cheers,
+Robin.
