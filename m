@@ -2,49 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4476B87F310
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 23:22:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B4BE87F3E0
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 00:16:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F025310E0DC;
-	Mon, 18 Mar 2024 22:22:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E1C910F093;
+	Mon, 18 Mar 2024 23:16:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="nOX1kQV8";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KiNaFHor";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com
- [95.215.58.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBC4A10E0DC
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 22:22:32 +0000 (UTC)
-Message-ID: <0d56ea1c-6b9c-41bf-9f65-63693fb3e266@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1710800549;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OYCVjE5ZicCEWStHRAbjTxuiDF06WEh4aBTViF8yw7s=;
- b=nOX1kQV8nz92heW7po3QpM00qJz9FKsarhIkPrgA3dBVJLztZqVXYXnp1HmdN21j4o2Zbp
- iwNTn4PcDReX7Gln+btzSehV0WlhoDtf2+gw0ALegvkeAWkRdmVcHKCzM3/TUtsYZ5dvfB
- 4kE7gU0+8wNrAbicy2RKqu5EFZPcmKI=
-Date: Tue, 19 Mar 2024 06:22:19 +0800
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F89510F093
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 23:16:52 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2710A480;
+ Tue, 19 Mar 2024 00:16:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1710803779;
+ bh=sNU97cnAHCTIQJ2D0vU8XGz7+i4FnBZ2NoBEKcWNi6Y=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=KiNaFHor+NDwccrJRieVuHC1LAOW7bWoN+65/Vl9po2mB/5K4/fr3Cnw1yg3DaQuG
+ 7cw6eltxzpdu/mnj/K2ThGzWKpDd0KPufLaiLjIU83vtT+xoXYdR+E66GAzCKwCzAU
+ WjZdmLZBwinTBBzgMd7cF+FoS695K5p4mrdVLiaU=
+Date: Tue, 19 Mar 2024 01:16:42 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 2/8] drm: xlnx: zynqmp_dpsub: Update live format defines
+Message-ID: <20240318231642.GT13682@pendragon.ideasonboard.com>
+References: <20240312-dp-live-fmt-v2-0-a9c35dc5c50d@amd.com>
+ <20240312-dp-live-fmt-v2-2-a9c35dc5c50d@amd.com>
 MIME-Version: 1.0
-Subject: Re: [01/43] drm/fbdev-generic: Do not set physical framebuffer address
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, deller@gmx.de, javierm@redhat.com
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Zack Rusin <zackr@vmware.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, stable@vger.kernel.org
-References: <20240312154834.26178-2-tzimmermann@suse.de>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20240312154834.26178-2-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240312-dp-live-fmt-v2-2-a9c35dc5c50d@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,34 +69,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Anatoliy,
 
+Thank you for the patch.
 
-On 2024/3/12 23:44, Thomas Zimmermann wrote:
-> Framebuffer memory is allocated via vmalloc() from non-contiguous
-> physical pages. The physical framebuffer start address is therefore
-> meaningless. Do not set it.
->
-> The value is not used within the kernel and only exported to userspace
-> on dedicated ARM configs. No functional change is expected.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: a5b44c4adb16 ("drm/fbdev-generic: Always use shadow buffering")
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Zack Rusin <zackr@vmware.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: <stable@vger.kernel.org> # v6.4+
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> Reviewed-by: Zack Rusin <zack.rusin@broadcom.com>
+On Tue, Mar 12, 2024 at 05:54:59PM -0700, Anatoliy Klymenko wrote:
+> Update live format defines to match DPSUB AV_BUF_LIVE_VID_CONFIG register
+> layout.
+> 
+> Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Reviewed-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-
-Tested-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> ---
+>  drivers/gpu/drm/xlnx/zynqmp_disp_regs.h | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h b/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h
+> index f92a006d5070..fa3935384834 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h
+> @@ -165,10 +165,10 @@
+>  #define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_BPC_10		0x2
+>  #define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_BPC_12		0x3
+>  #define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_BPC_MASK		GENMASK(2, 0)
+> -#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_RGB		0x0
+> -#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_YUV444	0x1
+> -#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_YUV422	0x2
+> -#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_YONLY	0x3
+> +#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_RGB		(0x0 << 4)
+> +#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_YUV444	(0x1 << 4)
+> +#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_YUV422	(0x2 << 4)
+> +#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_YONLY	(0x3 << 4)
+>  #define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_MASK		GENMASK(5, 4)
+>  #define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_CB_FIRST		BIT(8)
+>  #define ZYNQMP_DISP_AV_BUF_PALETTE_MEMORY		0x400
+> 
 
 -- 
-Best regards,
-Sui
+Regards,
 
+Laurent Pinchart
