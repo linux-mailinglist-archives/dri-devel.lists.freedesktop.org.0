@@ -2,39 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 497FF87EA5F
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 14:49:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AED0387EA7D
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 14:59:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6905710F779;
-	Mon, 18 Mar 2024 13:49:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDEC310F74D;
+	Mon, 18 Mar 2024 13:59:28 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hOn9Ajdt";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D1CD910F77A
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 13:49:53 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D18D4DA7;
- Mon, 18 Mar 2024 06:50:27 -0700 (PDT)
-Received: from [10.57.12.69] (unknown [10.57.12.69])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C59773F67D;
- Mon, 18 Mar 2024 06:49:51 -0700 (PDT)
-Message-ID: <5c9257cb-8307-4f9e-9323-2ed367c48a11@arm.com>
-Date: Mon, 18 Mar 2024 13:49:52 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA6CC10F23F;
+ Mon, 18 Mar 2024 13:59:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1710770367; x=1742306367;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=ZOoETLwrD5AvG8eqhqsrACUvAPC0+rlO76iWsrgPEqY=;
+ b=hOn9Ajdtl8TZwf7zsKmcOcUAo1Wq8tZ8+W9gvf3uv6/Qqn7xAK/dZx9W
+ S6mtwlgxEA25w9A7E4AmVpJYfSgAxoVnSJs14ZF3bDqY7m0Fb1tAmcHSg
+ 258An8J0LeSJXfQHoajHtyEtkacX1PbgS0eLmJ0HyVmXLcMVygA0NkjO4
+ XllsFPHyGodujZncj5Jk7omXeO2Vljv5Vs9NoS5lohoaYcbFOHc1fZuYf
+ CQHQ7ZAqdAlYAZ5Kb5OU9Fk4qNMfOTlhxYLChC/GAW8Jz4A089a1aVxOq
+ yY6Bk402WdiYbJjy/Laj59vczXgsn8d1Y51K72tjXTIjWKc6kjnnOt4no w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11016"; a="5416535"
+X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
+   d="scan'208";a="5416535"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2024 06:59:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; d="scan'208";a="13426584"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.213.26.105])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2024 06:59:22 -0700
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Subject: [PATCH] drm/i915/gt: Reset queue_priority_hint on parking
+Date: Mon, 18 Mar 2024 14:58:47 +0100
+Message-ID: <20240318135906.716055-2-janusz.krzysztofik@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panthor: Fix the CONFIG_PM=n case
-Content-Language: en-GB
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
- Robin Murphy <robin.murphy@arm.com>, kernel@collabora.com,
- kernel test robot <lkp@intel.com>
-References: <20240318085855.994179-1-boris.brezillon@collabora.com>
- <2af13565-f3d7-47c3-8083-da86669a34e1@arm.com>
- <20240318140815.44de8110@collabora.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20240318140815.44de8110@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,83 +70,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/03/2024 13:08, Boris Brezillon wrote:
-> On Mon, 18 Mar 2024 11:31:05 +0000
-> Steven Price <steven.price@arm.com> wrote:
-> 
->> On 18/03/2024 08:58, Boris Brezillon wrote:
->>> Putting a hard dependency on CONFIG_PM is not possible because of a
->>> circular dependency issue, and it's actually not desirable either. In
->>> order to support this use case, we forcibly resume at init time, and
->>> suspend at unplug time.
->>>
->>> Reported-by: kernel test robot <lkp@intel.com>
->>> Closes: https://lore.kernel.org/oe-kbuild-all/202403031944.EOimQ8WK-lkp@intel.com/
->>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>  
->>
->> Reviewed-by: Steven Price <steven.price@arm.com>
->>
->>> ---
->>> Tested by faking CONFIG_PM=n in the driver (basically commenting
->>> all pm_runtime calls, and making the panthor_device_suspend/resume()
->>> calls unconditional in the panthor_device_unplug/init() path) since
->>> CONFIG_ARCH_ROCKCHIP selects CONFIG_PM. Seems to work fine, but I
->>> can't be 100% sure this will work correctly on a platform that has
->>> CONFIG_PM=n.  
->>
->> The same - I can't test this properly :(
->>
->> Note that the other option (which AFAICT doesn't cause any problems) is
->> to "select PM" rather than depend on it - AIUI the 'select' dependency
->> is considered in the opposite direction by kconfig so won't cause the
->> dependency loop.
-> 
-> Doesn't seem to work with COMPILE_TEST though? I mean, we need
-> something like
-> 
-> 	depends on ARM || ARM64 || (COMPILE_TEST && PM)
-> 	...
-> 	select PM
-> 
-> but kconfig doesn't like that
+From: Chris Wilson <chris@chris-wilson.co.uk>
 
-Why do we need the "&& PM" part? Just:
+Originally, with strict in order execution, we could complete execution
+only when the queue was empty. Preempt-to-busy allows replacement of an
+active request that may complete before the preemption is processed by
+HW. If that happens, the request is retired from the queue, but the
+queue_priority_hint remains set, preventing direct submission until
+after the next CS interrupt is processed.
 
-	depends on ARM || ARM64 || COMPILE_TEST
-	...
-	select PM
+This preempt-to-busy race can be triggered by the heartbeat, which will
+also act as the power-management barrier and upon completion allow us to
+idle the HW. We may process the completion of the heartbeat, and begin
+parking the engine before the CS event that restores the
+queue_priority_hint, causing us to fail the assertion that it is MIN.
 
-Or at least that appears to work for me.
+<3>[  166.210729] __engine_park:283 GEM_BUG_ON(engine->sched_engine->queue_priority_hint != (-((int)(~0U >> 1)) - 1))
+<0>[  166.210781] Dumping ftrace buffer:
+<0>[  166.210795] ---------------------------------
+...
+<0>[  167.302811] drm_fdin-1097      2..s1. 165741070us : trace_ports: 0000:00:02.0 rcs0: promote { ccid:20 1217:2 prio 0 }
+<0>[  167.302861] drm_fdin-1097      2d.s2. 165741072us : execlists_submission_tasklet: 0000:00:02.0 rcs0: preempting last=1217:2, prio=0, hint=2147483646
+<0>[  167.302928] drm_fdin-1097      2d.s2. 165741072us : __i915_request_unsubmit: 0000:00:02.0 rcs0: fence 1217:2, current 0
+<0>[  167.302992] drm_fdin-1097      2d.s2. 165741073us : __i915_request_submit: 0000:00:02.0 rcs0: fence 3:4660, current 4659
+<0>[  167.303044] drm_fdin-1097      2d.s1. 165741076us : execlists_submission_tasklet: 0000:00:02.0 rcs0: context:3 schedule-in, ccid:40
+<0>[  167.303095] drm_fdin-1097      2d.s1. 165741077us : trace_ports: 0000:00:02.0 rcs0: submit { ccid:40 3:4660* prio 2147483646 }
+<0>[  167.303159] kworker/-89       11..... 165741139us : i915_request_retire.part.0: 0000:00:02.0 rcs0: fence c90:2, current 2
+<0>[  167.303208] kworker/-89       11..... 165741148us : __intel_context_do_unpin: 0000:00:02.0 rcs0: context:c90 unpin
+<0>[  167.303272] kworker/-89       11..... 165741159us : i915_request_retire.part.0: 0000:00:02.0 rcs0: fence 1217:2, current 2
+<0>[  167.303321] kworker/-89       11..... 165741166us : __intel_context_do_unpin: 0000:00:02.0 rcs0: context:1217 unpin
+<0>[  167.303384] kworker/-89       11..... 165741170us : i915_request_retire.part.0: 0000:00:02.0 rcs0: fence 3:4660, current 4660
+<0>[  167.303434] kworker/-89       11d..1. 165741172us : __intel_context_retire: 0000:00:02.0 rcs0: context:1216 retire runtime: { total:56028ns, avg:56028ns }
+<0>[  167.303484] kworker/-89       11..... 165741198us : __engine_park: 0000:00:02.0 rcs0: parked
+<0>[  167.303534]   <idle>-0         5d.H3. 165741207us : execlists_irq_handler: 0000:00:02.0 rcs0: semaphore yield: 00000040
+<0>[  167.303583] kworker/-89       11..... 165741397us : __intel_context_retire: 0000:00:02.0 rcs0: context:1217 retire runtime: { total:325575ns, avg:0ns }
+<0>[  167.303756] kworker/-89       11..... 165741777us : __intel_context_retire: 0000:00:02.0 rcs0: context:c90 retire runtime: { total:0ns, avg:0ns }
+<0>[  167.303806] kworker/-89       11..... 165742017us : __engine_park: __engine_park:283 GEM_BUG_ON(engine->sched_engine->queue_priority_hint != (-((int)(~0U >> 1)) - 1))
+<0>[  167.303811] ---------------------------------
+<4>[  167.304722] ------------[ cut here ]------------
+<2>[  167.304725] kernel BUG at drivers/gpu/drm/i915/gt/intel_engine_pm.c:283!
+<4>[  167.304731] invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+<4>[  167.304734] CPU: 11 PID: 89 Comm: kworker/11:1 Tainted: G        W          6.8.0-rc2-CI_DRM_14193-gc655e0fd2804+ #1
+<4>[  167.304736] Hardware name: Intel Corporation Rocket Lake Client Platform/RocketLake S UDIMM 6L RVP, BIOS RKLSFWI1.R00.3173.A03.2204210138 04/21/2022
+<4>[  167.304738] Workqueue: i915-unordered retire_work_handler [i915]
+<4>[  167.304839] RIP: 0010:__engine_park+0x3fd/0x680 [i915]
+<4>[  167.304937] Code: 00 48 c7 c2 b0 e5 86 a0 48 8d 3d 00 00 00 00 e8 79 48 d4 e0 bf 01 00 00 00 e8 ef 0a d4 e0 31 f6 bf 09 00 00 00 e8 03 49 c0 e0 <0f> 0b 0f 0b be 01 00 00 00 e8 f5 61 fd ff 31 c0 e9 34 fd ff ff 48
+<4>[  167.304940] RSP: 0018:ffffc9000059fce0 EFLAGS: 00010246
+<4>[  167.304942] RAX: 0000000000000200 RBX: 0000000000000000 RCX: 0000000000000006
+<4>[  167.304944] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000009
+<4>[  167.304946] RBP: ffff8881330ca1b0 R08: 0000000000000001 R09: 0000000000000001
+<4>[  167.304947] R10: 0000000000000001 R11: 0000000000000001 R12: ffff8881330ca000
+<4>[  167.304948] R13: ffff888110f02aa0 R14: ffff88812d1d0205 R15: ffff88811277d4f0
+<4>[  167.304950] FS:  0000000000000000(0000) GS:ffff88844f780000(0000) knlGS:0000000000000000
+<4>[  167.304952] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+<4>[  167.304953] CR2: 00007fc362200c40 CR3: 000000013306e003 CR4: 0000000000770ef0
+<4>[  167.304955] PKRU: 55555554
+<4>[  167.304957] Call Trace:
+<4>[  167.304958]  <TASK>
+<4>[  167.305573]  ____intel_wakeref_put_last+0x1d/0x80 [i915]
+<4>[  167.305685]  i915_request_retire.part.0+0x34f/0x600 [i915]
+<4>[  167.305800]  retire_requests+0x51/0x80 [i915]
+<4>[  167.305892]  intel_gt_retire_requests_timeout+0x27f/0x700 [i915]
+<4>[  167.305985]  process_scheduled_works+0x2db/0x530
+<4>[  167.305990]  worker_thread+0x18c/0x350
+<4>[  167.305993]  kthread+0xfe/0x130
+<4>[  167.305997]  ret_from_fork+0x2c/0x50
+<4>[  167.306001]  ret_from_fork_asm+0x1b/0x30
+<4>[  167.306004]  </TASK>
 
-> drivers/gpu/drm/panthor/Kconfig:3:error: recursive dependency detected!
-> drivers/gpu/drm/panthor/Kconfig:3:	symbol DRM_PANTHOR depends on
-> PM kernel/power/Kconfig:183:	symbol PM is selected by DRM_PANTHOR
-> 
-> which id why I initially when for a depends on PM
-> 
-> 
->> Of course if there is actually anyone who has a
->> platform which can be built !CONFIG_PM then that won't help. But the
->> inability of anyone to actually properly test this configuration does
->> worry me a little.
-> 
-> Well, as long as it doesn't regress the PM behavior, I think I'm happy
-> to take the risk. Worst case scenario, someone complains that this is
-> not working properly when they do the !PM bringup :-).
+It is necessary for the queue_priority_hint to be lower than the next
+request submission upon waking up, as we rely on the hint to decide when
+to kick the tasklet to submit that first request.
 
-Indeed, I've no objection to this patch - although I really should have
-compiled tested it as Robin pointed out ;)
+Fixes: 22b7a426bbe1 ("drm/i915/execlists: Preempt-to-busy")
+Closes: https://gitlab.freedesktop.org/drm/intel/issues/10154
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
+Cc: <stable@vger.kernel.org> # v5.4+
+---
+ drivers/gpu/drm/i915/gt/intel_engine_pm.c            | 3 ---
+ drivers/gpu/drm/i915/gt/intel_execlists_submission.c | 3 +++
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-But one other thing I've noticed when compile testing it - we don't
-appear to have fully fixed the virt_to_pfn() problem. On x86 with
-COMPILE_TEST I still get an error. Looking at the code it appears that
-virt_to_pfn() isn't available on x86... it overrides asm/page.h and
-doesn't provide a definition. The definition on x86 is hiding in
-asm/xen/page.h.
-
-Outside of arch code it's only drivers/xen that currently uses that
-function. So I guess it's probably best to do a
-PFN_DOWN(virt_to_phys(...)) instead. Or look to fix x86 :)
-
-Steve
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+index 96bdb93a948d1..fb7bff27b45a3 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+@@ -279,9 +279,6 @@ static int __engine_park(struct intel_wakeref *wf)
+ 	intel_engine_park_heartbeat(engine);
+ 	intel_breadcrumbs_park(engine->breadcrumbs);
+ 
+-	/* Must be reset upon idling, or we may miss the busy wakeup. */
+-	GEM_BUG_ON(engine->sched_engine->queue_priority_hint != INT_MIN);
+-
+ 	if (engine->park)
+ 		engine->park(engine);
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+index 42aade0faf2d1..b061a0a0d6b08 100644
+--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+@@ -3272,6 +3272,9 @@ static void execlists_park(struct intel_engine_cs *engine)
+ {
+ 	cancel_timer(&engine->execlists.timer);
+ 	cancel_timer(&engine->execlists.preempt);
++
++	/* Reset upon idling, or we may delay the busy wakeup. */
++	WRITE_ONCE(engine->sched_engine->queue_priority_hint, INT_MIN);
+ }
+ 
+ static void add_to_engine(struct i915_request *rq)
+-- 
+2.43.0
 
