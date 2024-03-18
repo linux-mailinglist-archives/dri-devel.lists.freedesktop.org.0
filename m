@@ -2,160 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B2F387E9E3
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 14:11:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51E5887EA11
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 14:28:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E39810F31B;
-	Mon, 18 Mar 2024 13:11:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 502A010F72E;
+	Mon, 18 Mar 2024 13:28:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="KYj7rxBS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TW418WpW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2048.outbound.protection.outlook.com [40.107.94.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C073310F6F5
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 13:10:58 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26BC010E3CD;
+ Mon, 18 Mar 2024 13:28:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1710768495; x=1742304495;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=mYzRc/PAjGXlRZmabQoR+RuBUyZTqWQckp8LeWhqcYg=;
+ b=TW418WpW2IsgZfQe2yqgiXdhQnKi3xob98Ymln5Wf+Ex6O1vJ7hKbfM6
+ xsF0C8N0ip5eXdX9LEMH6uX1PhfrckuQnSd64qwJzBhBI1GC+HM/DKJMv
+ 5Ngxx6bqrwm1FB4jckSAYpx4nRMpj84hjXIIK+J8xBhIO+eiANWMxasgj
+ BKf9A23PzDl8Ff7GtnFMoIU18QprPjinNNXd9ycg27WwizXfwF2NGR7xx
+ 88/sloCUODWrHA/Vywv/mU2h3Q6+xECxRk3UQ8WhkXdVo1Lsh0U6lRa8g
+ w+QhhVo7iebIuT3zuhd2nhLgjawRHmxVb3Agso99hhyxeuVt2Y+VOa10/ w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11016"; a="5440817"
+X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
+   d="scan'208";a="5440817"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2024 06:28:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; d="scan'208";a="18182668"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orviesa003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 18 Mar 2024 06:28:14 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 18 Mar 2024 06:28:13 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 18 Mar 2024 06:28:13 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Mon, 18 Mar 2024 06:28:13 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Mon, 18 Mar 2024 06:28:13 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q9hFvBjGlAGiP0U5xfhrtjPNHtVYkQs8qn4i5LSLYGYr4IVvdk9b4JIwzIDZXzZt3oK7rCg6Pgr1mFe3Mrd+pp/DmBqVsWSoBtHO6vekBQPYePoWQ9cp4E00B3w8otar+uvWdwCxvw7NR3QEiAgqbDRg8rgJGvzEBCOKJFQ3cvfxWhGWx6ZLwiGpsHAlxe2fFxIfYJXHOhAW27WxkSUzd/juh+a0BnxuaakWqPkPnINZLrgzpDr6XhJHN9Bs8oRsEazTqMMYbl+kAzoHu06gJBcskcpqR4cIcCB0mBqeBRNG3TXhPnrS+27ALJgEldLrPIhxmxwK8v4qkEk4c0tV1g==
+ b=d9MDh20HiQEVi1z7MtByZHGXexgmtPfIe06ViujQvdB5D244RjcqoKDrpPatO5T4IozeBM3kLbB/jOcuIaLtvfOLf23p3mIM0dlpEHf9lgg+68MIxS3ORGNYfuCCnGx0o0tl4ZJBThcUIF0PLjIyh5udIi77JQ70B5NVmyCd4ZOcWfvwlBuMaPUAO5OIZWen/vufgVufaHcpiiakICHq2YHN2thWHMBtUUBTNgufB7tkSeJzkDqmUE19I1RRuMhilMPkeINVwM+ujGkp4G3WvALcv0hwNL6f/CznMFHyvqWRUV0uPzVJBdop652LX7S/PQVdZJTzxTufSytYNyKoHw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CTNl7IzjnvvCSYfZMDViV/3ltHlgRMZpBS4Wzu8ux/0=;
- b=UG2E6EC039Esw0OhAm8wTIVNYf5n+xveiStoBXYT7X4fcTVMFIOuiQNfsJdAUWVdHtew6qH9YAlwctor6THSyGFKbx7u3iMvPP2XriMx0qPQD5gthJESpcKbtohfBpSU41fyBzPQB1Gewoq12cTlCSJM4Q9pHEolBiMgKCi7AxxZCOyVrzmR7MWP194nLJjA0PhYiU3Pm4zDjjnYkElM5N15Nl/x7dGEnLiFAQzt5dMd3+MRXUitmjHfwRqlLhmSo+QZB5ldHi1s6RGnaXW0AwRId4SVxD9XIb3Pi2j2j9+eaIzpIWZ217oUZR68qv96KhJpQVTycl53AUzvGRmOag==
+ bh=FdQV5H3oGwU4RUrzfKuLC2c6Nuu1JjdKfqDim3eK6Kk=;
+ b=SIoJ8aZgpVTJpwRgeyt9u40siB0JDCTJ+R4D5o9NY6ircPPk9cdrIohXcEmNmGkXh4I00hohg4QrXe27zajaoi+noHWn8h7jLeo4vlP09FsvoDLtFR2GE17MNAAmXcX0OlnXI4k6GbT6NltmpHIcDS6qkyM4qIF7yHR08arwvzZkZYqH6gvbKhUwnqQUlfYhc4VA6qfdwdTAQViNhLBPLbi5mOkLvpoCcHmy95BrJwfdfTIX7qg/49egHdvhbEjLVF7K7aZhVKdcWVhfqxNlNr7G4CgC4tJHjutpE478mWhe41x1I2sjC4T7TWNq9NseqzjSPmBrHlr1qkQCzQUZzw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CTNl7IzjnvvCSYfZMDViV/3ltHlgRMZpBS4Wzu8ux/0=;
- b=KYj7rxBS/hLSgAEye/fIIG0GZ+DnmljBMVe50cQ4Ds6pywYU9LrRo6vl5SoxBcTPjRzBVQr4F2VIyy+sJ40q4wsGVjROMoiaWfVOqLsgPxnN2DbgHylHSnolUreC+dfo6t0rVBOYNsmgf9sLob1gXOpo4zA2MkaM3ru4PymQbWc=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA1PR12MB8859.namprd12.prod.outlook.com (2603:10b6:806:37c::10)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by SN7PR11MB6680.namprd11.prod.outlook.com (2603:10b6:806:268::10)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.26; Mon, 18 Mar
- 2024 13:10:55 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7386.023; Mon, 18 Mar 2024
- 13:10:55 +0000
-Message-ID: <68452c6c-12d7-4e60-9598-369acc9fc360@amd.com>
-Date: Mon, 18 Mar 2024 14:10:42 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] drm/gem: Add a mountpoint parameter to
- drm_gem_object_init()
-Content-Language: en-US
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Melissa Wen <mwen@igalia.com>,
- Iago Toral <itoral@igalia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- Russell King <linux@armlinux.org.uk>, Lucas Stach <l.stach@pengutronix.de>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Sui Jingfeng <suijingfeng@loongson.cn>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Thierry Reding
- <thierry.reding@gmail.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Huang Rui <ray.huang@amd.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Karolina Stolarek <karolina.stolarek@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>
-References: <20240311100959.205545-1-mcanal@igalia.com>
- <20240311100959.205545-3-mcanal@igalia.com>
- <30a7f20b-1f2c-41cb-b193-03429c160b63@igalia.com>
- <3a5d07c0-120f-47f9-a35a-31f3bfcc9330@amd.com>
- <07885e3b-ee7b-456b-9fad-17d9009a4cb7@igalia.com>
- <a0ac2e10-f5f5-4fbb-b591-bd188967ce53@amd.com>
- <e8165baa-9ded-4149-aaa6-6713d112b621@igalia.com>
- <69576e6d-9704-42b9-905f-289f9f9017b9@amd.com>
- <ed7ecd56-0b5e-4543-80f6-7d28ddf8e2ec@igalia.com>
- <9cfb7f83-2d76-4e8d-9052-5975da71e0dc@amd.com>
- <2118492c-f223-41e9-8c1e-3c03d976301e@igalia.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <2118492c-f223-41e9-8c1e-3c03d976301e@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0181.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a4::14) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.11; Mon, 18 Mar
+ 2024 13:28:10 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::e9dd:320:976f:e257]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::e9dd:320:976f:e257%4]) with mapi id 15.20.7409.010; Mon, 18 Mar 2024
+ 13:28:09 +0000
+Date: Mon, 18 Mar 2024 08:28:03 -0500
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Guenter Roeck <linux@roeck-us.net>
+CC: <intel-xe@lists.freedesktop.org>, Matt Roper <matthew.d.roper@intel.com>, 
+ <dri-devel@lists.freedesktop.org>, <daniel@ffwll.ch>, <airlied@gmail.com>
+Subject: Re: [v3,5/5] drm/xe: Enable 32bits build
+Message-ID: <qm5q44hs7vmq6erio7ome323xemwrg5mrxhaozkwblf6qjjvow@dqwy2oz2rrrj>
+References: <20240119001612.2991381-6-lucas.demarchi@intel.com>
+ <d53d2da5-22de-4f81-9fbc-2f54e5da9ac6@roeck-us.net>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <d53d2da5-22de-4f81-9fbc-2f54e5da9ac6@roeck-us.net>
+X-ClientProxiedBy: BYAPR04CA0012.namprd04.prod.outlook.com
+ (2603:10b6:a03:40::25) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB8859:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0b3c60ec-5233-495d-b886-08dc474cd878
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SN7PR11MB6680:EE_
+X-MS-Office365-Filtering-Correlation-Id: 51ca1b30-c832-44af-551e-08dc474f40d7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Rcit8ha4E3muKYvZF2TMEOAaZNaEemZP4nYQMhTTU6CH7ILhrfr0PEh4nC8ySRdQRDbNgWEc1TyybU0H5jKv0YesvrXJkQXSNhnL85t1F+UhM/nPKNEIly73TlyT2jzwPX1x7okTyLCTGmkWlT6wuGJtrO5rdoOGEtvm/QNDKnTDahajarKyPVAoaDKOY/HESXLNMxLcR5Iyb4fUXONVCxo2pYd2HUBBo3y43Y5NvWhJT8zQrWREcP4HX0YP3oxiF3/l1cibbRFTPsXEfAXRMqZTh967Anet1zORk4EKbkLdcB6l8/yDhdVr2tG9CWxJkXK1AF3VjSo+GLqyV/WPvq5zVI9zDxhjX47bAaQ2wqiWo3KjDjOYh2AXv3uhp5zteOP8TPilJrajYnChB20HEL+eGbmqUiBZndxuu42NMCN/DLnEBjkYWDpxAW1LTwYviZWLpqTRQeu7j/9KFbs0w119Bjwtq+Y3tan/ufbDeNUwSaY2WVReOu9d9gVCF0VSoJtSHuU5AZruGDn7jOzdiMLxPZVcZ1+xttuQ9oIr2dGGuwQPclTd9oSaC4FxNs5KYVjhj378SWxaGp2syPWxq7xq6FkMChK5r96GLTWz4G9yN8uXcER7EyUEoD0xBnRoUXnOCnxigvi8OZG1+jJbf69bv70+6SW1NJpP/sNdh64=
+X-Microsoft-Antispam-Message-Info: 8UpJnmeyp3gJsbgvomP3vJ2xawqdsBqtUrL3NwFeu8s9L1WLUAr26xV1uoGnMlpJzAuJ9e9bS5ZZIbCGnmWNMyAAEroXwDqRR+TTcnktOw61IeGTW56SYzZtNypp4J+ZSsKnhYNcl11D2RRxg4f4LpxqzyDfdF5ClA7EluD6knnm53DWxgXlnhCwEvtJFn1xU3zX7AFEKwDaOUzSkgsNkH72gompjkEhSZzCplKChmoAGoEkRXx63fTLGjUdaKfIvx30ZnGnJJXh36amg+VLoA/6pbGSKDSdL6AXuoth715okLyFHypgMCcLBQeHExjcQu3/SgeLtH0nWhgj00WfT0/r4ylqKUpFs6H0hnYxA4FSMsNu90VqlEw3DlmARrskZvLyHh2aLQyzRttncYMaLxi4YVHP2dLRE7sbphmzoI+emXKSjpRhkzSe1D+PYa2h2djSEjcz2iydc3os3oPYbTi3YfJkPU8FXqhagTNtiqY09QaERpkd0KywyoomsLwbnf+IgaV7xb7qfNfnEBiTyHhyxvdXQgidjdPy8bZgxEPE7+S+Qku6gqGenSckdC0uMaKNDlx2L+Eo82xPQP32p9qa65ziEyqvgNp+eLFE+q8=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366007)(1800799015)(7416005)(376005); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366007)(376005)(1800799015); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SkFodE1yWDF6dC9DTno3bkRTS3dlK2YyajRkTStBZ05TbnRSTVRLZitZaGxy?=
- =?utf-8?B?cUNtai9raHU4QS9IallDb3ZjODdNNkZ5dHFEcWdEVWF5Wms1eWRWWUJ2MU04?=
- =?utf-8?B?RmxhQ0xMS2lVVGM1ckRmT3REK2k0S3E4bytWdlcwSFQ1N0VPM3dyV3lWTjFs?=
- =?utf-8?B?MmkrU0Q2Yk1BaHdFTUo0cDZYaVpvRW1xUkNxWjB0R0g3V3RJMmdDemszZ0VX?=
- =?utf-8?B?TlRXcXNLelh4MytPeVMyb3ZjejRyR0VncHNuMi9LVjJZK0RTUVJMT0gxd0Ni?=
- =?utf-8?B?d3ovdFdtUzloSkxhYVpJT1BoQ1ppNmVDWG5pc2gwU1U5UGJmTG9tSURjUDJQ?=
- =?utf-8?B?ak9zM1VMamVJVlovanV3Wk04Q0hIN2p0Njhpa1RGMEtNVXRCTmhJNmUrV3BC?=
- =?utf-8?B?V0VQRW91b2tscmxabWdoN2NDQW8zUUR1bVpsa0NPeEJNYm11aEt3YzhwdU10?=
- =?utf-8?B?K2NCTVFieDdYNmxtcWl5L29uL05ubDV0UjhIS1R3UjFud1VqSVlzZzdLU3h1?=
- =?utf-8?B?WHU2c0xPR2Joc2R4VFl5VktmRGUzZThNeE5od2txU1RGUlFlRDdueWVFWkp1?=
- =?utf-8?B?a3Y4eS84czlCeGZLSmxZeEN2T2xyQS9oaFZLV1J6TUJnK0lwczF6aGdCeCtC?=
- =?utf-8?B?Y292RUdoTWpqWUs5V2ZrTG5SSzV5VjZvdDNjcXNVTXZNZkVVcU1qSkJpajdp?=
- =?utf-8?B?R2V3NTQzbkMyZ2dnMy93YmVlYmo2Ym0vSW1vTlU1Uzc1M0p1eGIyV1pmN2lT?=
- =?utf-8?B?YnU2MmhmY2tsVHdTL3lqT1djUDZSZnp5QTR1SENQQjRzb3VDaUR3U09MWk1q?=
- =?utf-8?B?YkRMd2svNXNXQXJJL3lhM2Nqb29FNFNxT2lqSjFScXRkdVR0UEgrYzZ5Slda?=
- =?utf-8?B?LzcvZDhXTmFSampjY2NoVFh3STZVM0JDOVZaZjdQTDlSWmUzU0NuMUZWNFcy?=
- =?utf-8?B?cXA5anlOeGZyZE0vdzUzTVhLSWQ4cWlkbXZsQUdQak9TbFZOSFhqRXdBRlBC?=
- =?utf-8?B?S25rQ295Z1NBcUgvcUsrUU9tN3hqVmdPZUcyVkhnRERDa2h3OENwVnZnMXFJ?=
- =?utf-8?B?UFNSVjd1ZDVtcUR3WGtqS0VPQ1Nwcy9oQXhOVGtETGJHcG45ZE8xNEwyRkpy?=
- =?utf-8?B?SVhxeFliNWRPcXd6OVQ2RlB5SnBKUlhRZFQ4eE1WZHEvWUFtNGVVeHMwWHFn?=
- =?utf-8?B?d09tandOVkJyU2pWTVdHdksvdkd3TjVyZFdnNW0yWmRGc1FMS3M4WCtMVm9l?=
- =?utf-8?B?T0Z3WXF3TTQ2R09MUytEWkJxUmhjck00WlNmMXRXWEZwYXRsaFM5dDRITlV5?=
- =?utf-8?B?Wnp6ZTdEczZ0bXdodUVqcmQ5NzlLRnB2VHN6VDJHa3hvMWc5NlUwZ01jTlhO?=
- =?utf-8?B?citkTXRCWDFXSkdCcU1nZGJrL0VOc1BIcXpnL0p0dG1LK0lwdjJFR2hGT0JR?=
- =?utf-8?B?RHhuYWVDcFlScS8vR01ZUkZVTXAvbjQ1VXZSZ0YzMGsrWS93ZmoxNHhzTmMw?=
- =?utf-8?B?d1I3djl0YWJ5dENTYUVwdnlqaWZFcEFoelp5RkU2dlh2Y3ViMHpRNTAxbGph?=
- =?utf-8?B?alFGNlhFNzUrbnlQSENzWGJ2Q1V5ejdIVmlCSklneWhFTFJiV1ptTjBWRkt2?=
- =?utf-8?B?SktTMmRtTC9WclFsS0ZuZ1BQOFhaWENRRmdpQUxJZGpQQXI5a211RklxQXhL?=
- =?utf-8?B?ZmRsVWpaZ1M4dlRVVHFtWVgxbm5IdW1XK2RiQVl6YTF6N1lsbVN0WlJ3RHdu?=
- =?utf-8?B?VEVSdFZhRm5uU1hobTYrMk40K09BUkRmUWdHOFpqNzlacTBVNVRBcmxLSyt5?=
- =?utf-8?B?SnpCN0JWT0NFOWVLYnhabnBPQ2dXeit5ZHJ5STY0bGkzbE5OdDI4TnlhVVRY?=
- =?utf-8?B?S2s5YmZqT2hiTXpzV2ordUNFd0lzQlhKb1l5Y2ZVUnZUNFBBekJvMW56S1po?=
- =?utf-8?B?TXVscVIzdlJ4K0xUa0tBNlhKYnlTbFBXNWk0cjNqWEo2dkN5UDRUQ0ozYm1V?=
- =?utf-8?B?VC9ORHdZTTJQMWVRSGdLb1VkSzJUN2U1Znh4SlZLOWdQWjNkQ05DbnVRLzhT?=
- =?utf-8?B?R3JRNWt3YXMrcGFxUEwrVzM1NU9ndmZRTkxISVA2ejZKN0o4blRyNDNEdTFq?=
- =?utf-8?Q?eL+Lcac38r1FIeoOOzBBoYYtM?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0b3c60ec-5233-495d-b886-08dc474cd878
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3h+y9WQEOcGBH/JybCPCWiVreLw3/vMGxwTG9Aqken41ltH/tf9Vi32Cbgzd?=
+ =?us-ascii?Q?VIhVVT14UzWdqQhSwspcmaHysnWqcMZxU/v5+S5c16+OFnuxdHdpSTQiPXOJ?=
+ =?us-ascii?Q?TDV9mNM1zB6NPahGeEiUMi2KYihHNMdKmvA+NCzuuIUVPjN97BCQpVbv5xf4?=
+ =?us-ascii?Q?UvRQmIdjRjdUKIm7WBoT+gHjzehXNGnGxWrlhtQ1h2SZ0HSiJNiMM0CmgOHd?=
+ =?us-ascii?Q?zWlmVlVFJ8EMNDu3syw0D57BlOiZ8WhvU0ZWAdRbWOUUHuF4R+YccsMTYEEn?=
+ =?us-ascii?Q?ut2ajDrGjfWMLrUS4M3mYFn2KvnOUFScLWqocELxmVJKsIx164k+BoNBghS9?=
+ =?us-ascii?Q?+TAfcO7TcqMy++4JDKWXwhCHKA2vUQStFYEiXdADvvAdDNY7eWHTLlQsT9ju?=
+ =?us-ascii?Q?dE53NmCn3mhgzVd65i7a834uSVa9v/MNvZrphKgAhURJYJkizviIzt9CBbeg?=
+ =?us-ascii?Q?ncLvHkLRcN+6Dca9qjohRvIDHATb745Z/rEE9Y8ervObe1HbQbQqu45tKZ4S?=
+ =?us-ascii?Q?3wSYPUJqaoKfnWum1tktL1XVjtg8LEDBq8IKeDutLtOgpm9gL4TXdr3K+gTb?=
+ =?us-ascii?Q?6i3fO2H6IAvD3jZbeft6L6uxNwShCGipjcm+CDnrh0vaY285vyZykqcWWqDZ?=
+ =?us-ascii?Q?dwxLaNVkL5l6xTyg/kh8P86tyBpW2qxHWg2AVHhrq3aXGcs9WErsvSWPZbkp?=
+ =?us-ascii?Q?gg6oZY1ax7bZlxbx/6drzHpBQL+r/DHNjjzQONhhU5nLqbuUPlX3OwFM0JVT?=
+ =?us-ascii?Q?3lyMqLbYV5I6Fb9QodZpkOaU9PDuk5Gm3JUCGCFMXzZg7rEzY1fFyLPOiTsv?=
+ =?us-ascii?Q?JmfKiGVtWpK7STZHNcfXiMcEWpbdG6n++Zm6EwX8FQ9on78dJuCqRGAamgMY?=
+ =?us-ascii?Q?9o7s10NcMDwyYAIymVplxai6K3veTS/6j+q3i9r9re4UkBNV+cPXKf3bOebc?=
+ =?us-ascii?Q?ZinGzQMIECuu/WqPHFCl4+1Qa3j0DJHALDhqfuNr3sjLs3dB5wy7YbjKAhnO?=
+ =?us-ascii?Q?qW2LSFQ4TktCuewYK4y8w+9AOISHiDB+GTwByDk64Di1U/ElUSpjk3edohGu?=
+ =?us-ascii?Q?/gN0CSpKp8chd8IBVCYK1IfyvOHeqCAIq2M6Oh5OF9vqYKiNEspQX+Ow5of5?=
+ =?us-ascii?Q?2o0wdBnA8wSgw8UH5xzLMiArFv9YCi4MjcDZy6NKzvBJQd1bvP+3k5Jh86Cd?=
+ =?us-ascii?Q?2Z0KfeVNOySwwHR6ADl0gOLFR3JANtqfSpNXL6EfIKqY7Kq8OMDvFIzhG0uM?=
+ =?us-ascii?Q?/qdTCHeNYgaAjs4ZYUDDDz00uqgp6g1vnoCLongYNiOyvSiw6rfSMLceLmHE?=
+ =?us-ascii?Q?KNntvAjilAjToUujnHnI3jaiBK3wYO0FsUcUR482APWvSfD4vQ98IznTeGgZ?=
+ =?us-ascii?Q?IVvlnJS3NEr0sO34TzEoDBbLnGWGzgLVNsPLigveF2rWZNXvAzILye7UxlLJ?=
+ =?us-ascii?Q?omQ1mGTYrXSDrXJ5Oo8Z1qWA8jz2/8GCkJYWztL3gkLQT6joNtB0MoWYD1tT?=
+ =?us-ascii?Q?aA/48D1MIQgBUBtZT2kVYj8PRp8Y0BotEjFHw0yXA0e1V2uBq25Gih/O2vt4?=
+ =?us-ascii?Q?BsdsTMAsTo4JoIpL/fCETMNELkoxhg0vvE6WJ6vexyXNj7ev27e+QEtjnnIZ?=
+ =?us-ascii?Q?PQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51ca1b30-c832-44af-551e-08dc474f40d7
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2024 13:10:55.6992 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2024 13:28:09.7416 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wnfLbGLgRPKKTwKgDHQxbjJnowK2m5NZbZuv21Tcr46mo+o+v5o8uvOICJxgwt/T
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8859
+X-MS-Exchange-CrossTenant-UserPrincipalName: KT2CnVOR5asbhF2+fQdYWfhxXoIbJDGTHoQyW/gel8RwktWvsAQG96unGpx893JDbLOyYvdmG0Pp/rnALWmlbCeXu33L0pz3tY5r3Yb0o44=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6680
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,153 +155,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 18.03.24 um 13:42 schrieb Maíra Canal:
-> Hi Christian,
+On Sun, Mar 17, 2024 at 09:14:14AM -0700, Guenter Roeck wrote:
+>Hi,
 >
-> On 3/12/24 10:48, Christian König wrote:
->> Am 12.03.24 um 14:09 schrieb Tvrtko Ursulin:
->>>
->>> On 12/03/2024 10:37, Christian König wrote:
->>>> Am 12.03.24 um 11:31 schrieb Tvrtko Ursulin:
->>>>>
->>>>> On 12/03/2024 10:23, Christian König wrote:
->>>>>> Am 12.03.24 um 10:30 schrieb Tvrtko Ursulin:
->>>>>>>
->>>>>>> On 12/03/2024 08:59, Christian König wrote:
->>>>>>>> Am 12.03.24 um 09:51 schrieb Tvrtko Ursulin:
->>>>>>>>>
->>>>>>>>> Hi Maira,
->>>>>>>>>
->>>>>>>>> On 11/03/2024 10:05, Maíra Canal wrote:
->>>>>>>>>> For some applications, such as using huge pages, we might 
->>>>>>>>>> want to have a
->>>>>>>>>> different mountpoint, for which we pass in mount flags that 
->>>>>>>>>> better match
->>>>>>>>>> our usecase.
->>>>>>>>>>
->>>>>>>>>> Therefore, add a new parameter to drm_gem_object_init() that 
->>>>>>>>>> allow us to
->>>>>>>>>> define the tmpfs mountpoint where the GEM object will be 
->>>>>>>>>> created. If
->>>>>>>>>> this parameter is NULL, then we fallback to shmem_file_setup().
->>>>>>>>>
->>>>>>>>> One strategy for reducing churn, and so the number of drivers 
->>>>>>>>> this patch touches, could be to add a lower level 
->>>>>>>>> drm_gem_object_init() (which takes vfsmount, call it 
->>>>>>>>> __drm_gem_object_init(), or drm__gem_object_init_mnt(), and 
->>>>>>>>> make drm_gem_object_init() call that one with a NULL argument.
->>>>>>>>
->>>>>>>> I would even go a step further into the other direction. The 
->>>>>>>> shmem backed GEM object is just some special handling as far as 
->>>>>>>> I can see.
->>>>>>>>
->>>>>>>> So I would rather suggest to rename all drm_gem_* function 
->>>>>>>> which only deal with the shmem backed GEM object into 
->>>>>>>> drm_gem_shmem_*.
->>>>>>>
->>>>>>> That makes sense although it would be very churny. I at least 
->>>>>>> would be on the fence regarding the cost vs benefit.
->>>>>>
->>>>>> Yeah, it should clearly not be part of this patch here.
->>>>>>
->>>>>>>
->>>>>>>> Also the explanation why a different mount point helps with 
->>>>>>>> something isn't very satisfying.
->>>>>>>
->>>>>>> Not satisfying as you think it is not detailed enough to say 
->>>>>>> driver wants to use huge pages for performance? Or not satisying 
->>>>>>> as you question why huge pages would help?
->>>>>>
->>>>>> That huge pages are beneficial is clear to me, but I'm missing 
->>>>>> the connection why a different mount point helps with using huge 
->>>>>> pages.
->>>>>
->>>>> Ah right, same as in i915, one needs to mount a tmpfs instance 
->>>>> passing huge=within_size or huge=always option. Default is 
->>>>> 'never', see man 5 tmpfs.
->>>>
->>>> Thanks for the explanation, I wasn't aware of that.
->>>>
->>>> Mhm, shouldn't we always use huge pages? Is there a reason for a 
->>>> DRM device to not use huge pages with the shmem backend?
->>>
->>> AFAIU, according to b901bb89324a ("drm/i915/gemfs: enable THP"), 
->>> back then the understanding was within_size may overallocate, 
->>> meaning there would be some space wastage, until the memory pressure 
->>> makes the thp code split the trailing huge page. I haven't checked 
->>> if that still applies.
->>>
->>> Other than that I don't know if some drivers/platforms could have 
->>> problems if they have some limitations or hardcoded assumptions when 
->>> they iterate the sg list.
+>On Thu, Jan 18, 2024 at 04:16:12PM -0800, Lucas De Marchi wrote:
+>> Now that all the issues with 32bits are fixed, enable it again.
 >>
->> Yeah, that was the whole point behind my question. As far as I can 
->> see this isn't driver specific, but platform specific.
+>> Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+>> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+>> ---
+>>  drivers/gpu/drm/xe/Kconfig | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
 >>
->> I might be wrong here, but I think we should then probably not have 
->> that handling in each individual driver, but rather centralized in 
->> the DRM code.
+>> diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig
+>> index 1b57ae38210d..1b0ef91a5d2c 100644
+>> --- a/drivers/gpu/drm/xe/Kconfig
+>> +++ b/drivers/gpu/drm/xe/Kconfig
+>> @@ -1,7 +1,7 @@
+>>  # SPDX-License-Identifier: GPL-2.0-only
+>>  config DRM_XE
+>>  	tristate "Intel Xe Graphics"
+>> -	depends on DRM && PCI && MMU && (m || (y && KUNIT=y)) && 64BIT
+>> +	depends on DRM && PCI && MMU && (m || (y && KUNIT=y))
 >
-> I don't see a point in enabling THP for all shmem drivers. A huge page
-> is only useful if the driver is going to use it. On V3D, for example,
-> I only need huge pages because I need the memory contiguously allocated
-> to implement Super Pages. Otherwise, if we don't have the Super Pages
-> support implemented in the driver, I would be creating memory pressure
-> without any performance gain.
-
-Well that's the point I'm disagreeing with. THP doesn't seem to create 
-much extra memory pressure for this use case.
-
-As far as I can see background for the option is that files in tmpfs 
-usually have a varying size, so it usually isn't beneficial to allocate 
-a huge page just to find that the shmem file is much smaller than what's 
-needed.
-
-But GEM objects have a fixed size. So we of hand knew if we need 4KiB or 
-1GiB and can therefore directly allocate huge pages if they are 
-available and object large enough to back them with.
-
-If the memory pressure is so high that we don't have huge pages 
-available the shmem code falls back to standard pages anyway.
-
-So THP is almost always beneficial for GEM even if the driver doesn't 
-actually need it. The only potential case I can think of which might not 
-be handled gracefully is the tail pages, e.g. huge + 4kib.
-
-But that is trivial to optimize in the shmem code when the final size of 
-the file is known beforehand.
-
-Regards,
-Christian.
-
+>I am curious about changes like this. Enabling 32-bit builds results in
+>build failures for mips_allmodconfig because the driver redefines END.
+>END is also used as macro in assembler code, the define happens to be
+>included for mips builds, and it would be difficult to change it there.
 >
-> Best Regards,
-> - Maíra
->
->>
->> Regards,
->> Christian.
->>
->>
->>>
->>> Te Cc is plenty large so perhaps someone else will have additional 
->>> information. :)
->>>
->>> Regards,
->>>
->>> Tvrtko
->>>
->>>>
->>>> I mean it would make this patch here even smaller.
->>>>
->>>> Regards,
->>>> Christian.
->>>>
->>>>>
->>>>>
->>>>> Regards,
->>>>>
->>>>> Tvrtko
->>>>
->>
+>Unlike the i915 code, DRM_XE is not marked as depending on x86. This means
+>it will be built for pretty much all "allmodconfig" builds for all
+>architectures. Yet, there have been recent complaints about "allmodconfig"
+>builds of drm code causing build failures on "oddball" architectures.
+>Is there an assumption that DRM_XE (or DRM in general) is manually
+>excluded from all architectures where it fails to build ? If so, would
 
+for all the reports we've been receiving we fixed the build and improved
+CI to try to avoid the regressions. DRM_XE doesn't really depend on x86,
+but I see your point of filtering out the "oddball architectures" or just
+expose the ones we know it builds against. Yet, I don't see that
+approach done in the wild in other drivers. At least on the build side, we
+constantly check the reports from lkp like
+
+https://lore.kernel.org/all/202403152008.KlwyYggO-lkp@intel.com/
+
+which also includes mips:
+
+	mips                              allnoconfig   gcc
+	mips                             allyesconfig   gcc
+
+is that not sufficient? allyesconfig should be covering it afaics
+
+>it be possible to mark DRM_XE (and/or DRM in general) as depending on
+
++dri-devel and maintainers for the "DRM in general" part
+
+Lucas De Marchi
+
+>architectures where it is supported ? Maintaining a set of exclusions
+>in test builds does not really scale, after all.
+>
+>Thanks,
+>Guenter
