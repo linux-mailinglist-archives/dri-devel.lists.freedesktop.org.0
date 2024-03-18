@@ -2,64 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD39187E98F
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 13:49:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1961E87E99E
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Mar 2024 13:57:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BEEA10E74F;
-	Mon, 18 Mar 2024 12:49:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52BA210F6B0;
+	Mon, 18 Mar 2024 12:57:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ijW2ZALP";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="kO2vD8Gc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E3F510E74F
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 12:49:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710766169; x=1742302169;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=GG08uu/7PRYcHnUSeAcc70mgP29OlkALxz8qX43lSQs=;
- b=ijW2ZALPYTDspEVzFEGEi4Bp4PFYBaozUcE88qB7aXEdGvucQcHnipLa
- UC+5XaAfnW8M/iVQKyC0JShQAizlDSOkb0LWFbL3TW8YIvt/IzZYzWCaa
- nPMZ/HrZuSZ0BprSDCqrau7SxKjDymUuR6X3/G5lKo4tGDYRGOkEG5VYa
- VGmC6sov/q2xkYE7okdLIjJBxbx8aWepzldBNCzMvjZO3Bj8zPSSmLWev
- dT4DPEp6Dd6oeMA0gcPyEYNw4VdY75g6JjaTi/gZSwrp74fCfVw2bUr9H
- AX11pVMbTqaxPIyjoUiQ2GPyYrppmyeg/sHnoJTNI0QAHP5k0y2F7vAFa Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11016"; a="16212987"
-X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; d="scan'208";a="16212987"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2024 05:49:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; d="scan'208";a="18152352"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2024 05:49:24 -0700
-Date: Mon, 18 Mar 2024 14:49:51 +0200
-From: Imre Deak <imre.deak@intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Luca Weiss <luca.weiss@fairphone.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge: Select DRM_KMS_HELPER for DRM_PANEL_BRIDGE
-Message-ID: <Zfg4b44TJ+bSADqJ@ideak-desk.fi.intel.com>
-References: <20240111-drm-panel-bridge-fixup-v1-1-e06292f6f500@fairphone.com>
- <171075294759.1615603.8073986785380285265.b4-ty@linaro.org>
- <87wmpzq0bp.fsf@intel.com> <87ttl3pzzi.fsf@intel.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7491310F6B0
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Mar 2024 12:57:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1710766666;
+ bh=fUU0xj2HCLWRMYWz3BCvwp9RAz1P41Pnt0sWAFkrA/k=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=kO2vD8GcSfV7lR/YRs2UTTAirGQ9Y3ZNN5zj/VzQWaM6XLAVCDQTpAhbDcKLt7oHL
+ 5DkJJBrbNraECLUcRT9QntErjE2ASt2bdYydtbmFSDJXl5wJ57EGgsY8/DvOPU//o7
+ NM2JoJp0SJaGQhhuURlBNw3AhUivu+E68ViNayDAPK5N1OMLUM3c8NUmDaTWfLBTMp
+ d/anjHo9LCWyRw9XNUEkYyRyCyvDR2S/346U92TcpFy5pT2UKrDPT5MPsxyWTKV/E3
+ F88Gocxcb1TxEFPKQAsMpHnvHEOBOD8dviw0a7NMNfpEwf2+jjBy62bm/StmaDjnAi
+ sAEF0ko5nCLew==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 3D14A3780A0B;
+ Mon, 18 Mar 2024 12:57:46 +0000 (UTC)
+Date: Mon, 18 Mar 2024 13:57:44 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ dri-devel@lists.freedesktop.org, kernel@collabora.com, kernel test robot
+ <lkp@intel.com>
+Subject: Re: [PATCH] drm/panthor: Fix the CONFIG_PM=n case
+Message-ID: <20240318135744.76208b30@collabora.com>
+In-Reply-To: <70bdc326-3e97-4f6b-ad6d-09473ee85b97@arm.com>
+References: <20240318085855.994179-1-boris.brezillon@collabora.com>
+ <70bdc326-3e97-4f6b-ad6d-09473ee85b97@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87ttl3pzzi.fsf@intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,110 +60,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 18, 2024 at 12:59:29PM +0200, Jani Nikula wrote:
-> On Mon, 18 Mar 2024, Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> > On Mon, 18 Mar 2024, Neil Armstrong <neil.armstrong@linaro.org> wrote:
-> >> Hi,
-> >>
-> >> On Thu, 11 Jan 2024 13:38:04 +0100, Luca Weiss wrote:
-> >>> Since the kconfig symbol of DRM_PANEL_BRIDGE is only adding
-> >>> bridge/panel.o to drm_kms_helper object, we need to select
-> >>> DRM_KMS_HELPER to make sure the file is actually getting built.
-> >>> 
-> >>> Otherwise with certain defconfigs e.g. devm_drm_of_get_bridge will not
-> >>> be properly available:
-> >>> 
-> >>> [...]
-> >>
-> >> Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
-> >>
-> >> [1/1] drm/bridge: Select DRM_KMS_HELPER for DRM_PANEL_BRIDGE
-> >>       https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/e3f18b0dd1db242791afbc3bd173026163ce0ccc
-> >
-> > With my kernel config, e3f18b0dd1db ("drm/bridge: Select DRM_KMS_HELPER
-> > for DRM_PANEL_BRIDGE") leads to:
-> >
-> > WARNING: unmet direct dependencies detected for DRM_KMS_HELPER
-> >   Depends on [m]: HAS_IOMEM [=y] && DRM [=m]
-> >   Selected by [y]:
-> >   - DRM_PANEL_BRIDGE [=y] && HAS_IOMEM [=y] && DRM_BRIDGE [=y]
-> >   Selected by [m]:
-> >   - DRM [=m] && HAS_IOMEM [=y] && (AGP [=y] || AGP [=y]=n) && !EMULATED_CMPXCHG && HAS_DMA [=y] && DRM_FBDEV_EMULATION [=y]
-> >   - DRM_MIPI_DBI [=m] && HAS_IOMEM [=y] && DRM [=m]
-> >   - DRM_KUNIT_TEST [=m] && HAS_IOMEM [=y] && DRM [=m] && KUNIT [=y] && MMU [=y]
-> >   - DRM_RADEON [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && MMU [=y] && (AGP [=y] || !AGP [=y])
-> >   - DRM_AMDGPU [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && MMU [=y] && !UML
-> >   - DRM_NOUVEAU [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && MMU [=y]
-> >   - DRM_I915 [=m] && HAS_IOMEM [=y] && DRM [=m] && X86 [=y] && PCI [=y] && !PREEMPT_RT [=n]
-> >   - DRM_XE [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && MMU [=y] && (m && MODULES [=y] || y && KUNIT [=y]=y) && 64BIT [=y]
-> >   - DRM_VKMS [=m] && HAS_IOMEM [=y] && DRM [=m] && MMU [=y]
-> >   - DRM_VMWGFX [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && MMU [=y] && (X86 [=y] || ARM64)
-> >   - DRM_GMA500 [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && X86 [=y] && MMU [=y]
-> >   - DRM_UDL [=m] && HAS_IOMEM [=y] && DRM [=m] && USB [=m] && USB_ARCH_HAS_HCD [=y] && MMU [=y]
-> >   - DRM_AST [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && MMU [=y]
-> >   - DRM_MGAG200 [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && MMU [=y]
-> >   - DRM_QXL [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && MMU [=y]
-> >   - DRM_VIRTIO_GPU [=m] && HAS_IOMEM [=y] && DRM [=m] && VIRTIO_MENU [=y] && MMU [=y]
-> >   - DRM_BOCHS [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && MMU [=y]
-> >   - DRM_CIRRUS_QEMU [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && MMU [=y]
-> >   - DRM_GM12U320 [=m] && HAS_IOMEM [=y] && DRM [=m] && USB [=m] && MMU [=y]
-> >   - DRM_PANEL_MIPI_DBI [=m] && HAS_IOMEM [=y] && DRM [=m] && SPI [=y]
-> >   - DRM_SIMPLEDRM [=m] && HAS_IOMEM [=y] && DRM [=m] && MMU [=y]
-> >   - TINYDRM_HX8357D [=m] && HAS_IOMEM [=y] && DRM [=m] && SPI [=y]
-> >   - TINYDRM_ILI9163 [=m] && HAS_IOMEM [=y] && DRM [=m] && SPI [=y]
-> >   - TINYDRM_ILI9225 [=m] && HAS_IOMEM [=y] && DRM [=m] && SPI [=y]
-> >   - TINYDRM_ILI9341 [=m] && HAS_IOMEM [=y] && DRM [=m] && SPI [=y]
-> >   - TINYDRM_ILI9486 [=m] && HAS_IOMEM [=y] && DRM [=m] && SPI [=y]
-> >   - TINYDRM_MI0283QT [=m] && HAS_IOMEM [=y] && DRM [=m] && SPI [=y]
-> >   - TINYDRM_REPAPER [=m] && HAS_IOMEM [=y] && DRM [=m] && SPI [=y]
-> >   - TINYDRM_ST7586 [=m] && HAS_IOMEM [=y] && DRM [=m] && SPI [=y]
-> >   - TINYDRM_ST7735R [=m] && HAS_IOMEM [=y] && DRM [=m] && SPI [=y]
-> >   - DRM_XEN_FRONTEND [=m] && HAS_IOMEM [=y] && XEN [=y] && DRM [=m]
-> >   - DRM_VBOXVIDEO [=m] && HAS_IOMEM [=y] && DRM [=m] && X86 [=y] && PCI [=y]
-> >   - DRM_GUD [=m] && HAS_IOMEM [=y] && DRM [=m] && USB [=m] && MMU [=y]
-> >   - DRM_SSD130X [=m] && HAS_IOMEM [=y] && DRM [=m] && MMU [=y]
-> >   - DRM_ANALOGIX_ANX78XX [=m] && HAS_IOMEM [=y] && DRM [=m] && DRM_BRIDGE [=y]
-> 
-> Please read Documentation/kbuild/kconfig-language.rst.
-> 
-> Basically boolean DRM_PANEL_BRIDGE selecting tristate DRM_KMS_HELPER
-> forces it to y while it should remain m.
-> 
-> Please revert.
+On Mon, 18 Mar 2024 12:18:53 +0000
+Robin Murphy <robin.murphy@arm.com> wrote:
 
-I can also see the above issue with the latest drm-tip, in particular a
-CONFIG_DRM=m build will fail with the above kconfig warns and then
-multiple linker errors:
-
-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_check_wb_connector_state':
-/home/imre/intel-gfx/drm-misc-fixes/drivers/gpu/drm/drm_atomic_helper.c:832: undefined reference to `__drm_dev_dbg'
-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_async_check':
-/home/imre/intel-gfx/drm-misc-fixes/drivers/gpu/drm/drm_atomic_helper.c:1932: undefined reference to `__drm_dev_dbg'
-ld: /home/imre/intel-gfx/drm-misc-fixes/drivers/gpu/drm/drm_atomic_helper.c:1924: undefined reference to `__drm_dev_dbg'
-ld: /home/imre/intel-gfx/drm-misc-fixes/drivers/gpu/drm/drm_atomic_helper.c:1896: undefined reference to `__drm_dev_dbg'
-ld: /home/imre/intel-gfx/drm-misc-fixes/drivers/gpu/drm/drm_atomic_helper.c:1911: undefined reference to `__drm_dev_dbg'
-ld: drivers/gpu/drm/drm_atomic_helper.o:/home/imre/intel-gfx/drm-misc-fixes/drivers/gpu/drm/drm_atomic_helper.c:1889: more undefined references to `__drm_dev_dbg' follow
-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_wait_for_dependencies':
-/home/imre/intel-gfx/drm-misc-fixes/drivers/gpu/drm/drm_atomic_helper.c:2410: undefined reference to `drm_crtc_commit_wait'
-ld: /home/imre/intel-gfx/drm-misc-fixes/drivers/gpu/drm/drm_atomic_helper.c:2418: undefined reference to `drm_crtc_commit_wait'
-ld: /home/imre/intel-gfx/drm-misc-fixes/drivers/gpu/drm/drm_atomic_helper.c:2426: undefined reference to `drm_crtc_commit_wait'
-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_fake_vblank':
-/home/imre/intel-gfx/drm-misc-fixes/drivers/gpu/drm/drm_atomic_helper.c:2467: undefined reference to `drm_crtc_send_vblank_event'
-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_prepare_planes':
-/home/imre/intel-gfx/drm-misc-fixes/drivers/gpu/drm/drm_atomic_helper.c:2589: undefined reference to `drm_writeback_prepare_job'
-ld: drivers/gpu/drm/drm_atomic_helper.o: in function `drm_atomic_helper_commit_duplicated_state':
-
-...
-
-CONFIG_DRM=y still builds ok.
-
-> BR,
-> Jani.
+> On 18/03/2024 8:58 am, Boris Brezillon wrote:
+> > Putting a hard dependency on CONFIG_PM is not possible because of a
+> > circular dependency issue, and it's actually not desirable either. In
+> > order to support this use case, we forcibly resume at init time, and
+> > suspend at unplug time.
+> > 
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202403031944.EOimQ8WK-lkp@intel.com/
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > ---
+> > Tested by faking CONFIG_PM=n in the driver (basically commenting
+> > all pm_runtime calls, and making the panthor_device_suspend/resume()
+> > calls unconditional in the panthor_device_unplug/init() path) since
+> > CONFIG_ARCH_ROCKCHIP selects CONFIG_PM. Seems to work fine, but I
+> > can't be 100% sure this will work correctly on a platform that has
+> > CONFIG_PM=n.
+> > ---
+> >   drivers/gpu/drm/panthor/panthor_device.c | 13 +++++++++++--
+> >   drivers/gpu/drm/panthor/panthor_drv.c    |  4 +++-
+> >   2 files changed, 14 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> > index 69deb8e17778..ba7aedbb4931 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_device.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> > @@ -87,6 +87,10 @@ void panthor_device_unplug(struct panthor_device *ptdev)
+> >   	pm_runtime_dont_use_autosuspend(ptdev->base.dev);
+> >   	pm_runtime_put_sync_suspend(ptdev->base.dev);
+> >   
+> > +	/* If PM is disabled, we need to call the suspend handler manually. */
+> > +	if (!IS_ENABLED(CONFIG_PM))
+> > +		panthor_device_suspend(ptdev->base.dev);
+> > +
+> >   	/* Report the unplug operation as done to unblock concurrent
+> >   	 * panthor_device_unplug() callers.
+> >   	 */
+> > @@ -218,6 +222,13 @@ int panthor_device_init(struct panthor_device *ptdev)
+> >   	if (ret)
+> >   		return ret;
+> >   
+> > +	/* If PM is disabled, we need to call panthor_device_resume() manually. */
+> > +	if (!IS_ENABLED(CONFIG_PM)) {
+> > +		ret = panthor_device_resume(ptdev->base.dev);
+> > +		if (ret)
+> > +			return ret;
+> > +	}
+> > +
+> >   	ret = panthor_gpu_init(ptdev);
+> >   	if (ret)
+> >   		goto err_rpm_put;
+> > @@ -402,7 +413,6 @@ int panthor_device_mmap_io(struct panthor_device *ptdev, struct vm_area_struct *
+> >   	return 0;
+> >   }
+> >   
+> > -#ifdef CONFIG_PM
+> >   int panthor_device_resume(struct device *dev)
+> >   {
+> >   	struct panthor_device *ptdev = dev_get_drvdata(dev);
+> > @@ -547,4 +557,3 @@ int panthor_device_suspend(struct device *dev)
+> >   	mutex_unlock(&ptdev->pm.mmio_lock);
+> >   	return ret;
+> >   }
+> > -#endif
+> > diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> > index ff484506229f..2ea6a9f436db 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> > @@ -1407,17 +1407,19 @@ static const struct of_device_id dt_match[] = {
+> >   };
+> >   MODULE_DEVICE_TABLE(of, dt_match);
+> >   
+> > +#ifdef CONFIG_PM  
 > 
+> This #ifdef isn't necessary, and in fact will break the !PM build - 
+> pm_ptr() already takes care of allowing the compiler to optimise out the 
+> ops structure itself without any further annotations.
+
+Oops, I forgot how pm_ptr() was working (I thought it had 2
+definitions, one for the PM case and another for the !PM one).
+
 > 
-> -- 
-> Jani Nikula, Intel
+> Thanks,
+> Robin.
+> 
+> >   static DEFINE_RUNTIME_DEV_PM_OPS(panthor_pm_ops,
+> >   				 panthor_device_suspend,
+> >   				 panthor_device_resume,
+> >   				 NULL);
+> > +#endif
+> >   
+> >   static struct platform_driver panthor_driver = {
+> >   	.probe = panthor_probe,
+> >   	.remove_new = panthor_remove,
+> >   	.driver = {
+> >   		.name = "panthor",
+> > -		.pm = &panthor_pm_ops,
+> > +		.pm = pm_ptr(&panthor_pm_ops),
+> >   		.of_match_table = dt_match,
+> >   	},
+> >   };  
+
