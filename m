@@ -2,122 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10D2487FF5B
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 15:13:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9635387FF68
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 15:16:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CE3310EE25;
-	Tue, 19 Mar 2024 14:13:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4551310E8CA;
+	Tue, 19 Mar 2024 14:16:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Run8HHsl";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Z1025+5/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2110.outbound.protection.outlook.com [40.107.220.110])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E787310E14A;
- Tue, 19 Mar 2024 14:13:45 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lue9o12CPVTIXoAqTx7YPuFDhU5s77GRotqudbIcqcoc5qx1K426T76URNDNBxFc3tKLJb8JvENEuZx6omdq45j3qzUN/r4cxpuSe5vGjxL5uSjwpo0o3tKu2VE95ljSaw92gOskYwFkPPgoebSdjmmVlKNy3lx1C/+RidJtyIy6xRlW4vzXgCu+GG+if8HiCC+paTC+UPVDpzWRBd8sPsSwD+hHBEGsT65wcwBFzYCvm5wrsAkg78Q5ydBYvqIY57TufZ35nG1I/3Kl5Y8whYuxqRfb/tzGPb1c3BdHGZ4f8hDAfXzZIjUWAN1oqhWGyMEmXluxdqKNxfphQxnIAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=txZdI8YXRWXcOKQOPF0qG+9NXSan4l2sgfLrd+EWqUA=;
- b=YvF849DFP2cISgBuN8HZGf69/GN+e9ppiqPRcWDimdbRbVVlGPei0R2qM1pxe4l93/7M1FJoKdHQBe3+46o4uqpcGbb/LX6ZJW1VOPNp/7jC0f9XyhL8wdxxxzi+dlt7z828ldgSGNWznK0ctioUHzr4Zv52Y4FbpXWONI0v6XOaq2yOvNG+GbxRrtN1sYn4Y+DvUqL6ZWWVdmWmsteLS+WTjbhC/8/B00pqaoe3bRwWKK9eDSqBRuYhjuHbN3Xim16QOrSLfRObZ0Bm0BP41mpux0I1pw99jYPmYSRSAMo9cqWgeznSj16s24zxlvPc0KVmwZhLkxPcSn5ruojErg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=txZdI8YXRWXcOKQOPF0qG+9NXSan4l2sgfLrd+EWqUA=;
- b=Run8HHslc3n1Motah4OlXt70W1hDHCCfPoJO+9660MBS3YV+3tp2JRen18jABCC1mAsNjDKTb8qM13kokPJIBGqA4SJCCzesahOOwcdKZfSG7lea8ehDy7C3+xYMCUkKAChmjXh7GlycUGkYxBkhRFyqOXJtlNRXV+MTRZQbkcI=
-Received: from DS0PR12MB7804.namprd12.prod.outlook.com (2603:10b6:8:142::5) by
- SN7PR12MB8770.namprd12.prod.outlook.com (2603:10b6:806:34b::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.26; Tue, 19 Mar
- 2024 14:13:42 +0000
-Received: from DS0PR12MB7804.namprd12.prod.outlook.com
- ([fe80::f349:addf:ae3e:814]) by DS0PR12MB7804.namprd12.prod.outlook.com
- ([fe80::f349:addf:ae3e:814%5]) with mapi id 15.20.7386.025; Tue, 19 Mar 2024
- 14:13:42 +0000
-Message-ID: <6b00e84a-1720-4417-81bb-416ef6f01560@amd.com>
-Date: Tue, 19 Mar 2024 19:43:33 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amdgpu: refactor code to reuse system information
-Content-Language: en-US
-To: "Khatri, Sunil" <sukhatri@amd.com>, Sunil Khatri <sunil.khatri@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Hawking Zhang <Hawking.Zhang@amd.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>
-References: <20240319123208.851901-1-sunil.khatri@amd.com>
- <a0fe5024-c1d0-49f4-ba5c-f81161d448e2@amd.com>
- <bcefa332-d29b-4fa0-9195-39dc77625e5b@amd.com>
-From: "Lazar, Lijo" <lijo.lazar@amd.com>
-In-Reply-To: <bcefa332-d29b-4fa0-9195-39dc77625e5b@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN3PR01CA0132.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:bf::16) To DS0PR12MB7804.namprd12.prod.outlook.com
- (2603:10b6:8:142::5)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 068C510E8CA
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 14:16:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id D8D8960EE0
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 14:16:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B480C43394
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 14:16:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1710857790;
+ bh=c4u3kcu2TjIGqZyddrex609B70FHJabhU/6RpwTEW/0=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Z1025+5/rC5eMSpj+NEtuYmEe4fMRNKZsiLPlZ6fGXWSTz9pCtk8CiMWu993iiHHv
+ M+Hi7dCHMOCPRoxmfJlSC4pqXrm8s0+mCMTtwtO2WepjdUmsmRu0BwdNUbzvrkt8vY
+ fFE5EVEabe0tV/bDnGuA8jAOM8jih5XeGEEVQINn/lIbTMe9+6CwinivqATrivIdZK
+ X+8bVKY7d+Fv6HPvxhsjqHJy5u1uV7pUWW1dNVf0nPFl7q3uRfTtnVeeU23DM09qwA
+ Y+5BJpT9SP2QeKXZRrL709BKD55y7rfkpUx5QSR6JBebl39o2HaoDCJ2KANvaGnfWK
+ oRLHgWpxT4kEQ==
+Received: by mail-ej1-f47.google.com with SMTP id
+ a640c23a62f3a-a46dd7b4bcbso97985766b.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 07:16:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWYrJwhENrryjh7AbyLTtjdIgm/F1tUatie7JIbxOiyEA5DGdHxr7bY7L08eG4AWVA/IOc49XP7Cb8KrhiSbU+BIWT/auMchP4zzjaZutdI
+X-Gm-Message-State: AOJu0YwntehiphI+wiL8qcFSAArfjS72y8XqcMT7wQf3MxbenL74ehB/
+ 6MVxT63P0HMR8erMsb/P3/WUFga2mnMAweTTH8Y2shHNGvdgaC3zWd56om45FAXVMy4VWE4B9Gj
+ X1Cds2ojDaoEaQLXdkUGRoBL/OJ4=
+X-Google-Smtp-Source: AGHT+IERvjJks5ojuMHIXkwFvLzIqnvJWYWKn2Ob36KkWqAYCAtammX8jvbzBNDeHTiu62mP1J7zFyg/bmp0U6KM6z0=
+X-Received: by 2002:a17:906:300f:b0:a46:da87:26e9 with SMTP id
+ 15-20020a170906300f00b00a46da8726e9mr1371618ejz.77.1710857789037; Tue, 19 Mar
+ 2024 07:16:29 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7804:EE_|SN7PR12MB8770:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iVkJukngGqLbZIw8qnoDqNFjiiY4s60TYDNhsfck067rw0EX0JXWbnDNK1D+L12bPw2z8WFD2YaT2iffuxvKwZhKPhbyMbOAPxSlssIVdgSgrp5PbVU8qqL8Mma7PI7/NpZSAVPXlK+5v/Kq3Mh7aZhQFrcR3ezKG+Usj4Ai14EToVmC67FFd/wodJspSKmYiNguV2BfP26oywR+g3HqtlO7y/T9f0gvc0WbjLS0fj65sBU1tm1jIfkfg8MJGSzPwSRhZxC+OyA5BS4EcNZRTkXj8BgI2nmegbSYFUvuhdFPCLRX0GdRR1aOTfnCbagzfo9uoyhCnCEhD7c1nIFvYu2T13NiyBwOJx1gf9ChtlbgrV2E3L0pT51DtMSVykD5+n5H9TA5vGrdZszl3YDroHU0Q1HBZvBHu+YnsW+ANrhbCr9gSYRo8MUy15GMYQVzRGQWb5MEeDbCLlWIf7USJIwvAsiIcV3/7SSsLYs8Kimj0oPpzayNfuiDp2dYTAZs0l5tfil94Vmer+hq3bfvo7TpZsnRvP0F570+/Y51QQ86yLBHioOx3W0cFUKEmmusY3i8ae6V9sfsiy9UgIV/7UsicUpyiuO6TYxorc5KVJHX3y2yugdr3e0NXcjJFaxc03QZzazjWiN9P9whndcc7NNsYCqE5d8dKFCjj4H60sI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR12MB7804.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005)(366007)(1800799015); DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SXBjWmFSb092QWFIVWsxSTF0Ynl1dFV6QlNHTUR0RHh0dldvUTI5cm9hTnFM?=
- =?utf-8?B?Q0NkYnh5K0VHeDI5UUtFUGVzTEJobDhyb3BqSFRTUjg1M1JiUzc4cUZXT1BM?=
- =?utf-8?B?NEx2ODlxbmFLbjhLQVNCenQ1bFd2a2h0aDhpbnZaM1hZNmhQb044M2hndnVa?=
- =?utf-8?B?a2w5NVhRZ0ZpNjg2Qi85N3grbGxsaXJHbkRMekdBK09OQU9jbk1jUnh0YlZT?=
- =?utf-8?B?S0JCa2I2RUdJRFFhbmdtRVZocEJuSU03NFlSVWFKRnBmV21RcnFINjBqV2hH?=
- =?utf-8?B?Smx1Rm9yejJBdHlPWUxxYWljN0VEVzlxQ242ZHNmOWRBdzNVRTFPaDhiRUh0?=
- =?utf-8?B?MHhiS0RNbGFtWk9DbkgvWjZ6M2E5NDVGRjZhTTNpbDdmUEVXU25Ob29LK0Ex?=
- =?utf-8?B?U0pSa0gwU3d5cGxuZ3U1azE3eXk5MTRSK1hZZjRtUWJaVlRBY0p1RWpNM3ln?=
- =?utf-8?B?UjBZK2dxK2xEeklIK2x4QmVvZTZVNFlMVzlPclFJY2RUSXQxN1A2Z25XV3ZR?=
- =?utf-8?B?S0ZzYXdkLzRJVldmWnkxVS9sTE1GZmU5M0ZUUUZFMVNYUVFiU0hjSXNQeVdU?=
- =?utf-8?B?b0hjSU9pSitJV1lOQzd5b0d6RUtsclEvUDg4UlA2dXRucngyVExxaVJzelda?=
- =?utf-8?B?dFlQdVJoSWdaeFNudU9SczgrdnZWOXJwZ2tCQUdJdDd5K05jUHlvc094Mmww?=
- =?utf-8?B?VmI2WURFQlpzaUtlSUFUNUFqYjQwYXV5K29CaTdtNDREaWhGc2hsMGRLYmlK?=
- =?utf-8?B?MUE0YlpMVnpuSzl0OWJCbnNGR0xRRUFTT1hTYjN5elZ4ZjgzZDAxSFU2UzJz?=
- =?utf-8?B?dEN2Ky9hL3QwR1grRGpidm56blA4WVhHZE1iVitiRjZtWTN4aEw0L2xVaG9u?=
- =?utf-8?B?SjYwbnRpYlA3VG85QVdiSmZ4a05YSitnOUx5SzRRaS9MZUZ5ZVBHY05qZkEy?=
- =?utf-8?B?NUIzYldpRE5iWElYMHgxOTJ2aGcrV1hjMlYvcEVCejVYaTY0ZkhEYnJtTklG?=
- =?utf-8?B?MS9UZ0lsdGMza2l0UjZOUUpYSmhJU0UwRFdvNFBsM0ZRbklNTC84YVlONi83?=
- =?utf-8?B?Y1pkaHdZYVREOGcydnNCSzZOTUpyNkgxT1NJdTZWN0hpaFBWc1BFcWxHVEIx?=
- =?utf-8?B?eXk2OXY1dEtQNkQ5MTBtMitVa3dRUW16ZTM2dlE5bWNydTVvdjZPVzBWK3BJ?=
- =?utf-8?B?Q0JobVNqQnNKOGxBVVAvRlRrOGJpQ21uQ3lWY2oweHNXc01CcDRRWTFMWTNh?=
- =?utf-8?B?eEZzQnBoeTEwYmFET2V6czJsVlRDVmp2MFJ0MEowVGVqazNjL0V4VUd5Z08z?=
- =?utf-8?B?dFFmSld3Rm4rVks2N0p6U2dONmd2TU9pV0xENWQvT2wxMXRvcHVnaUplc3Nv?=
- =?utf-8?B?NUpEenNUOVZXWCt3bmVqYVJVbzNMYlhQLzdFOHE2eElyOFRUVHJ1MDBBd0xa?=
- =?utf-8?B?THZCSGhaUkFMRnpDVFpja0Z0dzRxVWwyc2FtblpwT2FJU2d4NXllSVFzM3VF?=
- =?utf-8?B?bEFIakxjcGJXUk1UY3o3QTJPd3lhdDVhVEJWc1VlUGNEcldIY1ZYMVV2MnVK?=
- =?utf-8?B?SU5FdndwYzRHTjNoU0J0Qk9jNS93RldSMk81OXlUR1lPTnFabldkRUFNdyth?=
- =?utf-8?B?VVBkaTNwWm04ODZCZVJqQ1pKNmtwRktrZHRMRmo1QVdCTnpnck56VG4reXZx?=
- =?utf-8?B?WFQvNlVkMW5HTjl0c0EzU1RuZ3JnN1JLSlNFcVpnY29ESUZ4RFNOT0x6RkRC?=
- =?utf-8?B?bFNVay9zM09lcGRBMWJtYzllcldvbi91SGI4SWNhL0ZkZG5yL2FtODBCdU1W?=
- =?utf-8?B?MnE0L3c4SlFucUhqbTFOa0tZQXpTaFk4MGwranZiNkFVMTg4NTBsQUpPd3ZO?=
- =?utf-8?B?VkhmZWhLTTd5OXE4NzNDa0VYZXhPaEJpQUE2cHVvVWVkUWt1VGQzVnFyNmly?=
- =?utf-8?B?YVJRRTFZRWZOWEt2UmJ1VVNYSCtKR1hwVUN4VTlnUjVVR3V6ZFk5eVVidTJi?=
- =?utf-8?B?NGx0SWxJaTRaKzJSekRrQzVnVHFzQXNWTldZcmtkN0hJK3N6N1ltK0dWejF0?=
- =?utf-8?B?Q0czUXJYcXBHWTdleVpkV2YxN3FhaW9YTXRjYzVwZWEvTHFwUUIwRnB2QWd0?=
- =?utf-8?Q?OLr0hSM9KhAgkxPuAYQkqE+t8?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7d3991e8-20d7-422a-f8dd-08dc481ec802
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7804.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2024 14:13:42.3677 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9K597fsBkq1pdX+xFF78Icq+uZvJxf4svY7GCqKTkoK0NArw7trGrwnyIoF5D05n
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8770
+References: <20231108024613.2898921-1-chenhuacai@loongson.cn>
+ <f461f122-d3e4-4ffb-a252-543f9b6e4e5a@suse.de>
+ <CAFOAJEfDZGRY42SRGF64cFbN1e8sBhYsQw_uou8hxTYfyxkhdw@mail.gmail.com>
+ <CAAhV-H52y902nP6nPeghLqs+K8gNzCc3DHTU1C0AQcD0TXHMAQ@mail.gmail.com>
+ <32b4b912-794f-42b6-b666-5faea8e98d7c@ristioja.ee>
+ <CAAhV-H5gFqd3z4Etzuz_q3Hs6A4BP0yzJ69GgMcJzJBRdOwGSA@mail.gmail.com>
+ <5f52d611-6ec9-429c-aabf-956d23a8c74d@ristioja.ee>
+In-Reply-To: <5f52d611-6ec9-429c-aabf-956d23a8c74d@ristioja.ee>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Tue, 19 Mar 2024 22:16:17 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4MKRXb=STOneivyHsU6o2vU=P9cQMwjRo+PKnPpJ67Rw@mail.gmail.com>
+Message-ID: <CAAhV-H4MKRXb=STOneivyHsU6o2vU=P9cQMwjRo+PKnPpJ67Rw@mail.gmail.com>
+Subject: Re: [PATCH] drm/Makefile: Move tiny drivers before native drivers
+To: Jaak Ristioja <jaak@ristioja.ee>
+Cc: Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org, 
+ Maxime Ripard <mripard@kernel.org>, Huacai Chen <chenhuacai@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,441 +78,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi, Jaak,
 
+On Mon, Mar 18, 2024 at 11:42=E2=80=AFPM Jaak Ristioja <jaak@ristioja.ee> w=
+rote:
+>
+> Hi Huacai,
+>
+> Uh, no, sorry, I did not get to test such changes. From what Thomas
+> wrote I presumed that this got fixed and no further action would be
+> required.
+>
+> To speed things up I would appreciate it if you provided a patch. As I
+> worked around the problem for the end user by changing the kernel
+> configuration, I have long forgotten the exact details. It would
+> otherwise probably take me a while to understand what and where you
+> propose to change exactly.
+>
+> Also, do you want me to test it on some newer kernel or should I
+> re-download the 6.5.# version sources?
+Yes, it is better to use 6.5, you can simply change the last line of
+drivers/firmware/sysfb.c to fs_initcall(sysfb_init), So no patch
+needed.
 
-On 3/19/2024 7:27 PM, Khatri, Sunil wrote:
-> 
-> On 3/19/2024 7:19 PM, Lazar, Lijo wrote:
->>
->> On 3/19/2024 6:02 PM, Sunil Khatri wrote:
->>> Refactor the code so debugfs and devcoredump can reuse
->>> the common information and avoid unnecessary copy of it.
->>>
->>> created a new file which would be the right place to
->>> hold functions which will be used between sysfs, debugfs
->>> and devcoredump.
->>>
->>> Cc: Christian König <christian.koenig@amd.com>
->>> Cc: Alex Deucher <alexander.deucher@amd.com>
->>> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
->>> ---
->>>   drivers/gpu/drm/amd/amdgpu/Makefile         |   2 +-
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu.h         |   1 +
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_devinfo.c | 151 ++++++++++++++++++++
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c     | 118 +--------------
->>>   4 files changed, 157 insertions(+), 115 deletions(-)
->>>   create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_devinfo.c
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/Makefile
->>> b/drivers/gpu/drm/amd/amdgpu/Makefile
->>> index 4536c8ad0e11..05d34f4b18f5 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/Makefile
->>> +++ b/drivers/gpu/drm/amd/amdgpu/Makefile
->>> @@ -80,7 +80,7 @@ amdgpu-y += amdgpu_device.o amdgpu_doorbell_mgr.o
->>> amdgpu_kms.o \
->>>       amdgpu_umc.o smu_v11_0_i2c.o amdgpu_fru_eeprom.o amdgpu_rap.o \
->>>       amdgpu_fw_attestation.o amdgpu_securedisplay.o \
->>>       amdgpu_eeprom.o amdgpu_mca.o amdgpu_psp_ta.o amdgpu_lsdma.o \
->>> -    amdgpu_ring_mux.o amdgpu_xcp.o amdgpu_seq64.o amdgpu_aca.o
->>> +    amdgpu_ring_mux.o amdgpu_xcp.o amdgpu_seq64.o amdgpu_aca.o
->>> amdgpu_devinfo.o
->>>     amdgpu-$(CONFIG_PROC_FS) += amdgpu_fdinfo.o
->>>   diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->>> b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->>> index 9c62552bec34..0267870aa9b1 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->>> @@ -1609,4 +1609,5 @@ extern const struct attribute_group
->>> amdgpu_vram_mgr_attr_group;
->>>   extern const struct attribute_group amdgpu_gtt_mgr_attr_group;
->>>   extern const struct attribute_group amdgpu_flash_attr_group;
->>>   +int amdgpu_device_info(struct amdgpu_device *adev, struct
->>> drm_amdgpu_info_device *dev_info);
->>>   #endif
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_devinfo.c
->>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_devinfo.c
->>> new file mode 100644
->>> index 000000000000..d2c15a1dcb0d
->>> --- /dev/null
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_devinfo.c
->>> @@ -0,0 +1,151 @@
->>> +// SPDX-License-Identifier: MIT
->>> +/*
->>> + * Copyright 2024 Advanced Micro Devices, Inc.
->>> + *
->>> + * Permission is hereby granted, free of charge, to any person
->>> obtaining a
->>> + * copy of this software and associated documentation files (the
->>> "Software"),
->>> + * to deal in the Software without restriction, including without
->>> limitation
->>> + * the rights to use, copy, modify, merge, publish, distribute,
->>> sublicense,
->>> + * and/or sell copies of the Software, and to permit persons to whom
->>> the
->>> + * Software is furnished to do so, subject to the following conditions:
->>> + *
->>> + * The above copyright notice and this permission notice shall be
->>> included in
->>> + * all copies or substantial portions of the Software.
->>> + *
->>> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
->>> EXPRESS OR
->>> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
->>> MERCHANTABILITY,
->>> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO
->>> EVENT SHALL
->>> + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM,
->>> DAMAGES OR
->>> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
->>> OTHERWISE,
->>> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
->>> USE OR
->>> + * OTHER DEALINGS IN THE SOFTWARE.
->>> + *
->>> + */
->>> +
->>> +#include "amdgpu.h"
->>> +#include "amd_pcie.h"
->>> +
->>> +#include <drm/amdgpu_drm.h>
->>> +
->>> +int amdgpu_device_info(struct amdgpu_device *adev, struct
->>> drm_amdgpu_info_device *dev_info)
->>> +{
->>> +    int ret;
->>> +    uint64_t vm_size;
->>> +    uint32_t pcie_gen_mask;
->>> +
->>> +    if (dev_info == NULL)
->>> +        return -EINVAL;
->>> +
->>> +    dev_info->device_id = adev->pdev->device;
->>> +    dev_info->chip_rev = adev->rev_id;
->>> +    dev_info->external_rev = adev->external_rev_id;
->>> +    dev_info->pci_rev = adev->pdev->revision;
->>> +    dev_info->family = adev->family;
->>> +    dev_info->num_shader_engines = adev->gfx.config.max_shader_engines;
->>> +    dev_info->num_shader_arrays_per_engine =
->>> adev->gfx.config.max_sh_per_se;
->>> +    /* return all clocks in KHz */
->>> +    dev_info->gpu_counter_freq = amdgpu_asic_get_xclk(adev) * 10;
->>> +    if (adev->pm.dpm_enabled) {
->>> +        dev_info->max_engine_clock = amdgpu_dpm_get_sclk(adev,
->>> false) * 10;
->>> +        dev_info->max_memory_clock = amdgpu_dpm_get_mclk(adev,
->>> false) * 10;
->>> +        dev_info->min_engine_clock = amdgpu_dpm_get_sclk(adev, true)
->>> * 10;
->>> +        dev_info->min_memory_clock = amdgpu_dpm_get_mclk(adev, true)
->>> * 10;
->>> +    } else {
->>> +        dev_info->max_engine_clock =
->>> +            dev_info->min_engine_clock =
->>> +                adev->clock.default_sclk * 10;
->>> +        dev_info->max_memory_clock =
->>> +            dev_info->min_memory_clock =
->>> +                adev->clock.default_mclk * 10;
->>> +        }
->>> +    dev_info->enabled_rb_pipes_mask =
->>> adev->gfx.config.backend_enable_mask;
->>> +    dev_info->num_rb_pipes = adev->gfx.config.max_backends_per_se *
->>> +        adev->gfx.config.max_shader_engines;
->>> +    dev_info->num_hw_gfx_contexts = adev->gfx.config.max_hw_contexts;
->>> +    dev_info->ids_flags = 0;
->>> +    if (adev->flags & AMD_IS_APU)
->>> +        dev_info->ids_flags |= AMDGPU_IDS_FLAGS_FUSION;
->>> +    if (adev->gfx.mcbp)
->>> +        dev_info->ids_flags |= AMDGPU_IDS_FLAGS_PREEMPTION;
->>> +    if (amdgpu_is_tmz(adev))
->>> +        dev_info->ids_flags |= AMDGPU_IDS_FLAGS_TMZ;
->>> +    if (adev->gfx.config.ta_cntl2_truncate_coord_mode)
->>> +        dev_info->ids_flags |= AMDGPU_IDS_FLAGS_CONFORMANT_TRUNC_COORD;
->>> +
->>> +    vm_size = adev->vm_manager.max_pfn * AMDGPU_GPU_PAGE_SIZE;
->>> +    vm_size -= AMDGPU_VA_RESERVED_TOP;
->>> +
->>> +    /* Older VCE FW versions are buggy and can handle only 40bits */
->>> +    if (adev->vce.fw_version && adev->vce.fw_version <
->>> AMDGPU_VCE_FW_53_45)
->>> +        vm_size = min(vm_size, 1ULL << 40);
->>> +
->>> +    dev_info->virtual_address_offset = AMDGPU_VA_RESERVED_BOTTOM;
->>> +    dev_info->virtual_address_max = min(vm_size,
->>> AMDGPU_GMC_HOLE_START);
->>> +
->>> +    if (vm_size > AMDGPU_GMC_HOLE_START) {
->>> +        dev_info->high_va_offset = AMDGPU_GMC_HOLE_END;
->>> +        dev_info->high_va_max = AMDGPU_GMC_HOLE_END | vm_size;
->>> +    }
->>> +    dev_info->virtual_address_alignment = max_t(u32, PAGE_SIZE,
->>> AMDGPU_GPU_PAGE_SIZE);
->>> +    dev_info->pte_fragment_size = (1 <<
->>> adev->vm_manager.fragment_size) * AMDGPU_GPU_PAGE_SIZE;
->>> +    dev_info->gart_page_size = max_t(u32, PAGE_SIZE,
->>> AMDGPU_GPU_PAGE_SIZE);
->>> +    dev_info->cu_active_number = adev->gfx.cu_info.number;
->>> +    dev_info->cu_ao_mask = adev->gfx.cu_info.ao_cu_mask;
->>> +    dev_info->ce_ram_size = adev->gfx.ce_ram_size;
->>> +    memcpy(&dev_info->cu_ao_bitmap[0],
->>> &adev->gfx.cu_info.ao_cu_bitmap[0],
->>> +           sizeof(adev->gfx.cu_info.ao_cu_bitmap));
->>> +    memcpy(&dev_info->cu_bitmap[0], &adev->gfx.cu_info.bitmap[0],
->>> +           sizeof(dev_info->cu_bitmap));
->>> +    dev_info->vram_type = adev->gmc.vram_type;
->>> +    dev_info->vram_bit_width = adev->gmc.vram_width;
->>> +    dev_info->vce_harvest_config = adev->vce.harvest_config;
->>> +    dev_info->gc_double_offchip_lds_buf =
->>> +        adev->gfx.config.double_offchip_lds_buf;
->>> +    dev_info->wave_front_size = adev->gfx.cu_info.wave_front_size;
->>> +    dev_info->num_shader_visible_vgprs = adev->gfx.config.max_gprs;
->>> +    dev_info->num_cu_per_sh = adev->gfx.config.max_cu_per_sh;
->>> +    dev_info->num_tcc_blocks =
->>> adev->gfx.config.max_texture_channel_caches;
->>> +    dev_info->gs_vgt_table_depth = adev->gfx.config.gs_vgt_table_depth;
->>> +    dev_info->gs_prim_buffer_depth =
->>> adev->gfx.config.gs_prim_buffer_depth;
->>> +    dev_info->max_gs_waves_per_vgt = adev->gfx.config.max_gs_threads;
->>> +
->>> +    if (adev->family >= AMDGPU_FAMILY_NV)
->>> +        dev_info->pa_sc_tile_steering_override =
->>> +            adev->gfx.config.pa_sc_tile_steering_override;
->>> +
->>> +    dev_info->tcc_disabled_mask = adev->gfx.config.tcc_disabled_mask;
->>> +
->>> +    /* Combine the chip gen mask with the platform (CPU/mobo) mask. */
->>> +    pcie_gen_mask = adev->pm.pcie_gen_mask & (adev->pm.pcie_gen_mask
->>> >> 16);
->>> +    dev_info->pcie_gen = fls(pcie_gen_mask);
->>> +    dev_info->pcie_num_lanes =
->>> +        adev->pm.pcie_mlw_mask & CAIL_PCIE_LINK_WIDTH_SUPPORT_X32 ?
->>> 32 :
->>> +        adev->pm.pcie_mlw_mask & CAIL_PCIE_LINK_WIDTH_SUPPORT_X16 ?
->>> 16 :
->>> +        adev->pm.pcie_mlw_mask & CAIL_PCIE_LINK_WIDTH_SUPPORT_X12 ?
->>> 12 :
->>> +        adev->pm.pcie_mlw_mask & CAIL_PCIE_LINK_WIDTH_SUPPORT_X8 ? 8 :
->>> +        adev->pm.pcie_mlw_mask & CAIL_PCIE_LINK_WIDTH_SUPPORT_X4 ? 4 :
->>> +        adev->pm.pcie_mlw_mask & CAIL_PCIE_LINK_WIDTH_SUPPORT_X2 ? 2
->>> : 1;
->>> +
->>> +    dev_info->tcp_cache_size = adev->gfx.config.gc_tcp_l1_size;
->>> +    dev_info->num_sqc_per_wgp = adev->gfx.config.gc_num_sqc_per_wgp;
->>> +    dev_info->sqc_data_cache_size =
->>> adev->gfx.config.gc_l1_data_cache_size_per_sqc;
->>> +    dev_info->sqc_inst_cache_size =
->>> adev->gfx.config.gc_l1_instruction_cache_size_per_sqc;
->>> +    dev_info->gl1c_cache_size =
->>> adev->gfx.config.gc_gl1c_size_per_instance *
->>> +                    adev->gfx.config.gc_gl1c_per_sa;
->>> +    dev_info->gl2c_cache_size = adev->gfx.config.gc_gl2c_per_gpu;
->>> +    dev_info->mall_size = adev->gmc.mall_size;
->>> +
->>> +
->>> +    if (adev->gfx.funcs->get_gfx_shadow_info) {
->>> +        struct amdgpu_gfx_shadow_info shadow_info;
->>> +
->>> +        ret = amdgpu_gfx_get_gfx_shadow_info(adev, &shadow_info);
->> This failure is ignored in the present logic and rest of the information
->> is filled. Probably, need to continue the same way.
-> 
-> Since this is the information that we are sharing with user and on any
-> failure we just decide not to populate those fields. By default all the
-> members are initialized to zero and they
-> 
-> are updated when we have valid values. To me seems the right logic
-> instead of failing the complete call, we provide the information what we
-> have.
-> 
+And to Thomas,
 
-Actually, this is not what is really done. If you fail here, then this
-happens down the call. It doesn't copy, instead frees without copying to
-userspace.
+I'm sorry that reverting 60aebc95594 solve Jaak's problem, but my
+original problem exist (at least in 6.5), and I want to know the
+result of the above experiment to understand what happens.
 
-+        ret = amdgpu_device_info(adev, dev_info);
-+        if (!ret) {
+Huacai
 
-Thanks,
-Lijo
-
-> Regards
-> Sunil
-> 
->>
->> Thanks,
->> Lijo
->>
->>> +        if (!ret) {
->>> +            dev_info->shadow_size = shadow_info.shadow_size;
->>> +            dev_info->shadow_alignment = shadow_info.shadow_alignment;
->>> +            dev_info->csa_size = shadow_info.csa_size;
->>> +            dev_info->csa_alignment = shadow_info.csa_alignment;
->>> +        }
->>> +    }
->>> +    return ret;
->>> +}
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
->>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
->>> index a66d47865e3b..24f775c68a51 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
->>> @@ -850,125 +850,15 @@ int amdgpu_info_ioctl(struct drm_device *dev,
->>> void *data, struct drm_file *filp)
->>>       }
->>>       case AMDGPU_INFO_DEV_INFO: {
->>>           struct drm_amdgpu_info_device *dev_info;
->>> -        uint64_t vm_size;
->>> -        uint32_t pcie_gen_mask;
->>>             dev_info = kzalloc(sizeof(*dev_info), GFP_KERNEL);
->>>           if (!dev_info)
->>>               return -ENOMEM;
->>>   -        dev_info->device_id = adev->pdev->device;
->>> -        dev_info->chip_rev = adev->rev_id;
->>> -        dev_info->external_rev = adev->external_rev_id;
->>> -        dev_info->pci_rev = adev->pdev->revision;
->>> -        dev_info->family = adev->family;
->>> -        dev_info->num_shader_engines =
->>> adev->gfx.config.max_shader_engines;
->>> -        dev_info->num_shader_arrays_per_engine =
->>> adev->gfx.config.max_sh_per_se;
->>> -        /* return all clocks in KHz */
->>> -        dev_info->gpu_counter_freq = amdgpu_asic_get_xclk(adev) * 10;
->>> -        if (adev->pm.dpm_enabled) {
->>> -            dev_info->max_engine_clock = amdgpu_dpm_get_sclk(adev,
->>> false) * 10;
->>> -            dev_info->max_memory_clock = amdgpu_dpm_get_mclk(adev,
->>> false) * 10;
->>> -            dev_info->min_engine_clock = amdgpu_dpm_get_sclk(adev,
->>> true) * 10;
->>> -            dev_info->min_memory_clock = amdgpu_dpm_get_mclk(adev,
->>> true) * 10;
->>> -        } else {
->>> -            dev_info->max_engine_clock =
->>> -                dev_info->min_engine_clock =
->>> -                    adev->clock.default_sclk * 10;
->>> -            dev_info->max_memory_clock =
->>> -                dev_info->min_memory_clock =
->>> -                    adev->clock.default_mclk * 10;
->>> -        }
->>> -        dev_info->enabled_rb_pipes_mask =
->>> adev->gfx.config.backend_enable_mask;
->>> -        dev_info->num_rb_pipes = adev->gfx.config.max_backends_per_se *
->>> -            adev->gfx.config.max_shader_engines;
->>> -        dev_info->num_hw_gfx_contexts =
->>> adev->gfx.config.max_hw_contexts;
->>> -        dev_info->ids_flags = 0;
->>> -        if (adev->flags & AMD_IS_APU)
->>> -            dev_info->ids_flags |= AMDGPU_IDS_FLAGS_FUSION;
->>> -        if (adev->gfx.mcbp)
->>> -            dev_info->ids_flags |= AMDGPU_IDS_FLAGS_PREEMPTION;
->>> -        if (amdgpu_is_tmz(adev))
->>> -            dev_info->ids_flags |= AMDGPU_IDS_FLAGS_TMZ;
->>> -        if (adev->gfx.config.ta_cntl2_truncate_coord_mode)
->>> -            dev_info->ids_flags |=
->>> AMDGPU_IDS_FLAGS_CONFORMANT_TRUNC_COORD;
->>> -
->>> -        vm_size = adev->vm_manager.max_pfn * AMDGPU_GPU_PAGE_SIZE;
->>> -        vm_size -= AMDGPU_VA_RESERVED_TOP;
->>> -
->>> -        /* Older VCE FW versions are buggy and can handle only
->>> 40bits */
->>> -        if (adev->vce.fw_version &&
->>> -            adev->vce.fw_version < AMDGPU_VCE_FW_53_45)
->>> -            vm_size = min(vm_size, 1ULL << 40);
->>> -
->>> -        dev_info->virtual_address_offset = AMDGPU_VA_RESERVED_BOTTOM;
->>> -        dev_info->virtual_address_max =
->>> -            min(vm_size, AMDGPU_GMC_HOLE_START);
->>> -
->>> -        if (vm_size > AMDGPU_GMC_HOLE_START) {
->>> -            dev_info->high_va_offset = AMDGPU_GMC_HOLE_END;
->>> -            dev_info->high_va_max = AMDGPU_GMC_HOLE_END | vm_size;
->>> -        }
->>> -        dev_info->virtual_address_alignment = max_t(u32, PAGE_SIZE,
->>> AMDGPU_GPU_PAGE_SIZE);
->>> -        dev_info->pte_fragment_size = (1 <<
->>> adev->vm_manager.fragment_size) * AMDGPU_GPU_PAGE_SIZE;
->>> -        dev_info->gart_page_size = max_t(u32, PAGE_SIZE,
->>> AMDGPU_GPU_PAGE_SIZE);
->>> -        dev_info->cu_active_number = adev->gfx.cu_info.number;
->>> -        dev_info->cu_ao_mask = adev->gfx.cu_info.ao_cu_mask;
->>> -        dev_info->ce_ram_size = adev->gfx.ce_ram_size;
->>> -        memcpy(&dev_info->cu_ao_bitmap[0],
->>> &adev->gfx.cu_info.ao_cu_bitmap[0],
->>> -               sizeof(adev->gfx.cu_info.ao_cu_bitmap));
->>> -        memcpy(&dev_info->cu_bitmap[0], &adev->gfx.cu_info.bitmap[0],
->>> -               sizeof(dev_info->cu_bitmap));
->>> -        dev_info->vram_type = adev->gmc.vram_type;
->>> -        dev_info->vram_bit_width = adev->gmc.vram_width;
->>> -        dev_info->vce_harvest_config = adev->vce.harvest_config;
->>> -        dev_info->gc_double_offchip_lds_buf =
->>> -            adev->gfx.config.double_offchip_lds_buf;
->>> -        dev_info->wave_front_size = adev->gfx.cu_info.wave_front_size;
->>> -        dev_info->num_shader_visible_vgprs = adev->gfx.config.max_gprs;
->>> -        dev_info->num_cu_per_sh = adev->gfx.config.max_cu_per_sh;
->>> -        dev_info->num_tcc_blocks =
->>> adev->gfx.config.max_texture_channel_caches;
->>> -        dev_info->gs_vgt_table_depth =
->>> adev->gfx.config.gs_vgt_table_depth;
->>> -        dev_info->gs_prim_buffer_depth =
->>> adev->gfx.config.gs_prim_buffer_depth;
->>> -        dev_info->max_gs_waves_per_vgt =
->>> adev->gfx.config.max_gs_threads;
->>> -
->>> -        if (adev->family >= AMDGPU_FAMILY_NV)
->>> -            dev_info->pa_sc_tile_steering_override =
->>> -                adev->gfx.config.pa_sc_tile_steering_override;
->>> -
->>> -        dev_info->tcc_disabled_mask =
->>> adev->gfx.config.tcc_disabled_mask;
->>> -
->>> -        /* Combine the chip gen mask with the platform (CPU/mobo)
->>> mask. */
->>> -        pcie_gen_mask = adev->pm.pcie_gen_mask &
->>> (adev->pm.pcie_gen_mask >> 16);
->>> -        dev_info->pcie_gen = fls(pcie_gen_mask);
->>> -        dev_info->pcie_num_lanes =
->>> -            adev->pm.pcie_mlw_mask &
->>> CAIL_PCIE_LINK_WIDTH_SUPPORT_X32 ? 32 :
->>> -            adev->pm.pcie_mlw_mask &
->>> CAIL_PCIE_LINK_WIDTH_SUPPORT_X16 ? 16 :
->>> -            adev->pm.pcie_mlw_mask &
->>> CAIL_PCIE_LINK_WIDTH_SUPPORT_X12 ? 12 :
->>> -            adev->pm.pcie_mlw_mask & CAIL_PCIE_LINK_WIDTH_SUPPORT_X8
->>> ? 8 :
->>> -            adev->pm.pcie_mlw_mask & CAIL_PCIE_LINK_WIDTH_SUPPORT_X4
->>> ? 4 :
->>> -            adev->pm.pcie_mlw_mask & CAIL_PCIE_LINK_WIDTH_SUPPORT_X2
->>> ? 2 : 1;
->>> -
->>> -        dev_info->tcp_cache_size = adev->gfx.config.gc_tcp_l1_size;
->>> -        dev_info->num_sqc_per_wgp =
->>> adev->gfx.config.gc_num_sqc_per_wgp;
->>> -        dev_info->sqc_data_cache_size =
->>> adev->gfx.config.gc_l1_data_cache_size_per_sqc;
->>> -        dev_info->sqc_inst_cache_size =
->>> adev->gfx.config.gc_l1_instruction_cache_size_per_sqc;
->>> -        dev_info->gl1c_cache_size =
->>> adev->gfx.config.gc_gl1c_size_per_instance *
->>> -                        adev->gfx.config.gc_gl1c_per_sa;
->>> -        dev_info->gl2c_cache_size = adev->gfx.config.gc_gl2c_per_gpu;
->>> -        dev_info->mall_size = adev->gmc.mall_size;
->>> -
->>> -
->>> -        if (adev->gfx.funcs->get_gfx_shadow_info) {
->>> -            struct amdgpu_gfx_shadow_info shadow_info;
->>> -
->>> -            ret = amdgpu_gfx_get_gfx_shadow_info(adev, &shadow_info);
->>> -            if (!ret) {
->>> -                dev_info->shadow_size = shadow_info.shadow_size;
->>> -                dev_info->shadow_alignment =
->>> shadow_info.shadow_alignment;
->>> -                dev_info->csa_size = shadow_info.csa_size;
->>> -                dev_info->csa_alignment = shadow_info.csa_alignment;
->>> -            }
->>> +        ret = amdgpu_device_info(adev, dev_info);
->>> +        if (!ret) {
->>> +            kfree(dev_info);
->>> +            return ret;
->>>           }
->>>             ret = copy_to_user(out, dev_info,
+>
+>
+> Best regards,
+> Jaak
+>
+> On 18.03.24 16:43, Huacai Chen wrote:
+> > Hi, Jaak,
+> >
+> > I'm still here as a boring man. :)
+> > Have you ever tested whether using "fs_initcall(sysfb_init)" works
+> > fine on your machine?
+> >
+> > Huacai
+> >
+> > On Wed, Jan 24, 2024 at 5:21=E2=80=AFAM Jaak Ristioja <jaak@ristioja.ee=
+> wrote:
+> >>
+> >> Hi,
+> >>
+> >> I apologize for not finding the time to test this earlier.
+> >>
+> >> On 11.12.23 05:08, Huacai Chen wrote:
+> >>> And Jaak, could you please test with the below patch (but keep the
+> >>> original order in Makefile) and then give me the dmesg output?
+> >>>
+> >>> diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
+> >>> index 561be8feca96..cc2e39fb98f5 100644
+> >>> --- a/drivers/video/aperture.c
+> >>> +++ b/drivers/video/aperture.c
+> >>> @@ -350,21 +350,29 @@ int
+> >>> aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const
+> >>> char *na
+> >>>           resource_size_t base, size;
+> >>>           int bar, ret =3D 0;
+> >>>
+> >>> -       if (pdev =3D=3D vga_default_device())
+> >>> +       printk("DEBUG: remove 1\n");
+> >>> +
+> >>> +       if (pdev =3D=3D vga_default_device()) {
+> >>> +               printk("DEBUG: primary =3D true\n");
+> >>>                   primary =3D true;
+> >>> +       }
+> >>>
+> >>> -       if (primary)
+> >>> +       if (primary) {
+> >>> +               printk("DEBUG: disable sysfb\n");
+> >>>                   sysfb_disable();
+> >>> +       }
+> >>>
+> >>>           for (bar =3D 0; bar < PCI_STD_NUM_BARS; ++bar) {
+> >>>                   if (!(pci_resource_flags(pdev, bar) & IORESOURCE_ME=
+M))
+> >>>                           continue;
+> >>>
+> >>> +               printk("DEBUG: remove 2\n");
+> >>>                   base =3D pci_resource_start(pdev, bar);
+> >>>                   size =3D pci_resource_len(pdev, bar);
+> >>>                   aperture_detach_devices(base, size);
+> >>>           }
+> >>>
+> >>> +       printk("DEBUG: remove 3\n");
+> >>>           /*
+> >>>            * If this is the primary adapter, there could be a VGA dev=
+ice
+> >>>            * that consumes the VGA framebuffer I/O range. Remove this
+> >>>
+> >>> [1]  https://lore.kernel.org/lkml/170222766284.86103.1102006076933072=
+1008@leemhuis.info/T/#u
+> >>
+> >> Copy-pasting this from the e-mail body didn't work well, but I applied
+> >> the changes manually to a 6.5.9 kernel without any of the other patche=
+s.
+> >> Here's the relevant dmesg output on the Lenovo L570:
+> >>
+> >> ...
+> >> [    2.953405] ACPI: bus type drm_connector registered
+> >> [    2.954014] i915 0000:00:02.0: [drm] VT-d active for gfx access
+> >> [    2.954018] DEBUG: remove 1
+> >> [    2.954020] DEBUG: remove 2
+> >> [    2.954021] DEBUG: remove 2
+> >> [    2.954023] DEBUG: remove 3
+> >> [    2.954029] resource: resource sanity check: requesting [mem
+> >> 0x00000000e0000000-0x00000000efffffff], which spans more than BOOTFB
+> >> [mem 0xe0000000-0xe012bfff]
+> >> [    2.954035] caller i915_ggtt_init_hw+0x88/0x120 mapping multiple BA=
+Rs
+> >> [    2.954061] i915 0000:00:02.0: [drm] Using Transparent Hugepages
+> >> [    2.955103] Loading firmware: i915/kbl_dmc_ver1_04.bin
+> >> [    2.955384] i915 0000:00:02.0: [drm] Finished loading DMC firmware
+> >> i915/kbl_dmc_ver1_04.bin (v1.4)
+> >> ...
+> >> [    4.145013] [drm] Initialized i915 1.6.0 20201103 for 0000:00:02.0 =
+on
+> >> minor 0
+> >> [    4.147101] ACPI: video: Video Device [GFX0] (multi-head: yes  rom:
+> >> no  post: no)
+> >> [    4.147244] input: Video Bus as
+> >> /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/LNXVIDEO:00/input/input4
+> >> [    4.147410] [drm] Initialized vgem 1.0.0 20120112 for vgem on minor=
+ 1
+> >> [    4.147420] usbcore: registered new interface driver udl
+> >> [    4.147500] [drm] Initialized simpledrm 1.0.0 20200625 for
+> >> simple-framebuffer.0 on minor 2
+> >> [    4.148643] Console: switching to colour frame buffer device 80x30
+> >> [    4.153216] simple-framebuffer simple-framebuffer.0: [drm] fb0:
+> >> simpledrmdrmfb frame buffer device
+> >> [    4.154043] loop: module loaded
+> >> [    4.156017] ahci 0000:00:17.0: version 3.0
+> >> [    4.157373] i915 0000:00:02.0: [drm] fb1: i915drmfb frame buffer de=
+vice
+> >> ...
+> >>
+> >> J
+> >>
+>
