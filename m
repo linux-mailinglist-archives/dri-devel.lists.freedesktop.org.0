@@ -2,82 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD38088054D
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 20:17:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F893880588
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 20:38:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82C4910E6D7;
-	Tue, 19 Mar 2024 19:17:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 499AA10EAC0;
+	Tue, 19 Mar 2024 19:38:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lqgZA1EV";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="oyDOyx9E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B44FE10E6D7
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 19:17:45 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-2d288bac3caso75244021fa.2
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 12:17:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1710875863; x=1711480663; darn=lists.freedesktop.org;
- h=mime-version:message-id:date:user-agent:references:in-reply-to
- :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=iRr24PEBd8zKAx1Le9fMouYvic4r4gqHNvWH1/xWkFI=;
- b=lqgZA1EVj6jetP5VZysSw4RaCw494ETWTX55/bCr+NKJLKJVpLMiotFe1DyLi7itbi
- QTi0yJa2UfWEyLrobQ4RCW2EUFLoWduXK5nQJNqHZ7LYkw783ldFtf2KdCNEfmR1oWX7
- r15+qsnwcPjws+XhytXhughKDyBcmlrcWc7P5XpXpaBnr5TVwT6LXj+jUWWGrMjwgW4v
- sFcZlni0KGEuBimy8LKsa7/UghIfq8ebA4aKB6jUdCCHpP86fB9DjjXc+prYXaximMaW
- LwA46o2wa1zzRT0V47aJcPGsGiLMwIOHnz40E3dm68TkMfK5KKMKskvCO2d99AsHFyZC
- nLBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710875863; x=1711480663;
- h=mime-version:message-id:date:user-agent:references:in-reply-to
- :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=iRr24PEBd8zKAx1Le9fMouYvic4r4gqHNvWH1/xWkFI=;
- b=G7VpIzK96QzTaNm1tAwyEiBR1mJgtdR/n7AASG7KkxFZ5thZxqZexpDYR1OYCqoRU7
- DtH58FPfOq3Sk15sP+VcMmggJYJlfwaNYB9sDXvCLM7MlP9BrInIdHBvrXyiDty6dVWb
- aduw10pNv8eqvjZdyANKqHt1g3FWC+htt6Ia7XJfpeJ/G9nKL7I6L7GbQuluRUhCpHOi
- 78fvTIjigqGGdia3CU5m6DyJFzoc+sXMWny2IWcC0wPfFQoCDhrKhSZN+fWwxRvrc8oe
- Vu2nnkRa/x5QkMXN3NQKmt8ET3k+VR2hFlN1Z8D4AxJEULeSSkU4HqYAwJKuyrBlczhT
- 9krA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXlw7tlrI1dCYU8WskwI67QEjFcP8vXyWpFZ+8naUXKfpwU66trPdsenzvR/cQ8Px99DY069HKHx2hDOs/wNiUTAtWQKDFvcNpYViVM56+d
-X-Gm-Message-State: AOJu0Yxzx0tKqDKG2XVziUasbGPd+iwQIqIvKMxS5lWoBSLB2ABuF/sn
- A7IbBU3z0XNDZ+WBIngkBkXWTil4Yk+sNg54Y5hJlU26i0CXYfaG
-X-Google-Smtp-Source: AGHT+IGlSWU+WJTvGzRzgGj9fqGvnGh3e2Ko7l558AcWQjhkyo46I+sS8R6jH2OPRnZf7A0DPrxOLQ==
-X-Received: by 2002:a2e:88d6:0:b0:2d4:59c4:2d84 with SMTP id
- a22-20020a2e88d6000000b002d459c42d84mr10290669ljk.29.1710875863245; 
- Tue, 19 Mar 2024 12:17:43 -0700 (PDT)
-Received: from betty.fdsoft.se (213-67-237-183-no99.tbcn.telia.com.
- [213.67.237.183]) by smtp.gmail.com with ESMTPSA id
- u17-20020a2e2e11000000b002d4a92f29fcsm872357lju.77.2024.03.19.12.17.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Mar 2024 12:17:42 -0700 (PDT)
-Received: from ester.fdsoft.se ([192.168.1.2] helo=ester)
- by betty.fdsoft.se with esmtp (Exim 4.97.1)
- (envelope-from <frej.drejhammar@gmail.com>)
- id 1rmexy-0000000011A-0kgf; Tue, 19 Mar 2024 20:17:42 +0100
-From: Frej Drejhammar <frej.drejhammar@gmail.com>
-To: sarha@kapsi.fi
-Cc: "Kevin Hao" <haokexin@gmail.com>,  dri-devel@lists.freedesktop.org,
- "Jyri Sarha" <jyri.sarha@iki.fi>,  "Tomi Valkeinen"
- <tomi.valkeinen@ideasonboard.com>,  "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>,  "Maxime Ripard"
- <mripard@kernel.org>,  "Thomas Zimmermann" <tzimmermann@suse.de>,  "David
- Airlie" <airlied@gmail.com>,  "Daniel Vetter" <daniel@ffwll.ch>,
- =?utf-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Subject: Re: [PATCH] drm/tilcdc: Set preferred depth
-In-Reply-To: <60505d851dabcb597c5c4c1e7f76e859ff5d05a9@kapsi.fi>
- (sarha@kapsi.fi's message of "Tue, 19 Mar 2024 11:05:06 +0000")
-References: <20240317033918.535716-1-haokexin@gmail.com>
- <60505d851dabcb597c5c4c1e7f76e859ff5d05a9@kapsi.fi>
-User-Agent: Gnus/5.13 (Gnus v5.13)
-Date: Tue, 19 Mar 2024 20:17:42 +0100
-Message-ID: <kmsqu3uax.fsf@gmail.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D27A10E145;
+ Tue, 19 Mar 2024 19:38:14 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 42JHGjYH030216; Tue, 19 Mar 2024 19:38:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=OtR7HIxuiihWCpcnaPxCR5sKik8HMX3DkwylFBWcFZk=; b=oy
+ DOyx9E/1FF2GxPEx/ZtGxA3f2T9QVz97yNpD0654y7atGvwb0GPPrdJAbZf9m9eY
+ LM4heSSv7CPbL8bc2anRDa4oxlZ0bcxcudaTlbtUJQeSJUOnV+faqqwGT2nwlo92
+ zHYax4QK9UtSCTDiZBFIbpRWjbkBW39sGnik8eCqmzGZ7QhATuGkfrZUTl3Hrzq3
+ PGHzgRiYp6i5Jx4PBi93VkR/fEDvg/IOqZ7U0ey9Ltn1QwnRKTT2qU3YMr7Pm0+o
+ D9ORssKv/CtHDpt7JU9zy4SXB6ZAbp9F5JuUgcfFb2+WoDBP6LIkT7I22TAwARKe
+ qByJeQWXdJ1lFCOk6ilQ==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wy94tsapn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 19 Mar 2024 19:38:10 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42JJc9r9026527
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 19 Mar 2024 19:38:09 GMT
+Received: from [10.110.10.159] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 19 Mar
+ 2024 12:38:06 -0700
+Message-ID: <eb8a78e0-5202-861c-a4cd-2d1366ff3423@quicinc.com>
+Date: Tue, 19 Mar 2024 12:38:04 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v3 2/5] drm/msm/dpu: core_perf: extract bandwidth
+ aggregation function
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>, Stephen Boyd <swboyd@chromium.org>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20240314-dpu-perf-rework-v3-0-79fa4e065574@linaro.org>
+ <20240314-dpu-perf-rework-v3-2-79fa4e065574@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20240314-dpu-perf-rework-v3-2-79fa4e065574@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: FlLccESTJRpMBBZVM3rfqT_jeyAZ_3Rm
+X-Proofpoint-ORIG-GUID: FlLccESTJRpMBBZVM3rfqT_jeyAZ_3Rm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-19_08,2024-03-18_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxscore=0
+ spamscore=0 clxscore=1015 mlxlogscore=999 suspectscore=0
+ priorityscore=1501 impostorscore=0 malwarescore=0 bulkscore=0 adultscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2403140001 definitions=main-2403190149
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,25 +95,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Jyri
 
-sarha@kapsi.fi writes:
 
-> So the trouble here is the 16bpp and 24/32bpp color wiring being
-> crossed, right? I'd just like to remind that there is another option
-> to overcome the issue by editing device tree files. The current
-> configuration from some 8 years back supports RG16, BG24, and XB24
-> formats, but on Beaglebone-Black its possible - thanks to tda998x -
-> change the support to BG16, RG24, and XR24, by changing these lines
-> before building a new dtb-file:
+On 3/13/2024 6:10 PM, Dmitry Baryshkov wrote:
+> In preparation to refactoring the dpu_core_perf debugfs interface,
+> extract the bandwidth aggregation function from
+> _dpu_core_perf_crtc_update_bus().
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 45 +++++++++++++++------------
+>   1 file changed, 25 insertions(+), 20 deletions(-)
+> 
 
-I don't think that will solve the problem. The unmodified
-drm_driver_legacy_fb_format() gives RG16 if it is asked for a 16 bit
-depth (and the corresponding bpp in the way that the X server does) and
-RG24 if asked for 24 bits. So swapping the bits around will always break
-one of the hardware-supported depths unless you can cross/uncross the
-wires dynamically when setting the frame buffer.
+no need of core_perf : in the subject line.
 
-Best regards,
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> index 68fae048a9a8..87b892069526 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> @@ -204,36 +204,41 @@ int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
+>   	return 0;
+>   }
+>   
+> -static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
+> -		struct drm_crtc *crtc)
+> +static void dpu_core_perf_aggregate(struct drm_device *ddev,
+> +				    enum dpu_crtc_client_type curr_client_type,
+> +				    struct dpu_core_perf_params *perf)
+>   {
+> -	struct dpu_core_perf_params perf = { 0 };
+> -	enum dpu_crtc_client_type curr_client_type
+> -					= dpu_crtc_get_client_type(crtc);
+> -	struct drm_crtc *tmp_crtc;
+>   	struct dpu_crtc_state *dpu_cstate;
+> -	int i, ret = 0;
+> -	u64 avg_bw;
+> -
+> -	if (!kms->num_paths)
+> -		return 0;
+> +	struct drm_crtc *tmp_crtc;
+>   
+> -	drm_for_each_crtc(tmp_crtc, crtc->dev) {
+> +	drm_for_each_crtc(tmp_crtc, ddev) {
+>   		if (tmp_crtc->enabled &&
+> -			curr_client_type ==
+> -				dpu_crtc_get_client_type(tmp_crtc)) {
+> +		    curr_client_type == dpu_crtc_get_client_type(tmp_crtc)) {
+>   			dpu_cstate = to_dpu_crtc_state(tmp_crtc->state);
+>   
+> -			perf.max_per_pipe_ib = max(perf.max_per_pipe_ib,
+> -					dpu_cstate->new_perf.max_per_pipe_ib);
+> +			perf->max_per_pipe_ib = max(perf->max_per_pipe_ib,
+> +						    dpu_cstate->new_perf.max_per_pipe_ib);
+>   
+> -			perf.bw_ctl += dpu_cstate->new_perf.bw_ctl;
+> +			perf->bw_ctl += dpu_cstate->new_perf.bw_ctl;
+>   
+> -			DRM_DEBUG_ATOMIC("crtc=%d bw=%llu paths:%d\n",
+> -				  tmp_crtc->base.id,
+> -				  dpu_cstate->new_perf.bw_ctl, kms->num_paths);
+> +			DRM_DEBUG_ATOMIC("crtc=%d bw=%llu\n",
+> +					 tmp_crtc->base.id,
+> +					 dpu_cstate->new_perf.bw_ctl);
+>   		}
+>   	}
+> +}
+> +
+> +static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
+> +		struct drm_crtc *crtc)
+> +{
 
---Frej
+since you have fixed some of the formatting inside the function, do you 
+also want to align struct drm_crtc *crtc with the opening braces?
+
+With that fixed,
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+
+
+> +	struct dpu_core_perf_params perf = { 0 };
+> +	int i, ret = 0;
+> +	u64 avg_bw;
+> +
+> +	if (!kms->num_paths)
+> +		return 0;
+> +
+> +	dpu_core_perf_aggregate(crtc->dev, dpu_crtc_get_client_type(crtc), &perf);
+>   
+>   	avg_bw = perf.bw_ctl;
+>   	do_div(avg_bw, (kms->num_paths * 1000)); /*Bps_to_icc*/
+> 
