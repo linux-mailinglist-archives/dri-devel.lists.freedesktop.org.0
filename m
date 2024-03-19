@@ -2,76 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 227A4880083
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 16:25:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F90C8800CB
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 16:36:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC27A10F016;
-	Tue, 19 Mar 2024 15:25:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E692010FB93;
+	Tue, 19 Mar 2024 15:36:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xg3harGS";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="jHDuv0fW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F20F10F016
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 15:25:18 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-41412411622so15568125e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 08:25:18 -0700 (PDT)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79E5E10FB93
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 15:36:11 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id
+ 4fb4d7f45d1cf-568c6e65d09so319313a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 08:36:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1710861916; x=1711466716; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=j/tOewZO+xITdwu8fyyevSlxd4rQDWIvMngL14Mt4g4=;
- b=xg3harGSZd70687EIgrTSQjI3ct1LnGQRcShQl2E7m1/nVTthmwutPikUTvpUNUEoZ
- YmEKKnmzH6zDm3ECINXG/Ntqosm84/VBNqKRVOQOejHDLEZpSvA8BYBaM6OfIV0sa/1B
- TakHUgH/Lwdy2JGo3ZAn15W5eXbsWiEMfv6URm4s4pUVmp2wleNvCBBJddU2b19yJdhO
- i61eZXa5IHmLsjs6zgBWvKmvCB7WEWHRyYQmbTI+ofGELlytox5WJM86YN1zu42nmMnL
- 2F0+lVJl/libgk3e7B6v/dMDuCFml/oQbchkWuUoalhdmtq2yYFCBpcpuiIukDGnct7R
- zwqQ==
+ d=ffwll.ch; s=google; t=1710862570; x=1711467370; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oMRrzjOPzthVrfn6KYAeeCpTeFZ11+LfDjNaDwcFwcY=;
+ b=jHDuv0fWLQXLmDwarFzN5+gSLhvgxz54398li7ZXFBmwdbx8eYUEqjaFV/sDBSAixU
+ 6nUriY1BenPUNlV8eZK2h0087Bg/Gq6rWSp1XXLtZJEgXO+OqPwg5NiXKgMzbDrO962u
+ S7OTbeak/EFhpt63b99qz1d9sYAk6vxdVfi4w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710861916; x=1711466716;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=j/tOewZO+xITdwu8fyyevSlxd4rQDWIvMngL14Mt4g4=;
- b=cZbB0h6+K8SYiSNfzWEZNIvR+A7f4M+2YFlv+PspWUwz4s4Pf71IjCZQPFMs3VQ4s3
- qDmUp4S6rGEqqo/DS2hS3stHApci1KnR130BgdtulXxRJnKQqEKTKMDaK/UVgR+Y3Dhh
- 5Au9pk0nbd7n7c7+k6K4UqLwxK+sizNsO+jrqPuUIaFLY8HHpk1biiQLxsTbVS3cwP2H
- 0UzqUVF3ox9prSXwuKw3KSA8K+oSV86sIaHh0MmRb12I/MNTbtGUIC1Zdjnek1ni9sc7
- 8k/iNKSlK3gPtcM92wPxJct9674iqsqU8hofrVF9L8EkylmkcB3pdXg7bU1tmKdm7X/z
- rrTg==
+ d=1e100.net; s=20230601; t=1710862570; x=1711467370;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oMRrzjOPzthVrfn6KYAeeCpTeFZ11+LfDjNaDwcFwcY=;
+ b=mJsCV8rBael5JN6Gq3m93L9AfypjeZJBCQIfKpiW0CEcp8OdhL9BCFbOVPhk2LHgsY
+ 0LomPPbz3//PpX42EGOfYn8VE53ib2Hdd6jL3eFJQy5sAXdYTxFYERUjbF6vibyEaPDx
+ mW4N2GzJO9sPEz5UMV+9aAyXtFTYZVeaCKBpNQaLqowPbZDQLFmMOtqm4BtDeved02CX
+ yhG2/mv5aoxn7wCLRk5UANcBJILLgLG2BD+jUXAkKq/8B2egFYkhWdaT2H8PY+NWdvFg
+ ankJFyPkymDVtX/Jj0vwYZITrDvzxUdJh3MmYxme4MHZLh+Rokl6qBF3+uwccmeBdd8B
+ lU7Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUsCNPwA0rQvJDWS71VuPDMNTj91i+kXE7hOb4vExbyv1GjTSe1ccesUBXpOKBkmFTU50/AYPi1vi6GmSPiewP629D8ZKsMzQIkWBzob76U
-X-Gm-Message-State: AOJu0YzmgDNzkZjoXNG4tY4hWhoFhjfeN1ef7yriPpCGT77/teG64TrN
- KTSwuBEVgK1znXN5vYewlkOwxx/hSrOuuSVqmEsHsuyZymFpUDe0G+5qJOLtXcw=
-X-Google-Smtp-Source: AGHT+IGuxUp4tJ3tduUZ1jDdJJOXB/6Dyq+c61cZG82qzzk9ozWfJDBWCF1r7b5Ii/MqZJEtyixx8Q==
-X-Received: by 2002:a05:600c:4689:b0:413:f4b5:dcec with SMTP id
- p9-20020a05600c468900b00413f4b5dcecmr10850776wmo.40.1710861916490; 
- Tue, 19 Mar 2024 08:25:16 -0700 (PDT)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ AJvYcCVGtf66vmhatiA/An6SZs/PhtFuC7xq3f3M4SXO4TUuOmrL4knDRZ/Qi0998Sdcp1gnDeMTBh2wWYLjnj4QJiUN161ynxC0BOgp8IzePIKp
+X-Gm-Message-State: AOJu0YyUZ/PVjTMSC5VanSIj1DTR/bXN6mULYTmNKRkVYRnps1HCm4Xh
+ mqFCtKY3VRwpLTJ+ZrdNgaf9CZCNcU/ZBGNhnZ3bTOfxLEiG6WaOpjM3V25Y6QU=
+X-Google-Smtp-Source: AGHT+IGqka02G9xZBUIJYUnMVsGDttJH1Lg5gp0y4iikQkmbEHNnKV4dqr/YUk062oXDQf+NP19rXg==
+X-Received: by 2002:a05:6402:388b:b0:568:a65c:7aff with SMTP id
+ fd11-20020a056402388b00b00568a65c7affmr1747003edb.4.1710862569608; 
+ Tue, 19 Mar 2024 08:36:09 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- k4-20020adfe3c4000000b0033e48db23bdsm12595322wrm.100.2024.03.19.08.25.15
+ f23-20020a170906049700b00a3efa4e033asm6220139eja.151.2024.03.19.08.36.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Mar 2024 08:25:15 -0700 (PDT)
-Date: Tue, 19 Mar 2024 15:25:13 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: lee@kernel.org, jingoohan1@gmail.com, deller@gmx.de, andy@kernel.org,
- geert@linux-m68k.org, dan.carpenter@linaro.org, sam@ravnborg.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 3/6] backlight: omap1: Replace FB_BLANK_ states with
- simple on/off
-Message-ID: <20240319152513.GA9963@aspen.lan>
-References: <20240319093915.31778-1-tzimmermann@suse.de>
- <20240319093915.31778-4-tzimmermann@suse.de>
+ Tue, 19 Mar 2024 08:36:08 -0700 (PDT)
+Date: Tue, 19 Mar 2024 16:36:06 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm: Document requirements for driver-specific KMS
+ props in new drivers
+Message-ID: <Zfmw5qjlQmiWRDIV@phenom.ffwll.local>
+Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240311155904.323488-1-sebastian.wick@redhat.com>
+ <20240314-portable-pragmatic-weasel-7dd91e@houat>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240319093915.31778-4-tzimmermann@suse.de>
+In-Reply-To: <20240314-portable-pragmatic-weasel-7dd91e@houat>
+X-Operating-System: Linux phenom 6.6.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,21 +94,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 19, 2024 at 10:37:22AM +0100, Thomas Zimmermann wrote:
-> The backlight is on for fb_blank eq FB_BLANK_UNBLANK, or off for
-> any other value in fb_blank. But the field fb_blank in struct
-> backlight_properties is deprecated and should not be used any
-> longer.
->
-> Replace the test for fb_blank in omap's backlight code with a
-> simple boolean parameter and push the test into the update_status
-> helper. Instead of reading fb_blank directly, decode the backlight
-> device's status with backlight_is_blank().
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+On Thu, Mar 14, 2024 at 11:20:09AM +0100, Maxime Ripard wrote:
+> On Mon, Mar 11, 2024 at 04:58:58PM +0100, Sebastian Wick wrote:
+> > When extending support for a driver-specific KMS property to additional
+> > drivers, we should apply all the requirements for new properties and
+> > make sure the semantics are the same and documented.
+> > 
+> > v2: devs of the driver which introduced property shall help and ack
+> > 
+> > Signed-off-by: Sebastian Wick <sebastian.wick@redhat.com>
+> 
+> Acked-by: Maxime Ripard <mripard@kernel.org>
+> 
+> We probably want to have Dave or Sima ack on that one too
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Yeah that's a good idea and defacto how we handled this - additional users
+of anything (whether library or uapi or whatever) get to clean up an
+existing mess if it's too bad. But for uapi it's good to be really
+explicit and document that.
 
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Daniel.
+Cheers, Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
