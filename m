@@ -2,84 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A9B087FA8F
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 10:15:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E3087F7F6
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 08:03:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E304410F8E3;
-	Tue, 19 Mar 2024 09:15:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E338710F18D;
+	Tue, 19 Mar 2024 07:03:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EIETo0dJ";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="NOzqJoaY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE0C510F8D9
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 09:14:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710839699; x=1742375699;
- h=resent-from:resent-date:resent-message-id:resent-to:date:
- from:to:cc:subject:message-id:references:mime-version:
- in-reply-to; bh=M18Ey8+UgHjkfpMuAZLere14/BhHnhq3DtKp0vtMgXc=;
- b=EIETo0dJEZKnsZkD1qHrQc+gL7siuoiYEEPKF03mF2FEHYah5U2T96Vm
- /X8RbILNb2svHzz5vE7SDCX1TkdvtnbGyOOiXAbvTY5d3/oSTpU78Uzlz
- USrkuCigKmoaliXnkCmuDzHambiazew2s+g1teKe0S4/GfXeoYJ2hoDaz
- P0U5JjbKWhn40CmsAiVOQzZmCKxC2Nj/hrN6zSoDdXebGHlwNDkLiMaOL
- SfS4xFMnCFrecw9EEidqLna+JRTvI8VchY+1sXOdijS5hzB2pownuJjjG
- I/CLBHwMd27mf1eiLn6v2CCEW239vuS6925vKz6FNr9bvI7PgSckrfRMh A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="5529768"
-X-IronPort-AV: E=Sophos;i="6.07,136,1708416000"; 
-   d="scan'208";a="5529768"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Mar 2024 02:14:59 -0700
-X-ExtLoopCount2: 2 from 10.237.72.74
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="827782086"
-X-IronPort-AV: E=Sophos;i="6.07,136,1708416000"; d="scan'208";a="827782086"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 19 Mar 2024 02:14:56 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 19 Mar 2024 11:14:55 +0200
-Resent-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Resent-Date: Tue, 19 Mar 2024 11:14:55 +0200
-Resent-Message-ID: <ZflXj6TsfnWCxnbW@intel.com>
-Resent-To: dri-devel@lists.freedesktop.org
-X-Original-To: ville.syrjala@linux.intel.com
-Delivered-To: ville.syrjala@linux.intel.com
-Received: from linux.intel.com [10.54.29.200]
- by stinkbox.stink.local with IMAP (fetchmail-6.4.37)
- for <vsyrjala@localhost> (single-drop); Tue, 19 Mar 2024 08:53:58 +0200 (EET)
-Received: from fmviesa002.fm.intel.com (fmviesa002.fm.intel.com
- [10.60.135.142])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by linux.intel.com (Postfix) with ESMTPS id B5DD0580E13
- for <ville.syrjala@linux.intel.com>; Mon, 18 Mar 2024 23:51:27 -0700 (PDT)
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,136,1708416000"; d="scan'208";a="36846851"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
- by fmviesa002.fm.intel.com with ESMTP; 18 Mar 2024 23:51:25 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rmTJi-000HXf-38;
- Tue, 19 Mar 2024 06:51:22 +0000
-Date: Tue, 19 Mar 2024 14:51:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
- intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev,
- Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@redhat.com>,
- Sameer Lattannavar <sameer.lattannavar@intel.com>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- Simon Ser <contact@emersion.fr>, Daniel Stone <daniels@collabora.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH v3 1/2] drm: Introduce plane SIZE_HINTS property
-Message-ID: <202403191412.UTJldbq9-lkp@intel.com>
-References: <20240318204408.9687-2-ville.syrjala@linux.intel.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C26A610F176
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 07:03:04 +0000 (UTC)
+X-UUID: b8b93d66e5be11eeb8927bc1f75efef4-20240319
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=EYOFrIPj763jT3PLRcGM0ZquAZ54oz4DX2bz2jRJwIg=; 
+ b=NOzqJoaYD0glVemcO98kmk7rjBVtRt4i8gruD4EErhnteiPf8iqcOJZbDZiqSVRuvV1VmeSz7UU70R7uXHf9FBGr7RpDRMeFzUGQ9D2BudIOizZHgg4NEHZH0FMv9H0LV3oRmbsBGOLiht26xPwratN/RzlDo6d+so8RV+2YUxg=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.37, REQID:bcb19b6d-8a66-4aca-a5b3-bcebfa572858, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:6f543d0, CLOUDID:d5850f00-c26b-4159-a099-3b9d0558e447,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+ SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: b8b93d66e5be11eeb8927bc1f75efef4-20240319
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <shawn.sung@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 613645592; Tue, 19 Mar 2024 15:03:00 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 19 Mar 2024 15:02:58 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 19 Mar 2024 15:02:58 +0800
+From: Shawn Sung <shawn.sung@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>
+CC: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
+ <linaro-mm-sig@lists.linaro.org>, Hsiao Chien Sung
+ <shawn.sung@mediatek.corp-partner.google.com>
+Subject: [PATCH v2 00/14] Rename mtk_drm_* to mtk_*
+Date: Tue, 19 Mar 2024 15:02:43 +0800
+Message-ID: <20240319070257.6443-1-shawn.sung@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240318204408.9687-2-ville.syrjala@linux.intel.com>
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,54 +79,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ville,
+From: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
 
-kernel test robot noticed the following build warnings:
+Rename some unnecessary  "mtk_drm_*" to "mtk_*" because:
+- Lower the matches when searching the native drm_* codes
+- Reduce the code
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.8 next-20240319]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Changes in v2:
+- Sort header files alphabetically
+- Seperate patches for renaming .c files to avoid conflicts
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ville-Syrjala/drm-Introduce-plane-SIZE_HINTS-property/20240319-044605
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240318204408.9687-2-ville.syrjala%40linux.intel.com
-patch subject: [PATCH v3 1/2] drm: Introduce plane SIZE_HINTS property
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240319/202403191412.UTJldbq9-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240319/202403191412.UTJldbq9-lkp@intel.com/reproduce)
+Hsiao Chien Sung (14):
+  drm/mediatek: Rename "mtk_drm_crtc" to "mtk_crtc"
+  drm/mediatek: Rename "mtk_drm_ddp_comp" to "mtk_ddp_comp"
+  drm/mediatek: Rename "mtk_drm_plane" to "mtk_plane"
+  drm/mediatek: Rename "mtk_drm_gem" to "mtk_gem"
+  drm/mediatek: Rename "mtk_drm_hdmi" to "mtk_hdmi"
+  drm/mediatek: Rename files "mtk_drm_crtc.h" to "mtk_crtc.h"
+  drm/mediatek: Rename files "mtk_drm_crtc.c" to "mtk_crtc.c"
+  drm/mediatek: Rename files "mtk_drm_ddp_comp.h" to "mtk_ddp_comp.h"
+  drm/mediatek: Rename files "mtk_drm_ddp_comp.c" to "mtk_ddp_comp.c"
+  drm/mediatek: Rename files "mtk_drm_plane.h" to "mtk_plane.h"
+  drm/mediatek: Rename files "mtk_drm_plane.c" to "mtk_plane.c"
+  drm/mediatek: Rename files "mtk_drm_gem.h" to "mtk_gem.h"
+  drm/mediatek: Rename files "mtk_drm_gem.c" to "mtk_gem.c"
+  drm/mediatek: Rename mtk_ddp_comp functions
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403191412.UTJldbq9-lkp@intel.com/
+ drivers/gpu/drm/mediatek/Makefile             |  12 +-
+ .../mediatek/{mtk_drm_crtc.c => mtk_crtc.c}   | 213 +++++++++---------
+ drivers/gpu/drm/mediatek/mtk_crtc.h           |  28 +++
+ .../{mtk_drm_ddp_comp.c => mtk_ddp_comp.c}    |  51 +++--
+ .../{mtk_drm_ddp_comp.h => mtk_ddp_comp.h}    |   9 +-
+ drivers/gpu/drm/mediatek/mtk_disp_aal.c       |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c     |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_color.c     |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |   2 +-
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c     |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c     |   2 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |   4 +-
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |   4 +-
+ drivers/gpu/drm/mediatek/mtk_dpi.c            |   4 +-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |  30 ---
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  32 +--
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |   4 +-
+ drivers/gpu/drm/mediatek/mtk_dsi.c            |   6 +-
+ drivers/gpu/drm/mediatek/mtk_ethdr.c          |   4 +-
+ .../drm/mediatek/{mtk_drm_gem.c => mtk_gem.c} |  65 +++---
+ .../drm/mediatek/{mtk_drm_gem.h => mtk_gem.h} |  23 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c           |  14 +-
+ drivers/gpu/drm/mediatek/mtk_padding.c        |   4 +-
+ .../mediatek/{mtk_drm_plane.c => mtk_plane.c} |  26 +--
+ .../mediatek/{mtk_drm_plane.h => mtk_plane.h} |   4 +-
+ 26 files changed, 275 insertions(+), 286 deletions(-)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_crtc.c => mtk_crtc.c} (82%)
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_crtc.h
+ rename drivers/gpu/drm/mediatek/{mtk_drm_ddp_comp.c => mtk_ddp_comp.c} (94%)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_ddp_comp.h => mtk_ddp_comp.h} (98%)
+ delete mode 100644 drivers/gpu/drm/mediatek/mtk_drm_crtc.h
+ rename drivers/gpu/drm/mediatek/{mtk_drm_gem.c => mtk_gem.c} (76%)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_gem.h => mtk_gem.h} (62%)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_plane.c => mtk_plane.c} (94%)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_plane.h => mtk_plane.h} (95%)
 
-All warnings (new ones prefixed by >>):
+--
+2.18.0
 
->> drivers/gpu/drm/drm_plane.c:1767: warning: expecting prototype for drm_plane_add_size_hint_property(). Prototype was for drm_plane_add_size_hints_property() instead
-
-
-vim +1767 drivers/gpu/drm/drm_plane.c
-
-  1751	
-  1752	/**
-  1753	 * drm_plane_add_size_hint_property - create a size hint property
-  1754	 *
-  1755	 * @plane: drm plane
-  1756	 * @hints: size hints
-  1757	 * @num_hints: number of size hints
-  1758	 *
-  1759	 * Create a size hints property for the plane.
-  1760	 *
-  1761	 * RETURNS:
-  1762	 * Zero for success or -errno
-  1763	 */
-  1764	int drm_plane_add_size_hints_property(struct drm_plane *plane,
-  1765					      const struct drm_plane_size_hint *hints,
-  1766					      int num_hints)
-> 1767	{
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
