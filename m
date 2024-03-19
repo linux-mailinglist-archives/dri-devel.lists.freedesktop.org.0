@@ -2,76 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39CA98800EA
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 16:44:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C05B088010C
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 16:49:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0185110FB97;
-	Tue, 19 Mar 2024 15:44:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEE6510E9CA;
+	Tue, 19 Mar 2024 15:49:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jLyRABCa";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="TtTHeGwM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
- [209.85.208.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69AF110FB97
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 15:44:53 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id
- 38308e7fff4ca-2d21cdbc85bso83516561fa.2
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 08:44:53 -0700 (PDT)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B5B310EEA6
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 15:49:05 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-33ed7ef0ae8so1994210f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 08:49:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1710863091; x=1711467891; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1710863344; x=1711468144; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=vymDjNLjvaRHPRI0ysrYSCFub92dsHFOn0kEUS3MiAI=;
- b=jLyRABCa02ffcHHua5/M+MvfHov7TwihwaWs31rX+hgJvIewo3lCUQdCczisQRAhOP
- HEHb0TSdldOE6CT906hoY1hzXppd5S5TyVSmCT0lGMkCH+HcI7wF9t4Fo3riV1nhe2Qw
- W55wRmeXkstpcYH3R/ZDeMo5xA+E+TbiEPTG+jULhrKoQdJuyH3aC04jR+wKpWasgTFp
- iNNfmsYT6rk2aZtyqgAxuGswNonOp03HL8v8/2jRMqfytsnEuTiVHkAO8EcS/GnwC0Pt
- G4kyKRcTXLkWn0VNmCWOOL833B82+LHqh40WiSY/3Reqo+d+WW5EJ4EvucUcr/rjXBa1
- qXOA==
+ :reply-to; bh=YP5SdBCpjCZ+GK55trCOJGhuW9mQvLjUzEXNrBKXZoo=;
+ b=TtTHeGwM7/opGXlm2Qx7uKKbYdx5Yioa76kb0PzEbeKaevnQ57DRde9617Fe4etpdt
+ Tv5qO8Y88hdnuaBYjWLZDSYozCGrzIHx6fUVzaMdXzOk2HoyCUQJfy1XWlwSSeFF7w+X
+ gdF4X5E45HPn+k2QSZ2N+8RpyjC0L9uc2jugD9RMYQz2fPmEW/wiM2v9M7t33vlNQpNU
+ 3J6ZpbYbqPFMhIE4P8vC0NM0xxYz+N+wccn5N9C/31GDKEBrFH39MBPwpvMVspbPxgUv
+ WpOslcyxafsnSdmQ3ewDYw5M2YRmvtC4/LXKI2w20Sv0iBuWsy4XJXpXfrWWadZQTT0q
+ IEEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710863091; x=1711467891;
+ d=1e100.net; s=20230601; t=1710863344; x=1711468144;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=vymDjNLjvaRHPRI0ysrYSCFub92dsHFOn0kEUS3MiAI=;
- b=tm4myeYov67SRodWzGzj15R4NfOSlhaCWg9iLaBxuh6P62OG3kwdEdZ+/IXpswR2yB
- GWGE3WI8wRMYpNNBdelNZlmxKOkf6NKYnj8hdqO7tpUK+z4FNHFXu/8bTwRmxceLeZUL
- Ra9g20KvV4BuLto4IO0/i8fMu4LC7I9nIzr5dcnebktkkh6LvWO21nAjBsovcPw81Bh5
- 5mYeAUGaM0WwD+Ol5Fq98z9C56dym3xPdrNNy5V6ikqThD2Jamn6PZcjYFRjjTQ0NAX8
- V69FT6bVVEjZGx+yWISRLyXFohfYad6dTQiv3ENj4dz1PVXthUUf6cWqzKwAQw8rAcmg
- tOGw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW6/kGKLAJkxVhRZ1rGZFaJsXiWDHcxLvdSis1bju2eLnl4lPO77QDcT5yevLAD76gK5Z2ulFvfpk3b/PU+0v3vRVOKm5W8M0usIDTcm8pd
-X-Gm-Message-State: AOJu0YyOrWi+m08R6FfL9gK0zrqAqYzd5m6GEXDSzmp9iMsJpv9inzQL
- rolphjtHZTMh7lkHOSMiSLVflwY7eYduXA83RV2tMZTWHE8GxiBxze6i4NZlKD4=
-X-Google-Smtp-Source: AGHT+IHgq02ECA/yoPkPu6GsVj4CMMoM0lbz7lLE4XBKQ4XefteONEA+Ei8w4Oub31hbYedifx3ksA==
-X-Received: by 2002:a05:651c:333:b0:2d4:5a99:8b73 with SMTP id
- b19-20020a05651c033300b002d45a998b73mr9112178ljp.38.1710863091122; 
- Tue, 19 Mar 2024 08:44:51 -0700 (PDT)
+ bh=YP5SdBCpjCZ+GK55trCOJGhuW9mQvLjUzEXNrBKXZoo=;
+ b=ksYsZjSt0NlrfwhW4CKt3m11vKVuaMpOmz0DH6cOXtb26wph4PnqK08hefWNWKukfB
+ nw0glLzB23CYH/nOlf2c/2viUZ4dJVMTndF/3so6EXYXhtMDk5WODovxAhfcpy+OuJPx
+ 2JOj3ZYANP/t/BwJLWqCSNlJoLD32aMK7HZHDnP/OVvKINHljIPhMCkUnTbxpCZPnUWL
+ D9/nZE/HjQxxUv59eyanWEiKxBJsVo4wbeRfUs+ZxOq2WHhK70F8pzshJnPkB9o8kSqM
+ errzoJ/f2sgrEkIKKNa7NsNRzxw1fvCsSqOm/jguKPTA+ikgL70hkyCMWZCMCReSzua7
+ X8pQ==
+X-Gm-Message-State: AOJu0YyCn32GnGyKYOosMcX0LLbnuj6rwJ2HLa5ZGjuL68icSQnGw7zc
+ T7hKEiw3M3IfizOybf48k1NvtFHVIRpOx/zMzis0eST3k5Q2HmuygTc0cafLLN8=
+X-Google-Smtp-Source: AGHT+IHfHx5OJv11KzqbeJ3qFkbt60s2qn8pEa4OT9kNQj/3TnX2zNmA33fp8ofT/ykeAp3u7SFNrg==
+X-Received: by 2002:adf:eac4:0:b0:33d:c5c7:459e with SMTP id
+ o4-20020adfeac4000000b0033dc5c7459emr2501631wrn.12.1710863343641; 
+ Tue, 19 Mar 2024 08:49:03 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:2fcf:6f16:3b3b:da8e?
  ([2a01:e0a:982:cbb0:2fcf:6f16:3b3b:da8e])
  by smtp.gmail.com with ESMTPSA id
- v15-20020a05600c470f00b004128fa77216sm22013345wmo.1.2024.03.19.08.44.50
+ by19-20020a056000099300b0034174875850sm5331208wrb.70.2024.03.19.08.49.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Mar 2024 08:44:50 -0700 (PDT)
-Message-ID: <42fba6af-d7da-4954-9e89-9137144f7428@linaro.org>
-Date: Tue, 19 Mar 2024 16:44:49 +0100
+ Tue, 19 Mar 2024 08:49:03 -0700 (PDT)
+Message-ID: <31b609ff-5d54-4950-bd8a-db2b61b228b8@linaro.org>
+Date: Tue, 19 Mar 2024 16:49:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
 Subject: Re: [PATCH] drm: bridge: thc63lvd1024: Print error message when DT
  parsing fails
 Content-Language: en-US, fr
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-Cc: Sui Jingfeng <sui.jingfeng@linux.dev>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
 References: <20240318160601.2813-1-laurent.pinchart+renesas@ideasonboard.com>
+ <78739dfe-c6ee-44bd-a2e6-2ced24ff15c1@linux.dev>
+ <20240318180420.GP13682@pendragon.ideasonboard.com>
+ <9d894bd2-c92e-4d08-8643-be88a203879c@linux.dev>
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
  GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
@@ -97,9 +98,9 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro Developer Services
-In-Reply-To: <20240318160601.2813-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <9d894bd2-c92e-4d08-8643-be88a203879c@linux.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,38 +117,103 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/03/2024 17:06, Laurent Pinchart wrote:
-> Commit 00084f0c01bf ("drm: bridge: thc63lvd1024: Switch to use
-> of_graph_get_remote_node()") simplified the thc63lvd1024 driver by
-> replacing hand-rolled code with a helper function. While doing so, it
-> created an error code path at probe time without any error message,
-> potentially causing probe issues that get annoying to debug. Fix it by
-> adding an error message.
+On 18/03/2024 20:23, Sui Jingfeng wrote:
+> Hi,
 > 
-> Fixes: 00084f0c01bf ("drm: bridge: thc63lvd1024: Switch to use of_graph_get_remote_node()")
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->   drivers/gpu/drm/bridge/thc63lvd1024.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/thc63lvd1024.c b/drivers/gpu/drm/bridge/thc63lvd1024.c
-> index 5f99f9724081..674efc489e3a 100644
-> --- a/drivers/gpu/drm/bridge/thc63lvd1024.c
-> +++ b/drivers/gpu/drm/bridge/thc63lvd1024.c
-> @@ -125,8 +125,11 @@ static int thc63_parse_dt(struct thc63_dev *thc63)
->   
->   	remote = of_graph_get_remote_node(thc63->dev->of_node,
->   					  THC63_RGB_OUT0, -1);
-> -	if (!remote)
-> +	if (!remote) {
-> +		dev_err(thc63->dev, "No remote endpoint for port@%u\n",
-> +			THC63_RGB_OUT0);
->   		return -ENODEV;
-> +	}
->   
->   	thc63->next = of_drm_find_bridge(remote);
->   	of_node_put(remote);
+> On 2024/3/19 02:04, Laurent Pinchart wrote:
+>> Improving core helpers is certainly a good idea, and if we do so, we can
+>> simplify drivers. What I'm concerned is that commit 00084f0c01bf creates
+>> a silent probe failure path,
 > 
-> base-commit: 00084f0c01bf3a2591d007010b196e048281c455
+> 
+> No, I can't agree here. It doesn't creates a silent probe failure path.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+It doesn't _in debug mode_, I agree with Laurent, having a verbose probe error should be kept.
+
+Neil
+
+> 
+> Simply because
+> 
+> 1) It is NOT silent.
+> 2) It should be exist at product level kernel.
+> 
+> 
+>> which didn't exist before it.
+> 
+> 
+> Again, it shouldn't be exist.
+> 
+> Otherwise it hints us that there is ill-behavior-ed DT in the mainstream kernel
+> or a specific product(or development board). If I were you, I would like to fix
+> the boot failure first.
+> 
+> In the earlier stage of my attempt to contribute, I also would like to enable
+> debug output as much as possible. Just like you, the benefit is obvious: It really
+> eliminate the pain on developing stage and when bugs happens.
+> 
+> But I was told many many times that mainstream kernel is not for debug, it is
+> for sound products. I bet you have seen some product level drivers print very less.
+> I'm not understand why in the past, but I think I could understand something now.
+> Probably because professional programmers really confident about what they have
+> wrote. As they have been tested and/or reviewed thousands or ten thousands times.
+> 
+> Enable this debug output by default can only prove to the community that you are
+> not confident about something, either the community's reviewing power on DTS or
+> your debug techniques.
+> 
+> 
+>> This is why
+>> this patch references it in the Fixes: tag, making sure that this patch
+>> will get backported to any stable kernel that includes commit
+>> 00084f0c01bf.
+> 
+> 
+> No, I keep insist on my judgement. A fixes tag is only meant for cases where your
+> patch fixes a bug. The bug should really be happened. All of the discussion ongoing
+> here are just things imaginary about the *debug* phase and development phase.
+> 
+> 
+>>   As far as I understand, this is business as usual. There's
+>> nothing personal here, and no judgement on the quality of your code.
+>>
+> Please don't misunderstanding, I do cares the quality of my code.
+> If it is really introduce a bug, I will responsible and help to solve.
+> But this is not the case. Sorry.
+> 
+> 
+>>>> Signed-off-by: Laurent Pinchart<laurent.pinchart+renesas@ideasonboard.com>
+>>>> ---
+>>>>    drivers/gpu/drm/bridge/thc63lvd1024.c | 5 ++++-
+>>>>    1 file changed, 4 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/bridge/thc63lvd1024.c b/drivers/gpu/drm/bridge/thc63lvd1024.c
+>>>> index 5f99f9724081..674efc489e3a 100644
+>>>> --- a/drivers/gpu/drm/bridge/thc63lvd1024.c
+>>>> +++ b/drivers/gpu/drm/bridge/thc63lvd1024.c
+>>>> @@ -125,8 +125,11 @@ static int thc63_parse_dt(struct thc63_dev *thc63)
+>>>>        remote = of_graph_get_remote_node(thc63->dev->of_node,
+>>>>                          THC63_RGB_OUT0, -1);
+>>>> -    if (!remote)
+>>>> +    if (!remote) {
+>>>> +        dev_err(thc63->dev, "No remote endpoint for port@%u\n",
+>>>> +            THC63_RGB_OUT0);
+>>>>            return -ENODEV;
+>>>> +    }
+> 
+> An side effect of this patch is that we will add one more extra error message in the console.
+> As the of_graph_get_remote_node() function already print one for us if I add '#define DEBUG 1'
+> on the top of this source file. What's worse, it does not really tell us what's really the
+> error is.
+> 
+> It could be no valid endpoint or no valid remote node because of bad coding in DT, or It is
+> also simply because the remove node(or device) is being disabled intentionally by adding
+> 'status = "disabled"' clause. Therefore, the error printing code added here is very confusing
+> in practice. It cannot really help for locating the root cause of the problem.
+> 
+> After think about this more than twice, either help to improve the core of_graph_get_remote_node()
+> function or just to drop this. This what I can tell as a ordinary reviewer. Despite you and/or
+> other more advanced programmer & reviewer could override what I said though.
+> 
+
