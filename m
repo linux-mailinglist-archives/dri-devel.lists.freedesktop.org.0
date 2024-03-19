@@ -2,51 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF40F87F97A
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 09:23:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4EEA87F976
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 09:23:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD0DB10F680;
-	Tue, 19 Mar 2024 08:23:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5ADAD10F638;
+	Tue, 19 Mar 2024 08:23:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=fujitsu.com header.i=@fujitsu.com header.b="WYrHHGSj";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=fujitsu.com header.i=@fujitsu.com header.b="ptUnbVjF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com
- [207.54.90.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7855310ED01
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 03:43:34 +0000 (UTC)
+X-Greylist: delayed 430 seconds by postgrey-1.36 at gabe;
+ Tue, 19 Mar 2024 04:03:16 UTC
+Received: from esa8.hc1455-7.c3s2.iphmx.com (esa8.hc1455-7.c3s2.iphmx.com
+ [139.138.61.253])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2345410E1D5
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 04:03:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
- t=1710819814; x=1742355814;
+ t=1710820995; x=1742356995;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=kpIQQ4UHhSRaPRBqYrLlxC1aJHMqE9Os3Z55I7joDmI=;
- b=WYrHHGSjpTP44wRyq4a7pqNZfZFz84oeAyBASn26iX5NOnz+DfpZyH3i
- cV+sSi3OLqhLCjKtTmes8dmOh/Z2CC9ol+Ax4s3nOjWbEMpT3Oc0keVd8
- Ro/z+vr7/KCuFgAhQVu1IaPpjxVSFaXsDRT2T9jGTcC46h73oVTvCH0W2
- YV6P+tAF5FRHMyFBvM0wqlBWzwfz73id66AGf6G1vVn5755v44hCm9i7r
- Rzp75IkaeocDvv13Ub9rgAYQQlVjLgoJauvxhG03mDbm2ggwUEGVlyJYk
- dNyF3uV1irXqODaxoMXIX/14jhV6byvYBLFLccEEROELt0PnEfbmuf22m g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="152707598"
-X-IronPort-AV: E=Sophos;i="6.07,135,1708354800"; d="scan'208";a="152707598"
-Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
- by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Mar 2024 12:43:20 +0900
-Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com
- [192.168.87.61])
- by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id CF28BD4800
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 12:43:17 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com
- [192.51.206.21])
- by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 0757ED644A
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 12:43:17 +0900 (JST)
+ bh=iyb8H4Jp8rxsdGteD+xvj4n9KobPYhd4mb8G65zKrMM=;
+ b=ptUnbVjF2XPwQ27mzs0IRMkndkx7yeIvmOXOe4WYYSQ/3l3pGrMmR7+S
+ NrmPEZ8PdvT9sP87UlXRLKf4Gp5AFjNuEH2BkpQIaNHsLST1P5llIsuuM
+ gj7rRb/087yohLgxdQfHk0wding14vvzRE6NbvPAwYWGnPodfj8vxbDyQ
+ bbc+MPckFVDPF7zT3LamLl/Eb58sDwZcfefyuXdSmCj+p6nX2gc1yFbf3
+ LCg2ECThcrAU+FOpK7bJhrteeR+nuGEAPEo6uoho9NQAXt2qCGrKBsfoU
+ WrIguAOv0jRQiO8mv0RtB5QpEXgwrRscgQYSxbqntvEmWSczdcXboD1mp A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="140667449"
+X-IronPort-AV: E=Sophos;i="6.07,135,1708354800"; d="scan'208";a="140667449"
+Received: from unknown (HELO yto-r1.gw.nic.fujitsu.com) ([218.44.52.217])
+ by esa8.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Mar 2024 12:56:03 +0900
+Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com
+ [192.168.83.67])
+ by yto-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 24FB6FBD8D
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 12:56:01 +0900 (JST)
+Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com
+ [192.51.206.22])
+ by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 5A4D5D7B7F
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 12:56:00 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
- by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 93FC320098E1F
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 12:43:16 +0900 (JST)
+ by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id D0E7D228817
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 12:55:59 +0900 (JST)
 Received: from localhost.localdomain (unknown [10.167.226.45])
- by edo.cn.fujitsu.com (Postfix) with ESMTP id 1BBD41A006B;
- Tue, 19 Mar 2024 11:43:15 +0800 (CST)
+ by edo.cn.fujitsu.com (Postfix) with ESMTP id 074881A006B;
+ Tue, 19 Mar 2024 11:55:58 +0800 (CST)
 From: Li Zhijian <lizhijian@fujitsu.com>
 To: linux-kernel@vger.kernel.org
 Cc: Li Zhijian <lizhijian@fujitsu.com>,
@@ -58,10 +60,10 @@ Cc: Li Zhijian <lizhijian@fujitsu.com>,
  Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
  linux-omap@vger.kernel.org, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm,
+Subject: [PATCH v2] drm,
  fbdev: td043mtea1: Convert sprintf() family to sysfs_emit() family
-Date: Tue, 19 Mar 2024 11:43:10 +0800
-Message-Id: <20240319034310.1574349-1-lizhijian@fujitsu.com>
+Date: Tue, 19 Mar 2024 11:55:55 +0800
+Message-Id: <20240319035555.1577734-1-lizhijian@fujitsu.com>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -72,10 +74,10 @@ X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28260.004
 X-TMASE-Result: 10--6.993400-10.000000
 X-TMASE-MatchedRID: vWLMKRYJCzcbO59FK9BdmJiHtCNYjckMjkDrBOJwwnQ8JmmJxjOaQXVX
  Q3/qdw5yDiqGKKMcNgRhoUIS5GGeEs1HQN/TlJ3ZOIQ9GP2P2u9hCyUKzFE4pMOmbgJn0O1cd5G
- gTXcmX3z/gi5MRR1gmuKPZyvBQlTFs+DazrJbzs47I8qKHhHKyIY+g3uPA6ifU5+divxV/olaTW
- 107FjPHDnpYPqS6jzx8tvnLY6Q4L+1UOlz1sLXchF4zyLyne+AUrr7Qc5WhKhzvn1t6wuaa+zst
- h4cn4jroa8IWqgpLBOAMuqetGVetksDkkP3zIjq3QfwsVk0UbtuRXh7bFKB7sO0UlcJEGWrCrSW
- yB8sgMMkRgrwE4e1Kc/TqvYMYi+tH8FerAT0dJY=
+ gTXcmX3z/gi5MRR1gmq+lAgAwPD5q0OVyXblM7jP+xRIVoKNMvNiPDVCot+tGBET8F2y8zKEYdS
+ DeLvQ19lun5ICGwWKCEriUbUlPOKO1UOlz1sLXchF4zyLyne+AUrr7Qc5WhKhzvn1t6wuaa+zst
+ h4cn4jroa8IWqgpLBOAMuqetGVetksDkkP3zIjq3QfwsVk0UbtuRXh7bFKB7qOOXt5BU5y6WbW/
+ lbxeI8DFks+BRjeYgccgXIv3OTHQPpCuffGH9zI=
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 X-Mailman-Approved-At: Tue, 19 Mar 2024 08:23:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -121,6 +123,9 @@ CC: linux-fbdev@vger.kernel.org
 CC: dri-devel@lists.freedesktop.org
 Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
 ---
+V2:
+   Fix missing '+' before '=' in drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c
+
 This is a part of the work "Fix coccicheck device_attr_show warnings"[1]
 Split them per subsystem so that the maintainer can review it easily
 [1] https://lore.kernel.org/lkml/20240116041129.3937800-1-lizhijian@fujitsu.com/
@@ -155,7 +160,7 @@ index cf4609bb9b1d..0983fe47eb5a 100644
  	return len;
  }
 diff --git a/drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c b/drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c
-index 477789cff8e0..040a17a05baa 100644
+index 477789cff8e0..3624452e1dd0 100644
 --- a/drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c
 +++ b/drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c
 @@ -228,14 +228,10 @@ static ssize_t tpo_td043_gamma_show(struct device *dev,
@@ -171,7 +176,7 @@ index 477789cff8e0..040a17a05baa 100644
 -	}
 -	buf[len - 1] = '\n';
 +	for (i = 0; i < ARRAY_SIZE(ddata->gamma); i++)
-+		len = sysfs_emit_at(buf, len, "%u ", ddata->gamma[i]);
++		len += sysfs_emit_at(buf, len, "%u ", ddata->gamma[i]);
 +	if (len)
 +		buf[len - 1] = '\n';
  
