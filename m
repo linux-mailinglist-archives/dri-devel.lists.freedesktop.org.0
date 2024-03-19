@@ -2,108 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B15787F937
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 09:14:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F183787F8DD
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 09:07:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D35A10F599;
-	Tue, 19 Mar 2024 08:14:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8F2710F4F7;
+	Tue, 19 Mar 2024 08:07:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Dv/pG3TA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bMeLDCjP";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Dv/pG3TA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bMeLDCjP";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MlokMKex";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8660710F5A8
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 08:14:38 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4C4043750B;
- Tue, 19 Mar 2024 08:14:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1710836077; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dLRVr6yG71OKVYKY30NHaQDpHOY5DWIh7GrleLHgH60=;
- b=Dv/pG3TAqmO3gOeJwuYjR+bHb006f2h7k+KGifcUE+o7j+ZIjsq930Ufmm7v8QTJpwTffL
- Y8Js2C8A1cgMXOh/g3duMKnt6igjopAMXlY/HePA7DhY+yPpSfjldqGM59o1ZBHugd9Bqr
- G0+QSyk1RfjAxGoxAKQya0MPvCcAZds=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1710836077;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dLRVr6yG71OKVYKY30NHaQDpHOY5DWIh7GrleLHgH60=;
- b=bMeLDCjPrKpLrapLR+ISA7FjKI5ESX7JlWXW/0CCB6HY46+zfbVILBpqMeogY2P+EZrT3P
- RmW0ve52EI6QHBCg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1710836077; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dLRVr6yG71OKVYKY30NHaQDpHOY5DWIh7GrleLHgH60=;
- b=Dv/pG3TAqmO3gOeJwuYjR+bHb006f2h7k+KGifcUE+o7j+ZIjsq930Ufmm7v8QTJpwTffL
- Y8Js2C8A1cgMXOh/g3duMKnt6igjopAMXlY/HePA7DhY+yPpSfjldqGM59o1ZBHugd9Bqr
- G0+QSyk1RfjAxGoxAKQya0MPvCcAZds=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1710836077;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dLRVr6yG71OKVYKY30NHaQDpHOY5DWIh7GrleLHgH60=;
- b=bMeLDCjPrKpLrapLR+ISA7FjKI5ESX7JlWXW/0CCB6HY46+zfbVILBpqMeogY2P+EZrT3P
- RmW0ve52EI6QHBCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0DB9A136D6;
- Tue, 19 Mar 2024 08:14:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id AC2uAW1J+WWLeAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 19 Mar 2024 08:14:37 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@redhat.com, jfalempe@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v4 12/12] drm/ast: Implement polling for VGA and SIL164
- connectors
-Date: Tue, 19 Mar 2024 09:00:32 +0100
-Message-ID: <20240319081430.10165-13-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240319081430.10165-1-tzimmermann@suse.de>
-References: <20240319081430.10165-1-tzimmermann@suse.de>
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 403A310F4F7
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 08:07:14 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-33d90dfe73cso2907456f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 01:07:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1710835632; x=1711440432; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=spYxpIEXYSNCSvAxWfrD34Q6PwS/7IJ3TtTp+AY4irk=;
+ b=MlokMKex57JZ2X3q6DJJhc6nsTPn3Pd/PIENUUOGGxMj7VTpWJpWb/2ZzpiKFpUcXz
+ f+vgsDou/Mvcd5mrYckT5aljRggYEe6MBUCp1x81RrGn/2X83qOAVTQHK58bQP8aEOYV
+ mqUYVMXnjShAXSVPVpsxAs228b6qI4oETinTsXetdyDjM3vmI3+b3A5DHPYoqSeuqIuW
+ jH/OpJgOnISt9RZg/nBYpEHDMfMhjdxs8byUsqrmIp9CkxSErcbQVuR8lzaZ+BhWVIb8
+ Lwx59sDR1auH4nqszTXz4C9mDRW5bocZs7R8JCZtESJINfGwE5pa+lIh9GeYYLpInRwp
+ 1Rwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710835632; x=1711440432;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=spYxpIEXYSNCSvAxWfrD34Q6PwS/7IJ3TtTp+AY4irk=;
+ b=Ah47AoXEnzN7TE6BfE19gR4IyPfobqBMOShVtifpv5hv+3jIge/em/dic90D/Cy0jL
+ 8b1ffHgh2BJGVsohEcddy9YfTfuQcPwepZTKPmsH242w+prgmpKXrWzO4fDar5YJGLYb
+ kdw3mxDxTLD8qiIE2KIBtinVFjpG0tINBKI8LX6AbuPYmZL0vDBakqzw0N2Dnn0z+kGi
+ QBocQny12XT7/5Y+I3gw7kbjThC89FLJxh6qvojQnitG8TqL84NX/dQu4TvwAAkrbuZB
+ WEaspKxKkF5jSW2aprOz86FhHjqvfjDKFIprDi/y+X3+auy9fPoDLYJcyd7t6M2AgzLt
+ iYCQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWmlFtwpjD36tH7+8A+JqIuqNvUZMazjyvxWB4l20CHHpU856iLdyhBdPJYUtSRbMYJg0hoSa2lIog9o9rwQ6RIY888GaGsWmcp/FMAcRsI
+X-Gm-Message-State: AOJu0Yxxoi9PkGdOZUEmmhYnp5gQKnsvDiNHgtFvZ9uupHpicgo2JxA6
+ 6x3Ekq7f6nH9lr/D1FaRovHXqmxW14H3+TtU5JW91/Wnd/u7ORRwAvD36TpWCrg=
+X-Google-Smtp-Source: AGHT+IFcvq6E9fBSZM2MY1IqdcxNGVVY1riao78wmDDVCMtvpbhSlftq640TPYVM8TuqdrlVOk7mkg==
+X-Received: by 2002:adf:e2ca:0:b0:33e:764b:ab17 with SMTP id
+ d10-20020adfe2ca000000b0033e764bab17mr1433241wrj.14.1710835632086; 
+ Tue, 19 Mar 2024 01:07:12 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:2fcf:6f16:3b3b:da8e?
+ ([2a01:e0a:982:cbb0:2fcf:6f16:3b3b:da8e])
+ by smtp.gmail.com with ESMTPSA id
+ bu27-20020a056000079b00b0033ecbfc6941sm11461315wrb.110.2024.03.19.01.07.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Mar 2024 01:07:11 -0700 (PDT)
+Message-ID: <9907040c-7e25-4aa5-a4be-6f4820e335f1@linaro.org>
+Date: Tue, 19 Mar 2024 09:07:10 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: **
-X-Spam-Score: 2.97
-X-Spamd-Result: default: False [2.97 / 50.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; R_MISSING_CHARSET(2.50)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- BROKEN_CONTENT_TYPE(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_RATELIMIT(0.00)[to_ip_from(RLw9gjjhh8cousxs3wi4trssza)];
- RCVD_COUNT_THREE(0.00)[3];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; RCPT_COUNT_SEVEN(0.00)[8];
- MID_CONTAINS_FROM(1.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
- FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
- BAYES_HAM(-0.73)[83.76%]
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v2] drm,fbdev: td043mtea1: Convert sprintf() family to
+ sysfs_emit() family
+Content-Language: en-US, fr
+To: Li Zhijian <lizhijian@fujitsu.com>, linux-kernel@vger.kernel.org
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg
+ <sam@ravnborg.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, linux-omap@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20240319035555.1577734-1-lizhijian@fujitsu.com>
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+In-Reply-To: <20240319035555.1577734-1-lizhijian@fujitsu.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,93 +114,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement polling for VGA and SIL164 connectors. Set the flag
-DRM_CONNECTOR_POLL_DISCONNECT for each to detect the removal of the
-monitor cable. Implement struct drm_connector_helper_funcs.detect_ctx
-for each type of connector by testing for EDID data. The code for
-both types of connectors is identical for now. Maybe this can later
-become a common helper function for various drivers.
+Hi,
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/ast/ast_mode.c | 36 ++++++++++++++++++++++++++++++++--
- 1 file changed, 34 insertions(+), 2 deletions(-)
+On 19/03/2024 04:55, Li Zhijian wrote:
+> Per filesystems/sysfs.rst, show() should only use sysfs_emit()
+> or sysfs_emit_at() when formatting the value to be returned to user space.
+> 
+> coccinelle complains that there are still a couple of functions that use
+> snprintf(). Convert them to sysfs_emit().
+> 
+> sprintf() and scnprintf() will be converted as well if they have.
+> 
+> Generally, this patch is generated by
+> make coccicheck M=<path/to/file> MODE=patch \
+> COCCI=scripts/coccinelle/api/device_attr_show.cocci
+> 
+> No functional change intended
 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 71cc681d6188f..f740b8706a38b 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -1344,8 +1344,24 @@ static int ast_crtc_init(struct drm_device *dev)
-  * VGA Connector
-  */
- 
-+static int ast_vga_connector_helper_detect_ctx(struct drm_connector *connector,
-+					       struct drm_modeset_acquire_ctx *ctx,
-+					       bool force)
-+{
-+	enum drm_connector_status status = connector_status_disconnected;
-+	const struct drm_edid *edid;
-+
-+	edid = drm_edid_read(connector);
-+	if (edid)
-+		status = connector_status_connected;
-+	drm_edid_free(edid);
-+
-+	return status;
-+}
-+
- static const struct drm_connector_helper_funcs ast_vga_connector_helper_funcs = {
- 	.get_modes = drm_connector_helper_get_modes,
-+	.detect_ctx = ast_vga_connector_helper_detect_ctx,
- };
- 
- static const struct drm_connector_funcs ast_vga_connector_funcs = {
-@@ -1379,7 +1395,7 @@ static int ast_vga_connector_init(struct drm_device *dev, struct drm_connector *
- 	connector->interlace_allowed = 0;
- 	connector->doublescan_allowed = 0;
- 
--	connector->polled = DRM_CONNECTOR_POLL_CONNECT;
-+	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
- 
- 	return 0;
- }
-@@ -1412,8 +1428,24 @@ static int ast_vga_output_init(struct ast_device *ast)
-  * SIL164 Connector
-  */
- 
-+static int ast_sil164_connector_helper_detect_ctx(struct drm_connector *connector,
-+						  struct drm_modeset_acquire_ctx *ctx,
-+						  bool force)
-+{
-+	enum drm_connector_status status = connector_status_disconnected;
-+	const struct drm_edid *edid;
-+
-+	edid = drm_edid_read(connector);
-+	if (edid)
-+		status = connector_status_connected;
-+	drm_edid_free(edid);
-+
-+	return status;
-+}
-+
- static const struct drm_connector_helper_funcs ast_sil164_connector_helper_funcs = {
- 	.get_modes = drm_connector_helper_get_modes,
-+	.detect_ctx = ast_sil164_connector_helper_detect_ctx,
- };
- 
- static const struct drm_connector_funcs ast_sil164_connector_funcs = {
-@@ -1447,7 +1479,7 @@ static int ast_sil164_connector_init(struct drm_device *dev, struct drm_connecto
- 	connector->interlace_allowed = 0;
- 	connector->doublescan_allowed = 0;
- 
--	connector->polled = DRM_CONNECTOR_POLL_CONNECT;
-+	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
- 
- 	return 0;
- }
--- 
-2.44.0
+Please split patches in 2, while the driver targets the same hw, they
+are not under the same subsystems.
+
+Neil
+
+> 
+> CC: Neil Armstrong <neil.armstrong@linaro.org>
+> CC: Jessica Zhang <quic_jesszhan@quicinc.com>
+> CC: Sam Ravnborg <sam@ravnborg.org>
+> CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> CC: Maxime Ripard <mripard@kernel.org>
+> CC: Thomas Zimmermann <tzimmermann@suse.de>
+> CC: David Airlie <airlied@gmail.com>
+> CC: Daniel Vetter <daniel@ffwll.ch>
+> CC: Helge Deller <deller@gmx.de>
+> CC: linux-omap@vger.kernel.org
+> CC: linux-fbdev@vger.kernel.org
+> CC: dri-devel@lists.freedesktop.org
+> Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
+> ---
+> V2:
+>     Fix missing '+' before '=' in drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c
+> 
+> This is a part of the work "Fix coccicheck device_attr_show warnings"[1]
+> Split them per subsystem so that the maintainer can review it easily
+> [1] https://lore.kernel.org/lkml/20240116041129.3937800-1-lizhijian@fujitsu.com/
+> ---
+>   drivers/gpu/drm/panel/panel-tpo-td043mtea1.c        | 13 ++++---------
+>   .../omap2/omapfb/displays/panel-tpo-td043mtea1.c    | 12 ++++--------
+>   2 files changed, 8 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-tpo-td043mtea1.c b/drivers/gpu/drm/panel/panel-tpo-td043mtea1.c
+> index cf4609bb9b1d..0983fe47eb5a 100644
+> --- a/drivers/gpu/drm/panel/panel-tpo-td043mtea1.c
+> +++ b/drivers/gpu/drm/panel/panel-tpo-td043mtea1.c
+> @@ -242,16 +242,11 @@ static ssize_t gamma_show(struct device *dev, struct device_attribute *attr,
+>   	struct td043mtea1_panel *lcd = dev_get_drvdata(dev);
+>   	ssize_t len = 0;
+>   	unsigned int i;
+> -	int ret;
+>   
+> -	for (i = 0; i < ARRAY_SIZE(lcd->gamma); i++) {
+> -		ret = snprintf(buf + len, PAGE_SIZE - len, "%u ",
+> -			       lcd->gamma[i]);
+> -		if (ret < 0)
+> -			return ret;
+> -		len += ret;
+> -	}
+> -	buf[len - 1] = '\n';
+> +	for (i = 0; i < ARRAY_SIZE(lcd->gamma); i++)
+> +		len += sysfs_emit_at(buf, len, "%u ", lcd->gamma[i]);
+> +	if (len)
+> +		buf[len - 1] = '\n';
+>   
+>   	return len;
+>   }
+> diff --git a/drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c b/drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c
+> index 477789cff8e0..3624452e1dd0 100644
+> --- a/drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c
+> +++ b/drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c
+> @@ -228,14 +228,10 @@ static ssize_t tpo_td043_gamma_show(struct device *dev,
+>   	int ret;
+>   	int i;
+>   
+> -	for (i = 0; i < ARRAY_SIZE(ddata->gamma); i++) {
+> -		ret = snprintf(buf + len, PAGE_SIZE - len, "%u ",
+> -				ddata->gamma[i]);
+> -		if (ret < 0)
+> -			return ret;
+> -		len += ret;
+> -	}
+> -	buf[len - 1] = '\n';
+> +	for (i = 0; i < ARRAY_SIZE(ddata->gamma); i++)
+> +		len += sysfs_emit_at(buf, len, "%u ", ddata->gamma[i]);
+> +	if (len)
+> +		buf[len - 1] = '\n';
+>   
+>   	return len;
+>   }
 
