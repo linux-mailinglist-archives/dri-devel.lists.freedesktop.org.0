@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA86787FE9C
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 14:22:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7DE087FEA0
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 14:22:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41FD110FAB3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DA0710FABC;
 	Tue, 19 Mar 2024 13:22:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="behYZbIn";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="DRXZ6xIT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79AD610FA8F
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 13:22:07 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-2d49ca33dcaso46273051fa.3
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 06:22:07 -0700 (PDT)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89CE510FA8F
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 13:22:08 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-2d49f7e5c2cso36939701fa.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 06:22:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1710854525; x=1711459325; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1710854526; x=1711459326; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=dKI2zwb8IPiI5g9nKyo02YnrtBE6ItshoGtglMZgPxM=;
- b=behYZbInWUc3Jmm6uM4XTlU8tt8jqmT0YDqTi02OjE3d2GC6Yx0EXU0U0RaSVTXmdp
- qDcpBHgWF1lU79yuhtBqBX8yj1smHh9DKg3N3yhnN2t+O/l1EokkDQNGr2ZUksX2l6nW
- 0L5mUbXUXQ8c0aSBRKJ39+0bovoK+x2FO2c26osugvYCVQjK7vU1BbhPnIggTLFM7gaz
- vZOCCxuyyDg33QXYiLOUBCiWLX0uLAeryYdQzimuxWCW2Fe25gjHB9W7Fq43DNfXsYQn
- abGi13cC00kEJ4ivjJS3ROzrROBG6shuO1ynY/0zeeEzcHrvXqkrTBUe3XV0PZy3wfmE
- HaPg==
+ :reply-to; bh=WD7yBNRoaRKt7gkhASL4YuNhAW8aTci/0KYixE/5y+0=;
+ b=DRXZ6xITKjQs4xVlQcYd45VX8Jklzq/CIGuB3Lv5t6/yFoISIyalYp+OX9FmJhDuwu
+ He+KUhfCr+HlYeE773EKQ3pvaJOXoR1G1TEUfcItdkZPlB1lsQ7gu0eDqlnpSjvo1MHB
+ GDeAI2CkXMeyoFOkP2I5TsGYBg+QRCAoj4ItdiLXD1/r0+cohZduvNnyjqo0epmYbVHN
+ aZ+l4KJuGs6kKwkd8tUmlC70bu5CuKu+FrK/WuKMW63evLNngz1plGdfhNUvKXHx5soN
+ 9usgxBUOHgH2jyWJha6pPX+LOnkQjca2y3us6D6qgCKu0GQXEerjv2rbvtNjAGG0CGnH
+ +lAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710854525; x=1711459325;
+ d=1e100.net; s=20230601; t=1710854526; x=1711459326;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dKI2zwb8IPiI5g9nKyo02YnrtBE6ItshoGtglMZgPxM=;
- b=XYUzyJzWs6J9wsmZylFOLl7xCHcyws7d8MBw22KNq4u06cccs22US+xzc9roeXZmQM
- YB4jqu8r+7w/kD4CgWy9TA5o8AZVQ4ZxxANF2QpHZRnvJacl3Hlz1isUlXq1oZaapN0e
- 9TJjUMr+gQhqJY2L2Iy95Gb8bpzA6PoLF2+ZSmCLZE1F0wCMTY5DlCdh4aDNUgj/AEr0
- rbKyaSx7Y+RUOyCHPi7M1B1E5rXDV7m3xfNP8P2LSBqAb5r0L9VpFpNT8zHA7O+tAya0
- Qz4sYRI1DkrcECew0z+Wywc8wd94JZqzu48slOs0O/blzUe2NEAeZLg5GSWppdR1wH7S
- buag==
+ bh=WD7yBNRoaRKt7gkhASL4YuNhAW8aTci/0KYixE/5y+0=;
+ b=KKqhmhwfI+eVgiao+Md/F+mhFUWZ8T+IKdg7ShKLILLKYsGq44vTY41BvCEtaSsXsY
+ wM6E6LfH+cJO4fUTQ/whwF7O/Y4uReJDrIk8mnbnqEtqeTJe+VTBwqUuPRsWExZqvu0d
+ A0ocMWn7cNcp6WkgV59N2/ksbmD6xoTmROi/F4ZL79ch2NgF1N27qBq+U/KXyNjhcPyQ
+ 3JPwWLj803BUbwZKxf2j11L5/V0zas+Y7PQoHVlf8WHst9Ng8uetbvWHb39r3GpAXk4b
+ Pp2X3BZhVioZxovMtZBNNaHVfuV6L5rPypDLfLLBM+VG7xCf8j1hoTMLxoyM4LiUIITA
+ 2yKw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUPCIbwqCvky7zkmoT1OC1mTzM/9aEvqDFXhICJDu1cPNEGymK0eNQdCcdk7/szMzxoMxJSHcIhUKW10eiDCyXc4TpFvccfmo5hgr5nrGr9
-X-Gm-Message-State: AOJu0YwiXJispyYrU2ceUj9m3QyTCArupmjdrifz4JXQJQGWCp7gBxFe
- 0+N46bcV0aes7IpbwVOd6BJThSQfGJ8ShloNnJwx/yXu71YHj6auaMC/2iUZq56PKixqYlK/8yi
- q
-X-Google-Smtp-Source: AGHT+IHq9v3W03NLwpVVlxf9F4CRm6prQJ8JHdzaZQb95xya9Fb+3Vd1JowzCYBfImR7epuE66nlZg==
-X-Received: by 2002:a2e:2c05:0:b0:2d2:dfd6:8335 with SMTP id
- s5-20020a2e2c05000000b002d2dfd68335mr1888479ljs.22.1710854525405; 
- Tue, 19 Mar 2024 06:22:05 -0700 (PDT)
+ AJvYcCXQ4oAk+lMwzKa98Xpmj49jo0wLTPV8j/GUb6qBtQ/0nbaVK3yh4apJCW9/H+u3/VOReLKWo3iTHwJ8ldJIG7fM2EhOsxqM5c75aCG1QEks
+X-Gm-Message-State: AOJu0YyQNnnI7Zu+9hl6zgdqW7cNqd20STaEzFY7Nl8nRtuMCtJ+Bxlm
+ IA7R+QwCLTu4dT2jrNwVtAh0RZTydHSSgLZV3T/NlHrRD+OrP5e8lEY1qGEkKPpxx4AFrnVUNJ8
+ C
+X-Google-Smtp-Source: AGHT+IFoBlBXLATJwtn11NwC95jZvMudqneFSyVeHjOITEmsLIkS67V0F62kAvSJefpUoEZ+7NC6bg==
+X-Received: by 2002:a2e:a9a7:0:b0:2d4:1700:34a2 with SMTP id
+ x39-20020a2ea9a7000000b002d4170034a2mr12647195ljq.33.1710854526182; 
+ Tue, 19 Mar 2024 06:22:06 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- j7-20020a2e3c07000000b002d435cdf2adsm1826148lja.111.2024.03.19.06.22.04
+ j7-20020a2e3c07000000b002d435cdf2adsm1826148lja.111.2024.03.19.06.22.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Mar 2024 06:22:04 -0700 (PDT)
+ Tue, 19 Mar 2024 06:22:05 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 19 Mar 2024 15:22:02 +0200
-Subject: [PATCH 4/9] drm/msm/dpu: move dpu_format_populate_plane_sizes to
- atomic_check
+Date: Tue, 19 Mar 2024 15:22:03 +0200
+Subject: [PATCH 5/9] drm/msm/dpu: check for the plane pitch overflow
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240319-dpu-mode-config-width-v1-4-d0fe6bf81bf1@linaro.org>
+Message-Id: <20240319-dpu-mode-config-width-v1-5-d0fe6bf81bf1@linaro.org>
 References: <20240319-dpu-mode-config-width-v1-0-d0fe6bf81bf1@linaro.org>
 In-Reply-To: <20240319-dpu-mode-config-width-v1-0-d0fe6bf81bf1@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -73,16 +72,16 @@ Cc: Abel Vesa <abel.vesa@linaro.org>,
  Johan Hovold <johan+linaro@kernel.org>, linux-arm-msm@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1422;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1720;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=Cm466EMiV3rqjsRkz5DkhNg6Qor98v8Q4JQTPUTq088=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBl+ZF3yvndp0SUw1KM5VaAh726lqpCUr5AykSQ9
- 4tkZJ/ktKeJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZfmRdwAKCRCLPIo+Aiko
- 1UOSB/wL/o++N0d5TuuI6v3xEd2k+q/Uo2k0LJS6hV3hZyG1Xpp26i8LYm+608rJXZQ2C9td1CH
- 5XmNsV/93X1TKbucnRd/ZzJXQNd1KEwZc4e/SX5yZC+RAWIVOzOjmTt3LaUQoB/5CkV1pvjTGgN
- FpqqCFn7Hifw9KlgaSuntVOFsrXUO2dZ0+oHAkBLWu8bPeKaLBKsg4UBOr7hHWW9REsZYMsQzVH
- Wk4+DEr68cWG3/FrlNZ+gtzgEF4XTUNxxi8xeyr45HrEvpBiOijdsxCxYmifxz3AUYCOkmFaqkb
- 2Lz0CV4tJurf/4IUHXbku/FMPJ0oiscRnONIOhEj8wiFqC8S
+ bh=zIBBrMeVyHBOI7xFU2blyQniDBu8Ce/9r1dzS2RD+9s=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBl+ZF4pY/VL46Xa9j61sl17x/W0yJqmKwYdQhs9
+ Vw0GposSJGJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZfmReAAKCRCLPIo+Aiko
+ 1VS3B/9FskmpJEoP55DmNokOoSiMJDEZE3wEQQ6GKqWCsbSnYBkPyUh2PeUgd0O1tBx8HNcRjoA
+ rOXXA8utPu6bAYapEPS3PuB8cCeexYbpRz5kY2dTA8n/noQo45XxoShxg+h7fufOWkJpZuiamJk
+ 9ZtNVutp1StlESc+xfiyiVS4sl3qQAD/mulmH2T0rbqt8BGUcqxz4E21DKB9T8kJEAjEmddeLLM
+ GgT4g0Snx2IwzgAxGxTJfzUlwjP3JW8OdBBOWHw0atcGlMIo38UUO3oiyMK9D3P4y4AgmHOy2zA
+ ta1g7zqBbm9jyyDHktmmc9i8sQ4cHA2x/Ixrv2t8m9gOkjn5
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,41 +99,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move a call to dpu_format_populate_plane_sizes() to the atomic_check
-step, so that any issues with the FB layout can be reported as early as
-possible.
+Check that the plane pitch doesn't overflow the maximum pitch size
+allowed by the hardware.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h | 2 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 6 +++++-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+index b7dc52312c39..86b1defa5d21 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+@@ -12,6 +12,8 @@
+ 
+ struct dpu_hw_sspp;
+ 
++#define DPU_SSPP_MAX_PITCH_SIZE		0xffff
++
+ /**
+  * Flags
+  */
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index d9631fe90228..a9de1fbd0df3 100644
+index a9de1fbd0df3..9e57c51f5343 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -673,12 +673,6 @@ static int dpu_plane_prepare_fb(struct drm_plane *plane,
- 		}
+@@ -790,7 +790,7 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ {
+ 	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
+ 										 plane);
+-	int ret = 0, min_scale;
++	int i, ret = 0, min_scale;
+ 	struct dpu_plane *pdpu = to_dpu_plane(plane);
+ 	struct dpu_kms *kms = _dpu_plane_get_kms(&pdpu->base);
+ 	u64 max_mdp_clk_rate = kms->perf.max_core_clk_rate;
+@@ -864,6 +864,10 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 		return ret;
  	}
  
--	ret = dpu_format_populate_plane_sizes(new_state->fb, &pstate->layout);
--	if (ret) {
--		DPU_ERROR_PLANE(pdpu, "failed to get format plane sizes, %d\n", ret);
--		return ret;
--	}
--
- 	/* validate framebuffer layout before commit */
- 	ret = dpu_format_populate_addrs(pstate->aspace,
- 					new_state->fb,
-@@ -864,6 +858,12 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 		return -E2BIG;
- 	}
- 
-+	ret = dpu_format_populate_plane_sizes(new_plane_state->fb, &pstate->layout);
-+	if (ret) {
-+		DPU_ERROR_PLANE(pdpu, "failed to get format plane sizes, %d\n", ret);
-+		return ret;
-+	}
++	for (i = 0; i < pstate->layout.num_planes; i++)
++		if (pstate->layout.plane_pitch[i] > DPU_SSPP_MAX_PITCH_SIZE)
++			return -E2BIG;
 +
  	fmt = to_dpu_format(msm_framebuffer_format(new_plane_state->fb));
  
