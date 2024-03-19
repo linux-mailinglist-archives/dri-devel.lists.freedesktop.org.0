@@ -2,88 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B4087F47D
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 01:22:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CA2287F4A2
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 01:35:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 671FA11203F;
-	Tue, 19 Mar 2024 00:22:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EB06112367;
+	Tue, 19 Mar 2024 00:35:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="PBt/wjDa";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="G3C4LgSr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 480D910E54C;
- Tue, 19 Mar 2024 00:22:46 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 42INjLbU012019; Tue, 19 Mar 2024 00:22:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=G/aAA5ozIcT9Ob/zkRgm058SquwWETRy4bCvoK2oWOg=; b=PB
- t/wjDaWqde4g/TwtIUq60PsdB0CLqkPz2chY94HLw9J+ebKtFZm/X7b3lV3VO/pw
- 9nffsEQqUvHweTXtyTlgTK68tMODm5srC9Nybek4SsQ1HE78hymPC6IZP0KiuZzV
- 8b/Rsd+qDmi87vBFfErjRS9EvG5N+waiEB/M5IF0GO2fEasIOXo3uac5H4/KMuEF
- mW+MpxfsMxXCOTspO8c1THo2E7Yx/9AorlfHI4vXi2CigVPDDXevNpurWljeF+hX
- hGz4k8Gzer9afvY/ThGocsXPSFsK6Qwi7B3FJMN/eJDG0Xh5BtkZ6j5+r30RTj85
- JbztZSTMLvMy4rXLDP/g==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wxj331vre-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 19 Mar 2024 00:22:41 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42J0MdOl002186
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 19 Mar 2024 00:22:39 GMT
-Received: from [10.110.10.159] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 18 Mar
- 2024 17:22:36 -0700
-Message-ID: <12c50813-9d38-fdfc-cfba-594f0e5e7b10@quicinc.com>
-Date: Mon, 18 Mar 2024 17:22:34 -0700
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A367112362
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 00:35:28 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0614F480;
+ Tue, 19 Mar 2024 01:34:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1710808500;
+ bh=evt/QjjewDa5FyHkyULrULdNpk3hc17dFGup/YxaVVE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=G3C4LgSr6TPfDOFVC1xkw6FIzkOyvHyt+X0wjg6d1WuuatSGibUEmxq6m8DoqBAkD
+ F8tLyiV37TUekoASi3EGXifXz64wLX5nHt/UrArTJArUMrf1Ys0oAaVWkDhuO57//N
+ N/4Cfk77ApWqTJYzr+Nr92IRGMNdxDcT7Ys/g2To=
+Date: Tue, 19 Mar 2024 02:35:23 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 5/8] drm: xlnx: zynqmp_dpsub: Set input live format
+Message-ID: <20240319003523.GW13682@pendragon.ideasonboard.com>
+References: <20240312-dp-live-fmt-v2-0-a9c35dc5c50d@amd.com>
+ <20240312-dp-live-fmt-v2-5-a9c35dc5c50d@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 4/4] drm/msm/dp: Fix typo in static function (ststus =>
- status)
-Content-Language: en-US
-To: Doug Anderson <dianders@chromium.org>, Stephen Boyd <swboyd@chromium.org>
-CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Bjorn Andersson <quic_bjorande@quicinc.com>, "Daniel
- Vetter" <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Kuogee Hsieh
- <quic_khsieh@quicinc.com>, Marijn Suijten <marijn.suijten@somainline.org>,
- Sean Paul <sean@poorly.run>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-References: <20240315213717.1411017-1-dianders@chromium.org>
- <20240315143621.v2.4.Ia5dd755f81d7cc9a4393c43f77b9be4ed2278ee3@changeid>
- <CAE-0n51baqN8cEubSqDegqDwL7O6=iEfN5Ho2OykqjmkjQDcvQ@mail.gmail.com>
- <CAD=FV=U+kD852eCOxeJ97_483FMCXBZn+eaPPyb2VrXiGm6V1g@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAD=FV=U+kD852eCOxeJ97_483FMCXBZn+eaPPyb2VrXiGm6V1g@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: jQ2qKC0CvI8e60dSEY7wkonogJ9-_5WZ
-X-Proofpoint-GUID: jQ2qKC0CvI8e60dSEY7wkonogJ9-_5WZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-18_12,2024-03-18_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015
- lowpriorityscore=0 spamscore=0 suspectscore=0 impostorscore=0
- mlxlogscore=999 mlxscore=0 malwarescore=0 priorityscore=1501 phishscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2403140001 definitions=main-2403190001
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240312-dp-live-fmt-v2-5-a9c35dc5c50d@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,34 +69,242 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Anatoliy,
 
+Thank you for the patch.
 
-On 3/18/2024 12:37 PM, Doug Anderson wrote:
-> Hi,
+On Tue, Mar 12, 2024 at 05:55:02PM -0700, Anatoliy Klymenko wrote:
+> Program live video input format according to selected media bus format.
 > 
-> On Mon, Mar 18, 2024 at 12:26 PM Stephen Boyd <swboyd@chromium.org> wrote:
->>
->> Quoting Douglas Anderson (2024-03-15 14:36:32)
->>> This is a no-op change to just fix a typo in the name of a static function.
->>>
->>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
->>> ---
->>>
->>> Changes in v2:
->>> - ("Fix typo in static function (ststus => status)") new for v2.
->>
->> This was sent at
->> https://lore.kernel.org/r/20240306193515.455388-1-quic_abhinavk@quicinc.com
-> 
-> Whoops! I guess we both noticed it at about the same time. My patch
-> should be dropped then. The rest of my series (patches #1 - #3) are
-> still relevant. I won't repost them since they can be applied just
-> fine even if this patch is dropped.
-> 
-> -Doug
+> In the bridge mode of operation, DPSUB is connected to FPGA CRTC which
+> almost certainly supports a single media bus format as its output. Expect
+> this to be delivered via the new bridge atomic state. Program DPSUB
+> registers accordingly.
 
-Thanks for the patch.
+No line breaks within paragraphs. Add a blank line if you want to
+paragraphs, remove the line break otherwise.
 
-I will pick up 
-https://lore.kernel.org/r/20240306193515.455388-1-quic_abhinavk@quicinc.com 
-for -fixes so you can drop this one.
+> Update zynqmp_disp_layer_set_format() API to fit both live and non-live
+> layer types.
+> 
+> Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+> ---
+>  drivers/gpu/drm/xlnx/zynqmp_disp.c | 93 +++++++++++++++++++++++++++++++-------
+>  drivers/gpu/drm/xlnx/zynqmp_disp.h |  2 +-
+>  drivers/gpu/drm/xlnx/zynqmp_dp.c   | 13 ++++--
+>  drivers/gpu/drm/xlnx/zynqmp_kms.c  |  2 +-
+>  4 files changed, 87 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> index dd48fa60fa9a..0cacd597f4b8 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> @@ -383,7 +383,7 @@ static const struct zynqmp_disp_format avbuf_live_fmts[] = {
+>  				  ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_RGB,
+>  		.sf		= scaling_factors_666,
+>  	}, {
+> -		.bus_fmt	= MEDIA_BUS_FMT_UYVY8_1X24,
+> +		.bus_fmt	= MEDIA_BUS_FMT_RBG888_1X24,
+
+Does this belong to a previous patch ?
+
+>  		.buf_fmt	= ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_BPC_8 |
+>  				  ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_RGB,
+>  		.sf		= scaling_factors_888,
+> @@ -433,19 +433,28 @@ static void zynqmp_disp_avbuf_set_format(struct zynqmp_disp *disp,
+>  					 const struct zynqmp_disp_format *fmt)
+>  {
+>  	unsigned int i;
+> -	u32 val;
+> +	u32 val, reg;
+>  
+> -	val = zynqmp_disp_avbuf_read(disp, ZYNQMP_DISP_AV_BUF_FMT);
+> -	val &= zynqmp_disp_layer_is_video(layer)
+> -	    ? ~ZYNQMP_DISP_AV_BUF_FMT_NL_VID_MASK
+> -	    : ~ZYNQMP_DISP_AV_BUF_FMT_NL_GFX_MASK;
+> -	val |= fmt->buf_fmt;
+> -	zynqmp_disp_avbuf_write(disp, ZYNQMP_DISP_AV_BUF_FMT, val);
+> +	layer->disp_fmt = fmt;
+> +	if (layer->mode == ZYNQMP_DPSUB_LAYER_NONLIVE) {
+> +		reg = ZYNQMP_DISP_AV_BUF_FMT;
+> +		val = zynqmp_disp_avbuf_read(disp, ZYNQMP_DISP_AV_BUF_FMT);
+> +		val &= zynqmp_disp_layer_is_video(layer)
+> +		    ? ~ZYNQMP_DISP_AV_BUF_FMT_NL_VID_MASK
+> +		    : ~ZYNQMP_DISP_AV_BUF_FMT_NL_GFX_MASK;
+> +		val |= fmt->buf_fmt;
+> +	} else {
+> +		reg = zynqmp_disp_layer_is_video(layer)
+> +		    ? ZYNQMP_DISP_AV_BUF_LIVE_VID_CONFIG
+> +		    : ZYNQMP_DISP_AV_BUF_LIVE_GFX_CONFIG;
+> +		val = fmt->buf_fmt;
+> +	}
+> +	zynqmp_disp_avbuf_write(disp, reg, val);
+>  
+>  	for (i = 0; i < ZYNQMP_DISP_AV_BUF_NUM_SF; i++) {
+> -		unsigned int reg = zynqmp_disp_layer_is_video(layer)
+> -				 ? ZYNQMP_DISP_AV_BUF_VID_COMP_SF(i)
+> -				 : ZYNQMP_DISP_AV_BUF_GFX_COMP_SF(i);
+> +		reg = zynqmp_disp_layer_is_video(layer)
+> +		    ? ZYNQMP_DISP_AV_BUF_VID_COMP_SF(i)
+> +		    : ZYNQMP_DISP_AV_BUF_GFX_COMP_SF(i);
+>  
+>  		zynqmp_disp_avbuf_write(disp, reg, fmt->sf[i]);
+>  	}
+> @@ -984,23 +993,73 @@ void zynqmp_disp_layer_disable(struct zynqmp_disp_layer *layer)
+>  	zynqmp_disp_blend_layer_disable(layer->disp, layer);
+>  }
+>  
+> +struct zynqmp_disp_bus_to_drm {
+> +	u32 bus_fmt;
+> +	u32 drm_fmt;
+> +};
+> +
+> +/**
+> + * zynqmp_disp_reference_drm_format - Get reference DRM format corresponding
+> + * to the given media bus format.
+> + * @bus_format: Media bus format
+> + *
+> + * Map media bus format to some DRM format that represents the same color space
+> + * and chroma subsampling as the @bus_format video signal. These DRM format
+> + * properties are required to program the blender.
+> + *
+> + * Return: DRM format code corresponding to @bus_format
+> + */
+> +static u32 zynqmp_disp_reference_drm_format(u32 bus_format)
+> +{
+> +	static const struct zynqmp_disp_bus_to_drm format_map[] = {
+> +		{
+> +			.bus_fmt = MEDIA_BUS_FMT_RGB666_1X18,
+> +			.drm_fmt = DRM_FORMAT_RGB565,
+> +		}, {
+> +			.bus_fmt = MEDIA_BUS_FMT_RBG888_1X24,
+> +			.drm_fmt = DRM_FORMAT_RGB888,
+> +		}, {
+> +			.bus_fmt = MEDIA_BUS_FMT_UYVY8_1X16,
+> +			.drm_fmt = DRM_FORMAT_YUV422,
+> +		}, {
+> +			.bus_fmt = MEDIA_BUS_FMT_VUY8_1X24,
+> +			.drm_fmt = DRM_FORMAT_YUV444,
+> +		}, {
+> +			.bus_fmt = MEDIA_BUS_FMT_UYVY10_1X20,
+> +			.drm_fmt = DRM_FORMAT_P210,
+> +		},
+
+Hmmmm... Looking at this, I think you should have both bus_fmt and
+drm_fmt in zynqmp_disp_format. It seems it would simplify the code flow
+and make things more readable. If you would like me to give it a try,
+please let me know.
+
+> +	};
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(format_map); ++i)
+> +		if (format_map[i].bus_fmt == bus_format)
+> +			return format_map[i].drm_fmt;
+> +
+> +	return DRM_FORMAT_INVALID;
+> +}
+> +
+>  /**
+>   * zynqmp_disp_layer_set_format - Set the layer format
+>   * @layer: The layer
+> - * @info: The format info
+> + * @drm_or_bus_format: DRM or media bus format
+>   *
+>   * Set the format for @layer to @info. The layer must be disabled.
+>   */
+>  void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
+> -				  const struct drm_format_info *info)
+> +				  u32 drm_or_bus_format)
+>  {
+>  	unsigned int i;
+>  
+> -	layer->disp_fmt = zynqmp_disp_layer_find_format(layer, info->format);
+> -	layer->drm_fmt = info;
+> -
+> +	layer->disp_fmt = zynqmp_disp_layer_find_format(layer, drm_or_bus_format);
+>  	zynqmp_disp_avbuf_set_format(layer->disp, layer, layer->disp_fmt);
+>  
+> +	if (layer->mode == ZYNQMP_DPSUB_LAYER_LIVE)
+> +		drm_or_bus_format = zynqmp_disp_reference_drm_format(drm_or_bus_format);
+> +
+> +	layer->drm_fmt = drm_format_info(drm_or_bus_format);
+> +	if (!layer->drm_fmt)
+> +		return;
+> +
+>  	if (layer->mode == ZYNQMP_DPSUB_LAYER_LIVE)
+>  		return;
+>  
+> @@ -1008,7 +1067,7 @@ void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
+>  	 * Set pconfig for each DMA channel to indicate they're part of a
+>  	 * video group.
+>  	 */
+> -	for (i = 0; i < info->num_planes; i++) {
+> +	for (i = 0; i < layer->drm_fmt->num_planes; i++) {
+>  		struct zynqmp_disp_layer_dma *dma = &layer->dmas[i];
+>  		struct xilinx_dpdma_peripheral_config pconfig = {
+>  			.video_group = true,
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.h b/drivers/gpu/drm/xlnx/zynqmp_disp.h
+> index 88c285a12e23..9f9a5f50ffbc 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.h
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.h
+> @@ -55,7 +55,7 @@ u32 *zynqmp_disp_layer_formats(struct zynqmp_disp_layer *layer,
+>  void zynqmp_disp_layer_enable(struct zynqmp_disp_layer *layer);
+>  void zynqmp_disp_layer_disable(struct zynqmp_disp_layer *layer);
+>  void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
+> -				  const struct drm_format_info *info);
+> +				  u32 drm_or_bus_format);
+>  int zynqmp_disp_layer_update(struct zynqmp_disp_layer *layer,
+>  			     struct drm_plane_state *state);
+>  
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> index a0d169ac48c0..fc6b1d783c28 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> @@ -1281,7 +1281,8 @@ static void zynqmp_dp_disp_enable(struct zynqmp_dp *dp,
+>  {
+>  	enum zynqmp_dpsub_layer_id layer_id;
+>  	struct zynqmp_disp_layer *layer;
+> -	const struct drm_format_info *info;
+> +	struct drm_bridge_state *bridge_state;
+> +	u32 bus_fmt;
+>  
+>  	if (dp->dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_VIDEO))
+>  		layer_id = ZYNQMP_DPSUB_LAYER_VID;
+> @@ -1291,10 +1292,14 @@ static void zynqmp_dp_disp_enable(struct zynqmp_dp *dp,
+>  		return;
+>  
+>  	layer = dp->dpsub->layers[layer_id];
+> +	bridge_state = drm_atomic_get_new_bridge_state(old_bridge_state->base.state,
+> +						       old_bridge_state->bridge);
+> +	if (WARN_ON(!bridge_state))
+> +		return;
+> +
+> +	bus_fmt = bridge_state->input_bus_cfg.format;
+> +	zynqmp_disp_layer_set_format(layer, bus_fmt);
+>  
+> -	/* TODO: Make the format configurable. */
+> -	info = drm_format_info(DRM_FORMAT_YUV422);
+> -	zynqmp_disp_layer_set_format(layer, info);
+>  	zynqmp_disp_layer_enable(layer);
+>  
+>  	if (layer_id == ZYNQMP_DPSUB_LAYER_GFX)
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+> index bf9fba01df0e..d96b3f3f2e3a 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+> @@ -111,7 +111,7 @@ static void zynqmp_dpsub_plane_atomic_update(struct drm_plane *plane,
+>  		if (old_state->fb)
+>  			zynqmp_disp_layer_disable(layer);
+>  
+> -		zynqmp_disp_layer_set_format(layer, new_state->fb->format);
+> +		zynqmp_disp_layer_set_format(layer, new_state->fb->format->format);
+>  	}
+>  
+>  	zynqmp_disp_layer_update(layer, new_state);
+> 
+
+-- 
+Regards,
+
+Laurent Pinchart
