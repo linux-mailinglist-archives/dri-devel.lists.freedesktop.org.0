@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7726E87F458
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 01:05:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E204C87F464
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Mar 2024 01:13:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B41F10F1E3;
-	Tue, 19 Mar 2024 00:05:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C751C10E320;
+	Tue, 19 Mar 2024 00:13:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Z3zl3nbp";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="d8BJZS8i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26C5B10F1E3
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 00:05:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4125710E320
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 00:12:59 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
  [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 730F0480;
- Tue, 19 Mar 2024 01:04:36 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9361A480;
+ Tue, 19 Mar 2024 01:12:31 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1710806676;
- bh=qUH+g0HruDEXB3YbYdk5MPO634/Ais9TzewOfl8eAFI=;
+ s=mail; t=1710807151;
+ bh=cJWPjHKoew1CHYHZkQVjW2vYHS+pGQpJZuRRjf5H9x4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Z3zl3nbpBuIjWC7upKjiBFujOL3nIfU43/iXfgDl8B/qFWxahSarqHuPFyqKEvG5y
- 8p2wAMa7C0j3sPZ6wl0qG8Ne3A4cnlYd7wIQrpEsCH74lEUx+Qz1/m2mwhKtlhizS4
- Ita7Df/heP/ubrS3UpTcviglMV/F8eAWR+pZL6KE=
-Date: Tue, 19 Mar 2024 02:05:00 +0200
+ b=d8BJZS8iGJKZLVolj7pGRGn48j9q6lDP9SSCup0/hbbzaOQB9ES1z7zUegweh/+O9
+ KSI35JwNdPa4FPVBnUBTSMV1ABPNyT33vrycN65BrvNuw//jfx/VPIqUlU3hlPd8Sq
+ dsjbTKQhuorbCoxcGGU8yyI07/EcoeSPVtTr7dRM=
+Date: Tue, 19 Mar 2024 02:12:55 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -46,15 +46,15 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 3/8] drm: xlnx: zynqmp_dpsub: Anounce supported input
- formats
-Message-ID: <20240319000500.GU13682@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 4/8] drm: xlnx: zynqmp_dpsub: Minimize usage of global
+ flag
+Message-ID: <20240319001255.GV13682@pendragon.ideasonboard.com>
 References: <20240312-dp-live-fmt-v2-0-a9c35dc5c50d@amd.com>
- <20240312-dp-live-fmt-v2-3-a9c35dc5c50d@amd.com>
+ <20240312-dp-live-fmt-v2-4-a9c35dc5c50d@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240312-dp-live-fmt-v2-3-a9c35dc5c50d@amd.com>
+In-Reply-To: <20240312-dp-live-fmt-v2-4-a9c35dc5c50d@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,258 +74,79 @@ Hi Anatoliy,
 
 Thank you for the patch.
 
-On Tue, Mar 12, 2024 at 05:55:00PM -0700, Anatoliy Klymenko wrote:
-> DPSUB in bridge mode supports multiple input media bus formats.
-> 
-> Announce the list of supported input media bus formats via
-> drm_bridge.atomic_get_input_bus_fmts callback.
-> Introduce a set of live input formats, supported by DPSUB.
-> Rename zynqmp_disp_layer_drm_formats() to zynqmp_disp_layer_formats() to
-> reflect semantics for both live and non-live layer format lists.
-> 
+On Tue, Mar 12, 2024 at 05:55:01PM -0700, Anatoliy Klymenko wrote:
+> Avoid usage of global zynqmp_dpsub.dma_enabled flag in DPSUB layer
+> context. This flag signals whether the driver runs in DRM CRTC or DRM
+> bridge mode, assuming that all display layers share the same live or
+> non-live mode of operation. Using per-layer mode instead of global flag
+> will siplify future support of the hybrid scenario.
+
+s/siplify/simplify/
+
 > Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
 > ---
->  drivers/gpu/drm/xlnx/zynqmp_disp.c | 67 +++++++++++++++++++++++++++++++++-----
->  drivers/gpu/drm/xlnx/zynqmp_disp.h |  4 +--
->  drivers/gpu/drm/xlnx/zynqmp_dp.c   | 26 +++++++++++++++
->  drivers/gpu/drm/xlnx/zynqmp_kms.c  |  2 +-
->  4 files changed, 88 insertions(+), 11 deletions(-)
+>  drivers/gpu/drm/xlnx/zynqmp_disp.c | 11 ++++-------
+>  1 file changed, 4 insertions(+), 7 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> index e6d26ef60e89..af851190f447 100644
+> index af851190f447..dd48fa60fa9a 100644
 > --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
 > +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> @@ -18,6 +18,7 @@
->  #include <linux/dma/xilinx_dpdma.h>
->  #include <linux/dma-mapping.h>
->  #include <linux/dmaengine.h>
-> +#include <linux/media-bus-format.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/platform_device.h>
-> @@ -77,12 +78,16 @@ enum zynqmp_dpsub_layer_mode {
->  /**
->   * struct zynqmp_disp_format - Display subsystem format information
->   * @drm_fmt: DRM format (4CC)
-> + * @bus_fmt: Media bus format
->   * @buf_fmt: AV buffer format
->   * @swap: Flag to swap R & B for RGB formats, and U & V for YUV formats
->   * @sf: Scaling factors for color components
->   */
->  struct zynqmp_disp_format {
-> -	u32 drm_fmt;
-> +	union {
-> +		u32 drm_fmt;
-> +		u32 bus_fmt;
-> +	};
-
-I'm not a big fan of the union, but I can live with it.
-
->  	u32 buf_fmt;
->  	bool swap;
->  	const u32 *sf;
-> @@ -182,6 +187,12 @@ static const u32 scaling_factors_565[] = {
->  	ZYNQMP_DISP_AV_BUF_5BIT_SF,
->  };
->  
-> +static const u32 scaling_factors_666[] = {
-> +	ZYNQMP_DISP_AV_BUF_6BIT_SF,
-> +	ZYNQMP_DISP_AV_BUF_6BIT_SF,
-> +	ZYNQMP_DISP_AV_BUF_6BIT_SF,
-> +};
-> +
->  static const u32 scaling_factors_888[] = {
->  	ZYNQMP_DISP_AV_BUF_8BIT_SF,
->  	ZYNQMP_DISP_AV_BUF_8BIT_SF,
-> @@ -364,6 +375,36 @@ static const struct zynqmp_disp_format avbuf_gfx_fmts[] = {
->  	},
->  };
->  
-> +/* List of live video layer formats */
-> +static const struct zynqmp_disp_format avbuf_live_fmts[] = {
-> +	{
-> +		.bus_fmt	= MEDIA_BUS_FMT_RGB666_1X18,
-> +		.buf_fmt	= ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_BPC_6 |
-> +				  ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_RGB,
-> +		.sf		= scaling_factors_666,
-> +	}, {
-> +		.bus_fmt	= MEDIA_BUS_FMT_UYVY8_1X24,
-> +		.buf_fmt	= ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_BPC_8 |
-> +				  ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_RGB,
-> +		.sf		= scaling_factors_888,
-> +	}, {
-> +		.bus_fmt	= MEDIA_BUS_FMT_UYVY8_1X16,
-> +		.buf_fmt	= ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_BPC_8 |
-> +				  ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_YUV422,
-> +		.sf		= scaling_factors_888,
-> +	}, {
-> +		.bus_fmt	= MEDIA_BUS_FMT_VUY8_1X24,
-> +		.buf_fmt	= ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_BPC_8 |
-> +				  ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_YUV444,
-> +		.sf		= scaling_factors_888,
-> +	}, {
-> +		.bus_fmt	= MEDIA_BUS_FMT_UYVY10_1X20,
-> +		.buf_fmt	= ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_BPC_10 |
-> +				  ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_YUV422,
-> +		.sf		= scaling_factors_101010,
-> +	},
-> +};
-> +
->  static u32 zynqmp_disp_avbuf_read(struct zynqmp_disp *disp, int reg)
->  {
->  	return readl(disp->avbuf.base + reg);
-> @@ -883,16 +924,17 @@ zynqmp_disp_layer_find_format(struct zynqmp_disp_layer *layer,
->  }
->  
->  /**
-> - * zynqmp_disp_layer_drm_formats - Return the DRM formats supported by the layer
-> + * zynqmp_disp_layer_formats - Return DRM or media bus formats supported by
-> + * the layer
->   * @layer: The layer
->   * @num_formats: Pointer to the returned number of formats
->   *
-> - * Return: A newly allocated u32 array that stores all the DRM formats
-> + * Return: A newly allocated u32 array that stores all DRM or media bus formats
->   * supported by the layer. The number of formats in the array is returned
->   * through the num_formats argument.
->   */
-> -u32 *zynqmp_disp_layer_drm_formats(struct zynqmp_disp_layer *layer,
-> -				   unsigned int *num_formats)
-> +u32 *zynqmp_disp_layer_formats(struct zynqmp_disp_layer *layer,
-> +			       unsigned int *num_formats)
+> @@ -975,7 +975,7 @@ void zynqmp_disp_layer_disable(struct zynqmp_disp_layer *layer)
 >  {
 >  	unsigned int i;
->  	u32 *formats;
-> @@ -1131,6 +1173,11 @@ static int zynqmp_disp_create_layers(struct zynqmp_disp *disp)
->  			.num_channels = 1,
->  		},
->  	};
-> +	static const struct zynqmp_disp_layer_info live_layer_info = {
-> +		.formats = avbuf_live_fmts,
-> +		.num_formats = ARRAY_SIZE(avbuf_live_fmts),
-> +		.num_channels = 0,
-> +	};
 >  
+> -	if (layer->disp->dpsub->dma_enabled) {
+> +	if (layer->mode == ZYNQMP_DPSUB_LAYER_NONLIVE) {
+>  		for (i = 0; i < layer->drm_fmt->num_planes; i++)
+>  			dmaengine_terminate_sync(layer->dmas[i].chan);
+>  	}
+> @@ -1001,7 +1001,7 @@ void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
+>  
+>  	zynqmp_disp_avbuf_set_format(layer->disp, layer, layer->disp_fmt);
+>  
+> -	if (!layer->disp->dpsub->dma_enabled)
+> +	if (layer->mode == ZYNQMP_DPSUB_LAYER_LIVE)
+>  		return;
+>  
+>  	/*
+> @@ -1039,7 +1039,7 @@ int zynqmp_disp_layer_update(struct zynqmp_disp_layer *layer,
+>  	const struct drm_format_info *info = layer->drm_fmt;
+>  	unsigned int i;
+>  
+> -	if (!layer->disp->dpsub->dma_enabled)
+> +	if (layer->mode == ZYNQMP_DPSUB_LAYER_LIVE)
+>  		return 0;
+
+The above changes look nice.
+
+>  
+>  	for (i = 0; i < info->num_planes; i++) {
+> @@ -1089,7 +1089,7 @@ static void zynqmp_disp_layer_release_dma(struct zynqmp_disp *disp,
+>  {
+>  	unsigned int i;
+>  
+> -	if (!layer->info || !disp->dpsub->dma_enabled)
+> +	if (!layer->info)
+
+This, however, doesn't seem right, as this function is called
+unconditionally from the remove path. The change below seems weird too.
+If I'm missing something, it should at least be explained in the commit
+message.
+
+>  		return;
+>  
+>  	for (i = 0; i < layer->info->num_channels; i++) {
+> @@ -1132,9 +1132,6 @@ static int zynqmp_disp_layer_request_dma(struct zynqmp_disp *disp,
 >  	unsigned int i;
 >  	int ret;
-> @@ -1140,12 +1187,16 @@ static int zynqmp_disp_create_layers(struct zynqmp_disp *disp)
 >  
->  		layer->id = i;
->  		layer->disp = disp;
-> -		layer->info = &layer_info[i];
->  		/* For now assume dpsub works in either live or non-live mode for both layers.
-
-While are it, could you please turn this into
-
-  		/*
-		 * For now assume dpsub works in either live or non-live mode for both layers.
-
-with a blank line just above it ?
-
->  		 * Hybrid mode is not supported yet.
->  		 */
-> -		layer->mode = disp->dpsub->dma_enabled ? ZYNQMP_DPSUB_LAYER_NONLIVE
-> -						       : ZYNQMP_DPSUB_LAYER_LIVE;
-> +		if (disp->dpsub->dma_enabled) {
-> +			layer->mode = ZYNQMP_DPSUB_LAYER_NONLIVE;
-> +			layer->info = &layer_info[i];
-> +		} else {
-> +			layer->mode = ZYNQMP_DPSUB_LAYER_LIVE;
-> +			layer->info = &live_layer_info;
-> +		}
->  
->  		ret = zynqmp_disp_layer_request_dma(disp, layer);
->  		if (ret)
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.h b/drivers/gpu/drm/xlnx/zynqmp_disp.h
-> index 9b8b202224d9..88c285a12e23 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.h
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.h
-> @@ -50,8 +50,8 @@ int zynqmp_disp_setup_clock(struct zynqmp_disp *disp,
->  void zynqmp_disp_blend_set_global_alpha(struct zynqmp_disp *disp,
->  					bool enable, u32 alpha);
->  
-> -u32 *zynqmp_disp_layer_drm_formats(struct zynqmp_disp_layer *layer,
-> -				   unsigned int *num_formats);
-> +u32 *zynqmp_disp_layer_formats(struct zynqmp_disp_layer *layer,
-> +			       unsigned int *num_formats);
->  void zynqmp_disp_layer_enable(struct zynqmp_disp_layer *layer);
->  void zynqmp_disp_layer_disable(struct zynqmp_disp_layer *layer);
->  void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> index 04b6bcac3b07..a0d169ac48c0 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> @@ -1568,6 +1568,31 @@ static const struct drm_edid *zynqmp_dp_bridge_edid_read(struct drm_bridge *brid
->  	return drm_edid_read_ddc(connector, &dp->aux.ddc);
->  }
->  
-> +static u32 *
-> +zynqmp_dp_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
-> +				    struct drm_bridge_state *bridge_state,
-> +				    struct drm_crtc_state *crtc_state,
-> +				    struct drm_connector_state *conn_state,
-> +				    u32 output_fmt,
-> +				    unsigned int *num_input_fmts)
-> +{
-> +	struct zynqmp_dp *dp = bridge_to_dp(bridge);
-> +	struct zynqmp_disp_layer *layer;
-> +	enum zynqmp_dpsub_layer_id layer_id;
-> +
-> +	if (dp->dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_VIDEO))
-> +		layer_id = ZYNQMP_DPSUB_LAYER_VID;
-> +	else if (dp->dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_GFX))
-> +		layer_id = ZYNQMP_DPSUB_LAYER_GFX;
-> +	else {
-> +		*num_input_fmts = 0;
-> +		return NULL;
-> +	}
-
-You need curly braces around all branches if one of them has multiple
-statements.
-
-Given that the above pattern is repeated twice already, a helper
-function that returns the layer pointer would be useful. Then you could
-simply write
-
-	layer = ...(dp);
-	if (!layer) {
-		*num_input_fmts = 0;
-		return NULL;
-	}
-
-With these small issues addressed,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +	layer = dp->dpsub->layers[layer_id];
-> +
-> +	return zynqmp_disp_layer_formats(layer, num_input_fmts);
-> +}
-> +
->  static const struct drm_bridge_funcs zynqmp_dp_bridge_funcs = {
->  	.attach = zynqmp_dp_bridge_attach,
->  	.detach = zynqmp_dp_bridge_detach,
-> @@ -1580,6 +1605,7 @@ static const struct drm_bridge_funcs zynqmp_dp_bridge_funcs = {
->  	.atomic_check = zynqmp_dp_bridge_atomic_check,
->  	.detect = zynqmp_dp_bridge_detect,
->  	.edid_read = zynqmp_dp_bridge_edid_read,
-> +	.atomic_get_input_bus_fmts = zynqmp_dp_bridge_get_input_bus_fmts,
->  };
->  
->  /* -----------------------------------------------------------------------------
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> index 43bf416b33d5..bf9fba01df0e 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> @@ -152,7 +152,7 @@ static int zynqmp_dpsub_create_planes(struct zynqmp_dpsub *dpsub)
->  		unsigned int num_formats;
->  		u32 *formats;
->  
-> -		formats = zynqmp_disp_layer_drm_formats(layer, &num_formats);
-> +		formats = zynqmp_disp_layer_formats(layer, &num_formats);
->  		if (!formats)
->  			return -ENOMEM;
->  
+> -	if (!disp->dpsub->dma_enabled)
+> -		return 0;
+> -
+>  	for (i = 0; i < layer->info->num_channels; i++) {
+>  		struct zynqmp_disp_layer_dma *dma = &layer->dmas[i];
+>  		char dma_channel_name[16];
 > 
 
 -- 
