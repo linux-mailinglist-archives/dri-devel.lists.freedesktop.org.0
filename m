@@ -2,59 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE67880E53
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 10:09:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDA3B880E61
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 10:14:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E199310F242;
-	Wed, 20 Mar 2024 09:09:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7412D10ECB0;
+	Wed, 20 Mar 2024 09:14:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="1cicMcx3";
+	dkim=pass (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="QJLx4V+Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFB3710F25B
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 09:09:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1710925748;
- bh=WL++lSiQWnN695SrxzJhseXDuycH02PQhHRdBX9Zm3c=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=1cicMcx3GHSFdlgc4r0/Nix5DLRLaFVACMk05mRRdZKAbxS5nSRXiKiGA4MG7Lp4b
- Er4sL+Jpu1KpJtf0c3OHDrZdiVuUuK/I0sADlM1/2KSvy9g1HQq53bTpEoxmUaxcF4
- qDTT9gfNWqpFLlX4fwyKOJW9dgP5VsvMhEAmcvgpt8UvOeNDxKWiOSbMTGLzgzu7N3
- az+QNeyMsn2HJbWgA9TS/skPXJhDSJ/V6qtL8WTipHpawktrmzwtgVH8TdgeUp3qpq
- iDfihMUMIIMJk4LqJ8KB1pwH4sUO9X0fhyPCxTuFCc0DPzrHKjXKNzsmMf1BIdbSB0
- aiRpukMe0KDzQ==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id A713D37813C4;
- Wed, 20 Mar 2024 09:09:07 +0000 (UTC)
-Message-ID: <1bc3e804-50c4-45b4-b227-1099e50f4fc6@collabora.com>
-Date: Wed, 20 Mar 2024 10:09:07 +0100
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBBEC10ED97
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 09:14:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1710926049; x=1711185249;
+ bh=eKTcP6Db/rwHe7s+4BJ6xvLBQHBQjUltmRgCAiybTyI=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=QJLx4V+QVQb0yaTUiqOQGVigSUi7om76HTvSu8V8NvOqbV4aeaqRgdo2M/Clxsb5J
+ Hr5w5MOS//9CrM6crGY1Z68IvebQWwUYdQDIvDh/C320tTRiwkBpzkIeZlKgcwH4EB
+ /IHxqSP8Wzg9omrEtzsr7nKCXa7ulhkTpIPuVatCJLXP/IyBsQT0IAwFKKtB73jr61
+ cu08xx8ummxJCu20d/l4UQQnFQLCkZQ8WHBoUm7BmdFYbcbSpfoV74bEYc5YSFm3LR
+ 1cYceDKaCcMRWPg6oVlI+0RMFChfNenFtoQ0eZBdCBGkyVYpDigavzrhHLgnfy6jEG
+ egVrq0apqecvw==
+Date: Wed, 20 Mar 2024 09:13:50 +0000
+To: Xaver Hugl <xaver.hugl@kde.org>
+From: Simon Ser <contact@emersion.fr>
+Cc: dri-devel@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
+ =?utf-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Subject: Re: Handling pageflip timeouts
+Message-ID: <hXoQYJHpZmGxi0KLeVn40XOhT6PkQ-upmpAYRtdQVvd221bo-N4tkS5TylanYafBD8EC1N-ParxnHG72tn6S2TSN5bN74URkGDR88xHx4jw=@emersion.fr>
+In-Reply-To: <CAFZQkGznMXLXOPEOujk6DoY_BJZ1=t9GTCQoxNEvT9ndNa=Kyg@mail.gmail.com>
+References: <CAFZQkGznMXLXOPEOujk6DoY_BJZ1=t9GTCQoxNEvT9ndNa=Kyg@mail.gmail.com>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 09/14] drm/mediatek: Rename files "mtk_drm_ddp_comp.c"
- to "mtk_ddp_comp.c"
-Content-Language: en-US
-To: Shawn Sung <shawn.sung@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
-References: <20240320024222.14234-1-shawn.sung@mediatek.com>
- <20240320024222.14234-10-shawn.sung@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20240320024222.14234-10-shawn.sung@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,14 +55,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 20/03/24 03:42, Shawn Sung ha scritto:
-> From: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
-> 
-> Rename files mtk_drm_ddp_comp.c to mtk_ddp_comp.c and
-> modify the Makefile accordingly.
-> 
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
-
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
+Note, the kernel already sends synthetic page-flip events when a CRTC goes
+from on =E2=86=92 off. I think it would make sense to do the same for all p=
+ending
+page-flips before the device is destroyed in the kernel.
