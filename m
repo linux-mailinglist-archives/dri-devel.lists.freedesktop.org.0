@@ -2,70 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD8158809B0
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 03:42:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A6B88809BD
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 03:44:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E2D810ECF9;
-	Wed, 20 Mar 2024 02:42:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 636DC10F45A;
+	Wed, 20 Mar 2024 02:44:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="ip1x+H3x";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Idf81iL1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D80C10E363
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 02:42:31 +0000 (UTC)
-X-UUID: 7ce27244e66311eeb8927bc1f75efef4-20240320
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=PZJix1J9Jpmh+i91OEHpGMGggBKx4tQWzIsRWzZa578=; 
- b=ip1x+H3xoIVDqHk4i/J7SbOkaxB+SMrPC0ueCB/tRq4jTCOEVdGMmFYUxs1l8FNKnCCEIcHJgxMFZ59aDlYluplOLOpy0A5lU/V8x4CE+08dGMYbGNIx/sQbgeIcFNbse0v0ownUYjt0Jzp2n5x0NxLR8snGGgUVzGtFCCsirYI=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.37, REQID:1a070f37-57c7-4b12-be55-23375fcf78fe, IP:0,
- U
- RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:-25
-X-CID-META: VersionHash:6f543d0, CLOUDID:864e1800-c26b-4159-a099-3b9d0558e447,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
- :1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 7ce27244e66311eeb8927bc1f75efef4-20240320
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by
- mailgw01.mediatek.com (envelope-from <shawn.sung@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 87216098; Wed, 20 Mar 2024 10:42:26 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 20 Mar 2024 10:42:26 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 20 Mar 2024 10:42:26 +0800
-From: Shawn Sung <shawn.sung@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-CC: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
- <linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
- <linaro-mm-sig@lists.linaro.org>, Hsiao Chien Sung
- <shawn.sung@mediatek.corp-partner.google.com>
-Subject: [PATCH v3 14/14] drm/mediatek: Rename mtk_ddp_comp functions
-Date: Wed, 20 Mar 2024 10:42:22 +0800
-Message-ID: <20240320024222.14234-15-shawn.sung@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20240320024222.14234-1-shawn.sung@mediatek.com>
-References: <20240320024222.14234-1-shawn.sung@mediatek.com>
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+ [209.85.210.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 010FF10F45A
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 02:44:08 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id
+ d2e1a72fcca58-6e6afb754fcso5942248b3a.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Mar 2024 19:44:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1710902648; x=1711507448;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=GfIBZvZR+X0639t+/0R7E3839UBAFzDwhD9FbKyVE5k=;
+ b=Idf81iL19+LQPAMNynDBHe0F5FMF3hJdQDI+1W0+ZWwLPVaRrpgzTv2bWCykgupoZB
+ ihiTxS7hE5Nx8XwiODTOOTIOdrzwoq+HWqGZjPtnbnU9zTjND9f5h/W2vp4doOPr25D4
+ YLLYYpKiEaKl4TEtHmFKGY0hPd+GRpHhIR2ek=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710902648; x=1711507448;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GfIBZvZR+X0639t+/0R7E3839UBAFzDwhD9FbKyVE5k=;
+ b=moxdEonbURGnDCmwm2cryIVLFjwnikQw6sjP1HEb5KDgDAcT4ErOte6DqVPs/6vdoa
+ S6uY/OeJRHBnYc0cHkQqAnQPUb1bwVxQS24BtXhTfJr5i8sEYQwvbAJfrGw2gqSxJJYY
+ r8mcrsB9ili1Q7cj3rfoR1EybkVvnKa484pM0Oz7t1fK6HMmNvoTd4/9oITZUBiQU765
+ WcxNqJHJE129srjES9wiAbn1j8wvNkKCkLC1xq7DVanufE7hkwrFgMKdj56x/E1XCb8d
+ KasdrXXS/8yNUCW1MrUXeqFHEl05dDTGItV5wmsKy7VkHL1iOfcFKXct/UZrnP1XfAYP
+ oySQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWpBn/6N3KX2dcOpe+d/oFbo5quHT1K7IVY7m5Cz1t6EJKuNPSRliZmV7cpYGZuBFa2LFzXXTzR5bGZXZ0zRyke+IM0jSAvMzLuE76SxRMb
+X-Gm-Message-State: AOJu0YyBAjw/7qD9Enrk3R1m7BxOxvfzQKejyE317LvQtmIXUHli0EaT
+ uAou5068mhv68onWrgkwLYvlnvcuj2JaQwUCgReQteCmJQr6TOBZZX9m83EtSg==
+X-Google-Smtp-Source: AGHT+IGknCDJeS90RO8ehnRZ7gHMFeBw03OZmeGDsZgVqTGTubjzVOjL99+92Uvx9d7Hh1AaJIztzQ==
+X-Received: by 2002:a05:6a00:4609:b0:6e7:3254:a4fd with SMTP id
+ ko9-20020a056a00460900b006e73254a4fdmr946741pfb.8.1710902648109; 
+ Tue, 19 Mar 2024 19:44:08 -0700 (PDT)
+Received: from www.outflux.net ([198.0.35.241])
+ by smtp.gmail.com with ESMTPSA id
+ m24-20020a63f618000000b005e43cb66a7asm9830852pgh.87.2024.03.19.19.44.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Mar 2024 19:44:07 -0700 (PDT)
+Date: Tue, 19 Mar 2024 19:44:06 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Justin Stitt <justinstitt@google.com>
+Cc: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] video: fbdev: au1200fb: replace deprecated strncpy with
+ strscpy
+Message-ID: <202403191944.B66E4853@keescook>
+References: <20240318-strncpy-drivers-video-fbdev-au1200fb-c-v1-1-680802a9f10a@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240318-strncpy-drivers-video-fbdev-au1200fb-c-v1-1-680802a9f10a@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,140 +82,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
+On Mon, Mar 18, 2024 at 11:46:33PM +0000, Justin Stitt wrote:
+> strncpy() is deprecated for use on NUL-terminated destination strings
+> [1] and as such we should prefer more robust and less ambiguous string
+> interfaces.
+> 
+> Let's use the new 2-argument strscpy() which guarantees NUL-termination
+> on the destination buffer while also simplifying the syntax. Note that
+> strscpy() will not NUL-pad the destination buffer like strncpy() does.
+> 
+> However, the NUL-padding behavior of strncpy() is not required since
+> fbdev is already NUL-allocated from au1200fb_drv_probe() ->
+> frameuffer_alloc(), rendering any additional NUL-padding redundant.
+> |	p = kzalloc(fb_info_size + size, GFP_KERNEL);
+> 
+> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
+> Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
+> Link: https://github.com/KSPP/linux/issues/90
+> Cc: linux-hardening@vger.kernel.org
+> Signed-off-by: Justin Stitt <justinstitt@google.com>
 
-Rename functions of mtk_ddp_comp:
-- To align the naming rule
-- To reduce the code size
+Yup, looks correct.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
-Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
----
- drivers/gpu/drm/mediatek/mtk_ddp_comp.c | 45 ++++++++++++++-----------
- drivers/gpu/drm/mediatek/mtk_ddp_comp.h |  3 +-
- drivers/gpu/drm/mediatek/mtk_dpi.c      |  2 +-
- drivers/gpu/drm/mediatek/mtk_dsi.c      |  2 +-
- 4 files changed, 28 insertions(+), 24 deletions(-)
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-index c3441508f452f..17b0364112922 100644
---- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-@@ -497,10 +497,10 @@ static const struct mtk_ddp_comp_match mtk_ddp_matches[DDP_COMPONENT_DRM_ID_MAX]
- 	[DDP_COMPONENT_WDMA1]		= { MTK_DISP_WDMA,		1, NULL },
- };
-
--static bool mtk_drm_find_comp_in_ddp(struct device *dev,
--				     const unsigned int *path,
--				     unsigned int path_len,
--				     struct mtk_ddp_comp *ddp_comp)
-+static bool mtk_ddp_comp_find(struct device *dev,
-+			      const unsigned int *path,
-+			      unsigned int path_len,
-+			      struct mtk_ddp_comp *ddp_comp)
- {
- 	unsigned int i;
-
-@@ -514,10 +514,10 @@ static bool mtk_drm_find_comp_in_ddp(struct device *dev,
- 	return false;
- }
-
--static unsigned int mtk_drm_find_comp_in_ddp_conn_path(struct device *dev,
--						       const struct mtk_drm_route *routes,
--						       unsigned int num_routes,
--						       struct mtk_ddp_comp *ddp_comp)
-+static unsigned int mtk_ddp_comp_find_in_route(struct device *dev,
-+					       const struct mtk_drm_route *routes,
-+					       unsigned int num_routes,
-+					       struct mtk_ddp_comp *ddp_comp)
- {
- 	int ret;
- 	unsigned int i;
-@@ -554,26 +554,31 @@ int mtk_ddp_comp_get_id(struct device_node *node,
- 	return -EINVAL;
- }
-
--unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
--						struct device *dev)
-+unsigned int mtk_find_possible_crtcs(struct drm_device *drm, struct device *dev)
- {
- 	struct mtk_drm_private *private = drm->dev_private;
- 	unsigned int ret = 0;
-
--	if (mtk_drm_find_comp_in_ddp(dev, private->data->main_path, private->data->main_len,
--				     private->ddp_comp))
-+	if (mtk_ddp_comp_find(dev,
-+			      private->data->main_path,
-+			      private->data->main_len,
-+			      private->ddp_comp))
- 		ret = BIT(0);
--	else if (mtk_drm_find_comp_in_ddp(dev, private->data->ext_path,
--					  private->data->ext_len, private->ddp_comp))
-+	else if (mtk_ddp_comp_find(dev,
-+				   private->data->ext_path,
-+				   private->data->ext_len,
-+				   private->ddp_comp))
- 		ret = BIT(1);
--	else if (mtk_drm_find_comp_in_ddp(dev, private->data->third_path,
--					  private->data->third_len, private->ddp_comp))
-+	else if (mtk_ddp_comp_find(dev,
-+				   private->data->third_path,
-+				   private->data->third_len,
-+				   private->ddp_comp))
- 		ret = BIT(2);
- 	else
--		ret = mtk_drm_find_comp_in_ddp_conn_path(dev,
--							 private->data->conn_routes,
--							 private->data->num_conn_routes,
--							 private->ddp_comp);
-+		ret = mtk_ddp_comp_find_in_route(dev,
-+						 private->data->conn_routes,
-+						 private->data->num_conn_routes,
-+						 private->ddp_comp);
-
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-index ba985206fdd24..26236691ce4c2 100644
---- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-+++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-@@ -326,8 +326,7 @@ static inline void mtk_ddp_comp_encoder_index_set(struct mtk_ddp_comp *comp)
-
- int mtk_ddp_comp_get_id(struct device_node *node,
- 			enum mtk_ddp_comp_type comp_type);
--unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
--						struct device *dev);
-+unsigned int mtk_find_possible_crtcs(struct drm_device *drm, struct device *dev);
- int mtk_ddp_comp_init(struct device_node *comp_node, struct mtk_ddp_comp *comp,
- 		      unsigned int comp_id);
- enum mtk_ddp_comp_type mtk_ddp_comp_get_type(unsigned int comp_id);
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index fbf63e0441337..bfe8653005dbf 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -805,7 +805,7 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
- 		return ret;
- 	}
-
--	dpi->encoder.possible_crtcs = mtk_drm_find_possible_crtc_by_comp(drm_dev, dpi->dev);
-+	dpi->encoder.possible_crtcs = mtk_find_possible_crtcs(drm_dev, dpi->dev);
-
- 	ret = drm_bridge_attach(&dpi->encoder, &dpi->bridge, NULL,
- 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index e29c37fb5be09..67239606adbfc 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -836,7 +836,7 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
- 		return ret;
- 	}
-
--	dsi->encoder.possible_crtcs = mtk_drm_find_possible_crtc_by_comp(drm, dsi->host.dev);
-+	dsi->encoder.possible_crtcs = mtk_find_possible_crtcs(drm, dsi->host.dev);
-
- 	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
- 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
---
-2.18.0
-
+-- 
+Kees Cook
