@@ -2,73 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3423880EC9
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 10:38:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C990A880ECC
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 10:38:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92C6F10F3B0;
-	Wed, 20 Mar 2024 09:37:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A72F710F3E3;
+	Wed, 20 Mar 2024 09:38:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="D18kue0y";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="i7nFsVn4";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="D18kue0y";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="i7nFsVn4";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="aBAVilCb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Beh0nMks";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aBAVilCb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Beh0nMks";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E5D010E8B3
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26F4710F34C
  for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 09:37:45 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 84C7320BD0;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C8A2120BCC;
  Wed, 20 Mar 2024 09:37:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1710927463; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bOfQtfo/1L7gMe0Sbdigwc7rzNJoqtsz9o9w9aMMdLA=;
- b=D18kue0ySrdj44P1R1Jb4uRuBhIADfAAMUQuROlGkBuZYRyINEHQLalehGHAeJrt/waZdA
- BclqNW34mD2Bu6GugMMeCfbFgRT+XNcvF446UoT9rjIDb0XGDYtlW25wouAJvKvFm6jhqi
- EheWHZmIS6zNAmQneNE/4mUpsagBX+E=
+ bh=FAL8MjnVxH2G4y+/i+1qYaCM3M3lFMmUa1cUNzJHfhc=;
+ b=aBAVilCbw2uXZJgeAbvJ95A+YUJN+sJl3T1TgedKSqwUx4F+FwGvEMkWSU0onoRXYJVLrT
+ 5pi/jPR0ttebeYGfc1JrrQkNGwlK3hgFE6HwQZaI/0t5cK/KCGJIx0MPd5RLkc3yJkCb+X
+ LxU24JAAmVZAghsCsnNvDwEeAy5wgQk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1710927463;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bOfQtfo/1L7gMe0Sbdigwc7rzNJoqtsz9o9w9aMMdLA=;
- b=i7nFsVn4DpOlFDrO4oHOyU5lrwwI2JuGeNBKQVzWWkVluStrpnu30GSBSzFFBFSU1O8dan
- IfEUwEbk7Tzti4Cw==
+ bh=FAL8MjnVxH2G4y+/i+1qYaCM3M3lFMmUa1cUNzJHfhc=;
+ b=Beh0nMksoAwilH4+DoalnYwHBGpQ74KC3JRJHkOhIbXhVyGR8Yq6rs/7NJLfRgU3wfWSHs
+ 7pu27h99iGV1byDw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1710927463; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bOfQtfo/1L7gMe0Sbdigwc7rzNJoqtsz9o9w9aMMdLA=;
- b=D18kue0ySrdj44P1R1Jb4uRuBhIADfAAMUQuROlGkBuZYRyINEHQLalehGHAeJrt/waZdA
- BclqNW34mD2Bu6GugMMeCfbFgRT+XNcvF446UoT9rjIDb0XGDYtlW25wouAJvKvFm6jhqi
- EheWHZmIS6zNAmQneNE/4mUpsagBX+E=
+ bh=FAL8MjnVxH2G4y+/i+1qYaCM3M3lFMmUa1cUNzJHfhc=;
+ b=aBAVilCbw2uXZJgeAbvJ95A+YUJN+sJl3T1TgedKSqwUx4F+FwGvEMkWSU0onoRXYJVLrT
+ 5pi/jPR0ttebeYGfc1JrrQkNGwlK3hgFE6HwQZaI/0t5cK/KCGJIx0MPd5RLkc3yJkCb+X
+ LxU24JAAmVZAghsCsnNvDwEeAy5wgQk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1710927463;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bOfQtfo/1L7gMe0Sbdigwc7rzNJoqtsz9o9w9aMMdLA=;
- b=i7nFsVn4DpOlFDrO4oHOyU5lrwwI2JuGeNBKQVzWWkVluStrpnu30GSBSzFFBFSU1O8dan
- IfEUwEbk7Tzti4Cw==
+ bh=FAL8MjnVxH2G4y+/i+1qYaCM3M3lFMmUa1cUNzJHfhc=;
+ b=Beh0nMksoAwilH4+DoalnYwHBGpQ74KC3JRJHkOhIbXhVyGR8Yq6rs/7NJLfRgU3wfWSHs
+ 7pu27h99iGV1byDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 496E013892;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8B323136E4;
  Wed, 20 Mar 2024 09:37:43 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 8FnDEGeu+mWoWAAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id ACPGIGeu+mWoWAAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Wed, 20 Mar 2024 09:37:43 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, jfalempe@redhat.com, maarten.lankhorst@linux.intel.com,
@@ -76,40 +75,32 @@ To: airlied@redhat.com, jfalempe@redhat.com, maarten.lankhorst@linux.intel.com,
  daniel@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v5 04/13] drm/ast: Allocate instance of struct ast_i2c_chan
- with managed helpers
-Date: Wed, 20 Mar 2024 10:34:09 +0100
-Message-ID: <20240320093738.6341-5-tzimmermann@suse.de>
+Subject: [PATCH v5 05/13] drm/ast: Move DDC code to ast_ddc.{c,h}
+Date: Wed, 20 Mar 2024 10:34:10 +0100
+Message-ID: <20240320093738.6341-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240320093738.6341-1-tzimmermann@suse.de>
 References: <20240320093738.6341-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: ***
-X-Spamd-Bar: +++
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=D18kue0y;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=i7nFsVn4
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [3.48 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- TO_DN_SOME(0.00)[]; R_MISSING_CHARSET(2.50)[];
- BROKEN_CONTENT_TYPE(1.50)[]; RCVD_COUNT_THREE(0.00)[3];
- DKIM_TRACE(0.00)[suse.de:+]; MX_GOOD(-0.01)[];
- RCPT_COUNT_SEVEN(0.00)[9]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+];
- BAYES_HAM(-0.01)[45.20%]; ARC_NA(0.00)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
- NEURAL_HAM_LONG(-1.00)[-1.000];
+X-Spam-Score: 0.70
+X-Spamd-Result: default: False [0.70 / 50.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ R_MISSING_CHARSET(2.50)[]; MIME_GOOD(-0.10)[text/plain];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; BROKEN_CONTENT_TYPE(1.50)[];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; RCVD_COUNT_THREE(0.00)[3];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; RCPT_COUNT_SEVEN(0.00)[9];
  MID_CONTAINS_FROM(1.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
- FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: 3.48
-X-Rspamd-Queue-Id: 84C7320BD0
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+ FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
+ BAYES_HAM(-3.00)[100.00%]
+X-Spam-Level: 
+Authentication-Results: smtp-out2.suse.de;
+	none
 X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -126,54 +117,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace kzalloc() with drmm_kzalloc() and thereby put the release of
-the I2C instance into a separate action. Avoids explicit error roll-
-back in ast_i2c_chan_create(). No functional changes.
+Rename ast_i2c.c to ast_ddc.c and move its interface into the
+new header ast_ddc.h. Update all include statements as necessary
+and change the adapter name to 'AST DDC bus'.
+
+This avoids including I2C headers in the driver's main header file,
+which doesn't need them. Renaming files to _ddc indicates that the
+code is about the DDC. I2C is really just the underlying bus here.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ast/ast_i2c.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/ast/Makefile                 | 10 +++++++++-
+ drivers/gpu/drm/ast/{ast_i2c.c => ast_ddc.c} |  4 ++--
+ drivers/gpu/drm/ast/ast_ddc.h                | 19 +++++++++++++++++++
+ drivers/gpu/drm/ast/ast_drv.h                | 13 +------------
+ drivers/gpu/drm/ast/ast_mode.c               |  1 +
+ 5 files changed, 32 insertions(+), 15 deletions(-)
+ rename drivers/gpu/drm/ast/{ast_i2c.c => ast_ddc.c} (97%)
+ create mode 100644 drivers/gpu/drm/ast/ast_ddc.h
 
-diff --git a/drivers/gpu/drm/ast/ast_i2c.c b/drivers/gpu/drm/ast/ast_i2c.c
-index c3046223a4919..dc28a5cbb1c2a 100644
+diff --git a/drivers/gpu/drm/ast/Makefile b/drivers/gpu/drm/ast/Makefile
+index 5a53ce51fb249..d794c076bc242 100644
+--- a/drivers/gpu/drm/ast/Makefile
++++ b/drivers/gpu/drm/ast/Makefile
+@@ -3,6 +3,14 @@
+ # Makefile for the drm device driver.  This driver provides support for the
+ # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+ 
+-ast-y := ast_drv.o ast_i2c.o ast_main.o ast_mm.o ast_mode.o ast_post.o ast_dp501.o ast_dp.o
++ast-y := \
++	ast_ddc.o \
++	ast_dp501.o \
++	ast_dp.o \
++	ast_drv.o \
++	ast_main.o \
++	ast_mm.o \
++	ast_mode.o \
++	ast_post.o
+ 
+ obj-$(CONFIG_DRM_AST) := ast.o
+diff --git a/drivers/gpu/drm/ast/ast_i2c.c b/drivers/gpu/drm/ast/ast_ddc.c
+similarity index 97%
+rename from drivers/gpu/drm/ast/ast_i2c.c
+rename to drivers/gpu/drm/ast/ast_ddc.c
+index dc28a5cbb1c2a..df604b4e9673c 100644
 --- a/drivers/gpu/drm/ast/ast_i2c.c
-+++ b/drivers/gpu/drm/ast/ast_i2c.c
-@@ -107,7 +107,6 @@ static void ast_i2c_release(struct drm_device *dev, void *res)
- 	struct ast_i2c_chan *i2c = res;
++++ b/drivers/gpu/drm/ast/ast_ddc.c
+@@ -24,6 +24,7 @@
+ #include <drm/drm_managed.h>
+ #include <drm/drm_print.h>
  
- 	i2c_del_adapter(&i2c->adapter);
--	kfree(i2c);
++#include "ast_ddc.h"
+ #include "ast_drv.h"
+ 
+ static void ast_i2c_setsda(void *i2c_priv, int data)
+@@ -122,8 +123,7 @@ struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev)
+ 	i2c->adapter.dev.parent = dev->dev;
+ 	i2c->dev = dev;
+ 	i2c_set_adapdata(&i2c->adapter, i2c);
+-	snprintf(i2c->adapter.name, sizeof(i2c->adapter.name),
+-		 "AST i2c bit bus");
++	snprintf(i2c->adapter.name, sizeof(i2c->adapter.name), "AST DDC bus");
+ 	i2c->adapter.algo_data = &i2c->bit;
+ 
+ 	i2c->bit.udelay = 20;
+diff --git a/drivers/gpu/drm/ast/ast_ddc.h b/drivers/gpu/drm/ast/ast_ddc.h
+new file mode 100644
+index 0000000000000..244666fd6c530
+--- /dev/null
++++ b/drivers/gpu/drm/ast/ast_ddc.h
+@@ -0,0 +1,19 @@
++/* SPDX-License-Identifier: MIT */
++
++#ifndef __AST_DDC_H__
++#define __AST_DDC_H__
++
++#include <linux/i2c.h>
++#include <linux/i2c-algo-bit.h>
++
++struct drm_device;
++
++struct ast_i2c_chan {
++	struct i2c_adapter adapter;
++	struct drm_device *dev;
++	struct i2c_algo_bit_data bit;
++};
++
++struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev);
++
++#endif
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index 12ad1c0fe151b..ba3d86973995f 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -28,8 +28,6 @@
+ #ifndef __AST_DRV_H__
+ #define __AST_DRV_H__
+ 
+-#include <linux/i2c.h>
+-#include <linux/i2c-algo-bit.h>
+ #include <linux/io.h>
+ #include <linux/types.h>
+ 
+@@ -149,15 +147,9 @@ static inline struct ast_plane *to_ast_plane(struct drm_plane *plane)
  }
  
- struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev)
-@@ -115,7 +114,7 @@ struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev)
- 	struct ast_i2c_chan *i2c;
- 	int ret;
+ /*
+- * Connector with i2c channel
++ * BMC
+  */
  
--	i2c = kzalloc(sizeof(struct ast_i2c_chan), GFP_KERNEL);
-+	i2c = drmm_kzalloc(dev->dev, sizeof(*i2c), GFP_KERNEL);
- 	if (!i2c)
- 		return ERR_PTR(-ENOMEM);
- 
-@@ -137,7 +136,7 @@ struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev)
- 	ret = i2c_bit_add_bus(&i2c->adapter);
- 	if (ret) {
- 		drm_err(dev, "Failed to register bit i2c\n");
--		goto out_kfree;
-+		return ERR_PTR(ret);
- 	}
- 
- 	ret = drmm_add_action_or_reset(dev, ast_i2c_release, i2c);
-@@ -145,8 +144,4 @@ struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev)
- 		return ERR_PTR(ret);
- 
- 	return i2c;
+-struct ast_i2c_chan {
+-	struct i2c_adapter adapter;
+-	struct drm_device *dev;
+-	struct i2c_algo_bit_data bit;
+-};
 -
--out_kfree:
--	kfree(i2c);
--	return ERR_PTR(ret);
- }
+ struct ast_bmc_connector {
+ 	struct drm_connector base;
+ 	struct drm_connector *physical_connector;
+@@ -476,9 +468,6 @@ bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata);
+ u8 ast_get_dp501_max_clk(struct drm_device *dev);
+ void ast_init_3rdtx(struct drm_device *dev);
+ 
+-/* ast_i2c.c */
+-struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev);
+-
+ /* aspeed DP */
+ bool ast_astdp_is_connected(struct ast_device *ast);
+ int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata);
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index cbda04fca7107..bdef2160726e6 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -46,6 +46,7 @@
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
+ 
++#include "ast_ddc.h"
+ #include "ast_drv.h"
+ #include "ast_tables.h"
+ 
 -- 
 2.44.0
 
