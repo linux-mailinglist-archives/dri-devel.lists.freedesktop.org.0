@@ -2,61 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2991880D44
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 09:42:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D23C7880D6B
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 09:46:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D2B610F0F3;
-	Wed, 20 Mar 2024 08:41:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C26E910F126;
+	Wed, 20 Mar 2024 08:46:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="lgaO33xp";
+	dkim=pass (2048-bit key; unprotected) header.d=asem.it header.i=@asem.it header.b="AEMh41pQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80A0610F0F2
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 08:41:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=CQ7grTt5l/wl1ANb32y4ry1ULYSvaj54agNiIlVV4ko=; b=lgaO33xpAlAFm/337ZP4Mu4eXZ
- N0y+lURTrkSohWPnj2n/Pr99tlUijcQRKklL6bhRyrsX2a2CNLzCRplYeE/irWadT6oKQZwCpo57g
- jgvFYaMmYtXuP4yu90+4d5lJMsSMb36ntMGzrR6N1fAiY56wLAXyJNe9mmXNl3J6dbTOf+8oof+Zz
- qJ0C7fq4G+fNxHuCfho/9Ba1hC6hdwlo3w1TmWD9/WULg+5ewh1y2kEa60JZtiKw321r657hy34id
- 1cgGoL7tJCQTfbYtx74uXxeVGHPIIOC3w87Hvg2cvR79iHiUTteDSyPQe4wmFBehMaxwH/5tZRtw1
- S0jm66yA==;
-Received: from [194.136.85.206] (port=44554 helo=eldfell)
- by whm50.louhi.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <pekka.paalanen@haloniitty.fi>) id 1rmrWE-0004uD-0k;
- Wed, 20 Mar 2024 10:41:54 +0200
-Date: Wed, 20 Mar 2024 10:41:45 +0200
-From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-To: Xaver Hugl <xaver.hugl@kde.org>
-Cc: dri-devel@lists.freedesktop.org, Michel =?UTF-8?B?RMOkbnplcg==?=
- <michel.daenzer@mailbox.org>
-Subject: Re: Handling pageflip timeouts
-Message-ID: <20240320104145.4ee337a9@eldfell>
-In-Reply-To: <CAFZQkGznMXLXOPEOujk6DoY_BJZ1=t9GTCQoxNEvT9ndNa=Kyg@mail.gmail.com>
-References: <CAFZQkGznMXLXOPEOujk6DoY_BJZ1=t9GTCQoxNEvT9ndNa=Kyg@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2072.outbound.protection.outlook.com [40.107.93.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E3E810F126
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 08:46:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=W1UsZ8g69N/pFppqxNhq67KMlQ/dHXNbgpkJvB5JMVvkL9oVVQReKtifFsNa4Gosc78hs46OiZXE7U2Lyh3X9woqMdULslAFRhaPsSsWLVycJ6NHsEeLIMxqNcgkY7qeSAgtrgE6lc5OS2DlDl2I2AJ9ohFJxuLs9iF900moNL8Q3gIrjZgYfyZ8nmMhf3HHasiqr5ZL/SAMUIF4V3VnDE8/70Vp++xUIVwunrPJxMu7p4VYk2U0y+EmdLwuy50uKE0aRuFiX8v3teLA8qoVDGZ0doRgcbLDI5J2n5xjjJjKB/uZBtcefGHF3Dn0nmPvTHAgh7XfhMrcsOtd2qc4Bw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MlTL46Lub++UYBcQVJQ96wVxnJGxb3eT+W2dc5AUj7E=;
+ b=jVMl3uoM+YMrfGZg2m5lRvYNOzAcr2vY8uL6+2LE990UIskv/y6hgUMLDgTf8mz/yuu7bBbTlWq9oewBDKS11fUosREcehbRD/6E+1E7qbgoKbuNiR5aOVVaW0rI6oe+Umj04OhXZx9GhDZSwXMmZaE/mtH4Qy6CQUemrUfDWe+J0qUw8PdLoVB4mMUhs8kkdCove0JPvdOrABD7dB75uylc8LacEtjY7zj1yiz+XcNau7dFkGhNNV/u9I3GErGxeje3u5Jxi/ou3xIHB5dg1KV/k63CHZvZx3gsL09QwKOe1yZxx+lHOS6/MwcNm3AhjQGI0XcXx7ucPBcvmpVpVw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=asem.it; dmarc=pass action=none header.from=asem.it; dkim=pass
+ header.d=asem.it; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asem.it; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MlTL46Lub++UYBcQVJQ96wVxnJGxb3eT+W2dc5AUj7E=;
+ b=AEMh41pQIoZIpU1hjMuxh6Qp7NHp0jBr/vYIUa3qFAaJA/Zk0oz/bp0FJBX1bs+yuAGSvi7JoLMULXKRfNcSi0wu4uWESw8DnEttrDdmAG8Copku9S9ot2sPaACO1jD8unUHiIMS8L5CVnFTUYT5dLAXHnWOVB0KhUFY20VballZ5eXjB2yBVTIOhVHRBHI2IeZZsL4xttpZFbRq7WlvcyjUoj2uCESZdE8RGXZgWcGiPAKZtFSchjjY5l5PyX+kDtEUAgII3gplP9oxja27Bte6XMovhs9Hf8QKVLcTID3NuLVlu7MjtL3SkI9q3xchwqCeHFZrtpKRedLBChULSw==
+Received: from PH0PR22MB3789.namprd22.prod.outlook.com (2603:10b6:510:29c::11)
+ by PH7PR22MB3037.namprd22.prod.outlook.com (2603:10b6:510:133::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.30; Wed, 20 Mar
+ 2024 08:46:08 +0000
+Received: from PH0PR22MB3789.namprd22.prod.outlook.com
+ ([fe80::35ce:ff48:fa8b:d4a7]) by PH0PR22MB3789.namprd22.prod.outlook.com
+ ([fe80::35ce:ff48:fa8b:d4a7%7]) with mapi id 15.20.7386.025; Wed, 20 Mar 2024
+ 08:46:08 +0000
+From: FLAVIO SULIGOI <f.suligoi@asem.it>
+To: 'Thomas Zimmermann' <tzimmermann@suse.de>, "lee@kernel.org"
+ <lee@kernel.org>, "daniel.thompson@linaro.org" <daniel.thompson@linaro.org>,
+ "jingoohan1@gmail.com" <jingoohan1@gmail.com>, "deller@gmx.de"
+ <deller@gmx.de>, "andy@kernel.org" <andy@kernel.org>, "geert@linux-m68k.org"
+ <geert@linux-m68k.org>, "dan.carpenter@linaro.org"
+ <dan.carpenter@linaro.org>, "sam@ravnborg.org" <sam@ravnborg.org>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, Nicolas
+ Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Subject: RE: [PATCH v2 6/6] backlight: Remove fb_blank from struct
+ backlight_properties
+Thread-Topic: [PATCH v2 6/6] backlight: Remove fb_blank from struct
+ backlight_properties
+Thread-Index: AQHaeqMNhOWwbc8AK0uuu/eEdiHVPQ==
+Date: Wed, 20 Mar 2024 08:46:08 +0000
+Message-ID: <PH0PR22MB37892E08DA11EDF48D956646F9332@PH0PR22MB3789.namprd22.prod.outlook.com>
+References: <20240319093915.31778-1-tzimmermann@suse.de>
+ <20240319093915.31778-7-tzimmermann@suse.de>
+In-Reply-To: <20240319093915.31778-7-tzimmermann@suse.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=asem.it;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH0PR22MB3789:EE_|PH7PR22MB3037:EE_
+x-ms-office365-filtering-correlation-id: b8e674a0-92ea-4b7e-7c3a-08dc48ba2fac
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Uia8SWZ6iwZHVn3IFvl4QcN5YSTzmVCL0kjbR4683tK5//UXt5g/7MWNbka9QbXIgquPyop/l6TSKJLc8Y6J8EmNaGQdr/lpp2jRxkBBWlxAUoiP2D25CKex2V7/g8b0Vi4DrGdqASrIMJWjBlVj3CONXqMY7WUh3u49EOfsXu50ORs9OcPgPD5EFIPKgMf80aul+IBdQ8xKLnPtFPE/ej8znkpXXB9Df6ACwyeeqOLPjvc49txIqN+4xGvLDPMg8yrC+lcbFxMCxIVG7wF4S5Rly5mtuAGvoc0r9LOMTu6S1emcBTrpRq1EBdnStb4kxARl8YnMnDWYNSESUJbNjUs0SQ2HSaResp85ZTRrwFc4kw1Qn3IFTxbRXFs1KxAuV8rkdnqeyzcED++nei54oTB2jucC0c9Wxy/inxr+0de04Wli909Pom83rPS0y4ypiNIDZfhNZdGAlTe44AaeFWt7UFFqzPhO4YZVdIqhUgz0yB6iZIOo80ie+VZY84ZTlJT57YqjTi4L0lXtmftuhxSAlYxUijc+S9rJVMzFu9MvLIh0cwHgwkm4MW1YMtBChSd+kYMVu7CdRI+2nxoIjeroVABKwIFBx0bjEZ0UH8284Q7UkhVinatg2M5afz3HKFWEjf6QRhg+0JSe+gM0Bund2eqUzzolJQtqqNtIrVaXrV33x0d6wuWmyJQ5TBuo2TIrmbU/OBiVa9IgbyEW4w==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR22MB3789.namprd22.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376005)(366007)(1800799015)(7416005)(38070700009); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?QGF0V1zuQUghERBvaiP2IGcQbE3n5YqYQWywHwno2yzWeo7M5bxVtog1u8ci?=
+ =?us-ascii?Q?PddTduzaqPpiGPtvo6b2++dDx6IRxRnT1QXDtyetvn0NQDheLbV/T8AuM/bt?=
+ =?us-ascii?Q?BT4e+FB38VjGybyUYmkws8k8j8Q0yDJ7eUxPyaCGo1C8JjrBs2SIIMLESjPe?=
+ =?us-ascii?Q?f0cIu82Vn29boJPRtN2u7UACWEvtNifAImf6kAKuwx5CTVSZZCEGw3cysejD?=
+ =?us-ascii?Q?sXzrFQX53diGgt/Sn+eIK2OlFd0z9fnP8cim+fpuFeGyD+jUe05NVFLchcpN?=
+ =?us-ascii?Q?x0GljW20U38xHx7CJ+qjTjLCdhXLBTemz+11zOU1/MlGFhsYFH16rc0JTZc8?=
+ =?us-ascii?Q?noxkrrqNGQgqKhBDtoBPSi5VD/EFcTbSmRCWf81Yjv9f+cC5asqLRPqtQhCt?=
+ =?us-ascii?Q?ltM1m7gAtSBSCDyHjr6RZEnHi30n5JcSJxCiTHvd8sB3dx0dP8Yc5FVygjT9?=
+ =?us-ascii?Q?uAC4VlskFnDG26SC9fX614/zG1N9zG6pHtrm0gPrweJAGCMKqLRULwwPmfZC?=
+ =?us-ascii?Q?Zw/pPQq8al4SDibHVoKZRqd+Z9+LxaXUpu6RZZqBb7jVICqnqkCNojnWVzp/?=
+ =?us-ascii?Q?mIKi1KGvp0GOZGRwcVgZ07r3Ce0Tltxr0KZVvhp3BJdPJv0qgA3O6ok+Du2u?=
+ =?us-ascii?Q?L7STibGQTTEbxwgSzwXyrhaq91gQQitUPRFc3s7REc19udaUPS33frkjMSqR?=
+ =?us-ascii?Q?nYQIGQ3D3mAarz16K0z/muq3ProWG9l2z8C1uvTLMkhwIZbRdy2i1exri7C7?=
+ =?us-ascii?Q?YUMzo2QvVKuPoGSMY2FeK6jyL9RcPgAEQhLgC011bnoCNWa1OQn2qkT436/s?=
+ =?us-ascii?Q?sV0HawKVw7jwtSjiYqOZekOho+rqjhHn1mSxNZJAVUO4CBn8KXf0D5yWLqdn?=
+ =?us-ascii?Q?jz5vPQp/JnqnHBwI4KLr7cFDlTq3vHRFk9u7ZK+ckhIRrP+exv25K7LYP7E4?=
+ =?us-ascii?Q?riQKa94bq0lhPebcG18akvKZ4yq9vVXphhek8RNwUPNQFA9R3Nwto9uq+L8O?=
+ =?us-ascii?Q?V0Httyf2FDK9K2TeKM6Q8uWhYuxkoeU5FEpNrmarU2ekTMdXschuxFm9+djx?=
+ =?us-ascii?Q?eL8gOl+Y0dfcxKDaJdUgkY+UlJzN5CTZff9eCaq4XzGMaPRA+sWM8syoA7Ur?=
+ =?us-ascii?Q?g5EzH22bgifJfjk21i8E4CZ7w9ef5+7IjhfRzLhC9ug3AA5atuvekiSI15CW?=
+ =?us-ascii?Q?miTmk3n1NHcYD0cRY5mWx6Nf/5Xl2mtVrkiehCLKcomU8eCuLHzVbznMl/ga?=
+ =?us-ascii?Q?MwCEF02QZqeKPXJsGHK8U/nTMqW4k3X3NoLE1+hkBxzenCiNmQ4pkmf4VV2O?=
+ =?us-ascii?Q?PUc+oQwtz/GZ7LvsIrXylSz7YMN8a2zvv+v/4CD74Tfkmj/URecwao5ZTzID?=
+ =?us-ascii?Q?iN2KIvjol7OwfCMgqtY1/Q+9fgBURJl4GaZ9F/lQDUe+6p6uMlbz/opTZy07?=
+ =?us-ascii?Q?0Za3HKlPrBOyeKXEh6eRA3jJyYqEVOeuqrp8trEA57wzXgbD82QA7SlvCkIr?=
+ =?us-ascii?Q?evrkzd+AFZ2ggiUDvp9APQIQUEr9n0WdmdVrrSwRMactZt50gLfWFsKoO34C?=
+ =?us-ascii?Q?sJnef3kI2SOhdbNYnRd3ThtLujiQvvzCdD9Mi5Uu/dkfQhcZPnUUXm1+V8Xz?=
+ =?us-ascii?Q?V+aO3VVR+2tt0w2ZLS5y/A0=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/9_f7yTolI62lnTwGuMpnjlG";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - whm50.louhi.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - haloniitty.fi
-X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
- pekka.paalanen@haloniitty.fi
-X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+X-OriginatorOrg: asem.it
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR22MB3789.namprd22.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b8e674a0-92ea-4b7e-7c3a-08dc48ba2fac
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Mar 2024 08:46:08.0556 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 855b093e-7340-45c7-9f0c-96150415893e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: gxlYx/GBwTPOhFv6WLlC4pVqrTf5vQtzjklq6tR5vSX2p89kqn9LQuAr/R8SA7N8vH1qP7wieJ6WSPOADTbYyzovzczWsbgCmpVsNUzwYbo17cydRbCSsQLwZzg+ZIuE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR22MB3037
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,95 +135,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/9_f7yTolI62lnTwGuMpnjlG
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Thomas,
 
-On Wed, 13 Mar 2024 15:45:47 +0100
-Xaver Hugl <xaver.hugl@kde.org> wrote:
-
-> Hi all,
+...
+> Remove the field fb_blank from struct backlight_properties and remove all
+> code that still sets or reads it. Backlight blank status is now tracked e=
+xclusively
+> in struct backlight_properties.state.
 >=20
-> This was already discussed on IRC, but I think this should be on the
-> mailing list as well and get some more official conclusion that's
-> written down somewhere.
+> The core backlight code keeps the fb_blank and state fields in sync, but =
+doesn't
+> do anything else with fb_blank. Several drivers initialize fb_blank to
+> FB_BLANK_UNBLANK to enable the backlight. This is already the default for
+> the state field. So we can delete the fb_blank code from core and drivers=
+ and
+> rely on the state field.
 >=20
-> Recently I've experienced a GPU reset, which the system successfully
-> recovered from, but the display was still stuck - because amdgpu hit a
-> pageflip timeout, which causes the compositor to wait for a pageflip
-> event that will never come. Some other experiments I did before showed
-> that even if the compositor tries submitting new atomic commits after
-> a timeout, those commits are rejected with EBUSY, presumably because
-> the timed out pageflip is still considered "pending" on the kernel
-> side.
->=20
-> After restarting the compositor, everything continued to work
-> correctly, so this state can be recovered from. Because of that I
-> think it would be useful for the kernel to act on pageflip timeouts
-> differently. It should
-> - signal the pageflip's completion to userspace
-> - maybe have a new event for "pageflip failed" to give userspace more
-> correct information in the future
-> - allow new commits to happen afterwards
->=20
-> Another case discussed was when the device is completely removed.
-> Right now, if a pageflip is pending when that happens, userspace never
-> gets the event for pageflip completion, just like with the GPU reset.
-> KWin ignores pending pageflips on hotunplug, because the device is
-> removed it's not a big issue, but uAPI wise I would expect a pageflip
-> event to arrive for all commits that request them, no matter what -
-> and if that is not possible or desirable, uAPI has to be changed, for
-> example by introducing the mentioned "pageflip failed" event.
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Flavio Suligoi <f.suligoi@asem.it>
+> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+> Tested-by: Flavio Suligoi <f.suligoi@asem.it>
+> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+> Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+...
 
-I agree.
-
-=46rom my point of view, after some serious failure in hardware or
-driver, the main question is:
-
-Can already open device fds continue to be used, or not?
-
-If the intention is that they can continue to be used, then a page flip
-event must be eventually delivered if one was expected under normal
-circumstances. Otherwise userspace cannot continue. Or, if userspace is
-supposed to employ its own timeout for waiting for the event, then
-that's is new'ish UAPI, and the device must stop returning EBUSY for new
-commits.
-
-If the intention is that open device fds have become unusable, then the
-kernel should follow the same policy as for hot-unplug, which is
-documented at
-https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#device-hot-unplug
-
-Specifically, EBUSY is an inappropriate error to return in that case.
-
-This includes sending the udev event for device removal, and everything
-that implies. The hardware can then come back as a new device.
-
-The case at hand sounds like a driver bug to me.
-
-
+Can you explain what are the differences between the version 1 and version =
+2 of the patch?
 Thanks,
-pq
-
---Sig_/9_f7yTolI62lnTwGuMpnjlG
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmX6oUkACgkQI1/ltBGq
-qqc39BAAqivgFhWqavZXw+97y+uC/bRZcGqwJJcsS/AAoc7zT4q+eXtY1u0S64a9
-sVdPO06jguKRMr+2RIzT8+a1YA4HLNzEYfJROvwgxrmiOjsynVDxyoHR5kBU9404
-M8xV+ehNgyLe6nitdet3S0SZVQ85oTaXrlYlZsZq6Mk18oKnnBfdRr+IKgdsjSFp
-3NYQSQokhMFt++ZLB5mcPFonzXgFsROsA1HHkHeCwB6g/C9N57jv5hWXcFrSUviJ
-/TDxV7xBRhAKUCEbRmsqR0aAtXNdJddfpT6E9SvOY6x1K7K3mYqe8s7HWKsveDqe
-KL+Q9883b5781xcR9laOZmERD5LXHRHVEGqUEChv7yxpWNzixBEW/neP3mpLZGDm
-qFg2Ls5dZsWBvBPUefBnxT3OVLrDCcoQCwSP9UcqXJdr/gH7zac4fBH6CvSErgT1
-aWCftgs8GpmPQs0aaxV0WYpaZs/TBZZDtpjf+4XvXBeJ3NYMeV9qDcImontdE6Mx
-35BJVQeabIGuqqRV4dWzH6hWQdJwdaOSaRK4IoPPavm/R0spBvsc5eVzeyG1jW9x
-1euTgUy4MbtTg8sqq5H/41dnHLFkH2c6k/TETXRZaGNal4h/GiB1241gOB4haR2J
-4hu4H9DUW3EzkDJvGBg0Kyele60qpHY8J+n7fIniq2Zs04qUg+0=
-=0pYz
------END PGP SIGNATURE-----
-
---Sig_/9_f7yTolI62lnTwGuMpnjlG--
+Flavio
