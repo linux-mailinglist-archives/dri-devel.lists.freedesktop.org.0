@@ -2,71 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6644088176F
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 19:45:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFEFB881799
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 19:59:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB8D710FEE3;
-	Wed, 20 Mar 2024 18:45:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 289C410E3B9;
+	Wed, 20 Mar 2024 18:59:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="f4tGR9zO";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kLhsDHvn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
- [157.90.84.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3585710FEE0
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 18:45:48 +0000 (UTC)
-Received: from [192.168.42.20] (pd9e59c8a.dip0.t-ipconnect.de
- [217.229.156.138]) (Authenticated sender: wse@tuxedocomputers.com)
- by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 3E8C62FC0112;
- Wed, 20 Mar 2024 19:45:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
- s=default; t=1710960345;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0aJ6WogG8TKIkMoo2xB1GRutijq0g65zd7DzWfQd0xo=;
- b=f4tGR9zOeoNnuXaCPems0Yk3CHqLH8rQYPZgbz9KHVxqddiaqgtmuOTk2m89La8hZhIZJT
- epbtVjyFfEncfkX1T/CeG3NNHemqwCgqnf9z7BwXtUvK7jAfsQcMcN0lPM3Xmjt0g+gphx
- KmYoc49s+v9KutsRCGGpxN+vfnNZd0A=
-Authentication-Results: mail.tuxedocomputers.com;
- auth=pass smtp.auth=wse@tuxedocomputers.com
- smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <742f2564-96bd-4b4c-89d6-7ef4e6b641a5@tuxedocomputers.com>
-Date: Wed, 20 Mar 2024 19:45:43 +0100
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50A4010E3B9
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 18:59:20 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-513e6777af4so344849e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 11:59:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1710961158; x=1711565958; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=uDx69RtQxFyew2zNRPx2nT1ZQv12YYyDo+1YlWLy1Kg=;
+ b=kLhsDHvnEVq0K3Il5mNSWmVZXnRDf/rEjx9Jnb4prU4G4Wjcw7pBWRn4MrQkfyXjAR
+ 88DVsfbdCtPrhETY/cRCvaMx81KQxyK6FCtyCY78xfRJWycH8CI2gesGRXep3JsNTUIp
+ u1i9SLqEOOxkS1nt3S8s/T+e+iYnYz1cFavtBq7z3vvrpLnnfDXWkVBQLu7/v+xQzIK7
+ EY23JldbkffBhjI9xRnI9a/vCvhU79b3whgw5WZtfeRgQPeqRjiMYKqj/dypT+0KFErU
+ XCcN77uElkfFCA1WhgfueFhTvlFTIaWjxVBmhCkZUL51b8Icuu0bJqk+V4iMWbCiaibX
+ Fb7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1710961158; x=1711565958;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uDx69RtQxFyew2zNRPx2nT1ZQv12YYyDo+1YlWLy1Kg=;
+ b=UcqoNgSDeMSVQ7z1t0AJiAwCzjdi1GnV6SK+AAJTDwdOVRZZGTng3JvNuZGlaIxcKu
+ A6ffl6PC4qp9dblwz5lTsBQCdphEpAOyNKya4mvPbOBOwUQd9OGlnOzvZMToyinMHumH
+ KW1faKtQW5lSXljJNpNl8zxLhNZa9GgaG9UV964Fpww340aXVXeW5V6KJEUfZs2KO3ts
+ ZASE53QLWVfPawzpi0OOxkTN4GONoCpTAJoWMCFd3qLiT+xgdhOE5k1cpAXic0HTclvF
+ ftjDkx5tPGJAl3zFYHd28LHUMQ986vzi+MQaNkcFvewgB7hH6jyksKVaDYb/qv5vD1L0
+ 014w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXk5i6w9oCv/dZcNexQEbr6fvNkBIRyTpOlbZAzkYqj4W/wTxZfiKjQBIdHEHzTTwO/KWzIj/UTU6TCs/KMF1M5aPaGRd7wAjXwttdtmKsP
+X-Gm-Message-State: AOJu0Yx6gWmORW/ap+1JRDWttW1Vm00rdYsRTCYzRC7NRA4mnKmsqL+r
+ VRzg1+r33Yo+NUjZRYbrIp1BmpNbBli9zZat+WiGvOaNIuGGO1je
+X-Google-Smtp-Source: AGHT+IH/ceP2Pxa/IuRZRDzz0Pwy3ckqKVMWSsWh5JN5WyzR1CEU2WVpYfRZlMZa1f7TIzgH0F5dCw==
+X-Received: by 2002:a05:6512:32a9:b0:513:d976:496a with SMTP id
+ q9-20020a05651232a900b00513d976496amr11193764lfe.50.1710961155907; 
+ Wed, 20 Mar 2024 11:59:15 -0700 (PDT)
+Received: from mehdi-archlinux ([2a02:8109:aa27:2d00::e094])
+ by smtp.gmail.com with ESMTPSA id
+ jl27-20020a17090775db00b00a45c9ea48e3sm7586136ejc.193.2024.03.20.11.59.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Mar 2024 11:59:15 -0700 (PDT)
+Date: Wed, 20 Mar 2024 19:59:13 +0100
+From: Mehdi Djait <mehdi.djait.k@gmail.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: drm/tiny: QUESTION: What to use instead of
+ drm_simple_display_pipe ?
+Message-ID: <ZfsyAXPCRX5hXBc0@mehdi-archlinux>
+References: <ZfiTbYAa7qxXlrPd@mehdi-archlinux>
+ <da7cfff1-e147-48ea-bcda-9ea913e5feee@suse.de>
+ <87o7ba1u3x.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Future handling of complex RGB devices on Linux v3
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org,
- linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org,
- Pavel Machek <pavel@ucw.cz>, Gregor Riepl <onitake@gmail.com>
-References: <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
- <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
- <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
- <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
- <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
- <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
- <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
- <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
- <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
- <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
- <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
- <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
- <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
- <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
- <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
- <1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com>
- <31bbac5f-a1fc-41dd-b614-f9039763084d@tuxedocomputers.com>
-In-Reply-To: <31bbac5f-a1fc-41dd-b614-f9039763084d@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <87o7ba1u3x.fsf@minerva.mail-host-address-is-not-set>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,106 +88,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Javier, Hello Thomas,
 
-Am 20.03.24 um 12:33 schrieb Werner Sembach:
->
-> Am 20.03.24 um 12:16 schrieb Werner Sembach:
->> Hi Hans and the others,
->>
->> Am 22.02.24 um 14:14 schrieb Werner Sembach:
->>> Hi,
->>>
->>> Thanks everyone for the exhaustive feedback. And at least this thread is a 
->>> good comprehesive reference for the future ^^.
->>>
->>> To recap the hopefully final UAPI for complex RGB lighting devices:
->>>
->>> - By default there is a singular /sys/class/leds/* entry that treats the 
->>> device as if it was a single zone RGB keyboard backlight with no special 
->>> effects.
->>>
->>> - There is an accompanying misc device with the sysfs attributes "name", 
->>> "device_type",  "firmware_version_string", "serial_number" for device 
->>> identification and "use_leds_uapi" that defaults to 1.
->>>
->>>     - If set to 0 the /sys/class/leds/* entry disappears. The driver should 
->>> keep the last state the backlight was in active if possible.
->>>
->>>     - If set 1 it appears again. The driver should bring it back to a static 
->>> 1 zone setting while avoiding flicker if possible.
->>>
->>> - If the device is not controllable by for example hidraw, the misc device 
->>> might also implement additional ioctls or sysfs attributes to allow a more 
->>> complex low level control for the keyboard backlight. This is will be a 
->>> highly vendor specific UAPI.
->> So in the OpenRGB issue thread 
->> https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/dynamic-lighting-devices 
->> aka HID LampArray was mentioned. I did dismiss it because I thought that is 
->> only relevant for firmware, but I now stumbled upon the Virtual HID Framework 
->> (VHF) 
->> https://learn.microsoft.com/en-us/windows-hardware/drivers/hid/virtual-hid-framework--vhf- 
->> and now I wonder if an equivalent exists for Linux? A quick search did not 
->> yield any results for me.
-> Is this what I have been searching for? 
-> https://docs.kernel.org/usb/gadget_hid.html
-Nope is something different: http://www.linux-usb.org/gadget/
->>
->> If a virtual HID device is possible and the WMI interface can reasonably be 
->> mapped to the LampArray API this might be the best starting point:
->>
->> - Implement a Virtual HID device with LampArray
->>
->> - Implement LampArray in OpenRGB
->>
->> - (Optional) Implement a generic LampArray leds subsystem driver that maps to 
->> the single zone control and ads the use_leds_uapi sysfs switch to the virtual 
->> HID device
->>
->> - (Optional) Implement vendor specific controls for 
->> AutonomousMode/built-in-firmware-effects via custom HID commands
->>
->> - (Optional) Implement Virtual HID devices for actual HID devices that don't 
->> support LampArray in firmware (Open question: How to prevent 
->> userspace/OpenRGB from interacting with original HID when the virtual HID 
->> device is not in AutonomousMode? How to associate the original and virtual 
->> HID device to each other that userspace can easily recognize this relation? 
->> Or is it possible to add virtual HID commands on top of a real HID device, 
->> making it look exactly like the pure virtual devices for userspace?)
->>
->> The LampArray API hereby is made with the intention to be used for multi leds 
->> devices, like per-key-backlight keyboards, unlike the leds UAPI. And it is 
->> coming anyway with new RGB devices soon. So it would not conflict with a 
->> "don't introduce unnecessary UAPI interfaces" principle. Are there any plans 
->> already of Wrapping LampArray in some kind ioctl/sysfs API? Or just have it 
->> used via hidraw? Or was there no discussion about it till now?
->>
->> Regards,
->>
->> Werner
->>
->>>
->>>     - The actual logic interacting with this low level UAPI is implemented 
->>> by a userspace driver
->>>
->>> Implementation wise: For the creation of the misc device with the 
->>> use_leds_uapi switch a helper function/macro might be useful? Wonder if it 
->>> should go into leds.h, led-class-multicolor.h, or a new header file?
->>>
->>> - Out of my head it would look something like this:
->>>
->>> led_classdev_add_optional_misc_control(
->>>     struct led_classdev *led_cdev,
->>>     char* name,
->>>     char* device_type,
->>>     char* firmware_version_string,
->>>     char* serial_number,
->>>     void (*deregister_led)(struct led_classdev *led_cdev),
->>>     void (*reregister_led)(struct led_classdev *led_cdev))
->>>
->>> Let me know your thoughts and hopefully I can start implementing it soon for 
->>> one of our devices.
->>>
->>> Kind regards,
->>>
->>> Werner Sembach
->>>
+On Tue, Mar 19, 2024 at 09:52:34AM +0100, Javier Martinez Canillas wrote:
+> Thomas Zimmermann <tzimmermann@suse.de> writes:
+> 
+> Hello Mehdi,
+> 
+> > Hi
+> >
+> > Am 18.03.24 um 20:18 schrieb Mehdi Djait:
+> >> Hello everyone :)
+> >>
+> >> I am implementing a tiny drm driver and I am currently working on the
+> >> V2: https://lore.kernel.org/dri-devel/cover.1701267411.git.mehdi.djait@bootlin.com/
+> >>
+> >> I got a review on the v1 telling me not to use the
+> >> drm_simple_display_pipe. Can someone please explain this further ? Or
+> >> give me an example drm driver that does it the right way ?
+> >
+> > You can copy the code from drm_simple_kms_helper.c into your driver file 
+> > and start inlining everything. For example
+> >
+> >  �1) Your driver calls drm_simple_display_pipe_init(), so you copy that 
+> > code into your source file
+> >  �2) drm_simple_display_pipe_init() uses drm_simple_kms_plane_funcs and 
+> > drm_simple_kms_crtc_funcs, so you copy these into your source file; 
+> > together with the drm_simple_kms_*() helpers that they use for their 
+> > callback pointers.
+> >  �3) Mayb do this for other drm_simple_kms_*() code.
+> >  �4) Then start inlining: inline your copy of 
+> > drm_simple_display_pipe_iit(). Instead of using 
+> > sharp_ls027b7dh01_pipe_funcs, inline its functions into your copy of the 
+> > callers. And so on.
+> >  �5) Rename the resulting code, so that it fits you driver.
+> >
+> > With careful changes, you 'll end up with the same functionality as 
+> > before, but without the intermediate layer of the simple-KMS code.
+> >
+> 
+> On top of what Thomas said, you can check 622113b9f11f ("drm/ssd130x:
+> Replace simple display helpers with the atomic helpers") that did this
+> change for the drivers/gpu/drm/solomon/ssd130x.c driver.
+> 
+> The driver is also for a monochrome panel controller and it does support
+> SPI as transport, which means the controller is similar to yours in many
+> aspects. You could use that driver code as a reference for your driver.
+
+Thank you both very much!
+
+--
+Kind Regards
+Mehdi Djait
