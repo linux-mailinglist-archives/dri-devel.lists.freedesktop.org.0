@@ -2,81 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CCAE8814BA
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 16:40:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8BA8881542
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 17:09:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBB3610FD89;
-	Wed, 20 Mar 2024 15:40:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC87910FB4A;
+	Wed, 20 Mar 2024 16:09:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="WxOHk72S";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="l6jQFvLH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCC0810E316
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 15:40:21 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-2d23114b19dso85035121fa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 08:40:21 -0700 (PDT)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6996A10FB4A
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 16:09:48 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-4140aadfe2eso30151915e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 09:09:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1710949220; x=1711554020;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=PkMYzc9ktSXD4/lGPR3gzLrhYRVUW8d9S/Mr9bDPnog=;
- b=WxOHk72S5yVPhUyver9E1soezFILj/cPZDZtJMUttZ4VjpRzJ193qSBLVzDsl9lWzR
- cCBp7UcnxGvkjMvI4fUJ6/4lX+WmeFWqCM2tLh4Rj/Lpn9vNol6sEv87gklMvwXjfiS1
- 0+2A2zq9QENmdA0/1KKtsf6JzDWv/DTEwsWh7z1c72uyeILetPmaVbEzuNUF1H66TCpf
- dCpdlOq41e311L6nV/NIrLK4kiOms6m7k0xla7IePk07b1jUBxSUHMiaH62GMLD2VbnB
- 5beJUZMAkii9KtXNrHDGgvpNfIfprrlcmC+6LBHbFICz9RgJf0PanUwOiWtPGAK3Tj6m
- KihA==
+ d=linaro.org; s=google; t=1710950986; x=1711555786; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=Un+llHAoMrdFl+P+AaI+WdI4X8MRX2yHvC9/wPwSiTw=;
+ b=l6jQFvLHL55M/9AID38LZ3sY036dJlIPLj1XSqiuHXkjGIJTK9hQuRz4dR4/+AssRQ
+ oAnFcSqbO6NweH3barGsRXzzhB1caE90HI7v8cw21LyjBgDlE+knSs2qQGolgISxGIWO
+ +YI5ozy+3hEl+3kDd2RXMaBLWB9AVsv+/j9O5OY2y4vFSZc+DYqdTvaIU+dfUhJjm1S+
+ Pa7Y6qfpMcwGk3ByCxIydLcTEdW/oTbJHBAtkJ0dHGGDhaui+niA8anFLfZOhEza6Y3O
+ lfb78GrTd1DUKc7rNmXoNDWxKpOopWjv/HGqclucYwztIOEcMrYOykPeUYVuttk3+WvW
+ JqYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710949220; x=1711554020;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PkMYzc9ktSXD4/lGPR3gzLrhYRVUW8d9S/Mr9bDPnog=;
- b=RE1pb0jggNM2YNsBvZZBM49X8rzca+BtbVV9X/FJ7BPxg2ut80xTBI7kJZoOqAX5nc
- 5p/wHQI3nRTE8iEd73Jw4qbf+XW0NgruFvTg8HjJS+dgx5GmxywT4KYE4v/nEgUa+I/0
- RCte4ZqnAQCAk85uYuqy6aD9KiErdv9O+G/zisCf4BEO0Y0ZnptreyehapTLDl8FMjTV
- gCf2NpKo3OfQSiTVJ0RugdK8RXRGBq2B25mxsB2bJVP3Es2rWzrdSkM0J1CIhGiVHPyS
- 2LkpTrHTe7Legq8Cy9o1idSMZpuZu5vFRVvm0zmwS8XhqnWDmkoldHwGeAd61HIGGSiw
- 7u0g==
+ d=1e100.net; s=20230601; t=1710950986; x=1711555786;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Un+llHAoMrdFl+P+AaI+WdI4X8MRX2yHvC9/wPwSiTw=;
+ b=l4ntrzGQQgw6WxdFL8z3OD8n+oDptnF8q1vJDf3+RYomo5L6tYEAsRy9VslE/o8oS0
+ cieL/vwIXjyiUNjFnOH+y6Mgx8gGUPUvALXWnML3x6+ATZB1uXnwE8MikLmXiX1tpfkV
+ 2oYKCPEbCzDDkKTX87R5lCYhwufrdNtHaUtw9FRnVfl1xO4QjcgTYKoqaHRUdtVdZ62v
+ r6IEUvO9A340eoA1IzdiMfZt5ej1JY9nJ9McZupAbthbMcj7N7VtbGLzdCJWfXvIJwoi
+ fOW8J+z2a8giay5cw17eGglJJctiU6ac6oPaWllycJ6wpUNkQIYaWCd5KStYx8iEdtvP
+ vGeQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV/kfyuswUhVfhokChETs1LQUL1vjJnUHm2XnhLs0cfkPHR/Jd/AcYitDzYqk4Osp/1lQaesTCHnO591JNJsj0sPMJLA8WOyTcxyHKB7Qrj
-X-Gm-Message-State: AOJu0Yytqpca2FZ/SWj22H/eZKQDcAfszg9R613BMp0t1a1U3J+fts5D
- q+xaxLMOrTvEmrGDsDAK/BLY6YPIuUZNLbD2nsJ+atEyVyRjjLs+yBKOB6DOkNY=
-X-Google-Smtp-Source: AGHT+IF4xIDSrxcYjuUFrmCEBCyUD5ebFdIMCnD/C2zFineBSItC1RmylLLh6Wew7uMyxUtIRyXTZA==
-X-Received: by 2002:a2e:9608:0:b0:2d5:122a:4b1f with SMTP id
- v8-20020a2e9608000000b002d5122a4b1fmr5171414ljh.43.1710949219645; 
- Wed, 20 Mar 2024 08:40:19 -0700 (PDT)
-Received: from [192.168.0.101] ([84.65.0.132])
+ AJvYcCUJUl+rHo/J41aPj6QLlKPMd1kQAX/GmQsVDQOeXKfupKWWSajA0fnwxt7N+GHHvjPPxKWoo3+mx1MAJzoDgHLBjGM+qnjxuUczNQtuYjmd
+X-Gm-Message-State: AOJu0YzXd/D5wqk5pCOAqcAz8BDij+sPFGEUJcY3N/uAZ3Lc9g6YJuJk
+ fI4ewZRllsH25dtOYWZ1pWZ/blI8I21CV/VLBN1aDVVjwK1/6b0GnXGWn9oJJPo=
+X-Google-Smtp-Source: AGHT+IGwlgkNcQfHchLSVvAQXtFi8Dw1HoghSxCI8lwBRMqbAhnbx+HiiUQX1ndX7cQHgHU8Q0sWhg==
+X-Received: by 2002:a05:600c:3c86:b0:414:286:fd1f with SMTP id
+ bg6-20020a05600c3c8600b004140286fd1fmr9845788wmb.11.1710950986293; 
+ Wed, 20 Mar 2024 09:09:46 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:13bb:18cc:75cc:ae59?
+ ([2a01:e0a:982:cbb0:13bb:18cc:75cc:ae59])
  by smtp.gmail.com with ESMTPSA id
- dw11-20020a0560000dcb00b0033b66c2d61esm14902596wrb.48.2024.03.20.08.40.19
+ c21-20020a05600c0a5500b004146f728906sm686840wmq.7.2024.03.20.09.09.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Mar 2024 08:40:19 -0700 (PDT)
-Message-ID: <3fe26c42-cc34-42b2-a5cc-21a6a9468b4e@ursulin.net>
-Date: Wed, 20 Mar 2024 15:40:18 +0000
+ Wed, 20 Mar 2024 09:09:45 -0700 (PDT)
+Message-ID: <dbdc34a0-bead-491e-a0fb-2f74416b7366@linaro.org>
+Date: Wed, 20 Mar 2024 17:09:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/3] Disable automatic load CCS load balancing
-Content-Language: en-GB
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- John Harrison <John.C.Harrison@intel.com>, stable@vger.kernel.org,
- Andi Shyti <andi.shyti@kernel.org>
-References: <20240313201955.95716-1-andi.shyti@linux.intel.com>
- <Zfr7hPs_VAUkTNTX@ashyti-mobl2.lan>
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <Zfr7hPs_VAUkTNTX@ashyti-mobl2.lan>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] drm/panel: atna33xc20: Fix unbalanced regulator in the
+ case HPD doesn't assert
+To: Doug Anderson <dianders@chromium.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240313-homestarpanel-regulator-v1-1-b8e3a336da12@chromium.org>
+ <098d8dda-75fe-45b8-ad36-a21ed44c4555@quicinc.com>
+ <CAD=FV=WE4Y1Nk8UL+z7fLsU=zr-Y_2vQe0xuBSbg8_1CLRQjYQ@mail.gmail.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+In-Reply-To: <CAD=FV=WE4Y1Nk8UL+z7fLsU=zr-Y_2vQe0xuBSbg8_1CLRQjYQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,97 +117,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 20/03/2024 16:33, Doug Anderson wrote:
+> Hi,
+> 
+> On Thu, Mar 14, 2024 at 3:32 PM Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
+>>
+>> On 3/13/2024 2:12 PM, Douglas Anderson via B4 Relay wrote:
+>>> From: Douglas Anderson <dianders@chromium.org>
+>>>
+>>> When the atna33xc20 driver was first written the resume code never
+>>> returned an error. If there was a problem waiting for HPD it just
+>>> printed a warning and moved on. This changed in response to review
+>>> feedback [1] on a future patch but I accidentally didn't account for
+>>> rolling back the regulator enable in the error cases. Do so now.
+>>>
+>>> [1] https://lore.kernel.org/all/5f3cf3a6-1cc2-63e4-f76b-4ee686764705@linaro.org/
+>>>
+>>> Fixes: 3b5765df375c ("drm/panel: atna33xc20: Take advantage of wait_hpd_asserted() in struct drm_dp_aux")
+>>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+>>> ---
+>>>    drivers/gpu/drm/panel/panel-samsung-atna33xc20.c | 22 +++++++++++++---------
+>>>    1 file changed, 13 insertions(+), 9 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
+>>> index 76c2a8f6718c..9c336c71562b 100644
+>>> --- a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
+>>> +++ b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
+>>> @@ -109,19 +109,17 @@ static int atana33xc20_resume(struct device *dev)
+>>>                if (hpd_asserted < 0)
+>>>                        ret = hpd_asserted;
+>>>
+>>> -             if (ret)
+>>> +             if (ret) {
+>>>                        dev_warn(dev, "Error waiting for HPD GPIO: %d\n", ret);
+>>> -
+>>> -             return ret;
+>>> -     }
+>>> -
+>>> -     if (p->aux->wait_hpd_asserted) {
+>>> +                     goto error;
+>>> +             }
+>>> +     } else if (p->aux->wait_hpd_asserted) {
+>>
+>> Hi Doug,
+>>
+>> Acked-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> 
+> Pushed with Jessica's Ack to drm-misc-next.
+> 
+> 5e842d55bad7 drm/panel: atna33xc20: Fix unbalanced regulator in the
+> case HPD doesn't assert
+> 
+> I chose drm-misc-next instead of drm-misc-fixes because this isn't
+> super urgent and the patch would have to be modified on drm-misc-fixes
+> because we don't have commit 8df1ddb5bf11 ("drm/dp: Don't attempt AUX
+> transfers when eDP panels are not powered") there.
 
-On 20/03/2024 15:06, Andi Shyti wrote:
-> Ping! Any thoughts here?
-
-I only casually observed the discussion after I saw Matt suggested 
-further simplifications. As I understood it, you will bring back the 
-uabi engine games when adding the dynamic behaviour and that is fine by me.
-
-Regards,
-
-Tvrtko
-
-> On Wed, Mar 13, 2024 at 09:19:48PM +0100, Andi Shyti wrote:
->> Hi,
->>
->> this series does basically two things:
->>
->> 1. Disables automatic load balancing as adviced by the hardware
->>     workaround.
->>
->> 2. Assigns all the CCS slices to one single user engine. The user
->>     will then be able to query only one CCS engine
->>
->> >From v5 I have created a new file, gt/intel_gt_ccs_mode.c where
->> I added the intel_gt_apply_ccs_mode(). In the upcoming patches,
->> this file will contain the implementation for dynamic CCS mode
->> setting.
->>
->> Thanks Tvrtko, Matt, John and Joonas for your reviews!
->>
->> Andi
->>
->> Changelog
->> =========
->> v5 -> v6 (thanks Matt for the suggestions in v6)
->>   - Remove the refactoring and the for_each_available_engine()
->>     macro and instead do not create the intel_engine_cs structure
->>     at all.
->>   - In patch 1 just a trivial reordering of the bit definitions.
->>
->> v4 -> v5
->>   - Use the workaround framework to do all the CCS balancing
->>     settings in order to always apply the modes also when the
->>     engine resets. Put everything in its own specific function to
->>     be executed for the first CCS engine encountered. (Thanks
->>     Matt)
->>   - Calculate the CCS ID for the CCS mode as the first available
->>     CCS among all the engines (Thanks Matt)
->>   - create the intel_gt_ccs_mode.c function to host the CCS
->>     configuration. We will have it ready for the next series.
->>   - Fix a selftest that was failing because could not set CCS2.
->>   - Add the for_each_available_engine() macro to exclude CCS1+ and
->>     start using it in the hangcheck selftest.
->>
->> v3 -> v4
->>   - Reword correctly the comment in the workaround
->>   - Fix a buffer overflow (Thanks Joonas)
->>   - Handle properly the fused engines when setting the CCS mode.
->>
->> v2 -> v3
->>   - Simplified the algorithm for creating the list of the exported
->>     uabi engines. (Patch 1) (Thanks, Tvrtko)
->>   - Consider the fused engines when creating the uabi engine list
->>     (Patch 2) (Thanks, Matt)
->>   - Patch 4 now uses a the refactoring from patch 1, in a cleaner
->>     outcome.
->>
->> v1 -> v2
->>   - In Patch 1 use the correct workaround number (thanks Matt).
->>   - In Patch 2 do not add the extra CCS engines to the exposed
->>     UABI engine list and adapt the engine counting accordingly
->>     (thanks Tvrtko).
->>   - Reword the commit of Patch 2 (thanks John).
->>
->> Andi Shyti (3):
->>    drm/i915/gt: Disable HW load balancing for CCS
->>    drm/i915/gt: Do not generate the command streamer for all the CCS
->>    drm/i915/gt: Enable only one CCS for compute workload
->>
->>   drivers/gpu/drm/i915/Makefile               |  1 +
->>   drivers/gpu/drm/i915/gt/intel_engine_cs.c   | 20 ++++++++---
->>   drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c | 39 +++++++++++++++++++++
->>   drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h | 13 +++++++
->>   drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  6 ++++
->>   drivers/gpu/drm/i915/gt/intel_workarounds.c | 30 ++++++++++++++--
->>   6 files changed, 103 insertions(+), 6 deletions(-)
->>   create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
->>   create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h
->>
->> -- 
->> 2.43.0
+Thx I wasn't really sure where to push this so I waited v6.9-rc1 to decide!
