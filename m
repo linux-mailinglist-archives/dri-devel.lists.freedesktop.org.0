@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4F6E881752
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 19:30:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E76881768
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 19:44:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 222BA10F9F4;
-	Wed, 20 Mar 2024 18:30:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B65010EF38;
+	Wed, 20 Mar 2024 18:44:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WTN+vqMP";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iXQjGxqT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D114710F6D9;
- Wed, 20 Mar 2024 18:30:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710959446; x=1742495446;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=pIMvEZlWIVtjNJitQfBbhwqYFC5rypTGNigzi89FX0w=;
- b=WTN+vqMPzTJM/kWoh0KwasBgygzr2cTheP6jKAuS+ePKwDeZZWa/LNwR
- BxGp7XllMF35Im02i9smL7gip40BELnnHwr4KR6MlaXT8miioaAjNm0kw
- yDTJTkWSENwhf2RekBmllFCYxZUMeEKm7oSy6PPzcHk3q81gCPmfdoYlZ
- wjRK906FkLiTUWZRU/D5zA8TFyd9Kml7ArkQhPP56J99hSBnEQR6eYj2p
- i24lIWfOpUvMTTIUTgdn3sve7me/4EzlbeGe1dhsHPFtLNxSnQLGqsFnT
- MnGwxgmjv0a1MGupRnPpVFIpfzZjp55/bYqPMVnYEUl4J+XbZaAx5eyZ+ A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="5754538"
-X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; 
-   d="scan'208";a="5754538"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Mar 2024 11:30:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; d="scan'208";a="14303213"
-Received: from unknown (HELO intel.com) ([10.247.118.186])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Mar 2024 11:30:33 -0700
-Date: Wed, 20 Mar 2024 19:30:25 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: "Mrozek, Michal" <michal.mrozek@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- Nirmoy Das <nirmoy.das@linux.intel.com>,
- "Landwerlin, Lionel G" <lionel.g.landwerlin@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andi Shyti <andi.shyti@kernel.org>,
- "Hajda, Andrzej" <andrzej.hajda@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- "Das, Nirmoy" <nirmoy.das@intel.com>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: Re: [PATCH] drm/i915/gt: Report full vm address range
-Message-ID: <ZfsrQWNfzDGl8IVV@ashyti-mobl2.lan>
-References: <20240313193907.95205-1-andi.shyti@linux.intel.com>
- <46ab1d25-5d16-4610-8b8f-2ee07064ec2e@intel.com>
- <35df0767-384f-49f2-806a-f83765ca7c4c@linux.intel.com>
- <ZfSAo791UDRnBSwc@ashyti-mobl2.lan>
- <BN9PR11MB527575D97CB63C5E4B1B0E7AE72D2@BN9PR11MB5275.namprd11.prod.outlook.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C4BD10EF38
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 18:44:30 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 15A1760FDD
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 18:44:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B76BCC43394
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 18:44:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1710960268;
+ bh=6WqChKc6e9yRXlSkQssuDc/NgKsP2mVSy/OxIoUmM0M=;
+ h=From:To:Subject:Date:From;
+ b=iXQjGxqT76jRxQ4nBvKhBm3hlJvjB1rm+BpXGKmv/KFWzUTzgens7zNB4+VzPv5aU
+ 1YDchfOcYqcageRCnFc2tb7Fv0iqw9JYKF1T5zULfY+wFtJgdog+/6+fdnb1Up1zvW
+ trcqcvvjMixR97nDnDCpACQrnOQy2RICZpH+F32xjgaNiYvqptjqwVP9PSDGNvRjM9
+ CJ/ebhzvCNQUafsY/xMbEgBCoJ0bS4Y8ch5P9ZgUfoMY65fdofOAcpqzIxbRDVEWvd
+ k87Yk3aIsl+u2MJXY/vUDi1BnhCKRZs6k3BICjhvo1Q9RsEpG3D49dHREc/ajNf1w9
+ AOzHRKjvy0LcA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id AFBFFC53BCD; Wed, 20 Mar 2024 18:44:28 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 218617] New: Linux Kernel Bug Report: "Scheduling while atomic"
+ Kernel Panic and System Freeze on NVIDIA RTX 2000 Ada Generation
+ Laptop GPU
+Date: Wed, 20 Mar 2024 18:44:28 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: sarah.salzstein@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression attachments.created
+Message-ID: <bug-218617-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BN9PR11MB527575D97CB63C5E4B1B0E7AE72D2@BN9PR11MB5275.namprd11.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,23 +76,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Michal,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D218617
 
-On Mon, Mar 18, 2024 at 05:21:54AM +0000, Mrozek, Michal wrote:
-> > > Lionel, Michal, thoughts?
-> Compute UMD needs to know exact GTT total size.
+            Bug ID: 218617
+           Summary: Linux Kernel Bug Report: "Scheduling while atomic"
+                    Kernel Panic and System Freeze on NVIDIA RTX 2000 Ada
+                    Generation Laptop GPU
+           Product: Drivers
+           Version: 2.5
+          Hardware: Intel
+                OS: Linux
+            Status: NEW
+          Severity: blocking
+          Priority: P3
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: sarah.salzstein@gmail.com
+        Regression: No
 
-the problem is that we cannot apply the workaround without
-reserving one page from the GTT total size and we need to apply
-the workaround.
+Created attachment 306013
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D306013&action=3Dedit
+Relevant dmesg output
 
-If we provide the total GTT size we will have one page that will
-be contended between kernel and userspace and, if userspace is
-unaware that the page belongs to the kernel, we might step on
-each other toe.
+Dear Linux Kernel Development Team,
 
-The ask here from kernel side is to relax the check on the
-maxNBitValue() in userspace and take what the kernel provides.
+I am writing to report a critical issue I have been encountering with the L=
+inux
+kernel, specifically related to my NVIDIA RTX 2000 Ada Generation Laptop GP=
+U,
+installed in a Lenovo ThinkPad P1 Gen 6. The problem manifests as a "schedu=
+ling
+while atomic" kernel bug, followed by a complete system freeze.
 
-Thanks,
-Andi
+Description of the Problem:
+Randomly during system operation, the kernel gives the error message
+"scheduling while atomic". This error occurs seemingly at random intervals =
+and
+under varying system loads. Subsequently, at some point, the system becomes
+unresponsive and necessitates a hard reboot to regain functionality.
+
+Steps to Reproduce:
+- The error occurs randomly during system operation.
+- The system becomes unresponsive, leading to a complete freeze.
+
+
+System Information:
+- GPU: NVIDIA Corporation AD107GLM [RTX 2000 Ada Generation Laptop GPU] (rev
+a1)
+Linux Distribution: Gentoo Linux
+- Kernel Version: 6.8.1 (Also affects kernel versions 6.7.x, 6.6.x, and 6.1=
+.x)
+
+Additional Information:
+The issue persists across multiple kernel versions, indicating it is not
+specific to a particular kernel release.
+I have examined the system logs and have identified the occurrence of the
+"scheduling while atomic" error as the primary issue leading to the kernel
+panic and subsequent system freeze.
+No specific system activity or workload triggers the error; it happens
+seemingly at random.
+I have ensured that the GPU drivers are up to date and have attempted to
+reinstall them without resolving the issue, but no matter which NVIDIA driv=
+er
+version I install, the bug consistently persists.
+
+Attached Logs:
+Attached the relevant portion of the dmesg output showing the BUG.
+
+This issue severely affects the usability and stability of my system, and I
+kindly request your assistance in resolving it promptly. If there are any
+additional diagnostic steps or information required from my end, please let=
+ me
+know, and I will gladly provide it.
+
+Thank you for your attention to this matter.
+
+Sincerely,
+Sarah S.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
