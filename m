@@ -2,37 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 185C0880AC6
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 06:46:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32FD2880ADD
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 06:57:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C713C10EB1E;
-	Wed, 20 Mar 2024 05:46:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D28110E707;
+	Wed, 20 Mar 2024 05:57:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ogLMFnDZ";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="j0Pt+dgg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06C0710EB1E
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 05:46:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D731C10E707
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 05:57:52 +0000 (UTC)
 Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
  [91.154.34.181])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1FB0BB1;
- Wed, 20 Mar 2024 06:46:04 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E94F1B1;
+ Wed, 20 Mar 2024 06:57:23 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1710913564;
- bh=WRTVyf9ccaMf/4dPPhuHF8JX+pHX7WqNgtBe7Ij4T/o=;
+ s=mail; t=1710914244;
+ bh=JXvk8dstHIu8UWKTRAezMBXq/1qjBKqCbZ3BQ+4oYzI=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ogLMFnDZxEygUC2583PLOfYB4hwZz+GKUElV1NhpJbRf7PlYDBv/brUj7Q6G16qMB
- H6LwlWFx2HWxSNxQKkFLFCcNLxFBnV1YTBClLjpSulHXxDkYGlhqCJPhFY62omuX0x
- dOnSQ4LBpS5fBNaX9gHJLPErJFA9td6vXlcTkJHk=
-Message-ID: <65a040af-180d-45d0-a60b-1930e12d15bd@ideasonboard.com>
-Date: Wed, 20 Mar 2024 07:46:28 +0200
+ b=j0Pt+dggxPjDI6vwHy+hca18gvX6qR3+63wontFIxVqzlKAgARE+pUnJJRqygnQgf
+ flbl+HW5/UHvKwmWYI3VHHSbYCpFhpkiiW+nN65/hryfRh21f1lwMBbjdFDf4Zl60C
+ eJk63JJNbIJvftaS7GclLk1UvSydCwEHCw13VLVo=
+Message-ID: <c16665d3-ff3a-48d7-9f4e-076473a3b45d@ideasonboard.com>
+Date: Wed, 20 Mar 2024 07:57:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/8] drm: zynqmp_dp: Downgrade log level for aux
- retries message
+Subject: Re: [PATCH v2 3/8] drm: zynqmp_dp: Adjust training values per-lane
 Content-Language: en-US
 To: Sean Anderson <sean.anderson@linux.dev>
 Cc: Michal Simek <michal.simek@amd.com>, David Airlie <airlied@gmail.com>,
@@ -43,7 +42,7 @@ Cc: Michal Simek <michal.simek@amd.com>, David Airlie <airlied@gmail.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  dri-devel@lists.freedesktop.org
 References: <20240319225122.3048400-1-sean.anderson@linux.dev>
- <20240319225122.3048400-3-sean.anderson@linux.dev>
+ <20240319225122.3048400-4-sean.anderson@linux.dev>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -88,7 +87,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240319225122.3048400-3-sean.anderson@linux.dev>
+In-Reply-To: <20240319225122.3048400-4-sean.anderson@linux.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,36 +106,78 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 20/03/2024 00:51, Sean Anderson wrote:
-> Enable this message for verbose debugging only as it is otherwise
-> printed after every AUX message, quickly filling the log buffer.
+> The feedback we get from the DPRX is per-lane. Make changes using this
+> information, instead of picking the maximum values from all lanes. This
+> results in more-consistent training on marginal links.
 > 
 > Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
 > 
 > (no changes since v1)
 > 
->   drivers/gpu/drm/xlnx/zynqmp_dp.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/gpu/drm/xlnx/zynqmp_dp.c | 23 ++++++++---------------
+>   1 file changed, 8 insertions(+), 15 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> index a0606fab0e22..98a32e6a0459 100644
+> index 98a32e6a0459..8635b5673386 100644
 > --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
 > +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> @@ -1006,7 +1006,7 @@ zynqmp_dp_aux_transfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
->   					       msg->buffer, msg->size,
->   					       &msg->reply);
->   		if (!ret) {
-> -			dev_dbg(dp->dev, "aux %d retries\n", i);
-> +			dev_vdbg(dp->dev, "aux %d retries\n", i);
->   			return msg->size;
->   		}
+> @@ -605,28 +605,21 @@ static void zynqmp_dp_adjust_train(struct zynqmp_dp *dp,
+>   				   u8 link_status[DP_LINK_STATUS_SIZE])
+>   {
+>   	u8 *train_set = dp->train_set;
+> -	u8 voltage = 0, preemphasis = 0;
+>   	u8 i;
 >   
+>   	for (i = 0; i < dp->mode.lane_cnt; i++) {
+> -		u8 v = drm_dp_get_adjust_request_voltage(link_status, i);
+> -		u8 p = drm_dp_get_adjust_request_pre_emphasis(link_status, i);
+> +		u8 voltage = drm_dp_get_adjust_request_voltage(link_status, i);
+> +		u8 preemphasis =
+> +			drm_dp_get_adjust_request_pre_emphasis(link_status, i);
+>   
+> -		if (v > voltage)
+> -			voltage = v;
+> +		if (voltage >= DP_TRAIN_VOLTAGE_SWING_LEVEL_3)
+> +			voltage |= DP_TRAIN_MAX_SWING_REACHED;
+>   
+> -		if (p > preemphasis)
+> -			preemphasis = p;
+> -	}
+> +		if (preemphasis >= DP_TRAIN_PRE_EMPH_LEVEL_2)
+> +			preemphasis |= DP_TRAIN_MAX_PRE_EMPHASIS_REACHED;
+>   
+> -	if (voltage >= DP_TRAIN_VOLTAGE_SWING_LEVEL_3)
+> -		voltage |= DP_TRAIN_MAX_SWING_REACHED;
+> -
+> -	if (preemphasis >= DP_TRAIN_PRE_EMPH_LEVEL_2)
+> -		preemphasis |= DP_TRAIN_MAX_PRE_EMPHASIS_REACHED;
+> -
+> -	for (i = 0; i < dp->mode.lane_cnt; i++)
+>   		train_set[i] = voltage | preemphasis;
+> +	}
+>   }
+>   
+>   /**
 
-Yes, these are annoying... In my work branch I had added "if (i)" there, 
-so that this is only printed if there actually are retries.
+Looks fine to me, but a few cosmetic suggestions, feel free to ignore if 
+not to your liking:
 
-But this is fine too (or even dropping the print totally), so:
+1)
+
+u8 voltage, preemphasis;
+
+voltage = drm_dp_get_adjust_request_voltage(link_status, i);
+preemphasis = drm_dp_get_adjust_request_pre_emphasis(link_status, i);
+
+2)
+
+for (unsigned int i = 0; i < dp->mode.lane_cnt; i++)
+
+3)
+
+dp->train_set[i] = voltage | preemphasis;
+
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
