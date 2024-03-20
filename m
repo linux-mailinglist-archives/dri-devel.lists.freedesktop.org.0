@@ -2,36 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A6B880AC2
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 06:42:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 185C0880AC6
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 06:46:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90F8810E229;
-	Wed, 20 Mar 2024 05:42:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C713C10EB1E;
+	Wed, 20 Mar 2024 05:46:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="V+okU14l";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ogLMFnDZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF1A010E229
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 05:42:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06C0710EB1E
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 05:46:32 +0000 (UTC)
 Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
  [91.154.34.181])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 09C8CB1;
- Wed, 20 Mar 2024 06:41:59 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1FB0BB1;
+ Wed, 20 Mar 2024 06:46:04 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1710913320;
- bh=51vi06yWFwTUJ+4mBY35zFuVwgBAdNBiOvCC4v9PTlc=;
+ s=mail; t=1710913564;
+ bh=WRTVyf9ccaMf/4dPPhuHF8JX+pHX7WqNgtBe7Ij4T/o=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=V+okU14lq6nhv+JDNxCDWIaXpvHOrrIQFQpyz/RL8kIEU9YiAGgloagUZHs3Tpx/O
- 0Fqxq30V8quCKP5Mr83gGHt61kjAuNL4jvqM6jUzaNxpB1PKJ9URpFbz+3CM09ewK1
- 3CvoXoX1LD9YNx/PV4zJNc4i465dmRkIu7eNEbSo=
-Message-ID: <e2eba421-cba1-4dd5-837c-6be5f07ed402@ideasonboard.com>
-Date: Wed, 20 Mar 2024 07:42:23 +0200
+ b=ogLMFnDZxEygUC2583PLOfYB4hwZz+GKUElV1NhpJbRf7PlYDBv/brUj7Q6G16qMB
+ H6LwlWFx2HWxSNxQKkFLFCcNLxFBnV1YTBClLjpSulHXxDkYGlhqCJPhFY62omuX0x
+ dOnSQ4LBpS5fBNaX9gHJLPErJFA9td6vXlcTkJHk=
+Message-ID: <65a040af-180d-45d0-a60b-1930e12d15bd@ideasonboard.com>
+Date: Wed, 20 Mar 2024 07:46:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/8] drm: xlnx: Fix kerneldoc
+Subject: Re: [PATCH v2 2/8] drm: zynqmp_dp: Downgrade log level for aux
+ retries message
 Content-Language: en-US
 To: Sean Anderson <sean.anderson@linux.dev>
 Cc: Michal Simek <michal.simek@amd.com>, David Airlie <airlied@gmail.com>,
@@ -42,7 +43,7 @@ Cc: Michal Simek <michal.simek@amd.com>, David Airlie <airlied@gmail.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  dri-devel@lists.freedesktop.org
 References: <20240319225122.3048400-1-sean.anderson@linux.dev>
- <20240319225122.3048400-2-sean.anderson@linux.dev>
+ <20240319225122.3048400-3-sean.anderson@linux.dev>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -87,7 +88,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240319225122.3048400-2-sean.anderson@linux.dev>
+In-Reply-To: <20240319225122.3048400-3-sean.anderson@linux.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,41 +107,38 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 20/03/2024 00:51, Sean Anderson wrote:
-> Fix a few errors in the kerneldoc. Mostly this addresses missing/renamed
-> members.
+> Enable this message for verbose debugging only as it is otherwise
+> printed after every AUX message, quickly filling the log buffer.
 > 
 > Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
 > 
-> Changes in v2:
-> - New
+> (no changes since v1)
 > 
->   drivers/gpu/drm/xlnx/zynqmp_disp.c  | 6 +++---
->   drivers/gpu/drm/xlnx/zynqmp_dpsub.h | 1 +
->   drivers/gpu/drm/xlnx/zynqmp_kms.h   | 4 ++--
->   3 files changed, 6 insertions(+), 5 deletions(-)
+>   drivers/gpu/drm/xlnx/zynqmp_dp.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> index 407bc07cec69..f79bf3fb8110 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> @@ -128,9 +128,9 @@ struct zynqmp_disp_layer {
->    * struct zynqmp_disp - Display controller
->    * @dev: Device structure
->    * @dpsub: Display subsystem
-> - * @blend.base: Register I/O base address for the blender
-> - * @avbuf.base: Register I/O base address for the audio/video buffer manager
-> - * @audio.base: Registers I/O base address for the audio mixer
-> + * @blend: Register I/O base address for the blender
-> + * @avbuf: Register I/O base address for the audio/video buffer manager
-> + * @audio: Registers I/O base address for the audio mixer
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> index a0606fab0e22..98a32e6a0459 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> @@ -1006,7 +1006,7 @@ zynqmp_dp_aux_transfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
+>   					       msg->buffer, msg->size,
+>   					       &msg->reply);
+>   		if (!ret) {
+> -			dev_dbg(dp->dev, "aux %d retries\n", i);
+> +			dev_vdbg(dp->dev, "aux %d retries\n", i);
+>   			return msg->size;
+>   		}
+>   
 
-Afaics, the kernel doc guide:
+Yes, these are annoying... In my work branch I had added "if (i)" there, 
+so that this is only printed if there actually are retries.
 
-https://docs.kernel.org/doc-guide/kernel-doc.html#nested-structs-unions
+But this is fine too (or even dropping the print totally), so:
 
-says that the current version is correct. Or is the issue that while, 
-say, 'base' is documented, 'blend' was not?
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
   Tomi
 
