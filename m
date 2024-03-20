@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F254880B82
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 07:54:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20C83880C1E
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 08:36:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF83710EEB2;
-	Wed, 20 Mar 2024 06:54:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CBD610E383;
+	Wed, 20 Mar 2024 07:36:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nyydciRp";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="W8PfZpQY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6E2E10EEB2
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 06:54:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CAFC10E383
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 07:36:24 +0000 (UTC)
 Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
  [91.154.34.181])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 76D323F1;
- Wed, 20 Mar 2024 07:53:32 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B936EB1;
+ Wed, 20 Mar 2024 08:35:55 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1710917613;
- bh=6gxMRfdeuo2XMzykFNxadh4Wuq1BW5/GHT1HXrwvzIQ=;
+ s=mail; t=1710920156;
+ bh=8FrklcNQldLvI3BHw70NdCm4S6Qev5UhA6Rr0CTq/mo=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=nyydciRpUUUwcOIY2zpRE4rXUMIsZuo6L5YTr2RhK4/4LFE9qUjTf47+6S8zm1BlQ
- xIkrcR+QFYZuAmaQ1CQA70WcJBGWWy5/5eT/Gh41ODExDGm/e8maRgHkZ8bFi3A2+T
- c4HEIGMo0USigbDvlGKji4G6KzziD4jJAItHrRkQ=
-Message-ID: <ca4de45b-302c-4eea-bd6b-8c04e2ed89cb@ideasonboard.com>
-Date: Wed, 20 Mar 2024 08:53:56 +0200
+ b=W8PfZpQY7aN7ioLHqtSKdkr2iJyynYUfckLxYN+9Jd4R8b9pe0ZmUI5CF5U3nur4q
+ loefYTM7XB12q3cJjjccMHh+Yw179wIjcHjLq0cb2kRZ+kIHpNbWKIG5aux+PENOtZ
+ rYW3XNxl/EyJAOD6/Ac16gX8vstfhvAVE0uRptKI=
+Message-ID: <dc46558d-9254-47e6-9499-4c2ace437f3a@ideasonboard.com>
+Date: Wed, 20 Mar 2024 09:36:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/8] drm: zynqmp_dp: Don't retrain the link in our IRQ
+Subject: Re: [PATCH v2 7/8] drm: zynqmp_dp: Split off several helper functions
 Content-Language: en-US
 To: Sean Anderson <sean.anderson@linux.dev>
 Cc: Michal Simek <michal.simek@amd.com>, David Airlie <airlied@gmail.com>,
@@ -42,7 +42,7 @@ Cc: Michal Simek <michal.simek@amd.com>, David Airlie <airlied@gmail.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  dri-devel@lists.freedesktop.org
 References: <20240319225122.3048400-1-sean.anderson@linux.dev>
- <20240319225122.3048400-6-sean.anderson@linux.dev>
+ <20240319225122.3048400-8-sean.anderson@linux.dev>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -87,7 +87,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240319225122.3048400-6-sean.anderson@linux.dev>
+In-Reply-To: <20240319225122.3048400-8-sean.anderson@linux.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,40 +106,20 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 20/03/2024 00:51, Sean Anderson wrote:
-> Retraining the link can take a while, and might involve waiting for
-> DPCD reads/writes to complete. This is inappropriate for an IRQ handler.
-> Just schedule this work for later completion. This is racy, but will be
-> fixed in the next commit.
-
-You should add the locks first, and use them here, rather than first 
-adding a buggy commit and fixing it in the next one.
-
+> In preparation for supporting compliance testing, split off several
+> helper functions. No functional change intended.
+> 
 > Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
-> Actually, on second look this IRQ is threaded. So why do we have a
-> workqueue for HPD events? Maybe we should make it unthreaded?
+> 
+> (no changes since v1)
+> 
+>   drivers/gpu/drm/xlnx/zynqmp_dp.c | 49 ++++++++++++++++++++++----------
+>   1 file changed, 34 insertions(+), 15 deletions(-)
+> 
 
-Indeed, there's not much work being done in the IRQ handler. I don't 
-know why it's threaded.
-
-We could move the queued work to be inside the threaded irq handler, but 
-with a quick look, the HPD work has lines like "msleep(100)" (and that's 
-inside a for loop...), which is probably not a good thing to do even in 
-threaded irq handler.
-
-Although I'm not sure if that code is good to have anywhere. Why do we 
-even have such code in the HPD work path... We already got the HPD 
-interrupt. What does "It takes some delay (ex, 100 ~ 500 msec) to get 
-the HPD signal with some monitors" even mean...
-
-Would it be possible to clean up the work funcs a bit (I haven't looked 
-a the new work func yet), to remove the worst extra sleeps, and just do 
-all that inside the threaded irq handler?
-
-Do we need to handle interrupts while either delayed work is being done?
-
-If we do need a delayed work, would just one work be enough which 
-handles both HPD_EVENT and HPD_IRQ, instead of two?
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
   Tomi
 
