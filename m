@@ -2,36 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20C83880C1E
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 08:36:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CA30880C5D
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 08:49:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CBD610E383;
-	Wed, 20 Mar 2024 07:36:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1CE810E012;
+	Wed, 20 Mar 2024 07:49:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="W8PfZpQY";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OardmIse";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CAFC10E383
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 07:36:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 154E910E012
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 07:49:16 +0000 (UTC)
 Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
  [91.154.34.181])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B936EB1;
- Wed, 20 Mar 2024 08:35:55 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 378E0B1;
+ Wed, 20 Mar 2024 08:48:48 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1710920156;
- bh=8FrklcNQldLvI3BHw70NdCm4S6Qev5UhA6Rr0CTq/mo=;
+ s=mail; t=1710920928;
+ bh=5C83c2ZTQtqAElrpx2RfgAHGISm99N4byeNo145Ivys=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=W8PfZpQY7aN7ioLHqtSKdkr2iJyynYUfckLxYN+9Jd4R8b9pe0ZmUI5CF5U3nur4q
- loefYTM7XB12q3cJjjccMHh+Yw179wIjcHjLq0cb2kRZ+kIHpNbWKIG5aux+PENOtZ
- rYW3XNxl/EyJAOD6/Ac16gX8vstfhvAVE0uRptKI=
-Message-ID: <dc46558d-9254-47e6-9499-4c2ace437f3a@ideasonboard.com>
-Date: Wed, 20 Mar 2024 09:36:19 +0200
+ b=OardmIseA2AxJMuPuRoU2a5kBOFOuJIUhzg6XflLISoKsQSy0eGT4wa4wi4hd6W1Q
+ BzFmjDaPNoHeUSOWt7li4P+2kZlXVmalfKtAJAkoSGxvh/5wfxovNdW+VFOpqix91B
+ af73ZOmur2xeJ8DEJ2hTGvprQHLbgreNo+mi1nLA=
+Message-ID: <7aa16340-6a87-4110-8114-c1b863b100c9@ideasonboard.com>
+Date: Wed, 20 Mar 2024 09:49:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/8] drm: zynqmp_dp: Split off several helper functions
+Subject: Re: [PATCH v2 8/8] drm: zynqmp_dp: Add debugfs interface for
+ compliance testing
 Content-Language: en-US
 To: Sean Anderson <sean.anderson@linux.dev>
 Cc: Michal Simek <michal.simek@amd.com>, David Airlie <airlied@gmail.com>,
@@ -42,7 +43,7 @@ Cc: Michal Simek <michal.simek@amd.com>, David Airlie <airlied@gmail.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  dri-devel@lists.freedesktop.org
 References: <20240319225122.3048400-1-sean.anderson@linux.dev>
- <20240319225122.3048400-8-sean.anderson@linux.dev>
+ <20240319225122.3048400-9-sean.anderson@linux.dev>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -87,7 +88,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240319225122.3048400-8-sean.anderson@linux.dev>
+In-Reply-To: <20240319225122.3048400-9-sean.anderson@linux.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,20 +107,24 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 20/03/2024 00:51, Sean Anderson wrote:
-> In preparation for supporting compliance testing, split off several
-> helper functions. No functional change intended.
-> 
-> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> 
-> (no changes since v1)
-> 
->   drivers/gpu/drm/xlnx/zynqmp_dp.c | 49 ++++++++++++++++++++++----------
->   1 file changed, 34 insertions(+), 15 deletions(-)
-> 
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> +/**
+> + * enum test_pattern - Test patterns for test testing
+
+"for test testing"? =)
+
+> @@ -1655,6 +2321,9 @@ static void zynqmp_dp_hpd_irq_work_func(struct work_struct *work)
+>   	u8 status[DP_LINK_STATUS_SIZE + 2];
+>   	int err;
+>   
+> +	if (READ_ONCE(dp->ignore_hpd))
+> +		return;
+> +
+>   	mutex_lock(&dp->lock);
+>   	err = drm_dp_dpcd_read(&dp->aux, DP_SINK_COUNT, status,
+>   			       DP_LINK_STATUS_SIZE + 2);
+
+Why do you need READ/WRITE_ONCE() for ignore_hpd?
 
   Tomi
 
