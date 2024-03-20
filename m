@@ -2,124 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D23C7880D6B
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 09:46:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F64B880DB4
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 09:51:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C26E910F126;
-	Wed, 20 Mar 2024 08:46:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D20310EBA5;
+	Wed, 20 Mar 2024 08:51:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=asem.it header.i=@asem.it header.b="AEMh41pQ";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="1ydJY3KY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UWgIELCt";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1ydJY3KY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UWgIELCt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2072.outbound.protection.outlook.com [40.107.93.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E3E810F126
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 08:46:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=W1UsZ8g69N/pFppqxNhq67KMlQ/dHXNbgpkJvB5JMVvkL9oVVQReKtifFsNa4Gosc78hs46OiZXE7U2Lyh3X9woqMdULslAFRhaPsSsWLVycJ6NHsEeLIMxqNcgkY7qeSAgtrgE6lc5OS2DlDl2I2AJ9ohFJxuLs9iF900moNL8Q3gIrjZgYfyZ8nmMhf3HHasiqr5ZL/SAMUIF4V3VnDE8/70Vp++xUIVwunrPJxMu7p4VYk2U0y+EmdLwuy50uKE0aRuFiX8v3teLA8qoVDGZ0doRgcbLDI5J2n5xjjJjKB/uZBtcefGHF3Dn0nmPvTHAgh7XfhMrcsOtd2qc4Bw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MlTL46Lub++UYBcQVJQ96wVxnJGxb3eT+W2dc5AUj7E=;
- b=jVMl3uoM+YMrfGZg2m5lRvYNOzAcr2vY8uL6+2LE990UIskv/y6hgUMLDgTf8mz/yuu7bBbTlWq9oewBDKS11fUosREcehbRD/6E+1E7qbgoKbuNiR5aOVVaW0rI6oe+Umj04OhXZx9GhDZSwXMmZaE/mtH4Qy6CQUemrUfDWe+J0qUw8PdLoVB4mMUhs8kkdCove0JPvdOrABD7dB75uylc8LacEtjY7zj1yiz+XcNau7dFkGhNNV/u9I3GErGxeje3u5Jxi/ou3xIHB5dg1KV/k63CHZvZx3gsL09QwKOe1yZxx+lHOS6/MwcNm3AhjQGI0XcXx7ucPBcvmpVpVw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=asem.it; dmarc=pass action=none header.from=asem.it; dkim=pass
- header.d=asem.it; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asem.it; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MlTL46Lub++UYBcQVJQ96wVxnJGxb3eT+W2dc5AUj7E=;
- b=AEMh41pQIoZIpU1hjMuxh6Qp7NHp0jBr/vYIUa3qFAaJA/Zk0oz/bp0FJBX1bs+yuAGSvi7JoLMULXKRfNcSi0wu4uWESw8DnEttrDdmAG8Copku9S9ot2sPaACO1jD8unUHiIMS8L5CVnFTUYT5dLAXHnWOVB0KhUFY20VballZ5eXjB2yBVTIOhVHRBHI2IeZZsL4xttpZFbRq7WlvcyjUoj2uCESZdE8RGXZgWcGiPAKZtFSchjjY5l5PyX+kDtEUAgII3gplP9oxja27Bte6XMovhs9Hf8QKVLcTID3NuLVlu7MjtL3SkI9q3xchwqCeHFZrtpKRedLBChULSw==
-Received: from PH0PR22MB3789.namprd22.prod.outlook.com (2603:10b6:510:29c::11)
- by PH7PR22MB3037.namprd22.prod.outlook.com (2603:10b6:510:133::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.30; Wed, 20 Mar
- 2024 08:46:08 +0000
-Received: from PH0PR22MB3789.namprd22.prod.outlook.com
- ([fe80::35ce:ff48:fa8b:d4a7]) by PH0PR22MB3789.namprd22.prod.outlook.com
- ([fe80::35ce:ff48:fa8b:d4a7%7]) with mapi id 15.20.7386.025; Wed, 20 Mar 2024
- 08:46:08 +0000
-From: FLAVIO SULIGOI <f.suligoi@asem.it>
-To: 'Thomas Zimmermann' <tzimmermann@suse.de>, "lee@kernel.org"
- <lee@kernel.org>, "daniel.thompson@linaro.org" <daniel.thompson@linaro.org>,
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BB3E10EBA5
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 08:51:10 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 108A834020;
+ Wed, 20 Mar 2024 08:51:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1710924668; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Iej1NyZKIT/SwcpbI2fMLfxfkoKNYFAwt1l2JSYzYfw=;
+ b=1ydJY3KY0p5jS8f3i3FLw0r9VeNZnpTsRvKHqPaVoKEU8zttVR93E/z8nI/xygQCqL8HKl
+ FXBEsewnemHFDoL8Hwqet9x25szdMzRfUQlWjJCF9qcsUk/xU3dE3tX0o8jwL+OOswhrXA
+ Am0SZPp9mAJOYcf9o1nnBViz+Sm65ek=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1710924668;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Iej1NyZKIT/SwcpbI2fMLfxfkoKNYFAwt1l2JSYzYfw=;
+ b=UWgIELCtP0zAaEbbzNcIexByZIUe1OQUFors0i87byKyrXEewovuSoJc2xdF7Ewr7xYnh/
+ k7Xc001IzCdQMiDA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1710924668; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Iej1NyZKIT/SwcpbI2fMLfxfkoKNYFAwt1l2JSYzYfw=;
+ b=1ydJY3KY0p5jS8f3i3FLw0r9VeNZnpTsRvKHqPaVoKEU8zttVR93E/z8nI/xygQCqL8HKl
+ FXBEsewnemHFDoL8Hwqet9x25szdMzRfUQlWjJCF9qcsUk/xU3dE3tX0o8jwL+OOswhrXA
+ Am0SZPp9mAJOYcf9o1nnBViz+Sm65ek=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1710924668;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Iej1NyZKIT/SwcpbI2fMLfxfkoKNYFAwt1l2JSYzYfw=;
+ b=UWgIELCtP0zAaEbbzNcIexByZIUe1OQUFors0i87byKyrXEewovuSoJc2xdF7Ewr7xYnh/
+ k7Xc001IzCdQMiDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 987A8136CD;
+ Wed, 20 Mar 2024 08:51:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id C8qXInuj+mU+SAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 20 Mar 2024 08:51:07 +0000
+Message-ID: <ae872d58-6245-4528-97f8-e5772393067d@suse.de>
+Date: Wed, 20 Mar 2024 09:51:06 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 6/6] backlight: Remove fb_blank from struct
+ backlight_properties
+To: FLAVIO SULIGOI <f.suligoi@asem.it>, "lee@kernel.org" <lee@kernel.org>,
+ "daniel.thompson@linaro.org" <daniel.thompson@linaro.org>,
  "jingoohan1@gmail.com" <jingoohan1@gmail.com>, "deller@gmx.de"
- <deller@gmx.de>, "andy@kernel.org" <andy@kernel.org>, "geert@linux-m68k.org"
- <geert@linux-m68k.org>, "dan.carpenter@linaro.org"
- <dan.carpenter@linaro.org>, "sam@ravnborg.org" <sam@ravnborg.org>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ <deller@gmx.de>, "andy@kernel.org" <andy@kernel.org>,
+ "geert@linux-m68k.org" <geert@linux-m68k.org>,
+ "dan.carpenter@linaro.org" <dan.carpenter@linaro.org>,
+ "sam@ravnborg.org" <sam@ravnborg.org>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, Nicolas
- Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Subject: RE: [PATCH v2 6/6] backlight: Remove fb_blank from struct
- backlight_properties
-Thread-Topic: [PATCH v2 6/6] backlight: Remove fb_blank from struct
- backlight_properties
-Thread-Index: AQHaeqMNhOWwbc8AK0uuu/eEdiHVPQ==
-Date: Wed, 20 Mar 2024 08:46:08 +0000
-Message-ID: <PH0PR22MB37892E08DA11EDF48D956646F9332@PH0PR22MB3789.namprd22.prod.outlook.com>
+ "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>
 References: <20240319093915.31778-1-tzimmermann@suse.de>
  <20240319093915.31778-7-tzimmermann@suse.de>
-In-Reply-To: <20240319093915.31778-7-tzimmermann@suse.de>
-Accept-Language: en-US
+ <PH0PR22MB37892E08DA11EDF48D956646F9332@PH0PR22MB3789.namprd22.prod.outlook.com>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=asem.it;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR22MB3789:EE_|PH7PR22MB3037:EE_
-x-ms-office365-filtering-correlation-id: b8e674a0-92ea-4b7e-7c3a-08dc48ba2fac
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Uia8SWZ6iwZHVn3IFvl4QcN5YSTzmVCL0kjbR4683tK5//UXt5g/7MWNbka9QbXIgquPyop/l6TSKJLc8Y6J8EmNaGQdr/lpp2jRxkBBWlxAUoiP2D25CKex2V7/g8b0Vi4DrGdqASrIMJWjBlVj3CONXqMY7WUh3u49EOfsXu50ORs9OcPgPD5EFIPKgMf80aul+IBdQ8xKLnPtFPE/ej8znkpXXB9Df6ACwyeeqOLPjvc49txIqN+4xGvLDPMg8yrC+lcbFxMCxIVG7wF4S5Rly5mtuAGvoc0r9LOMTu6S1emcBTrpRq1EBdnStb4kxARl8YnMnDWYNSESUJbNjUs0SQ2HSaResp85ZTRrwFc4kw1Qn3IFTxbRXFs1KxAuV8rkdnqeyzcED++nei54oTB2jucC0c9Wxy/inxr+0de04Wli909Pom83rPS0y4ypiNIDZfhNZdGAlTe44AaeFWt7UFFqzPhO4YZVdIqhUgz0yB6iZIOo80ie+VZY84ZTlJT57YqjTi4L0lXtmftuhxSAlYxUijc+S9rJVMzFu9MvLIh0cwHgwkm4MW1YMtBChSd+kYMVu7CdRI+2nxoIjeroVABKwIFBx0bjEZ0UH8284Q7UkhVinatg2M5afz3HKFWEjf6QRhg+0JSe+gM0Bund2eqUzzolJQtqqNtIrVaXrV33x0d6wuWmyJQ5TBuo2TIrmbU/OBiVa9IgbyEW4w==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR22MB3789.namprd22.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005)(366007)(1800799015)(7416005)(38070700009); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?QGF0V1zuQUghERBvaiP2IGcQbE3n5YqYQWywHwno2yzWeo7M5bxVtog1u8ci?=
- =?us-ascii?Q?PddTduzaqPpiGPtvo6b2++dDx6IRxRnT1QXDtyetvn0NQDheLbV/T8AuM/bt?=
- =?us-ascii?Q?BT4e+FB38VjGybyUYmkws8k8j8Q0yDJ7eUxPyaCGo1C8JjrBs2SIIMLESjPe?=
- =?us-ascii?Q?f0cIu82Vn29boJPRtN2u7UACWEvtNifAImf6kAKuwx5CTVSZZCEGw3cysejD?=
- =?us-ascii?Q?sXzrFQX53diGgt/Sn+eIK2OlFd0z9fnP8cim+fpuFeGyD+jUe05NVFLchcpN?=
- =?us-ascii?Q?x0GljW20U38xHx7CJ+qjTjLCdhXLBTemz+11zOU1/MlGFhsYFH16rc0JTZc8?=
- =?us-ascii?Q?noxkrrqNGQgqKhBDtoBPSi5VD/EFcTbSmRCWf81Yjv9f+cC5asqLRPqtQhCt?=
- =?us-ascii?Q?ltM1m7gAtSBSCDyHjr6RZEnHi30n5JcSJxCiTHvd8sB3dx0dP8Yc5FVygjT9?=
- =?us-ascii?Q?uAC4VlskFnDG26SC9fX614/zG1N9zG6pHtrm0gPrweJAGCMKqLRULwwPmfZC?=
- =?us-ascii?Q?Zw/pPQq8al4SDibHVoKZRqd+Z9+LxaXUpu6RZZqBb7jVICqnqkCNojnWVzp/?=
- =?us-ascii?Q?mIKi1KGvp0GOZGRwcVgZ07r3Ce0Tltxr0KZVvhp3BJdPJv0qgA3O6ok+Du2u?=
- =?us-ascii?Q?L7STibGQTTEbxwgSzwXyrhaq91gQQitUPRFc3s7REc19udaUPS33frkjMSqR?=
- =?us-ascii?Q?nYQIGQ3D3mAarz16K0z/muq3ProWG9l2z8C1uvTLMkhwIZbRdy2i1exri7C7?=
- =?us-ascii?Q?YUMzo2QvVKuPoGSMY2FeK6jyL9RcPgAEQhLgC011bnoCNWa1OQn2qkT436/s?=
- =?us-ascii?Q?sV0HawKVw7jwtSjiYqOZekOho+rqjhHn1mSxNZJAVUO4CBn8KXf0D5yWLqdn?=
- =?us-ascii?Q?jz5vPQp/JnqnHBwI4KLr7cFDlTq3vHRFk9u7ZK+ckhIRrP+exv25K7LYP7E4?=
- =?us-ascii?Q?riQKa94bq0lhPebcG18akvKZ4yq9vVXphhek8RNwUPNQFA9R3Nwto9uq+L8O?=
- =?us-ascii?Q?V0Httyf2FDK9K2TeKM6Q8uWhYuxkoeU5FEpNrmarU2ekTMdXschuxFm9+djx?=
- =?us-ascii?Q?eL8gOl+Y0dfcxKDaJdUgkY+UlJzN5CTZff9eCaq4XzGMaPRA+sWM8syoA7Ur?=
- =?us-ascii?Q?g5EzH22bgifJfjk21i8E4CZ7w9ef5+7IjhfRzLhC9ug3AA5atuvekiSI15CW?=
- =?us-ascii?Q?miTmk3n1NHcYD0cRY5mWx6Nf/5Xl2mtVrkiehCLKcomU8eCuLHzVbznMl/ga?=
- =?us-ascii?Q?MwCEF02QZqeKPXJsGHK8U/nTMqW4k3X3NoLE1+hkBxzenCiNmQ4pkmf4VV2O?=
- =?us-ascii?Q?PUc+oQwtz/GZ7LvsIrXylSz7YMN8a2zvv+v/4CD74Tfkmj/URecwao5ZTzID?=
- =?us-ascii?Q?iN2KIvjol7OwfCMgqtY1/Q+9fgBURJl4GaZ9F/lQDUe+6p6uMlbz/opTZy07?=
- =?us-ascii?Q?0Za3HKlPrBOyeKXEh6eRA3jJyYqEVOeuqrp8trEA57wzXgbD82QA7SlvCkIr?=
- =?us-ascii?Q?evrkzd+AFZ2ggiUDvp9APQIQUEr9n0WdmdVrrSwRMactZt50gLfWFsKoO34C?=
- =?us-ascii?Q?sJnef3kI2SOhdbNYnRd3ThtLujiQvvzCdD9Mi5Uu/dkfQhcZPnUUXm1+V8Xz?=
- =?us-ascii?Q?V+aO3VVR+2tt0w2ZLS5y/A0=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: asem.it
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR22MB3789.namprd22.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8e674a0-92ea-4b7e-7c3a-08dc48ba2fac
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Mar 2024 08:46:08.0556 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 855b093e-7340-45c7-9f0c-96150415893e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gxlYx/GBwTPOhFv6WLlC4pVqrTf5vQtzjklq6tR5vSX2p89kqn9LQuAr/R8SA7N8vH1qP7wieJ6WSPOADTbYyzovzczWsbgCmpVsNUzwYbo17cydRbCSsQLwZzg+ZIuE
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR22MB3037
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <PH0PR22MB37892E08DA11EDF48D956646F9332@PH0PR22MB3789.namprd22.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -3.37
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.37 / 50.00]; ARC_NA(0.00)[];
+ TO_DN_EQ_ADDR_SOME(0.00)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ XM_UA_NO_VERSION(0.01)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; BAYES_HAM(-1.87)[94.23%];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; RCVD_COUNT_THREE(0.00)[3];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]; MX_GOOD(-0.01)[];
+ RCPT_COUNT_TWELVE(0.00)[15];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email];
+ FREEMAIL_TO(0.00)[asem.it,kernel.org,linaro.org,gmail.com,gmx.de,linux-m68k.org,ravnborg.org];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ RCVD_TLS_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[]
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1ydJY3KY;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UWgIELCt
+X-Rspamd-Queue-Id: 108A834020
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,33 +160,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+Hi
 
-...
-> Remove the field fb_blank from struct backlight_properties and remove all
-> code that still sets or reads it. Backlight blank status is now tracked e=
-xclusively
-> in struct backlight_properties.state.
->=20
-> The core backlight code keeps the fb_blank and state fields in sync, but =
-doesn't
-> do anything else with fb_blank. Several drivers initialize fb_blank to
-> FB_BLANK_UNBLANK to enable the backlight. This is already the default for
-> the state field. So we can delete the fb_blank code from core and drivers=
- and
-> rely on the state field.
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Flavio Suligoi <f.suligoi@asem.it>
-> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-> Tested-by: Flavio Suligoi <f.suligoi@asem.it>
-> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-> Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
-...
+Am 20.03.24 um 09:46 schrieb FLAVIO SULIGOI:
+> Hi Thomas,
+>
+> ...
+>> Remove the field fb_blank from struct backlight_properties and remove all
+>> code that still sets or reads it. Backlight blank status is now tracked exclusively
+>> in struct backlight_properties.state.
+>>
+>> The core backlight code keeps the fb_blank and state fields in sync, but doesn't
+>> do anything else with fb_blank. Several drivers initialize fb_blank to
+>> FB_BLANK_UNBLANK to enable the backlight. This is already the default for
+>> the state field. So we can delete the fb_blank code from core and drivers and
+>> rely on the state field.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: Flavio Suligoi <f.suligoi@asem.it>
+>> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+>> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+>> Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+>> Tested-by: Flavio Suligoi <f.suligoi@asem.it>
+>> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+>> Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ...
+>
+> Can you explain what are the differences between the version 1 and version 2 of the patch?
 
-Can you explain what are the differences between the version 1 and version =
-2 of the patch?
-Thanks,
-Flavio
+There are none. It's simply labeled v2 because it is part of the version 
+2 of this series.
+
+Best regards
+Thomas
+
+> Thanks,
+> Flavio
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
