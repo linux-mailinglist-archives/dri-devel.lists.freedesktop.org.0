@@ -2,45 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85CD881742
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 19:18:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4F6E881752
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 19:30:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7311610E01F;
-	Wed, 20 Mar 2024 18:18:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 222BA10F9F4;
+	Wed, 20 Mar 2024 18:30:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RhiThRyq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WTN+vqMP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F106F10E01F;
- Wed, 20 Mar 2024 18:18:01 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id B1ED3CE11A1;
- Wed, 20 Mar 2024 18:17:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84D5EC433F1;
- Wed, 20 Mar 2024 18:17:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1710958678;
- bh=nyR0uFG7tZpDXAGVoxwRgN9QFStj44cGzi46W0+gxB8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RhiThRyq/MN/RH0CbLM/1cZMJ/aCX1F3SuKOSRLETFEqW3rmgrMAL0pyYZkcMLvG9
- 45aqUG120Z6iQxUwUQ+a2n8I6Md45CQGLToscbOc5t9X/EebufPOLWsfQm4SaG8wUA
- TnJSpCIt0m00Amai+vANkYZixDCvxcf4k6CRZoww=
-Date: Wed, 20 Mar 2024 19:17:54 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Danilo Krummrich <dakr@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, airlied@redhat.com,
- lyude@redhat.com, pstanner@redhat.com, ajanulgu@redhat.com,
- mcanal@igalia.com, lina@asahilina.net, a.hindborg@samsung.com
-Subject: Re: Nova and staging Rust abstractions
-Message-ID: <2024032007-imprison-rejoicing-e925@gregkh>
-References: <Zfsj0_tb-0-tNrJy@cassiopeiae>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D114710F6D9;
+ Wed, 20 Mar 2024 18:30:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1710959446; x=1742495446;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=pIMvEZlWIVtjNJitQfBbhwqYFC5rypTGNigzi89FX0w=;
+ b=WTN+vqMPzTJM/kWoh0KwasBgygzr2cTheP6jKAuS+ePKwDeZZWa/LNwR
+ BxGp7XllMF35Im02i9smL7gip40BELnnHwr4KR6MlaXT8miioaAjNm0kw
+ yDTJTkWSENwhf2RekBmllFCYxZUMeEKm7oSy6PPzcHk3q81gCPmfdoYlZ
+ wjRK906FkLiTUWZRU/D5zA8TFyd9Kml7ArkQhPP56J99hSBnEQR6eYj2p
+ i24lIWfOpUvMTTIUTgdn3sve7me/4EzlbeGe1dhsHPFtLNxSnQLGqsFnT
+ MnGwxgmjv0a1MGupRnPpVFIpfzZjp55/bYqPMVnYEUl4J+XbZaAx5eyZ+ A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="5754538"
+X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; 
+   d="scan'208";a="5754538"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Mar 2024 11:30:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; d="scan'208";a="14303213"
+Received: from unknown (HELO intel.com) ([10.247.118.186])
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Mar 2024 11:30:33 -0700
+Date: Wed, 20 Mar 2024 19:30:25 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: "Mrozek, Michal" <michal.mrozek@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@linux.intel.com>,
+ "Landwerlin, Lionel G" <lionel.g.landwerlin@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andi Shyti <andi.shyti@kernel.org>,
+ "Hajda, Andrzej" <andrzej.hajda@intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ "Das, Nirmoy" <nirmoy.das@intel.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: Re: [PATCH] drm/i915/gt: Report full vm address range
+Message-ID: <ZfsrQWNfzDGl8IVV@ashyti-mobl2.lan>
+References: <20240313193907.95205-1-andi.shyti@linux.intel.com>
+ <46ab1d25-5d16-4610-8b8f-2ee07064ec2e@intel.com>
+ <35df0767-384f-49f2-806a-f83765ca7c4c@linux.intel.com>
+ <ZfSAo791UDRnBSwc@ashyti-mobl2.lan>
+ <BN9PR11MB527575D97CB63C5E4B1B0E7AE72D2@BN9PR11MB5275.namprd11.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zfsj0_tb-0-tNrJy@cassiopeiae>
+In-Reply-To: <BN9PR11MB527575D97CB63C5E4B1B0E7AE72D2@BN9PR11MB5275.namprd11.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,13 +77,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 20, 2024 at 06:58:43PM +0100, Danilo Krummrich wrote:
-> @Greg, can you please have a first quick look at rust-device [5]?
+Hi Michal,
 
-If they are sent as patches to review, yes, I can get to them as part of
-my normal patch review cycle.  Otherwise I have no cyeles to dig through
-random github trees...
+On Mon, Mar 18, 2024 at 05:21:54AM +0000, Mrozek, Michal wrote:
+> > > Lionel, Michal, thoughts?
+> Compute UMD needs to know exact GTT total size.
 
-thanks,
+the problem is that we cannot apply the workaround without
+reserving one page from the GTT total size and we need to apply
+the workaround.
 
-greg k-h
+If we provide the total GTT size we will have one page that will
+be contended between kernel and userspace and, if userspace is
+unaware that the page belongs to the kernel, we might step on
+each other toe.
+
+The ask here from kernel side is to relax the check on the
+maxNBitValue() in userspace and take what the kernel provides.
+
+Thanks,
+Andi
