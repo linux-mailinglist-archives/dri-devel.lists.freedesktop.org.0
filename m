@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BED0D881706
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 19:03:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1FB0881733
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Mar 2024 19:09:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70F3910E5A6;
-	Wed, 20 Mar 2024 18:03:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DE0610FE2B;
+	Wed, 20 Mar 2024 18:09:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DBEDFaCH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AKeznGg8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5229D10E1CF;
- Wed, 20 Mar 2024 18:03:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1710957791; x=1742493791;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=LK2peCM+6ulC4Y1PdKmTswKWjTlonY5Ab0f7U8l24bg=;
- b=DBEDFaCHka0A5i5va4M4CxW12JN5KyM26L6t2WV26lFn38fMmSSveStv
- z+9pCEUIkeWmGyOET1Y0mkc51EY28NXWYmnlgv1eBcdd5H1df8I0lD2YR
- nEtWnSbCV02z/E9UYmAfx5n5bLMEiB/8DolU8ZVm8kpnqPv/t8Zd8lPrc
- iXhoGNZ3+Ugo0HCnPVQHUReqail5WsAhF/6k0/M8Oyx8R8oCD1DUbHtNm
- gaqrJl+Mma4febg6vDvdtdaVxp3YFjalOjQ6KyS+LdTRjy3NrdjWY7/5U
- AyBxSq4nyg7QQ3gdgwT4du/YdbrZmtoSo0eCTPaaxtUlho8noT6GsOZ1P Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="28376203"
-X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; d="scan'208";a="28376203"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Mar 2024 11:03:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; d="scan'208";a="37340658"
-Received: from unknown (HELO intel.com) ([10.247.118.186])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Mar 2024 11:02:58 -0700
-Date: Wed, 20 Mar 2024 19:02:52 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- John Harrison <John.C.Harrison@intel.com>, stable@vger.kernel.org,
- Andi Shyti <andi.shyti@kernel.org>
-Subject: Re: [PATCH v6 0/3] Disable automatic load CCS load balancing
-Message-ID: <ZfskzEC_ToR9o-Xc@ashyti-mobl2.lan>
-References: <20240313201955.95716-1-andi.shyti@linux.intel.com>
- <Zfr7hPs_VAUkTNTX@ashyti-mobl2.lan>
- <3fe26c42-cc34-42b2-a5cc-21a6a9468b4e@ursulin.net>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5C1910FE2B
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 18:09:15 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 4C1ABCE11E6
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 18:09:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7726AC433A6
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 18:09:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1710958151;
+ bh=S2AmceJnA1oqX4L4Alvthv0KzzmvHxPORGTg4Ewyq04=;
+ h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+ b=AKeznGg86fgoPAtbyRS728/k3KtijffusdH3Is/KwO+8KZdQueO2r0VdKr0iAtfo9
+ esNOjIV5D+PlkJygPjqyw1X0SuigiTXF+l4EZzPwcnkqx8MsS0fNDPdZu8HDsh7UF5
+ rqgmOMfcbEZUQgx1sqFCdS1fECMPraY2YTq0168zFsJdyZToqjopeprEsucXIsACp4
+ QU8sobYma/UwAH1b8zaw6WKebLXkabKZvyyu8WDT4Am6v2LrWT2YHTjHqXn8ffeDnG
+ KvPkUtrMlnZDcH5QpwvdbOjiy4QSUFu+EVtq7EgNkzr99jgJIOsSoacahYTPks6gDI
+ 2gULs97eswqzg==
+Received: by mail-pj1-f42.google.com with SMTP id
+ 98e67ed59e1d1-29fb12a22afso140135a91.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 11:09:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWlAy7JS93rGah/OOrM7AAa6iusNYsZjRgNnqZ/LdLdHdLBhVfanylUNqxDHGBqaJR5UBdI3PBRdnVg0niWGo9x9PeB3nc0hXO/x0KWazs/
+X-Gm-Message-State: AOJu0Yz9sQtJmt5O0K1QJ7wKDjVSBW0hWR0Rd+5NfkqvMIFLU8+AFiOU
+ bFUXzjl3mGmJpDPctIvbkbJPssv3OfJeerx/iMjC7A/h+MeMoGTNFr3x5NUIeGQ1lfEDQBsEPwW
+ jxEkmIn/gT8InojEolnbTRNHAoc0=
+X-Google-Smtp-Source: AGHT+IE8Fp7AEG8Xv/sqho125kkMBhYA1oEp8uDuh9BRLzOcKiQp/VsikDjp2CnbNrMlOJfqPf8dFexudbpXt2Vnnik=
+X-Received: by 2002:a17:90a:88d:b0:29d:e70f:7240 with SMTP id
+ v13-20020a17090a088d00b0029de70f7240mr14350249pjc.11.1710958151026; Wed, 20
+ Mar 2024 11:09:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3fe26c42-cc34-42b2-a5cc-21a6a9468b4e@ursulin.net>
+References: <39ad88fa-449a-4aa9-ac6a-902d8d531984@notapiano>
+ <20240320-sticky-shiny-mussel-5da3cf@houat>
+ <613c60d8-2652-451d-91f3-bde84219bf48@notapiano>
+In-Reply-To: <613c60d8-2652-451d-91f3-bde84219bf48@notapiano>
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Thu, 21 Mar 2024 02:08:59 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65Te6hsPvB7nQjGTAm0x9nurq7Kcdpjtb-MvQ-a1hxqYQ@mail.gmail.com>
+Message-ID: <CAGb2v65Te6hsPvB7nQjGTAm0x9nurq7Kcdpjtb-MvQ-a1hxqYQ@mail.gmail.com>
+Subject: Re: Missing commits from drm-misc-next on linux-next
+To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org, 
+ kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,20 +70,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: wens@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tvrtko,
+On Thu, Mar 21, 2024 at 1:59=E2=80=AFAM N=C3=ADcolas F. R. A. Prado
+<nfraprado@collabora.com> wrote:
+>
+> On Wed, Mar 20, 2024 at 04:19:51PM +0100, Maxime Ripard wrote:
+> > Hi,
+> >
+> > On Wed, Mar 20, 2024 at 11:07:34AM -0400, N=C3=ADcolas F. R. A. Prado w=
+rote:
+> > > I noticed that there are some commits from drm-misc-next [1] that hav=
+en't been
+> > > added to the for-linux-next [2] branch, and consequently haven't made=
+ their way
+> > > into linux-next.
+> > >
+> > > Namely, commit bf0390e2c95b ("drm/panel: add samsung s6e3fa7 panel dr=
+iver") and
+> > > commit 2689b33b8864 ("dt-bindings: display: panel-simple-dsi: add s6e=
+3fa7
+> > > ams559nk06 compat") which have been applied almost a month ago [3].
+> > >
+> > > I noticed because running 'make dtbs_check' on today's next is showin=
+g new
+> > > warnings, but with these commits applied there shouldn't be any warni=
+ng.
+> > >
+> > > Could you please take a look? I'm guessing a merge was forgotten some=
+where along
+> > > the line on the for-linux-next branch.
+> >
+> > Those commits are in drm-misc-next which is now targetting the 6.10
+> > merge window. In order not to disrupt the oncoming 6.9 release though,
+> > drm-misc-next is removed from the for-next branch, it will be
+> > reintroduced after 6.9-rc1.
+> >
+> > Maxime
+>
+> I see. I didn't realize that's how drm-misc-next worked.
+>
+> Interestingly enough, the reason why this happened is because the for-nex=
+t
+> branch on the qcom tree [1] also includes changes that are queued for 6.1=
+0. So
+> it seems that every subsystem has a different view of whether linux-next =
+should
+> include only changes for the next (or current) merge window (6.9 in this =
+case),
+> or if it should also include changes for the following merge window (6.10=
+ in
+> this case). The end result is that in the time period leading to, and dur=
+ing,
+> the merge window, linux-next might be in an inconsistent state - it's nei=
+ther a
+> snapshot for this release's rc1, nor a snapshot for the rc1 of the follow=
+ing
+> release. This seems to me to partially defeat the purpose of linux-next, =
+so I
+> wonder if it's just a matter of better documenting the expectations for
+> linux-next.
 
-On Wed, Mar 20, 2024 at 03:40:18PM +0000, Tvrtko Ursulin wrote:
-> On 20/03/2024 15:06, Andi Shyti wrote:
-> > Ping! Any thoughts here?
-> 
-> I only casually observed the discussion after I saw Matt suggested further
-> simplifications. As I understood it, you will bring back the uabi engine
-> games when adding the dynamic behaviour and that is fine by me.
+AFAIK 6.10 material should not be included in -next until after the merge
+window has closed. If they are including it then they are doing it wrong.
 
-yes, the refactoring suggested by you will come later.
+ChenYu
 
-Thanks,
-Andi
+> Anyway, at least for now I'll keep in mind that linux-next can be inconsi=
+stent
+> when looking through future results.
+>
+> Thank you both for the insight.
+>
+> Thanks,
+> N=C3=ADcolas
+>
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux.git/log/?h=
+=3Dfor-next
