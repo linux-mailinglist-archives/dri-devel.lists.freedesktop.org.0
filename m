@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 764148861E2
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 21:44:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B52418861E4
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 21:44:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB7F511210B;
-	Thu, 21 Mar 2024 20:44:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14F4F11210D;
+	Thu, 21 Mar 2024 20:44:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="UDyWapnP";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="JJAol3Z7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2041.outbound.protection.outlook.com [40.107.220.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17142112106
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 20:44:14 +0000 (UTC)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2053.outbound.protection.outlook.com [40.107.94.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DE49112106
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 20:44:24 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ecsCNoiwLkVtJ/LjF85sRiHYnZF80MsioqL1JYw9i5JCa3jYYRDnLaxLMG+1+iZhje7ry67VzemEd6GrctYfxDRGgPY03eakTwndmhzO/YRnqHpiiLJJPBrnGNwy6cH9gbTXu+mgaET+vFQ4fdfRNpF1/L6BSK/uq5b8YgbnOis1aPL9Sq2u2tWIDAvaC3KRfuVpFoguFFNj4VDQjW9W+2P45F13BYwHi93lJNCbgMQezd3FGkYC/IQtJrCHjS1tEjpy0pO14RUjDO7w9N8HIuH0hUyuR9PJt/U20LIDiqcsWKIjSNFSw6PTytNTAEN7kBGRcsE2nrrwLG6O+tAMqg==
+ b=b68qf90bGeZDFJ9HRT1Q6gpWZi5uUJpFN6DPz5E0DoKI5WJZiHsxboSK12bMjCyhRmODwlQ2IFVAs2Jy95tY9Bzysw2i+MNF47Foea+pMV297+4nzYKFzi4p7N9tTzpN29EBveizVgajKWSvICpPoPpQFy0KFihPZ3vu8phCM5KBsGiebCbTc2yuULZv2h5BH7j14z6CFrDY4MuUi3PNBPgAouV+CfJ1G/ubchJXFxzu8mMc7Ith369WpD0NcAKLxaCS3UzfEiZV13B9fiXEAi6ne8XEA01egOZbUt2cFuecB0IXPvhzvQtMbPf+n59BWQfmrfiG+Nr8MjH7Wf084w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gzFR8JuzwQFAHUgF/Kyf1Su9JFwzSXxWGVcOG23T+yk=;
- b=Wp8zTbCJqzElVEWv8JP4XfTgntdgHwAmxGSO58k3xMEFMbQI7Vh8tq4l9egQSupP5ZomXLA2xkgOXC0raxUsC77MsiaLPRpbKHSZVr1EGsjpjHItKfTaJ1N9PepRBRZCidxAP1V7x5cpq3oiLwVgKP2mlgXHgXt6u7BKCZRCmdTt5hI+KVQgFj1D3D8QBZkpWtkdvMNH4rhb+PmzrEeHK+0wowONcyrjAQwRMTWHC3Ob2O1IU2NAZwufrtbu93C9uJh9gy3IdBW9E4Q0z2c8PJEi4ELP7qM2j1HlNWv6KYUGFrdIgo06LN/Ky4hHJLJ8t3dtLNt4a63ixr6WsnvAEw==
+ bh=Z94ce+/n0RvmiJVtVAbri9i36FVONgDviQgEhnE5AwI=;
+ b=RObg36cKncE7Or377GUlA/TXYIUwmycPiD/mAoQCTkXe8PQd/Xg25qScjqLfnRavktgobvDr/fyIuJawyptJh8qC6FZ36Xvr+hvF2z+iykWcyoSNm0pFDYdLDDo27tHJyvEkYuD8ahmOdjmhxkZHoQrcb4tXJ9JWBbokx2uksjqg4rk0ZOzhGlK5QGwUluuUIJHyAsZqpbtuqpoNsYVmxP6eECHfd9rgpoaZLwG40OHqVHOISCNpjxGwtYvPACWb9z2xTNYQ6XmNvr+xAPdQhkL3LKWjOKBg+P7V06cuQcuvbATvdwef3NjU3dquFl8tLdH/ZEioWCfiIPGaAwsNuQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gzFR8JuzwQFAHUgF/Kyf1Su9JFwzSXxWGVcOG23T+yk=;
- b=UDyWapnPaaRh/l1QIBnUQb8fvAfwT7aOojUhqJd1UKgMGU42uKhXL8LzcRIi82REVNm3qB7z5i3lHR9/j9RGsYMaXTVbQ5k2EeHWeuK6J0EumztB0WzKK0hu2uz8xz1HFbPP4a4WMxB1Nv8PIeVtg9hhfxcAcc7xPbjDg25ey04=
-Received: from BN9P220CA0026.NAMP220.PROD.OUTLOOK.COM (2603:10b6:408:13e::31)
- by SN7PR12MB8602.namprd12.prod.outlook.com (2603:10b6:806:26d::13)
+ bh=Z94ce+/n0RvmiJVtVAbri9i36FVONgDviQgEhnE5AwI=;
+ b=JJAol3Z7AjeDc3Qos+xm4KzXZGPCstSdJjcEYtnHSAQ93s+ZLaBlFrg7srTp4qm4I8DgDCGCLZwmVXLrA0IObGgRyYh/DRq/q0jQdR2bZc6fw3CwPAJ5paJ598oJ0RyOvRr3pjGCbEN0XyeyGsUa3FOmV+G4IdQp/b9x48rr+aM=
+Received: from BN9PR03CA0683.namprd03.prod.outlook.com (2603:10b6:408:10e::28)
+ by PH7PR12MB6980.namprd12.prod.outlook.com (2603:10b6:510:1ba::13)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.34; Thu, 21 Mar
- 2024 20:44:11 +0000
-Received: from BN3PEPF0000B36E.namprd21.prod.outlook.com
- (2603:10b6:408:13e:cafe::12) by BN9P220CA0026.outlook.office365.com
- (2603:10b6:408:13e::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.26 via Frontend
- Transport; Thu, 21 Mar 2024 20:44:11 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.15; Thu, 21 Mar
+ 2024 20:44:19 +0000
+Received: from BN3PEPF0000B075.namprd04.prod.outlook.com
+ (2603:10b6:408:10e:cafe::49) by BN9PR03CA0683.outlook.office365.com
+ (2603:10b6:408:10e::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.13 via Frontend
+ Transport; Thu, 21 Mar 2024 20:44:16 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
 Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BN3PEPF0000B36E.mail.protection.outlook.com (10.167.243.165) with Microsoft
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN3PEPF0000B075.mail.protection.outlook.com (10.167.243.120) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7430.0 via Frontend Transport; Thu, 21 Mar 2024 20:44:10 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.7409.10 via Frontend Transport; Thu, 21 Mar 2024 20:44:16 +0000
+Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Thu, 21 Mar
- 2024 15:44:10 -0500
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ 2024 15:44:11 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB08.amd.com
+ (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Thu, 21 Mar
- 2024 15:44:09 -0500
+ 2024 13:44:11 -0700
 Received: from xsjanatoliy50.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.35 via
- Frontend Transport; Thu, 21 Mar 2024 15:44:08 -0500
+ Frontend Transport; Thu, 21 Mar 2024 15:44:10 -0500
 From: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
-Date: Thu, 21 Mar 2024 13:43:46 -0700
-Subject: [PATCH v3 8/9] dt-bindings: xlnx: Add VTC and TPG bindings
+Date: Thu, 21 Mar 2024 13:43:47 -0700
+Subject: [PATCH v3 9/9] drm: xlnx: Intoduce TPG CRTC driver
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20240321-dp-live-fmt-v3-8-d5090d796b7e@amd.com>
+Message-ID: <20240321-dp-live-fmt-v3-9-d5090d796b7e@amd.com>
 References: <20240321-dp-live-fmt-v3-0-d5090d796b7e@amd.com>
 In-Reply-To: <20240321-dp-live-fmt-v3-0-d5090d796b7e@amd.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Maarten Lankhorst
@@ -87,26 +87,26 @@ CC: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 X-Mailer: b4 0.13.0
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B36E:EE_|SN7PR12MB8602:EE_
-X-MS-Office365-Filtering-Correlation-Id: 06a396c9-9a27-4147-6dce-08dc49e7a9a6
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B075:EE_|PH7PR12MB6980:EE_
+X-MS-Office365-Filtering-Correlation-Id: b333e939-0510-436e-8325-08dc49e7ad02
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PTAo4ZlofqVwJER+4jVpBqI7HFSvoNajV8qC525V/tLMbYGA/C4uYpiWNWx5xxylnju6j0UZQcT81xSGmwVHO6BCvgv0LvLnXUYW4q3Ml7+knNjSjyrkK5QNIaEXTvUtQCsPYJ95dQzIbg6V3bjsNw8ZV84HTu+DwyyP91fjYuDvJ/Ln6biP0DAaOXDp0N6vk8+sXOKOhCb6UQw0Xfeu4QQv4hVVFgw0V7vpTMTgMa2wdkNvLiobIeoVvm67Owr2SeI6sa/zK+Y45OItVU9+jTj6mlNtwI0WeU+8zPQhm8uu/YA8YLrKjpxbL40Slkq6ue5mQsH2XLHHi1sIWIyP1uTFdh1kSqjxAYlq/tt1uhN/7bbfmECaYuBdkgCnz6JReF0TUS4POkKb/u6aiOuMIJG0BvHbSnsthF6fKbg3UnyR/kx9oGlJrfRNE4q+PZNIfP5bK3eudLmdQCLZWoRdcE8Jci/KB+egb+fk38gy2/2q7w4udvrZu2DQg4Ek3oCr60c3QJrGakA06/Wh2DZPm0krMDK851EqPwODrbPA0iqjHnFpHBjD0o3Pq2BUMzXTOBveUwbxJfns79k7Sk04KzCzlYLbiV/bRUnxh9a/nSOhY4fbuheARnlGUAzjeKoXwjk5mvramwB2Ux4eRlaGDO9q78mH8V8OHiBDOQzJfn8/94LaGG3Y5gauexXYA+Iy8Hk7ltO0LCG2XKw/tQu1zSuqKAqKn5T6hvM9YOzkkNQ=
+X-Microsoft-Antispam-Message-Info: yEUKuwlrz8Tj7KA+noOmz+tsRIuA+hnCGhCjx70hpHDUuW4KX0rwlF0X+BzjYTIpMJtR0ozSzeLCHB+yrtOIZEB7SZX48FkeKuyYRpSZXSQ0LVy5ktlKui9jnoon3z6rZkvy0go1Nfd/k2Gpvsn0/pFqDf/oXTeStxoGeJGLpYjRKf7MYzc/DjILzdU0BtBea8XBMdNlWZQmrda8PasOd+E7p0r79ahdOb2vNrn9yCbjZVu2a/l1quTK0WR0uq8NSqlEx4B/hwdXwFRLINvSIG+pq3VD6uy546K+5ObBDs6M4LFzD1WYqKTwd3kVerRdJCbjGP+H+M/qilAHKqbOfnvQOwH+qwxvUorMpdLsxiUKG6RFxKKaUqAWK5itoSGo99cmkOx3eGncu+hoDRWpE1YVfQNFpK7FmuVpyRLbyGRKg6t4kRDO1sUT86PbatgGHfOYvMVkmxGt/26Tf9udbG7CU1dPvuiT4IblejBo6ymGWVlLbSxbEgIASlkTuywJhX0bcPoM4gPL0sBTVcZa8da/WBS29nn/LOFePo9K68AUIOzINTbZlW9q0zCkjIj/pjbA7MyY8qglwuwbsAR3cInorNjJAuhSJyage1QOtLKQ6sT9jqCBjBtE2ko98Ws4aVMoMmp4uJ6RrUSst2+W4YERXmCjsEz4uoajfw8GAxOzLBM4ma3bIgBlnq9EEUcvM/jj3vYPEfELsaQAYS7bGNxt4kSbWzNCGh5kUMeIvjo=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(82310400014)(376005)(36860700004)(7416005)(1800799015)(921011);
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(7416005)(1800799015)(36860700004)(82310400014)(376005)(921011);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2024 20:44:10.9953 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06a396c9-9a27-4147-6dce-08dc49e7a9a6
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2024 20:44:16.6788 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b333e939-0510-436e-8325-08dc49e7ad02
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B36E.namprd21.prod.outlook.com
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B075.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8602
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6980
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,365 +124,1647 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 DO NOT MERGE. REFERENCE ONLY.
 
-Add binding for AMD/Xilinx Video Timing Controller and Test Pattern
-Generator.
+Add CRTC driver based on AMD/Xilinx Video Test Pattern Generator IP. TPG
+based FPGA design represents minimalistic harness useful for testing links
+between FPGA based CRTC and external DRM encoders, both FPGA and hardened
+IP based.
 
-Copy media-bus-formats.h into dt-bindings/media to suplement TPG DT node.
+Add driver for AMD/Xilinx Video Timing Controller. The VTC, working in
+generator mode, suplements TPG with video timing signals.
 
 Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
 ---
- .../bindings/display/xlnx/xlnx,v-tpg.yaml          |  87 ++++++++++
- .../devicetree/bindings/display/xlnx/xlnx,vtc.yaml |  65 ++++++++
- include/dt-bindings/media/media-bus-format.h       | 177 +++++++++++++++++++++
- 3 files changed, 329 insertions(+)
+ drivers/gpu/drm/xlnx/Kconfig         |  21 +
+ drivers/gpu/drm/xlnx/Makefile        |   4 +
+ drivers/gpu/drm/xlnx/xlnx_tpg.c      | 846 +++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/xlnx/xlnx_vtc.c      | 452 +++++++++++++++++++
+ drivers/gpu/drm/xlnx/xlnx_vtc.h      | 101 +++++
+ drivers/gpu/drm/xlnx/xlnx_vtc_list.c | 160 +++++++
+ 6 files changed, 1584 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/xlnx/xlnx,v-tpg.yaml b/Documentation/devicetree/bindings/display/xlnx/xlnx,v-tpg.yaml
+diff --git a/drivers/gpu/drm/xlnx/Kconfig b/drivers/gpu/drm/xlnx/Kconfig
+index 68ee897de9d7..c40e98c1a5e6 100644
+--- a/drivers/gpu/drm/xlnx/Kconfig
++++ b/drivers/gpu/drm/xlnx/Kconfig
+@@ -15,3 +15,24 @@ config DRM_ZYNQMP_DPSUB
+ 	  This is a DRM/KMS driver for ZynqMP DisplayPort controller. Choose
+ 	  this option if you have a Xilinx ZynqMP SoC with DisplayPort
+ 	  subsystem.
++
++config DRM_XLNX_BRIDGE_VTC
++	bool "Xilinx DRM VTC Driver"
++	depends on OF
++	help
++	  DRM brige driver for Xilinx Video Timing Controller. Choose
++	  this option to make VTC a part of the CRTC in display pipeline.
++	  Currently the support is added to the Xilinx Video Mixer and
++	  Xilinx PL display CRTC drivers. This driver provides ability
++	  to generate timings through the bridge layer.
++
++config DRM_XLNX_TPG
++	bool "Xilinx DRM TPG Driver"
++	depends on DRM && OF
++	select DRM_XLNX_BRIDGE_VTC
++	select VIDEOMODE_HELPERS
++	help
++	  CRTC driver based on AMD/Xilinx Test Pattern Generator IP. Choose
++	  this driver to enable Test Pattern Generator CRTC. This driver
++	  implements simplistic CRTC with the single plane and is perfect for
++	  testing PL to PS and PL to PL display output pipelines.
+diff --git a/drivers/gpu/drm/xlnx/Makefile b/drivers/gpu/drm/xlnx/Makefile
+index ea1422a39502..26fb3ad21fa9 100644
+--- a/drivers/gpu/drm/xlnx/Makefile
++++ b/drivers/gpu/drm/xlnx/Makefile
+@@ -1,2 +1,6 @@
+ zynqmp-dpsub-y := zynqmp_disp.o zynqmp_dpsub.o zynqmp_dp.o zynqmp_kms.o
+ obj-$(CONFIG_DRM_ZYNQMP_DPSUB) += zynqmp-dpsub.o
++xlnx-tpg-objs := xlnx_tpg.o
++xlnx-tpg-$(CONFIG_DRM_XLNX_BRIDGE_VTC) += xlnx_vtc_list.o
++obj-$(CONFIG_DRM_XLNX_TPG) += xlnx-tpg.o
++obj-$(CONFIG_DRM_XLNX_BRIDGE_VTC) += xlnx_vtc.o
+diff --git a/drivers/gpu/drm/xlnx/xlnx_tpg.c b/drivers/gpu/drm/xlnx/xlnx_tpg.c
 new file mode 100644
-index 000000000000..df5ee5b547cf
+index 000000000000..3056bf278414
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/xlnx/xlnx,v-tpg.yaml
-@@ -0,0 +1,87 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/xlnx/xlnx,v-tpg.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Xilinx Video Test Pattern Generator (TPG)
-+
-+description:
-+  AMD/Xilinx Video Test Pattern Generator IP is a soft IP designed to
-+  generate test video signal in AXI4-Stream Video format.
-+  https://docs.xilinx.com/r/en-US/pg103-v-tpg
-+
-+maintainers:
-+  - Anatoliy Klymenko <anatoliy.klymenko@amd.com>
-+
-+properties:
-+  compatible:
-+    description:
-+      TPG versions backward-compatible with previous versions should list all
-+      compatible versions in the newer to older order.
-+    enum: ["xlnx,v-tpg-8.0", "xlnx,v-tpg-8.2"]
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  bus-format:
-+    description: Output media bus format, one of MEDIA_BUS_FMT_*
-+    maxItems: 1
-+
-+  xlnx,bridge:
-+   description: Reference to Video Timing Controller
-+   maxItems: 1
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+    description:
-+      Connections from and to external components in the video pipeline.
-+
-+    properties:
-+      port@0:
-+       $ref: /schemas/graph.yaml#/properties/port
-+       description: Sink port connected to downstream video IP.
-+
-+      port@1:
-+       $ref: /schemas/graph.yaml#/properties/port
-+       description: Source port to connect to optional video signal source.
-+
-+    required:
-+      - port@0
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - bus-format
-+  - xlnx,bridge
-+  - ports
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/media/media-bus-format.h>
-+
-+    tpg_0: tpg@40050000 {
-+      compatible = "xlnx,v-tpg-8.0";
-+      reg = <0x40050000 0x10000>;
-+      interrupts = <0 89 4>;
-+      xlnx,bridge = <&vtc_3>;
-+      bus-format = <MEDIA_BUS_FMT_UYVY8_1X16>;
-+      ports {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        port@0 {
-+          reg = <0>;
-+          tpg_out: endpoint {
-+            remote-endpoint = <&dp_encoder>;
-+          };
-+        };
-+      };
-+    };
-+
-+...
-diff --git a/Documentation/devicetree/bindings/display/xlnx/xlnx,vtc.yaml b/Documentation/devicetree/bindings/display/xlnx/xlnx,vtc.yaml
-new file mode 100644
-index 000000000000..51eb12cdcfdc
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/xlnx/xlnx,vtc.yaml
-@@ -0,0 +1,65 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/xlnx/xlnx,vtc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Device-Tree for Xilinx Video Timing Controller(VTC)
-+
-+description:
-+  Xilinx VTC is a general purpose video timing generator and detector.
-+  The input side of this core automatically detects horizontal and
-+  vertical synchronization, pulses, polarity, blanking timing and active pixels.
-+  While on the output, it generates the horizontal and vertical blanking and
-+  synchronization pulses used with a standard video system including support
-+  for programmable pulse polarity.
-+
-+  The core is commonly used with Video in to AXI4-Stream core to detect the
-+  format and timing of incoming video data or with AXI4-Stream to Video out core
-+  to generate outgoing video timing for downstream sinks like a video monitor.
-+
-+  For details please refer to
-+  https://docs.xilinx.com/r/en-US/pg016_v_tc
-+
-+maintainers:
-+  - Sagar Vishal <sagar.vishal.com>
-+
-+properties:
-+  compatible:
-+    const: "xlnx,bridge-v-tc-6.1"
-+
-+  reg:
-+    maxItems: 1
-+
-+  xlnx,pixels-per-clock:
-+    description: Pixels per clock of the stream.
-+    enum: [1, 2, 4]
-+
-+  clocks:
-+    minItems: 2
-+
-+  clock-names:
-+    items:
-+      - const: clk
-+      - const: s_axi_aclk
-+
-+required:
-+  - compatible
-+  - reg
-+  - xlnx,pixels-per-clock
-+  - clocks
-+  - clock-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    v_tc_0: v_tc@80010000 {
-+      clock-names = "clk", "s_axi_aclk";
-+      clocks = <&clk_wiz_0>, <&misc_clk_0>;
-+      compatible = "xlnx,bridge-v-tc-6.1";
-+      xlnx,pixels-per-clock = <1>;
-+      reg = <0x80010000 0x10000>;
-+    };
-+
-+...
-diff --git a/include/dt-bindings/media/media-bus-format.h b/include/dt-bindings/media/media-bus-format.h
-new file mode 100644
-index 000000000000..60fc6e11dabc
---- /dev/null
-+++ b/include/dt-bindings/media/media-bus-format.h
-@@ -0,0 +1,177 @@
-+/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
++++ b/drivers/gpu/drm/xlnx/xlnx_tpg.c
+@@ -0,0 +1,846 @@
++// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Media Bus API header
++ * Xilinx logicore test pattern generator driver
 + *
-+ * Copyright (C) 2009, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
++ * Copyright (C) 2024 Advanced Micro Devices, Inc.
 + *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
++ * Author: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
++ *
++ * This driver introduces support for the test CRTC based on AMD/Xilinx
++ * Test Pattern Generator IP. The main goal of the driver is to enable
++ * simplistic FPGA design that could be used to test FPGA CRTC to external
++ * encoder IP connectivity.
++ * Reference: https://docs.xilinx.com/r/en-US/pg103-v-tpg
 + */
 +
-+#ifndef __LINUX_MEDIA_BUS_FORMAT_H
-+#define __LINUX_MEDIA_BUS_FORMAT_H
++#include "xlnx_vtc.h"
 +
-+/*
-+ * These bus formats uniquely identify data formats on the data bus. Format 0
-+ * is reserved, MEDIA_BUS_FMT_FIXED shall be used by host-client pairs, where
-+ * the data format is fixed. Additionally, "2X8" means that one pixel is
-+ * transferred in two 8-bit samples, "BE" or "LE" specify in which order those
-+ * samples are transferred over the bus: "LE" means that the least significant
-+ * bits are transferred first, "BE" means that the most significant bits are
-+ * transferred first, and "PADHI" and "PADLO" define which bits - low or high,
-+ * in the incomplete high byte, are filled with padding bits.
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_bridge.h>
++#include <drm/drm_bridge_connector.h>
++#include <drm/drm_fourcc.h>
++#include <drm/drm_device.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_gem_atomic_helper.h>
++#include <drm/drm_gem_dma_helper.h>
++#include <drm/drm_gem_framebuffer_helper.h>
++#include <linux/media-bus-format.h>
++#include <drm/drm_modes.h>
++#include <drm/drm_modeset_helper_vtables.h>
++#include <drm/drm_probe_helper.h>
++#include <drm/drm_simple_kms_helper.h>
++#include <drm/drm_vblank.h>
++#include <linux/component.h>
++#include <linux/of.h>
++#include <linux/of_address.h>
++#include <linux/of_irq.h>
++#include <linux/platform_device.h>
++#include <video/videomode.h>
++
++#define DRIVER_NAME	"xlnx-tpg"
++#define DRIVER_DESC	"Xilinx TPG DRM KMS Driver"
++#define DRIVER_DATE	"20240307"
++#define DRIVER_MAJOR	1
++#define DRIVER_MINOR	0
++
++#define XLNX_TPG_CONTROL		0x0000
++#define XLNX_TPG_GLOBAL_IRQ_EN		0x0004
++#define XLNX_TPG_IP_IRQ_EN		0x0008
++#define XLNX_TPG_IP_IRQ_STATUS		0x000C
++#define XLNX_TPG_ACTIVE_HEIGHT		0x0010
++#define XLNX_TPG_ACTIVE_WIDTH		0x0018
++#define XLNX_TPG_PATTERN_ID		0x0020
++#define XLNX_TPG_COLOR_FORMAT		0x0040
++
++#define XLNX_TPG_IP_IRQ_AP_DONE		BIT(0)
++
++#define XLNX_TPG_START			BIT(0)
++#define XLNX_TPG_AUTO_RESTART		BIT(7)
++
++enum xlnx_tpg_pattern {
++	XTPG_PAT_HORIZONTAL_RAMP = 0x1,
++	XTPG_PAT_VERTICAL_RAMP,
++	XTPG_PAT_TEMPORAL_RAMP,
++	XTPG_PAT_SOLID_RED,
++	XTPG_PAT_SOLID_GREEN,
++	XTPG_PAT_SOLID_BLUE,
++	XTPG_PAT_SOLID_BLACK,
++	XTPG_PAT_SOLID_WHITE,
++	XTPG_PAT_COLOR_BARS,
++	XTPG_PAT_ZONE_PLATE,
++	XTPG_PAT_TARTAN_COLOR_BARS,
++	XTPG_PAT_CROSS_HATCH,
++	XTPG_PAT_COLOR_SWEEP,
++	XTPG_PAT_COMBO_RAMP,
++	XTPG_PAT_CHECKER_BOARD,
++	XTPG_PAT_DP_COLOR_RAMP,
++	XTPG_PAT_DP_VERTICAL_LINES,
++	XTPG_PAT_DP_COLOR_SQUARE,
++};
++
++static const struct drm_prop_enum_list xtpg_pattern_list[] = {
++	{ XTPG_PAT_HORIZONTAL_RAMP, "horizontal-ramp" },
++	{ XTPG_PAT_VERTICAL_RAMP, "vertical-ramp" },
++	{ XTPG_PAT_TEMPORAL_RAMP, "temporal-ramp" },
++	{ XTPG_PAT_SOLID_RED, "red" },
++	{ XTPG_PAT_SOLID_GREEN, "green" },
++	{ XTPG_PAT_SOLID_BLUE, "blue" },
++	{ XTPG_PAT_SOLID_BLACK, "black" },
++	{ XTPG_PAT_SOLID_WHITE, "white" },
++	{ XTPG_PAT_COLOR_BARS, "color-bars" },
++	{ XTPG_PAT_ZONE_PLATE, "zone-plate" },
++	{ XTPG_PAT_TARTAN_COLOR_BARS, "tartan-color-bars" },
++	{ XTPG_PAT_CROSS_HATCH, "cross-hatch" },
++	{ XTPG_PAT_COLOR_SWEEP, "color-sweep" },
++	{ XTPG_PAT_COMBO_RAMP, "combo-ramp" },
++	{ XTPG_PAT_CHECKER_BOARD, "checker-board" },
++	{ XTPG_PAT_DP_COLOR_RAMP, "dp-color-ramp" },
++	{ XTPG_PAT_DP_VERTICAL_LINES, "dp-vertical-lines" },
++	{ XTPG_PAT_DP_COLOR_SQUARE, "dp-color-square" },
++};
++
++enum xlnx_tpg_format {
++	XTPG_FMT_RGB = 0x0,
++	XTPG_FMT_YUV_444,
++	XTPG_FMT_YUV_422,
++	XTPG_FMT_YUV_420,
++	XTPG_FMT_INVALID,
++};
++
++struct xlnx_tpg;
++
++/**
++ * struct xlnx_tpg_drm - TPG CRTC DRM/KMS data
++ * @tpg: Back pointer to parent TPG
++ * @dev: DRM device
++ * @crtc: DRM CRTC
++ * @plane: DRM primary plane
++ * @encoder: DRM encoder
++ * @connector: DRM connector
++ * @pattern_prop: DRM property representing TPG video pattern
++ * @event: Pending DRM VBLANK event
++ */
++struct xlnx_tpg_drm {
++	struct xlnx_tpg *tpg;
++	struct drm_device dev;
++	struct drm_crtc crtc;
++	struct drm_plane plane;
++	struct drm_encoder encoder;
++	struct drm_connector *connector;
++	struct drm_property *pattern_prop;
++	struct drm_pending_vblank_event *event;
++};
++
++/**
++ * struct xlnx_tpg_drm - Test Pattern Generator data
++ * @pdev: Platform device
++ * @drm: TPG DRM data
++ * @vtc: Video timing controller interface
++ * @disp_bridge: DRM display bridge
++ * @regs: Mapped TPG IP register space
++ * @irq: TPG IRQ
++ * @output_bus_format: Chosen TPG output bus format
++ * @color_format: TPG color format
++ */
++struct xlnx_tpg {
++	struct platform_device *pdev;
++	struct xlnx_tpg_drm *drm;
++	struct xlnx_vtc_iface *vtc;
++	struct drm_bridge *disp_bridge;
++	void __iomem *regs;
++	int irq;
++	u32 output_bus_format;
++	enum xlnx_tpg_format color_format;
++};
++
++static inline struct xlnx_tpg *crtc_to_tpg(struct drm_crtc *crtc)
++{
++	return container_of(crtc, struct xlnx_tpg_drm, crtc)->tpg;
++}
++
++static inline struct xlnx_tpg *plane_to_tpg(struct drm_plane *plane)
++{
++	return container_of(plane, struct xlnx_tpg_drm, plane)->tpg;
++}
++
++static inline struct xlnx_tpg *encoder_to_tpg(struct drm_encoder *encoder)
++{
++	return container_of(encoder, struct xlnx_tpg_drm, encoder)->tpg;
++}
++
++struct xlnx_tpg_format_map {
++	u32 bus_format;
++	enum xlnx_tpg_format color_format;
++};
++
++/**
++ * xlnx_tpg_bus_to_color_format - Map media bus format to TPG color format
++ * @bus_format: Media bus format
 + *
-+ * The bus formats are grouped by type, bus_width, bits per component, samples
-+ * per pixel and order of subsamples. Numerical values are sorted using generic
-+ * numerical sort order (8 thus comes before 10).
-+ *
-+ * As their value can't change when a new bus format is inserted in the
-+ * enumeration, the bus formats are explicitly given a numerical value. The next
-+ * free values for each category are listed below, update them when inserting
-+ * new pixel codes.
++ * Return: TPG color format that matches @bus_format or XTPG_FMT_INVALID if
++ * input media bus format is not supported
++ */
++static enum xlnx_tpg_format xlnx_tpg_bus_to_color_format(u32 bus_format)
++{
++	static const struct xlnx_tpg_format_map format_map[] = {
++		{
++			.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
++			.color_format = XTPG_FMT_RGB,
++		}, {
++			.bus_format = MEDIA_BUS_FMT_RBG888_1X24,
++			.color_format = XTPG_FMT_RGB,
++		}, {
++			.bus_format = MEDIA_BUS_FMT_UYVY8_1X16,
++			.color_format = XTPG_FMT_YUV_422,
++		}, {
++			.bus_format = MEDIA_BUS_FMT_VUY8_1X24,
++			.color_format = XTPG_FMT_YUV_444,
++		}, {
++			.bus_format = MEDIA_BUS_FMT_UYVY10_1X20,
++			.color_format = XTPG_FMT_YUV_422,
++		},
++	};
++	unsigned int i;
++
++	for (i = 0; i < ARRAY_SIZE(format_map); ++i)
++		if (format_map[i].bus_format == bus_format)
++			return format_map[i].color_format;
++
++	return XTPG_FMT_INVALID;
++}
++
++/* -----------------------------------------------------------------------------
++ * TPG IP ops
 + */
 +
-+#define MEDIA_BUS_FMT_FIXED			0x0001
++static void xlnx_tpg_write(struct xlnx_tpg *tpg, int offset, u32 val)
++{
++	writel(val, tpg->regs + offset);
++}
 +
-+/* RGB - next is	0x1026 */
-+#define MEDIA_BUS_FMT_RGB444_1X12		0x1016
-+#define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE	0x1001
-+#define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE	0x1002
-+#define MEDIA_BUS_FMT_RGB555_2X8_PADHI_BE	0x1003
-+#define MEDIA_BUS_FMT_RGB555_2X8_PADHI_LE	0x1004
-+#define MEDIA_BUS_FMT_RGB565_1X16		0x1017
-+#define MEDIA_BUS_FMT_BGR565_2X8_BE		0x1005
-+#define MEDIA_BUS_FMT_BGR565_2X8_LE		0x1006
-+#define MEDIA_BUS_FMT_RGB565_2X8_BE		0x1007
-+#define MEDIA_BUS_FMT_RGB565_2X8_LE		0x1008
-+#define MEDIA_BUS_FMT_RGB666_1X18		0x1009
-+#define MEDIA_BUS_FMT_RGB666_2X9_BE		0x1025
-+#define MEDIA_BUS_FMT_BGR666_1X18		0x1023
-+#define MEDIA_BUS_FMT_RBG888_1X24		0x100e
-+#define MEDIA_BUS_FMT_RGB666_1X24_CPADHI	0x1015
-+#define MEDIA_BUS_FMT_BGR666_1X24_CPADHI	0x1024
-+#define MEDIA_BUS_FMT_RGB565_1X24_CPADHI	0x1022
-+#define MEDIA_BUS_FMT_RGB666_1X7X3_SPWG		0x1010
-+#define MEDIA_BUS_FMT_BGR888_1X24		0x1013
-+#define MEDIA_BUS_FMT_BGR888_3X8		0x101b
-+#define MEDIA_BUS_FMT_GBR888_1X24		0x1014
-+#define MEDIA_BUS_FMT_RGB888_1X24		0x100a
-+#define MEDIA_BUS_FMT_RGB888_2X12_BE		0x100b
-+#define MEDIA_BUS_FMT_RGB888_2X12_LE		0x100c
-+#define MEDIA_BUS_FMT_RGB888_3X8		0x101c
-+#define MEDIA_BUS_FMT_RGB888_3X8_DELTA		0x101d
-+#define MEDIA_BUS_FMT_RGB888_1X7X4_SPWG		0x1011
-+#define MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA	0x1012
-+#define MEDIA_BUS_FMT_RGB666_1X30_CPADLO	0x101e
-+#define MEDIA_BUS_FMT_RGB888_1X30_CPADLO	0x101f
-+#define MEDIA_BUS_FMT_ARGB8888_1X32		0x100d
-+#define MEDIA_BUS_FMT_RGB888_1X32_PADHI		0x100f
-+#define MEDIA_BUS_FMT_RGB101010_1X30		0x1018
-+#define MEDIA_BUS_FMT_RGB666_1X36_CPADLO	0x1020
-+#define MEDIA_BUS_FMT_RGB888_1X36_CPADLO	0x1021
-+#define MEDIA_BUS_FMT_RGB121212_1X36		0x1019
-+#define MEDIA_BUS_FMT_RGB161616_1X48		0x101a
++static u32 xlnx_tpg_read(struct xlnx_tpg *tpg, int offset)
++{
++	return readl(tpg->regs + offset);
++}
 +
-+/* YUV (including grey) - next is	0x202f */
-+#define MEDIA_BUS_FMT_Y8_1X8			0x2001
-+#define MEDIA_BUS_FMT_UV8_1X8			0x2015
-+#define MEDIA_BUS_FMT_UYVY8_1_5X8		0x2002
-+#define MEDIA_BUS_FMT_VYUY8_1_5X8		0x2003
-+#define MEDIA_BUS_FMT_YUYV8_1_5X8		0x2004
-+#define MEDIA_BUS_FMT_YVYU8_1_5X8		0x2005
-+#define MEDIA_BUS_FMT_UYVY8_2X8			0x2006
-+#define MEDIA_BUS_FMT_VYUY8_2X8			0x2007
-+#define MEDIA_BUS_FMT_YUYV8_2X8			0x2008
-+#define MEDIA_BUS_FMT_YVYU8_2X8			0x2009
-+#define MEDIA_BUS_FMT_Y10_1X10			0x200a
-+#define MEDIA_BUS_FMT_Y10_2X8_PADHI_LE		0x202c
-+#define MEDIA_BUS_FMT_UYVY10_2X10		0x2018
-+#define MEDIA_BUS_FMT_VYUY10_2X10		0x2019
-+#define MEDIA_BUS_FMT_YUYV10_2X10		0x200b
-+#define MEDIA_BUS_FMT_YVYU10_2X10		0x200c
-+#define MEDIA_BUS_FMT_Y12_1X12			0x2013
-+#define MEDIA_BUS_FMT_UYVY12_2X12		0x201c
-+#define MEDIA_BUS_FMT_VYUY12_2X12		0x201d
-+#define MEDIA_BUS_FMT_YUYV12_2X12		0x201e
-+#define MEDIA_BUS_FMT_YVYU12_2X12		0x201f
-+#define MEDIA_BUS_FMT_Y14_1X14			0x202d
-+#define MEDIA_BUS_FMT_Y16_1X16			0x202e
-+#define MEDIA_BUS_FMT_UYVY8_1X16		0x200f
-+#define MEDIA_BUS_FMT_VYUY8_1X16		0x2010
-+#define MEDIA_BUS_FMT_YUYV8_1X16		0x2011
-+#define MEDIA_BUS_FMT_YVYU8_1X16		0x2012
-+#define MEDIA_BUS_FMT_YDYUYDYV8_1X16		0x2014
-+#define MEDIA_BUS_FMT_UYVY10_1X20		0x201a
-+#define MEDIA_BUS_FMT_VYUY10_1X20		0x201b
-+#define MEDIA_BUS_FMT_YUYV10_1X20		0x200d
-+#define MEDIA_BUS_FMT_YVYU10_1X20		0x200e
-+#define MEDIA_BUS_FMT_VUY8_1X24			0x2024
-+#define MEDIA_BUS_FMT_YUV8_1X24			0x2025
-+#define MEDIA_BUS_FMT_UYYVYY8_0_5X24		0x2026
-+#define MEDIA_BUS_FMT_UYVY12_1X24		0x2020
-+#define MEDIA_BUS_FMT_VYUY12_1X24		0x2021
-+#define MEDIA_BUS_FMT_YUYV12_1X24		0x2022
-+#define MEDIA_BUS_FMT_YVYU12_1X24		0x2023
-+#define MEDIA_BUS_FMT_YUV10_1X30		0x2016
-+#define MEDIA_BUS_FMT_UYYVYY10_0_5X30		0x2027
-+#define MEDIA_BUS_FMT_AYUV8_1X32		0x2017
-+#define MEDIA_BUS_FMT_UYYVYY12_0_5X36		0x2028
-+#define MEDIA_BUS_FMT_YUV12_1X36		0x2029
-+#define MEDIA_BUS_FMT_YUV16_1X48		0x202a
-+#define MEDIA_BUS_FMT_UYYVYY16_0_5X48		0x202b
-+
-+/* Bayer - next is	0x3021 */
-+#define MEDIA_BUS_FMT_SBGGR8_1X8		0x3001
-+#define MEDIA_BUS_FMT_SGBRG8_1X8		0x3013
-+#define MEDIA_BUS_FMT_SGRBG8_1X8		0x3002
-+#define MEDIA_BUS_FMT_SRGGB8_1X8		0x3014
-+#define MEDIA_BUS_FMT_SBGGR10_ALAW8_1X8		0x3015
-+#define MEDIA_BUS_FMT_SGBRG10_ALAW8_1X8		0x3016
-+#define MEDIA_BUS_FMT_SGRBG10_ALAW8_1X8		0x3017
-+#define MEDIA_BUS_FMT_SRGGB10_ALAW8_1X8		0x3018
-+#define MEDIA_BUS_FMT_SBGGR10_DPCM8_1X8		0x300b
-+#define MEDIA_BUS_FMT_SGBRG10_DPCM8_1X8		0x300c
-+#define MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8		0x3009
-+#define MEDIA_BUS_FMT_SRGGB10_DPCM8_1X8		0x300d
-+#define MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_BE	0x3003
-+#define MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_LE	0x3004
-+#define MEDIA_BUS_FMT_SBGGR10_2X8_PADLO_BE	0x3005
-+#define MEDIA_BUS_FMT_SBGGR10_2X8_PADLO_LE	0x3006
-+#define MEDIA_BUS_FMT_SBGGR10_1X10		0x3007
-+#define MEDIA_BUS_FMT_SGBRG10_1X10		0x300e
-+#define MEDIA_BUS_FMT_SGRBG10_1X10		0x300a
-+#define MEDIA_BUS_FMT_SRGGB10_1X10		0x300f
-+#define MEDIA_BUS_FMT_SBGGR12_1X12		0x3008
-+#define MEDIA_BUS_FMT_SGBRG12_1X12		0x3010
-+#define MEDIA_BUS_FMT_SGRBG12_1X12		0x3011
-+#define MEDIA_BUS_FMT_SRGGB12_1X12		0x3012
-+#define MEDIA_BUS_FMT_SBGGR14_1X14		0x3019
-+#define MEDIA_BUS_FMT_SGBRG14_1X14		0x301a
-+#define MEDIA_BUS_FMT_SGRBG14_1X14		0x301b
-+#define MEDIA_BUS_FMT_SRGGB14_1X14		0x301c
-+#define MEDIA_BUS_FMT_SBGGR16_1X16		0x301d
-+#define MEDIA_BUS_FMT_SGBRG16_1X16		0x301e
-+#define MEDIA_BUS_FMT_SGRBG16_1X16		0x301f
-+#define MEDIA_BUS_FMT_SRGGB16_1X16		0x3020
-+
-+/* JPEG compressed formats - next is	0x4002 */
-+#define MEDIA_BUS_FMT_JPEG_1X8			0x4001
-+
-+/* Vendor specific formats - next is	0x5002 */
-+
-+/* S5C73M3 sensor specific interleaved UYVY and JPEG */
-+#define MEDIA_BUS_FMT_S5C_UYVY_JPEG_1X8		0x5001
-+
-+/* HSV - next is	0x6002 */
-+#define MEDIA_BUS_FMT_AHSV8888_1X32		0x6001
-+
-+/*
-+ * This format should be used when the same driver handles
-+ * both sides of the link and the bus format is a fixed
-+ * metadata format that is not configurable from userspace.
-+ * Width and height will be set to 0 for this format.
++/**
++ * xlnx_tpg_set_dimensions - Set TPG output signal dimensions
++ * @tpg: The TPG
++ * @w: Output video frame width
++ * @h: Output video frame height
 + */
-+#define MEDIA_BUS_FMT_METADATA_FIXED		0x7001
++static void xlnx_tpg_set_dimensions(struct xlnx_tpg *tpg, u16 w, u16 h)
++{
++	xlnx_tpg_write(tpg, XLNX_TPG_ACTIVE_WIDTH, w);
++	xlnx_tpg_write(tpg, XLNX_TPG_ACTIVE_HEIGHT, h);
++}
 +
-+#endif /* __LINUX_MEDIA_BUS_FORMAT_H */
++/**
++ * xlnx_tpg_set_pattern - Set TPG output video pattern
++ * @tpg: The TPG
++ * @pattern: The pattern
++ */
++static void xlnx_tpg_set_pattern(struct xlnx_tpg *tpg,  enum xlnx_tpg_pattern pattern)
++{
++	xlnx_tpg_write(tpg, XLNX_TPG_PATTERN_ID, pattern);
++}
++
++/**
++ * xlnx_tpg_get_pattern - Get programmed TPG output video pattern
++ * @tpg: The TPG
++ *
++ * Return: Video signal pattern programmed
++ */
++static enum xlnx_tpg_pattern xlnx_tpg_get_pattern(struct xlnx_tpg *tpg)
++{
++	return xlnx_tpg_read(tpg, XLNX_TPG_PATTERN_ID);
++}
++
++/**
++ * xlnx_tpg_set_format - Set TPG output video color format
++ * @tpg: The TPG
++ * @format: Color format to program
++ */
++static void xlnx_tpg_set_format(struct xlnx_tpg *tpg,  enum xlnx_tpg_format format)
++{
++	xlnx_tpg_write(tpg, XLNX_TPG_COLOR_FORMAT, format);
++}
++
++/**
++ * xlnx_tpg_start - Start generation of the video signal
++ * @tpg: The TPG
++ */
++static void xlnx_tpg_start(struct xlnx_tpg *tpg)
++{
++	xlnx_tpg_write(tpg, XLNX_TPG_CONTROL, XLNX_TPG_START | XLNX_TPG_AUTO_RESTART);
++}
++
++/**
++ * xlnx_tpg_enable_irq - Enable generation of the frame done interrupts
++ * @tpg: The TPG
++ */
++static void xlnx_tpg_enable_irq(struct xlnx_tpg *tpg)
++{
++	xlnx_tpg_write(tpg, XLNX_TPG_GLOBAL_IRQ_EN, 1);
++	xlnx_tpg_write(tpg, XLNX_TPG_IP_IRQ_EN, 1);
++}
++
++/**
++ * xlnx_tpg_disable_irq - Disable generation of the frame done interrupts
++ * @tpg: The TPG
++ */
++static void xlnx_tpg_disable_irq(struct xlnx_tpg *tpg)
++{
++	xlnx_tpg_write(tpg, XLNX_TPG_GLOBAL_IRQ_EN, 0);
++	xlnx_tpg_write(tpg, XLNX_TPG_IP_IRQ_EN, 0);
++}
++
++static irqreturn_t xlnx_tpg_irq_handler(int irq, void *data)
++{
++	struct xlnx_tpg *tpg = data;
++	struct drm_crtc *crtc = &tpg->drm->crtc;
++	struct drm_pending_vblank_event *event;
++	unsigned long flags;
++	u32 status = xlnx_tpg_read(tpg, XLNX_TPG_IP_IRQ_STATUS);
++
++	xlnx_tpg_write(tpg, XLNX_TPG_IP_IRQ_STATUS, status);
++
++	status &= XLNX_TPG_IP_IRQ_AP_DONE;
++	if (!status)
++		return IRQ_NONE;
++
++	drm_crtc_handle_vblank(crtc);
++
++	/* Finish page flip */
++	spin_lock_irqsave(&crtc->dev->event_lock, flags);
++	event = tpg->drm->event;
++	tpg->drm->event = NULL;
++	if (event) {
++		drm_crtc_send_vblank_event(crtc, event);
++		drm_crtc_vblank_put(crtc);
++	}
++	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++
++	return IRQ_HANDLED;
++}
++
++/**
++ * xlnx_tpg_setup_irq - Setup TPG interrupt
++ * @tpg: The TPG
++ *
++ * Return: 0 on success or error code
++ */
++static int xlnx_tpg_setup_irq(struct xlnx_tpg *tpg)
++{
++	struct device_node *node = tpg->pdev->dev.of_node;
++	int ret;
++
++	tpg->irq = irq_of_parse_and_map(node, 0);
++	if (!tpg->irq) {
++		dev_err(&tpg->pdev->dev, "failed to parse irq\n");
++		return -EINVAL;
++	}
++
++	ret = devm_request_irq(&tpg->pdev->dev, tpg->irq, xlnx_tpg_irq_handler,
++			       IRQF_SHARED, "xlnx-tpg", tpg);
++	if (ret < 0) {
++		dev_err(&tpg->pdev->dev, "failed to request irq\n");
++		return ret;
++	}
++
++	xlnx_tpg_enable_irq(tpg);
++
++	return 0;
++}
++
++/**
++ * xlnx_tpg_map_resources - Map TPG register space
++ * @tpg: The TPG
++ *
++ * Return: 0 on success or error code
++ */
++static int xlnx_tpg_map_resources(struct xlnx_tpg *tpg)
++{
++	struct device_node *node = tpg->pdev->dev.of_node;
++	struct resource	res;
++	int ret;
++
++	ret = of_address_to_resource(node, 0, &res);
++	if (ret < 0) {
++		dev_err(&tpg->pdev->dev, "failed to parse resource\n");
++		return ret;
++	}
++
++	tpg->regs = devm_ioremap_resource(&tpg->pdev->dev, &res);
++	if (IS_ERR(tpg->regs)) {
++		ret = PTR_ERR(tpg->regs);
++		dev_err(&tpg->pdev->dev, "failed to map register space\n");
++		return ret;
++	}
++
++	return 0;
++}
++
++/* -----------------------------------------------------------------------------
++ * DRM plane
++ */
++
++static void xlnx_tpg_plane_atomic_update(struct drm_plane *plane,
++					 struct drm_atomic_state *state)
++{
++	struct xlnx_tpg *tpg = plane_to_tpg(plane);
++	struct drm_crtc *crtc = &tpg->drm->crtc;
++
++	drm_crtc_vblank_on(crtc);
++	if (crtc->state->event) {
++		/* Consume the flip_done event from atomic helper */
++		crtc->state->event->pipe = drm_crtc_index(crtc);
++		drm_crtc_vblank_get(crtc);
++		tpg->drm->event = crtc->state->event;
++		crtc->state->event = NULL;
++	}
++}
++
++static int xlnx_tpg_plane_atomic_check(struct drm_plane *plane,
++				       struct drm_atomic_state *state)
++{
++	struct drm_plane_state *plane_state =
++		drm_atomic_get_new_plane_state(state, plane);
++	struct xlnx_tpg *tpg = plane_to_tpg(plane);
++	struct drm_crtc_state *crtc_state;
++
++	crtc_state = drm_atomic_get_new_crtc_state(state, &tpg->drm->crtc);
++
++	return drm_atomic_helper_check_plane_state(plane_state, crtc_state,
++						   DRM_PLANE_NO_SCALING,
++						   DRM_PLANE_NO_SCALING,
++						   false, false);
++}
++
++static const struct drm_plane_helper_funcs xlnx_tpg_plane_helper_funcs = {
++	.prepare_fb = drm_gem_plane_helper_prepare_fb,
++	.atomic_check = xlnx_tpg_plane_atomic_check,
++	.atomic_update = xlnx_tpg_plane_atomic_update,
++};
++
++static bool xlnx_tpg_format_mod_supported(struct drm_plane *plane,
++					  uint32_t format,
++					  uint64_t modifier)
++{
++	return modifier == DRM_FORMAT_MOD_LINEAR;
++}
++
++static int xlnx_tpg_plane_set_property(struct drm_plane *plane,
++				       struct drm_plane_state *state,
++				       struct drm_property *property,
++				       u64 val)
++{
++	struct xlnx_tpg *tpg = plane_to_tpg(plane);
++
++	if (property == tpg->drm->pattern_prop)
++		xlnx_tpg_set_pattern(tpg, val);
++	else
++		return -EINVAL;
++	return 0;
++}
++
++static int xlnx_tpg_plane_get_property(struct drm_plane *plane,
++				       const struct drm_plane_state *state,
++				       struct drm_property *property,
++				       uint64_t *val)
++{
++	struct xlnx_tpg *tpg = plane_to_tpg(plane);
++
++	if (property == tpg->drm->pattern_prop)
++		*val = xlnx_tpg_get_pattern(tpg);
++	else
++		return -EINVAL;
++	return 0;
++}
++
++static const struct drm_plane_funcs xlnx_tpg_plane_funcs = {
++	.update_plane		= drm_atomic_helper_update_plane,
++	.disable_plane		= drm_atomic_helper_disable_plane,
++	.destroy		= drm_plane_cleanup,
++	.reset			= drm_atomic_helper_plane_reset,
++	.atomic_duplicate_state	= drm_atomic_helper_plane_duplicate_state,
++	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
++	.format_mod_supported   = xlnx_tpg_format_mod_supported,
++	.atomic_set_property	= xlnx_tpg_plane_set_property,
++	.atomic_get_property	= xlnx_tpg_plane_get_property,
++};
++
++/**
++ * xlnx_tpg_create_properties - Create TPG DRM properties
++ * @tpg: The TPG
++ */
++static void xlnx_tpg_create_properties(struct xlnx_tpg *tpg)
++{
++	struct drm_device *drm = &tpg->drm->dev;
++	struct drm_mode_object *obj = &tpg->drm->plane.base;
++
++	tpg->drm->pattern_prop = drm_property_create_enum(drm, 0, "pattern", xtpg_pattern_list,
++							  ARRAY_SIZE(xtpg_pattern_list));
++	drm_object_attach_property(obj, tpg->drm->pattern_prop, XTPG_PAT_COLOR_BARS);
++	xlnx_tpg_set_pattern(tpg, XTPG_PAT_COLOR_BARS);
++}
++
++/* -----------------------------------------------------------------------------
++ * DRM CRTC
++ */
++
++static enum drm_mode_status xlnx_tpg_crtc_mode_valid(struct drm_crtc *crtc,
++						     const struct drm_display_mode *mode)
++{
++	return MODE_OK;
++}
++
++static int xlnx_tpg_crtc_check(struct drm_crtc *crtc,
++			       struct drm_atomic_state *state)
++{
++	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
++	int ret;
++
++	if (!crtc_state->enable)
++		goto out;
++
++	ret = drm_atomic_helper_check_crtc_primary_plane(crtc_state);
++	if (ret)
++		return ret;
++
++out:
++	return drm_atomic_add_affected_planes(state, crtc);
++}
++
++static void xlnx_tpg_crtc_enable(struct drm_crtc *crtc,
++				 struct drm_atomic_state *state)
++{
++	struct videomode vm;
++	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
++	struct xlnx_tpg *tpg = crtc_to_tpg(crtc);
++
++	if (tpg->vtc) {
++		drm_display_mode_to_videomode(mode, &vm);
++		xlnx_vtc_iface_set_timing(tpg->vtc, &vm);
++		xlnx_vtc_iface_enable(tpg->vtc);
++	}
++
++	xlnx_tpg_set_dimensions(tpg, mode->hdisplay, mode->vdisplay);
++
++	xlnx_tpg_set_format(tpg, tpg->color_format);
++	xlnx_tpg_start(tpg);
++}
++
++static void xlnx_tpg_crtc_disable(struct drm_crtc *crtc,
++				  struct drm_atomic_state *state)
++{
++	struct xlnx_tpg *tpg = crtc_to_tpg(crtc);
++
++	if (tpg->vtc)
++		xlnx_vtc_iface_disable(tpg->vtc);
++	if (crtc->state->event) {
++		complete_all(crtc->state->event->base.completion);
++		crtc->state->event = NULL;
++	}
++	drm_crtc_vblank_off(crtc);
++}
++
++static u32 xlnx_tpg_crtc_select_output_bus_format(struct drm_crtc *crtc,
++						  struct drm_crtc_state *crtc_state,
++						  const u32 *in_bus_fmts,
++						  unsigned int num_in_bus_fmts)
++{
++	struct xlnx_tpg *tpg = crtc_to_tpg(crtc);
++	unsigned int i;
++
++	for (i = 0; i < num_in_bus_fmts; ++i)
++		if (in_bus_fmts[i] == tpg->output_bus_format)
++			return tpg->output_bus_format;
++
++	return 0;
++}
++
++static const struct drm_crtc_helper_funcs xlnx_tpg_crtc_helper_funcs = {
++	.mode_valid = xlnx_tpg_crtc_mode_valid,
++	.atomic_check = xlnx_tpg_crtc_check,
++	.atomic_enable = xlnx_tpg_crtc_enable,
++	.atomic_disable = xlnx_tpg_crtc_disable,
++	.select_output_bus_format = xlnx_tpg_crtc_select_output_bus_format,
++};
++
++static int xlnx_tpg_crtc_enable_vblank(struct drm_crtc *crtc)
++{
++	struct xlnx_tpg *tpg = crtc_to_tpg(crtc);
++
++	xlnx_tpg_enable_irq(tpg);
++
++	return 0;
++}
++
++static void xlnx_tpg_crtc_disable_vblank(struct drm_crtc *crtc)
++{
++	struct xlnx_tpg *tpg = crtc_to_tpg(crtc);
++
++	xlnx_tpg_disable_irq(tpg);
++}
++
++static const struct drm_crtc_funcs xlnx_tpg_crtc_funcs = {
++	.reset = drm_atomic_helper_crtc_reset,
++	.destroy = drm_crtc_cleanup,
++	.set_config = drm_atomic_helper_set_config,
++	.page_flip = drm_atomic_helper_page_flip,
++	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
++	.enable_vblank = xlnx_tpg_crtc_enable_vblank,
++	.disable_vblank = xlnx_tpg_crtc_disable_vblank,
++};
++
++/* -----------------------------------------------------------------------------
++ * Setup & Init
++ */
++
++/**
++ * xlnx_tpg_pipeline_init - Initialize DRM pipeline
++ * @drm: DRM device
++ *
++ * Create and link CRTC, plane, and encoder. Attach external DRM bridge.
++ *
++ * Return: 0 on success, or a negative error code otherwise
++ */
++static int xlnx_tpg_pipeline_init(struct drm_device *drm)
++{
++	static const uint32_t xlnx_tpg_formats[] = {
++		DRM_FORMAT_XRGB8888,
++	};
++	static const uint64_t xlnx_tpg_modifiers[] = {
++		DRM_FORMAT_MOD_LINEAR,
++		DRM_FORMAT_MOD_INVALID,
++	};
++
++	struct xlnx_tpg *tpg = dev_get_drvdata(drm->dev);
++	struct drm_connector *connector;
++	struct drm_encoder *encoder = &tpg->drm->encoder;
++	struct drm_plane *plane = &tpg->drm->plane;
++	struct drm_crtc *crtc = &tpg->drm->crtc;
++	int ret;
++
++	ret = xlnx_tpg_map_resources(tpg);
++	if (ret < 0)
++		return ret;
++
++	ret = xlnx_tpg_setup_irq(tpg);
++	if (ret < 0)
++		return ret;
++
++	drm_plane_helper_add(plane, &xlnx_tpg_plane_helper_funcs);
++	ret = drm_universal_plane_init(drm, plane, 0,
++				       &xlnx_tpg_plane_funcs,
++				       xlnx_tpg_formats,
++				       ARRAY_SIZE(xlnx_tpg_formats),
++				       xlnx_tpg_modifiers,
++				       DRM_PLANE_TYPE_PRIMARY, NULL);
++	if (ret) {
++		dev_err(drm->dev, "failed to init plane: %d\n", ret);
++		return ret;
++	}
++
++	drm_crtc_helper_add(crtc, &xlnx_tpg_crtc_helper_funcs);
++	ret = drm_crtc_init_with_planes(drm, crtc, plane, NULL,
++					&xlnx_tpg_crtc_funcs, NULL);
++	if (ret) {
++		dev_err(drm->dev, "failed to init crtc: %d\n", ret);
++		return ret;
++	}
++
++	encoder->possible_crtcs = drm_crtc_mask(crtc);
++	ret = drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_NONE);
++	if (ret) {
++		dev_err(drm->dev, "failed to init encoder: %d\n", ret);
++		return ret;
++	}
++
++	ret = drm_bridge_attach(encoder, tpg->disp_bridge, NULL,
++				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
++	if (ret < 0) {
++		dev_err(drm->dev, "failed to attach bridge to encoder: %d\n", ret);
++		return ret;
++	}
++
++	connector = drm_bridge_connector_init(drm, encoder);
++	if (IS_ERR(connector)) {
++		ret = PTR_ERR(connector);
++		dev_err(drm->dev, "failed to init connector: %d\n", ret);
++		return ret;
++	}
++
++	ret = drm_connector_attach_encoder(connector, encoder);
++	if (ret < 0) {
++		dev_err(drm->dev, "failed to attach encoder: %d\n", ret);
++		return ret;
++	}
++
++	xlnx_tpg_create_properties(tpg);
++
++	return 0;
++}
++
++static const struct drm_mode_config_funcs xlnx_tpg_mode_config_funcs = {
++	.fb_create = drm_gem_fb_create,
++	.atomic_check = drm_atomic_helper_check,
++	.atomic_commit = drm_atomic_helper_commit,
++};
++
++DEFINE_DRM_GEM_DMA_FOPS(xlnx_tpg_gem_dma_fops);
++static struct drm_driver xlnx_tpg_drm_driver = {
++	.driver_features		= DRIVER_MODESET | DRIVER_GEM |
++					  DRIVER_ATOMIC,
++	.fops				= &xlnx_tpg_gem_dma_fops,
++	.name				= DRIVER_NAME,
++	.desc				= DRIVER_DESC,
++	.date				= DRIVER_DATE,
++	.major				= DRIVER_MAJOR,
++	.minor				= DRIVER_MINOR,
++	DRM_GEM_DMA_DRIVER_OPS,
++};
++
++/**
++ * xlnx_tpg_drm_init - Initialize DRM device
++ * @dev: The device
++ *
++ * Allocate and initialize DRM device. Configure mode config and initialize
++ * TPG DRM pipeline.
++ *
++ * Return: 0 on success, or a negative error code otherwise
++ */
++static int xlnx_tpg_drm_init(struct device *dev)
++{
++	struct xlnx_tpg *tpg = dev_get_drvdata(dev);
++	struct drm_device *drm;
++	int ret;
++
++	tpg->drm = devm_drm_dev_alloc(dev, &xlnx_tpg_drm_driver,
++				      struct xlnx_tpg_drm, dev);
++	if (IS_ERR(tpg->drm))
++		return PTR_ERR(tpg->drm);
++	tpg->drm->tpg = tpg;
++	drm = &tpg->drm->dev;
++
++	ret = drm_mode_config_init(drm);
++	if (ret < 0)
++		return ret;
++
++	tpg->drm->dev.mode_config.funcs = &xlnx_tpg_mode_config_funcs;
++	tpg->drm->dev.mode_config.min_width = 0;
++	tpg->drm->dev.mode_config.min_height = 0;
++	tpg->drm->dev.mode_config.max_width = 4096;
++	tpg->drm->dev.mode_config.max_height = 4096;
++
++	ret = drm_vblank_init(drm, 1);
++	if (ret < 0)
++		return ret;
++
++	drm_kms_helper_poll_init(drm);
++
++	ret = xlnx_tpg_pipeline_init(drm);
++	if (ret < 0)
++		goto err_poll_fini;
++
++	drm_mode_config_reset(drm);
++
++	ret = drm_dev_register(drm, 0);
++	if (ret < 0)
++		goto err_poll_fini;
++
++	return ret;
++
++err_poll_fini:
++	drm_kms_helper_poll_fini(drm);
++
++	return ret;
++}
++
++/**
++ * xlnx_tpg_drm_fini - Finilize DRM device
++ * @dev: The device
++ */
++static void xlnx_tpg_drm_fini(struct device *dev)
++{
++	struct xlnx_tpg *tpg = dev_get_drvdata(dev);
++
++	drm_kms_helper_poll_fini(&tpg->drm->dev);
++}
++
++static int xlnx_tpg_probe(struct platform_device *pdev)
++{
++	struct xlnx_tpg *tpg;
++	struct device_node *node, *vtc_node;
++	int ret;
++
++	tpg = devm_kzalloc(&pdev->dev, sizeof(*tpg), GFP_KERNEL);
++	if (!tpg)
++		return -ENOMEM;
++
++	tpg->pdev = pdev;
++	platform_set_drvdata(pdev, tpg);
++	node = pdev->dev.of_node;
++
++	tpg->disp_bridge = devm_drm_of_get_bridge(&pdev->dev, node, 0, 0);
++	if (IS_ERR(tpg->disp_bridge)) {
++		ret = PTR_ERR(tpg->disp_bridge);
++		if (ret != -EPROBE_DEFER)
++			dev_err(&pdev->dev, "failed to discover display bridge\n");
++		return ret;
++	}
++
++	if (of_property_read_u32(node, "bus-format", &tpg->output_bus_format)) {
++		dev_err(&pdev->dev, "required bus-format property undefined\n");
++		return -EINVAL;
++	}
++	tpg->color_format = xlnx_tpg_bus_to_color_format(tpg->output_bus_format);
++
++	vtc_node = of_parse_phandle(node, "xlnx,bridge", 0);
++	if (!vtc_node) {
++		dev_err(&pdev->dev, "required vtc node is missing\n");
++		return -EINVAL;
++	}
++	ret = xlnx_of_find_vtc(vtc_node, &tpg->vtc);
++	if (ret < 0)
++		return ret;
++
++	ret = xlnx_tpg_drm_init(&pdev->dev);
++	if (ret < 0)
++		return ret;
++
++	dev_info(&pdev->dev, "xlnx-tpg driver probed\n");
++
++	return 0;
++}
++
++static int xlnx_tpg_remove(struct platform_device *pdev)
++{
++	xlnx_tpg_drm_fini(&pdev->dev);
++
++	return 0;
++}
++
++static const struct of_device_id xlnx_tpg_of_match[] = {
++	{ .compatible = "xlnx,v-tpg-8.2", },
++	{ .compatible = "xlnx,v-tpg-8.0", },
++	{ /* end of table */ },
++};
++MODULE_DEVICE_TABLE(of, xlnx_tpg_of_match);
++
++static struct platform_driver xlnx_tpg_driver = {
++	.probe			= xlnx_tpg_probe,
++	.remove			= xlnx_tpg_remove,
++	.driver			= {
++		.name		= "xlnx-tpg",
++		.of_match_table	= xlnx_tpg_of_match,
++	},
++};
++
++module_platform_driver(xlnx_tpg_driver);
++
++MODULE_AUTHOR("Anatoliy Klymenko");
++MODULE_DESCRIPTION("Xilinx TPG CRTC Driver");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/gpu/drm/xlnx/xlnx_vtc.c b/drivers/gpu/drm/xlnx/xlnx_vtc.c
+new file mode 100644
+index 000000000000..351b736706d1
+--- /dev/null
++++ b/drivers/gpu/drm/xlnx/xlnx_vtc.c
+@@ -0,0 +1,452 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Video Timing Controller support for Xilinx DRM KMS
++ *
++ * Copyright (C) 2013 - 2024 Advanced Micro Devices, Inc.
++ *
++ * Author: Hyun Woo Kwon <hyunk@xilinx.com>
++ *	   Saurabh Sengar <saurabhs@xilinx.com>
++ *	   Vishal Sagar <vishal.sagar@xilinx.com>
++ *	   Anatoliy Klymenko <anatoliy.klymenko@amd.com>
++ *
++ * This driver adds support to control the Xilinx Video Timing
++ * Controller connected to the CRTC.
++ */
++
++#include "xlnx_vtc.h"
++
++#include <linux/clk.h>
++#include <linux/device.h>
++#include <linux/err.h>
++#include <linux/io.h>
++#include <linux/list.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/of_device.h>
++#include <linux/platform_device.h>
++#include <linux/slab.h>
++#include <video/videomode.h>
++
++/* register offsets */
++#define XVTC_CTL		0x000
++#define XVTC_VER		0x010
++#define XVTC_GASIZE		0x060
++#define XVTC_GENC		0x068
++#define XVTC_GPOL		0x06c
++#define XVTC_GHSIZE		0x070
++#define XVTC_GVSIZE		0x074
++#define XVTC_GHSYNC		0x078
++#define XVTC_GVBHOFF_F0		0x07c
++#define XVTC_GVSYNC_F0		0x080
++#define XVTC_GVSHOFF_F0		0x084
++#define XVTC_GVBHOFF_F1		0x088
++#define XVTC_GVSYNC_F1		0x08C
++#define XVTC_GVSHOFF_F1		0x090
++#define XVTC_GASIZE_F1		0x094
++
++/* vtc control register bits */
++#define XVTC_CTL_SWRESET	BIT(31)
++#define XVTC_CTL_FIPSS		BIT(26)
++#define XVTC_CTL_ACPSS		BIT(25)
++#define XVTC_CTL_AVPSS		BIT(24)
++#define XVTC_CTL_HSPSS		BIT(23)
++#define XVTC_CTL_VSPSS		BIT(22)
++#define XVTC_CTL_HBPSS		BIT(21)
++#define XVTC_CTL_VBPSS		BIT(20)
++#define XVTC_CTL_VCSS		BIT(18)
++#define XVTC_CTL_VASS		BIT(17)
++#define XVTC_CTL_VBSS		BIT(16)
++#define XVTC_CTL_VSSS		BIT(15)
++#define XVTC_CTL_VFSS		BIT(14)
++#define XVTC_CTL_VTSS		BIT(13)
++#define XVTC_CTL_HBSS		BIT(11)
++#define XVTC_CTL_HSSS		BIT(10)
++#define XVTC_CTL_HFSS		BIT(9)
++#define XVTC_CTL_HTSS		BIT(8)
++#define XVTC_CTL_GE		BIT(2)
++#define XVTC_CTL_RU		BIT(1)
++
++/* vtc generator polarity register bits */
++#define XVTC_GPOL_FIP		BIT(6)
++#define XVTC_GPOL_ACP		BIT(5)
++#define XVTC_GPOL_AVP		BIT(4)
++#define XVTC_GPOL_HSP		BIT(3)
++#define XVTC_GPOL_VSP		BIT(2)
++#define XVTC_GPOL_HBP		BIT(1)
++#define XVTC_GPOL_VBP		BIT(0)
++
++/* vtc generator horizontal 1 */
++#define XVTC_GH1_BPSTART_MASK	GENMASK(28, 16)
++#define XVTC_GH1_BPSTART_SHIFT	16
++#define XVTC_GH1_SYNCSTART_MASK GENMASK(12, 0)
++/* vtc generator vertical 1 (field 0) */
++#define XVTC_GV1_BPSTART_MASK	GENMASK(28, 16)
++#define XVTC_GV1_BPSTART_SHIFT	16
++#define XVTC_GV1_SYNCSTART_MASK	GENMASK(12, 0)
++/* vtc generator/detector vblank/vsync horizontal offset registers */
++#define XVTC_XVXHOX_HEND_MASK	GENMASK(28, 16)
++#define XVTC_XVXHOX_HEND_SHIFT	16
++#define XVTC_XVXHOX_HSTART_MASK	GENMASK(12, 0)
++
++#define XVTC_GHFRAME_HSIZE	GENMASK(12, 0)
++#define XVTC_GVFRAME_HSIZE_F1	GENMASK(12, 0)
++#define XVTC_GA_ACTSIZE_MASK	GENMASK(12, 0)
++
++/* vtc generator encoding register bits */
++#define XVTC_GENC_INTERL	BIT(6)
++
++/**
++ * struct xlnx_vtc - Xilinx VTC object
++ *
++ * @list: vtc list entry
++ * @dev: device structure
++ * @base: base addr
++ * @ppc: pixels per clock
++ * @axi_clk: AXI Lite clock
++ * @vid_clk: Video clock
++ */
++struct xlnx_vtc {
++	struct xlnx_vtc_iface iface;
++	struct device *dev;
++	void __iomem *base;
++	u32 ppc;
++	struct clk *axi_clk;
++	struct clk *vid_clk;
++};
++
++#define iface_to_vtc(ptr) container_of(ptr, struct xlnx_vtc, iface)
++
++static inline void xlnx_vtc_writel(void __iomem *base, int offset, u32 val)
++{
++	writel(val, base + offset);
++}
++
++static inline u32 xlnx_vtc_readl(void __iomem *base, int offset)
++{
++	return readl(base + offset);
++}
++
++static void xlnx_vtc_reset(struct xlnx_vtc *vtc)
++{
++	u32 reg;
++
++	xlnx_vtc_writel(vtc->base, XVTC_CTL, XVTC_CTL_SWRESET);
++
++	/* enable register update */
++	reg = xlnx_vtc_readl(vtc->base, XVTC_CTL);
++	xlnx_vtc_writel(vtc->base, XVTC_CTL, reg | XVTC_CTL_RU);
++}
++
++/**
++ * xlnx_vtc_enable - Enable the VTC
++ * @vtc: xilinx vtc structure pointer
++ *
++ * Return:
++ * Zero on success.
++ *
++ * This function enables the VTC
++ */
++static int xlnx_vtc_enable(struct xlnx_vtc_iface *iface)
++{
++	u32 reg;
++	struct xlnx_vtc *vtc = iface_to_vtc(iface);
++
++	/* enable generator */
++	reg = xlnx_vtc_readl(vtc->base, XVTC_CTL);
++	xlnx_vtc_writel(vtc->base, XVTC_CTL, reg | XVTC_CTL_GE);
++	dev_dbg(vtc->dev, "enabled\n");
++	return 0;
++}
++
++/**
++ * xlnx_vtc_disable - Disable the VTC
++ * @bridge: xilinx vtc structure pointer
++ *
++ * This function disables and resets the VTC.
++ */
++static void xlnx_vtc_disable(struct xlnx_vtc_iface *iface)
++{
++	u32 reg;
++	struct xlnx_vtc *vtc = iface_to_vtc(iface);
++
++	/* disable generator and reset */
++	reg = xlnx_vtc_readl(vtc->base, XVTC_CTL);
++	xlnx_vtc_writel(vtc->base, XVTC_CTL, reg & ~XVTC_CTL_GE);
++	xlnx_vtc_reset(vtc);
++	dev_dbg(vtc->dev, "disabled\n");
++}
++
++/**
++ * xlnx_vtc_set_timing - Configures the VTC
++ * @vtc: xilinx vtc structure pointer
++ * @vm: video mode requested
++ *
++ * Return:
++ * Zero on success.
++ *
++ * This function calculates the timing values from the video mode
++ * structure passed from the CRTC and configures the VTC.
++ */
++static int xlnx_vtc_set_timing(struct xlnx_vtc_iface *iface,
++			       struct videomode *vm)
++{
++	int ret;
++	u32 reg;
++	u32 htotal, hactive, hsync_start, hbackporch_start;
++	u32 vtotal, vactive, vsync_start, vbackporch_start;
++	struct xlnx_vtc *vtc = iface_to_vtc(iface);
++
++	/* Make sure video clock is in sync with video timing */
++	ret = clk_set_rate(vtc->vid_clk, vm->pixelclock / vtc->ppc);
++	if (ret) {
++		dev_err(vtc->dev, "failed to set video clock rate: %d\n", ret);
++		return ret;
++	}
++
++	reg = xlnx_vtc_readl(vtc->base, XVTC_CTL);
++	xlnx_vtc_writel(vtc->base, XVTC_CTL, reg & ~XVTC_CTL_RU);
++
++	vm->hactive /= vtc->ppc;
++	vm->hfront_porch /= vtc->ppc;
++	vm->hback_porch /= vtc->ppc;
++	vm->hsync_len /= vtc->ppc;
++
++	htotal = vm->hactive + vm->hfront_porch + vm->hsync_len +
++		 vm->hback_porch;
++	vtotal = vm->vactive + vm->vfront_porch + vm->vsync_len +
++		 vm->vback_porch;
++
++	hactive = vm->hactive;
++	vactive = vm->vactive;
++
++	hsync_start = vm->hactive + vm->hfront_porch;
++	vsync_start = vm->vactive + vm->vfront_porch;
++
++	hbackporch_start = hsync_start + vm->hsync_len;
++	vbackporch_start = vsync_start + vm->vsync_len;
++
++	dev_dbg(vtc->dev, "ha: %d, va: %d\n", hactive, vactive);
++	dev_dbg(vtc->dev, "ht: %d, vt: %d\n", htotal, vtotal);
++	dev_dbg(vtc->dev, "hs: %d, hb: %d\n", hsync_start, hbackporch_start);
++	dev_dbg(vtc->dev, "vs: %d, vb: %d\n", vsync_start, vbackporch_start);
++
++	reg = htotal & XVTC_GHFRAME_HSIZE;
++	xlnx_vtc_writel(vtc->base, XVTC_GHSIZE, reg);
++
++	reg = vtotal & XVTC_GVFRAME_HSIZE_F1;
++	reg |= reg << XVTC_GV1_BPSTART_SHIFT;
++	xlnx_vtc_writel(vtc->base, XVTC_GVSIZE, reg);
++
++	reg = hactive & XVTC_GA_ACTSIZE_MASK;
++	reg |= (vactive & XVTC_GA_ACTSIZE_MASK) << 16;
++	xlnx_vtc_writel(vtc->base, XVTC_GASIZE, reg);
++
++	if (vm->flags & DISPLAY_FLAGS_INTERLACED)
++		xlnx_vtc_writel(vtc->base, XVTC_GASIZE_F1, reg);
++
++	reg = hsync_start & XVTC_GH1_SYNCSTART_MASK;
++	reg |= (hbackporch_start << XVTC_GH1_BPSTART_SHIFT) &
++	       XVTC_GH1_BPSTART_MASK;
++	xlnx_vtc_writel(vtc->base, XVTC_GHSYNC, reg);
++
++	reg = vsync_start & XVTC_GV1_SYNCSTART_MASK;
++	reg |= (vbackporch_start << XVTC_GV1_BPSTART_SHIFT) &
++	       XVTC_GV1_BPSTART_MASK;
++	xlnx_vtc_writel(vtc->base, XVTC_GVSYNC_F0, reg);
++
++	if (vm->flags & DISPLAY_FLAGS_INTERLACED) {
++		xlnx_vtc_writel(vtc->base, XVTC_GVSYNC_F1, reg);
++		reg = xlnx_vtc_readl(vtc->base, XVTC_GENC) | XVTC_GENC_INTERL;
++		xlnx_vtc_writel(vtc->base, XVTC_GENC, reg);
++	} else {
++		reg = xlnx_vtc_readl(vtc->base, XVTC_GENC) & ~XVTC_GENC_INTERL;
++		xlnx_vtc_writel(vtc->base, XVTC_GENC, reg);
++	}
++
++	/* configure horizontal offset */
++	/* Calculate and update Generator VBlank Hori field 0 */
++	reg = hactive & XVTC_XVXHOX_HSTART_MASK;
++	reg |= (hactive << XVTC_XVXHOX_HEND_SHIFT) &
++		XVTC_XVXHOX_HEND_MASK;
++	xlnx_vtc_writel(vtc->base, XVTC_GVBHOFF_F0, reg);
++
++	/* Calculate and update Generator VSync Hori field 0 */
++	reg = hsync_start & XVTC_XVXHOX_HSTART_MASK;
++	reg |= (hsync_start << XVTC_XVXHOX_HEND_SHIFT) &
++		XVTC_XVXHOX_HEND_MASK;
++	xlnx_vtc_writel(vtc->base, XVTC_GVSHOFF_F0, reg);
++
++	/* Calculate and update Generator VBlank Hori field 1 */
++	if (vm->flags & DISPLAY_FLAGS_INTERLACED) {
++		reg = hactive & XVTC_XVXHOX_HSTART_MASK;
++		reg |= (hactive << XVTC_XVXHOX_HEND_SHIFT) &
++			XVTC_XVXHOX_HEND_MASK;
++		xlnx_vtc_writel(vtc->base, XVTC_GVBHOFF_F1, reg);
++	}
++
++	/* Calculate and update Generator VBlank Hori field 1 */
++	if (vm->flags & DISPLAY_FLAGS_INTERLACED) {
++		reg =  (hsync_start - (htotal / 2)) & XVTC_XVXHOX_HSTART_MASK;
++		reg |= ((hsync_start - (htotal / 2)) <<
++			XVTC_XVXHOX_HEND_SHIFT) & XVTC_XVXHOX_HEND_MASK;
++	} else {
++		reg =  hsync_start & XVTC_XVXHOX_HSTART_MASK;
++		reg |= (hsync_start << XVTC_XVXHOX_HEND_SHIFT) &
++			XVTC_XVXHOX_HEND_MASK;
++	}
++
++	if (vm->flags & DISPLAY_FLAGS_INTERLACED)
++		xlnx_vtc_writel(vtc->base, XVTC_GVSHOFF_F1, reg);
++
++	/* configure polarity of signals */
++	reg = 0;
++	reg |= XVTC_GPOL_ACP;
++	reg |= XVTC_GPOL_AVP;
++	if (vm->flags & DISPLAY_FLAGS_INTERLACED)
++		reg |= XVTC_GPOL_FIP;
++	if (vm->flags & DISPLAY_FLAGS_VSYNC_HIGH) {
++		reg |= XVTC_GPOL_VBP;
++		reg |= XVTC_GPOL_VSP;
++	}
++	if (vm->flags & DISPLAY_FLAGS_HSYNC_HIGH) {
++		reg |= XVTC_GPOL_HBP;
++		reg |= XVTC_GPOL_HSP;
++	}
++	xlnx_vtc_writel(vtc->base, XVTC_GPOL, reg);
++
++	/* configure timing source */
++	reg = xlnx_vtc_readl(vtc->base, XVTC_CTL);
++	reg |= XVTC_CTL_VCSS;
++	reg |= XVTC_CTL_VASS;
++	reg |= XVTC_CTL_VBSS;
++	reg |= XVTC_CTL_VSSS;
++	reg |= XVTC_CTL_VFSS;
++	reg |= XVTC_CTL_VTSS;
++	reg |= XVTC_CTL_HBSS;
++	reg |= XVTC_CTL_HSSS;
++	reg |= XVTC_CTL_HFSS;
++	reg |= XVTC_CTL_HTSS;
++	xlnx_vtc_writel(vtc->base, XVTC_CTL, reg);
++
++	reg = xlnx_vtc_readl(vtc->base, XVTC_CTL);
++	xlnx_vtc_writel(vtc->base, XVTC_CTL, reg | XVTC_CTL_RU);
++	dev_dbg(vtc->dev, "set timing done\n");
++
++	return 0;
++}
++
++static int xlnx_vtc_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct xlnx_vtc *vtc;
++	struct resource *res;
++	int ret;
++
++	vtc = devm_kzalloc(dev, sizeof(*vtc), GFP_KERNEL);
++	if (!vtc)
++		return -ENOMEM;
++
++	vtc->dev = dev;
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	if (!res) {
++		dev_err(dev, "failed to get resource for device\n");
++		return -EFAULT;
++	}
++
++	vtc->base = devm_ioremap_resource(dev, res);
++	if (IS_ERR(vtc->base)) {
++		dev_err(dev, "failed to remap io region\n");
++		return PTR_ERR(vtc->base);
++	}
++
++	platform_set_drvdata(pdev, vtc);
++
++	ret = of_property_read_u32(dev->of_node, "xlnx,pixels-per-clock",
++				   &vtc->ppc);
++	if (ret || (vtc->ppc != 1 && vtc->ppc != 2 && vtc->ppc != 4)) {
++		dev_err(dev, "failed to get ppc\n");
++		return ret;
++	}
++	dev_info(dev, "vtc ppc = %d\n", vtc->ppc);
++
++	vtc->axi_clk = devm_clk_get(vtc->dev, "s_axi_aclk");
++	if (IS_ERR(vtc->axi_clk)) {
++		ret = PTR_ERR(vtc->axi_clk);
++		dev_err(dev, "failed to get axi lite clk %d\n", ret);
++		return ret;
++	}
++
++	vtc->vid_clk = devm_clk_get(vtc->dev, "clk");
++	if (IS_ERR(vtc->vid_clk)) {
++		ret = PTR_ERR(vtc->vid_clk);
++		dev_err(dev, "failed to get video clk %d\n", ret);
++		return ret;
++	}
++
++	ret = clk_prepare_enable(vtc->axi_clk);
++	if (ret) {
++		dev_err(vtc->dev, "unable to enable axilite clk %d\n", ret);
++		return ret;
++	}
++
++	ret = clk_prepare_enable(vtc->vid_clk);
++	if (ret) {
++		dev_err(vtc->dev, "unable to enable video clk %d\n", ret);
++		goto err_axi_clk;
++	}
++
++	xlnx_vtc_reset(vtc);
++
++	vtc->iface.of_node = dev->of_node;
++	vtc->iface.enable = xlnx_vtc_enable;
++	vtc->iface.disable = xlnx_vtc_disable;
++	vtc->iface.set_timing = xlnx_vtc_set_timing;
++
++	xlnx_vtc_register(&vtc->iface);
++
++	dev_info(dev, "Xilinx VTC IP version : 0x%08x\n",
++		 xlnx_vtc_readl(vtc->base, XVTC_VER));
++	dev_info(dev, "Xilinx VTC DRM Bridge driver probed\n");
++	return 0;
++
++err_axi_clk:
++	clk_disable_unprepare(vtc->axi_clk);
++	return ret;
++}
++
++static int xlnx_vtc_remove(struct platform_device *pdev)
++{
++	struct xlnx_vtc *vtc = platform_get_drvdata(pdev);
++
++	xlnx_vtc_unregister(&vtc->iface);
++
++	clk_disable_unprepare(vtc->vid_clk);
++	clk_disable_unprepare(vtc->axi_clk);
++
++	return 0;
++}
++
++static const struct of_device_id xlnx_vtc_of_match[] = {
++	{ .compatible = "xlnx,bridge-v-tc-6.1" },
++	{ /* end of table */ },
++};
++
++MODULE_DEVICE_TABLE(of, xlnx_vtc_of_match);
++
++static struct platform_driver xlnx_vtc_bridge_driver = {
++	.probe = xlnx_vtc_probe,
++	.remove = xlnx_vtc_remove,
++	.driver = {
++		.name = "xlnx,bridge-vtc",
++		.of_match_table = xlnx_vtc_of_match,
++	},
++};
++
++module_init(xlnx_vtc_list_init);
++module_platform_driver(xlnx_vtc_bridge_driver);
++module_exit(xlnx_vtc_list_fini);
++
++MODULE_AUTHOR("Vishal Sagar");
++MODULE_DESCRIPTION("Xilinx VTC Bridge Driver");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/gpu/drm/xlnx/xlnx_vtc.h b/drivers/gpu/drm/xlnx/xlnx_vtc.h
+new file mode 100644
+index 000000000000..8abe01a5d943
+--- /dev/null
++++ b/drivers/gpu/drm/xlnx/xlnx_vtc.h
+@@ -0,0 +1,101 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Xilinx DRM VTC header
++ *
++ *  Copyright (C) 2024 Advanced Micro Devices, Inc.
++ *
++ *  Author: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
++ */
++
++#ifndef _XLNX_VTC_H_
++#define _XLNX_VTC_H_
++
++#include <linux/errno.h>
++#include <linux/kconfig.h>
++#include <linux/of.h>
++#include <linux/types.h>
++#include <video/videomode.h>
++
++/**
++ * struct xlnx_vtc_iface - Video Timing Controller interface
++ * @list: VTC list entry
++ * @of_node: Device tree node
++ * @enable: Enable VTC callback
++ * @disable: Disable VTC callback
++ * @set_timing: Program VTC timing callback
++ */
++struct xlnx_vtc_iface {
++	struct list_head list;
++	struct device_node *of_node;
++	int (*enable)(struct xlnx_vtc_iface *vtc);
++	void (*disable)(struct xlnx_vtc_iface *vtc);
++	int (*set_timing)(struct xlnx_vtc_iface *vtc, struct videomode *vm);
++};
++
++#if IS_ENABLED(CONFIG_DRM_XLNX_BRIDGE_VTC)
++
++int xlnx_vtc_iface_enable(struct xlnx_vtc_iface *vtc);
++void xlnx_vtc_iface_disable(struct xlnx_vtc_iface *vtc);
++int xlnx_vtc_iface_set_timing(struct xlnx_vtc_iface *vtc,
++			      struct videomode *vm);
++
++int xlnx_vtc_list_init(void) __init;
++void xlnx_vtc_list_fini(void) __exit;
++
++int xlnx_vtc_register(struct xlnx_vtc_iface *vtc);
++void xlnx_vtc_unregister(struct xlnx_vtc_iface *vtc);
++int xlnx_of_find_vtc(const struct device_node *np,
++		     struct xlnx_vtc_iface **vtc);
++
++#else /* CONFIG_DRM_XLNX_BRIDGE_VTC */
++
++static inline int xlnx_vtc_iface_enable(struct xlnx_vtc_iface *vtc)
++{
++	return vtc ? -ENODEV : 0;
++}
++
++static inline xlnx_vtc_iface_disable(struct xlnx_vtc_iface *vtc)
++{
++}
++
++static inline int xlnx_vtc_iface_set_timing(struct xlnx_vtc_iface *vtc,
++					    struct videomode *vm)
++{
++	return vtc ? -ENODEV : 0;
++}
++
++static inline int xlnx_of_find_vtc(const struct device_node *np,
++				   struct xlnx_vtc_iface **vtc)
++{
++	*vtc = NULL;
++	return -ENODEV;
++}
++
++static inline int xlnx_vtc_list_init(void)
++{
++	return 0;
++}
++
++static inline void xlnx_vtc_list_fini(void)
++{
++}
++
++static inline int xlnx_vtc_register(struct xlnx_vtc_iface *vtc)
++{
++	return 0;
++}
++
++static inline void xlnx_vtc_unregister(struct xlnx_vtc_iface *vtc)
++{
++}
++
++static inline int xlnx_of_find_vtc(const struct device_node *np,
++				   struct xlnx_vtc_iface **vtc)
++{
++	*vtc = NULL;
++	return -ENODEV;
++}
++
++#endif /* CONFIG_DRM_XLNX_BRIDGE_VTC */
++
++#endif /* _XLNX_VTC_H_ */
+diff --git a/drivers/gpu/drm/xlnx/xlnx_vtc_list.c b/drivers/gpu/drm/xlnx/xlnx_vtc_list.c
+new file mode 100644
+index 000000000000..fe8d8447a18c
+--- /dev/null
++++ b/drivers/gpu/drm/xlnx/xlnx_vtc_list.c
+@@ -0,0 +1,160 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Video Timing Controller List
++ *
++ * Copyright (C) 2024 Advanced Micro Devices, Inc.
++ *
++ * Author: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
++ */
++
++#include "xlnx_vtc.h"
++
++#include <linux/mutex.h>
++
++/**
++ * struct xlnx_vtc_list - List of registered Video Timing Controllers
++ * @head: Head of the list of registered VTC instances
++ * @lock: Mutex protecting the list
++ * @initialized: Initialization flag
++ */
++struct xlnx_vtc_list {
++	struct list_head head;
++	struct mutex lock;
++	bool initialized;
++};
++
++static struct xlnx_vtc_list vtc_list;
++
++/**
++ * xlnx_vtc_list_init - Initialize VTC list
++ *
++ * Return 0 on success, or error code otherwise
++ */
++int xlnx_vtc_list_init(void)
++{
++	if (!vtc_list.initialized) {
++		INIT_LIST_HEAD(&vtc_list.head);
++		mutex_init(&vtc_list.lock);
++		vtc_list.initialized = true;
++	}
++
++	return 0;
++}
++
++/**
++ * xlnx_vtc_list_fini - Deinitialize VTC list, free resources
++ */
++void xlnx_vtc_list_fini(void)
++{
++	if (vtc_list.initialized) {
++		mutex_destroy(&vtc_list.lock);
++		vtc_list.initialized = false;
++	}
++}
++
++/**
++ * xlnx_vtc_register - Register new VTC instance
++ * @vtc: Pointer to VTC interface instance to register
++ *
++ * Return 0 on success, or error code otherwise
++ */
++int xlnx_vtc_register(struct xlnx_vtc_iface *vtc)
++{
++	if (!vtc || !vtc->of_node)
++		return -EINVAL;
++
++	if (!vtc_list.initialized)
++		return -EFAULT;
++
++	mutex_lock(&vtc_list.lock);
++	list_add_tail(&vtc->list, &vtc_list.head);
++	mutex_unlock(&vtc_list.lock);
++
++	return 0;
++}
++
++/**
++ * xlnx_vtc_unregister - Register new VTC instance
++ * @vtc: The VTC interface instance
++ */
++void xlnx_vtc_unregister(struct xlnx_vtc_iface *vtc)
++{
++	if (!vtc || !vtc_list.initialized)
++		return;
++
++	mutex_lock(&vtc_list.lock);
++	list_del(&vtc->list);
++	mutex_unlock(&vtc_list.lock);
++}
++
++/**
++ * xlnx_of_find_vtc - Lookup VTC instance by OF node pointer
++ * @np: Pointer to VTC device node
++ * @vtc: Output vtc instance pointer
++ *
++ * Return 0 on success, or error code otherwise
++ */
++int xlnx_of_find_vtc(const struct device_node *np, struct xlnx_vtc_iface **vtc)
++{
++	struct xlnx_vtc_iface *vtc_pos;
++	int ret = -EPROBE_DEFER;
++
++	*vtc = NULL;
++
++	if (!vtc_list.initialized)
++		return ret;
++
++	mutex_lock(&vtc_list.lock);
++	list_for_each_entry(vtc_pos, &vtc_list.head, list) {
++		if (vtc_pos->of_node == np) {
++			*vtc = vtc_pos;
++			ret = 0;
++			break;
++		}
++	}
++	mutex_unlock(&vtc_list.lock);
++
++	return ret;
++}
++
++/**
++ * xlnx_vtc_iface_enable - Enable VTC
++ * @vtc: The VTC
++ *
++ * Return 0 on success, or error code otherwise
++ */
++int xlnx_vtc_iface_enable(struct xlnx_vtc_iface *vtc)
++{
++	if (!vtc || !vtc->enable)
++		return -EINVAL;
++
++	return vtc->enable(vtc);
++}
++
++/**
++ * xlnx_vtc_iface_disable - Disable VTC
++ * @vtc: The VTC
++ */
++void xlnx_vtc_iface_disable(struct xlnx_vtc_iface *vtc)
++{
++	if (!vtc || !vtc->disable)
++		return;
++
++	vtc->disable(vtc);
++}
++
++/**
++ * xlnx_vtc_iface_set_timing - Program VTC video timing
++ * @vtc: The VTC
++ * @vm: Video mode to program timing for
++ *
++ * Return 0 on success, or error code otherwise
++ */
++int xlnx_vtc_iface_set_timing(struct xlnx_vtc_iface *vtc,
++			      struct videomode *vm)
++{
++	if (!vtc || !vtc->set_timing)
++		return -EINVAL;
++
++	return vtc->set_timing(vtc, vm);
++}
 
 -- 
 2.25.1
