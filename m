@@ -2,121 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 217E5885E6E
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 17:48:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35AAC885DFD
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 17:41:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC9F410F05B;
-	Thu, 21 Mar 2024 16:48:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 711FB10EDA0;
+	Thu, 21 Mar 2024 16:41:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ehh0D57C";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mQYwfrRK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com
- [209.85.160.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DFB810EFDA;
- Thu, 21 Mar 2024 16:48:40 +0000 (UTC)
-Received: by mail-qt1-f180.google.com with SMTP id
- d75a77b69052e-430a7497700so8894181cf.1; 
- Thu, 21 Mar 2024 09:48:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1711039719; x=1711644519; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date:message-id:reply-to;
- bh=RnSQH4sqrhF5Wo3QY3fQ9liz4+BuxfP+ECc1wYtEqZc=;
- b=Ehh0D57C2/TPW7UzLDhFK4NbzzWuOtQraxCs+qRhUrMmOgIy9Hqcv3dssZPsv/Jp4M
- 7QrDmjaPc+DEzdPBHsvSRwg9032TjlaSEGQzgFF7/p56gN2b1g0ALyFfqsJ4Lb5eOn+T
- TnbDNHuEPM7Mil2E4mxLaNmZPWSZU9gmr/J+anzRZETqmIWK0YLMY5EJwehBtEDLeegu
- IaufM04pRoO6ORH31Ut/E7HgiGHxmYEEre7CmNFCRFQ+sNaic3mZqDSxW7lN8ODjcHdP
- Y8WgP4vMewmYznpm5zo1L53eF70pvcxDTI3Bdz+UDerTFQ02saC855wgaZq5mAHbwSq+
- qURw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711039719; x=1711644519;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=RnSQH4sqrhF5Wo3QY3fQ9liz4+BuxfP+ECc1wYtEqZc=;
- b=gCzu1jlSj4mywJOdlg7h+9YYKGMuw10juOKYSQewgJs62Czt2Zufx19wC9UHXr8jfp
- U6CnC0/3wlNWH1tk1KEr/kWrSQndB7WLvJFGmKRw65gFJec5dT/INKGci256zdkHd6Bp
- 4BxEhH9gg+ZnE/HBNDTLoKoZOIHTnu+v16wlikUURuhZ9EJ8Z5xYU95yCyEsM/+NjwnA
- ue1Al6PijXjYGE2IVmnRUx5sX4BAfVmhvWUdf3uIg4F5I7TQA7TNKyaMZT99hAmKbVs8
- 06ke/Iz6cLcBJedeJLfqfnkQp82uK06dXdn80RvU9WNDR/tIHB8Zdz7EXDSPky6jp+dK
- wxug==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVDtk2Jo+MR7MNuuNVqIc8oDW+k5uKLEhi5VXy3nBvwCPGUuBzPIGclrfTHRfNkVo945nph/UY9cCgXHFn/pN68wPsOUHW/q9n8bpYb4Ral
-X-Gm-Message-State: AOJu0YyFQz10n0H/UZ+Jv6tZ9Czo19bRzdkK1k50yPLBaXX5dxZq/2q2
- DSDAzjYtPvKAW2iMkeO542TFr8mXJoB/c3rzcp/hJHy8HyXtHlRpYGM+gxAW
-X-Google-Smtp-Source: AGHT+IESGMrCCXgGlXp7C5pfKBqxty8YKppp9l1u+JHu9h2kxGl6gq2nE14v6JxaRhqfrObiEVpuxA==
-X-Received: by 2002:a05:6a20:3c8c:b0:1a3:55d2:1483 with SMTP id
- b12-20020a056a203c8c00b001a355d21483mr64202pzj.5.1711039221798; 
- Thu, 21 Mar 2024 09:40:21 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
- ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- fe26-20020a056a002f1a00b006ea7e972947sm34883pfb.130.2024.03.21.09.40.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Mar 2024 09:40:20 -0700 (PDT)
-Message-ID: <8d6fbbb9-70cd-45bf-9c48-3bfae0b6654a@roeck-us.net>
-Date: Thu, 21 Mar 2024 09:40:18 -0700
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDC1310EDA0;
+ Thu, 21 Mar 2024 16:41:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id EFC90CE1378;
+ Thu, 21 Mar 2024 16:40:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F2E6C433C7;
+ Thu, 21 Mar 2024 16:40:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1711039258;
+ bh=Rg3Qyg/aCiHbBDT5o4Egzs5J5LChZshjXRXkzKdFYoY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mQYwfrRKlmBpZtRh1sVLmwtfHGxXtsJlqNmo7dVaTfOapv2REcGyrzPgytUQaNsI1
+ cPcLN3qiahtFIPWyKZ9T0fAXrFHKwVQBW34wxyRIZ+hWmtkfcx16FKQdwwcBPgl5XE
+ 2plqgCGYA+6yi+IWm9viO2oONOtI1aevMJiH9zsCSJwaztgUoMSmAzrloaPWlHyRTG
+ t2mvRCCC5ujTAaLOxyYLvyIqrgvJogGFKxW2a8frOJwoaHeD4Ge0G/UPjzE/2tH/z4
+ w1GL3bt+o9ASG47/cPbHsBesEatxUqiOdqij4KhEp2AIHI/lE+jKwOWiQqeuZAjYFE
+ tzRX8goZyCciQ==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+ (envelope-from <johan@kernel.org>) id 1rnLTV-0000000082A-2Ev6;
+ Thu, 21 Mar 2024 17:41:06 +0100
+Date: Thu, 21 Mar 2024 17:41:05 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org,
+ quic_jesszhan@quicinc.com, quic_parellan@quicinc.com,
+ quic_bjorande@quicinc.com, Rob Clark <robdclark@chromium.org>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/msm/dp: move link_ready out of HPD event thread
+Message-ID: <ZfxjISnPhplKDDxc@hovoldconsulting.com>
+References: <ZfApxyVAJMK4bL8O@hovoldconsulting.com>
+ <ZfCFsmNv62-KMkA6@hovoldconsulting.com>
+ <ZfCKDGq9n9WG3Quj@hovoldconsulting.com>
+ <8e125a99-543d-8328-a2a9-100e223e4faf@quicinc.com>
+ <ZfFhXG5yd6O29spS@hovoldconsulting.com>
+ <ec2cba17-5644-6cf6-f6c9-d37d7ca56204@quicinc.com>
+ <ZfMaEIzv3Z3ny3y0@hovoldconsulting.com>
+ <9313aa00-41f0-15af-a646-3f4e4b3098c7@quicinc.com>
+ <ZfRv5le7Bfdiwrk_@hovoldconsulting.com>
+ <a1152afe-b652-d83e-05e4-25c07292b568@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v3,5/5] drm/xe: Enable 32bits build
-Content-Language: en-US
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: intel-xe@lists.freedesktop.org, Matt Roper <matthew.d.roper@intel.com>,
- dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com
-References: <20240119001612.2991381-6-lucas.demarchi@intel.com>
- <d53d2da5-22de-4f81-9fbc-2f54e5da9ac6@roeck-us.net>
- <qm5q44hs7vmq6erio7ome323xemwrg5mrxhaozkwblf6qjjvow@dqwy2oz2rrrj>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <qm5q44hs7vmq6erio7ome323xemwrg5mrxhaozkwblf6qjjvow@dqwy2oz2rrrj>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a1152afe-b652-d83e-05e4-25c07292b568@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,67 +77,153 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/18/24 06:28, Lucas De Marchi wrote:
-> On Sun, Mar 17, 2024 at 09:14:14AM -0700, Guenter Roeck wrote:
->> Hi,
->>
->> On Thu, Jan 18, 2024 at 04:16:12PM -0800, Lucas De Marchi wrote:
->>> Now that all the issues with 32bits are fixed, enable it again.
->>>
->>> Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
->>> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
->>> ---
->>>  drivers/gpu/drm/xe/Kconfig | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig
->>> index 1b57ae38210d..1b0ef91a5d2c 100644
->>> --- a/drivers/gpu/drm/xe/Kconfig
->>> +++ b/drivers/gpu/drm/xe/Kconfig
->>> @@ -1,7 +1,7 @@
->>>  # SPDX-License-Identifier: GPL-2.0-only
->>>  config DRM_XE
->>>      tristate "Intel Xe Graphics"
->>> -    depends on DRM && PCI && MMU && (m || (y && KUNIT=y)) && 64BIT
->>> +    depends on DRM && PCI && MMU && (m || (y && KUNIT=y))
->>
->> I am curious about changes like this. Enabling 32-bit builds results in
->> build failures for mips_allmodconfig because the driver redefines END.
->> END is also used as macro in assembler code, the define happens to be
->> included for mips builds, and it would be difficult to change it there.
->>
->> Unlike the i915 code, DRM_XE is not marked as depending on x86. This means
->> it will be built for pretty much all "allmodconfig" builds for all
->> architectures. Yet, there have been recent complaints about "allmodconfig"
->> builds of drm code causing build failures on "oddball" architectures.
->> Is there an assumption that DRM_XE (or DRM in general) is manually
->> excluded from all architectures where it fails to build ? If so, would
-> 
-> for all the reports we've been receiving we fixed the build and improved
-> CI to try to avoid the regressions. DRM_XE doesn't really depend on x86,
-> but I see your point of filtering out the "oddball architectures" or just
-> expose the ones we know it builds against. Yet, I don't see that
-> approach done in the wild in other drivers. At least on the build side, we
-> constantly check the reports from lkp like
-> 
-> https://lore.kernel.org/all/202403152008.KlwyYggO-lkp@intel.com/
-> 
-> which also includes mips:
-> 
->      mips                              allnoconfig   gcc
->      mips                             allyesconfig   gcc
-> 
-> is that not sufficient? allyesconfig should be covering it afaics
-> 
+On Mon, Mar 18, 2024 at 11:01:25AM -0700, Abhinav Kumar wrote:
+> On 3/15/2024 8:57 AM, Johan Hovold wrote:
+> > On Thu, Mar 14, 2024 at 09:30:57AM -0700, Abhinav Kumar wrote:
 
-FWIW: The kissb build system reports the problem as well, so it isn't
-just me.
+> >> The race condition is between the time we get disconnect event and set
+> >> link_ready to false, a commit can come in. Because setting link_ready to
+> >> false happens in the event thread so it could be slightly delayed.
+> > 
+> > I get this part, just not why, or rather when, that becomes a problem.
+> > 
+> > Once the disconnect event is processed, dp_hpd_unplug_handle() will
+> > update the state to ST_DISCONNECT_PENDING, and queue a notification
+> > event. link_ready is (before this patch) still set to 1.
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/15143996/
+> This is the case I am thinking of:
+> 
+> 1) Disconnect event happens which will call dp_hpd_unplug_handle() but 
+> link_ready is not false yet.
+> 
+> 2) There is a commit with a modeset, which shall trigger 
+> atomic_disable() followed by an atomic_enable()
+> 
+> atomic_disable() will go through disable clocks and set hpd_state to 
+> ST_DISCONNECTED.
+> 
+> 3) atomic_enable() will not go through because we will bail out because 
+> state was ST_DISCONNECTED.
+> 
+>          if (state != ST_DISPLAY_OFF && state != ST_MAINLINK_READY) {
+>                  mutex_unlock(&dp_display->event_mutex);
+>                  return;
+>          }
+> 
+> 4) Now, if there is another commit with a modeset, it will go and crash 
+> at atomic_disable()
 
-Sure, that is allmodconfig vs. allyesconfig, but that does not make
-a difference. The compiler version doesn't make a difference either.
-kissb runs tests with gcc-8 and gcc-13, and they both fail.
+Right, that's what I described in the mail you replied to but that still
+doesn't answer what triggers those mode sets.
+ 
+> > Here a commit comes in; what exactly are you suggesting would trigger
+> > that? And in such a way that it breaks the state machine?
 
-Guenter
+> Like we have seen, the commit can either come directly from userspace as 
+> one last frame (the original bug I had given the link to) or from the 
+> __drm_fb_helper_restore_fbdev_mode_unlocked() which happened in 
+> sc8280xp's case. This is totally independent of the hpd_thread() with no 
+> mutual exclusion.
 
+Right . Still not sure about the details about "that last frame" issue,
+that you saw in the past, and if that's still an issue or not. You
+claimed that you had fixed that, right?
+
+> This commit() can come before the link_ready was set to false. If it had 
+> come after link_ready was set to false, atomic_check() would have failed 
+> and no issue would have been seen.
+> 
+> My change is making the link_ready false sooner in the disconnect case.
+
+Yes, but again, and as you have confirmed, you're only papering over the
+issue at such a mode set can still come in before you set link_state to
+false.
+ 
+> > One way this could cause trouble is if you end up with a call to
+> > dp_bridge_atomic_post_disable() which updates the state to
+> > ST_DISCONNECTED. (1)
+> > 
+> > This would then need to be followed by another call to
+> > dp_bridge_atomic_enable() which bails out early with the link clock
+> > disabled. (2) (And if link_ready were to be set to 0 sooner, the
+> > likelihood of this is reduced.)
+> > 
+> > This in turn, would trigger a reset when dp_bridge_atomic_disable() is
+> > later called.
+
+> Yes, this is exactly what I have written above.
+
+Thanks for confirming.
+
+> > This is the kind of description of the race I expect to see in the
+> > commit message, and I'm still not sure what would trigger the call to
+> > dp_bridge_atomic_post_disable() and dp_bridge_atomic_enable() (i.e. (1)
+> > and (2) above) and whether this is a real issue or not.
+> 
+> I have explained what triggers the disable/enable call below.
+> 
+> > Also note that the above scenario is quite different from the one I've
+> > hit and described earlier.
+
+> Why is that so? Eventually it will also translate to the same scenario. 
+> I would like to understand why this is different. I think in your case, 
+> probably we do not know what triggers the modeset, but its a minor 
+> detail like I have written before.
+
+The state transitions are different and the enable event comes in
+before the bridge has been fully tore down unlike in the scenario we
+outlined above.
+
+And it's certainly not a minor detail, as in the sc8280xp VT case,
+those spurious hotplug events that trigger the atomic_enable would not
+have caused any trouble if it wasn't for the case that the bridge was
+stuck in the ST_MAINLINK_READY state.
+
+That explains why the hotplug notification revert in rc7 made a
+difference on sc8280xp. 
+
+You're talking about an entirely different and, as far as I can tell,
+hypothetical scenario where are user executes a modeset while pulling
+the plug. This is certainly not why we had a number of user suddenly
+starting to hit this crash after they upgraded to 6.8-rc1.
+
+And, just to be clear, we know what triggers the modeset in the VT case,
+and I posted a detailed explanation with a strack trace here:
+
+	https://lore.kernel.org/lkml/Ze8Ke_M2xHyPYCu-@hovoldconsulting.com/
+
+> >> It will be hard to reproduce this. Only way I can think of is to delay
+> >> the EV_NOTIFICATION for sometime and see in dp_bridge_hpd_notify()
+> >>
+> >>           else if (dp_display->link_ready && status ==
+> >> connector_status_disconnected)
+> >>                   dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
+> >>
+> >> as dp_add_event() will add the event, then wakeup the event_q.
+> > 
+> > Sure that would increase the race window with the current code, but that
+> > alone isn't enough to trigger the bug AFAICT.
+> > 
+> >> Before the event thread wakes up and processes this unplug event, the
+> >> commit can come in. This is the race condition i was thinking of.
+> > 
+> > Yes, but what triggers the commit? And why would it lead to a mode set
+> > that disables the bridge?
+
+> Commit was triggered from the userspace as it did not process the 
+> disconnect event on time and the userspace was triggering a couple of 
+> modesets by by changing the mode on the CRTC from 1080P to NONE to 1080P.
+> 
+> [drm:drm_atomic_helper_check_modeset] [CRTC:60:crtc-1] mode changed
+
+But *why* would user space do that? Pushing out another frame would
+generally not trigger a modeset, right?
+
+And as I've alluded to repeatedly, your patch only seems concerned with
+something like the above, where a hypothetical user space is triggering
+modesets after receiving a notification.
+
+And we know that that is not relevant for the crashes I've seen as there
+is no user space processing any events in my VT or X setup.
+
+Johan
