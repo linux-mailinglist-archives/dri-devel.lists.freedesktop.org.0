@@ -2,132 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B52FD88555B
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 09:14:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9986988559B
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 09:23:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2890810E206;
-	Thu, 21 Mar 2024 08:14:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFE6C10E266;
+	Thu, 21 Mar 2024 08:23:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="z58XYCdN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ffBhOwwJ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="z58XYCdN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ffBhOwwJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ku0gceTr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFBC310E206
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 08:14:00 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C0AF35CAB3;
- Thu, 21 Mar 2024 08:13:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1711008838; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=y6EymMzI4mKFZpsPiO7mkOYc35XxSjXp28FV/sihtLQ=;
- b=z58XYCdNsQqOqZrKc3c2G+8yYKOm0PJ9bw4hx0+C9IeRZa0HBR9o/Zzh0idwc0qWrLCah6
- SeR97jGq0k7glCTq4AkQAD7qO2UWD3KVcsOGOKjWrCnE+JxSzjlPRHS6rL4VdbDE65tgCl
- CyiU4t3hLvYcYaVyfn7HLY2UJASfPv8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1711008838;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=y6EymMzI4mKFZpsPiO7mkOYc35XxSjXp28FV/sihtLQ=;
- b=ffBhOwwJL2SxVPk8kb0KQG4vY1g6Q2P3B472iRs400//eTZdw5FGhhRR/GZ5v5eU14bHIP
- Jm3zFCWAh8VC6KBg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1711008838; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=y6EymMzI4mKFZpsPiO7mkOYc35XxSjXp28FV/sihtLQ=;
- b=z58XYCdNsQqOqZrKc3c2G+8yYKOm0PJ9bw4hx0+C9IeRZa0HBR9o/Zzh0idwc0qWrLCah6
- SeR97jGq0k7glCTq4AkQAD7qO2UWD3KVcsOGOKjWrCnE+JxSzjlPRHS6rL4VdbDE65tgCl
- CyiU4t3hLvYcYaVyfn7HLY2UJASfPv8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1711008838;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=y6EymMzI4mKFZpsPiO7mkOYc35XxSjXp28FV/sihtLQ=;
- b=ffBhOwwJL2SxVPk8kb0KQG4vY1g6Q2P3B472iRs400//eTZdw5FGhhRR/GZ5v5eU14bHIP
- Jm3zFCWAh8VC6KBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8170F13976;
- Thu, 21 Mar 2024 08:13:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
- by imap1.dmz-prg2.suse.org with ESMTPSA id cGxYHkbs+2U8bgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 21 Mar 2024 08:13:58 +0000
-Message-ID: <08e70629-72aa-4102-955c-dc531ca5589d@suse.de>
-Date: Thu, 21 Mar 2024 09:13:58 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEE6010E261
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 08:23:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1711009422; x=1742545422;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ICh11Y75BvftoU+591L7NnAkxkEdEjRgHnNIeW21dlM=;
+ b=ku0gceTrJ9T31iuBttUxptKAxgyUbvja8BvDYXqE2gxdkV/1XA+EHfzn
+ X5vrJ3Jd+JwQ7jZGpwyrsleSEZTS6A9lwjvCJCtQr5bEk05eO4rqR9MtR
+ ZV7srUeV8DjXzHHnomdQDCYq7Dw9iZX4p9Cb8yh2d9zACe/RPJQ34p2B1
+ gBWhP4H8yVi9dgwqaXJiOBST5PIqbp1K5WvVClRFZ6RFLr+pdslDIs393
+ H9fJt9BU/YCb00nWMr+gmmcbyz/NSlDudkASEbURU3HOHsfDyoZ/V4XPc
+ k270+WDSislBb3m3mnr3nDirAemUqIWVBFGoYAQGzrDOZZmCM1II9OsHb g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="6591108"
+X-IronPort-AV: E=Sophos;i="6.07,142,1708416000"; 
+   d="scan'208";a="6591108"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2024 01:23:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,142,1708416000"; d="scan'208";a="19148518"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+ by orviesa003.jf.intel.com with ESMTP; 21 Mar 2024 01:23:39 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rnDi4-000JGt-2I;
+ Thu, 21 Mar 2024 08:23:36 +0000
+Date: Thu, 21 Mar 2024 16:22:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ jfalempe@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, jani.nikula@linux.intel.com, airlied@gmail.com,
+ daniel@ffwll.ch
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v5 13/13] drm/ast: Automatically clean up poll helper
+Message-ID: <202403211604.aM8tDovD-lkp@intel.com>
+References: <20240320093738.6341-14-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v5,06/13] drm/ast: Rename struct ast_i2c_chan to struct ast_ddc
-To: Sui Jingfeng <sui.jingfeng@linux.dev>, airlied@redhat.com,
- jfalempe@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- jani.nikula@linux.intel.com, airlied@gmail.com, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org
-References: <20240320093738.6341-7-tzimmermann@suse.de>
- <39eeaa47-28af-462d-aa4d-4fddb3d47b4a@linux.dev>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <39eeaa47-28af-462d-aa4d-4fddb3d47b4a@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -4.29
-X-Spamd-Result: default: False [-4.29 / 50.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; XM_UA_NO_VERSION(0.01)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
- NEURAL_HAM_LONG(-1.00)[-1.000]; BAYES_HAM(-3.00)[100.00%];
- RCVD_COUNT_THREE(0.00)[3];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; RCPT_COUNT_SEVEN(0.00)[9];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
- FREEMAIL_TO(0.00)[linux.dev,redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[]
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240320093738.6341-14-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,55 +70,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Hi Thomas,
 
-Am 20.03.24 um 18:32 schrieb Sui Jingfeng:
-> Hi,
->
->
-> On 2024/3/20 17:34, Thomas Zimmermann wrote:
->> The struct struct ast_i2c_chan represents the Display Data Channel
->> (DDC); I2C is the underlying bus. Rename the structure, the variables
->> and the helper ast_i2c_create() to ddc-like terms. No functional
->> changes.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->
->
-> Personally, I think _i2c_ is better name than _ddc_. Because It seems 
-> that
-> the Display Data Channel is comes from VESA standard, while aspeed I2C 
-> can
-> be used to configure the external display bridges(encoder). So _i2c_ is a
-> *abstract* name, and can be utilized to do something else beyond the DDC
-> itself.
+kernel test robot noticed the following build warnings:
 
-This specific instance of i2c is for DDC; even the AST manual refers to 
-it as DDC. I don't think there's anything else we could do with those 
-registers. If we have other uses for i2c, we can easily add them in 
-separate code.
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.8 next-20240320]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->
->
-> Reviewed-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-ast-Include-linux-of-h-where-necessary/20240320-174013
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240320093738.6341-14-tzimmermann%40suse.de
+patch subject: [PATCH v5 13/13] drm/ast: Automatically clean up poll helper
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240321/202403211604.aM8tDovD-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240321/202403211604.aM8tDovD-lkp@intel.com/reproduce)
 
-Thanks for reviewing the series. I think the new helper in patch 12 
-could be useful for loongson [1][2] as well.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403211604.aM8tDovD-lkp@intel.com/
 
-Best regards
-Thomas
+All warnings (new ones prefixed by >>):
 
-[1] 
-https://elixir.bootlin.com/linux/v6.8/source/drivers/gpu/drm/loongson/lsdc_output_7a1000.c#L80
-[2] 
-https://elixir.bootlin.com/linux/v6.8/source/drivers/gpu/drm/loongson/lsdc_output_7a2000.c#L177
+>> drivers/gpu/drm/drm_probe_helper.c:965: warning: expecting prototype for devm_drm_kms_helper_poll_init(). Prototype was for drmm_kms_helper_poll_init() instead
+
+
+vim +965 drivers/gpu/drm/drm_probe_helper.c
+
+   950	
+   951	/**
+   952	 * devm_drm_kms_helper_poll_init - initialize and enable output polling
+   953	 * @dev: drm_device
+   954	 *
+   955	 * This function initializes and then also enables output polling support for
+   956	 * @dev similar to drm_kms_helper_poll_init(). Polling will automatically be
+   957	 * cleaned up when the DRM device goes away.
+   958	 *
+   959	 * See drm_kms_helper_poll_init() for more information.
+   960	 *
+   961	 * Returns:
+   962	 * 0 on success, or a negative errno code otherwise.
+   963	 */
+   964	int drmm_kms_helper_poll_init(struct drm_device *dev)
+ > 965	{
+   966		drm_kms_helper_poll_init(dev);
+   967	
+   968		return drmm_add_action_or_reset(dev, drm_kms_helper_poll_init_release, dev);
+   969	}
+   970	EXPORT_SYMBOL(drmm_kms_helper_poll_init);
+   971	
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
