@@ -2,111 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E818D885D44
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 17:19:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AD93885D5A
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 17:25:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0342610EEF9;
-	Thu, 21 Mar 2024 16:19:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F96710E86F;
+	Thu, 21 Mar 2024 16:25:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="JvOXEUY2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MFwPFIET";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JvOXEUY2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MFwPFIET";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Zwl1hCY/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C1AA10EEEB;
- Thu, 21 Mar 2024 16:19:53 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 29C185D111;
- Thu, 21 Mar 2024 16:19:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1711037990; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=+8C86hRw6A2lRO5GemWT2IaUMP1b3S0LGNcWDiLAJPo=;
- b=JvOXEUY23wMSO3GSERXQu59RObfe9qpCueaYJ/Hiue91Oxl555DgBHDL6UbxXUIUjTHbs6
- MHOMi9xTHwEJHP0u3pbM9s4we+hxBEJtNxZzFjEq0uMIxmhGHpMW46EPhb/aWISoML2yVz
- HNMPet/1kXYdVg/PsFRuZQEPMoI9SxU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1711037990;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=+8C86hRw6A2lRO5GemWT2IaUMP1b3S0LGNcWDiLAJPo=;
- b=MFwPFIETQxMacwTcARYL81zmttkuu8UY867wP3YXIej1OJqGstV3fgf/ymOtTw1h88QaMZ
- dGlvi5kNHd3dZzAQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1711037990; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=+8C86hRw6A2lRO5GemWT2IaUMP1b3S0LGNcWDiLAJPo=;
- b=JvOXEUY23wMSO3GSERXQu59RObfe9qpCueaYJ/Hiue91Oxl555DgBHDL6UbxXUIUjTHbs6
- MHOMi9xTHwEJHP0u3pbM9s4we+hxBEJtNxZzFjEq0uMIxmhGHpMW46EPhb/aWISoML2yVz
- HNMPet/1kXYdVg/PsFRuZQEPMoI9SxU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1711037990;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=+8C86hRw6A2lRO5GemWT2IaUMP1b3S0LGNcWDiLAJPo=;
- b=MFwPFIETQxMacwTcARYL81zmttkuu8UY867wP3YXIej1OJqGstV3fgf/ymOtTw1h88QaMZ
- dGlvi5kNHd3dZzAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AE6F5138A1;
- Thu, 21 Mar 2024 16:19:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id wQxWKSVe/GVDFwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 21 Mar 2024 16:19:49 +0000
-Date: Thu, 21 Mar 2024 17:19:48 +0100
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DE1C10E86F
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 16:25:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id E9CFFCE0E42;
+ Thu, 21 Mar 2024 16:25:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAFBCC433C7;
+ Thu, 21 Mar 2024 16:25:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1711038301;
+ bh=ogc/U6YBTmcb0BC3PL0tlRW7N+zLZ+qmeYO8A+GuUJM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Zwl1hCY/3Q5C+aesvtYbUBMjYMpGrWG/uiQCilI8ysGe6Q/8ZcAZzpetMacQ991U8
+ Y9IC0utl6SJMnak51fdEygBjIYUYms3VR2ZFBnd3kDNj2KHGdXfInl3iTgb7LIMOst
+ CCnNgUpOyLR+dUY4jHk1sfltTr1cGdMSmUNhTUcVBe33L+5a8jU4hbypPJT8Atf6JJ
+ EQi8g0MKwBv0lp9+oDpTUemckCfhBqTvzni+6aObQtIMME9QFk0VuH6r6DDjBQjMqi
+ Dv5OzsKp9siW1+GYB1AbC+4npmqz802j2LIUmk7DcLf5HUNw+aLpwRWfVXurIGZzJ5
+ Bgaya0n5FikcQ==
+Date: Thu, 21 Mar 2024 17:24:58 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Frank Oltmanns <frank@oltmanns.dev>, Chen-Yu Tsai <wens@csie.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <20240321161948.GA30430@linux.fritz.box>
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Samuel Holland <samuel@sholland.org>, Icenowy Zheng <uwu@icenowy.me>,
+ Ondrej Jirman <x@xnux.eu>, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sun4i: tcon: Support keeping dclk rate upon ancestor
+ clock changes
+Message-ID: <20240321-faithful-caterpillar-of-health-52d87f@houat>
+References: <20240310-tcon_keep_stable_rate-v1-1-0296b0a85c02@oltmanns.dev>
+ <20240314-careful-silky-bear-8ee43f@houat>
+ <5448341.Sb9uPGUboI@jernej-laptop>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="5hh7c6ibu6zg4s6a"
 Content-Disposition: inline
-X-Spam-Score: -4.51
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-4.51 / 50.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
- NEURAL_HAM_LONG(-1.00)[-1.000]; RCVD_COUNT_THREE(0.00)[3];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DKIM_TRACE(0.00)[suse.de:+]; MX_GOOD(-0.01)[];
- RCPT_COUNT_TWELVE(0.00)[16];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
- FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- RCVD_TLS_ALL(0.00)[]; BAYES_HAM(-3.00)[100.00%];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
-X-Spam-Level: 
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=JvOXEUY2;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MFwPFIET
-X-Rspamd-Queue-Id: 29C185D111
+In-Reply-To: <5448341.Sb9uPGUboI@jernej-laptop>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,87 +67,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
 
-here's the drm-misc-next-fixes PR for this week.
+--5hh7c6ibu6zg4s6a
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best regards
-Thomas
+On Thu, Mar 14, 2024 at 06:20:58PM +0100, Jernej =C5=A0krabec wrote:
+> Dne =C4=8Detrtek, 14. marec 2024 ob 15:42:24 CET je Maxime Ripard napisal=
+(a):
+> > On Sun, Mar 10, 2024 at 02:32:29PM +0100, Frank Oltmanns wrote:
+> > > Allow the dclk to reset its rate when a rate change is initiated from=
+ an
+> > > ancestor clock. This makes it possible to no longer to get an exclusi=
+ve
+> > > lock. As a consequence, it is now possible to set new rates if
+> > > necessary, e.g. when an external display is connected.
+> > >=20
+> > > The first user of this functionality is the A64 because PLL-VIDEO0 is=
+ an
+> > > ancestor for both HDMI and TCON0. This allows to select an optimal ra=
+te
+> > > for TCON0 as long as there is no external HDMI connection. Once a cha=
+nge
+> > > in PLL-VIDEO0 is performed when an HDMI connection is established, TC=
+ON0
+> > > can react gracefully and select an optimal rate based on this the new
+> > > constraint.
+> > >=20
+> > > Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+> > > ---
+> > > I would like to make the Allwinner A64's data-clock keep its rate
+> > > when its ancestor's (pll-video0) rate changes. Keeping data-clock's r=
+ate
+> > > is required, to let the A64 drive both an LCD and HDMI display at the
+> > > same time, because both have pll-video0 as an ancestor.
+> > >=20
+> > > TCONs that use this flag store the ideal rate for their data-clock and
+> > > subscribe to be notified when data-clock changes. When rate setting h=
+as
+> > > finished (indicated by a POST_RATE_CHANGE event) the call back functi=
+on
+> > > schedules delayed work to set the data-clock's rate to the initial va=
+lue
+> > > after 100 ms. Using delayed work maks sure that the clock setting is
+> > > finished.
+> > >=20
+> > > I've implemented this functionality as a quirk, so that it is possible
+> > > to use it only for the A64.
+> > >=20
+> > > This patch supersedes [1].
+> > >=20
+> > > This work is inspired by an out-of-tree patchset [2] [3] [4].
+> > > Unfortunately, the patchset uses clk_set_rate() directly in a notifier
+> > > callback, which the following comment on clk_notifier_register()
+> > > forbids: "The callbacks associated with the notifier must not re-enter
+> > > into the clk framework by calling any top-level clk APIs." [5]
+> > > Furthermore, that out-of-tree patchset no longer works since 6.6,
+> > > because setting pll-mipi is now also resetting pll-video0 and therefo=
+re
+> > > causes a race condition.
+> >=20
+> > Workqueues don't have an upper boundary on when they execute. As we
+> > discussed multiple times, this should be solved in the clock framework
+> > itself, not bypassing it.
+>=20
+> I think TCON code still needs to be touched due to clk_rate_exclusive_get=
+()
+> calls which effectively lock whole chain. You can't have both TCONs locki=
+ng
+> rate on A64 for this to work correctly.
+>=20
+> What was original reason for clk_rate_exclusive_get()? I forgot already.
 
-drm-misc-next-fixes-2024-03-21:
-Short summary of fixes pull:
+IIRC, it was because the D-PHY and DSI controller derive from the same
+clock, and we needed to make sure setting one wouldn't affect the other
+one.
 
-core:
-- fix rounding in drm_fixp2int_round()
+Maxime
 
-bridge:
-- fix documentation for DRM_BRIDGE_OP_EDID
+--5hh7c6ibu6zg4s6a
+Content-Type: application/pgp-signature; name="signature.asc"
 
-nouveau:
-- don't check devinit disable on GSP
+-----BEGIN PGP SIGNATURE-----
 
-sun4i:
-- fix 64-bit division on 32-bit architectures
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZfxfWgAKCRDj7w1vZxhR
+xfv3AQDxIiMi1g+0nI7JKGoqxMzWuC13RajfFCHNbQGYsy0IBQD/XJHBNS4oJzSG
+eOlBThbUoxtCgz90wXUf/Plufp64XAE=
+=F9E+
+-----END PGP SIGNATURE-----
 
-tests:
-- fix dependency on DRM_KMS_HELPER
-The following changes since commit 9dd81b2e1ec72a3759f8d6bb6e9cbef93aab6227:
-
-  drm/exynos: simplify the return value handling in exynos_dp_get_modes() (2024-03-13 10:44:14 +0200)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-fixes-2024-03-21
-
-for you to fetch changes up to 5d4e8ae6e57b025802aadf55a4775c55cceb75f1:
-
-  nouveau/gsp: don't check devinit disable on GSP. (2024-03-19 14:34:55 +0100)
-
-----------------------------------------------------------------
-Short summary of fixes pull:
-
-core:
-- fix rounding in drm_fixp2int_round()
-
-bridge:
-- fix documentation for DRM_BRIDGE_OP_EDID
-
-nouveau:
-- don't check devinit disable on GSP
-
-sun4i:
-- fix 64-bit division on 32-bit architectures
-
-tests:
-- fix dependency on DRM_KMS_HELPER
-
-----------------------------------------------------------------
-Arthur Grillo (1):
-      drm: Fix drm_fixp2int_round() making it add 0.5
-
-Dave Airlie (1):
-      nouveau/gsp: don't check devinit disable on GSP.
-
-Dmitry Baryshkov (1):
-      drm/bridge: correct DRM_BRIDGE_OP_EDID documentation
-
-Karolina Stolarek (1):
-      drm/tests: Build KMS helpers when DRM_KUNIT_TEST_HELPERS is enabled
-
-Maxime Ripard (1):
-      drm/sun4i: hdmi: Fix u64 div on 32bit arch
-
- drivers/gpu/drm/Kconfig                            | 2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/r535.c | 1 -
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             | 2 +-
- include/drm/drm_bridge.h                           | 4 ++--
- include/drm/drm_fixed.h                            | 3 +--
- 5 files changed, 5 insertions(+), 7 deletions(-)
-
--- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+--5hh7c6ibu6zg4s6a--
