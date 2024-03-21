@@ -2,60 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4187E885612
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 09:52:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93FE0885616
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 09:57:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C775410E3A7;
-	Thu, 21 Mar 2024 08:52:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 880CC10E3B6;
+	Thu, 21 Mar 2024 08:56:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=geanix.com header.i=@geanix.com header.b="Miyzv5ru";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="w5lDLQJo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6492110E3A7
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 08:52:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com; 
- s=default2211;
- h=To:References:Message-Id:Content-Transfer-Encoding:Cc:Date:
- In-Reply-To:From:Subject:Mime-Version:Content-Type:Sender:Reply-To:Content-ID
- :Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
- Resent-Cc:Resent-Message-ID; bh=baXGPugzpNhp5EWukSQW5hfM6IxZYyCnn6Z0nPisxm8=; 
- b=Miyzv5ruHAoxiUcwZ87t6mGmhcgWjZCHSLrAGf+D41PCzcjD8F/AVuIIe+5VtMOf/rfadsU/UQy
- 4vmwlq+TtLiG5Kb9hu+6g0sBZ2VMGlqnSKeowrws/N0nmROt7bDVCHK3SvNN/ahFkvS9w9oIUePxM
- 9kicmFLMm+7NC6h0BnIoH59HQ6Rr8pIWNCRgbmGcq3KKeMWktbgtKvDTrf3ciRYdI0X302Lja0b8x
- sH8ycjfwC3zxIeg1qiHubsmjRJ7iLfp7/pQVS8g4X5/gFStqIrP09IhqnCaNCuHv5qAc9Ww8slVoR
- i/8zdeA2Z1wsHmFzLoJkozM1M1BcvOCEPK7A==;
-Received: from sslproxy03.your-server.de ([88.198.220.132])
- by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (Exim 4.94.2) (envelope-from <sean@geanix.com>)
- id 1rnE9Y-000OaP-HA; Thu, 21 Mar 2024 09:52:00 +0100
-Received: from [185.17.218.86] (helo=smtpclient.apple)
- by sslproxy03.your-server.de with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <sean@geanix.com>) id 1rnE9X-000NyH-2X;
- Thu, 21 Mar 2024 09:51:59 +0100
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.400.31\))
-Subject: Re: STM32 DSI controller driver: mode_valid clock tolerance
-From: Sean Nyekjaer <sean@geanix.com>
-In-Reply-To: <99dad358-0ca8-4f19-9d0c-e41c095db8c7@foss.st.com>
-Date: Thu, 21 Mar 2024 09:51:58 +0100
-Cc: yannick.fertre@foss.st.com, philippe.cornu@foss.st.com,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- Antonio Maria BORNEO - foss <antonio.borneo@foss.st.com>,
- =?utf-8?Q?Martin_Hundeb=C3=B8ll?= <martin@geanix.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <E4D73AB8-C245-4931-9E18-BCA7219EA8CE@geanix.com>
-References: <4A53A669-C3AF-4D29-B5A5-0F7FEBA79045@geanix.com>
- <99dad358-0ca8-4f19-9d0c-e41c095db8c7@foss.st.com>
-To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-X-Mailer: Apple Mail (2.3774.400.31)
-X-Authenticated-Sender: sean@geanix.com
-X-Virus-Scanned: Clear (ClamAV 0.103.10/27220/Wed Mar 20 09:25:13 2024)
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com
+ [91.218.175.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0730710E3B5
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 08:56:55 +0000 (UTC)
+Message-ID: <d2f5824a-9497-4562-8ed8-8ab30b12f25e@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1711011414;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tHibGXeHKScccf7ZHIayi/MjwPVJSHqORtzgWO79FeM=;
+ b=w5lDLQJoekdi15RiXw86n7ritEr/VpBdrantd6r/7lJRZICzjRqFiZ9K5LfA7pJVMKwFeW
+ 9kJ4xqzZJ8IDR+zRwqq1ckTiNKIEMw4Ko8MHsw297KNEhwT5XIV3EF1J4yfsNZa/YcBoLa
+ u7inyNYhjHXryH5HVrd7UihENBOIiFA=
+Date: Thu, 21 Mar 2024 16:56:47 +0800
+MIME-Version: 1.0
+Subject: Re: [v5,12/13] drm/ast: Implement polling for VGA and SIL164
+ connectors
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ jfalempe@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ jani.nikula@linux.intel.com, airlied@gmail.com, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org
+References: <20240320093738.6341-13-tzimmermann@suse.de>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <20240320093738.6341-13-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,68 +59,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Raphael,
+Hi,
 
-> On 20 Mar 2024, at 15.14, Raphael Gallais-Pou =
-<raphael.gallais-pou@foss.st.com> wrote:
->=20
->=20
-> On 3/8/24 09:35, Sean Nyekjaer wrote:
->> Hi,
->=20
->=20
-> Hi Sean,
->=20
->=20
-> Sorry for not responding earlier.
 
-NP :)
+On 2024/3/20 17:34, Thomas Zimmermann wrote:
+> Implement polling for VGA and SIL164 connectors. Set the flag
+> DRM_CONNECTOR_POLL_DISCONNECT for each to detect the removal of the
+> monitor cable. Implement struct drm_connector_helper_funcs.detect_ctx
+> for each type of connector by testing for EDID data.
+>
+> The helper drm_connector_helper_detect_ctx() implements .detect_ctx()
+> on top of the connector's DDC channel. The function can be used by
+> other drivers as companion to drm_connector_helper_get_modes().
+>
+> v5:
+> - share implementation in drm_connector_helper_detect_ctx() (Maxime)
+> - test for DDC presence with drm_probe_ddc() (Maxime, Jani)
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
->=20
-> I've also added Antonio Borneo, which is the author of the =
-implementation of the
-> mode_valid() hook.
->=20
->> I=E2=80=99m using a stm32mp157 with a sn65dsi83 DSI2LVDS bridge.
->> The LVDS display is having a minimum clock of 25.2 MHz, typical of =
-27,2 MHz and a max of 30,5 MHz.
->>=20
->> I will fail the mode_valid check with MODE_CLOCK_RANGE.
->> It will request 27200000 Hz, but is getting 27250000. Guess the =
-display is fine with this :)
->>=20
->> In this case it seems a bit harsh to fail if the output clock isn=E2=80=
-=99t within 50 Hz of the requested clock.
->>=20
->> If HDMI is requiring a tolerance of 50 Hz, would it be better to do =
-the check in the HDMI bridge driver?
->=20
-> At the time when the driver was implemented, a large set of TVs/HDMI =
-panels were
-> tested, and it was the 'optimal' parameter found, even if the value is =
-quite
-> restrictive.
 
-Ok, let=E2=80=99s keep til 50Hz tolerance as a default.
+Yeah, previously, drm/ast only poll for the connected status.
+Once connected, it never disconnected. This is fine for single
+display pipe. But for two display pipes case, hot-plug is a core
+functionality and absolutely necessary requirements.
 
->=20
-> As Maxime said earlier, it was also easier to implement this tolerance =
-directly
-> within the DSI driver, since only the display-controller and the =
-driver itself
-> have access to this clock.
->=20
->=20
-> Eventually a device-tree parameter could be implemented, with default =
-value to
-> 50Hz, so that fine tuning can be done using other bridges.
+Now that drm/ast becomes better than before:
 
-It doesn=E2=80=99t look that difficult to add the tolerance as a device =
-tree option.
-Naming is always quite hard, could the name be st,clock_tolerance =3D =
-<50>; ?
+Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 
-I can=E2=80=99t find other drivers that have this tolerance option nor =
-have a device tree option.
 
-/Sean
+> ---
+>   drivers/gpu/drm/ast/ast_mode.c     |  6 ++++--
+>   drivers/gpu/drm/drm_probe_helper.c | 29 +++++++++++++++++++++++++++++
+>   include/drm/drm_probe_helper.h     |  3 +++
+>   3 files changed, 36 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index 71cc681d6188f..a42a0956c51de 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -1346,6 +1346,7 @@ static int ast_crtc_init(struct drm_device *dev)
+>   
+>   static const struct drm_connector_helper_funcs ast_vga_connector_helper_funcs = {
+>   	.get_modes = drm_connector_helper_get_modes,
+> +	.detect_ctx = drm_connector_helper_detect_ctx,
+>   };
+>   
+>   static const struct drm_connector_funcs ast_vga_connector_funcs = {
+> @@ -1379,7 +1380,7 @@ static int ast_vga_connector_init(struct drm_device *dev, struct drm_connector *
+>   	connector->interlace_allowed = 0;
+>   	connector->doublescan_allowed = 0;
+>   
+> -	connector->polled = DRM_CONNECTOR_POLL_CONNECT;
+> +	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
+>   
+>   	return 0;
+>   }
+> @@ -1414,6 +1415,7 @@ static int ast_vga_output_init(struct ast_device *ast)
+>   
+>   static const struct drm_connector_helper_funcs ast_sil164_connector_helper_funcs = {
+>   	.get_modes = drm_connector_helper_get_modes,
+> +	.detect_ctx = drm_connector_helper_detect_ctx,
+>   };
+>   
+>   static const struct drm_connector_funcs ast_sil164_connector_funcs = {
+> @@ -1447,7 +1449,7 @@ static int ast_sil164_connector_init(struct drm_device *dev, struct drm_connecto
+>   	connector->interlace_allowed = 0;
+>   	connector->doublescan_allowed = 0;
+>   
+> -	connector->polled = DRM_CONNECTOR_POLL_CONNECT;
+> +	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
+>   
+>   	return 0;
+>   }
+> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+> index 4d60cc810b577..b06dcc6c614e8 100644
+> --- a/drivers/gpu/drm/drm_probe_helper.c
+> +++ b/drivers/gpu/drm/drm_probe_helper.c
+> @@ -1272,3 +1272,32 @@ int drm_connector_helper_tv_get_modes(struct drm_connector *connector)
+>   	return i;
+>   }
+>   EXPORT_SYMBOL(drm_connector_helper_tv_get_modes);
+> +
+> +/**
+> + * drm_connector_helper_detect_ctx - Read EDID and detect connector status.
+> + * @connector: The connector
+> + * @ctx: Acquire context
+> + * @force: Perform screen-destructive operations, if necessary
+> + *
+> + * Detects the connector status by reading the EDID using drm_probe_ddc(),
+> + * which requires connector->ddc to be set. Returns connector_status_connected
+> + * on success or connector_status_disconnected on failure.
+> + *
+> + * Returns:
+> + * The connector status as defined by enum drm_connector_status.
+> + */
+> +int drm_connector_helper_detect_ctx(struct drm_connector *connector,
+> +				    struct drm_modeset_acquire_ctx *ctx,
+> +				    bool force)
+> +{
+> +	struct i2c_adapter *ddc = connector->ddc;
+> +
+> +	if (!ddc)
+> +		return connector_status_unknown;
+> +
+> +	if (drm_probe_ddc(ddc))
+> +		return connector_status_connected;
+> +
+> +	return connector_status_disconnected;
+> +}
+> +EXPORT_SYMBOL(drm_connector_helper_detect_ctx);
+> diff --git a/include/drm/drm_probe_helper.h b/include/drm/drm_probe_helper.h
+> index 62741a88796bb..031b044528c89 100644
+> --- a/include/drm/drm_probe_helper.h
+> +++ b/include/drm/drm_probe_helper.h
+> @@ -37,4 +37,7 @@ int drm_connector_helper_get_modes_fixed(struct drm_connector *connector,
+>   int drm_connector_helper_get_modes(struct drm_connector *connector);
+>   int drm_connector_helper_tv_get_modes(struct drm_connector *connector);
+>   
+> +int drm_connector_helper_detect_ctx(struct drm_connector *connector,
+> +				    struct drm_modeset_acquire_ctx *ctx,
+> +				    bool force);
+>   #endif
+
+-- 
+Best regards,
+Sui
+
