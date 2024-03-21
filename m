@@ -2,49 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2BBD885606
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 09:48:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4187E885612
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 09:52:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33BDC10E208;
-	Thu, 21 Mar 2024 08:48:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C775410E3A7;
+	Thu, 21 Mar 2024 08:52:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="ZkzYRtUP";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=geanix.com header.i=@geanix.com header.b="Miyzv5ru";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com
- [91.218.175.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0E6810E208
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 08:48:24 +0000 (UTC)
-Message-ID: <b52c0030-77ef-4bc2-8ad4-a6acf54fbd5d@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1711010901;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3QHevvqX2GZ5SYb5pWqxmmcJcol9SWMBMH87Ea+Vsek=;
- b=ZkzYRtUPmbgqYktl26mn3v+K4YokW47QzlwxSf8zuZCkil93ZgOcnsziK1i7v4ccQewY0K
- A+UZbpcL/nSXjerEtN4oYeix8eYK/3y2X8sz1CBk2G/N8+/j9ExrFQQOoOjTjw8HuFYiY9
- fycO0QJzweomqoVWnnPjsUrNHWQe528=
-Date: Thu, 21 Mar 2024 16:48:06 +0800
-MIME-Version: 1.0
-Subject: Re: [v5,06/13] drm/ast: Rename struct ast_i2c_chan to struct ast_ddc
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- jfalempe@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- jani.nikula@linux.intel.com, airlied@gmail.com, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org
-References: <20240320093738.6341-7-tzimmermann@suse.de>
- <39eeaa47-28af-462d-aa4d-4fddb3d47b4a@linux.dev>
- <08e70629-72aa-4102-955c-dc531ca5589d@suse.de>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <08e70629-72aa-4102-955c-dc531ca5589d@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6492110E3A7
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 08:52:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com; 
+ s=default2211;
+ h=To:References:Message-Id:Content-Transfer-Encoding:Cc:Date:
+ In-Reply-To:From:Subject:Mime-Version:Content-Type:Sender:Reply-To:Content-ID
+ :Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
+ Resent-Cc:Resent-Message-ID; bh=baXGPugzpNhp5EWukSQW5hfM6IxZYyCnn6Z0nPisxm8=; 
+ b=Miyzv5ruHAoxiUcwZ87t6mGmhcgWjZCHSLrAGf+D41PCzcjD8F/AVuIIe+5VtMOf/rfadsU/UQy
+ 4vmwlq+TtLiG5Kb9hu+6g0sBZ2VMGlqnSKeowrws/N0nmROt7bDVCHK3SvNN/ahFkvS9w9oIUePxM
+ 9kicmFLMm+7NC6h0BnIoH59HQ6Rr8pIWNCRgbmGcq3KKeMWktbgtKvDTrf3ciRYdI0X302Lja0b8x
+ sH8ycjfwC3zxIeg1qiHubsmjRJ7iLfp7/pQVS8g4X5/gFStqIrP09IhqnCaNCuHv5qAc9Ww8slVoR
+ i/8zdeA2Z1wsHmFzLoJkozM1M1BcvOCEPK7A==;
+Received: from sslproxy03.your-server.de ([88.198.220.132])
+ by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (Exim 4.94.2) (envelope-from <sean@geanix.com>)
+ id 1rnE9Y-000OaP-HA; Thu, 21 Mar 2024 09:52:00 +0100
+Received: from [185.17.218.86] (helo=smtpclient.apple)
+ by sslproxy03.your-server.de with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <sean@geanix.com>) id 1rnE9X-000NyH-2X;
+ Thu, 21 Mar 2024 09:51:59 +0100
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.400.31\))
+Subject: Re: STM32 DSI controller driver: mode_valid clock tolerance
+From: Sean Nyekjaer <sean@geanix.com>
+In-Reply-To: <99dad358-0ca8-4f19-9d0c-e41c095db8c7@foss.st.com>
+Date: Thu, 21 Mar 2024 09:51:58 +0100
+Cc: yannick.fertre@foss.st.com, philippe.cornu@foss.st.com,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
+ Antonio Maria BORNEO - foss <antonio.borneo@foss.st.com>,
+ =?utf-8?Q?Martin_Hundeb=C3=B8ll?= <martin@geanix.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <E4D73AB8-C245-4931-9E18-BCA7219EA8CE@geanix.com>
+References: <4A53A669-C3AF-4D29-B5A5-0F7FEBA79045@geanix.com>
+ <99dad358-0ca8-4f19-9d0c-e41c095db8c7@foss.st.com>
+To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+X-Mailer: Apple Mail (2.3774.400.31)
+X-Authenticated-Sender: sean@geanix.com
+X-Virus-Scanned: Clear (ClamAV 0.103.10/27220/Wed Mar 20 09:25:13 2024)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,62 +71,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Raphael,
 
-
-On 2024/3/21 16:13, Thomas Zimmermann wrote:
-> Hi
->
-> Am 20.03.24 um 18:32 schrieb Sui Jingfeng:
+> On 20 Mar 2024, at 15.14, Raphael Gallais-Pou =
+<raphael.gallais-pou@foss.st.com> wrote:
+>=20
+>=20
+> On 3/8/24 09:35, Sean Nyekjaer wrote:
 >> Hi,
->>
->>
->> On 2024/3/20 17:34, Thomas Zimmermann wrote:
->>> The struct struct ast_i2c_chan represents the Display Data Channel
->>> (DDC); I2C is the underlying bus. Rename the structure, the variables
->>> and the helper ast_i2c_create() to ddc-like terms. No functional
->>> changes.
->>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>
->>
->> Personally, I think _i2c_ is better name than _ddc_. Because It seems 
->> that
->> the Display Data Channel is comes from VESA standard, while aspeed 
->> I2C can
->> be used to configure the external display bridges(encoder). So _i2c_ 
->> is a
->> *abstract* name, and can be utilized to do something else beyond the DDC
->> itself.
->
-> This specific instance of i2c is for DDC; even the AST manual refers 
-> to it as DDC. I don't think there's anything else we could do with 
-> those registers. If we have other uses for i2c, we can easily add them 
-> in separate code.
->
->>
->>
->> Reviewed-by: Sui Jingfeng <sui.jingfeng@linux.dev>
->
-> Thanks for reviewing the series. I think the new helper in patch 12 
-> could be useful for loongson [1][2] as well.
->
+>=20
+>=20
+> Hi Sean,
+>=20
+>=20
+> Sorry for not responding earlier.
 
-Yes, after this series landed. I'm going to post a few patch to remove some boilerplate.
-I want to follow as well, but need a period of time. I have tested the whole series with
-ast 2600 dGPU, the /sys/class/.../status will reflect the physical hut-plug status.
+NP :)
 
+>=20
+> I've also added Antonio Borneo, which is the author of the =
+implementation of the
+> mode_valid() hook.
+>=20
+>> I=E2=80=99m using a stm32mp157 with a sn65dsi83 DSI2LVDS bridge.
+>> The LVDS display is having a minimum clock of 25.2 MHz, typical of =
+27,2 MHz and a max of 30,5 MHz.
+>>=20
+>> I will fail the mode_valid check with MODE_CLOCK_RANGE.
+>> It will request 27200000 Hz, but is getting 27250000. Guess the =
+display is fine with this :)
+>>=20
+>> In this case it seems a bit harsh to fail if the output clock isn=E2=80=
+=99t within 50 Hz of the requested clock.
+>>=20
+>> If HDMI is requiring a tolerance of 50 Hz, would it be better to do =
+the check in the HDMI bridge driver?
+>=20
+> At the time when the driver was implemented, a large set of TVs/HDMI =
+panels were
+> tested, and it was the 'optimal' parameter found, even if the value is =
+quite
+> restrictive.
 
-> Best regards
-> Thomas
->
-> [1] 
-> https://elixir.bootlin.com/linux/v6.8/source/drivers/gpu/drm/loongson/lsdc_output_7a1000.c#L80
-> [2] 
-> https://elixir.bootlin.com/linux/v6.8/source/drivers/gpu/drm/loongson/lsdc_output_7a2000.c#L177
->
+Ok, let=E2=80=99s keep til 50Hz tolerance as a default.
 
--- 
-Best regards,
-Sui
+>=20
+> As Maxime said earlier, it was also easier to implement this tolerance =
+directly
+> within the DSI driver, since only the display-controller and the =
+driver itself
+> have access to this clock.
+>=20
+>=20
+> Eventually a device-tree parameter could be implemented, with default =
+value to
+> 50Hz, so that fine tuning can be done using other bridges.
 
+It doesn=E2=80=99t look that difficult to add the tolerance as a device =
+tree option.
+Naming is always quite hard, could the name be st,clock_tolerance =3D =
+<50>; ?
+
+I can=E2=80=99t find other drivers that have this tolerance option nor =
+have a device tree option.
+
+/Sean
