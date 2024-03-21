@@ -2,71 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DD2E885C4E
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 16:43:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6383A885C50
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 16:43:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A50910ED99;
-	Thu, 21 Mar 2024 15:43:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DFD210EDB2;
+	Thu, 21 Mar 2024 15:43:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jSBPtb7V";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="bAdJz/Hh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
- [209.85.219.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED1A610ED99
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 15:43:38 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id
- 3f1490d57ef6-dcbef31a9dbso864879276.1
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 08:43:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711035818; x=1711640618; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=UpgzR9qYFt2DVUXh+ZlrB3kv/cSpRH2o+XXZxpbADmA=;
- b=jSBPtb7ViMu6AgJTS1V2ksmzn7X3N92Yud4vvmpUZygARYcuYJV2kWv7IZPm77a//A
- 4oqGPyNRzMdxaw0ttrqLF+wJp1fawehMf/Zr7hAg9gnYNCcZYQlsyB2qT2W/U7Svai8m
- ykxnW4l2s2ozNrjEJbYkitD+p0PGoES0trNkqaRjAQSR3Zj3bArc2j1sm1hfcUiNUlmp
- F/CqjxnEcP/muELd4kmXJDBOWEt6LTQ7UZ2TVyp6E8N/hkdNpx611QJNrFAVoc1qB4EH
- ITCdvnEM/jXwzCw/lEIaAmGcxa0jqY9kR2wFxW5IQ0hPOzMeZcgI8rlCnf4vhNdStcAZ
- /Kvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711035818; x=1711640618;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=UpgzR9qYFt2DVUXh+ZlrB3kv/cSpRH2o+XXZxpbADmA=;
- b=NbL1RBxKcwMN8K879VRiTOKfZ2RhAhyQXFp1BfKTWUwY5jCyOX8I6Ju1hHgGc3xvBC
- CLm+e/xMhSbtPHsWu52tS7ejgnZjoXO2Jj0odH1UOm9o6RQfggrxdU6BQu/f20gjfo2d
- LDzMJf5lZZyhaWSPkNu3jxKs8RgdSNpp/rOjnmB3i11oBL+ihrEbRCwepkvtHp5rbyOl
- PgihahCcyXsOkaRqyGsyNw6mPOXENnB/CQYWjfjiLMDkDFeb4/sEV9NkxciCEVZjAtaW
- Mi6oCs8nyVHLybx73ASpE2FkeWJiD/jme5IrH6I8cB5bL3kvpe5PjhrmpmxiVnfySlCy
- relw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVUROgD0q23EAKw3VzndmSwinpqMeGhBDytzV35KOaFlIzjipZEnoivsa5HtbJ1onVmJmDWTGKZoPUzABs/qv+MQz5qv6kuOCCPmm0cZCVd
-X-Gm-Message-State: AOJu0YwAC33rEZaO52TPRaSZQULUKp64NoPoMrVNIdSmMtLJwrFChJ+e
- QUidRjNLi8IoqpNKoCtVWHumE57kvSY+F5Q97anPFo0jHnmXAZOztVObDmNwMVLyf6vXY/h9NdI
- iFnN+V+GjFhJSo4qJeWRwX2S1Zs44j/GcCef/sg==
-X-Google-Smtp-Source: AGHT+IHvO2gpoo35hpbPazduMDS3YRusSo/Zx0sw5zMx7Ip/e9xHwuH2gpf2tlgkpO9357jnNImek1UHtxy3YWbuZJY=
-X-Received: by 2002:a25:b213:0:b0:dcf:bc86:1020 with SMTP id
- i19-20020a25b213000000b00dcfbc861020mr8347225ybj.53.1711035817909; Thu, 21
- Mar 2024 08:43:37 -0700 (PDT)
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com
+ [91.218.175.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F95310EDA5
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 15:43:41 +0000 (UTC)
+Message-ID: <8bd19526-58a3-440b-a6ba-4cd123cb55e6@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1711035819;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AAqr+Kh0pd5iVKk+9UAPP+8a88O2dFbNCftmA8HIzPY=;
+ b=bAdJz/HhBTSXa6vzDHoacsKsawlkppq5eHwxMv5aUEBYQpNImRC2AN72JF/BNsHQYkIfMt
+ al1NlPk//7C85L/GL9c12fCUvtt6/mrehLLfjRUHecgu/l/pjhUVmFPpUV53AUWAlEfUtE
+ 0q32A/8bbe50YlgKQ+hhQUcsxSNc4Gs=
+Date: Thu, 21 Mar 2024 11:43:35 -0400
 MIME-Version: 1.0
-References: <20240222-fd-dpu-yv16-yv24-v1-1-4aa833cdc641@linaro.org>
- <6334793a-1204-85b3-4f91-7859b83f79ed@quicinc.com>
-In-Reply-To: <6334793a-1204-85b3-4f91-7859b83f79ed@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 21 Mar 2024 17:43:26 +0200
-Message-ID: <CAA8EJpqxkY=Bk8_iAq6Yj6VGNO2UYmF2Hm6XOeE5EhJFKUpaPQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dpu: add support for 4:2:2 and 4:4:4 planar YCbCr
- plane formats
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v2 4/8] drm: zynqmp_dp: Rearrange zynqmp_dp for better
+ padding
+Content-Language: en-US
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Michal Simek <michal.simek@amd.com>, David Airlie <airlied@gmail.com>,
+ linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+ linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
+References: <20240319225122.3048400-1-sean.anderson@linux.dev>
+ <20240319225122.3048400-5-sean.anderson@linux.dev>
+ <0fdbb6e4-6be8-4a21-8cf3-2a419b4b44ed@ideasonboard.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sean Anderson <sean.anderson@linux.dev>
+In-Reply-To: <0fdbb6e4-6be8-4a21-8cf3-2a419b4b44ed@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,43 +65,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 23 Feb 2024 at 22:48, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 2/22/2024 3:43 AM, Dmitry Baryshkov wrote:
-> > The DPU driver provides support for 4:2:0 planar YCbCr plane formats.
-> > Extend it to also support 4:2:2 and 4:4:4 plat formats.
-> >
->
-> I checked myself and also internally on this. On sm8250, the DPU planes
-> do not support YUV444 and YUV422 (and the corresponding YVU formats).
->
-> May I know what was the reference to add these formats to DPU
-> considering that even downstream sources didn't add them?
->
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> > Full-screen (1080p@60) YV24 gave me underruns on SM8250 until I bumped
-> > the clock inefficiency factor from 105 to 117. I'm not sure that it is a
-> > correct way to handle it, so I'm sending this as an RFC. If we agree
-> > that bumping the .clk_inefficiency_factor is a correct way, I'll send
-> > v2, including catalog changes.
-> >
-> > I had no such issues for the YV16/YU16 formats.
->
-> We don't support this too on sm8250. But interesting it worked.
+On 3/20/24 02:14, Tomi Valkeinen wrote:
+> On 20/03/2024 00:51, Sean Anderson wrote:
+>> Sort the members of struct zynqmp_dp to reduce padding necessary for
+>> alignment.
+>>
+>> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
+>> ---
+>>
+>> Changes in v2:
+>> - New
+>>
+>>   drivers/gpu/drm/xlnx/zynqmp_dp.c | 28 ++++++++++++++--------------
+>>   1 file changed, 14 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+>> index 8635b5673386..f1834c8e3c02 100644
+>> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
+>> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+>> @@ -255,10 +255,10 @@ struct zynqmp_dp_link_config {
+>>    * @fmt: format identifier string
+>>    */
+>>   struct zynqmp_dp_mode {
+>> -    u8 bw_code;
+>> -    u8 lane_cnt;
+>> -    int pclock;
+>>       const char *fmt;
+>> +    int pclock;
+>> +    u8 bw_code;
+>> +    u8 lane_cnt;
+>>   };
+>>     /**
+>> @@ -295,27 +295,27 @@ struct zynqmp_dp_config {
+>>    * @train_set: set of training data
+>>    */
+>>   struct zynqmp_dp {
+>> +    struct drm_dp_aux aux;
+>> +    struct drm_bridge bridge;
+>> +    struct delayed_work hpd_work;
+>> +
+>> +    struct drm_bridge *next_bridge;
+>>       struct device *dev;
+>>       struct zynqmp_dpsub *dpsub;
+>>       void __iomem *iomem;
+>>       struct reset_control *reset;
+>> -    int irq;
+>> -
+>> -    struct drm_bridge bridge;
+>> -    struct drm_bridge *next_bridge;
+>> -
+>> -    struct zynqmp_dp_config config;
+>> -    struct drm_dp_aux aux;
+>>       struct phy *phy[ZYNQMP_DP_MAX_LANES];
+>> -    u8 num_lanes;
+>> -    struct delayed_work hpd_work;
+>> +
+>>       enum drm_connector_status status;
+>> +    int irq;
+>>       bool enabled;
+>>   -    u8 dpcd[DP_RECEIVER_CAP_SIZE];
+>> -    struct zynqmp_dp_link_config link_config;
+>>       struct zynqmp_dp_mode mode;
+>> +    struct zynqmp_dp_link_config link_config;
+>> +    struct zynqmp_dp_config config;
+>> +    u8 dpcd[DP_RECEIVER_CAP_SIZE];
+>>       u8 train_set[ZYNQMP_DP_MAX_LANES];
+>> +    u8 num_lanes;
+>>   };
+>>     static inline struct zynqmp_dp *bridge_to_dp(struct drm_bridge *bridge)
+> 
+> If you change the order of the fields, you should change the order in the kernel doc accordingly.
 
-I have been cross-checking DPU formats list against the format list
-from the display overview docs.
-The DPU (and SDE FWIW) drivers supported NV16/61 and
-UYVY/YUY2/YVYU/VYUY formats for ages, although overview does not
-mention these semi-planar formats at all and interleaved YUV formats
-are marked as unsupported.
+The kernel doc is documentation, so it should continue to group similar
+functionality together.
 
-For reference, NV24 and NV42 also seem to work.
+> To be honest, I'm not sure if I like this patch. We have usually one instance of these structs allocated. How many bytes do we save?
 
+Actually, the main reason is to make it easy to determine where to
+insert new members. Stick the pointers with the pointers, u8s with u8s,
+etc.
 
---
-With best wishes
-Dmitry
+> I'm fine with getting easy savings by changing the field order in some cases, but I think the "human" side of the order is important too: usually the fields are grouped in some way, and ordered so that the more base or generic ones are first, and fields for some specific feature are later. And fields protected by a lock should be grouped together, with their lock being first/last in that group.
+> 
+> Looking at the zynqmp_dp struct with this patch, I get an urge to start moving things around: dev, dpsub, iomem, etc first, hpd somewhere later. Base config fields like config, num_lanes, irq would be grouped together. Etc.
+
+--Sean
