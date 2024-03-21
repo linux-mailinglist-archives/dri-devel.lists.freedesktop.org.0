@@ -2,50 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E440885D24
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 17:14:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E818D885D44
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 17:19:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B28D510EEC5;
-	Thu, 21 Mar 2024 16:14:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0342610EEF9;
+	Thu, 21 Mar 2024 16:19:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="orvLW/Z5";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="JvOXEUY2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MFwPFIET";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JvOXEUY2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MFwPFIET";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C94210EEAF
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 16:14:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 7F0D7CE1382;
- Thu, 21 Mar 2024 16:14:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7840BC433F1;
- Thu, 21 Mar 2024 16:14:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711037643;
- bh=qMsQ50acyokaCuiaWDcok6esKfsQI6FWYHbKO155u2U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=orvLW/Z5D/H4hLwxMkQXtw4LkIcKymFLQ19BApf/xaJ2fGINLTNfXrFzE90yAyYb4
- Lm801x4CJ9ZSssnx71CHR01WMhuHEeMjnawKZoN9fFajCNzoQT58p2sEc5AOEQGjzW
- D+8iUcIg4Fid6/4N4QuzSKFMLef9ibWbZzFQv+3/RrlCdE7FXlfQeR8Xp+zPmPFXtH
- iwLEkTDFEYu9iIpx4X0ILy4iQPvq2BFd4tyo8pNOJbgOwKeIGd+8k0TzkrNFX58gId
- otyoYJKtQsr12r+SQIxGk7Ydp8U4Xblg3tWVI243uF40NXPzLoi5ZD7EfM5uBrRAM7
- VMHGu4dc2TwRw==
-Date: Thu, 21 Mar 2024 16:13:58 +0000
-From: Lee Jones <lee@kernel.org>
-To: andy@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
- deller@gmx.de, robin@protonic.nl, javierm@redhat.com,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v4 00/10] backlight: Replace struct fb_info in interfaces
-Message-ID: <20240321161358.GB13211@google.com>
-References: <20240305162425.23845-1-tzimmermann@suse.de>
- <171103756721.89062.17090257592751026195.b4-ty@kernel.org>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C1AA10EEEB;
+ Thu, 21 Mar 2024 16:19:53 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 29C185D111;
+ Thu, 21 Mar 2024 16:19:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1711037990; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=+8C86hRw6A2lRO5GemWT2IaUMP1b3S0LGNcWDiLAJPo=;
+ b=JvOXEUY23wMSO3GSERXQu59RObfe9qpCueaYJ/Hiue91Oxl555DgBHDL6UbxXUIUjTHbs6
+ MHOMi9xTHwEJHP0u3pbM9s4we+hxBEJtNxZzFjEq0uMIxmhGHpMW46EPhb/aWISoML2yVz
+ HNMPet/1kXYdVg/PsFRuZQEPMoI9SxU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1711037990;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=+8C86hRw6A2lRO5GemWT2IaUMP1b3S0LGNcWDiLAJPo=;
+ b=MFwPFIETQxMacwTcARYL81zmttkuu8UY867wP3YXIej1OJqGstV3fgf/ymOtTw1h88QaMZ
+ dGlvi5kNHd3dZzAQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1711037990; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=+8C86hRw6A2lRO5GemWT2IaUMP1b3S0LGNcWDiLAJPo=;
+ b=JvOXEUY23wMSO3GSERXQu59RObfe9qpCueaYJ/Hiue91Oxl555DgBHDL6UbxXUIUjTHbs6
+ MHOMi9xTHwEJHP0u3pbM9s4we+hxBEJtNxZzFjEq0uMIxmhGHpMW46EPhb/aWISoML2yVz
+ HNMPet/1kXYdVg/PsFRuZQEPMoI9SxU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1711037990;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=+8C86hRw6A2lRO5GemWT2IaUMP1b3S0LGNcWDiLAJPo=;
+ b=MFwPFIETQxMacwTcARYL81zmttkuu8UY867wP3YXIej1OJqGstV3fgf/ymOtTw1h88QaMZ
+ dGlvi5kNHd3dZzAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AE6F5138A1;
+ Thu, 21 Mar 2024 16:19:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id wQxWKSVe/GVDFwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 21 Mar 2024 16:19:49 +0000
+Date: Thu, 21 Mar 2024 17:19:48 +0100
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-next-fixes
+Message-ID: <20240321161948.GA30430@linux.fritz.box>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <171103756721.89062.17090257592751026195.b4-ty@kernel.org>
+X-Spam-Score: -4.51
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.51 / 50.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; RCVD_COUNT_THREE(0.00)[3];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]; MX_GOOD(-0.01)[];
+ RCPT_COUNT_TWELVE(0.00)[16];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+ FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ RCVD_TLS_ALL(0.00)[]; BAYES_HAM(-3.00)[100.00%];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
+X-Spam-Level: 
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=JvOXEUY2;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MFwPFIET
+X-Rspamd-Queue-Id: 29C185D111
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,48 +122,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 21 Mar 2024, Lee Jones wrote:
+Hi Dave, Sima,
 
-> On Tue, 05 Mar 2024 17:22:33 +0100, Thomas Zimmermann wrote:
-> > Backlight drivers implement struct backlight_ops.check_fb, which
-> > uses struct fb_info in its interface. Replace the callback with one
-> > that does not use fb_info.
-> > 
-> > In DRM, we have several drivers that implement backlight support. By
-> > including <linux/backlight.h> these drivers depend on <linux/fb.h>.
-> > At the same time, fbdev is deprecated for new drivers and likely to
-> > be replaced on many systems.
-> > 
-> > [...]
-> 
-> Applied, thanks!
-> 
-> [01/10] backlight: Match backlight device against struct fb_info.bl_dev
->         commit: f1ecddf747f0d734682152b37c927aa958a51497
-> [02/10] auxdisplay/ht16k33: Remove struct backlight_ops.check_fb
->         commit: dddfda7d5f12a7b48aeca6c3840167529c8cd34a
-> [03/10] hid/hid-picolcd: Fix initialization order
->         commit: a951a15002da620871d8f3d8218c043cdc4c2471
-> [04/10] hid/hid-picolcd: Remove struct backlight_ops.check_fb
->         commit: b3c52552f8d8a816bda2bda984411c73f4dd0b87
-> [05/10] backlight/aat2870-backlight: Remove struct backlight.check_fb
->         commit: 0e03c96046405281fb072c05a7810d2661a2f334
-> [06/10] backlight/pwm-backlight: Remove struct backlight_ops.check_fb
->         commit: 78534967e7cb3c2fbfcb2d37820b51a80c570f90
-> [07/10] fbdev/sh_mobile_lcdc_fb: Remove struct backlight_ops.check_fb
->         commit: b853c08cd6598b3b3ff91cb2bba336bfef9c0ac4
-> [08/10] fbdev/ssd1307fb: Init backlight before registering framebuffer
->         commit: d5ae81e965953da27cf46db6281d6a6a28eaaccb
-> [09/10] fbdev/ssd1307fb: Remove struct backlight_ops.check_fb
->         commit: ec5925ef4a2dfd7ee060f4fd2a2e8036f8a94e8e
-> [10/10] backlight: Add controls_device callback to struct backlight_ops
->         commit: 2e427743de015c1ac047036ef495c3f004105439
+here's the drm-misc-next-fixes PR for this week.
 
-Okay, let's try this again.
+Best regards
+Thomas
 
-Send off for more build testing based on v6.8.
+drm-misc-next-fixes-2024-03-21:
+Short summary of fixes pull:
 
-Will report back once complete.
+core:
+- fix rounding in drm_fixp2int_round()
+
+bridge:
+- fix documentation for DRM_BRIDGE_OP_EDID
+
+nouveau:
+- don't check devinit disable on GSP
+
+sun4i:
+- fix 64-bit division on 32-bit architectures
+
+tests:
+- fix dependency on DRM_KMS_HELPER
+The following changes since commit 9dd81b2e1ec72a3759f8d6bb6e9cbef93aab6227:
+
+  drm/exynos: simplify the return value handling in exynos_dp_get_modes() (2024-03-13 10:44:14 +0200)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-fixes-2024-03-21
+
+for you to fetch changes up to 5d4e8ae6e57b025802aadf55a4775c55cceb75f1:
+
+  nouveau/gsp: don't check devinit disable on GSP. (2024-03-19 14:34:55 +0100)
+
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+core:
+- fix rounding in drm_fixp2int_round()
+
+bridge:
+- fix documentation for DRM_BRIDGE_OP_EDID
+
+nouveau:
+- don't check devinit disable on GSP
+
+sun4i:
+- fix 64-bit division on 32-bit architectures
+
+tests:
+- fix dependency on DRM_KMS_HELPER
+
+----------------------------------------------------------------
+Arthur Grillo (1):
+      drm: Fix drm_fixp2int_round() making it add 0.5
+
+Dave Airlie (1):
+      nouveau/gsp: don't check devinit disable on GSP.
+
+Dmitry Baryshkov (1):
+      drm/bridge: correct DRM_BRIDGE_OP_EDID documentation
+
+Karolina Stolarek (1):
+      drm/tests: Build KMS helpers when DRM_KUNIT_TEST_HELPERS is enabled
+
+Maxime Ripard (1):
+      drm/sun4i: hdmi: Fix u64 div on 32bit arch
+
+ drivers/gpu/drm/Kconfig                            | 2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/devinit/r535.c | 1 -
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             | 2 +-
+ include/drm/drm_bridge.h                           | 4 ++--
+ include/drm/drm_fixed.h                            | 3 +--
+ 5 files changed, 5 insertions(+), 7 deletions(-)
 
 -- 
-Lee Jones [李琼斯]
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
