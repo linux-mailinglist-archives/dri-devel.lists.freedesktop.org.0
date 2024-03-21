@@ -2,47 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10711885621
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 10:00:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41CD588562E
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 10:05:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33E3510E3B4;
-	Thu, 21 Mar 2024 09:00:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C234510E3D9;
+	Thu, 21 Mar 2024 09:05:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="os0OZ59W";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="goNJS3Wn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-175.mta0.migadu.com (out-175.mta0.migadu.com
- [91.218.175.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B834A10E3B4
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 09:00:48 +0000 (UTC)
-Message-ID: <0860e0b9-1218-412c-92d3-6999f2983266@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1711011646;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mu5RH7C4EPsQ+Nhrz4/ZU04rjcTgUwdOa5fLQKA1Gvw=;
- b=os0OZ59WNCG8+IBZgtzelnMU7AKa0xmmmadh+ObgrtF9RtJoIPNqQfYxmpDhDoPCgh8RyM
- qDx5FTMxHcXfAQGKT+218/HQiR0fgZU6Zk2O96pqoW1hM8w5Xoog/80bidUkof/7FXb2xS
- gzDRZyrABqXER8FPCMRlQGBBYC7HxHU=
-Date: Thu, 21 Mar 2024 17:00:39 +0800
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34DF210E3D9
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 09:05:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1711011935;
+ bh=P7V6XrgrAvBiW0OBljHuvrds54kBtngXw5oTsR9kvH8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=goNJS3Wn3dSJV2hDjj9YbzzI1Jm+6I/kMWzCxNY/Wck4qeIcAYbE56BW3QkgcCiMx
+ 3D9VOn/bwj3fN71Eb/zuMV5s0ayp5ptj7AYLZBs05pi7yyrkgV26x/iZt2k/yqSBRm
+ PDGdiJa0rGltJaoEf1t9gttrhV6FEuPuOih2qNuAWhw6sl5YyGI7FNfCBCZIEGQVS/
+ xOBC0YGUOzuHFNt/njecwHdOYoh+q2kUgHiSzsE/jFwLVSLnxMbynP9lLb5K8K14tE
+ jJN3iVa0oYLdQ9Q/hq9eYBCp+wNjOH2UQJ369KWnIlhc/xZ8pvjy9RWyf1ApQFyuJz
+ sjVHBtPWUZx/Q==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 55B0737813E1;
+ Thu, 21 Mar 2024 09:05:34 +0000 (UTC)
+Message-ID: <b1ff4130-8e84-478a-a6b3-1cac677d8cbd@collabora.com>
+Date: Thu, 21 Mar 2024 10:05:33 +0100
 MIME-Version: 1.0
-Subject: Re: [v5,13/13] drm/ast: Automatically clean up poll helper
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] drm/mediatek: Fixes for DDP component search/destroy
 Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- jfalempe@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- jani.nikula@linux.intel.com, airlied@gmail.com, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org
-References: <20240320093738.6341-14-tzimmermann@suse.de>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20240320093738.6341-14-tzimmermann@suse.de>
+To: chunkuang.hu@kernel.org
+Cc: p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ matthias.bgg@gmail.com, ck.hu@mediatek.com, nancy.lin@mediatek.com,
+ nathan.lu@mediatek.com, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
+ wenst@chromium.org
+References: <20240201125304.218467-1-angelogioacchino.delregno@collabora.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240201125304.218467-1-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,107 +65,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Il 01/02/24 13:53, AngeloGioacchino Del Regno ha scritto:
+> This series performs some cleanups for DDP component CRTC search and
+> correctly iounmaps the previously of_iomap() calls from drm_ddp_comp.
+> 
+> Tested on MT8195 Cherry Tomato
+> 
 
+Hello CK,
+gentle ping for this series.
 
-On 2024/3/20 17:34, Thomas Zimmermann wrote:
-> Automatically clean up the conncetor-poll thread as part of the DRM
-> device release. The new helper drmm_kms_helper_poll_init() provides
-> a shared implementation for all drivers.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Cheers,
+Angelo
 
-
-Nice feature!
-
-It seems that drm/loongson forget to calldrm_kms_helper_poll_fini() on driver leave, Opps.
-
-
-Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-
-
-
-> ---
->   drivers/gpu/drm/ast/ast_mode.c     |  4 +++-
->   drivers/gpu/drm/drm_probe_helper.c | 27 +++++++++++++++++++++++++++
->   include/drm/drm_probe_helper.h     |  2 ++
->   3 files changed, 32 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> index a42a0956c51de..7e56a77bed635 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -1905,7 +1905,9 @@ int ast_mode_config_init(struct ast_device *ast)
->   
->   	drm_mode_config_reset(dev);
->   
-> -	drm_kms_helper_poll_init(dev);
-> +	ret = drmm_kms_helper_poll_init(dev);
-> +	if (ret)
-> +		return ret;
->   
->   	return 0;
->   }
-> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-> index b06dcc6c614e8..a39c98ceac68a 100644
-> --- a/drivers/gpu/drm/drm_probe_helper.c
-> +++ b/drivers/gpu/drm/drm_probe_helper.c
-> @@ -37,6 +37,7 @@
->   #include <drm/drm_crtc.h>
->   #include <drm/drm_edid.h>
->   #include <drm/drm_fourcc.h>
-> +#include <drm/drm_managed.h>
->   #include <drm/drm_modeset_helper_vtables.h>
->   #include <drm/drm_print.h>
->   #include <drm/drm_probe_helper.h>
-> @@ -944,6 +945,32 @@ void drm_kms_helper_poll_fini(struct drm_device *dev)
->   }
->   EXPORT_SYMBOL(drm_kms_helper_poll_fini);
->   
-> +static void drm_kms_helper_poll_init_release(struct drm_device *dev, void *res)
-> +{
-> +	drm_kms_helper_poll_fini(dev);
-> +}
-> +
-> +/**
-> + * devm_drm_kms_helper_poll_init - initialize and enable output polling
-> + * @dev: drm_device
-> + *
-> + * This function initializes and then also enables output polling support for
-> + * @dev similar to drm_kms_helper_poll_init(). Polling will automatically be
-> + * cleaned up when the DRM device goes away.
-> + *
-> + * See drm_kms_helper_poll_init() for more information.
-> + *
-> + * Returns:
-> + * 0 on success, or a negative errno code otherwise.
-> + */
-> +int drmm_kms_helper_poll_init(struct drm_device *dev)
-> +{
-> +	drm_kms_helper_poll_init(dev);
-> +
-> +	return drmm_add_action_or_reset(dev, drm_kms_helper_poll_init_release, dev);
-> +}
-> +EXPORT_SYMBOL(drmm_kms_helper_poll_init);
-> +
->   static bool check_connector_changed(struct drm_connector *connector)
->   {
->   	struct drm_device *dev = connector->dev;
-> diff --git a/include/drm/drm_probe_helper.h b/include/drm/drm_probe_helper.h
-> index 031b044528c89..9925cff749296 100644
-> --- a/include/drm/drm_probe_helper.h
-> +++ b/include/drm/drm_probe_helper.h
-> @@ -16,6 +16,8 @@ int drm_helper_probe_single_connector_modes(struct drm_connector
->   int drm_helper_probe_detect(struct drm_connector *connector,
->   			    struct drm_modeset_acquire_ctx *ctx,
->   			    bool force);
-> +
-> +int drmm_kms_helper_poll_init(struct drm_device *dev);
->   void drm_kms_helper_poll_init(struct drm_device *dev);
->   void drm_kms_helper_poll_fini(struct drm_device *dev);
->   bool drm_helper_hpd_irq_event(struct drm_device *dev);
-
--- 
-Best regards,
-Sui
+> AngeloGioacchino Del Regno (3):
+>    drm/mediatek: drm_ddp_comp: Fix and cleanup DDP component CRTC search
+>    drm/mediatek: Perform iounmap on simple DDP component destruction
+>    drm/mediatek: drm_ddp_comp: Add mtk_ddp_is_simple_comp() internal
+>      helper
+> 
+>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 113 +++++++++++++-------
+>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   1 +
+>   drivers/gpu/drm/mediatek/mtk_drm_drv.c      |   4 +-
+>   3 files changed, 80 insertions(+), 38 deletions(-)
+> 
 
