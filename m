@@ -2,73 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D3028861DB
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 21:44:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 036108861E0
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 21:44:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC8C6112103;
-	Thu, 21 Mar 2024 20:44:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39AF611210C;
+	Thu, 21 Mar 2024 20:44:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Brub0Qg7";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Od6tbx6f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2065.outbound.protection.outlook.com [40.107.92.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33FAF112101
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 20:44:04 +0000 (UTC)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2072.outbound.protection.outlook.com [40.107.100.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE9D8112106
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 20:44:14 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mc7+ys6jwt6mpuj+AiPMMNlR7q47xqV5AmJL+jAFtDNWMkNjry4grG8OLLOnKQ8E3BphMRImq0CtKMBvwJ4lQ4P1/fmtS2Z/r8uw5dUSA5O1a2ToibYyYqiI3/vUHlsjoaApxHTB5S3lEvRlSVGKCEDfocLgplVIfFz3f1ghiU5foGSXOzuKVXJnrspzZCzMEOsorW7/7WyFqfO2cRvjSHvAecWZ+coaTY9417HmJF9N7ZilA6BnmGUuScle+vHrlZOFan+GeIdWvjC2xGY+/waSTEreue+k63RxaMTI931C+n7XexDSr2Zpr5nYBwnwjVOclQeagTRGtKreSUSTrA==
+ b=ELUJGs9YslPNQ4MAuteZ1On5VT51PPB9OTWvVhnG+lUEU6baJxnkLOg9a6/4dy+nfrZjHUDcYb8aO6gaLY/fSxyXazHZUyWRs0gVwxmQQ090UzUNqaAH6SjZ8IZCHqQOoMqyRIp7eOz9VTiL5pyqIvEfScyhRjc0LSVfCZ74LiA3rFZbdco5Nyu83BVLVMICqD2iEOh01nE3sD1dJDMsivE51uCQT57/fy6qowtL0eJxXMhmJMNw/+xtwqOqqcDs2Y/UhOLTHCJ6GiCxqXcX2o9aEsa3jduvhA9jxwx8v5BVagPgEXh4YFvhNXtXZu6F+YVj9d2INk3hMTJehA3zaQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=804TUvVriS611KMmwEEDVOyI7x92wBXQuMFTKBtWJTI=;
- b=eJ/1RzWXmboJf8HLpXYB6UlY6CH/bPhM36FAgm67rM4CK9W80g6c9Kz5boE0QvyaE+kACuTJl+/8T6LjKLMQ9hv/RNCJOq6+yHMswxpwv3qog58NQsSaAesOkhM83DrLyvpWIWUM3mHDoa9vvohHfHitk3SQDm6jKnOZLs3TbFrM6xJw0/67V3lfQba1rG5YH1YtGuDsj1ng1NETf9amhRxR6k8Mo9cse+XisDOJm45GQb4mX1U3ZySZdUCav9LPYGxxaYRcwdny6+q7vn3hfSC8xRDWju8jKOra7bNjhETfHokOccIKxnjr/Nb99xDVKSKgJkTfVILZM6z5xhtWYA==
+ bh=RPa9xUcbPrlbx4CkiBTHF1HNkikikjFiBO5NxPXHIPE=;
+ b=GBSw747B7iaeOcp0laUemLRwsLcnqG4j0TRglp9KV5R9TyhpXcVN3zTI4cJ1YsN38cLPkwWXaB/q6hc8OdobzW2N1R+o2mlo1JC5wndPGCeMs7wrg8MIdzkqoFjU0K/LD6bd/fCe87z4u4jefKv1ACAnBo+FYQJ8ZIzA+2KDRkF1+oy//q96AmDmifsFsVVhCHW3Zc0REIdBitmStGUNnXx7/jGJGxlhRA0dEihri0slQy561JTcNT2PGtjKoJxQ60REqZ3TNavQ5hO9FZ+qTyGJBZAv4YZcjcG8vsegmmQvYRKNvHUtaZJCvh0l+gwg4Ln/+pHm1x4WIuVkDu4j3Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=804TUvVriS611KMmwEEDVOyI7x92wBXQuMFTKBtWJTI=;
- b=Brub0Qg7EOR+DddMJtPxJhZJpSVPPNU9nRT0gjFrGcPeDYvVu8MeYoan57CSvq/Jr9uQHBJxvui6XycGTYsTuuQ3oFy8fBzxEBFESU2lNQrMyEyxO2qijN9D1H2LWBOxmQlKHnlR7yy/BLGBZr538DskghWOBzhsmf3Mr3FkffM=
-Received: from BN1PR14CA0017.namprd14.prod.outlook.com (2603:10b6:408:e3::22)
- by IA1PR12MB7661.namprd12.prod.outlook.com (2603:10b6:208:426::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.23; Thu, 21 Mar
- 2024 20:44:01 +0000
-Received: from BN3PEPF0000B370.namprd21.prod.outlook.com
- (2603:10b6:408:e3:cafe::fa) by BN1PR14CA0017.outlook.office365.com
- (2603:10b6:408:e3::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.13 via Frontend
- Transport; Thu, 21 Mar 2024 20:44:01 +0000
+ bh=RPa9xUcbPrlbx4CkiBTHF1HNkikikjFiBO5NxPXHIPE=;
+ b=Od6tbx6fPy8OezmtlrKZKrPptewe2qAmu/LglkfrBDf2IifTr6Te60raHmAopQUpHmSr5Csn+if0Ejmt89au8Nv04HgGIA8V2GtRfKKTRYmO/7/3kHBvX4PUXWaxxmpvsiRdpnWOXwOf36gVMqSsq3MtLXg+bYyXlJSWYBdmewQ=
+Received: from BN9PR03CA0172.namprd03.prod.outlook.com (2603:10b6:408:f4::27)
+ by SA0PR12MB4398.namprd12.prod.outlook.com (2603:10b6:806:9f::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.31; Thu, 21 Mar
+ 2024 20:44:06 +0000
+Received: from BN3PEPF0000B077.namprd04.prod.outlook.com
+ (2603:10b6:408:f4:cafe::a6) by BN9PR03CA0172.outlook.office365.com
+ (2603:10b6:408:f4::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.26 via Frontend
+ Transport; Thu, 21 Mar 2024 20:44:03 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
 Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BN3PEPF0000B370.mail.protection.outlook.com (10.167.243.167) with Microsoft
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN3PEPF0000B077.mail.protection.outlook.com (10.167.243.122) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7430.0 via Frontend Transport; Thu, 21 Mar 2024 20:44:01 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.7409.10 via Frontend Transport; Thu, 21 Mar 2024 20:44:02 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Thu, 21 Mar
- 2024 15:44:00 -0500
+ 2024 15:44:01 -0500
 Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
  (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Thu, 21 Mar
- 2024 15:43:59 -0500
+ 2024 15:44:01 -0500
 Received: from xsjanatoliy50.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.35 via
- Frontend Transport; Thu, 21 Mar 2024 15:43:58 -0500
+ Frontend Transport; Thu, 21 Mar 2024 15:44:00 -0500
 From: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
-Date: Thu, 21 Mar 2024 13:43:40 -0700
-Subject: [PATCH v3 2/9] drm: xlnx: zynqmp_dpsub: Update live format defines
+Date: Thu, 21 Mar 2024 13:43:41 -0700
+Subject: [PATCH v3 3/9] drm: xlnx: zynqmp_dpsub: Add connected live layer
+ helper
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20240321-dp-live-fmt-v3-2-d5090d796b7e@amd.com>
+Message-ID: <20240321-dp-live-fmt-v3-3-d5090d796b7e@amd.com>
 References: <20240321-dp-live-fmt-v3-0-d5090d796b7e@amd.com>
 In-Reply-To: <20240321-dp-live-fmt-v3-0-d5090d796b7e@amd.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Maarten Lankhorst
@@ -89,26 +90,26 @@ Received-SPF: None (SATLEXMB05.amd.com: anatoliy.klymenko@amd.com does not
  designate permitted sender hosts)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B370:EE_|IA1PR12MB7661:EE_
-X-MS-Office365-Filtering-Correlation-Id: a7f8a6bf-4b6b-4982-a85c-08dc49e7a3ed
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B077:EE_|SA0PR12MB4398:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2c45738c-40ba-4896-3476-08dc49e7a4d0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RLY6kE8xPWrN7bEWMNzk8BPZjv2rb6gPAfqDDfE/pnD+Yt7l2sPI4e9wrWHnd41Eqae9+7nhncb+52KMFGG9JBzexBRfE2wxFD1hgQylkQcENb8CfbPPGv9L0g6NC9dttmCAM+2RtKgkXOVi4Gx9VuoZyNnL0s3AH1R2BnCtLOleGUQl76CSYMG/5pQns1qQT2k6Re+wu4AjT148a+SDgQCk5E9bm2NLKDixabPgHkszWZlD5UeAhZKRcXmtzoyERHyIR2rY5yMdhtJ9ejWXloFmZ6Iqv81H72LFEdcj/0JKHjpMonU6aaVbQW0AnGoMds/5yV+0hckvCBFgWvNU9VCQ5IFfhdtajMbD0ByG4Urd6Auha/GH3YPoTjpqc9Ef+HMiqNsWIq0kfFnSVMPryoo6ceeIkvb5W0462J9R3IwmnioV2U3TzzOps3F1HNfKfFn/Ba3fB1sAFqvcHldOD1YvYVfVyG1Di3MOCawro0AWzU5+pn78fNfubjoxL8+gKf3b9dyhJBN9pDBsdXY4CUEzmivXSxmcqS+xk8KWpul1QvyQfafslhe8a/GSDPsjmD/BK0UhAbfUgI14UeklQ3Wv7nEKGCRosPBAHc6cs8tMa3ikDF3EQE15jKWmlBwnpaaoEdy10C+Ca2TmOYETMHXgs1BRoq6wAxyJdpJgQ6TWfMzgy+xD929v5pRx37qHYx7ILC46pnDvlu0W6+wjk15/Wq6qc95Mvs/lG7Tfk5LL1lbAKJeMsKDeQw+WDOwNRjMARt0XEuFCSxsjPOk1iA==
+X-Microsoft-Antispam-Message-Info: hKCyZ7W847d1RdohucFvVUyN0NYCpXzVcOz4WpIO7r0yutkOdRm50+rtVnIm57x7F9lVxhroCHuj7iyPBbRFCF4MZDEwBOE77avlrVve9neBgetY3Msf+J034285k73l6JDbZniH3E0D6ZpzLrmERPBWfnJ6Csi1Q3Z46n5KKrEiRYb2p9yEkcZLOHqzi3x1X8sJKAcV913usk9Qf/bT15K7ANi5KqQqb/q3ETe6ST9JSDOGkMT2c8frfeZwDPAqScdosKpUtLCxB21CG95JLJv3z+lNm5AtZjpo/LEOIoV57AP21dxp6sH2IqcWptVMEJLZKqO9AykChREWkx9UGVytv5/H6/KiUbbXTNh3ir30oxehh0suTs8y0wZPWppyOACG5D9q/9YJJQIlutw/ps+tRvtFiwhVy7/jMAcGKVy/MJupZD8kbIW+Nxs+vxQiFeQ1ZgHyl74i8ZC8S7mhzHBLlj4mmKDxunU7yWZKuz9NkxTwL0LPsc3w2XU9mcQStbhvBORLqJGjml6kQN5ec7/ew+XYY/+uHKzMxbMw25ONo86MJfGJR+rEu+TNVA5OWS8JIkYlDK74SWu1Y7WrElrqtTWYBQ3Y5J1aNbswZ/LkiesWwhuWXpMpcdqmQmAOkGQi4ScGix8vVgXkNslfGXjgasiuTiILlFA5GZ8m40AbKJ/mIHtx6Y6EgoS7rQHZImZ0WOGjGVjYQ59thVUzq8khmZSBZFdjN378eHX3xEIa926dWew8yr21t6CgR3gZR8dTaABqGVFpbCP5Fp/eTQ==
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(82310400014)(376005)(1800799015)(36860700004)(7416005)(921011);
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(82310400014)(36860700004)(376005)(1800799015)(7416005)(921011);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2024 20:44:01.4739 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a7f8a6bf-4b6b-4982-a85c-08dc49e7a3ed
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2024 20:44:02.8805 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2c45738c-40ba-4896-3476-08dc49e7a4d0
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B370.namprd21.prod.outlook.com
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B077.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7661
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4398
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,34 +125,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update live format defines to match DPSUB AV_BUF_LIVE_VID_CONFIG register
-layout.
+Add a helper function capturing the first connected live display layer
+discovery logic.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
 ---
- drivers/gpu/drm/xlnx/zynqmp_disp_regs.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/xlnx/zynqmp_dp.c | 37 +++++++++++++++++++++++--------------
+ 1 file changed, 23 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h b/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h
-index f92a006d5070..fa3935384834 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h
-+++ b/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h
-@@ -165,10 +165,10 @@
- #define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_BPC_10		0x2
- #define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_BPC_12		0x3
- #define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_BPC_MASK		GENMASK(2, 0)
--#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_RGB		0x0
--#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_YUV444	0x1
--#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_YUV422	0x2
--#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_YONLY	0x3
-+#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_RGB		(0x0 << 4)
-+#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_YUV444	(0x1 << 4)
-+#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_YUV422	(0x2 << 4)
-+#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_YONLY	(0x3 << 4)
- #define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_MASK		GENMASK(5, 4)
- #define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_CB_FIRST		BIT(8)
- #define ZYNQMP_DISP_AV_BUF_PALETTE_MEMORY		0x400
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+index 04b6bcac3b07..4faafdd76798 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+@@ -1276,28 +1276,40 @@ static void zynqmp_dp_encoder_mode_set_stream(struct zynqmp_dp *dp,
+  * DISP Configuration
+  */
+ 
++/**
++ * zynqmp_dp_disp_connected_live_layer - Return the first connected live layer
++ * @dp: DisplayPort IP core structure
++ *
++ * Return: The first connected live display layer or NULL if none of the live
++ * layer is connected.
++ */
++static struct zynqmp_disp_layer *
++zynqmp_dp_disp_connected_live_layer(struct zynqmp_dp *dp)
++{
++	if (dp->dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_VIDEO))
++		return dp->dpsub->layers[ZYNQMP_DPSUB_LAYER_VID];
++	else if (dp->dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_GFX))
++		return dp->dpsub->layers[ZYNQMP_DPSUB_LAYER_GFX];
++	else
++		return NULL;
++}
++
+ static void zynqmp_dp_disp_enable(struct zynqmp_dp *dp,
+ 				  struct drm_bridge_state *old_bridge_state)
+ {
+-	enum zynqmp_dpsub_layer_id layer_id;
+ 	struct zynqmp_disp_layer *layer;
+ 	const struct drm_format_info *info;
+ 
+-	if (dp->dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_VIDEO))
+-		layer_id = ZYNQMP_DPSUB_LAYER_VID;
+-	else if (dp->dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_GFX))
+-		layer_id = ZYNQMP_DPSUB_LAYER_GFX;
+-	else
++	layer = zynqmp_dp_disp_connected_live_layer(dp);
++	if (!layer)
+ 		return;
+ 
+-	layer = dp->dpsub->layers[layer_id];
+-
+ 	/* TODO: Make the format configurable. */
+ 	info = drm_format_info(DRM_FORMAT_YUV422);
+ 	zynqmp_disp_layer_set_format(layer, info);
+ 	zynqmp_disp_layer_enable(layer);
+ 
+-	if (layer_id == ZYNQMP_DPSUB_LAYER_GFX)
++	if (layer == dp->dpsub->layers[ZYNQMP_DPSUB_LAYER_GFX])
+ 		zynqmp_disp_blend_set_global_alpha(dp->dpsub->disp, true, 255);
+ 	else
+ 		zynqmp_disp_blend_set_global_alpha(dp->dpsub->disp, false, 0);
+@@ -1310,11 +1322,8 @@ static void zynqmp_dp_disp_disable(struct zynqmp_dp *dp,
+ {
+ 	struct zynqmp_disp_layer *layer;
+ 
+-	if (dp->dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_VIDEO))
+-		layer = dp->dpsub->layers[ZYNQMP_DPSUB_LAYER_VID];
+-	else if (dp->dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_GFX))
+-		layer = dp->dpsub->layers[ZYNQMP_DPSUB_LAYER_GFX];
+-	else
++	layer = zynqmp_dp_disp_connected_live_layer(dp);
++	if (!layer)
+ 		return;
+ 
+ 	zynqmp_disp_disable(dp->dpsub->disp);
 
 -- 
 2.25.1
