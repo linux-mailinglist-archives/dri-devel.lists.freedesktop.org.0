@@ -2,84 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41CD9885A0B
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 14:37:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76B60885A30
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 14:56:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B309D10E10A;
-	Thu, 21 Mar 2024 13:37:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 642C810EA60;
+	Thu, 21 Mar 2024 13:56:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="XhcP6i1J";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KDGGIjce";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FD4410E10A
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 13:37:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1711028263;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VJn7im7DzH34Bv0RRUin/XoqVqMdfUe9vTIWi8h57hk=;
- b=XhcP6i1Jlc4Rr4OJ042kgcYMPF4q2b25gYhHpY9mDfdeL07RPGtiEZ6yYs28IZ67iKtu4a
- 1GcqLgA8/48rjYJBpbKGcCM3mq8kUa4v7V86pS/XLmWpgb4s4AIz1xF+VCfSOxo4vREdZe
- JpYiV+skCVs26FwYpZwexrOf+oq5e+Q=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-668-e3w6ctgbN3m3eIryKnkyiQ-1; Thu, 21 Mar 2024 09:37:41 -0400
-X-MC-Unique: e3w6ctgbN3m3eIryKnkyiQ-1
-Received: by mail-lj1-f197.google.com with SMTP id
- 38308e7fff4ca-2d59d0b6856so8775321fa.3
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 06:37:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711028260; x=1711633060;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VJn7im7DzH34Bv0RRUin/XoqVqMdfUe9vTIWi8h57hk=;
- b=S/9PmcGdQn1hXg5BgZ10FUP/fWhUzyzYJ/gvhvzNjRN62vI3PhVUYJjl39h6j+62d4
- INHA/10xbwLSrHxvXS4VN+wiQQt3qDz8kTFnj1BDwG+2hRMkMjPtjbUYA4vVq+vYKDrf
- W3yEMfmsNKiyVO7NovAfDducBCuGqiqviTDYcgzmqoTh0H4uuLsUKeFND3vQUvDK+VK8
- BWuSJeIWR5nQ6jHN+sxS6mWyKSEEUpXpUJUHc80gLrZKDAvWaTqo5jR0pBoN9nm12bKn
- UvjSLJ/No0xRDw3V1C//09GVD60/VsRIsK4DPPfaLKKfyWFoQd+x/9rjfzL6nK4F8sjn
- nrxA==
-X-Gm-Message-State: AOJu0YxEnir4PLYg9VmiJl8lPKLYYpZLQPMKnbVnxNHDRncF7kymvUby
- d1yaQjAT+ZjMKbuFoTZ0GRSXnSzkguPM8x5xCpIs7IxllMwk/mL5q482vzIplHJOehkXs21GR2l
- N1wEEYdse3+fM8uPBe2X3vcyPSgZThoxwjr+yh/ZuPbGuhqrYD67SzmSpYWFTOHodyQ==
-X-Received: by 2002:a2e:904e:0:b0:2d4:3635:b52d with SMTP id
- n14-20020a2e904e000000b002d43635b52dmr6303989ljg.0.1711028260358; 
- Thu, 21 Mar 2024 06:37:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF5l7cGk+nmw+/TDlX1nMgc+pXogRMu0SKBUJbIaRl2iWcD3fUKxhTGlnP9o9m2kkWmz4UvZA==
-X-Received: by 2002:a2e:904e:0:b0:2d4:3635:b52d with SMTP id
- n14-20020a2e904e000000b002d43635b52dmr6303981ljg.0.1711028259946; 
- Thu, 21 Mar 2024 06:37:39 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- u11-20020a05600c138b00b00414610d9223sm5642012wmf.14.2024.03.21.06.37.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Mar 2024 06:37:39 -0700 (PDT)
-Message-ID: <56b612aa-79f5-4d7d-8813-2f7111108927@redhat.com>
-Date: Thu, 21 Mar 2024 14:37:38 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D23DF10E94D;
+ Thu, 21 Mar 2024 13:56:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1711029361; x=1742565361;
+ h=message-id:date:mime-version:from:to:cc:subject:
+ content-transfer-encoding;
+ bh=5Xlqzp6PkLzd/QeYyFSWZqg555FLwjTGUfcGqIDl8UQ=;
+ b=KDGGIjceJJEfiO3i2tvCqfIyPYOrZOqBoGUTj5hilWg+TafllhCTYH2T
+ bhy5M7NNIhh/tCtonIU6Ntwie7oH0vqt2NJNkDT8Mq6FmvYvQ4D8jlZmI
+ HB6sO4gfHpXaeAW2r9PyAOck5cFoIS6t5UeNflujYFQvdLt8bzrFTtrWE
+ Qp1LJ1zoQxFJET2LjplfDQ6+Vtg0p2zl9Nu92JV8+y/E1NiDUIDAKDHPB
+ Zn/EfkQLjf2uKDQ1o5Fbuq1LAbmHogKP7AWw3YOxocbyenVSi+8PzJi7o
+ oAsBIPVK2TdYUj9Fk3WUqVT6JD/HYRn8axLDsRaZ0riggqQxEVAQsKK9r Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="6198336"
+X-IronPort-AV: E=Sophos;i="6.07,143,1708416000"; 
+   d="scan'208";a="6198336"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2024 06:56:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,143,1708416000"; d="scan'208";a="45509599"
+Received: from jkreca-mobl.ger.corp.intel.com (HELO [10.249.32.65])
+ ([10.249.32.65])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2024 06:55:56 -0700
+Message-ID: <38d38331-3848-4995-b78e-a87ecae722d5@linux.intel.com>
+Date: Thu, 21 Mar 2024 14:56:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 00/13] drm/ast: Detect connector status for VGA and
- SIL164
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- jani.nikula@linux.intel.com, airlied@gmail.com, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org
-References: <20240320093738.6341-1-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20240320093738.6341-1-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>
+Cc: dim-tools@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay
+ <ogabbay@kernel.org>, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Subject: [PULL] drm-misc-next
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,80 +75,394 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+drm-misc-next-2024-03-21-1:
+drm-misc-next for v6.10:
 
-Thanks for those patches, that's really a good enhancement to the ast 
-driver, and fits well with the BMC virtual connector.
+UAPI Changes:
+- Move some nouveau magic constants to uapi.
 
+Cross-subsystem Changes:
+- Move drm-misc to gitlab and freedesktop hosting.
+- Add entries for panfrost.
 
-I've reviewed the whole series, and it looks good to me.
+Core Changes:
+- Improve placement for TTM bo's in idle/busy handling.
+- Improve drm/bridge init ordering.
+- Add CONFIG_DRM_WERROR, and use W=1 for drm.
+- Assorted documentation updates.
+- Make more (drm and driver) headers self-contained and add header
+   guards.
+- Grab reservation lock in pin/unpin callbacks.
+- Fix reservation lock handling for vmap.
+- Add edp and edid panel matching, use it to fix a nearly identical
+   panel.
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+Driver Changes:
+- Add drm/panthor driver and assorted fixes.
+- Assorted small fixes to xlnx, panel-edp, tidss, ci, nouveau,
+   panel and bridge drivers.
+- Add Samsung s6e3fa7, BOE NT116WHM-N44, CMN N116BCA-EA1,
+   CrystalClear CMT430B19N00, Startek KD050HDFIA020-C020A,
+   powertip PH128800T006-ZHC01 panels.
+- Fix console for omapdrm.
+The following changes since commit b9511c6d277c31b13d4f3128eba46f4e0733d734:
 
--- 
+   Merge tag 'drm-msm-next-2024-03-07' of 
+https://gitlab.freedesktop.org/drm/msm into drm-next (2024-03-08 
+12:45:21 +1000)
 
-Jocelyn
+are available in the Git repository at:
 
-On 20/03/2024 10:34, Thomas Zimmermann wrote:
-> Detect the status of the VGA or SIL164 conenctor by polling the DDC
-> channel. Update the status at runtime and flip the BMC status as well.
-> 
-> Patches 1 adds a missing include statement that will be required to
-> make later patches compile.
-> 
-> Patches 2 and 3 simplify the VGA and SIL164 connectors, such that no
-> additional data structure is required. These patches have been reviewed
-> before as part of the series at [1].
-> 
-> Patches 4 to 10 improve the I2C code that is used to retrieve the
-> monitor's EDID data. It's now fully managed, it acquires the necessary
-> lock automatically and it is called DDC, which better represents its
-> purpose than I2C.
-> 
-> Patches 11 to 13 finally implement polling. Patch 11 updates ast's
-> EDID code to be up-to-date. The helper drm_connector_get_modes() reads
-> the EDID via DDC and updates the property. No driver code is required.
-> Patch 12 uses a similar pattern to detect the presence of the monitor
-> and sets the connector status accordingly. As polling also needs to be
-> cleaned up, patch 13 adds the necessary helpers to do so.
-> 
-> Tested on AST2500 hardware and BMC output. The BMC connector now also
-> flips its status correctly at runtime.
-> 
-> [1] https://patchwork.freedesktop.org/series/104547/
-> 
-> v5:
-> - share implementation in drm_connector_helper_detect_ctx() (Maxime)
-> - test for DDC presence with drm_probe_ddc() (Maxime, Jani)
-> - perform managed cleanup of poll thread
-> 
-> Thomas Zimmermann (13):
->    drm/ast: Include <linux/of.h> where necessary
->    drm/ast: Fail probing if DDC channel could not be initialized
->    drm/ast: Remove struct ast_{vga,sil165}_connector
->    drm/ast: Allocate instance of struct ast_i2c_chan with managed helpers
->    drm/ast: Move DDC code to ast_ddc.{c,h}
->    drm/ast: Rename struct ast_i2c_chan to struct ast_ddc
->    drm/ast: Pass AST device to ast_ddc_create()
->    drm/ast: Store AST device in struct ast_ddc
->    drm/ast: Rename struct i2c_algo_bit_data callbacks and their
->      parameters
->    drm/ast: Acquire I/O-register lock in DDC code
->    drm/ast: Use drm_connector_helper_get_modes()
->    drm/ast: Implement polling for VGA and SIL164 connectors
->    drm/ast: Automatically clean up poll helper
-> 
->   drivers/gpu/drm/ast/Makefile                 |  10 +-
->   drivers/gpu/drm/ast/{ast_i2c.c => ast_ddc.c} | 120 +++++++++------
->   drivers/gpu/drm/ast/ast_ddc.h                |  20 +++
->   drivers/gpu/drm/ast/ast_drv.c                |   1 +
->   drivers/gpu/drm/ast/ast_drv.h                |  39 +----
->   drivers/gpu/drm/ast/ast_main.c               |   1 +
->   drivers/gpu/drm/ast/ast_mode.c               | 147 +++++--------------
->   drivers/gpu/drm/drm_probe_helper.c           |  56 +++++++
->   include/drm/drm_probe_helper.h               |   5 +
->   9 files changed, 206 insertions(+), 193 deletions(-)
->   rename drivers/gpu/drm/ast/{ast_i2c.c => ast_ddc.c} (54%)
->   create mode 100644 drivers/gpu/drm/ast/ast_ddc.h
-> 
+   https://gitlab.freedesktop.org/drm/misc/kernel.git 
+tags/drm-misc-next-2024-03-21-1
 
+for you to fetch changes up to 5e842d55bad7794823a50f24fd645b58f2ef93ab:
+
+   drm/panel: atna33xc20: Fix unbalanced regulator in the case HPD 
+doesn't assert (2024-03-20 08:26:18 -0700)
+
+----------------------------------------------------------------
+drm-misc-next for v6.10:
+
+UAPI Changes:
+- Move some nouveau magic constants to uapi.
+
+Cross-subsystem Changes:
+- Move drm-misc to gitlab and freedesktop hosting.
+- Add entries for panfrost.
+
+Core Changes:
+- Improve placement for TTM bo's in idle/busy handling.
+- Improve drm/bridge init ordering.
+- Add CONFIG_DRM_WERROR, and use W=1 for drm.
+- Assorted documentation updates.
+- Make more (drm and driver) headers self-contained and add header
+   guards.
+- Grab reservation lock in pin/unpin callbacks.
+- Fix reservation lock handling for vmap.
+- Add edp and edid panel matching, use it to fix a nearly identical
+   panel.
+
+Driver Changes:
+- Add drm/panthor driver and assorted fixes.
+- Assorted small fixes to xlnx, panel-edp, tidss, ci, nouveau,
+   panel and bridge drivers.
+- Add Samsung s6e3fa7, BOE NT116WHM-N44, CMN N116BCA-EA1,
+   CrystalClear CMT430B19N00, Startek KD050HDFIA020-C020A,
+   powertip PH128800T006-ZHC01 panels.
+- Fix console for omapdrm.
+
+----------------------------------------------------------------
+Adrián Larumbe (1):
+       drm/panfrost: Replace fdinfo's profiling debugfs knob with sysfs
+
+Andrew Halaney (1):
+       drm/tidss: Use dev_err_probe() over dev_dbg() when failing to 
+probe the port
+
+Andy Shevchenko (1):
+       drm/gma500: Remove unused intel-mid.h
+
+Boris Brezillon (16):
+       drm/panthor: Add uAPI
+       drm/panthor: Add GPU register definitions
+       drm/panthor: Add the device logical block
+       drm/panthor: Add the GPU logical block
+       drm/panthor: Add GEM logical block
+       drm/panthor: Add the devfreq logical block
+       drm/panthor: Add the MMU/VM logical block
+       drm/panthor: Add the FW logical block
+       drm/panthor: Add the heap logical block
+       drm/panthor: Add the scheduler logical block
+       drm/panthor: Add the driver frontend block
+       drm/panthor: Allow driver compilation
+       drm/panthor: Add an entry to MAINTAINERS
+       drm/panthor: Fix panthor_devfreq kerneldoc
+       drm/panthor: Explicitly include mm.h for the {virt, 
+__phys)_to_pfn() defs
+       drm/panthor: Fix undefined panthor_device_suspend/resume symbol issue
+
+Christian König (3):
+       drm/ttm: improve idle/busy handling v5
+       drm/amdgpu: use GTT only as fallback for VRAM|GTT
+       drm/ttm: warn when resv objs are mixed in a bulk_move
+
+Dmitry Baryshkov (1):
+       dt-bindings: display/lvds-codec: add ti,sn65lvds94
+
+Douglas Anderson (1):
+       drm/panel: atna33xc20: Fix unbalanced regulator in the case HPD 
+doesn't assert
+
+Geert Uytterhoeven (1):
+       m68k: pgtable: Add missing #include <asm/page.h>
+
+Hsin-Yi Wang (5):
+       drm_edid: Add a function to get EDID base block
+       drm/edid: Add a function to match EDID with identity
+       drm/edid: Match edid quirks with identity
+       drm/panel-edp: Match edp_panels with panel identity
+       drm/panel-edp: Fix AUO 0x405c panel naming and add a variant
+
+Jagan Teki (2):
+       drm/bridge: Fix improper bridge init order with pre_enable_prev_first
+       drm/bridge: Document bridge init order with pre_enable_prev_first
+
+Jani Nikula (29):
+       drm: enable (most) W=1 warnings by default across the subsystem
+       drm: Add CONFIG_DRM_WERROR
+       drm/crtc: make drm_crtc_internal.h self-contained
+       drm: add missing header guards to drm_internal.h
+       drm/kunit: fix drm_kunit_helpers.h kernel-doc
+       drm/amdgpu: make amd_asic_type.h self-contained
+       drm: bridge: samsung-dsim: make samsung-dsim.h self-contained
+       drm/dp_mst: fix drm_dp_mst_helper.h kernel-doc
+       drm/crc: make drm_debugfs_crc.h self-contained and fix kernel-doc
+       drm: fix drm_format_helper.h kernel-doc warnings
+       drm/lease: make drm_lease.h self-contained
+       drm: fix drm_gem_vram_helper.h kernel-doc
+       drm/of: make drm_of.h self-contained
+       drm/suballoc: fix drm_suballoc.h kernel-doc
+       drm: add missing header guards to drm_crtc_internal.h
+       drm: add missing header guards to drm_crtc_helper_internal.h
+       drm/encoder: improve drm_encoder_slave.h kernel-doc
+       drm/i915: fix i915_gsc_proxy_mei_interface.h kernel-doc
+       drm/i915/hdcp: fix i915_hdcp_interface.h kernel-doc warnings
+       drm/i915/pxp: fix i915_pxp_tee_interface.h kernel-doc warnings
+       drm/ttm: fix ttm_bo.h kernel-doc warnings
+       drm/ttm: make ttm_caching.h self-contained
+       drm/ttm: fix ttm_execbuf_util.h kernel-doc warnings
+       drm/ttm: fix ttm_kmap_iter.h kernel-doc warnings
+       drm/ttm: make ttm_pool.h self-contained
+       drm/dp_mst: avoid includes in drm_dp_mst_topology_internal.h
+       drm: avoid includes in drm_crtc_helper_internal.h
+       Revert "drm/panthor: Fix undefined panthor_device_suspend/resume 
+symbol issue"
+       drm/i2c: silence ch7006.h and sil164.h kernel-doc warnings
+
+Jiapeng Chong (1):
+       drm/shmem-helper: Remove duplicate include
+
+Jérémie Dautheribes (3):
+       dt-bindings: Add Crystal Clear Technology vendor prefix
+       dt-bindings: display: simple: add support for Crystal Clear 
+CMT430B19N00
+       drm/panel: simple: add CMT430B19N00 LCD panel support
+
+Karol Herbst (1):
+       drm/nouveau: move more missing UAPI bits
+
+Laurent Pinchart (4):
+       dt-bindings: ili9881c: Add Startek KD050HDFIA020-C020A support
+       drm/panel: ilitek-ili9881c: Add Startek KD050HDFIA020-C020A support
+       drm/panel: ilitek-ili9881c: Fix warning with GPIO controllers 
+that sleep
+       drm: bridge: thc63lvd1024: Print error message when DT parsing fails
+
+Liviu Dudau (1):
+       dt-bindings: gpu: mali-valhall-csf: Add support for Arm Mali CSF GPUs
+
+Lyude Paul (1):
+       drm/nouveau/dp: Fix incorrect return code in r535_dp_aux_xfer()
+
+Marek Vasut (1):
+       drm/lcdif: Do not disable clocks on already suspended hardware
+
+Maxime Ripard (2):
+       MAINTAINERS: Update drm-misc.git URL
+       MAINTAINERS: Update drm-misc web page
+
+Nathan Morrisson (2):
+       dt-bindings: display: simple: Add POWERTIP PH128800T-006-ZHC01 panel
+       drm/panel: simple: Add POWERTIP PH128800T006-ZHC01 panel entry
+
+Richard Acayan (2):
+       dt-bindings: display: panel-simple-dsi: add s6e3fa7 ams559nk06 compat
+       drm/panel: add samsung s6e3fa7 panel driver
+
+Rohit Visavalia (1):
+       drm: xlnx: dp: Reset DisplayPort IP
+
+Sui Jingfeng (4):
+       drm/bridge: ite66121: Register HPD interrupt handler only when 
+'client->irq > 0'
+       drm: bridge: dw_hdmi: Switch to of_graph_get_remote_node()
+       drm/bridge: it66121: Remove a duplicated invoke of 
+of_device_is_available()
+       drm: bridge: thc63lvd1024: Switch to use of_graph_get_remote_node()
+
+Thomas Zimmermann (14):
+       Merge drm/drm-next into drm-misc-next
+       drm/gem-shmem: Acquire reservation lock in GEM pin/unpin callbacks
+       drm/gem-vram: Acquire reservation lock in GEM pin/unpin callbacks
+       drm/msm: Provide msm_gem_get_pages_locked()
+       drm/msm: Acquire reservation lock in GEM pin/unpin callback
+       drm/nouveau: Provide nouveau_bo_{pin,unpin}_locked()
+       drm/nouveau: Acquire reservation lock in GEM pin/unpin callbacks
+       drm/qxl: Provide qxl_bo_{pin,unpin}_locked()
+       drm/qxl: Acquire reservation lock in GEM pin/unpin callbacks
+       drm/gem: Acquire reservation lock in drm_gem_{pin/unpin}()
+       drm/fbdev-generic: Fix locking with drm_client_buffer_vmap_local()
+       drm/client: Pin vmap'ed GEM buffers
+       drm/gem-vram: Do not pin buffer objects for vmap
+       drm/qxl: Do not pin buffer objects for vmap
+
+Tony Lindgren (2):
+       drm/omapdrm: Fix console by implementing fb_dirty
+       drm/omapdrm: Fix console with deferred ops
+
+Vignesh Raman (1):
+       drm/ci: update device type for volteer devices
+
+Xuxin Xiong (1):
+       drm/panel-edp: Add BOE NT116WHM-N44 and CMN N116BCA-EA1
+
+Zhengqiao Xia (1):
+       drm/panel-edp: Add prepare_to_enable to 200ms for MNC207QS1-1
+
+  .../ABI/testing/sysfs-driver-panfrost-profiling    |   10 +
+  .../bindings/display/bridge/lvds-codec.yaml        |    1 +
+  .../bindings/display/panel/ilitek,ili9881c.yaml    |    1 +
+  .../bindings/display/panel/panel-simple-dsi.yaml   |    2 +
+  .../bindings/display/panel/panel-simple.yaml       |    4 +
+  .../bindings/gpu/arm,mali-valhall-csf.yaml         |  147 +
+  .../devicetree/bindings/vendor-prefixes.yaml       |    2 +
+  Documentation/gpu/driver-uapi.rst                  |    5 +
+  Documentation/gpu/panfrost.rst                     |    9 +
+  MAINTAINERS                                        |  183 +-
+  arch/m68k/include/asm/pgtable.h                    |    2 +
+  drivers/gpu/drm/Kconfig                            |   15 +
+  drivers/gpu/drm/Makefile                           |   29 +
+  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |    6 +
+  drivers/gpu/drm/bridge/ite-it66121.c               |   25 +-
+  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |   31 +-
+  drivers/gpu/drm/bridge/thc63lvd1024.c              |   21 +-
+  drivers/gpu/drm/ci/test.yml                        |    6 +-
+  .../gpu/drm/display/drm_dp_mst_topology_internal.h |    4 +-
+  drivers/gpu/drm/drm_bridge.c                       |   24 +-
+  drivers/gpu/drm/drm_client.c                       |   92 +-
+  drivers/gpu/drm/drm_crtc_helper_internal.h         |   15 +-
+  drivers/gpu/drm/drm_crtc_internal.h                |    7 +
+  drivers/gpu/drm/drm_edid.c                         |  147 +-
+  drivers/gpu/drm/drm_fbdev_generic.c                |    4 +-
+  drivers/gpu/drm/drm_gem.c                          |   34 +-
+  drivers/gpu/drm/drm_gem_shmem_helper.c             |    7 +-
+  drivers/gpu/drm/drm_gem_vram_helper.c              |  101 +-
+  drivers/gpu/drm/drm_internal.h                     |    7 +
+  drivers/gpu/drm/gma500/oaktrail_lvds.c             |    2 -
+  drivers/gpu/drm/loongson/lsdc_gem.c                |   13 +-
+  drivers/gpu/drm/msm/msm_gem.c                      |   20 +-
+  drivers/gpu/drm/msm/msm_gem.h                      |    4 +-
+  drivers/gpu/drm/msm/msm_gem_prime.c                |   20 +-
+  drivers/gpu/drm/mxsfb/lcdif_drv.c                  |    6 +-
+  drivers/gpu/drm/nouveau/nouveau_abi16.c            |   20 +-
+  drivers/gpu/drm/nouveau/nouveau_abi16.h            |   12 -
+  drivers/gpu/drm/nouveau/nouveau_bo.c               |   43 +-
+  drivers/gpu/drm/nouveau/nouveau_bo.h               |    2 +
+  drivers/gpu/drm/nouveau/nouveau_prime.c            |    8 +-
+  drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c    |    2 +-
+  drivers/gpu/drm/omapdrm/Kconfig                    |    2 +-
+  drivers/gpu/drm/omapdrm/omap_fbdev.c               |   40 +-
+  drivers/gpu/drm/panel/Kconfig                      |    9 +
+  drivers/gpu/drm/panel/Makefile                     |    1 +
+  drivers/gpu/drm/panel/panel-edp.c                  |   84 +-
+  drivers/gpu/drm/panel/panel-ilitek-ili9881c.c      |  228 +-
+  drivers/gpu/drm/panel/panel-samsung-atna33xc20.c   |   22 +-
+  drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c      |  285 ++
+  drivers/gpu/drm/panel/panel-simple.c               |   58 +
+  drivers/gpu/drm/panfrost/Makefile                  |    2 -
+  drivers/gpu/drm/panfrost/panfrost_debugfs.c        |   21 -
+  drivers/gpu/drm/panfrost/panfrost_debugfs.h        |   14 -
+  drivers/gpu/drm/panfrost/panfrost_device.h         |    2 +-
+  drivers/gpu/drm/panfrost/panfrost_drv.c            |   40 +-
+  drivers/gpu/drm/panfrost/panfrost_job.c            |    2 +-
+  drivers/gpu/drm/panthor/Kconfig                    |   23 +
+  drivers/gpu/drm/panthor/Makefile                   |   14 +
+  drivers/gpu/drm/panthor/panthor_devfreq.c          |  283 ++
+  drivers/gpu/drm/panthor/panthor_devfreq.h          |   21 +
+  drivers/gpu/drm/panthor/panthor_device.c           |  550 +++
+  drivers/gpu/drm/panthor/panthor_device.h           |  394 +++
+  drivers/gpu/drm/panthor/panthor_drv.c              | 1473 ++++++++
+  drivers/gpu/drm/panthor/panthor_fw.c               | 1362 ++++++++
+  drivers/gpu/drm/panthor/panthor_fw.h               |  503 +++
+  drivers/gpu/drm/panthor/panthor_gem.c              |  230 ++
+  drivers/gpu/drm/panthor/panthor_gem.h              |  142 +
+  drivers/gpu/drm/panthor/panthor_gpu.c              |  482 +++
+  drivers/gpu/drm/panthor/panthor_gpu.h              |   52 +
+  drivers/gpu/drm/panthor/panthor_heap.c             |  597 ++++
+  drivers/gpu/drm/panthor/panthor_heap.h             |   39 +
+  drivers/gpu/drm/panthor/panthor_mmu.c              | 2768 ++++++++++++++++
+  drivers/gpu/drm/panthor/panthor_mmu.h              |  102 +
+  drivers/gpu/drm/panthor/panthor_regs.h             |  239 ++
+  drivers/gpu/drm/panthor/panthor_sched.c            | 3502 
+++++++++++++++++++++
+  drivers/gpu/drm/panthor/panthor_sched.h            |   50 +
+  drivers/gpu/drm/qxl/qxl_object.c                   |   26 +-
+  drivers/gpu/drm/qxl/qxl_object.h                   |    2 +
+  drivers/gpu/drm/qxl/qxl_prime.c                    |    4 +-
+  drivers/gpu/drm/radeon/radeon_prime.c              |   11 -
+  drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c       |    3 -
+  drivers/gpu/drm/tidss/tidss_kms.c                  |    3 +-
+  drivers/gpu/drm/ttm/ttm_bo.c                       |  231 +-
+  drivers/gpu/drm/ttm/ttm_resource.c                 |   17 +-
+  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c                |   25 +-
+  drivers/gpu/drm/xlnx/zynqmp_dp.c                   |    4 +
+  drivers/video/fbdev/core/Kconfig                   |    6 +
+  include/drm/amd_asic_type.h                        |    3 +
+  include/drm/bridge/samsung-dsim.h                  |    4 +-
+  include/drm/display/drm_dp_mst_helper.h            |    1 -
+  include/drm/drm_client.h                           |   10 +
+  include/drm/drm_debugfs_crc.h                      |    8 +-
+  include/drm/drm_edid.h                             |   12 +-
+  include/drm/drm_encoder_slave.h                    |   91 +-
+  include/drm/drm_format_helper.h                    |    1 +
+  include/drm/drm_gem.h                              |    3 +
+  include/drm/drm_gem_shmem_helper.h                 |    7 +-
+  include/drm/drm_gem_vram_helper.h                  |    1 -
+  include/drm/drm_kunit_helpers.h                    |    2 +-
+  include/drm/drm_lease.h                            |    2 +
+  include/drm/drm_of.h                               |    1 +
+  include/drm/drm_suballoc.h                         |    2 +-
+  include/drm/i2c/ch7006.h                           |    1 +
+  include/drm/i2c/sil164.h                           |    1 +
+  include/drm/i915_gsc_proxy_mei_interface.h         |    4 +-
+  include/drm/i915_hdcp_interface.h                  |   18 +-
+  include/drm/i915_pxp_tee_interface.h               |   27 +-
+  include/drm/ttm/ttm_bo.h                           |   17 +-
+  include/drm/ttm/ttm_caching.h                      |    2 +
+  include/drm/ttm/ttm_execbuf_util.h                 |    7 +-
+  include/drm/ttm/ttm_kmap_iter.h                    |    4 +-
+  include/drm/ttm/ttm_pool.h                         |    5 +-
+  include/drm/ttm/ttm_resource.h                     |    6 +-
+  include/linux/fb.h                                 |    4 +
+  include/uapi/drm/nouveau_drm.h                     |   22 +
+  include/uapi/drm/panthor_drm.h                     |  945 ++++++
+  116 files changed, 15620 insertions(+), 652 deletions(-)
+  create mode 100644 
+Documentation/ABI/testing/sysfs-driver-panfrost-profiling
+  create mode 100644 
+Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
+  create mode 100644 drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c
+  delete mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.c
+  delete mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.h
+  create mode 100644 drivers/gpu/drm/panthor/Kconfig
+  create mode 100644 drivers/gpu/drm/panthor/Makefile
+  create mode 100644 drivers/gpu/drm/panthor/panthor_devfreq.c
+  create mode 100644 drivers/gpu/drm/panthor/panthor_devfreq.h
+  create mode 100644 drivers/gpu/drm/panthor/panthor_device.c
+  create mode 100644 drivers/gpu/drm/panthor/panthor_device.h
+  create mode 100644 drivers/gpu/drm/panthor/panthor_drv.c
+  create mode 100644 drivers/gpu/drm/panthor/panthor_fw.c
+  create mode 100644 drivers/gpu/drm/panthor/panthor_fw.h
+  create mode 100644 drivers/gpu/drm/panthor/panthor_gem.c
+  create mode 100644 drivers/gpu/drm/panthor/panthor_gem.h
+  create mode 100644 drivers/gpu/drm/panthor/panthor_gpu.c
+  create mode 100644 drivers/gpu/drm/panthor/panthor_gpu.h
+  create mode 100644 drivers/gpu/drm/panthor/panthor_heap.c
+  create mode 100644 drivers/gpu/drm/panthor/panthor_heap.h
+  create mode 100644 drivers/gpu/drm/panthor/panthor_mmu.c
+  create mode 100644 drivers/gpu/drm/panthor/panthor_mmu.h
+  create mode 100644 drivers/gpu/drm/panthor/panthor_regs.h
+  create mode 100644 drivers/gpu/drm/panthor/panthor_sched.c
+  create mode 100644 drivers/gpu/drm/panthor/panthor_sched.h
+  create mode 100644 include/uapi/drm/panthor_drm.h
