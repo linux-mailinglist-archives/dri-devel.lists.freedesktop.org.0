@@ -2,36 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67311886064
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 19:14:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5DE2886074
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 19:21:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D5AF10F767;
-	Thu, 21 Mar 2024 18:14:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34A2910F843;
+	Thu, 21 Mar 2024 18:21:08 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LWBVo4RR";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from rtg-sunil-navi33.amd.com (unknown [165.204.156.251])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE3BB10F766;
- Thu, 21 Mar 2024 18:14:16 +0000 (UTC)
-Received: from rtg-sunil-navi33.amd.com (localhost [127.0.0.1])
- by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP id
- 42LIE6vg1365980; Thu, 21 Mar 2024 23:44:06 +0530
-Received: (from sunil@localhost)
- by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Submit) id 42LIE6cd1365979;
- Thu, 21 Mar 2024 23:44:06 +0530
-From: Sunil Khatri <sunil.khatri@amd.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Hawking Zhang <Hawking.Zhang@amd.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Lijo Lazar <lijo.lazar@amd.com>, Sunil Khatri <sunil.khatri@amd.com>
-Subject: [PATCH] drm/amdgpu: fix function implicit declaration error
-Date: Thu, 21 Mar 2024 23:44:03 +0530
-Message-Id: <20240321181403.1365947-1-sunil.khatri@amd.com>
-X-Mailer: git-send-email 2.34.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E80910F843
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 18:21:07 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3FC366117F;
+ Thu, 21 Mar 2024 18:21:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 971D4C433C7;
+ Thu, 21 Mar 2024 18:21:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1711045265;
+ bh=ws772LLUo2NYBpe+TOV5Ew1eplmKjtjeSFBhExfwHl0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LWBVo4RRJzUlUL7ViIUBdyWP8q1KZhV1RZopZzohV+GcH56jbISx+T5hsSsp8Z5u3
+ LakHKg2b3EqDyhuSioLa6eF7f/bnp6tLGITEM9zwyX87ms79fUcaQULjr+lZK+hDzD
+ cIz0MreCHhwPuDg96Z7KYpgoCC4pK2P69r2I1wWfZecC+6dhXNODJNrebHANafLg0G
+ NsLARGQZiQP/yVfAtRLpSg2ZiAnlKwn1P3HvwhIb/46Me+rGcZGreD0UTs17m5WB/A
+ XxbCMg9WkEPfv9uIRC+g8VOFe0ZHBiDFs2jFSD62G63B52tW9oJD6U92AASo+GWaM7
+ rZoSza4ofnEkQ==
+Date: Thu, 21 Mar 2024 18:21:00 +0000
+From: Lee Jones <lee@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: daniel.thompson@linaro.org, jingoohan1@gmail.com, deller@gmx.de,
+ andy@kernel.org, geert@linux-m68k.org, dan.carpenter@linaro.org,
+ sam@ravnborg.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 0/6] backlight: Remove struct
+ backlight_properties.fb_blank
+Message-ID: <20240321182100.GJ13211@google.com>
+References: <20240319093915.31778-1-tzimmermann@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240319093915.31778-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,37 +61,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-when CONFIG_DEV_COREDUMP is not defined in that case
-when amdgpu_coredump() is called it does not find it's
-definition and the build fails.
+On Tue, 19 Mar 2024, Thomas Zimmermann wrote:
 
-This happens as the header is defined without the
-CONFIG_DEV_COREDUMP ifdef and due to which header isn't
-enabled.
+> The field fb_blank in struct backlight_properties has been marked for
+> removal. Remove it in favor of the power and state fields.
+> 
+> Patches 1 to 5 prepare several backlight drivers. They remove fb_blank
+> or replace driver code with existing helpers.
+> 
+> Patch 6 removes fb_blank from backlight core and drivers. This resolves
+> another dependency between backlight nad fbdev.
+> 
+> v2:
+> - omap1: replace 'power' with 'enable'
+> - clarify commit messages
+> 
+> Thomas Zimmermann (6):
+>   auxdisplay: ht16k33: Replace use of fb_blank with backlight helper
+>   backlight: omap1: Remove unused struct omap_backlight_config.set_power
+>   backlight: omap1: Replace FB_BLANK_ states with simple on/off
+>   fbdev: omap2/omapfb: Replace use of fb_blank with backlight helpers
+>   staging: fbtft: Remove reference to fb_blank
+>   backlight: Remove fb_blank from struct backlight_properties
+> 
+>  drivers/auxdisplay/ht16k33.c                  |  7 +--
+>  drivers/staging/fbtft/fb_ssd1351.c            |  4 +-
+>  drivers/staging/fbtft/fbtft-core.c            |  5 +-
+>  drivers/video/backlight/backlight.c           |  2 -
+>  drivers/video/backlight/mp3309c.c             |  1 -
+>  drivers/video/backlight/omap1_bl.c            | 47 +++++++------------
+>  drivers/video/fbdev/atmel_lcdfb.c             |  1 -
+>  .../omap2/omapfb/displays/panel-dsi-cm.c      |  7 +--
+>  .../omapfb/displays/panel-sony-acx565akm.c    | 10 +---
+>  include/linux/backlight.h                     | 25 +---------
+>  include/linux/platform_data/omap1_bl.h        |  1 -
+>  11 files changed, 26 insertions(+), 84 deletions(-)
 
-Pulling the header out of such ifdef so in both the
-cases the build does not fail.
+Is everyone okay with this being pushed through Backlight?
 
-Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 3 ---
- 1 file changed, 3 deletions(-)
+I can send out a PR to an immutable branch for others to pull from.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 95028f57cb56..f771b2042a43 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -74,10 +74,7 @@
- #include "amdgpu_fru_eeprom.h"
- #include "amdgpu_reset.h"
- #include "amdgpu_virt.h"
--
--#ifdef CONFIG_DEV_COREDUMP
- #include "amdgpu_dev_coredump.h"
--#endif
- 
- #include <linux/suspend.h>
- #include <drm/task_barrier.h>
 -- 
-2.34.1
-
+Lee Jones [李琼斯]
