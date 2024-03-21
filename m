@@ -2,73 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D17F18861DE
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 21:44:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 161568861DF
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 21:44:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0715112108;
-	Thu, 21 Mar 2024 20:44:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B05011210A;
+	Thu, 21 Mar 2024 20:44:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="LzkbfCVc";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="oqX+HZ1C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2055.outbound.protection.outlook.com [40.107.92.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 038DE112105
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 20:44:11 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2088.outbound.protection.outlook.com [40.107.223.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D7D411210C
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 20:44:19 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cN5dPjdb1Fl64Ikk3mbP7j1bFyXZcCUgdMGhnTo3Rodz/AqXyrURE7+/j5e61YDNHu1m5TVxeANn9mcGpmRAVCxpbTwerdwgPSu0moLmx6vQpWZX03TEE69G33Qj6cp6E0U9m6hfXeImDyfoWZ0fN29nCfjOmI96HHCNgix0u1vvWN/L5ad7JoaMquqftDgvlWuabDd3XbG+IOY269siSQpJukfuBXp4erlfhTLstPD8eVQibg6swE+B5zq1vmqvZg21npxyaTiGSuRUww25tgZRUb6pBx/M/rd2ZmgabtzC4ZBCpBS5cix4Mq6IFnFQftX5cmdt4q0B0qkJTrhBEg==
+ b=m01G96dn54T6cIbAY4bMM1qXsrGt6LUs0mj6+++0Mi+Y8IKhN5quEItTKKP77ApiBOY/bcwIQXj+5pPrWuG9g6C8tuukZktIbbPXAfOope3KmoFPedehV4dAuF5lhoU2Q91AiYPC3mC73aiVpTU2HL4HmgIbcZT/bFFsDf/VBZ/klOAXGtR5dCTgpsqw7CNOcv+Be/B5DbmTTDcRgLCNxF9ilTpm+vI5ScBCNywdqbHygoX9M/OzElm1lD/c4yRf+Zt+JE1K0/AXFogsWSfo0C6Pet0j2cBiVAO3VRJNlTQdPOJRZ3kDotym599BJroJmSGyW6ZSnq0g2YgbX0DTAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hMLkSDZL4nR6b27lobc4CgWcFwW+v3szovkHGL/k90w=;
- b=YSv/IvQQKGOHL1vqo1DP6kG7+wVMbzU2yj8YUcKhwvDwZRWSVbXFb6EvKzHl2pySJKU0g3pN8iJlumLPz4QuiLyB4cfoM7RootnbaJE0FoUWUhgT+TSlxSYluDsKVkcg5mkmBoBFX6B8Mdadlqd5qeoIjoc9SCDzbFTQwTbGfQBRbrMVuwojod5c8Ol5EU5aOet0bV9aldw+G0fGX7Uf28zahSve6r9e9Dxc3xkvjpOniF2mGuvdTx1zfUtGOgP7hTjFIzJGJnk/RXbhB7+Eh1zEjvSqocIl3EB71n7uy02M/6SzhltPrOImCGh2Le5KJun8qdonPcLaMFA8gimkrw==
+ bh=UR7l+OkffQKba4rEVoAcNglywMyVbJo8gFYVAmFw0hI=;
+ b=Q69NQKaLKkStQyVLLyJMcs2wY7gFLxjUb1H/inoo59Bn/Q/ReOsrzjE5gBygzNqKhtZIWJ4HAl6AIaSIRyB53oT1k7uQOk/2C7gtAda/BhXfJnL17ogSzv7acTrZIRabZv3nmcEl9cfe8XGDvN+9yS+QPqEEV6Xdl6FSO//Ry8VmBzV+9KUKbyZkcOHjpuAV4wZEcBFIZClxA0dLz0N1YI12fNPwPr3iqAcq9FcYPsZsGZcJ63VQ9ruX2dIWKlFFcmhuKaJUekzF9B8TxtPq5CBovNJHeovBeXJnT3vbjNlvNfUOQRYYxKqGj+Mtl0VRFFanS/xmkBgPZiJlc3L2kQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hMLkSDZL4nR6b27lobc4CgWcFwW+v3szovkHGL/k90w=;
- b=LzkbfCVcgicfX6b/bgGLjO7W7uSaPCKQYUhRQva/7o1xaumeX3InjKOxIILLZrJrWE+J8QfIqhhAfcf5I5smy8EdO5nlB58F4TkSLumCZ+E5cyVZ8s4mElQRLVL+ghLHb7bnHCRJ0BfQLHjEX5fTZKyAoZkRaASCQVDr2vnG0gA=
-Received: from BN1PR12CA0021.namprd12.prod.outlook.com (2603:10b6:408:e1::26)
- by SJ2PR12MB7894.namprd12.prod.outlook.com (2603:10b6:a03:4c6::13)
+ bh=UR7l+OkffQKba4rEVoAcNglywMyVbJo8gFYVAmFw0hI=;
+ b=oqX+HZ1Cl3PRBjP18CqbMtaK15U7qPokuT0ujvfW68Bs9sXrvK7szzOHFNElwf7YO/mdG3pIP6yLwCUvQD3lOlhMmNkZy/MfV86ydrNVvWwy69se26g7V/dMfX+T6ZpfxYPD+p+w+IepKAOp9K33VydylSFplhdDiI+x28S3ke4=
+Received: from BN9PR03CA0157.namprd03.prod.outlook.com (2603:10b6:408:f4::12)
+ by BY5PR12MB4131.namprd12.prod.outlook.com (2603:10b6:a03:212::13)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.31; Thu, 21 Mar
- 2024 20:44:08 +0000
-Received: from BN3PEPF0000B373.namprd21.prod.outlook.com
- (2603:10b6:408:e1:cafe::f9) by BN1PR12CA0021.outlook.office365.com
- (2603:10b6:408:e1::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.13 via Frontend
- Transport; Thu, 21 Mar 2024 20:44:08 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.28; Thu, 21 Mar
+ 2024 20:44:17 +0000
+Received: from BN3PEPF0000B077.namprd04.prod.outlook.com
+ (2603:10b6:408:f4:cafe::f6) by BN9PR03CA0157.outlook.office365.com
+ (2603:10b6:408:f4::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.27 via Frontend
+ Transport; Thu, 21 Mar 2024 20:44:16 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
 Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BN3PEPF0000B373.mail.protection.outlook.com (10.167.243.170) with Microsoft
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN3PEPF0000B077.mail.protection.outlook.com (10.167.243.122) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7430.0 via Frontend Transport; Thu, 21 Mar 2024 20:44:07 +0000
-Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.7409.10 via Frontend Transport; Thu, 21 Mar 2024 20:44:16 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Thu, 21 Mar
- 2024 15:44:06 -0500
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB08.amd.com
- (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
+ 2024 15:44:08 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Thu, 21 Mar
- 2024 13:44:06 -0700
+ 2024 15:44:08 -0500
 Received: from xsjanatoliy50.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.35 via
- Frontend Transport; Thu, 21 Mar 2024 15:44:05 -0500
+ Frontend Transport; Thu, 21 Mar 2024 15:44:06 -0500
 From: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
-Date: Thu, 21 Mar 2024 13:43:44 -0700
-Subject: [PATCH v3 6/9] drm: xlnx: zynqmp_dpsub: Set input live format
+Date: Thu, 21 Mar 2024 13:43:45 -0700
+Subject: [PATCH v3 7/9] drm/atomic-helper: Add select_output_bus_format
+ callback
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20240321-dp-live-fmt-v3-6-d5090d796b7e@amd.com>
+Message-ID: <20240321-dp-live-fmt-v3-7-d5090d796b7e@amd.com>
 References: <20240321-dp-live-fmt-v3-0-d5090d796b7e@amd.com>
 In-Reply-To: <20240321-dp-live-fmt-v3-0-d5090d796b7e@amd.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Maarten Lankhorst
@@ -87,26 +88,26 @@ CC: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 X-Mailer: b4 0.13.0
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B373:EE_|SJ2PR12MB7894:EE_
-X-MS-Office365-Filtering-Correlation-Id: 86ae9ccd-74b6-4eb6-0f03-08dc49e7a7c7
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B077:EE_|BY5PR12MB4131:EE_
+X-MS-Office365-Filtering-Correlation-Id: 72523a37-23a2-4f8e-e5db-08dc49e7acff
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: deIKL7CCqXZZm6zJGDgiTtchZ50uQIdIjHNyC49Xn3FzYKMx0NpCY8a6cajHSOsfd2zKjkFhIN4VfPM+NwDFlcD4RHnFLeEfN5qOXtO7nCJ8C5le6qTjewWH6Gwo1ZDUXZgrdzH/puUnZsTdiB/Se8ZylDCZhwRdbU4rM/CyBU6ktGIqDMT9vjs7fTY8P4q/7yWWxpsn+uJdWZXMmdzdZXonz8tyQoIJD6lWVKpGpgfoNzANJbogcTrIeoUfUkLwxiIo2h/4ZaLgQBFbhNQeuOKD1q/kuSOJ6yz7FMth0VVlOAEIjcOPj9Sh7f5s9LKXx7b+vyGyCBRbgbI9PH1GJGKP8IozAUEzQLGR1JPbstchM/pyyQOc45PVrhyNW5vPE+NNNh+rxZLbX/axISOqPZtX1/8zwLRlsP4D6vBfmfzABhDvYzev6b8ZyJQUeeigClzFVB+qlFSiMzX3O49Stwt68NM68HPvQ0DCzlvMIDO1qwTQZcmi1FpvJu+O44tKp9ip/qbczH6G41dBByKZ+M7T/Gq/9fmGKY6ARfw70ClsyVw53AKYQfwhRGyixBew7N09kKLwWkWnX6l8gpK6w37fZbaRHlpkzRogs2JJdpQvzZzjwxLP7NewfIh7SDeIw0IqR2Gb5Y3m6FMvUlJ4xE9nRQ7oI14Z9P0avm3EXIKQsnAYWfN+MzNM6a8KtmcOX1xNanfKtNT7MMG2Za8ScDtzEmihCXs3aQLrJVZHGMDgO3BqjV5tQ070kKpo0HAXBBsdkHiJ6dJ0MFjy97bPgg==
+X-Microsoft-Antispam-Message-Info: v2CgC+34DcYChLjnOoeZvazvHZE5CqhHHhLi36JPV8nAb9+EEi1HS11n9Mh1UbxytyLT6SX5WC5xm1AltODdqqq+TinLa7S2lKkWj50hNqwM5I3twZaHX2HMIAT+W+xsVqwZE1EACO5TKd9G/XH84p6bjlbZLXvuwv5tgb283pH6NC47dRHu7tA63BG9YxVKPXrXza6CxuDa1+tZ90lYIlfe4xsb1Savglv0A1ALDBuQtcbHutj6TGxQMRJmCln6MFoK39CAZYyZilnrzzvsK6fc9y00SsnOynr9XsK7rhOKBoxfpl9Mz2XuwyYt0WUPWscOKW6m+7d58fnH9GSVIlCnvukmAf6cLP/4ttyx2r7MwJlQcIF+ouUZDbUi6A8A9UAN71A+UynExl+ogYQutKtOlYv0cEftUXmzhBzv9krOuyrR2eAAA70ryO6l2phHk/Y0kZb/N+c2s3Cc7WwyuZWJG9nIPG/BNKt5YO7F+mC8hBUJTrybatyPJ6qYnRRc7joSijc5HR/Y7/rlDDFV7ZSLnvPnqqvMXClivFGbMZD2KUkOmD9naRQgrYqerzxsgoO+SzIRSZqTjJXbQz7WqzWLPWXohtcWnr/EBWRAEWp5SiIzhY3GB0KT+qVdiCK/SxtDrO6vbz+zplMyzf1RrtV7QVz57Tn5JnP7JyEDCzzaRdnFtmn0uUPvZ8P19eRoYTlFO3mRwm17x+sZxkl+4kHnTdXh7Vk1/RTI2rL3vMLTbknukXO2H4Vn67M/SIXKVN9fPFg55Y4bsrBIr3YviA==
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(36860700004)(376005)(82310400014)(7416005)(1800799015)(921011);
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(376005)(7416005)(82310400014)(36860700004)(1800799015)(921011);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2024 20:44:07.8537 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 86ae9ccd-74b6-4eb6-0f03-08dc49e7a7c7
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2024 20:44:16.6461 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72523a37-23a2-4f8e-e5db-08dc49e7acff
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B373.namprd21.prod.outlook.com
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B077.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7894
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4131
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,200 +123,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Program live video input format according to selected media bus format.
+Add optional drm_crtc_helper_funcs.select_output_bus_format callback. This
+callback allows to negotiate compatible media bus format on the link
+between CRTC and connected DRM encoder or DRM bridge chain. A good usage
+example is the CRTC implemented as FPGA soft IP. This kind of CRTC will
+most certainly support a single output media bus format, as supporting
+multiple runtime options consumes extra FPGA resources. A variety of
+options for the FPGA designs are usually achieved by synthesizing IP with
+different parameters.
 
-In the bridge mode of operation, DPSUB is connected to FPGA CRTC which
-almost certainly supports a single media bus format as its output. Expect
-this to be delivered via the new bridge atomic state. Program DPSUB
-registers accordingly. Update zynqmp_disp_layer_set_format() API to fit
-both live and non-live layer types.
+Add drm_helper_crtc_select_output_bus_format that wraps
+drm_crtc_helper_funcs.select_output_bus_format.
+
+Incorporate select_output_bus_format callback into the format negotiation
+stage to fix the input bus format of the first DRM bridge in the chain.
 
 Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
 ---
- drivers/gpu/drm/xlnx/zynqmp_disp.c | 66 +++++++++++++++++++++++++-------------
- drivers/gpu/drm/xlnx/zynqmp_disp.h |  2 +-
- drivers/gpu/drm/xlnx/zynqmp_dp.c   | 13 +++++---
- drivers/gpu/drm/xlnx/zynqmp_kms.c  |  2 +-
- 4 files changed, 55 insertions(+), 28 deletions(-)
+ drivers/gpu/drm/drm_bridge.c             | 14 +++++++++++--
+ drivers/gpu/drm/drm_crtc_helper.c        | 36 ++++++++++++++++++++++++++++++++
+ include/drm/drm_crtc_helper.h            |  5 +++++
+ include/drm/drm_modeset_helper_vtables.h | 30 ++++++++++++++++++++++++++
+ 4 files changed, 83 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-index 0c2b3f4bffa6..a385d22d428e 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-@@ -436,19 +436,28 @@ static void zynqmp_disp_avbuf_set_format(struct zynqmp_disp *disp,
- 					 const struct zynqmp_disp_format *fmt)
- {
- 	unsigned int i;
--	u32 val;
-+	u32 val, reg;
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index 521a71c61b16..955ca108cd4b 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -28,6 +28,7 @@
  
--	val = zynqmp_disp_avbuf_read(disp, ZYNQMP_DISP_AV_BUF_FMT);
--	val &= zynqmp_disp_layer_is_video(layer)
--	    ? ~ZYNQMP_DISP_AV_BUF_FMT_NL_VID_MASK
--	    : ~ZYNQMP_DISP_AV_BUF_FMT_NL_GFX_MASK;
--	val |= fmt->buf_fmt;
--	zynqmp_disp_avbuf_write(disp, ZYNQMP_DISP_AV_BUF_FMT, val);
-+	layer->disp_fmt = fmt;
-+	if (layer->mode == ZYNQMP_DPSUB_LAYER_NONLIVE) {
-+		reg = ZYNQMP_DISP_AV_BUF_FMT;
-+		val = zynqmp_disp_avbuf_read(disp, ZYNQMP_DISP_AV_BUF_FMT);
-+		val &= zynqmp_disp_layer_is_video(layer)
-+		    ? ~ZYNQMP_DISP_AV_BUF_FMT_NL_VID_MASK
-+		    : ~ZYNQMP_DISP_AV_BUF_FMT_NL_GFX_MASK;
-+		val |= fmt->buf_fmt;
-+	} else {
-+		reg = zynqmp_disp_layer_is_video(layer)
-+		    ? ZYNQMP_DISP_AV_BUF_LIVE_VID_CONFIG
-+		    : ZYNQMP_DISP_AV_BUF_LIVE_GFX_CONFIG;
-+		val = fmt->buf_fmt;
-+	}
-+	zynqmp_disp_avbuf_write(disp, reg, val);
+ #include <drm/drm_atomic_state_helper.h>
+ #include <drm/drm_bridge.h>
++#include <drm/drm_crtc_helper.h>
+ #include <drm/drm_debugfs.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_encoder.h>
+@@ -879,7 +880,8 @@ static int select_bus_fmt_recursive(struct drm_bridge *first_bridge,
+ 	unsigned int i, num_in_bus_fmts = 0;
+ 	struct drm_bridge_state *cur_state;
+ 	struct drm_bridge *prev_bridge;
+-	u32 *in_bus_fmts;
++	struct drm_crtc *crtc = crtc_state->crtc;
++	u32 *in_bus_fmts, in_fmt;
+ 	int ret;
  
- 	for (i = 0; i < ZYNQMP_DISP_AV_BUF_NUM_SF; i++) {
--		unsigned int reg = zynqmp_disp_layer_is_video(layer)
--				 ? ZYNQMP_DISP_AV_BUF_VID_COMP_SF(i)
--				 : ZYNQMP_DISP_AV_BUF_GFX_COMP_SF(i);
-+		reg = zynqmp_disp_layer_is_video(layer)
-+		    ? ZYNQMP_DISP_AV_BUF_VID_COMP_SF(i)
-+		    : ZYNQMP_DISP_AV_BUF_GFX_COMP_SF(i);
+ 	prev_bridge = drm_bridge_get_prev_bridge(cur_bridge);
+@@ -933,7 +935,15 @@ static int select_bus_fmt_recursive(struct drm_bridge *first_bridge,
+ 		return -ENOMEM;
  
- 		zynqmp_disp_avbuf_write(disp, reg, fmt->sf[i]);
- 	}
-@@ -902,25 +911,33 @@ static void zynqmp_disp_audio_disable(struct zynqmp_disp *disp)
-  */
+ 	if (first_bridge == cur_bridge) {
+-		cur_state->input_bus_cfg.format = in_bus_fmts[0];
++		in_fmt = drm_helper_crtc_select_output_bus_format(crtc,
++							crtc_state,
++							in_bus_fmts,
++							num_in_bus_fmts);
++		if (!in_fmt) {
++			kfree(in_bus_fmts);
++			return -ENOTSUPP;
++		}
++		cur_state->input_bus_cfg.format = in_fmt;
+ 		cur_state->output_bus_cfg.format = out_bus_fmt;
+ 		kfree(in_bus_fmts);
+ 		return 0;
+diff --git a/drivers/gpu/drm/drm_crtc_helper.c b/drivers/gpu/drm/drm_crtc_helper.c
+index 2dafc39a27cb..f2e12a3c4e5f 100644
+--- a/drivers/gpu/drm/drm_crtc_helper.c
++++ b/drivers/gpu/drm/drm_crtc_helper.c
+@@ -1055,3 +1055,39 @@ int drm_helper_force_disable_all(struct drm_device *dev)
+ 	return ret;
+ }
+ EXPORT_SYMBOL(drm_helper_force_disable_all);
++
++/**
++ * drm_helper_crtc_select_output_bus_format - Select output media bus format
++ * @crtc: The CRTC to query
++ * @crtc_state: The new CRTC state
++ * @supported_fmts: List of media bus format options to pick from
++ * @num_supported_fmts: Number of media bus formats in @supported_fmts list
++ *
++ * Encoder drivers may call this helper to give the connected CRTC a chance to
++ * select compatible or preffered media bus format to use over the CRTC encoder
++ * link. Encoders should provide list of supported input MEDIA_BUS_FMT_* for
++ * CRTC to pick from. CRTC driver is expected to select preferred media bus
++ * format from the list and, once enabled, generate the signal accordingly.
++ *
++ * Returns:
++ * Selected preferred media bus format or 0 if CRTC does not support any from
++ * @supported_fmts list.
++ */
++u32 drm_helper_crtc_select_output_bus_format(struct drm_crtc *crtc,
++					     struct drm_crtc_state *crtc_state,
++					     const u32 *supported_fmts,
++					     unsigned int num_supported_fmts)
++{
++	if (!crtc || !supported_fmts || !num_supported_fmts)
++		return 0;
++
++	if (!crtc->helper_private ||
++	    !crtc->helper_private->select_output_bus_format)
++		return supported_fmts[0];
++
++	return crtc->helper_private->select_output_bus_format(crtc,
++							crtc_state,
++							supported_fmts,
++							num_supported_fmts);
++}
++EXPORT_SYMBOL(drm_helper_crtc_select_output_bus_format);
+diff --git a/include/drm/drm_crtc_helper.h b/include/drm/drm_crtc_helper.h
+index 8c886fc46ef2..b7eb52f3ce41 100644
+--- a/include/drm/drm_crtc_helper.h
++++ b/include/drm/drm_crtc_helper.h
+@@ -38,6 +38,7 @@
+ struct drm_atomic_state;
+ struct drm_connector;
+ struct drm_crtc;
++struct drm_crtc_state;
+ struct drm_device;
+ struct drm_display_mode;
+ struct drm_encoder;
+@@ -61,5 +62,9 @@ int drm_helper_connector_dpms(struct drm_connector *connector, int mode);
+ 
+ void drm_helper_resume_force_mode(struct drm_device *dev);
+ int drm_helper_force_disable_all(struct drm_device *dev);
++u32 drm_helper_crtc_select_output_bus_format(struct drm_crtc *crtc,
++					     struct drm_crtc_state *crtc_state,
++					     const u32 *supported_fmts,
++					     unsigned int num_supported_fmts);
+ 
+ #endif
+diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+index 881b03e4dc28..6d5a081e21a4 100644
+--- a/include/drm/drm_modeset_helper_vtables.h
++++ b/include/drm/drm_modeset_helper_vtables.h
+@@ -489,6 +489,36 @@ struct drm_crtc_helper_funcs {
+ 				     bool in_vblank_irq, int *vpos, int *hpos,
+ 				     ktime_t *stime, ktime_t *etime,
+ 				     const struct drm_display_mode *mode);
++
++	/**
++	 * @select_output_bus_format
++	 *
++	 * Called by the connected DRM encoder to negotiate input media bus
++	 * format. CRTC is expected to pick preferable media formats from the
++	 * list provided by the DRM encoder.
++	 *
++	 * This callback is optional.
++	 *
++	 * Parameters:
++	 *
++	 * crtc:
++	 *     The CRTC.
++	 * crcs_state:
++	 *     New CRTC state.
++	 * supported_fmts:
++	 *     List of input bus formats supported by the encoder.
++	 * num_supported_fmts:
++	 *     Number of formats in the list.
++	 *
++	 * Returns:
++	 *
++	 * Preferred bus format from the list or 0 if CRTC doesn't support any
++	 * from the provided list.
++	 */
++	u32 (*select_output_bus_format)(struct drm_crtc *crtc,
++					struct drm_crtc_state *crtc_state,
++					const u32 *supported_fmts,
++					unsigned int num_supported_fmts);
+ };
  
  /**
-- * zynqmp_disp_layer_find_format - Find format information for a DRM format
-+ * zynqmp_disp_layer_find_format - Find format information for a DRM or media
-+ * bus format
-  * @layer: The layer
-- * @drm_fmt: DRM format to search
-+ * @drm_or_bus_format: DRM or media bus format
-  *
-  * Search display subsystem format information corresponding to the given DRM
-- * format @drm_fmt for the @layer, and return a pointer to the format
-- * descriptor.
-+ * or media bus format @drm_or_bus_format for the @layer, and return a pointer
-+ * to the format descriptor. Search key choice depends on @layer mode, for live
-+ * layers search is done by zynqmp_disp_format.bus_fmt, and for non-live layers
-+ * zynqmp_disp_format.drm_fmt is used.
-  *
-  * Return: A pointer to the format descriptor if found, NULL otherwise
-  */
- static const struct zynqmp_disp_format *
- zynqmp_disp_layer_find_format(struct zynqmp_disp_layer *layer,
--			      u32 drm_fmt)
-+			      u32 drm_or_bus_format)
- {
- 	unsigned int i;
-+	const struct zynqmp_disp_format *disp_format;
- 
- 	for (i = 0; i < layer->info->num_formats; i++) {
--		if (layer->info->formats[i].drm_fmt == drm_fmt)
--			return &layer->info->formats[i];
-+		disp_format = &layer->info->formats[i];
-+		if ((layer->mode == ZYNQMP_DPSUB_LAYER_LIVE &&
-+		     disp_format->bus_fmt == drm_or_bus_format) ||
-+		    (layer->mode == ZYNQMP_DPSUB_LAYER_NONLIVE &&
-+		     disp_format->drm_fmt == drm_or_bus_format))
-+			return disp_format;
- 	}
- 
- 	return NULL;
-@@ -992,20 +1009,25 @@ void zynqmp_disp_layer_disable(struct zynqmp_disp_layer *layer)
- /**
-  * zynqmp_disp_layer_set_format - Set the layer format
-  * @layer: The layer
-- * @info: The format info
-+ * @drm_or_bus_format: DRM or media bus format
-  *
-  * Set the format for @layer to @info. The layer must be disabled.
-  */
- void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
--				  const struct drm_format_info *info)
-+				  u32 drm_or_bus_format)
- {
- 	unsigned int i;
- 
--	layer->disp_fmt = zynqmp_disp_layer_find_format(layer, info->format);
--	layer->drm_fmt = info;
-+	layer->disp_fmt = zynqmp_disp_layer_find_format(layer, drm_or_bus_format);
-+	if (WARN_ON(!layer->disp_fmt))
-+		return;
- 
- 	zynqmp_disp_avbuf_set_format(layer->disp, layer, layer->disp_fmt);
- 
-+	layer->drm_fmt = drm_format_info(layer->disp_fmt->drm_fmt);
-+	if (!layer->drm_fmt)
-+		return;
-+
- 	if (layer->mode == ZYNQMP_DPSUB_LAYER_LIVE)
- 		return;
- 
-@@ -1013,7 +1035,7 @@ void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
- 	 * Set pconfig for each DMA channel to indicate they're part of a
- 	 * video group.
- 	 */
--	for (i = 0; i < info->num_planes; i++) {
-+	for (i = 0; i < layer->drm_fmt->num_planes; i++) {
- 		struct zynqmp_disp_layer_dma *dma = &layer->dmas[i];
- 		struct xilinx_dpdma_peripheral_config pconfig = {
- 			.video_group = true,
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.h b/drivers/gpu/drm/xlnx/zynqmp_disp.h
-index 88c285a12e23..9f9a5f50ffbc 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_disp.h
-+++ b/drivers/gpu/drm/xlnx/zynqmp_disp.h
-@@ -55,7 +55,7 @@ u32 *zynqmp_disp_layer_formats(struct zynqmp_disp_layer *layer,
- void zynqmp_disp_layer_enable(struct zynqmp_disp_layer *layer);
- void zynqmp_disp_layer_disable(struct zynqmp_disp_layer *layer);
- void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
--				  const struct drm_format_info *info);
-+				  u32 drm_or_bus_format);
- int zynqmp_disp_layer_update(struct zynqmp_disp_layer *layer,
- 			     struct drm_plane_state *state);
- 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-index e3b9eb3d9273..200e63636006 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-@@ -1299,15 +1299,20 @@ static void zynqmp_dp_disp_enable(struct zynqmp_dp *dp,
- 				  struct drm_bridge_state *old_bridge_state)
- {
- 	struct zynqmp_disp_layer *layer;
--	const struct drm_format_info *info;
-+	struct drm_bridge_state *bridge_state;
-+	u32 bus_fmt;
- 
- 	layer = zynqmp_dp_disp_connected_live_layer(dp);
- 	if (!layer)
- 		return;
- 
--	/* TODO: Make the format configurable. */
--	info = drm_format_info(DRM_FORMAT_YUV422);
--	zynqmp_disp_layer_set_format(layer, info);
-+	bridge_state = drm_atomic_get_new_bridge_state(old_bridge_state->base.state,
-+						       old_bridge_state->bridge);
-+	if (WARN_ON(!bridge_state))
-+		return;
-+
-+	bus_fmt = bridge_state->input_bus_cfg.format;
-+	zynqmp_disp_layer_set_format(layer, bus_fmt);
- 	zynqmp_disp_layer_enable(layer);
- 
- 	if (layer == dp->dpsub->layers[ZYNQMP_DPSUB_LAYER_GFX])
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-index bf9fba01df0e..d96b3f3f2e3a 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-@@ -111,7 +111,7 @@ static void zynqmp_dpsub_plane_atomic_update(struct drm_plane *plane,
- 		if (old_state->fb)
- 			zynqmp_disp_layer_disable(layer);
- 
--		zynqmp_disp_layer_set_format(layer, new_state->fb->format);
-+		zynqmp_disp_layer_set_format(layer, new_state->fb->format->format);
- 	}
- 
- 	zynqmp_disp_layer_update(layer, new_state);
 
 -- 
 2.25.1
