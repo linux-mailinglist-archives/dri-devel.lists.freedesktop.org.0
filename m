@@ -2,79 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CADEC881A22
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 00:22:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7473C881AA9
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 02:32:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 890BA10FFF7;
-	Wed, 20 Mar 2024 23:22:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A009B10EE5A;
+	Thu, 21 Mar 2024 01:32:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="0RSRCNvl";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uuX8gpio";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com
- [209.85.219.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBE3610FFF7
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 23:22:03 +0000 (UTC)
-Received: by mail-yb1-f201.google.com with SMTP id
- 3f1490d57ef6-dd933a044baso1985398276.0
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 16:22:03 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7039710EE5A
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 01:32:01 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-2d228a132acso7256571fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Mar 2024 18:32:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1710976922; x=1711581722;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=31u9h4pRsIoYT5xL2+2Sx/Q3BDCy9WQzGQxSt0T02WU=;
- b=0RSRCNvlmn1oN+7kAoyNRieVGTtyFVRgQSM0icg4nXdo85cn5EHP5B8qU5wvSLnpsp
- Gj2x67RZviepyAoHJmOvTKF8J1FQWf6thoFF3KdSEN0tDcM7Y1rSgHv0/tWv+KygAOyE
- 4xz5FNcEpNGJM8u7Dfi9qaBLU6hHBGuTTCHkL0NPzmI+jBc4sRACRoKgmrhRtSWp8wEv
- ye/N1prn/EzKpluSiMd3n6vRU6o0cA61pmFLGmWvwQuaCQJXxfBkyP7HSNR1N+xr1yfg
- LpTtsJKwc6mZ27XRLdKmaYNrz4+vjjHy8WTBjDGxFf2jnsrxYrcNQj8EeWAlu3epWfbn
- R1VQ==
+ d=linaro.org; s=google; t=1710984719; x=1711589519; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=+yNspNFtlhVf7RzI544PQpDbUEB4B2uGhhyKSlBWhtg=;
+ b=uuX8gpioJ3I4GqAM9F5OGYVHeisqWAJl1/AIshtiwEVlREUpW6pdZf28fORa+qobET
+ UiAGur7iVohTnireVrJdd6fG/7GuH+7k/eWdgB5jKNpdB01iGn1JNypmLGqZV8TZMoy/
+ zx0Rk1FKOW8VRhFdeM8XioF27nuMCvDIHaXwo+1zFtnz/MdK8zQHm5gWR+QJzYznnTAG
+ 6D8iAh5JMcaQhQA2cekOFeeZk5Vq75voM4x3+l+/KC4iP3dE9XpS9J9DEYS5KYK0FP1n
+ 4Y9M3D8a02+TDXSVmJB5J7PqzGkr+UWP3aPrCTugACSeX1lh/CvevZLeuga1L35Tkeew
+ Dt1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1710976922; x=1711581722;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=31u9h4pRsIoYT5xL2+2Sx/Q3BDCy9WQzGQxSt0T02WU=;
- b=xPdX5wtDjQlXsjBjSgOXgn7XiZkymcTjIswfbKcUZS6QWocL38D/uXnI/8n20CzBnU
- H3gyS1TOaPMRWmDWN7XEFze1C6vIaKLtYaCpU8HKShQlyqE+etxk3J3ej6trldMvUt0t
- izvKbR13XTfzf/GAniq7GMosM/Hr0ZnGF+jWnyeBUDO7bIOd1g1K5sSKEtrac8EGcnb6
- u4QoTxrt9z2kABErvCp+r8Y7r65vqf3VQzeZ3mptof7jaDI0kLMoCJ1HMzlBpAy5pp+G
- /Md1aVzx4v+N1Xyn3v7rYgI0lzIYyx0Mue/mh8actiih8Se6+k7dDK/MhSl/wkIBH1UW
- 7lqA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXfb42zHZdoMTGfO3Ho4yrA/A40Y7nQW+nBnNdclUcDCKn4tpkOl9O9VNBGG+1wsA3QzgUvCNDxAIzzVxiMn0jfMHQ1H5SHEYAK8bJ09/RM
-X-Gm-Message-State: AOJu0YxTOIwtK6buNOgPQ09KGwFNHbRrtSbe0zKYtw9PFZv52Cy2fK70
- qAq/AKbCXBGyElIgpoGFSl4cJ2z50Knw2/pwScWL2BJItevac1V9zfs5DGoJciaSdTPuzY7WAO5
- B2M/v8oTW6/h2WpzYdydtUQ==
-X-Google-Smtp-Source: AGHT+IEbxaoDxR39hoPNgni/Vs4CVRqb2djIgFXCSM9OsEXWBDwH4FweLj7pnfzYDXD3ipk1F2Hy16EUjCN+ESro/Q==
-X-Received: from jstitt-linux1.c.googlers.com
- ([fda3:e722:ac3:cc00:2b:ff92:c0a8:23b5])
- (user=justinstitt job=sendgmr) by 2002:a25:4b84:0:b0:dcc:2267:796e with SMTP
- id y126-20020a254b84000000b00dcc2267796emr201630yba.2.1710976922546; Wed, 20
- Mar 2024 16:22:02 -0700 (PDT)
-Date: Wed, 20 Mar 2024 23:22:02 +0000
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAJlv+2UC/x3MwQqDMAwA0F+RnBdoqzL1V8YOs4maw6okUjbEf
- 7d4fJd3gLEKGwzVAcpZTNZU4B8VxOWTZkahYgguNK4ODm3XFLc/kkpmNcxCvOJCX8GIY/QdtV3
- bP/0EpdiUJ/nd/et9nhdMvlXFbgAAAA==
-X-Developer-Key: i=justinstitt@google.com; a=ed25519;
- pk=tC3hNkJQTpNX/gLKxTNQKDmiQl6QjBNCGKJINqAdJsE=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1710976921; l=1895;
- i=justinstitt@google.com; s=20230717; h=from:subject:message-id;
- bh=LstULD3SZgSv3OfqQEREHb9PlnHVDFzksy2daTuKq/I=;
- b=asHNy0GS4ziNs7+teZK7JmBwmWLU7eI7UJYX/Jv9UFQa5idrd1r/icfuQF/NfP0K1Tp7LHyZY
- MGpRYh9EuvuDYbE8MrciB/WCTNc+XdNdU97Xs+IFqzbG81WPC/L/6PW
-X-Mailer: b4 0.12.3
-Message-ID: <20240320-strncpy-drivers-video-hdmi-c-v1-1-f9a08168cdaf@google.com>
-Subject: [PATCH] video/hdmi: prefer length specifier in format over string
- copying
-From: Justin Stitt <justinstitt@google.com>
-To: Helge Deller <deller@gmx.de>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
- Justin Stitt <justinstitt@google.com>
-Content-Type: text/plain; charset="utf-8"
+ d=1e100.net; s=20230601; t=1710984719; x=1711589519;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+yNspNFtlhVf7RzI544PQpDbUEB4B2uGhhyKSlBWhtg=;
+ b=o1HDg40iCPIbySXUqrRMmrMrTeqxxiKkB+7x1+Ne9wIdOlKzGQ5mp6iDJ92iwAmwgH
+ 5zX2pwpxRaw0IDnmnl28pJbxiNgeJUXyg/RiJP5yVexcHDtfIZq2C2SR3i87y5/qPH7w
+ kNhE5WvYqAMDxGyn9dcgh1D4yLdcsVFfZYuo2bSCFBQGwt6b4HTlJiotXtNdSjOTutXw
+ FZHxIGZHt9Zztlog23FE9Ty9shExP8j4yogrGBLqFnXaTH/WeMs/MCjPZ7r2p9uSTr1l
+ iFhn8K0gbTTjGSSdiuxQDCUwQvS4qR1RbtXalTGCeO043kNFNedKQN9gb0nYJLRcXAPv
+ zuRA==
+X-Gm-Message-State: AOJu0YzNgWXXdsWpJU1+/FWcqSd+dMrBHZasJu2HLYqEdnqCUcP6pnor
+ AR3f3Ud+np/rYnB1JewznlnAXJM5kVrUzuKLPEeMQpHclMnlEfmSYI+TYMcifjP3F5Q30duJb4d
+ N
+X-Google-Smtp-Source: AGHT+IFCdE05Lfk0yELdV9YqUZl/nProdzIEP5pVz7ie8NNrNZ9toP3sX8bgDJrZ6Lw+NFiVoA83nw==
+X-Received: by 2002:a2e:824f:0:b0:2d4:744c:24ab with SMTP id
+ j15-20020a2e824f000000b002d4744c24abmr4934513ljh.27.1710984718543; 
+ Wed, 20 Mar 2024 18:31:58 -0700 (PDT)
+Received: from eriador.lan (dzyjmhyyyyyyyyyyyykxt-3.rev.dnainternet.fi.
+ [2001:14ba:a00e:a300::227]) by smtp.gmail.com with ESMTPSA id
+ p10-20020a2e804a000000b002d0bf097af1sm2254508ljg.123.2024.03.20.18.31.57
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Mar 2024 18:31:57 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH libdrm] modetest: add support for YUV422 and YUV444 plane
+ format
+Date: Thu, 21 Mar 2024 03:31:57 +0200
+Message-ID: <20240321013157.1194777-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,58 +78,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-strncpy() is deprecated for use on NUL-terminated destination strings
-[1] and as such we should prefer more robust and less ambiguous string
-interfaces.
+Currently modetest supports only the YUV420 and YVU420 planar YCbCr
+plane formats (aka YV12 and YU12). Extend the code to add support for
+YUV422 / YVU422 and YUV444 / YVU444 plane formats.
 
-It looks like the main use of strncpy() here is to limit the amount of
-bytes printed from hdmi_log() by using a tmp buffer and limiting the
-number of bytes copied. Really, we should use the %.<len>s format
-qualifier to achieve this.
-
-Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
-Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html
-Link: https://github.com/KSPP/linux/issues/90
-Cc: linux-hardening@vger.kernel.org
-Signed-off-by: Justin Stitt <justinstitt@google.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-Note: build-tested only.
+ tests/modetest/buffers.c | 42 ++++++++++++++++++++++++++++++++++++++++
+ tests/util/format.c      |  4 ++++
+ tests/util/pattern.c     |  8 ++++++++
+ 3 files changed, 54 insertions(+)
 
-Found with: $ rg "strncpy\("
----
- drivers/video/hdmi.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
-index 03c7f27dde49..ba301f3f4951 100644
---- a/drivers/video/hdmi.c
-+++ b/drivers/video/hdmi.c
-@@ -1310,17 +1310,11 @@ static void hdmi_spd_infoframe_log(const char *level,
- 				   struct device *dev,
- 				   const struct hdmi_spd_infoframe *frame)
- {
--	u8 buf[17];
--
- 	hdmi_infoframe_log_header(level, dev,
- 				  (const struct hdmi_any_infoframe *)frame);
+diff --git a/tests/modetest/buffers.c b/tests/modetest/buffers.c
+index 576e2cc7fc95..9940ad444785 100644
+--- a/tests/modetest/buffers.c
++++ b/tests/modetest/buffers.c
+@@ -145,6 +145,10 @@ bo_create(int fd, unsigned int format,
+ 	case DRM_FORMAT_NV42:
+ 	case DRM_FORMAT_YUV420:
+ 	case DRM_FORMAT_YVU420:
++	case DRM_FORMAT_YUV422:
++	case DRM_FORMAT_YVU422:
++	case DRM_FORMAT_YUV444:
++	case DRM_FORMAT_YVU444:
+ 		bpp = 8;
+ 		break;
  
--	memset(buf, 0, sizeof(buf));
--
--	strncpy(buf, frame->vendor, 8);
--	hdmi_log("    vendor: %s\n", buf);
--	strncpy(buf, frame->product, 16);
--	hdmi_log("    product: %s\n", buf);
-+	hdmi_log("    vendor: %.8s\n", frame->vendor);
-+	hdmi_log("    product: %.16s\n", frame->product);
- 	hdmi_log("    source device information: %s (0x%x)\n",
- 		hdmi_spd_sdi_get_name(frame->sdi), frame->sdi);
- }
-
----
-base-commit: a4145ce1e7bc247fd6f2846e8699473448717b37
-change-id: 20240320-strncpy-drivers-video-hdmi-c-bc18d585971f
-
-Best regards,
---
-Justin Stitt <justinstitt@google.com>
+@@ -229,12 +233,16 @@ bo_create(int fd, unsigned int format,
+ 	case DRM_FORMAT_NV16:
+ 	case DRM_FORMAT_NV61:
+ 	case DRM_FORMAT_NV20:
++	case DRM_FORMAT_YUV422:
++	case DRM_FORMAT_YVU422:
+ 		virtual_height = height * 2;
+ 		break;
+ 
+ 	case DRM_FORMAT_NV24:
+ 	case DRM_FORMAT_NV42:
+ 	case DRM_FORMAT_NV30:
++	case DRM_FORMAT_YUV444:
++	case DRM_FORMAT_YVU444:
+ 		virtual_height = height * 3;
+ 		break;
+ 
+@@ -318,6 +326,40 @@ bo_create(int fd, unsigned int format,
+ 		planes[2] = virtual + offsets[2];
+ 		break;
+ 
++	case DRM_FORMAT_YUV422:
++	case DRM_FORMAT_YVU422:
++		offsets[0] = 0;
++		handles[0] = bo->handle;
++		pitches[0] = bo->pitch;
++		pitches[1] = pitches[0] / 2;
++		offsets[1] = pitches[0] * height;
++		handles[1] = bo->handle;
++		pitches[2] = pitches[1];
++		offsets[2] = offsets[1] + pitches[1] * height;
++		handles[2] = bo->handle;
++
++		planes[0] = virtual;
++		planes[1] = virtual + offsets[1];
++		planes[2] = virtual + offsets[2];
++		break;
++
++	case DRM_FORMAT_YUV444:
++	case DRM_FORMAT_YVU444:
++		offsets[0] = 0;
++		handles[0] = bo->handle;
++		pitches[0] = bo->pitch;
++		pitches[1] = pitches[0];
++		offsets[1] = pitches[0] * height;
++		handles[1] = bo->handle;
++		pitches[2] = pitches[1];
++		offsets[2] = offsets[1] + pitches[1] * height;
++		handles[2] = bo->handle;
++
++		planes[0] = virtual;
++		planes[1] = virtual + offsets[1];
++		planes[2] = virtual + offsets[2];
++		break;
++
+ 	case DRM_FORMAT_C1:
+ 	case DRM_FORMAT_C2:
+ 	case DRM_FORMAT_C4:
+diff --git a/tests/util/format.c b/tests/util/format.c
+index eda3c671d7cf..c623544171de 100644
+--- a/tests/util/format.c
++++ b/tests/util/format.c
+@@ -62,6 +62,10 @@ static const struct util_format_info format_info[] = {
+ 	/* YUV planar */
+ 	{ DRM_FORMAT_YUV420, "YU12", MAKE_YUV_INFO(YUV_YCbCr, 2, 2, 1) },
+ 	{ DRM_FORMAT_YVU420, "YV12", MAKE_YUV_INFO(YUV_YCrCb, 2, 2, 1) },
++	{ DRM_FORMAT_YUV422, "YU16", MAKE_YUV_INFO(YUV_YCbCr, 2, 1, 1) },
++	{ DRM_FORMAT_YVU422, "YV16", MAKE_YUV_INFO(YUV_YCrCb, 2, 1, 1) },
++	{ DRM_FORMAT_YUV444, "YU24", MAKE_YUV_INFO(YUV_YCbCr, 1, 1, 1) },
++	{ DRM_FORMAT_YVU444, "YV24", MAKE_YUV_INFO(YUV_YCrCb, 1, 1, 1) },
+ 	/* RGB16 */
+ 	{ DRM_FORMAT_ARGB4444, "AR12", MAKE_RGB_INFO(4, 8, 4, 4, 4, 0, 4, 12) },
+ 	{ DRM_FORMAT_XRGB4444, "XR12", MAKE_RGB_INFO(4, 8, 4, 4, 4, 0, 0, 0) },
+diff --git a/tests/util/pattern.c b/tests/util/pattern.c
+index 2ff9c033495c..e5f20c50b5d8 100644
+--- a/tests/util/pattern.c
++++ b/tests/util/pattern.c
+@@ -1229,10 +1229,14 @@ static void fill_smpte(const struct util_format_info *info, void *planes[3],
+ 						   stride);
+ 
+ 	case DRM_FORMAT_YUV420:
++	case DRM_FORMAT_YUV422:
++	case DRM_FORMAT_YUV444:
+ 		return fill_smpte_yuv_planar(&info->yuv, planes[0], planes[1],
+ 					     planes[2], width, height, stride);
+ 
+ 	case DRM_FORMAT_YVU420:
++	case DRM_FORMAT_YVU422:
++	case DRM_FORMAT_YVU444:
+ 		return fill_smpte_yuv_planar(&info->yuv, planes[0], planes[2],
+ 					     planes[1], width, height, stride);
+ 
+@@ -1646,10 +1650,14 @@ static void fill_tiles(const struct util_format_info *info, void *planes[3],
+ 						   width, height, stride);
+ 
+ 	case DRM_FORMAT_YUV420:
++	case DRM_FORMAT_YUV422:
++	case DRM_FORMAT_YUV444:
+ 		return fill_tiles_yuv_planar(info, planes[0], planes[1],
+ 					     planes[2], width, height, stride);
+ 
+ 	case DRM_FORMAT_YVU420:
++	case DRM_FORMAT_YVU422:
++	case DRM_FORMAT_YVU444:
+ 		return fill_tiles_yuv_planar(info, planes[0], planes[2],
+ 					     planes[1], width, height, stride);
+ 
+-- 
+2.43.0
 
