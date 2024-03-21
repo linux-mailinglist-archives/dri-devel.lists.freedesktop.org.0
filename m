@@ -2,54 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66FF9885D01
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 17:08:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89965885D18
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Mar 2024 17:12:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26AF810ED37;
-	Thu, 21 Mar 2024 16:08:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97C2010EEC8;
+	Thu, 21 Mar 2024 16:12:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="TGlqxFn8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o6zvo+K0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com
- [91.218.175.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27BE410EBC7
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 16:08:52 +0000 (UTC)
-Message-ID: <76831c1e-216f-430b-bacd-2d50f352e61f@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1711037331;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nYGs6j1CcJBZpXqqpvnZVExRCl/iMQ6GtORK4GaVepw=;
- b=TGlqxFn8rv4WjNNL+kr5zeS2uvA9xjrL/AHHaAsiK+u4aCpDCFl/lLQwqqfKew/PAgKd6i
- h2BG1OVzI3HWvHRBnzpGgGbl7a2NFHZbuZDP/SUhcfBZxardWlIVB5JgFmrue+WtCjvcwm
- KAII2X78oz7JI4lt6vzOWy7op1WzAyU=
-Date: Thu, 21 Mar 2024 12:08:44 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74CDE10EEAF
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 16:12:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 8655ACE1382;
+ Thu, 21 Mar 2024 16:12:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D381C43390;
+ Thu, 21 Mar 2024 16:12:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1711037569;
+ bh=6NPow3V/0Wt+lAq16jw5Ca4MIxYnRXOGaHoibGDMLas=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=o6zvo+K0z+pthjZ1rv6n6C6QkLMLKSKM2m1xQZmtsoZLeZe26l7Xg0v6zgdenfeST
+ +FiZQeUsfbyMDZk/sAsYu0fS01skXvmUXQW9YJ4ho8Any/kw2K+DRzw0BSeAVIkQ97
+ YUcDnn95rFH+LWuaqmd5033Gi6VrGLFYJ1VBXfsqF53sbn8p7yttSksCBesdctu46T
+ nE3GZik+UOEfPMxXitw8aRBOeCOHxcbvWLRzNg8bQgZI3MIQkK1B8axnS2JqCLn0Cu
+ H9WvM3ahpkpNOCxYW0/m39nDz/knHPt9vsEn2eXyM46wpzxmx2bduXUikq0vVeUdtC
+ ZCs9gbiaK3K2w==
+From: Lee Jones <lee@kernel.org>
+To: lee@kernel.org, andy@kernel.org, daniel.thompson@linaro.org, 
+ jingoohan1@gmail.com, deller@gmx.de, robin@protonic.nl, javierm@redhat.com, 
+ Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
+In-Reply-To: <20240305162425.23845-1-tzimmermann@suse.de>
+References: <20240305162425.23845-1-tzimmermann@suse.de>
+Subject: Re: [PATCH v4 00/10] backlight: Replace struct fb_info in interfaces
+Message-Id: <171103756721.89062.17090257592751026195.b4-ty@kernel.org>
+Date: Thu, 21 Mar 2024 16:12:47 +0000
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 8/8] drm: zynqmp_dp: Add debugfs interface for
- compliance testing
-Content-Language: en-US
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Michal Simek <michal.simek@amd.com>, David Airlie <airlied@gmail.com>,
- linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-kernel@lists.infradead.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-References: <20240319225122.3048400-1-sean.anderson@linux.dev>
- <20240319225122.3048400-9-sean.anderson@linux.dev>
- <7aa16340-6a87-4110-8114-c1b863b100c9@ideasonboard.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sean Anderson <sean.anderson@linux.dev>
-In-Reply-To: <7aa16340-6a87-4110-8114-c1b863b100c9@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.12.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,28 +60,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/20/24 03:49, Tomi Valkeinen wrote:
-> On 20/03/2024 00:51, Sean Anderson wrote:
+On Tue, 05 Mar 2024 17:22:33 +0100, Thomas Zimmermann wrote:
+> Backlight drivers implement struct backlight_ops.check_fb, which
+> uses struct fb_info in its interface. Replace the callback with one
+> that does not use fb_info.
 > 
->> +/**
->> + * enum test_pattern - Test patterns for test testing
+> In DRM, we have several drivers that implement backlight support. By
+> including <linux/backlight.h> these drivers depend on <linux/fb.h>.
+> At the same time, fbdev is deprecated for new drivers and likely to
+> be replaced on many systems.
 > 
-> "for test testing"? =)
-> 
->> @@ -1655,6 +2321,9 @@ static void zynqmp_dp_hpd_irq_work_func(struct work_struct *work)
->>       u8 status[DP_LINK_STATUS_SIZE + 2];
->>       int err;
->>   +    if (READ_ONCE(dp->ignore_hpd))
->> +        return;
->> +
->>       mutex_lock(&dp->lock);
->>       err = drm_dp_dpcd_read(&dp->aux, DP_SINK_COUNT, status,
->>                      DP_LINK_STATUS_SIZE + 2);
-> 
-> Why do you need READ/WRITE_ONCE() for ignore_hpd?
+> [...]
 
-It's not protected by dp->lock so we don't have to take it for
-zynqmp_dp_hpd_work_func. Although maybe we should make a version of
-zynqmp_dp_bridge_detect which assumes we already hold the lock.
+Applied, thanks!
 
---Sean
+[01/10] backlight: Match backlight device against struct fb_info.bl_dev
+        commit: f1ecddf747f0d734682152b37c927aa958a51497
+[02/10] auxdisplay/ht16k33: Remove struct backlight_ops.check_fb
+        commit: dddfda7d5f12a7b48aeca6c3840167529c8cd34a
+[03/10] hid/hid-picolcd: Fix initialization order
+        commit: a951a15002da620871d8f3d8218c043cdc4c2471
+[04/10] hid/hid-picolcd: Remove struct backlight_ops.check_fb
+        commit: b3c52552f8d8a816bda2bda984411c73f4dd0b87
+[05/10] backlight/aat2870-backlight: Remove struct backlight.check_fb
+        commit: 0e03c96046405281fb072c05a7810d2661a2f334
+[06/10] backlight/pwm-backlight: Remove struct backlight_ops.check_fb
+        commit: 78534967e7cb3c2fbfcb2d37820b51a80c570f90
+[07/10] fbdev/sh_mobile_lcdc_fb: Remove struct backlight_ops.check_fb
+        commit: b853c08cd6598b3b3ff91cb2bba336bfef9c0ac4
+[08/10] fbdev/ssd1307fb: Init backlight before registering framebuffer
+        commit: d5ae81e965953da27cf46db6281d6a6a28eaaccb
+[09/10] fbdev/ssd1307fb: Remove struct backlight_ops.check_fb
+        commit: ec5925ef4a2dfd7ee060f4fd2a2e8036f8a94e8e
+[10/10] backlight: Add controls_device callback to struct backlight_ops
+        commit: 2e427743de015c1ac047036ef495c3f004105439
+
+--
+Lee Jones [李琼斯]
+
