@@ -2,61 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C5F886C1C
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 13:31:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24469886C82
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 14:01:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5BCF10E6A6;
-	Fri, 22 Mar 2024 12:31:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCB9E1121A0;
+	Fri, 22 Mar 2024 13:01:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GQncd7zO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="avp8i9QA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B152510E6A6
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 12:31:51 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 001B41121A0
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 13:01:34 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B09FF6134B;
- Fri, 22 Mar 2024 12:31:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09A77C433C7;
- Fri, 22 Mar 2024 12:31:49 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id C86E7CE17EF;
+ Fri, 22 Mar 2024 13:01:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FEC2C433F1;
+ Fri, 22 Mar 2024 13:01:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711110710;
- bh=QlyE6XyvtK5YH4auzoYHbK4QQ96PMKT1SN7P95GQyFY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GQncd7zOWU2lzxFreJmwqfG9yf1KhjFzLXGssQ1hhk5T0UKSaYEGZ6ary5hJPu1HU
- olKpkrPJ0gCBlwJ2yKEoHXBrlEbhWKNXF0R/oKjV5ZKtkd9l0hiiSuc2CVWPYyDmuv
- ITIfayGHMp/DzLD4GvK/BDJ9HR+FL+2mlPJPZpcAJAOcrzIXapdM82MMCdlRm/B4cm
- UYLTu308/ix2n/Xw6ZoJhp3FGCxTmqqraSjn9JyzqfG7c00V9Xz0iD7aztkwK5zE0J
- Nsby0PX8HX3EvkNXf4u+5v++RAgAThY13/Otrjznwg3v+tEVrU+qORoLhtthyf7QZV
- hn2yy43ReMKTA==
-Date: Fri, 22 Mar 2024 13:31:48 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
- Sebastian Wick <sebastian.wick@redhat.com>,
- Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [v10,20/27] drm/connector: hdmi: Add Infoframes generation
-Message-ID: <20240322-steadfast-tanuki-from-mars-b5ea5f@houat>
-References: <20240321-kms-hdmi-connector-state-v10-20-e6c178361898@kernel.org>
- <07125064-2a78-4515-bb48-655f2aec140f@linux.dev>
- <20240322-loose-resourceful-bullmastiff-92cfaf@houat>
- <7835e928-7d09-446e-91dd-13a0fa549bc2@linux.dev>
+ s=k20201202; t=1711112491;
+ bh=VKXZ5EiyC/sMfhPFARs9d2EI9ZmYp2NxpRRc4tFM258=;
+ h=From:To:Cc:Subject:Date:From;
+ b=avp8i9QABqS0tbhC4OSISqngSX7j2TBZ8uRtR48PjHP3iKXIYwsEL8qwYARpKdGAl
+ aKiRYg8OMWoNmYE2vOokYymrMgxSmEXTuNZu6l0bv8piNRemsxwRRvYPcVjYaCwKUa
+ uPLqM8c8/OTq0KeeTkarN4NAHwNIroWaes9u+ZC/iyLgxQ4lXmNQZ866rFVj6N+BA9
+ ou8jc6irw8YnVsLTgubLbPw3fbCz1UOedbsUz1mfeddvCdsYfkPHsaIzkNYWjQ4v+5
+ PQxYkBsDCBf15QHswHC70hSx1SGd16nGrG5LisEpZ5hTujgxCUaAHvh97Wob0Hwu6m
+ IgPCdwMTpY8+g==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Donald Robson <donald.robson@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sarah Walker <sarah.walker@imgtec.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] [RESEND] drm/imagination: avoid -Woverflow warning
+Date: Fri, 22 Mar 2024 14:01:09 +0100
+Message-Id: <20240322130124.902165-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ygdzto2cjdjjo7zs"
-Content-Disposition: inline
-In-Reply-To: <7835e928-7d09-446e-91dd-13a0fa549bc2@linux.dev>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,42 +60,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Arnd Bergmann <arnd@arndb.de>
 
---ygdzto2cjdjjo7zs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The array size calculation in pvr_vm_mips_fini() appears to be incorrect based on
+taking the size of the pointer rather than the size of the array, which manifests
+as a warning about signed integer overflow:
 
-On Fri, Mar 22, 2024 at 07:13:54PM +0800, Sui Jingfeng wrote:
-> Hi,
->=20
->=20
-> On 2024/3/22 18:31, Maxime Ripard wrote:
-> > Which default config are you talking about? This compiles fine with all
-> > drm-misc defconfig, x86 defconfig and allmodconfig.
->=20
-> The drm_hdmi_avi_infoframe_colorimetry() function is belong to the drm_di=
-splay_helper.ko
-> kernel module, it get called from hdmi_generate_avi_infoframe() in drm_at=
-omic_state_helper.c.
-> While drm_atomic_state_helper.c belongs to drm_kms_helper.ko. Therefore d=
-rm_kms_helper.ko
-> is dependent on drm_display_helper.ko implicitly. So we probably should s=
-elect it.
+In file included from include/linux/kernel.h:16,
+                 from drivers/gpu/drm/imagination/pvr_rogue_fwif.h:10,
+                 from drivers/gpu/drm/imagination/pvr_ccb.h:7,
+                 from drivers/gpu/drm/imagination/pvr_device.h:7,
+                 from drivers/gpu/drm/imagination/pvr_vm_mips.c:4:
+drivers/gpu/drm/imagination/pvr_vm_mips.c: In function 'pvr_vm_mips_fini':
+include/linux/array_size.h:11:25: error: overflow in conversion from 'long unsigned int' to 'int' changes value from '18446744073709551615' to '-1' [-Werror=overflow]
+   11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+      |                         ^
+drivers/gpu/drm/imagination/pvr_vm_mips.c:106:24: note: in expansion of macro 'ARRAY_SIZE'
+  106 |         for (page_nr = ARRAY_SIZE(mips_data->pt_pages) - 1; page_nr >= 0; page_nr--) {
+      |                        ^~~~~~~~~~
 
-Right. I was asking which config are you using to generate that build error
+Just use the number of array elements directly here, and in the corresponding
+init function for consistency.
 
-Maxime
+Fixes: 927f3e0253c1 ("drm/imagination: Implement MIPS firmware processor and MMU support")
+Reviewed-by: Donald Robson <donald.robson@imgtec.com>
+Link: https://lore.kernel.org/lkml/9df9e4f87727399928c068dbbf614c9895ae15f9.camel@imgtec.com/
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+I sent this one last year when the warning appeared, it looks like it
+got lost in the meantime, resending it unchanged.
+---
+ drivers/gpu/drm/imagination/pvr_vm_mips.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---ygdzto2cjdjjo7zs
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/drivers/gpu/drm/imagination/pvr_vm_mips.c b/drivers/gpu/drm/imagination/pvr_vm_mips.c
+index b7fef3c797e6..4f99b4af871c 100644
+--- a/drivers/gpu/drm/imagination/pvr_vm_mips.c
++++ b/drivers/gpu/drm/imagination/pvr_vm_mips.c
+@@ -46,7 +46,7 @@ pvr_vm_mips_init(struct pvr_device *pvr_dev)
+ 	if (!mips_data)
+ 		return -ENOMEM;
+ 
+-	for (page_nr = 0; page_nr < ARRAY_SIZE(mips_data->pt_pages); page_nr++) {
++	for (page_nr = 0; page_nr < PVR_MIPS_PT_PAGE_COUNT; page_nr++) {
+ 		mips_data->pt_pages[page_nr] = alloc_page(GFP_KERNEL | __GFP_ZERO);
+ 		if (!mips_data->pt_pages[page_nr]) {
+ 			err = -ENOMEM;
+@@ -102,7 +102,7 @@ pvr_vm_mips_fini(struct pvr_device *pvr_dev)
+ 	int page_nr;
+ 
+ 	vunmap(mips_data->pt);
+-	for (page_nr = ARRAY_SIZE(mips_data->pt_pages) - 1; page_nr >= 0; page_nr--) {
++	for (page_nr = PVR_MIPS_PT_PAGE_COUNT - 1; page_nr >= 0; page_nr--) {
+ 		dma_unmap_page(from_pvr_device(pvr_dev)->dev,
+ 			       mips_data->pt_dma_addr[page_nr], PAGE_SIZE, DMA_TO_DEVICE);
+ 
+-- 
+2.39.2
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZf16MwAKCRDj7w1vZxhR
-xVPkAP9G35ser3LI9Mkz4UPsJ7hdxEY40m/H7avmJllz/P8YowD+LcjpoKgFLzQ2
-L2LkEn9vRNdhZy+7qFgJZ6RKstIwPAM=
-=B6jC
------END PGP SIGNATURE-----
-
---ygdzto2cjdjjo7zs--
