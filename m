@@ -2,58 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E088D886BCA
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 13:04:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3C5F886C1C
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 13:31:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFCC710F2EF;
-	Fri, 22 Mar 2024 12:03:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5BCF10E6A6;
+	Fri, 22 Mar 2024 12:31:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="awzs2hWj";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GQncd7zO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40B2B10F2EF
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 12:03:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1711109035;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qjVNM+N6vHW7yu8X+nopnyxaDmuWWC6+2Zu6VxEemAk=;
- b=awzs2hWjni2+UeAKztiF2jvD/yN+AFGfisX4R/V3iDIkDdKwEMrdbT9jE5DLQJU02aLHxQ
- jAtrO1ls18OatNwmg3oKH2KsdDXCs6Qt6jEGJ7mPsuNRvdjXVy8/Kz+4/ZXBjkXgAJynma
- bpV5sYIdKxskp3CeMA7pyHDQqVnkQ1k=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-382-WxZOw1vcO6mN_HlCRnGmiQ-1; Fri, 22 Mar 2024 08:03:52 -0400
-X-MC-Unique: WxZOw1vcO6mN_HlCRnGmiQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A752C8007A1;
- Fri, 22 Mar 2024 12:03:51 +0000 (UTC)
-Received: from kaapi.redhat.com (unknown [10.67.24.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ADEEA492BD0;
- Fri, 22 Mar 2024 12:03:48 +0000 (UTC)
-From: Prasad Pandit <ppandit@redhat.com>
-To: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org, Prasad Pandit <pjp@fedoraproject.org>
-Subject: [PATCH] drm/panel: replace utf multiply with an ascii x
-Date: Fri, 22 Mar 2024 17:33:36 +0530
-Message-ID: <20240322120339.1802922-1-ppandit@redhat.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B152510E6A6
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 12:31:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id B09FF6134B;
+ Fri, 22 Mar 2024 12:31:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09A77C433C7;
+ Fri, 22 Mar 2024 12:31:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1711110710;
+ bh=QlyE6XyvtK5YH4auzoYHbK4QQ96PMKT1SN7P95GQyFY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GQncd7zOWU2lzxFreJmwqfG9yf1KhjFzLXGssQ1hhk5T0UKSaYEGZ6ary5hJPu1HU
+ olKpkrPJ0gCBlwJ2yKEoHXBrlEbhWKNXF0R/oKjV5ZKtkd9l0hiiSuc2CVWPYyDmuv
+ ITIfayGHMp/DzLD4GvK/BDJ9HR+FL+2mlPJPZpcAJAOcrzIXapdM82MMCdlRm/B4cm
+ UYLTu308/ix2n/Xw6ZoJhp3FGCxTmqqraSjn9JyzqfG7c00V9Xz0iD7aztkwK5zE0J
+ Nsby0PX8HX3EvkNXf4u+5v++RAgAThY13/Otrjznwg3v+tEVrU+qORoLhtthyf7QZV
+ hn2yy43ReMKTA==
+Date: Fri, 22 Mar 2024 13:31:48 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [v10,20/27] drm/connector: hdmi: Add Infoframes generation
+Message-ID: <20240322-steadfast-tanuki-from-mars-b5ea5f@houat>
+References: <20240321-kms-hdmi-connector-state-v10-20-e6c178361898@kernel.org>
+ <07125064-2a78-4515-bb48-655f2aec140f@linux.dev>
+ <20240322-loose-resourceful-bullmastiff-92cfaf@houat>
+ <7835e928-7d09-446e-91dd-13a0fa549bc2@linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ygdzto2cjdjjo7zs"
+Content-Disposition: inline
+In-Reply-To: <7835e928-7d09-446e-91dd-13a0fa549bc2@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,30 +72,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Prasad Pandit <pjp@fedoraproject.org>
 
-Replace unicode multiplication character with an ascii x.
-It helps Kconfig parsers to read file without error.
+--ygdzto2cjdjjo7zs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 25205087df1f ("drm/panel: Add driver for JDI LPM102A188A")
-Signed-off-by: Prasad Pandit <pjp@fedoraproject.org>
----
- drivers/gpu/drm/panel/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, Mar 22, 2024 at 07:13:54PM +0800, Sui Jingfeng wrote:
+> Hi,
+>=20
+>=20
+> On 2024/3/22 18:31, Maxime Ripard wrote:
+> > Which default config are you talking about? This compiles fine with all
+> > drm-misc defconfig, x86 defconfig and allmodconfig.
+>=20
+> The drm_hdmi_avi_infoframe_colorimetry() function is belong to the drm_di=
+splay_helper.ko
+> kernel module, it get called from hdmi_generate_avi_infoframe() in drm_at=
+omic_state_helper.c.
+> While drm_atomic_state_helper.c belongs to drm_kms_helper.ko. Therefore d=
+rm_kms_helper.ko
+> is dependent on drm_display_helper.ko implicitly. So we probably should s=
+elect it.
 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 8f3783742208..e3970dee089f 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -270,7 +270,7 @@ config DRM_PANEL_JDI_LPM102A188A
- 	help
- 	  Say Y here if you want to enable support for JDI LPM102A188A DSI
- 	  command mode panel as found in Google Pixel C devices.
--	  The panel has a 2560×1800 resolution. It provides a MIPI DSI interface
-+	  The panel has a 2560x1800 resolution. It provides a MIPI DSI interface
- 	  to the host.
- 
- config DRM_PANEL_JDI_R63452
--- 
-2.44.0
+Right. I was asking which config are you using to generate that build error
 
+Maxime
+
+--ygdzto2cjdjjo7zs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZf16MwAKCRDj7w1vZxhR
+xVPkAP9G35ser3LI9Mkz4UPsJ7hdxEY40m/H7avmJllz/P8YowD+LcjpoKgFLzQ2
+L2LkEn9vRNdhZy+7qFgJZ6RKstIwPAM=
+=B6jC
+-----END PGP SIGNATURE-----
+
+--ygdzto2cjdjjo7zs--
