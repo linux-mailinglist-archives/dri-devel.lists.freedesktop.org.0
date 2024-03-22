@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B18F6886634
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 06:32:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2860988666E
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 06:51:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BC0F112455;
-	Fri, 22 Mar 2024 05:32:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C7BD10E2A1;
+	Fri, 22 Mar 2024 05:51:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="G7sYN2mG";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Yrz8fDUV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F8A8112455
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 05:32:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1F5D10E2A1
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 05:51:00 +0000 (UTC)
 Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
  [91.154.34.181])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7111E82A;
- Fri, 22 Mar 2024 06:31:42 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3C95782A;
+ Fri, 22 Mar 2024 06:50:30 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1711085503;
- bh=DW5KmQDBGnBwJIXf23BFxq2uHZInXX/7Bhjf2aKieMw=;
+ s=mail; t=1711086631;
+ bh=GY/sUvmM1mLxF32AoCd7xA0bTlkUTTNkywVo0ImEZZQ=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=G7sYN2mG/IEs+DBv/pwa+2WVgG8IME4PWKHnPp7q5tdafbGF8wUH2Ih9j9kfsNhSB
- zSA7F1VhPIqtmciZOvDspVnKc4R5Iv9oB0AaXJCVVcV2N3TGqDqslbKrYR1bIF7X8Z
- WWBlCzoIHtcgktCOqzc2kNvT7xiHKFSJKCo1u0XQ=
-Message-ID: <d6a8bc5c-aed9-4ef4-adb2-dc171106b44b@ideasonboard.com>
-Date: Fri, 22 Mar 2024 07:32:07 +0200
+ b=Yrz8fDUVV5FnG9d3LMNWlJgC6nrHFP/33N6EC36BMK6xj04TKksWmoYFvdcQ2zEg5
+ tQI96VEk+SQzYrQ/UioOP8POk2BkTgH45FoGmLvsfV6mBsDapOvgRE8WYbLZcgsmRn
+ L1qS3qNPqgvF7jIMDE24EMQODkTYCPVYtaxRe2Gg=
+Message-ID: <19d6da67-f9a6-4e01-a956-3b60f0ebf769@ideasonboard.com>
+Date: Fri, 22 Mar 2024 07:50:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/8] drm: zynqmp_dp: Don't retrain the link in our IRQ
+Subject: Re: [PATCH v2 1/8] drm: xlnx: Fix kerneldoc
 Content-Language: en-US
-To: Sean Anderson <sean.anderson@linux.dev>
+To: Sean Anderson <sean.anderson@linux.dev>,
+ Randy Dunlap <rdunlap@infradead.org>
 Cc: Michal Simek <michal.simek@amd.com>, David Airlie <airlied@gmail.com>,
  linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
  linux-arm-kernel@lists.infradead.org,
@@ -42,13 +43,10 @@ Cc: Michal Simek <michal.simek@amd.com>, David Airlie <airlied@gmail.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  dri-devel@lists.freedesktop.org
 References: <20240319225122.3048400-1-sean.anderson@linux.dev>
- <20240319225122.3048400-6-sean.anderson@linux.dev>
- <ca4de45b-302c-4eea-bd6b-8c04e2ed89cb@ideasonboard.com>
- <53b2df23-d5ea-498b-a501-b64f753c0074@linux.dev>
- <0514ef71-5baa-4989-9b7d-8bd9526c4d8d@ideasonboard.com>
- <16ccf678-270c-4770-8cc9-f676b4fabf09@linux.dev>
- <1f27ce69-9ea6-4df4-9147-332d74febdf0@ideasonboard.com>
- <b2bef7f9-fe46-45d0-a09b-50777f71f43c@linux.dev>
+ <20240319225122.3048400-2-sean.anderson@linux.dev>
+ <e2eba421-cba1-4dd5-837c-6be5f07ed402@ideasonboard.com>
+ <d4072aa1-47e4-45d3-9e04-2cd9d782b593@infradead.org>
+ <2c38ac1c-cc0e-43b3-86d3-5b6a2f00f9e7@linux.dev>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -93,9 +91,9 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <b2bef7f9-fe46-45d0-a09b-50777f71f43c@linux.dev>
+In-Reply-To: <2c38ac1c-cc0e-43b3-86d3-5b6a2f00f9e7@linux.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,169 +109,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/03/2024 21:17, Sean Anderson wrote:
-> On 3/21/24 15:08, Tomi Valkeinen wrote:
->> On 21/03/2024 20:01, Sean Anderson wrote:
->>> On 3/21/24 13:25, Tomi Valkeinen wrote:
->>>> On 21/03/2024 17:52, Sean Anderson wrote:
->>>>> On 3/20/24 02:53, Tomi Valkeinen wrote:
->>>>>> On 20/03/2024 00:51, Sean Anderson wrote:
->>>>>>> Retraining the link can take a while, and might involve waiting for
->>>>>>> DPCD reads/writes to complete. This is inappropriate for an IRQ handler.
->>>>>>> Just schedule this work for later completion. This is racy, but will be
->>>>>>> fixed in the next commit.
->>>>>>
->>>>>> You should add the locks first, and use them here, rather than first
->>>>>> adding a buggy commit and fixing it in the next one.
->>>>>
->>>>> I didn't think I could add the locks first since I only noticed the IRQ
->>>>> was threaded right before sending out this series. So yeah, we could add
->>>>> locking, add the workqueue, and then unthread the IRQ.
->>>>>
->>>>>>> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
->>>>>>> ---
->>>>>>> Actually, on second look this IRQ is threaded. So why do we have a
->>>>>>> workqueue for HPD events? Maybe we should make it unthreaded?
->>>>>>
->>>>>> Indeed, there's not much work being done in the IRQ handler. I don't know why it's threaded.
->>>>>>
->>>>>> We could move the queued work to be inside the threaded irq handler,
->>>>>> but with a quick look, the HPD work has lines like "msleep(100)" (and
->>>>>> that's inside a for loop...), which is probably not a good thing to do
->>>>>> even in threaded irq handler.
->>>>>>
->>>>>> Although I'm not sure if that code is good to have anywhere. Why do we
->>>>>> even have such code in the HPD work path... We already got the HPD
->>>>>> interrupt. What does "It takes some delay (ex, 100 ~ 500 msec) to get
->>>>>> the HPD signal with some monitors" even mean...
->>>>>
->>>>> The documentation for this bit is
->>>>>
->>>>> | HPD_STATE    0    ro    0x0    Contains the raw state of the HPD pin on the DisplayPort connector.
->>>>>
->>>>> So I think the idea is to perform some debouncing.
+On 21/03/2024 17:33, Sean Anderson wrote:
+> On 3/20/24 02:05, Randy Dunlap wrote:
+>>
+>>
+>> On 3/19/24 22:42, Tomi Valkeinen wrote:
+>>> On 20/03/2024 00:51, Sean Anderson wrote:
+>>>> Fix a few errors in the kerneldoc. Mostly this addresses missing/renamed
+>>>> members.
 >>>>
->>>> Hmm, it just looks a bit odd to me. It can sleep for a second. And the wording "It takes some delay (ex, 100 ~ 500 msec) to get the HPD signal with some monitors" makes it sound like some kind of a hack...
+>>>> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
+>>>> ---
 >>>>
->>>> The docs mention debounce once:
+>>>> Changes in v2:
+>>>> - New
 >>>>
->>>> https://docs.amd.com/r/en-US/pg299-v-dp-txss1/Hot-Plug-Detection
+>>>>    drivers/gpu/drm/xlnx/zynqmp_disp.c  | 6 +++---
+>>>>    drivers/gpu/drm/xlnx/zynqmp_dpsub.h | 1 +
+>>>>    drivers/gpu/drm/xlnx/zynqmp_kms.h   | 4 ++--
+>>>>    3 files changed, 6 insertions(+), 5 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+>>>> index 407bc07cec69..f79bf3fb8110 100644
+>>>> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
+>>>> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+>>>> @@ -128,9 +128,9 @@ struct zynqmp_disp_layer {
+>>>>     * struct zynqmp_disp - Display controller
+>>>>     * @dev: Device structure
+>>>>     * @dpsub: Display subsystem
+>>>> - * @blend.base: Register I/O base address for the blender
+>>>> - * @avbuf.base: Register I/O base address for the audio/video buffer manager
+>>>> - * @audio.base: Registers I/O base address for the audio mixer
+>>>> + * @blend: Register I/O base address for the blender
+>>>> + * @avbuf: Register I/O base address for the audio/video buffer manager
+>>>> + * @audio: Registers I/O base address for the audio mixer
 >>>
->>> Are you sure this is the right document? This seems to be documentation for [1]. Is that instantiated as a hard block on the ZynqMP?
+>>> Afaics, the kernel doc guide:
 >>>
->>> [1] https://www.xilinx.com/products/intellectual-property/ef-di-displayport.html
->>
->> You're right, wrong document. The registers and bitfield names I looked at just matched, so I didn't think it through...
->>
->> The right doc says even less:
->>
->> https://docs.amd.com/r/en-US/ug1085-zynq-ultrascale-trm/Upon-HPD-Assertion
->>
->>>> But it's not immediately obvious what the SW must do and what's done by the HW. Debounce is not mentioned later, e.g. in the HPD Event Handling. But if debounce is needed, wouldn't it be perhaps in a few milliseconds, instead of hundreds of milliseconds...
+>>> https://docs.kernel.org/doc-guide/kernel-doc.html#nested-structs-unions
 >>>
->>> Well, the DP spec says
->>>
->>> | If the HPD is the result of a new device being connected, either
->>> | directly to the Source device (signaled by a long HPD), –or– downstream
->>> | of a Branch device (indicated by incrementing the DFP_COUNT field value
->>> | in the DOWN_STREAM_PORT_COUNT register (DPCD 00007h[3:0]) and signaled
->>> | by an IRQ_HPD pulse), the Source device shall read the new DisplayID or
->>> | legacy EDID that has been made available to it to ensure that content
->>> | being transmitted over the link is able to be properly received and
->>> | rendered.
->>> |
->>> | Informative Note: If the HPD signal toggling (or bouncing) is the
->>> |                   result of the Hot Unplug followed by Hot Plug of a
->>> |                   cable-connector assembly, the HPD signal is likely
->>> |                   to remain unstable during the de-bouncing period,
->>> |                   which is in the order of tens of milliseconds. The
->>> |                   Source device may either check the HPD signal’s
->>> |                   stability before initiating an AUX read transaction,
->>> |                   –or– immediately initiate the AUX read transaction
->>> |                   after each HPD rising edge.
->>>
->>> So a 100 ms delay seems plausible for some monitors.
+>>> says that the current version is correct. Or is the issue that while, say, 'base' is documented, 'blend' was not?
 >>
->> I read the text above as "it may take tens of milliseconds for HPD to stabilize". So polling it for total of 100ms sounds fine, but we're polling it for 1000ms.
+>> Hi,
 >>
->> And I think checking for stability is fine, but for detect() I think it goes overboard: if the cable is disconnected, every detect call spends a second checking for HPD, even if we haven't seen any sign of an HPD =).
+>> I would do it more like so:
 >>
->> And if we're checking the HPD stability, wouldn't we, say, poll the HPD for some time, and see if it stays the same? At the moment the code proceeds right away if HPD is high, but keeps polling if HPD is low.
+>> ---
+>>   drivers/gpu/drm/xlnx/zynqmp_disp.c |    3 +++
+>>   1 file changed, 3 insertions(+)
 >>
->>> That said, maybe we can just skip this and always read the DPCD.
+>> diff -- a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+>> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
+>> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+>> @@ -128,8 +128,11 @@ struct zynqmp_disp_layer {
+>>    * struct zynqmp_disp - Display controller
+>>    * @dev: Device structure
+>>    * @dpsub: Display subsystem
+>> + * @blend: blender iomem info
+>>    * @blend.base: Register I/O base address for the blender
+>> + * @avbuf: audio/video buffer iomem info
+>>    * @avbuf.base: Register I/O base address for the audio/video buffer manager
+>> + * @audio: audio mixer iomem info
+>>    * @audio.base: Registers I/O base address for the audio mixer
+>>    * @layers: Layers (planes)
+>>    */
 >>
->> If the HPD is bouncing, is the AUX line also unstable?
 >>
->> I don't mind a HPD stability check, I think it makes sense as (I think) the HW doesn't handle de-bouncing here. I think think it could be much much shorter than what it is now, and that it would make sense to observe the HPD for a period, instead of just waiting for the HPD to go high.
+>> but in my testing, Sean's way or my way result in no warning/errors.
 >>
->> But this could also be left for later, I don't think it matters in the context of this series.
->>
->>>> zynqmp_dp_bridge_detect() is used for drm_bridge_funcs.detect(), and if the cable is not connected, it'll sleep for 1 second (probably more) until returning not connected. It just doesn't sound correct to me.
->>>>
->>>> Well, it's not part of this patch as such, but related to the amount of time we spend in the interrupt handler (and also the detect()).
->>>>
->>>>>> Would it be possible to clean up the work funcs a bit (I haven't
->>>>>> looked a the new work func yet), to remove the worst extra sleeps, and
->>>>>> just do all that inside the threaded irq handler?
->>>>>
->>>>> Probably not, since a HPD IRQ results in link retraining, which can take a while.
->>>>
->>>> But is it any different if you have a workqueue? Isn't a threaded interrupt handler basically the same thing?
->>>>
->>>> Probably at least the zynqmp_dp_hpd_work_func() could be done in the threaded irq just fine, if the insane 1s sleep can be dropped.
->>>
->>> Anything involving AUX shouldn't been in an IRQ, since
->>> zynqmp_dp_aux_transfer will retry for up to 50ms by default.
->>
->> Perhaps. I'm still not sure if that's a problem. If a threaded irq is essentially a workqueue dedicated for this device, and we don't need to handle other irqs while the work is being done, then... What's the difference with a threaded irq and a workqueue?
->>
->> Oh, but we do need to handle irqs, we have the vblank irq in there. We don't want the vblanks to stop if there's a HPD IRQ.
->>
->> Btw, looks like zynqmp_dpsub_drm_handle_vblank() can sleep, so we can't move to non-threaded irq.
 > 
-> I don't see that. We have
+> The specific errors are:
 > 
-> zynqmp_dpsub_drm_handle_vblank
->    drm_crtc_handle_vblank
->      drm_handle_vblank
->        spin_lock_irqsave(...)
->        ...
->        spin_lock_irqsave(...)
->        vblank_disable_fn(...)
->          spin_lock_irqsave(...)
->          ...
->          spin_lock_irqrestore(...)
+> ../drivers/gpu/drm/xlnx/zynqmp_disp.c:151: warning: Function parameter or struct member 'blend' not described in 'zynqmp_disp'
+> ../drivers/gpu/drm/xlnx/zynqmp_disp.c:151: warning: Function parameter or struct member 'avbuf' not described in 'zynqmp_disp'
+> ../drivers/gpu/drm/xlnx/zynqmp_disp.c:151: warning: Function parameter or struct member 'audio' not described in 'zynqmp_disp'
 > 
-> so no sleeping AFAICT.
+> I don't see the need to document a single-member struct twice. Actually,
 
-Sorry, I don't know what code-path I was following where I saw mutexes. 
-I shouldn't look at code so late at night...
+But if only the struct is documented, then we're documenting the wrong 
+thing. A tool showing to the user what blend.base is would miss that 
+documentation.
 
->>>>>> Do we need to handle interrupts while either delayed work is being done?
->>>>>
->>>>> Probably not.
->>>>>
->>>>>> If we do need a delayed work, would just one work be enough which
->>>>>> handles both HPD_EVENT and HPD_IRQ, instead of two?
->>>>>
->>>>> Maybe, but then we need to determine which pending events we need to
->>>>> handle. I think since we have only two events it will be easier to just
->>>>> have separate workqueues.
->>>>
->>>> The less concurrency, the better...Which is why it would be nice to do it all in the threaded irq.
->>>
->>> Yeah, but we can use a mutex for this which means there is not too much
->>> interesting going on.
->>
->> Ok. Yep, if we get (hopefully) a single mutex with clearly defined fields that it protects, I'm ok with workqueues.
->>
->> I'd still prefer just one workqueue, though...
-> 
-> Yeah, but then we need a spinlock or something to tell the workqueue what it should do.
+> maybe it would be better to just lift the .base member to live in
+> zynqmp_disp. But I think that would be better in another series.
 
-Yep. We could also always look at the HPD (if we drop the big sleeps) in 
-the wq, and have a flag for the HPD IRQ, which would reduce the state to 
-a single bit.
+Yes, there's not much point with the structs.
 
   Tomi
 
