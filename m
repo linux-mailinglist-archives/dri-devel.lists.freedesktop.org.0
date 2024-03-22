@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1806E886AAD
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 11:48:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C26E9886AC4
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 11:58:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0EAF10F20A;
-	Fri, 22 Mar 2024 10:48:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E5B010F360;
+	Fri, 22 Mar 2024 10:57:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=geanix.com header.i=@geanix.com header.b="EGI2bvKt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WpA6X1Lo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E84010F322
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 10:48:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com; 
- s=default2211;
- h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
- Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References;
- bh=J9CuZ33LUi+k6FzE7felhvKpLH81dmZUIoVLkX9iVZc=; b=EGI2bvKt0dsRuvymeSTE44Lu0C
- 0dY91Sy6D7CK+hkso1Zc+qs3iwd2r8eSK48LENFGHkTjwZdiDjZ7+yx1AoUVhC8q4hBiCAQkWYbJS
- wrH8OKsCg1NdlTi8egsT96mJyYWS0/3XkZPGHG4VbD7NBE6KryqudkAty571UJoz6tja6gOdhzyAD
- DTwM0GQRaQ5+SFWH9dHvORKJ+nk8wsCixkvZPLOlUSYF5gOLnXG0lTt+lktVXLkCRIdlPXLUbtfid
- fmUSGQg7AtwpXEUZbt4c+zts15I1jhjPAhRro7UEeVSvRQvnY87RDefXL6XnST34mgRnqWsG4aYcI
- DySFbOHw==;
-Received: from sslproxy02.your-server.de ([78.47.166.47])
- by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (Exim 4.94.2) (envelope-from <sean@geanix.com>)
- id 1rncRL-000B01-On; Fri, 22 Mar 2024 11:47:59 +0100
-Received: from [185.17.218.86] (helo=zen..)
- by sslproxy02.your-server.de with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (Exim 4.96) (envelope-from <sean@geanix.com>) id 1rncRK-00G8Yg-1h;
- Fri, 22 Mar 2024 11:47:58 +0100
-From: Sean Nyekjaer <sean@geanix.com>
-To: Yannick Fertre <yannick.fertre@foss.st.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7EEF10F358
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 10:57:57 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id E9D3A6120C;
+ Fri, 22 Mar 2024 10:57:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45857C433F1;
+ Fri, 22 Mar 2024 10:57:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1711105076;
+ bh=nlaETEiIGQ2eTWX7oKqL74fXDifhnhPwROBUgVdqU3c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WpA6X1LoXT1snLrEBUrv47M4O+WPR1M1LSXUKZTKa7BviiI5MfgnUuEJ6uLymJngV
+ SvMs2KzBEf1XJrTAdpCwLwLzsvO6rZP4C/Mup2j5bb50a7peYF5b9rigdIigmfJTCw
+ x22flsf8LNzqlu2TPnGKoHlzRXcnvy7/kbFaAzWZj1PY2xlXBDWtIiKQ5LpjhGFWGb
+ zDPPY1CKcX0T1MKMmwwyc+j6Oy/g+LisuATN6Lqd7NeaeWrYlv6xV9DLxeC+JMwXwj
+ F9oaSkOyNOe5SCtc35wwS5an8ku2gHo6udRMm55JpxeArLi6VkFSW/wVgqvm4BFlVs
+ 5spXkcfvxXDNQ==
+Date: Fri, 22 Mar 2024 11:57:53 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Sui Jingfeng <sui.jingfeng@linux.dev>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Robert Foss <rfoss@kernel.org>, Antonio Borneo <antonio.borneo@foss.st.com>
-Cc: Sean Nyekjaer <sean@geanix.com>, dri-devel@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/stm: dsi: relax mode_valid clock tolerance
-Date: Fri, 22 Mar 2024 11:47:31 +0100
-Message-ID: <20240322104732.2327060-1-sean@geanix.com>
-X-Mailer: git-send-email 2.44.0
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [v10,20/27] drm/connector: hdmi: Add Infoframes generation
+Message-ID: <20240322-petite-fabulous-bustard-b168ec@houat>
+References: <20240321-kms-hdmi-connector-state-v10-20-e6c178361898@kernel.org>
+ <07125064-2a78-4515-bb48-655f2aec140f@linux.dev>
+ <87sf0iliyh.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Authenticated-Sender: sean@geanix.com
-X-Virus-Scanned: Clear (ClamAV 0.103.10/27222/Fri Mar 22 09:30:59 2024)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="jkqjvw553wk4yfqo"
+Content-Disposition: inline
+In-Reply-To: <87sf0iliyh.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,44 +72,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When using the DSI interface via DSI2LVDS bridge, it seems a bit harsh
-to reguire the requested and the actual px clock to be within
-50Hz. A typical LVDS display requires the px clock to be within +-10%.
 
-In case for HDMI .5% tolerance is required.
+--jkqjvw553wk4yfqo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: e01356d18273 ("drm/stm: dsi: provide the implementation of mode_valid()")
-Signed-off-by: Sean Nyekjaer <sean@geanix.com>
----
- drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+On Fri, Mar 22, 2024 at 11:22:14AM +0200, Jani Nikula wrote:
+> On Fri, 22 Mar 2024, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
+> > Hi,
+> >
+> >
+> > On 2024/3/21 23:29, Maxime Ripard wrote:
+> >> Infoframes in KMS is usually handled by a bunch of low-level helpers
+> >> that require quite some boilerplate for drivers. This leads to
+> >> discrepancies with how drivers generate them, and which are actually
+> >> sent.
+> >>
+> >> Now that we have everything needed to generate them in the HDMI
+> >> connector state, we can generate them in our common logic so that
+> >> drivers can simply reuse what we precomputed.
+> >>
+> >> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> >> ---
+> >>   drivers/gpu/drm/Kconfig                            |   1 +
+> >>   drivers/gpu/drm/drm_atomic_state_helper.c          | 338 +++++++++++=
+++++++++++
+> >>   drivers/gpu/drm/drm_connector.c                    |  14 +
+> >>   .../gpu/drm/tests/drm_atomic_state_helper_test.c   |   1 +
+> >>   drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
+> >>   include/drm/drm_atomic_state_helper.h              |   8 +
+> >>   include/drm/drm_connector.h                        | 109 +++++++
+> >>   7 files changed, 483 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> >> index 16029435b750..3d3193c7aa5f 100644
+> >> --- a/drivers/gpu/drm/Kconfig
+> >> +++ b/drivers/gpu/drm/Kconfig
+> >> @@ -97,10 +97,11 @@ config DRM_KUNIT_TEST
+> >>   	  If in doubt, say "N".
+> >>  =20
+> >>   config DRM_KMS_HELPER
+> >>   	tristate
+> >>   	depends on DRM
+> >> +	select DRM_DISPLAY_HDMI_HELPER
+> >
+> > Should we select DRM_DISPLAY_HELPER here? Otherwise there will have som=
+e compile error
+> > emerged with default config.
+>=20
+> Can we stop abusing select instead of adding more selects to paper over
+> the issues?
+>=20
+> Use select only for non-visible symbols (no prompts anywhere) and for
+> symbols with no dependencies.
 
-diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
-index d5f8c923d7bc..97936b0ef702 100644
---- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
-+++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
-@@ -322,8 +322,6 @@ dw_mipi_dsi_phy_get_timing(void *priv_data, unsigned int lane_mbps,
- 	return 0;
- }
- 
--#define CLK_TOLERANCE_HZ 50
--
- static enum drm_mode_status
- dw_mipi_dsi_stm_mode_valid(void *priv_data,
- 			   const struct drm_display_mode *mode,
-@@ -375,9 +373,10 @@ dw_mipi_dsi_stm_mode_valid(void *priv_data,
- 		/*
- 		 * Filter modes according to the clock value, particularly useful for
- 		 * hdmi modes that require precise pixel clocks.
-+		 * Check that px_clock is within .5% tolerance.
- 		 */
--		if (px_clock_hz < target_px_clock_hz - CLK_TOLERANCE_HZ ||
--		    px_clock_hz > target_px_clock_hz + CLK_TOLERANCE_HZ)
-+		if (px_clock_hz < mult_frac(target_px_clock_hz, 995, 1000) ||
-+		    px_clock_hz > mult_frac(target_px_clock_hz, 1005, 1000))
- 			return MODE_CLOCK_RANGE;
- 
- 		/* sync packets are codes as DSI short packets (4 bytes) */
--- 
-2.44.0
+I don't really have an opinion there, but it looks like all the other
+helpers Kconfig symbols are using select everywhere, and I don't really
+see how we could turn them into visible symbols with depends on without
+breaking a number of defconfig.
 
+Could you expand a bit what you have in mind here?
+
+Maxime
+
+--jkqjvw553wk4yfqo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZf1kMQAKCRDj7w1vZxhR
+xc/HAQDR4BAgJekMdSngCGLSGAIwvYKEqlQRiRUN6fMwNgtn8AD/ZP+T1gMMLHE4
+j3QwJraA/yFE8keMCRsPbgZVFnq1UQk=
+=gyOa
+-----END PGP SIGNATURE-----
+
+--jkqjvw553wk4yfqo--
