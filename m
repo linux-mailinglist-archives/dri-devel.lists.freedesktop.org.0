@@ -2,80 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64A0A886A99
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 11:43:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1806E886AAD
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 11:48:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2480910E37D;
-	Fri, 22 Mar 2024 10:43:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0EAF10F20A;
+	Fri, 22 Mar 2024 10:48:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="cOf7Awtl";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=geanix.com header.i=@geanix.com header.b="EGI2bvKt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0DE610E37D
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 10:43:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1711104218;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=e4hqr5sqga/uu4OSt9i/tA6ZdLVrKguR4cLu3EI2g3Y=;
- b=cOf7Awtlm66/grHI/GtbzfU3c1FKuTshw8yAvxFfro6uWZREYmkxt1oRD8q51PyqLfwfBB
- RYFNEeHcdkFTPqyn/tARoplktR+5lxjr2No1pZzu0sEMnbF/vwu+AAolUqH2fbO602EEpV
- fG5nxqQuG0CpiTSXZm9DVZJzvDHPAGE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-643-Bk6P1J8AOZSvDRuAYPurnw-1; Fri, 22 Mar 2024 06:43:37 -0400
-X-MC-Unique: Bk6P1J8AOZSvDRuAYPurnw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-4140d2917e6so10863445e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 03:43:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711104216; x=1711709016;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=e4hqr5sqga/uu4OSt9i/tA6ZdLVrKguR4cLu3EI2g3Y=;
- b=g8TSa5J5dgxw1exDZxOmKKtToqG/73iJYy16voo80IwY0pmzFvZsl1046ZMRQy4Opd
- uWqRJxjypEiNh96p6oCqMzk21xD4PXHhJEGReM3JBqFPB4Yz30zoyALGJmJ/lR/wq+UD
- M2abQXIv0qc52cTSsvjswy7GbZnHgP4hQiM0kVnMXKgIFQjvgwucfKp0Dn/CQ3fuZMRC
- uIehWv+YJj5L1Ej/YjmCkHtit5+9FMPoDvJiph6yqBrss5ZzndJC3EClCkAw1zzXfiKz
- fWJhx+sXRuYSGdcY+13yrQ1Ecx9piuGRKh7XJsparEotfSUVDI1665MvSw/51M68oHp6
- 9U1Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWnsd1UlohnG495omVRlviQJGxb4ajMshi8FHDC91Z+Y7kzmkwRi+a2QhLrhn2nE1/LcXxOi9zqLhYKO6pEdL8jRGbSgaJ+7DB9EYM5HylZ
-X-Gm-Message-State: AOJu0YypwMIshGX9xd9CyvlWEoGUN/LMmDJqxW4rKDeEAn5ghC7T8J0a
- ccJj1V6MbCHf3Rz4V6nWRpe2miM/OpxSZRQXeMdZcONOp+g68GubeAsmV5epFkZstsdVvcchfFn
- wrGGHWvW9Umz5XjAW+eNdHf3OWngnoazBoo4CCfD1Lq680X02eJVnmlWw2i8f3cz01g==
-X-Received: by 2002:a5d:4145:0:b0:33e:9451:c299 with SMTP id
- c5-20020a5d4145000000b0033e9451c299mr1237989wrq.26.1711104216100; 
- Fri, 22 Mar 2024 03:43:36 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFsAkU+2jK4kRfvDnw8i0oVWh6n19VVa3BIi69kxPxPYLEkn3rIbnPUV1SFTkGh0njd+owt8g==
-X-Received: by 2002:a5d:4145:0:b0:33e:9451:c299 with SMTP id
- c5-20020a5d4145000000b0033e9451c299mr1237971wrq.26.1711104215672; 
- Fri, 22 Mar 2024 03:43:35 -0700 (PDT)
-Received: from localhost ([90.167.87.57]) by smtp.gmail.com with ESMTPSA id
- n10-20020adfe34a000000b0033de10c9efcsm1771312wrj.114.2024.03.22.03.43.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Mar 2024 03:43:35 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, nbowler@draconx.ca, deller@gmx.de
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>, Arnd
- Bergmann <arnd@arndb.de>, Geert Uytterhoeven <geert+renesas@glider.be>,
- stable@vger.kernel.org
-Subject: Re: [PATCH] fbdev: Select I/O-memory framebuffer ops for SBus
-In-Reply-To: <20240322083005.24269-1-tzimmermann@suse.de>
-References: <20240322083005.24269-1-tzimmermann@suse.de>
-Date: Fri, 22 Mar 2024 11:43:31 +0100
-Message-ID: <877chu1r8s.fsf@minerva.mail-host-address-is-not-set>
+Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E84010F322
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 10:48:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com; 
+ s=default2211;
+ h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
+ Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References;
+ bh=J9CuZ33LUi+k6FzE7felhvKpLH81dmZUIoVLkX9iVZc=; b=EGI2bvKt0dsRuvymeSTE44Lu0C
+ 0dY91Sy6D7CK+hkso1Zc+qs3iwd2r8eSK48LENFGHkTjwZdiDjZ7+yx1AoUVhC8q4hBiCAQkWYbJS
+ wrH8OKsCg1NdlTi8egsT96mJyYWS0/3XkZPGHG4VbD7NBE6KryqudkAty571UJoz6tja6gOdhzyAD
+ DTwM0GQRaQ5+SFWH9dHvORKJ+nk8wsCixkvZPLOlUSYF5gOLnXG0lTt+lktVXLkCRIdlPXLUbtfid
+ fmUSGQg7AtwpXEUZbt4c+zts15I1jhjPAhRro7UEeVSvRQvnY87RDefXL6XnST34mgRnqWsG4aYcI
+ DySFbOHw==;
+Received: from sslproxy02.your-server.de ([78.47.166.47])
+ by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (Exim 4.94.2) (envelope-from <sean@geanix.com>)
+ id 1rncRL-000B01-On; Fri, 22 Mar 2024 11:47:59 +0100
+Received: from [185.17.218.86] (helo=zen..)
+ by sslproxy02.your-server.de with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (Exim 4.96) (envelope-from <sean@geanix.com>) id 1rncRK-00G8Yg-1h;
+ Fri, 22 Mar 2024 11:47:58 +0100
+From: Sean Nyekjaer <sean@geanix.com>
+To: Yannick Fertre <yannick.fertre@foss.st.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Robert Foss <rfoss@kernel.org>, Antonio Borneo <antonio.borneo@foss.st.com>
+Cc: Sean Nyekjaer <sean@geanix.com>, dri-devel@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/stm: dsi: relax mode_valid clock tolerance
+Date: Fri, 22 Mar 2024 11:47:31 +0100
+Message-ID: <20240322104732.2327060-1-sean@geanix.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Authenticated-Sender: sean@geanix.com
+X-Virus-Scanned: Clear (ClamAV 0.103.10/27222/Fri Mar 22 09:30:59 2024)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,33 +72,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+When using the DSI interface via DSI2LVDS bridge, it seems a bit harsh
+to reguire the requested and the actual px clock to be within
+50Hz. A typical LVDS display requires the px clock to be within +-10%.
 
-> Framebuffer I/O on the Sparc Sbus requires read/write helpers for
-> I/O memory. Select FB_IOMEM_FOPS accordingly.
->
-> Reported-by: Nick Bowler <nbowler@draconx.ca>
-> Closes: https://lore.kernel.org/lkml/5bc21364-41da-a339-676e-5bb0f4faebfb@draconx.ca/
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 8813e86f6d82 ("fbdev: Remove default file-I/O implementations")
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v6.8+
-> ---
+In case for HDMI .5% tolerance is required.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Fixes: e01356d18273 ("drm/stm: dsi: provide the implementation of mode_valid()")
+Signed-off-by: Sean Nyekjaer <sean@geanix.com>
+---
+ drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+index d5f8c923d7bc..97936b0ef702 100644
+--- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
++++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+@@ -322,8 +322,6 @@ dw_mipi_dsi_phy_get_timing(void *priv_data, unsigned int lane_mbps,
+ 	return 0;
+ }
+ 
+-#define CLK_TOLERANCE_HZ 50
+-
+ static enum drm_mode_status
+ dw_mipi_dsi_stm_mode_valid(void *priv_data,
+ 			   const struct drm_display_mode *mode,
+@@ -375,9 +373,10 @@ dw_mipi_dsi_stm_mode_valid(void *priv_data,
+ 		/*
+ 		 * Filter modes according to the clock value, particularly useful for
+ 		 * hdmi modes that require precise pixel clocks.
++		 * Check that px_clock is within .5% tolerance.
+ 		 */
+-		if (px_clock_hz < target_px_clock_hz - CLK_TOLERANCE_HZ ||
+-		    px_clock_hz > target_px_clock_hz + CLK_TOLERANCE_HZ)
++		if (px_clock_hz < mult_frac(target_px_clock_hz, 995, 1000) ||
++		    px_clock_hz > mult_frac(target_px_clock_hz, 1005, 1000))
+ 			return MODE_CLOCK_RANGE;
+ 
+ 		/* sync packets are codes as DSI short packets (4 bytes) */
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.44.0
 
