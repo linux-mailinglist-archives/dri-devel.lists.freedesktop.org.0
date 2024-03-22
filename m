@@ -2,85 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5350C886F0A
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 15:50:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58708886FB5
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 16:23:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8513911251B;
-	Fri, 22 Mar 2024 14:50:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3CF611253A;
+	Fri, 22 Mar 2024 15:22:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="eIfF9WRX";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="xvYY0svq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
- [209.85.218.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8D6C11251C
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 14:50:40 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id
- a640c23a62f3a-a46a7208eedso316493366b.0
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 07:50:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711119039; x=1711723839; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=xOjzipgBiJTcHiIGzKfcwrF5y6PFP6qN/2US1X8P970=;
- b=eIfF9WRXpIdw0K9f0RRRPVlE07BQUaVGFPIigRbPj1+ot4EfOl+C6kgP1sqXogcXP7
- 3Qwb15ynrZRkKXKUOAJde4mrzDabwGjX/W1bAyFtpBNfGPaRqCOjvjhApF7CauhquN/o
- 2FUzxd/giqFV5dFyCxa8OkWE+YKL9tEXZE2HV9t7asbkl/ihfhf2GTIl0Ovy6yWtzVcq
- +jzkToo8Zggls5OkfNt++C8+QKlPkWQD9ZZMA/+NLLIJcpV4Cg3+2qPLNbzE0cOauMs1
- U5E5l6b/JtE9A6WwTpaGB5p2geik0IrvQSRE93CQCsiwfVaeYlxyQbAfOgqfG0EXTT7z
- ZEQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711119039; x=1711723839;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xOjzipgBiJTcHiIGzKfcwrF5y6PFP6qN/2US1X8P970=;
- b=ml2O7wdmH84XJlst0lU94VXago4Lw7Tvkb8oIQJKwRMk3gEMhxnqwFaUa+/Tywsg9p
- YBts2lpn1p7bTdX1frnLs06YkSbGCWF8YhxxQznJBg1dPpv3S9wDz/xxlClj+XollNy1
- Agwqi/AS1LD0FRepiNoCcagt7Yt+L5Cc/Zs0dovWG5C/BycRbISJu3wAr55LyzP+kR7y
- B+Ty04DOMSpeo/+QUOlnSjiJ0PvvaLPSRNXtEldTgS7pSogaXyJkkK2RsZXueEjncMo6
- dtguID5CfcLbcaC0fr4WrdeAFLPkUQG+ZcD30lDd/jbTbSjxYutpqWEixS5tVq+VoBHc
- q/Cg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUVxFBcBdtsGjgng2lDSoH6BE6dKlA/FpwBwkUqF6vk9StfrfhVH9Agww+z91zkLKJ7orIAqhzX3pbA6+ClB68zJ6ePrCBoInG624izeMc0
-X-Gm-Message-State: AOJu0YxtGQhXMG0uj10JVXiQtKG+tv5sBWHZ67BsKHN6j7mtWeTRVAk0
- SXMPhxEn3U/2RkxBS5/tRpFj/NBRObSGvudGufs/5+8+bprfszWonJT8MFqfC9w=
-X-Google-Smtp-Source: AGHT+IF0HioBkcx0RhcpYoG/a1F7FbRdbMY7MPRn/gIVOPLaRv1wB6X2Y/xGwx0pbAGbGK2283U30g==
-X-Received: by 2002:a17:907:119b:b0:a47:935:f9c6 with SMTP id
- uz27-20020a170907119b00b00a470935f9c6mr1637941ejb.22.1711119038485; 
- Fri, 22 Mar 2024 07:50:38 -0700 (PDT)
-Received: from linaro.org ([79.114.172.194]) by smtp.gmail.com with ESMTPSA id
- oz27-20020a170906cd1b00b00a473490aae8sm522081ejb.24.2024.03.22.07.50.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Mar 2024 07:50:38 -0700 (PDT)
-Date: Fri, 22 Mar 2024 16:50:36 +0200
-From: Abel Vesa <abel.vesa@linaro.org>
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Johan Hovold <johan@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] drm/msm/dp: Add support for determining the
- eDP/DP mode from DT
-Message-ID: <Zf2avBOq5hM13nQy@linaro.org>
-References: <20240322-x1e80100-display-refactor-connector-v3-0-af14c29af665@linaro.org>
- <20240322-x1e80100-display-refactor-connector-v3-1-af14c29af665@linaro.org>
- <fcfd7gu2wv2cejwmhcw237xoj2l7xpjxa5hnqrqy7mhkdr4kf4@yoq6dyc6tz27>
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com
+ [91.218.175.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C74DB11253A
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 15:22:58 +0000 (UTC)
+Message-ID: <9063f7cd-e922-484f-a2ac-cf84c4f47100@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1711120976;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n14/GAey1MVQQZ9496BWTZLRI/CaUeVuyvNjQAWmb5w=;
+ b=xvYY0svqy/qpIv8OVXzIJyTXGPfIQ8a+wpEAnw9O+QTGZHAcRZMZBQVKKx6XXX7TSoVUlC
+ GnkjohFYMbvlftzsyBSuC9aWBUWd2vLYgSf5Cx+aALEGQiIaIG338DTeE20B5GvyViTxIy
+ r3J597Jj4gHupcJDt3bMrHISFxO9h/4=
+Date: Fri, 22 Mar 2024 11:22:52 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fcfd7gu2wv2cejwmhcw237xoj2l7xpjxa5hnqrqy7mhkdr4kf4@yoq6dyc6tz27>
+Subject: Re: [PATCH v2 1/8] drm: xlnx: Fix kerneldoc
+Content-Language: en-US
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: Michal Simek <michal.simek@amd.com>, David Airlie <airlied@gmail.com>,
+ linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+ linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
+References: <20240319225122.3048400-1-sean.anderson@linux.dev>
+ <20240319225122.3048400-2-sean.anderson@linux.dev>
+ <e2eba421-cba1-4dd5-837c-6be5f07ed402@ideasonboard.com>
+ <d4072aa1-47e4-45d3-9e04-2cd9d782b593@infradead.org>
+ <2c38ac1c-cc0e-43b3-86d3-5b6a2f00f9e7@linux.dev>
+ <19d6da67-f9a6-4e01-a956-3b60f0ebf769@ideasonboard.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sean Anderson <sean.anderson@linux.dev>
+In-Reply-To: <19d6da67-f9a6-4e01-a956-3b60f0ebf769@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,142 +68,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24-03-22 09:30:21, Bjorn Andersson wrote:
-> On Fri, Mar 22, 2024 at 03:22:22PM +0200, Abel Vesa wrote:
-> > Instead of relying on different compatibles for eDP and DP, lookup
-> > the panel node in devicetree to figure out the connector type and
-> > then pass on that information to the PHY. External DP is not described
-> > in DT, therefore, assume it's eDP if panel node is present.
-> > 
-> > Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
-> > ---
-> >  drivers/gpu/drm/msm/dp/dp_display.c | 43 +++++++++++++++++++++++++++++++++----
-> >  1 file changed, 39 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> > index c4cb82af5c2f..c9763f77c832 100644
-> > --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> > @@ -726,6 +726,14 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
-> >  	if (IS_ERR(phy))
-> >  		return PTR_ERR(phy);
-> >  
-> > +	rc = phy_set_mode_ext(phy, PHY_MODE_DP,
-> > +			      dp->dp_display.is_edp ? PHY_SUBMODE_EDP : PHY_SUBMODE_DP);
-> > +	if (rc) {
-> > +		DRM_ERROR("failed to set phy submode, rc = %d\n", rc);
-> > +		dp->catalog = NULL;
-> > +		goto error;
-> > +	}
-> > +
-> >  	dp->catalog = dp_catalog_get(dev);
-> >  	if (IS_ERR(dp->catalog)) {
-> >  		rc = PTR_ERR(dp->catalog);
-> > @@ -734,9 +742,7 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
-> >  		goto error;
-> >  	}
-> >  
-> > -	dp->aux = dp_aux_get(dev, dp->catalog,
-> > -			     phy,
-> > -			     dp->dp_display.is_edp);
-> > +	dp->aux = dp_aux_get(dev, dp->catalog, phy, dp->dp_display.is_edp);
-> >  	if (IS_ERR(dp->aux)) {
-> >  		rc = PTR_ERR(dp->aux);
-> >  		DRM_ERROR("failed to initialize aux, rc = %d\n", rc);
-> > @@ -1241,6 +1247,35 @@ static int dp_auxbus_done_probe(struct drm_dp_aux *aux)
-> >  	return dp_display_probe_tail(aux->dev);
-> >  }
-> >  
-> > +static int dp_display_get_connector_type(struct platform_device *pdev,
-> > +					 const struct msm_dp_desc *desc)
-> > +{
-> > +	struct device *dev = &pdev->dev;
-> > +	struct device_node *aux_bus;
-> > +	struct device_node *panel;
-> > +	int ret = DRM_MODE_CONNECTOR_DisplayPort;
-> > +
-> > +	/* legacy platforms specify connector type in match data */
-> > +	if (desc->connector_type == DRM_MODE_CONNECTOR_eDP ||
-> > +		desc->connector_type == DRM_MODE_CONNECTOR_DisplayPort)
-> > +		return desc->connector_type;
-> > +
-> > +	aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
-> > +	if (!aux_bus)
-> > +		goto out;
+On 3/22/24 01:50, Tomi Valkeinen wrote:
+> On 21/03/2024 17:33, Sean Anderson wrote:
+>> On 3/20/24 02:05, Randy Dunlap wrote:
+>>>
+>>>
+>>> On 3/19/24 22:42, Tomi Valkeinen wrote:
+>>>> On 20/03/2024 00:51, Sean Anderson wrote:
+>>>>> Fix a few errors in the kerneldoc. Mostly this addresses missing/renamed
+>>>>> members.
+>>>>>
+>>>>> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
+>>>>> ---
+>>>>>
+>>>>> Changes in v2:
+>>>>> - New
+>>>>>
+>>>>>    drivers/gpu/drm/xlnx/zynqmp_disp.c  | 6 +++---
+>>>>>    drivers/gpu/drm/xlnx/zynqmp_dpsub.h | 1 +
+>>>>>    drivers/gpu/drm/xlnx/zynqmp_kms.h   | 4 ++--
+>>>>>    3 files changed, 6 insertions(+), 5 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+>>>>> index 407bc07cec69..f79bf3fb8110 100644
+>>>>> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
+>>>>> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+>>>>> @@ -128,9 +128,9 @@ struct zynqmp_disp_layer {
+>>>>>     * struct zynqmp_disp - Display controller
+>>>>>     * @dev: Device structure
+>>>>>     * @dpsub: Display subsystem
+>>>>> - * @blend.base: Register I/O base address for the blender
+>>>>> - * @avbuf.base: Register I/O base address for the audio/video buffer manager
+>>>>> - * @audio.base: Registers I/O base address for the audio mixer
+>>>>> + * @blend: Register I/O base address for the blender
+>>>>> + * @avbuf: Register I/O base address for the audio/video buffer manager
+>>>>> + * @audio: Registers I/O base address for the audio mixer
+>>>>
+>>>> Afaics, the kernel doc guide:
+>>>>
+>>>> https://docs.kernel.org/doc-guide/kernel-doc.html#nested-structs-unions
+>>>>
+>>>> says that the current version is correct. Or is the issue that while, say, 'base' is documented, 'blend' was not?
+>>>
+>>> Hi,
+>>>
+>>> I would do it more like so:
+>>>
+>>> ---
+>>>   drivers/gpu/drm/xlnx/zynqmp_disp.c |    3 +++
+>>>   1 file changed, 3 insertions(+)
+>>>
+>>> diff -- a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+>>> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
+>>> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+>>> @@ -128,8 +128,11 @@ struct zynqmp_disp_layer {
+>>>    * struct zynqmp_disp - Display controller
+>>>    * @dev: Device structure
+>>>    * @dpsub: Display subsystem
+>>> + * @blend: blender iomem info
+>>>    * @blend.base: Register I/O base address for the blender
+>>> + * @avbuf: audio/video buffer iomem info
+>>>    * @avbuf.base: Register I/O base address for the audio/video buffer manager
+>>> + * @audio: audio mixer iomem info
+>>>    * @audio.base: Registers I/O base address for the audio mixer
+>>>    * @layers: Layers (planes)
+>>>    */
+>>>
+>>>
+>>> but in my testing, Sean's way or my way result in no warning/errors.
+>>>
+>>
+>> The specific errors are:
+>>
+>> ../drivers/gpu/drm/xlnx/zynqmp_disp.c:151: warning: Function parameter or struct member 'blend' not described in 'zynqmp_disp'
+>> ../drivers/gpu/drm/xlnx/zynqmp_disp.c:151: warning: Function parameter or struct member 'avbuf' not described in 'zynqmp_disp'
+>> ../drivers/gpu/drm/xlnx/zynqmp_disp.c:151: warning: Function parameter or struct member 'audio' not described in 'zynqmp_disp'
+>>
+>> I don't see the need to document a single-member struct twice. Actually,
 > 
-> My compiler warns that if we take this code path, then you will
-> of_node_put(<uninitialized panel>) below.
-> 
-> > +
-> > +	panel = of_get_child_by_name(aux_bus, "panel");
-> > +	if (!panel)
-> > +		goto out;
-> > +
-> > +	ret = DRM_MODE_CONNECTOR_eDP;
-> 
-> My brain read this function as:
-> check something
-> if (error)
->   bailout!
-> 
-> check something
-> if (error)
->   bailout!
-> 
-> ret should be edp
-> 
-> I then have to scan the code again to figure out what ret is otherwise,
-> and convince myself that the error path is never an error, but a totally
-> normal case.
-> 
-> 
-> If you instead rely on the fact that both of_get_child_by_name() and
-> of_node_put() can be passed NULL, you can write this as:
-> 
-> static int fn(..) {
->   aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
->   panel = of_get_child_by_name(aux_bus, "panel");
-> 
->   if (panel)
->     connector_type = DRM_MODE_CONNECTOR_eDP;
->   else
->     connector_type = DRM_MODE_CONNECTOR_DisplayPort;
-> 
->   of_node_put(panel);
->   of_node_put(aux_bus);
-> 
->   return connector_type;
-> }
-> 
-> Much easier to read, and you don't even have to zero-initialize panel to
-> avoid that compiler warning.
-> 
+> But if only the struct is documented, then we're documenting the wrong thing. A tool showing to the user what blend.base is would miss that documentation.
 
-Fair enough, will do that instead.
+Are there any such tools? kerneldoc e.g. just prints the definition and
+then a list of members with documentation. So from the user's
+perspective the only thing which changes is the name.
 
-> Regards,
-> Bjorn
+--Sean
+
+>> maybe it would be better to just lift the .base member to live in
+>> zynqmp_disp. But I think that would be better in another series.
 > 
-> > +
-> > +out:
-> > +	of_node_put(panel);
-> > +	of_node_put(aux_bus);
-> > +	return ret;
-> > +}
-> > +
-> >  static int dp_display_probe(struct platform_device *pdev)
-> >  {
-> >  	int rc = 0;
-> > @@ -1263,7 +1298,7 @@ static int dp_display_probe(struct platform_device *pdev)
-> >  	dp->dp_display.pdev = pdev;
-> >  	dp->name = "drm_dp";
-> >  	dp->id = desc->id;
-> > -	dp->dp_display.connector_type = desc->connector_type;
-> > +	dp->dp_display.connector_type = dp_display_get_connector_type(pdev, desc);
-> >  	dp->wide_bus_supported = desc->wide_bus_supported;
-> >  	dp->dp_display.is_edp =
-> >  		(dp->dp_display.connector_type == DRM_MODE_CONNECTOR_eDP);
-> > 
-> > -- 
-> > 2.34.1
-> > 
+> Yes, there's not much point with the structs.
+> 
+>  Tomi
+> 
