@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC5D886E7C
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 15:27:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94C87886E85
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 15:30:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A1301124E4;
-	Fri, 22 Mar 2024 14:27:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 101351124EB;
+	Fri, 22 Mar 2024 14:30:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IdKgeDw5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aM6gExit";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9FD61124E6
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 14:27:04 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9490660C22;
- Fri, 22 Mar 2024 14:27:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 098E6C43390;
- Fri, 22 Mar 2024 14:27:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711117623;
- bh=tx6ucvlunDL3a1XWYgCPuVgW4leQngQpb66CHagFab0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IdKgeDw552A7xmpeFSFYEM0+GsSUFusbLRaXCrHdEBjD1v77kVS4JK0uuJ9sHCuYz
- jR6zndwZjSlPpFJaqh40J1i8/o3ABICncRGkRPEYQqMI4XyrCAdhLrqlQ695G3GNQT
- 5oox3LItD7m89v9B+7eD0AiBHJv6jdJQsQNrBAKnb8hs2PLF2fkICXZMAM/s/NWVtf
- 6tsVw4VFEFMOc7abXOIZ6ZcernqGkQct5DySa270a80LKHYGPJ8pj1WMSRMLyQwwbn
- BcHCnAqRRVq2Bm5V4Dcxa1YoilYCl3gCzPkhZtZg7q0WaCvpZ1Tan8D7XV+AletqSo
- V5t9Ddr6dxsVw==
-Date: Fri, 22 Mar 2024 15:27:00 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: airlied@redhat.com, jfalempe@redhat.com, 
- maarten.lankhorst@linux.intel.com, jani.nikula@linux.intel.com,
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v5 12/13] drm/ast: Implement polling for VGA and SIL164
- connectors
-Message-ID: <20240322-analytic-malkoha-of-skill-85eed7@houat>
-References: <20240320093738.6341-1-tzimmermann@suse.de>
- <20240320093738.6341-13-tzimmermann@suse.de>
- <20240321-elated-optimal-lion-7ae26a@houat>
- <e83eb697-a359-4b8d-b038-a26d2ae00f21@suse.de>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCC1F1124EA
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 14:30:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1711117801; x=1742653801;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=h4lzmuNFS7l+99Y88R6twbDpMQfqptlBGMQp4jbIZws=;
+ b=aM6gExitbnr7s5VTr2Tzu9gFPWjaoTufoW1MZoXokUx32afcVhA4pbTI
+ rA/WIy9X2ReawjJXn2Mkk0Dn+q4A302KTKTfUA8gzF/kLfASrfJX8meMS
+ Sm1RdTO8BZuv5NpveRP7A/D9/TGVitRrY2WUU7jJBookNywfMVpzFzBX2
+ YkKrWAEXCdzTM7Z0PqgVt4cq6fsptiJ4+LmXNy+4QXKE/l93SPaPnWfEO
+ IFaLNE15oaPBzABBo5IRKiWey7OnhaCt6zA3+8MMKRfTjqNt5W8wXNtyt
+ dyhnF0LZGf5A3zddXnnSeVvwtAJgT2PyitBDREx1CXwuXZEXea5rK841x w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="6022794"
+X-IronPort-AV: E=Sophos;i="6.07,146,1708416000"; 
+   d="scan'208";a="6022794"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2024 07:30:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,146,1708416000"; d="scan'208";a="19398509"
+Received: from unknown (HELO kdrobnik-desk.toya.net.pl) ([10.245.245.72])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2024 07:29:58 -0700
+From: Karolina Stolarek <karolina.stolarek@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Amaranath Somalapuram <Amaranath.Somalapuram@amd.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Karolina Stolarek <karolina.stolarek@intel.com>
+Subject: [PATCH v10 0/9] Improve test coverage of TTM
+Date: Fri, 22 Mar 2024 15:29:49 +0100
+Message-Id: <cover.1711117249.git.karolina.stolarek@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="2cesgggdpskbc2h2"
-Content-Disposition: inline
-In-Reply-To: <e83eb697-a359-4b8d-b038-a26d2ae00f21@suse.de>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,85 +65,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Introduce tests for ttm_bo_validate()/ttm_bo_init_validate() that exercise
+simple BO placement as well as eviction (including the case where the evict
+domain also requires eviction to fit the incoming buffer). Prepare KUnit
+helpers to handle such scenarios and add a mock VRAM manager. This series also
+includes some updates to the helpers and more definitions used to define
+"special" memory domains (e.g., one that can't allocate resources or is busy),
+as well as drive-by fixes for the tests.
 
---2cesgggdpskbc2h2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+There are a couple of areas in which this test suite can be improved.
+Suggestions for future work can be found in the TODO file.
 
-On Fri, Mar 22, 2024 at 07:40:52AM +0100, Thomas Zimmermann wrote:
-> Hi
->=20
-> Am 21.03.24 um 15:09 schrieb Maxime Ripard:
-> > Hi,
-> >=20
-> > On Wed, Mar 20, 2024 at 10:34:17AM +0100, Thomas Zimmermann wrote:
-> > > +/**
-> > > + * drm_connector_helper_detect_ctx - Read EDID and detect connector =
-status.
-> > > + * @connector: The connector
-> > > + * @ctx: Acquire context
-> > > + * @force: Perform screen-destructive operations, if necessary
-> > > + *
-> > > + * Detects the connector status by reading the EDID using drm_probe_=
-ddc(),
-> > > + * which requires connector->ddc to be set. Returns connector_status=
-_connected
-> > > + * on success or connector_status_disconnected on failure.
-> > > + *
-> > > + * Returns:
-> > > + * The connector status as defined by enum drm_connector_status.
-> > > + */
-> > > +int drm_connector_helper_detect_ctx(struct drm_connector *connector,
-> > > +				    struct drm_modeset_acquire_ctx *ctx,
-> > > +				    bool force)
-> > > +{
-> > > +	struct i2c_adapter *ddc =3D connector->ddc;
-> > > +
-> > > +	if (!ddc)
-> > > +		return connector_status_unknown;
-> > > +
-> > > +	if (drm_probe_ddc(ddc))
-> > > +		return connector_status_connected;
-> > > +
-> > > +	return connector_status_disconnected;
-> > > +}
-> > > +EXPORT_SYMBOL(drm_connector_helper_detect_ctx);
-> > I think it would be better to make it more obvious that we rely on DDC
-> > to detect and we shouldn't consider it a generic helper that would work
-> > in all cases.
-> >=20
-> > drm_connector_helper_detect_probe_ddc maybe?
->=20
-> No objection from me about mentioning DDC. What what about
-> drm_connector_helper_get_modes()? It relies on DDC as well, so I thought
-> that that's the default. Should we consider renaming it?
+Use kunit_tool script to manually run all the tests:
 
-I see your point, but I think it's not totally in the same situation.
-Unless you have a fixed mode panel (and even then, some support EDID),
-EDID is the de-facto standard to retrieve the modes from the attached
-monitor.
+$ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/ttm/tests
 
-You don't really have that standardization with monitor detection:
-probing the DDC bus is one of the many valid methods to do so, along
-with reading the HPD register, reading a GPIO state, etc.
+To build a kernel with TTM KUnit tests, use a UML configuration,
+enable CONFIG_KUNIT, and then select CONFIG_DRM_TTM_KUNIT_TEST.
 
-So I would say it's much more critical for the detect helper than it is
-for the get_modes one. But we could totally do it for get_modes too to
-make it somewhat consistent.
+Many thanks,
+Karolina
 
-Maxime
+v10:
+  Many things have happened over the course of three months, so the series
+  had to be slightly reworked and expanded to accommodate these changes:
+   - Set DMA coherent mapping mask in the KUnit device so ttm_pool_alloc
+     tests can be executed
+   - Update ttm_bo_validate_invalid_placement() test case to check against
+     the right return error. It's no longer -EINVAL (which only is returned
+     for pinned buffers), but -ENOMEM. The behaviour has changed in
+     commit cc941c70df39 ("drm/ttm: improve idle/busy handling v5")
+   - Rework ttm_placement_kunit_init() to accept only one array of places
+     and update the tests that use that helper
+   - Set fallback flags in eviction domains defined in TTM KUnit helpers
+   - Fix a warning raised by ttm_bo_unreserve_bulk() test case
+   - Scrap all r-bs and tested-by, as many things were updated and should
+     be checked again
 
---2cesgggdpskbc2h2
-Content-Type: application/pgp-signature; name="signature.asc"
+v9:
+ - Drop tests with basic test cases, they are merged now
+ - Add three final patches -- tests for ttm_tt_(un)populate, eviction testing
+   and a TODO file, with suggestions on how to improve these tests
+ - Delete the initialization of spinlock in
+   ttm_bo_validate_move_fence_signaled(), it not used at all (Andi)
+ - Just return the error code threaded_fence_signal(), don't save it to a
+   local variable (Andi)
+ - Use ttm_bo_unreserve() in tests checking different move fence states (Andi)
 
------BEGIN PGP SIGNATURE-----
+v8:
+ - Add Tested-by tags to commits that introduce tests
+ - Improve the comment for ttm_bo_reserve_deadlock() subtest (Andi)
+ - Actually clean up the resource when "error_free_blocks" is hit in
+   ttm_mock_manager_alloc(). Without that change, we hit
+   DEBUG_LOCKS_WARN_ON(lock->magic != lock) warning when cleaning up
+   the resource manager because we try clean up an incomplete, orphaned
+   resource. That's not good, and this could bite us back in the future.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZf2VNAAKCRAnX84Zoj2+
-ds2hAYCrAgBkqjoNZIIOlpYcpmpO8Jf9zLMVL/F7fFfB9HOovNi+J2pi+D7jqdBz
-IisGGE0BgIQv8oL57OUD1bTf68b0SptcDxV7HBG+UB7wjdl7wd82BFGD2yvP9MAH
-KqbV7Toybw==
-=9ZLV
------END PGP SIGNATURE-----
+Karolina Stolarek (9):
+  drm/ttm/tests: Set DMA mask in KUnit device
+  drm/ttm/tests: Use an init function from the helpers lib
+  drm/ttm/tests: Test simple BO creation and validation
+  drm/ttm/tests: Add tests with mock resource managers
+  drm/ttm/tests: Add test cases dependent on fence signaling
+  drm/ttm/tests: Add eviction testing
+  drm/ttm/tests: Add tests for ttm_tt_populate
+  drm/ttm/tests: Add TODO file
+  drm/ttm/tests: Fix a warning in ttm_bo_unreserve_bulk
 
---2cesgggdpskbc2h2--
+ drivers/gpu/drm/Kconfig                       |    1 +
+ drivers/gpu/drm/ttm/tests/.kunitconfig        |    1 +
+ drivers/gpu/drm/ttm/tests/Makefile            |    2 +
+ drivers/gpu/drm/ttm/tests/TODO                |   24 +
+ drivers/gpu/drm/ttm/tests/ttm_bo_test.c       |    3 +
+ .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  | 1213 +++++++++++++++++
+ drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c |  173 ++-
+ drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h |   11 +
+ drivers/gpu/drm/ttm/tests/ttm_mock_manager.c  |  235 ++++
+ drivers/gpu/drm/ttm/tests/ttm_mock_manager.h  |   33 +
+ drivers/gpu/drm/ttm/tests/ttm_tt_test.c       |  134 +-
+ drivers/gpu/drm/ttm/ttm_tt.c                  |    3 +
+ 12 files changed, 1810 insertions(+), 23 deletions(-)
+ create mode 100644 drivers/gpu/drm/ttm/tests/TODO
+ create mode 100644 drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+ create mode 100644 drivers/gpu/drm/ttm/tests/ttm_mock_manager.c
+ create mode 100644 drivers/gpu/drm/ttm/tests/ttm_mock_manager.h
+
+-- 
+2.34.1
+
