@@ -2,59 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43FF88870C3
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 17:19:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8973887117
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 17:45:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18AC610F0E7;
-	Fri, 22 Mar 2024 16:19:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59273112609;
+	Fri, 22 Mar 2024 16:45:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="rAcq/Pr6";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BEumzYf1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com
- [91.218.175.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC92810F0E7
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 16:19:06 +0000 (UTC)
-Message-ID: <2dbf138f-5112-48e1-85a6-9e3ad84ec4a6@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1711124341;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KB5GftMYyC75xN2sRG0i/ixBELjpxJvza4IaI6qq1+0=;
- b=rAcq/Pr6acgADB2ZF7hpy57CL4pr5Hkb9gWfpeXR4lEYG85SU/XKXu/IApF7Y25mcQMjM5
- xgZWPtKC95rPVrPXF0K6vyByn2iKWAdzLWgM1zF8R4gtfH7/4ZWB65Ovz7dZjTMhiRCevr
- ahirJGR9OtB93xVSpOibVK6cMaAV4i4=
-Date: Fri, 22 Mar 2024 12:18:57 -0400
-MIME-Version: 1.0
-Subject: Re: [PATCH v2 5/8] drm: zynqmp_dp: Don't retrain the link in our IRQ
-Content-Language: en-US
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Michal Simek <michal.simek@amd.com>, David Airlie <airlied@gmail.com>,
- linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-kernel@lists.infradead.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09D96112609
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 16:45:31 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-34175878e30so1354417f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 09:45:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1711125930; x=1711730730; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=XkckiT/MUZpay/oqQb7f/JkIe5zR2ftgXQzhuQxI+RM=;
+ b=BEumzYf1eyXJVPGZV0oCd6CKSsBF8ggbuGxnyA138IfxfwgEmVUYk1OWMxuC/01308
+ 1pRAkDuhCtuTKMWY6MoqtZww4CAZ+SZs6U54yyQ2OSxi8kUV1yG2y1cAVbz9cTSF3RMf
+ 6hImSAgJnsadDkFgMDeTaAVcBC70PC88eeHdIFNjPZneImyGPHu07EW+9I0q5BZEJ6/O
+ vEIABR+OULlXNhDFDpLMvKa/BWqUa6JZSlOLgrqfnt5PX4dFDh6qC9fQfiXPEcEJJEbI
+ 4tDQ22wYYxNH1h+QW5LtvVqAMP28+mqSIcl237f0kt/2bwFIU+3y36DnvuUwgDV9TOab
+ xsQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711125930; x=1711730730;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XkckiT/MUZpay/oqQb7f/JkIe5zR2ftgXQzhuQxI+RM=;
+ b=OdfDxp4UnrMxwE6Xy0HpSsNu2d9ARc8SoweXut6grYqUdsY0eeUu6IO4+p3VfLAl0Q
+ GMv5mZkMr2yc3VO4BYuFh0N+wYdkqfiFU6/z18OIUvs3yX+Ha2T67a76xL2hrMfcFG5r
+ wB2P0oqxGVrNc8xdejlG39wH0hJUkPNd1GrbK5oZ+BT8SHgdW0OrfGLzcBMPxE+2WYT2
+ jJvz4JbiFxuFuR7InLvFlOsoRO3LAbPKhMfyzlw26861mlGjvA/CZ+gaB8GVHuoZR6/7
+ Hi0hg/tn98wxwsE2qgFTljWuaOCKH0p9E+AJPeg7IaI+C4p17s+/Yg0HVamoyWVgUwfj
+ tUCA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVW+MJtK/6JyaXSVzu0yRni6AQlx1FBQAoihhUONSlY1kZUOUVLoCXSfrwqignQmDVdNa7Ad5JIRk/tiHeC34m351cQHf9cudQIyS/3rjXb
+X-Gm-Message-State: AOJu0Yyza7qTWqJK+YkMFQ/vFnYhuRRwS7f7nmoIcIBH/EhJ/5Ie4+YA
+ IiytrfVp5CRINpD3kCzHsZtm/cnoREAHVv+LY+cjX+cf1aIaArrf
+X-Google-Smtp-Source: AGHT+IHSQaiEfEpnVF4LlimL5r8Q0Mx7e+wj/Pb+bz/9C3rX0Vqa6m/VTajZzg5PovyOp4+g+1id6Q==
+X-Received: by 2002:a05:6000:245:b0:33e:7a71:1a34 with SMTP id
+ m5-20020a056000024500b0033e7a711a34mr1922893wrz.57.1711125930074; 
+ Fri, 22 Mar 2024 09:45:30 -0700 (PDT)
+Received: from toolbox.. ([87.200.95.144]) by smtp.gmail.com with ESMTPSA id
+ bq3-20020a5d5a03000000b0033e9f6997c7sm1989107wrb.66.2024.03.22.09.45.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Mar 2024 09:45:29 -0700 (PDT)
+From: Christian Hewitt <christianshewitt@gmail.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-References: <20240319225122.3048400-1-sean.anderson@linux.dev>
- <20240319225122.3048400-6-sean.anderson@linux.dev>
- <ca4de45b-302c-4eea-bd6b-8c04e2ed89cb@ideasonboard.com>
- <53b2df23-d5ea-498b-a501-b64f753c0074@linux.dev>
- <0514ef71-5baa-4989-9b7d-8bd9526c4d8d@ideasonboard.com>
- <16ccf678-270c-4770-8cc9-f676b4fabf09@linux.dev>
- <1f27ce69-9ea6-4df4-9147-332d74febdf0@ideasonboard.com>
- <b2bef7f9-fe46-45d0-a09b-50777f71f43c@linux.dev>
- <d6a8bc5c-aed9-4ef4-adb2-dc171106b44b@ideasonboard.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sean Anderson <sean.anderson@linux.dev>
-In-Reply-To: <d6a8bc5c-aed9-4ef4-adb2-dc171106b44b@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/panfrost: fix power transition timeout warnings
+Date: Fri, 22 Mar 2024 16:45:25 +0000
+Message-Id: <20240322164525.2617508-1-christianshewitt@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,59 +83,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/22/24 01:32, Tomi Valkeinen wrote:
-> On 21/03/2024 21:17, Sean Anderson wrote:
->> On 3/21/24 15:08, Tomi Valkeinen wrote:
->>> On 21/03/2024 20:01, Sean Anderson wrote:
->>>> On 3/21/24 13:25, Tomi Valkeinen wrote:
->>>>> On 21/03/2024 17:52, Sean Anderson wrote:
->>>>>> On 3/20/24 02:53, Tomi Valkeinen wrote:
->>>>>>> On 20/03/2024 00:51, Sean Anderson wrote:
->>>>>>> Do we need to handle interrupts while either delayed work is being done?
->>>>>>
->>>>>> Probably not.
->>>>>>
->>>>>>> If we do need a delayed work, would just one work be enough which
->>>>>>> handles both HPD_EVENT and HPD_IRQ, instead of two?
->>>>>>
->>>>>> Maybe, but then we need to determine which pending events we need to
->>>>>> handle. I think since we have only two events it will be easier to just
->>>>>> have separate workqueues.
->>>>>
->>>>> The less concurrency, the better...Which is why it would be nice to do it all in the threaded irq.
->>>>
->>>> Yeah, but we can use a mutex for this which means there is not too much
->>>> interesting going on.
->>>
->>> Ok. Yep, if we get (hopefully) a single mutex with clearly defined fields that it protects, I'm ok with workqueues.
->>>
->>> I'd still prefer just one workqueue, though...
->>
->> Yeah, but then we need a spinlock or something to tell the workqueue what it should do.
-> 
-> Yep. We could also always look at the HPD (if we drop the big sleeps) in the wq, and have a flag for the HPD IRQ, which would reduce the state to a single bit.
+Increase the timeout value to prevent system logs on Amlogic boards flooding
+with power transition warnings:
 
-How about something like
+[   13.047638] panfrost ffe40000.gpu: shader power transition timeout
+[   13.048674] panfrost ffe40000.gpu: l2 power transition timeout
+[   13.937324] panfrost ffe40000.gpu: shader power transition timeout
+[   13.938351] panfrost ffe40000.gpu: l2 power transition timeout
+...
+[39829.506904] panfrost ffe40000.gpu: shader power transition timeout
+[39829.507938] panfrost ffe40000.gpu: l2 power transition timeout
+[39949.508369] panfrost ffe40000.gpu: shader power transition timeout
+[39949.509405] panfrost ffe40000.gpu: l2 power transition timeout
 
-zynqmp_dp_irq_handler(...)
-{
-	/* Read status and handle underflow/overflow/vblank */
+The 2000 value has been found through trial and error testing with devices
+using G52 and G31 GPUs.
 
-	status &= ZYNQMP_DP_INT_HPD_EVENT | ZYNQMP_DP_INT_HPD_IRQ;
-	if (status) {
-		atomic_or(status, &dp->status);
-		return IRQ_WAKE_THREAD;
-	}
+Fixes: 22aa1a209018 ("drm/panfrost: Really power off GPU cores in panfrost_gpu_power_off()")
+Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_gpu.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-	return IRQ_HANDLED;
-}
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+index 9063ce254642..fd8e44992184 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+@@ -441,19 +441,19 @@ void panfrost_gpu_power_off(struct panfrost_device *pfdev)
+ 
+ 	gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present);
+ 	ret = readl_relaxed_poll_timeout(pfdev->iomem + SHADER_PWRTRANS_LO,
+-					 val, !val, 1, 1000);
++					 val, !val, 1, 2000);
+ 	if (ret)
+ 		dev_err(pfdev->dev, "shader power transition timeout");
+ 
+ 	gpu_write(pfdev, TILER_PWROFF_LO, pfdev->features.tiler_present);
+ 	ret = readl_relaxed_poll_timeout(pfdev->iomem + TILER_PWRTRANS_LO,
+-					 val, !val, 1, 1000);
++					 val, !val, 1, 2000);
+ 	if (ret)
+ 		dev_err(pfdev->dev, "tiler power transition timeout");
+ 
+ 	gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present);
+ 	ret = readl_poll_timeout(pfdev->iomem + L2_PWRTRANS_LO,
+-				 val, !val, 0, 1000);
++				 val, !val, 0, 2000);
+ 	if (ret)
+ 		dev_err(pfdev->dev, "l2 power transition timeout");
+ }
+-- 
+2.34.1
 
-zynqmp_dp_thread_handler(...)
-{
-	status = atomic_xchg(&dp->status, 0);
-	/* process HPD stuff */
-}
-
-which gets rid of the workqueue too.
-
---Sean
