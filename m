@@ -2,78 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB4CC88725B
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 18:58:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0A4D887287
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 19:05:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BA351126A4;
-	Fri, 22 Mar 2024 17:58:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD7821126C0;
+	Fri, 22 Mar 2024 18:05:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="NDHiJjFE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="M8FjFOe7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1C851126A5
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 17:58:06 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 42M4rmhe002852; Fri, 22 Mar 2024 17:57:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding:content-type; s=
- qcppdkim1; bh=Vb3/BhACQgd0Lkib5CeEds9ZFeODXFvmLDP5i/pngvM=; b=ND
- HiJjFEZN11ivWPcuHbRxerqwd32pFNOxHSispkMsnZO63AaeIh/w6yW+Lo5RllG3
- l812iCKkpZwZM5AqDez7n3FLlxIrWQxRPiAWSwfc2MqXK2yFsthYYHRg3ozW1pEZ
- Oqq7ttOXS5Jq9YFfaZ1ykbdh+Zs6AU20C8F0uf2cQlRJgAdq42d96TQg1EAayVSI
- Bw4Vfm9jNecL3kKeoclOy+dBC5s5VteQreRCmxyboJTxhti4b9fjcK9+tGSPo/W8
- VN4nAGPrIERyPAl1M2mQVTnrKsxaqQIWhvvQjsU3ZrPPzBRj/+bfDeAoWv6aTwzU
- sxSFpIEpn0scAS5s8NPA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x0wy8twpu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 22 Mar 2024 17:57:57 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42MHvvxJ017334
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 22 Mar 2024 17:57:57 GMT
-Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 22 Mar 2024 10:57:56 -0700
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-To: <quic_carlv@quicinc.com>, <quic_pkanojiy@quicinc.com>,
- <stanislaw.gruszka@linux.intel.com>, <jacek.lawrynowicz@linux.intel.com>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: [PATCH v2 3/3] accel/qaic: Add fifo queued debugfs
-Date: Fri, 22 Mar 2024 11:57:30 -0600
-Message-ID: <20240322175730.3855440-4-quic_jhugo@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240322175730.3855440-1-quic_jhugo@quicinc.com>
-References: <20240322175730.3855440-1-quic_jhugo@quicinc.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB70C1126C0
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 18:05:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1711130722; x=1742666722;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=Sr8qlp+dafIZsh6gctDQrKjtvyDofM3L54GsW+PpnLE=;
+ b=M8FjFOe7BYYF/jbDEtAWFMCpGVtlRuJ+rGFHHYarE/04bhzo9ZrfgWAO
+ 6aWlVjlHFdS7JrzXyf9Gc9MEP5J3XrZ/RlfcmWsIgmgCdfA5nr26kZcT1
+ vDt+kzCs3+q53G9cCajAHk4GwsfZfmAbD7LSHWijjDX1PU+BMsE8Sq6h8
+ JJhXJd9VPjGvDquvjYt1vnrnaNZNVI9siziQukVVvnv8org9JbNdNx2LV
+ N88GpifYLyyNKckB86pCijO/65ZVqdOetX1erSpJG6mGgUoQCW32ato+h
+ K6SlmHWmAHr6Q/yL0LUCkrqQMqz4FqdREuQmj1fN3CT7Aj/P+982Ll/sY w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="28670758"
+X-IronPort-AV: E=Sophos;i="6.07,146,1708416000"; d="scan'208";a="28670758"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2024 11:05:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="914750688"
+X-IronPort-AV: E=Sophos;i="6.07,146,1708416000"; d="scan'208";a="914750688"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2024 11:05:18 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1rnjGV-0000000FENx-2tUk; Fri, 22 Mar 2024 20:05:15 +0200
+Date: Fri, 22 Mar 2024 20:05:15 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+ Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-acpi@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Vladimir Oltean <vladimir.oltean@nxp.com>
+Subject: Re: [PATCH] software node: Implement device_get_match_data fwnode
+ callback
+Message-ID: <Zf3IWyrW8IZLTg4x@smile.fi.intel.com>
+References: <20240318234222.1278882-1-sui.jingfeng@linux.dev>
+ <Zfq85f-Dp1S3CKuG@smile.fi.intel.com>
+ <9ced20e0-dfbd-4337-b5df-223b7baffd9e@linux.dev>
+ <ZftG6Q5AaG71dhWq@smile.fi.intel.com>
+ <9644da91-f367-4083-a3e4-4d0677c8cbca@linux.dev>
+ <Zf2uUwcMgIpo6rVh@smile.fi.intel.com>
+ <6bf102a4-6419-4083-8918-4f7c76cfa9a1@linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: Y-b4l8VBwP9oCpCBwugK9r22QVeHBx9e
-X-Proofpoint-GUID: Y-b4l8VBwP9oCpCBwugK9r22QVeHBx9e
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-22_10,2024-03-21_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- malwarescore=0 impostorscore=0 phishscore=0 mlxlogscore=999 adultscore=0
- priorityscore=1501 mlxscore=0 spamscore=0 bulkscore=0 suspectscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2403210001 definitions=main-2403220128
+In-Reply-To: <6bf102a4-6419-4083-8918-4f7c76cfa9a1@linux.dev>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,100 +82,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When debugging functional issues with workload input processing, it is
-useful to know if requests are backing up in the fifo, or perhaps
-getting stuck elsewhere. To answer the question of how many requests are
-in the fifo, implement a "queued" debugfs entry per-dbc that returns the
-number of pending requests when read.
+On Sat, Mar 23, 2024 at 01:43:56AM +0800, Sui Jingfeng wrote:
+> On 2024/3/23 00:14, Andy Shevchenko wrote:
+> > On Fri, Mar 22, 2024 at 05:00:05PM +0800, Sui Jingfeng wrote:
+> > > On 2024/3/21 04:28, Andy Shevchenko wrote:
 
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
----
- drivers/accel/qaic/qaic.h         |  1 +
- drivers/accel/qaic/qaic_data.c    |  9 +++++++++
- drivers/accel/qaic/qaic_debugfs.c | 31 +++++++++++++++++++++++++++++++
- 3 files changed, 41 insertions(+)
+...
 
-diff --git a/drivers/accel/qaic/qaic.h b/drivers/accel/qaic/qaic.h
-index 03d9c9fbffb3..02561b6cecc6 100644
---- a/drivers/accel/qaic/qaic.h
-+++ b/drivers/accel/qaic/qaic.h
-@@ -288,6 +288,7 @@ int disable_dbc(struct qaic_device *qdev, u32 dbc_id, struct qaic_user *usr);
- void enable_dbc(struct qaic_device *qdev, u32 dbc_id, struct qaic_user *usr);
- void wakeup_dbc(struct qaic_device *qdev, u32 dbc_id);
- void release_dbc(struct qaic_device *qdev, u32 dbc_id);
-+void qaic_data_get_fifo_info(struct dma_bridge_chan *dbc, u32 *head, u32 *tail);
- 
- void wake_all_cntl(struct qaic_device *qdev);
- void qaic_dev_reset_clean_local_state(struct qaic_device *qdev);
-diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
-index 2459fe4a3f95..e86e71c1cdd8 100644
---- a/drivers/accel/qaic/qaic_data.c
-+++ b/drivers/accel/qaic/qaic_data.c
-@@ -1981,3 +1981,12 @@ void release_dbc(struct qaic_device *qdev, u32 dbc_id)
- 	dbc->in_use = false;
- 	wake_up(&dbc->dbc_release);
- }
-+
-+void qaic_data_get_fifo_info(struct dma_bridge_chan *dbc, u32 *head, u32 *tail)
-+{
-+	if (!dbc || !head || !tail)
-+		return;
-+
-+	*head = readl(dbc->dbc_base + REQHP_OFF);
-+	*tail = readl(dbc->dbc_base + REQTP_OFF);
-+}
-diff --git a/drivers/accel/qaic/qaic_debugfs.c b/drivers/accel/qaic/qaic_debugfs.c
-index b362960941d7..20b653d99e52 100644
---- a/drivers/accel/qaic/qaic_debugfs.c
-+++ b/drivers/accel/qaic/qaic_debugfs.c
-@@ -98,6 +98,36 @@ static const struct file_operations fifo_size_fops = {
- 	.release = single_release,
- };
- 
-+static int read_dbc_queued(struct seq_file *s, void *unused)
-+{
-+	struct dma_bridge_chan *dbc = s->private;
-+	u32 tail = 0, head = 0;
-+
-+	qaic_data_get_fifo_info(dbc, &head, &tail);
-+
-+	if (head == U32_MAX || tail == U32_MAX)
-+		seq_printf(s, "%u\n", 0);
-+	else if (head > tail)
-+		seq_printf(s, "%u\n", dbc->nelem - head + tail);
-+	else
-+		seq_printf(s, "%u\n", tail - head);
-+
-+	return 0;
-+}
-+
-+static int queued_open(struct inode *inode, struct file *file)
-+{
-+	return single_open(file, read_dbc_queued, inode->i_private);
-+}
-+
-+static const struct file_operations queued_fops = {
-+	.owner = THIS_MODULE,
-+	.open = queued_open,
-+	.read = seq_read,
-+	.llseek = seq_lseek,
-+	.release = single_release,
-+};
-+
- void qaic_debugfs_init(struct qaic_drm_device *qddev)
- {
- 	struct qaic_device *qdev = qddev->qdev;
-@@ -117,6 +147,7 @@ void qaic_debugfs_init(struct qaic_drm_device *qddev)
- 		snprintf(name, QAIC_DBC_DIR_NAME, "dbc%03u", i);
- 		debugfs_dir = debugfs_create_dir(name, debugfs_root);
- 		debugfs_create_file("fifo_size", 0400, debugfs_dir, &qdev->dbc[i], &fifo_size_fops);
-+		debugfs_create_file("queued", 0400, debugfs_dir, &qdev->dbc[i], &queued_fops);
- 	}
- }
- 
+> > > > > > > By replacing it with device_get_match_data() and creating a software
+> > > > > > > graph that mimics the OF graph, everything else works fine, except that
+> > > > > > > there isn't an out-of-box replacement for the of_device_get_match_data()
+> > > > > > > function. Because the software node backend of the fwnode framework lacks
+> > > > > > > an implementation for the device_get_match_data callback.
+> > > > > > .device_get_match_data
+> > > > > > 
+> > > > > > > Implement device_get_match_data fwnode callback fwnode callback to fill
+> > > > > > .device_get_match_data
+> > > > > OK, thanks a lot.
+> > > > > 
+> > > > > > > this gap. Device drivers or platform setup codes are expected to provide
+> > > > > > > a "compatible" string property. The value of this string property is used
+> > > > > > > to match against the compatible entries in the of_device_id table. Which
+> > > > > > > is consistent with the original usage style.
+> > > > > > Why do you need to implement the graph in the board file?
+> > > > > It can be inside the chip, there is no clear cut.\
+> > > > Which chip? Flash memory / ROM or you meant something like FPGA here?
+> > > > For the latter there is another discussion on how to use DT overlays
+> > > > in ACPI-enabled environments for the FPGA configurations.
+> > > There are some hardware resource or software entity is created on the
+> > > driver runtime. But DT or DT overlays are compiled before device driver
+> > > get loaded. GPIO-emulated-I2C is just an example, this is kind of driver
+> > > level knowledge on the runtime. With the GPIO or programmable some
+> > > hardware IP unit, device driver authors can change the connection relationship
+> > > at their will at the runtime. While with DT, every thing has to be sure
+> > > before the compile time.
+> > > 
+> > > DT overlays can be a alternative solution, but this doesn't conflict with
+> > > this patch. This patch won't assume how device drives go to use it, and
+> > > allow device driver creating device instead enumerating by DT. In one
+> > > word: "flexibility".
+> > Software nodes in general for the device driver / platform quirks.
+> 
+> The real problem is that we probably shouldn't make an assumption
+> how does the user is going to use the infrastructure, right?
+> 
+> You could say it is *mostly* for quirks or whatever, Like the
+> ./drivers/i2c/busses/i2c-cht-wc.c. But software nodes *can* also
+> be something else.
+> 
+> Can we stop restricting its usage by limited understanding or someone
+> personal judgement?
+
+Please, try to research the topic before calling it 'personal judgement'.
+
+59abd83672f7 ("drivers: base: Introducing software nodes to the firmware node framework")
+
+(Read the first paragraph carefully.)
+
+Let's say it's not personal, it's by design. Extending this to cover more needs
+a good justification. I do not see a such.
+
+> A workaround or quirk may be enough for some corner usage. Vladimir is also
+> encounter similar problem, right?
+
+> > They are not designed for what you are talking about here.
+> 
+> I have never hint anything about any real applications, the materials
+> and/or talk given here is just for example purpose.
+> 
+> What we are doing here is to keep the three back-ends aligned.
+> 
+> 
+> > Consider using SSDT / DT overlays instead.
+> > 
+> NAK,
+> 
+> When developers are doing task 'A' , reviewers ask them to do task 'B'.
+> And when developers doing task 'B', reviewers then recommend that the tool
+> 'C'  is a better alternative.
+> ...
+> ...
+> 
+> This is not good.
+> 
+> 
+> As I have read the lengthy thread in link [1] as you pointed to me.
+> 
+> The boring coding review is just as the following scheme:
+> 
+> 1) Asking details about what they do with software nodes impolitely.
+> 2) Wasting time to talk about irreverent things by brute force.
+> 3) Tell everybody that software nodes are not designed for what you application.
+> 4) Recommending DT overlays or something else.
+> 
+> Again, this is non-technical discussion, the time being wasting is not worthwhile.
+> And the judgements being given is irrelevant to the *patch itself*.
+
+The patch tries to tight the driver data to the device description provided by
+a software node, which is 100% equivalent to the legacy board files which we
+do NOT want to have. Besides that, the kernel project rule is "we do not add
+the dead (unused) code".
+
+I believe these two is quite enough to NAK patch.
+
+You may come with a better explanation AND a user of this in the same series.
+People at least can see your use case.
+
+> [1] https://lore.kernel.org/lkml/20230223203713.hcse3mkbq3m6sogb@skbuf/
+
 -- 
-2.34.1
+With Best Regards,
+Andy Shevchenko
+
 
