@@ -2,78 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C60D6886AB6
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 11:51:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1377788691A
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 10:22:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B28E10F48C;
-	Fri, 22 Mar 2024 10:51:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB3EC10E87A;
+	Fri, 22 Mar 2024 09:22:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="0rcFl2ka";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lOUdC6Qz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
- [209.85.160.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D201310F153
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 09:24:51 +0000 (UTC)
-Received: by mail-qt1-f174.google.com with SMTP id
- d75a77b69052e-430bf84977dso13716631cf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 02:24:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1711099490; x=1711704290;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=lL/EBlH5Jh63aoKeHGLKMjIzRRSVjMHfesQNBO1Iucg=;
- b=0rcFl2kaOYm3zwPO6xkKaLbRtN03EG2PB+z6XIT7nEi3YGXfdobWSbTyUSYokLrfS9
- 4oWru96YbxsoAjQKm8A7ghXq4GkwXOOH/h/Xi7fTtBCsKEQzP7nRjIiUdVjNLyMcEgqD
- ocmEjSahNFrmg/ey0Sl7NYw0Ezmq5WpPsvDci+/YqS7E6uEMVKA12T9jmuggwEeccyxd
- RB5R4YpsPbXDrA+umVwN3sHbImHnvOJ4twZ5jMi3wzenEDXcUmNk7GXGJvDj+8zQofVR
- iJEW57RUj0PtEs96rv/KPxE08hux4I25M+EIjAFFRprrvmYPd4H2S+j0szG8nRejqF5A
- UK7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711099490; x=1711704290;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=lL/EBlH5Jh63aoKeHGLKMjIzRRSVjMHfesQNBO1Iucg=;
- b=GQIX+ypboTbJRNnkD7uFrTWH5vCyQ4OpQxPjFCtadcGYEpA4MbAixAteXyYmEc2UwB
- iQDFy0P/7eCPO6R77WvxL8Yonwhb7zr50zvq/sbv8ilOJmwBa1MSBkSNvUgLT9+Ates1
- KYE5HU4rSFVXE1BUptvZl/QLUpwP0qSH6edACx7sLUfXEOqnKlO2MBP4Udgy7TgBPphv
- PtDhSr5eo50V7EQCirYAYCyNBuGJ8mhTImaxSYqdC2yMczCBKZ+2JxxdjDVycXhDmy6d
- uqfRN4prWIWTFRYw4PkfV3RQI45/8QSBL5M5YHr5IrKPei0K0IEYpWOU6n1wVdBHpf3z
- fIHw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVBdX07HJY9cH+ZVBsP89jh9/tAREvbTSn2fSUYMmC3XJiZxjMsBH0z3Fm65ca8/+M6cEf57zOhyCRMZ0bYlVbJnE0qp/FPPbydbjWzyQ6l
-X-Gm-Message-State: AOJu0Yx+FsnUYkwQ6U/sPdClOdLFWVnJSuvMDjhr2o3QuadGJCj67f9u
- Pr+f3vWeAj6NtwTjjtWWFmz8R8SWF8zOS293wKfhb6HxYKHIAdFdMepKzt8W4jGh/Qi8C1c50/j
- vsN2FVJJzEt4wUxFAvE08FPtKHIjh9Aj6LeVhwTMbdkOPTjn0TR8=
-X-Google-Smtp-Source: AGHT+IEY92qP9G2H9FhWdtgw9h1AbFV0mni/Os36S1+lGAL+B/YuwuWA4opCScQ9HWTHVUBAJMFEiqb3y9Ydd7bmajU=
-X-Received: by 2002:a05:6a20:dd87:b0:1a3:4e17:ff8f with SMTP id
- kw7-20020a056a20dd8700b001a34e17ff8fmr1974300pzb.57.1711099026866; Fri, 22
- Mar 2024 02:17:06 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15DEA10E87A
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 09:22:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1711099372; x=1742635372;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=dqz+Usb0C8ozA80PCCBjHib9D3xaFY8srzv1b7krGc4=;
+ b=lOUdC6QzWDJQ29z47GpXjcKOMvQ+mD8MZWa0451PDUQ7SiSD6MZlefJ3
+ 4FeSTm0qACj6YnIFVO2yItivl4uHM+CrxtfU7AHVxzB9OwFLVvPqdGIGI
+ oTaoXDwlfcJCe0A+sRaIlpt8UWhpwE93e2I9hebpCV/TYnY61BlmFXHNW
+ 4ns9xgIE7YhC5AtBqqv8IjuwTXcWIJfga8WHA3dYvoRH9ofbOuyiY/c2n
+ ii/j3IZj4jmsXsGc/K3hFDQjO2r3vfK2TwW1XDSouIBQU+25wJo8pkTtZ
+ xDnVf7EKnVwgx3bStMz9B2vwQ0E86/Qm1CnmnONaGx1dhOmBF0j9zIkl3 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="31575279"
+X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; d="scan'208";a="31575279"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2024 02:22:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; d="scan'208";a="19508193"
+Received: from ghoshsu1-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.55.6])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2024 02:22:19 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>, Maxime Ripard
+ <mripard@kernel.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang
+ <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick
+ <sebastian.wick@redhat.com>, Ville =?utf-8?B?U3lyasOkbMOk?=
+ <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [v10,20/27] drm/connector: hdmi: Add Infoframes generation
+In-Reply-To: <07125064-2a78-4515-bb48-655f2aec140f@linux.dev>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240321-kms-hdmi-connector-state-v10-20-e6c178361898@kernel.org>
+ <07125064-2a78-4515-bb48-655f2aec140f@linux.dev>
+Date: Fri, 22 Mar 2024 11:22:14 +0200
+Message-ID: <87sf0iliyh.fsf@intel.com>
 MIME-Version: 1.0
-References: <20240322012808.26234-1-shawn.sung@mediatek.com>
- <20240322012808.26234-4-shawn.sung@mediatek.com>
- <e1d5d349-c9e3-4af9-a9b6-d563027a5974@collabora.com>
-In-Reply-To: <e1d5d349-c9e3-4af9-a9b6-d563027a5974@collabora.com>
-From: Shawn Sung <shawn.sung@mediatek.corp-partner.google.com>
-Date: Fri, 22 Mar 2024 17:16:55 +0800
-Message-ID: <CAJRMJYGyTvKnAnj2Uag01GZsVNiAj_qT==G9wrCwj776CLg_Jw@mail.gmail.com>
-Subject: Re: [PATCH v4 03/14] drm/mediatek: Rename "mtk_drm_plane" to
- "mtk_plane"
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Shawn Sung <shawn.sung@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Content-Type: multipart/alternative; boundary="000000000000ac1c0106143c49af"
-X-Mailman-Approved-At: Fri, 22 Mar 2024 10:51:27 +0000
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,62 +78,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000ac1c0106143c49af
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Angelo,
-
-On Fri, Mar 22, 2024 at 4:46=E2=80=AFPM AngeloGioacchino Del Regno <
-angelogioacchino.delregno@collabora.com> wrote:
-
-> Il 22/03/24 02:27, Shawn Sung ha scritto:
-> > From: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
-> >
-> > Rename all "mtk_drm_plane" to "mtk_plane":
-> > - To align the naming rule
-> > - To reduce the code size
-> >
-> > Reviewed-by: AngeloGiaocchino Del Regno <
-> angelogioacchino.delregno@collabora.com>
->
-> Shawn - please - can you fix my typo'ed name also here and on all of the
-> patches of this series?
+On Fri, 22 Mar 2024, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
+> Hi,
 >
 >
-Submitted a new version to fix the typo.
-Thank you for the reminder.
+> On 2024/3/21 23:29, Maxime Ripard wrote:
+>> Infoframes in KMS is usually handled by a bunch of low-level helpers
+>> that require quite some boilerplate for drivers. This leads to
+>> discrepancies with how drivers generate them, and which are actually
+>> sent.
+>>
+>> Now that we have everything needed to generate them in the HDMI
+>> connector state, we can generate them in our common logic so that
+>> drivers can simply reuse what we precomputed.
+>>
+>> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+>> ---
+>>   drivers/gpu/drm/Kconfig                            |   1 +
+>>   drivers/gpu/drm/drm_atomic_state_helper.c          | 338 +++++++++++++++++++++
+>>   drivers/gpu/drm/drm_connector.c                    |  14 +
+>>   .../gpu/drm/tests/drm_atomic_state_helper_test.c   |   1 +
+>>   drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
+>>   include/drm/drm_atomic_state_helper.h              |   8 +
+>>   include/drm/drm_connector.h                        | 109 +++++++
+>>   7 files changed, 483 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+>> index 16029435b750..3d3193c7aa5f 100644
+>> --- a/drivers/gpu/drm/Kconfig
+>> +++ b/drivers/gpu/drm/Kconfig
+>> @@ -97,10 +97,11 @@ config DRM_KUNIT_TEST
+>>   	  If in doubt, say "N".
+>>   
+>>   config DRM_KMS_HELPER
+>>   	tristate
+>>   	depends on DRM
+>> +	select DRM_DISPLAY_HDMI_HELPER
+>
+> Should we select DRM_DISPLAY_HELPER here? Otherwise there will have some compile error
+> emerged with default config.
 
-Regards,
-Shawn
+Can we stop abusing select instead of adding more selects to paper over
+the issues?
 
---000000000000ac1c0106143c49af
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Use select only for non-visible symbols (no prompts anywhere) and for
+symbols with no dependencies.
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Angelo,</div><br><div class=3D"gmail_q=
-uote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Mar 22, 2024 at 4:46=E2=
-=80=AFPM AngeloGioacchino Del Regno &lt;<a href=3D"mailto:angelogioacchino.=
-delregno@collabora.com">angelogioacchino.delregno@collabora.com</a>&gt; wro=
-te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Il 22/03/24 =
-02:27, Shawn Sung ha scritto:<br>
-&gt; From: Hsiao Chien Sung &lt;<a href=3D"mailto:shawn.sung@mediatek.corp-=
-partner.google.com" target=3D"_blank">shawn.sung@mediatek.corp-partner.goog=
-le.com</a>&gt;<br>
-&gt; <br>
-&gt; Rename all &quot;mtk_drm_plane&quot; to &quot;mtk_plane&quot;:<br>
-&gt; - To align the naming rule<br>
-&gt; - To reduce the code size<br>
-&gt; <br>
-&gt; Reviewed-by: AngeloGiaocchino Del Regno &lt;<a href=3D"mailto:angelogi=
-oacchino.delregno@collabora.com" target=3D"_blank">angelogioacchino.delregn=
-o@collabora.com</a>&gt;<br>
-<br>
-Shawn - please - can you fix my typo&#39;ed name also here and on all of th=
-e<br>
-patches of this series?<br><br></blockquote><div><br></div><div>Submitted a=
- new version to fix the typo.</div><div>Thank you for the reminder.</div><d=
-iv><br></div><div>Regards,</div><div>Shawn</div></div></div>
 
---000000000000ac1c0106143c49af--
+BR,
+Jani.
+
+
+>
+>
+> : drivers/gpu/drm/drm_atomic_state_helper.o: in function `drm_atomic_helper_connector_hdmi_check':
+> drm_atomic_state_helper.c:(.text+0x15e4): undefined reference to `drm_hdmi_avi_infoframe_colorimetry'
+> : drm_atomic_state_helper.c:(.text+0x15f0): undefined reference to `drm_hdmi_avi_infoframe_bars'
+> : drm_atomic_state_helper.c:(.text+0x1638): undefined reference to `drm_hdmi_infoframe_set_hdr_metadata'
+> make[2]: *** [scripts/Makefile.vmlinux:37: vmlinux] Error 1
+>
+> make[1]: *** [/home/suijingfeng/UpStream/drm-tip/Makefile:1162: vmlinux] Error 2
+>
+> make[1]: *** Waiting for unfinished jobs....
+> make: *** [Makefile:240: __sub-make] Error 2
+>
+>>   	help
+>>   	  CRTC helpers for KMS drivers.
+>>   
+>>   config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
+>>           bool "Enable refcount backtrace history in the DP MST helpers"
+
+-- 
+Jani Nikula, Intel
