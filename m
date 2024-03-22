@@ -2,57 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58708886FB5
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 16:23:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8868886FC0
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 16:24:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3CF611253A;
-	Fri, 22 Mar 2024 15:22:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C216C10EE7B;
+	Fri, 22 Mar 2024 15:24:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="xvYY0svq";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="VHtHZe3v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com
- [91.218.175.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C74DB11253A
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 15:22:58 +0000 (UTC)
-Message-ID: <9063f7cd-e922-484f-a2ac-cf84c4f47100@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1711120976;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=n14/GAey1MVQQZ9496BWTZLRI/CaUeVuyvNjQAWmb5w=;
- b=xvYY0svqy/qpIv8OVXzIJyTXGPfIQ8a+wpEAnw9O+QTGZHAcRZMZBQVKKx6XXX7TSoVUlC
- GnkjohFYMbvlftzsyBSuC9aWBUWd2vLYgSf5Cx+aALEGQiIaIG338DTeE20B5GvyViTxIy
- r3J597Jj4gHupcJDt3bMrHISFxO9h/4=
-Date: Fri, 22 Mar 2024 11:22:52 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0AD710EE7B
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 15:24:10 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 42M5LkfR029091; Fri, 22 Mar 2024 15:24:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=FA8hi/Zc+lKUHJ7A6Oe96KQqnSTVFOXnuVWH4grGDc4=; b=VH
+ tHZe3vnMyZk/gjwSrXAGnw3fSt5hJ7rPoDZCCcNBA33lcSZ1lyRHILwvcpwWzrSf
+ cnSeuP5vpzxnhVO+3/sGiuTwo9Bc3nt4Zhw/hwNnBTxxMYT+lvPKUBE0f4xs1z2M
+ 7VTWr3HWK3C3nA2sDeZp8lA7cxBwyXep1/J4nHaIko38Y03cIKuCvdCwxLDaKyXK
+ hAW7jcvfym/45kqTVxsDGxzm2o3Rkwhcr2ft5q5f4SrXniC7sc3yiY6J3ZUmeCYR
+ IEXPPLgW26eI6DjCmijp5iyAWeYZGMrBDNM3GmG+gxHy346hCR68+TCBvbEct82E
+ 8rMosbKNIFXsiD6qdRRQ==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x0wy9tfev-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Mar 2024 15:24:06 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42MFO3ql031704
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Mar 2024 15:24:03 GMT
+Received: from [10.110.101.79] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 22 Mar
+ 2024 08:24:02 -0700
+Message-ID: <1e546c01-1126-45c8-9104-14e769dedb8b@quicinc.com>
+Date: Fri, 22 Mar 2024 08:24:01 -0700
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 1/8] drm: xlnx: Fix kerneldoc
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panel: replace utf multiply with an ascii x
 Content-Language: en-US
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Randy Dunlap <rdunlap@infradead.org>
-Cc: Michal Simek <michal.simek@amd.com>, David Airlie <airlied@gmail.com>,
- linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-kernel@lists.infradead.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-References: <20240319225122.3048400-1-sean.anderson@linux.dev>
- <20240319225122.3048400-2-sean.anderson@linux.dev>
- <e2eba421-cba1-4dd5-837c-6be5f07ed402@ideasonboard.com>
- <d4072aa1-47e4-45d3-9e04-2cd9d782b593@infradead.org>
- <2c38ac1c-cc0e-43b3-86d3-5b6a2f00f9e7@linux.dev>
- <19d6da67-f9a6-4e01-a956-3b60f0ebf769@ideasonboard.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sean Anderson <sean.anderson@linux.dev>
-In-Reply-To: <19d6da67-f9a6-4e01-a956-3b60f0ebf769@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+To: Prasad Pandit <ppandit@redhat.com>, Diogo Ivo
+ <diogo.ivo@tecnico.ulisboa.pt>
+CC: Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg
+ <sam@ravnborg.org>, <dri-devel@lists.freedesktop.org>, Prasad Pandit
+ <pjp@fedoraproject.org>
+References: <20240322120339.1802922-1-ppandit@redhat.com>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20240322120339.1802922-1-ppandit@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: znPbqv69Hp0mr4oQUezxviudsuzMJ8gq
+X-Proofpoint-GUID: znPbqv69Hp0mr4oQUezxviudsuzMJ8gq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-22_08,2024-03-21_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=898
+ impostorscore=0 priorityscore=1501 lowpriorityscore=0 clxscore=1011
+ phishscore=0 bulkscore=0 adultscore=0 spamscore=0 suspectscore=0
+ malwarescore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2403210001 definitions=main-2403220109
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,96 +91,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/22/24 01:50, Tomi Valkeinen wrote:
-> On 21/03/2024 17:33, Sean Anderson wrote:
->> On 3/20/24 02:05, Randy Dunlap wrote:
->>>
->>>
->>> On 3/19/24 22:42, Tomi Valkeinen wrote:
->>>> On 20/03/2024 00:51, Sean Anderson wrote:
->>>>> Fix a few errors in the kerneldoc. Mostly this addresses missing/renamed
->>>>> members.
->>>>>
->>>>> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
->>>>> ---
->>>>>
->>>>> Changes in v2:
->>>>> - New
->>>>>
->>>>>    drivers/gpu/drm/xlnx/zynqmp_disp.c  | 6 +++---
->>>>>    drivers/gpu/drm/xlnx/zynqmp_dpsub.h | 1 +
->>>>>    drivers/gpu/drm/xlnx/zynqmp_kms.h   | 4 ++--
->>>>>    3 files changed, 6 insertions(+), 5 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
->>>>> index 407bc07cec69..f79bf3fb8110 100644
->>>>> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
->>>>> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
->>>>> @@ -128,9 +128,9 @@ struct zynqmp_disp_layer {
->>>>>     * struct zynqmp_disp - Display controller
->>>>>     * @dev: Device structure
->>>>>     * @dpsub: Display subsystem
->>>>> - * @blend.base: Register I/O base address for the blender
->>>>> - * @avbuf.base: Register I/O base address for the audio/video buffer manager
->>>>> - * @audio.base: Registers I/O base address for the audio mixer
->>>>> + * @blend: Register I/O base address for the blender
->>>>> + * @avbuf: Register I/O base address for the audio/video buffer manager
->>>>> + * @audio: Registers I/O base address for the audio mixer
->>>>
->>>> Afaics, the kernel doc guide:
->>>>
->>>> https://docs.kernel.org/doc-guide/kernel-doc.html#nested-structs-unions
->>>>
->>>> says that the current version is correct. Or is the issue that while, say, 'base' is documented, 'blend' was not?
->>>
->>> Hi,
->>>
->>> I would do it more like so:
->>>
->>> ---
->>>   drivers/gpu/drm/xlnx/zynqmp_disp.c |    3 +++
->>>   1 file changed, 3 insertions(+)
->>>
->>> diff -- a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
->>> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
->>> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
->>> @@ -128,8 +128,11 @@ struct zynqmp_disp_layer {
->>>    * struct zynqmp_disp - Display controller
->>>    * @dev: Device structure
->>>    * @dpsub: Display subsystem
->>> + * @blend: blender iomem info
->>>    * @blend.base: Register I/O base address for the blender
->>> + * @avbuf: audio/video buffer iomem info
->>>    * @avbuf.base: Register I/O base address for the audio/video buffer manager
->>> + * @audio: audio mixer iomem info
->>>    * @audio.base: Registers I/O base address for the audio mixer
->>>    * @layers: Layers (planes)
->>>    */
->>>
->>>
->>> but in my testing, Sean's way or my way result in no warning/errors.
->>>
->>
->> The specific errors are:
->>
->> ../drivers/gpu/drm/xlnx/zynqmp_disp.c:151: warning: Function parameter or struct member 'blend' not described in 'zynqmp_disp'
->> ../drivers/gpu/drm/xlnx/zynqmp_disp.c:151: warning: Function parameter or struct member 'avbuf' not described in 'zynqmp_disp'
->> ../drivers/gpu/drm/xlnx/zynqmp_disp.c:151: warning: Function parameter or struct member 'audio' not described in 'zynqmp_disp'
->>
->> I don't see the need to document a single-member struct twice. Actually,
-> 
-> But if only the struct is documented, then we're documenting the wrong thing. A tool showing to the user what blend.base is would miss that documentation.
 
-Are there any such tools? kerneldoc e.g. just prints the definition and
-then a list of members with documentation. So from the user's
-perspective the only thing which changes is the name.
 
---Sean
+On 3/22/2024 5:03 AM, Prasad Pandit wrote:
+> From: Prasad Pandit <pjp@fedoraproject.org>
+> 
+> Replace unicode multiplication character with an ascii x.
+> It helps Kconfig parsers to read file without error.
 
->> maybe it would be better to just lift the .base member to live in
->> zynqmp_disp. But I think that would be better in another series.
+Hi Prasad,
+
+Seems that this also happens in 2 other Kconfig entries. Can you replace 
+those as well?
+
+Thanks,
+
+Jessica Zhang
+
 > 
-> Yes, there's not much point with the structs.
+> Fixes: 25205087df1f ("drm/panel: Add driver for JDI LPM102A188A")
+> Signed-off-by: Prasad Pandit <pjp@fedoraproject.org>
+> ---
+>   drivers/gpu/drm/panel/Kconfig | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->  Tomi
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index 8f3783742208..e3970dee089f 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -270,7 +270,7 @@ config DRM_PANEL_JDI_LPM102A188A
+>   	help
+>   	  Say Y here if you want to enable support for JDI LPM102A188A DSI
+>   	  command mode panel as found in Google Pixel C devices.
+> -	  The panel has a 2560×1800 resolution. It provides a MIPI DSI interface
+> +	  The panel has a 2560x1800 resolution. It provides a MIPI DSI interface
+>   	  to the host.
+>   
+>   config DRM_PANEL_JDI_R63452
+> -- 
+> 2.44.0
 > 
