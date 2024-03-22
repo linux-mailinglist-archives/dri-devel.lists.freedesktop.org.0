@@ -2,75 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF86887383
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 20:00:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7EB188738B
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 20:02:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B711111270E;
-	Fri, 22 Mar 2024 19:00:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1424811271E;
+	Fri, 22 Mar 2024 19:02:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EFboOMJ6";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="fYCOfiZm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3272311270E
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 19:00:16 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id
- d2e1a72fcca58-6e6082eab17so1857985b3a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 12:00:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1711134015; x=1711738815; darn=lists.freedesktop.org;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=rbqZXtWUsXkXU7uKgL2eJ1fLAfu1qEVONTKncRNgFZU=;
- b=EFboOMJ6izwIJUp7+jrBkuu7tYEpNZQx4hzwDY8mTMWFlnUr4/Hov1g83X/QHKmTbJ
- Kspacmol6AQmMSpzY4PB5/4NWCNwp7DH/E4xGXPeN5lTe8Z+G64KMvOpJlR9yip1WDMw
- NoFxyVbP+QTcHiluGv0NdnEhuJh9wXYcJTfRUfaaVrQw07CAfvc1Vs/KPFVXAPjhfP86
- Fq2n2+xr73LUMsYx34LwRh7YNIzXe2uBbcfm1+JlwTem3cFXP0bTglV2eWQsZXYAPepc
- s3ZV0UlX3WdAHdTUAxrz/CSrlzDokEPpPi4VYZQlK0nHwNLzSlBxe0Y1ED2/yeY/Lysz
- /bYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711134015; x=1711738815;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=rbqZXtWUsXkXU7uKgL2eJ1fLAfu1qEVONTKncRNgFZU=;
- b=Yao4v+a8baVPtllcCvT43gdFak1DpYkHryXeT/C/WFU7G+n8l9vBL8iuenTyFoGWXh
- FGjxe0hC2nU7kTTgNIVQH9LoxVYEf5fGpL/9yHNRpjGkXwt6eKpZv2gBXYzulpycJYv4
- EUEbwDV1p84zmVKBS1IG2E1oQ4VUbGxyFCwVciAcmrKNAKK2irdho3KbSLxoX7QKYP1w
- bFzOSoPYv6oNAcsYo8N0o1TKGavRzYrNkOJb76MqHsZmcdGsF9P/mBxWqsK0YR32ofe3
- wCHm0hytkEnZxgqY3Rjv9tleZEhLEldifcGn6nWK42MItes+KVJyitVz4mHka6DJ+WiI
- +Sig==
-X-Gm-Message-State: AOJu0YwEOECgx83zhii0WoG9Cz/teEk2QRgBkayIB45IoAPBZGRfgpiT
- SSASKdxDakXQmfZ/2hdOhQSicbEofpTHqyf15jnzzr1F6Wb+ooCQ
-X-Google-Smtp-Source: AGHT+IEBGM7i1E1TidmfQx+2yGHWF02f7RsNVHEYExqXeZ/JPZ+xWiuTct6cwktvs6pJTLdsmyz9lA==
-X-Received: by 2002:a05:6a00:3d06:b0:6e6:b155:b9a3 with SMTP id
- lo6-20020a056a003d0600b006e6b155b9a3mr703841pfb.11.1711134013371; 
- Fri, 22 Mar 2024 12:00:13 -0700 (PDT)
-Received: from [192.168.0.21] ([119.82.120.209])
- by smtp.gmail.com with ESMTPSA id
- y12-20020aa7804c000000b006e6bcbea9e0sm96558pfm.88.2024.03.22.12.00.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Mar 2024 12:00:13 -0700 (PDT)
-Message-ID: <0d10046d0868878cfc1f3de90ebd5e5bc1a74a6f.camel@gmail.com>
-Subject: Re: [PATCH] Fix duplicate C declaration warnings
-From: Amogh <amogh.linux.kernel.dev@gmail.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>, airlied@gmail.com, 
- daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- tzimmermann@suse.de, corbet@lwn.net, javier.carrasco.cruz@gmail.com, 
- skhan@linuxfoundation.org
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Date: Sat, 23 Mar 2024 00:30:07 +0530
-In-Reply-To: <871q83mw96.fsf@intel.com>
-References: <20240321115738.51188-1-amogh.linux.kernel.dev@gmail.com>
- <871q83mw96.fsf@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (by Flathub.org) 
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01BB411271C
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 19:02:13 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 42MIo38H023642; Fri, 22 Mar 2024 19:01:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding:content-type; s=qcppdkim1; bh=QutXxlM
+ BHByGHqQtpkzW5X/LPWd8vRQVqi8dfyhWfAY=; b=fYCOfiZm+HKtXJ6aRKN1vyD
+ bFNDJF+qfte4qAndD2I8fp2Y78Vk2v5nTb0RrF/n1Qwds5bUKSdkogm8dTYR5j9p
+ cke7UFga9f4ALaCs5XexNvpyPD/ExS3T24di+7gaFTyIjmkgkUR3dSAugtzvi0qK
+ ladkfo9e7+TtHzVGjAuhya61yThoX52PUS6WK9Ma0ERbXLYAVmmVgim/dmrD6KT+
+ OqXKhY/MHPsUoytfYXL8dVvFjn1Apb1yN3m2bDS0gaIOQcw8/nj1ibkom0gxxoXS
+ Q6r5T9bEmjn4lEV2RHpf0cbJZP6Gvb46WO+l29XFap/JWXSEyY6hmTiXPduWQKg=
+ =
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x18d2sevg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Mar 2024 19:01:43 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42MJ1gEt016242
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Mar 2024 19:01:42 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Fri, 22 Mar 2024 12:01:41 -0700
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <quic_carlv@quicinc.com>, <quic_pkanojiy@quicinc.com>,
+ <stanislaw.gruszka@linux.intel.com>,
+ <jacek.lawrynowicz@linux.intel.com>, <daniel@ffwll.ch>,
+ <jiasheng@iscas.ac.cn>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: [PATCH v2 0/2] drm: Add DRM managed workqueues
+Date: Fri, 22 Mar 2024 13:01:19 -0600
+Message-ID: <20240322190121.3881425-1-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: ANunKHemzVh7ZDUSV6NWhtnQyPztJa0A
+X-Proofpoint-ORIG-GUID: ANunKHemzVh7ZDUSV6NWhtnQyPztJa0A
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-22_11,2024-03-21_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0
+ phishscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0 mlxlogscore=999
+ malwarescore=0 clxscore=1015 mlxscore=0 adultscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2403210001
+ definitions=main-2403220137
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,25 +89,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2024-03-21 at 17:37 +0200, Jani Nikula wrote:
-> Please paste the warnings here.
->=20
-> BR,
-> Jani.
->=20
+Based on work at https://lore.kernel.org/dri-devel/20230118032413.6496-1-jiasheng@iscas.ac.cn/
 
-Here are the warnings I got:
+The API in the origional work seemed to have two issues:
+1. The output parameter was not correctly defined
+2. The allocating functions did not return the allocated object like the
+other drmm functions
 
-/home/amogh/Linux_Kernel_Workspace/linux-next/Documentation/gpu/drm-
-kms:360: ./drivers/gpu/drm/drm_fourcc.c:344: WARNING: Duplicate C
-declaration, also defined at gpu/drm-kms:39.
-Declaration is '.. c:function:: const struct drm_format_info *
-drm_format_info (u32 format)'.
-/home/amogh/Linux_Kernel_Workspace/linux-next/Documentation/gpu/drm-
-kms:461: ./drivers/gpu/drm/drm_modeset_lock.c:392: WARNING: Duplicate C
-declaration, also defined at gpu/drm-kms:49.
-Declaration is '.. c:function:: int drm_modeset_lock (struct
-drm_modeset_lock *lock, struct drm_modeset_acquire_ctx *ctx)'.
+I tweaked the implementation to address both of these.
 
-With Regards,
-Amogh
+From what I can tell, the i915 change no longer applies to the code
+base, likely due to refactoring from merging xe.  I dropped it.
+
+v2:
+-Fix make htmldocs warnings
+
+Jeffrey Hugo (1):
+  accel/qaic: Use drmm_alloc_workqueue()
+
+Jiasheng Jiang (1):
+  drm: Add DRM-managed alloc_workqueue() and alloc_ordered_workqueue()
+
+ drivers/accel/qaic/qaic_drv.c | 30 ++----------
+ drivers/gpu/drm/drm_managed.c | 87 +++++++++++++++++++++++++++++++++++
+ include/drm/drm_managed.h     |  8 ++++
+ 3 files changed, 99 insertions(+), 26 deletions(-)
+
+-- 
+2.34.1
+
