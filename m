@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 084D58868F2
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 10:13:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C42468868E3
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 10:12:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBB6010EDA7;
-	Fri, 22 Mar 2024 09:13:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CE6310F16A;
+	Fri, 22 Mar 2024 09:12:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="ISZtc7Lz";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="G6VuMXor";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DED9310EEDD
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 09:12:40 +0000 (UTC)
-X-UUID: 52295c5ae82c11ee935d6952f98a51a9-20240322
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0851C10EEDD
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 09:12:41 +0000 (UTC)
+X-UUID: 524781bce82c11eeb8927bc1f75efef4-20240322
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=i6qlv/T9mCY/kRP7L6PBaKUMXvMuRth9oyIwujiopfI=; 
- b=ISZtc7Lz/Xql2+S4ZKqCwXZypPygohdOFF6CJmqvT8A5e1Ll5FfK3MCVCM+7/GYsK3f/yk8EM5UHiqbjIDPNPfYzOzBfCzSE9N8VbRoqhGQY2ynO+YIzAVHpz9YMRc8oDhc4c9FGInkU8PYWUhQkoFAnBSkNd+nLuG8Su4kUtiA=;
+ bh=wXqKQKWwyy2kjacofcUps73BI2ErEGxymwzA0r1X5iU=; 
+ b=G6VuMXorf/gYEBwSxflWrGIazqZndcA1Ee7PeFcJB7/ZsxJYEiRPzp92FfT9Nhp2/wGEvLa0Pe+aAL2KYlgRNLXxihKjSjg3ffZ9oWRGJyItNR+tlGt14tfd0k78uNKLQ8FctFahW+fpiZxysSaw24xDABi5vgH+S7ZZbYCi0q4=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.37, REQID:b55d3605-6cc4-4f59-98b8-543b24d9b733, IP:0,
+X-CID-O-INFO: VERSION:1.1.37, REQID:8d6bbe73-a5df-476a-b5db-bda968e707eb, IP:0,
  U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:-5
-X-CID-META: VersionHash:6f543d0, CLOUDID:7247b690-e2c0-40b0-a8fe-7c7e47299109,
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:6f543d0, CLOUDID:111bcf81-4f93-4875-95e7-8c66ea833d57,
  B
  ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
  RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
  :1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 52295c5ae82c11ee935d6952f98a51a9-20240322
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by
- mailgw02.mediatek.com (envelope-from <shawn.sung@mediatek.com>)
+X-CID-FACTOR: TF_CID_SPAM_ULN,TF_CID_SPAM_SNR
+X-UUID: 524781bce82c11eeb8927bc1f75efef4-20240322
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <shawn.sung@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 706012020; Fri, 22 Mar 2024 17:12:34 +0800
+ with ESMTP id 401848834; Fri, 22 Mar 2024 17:12:35 +0800
 Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1118.26; Fri, 22 Mar 2024 17:12:33 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
@@ -57,10 +57,9 @@ CC: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
  <linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
  <linaro-mm-sig@lists.linaro.org>, Hsiao Chien Sung
  <shawn.sung@mediatek.corp-partner.google.com>
-Subject: [PATCH v5 02/14] drm/mediatek: Rename "mtk_drm_ddp_comp" to
- "mtk_ddp_comp"
-Date: Fri, 22 Mar 2024 17:12:20 +0800
-Message-ID: <20240322091232.26387-3-shawn.sung@mediatek.com>
+Subject: [PATCH v5 03/14] drm/mediatek: Rename "mtk_drm_plane" to "mtk_plane"
+Date: Fri, 22 Mar 2024 17:12:21 +0800
+Message-ID: <20240322091232.26387-4-shawn.sung@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20240322091232.26387-1-shawn.sung@mediatek.com>
 References: <20240322091232.26387-1-shawn.sung@mediatek.com>
@@ -84,7 +83,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
 
-Rename all "mtk_drm_ddp_comp" to "mtk_ddp_comp":
+Rename all "mtk_drm_plane" to "mtk_plane":
 - To align the naming rule
 - To reduce the code size
 
@@ -92,86 +91,49 @@ Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com
 Reviewed-by: CK Hu <ck.hu@mediatek.com>
 Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c     | 16 +++++++---------
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  6 +++---
- 2 files changed, 10 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c | 6 +++---
+ drivers/gpu/drm/mediatek/mtk_drm_plane.h | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index 71e20e8fc4ab8..0f2e1be4ee1cb 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -278,9 +278,9 @@ static void mtk_crtc_ddp_clk_disable(struct mtk_crtc *mtk_crtc)
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+index cbdb70677d305..43137c46fc148 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+@@ -93,8 +93,8 @@ static bool mtk_plane_format_mod_supported(struct drm_plane *plane,
+ 	return true;
  }
  
- static
--struct mtk_ddp_comp *mtk_drm_ddp_comp_for_plane(struct drm_crtc *crtc,
--						struct drm_plane *plane,
--						unsigned int *local_layer)
-+struct mtk_ddp_comp *mtk_ddp_comp_for_plane(struct drm_crtc *crtc,
-+					    struct drm_plane *plane,
-+					    unsigned int *local_layer)
+-static void mtk_drm_plane_destroy_state(struct drm_plane *plane,
+-					struct drm_plane_state *state)
++static void mtk_plane_destroy_state(struct drm_plane *plane,
++				    struct drm_plane_state *state)
  {
- 	struct mtk_crtc *mtk_crtc = to_mtk_crtc(crtc);
- 	struct mtk_ddp_comp *comp;
-@@ -430,7 +430,7 @@ static int mtk_crtc_ddp_hw_init(struct mtk_crtc *mtk_crtc)
+ 	__drm_atomic_helper_plane_destroy_state(state);
+ 	kfree(to_mtk_plane_state(state));
+@@ -241,7 +241,7 @@ static const struct drm_plane_funcs mtk_plane_funcs = {
+ 	.destroy = drm_plane_cleanup,
+ 	.reset = mtk_plane_reset,
+ 	.atomic_duplicate_state = mtk_plane_duplicate_state,
+-	.atomic_destroy_state = mtk_drm_plane_destroy_state,
++	.atomic_destroy_state = mtk_plane_destroy_state,
+ 	.format_mod_supported = mtk_plane_format_mod_supported,
+ };
  
- 		/* should not enable layer before crtc enabled */
- 		plane_state->pending.enable = false;
--		comp = mtk_drm_ddp_comp_for_plane(crtc, plane, &local_layer);
-+		comp = mtk_ddp_comp_for_plane(crtc, plane, &local_layer);
- 		if (comp)
- 			mtk_ddp_comp_layer_config(comp, local_layer,
- 						  plane_state, NULL);
-@@ -521,8 +521,7 @@ static void mtk_crtc_ddp_config(struct drm_crtc *crtc,
- 			if (!plane_state->pending.config)
- 				continue;
- 
--			comp = mtk_drm_ddp_comp_for_plane(crtc, plane,
--							  &local_layer);
-+			comp = mtk_ddp_comp_for_plane(crtc, plane, &local_layer);
- 
- 			if (comp)
- 				mtk_ddp_comp_layer_config(comp, local_layer,
-@@ -546,8 +545,7 @@ static void mtk_crtc_ddp_config(struct drm_crtc *crtc,
- 			if (!plane_state->pending.async_config)
- 				continue;
- 
--			comp = mtk_drm_ddp_comp_for_plane(crtc, plane,
--							  &local_layer);
-+			comp = mtk_ddp_comp_for_plane(crtc, plane, &local_layer);
- 
- 			if (comp)
- 				mtk_ddp_comp_layer_config(comp, local_layer,
-@@ -711,7 +709,7 @@ int mtk_crtc_plane_check(struct drm_crtc *crtc, struct drm_plane *plane,
- 	unsigned int local_layer;
- 	struct mtk_ddp_comp *comp;
- 
--	comp = mtk_drm_ddp_comp_for_plane(crtc, plane, &local_layer);
-+	comp = mtk_ddp_comp_for_plane(crtc, plane, &local_layer);
- 	if (comp)
- 		return mtk_ddp_comp_layer_check(comp, local_layer, state);
- 	return 0;
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-index 93d79a1366e91..ba985206fdd24 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-@@ -3,8 +3,8 @@
-  * Copyright (c) 2015 MediaTek Inc.
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.h b/drivers/gpu/drm/mediatek/mtk_drm_plane.h
+index 99aff7da0831d..231bb7aac9473 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_plane.h
++++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.h
+@@ -4,8 +4,8 @@
+  * Author: CK Hu <ck.hu@mediatek.com>
   */
  
--#ifndef MTK_DRM_DDP_COMP_H
--#define MTK_DRM_DDP_COMP_H
-+#ifndef MTK_DDP_COMP_H
-+#define MTK_DDP_COMP_H
+-#ifndef _MTK_DRM_PLANE_H_
+-#define _MTK_DRM_PLANE_H_
++#ifndef _MTK_PLANE_H_
++#define _MTK_PLANE_H_
  
- #include <linux/io.h>
- #include <linux/pm_runtime.h>
-@@ -340,4 +340,4 @@ void mtk_ddp_write_relaxed(struct cmdq_pkt *cmdq_pkt, unsigned int value,
- void mtk_ddp_write_mask(struct cmdq_pkt *cmdq_pkt, unsigned int value,
- 			struct cmdq_client_reg *cmdq_reg, void __iomem *regs,
- 			unsigned int offset, unsigned int mask);
--#endif /* MTK_DRM_DDP_COMP_H */
-+#endif /* MTK_DDP_COMP_H */
+ #include <drm/drm_crtc.h>
+ #include <linux/types.h>
 -- 
 2.18.0
 
