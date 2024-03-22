@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDFF9886682
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 06:58:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4261F886686
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 06:59:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F23CC10E1A7;
-	Fri, 22 Mar 2024 05:58:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88F6B10E72A;
+	Fri, 22 Mar 2024 05:59:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="F7cMcGux";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="s2LCACQx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AE7610E1A7
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 05:58:00 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id
- a640c23a62f3a-a46ce2bd562so237235866b.2
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 22:58:00 -0700 (PDT)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
+ [209.85.208.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C64C10E72A
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 05:59:23 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id
+ 4fb4d7f45d1cf-563cb3ba9daso1914576a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Mar 2024 22:59:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711087078; x=1711691878; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1711087162; x=1711691962; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=y/FVQ1OThBUGom2kUnLLauni89y4UEX61LTJ4tGJN3E=;
- b=F7cMcGuxxkcBn/C7fvEDBrjVZgiMetHdq5VK/MJ1WqtLB41MSDXthpD/mRiOKLHNMM
- /LDe1jJL6hPmWR6gJS6KlChxZkUrPhQ4tx5txnKTnCfY6rKEcKx2c9WfgCUz34lyOCWQ
- rQQg4qVwdBSdTc3O3Mlmw9a+syMBk8iYiKxm1k0ozw6qxhrABDDaujbxAVhElWyQKDGG
- BG7AK3gl14ffD4IfQsTrEr79ojoej+pq3awmmzyMN6Bpl77FbcOfxi6Fuy200gphqN46
- 9kijSQwGpOLRuJkLhlDFe2xGMyZUo0Ohvkj7PWDFTbZ9waZc6XeRLJGoyYsW1mJJwFMD
- 56Xg==
+ bh=potZTwCE1ci+jqTN6585fLKNjh7ovukw4UG/1bANwQQ=;
+ b=s2LCACQxay6uCAK6w8hz5hMeesIGsl22UX611w0ZIXi6zg2KFFAHQO1SWGhp2uMMYi
+ B6U0pU3rFTrmn49nRjchqG9fEqEqwA4kAyhLEXl3QJD1I4enINaiSg4xgMXTCNZFDf9h
+ zKAnFTT2MYYin5mtxjBElA+Qr6hbOZ6BF1XSLmmxOsOAJsDbkC/Y0S03c1Q8HZbMk1xP
+ nyxcjJhd4BZACexqqQUjnxuQAbyjgJ6AqAUOz0QNItQMeWWuOw+c6Poxz3rweTJd7OeT
+ TzF0LAoqcr1I114YFrBU36papC3PLB33lGfsXVx16OXabQnMukptTpoUIUgErvmBM7Rg
+ 06AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711087078; x=1711691878;
+ d=1e100.net; s=20230601; t=1711087162; x=1711691962;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=y/FVQ1OThBUGom2kUnLLauni89y4UEX61LTJ4tGJN3E=;
- b=LTgGroIYQ2cDBronLO5to2UeGl60YEt1Z+a1/XFf9f2/M2bFkKqjDDZ3bJnPKoC4tl
- ZX/TWCAW+HQywJV5eI/rLr+LE/xsMvq7xBJUbKaGCgjSt9wJ+SzHURbbeLfGXIOvo87e
- A3k7isiURkSXwRV7At1zvuG8byOSr9f+bcUD0z7EUVqQqDjZqi+UO7ujFPQQ51DZR3Ru
- Dp+0p+URxtGN4lHgihWSDTQlgqzYKx2yXVqeRAXofYSR0DJQGIbk4Bo1cCh43PejUF5x
- KO8F6UCqidAQtVzABsothGP9tyFYjXI/GJ/71Fh8yn/p0FT6XIoDXmvihh4dhYlUW+kt
- KGvA==
+ bh=potZTwCE1ci+jqTN6585fLKNjh7ovukw4UG/1bANwQQ=;
+ b=szvwtJgWg8PAyYSr47EWiH31dFMTSiU07K8nCORA0ldl5lATPsj1CATmpeVVqztVgZ
+ znt+s+P/PY0MFyjRliC/jFhlHutg5GL7UQo1UoCdl+4Xd3s4PnV8RlSJjlTezTT/dKdu
+ o67JnVF0Ap2LI4QowP04i0zjjyD7kJR1ZeZJpGYVRbkdWkKRnjxU7xFxcTTFvbI1I5cL
+ H+jkBKxpqrfluxQX9MymwaymF9oA7Y0doF0uMbEDqW9PdvC/8whIqMDNKOGA+FcdTo6w
+ P6aL/NnF5gOE0K01I+z0J6NjhMEFOY173URCOaIo11uxgyOJKrbWMLZRCHiFHN5U98Ge
+ Z5qA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVDlzQvuxkGYmqj0Yo+u5PfRrzg4pL9LECrvwafSlZci50KU/+YDLc9j4AnhxPoNH3PxeNbWmfowxJe2OvETQ9WapT70E7eKs5V88PurqpL
-X-Gm-Message-State: AOJu0Yy9oBwYT2cWJWGR2g9EXgWC2GxPOC9MSxuAyVh/fcATc7uGA9Zt
- XYsApGLz3NGanp5+HwsgdC69gl5Zn1qh8N+7zUWqNO7PMWb4/gmv7VPZ/AIXIAs=
-X-Google-Smtp-Source: AGHT+IG9QYu/31p7FfreUjJvmUcp5OPZoa3cTzL6vzuEETU1Z1KBwitzk+c6rvh6IirIemOwVx71iQ==
-X-Received: by 2002:a17:906:d19b:b0:a45:94bf:18e6 with SMTP id
- c27-20020a170906d19b00b00a4594bf18e6mr955076ejz.73.1711087078319; 
- Thu, 21 Mar 2024 22:57:58 -0700 (PDT)
+ AJvYcCVW1XodvCuOmYEH+islsZC7gyU4QrGYcf+lD1SiGbds7pY4xw0MAmSicLYcmXj1lMyHFoEWfJ/qRTfsKj7eJpQSHumC7dMbIDXRC+cGwUnF
+X-Gm-Message-State: AOJu0Yzbm39DRc437cAcYj1QwsY1ZIh43srKe5yyjHRshK5UvtZIzIqR
+ MeFH4yHvvSo89n9g27/uy/fx0CZx78lUmdJuhd/xc2uuw1AlNNTezWJHcJ4Y0DA=
+X-Google-Smtp-Source: AGHT+IExdK+IhaUDGlFU4T0vbrUtwj16j2cI5J6gaxXHaEQlSllAj7lbeVTsR2CVg6JhOZ12lAoZDg==
+X-Received: by 2002:a05:6402:28b5:b0:56b:e092:b755 with SMTP id
+ eg53-20020a05640228b500b0056be092b755mr593187edb.36.1711087161818; 
+ Thu, 21 Mar 2024 22:59:21 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.222.97])
  by smtp.gmail.com with ESMTPSA id
- d11-20020a170906344b00b00a4663d3b2bfsm640407ejb.217.2024.03.21.22.57.55
+ by27-20020a0564021b1b00b0056b7f20dbb5sm655249edb.50.2024.03.21.22.59.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Mar 2024 22:57:57 -0700 (PDT)
-Message-ID: <64c80a5b-e412-43dc-bdcf-a2992998e4b2@linaro.org>
-Date: Fri, 22 Mar 2024 06:57:55 +0100
+ Thu, 21 Mar 2024 22:59:21 -0700 (PDT)
+Message-ID: <a82d525c-737a-4ac4-9d71-e88f4ba69ea1@linaro.org>
+Date: Fri, 22 Mar 2024 06:59:18 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 8/9] dt-bindings: xlnx: Add VTC and TPG bindings
@@ -145,20 +145,27 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 21/03/2024 21:43, Anatoliy Klymenko wrote:
-> DO NOT MERGE. REFERENCE ONLY.
+> diff --git a/include/dt-bindings/media/media-bus-format.h b/include/dt-bindings/media/media-bus-format.h
+> new file mode 100644
+> index 000000000000..60fc6e11dabc
+> --- /dev/null
+> +++ b/include/dt-bindings/media/media-bus-format.h
+> @@ -0,0 +1,177 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
+> +/*
+> + * Media Bus API header
+> + *
+> + * Copyright (C) 2009, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License version 2 as
+> + * published by the Free Software Foundation.
 
-Why? What are you doing here and why nothing about this is explained?
+That's not true. Your SPDX tells something entirely different.
 
+Anyway, you did not explain why you need to copy anything anywhere.
 
-> 
-> Add binding for AMD/Xilinx Video Timing Controller and Test Pattern
-> Generator.
-> 
-> Copy media-bus-formats.h into dt-bindings/media to suplement TPG DT node.
-
-Still not tested. Do not send untested code to the lists.
-
-NAK
+Specifically, random hex values *are not bindings*.
 
 Best regards,
 Krzysztof
