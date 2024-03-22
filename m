@@ -2,45 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6126D88669D
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 07:09:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FB5D8866E2
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Mar 2024 07:41:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B73C410F3EE;
-	Fri, 22 Mar 2024 06:09:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEA2210E2D2;
+	Fri, 22 Mar 2024 06:40:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="dG4D9pe3";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="0ZWm3JvU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ome8oeF8";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0ZWm3JvU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ome8oeF8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-131.freemail.mail.aliyun.com
- (out30-131.freemail.mail.aliyun.com [115.124.30.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10E3510E4E3
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 06:09:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux.alibaba.com; s=default;
- t=1711087749; h=From:To:Subject:Date:Message-Id:MIME-Version;
- bh=ZnOfZWACaOxrEQs6ttoM82Jv+ZuQFuiTW3VGfaJ+7y4=;
- b=dG4D9pe32IdOCkzJkygb8UZGplQoXdYpjCe01CHchcYS61zXy5bIVySTdyVFVqQ+E4DtaQ/Pr15JwhutPW88ZvK2jKeLXJ4AF3CbZEGh6xCDIcwIES4/bILLk0sGGoz12WkadfeTuFv7LsxfhO8zKMPOi0JssR5TtadEyKHoQQ4=
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R141e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046049;
- MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
- TI=SMTPD_---0W315rNc_1711087740; 
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0W315rNc_1711087740) by smtp.aliyun-inc.com;
- Fri, 22 Mar 2024 14:09:07 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: alexander.deucher@amd.com
-Cc: christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
- Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH] drm/amd/display: clean up some inconsistent indenting
-Date: Fri, 22 Mar 2024 14:08:59 +0800
-Message-Id: <20240322060859.120155-1-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE2D110E2D2
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Mar 2024 06:40:54 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C00BD5FA27;
+ Fri, 22 Mar 2024 06:40:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1711089652; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=FhhGSqlzA4G8adk+sUIqDIzTCclZsYeL0YBP0gcdB5U=;
+ b=0ZWm3JvU01XoW7F2ebbJdpI76ijAt0J3W0fKBeUywbv4Ag9jco5yPC5RSovYgkneVIkpME
+ KAG58Sdvv0xG5dmBN1mz9VKkEqbkSeFXPmE1Fy8OnHuFgFOnygYytMArzmQ2+hnt/QEDl5
+ 6t8j1ZSmlN8StQjNeLrbHJWM7jhTRmU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1711089652;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=FhhGSqlzA4G8adk+sUIqDIzTCclZsYeL0YBP0gcdB5U=;
+ b=Ome8oeF8m9DKSfHIrNOFOJU8oM4Rtrrx71kDq0m/r+Zg79SOVzug9gwlnFwZGEa++ekBey
+ jrkkC64Hxodu54BQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1711089652; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=FhhGSqlzA4G8adk+sUIqDIzTCclZsYeL0YBP0gcdB5U=;
+ b=0ZWm3JvU01XoW7F2ebbJdpI76ijAt0J3W0fKBeUywbv4Ag9jco5yPC5RSovYgkneVIkpME
+ KAG58Sdvv0xG5dmBN1mz9VKkEqbkSeFXPmE1Fy8OnHuFgFOnygYytMArzmQ2+hnt/QEDl5
+ 6t8j1ZSmlN8StQjNeLrbHJWM7jhTRmU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1711089652;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=FhhGSqlzA4G8adk+sUIqDIzTCclZsYeL0YBP0gcdB5U=;
+ b=Ome8oeF8m9DKSfHIrNOFOJU8oM4Rtrrx71kDq0m/r+Zg79SOVzug9gwlnFwZGEa++ekBey
+ jrkkC64Hxodu54BQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8E522132FF;
+ Fri, 22 Mar 2024 06:40:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id jCBxIfQn/WVqDgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 22 Mar 2024 06:40:52 +0000
+Message-ID: <e83eb697-a359-4b8d-b038-a26d2ae00f21@suse.de>
+Date: Fri, 22 Mar 2024 07:40:52 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 12/13] drm/ast: Implement polling for VGA and SIL164
+ connectors
+To: Maxime Ripard <mripard@kernel.org>
+Cc: airlied@redhat.com, jfalempe@redhat.com,
+ maarten.lankhorst@linux.intel.com, jani.nikula@linux.intel.com,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
+References: <20240320093738.6341-1-tzimmermann@suse.de>
+ <20240320093738.6341-13-tzimmermann@suse.de>
+ <20240321-elated-optimal-lion-7ae26a@houat>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240321-elated-optimal-lion-7ae26a@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -1.42
+X-Spamd-Result: default: False [-1.42 / 50.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; XM_UA_NO_VERSION(0.01)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; BAYES_HAM(-0.13)[67.23%];
+ RCVD_COUNT_THREE(0.00)[3];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; RCPT_COUNT_SEVEN(0.00)[8];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+];
+ FREEMAIL_CC(0.00)[redhat.com,linux.intel.com,gmail.com,ffwll.ch,lists.freedesktop.org];
+ RCVD_TLS_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[]
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,32 +144,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-No functional modification involved.
+Hi
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn351/dcn351_fpu.c:569 dcn351_decide_zstate_support() warn: inconsistent indenting.
+Am 21.03.24 um 15:09 schrieb Maxime Ripard:
+> Hi,
+>
+> On Wed, Mar 20, 2024 at 10:34:17AM +0100, Thomas Zimmermann wrote:
+>> +/**
+>> + * drm_connector_helper_detect_ctx - Read EDID and detect connector status.
+>> + * @connector: The connector
+>> + * @ctx: Acquire context
+>> + * @force: Perform screen-destructive operations, if necessary
+>> + *
+>> + * Detects the connector status by reading the EDID using drm_probe_ddc(),
+>> + * which requires connector->ddc to be set. Returns connector_status_connected
+>> + * on success or connector_status_disconnected on failure.
+>> + *
+>> + * Returns:
+>> + * The connector status as defined by enum drm_connector_status.
+>> + */
+>> +int drm_connector_helper_detect_ctx(struct drm_connector *connector,
+>> +				    struct drm_modeset_acquire_ctx *ctx,
+>> +				    bool force)
+>> +{
+>> +	struct i2c_adapter *ddc = connector->ddc;
+>> +
+>> +	if (!ddc)
+>> +		return connector_status_unknown;
+>> +
+>> +	if (drm_probe_ddc(ddc))
+>> +		return connector_status_connected;
+>> +
+>> +	return connector_status_disconnected;
+>> +}
+>> +EXPORT_SYMBOL(drm_connector_helper_detect_ctx);
+> I think it would be better to make it more obvious that we rely on DDC
+> to detect and we shouldn't consider it a generic helper that would work
+> in all cases.
+>
+> drm_connector_helper_detect_probe_ddc maybe?
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=8608
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
----
- drivers/gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+No objection from me about mentioning DDC. What what about 
+drm_connector_helper_get_modes()? It relies on DDC as well, so I thought 
+that that's the default. Should we consider renaming it?
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.c
-index dc9e1b758ed6..1c16c5f2ce78 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.c
-@@ -564,9 +564,8 @@ void dcn351_decide_zstate_support(struct dc *dc, struct dc_state *context)
- 			dc->debug.minimum_z8_residency_time > 0 ? dc->debug.minimum_z8_residency_time : 1000;
- 		bool allow_z8 = context->bw_ctx.dml.vba.StutterPeriod > (double)minmum_z8_residency;
- 
--
- 		/*for psr1/psr-su, we allow z8 and z10 based on latency, for replay with IPS enabled, it will enter ips2*/
--		 if (is_pwrseq0 && (is_psr || is_replay))
-+		if (is_pwrseq0 && (is_psr || is_replay))
- 			support = allow_z8 ? allow_z8 : DCN_ZSTATE_SUPPORT_DISALLOW;
- 
- 	}
+Best regards
+Thomas
+
+>
+> Maxime
+
 -- 
-2.20.1.7.g153144c
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
