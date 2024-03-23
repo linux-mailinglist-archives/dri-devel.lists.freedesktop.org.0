@@ -2,90 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE048877EC
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Mar 2024 11:20:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF728877F2
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Mar 2024 11:22:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D86D10F0CD;
-	Sat, 23 Mar 2024 10:20:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8C9110E53D;
+	Sat, 23 Mar 2024 10:22:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="j2i31pTc";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gixzTrkM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
- [209.85.208.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3889910F0CD
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Mar 2024 10:20:52 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id
- 4fb4d7f45d1cf-565c6cf4819so6643869a12.1
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Mar 2024 03:20:52 -0700 (PDT)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DB3010E53D
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Mar 2024 10:22:27 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-a4707502aafso499256366b.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Mar 2024 03:22:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711189250; x=1711794050; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1711189345; x=1711794145; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=mv+dntp0+Yd5x4FtxAoMVnrAVTs/kYox5gzBd17b5Sk=;
- b=j2i31pTcH+SVLXtjcSVWMmB62aJPsbDiIoHoVoERxK1ixXYeKnC24Lxd/05cC7/Gct
- VRCfGqmtWKJU37Mo18p4haJAYxDM7Yw/JEg0VNRF585f5jhGlZUCecYKFVWwMYY2+SU5
- JlFce2w7A3gUkOe/E+hv/WrtwIUpDovIzvqqa+C92MhJj+GHddHZlIH7GeLtN7JURiJe
- EnRoQcT1QrCy8jevbd87Kmb7aowP7QrqLQ36Rva5e2cQzkNNHsEYbadYvAyZDusPiU1U
- 1KfvvQc4keaNM5NAuAGFdFJ2Ldziw5FPouds6cs//lEYHgiopoED2bbHB8y8ViaVsLEM
- FMbg==
+ bh=js4PIaXcQxhgLbPodRVWcO3IY0/eYmoev+fpsoez2d4=;
+ b=gixzTrkM1PmvcnyyusS3R9HprLG+QXQPpB/PC3evQghilbGbfdIWTkgXOqmcOlzeYE
+ TfVvrNEDT2i1jRJ60zWTBVPuiyPJZW5eEkH29shlkyqJV2iLAiv4xEBvlb1IHeVouYLv
+ WXujfJ9mo8nr/iL9jK7ETDPYgI+9B6ugKiSGtO5w9PjHIMr5YJFL5AnNzdH1mh2NS8Wy
+ trP28+1HFuZY/iyBaMgekRkLAwb7VRWq2JjAcbvELqLa/89O8ijBofBG1vv6Ner6KvLf
+ NDbctb0NTBR1586lE/XBa6toM73tZi36OLVGOiL+H2JfZSaWcgJ0UCWAfOzjd6TSxirK
+ +rdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711189250; x=1711794050;
+ d=1e100.net; s=20230601; t=1711189345; x=1711794145;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=mv+dntp0+Yd5x4FtxAoMVnrAVTs/kYox5gzBd17b5Sk=;
- b=ewkTrs90Zum+zF9VNMY1CXzdbfGlPTLdYcPrUeGRltz9bT13XiZiFziZT4l/nihuoF
- KSZLd3acsuFXDE0y4MwqIuA5d6eJ41jOGQtRCfBOBoaPpeXPCqpF8/LS+PQ8otkRe4S3
- rOqQeeku6FoS1fnhjWUgk+pJmwG1uUg7D360ZzlLPDwpt7yyDgwm3q7x22xQa2iYCNQc
- DMbU3DTUCULuTCfPut0JJc0iyC2usPBmzBpAwf2yNiLtl27Cp3vxIRbPztj7z1aMGZGu
- ypX4rQTVkbTr0HLRNe6CBYMQKOUiOU3sr8wpE0wk5NUpiS5l8qJkDxhWRBKMVgCafOyU
- tO2Q==
+ bh=js4PIaXcQxhgLbPodRVWcO3IY0/eYmoev+fpsoez2d4=;
+ b=BKgtuJxiCosaA2KKfuEEmZuG1B2S5VEkhEvnbLuRD1KMo9U/5ntV97uS20rzlk8C+f
+ +vIv7N/dArOAQmMyy6NSVvHryyYN84xko6b3poybyyYgt01t+Kn5Sn0RWUw12UmL4ZA/
+ bdgXLvR+rp6VjZ9nhyA6t9FIzAah+9G3n8IZ9XtB5iCHtcodkvBx8oB2PvAR/nQ9z5Of
+ vpFImIOw0Y+jXEOkaBlojLe1fbA6e3lNJ2T0RB2mOCpeHtSWAyIbqaTBj+8bg2EwTYfp
+ Iixsb+9BL6IC9lczH1iUmJvnjpxtt7uovoLJ3PeAAGd1rydb6dGu7J4Kic95gF3f9tK6
+ 3GUA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVszPpU/nljdEuRQKtoq/cUaTTF9WoSYqAHCRjR4OqHFSNgCEPOG92IZifAL3CSsPsv4JEt8uON9s2552jXnWyWImqaYctTXEiW/jgEKkoh
-X-Gm-Message-State: AOJu0YzT2xb25r8eZQ2/rBVjFUsseqByOg/P4xh8VAQBmqaRj2Qx1zhl
- Cjsc7ZsFrmjyMA62jFyPg2SIFZKVS2L7S4gbYoGDkQ1cflXlGTJ4q4v0rmk4IgI=
-X-Google-Smtp-Source: AGHT+IF+QkBaa9f+5oBcdmnEhymDovwjZkQnW5un8gceEcxp2mRV4SYnZHHM4XYweYwBFQkG93ai3A==
-X-Received: by 2002:a17:906:8cc:b0:a47:3f10:b3c8 with SMTP id
- o12-20020a17090608cc00b00a473f10b3c8mr1216214eje.26.1711189250183; 
- Sat, 23 Mar 2024 03:20:50 -0700 (PDT)
+ AJvYcCXJu8a/p90YwQuEylHhLsYWPmZT6Fn0T4rEqO1edq+wr9ciQciTY8KbiYAbc+Waz/hYqbTA8awSnfdif3VkxpN5C8jee6D0fp3A2zmyPyVL
+X-Gm-Message-State: AOJu0YzudiZ7Ncl96iKsLASLbCOYJeB3N+amPuPQoUaIBZxt7CTjrQEf
+ ddDve2vr/T5Bn6Sf5EuCRx5U+1pd/4Nq8Xhcx+E+uvLx57kyKcv+EU80RvDjmus=
+X-Google-Smtp-Source: AGHT+IG2Mjn8BezvSbIrsxNKvzbQCc4BQteR/QamUB88CUwTsVWu0/n5l1PE3Cl/rT26gl4+EI8Lww==
+X-Received: by 2002:a17:906:69c2:b0:a47:3cd5:b3f1 with SMTP id
+ g2-20020a17090669c200b00a473cd5b3f1mr1148989ejs.35.1711189345542; 
+ Sat, 23 Mar 2024 03:22:25 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.222.97])
  by smtp.gmail.com with ESMTPSA id
- o1-20020a1709061d4100b00a46b4c09670sm755351ejh.131.2024.03.23.03.20.47
+ c4-20020a170906170400b00a473abcb9fdsm767413eje.90.2024.03.23.03.22.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 23 Mar 2024 03:20:49 -0700 (PDT)
-Message-ID: <c0d70ba9-34ef-4121-834d-4d107f03d7f0@linaro.org>
-Date: Sat, 23 Mar 2024 11:20:46 +0100
+ Sat, 23 Mar 2024 03:22:25 -0700 (PDT)
+Message-ID: <4439d51f-072a-4b0f-a6e4-b95192eac83b@linaro.org>
+Date: Sat, 23 Mar 2024 11:22:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 8/9] dt-bindings: xlnx: Add VTC and TPG bindings
-To: "Klymenko, Anatoliy" <Anatoliy.Klymenko@amd.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+To: Conor Dooley <conor@kernel.org>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- "Simek, Michal" <michal.simek@amd.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Rob Herring <robh+dt@kernel.org>,
+ Michal Simek <michal.simek@amd.com>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-media@vger.kernel.org
 References: <20240321-dp-live-fmt-v3-0-d5090d796b7e@amd.com>
  <20240321-dp-live-fmt-v3-8-d5090d796b7e@amd.com>
  <a82d525c-737a-4ac4-9d71-e88f4ba69ea1@linaro.org>
- <MW4PR12MB7165889CE7F27A3F0B29DC7EE6312@MW4PR12MB7165.namprd12.prod.outlook.com>
+ <20240322-absence-endurable-dee8a25643b7@spud>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -132,7 +129,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <MW4PR12MB7165889CE7F27A3F0B29DC7EE6312@MW4PR12MB7165.namprd12.prod.outlook.com>
+In-Reply-To: <20240322-absence-endurable-dee8a25643b7@spud>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -150,38 +147,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/03/2024 20:12, Klymenko, Anatoliy wrote:
-> Hi Krzysztof,
-> 
-> Thanks a lot for the review.
-> 
->> -----Original Message-----
->> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Sent: Thursday, March 21, 2024 10:59 PM
->> To: Klymenko, Anatoliy <Anatoliy.Klymenko@amd.com>; Laurent Pinchart
->> <laurent.pinchart@ideasonboard.com>; Maarten Lankhorst
->> <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>;
->> Thomas Zimmermann <tzimmermann@suse.de>; David Airlie
->> <airlied@gmail.com>; Daniel Vetter <daniel@ffwll.ch>; Simek, Michal
->> <michal.simek@amd.com>; Andrzej Hajda <andrzej.hajda@intel.com>; Neil
->> Armstrong <neil.armstrong@linaro.org>; Robert Foss <rfoss@kernel.org>; Jonas
->> Karlman <jonas@kwiboo.se>; Jernej Skrabec <jernej.skrabec@gmail.com>; Rob
->> Herring <robh+dt@kernel.org>; Krzysztof Kozlowski
->> <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley <conor+dt@kernel.org>;
->> Mauro Carvalho Chehab <mchehab@kernel.org>
->> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>; dri-
->> devel@lists.freedesktop.org; linux-arm-kernel@lists.infradead.org; linux-
->> kernel@vger.kernel.org; devicetree@vger.kernel.org; linux-
->> media@vger.kernel.org
->> Subject: Re: [PATCH v3 8/9] dt-bindings: xlnx: Add VTC and TPG bindings
->>
->> Caution: This message originated from an External Source. Use proper caution
->> when opening attachments, clicking links, or responding.
->>
->>
+On 22/03/2024 19:05, Conor Dooley wrote:
+> On Fri, Mar 22, 2024 at 06:59:18AM +0100, Krzysztof Kozlowski wrote:
 >> On 21/03/2024 21:43, Anatoliy Klymenko wrote:
->>> diff --git a/include/dt-bindings/media/media-bus-format.h b/include/dt-
->> bindings/media/media-bus-format.h
+>>> diff --git a/include/dt-bindings/media/media-bus-format.h b/include/dt-bindings/media/media-bus-format.h
 >>> new file mode 100644
 >>> index 000000000000..60fc6e11dabc
 >>> --- /dev/null
@@ -199,32 +168,18 @@ On 22/03/2024 20:12, Klymenko, Anatoliy wrote:
 >>
 >> That's not true. Your SPDX tells something entirely different.
 >>
-> 
-> Thank you - I'll see how to fix it.
-> 
 >> Anyway, you did not explain why you need to copy anything anywhere.
->>
->> Specifically, random hex values *are not bindings*.
->>
 > 
-> The same media bus format values are being used by the reference driver in patch #9. And, as far as I know, we cannot use headers from Linux API headers directly (at least I 
+> I assume by "copy anything anywhere" you mean "why did you copy a linux
+> uapi header into the bindings?
 
-I don't understand what does it mean. You can use in your driver
-whatever headers you wish, I don't care about them.
+Yes, I trimmed context too much.
 
+The reasoning of copying some UAPI and claiming it is a binding was:
+"Copy media-bus-formats.h into dt-bindings/media to suplement TPG DT node."
+so as seen *there is no reason*.
 
-noticed the same pattern in ../dt-bindings/sdtv-standarts.h for
-instance). What would be the best approach to reusing the same defines
-on DT and driver sides from your point of view? Symlink maybe?
-> 
-
-Wrap your messages to match mailing list discussion style. There are no
-defines used in DT. If there are, show me them in *THIS* or other
-*upstreamed* (being upstreamed) patchset.
-
-Whatever you have out of tree or "DO NOT MERGE" does not matter and does
-not justify anything.
-
+Commit msg should explain why we are doing things.
 
 Best regards,
 Krzysztof
