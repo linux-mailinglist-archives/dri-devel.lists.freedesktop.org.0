@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF1F8878BF
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Mar 2024 13:53:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46EF9887757
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Mar 2024 07:59:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D7E310F692;
-	Sat, 23 Mar 2024 12:53:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E07310E8EC;
+	Sat, 23 Mar 2024 06:59:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=nppct.ru header.i=@nppct.ru header.b="XluqJj4f";
+	dkim=pass (2048-bit key; unprotected) header.d=ravnborg.org header.i=@ravnborg.org header.b="i6jnN+xq";
+	dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="cVjUCt3q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.nppct.ru (mail.nppct.ru [195.133.245.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3832112B26
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Mar 2024 06:39:42 +0000 (UTC)
-Received: from mail.nppct.ru (localhost [127.0.0.1])
- by mail.nppct.ru (Postfix) with ESMTP id 136091C1396
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Mar 2024 09:39:38 +0300 (MSK)
-Authentication-Results: mail.nppct.ru (amavisd-new); dkim=pass (1024-bit key)
- reason="pass (just generated,
- assumed good)" header.d=nppct.ru
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nppct.ru; h=
- content-transfer-encoding:mime-version:x-mailer:message-id:date
- :date:subject:subject:to:from:from; s=dkim; t=1711175976; x=
- 1712039977; bh=8Ru1KtR1m4ULexCA5WK3GVpaEyvcpR5jkF1JflcEVtQ=; b=X
- luqJj4fPGYa3u0mMu9e+EXQyqAdwwur150el+3a6bd8z1l4wKBuzx3s897y2mU/C
- HiRxyxWVaRZNg6dSV517/A4CEchiMRUhfaHCgLdPNuLmSLLt3FHf1HQIGKE9OGeZ
- jFLQ7P5rHLPSEfK8+qdJJexpCvbhEabzp+OqyXcC+4=
-X-Virus-Scanned: Debian amavisd-new at mail.nppct.ru
-Received: from mail.nppct.ru ([127.0.0.1])
- by mail.nppct.ru (mail.nppct.ru [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id 1j_abhGrDk48 for <dri-devel@lists.freedesktop.org>;
- Sat, 23 Mar 2024 09:39:36 +0300 (MSK)
-Received: from localhost.localdomain (mail.dev-ai-melanoma.ru
- [185.130.227.204])
- by mail.nppct.ru (Postfix) with ESMTPSA id 1C6961C11FE;
- Sat, 23 Mar 2024 09:39:35 +0300 (MSK)
-From: Andrey Shumilin <shum.sdl@nppct.ru>
-To: Karol Herbst <kherbst@redhat.com>
-Cc: Andrey Shumilin <shum.sdl@nppct.ru>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- khoroshilov@ispras.ru, ykarpov@ispras.ru, vmerzlyakov@ispras.ru,
- vefanov@ispras.ru
-Subject: [PATCH] therm.c: Adding an array index check before accessing an
- element.
-Date: Sat, 23 Mar 2024 09:39:33 +0300
-Message-Id: <20240323063933.665695-1-shum.sdl@nppct.ru>
-X-Mailer: git-send-email 2.30.2
+Received: from mailrelay4-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay4-1.pub.mailoutpod2-cph3.one.com [46.30.211.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F0E410E8EC
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Mar 2024 06:59:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=kHVpvatmACLIHkQBpgUbroXh+MVsVFpq6tArzu/ykOs=;
+ b=i6jnN+xq/VdVv+HkVL4ICMSlaFskB+k+43rEVsmWuJAGORLjqZZsVKaV5JWuTtZco2dadtZR3to5y
+ srXJuv/2I75lVQj/mnuN94BytRg6V6uiKXOPWFFdA4OwAUmZdaPlaIbx3lVSxo3DgiMtY/yu/dGrXx
+ Ba6KzApuIu+Tl8OeXqFTIW7Nthk1MHU8XI0ChjY7bWLpFWf7zLLa+yeeCCVqTx4tDVn7Y7mxpjI+nW
+ vy6yFbjPZUVnbgPlarPlipdN16ijfQal4Cm5PAwQSeNbwB+DCIUOUu25XMmn+dQW7F5u7JaXSNAoLe
+ 4+YHY7YW1+iQv9YyHkWHGp6O8yIC+UA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=kHVpvatmACLIHkQBpgUbroXh+MVsVFpq6tArzu/ykOs=;
+ b=cVjUCt3qIpk1zz093kSoT9yNiAJtNN/6tMO6ofj+yw9LAoN5BEKt6xyNp3YuH+U6MZ5+0Xq5QAGoe
+ mPps64CAw==
+X-HalOne-ID: b499b8b2-e8e2-11ee-9527-31e85a7fa845
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay4.pub.mailoutpod2-cph3.one.com (Halon) with ESMTPSA
+ id b499b8b2-e8e2-11ee-9527-31e85a7fa845;
+ Sat, 23 Mar 2024 06:58:10 +0000 (UTC)
+Date: Sat, 23 Mar 2024 07:58:09 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: nbowler@draconx.ca, deller@gmx.de, javierm@redhat.com,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, stable@vger.kernel.org
+Subject: Re: [PATCH] fbdev: Select I/O-memory framebuffer ops for SBus
+Message-ID: <20240323065809.GA886373@ravnborg.org>
+References: <20240322083005.24269-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sat, 23 Mar 2024 12:53:03 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240322083005.24269-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,29 +68,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It is possible to access an element at index -1 if at the
-first iteration of the loop the result of switch is equal to 0x25
-Added variable checking.
-
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
-Signed-off-by: Andrey Shumilin <shum.sdl@nppct.ru>
----
- drivers/gpu/drm/nouveau/nvkm/subdev/bios/therm.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/therm.c b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/therm.c
-index 5babc5a7c7d5..78387053f214 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/therm.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/therm.c
-@@ -180,6 +180,8 @@ nvbios_therm_fan_parse(struct nvkm_bios *bios, struct nvbios_therm_fan *fan)
- 			cur_trip->fan_duty = duty_lut[(value & 0xf000) >> 12];
- 			break;
- 		case 0x25:
-+			if (fan->nr_fan_trip == 0)
-+				fan->nr_fan_trip++;
- 			cur_trip = &fan->trip[fan->nr_fan_trip - 1];
- 			cur_trip->fan_duty = value;
- 			break;
--- 
-2.30.2
-
+On Fri, Mar 22, 2024 at 09:29:46AM +0100, Thomas Zimmermann wrote:
+> Framebuffer I/O on the Sparc Sbus requires read/write helpers for
+> I/O memory. Select FB_IOMEM_FOPS accordingly.
+> 
+> Reported-by: Nick Bowler <nbowler@draconx.ca>
+> Closes: https://lore.kernel.org/lkml/5bc21364-41da-a339-676e-5bb0f4faebfb@draconx.ca/
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 8813e86f6d82 ("fbdev: Remove default file-I/O implementations")
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: <stable@vger.kernel.org> # v6.8+
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
