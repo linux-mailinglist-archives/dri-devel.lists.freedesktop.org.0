@@ -2,55 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AB3A8879A7
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Mar 2024 18:15:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F858879B3
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Mar 2024 18:21:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9843A10E974;
-	Sat, 23 Mar 2024 17:15:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 165C010EB07;
+	Sat, 23 Mar 2024 17:21:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FSnKoVR4";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="D3/iyifZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB5E610E8B2;
- Sat, 23 Mar 2024 17:15:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1711214110; x=1742750110;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=UeNyzUP0dCLHnFbihRMpGXxV2WmK3tBFKmfNOljwhms=;
- b=FSnKoVR4UpthGwnoZDbNeGQDfeywYbbwBshGmin2A6+7C5Ps9IrNrsBe
- m2Bz6+oI99fuxK3X5MFD3OyjXlIj6XOzY231fqaR+80nsrgoAweY/ZN4T
- QxqyKOW4jWZrilo+1BUE2Ps5UuJkJY8uFXWad5QtvqiB605mFvL0nIjlI
- 02gV8i2Bc/LjIKLvBROMfH7+7G7a0hsRMyv5YhAAcua5sUWNHVvpTANrJ
- qG7S+zcVO44/grbUr237InnfATVQxaZTzNHCnhywkjJPfMhcwlNjI0KKc
- IBs6ifejENbrZZJRAiRyHB8+nyjh1DYCdTgJhDlK6TBcrJNR/J4RV36rk w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11022"; a="10042901"
-X-IronPort-AV: E=Sophos;i="6.07,149,1708416000"; d="scan'208";a="10042901"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2024 10:15:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,149,1708416000"; d="scan'208";a="15209332"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
- by orviesa009.jf.intel.com with ESMTP; 23 Mar 2024 10:15:07 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1ro4xV-000LLf-0P;
- Sat, 23 Mar 2024 17:15:05 +0000
-Date: Sun, 24 Mar 2024 01:14:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Douglas Anderson <dianders@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: [drm-tip:drm-tip 4/11]
- drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c:105:73: error: '.bin' directive
- output may be truncated writing 4 bytes into a region of size between 2 and
- 31
-Message-ID: <202403240115.1lAo588s-lkp@intel.com>
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4596210EB07
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Mar 2024 17:21:16 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-1e07cd7b798so19680735ad.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Mar 2024 10:21:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1711214475; x=1711819275; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=8SKbKvutu0TRknCHMhc3WTIdZ3pqPX7klZawq+6tT8w=;
+ b=D3/iyifZZHHJzTc1kBHhMXYr93yEPqxqOHJ14QIdWgFkh/wHJs8IVJuSGzFzkr4XVG
+ LZFDekTYepq6jliJ+ha/zZNBh79aguhio+NWhQYWVDAX7zGxivU0gX7+gJ7nTiIwEHzX
+ gmFD+zq6UNc/p8j2XZwhKRoh13unJJhO9ev57i5iWuXPiMtSO3VBuOXRgZBGSzdMs3wG
+ qJteo9R93BcwOQDX98vgYSAoLsIbv1D6/O0jUXlkIJm7b2lgIDNR2MgmURJdyNi4Q/Z+
+ qICqzlOTUUGsGGdC37dFEv0cL80ZMsa4x7oxB+DOnZ/J0DNzqqRR+u6j4+4wOk1H4P2l
+ plMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711214475; x=1711819275;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=8SKbKvutu0TRknCHMhc3WTIdZ3pqPX7klZawq+6tT8w=;
+ b=qnkU3i1Y4iNc5LyQMf1BkpDkzL6bDzYQUtGIQ8553ViG4D38NLVqpiF25fJJH4/aUu
+ WcO9QAIe5PViCKd8wzBgMPvhL+r4z0ePWek/wG6UleylF31rzyHLyxD02CbfLnQoJ4De
+ 4GITJhWlJJnWos1YYnxmt/ZY6z8AbZt1p0TU5oNOKzhR2IO/02w5KB0TvMEc54A+TGd0
+ +oaqbUThr9REC2W8oyyJY42ndJ4IKkfrXl1EvOOeSjo0pHhp1G0vFFEB1v2Hem7p0v94
+ tSlm1U9LmrI0/EMXXa0V+XLKA0nmW5r+oHk7Lh1g4kcO1OOICzoabV7yXUUs54vDdgm/
+ zBZA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXuRuHr0njHgR1/vebKU02sX/MDh7VqNbr6tKnz3zGJtkhQF5KssGXp2cOj/TAd1G/1L2x9kV4K55CRarYfcjn0ux3RAYv3Ad/QOo8D2ZD7
+X-Gm-Message-State: AOJu0YwRiKwAkvHJc9nsk3/2sDlrqadeV7qGTKVfTmqAgxdUyJ8D+21Q
+ tTT+5hRbTQISLt64SnMwLV/E5fOntyhhsrzzkQvNSr9bP+6Hi5qk
+X-Google-Smtp-Source: AGHT+IHm/Wv/JlDIopAaC3CvXY2lB52YUUgKlba/7sjp1a57vfh4iK0VkIbVoefttSFd12pVUiz+GA==
+X-Received: by 2002:a17:903:24b:b0:1e0:384:ecb9 with SMTP id
+ j11-20020a170903024b00b001e00384ecb9mr3531940plh.8.1711214475419; 
+ Sat, 23 Mar 2024 10:21:15 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ u13-20020a170902e5cd00b001e042dc5202sm1801130plf.80.2024.03.23.10.21.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 23 Mar 2024 10:21:14 -0700 (PDT)
+Message-ID: <1c6848dc-62c2-417f-80d0-ad70b394c477@roeck-us.net>
+Date: Sat, 23 Mar 2024 10:21:10 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 08/11] devm-helpers: Add resource managed version of
+ debugfs directory create function
+Content-Language: en-US
+To: =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Gregory CLEMENT
+ <gregory.clement@bootlin.com>, soc@kernel.org, arm@kernel.org,
+ =?UTF-8?Q?Horia_Geant=C4=83?= <horia.geanta@nxp.com>,
+ Pankaj Gupta <pankaj.gupta@nxp.com>, Gaurav Jain <gaurav.jain@nxp.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S. Miller" <davem@davemloft.net>,
+ Bamvor Jian Zhang <bamv2005@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ James Seo <james@equiv.tech>, Jean Delvare <jdelvare@suse.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ Naresh Solanki <naresh.solanki@9elements.com>,
+ Patrick Rudolph <patrick.rudolph@9elements.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ James Clark <james.clark@arm.com>, Eddie James <eajames@linux.ibm.com>,
+ linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-hwmon@vger.kernel.org
+References: <20240323164359.21642-1-kabel@kernel.org>
+ <20240323164359.21642-9-kabel@kernel.org>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20240323164359.21642-9-kabel@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,69 +156,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-head:   657dd8fcd2f1d1205c6f98fdb8b60915228991d1
-commit: 0885186926a13c697d78f5af03f32445414b6ad5 [4/11] Merge remote-tracking branch 'drm-misc/drm-misc-next' into drm-tip
-config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240324/202403240115.1lAo588s-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240324/202403240115.1lAo588s-lkp@intel.com/reproduce)
+On 3/23/24 09:43, Marek Behún wrote:
+> A few drivers register a devm action to remove a debugfs directory,
+> implementing a one-liner function that calls debufs_remove_recursive().
+> Help drivers avoid this repeated implementations by adding managed
+> version of debugfs directory create function.
+> 
+> Use the new function devm_debugfs_create_dir() in the following
+> drivers:
+>    drivers/crypto/caam/ctrl.c
+>    drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>    drivers/hwmon/hp-wmi-sensors.c
+>    drivers/hwmon/mr75203.c
+>    drivers/hwmon/pmbus/pmbus_core.c
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403240115.1lAo588s-lkp@intel.com/
+Please split this up into multiple patches, at least separating out
+the hwmon patches.
 
-All errors (new ones prefixed by >>):
+Guenter
 
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c: In function 'amdgpu_vcn_early_init':
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c:102:66: error: 'snprintf' output may be truncated before the last format character [-Werror=format-truncation=]
-     102 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", ucode_prefix);
-         |                                                                  ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c:102:17: note: 'snprintf' output between 12 and 41 bytes into a destination of size 40
-     102 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", ucode_prefix);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c:105:73: error: '.bin' directive output may be truncated writing 4 bytes into a region of size between 2 and 31 [-Werror=format-truncation=]
-     105 |                         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_%d.bin", ucode_prefix, i);
-         |                                                                         ^~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c:105:25: note: 'snprintf' output between 14 and 43 bytes into a destination of size 40
-     105 |                         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_%d.bin", ucode_prefix, i);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-
-
-vim +105 drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
-
-95d0906f850655 Leo Liu            2016-12-21   93  
-69939009bde70c Mario Limonciello  2022-12-28   94  int amdgpu_vcn_early_init(struct amdgpu_device *adev)
-69939009bde70c Mario Limonciello  2022-12-28   95  {
-69939009bde70c Mario Limonciello  2022-12-28   96  	char ucode_prefix[30];
-69939009bde70c Mario Limonciello  2022-12-28   97  	char fw_name[40];
-6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06   98  	int r, i;
-69939009bde70c Mario Limonciello  2022-12-28   99  
-6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06  100  	for (i = 0; i < adev->vcn.num_vcn_inst; i++) {
-69939009bde70c Mario Limonciello  2022-12-28  101  		amdgpu_ucode_ip_version_decode(adev, UVD_HWIP, ucode_prefix, sizeof(ucode_prefix));
-69939009bde70c Mario Limonciello  2022-12-28 @102  		snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", ucode_prefix);
-6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06  103  		if (amdgpu_ip_version(adev, UVD_HWIP, 0) ==  IP_VERSION(4, 0, 6) &&
-6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06  104  			i == 1) {
-6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06 @105  			snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_%d.bin", ucode_prefix, i);
-6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06  106  		}
-69939009bde70c Mario Limonciello  2022-12-28  107  
-6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06  108  		r = amdgpu_ucode_request(adev, &adev->vcn.fw[i], fw_name);
-6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06  109  		if (r) {
-6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06  110  			amdgpu_ucode_release(&adev->vcn.fw[i]);
-6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06  111  			return r;
-6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06  112  		}
-6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06  113  	}
-69939009bde70c Mario Limonciello  2022-12-28  114  	return r;
-69939009bde70c Mario Limonciello  2022-12-28  115  }
-69939009bde70c Mario Limonciello  2022-12-28  116  
-
-:::::: The code at line 105 was first introduced by commit
-:::::: 6a7cbbc267c0cafa2b027983a40276deb673c066 drm/amdgpu/vcn: enable vcn1 fw load for VCN 4_0_6
-
-:::::: TO: Saleemkhan Jamadar <saleemkhan.jamadar@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
