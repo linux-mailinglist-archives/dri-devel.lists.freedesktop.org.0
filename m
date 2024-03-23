@@ -2,79 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04C6D887926
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Mar 2024 15:53:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7955887966
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Mar 2024 17:30:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33AC010E555;
-	Sat, 23 Mar 2024 14:53:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC0D010E49D;
+	Sat, 23 Mar 2024 16:30:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="mfrEyhHM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WGzBONoM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com
- [209.85.219.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D19F10E555
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Mar 2024 14:52:58 +0000 (UTC)
-Received: by mail-qv1-f54.google.com with SMTP id
- 6a1803df08f44-696499bd61eso30196816d6.0
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Mar 2024 07:52:58 -0700 (PDT)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 647F710E49D
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Mar 2024 16:30:20 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id
+ 98e67ed59e1d1-29f69710cbbso2075781a91.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Mar 2024 09:30:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1711205577; x=1711810377;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=PQy0LgbNRS2IUlbgbrbirFDizWSucGasGxIZDrnu8QQ=;
- b=mfrEyhHMk2ojiwFiBd0KfwefIhiSc+2mfbA1yD+TnwWNP16E1qJYNa+ht0fTD+BKUv
- 2pisD68T7Az/OTr1s7ZWnsRHKNPl/gsZzvGYO9tpQR/o+XO0a2XZYwAD9WaoiG3Loohj
- Kl+xG0jADd3atlbu349O6myW4Bd1ggd9bnoJdUW2E1cigPTflAEwY8oVlCbHHen1zDg/
- oZhlPead63vw1b2fwen1klRu7lnCRfCWQIRfHeDXZ1CPbksifgl1c7uEmA1s/zg7oBp8
- YXEAFVV6DvxGjKTfBvsyw34Ie9Qnv61AKaKu7CSFgYmDPYmKuPOjbZTbTFkd22ZhOHxW
- pI/A==
+ d=gmail.com; s=20230601; t=1711211419; x=1711816219; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=+gNAzOlZksAWrrk/Sn0MY4Ibq+h1gY4sUBMqWqGyMMg=;
+ b=WGzBONoMjrltqZ3QbPid/Ce44Plt/80+7RRAOxxIpp2UctloqnTJ/QsHHfjPgkKGP9
+ EDtVxnNlNnSJK+VBoztqVDXilXT6Z39OVLi7tz7WeDebCoXkiDm0kzoPKDk4P8u6FhZt
+ fRVRQlbDseQmiM0kXOiSo45eLXqEoWOVoP9LLdtal2KJbFfswXTSvO5SMPC2mlQpYxYr
+ F5H5E7axyuS2jW1HHVRtOFRzArzjriXU2E4IMK3bBwG0A2xH4iWMrUbFe8B5Uee11ijs
+ ptpKMvD44Q2PdnJHZ/SlFtPZPx84klB8djQ9YPKG1tgf1qZcnWeUppYJbLryPEbzN7YG
+ ClZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711205577; x=1711810377;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PQy0LgbNRS2IUlbgbrbirFDizWSucGasGxIZDrnu8QQ=;
- b=RYwNRknv+BOVL9BofACXHLnsiN4LGBE2OkTGyIKLt3MFz/QxWH3BLltWxMZuClhhsV
- wNp2trBL8bwL8IfEOFrkJ3e8Ssu23c1zQw6doQp1jQulPZ/reEmDHgquM86Xl+i2aIT1
- GrOFLOmaU5wMN9vpBgNxmOC8AQEfcjFzS+se1WWdgkGjNxfSKpjJ5KdmuARr49xOqp1l
- WkeIF0f94aMm1KOhg9KBMTg4ThmopzSU/PKi8AV10SLskuxvIL1eS9gC6OH7zRo8zENJ
- /NmGHTnOEu8iRgnYd6e/iC+wOlwHRMQJd/Upb8GUaEUsWgqMbfUl3eK8ujwi+bXspwBe
- BvQA==
+ d=1e100.net; s=20230601; t=1711211419; x=1711816219;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+gNAzOlZksAWrrk/Sn0MY4Ibq+h1gY4sUBMqWqGyMMg=;
+ b=HE3UgMI7USNKU006PuyY4JyQ2WaaxcSgb6QAwAPuNgPEMuhDrf1PDwpKWEv2y+A/4j
+ rr6X6Y+XOkwIQNRssrqPiN/YHatfW3DJPzCqTojlGg5emb9R3fXQCXhmeG7ipe9lg+un
+ cAelrbph/NB8/Vi2UirQ+2mfAA3XsWc319W1+xnHXkzefNefPq/rJ6mK4Yge9zLAmvVs
+ 66L1mzGApRBj0sYKQbsop6ScP/1eIAHr2bvpVH8CoNxeSwrEIDW8tAUQBVsb7dONkTJZ
+ HCQYQb5TrB6VIGrJuPnhxjqU0EFLVE6QWDa7+rHwqctLkIm6jeXnldaPic53qxiQmRii
+ fjug==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU1V7uyRi3Yi0068xVXsBbdQuWqifaz0Qo1wnyvUHSUvuEY2vSr6S27q4nXPO+ylB9mZ7wETBXqXDgqjiwQ4OOm3FatVSfHlMD9+QJh6/vr
-X-Gm-Message-State: AOJu0YxrwX45mWQxGfqsVKTRCm+Cjh4lfCHN+8OSrLxECZXi8g5LNBb7
- D+9Alxg0b7CQSuXR6udfontij8X0hwiDyz7VObj6wZ6bXIHHIpRErBBWt2jT5M8=
-X-Google-Smtp-Source: AGHT+IFLG11WgqsbhoxFVFpmyCIi7a1JxwIH7NvINLJUVPYcY+qqhDilTzhgQ5CdvjOQ3ISsPU74LQ==
-X-Received: by 2002:a05:6214:4017:b0:696:8505:1947 with SMTP id
- kd23-20020a056214401700b0069685051947mr20765qvb.30.1711205577232; 
- Sat, 23 Mar 2024 07:52:57 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:400::5:16be])
+ AJvYcCWYTdU52mcX8DazZmCtY+AtyKgdvXxELCujZz/a6ipMXZwRhTG5MhcHZEqPa2+R/hDmXTSzCjvD2s3bcV5FC++HLxWox9ayKFkD1g0bTUin
+X-Gm-Message-State: AOJu0Yzwatgl+F/DUiwEXvxFymvyNHtEzQQU+2JtNm6o40J2KvQOJfPT
+ qHT+aTYEwpVd03WwWoLSh5/nOicorAm3l9EhjSb0aMdKJYQ4yrL6
+X-Google-Smtp-Source: AGHT+IHY/kpeHfsUu5DENuSNIPbMTQ4vvhND/e4pVt6OYw2ZnQmNlXiz2hcdANGxYrwIMKN9d4YuxA==
+X-Received: by 2002:a17:90a:778c:b0:29b:fb23:863e with SMTP id
+ v12-20020a17090a778c00b0029bfb23863emr3009742pjk.17.1711211419567; 
+ Sat, 23 Mar 2024 09:30:19 -0700 (PDT)
+Received: from amogh-desk-mint.Dlink ([119.82.122.244])
  by smtp.gmail.com with ESMTPSA id
- q1-20020a05621419e100b006968077890csm298604qvc.118.2024.03.23.07.52.55
+ si14-20020a17090b528e00b002a05c42476csm322228pjb.10.2024.03.23.09.30.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Mar 2024 07:52:56 -0700 (PDT)
-Date: Sat, 23 Mar 2024 10:52:47 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- "Sharma, Shashank" <Shashank.Sharma@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Sat, 23 Mar 2024 09:30:19 -0700 (PDT)
+From: Amogh Cheluvaraj <amogh.linux.kernel.dev@gmail.com>
+To: airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net,
+ javier.carrasco.cruz@gmail.com, skhan@linuxfoundation.org
+Cc: Amogh Cheluvaraj <amogh.linux.kernel.dev@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/amdgpu: fix deadlock while reading mqd from debugfs
-Message-ID: <20240323145247.GC448621@cmpxchg.org>
-References: <20240307221609.7651-1-hannes@cmpxchg.org>
- <c411dce6-faaf-46c3-8bb6-8c4db871e598@gmail.com>
- <20240314170948.GA581298@cmpxchg.org>
+Subject: [PATCH] Fix duplicate C declaration warnings
+Date: Sat, 23 Mar 2024 22:00:09 +0530
+Message-ID: <20240323163012.23263-1-amogh.linux.kernel.dev@gmail.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240314170948.GA581298@cmpxchg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,28 +83,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 14, 2024 at 01:09:57PM -0400, Johannes Weiner wrote:
-> Hello,
-> 
-> On Fri, Mar 08, 2024 at 12:32:33PM +0100, Christian König wrote:
-> > Am 07.03.24 um 23:07 schrieb Johannes Weiner:
-> > > Lastly I went with an open loop instead of a memcpy() as I wasn't
-> > > sure if that memory is safe to address a byte at at time.
-> 
-> Shashank pointed out to me in private that byte access would indeed be
-> safe. However, after actually trying it it won't work because memcpy()
-> doesn't play nice with mqd being volatile:
-> 
-> /home/hannes/src/linux/linux/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c: In function 'amdgpu_debugfs_mqd_read':
-> /home/hannes/src/linux/linux/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:550:22: warning: passing argument 1 of '__builtin_dynamic_object_size' discards 'volatil' qualifier from pointer target type [-Wdiscarded-qualifiers]
->   550 |         memcpy(kbuf, mqd, ring->mqd_size);
-> 
-> So I would propose leaving the patch as-is. Shashank, does that sound
-> good to you?
+Fix duplicate C declaration warnings at
+Documentation/gpu/drm-kms.rst that was found by
+compiling htmldocs
 
-Friendly ping :)
+/home/amogh/Linux_Kernel_Workspace/linux-next/Documentation/gpu/drm-
+kms:360: ./drivers/gpu/drm/drm_fourcc.c:344: WARNING: Duplicate C
+declaration, also defined at gpu/drm-kms:39.
+Declaration is '.. c:function:: const struct drm_format_info *
+drm_format_info (u32 format)'.
+/home/amogh/Linux_Kernel_Workspace/linux-next/Documentation/gpu/drm-
+kms:461: ./drivers/gpu/drm/drm_modeset_lock.c:392: WARNING: Duplicate C
+declaration, also defined at gpu/drm-kms:49.
+Declaration is '.. c:function:: int drm_modeset_lock (struct
+drm_modeset_lock *lock, struct drm_modeset_acquire_ctx *ctx)'.
 
-Shashank, is your Reviewed-by still good for this patch, given the
-above?
+Signed-off-by: Amogh Cheluvaraj <amogh.linux.kernel.dev@gmail.com>
+---
 
-Thanks
+changes in v2
+- add warnings found after compilation
+- fix grammar in commit description
+
+---
+ Documentation/gpu/drm-kms.rst | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+index 13d3627d8bc0..a4145f391e43 100644
+--- a/Documentation/gpu/drm-kms.rst
++++ b/Documentation/gpu/drm-kms.rst
+@@ -357,9 +357,6 @@ Format Functions Reference
+ .. kernel-doc:: include/drm/drm_fourcc.h
+    :internal:
+ 
+-.. kernel-doc:: drivers/gpu/drm/drm_fourcc.c
+-   :export:
+-
+ .. _kms_dumb_buffer_objects:
+ 
+ Dumb Buffer Objects
+@@ -458,9 +455,6 @@ KMS Locking
+ .. kernel-doc:: include/drm/drm_modeset_lock.h
+    :internal:
+ 
+-.. kernel-doc:: drivers/gpu/drm/drm_modeset_lock.c
+-   :export:
+-
+ KMS Properties
+ ==============
+ 
+-- 
+2.44.0
+
