@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46EF9887757
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Mar 2024 07:59:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AAA888776F
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Mar 2024 08:39:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E07310E8EC;
-	Sat, 23 Mar 2024 06:59:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A48210F420;
+	Sat, 23 Mar 2024 07:39:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ravnborg.org header.i=@ravnborg.org header.b="i6jnN+xq";
-	dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="cVjUCt3q";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Rede/TNO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay4-1.pub.mailoutpod2-cph3.one.com
- (mailrelay4-1.pub.mailoutpod2-cph3.one.com [46.30.211.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F0E410E8EC
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Mar 2024 06:59:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=kHVpvatmACLIHkQBpgUbroXh+MVsVFpq6tArzu/ykOs=;
- b=i6jnN+xq/VdVv+HkVL4ICMSlaFskB+k+43rEVsmWuJAGORLjqZZsVKaV5JWuTtZco2dadtZR3to5y
- srXJuv/2I75lVQj/mnuN94BytRg6V6uiKXOPWFFdA4OwAUmZdaPlaIbx3lVSxo3DgiMtY/yu/dGrXx
- Ba6KzApuIu+Tl8OeXqFTIW7Nthk1MHU8XI0ChjY7bWLpFWf7zLLa+yeeCCVqTx4tDVn7Y7mxpjI+nW
- vy6yFbjPZUVnbgPlarPlipdN16ijfQal4Cm5PAwQSeNbwB+DCIUOUu25XMmn+dQW7F5u7JaXSNAoLe
- 4+YHY7YW1+iQv9YyHkWHGp6O8yIC+UA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=kHVpvatmACLIHkQBpgUbroXh+MVsVFpq6tArzu/ykOs=;
- b=cVjUCt3qIpk1zz093kSoT9yNiAJtNN/6tMO6ofj+yw9LAoN5BEKt6xyNp3YuH+U6MZ5+0Xq5QAGoe
- mPps64CAw==
-X-HalOne-ID: b499b8b2-e8e2-11ee-9527-31e85a7fa845
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay4.pub.mailoutpod2-cph3.one.com (Halon) with ESMTPSA
- id b499b8b2-e8e2-11ee-9527-31e85a7fa845;
- Sat, 23 Mar 2024 06:58:10 +0000 (UTC)
-Date: Sat, 23 Mar 2024 07:58:09 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: nbowler@draconx.ca, deller@gmx.de, javierm@redhat.com,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
- Arnd Bergmann <arnd@arndb.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>, stable@vger.kernel.org
-Subject: Re: [PATCH] fbdev: Select I/O-memory framebuffer ops for SBus
-Message-ID: <20240323065809.GA886373@ravnborg.org>
-References: <20240322083005.24269-1-tzimmermann@suse.de>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 540C410F420
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Mar 2024 07:39:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1711179578;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=uSnW75/sflA5JYd7AUg0Bg4XtL4/dCTPrn3kzQg0AO4=;
+ b=Rede/TNOYrKI1y9GoY1ucoJkUL5Dm3e17v0m/uQjIgJNxWe8tIW4cet3mNqkci5wdCp3D/
+ 6csVUA4fockdCOYe5Tusl+9dNa/9qLtCV6cVoNQK0zdNVlJQvwQeFWPyEZJvypZDCOj9lr
+ yl7k+n4XoZKueaD9hOlV37NoJInvK+U=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-15-3Iv0Y5ltOrutEv9ncqrSEw-1; Sat, 23 Mar 2024 03:39:35 -0400
+X-MC-Unique: 3Iv0Y5ltOrutEv9ncqrSEw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 48C7C101A56C;
+ Sat, 23 Mar 2024 07:39:35 +0000 (UTC)
+Received: from kaapi.redhat.com (unknown [10.67.24.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F0EF61C060A4;
+ Sat, 23 Mar 2024 07:39:31 +0000 (UTC)
+From: Prasad Pandit <ppandit@redhat.com>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: diogo.ivo@tecnico.ulisboa.pt, neil.armstrong@linaro.org, sam@ravnborg.org,
+ dri-devel@lists.freedesktop.org, Prasad Pandit <pjp@fedoraproject.org>
+Subject: [PATCH v1] drm/panel: replace utf multiply with an ascii x
+Date: Sat, 23 Mar 2024 13:09:20 +0530
+Message-ID: <20240323073923.1824802-1-ppandit@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240322083005.24269-1-tzimmermann@suse.de>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.7
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,22 +68,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 22, 2024 at 09:29:46AM +0100, Thomas Zimmermann wrote:
-> Framebuffer I/O on the Sparc Sbus requires read/write helpers for
-> I/O memory. Select FB_IOMEM_FOPS accordingly.
-> 
-> Reported-by: Nick Bowler <nbowler@draconx.ca>
-> Closes: https://lore.kernel.org/lkml/5bc21364-41da-a339-676e-5bb0f4faebfb@draconx.ca/
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 8813e86f6d82 ("fbdev: Remove default file-I/O implementations")
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v6.8+
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+From: Prasad Pandit <pjp@fedoraproject.org>
+
+Replace unicode multiplication character with an ascii x.
+It helps Kconfig parsers to read file without error.
+
+Fixes: 25205087df1f ("drm/panel: Add driver for JDI LPM102A188A")
+Fixes: c96f566273bf ("drm/panel: Add JDI LT070ME05000 WUXGA DSI Panel")
+Fixes: cf40c6600592 ("drm: panel: add TDO tl070wsh30 panel driver")
+Signed-off-by: Prasad Pandit <pjp@fedoraproject.org>
+---
+ drivers/gpu/drm/panel/Kconfig | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+v1:
+ - Fix other similar occurrences of utf multiply
+v0:
+ - https://lore.kernel.org/dri-devel/1e546c01-1126-45c8-9104-14e769dedb8b@quicinc.com/T/#t
+
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index 8f3783742208..40a021ee91c3 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -259,7 +259,7 @@ config DRM_PANEL_JDI_LT070ME05000
+ 	help
+ 	  Say Y here if you want to enable support for JDI DSI video mode
+ 	  panel as found in Google Nexus 7 (2013) devices.
+-	  The panel has a 1200(RGB)×1920 (WUXGA) resolution and uses
++	  The panel has a 1200(RGB)x1920 (WUXGA) resolution and uses
+ 	  24 bit per pixel.
+ 
+ config DRM_PANEL_JDI_LPM102A188A
+@@ -270,7 +270,7 @@ config DRM_PANEL_JDI_LPM102A188A
+ 	help
+ 	  Say Y here if you want to enable support for JDI LPM102A188A DSI
+ 	  command mode panel as found in Google Pixel C devices.
+-	  The panel has a 2560×1800 resolution. It provides a MIPI DSI interface
++	  The panel has a 2560x1800 resolution. It provides a MIPI DSI interface
+ 	  to the host.
+ 
+ config DRM_PANEL_JDI_R63452
+@@ -801,7 +801,7 @@ config DRM_PANEL_TDO_TL070WSH30
+ 	depends on BACKLIGHT_CLASS_DEVICE
+ 	help
+ 	  Say Y here if you want to enable support for TDO TL070WSH30 TFT-LCD
+-	  panel module. The panel has a 1024×600 resolution and uses
++	  panel module. The panel has a 1024x600 resolution and uses
+ 	  24 bit RGB per pixel. It provides a MIPI DSI interface to
+ 	  the host, a built-in LED backlight and touch controller.
+ 
+-- 
+2.44.0
+
