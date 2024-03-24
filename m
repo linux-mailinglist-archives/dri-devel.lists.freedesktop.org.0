@@ -2,65 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2200A887D66
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Mar 2024 16:08:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 181A6887E73
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Mar 2024 19:57:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D52910E0EB;
-	Sun, 24 Mar 2024 15:08:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9900D10E09F;
+	Sun, 24 Mar 2024 18:57:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CCaqs4Q0";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="M+oPGF82";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3D7810E0EB
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Mar 2024 15:08:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8BB8D60BCA;
- Sun, 24 Mar 2024 15:08:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE7ADC433C7;
- Sun, 24 Mar 2024 15:08:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711292923;
- bh=jbSdBHS0w1eaicjduO3/4ltPjzKnV2+4/Gm18hBir+0=;
- h=Date:From:To:List-Id:Cc:Subject:In-Reply-To:References:From;
- b=CCaqs4Q0v54OS/qibjDzeR5rnTLCeMB5BEWL9FOQOm8nUsrsP4agxz9UeijgZT7BG
- 4MKSbYfhrQ29CGt+4vnpliHU74QTU5qGLG+bJ0dnax0OIzumnGe5d79tXGVUDVMCwA
- SUnGl4wT7Kx7SgjiwWQGT8hc1XE8NU7wy5/lvXLsYw1SyVT+Lk0Y7KoBDoIr+Sq5kz
- G3RLG4eMVQAo0e9iXkjKdxwniW2P5X8xhO9Ro3uHGyprv5IKfuJrfyJjlUyZ06toot
- J/zg4uC6SCjy+mHbaghEESneDQeaLg4J7rdI5mJb4e8SPi2cU5WxgujzdHnBylvUEu
- 2BTwaVwc1gecg==
-Date: Sun, 24 Mar 2024 16:08:28 +0100
-From: Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: Jonathan.Cameron@huawei.com, Laurent.pinchart@ideasonboard.com,
- airlied@gmail.com, andrzej.hajda@intel.com, arm@kernel.org, arnd@arndb.de,
- bamv2005@gmail.com, brgl@bgdev.pl, daniel@ffwll.ch, davem@davemloft.net,
- dianders@chromium.org, dri-devel@lists.freedesktop.org,
- eajames@linux.ibm.com, gaurav.jain@nxp.com, gregory.clement@bootlin.com,
- hdegoede@redhat.com, herbert@gondor.apana.org.au, horia.geanta@nxp.com,
- james.clark@arm.com, james@equiv.tech, jdelvare@suse.com,
- jernej.skrabec@gmail.com, jonas@kwiboo.se, linus.walleij@linaro.org,
- linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux@roeck-us.net, maarten.lankhorst@linux.intel.com,
- mazziesaccount@gmail.com, mripard@kernel.org, naresh.solanki@9elements.com,
- neil.armstrong@linaro.org, pankaj.gupta@nxp.com,
- patrick.rudolph@9elements.com, rfoss@kernel.org, soc@kernel.org,
- tzimmermann@suse.de
-Subject: Re: [PATCH v5 08/11] devm-helpers: Add resource managed version of
- debugfs directory create function
-Message-ID: <20240324160828.7f873a96@thinkpad>
-In-Reply-To: <69264f8a-a113-4d49-b8a6-fb9e858584e4@wanadoo.fr>
-References: <20240323164359.21642-1-kabel@kernel.org>
- <20240323164359.21642-9-kabel__6885.49310886941$1711212291$gmane$org@kernel.org>
- <f7c64a5a-2abc-4b7e-95db-7ca57b5427c0@wanadoo.fr>
- <20240323222506.4ffbdd71@thinkpad>
- <69264f8a-a113-4d49-b8a6-fb9e858584e4@wanadoo.fr>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.39; x86_64-pc-linux-gnu)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFEFA10E139
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Mar 2024 18:57:11 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-513ccc70a6dso6284532e87.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Mar 2024 11:57:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1711306630; x=1711911430; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=w8EKsV+yihlR6CzqwroFmnT9wtLXmcrhrPbnC7zLk2c=;
+ b=M+oPGF825+UyD2XPJ5ThtAJ3+j2/UUdhKxhpATOF6dIuahOfJt8s3f0CimgVVxoiR4
+ Sd93T5f1IWr0Dd0J8CIkd9yMtkfDYA1qq64c/liIhU6B8qsZYiQCseY13k0BeHZ5uwV1
+ m3xpgLfrgwAPeYyZASThnaKLOEmLnDZr/h+GOufxXF3WKJrTzMTS72xUC0YKsOTmUQaY
+ T5Lafw7TL/1x77iiZtoek6VrysueUpQh0+acj8rsbIpxFCL3Dcd1vzsPbODcPby9fL48
+ 2Xxb1uy1tBSwFzEcZUufmoTEuHYGG2sXnI0pm/WB+R+FJ8I3E8vR5uw5xcvL94bdCbqf
+ iFAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711306630; x=1711911430;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=w8EKsV+yihlR6CzqwroFmnT9wtLXmcrhrPbnC7zLk2c=;
+ b=MT2IxKMznL6jMeYkiGWslCHQQivrpVF03jCkmRHGGX2BWTEMeb1hMBagQM637PsSd3
+ fbyUzUZgXXQZh5Cb42PuOdb8NOw3bBekWbK+1078ZaSF9R8rZ+j/tuRn75tLSfliOdxY
+ /5LoXwvd9RKD1BfDD5yl0a5HG3JYhGRCy0iWXRL8hYMqL7hD1Opo4ASu+YHB77a4lOpR
+ j1B4H/JEpO9IA4IX6TRylcgv5K0JjUbvLBlObUM4GoOB8ueeL+ZJxrR/cuCxPU5OH3FE
+ msGd6hKwck9c5w+yeyl4MVcJrJMuR5wAOlL2oP4Xg/Waz3xsvO5HGCO+ods/r9ntth89
+ 1Qhg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXs3ryoLBDHnni2TbHOkuRWfBmXP7l7Xq/D87FDX72RK3NkUpD1VQ9jHfJdfeuuztVgVlGhf/Jgupi3dXiTSqgVdwRMsqvDVyNGfM+4AqjA
+X-Gm-Message-State: AOJu0Yy8EMwI/TnqvXURW0omZO5ShQGd4zI/EF1+vscOJHLkx7N+WNWj
+ pmG1y/Rymtu/EpVcWzh1FnQ9WtCiiJit5z60MS2PdUSzw+tx9fBOQlTF1eRm1M8=
+X-Google-Smtp-Source: AGHT+IH2KHBBOkQYLt8KmkDQpzHDjSFYkXQ0RrpfLOMZ+n+CDoSZn6CkN/xUvljvXZTQc2SKZiVisg==
+X-Received: by 2002:ac2:4648:0:b0:513:7e83:b3f2 with SMTP id
+ s8-20020ac24648000000b005137e83b3f2mr3924620lfo.45.1711306629505; 
+ Sun, 24 Mar 2024 11:57:09 -0700 (PDT)
+Received: from [127.0.1.1] ([79.114.172.194]) by smtp.gmail.com with ESMTPSA id
+ m19-20020a1709060d9300b00a45c9945251sm2194008eji.192.2024.03.24.11.57.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 24 Mar 2024 11:57:09 -0700 (PDT)
+From: Abel Vesa <abel.vesa@linaro.org>
+Subject: [PATCH v4 0/2] drm/msm/dp: Rework the eDP/DP modes and add support
+ for X1E80100
+Date: Sun, 24 Mar 2024 20:56:50 +0200
+Message-Id: <20240324-x1e80100-display-refactor-connector-v4-0-e0ebaea66a78@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHJ3AGYC/43QwWrDMAwG4FcpPs/Dkt0s6WnvUXpwZKU1FLvYI
+ zSEvHuVXLqxS276hfh+0Kwql8hVnQ6zKjzGGnOS4D4Oim4+XVnHIFmhQQsInX4CtwaM0SHWx91
+ PuvDg6ScXTTkl3iYGapqja8mzVSI95CY+t5bzRfItVjmbttIR1u3qO4MIu/wRtNFtQ4aB+3Bk+
+ r7H5Ev+zOWq1oIRf6O4D0VB++Cg+woDse//ofaN2r2oFdQP4Ag7P8hT/qDLsrwA7wPZ6IEBAAA
+ =
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Johan Hovold <johan@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Abel Vesa <abel.vesa@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2619; i=abel.vesa@linaro.org; 
+ h=from:subject:message-id;
+ bh=oMPQR/xSsCiEnea50bPdQBfX/S0LEOHiccm2F6hjWeA=; 
+ b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBmAHd4lgu2vfGbLvStLsNULe27rIa9BA4g7Xdio
+ tjyiTt5mviJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCZgB3eAAKCRAbX0TJAJUV
+ Vte3EADN9Ft9g125gXKPgtlGKbDrMlRtX+co+XctSgpggauUDYyIaT+mHbnRoXN1i4TgyNYMnOp
+ qZoKBJU04N6wh8PnEBISjNU2igSxkl6pMG9wYwHA5YVrHdkKvIsSXDD1G5o6Kltxtoiw5UDvdvI
+ BO6kOWuyCMpfGlXRtKALj9BClWGWlYkE+bVW8rQJV8+lBaKhNQCKcUySEAmQ6WXsoSUZHaYoKIc
+ 1OXf1RUaU0Oo2U4olAiasUKpHwmj5bi26v51o9w1YTXf3kvgjIXN8DY4g4NAvmjoEVadE5VfRAt
+ jCxQFZK/cvePxHCvfMto0I9LIJqiWVHy6BoqQ4VS5H7hM+kJszdjDsMzADh7HV4vKuXS1B/SXaH
+ 7nuSkyOYKlmV6+6vH3MOdg26HNc7+1vNdvhdIWfxZd+141X6rlCD8N5LmNdt1aZfgv/gbshipmR
+ S6daXCU/g2VbQJL7YRuVYFHpo36VtTZIDB2xuuDMmzNKgYgWuj9HKEHMamQlgRRaieqOYxcbU7R
+ 7IwGWkQjEbdsTGHweGWNgr2L4D40Qreth9SMUbuCy/MmzH4o4bN4OBgSN/tN0yHagTTT5pgvrPb
+ NSTj46q0EU/d4AvjI4U7SP+SdlxGs6cH3flD1RUP0SCtSVrRD2O175ip8+mFcXnQUKf4AxU7JvQ
+ b7mFfwR2RSMz3qg==
+X-Developer-Key: i=abel.vesa@linaro.org; a=openpgp;
+ fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,59 +117,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 24 Mar 2024 10:21:28 +0100
-Christophe JAILLET <christophe.jaillet@wanadoo.fr> wrote:
+Since this new platform supports both DP and eDP, it's the perfect time
+to drop the dual compatible (eDP and DP) and figure out a different way
+to specify the mode. After some off-list discussion, one suggested way
+was to add a 'is-edp' property to the controller node, but that approach
+has been dropped due to bindings concerns. So now we lookup the panel
+node in DT and based on it's presence we can safely say if it is eDP or not.
 
-> Le 23/03/2024 =C3=A0 22:25, Marek Beh=C3=BAn a =C3=A9crit=C2=A0:
-> > On Sat, 23 Mar 2024 22:10:40 +0100
-> > Christophe JAILLET <christophe.jaillet@wanadoo.fr> wrote:
-> >  =20
->=20
-> ...
->=20
-> >>>    static int pvt_ts_dbgfs_create(struct pvt_device *pvt, struct devi=
-ce *dev)
-> >>>    {
-> >>> -	pvt->dbgfs_dir =3D debugfs_create_dir(dev_name(dev), NULL);
-> >>> +	pvt->dbgfs_dir =3D devm_debugfs_create_dir(dev, dev_name(dev), NULL=
-);
-> >>> +	if (IS_ERR(pvt->dbgfs_dir))
-> >>> +		return PTR_ERR(pvt->dbgfs_dir); =20
-> >>
-> >> Not sure if the test and error handling should be added here.
-> >> *If I'm correct*, functions related to debugfs already handle this case
-> >> and just do nothing. And failure in debugfs related code is not
-> >> considered as something that need to be reported and abort a probe fun=
-ction.
-> >>
-> >> Maybe the same other (already existing) tests in this patch should be
-> >> removed as well, in a separated patch. =20
-> >=20
-> > Functions related to debugfs maybe do, but devm_ resource management
-> > functions may fail to allocate release structure, and those errors need
-> > to be handled, AFAIK. =20
->=20
-> I would say no.
-> If this memory allocation fails, then debugfs_create_dir() will not be=20
-> called, but that's not a really big deal if the driver itself can still=20
-> run normally without it.
+The PHY counterpart patchset is here:
+https://lore.kernel.org/all/20240324-x1e80100-phy-edp-compatible-refactor-v5-0-a0db5f3150bc@linaro.org
 
-debugfs_create_dir() will always be called. Resource allocation is done
-afterwards, and if it fails, then the created dir will be removed.
+This patchset cannot be applied without the one mentioned above because
+it relies on PHY_SUBMODE_EDP and PHY_SUBMODE_DP.
 
-But now I don't know what to do, because yes, it seems that the debugfs
-errors are being ignored at many places...
+Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+---
+Changes in v4:
+- Reworked the dp_display_get_connector_type to be more readable, like
+  Bjorn suggested.
+- Dropped the unrelated change w.r.t. dp_aux_get call, reported by
+  Dmitry.
+- Re-worded the commit message for the first patch, to align with
+  Dmitry's suggestion.
+- Added Dmitry's R-b tag to the X1E80100 specific patch
+- Link to v3: https://lore.kernel.org/r/20240322-x1e80100-display-refactor-connector-v3-0-af14c29af665@linaro.org
 
->=20
-> Up to you to leave it as-is or remove what I think is a useless error=20
-> handling.
-> At least, maybe it could be said in the commit log, so that maintainers=20
-> can comment on it, if they don't spot the error handling you introduce.
->=20
-> CJ
->=20
-> >=20
-> > Marek
-> >  =20
->=20
+Changes in v3:
+- Dropped the bindings patch as this new solution doesn't involve
+  bindings update.
+- Dropped R-b tags as this has been entirely reworked
+- Reworked to lookup the panel node in DT and set the is_edp and
+  connector type based on panel node presence
+- Link to v2: https://lore.kernel.org/r/20240222-x1e80100-display-refactor-connector-v2-0-bd4197dfceab@linaro.org
+
+Changes in v2:
+- Added Dmitry's R-b tag to both driver patches
+- Dropped the if statement around assigning the is_edp in
+  dp_display_probe, and fixed said assignment by using the connector
+  type from match data instead.
+- Moved the qcom,x1e80100-dp compatible where it belongs
+- Re-worded the bindings commit message to follow Bjorn's suggestion
+- Dropped the RFC tag as the approach doesn't seem to be questioned
+  anymore 
+- Link to v1: https://lore.kernel.org/r/20240221-x1e80100-display-refactor-connector-v1-0-86c0e1ebd5ec@linaro.org
+
+---
+Abel Vesa (2):
+      drm/msm/dp: Add support for determining the eDP/DP mode from DT
+      drm/msm/dp: Add support for the X1E80100
+
+ drivers/gpu/drm/msm/dp/dp_display.c | 38 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
+---
+base-commit: 13ee4a7161b6fd938aef6688ff43b163f6d83e37
+change-id: 20231219-x1e80100-display-refactor-connector-e1c66548cae3
+
+Best regards,
+-- 
+Abel Vesa <abel.vesa@linaro.org>
 
