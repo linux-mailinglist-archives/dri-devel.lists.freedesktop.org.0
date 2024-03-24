@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C2D887FB4
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Mar 2024 23:41:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC947888025
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Mar 2024 23:54:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D33F10E3F2;
-	Sun, 24 Mar 2024 22:41:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4703910E33E;
+	Sun, 24 Mar 2024 22:54:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PZgeuHrD";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XH0PZUU/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65A6110E3FE
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Mar 2024 22:41:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D08210E33E
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Mar 2024 22:54:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id B21A0CE0E51;
- Sun, 24 Mar 2024 22:41:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F3A3C433A6;
- Sun, 24 Mar 2024 22:41:42 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id CDDBECE0E5D;
+ Sun, 24 Mar 2024 22:54:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F9E0C43330;
+ Sun, 24 Mar 2024 22:54:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711320104;
- bh=mhk8zIC6m7tv0PpL5NQAiFH7vaX9lHUJnHwBiBZ7lbY=;
+ s=k20201202; t=1711320880;
+ bh=Vql+8js91BRX0rn5qU3meYIvkq3/iZebYzGwS509XTc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PZgeuHrDoNvBX1Gd3YNCBEZ8NqMo/76FabatF4z1MJ6zV5LkrwJc+I96ltuHCNOvM
- 8hTau5qPH1O4ImGoq+7ndXdLPRDRHbyGBGVTuJf7UieKvTxamVOJdxQ0nsz3MW6BvP
- 7cyYoqt7p5wsruUxm8pIF/7DIvANYyPBy4I72w5eteRwU80CVCwlaWXKFMVrf0gWMU
- cO3jOck4+086E3AW9CWwBOyfj3UxRO2XcVVt9qImVAvV/JeVh8F6Q0RwZoHM6S/DEU
- EGyZM5BYomPQ13OLmB1lVB0hDfeWQaNY4ePCtxse60Uq8OCxP5HnoqblhGEhttAqST
- hXkyswoEwcxRg==
+ b=XH0PZUU/46IFy8sp/+S5J2rWTXJcondn8GwtpQ6j2PcAO4JftmUyhtMoBm8y8xmZr
+ nJT1PggckArlgyaFJseQHRKMSTLT8Q8EMeu4O0EFrsYIcCWIaS+qQCtAOV+MDe7I9s
+ Fww8XlgD3i5NEG9pax/uQeuiF0Dok6MDFkHzgPnNgVFCfMtcQQFS9L/pSK/lzTNifm
+ eVHba0MMrcPYWG+yjUmp1SwXOab8LmJEAMRW3OElxQ9gNLGq8dnicv+otg1UJD562O
+ w1bX2UbvY8YajhxVPWIrYyX62G+w81kp/BTkgWZlbLcGQcrSfYL8N7ovfr/WXq7s36
+ zQ+z3p4GVRdow==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -41,13 +41,13 @@ Cc: Randy Dunlap <rdunlap@infradead.org>,
  linuxppc-dev@lists.ozlabs.org, Thomas Zimmermann <tzimmermann@suse.de>,
  Geoff Levand <geoff@infradead.org>, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.8 412/715] drivers/ps3: select VIDEO to provide cmdline
+Subject: [PATCH 6.7 444/713] drivers/ps3: select VIDEO to provide cmdline
  functions
-Date: Sun, 24 Mar 2024 18:29:51 -0400
-Message-ID: <20240324223455.1342824-413-sashal@kernel.org>
+Date: Sun, 24 Mar 2024 18:42:50 -0400
+Message-ID: <20240324224720.1345309-445-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240324223455.1342824-1-sashal@kernel.org>
-References: <20240324223455.1342824-1-sashal@kernel.org>
+In-Reply-To: <20240324224720.1345309-1-sashal@kernel.org>
+References: <20240324224720.1345309-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -100,7 +100,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/arch/powerpc/platforms/ps3/Kconfig b/arch/powerpc/platforms/ps3/Kconfig
-index e9c1087dd42ec..706194e5f0b46 100644
+index a44869e5ea70f..1bd1b0b49bc62 100644
 --- a/arch/powerpc/platforms/ps3/Kconfig
 +++ b/arch/powerpc/platforms/ps3/Kconfig
 @@ -67,6 +67,7 @@ config PS3_VUART
