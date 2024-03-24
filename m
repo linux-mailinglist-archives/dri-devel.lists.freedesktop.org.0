@@ -2,75 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAFBE887C61
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Mar 2024 11:58:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7360887C74
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Mar 2024 12:10:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A99C010E05C;
-	Sun, 24 Mar 2024 10:57:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3196E10E0AD;
+	Sun, 24 Mar 2024 11:10:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="GScLsZkZ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qdOmj8Ip";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
- [209.85.128.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9561D10E058
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Mar 2024 10:57:55 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id
- 00721157ae682-60a046c5262so33145767b3.2
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Mar 2024 03:57:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711277874; x=1711882674; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=dKOizG9PbYAwIIoEzDwzNQWV7wqYGQ4/VdGXW3+D0uE=;
- b=GScLsZkZnCnxEfxDPL2PXrhRDqYxdsDEo4eBFE511VE+2ZCs3vLyzMUACYEW+hFP8i
- H07LmnL17Uo+RcTf8wuMXbE/OvW0jk0k5oVodjBbiOjcylSY1ZeV3Ma1ijUL4GBNz62x
- 9EJv9qjkFSyy2RLLerAUmonCRn2riAvgjYvmxXRwqL112WUJoCRT+681e7wiI+6YOcnI
- GSrwxf3S/pYXL7ADhrF8bHKL/sZ/5jSeVh7EylrHjv19ewswS56sWKzZGfR9r3GEql9c
- aZcn+zrdXO9n3uDhnVkTcNVBYBWgedZK4z12ZX4+6R1DtXxDauDw2ZgS0pX+GR9g6dCH
- +u2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711277874; x=1711882674;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dKOizG9PbYAwIIoEzDwzNQWV7wqYGQ4/VdGXW3+D0uE=;
- b=wDRf0i6AtaPZ03qcOeb8IacMUDfW3zgWSDlefbfXrPNfNXnHpyhBi2bsBDz41dnEPi
- zSTsd1EftKLut+ikgaukGkBElSkSCVLmHXKKOOHHsvgKQ+jMDjQRZUpz9U/yugS+KesK
- WVgIbvorGl4Y7tZ/QCucs7tWbbLiH56jvm3qiA0I4LoBsJliKAmH7MwC1BsZOc+UU5ur
- 7KbvEwKNmJ2fXm0pzID7SNyOKwR/cSjd3SQAfxuJJZs2+9ToXZsrn2ufYnN1+qc9EVRb
- +9/tO1GWneGV45u5MwHyC9FZkogMyyOM4O1ue03m5YmKLjm7tM5jL51Ot7ajFcuE7qiM
- jqUA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUiuUL40qdRZfOwvviBlRhOGCSNOdi6W7gPRZPxqs5WU4yZyX60mnb3x1IZj5I6sXgcR0buehqGAmiCC6Gd9q9KzFxoalbfzQ9kE4T1d66n
-X-Gm-Message-State: AOJu0Yx7tMXv1mjHohXJ+IODJ9bwmqrX7GmkrINCPa8Mxv8Xb3N1p6jC
- /cAMu75VHgbulO5peXNHfVeBOKUNh2bTVhfgKNYJaazoG4Lk7x7r2smKbsqbqe9XbEc+lph3GpR
- NMuuVlrXU1xjM9NJGpCJzWLWsZef5LDMlRbyzUg==
-X-Google-Smtp-Source: AGHT+IFkNNzpGCHNVGuHvvSWfPZSgwg1RAQpdjkiNapdwrzO0RfGnrZYm+TKLaP2muu4ukqjYZ8fO611rcTztYESaRU=
-X-Received: by 2002:a05:690c:ec6:b0:611:2f86:7864 with SMTP id
- cs6-20020a05690c0ec600b006112f867864mr4318637ywb.3.1711277874516; Sun, 24 Mar
- 2024 03:57:54 -0700 (PDT)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70AB610E058
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Mar 2024 11:10:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 20E3ECE03F2;
+ Sun, 24 Mar 2024 11:10:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 070DBC433C7;
+ Sun, 24 Mar 2024 11:10:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1711278647;
+ bh=SliL9lrMTLlb02DVUsEIoBH8kLWyicIpi30CBkLACAo=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=qdOmj8IpSvL3J1HmB8y+mew6CrhOA5NEiJ+Rg96N5Ypb0+1f6aHFpehOcU8yMYb1T
+ K+47LI2WbRdPyAtvyY5X9mIQEBr9Pt+UpiFubwh09VFW0BMVCFaSPhauvft+3QF0ta
+ 9/ZFA5SCCUitIIwkoOTDD3W2+ivaUkMR2V7NgvG6xR2tqP65XaCWCFY2JQRU4TtM4S
+ CxIYu4u5VRpCBy2i5e+K5CELBbNGfgrL6KbZOWBh2Yn5WZRVpuU8qauoXFqQga+Ucl
+ Z5wWRlAxqQv/w5DNHX2WaHoSzjmRBN42Kzg//5BJDZT4VmaLFknBalJp5xjyeSY43z
+ TLSSlAUd1MY9w==
+Date: Sun, 24 Mar 2024 11:10:29 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Jonathan
+ Corbet <corbet@lwn.net>, Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul
+ <vkoul@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Nuno Sa
+ <nuno.sa@analog.com>, Michael Hennerich <michael.hennerich@analog.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v9 0/6] iio: new DMABUF based API
+Message-ID: <20240324111029.3c57b885@jic23-huawei>
+In-Reply-To: <20240310124836.31863-1-paul@crapouillou.net>
+References: <20240310124836.31863-1-paul@crapouillou.net>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20240323-fd-xml-shipped-v4-0-cca5e8457b9e@linaro.org>
- <20240323-fd-xml-shipped-v4-10-cca5e8457b9e@linaro.org>
- <20240324102936.6eojmk3k2qabtasq@hu-akhilpo-hyd.qualcomm.com>
-In-Reply-To: <20240324102936.6eojmk3k2qabtasq@hu-akhilpo-hyd.qualcomm.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 24 Mar 2024 12:57:43 +0200
-Message-ID: <CAA8EJppO8zMq5R7hBPG04Zsr9c3-Z9mqpnJQ88Dbjv3uYDbrUQ@mail.gmail.com>
-Subject: Re: [PATCH v4 10/16] drm/msm: generate headers on the fly
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, 
- Nicolas Schier <nicolas@fjasle.eu>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, linux-kbuild@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,23 +64,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 24 Mar 2024 at 12:30, Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
->
-> On Sat, Mar 23, 2024 at 12:57:02AM +0200, Dmitry Baryshkov wrote:
-> > Generate DRM/MSM headers on the fly during kernel build. This removes a
-> > need to push register changes to Mesa with the following manual
-> > synchronization step. Existing headers will be removed in the following
-> > commits (split away to ease reviews).
->
-> Is this approach common in upstream kernel? Isn't it a bit awkward from
-> legal perspective to rely on a source file outside of kernel during
-> compilation?
+On Sun, 10 Mar 2024 13:48:29 +0100
+Paul Cercueil <paul@crapouillou.net> wrote:
 
-As long as the source file for that file is available. For examples of
-non-trivial generated files see
-arch/arm64/include/generated/sysreg-defs.h and
-arch/arm64/include/generated/cpucap-defs.h
+> Hi Jonathan,
+> 
+> Here's the final-er version of the IIO DMABUF patchset.
+> 
+> This v9 fixes the few issues reported by the kernel bot.
+> 
+> This was based on next-20240308.
+> 
+> Changelog:
+> 
+> - [3/6]:
+>     - Select DMA_SHARED_BUFFER in Kconfig
+>     - Remove useless forward declaration of 'iio_dma_fence'
+>     - Import DMA-BUF namespace
+>     - Add missing __user tag to iio_buffer_detach_dmabuf() argument
 
--- 
-With best wishes
-Dmitry
+Merge window is coming to an end, and whilst we obviously have
+plenty of time left in this cycle, I would like to get this queued
+up fairly early so any issues can shake out and the various series
+that will build on this can progress.
+
+Hopefully Paul has addressed all remaining comments.
+So I'm looking for RB or Ack for DMABUF and dmaengine parts from
+respective reviewers/maintainers.
+
+Thanks
+
+Jonathan
+
+> 
+> Cheers,
+> -Paul
+> 
+> Paul Cercueil (6):
+>   dmaengine: Add API function dmaengine_prep_peripheral_dma_vec()
+>   dmaengine: dma-axi-dmac: Implement device_prep_peripheral_dma_vec
+>   iio: core: Add new DMABUF interface infrastructure
+>   iio: buffer-dma: Enable support for DMABUFs
+>   iio: buffer-dmaengine: Support new DMABUF based userspace API
+>   Documentation: iio: Document high-speed DMABUF based API
+> 
+>  Documentation/iio/iio_dmabuf_api.rst          |  54 ++
+>  Documentation/iio/index.rst                   |   1 +
+>  drivers/dma/dma-axi-dmac.c                    |  40 ++
+>  drivers/iio/Kconfig                           |   1 +
+>  drivers/iio/buffer/industrialio-buffer-dma.c  | 181 ++++++-
+>  .../buffer/industrialio-buffer-dmaengine.c    |  59 ++-
+>  drivers/iio/industrialio-buffer.c             | 462 ++++++++++++++++++
+>  include/linux/dmaengine.h                     |  27 +
+>  include/linux/iio/buffer-dma.h                |  31 ++
+>  include/linux/iio/buffer_impl.h               |  30 ++
+>  include/uapi/linux/iio/buffer.h               |  22 +
+>  11 files changed, 891 insertions(+), 17 deletions(-)
+>  create mode 100644 Documentation/iio/iio_dmabuf_api.rst
+> 
+
