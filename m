@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 389E2887E77
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Mar 2024 19:57:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81F13887E7A
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Mar 2024 19:57:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD49310E30B;
-	Sun, 24 Mar 2024 18:57:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFF3010E303;
+	Sun, 24 Mar 2024 18:57:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="S2BRX4y8";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cEDy5m+8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6461610E09F
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Mar 2024 18:57:13 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-515a81928a1so884661e87.3
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Mar 2024 11:57:13 -0700 (PDT)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
+ [209.85.208.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0877710E2B7
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Mar 2024 18:57:14 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id
+ 4fb4d7f45d1cf-56b8e4f38a2so4749308a12.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Mar 2024 11:57:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711306631; x=1711911431; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1711306633; x=1711911433; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=tVN8D/5N0Uyspg/EOqzGv8QkQMu3D3Z6cYgiWKzgOIk=;
- b=S2BRX4y83IgQLZnoADsFg0YHc9Nr/GxK9Q4JYlwzCypttLY1l8OLdI3wUqM4kJYRws
- GHLbYPZW9EpgT+Lr7wPbV/oYndZeFmSbBaB49fQ6sjmwAsHwjD+z8c0RB3cdzsvTv/mn
- LFt0wiWRgvgpF7hOKcqcJ72zghN2i/L4LHNxDzxfZ87V44HszLCBJ5AeCRDWvyFoiMq4
- vNK6WDFm9vXUnHmYKmclIl6vVcfRscGQUF20ovZRv4+8ZRFKotq94skcb+jsVJeXOKnz
- XfyxOmaHSOjPl0PMKEEAJqCFuYgGIM/4i03luSmi+nG/JZd0de2D/3klZjKznq5k51gq
- Tb2Q==
+ :reply-to; bh=9tVdKnRbHolCy0YCQM9W1+uOdyw8nD9ks6qcNg/Gsxw=;
+ b=cEDy5m+8Jcro61TihJ9cByw6EPIhTFVkNL1ThokMKpE5RSC7ouuJAAGCfY6rW2UwG9
+ 84qaNW4wqJegkJThboeNjzUUfPAt/4hYclk3+zx5JzLaA8OBCSGNSh0VgjkR6t1TGpdz
+ KaPSNYP+qOyQdIQMeys/kwdxU309Sgpm8Z9qTu9+cwEtdejZFsVkenal9fvjimX6KrI8
+ 1lKk/s2un16FCJc5iKDkzrP89yMYpMpPQAprtD/bVirFOxGmT4pMvEhfSaFtXaWl0cDL
+ oE7258mU160/HdyKPp0iAzMUBNyDj9BmaMfkDlMyFgQJ1+T8uWcXD7YHUXbHS6xG2yJS
+ /irA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711306631; x=1711911431;
+ d=1e100.net; s=20230601; t=1711306633; x=1711911433;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=tVN8D/5N0Uyspg/EOqzGv8QkQMu3D3Z6cYgiWKzgOIk=;
- b=emZ6irf4YxKHGHfJ1aHOL//UcwAmKVEf3KmrsieyTUaL96hsQo6QN8dETJ8g7HihUY
- tQauPuLBCzK1pWwXQuccxXeI2knvn6jCWTsRfNaVJv0XiHwJQLF8Q3c0G2scBCG0j6dy
- 1npxdYo9QHrNxoLtRuD7edY4It6CRARuhna75ZLSDG+2q7UhgJPWDHOQCVOpN4PEF1tY
- YzM9TLZqL0I9jLypA+jD/fDeszvNstvhOSuWUH5F8rXNGRHgPCHoPt0vcWGWxy/F+cjU
- YYiAviCFCBOenD8y0Ue+6JiKkMyqosy/ihvAXWhwxvE5ekKgEhbK60VqbpIsLgTpitcS
- P8Og==
+ bh=9tVdKnRbHolCy0YCQM9W1+uOdyw8nD9ks6qcNg/Gsxw=;
+ b=WDrgOJRYVBU6n7ig+D+ayVbO60dSb2tqVPPRCtlDtd+t/ENQpLxr+FsGLG8pOgfNfo
+ l9Wr90C8Vz4a5Wlcwp53ryTVeGElW+AeZRFHChQY8okZwj6Zcmx7M6es+SB+ZUxgOyp4
+ +E74uwwhmINDaI05ZNueFOBriRiJt+Gnxo521p4DwlPMXXfEG7oiJ5Etw/hvyhjbEsuF
+ Eu9ryfrA0aMOasLF2T8yWCacXTuWRP7FgfgaqfWnURRf33ExnFJFnc7UqJhf44KvL8BC
+ /nIqeVFjtmC9SLGgB96oYk9vb4e4TyvF9jhMwB4oQmatS3/fi7o6Iq8k9eVV6OPOQm9Y
+ WQ5Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVA95dIFj5/3DDnm92xoZ/0Epr2bchjt79a/x3Ict28X8A3X4qodFL7I8lP/nMb51kAU+tRbOhHxsp3ozjwBNVLZHTR0s54pet9F/lsPkZN
-X-Gm-Message-State: AOJu0Yw9dyW5Vu3gLqlGcqIb74sEBrM/+ipnmYkDgeD/ayiCTqzl+7td
- jbqolWbZTLR7tslODwvBF/L+j/khgXGiTAlkNP+/ZvGYHlvMoYBFP1rTqDfpUVY=
-X-Google-Smtp-Source: AGHT+IHGpqFZdzuNs12HTt42MK5CsHqzalyY4AxaKVvVmNTAOVCX41+QspypOu+I1cPNmWlJn5NyHA==
-X-Received: by 2002:a05:6512:12cc:b0:515:acbd:3ec4 with SMTP id
- p12-20020a05651212cc00b00515acbd3ec4mr473886lfg.16.1711306631252; 
- Sun, 24 Mar 2024 11:57:11 -0700 (PDT)
+ AJvYcCUxlw/CYQbIrBPWeurHnYv1gWuooGMQnNZl8ulTgMBRdhot4/T4lBqOjRz6Yks+YYAhCmVqc5TUgrFyMl0a5PUDffngF/uqKjUQE3s+6BZx
+X-Gm-Message-State: AOJu0YxemCC4Wz/Bx00Lwtc69sOA5HcehjpPF5dQb/0HhPysRYVRQ+xO
+ QxUwqS+JUJnz2tNImnDx0ltTbn9iECaDrackrphzOuLywbfp03U6mbSMGtyhoVc=
+X-Google-Smtp-Source: AGHT+IFlYd+N1SyUJACbQyzR/wjIo0WO1tpDaoNq3dpNT1n+rRamvALgE4pqCFDWWqICzw6XTh9dvg==
+X-Received: by 2002:a17:907:7e9a:b0:a47:a340:c9c1 with SMTP id
+ qb26-20020a1709077e9a00b00a47a340c9c1mr1428858ejc.27.1711306632877; 
+ Sun, 24 Mar 2024 11:57:12 -0700 (PDT)
 Received: from [127.0.1.1] ([79.114.172.194]) by smtp.gmail.com with ESMTPSA id
- m19-20020a1709060d9300b00a45c9945251sm2194008eji.192.2024.03.24.11.57.09
+ m19-20020a1709060d9300b00a45c9945251sm2194008eji.192.2024.03.24.11.57.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 24 Mar 2024 11:57:10 -0700 (PDT)
+ Sun, 24 Mar 2024 11:57:12 -0700 (PDT)
 From: Abel Vesa <abel.vesa@linaro.org>
-Date: Sun, 24 Mar 2024 20:56:51 +0200
-Subject: [PATCH v4 1/2] drm/msm/dp: Add support for determining the eDP/DP
- mode from DT
+Date: Sun, 24 Mar 2024 20:56:52 +0200
+Subject: [PATCH v4 2/2] drm/msm/dp: Add support for the X1E80100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240324-x1e80100-display-refactor-connector-v4-1-e0ebaea66a78@linaro.org>
+Message-Id: <20240324-x1e80100-display-refactor-connector-v4-2-e0ebaea66a78@linaro.org>
 References: <20240324-x1e80100-display-refactor-connector-v4-0-e0ebaea66a78@linaro.org>
 In-Reply-To: <20240324-x1e80100-display-refactor-connector-v4-0-e0ebaea66a78@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -82,21 +81,21 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Abel Vesa <abel.vesa@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2349; i=abel.vesa@linaro.org; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1668; i=abel.vesa@linaro.org; 
  h=from:subject:message-id;
- bh=W+ixrxB17oBlZR5+q98FI6rFAsGuYD9iSG3AVEjJDtQ=; 
- b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBmAHeBsZIpB8Uauni+2TSikC5QzjLlvF5qYFr3A
- ygziovcZrmJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCZgB3gQAKCRAbX0TJAJUV
- VsOWEACL930zCGaf6kuqdiBz5yYmZIV/rq1f+Qv/7ml/Hn7PXQEVdDyv+BLdW4gG5F2aYeMtMCu
- aa4iaXRl2bb71L50VPo8M6xDlgRVakNwln3QqkA5LVytVRjez/hHAU5mNxpWRVWCNkk5gziLzmw
- d/+hLQqusEqfP1XAiQf+GIPqBz5opAV3sXsfa+KevOzrHN8Hu5t28Awqv+m5KXcNF9pIoEnQd7D
- UYgaYjLd819IQ9ApYzHAPk5iZv8NK9Owu5NspjIt7tnFgjMKwRSbfUzIkMWkum4kC64BIlscVJ4
- 9KxD5g9isZZVkcqY8oZHKsnG92GLWztm4CJVzWd+W0IsRACmYRK8fYHkXWAtl0CVfT1vRT0peQj
- 5OnxyTN/dx00cdFWxkiV6Ayn3kKtCw5cZHtega1yQrwIOqSOsuPFQlGj3ZmBp/YFp3AGJc6CLPg
- B0dYlGXsMZbOYDuQun5xPsiFMRtGFzCVT6DakS6m+6nGR4xT/ovtNjrT1Q6Kpx18SyOVgh6PRnt
- loUF9+eT3aH7+xxKs1KN8zqfq3UZULQ0i0IJ/6eYicKXmgWjBliLt9Hx/tsTG445lOuYnTHhmvs
- VC9hTp8TMyoJiC1lwTfdvbEocdUDuUnsDVv8mIRQv9EgRyU2isT2by45OZ4L9tDYOmrxxmwtzO2
- a+/VR6wqrv1VVzQ==
+ bh=PkLbbZIwmrZ4R8j4F93QwuHkzPwVCdYCtB3RljpFxJA=; 
+ b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBmAHeCsdSOdvDkDbPs2pH76+yTRro3YCA8q9GcP
+ YnUm/UMdjaJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCZgB3ggAKCRAbX0TJAJUV
+ Vv47D/0bPwjqwBogmWH/gMYQiaOjOdd6oFTtCgEga2cRuC8pRUc/ojjgmMIeVDB38fOLJBWEU17
+ p2QOOJKSWkeing/ZZqf883t2nfmg65Td2WSPkzyAc4l+y/joHDet+X9pigoK8ooI/g3/u+ZJrhL
+ msjRbA4jbqtzUY1i31gywnPC6b/Na+fWtoD7ESMIfP89pn7ayOi+bkdgjcLLARvR6Je1f6RFkoP
+ WOeAbwh42Ntxp9NdelGpTMn0qUMqmV/IhmtHPZkQNGWYIgC8HpI8NkZB4nINR42edrAgwmXmpnG
+ Ww8KVz4SVaJakO4LqGpB/fjZB+tKlnqxhQfbWufuyAgL3Ny33wIz5v1ENIaV10CP76uTm1YDLo9
+ bPLjNC97jnrRRCZ313O8TAKgVJ+SiynpC/yCPp/djnEB8bv5a3sNvDJNn1ZG44DuOeAgRzOFe7d
+ /mVEZM20uyNkTMntw8BTyao/mVvHZ8KVekyVYb2e9IBuF8f8T3FoyZ95ZK9ID8WLSAGMJlIQ8gH
+ 2mNj/S8CzrQYd3NPuz9VAPaJq25EVGJBBk8iugr7DViW6IDzQHDv07z/mB8s0+EUDyKFZbxmSH1
+ 62rlNUJ4GrUCNXiF46OaRkmxqVnjYcI+bstOWoP6HeMmiI5kb7V7OeKt0QjIedIjhH2U+ac9cZs
+ LSkgE4FXQkBq1vg==
 X-Developer-Key: i=abel.vesa@linaro.org; a=openpgp;
  fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,71 +113,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of relying on different compatibles for eDP and DP, lookup
-the panel node in devicetree to figure out the connector type and
-then pass on that information to the PHY. External DP doesn't have
-a panel described in DT, therefore, assume it's eDP if panel node
-is present.
+Add the X1E80100 DP descs and compatible. This platform will be using
+a single compatible for both eDP and DP mode. The actual mode will
+be set based on the presence of the panel node in DT.
 
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
 ---
- drivers/gpu/drm/msm/dp/dp_display.c | 29 ++++++++++++++++++++++++++++-
- 1 file changed, 28 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/msm/dp/dp_display.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index c4cb82af5c2f..9169a739cc54 100644
+index 9169a739cc54..521cba76d2a0 100644
 --- a/drivers/gpu/drm/msm/dp/dp_display.c
 +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -726,6 +726,14 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
- 	if (IS_ERR(phy))
- 		return PTR_ERR(phy);
+@@ -171,6 +171,14 @@ static const struct msm_dp_desc sm8650_dp_descs[] = {
+ 	{}
+ };
  
-+	rc = phy_set_mode_ext(phy, PHY_MODE_DP,
-+			      dp->dp_display.is_edp ? PHY_SUBMODE_EDP : PHY_SUBMODE_DP);
-+	if (rc) {
-+		DRM_ERROR("failed to set phy submode, rc = %d\n", rc);
-+		dp->catalog = NULL;
-+		goto error;
-+	}
++static const struct msm_dp_desc x1e80100_dp_descs[] = {
++	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
++	{ .io_start = 0x0ae98000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true },
++	{ .io_start = 0x0ae9a000, .id = MSM_DP_CONTROLLER_2, .wide_bus_supported = true },
++	{ .io_start = 0x0aea0000, .id = MSM_DP_CONTROLLER_3, .wide_bus_supported = true },
++	{}
++};
 +
- 	dp->catalog = dp_catalog_get(dev);
- 	if (IS_ERR(dp->catalog)) {
- 		rc = PTR_ERR(dp->catalog);
-@@ -1241,6 +1249,25 @@ static int dp_auxbus_done_probe(struct drm_dp_aux *aux)
- 	return dp_display_probe_tail(aux->dev);
- }
+ static const struct of_device_id dp_dt_match[] = {
+ 	{ .compatible = "qcom,sc7180-dp", .data = &sc7180_dp_descs },
+ 	{ .compatible = "qcom,sc7280-dp", .data = &sc7280_dp_descs },
+@@ -182,6 +190,7 @@ static const struct of_device_id dp_dt_match[] = {
+ 	{ .compatible = "qcom,sdm845-dp", .data = &sc7180_dp_descs },
+ 	{ .compatible = "qcom,sm8350-dp", .data = &sm8350_dp_descs },
+ 	{ .compatible = "qcom,sm8650-dp", .data = &sm8650_dp_descs },
++	{ .compatible = "qcom,x1e80100-dp", .data = &x1e80100_dp_descs },
+ 	{}
+ };
  
-+static int dp_display_get_connector_type(struct platform_device *pdev,
-+					 const struct msm_dp_desc *desc)
-+{
-+	struct device_node *node = pdev->dev.of_node;
-+	struct device_node *aux_bus = of_get_child_by_name(node, "aux-bus");
-+	struct device_node *panel = of_get_child_by_name(aux_bus, "panel");
-+	int connector_type;
-+
-+	if (panel)
-+		connector_type = DRM_MODE_CONNECTOR_eDP;
-+	else
-+		connector_type = DRM_MODE_SUBCONNECTOR_DisplayPort;
-+
-+	of_node_put(panel);
-+	of_node_put(aux_bus);
-+
-+	return connector_type;
-+}
-+
- static int dp_display_probe(struct platform_device *pdev)
- {
- 	int rc = 0;
-@@ -1263,7 +1290,7 @@ static int dp_display_probe(struct platform_device *pdev)
- 	dp->dp_display.pdev = pdev;
- 	dp->name = "drm_dp";
- 	dp->id = desc->id;
--	dp->dp_display.connector_type = desc->connector_type;
-+	dp->dp_display.connector_type = dp_display_get_connector_type(pdev, desc);
- 	dp->wide_bus_supported = desc->wide_bus_supported;
- 	dp->dp_display.is_edp =
- 		(dp->dp_display.connector_type == DRM_MODE_CONNECTOR_eDP);
 
 -- 
 2.34.1
