@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC947888025
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Mar 2024 23:54:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D8258880E6
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 00:07:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4703910E33E;
-	Sun, 24 Mar 2024 22:54:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A7A610E422;
+	Sun, 24 Mar 2024 23:07:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XH0PZUU/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Y1kFLPyn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D08210E33E
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Mar 2024 22:54:43 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71BC210E422
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Mar 2024 23:07:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id CDDBECE0E5D;
- Sun, 24 Mar 2024 22:54:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F9E0C43330;
- Sun, 24 Mar 2024 22:54:38 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5ED0660E04;
+ Sun, 24 Mar 2024 23:07:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BE43C43399;
+ Sun, 24 Mar 2024 23:07:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711320880;
+ s=k20201202; t=1711321668;
  bh=Vql+8js91BRX0rn5qU3meYIvkq3/iZebYzGwS509XTc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XH0PZUU/46IFy8sp/+S5J2rWTXJcondn8GwtpQ6j2PcAO4JftmUyhtMoBm8y8xmZr
- nJT1PggckArlgyaFJseQHRKMSTLT8Q8EMeu4O0EFrsYIcCWIaS+qQCtAOV+MDe7I9s
- Fww8XlgD3i5NEG9pax/uQeuiF0Dok6MDFkHzgPnNgVFCfMtcQQFS9L/pSK/lzTNifm
- eVHba0MMrcPYWG+yjUmp1SwXOab8LmJEAMRW3OElxQ9gNLGq8dnicv+otg1UJD562O
- w1bX2UbvY8YajhxVPWIrYyX62G+w81kp/BTkgWZlbLcGQcrSfYL8N7ovfr/WXq7s36
- zQ+z3p4GVRdow==
+ b=Y1kFLPynROeXaia/neLYNhDoRiejoV8FwURaGegVxq+CWtddmSrfg8rZvGajA0DHb
+ mb0B1wycTdOSGLAFUXKnrVyEsugGi/Eyalcrd4UlUSXcVKtDGi7RtJoWDepbCFD3KJ
+ hKXsAzOW36fM7e+V7p7Bt1lJ3VHWG/pFAbNFdo8q9BuKLjrkE+TK4s6//uoPNyzZus
+ sjGTlZdZ35/9XidkW1JZhiNM4Oon8O3ICEDGTMAqEBub1LXdqFjIicE21tZwb6P117
+ Gncq2cOJzNKAxOMoyGcRiFj1b5dfb6y1j0xbkKj00E+Qk02GV8vYpq16xUp6nS86RE
+ EDUc5uu8ovFlQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -41,13 +41,13 @@ Cc: Randy Dunlap <rdunlap@infradead.org>,
  linuxppc-dev@lists.ozlabs.org, Thomas Zimmermann <tzimmermann@suse.de>,
  Geoff Levand <geoff@infradead.org>, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.7 444/713] drivers/ps3: select VIDEO to provide cmdline
+Subject: [PATCH 6.6 397/638] drivers/ps3: select VIDEO to provide cmdline
  functions
-Date: Sun, 24 Mar 2024 18:42:50 -0400
-Message-ID: <20240324224720.1345309-445-sashal@kernel.org>
+Date: Sun, 24 Mar 2024 18:57:14 -0400
+Message-ID: <20240324230116.1348576-398-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240324224720.1345309-1-sashal@kernel.org>
-References: <20240324224720.1345309-1-sashal@kernel.org>
+In-Reply-To: <20240324230116.1348576-1-sashal@kernel.org>
+References: <20240324230116.1348576-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
