@@ -2,70 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45FB2887C10
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Mar 2024 10:12:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73DF5887C17
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Mar 2024 10:22:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 082D110E084;
-	Sun, 24 Mar 2024 09:12:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D21E610E042;
+	Sun, 24 Mar 2024 09:22:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=g.clemson.edu header.i=@g.clemson.edu header.b="uYSKwQ7N";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="dyxV2Pmf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
- [209.85.128.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB99B10E14B
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Mar 2024 02:05:28 +0000 (UTC)
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-611639a0e4eso187347b3.0
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Mar 2024 19:05:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=g.clemson.edu; s=google; t=1711245927; x=1711850727;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=/3eJdLTiaJ5WbBvAcx/Ng3C1DgyvhQmSTdGW5VESX1g=;
- b=uYSKwQ7NT/tn6gGNQET1OUtNmI1x2ahHuNHZthhFT9qOIfl7gbn7pZ8DjMetAxg4zk
- ae9XiP5GVEYFon9aRAe8dg/2sXlNRBLyYBJu05pOjouxYlzE2yi/CNg/wtpDTaXq7dWK
- ppapvz+NtsEKGR1VLeDXPdkq78uAGNj60BYfSg5g+CIh08wPSO7n2VUs1YkcZLchvBYV
- mcNn9T/5528NI4zwn8T2s4uCTEVRNkdV+JzBVxxv6sUeYo8gIISKzjCNpv4C2RuuZ0rd
- cJLI95AcNiwn6KrDd9zM4ByVSp8j9ruohPfsjLXRkTESmsjJGu3Up7lfrFgXyXasfYkQ
- 1b5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711245927; x=1711850727;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/3eJdLTiaJ5WbBvAcx/Ng3C1DgyvhQmSTdGW5VESX1g=;
- b=j+CYnRwN/NG8ZgUmW88soK9AZaKuIOxDNVAwv6H9XBG4Ae8CnZ+ubrKpaYRn68eGQP
- lE8+oqSpvHXhwW3//7Ef1PQjqrw940ryP5cfAo23OzEUAeXsCsUkmKP7yfx52EmchjAc
- dMzL3MOpVDLG6E1swgvLvoPoQVTDAEVrDOmXbx3BIeg8yDB1CwHL+mf6nIiLmjTtGwJe
- 44NWf415j9gpgsOG8qSu8nExmOgPnKxetXjsn+sU3cTv4DaaJGQ62M9tZ71bZM34dcYS
- AyMeqT7Gol/mq9YK1koYXKSfVROb178WavxlvSsFag1jTngazuousWw92eIXBcjHeWy0
- ajgg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXDrTcOsEqc95mKGRijAGK8o/u5jkAiFJ2hBaQAkrao931l8csWvp1EBw2ECdi+bE3iXG890eohUDkHm6TZm2jg7atA+KWv2s8SXf2b9uGf
-X-Gm-Message-State: AOJu0YyB3yNH7HvjE5yw29261HDtClOIz2U2gA2ubhw0oWEb1BUZp/CV
- 2ClznlSTu0dO8Q0e0KxRl/0vOOJOaFAw/yRBPT48YWpXZJCPYbtnzjW/vdw6uQ==
-X-Google-Smtp-Source: AGHT+IH7bshBEpXrBz6f2reJsiz2RhBfp0ItfogGGdyRW9iUolZWkHGVZWa0gAFa4N3dG6Moby7prA==
-X-Received: by 2002:a05:690c:6c07:b0:610:d7a7:43cc with SMTP id
- ir7-20020a05690c6c0700b00610d7a743ccmr1641236ywb.19.1711245927372; 
- Sat, 23 Mar 2024 19:05:27 -0700 (PDT)
-Received: from mephi-laptop.localnet (130-127-40-81.lever.resnet.clemson.edu.
- [130.127.40.81]) by smtp.gmail.com with ESMTPSA id
- g2-20020a815202000000b0060a08edc81dsm518716ywb.4.2024.03.23.19.05.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Mar 2024 19:05:27 -0700 (PDT)
-From: Emilio Mendoza Reyes <emendoz@g.clemson.edu>
-To: neil.armstrong@linaro.org, dianders@chromium.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/panel: Promote warn_dev to WARN for invalid calls in
- drm_panel.c
-Date: Sat, 23 Mar 2024 22:04:47 -0400
-Message-ID: <2388112.ElGaqSPkdT@mephi-laptop>
+Received: from smtp.smtpout.orange.fr (smtp-23.smtpout.orange.fr
+ [80.12.242.23])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3EEE410E042
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Mar 2024 09:22:46 +0000 (UTC)
+Received: from [192.168.1.18] ([86.243.17.157]) by smtp.orange.fr with ESMTPA
+ id oK2irMGMsawLVoK2jrwkZQ; Sun, 24 Mar 2024 10:21:38 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1711272099;
+ bh=URa/scX9JJ6Z40dL8WhIkmALLQ5X37NM9gkybLRw27I=;
+ h=Message-ID:Date:MIME-Version:Subject:To:From;
+ b=dyxV2PmfdDK4SdMqDlTsqv99dIOXj8UvQ5ME5HH4EtxbgGSf4TnhnkCGwm4s4G5QI
+ tvGWZ//51EwFtkGLbv4M4Ue9oEAXee1J7uAg46dOYYP8hXPnYViBgLx/RWoxKp7RWz
+ 8LmeYJio7eISxEVIBB9onYHxN7t3orzI8cXYOclXyY4tQeVSH/7zTv+k18w+BziPFG
+ pYK8qLUlBndwVIScyE+yX3yFtc7h0eGM7bhZBZchjrveNwHQ5Zamq5YkTumszsnINk
+ kkjHjc9+pcfIq4OG2Ei6Fsl2EytJV36zDiA9RFlGhioo0yef7vG+RnvUseBasPXaSj
+ bcgE0WjFPp23Q==
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 24 Mar 2024 10:21:39 +0100
+X-ME-IP: 86.243.17.157
+Message-ID: <69264f8a-a113-4d49-b8a6-fb9e858584e4@wanadoo.fr>
+Date: Sun, 24 Mar 2024 10:21:28 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
-X-Mailman-Approved-At: Sun, 24 Mar 2024 09:12:44 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 08/11] devm-helpers: Add resource managed version of
+ debugfs directory create function
+To: =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>
+Cc: Jonathan.Cameron@huawei.com, Laurent.pinchart@ideasonboard.com,
+ airlied@gmail.com, andrzej.hajda@intel.com, arm@kernel.org, arnd@arndb.de,
+ bamv2005@gmail.com, brgl@bgdev.pl, daniel@ffwll.ch, davem@davemloft.net,
+ dianders@chromium.org, dri-devel@lists.freedesktop.org,
+ eajames@linux.ibm.com, gaurav.jain@nxp.com, gregory.clement@bootlin.com,
+ hdegoede@redhat.com, herbert@gondor.apana.org.au, horia.geanta@nxp.com,
+ james.clark@arm.com, james@equiv.tech, jdelvare@suse.com,
+ jernej.skrabec@gmail.com, jonas@kwiboo.se, linus.walleij@linaro.org,
+ linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux@roeck-us.net, maarten.lankhorst@linux.intel.com,
+ mazziesaccount@gmail.com, mripard@kernel.org, naresh.solanki@9elements.com,
+ neil.armstrong@linaro.org, pankaj.gupta@nxp.com,
+ patrick.rudolph@9elements.com, rfoss@kernel.org, soc@kernel.org,
+ tzimmermann@suse.de
+References: <20240323164359.21642-1-kabel@kernel.org>
+ <20240323164359.21642-9-kabel__6885.49310886941$1711212291$gmane$org@kernel.org>
+ <f7c64a5a-2abc-4b7e-95db-7ca57b5427c0@wanadoo.fr>
+ <20240323222506.4ffbdd71@thinkpad>
+Content-Language: en-MW
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20240323222506.4ffbdd71@thinkpad>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,84 +78,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA512
+Le 23/03/2024 à 22:25, Marek Behún a écrit :
+> On Sat, 23 Mar 2024 22:10:40 +0100
+> Christophe JAILLET <christophe.jaillet@wanadoo.fr> wrote:
+> 
 
-From: Emilio Mendoza Reyes <emendoz@clemson.edu>
+...
 
-This patch is the second of a set of two.
+>>>    static int pvt_ts_dbgfs_create(struct pvt_device *pvt, struct device *dev)
+>>>    {
+>>> -	pvt->dbgfs_dir = debugfs_create_dir(dev_name(dev), NULL);
+>>> +	pvt->dbgfs_dir = devm_debugfs_create_dir(dev, dev_name(dev), NULL);
+>>> +	if (IS_ERR(pvt->dbgfs_dir))
+>>> +		return PTR_ERR(pvt->dbgfs_dir);
+>>
+>> Not sure if the test and error handling should be added here.
+>> *If I'm correct*, functions related to debugfs already handle this case
+>> and just do nothing. And failure in debugfs related code is not
+>> considered as something that need to be reported and abort a probe function.
+>>
+>> Maybe the same other (already existing) tests in this patch should be
+>> removed as well, in a separated patch.
+> 
+> Functions related to debugfs maybe do, but devm_ resource management
+> functions may fail to allocate release structure, and those errors need
+> to be handled, AFAIK.
 
-In the kernel docs there is a todo:
-Link: https://www.kernel.org/doc/html/v6.8/gpu/todo.html#clean-up-checks-for-already-prepared-enabled-in-panels
+I would say no.
+If this memory allocation fails, then debugfs_create_dir() will not be 
+called, but that's not a really big deal if the driver itself can still 
+run normally without it.
 
-The first patch addresses removing the duplicated code. This second
-patch addresses promoting instances of dev_warn to WARN as it is an
-error in other code for these functions to be called in the invalid
-state that triggers the checks.
+Up to you to leave it as-is or remove what I think is a useless error 
+handling.
+At least, maybe it could be said in the commit log, so that maintainers 
+can comment on it, if they don't spot the error handling you introduce.
 
-Signed-off-by: Emilio Mendoza Reyes <emendoz@clemson.edu>
-- ---
- drivers/gpu/drm/drm_panel.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+CJ
 
-diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-index cfbe020de54e..0b7602c8b387 100644
-- --- a/drivers/gpu/drm/drm_panel.c
-+++ b/drivers/gpu/drm/drm_panel.c
-@@ -114,7 +114,9 @@ int drm_panel_prepare(struct drm_panel *panel)
- 		return -EINVAL;
- 
- 	if (panel->prepared) {
-- -		dev_warn(panel->dev, "Skipping prepare of already prepared panel\n");
-+		const char *name = dev_name(panel->dev);
-+
-+		WARN(1, "Unexpected attempt to prepare an already prepared panel by %s\n", name);
- 		return 0;
- 	}
- 
-@@ -162,7 +164,9 @@ int drm_panel_unprepare(struct drm_panel *panel)
- 		return -EINVAL;
- 
- 	if (!panel->prepared) {
-- -		dev_warn(panel->dev, "Skipping unprepare of already unprepared panel\n");
-+		const char *name = dev_name(panel->dev);
-+
-+		WARN(1, "Unexpected attempt to unprepare an already unprepared panel by %s\n", name);
- 		return 0;
- 	}
- 
-@@ -208,7 +212,9 @@ int drm_panel_enable(struct drm_panel *panel)
- 		return -EINVAL;
- 
- 	if (panel->enabled) {
-- -		dev_warn(panel->dev, "Skipping enable of already enabled panel\n");
-+		const char *name = dev_name(panel->dev);
-+
-+		WARN(1, "Unexpected attempt to enable an already enabled panel by %s\n", name);
- 		return 0;
- 	}
- 
-@@ -246,7 +252,9 @@ int drm_panel_disable(struct drm_panel *panel)
- 		return -EINVAL;
- 
- 	if (!panel->enabled) {
-- -		dev_warn(panel->dev, "Skipping disable of already disabled panel\n");
-+		const char *name = dev_name(panel->dev);
-+
-+		WARN(1, "Unexpected attempt to disable an already disabled panel by %s\n", name);
- 		return 0;
- 	}
- 
-- -- 
-2.44.0
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQTcaZbABwnECYA0cZI0LAN3EqikFgUCZf+KPwAKCRA0LAN3Eqik
-FgImAQCqtDgta8+cyU8aAaWN2QTflyiHrNWqB1YmPkVggV1xSwEAx6Ge9YOH7vNL
-hmew94ipW21OuQzIeHtSjLpqJ5Creww=
-=aLEl
------END PGP SIGNATURE-----
-
-
+> 
+> Marek
+> 
 
