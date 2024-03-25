@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4461D88A057
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 13:52:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41DDA88A058
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 13:52:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3413D10E831;
-	Mon, 25 Mar 2024 12:52:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCA8D10E843;
+	Mon, 25 Mar 2024 12:52:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NpZo3569";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EIzMRV33";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0193410E831
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 12:52:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5F1010E843
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 12:52:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E33EE60FD1;
- Mon, 25 Mar 2024 12:52:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43E81C433F1;
- Mon, 25 Mar 2024 12:52:15 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1E5E560F7C;
+ Mon, 25 Mar 2024 12:52:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73B42C433F1;
+ Mon, 25 Mar 2024 12:52:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711371135;
- bh=X1kgTmpeXW5+7R6ZXqAP8cLUvg5M5Sag2AFv8K5YzgY=;
- h=From:Subject:Date:To:Cc:From;
- b=NpZo3569Ote5XSerZLkC4jsKXFmzou0YBXdVaNz44JDWmsaKjpbzwB28FfiVCJR/A
- T/tHUzEdCa3RVRCkVX0eA5ge4giJWjm3uX3Dv7kcu4NzklzkVyOGyTe+l7gXuHkBrg
- BGT9E11tm2VfoWg3hPhSizA9CLIGPryrLTELzb9MOXIXTdDwahG1HWijVAhldTpLqd
- PFoXsX67LB9/3gVN0qv2yUbycQGSUZyP/NooTUMywbwxOuUtPcYw3R5diW8jsBt6XF
- ZnwO/jdyurERPuSgcDNqiMM4F3LbGNzkMpwZG8qdpJh6SrKug9RQjGVJ7NwuqtoJt8
- rlC4NsZMjKWag==
+ s=k20201202; t=1711371138;
+ bh=+cHz4TXW0VtDzJFtQd3Jvd/jDS3QU+s5WYopK0ZEDTQ=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=EIzMRV33pwbxMLfhxtJ18TVyvQ2bm9w7w8nakgukiRtScy5pEhONmk3ULBvK0UFwj
+ lq/qtbzLTWFSLaDVW0p4pVzVrjvRBUiWKC5+Y0gKX87tT9apTFO6ofPk7YTx4NnCYk
+ Z8GzYn8GhKn7q9z6Wd84TOpFsn/1n1l5dlVTLY+drwqy8ifQVa+kBMed70eXXVavyy
+ GU4H0crNEE4YdqbEtUgc2P/lINztmFFViWjscX6MbItRZ2yaY8zcU4El/ZpwFDulL9
+ cy220SjF7oVEA5rdElA2b2plk948QHL9U8bIDzbMoaBDljuXHik357q7RUHnSRTCGH
+ bWe52LGEgv/DA==
 From: Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH 00/12] drm/display: Convert helpers Kconfig symbols to
- depends on
-Date: Mon, 25 Mar 2024 13:52:02 +0100
-Message-Id: <20240325-kms-kconfig-helpers-v1-0-bfec6949d9c3@kernel.org>
+Date: Mon, 25 Mar 2024 13:52:03 +0100
+Subject: [PATCH 01/12] drm/display: Make DisplayPort AUX bus Kconfig name
+ consistent
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAHJzAWYC/x3MQQqAIBBA0avErBsos8CuEi0sxxoqCwciCO+et
- HyL/18QikwCffFCpJuFz5BRlwXMqw0LIbtsUJXSVaNa3A7BbT6D5wVX2i+Kgt5oY+rJuc5byOU
- VyfPzX4cxpQ/RgAC9ZQAAAA==
+Message-Id: <20240325-kms-kconfig-helpers-v1-1-bfec6949d9c3@kernel.org>
+References: <20240325-kms-kconfig-helpers-v1-0-bfec6949d9c3@kernel.org>
+In-Reply-To: <20240325-kms-kconfig-helpers-v1-0-bfec6949d9c3@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Daniel Vetter <daniel@ffwll.ch>
 Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
  dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3079; i=mripard@kernel.org;
- h=from:subject:message-id; bh=X1kgTmpeXW5+7R6ZXqAP8cLUvg5M5Sag2AFv8K5YzgY=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGmMxWVvBasK88NN61+x+paeeazs83DOkk979PiubmxOf
- KA4W+RIx1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZhI/kPGhqtmwUsuVTXKbJ4Y
- rMIuuPZL1amJyoW1lcd4DT6d6VliIzlrgmTJ95hfXX/NUxxdcv8oMja83rZOYff5XVYiLfdnPGg
- 94D1hv/8n1vdr25NbPrJ+6UuzEphonf75y4QPTzUK4xa+a5gHAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6517; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=+cHz4TXW0VtDzJFtQd3Jvd/jDS3QU+s5WYopK0ZEDTQ=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGmMxWUbXy4623D/eeJO+VsC934tX6dxLD1+3qE3fe3fL
+ rCkJ7u/65jKwiDMySArpsjyRCbs9PL2xVUO9it/wMxhZQIZwsDFKQATSZ3FWKernNZ7+OWdgtse
+ NYyvFzr3n7m7PKeYdcq07NinbMcOr59e8+lvdrXEDaWSuJ0mDPybpzLWOx338trY2aVlvuyCU4G
+ MdP+Tmr88KY+btgkcOXvxyc/C+qSbspvfR3ZHnmNWtvy1yMMAAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,70 +69,194 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+While most display helpers Kconfig symbols have the DRM_DISPLAY prefix,
+the DisplayPort AUX bus implementation uses DRM_DP_AUX_BUS.
 
-Jani recently pointed out that the Kconfig symbols are a bit difficult
-to work with at the moment when they depend on each other, and that
-using depends on would be a better idea, but no one really did the work
-so far.
-
-So here it goes :)
-
-It's been tested by comparing the drm-misc-arm, drm-misc-arm64 and
-drm-misc-x86 before and after this series and making sure they are
-identical.
-
-Let me know what you think,
-Maxime
+Since the number of users is limited and it's a selected symbol, we can
+easily rename it to make it consistent.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
-Maxime Ripard (12):
-      drm/display: Make DisplayPort AUX bus Kconfig name consistent
-      drm/display: Make DisplayPort tunnel debug Kconfig name consistent
-      drm/display: Make DisplayPort AUX Chardev Kconfig name consistent
-      drm/display: Make DisplayPort CEC-over-AUX Kconfig name consistent
-      drm/display: Reorder Kconfig symbols
-      drm/display: Make all helpers visible and switch to depends on
-      drm: Switch DRM_DISPLAY_HELPER to depends on
-      drm: Switch DRM_DISPLAY_DP_AUX_BUS to depends on
-      drm: Switch DRM_DISPLAY_DP_HELPER to depends on
-      drm: Switch DRM_DISPLAY_HDCP_HELPER to depends on
-      drm: Switch DRM_DISPLAY_HDMI_HELPER to depends on
-      drm/bridge: it6505: Remove useless select
+ drivers/gpu/drm/bridge/Kconfig          | 6 +++---
+ drivers/gpu/drm/bridge/analogix/Kconfig | 2 +-
+ drivers/gpu/drm/display/Kconfig         | 2 +-
+ drivers/gpu/drm/display/Makefile        | 2 +-
+ drivers/gpu/drm/mediatek/Kconfig        | 2 +-
+ drivers/gpu/drm/msm/Kconfig             | 2 +-
+ drivers/gpu/drm/panel/Kconfig           | 4 ++--
+ drivers/gpu/drm/tegra/Kconfig           | 2 +-
+ 8 files changed, 11 insertions(+), 11 deletions(-)
 
- arch/parisc/configs/generic-32bit_defconfig      |  2 +-
- drivers/gpu/drm/Kconfig                          |  8 +--
- drivers/gpu/drm/amd/amdgpu/Kconfig               | 12 +++--
- drivers/gpu/drm/bridge/Kconfig                   | 29 +++++-----
- drivers/gpu/drm/bridge/analogix/Kconfig          | 16 +++---
- drivers/gpu/drm/bridge/cadence/Kconfig           |  8 +--
- drivers/gpu/drm/bridge/synopsys/Kconfig          |  4 +-
- drivers/gpu/drm/display/Kconfig                  | 68 ++++++++++++------------
- drivers/gpu/drm/display/Makefile                 |  6 +--
- drivers/gpu/drm/display/drm_dp_helper.c          |  2 +-
- drivers/gpu/drm/display/drm_dp_helper_internal.h |  2 +-
- drivers/gpu/drm/display/drm_dp_tunnel.c          | 10 ++--
- drivers/gpu/drm/exynos/Kconfig                   |  4 +-
- drivers/gpu/drm/i915/Kconfig                     |  8 +--
- drivers/gpu/drm/i915/Kconfig.debug               |  4 +-
- drivers/gpu/drm/mediatek/Kconfig                 |  6 +--
- drivers/gpu/drm/msm/Kconfig                      |  8 +--
- drivers/gpu/drm/nouveau/Kconfig                  | 10 ++--
- drivers/gpu/drm/panel/Kconfig                    | 32 +++++------
- drivers/gpu/drm/radeon/Kconfig                   |  8 +--
- drivers/gpu/drm/rockchip/Kconfig                 |  8 +--
- drivers/gpu/drm/tegra/Kconfig                    |  8 +--
- drivers/gpu/drm/vc4/Kconfig                      | 10 ++--
- drivers/gpu/drm/xe/Kconfig                       | 13 +++--
- drivers/gpu/drm/xlnx/Kconfig                     |  8 +--
- include/drm/display/drm_dp_helper.h              |  2 +-
- 26 files changed, 155 insertions(+), 141 deletions(-)
----
-base-commit: 5e842d55bad7794823a50f24fd645b58f2ef93ab
-change-id: 20240325-kms-kconfig-helpers-f94991bdd6fa
+diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+index efd996f6c138..703c3e30885b 100644
+--- a/drivers/gpu/drm/bridge/Kconfig
++++ b/drivers/gpu/drm/bridge/Kconfig
+@@ -94,11 +94,11 @@ config DRM_ITE_IT6505
+ 	tristate "ITE IT6505 DisplayPort bridge"
+ 	depends on OF
+ 	select DRM_DISPLAY_DP_HELPER
+ 	select DRM_DISPLAY_HDCP_HELPER
+ 	select DRM_DISPLAY_HELPER
+-	select DRM_DP_AUX_BUS
++	select DRM_DISPLAY_DP_AUX_BUS
+ 	select DRM_KMS_HELPER
+ 	select DRM_DP_HELPER
+ 	select EXTCON
+ 	select CRYPTO
+ 	select CRYPTO_HASH
+@@ -227,11 +227,11 @@ config DRM_PARADE_PS8622
+ config DRM_PARADE_PS8640
+ 	tristate "Parade PS8640 MIPI DSI to eDP Converter"
+ 	depends on OF
+ 	select DRM_DISPLAY_DP_HELPER
+ 	select DRM_DISPLAY_HELPER
+-	select DRM_DP_AUX_BUS
++	select DRM_DISPLAY_DP_AUX_BUS
+ 	select DRM_KMS_HELPER
+ 	select DRM_MIPI_DSI
+ 	select DRM_PANEL
+ 	help
+ 	  Choose this option if you have PS8640 for display
+@@ -387,11 +387,11 @@ config DRM_TI_SN65DSI86
+ 	select DRM_KMS_HELPER
+ 	select REGMAP_I2C
+ 	select DRM_PANEL
+ 	select DRM_MIPI_DSI
+ 	select AUXILIARY_BUS
+-	select DRM_DP_AUX_BUS
++	select DRM_DISPLAY_DP_AUX_BUS
+ 	help
+ 	  Texas Instruments SN65DSI86 DSI to eDP Bridge driver
+ 
+ config DRM_TI_TPD12S015
+ 	tristate "TI TPD12S015 HDMI level shifter and ESD protection"
+diff --git a/drivers/gpu/drm/bridge/analogix/Kconfig b/drivers/gpu/drm/bridge/analogix/Kconfig
+index 173dada218ec..4846b2e9be7c 100644
+--- a/drivers/gpu/drm/bridge/analogix/Kconfig
++++ b/drivers/gpu/drm/bridge/analogix/Kconfig
+@@ -35,11 +35,11 @@ config DRM_ANALOGIX_ANX7625
+ 	depends on DRM
+ 	depends on OF
+ 	select DRM_DISPLAY_DP_HELPER
+ 	select DRM_DISPLAY_HDCP_HELPER
+ 	select DRM_DISPLAY_HELPER
+-	select DRM_DP_AUX_BUS
++	select DRM_DISPLAY_DP_AUX_BUS
+ 	select DRM_MIPI_DSI
+ 	help
+ 	  ANX7625 is an ultra-low power 4K mobile HD transmitter
+ 	  designed for portable devices. It converts MIPI/DPI to
+ 	  DisplayPort1.3 4K.
+diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kconfig
+index c0f56888c328..843d74db1dce 100644
+--- a/drivers/gpu/drm/display/Kconfig
++++ b/drivers/gpu/drm/display/Kconfig
+@@ -1,8 +1,8 @@
+ # SPDX-License-Identifier: MIT
+ 
+-config DRM_DP_AUX_BUS
++config DRM_DISPLAY_DP_AUX_BUS
+ 	tristate
+ 	depends on DRM
+ 	depends on OF || COMPILE_TEST
+ 
+ config DRM_DISPLAY_HELPER
+diff --git a/drivers/gpu/drm/display/Makefile b/drivers/gpu/drm/display/Makefile
+index 7ca61333c669..3edf1ba2764e 100644
+--- a/drivers/gpu/drm/display/Makefile
++++ b/drivers/gpu/drm/display/Makefile
+@@ -1,8 +1,8 @@
+ # SPDX-License-Identifier: MIT
+ 
+-obj-$(CONFIG_DRM_DP_AUX_BUS) += drm_dp_aux_bus.o
++obj-$(CONFIG_DRM_DISPLAY_DP_AUX_BUS) += drm_dp_aux_bus.o
+ 
+ drm_display_helper-y := drm_display_helper_mod.o
+ drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_HELPER) += \
+ 	drm_dp_dual_mode_helper.o \
+ 	drm_dp_helper.o \
+diff --git a/drivers/gpu/drm/mediatek/Kconfig b/drivers/gpu/drm/mediatek/Kconfig
+index 76cab28e010c..96cbe020f493 100644
+--- a/drivers/gpu/drm/mediatek/Kconfig
++++ b/drivers/gpu/drm/mediatek/Kconfig
+@@ -24,11 +24,11 @@ config DRM_MEDIATEK_DP
+ 	tristate "DRM DPTX Support for MediaTek SoCs"
+ 	depends on DRM_MEDIATEK
+ 	select PHY_MTK_DP
+ 	select DRM_DISPLAY_HELPER
+ 	select DRM_DISPLAY_DP_HELPER
+-	select DRM_DP_AUX_BUS
++	select DRM_DISPLAY_DP_AUX_BUS
+ 	help
+ 	  DRM/KMS Display Port driver for MediaTek SoCs.
+ 
+ config DRM_MEDIATEK_HDMI
+ 	tristate "DRM HDMI Support for Mediatek SoCs"
+diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
+index f202f26adab2..27d72ed8b389 100644
+--- a/drivers/gpu/drm/msm/Kconfig
++++ b/drivers/gpu/drm/msm/Kconfig
+@@ -12,11 +12,11 @@ config DRM_MSM
+ 	depends on QCOM_COMMAND_DB || QCOM_COMMAND_DB=n
+ 	depends on PM
+ 	select IOMMU_IO_PGTABLE
+ 	select QCOM_MDT_LOADER if ARCH_QCOM
+ 	select REGULATOR
+-	select DRM_DP_AUX_BUS
++	select DRM_DISPLAY_DP_AUX_BUS
+ 	select DRM_DISPLAY_DP_HELPER
+ 	select DRM_DISPLAY_HELPER
+ 	select DRM_EXEC
+ 	select DRM_KMS_HELPER
+ 	select DRM_PANEL
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index 6dc451f58a3e..9eefe09c2ecb 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -562,11 +562,11 @@ config DRM_PANEL_SAMSUNG_ATNA33XC20
+ 	depends on OF
+ 	depends on BACKLIGHT_CLASS_DEVICE
+ 	depends on PM
+ 	select DRM_DISPLAY_DP_HELPER
+ 	select DRM_DISPLAY_HELPER
+-	select DRM_DP_AUX_BUS
++	select DRM_DISPLAY_DP_AUX_BUS
+ 	help
+ 	  DRM panel driver for the Samsung ATNA33XC20 panel. This panel can't
+ 	  be handled by the DRM_PANEL_SIMPLE driver because its power
+ 	  sequencing is non-standard.
+ 
+@@ -803,11 +803,11 @@ config DRM_PANEL_EDP
+ 	depends on BACKLIGHT_CLASS_DEVICE
+ 	depends on PM
+ 	select VIDEOMODE_HELPERS
+ 	select DRM_DISPLAY_DP_HELPER
+ 	select DRM_DISPLAY_HELPER
+-	select DRM_DP_AUX_BUS
++	select DRM_DISPLAY_DP_AUX_BUS
+ 	select DRM_KMS_HELPER
+ 	help
+ 	  DRM panel driver for dumb eDP panels that need at most a regulator and
+ 	  a GPIO to be powered up. Optionally a backlight can be attached so
+ 	  that it can be automatically turned off when the panel goes into a
+diff --git a/drivers/gpu/drm/tegra/Kconfig b/drivers/gpu/drm/tegra/Kconfig
+index 84e7e6bc3a0c..782f51d3044a 100644
+--- a/drivers/gpu/drm/tegra/Kconfig
++++ b/drivers/gpu/drm/tegra/Kconfig
+@@ -6,11 +6,11 @@ config DRM_TEGRA
+ 	depends on DRM
+ 	depends on OF
+ 	select DRM_DISPLAY_DP_HELPER
+ 	select DRM_DISPLAY_HDMI_HELPER
+ 	select DRM_DISPLAY_HELPER
+-	select DRM_DP_AUX_BUS
++	select DRM_DISPLAY_DP_AUX_BUS
+ 	select DRM_KMS_HELPER
+ 	select DRM_MIPI_DSI
+ 	select DRM_PANEL
+ 	select FB_DMAMEM_HELPERS if DRM_FBDEV_EMULATION
+ 	select TEGRA_HOST1X
 
-Best regards,
 -- 
-Maxime Ripard <mripard@kernel.org>
+2.44.0
 
