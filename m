@@ -2,88 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5314A889491
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 09:03:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 045808887E8
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 03:13:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40BAB10E667;
-	Mon, 25 Mar 2024 08:02:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F73610E1B6;
+	Mon, 25 Mar 2024 02:13:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bUL61oDb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IW3oS+vk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AFB510E2B0
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A92010E1B6
  for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 02:13:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 9561FCE0F95;
- Mon, 25 Mar 2024 02:13:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 76189C43394;
+ by sin.source.kernel.org (Postfix) with ESMTP id 464E9CE100F;
+ Mon, 25 Mar 2024 02:13:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A557CC43142;
  Mon, 25 Mar 2024 02:13:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1711332787;
- bh=aJvg1KH6joFG6oJkgTHoc61lNEcN6UYDL94Kek/0h5A=;
+ bh=OQ6DaWqLtLK0mHL2i6HS0EPqyqAvookaS2ecZGz/nWM=;
  h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
- b=bUL61oDb/M+5KYmdH9GZAQdZT3PYKaJ010SbGP/0QAETJ2gY+Rxd19+hfItokn4fc
- qXm+5UshaVvnLaKO+h8US6GsQq7XoxEkTJDEVJIEaNCFv8M2uUBhoQrMAu3fisTCQo
- B4fRFMNeMscSki123E/z54cBRXf+v5p5HhYpLJ3jJtc1OvR7VQslOwZ36RRz8NHOez
- HFUH5lzzeG0rrZGBHCyr2OTeNZB2H2sILwj6OEqE53Bfd2qCAI/Z34pAg9I1JWd2Cn
- dq/bNtJWoCPVpzv9DjBiOxvAIfXazxrFfLBNOkzXYWWq5P+zSQavVa4Lgiia++T7N2
- 7rjlBqvf/ljRg==
+ b=IW3oS+vkvE1rg2omkWdnXg451W2R8QWxmUug1tn/Bg6l3cfmeu1XEIle4W9BtNPp4
+ 0oal/S4apZS+BzY3gBaCjlntTY0jgQlz1t3PTdy9XjaTcskT+il7ElSZAp+JWMzJPx
+ t4H/ihZGECuHFrRbX8V87SXD5ftRGwC5bn6CdPejAvtWiLKQtnbNuipuyb5sBYBBYm
+ r76u6K1eEb3PqAdmigNT4nSlFA/s5U3UgALZVL8Mu6HumRAnW3tR7xT39q806nrvhq
+ m7JZPsTIIGWptqQY1qCZ3jSIb5cnxMaBAWbnn/lCp4J/k3we+Ge3Bv+ms0rQoNcWaw
+ NOIkisLFJZphg==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
  (localhost.localdomain [127.0.0.1])
  by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 5AFA0D2D0E0; Mon, 25 Mar 2024 02:13:07 +0000 (UTC)
+ 90BCDD2D0E3; Mon, 25 Mar 2024 02:13:07 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v6 000/164] pwm: Improve lifetime tracking for pwm_chips
+Subject: Re: [PATCH v3 00/32] spi: get rid of some legacy macros
 From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: <171133278736.9916.5526869645378949035.git-patchwork-notify@kernel.org>
+Message-Id: <171133278756.9916.16032493309661657935.git-patchwork-notify@kernel.org>
 Date: Mon, 25 Mar 2024 02:13:07 +0000
-References: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
-In-Reply-To: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1707324793.git.u.kleine-koenig@pengutronix.de>
+In-Reply-To: <cover.1707324793.git.u.kleine-koenig@pengutronix.de>
 To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
-Cc: linux-pwm@vger.kernel.org, corbet@lwn.net, Jonathan.Cameron@huawei.com,
- james.clark@arm.com, andriy.shevchenko@linux.intel.com, broonie@kernel.org,
- marcan@marcan.st, sven@svenpeter.dev, claudiu.beznea@tuxon.dev,
- nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
- florian.fainelli@broadcom.com, rjui@broadcom.com, sbranden@broadcom.com,
- shc_work@mail.ru, bleung@chromium.org, p.zabel@pengutronix.de,
- shawnguo@kernel.org, s.hauer@pengutronix.de, paul@crapouillou.net,
- vz@mleia.com, mika.westerberg@linux.intel.com, andy@kernel.org,
- linus.walleij@linaro.org, hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com, 
+Cc: broonie@kernel.org, kernel@pengutronix.de, mdf@kernel.org,
+ hao.wu@intel.com, yilun.xu@intel.com, trix@redhat.com,
+ linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
+ alex.aring@gmail.com, stefan@datenfreihafen.org, miquel.raynal@bootlin.com,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
+ linux-wpan@vger.kernel.org, netdev@vger.kernel.org, lars@metafoo.de,
+ Michael.Hennerich@analog.com, jic23@kernel.org, linux-iio@vger.kernel.org,
+ dmitry.torokhov@gmail.com, Jonathan.Cameron@huawei.com,
+ linux-input@vger.kernel.org, gregkh@linuxfoundation.org,
+ andriy.shevchenko@linux.intel.com, ulf.hansson@linaro.org,
+ martin.tuma@digiteqautomotive.com, mchehab@kernel.org,
+ linux-media@vger.kernel.org, serjk@netup.ru, arnd@arndb.de,
+ yangyingliang@huawei.com, linux-mmc@vger.kernel.org, richard@nod.at,
+ vigneshr@ti.com, robh@kernel.org, amit.kumar-mahapatra@amd.com,
+ alsa-devel@alsa-project.org, linux-mtd@lists.infradead.org, horms@kernel.org, 
+ ronald.wahl@raritan.com, bleung@chromium.org, tzungbi@kernel.org,
+ groeck@chromium.org, chrome-platform@lists.linux.dev, michal.simek@amd.com,
+ jcmvbkbc@gmail.com, linux-spi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, andersson@kernel.org,
+ konrad.dybcio@linaro.org, linux-arm-msm@vger.kernel.org,
  matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
- neil.armstrong@linaro.org, khilman@baylibre.com, conor.dooley@microchip.com,
- daire.mcnamara@microchip.com, j.neuschaefer@gmx.net, heiko@sntech.de,
- krzysztof.kozlowski@linaro.org, palmer@dabbelt.com, paul.walmsley@sifive.com, 
- mwalle@kernel.org, orsonzhai@gmail.com, baolin.wang@linux.alibaba.com,
- zhang.lyra@gmail.com, fabrice.gasnier@foss.st.com, mcoquelin.stm32@gmail.com, 
- alexandre.torgue@foss.st.com, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, hammerh0314@gmail.com, thierry.reding@gmail.com,
- jonathanh@nvidia.com, nobuhiro1.iwamatsu@toshiba.co.jp,
- sean.anderson@seco.com, michal.simek@amd.com, brgl@bgdev.pl,
- andrzej.hajda@intel.com, rfoss@kernel.org, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- pavel@ucw.cz, lee@kernel.org, quic_amelende@quicinc.com,
- quic_bjorande@quicinc.com, keescook@chromium.org, robh@kernel.org,
- johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org,
- kernel@pengutronix.de, linux-doc@vger.kernel.org, alyssa@rosenzweig.io,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- groeck@chromium.org, chrome-platform@lists.linux.dev, festevam@gmail.com,
- linux-imx@nxp.com, linux-mips@vger.kernel.org, linux-gpio@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-mediatek@lists.infradead.org,
- jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
- linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-rockchip@lists.infradead.org, alim.akhtar@samsung.com,
- linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- dianders@chromium.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- gustavoars@kernel.org, linux-hardening@vger.kernel.org
-X-Mailman-Approved-At: Mon, 25 Mar 2024 08:02:55 +0000
+ linux-mediatek@lists.infradead.org, tzimmermann@suse.de, javierm@redhat.com,
+ sam@ravnborg.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ vireshk@kernel.org, rmfrfs@gmail.com, johan@kernel.org, elder@kernel.org,
+ greybus-dev@lists.linaro.org, peterhuewe@gmx.de, jarkko@kernel.org,
+ jgg@ziepe.ca, linux-integrity@vger.kernel.org, herve.codina@bootlin.com,
+ krzysztof.kozlowski@linaro.org, linux-usb@vger.kernel.org, deller@gmx.de,
+ dario.binacchi@amarulasolutions.com, kvalo@kernel.org, dmantipov@yandex.ru,
+ libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org,
+ corbet@lwn.net, bhelgaas@google.com, james.clark@arm.com,
+ linux-doc@vger.kernel.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,30 +93,26 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hello:
 
-This series was applied to chrome-platform/linux.git (for-next)
-by Uwe Kleine-König <u.kleine-koenig@pengutronix.de>:
+This patch was applied to chrome-platform/linux.git (for-next)
+by Mark Brown <broonie@kernel.org>:
 
-On Wed, 14 Feb 2024 10:30:47 +0100 you wrote:
-> Hello,
+On Wed,  7 Feb 2024 19:40:14 +0100 you wrote:
+> Changes since v2
+> (https://lore.kernel.org/linux-spi/cover.1705944943.git.u.kleine-koenig@pengutronix.de):
 > 
-> this is v6 of the series introducing better lifetime tracking for
-> pwmchips that addresses (for now theoretic) lifetime issues of pwm
-> chips. Addressing these is a necessary precondition to introduce chardev
-> support for PWMs.
+>  - Drop patch "mtd: rawnand: fsl_elbc: Let .probe retry if local bus is
+>    missing" which doesn't belong into this series.
+>  - Fix a build failure noticed by the kernel build bot in
+>    drivers/spi/spi-au1550.c. (I failed to catch this because this driver
+>    is mips only, but not enabled in a mips allmodconfig. That's a bit
+>    unfortunate, but not easily fixable.)
+>  - Add the Reviewed-by: and Acked-by: tags I received for v2.
 > 
 > [...]
 
 Here is the summary with links:
-  - [v6,001/164] pwm: Provide an inline function to get the parent device of a given chip
-    https://git.kernel.org/chrome-platform/c/4e59267c7a20
-  - [v6,003/164] pwm: Provide pwmchip_alloc() function and a devm variant of it
-    https://git.kernel.org/chrome-platform/c/024913dbf99f
-  - [v6,029/164] pwm: cros-ec: Change prototype of helpers to prepare further changes
-    https://git.kernel.org/chrome-platform/c/7256c2e79b8e
-  - [v6,030/164] pwm: cros-ec: Make use of pwmchip_parent() accessor
-    https://git.kernel.org/chrome-platform/c/19a568a8d3c4
-  - [v6,031/164] pwm: cros-ec: Make use of devm_pwmchip_alloc() function
-    https://git.kernel.org/chrome-platform/c/452be9421eda
+  - [v3,15/32] platform/chrome: cros_ec_spi: Follow renaming of SPI "master" to "controller"
+    https://git.kernel.org/chrome-platform/c/85ad0ec049a7
 
 You are awesome, thank you!
 -- 
