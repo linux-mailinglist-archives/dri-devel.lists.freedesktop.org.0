@@ -2,60 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5003F88A111
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 14:11:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A12DA88A130
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 14:13:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43EAB10E07D;
-	Mon, 25 Mar 2024 13:11:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4051310E89C;
+	Mon, 25 Mar 2024 13:13:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="e0M1/4s0";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="i4Ze7Gi9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4624F10E07D
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 13:11:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1711372265;
- bh=3q9cgpYnnI8lrkn+Or4lnTKjwL/UU9xOBmE7kuGVDL0=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=e0M1/4s0w7Mymmeg+w7KYYJV8QjXFcnQ1cep1iVTNVncy4JNDq6uVx3uea9NiAB/I
- tqTv5keLQGQWjQ+Mnz1pXMAIg58uZzdUxoLe1MSLYnCubAFuobP5G7XbTsA4I84+4+
- u92qm34NmyOpZ0zFz+ZQkkuiLjAODAxqUBU4D0HB/gAqDPsyV2ycfNLThtiS2LAOSK
- QPvp/j9cKnZXOJE7lBuGyHD2U6QRMlE6DENGye1I5d82g4X4a6OnzKedqIiB29/TQb
- uvWoHy3GfANBfKiPZ2mMfyYswVOyOYaM7h80qDKFuuGZwindPI9+veclZEizpFaALZ
- mQtvIeBP5Nd9A==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 98AAE37809D0;
- Mon, 25 Mar 2024 13:11:04 +0000 (UTC)
-Date: Mon, 25 Mar 2024 15:11:03 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
- <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1435C10E89C
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 13:13:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=GcBGVLj2NcFTwaJ3wGR3716q37F9N27/ERujNnx/sdk=; b=i4Ze7Gi9i97w6QoI5KITzD7bbf
+ 1BNC5gzeTHM7hUDOI/4sd5ungwm8OX6/I5VU5k0sff1cBRttPd1z+z3E1LIl3Zn7NhTscAQv5Tv9K
+ vn3GZFzf2zud+QXY7lx9R45jJ4t/LgR9/M+lS3I7u9B55iYCdOlxrnRUn+F+s4PxWM3FGhyBoPn9y
+ 5vZ2x/I8pkWM+5LWUT5Nd1/N5zCBPsa6ql5SNsdFvjPRobUbcpINzNgDDlv+gydCBbcSANonctgTU
+ LZF/nxZRL1oDSrqyg8PRKSFrnPWJMtRT1kG+KmQqDajupDI1kL6DqD1Uy4ZH1ExZxG+anRUTpC6w4
+ 5cay/iPQ==;
+Received: from [177.34.169.255] (helo=[192.168.0.139])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1rok8U-00F4Ot-3f; Mon, 25 Mar 2024 14:13:10 +0100
+Message-ID: <780d7dfb-3a91-4cd7-95a7-528877c9ad33@igalia.com>
+Date: Mon, 25 Mar 2024 10:13:01 -0300
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 01/16] drm/vkms: Code formatting
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, arthurgrillo@riseup.net,
+ Jonathan Corbet <corbet@lwn.net>, pekka.paalanen@haloniitty.fi
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
  thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com,
  nicolejadeyee@google.com
-Subject: Re: [PATCH v5 09/16] drm/vkms: Introduce pixel_read_direction enum
-Message-ID: <20240325151103.0a5f7112.pekka.paalanen@collabora.com>
-In-Reply-To: <20240313-yuv-v5-9-e610cbd03f52@bootlin.com>
 References: <20240313-yuv-v5-0-e610cbd03f52@bootlin.com>
- <20240313-yuv-v5-9-e610cbd03f52@bootlin.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/pOcUB5TKgO05bc1fdT4reYt";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+ <20240313-yuv-v5-1-e610cbd03f52@bootlin.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
+ H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
+ hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
+ GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
+ rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
+ s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
+ GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
+ pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
+In-Reply-To: <20240313-yuv-v5-1-e610cbd03f52@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,216 +80,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/pOcUB5TKgO05bc1fdT4reYt
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, 13 Mar 2024 18:45:03 +0100
-Louis Chauvet <louis.chauvet@bootlin.com> wrote:
-
-> The pixel_read_direction enum is useful to describe the reading direction
-> in a plane. It avoids using the rotation property of DRM, which not
-> practical to know the direction of reading.
-> This patch also introduce two helpers, one to compute the
-> pixel_read_direction from the DRM rotation property, and one to compute
-> the step, in byte, between two successive pixel in a specific direction.
->=20
+On 3/13/24 14:44, Louis Chauvet wrote:
+> Few no-op changes to remove double spaces and fix wrong alignments.
+> 
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
+
+Best Regards,
+- Maíra
+
 > ---
->  drivers/gpu/drm/vkms/vkms_composer.c | 36 ++++++++++++++++++++++++++++++=
-++++++
->  drivers/gpu/drm/vkms/vkms_drv.h      | 11 +++++++++++
->  drivers/gpu/drm/vkms/vkms_formats.c  | 30 ++++++++++++++++++++++++++++++
->  3 files changed, 77 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/=
-vkms_composer.c
-> index 9254086f23ff..989bcf59f375 100644
+>   drivers/gpu/drm/vkms/vkms_composer.c | 10 +++++-----
+>   drivers/gpu/drm/vkms/vkms_crtc.c     |  6 ++----
+>   drivers/gpu/drm/vkms/vkms_drv.c      |  3 +--
+>   drivers/gpu/drm/vkms/vkms_plane.c    |  8 ++++----
+>   4 files changed, 12 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+> index e7441b227b3c..c6d9b4a65809 100644
 > --- a/drivers/gpu/drm/vkms/vkms_composer.c
 > +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -159,6 +159,42 @@ static void apply_lut(const struct vkms_crtc_state *=
-crtc_state, struct line_buff
->  	}
->  }
-> =20
-> +/**
-> + * direction_for_rotation() - Get the correct reading direction for a gi=
-ven rotation
-> + *
-> + * This function will use the @rotation setting of a source plane to com=
-pute the reading
-> + * direction in this plane which correspond to a "left to right writing"=
- in the CRTC.
-> + * For example, if the buffer is reflected on X axis, the pixel must be =
-read from right to left
-> + * to be written from left to right on the CRTC.
-
-That is a well written description.
-
-> + *
-> + * @rotation: Rotation to analyze. It correspond the field @frame_info.r=
-otation.
-> + */
-> +static enum pixel_read_direction direction_for_rotation(unsigned int rot=
-ation)
-> +{
-> +	if (rotation & DRM_MODE_ROTATE_0) {
-> +		if (rotation & DRM_MODE_REFLECT_X)
-> +			return READ_RIGHT_TO_LEFT;
-> +		else
-> +			return READ_LEFT_TO_RIGHT;
-> +	} else if (rotation & DRM_MODE_ROTATE_90) {
-> +		if (rotation & DRM_MODE_REFLECT_Y)
-> +			return READ_BOTTOM_TO_TOP;
-> +		else
-> +			return READ_TOP_TO_BOTTOM;
-> +	} else if (rotation & DRM_MODE_ROTATE_180) {
-> +		if (rotation & DRM_MODE_REFLECT_X)
-> +			return READ_LEFT_TO_RIGHT;
-> +		else
-> +			return READ_RIGHT_TO_LEFT;
-> +	} else if (rotation & DRM_MODE_ROTATE_270) {
-> +		if (rotation & DRM_MODE_REFLECT_Y)
-> +			return READ_TOP_TO_BOTTOM;
-> +		else
-> +			return READ_BOTTOM_TO_TOP;
-> +	}
-> +	return READ_LEFT_TO_RIGHT;
-
-I'm a little worried seeing REFLECT_X is supported only for some
-rotations, and REFLECT_Y for other rotations. Why is an analysis of all
-combinations not necessary?
-
-I hope IGT uses FB patterns instead of solid color in its tests of
-rotation to be able to detect the difference.
-
-The return values do seem correct to me, assuming I have guessed
-correctly what "X" and "Y" refer to when combined with rotation. I did
-not find good documentation about that.
-
-Btw. if there are already functions that are able to transform
-coordinates based on the rotation bitfield, you could alternatively use
-them. Transform CRTC point (0, 0) to A, and (1, 0) to B. Now A and B
-are in plane coordinate system, and vector B - A gives you the
-direction. The reason I'm mentioning this is that then you don't have
-to implement yet another copy of the rotation bitfield semantics from
-scratch.
-
-
-> +}
-> +
->  /**
->   * blend - blend the pixels from all planes and compute crc
->   * @wb: The writeback frame buffer metadata
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
-drv.h
-> index 3ead8b39af4a..985e7a92b7bc 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -69,6 +69,17 @@ struct vkms_writeback_job {
->  	pixel_write_t pixel_write;
->  };
-> =20
-> +/**
-> + * enum pixel_read_direction - Enum used internaly by VKMS to represent =
-a reading direction in a
-> + * plane.
-> + */
-> +enum pixel_read_direction {
-> +	READ_BOTTOM_TO_TOP,
-> +	READ_TOP_TO_BOTTOM,
-> +	READ_RIGHT_TO_LEFT,
-> +	READ_LEFT_TO_RIGHT
-> +};
-> +
->  /**
->   * typedef pixel_read_t - These functions are used to read a pixel in th=
-e source frame,
->   * convert it to `struct pixel_argb_u16` and write it to @out_pixel.
-> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/v=
-kms_formats.c
-> index 649d75d05b1f..743b6fd06db5 100644
-> --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> @@ -75,6 +75,36 @@ static void packed_pixels_addr(const struct vkms_frame=
-_info *frame_info,
->  	*addr =3D (u8 *)frame_info->map[0].vaddr + offset;
->  }
-> =20
-> +/**
-> + * get_step_next_block() - Common helper to compute the correct step val=
-ue between each pixel block
-> + * to read in a certain direction.
-> + *
-> + * As the returned offset is the number of bytes between two consecutive=
- blocks in a direction,
-> + * the caller may have to read multiple pixel before using the next one =
-(for example, to read from
-> + * left to right in a DRM_FORMAT_R1 plane, each block contains 8 pixels,=
- so the step must be used
-> + * only every 8 pixels.
-> + *
-> + * @fb: Framebuffer to iter on
-> + * @direction: Direction of the reading
-> + * @plane_index: Plane to get the step from
-> + */
-> +static int get_step_next_block(struct drm_framebuffer *fb, enum pixel_re=
-ad_direction direction,
-> +			       int plane_index)
-> +{
-
-I would have called this something like get_block_step_bytes() for
-example. That makes it clear it returns bytes (not e.g. pixels). "next"
-implies to me that I tell the function the current block, and then it
-gets me the next one. It does not do that, so I'd not use "next".
-
-> +	switch (direction) {
-> +	case READ_LEFT_TO_RIGHT:
-> +		return fb->format->char_per_block[plane_index];
-> +	case READ_RIGHT_TO_LEFT:
-> +		return -fb->format->char_per_block[plane_index];
-> +	case READ_TOP_TO_BOTTOM:
-> +		return (int)fb->pitches[plane_index];
-> +	case READ_BOTTOM_TO_TOP:
-> +		return -(int)fb->pitches[plane_index];
-> +	}
-> +
-> +	return 0;
-> +}
-
-Looks good.
-
-
-Thanks,
-pq
-
-> +
->  static void *get_packed_src_addr(const struct vkms_frame_info *frame_inf=
-o, int y,
->  				 int plane_index)
->  {
->=20
-
-
---Sig_/pOcUB5TKgO05bc1fdT4reYt
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYBd+cACgkQI1/ltBGq
-qqfarg//Q+qvT9aL8AZvOG15t7LfHydp088OlP6y0I621RTKlpMf3u9o4uV6vM+n
-8CW/h0xeXteJAt0/xBX/ZMziac8FLC1iQ9tKz4qoBd5EywoPwc69L6iANQvKsXuv
-vvoF7SN/nv0iP/VDlrXuI1TIwGquIcs0Sf+tqhPOoYyg8LTM4RihmEeS3xgzaCO6
-0fWhZbdnkTqOGXY/aPAtPC8xRvlG6rN1gLvNMaDxN/OXIJzhCSd/3Juau2+USqLL
-6KzkmSoRsu/V+Uqnji4WlsPj0fLt+5BkvQcLfXkigv8x19RXAYB65HMAWuy42kwC
-nxGsrvaDGKKxU0ltFb0uxzanEpi7mydfhGkTM75EeQFV77++SSsnYpZt48TkhM/7
-WX8E9pOLtRfLvKfZrF5Wt2CS0LZ0M8E/UUyv97zf+HgU/0a7Tr66Ee4DPm0rvGL2
-EhyPXzyhEfT/KqriaaiI54+KcQeOuOycoNikzfxj8XdyYp20b6vIGPSWVwNntKnO
-SyrO3rx2oU21TdSkWHNNlGb8YY2rVtZGz0/jF93juipKcLraUnCy3pxRiB8+IO1y
-x7BxEEMrozMz1/fvcIiU95CqbClMdraof5I96Avrx/Hh38iXfI1z4T3iFMMTtg3V
-25KIJul1oqV8d23+PD8JMQhVm2wiCnQqjIfF9ynU1P7EwCsyIvk=
-=F3pF
------END PGP SIGNATURE-----
-
---Sig_/pOcUB5TKgO05bc1fdT4reYt--
+> @@ -96,7 +96,7 @@ static u16 lerp_u16(u16 a, u16 b, s64 t)
+>   	s64 a_fp = drm_int2fixp(a);
+>   	s64 b_fp = drm_int2fixp(b);
+>   
+> -	s64 delta = drm_fixp_mul(b_fp - a_fp,  t);
+> +	s64 delta = drm_fixp_mul(b_fp - a_fp, t);
+>   
+>   	return drm_fixp2int(a_fp + delta);
+>   }
+> @@ -302,8 +302,8 @@ static int compose_active_planes(struct vkms_writeback_job *active_wb,
+>   void vkms_composer_worker(struct work_struct *work)
+>   {
+>   	struct vkms_crtc_state *crtc_state = container_of(work,
+> -						struct vkms_crtc_state,
+> -						composer_work);
+> +							  struct vkms_crtc_state,
+> +							  composer_work);
+>   	struct drm_crtc *crtc = crtc_state->base.crtc;
+>   	struct vkms_writeback_job *active_wb = crtc_state->active_writeback;
+>   	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
+> @@ -328,7 +328,7 @@ void vkms_composer_worker(struct work_struct *work)
+>   		crtc_state->gamma_lut.base = (struct drm_color_lut *)crtc->state->gamma_lut->data;
+>   		crtc_state->gamma_lut.lut_length =
+>   			crtc->state->gamma_lut->length / sizeof(struct drm_color_lut);
+> -		max_lut_index_fp = drm_int2fixp(crtc_state->gamma_lut.lut_length  - 1);
+> +		max_lut_index_fp = drm_int2fixp(crtc_state->gamma_lut.lut_length - 1);
+>   		crtc_state->gamma_lut.channel_value2index_ratio = drm_fixp_div(max_lut_index_fp,
+>   									       u16_max_fp);
+>   
+> @@ -367,7 +367,7 @@ void vkms_composer_worker(struct work_struct *work)
+>   		drm_crtc_add_crc_entry(crtc, true, frame_start++, &crc32);
+>   }
+>   
+> -static const char * const pipe_crc_sources[] = {"auto"};
+> +static const char *const pipe_crc_sources[] = { "auto" };
+>   
+>   const char *const *vkms_get_crc_sources(struct drm_crtc *crtc,
+>   					size_t *count)
+> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+> index 61e500b8c9da..7586ae2e1dd3 100644
+> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+> @@ -191,8 +191,7 @@ static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
+>   		return ret;
+>   
+>   	drm_for_each_plane_mask(plane, crtc->dev, crtc_state->plane_mask) {
+> -		plane_state = drm_atomic_get_existing_plane_state(crtc_state->state,
+> -								  plane);
+> +		plane_state = drm_atomic_get_existing_plane_state(crtc_state->state, plane);
+>   		WARN_ON(!plane_state);
+>   
+>   		if (!plane_state->visible)
+> @@ -208,8 +207,7 @@ static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
+>   
+>   	i = 0;
+>   	drm_for_each_plane_mask(plane, crtc->dev, crtc_state->plane_mask) {
+> -		plane_state = drm_atomic_get_existing_plane_state(crtc_state->state,
+> -								  plane);
+> +		plane_state = drm_atomic_get_existing_plane_state(crtc_state->state, plane);
+>   
+>   		if (!plane_state->visible)
+>   			continue;
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index dd0af086e7fa..83e6c9b9ff46 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -81,8 +81,7 @@ static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
+>   	drm_atomic_helper_wait_for_flip_done(dev, old_state);
+>   
+>   	for_each_old_crtc_in_state(old_state, crtc, old_crtc_state, i) {
+> -		struct vkms_crtc_state *vkms_state =
+> -			to_vkms_crtc_state(old_crtc_state);
+> +		struct vkms_crtc_state *vkms_state = to_vkms_crtc_state(old_crtc_state);
+>   
+>   		flush_work(&vkms_state->composer_work);
+>   	}
+> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+> index e5c625ab8e3e..5a8d295e65f2 100644
+> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> @@ -117,10 +117,10 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+>   	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
+>   	drm_framebuffer_get(frame_info->fb);
+>   	frame_info->rotation = drm_rotation_simplify(new_state->rotation, DRM_MODE_ROTATE_0 |
+> -						     DRM_MODE_ROTATE_90 |
+> -						     DRM_MODE_ROTATE_270 |
+> -						     DRM_MODE_REFLECT_X |
+> -						     DRM_MODE_REFLECT_Y);
+> +									  DRM_MODE_ROTATE_90 |
+> +									  DRM_MODE_ROTATE_270 |
+> +									  DRM_MODE_REFLECT_X |
+> +									  DRM_MODE_REFLECT_Y);
+>   
+>   	drm_rect_rotate(&frame_info->rotated, drm_rect_width(&frame_info->rotated),
+>   			drm_rect_height(&frame_info->rotated), frame_info->rotation);
+> 
