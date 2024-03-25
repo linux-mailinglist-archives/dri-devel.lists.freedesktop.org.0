@@ -2,53 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BF3B889CAB
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 12:24:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74599889CC4
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 12:28:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C774010E7B1;
-	Mon, 25 Mar 2024 11:24:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CA6110E13F;
+	Mon, 25 Mar 2024 11:28:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ZoQmEWsh";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ULhwDbZu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB1D210E7BC
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 11:24:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1711365889;
- bh=4XSgkF3eFAulLNHCMSnEG6EDJd7Ij4mYOggsH9A/JC4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ZoQmEWsh2JwlKvpB/RqH3zYu0xo3bhmmkim+Mo2VhCIat//WaWfMYHwSfJuip4zL+
- +d9m9k5qNkCMZ8+ihChl6ELXXCwQh6dmg3kG4BxM6L1c98AV64d1rT7r4LZhlsgzpE
- +tPTIVC/l/vBSF3x5VQWAKNPz63XmoCUQkJ2k0tSHeZwskDNC3hmWXRpJKhrOglVC8
- My9QBsZgb+9KMP6bLY/xEhIM0jnWBcL1A2dOwBKNtHETZwpNK1tqHE+GE5G3lhiN2Q
- pgdCarxOvvjtpYUMvK0YllQWYdAQGA75cUK8vZ7HJjfQu4btxWmaDQlgTfTaLufjia
- 7yM0svsrlnA2w==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id D65F23780626;
- Mon, 25 Mar 2024 11:24:48 +0000 (UTC)
-Date: Mon, 25 Mar 2024 12:24:47 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
- <adrian.larumbe@collabora.com>, dri-devel@lists.freedesktop.org,
- kernel@collabora.com, "Lukas F . Hartmann" <lukas@mntmn.com>
-Subject: Re: [PATCH 1/2] drm/panthor: Fix IO-page mmap() for 32-bit
- userspace on 64-bit kernel
-Message-ID: <20240325122447.172bf3f3@collabora.com>
-In-Reply-To: <12e77fa0-ba68-4e6f-8683-69c29b2495f2@arm.com>
-References: <20240325104111.3553712-1-boris.brezillon@collabora.com>
- <12e77fa0-ba68-4e6f-8683-69c29b2495f2@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29D0610E13F
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 11:28:28 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-4148a581d3fso3162685e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 04:28:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1711366106; x=1711970906; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=7PkuvMLKJsiJtypoy3shfvrIyPp1wECQoiUOUJHPvWE=;
+ b=ULhwDbZu1o2WHLTwrQiZs/CA4lLojxsIjIt3bM7odWayRN2IE7+gCOVfZeKWl5uCyT
+ 1/BnI+J/rC7mFsI6Qzvgfd01s2MpUH3sUCV09kfZMqUSFqLSKyzQzZWCqdYmToCInRK3
+ YqIpja3aMqynuPyhvpdgCp4qgfY3ih653T3UmCPwpVKTv8qzS7GOzEUBsS8k8lEsYNHp
+ Xtb4hTi/bc+GL/vBiXFddsgnBRBy44IE/YeU29L4iQppufhogvOPplxa6DFqmfVVL0Nh
+ 8xa/2h5gmlfix8Et3HEmb4EkGsian0IpQX8kimaSffDAc/NbvwGBwAjtX5pUB39gtiFu
+ U0BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711366106; x=1711970906;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7PkuvMLKJsiJtypoy3shfvrIyPp1wECQoiUOUJHPvWE=;
+ b=eKmT+LWIigx4YCug6yj4BAk1jr+O78Rm9m6ivw65aCh+2y2SzkxhhYiqz5DhHSEU8g
+ AMDmuQn8z8gfydCFykhRTDOILEr2ISBiAThEp6Uy3rjaIm8cUObcXu6wUqa10zLVFGGz
+ 8vJnT68MyAVNmUn1K56vnwwFy0CXYor88GTyiA15jrIU2OEnqe0TqaxDv9BTODgqBh47
+ ouDrlVuqKVBGZCnupGAOyfLFxKTn3iyNVTkCn2EITl8e+HNB0JKlaA81ccpGeEVnNKHX
+ 6ZVImz9MPJTyuUaycW9jIPt8sIpisG8FIhvzNKujVmi9QDie4L1mUCFSMBWf1IVf3HMy
+ F3ZA==
+X-Gm-Message-State: AOJu0Yz6fetOxD4rMWPOu3kfqPNWKyH2BDeAhK8u4I1Z1cNdWchtSOfp
+ f7LpCOEelSgdT06al9KEe6s4R5kG9dIgM7t8ru0BZHE8Z7gSI0YzxeZ0wTSyqwk=
+X-Google-Smtp-Source: AGHT+IGdPOEsKK08n8+zv8VWhqXsgYa4DkSPuzYOZZysyCPuYv1EFKvN2PJp6ZKDBFxCKijxETmBsQ==
+X-Received: by 2002:a05:600c:35d2:b0:412:ea4c:dc4b with SMTP id
+ r18-20020a05600c35d200b00412ea4cdc4bmr4589807wmq.6.1711366106448; 
+ Mon, 25 Mar 2024 04:28:26 -0700 (PDT)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ iv16-20020a05600c549000b0041409cabb39sm8112451wmb.18.2024.03.25.04.28.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Mar 2024 04:28:25 -0700 (PDT)
+Date: Mon, 25 Mar 2024 11:28:24 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Patrick Gansterer <paroga@paroga.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH v4 2/2] backlight: Add new lm3509 backlight driver
+Message-ID: <20240325112824.GA190706@aspen.lan>
+References: <20240310135344.3455294-1-paroga@paroga.com>
+ <20240310135344.3455294-2-paroga@paroga.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240310135344.3455294-2-paroga@paroga.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,151 +85,199 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 25 Mar 2024 11:12:40 +0000
-Steven Price <steven.price@arm.com> wrote:
+^^^
+Also not copied to LKML...
 
-> On 25/03/2024 10:41, Boris Brezillon wrote:
-> > When mapping an IO region, the pseudo-file offset is dependent on the
-> > userspace architecture. panthor_device_mmio_offset() abstract that away
-> > for us by turning a userspace MMIO offset into its kernel equivalent,
-> > but we were not updating vm_area_struct::vm_pgoff accordingly, leading
-> > us to attach the MMIO region to the wrong file offset.
-> >=20
-> > This has implications when we start mixing 64 bit and 32 bit apps, but
-> > that's only really a problem when we start having more that 2^43 bytes =
-of
-> > memory allocated, which is very unlikely to happen.
-> >=20
-> > What's more problematic is the fact this turns our
-> > unmap_mapping_range(DRM_PANTHOR_USER_MMIO_OFFSET) calls, which are
-> > supposed to kill the MMIO mapping when entering suspend, into NOPs.
-> > Which means we either keep the dummy flush_id mapping active at all
-> > times, or we risk a BUS_FAULT if the MMIO region was mapped, and the
-> > GPU is suspended after that.
-> >=20
-> > Fixes: 5fe909cae118 ("drm/panthor: Add the device logical block")
-> > Reported-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
-> > Reported-by: Lukas F. Hartmann <lukas@mntmn.com>
-> > Closes: https://gitlab.freedesktop.org/mesa/mesa/-/issues/10835
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com> =20
->=20
-> Pesky 32 bit again ;)
->=20
-> Looks fine, although I'm wondering whether you'd consider squashing
-> something like the below on top? I think it helps contain the 32 bit
-> specific code to the one place.
 
-I like that. I'll steal your changes for v2 and update the commit
-message to reflect the fact we no longer need this
-panthor_device_mmio_offset() helper.
+On Sun, Mar 10, 2024 at 02:52:57PM +0100, Patrick Gansterer wrote:
+> This is a general driver for LM3509 backlight chip of TI.
+> LM3509 is High Efficiency Boost for White LEDs and/or OLED Displays with
+> Dual Current Sinks. This driver supports OLED/White LED select, brightness
+> control and sub/main control.
+> The datasheet can be found at http://www.ti.com/product/lm3509.
+>
+> Signed-off-by: Patrick Gansterer <paroga@paroga.com>
 
-> Either way:
->=20
-> Reviewed-by: Steven Price <steven.price@arm.com>
->=20
-> ---
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/p=
-anthor/panthor_device.c
-> index f7f8184b1992..75276cbeba20 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -392,7 +392,7 @@ static const struct vm_operations_struct panthor_mmio=
-_vm_ops =3D {
-> =20
->  int panthor_device_mmap_io(struct panthor_device *ptdev, struct vm_area_=
-struct *vma)
->  {
-> -	u64 offset =3D panthor_device_mmio_offset((u64)vma->vm_pgoff << PAGE_SH=
-IFT);
-> +	u64 offset =3D (u64)vma->vm_pgoff << PAGE_SHIFT;
-> =20
->  	switch (offset) {
->  	case DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET:
-> @@ -406,9 +406,6 @@ int panthor_device_mmap_io(struct panthor_device *ptd=
-ev, struct vm_area_struct *
->  		return -EINVAL;
->  	}
-> =20
-> -	/* Adjust vm_pgoff for 32-bit userspace on 64-bit kernel. */
-> -	vma->vm_pgoff =3D offset >> PAGE_SHIFT;
-> -
->  	/* Defer actual mapping to the fault handler. */
->  	vma->vm_private_data =3D ptdev;
->  	vma->vm_ops =3D &panthor_mmio_vm_ops;
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/p=
-anthor/panthor_device.h
-> index 8e2922c79aca..99ad576912b3 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.h
-> +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> @@ -373,30 +373,6 @@ static int panthor_request_ ## __name ## _irq(struct=
- panthor_device *ptdev,			\
->  					 pirq);							\
->  }
-> =20
-> -/**
-> - * panthor_device_mmio_offset() - Turn a user MMIO offset into a kernel =
-one
-> - * @offset: Offset to convert.
-> - *
-> - * With 32-bit systems being limited by the 32-bit representation of mma=
-p2's
-> - * pgoffset field, we need to make the MMIO offset arch specific. This f=
-unction
-> - * converts a user MMIO offset into something the kernel driver understa=
-nds.
-> - *
-> - * If the kernel and userspace architecture match, the offset is unchang=
-ed. If
-> - * the kernel is 64-bit and userspace is 32-bit, the offset is adjusted =
-to match
-> - * 64-bit offsets. 32-bit kernel with 64-bit userspace is impossible.
-> - *
-> - * Return: Adjusted offset.
-> - */
-> -static inline u64 panthor_device_mmio_offset(u64 offset)
-> -{
-> -#ifdef CONFIG_ARM64
-> -	if (test_tsk_thread_flag(current, TIF_32BIT))
-> -		offset +=3D DRM_PANTHOR_USER_MMIO_OFFSET_64BIT - DRM_PANTHOR_USER_MMIO=
-_OFFSET_32BIT;
-> -#endif
-> -
-> -	return offset;
-> -}
-> -
->  extern struct workqueue_struct *panthor_cleanup_wq;
-> =20
->  #endif
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/pant=
-hor/panthor_drv.c
-> index 11b3ccd58f85..730dd0c69cb8 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -1327,7 +1327,22 @@ static int panthor_mmap(struct file *filp, struct =
-vm_area_struct *vma)
->  	if (!drm_dev_enter(file->minor->dev, &cookie))
->  		return -ENODEV;
-> =20
-> -	if (panthor_device_mmio_offset(offset) >=3D DRM_PANTHOR_USER_MMIO_OFFSE=
-T)
-> +#ifdef CONFIG_ARM64
-> +	/*
-> +	 * With 32-bit systems being limited by the 32-bit representation of
-> +	 * mmap2's pgoffset field, we need to make the MMIO offset arch
-> +	 * specific. This converts a user MMIO offset into something the kernel
-> +	 * driver understands.
-> +	 */
-> +	if (test_tsk_thread_flag(current, TIF_32BIT) &&
-> +	    offset >=3D DRM_PANTHOR_USER_MMIO_OFFSET_32BIT) {
-> +		offset +=3D DRM_PANTHOR_USER_MMIO_OFFSET_64BIT -
-> +			  DRM_PANTHOR_USER_MMIO_OFFSET_32BIT;
-> +		vma->vm_pgoff =3D offset >> PAGE_SHIFT;
-> +	}
-> +#endif
+Overall looks good but there are some review comments inline below.
+
+
+> diff --git a/drivers/video/backlight/lm3509_bl.c b/drivers/video/backlight/lm3509_bl.c
+> new file mode 100644
+> index 000000000000..696ec8aab6aa
+> --- /dev/null
+> +++ b/drivers/video/backlight/lm3509_bl.c
+> @@ -0,0 +1,338 @@
+> <snip>
+> +struct lm3509_bl {
+> +	struct regmap *regmap;
+> +	struct backlight_device *bl_main;
+> +	struct backlight_device *bl_sub;
+> +	struct gpio_desc *reset_gpio;
+> +};
 > +
-> +	if (offset >=3D DRM_PANTHOR_USER_MMIO_OFFSET)
->  		ret =3D panthor_device_mmap_io(ptdev, vma);
->  	else
->  		ret =3D drm_gem_mmap(filp, vma);
->=20
+> +struct lm3509_bl_led_pdata {
 
+What does the p stand for here?
+
+(only asking because pdata was the idiomatic form for platform data and
+this driver only uses DT-only so I'm finding pdata values everywhere
+really confusing)
+
+
+> +	const char *label;
+> +	int led_sources;
+> +	u32 brightness;
+> +	u32 max_brightness;
+> +};
+> +
+> +static void lm3509_reset(struct lm3509_bl *data)
+> +{
+> +	if (data->reset_gpio) {
+> +		gpiod_set_value(data->reset_gpio, 1);
+> +		udelay(1);
+> +		gpiod_set_value(data->reset_gpio, 0);
+> +		udelay(10);
+> +	}
+> +}
+> +
+> <snip>
+> +
+> +static struct backlight_device *
+> +lm3509_backlight_register(struct device *dev, const char *name_suffix,
+> +			  struct lm3509_bl *data,
+> +			  const struct backlight_ops *ops,
+> +			  const struct lm3509_bl_led_pdata *pdata)
+> +
+> +{
+> +	struct backlight_device *bd;
+> +	struct backlight_properties props;
+> +	const char *label = pdata->label;
+> +	char name[64];
+> +
+> +	memset(&props, 0, sizeof(props));
+> +	props.type = BACKLIGHT_RAW;
+> +	props.brightness = pdata->brightness;
+> +	props.max_brightness = pdata->max_brightness;
+
+Please set props.scale appropriately for this device (given it only has
+32 brightness levels I assume it is non-linear?).
+
+
+> +
+> +	if (!label) {
+> +		snprintf(name, sizeof(name), "lm3509-%s-%s", dev_name(dev),
+> +			 name_suffix);
+> +		label = name;
+> +	}
+> +
+> +	bd = devm_backlight_device_register(dev, label, dev, data, ops, &props);
+> +	if (bd)
+> +		backlight_update_status(bd);
+> +
+> +	return bd;
+> +}
+> +
+> <snip>
+> +
+> +static int lm3509_probe(struct i2c_client *client)
+> +{
+> +	struct lm3509_bl *data;
+> +	struct device *dev = &client->dev;
+> +	int ret;
+> +	bool oled_mode = false;
+> +	unsigned int reg_gp_val = 0;
+> +	struct lm3509_bl_led_pdata pdata[LM3509_NUM_SINKS];
+> +	u32 rate_of_change = 0;
+> +
+> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+> +		dev_err(dev, "i2c functionality check failed\n");
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	data = devm_kzalloc(dev, sizeof(struct lm3509_bl), GFP_KERNEL);
+> +	if (!data)
+> +		return -ENOMEM;
+> +
+> +	data->regmap = devm_regmap_init_i2c(client, &lm3509_regmap);
+> +	if (IS_ERR(data->regmap))
+> +		return PTR_ERR(data->regmap);
+> +	i2c_set_clientdata(client, data);
+> +
+> +	data->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+> +	if (IS_ERR(data->reset_gpio))
+> +		return dev_err_probe(dev, PTR_ERR(data->reset_gpio),
+> +				     "Failed to get 'reset' gpio\n");
+> +
+> +	lm3509_reset(data);
+> +
+> +	memset(pdata, 0, sizeof(pdata));
+> +	ret = lm3509_parse_dt_node(dev, pdata);
+> +	if (ret)
+> +		return ret;
+> +
+> +	oled_mode = of_property_read_bool(dev->of_node, "ti,oled-mode");
+> +
+> +	if (!of_property_read_u32(dev->of_node,
+> +				  "ti,brightness-rate-of-change-us",
+> +				  &rate_of_change)) {
+> +		switch (rate_of_change) {
+> +		case 51:
+> +			reg_gp_val = 0;
+> +			break;
+> +		case 13000:
+> +			reg_gp_val = BIT(REG_GP_RMP1_BIT);
+> +			break;
+> +		case 26000:
+> +			reg_gp_val = BIT(REG_GP_RMP0_BIT);
+> +			break;
+> +		case 52000:
+> +			reg_gp_val = BIT(REG_GP_RMP0_BIT) |
+> +				     BIT(REG_GP_RMP1_BIT);
+> +			break;
+> +		default:
+> +			dev_warn(dev, "invalid rate of change %u\n",
+> +				 rate_of_change);
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (pdata[0].led_sources ==
+> +	    (BIT(LM3509_SINK_MAIN) | BIT(LM3509_SINK_SUB)))
+> +		reg_gp_val |= BIT(REG_GP_UNI_BIT);
+> +	if (oled_mode)
+> +		reg_gp_val |= BIT(REG_GP_OLED_BIT);
+> +
+> +	ret = regmap_write(data->regmap, REG_GP, reg_gp_val);
+> +	if (ret < 0)
+> +		return ret;
+
+Is this the first time we write to the peripheral? If so the error path
+is probably worth a dev_err_probe() (I don't think regmap_write() logs
+anything on failure to write).
+
+
+> +	if (pdata[0].led_sources) {
+> +		data->bl_main = lm3509_backlight_register(
+> +			dev, "main", data, &lm3509_main_ops, &pdata[0]);
+> +		if (IS_ERR(data->bl_main)) {
+> +			dev_err(dev, "failed to register main backlight\n");
+> +			return PTR_ERR(data->bl_main);
+
+This should use dev_err_probe().
+
+
+> +		}
+> +	}
+> +
+> +	if (pdata[1].led_sources) {
+> +		data->bl_sub = lm3509_backlight_register(
+> +			dev, "sub", data, &lm3509_sub_ops, &pdata[1]);
+> +		if (IS_ERR(data->bl_sub)) {
+> +			dev_err(dev,
+> +				"failed to register secondary backlight\n");
+> +			return PTR_ERR(data->bl_sub);
+
+Another good place for dev_err_probe().
+
+
+Daniel.
