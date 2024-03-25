@@ -2,69 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9BF188A09E
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 13:59:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5726388A0F7
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 14:07:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E256310E82D;
-	Mon, 25 Mar 2024 12:59:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 973F110E896;
+	Mon, 25 Mar 2024 13:07:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="LzSTjkl7";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="dV8t9WSv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com
- [209.85.161.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6C0D10E1E6
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 12:59:06 +0000 (UTC)
-Received: by mail-oo1-f43.google.com with SMTP id
- 006d021491bc7-5a49261093cso2144572eaf.3
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 05:59:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1711371546; x=1711976346;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=JkyqpDMyqX41cyTaE28OnrvQwkG6qyxUUrve0FvXzho=;
- b=LzSTjkl7EY0JgrlWuncgCuxZaQS2DldftB/BxTMgF91kqi9KRYEKn9dgqLUIvGDss6
- uVSufOXY/KNJUWEGnRfu0JtkPtuteVo5vbdoRec3wmvJm9J7Ifr0D31ti3/ERyRaPEaJ
- omuFi4zaCRiQOiU8qLeDZpQWKot+no/Ncbmas=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711371546; x=1711976346;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=JkyqpDMyqX41cyTaE28OnrvQwkG6qyxUUrve0FvXzho=;
- b=BxjDwv+5ZonWlR22/D/l49QfoLpPInlQLXN11O/m8XinBt6QXXKPJxhx1r4toTmDHH
- t5oSQvcKWFZ9P4ozhs5bn9X7cLxYQnlb6rRGlbv/aTCDvkFM45BkdrpZfSmECKaohFDz
- SZsRnPgNSfCD7Ipi0hJNz0wV3cnFw5RhQFE0P+3vSdUvHQsp4X/uMwLXttBV+8Tm1KPr
- nXmes1t3k8yUCgrlE23zyEoOKrgXfVf8GVNFNiRnUc9etjw1n/raR6fdKvQB+2XrVwDX
- iQh2IPfkOP4rdqdBuh5GfMCpPYqShOn8+M1CbLpN0BYkfhpIyH70Hj8GJqVlGoFhUZmK
- pdlw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVcjPOJH1yYZfOsVD9TuEkPjClgg5XHhmbsioscVkKPMNUXSsnUzbqMSn0yAdTQw50posPC1XgJrpURqVdlAWB3Ev0Sy1uiXCSpVvkQOOkN
-X-Gm-Message-State: AOJu0YzMSIzrHxeONfUPC+CIbybAkJoY4KlMNGn2YtjSrFOfT6ERuQxW
- OP6iKpow353GEXQ45VeF4o5R7U9rJIg6WHBuHxliNUovK3musXYa5/NDvlqKFg==
-X-Google-Smtp-Source: AGHT+IG0ccGt9Jqagp19yq4VqEubSRZbWD0YyCNpyegF9W/d3KGhEe24YPFxiE9DLu6ni8Ngc5Qg9Q==
-X-Received: by 2002:a05:6358:5242:b0:17e:53f9:697e with SMTP id
- c2-20020a056358524200b0017e53f9697emr7688607rwa.28.1711371545721; 
- Mon, 25 Mar 2024 05:59:05 -0700 (PDT)
-Received: from treapking.tpe.corp.google.com
- ([2401:fa00:1:10:c95b:ef24:f1aa:2bcc])
- by smtp.gmail.com with ESMTPSA id
- i4-20020a63e904000000b005e2b0671987sm5723446pgh.51.2024.03.25.05.59.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Mar 2024 05:59:05 -0700 (PDT)
-From: Pin-yen Lin <treapking@chromium.org>
-To: Douglas Anderson <dianders@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
-Cc: linux-kernel@vger.kernel.org, Hsin-Te Yuan <yuanhsinte@chromium.org>,
- dri-devel@lists.freedesktop.org, Pin-yen Lin <treapking@chromium.org>
-Subject: [PATCH] drm/panel-edp: Add AUO B120XAN01.0
-Date: Mon, 25 Mar 2024 20:58:51 +0800
-Message-ID: <20240325125901.2524752-1-treapking@chromium.org>
-X-Mailer: git-send-email 2.44.0.396.g6e790dbe36-goog
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D10A110E896
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 13:07:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1711372069;
+ bh=U9O7+ZqD+2fD0l3G8D/pX/GvM4FGztjDRut/f5Cvyc4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=dV8t9WSvWBKo1C1B67HZ5sd3Mg8kjoo9GpROBXVRYajSE/Vf9bFjeHtvRgaq3PHeR
+ yV19mZbZrSkJx1/IHJ9Zs2AGcGICB9m8rCUWEUIDTgtWlkvHP39/fhGR8FqP+L9kFa
+ WGH/kSUgAtq8Wt0Cd33tAk41LMDc2+dkiM1A+uGTwWmH6TgUViOIHAlCu2VIuA/Ifo
+ WLrU+5hKJgcRjrPScruHtX9PSnVn1tCRpVRoNvErpmWc8Gng6MKoL4/QhmTFafKRGs
+ etf6+9u4VWYxv7ITxn6mXbh2gUYp6wzAnPl1WtaUyOsLF/SQCGCCpHv6auFDgIk0eM
+ XDnBdXTuNz7TA==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id D6451378209A;
+ Mon, 25 Mar 2024 13:07:48 +0000 (UTC)
+Message-ID: <8f815a5c-e891-468f-8e8a-1ad9cee7a36f@collabora.com>
+Date: Mon, 25 Mar 2024 14:07:48 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panfrost: fix power transition timeout warnings
+To: Christian Hewitt <christianshewitt@gmail.com>,
+ Steven Price <steven.price@arm.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>
+References: <20240322164525.2617508-1-christianshewitt@gmail.com>
+ <bad16bba-5469-4f20-bf23-7f3c2953edc5@arm.com>
+ <620A6EF4-4361-4B5F-889B-268091FB72D9@gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <620A6EF4-4361-4B5F-889B-268091FB72D9@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,26 +68,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the AUO B120XAN01.0 panel.
+Il 25/03/24 12:36, Christian Hewitt ha scritto:
+>> On 25 Mar 2024, at 2:28 pm, Steven Price <steven.price@arm.com> wrote:
+>>
+>> On 22/03/2024 16:45, Christian Hewitt wrote:
+>>> Increase the timeout value to prevent system logs on Amlogic boards flooding
+>>> with power transition warnings:
+>>>
+>>> [   13.047638] panfrost ffe40000.gpu: shader power transition timeout
+>>> [   13.048674] panfrost ffe40000.gpu: l2 power transition timeout
+>>> [   13.937324] panfrost ffe40000.gpu: shader power transition timeout
+>>> [   13.938351] panfrost ffe40000.gpu: l2 power transition timeout
+>>> ...
+>>> [39829.506904] panfrost ffe40000.gpu: shader power transition timeout
+>>> [39829.507938] panfrost ffe40000.gpu: l2 power transition timeout
+>>> [39949.508369] panfrost ffe40000.gpu: shader power transition timeout
+>>> [39949.509405] panfrost ffe40000.gpu: l2 power transition timeout
+>>>
+>>> The 2000 value has been found through trial and error testing with devices
+>>> using G52 and G31 GPUs.
+>>
+>> How close to 2ms did you need in your trial and error testing? I'm
+>> wondering if we should increase it further in case this might still
+>> trigger occasionally?
+> 
+> I backed it off progressively but still saw occasional messages at 1.6ms
+> so padded it a little with 2ms, and those systems haven’t shown errors
+> since so I currently see it as a ’safe’ value. The one possible wildcard
+> is testing with older T820/T628 boards; but that needs to wait until I’m
+> back home from a long trip and able to test them. The possible theory
+> being that older/slower systems might require more time. Worst case I’ll
+> have to send another change.
+> 
+>> kbase seems to have a 5s (5000ms!) timeout before it will actually
+>> complain. But equally it doesn't busy wait on the registers in the same
+>> way as panfrost, so the impact to the rest of the system of a long wait
+>> is less.
+>>
+>> But 2ms doesn't sound an unreasonable timeout so:
+>>
+>> Reviewed-by: Steven Price <steven.price@arm.com>
+>>
+>>> Fixes: 22aa1a209018 ("drm/panfrost: Really power off GPU cores in panfrost_gpu_power_off()")
+>>> Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>> ---
+>>> drivers/gpu/drm/panfrost/panfrost_gpu.c | 6 +++---
+>>> 1 file changed, 3 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>>> index 9063ce254642..fd8e44992184 100644
+>>> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>>> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>>> @@ -441,19 +441,19 @@ void panfrost_gpu_power_off(struct panfrost_device *pfdev)
+>>>
+>>> gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present);
+>>> ret = readl_relaxed_poll_timeout(pfdev->iomem + SHADER_PWRTRANS_LO,
+>>> -  val, !val, 1, 1000);
+>>> +  val, !val, 1, 2000);
+>>> if (ret)
+>>> dev_err(pfdev->dev, "shader power transition timeout");
+>>>
+>>> gpu_write(pfdev, TILER_PWROFF_LO, pfdev->features.tiler_present);
+>>> ret = readl_relaxed_poll_timeout(pfdev->iomem + TILER_PWRTRANS_LO,
+>>> -  val, !val, 1, 1000);
+>>> +  val, !val, 1, 2000);
+>>> if (ret)
+>>> dev_err(pfdev->dev, "tiler power transition timeout");
+>>
+>> As Angelo points out the tiler probably doesn't need such a long
+>> timeout, but I can't see the harm in consistency so I'm happy with this
+>> change. If my memory of the hardware is correct then the tiler power off
+>> actually does very little and so I wouldn't expect it to take very long.
+> 
+> I’ve seen tiler timeouts once I think and thus included it, but not since
+> the values were increased. As long as it’s acceptable I won’t over-think
+> it but if more testing is needed I can look at it more.
+> 
 
-Signed-off-by: Pin-yen Lin <treapking@chromium.org>
----
+Thanks for clarifying.
 
- drivers/gpu/drm/panel/panel-edp.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index c4f851200aa2..1a4a1ffea2c1 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1989,6 +1989,7 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x639c, &delay_200_500_e50, "B140HAK02.7"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x723c, &delay_200_500_e50, "B140XTN07.2"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x8594, &delay_200_500_e50, "B133UAN01.0"),
-+	EDP_PANEL_ENTRY('A', 'U', 'O', 0xd497, &delay_200_500_e50, "B120XAN01.0"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0xf390, &delay_200_500_e50, "B140XTN07.7"),
- 
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0607, &delay_200_500_e200, "Unknown"),
--- 
-2.44.0.396.g6e790dbe36-goog
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
