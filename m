@@ -2,83 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4542988B483
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 23:50:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E96388B521
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 00:19:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D55310EB38;
-	Mon, 25 Mar 2024 22:50:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3815A10E7BE;
+	Mon, 25 Mar 2024 23:19:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Xhg4hAB6";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EuwPzfPy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
- [209.85.160.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B37BB10EB38
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 22:50:41 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id
- d75a77b69052e-430c4d0408eso28800181cf.3
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 15:50:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1711407039; x=1712011839;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yawrovRasVBRHceCsqRRDcxsuqGTGGt+XKEa9F3SZL8=;
- b=Xhg4hAB6i+sYK6hPrwKEyinBAJy9Vvw5nYmA4yO4kQMn8WnVZ9af2MLe5JQiOBzzol
- mxnC6Bl9cy7Np0M08QWLLVVvJkHM0NsM+EaqTn0ctx4Ts46+pvHky4cr49ly4IHUb/Gu
- +GAnwFdDe0fefroRUNixg2LKICi9BArw+3MQE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711407039; x=1712011839;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yawrovRasVBRHceCsqRRDcxsuqGTGGt+XKEa9F3SZL8=;
- b=ec8rRYsLfCyfFChAJwiF6hP2NgT+PIwFr4rk6lyFaMGy/HQgbtGKl+8EEm22pEmXdm
- 3/qVP/NUyz5Mr9lCL3XKLKPV9PykmsGbbuNgNtki+291lhh2ufI10zEeaHRBCipwDIT7
- 1Wv5IOTd+WrV2tI5+5kUu92kTb9KEX1EaaEOukhI/m91x7joz8C8Ns/Sx33Bw4zkGLqo
- 6+yAcc5EdWwDigocQXn9rshkougRT5+h64ny6V5JRBDgyErTOgX2ALaEp+oEEkzStmFH
- I2Y0ekwsVWuo+3oHhXQp7bOu6Y3yCoLEOwnd9kakvjloBOjLjJQlOHaKX+rL0gmzlynS
- WWpw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX2EbwGqtZ3CxYnCjY7c+jmaye2/gnsrxRhQLL66rqxbI1S/XaF9zVRUDoRyWTpvVS385MVW2z22Z7chZ49+11y8BjXzA3z8fl743zRnfdC
-X-Gm-Message-State: AOJu0Yxzok8vyLDO7I3op77LHCPdP7BF6AdA0P+Lc9+0kCcwLXhJZ5PM
- 487O1V6/Th8ZtYSJQFmw0xtE1SWfmcEpyJfRs2NTVMNft3TCeoDLcXkjS5MDPU46CkZJb9TqRFc
- =
-X-Google-Smtp-Source: AGHT+IFZJT3MrErZWsRGysHjrqdjCuIRveTXqOtjMZMSBHSXExOZQuKOALKKN/DxLVzRlOCauLoLAA==
-X-Received: by 2002:a05:622a:215:b0:431:3772:888f with SMTP id
- b21-20020a05622a021500b004313772888fmr9387945qtx.63.1711407038635; 
- Mon, 25 Mar 2024 15:50:38 -0700 (PDT)
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com.
- [209.85.160.173]) by smtp.gmail.com with ESMTPSA id
- bc13-20020a05622a1ccd00b004309b22265asm3039387qtb.75.2024.03.25.15.50.37
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Mar 2024 15:50:37 -0700 (PDT)
-Received: by mail-qt1-f173.google.com with SMTP id
- d75a77b69052e-431347c6c99so51361cf.0
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 15:50:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUZbRq+9Wz9P2xmyPC6fAUv7RN4Kho+dItmZ0+L8m0vKGwkZ9q4IIOQlPVJLpahwTaok87xY6ElfCPVamHfbgdC6Kz4jhbJXnKE9Ua3gaRl
-X-Received: by 2002:a05:622a:22a5:b0:431:3887:ace6 with SMTP id
- ay37-20020a05622a22a500b004313887ace6mr57851qtb.26.1711407037327; Mon, 25 Mar
- 2024 15:50:37 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5E5410E7BE;
+ Mon, 25 Mar 2024 23:19:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1711408781; x=1742944781;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=8EXnVGZn/65+csQvKIPUHp4gpRdPtEdf9IGbzpEcRM8=;
+ b=EuwPzfPySgafMknpUvQQMwopESlHIlnw6qXXB0SEwizUe8dXEBdGW6zn
+ 85UvzGnw4h0QtAXHnm0DX3eZ17shLxBVvM31vQHVbITbhEzK3zmhw6QWn
+ SVr0AWTz0aIlGjJd3RNTVBjgu1LJK+6Rk+Zd+bfhKyU1H2Rklbr15cfZi
+ onuSD7bC5bE+QJO4i3oIMSKmI7mRK6e9NvCD4MmA1gAFRlIS6RLcYklD0
+ /tYqYJX4SkOq0k4sa92SwCmgjOgGXW57a2WbjVa4NnWnB4jmsbsfnRH/+
+ KtewkwNREuBKUDv7+84cOv2pfMVPOXxwdjYnGTJmKotEauUC/z/sgUv2T g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="6302492"
+X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; 
+   d="scan'208";a="6302492"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2024 16:19:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; d="scan'208";a="15668491"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.246.52.33])
+ ([10.246.52.33])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2024 16:19:36 -0700
+Message-ID: <db2627fa-b1da-4a27-8c87-bebe0407d8a7@linux.intel.com>
+Date: Tue, 26 Mar 2024 00:19:34 +0100
 MIME-Version: 1.0
-References: <20240325125901.2524752-1-treapking@chromium.org>
-In-Reply-To: <20240325125901.2524752-1-treapking@chromium.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 25 Mar 2024 15:50:21 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WcYZEpOkKL=7EsPKvo-Adfwx8kqrZWPJuwjk5TyTHGvQ@mail.gmail.com>
-Message-ID: <CAD=FV=WcYZEpOkKL=7EsPKvo-Adfwx8kqrZWPJuwjk5TyTHGvQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel-edp: Add AUO B120XAN01.0
-To: Pin-yen Lin <treapking@chromium.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org, 
- Hsin-Te Yuan <yuanhsinte@chromium.org>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/i915/gem: Calculate object page offset for partial
+ memory mapping
+To: Andi Shyti <andi.shyti@linux.intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Andi Shyti <andi.shyti@kernel.org>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+References: <20240325134033.287913-1-andi.shyti@linux.intel.com>
+Content-Language: en-US
+From: Nirmoy Das <nirmoy.das@linux.intel.com>
+In-Reply-To: <20240325134033.287913-1-andi.shyti@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,23 +72,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Andi,
 
-On Mon, Mar 25, 2024 at 5:59=E2=80=AFAM Pin-yen Lin <treapking@chromium.org=
-> wrote:
+I have too many questions :) I think the patch makes sense but need more 
+context, see below:
+
+On 3/25/2024 2:40 PM, Andi Shyti wrote:
+> To enable partial memory mapping of GPU virtual memory, it's
+> necessary to introduce an offset to the object's memory
+> (obj->mm.pages) scatterlist. This adjustment compensates for
+> instances when userspace mappings do not start from the beginning
+> of the object.
 >
-> Add support for the AUO B120XAN01.0 panel.
+> Based on a patch by Chris Wilson
+> <chris.p.wilson@linux.intel.com>.
 >
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
+> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
 > ---
+>   drivers/gpu/drm/i915/gem/i915_gem_mman.c |  8 +++++---
+>   drivers/gpu/drm/i915/i915_mm.c           | 12 +++++++++++-
+>   drivers/gpu/drm/i915/i915_mm.h           |  3 ++-
+>   3 files changed, 18 insertions(+), 5 deletions(-)
 >
->  drivers/gpu/drm/panel/panel-edp.c | 1 +
->  1 file changed, 1 insertion(+)
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> index a2195e28b625..57a2dda2c3cc 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> @@ -276,7 +276,7 @@ static vm_fault_t vm_fault_cpu(struct vm_fault *vmf)
+>   	/* PTEs are revoked in obj->ops->put_pages() */
+>   	err = remap_io_sg(area,
+>   			  area->vm_start, area->vm_end - area->vm_start,
+> -			  obj->mm.pages->sgl, iomap);
+> +			  obj->mm.pages->sgl, 0, iomap);
 
-Looks fine.
+Why don't we need partial mmap for CPU but only for GTT ?
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Sounds like this also need to be cover by a IGT tests.  Don't we need 
+"Fixes" tag for this?
 
-Applied to drm-misc-next:
+Regards,
 
-1864c45deb77 drm/panel-edp: Add AUO B120XAN01.0
+Nirmoy
+
+>   
+>   	if (area->vm_flags & VM_WRITE) {
+>   		GEM_BUG_ON(!i915_gem_object_has_pinned_pages(obj));
+> @@ -302,14 +302,16 @@ static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
+>   	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
+>   	bool write = area->vm_flags & VM_WRITE;
+>   	struct i915_gem_ww_ctx ww;
+> +	unsigned long obj_offset;
+>   	intel_wakeref_t wakeref;
+>   	struct i915_vma *vma;
+>   	pgoff_t page_offset;
+>   	int srcu;
+>   	int ret;
+>   
+> -	/* We don't use vmf->pgoff since that has the fake offset */
+> +	obj_offset = area->vm_pgoff - drm_vma_node_start(&mmo->vma_node);
+>   	page_offset = (vmf->address - area->vm_start) >> PAGE_SHIFT;
+> +	page_offset += obj_offset;
+>   
+>   	trace_i915_gem_object_fault(obj, page_offset, true, write);
+>   
+> @@ -404,7 +406,7 @@ static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
+>   
+>   	/* Finally, remap it using the new GTT offset */
+>   	ret = remap_io_mapping(area,
+> -			       area->vm_start + (vma->gtt_view.partial.offset << PAGE_SHIFT),
+> +			       area->vm_start + ((vma->gtt_view.partial.offset - obj_offset) << PAGE_SHIFT),
+>   			       (ggtt->gmadr.start + i915_ggtt_offset(vma)) >> PAGE_SHIFT,
+>   			       min_t(u64, vma->size, area->vm_end - area->vm_start),
+>   			       &ggtt->iomap);
+> diff --git a/drivers/gpu/drm/i915/i915_mm.c b/drivers/gpu/drm/i915/i915_mm.c
+> index 7998bc74ab49..f5c97a620962 100644
+> --- a/drivers/gpu/drm/i915/i915_mm.c
+> +++ b/drivers/gpu/drm/i915/i915_mm.c
+> @@ -122,13 +122,15 @@ int remap_io_mapping(struct vm_area_struct *vma,
+>    * @addr: target user address to start at
+>    * @size: size of map area
+>    * @sgl: Start sg entry
+> + * @offset: offset from the start of the page
+>    * @iobase: Use stored dma address offset by this address or pfn if -1
+>    *
+>    *  Note: this is only safe if the mm semaphore is held when called.
+>    */
+>   int remap_io_sg(struct vm_area_struct *vma,
+>   		unsigned long addr, unsigned long size,
+> -		struct scatterlist *sgl, resource_size_t iobase)
+> +		struct scatterlist *sgl, unsigned long offset,
+> +		resource_size_t iobase)
+>   {
+>   	struct remap_pfn r = {
+>   		.mm = vma->vm_mm,
+> @@ -141,6 +143,14 @@ int remap_io_sg(struct vm_area_struct *vma,
+>   	/* We rely on prevalidation of the io-mapping to skip track_pfn(). */
+>   	GEM_BUG_ON((vma->vm_flags & EXPECTED_FLAGS) != EXPECTED_FLAGS);
+>   
+> +	while (offset >= sg_dma_len(r.sgt.sgp) >> PAGE_SHIFT) {
+> +		offset -= sg_dma_len(r.sgt.sgp) >> PAGE_SHIFT;
+> +		r.sgt = __sgt_iter(__sg_next(r.sgt.sgp), use_dma(iobase));
+> +		if (!r.sgt.sgp)
+> +			return -EINVAL;
+> +	}
+> +	r.sgt.curr = offset << PAGE_SHIFT;
+> +
+>   	if (!use_dma(iobase))
+>   		flush_cache_range(vma, addr, size);
+>   
+> diff --git a/drivers/gpu/drm/i915/i915_mm.h b/drivers/gpu/drm/i915/i915_mm.h
+> index 04c8974d822b..69f9351b1a1c 100644
+> --- a/drivers/gpu/drm/i915/i915_mm.h
+> +++ b/drivers/gpu/drm/i915/i915_mm.h
+> @@ -30,6 +30,7 @@ int remap_io_mapping(struct vm_area_struct *vma,
+>   
+>   int remap_io_sg(struct vm_area_struct *vma,
+>   		unsigned long addr, unsigned long size,
+> -		struct scatterlist *sgl, resource_size_t iobase);
+> +		struct scatterlist *sgl, unsigned long offset,
+> +		resource_size_t iobase);
+>   
+>   #endif /* __I915_MM_H__ */
