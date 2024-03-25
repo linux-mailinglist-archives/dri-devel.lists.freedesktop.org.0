@@ -2,73 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C12C188A2A3
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 14:41:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89E3E88A2EF
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 14:50:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D734010E8C9;
-	Mon, 25 Mar 2024 13:41:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AF6D10E160;
+	Mon, 25 Mar 2024 13:50:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gCTirM+w";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FvG4Ce5y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAE1510E8C3
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 13:41:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1711374112; x=1742910112;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Q50oreO5/tOU0HVDRwYJo9YrBA4CBym6hJeFokjz93U=;
- b=gCTirM+wt1jNh+N2Eg5si7KPzo2BFGtnDJJ5ekCg6DaXs3ry5ELF/sdy
- 35Mxvzi3oHILTr5vxUKElwTvSLGhec0b2VfmpDb3wW+ad0E3CroS8p1Mp
- ZxJq66A3pawHF9vc1uCf+S5RAe1cfzXN2wMyqL7b1immqV42leOVdHeL1
- jsEMZcacHeAsDYWFd+WtLW/S9H4HreQ+A8YwfO5NQFuipdw/do1pDlmXu
- LQUOHCLMu5rzxTv4gi3EoVj6ocjjhZXBxhbMtXxNIHG0oWfI6Oo8BghR2
- mTsFCuEamnZmMGc2YtlyjWTOsuNXCYFwcIofT4D35F1to/A1E4P9Nc14J Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="23860698"
-X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; d="scan'208";a="23860698"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2024 06:41:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="914843837"
-X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; d="scan'208";a="914843837"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2024 06:41:48 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1roka9-0000000FzrR-3avd; Mon, 25 Mar 2024 15:41:45 +0200
-Date: Mon, 25 Mar 2024 15:41:45 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
- Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-acpi@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Vladimir Oltean <vladimir.oltean@nxp.com>
-Subject: Re: [PATCH] software node: Implement device_get_match_data fwnode
- callback
-Message-ID: <ZgF_GRPHcdiDyxvX@smile.fi.intel.com>
-References: <Zfq85f-Dp1S3CKuG@smile.fi.intel.com>
- <9ced20e0-dfbd-4337-b5df-223b7baffd9e@linux.dev>
- <ZftG6Q5AaG71dhWq@smile.fi.intel.com>
- <9644da91-f367-4083-a3e4-4d0677c8cbca@linux.dev>
- <Zf2uUwcMgIpo6rVh@smile.fi.intel.com>
- <6bf102a4-6419-4083-8918-4f7c76cfa9a1@linux.dev>
- <Zf3IWyrW8IZLTg4x@smile.fi.intel.com>
- <8afe3f27-fc8e-4c20-ba28-74a0a2937e55@linux.dev>
- <Zf3LBvJEJF9xr2fv@smile.fi.intel.com>
- <839a7448-b958-402e-862a-fc3f7d86e797@linux.dev>
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com
+ [209.85.160.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 403C410E160
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 13:50:08 +0000 (UTC)
+Received: by mail-oa1-f46.google.com with SMTP id
+ 586e51a60fabf-2220a3b3871so2146589fac.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 06:50:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1711374607; x=1711979407; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=TZEm7dLC7DLgBBuXFeLiLeXWBBGx7yk8NhEbIQaE86A=;
+ b=FvG4Ce5yEc8asXxt8Qp1Mf11ylXJUoDRBrAHdP/2d0mdn09UB0uAAgBX6uGKVrrv/z
+ 5ef6il7wOe7KIQFk7V4PL8RDbMkUKg4ItlISnsZOO7VI4oDDSObMyR/MY6elPpGUv+c3
+ dImGnhMK5f6y5b8x+L9IFGrKcxC35F50INaGOnVOR2UI2HkLXdxOXaDLE+lkCTopTb6k
+ h4tbbJ9zxGUgmtIcMfXcRnDmN6azHmXDz6L3WThQ4zcEPEbdPeBmPAMp9odyiO7z/2Ov
+ Dpgmd4rQXPyF5ksXUx2JzF+ojN7tBtZZBwtvLOJWV7bmNt75t6TDXO1DCaBTNDWWQnHi
+ oSfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711374607; x=1711979407;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TZEm7dLC7DLgBBuXFeLiLeXWBBGx7yk8NhEbIQaE86A=;
+ b=RZkJn4r2HlJOOPuaFVpdkej1U7GkxP6jvfy0okXApmtKNuQL2C95Bh8u5qOySZYI+0
+ wnRapCePW++kcQ5aGyjFr/8GBtY/EJ7jnWLPZnEbOOOBRrjDcnpKa52Wa+TbfUpvkwGT
+ 6gVpTOJA4YrYwRDDewuLKZSI8FmXMMksDcSzMjbmtjowKBNP+rfrIQsmM3uZfyg6tzCx
+ NEZeyC9EoikozFQnc+yz2BR0nltX7wf7nfLry7ZrgjaZUr4s5LzHJH2zvnTSRW30iq0c
+ Xadk8YNkBDK0ecnqs/icag1Ve74+aaf5hneK7JUjCevjswuUyuvNHCuDKEtkS1Ij4L78
+ ICMQ==
+X-Gm-Message-State: AOJu0YziAr9FwoQ3r8qqWWHlVQ8gWqYKvGyZLp1JrLDAIokKn9L52Yyf
+ 2WVrKisvWoC82JJHtgz4DadGkCOC3SORL02LxdN+iIQBUWqmJ0MO
+X-Google-Smtp-Source: AGHT+IEuxzOZwBoIMGZhGDau9fYZ1S9BgGTKCMVOyBdlostVlEY2F4PkvLWDocaBgYB5mDFwp371nw==
+X-Received: by 2002:a05:6870:2251:b0:221:5739:a144 with SMTP id
+ j17-20020a056870225100b002215739a144mr7518495oaf.37.1711374607232; 
+ Mon, 25 Mar 2024 06:50:07 -0700 (PDT)
+Received: from localhost.localdomain ([75.28.21.198])
+ by smtp.gmail.com with ESMTPSA id
+ z8-20020a05683010c800b006e673e2d2a3sm1118250oto.77.2024.03.25.06.50.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Mar 2024 06:50:07 -0700 (PDT)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: linux-rockchip@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ daniel@ffwll.ch, airlied@gmail.com, sam@ravnborg.org,
+ quic_jesszhan@quicinc.com, neil.armstrong@linaro.org, megi@xff.cz,
+ kernel@puri.sm, agx@sigxcpu.org, heiko@sntech.de, conor+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, robh@kernel.org,
+ Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH 0/5] Add Support for RK3326 GameForce Chi
+Date: Mon, 25 Mar 2024 08:49:54 -0500
+Message-Id: <20240325134959.11807-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <839a7448-b958-402e-862a-fc3f7d86e797@linux.dev>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,25 +82,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Mar 23, 2024 at 02:30:08AM +0800, Sui Jingfeng wrote:
-> On 2024/3/23 02:16, Andy Shevchenko wrote:
-> > On Sat, Mar 23, 2024 at 02:12:14AM +0800, Sui Jingfeng wrote:
-> > > On 2024/3/23 02:05, Andy Shevchenko wrote:
-> > > >    Besides that, the kernel project rule is "we do not add
-> > > > the dead (unused) code".
-> > > This rule is good an correct and I admit.
-> > > 
-> > > But the problem is that it is chicken-and-egg problem,
-> > > it probably have at least two user now.
-> > Then show them! Convert in the same series and show that.
-> 
-> I believe that Vladimir has show enough to you. I have read that thread,
-> I think Vladimit have explained very well.
+From: Chris Morgan <macromorgan@hotmail.com>
 
-Let's continue there. I replied there just now.
+Add support for the GameForce Chi [1].
+
+The GameForce Chi has the following hardware:
+Tested:
+ - 3.5" dual lane 640x480 DSI display.
+ - 15 GPIO based face buttons.
+ - 2 ADC based face buttons.
+ - 1 ADC joystick (left) connected to internal SARADC.
+ - RGB LED arrays for key backlighting
+ - Dual internal speakers.
+ - Realtek RTL8723BS SDIO WiFi.
+ - Single SDMMC slot.
+
+Not Working (with notes in device-tree):
+ - Bluetooth - missing firmware
+ - 1 ADC joystick (right) connected to unknown UART based ADC.
+
+[1] https://gameforce.fun/pages/gallery-of-gameforce-retro-gaming-handheld
+
+Chris Morgan (5):
+  dt-bindings: vendor-prefix: Add prefix for GameForce
+  dt-bindings: display: Add GameForce Chi Panel
+  drm/panel: st7703: Add GameForce Chi Panel Support
+  dt-bindings: arm: rockchip: Add GameForce Chi
+  arm64: dts: rockchip: Add GameForce Chi
+
+ .../devicetree/bindings/arm/rockchip.yaml     |   5 +
+ .../display/panel/rocktech,jh057n00900.yaml   |   2 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ arch/arm64/boot/dts/rockchip/Makefile         |   1 +
+ .../dts/rockchip/rk3326-gameforce-chi.dts     | 811 ++++++++++++++++++
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c |  87 ++
+ 6 files changed, 908 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/rockchip/rk3326-gameforce-chi.dts
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.34.1
 
