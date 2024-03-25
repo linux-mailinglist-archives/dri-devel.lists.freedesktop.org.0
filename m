@@ -2,57 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9992388A47B
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 15:29:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98FE88A3EF
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 15:15:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA98910E113;
-	Mon, 25 Mar 2024 14:29:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D02510E90F;
+	Mon, 25 Mar 2024 14:15:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CTR9dY4h";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="enDOKQbu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C457510E113
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 14:29:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1711376943; x=1742912943;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=Tbv1Su0NNi8AuHLkQKdmmbCwzlCEJIxWRZJyCozB3yw=;
- b=CTR9dY4hDJP5SBygexeXObX23KZgBTVnpMBoYhCSp1NipbFNmJCHc2sL
- o9uwRF9+Q6QyLY6uo86I5UJftiiuuBrsNQwZ+7PJTJzGFCN1s5ERA0k3A
- yOeoyQ0uONLS0ULJU8uvLq0eKzqht7un3aqKM7pdNY3+337pdnqzajOv/
- mjj38dyat+PCAYXRqPd/NAdsyiOhtz3tbgTSnBt4IBYFMgUjMkr8tXOwn
- I2XpqPGWtZDgjAweKP6zEFxMTG43+52JysJYv3g6SJKoU+gw5gJWvlFWl
- VaLC+Tg/2AwHswIzAEY7DHVbxYpS3GjKW3X7ji9e4Hjgl/NXyeI6aXxfz w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="6590695"
-X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; 
-   d="scan'208";a="6590695"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa108.fm.intel.com with ESMTP; 25 Mar 2024 07:14:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; d="scan'208";a="20287822"
-Received: from idirlea-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.55.171])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2024 07:13:53 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH 00/12] drm/display: Convert helpers Kconfig symbols to
- depends on
-In-Reply-To: <20240325-kms-kconfig-helpers-v1-0-bfec6949d9c3@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240325-kms-kconfig-helpers-v1-0-bfec6949d9c3@kernel.org>
-Date: Mon, 25 Mar 2024 16:13:50 +0200
-Message-ID: <87v85aield.fsf@intel.com>
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+ [209.85.222.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A87FF10E90C
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 14:15:11 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id
+ af79cd13be357-78a3ca01301so182465785a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 07:15:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1711376109; x=1711980909;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=COUKaK9QwWldaIvCztGeS1zsFehu8RXDmIJB95LB/cQ=;
+ b=enDOKQbuVwsdJkgyR82aZj86XoI/qPpGsFUMVYLAMPUWTLtUyVraoHur/Ajr43YmMx
+ 1dLqhGva3D0SC5tj6gs60c8ax8wE2YDZXnuu6F4ptKA+19rf5UWPN2MTCqJQr3FVj0Wl
+ rVNerKrd2N62H+54ya5GWjitKDPjDQd/43tdo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711376109; x=1711980909;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=COUKaK9QwWldaIvCztGeS1zsFehu8RXDmIJB95LB/cQ=;
+ b=pnq5TK5A1KESWM2xDxw8N9CaCpWT7X7TE7sB31D4iFHAzppCqfVWr68uyMMX0hu0Mq
+ ACFzKy+mtKHbjp/hmT7mxeNkbJzTijHnCl5DpK2uq5dkRYJda66gxNgefYxbEUXl5Wkg
+ GAnRMdNBDvIS4aOch73wyZni1esOzM5fuY7ow3UfymjEGBGaqTTAGltA7wadB5xeZ+i4
+ dZXfzLS+nICQkxNVHsdRJM2RzX8HbC8Uaotliux6ZKrJkDvaqEngabntRTwolF1DB1Uh
+ m/8oCZtG5mKhjxpEAfSz57RA4EN5FQLjXVurRUpEGNUddxgVBfkH1xtLwKy3DL1cJUFK
+ 8stA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUgev+sKdXL9mKXPYWwYJaFu6Gwvgk/G5Sz2INGREzQMd5l7wfKq4/mnIGGbUjqBBt8jwaIGTbxArCzq2di0LNMKdXAYRaeCLx/u0Sv0bld
+X-Gm-Message-State: AOJu0YwI5g78djK2iPQmwuLfY7Efm4WiVg1xrENSIwYGVP+CXUnWzLH4
+ F/yLhwTgncRyRJPjgd1Q1sajslQAmAULEFn64XhTEtE+b6PGRbZXrj8s6EmJk3JUcmiqqCY7a1M
+ =
+X-Google-Smtp-Source: AGHT+IGDuxOGKB4DgSLonhhOntJUS9Dsk/mNvHI28J5H4K9eN8F7aKyHIm/X3NzalIWow/fY4WemeQ==
+X-Received: by 2002:a05:620a:462c:b0:789:c7d3:d55c with SMTP id
+ br44-20020a05620a462c00b00789c7d3d55cmr9452698qkb.15.1711376108795; 
+ Mon, 25 Mar 2024 07:15:08 -0700 (PDT)
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com.
+ [209.85.160.181]) by smtp.gmail.com with ESMTPSA id
+ x16-20020a05620a14b000b00789eb549636sm2141478qkj.18.2024.03.25.07.15.07
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Mar 2024 07:15:07 -0700 (PDT)
+Received: by mail-qt1-f181.google.com with SMTP id
+ d75a77b69052e-428405a0205so485761cf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 07:15:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXsyRQIIy4yYV5TqoiO3KCnR+/Nq4JKNaV/jKW+BbEdcJJ0KKc7fZdGSscljrXyYvwHnawj8dEaSPDWF2GQpjPSAUpGAKi8ARbsIflZA3u5
+X-Received: by 2002:a05:622a:2444:b0:431:4e0b:d675 with SMTP id
+ bl4-20020a05622a244400b004314e0bd675mr354653qtb.18.1711376106720; Mon, 25 Mar
+ 2024 07:15:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <202403240115.1lAo588s-lkp@intel.com>
+In-Reply-To: <202403240115.1lAo588s-lkp@intel.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 25 Mar 2024 07:14:50 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V91x_Vf=rkT_Q29eTsa13XDKZHXYYgX1of3JsE2OgxHQ@mail.gmail.com>
+Message-ID: <CAD=FV=V91x_Vf=rkT_Q29eTsa13XDKZHXYYgX1of3JsE2OgxHQ@mail.gmail.com>
+Subject: Re: [drm-tip:drm-tip 4/11]
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c:105:73:
+ error: '.bin' directive output may be truncated writing 4 bytes into a region
+ of size between 2 and 31
+To: kernel test robot <lkp@intel.com>,
+ Saleemkhan Jamadar <saleemkhan.jamadar@amd.com>, 
+ Veerabadhran Gopalakrishnan <Veerabadhran.Gopalakrishnan@amd.com>,
+ Leo Liu <leo.liu@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,82 +98,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 25 Mar 2024, Maxime Ripard <mripard@kernel.org> wrote:
-> Hi,
->
-> Jani recently pointed out that the Kconfig symbols are a bit difficult
-> to work with at the moment when they depend on each other, and that
-> using depends on would be a better idea, but no one really did the work
-> so far.
->
-> So here it goes :)
->
-> It's been tested by comparing the drm-misc-arm, drm-misc-arm64 and
-> drm-misc-x86 before and after this series and making sure they are
-> identical.
->
-> Let me know what you think,
-> Maxime
+Hi,
 
-Thanks for doing this, I think this is the right direction!
-
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-
-That said, 'make olddefconfig' is bound to drop some previously enabled
-configs for people, I think in part due to the renames. For example, all
-the CEC stuff and DP aux device got deselected for me. It's possibly
-going to lead to some grumbling.
-
-
+On Sat, Mar 23, 2024 at 10:15=E2=80=AFAM kernel test robot <lkp@intel.com> =
+wrote:
 >
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
-> Maxime Ripard (12):
->       drm/display: Make DisplayPort AUX bus Kconfig name consistent
->       drm/display: Make DisplayPort tunnel debug Kconfig name consistent
->       drm/display: Make DisplayPort AUX Chardev Kconfig name consistent
->       drm/display: Make DisplayPort CEC-over-AUX Kconfig name consistent
->       drm/display: Reorder Kconfig symbols
->       drm/display: Make all helpers visible and switch to depends on
->       drm: Switch DRM_DISPLAY_HELPER to depends on
->       drm: Switch DRM_DISPLAY_DP_AUX_BUS to depends on
->       drm: Switch DRM_DISPLAY_DP_HELPER to depends on
->       drm: Switch DRM_DISPLAY_HDCP_HELPER to depends on
->       drm: Switch DRM_DISPLAY_HDMI_HELPER to depends on
->       drm/bridge: it6505: Remove useless select
+> tree:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+> head:   657dd8fcd2f1d1205c6f98fdb8b60915228991d1
+> commit: 0885186926a13c697d78f5af03f32445414b6ad5 [4/11] Merge remote-trac=
+king branch 'drm-misc/drm-misc-next' into drm-tip
+> config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/=
+20240324/202403240115.1lAo588s-lkp@intel.com/config)
+> compiler: microblaze-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240324/202403240115.1lAo588s-lkp@intel.com/reproduce)
 >
->  arch/parisc/configs/generic-32bit_defconfig      |  2 +-
->  drivers/gpu/drm/Kconfig                          |  8 +--
->  drivers/gpu/drm/amd/amdgpu/Kconfig               | 12 +++--
->  drivers/gpu/drm/bridge/Kconfig                   | 29 +++++-----
->  drivers/gpu/drm/bridge/analogix/Kconfig          | 16 +++---
->  drivers/gpu/drm/bridge/cadence/Kconfig           |  8 +--
->  drivers/gpu/drm/bridge/synopsys/Kconfig          |  4 +-
->  drivers/gpu/drm/display/Kconfig                  | 68 ++++++++++++------------
->  drivers/gpu/drm/display/Makefile                 |  6 +--
->  drivers/gpu/drm/display/drm_dp_helper.c          |  2 +-
->  drivers/gpu/drm/display/drm_dp_helper_internal.h |  2 +-
->  drivers/gpu/drm/display/drm_dp_tunnel.c          | 10 ++--
->  drivers/gpu/drm/exynos/Kconfig                   |  4 +-
->  drivers/gpu/drm/i915/Kconfig                     |  8 +--
->  drivers/gpu/drm/i915/Kconfig.debug               |  4 +-
->  drivers/gpu/drm/mediatek/Kconfig                 |  6 +--
->  drivers/gpu/drm/msm/Kconfig                      |  8 +--
->  drivers/gpu/drm/nouveau/Kconfig                  | 10 ++--
->  drivers/gpu/drm/panel/Kconfig                    | 32 +++++------
->  drivers/gpu/drm/radeon/Kconfig                   |  8 +--
->  drivers/gpu/drm/rockchip/Kconfig                 |  8 +--
->  drivers/gpu/drm/tegra/Kconfig                    |  8 +--
->  drivers/gpu/drm/vc4/Kconfig                      | 10 ++--
->  drivers/gpu/drm/xe/Kconfig                       | 13 +++--
->  drivers/gpu/drm/xlnx/Kconfig                     |  8 +--
->  include/drm/display/drm_dp_helper.h              |  2 +-
->  26 files changed, 155 insertions(+), 141 deletions(-)
-> ---
-> base-commit: 5e842d55bad7794823a50f24fd645b58f2ef93ab
-> change-id: 20240325-kms-kconfig-helpers-f94991bdd6fa
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202403240115.1lAo588s-lkp=
+@intel.com/
 >
-> Best regards,
+> All errors (new ones prefixed by >>):
+>
+>    drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c: In function 'amdgpu_vcn_early=
+_init':
+>    drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c:102:66: error: 'snprintf' outp=
+ut may be truncated before the last format character [-Werror=3Dformat-trun=
+cation=3D]
+>      102 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.=
+bin", ucode_prefix);
+>          |                                                               =
+   ^
+>    drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c:102:17: note: 'snprintf' outpu=
+t between 12 and 41 bytes into a destination of size 40
+>      102 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.=
+bin", ucode_prefix);
+>          |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~
+> >> drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c:105:73: error: '.bin' directiv=
+e output may be truncated writing 4 bytes into a region of size between 2 a=
+nd 31 [-Werror=3Dformat-truncation=3D]
+>      105 |                         snprintf(fw_name, sizeof(fw_name), "am=
+dgpu/%s_%d.bin", ucode_prefix, i);
+>          |                                                               =
+          ^~~~
+>    drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c:105:25: note: 'snprintf' outpu=
+t between 14 and 43 bytes into a destination of size 40
+>      105 |                         snprintf(fw_name, sizeof(fw_name), "am=
+dgpu/%s_%d.bin", ucode_prefix, i);
+>          |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    cc1: all warnings being treated as errors
+>
+>
+> vim +105 drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
+>
+> 95d0906f850655 Leo Liu            2016-12-21   93
+> 69939009bde70c Mario Limonciello  2022-12-28   94  int amdgpu_vcn_early_i=
+nit(struct amdgpu_device *adev)
+> 69939009bde70c Mario Limonciello  2022-12-28   95  {
+> 69939009bde70c Mario Limonciello  2022-12-28   96       char ucode_prefix=
+[30];
+> 69939009bde70c Mario Limonciello  2022-12-28   97       char fw_name[40];
+> 6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06   98       int r, i;
+> 69939009bde70c Mario Limonciello  2022-12-28   99
+> 6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06  100       for (i =3D 0; i <=
+ adev->vcn.num_vcn_inst; i++) {
+> 69939009bde70c Mario Limonciello  2022-12-28  101               amdgpu_uc=
+ode_ip_version_decode(adev, UVD_HWIP, ucode_prefix, sizeof(ucode_prefix));
+> 69939009bde70c Mario Limonciello  2022-12-28 @102               snprintf(=
+fw_name, sizeof(fw_name), "amdgpu/%s.bin", ucode_prefix);
+> 6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06  103               if (amdgp=
+u_ip_version(adev, UVD_HWIP, 0) =3D=3D  IP_VERSION(4, 0, 6) &&
+> 6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06  104                       i=
+ =3D=3D 1) {
+> 6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06 @105                       s=
+nprintf(fw_name, sizeof(fw_name), "amdgpu/%s_%d.bin", ucode_prefix, i);
+> 6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06  106               }
+> 69939009bde70c Mario Limonciello  2022-12-28  107
+> 6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06  108               r =3D amd=
+gpu_ucode_request(adev, &adev->vcn.fw[i], fw_name);
+> 6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06  109               if (r) {
+> 6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06  110                       a=
+mdgpu_ucode_release(&adev->vcn.fw[i]);
+> 6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06  111                       r=
+eturn r;
+> 6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06  112               }
+> 6a7cbbc267c0ca Saleemkhan Jamadar 2024-03-06  113       }
+> 69939009bde70c Mario Limonciello  2022-12-28  114       return r;
+> 69939009bde70c Mario Limonciello  2022-12-28  115  }
+> 69939009bde70c Mario Limonciello  2022-12-28  116
+>
+> :::::: The code at line 105 was first introduced by commit
+> :::::: 6a7cbbc267c0cafa2b027983a40276deb673c066 drm/amdgpu/vcn: enable vc=
+n1 fw load for VCN 4_0_6
+>
+> :::::: TO: Saleemkhan Jamadar <saleemkhan.jamadar@amd.com>
+> :::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
--- 
-Jani Nikula, Intel
+Not quite sure why this came to me and not the people involved with
+that commit. Adding them here.
+
+-Doug
