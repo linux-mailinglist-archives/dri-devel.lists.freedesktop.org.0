@@ -2,81 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6406889D1B
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 12:37:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C618889D6D
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 12:43:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B33B10E7D2;
-	Mon, 25 Mar 2024 11:37:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F01110E6C0;
+	Mon, 25 Mar 2024 11:43:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KKiv2iEH";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="nlzzgBDP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
- [209.85.218.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2607610E7D2
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 11:37:01 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id
- a640c23a62f3a-a4a387ff7acso82729266b.2
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 04:37:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1711366619; x=1711971419; darn=lists.freedesktop.org;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8yYmh9ilGatslqz9nzmGmez9Ks5eyhsXtq+smawLikQ=;
- b=KKiv2iEHaWPUXn63M+2PyvQgQjmqGLOQxCu3Fpmrwp0olS3v1YmfYb5d/mSbvbXP+8
- b1cJYC44uPwva2d7X/QSjuJmlE3NpRO07EPIgip+N4Y4jsm4QqJnkZu5/olesQGYRbcD
- cpnhO9imjk2bFIRYlOSWN13Ldj4YMzLbbacaRFN1OIhagrj+dCpnQEudCUuqSJKMJM9x
- qG9+tyatlxr1Y43RM5Pda9SWY0skpqVU71BlEPs1VCF/bROSFlTvjTpMcySuOMUQCu12
- /YWOMKK9gxZnGZmIiOp/tNZRDyp+q27ZNidalezjuApeKO8QduIl65/nmSbPKhySdcVC
- 0qIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711366619; x=1711971419;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8yYmh9ilGatslqz9nzmGmez9Ks5eyhsXtq+smawLikQ=;
- b=wIP9cSqtCKX8gHxXEljkpgSC77QdOnT8t8CncPpEkda9P7C5eWqnYFEAD2dO1ovAr9
- RMwFz/AMxDwNShePSCBDUZT+W88GFNqAM2+V6xGKzcyHGQ3Bt5W1DrgpYHJwpnLYb8Cj
- HAxsE5ul3nj3twMYDAt5flSw6FpqV8Tl8j8A9m2i1C05UtjdAqnOS0aZLegRhZIrzSHt
- Q1zVbFvdLtgmlvYDpA95QHNUOlDkJs3HhxF6rG1C0cbTWyx8CsL0ToDcBiZpb/C5/n+J
- T3AwOAaHqSCxgADeuiJnH4JGhZcmoLjvUzXSOohX0endkJ780vdRbqhHurqJgerbrqYW
- rrTA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXsnvAp0jXF7wfMBCYGMW39cINI3nlzcCNmb0Np+IsTPWqextYo5/4R4dd0IlewGyec5vD8+QNEV0BJLMv0Tf8zqFjN+LcGhlGITSToyREz
-X-Gm-Message-State: AOJu0YwNVaQ0kTHkPE4blVxnLGFCJpU8sacX1ezq5KnlCX4guB27NTY9
- 4PDWTGqWKsKXs3snhasvAjiyD2Pj7U+UeucvcLQ8/8U2Mb6DFYM2
-X-Google-Smtp-Source: AGHT+IH6c0oCiM6CpSIH3+fOqTkyS+RcmYNisq65V7JULsv8sbnj16RwVvb8LtKycoS2t3mWk74Utw==
-X-Received: by 2002:a17:906:c2d0:b0:a45:5be1:6e20 with SMTP id
- ch16-20020a170906c2d000b00a455be16e20mr4420850ejb.23.1711366619050; 
- Mon, 25 Mar 2024 04:36:59 -0700 (PDT)
-Received: from smtpclient.apple ([87.200.95.144])
- by smtp.gmail.com with ESMTPSA id
- hj13-20020a170906874d00b00a474ef94fddsm1922774ejb.70.2024.03.25.04.36.54
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 25 Mar 2024 04:36:58 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.400.31\))
-Subject: Re: [PATCH] drm/panfrost: fix power transition timeout warnings
-From: Christian Hewitt <christianshewitt@gmail.com>
-In-Reply-To: <bad16bba-5469-4f20-bf23-7f3c2953edc5@arm.com>
-Date: Mon, 25 Mar 2024 15:36:40 +0400
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <620A6EF4-4361-4B5F-889B-268091FB72D9@gmail.com>
-References: <20240322164525.2617508-1-christianshewitt@gmail.com>
- <bad16bba-5469-4f20-bf23-7f3c2953edc5@arm.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66D1810E6C0
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 11:43:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1711367028;
+ bh=PQqpSAQVvTKSAU+6QHdgIv30W7NSBmCtubL0l2YuySc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=nlzzgBDP5Y+vUSxgDEoOrAtbJUhf8CS1eVF3V5KRRCl04tAiZt8e7cKaI8fj9e5bc
+ x5BaxsxYvHImCRx+aA4jKQVHyTfjCpU+Dsa9rjXY+zNHu3q5EkahFCcnIZlfdMo2C8
+ wvjOz1u3cexeLRy50hFDk1I9oXqHx1jq68DFaFyjOYU5skL3N/8QSS7frAAEn8FL3f
+ Zt8NtpQlJnt5Q+Anmby9R05wUEvSxYyAHO0Sy3XZdNw4+yFWKUWdkA+Bs7AF1ILWD0
+ 6VYgVjtirKZ/kyRY2V7uSHbd2SG7k64Ib3cBeCsmgjFP/tMDlYLEJxSOtrm4DiIxj5
+ qvKPz8VUIdefg==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id C9E213780626;
+ Mon, 25 Mar 2024 11:43:47 +0000 (UTC)
+Date: Mon, 25 Mar 2024 12:43:46 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Steven Price <steven.price@arm.com>
-X-Mailer: Apple Mail (2.3774.400.31)
+Cc: Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
+ <adrian.larumbe@collabora.com>, dri-devel@lists.freedesktop.org,
+ kernel@collabora.com
+Subject: Re: [PATCH 2/2] drm/panthor: Actually suspend IRQs in the unplug path
+Message-ID: <20240325124346.105bbdfc@collabora.com>
+In-Reply-To: <d10e71ec-0c1f-4d32-b8f5-53abc3aeba9f@arm.com>
+References: <20240325104111.3553712-1-boris.brezillon@collabora.com>
+ <20240325104111.3553712-2-boris.brezillon@collabora.com>
+ <d10e71ec-0c1f-4d32-b8f5-53abc3aeba9f@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,105 +64,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> On 25 Mar 2024, at 2:28=E2=80=AFpm, Steven Price =
-<steven.price@arm.com> wrote:
->=20
-> On 22/03/2024 16:45, Christian Hewitt wrote:
->> Increase the timeout value to prevent system logs on Amlogic boards =
-flooding
->> with power transition warnings:
->>=20
->> [   13.047638] panfrost ffe40000.gpu: shader power transition timeout
->> [   13.048674] panfrost ffe40000.gpu: l2 power transition timeout
->> [   13.937324] panfrost ffe40000.gpu: shader power transition timeout
->> [   13.938351] panfrost ffe40000.gpu: l2 power transition timeout
->> ...
->> [39829.506904] panfrost ffe40000.gpu: shader power transition timeout
->> [39829.507938] panfrost ffe40000.gpu: l2 power transition timeout
->> [39949.508369] panfrost ffe40000.gpu: shader power transition timeout
->> [39949.509405] panfrost ffe40000.gpu: l2 power transition timeout
->>=20
->> The 2000 value has been found through trial and error testing with =
-devices
->> using G52 and G31 GPUs.
->=20
-> How close to 2ms did you need in your trial and error testing? I'm
-> wondering if we should increase it further in case this might still
-> trigger occasionally?
+On Mon, 25 Mar 2024 11:17:24 +0000
+Steven Price <steven.price@arm.com> wrote:
 
-I backed it off progressively but still saw occasional messages at 1.6ms
-so padded it a little with 2ms, and those systems haven=E2=80=99t shown =
-errors
-since so I currently see it as a =E2=80=99safe=E2=80=99 value. The one =
-possible wildcard
-is testing with older T820/T628 boards; but that needs to wait until =
-I=E2=80=99m
-back home from a long trip and able to test them. The possible theory
-being that older/slower systems might require more time. Worst case =
-I=E2=80=99ll
-have to send another change.
+> On 25/03/2024 10:41, Boris Brezillon wrote:
+> > panthor_xxx_irq_suspend() doesn't mask the interrupts if drm_dev_unplug()
+> > has been called, which is always the case when our panthor_xxx_unplug()
+> > helpers are called. Fix that by introducing a panthor_xxx_unplug() helper
+> > that does what panthor_xxx_irq_suspend() except it does it
+> > unconditionally.
+> > 
+> > Fixes: 5fe909cae118 ("drm/panthor: Add the device logical block")
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > ---
+> > Found inadvertently while debugging another issue. I guess I managed to
+> > call rmmod during a PING and that led to the FW interrupt handler
+> > being executed after the device suspend happened.
+> > ---
+> >  drivers/gpu/drm/panthor/panthor_device.h | 8 ++++++++
+> >  drivers/gpu/drm/panthor/panthor_fw.c     | 2 +-
+> >  drivers/gpu/drm/panthor/panthor_gpu.c    | 2 +-
+> >  drivers/gpu/drm/panthor/panthor_mmu.c    | 2 +-
+> >  4 files changed, 11 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> > index 51c9d61b6796..ba43d5ea4e96 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_device.h
+> > +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> > @@ -321,6 +321,14 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
+> >  	return ret;										\
+> >  }												\
+> >  												\
+> > +static inline void panthor_ ## __name ## _irq_unplug(struct panthor_irq *pirq)			\
+> > +{												\
+> > +	pirq->mask = 0;										\
+> > +	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);					\
+> > +	synchronize_irq(pirq->irq);								\
+> > +	atomic_set(&pirq->suspended, true);							\
+> > +}												\
+> > +												\  
+> 
+> This does things in a different order to _irq_suspend, is there a good
+> reason?
+> I'd expect:
+> 
+> {
+> 	atomic_set(&pirq->suspended, true);
+> 	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);
+> 	synchronize_irq(pirq->irq);
+> 	pirq->mask = 0;
+> }
+> 
+> In particular I'm wondering if having the atomic_set after
+> synchronize_irq() could cause problems with an irq handler changing the
+> INT_MASK again (although AFAICT it should end up setting it to 0).
 
-> kbase seems to have a 5s (5000ms!) timeout before it will actually
-> complain. But equally it doesn't busy wait on the registers in the =
-same
-> way as panfrost, so the impact to the rest of the system of a long =
-wait
-> is less.
->=20
-> But 2ms doesn't sound an unreasonable timeout so:
->=20
-> Reviewed-by: Steven Price <steven.price@arm.com>
->=20
->> Fixes: 22aa1a209018 ("drm/panfrost: Really power off GPU cores in =
-panfrost_gpu_power_off()")
->> Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>> ---
->> drivers/gpu/drm/panfrost/panfrost_gpu.c | 6 +++---
->> 1 file changed, 3 insertions(+), 3 deletions(-)
->>=20
->> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c =
-b/drivers/gpu/drm/panfrost/panfrost_gpu.c
->> index 9063ce254642..fd8e44992184 100644
->> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
->> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
->> @@ -441,19 +441,19 @@ void panfrost_gpu_power_off(struct =
-panfrost_device *pfdev)
->>=20
->> gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present);
->> ret =3D readl_relaxed_poll_timeout(pfdev->iomem + SHADER_PWRTRANS_LO,
->> -  val, !val, 1, 1000);
->> +  val, !val, 1, 2000);
->> if (ret)
->> dev_err(pfdev->dev, "shader power transition timeout");
->>=20
->> gpu_write(pfdev, TILER_PWROFF_LO, pfdev->features.tiler_present);
->> ret =3D readl_relaxed_poll_timeout(pfdev->iomem + TILER_PWRTRANS_LO,
->> -  val, !val, 1, 1000);
->> +  val, !val, 1, 2000);
->> if (ret)
->> dev_err(pfdev->dev, "tiler power transition timeout");
->=20
-> As Angelo points out the tiler probably doesn't need such a long
-> timeout, but I can't see the harm in consistency so I'm happy with =
-this
-> change. If my memory of the hardware is correct then the tiler power =
-off
-> actually does very little and so I wouldn't expect it to take very =
-long.
+Hm, now that you mention it, I'm wondering if the ordering in
+_irq_suspend() is not problematic actually. If we set suspended=true
+before anything else in the __irq_suspend() path, and just after than,
+an interrupt kicks is. In that case, the hard irq handler will return
+IRQ_NONE even though the irqs are not masked (_INT_MASK not zero), which
+might lead to an interrupt flood (the interrupt is neither processed nor
+masked), which is probably recoverable on a multi-core system
+(_irq_suspend() should end up masking the interrupts at some point), but
+still not an ideal situation.
 
-I=E2=80=99ve seen tiler timeouts once I think and thus included it, but =
-not since
-the values were increased. As long as it=E2=80=99s acceptable I won=E2=80=99=
-t over-think
-it but if more testing is needed I can look at it more.
+Masking the interrupts, synchronizing, and finally flagging the IRQ as
+suspended sounds safer for both the suspend and unplug cases. What do
+you think?
 
+> 
+> Otherwise this change looks good.
+> 
+> Thanks,
+> 
 > Steve
->=20
->> gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present);
->> ret =3D readl_poll_timeout(pfdev->iomem + L2_PWRTRANS_LO,
->> -  val, !val, 0, 1000);
->> +  val, !val, 0, 2000);
->> if (ret)
->> dev_err(pfdev->dev, "l2 power transition timeout");
->> }
+> 
+> >  static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)			\
+> >  {												\
+> >  	int cookie;										\
+> > diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+> > index 33c87a59834e..7a9710a38c5f 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> > @@ -1128,7 +1128,7 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
+> >  
+> >  	/* Make sure the IRQ handler can be called after that point. */
+> >  	if (ptdev->fw->irq.irq)
+> > -		panthor_job_irq_suspend(&ptdev->fw->irq);
+> > +		panthor_job_irq_unplug(&ptdev->fw->irq);
+> >  
+> >  	panthor_fw_stop(ptdev);
+> >  
+> > diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> > index 6dbbc4cfbe7e..b84c5b650fd9 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> > @@ -174,7 +174,7 @@ void panthor_gpu_unplug(struct panthor_device *ptdev)
+> >  	unsigned long flags;
+> >  
+> >  	/* Make sure the IRQ handler is not running after that point. */
+> > -	panthor_gpu_irq_suspend(&ptdev->gpu->irq);
+> > +	panthor_gpu_irq_unplug(&ptdev->gpu->irq);
+> >  
+> >  	/* Wake-up all waiters. */
+> >  	spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
+> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > index fdd35249169f..1f333cdded0f 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > @@ -2622,7 +2622,7 @@ int panthor_vm_prepare_mapped_bos_resvs(struct drm_exec *exec, struct panthor_vm
+> >   */
+> >  void panthor_mmu_unplug(struct panthor_device *ptdev)
+> >  {
+> > -	panthor_mmu_irq_suspend(&ptdev->mmu->irq);
+> > +	panthor_mmu_irq_unplug(&ptdev->mmu->irq);
+> >  
+> >  	mutex_lock(&ptdev->mmu->as.slots_lock);
+> >  	for (u32 i = 0; i < ARRAY_SIZE(ptdev->mmu->as.slots); i++) {  
+> 
 
-Christian=
