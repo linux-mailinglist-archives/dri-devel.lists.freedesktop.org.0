@@ -2,58 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EB26889767
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 10:15:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6DC388976A
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 10:15:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C1A110E694;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C71EF10E699;
 	Mon, 25 Mar 2024 09:15:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=wolfvision.net header.i=@wolfvision.net header.b="uCoO2pUC";
+	dkim=pass (1024-bit key; unprotected) header.d=wolfvision.net header.i=@wolfvision.net header.b="1ZbiLPZt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR04-VI1-obe.outbound.protection.outlook.com
  (mail-vi1eur04on2091.outbound.protection.outlook.com [40.107.8.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29C9610E684
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB67A10E684
  for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 09:15:20 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lzbwe3kJv2qAerZzw9SwIs7SCZF6KPppjmoSWi9KsTHcAs+Z9Fproy993M/k3612Pn7dzfBSjDWKmkJyKQE4WKm3ES2luZrOhyoqFeEZJcvT8HB17DWx98t9H22XQxg9TGIJZyUqommJSfynd7y+dWfohIPr9/WjNUL4PDKJkJ/AlL9oopz90s0YL994/me2uPpfdR8HmwI45i2gN+MPov9q95k/o59pUPMIEoxaxmSNlie9upEZRA81mGBdA7ScE0bktCKW2de9r4+r+ptygLC3qF9p2VscB56KRME0/Xde7vnrOTxnjSsx8MruLqJLGe9ICOv4eDT8OUvK6zkijw==
+ b=kca5FMVFGiGgZybq9GUp/c1HQBJPGBKbda3HoHljNy4mAmRQgDMnIH/l5oQkZrF43Z6GIFfzNu3odb/3y4puYoPCFbKmOtABdEBlK6j4csTDd0EheCcL6YG+3+1+cYRGDYoABdaUiklW7rXUKhOYxCW86yYl/9Nj4Ba0xPBtu7U5BIfo90Uc3YVn75ymjih2nMiGkgifArXifCkxGTgWqh569sud8xfGy5BmKUtc2UPjqXt3qFMoMbVWl0QpoLQvG9qa9B1kCYd4M+g1+RyMkkpd9tFK+4PkyHB0CRmWP19Bw4IrN0sjyDDuiG9F+HqMiXnlDm8nHAeOa3KvAlqSeg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DvBYi8hO2l+d1pIbVcWJnnKCfvXq63E64DCxQAM1lZA=;
- b=A+K3A1yNU9HgXxLrzTU9FyE8Lm2yg+CX4aVqDxfJaBrzK9nJqu8p9Ud6HQ1xhquQPwkNGYbCCW+5HN5dSB7tBAbjGVUCvUhspK3bLP48ZTpWlxxIA+bL/G2BBNrcrngt8m21YVj5Ppz8Cmm7sPw5qmlfUTdrKmHk0Q3LHH5J++eBgy3LWzmeNbrEVMEdvEVPWCbrEd1D2rzbGp5aQKB3pydksbTeg3WTRqvnk9Zt6shUt/E3A/sHNKd4PWFJDrM5vf0CbMPmIDOZAayLdD32uIg1CkQC8uCVTzDaMmndMKuvm4f5sXtI+F7JniB7ZWctx37Ycad+CQbmOt6me20CdA==
+ bh=0unptSKVOO0S4Kk7tMMNkESSZKY0eEWlGryJtx3tiwA=;
+ b=Es1jypnz/nC/XQExUUdASJKfkL5KM9FXgjJhwSPp+Uv0rG/FOHFi4HbyTYLi5+hvNzXZ+voVf0Y6l23jsPPHBbIqi2vBZYEbk3tYDJMjsPD7Dlo8oZFfbdmEf6qiagzMZjhBE1lp4zCfHdrDuj9qN4hODWa2vIL+wdeog+IMSWc65VRX+DbnyRRM15e9NC5qmlIqKfhYCvCzuYlJSsBwxe0+6OMj/avIaB7S0zqVW9S9AS0KT/tZ2wPEpCWouJW3Lf9ETKuhD4iS24Yadp8B7n/ap2dmIQpDBcOzwK5qdv8F4A13t+kmhMhCX7z25Vwp1kcmQBHESbulXByKCCz3xw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wolfvision.net; dmarc=pass action=none
  header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DvBYi8hO2l+d1pIbVcWJnnKCfvXq63E64DCxQAM1lZA=;
- b=uCoO2pUCjMyouEHuhWTR40rX6g+mTnXwu73rNQZHR/L4aAdGf2HvdHDWlBjJtFx5oUTHpDPTk8Ji/yqn5j11yVMZeMTxmZz/E34dfiEU71z69RkdYBKuMrC/IG0AfKNNT2Eq2Ud2CzqlHAt9y5mNDO9C30sY7Ms4FTdunR8TO1M=
+ bh=0unptSKVOO0S4Kk7tMMNkESSZKY0eEWlGryJtx3tiwA=;
+ b=1ZbiLPZtU9rUJExJCc/7iz+fMu6EBsVHACqj1oSySqO/FrHju2LBQT9PzXLJ2JairVuSXMRLiK4gQZ9JWYdpJJNnhEDt/l1mtYvrjqXa1a8JzXv6z+trJA+AO76Z51gR+U4DmfVEvtCMWsCz0LocPdxawS4xieiCHXRmr0Vt5a8=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=wolfvision.net;
 Received: from VE1PR08MB4974.eurprd08.prod.outlook.com (2603:10a6:803:111::15)
  by GV1PR08MB9916.eurprd08.prod.outlook.com (2603:10a6:150:a6::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.31; Mon, 25 Mar
- 2024 09:15:16 +0000
+ 2024 09:15:17 +0000
 Received: from VE1PR08MB4974.eurprd08.prod.outlook.com
  ([fe80::9e35:6de9:e4fc:843f]) by VE1PR08MB4974.eurprd08.prod.outlook.com
  ([fe80::9e35:6de9:e4fc:843f%7]) with mapi id 15.20.7409.028; Mon, 25 Mar 2024
  09:15:16 +0000
 From: Javier Carrasco <javier.carrasco@wolfvision.net>
-Subject: [PATCH v8 0/8] usb: misc: onboard_hub: add support for XMOS
- XVF3500
-Date: Mon, 25 Mar 2024 10:15:10 +0100
-Message-Id: <20240325-onboard_xvf3500-v8-0-29e3f9222922@wolfvision.net>
+Date: Mon, 25 Mar 2024 10:15:11 +0100
+Subject: [PATCH v8 1/8] usb: misc: onboard_hub: use device supply names
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAJ5AAWYC/3XQTWrDMBAF4KsEresyI2kkuaveo4Si30ZQrCAHN
- yH47pXTRQx2l29gvnnMnY2x5jiyt8Od1TjlMZehBfNyYP5kh6/Y5dAy48AloICuDK7YGj6vUxI
- E0CkPUZuAaNGxtnWuMeXrQ/w4tnzK46XU2+PAhMv0f2vCDjpCR6I3EpR37z/lO/2Veh3ihS3gJ
- J4IB7VFREOSIQcSUSljdhG5QvhOE9mQ4FGh9p5CkLsIrRGzRaghWjkDlIJIUe0iao30W0Q1xIJ
- NifdSg4RdRD8RAbRF9IK0Do4gUi+2j53n+RctQtSQDAIAAA==
+Message-Id: <20240325-onboard_xvf3500-v8-1-29e3f9222922@wolfvision.net>
+References: <20240325-onboard_xvf3500-v8-0-29e3f9222922@wolfvision.net>
+In-Reply-To: <20240325-onboard_xvf3500-v8-0-29e3f9222922@wolfvision.net>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Rob Herring <robh+dt@kernel.org>, 
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
@@ -68,14 +64,13 @@ To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- Javier Carrasco <javier.carrasco@wolfvision.net>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ Javier Carrasco <javier.carrasco@wolfvision.net>
 X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1711358115; l=7048;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1711358115; l=5389;
  i=javier.carrasco@wolfvision.net; s=20240320; h=from:subject:message-id;
- bh=iJW1loYbFNUDu87doTkXh8CuGto0mxNK9GLqvCLtJmk=;
- b=96P2LEv7CFFFuxh/0Q83mWBktDCEYvPUiiAqtggXYkOGL4rpXtD582zOJz0ywOkJDrqX3cKBU
- rXgPFkxRA4tCgH1S+mlmlHTjMoVDgqzHVdANSvvJqo2mbcoUMRC/nD0
+ bh=5T1dMaMd0xvmCl7kbx41CmuaabqecJXOCCXIkTtVHnw=;
+ b=RztiE2W9TaJhdvr9b38KGlqCRigEJsZuQil+WxdfK/krctVX7/dkxX4/ZRXPg267hC2PYJpgc
+ 6/EqR1nRGSLDiWJHpjohyTtkmLjrdw8qK8yADxTnLg8wEMPmDQ5+byH
 X-Developer-Key: i=javier.carrasco@wolfvision.net; a=ed25519;
  pk=Vxk2/0sGIxM8rsKnceszFuSuHVfQwa1Yo8+is7BX2nY=
 X-ClientProxiedBy: VI1PR08CA0223.eurprd08.prod.outlook.com
@@ -84,62 +79,62 @@ X-ClientProxiedBy: VI1PR08CA0223.eurprd08.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: VE1PR08MB4974:EE_|GV1PR08MB9916:EE_
-X-MS-Office365-Filtering-Correlation-Id: e6fb4a75-d361-4aeb-c42a-08dc4cac15bd
+X-MS-Office365-Filtering-Correlation-Id: 42f82731-cc28-4319-5271-08dc4cac1607
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4WeZoG/Qo9rSnxQMTIVhWH7CpM5jIBAHiQzdCPXfxKsWFEb+HZYME0F9uSgEjNMe/RVWsTu5i289KUv4RBe/JbogmUKKG3wGyTb6vgIVC8zcZTkvJromEWEbX7KLHEYQEH07gIVt8/WCD07VsVZYS/aZ++oatgzFBD8fhvVWCjAVxfxUnv+MXTFfh5LP2qRwRzS/iQYqqR/uJDRGxeUPwng514MZWk1CV62Xt8YvALPUMzGEnppOs3TCofNsIDT2YVMYnc119v2ftVYFseqMQZDbUAQUtpG1TBPXG88vqBmFaO0dkivsEyZPuSoCOIi2OEdmxaVaLwJ4EQQJby2u9rWaTrNkF8tpR1qz7aCiwBxzSjfoAexQFvwubfDvrQd3GCIgkphn39ivttVRIs0hXybEwNtjUKCCh9OhkJOizqAgG1pzS0VXewYpgy6ukX/B3XwYQ1jzvFZkcP97pn1ugtbkQZJe8A3mD7wEQc9jUdtGb2ljsrOpScY1ZeLt62ScbPZ0BV6sRFU4bJEXunCTXcIPg/FQ1mN2CzJ6eo+T6uCGHtc1GmOmQBOf7+yz77/drDcaqJOKGz7jrrqFVjI+hUTadzOxfTRt330G77bR+6DDjBg3FKBAeWvWdl/raPrqnvfIVf/nQ9aCukiSBobhZrrQDGQ4VvQuWoevdzGRdaFjcQ44aR2mAL4YRL1ceLw2
+X-Microsoft-Antispam-Message-Info: qX3cckL0zv0ji2df3DGq7zZGtMKp6M6PFbP4ioqGM5dE0PVf8n8wEjjjNjAJJOtDRujwnPICejcH1mPQQNXqhB2tH96jr1ZR0QQxjYS+apeNjXRO71W48nQOnJe7b5WagLPM/GcG0aG6M/wD/A6hdaJxDrYkcXPTXQpGMot6CxRGx/hGbzq2Cvw35m6KO4+iULE0zuKCEtwLEY2029T7It8qfsAFpTPrTV5KQbPKAqaQY6ypJNMEG3vZPuNpXXUlDmfO9KrenwBuP3H8/kYhox8xSJL6Kx23A/qM/eS2iXoFza0xuL44uWw82Se1dGBFkSyIOxswlKyIIKKDHoc35vZppH9dQ3kO31NzNV88x9dtzwU4zsU54rsk5Xtykwhv+9LGeXNMS3cFSBwPlnB8ozwg1udeBOqCfxKLpjJNbB0AE+K+oPzZSrwKq2DKyQqzVn1Ajztg2hdwy71eTPPtPN+0UEX8cko+GGGfWnSEOCRPkNSfAtYMghGplISxpeAJ1BkZM49nr3uHGArtoRIv9kSrftAmLEBpoBNEy5AdnxLuPN2dYDN+681XVSt+njNizBa/pIp0HkMSE7igcLigY6M1/LJQ0bdZqXPNFved7rn/zPX12dO0l8JYgWILZsThT4KamzVbSuXPpeyR4rGlAZrxVMN+zn1OCoCcVboaf2v5qm0q9wbXfXmj0MUYEQrHR8F/OjEUlQS1LErpVyc8FlRNzIUF1ylcOXcKKvAUU9Y=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VE1PR08MB4974.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230031)(1800799015)(52116005)(7416005)(376005)(366007)(921011)(38350700005);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R3dxd1NCREFoL09JYjZaN1dNamsweEI1cFBVUlhWNXJ6QjJjWmRZTHZ6bWU5?=
- =?utf-8?B?ejlZR3llK0Rpbmx4aUVHLzI3cTBERVo0UDJ3a1grY0Q5RzI1QmFGSWpoMkpw?=
- =?utf-8?B?dVZEQUVub1FyTUd0TFZmVXFaQXNxM1JzR0hvei9pSVExbW9lNEZHQWRoVlVE?=
- =?utf-8?B?ZHRmNDA5YzljSjdNdVVwU1U5MFk3a2JDUDIzRmtZYkI0QStZS2cxTkFsd0JU?=
- =?utf-8?B?RFFDSWw5eTU5VGFqRjFJMWFFMnBjcThXWGo5OEV3YmhlcjNuOWlSRFgwN2Zv?=
- =?utf-8?B?UEgwRDVTVlF1TURnZkIzRTJSbXg3L0M0aFFYM0VWTTdCTHk2TlVpOUl4Tmhv?=
- =?utf-8?B?dllmYjBBQUpWZ0E5Vm5zL3UzaTNHNHhkL3VqQ1VJdnhTV2hoN3IwOWY4K3N2?=
- =?utf-8?B?d2hxK0FVNHg5dXg2T1VXT2Q3bkhGeDZVUm43Qi94dERvL1BZa1hFeEFJZ3E5?=
- =?utf-8?B?eU5GNThGYXBsU2JZdlN5S2lPa3UyME9BVlh3SE1RdlFSNENidGRFbTZtcC9E?=
- =?utf-8?B?RXRBbUlraURrb1hLNmZIcEp2b29QeUpOVm9lRDRMWUh4amNkM1pSSGNkM2Nj?=
- =?utf-8?B?TzFCYmwyb05YOG5BRm44blg1U1o0OHpIWmF0Umh1aXFwQ2Z4M1Mybm15SHVD?=
- =?utf-8?B?ZWtPZElINmFRak90WFM3YlUraFowTVBwU0NnWXlOTXkvcXFNV2Vva0xYd1JO?=
- =?utf-8?B?UGxYUUhMano3dXM1c2pYdDRWeHM4dWpaMEZoWGFONnhZZDBWa21GdUtHZEZM?=
- =?utf-8?B?UWJvUTRvY3RqMHk3TytJSDJPWW9IdGVIUFR1Ly8vRm5rRU5ZeXZxQTE0Q3ZN?=
- =?utf-8?B?QmN1c3Urb0tvUXV5MVRXME9rN0pPbHVHT0c2d0hhKzVYL2pzajBVZ0tIYnh1?=
- =?utf-8?B?NkRYc0ZEWWlhclhEVjlUVHlwUm42OFdzQ0ZkWDJNR1BPR1pHb2tqTUdOaCtT?=
- =?utf-8?B?KzlQb3J6b29mdm1Dd05wcjFlb0JoUnVMYTFNaHRHTGViWGU0Ulhid0pBSlJ1?=
- =?utf-8?B?ZlhwYzRnV3BTQTF3V2N3aXhHQnkzSXFxNDRwZm0yNDBsNEZ5cVIva0cxSnR4?=
- =?utf-8?B?b0VjUHFUanRzbHpZNlI2ODdSZFhaaEFCYmM0TzZLOVhZdm5hdVVaTFVDekJl?=
- =?utf-8?B?cTRtOGhDQjhRREc5aUw5OUZVZUdMMUFPSTBKVXAyMDAvQUZIenVrbFR0TVFN?=
- =?utf-8?B?ZmZ6K3BKaFg3ajFQb0VVVHhleDNaSXhobnFuS2dObmpWZnUxWXVsVnQyMWVY?=
- =?utf-8?B?TUdUOHRJNFpWZUVwTHdtek9kb3NsRDZleDdKSElOc0g3cU9mQjdyc0IrbjNR?=
- =?utf-8?B?bGFwdnJhRDA4R3FqU3RXczNKU0pGWU1LTEF1dVVTVEVaejVMMlVvYVhScHdS?=
- =?utf-8?B?R0toczBCa3pjaFJDQlVXSEtpWlFqUXNtMWZCdWs1NE85cHFQK2tsNVk5UXlo?=
- =?utf-8?B?dEZtblJRQUF0WHU5TEU5K2pHa1FGclhMT1ZKQWxUZWFVaCtjd0dldmo3aWlV?=
- =?utf-8?B?U0tialU5ZXFtSXdBZ1d5ZldwV0NJZWJDWmRMTmpuM3hpdUEyQ3BHc3dSRkZB?=
- =?utf-8?B?VExCVXY3TEFZKzZ1WVMwVVB1YVk4VEFmWll2NWxsMEp0M2ZBSkxoMFVlWUJF?=
- =?utf-8?B?Y2tFdGxRN3lDSHhNMTBQa09lKzdVdm9MbzRjYmtQSGpQRXNuTWxBOHlxSWQ3?=
- =?utf-8?B?K09RaFlQQWlHTEMzRmRZU2gyREhjWkdSclAvdnJDcHk5RW94N1h0QTY1Y0Z4?=
- =?utf-8?B?SGk3SGk1NlJjNGxadi9CYVNmemZJRG1zcEJTV0ZoWXpESzRROWQrUE5oVVRO?=
- =?utf-8?B?Wlc2ZTdHMHhWcU5jWFV4aW02T0dhNmhiZVY2d0Z2RS93dFhYQXl2L0xXanJl?=
- =?utf-8?B?Q0J4c3dYbDN3M3NsMWFMNkJXclNsRmYzU2ZrbDJyTGRVNHBWWUY0anhRMWsw?=
- =?utf-8?B?OXRkWlRzVjdPUGIyUHREYUlZTXpFa1VuVzVMc2xPMmFrSDlWZ2xrMmdxdW9w?=
- =?utf-8?B?bzdVTGdFU1czQUI0TVptNkV2NGNVUG9pZURxVHdNbHBpZ2Z6cEJMbVNWOVdj?=
- =?utf-8?B?YjI0YUQzVzQxbEFWRTFYN1c5djQwcTNYSWhJekVIYnAwK3UvU29SY1RUUUJG?=
- =?utf-8?B?SFcxY21OT210cm9YU09KYUljM3g1YkFrckhDTWwxN3h5d3ZuTmdPa1pOaGJt?=
- =?utf-8?Q?EWmPo//Lc611B88UpQ4CSoo=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RmRMTTM0UVNUeFJxL1lEWjJ2YVh2ZnhLdklrdm1Ib0Q5d1M2U0FIZTRtenoy?=
+ =?utf-8?B?N1plR2NJU2U2VlZmdTcrVlI3MXVNT1p5akV1YlVwL1p3ZGV2N0dUK0gzZmMy?=
+ =?utf-8?B?ZXZ3YXFxQVEzUlV1c2VrTW1pcGJMSHdGblNSelhJTHdjMXZKajJoSDhuQU9t?=
+ =?utf-8?B?c3phaEl0YkFaZTlBY0I1ekVLRVhKWDVGcUdUSE1EZjVkWmZUK1g2NlUzWUEx?=
+ =?utf-8?B?b2tQVjEzOHZPelNaZVRvU0ozZHdZSlBCMUJ0bUlNT2c0L012ZFU2b2VsOExR?=
+ =?utf-8?B?cFpOVW1zcWd3Q2tTc2V5dGQ4czFxcVpvTWhpWDBFbjRDTHdZT3pWLzlJcE53?=
+ =?utf-8?B?NXVNZUJyODRVanU5OHBXM2dQSzh6QWFrUmRCQmRNWWlwQnlIcjRRS2JjM2N1?=
+ =?utf-8?B?SnBYZFZXdStpTWFSajcrSU4relZrSlZDQnE2Ni9CdWxTUU1RdHFTNVdkUExI?=
+ =?utf-8?B?MUt6dTZWRU1CdkNZNDdtYlMvd3pBTkpZU3BlZm9lNy9nTVMvWFB6cW1qeWJG?=
+ =?utf-8?B?TlF1M2VRc2paNnZOaG1OTEpmcTQrZTFVZlh0V2NOUkkwV280Mjdkais5QzFE?=
+ =?utf-8?B?ZzNUMS96aUdVZ2xiako2ckljalB4a0syR0U5aGZrbXdDTnZCb3p1Y1BNRFJl?=
+ =?utf-8?B?NkRjeitib0lvc1ZIY2hYT3IwS09yekw3bVZGTGVlOU1sTXF6K2drM1M1MXBi?=
+ =?utf-8?B?MFhvcVBHT2Y3bXFmZnF3cGhGUDd1OG9Wc1NYY2EramJ4a2ZYOGZhSVhpbWp1?=
+ =?utf-8?B?U2dsY09IK1EyaVU0RkN5ZHVlc2xTbTlrcUh1d0VQZFBkUllrbmlIaXJMQi9Y?=
+ =?utf-8?B?L1BKdkxyV3FzWS9IbzhaTCtwZEx5bFkyeFRESGUrcndzK056TmR2SzRBVGhP?=
+ =?utf-8?B?ZDVSbWFXQ1BZeGE2T3FaUzVxSnZxVUUycGZZVmY0ZGgzKzVSdzVTMDVVbzZz?=
+ =?utf-8?B?Wk9sVGZEMEFXV3ZXZFRDSjlMTGZZZkpySGdKTllmT1pwNHpNSU85cTZObE9t?=
+ =?utf-8?B?eHNUOG9HMURiT1V4SzhKSGpvQm95ZVlmS2VHMDd1MkQ5RmJYT2hjR1cvZnhH?=
+ =?utf-8?B?QWFKa0VtemhVZDhPUWd6aWNOOU5tZmlWQTNxVi9jdmdMbEtiOWFKTVdTcFpy?=
+ =?utf-8?B?ZFRKekpLZ0dweHdwc3VJZ0dKWFRtVFN2Sm9XNVBkSHlJUGNLSzduZTdmV0JX?=
+ =?utf-8?B?L2RlMUpGVENacDBRTmU2SUN4N2JsbTZiUWgwYVpDVkdwYmNxUngzc2I1MU15?=
+ =?utf-8?B?clZIam9CMFdLcTZEazBQRG93eGNMYnhnTEdJWTZoUnFtc1VpVXJQbmQwWXhY?=
+ =?utf-8?B?QzZqR1EzbWNZSmJaQnBKQTA1VUo5SlI1RkJPUnBQSFJKWjRRaXBtS1RwU0NQ?=
+ =?utf-8?B?NDF6WlJzMXdMejU3TXdaNW9CVnArVXIxa1huaFBmRGFmUldhdnFCM1BxMlox?=
+ =?utf-8?B?Z0hiMnUwYXNhaWhobFFiSUZYc0FJTXRaSGFGQ25OTkw2Wi9BQ3hnWVhTK1FR?=
+ =?utf-8?B?TTBoMm9xZzJGdUZwcHNpUXdvcjR2am1GTDk0aHFCN0FNaDJXeUd5YnVOVmI1?=
+ =?utf-8?B?UHFlUW1sRHRoYlZiVlFoSkhpT3ZFcVVIVG90NjZ4TG50VXhWTE9UQm01elMy?=
+ =?utf-8?B?TlZVODdXYkxsVkpyQWFRSXE5eGtzOUR0ckxWeXk3YURzWEY3Y2ptZElQcUdO?=
+ =?utf-8?B?YjkyaEpZeDVhZGlSZXlJcXdtZVlkbjBBeGJnb2g1Y0ErZFFTcUxDMFdoZmNv?=
+ =?utf-8?B?dXhHaFB6WVRSUDFLYlFMcGw3SlZkSUdKOXFEeEExSWNTUGVaV2dwc0E0c0xh?=
+ =?utf-8?B?NWZPMlhUQnU5ekY2cEhxSFBpZVRleGllNkFJQ29MN1FRelROWmhIQkFXanh6?=
+ =?utf-8?B?clFqNUxCWGZTQVAyNkhQWjdHa3QxeUw3bnJlUE9tQ2JWV1dGcWpZU0FGNHRC?=
+ =?utf-8?B?Q0tWVVFkaE5COTg0VElNb1JDQjQzbU1jNERHcVM3aVVqVU5VYkkrdE90TDFY?=
+ =?utf-8?B?MG5FdDRrL2JGaXk4b2tudEtyVFFGUGx2dXUvT0RKMjNvb3NOR3FhajNIREVN?=
+ =?utf-8?B?RzMvTE5MSVRUeFdGUDhTMU5kbUVwZEhsM2VYa1lGYU9PZkhXc3hndVBTd1Nu?=
+ =?utf-8?B?T05mQTBBY3d2b3JGcTIzQ0VZTnFybXUrYTZuVHlzN3ZXMi9iR0tCMWRrREUx?=
+ =?utf-8?Q?XSmNl69ciVaHgOnpTyq69lA=3D?=
 X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6fb4a75-d361-4aeb-c42a-08dc4cac15bd
+X-MS-Exchange-CrossTenant-Network-Message-Id: 42f82731-cc28-4319-5271-08dc4cac1607
 X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4974.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2024 09:15:16.3553 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2024 09:15:16.9120 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Iq2cwxp5RGKNki3fkcHmH4s+UPQ87zc69Moe93UL8aPLdsgPBpZ04HGnsZudYuxYTkOX4Q/iOPDYaAlgkFYx+blRkQw5chlIIyiRb6b9fcI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: XuCwcZe4mYFUa/BBIgU9fufm5z+9Tz1cD838gvHGdl+/YxfuKIA10OlENUAFjKvPdkEDv9TPQXbWzqSbF+MvS3N6rpC1E4IOxHRs1uAHvdM=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB9916
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -156,154 +151,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Note: This series could not be completely applied due to conflicts
-upstream (TI TUSB8020 was added), and a rebase to the next -rc1 was
-suggested. The series is therefore identical to the previous
-version (v7), but taking into account the new hub. The first patch
-of the series has already been applied and it is not included anymore.
+The current implementation uses generic names for the power supplies,
+which conflicts with proper name definitions in the device bindings.
 
-This series adds support for the XMOS XVF3500 VocalFusion Voice
-Processor[1], a low-latency, 32-bit multicore controller for voice
-processing.
+Add a per-device property to include real supply names and keep generic
+names for existing devices to keep backward compatibility.
 
-The XVF3500 requires a specific power sequence, which consists of
-enabling the regulators that control the 3V3 and 1V0 device supplies,
-and a reset de-assertion after a delay of at least 100ns. Once in normal
-operation, the XVF3500 registers itself as a regular USB device and no
-device-specific management is required.
-
-The power management provided by onboard_usb_hub is not specific for hubs
-and any other USB device with the same power sequence could profit from
-that driver, provided that the device does not have any specific
-requirements beyond the power management. To account for non-hub devices,
-the driver has been renamed and an extra flag has been added to identify
-hubs and provide their specific functionality.
-
-Support for device-specific power suply names has also been added, keeping
-generic names for already supported devices to keep backwards
-compatibility.
-
-The references to onboard_usb_hub in the core and config files have been
-updated as well.
-
-The diff is way much bulkier than the actual code addition because of the
-file renaming, so in order to ease reviews and catch hub-specific code
-that might still affect non-hub devices, the complete renaming was moved
-to a single commit.
-
-This series has been tested with a Rockchip-based SoC and an XMOS
-XVF3500-FB167-C.
-
-[1] https://www.xmos.com/xvf3500/
-
-To: Liam Girdwood <lgirdwood@gmail.com>
-To: Mark Brown <broonie@kernel.org>
-To: Rob Herring <robh+dt@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-To: Conor Dooley <conor+dt@kernel.org>
-To: Matthias Kaehlcke <mka@chromium.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Helen Koike <helen.koike@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-To: David Airlie <airlied@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-To: Catalin Marinas <catalin.marinas@arm.com>
-To: Will Deacon <will@kernel.org>
-To: Russell King <linux@armlinux.org.uk>
-Cc: linux-sound@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-usb@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-arm-kernel@lists.infradead.org
+Acked-by: Matthias Kaehlcke <mka@chromium.org>
 Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
-
-Changes in v8:
-- General: rebase to rc1 to solve conflicts upstream (new hubs).
-- PATCH 1/9: remove (already applied).
-- Link to v7: https://lore.kernel.org/r/20240305-onboard_xvf3500-v7-0-ad3fb50e593b@wolfvision.net
-
-Changes in v7:
-- onboard_usb_dev.c: drop comment for is_hub field.
-- Link to v6: https://lore.kernel.org/r/20240229-onboard_xvf3500-v6-0-a0aff2947040@wolfvision.net
-
-Changes in v6:
-- onboard_usb_hub.c: use dev pointer in probe consistently (new patch).
-- onboard_usb_hub.c: rename get_regulator_bulk function to
-  get_regulators and only pass onboard_hub (hub in probe) as argument.
-- onboard_usb_hub.c: drop file after renaming.
-- onboard_usb_dev.c: improve device descriptions in usb_device_id table.
-- onboard_usb_dev.c: keep non-hub devices powered on in suspend.
-- General: update commit messages (use usb_hub_dev after renaming).
-- Link to v5: https://lore.kernel.org/r/20240228-onboard_xvf3500-v5-0-76b805fd3fe6@wolfvision.net
-
-Changes in v5:
-- onboard_usb_dev: move device supply names handling to [1/8].
-- onboard_usb_dev.c: make always_powered_in_suspend not visible for
-  non-hub devices.
-- onboard_usb_dev.c: move is_hub check in suspend() to function entry.
-- onboard_usb_dev_pdevs.c: comment rephrasing to account for
-  hub-specific attribute.
-- Link to v4: https://lore.kernel.org/r/20240220-onboard_xvf3500-v4-0-dc1617cc5dd4@wolfvision.net
-
-Changes in v4:
-- General: use device supply names and generics as fallback.
-- onbord_usb_dev.c: fix suspend callback for non-hub devices.
-- onboard_usb_dev.c: fix typos.
-
-- Link to v3: https://lore.kernel.org/r/20240206-onboard_xvf3500-v3-0-f85b04116688@wolfvision.net
-
-Changes in v3:
-- onboard_usb_hub: rename to onboard_usb_dev to include non-hub devices.
-- onboard_hub_dev: add flag to identify hubs and provide their extra
-  functionality.
-- dt-bindings: add reference to usb-device.yaml and usb node in the
-  example.
-- dt-bindings: generic node name.
-- Link to v2: https://lore.kernel.org/r/20240130-onboard_xvf3500-v1-0-51b5398406cb@wolfvision.net
-
-Changes in v2:
-- general: add support in onboard_usb_hub instead of using a dedicated
-  driver.
-- dt-bindings: use generic usb-device compatible ("usbVID,PID").
-- Link to v1: https://lore.kernel.org/all/20240115-feature-xvf3500_driver-v1-0-ed9cfb48bb85@wolfvision.net/
-
 ---
-Javier Carrasco (8):
-      usb: misc: onboard_hub: use device supply names
-      usb: misc: onboard_hub: rename to onboard_dev
-      drm: ci: arm64.config: update ONBOARD_USB_HUB to ONBOARD_USB_DEV
-      arm64: defconfig: update ONBOARD_USB_HUB to ONBOARD_USB_DEV
-      ARM: multi_v7_defconfig: update ONBOARD_USB_HUB to ONBOAD_USB_DEV
-      usb: misc: onboard_dev: add support for non-hub devices
-      ASoC: dt-bindings: xmos,xvf3500: add XMOS XVF3500 voice processor
-      usb: misc: onboard_dev: add support for XMOS XVF3500
+ drivers/usb/misc/onboard_usb_hub.c | 49 ++++++++++++++++++++------------------
+ drivers/usb/misc/onboard_usb_hub.h | 13 ++++++++++
+ 2 files changed, 39 insertions(+), 23 deletions(-)
 
- ...-usb-hub => sysfs-bus-platform-onboard-usb-dev} |   3 +-
- .../devicetree/bindings/sound/xmos,xvf3500.yaml    |  63 +++
- MAINTAINERS                                        |   4 +-
- arch/arm/configs/multi_v7_defconfig                |   2 +-
- arch/arm64/configs/defconfig                       |   2 +-
- drivers/gpu/drm/ci/arm64.config                    |   4 +-
- drivers/usb/core/Makefile                          |   4 +-
- drivers/usb/core/hub.c                             |   8 +-
- drivers/usb/core/hub.h                             |   2 +-
- drivers/usb/misc/Kconfig                           |  16 +-
- drivers/usb/misc/Makefile                          |   2 +-
- drivers/usb/misc/onboard_usb_dev.c                 | 546 +++++++++++++++++++++
- .../misc/{onboard_usb_hub.h => onboard_usb_dev.h}  |  62 ++-
- ...ard_usb_hub_pdevs.c => onboard_usb_dev_pdevs.c} |  47 +-
- drivers/usb/misc/onboard_usb_hub.c                 | 503 -------------------
- include/linux/usb/onboard_dev.h                    |  18 +
- include/linux/usb/onboard_hub.h                    |  18 -
- 17 files changed, 722 insertions(+), 582 deletions(-)
----
-base-commit: 4cece764965020c22cff7665b18a012006359095
-change-id: 20240130-onboard_xvf3500-6c0e78d11a1b
+diff --git a/drivers/usb/misc/onboard_usb_hub.c b/drivers/usb/misc/onboard_usb_hub.c
+index c6101ed2d9d4..5308c54aaabe 100644
+--- a/drivers/usb/misc/onboard_usb_hub.c
++++ b/drivers/usb/misc/onboard_usb_hub.c
+@@ -29,17 +29,6 @@
+ 
+ #include "onboard_usb_hub.h"
+ 
+-/*
+- * Use generic names, as the actual names might differ between hubs. If a new
+- * hub requires more than the currently supported supplies, add a new one here.
+- */
+-static const char * const supply_names[] = {
+-	"vdd",
+-	"vdd2",
+-};
+-
+-#define MAX_SUPPLIES ARRAY_SIZE(supply_names)
+-
+ static void onboard_hub_attach_usb_driver(struct work_struct *work);
+ 
+ static struct usb_device_driver onboard_hub_usbdev_driver;
+@@ -65,6 +54,29 @@ struct onboard_hub {
+ 	struct clk *clk;
+ };
+ 
++static int onboard_hub_get_regulators(struct onboard_hub *hub)
++{
++	const char * const *supply_names = hub->pdata->supply_names;
++	unsigned int num_supplies = hub->pdata->num_supplies;
++	struct device *dev = hub->dev;
++	unsigned int i;
++	int err;
++
++	if (num_supplies > MAX_SUPPLIES)
++		return dev_err_probe(dev, -EINVAL, "max %d supplies supported!\n",
++				     MAX_SUPPLIES);
++
++	for (i = 0; i < num_supplies; i++)
++		hub->supplies[i].supply = supply_names[i];
++
++	err = devm_regulator_bulk_get(dev, num_supplies, hub->supplies);
++	if (err)
++		dev_err(dev, "Failed to get regulator supplies: %pe\n",
++			ERR_PTR(err));
++
++	return err;
++}
++
+ static int onboard_hub_power_on(struct onboard_hub *hub)
+ {
+ 	int err;
+@@ -253,7 +265,6 @@ static int onboard_hub_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+ 	struct onboard_hub *hub;
+-	unsigned int i;
+ 	int err;
+ 
+ 	hub = devm_kzalloc(dev, sizeof(*hub), GFP_KERNEL);
+@@ -264,18 +275,11 @@ static int onboard_hub_probe(struct platform_device *pdev)
+ 	if (!hub->pdata)
+ 		return -EINVAL;
+ 
+-	if (hub->pdata->num_supplies > MAX_SUPPLIES)
+-		return dev_err_probe(dev, -EINVAL, "max %zu supplies supported!\n",
+-				     MAX_SUPPLIES);
+-
+-	for (i = 0; i < hub->pdata->num_supplies; i++)
+-		hub->supplies[i].supply = supply_names[i];
++	hub->dev = dev;
+ 
+-	err = devm_regulator_bulk_get(dev, hub->pdata->num_supplies, hub->supplies);
+-	if (err) {
+-		dev_err(dev, "Failed to get regulator supplies: %pe\n", ERR_PTR(err));
++	err = onboard_hub_get_regulators(hub);
++	if (err)
+ 		return err;
+-	}
+ 
+ 	hub->clk = devm_clk_get_optional(dev, NULL);
+ 	if (IS_ERR(hub->clk))
+@@ -286,7 +290,6 @@ static int onboard_hub_probe(struct platform_device *pdev)
+ 	if (IS_ERR(hub->reset_gpio))
+ 		return dev_err_probe(dev, PTR_ERR(hub->reset_gpio), "failed to get reset GPIO\n");
+ 
+-	hub->dev = dev;
+ 	mutex_init(&hub->lock);
+ 	INIT_LIST_HEAD(&hub->udev_list);
+ 
+diff --git a/drivers/usb/misc/onboard_usb_hub.h b/drivers/usb/misc/onboard_usb_hub.h
+index b4b15d45f84d..edbca8aa6ea0 100644
+--- a/drivers/usb/misc/onboard_usb_hub.h
++++ b/drivers/usb/misc/onboard_usb_hub.h
+@@ -6,59 +6,72 @@
+ #ifndef _USB_MISC_ONBOARD_USB_HUB_H
+ #define _USB_MISC_ONBOARD_USB_HUB_H
+ 
++#define MAX_SUPPLIES 2
++
+ struct onboard_hub_pdata {
+ 	unsigned long reset_us;		/* reset pulse width in us */
+ 	unsigned int num_supplies;	/* number of supplies */
++	const char * const supply_names[MAX_SUPPLIES];
+ };
+ 
+ static const struct onboard_hub_pdata microchip_usb424_data = {
+ 	.reset_us = 1,
+ 	.num_supplies = 1,
++	.supply_names = { "vdd" },
+ };
+ 
+ static const struct onboard_hub_pdata microchip_usb5744_data = {
+ 	.reset_us = 0,
+ 	.num_supplies = 2,
++	.supply_names = { "vdd", "vdd2" },
+ };
+ 
+ static const struct onboard_hub_pdata realtek_rts5411_data = {
+ 	.reset_us = 0,
+ 	.num_supplies = 1,
++	.supply_names = { "vdd" },
+ };
+ 
+ static const struct onboard_hub_pdata ti_tusb8020b_data = {
+ 	.reset_us = 3000,
+ 	.num_supplies = 1,
++	.supply_names = { "vdd" },
+ };
+ 
+ static const struct onboard_hub_pdata ti_tusb8041_data = {
+ 	.reset_us = 3000,
+ 	.num_supplies = 1,
++	.supply_names = { "vdd" },
+ };
+ 
+ static const struct onboard_hub_pdata cypress_hx3_data = {
+ 	.reset_us = 10000,
+ 	.num_supplies = 2,
++	.supply_names = { "vdd", "vdd2" },
+ };
+ 
+ static const struct onboard_hub_pdata cypress_hx2vl_data = {
+ 	.reset_us = 1,
+ 	.num_supplies = 1,
++	.supply_names = { "vdd" },
+ };
+ 
+ static const struct onboard_hub_pdata genesys_gl850g_data = {
+ 	.reset_us = 3,
+ 	.num_supplies = 1,
++	.supply_names = { "vdd" },
+ };
+ 
+ static const struct onboard_hub_pdata genesys_gl852g_data = {
+ 	.reset_us = 50,
+ 	.num_supplies = 1,
++	.supply_names = { "vdd" },
+ };
+ 
+ static const struct onboard_hub_pdata vialab_vl817_data = {
+ 	.reset_us = 10,
+ 	.num_supplies = 1,
++	.supply_names = { "vdd" },
+ };
+ 
+ static const struct of_device_id onboard_hub_match[] = {
 
-Best regards,
 -- 
-Javier Carrasco <javier.carrasco@wolfvision.net>
+2.40.1
 
