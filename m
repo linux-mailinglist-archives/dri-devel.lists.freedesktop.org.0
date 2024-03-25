@@ -2,80 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15675889AD3
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 11:36:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A83B889AFC
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 11:41:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6219B10E740;
-	Mon, 25 Mar 2024 10:36:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DDB710E73A;
+	Mon, 25 Mar 2024 10:41:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="JdvISq2X";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="D83l66Sm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
- [209.85.208.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3698010E73F
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 10:36:19 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id
- 4fb4d7f45d1cf-56845954ffeso5676290a12.2
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 03:36:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711362977; x=1711967777; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MzqGDlYO53VtpNTfk9/2jQSIhaYzka5q6tmocMJNTUk=;
- b=JdvISq2XCcJNpSChbqyRZiuIyJAZ2ZkSqLshiqsQehUb9XWXjdoeSIxsmfrJlyTb1z
- MYRdnmusuZm3Ne/rrMVpqMMeFKqhlqg5vdQlKZsg8IqQA92QBwTV3a9og6ASvbCCGuiy
- TaZrSk6u4cBez30EOzVkHTrL1am/3zSLhjJfnWtzktj7xgW9zpPaMVmU8VYFOA84lt3r
- 3r9wdi8lA9x+bZHAZh7VROHPmOWrod8dcW3oMzuT1kKgRHBmdjjfLZZNJtGMfGHjSZG1
- H0blzoPMC2rxbhJzaY2gkSBTs7oLmqq6zOGCsZqjYlY7dMLXpfr6JSjEck+zRGcDXJsJ
- 7LiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711362977; x=1711967777;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MzqGDlYO53VtpNTfk9/2jQSIhaYzka5q6tmocMJNTUk=;
- b=IGzf/UeLs8BzB8ZR2F3vgnXTnDOh84y5VuIu80o+MpY9i/cOvF1rThsuGk/QkAyXy8
- aNnPURMWp5zrWFygFfRUgbOxa3epqIejnwfpnWTbJq/Pzb8wd+CmaAI5GMuhpOFpyskg
- wH8KjcEakU6ljH49jIXp5oZHiphLupRjZWTcYLMsP/eIc2D6iYYpMOoqAwRY0XbzUa8p
- 6WljE3XvnUsEnXzJYh7T59KJGoWmOZbEgm2DHqVRut7RyyLbQG1U/8RBpRyEnZ++RYZP
- gLYTeQsVPbJ7YHsKI+pQW0RC/v1fDLASn9YssDKp2PMewYukbYKxofXosEzktgppjxuE
- qT+A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUBZ5B3/bAgRdOBsw8IjeSW8AcNs9/HMerNv0hJpzOregEM6k/lSfi8WSFBWVwbeSpx52dvVdjtSIkt+D9qek+WaWd7BqvDynKB7Da1rn7m
-X-Gm-Message-State: AOJu0Yy3P3WdmNvjXBzqzy12GOhep13a+jVebzhMYRtH3CxEhS7fEYQJ
- kIZUfgUv9WKBSqYSbhmkQtCaIYOJ1sxJa/e+w1y7NV8561HCNzZPKRPH2fqc7HM=
-X-Google-Smtp-Source: AGHT+IETJftRskEwl5RpRH8gvHqeBixLLouS91glYunfDQKwsjow2ORhmWr+ywgqdej1UpqdN9epjg==
-X-Received: by 2002:a50:9e45:0:b0:56b:cf42:bcf with SMTP id
- z63-20020a509e45000000b0056bcf420bcfmr4231366ede.1.1711362977412; 
- Mon, 25 Mar 2024 03:36:17 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.222.44]) by smtp.gmail.com with ESMTPSA id
- dm28-20020a05640222dc00b0056b7ed75a46sm2827319edb.27.2024.03.25.03.36.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Mar 2024 03:36:16 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jianhua Lu <lujianhua000@gmail.com>,
- Del Regno <angelogioacchino.delregno@somainline.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rob Herring <robh@kernel.org>
-Subject: [RESEND PATCH v4 3/3] dt-bindings: display: novatek,
- nt36523: define ports
-Date: Mon, 25 Mar 2024 11:36:11 +0100
-Message-Id: <20240325103611.28240-3-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240325103611.28240-1-krzysztof.kozlowski@linaro.org>
-References: <20240325103611.28240-1-krzysztof.kozlowski@linaro.org>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F94110E74E
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 10:41:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1711363274;
+ bh=YuaX2Tl6bgpyBfojFBTTlBc33sWJOlnERa0rtqj2Iqg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=D83l66SmkOnX16z9I1+jaJZnxo2DNI/U8+uJf4Lu2xbK9a9U9hzzfhmj2L6msyZYa
+ D1qAbbEtc8dbqjUK3W+KyKgVBaBZZ2aFlCjgpBiAi10CBNnxrptsB4UZH9HCELyNcK
+ Ul6IOMJLG5004q1xY1b6gH+tGCC5Vt1S3ITx056adL5gdwFwRcQ7wCD/2ipUQ1HKpP
+ dWsusQypljOFwn/KzJaBWLAfwEvml5vrWzFQsNn/3ijzfUlBMxvS3cMZYfpIper5up
+ ZbG7dvdYP+VNg0k/Sr5kG8LenB34bzUIpX+tOmE8zsbt7TFxPTbOsAXC7UkNr8cs4e
+ b+XE/yUoDNcqg==
+Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5BB3637820A7;
+ Mon, 25 Mar 2024 10:41:14 +0000 (UTC)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
+ "Lukas F . Hartmann" <lukas@mntmn.com>
+Subject: [PATCH 1/2] drm/panthor: Fix IO-page mmap() for 32-bit userspace on
+ 64-bit kernel
+Date: Mon, 25 Mar 2024 11:41:10 +0100
+Message-ID: <20240325104111.3553712-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,79 +61,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The panel-common schema does not define what "ports" property is, so
-bring the definition by referencing the panel-common-dual.yaml. Panels
-can be single- or dual-link, depending on the compatible, thus add
-if:then:else: block narrowing ports per variant.
+When mapping an IO region, the pseudo-file offset is dependent on the
+userspace architecture. panthor_device_mmio_offset() abstract that away
+for us by turning a userspace MMIO offset into its kernel equivalent,
+but we were not updating vm_area_struct::vm_pgoff accordingly, leading
+us to attach the MMIO region to the wrong file offset.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Reviewed-by: Rob Herring <robh@kernel.org>
+This has implications when we start mixing 64 bit and 32 bit apps, but
+that's only really a problem when we start having more that 2^43 bytes of
+memory allocated, which is very unlikely to happen.
 
+What's more problematic is the fact this turns our
+unmap_mapping_range(DRM_PANTHOR_USER_MMIO_OFFSET) calls, which are
+supposed to kill the MMIO mapping when entering suspend, into NOPs.
+Which means we either keep the dummy flush_id mapping active at all
+times, or we risk a BUS_FAULT if the MMIO region was mapped, and the
+GPU is suspended after that.
+
+Fixes: 5fe909cae118 ("drm/panthor: Add the device logical block")
+Reported-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+Reported-by: Lukas F. Hartmann <lukas@mntmn.com>
+Closes: https://gitlab.freedesktop.org/mesa/mesa/-/issues/10835
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
+ drivers/gpu/drm/panthor/panthor_device.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-Changes since v3:
-1. Rb tag
-
-Changes since v2:
-1. Use panel-common-dual.
-2. Add if:then:else:
-
-Changes since v1:
-1. Rework to add ports to device schema, not to panel-common.
----
- .../display/panel/novatek,nt36523.yaml        | 25 +++++++++++++++----
- 1 file changed, 20 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
-index 5f7e4c486094..bbeea8cfa5fb 100644
---- a/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
-@@ -14,9 +14,6 @@ description: |
-   panels. Support video mode panels from China Star Optoelectronics
-   Technology (CSOT) and BOE Technology.
+diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+index bfe8da4a6e4c..a18fd4e4b77c 100644
+--- a/drivers/gpu/drm/panthor/panthor_device.c
++++ b/drivers/gpu/drm/panthor/panthor_device.c
+@@ -334,7 +334,7 @@ static vm_fault_t panthor_mmio_vm_fault(struct vm_fault *vmf)
+ {
+ 	struct vm_area_struct *vma = vmf->vma;
+ 	struct panthor_device *ptdev = vma->vm_private_data;
+-	u64 id = (u64)vma->vm_pgoff << PAGE_SHIFT;
++	u64 offset = (u64)vma->vm_pgoff << PAGE_SHIFT;
+ 	unsigned long pfn;
+ 	pgprot_t pgprot;
+ 	vm_fault_t ret;
+@@ -347,7 +347,7 @@ static vm_fault_t panthor_mmio_vm_fault(struct vm_fault *vmf)
+ 	mutex_lock(&ptdev->pm.mmio_lock);
+ 	active = atomic_read(&ptdev->pm.state) == PANTHOR_DEVICE_PM_STATE_ACTIVE;
  
--allOf:
--  - $ref: panel-common.yaml#
--
- properties:
-   compatible:
-     oneOf:
-@@ -38,7 +35,6 @@ properties:
-     description: regulator that supplies the I/O voltage
+-	switch (panthor_device_mmio_offset(id)) {
++	switch (offset) {
+ 	case DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET:
+ 		if (active)
+ 			pfn = __phys_to_pfn(ptdev->phys_addr + CSF_GPU_LATEST_FLUSH_ID);
+@@ -378,9 +378,9 @@ static const struct vm_operations_struct panthor_mmio_vm_ops = {
  
-   reg: true
--  ports: true
-   rotation: true
-   backlight: true
+ int panthor_device_mmap_io(struct panthor_device *ptdev, struct vm_area_struct *vma)
+ {
+-	u64 id = (u64)vma->vm_pgoff << PAGE_SHIFT;
++	u64 offset = panthor_device_mmio_offset((u64)vma->vm_pgoff << PAGE_SHIFT);
  
-@@ -47,7 +43,26 @@ required:
-   - reg
-   - vddio-supply
-   - reset-gpios
--  - ports
+-	switch (panthor_device_mmio_offset(id)) {
++	switch (offset) {
+ 	case DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET:
+ 		if (vma->vm_end - vma->vm_start != PAGE_SIZE ||
+ 		    (vma->vm_flags & (VM_WRITE | VM_EXEC)))
+@@ -392,6 +392,9 @@ int panthor_device_mmap_io(struct panthor_device *ptdev, struct vm_area_struct *
+ 		return -EINVAL;
+ 	}
+ 
++	/* Adjust vm_pgoff for 32-bit userspace on 64-bit kernel. */
++	vma->vm_pgoff = offset >> PAGE_SHIFT;
 +
-+allOf:
-+  - $ref: panel-common-dual.yaml#
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - novatek,nt36523w
-+    then:
-+      properties:
-+        ports:
-+          properties:
-+            port@1: false
-+    else:
-+      properties:
-+        port: false
-+        ports:
-+          required:
-+            - port@1
- 
- unevaluatedProperties: false
- 
+ 	/* Defer actual mapping to the fault handler. */
+ 	vma->vm_private_data = ptdev;
+ 	vma->vm_ops = &panthor_mmio_vm_ops;
 -- 
-2.34.1
+2.44.0
 
