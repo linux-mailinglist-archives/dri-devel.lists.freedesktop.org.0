@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59F9C88AB2B
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 18:16:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FB8388AB7E
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 18:24:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0166910E9F2;
-	Mon, 25 Mar 2024 17:16:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5B3C10E614;
+	Mon, 25 Mar 2024 17:24:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id BCB8E10E9F2
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 17:16:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 49AF810EA11
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 17:24:23 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6120D2F4
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 10:16:53 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 34E912F4
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 10:24:56 -0700 (PDT)
 Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
  [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 84CAE3F64C
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 10:16:19 -0700 (PDT)
-Date: Mon, 25 Mar 2024 17:16:16 +0000
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 527203F64C
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 10:24:22 -0700 (PDT)
+Date: Mon, 25 Mar 2024 17:24:17 +0000
 From: Liviu Dudau <liviu.dudau@arm.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>
 Cc: Steven Price <steven.price@arm.com>,
  =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
  dri-devel@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: [PATCH v2 2/3] drm/panthor: Fix ordering in _irq_suspend()
-Message-ID: <ZgGxYOJxeb3EAO6s@e110455-lin.cambridge.arm.com>
+Subject: Re: [PATCH v2 3/3] drm/panthor: Actually suspend IRQs in the unplug
+ path
+Message-ID: <ZgGzQZebQ_67SRWY@e110455-lin.cambridge.arm.com>
 References: <20240325135705.3717293-1-boris.brezillon@collabora.com>
- <20240325135705.3717293-2-boris.brezillon@collabora.com>
+ <20240325135705.3717293-3-boris.brezillon@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240325135705.3717293-2-boris.brezillon@collabora.com>
+In-Reply-To: <20240325135705.3717293-3-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,56 +50,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 25, 2024 at 02:57:04PM +0100, Boris Brezillon wrote:
-> Make sure we set suspended=true last to avoid generating an irq storm
-> in the unlikely case where an IRQ happens between the suspended=true
-> assignment and the _INT_MASK update.
+On Mon, Mar 25, 2024 at 02:57:05PM +0100, Boris Brezillon wrote:
+> panthor_xxx_irq_suspend() doesn't mask the interrupts if drm_dev_unplug()
+> has been called, which is always the case when our panthor_xxx_unplug()
+> helpers are called. Fix that by introducing a panthor_xxx_unplug() helper
+> that does what panthor_xxx_irq_suspend() except it does it
+> unconditionally.
+
+I understand that drm_dev_unplug() messes up with the cleanup, but I'm a bit
+reluctant to see a function that completely ignores if the device has been
+unplugged or not. Like mentioned on the review of 2/3, can we move the masking
+of the interrupts outside the critical section and not add drm_dev_unplug() ?
+
+
 > 
 > v2:
-> - New patch
+> - Add Steve's R-b
 > 
-> Reported-by: Steven Price <steven.price@arm.com>
+> Fixes: 5fe909cae118 ("drm/panthor: Add the device logical block")
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Reviewed-by: Steven Price <steven.price@arm.com>
 > ---
->  drivers/gpu/drm/panthor/panthor_device.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Found inadvertently while debugging another issue. I guess I managed to
+> call rmmod during a PING and that led to the FW interrupt handler
+> being executed after the device suspend happened.
+> ---
+>  drivers/gpu/drm/panthor/panthor_device.h | 8 ++++++++
+>  drivers/gpu/drm/panthor/panthor_fw.c     | 2 +-
+>  drivers/gpu/drm/panthor/panthor_gpu.c    | 2 +-
+>  drivers/gpu/drm/panthor/panthor_mmu.c    | 2 +-
+>  4 files changed, 11 insertions(+), 3 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-> index 7ee4987a3796..3a930a368ae1 100644
+> index 3a930a368ae1..5634e9490c7f 100644
 > --- a/drivers/gpu/drm/panthor/panthor_device.h
 > +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> @@ -325,7 +325,7 @@ static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)
+> @@ -321,6 +321,14 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
+>  	return ret;										\
+>  }												\
+>  												\
+> +static inline void panthor_ ## __name ## _irq_unplug(struct panthor_irq *pirq)			\
+> +{												\
+> +	pirq->mask = 0;										\
+> +	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);					\
+> +	synchronize_irq(pirq->irq);								\
+> +	atomic_set(&pirq->suspended, true);							\
+> +}												\
+> +												\
+>  static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)			\
 >  {												\
 >  	int cookie;										\
->  												\
-> -	atomic_set(&pirq->suspended, true);							\
-> +	pirq->mask = 0;										\
+> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+> index 33c87a59834e..7a9710a38c5f 100644
+> --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> @@ -1128,7 +1128,7 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
+>  
+>  	/* Make sure the IRQ handler can be called after that point. */
 
-I think you might still have a race between _irq_suspend() and _irq_threaded_handler() where the
-status will be zero due to pirq->mask being zero, so no interrupt will be cleared but they will
-be masked (kind of the opposite problem to patch 3/3).
-
-I'm starting to think that pirq->mask should be local to _irq_threaded_handler() and not be messed
-with in the other functions.
-
->  												\
->  	if (drm_dev_enter(&pirq->ptdev->base, &cookie)) {					\
->  		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);				\
-
-If you move the line above before the if condition, do you still need patch 3/3?
+While reviewing this I've spotted that the comment needs updating: "... handler *can't* be called ..."
 
 Best regards,
 Liviu
 
-> @@ -333,7 +333,7 @@ static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)
->  		drm_dev_exit(cookie);								\
->  	}											\
->  												\
-> -	pirq->mask = 0;										\
-> +	atomic_set(&pirq->suspended, true);							\
->  }												\
->  												\
->  static inline void panthor_ ## __name ## _irq_resume(struct panthor_irq *pirq, u32 mask)	\
+>  	if (ptdev->fw->irq.irq)
+> -		panthor_job_irq_suspend(&ptdev->fw->irq);
+> +		panthor_job_irq_unplug(&ptdev->fw->irq);
+>  
+>  	panthor_fw_stop(ptdev);
+>  
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> index 6dbbc4cfbe7e..b84c5b650fd9 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> @@ -174,7 +174,7 @@ void panthor_gpu_unplug(struct panthor_device *ptdev)
+>  	unsigned long flags;
+>  
+>  	/* Make sure the IRQ handler is not running after that point. */
+> -	panthor_gpu_irq_suspend(&ptdev->gpu->irq);
+> +	panthor_gpu_irq_unplug(&ptdev->gpu->irq);
+>  
+>  	/* Wake-up all waiters. */
+>  	spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index fdd35249169f..1f333cdded0f 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -2622,7 +2622,7 @@ int panthor_vm_prepare_mapped_bos_resvs(struct drm_exec *exec, struct panthor_vm
+>   */
+>  void panthor_mmu_unplug(struct panthor_device *ptdev)
+>  {
+> -	panthor_mmu_irq_suspend(&ptdev->mmu->irq);
+> +	panthor_mmu_irq_unplug(&ptdev->mmu->irq);
+>  
+>  	mutex_lock(&ptdev->mmu->as.slots_lock);
+>  	for (u32 i = 0; i < ARRAY_SIZE(ptdev->mmu->as.slots); i++) {
 > -- 
 > 2.44.0
 > 
