@@ -2,140 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA89D88B1A4
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 21:37:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A61C788B250
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 22:08:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B34E10E5D9;
-	Mon, 25 Mar 2024 20:37:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A32710E649;
+	Mon, 25 Mar 2024 21:08:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="E8HReAfK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="e4Gt5Cs0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="E8HReAfK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="e4Gt5Cs0";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="H5ti8vwD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01DA510E5D9
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 20:37:13 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:98])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 73CAB372A8;
- Mon, 25 Mar 2024 20:37:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1711399032; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Gm8orQ8RLR5m2Km4fWq1+UBY+BSTbw+xyBEHEg6pdIc=;
- b=E8HReAfKG1Hn+52mkkZrokzDzBbNRWK49snug4SO4y3oF+8MX3JUe+Xat+Nngx9EPE/GVU
- 8mu4pbsPSfVsqK6hKCcsTNB1jJvtdSnjgRVhyRfv6UhGUu4dHO4Yc15Pe3z7ceT0mz1wM+
- tMjMmYl3wYXqF1C56HnsptkEo20saxI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1711399032;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Gm8orQ8RLR5m2Km4fWq1+UBY+BSTbw+xyBEHEg6pdIc=;
- b=e4Gt5Cs0/E3srgj2o0whLP4ZCVRUHcE0/oloORmrNtTmkUGBbRcA7miUAPBqSdy2hVsNxl
- EucfDbKWOoB8/sDw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1711399032; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Gm8orQ8RLR5m2Km4fWq1+UBY+BSTbw+xyBEHEg6pdIc=;
- b=E8HReAfKG1Hn+52mkkZrokzDzBbNRWK49snug4SO4y3oF+8MX3JUe+Xat+Nngx9EPE/GVU
- 8mu4pbsPSfVsqK6hKCcsTNB1jJvtdSnjgRVhyRfv6UhGUu4dHO4Yc15Pe3z7ceT0mz1wM+
- tMjMmYl3wYXqF1C56HnsptkEo20saxI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1711399032;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Gm8orQ8RLR5m2Km4fWq1+UBY+BSTbw+xyBEHEg6pdIc=;
- b=e4Gt5Cs0/E3srgj2o0whLP4ZCVRUHcE0/oloORmrNtTmkUGBbRcA7miUAPBqSdy2hVsNxl
- EucfDbKWOoB8/sDw==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id A7D7213A2E;
- Mon, 25 Mar 2024 20:37:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap2.dmz-prg2.suse.org with ESMTPSA id 8nQjI3bgAWawdQAAn2gu4w
- (envelope-from <tzimmermann@suse.de>); Mon, 25 Mar 2024 20:37:10 +0000
-Message-ID: <338bf74a-13db-4b48-ab80-ddd2d80a0840@suse.de>
-Date: Mon, 25 Mar 2024 21:37:05 +0100
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+ [209.85.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D76C10E52C
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 21:08:13 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id
+ d2e1a72fcca58-6e6fb9a494aso3750281b3a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 14:08:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1711400893; x=1712005693;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=mOw6fcswQwxOvYHww+pfzlL0zz/FCwx/qV0ISLCzS6k=;
+ b=H5ti8vwDgOoFy31XNIjjBNo+1Mc0jDlBPMEdcfL5ne4blqyT66wqiT+tx3GgSk90X8
+ CN1JH/kgiH/A3xIQcBz2fwP3u03Ni0KH2SrLe5WvxKrct1uiyDa69Js5Zy3GCQ9cgowB
+ LbkJVRiWJ0Ls+sWl4dPvp5FzgHslSI+emFD90=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711400893; x=1712005693;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mOw6fcswQwxOvYHww+pfzlL0zz/FCwx/qV0ISLCzS6k=;
+ b=RZnxXf9gkuFvYOKCCp7XF0Cea/JznY53yBPT167ll+xIQbV8l46dru25BsQ7isciHI
+ 6kZI5q1gYbPgyVjkbW2x4za1+DbZjy0BqGZkufYeQFU26rQSHWkapn2kwZi4Od6L4y+x
+ bwZNHXd34f7zuwiNja7vnXqF8l9pwdaEcjvp6PdP5CA31pa6qUOlZFyGMxWTVsEncbC5
+ hBB+XUe+dZERyx6LLlHP4JxpFE4D503qF+bVee67KGO070DwZDkCjwQABbOX1d0nbhbN
+ eFh6JvPJYzrrlAvphpFuKHVZTGLb6W2USv7FeWO7Zv9ZPBjsNXk4nVBcvyrs1Q1jEJOm
+ x/tg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUYP8VdBIEYf0F5AJnvCPcQFF0oE1a1n0B1IF4FtktEnkfIQAqFaIw0fFp6QaX7ae9RYx4ITRdmYty8W6bfWABEG2s6c9vSaMBqUVNibCHY
+X-Gm-Message-State: AOJu0YyQSymySqzCkAO+6t5vIhCRucLHcSKlOi5aOTXvL3kBeaAEW9/G
+ L9m8erp59FwqopTfznP/Ywnwt+cV28IerbmFQ8wYvlnV9OOlEXUaYokiHZPaeg==
+X-Google-Smtp-Source: AGHT+IFNMzzlQS+M2WzYTzH5qd5yGumfrSL44l9e2y2KmdW8eGoSNDQ4K0XzusabfDNfOaNLkU2CdA==
+X-Received: by 2002:a05:6a20:12d2:b0:1a3:4671:2285 with SMTP id
+ v18-20020a056a2012d200b001a346712285mr7841746pzg.44.1711400893255; 
+ Mon, 25 Mar 2024 14:08:13 -0700 (PDT)
+Received: from localhost (4.198.125.34.bc.googleusercontent.com.
+ [34.125.198.4]) by smtp.gmail.com with UTF8SMTPSA id
+ fn18-20020a056a002fd200b006e4e93f4f17sm4584180pfb.117.2024.03.25.14.08.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Mar 2024 14:08:12 -0700 (PDT)
+From: Stephen Boyd <swboyd@chromium.org>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: [PATCH] drm/msm: Add newlines to some debug prints
+Date: Mon, 25 Mar 2024 14:08:09 -0700
+Message-ID: <20240325210810.1340820-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.44.0.396.g6e790dbe36-goog
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: Select I/O-memory framebuffer ops for SBus
-To: nbowler@draconx.ca, deller@gmx.de, javierm@redhat.com
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
- Sam Ravnborg <sam@ravnborg.org>, Arnd Bergmann <arnd@arndb.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>, stable@vger.kernel.org
-References: <20240322083005.24269-1-tzimmermann@suse.de>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240322083005.24269-1-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=E8HReAfK;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=e4Gt5Cs0
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.00 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
- XM_UA_NO_VERSION(0.01)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_THREE(0.00)[3];
- DKIM_TRACE(0.00)[suse.de:+]; MX_GOOD(-0.01)[];
- RCPT_COUNT_SEVEN(0.00)[11]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- FREEMAIL_TO(0.00)[draconx.ca,gmx.de,redhat.com];
- FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+];
- BAYES_HAM(-3.00)[100.00%]; MID_RHS_MATCH_FROM(0.00)[];
- ARC_NA(0.00)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmx.de];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; TAGGED_RCPT(0.00)[renesas];
- MIME_GOOD(-0.10)[text/plain]; NEURAL_HAM_LONG(-1.00)[-1.000];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DBL_BLOCKED_OPENRESOLVER(0.00)[gmx.de:email];
- FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[];
- SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Score: -3.00
-X-Rspamd-Queue-Id: 73CAB372A8
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,65 +80,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Merged into drm-misc-fixes.
+These debug prints are missing newlines, leading to multiple messages
+being printed on one line and hard to read logs. Add newlines to have
+the debug prints on separate lines. The DBG macro used to add a newline,
+but I missed that while migrating to drm_dbg wrappers.
 
-Am 22.03.24 um 09:29 schrieb Thomas Zimmermann:
-> Framebuffer I/O on the Sparc Sbus requires read/write helpers for
-> I/O memory. Select FB_IOMEM_FOPS accordingly.
->
-> Reported-by: Nick Bowler <nbowler@draconx.ca>
-> Closes: https://lore.kernel.org/lkml/5bc21364-41da-a339-676e-5bb0f4faebfb@draconx.ca/
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 8813e86f6d82 ("fbdev: Remove default file-I/O implementations")
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v6.8+
-> ---
->   drivers/video/fbdev/Kconfig | 3 +++
->   1 file changed, 3 insertions(+)
->
-> diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-> index a61b8260b8f36..edced74f0eeaf 100644
-> --- a/drivers/video/fbdev/Kconfig
-> +++ b/drivers/video/fbdev/Kconfig
-> @@ -494,6 +494,7 @@ config FB_SBUS_HELPERS
->   	select FB_CFB_COPYAREA
->   	select FB_CFB_FILLRECT
->   	select FB_CFB_IMAGEBLIT
-> +	select FB_IOMEM_FOPS
->   
->   config FB_BW2
->   	bool "BWtwo support"
-> @@ -514,6 +515,7 @@ config FB_CG6
->   	depends on (FB = y) && (SPARC && FB_SBUS)
->   	select FB_CFB_COPYAREA
->   	select FB_CFB_IMAGEBLIT
-> +	select FB_IOMEM_FOPS
->   	help
->   	  This is the frame buffer device driver for the CGsix (GX, TurboGX)
->   	  frame buffer.
-> @@ -523,6 +525,7 @@ config FB_FFB
->   	depends on FB_SBUS && SPARC64
->   	select FB_CFB_COPYAREA
->   	select FB_CFB_IMAGEBLIT
-> +	select FB_IOMEM_FOPS
->   	help
->   	  This is the frame buffer device driver for the Creator, Creator3D,
->   	  and Elite3D graphics boards.
+Fixes: 7cb017db1896 ("drm/msm: Move FB debug prints to drm_dbg_state()")
+Fixes: 721c6e0c6aed ("drm/msm: Move vblank debug prints to drm_dbg_vbl()")
+Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_fb.c  | 6 +++---
+ drivers/gpu/drm/msm/msm_kms.c | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/msm_fb.c b/drivers/gpu/drm/msm/msm_fb.c
+index e3f61c39df69..80166f702a0d 100644
+--- a/drivers/gpu/drm/msm/msm_fb.c
++++ b/drivers/gpu/drm/msm/msm_fb.c
+@@ -89,7 +89,7 @@ int msm_framebuffer_prepare(struct drm_framebuffer *fb,
+ 
+ 	for (i = 0; i < n; i++) {
+ 		ret = msm_gem_get_and_pin_iova(fb->obj[i], aspace, &msm_fb->iova[i]);
+-		drm_dbg_state(fb->dev, "FB[%u]: iova[%d]: %08llx (%d)",
++		drm_dbg_state(fb->dev, "FB[%u]: iova[%d]: %08llx (%d)\n",
+ 			      fb->base.id, i, msm_fb->iova[i], ret);
+ 		if (ret)
+ 			return ret;
+@@ -176,7 +176,7 @@ static struct drm_framebuffer *msm_framebuffer_init(struct drm_device *dev,
+ 	const struct msm_format *format;
+ 	int ret, i, n;
+ 
+-	drm_dbg_state(dev, "create framebuffer: mode_cmd=%p (%dx%d@%4.4s)",
++	drm_dbg_state(dev, "create framebuffer: mode_cmd=%p (%dx%d@%4.4s)\n",
+ 			mode_cmd, mode_cmd->width, mode_cmd->height,
+ 			(char *)&mode_cmd->pixel_format);
+ 
+@@ -232,7 +232,7 @@ static struct drm_framebuffer *msm_framebuffer_init(struct drm_device *dev,
+ 
+ 	refcount_set(&msm_fb->dirtyfb, 1);
+ 
+-	drm_dbg_state(dev, "create: FB ID: %d (%p)", fb->base.id, fb);
++	drm_dbg_state(dev, "create: FB ID: %d (%p)\n", fb->base.id, fb);
+ 
+ 	return fb;
+ 
+diff --git a/drivers/gpu/drm/msm/msm_kms.c b/drivers/gpu/drm/msm/msm_kms.c
+index 84c21ec2ceea..af6a6fcb1173 100644
+--- a/drivers/gpu/drm/msm/msm_kms.c
++++ b/drivers/gpu/drm/msm/msm_kms.c
+@@ -149,7 +149,7 @@ int msm_crtc_enable_vblank(struct drm_crtc *crtc)
+ 	struct msm_kms *kms = priv->kms;
+ 	if (!kms)
+ 		return -ENXIO;
+-	drm_dbg_vbl(dev, "crtc=%u", crtc->base.id);
++	drm_dbg_vbl(dev, "crtc=%u\n", crtc->base.id);
+ 	return vblank_ctrl_queue_work(priv, crtc, true);
+ }
+ 
+@@ -160,7 +160,7 @@ void msm_crtc_disable_vblank(struct drm_crtc *crtc)
+ 	struct msm_kms *kms = priv->kms;
+ 	if (!kms)
+ 		return;
+-	drm_dbg_vbl(dev, "crtc=%u", crtc->base.id);
++	drm_dbg_vbl(dev, "crtc=%u\n", crtc->base.id);
+ 	vblank_ctrl_queue_work(priv, crtc, false);
+ }
+ 
+
+base-commit: 4cece764965020c22cff7665b18a012006359095
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+https://chromeos.dev
 
