@@ -2,79 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1583188B346
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 22:57:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66D8D88B357
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 23:03:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4778C10EB25;
-	Mon, 25 Mar 2024 21:57:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A77E10E60E;
+	Mon, 25 Mar 2024 22:03:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="CjibLeRm";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wcWZDahR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9BEC10EB1C
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 21:57:04 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-1e0511a4383so34716665ad.2
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 14:57:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1711403823; x=1712008623;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NhZQWaJshhfD9wSXRNVLw92v4FQ+jJkjj3c/jVf2VJg=;
- b=CjibLeRmz9+tEUbFgsvT7XEYnL5dKUZPXUhHP3F5E1xWvZV+sfRns67dTgjIFYjVSs
- vRknGGhNI8sC8J7+1OCzOV017GUb+2pwXiG8z4YrIqg3V13JvkV4CdomgiGYLXW8xljS
- UxQjfVPS1goACwiaMnV2x1mL9F7ANF3shcAes=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711403823; x=1712008623;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NhZQWaJshhfD9wSXRNVLw92v4FQ+jJkjj3c/jVf2VJg=;
- b=Xu6OsCMs6w6QBDOkqUzsA02SneclcLApfTl5hO1wzHM97RjGzCRe8I7IOugysCR8gq
- CvJN/Hi1yj61mTpRzCjqRGGEkAY2oM0HoOAhkDNzvMLAGosw5iPqtF8YkT+kvHex8QKP
- 7ZuIcdMT9259qL2ZrUymwGLMoBuC9fjbXhcJfkRH0IGNaKKqlHk67YQakHDmp7HLK/YM
- mD1dS7FuoAEXaHZUVzGVb/LwOsL910cHa10guLfgwEZsa6Z9tnnfR6Bolyza2/lDQDVI
- 7Cy/SWLL3rCFHmpl5Gce81n/S+GtKrmQqpa66ck0JEUevUMjTGE1BsC6JzaTnlvANieu
- sYOA==
-X-Gm-Message-State: AOJu0Yy/ln5B50EAxsiI3uaeQBOv8P6xYtXusCZsuD7ByuFAhpVpEjy8
- lrxj5EQrxfYnAfYkhq9prwbpxTTACEnSuc1ifa0v3NEh8+k4P7azo3Oml+DUkC3URtXlhE+3mhY
- =
-X-Google-Smtp-Source: AGHT+IG1pvV8JIModEf24NBBDg2YYgu41Tt2PrJ+H3EuIJzXqbRq4KaflfyB/AcYHVm8d9sODDNTeg==
-X-Received: by 2002:a17:902:cecb:b0:1e0:a678:5b55 with SMTP id
- d11-20020a170902cecb00b001e0a6785b55mr7152128plg.11.1711403823404; 
- Mon, 25 Mar 2024 14:57:03 -0700 (PDT)
-Received: from dianders.sjc.corp.google.com
- ([2620:15c:9d:2:f21b:7dde:93cc:b987])
- by smtp.gmail.com with ESMTPSA id
- n6-20020a170902e54600b001def0897284sm5207866plf.76.2024.03.25.14.57.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Mar 2024 14:57:02 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Cc: Pin-yen Lin <treapking@chromium.org>,
- Prahlad Kilambi <prahladk@google.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Douglas Anderson <dianders@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4E2310E60E
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 22:03:46 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 236467E4;
+ Mon, 25 Mar 2024 23:03:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1711404194;
+ bh=wILjujuHwaXE035Qg6th/X7umy8fExbM4hbSiy6UlSs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=wcWZDahRijyytCUtYxvi42I6OWjBMYCCwpdBuNX3lnAyLMuPxYi/Mdq6egt4xO8XK
+ XMtYknsnFJZ//PKJvUpADXqEw/O82d5bSIcqU23dtK23anMAGJXVI3pYYAHNZUTnHa
+ oO7GkoR/0ZssUxzL7/ZU63sf7x3TJ7xPWf8Lhg+M=
+Date: Tue, 26 Mar 2024 00:03:38 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tommaso Merciai <tomm.merciai@gmail.com>
+Cc: Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ marex@denx.de, alexander.stein@ew.tq-group.com,
+ frieder.schrempf@kontron.de, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] drm-panel: If drm_panel_dp_aux_backlight() fails,
- don't fail panel probe
-Date: Mon, 25 Mar 2024 14:56:27 -0700
-Message-ID: <20240325145626.3.I552e8af0ddb1691cc0fe5d27ea3d8020e36f7006@changeid>
-X-Mailer: git-send-email 2.44.0.396.g6e790dbe36-goog
-In-Reply-To: <20240325215631.3804796-1-dianders@chromium.org>
-References: <20240325215631.3804796-1-dianders@chromium.org>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Liu Ying <victor.liu@nxp.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Lucas Stach <l.stach@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-pm@vger.kernel.org
+Subject: Re: [PATCH V8 00/12] soc: imx8mp: Add support for HDMI
+Message-ID: <20240325220338.GE23988@pendragon.ideasonboard.com>
+References: <20240203165307.7806-1-aford173@gmail.com>
+ <ZgHxSHDAt7ytqDC1@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZgHxSHDAt7ytqDC1@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,73 +77,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If we're using the AUX channel for eDP backlight and it fails to probe
-for some reason, let's _not_ fail the panel probe.
+Hi Tommaso,
 
-At least one case where we could fail to init the backlight is because
-of a dead or physically missing panel. As talked about in detail in
-the earlier patch in this series, ("drm/panel-edp: If we fail to
-powerup/get EDID, use conservative timings"), this can cause the
-entire system's display pipeline to fail to come up and that's
-non-ideal.
+On Mon, Mar 25, 2024 at 10:48:56PM +0100, Tommaso Merciai wrote:
+> Hi Adam, Lucas,
+> Thanks for this series.
+> 
+> This series make HDMI work on evk.
+> All is working properly on my side.
+> 
+> Tested on: Linux imx8mp-lpddr4-evk 6.9.0-rc1.
+> Hope this help.
+> 
+> Tested-by: Tommaso Merciai <tomm.merciai@gmail.com>
 
-If we fail to init the backlight for some transitory reason, we should
-dig in and see if there's a way to fix this (perhaps retries?). Even
-in that case, though, having a panel whose backlight is stuck at 100%
-(the default, at least in the panel Samsung ATNA33XC20 I tested) is
-better than having no panel at all.
+The DRM side has been merged already. The only missing patches are for
+the PHY, and the latest version can be found in
+https://lore.kernel.org/linux-phy/20240227220444.77566-1-aford173@gmail.com/.
+You can test that series and send a Tested-by tag. I'm crossing my
+fingers and hoping it will be merged in v6.10.
 
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-If needed, I could split this into two patches: one for each of the
-two panels that use drm_panel_dp_aux_backlight(). Since they both go
-through drm-misc, though, it doesn't feel worth it.
+> On Sat, Feb 03, 2024 at 10:52:40AM -0600, Adam Ford wrote:
+> > The i.MX8M Plus has an HDMI controller, but it depends on two
+> > other systems, the Parallel Video Interface (PVI) and the
+> > HDMI PHY from Samsung. The LCDIF controller generates the display
+> > and routes it to the PVI which converts passes the parallel video
+> > to the HDMI bridge.  The HDMI system has a corresponding power
+> > domain controller whose driver was partially written, but the
+> > device tree for it was never applied, so some changes to the
+> > power domain should be harmless because they've not really been
+> > used yet.
+> > 
+> > This series is adapted from multiple series from Lucas Stach with
+> > edits and suggestions from feedback from various series, but it
+> > since it's difficult to use and test them independently,
+> > I merged them into on unified series.  The version history is a
+> > bit ambiguous since different components were submitted at different
+> > times and had different amount of retries.  In an effort to merge them
+> > I used the highest version attempt.
+> > 
+> > Adam Ford (3):
+> >   dt-bindings: soc: imx: add missing clock and power-domains to
+> >     imx8mp-hdmi-blk-ctrl
+> >   pmdomain: imx8mp-blk-ctrl: imx8mp_blk: Add fdcc clock to hdmimix
+> >     domain
+> >   arm64: defconfig: Enable DRM_IMX8MP_DW_HDMI_BRIDGE as module
+> > 
+> > Lucas Stach (9):
+> >   dt-bindings: phy: add binding for the i.MX8MP HDMI PHY
+> >   phy: freescale: add Samsung HDMI PHY
+> >   arm64: dts: imx8mp: add HDMI power-domains
+> >   arm64: dts: imx8mp: add HDMI irqsteer
+> >   dt-bindings: display: imx: add binding for i.MX8MP HDMI PVI
+> >   drm/bridge: imx: add driver for HDMI TX Parallel Video Interface
+> >   dt-bindings: display: imx: add binding for i.MX8MP HDMI TX
+> >   drm/bridge: imx: add bridge wrapper driver for i.MX8MP DWC HDMI
+> >   arm64: dts: imx8mp: add HDMI display pipeline
+> > 
+> >  .../display/bridge/fsl,imx8mp-hdmi-tx.yaml    |  102 ++
+> >  .../display/imx/fsl,imx8mp-hdmi-pvi.yaml      |   84 ++
+> >  .../bindings/phy/fsl,imx8mp-hdmi-phy.yaml     |   62 +
+> >  .../soc/imx/fsl,imx8mp-hdmi-blk-ctrl.yaml     |   22 +-
+> >  arch/arm64/boot/dts/freescale/imx8mp.dtsi     |  145 +++
+> >  arch/arm64/configs/defconfig                  |    1 +
+> >  drivers/gpu/drm/bridge/imx/Kconfig            |   18 +
+> >  drivers/gpu/drm/bridge/imx/Makefile           |    2 +
+> >  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c  |  207 ++++
+> >  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c   |  154 +++
+> >  drivers/phy/freescale/Kconfig                 |    6 +
+> >  drivers/phy/freescale/Makefile                |    1 +
+> >  drivers/phy/freescale/phy-fsl-samsung-hdmi.c  | 1075 +++++++++++++++++
+> >  drivers/pmdomain/imx/imx8mp-blk-ctrl.c        |   10 +-
+> >  14 files changed, 1876 insertions(+), 13 deletions(-)
+> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml
+> >  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pvi.yaml
+> >  create mode 100644 Documentation/devicetree/bindings/phy/fsl,imx8mp-hdmi-phy.yaml
+> >  create mode 100644 drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c
+> >  create mode 100644 drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+> >  create mode 100644 drivers/phy/freescale/phy-fsl-samsung-hdmi.c
 
- drivers/gpu/drm/panel/panel-edp.c                | 8 +++++++-
- drivers/gpu/drm/panel/panel-samsung-atna33xc20.c | 9 +++++++--
- 2 files changed, 14 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 607cdd6feda9..0bf66d9dd5b8 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -944,8 +944,14 @@ static int panel_edp_probe(struct device *dev, const struct panel_desc *desc,
- 		err = drm_panel_dp_aux_backlight(&panel->base, panel->aux);
- 		pm_runtime_mark_last_busy(dev);
- 		pm_runtime_put_autosuspend(dev);
-+
-+		/*
-+		 * Warn if we get an error, but don't consider it fatal. Having
-+		 * a panel where we can't control the backlight is better than
-+		 * no panel.
-+		 */
- 		if (err)
--			goto err_finished_pm_runtime;
-+			dev_warn(dev, "failed to register dp aux backlight: %d\n", err);
- 	}
- 
- 	drm_panel_add(&panel->base);
-diff --git a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
-index 9c336c71562b..6828a4f24d14 100644
---- a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
-@@ -328,9 +328,14 @@ static int atana33xc20_probe(struct dp_aux_ep_device *aux_ep)
- 	ret = drm_panel_dp_aux_backlight(&panel->base, aux_ep->aux);
- 	pm_runtime_mark_last_busy(dev);
- 	pm_runtime_put_autosuspend(dev);
-+
-+	/*
-+	 * Warn if we get an error, but don't consider it fatal. Having
-+	 * a panel where we can't control the backlight is better than
-+	 * no panel.
-+	 */
- 	if (ret)
--		return dev_err_probe(dev, ret,
--				     "failed to register dp aux backlight\n");
-+		dev_warn(dev, "failed to register dp aux backlight: %d\n", ret);
- 
- 	drm_panel_add(&panel->base);
- 
 -- 
-2.44.0.396.g6e790dbe36-goog
+Regards,
 
+Laurent Pinchart
