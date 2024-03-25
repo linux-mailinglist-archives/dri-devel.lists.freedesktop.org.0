@@ -2,74 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74599889CC4
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 12:28:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6406889D1B
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 12:37:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CA6110E13F;
-	Mon, 25 Mar 2024 11:28:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B33B10E7D2;
+	Mon, 25 Mar 2024 11:37:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ULhwDbZu";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KKiv2iEH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29D0610E13F
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 11:28:28 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-4148a581d3fso3162685e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 04:28:28 -0700 (PDT)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2607610E7D2
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 11:37:01 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id
+ a640c23a62f3a-a4a387ff7acso82729266b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 04:37:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711366106; x=1711970906; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=7PkuvMLKJsiJtypoy3shfvrIyPp1wECQoiUOUJHPvWE=;
- b=ULhwDbZu1o2WHLTwrQiZs/CA4lLojxsIjIt3bM7odWayRN2IE7+gCOVfZeKWl5uCyT
- 1/BnI+J/rC7mFsI6Qzvgfd01s2MpUH3sUCV09kfZMqUSFqLSKyzQzZWCqdYmToCInRK3
- YqIpja3aMqynuPyhvpdgCp4qgfY3ih653T3UmCPwpVKTv8qzS7GOzEUBsS8k8lEsYNHp
- Xtb4hTi/bc+GL/vBiXFddsgnBRBy44IE/YeU29L4iQppufhogvOPplxa6DFqmfVVL0Nh
- 8xa/2h5gmlfix8Et3HEmb4EkGsian0IpQX8kimaSffDAc/NbvwGBwAjtX5pUB39gtiFu
- U0BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711366106; x=1711970906;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1711366619; x=1711971419; darn=lists.freedesktop.org;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7PkuvMLKJsiJtypoy3shfvrIyPp1wECQoiUOUJHPvWE=;
- b=eKmT+LWIigx4YCug6yj4BAk1jr+O78Rm9m6ivw65aCh+2y2SzkxhhYiqz5DhHSEU8g
- AMDmuQn8z8gfydCFykhRTDOILEr2ISBiAThEp6Uy3rjaIm8cUObcXu6wUqa10zLVFGGz
- 8vJnT68MyAVNmUn1K56vnwwFy0CXYor88GTyiA15jrIU2OEnqe0TqaxDv9BTODgqBh47
- ouDrlVuqKVBGZCnupGAOyfLFxKTn3iyNVTkCn2EITl8e+HNB0JKlaA81ccpGeEVnNKHX
- 6ZVImz9MPJTyuUaycW9jIPt8sIpisG8FIhvzNKujVmi9QDie4L1mUCFSMBWf1IVf3HMy
- F3ZA==
-X-Gm-Message-State: AOJu0Yz6fetOxD4rMWPOu3kfqPNWKyH2BDeAhK8u4I1Z1cNdWchtSOfp
- f7LpCOEelSgdT06al9KEe6s4R5kG9dIgM7t8ru0BZHE8Z7gSI0YzxeZ0wTSyqwk=
-X-Google-Smtp-Source: AGHT+IGdPOEsKK08n8+zv8VWhqXsgYa4DkSPuzYOZZysyCPuYv1EFKvN2PJp6ZKDBFxCKijxETmBsQ==
-X-Received: by 2002:a05:600c:35d2:b0:412:ea4c:dc4b with SMTP id
- r18-20020a05600c35d200b00412ea4cdc4bmr4589807wmq.6.1711366106448; 
- Mon, 25 Mar 2024 04:28:26 -0700 (PDT)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ bh=8yYmh9ilGatslqz9nzmGmez9Ks5eyhsXtq+smawLikQ=;
+ b=KKiv2iEHaWPUXn63M+2PyvQgQjmqGLOQxCu3Fpmrwp0olS3v1YmfYb5d/mSbvbXP+8
+ b1cJYC44uPwva2d7X/QSjuJmlE3NpRO07EPIgip+N4Y4jsm4QqJnkZu5/olesQGYRbcD
+ cpnhO9imjk2bFIRYlOSWN13Ldj4YMzLbbacaRFN1OIhagrj+dCpnQEudCUuqSJKMJM9x
+ qG9+tyatlxr1Y43RM5Pda9SWY0skpqVU71BlEPs1VCF/bROSFlTvjTpMcySuOMUQCu12
+ /YWOMKK9gxZnGZmIiOp/tNZRDyp+q27ZNidalezjuApeKO8QduIl65/nmSbPKhySdcVC
+ 0qIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711366619; x=1711971419;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8yYmh9ilGatslqz9nzmGmez9Ks5eyhsXtq+smawLikQ=;
+ b=wIP9cSqtCKX8gHxXEljkpgSC77QdOnT8t8CncPpEkda9P7C5eWqnYFEAD2dO1ovAr9
+ RMwFz/AMxDwNShePSCBDUZT+W88GFNqAM2+V6xGKzcyHGQ3Bt5W1DrgpYHJwpnLYb8Cj
+ HAxsE5ul3nj3twMYDAt5flSw6FpqV8Tl8j8A9m2i1C05UtjdAqnOS0aZLegRhZIrzSHt
+ Q1zVbFvdLtgmlvYDpA95QHNUOlDkJs3HhxF6rG1C0cbTWyx8CsL0ToDcBiZpb/C5/n+J
+ T3AwOAaHqSCxgADeuiJnH4JGhZcmoLjvUzXSOohX0endkJ780vdRbqhHurqJgerbrqYW
+ rrTA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXsnvAp0jXF7wfMBCYGMW39cINI3nlzcCNmb0Np+IsTPWqextYo5/4R4dd0IlewGyec5vD8+QNEV0BJLMv0Tf8zqFjN+LcGhlGITSToyREz
+X-Gm-Message-State: AOJu0YwNVaQ0kTHkPE4blVxnLGFCJpU8sacX1ezq5KnlCX4guB27NTY9
+ 4PDWTGqWKsKXs3snhasvAjiyD2Pj7U+UeucvcLQ8/8U2Mb6DFYM2
+X-Google-Smtp-Source: AGHT+IH6c0oCiM6CpSIH3+fOqTkyS+RcmYNisq65V7JULsv8sbnj16RwVvb8LtKycoS2t3mWk74Utw==
+X-Received: by 2002:a17:906:c2d0:b0:a45:5be1:6e20 with SMTP id
+ ch16-20020a170906c2d000b00a455be16e20mr4420850ejb.23.1711366619050; 
+ Mon, 25 Mar 2024 04:36:59 -0700 (PDT)
+Received: from smtpclient.apple ([87.200.95.144])
  by smtp.gmail.com with ESMTPSA id
- iv16-20020a05600c549000b0041409cabb39sm8112451wmb.18.2024.03.25.04.28.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Mar 2024 04:28:25 -0700 (PDT)
-Date: Mon, 25 Mar 2024 11:28:24 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Patrick Gansterer <paroga@paroga.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-Subject: Re: [PATCH v4 2/2] backlight: Add new lm3509 backlight driver
-Message-ID: <20240325112824.GA190706@aspen.lan>
-References: <20240310135344.3455294-1-paroga@paroga.com>
- <20240310135344.3455294-2-paroga@paroga.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240310135344.3455294-2-paroga@paroga.com>
+ hj13-20020a170906874d00b00a474ef94fddsm1922774ejb.70.2024.03.25.04.36.54
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 25 Mar 2024 04:36:58 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.400.31\))
+Subject: Re: [PATCH] drm/panfrost: fix power transition timeout warnings
+From: Christian Hewitt <christianshewitt@gmail.com>
+In-Reply-To: <bad16bba-5469-4f20-bf23-7f3c2953edc5@arm.com>
+Date: Mon, 25 Mar 2024 15:36:40 +0400
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <620A6EF4-4361-4B5F-889B-268091FB72D9@gmail.com>
+References: <20240322164525.2617508-1-christianshewitt@gmail.com>
+ <bad16bba-5469-4f20-bf23-7f3c2953edc5@arm.com>
+To: Steven Price <steven.price@arm.com>
+X-Mailer: Apple Mail (2.3774.400.31)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,199 +92,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-^^^
-Also not copied to LKML...
+> On 25 Mar 2024, at 2:28=E2=80=AFpm, Steven Price =
+<steven.price@arm.com> wrote:
+>=20
+> On 22/03/2024 16:45, Christian Hewitt wrote:
+>> Increase the timeout value to prevent system logs on Amlogic boards =
+flooding
+>> with power transition warnings:
+>>=20
+>> [   13.047638] panfrost ffe40000.gpu: shader power transition timeout
+>> [   13.048674] panfrost ffe40000.gpu: l2 power transition timeout
+>> [   13.937324] panfrost ffe40000.gpu: shader power transition timeout
+>> [   13.938351] panfrost ffe40000.gpu: l2 power transition timeout
+>> ...
+>> [39829.506904] panfrost ffe40000.gpu: shader power transition timeout
+>> [39829.507938] panfrost ffe40000.gpu: l2 power transition timeout
+>> [39949.508369] panfrost ffe40000.gpu: shader power transition timeout
+>> [39949.509405] panfrost ffe40000.gpu: l2 power transition timeout
+>>=20
+>> The 2000 value has been found through trial and error testing with =
+devices
+>> using G52 and G31 GPUs.
+>=20
+> How close to 2ms did you need in your trial and error testing? I'm
+> wondering if we should increase it further in case this might still
+> trigger occasionally?
 
+I backed it off progressively but still saw occasional messages at 1.6ms
+so padded it a little with 2ms, and those systems haven=E2=80=99t shown =
+errors
+since so I currently see it as a =E2=80=99safe=E2=80=99 value. The one =
+possible wildcard
+is testing with older T820/T628 boards; but that needs to wait until =
+I=E2=80=99m
+back home from a long trip and able to test them. The possible theory
+being that older/slower systems might require more time. Worst case =
+I=E2=80=99ll
+have to send another change.
 
-On Sun, Mar 10, 2024 at 02:52:57PM +0100, Patrick Gansterer wrote:
-> This is a general driver for LM3509 backlight chip of TI.
-> LM3509 is High Efficiency Boost for White LEDs and/or OLED Displays with
-> Dual Current Sinks. This driver supports OLED/White LED select, brightness
-> control and sub/main control.
-> The datasheet can be found at http://www.ti.com/product/lm3509.
->
-> Signed-off-by: Patrick Gansterer <paroga@paroga.com>
+> kbase seems to have a 5s (5000ms!) timeout before it will actually
+> complain. But equally it doesn't busy wait on the registers in the =
+same
+> way as panfrost, so the impact to the rest of the system of a long =
+wait
+> is less.
+>=20
+> But 2ms doesn't sound an unreasonable timeout so:
+>=20
+> Reviewed-by: Steven Price <steven.price@arm.com>
+>=20
+>> Fixes: 22aa1a209018 ("drm/panfrost: Really power off GPU cores in =
+panfrost_gpu_power_off()")
+>> Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>> ---
+>> drivers/gpu/drm/panfrost/panfrost_gpu.c | 6 +++---
+>> 1 file changed, 3 insertions(+), 3 deletions(-)
+>>=20
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c =
+b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> index 9063ce254642..fd8e44992184 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> @@ -441,19 +441,19 @@ void panfrost_gpu_power_off(struct =
+panfrost_device *pfdev)
+>>=20
+>> gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present);
+>> ret =3D readl_relaxed_poll_timeout(pfdev->iomem + SHADER_PWRTRANS_LO,
+>> -  val, !val, 1, 1000);
+>> +  val, !val, 1, 2000);
+>> if (ret)
+>> dev_err(pfdev->dev, "shader power transition timeout");
+>>=20
+>> gpu_write(pfdev, TILER_PWROFF_LO, pfdev->features.tiler_present);
+>> ret =3D readl_relaxed_poll_timeout(pfdev->iomem + TILER_PWRTRANS_LO,
+>> -  val, !val, 1, 1000);
+>> +  val, !val, 1, 2000);
+>> if (ret)
+>> dev_err(pfdev->dev, "tiler power transition timeout");
+>=20
+> As Angelo points out the tiler probably doesn't need such a long
+> timeout, but I can't see the harm in consistency so I'm happy with =
+this
+> change. If my memory of the hardware is correct then the tiler power =
+off
+> actually does very little and so I wouldn't expect it to take very =
+long.
 
-Overall looks good but there are some review comments inline below.
+I=E2=80=99ve seen tiler timeouts once I think and thus included it, but =
+not since
+the values were increased. As long as it=E2=80=99s acceptable I won=E2=80=99=
+t over-think
+it but if more testing is needed I can look at it more.
 
+> Steve
+>=20
+>> gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present);
+>> ret =3D readl_poll_timeout(pfdev->iomem + L2_PWRTRANS_LO,
+>> -  val, !val, 0, 1000);
+>> +  val, !val, 0, 2000);
+>> if (ret)
+>> dev_err(pfdev->dev, "l2 power transition timeout");
+>> }
 
-> diff --git a/drivers/video/backlight/lm3509_bl.c b/drivers/video/backlight/lm3509_bl.c
-> new file mode 100644
-> index 000000000000..696ec8aab6aa
-> --- /dev/null
-> +++ b/drivers/video/backlight/lm3509_bl.c
-> @@ -0,0 +1,338 @@
-> <snip>
-> +struct lm3509_bl {
-> +	struct regmap *regmap;
-> +	struct backlight_device *bl_main;
-> +	struct backlight_device *bl_sub;
-> +	struct gpio_desc *reset_gpio;
-> +};
-> +
-> +struct lm3509_bl_led_pdata {
-
-What does the p stand for here?
-
-(only asking because pdata was the idiomatic form for platform data and
-this driver only uses DT-only so I'm finding pdata values everywhere
-really confusing)
-
-
-> +	const char *label;
-> +	int led_sources;
-> +	u32 brightness;
-> +	u32 max_brightness;
-> +};
-> +
-> +static void lm3509_reset(struct lm3509_bl *data)
-> +{
-> +	if (data->reset_gpio) {
-> +		gpiod_set_value(data->reset_gpio, 1);
-> +		udelay(1);
-> +		gpiod_set_value(data->reset_gpio, 0);
-> +		udelay(10);
-> +	}
-> +}
-> +
-> <snip>
-> +
-> +static struct backlight_device *
-> +lm3509_backlight_register(struct device *dev, const char *name_suffix,
-> +			  struct lm3509_bl *data,
-> +			  const struct backlight_ops *ops,
-> +			  const struct lm3509_bl_led_pdata *pdata)
-> +
-> +{
-> +	struct backlight_device *bd;
-> +	struct backlight_properties props;
-> +	const char *label = pdata->label;
-> +	char name[64];
-> +
-> +	memset(&props, 0, sizeof(props));
-> +	props.type = BACKLIGHT_RAW;
-> +	props.brightness = pdata->brightness;
-> +	props.max_brightness = pdata->max_brightness;
-
-Please set props.scale appropriately for this device (given it only has
-32 brightness levels I assume it is non-linear?).
-
-
-> +
-> +	if (!label) {
-> +		snprintf(name, sizeof(name), "lm3509-%s-%s", dev_name(dev),
-> +			 name_suffix);
-> +		label = name;
-> +	}
-> +
-> +	bd = devm_backlight_device_register(dev, label, dev, data, ops, &props);
-> +	if (bd)
-> +		backlight_update_status(bd);
-> +
-> +	return bd;
-> +}
-> +
-> <snip>
-> +
-> +static int lm3509_probe(struct i2c_client *client)
-> +{
-> +	struct lm3509_bl *data;
-> +	struct device *dev = &client->dev;
-> +	int ret;
-> +	bool oled_mode = false;
-> +	unsigned int reg_gp_val = 0;
-> +	struct lm3509_bl_led_pdata pdata[LM3509_NUM_SINKS];
-> +	u32 rate_of_change = 0;
-> +
-> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-> +		dev_err(dev, "i2c functionality check failed\n");
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	data = devm_kzalloc(dev, sizeof(struct lm3509_bl), GFP_KERNEL);
-> +	if (!data)
-> +		return -ENOMEM;
-> +
-> +	data->regmap = devm_regmap_init_i2c(client, &lm3509_regmap);
-> +	if (IS_ERR(data->regmap))
-> +		return PTR_ERR(data->regmap);
-> +	i2c_set_clientdata(client, data);
-> +
-> +	data->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-> +	if (IS_ERR(data->reset_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(data->reset_gpio),
-> +				     "Failed to get 'reset' gpio\n");
-> +
-> +	lm3509_reset(data);
-> +
-> +	memset(pdata, 0, sizeof(pdata));
-> +	ret = lm3509_parse_dt_node(dev, pdata);
-> +	if (ret)
-> +		return ret;
-> +
-> +	oled_mode = of_property_read_bool(dev->of_node, "ti,oled-mode");
-> +
-> +	if (!of_property_read_u32(dev->of_node,
-> +				  "ti,brightness-rate-of-change-us",
-> +				  &rate_of_change)) {
-> +		switch (rate_of_change) {
-> +		case 51:
-> +			reg_gp_val = 0;
-> +			break;
-> +		case 13000:
-> +			reg_gp_val = BIT(REG_GP_RMP1_BIT);
-> +			break;
-> +		case 26000:
-> +			reg_gp_val = BIT(REG_GP_RMP0_BIT);
-> +			break;
-> +		case 52000:
-> +			reg_gp_val = BIT(REG_GP_RMP0_BIT) |
-> +				     BIT(REG_GP_RMP1_BIT);
-> +			break;
-> +		default:
-> +			dev_warn(dev, "invalid rate of change %u\n",
-> +				 rate_of_change);
-> +			break;
-> +		}
-> +	}
-> +
-> +	if (pdata[0].led_sources ==
-> +	    (BIT(LM3509_SINK_MAIN) | BIT(LM3509_SINK_SUB)))
-> +		reg_gp_val |= BIT(REG_GP_UNI_BIT);
-> +	if (oled_mode)
-> +		reg_gp_val |= BIT(REG_GP_OLED_BIT);
-> +
-> +	ret = regmap_write(data->regmap, REG_GP, reg_gp_val);
-> +	if (ret < 0)
-> +		return ret;
-
-Is this the first time we write to the peripheral? If so the error path
-is probably worth a dev_err_probe() (I don't think regmap_write() logs
-anything on failure to write).
-
-
-> +	if (pdata[0].led_sources) {
-> +		data->bl_main = lm3509_backlight_register(
-> +			dev, "main", data, &lm3509_main_ops, &pdata[0]);
-> +		if (IS_ERR(data->bl_main)) {
-> +			dev_err(dev, "failed to register main backlight\n");
-> +			return PTR_ERR(data->bl_main);
-
-This should use dev_err_probe().
-
-
-> +		}
-> +	}
-> +
-> +	if (pdata[1].led_sources) {
-> +		data->bl_sub = lm3509_backlight_register(
-> +			dev, "sub", data, &lm3509_sub_ops, &pdata[1]);
-> +		if (IS_ERR(data->bl_sub)) {
-> +			dev_err(dev,
-> +				"failed to register secondary backlight\n");
-> +			return PTR_ERR(data->bl_sub);
-
-Another good place for dev_err_probe().
-
-
-Daniel.
+Christian=
