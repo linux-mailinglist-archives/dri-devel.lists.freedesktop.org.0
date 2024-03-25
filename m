@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A83B889AFC
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 11:41:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D30B889AFB
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 11:41:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DDB710E73A;
-	Mon, 25 Mar 2024 10:41:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A97010E74A;
+	Mon, 25 Mar 2024 10:41:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="D83l66Sm";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="tygp//U2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F94110E74E
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A325510E74A
  for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 10:41:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1711363274;
- bh=YuaX2Tl6bgpyBfojFBTTlBc33sWJOlnERa0rtqj2Iqg=;
- h=From:To:Cc:Subject:Date:From;
- b=D83l66SmkOnX16z9I1+jaJZnxo2DNI/U8+uJf4Lu2xbK9a9U9hzzfhmj2L6msyZYa
- D1qAbbEtc8dbqjUK3W+KyKgVBaBZZ2aFlCjgpBiAi10CBNnxrptsB4UZH9HCELyNcK
- Ul6IOMJLG5004q1xY1b6gH+tGCC5Vt1S3ITx056adL5gdwFwRcQ7wCD/2ipUQ1HKpP
- dWsusQypljOFwn/KzJaBWLAfwEvml5vrWzFQsNn/3ijzfUlBMxvS3cMZYfpIper5up
- ZbG7dvdYP+VNg0k/Sr5kG8LenB34bzUIpX+tOmE8zsbt7TFxPTbOsAXC7UkNr8cs4e
- b+XE/yUoDNcqg==
+ s=mail; t=1711363275;
+ bh=xo4Vo8dERyVYzoXfChdlpqSW87tak6XPIUOpLzrggOQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=tygp//U2DttHezl9DMkRcsde8nPimYvv8gewSv6jekQHdGmCdggeQ79A6wNqEAyKn
+ dGeFVIs3ryIkAKwN3qCAlez3+bDc4N49JplDr5qAsLmJc6QZ0a6qJSIZsuiCYXDcNb
+ ipUCKVcVLCsCziuV29HlXooBPJE+EW7fa5yQL+O8YATxTgknkBeQBM93/C5e0OF+9d
+ xz8CfwlrHHn6JOTOnxS6+6AFE6go4uGoUy03lgS53J4wSuBDN9+2fT95ggbC6p6Akh
+ pfR2A2olL7K90fkuru9vN0Rp4dwOiClnZm8t8B3TKCHZnNytvi9VpAIP4X+Zl6DPQ1
+ IghbzZtvNLqEw==
 Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5BB3637820A7;
- Mon, 25 Mar 2024 10:41:14 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 0C580378209E;
+ Mon, 25 Mar 2024 10:41:15 +0000 (UTC)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
- "Lukas F . Hartmann" <lukas@mntmn.com>
-Subject: [PATCH 1/2] drm/panthor: Fix IO-page mmap() for 32-bit userspace on
- 64-bit kernel
-Date: Mon, 25 Mar 2024 11:41:10 +0100
-Message-ID: <20240325104111.3553712-1-boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org,
+	kernel@collabora.com
+Subject: [PATCH 2/2] drm/panthor: Actually suspend IRQs in the unplug path
+Date: Mon, 25 Mar 2024 11:41:11 +0100
+Message-ID: <20240325104111.3553712-2-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240325104111.3553712-1-boris.brezillon@collabora.com>
+References: <20240325104111.3553712-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,76 +61,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When mapping an IO region, the pseudo-file offset is dependent on the
-userspace architecture. panthor_device_mmio_offset() abstract that away
-for us by turning a userspace MMIO offset into its kernel equivalent,
-but we were not updating vm_area_struct::vm_pgoff accordingly, leading
-us to attach the MMIO region to the wrong file offset.
-
-This has implications when we start mixing 64 bit and 32 bit apps, but
-that's only really a problem when we start having more that 2^43 bytes of
-memory allocated, which is very unlikely to happen.
-
-What's more problematic is the fact this turns our
-unmap_mapping_range(DRM_PANTHOR_USER_MMIO_OFFSET) calls, which are
-supposed to kill the MMIO mapping when entering suspend, into NOPs.
-Which means we either keep the dummy flush_id mapping active at all
-times, or we risk a BUS_FAULT if the MMIO region was mapped, and the
-GPU is suspended after that.
+panthor_xxx_irq_suspend() doesn't mask the interrupts if drm_dev_unplug()
+has been called, which is always the case when our panthor_xxx_unplug()
+helpers are called. Fix that by introducing a panthor_xxx_unplug() helper
+that does what panthor_xxx_irq_suspend() except it does it
+unconditionally.
 
 Fixes: 5fe909cae118 ("drm/panthor: Add the device logical block")
-Reported-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-Reported-by: Lukas F. Hartmann <lukas@mntmn.com>
-Closes: https://gitlab.freedesktop.org/mesa/mesa/-/issues/10835
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/panthor/panthor_device.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+Found inadvertently while debugging another issue. I guess I managed to
+call rmmod during a PING and that led to the FW interrupt handler
+being executed after the device suspend happened.
+---
+ drivers/gpu/drm/panthor/panthor_device.h | 8 ++++++++
+ drivers/gpu/drm/panthor/panthor_fw.c     | 2 +-
+ drivers/gpu/drm/panthor/panthor_gpu.c    | 2 +-
+ drivers/gpu/drm/panthor/panthor_mmu.c    | 2 +-
+ 4 files changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-index bfe8da4a6e4c..a18fd4e4b77c 100644
---- a/drivers/gpu/drm/panthor/panthor_device.c
-+++ b/drivers/gpu/drm/panthor/panthor_device.c
-@@ -334,7 +334,7 @@ static vm_fault_t panthor_mmio_vm_fault(struct vm_fault *vmf)
+diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+index 51c9d61b6796..ba43d5ea4e96 100644
+--- a/drivers/gpu/drm/panthor/panthor_device.h
++++ b/drivers/gpu/drm/panthor/panthor_device.h
+@@ -321,6 +321,14 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
+ 	return ret;										\
+ }												\
+ 												\
++static inline void panthor_ ## __name ## _irq_unplug(struct panthor_irq *pirq)			\
++{												\
++	pirq->mask = 0;										\
++	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);					\
++	synchronize_irq(pirq->irq);								\
++	atomic_set(&pirq->suspended, true);							\
++}												\
++												\
+ static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)			\
+ {												\
+ 	int cookie;										\
+diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+index 33c87a59834e..7a9710a38c5f 100644
+--- a/drivers/gpu/drm/panthor/panthor_fw.c
++++ b/drivers/gpu/drm/panthor/panthor_fw.c
+@@ -1128,7 +1128,7 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
+ 
+ 	/* Make sure the IRQ handler can be called after that point. */
+ 	if (ptdev->fw->irq.irq)
+-		panthor_job_irq_suspend(&ptdev->fw->irq);
++		panthor_job_irq_unplug(&ptdev->fw->irq);
+ 
+ 	panthor_fw_stop(ptdev);
+ 
+diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+index 6dbbc4cfbe7e..b84c5b650fd9 100644
+--- a/drivers/gpu/drm/panthor/panthor_gpu.c
++++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+@@ -174,7 +174,7 @@ void panthor_gpu_unplug(struct panthor_device *ptdev)
+ 	unsigned long flags;
+ 
+ 	/* Make sure the IRQ handler is not running after that point. */
+-	panthor_gpu_irq_suspend(&ptdev->gpu->irq);
++	panthor_gpu_irq_unplug(&ptdev->gpu->irq);
+ 
+ 	/* Wake-up all waiters. */
+ 	spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index fdd35249169f..1f333cdded0f 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -2622,7 +2622,7 @@ int panthor_vm_prepare_mapped_bos_resvs(struct drm_exec *exec, struct panthor_vm
+  */
+ void panthor_mmu_unplug(struct panthor_device *ptdev)
  {
- 	struct vm_area_struct *vma = vmf->vma;
- 	struct panthor_device *ptdev = vma->vm_private_data;
--	u64 id = (u64)vma->vm_pgoff << PAGE_SHIFT;
-+	u64 offset = (u64)vma->vm_pgoff << PAGE_SHIFT;
- 	unsigned long pfn;
- 	pgprot_t pgprot;
- 	vm_fault_t ret;
-@@ -347,7 +347,7 @@ static vm_fault_t panthor_mmio_vm_fault(struct vm_fault *vmf)
- 	mutex_lock(&ptdev->pm.mmio_lock);
- 	active = atomic_read(&ptdev->pm.state) == PANTHOR_DEVICE_PM_STATE_ACTIVE;
+-	panthor_mmu_irq_suspend(&ptdev->mmu->irq);
++	panthor_mmu_irq_unplug(&ptdev->mmu->irq);
  
--	switch (panthor_device_mmio_offset(id)) {
-+	switch (offset) {
- 	case DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET:
- 		if (active)
- 			pfn = __phys_to_pfn(ptdev->phys_addr + CSF_GPU_LATEST_FLUSH_ID);
-@@ -378,9 +378,9 @@ static const struct vm_operations_struct panthor_mmio_vm_ops = {
- 
- int panthor_device_mmap_io(struct panthor_device *ptdev, struct vm_area_struct *vma)
- {
--	u64 id = (u64)vma->vm_pgoff << PAGE_SHIFT;
-+	u64 offset = panthor_device_mmio_offset((u64)vma->vm_pgoff << PAGE_SHIFT);
- 
--	switch (panthor_device_mmio_offset(id)) {
-+	switch (offset) {
- 	case DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET:
- 		if (vma->vm_end - vma->vm_start != PAGE_SIZE ||
- 		    (vma->vm_flags & (VM_WRITE | VM_EXEC)))
-@@ -392,6 +392,9 @@ int panthor_device_mmap_io(struct panthor_device *ptdev, struct vm_area_struct *
- 		return -EINVAL;
- 	}
- 
-+	/* Adjust vm_pgoff for 32-bit userspace on 64-bit kernel. */
-+	vma->vm_pgoff = offset >> PAGE_SHIFT;
-+
- 	/* Defer actual mapping to the fault handler. */
- 	vma->vm_private_data = ptdev;
- 	vma->vm_ops = &panthor_mmio_vm_ops;
+ 	mutex_lock(&ptdev->mmu->as.slots_lock);
+ 	for (u32 i = 0; i < ARRAY_SIZE(ptdev->mmu->as.slots); i++) {
 -- 
 2.44.0
 
