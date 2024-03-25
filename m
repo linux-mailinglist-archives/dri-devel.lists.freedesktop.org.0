@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5620388A059
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 13:52:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 654E988A05B
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 13:52:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6729B10E846;
-	Mon, 25 Mar 2024 12:52:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AB6110E854;
+	Mon, 25 Mar 2024 12:52:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FtlAydSq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="d8AlQ1Lf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 374BE10E846
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F86D10E84F
  for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 12:52:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id B7F21CE17E2;
- Mon, 25 Mar 2024 12:52:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0612C433F1;
- Mon, 25 Mar 2024 12:52:21 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id DE4A960FB7;
+ Mon, 25 Mar 2024 12:52:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C99FEC433F1;
+ Mon, 25 Mar 2024 12:52:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711371142;
- bh=i2Tyc1b13pVs3fjhESYVAvccxk8BcG5KRMtAAH5glbY=;
+ s=k20201202; t=1711371145;
+ bh=lbnQ9fXjRs46e/s6hYKS6EsOnnkI2dETlAjBEqBSaVQ=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=FtlAydSqKUFP5oE8UYheYvlaBaUH1AGCmFPAtUx2HdwjiHTAeFAzSTjeQfF91gjIb
- d8ExugUk+FaEH03P7y3y90wOHqzmyh4sy3IVx3jInLsGZWlzHFFEfFopKkRJ8JNinq
- xXYgVVLfeOxun4vGZXDqHpFf7Y2koOD/rHmirx0r0HkOmtz2rDPVrKsR3ntmFJigw6
- xaeeplfE0zLdEbjq0x3J/Z5iAWf5SYhgusHPZKHCxN79oZlurcDwSTQYb/+0eSh9Fw
- yTyQ273P1Zr8C2Ks3k8y7X9BgqeXDE6nI1b1R20y6Wwuy7h0eL0O90WVePUSi1emcv
- +bbaCMR+kv1nA==
+ b=d8AlQ1Lfcacz69FOSZIBI7K2V7QVNoUk/gAzeaqYtzXeqzbKufWyIS/sC05SbBxs4
+ PcM75FUo1KA988V7+TFZYBvMmTYUKjvKZVCuQzclk6JZOpC5xhlc4n1TII1iM8Zv43
+ kVbAorWwnxDsBSoXooM2rYUNPY4WznemiIXv9+gedxxCTjEAtTLmKojvKI4m00SgNE
+ uE9P7ORujpTXZSxkrky9XarrThMudhFwKlEJ7n/uKpUEeE4ddel+i6PgY7eTGGkHGo
+ L+g2r43nK7W+NNb44EB+2Q/mz3pm2SS1eVy6xrNVIsagAzoV7lCX6Y749KCYgo7J5p
+ nxbQekqAqM78g==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 25 Mar 2024 13:52:04 +0100
-Subject: [PATCH 02/12] drm/display: Make DisplayPort tunnel debug Kconfig
+Date: Mon, 25 Mar 2024 13:52:05 +0100
+Subject: [PATCH 03/12] drm/display: Make DisplayPort AUX Chardev Kconfig
  name consistent
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240325-kms-kconfig-helpers-v1-2-bfec6949d9c3@kernel.org>
+Message-Id: <20240325-kms-kconfig-helpers-v1-3-bfec6949d9c3@kernel.org>
 References: <20240325-kms-kconfig-helpers-v1-0-bfec6949d9c3@kernel.org>
 In-Reply-To: <20240325-kms-kconfig-helpers-v1-0-bfec6949d9c3@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -46,12 +46,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
  dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4290; i=mripard@kernel.org;
- h=from:subject:message-id; bh=i2Tyc1b13pVs3fjhESYVAvccxk8BcG5KRMtAAH5glbY=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGmMxeWR5jMTVff+Eo+bn+O8U+m41c+pW9Z4mnY37XzG+
- tPsz5ljHVNZGIQ5GWTFFFmeyISdXt6+uMrBfuUPmDmsTCBDGLg4BWAivGqMDZ/XZmbO7C3ZoWw/
- XfEDx2L9STLVZde+PhRntTt8+dVyjusRu+3y2zudO9LWXLLdvUfsJWOdzbOlnpsTm5fsZle8826
- P1cuLOjOmM+gLH/tepvpeNzT718TugL2XFP5fb5aSXrJ0yve3AA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4359; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=lbnQ9fXjRs46e/s6hYKS6EsOnnkI2dETlAjBEqBSaVQ=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGmMxeV9J0NuP52yJJA3KG/3g1k2HsEGmyTdKsS+ZPeKb
+ 3F3enSjYyoLgzAng6yYIssTmbDTy9sXVznYr/wBM4eVCWQIAxenAEzE/jljnd6fjfNfdkbs+3hg
+ R09KsuOzGQyvBDZE1kloqLz+Mn1CAsP5i1MUtzXKfZvz6LuzqZqIEWPD8R3abyJSeKWE/yfEPZz
+ Ye3KeH+s8F+f55lLS5d+M+86mxEftk5eMvn3wiKGEh/6cXE0A
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,121 +70,103 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 While most display helpers Kconfig symbols have the DRM_DISPLAY prefix,
-the DisplayPort Tunnel debugging uses DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE.
+the DisplayPort-AUX chardev interface uses DRM_DP_AUX_BUS.
 
 Since the number of users is limited and it's a selected symbol, we can
 easily rename it to make it consistent.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/display/Kconfig         |  2 +-
- drivers/gpu/drm/display/drm_dp_tunnel.c | 10 +++++-----
- drivers/gpu/drm/i915/Kconfig.debug      |  2 +-
- 3 files changed, 7 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/display/Kconfig                  | 2 +-
+ drivers/gpu/drm/display/Makefile                 | 2 +-
+ drivers/gpu/drm/display/drm_dp_helper.c          | 2 +-
+ drivers/gpu/drm/display/drm_dp_helper_internal.h | 2 +-
+ drivers/gpu/drm/i915/Kconfig.debug               | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kconfig
-index 843d74db1dce..0d350e9db807 100644
+index 0d350e9db807..038be9795581 100644
 --- a/drivers/gpu/drm/display/Kconfig
 +++ b/drivers/gpu/drm/display/Kconfig
-@@ -23,11 +23,11 @@ config DRM_DISPLAY_DP_TUNNEL
+@@ -48,11 +48,11 @@ config DRM_DISPLAY_HDMI_HELPER
+ 	bool
+ 	depends on DRM_DISPLAY_HELPER
  	help
- 	  Enable support for DisplayPort tunnels. This allows drivers to use
- 	  DP tunnel features like the Bandwidth Allocation mode to maximize the
- 	  BW utilization for display streams on Thunderbolt links.
+ 	  DRM display helpers for HDMI.
  
--config DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE
-+config DRM_DISPLAY_DP_TUNNEL_STATE_DEBUG
- 	bool "Enable debugging the DP tunnel state"
- 	depends on REF_TRACKER
- 	depends on DRM_DISPLAY_DP_TUNNEL
- 	depends on DEBUG_KERNEL
- 	depends on EXPERT
-diff --git a/drivers/gpu/drm/display/drm_dp_tunnel.c b/drivers/gpu/drm/display/drm_dp_tunnel.c
-index 120e0de674c1..2a91e9b11d03 100644
---- a/drivers/gpu/drm/display/drm_dp_tunnel.c
-+++ b/drivers/gpu/drm/display/drm_dp_tunnel.c
-@@ -189,11 +189,11 @@ struct drm_dp_tunnel_mgr {
+-config DRM_DP_AUX_CHARDEV
++config DRM_DISPLAY_DP_AUX_CHARDEV
+ 	bool "DRM DP AUX Interface"
+ 	depends on DRM && DRM_DISPLAY_HELPER
+ 	select DRM_DISPLAY_DP_HELPER
+ 	help
+ 	  Choose this option to enable a /dev/drm_dp_auxN node that allows to
+diff --git a/drivers/gpu/drm/display/Makefile b/drivers/gpu/drm/display/Makefile
+index 3edf1ba2764e..44015aef1e8c 100644
+--- a/drivers/gpu/drm/display/Makefile
++++ b/drivers/gpu/drm/display/Makefile
+@@ -12,9 +12,9 @@ drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_TUNNEL) += \
+ 	drm_dp_tunnel.o
+ drm_display_helper-$(CONFIG_DRM_DISPLAY_HDCP_HELPER) += drm_hdcp_helper.o
+ drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_HELPER) += \
+ 	drm_hdmi_helper.o \
+ 	drm_scdc_helper.o
+-drm_display_helper-$(CONFIG_DRM_DP_AUX_CHARDEV) += drm_dp_aux_dev.o
++drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_AUX_CHARDEV) += drm_dp_aux_dev.o
+ drm_display_helper-$(CONFIG_DRM_DP_CEC) += drm_dp_cec.o
  
- 	int group_count;
- 	struct drm_dp_tunnel_group *groups;
- 	wait_queue_head_t bw_req_queue;
+ obj-$(CONFIG_DRM_DISPLAY_HELPER) += drm_display_helper.o
+diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+index 266826eac4a7..66a1785447b8 100644
+--- a/drivers/gpu/drm/display/drm_dp_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_helper.c
+@@ -2111,11 +2111,11 @@ EXPORT_SYMBOL(drm_dp_aux_init);
+  * &drm_dp_aux.dev will typically be the &drm_connector &device which
+  * corresponds to @aux. For these devices, it's advised to call
+  * drm_dp_aux_register() in &drm_connector_funcs.late_register, and likewise to
+  * call drm_dp_aux_unregister() in &drm_connector_funcs.early_unregister.
+  * Functions which don't follow this will likely Oops when
+- * %CONFIG_DRM_DP_AUX_CHARDEV is enabled.
++ * %CONFIG_DRM_DISPLAY_DP_AUX_CHARDEV is enabled.
+  *
+  * For devices where the AUX channel is a device that exists independently of
+  * the &drm_device that uses it, such as SoCs and bridge devices, it is
+  * recommended to call drm_dp_aux_register() after a &drm_device has been
+  * assigned to &drm_dp_aux.drm_dev, and likewise to call
+diff --git a/drivers/gpu/drm/display/drm_dp_helper_internal.h b/drivers/gpu/drm/display/drm_dp_helper_internal.h
+index 8917fc3af9ec..737949a2820f 100644
+--- a/drivers/gpu/drm/display/drm_dp_helper_internal.h
++++ b/drivers/gpu/drm/display/drm_dp_helper_internal.h
+@@ -3,11 +3,11 @@
+ #ifndef DRM_DP_HELPER_INTERNAL_H
+ #define DRM_DP_HELPER_INTERNAL_H
  
--#ifdef CONFIG_DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE
-+#ifdef CONFIG_DRM_DISPLAY_DP_TUNNEL_STATE_DEBUG
- 	struct ref_tracker_dir ref_tracker;
- #endif
- };
+ struct drm_dp_aux;
  
- /*
-@@ -383,11 +383,11 @@ static void free_tunnel(struct kref *kref)
- static void tunnel_put(struct drm_dp_tunnel *tunnel)
- {
- 	kref_put(&tunnel->kref, free_tunnel);
- }
- 
--#ifdef CONFIG_DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE
-+#ifdef CONFIG_DRM_DISPLAY_DP_TUNNEL_STATE_DEBUG
- static void track_tunnel_ref(struct drm_dp_tunnel *tunnel,
- 			     struct ref_tracker **tracker)
- {
- 	ref_tracker_alloc(&tunnel->group->mgr->ref_tracker,
- 			  tracker, GFP_KERNEL);
-@@ -1601,11 +1601,11 @@ static bool init_group(struct drm_dp_tunnel_mgr *mgr, struct drm_dp_tunnel_group
- static void cleanup_group(struct drm_dp_tunnel_group *group)
- {
- 	drm_atomic_private_obj_fini(&group->base);
- }
- 
--#ifdef CONFIG_DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE
-+#ifdef CONFIG_DRM_DISPLAY_DP_TUNNEL_STATE_DEBUG
- static void check_unique_stream_ids(const struct drm_dp_tunnel_group_state *group_state)
- {
- 	const struct drm_dp_tunnel_state *tunnel_state;
- 	u32 stream_mask = 0;
- 
-@@ -1879,11 +1879,11 @@ static void destroy_mgr(struct drm_dp_tunnel_mgr *mgr)
- 	for (i = 0; i < mgr->group_count; i++) {
- 		cleanup_group(&mgr->groups[i]);
- 		drm_WARN_ON(mgr->dev, !list_empty(&mgr->groups[i].tunnels));
- 	}
- 
--#ifdef CONFIG_DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE
-+#ifdef CONFIG_DRM_DISPLAY_DP_TUNNEL_STATE_DEBUG
- 	ref_tracker_dir_exit(&mgr->ref_tracker);
- #endif
- 
- 	kfree(mgr->groups);
- 	kfree(mgr);
-@@ -1916,11 +1916,11 @@ drm_dp_tunnel_mgr_create(struct drm_device *dev, int max_group_count)
- 		kfree(mgr);
- 
- 		return NULL;
- 	}
- 
--#ifdef CONFIG_DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE
-+#ifdef CONFIG_DRM_DISPLAY_DP_TUNNEL_STATE_DEBUG
- 	ref_tracker_dir_init(&mgr->ref_tracker, 16, "dptun");
- #endif
- 
- 	for (i = 0; i < max_group_count; i++) {
- 		if (!init_group(mgr, &mgr->groups[i])) {
+-#ifdef CONFIG_DRM_DP_AUX_CHARDEV
++#ifdef CONFIG_DRM_DISPLAY_DP_AUX_CHARDEV
+ int drm_dp_aux_dev_init(void);
+ void drm_dp_aux_dev_exit(void);
+ int drm_dp_aux_register_devnode(struct drm_dp_aux *aux);
+ void drm_dp_aux_unregister_devnode(struct drm_dp_aux *aux);
+ #else
 diff --git a/drivers/gpu/drm/i915/Kconfig.debug b/drivers/gpu/drm/i915/Kconfig.debug
-index bc18e2d9ea05..5ae02c1cd25c 100644
+index 5ae02c1cd25c..d8397065c3f0 100644
 --- a/drivers/gpu/drm/i915/Kconfig.debug
 +++ b/drivers/gpu/drm/i915/Kconfig.debug
-@@ -26,11 +26,11 @@ config DRM_I915_DEBUG
+@@ -25,11 +25,11 @@ config DRM_I915_DEBUG
+ 	select PREEMPT_COUNT
  	select I2C_CHARDEV
  	select REF_TRACKER
  	select STACKDEPOT
  	select STACKTRACE
- 	select DRM_DP_AUX_CHARDEV
--	select DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE if DRM_I915_DP_TUNNEL
-+	select DRM_DISPLAY_DP_TUNNEL_STATE_DEBUG if DRM_I915_DP_TUNNEL
+-	select DRM_DP_AUX_CHARDEV
++	select DRM_DISPLAY_DP_AUX_CHARDEV
+ 	select DRM_DISPLAY_DP_TUNNEL_STATE_DEBUG if DRM_I915_DP_TUNNEL
  	select X86_MSR # used by igt/pm_rpm
  	select DRM_VGEM # used by igt/prime_vgem (dmabuf interop checks)
  	select DRM_DEBUG_MM if DRM=y
  	select DRM_EXPORT_FOR_TESTS if m
- 	select DRM_DEBUG_SELFTEST
 
 -- 
 2.44.0
