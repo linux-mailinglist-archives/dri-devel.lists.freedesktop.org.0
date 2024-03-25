@@ -2,91 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603EB88AC80
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 18:53:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C9B688ACAA
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 18:57:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30F6A10EA3A;
-	Mon, 25 Mar 2024 17:53:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CEEF10EA57;
+	Mon, 25 Mar 2024 17:57:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fMYjrepK";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BdS2U81u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69A1A10E1F0
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 17:53:18 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-1e0ae065d24so13671455ad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 10:53:18 -0700 (PDT)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4AC610EA57
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 17:57:45 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-a4a393b699fso168409066b.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 10:57:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1711389198; x=1711993998; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
- :message-id:reply-to;
- bh=e1SpZkZqM4zlQDRKNVTJpf19d/YZRyK65cuIsSmn1gc=;
- b=fMYjrepKc7YDDSMh9ynA2Al/aXvMxL0Ihei8OOBnbuaBa7dNHs6YMmL/6NqVjIkwU3
- czwAupwF8FyWZDC5SpnEMJXVqijhyW00yw4udfDgtBBEj4mQdhKuthC4QEDXHM6nlsUX
- FSLwngkhxXQ0H7sE12aF8XKhs1mdtf9CPPAt1RdOvRQSZ3tzVFjmDlUdNi1DME4+olJP
- gz3gIEXZLXYKJjUhKi0JngSUHxhyvUku0/z17NSIRiOLPezw833yKy1lzb04YutS0Rs2
- vxnOHq4CRou6nr3PigGGD7ei74nyp8UhEbvt8pjAJU/tywHQlqNCvLhfXvizik2QjJmW
- JStg==
+ d=linaro.org; s=google; t=1711389464; x=1711994264; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=vTgR9569AKBIOfro0ug4KR0uxTmxP2IUC1rcBBMRyEM=;
+ b=BdS2U81uca/5pLXW0uYjqdpp437lxvwhyr4vCDDHBvhpXrZFhik31JBWrmywYGtx3M
+ VRsYBbe34tvL+0zkUi1AeKD2VxjQPgtkxna5QvQ4ZMf5b6+ZQqX+spg2PDMcLu4h2WfC
+ bC1pXRNWfDNIagzujTO85cw/vJBsJVz7u86TMwB3nFyOeqTgCSg76jFGhUC9iS0vGfUa
+ PUSTFSi6mxx33ZtWD7+JKKSr1J1ZsM6MPn2eJP2R77ZKHlU7XA6bjUDe+xtXEyQTV2ky
+ 8a4NgFY0xWFMHoJNMwzMoqYMXcfGljmBzrklPVID2Ad73l6NcFR7pATMqXUXUKykSB8R
+ KEMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711389198; x=1711993998;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=e1SpZkZqM4zlQDRKNVTJpf19d/YZRyK65cuIsSmn1gc=;
- b=BMqucXMQPVnzX94JkH/Ycq7uWiWoBTqfrptG+lp8UUlRLtXHGZrSrjD7RXOb4yS5ua
- pWAAW3gvSK/pfH20wAWfT4jbFqHGzXdW82SF3pwHRHxrfvK8ttyvUpblUkU1JmJPa/KU
- A3QSRzgpiCBtFDXfKZ0qQHXdMP4QH45CoZFBwLBY3YZKVeDx1eLBZpEqxCIQtGSUddmU
- /sFe4HpVOHKI1MN/HryS66eJ7T4EXrn70haesjLt/c4GxndHCE3qsiTG5qAVALQoSUWC
- ad8JLMoZt7pIxvySzGKDkIBQI8TZpwqCQDOMvIVbUhR0ZtvUR4tuLm5csyucNQOEIOtK
- 0svA==
+ d=1e100.net; s=20230601; t=1711389464; x=1711994264;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vTgR9569AKBIOfro0ug4KR0uxTmxP2IUC1rcBBMRyEM=;
+ b=f6X/u1Q1SS8Lx07yv5NO1bQbT4Xa7FYhMEHp5rFGphJt80bcKHUfO7NxuioSPFCer9
+ rbg2+4iQnMnfG6AjRq2l1AgKuCeJAGU7GOmwm8yWjyZSLwIKMM4AWwH3xaDVwJgs+vSe
+ Z0L1h8ckoP0IqUp1pu6nO6CDvyzeUsHYQuRrE3VmdSTIYXWIQSsdXZxE8oziRdkUfZPX
+ JqUbmliG3Bm0N3vmI3KSZLD+1+k0SQII7qz4tynfA/fS72nrTsuTkWYmkCaMBVfbqs0S
+ 4LjzVQJRU1hv2YuFl0yqGokHbVTggAyZvIa7qZjL6CUIQU6AxL93rzD0rsAtji9H+bHV
+ lltA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXq6IMQD6tQm7+6qzj95e+fANCCxRdPXV7HWCsp2HxgTbQmfD53dIcRHn9tjk4m4+h1gR0GVbhbX28UV1vkuCyy5xGLhWZh7aa7NdABfRMS
-X-Gm-Message-State: AOJu0Yzca+8vL9QwY3YYGCayF2vEnLcswHp9OZMHzJDkEG1t0om9JG64
- 7qUZDXuDJq+OsJ7UDUcrMMNXdA3TDAfMOEmvv6UPTVEjlLyQJwHI
-X-Google-Smtp-Source: AGHT+IHTc79fOqkfgWwaBqDmxHsREbiE6llQARC+UmxA2cQTIolFyUfUQoa6sVIdjGwuI2KMb1NDoA==
-X-Received: by 2002:a17:903:2301:b0:1e0:b5ef:91b with SMTP id
- d1-20020a170903230100b001e0b5ef091bmr4565322plh.50.1711389197737; 
- Mon, 25 Mar 2024 10:53:17 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ AJvYcCUah+5va/ZmyY9iW++sCyit8xcrSKZXzDgdEAnOfm2c2InCOp2Zwwq3+U6KqByEjNKzybOwLUDRp1H/cJmthprjHhj8W/8YUk3Vf8iE505D
+X-Gm-Message-State: AOJu0Yx3QT8GeStrCbLLGhyD8BSKzfk5zZGltlBHJO6LNR4OvlEtjnYJ
+ ks1IcfcqnoXwlEX/yMwMUpgJf5oAHEUmu9AXhOj0wnXqiaGKxzGv504Ikz0dChI=
+X-Google-Smtp-Source: AGHT+IHZaCqIgNZYNZYZx1Ul9q23YfDYZM2aAElxNhm5klcqTbymtNS99Wp5E8Bpw6Z8QVNt1a17sA==
+X-Received: by 2002:a17:907:72c1:b0:a4a:39f3:b195 with SMTP id
+ du1-20020a17090772c100b00a4a39f3b195mr2732824ejc.4.1711389463699; 
+ Mon, 25 Mar 2024 10:57:43 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.222.44])
  by smtp.gmail.com with ESMTPSA id
- q8-20020a170902b10800b001e00d9680cesm4933234plr.130.2024.03.25.10.53.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Mar 2024 10:53:17 -0700 (PDT)
-From: Guenter Roeck <linux@roeck-us.net>
-To: linux-kselftest@vger.kernel.org
-Cc: David Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>,
- David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Maxime Ripard <mripard@kernel.org>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, loongarch@lists.linux.dev,
- netdev@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
- Linux Kernel Functional Testing <lkft@linaro.org>
-Subject: [PATCH v2 14/14] powerpc: Add support for suppressing warning
- backtraces
-Date: Mon, 25 Mar 2024 10:52:48 -0700
-Message-Id: <20240325175248.1499046-15-linux@roeck-us.net>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240325175248.1499046-1-linux@roeck-us.net>
-References: <20240325175248.1499046-1-linux@roeck-us.net>
+ zh20-20020a170906881400b00a47531764fdsm1879244ejb.65.2024.03.25.10.57.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Mar 2024 10:57:43 -0700 (PDT)
+Message-ID: <9bc55af4-1ef0-42ac-9561-fe08a3401ccf@linaro.org>
+Date: Mon, 25 Mar 2024 18:57:41 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND PATCH] dt-bindings: display: sony,td4353-jdi: allow
+ width-mm and height-mm
+To: Rob Herring <robh@kernel.org>
+Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Conor Dooley <conor.dooley@microchip.com>
+References: <20240325103227.27474-1-krzysztof.kozlowski@linaro.org>
+ <171137719526.3318300.16563684034350324718.robh@kernel.org>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <171137719526.3318300.16563684034350324718.robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,113 +139,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add name of functions triggering warning backtraces to the __bug_table
-object section to enable support for suppressing WARNING backtraces.
+On 25/03/2024 15:33, Rob Herring wrote:
+> On Mon, 25 Mar 2024 11:32:27 +0100, Krzysztof Kozlowski wrote:
+>> Allow width and height properties from panel-common.yaml, already used
+>> on some boards:
+>>
+>>   sdm845-sony-xperia-tama-apollo.dtb: panel@0: 'height-mm', 'width-mm' do not match any of the regexes: 'pinctrl-[0-9]+'
+>>
+>> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> ---
+>>
+>> Rob, could you pick up this one? Was on the list for almost a year.
+>>
+>>
+>>  .../devicetree/bindings/display/panel/sony,td4353-jdi.yaml      | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+> 
+> Applied, thanks!
 
-To limit image size impact, the pointer to the function name is only added
-to the __bug_table section if both CONFIG_KUNIT_SUPPRESS_BACKTRACE and
-CONFIG_DEBUG_BUGVERBOSE are enabled. Otherwise, the __func__ assembly
-parameter is replaced with a (dummy) NULL parameter to avoid an image size
-increase due to unused __func__ entries (this is necessary because __func__
-is not a define but a virtual variable).
+Few hours earlier Neil Armstrong took it, so I think you can drop it.
 
-Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
-Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
----
-- Rebased to v6.9-rc1
-- Added Tested-by:, Acked-by:, and Reviewed-by: tags
-- Introduced KUNIT_SUPPRESS_BACKTRACE configuration option
-
- arch/powerpc/include/asm/bug.h | 37 +++++++++++++++++++++++++---------
- 1 file changed, 28 insertions(+), 9 deletions(-)
-
-diff --git a/arch/powerpc/include/asm/bug.h b/arch/powerpc/include/asm/bug.h
-index 1db485aacbd9..5b06745d20aa 100644
---- a/arch/powerpc/include/asm/bug.h
-+++ b/arch/powerpc/include/asm/bug.h
-@@ -14,6 +14,9 @@
- 	 .section __bug_table,"aw"
- 5001:	 .4byte \addr - .
- 	 .4byte 5002f - .
-+#ifdef CONFIG_KUNIT_SUPPRESS_BACKTRACE
-+	 .4byte 0
-+#endif
- 	 .short \line, \flags
- 	 .org 5001b+BUG_ENTRY_SIZE
- 	 .previous
-@@ -32,30 +35,46 @@
- #endif /* verbose */
- 
- #else /* !__ASSEMBLY__ */
--/* _EMIT_BUG_ENTRY expects args %0,%1,%2,%3 to be FILE, LINE, flags and
--   sizeof(struct bug_entry), respectively */
-+/* _EMIT_BUG_ENTRY expects args %0,%1,%2,%3,%4 to be FILE, __func__, LINE, flags
-+   and sizeof(struct bug_entry), respectively */
- #ifdef CONFIG_DEBUG_BUGVERBOSE
-+
-+#ifdef CONFIG_KUNIT_SUPPRESS_BACKTRACE
-+# define HAVE_BUG_FUNCTION
-+# define __BUG_FUNC_PTR	"	.4byte %1 - .\n"
-+#else
-+# define __BUG_FUNC_PTR
-+#endif /* CONFIG_KUNIT_SUPPRESS_BACKTRACE */
-+
- #define _EMIT_BUG_ENTRY				\
- 	".section __bug_table,\"aw\"\n"		\
- 	"2:	.4byte 1b - .\n"		\
- 	"	.4byte %0 - .\n"		\
--	"	.short %1, %2\n"		\
--	".org 2b+%3\n"				\
-+	__BUG_FUNC_PTR				\
-+	"	.short %2, %3\n"		\
-+	".org 2b+%4\n"				\
- 	".previous\n"
- #else
- #define _EMIT_BUG_ENTRY				\
- 	".section __bug_table,\"aw\"\n"		\
- 	"2:	.4byte 1b - .\n"		\
--	"	.short %2\n"			\
--	".org 2b+%3\n"				\
-+	"	.short %3\n"			\
-+	".org 2b+%4\n"				\
- 	".previous\n"
- #endif
- 
-+#ifdef HAVE_BUG_FUNCTION
-+# define __BUG_FUNC	__func__
-+#else
-+# define __BUG_FUNC	NULL
-+#endif
-+
- #define BUG_ENTRY(insn, flags, ...)			\
- 	__asm__ __volatile__(				\
- 		"1:	" insn "\n"			\
- 		_EMIT_BUG_ENTRY				\
--		: : "i" (__FILE__), "i" (__LINE__),	\
-+		: : "i" (__FILE__), "i" (__BUG_FUNC),	\
-+		  "i" (__LINE__),			\
- 		  "i" (flags),				\
- 		  "i" (sizeof(struct bug_entry)),	\
- 		  ##__VA_ARGS__)
-@@ -80,7 +99,7 @@
- 		if (x)						\
- 			BUG();					\
- 	} else {						\
--		BUG_ENTRY(PPC_TLNEI " %4, 0", 0, "r" ((__force long)(x)));	\
-+		BUG_ENTRY(PPC_TLNEI " %5, 0", 0, "r" ((__force long)(x)));	\
- 	}							\
- } while (0)
- 
-@@ -90,7 +109,7 @@
- 		if (__ret_warn_on)				\
- 			__WARN();				\
- 	} else {						\
--		BUG_ENTRY(PPC_TLNEI " %4, 0",			\
-+		BUG_ENTRY(PPC_TLNEI " %5, 0",			\
- 			  BUGFLAG_WARNING | BUGFLAG_TAINT(TAINT_WARN),	\
- 			  "r" (__ret_warn_on));	\
- 	}							\
--- 
-2.39.2
+Best regards,
+Krzysztof
 
