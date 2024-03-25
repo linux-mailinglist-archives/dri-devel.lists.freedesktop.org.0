@@ -2,42 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85A1788A844
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 17:06:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4611A88A904
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 17:24:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A98C10E995;
-	Mon, 25 Mar 2024 16:06:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1575410E35F;
+	Mon, 25 Mar 2024 16:23:59 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="N/G9g9cb";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A52C110E995
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 16:06:12 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B3F8B2F4;
- Mon, 25 Mar 2024 09:06:45 -0700 (PDT)
-Received: from [10.57.15.178] (unknown [10.57.15.178])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B0DBC3F64C;
- Mon, 25 Mar 2024 09:06:09 -0700 (PDT)
-Message-ID: <cbc9e585-0515-449a-a83c-931c9b1d53e2@arm.com>
-Date: Mon, 25 Mar 2024 16:06:11 +0000
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 176AE10E35F
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 16:23:56 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 42PFDioK005414; Mon, 25 Mar 2024 16:23:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=KI62ssUoQ/v/3MXeH8rC+jRnVUy4X9gSCJweqEojCU4=; b=N/
+ G9g9cbjNBd40mg1l3IX56YCQiwoBBn9rWufMB0n+kM1yCHkLR/4qoJKI++rEHcl/
+ xbvYmj+KRt4/tY8SkjBbsbzsJKhPn1n3UZQoIC3JqpcCYzLRu9hmEqdMCQaTkeXs
+ rPNMwQuzuh/6QsezsMw46Hu+8f+OaVC1aWg17u6B5Grxb8Be4fss1oyFNpwhraC1
+ 1j456IJGpADw/Uq5jjnjNjWs+KQYymkRbgmWEIh5wCAskiopJeJZibve9VIT59N1
+ fuB9Y6x3shsp3DeEfIjkSoxCekmR3MR/ryecQ5hCChltTiBiYmVMTF1AsvF2jznn
+ 2Dd19IzRfy3c442VzEFg==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x392mrhd1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 25 Mar 2024 16:23:51 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42PGNo20019745
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 25 Mar 2024 16:23:50 GMT
+Received: from [10.71.108.229] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 25 Mar
+ 2024 09:23:50 -0700
+Message-ID: <01926de1-c914-46c5-8b38-0295bd3d9577@quicinc.com>
+Date: Mon, 25 Mar 2024 09:23:49 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panfrost: Only display fdinfo's engine and cycle tags
- when profiling is on
-Content-Language: en-GB
-To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240316231306.293817-1-adrian.larumbe@collabora.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20240316231306.293817-1-adrian.larumbe@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v1] drm/panel: replace utf multiply with an ascii x
+Content-Language: en-US
+To: Prasad Pandit <ppandit@redhat.com>
+CC: <diogo.ivo@tecnico.ulisboa.pt>, <neil.armstrong@linaro.org>,
+ <sam@ravnborg.org>, <dri-devel@lists.freedesktop.org>, Prasad Pandit
+ <pjp@fedoraproject.org>
+References: <20240323073923.1824802-1-ppandit@redhat.com>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20240323073923.1824802-1-ppandit@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: RQVnQRhqF1GFvHAoC_6Tx9tkTg_9nt11
+X-Proofpoint-GUID: RQVnQRhqF1GFvHAoC_6Tx9tkTg_9nt11
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-25_13,2024-03-21_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 spamscore=0
+ bulkscore=0 adultscore=0 malwarescore=0 phishscore=0 clxscore=1015
+ impostorscore=0 priorityscore=1501 suspectscore=0 lowpriorityscore=0
+ mlxlogscore=778 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2403210001 definitions=main-2403250092
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,44 +90,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/03/2024 23:13, Adrián Larumbe wrote:
-> If job accounting is disabled, then both fdinfo's drm-engine and drm-cycle
-> key values will remain immutable. In that case, it makes more sense not to
-> display them at all to avoid confusing user space profiling tools.
-> 
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 
-Pushed to drm-misc-next
+
+On 3/23/2024 12:39 AM, Prasad Pandit wrote:
+> From: Prasad Pandit <pjp@fedoraproject.org>
+> 
+> Replace unicode multiplication character with an ascii x.
+> It helps Kconfig parsers to read file without error.
+
+Hi Prasad,
+
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 
 Thanks,
 
-Steve
+Jessica Zhang
 
+> 
+> Fixes: 25205087df1f ("drm/panel: Add driver for JDI LPM102A188A")
+> Fixes: c96f566273bf ("drm/panel: Add JDI LT070ME05000 WUXGA DSI Panel")
+> Fixes: cf40c6600592 ("drm: panel: add TDO tl070wsh30 panel driver")
+> Signed-off-by: Prasad Pandit <pjp@fedoraproject.org>
 > ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
+>   drivers/gpu/drm/panel/Kconfig | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index eec250114114..ef9f6c0716d5 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -550,10 +550,12 @@ static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
->  	BUILD_BUG_ON(ARRAY_SIZE(engine_names) != NUM_JOB_SLOTS);
->  
->  	for (i = 0; i < NUM_JOB_SLOTS - 1; i++) {
-> -		drm_printf(p, "drm-engine-%s:\t%llu ns\n",
-> -			   engine_names[i], panfrost_priv->engine_usage.elapsed_ns[i]);
-> -		drm_printf(p, "drm-cycles-%s:\t%llu\n",
-> -			   engine_names[i], panfrost_priv->engine_usage.cycles[i]);
-> +		if (pfdev->profile_mode) {
-> +			drm_printf(p, "drm-engine-%s:\t%llu ns\n",
-> +				   engine_names[i], panfrost_priv->engine_usage.elapsed_ns[i]);
-> +			drm_printf(p, "drm-cycles-%s:\t%llu\n",
-> +				   engine_names[i], panfrost_priv->engine_usage.cycles[i]);
-> +		}
->  		drm_printf(p, "drm-maxfreq-%s:\t%lu Hz\n",
->  			   engine_names[i], pfdev->pfdevfreq.fast_rate);
->  		drm_printf(p, "drm-curfreq-%s:\t%lu Hz\n",
+> v1:
+>   - Fix other similar occurrences of utf multiply
+> v0:
+>   - https://lore.kernel.org/dri-devel/1e546c01-1126-45c8-9104-14e769dedb8b@quicinc.com/T/#t
 > 
-> base-commit: 97252d0a4bfbb07079503d059f7522d305fe0f7a
-
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index 8f3783742208..40a021ee91c3 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -259,7 +259,7 @@ config DRM_PANEL_JDI_LT070ME05000
+>   	help
+>   	  Say Y here if you want to enable support for JDI DSI video mode
+>   	  panel as found in Google Nexus 7 (2013) devices.
+> -	  The panel has a 1200(RGB)×1920 (WUXGA) resolution and uses
+> +	  The panel has a 1200(RGB)x1920 (WUXGA) resolution and uses
+>   	  24 bit per pixel.
+>   
+>   config DRM_PANEL_JDI_LPM102A188A
+> @@ -270,7 +270,7 @@ config DRM_PANEL_JDI_LPM102A188A
+>   	help
+>   	  Say Y here if you want to enable support for JDI LPM102A188A DSI
+>   	  command mode panel as found in Google Pixel C devices.
+> -	  The panel has a 2560×1800 resolution. It provides a MIPI DSI interface
+> +	  The panel has a 2560x1800 resolution. It provides a MIPI DSI interface
+>   	  to the host.
+>   
+>   config DRM_PANEL_JDI_R63452
+> @@ -801,7 +801,7 @@ config DRM_PANEL_TDO_TL070WSH30
+>   	depends on BACKLIGHT_CLASS_DEVICE
+>   	help
+>   	  Say Y here if you want to enable support for TDO TL070WSH30 TFT-LCD
+> -	  panel module. The panel has a 1024×600 resolution and uses
+> +	  panel module. The panel has a 1024x600 resolution and uses
+>   	  24 bit RGB per pixel. It provides a MIPI DSI interface to
+>   	  the host, a built-in LED backlight and touch controller.
+>   
+> -- 
+> 2.44.0
+> 
