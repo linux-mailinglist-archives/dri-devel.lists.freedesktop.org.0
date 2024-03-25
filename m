@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A00CB88A4B6
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 15:36:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30D5788A4C9
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 15:39:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0EB210E935;
-	Mon, 25 Mar 2024 14:36:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FF9C10E92B;
+	Mon, 25 Mar 2024 14:39:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cBu3GFHg";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RkpAcbia";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB89110E92B
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 14:36:49 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A9C410E936
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 14:39:46 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id CF6886109A;
- Mon, 25 Mar 2024 14:36:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 409D1C433F1;
- Mon, 25 Mar 2024 14:36:48 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 2E070CE1A53;
+ Mon, 25 Mar 2024 14:39:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DE25C41674;
+ Mon, 25 Mar 2024 14:39:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711377408;
- bh=9Qe/3gikq2clmRBfjTNKgor6Y6DhAn8an5PiAqL/lqs=;
+ s=k20201202; t=1711377582;
+ bh=FjnS44ng3NPsn9900ILtiMh5uro5/JiC38NCbn+WTYw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cBu3GFHgd64EEQ6NHJ6CqPTLWLLzUk1XuaHt9Ll03UYJR+IqIMELoRgvmKxNiw0xO
- Cba4oOz+nYXiGyZoJtbVOPY8qJ5JFSMGY5gMFUmwpAhqWNYZH8iZkQIoHYoywnBjlV
- BAxfA1HE1NWYaSv0WbE2RtLX8LbnglngBbBgYkqQlUydIBKvF3v+nMn5xna2ahYU2k
- AfpNyiBPzEdH1tRV/RniYF9F74eokbYmjZRzk1IcT+s7GJH8PYAsjQ8PQGnuo4t+0i
- A7ODhZOGKH+bKdebrMBNXMstZZYr7IwDpoUwQPt20sykp37tvqjoleOGhGGT8jUXRo
- GTOVpjgQwT71w==
-Date: Mon, 25 Mar 2024 09:36:46 -0500
+ b=RkpAcbiawu2zrTNsSnZevVXPSjwCNl7i9z7hG0I0A/7jZ6i6zvL1/9OrDI9MBg6LE
+ x3udYirwdM7/VCWp6qcMvNWE//aqcmEUyrqKaVfZpGKkz9UjuF11Z+pNo1WTfsaWUQ
+ uo9BQwFdP6Uxigvupxzgwmvw7CGjVbJS1DbF/TYibY7UZTSNDknpt9CCA7WnQVw96T
+ eLw+ezpKL6ilfx4tTV/QsDBPtSRmybf/pUAMb3H/MjyFORS24NISod0DZiGqQMg8ew
+ IfKIE1b/Rq8pksjUMb/+xqE3NcFUTUM2gmhHQI/YtsIni3oz5aomYN4d9LqyHZrol+
+ GWNbUFuNmPf7Q==
+Date: Mon, 25 Mar 2024 09:39:40 -0500
 From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Inki Dae <inki.dae@samsung.com>, devicetree@vger.kernel.org,
- Seung-Woo Kim <sw0312.kim@samsung.com>, linux-samsung-soc@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- Maxime Ripard <mripard@kernel.org>,
+To: Dharma Balasubiramani <dharma.b@microchip.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ linux-arm-kernel@lists.infradead.org,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Kyungmin Park <kyungmin.park@samsung.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] dt-bindings: display: samsung,exynos5-dp: convert to
- DT Schema
-Message-ID: <171137740493.3330504.1269871894633902325.robh@kernel.org>
-References: <20240313182855.14140-1-krzysztof.kozlowski@linaro.org>
+ devicetree@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v4] dt-bindings: display: atmel,lcdc: convert to dtschema
+Message-ID: <171137757831.3350156.9187326461669491839.robh@kernel.org>
+References: <20240318-lcdc-fb-v4-1-c533c7c2c706@microchip.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240313182855.14140-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240318-lcdc-fb-v4-1-c533c7c2c706@microchip.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,28 +67,46 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Wed, 13 Mar 2024 19:28:55 +0100, Krzysztof Kozlowski wrote:
-> Convert Samsung Exynos5250/5420 SoC Display Port Controller bindings to
-> DT schema with a change: add power-domains, already used in DTS.
+On Mon, 18 Mar 2024 11:10:13 +0530, Dharma Balasubiramani wrote:
+> Convert the atmel,lcdc bindings to DT schema.
+> Changes during conversion: add missing clocks and clock-names properties.
 > 
-> This Display Port controller is actually variant of Analogix Display
-> Port bridge, however new DT Schema does not reference analogix,dp.yaml,
-> because of incompatibilities in the driver.  The analogix,dp.yaml
-> expects two ports, input and output, but Linux Exynos DP DRM driver and
-> DTS use only one port: output.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
+> Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
 > ---
+> This patch converts the existing lcdc display text binding to JSON schema.
+> The binding is split into two namely
+> lcdc.yaml
+> - Holds the frame buffer properties
+> lcdc-display.yaml
+> - Holds the display panel properties which is a phandle to the display
+> property in lcdc fb node.
+> 
+> These bindings are tested using the following command.
+> 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> ---
+> Changes in v4:
+> - Add maximum for atmel,guard-time property.
+> - Add constraints for bits-per-pixel property.
+> - Update the atmel,lcd-wiring-mode property's ref to point single string
+>   rather than an array.
+> - Add constraints for atmel,lcd-wiring-mode property.
+> - Add maxItems to the atmel,power-control-gpio property.
+> - Link to v3: https://lore.kernel.org/r/20240304-lcdc-fb-v3-1-8b616fbb0199@microchip.com
+> 
+> Changes in v3:
+> - Remove the generic property "bits-per-pixel"
+> - Link to v2: https://lore.kernel.org/r/20240304-lcdc-fb-v2-1-a14b463c157a@microchip.com
 > 
 > Changes in v2:
-> 1. Document deprecated samsung,hpd-gpios
+> - Run checkpatch and remove whitespace errors.
+> - Add the standard interrupt flags.
+> - Split the binding into two, namely lcdc.yaml and lcdc-display.yaml.
+> - Link to v1: https://lore.kernel.org/r/20240223-lcdc-fb-v1-1-4c64cb6277df@microchip.com
 > ---
->  .../bindings/display/exynos/exynos_dp.txt     | 112 ------------
->  .../display/samsung/samsung,exynos5-dp.yaml   | 163 ++++++++++++++++++
->  2 files changed, 163 insertions(+), 112 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/exynos/exynos_dp.txt
->  create mode 100644 Documentation/devicetree/bindings/display/samsung/samsung,exynos5-dp.yaml
+>  .../bindings/display/atmel,lcdc-display.yaml       | 103 +++++++++++++++++++++
+>  .../devicetree/bindings/display/atmel,lcdc.txt     |  87 -----------------
+>  .../devicetree/bindings/display/atmel,lcdc.yaml    |  70 ++++++++++++++
+>  3 files changed, 173 insertions(+), 87 deletions(-)
 > 
 
 Applied, thanks!
