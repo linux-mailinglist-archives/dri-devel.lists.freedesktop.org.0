@@ -2,73 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E564B88A08B
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 13:58:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4461D88A057
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 13:52:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17B7210E2E8;
-	Mon, 25 Mar 2024 12:58:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3413D10E831;
+	Mon, 25 Mar 2024 12:52:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=g.clemson.edu header.i=@g.clemson.edu header.b="wHXIVkIn";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NpZo3569";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
- [209.85.128.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B83F010E1E6
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 12:58:01 +0000 (UTC)
-Received: by mail-yw1-f181.google.com with SMTP id
- 00721157ae682-60a0a54869bso34678627b3.1
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 05:58:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=g.clemson.edu; s=google; t=1711371480; x=1711976280;
- darn=lists.freedesktop.org; 
- h=mime-version:references:in-reply-to:message-id:date:subject:to:from
- :from:to:cc:subject:date:message-id:reply-to;
- bh=eMQfXtIqVS/OIi7oM+IRMIhVPPKoKmf2XqobljSQq3U=;
- b=wHXIVkIn63xjg3c7scSQoo13sFOJSod2ancuDT+FJfU5v2/Dt7NSzb2tK7PAb/O68o
- 5vIk63nr2dsPhPUSZUelQsUiMPg/UcLXjPCkcNawiSyjEfnKx2NmjE6zwWiAxjmqt4uy
- iNSFwgF9zM/2KqF9QMpgqjWLiWCMH7t6o4vRK6+uUlFXRUUhiCgEKKEbGlhBp/tyGxZ6
- bhhmJHiYgN89bdEKklwJr0NbgL5H2A6Ts4l35pc/QgfyCIEQ+1oK7VynJg0ETNYqfCj2
- RuljtRscnOXMM0wyaVfZd4A3JRGTRUV3xCLSY2ZZ/OQevttpya14DLv0055SehnAh2xO
- D4TA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711371480; x=1711976280;
- h=mime-version:references:in-reply-to:message-id:date:subject:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eMQfXtIqVS/OIi7oM+IRMIhVPPKoKmf2XqobljSQq3U=;
- b=WUqH9XL4p+h/wdAtUgZ5IJNqv8XKYWXidQfY1UcMMGCrN3nmV9xNgFEprt9Xur+fxD
- YKXfKnle09rwOAF8CvI98ptchJquHxEumtOoCy47MJTYFHPY+67x+DyNa14Rv1TM6POz
- QuEWTBmJ1ypf7j/ZqnQSGjpPzzU+qKfODcyeS/MyKxN0eZLyNeCMCRSY+rLtb+8yrmb4
- n5xf/hGRRWAHhblOWr3a78WysJK/IPP/JShEhLpBJYvgbpDHEgNGwstJXR19rQIwThxy
- 9pElKx1T4L8sT2zFFdiOJms6d1lnLrry+bri6qzpYg9Eyn7AZzsXa2dSpNsUahow/C/+
- kDkQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVtUGzobLWA7h02QaWeYAM7H/iPUEi8O4yaxeXOJD52y6NB0EuRcMrqacEWBMtY4v76XFo8NyiwKm300ur006/IvzicTMVcyorROEQvFkjk
-X-Gm-Message-State: AOJu0Yz7RXo457e/iDsRt+WOuB4fpBl5NrIxTx2O1HvqwZKr/0aCHVe7
- ApYW2RcjpgaHn+efq+SA4/e5TF1sOQVISISyKpejz+PZ9LuOiVcOQ3qovoB8yA==
-X-Google-Smtp-Source: AGHT+IFfODCE2okzJ0vPa5cn4qJeVHB9Ae+diOJbKfyd4XdyvwQoc+pXmNnBaMsgdpG+d9wZFVbs9A==
-X-Received: by 2002:a81:8903:0:b0:611:967e:1d45 with SMTP id
- z3-20020a818903000000b00611967e1d45mr570030ywf.15.1711371480503; 
- Mon, 25 Mar 2024 05:58:00 -0700 (PDT)
-Received: from mephi-laptop.localnet
- (47.177.21.198.tigernet.wifi.dyn.clemson.edu. [198.21.177.47])
- by smtp.gmail.com with ESMTPSA id
- ep18-20020a05690c2c9200b00610c63ce18dsm998924ywb.65.2024.03.25.05.57.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Mar 2024 05:58:00 -0700 (PDT)
-From: Emilio Mendoza Reyes <emendoz@g.clemson.edu>
-To: neil.armstrong@linaro.org, dianders@chromium.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH 2/2] drm/panel: Promote warn_dev to WARN for invalid calls
- in drm_panel.c
-Date: Mon, 25 Mar 2024 08:46:16 -0400
-Message-ID: <4878769.GXAFRqVoOG@mephi-laptop>
-In-Reply-To: <87jzlqk5xr.fsf@intel.com>
-References: <2388112.ElGaqSPkdT@mephi-laptop> <87jzlqk5xr.fsf@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0193410E831
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 12:52:16 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id E33EE60FD1;
+ Mon, 25 Mar 2024 12:52:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43E81C433F1;
+ Mon, 25 Mar 2024 12:52:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1711371135;
+ bh=X1kgTmpeXW5+7R6ZXqAP8cLUvg5M5Sag2AFv8K5YzgY=;
+ h=From:Subject:Date:To:Cc:From;
+ b=NpZo3569Ote5XSerZLkC4jsKXFmzou0YBXdVaNz44JDWmsaKjpbzwB28FfiVCJR/A
+ T/tHUzEdCa3RVRCkVX0eA5ge4giJWjm3uX3Dv7kcu4NzklzkVyOGyTe+l7gXuHkBrg
+ BGT9E11tm2VfoWg3hPhSizA9CLIGPryrLTELzb9MOXIXTdDwahG1HWijVAhldTpLqd
+ PFoXsX67LB9/3gVN0qv2yUbycQGSUZyP/NooTUMywbwxOuUtPcYw3R5diW8jsBt6XF
+ ZnwO/jdyurERPuSgcDNqiMM4F3LbGNzkMpwZG8qdpJh6SrKug9RQjGVJ7NwuqtoJt8
+ rlC4NsZMjKWag==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH 00/12] drm/display: Convert helpers Kconfig symbols to
+ depends on
+Date: Mon, 25 Mar 2024 13:52:02 +0100
+Message-Id: <20240325-kms-kconfig-helpers-v1-0-bfec6949d9c3@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart1881631.tdWV9SEqCh";
- micalg="pgp-sha512"; protocol="application/pgp-signature"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHJzAWYC/x3MQQqAIBBA0avErBsos8CuEi0sxxoqCwciCO+et
+ HyL/18QikwCffFCpJuFz5BRlwXMqw0LIbtsUJXSVaNa3A7BbT6D5wVX2i+Kgt5oY+rJuc5byOU
+ VyfPzX4cxpQ/RgAC9ZQAAAA==
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3079; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=X1kgTmpeXW5+7R6ZXqAP8cLUvg5M5Sag2AFv8K5YzgY=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGmMxWVvBasK88NN61+x+paeeazs83DOkk979PiubmxOf
+ KA4W+RIx1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZhI/kPGhqtmwUsuVTXKbJ4Y
+ rMIuuPZL1amJyoW1lcd4DT6d6VliIzlrgmTJ95hfXX/NUxxdcv8oMja83rZOYff5XVYiLfdnPGg
+ 94D1hv/8n1vdr25NbPrJ+6UuzEphonf75y4QPTzUK4xa+a5gHAA==
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,109 +70,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---nextPart1881631.tdWV9SEqCh
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
-From: Emilio Mendoza Reyes <emendoz@g.clemson.edu>
-Date: Mon, 25 Mar 2024 08:46:16 -0400
-Message-ID: <4878769.GXAFRqVoOG@mephi-laptop>
-In-Reply-To: <87jzlqk5xr.fsf@intel.com>
-MIME-Version: 1.0
+Hi,
 
-On Monday, March 25, 2024 5:37:52=E2=80=AFAM EDT Jani Nikula wrote:
-> Please use git format-patch and/or send-email to send patches, without
-> the inline PGP.
-Yeah, sorry about that. I only noticed it was inline PGP after I sent the
-patches. I didn't know if it would be okay to resend right after since I
-didn't want to email spam. Sorry!
+Jani recently pointed out that the Kconfig symbols are a bit difficult
+to work with at the moment when they depend on each other, and that
+using depends on would be a better idea, but no one really did the work
+so far.
 
-> Please use dev_WARN() which will handle the device specific warns for
-> you, including dev_name().
-Alright I changed my patch to use dev_WARN. The new version is at the
-end of this email. Thank you for your time. Let me know if I there is
-anything else to change.
+So here it goes :)
 
-Thanks,
-EMR
+It's been tested by comparing the drm-misc-arm, drm-misc-arm64 and
+drm-misc-x86 before and after this series and making sure they are
+identical.
 
+Let me know what you think,
+Maxime
 
-Subject: [PATCH] drm/panel: Promote warn_dev to dev_WARN for invalid calls =
-in
- drm_panel.c
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Maxime Ripard (12):
+      drm/display: Make DisplayPort AUX bus Kconfig name consistent
+      drm/display: Make DisplayPort tunnel debug Kconfig name consistent
+      drm/display: Make DisplayPort AUX Chardev Kconfig name consistent
+      drm/display: Make DisplayPort CEC-over-AUX Kconfig name consistent
+      drm/display: Reorder Kconfig symbols
+      drm/display: Make all helpers visible and switch to depends on
+      drm: Switch DRM_DISPLAY_HELPER to depends on
+      drm: Switch DRM_DISPLAY_DP_AUX_BUS to depends on
+      drm: Switch DRM_DISPLAY_DP_HELPER to depends on
+      drm: Switch DRM_DISPLAY_HDCP_HELPER to depends on
+      drm: Switch DRM_DISPLAY_HDMI_HELPER to depends on
+      drm/bridge: it6505: Remove useless select
 
-Partially solve todo in kernel doc by promoting dev_warn calls to
-dev_WARN.
-Link: https://www.kernel.org/doc/html/v6.8/gpu/todo.html#clean-up-checks-fo=
-r-already-prepared-enabled-in-panels
+ arch/parisc/configs/generic-32bit_defconfig      |  2 +-
+ drivers/gpu/drm/Kconfig                          |  8 +--
+ drivers/gpu/drm/amd/amdgpu/Kconfig               | 12 +++--
+ drivers/gpu/drm/bridge/Kconfig                   | 29 +++++-----
+ drivers/gpu/drm/bridge/analogix/Kconfig          | 16 +++---
+ drivers/gpu/drm/bridge/cadence/Kconfig           |  8 +--
+ drivers/gpu/drm/bridge/synopsys/Kconfig          |  4 +-
+ drivers/gpu/drm/display/Kconfig                  | 68 ++++++++++++------------
+ drivers/gpu/drm/display/Makefile                 |  6 +--
+ drivers/gpu/drm/display/drm_dp_helper.c          |  2 +-
+ drivers/gpu/drm/display/drm_dp_helper_internal.h |  2 +-
+ drivers/gpu/drm/display/drm_dp_tunnel.c          | 10 ++--
+ drivers/gpu/drm/exynos/Kconfig                   |  4 +-
+ drivers/gpu/drm/i915/Kconfig                     |  8 +--
+ drivers/gpu/drm/i915/Kconfig.debug               |  4 +-
+ drivers/gpu/drm/mediatek/Kconfig                 |  6 +--
+ drivers/gpu/drm/msm/Kconfig                      |  8 +--
+ drivers/gpu/drm/nouveau/Kconfig                  | 10 ++--
+ drivers/gpu/drm/panel/Kconfig                    | 32 +++++------
+ drivers/gpu/drm/radeon/Kconfig                   |  8 +--
+ drivers/gpu/drm/rockchip/Kconfig                 |  8 +--
+ drivers/gpu/drm/tegra/Kconfig                    |  8 +--
+ drivers/gpu/drm/vc4/Kconfig                      | 10 ++--
+ drivers/gpu/drm/xe/Kconfig                       | 13 +++--
+ drivers/gpu/drm/xlnx/Kconfig                     |  8 +--
+ include/drm/display/drm_dp_helper.h              |  2 +-
+ 26 files changed, 155 insertions(+), 141 deletions(-)
+---
+base-commit: 5e842d55bad7794823a50f24fd645b58f2ef93ab
+change-id: 20240325-kms-kconfig-helpers-f94991bdd6fa
 
-Signed-off-by: Emilio Mendoza Reyes <emendoz@clemson.edu>
-=2D--
- drivers/gpu/drm/drm_panel.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-index cfbe020de54e..4459f4f5fe66 100644
-=2D-- a/drivers/gpu/drm/drm_panel.c
-+++ b/drivers/gpu/drm/drm_panel.c
-@@ -114,7 +114,7 @@ int drm_panel_prepare(struct drm_panel *panel)
- 		return -EINVAL;
-=20
- 	if (panel->prepared) {
-=2D		dev_warn(panel->dev, "Skipping prepare of already prepared panel\n");
-+		dev_WARN(panel->dev, "Unexpected attempt to prepare an already prepared =
-panel\n");
- 		return 0;
- 	}
-=20
-@@ -162,7 +162,7 @@ int drm_panel_unprepare(struct drm_panel *panel)
- 		return -EINVAL;
-=20
- 	if (!panel->prepared) {
-=2D		dev_warn(panel->dev, "Skipping unprepare of already unprepared panel\n=
-");
-+		dev_WARN(panel->dev, "Unexpected attempt to unprepare an already unprepa=
-red panel\n");
- 		return 0;
- 	}
-=20
-@@ -208,7 +208,7 @@ int drm_panel_enable(struct drm_panel *panel)
- 		return -EINVAL;
-=20
- 	if (panel->enabled) {
-=2D		dev_warn(panel->dev, "Skipping enable of already enabled panel\n");
-+		dev_WARN(panel->dev, "Unexpected attempt to enable an already enabled pa=
-nel\n");
- 		return 0;
- 	}
-=20
-@@ -246,7 +246,7 @@ int drm_panel_disable(struct drm_panel *panel)
- 		return -EINVAL;
-=20
- 	if (!panel->enabled) {
-=2D		dev_warn(panel->dev, "Skipping disable of already disabled panel\n");
-+		dev_WARN(panel->dev, "Unexpected attempt to disable an already disabled =
-panel\n");
- 		return 0;
- 	}
-=20
-=2D-=20
-2.44.0
-
-
---nextPart1881631.tdWV9SEqCh
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTcaZbABwnECYA0cZI0LAN3EqikFgUCZgFyGAAKCRA0LAN3Eqik
-FpFuAP4/1QuAz/TJZuulntE7Vh0B9fC++3b8IMjZjxBRd369WwEAxeqpvHwRFFmN
-3W4H7asKnWDJeQl2nAz8RswSfucKgg4=
-=Lpy8
------END PGP SIGNATURE-----
-
---nextPart1881631.tdWV9SEqCh--
-
-
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
 
