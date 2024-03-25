@@ -2,57 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC6788A064
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 13:52:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9BF188A09E
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 13:59:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28BF610E86D;
-	Mon, 25 Mar 2024 12:52:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E256310E82D;
+	Mon, 25 Mar 2024 12:59:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mj00bVqd";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="LzSTjkl7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBFAB10E866
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 12:52:51 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4289760FAD;
- Mon, 25 Mar 2024 12:52:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 962CDC43390;
- Mon, 25 Mar 2024 12:52:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711371170;
- bh=ILiO5I4XiExK/CyXHQs8jf1CGT9QtVXqsKsOXWst4oY=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=mj00bVqdKOgOwgs3aNwYBdoyG3z+qdnP7kkQa+PTFRZy9lwobsxixjKvQAc2Swptz
- KtdEF92EgqePD4ijra+IA0yS7PkRUIBxlT28zwkpBxqvxwqG/YGD7kyYEv/jCS9YBz
- ctprYrOyuQ0hbfO4Ag+IyaPoOZ9Sn8nv6IqQu4clvQYWmuZ5Dxo3fIgeNI+OZzPjiQ
- KxQYkFcpNyPU3EsflQ94q8gNs9uY4J9CVkXawWJbkFPS3VJL2RdKEu2TduGFGkpssk
- JFZrUtqJRyKJW9YOonCVPfgVetOLq+FKxN1gflaA7IFrhGGm6OT4a+SiPD/dd4Wyhd
- WWHcae5ivG2eA==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 25 Mar 2024 13:52:14 +0100
-Subject: [PATCH 12/12] drm/bridge: it6505: Remove useless select
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com
+ [209.85.161.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6C0D10E1E6
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 12:59:06 +0000 (UTC)
+Received: by mail-oo1-f43.google.com with SMTP id
+ 006d021491bc7-5a49261093cso2144572eaf.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 05:59:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1711371546; x=1711976346;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=JkyqpDMyqX41cyTaE28OnrvQwkG6qyxUUrve0FvXzho=;
+ b=LzSTjkl7EY0JgrlWuncgCuxZaQS2DldftB/BxTMgF91kqi9KRYEKn9dgqLUIvGDss6
+ uVSufOXY/KNJUWEGnRfu0JtkPtuteVo5vbdoRec3wmvJm9J7Ifr0D31ti3/ERyRaPEaJ
+ omuFi4zaCRiQOiU8qLeDZpQWKot+no/Ncbmas=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711371546; x=1711976346;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=JkyqpDMyqX41cyTaE28OnrvQwkG6qyxUUrve0FvXzho=;
+ b=BxjDwv+5ZonWlR22/D/l49QfoLpPInlQLXN11O/m8XinBt6QXXKPJxhx1r4toTmDHH
+ t5oSQvcKWFZ9P4ozhs5bn9X7cLxYQnlb6rRGlbv/aTCDvkFM45BkdrpZfSmECKaohFDz
+ SZsRnPgNSfCD7Ipi0hJNz0wV3cnFw5RhQFE0P+3vSdUvHQsp4X/uMwLXttBV+8Tm1KPr
+ nXmes1t3k8yUCgrlE23zyEoOKrgXfVf8GVNFNiRnUc9etjw1n/raR6fdKvQB+2XrVwDX
+ iQh2IPfkOP4rdqdBuh5GfMCpPYqShOn8+M1CbLpN0BYkfhpIyH70Hj8GJqVlGoFhUZmK
+ pdlw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVcjPOJH1yYZfOsVD9TuEkPjClgg5XHhmbsioscVkKPMNUXSsnUzbqMSn0yAdTQw50posPC1XgJrpURqVdlAWB3Ev0Sy1uiXCSpVvkQOOkN
+X-Gm-Message-State: AOJu0YzMSIzrHxeONfUPC+CIbybAkJoY4KlMNGn2YtjSrFOfT6ERuQxW
+ OP6iKpow353GEXQ45VeF4o5R7U9rJIg6WHBuHxliNUovK3musXYa5/NDvlqKFg==
+X-Google-Smtp-Source: AGHT+IG0ccGt9Jqagp19yq4VqEubSRZbWD0YyCNpyegF9W/d3KGhEe24YPFxiE9DLu6ni8Ngc5Qg9Q==
+X-Received: by 2002:a05:6358:5242:b0:17e:53f9:697e with SMTP id
+ c2-20020a056358524200b0017e53f9697emr7688607rwa.28.1711371545721; 
+ Mon, 25 Mar 2024 05:59:05 -0700 (PDT)
+Received: from treapking.tpe.corp.google.com
+ ([2401:fa00:1:10:c95b:ef24:f1aa:2bcc])
+ by smtp.gmail.com with ESMTPSA id
+ i4-20020a63e904000000b005e2b0671987sm5723446pgh.51.2024.03.25.05.59.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Mar 2024 05:59:05 -0700 (PDT)
+From: Pin-yen Lin <treapking@chromium.org>
+To: Douglas Anderson <dianders@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-kernel@vger.kernel.org, Hsin-Te Yuan <yuanhsinte@chromium.org>,
+ dri-devel@lists.freedesktop.org, Pin-yen Lin <treapking@chromium.org>
+Subject: [PATCH] drm/panel-edp: Add AUO B120XAN01.0
+Date: Mon, 25 Mar 2024 20:58:51 +0800
+Message-ID: <20240325125901.2524752-1-treapking@chromium.org>
+X-Mailer: git-send-email 2.44.0.396.g6e790dbe36-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240325-kms-kconfig-helpers-v1-12-bfec6949d9c3@kernel.org>
-References: <20240325-kms-kconfig-helpers-v1-0-bfec6949d9c3@kernel.org>
-In-Reply-To: <20240325-kms-kconfig-helpers-v1-0-bfec6949d9c3@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=760; i=mripard@kernel.org;
- h=from:subject:message-id; bh=ILiO5I4XiExK/CyXHQs8jf1CGT9QtVXqsKsOXWst4oY=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGmMxTWCc0ryuNYeVme0Z/3m98jlyMNVcxvEOE+npXTsf
- PVOMFa1YyoLgzAng6yYIssTmbDTy9sXVznYr/wBM4eVCWQIAxenAExk8mTGhlk3C3XvPLvWX7du
- gUT7rJIDEvWV968fFglxq9i8x0830V3o1PYftq/+1Zx91vgh9J7gd8b6WjsWxnPn5/xgFDZRSxf
- m3C3YvOrkgVVXJRX9t+9qYL8fFvaEOf/9spS74hMyCwI2eggAAA==
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,31 +81,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The IT6505 bridge Kconfig symbol selects a Kconfig symbol that doesn't
-exist. Remove it.
+Add support for the AUO B120XAN01.0 panel.
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Pin-yen Lin <treapking@chromium.org>
 ---
- drivers/gpu/drm/bridge/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index 6e6ec300ab16..d1fbf8796fea 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -96,11 +96,10 @@ config DRM_ITE_IT6505
- 	depends on DRM_DISPLAY_DP_HELPER
- 	depends on DRM_DISPLAY_HDCP_HELPER
- 	depends on DRM_DISPLAY_HELPER
- 	depends on OF
- 	select DRM_KMS_HELPER
--	select DRM_DP_HELPER
- 	select EXTCON
- 	select CRYPTO
- 	select CRYPTO_HASH
- 	help
- 	  ITE IT6505 DisplayPort bridge chip driver.
+ drivers/gpu/drm/panel/panel-edp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index c4f851200aa2..1a4a1ffea2c1 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1989,6 +1989,7 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x639c, &delay_200_500_e50, "B140HAK02.7"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x723c, &delay_200_500_e50, "B140XTN07.2"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x8594, &delay_200_500_e50, "B133UAN01.0"),
++	EDP_PANEL_ENTRY('A', 'U', 'O', 0xd497, &delay_200_500_e50, "B120XAN01.0"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0xf390, &delay_200_500_e50, "B140XTN07.7"),
+ 
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0607, &delay_200_500_e200, "Unknown"),
 -- 
-2.44.0
+2.44.0.396.g6e790dbe36-goog
 
