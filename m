@@ -2,51 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3E698894CB
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 09:08:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9727889529
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 09:20:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 431B910E23A;
-	Mon, 25 Mar 2024 08:08:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC98610E3CE;
+	Mon, 25 Mar 2024 08:20:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="LJZspI5H";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="KPQTl6b7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 415C110E23A
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 08:08:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E64110E3CE
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 08:20:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1711354115;
- bh=HkSzMzT1a9MKNSTRFQ6QW+sQ3WXCIfThwayUt4RV8t8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=LJZspI5HNl86FEQ1z57V9YwMBEWCxMjv+0ngHfSJug7e/MUWwEKN4wXtWRTUDigQU
- nxEXhuOYanq49EpkyO1JPEiprIkvfDpco34yv8zZk9nha7csjiy3S6SfHtp2ww8gFR
- V0Z0Sh7pJ1UFFzfcAwzUDXXYmExpn1H9uwaZLZhZJK5Ypqrk2ntigcc2cBKzG3VmLu
- FHeEj5ZIXEnbEJHo3t+tV6+7+XG/zXp63k7cQGDtzrAdktcwndZmoAcCkgpUTyFpng
- BxM7QoWSgoyxK5gC6Tt7FAjnU8F/bLMUg8e3AITfPKZcDkxEfGPN8bgRDm5LD5nyE6
- RuPrBNmAaRiAA==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ s=mail; t=1711354818;
+ bh=EOuiWs8du4z/j7Ah6vYpJvGj8hoJqJ0Goki/wN9yEK8=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=KPQTl6b7ci0hQ7vi0vQviWzjm9nl7bFBMvlPosICqpMG+lV4FPIlcLU1i49nF8Ot6
+ //jOVs17GnLk2NA3HMrcuE8XjJ9dxEm0hKhRFgcDzRTyrM/NyniUog6xLA0z1ZMn9A
+ IW4Gr/5cGk5efv0R0rd7eqO0tjtwCYGcSD1gn1mQJfN3rpIwDG5+nG+uuSE0856J2a
+ GkSJGs40VnmRocBRxZytgIKaecMFRRkEq6bwxwr0cKgbYtl6Bdi+WhltTrDMihTRcP
+ f0r6Z98V/xdXTXcZE+bIAraxbz/7B+MeoqcbbvDSidAYkLhnWuNPBJpyo84yTAxJue
+ 0VBP2vfoels2A==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id C8D033781013;
- Mon, 25 Mar 2024 08:08:34 +0000 (UTC)
-Date: Mon, 25 Mar 2024 09:08:32 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>, Steven Price
- <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRy?=
- =?UTF-8?B?acOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, Robin Murphy <robin.murphy@arm.com>,
- kernel@collabora.com, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2] drm/panthor: Fix the CONFIG_PM=n case
-Message-ID: <20240325090832.20fef595@collabora.com>
-In-Reply-To: <20240318153117.1321544-1-boris.brezillon@collabora.com>
-References: <20240318153117.1321544-1-boris.brezillon@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 047A637813B7;
+ Mon, 25 Mar 2024 08:20:17 +0000 (UTC)
+Message-ID: <45ef7d6e-d029-4b02-be9e-736dff3724af@collabora.com>
+Date: Mon, 25 Mar 2024 09:20:17 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panfrost: fix power transition timeout warnings
+To: Christian Hewitt <christianshewitt@gmail.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240322164525.2617508-1-christianshewitt@gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240322164525.2617508-1-christianshewitt@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,88 +65,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 18 Mar 2024 16:31:17 +0100
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
-
-> Putting a hard dependency on CONFIG_PM is not possible because of a
-> circular dependency issue, and it's actually not desirable either. In
-> order to support this use case, we forcibly resume at init time, and
-> suspend at unplug time.
+Il 22/03/24 17:45, Christian Hewitt ha scritto:
+> Increase the timeout value to prevent system logs on Amlogic boards flooding
+> with power transition warnings:
 > 
-> v2:
-> - Drop the #ifdef CONFIG_PM section around panthor_pm_ops's definition
+> [   13.047638] panfrost ffe40000.gpu: shader power transition timeout
+> [   13.048674] panfrost ffe40000.gpu: l2 power transition timeout
+> [   13.937324] panfrost ffe40000.gpu: shader power transition timeout
+> [   13.938351] panfrost ffe40000.gpu: l2 power transition timeout
+> ...
+> [39829.506904] panfrost ffe40000.gpu: shader power transition timeout
+> [39829.507938] panfrost ffe40000.gpu: l2 power transition timeout
+> [39949.508369] panfrost ffe40000.gpu: shader power transition timeout
+> [39949.509405] panfrost ffe40000.gpu: l2 power transition timeout
 > 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202403031944.EOimQ8WK-lkp@intel.com/
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-
-Queued to drm-misc-next.
-
+> The 2000 value has been found through trial and error testing with devices
+> using G52 and G31 GPUs.
+> 
+> Fixes: 22aa1a209018 ("drm/panfrost: Really power off GPU cores in panfrost_gpu_power_off()")
+> Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
 > ---
-> Tested by faking CONFIG_PM=n in the driver (basically commenting
-> all pm_runtime calls, and making the panthor_device_suspend/resume()
-> calls unconditional in the panthor_device_unplug/init() path) since
-> CONFIG_ARCH_ROCKCHIP selects CONFIG_PM. Seems to work fine, but I
-> can't be 100% sure this will work correctly on a platform that has
-> CONFIG_PM=n.
-> ---
->  drivers/gpu/drm/panthor/panthor_device.c | 13 +++++++++++--
->  drivers/gpu/drm/panthor/panthor_drv.c    |  2 +-
->  2 files changed, 12 insertions(+), 3 deletions(-)
+>   drivers/gpu/drm/panfrost/panfrost_gpu.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index 69deb8e17778..ba7aedbb4931 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -87,6 +87,10 @@ void panthor_device_unplug(struct panthor_device *ptdev)
->  	pm_runtime_dont_use_autosuspend(ptdev->base.dev);
->  	pm_runtime_put_sync_suspend(ptdev->base.dev);
->  
-> +	/* If PM is disabled, we need to call the suspend handler manually. */
-> +	if (!IS_ENABLED(CONFIG_PM))
-> +		panthor_device_suspend(ptdev->base.dev);
-> +
->  	/* Report the unplug operation as done to unblock concurrent
->  	 * panthor_device_unplug() callers.
->  	 */
-> @@ -218,6 +222,13 @@ int panthor_device_init(struct panthor_device *ptdev)
->  	if (ret)
->  		return ret;
->  
-> +	/* If PM is disabled, we need to call panthor_device_resume() manually. */
-> +	if (!IS_ENABLED(CONFIG_PM)) {
-> +		ret = panthor_device_resume(ptdev->base.dev);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
->  	ret = panthor_gpu_init(ptdev);
->  	if (ret)
->  		goto err_rpm_put;
-> @@ -402,7 +413,6 @@ int panthor_device_mmap_io(struct panthor_device *ptdev, struct vm_area_struct *
->  	return 0;
->  }
->  
-> -#ifdef CONFIG_PM
->  int panthor_device_resume(struct device *dev)
->  {
->  	struct panthor_device *ptdev = dev_get_drvdata(dev);
-> @@ -547,4 +557,3 @@ int panthor_device_suspend(struct device *dev)
->  	mutex_unlock(&ptdev->pm.mmio_lock);
->  	return ret;
->  }
-> -#endif
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index ff484506229f..11b3ccd58f85 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -1417,7 +1417,7 @@ static struct platform_driver panthor_driver = {
->  	.remove_new = panthor_remove,
->  	.driver = {
->  		.name = "panthor",
-> -		.pm = &panthor_pm_ops,
-> +		.pm = pm_ptr(&panthor_pm_ops),
->  		.of_match_table = dt_match,
->  	},
->  };
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> index 9063ce254642..fd8e44992184 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> @@ -441,19 +441,19 @@ void panfrost_gpu_power_off(struct panfrost_device *pfdev)
+>   
+>   	gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present);
+>   	ret = readl_relaxed_poll_timeout(pfdev->iomem + SHADER_PWRTRANS_LO,
+> -					 val, !val, 1, 1000);
+> +					 val, !val, 1, 2000);
+>   	if (ret)
+>   		dev_err(pfdev->dev, "shader power transition timeout");
+>   
+>   	gpu_write(pfdev, TILER_PWROFF_LO, pfdev->features.tiler_present);
+>   	ret = readl_relaxed_poll_timeout(pfdev->iomem + TILER_PWRTRANS_LO,
+> -					 val, !val, 1, 1000);
+> +					 val, !val, 1, 2000);
+
+Are you sure that you need to raise the timeout for TILER as well?
+
+Cheers,
+Angelo
+
+>   	if (ret)
+>   		dev_err(pfdev->dev, "tiler power transition timeout");
+>   
+>   	gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present);
+>   	ret = readl_poll_timeout(pfdev->iomem + L2_PWRTRANS_LO,
+> -				 val, !val, 0, 1000);
+> +				 val, !val, 0, 2000);
+>   	if (ret)
+>   		dev_err(pfdev->dev, "l2 power transition timeout");
+>   }
+
 
