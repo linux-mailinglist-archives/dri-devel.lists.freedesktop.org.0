@@ -2,127 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C9B688ACAA
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 18:57:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52E9188ACE0
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 19:02:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CEEF10EA57;
-	Mon, 25 Mar 2024 17:57:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8572710E9F4;
+	Mon, 25 Mar 2024 18:02:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BdS2U81u";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Mk2OecYH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4AC610EA57
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 17:57:45 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-a4a393b699fso168409066b.0
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 10:57:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711389464; x=1711994264; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=vTgR9569AKBIOfro0ug4KR0uxTmxP2IUC1rcBBMRyEM=;
- b=BdS2U81uca/5pLXW0uYjqdpp437lxvwhyr4vCDDHBvhpXrZFhik31JBWrmywYGtx3M
- VRsYBbe34tvL+0zkUi1AeKD2VxjQPgtkxna5QvQ4ZMf5b6+ZQqX+spg2PDMcLu4h2WfC
- bC1pXRNWfDNIagzujTO85cw/vJBsJVz7u86TMwB3nFyOeqTgCSg76jFGhUC9iS0vGfUa
- PUSTFSi6mxx33ZtWD7+JKKSr1J1ZsM6MPn2eJP2R77ZKHlU7XA6bjUDe+xtXEyQTV2ky
- 8a4NgFY0xWFMHoJNMwzMoqYMXcfGljmBzrklPVID2Ad73l6NcFR7pATMqXUXUKykSB8R
- KEMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711389464; x=1711994264;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vTgR9569AKBIOfro0ug4KR0uxTmxP2IUC1rcBBMRyEM=;
- b=f6X/u1Q1SS8Lx07yv5NO1bQbT4Xa7FYhMEHp5rFGphJt80bcKHUfO7NxuioSPFCer9
- rbg2+4iQnMnfG6AjRq2l1AgKuCeJAGU7GOmwm8yWjyZSLwIKMM4AWwH3xaDVwJgs+vSe
- Z0L1h8ckoP0IqUp1pu6nO6CDvyzeUsHYQuRrE3VmdSTIYXWIQSsdXZxE8oziRdkUfZPX
- JqUbmliG3Bm0N3vmI3KSZLD+1+k0SQII7qz4tynfA/fS72nrTsuTkWYmkCaMBVfbqs0S
- 4LjzVQJRU1hv2YuFl0yqGokHbVTggAyZvIa7qZjL6CUIQU6AxL93rzD0rsAtji9H+bHV
- lltA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUah+5va/ZmyY9iW++sCyit8xcrSKZXzDgdEAnOfm2c2InCOp2Zwwq3+U6KqByEjNKzybOwLUDRp1H/cJmthprjHhj8W/8YUk3Vf8iE505D
-X-Gm-Message-State: AOJu0Yx3QT8GeStrCbLLGhyD8BSKzfk5zZGltlBHJO6LNR4OvlEtjnYJ
- ks1IcfcqnoXwlEX/yMwMUpgJf5oAHEUmu9AXhOj0wnXqiaGKxzGv504Ikz0dChI=
-X-Google-Smtp-Source: AGHT+IHZaCqIgNZYNZYZx1Ul9q23YfDYZM2aAElxNhm5klcqTbymtNS99Wp5E8Bpw6Z8QVNt1a17sA==
-X-Received: by 2002:a17:907:72c1:b0:a4a:39f3:b195 with SMTP id
- du1-20020a17090772c100b00a4a39f3b195mr2732824ejc.4.1711389463699; 
- Mon, 25 Mar 2024 10:57:43 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.222.44])
- by smtp.gmail.com with ESMTPSA id
- zh20-20020a170906881400b00a47531764fdsm1879244ejb.65.2024.03.25.10.57.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Mar 2024 10:57:43 -0700 (PDT)
-Message-ID: <9bc55af4-1ef0-42ac-9561-fe08a3401ccf@linaro.org>
-Date: Mon, 25 Mar 2024 18:57:41 +0100
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5476610E9F4
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 18:02:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1711389735;
+ bh=nYbdZ4ictZQFx6vln0lyu+bABuGInDpvS+wUKxsDtBk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Mk2OecYHZnEYB8KeMj5fwnRlI/G71So6ghfOEKkaj/ZSwEgwIgVp0smSKUUc7+2MN
+ Ef49/yKeuD4R3rJeDqUXuKn59WLOf9U3UY4RHuZAHmedd/5xcSGxaQgOVraeef0bfL
+ KMSzKG3bQuU0wrUhvgFYf6F3C5jwEmQNc+uhtZGLhZFYl7dXdw4QsXgq6VY9GGrX+d
+ sFaNeWVJAM6N5rhGJ9E1VhABuDAQM+0PbcfdqBzO0X4QXXcGMFCInsjh5pDcbtROlc
+ ylAGf/2S8Zoh3EJOZ2nyohY8WOY3+Hj8FB43bsNwtHnyULET4V1lLF/bgogPXDgggT
+ ABJoHgChqI9YQ==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 0383A37810C0;
+ Mon, 25 Mar 2024 18:02:14 +0000 (UTC)
+Date: Mon, 25 Mar 2024 19:02:13 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Steven Price <steven.price@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
+ <adrian.larumbe@collabora.com>, dri-devel@lists.freedesktop.org,
+ kernel@collabora.com
+Subject: Re: [PATCH v2 2/3] drm/panthor: Fix ordering in _irq_suspend()
+Message-ID: <20240325190213.6393be47@collabora.com>
+In-Reply-To: <ZgGxYOJxeb3EAO6s@e110455-lin.cambridge.arm.com>
+References: <20240325135705.3717293-1-boris.brezillon@collabora.com>
+ <20240325135705.3717293-2-boris.brezillon@collabora.com>
+ <ZgGxYOJxeb3EAO6s@e110455-lin.cambridge.arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH] dt-bindings: display: sony,td4353-jdi: allow
- width-mm and height-mm
-To: Rob Herring <robh@kernel.org>
-Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Conor Dooley <conor.dooley@microchip.com>
-References: <20240325103227.27474-1-krzysztof.kozlowski@linaro.org>
- <171137719526.3318300.16563684034350324718.robh@kernel.org>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <171137719526.3318300.16563684034350324718.robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -139,28 +64,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/03/2024 15:33, Rob Herring wrote:
-> On Mon, 25 Mar 2024 11:32:27 +0100, Krzysztof Kozlowski wrote:
->> Allow width and height properties from panel-common.yaml, already used
->> on some boards:
->>
->>   sdm845-sony-xperia-tama-apollo.dtb: panel@0: 'height-mm', 'width-mm' do not match any of the regexes: 'pinctrl-[0-9]+'
->>
->> Acked-by: Conor Dooley <conor.dooley@microchip.com>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> ---
->>
->> Rob, could you pick up this one? Was on the list for almost a year.
->>
->>
->>  .../devicetree/bindings/display/panel/sony,td4353-jdi.yaml      | 2 ++
->>  1 file changed, 2 insertions(+)
->>
+On Mon, 25 Mar 2024 17:16:16 +0000
+Liviu Dudau <liviu.dudau@arm.com> wrote:
+
+> On Mon, Mar 25, 2024 at 02:57:04PM +0100, Boris Brezillon wrote:
+> > Make sure we set suspended=true last to avoid generating an irq storm
+> > in the unlikely case where an IRQ happens between the suspended=true
+> > assignment and the _INT_MASK update.
+> > 
+> > v2:
+> > - New patch
+> > 
+> > Reported-by: Steven Price <steven.price@arm.com>
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > ---
+> >  drivers/gpu/drm/panthor/panthor_device.h | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> > index 7ee4987a3796..3a930a368ae1 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_device.h
+> > +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> > @@ -325,7 +325,7 @@ static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)
+> >  {												\
+> >  	int cookie;										\
+> >  												\
+> > -	atomic_set(&pirq->suspended, true);							\
+> > +	pirq->mask = 0;										\  
 > 
-> Applied, thanks!
+> I think you might still have a race between _irq_suspend() and _irq_threaded_handler() where the
+> status will be zero due to pirq->mask being zero, so no interrupt will be cleared but they will
+> be masked (kind of the opposite problem to patch 3/3).
 
-Few hours earlier Neil Armstrong took it, so I think you can drop it.
+Right, but I'm trying to find a case where this is an issue. Yes, we
+might lose events, but at the same time, when _irq_suspend() is called,
+we are supposed to be idle, so all this mask=0 assignment does is
+speed-up the synchronization with the irq-thread. If there's anything
+we need to be done before suspending the IRQ, this should really use
+its own synchronization model.
 
-Best regards,
-Krzysztof
+> 
+> I'm starting to think that pirq->mask should be local to _irq_threaded_handler() and not be messed
+> with in the other functions.
 
+It kinda is, as we don't modify panthor_irq::mask outside the
+suspend/resume (and now unplug) path, and each of these accesses has a
+reason to exist:
+
+- in the resume path, we know all IRQs are masked, and we reset the
+  SW-side mask to the interrupts we want to accept before updating
+  _INT_MASK. No risk of race in that one
+- in the unplug path, I don't think we care about unhandled interrupts,
+  because the device will become unusable after that point, so updating
+  the panthor_irq::mask early and losing events should be okay.
+- the suspend case has been described above. As explained, I don't think
+  it matters if we lose events there, because really, if there's any
+  synchronization needed, it should have happened explicitly before
+  _irq_suspend() is called. The synchronize_irq() we have is just here
+  to make sure there's nothing accessing registers when we turn the
+  device clk/power-domain off.
+
+> 
+> >  												\
+> >  	if (drm_dev_enter(&pirq->ptdev->base, &cookie)) {					\
+> >  		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);				\  
+> 
+> If you move the line above before the if condition, do you still need patch 3/3?
+
+The whole point of the drm_dev_enter/exit() section was to prevent
+access to registers after the device has been unplugged, so, if I move
+the gpu_write() outside of this block, I'd rather drop the entire
+drm_dev_enter/exit() section (both here and in _irq_resume()). That
+should be safe actually, as I don't expect the PM hooks or the reset
+handler to be called after the device and its resource have been
+removed, and those are the two only paths where _irq_suspend/resume()
+can be called.
