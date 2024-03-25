@@ -2,94 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3936688B319
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 22:49:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11CE388B343
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 22:57:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 268C510EB0E;
-	Mon, 25 Mar 2024 21:49:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9ABCA10EB15;
+	Mon, 25 Mar 2024 21:57:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="irUFmlpc";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Ej+nPdl8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AD8710EB0E
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 21:49:02 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id
- 4fb4d7f45d1cf-56b0af675deso5987098a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 14:49:02 -0700 (PDT)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
+ [209.85.215.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21EEE10EB1E
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 21:56:59 +0000 (UTC)
+Received: by mail-pg1-f179.google.com with SMTP id
+ 41be03b00d2f7-5f034b4dcecso2439756a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 14:56:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1711403340; x=1712008140; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=qUM4vmKmjA1gYO0tbm7KTA4LmIiK39ngypqIHIOvMUY=;
- b=irUFmlpcodY1b0tGmn2X3GPidBwyel3JrtXBQpUsWb9Hd84rWrTbBik4vmxn9Dc78p
- tmU3ihz7r+5QGAZLG/Twn9zuIWE7M/w7HLwdO78KMdius9N/kMyPaFQrM9cR2i66VSch
- yRrNijWD9Bp9I8RORkS1NXSLTwYwRYeYBPOHpl+8j+/GJjeQgXjzq0lxwDBr25OLXzua
- 3Qs4ZyLOXMjpZ1wdJ9faBqxtujR8swJ+jIG9dZB4u2/yxcDYK47dpOT4nV+UeXsz5/0G
- JL1cymEYr/kslaHI28eUwZQo+rf0CcU2rwX0hGhqRJG3xsPpZ6n4969EFurGr1sUB0g4
- Ds2A==
+ d=chromium.org; s=google; t=1711403818; x=1712008618;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=UR7sFSEYjP8BO01JVRD78Toou7R7NTsnLZcSYy9yMLk=;
+ b=Ej+nPdl8xB/iegBeQVk9mpbd3oHOxE4Ix+7kTl/LSiyh9+1TF1MRCz2vAwM/3/oar5
+ NNVJIEmE5InkRqelBuLUpSuJ3GwQ+pO2lOHa05r2OnqNLOp9judfLcvtzV0yoe9+jvvs
+ BDjQJN1u4o0pWKJG0CkBIp03f8f8lN/EhtMFo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711403340; x=1712008140;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qUM4vmKmjA1gYO0tbm7KTA4LmIiK39ngypqIHIOvMUY=;
- b=EIJhcxDTnO59h5hvhBrV7l2Zn6LxlsSUiezN/ygux/JEs8PP+pGDq2BNShaPqMc/0p
- 3y9FAlxnf8+JMfPYAf2jMmKHVVjskrPyF/0UVGfrkaHiHIp4vGHQLmBXAx12B1dA2GCi
- SQORWnBTxPP4viIlpekpG3Z5uvdJ0DcRhNVLBzpedwQBIQr0fQcugaoyI5XTN9jnDMB1
- zz6ZyLJdqd6BpqZBHOcW6lD713b7w5tLJbyb0A0qytKj7QbDTRVZEweX36HP/gH2pWzH
- t48WrAfCshCVbyj7LPd+xZdbXizdXdsHTFrUsXXqr3AtyKnd9jNmd82sRNLJJnDEDsNa
- RUaQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVScEQFsi110KrrCCoXejtZIhKMAE0Qh1/8BClznFfbmyX6OWWby1nf3WkeDkSOi7qZC3HNQNpczzSV4un2tGhh4drXBi715SovOD+SFE38
-X-Gm-Message-State: AOJu0YyueA6lQcYwoe3nLXhIUUJ9h60EbId8OtI8G/GszbzGf0036ef/
- A8II02vmt8+UMS1+RNfOMAKTsN9mBxfXHNHhJ2n4LYlX1ljP8BHM
-X-Google-Smtp-Source: AGHT+IGqzF3fHuQAIWMVhReRKPOloiG3GIJOv/fRY7SrojJhBUXyuiPBtXLwZklMVo7FZ83sKnItLQ==
-X-Received: by 2002:a50:d685:0:b0:56b:83ff:e044 with SMTP id
- r5-20020a50d685000000b0056b83ffe044mr5778673edi.1.1711403340182; 
- Mon, 25 Mar 2024 14:49:00 -0700 (PDT)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation
- (net-188-217-49-82.cust.vodafonedsl.it. [188.217.49.82])
+ d=1e100.net; s=20230601; t=1711403818; x=1712008618;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UR7sFSEYjP8BO01JVRD78Toou7R7NTsnLZcSYy9yMLk=;
+ b=T6axy1xF9i5tLrvD7vf/w/Jld24YlUdw9fkmCZR9Lzis9ubFo/MSZv6nL0II2hBZdA
+ AJ60v70jO4g5UTTVMJj/jDYmCQBD4gi09D09nvUrt4nck0Mo0M0Tuh/ZF2yZqoV4PKFN
+ fBAf03gZnYYPxYhH9EuJRoQBCFQQHpQtPHDAn9tsXg7/ruoinhzTnICHsUUYrDm1Mm/p
+ Y5m53239l3be4iOwyU0/AtJnCWkvT7BJ7eBQ4hB6oxLek/qVpIrOCGra+Zcs7lZf05Yr
+ tMJoU98cbvvlhsSFwoeOkWOp/soOOdpHejwnbgSzOE6/Y9lqb1jf2RxZ3zgpniH3OoW7
+ R7Vg==
+X-Gm-Message-State: AOJu0YyFc3RHbtZ66MVxhytafEzGcBjTX1DfSq/RYLYkEkzqt/eCCaAF
+ rAG7Vg0m2BfA9VXBhV8TNt0fZu2Njp4LlJxx0S2CI3Lln6t5Usd/N2yV8bSrxdh/RMsKrY6CNXA
+ =
+X-Google-Smtp-Source: AGHT+IFvvymI/+nAjVhwHLdNpVFDRLNACuh+o6MvjynK0XJWPebIEwChaIwn4LWdWp8KHSfw+SjCnQ==
+X-Received: by 2002:a17:902:ec8f:b0:1e0:73d:9172 with SMTP id
+ x15-20020a170902ec8f00b001e0073d9172mr10772950plg.23.1711403817749; 
+ Mon, 25 Mar 2024 14:56:57 -0700 (PDT)
+Received: from dianders.sjc.corp.google.com
+ ([2620:15c:9d:2:f21b:7dde:93cc:b987])
  by smtp.gmail.com with ESMTPSA id
- c13-20020a056402100d00b00568abb329a3sm3403484edu.88.2024.03.25.14.48.58
+ n6-20020a170902e54600b001def0897284sm5207866plf.76.2024.03.25.14.56.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Mar 2024 14:48:59 -0700 (PDT)
-Date: Mon, 25 Mar 2024 22:48:56 +0100
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: Adam Ford <aford173@gmail.com>
-Cc: linux-arm-kernel@lists.infradead.org, marex@denx.de,
- alexander.stein@ew.tq-group.com, frieder.schrempf@kontron.de,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Mon, 25 Mar 2024 14:56:57 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Cc: Pin-yen Lin <treapking@chromium.org>,
+ Prahlad Kilambi <prahladk@google.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Douglas Anderson <dianders@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Liu Ying <victor.liu@nxp.com>,
- Ulf Hansson <ulf.hansson@linaro.org>, Lucas Stach <l.stach@pengutronix.de>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-pm@vger.kernel.org
-Subject: Re: [PATCH V8 00/12] soc: imx8mp: Add support for HDMI
-Message-ID: <ZgHxSHDAt7ytqDC1@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20240203165307.7806-1-aford173@gmail.com>
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] drm-panel: Don't make failures quite so fatal
+Date: Mon, 25 Mar 2024 14:56:24 -0700
+Message-ID: <20240325215631.3804796-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.44.0.396.g6e790dbe36-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240203165307.7806-1-aford173@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,80 +86,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Adam, Lucas,
-Thanks for this series.
 
-This series make HDMI work on evk.
-All is working properly on my side.
+This patch series is born out of the observation that after several
+Chromebooks transitioned over to the generic "edp-panel" compatible
+string that we received a number of in-the-field reports of the
+primary graphics device for the Chromebook not coming up.
 
-Tested on: Linux imx8mp-lpddr4-evk 6.9.0-rc1.
-Hope this help.
+The current belief is that these Chromebooks are actually suffering
+from a true hardware failure and the panel is either fully
+disconnected or it has some type of intermittent connection. While we
+can't solve that problem, digging showed that we actually dealt with
+this situation better _before_ switching to the generic "edp-panel"
+compatible string.
 
-Tested-by: Tommaso Merciai <tomm.merciai@gmail.com>
+Before switching to "edp-panel", devices using eDP would finish their
+probe and would actually not show any failure until you tried to turn
+the panel on. That was a _good_ thing. The component model used by
+many DRM devices means that if the panel doesn't finish probing that
+the rest of the DRM device doesn't probe. In turn, that means that any
+other display adapters (like ones that would allow hooking up an
+external display) don't probe. The end result was that a device with a
+broken panel that could have continued to be a useful computer by
+hooking up an external display became e-waste.
 
-Thanks & Regards,
-Tommaso
+I won't say that this series is the most elegant/wonderful thing in
+the world. Ideally we could fail the probe of the panel and still use
+the external display. That's a pretty serious re-design, though. DRM
+devices work like they do with the component model because of some of
+their inherent complexities.
 
-On Sat, Feb 03, 2024 at 10:52:40AM -0600, Adam Ford wrote:
-> The i.MX8M Plus has an HDMI controller, but it depends on two
-> other systems, the Parallel Video Interface (PVI) and the
-> HDMI PHY from Samsung. The LCDIF controller generates the display
-> and routes it to the PVI which converts passes the parallel video
-> to the HDMI bridge.  The HDMI system has a corresponding power
-> domain controller whose driver was partially written, but the
-> device tree for it was never applied, so some changes to the
-> power domain should be harmless because they've not really been
-> used yet.
-> 
-> This series is adapted from multiple series from Lucas Stach with
-> edits and suggestions from feedback from various series, but it
-> since it's difficult to use and test them independently,
-> I merged them into on unified series.  The version history is a
-> bit ambiguous since different components were submitted at different
-> times and had different amount of retries.  In an effort to merge them
-> I used the highest version attempt.
-> 
-> Adam Ford (3):
->   dt-bindings: soc: imx: add missing clock and power-domains to
->     imx8mp-hdmi-blk-ctrl
->   pmdomain: imx8mp-blk-ctrl: imx8mp_blk: Add fdcc clock to hdmimix
->     domain
->   arm64: defconfig: Enable DRM_IMX8MP_DW_HDMI_BRIDGE as module
-> 
-> Lucas Stach (9):
->   dt-bindings: phy: add binding for the i.MX8MP HDMI PHY
->   phy: freescale: add Samsung HDMI PHY
->   arm64: dts: imx8mp: add HDMI power-domains
->   arm64: dts: imx8mp: add HDMI irqsteer
->   dt-bindings: display: imx: add binding for i.MX8MP HDMI PVI
->   drm/bridge: imx: add driver for HDMI TX Parallel Video Interface
->   dt-bindings: display: imx: add binding for i.MX8MP HDMI TX
->   drm/bridge: imx: add bridge wrapper driver for i.MX8MP DWC HDMI
->   arm64: dts: imx8mp: add HDMI display pipeline
-> 
->  .../display/bridge/fsl,imx8mp-hdmi-tx.yaml    |  102 ++
->  .../display/imx/fsl,imx8mp-hdmi-pvi.yaml      |   84 ++
->  .../bindings/phy/fsl,imx8mp-hdmi-phy.yaml     |   62 +
->  .../soc/imx/fsl,imx8mp-hdmi-blk-ctrl.yaml     |   22 +-
->  arch/arm64/boot/dts/freescale/imx8mp.dtsi     |  145 +++
->  arch/arm64/configs/defconfig                  |    1 +
->  drivers/gpu/drm/bridge/imx/Kconfig            |   18 +
->  drivers/gpu/drm/bridge/imx/Makefile           |    2 +
->  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c  |  207 ++++
->  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c   |  154 +++
->  drivers/phy/freescale/Kconfig                 |    6 +
->  drivers/phy/freescale/Makefile                |    1 +
->  drivers/phy/freescale/phy-fsl-samsung-hdmi.c  | 1075 +++++++++++++++++
->  drivers/pmdomain/imx/imx8mp-blk-ctrl.c        |   10 +-
->  14 files changed, 1876 insertions(+), 13 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pvi.yaml
->  create mode 100644 Documentation/devicetree/bindings/phy/fsl,imx8mp-hdmi-phy.yaml
->  create mode 100644 drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c
->  create mode 100644 drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
->  create mode 100644 drivers/phy/freescale/phy-fsl-samsung-hdmi.c
-> 
-> -- 
-> 2.43.0
-> 
-> 
+
+Douglas Anderson (3):
+  drm/panel-edp: Abstract out function to set conservative timings
+  drm/panel-edp: If we fail to powerup/get EDID, use conservative
+    timings
+  drm-panel: If drm_panel_dp_aux_backlight() fails, don't fail panel
+    probe
+
+ drivers/gpu/drm/panel/panel-edp.c             | 60 +++++++++++--------
+ .../gpu/drm/panel/panel-samsung-atna33xc20.c  |  9 ++-
+ 2 files changed, 41 insertions(+), 28 deletions(-)
+
+-- 
+2.44.0.396.g6e790dbe36-goog
+
