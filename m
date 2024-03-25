@@ -2,79 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C877889B87
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 11:55:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 355EB889B89
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 11:55:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90BCC10E753;
-	Mon, 25 Mar 2024 10:55:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D300710E75B;
+	Mon, 25 Mar 2024 10:55:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dsQzRood";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="AN5r9fqa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25AE110E27E
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 10:55:16 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-4148a139b1bso3281975e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 03:55:15 -0700 (PDT)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 770EE10E75B
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 10:55:17 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-2d47a92cfefso49796891fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 03:55:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711364114; x=1711968914; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1711364115; x=1711968915; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZnH613nBUeVax298UlBKbR2krvx0QgfXLhq8xs3I2/Y=;
- b=dsQzRoodh0ij6f1ub4Lr4fPRm2WRtcMyI4R+vUxKK2LUfmvOHLzZIpH6gXFBcA54KT
- 5ngsNqQSs53gwM33rQYm1DU7HoZ8iSr0Qieh2MIF2u443ubbL+jhLyjPAqe1zAPwoX3G
- e2Sq0N2gQveBj6Ad/SFlMjJsd6KoWVg1Y2gvOKqpYX6GM0aUmf9xZQJMY+utt4FQJObL
- N53kjhHsKMShaB2AJR3OzB4pQhWvCJMK4w78pNaAKsbg7obNOMwfdEI/aneZxuyawd5U
- SgqPf0C/T4ET8YBZ6PHFhDYmJF2Nb25qV0sL3kuonwq4FJfqpijXqAZ4tbN+oCIgC1uN
- CQqA==
+ bh=AFcyCCwkrWUNl/vLlM9putmgMzWSgSa5UA8ajqCwlrY=;
+ b=AN5r9fqaCntxq3i0Ewf2bVfpOrkKZOnrQ4e8LDwOGxG4TyRrgyxjP+2sc2G2VzOc8e
+ 6LEOm4O+g2RrEvu83tiPvqA6vpxEFrXiqT7iETvHQZQOfK33YdF2oKgQd31gmP0GiXtl
+ XcuJDTa8kuW8g1IxGHQ3CPQ4nB69fjEupJLtDqsapoLqVD2tndQ9FzwZlsLWVLMZvfEF
+ MQJ87y5MkMvckIA3GoNrPQu64lGpuCZi4QwYALr8lw1KViaRgc9yAedgnnPANzHW7vKh
+ m/Xy68cCVM8/wZSddUw2hcLj0tPjXQEVaCo+BDZACeELLvoFPDacG+5Mv6NECnVTfGV6
+ 756g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711364114; x=1711968914;
+ d=1e100.net; s=20230601; t=1711364115; x=1711968915;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZnH613nBUeVax298UlBKbR2krvx0QgfXLhq8xs3I2/Y=;
- b=v8lZPAb8Vr81byc9R/OZviXBjTme+hVEtrWgRnr9WpMlyJH3cggvX40lcNXpZsraDf
- NEUA70tUMy86KjMNzMzDNsEfn/BvQlnzU84x+k0PIDRK3EVNE0H0hcjylp9hcVgl/i5g
- J1LtK8jbXkWSbc1OfeaObsOyl8Rk7gcHxINJ34Ou4fV+GYQ0bTggXjx9ilOo24x4pUxM
- zrIJ5Wew+qC/02+ptx+5eVLu4z2KJDbjgXbsUaQ69mm4u1bc7DlZG5nfSOuQl4OFvLHv
- pyssSwXwR4gM6c+C6mHNpgUyA1Axbm/DwSTUb4OR2WH/D0dkpOornBXnTkcX2Z8W0Q9U
- /kRg==
+ bh=AFcyCCwkrWUNl/vLlM9putmgMzWSgSa5UA8ajqCwlrY=;
+ b=qMuj/MhvLK/5m8d1Br2jGvvJlPKdEfKrrnjZuh/VfII2vQxwZkc4yEd3LF+S/d20V5
+ yH7KvRlx2DV/C7vOR8GCk4mRlGbYJoyNMn6WLBkGk3VZhr+b69KSWcs2zBlsA4slim7f
+ Xn3IIn29CWMQ4gUT+bLnIUX5j5oqfYmg7dTBLWWpHJ1/O3nwUuX2Vlug6VqLkJYaOzRU
+ q9qJWSjkvWudNc69+q8yL1dcC2E7SqmG0kPoXIpxGt/1AVVXI7guyGyUuTHDDi7eNkvD
+ 17A05y71Pgon6tiU24ZZJx4w2cnRDxAFAr/m7JgLL83sdG1T82IQniz5nXvoeRY+Yu0o
+ WAog==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVPyH0KfxakLF0fiPpRwld2AAasvmy4tW50udb2dhvYkn94EGe/xVTd4/E0J7ESXywl4Ni5sWZMBu/AG27oCwQoP5O2z+RMyQNPlxOn/Obr
-X-Gm-Message-State: AOJu0YxY8mc5/bU5Jqzsh5GvvzoG45pSrTPDMGSzEoFP6m9QRZ1ub49B
- AktWjdgGbFO0k5NPTnNeR3Ec51cslH/WiYveZiRpeEAWiSUVx140m/mos7wO+ww=
-X-Google-Smtp-Source: AGHT+IGwGU7gpQJqeexmqiCDr1Yg2n3xkuKSJhvlV6DEgZ55qS9f7MIRV9jlesIETW2qxwJx8OpcwQ==
-X-Received: by 2002:a05:600c:1986:b0:413:1f65:ec19 with SMTP id
- t6-20020a05600c198600b004131f65ec19mr5038708wmq.37.1711364114083; 
- Mon, 25 Mar 2024 03:55:14 -0700 (PDT)
+ AJvYcCVqV4cdd4DPKsbdNybwnnbpnzzDMbhvspktd8dvMAbjcCdN1+UlnPQ2hr3Pa6ySt51l8sadqC+x0JEKTOTJCN/HwwdO4rYw9Ue3BlxLATG0
+X-Gm-Message-State: AOJu0YwkI67notkL0ZZL3h0pds5Q5woUIlO2Ed4lx9ciBh2ca0qLmW58
+ U6OsA/a0T1t+6E5rkuO43hg7X7v3K4j/cQ4f2rUYVeOSV/OcoU/EVoGo1yKrjpE=
+X-Google-Smtp-Source: AGHT+IFmXAWMmAnpJ15iSitf914lYKTJoX1F/f5dD88N/zLkvlKc9jb1ispcL7LFp4W0fApbWNRYMg==
+X-Received: by 2002:a2e:7d18:0:b0:2d4:5c0c:77db with SMTP id
+ y24-20020a2e7d18000000b002d45c0c77dbmr3743878ljc.3.1711364115205; 
+ Mon, 25 Mar 2024 03:55:15 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- m29-20020a05600c3b1d00b004146750314csm8161410wms.3.2024.03.25.03.55.13
+ m29-20020a05600c3b1d00b004146750314csm8161410wms.3.2024.03.25.03.55.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Mar 2024 03:55:13 -0700 (PDT)
+ Mon, 25 Mar 2024 03:55:14 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+To: Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jianhua Lu <lujianhua000@gmail.com>, 
- Del Regno <angelogioacchino.delregno@somainline.org>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@somainline.org>, 
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Rob Herring <robh@kernel.org>
-In-Reply-To: <20240325103611.28240-1-krzysztof.kozlowski@linaro.org>
-References: <20240325103611.28240-1-krzysztof.kozlowski@linaro.org>
-Subject: Re: [RESEND PATCH v4 1/3] dt-bindings: display: panel: add common
- dual-link schema
-Message-Id: <171136411318.2357652.10037957949169924402.b4-ty@linaro.org>
-Date: Mon, 25 Mar 2024 11:55:13 +0100
+Cc: Conor Dooley <conor.dooley@microchip.com>
+In-Reply-To: <20240325103227.27474-1-krzysztof.kozlowski@linaro.org>
+References: <20240325103227.27474-1-krzysztof.kozlowski@linaro.org>
+Subject: Re: [RESEND PATCH] dt-bindings: display: sony, td4353-jdi: allow
+ width-mm and height-mm
+Message-Id: <171136411426.2357652.2521397331384143643.b4-ty@linaro.org>
+Date: Mon, 25 Mar 2024 11:55:14 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -96,19 +97,18 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Mon, 25 Mar 2024 11:36:09 +0100, Krzysztof Kozlowski wrote:
-> Add schema with common properties shared among dual-link panel ICs.
+On Mon, 25 Mar 2024 11:32:27 +0100, Krzysztof Kozlowski wrote:
+> Allow width and height properties from panel-common.yaml, already used
+> on some boards:
+> 
+>   sdm845-sony-xperia-tama-apollo.dtb: panel@0: 'height-mm', 'width-mm' do not match any of the regexes: 'pinctrl-[0-9]+'
 > 
 > 
 
 Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
 
-[1/3] dt-bindings: display: panel: add common dual-link schema
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/48a516363e294a4098622dd77a5ecd4ee924121f
-[2/3] dt-bindings: display: novatek, nt35950: define ports
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/1f6612e6852ecb053ce1e342d833ed7f395f7186
-[3/3] dt-bindings: display: novatek, nt36523: define ports
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/90ed42ceda7667f5596d5e98530dd4119d786234
+[1/1] dt-bindings: display: sony, td4353-jdi: allow width-mm and height-mm
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/c8a0970321aeae4a5e807a5b323be9d48c6b5749
 
 -- 
 Neil
