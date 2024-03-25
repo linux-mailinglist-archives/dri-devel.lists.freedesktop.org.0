@@ -2,54 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39BBB88A511
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 15:46:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2624588A56A
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Mar 2024 15:56:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E55C010E949;
-	Mon, 25 Mar 2024 14:46:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4578410E969;
+	Mon, 25 Mar 2024 14:56:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LqCsRsuM";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YiAxN5CO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8B1C10E949;
- Mon, 25 Mar 2024 14:46:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1711378011; x=1742914011;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=rKU4Ry0hPHVWOhxoBoaPun3XDlFOG8bKjiKrBSaseRE=;
- b=LqCsRsuMQ1TYcq2Y8mOZxLERFhinRQHvpXbNcC9E5kt+ecRadCpAShju
- Jctyx+QuEPXOw/mV/11ERrkwvrxqzogeZpkwABCUfv77c1kf/Hr06WM/3
- Ref1H6FYEOQWXsll7fuo368Kh5Guz3bE4v/TwZL0KnsTgHQABI2qYDVLP
- 3kn44ULwbChPCDU+V2VaLlDzMOLIFgVqBP6DLn97nxTXcOy7lTteQwn0f
- qvNnqBxgsa+h5BCS1mIUTAXIMk0dbK9Lmf0A2+uWOPwC5dEavjxYtLM49
- dTsfCoYgJc65nwpRT8XVWvKm5j/X1RQq3GZ9VxRCGE+CfipXlvXmPXMwQ w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="6512274"
-X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; 
-   d="scan'208";a="6512274"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2024 07:46:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; d="scan'208";a="38746031"
-Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2024 07:46:51 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Jani Nikula <jani.nikula@linux.intel.com>
-Subject: [PATCH] drm/i915: Delete stray .rej file
-Date: Mon, 25 Mar 2024 07:47:28 -0700
-Message-ID: <20240325144728.537855-1-lucas.demarchi@intel.com>
-X-Mailer: git-send-email 2.43.0
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59FCD10E967
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 14:56:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1711378601;
+ bh=W001AFt7sODG/Tc/2JlSqu3+m3IKpZoo2XTEUmOez6Y=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=YiAxN5CO+jBpgG0mzyzVLDqRS+zBh/gWuaWUAdi+VKpgw+6YyH2fvVD0L6subOWwF
+ 4G457LTWuQK+TbeATvF+b0necHh/ve3PDjLZxuw4LOEKo6pbuJnvCH+YR/PWKJ0YWU
+ H/oN7aM3AM+hQWpr6IamA1HGRn6KaF/nxLv879TNlVuGMDqsJXkK4a60QtenPHGy+A
+ UU24POcEHE4L6uNAH7+6LDM6fGjSGpG1suvFy6qXJyrelOT+c84mW1k2hcX8MwOsjA
+ hpSSIjkBqKtysl+rEhWbV2K84FHN66h9P9hIz89bwuWCyIp7BgvvBmhJxbdtHWWqUL
+ JnZ6e0S2+uLgQ==
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id A36F03780EC6;
+ Mon, 25 Mar 2024 14:56:40 +0000 (UTC)
+Date: Mon, 25 Mar 2024 16:56:31 +0200
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: =?UTF-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
+Cc: Louis Chauvet <louis.chauvet@bootlin.com>, Rodrigo Siqueira
+ <rodrigosiqueiramelo@gmail.com>, Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, arthurgrillo@riseup.net, Jonathan Corbet
+ <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
+Subject: Re: [PATCH v5 10/16] drm/vkms: Re-introduce line-per-line
+ composition algorithm
+Message-ID: <20240325165631.6953ad01.pekka.paalanen@collabora.com>
+In-Reply-To: <b661b8c2-552c-4256-ad0b-b8a7b9bbed34@igalia.com>
+References: <20240313-yuv-v5-0-e610cbd03f52@bootlin.com>
+ <20240313-yuv-v5-10-e610cbd03f52@bootlin.com>
+ <b661b8c2-552c-4256-ad0b-b8a7b9bbed34@igalia.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/GfCtEZXpb23dLFOhosWDRQd";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,43 +72,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drivers/gpu/drm/i915/gt/intel_workarounds.c.rej was incorrectly added to
-the tree after solving a conflict. Remove it.
+--Sig_/GfCtEZXpb23dLFOhosWDRQd
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 326e30e4624c ("drm/i915: Drop dead code for pvc")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/r/20240325083435.4f970eec@canb.auug.org.au
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
----
- .../gpu/drm/i915/gt/intel_workarounds.c.rej    | 18 ------------------
- 1 file changed, 18 deletions(-)
- delete mode 100644 drivers/gpu/drm/i915/gt/intel_workarounds.c.rej
+On Mon, 25 Mar 2024 11:15:13 -0300
+Ma=C3=ADra Canal <mcanal@igalia.com> wrote:
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c.rej b/drivers/gpu/drm/i915/gt/intel_workarounds.c.rej
-deleted file mode 100644
-index 91463b1d684a..000000000000
---- a/drivers/gpu/drm/i915/gt/intel_workarounds.c.rej
-+++ /dev/null
-@@ -1,18 +0,0 @@
--diff a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c	(rejected hunks)
--@@ -2844,14 +2767,13 @@ general_render_compute_wa_init(struct intel_engine_cs *engine, struct i915_wa_li
-- 
-- 	if (IS_GFX_GT_IP_STEP(gt, IP_VER(12, 70), STEP_A0, STEP_B0) ||
-- 	    IS_GFX_GT_IP_STEP(gt, IP_VER(12, 71), STEP_A0, STEP_B0) ||
---	    IS_PONTEVECCHIO(i915) ||
-- 	    IS_DG2(i915)) {
-- 		/* Wa_22014226127 */
-- 		wa_mcr_write_or(wal, LSC_CHICKEN_BIT_0, DISABLE_D8_D16_COASLESCE);
-- 	}
-- 
---	if (IS_PONTEVECCHIO(i915) || IS_DG2(i915))
---		/* Wa_14015227452:dg2,pvc */
--+	if (IS_DG2(i915))
--+		/* Wa_14015227452 */
-- 		wa_mcr_masked_en(wal, GEN9_ROW_CHICKEN4, XEHP_DIS_BBL_SYSPIPE);
-- 
-- 	if (IS_DG2(i915)) {
--- 
-2.43.0
+> On 3/13/24 14:45, Louis Chauvet wrote:
+> > Re-introduce a line-by-line composition algorithm for each pixel format.
+> > This allows more performance by not requiring an indirection per pixel
+> > read. This patch is focused on readability of the code.
+> >=20
+> > Line-by-line composition was introduced by [1] but rewritten back to
+> > pixel-by-pixel algorithm in [2]. At this time, nobody noticed the impact
+> > on performance, and it was merged.
+> >=20
+> > This patch is almost a revert of [2], but in addition efforts have been
+> > made to increase readability and maintainability of the rotation handli=
+ng.
+> > The blend function is now divided in two parts:
+> > - Transformation of coordinates from the output referential to the sour=
+ce
+> > referential
+> > - Line conversion and blending
+> >=20
+> > Most of the complexity of the rotation management is avoided by using
+> > drm_rect_* helpers. The remaining complexity is around the clipping, to
+> > avoid reading/writing outside source/destination buffers.
+> >=20
+> > The pixel conversion is now done line-by-line, so the read_pixel_t was
+> > replaced with read_pixel_line_t callback. This way the indirection is o=
+nly
+> > required once per line and per plane, instead of once per pixel and per
+> > plane.
+> >=20
+> > The read_line_t callbacks are very similar for most pixel format, but it
+> > is required to avoid performance impact. Some helpers for color
+> > conversion were introduced to avoid code repetition:
+> > - *_to_argb_u16: perform colors conversion. They should be inlined by t=
+he
+> >    compiler, and they are used to avoid repetition between multiple var=
+iants
+> >    of the same format (argb/xrgb and maybe in the future for formats li=
+ke
+> >    bgr formats).
+> >=20
+> > This new algorithm was tested with:
+> > - kms_plane (for color conversions)
+> > - kms_rotation_crc (for rotations of planes)
+> > - kms_cursor_crc (for translations of planes)
+> > - kms_rotation (for all rotations and formats combinations) [3]
+> > The performance gain was mesured with:
+> > - kms_fb_stress =20
+>=20
+> Could you tell us what was the performance gain?
+>=20
+> >=20
+> > [1]: commit 8ba1648567e2 ("drm: vkms: Refactor the plane composer to ac=
+cept
+> >       new formats")
+> >       https://lore.kernel.org/all/20220905190811.25024-7-igormtorrente@=
+gmail.com/
+> > [2]: commit 322d716a3e8a ("drm/vkms: isolate pixel conversion
+> >       functionality")
+> >       https://lore.kernel.org/all/20230418130525.128733-2-mcanal@igalia=
+.com/
+> > [3]:
+> >=20
+> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > ---
+> >   drivers/gpu/drm/vkms/vkms_composer.c | 167 +++++++++++++++++++------
+> >   drivers/gpu/drm/vkms/vkms_drv.h      |  27 ++--
+> >   drivers/gpu/drm/vkms/vkms_formats.c  | 236 ++++++++++++++++++++++----=
+---------
+> >   drivers/gpu/drm/vkms/vkms_formats.h  |   2 +-
+> >   drivers/gpu/drm/vkms/vkms_plane.c    |   5 +-
+> >   5 files changed, 292 insertions(+), 145 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkm=
+s/vkms_composer.c
+> > index 989bcf59f375..5d78c33dbf41 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> > +++ b/drivers/gpu/drm/vkms/vkms_composer.c
 
+...
+
+> > @@ -215,34 +188,146 @@ static void blend(struct vkms_writeback_job *wb,
+> >   {
+> >   	struct vkms_plane_state **plane =3D crtc_state->active_planes;
+> >   	u32 n_active_planes =3D crtc_state->num_active_planes;
+> > -	int y_pos, x_dst, x_limit;
+> >  =20
+> >   	const struct pixel_argb_u16 background_color =3D { .a =3D 0xffff };
+> >  =20
+> > -	size_t crtc_y_limit =3D crtc_state->base.crtc->mode.vdisplay;
+> > +	int crtc_y_limit =3D crtc_state->base.crtc->mode.vdisplay;
+> > +	int crtc_x_limit =3D crtc_state->base.crtc->mode.hdisplay; =20
+>=20
+> Shouldn't it be `unsigned int`?
+
+No. It's not good to mix signed and unsigned variables in computations.
+I for sure would not remember all the implicit promotion rules that
+apply, and you'd probably be forced to add explicit signedness casts to
+get the correct behaviour. It causes much less surprises to "normalize"
+all variables to the same signedness before computing with them. Some
+values in this function can be negative.
+
+
+Thanks,
+pq
+
+--Sig_/GfCtEZXpb23dLFOhosWDRQd
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYBkJ8ACgkQI1/ltBGq
+qqfVyA//S0bMVVU0lfdlKghSq2BiGWy5B4acbSUlKhLXvQZnEtF60Y0XBvF8H9Z4
+3+Kf/6fdE1NvGncaBTKHnfZ0OCgXoa07JhIIRLv4PcaDMtCTikFX/AX1e9IozB9/
+ObWvtiXBMt2k4Q6DTz7bSG8Z9HjU8cBpqV9N1tKMXhIv8RTyMOKTRk8Duya99isU
+PeIKbyvVYKvrfGu2Y7EWv8oljLsHTrOvvIRWzHTssO57EwxPjRTwkMn/JuB+QLTA
+QBNeXoiztQmDiuTnrs5UyByncSICtORx1FLM6JAHSGwe9eecnixXW5orrWXtw2PD
+fb7SfHkXQNYGUoDikdIaDeTqXZQuhsAUwcwaRuHJ1goiAENNjrnhWd8fUDpc2oNL
+VJuYZmMlzSPFz3rbCIGXUlGYpl9BdP8SxGHUddVI/LvxeL/MQ8v5KaB0PZgcboMx
+jcl6RmJLAco+1vWOBrjR0tTBxbLWBOa9gX4ncNvrC/saltohZ/FrMi1oQm9gVdeU
+m3547QUfd8hvlhmAKy32tE9zizfs8dunLbQyWxGT6gqBW6O8dr5CD5MJ/k5CMdhj
+U3G4BQ7kgN5Afc73JPHiJrGDrWCDQPiyeTMFpLPA3b4hBiRLs1RxheC37OyHdI0v
+3cxf5ja6rFNLlGI4klBMr5R92gaes2wQkyUxk3v8IGxMaFefF9s=
+=ep0Y
+-----END PGP SIGNATURE-----
+
+--Sig_/GfCtEZXpb23dLFOhosWDRQd--
