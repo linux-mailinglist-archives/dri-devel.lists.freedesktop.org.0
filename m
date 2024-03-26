@@ -2,90 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83A0E88CD9D
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 20:56:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E49BF88CDB9
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 21:03:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6350D10F241;
-	Tue, 26 Mar 2024 19:56:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B628710F255;
+	Tue, 26 Mar 2024 20:03:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Urn1WrZK";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FkmBb7ci";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4539010F241;
- Tue, 26 Mar 2024 19:56:12 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 42QJUE3X008406; Tue, 26 Mar 2024 19:56:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=R+nb9lS6hms8hfdO9EwdnZGylgYhz9FMnJ+uf2rzXRE=; b=Ur
- n1WrZK3aeBHQ+fRR13VkTmoRkmjb9+zt+TaR/FdscTiU5DxgccUPQ6A/UouVKI1X
- qojt1Zxm7XAOhobVcBL5rslwGpEzXtS/+rbJhT1LP3Ig04XbdbBRt6Y/bylu/nXz
- Cgkbfy26P2NG3aKEHyo2ljYPtwKHwxrWvr8/I/R9arI9DU3vgxjYzKnmM82Zok4p
- I8UqrF0IWcIAr7Mg2tXekoq2RmdsVW6SCczOSEasLu9nyw0obPDT9Cqf1IKoBE8D
- xbltzTaRPn4b8YcsAiOWQM3MbhLU+lXiVo+/64onnHAUovx/rhg1ss7e6qUprFrL
- d9q8sf+maamJsxW9sK/Q==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x3tvy9vkj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Mar 2024 19:56:09 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42QJu7vp030959
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Mar 2024 19:56:07 GMT
-Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 26 Mar
- 2024 12:56:05 -0700
-Message-ID: <0280fa9a-cdb0-5bf7-7940-3c2cda1da829@quicinc.com>
-Date: Tue, 26 Mar 2024 12:56:03 -0700
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D77FA10F250
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 20:02:59 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-515a97846b5so3232214e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 13:02:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1711483378; x=1712088178; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=j2lHV/OHCqfe7Nek5g8QCJ5Ns0UmvS2CSdkqiB49C5E=;
+ b=FkmBb7ciKCVTQNa9YKKRO5lXPYZpXoLWN0fEQ+anTkwa0Amfm/0Gx8skgSfPu31Zxd
+ Q8sISHFcL42Rgep5pBfVusu4c/OKUfbpFajkul2sg1BjPCwlnIYI0FDRceRRr2uuS2hS
+ 22Mm60WyU+deoGEAJpc/ujm5qESbs5IBgBhgNibIvDmGJVxmymXMGNU7FEsoolGJ3q67
+ GTCGsV5kUe+uyu8zCTW0kWbS109P4PJbdRnYmzSaO2P0tn6WBIvvaM+U4w86xyJ6+4fr
+ zMcabzsXGSjvOo3Sr9LPs5pw8+qkiXfyHv1IySbPh0evzmgYs8Q4UPPz6Pv9uI+P/pfG
+ 3Kbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711483378; x=1712088178;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=j2lHV/OHCqfe7Nek5g8QCJ5Ns0UmvS2CSdkqiB49C5E=;
+ b=jfOKLaWewXsG0bMHPBnP1mEbC6U00Jpw0003jgqrgYIMvYQeH1rTgjLDP3XcmnKUyI
+ +IQ0kfWPQm7AtYSLDG58T585C6pMJ0YIX3DSZGG3p1e4OGvqS8vg1gqy41bc84bG7T2C
+ woDlyoMItUntJoEXqwjrH3lmvlKTIjEbNIYGfIVNbg5oUTb7hhZ6pg3V2b1X8s0Nq4Fr
+ Ih5w+mfJcHs06dgeGEufKSZjjLhqY2BuD5q2p58Xnd+KL5jpavZOv0VXXsIXpPTepDc3
+ Diobc26ZSLjzcNFeE7yrWLpTcLZsb77nySgemQDfmUl7bB2tFMqHs1B1yYeShnS64E+5
+ rrFg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWhsthWBAnnt9j7nCAMw4Ya9oHcd3fukMJ6qPv7f83gGgbedQi58LAzG4gIfDK2p8Dw1uWL+W/4FHEjOXNASYPqM+CBdwSPkGZInoIfL4yI
+X-Gm-Message-State: AOJu0YwOF2BiN6k9PQlYdptI5U4+ehgjWb/DZUQOTQiFthC1WU2UKLlj
+ 8cpTXVV/N987HkHD2POMFX/GAmcbsFPwxdMCPPJhgT1Eikl0lxtUARO4PfJqPl9XhL1zUhSbGwY
+ p
+X-Google-Smtp-Source: AGHT+IGZo3966n6r9TccyzZ0QA/JixvswpLjAc92CRn92e6XWXB6dSZNAnLZOUf4kh4wEQURJripFg==
+X-Received: by 2002:a19:5e58:0:b0:513:a724:3b9f with SMTP id
+ z24-20020a195e58000000b00513a7243b9fmr7416124lfi.7.1711483377475; 
+ Tue, 26 Mar 2024 13:02:57 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
+ a21-20020ac25e75000000b00515a7984acbsm1279408lfr.94.2024.03.26.13.02.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Mar 2024 13:02:57 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH 0/4] arm64: dts: fix several display-related schema
+ warnings
+Date: Tue, 26 Mar 2024 22:02:53 +0200
+Message-Id: <20240326-fd-fix-schema-v1-0-4475d6d6d633@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:843:6: error:
- variable 'out' set but not used
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, linux-kernel
- <linux-kernel@vger.kernel.org>
-References: <CANiq72mjc5t4n25SQvYSrOEhxxpXYPZ4pPzneSJHEnc3qApu2Q@mail.gmail.com>
- <CAA8EJprTNFgKJ_3cdZz4f_LCkYFghi-cfaj3bZmYh3oA63my6A@mail.gmail.com>
- <85204b78-7b24-61cd-4bae-3e7abc6e4fd3@quicinc.com>
- <CAA8EJppqrF10J1qExM=gopiF4GPDt7v4TB6LrQxx5OGyAL9hSg@mail.gmail.com>
- <671d2662-df4e-4350-0084-476eb1671cc1@quicinc.com>
- <CAA8EJpppre8ibYqN7gZObyvzR08yVbTevC6hDEDCKQVf8gRVRg@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJpppre8ibYqN7gZObyvzR08yVbTevC6hDEDCKQVf8gRVRg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: Qbi3sBaUcbYKyvfA2vrlKfpgK8S3TX12
-X-Proofpoint-ORIG-GUID: Qbi3sBaUcbYKyvfA2vrlKfpgK8S3TX12
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-26_08,2024-03-21_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 mlxlogscore=999
- clxscore=1015 priorityscore=1501 adultscore=0 suspectscore=0
- lowpriorityscore=0 phishscore=0 bulkscore=0 malwarescore=0 spamscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2403210001 definitions=main-2403260143
+X-B4-Tracking: v=1; b=H4sIAO0pA2YC/x2MywqAIBAAfyX23ILPwH4lOliuuYceKEQg/XvSc
+ RhmKhTKTAXGrkKmmwufRwPZd7Amf2yEHBqDEsoIrQaMASM/WNZEu8fFyeiMd1ZqC625MjX7/6b
+ 5fT95QY4XXwAAAA==
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=798;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=RWQXQAKN7KVRdFiOpjgCoEEoGNI1cTcKyz/5WyufIYY=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmAynw3ac+cfKVGKWXENlS14UmEQ6NE7Jl+Axwr
+ 5bJiyMEMS+JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZgMp8AAKCRCLPIo+Aiko
+ 1ZKpB/wLHJQ+d79aFqPld+Jyd1moiwje+nvFXrNZvI0OwBY4KfhCPBGJyMCLmbv2MWbfghtwoZC
+ vgLZAzOOzxoZrCcSZCIVxU5Pvh2TeZuj0Ra33TkWVq8pciT54nuX3C+RMGoLIrJ7pULKtgY0EKg
+ NtloV5GhibGmeWDpNMBpfEGHj7EJFUOS+Lv+B0Po5rWooujP8wmquvSB3vyFU1BiSyOxUjjV+9+
+ 8IRq5XoW5JX3pmi/LuG4F/n/CdkjjcPvp+ouXYZZpCham6Cf/AsaLHNLz0/Qr2uAesUHNc9pHo2
+ xpq75TuFHXy0uc56XHQm3FB4id6o2edrSozRii80L06RcHIx
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,85 +107,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Fix several warnings produced by the display nodes.
 
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Dmitry Baryshkov (4):
+      dt-bindings: display/msm: sm8150-mdss: add DP node
+      arm64: dts: qcom: sc8180x: drop legacy property #stream-id-cells
+      arm64: dts: qcom: sc8180x: Drop flags for mdss irqs
+      arm64: dts: qcom: sc8180x: add dp_p1 register blocks to DP nodes
 
-On 3/26/2024 12:47 PM, Dmitry Baryshkov wrote:
-> On Tue, 26 Mar 2024 at 21:32, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 3/26/2024 12:10 PM, Dmitry Baryshkov wrote:
->>> On Tue, 26 Mar 2024 at 20:31, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>>>
->>>>
->>>>
->>>> On 3/26/2024 11:19 AM, Dmitry Baryshkov wrote:
->>>>> On Tue, 26 Mar 2024 at 20:05, Miguel Ojeda
->>>>> <miguel.ojeda.sandonis@gmail.com> wrote:
->>>>>>
->>>>>> Hi,
->>>>>>
->>>>>> In today's next, I got:
->>>>>>
->>>>>>        drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:843:6: error: variable
->>>>>> 'out' set but not used [-Werror,-Wunused-but-set-variable]
->>>>>>
->>>>>> `out` seems to be there since commit 64d6255650d4 ("drm/msm: More
->>>>>> fully implement devcoredump for a7xx").
->>>>>>
->>>>>> Untested diff below assuming `dumper->iova` is constant -- if you want
->>>>>> a formal patch, please let me know.
->>>>>
->>>>> Please send a proper patch that we can pick up.
->>>>>
->>>>
->>>> This should be fixed with https://patchwork.freedesktop.org/patch/581853/.
->>>
->>> Is that a correct fix? If you check other usage locations for
->>> CRASHDUMP_READ, you'll see that `out` is the last parameter and it is
->>> being incremented.
->>>
->>
->> Right but in this function out is not the last parameter of CRASHDUMP_READ.
-> 
-> Yes. I think in this case the patch from this email is more correct.
-> 
+ .../devicetree/bindings/display/msm/qcom,sm8150-mdss.yaml   | 10 ++++++++++
+ arch/arm64/boot/dts/qcom/sc8180x.dtsi                       | 13 +++++++------
+ 2 files changed, 17 insertions(+), 6 deletions(-)
+---
+base-commit: 13ee4a7161b6fd938aef6688ff43b163f6d83e37
+change-id: 20240326-fd-fix-schema-b91f94a95135
 
-Alright, in that case, Miguel can you please repost this with the Fixes 
-tags and in a patch form.
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
->>
->> Maybe you or Rob can correct me but I thought the fix looked sane
->> although noone commented on that patch.
-> 
->>
->>>>
->>>> We can pickup that one with a Fixes tag applied.
->>>>
->>>>>>
->>>>>> Cheers,
->>>>>> Miguel
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
->>>>>> b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
->>>>>> index 1f5245fc2cdc..a847a0f7a73c 100644
->>>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
->>>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
->>>>>> @@ -852,7 +852,7 @@ static void a6xx_get_shader_block(struct msm_gpu *gpu,
->>>>>>                 (block->type << 8) | i);
->>>>>>
->>>>>>             in += CRASHDUMP_READ(in, REG_A6XX_HLSQ_DBG_AHB_READ_APERTURE,
->>>>>> -            block->size, dumper->iova + A6XX_CD_DATA_OFFSET);
->>>>>> +            block->size, out);
->>>>>>
->>>>>>             out += block->size * sizeof(u32);
->>>>>>         }
->>>>>
->>>>>
->>>>>
->>>
->>>
->>>
-> 
-> 
-> 
