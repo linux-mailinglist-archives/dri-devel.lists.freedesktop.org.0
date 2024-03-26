@@ -2,47 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA06788CB60
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 18:54:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE14788CB75
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 19:02:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20B3D10F1A0;
-	Tue, 26 Mar 2024 17:54:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6027F10F1BD;
+	Tue, 26 Mar 2024 18:02:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="R6JPLjeD";
+	dkim=pass (1024-bit key; unprotected) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="XPKjlYpv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 029A410F1A0
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 17:54:08 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9036B63B;
- Tue, 26 Mar 2024 18:53:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1711475615;
- bh=sgeuX1RexIqR0RCTlrZICgibIh+lguB0TsW9JKRrFIQ=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=R6JPLjeDnfdC/vwnBqC99bj24VqZXW4/oaNxivB8y4o04/WQQvmOdv6Oq4EIR8B5L
- zMAGDmURtzENaSMCKyK/LK1bW/U+pSwmB1Fk0RQdN6wKROKmGAtYcq2TVrD+Y6wZx1
- R46/Y98wfO/2b8rnvO9KACFfjFCqCMTzX7MdKba4=
-Content-Type: text/plain; charset="utf-8"
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
+ [157.90.84.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9868010F1BB;
+ Tue, 26 Mar 2024 18:02:11 +0000 (UTC)
+Received: from [192.168.42.20] (p5de45f8b.dip0.t-ipconnect.de [93.228.95.139])
+ (Authenticated sender: wse@tuxedocomputers.com)
+ by mail.tuxedocomputers.com (Postfix) with ESMTPSA id D04272FC0064;
+ Tue, 26 Mar 2024 19:02:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+ s=default; t=1711476129;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=67Lg4wuP6h7ErjyOCsUYv2VB5WjsY82ObZUF8rzV50g=;
+ b=XPKjlYpvPbqUpi88uV2wr1ItI6D0wKIhnkXw2a619zBAzqgKzuURmVi+jvSlQ+eiEp3QjS
+ D/fzS7dnH5u0+qx9wAa0Pq2YL28B82U9gfexZYmapsZnEc+ArKxwuNw2SK3ygdSOeyma1b
+ zuSizs8BduXHBni3Z5lqFVSpRsx9Llo=
+Authentication-Results: mail.tuxedocomputers.com;
+ auth=pass smtp.auth=wse@tuxedocomputers.com
+ smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <a1ea4750-ce15-4cf9-bce0-e013e89ebac2@tuxedocomputers.com>
+Date: Tue, 26 Mar 2024 19:02:08 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <7frycd5jnd674cily3xz3p2yl2bjc2yrn3z6sw3dzqdpl4widp@hrgyml6b7vh5>
-References: <20240228102245.80469-1-jacopo.mondi@ideasonboard.com>
- <7frycd5jnd674cily3xz3p2yl2bjc2yrn3z6sw3dzqdpl4widp@hrgyml6b7vh5>
-Subject: Re: [PATCH 0/2] drm/fourcc.h: Add libcamera to Open Source Waiver
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, libcamera-devel@lists.libcamera.org,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Tue, 26 Mar 2024 17:54:04 +0000
-Message-ID: <171147564465.3566204.18099513875755978001@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
+User-Agent: Mozilla Thunderbird
+Subject: Re: Library and interfaces for GPU offloading
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: mesa-dev@lists.freedesktop.org,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <be4dc7e4-2b28-4c9f-a97b-6a2e8ca3a8b6@tuxedocomputers.com>
+In-Reply-To: <be4dc7e4-2b28-4c9f-a97b-6a2e8ca3a8b6@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,38 +61,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Jacopo Mondi (2024-03-14 10:12:47)
-> Hello
->=20
-> gentle nudge for
->=20
-> *) libcamera: are we ok being listed here ?
+Am 25.03.24 um 11:41 schrieb Werner Sembach:
+> Hello everyone,
+>
+> currently GPU offloading on Linux is handled via environment variables. Which 
+> is a subpar experience for desktop files and might not be possible when using 
+> launchers (i.e. Steam, Lutris, Heroic, etc.) that have no explicit support for 
+> it without running the whole launcher permanently on the dGPU.
+>
+> A proof of concept for a better solution is posted here: 
+> https://gitlab.freedesktop.org/glvnd/libglvnd/-/merge_requests/224 + 
+> https://gitlab.freedesktop.org/glvnd/libglvnd/-/merge_requests/228 , but it's 
+> stale since 3 years so I wanted to make a push for it.
+>
+> Is there currently active work on this?
+>
+> What is Mesas take on on the PoCs? 
+> https://gitlab.freedesktop.org/glvnd/libglvnd/-/merge_requests/228#note_1364162
+>
+> Best regards,
+>
+> Werner Sembach
+>
+I was pointed to dri-devel with this to find the correct people.
 
-I think it's fine ...
+Best Regards,
 
-Acked-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Werner Sembach
 
-> *) DRM/KMS: is it ok splitting the list of projects in the way I've
->    done ?
->=20
-> Thanks
->    j
->=20
-> On Wed, Feb 28, 2024 at 11:22:42AM +0100, Jacopo Mondi wrote:
-> > As suggested by Sima, add libcamera to the list of projects to which the
-> > Open Source Waiver notice applies.
-> >
-> > To maintain the paragraph readable, make a list out of the projects to =
-which
-> > such notice applies.
-> >
-> > Jacopo Mondi (2):
-> >   drm/fourcc.h: List of Open Source Waiver projects
-> >   drm/fourcc.h: Add libcamera to Open Source Waiver
-> >
-> >  include/uapi/drm/drm_fourcc.h | 12 +++++++++---
-> >  1 file changed, 9 insertions(+), 3 deletions(-)
-> >
-> > --
-> > 2.43.2
-> >
