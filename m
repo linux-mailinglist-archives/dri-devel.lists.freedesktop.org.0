@@ -2,43 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60FB988CAF5
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 18:32:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7923788CAFD
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 18:33:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E06210F16C;
-	Tue, 26 Mar 2024 17:32:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA5A10E436;
+	Tue, 26 Mar 2024 17:33:37 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="p0D6W/Vy";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2C2D10F17C
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 17:32:16 +0000 (UTC)
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:19])
- by cantor.telenet-ops.be (Postfix) with ESMTPS id 4V3xgy6jy3z4x0JM
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 18:32:14 +0100 (CET)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:76d0:2bff:fec8:549])
- by laurent.telenet-ops.be with bizsmtp
- id 3VYD2C00H0SSLxL01VYDYl; Tue, 26 Mar 2024 18:32:14 +0100
-Received: from rox.of.borg ([192.168.97.57])
- by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1rpAeM-0053li-UA;
- Tue, 26 Mar 2024 18:32:13 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1rpAej-001ZOf-Nq;
- Tue, 26 Mar 2024 18:32:13 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] drm: DRM_DEBUG_MODESET_LOCK should depend on DRM
-Date: Tue, 26 Mar 2024 18:32:12 +0100
-Message-Id: <80bb56a361c3a4f7567f1d8a8adb050fdff62462.1711474310.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
+ [209.85.128.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA1E110EF43
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 17:33:35 +0000 (UTC)
+Received: by mail-yw1-f176.google.com with SMTP id
+ 00721157ae682-611248b4805so41891507b3.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 10:33:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1711474415; x=1712079215; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=XbZMB0HLDo6UlcT3wdFgHAD3bu+yuJSpDvNYyyVm5Bo=;
+ b=p0D6W/Vyz4E/o6rEewPQ598Vkm+6sjH6wqxSHptc/k9NMAR2zpqekXGOOhRrbTdEKW
+ RhmkqlYmtLqIXw9jS82Ka0eihSEpX0i5tmNiDqSBAmRzFuqipdKuqCTJwxCHhmw6YPlg
+ gWH6swIsQsOlsIDRfEl2HVgzHC3W/CfoqLGkLGcFdfGC0ZC++7yEmGdLRQC3CA0kgh38
+ sKi6589QW9abnXlHC1F2HecnZxlYJJKzmh3Ly2jcDL8tJoEr645+uuFdmh7Go+2+bvvc
+ h/lUtfhROq+N+ERsumdB8yK6hPI4vwbKdQW1pNT4uhlfdHc4VCZAhnn1GVYmEggcou6Z
+ RSFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711474415; x=1712079215;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XbZMB0HLDo6UlcT3wdFgHAD3bu+yuJSpDvNYyyVm5Bo=;
+ b=a1S2HOgrL0ovmqc4Ovd6aiNwVeVvJ+QI5al/MKvOFSUZke7gJJScQa30srBhkGFUFE
+ SAVwHme6Sj6GFydoF6PEj0niNSILx9mFLUkMDfb3Kn3h36a2+9LpA0KmMp2qmXcL4dN3
+ 7BiqtzZG05wZpe3azkzfdAygvBb8i7BtOier8aWWEltWJ4dfi47k/WUkguFzhkVVMBZi
+ KmfFez7F2a9b8O5ic6Oos/TVvtgIm1J3igYN127BOEnCJDC8t5hTNCeW0kBD8l7cghH3
+ 8XPTK+Ak0x40HAppMdw02u9FpKkg0cpS0GB5DKfyUpqGykNXwcob/so5j2RA/+2z2t6x
+ Uz0g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVO2sfkduxwHS81/DpT2ofvJ3NmD5lpGy0Qjv4Z7IbBWXT3fBNRRyi3YdjYI9HHaDFMF1CuFkt/ZlniqLAObcD4Yqnse2r5SgKP3bfMHmOO
+X-Gm-Message-State: AOJu0YwoQUZCWFRRevN920A7yQbMNvHA4iD7nKwzOpdO0F+tTdqRuXaz
+ idwcy41etGinhOcH6AUrBie+4BSHzXxkAKbujGZU96E9/DTpBpCASRlmXUgybmwxJ7WoguTRSLG
+ fbfxPlKie0LQtZzJWUbkaHdInDIGsWg0cUCfzCA==
+X-Google-Smtp-Source: AGHT+IEMWwGPSGxVa+7DBZhN3tDl31SG+GYGcvvUKD2ClPTIyhd+KW7hJPpl34yQMv0yUTu8mGIcSU6SoV3jibi+RjM=
+X-Received: by 2002:a81:5f55:0:b0:60a:5031:2de9 with SMTP id
+ t82-20020a815f55000000b0060a50312de9mr1681149ywb.51.1711474414901; Tue, 26
+ Mar 2024 10:33:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240326-msm-dp-cleanup-v1-0-e775556ecec0@quicinc.com>
+ <20240326-msm-dp-cleanup-v1-5-e775556ecec0@quicinc.com>
+In-Reply-To: <20240326-msm-dp-cleanup-v1-5-e775556ecec0@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 26 Mar 2024 19:33:24 +0200
+Message-ID: <CAA8EJpqxxuu+EK3W55EbhiZyGqnB6DGdH7jU5fP--bZpUHSx9A@mail.gmail.com>
+Subject: Re: [PATCH 5/6] drm/msm/dp: Use function arguments for timing
+ configuration
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Bjorn Andersson <quic_bjorande@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,29 +83,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is no point in asking the user about enabling DRM debug tracing
-when configuring a kernel without DRM support.
+On Tue, 26 Mar 2024 at 17:06, Bjorn Andersson <andersson@kernel.org> wrote:
+>
+> From: Bjorn Andersson <quic_bjorande@quicinc.com>
+>
+> dp_catalog_panel_timing_cfg() takes 4 arguments, which are passed from
+> the calling function through members of struct dp_catalog.
+>
+> No state is maintained other than across this call, so switch to
+> function arguments to clean up the code.
+>
+> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_catalog.c | 14 ++++++--------
+>  drivers/gpu/drm/msm/dp/dp_catalog.h |  7 ++-----
+>  drivers/gpu/drm/msm/dp/dp_panel.c   | 14 +++++++++-----
+>  3 files changed, 17 insertions(+), 18 deletions(-)
+>
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/gpu/drm/Kconfig | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 2e1b23ccf30423a9..a24c48acf235449a 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -119,9 +119,7 @@ config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
- 
- config DRM_DEBUG_MODESET_LOCK
- 	bool "Enable backtrace history for lock contention"
--	depends on STACKTRACE_SUPPORT
--	depends on DEBUG_KERNEL
--	depends on EXPERT
-+	depends on DRM && STACKTRACE_SUPPORT && DEBUG_KERNEL && EXPERT
- 	select STACKDEPOT
- 	default y if DEBUG_WW_MUTEX_SLOWPATH
- 	help
 -- 
-2.34.1
-
+With best wishes
+Dmitry
