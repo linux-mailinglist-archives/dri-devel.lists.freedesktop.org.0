@@ -2,47 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F9C988BDE0
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 10:31:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B7B88BE0B
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 10:40:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E800A10EE1F;
-	Tue, 26 Mar 2024 09:31:00 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ZxW8acTl";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97CB610EE22;
+	Tue, 26 Mar 2024 09:40:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D95010EE1F
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 09:30:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1711445457;
- bh=ahfBlUfWRsy1cAiaDo2NbcbzpUG7EXvxnAKC6rk4E8c=;
- h=From:To:Cc:Subject:Date:From;
- b=ZxW8acTlqJdjXCwizP/M1dTHGTdEeIJgyaE0WJ3xpIbtHUHjSU8w6nurhAPcLnSKN
- B0iditcUvdajHn/rLkTkkXxdPEnYnXVhd7fAlaZQOlT4LwiHx/+GwNZ/Az7PaXEAVk
- IBxJSOc5HpWr6649Nu4FBKdkJFO+zDE8YPkBIDwduqXeiU1gAglVuPtRHmxdp+w/Dh
- JEvKgKOsE+XTnolFWATHTySmEQPvMYlMN6jptNrfOZD7Kb9tH8MQQB8q5CrtkxO3Ks
- QwMNVJg6MM7F963R7hUBx+jqxHrbWd2J9KMTDS8X2bCZ4nCsn7RVjWNdvXgR2bcgUf
- /GQiV6h4AtEtQ==
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 307F237813E1;
- Tue, 26 Mar 2024 09:30:57 +0000 (UTC)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
- Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] drm/panthor: Fix wrong kernel-doc format in the uAPI header
-Date: Tue, 26 Mar 2024 10:30:55 +0100
-Message-ID: <20240326093055.411932-1-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.44.0
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 790CE10E849
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 09:40:23 +0000 (UTC)
+Received: from i53875aaf.versanet.de ([83.135.90.175] helo=phil.lan)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1rp3Hw-0001HT-FA; Tue, 26 Mar 2024 10:40:12 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: Heiko Stuebner <heiko@sntech.de>, quic_jesszhan@quicinc.com,
+ neil.armstrong@linaro.org, sam@ravnborg.org
+Cc: tzimmermann@suse.de, klaus.goger@theobroma-systems.com,
+ dri-devel@lists.freedesktop.org, Heiko Stuebner <heiko.stuebner@cherry.de>,
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, quentin.schulz@theobroma-systems.com
+Subject: Re: [PATCH 1/2] drm/panel: ltk050h3146w: add MIPI_DSI_MODE_VIDEO to
+ LTK050H3148W flags
+Date: Tue, 26 Mar 2024 10:40:10 +0100
+Message-Id: <171144600424.1118335.2717050705855214232.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240320131232.327196-1-heiko@sntech.de>
+References: <20240320131232.327196-1-heiko@sntech.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,31 +49,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The kernel doc prefix is /** not /*.
+On Wed, 20 Mar 2024 14:12:31 +0100, Heiko Stuebner wrote:
+> From: Heiko Stuebner <heiko.stuebner@cherry.de>
+> 
+> Similar to other variants, the LTK050H3148W wants to run in video mode
+> when displaying data. So far only the Synopsis DSI driver was using this
+> panel and it is always switching to video mode, independent of this flag
+> being set.
+> 
+> [...]
 
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
----
- include/uapi/drm/panthor_drm.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Applied, thanks!
 
-diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-index 373df80f41ed..dadb05ab1235 100644
---- a/include/uapi/drm/panthor_drm.h
-+++ b/include/uapi/drm/panthor_drm.h
-@@ -336,10 +336,10 @@ struct drm_panthor_gpu_info {
- 	/** @tiler_present: Bitmask encoding the tiler units exposed by the GPU. */
- 	__u64 tiler_present;
- 
--	/* @core_features: Used to discriminate core variants when they exist. */
-+	/** @core_features: Used to discriminate core variants when they exist. */
- 	__u32 core_features;
- 
--	/* @pad: MBZ. */
-+	/** @pad: MBZ. */
- 	__u32 pad;
- };
- 
+[1/2] drm/panel: ltk050h3146w: add MIPI_DSI_MODE_VIDEO to LTK050H3148W flags
+      commit: 80cc8c0d09e6bab3bd016ddaccd0570cadbe1891
+[2/2] drm/panel: ltk050h3146w: drop duplicate commands from LTK050H3148W init
+      commit: 55679cc22e60e8ec23b2340248389022798416cd
+
+Best regards,
 -- 
-2.44.0
-
+Heiko Stuebner <heiko@sntech.de>
