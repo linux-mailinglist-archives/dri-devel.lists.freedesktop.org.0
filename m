@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4D388D243
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 23:57:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE7D888D2A7
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 00:12:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91A8A10F483;
-	Tue, 26 Mar 2024 22:56:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11D4810F4B0;
+	Tue, 26 Mar 2024 23:12:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="knur54c4";
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="eIfMHGsP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFAEE10F47B;
- Tue, 26 Mar 2024 22:56:56 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id C691FCE19AE;
- Tue, 26 Mar 2024 22:56:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A308FC433C7;
- Tue, 26 Mar 2024 22:56:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711493814;
- bh=uMrfzN4xjKjod6GbAc1xRQd4HusxFp38FVyEvv2mIkA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=knur54c4eVgsNUNQfgkHX+FMHtB4w0y37mRCWkmBDyM1xKXZ8MEnDqG3oeYUBuu5o
- ZJSsNnndctin55unNbYnFqDuPY4yxaB9fjSaUFtd6aJvxVkabOL6FjKAOY3kc0ldkD
- B7Cc+0gwSEiGtr8Rpeh8CAVGPnsM6LVJ6JfU+8iihJKDUdPiNL2sGhCNvNQ94Hajhn
- gMoUEyyaIlTyQilt1rew3rAhVOyzX+QKEQ22d8dDg2L8shl2SJQZ61jNbsP+q4KV5l
- YWTODMdkdknK/m/AgVZgJWtg0IvDbXsFrLKonIZleuQzP46MtfjcU2o29F2cHA3JJc
- OaxpvvvnTDRhg==
-Date: Tue, 26 Mar 2024 15:56:50 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Sui Jingfeng <sui.jingfeng@linux.dev>, linux-kbuild@vger.kernel.org,
- llvm@lists.linux.dev
-Subject: Re: [RESEND v3 2/2] drm: Add CONFIG_DRM_WERROR
-Message-ID: <20240326225650.GA2784736@dev-arch.thelio-3990X>
-References: <cover.1709629403.git.jani.nikula@intel.com>
- <afe5ed943414f7ec3044c1547503b9941686a867.1709629403.git.jani.nikula@intel.com>
+X-Greylist: delayed 563 seconds by postgrey-1.36 at gabe;
+ Tue, 26 Mar 2024 23:12:29 UTC
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D82510F4B0
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 23:12:29 +0000 (UTC)
+Received: from [192.168.68.112]
+ (ppp118-210-177-226.adl-adc-lon-bras34.tpg.internode.on.net
+ [118.210.177.226])
+ by mail.codeconstruct.com.au (Postfix) with ESMTPSA id DC391200DB;
+ Wed, 27 Mar 2024 07:02:56 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=codeconstruct.com.au; s=2022a; t=1711494183;
+ bh=tz3fNHh1K/JnaN3rWzXOsduTzNNjTpy00qDhmUkVo8k=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References;
+ b=eIfMHGsPNwHmXwNNstH9IMj4w2lyPGURp6LMbwLrjHmlPyWfu99sWNZIhMk2gO6uz
+ RgeTjJOiQM0pv47zQxIswraW0rFx3ZPiwJSHKORRHDpqe3US9RXTYofm+LfhboiiTX
+ 0/2nDinsXDMjMsSQxs2l6/VHxtwFkD9IKm5EvxniqkwLV0JMXkRE5RjbJG83+NbtCN
+ qcam/A+94EU+rkbVi8UIoPMWSMl+z844LZNWJnywiVy85Sxc2rC3fDh+0d1MeyeTmc
+ pAYFOzZm0LtzVIwBEgEJ5JYODCCsjCp/BnFptrq5B4iieSj8Tq3llCMFTW9l5/tOpw
+ Z5xqzSAoUof7Q==
+Message-ID: <e0453eb8a2da206cf591c6a7c4d431c771cf5794.camel@codeconstruct.com.au>
+Subject: Re: [PATCH 01/12] kbuild: make -Woverride-init warnings more
+ consistent
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Arnd Bergmann <arnd@kernel.org>, linux-kbuild@vger.kernel.org, Masahiro
+ Yamada <masahiroy@kernel.org>, Harry Wentland <harry.wentland@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Linus Walleij <linus.walleij@linaro.org>,
+ Joel Stanley <joel@jms.id.au>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, Andrew Morton <akpm@linux-foundation.org>,
+ Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nicolas@fjasle.eu>, Arnd Bergmann <arnd@arndb.de>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ netdev@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev
+Date: Wed, 27 Mar 2024 09:32:36 +1030
+In-Reply-To: <20240326144741.3094687-2-arnd@kernel.org>
+References: <20240326144741.3094687-1-arnd@kernel.org>
+ <20240326144741.3094687-2-arnd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <afe5ed943414f7ec3044c1547503b9941686a867.1709629403.git.jani.nikula@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,100 +74,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 05, 2024 at 11:07:36AM +0200, Jani Nikula wrote:
-> Add kconfig to enable -Werror subsystem wide. This is useful for
-> development and CI to keep the subsystem warning free, while avoiding
-> issues outside of the subsystem that kernel wide CONFIG_WERROR=y might
-> hit.
-> 
-> v2: Don't depend on COMPILE_TEST
-> 
-> Reviewed-by: Hamza Mahfooz <hamza.mahfooz@amd.com> # v1
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+On Tue, 2024-03-26 at 15:47 +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>=20
+> The -Woverride-init warn about code that may be intentional or not,
+> but the inintentional ones tend to be real bugs, so there is a bit of
+> disagreement on whether this warning option should be enabled by default
+> and we have multiple settings in scripts/Makefile.extrawarn as well as
+> individual subsystems.
+>=20
+> Older versions of clang only supported -Wno-initializer-overrides with
+> the same meaning as gcc's -Woverride-init, though all supported versions
+> now work with both. Because of this difference, an earlier cleanup of
+> mine accidentally turned the clang warning off for W=3D1 builds and only
+> left it on for W=3D2, while it's still enabled for gcc with W=3D1.
+>=20
+> There is also one driver that only turns the warning off for newer
+> versions of gcc but not other compilers, and some but not all the
+> Makefiles still use a cc-disable-warning conditional that is no
+> longer needed with supported compilers here.
+>=20
+> Address all of the above by removing the special cases for clang
+> and always turning the warning off unconditionally where it got
+> in the way, using the syntax that is supported by both compilers.
+>=20
+> Fixes: 2cd3271b7a31 ("kbuild: avoid duplicate warning options")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  drivers/gpu/drm/Kconfig  | 13 +++++++++++++
->  drivers/gpu/drm/Makefile |  3 +++
->  2 files changed, 16 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 6e853acf15da..c08e18108c2a 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -416,3 +416,16 @@ config DRM_LIB_RANDOM
->  config DRM_PRIVACY_SCREEN
->  	bool
->  	default n
-> +
-> +config DRM_WERROR
-> +	bool "Compile the drm subsystem with warnings as errors"
-> +	depends on EXPERT
-> +	default n
-> +	help
-> +	  A kernel build should not cause any compiler warnings, and this
-> +	  enables the '-Werror' flag to enforce that rule in the drm subsystem.
-> +
-> +	  The drm subsystem enables more warnings than the kernel default, so
-> +	  this config option is disabled by default.
-> +
-> +	  If in doubt, say N.
+>  drivers/gpu/drm/amd/display/dc/dce110/Makefile |  2 +-
+>  drivers/gpu/drm/amd/display/dc/dce112/Makefile |  2 +-
+>  drivers/gpu/drm/amd/display/dc/dce120/Makefile |  2 +-
+>  drivers/gpu/drm/amd/display/dc/dce60/Makefile  |  2 +-
+>  drivers/gpu/drm/amd/display/dc/dce80/Makefile  |  2 +-
+>  drivers/gpu/drm/i915/Makefile                  |  6 +++---
+>  drivers/gpu/drm/xe/Makefile                    |  4 ++--
+>  drivers/net/ethernet/renesas/sh_eth.c          |  2 +-
+>  drivers/pinctrl/aspeed/Makefile                |  2 +-
 
-While I understand the desire for an easy switch that maintainers and
-developers can use to ensure that their changes are warning free for the
-drm subsystem specifically, I think subsystem specific configuration
-options like this are actively detrimental to developers and continuous
-integration systems that build test the entire kernel. For example, we
-turned off CONFIG_WERROR for our Hexagon builds because of warnings that
-appear with -Wextra that are legitimate but require treewide changes to
-resolve in a manner sufficient for Linus:
+For the Aspeed change:
 
-https://github.com/ClangBuiltLinux/linux/issues/1285
-https://lore.kernel.org/all/CAHk-=wg80je=K7madF4e7WrRNp37e3qh6y10Svhdc7O8SZ_-8g@mail.gmail.com/
-https://lore.kernel.org/all/20230522105049.1467313-1-schnelle@linux.ibm.com/
+Acked-by: Andrew Jeffery <andrew@codeconstruct.com.au>
 
-But now, due to CONFIG_DRM_WERROR getting enabled by all{mod,yes}config
-and -Wextra being unconditionally enabled for DRM, those warnings hard
-break the build despite CONFIG_WERROR=n...
-
-https://storage.tuxsuite.com/public/clangbuiltlinux/continuous-integration2/builds/2eEBDGEqfmMZjGg3ZvDx2af2pde/build.log
-
-Same thing with PowerPC allmodconfig because we see -Wframe-larger-than
-that appears because allmodconfig enables CONFIG_KASAN or CONFIG_KCSAN
-usually:
-
-https://storage.tuxsuite.com/public/clangbuiltlinux/continuous-integration2/builds/2eE2HDsODudQGqkMKAPQnId7pRd/build.log
-
-I don't know what the solution for this conflict is through. I guess it
-is just the nature of the kernel being a federation of independent
-subsystems that want to have their own policies. I suppose we can just
-set CONFIG_DRM_WERROR=n and be done with it but I would like to avoid
-this issue from spreading to other subsystems because it does not scale
-for folks like us who do many builds across many trees.
-
-It would be nice if there was something like CONFIG_WERROR_DIRS or
-something that could take a set of directories that should have -Werror
-enabled so that you could do something like
-
-  CONFIG_WERROR_DIRS="drivers/gpu/drm"
-
-and have -Werror automatically added to all commands within that
-directory like subdir-ccflags-y but it is explicitly opt in on the part
-of the developer/tester, rather than just happening to get enabled due
-to all{mod,yes}config. No idea if that is feasible or not though.
-
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index ea456f057e8a..a73c04d2d7a3 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -30,6 +30,9 @@ subdir-ccflags-y += -Wno-sign-compare
->  endif
->  # --- end copy-paste
->  
-> +# Enable -Werror in CI and development
-> +subdir-ccflags-$(CONFIG_DRM_WERROR) += -Werror
-> +
->  drm-y := \
->  	drm_aperture.o \
->  	drm_atomic.o \
-> -- 
-> 2.39.2
-> 
+Thanks!
