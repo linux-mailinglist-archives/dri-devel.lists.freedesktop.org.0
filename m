@@ -2,42 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D75088CAEF
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 18:31:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8888888CAF1
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 18:31:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D048B10F176;
-	Tue, 26 Mar 2024 17:31:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58DB710F17D;
+	Tue, 26 Mar 2024 17:31:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [195.130.132.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1164C10F171
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 17:31:47 +0000 (UTC)
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:13])
- by gauss.telenet-ops.be (Postfix) with ESMTPS id 4V3xgP4pwbz4x04D
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 18:31:45 +0100 (CET)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:76d0:2bff:fec8:549])
- by baptiste.telenet-ops.be with bizsmtp
- id 3VXj2C00C0SSLxL01VXjoL; Tue, 26 Mar 2024 18:31:45 +0100
-Received: from rox.of.borg ([192.168.97.57])
- by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1rpAds-0053lR-Fw;
- Tue, 26 Mar 2024 18:31:43 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1rpAeF-001ZND-9j;
- Tue, 26 Mar 2024 18:31:43 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Jani Nikula <jani.nikula@intel.com>,
- Javier Martinez Canillas <javierm@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] drm: DRM_WERROR should depend on DRM
-Date: Tue, 26 Mar 2024 18:31:41 +0100
-Message-Id: <631a1f4c066181b54617bfe2f38b0bd0ac865b68.1711474200.git.geert+renesas@glider.be>
+Received: from rtg-sunil-navi33.amd.com (unknown [165.204.156.251])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36CD310F17C;
+ Tue, 26 Mar 2024 17:31:50 +0000 (UTC)
+Received: from rtg-sunil-navi33.amd.com (localhost [127.0.0.1])
+ by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP id
+ 42QHVjVC2324656; Tue, 26 Mar 2024 23:01:45 +0530
+Received: (from sunil@localhost)
+ by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Submit) id 42QHVj7W2324649;
+ Tue, 26 Mar 2024 23:01:45 +0530
+From: Sunil Khatri <sunil.khatri@amd.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Shashank Sharma <shashank.sharma@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Hawking Zhang <Hawking.Zhang@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Lijo Lazar <lijo.lazar@amd.com>, Sunil Khatri <sunil.khatri@amd.com>
+Subject: [PATCH] drm/amdgpu: add IP's FW information to devcoredump
+Date: Tue, 26 Mar 2024 23:01:42 +0530
+Message-Id: <20240326173142.2324624-1-sunil.khatri@amd.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -56,28 +47,153 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is no point in asking the user about enforcing the DRM compiler
-warning policy when configuring a kernel without DRM support.
+Add FW information of all the IP's in the devcoredump.
 
-Fixes: f89632a9e5fa6c47 ("drm: Add CONFIG_DRM_WERROR")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
 ---
- drivers/gpu/drm/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c  | 122 ++++++++++++++++++
+ 1 file changed, 122 insertions(+)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index f2bcf5504aa77679..2e1b23ccf30423a9 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -423,7 +423,7 @@ config DRM_PRIVACY_SCREEN
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+index 44c5da8aa9ce..d598b6520ec9 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+@@ -69,6 +69,124 @@ const char *hw_ip_names[MAX_HWIP] = {
+ 	[PCIE_HWIP]		= "PCIE",
+ };
  
- config DRM_WERROR
- 	bool "Compile the drm subsystem with warnings as errors"
--	depends on EXPERT
-+	depends on DRM && EXPERT
- 	default n
- 	help
- 	  A kernel build should not cause any compiler warnings, and this
++static void amdgpu_devcoredump_fw_info(struct amdgpu_device *adev,
++				       struct drm_printer *p)
++{
++	uint32_t version;
++	uint32_t feature;
++	uint8_t smu_program, smu_major, smu_minor, smu_debug;
++
++	drm_printf(p, "VCE feature version: %u, fw version: 0x%08x\n",
++		   adev->vce.fb_version, adev->vce.fw_version);
++	drm_printf(p, "UVD feature version: %u, fw version: 0x%08x\n", 0,
++		   adev->uvd.fw_version);
++	drm_printf(p, "GMC feature version: %u, fw version: 0x%08x\n", 0,
++		   adev->gmc.fw_version);
++	drm_printf(p, "ME feature version: %u, fw version: 0x%08x\n",
++		   adev->gfx.me_feature_version, adev->gfx.me_fw_version);
++	drm_printf(p, "PFP feature version: %u, fw version: 0x%08x\n",
++		   adev->gfx.pfp_feature_version, adev->gfx.pfp_fw_version);
++	drm_printf(p, "CE feature version: %u, fw version: 0x%08x\n",
++		   adev->gfx.ce_feature_version, adev->gfx.ce_fw_version);
++	drm_printf(p, "RLC feature version: %u, fw version: 0x%08x\n",
++		   adev->gfx.rlc_feature_version, adev->gfx.rlc_fw_version);
++
++	drm_printf(p, "RLC SRLC feature version: %u, fw version: 0x%08x\n",
++		   adev->gfx.rlc_srlc_feature_version,
++		   adev->gfx.rlc_srlc_fw_version);
++	drm_printf(p, "RLC SRLG feature version: %u, fw version: 0x%08x\n",
++		   adev->gfx.rlc_srlg_feature_version,
++		   adev->gfx.rlc_srlg_fw_version);
++	drm_printf(p, "RLC SRLS feature version: %u, fw version: 0x%08x\n",
++		   adev->gfx.rlc_srls_feature_version,
++		   adev->gfx.rlc_srls_fw_version);
++	drm_printf(p, "RLCP feature version: %u, fw version: 0x%08x\n",
++		   adev->gfx.rlcp_ucode_feature_version,
++		   adev->gfx.rlcp_ucode_version);
++	drm_printf(p, "RLCV feature version: %u, fw version: 0x%08x\n",
++		   adev->gfx.rlcv_ucode_feature_version,
++		   adev->gfx.rlcv_ucode_version);
++	drm_printf(p, "MEC feature version: %u, fw version: 0x%08x\n",
++		   adev->gfx.mec_feature_version, adev->gfx.mec_fw_version);
++
++	if (adev->gfx.mec2_fw)
++		drm_printf(p, "MEC2 feature version: %u, fw version: 0x%08x\n",
++			   adev->gfx.mec2_feature_version,
++			   adev->gfx.mec2_fw_version);
++
++	drm_printf(p, "IMU feature version: %u, fw version: 0x%08x\n", 0,
++		   adev->gfx.imu_fw_version);
++	drm_printf(p, "PSP SOS feature version: %u, fw version: 0x%08x\n",
++		   adev->psp.sos.feature_version, adev->psp.sos.fw_version);
++	drm_printf(p, "PSP ASD feature version: %u, fw version: 0x%08x\n",
++		   adev->psp.asd_context.bin_desc.feature_version,
++		   adev->psp.asd_context.bin_desc.fw_version);
++
++	drm_printf(p, "TA XGMI feature version: 0x%08x, fw version: 0x%08x\n",
++		   adev->psp.xgmi_context.context.bin_desc.feature_version,
++		   adev->psp.xgmi_context.context.bin_desc.fw_version);
++	drm_printf(p, "TA RAS feature version: 0x%08x, fw version: 0x%08x\n",
++		   adev->psp.ras_context.context.bin_desc.feature_version,
++		   adev->psp.ras_context.context.bin_desc.fw_version);
++	drm_printf(p, "TA HDCP feature version: 0x%08x, fw version: 0x%08x\n",
++		   adev->psp.hdcp_context.context.bin_desc.feature_version,
++		   adev->psp.hdcp_context.context.bin_desc.fw_version);
++	drm_printf(p, "TA DTM feature version: 0x%08x, fw version: 0x%08x\n",
++		   adev->psp.dtm_context.context.bin_desc.feature_version,
++		   adev->psp.dtm_context.context.bin_desc.fw_version);
++	drm_printf(p, "TA RAP feature version: 0x%08x, fw version: 0x%08x\n",
++		   adev->psp.rap_context.context.bin_desc.feature_version,
++		   adev->psp.rap_context.context.bin_desc.fw_version);
++	drm_printf(
++		p,
++		"TA SECURE DISPLAY feature version: 0x%08x, fw version: 0x%08x\n",
++		adev->psp.securedisplay_context.context.bin_desc.feature_version,
++		adev->psp.securedisplay_context.context.bin_desc.fw_version);
++
++	/* SMC firmware */
++	version = adev->pm.fw_version;
++
++	smu_program = (version >> 24) & 0xff;
++	smu_major = (version >> 16) & 0xff;
++	smu_minor = (version >> 8) & 0xff;
++	smu_debug = (version >> 0) & 0xff;
++	drm_printf(p,
++		   "SMC feature version: %u, program: %d, fw version: 0x%08x (%d.%d.%d)\n",
++		   0, smu_program, version, smu_major, smu_minor, smu_debug);
++
++	/* SDMA firmware */
++	for (int i = 0; i < adev->sdma.num_instances; i++) {
++		drm_printf(p,
++			   "SDMA%d feature version: %u, firmware version: 0x%08x\n",
++			   i, adev->sdma.instance[i].feature_version,
++			   adev->sdma.instance[i].fw_version);
++	}
++
++	drm_printf(p, "VCN feature version: %u, fw version: 0x%08x\n", 0,
++		   adev->vcn.fw_version);
++	drm_printf(p, "DMCU feature version: %u, fw version: 0x%08x\n", 0,
++		   adev->dm.dmcu_fw_version);
++	drm_printf(p, "DMCUB feature version: %u, fw version: 0x%08x\n", 0,
++		   adev->dm.dmcub_fw_version);
++	drm_printf(p, "PSP TOC feature version: %u, fw version: 0x%08x\n",
++		   adev->psp.toc.feature_version, adev->psp.toc.fw_version);
++
++	version = adev->mes.kiq_version & AMDGPU_MES_VERSION_MASK;
++	feature = (adev->mes.kiq_version & AMDGPU_MES_FEAT_VERSION_MASK) >>
++		  AMDGPU_MES_FEAT_VERSION_SHIFT;
++	drm_printf(p, "MES_KIQ feature version: %u, fw version: 0x%08x\n",
++		   feature, version);
++
++	version = adev->mes.sched_version & AMDGPU_MES_VERSION_MASK;
++	feature = (adev->mes.sched_version & AMDGPU_MES_FEAT_VERSION_MASK) >>
++		  AMDGPU_MES_FEAT_VERSION_SHIFT;
++	drm_printf(p, "MES feature version: %u, fw version: 0x%08x\n", feature,
++		   version);
++
++	drm_printf(p, "VPE feature version: %u, fw version: 0x%08x\n",
++		   adev->vpe.feature_version, adev->vpe.fw_version);
++}
++
+ static ssize_t
+ amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
+ 			void *data, size_t datalen)
+@@ -118,6 +236,10 @@ amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
+ 		}
+ 	}
+ 
++	/* IP firmware information */
++	drm_printf(&p, "\nIP Firmwares\n");
++	amdgpu_devcoredump_fw_info(coredump->adev, &p);
++
+ 	if (coredump->ring) {
+ 		drm_printf(&p, "\nRing timed out details\n");
+ 		drm_printf(&p, "IP Type: %d Ring Name: %s\n",
 -- 
 2.34.1
 
