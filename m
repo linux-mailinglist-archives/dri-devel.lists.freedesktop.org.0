@@ -2,79 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4724988B5F3
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 01:21:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE30C88B609
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 01:28:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 391CE10EBB7;
-	Tue, 26 Mar 2024 00:21:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7672110E221;
+	Tue, 26 Mar 2024 00:28:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="XSmHb7cT";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Mmg5MgAw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
- [209.85.222.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E352410EBB7
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 00:21:40 +0000 (UTC)
-Received: by mail-qk1-f173.google.com with SMTP id
- af79cd13be357-78a16114b69so437715985a.0
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 17:21:40 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 065A610E221
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 00:28:27 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-515a68d45faso2408302e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 17:28:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1711412498; x=1712017298;
+ d=google.com; s=20230601; t=1711412906; x=1712017706;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hJErg4VRvYhsmdtGKXiUunocztQDn+7oNfRma22BjII=;
- b=XSmHb7cTesEh2lIY6/zYezWqiSpvYHq5uvagi3UavVn+pFrCiuOo6dE56kqCW+2o2Z
- AvvM0eFdg8ouPrucUWxrkXEyegcf1h3ayZ5Na5MOkBqBR1sJ5u7u9LNqmZrmGDJQMuIg
- 2c44NVogcQaWYOF6iEY8OVSFOVAR7st5tuKe8=
+ bh=6AS6qRiVlQsc1+zZ8NlPzKQQkZa8BexCVQalpdaPfxc=;
+ b=Mmg5MgAw8YdvuX6zY5X/k/KXDHs6hlw8tt7KWANSrFd2PMT8Pb4vfG+lMNnZ0leg95
+ AbcqZRQU4dgTDDJvWDxWlhxhVlbu4A8JPh4pPqO2GGBC/bVXcisScwWxLhneAU07B3wp
+ lskNbS1iGTpwcPOjKf0OZT1ZbQlmv14m+RrXmvYKHiv92g0NUcGss5kJja/Er7zb+euc
+ G9rveJibeXpPtELtdndHxe4jD2tGXkIA4ORpDnjcoJTn5L2Ra/K+yvxG8SWYzKh6SQj6
+ u8lZT5rrr/BjnlO7bfUJPOWPCI5F2UiUsZ2XzBdtX8g0OJMJa8N1vvpmcOPIZhfzTaN1
+ 648w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711412498; x=1712017298;
+ d=1e100.net; s=20230601; t=1711412906; x=1712017706;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hJErg4VRvYhsmdtGKXiUunocztQDn+7oNfRma22BjII=;
- b=edx5TsGy1n8r47L+zpgHeHYMjwWovolJo6GA0nmRiE7lFDhfbPAUJVIce64AVHfS/7
- 1WlgsfjCzhcnCf0CZbB4vXGiKp3iCse2Oxr5E1+6pHRacFDHJ9AyEThl2aMzXGyqOwYg
- QLkga32yCzZkg6gpOn2uqyqlfCV85aCFB/9fByl1F0lEwjxF/1Uktg6Nx+tjlhWfcXhX
- zr0zlxEJOJB+/M8udjQSrv2mEEfDstpOVa6ZG1mwLJgsLbQHOROEsAYP0FRqaD0VMCFS
- GIGcTAVlH//yv0UhezI1M/lUfkn3gtMD48LaGWK6NwwXqvz635gw7CA2i41tY6EpAFBx
- oU3A==
+ bh=6AS6qRiVlQsc1+zZ8NlPzKQQkZa8BexCVQalpdaPfxc=;
+ b=la/DurTM1ya6T7cXifJuyFcskOtFhgKXZDJpMnF6rIciZ9yvsXG6KM1S/x+w9s3Ew3
+ Hn5QIUWM3wybDU6qe8vslhIdcPMShAm2cmFseb50Jei8miJAxOT+EHsuSyTxWir9FA1n
+ 2W71+mtGIPhnbtXs/Z+SOGE3zI5/VVBd0EWjgbZSo77jgpJNq1gXfXr5g4Amm6qWfWAz
+ gPlPe7IIazLe/Z3Xc6gkAMvTO6mVfggsOutuR8Q8jNbqNQ84dXcysrd2LjWjpSm81dGR
+ W9pd3wzN0PIv5rhIXsKCpInm0HjElxQ3XcIHd8IVB79us39I8x9gURANVX5hYGXE8o+d
+ s0+w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVZjLIdFAvYC616axJOsW9RMV/Eid86DVmNt1gfzVr3BXZ2SCWEgxHDrTJh5/iAJOoVBniOqPRBvHuTodUlpgbPJW2kbob+V7v6UMg+cqI6
-X-Gm-Message-State: AOJu0YyMzEZnX021VVl+p85a9EajDYrZhAQqQAt6cyaKnr+L7wdThO6j
- G+QyBobN+0vHcXLC6uVGdPkRcxwjuNXAqnCw5DJAJGnDcH6jMtTde0mKX+dXkiicvrjyMCQ6WU8
- =
-X-Google-Smtp-Source: AGHT+IGfXuswJj6KiigIOdDccjlmftTiaTCeeu2PquBCCRv8tDvJKI01/JUy8x5QLlBtthpLhIxUiw==
-X-Received: by 2002:a05:620a:2691:b0:78a:2e68:7737 with SMTP id
- c17-20020a05620a269100b0078a2e687737mr11769551qkp.18.1711412498512; 
- Mon, 25 Mar 2024 17:21:38 -0700 (PDT)
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com.
- [209.85.160.172]) by smtp.gmail.com with ESMTPSA id
- wj2-20020a05620a574200b00789f34f225dsm2555640qkn.71.2024.03.25.17.21.37
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Mar 2024 17:21:37 -0700 (PDT)
-Received: by mail-qt1-f172.google.com with SMTP id
- d75a77b69052e-428405a0205so81151cf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 17:21:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUWobdNgrx8+33nTvKCe9mjNdOfjunh7hZ3/mIsyakMV+wNgWFX5XrP8lUImSwna4aqNjyofuRtsGY4YbH9AWB5Vys3aPbJ/YaVRej/ld/s
-X-Received: by 2002:a05:622a:4c89:b0:431:6352:80fb with SMTP id
- ez9-20020a05622a4c8900b00431635280fbmr74987qtb.16.1711412497043; Mon, 25 Mar
- 2024 17:21:37 -0700 (PDT)
+ AJvYcCUZvS7edpOs5JFB6JXb73vcIY+qPchPnqQClj96pbZMjWn8Put0vPMzmMxoLgc7NZ2x9uhS2ysWysjzXOGEnzWL6XMXkDUnpPwGBauxcrTD
+X-Gm-Message-State: AOJu0YxFqa5JWnFxn5hJtzaT16+sns/QbMZap0xAWiy6EJ8VIncTeJKP
+ EH1HaNVdGL4xRNGVspPbm8z5MhK0ciiSf5CkI94wg1evhLhp8PFKVySVS17fPTPzmyRXvyTGeZo
+ WFLcInNCI7pRd88cia74b4CyYuynCaB5lbd9k
+X-Google-Smtp-Source: AGHT+IF9aQZZlm3m7qhQmoIyJ6RkPwr/Dop+uoHu7fO/1Q5QVzyOPH34BhQ7Hc1bMJCfX+wA5X9L6ZhSH1TjcEziOMA=
+X-Received: by 2002:a05:6512:456:b0:513:2b35:2520 with SMTP id
+ y22-20020a056512045600b005132b352520mr5371798lfk.58.1711412905481; Mon, 25
+ Mar 2024 17:28:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <12472820.O9o76ZdvQC@mephi-laptop>
-In-Reply-To: <12472820.O9o76ZdvQC@mephi-laptop>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 25 Mar 2024 17:21:20 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=X8N0g0P1d85P0nJHHSkb9xZ-hxJATYD2+b_nNrwqfsUg@mail.gmail.com>
-Message-ID: <CAD=FV=X8N0g0P1d85P0nJHHSkb9xZ-hxJATYD2+b_nNrwqfsUg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/panel: Remove redundant checks in multiple panels
-To: Emilio Mendoza Reyes <emendoz@g.clemson.edu>
-Cc: neil.armstrong@linaro.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <6208950d-6453-e797-7fc3-1dcf15b49dbe@huawei.com>
+ <CAHS8izMwTRyqUS0iRtErfAqDVsXRia5Ajx9PRK3vcfo8utJoUA@mail.gmail.com>
+In-Reply-To: <CAHS8izMwTRyqUS0iRtErfAqDVsXRia5Ajx9PRK3vcfo8utJoUA@mail.gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Mon, 25 Mar 2024 17:28:12 -0700
+Message-ID: <CAHS8izPR+SioMKNv3=2ajK=GGOE26BTaxOMykHJfjttqYjx1wQ@mail.gmail.com>
+Subject: Re: [RFC PATCH net-next v6 00/15] Device Memory TCP
+To: Yunsheng Lin <linyunsheng@huawei.com>, YiFei Zhu <zhuyifei@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, 
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+ Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>, 
+ Shakeel Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>, 
+ Praveen Kaligineedi <pkaligineedi@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,124 +116,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Sat, Mar 23, 2024 at 7:05=E2=80=AFPM Emilio Mendoza Reyes
-<emendoz@g.clemson.edu> wrote:
+On Tue, Mar 5, 2024 at 11:38=E2=80=AFAM Mina Almasry <almasrymina@google.co=
+m> wrote:
 >
-> -----BEGIN PGP SIGNED MESSAGE-----
-> Hash: SHA512
+> On Tue, Mar 5, 2024 at 4:54=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei.c=
+om> wrote:
+> >
+> > On 2024/3/5 10:01, Mina Almasry wrote:
+> >
+> > ...
+> >
+> > >
+> > > Perf - page-pool benchmark:
+> > > ---------------------------
+> > >
+> > > bench_page_pool_simple.ko tests with and without these changes:
+> > > https://pastebin.com/raw/ncHDwAbn
+> > >
+> > > AFAIK the number that really matters in the perf tests is the
+> > > 'tasklet_page_pool01_fast_path Per elem'. This one measures at about =
+8
+> > > cycles without the changes but there is some 1 cycle noise in some
+> > > results.
+> > >
+> > > With the patches this regresses to 9 cycles with the changes but ther=
+e
+> > > is 1 cycle noise occasionally running this test repeatedly.
+> > >
+> > > Lastly I tried disable the static_branch_unlikely() in
+> > > netmem_is_net_iov() check. To my surprise disabling the
+> > > static_branch_unlikely() check reduces the fast path back to 8 cycles=
+,
+> > > but the 1 cycle noise remains.
+> > >
+> >
+> > The last sentence seems to be suggesting the above 1 ns regresses is ca=
+used
+> > by the static_branch_unlikely() checking?
 >
-> From: Emilio Mendoza Reyes <emendoz@clemson.edu>
+> Note it's not a 1ns regression, it's looks like maybe a 1 cycle
+> regression (slightly less than 1ns if I'm reading the output of the
+> test correctly):
 >
-> The patch ("drm/panel: Check for already prepared/enabled in drm_panel")
-> moved checking for (en/dis)abled and [un]prepared panels before specific
-> function calls to drm_panel.c.Those checks that still exist within the
-> panels are redundant. This patch removes those redundant checks.
+> # clean net-next
+> time_bench: Type:tasklet_page_pool01_fast_path Per elem: 8 cycles(tsc)
+> 2.993 ns (step:0)
 >
-> Removing those checks was/is also a todo in the kernel docs
-> Link: https://www.kernel.org/doc/html/v6.8/gpu/todo.html#clean-up-checks-=
-for-already-prepared-enabled-in-panels
+> # with patches
+> time_bench: Type:tasklet_page_pool01_fast_path Per elem: 9 cycles(tsc)
+> 3.679 ns (step:0)
 >
-> Signed-off-by: Emilio Mendoza Reyes <emendoz@clemson.edu>
-> - ---
->  drivers/gpu/drm/panel/panel-boe-himax8279d.c     | 12 ------------
->  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c   |  6 ------
->  drivers/gpu/drm/panel/panel-edp.c                | 14 --------------
->  drivers/gpu/drm/panel/panel-innolux-p079zca.c    | 12 ------------
->  drivers/gpu/drm/panel/panel-jdi-lt070me05000.c   | 12 ------------
->  drivers/gpu/drm/panel/panel-khadas-ts050.c       |  9 ---------
->  .../gpu/drm/panel/panel-kingdisplay-kd097d04.c   | 12 ------------
->  .../gpu/drm/panel/panel-leadtek-ltk050h3146w.c   |  6 ------
->  .../gpu/drm/panel/panel-leadtek-ltk500hd1829.c   |  6 ------
->  drivers/gpu/drm/panel/panel-novatek-nt36672a.c   |  6 ------
->  .../gpu/drm/panel/panel-olimex-lcd-olinuxino.c   | 12 ------------
->  .../gpu/drm/panel/panel-osd-osd101t2587-53ts.c   | 12 ------------
->  .../gpu/drm/panel/panel-panasonic-vvx10f034n00.c | 12 ------------
->  drivers/gpu/drm/panel/panel-raydium-rm67191.c    | 12 ------------
->  drivers/gpu/drm/panel/panel-raydium-rm692e5.c    |  6 ------
->  drivers/gpu/drm/panel/panel-samsung-atna33xc20.c | 16 ----------------
->  drivers/gpu/drm/panel/panel-seiko-43wvf1g.c      | 12 ------------
->  drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c  | 12 ------------
->  drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c  |  6 ------
->  drivers/gpu/drm/panel/panel-simple.c             | 14 --------------
->  drivers/gpu/drm/panel/panel-sitronix-st7703.c    |  6 ------
->  drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c     |  6 ------
->  drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c |  6 ------
->  23 files changed, 227 deletions(-)
+> # with patches and with diff that disables static branching:
+> time_bench: Type:tasklet_page_pool01_fast_path Per elem: 8 cycles(tsc)
+> 3.248 ns (step:0)
+>
+> I do see noise in the test results between run and run, and any
+> regression (if any) is slightly obfuscated by the noise, so it's a bit
+> hard to make confident statements. So far it looks like a ~0.25ns
+> regression without static branch and about ~0.65ns with static branch.
+>
+> Honestly when I saw all 3 results were within some noise I did not
+> investigate more, but if this looks concerning to you I can dig
+> further. I likely need to gather a few test runs to filter out the
+> noise and maybe investigate the assembly my compiler is generating to
+> maybe narrow down what changes there.
+>
 
-Aside from the formatting issues (several lines start with an extra
-"-" and there is the PGP stuff), there are a few high-level issues
-here:
+I did some more investigation here to gather more data to filter out
+the noise, and recorded the summary here:
 
-1. In general, you need to be a little more careful here because not
-all these panels are going through the code path that the new code
-covers. For instance, look at the first panel here
-("panel-boe-himax8279d.c"). The panel_shutdown() function in that
-driver _directly_ calls boe_panel_disable() and boe_panel_unprepare()
-rather than calling the drm_panel equivalent function. That means that
-they _won't_ get the benefit of the checking I added to drm_panel.c.
-What that means is that if someone using the "panel-boe-himax8279d.c"
-panel shuts down / reboots while their panel is off you'll probably
-get a bunch of errors. I _think_ this is as simple as just changing
-all those panels to call the drm_panel equivalent function.
+https://pastebin.com/raw/v5dYRg8L
 
-2. As much as possible, not only should you be removing the checks,
-but you should also be removing all the code that tracks the state of
-prepared/enabled in the panel drivers and then removing the "prepared"
-/ "enabled" members from the structs. If the panel driver needs to
-track prepared/enabled for something else, you might need to keep it
-though. One example would be sony-acx565akm, as per my previous
-attempt [1].
+Long story short, the page_pool benchmark results are consistent with
+some outlier noise results that I'm discounting here. Currently
+page_pool fast path is at 8 cycles
 
-In general, maybe a good approach would be to actually start with
-patches #5 - #9 in my previous series [2] but instead of calling
-drm_panel_helper_shutdown() just do:
-  drm_panel_disable(...);
-  drm_panel_unprepare(...);
+[ 2115.724510] time_bench: Type:tasklet_page_pool01_fast_path Per
+elem: 8 cycles(tsc) 3.187 ns (step:0) - (measurement period
+time:0.031870585 sec time_interval:31870585) - (invoke count:10000000
+tsc_interval:86043192)
 
-Feel free to take my patches, change them, and post them. If you want,
-you could add a Co-Developed-by (see submitting-patches.rst).
+and with this patch series it degrades to 10 cycles, or about a 0.7ns
+degradation or so:
 
-For some panels the above would be just leaving what's already there.
-For some panels that might convert them from their static function to
-the drm_panel equivalent.
+[  498.226127] time_bench: Type:tasklet_page_pool01_fast_path Per
+elem: 10 cycles(tsc) 3.944 ns (step:0) - (measurement period
+time:0.039442539 sec time_interval:39442539) - (invoke count:10000000
+tsc_interval:106485268)
 
-Leaving the drm_panel_disable() / drm_panel_unprepare() in the panel
-driver shutdown/remove code is not an ideal long term solution, but it
-at least moves us on the right path and at least lets us get rid of
-most of the prepared / enabled tracking. IMO that should be landable,
-though perhaps others would have different opinions.
+I took the time to dig into where the degradation comes from, and to
+my surprise we can shave off 1 cycle in perf by removing the
+static_branch_unlikely check in netmem_is_net_iov() like so:
 
-After doing all that, then you could submit patches that simply get
-rid of the drm_panel_disable() / drm_panel_unprepare() for any panel
-drivers if you know that those panels are only used by DRM drivers
-that properly call the DRM shutdown code. See my series that tried to
-add that to a bunch of DRM drivers [3]. Not everything landed, but
-quite a bit of it did. As Maxime and I talked about [4] that _should_
-be as simple as tracking down the panel's compatible string, seeing
-which device trees use it, and then seeing if the associated DRM
-driver is properly shutting things down.
+diff --git a/include/net/netmem.h b/include/net/netmem.h
+index fe354d11a421..2b4310ac1115 100644
+--- a/include/net/netmem.h
++++ b/include/net/netmem.h
+@@ -122,8 +122,7 @@ typedef unsigned long __bitwise netmem_ref;
+ static inline bool netmem_is_net_iov(const netmem_ref netmem)
+ {
+ #ifdef CONFIG_PAGE_POOL
+-       return static_branch_unlikely(&page_pool_mem_providers) &&
+-              (__force unsigned long)netmem & NET_IOV;
++       return (__force unsigned long)netmem & NET_IOV;
+ #else
+        return false;
+ #endif
 
-Finally, after you've removed the calls to drm_panel_disable() /
-drm_panel_unprepare() from the majority of the panel drivers then you
-could go forward with your patch #2 where you change this to a WARN().
-Personally, I'd be a little hesitant to land that change, though,
-until at least panel-simple and panel-edp got rid of the calls since
-that would add WARN for A LOT of people. Unfortunately, those two
-panels drivers are also among the hardest to validate since they're
-used with nearly all DRM drivers out there. However, IMO even if we
-aren't ready to convert to a full WARN all the rest of the stuff I've
-talked about here is worth doing.
+With this change, the fast path is 9 cycles, only  a 1 cycle (~0.35ns)
+regression:
 
-Hopefully that's not too overwhelming.
+[  199.184429] time_bench: Type:tasklet_page_pool01_fast_path Per
+elem: 9 cycles(tsc) 3.552 ns (step:0) - (measurement period
+time:0.035524013 sec time_interval:35524013) - (invoke count:10000000
+tsc_interval:95907775)
 
+I did some digging with YiFei on why the static_branch_unlikely
+appears to be causing a 1 cycle regression, but could not get an
+answer that makes sense. The # of instructions in
+page_pool_return_page() with the static_branch_unlikely and without is
+about the same in the compiled .o file, and my understanding is that
+static_branch will cause code re-writing anyway so looking at the
+compiled code may not be representative.
 
-[1] https://lore.kernel.org/lkml/20230804140605.RFC.9.I6a51b36831a5c7b2b82b=
-ccf8c550cf0d076aa541@changeid/
-[2] https://lore.kernel.org/lkml/20230804210644.1862287-1-dianders@chromium=
-.org/
-[3] https://lore.kernel.org/lkml/20230921192749.1542462-1-dianders@chromium=
-.org/
-[4] https://lore.kernel.org/lkml/c6kwqxz2xgl64qb6dzetjjh6j2a6hj7mvbkeg57f5u=
-lfs2hrib@ocjjsoxw3ns6/
+Worthy of note is that I get ~95% line rate of devmem TCP regardless
+of the static_branch_unlikely() or not, so impact of the static_branch
+is not large enough to be measurable end-to-end. I'm thinking I want
+to drop the static_branch_unlikely() in the next RFC since it doesn't
+improve the end-to-end throughput number and is resulting in a
+measurable improvement in the page pool benchmark.
+
+--=20
+Thanks,
+Mina
