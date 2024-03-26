@@ -2,95 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CED388CDCB
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 21:03:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0853B88CDEF
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 21:12:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C6F210F260;
-	Tue, 26 Mar 2024 20:03:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F32C10E23C;
+	Tue, 26 Mar 2024 20:12:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="CZd2CTZD";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="idkPpRg4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62AD910F25D
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 20:03:02 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-51588f70d2dso7169839e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 13:03:02 -0700 (PDT)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A39E10E23C;
+ Tue, 26 Mar 2024 20:12:37 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id
+ a640c23a62f3a-a4dfb8bc3a6so82359666b.0; 
+ Tue, 26 Mar 2024 13:12:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711483380; x=1712088180; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=bQopQsz++KyAxMIyytKdPL33zkWupusjZ2yKHzV+hFA=;
- b=CZd2CTZDo9L23uj9IrdGnOOpu8X4TriOBMl1+hbnBTv+lrEENWR9b9F7+/VLnDHRN+
- fbb6SfuC4Y3d/KAsCYV7/lWpC8Pjcx1w+583Js+w4laWl44xErLnTYqZrtfWW1N0WaUt
- cMNe/ImjvVtAAj2yPWIsotBPCZKH4Rap1rVc0Fs8UUlzf88eTJdGsypFHSmWkT6VeNkm
- IBn+0i+daoVPHGO0/UgOfYy1ztqMDgGYvKGt05f706WqE8/XO424Q+wcnPReq/z/GL9Z
- FdDiQE2t+5m9HvDO4xmXE0Kt8DHN+qDdNlsPO0eD0QS2GkZMNOjoCf7NzPKKSsvb2iBt
- cKXQ==
+ d=gmail.com; s=20230601; t=1711483956; x=1712088756; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=xUqd/hXXnUj9kaAJZ97jeBbCMUvezK3PPckw8kw8588=;
+ b=idkPpRg4jGUkWBo4cfL06I4LRsVUKX4jemlCs/5M3SrLtSR4fSb3DFook6j3GJeuXs
+ s7dpeBxz/D9tjtm39cCeIy8N3GYeBBdTybwRhccmFDMQuMIWG+4/uOeQth39L2YazELD
+ a21f/GkTtNcAFsjEbMfdnv1MT5z6UwmesDdfHeZLIDUaNOP7mqhyWrGUAa91uCv5yA3B
+ 2g5ZNjwqyVBrTEEtrRCSRE68cNE8DXFmC1/mfK1+mBknObQ3C+VK6WxozZ90IFOKpFbz
+ vp+jGJcPPZ/Y4evWj+rbBLCR5M9Q8BTaG7Omks1bWB2fQztQO+4mzEoQiatYQLWES7SQ
+ 3TKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711483380; x=1712088180;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bQopQsz++KyAxMIyytKdPL33zkWupusjZ2yKHzV+hFA=;
- b=wDZL9rZYep+cH2AjIDUs6YQ1CcuE84eMacaXpg+xud1c3Xr248j+M2bCbxIY9VY6lh
- Ppe0aVsb9nuorP00OxF9ws0230hved4W3tmIDdDpElQeSSKblZkg/MjOu1tqb+SK8WBC
- OftQMD/YA3pjQuMT/3LP8h75sTW9lfDWum2vzqUznqubn/dy7D0vNIpQVHbkwBjbk87C
- Q2pwBdN1o+Td8bhk21Fg6+NxVLUTvYgB3GXxNxxTDuYqdLpZXPIf3K6Q4znFYpoHmqMk
- M0gPa8UYma1jHAcCeyF7hlJhDGJZerIWkJadP2LmWiDfDYDgytDLDbp9td6HJgHgibm9
- /SLg==
+ d=1e100.net; s=20230601; t=1711483956; x=1712088756;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xUqd/hXXnUj9kaAJZ97jeBbCMUvezK3PPckw8kw8588=;
+ b=jnIVHadJqvbsY8LxSjYnE4OGmbhGmpnnurjO6rSvVZZu/LQXD1ViyMSS6Ys6rzL+QI
+ rONirOzXapKODDeai90xMUfMjgEKR02/CtNdlkpAfHgZTDXtW1Txj/HNLsSx/iSjXmBe
+ lmnyVYyTWGu9cymtXA6tSGmMbXcnDaM2JMSZ7bS5cOYROzlPxqgnxf0ZCIHcyxVjvXSN
+ bhEmtgAyvrdwoxV0iGujefQcXSRKx8iQDhngqa9c21IPsSsMpYZX1pkE+JkArEb//Cq6
+ fHWVXbhOrbBqnXUlWdOsqw+ghvYckyiRjMLzd3LwJRqkCUC1Pg2fdK91hjbmCxR2+NSA
+ FA3g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWQQmDTMOG2qs2Opp/23zxl/qmxBx3ZkVpBwGaxQc3uI5trvfXQhch1Yd9eXOjkou1aUOhIyj7z0Fs9CRL8RjtSjZvU1BoDaNf/Z19R1lHq
-X-Gm-Message-State: AOJu0YyX6la9eavmszmUzP9010TTkvOzENKvIeZYtjvkF/YgRsgoRXkU
- NqrVP4keRNNJ1X+/pEA2DPab5xZMjdhIdlTcQg6qYjr6pO/hNUqI1i192qU8PZUTwuqygXF7opw
- Z
-X-Google-Smtp-Source: AGHT+IFnIUQKR1NUHfXxdzxBsBRq+4L8hLoiAjx1D64J0vm1IDre8tnXPZKedRXEjfkM/rwyZQDgeQ==
-X-Received: by 2002:ac2:5bcc:0:b0:515:bad2:825c with SMTP id
- u12-20020ac25bcc000000b00515bad2825cmr1375441lfn.30.1711483380262; 
- Tue, 26 Mar 2024 13:03:00 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- a21-20020ac25e75000000b00515a7984acbsm1279408lfr.94.2024.03.26.13.02.59
+ AJvYcCXsSymcSCP15EFqiSimjIY0A94jBFkOD9i/p69enmeMZSr0X7T2FmQMDqScH6FoVyMv9GkCoA0IEcMcdr0hGzE4RV/XFqSxr6oeW5QRQX3Q+HnqOqt2rCOZJqNIb/u0MEsSeVF2jn24Nf0x9QDDYCWL
+X-Gm-Message-State: AOJu0YxyCsIFJ/a4UvKHYpAztL3+hJ3yskzZuTpnv1c7Vkk5InE5r4/E
+ YSA15XsSDgls/esGVjZbm6KjHIHp5Amgm7Qa5LMq/QnuhN4Giras
+X-Google-Smtp-Source: AGHT+IHg3ORZ80GhUvJ9XJEF6YPpHT+zBqZGXseRfkvUVWidu77wObbjjRoQtlhIZSCbSWeVSEZbqw==
+X-Received: by 2002:a17:907:7d92:b0:a47:5248:68d5 with SMTP id
+ oz18-20020a1709077d9200b00a47524868d5mr7307816ejc.60.1711483956009; 
+ Tue, 26 Mar 2024 13:12:36 -0700 (PDT)
+Received: from localhost.localdomain (byv80.neoplus.adsl.tpnet.pl.
+ [83.30.41.80]) by smtp.gmail.com with ESMTPSA id
+ du1-20020a17090772c100b00a4da28f42f1sm1714257ejc.177.2024.03.26.13.12.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Mar 2024 13:02:59 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 26 Mar 2024 22:02:57 +0200
-Subject: [PATCH 4/4] arm64: dts: qcom: sc8180x: add dp_p1 register blocks
- to DP nodes
+ Tue, 26 Mar 2024 13:12:35 -0700 (PDT)
+From: Adam Skladowski <a39.skl@gmail.com>
+To: 
+Cc: phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ Adam Skladowski <a39.skl@gmail.com>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 0/1] Split Adreno schemas
+Date: Tue, 26 Mar 2024 21:05:57 +0100
+Message-Id: <20240326201140.10561-1-a39.skl@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240326-fd-fix-schema-v1-4-4475d6d6d633@linaro.org>
-References: <20240326-fd-fix-schema-v1-0-4475d6d6d633@linaro.org>
-In-Reply-To: <20240326-fd-fix-schema-v1-0-4475d6d6d633@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1307;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=M5PDgsfLVIKABExlt6TlS2fGlnl3XAgxVoXclxwHIH8=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmAynwQqmWzf2igSonGtm/LlpImWQsxvrhjNxo5
- oGaj+uthFeJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZgMp8AAKCRCLPIo+Aiko
- 1Vk1CACOjyNVYW+tkP4qhqZ5fM6vXzj0fu29rVIteeUM6ExFg05XKzDZeZiVsZtlxlkAYZkbSe6
- UGxOEw4joPudBSyWwxGQ/21v9JVEg9SbarVapzr3Hvb4HOzJhxpZgtLXGkN5FyQA71kwIJHygUC
- zUIOa2G5/f/AIv8Opw2vopG+QTcOif9NLN+ox3ylKEoW5jMYSSgH9hTMxQlGLR7gXIi27yAcfvJ
- EfqMOHiQt6eyh+tRYEMBUFT19EZujmFrXEmBvzLuSgbKa1XS+4VwFVdo21uGibXTtf3UBXTiTbd
- PL/HJj6VAkggCbKRmrLAR4DbHt0Fo3lHUn2lX28rPZjYM/8x
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,39 +90,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DisplayPort nodes must declare the dp_p1 register space in addition to
-dp_p0. Add corresponding resource to DisplayPort DT nodes.
+Following recommendation from Dmitry Baryshkov this series split schema
+into separate schemas per gpu family, as i don't really understand much
+of yamls and dt-schema i decided to send this as RFC and if there
+are any changes suggested i will be glad if these can be explained
+to me in ELI5 format.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- arch/arm64/boot/dts/qcom/sc8180x.dtsi | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Adam Skladowski (1):
+  dt-bindings: display/msm: gpu: Split Adreno schemas into separate
+    files
 
-diff --git a/arch/arm64/boot/dts/qcom/sc8180x.dtsi b/arch/arm64/boot/dts/qcom/sc8180x.dtsi
-index 6d74867d3b61..019104bd70fb 100644
---- a/arch/arm64/boot/dts/qcom/sc8180x.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc8180x.dtsi
-@@ -3029,7 +3029,8 @@ mdss_dp0: displayport-controller@ae90000 {
- 				reg = <0 0xae90000 0 0x200>,
- 				      <0 0xae90200 0 0x200>,
- 				      <0 0xae90400 0 0x600>,
--				      <0 0xae90a00 0 0x400>;
-+				      <0 0xae90a00 0 0x400>,
-+				      <0 0xae91000 0 0x400>;
- 				interrupt-parent = <&mdss>;
- 				interrupts = <12>;
- 				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-@@ -3105,7 +3106,8 @@ mdss_dp1: displayport-controller@ae98000 {
- 				reg = <0 0xae98000 0 0x200>,
- 				      <0 0xae98200 0 0x200>,
- 				      <0 0xae98400 0 0x600>,
--				      <0 0xae98a00 0 0x400>;
-+				      <0 0xae98a00 0 0x400>,
-+				      <0 0xae99000 0 0x400>;
- 				interrupt-parent = <&mdss>;
- 				interrupts = <13>;
- 				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
+ .../devicetree/bindings/display/msm/gpu.yaml  | 317 ++----------------
+ .../bindings/display/msm/qcom,adreno-306.yaml | 115 +++++++
+ .../bindings/display/msm/qcom,adreno-330.yaml | 111 ++++++
+ .../bindings/display/msm/qcom,adreno-405.yaml | 135 ++++++++
+ .../bindings/display/msm/qcom,adreno-506.yaml | 184 ++++++++++
+ .../bindings/display/msm/qcom,adreno-530.yaml | 161 +++++++++
+ .../bindings/display/msm/qcom,adreno-540.yaml | 154 +++++++++
+ .../bindings/display/msm/qcom,adreno-6xx.yaml | 160 +++++++++
+ .../display/msm/qcom,adreno-common.yaml       | 112 +++++++
+ 9 files changed, 1157 insertions(+), 292 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,adreno-306.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,adreno-330.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,adreno-405.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,adreno-506.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,adreno-530.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,adreno-540.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,adreno-6xx.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,adreno-common.yaml
 
 -- 
-2.39.2
+2.44.0
 
