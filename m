@@ -2,134 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E76888C876
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 17:04:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A469F88C885
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 17:06:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4290E10EE0B;
-	Tue, 26 Mar 2024 16:04:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA64310EE35;
+	Tue, 26 Mar 2024 16:06:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="zm34060w";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UcnkWW+F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2091.outbound.protection.outlook.com [40.107.95.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C321C10EE06;
- Tue, 26 Mar 2024 16:04:44 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 063F110EE2D;
+ Tue, 26 Mar 2024 16:06:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1711469187; x=1743005187;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=w4BYE3Kg1UHOyonPq7sv+2nEzw9F17HES/g0GBCBuJQ=;
+ b=UcnkWW+Fex5bDPvIkEcL4rQYzL8KyfyPdEwTvpOleqnUTE/F5CEGFZY/
+ xZQmZ6DRfCBfvmuFFdDMt1y0EjlLnwNgA3/wkdCr4L+ehzRxdVNJRXpDY
+ v/fufZ9GwbH3TxxrhsFC21a8UGOncmpVNR9YMUQhwwgR3kSgCBYm63wTb
+ gMv3mqMOL5mc+zCiWQ3KMge6ttUXdzhb+90wh28L27+v7LEousOk6SIv8
+ tenjIgCJKazvOYpq/neQ5zZKZgvWzLhxa70gd8qGE2ZPlKb6SsR30+5+K
+ pszT1adUowrSp1+V+s1zPiiOQ2U873mGnGuLiQrmciaiktdmkmdxU68AL Q==;
+X-CSE-ConnectionGUID: YLVT5wXqTSSWmLR2AXXL6Q==
+X-CSE-MsgGUID: /ztBpLVrT2W/5WtaqWaThA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="10329719"
+X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; d="scan'208";a="10329719"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2024 09:06:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; d="scan'208";a="20657580"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orviesa003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 26 Mar 2024 09:06:25 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 26 Mar 2024 09:06:25 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 26 Mar 2024 09:06:25 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 26 Mar 2024 09:06:25 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B9OyNG3mczypzDLfsnvqJVBKj/xCqLqvS5i/QSaMECGP2S22AZzpRzQLXhSoWpCJwy95r2O1IXCA92uTShqxRqHkcrSLUIgM71MAXdAqHd7hbKscKSazGNFYDisoxCIzxo47HKoklrJy3HVq4vPs35JpO/uUU8ZONOWviJ/Zy6dOqIbkBzxXYNxWlLlXZVMC6dIO7DmKyuHsV7K+M31pCPL1m0SQZjXIyyqwrJxeDHRrL24p78R2pUv1S2tYFckykUEVJPkuxka3UEfGxl4/Jb5fPWcKYVV8HwwEpOrkScFd66Zkx5acmDbxWOMXv4zvQVULMigGE4B98dmcJJQLwg==
+ b=AbFz6Y6JdMRPZbCVCCjr8IDy3iLdSN86OOi88NQoIwhFnyXjbnsX5EMCNG8kzaZqWVzxLHDDT2PsD5dGvluxe3Fr2XWB0D6hj4XJhmd5JWfe1iXZ/R8qvbqXM6qEEc3UD9A3E/mcLepnca4QjyqotJtKCXIEz7qOBgXzsvFF9V83MLogvfodSPcWLjBEcy/QeFnM/EK/J/TdLH/+sVu5amMoQtXt3hfWQIymqlKUE5WjblDEO7OOIYg4yBC7X7DOsePTXcfD06KCV6jaTwjiVVESPm5LOw+6XFWbfXVrc2EbO629fsYmtIYy8Y4egGRatVOh0W71XL1HSqEPSDf5Ew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NlM2WUgQ8IFzMds0j4DUEUxfyOFk4QfhQ3N2ivwaNhg=;
- b=JkkluEtib836Md3LGzPbAUmFs0YJTmVly7X/szagI/6rM3o7RP+2wL6PeW9OtspDdROM+RLMnYrxZHAiepNhsLw86uzYDw9/PDa8Q+r8/ZT6iJ5WjO/ANpNmJL61lbaNCpoAmVUGwIL0PIH+Sn8wUe/2ZEwojju+xlfT3D1E39UXRTBzEzu4toeYdv0m16Ak91O0VvQEBKddKevLF//MZSFy3iFKjZNlJIh13Vn5qF8r20EVeK823glHo7sylYSFegjS5nBn8tyTXffMOsw8Hlj90gmLDJdrYGSnG7Qywy6mHVodKPKPK+8iREEi6/fKYSGusY7ZutF0H365duluxA==
+ bh=j2uVqWVgn00z5rtCtYDYvwXMGBpxJRiq1Tr23HufeSY=;
+ b=HhpRYQPdV2xPywnPoh5VSWFLjCmaeRSO0pf+0hQ2/usZ9RuCIEhzQhLHz5lysJh5nsQRupY3yivMNPE8LqqoLUxSCXVEnK4ZJWk5TRGe/hJbJnotP3gGHPOBBMUrKJedNgMBTELnpToTF4q+eYyI+3H2/aNmvgvszudHfJRabl1h/fOw/N7it/MUkBMW5Zvd8Et+SCeEod70gILk/CjWZZpaluw5UnDTRDm6142jYJxEMkw5sToj2yxRXHDlF7MWwvbBFnXSgVkyCkZeHkurKbVBY1ZGkX+ztucp3vNaPzdgsPeEKbjkvMdiiQ9bx/DK+eAVRT+iSEAoO0AQLuB3rw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NlM2WUgQ8IFzMds0j4DUEUxfyOFk4QfhQ3N2ivwaNhg=;
- b=zm34060wcM73RXDSxXp+vK7BIR693fcKUgWLWIl30iA2u52Hpe7LuP28xeLUGnGXKhWm5N3PKOjErhSgT2/wMt0xEkzIaRqpzsSObqV0gre4mY47/qgUShesWcXKSnTMvPuzxwBV5PAZhrJMDJ0cCA65OEV3hDC/oIxSn4n50Ws=
-Received: from SN7PR12MB6839.namprd12.prod.outlook.com (2603:10b6:806:265::21)
- by MW4PR12MB6731.namprd12.prod.outlook.com (2603:10b6:303:1eb::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.32; Tue, 26 Mar
- 2024 16:04:41 +0000
-Received: from SN7PR12MB6839.namprd12.prod.outlook.com
- ([fe80::a084:ca6e:2c6c:1664]) by SN7PR12MB6839.namprd12.prod.outlook.com
- ([fe80::a084:ca6e:2c6c:1664%5]) with mapi id 15.20.7409.028; Tue, 26 Mar 2024
- 16:04:41 +0000
-Message-ID: <8a3ae5bf-4cb7-4201-8388-48135114886f@amd.com>
-Date: Tue, 26 Mar 2024 12:04:36 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/12] kbuild: make -Woverride-init warnings more
- consistent
-To: Arnd Bergmann <arnd@kernel.org>, linux-kbuild@vger.kernel.org,
- Masahiro Yamada <masahiroy@kernel.org>,
- Harry Wentland <harry.wentland@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay
- <ogabbay@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Andrew Jeffery <andrew@codeconstruct.com.au>,
- Linus Walleij <linus.walleij@linaro.org>, Joel Stanley <joel@jms.id.au>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrew Morton <akpm@linux-foundation.org>,
- Nathan Chancellor <nathan@kernel.org>
-Cc: Nicolas Schier <nicolas@fjasle.eu>, Arnd Bergmann <arnd@arndb.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
- amd-gfx@lists.freedesktop.org
-References: <20240326144741.3094687-1-arnd@kernel.org>
- <20240326144741.3094687-2-arnd@kernel.org>
-Content-Language: en-US
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
-In-Reply-To: <20240326144741.3094687-2-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT4PR01CA0221.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:eb::12) To SN7PR12MB6839.namprd12.prod.outlook.com
- (2603:10b6:806:265::21)
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DS0PR11MB8182.namprd11.prod.outlook.com (2603:10b6:8:163::17)
+ by CH3PR11MB8137.namprd11.prod.outlook.com (2603:10b6:610:15c::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.33; Tue, 26 Mar
+ 2024 16:06:23 +0000
+Received: from DS0PR11MB8182.namprd11.prod.outlook.com
+ ([fe80::45cf:261e:c084:9493]) by DS0PR11MB8182.namprd11.prod.outlook.com
+ ([fe80::45cf:261e:c084:9493%6]) with mapi id 15.20.7409.028; Tue, 26 Mar 2024
+ 16:06:23 +0000
+Date: Tue, 26 Mar 2024 09:06:20 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+CC: intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel
+ <dri-devel@lists.freedesktop.org>, Chris Wilson
+ <chris.p.wilson@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, John Harrison <John.C.Harrison@intel.com>, 
+ <stable@vger.kernel.org>, Andi Shyti <andi.shyti@kernel.org>, Tvrtko Ursulin
+ <tursulin@ursulin.net>
+Subject: Re: [PATCH v6 3/3] drm/i915/gt: Enable only one CCS for compute
+ workload
+Message-ID: <20240326160613.GD718896@mdroper-desk1.amr.corp.intel.com>
+References: <20240313201955.95716-1-andi.shyti@linux.intel.com>
+ <20240313201955.95716-4-andi.shyti@linux.intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240313201955.95716-4-andi.shyti@linux.intel.com>
+X-ClientProxiedBy: SJ0PR13CA0187.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c3::12) To DS0PR11MB8182.namprd11.prod.outlook.com
+ (2603:10b6:8:163::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB6839:EE_|MW4PR12MB6731:EE_
+X-MS-TrafficTypeDiagnostic: DS0PR11MB8182:EE_|CH3PR11MB8137:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZiNBN5hJyUgycB4OxG0mqDUATb9BgPuJqQhzAIx5V5qo9BYpnxj1pSEj1P5+mJByVyUeg/S+VESqV6fWVcgypXcY+SvGN2iQC4Fj9M7u6FhRcoQveGpmK5i7AviPm3ZydK3JkF59XZzwU0xRqr9vVM4Y7gSZFDcggwoRGbEGVucCfkYz4vtEOVn7BgfQ4fxQTCuTEEnpk5bXkBNNGTILIVBChu6a24oC9wozsJHkxzCq5XEucvZVn8ha/4kPCxbJ7qRyRigEgzXPHEuk+Rr2KSagl4hgFEmbDEp92i5bMSnOTPml/yvM1behHLzuCGvq89Hjh2zxAVmFLjxEYgd2sp5BXFLLoNIfLRxVAOauuGkJbaHjvSvGlUTGkujxDP0ft7O/CRHxsCVHOy1T++ZKJCg6xm+PNEOtTZrSAW0NApb/7Oi2jrQDvw17MENRX8ihRVvb5ZvECAc5g8xTGBafXfaewKCtVi5S9N0koq6FtL135a/r5zNLmqgHP+vawAEqqJ2fb41Rihja4vrS8/uv+l66dKttHdlJ9uizRv/1IGKTz0oDQAWRiykYOWK6RlzYDFr5bQR7aPt3P3V5nCpGGijJvCzaimzufOcH6DPsqJiOAa5zsgp+ldUxmqnjwk3ESTkm4oCPO6jGMMuV3SyNJNwd0UObt9cgdRqhDgXg7agETrExhgxyrHxeM68kWndrxKdaU95TFVDeBdRj9i9NVw==
+X-Microsoft-Antispam-Message-Info: iqmzRxTvOtResOXmCIfvYvSP239XF4Lns6CzaIXGM8Ek1OCUY9Wh3+BhCEoEMswTbM+OmEk4fmhfnfJkV9zU257bPW8UIW55JchS0/8304qomSHcQJHbLlHwHkzaJm9KAfAicrEnwG5hEVwCQ0JRQydjP3jMmxvSclwTsAeTOHfRMcuDHX/pPCbyYp0WcR6+5pFWXFzOC+Gl3vIY2Trt2I7L5sSYAYfrda7DtW76AK3paX2e4Lv0Jm6m9JRDAS2grkFl84UivTed9ku4nSE3hlaSyvrwYOD1WfFmXNJq04BfiX4uKhWVBnNykNa0ERhpSWfQxJJUK/qoOH4yo/BbpF9gMMHxCg9veMr9ZjGL5n1peaLLrg54oQAAyQuGruvvpjIdjTHoFdvoVOyeYboLLRlQIUJ3aUy/ADHvX9ZLoHugaPfgTRcR9fHyD/x3bIEg9ylAyVzS1uFyZzusIdGfm00oFkP7kSQjtYf3rM9KgHOVF/6a4K3syKZllV1HKM545M0jrK5zLU0tqbcpbo6AHbanPhvVLJ1DycVWnaUHqWKjP3GimZvQPzSkPzskJZVPZM4IuydXFdo7rdZ0YIvvNDA6CvM+BVp6m0+WZdMBTEi0XN40E8z7w46Y3Zgfx0ct8UKzNPf57vtQi1B/iQGcHEAhUcEUUpgOq6TsxmOXGZc=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR12MB6839.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(1800799015)(7416005)(376005)(366007)(921011); DIR:OUT; SFP:1102;
+ IPV:NLI; SFV:NSPM; H:DS0PR11MB8182.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(1800799015)(366007)(376005); DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eUhnclNDTHRsREdkWi8xcEg4SWRKaTVudUNKNmRhSStpNWNycjVLaFVDaVdO?=
- =?utf-8?B?azkxSDdrQ2I0L1FhYVl0dWQ5R21HUFJpMzExc2pRR0RZVUJWMVBMMFZFZzc5?=
- =?utf-8?B?NEdKeCtNYWE2Mi9pcmNtYnRBMys1b0lnNWd0WmdxcEIzQXEwY0V4QlM3dkVS?=
- =?utf-8?B?TmFybzNSVnludFpQRzhZTmxTai9EMVpUSDdqT0d2MjBWZmpOM0p0c3h1dkM2?=
- =?utf-8?B?OVZYdmQzMHRTek5tWVYvTiswNHdkTkpWd0pMMjVadkZRb2RINzBlWkZiQ2M0?=
- =?utf-8?B?NDFuWHNVRTEvNXpWbmdzMlRDZlNvVEd5cWRZWjRaOE1UWjduSW9FMlpzZHd4?=
- =?utf-8?B?OVFxZXl2b2Y5U0w5cHNPVWdpVW5FUVpMR0toa2p1dTFWMGE3UCtadWhqSTgy?=
- =?utf-8?B?YllXNkYwYUVTMXZqZ0x5TVlRektpUktSR1JqN0tiM3pZQkpMRjZHaWxTdXJN?=
- =?utf-8?B?bUkrMnh4ZXZ1dEpKeUFOQXRtc0ROVHlWRWoyK05rSUFqNDlIbVBjY1FKKy9w?=
- =?utf-8?B?MWhabFArM3pSQktnOHZDOVEvamp0T3Q1YjlPV3I4MkF0YmVUeE5vM2h1L3lY?=
- =?utf-8?B?aUxSbnJRbXdROUhLRWlEVlBWMUFYcFJoelpNQllKeXVUdGxXY0NHd1JWVzl2?=
- =?utf-8?B?cFRaTkM4RjR0WXU0TEdxM3hlaThRWkhJeTE2VVdHa3BTckZWTTU2OEE0RlB6?=
- =?utf-8?B?Qk5pYUxZZXdnRWZGc1Nod2NwaWhERXVrVnp3MWorVUdPU1paR0JlaFNGNlJl?=
- =?utf-8?B?Nzc0TEVxUFhYQ3daWEVkcXNjQ1VDZnJkRVBVWXVxNXYxVnp2bWNqU3FWWjVt?=
- =?utf-8?B?elc0ckVLMStJRkhiZWt1N2RBM2dBcFBiUUFCSS9JNzVpY0R2d1pUeTJZM1JM?=
- =?utf-8?B?aHFhbDFCU0ZQZUFsVXc1dThqSjJTY3pNZHlvcnltRWtJQmtYM01IWnA2eTNU?=
- =?utf-8?B?Z1ZSRDQ0dXF3a3lDL0NyeHRzMTdWUVhRMU5hbFFFdmlORHlZMFZRdlMvN0Jy?=
- =?utf-8?B?a3hJOTBoa29wak5Fb3dBK0NLZ0hYUWJXV0VIdUdGN3ZLZkNISS8vYnUwVXdS?=
- =?utf-8?B?Wlg0R0hTaTkyeHBtZnZuWEp4WHZIK1JBcGJIM1BmU3Y0TmdESU9aeVExOXlU?=
- =?utf-8?B?Y3VrK2JOWDFIa3hUOWY5LzFKUmFDcEpFTnlxdDNUWEJNS2dramx2U1ZwNmsx?=
- =?utf-8?B?K2VGaXJDd2NGMkRBZjFRKzZpcmZuRmQ1ZWNGU1lCSm1yVE54VS9Jekp2MU5u?=
- =?utf-8?B?QVc1NnRGV3h3dzRGRi9GR2dZV0xncWFBMUxyaElPMXdLbFp3amZ2SXNIZklR?=
- =?utf-8?B?dTluKzZDc1pOVWQ4ZkUxVzRjOW9oRFV0MEZBZlpES0ptcmc2STgzRExjMDRK?=
- =?utf-8?B?M09Id3l6c3R4d1dBUE1KV0xITVJkVmRPeEVCUlp6S2lxTlZaRmRFYk81M0c4?=
- =?utf-8?B?Q2I0UEdpV1p1elpmK0pvSG8wNVVlOENIZkZXb0crblJPUEtKdGlzZFE3V1JN?=
- =?utf-8?B?WW5qalhlVG5OZkhUYjdGNmlHbm1hZndzQWN0OThFb1N5YlVGNlVzNTN2dGI2?=
- =?utf-8?B?djZVZmcvZHVvdkNmWlhKUHorMHdVWXNxU1NNaXE1dW1KS0ozNFdTdXdPcktI?=
- =?utf-8?B?cURNTFhjNDlxTUt5Z3Y3OStQVEM3V0h1RE5vZ1FEalVMQk9lNGZBT1hveG5F?=
- =?utf-8?B?S1BtUVFLYkMrN0lyOHZQN2FiUThaT1BmTzBBc1ArZVh2ZndpSytoN1RxNk9X?=
- =?utf-8?B?ZDFXS1JCM3RHWW5zYW1GYVN2SG82b0NFa1pYaWlyRkNPYzFIS2xRN3MwOVN2?=
- =?utf-8?B?MVVSZHhCTit4d0IzNnVjWXJPYnRlVWh2NlRXbmt1bEVXaEk3V0RRRlFFald1?=
- =?utf-8?B?S0N4SzczaTY4bWZGRTBZQjV2ZHE0MWN4MW9idFMrUm5TK2J6L0h4SlpzWWc2?=
- =?utf-8?B?RFgyWUhtS095M1RlRjhnQ2R3UmhOSmxlOUphZkIrM1BNTmhRRkNtTDFYSVdE?=
- =?utf-8?B?M0hidWdJSUdJb1dNelJtdHdsZjc1a2x3bG1GLy9ibUEreWdUSWVEWjUzZkdR?=
- =?utf-8?B?N2Q2amovS1B2UEd4UmpmV2FES3BnM0xjeUpNWEhCVFViZG45RmJVMThsNnVM?=
- =?utf-8?Q?8SppTiIEuV/wcSan6tv/AmWfZ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f48f3e3-df5b-45d1-5c09-08dc4dae7201
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB6839.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?S7aJH3o65B2+EMOTyykoar9Xo6iAUYL/sDDmbjRSWkISTeumt+/9Pw41ee?=
+ =?iso-8859-1?Q?Iybym57wOtPt2H38yPCRZBRIT9ugTH3YWOZ386oMPAwfa6jSEv7l8RjRFa?=
+ =?iso-8859-1?Q?I/L4CYhNIwwBZxfQ2U/StyRD1MloM3Fauxw0RdyimtK3hEyQaPkwJ16utp?=
+ =?iso-8859-1?Q?rc/h63WJErwDamB7l0J1OCaWPEuvHLNBZLAeBmsDoGu/LLWEaWHIxLtYrj?=
+ =?iso-8859-1?Q?bXt7ByHORKrJA4FT4GQ2A8ZJC3bAcy3lij5UXbXUpomZkjJSqYkFKaZMX0?=
+ =?iso-8859-1?Q?/OW6zX5avdbqZRGNBMCEw30U2JvyIjdRuDNgiPuCKOthfpEEVferaYWWqN?=
+ =?iso-8859-1?Q?5KeebfFy7QN+BXzea7yikpc/jrvMuNCBwLSb9J5wXjQvuzCDdUdtPGlrDV?=
+ =?iso-8859-1?Q?1IW4VN05PbSoyI8Km5RdZQwJYWMWVO57eDlhVGaA2qKcQ0NLz+5dcNtad3?=
+ =?iso-8859-1?Q?b1nfM7Y0O3cr4b5i6A0O1+orCAi9YXNCxEofhoAR+ZSuEtrN6i+W53ErpY?=
+ =?iso-8859-1?Q?vFlcw1ahcx2huSL8W/BTMQHwSj/OPuTycGNmJwoMCZDJ+bEyg6yulF/qyJ?=
+ =?iso-8859-1?Q?YOigFZKHEF9pksT9Aot5v/zKL32YSDwZMdzjLSFza/e4P2uFyUHOlK+bbb?=
+ =?iso-8859-1?Q?uQ/SFRKUWj5JvjU0+W5fIRy3YQbTD5OH1ldC8NQGothvvOPIZ/Qt8uMT5N?=
+ =?iso-8859-1?Q?6ZdqjXzo276UQJG4y3WxNRfQd4j+6dRNp7/rMyoIDIGrBAHs3SujEXQaqt?=
+ =?iso-8859-1?Q?QPH4wOqCiuiCSlEmC4MWVSQ1l3pGxU8bDRWpUY01qiScdd+M55OZbH/utq?=
+ =?iso-8859-1?Q?cVrCX7mpogE7ep4FXjkLl2EoZXJMjXa1sNO0KV0kCj2Vw7xmc/fbc+beyn?=
+ =?iso-8859-1?Q?5kdyHcS0jvU2DnsXk3VzdW5tQVTCbskOSiAtivjIQvB5khrgvBgJYsLphC?=
+ =?iso-8859-1?Q?zwstVjB15ivG2gHu79L1YyGAokA9FsVH/Z4+UY9MYc+UfAYrxrzpoF2vXp?=
+ =?iso-8859-1?Q?BwidH5MsJs1d8qJF5t7psQR9bF23ThiQtBIIteCqrSjdSkwlCggXgQ7HYu?=
+ =?iso-8859-1?Q?4OXwz5/XaH3uGyfabuDrgBZHrOYNMdz4UGDvbK1FAsk7fWJUHo5mA4iUV4?=
+ =?iso-8859-1?Q?GdgaG4m2s4dZLucczfWvcMV8R+RfV5ktUsFtpMlvpYK0NKSqnMebfp65yY?=
+ =?iso-8859-1?Q?gThgZ5w32NLmY3naTHEji6kdqSuJmV2k99VRMgKlDVUd+EIdfxQOXebu55?=
+ =?iso-8859-1?Q?veZrxPrvjGud2IHCQK9PNWqRNmFSCiv678vplglksxYmY4QZaD+d8fr+kN?=
+ =?iso-8859-1?Q?/biFDCoRKkvgZ2WR+q/8KGeEEoA6zFeKWDCVvsVko+dWB6K5eY8jZgMv/E?=
+ =?iso-8859-1?Q?j7aZgY90iObo2c2zKCjGCGbOXKg0VoclYGeBpektGXdsEfmSPDxD8ik5n8?=
+ =?iso-8859-1?Q?scyBlhMod/yiwPmxBbLVxK8b7rx37WUFVxmTbDM0h+CMkYexCShbCzchhN?=
+ =?iso-8859-1?Q?wMUB1pUCuJ7wkovJN6Rnf5mbufpTx3Wpam0gNhRhSNmyTsc/HBx7iArCZZ?=
+ =?iso-8859-1?Q?ZKy4xjnN9BRBHKB7JZVEP5mByfAoluAfhQNys2dbt4uQN0PxAf9deUpkPn?=
+ =?iso-8859-1?Q?pASs/dojFLEvCpF3eKdY8AbJ9I3rAIkMKOijr6F+/FbehUM1wfoENr7A?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 751758a5-cb06-4fa0-15b4-08dc4daeae82
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB8182.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2024 16:04:41.3766 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2024 16:06:22.9006 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yxnnEy6oLSaV8XiMI0gtm5DUIpMi5cJ1BQ7DcB6eVowhFRSB5vgd2f6qWJ3sqzqaPPyOie9BBULWNBd3hw6/XA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6731
+X-MS-Exchange-CrossTenant-UserPrincipalName: qkXFjdIfjmxkrmuHsxBG2zkrUFaCLeze63UAWNr6rMbfxLwkdgKQWg/4mOQtnKO1ZMSxMheOTq+AWDV8dDtxUGInFQU6QNCWX1C0/R1wjyw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8137
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,253 +156,158 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cc: amd-gfx@lists.freedesktop.org
+On Wed, Mar 13, 2024 at 09:19:51PM +0100, Andi Shyti wrote:
+> Enable only one CCS engine by default with all the compute sices
+> allocated to it.
+> 
+> While generating the list of UABI engines to be exposed to the
+> user, exclude any additional CCS engines beyond the first
+> instance.
+> 
+> This change can be tested with igt i915_query.
+> 
+> Fixes: d2eae8e98d59 ("drm/i915/dg2: Drop force_probe requirement")
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Cc: <stable@vger.kernel.org> # v6.2+
 
-On 3/26/24 10:47, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The -Woverride-init warn about code that may be intentional or not,
-> but the inintentional ones tend to be real bugs, so there is a bit of
-> disagreement on whether this warning option should be enabled by default
-> and we have multiple settings in scripts/Makefile.extrawarn as well as
-> individual subsystems.
-> 
-> Older versions of clang only supported -Wno-initializer-overrides with
-> the same meaning as gcc's -Woverride-init, though all supported versions
-> now work with both. Because of this difference, an earlier cleanup of
-> mine accidentally turned the clang warning off for W=1 builds and only
-> left it on for W=2, while it's still enabled for gcc with W=1.
-> 
-> There is also one driver that only turns the warning off for newer
-> versions of gcc but not other compilers, and some but not all the
-> Makefiles still use a cc-disable-warning conditional that is no
-> longer needed with supported compilers here.
-> 
-> Address all of the above by removing the special cases for clang
-> and always turning the warning off unconditionally where it got
-> in the way, using the syntax that is supported by both compilers.
-> 
-> Fixes: 2cd3271b7a31 ("kbuild: avoid duplicate warning options")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-
-Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
-
-For the amdgpu changes.
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 
 > ---
->   drivers/gpu/drm/amd/display/dc/dce110/Makefile |  2 +-
->   drivers/gpu/drm/amd/display/dc/dce112/Makefile |  2 +-
->   drivers/gpu/drm/amd/display/dc/dce120/Makefile |  2 +-
->   drivers/gpu/drm/amd/display/dc/dce60/Makefile  |  2 +-
->   drivers/gpu/drm/amd/display/dc/dce80/Makefile  |  2 +-
->   drivers/gpu/drm/i915/Makefile                  |  6 +++---
->   drivers/gpu/drm/xe/Makefile                    |  4 ++--
->   drivers/net/ethernet/renesas/sh_eth.c          |  2 +-
->   drivers/pinctrl/aspeed/Makefile                |  2 +-
->   fs/proc/Makefile                               |  2 +-
->   kernel/bpf/Makefile                            |  2 +-
->   mm/Makefile                                    |  3 +--
->   scripts/Makefile.extrawarn                     | 10 +++-------
->   13 files changed, 18 insertions(+), 23 deletions(-)
+>  drivers/gpu/drm/i915/Makefile               |  1 +
+>  drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c | 39 +++++++++++++++++++++
+>  drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h | 13 +++++++
+>  drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  5 +++
+>  drivers/gpu/drm/i915/gt/intel_workarounds.c |  7 ++++
+>  5 files changed, 65 insertions(+)
+>  create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
+>  create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h
 > 
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce110/Makefile b/drivers/gpu/drm/amd/display/dc/dce110/Makefile
-> index f0777d61c2cb..c307f040e48f 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce110/Makefile
-> +++ b/drivers/gpu/drm/amd/display/dc/dce110/Makefile
-> @@ -23,7 +23,7 @@
->   # Makefile for the 'controller' sub-component of DAL.
->   # It provides the control and status of HW CRTC block.
->   
-> -CFLAGS_$(AMDDALPATH)/dc/dce110/dce110_resource.o = $(call cc-disable-warning, override-init)
-> +CFLAGS_$(AMDDALPATH)/dc/dce110/dce110_resource.o = -Wno-override-init
->   
->   DCE110 = dce110_timing_generator.o \
->   dce110_compressor.o dce110_opp_regamma_v.o \
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce112/Makefile b/drivers/gpu/drm/amd/display/dc/dce112/Makefile
-> index 7e92effec894..683866797709 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce112/Makefile
-> +++ b/drivers/gpu/drm/amd/display/dc/dce112/Makefile
-> @@ -23,7 +23,7 @@
->   # Makefile for the 'controller' sub-component of DAL.
->   # It provides the control and status of HW CRTC block.
->   
-> -CFLAGS_$(AMDDALPATH)/dc/dce112/dce112_resource.o = $(call cc-disable-warning, override-init)
-> +CFLAGS_$(AMDDALPATH)/dc/dce112/dce112_resource.o = -Wno-override-init
->   
->   DCE112 = dce112_compressor.o
->   
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce120/Makefile b/drivers/gpu/drm/amd/display/dc/dce120/Makefile
-> index 1e3ef68a452a..8f508e662748 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce120/Makefile
-> +++ b/drivers/gpu/drm/amd/display/dc/dce120/Makefile
-> @@ -24,7 +24,7 @@
->   # It provides the control and status of HW CRTC block.
->   
->   
-> -CFLAGS_$(AMDDALPATH)/dc/dce120/dce120_resource.o = $(call cc-disable-warning, override-init)
-> +CFLAGS_$(AMDDALPATH)/dc/dce120/dce120_resource.o = -Wno-override-init
->   
->   DCE120 = dce120_timing_generator.o
->   
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce60/Makefile b/drivers/gpu/drm/amd/display/dc/dce60/Makefile
-> index fee331accc0e..eede83ad91fa 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce60/Makefile
-> +++ b/drivers/gpu/drm/amd/display/dc/dce60/Makefile
-> @@ -23,7 +23,7 @@
->   # Makefile for the 'controller' sub-component of DAL.
->   # It provides the control and status of HW CRTC block.
->   
-> -CFLAGS_$(AMDDALPATH)/dc/dce60/dce60_resource.o = $(call cc-disable-warning, override-init)
-> +CFLAGS_$(AMDDALPATH)/dc/dce60/dce60_resource.o = -Wno-override-init
->   
->   DCE60 = dce60_timing_generator.o dce60_hw_sequencer.o \
->   	dce60_resource.o
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce80/Makefile b/drivers/gpu/drm/amd/display/dc/dce80/Makefile
-> index 7eefffbdc925..fba189d26652 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce80/Makefile
-> +++ b/drivers/gpu/drm/amd/display/dc/dce80/Makefile
-> @@ -23,7 +23,7 @@
->   # Makefile for the 'controller' sub-component of DAL.
->   # It provides the control and status of HW CRTC block.
->   
-> -CFLAGS_$(AMDDALPATH)/dc/dce80/dce80_resource.o = $(call cc-disable-warning, override-init)
-> +CFLAGS_$(AMDDALPATH)/dc/dce80/dce80_resource.o = -Wno-override-init
->   
->   DCE80 = dce80_timing_generator.o
->   
 > diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index 3ef6ed41e62b..4c2f85632391 100644
+> index 3ef6ed41e62b..a6885a1d41a1 100644
 > --- a/drivers/gpu/drm/i915/Makefile
 > +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -33,9 +33,9 @@ endif
->   subdir-ccflags-$(CONFIG_DRM_I915_WERROR) += -Werror
->   
->   # Fine grained warnings disable
-> -CFLAGS_i915_pci.o = $(call cc-disable-warning, override-init)
-> -CFLAGS_display/intel_display_device.o = $(call cc-disable-warning, override-init)
-> -CFLAGS_display/intel_fbdev.o = $(call cc-disable-warning, override-init)
-> +CFLAGS_i915_pci.o = -Wno-override-init
-> +CFLAGS_display/intel_display_device.o = -Wno-override-init
-> +CFLAGS_display/intel_fbdev.o = -Wno-override-init
->   
->   # Support compiling the display code separately for both i915 and xe
->   # drivers. Define I915 when building i915.
-> diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
-> index 5a428ca00f10..c29a850859ad 100644
-> --- a/drivers/gpu/drm/xe/Makefile
-> +++ b/drivers/gpu/drm/xe/Makefile
-> @@ -172,8 +172,8 @@ subdir-ccflags-$(CONFIG_DRM_XE_DISPLAY) += \
->   	-Ddrm_i915_gem_object=xe_bo \
->   	-Ddrm_i915_private=xe_device
->   
-> -CFLAGS_i915-display/intel_fbdev.o = $(call cc-disable-warning, override-init)
-> -CFLAGS_i915-display/intel_display_device.o = $(call cc-disable-warning, override-init)
-> +CFLAGS_i915-display/intel_fbdev.o = -Wno-override-init
-> +CFLAGS_i915-display/intel_display_device.o = -Wno-override-init
->   
->   # Rule to build SOC code shared with i915
->   $(obj)/i915-soc/%.o: $(srctree)/drivers/gpu/drm/i915/soc/%.c FORCE
-> diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
-> index 475e1e8c1d35..0786eb0da391 100644
-> --- a/drivers/net/ethernet/renesas/sh_eth.c
-> +++ b/drivers/net/ethernet/renesas/sh_eth.c
-> @@ -50,7 +50,7 @@
->    * the macros available to do this only define GCC 8.
->    */
->   __diag_push();
-> -__diag_ignore(GCC, 8, "-Woverride-init",
-> +__diag_ignore_all("-Woverride-init",
->   	      "logic to initialize all and then override some is OK");
->   static const u16 sh_eth_offset_gigabit[SH_ETH_MAX_REGISTER_OFFSET] = {
->   	SH_ETH_OFFSET_DEFAULTS,
-> diff --git a/drivers/pinctrl/aspeed/Makefile b/drivers/pinctrl/aspeed/Makefile
-> index 489ea1778353..db2a7600ae2b 100644
-> --- a/drivers/pinctrl/aspeed/Makefile
-> +++ b/drivers/pinctrl/aspeed/Makefile
-> @@ -1,7 +1,7 @@
->   # SPDX-License-Identifier: GPL-2.0-only
->   # Aspeed pinctrl support
->   
-> -ccflags-y += $(call cc-option,-Woverride-init)
-> +ccflags-y += -Woverride-init
->   obj-$(CONFIG_PINCTRL_ASPEED)	+= pinctrl-aspeed.o pinmux-aspeed.o
->   obj-$(CONFIG_PINCTRL_ASPEED_G4)	+= pinctrl-aspeed-g4.o
->   obj-$(CONFIG_PINCTRL_ASPEED_G5)	+= pinctrl-aspeed-g5.o
-> diff --git a/fs/proc/Makefile b/fs/proc/Makefile
-> index bd08616ed8ba..7b4db9c56e6a 100644
-> --- a/fs/proc/Makefile
-> +++ b/fs/proc/Makefile
-> @@ -5,7 +5,7 @@
->   
->   obj-y   += proc.o
->   
-> -CFLAGS_task_mmu.o	+= $(call cc-option,-Wno-override-init,)
-> +CFLAGS_task_mmu.o	+= -Wno-override-init
->   proc-y			:= nommu.o task_nommu.o
->   proc-$(CONFIG_MMU)	:= task_mmu.o
->   
-> diff --git a/kernel/bpf/Makefile b/kernel/bpf/Makefile
-> index 368c5d86b5b7..e497011261b8 100644
-> --- a/kernel/bpf/Makefile
-> +++ b/kernel/bpf/Makefile
-> @@ -4,7 +4,7 @@ ifneq ($(CONFIG_BPF_JIT_ALWAYS_ON),y)
->   # ___bpf_prog_run() needs GCSE disabled on x86; see 3193c0836f203 for details
->   cflags-nogcse-$(CONFIG_X86)$(CONFIG_CC_IS_GCC) := -fno-gcse
->   endif
-> -CFLAGS_core.o += $(call cc-disable-warning, override-init) $(cflags-nogcse-yy)
-> +CFLAGS_core.o += -Wno-override-init $(cflags-nogcse-yy)
->   
->   obj-$(CONFIG_BPF_SYSCALL) += syscall.o verifier.o inode.o helpers.o tnum.o log.o token.o
->   obj-$(CONFIG_BPF_SYSCALL) += bpf_iter.o map_iter.o task_iter.o prog_iter.o link_iter.o
-> diff --git a/mm/Makefile b/mm/Makefile
-> index e4b5b75aaec9..4abb40b911ec 100644
-> --- a/mm/Makefile
-> +++ b/mm/Makefile
-> @@ -29,8 +29,7 @@ KCOV_INSTRUMENT_mmzone.o := n
->   KCOV_INSTRUMENT_vmstat.o := n
->   KCOV_INSTRUMENT_failslab.o := n
->   
-> -CFLAGS_init-mm.o += $(call cc-disable-warning, override-init)
-> -CFLAGS_init-mm.o += $(call cc-disable-warning, initializer-overrides)
-> +CFLAGS_init-mm.o += -Wno-override-init
->   
->   mmu-y			:= nommu.o
->   mmu-$(CONFIG_MMU)	:= highmem.o memory.o mincore.o \
-> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-> index 3ce5d503a6da..c5af566e911a 100644
-> --- a/scripts/Makefile.extrawarn
-> +++ b/scripts/Makefile.extrawarn
-> @@ -114,6 +114,8 @@ KBUILD_CFLAGS += $(call cc-disable-warning, format-overflow)
->   KBUILD_CFLAGS += $(call cc-disable-warning, format-truncation)
->   KBUILD_CFLAGS += $(call cc-disable-warning, stringop-truncation)
->   
-> +KBUILD_CFLAGS += -Wno-override-init # alias for -Wno-initializer-overrides in clang
+> @@ -118,6 +118,7 @@ gt-y += \
+>  	gt/intel_ggtt_fencing.o \
+>  	gt/intel_gt.o \
+>  	gt/intel_gt_buffer_pool.o \
+> +	gt/intel_gt_ccs_mode.o \
+>  	gt/intel_gt_clock_utils.o \
+>  	gt/intel_gt_debugfs.o \
+>  	gt/intel_gt_engines_debugfs.o \
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
+> new file mode 100644
+> index 000000000000..044219c5960a
+> --- /dev/null
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
+> @@ -0,0 +1,39 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright © 2024 Intel Corporation
+> + */
 > +
->   ifdef CONFIG_CC_IS_CLANG
->   # Clang before clang-16 would warn on default argument promotions.
->   ifneq ($(call clang-min-version, 160000),y)
-> @@ -151,10 +153,6 @@ KBUILD_CFLAGS += -Wtype-limits
->   KBUILD_CFLAGS += $(call cc-option, -Wmaybe-uninitialized)
->   KBUILD_CFLAGS += $(call cc-option, -Wunused-macros)
->   
-> -ifdef CONFIG_CC_IS_CLANG
-> -KBUILD_CFLAGS += -Winitializer-overrides
-> -endif
-> -
->   KBUILD_CPPFLAGS += -DKBUILD_EXTRA_WARN2
->   
->   else
-> @@ -164,9 +162,7 @@ KBUILD_CFLAGS += -Wno-missing-field-initializers
->   KBUILD_CFLAGS += -Wno-type-limits
->   KBUILD_CFLAGS += -Wno-shift-negative-value
->   
-> -ifdef CONFIG_CC_IS_CLANG
-> -KBUILD_CFLAGS += -Wno-initializer-overrides
-> -else
-> +ifdef CONFIG_CC_IS_GCC
->   KBUILD_CFLAGS += -Wno-maybe-uninitialized
->   endif
->   
--- 
-Hamza
+> +#include "i915_drv.h"
+> +#include "intel_gt.h"
+> +#include "intel_gt_ccs_mode.h"
+> +#include "intel_gt_regs.h"
+> +
+> +void intel_gt_apply_ccs_mode(struct intel_gt *gt)
+> +{
+> +	int cslice;
+> +	u32 mode = 0;
+> +	int first_ccs = __ffs(CCS_MASK(gt));
+> +
+> +	if (!IS_DG2(gt->i915))
+> +		return;
+> +
+> +	/* Build the value for the fixed CCS load balancing */
+> +	for (cslice = 0; cslice < I915_MAX_CCS; cslice++) {
+> +		if (CCS_MASK(gt) & BIT(cslice))
+> +			/*
+> +			 * If available, assign the cslice
+> +			 * to the first available engine...
+> +			 */
+> +			mode |= XEHP_CCS_MODE_CSLICE(cslice, first_ccs);
+> +
+> +		else
+> +			/*
+> +			 * ... otherwise, mark the cslice as
+> +			 * unavailable if no CCS dispatches here
+> +			 */
+> +			mode |= XEHP_CCS_MODE_CSLICE(cslice,
+> +						     XEHP_CCS_MODE_CSLICE_MASK);
+> +	}
+> +
+> +	intel_uncore_write(gt->uncore, XEHP_CCS_MODE, mode);
+> +}
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h
+> new file mode 100644
+> index 000000000000..9e5549caeb26
+> --- /dev/null
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h
+> @@ -0,0 +1,13 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright © 2024 Intel Corporation
+> + */
+> +
+> +#ifndef __INTEL_GT_CCS_MODE_H__
+> +#define __INTEL_GT_CCS_MODE_H__
+> +
+> +struct intel_gt;
+> +
+> +void intel_gt_apply_ccs_mode(struct intel_gt *gt);
+> +
+> +#endif /* __INTEL_GT_CCS_MODE_H__ */
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> index 31b102604e3d..743fe3566722 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> @@ -1480,6 +1480,11 @@
+>  #define   XEHP_RCU_MODE_FIXED_SLICE_CCS_MODE	REG_BIT(1)
+>  #define   GEN12_RCU_MODE_CCS_ENABLE		REG_BIT(0)
+>  
+> +#define XEHP_CCS_MODE				_MMIO(0x14804)
+> +#define   XEHP_CCS_MODE_CSLICE_MASK		REG_GENMASK(2, 0) /* CCS0-3 + rsvd */
+> +#define   XEHP_CCS_MODE_CSLICE_WIDTH		ilog2(XEHP_CCS_MODE_CSLICE_MASK + 1)
+> +#define   XEHP_CCS_MODE_CSLICE(cslice, ccs)	(ccs << (cslice * XEHP_CCS_MODE_CSLICE_WIDTH))
+> +
+>  #define CHV_FUSE_GT				_MMIO(VLV_GUNIT_BASE + 0x2168)
+>  #define   CHV_FGT_DISABLE_SS0			(1 << 10)
+>  #define   CHV_FGT_DISABLE_SS1			(1 << 11)
+> diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> index 9963e5725ae5..8188c9f0b5ce 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> @@ -10,6 +10,7 @@
+>  #include "intel_engine_regs.h"
+>  #include "intel_gpu_commands.h"
+>  #include "intel_gt.h"
+> +#include "intel_gt_ccs_mode.h"
+>  #include "intel_gt_mcr.h"
+>  #include "intel_gt_print.h"
+>  #include "intel_gt_regs.h"
+> @@ -2869,6 +2870,12 @@ static void ccs_engine_wa_mode(struct intel_engine_cs *engine, struct i915_wa_li
+>  	 * made to completely disable automatic CCS load balancing.
+>  	 */
+>  	wa_masked_en(wal, GEN12_RCU_MODE, XEHP_RCU_MODE_FIXED_SLICE_CCS_MODE);
+> +
+> +	/*
+> +	 * After having disabled automatic load balancing we need to
+> +	 * assign all slices to a single CCS. We will call it CCS mode 1
+> +	 */
+> +	intel_gt_apply_ccs_mode(gt);
+>  }
+>  
+>  /*
+> -- 
+> 2.43.0
+> 
 
+-- 
+Matt Roper
+Graphics Software Engineer
+Linux GPU Platform Enablement
+Intel Corporation
