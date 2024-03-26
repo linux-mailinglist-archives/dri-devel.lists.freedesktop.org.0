@@ -2,76 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 622C988CC17
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 19:35:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F42688CC29
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 19:42:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0BB410F1E1;
-	Tue, 26 Mar 2024 18:35:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5336210F1E4;
+	Tue, 26 Mar 2024 18:42:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NAiSvKS5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="M33zc06L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
- [209.85.216.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9840B10F1E1;
- Tue, 26 Mar 2024 18:35:13 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id
- 98e67ed59e1d1-29df3333d30so4149998a91.1; 
- Tue, 26 Mar 2024 11:35:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1711478113; x=1712082913; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6/pic9Jbejd2aRlnAlxzqdsMS/JB+QhzFMOjyyFXwpo=;
- b=NAiSvKS5zx6gc6X6KNKAUbNnAh4S4XNY9ZM6bMBB3dmur6RGoYhqZfjAP+BiVSUmbG
- Z7hbcnsN7iZJ8I/6sKU0CHj8Qq1hZ9i2KTmxaLgvDvFwkDv/WBIyxDe/BDdkxeJUKs4C
- CZuv0yo5TX4A0BBbSjWfZAxSC33nR6yn8ktl6+v7raLFSm7e+fUEMfSN0s3KbHKaDm+W
- CxJIeoOO90R4RKqZgR74VQ3E5fglaMxf+3h5FaBJ2XpOdtrgTSPsbXXXpTLo68wH3dcz
- t/xrkqQ/gclH7RdHkRyPOxPnPkXjMiPDOXMm2eR7eoOKfZd54p4TxQitp679bItKRGkW
- 09Dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711478113; x=1712082913;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6/pic9Jbejd2aRlnAlxzqdsMS/JB+QhzFMOjyyFXwpo=;
- b=LHTeimpD6Iyuw6Z1YFkbYEPaZw1R2vueqvQXdgHHaWFF2sVIYCW5ScTW00o00bmRqH
- wgbU1v/ySQSfPCbsTuaPE/J4qPOitlzx8LBNXUpW+KpAz3yfAl36t+Qf7FHHaVyNsfn4
- Q+uMtPc2DKWRjk4vfHAoXaFUvCe9Ob+N+jVQ5pD4ejV/P4FN6eXwLVmsAefzD+QCBGh6
- v+PJe+HEp/ijpZHuSshleqWeE14n+APBObFp4kYZw2KJtUOieBMw1pJAD1TRd4wJM1XN
- g3g7MLzYiV6865LsQAr2Qy2nJJDjq5cHrpJJApFEhUqlIs1LaiCeIw/WOqf1I4fnay2X
- UnQQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWeC+B5z/nDer+VucSpnWvSmCYDib7aBy3dmnAOAjUWuTUGX7pLTZDQl/n1q9hbGSiWSMidYCX6NkR+TbL9leW0GUq/wnpPav7cdcMCbP71mFlFBO1075E0n2wixDKA1UqW37ARiNoesy/lePQ8nJAG
-X-Gm-Message-State: AOJu0YwkVtVtdF2uTutXdj6PpIlhhdKzqLq402FcIQqDd34oDuPvFIl7
- yUJjgxR87ubkOqkq0jD6MPd6PPadEMUyvXTj9rn9HqX2JnQOP+n/UqHVhZJl9PKtpvxMR9rNG+I
- ygIsZHHdbZ4GQV578Cun5NGlZXGk=
-X-Google-Smtp-Source: AGHT+IHyAWSU9D8qNbpxhyoJd3DnoClvQEJ6RppgIiF5EAvu3Z5BE4Ql/668JUaxPx7e0+ORaFJGPCuvpJUe5Zqbe7U=
-X-Received: by 2002:a17:90a:6c96:b0:2a0:95e2:1f8c with SMTP id
- y22-20020a17090a6c9600b002a095e21f8cmr619354pjj.17.1711478112938; Tue, 26 Mar
- 2024 11:35:12 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 192F710E835;
+ Tue, 26 Mar 2024 18:42:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1711478568; x=1743014568;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=8UClEmQS7ztOTKNag8nuBcrd41vmVhHLEKAGZGLJX3E=;
+ b=M33zc06L6DKETvJBgrs7RtLdc7bKDxYRtEY6zrxhUigPpXQOPIwwTVIb
+ /BoxINpn0q4+EfYsXHTjW692YcTbQwaEQW3rMPSN3pgT0lOCsU/4aj2bd
+ mJexkDXIs9cTBPrvfzlaGkG44P65r1TmF740SmSKsW2Uo92SdwUpkTTpb
+ uTRewk7Ht2y+pw5nw27lHaem+jxyQH0DJsG1HYYkZ664UgmCD/ckUXs2a
+ zFyMXTurXtCwXpHcGmO/PqUpBnTS1VKezEQNmWPamvOce6l9y0mz80T85
+ 86H7U7wcYHBBNwTyiIGfARa8rb5VdvBd8Ij9fDWVrwFzIXrMe0AGNxpS0 A==;
+X-CSE-ConnectionGUID: KsDJmXd0RxWRRoL4WwewMw==
+X-CSE-MsgGUID: CeKIsbsUQ0CoKtVwBaKfIQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="17278361"
+X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; d="scan'208";a="17278361"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2024 11:42:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; d="scan'208";a="20532894"
+Received: from unknown (HELO intel.com) ([10.247.118.210])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2024 11:42:41 -0700
+Date: Tue, 26 Mar 2024 19:42:34 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ John Harrison <John.C.Harrison@intel.com>, stable@vger.kernel.org,
+ Andi Shyti <andi.shyti@kernel.org>, Tvrtko Ursulin <tursulin@ursulin.net>
+Subject: Re: [PATCH v6 2/3] drm/i915/gt: Do not generate the command streamer
+ for all the CCS
+Message-ID: <ZgMXGlfsGSOhbC0b@ashyti-mobl2.lan>
+References: <20240313201955.95716-1-andi.shyti@linux.intel.com>
+ <20240313201955.95716-3-andi.shyti@linux.intel.com>
+ <20240326160310.GC718896@mdroper-desk1.amr.corp.intel.com>
 MIME-Version: 1.0
-References: <CANiq72mjc5t4n25SQvYSrOEhxxpXYPZ4pPzneSJHEnc3qApu2Q@mail.gmail.com>
- <CAA8EJprTNFgKJ_3cdZz4f_LCkYFghi-cfaj3bZmYh3oA63my6A@mail.gmail.com>
- <85204b78-7b24-61cd-4bae-3e7abc6e4fd3@quicinc.com>
-In-Reply-To: <85204b78-7b24-61cd-4bae-3e7abc6e4fd3@quicinc.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 26 Mar 2024 19:34:45 +0100
-Message-ID: <CANiq72k1euaoqudjKy7jKCeA49JtYN6qH1m8080QGsBfKf89Lw@mail.gmail.com>
-Subject: Re: drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:843:6: error:
- variable 'out' set but not used
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- freedreno@lists.freedesktop.org, linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240326160310.GC718896@mdroper-desk1.amr.corp.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,18 +74,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 26, 2024 at 7:31=E2=80=AFPM Abhinav Kumar <quic_abhinavk@quicin=
-c.com> wrote:
->
-> This should be fixed with https://patchwork.freedesktop.org/patch/581853/=
-.
+Hi Matt,
 
-Ah, so in that case the `CRASHDUMP_READ` target should really be
-constant, unlike in other cases in that file?
+On Tue, Mar 26, 2024 at 09:03:10AM -0700, Matt Roper wrote:
+> On Wed, Mar 13, 2024 at 09:19:50PM +0100, Andi Shyti wrote:
+> > +			/*
+> > +			 * Do not create the command streamer for CCS slices
+> > +			 * beyond the first. All the workload submitted to the
+> > +			 * first engine will be shared among all the slices.
+> > +			 *
+> > +			 * Once the user will be allowed to customize the CCS
+> > +			 * mode, then this check needs to be removed.
+> > +			 */
+> > +			if (IS_DG2(i915) &&
+> > +			    class == COMPUTE_CLASS &&
+> > +			    ccs_instance++)
+> > +				continue;
+> 
+> Wouldn't it be more intuitive to drop the non-lowest CCS engines in
+> init_engine_mask() since that's the function that's dedicated to
+> building the list of engines we'll use?  Then we don't need to kill the
+> assertion farther down either.
 
-> We can pickup that one with a Fixes tag applied.
+Because we don't check the result of init_engine_mask() while
+creating the engine's structure. We check it only after and
+indeed I removed the drm_WARN_ON() check.
 
-Thanks!
+I think the whole process of creating the engine's structure in
+the intel_engines_init_mmio() can be simplified, but this goes
+beyong the scope of the series.
 
-Cheers,
-Miguel
+Or am I missing something?
+
+Thanks,
+Andi
