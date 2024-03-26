@@ -2,72 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3537288C9EB
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 17:54:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C69F88C9EC
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 17:58:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99F8C10EF21;
-	Tue, 26 Mar 2024 16:54:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43B8C10EFEA;
+	Tue, 26 Mar 2024 16:58:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KeV6UZHM";
+	dkim=pass (1024-bit key; unprotected) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="scasLxEk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8981F10EF4C;
- Tue, 26 Mar 2024 16:54:00 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id
- 98e67ed59e1d1-2a072747fc6so1385100a91.2; 
- Tue, 26 Mar 2024 09:54:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1711472040; x=1712076840; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=t11QCUWfmd+nyP0xdTPwxlB0/6v6Tz8ppRiV86S/Tcw=;
- b=KeV6UZHMHSOqEAS48J/nkYidXpYfrHU5J36UrOoP7rI6i+y0/9bjhhAgJOAcjiaP2l
- +qRtn062NgZy+1UXaDP+uko7wJzHTe+Q0ui9FSTNOkSOydPPQO4j1hIygUi1cYmxeSEz
- R31cI/vzZGW7aqqruAM0gDitk04rQWztJ2+9dFK90T5u+yeg+C1h6ze18ufG3H2RLVuN
- qAAYR/ZC4lEwVxs6IingYD1sqP0JxE9Sl3h0do2n09Jj+Hfi+BqIeMbuadxWACKGHVFg
- Dli9CaGV2OYQ0WsO5fTQFJ8F+ufZtrpHujd4VjM3yOSx72Ko0YjttgC4VDHzNePdaHuI
- eEOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711472040; x=1712076840;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=t11QCUWfmd+nyP0xdTPwxlB0/6v6Tz8ppRiV86S/Tcw=;
- b=txW/XehXl0pQBV7W6r3w+cDDSEADTrRGecpv78ouT+9aPc7FC3rBYpsfS0SuthPTgU
- ZyDpmGjnDdkf2ViCiT4T4LmITTCkpQ6NBm2k0V1zL0GZHECFDaBi6Bnd4ZUuYsBm5SiQ
- 3AfWJtGgt55e/UGW14M2Punhzg4Fa6d2CUASVbDG1Lowq517st7SbOzQjJimMrSZ6fL2
- qwSJ36CwC2wLYvQBJ4bb/hr0rimFcl+chGRFraldnLwGoYS6zOubq67ZASsZW4spIe1o
- ZnmUcY7KiU2YnT3RbiqWLeP6Rl+qR3krVrc0Fg2ceFJK+NE4XoagsdCXItrTWxj6Zt9c
- CL+Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUd1ylLv6pMeWQL54TErxIa3M6d+WKGrDypWeYWDKDSDmmzEdhKXn+ww1gVJrPAitdDQXmzTWZdyanpGv4GzLu111HKJoTmRIQxfnl5I8AlbQlLGxElLe/BWlLc8onB6LZ7WdL4rBwsK1GPPxLAIA==
-X-Gm-Message-State: AOJu0YyurTHX5nUAfsfnU3EaLZFFoNcH5nCIVTMNz/38mHZEOBvP9EcG
- MlxCGF9P71V2nP7qKGAXzZnJyAl8uKVrZFLFnac0xen1XKRjQoQOyKt6aTeTa+/62i0XD0nIdy7
- mI/pMLQhyh3hsOvG+3An5z4QIFcqP7S9r
-X-Google-Smtp-Source: AGHT+IFtWAEzhIPMNoFBSEntuEwU3Hqapb1b1h4hN9tob/9RjINt3JfIqdvs1LLqudNz8iSJVELcF2O02oRH6GLLlsM=
-X-Received: by 2002:a17:90b:193:b0:2a0:5b4b:f5e2 with SMTP id
- t19-20020a17090b019300b002a05b4bf5e2mr362318pjs.33.1711472039726; Tue, 26 Mar
- 2024 09:53:59 -0700 (PDT)
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
+ [157.90.84.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91F3410F062
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 16:57:59 +0000 (UTC)
+Received: from [192.168.42.20] (p5de45f8b.dip0.t-ipconnect.de [93.228.95.139])
+ (Authenticated sender: wse@tuxedocomputers.com)
+ by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 749CB2FC0064;
+ Tue, 26 Mar 2024 17:57:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+ s=default; t=1711472277;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pXIUAuDah8hqasm5kZQQMehVL9KqqXP2c2x80MZfEqI=;
+ b=scasLxEks0jzHmYguWmUvj+yDW2Vtss4BodOn0y1aeBcNXgsn3CclsGpx+tjlBNYbn1TPI
+ IkQZZDMo2lRQJ06sGaX5R0zca4Q89l95+qQpdKzfwBLXrRYARCkAQ6sSD44NjIjnyJ55nT
+ 200nEKVG7xaJeN6w3Pl7uxyDDtINN0Q=
+Authentication-Results: mail.tuxedocomputers.com;
+ auth=pass smtp.auth=wse@tuxedocomputers.com
+ smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <9b5151f9-4d1c-401e-abb5-540097749b76@tuxedocomputers.com>
+Date: Tue, 26 Mar 2024 17:57:57 +0100
 MIME-Version: 1.0
-References: <20240326143750.2292945-1-sunil.khatri@amd.com>
-In-Reply-To: <20240326143750.2292945-1-sunil.khatri@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 26 Mar 2024 12:53:48 -0400
-Message-ID: <CADnq5_Nm6gyMf1mhGiyVDe6n69yabdf8EN5t=OmzJ7oBVZmEtQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: add support of bios dump in devcoredump
-To: Sunil Khatri <sunil.khatri@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Shashank Sharma <shashank.sharma@amd.com>, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Hawking Zhang <Hawking.Zhang@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Lijo Lazar <lijo.lazar@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: In kernel virtual HID devices (was Future handling of complex RGB
+ devices on Linux v3)
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>, Lee Jones <lee@kernel.org>,
+ jikos@kernel.org, linux-kernel@vger.kernel.org,
+ Jelle van der Waa <jelle@vdwaa.nl>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org,
+ Pavel Machek <pavel@ucw.cz>, Gregor Riepl <onitake@gmail.com>
+References: <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
+ <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
+ <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
+ <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
+ <1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com>
+ <aec1d22d-9e59-4dfc-b108-5ba339b0e76a@redhat.com>
+ <siebkhaauocqkuox73q2e5p2mbsyc7j4gvpzfvt4c3gvncdpap@oxh5pp4gxpuo>
+ <870cca8a-1a1b-4d17-874e-a26c30aca2bf@tuxedocomputers.com>
+ <fcf4dd53-f461-4c2e-8fbe-50b50e4e6797@redhat.com>
+ <65b24776-ae1a-4290-a1d5-c7637ad0accc@tuxedocomputers.com>
+ <vjd5xqgd2gsyz4ubgk6eusuyqdtxpdw6vogc5u537x2a245xcj@m2twppbxea4p>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <vjd5xqgd2gsyz4ubgk6eusuyqdtxpdw6vogc5u537x2a245xcj@m2twppbxea4p>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,60 +78,169 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 26, 2024 at 10:38=E2=80=AFAM Sunil Khatri <sunil.khatri@amd.com=
-> wrote:
->
-> dump the bios binary in the devcoredump.
->
-> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
-> ---
->  .../gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c  | 20 +++++++++++++++++++
->  1 file changed, 20 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c b/drivers/g=
-pu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-> index 44c5da8aa9ce..f33963d777eb 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-> @@ -132,6 +132,26 @@ amdgpu_devcoredump_read(char *buffer, loff_t offset,=
- size_t count,
->         drm_printf(&p, "Faulty page starting at address: 0x%016llx\n", fa=
-ult_info->addr);
->         drm_printf(&p, "Protection fault status register: 0x%x\n\n", faul=
-t_info->status);
->
-> +       /* Dump BIOS */
-> +       if (coredump->adev->bios && coredump->adev->bios_size) {
-> +               int i =3D 0;
-> +
-> +               drm_printf(&p, "BIOS Binary dump\n");
-> +               drm_printf(&p, "Valid BIOS  Size:%d bytes type:%s\n",
-> +                          coredump->adev->bios_size,
-> +                          coredump->adev->is_atom_fw ?
-> +                          "Atom bios":"Non Atom Bios");
-> +
-> +               while (i < coredump->adev->bios_size) {
-> +                       /* Printing 15 bytes in a line */
-> +                       if (i % 15 =3D=3D 0)
-> +                               drm_printf(&p, "\n");
-> +                       drm_printf(&p, "0x%x \t", coredump->adev->bios[i]=
-);
-> +                       i++;
-> +               }
-> +               drm_printf(&p, "\n");
-> +       }
+Hi all,
 
-I don't think it's too useful to dump this as text.  I was hoping it
-could be a binary.  I guess, we can just get this from debugfs if we
-need it if a binary is not possible.
-
-Alex
-
-
-> +
->         /* Add ring buffer information */
->         drm_printf(&p, "Ring buffer information\n");
->         for (int i =3D 0; i < coredump->adev->num_rings; i++) {
-> --
-> 2.34.1
+Am 26.03.24 um 16:39 schrieb Benjamin Tissoires:
+> On Mar 26 2024, Werner Sembach wrote:
+>> Hi all,
+>>
+>> Am 25.03.24 um 19:30 schrieb Hans de Goede:
+>>
+>> [snip]
+>>>>> If the kernel already handles the custom protocol into generic HID, the
+>>>>> work for userspace is not too hard because they can deal with a known
+>>>>> protocol and can be cross-platform in their implementation.
+>>>>>
+>>>>> I'm mentioning that cross-platform because SDL used to rely on the
+>>>>> input, LEDs, and other Linux peculiarities and eventually fell back on
+>>>>> using hidraw only because it's way more easier that way.
+>>>>>
+>>>>> The other advantage of LampArray is that according to Microsoft's
+>>>>> document, new devices are going to support it out of the box, so they'll
+>>>>> be supported out of the box directly.
+>>>>>
+>>>>> Most of the time my stance is "do not add new kernel API, you'll regret
+>>>>> it later". So in that case, given that we have a formally approved
+>>>>> standard, I would suggest to use it, and consider it your API.
+>>>> The only new UAPI would be the use_leds_uapi switch to turn on/off the backwards compatibility.
+> I have my reserves with such a kill switch (see below).
 >
+>>> Actually we don't even need that. Typically there is a single HID
+>>> driver handling both keys and the backlight, so userspace cannot
+>>> just unbind the HID driver since then the keys stop working.
+> I don't think Werner meant unbinding the HID driver, just a toggle to
+> enable/disable the basic HID core processing of LampArray.
+>
+>>> But with a virtual LampArray HID device the only functionality
+>>> for an in kernel HID driver would be to export a basic keyboard
+>>> backlight control interface for simple non per key backlight control
+>>> to integrate nicely with e.g. GNOME's backlight control.
+>> Don't forget that in the future there will be devices that natively support
+>> LampArray in their firmware, so for them it is the same device.
+> Yeah, the generic LampArray support will not be able to differentiate
+> "emulated" devices from native ones.
+>
+>> Regards,
+>>
+>> Werner
+>>
+>>> And then when OpenRGB wants to take over it can just unbind the HID
+>>> driver from the HID device using existing mechanisms for that.
+> Again no, it'll be too unpredicted.
+>
+>>> Hmm, I wonder if that will not also kill hidraw support though ...
+>>> I guess getting hidraw support back might require then also manually
+>>> binding the default HID input driver.  Bentiss any input on this?
+> To be able to talk over hidraw you need a driver to be bound, yes. But I
+> had the impression that LampArray would be supported by default in
+> hid-input.c, thus making this hard to remove. Having a separate driver
+> will work, but as soon as the LampArray device will also export a
+> multitouch touchpad, we are screwed and will have to make a choice
+> between LampArray and touch...
+>
+>>> Background info: as discussed earlier in the thread Werner would like
+>>> to have a basic driver registering a /sys/class/leds/foo::kbd_backlight/
+>>> device, since those are automatically supported by GNOME (and others)
+>>> and will give basic kbd backlight brightness control in the desktop
+>>> environment. This could be a simple HID driver for
+>>> the hid_allocate_device()-ed virtual HID device, but userspace needs
+>>> to be able to move that out of the way when it wants to take over
+>>> full control of the per key lighting.
+> Do we really need to entirely unregister the led class device? Can't we
+> snoop on the commands and get some "mean value"?
+>
+>>> Regards,
+>>>
+>>> Hans
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>> The control flow for the whole system would look something like this:
+>>>>
+>>>> - System boots
+>>>>
+>>>>       - Kernel driver initializes keyboard (maybe stops rainbowpuke boot effects, sets brightness to a default value, or initializes a solid color)
+>>>>
+>>>>       - systemd-backlight restores last keyboard backlight brightness
+>>>>
+>>>>       - UPower sees sysfs leds entry and exposes it to DBus for DEs to do keyboard brightness handling
+>>>>
+>>>> - If the user wants more control they (auto-)start OpenRGB
+>>>>
+>>>>       - OpenRGB disables sysfs leds entry via use_leds_uapi to prevent double control of the same device by UPower
+>>>>
+>>>>       - OpenRGB directly interacts with hidraw device via LampArray API to give fine granular control of the backlight
+>>>>
+>>>>       - When OpenRGB closes it should reenable the sysfs leds entry
+> That's where your plan falls short: if OpenRGB crashes, or is killed it
+> will not reset that bit.
+>
+> Next question: is OpenRGB supposed to keep the hidraw node opened all
+> the time or not?
+TBH I didn't look at the OpenRGB code yet and LampArray there is currently only 
+planned. I somewhat hope that until the kernel driver is ready someone else 
+already picked up implementing LampArray in OpenRGB.
+>
+> If it has to keep it open, we should be able to come up with a somewhat
+> similar hack that we have with hid-steam: when the hidraw node is
+> opened, we disable the kernel processing of LampArray. When the node is
+> closed, we re-enable it.
+>
+> But that also means we have to distinguish steam/SDL from OpenRGB...
+
+My first thought here also: What is if something else is reading hidraw devices?
+
+Especially for hidraw devices that are not just LampArray.
+
+>
+> I just carefully read the LampArray spec. And it's simpler than what
+> I expected. But the thing that caught my attention was that it's
+> mentioned that there is no way for the host to query the current
+> color/illumination of the LEDs when the mode is set to
+> AutonomousMode=false. Which means that the kernel should be able to
+> snoop into any commands sent from OpenRGB to the device, compute a mean
+> value and update its internal state.
+>
+> Basically all we need is the "toggle" to put the led class in read-only
+> mode while OpenRGB kicks in. Maybe given that we are about to snoop on
+> the commands sent, we can detect that there is a LampArray command
+> emitted, attach this information to the struct file * in hidraw, and
+> then re-enable rw when that user closes the hidraw node.
+
+I think a read-only mode is not part of the current led class UAPI. Also I don't 
+want to associate AutonomousMode=true with led class is used. 
+AutonomousMode=true could for example mean that it is controlled via keyboard 
+shortcuts that are directly handled in the keyboard firmware, aka a case where 
+you want neither OpenRGB nor led class make any writes to the keyboard.
+
+Or AutonomousMode=true could mean that on a device that implements both a 
+LampArray interface as well as a proprietary legacy interface is currently 
+controlled via the proprietary legacy interface (a lot of which are supported by 
+OpenRGB).
+
+Regards,
+
+Werner
+
+>
+> Cheers,
+> Benjamin
+>
+>>>> - System shutdown
+>>>>
+>>>>       - Since OpenRGB reenables the sysfs leds entry, systemd-backlight can correctly store a brightness value for next boot
+>>>>
+>>>> Regards,
+>>>>
+>>>> Werner
+>>>>
+>>>>> Side note to self: I really need to resurrect the hidraw revoke series
+>>>>> so we could export those hidraw node to userspace with uaccess through
+>>>>> logind...
+>>>>>
+>>>>> Cheers,
+>>>>> Benjamin
