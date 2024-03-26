@@ -2,72 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC0D88CB54
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 18:51:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA06788CB60
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 18:54:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD2E910F1A4;
-	Tue, 26 Mar 2024 17:51:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20B3D10F1A0;
+	Tue, 26 Mar 2024 17:54:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yb9g86Fn";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="R6JPLjeD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
- [209.85.219.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06FBD10F1A4
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 17:51:00 +0000 (UTC)
-Received: by mail-yb1-f172.google.com with SMTP id
- 3f1490d57ef6-dcbc6a6808fso5582386276.2
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 10:51:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711475460; x=1712080260; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=PQt9uE/ppvfkTcIqGMfIYXRibl7GWLCliTRuigVWPgI=;
- b=yb9g86FnGBEj9wIF8PKjhNWal6pbwgCpK5KCa5sZc1tzdCZzA6rBufs2M8xuhw6v7q
- qDWdi+wNWqAt/V6xeqLXTi7RPrJYglhoP3LaL7GJIgdCxkPInr1oyPwYWFbfgFnfZIbN
- tHPMSnW7ewYtUcYfXak/dr1tSu88wN0Xr04Q3UsNyiaJrASTqoEc2Mq+6m0Ftfv/Sot5
- ODTnckkFTTswxbtjyn43fxDmYYdkWqPsWHR/I7ztin7C8F4izshgIuuD8xSVJWphT6el
- OzEhlj/29INFxUoTtZtMj48iYuruJMoh+Preq5E3aLrz8n2MOECvNCnivZhuLp2HK5zO
- iWOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711475460; x=1712080260;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=PQt9uE/ppvfkTcIqGMfIYXRibl7GWLCliTRuigVWPgI=;
- b=MFX7WLBYnxr0qGrNAzPg/d/7xUqiSskZXwz9fjw83iezlsGbPSwaYFYpJchjCSKIs9
- lNfm1kTTH1hqmQknOuZ71wgdp+QZkV9v0FxWVJH4C7Rbt1vaDIZHmkvomZXSRP0BhPtL
- 1KATjBCSUwCq3GImYqBPNmLn5kcrRPRW7lQjkQWABNabkpvr4sUxAEuJmBq1l/9FNRZ5
- VDucC7YxcWOLsPajvsjCMkTsAkr9QIEuKIl97SbfKvBDguYsTzy5n1MBBMNouVPNMka1
- eckB4VUoI86KNl+A5H+oXtkcTF/kcNqv98M4MYx2Xec2NTfkMM5EoPKpU7Hsv6X52IPk
- 1k2g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVMdK3IPoGuE7YkWpXWKtBz5FVAic38zC1eAiwsQoc5iyxFydPuPaOzIOaGLFHTcZoVMJDcH3t4h+aO+NBQGg1AnGz+dsaCLf03TdcWU8CG
-X-Gm-Message-State: AOJu0YyAiZBWTUXuxVTv4GGJ3OnD+FtYmtIaJjYLN86/LVPxaQfAkfmd
- hUzlh6Moa1+pKNuUxmyZpXggi2Z2Ytk7Y/Zv4+cJ5srbIvbCHmDLPnl57DELdkyJKOgCa2pWH4W
- 83mCt0i0fZsHq0B3XW0mGxgjstF1mAn8eXRsRUg==
-X-Google-Smtp-Source: AGHT+IHgaKfWmnWc7zIsttUGrVkvAZrzsd0nsGPCX83cPi+b3E0jY3GMekdJomBN/FEgwvmEt+1EzeQQuU9eKhkIlew=
-X-Received: by 2002:a5b:590:0:b0:dcc:7b05:4cbb with SMTP id
- l16-20020a5b0590000000b00dcc7b054cbbmr8591652ybp.31.1711475459884; Tue, 26
- Mar 2024 10:50:59 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 029A410F1A0
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 17:54:08 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9036B63B;
+ Tue, 26 Mar 2024 18:53:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1711475615;
+ bh=sgeuX1RexIqR0RCTlrZICgibIh+lguB0TsW9JKRrFIQ=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=R6JPLjeDnfdC/vwnBqC99bj24VqZXW4/oaNxivB8y4o04/WQQvmOdv6Oq4EIR8B5L
+ zMAGDmURtzENaSMCKyK/LK1bW/U+pSwmB1Fk0RQdN6wKROKmGAtYcq2TVrD+Y6wZx1
+ R46/Y98wfO/2b8rnvO9KACFfjFCqCMTzX7MdKba4=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20240326-msm-dp-cleanup-v1-0-e775556ecec0@quicinc.com>
- <20240326-msm-dp-cleanup-v1-6-e775556ecec0@quicinc.com>
-In-Reply-To: <20240326-msm-dp-cleanup-v1-6-e775556ecec0@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 26 Mar 2024 19:50:49 +0200
-Message-ID: <CAA8EJpqce45f1Q+speRQo6NbtEtMq9BZWx36pbTAQGjjTyWCoA@mail.gmail.com>
-Subject: Re: [PATCH 6/6] drm/msm/dp: Use function arguments for audio
- operations
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Bjorn Andersson <quic_bjorande@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <7frycd5jnd674cily3xz3p2yl2bjc2yrn3z6sw3dzqdpl4widp@hrgyml6b7vh5>
+References: <20240228102245.80469-1-jacopo.mondi@ideasonboard.com>
+ <7frycd5jnd674cily3xz3p2yl2bjc2yrn3z6sw3dzqdpl4widp@hrgyml6b7vh5>
+Subject: Re: [PATCH 0/2] drm/fourcc.h: Add libcamera to Open Source Waiver
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, libcamera-devel@lists.libcamera.org,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Date: Tue, 26 Mar 2024 17:54:04 +0000
+Message-ID: <171147564465.3566204.18099513875755978001@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,29 +58,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 26 Mar 2024 at 17:06, Bjorn Andersson <andersson@kernel.org> wrote:
->
-> From: Bjorn Andersson <quic_bjorande@quicinc.com>
->
-> The dp_audio read and write operations uses members in struct dp_catalog
-> for passing arguments and return values. This adds unnecessary
-> complexity to the implementation, as it turns out after detangling the
-> logic that no state is actually held in these variables.
->
-> Clean this up by using function arguments and return values for passing
-> the data.
->
-> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_audio.c   | 20 +++++--------------
->  drivers/gpu/drm/msm/dp/dp_catalog.c | 39 +++++++++++++------------------------
->  drivers/gpu/drm/msm/dp/dp_catalog.h | 18 +++++++++--------
->  3 files changed, 28 insertions(+), 49 deletions(-)
+Quoting Jacopo Mondi (2024-03-14 10:12:47)
+> Hello
+>=20
+> gentle nudge for
+>=20
+> *) libcamera: are we ok being listed here ?
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+I think it's fine ...
 
-Thanks a lot for the cleanup!
+Acked-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
---
-With best wishes
-Dmitry
+> *) DRM/KMS: is it ok splitting the list of projects in the way I've
+>    done ?
+>=20
+> Thanks
+>    j
+>=20
+> On Wed, Feb 28, 2024 at 11:22:42AM +0100, Jacopo Mondi wrote:
+> > As suggested by Sima, add libcamera to the list of projects to which the
+> > Open Source Waiver notice applies.
+> >
+> > To maintain the paragraph readable, make a list out of the projects to =
+which
+> > such notice applies.
+> >
+> > Jacopo Mondi (2):
+> >   drm/fourcc.h: List of Open Source Waiver projects
+> >   drm/fourcc.h: Add libcamera to Open Source Waiver
+> >
+> >  include/uapi/drm/drm_fourcc.h | 12 +++++++++---
+> >  1 file changed, 9 insertions(+), 3 deletions(-)
+> >
+> > --
+> > 2.43.2
+> >
