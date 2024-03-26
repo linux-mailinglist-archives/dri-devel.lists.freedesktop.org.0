@@ -2,76 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7119988CD73
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 20:47:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA7888D38E
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 01:59:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EB6A10EA8C;
-	Tue, 26 Mar 2024 19:47:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95EB810EF0A;
+	Wed, 27 Mar 2024 00:59:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XIF4cE8V";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="YrKtJC7N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com
- [209.85.219.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F51210E6EE
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 19:47:42 +0000 (UTC)
-Received: by mail-yb1-f170.google.com with SMTP id
- 3f1490d57ef6-dcbd1d4904dso6019724276.3
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 12:47:42 -0700 (PDT)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDC9910F201
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 19:50:29 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-a4644bde1d4so767901066b.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 12:50:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711482461; x=1712087261; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=+qyPM89Y10g6lsVDwvjAhw3OysernPxYLdybxWGA1Ik=;
- b=XIF4cE8V4TgU3IKs06pdtU8d+VPUpbglh7Lei9oC9sVgmtW0mD8Bm9rNfip/AizPk4
- KLpS9ebQjwRLkXm9l3fQeZr8yR3whSEzKufAcpc8a7EWouW6+Kge4pmaVXjvOW8uaxVq
- /xAxoanXZFFzlSwRQYB/uMhNP74MW6VdSci3I0HiHv2hK6wUYz7SaiQX3oyFSNKF8mfO
- MJvLDdJHY3mzYGSHLS+MwRsB6vLbJ6wdJQZ7HbgKZyftNDkiNHfnm449eHqgKvrS+wvD
- +uKq0WK557gzYdTEODP1rRHK9rvxUfZN/lIcQ7YOIou2W/OBYGRnU+a+CZzrCbugxZbx
- qjFQ==
+ d=chromium.org; s=google; t=1711482628; x=1712087428;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=a7Ax8aAny0xqc+Z08/PPLf7PIhOXugensyc/ciexnqY=;
+ b=YrKtJC7NeAU7D2t2600utq2WGNJpOApmAcUXsEIcQHndVlNk/L6vDrxS+FhZM0ysc0
+ Bfe3TmT/5H2JicNjwFDDw1hIFhFBo8WDNSCYOZIxBAoDMMuNGYSjznWI2npydif07P7x
+ SUu72IZZwH4WKTqeY9zNbDUkupJPFdsrSezMU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711482461; x=1712087261;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+qyPM89Y10g6lsVDwvjAhw3OysernPxYLdybxWGA1Ik=;
- b=veAaiz5b9ehtHxVUXzmKSZEiAh1eUEAjoE5aGhGBZVIqgg8ajM9b7lMCIdTMuQZ3w4
- KG55gBy0UVIoXobY7q7m8EfTb94kcghU625aN3C+z50fuPVzKXMUEAGi7O+UJ4XUR57H
- 4zkvyGs9+CFuELCoVovHWankfEjA4cL7QhF9YwM+PfemSp7+ZNdiWso8u/BOdiW+DXDA
- 1IShpp3Kn1UevDGpwUTAsciun9eNc9DquFhez6BqdKVlimTCnP7Wh/f3xzrOhQWVguPx
- 010kLPwt3Mge4iJjRC83MUQFwxuKQGAsI0XFo50V6XfQ6ya8yU18Yrati1oYnaOyZNf3
- UqQA==
+ d=1e100.net; s=20230601; t=1711482628; x=1712087428;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=a7Ax8aAny0xqc+Z08/PPLf7PIhOXugensyc/ciexnqY=;
+ b=KTX0BUkiGAxc1sMp7CKpvQ9C8f6DYKlkCOs/WedlNgACE0ALm9OkkKHxFs2CnmVy5Q
+ ma6XwZ+upaOjuiWCRV+VjJWOG4FgBcw7Lcr2LQVgCpXI5bWj8ANChk39Jp2xdhEkuFyU
+ WGCeJnA24ibggVubBaKolRhUKv2HZqd9j0KQ4UD/W32BMnUNY3SYTAr3JFHXQIFi6D9Q
+ IGsPsBc2NwIfYLdQwDx2lnWYytnCSfD8l4zCoznSzcX69o41zJ/AVRqlYxn2XYmGF1Z1
+ YGZ0SRvb3Ixj5PNsLYIK+Z5WcxqAo0ZHtreMsQf4IAEIzb/21PM01yCCKuKSFvJClr42
+ KOMw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVCgH3r8INyQcS7Vr/nj7/wMr/dw2zROj573TTHOE8ijE3qF4uCmK8/8SR4aF0HDVKxXB3I8kQc6EFa/hCeSO8qbgs43mz6rWDmHBOtXSPX
-X-Gm-Message-State: AOJu0YwWKzuOYwnTnhlbiEFwHW4UahWtzL2GitzMqUye9zozSxUcH0Zg
- i7ZGEQrVt1Cx7IOUDK7jFskJ/6bW24oOL3hRxmqx4ppJNjqAHqbM5/DVihbYVjMj/FUgk5xoBpX
- VBouZ7F/QD5zPCVq0nhhmpPZZn6oKavpOtc8IxA==
-X-Google-Smtp-Source: AGHT+IEDgs+miE1gX6ZQTUPVvtQ4tAfLoH8Z/nDmvJIeTUqUSoM57Xw13la+OqnoQDXlV9aokZwVCnZHBuAHWvDS4Lc=
-X-Received: by 2002:a25:aa4d:0:b0:dc7:8c3a:4e42 with SMTP id
- s71-20020a25aa4d000000b00dc78c3a4e42mr8948827ybi.30.1711482461135; Tue, 26
- Mar 2024 12:47:41 -0700 (PDT)
+ AJvYcCWcDjAB4We+Dx0BzZgJK5jg986cVKgdi3mnGHXHqrz7fpu6H1ORe11fIvmDCCrrDkAGE7blCcIgbqaFocAd9OLA/6t9f+howe72voZDiPyb
+X-Gm-Message-State: AOJu0YyzAvcxV6UexH2/u+AW6t4EJJs3UGVg6gt/IEv9f+q2tVrBYT9s
+ X0HEcpGY2tIT28rQQtZBPNJwwcRSP6qr1YP3MldWNajq2NMQXFfOj7fJXGWdDbtFvavyh8+xwx5
+ Ja9/b8BiNNCf0jbo3ZVLMptv5RoWsvv6JOYBMGdONg5VwbxQ=
+X-Google-Smtp-Source: AGHT+IFG2bQK77xjXaXmz2DzCM53ln1KovXysvIBTJhpEART34opqr++GCvBUcrrBnq7gazq4dM4CWBo8h52v8T6TAM=
+X-Received: by 2002:a17:906:6b13:b0:a47:340b:df71 with SMTP id
+ q19-20020a1709066b1300b00a47340bdf71mr526469ejr.2.1711482627917; Tue, 26 Mar
+ 2024 12:50:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <CANiq72mjc5t4n25SQvYSrOEhxxpXYPZ4pPzneSJHEnc3qApu2Q@mail.gmail.com>
- <CAA8EJprTNFgKJ_3cdZz4f_LCkYFghi-cfaj3bZmYh3oA63my6A@mail.gmail.com>
- <85204b78-7b24-61cd-4bae-3e7abc6e4fd3@quicinc.com>
- <CAA8EJppqrF10J1qExM=gopiF4GPDt7v4TB6LrQxx5OGyAL9hSg@mail.gmail.com>
- <671d2662-df4e-4350-0084-476eb1671cc1@quicinc.com>
-In-Reply-To: <671d2662-df4e-4350-0084-476eb1671cc1@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 26 Mar 2024 21:47:30 +0200
-Message-ID: <CAA8EJpppre8ibYqN7gZObyvzR08yVbTevC6hDEDCKQVf8gRVRg@mail.gmail.com>
-Subject: Re: drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:843:6: error:
- variable 'out' set but not used
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Rob Clark <robdclark@gmail.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- freedreno@lists.freedesktop.org, linux-kernel <linux-kernel@vger.kernel.org>
+References: <20240320201152.3487892-1-imre.deak@intel.com>
+ <20240320201152.3487892-2-imre.deak@intel.com>
+ <2a35ee1b-4ef4-49e2-a481-d6929e522f16@intel.com>
+In-Reply-To: <2a35ee1b-4ef4-49e2-a481-d6929e522f16@intel.com>
+From: Manasi Navare <navaremanasi@chromium.org>
+Date: Tue, 26 Mar 2024 12:50:17 -0700
+Message-ID: <CAE72mNmxJ9Fj8z=4RBZt1xAorN8KWtSfUNXy8VPgT7GcQ6WdRQ@mail.gmail.com>
+Subject: Re: [PATCH 01/11] drm/i915/dp: Fix DSC line buffer depth programming
+To: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
+Cc: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Wed, 27 Mar 2024 00:59:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,81 +80,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 26 Mar 2024 at 21:32, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+Hi Imre,
+
+Thanks for the DSC fixes.
+Would the line buf depth calculation that was getting set to 0 impact
+DSC on all platforms
+or was this issue only specific to MTL and was getting set correctly
+with older platforms?
+We didnt notice any DSC issues/corruptions with ADL based systems.
+
+The actual change makes sense, just want to confirm if this applies to
+all platforms or any particular?
+With that clarification:
+
+Reviewed-by: Manasi Navare <navaremanasi@chromium.org>
+
+Regards
+Manasi
+
+On Tue, Mar 26, 2024 at 3:01=E2=80=AFAM Nautiyal, Ankit K
+<ankit.k.nautiyal@intel.com> wrote:
 >
 >
->
-> On 3/26/2024 12:10 PM, Dmitry Baryshkov wrote:
-> > On Tue, 26 Mar 2024 at 20:31, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>
-> >>
-> >>
-> >> On 3/26/2024 11:19 AM, Dmitry Baryshkov wrote:
-> >>> On Tue, 26 Mar 2024 at 20:05, Miguel Ojeda
-> >>> <miguel.ojeda.sandonis@gmail.com> wrote:
-> >>>>
-> >>>> Hi,
-> >>>>
-> >>>> In today's next, I got:
-> >>>>
-> >>>>       drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:843:6: error: variable
-> >>>> 'out' set but not used [-Werror,-Wunused-but-set-variable]
-> >>>>
-> >>>> `out` seems to be there since commit 64d6255650d4 ("drm/msm: More
-> >>>> fully implement devcoredump for a7xx").
-> >>>>
-> >>>> Untested diff below assuming `dumper->iova` is constant -- if you want
-> >>>> a formal patch, please let me know.
-> >>>
-> >>> Please send a proper patch that we can pick up.
-> >>>
-> >>
-> >> This should be fixed with https://patchwork.freedesktop.org/patch/581853/.
+> On 3/21/2024 1:41 AM, Imre Deak wrote:
+> > Fix the calculation of the DSC line buffer depth. This is limited both
+> > by the source's and sink's maximum line buffer depth, but the former on=
+e
+> > was not taken into account. On all Intel platform's the source's maximu=
+m
+> > buffer depth is 13, so the overall limit is simply the minimum of the
+> > source/sink's limit, regardless of the DSC version.
 > >
-> > Is that a correct fix? If you check other usage locations for
-> > CRASHDUMP_READ, you'll see that `out` is the last parameter and it is
-> > being incremented.
+> > This leaves the DSI DSC line buffer depth calculation as-is, trusting
+> > VBT.
 > >
+> > On DSC version 1.2 for sinks reporting a maximum line buffer depth of 1=
+6
+> > the line buffer depth was incorrectly programmed as 0, leading to a
+> > corruption in color gradients / lines on the decompressed screen image.
+> >
+> > Cc: dri-devel@lists.freedesktop.org
+> > Signed-off-by: Imre Deak <imre.deak@intel.com>
 >
-> Right but in this function out is not the last parameter of CRASHDUMP_READ.
-
-Yes. I think in this case the patch from this email is more correct.
-
+> LGTM.
 >
-> Maybe you or Rob can correct me but I thought the fix looked sane
-> although noone commented on that patch.
-
+> Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 >
-> >>
-> >> We can pickup that one with a Fixes tag applied.
-> >>
-> >>>>
-> >>>> Cheers,
-> >>>> Miguel
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> >>>> b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> >>>> index 1f5245fc2cdc..a847a0f7a73c 100644
-> >>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> >>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> >>>> @@ -852,7 +852,7 @@ static void a6xx_get_shader_block(struct msm_gpu *gpu,
-> >>>>                (block->type << 8) | i);
-> >>>>
-> >>>>            in += CRASHDUMP_READ(in, REG_A6XX_HLSQ_DBG_AHB_READ_APERTURE,
-> >>>> -            block->size, dumper->iova + A6XX_CD_DATA_OFFSET);
-> >>>> +            block->size, out);
-> >>>>
-> >>>>            out += block->size * sizeof(u32);
-> >>>>        }
-> >>>
-> >>>
-> >>>
+> > ---
+> >   drivers/gpu/drm/i915/display/intel_dp.c | 16 ++++++----------
+> >   include/drm/display/drm_dsc.h           |  3 ---
+> >   2 files changed, 6 insertions(+), 13 deletions(-)
 > >
+> > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/=
+i915/display/intel_dp.c
+> > index af7ca00e9bc0a..dbe65651bf277 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> > @@ -89,6 +89,9 @@
+> >   #define DP_DSC_MAX_ENC_THROUGHPUT_0         340000
+> >   #define DP_DSC_MAX_ENC_THROUGHPUT_1         400000
 > >
+> > +/* Max DSC line buffer depth supported by HW. */
+> > +#define INTEL_DP_DSC_MAX_LINE_BUF_DEPTH              13
+> > +
+> >   /* DP DSC FEC Overhead factor in ppm =3D 1/(0.972261) =3D 1.028530 */
+> >   #define DP_DSC_FEC_OVERHEAD_FACTOR          1028530
 > >
-
-
-
--- 
-With best wishes
-Dmitry
+> > @@ -1703,7 +1706,6 @@ static int intel_dp_dsc_compute_params(const stru=
+ct intel_connector *connector,
+> >   {
+> >       struct drm_i915_private *i915 =3D to_i915(connector->base.dev);
+> >       struct drm_dsc_config *vdsc_cfg =3D &crtc_state->dsc.config;
+> > -     u8 line_buf_depth;
+> >       int ret;
+> >
+> >       /*
+> > @@ -1732,20 +1734,14 @@ static int intel_dp_dsc_compute_params(const st=
+ruct intel_connector *connector,
+> >                       connector->dp.dsc_dpcd[DP_DSC_DEC_COLOR_FORMAT_CA=
+P - DP_DSC_SUPPORT] &
+> >                       DP_DSC_RGB;
+> >
+> > -     line_buf_depth =3D drm_dp_dsc_sink_line_buf_depth(connector->dp.d=
+sc_dpcd);
+> > -     if (!line_buf_depth) {
+> > +     vdsc_cfg->line_buf_depth =3D min(INTEL_DP_DSC_MAX_LINE_BUF_DEPTH,
+> > +                                    drm_dp_dsc_sink_line_buf_depth(con=
+nector->dp.dsc_dpcd));
+> > +     if (!vdsc_cfg->line_buf_depth) {
+> >               drm_dbg_kms(&i915->drm,
+> >                           "DSC Sink Line Buffer Depth invalid\n");
+> >               return -EINVAL;
+> >       }
+> >
+> > -     if (vdsc_cfg->dsc_version_minor =3D=3D 2)
+> > -             vdsc_cfg->line_buf_depth =3D (line_buf_depth =3D=3D DSC_1=
+_2_MAX_LINEBUF_DEPTH_BITS) ?
+> > -                     DSC_1_2_MAX_LINEBUF_DEPTH_VAL : line_buf_depth;
+> > -     else
+> > -             vdsc_cfg->line_buf_depth =3D (line_buf_depth > DSC_1_1_MA=
+X_LINEBUF_DEPTH_BITS) ?
+> > -                     DSC_1_1_MAX_LINEBUF_DEPTH_BITS : line_buf_depth;
+> > -
+> >       vdsc_cfg->block_pred_enable =3D
+> >               connector->dp.dsc_dpcd[DP_DSC_BLK_PREDICTION_SUPPORT - DP=
+_DSC_SUPPORT] &
+> >               DP_DSC_BLK_PREDICTION_IS_SUPPORTED;
+> > diff --git a/include/drm/display/drm_dsc.h b/include/drm/display/drm_ds=
+c.h
+> > index bc90273d06a62..bbbe7438473d3 100644
+> > --- a/include/drm/display/drm_dsc.h
+> > +++ b/include/drm/display/drm_dsc.h
+> > @@ -40,9 +40,6 @@
+> >   #define DSC_PPS_RC_RANGE_MINQP_SHIFT                11
+> >   #define DSC_PPS_RC_RANGE_MAXQP_SHIFT                6
+> >   #define DSC_PPS_NATIVE_420_SHIFT            1
+> > -#define DSC_1_2_MAX_LINEBUF_DEPTH_BITS               16
+> > -#define DSC_1_2_MAX_LINEBUF_DEPTH_VAL                0
+> > -#define DSC_1_1_MAX_LINEBUF_DEPTH_BITS               13
+> >
+> >   /**
+> >    * struct drm_dsc_rc_range_parameters - DSC Rate Control range parame=
+ters
