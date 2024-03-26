@@ -2,39 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D45A88BEFF
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 11:13:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0538788BF06
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 11:14:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED78D10E043;
-	Tue, 26 Mar 2024 10:13:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A0EC10EE25;
+	Tue, 26 Mar 2024 10:14:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9758910E043
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 10:13:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id D939710EE3F
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 10:14:45 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 827482F4
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 03:14:12 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EFB202F4
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 03:15:18 -0700 (PDT)
 Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
  [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C4CFD3F64C
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 03:13:38 -0700 (PDT)
-Date: Tue, 26 Mar 2024 10:13:35 +0000
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 3DCCA3F64C
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 03:14:45 -0700 (PDT)
+Date: Tue, 26 Mar 2024 10:14:37 +0000
 From: Liviu Dudau <liviu.dudau@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>,
- =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, kernel@collabora.com,
- Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH] drm/panthor: Fix wrong kernel-doc format in the uAPI
- header
-Message-ID: <ZgKfz3YGRsfxGma9@e110455-lin.cambridge.arm.com>
-References: <20240326093055.411932-1-boris.brezillon@collabora.com>
+To: Colin Ian King <colin.i.king@gmail.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH][next] drm/panthor: Fix spelling mistake "readyness" ->
+ "readiness"
+Message-ID: <ZgKgDZrUakS_pwBS@e110455-lin.cambridge.arm.com>
+References: <20240326100219.43989-1-colin.i.king@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240326093055.411932-1-boris.brezillon@collabora.com>
+In-Reply-To: <20240326100219.43989-1-colin.i.king@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,40 +54,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 26, 2024 at 10:30:55AM +0100, Boris Brezillon wrote:
-> The kernel doc prefix is /** not /*.
+On Tue, Mar 26, 2024 at 10:02:19AM +0000, Colin Ian King wrote:
+> There is a spelling mistake in a drm_err message. Fix it.
 > 
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 
 Acked-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Boris, can you also pick this one up when you're pushing your kernel doc fix?
 
 Best regards,
 Liviu
 
 > ---
->  include/uapi/drm/panthor_drm.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/panthor/panthor_gpu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-> index 373df80f41ed..dadb05ab1235 100644
-> --- a/include/uapi/drm/panthor_drm.h
-> +++ b/include/uapi/drm/panthor_drm.h
-> @@ -336,10 +336,10 @@ struct drm_panthor_gpu_info {
->  	/** @tiler_present: Bitmask encoding the tiler units exposed by the GPU. */
->  	__u64 tiler_present;
->  
-> -	/* @core_features: Used to discriminate core variants when they exist. */
-> +	/** @core_features: Used to discriminate core variants when they exist. */
->  	__u32 core_features;
->  
-> -	/* @pad: MBZ. */
-> +	/** @pad: MBZ. */
->  	__u32 pad;
->  };
->  
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> index 6dbbc4cfbe7e..0f7c962440d3 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> @@ -333,7 +333,7 @@ int panthor_gpu_block_power_on(struct panthor_device *ptdev,
+>  						 val, (mask32 & val) == mask32,
+>  						 100, timeout_us);
+>  		if (ret) {
+> -			drm_err(&ptdev->base, "timeout waiting on %s:%llx readyness",
+> +			drm_err(&ptdev->base, "timeout waiting on %s:%llx readiness",
+>  				blk_name, mask);
+>  			return ret;
+>  		}
 > -- 
-> 2.44.0
+> 2.39.2
 > 
 
 -- 
