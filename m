@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D49A88C654
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 16:07:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 100E488C64F
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 16:06:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E048610F03A;
-	Tue, 26 Mar 2024 15:06:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D28810F02B;
+	Tue, 26 Mar 2024 15:06:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ed4hVGyY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pcJ/Eo2k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CAA810EB82;
- Tue, 26 Mar 2024 15:06:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1025D10EB82;
+ Tue, 26 Mar 2024 15:06:46 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 85E3C61283;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7B1BC612BC;
+ Tue, 26 Mar 2024 15:06:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FC22C43601;
  Tue, 26 Mar 2024 15:06:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87CD6C43330;
- Tue, 26 Mar 2024 15:06:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711465604;
- bh=oEL9QHuRjaF8oclNwKr4lsV4jXuopDx5ZyED4A8zK+M=;
+ s=k20201202; t=1711465605;
+ bh=ux2gJRKYbJtB1caE8tUqKnWbosy/ET6Ap41xPNx8LYI=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Ed4hVGyYIVwp8s6P9scRKIQ9872S3tS11Qx/SLDBDxDxtCwjjyfllHk49gSHQpFzW
- UTztQuJwXtUdtOYTjvq9yr6aOt0hUJ08sMJrZ+ng8PhF9tHi+dGaJL7tpuNtoJtzU2
- uSi+YYk90nLYMK2dL8CHd0ZoXQb+L1IlXGZzY3EW4uLIIADdMcNsVUeNWPvk8iMJVc
- IIziTPM/A6cbCdL1DhlOtQpx1sB1kM5p3UU7ag3BuuWiFvWuidaeM7ZaPOf2S2hP4C
- KW72wfQaMBihMrgm66Zt0UASNxMyG8cS9eDdxK5Vwy80l8rP+bF9GclI3JSrtzpRoW
- WV9KHl7OSkyVQ==
+ b=pcJ/Eo2k+G18Wwd/YTyBKqV80j6+3s0CcBfAwEvmkVwIbNqtADHOh+ljnvhyhcuTx
+ Nhcfp32+9VXqTEbX926zg4O/QPRaTC9FmkgX/g0PkNzJl6Kt7IBfFuI8DvJ9Zo+Bk5
+ O2dZHLGGmsMALGo+FGrF4GRIpBGyCSgFW0rCaz9tY7RHkArYuO7ScZMCI/fuE9vUzr
+ uUbm2IOrlsaH4ZVa34STR5PtA6d16WGer7QQpFR1Ok18vGHtBf4PTfdDiGsi25Rl6j
+ 7jAyUDNPX2wNay5gUmvOwqfsoQV1Q2ZnGtL5bNs+rVm1XVwjRQGfbXIvcamlNmHols
+ EfNsr7ixyeMqg==
 From: Bjorn Andersson <andersson@kernel.org>
-Date: Tue, 26 Mar 2024 08:11:30 -0700
-Subject: [PATCH 2/6] drm/msm/dp: Removed fixed nvid "support"
+Date: Tue, 26 Mar 2024 08:11:31 -0700
+Subject: [PATCH 3/6] drm/msm/dp: Remove unused defines and members
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240326-msm-dp-cleanup-v1-2-e775556ecec0@quicinc.com>
+Message-Id: <20240326-msm-dp-cleanup-v1-3-e775556ecec0@quicinc.com>
 References: <20240326-msm-dp-cleanup-v1-0-e775556ecec0@quicinc.com>
 In-Reply-To: <20240326-msm-dp-cleanup-v1-0-e775556ecec0@quicinc.com>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -48,21 +48,21 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Bjorn Andersson <quic_bjorande@quicinc.com>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3667;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7373;
  i=quic_bjorande@quicinc.com; h=from:subject:message-id;
- bh=qycwTDe39/z7P5q+0zY5dlx4BRy8hlXGCuCcnrwdKSM=;
- b=owEBgwJ8/ZANAwAIAQsfOT8Nma3FAcsmYgBmAuWinRfj+eExKLVCRJV0/h3saaFlb4+B6/tpz
- 2wwKt06kLGJAkkEAAEIADMWIQQF3gPMXzXqTwlm1SULHzk/DZmtxQUCZgLlohUcYW5kZXJzc29u
- QGtlcm5lbC5vcmcACgkQCx85Pw2ZrcUtjRAArx5w2fq0qfDxaDJMXvcm8nhp3W0WeW47zEeLl6v
- Lf4ftSWe81XS8YIV2fSPYv3C0Ks9kAlgvJp4fLcdmBUB0O/D4C5j5WHSLlNPm4j8Hee5DMf5NN8
- s6ac5C21RzRU1eeMKhasyTOYfXRHZGrChsCbK8v2oVtBJSj5/gMVQ9TZjC8QYnOFFdxr1+Ob8G7
- b7V3v3KmGRG0Z5bdk2uz2FnLzEtBXyGnIfHWbJZ5aYJ71zycMO3dtYtQ6QVR6V44a8r34oib344
- IlrRPn97ym0xoVeH82Crgv042z8pdVeOfJmowehorKrJbq0Pt+RMAEMN3l6B4fQpRReRwXmsoSX
- by+XbtsEl0UJ5RM1I7V1ImWTuGXvxf2sc+rbnZkLl35xw3k/eUGMvHehhS+nxIRqg390Cc7bbJS
- uzR33PWtrnn+vY1x6TrhgV/nFQMn+kN9Gt8cjtF7auGSU+RYmK2ln4T5hfv4UUnnQGO75lUmdlo
- FmMmVhHQxCUUS1H7ZElm17m5oUKkFoR8ApbbeDRObfKI/XG+1Z3W2ub96T9av8jl+ri2U3ZSvRT
- EpB347YxCEgFMIj0g+k9m4Jch0+gr1NO81RAf5gJ2qvp3yFVzZT8ILOre0IbHzQSVi0lpoptrYe
- xFPedah0j0p8LArgKmKbxYfoEm2ObRDRZYuL3AzV7pec=
+ bh=1Vt/PUJRNML3XV+iy2c2v7ZwN3HbD8qAP7vs4E1jcfQ=;
+ b=owEBgwJ8/ZANAwAIAQsfOT8Nma3FAcsmYgBmAuWinIX++PuIKhc2yR5Ugs2UtUOKKY0lovwMx
+ EZcqxUBUdaJAkkEAAEIADMWIQQF3gPMXzXqTwlm1SULHzk/DZmtxQUCZgLlohUcYW5kZXJzc29u
+ QGtlcm5lbC5vcmcACgkQCx85Pw2ZrcW7DRAAw8D+BmOE4fIW0XT/aRT5yVHCgRUZif87xbUEa73
+ uJJuWgVwPqohnGZ4++yqDm7TsyCl/7OZ+HQDWQejBR2Rqb0CQrNeXjaNYnZFziMQcImHDx1Bex+
+ CtHCoCaeunAteGYXIOFDWaQTuQ/eG1Pxcn3k64SF4mSR4R7agcD8Y53klFMf8n2Y/rUkmQDMzAn
+ 1dDyxOgNRRbiJsyzzeLPHmKCL4AlgWrPqn5A1Yx7hFFi2gg0bDexoXxqyHxGMMG576jOR8QB6zt
+ /gHZxEqgt5zhAMWYzxw3XzOmXq4YIyCqBbNs/1MNzU77d3UFSQ24lD+RnI0YI4y0llUVuI8T6u+
+ 2Y6XejK89iMx1jLm9zt8S/00f5I2F6wLO1rhRMsDCGsxu1hNiank44sNLCR+Qm/o8pmWGkzQKu9
+ AMNt9TCe8ZUL6ux47OnK1nazlnD9UEmBUDb3zbaJJQm9iq7jYL79Wit2i6/+Z1G3T+27PPNcSIA
+ LBdTCWx37H93trT5HU/k4vGjZ9+0bVnxxjhlNZm9Ct7fuH7bfIJ+65/B6KssE6590HICKBlyQNJ
+ +A26QOSwWrGNDGEx7VJaSeKvN+R/M+/5WyuAao/T2p6Rqros+QDsM8eJYxCZSLWhUq0BCXPEEBj
+ ryZs7dlFK+RlIgspqRN5+l9FKFBbHYu8WUR/+XaWui2E=
 X-Developer-Key: i=quic_bjorande@quicinc.com; a=openpgp;
  fpr=05DE03CC5F35EA4F0966D5250B1F393F0D99ADC5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,94 +82,244 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Bjorn Andersson <quic_bjorande@quicinc.com>
 
-The "desc" member of struct dp_panel is zero-initialized during
-allocation and never assigned, resulting in dp_ctrl_use_fixed_nvid()
-never returning true. This returned boolean value is passed around but
-never acted upon.
-
-Perform constant propagation and remove the traces of "fixed nvid".
+Throughout the Qualcomm Displayport driver a number of defines and
+struct members has become unused, but lingers in the code. Remove these.
 
 Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
 ---
- drivers/gpu/drm/msm/dp/dp_catalog.c |  2 +-
- drivers/gpu/drm/msm/dp/dp_catalog.h |  2 +-
- drivers/gpu/drm/msm/dp/dp_ctrl.c    | 17 +----------------
- drivers/gpu/drm/msm/dp/dp_panel.h   |  1 -
- 4 files changed, 3 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_audio.c   |  5 -----
+ drivers/gpu/drm/msm/dp/dp_catalog.c |  1 -
+ drivers/gpu/drm/msm/dp/dp_catalog.h | 17 -----------------
+ drivers/gpu/drm/msm/dp/dp_ctrl.h    |  1 -
+ drivers/gpu/drm/msm/dp/dp_display.c |  5 -----
+ drivers/gpu/drm/msm/dp/dp_display.h |  3 ---
+ drivers/gpu/drm/msm/dp/dp_drm.c     |  2 --
+ drivers/gpu/drm/msm/dp/dp_link.c    |  4 ----
+ drivers/gpu/drm/msm/dp/dp_link.h    |  1 -
+ drivers/gpu/drm/msm/dp/dp_panel.h   |  2 --
+ 10 files changed, 41 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index 3e7c84cdef47..8c72d532d96b 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -469,7 +469,7 @@ void dp_catalog_setup_peripheral_flush(struct dp_catalog *dp_catalog)
+diff --git a/drivers/gpu/drm/msm/dp/dp_audio.c b/drivers/gpu/drm/msm/dp/dp_audio.c
+index 7634e4b74208..7fd0c1793ba3 100644
+--- a/drivers/gpu/drm/msm/dp/dp_audio.c
++++ b/drivers/gpu/drm/msm/dp/dp_audio.c
+@@ -22,9 +22,7 @@ struct dp_audio_private {
+ 	struct platform_device *pdev;
+ 	struct drm_device *drm_dev;
+ 	struct dp_catalog *catalog;
+-	struct dp_panel *panel;
  
- void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog,
- 					u32 rate, u32 stream_rate_khz,
--					bool fixed_nvid, bool is_ycbcr_420)
-+					bool is_ycbcr_420)
- {
- 	u32 pixel_m, pixel_n;
- 	u32 mvid, nvid, pixel_div = 0, dispcc_input_rate;
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-index 75ec290127c7..b85ad6bdb2e7 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-@@ -99,7 +99,7 @@ void dp_catalog_ctrl_psr_mainlink_enable(struct dp_catalog *dp_catalog, bool ena
- void dp_catalog_setup_peripheral_flush(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_config_misc(struct dp_catalog *dp_catalog, u32 cc, u32 tb);
- void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog, u32 rate,
--				u32 stream_rate_khz, bool fixed_nvid, bool is_ycbcr_420);
-+				u32 stream_rate_khz, bool is_ycbcr_420);
- int dp_catalog_ctrl_set_pattern_state_bit(struct dp_catalog *dp_catalog, u32 pattern);
- u32 dp_catalog_hw_revision(const struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_reset(struct dp_catalog *dp_catalog);
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index c4dda1faef67..e65a460fb52d 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -1566,21 +1566,6 @@ void dp_ctrl_phy_exit(struct dp_ctrl *dp_ctrl)
- 			phy, phy->init_count, phy->power_count);
+-	bool engine_on;
+ 	u32 channels;
+ 
+ 	struct dp_audio dp_audio;
+@@ -356,8 +354,6 @@ static void dp_audio_enable(struct dp_audio_private *audio, bool enable)
+ 
+ 	catalog->audio_data = enable;
+ 	dp_catalog_audio_enable(catalog);
+-
+-	audio->engine_on = enable;
  }
  
--static bool dp_ctrl_use_fixed_nvid(struct dp_ctrl_private *ctrl)
--{
--	const u8 *dpcd = ctrl->panel->dpcd;
--
--	/*
--	 * For better interop experience, used a fixed NVID=0x8000
--	 * whenever connected to a VGA dongle downstream.
--	 */
--	if (drm_dp_is_branch(dpcd))
--		return (drm_dp_has_quirk(&ctrl->panel->desc,
--					 DP_DPCD_QUIRK_CONSTANT_N));
--
--	return false;
--}
--
- static int dp_ctrl_reinitialize_mainlink(struct dp_ctrl_private *ctrl)
- {
- 	struct phy *phy = ctrl->phy;
-@@ -2022,7 +2007,7 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl, bool force_link_train)
+ static struct dp_audio_private *dp_audio_get_data(struct platform_device *pdev)
+@@ -571,7 +567,6 @@ struct dp_audio *dp_audio_get(struct platform_device *pdev,
+ 	}
  
- 	dp_catalog_ctrl_config_msa(ctrl->catalog,
- 		ctrl->link->link_params.rate,
--		pixel_rate_orig, dp_ctrl_use_fixed_nvid(ctrl),
-+		pixel_rate_orig,
- 		ctrl->panel->dp_mode.out_fmt_is_yuv_420);
+ 	audio->pdev = pdev;
+-	audio->panel = panel;
+ 	audio->catalog = catalog;
  
- 	dp_ctrl_setup_tr_unit(ctrl);
+ 	dp_audio = &audio->dp_audio;
+diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
+index 8c72d532d96b..55114a6aba7e 100644
+--- a/drivers/gpu/drm/msm/dp/dp_catalog.c
++++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+@@ -81,7 +81,6 @@ struct dp_catalog_private {
+ 	struct dss_io_data io;
+ 	u32 (*audio_map)[DP_AUDIO_SDP_HEADER_MAX];
+ 	struct dp_catalog dp_catalog;
+-	u8 aux_lut_cfg_index[PHY_AUX_CFG_MAX];
+ };
+ 
+ void dp_catalog_snapshot(struct dp_catalog *dp_catalog, struct msm_disp_state *disp_state)
+diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
+index b85ad6bdb2e7..2c2dbeee7634 100644
+--- a/drivers/gpu/drm/msm/dp/dp_catalog.h
++++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
+@@ -28,26 +28,9 @@
+ #define DP_INTR_FRAME_END		BIT(6)
+ #define DP_INTR_CRC_UPDATED		BIT(9)
+ 
+-#define DP_AUX_CFG_MAX_VALUE_CNT 3
+-
+ #define DP_HW_VERSION_1_0	0x10000000
+ #define DP_HW_VERSION_1_2	0x10020000
+ 
+-/* PHY AUX config registers */
+-enum dp_phy_aux_config_type {
+-	PHY_AUX_CFG0,
+-	PHY_AUX_CFG1,
+-	PHY_AUX_CFG2,
+-	PHY_AUX_CFG3,
+-	PHY_AUX_CFG4,
+-	PHY_AUX_CFG5,
+-	PHY_AUX_CFG6,
+-	PHY_AUX_CFG7,
+-	PHY_AUX_CFG8,
+-	PHY_AUX_CFG9,
+-	PHY_AUX_CFG_MAX,
+-};
+-
+ enum dp_catalog_audio_sdp_type {
+ 	DP_AUDIO_SDP_STREAM,
+ 	DP_AUDIO_SDP_TIMESTAMP,
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+index fa014cee7e21..ffcbd9a25748 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+@@ -12,7 +12,6 @@
+ #include "dp_catalog.h"
+ 
+ struct dp_ctrl {
+-	atomic_t aborted;
+ 	bool wide_bus_en;
+ };
+ 
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index a9187be95166..f7692c20bb04 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -74,7 +74,6 @@ struct dp_event {
+ };
+ 
+ struct dp_display_private {
+-	char *name;
+ 	int irq;
+ 
+ 	unsigned int id;
+@@ -82,11 +81,9 @@ struct dp_display_private {
+ 	/* state variables */
+ 	bool core_initialized;
+ 	bool phy_initialized;
+-	bool hpd_irq_on;
+ 	bool audio_supported;
+ 
+ 	struct drm_device *drm_dev;
+-	struct dentry *root;
+ 
+ 	struct dp_catalog *catalog;
+ 	struct drm_dp_aux *aux;
+@@ -800,7 +797,6 @@ static int dp_display_set_mode(struct msm_dp *dp_display,
+ 
+ 	drm_mode_copy(&dp->panel->dp_mode.drm_mode, &mode->drm_mode);
+ 	dp->panel->dp_mode.bpp = mode->bpp;
+-	dp->panel->dp_mode.capabilities = mode->capabilities;
+ 	dp->panel->dp_mode.out_fmt_is_yuv_420 = mode->out_fmt_is_yuv_420;
+ 	dp_panel_init_panel_info(dp->panel);
+ 	return 0;
+@@ -1260,7 +1256,6 @@ static int dp_display_probe(struct platform_device *pdev)
+ 		return -EINVAL;
+ 
+ 	dp->dp_display.pdev = pdev;
+-	dp->name = "drm_dp";
+ 	dp->id = desc->id;
+ 	dp->dp_display.connector_type = desc->connector_type;
+ 	dp->wide_bus_supported = desc->wide_bus_supported;
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
+index 234dada88687..ec7fa67e0569 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.h
++++ b/drivers/gpu/drm/msm/dp/dp_display.h
+@@ -16,7 +16,6 @@ struct msm_dp {
+ 	struct drm_device *drm_dev;
+ 	struct platform_device *pdev;
+ 	struct device *codec_dev;
+-	struct drm_bridge *bridge;
+ 	struct drm_connector *connector;
+ 	struct drm_bridge *next_bridge;
+ 	bool link_ready;
+@@ -28,8 +27,6 @@ struct msm_dp {
+ 
+ 	hdmi_codec_plugged_cb plugged_cb;
+ 
+-	bool wide_bus_en;
+-
+ 	struct dp_audio *dp_audio;
+ 	bool psr_supported;
+ };
+diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
+index a819a4ff76a9..1b9be5bd97f1 100644
+--- a/drivers/gpu/drm/msm/dp/dp_drm.c
++++ b/drivers/gpu/drm/msm/dp/dp_drm.c
+@@ -347,8 +347,6 @@ int dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
+ 		}
+ 	}
+ 
+-	dp_display->bridge = bridge;
+-
+ 	return 0;
+ }
+ 
+diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
+index 49dfac1fd1ef..b94da000014a 100644
+--- a/drivers/gpu/drm/msm/dp/dp_link.c
++++ b/drivers/gpu/drm/msm/dp/dp_link.c
+@@ -36,7 +36,6 @@ struct dp_link_request {
+ 
+ struct dp_link_private {
+ 	u32 prev_sink_count;
+-	struct device *dev;
+ 	struct drm_device *drm_dev;
+ 	struct drm_dp_aux *aux;
+ 	struct dp_link dp_link;
+@@ -804,8 +803,6 @@ int dp_link_psm_config(struct dp_link *dp_link,
+ 	if (ret)
+ 		DRM_ERROR("Failed to %s low power mode\n", enable ?
+ 							"enter" : "exit");
+-	else
+-		dp_link->psm_enabled = enable;
+ 
+ 	mutex_unlock(&link->psm_mutex);
+ 	return ret;
+@@ -1226,7 +1223,6 @@ struct dp_link *dp_link_get(struct device *dev, struct drm_dp_aux *aux)
+ 	if (!link)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	link->dev   = dev;
+ 	link->aux   = aux;
+ 
+ 	mutex_init(&link->psm_mutex);
+diff --git a/drivers/gpu/drm/msm/dp/dp_link.h b/drivers/gpu/drm/msm/dp/dp_link.h
+index 83da170bc56b..f04407fe7375 100644
+--- a/drivers/gpu/drm/msm/dp/dp_link.h
++++ b/drivers/gpu/drm/msm/dp/dp_link.h
+@@ -74,7 +74,6 @@ struct dp_link_phy_params {
+ struct dp_link {
+ 	u32 sink_request;
+ 	u32 test_response;
+-	bool psm_enabled;
+ 
+ 	u8 sink_count;
+ 	struct dp_link_test_video test_video;
 diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
-index e843f5062d1f..9afd99e00b0c 100644
+index 9afd99e00b0c..4ea42fa936ae 100644
 --- a/drivers/gpu/drm/msm/dp/dp_panel.h
 +++ b/drivers/gpu/drm/msm/dp/dp_panel.h
-@@ -40,7 +40,6 @@ struct dp_panel {
- 	u8 downstream_ports[DP_MAX_DOWNSTREAM_PORTS];
+@@ -15,7 +15,6 @@ struct edid;
  
- 	struct dp_link_info link_info;
--	struct drm_dp_desc desc;
- 	struct edid *edid;
- 	struct drm_connector *connector;
- 	struct dp_display_mode dp_mode;
+ struct dp_display_mode {
+ 	struct drm_display_mode drm_mode;
+-	u32 capabilities;
+ 	u32 bpp;
+ 	u32 h_active_low;
+ 	u32 v_active_low;
+@@ -47,7 +46,6 @@ struct dp_panel {
+ 	bool video_test;
+ 	bool vsc_sdp_supported;
+ 
+-	u32 vic;
+ 	u32 max_dp_lanes;
+ 	u32 max_dp_link_rate;
+ 
 
 -- 
 2.43.0
