@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F6488CDC1
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 21:03:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CED388CDCB
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 21:03:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C66E10F25E;
-	Tue, 26 Mar 2024 20:03:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C6F210F260;
+	Tue, 26 Mar 2024 20:03:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BQshJDPD";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="CZd2CTZD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AD1310F25B
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 20:03:01 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-513e89d0816so7437019e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 13:03:01 -0700 (PDT)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62AD910F25D
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 20:03:02 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-51588f70d2dso7169839e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 13:03:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711483379; x=1712088179; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1711483380; x=1712088180; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=8nAoWwlePI94p1y2muaLUzxrPgMrou5m/LTN89EwtK0=;
- b=BQshJDPDrhIuXJ9BzGVrhp6aYWrZJOdxhTO6fBKxSM4toDPP0Ok0UGYTh3R5a8IzVE
- Xgjk2zVHzbdrXchGHLIo3tx3qcuyQoGxpWghK9HdKOCGYtGiQbIyz2wyZU0pmoF2DARg
- AxC54S4XZMiRQEsyMfwxZirf3q9Ia+oFYcVJlzBwZGZZ6sVfJhQKiMEj3WwmuPdue19S
- +YfGv637wc9Emvojkt73b8hgmJ1U+X1x9CGpVuiV3ZBRGwoQRM8wa8aLM/LYCFuI1WO3
- aK7Q9r7EnUBKHmF9h0xHFPfuOK9LZVSwAl/oaPlEmNIozcalNun9IpsvrT7ahZsbL5ff
- 0/vA==
+ :reply-to; bh=bQopQsz++KyAxMIyytKdPL33zkWupusjZ2yKHzV+hFA=;
+ b=CZd2CTZDo9L23uj9IrdGnOOpu8X4TriOBMl1+hbnBTv+lrEENWR9b9F7+/VLnDHRN+
+ fbb6SfuC4Y3d/KAsCYV7/lWpC8Pjcx1w+583Js+w4laWl44xErLnTYqZrtfWW1N0WaUt
+ cMNe/ImjvVtAAj2yPWIsotBPCZKH4Rap1rVc0Fs8UUlzf88eTJdGsypFHSmWkT6VeNkm
+ IBn+0i+daoVPHGO0/UgOfYy1ztqMDgGYvKGt05f706WqE8/XO424Q+wcnPReq/z/GL9Z
+ FdDiQE2t+5m9HvDO4xmXE0Kt8DHN+qDdNlsPO0eD0QS2GkZMNOjoCf7NzPKKSsvb2iBt
+ cKXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711483379; x=1712088179;
+ d=1e100.net; s=20230601; t=1711483380; x=1712088180;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8nAoWwlePI94p1y2muaLUzxrPgMrou5m/LTN89EwtK0=;
- b=GE37zP+GlkJ3J/GmEdmgr1dJCvbT523dKV8z+1JXmuLZPTANqnSlHHDFS1XHlcCwVW
- hwu4BP6Cyitn/35lIG1K3/1sIiHOurvUmJK060FmtlS6fDNVmxSjmdcYVspYDpBUBAH2
- eqhwrr8/daYqRXQ48+8r/XkIpsyf5PU/dOeNMRW889pPJYi9AIVWnQa7LacJrmGlFQFC
- qbwtUFxBVUtLwezwTI+2bMY1/kpMrD9UYnjYNIAPOhVfjeTTerLRm3oJ19ZooPOk+/WS
- PZtQGhpjoIss6CLqEODAtPo+V+pjnj3qfQQ94In2K7pIxsHPtT5PoBXoNeSyB14cYEfV
- CPzQ==
+ bh=bQopQsz++KyAxMIyytKdPL33zkWupusjZ2yKHzV+hFA=;
+ b=wDZL9rZYep+cH2AjIDUs6YQ1CcuE84eMacaXpg+xud1c3Xr248j+M2bCbxIY9VY6lh
+ Ppe0aVsb9nuorP00OxF9ws0230hved4W3tmIDdDpElQeSSKblZkg/MjOu1tqb+SK8WBC
+ OftQMD/YA3pjQuMT/3LP8h75sTW9lfDWum2vzqUznqubn/dy7D0vNIpQVHbkwBjbk87C
+ Q2pwBdN1o+Td8bhk21Fg6+NxVLUTvYgB3GXxNxxTDuYqdLpZXPIf3K6Q4znFYpoHmqMk
+ M0gPa8UYma1jHAcCeyF7hlJhDGJZerIWkJadP2LmWiDfDYDgytDLDbp9td6HJgHgibm9
+ /SLg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUZ35X71qS+s2g5L+svlQRI2X5yqU+Kbd0HSNlu/vMe/oAYzt95YYzR5dEIcntdUKCwv8UW2TGXggjUBRUE8DmYy4jpBMHPetM3Ka4JWqBT
-X-Gm-Message-State: AOJu0Yy3naBHee+qJ92cIxH9kWsceqbZIUvSK060fEsLrrVloq1BnMUM
- F/YpxwOO2xQhOkO5Ga0Sc7EwY9jw53rj5ngWog+FpJyk29MUs1aUuq+2nQj6AecEybJbsDPG4mv
- N
-X-Google-Smtp-Source: AGHT+IE1d1nbIGU7ZLdfB3h02LNS/0lJ8+D665YXYeLAwS3bEUcJFQ6R+3LsKDYRQN6L+DwIPZjgUw==
-X-Received: by 2002:a05:6512:e93:b0:515:a257:cbd with SMTP id
- bi19-20020a0565120e9300b00515a2570cbdmr9048758lfb.24.1711483379537; 
- Tue, 26 Mar 2024 13:02:59 -0700 (PDT)
+ AJvYcCWQQmDTMOG2qs2Opp/23zxl/qmxBx3ZkVpBwGaxQc3uI5trvfXQhch1Yd9eXOjkou1aUOhIyj7z0Fs9CRL8RjtSjZvU1BoDaNf/Z19R1lHq
+X-Gm-Message-State: AOJu0YyX6la9eavmszmUzP9010TTkvOzENKvIeZYtjvkF/YgRsgoRXkU
+ NqrVP4keRNNJ1X+/pEA2DPab5xZMjdhIdlTcQg6qYjr6pO/hNUqI1i192qU8PZUTwuqygXF7opw
+ Z
+X-Google-Smtp-Source: AGHT+IFnIUQKR1NUHfXxdzxBsBRq+4L8hLoiAjx1D64J0vm1IDre8tnXPZKedRXEjfkM/rwyZQDgeQ==
+X-Received: by 2002:ac2:5bcc:0:b0:515:bad2:825c with SMTP id
+ u12-20020ac25bcc000000b00515bad2825cmr1375441lfn.30.1711483380262; 
+ Tue, 26 Mar 2024 13:03:00 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- a21-20020ac25e75000000b00515a7984acbsm1279408lfr.94.2024.03.26.13.02.58
+ a21-20020ac25e75000000b00515a7984acbsm1279408lfr.94.2024.03.26.13.02.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 26 Mar 2024 13:02:59 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 26 Mar 2024 22:02:56 +0200
-Subject: [PATCH 3/4] arm64: dts: qcom: sc8180x: Drop flags for mdss irqs
+Date: Tue, 26 Mar 2024 22:02:57 +0200
+Subject: [PATCH 4/4] arm64: dts: qcom: sc8180x: add dp_p1 register blocks
+ to DP nodes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240326-fd-fix-schema-v1-3-4475d6d6d633@linaro.org>
+Message-Id: <20240326-fd-fix-schema-v1-4-4475d6d6d633@linaro.org>
 References: <20240326-fd-fix-schema-v1-0-4475d6d6d633@linaro.org>
 In-Reply-To: <20240326-fd-fix-schema-v1-0-4475d6d6d633@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -78,16 +79,16 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1495;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1307;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=yPu9lShLWjrX8FbgY01q1INaNP1kyI/7w03v1seDbHM=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmAynwe9CmGRZkwUdeLtPrCLeXExmbk+bZLq4La
- z66Qg/tqIuJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZgMp8AAKCRCLPIo+Aiko
- 1XrkB/sH0dT8EtUmpApTgR+HX6qHLfd7G0JD71J2R4pl7Kpsg0b4hOMmi/48dmN7ygHKFmDKh5e
- GHIDSrgYnIobPMo6TD0HKqWGlENnS9o1ThGurh7exjswsOQhPXhIlHZ9D8sZ+VeYCCz/jdTfvOk
- 4nN3Ds9/Tyn+gj7NBv0P70wF2rAhwaPr5oIgTYTwMx0j4ABB+4p9NbgSnPibOP+ZKonNn1GJBWN
- SDpfF+cr0UAamSQo+YUAA1i2G6FFDCpOZt9VQ9d0FREfLrlOF6CdiKFCD4PHbgHZHzNdRGrRsDn
- jfOm779ppXBzdGhViV22N5jdjrfF9LzSVmyYlgHPd92Zc2wZ
+ bh=M5PDgsfLVIKABExlt6TlS2fGlnl3XAgxVoXclxwHIH8=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmAynwQqmWzf2igSonGtm/LlpImWQsxvrhjNxo5
+ oGaj+uthFeJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZgMp8AAKCRCLPIo+Aiko
+ 1Vk1CACOjyNVYW+tkP4qhqZ5fM6vXzj0fu29rVIteeUM6ExFg05XKzDZeZiVsZtlxlkAYZkbSe6
+ UGxOEw4joPudBSyWwxGQ/21v9JVEg9SbarVapzr3Hvb4HOzJhxpZgtLXGkN5FyQA71kwIJHygUC
+ zUIOa2G5/f/AIv8Opw2vopG+QTcOif9NLN+ox3ylKEoW5jMYSSgH9hTMxQlGLR7gXIi27yAcfvJ
+ EfqMOHiQt6eyh+tRYEMBUFT19EZujmFrXEmBvzLuSgbKa1XS+4VwFVdo21uGibXTtf3UBXTiTbd
+ PL/HJj6VAkggCbKRmrLAR4DbHt0Fo3lHUn2lX28rPZjYM/8x
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,47 +106,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The number of interrupt cells for the mdss interrupt controller is 1,
-meaning there should only be one cell for the interrupt number, not two.
-Drop the second cell containing (unused) irq flags.
+DisplayPort nodes must declare the dp_p1 register space in addition to
+dp_p0. Add corresponding resource to DisplayPort DT nodes.
 
-Fixes: 494dec9b6f54 ("arm64: dts: qcom: sc8180x: Add display and gpu nodes")
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/sc8180x.dtsi | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ arch/arm64/boot/dts/qcom/sc8180x.dtsi | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/sc8180x.dtsi b/arch/arm64/boot/dts/qcom/sc8180x.dtsi
-index 99462b42cfc5..6d74867d3b61 100644
+index 6d74867d3b61..019104bd70fb 100644
 --- a/arch/arm64/boot/dts/qcom/sc8180x.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sc8180x.dtsi
-@@ -2804,7 +2804,7 @@ mdss_mdp: mdp@ae01000 {
- 				power-domains = <&rpmhpd SC8180X_MMCX>;
- 
+@@ -3029,7 +3029,8 @@ mdss_dp0: displayport-controller@ae90000 {
+ 				reg = <0 0xae90000 0 0x200>,
+ 				      <0 0xae90200 0 0x200>,
+ 				      <0 0xae90400 0 0x600>,
+-				      <0 0xae90a00 0 0x400>;
++				      <0 0xae90a00 0 0x400>,
++				      <0 0xae91000 0 0x400>;
  				interrupt-parent = <&mdss>;
--				interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
-+				interrupts = <0>;
- 
- 				ports {
- 					#address-cells = <1>;
-@@ -2877,7 +2877,7 @@ mdss_dsi0: dsi@ae94000 {
- 				reg-names = "dsi_ctrl";
- 
+ 				interrupts = <12>;
+ 				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
+@@ -3105,7 +3106,8 @@ mdss_dp1: displayport-controller@ae98000 {
+ 				reg = <0 0xae98000 0 0x200>,
+ 				      <0 0xae98200 0 0x200>,
+ 				      <0 0xae98400 0 0x600>,
+-				      <0 0xae98a00 0 0x400>;
++				      <0 0xae98a00 0 0x400>,
++				      <0 0xae99000 0 0x400>;
  				interrupt-parent = <&mdss>;
--				interrupts = <4 IRQ_TYPE_LEVEL_HIGH>;
-+				interrupts = <4>;
- 
- 				clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK>,
- 					 <&dispcc DISP_CC_MDSS_BYTE0_INTF_CLK>,
-@@ -2963,7 +2963,7 @@ mdss_dsi1: dsi@ae96000 {
- 				reg-names = "dsi_ctrl";
- 
- 				interrupt-parent = <&mdss>;
--				interrupts = <5 IRQ_TYPE_LEVEL_HIGH>;
-+				interrupts = <5>;
- 
- 				clocks = <&dispcc DISP_CC_MDSS_BYTE1_CLK>,
- 					 <&dispcc DISP_CC_MDSS_BYTE1_INTF_CLK>,
+ 				interrupts = <13>;
+ 				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
 
 -- 
 2.39.2
