@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E87BB88C005
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 11:57:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6AB88C006
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 11:57:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 824AD10EE6B;
-	Tue, 26 Mar 2024 10:57:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA41C10EE6C;
+	Tue, 26 Mar 2024 10:57:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="A7LENwkC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VUOJtVuX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69A1810EE69
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 10:57:26 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A32510EE6C
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 10:57:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E128660C2E;
- Tue, 26 Mar 2024 10:57:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41E3DC433C7;
- Tue, 26 Mar 2024 10:57:25 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 21203CE203C;
+ Tue, 26 Mar 2024 10:57:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0967DC433F1;
+ Tue, 26 Mar 2024 10:57:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711450645;
- bh=2kt1kehu3JZoboV5MHS0JZcHKjYjo4qrDvg78NpfccI=;
+ s=k20201202; t=1711450650;
+ bh=C4YtCTVCsU9txDUfamcihT62gS2Br/RMet6p7Czen/A=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=A7LENwkCVanvZho1B8DD05G/saYIWPJaEJ1f0XgQ8pa8Mu2MPKdK+msDu7I34wm+f
- e+AHZg7MUSPY9wkLrCbMq6U08a5gHs9CurIV9IToxZgXV/Vxee67eo24z7uYetHB+z
- K1VvzDEL10Hun8j6CTE2f/3ZsuzhLP/ELJ6ED2ZnnEpsJglQtMlg7blNG1afxvJUU9
- KfSYEELm3Ox9JD09EpHO80g3OL7SOOUFop4xUzuNAFa0GsisRlP318gkff5YteIckg
- G4b21DXjT1hrNyvIWv8OamfwtelvMGBfPVzGlG0JUXhoivEKu33bPhsU1FAOssHEmy
- dgLnyF/1TVl/w==
+ b=VUOJtVuXjf01VgeNeRI2kNPpbqxpBFz0eeEGyNWmMpquO6mJ3oiOHPcKGDCuOk8Rz
+ CpEnfcyCNhfyBAK9ofpj+Vuaui6F7388A5/eHjoUy6rcPcaKp4Nl9CAx0clQNyU8b1
+ KBWfO1Z/WKpPmUzD4zi0Yszq6UJ9qIeiMUIcBa+xS3tVHIRHwufreoEPln20UeOkf4
+ 8/Pz6I2P9eHNolkgiHPe5NMzvHrcczUUTi3D87iEDfSe/yXPOs06GvxQ0RF3WCZGfK
+ KS1/YkDE3eEHCoAaiRmbgVOzf+V9rSEs2Lfdr/NOAk0TsUwS6OcYJOFQTRrNFYaofw
+ Twp83UEjDB9Sw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 26 Mar 2024 11:56:24 +0100
-Subject: [PATCH v2 11/12] drm: Switch DRM_DISPLAY_HDMI_HELPER to depends on
+Date: Tue, 26 Mar 2024 11:56:25 +0100
+Subject: [PATCH v2 12/12] drm/bridge: it6505: Remove useless select
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240326-kms-kconfig-helpers-v2-11-3b0aeee32217@kernel.org>
+Message-Id: <20240326-kms-kconfig-helpers-v2-12-3b0aeee32217@kernel.org>
 References: <20240326-kms-kconfig-helpers-v2-0-3b0aeee32217@kernel.org>
 In-Reply-To: <20240326-kms-kconfig-helpers-v2-0-3b0aeee32217@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -46,12 +46,12 @@ Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
  Jani Nikula <jani.nikula@intel.com>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6612; i=mripard@kernel.org;
- h=from:subject:message-id; bh=2kt1kehu3JZoboV5MHS0JZcHKjYjo4qrDvg78NpfccI=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGlMK2/tvJh1WVhindFttQfXOLSC8/SWNk98y116mPliy
- IJZuizPO6ayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBE9CQZG74kzq90SVNn3Cvw
- OvKqOF+ExYtvp157zq5qPs++NUs+2+qI/eG6bSk/oq0afxpOuiDdzNjwmKvyt1jHc4nS3BWTmz6
- 3dubGqmjINNRzNNq/z5B7disnUXgtb73bzynm9h4Rge6L/wMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=810; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=C4YtCTVCsU9txDUfamcihT62gS2Br/RMet6p7Czen/A=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGlMK2/dObYoIUW35srNiWu2ZTwXVznSs/WXvtineO836
+ y0nKW580DGVhUGYk0FWTJHliUzY6eXti6sc7Ff+gJnDygQyhIGLUwAmIt/HWKe79+HB6m/R++9v
+ De8WqX5WEi3MfnnV6aq19h3PFUq3b+tvDPwgG6HkYHO07dvLBA8WScb6sEy3WfOfTXkRrf9wyrd
+ 9UutePlmyZMvtr7119usX//fQkrrDvj57RznbZIa173bXlay5BQA=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,197 +69,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Most of our helpers have relied on being selected so far through
-Kconfig, but that creates issues when we have multiple layers of helpers
-with some depending on others.
-
-Indeed, select doesn't select a dependency's dependencies, and thus
-isn't super intuitive. Depends on however doesn't have that limitation,
-so we can just switch all the drivers that were selecting
-DRM_DISPLAY_HDMI_HELPER to depend on it.
+The IT6505 bridge Kconfig symbol selects a Kconfig symbol that doesn't
+exist. Remove it.
 
 Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/Kconfig      | 2 +-
- drivers/gpu/drm/bridge/synopsys/Kconfig | 2 +-
- drivers/gpu/drm/display/Kconfig         | 1 +
- drivers/gpu/drm/i915/Kconfig            | 2 +-
- drivers/gpu/drm/nouveau/Kconfig         | 2 +-
- drivers/gpu/drm/tegra/Kconfig           | 2 +-
- drivers/gpu/drm/vc4/Kconfig             | 2 +-
- drivers/gpu/drm/xe/Kconfig              | 2 +-
- 8 files changed, 8 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/bridge/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/Kconfig b/drivers/gpu/drm/amd/amdgpu/Kconfig
-index 1662dc49f18e..b0365cc1374e 100644
---- a/drivers/gpu/drm/amd/amdgpu/Kconfig
-+++ b/drivers/gpu/drm/amd/amdgpu/Kconfig
-@@ -3,16 +3,16 @@
- config DRM_AMDGPU
- 	tristate "AMD GPU"
- 	depends on DRM
+diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+index 6e6ec300ab16..d1fbf8796fea 100644
+--- a/drivers/gpu/drm/bridge/Kconfig
++++ b/drivers/gpu/drm/bridge/Kconfig
+@@ -96,11 +96,10 @@ config DRM_ITE_IT6505
  	depends on DRM_DISPLAY_DP_HELPER
  	depends on DRM_DISPLAY_HDCP_HELPER
-+	depends on DRM_DISPLAY_HDMI_HELPER
- 	depends on DRM_DISPLAY_HELPER
- 	depends on MMU
- 	depends on PCI
- 	depends on !UML
- 	select FW_LOADER
--	select DRM_DISPLAY_HDMI_HELPER
- 	select DRM_KMS_HELPER
- 	select DRM_SCHED
- 	select DRM_TTM
- 	select DRM_TTM_HELPER
- 	select POWER_SUPPLY
-diff --git a/drivers/gpu/drm/bridge/synopsys/Kconfig b/drivers/gpu/drm/bridge/synopsys/Kconfig
-index f366ece47146..387f5bd86089 100644
---- a/drivers/gpu/drm/bridge/synopsys/Kconfig
-+++ b/drivers/gpu/drm/bridge/synopsys/Kconfig
-@@ -1,10 +1,10 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config DRM_DW_HDMI
- 	tristate
-+	depends on DRM_DISPLAY_HDMI_HELPER
- 	depends on DRM_DISPLAY_HELPER
--	select DRM_DISPLAY_HDMI_HELPER
- 	select DRM_KMS_HELPER
- 	select REGMAP_MMIO
- 	select CEC_CORE if CEC_NOTIFIER
- 
- config DRM_DW_HDMI_AHB_AUDIO
-diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kconfig
-index d65f1a37c08c..01f2a231aa5f 100644
---- a/drivers/gpu/drm/display/Kconfig
-+++ b/drivers/gpu/drm/display/Kconfig
-@@ -72,7 +72,8 @@ config DRM_DISPLAY_HDCP_HELPER
- 	  DRM display helpers for HDCP.
- 
- config DRM_DISPLAY_HDMI_HELPER
- 	bool "DRM HDMI Helpers"
- 	depends on DRM_DISPLAY_HELPER
-+	default y
- 	help
- 	  DRM display helpers for HDMI.
-diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
-index 87ef8c4d72a5..4f0d18a16b0f 100644
---- a/drivers/gpu/drm/i915/Kconfig
-+++ b/drivers/gpu/drm/i915/Kconfig
-@@ -2,20 +2,20 @@
- config DRM_I915
- 	tristate "Intel 8xx/9xx/G3x/G4x/HD Graphics"
- 	depends on DRM
- 	depends on DRM_DISPLAY_DP_HELPER
- 	depends on DRM_DISPLAY_HDCP_HELPER
-+	depends on DRM_DISPLAY_HDMI_HELPER
- 	depends on DRM_DISPLAY_HELPER
- 	depends on X86 && PCI
- 	depends on !PREEMPT_RT
- 	select INTEL_GTT if X86
- 	select INTERVAL_TREE
- 	# we need shmfs for the swappable backing store, and in particular
- 	# the shmem_readpage() which depends upon tmpfs
- 	select SHMEM
- 	select TMPFS
--	select DRM_DISPLAY_HDMI_HELPER
- 	select DRM_KMS_HELPER
- 	select DRM_PANEL
- 	select DRM_MIPI_DSI
- 	select FB_IOMEM_HELPERS if DRM_FBDEV_EMULATION
- 	select RELAY
-diff --git a/drivers/gpu/drm/nouveau/Kconfig b/drivers/gpu/drm/nouveau/Kconfig
-index 7cc305b2826d..4c10b400658c 100644
---- a/drivers/gpu/drm/nouveau/Kconfig
-+++ b/drivers/gpu/drm/nouveau/Kconfig
-@@ -1,16 +1,16 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config DRM_NOUVEAU
- 	tristate "Nouveau (NVIDIA) cards"
- 	depends on DRM
- 	depends on DRM_DISPLAY_DP_HELPER
-+	depends on DRM_DISPLAY_HDMI_HELPER
- 	depends on DRM_DISPLAY_HELPER
- 	depends on PCI
- 	depends on MMU
- 	select IOMMU_API
- 	select FW_LOADER
--	select DRM_DISPLAY_HDMI_HELPER
- 	select DRM_KMS_HELPER
- 	select DRM_TTM
- 	select DRM_TTM_HELPER
- 	select DRM_EXEC
- 	select DRM_GPUVM
-diff --git a/drivers/gpu/drm/tegra/Kconfig b/drivers/gpu/drm/tegra/Kconfig
-index bb6e35261f11..6974caa99ece 100644
---- a/drivers/gpu/drm/tegra/Kconfig
-+++ b/drivers/gpu/drm/tegra/Kconfig
-@@ -4,13 +4,13 @@ config DRM_TEGRA
- 	depends on ARCH_TEGRA || COMPILE_TEST
- 	depends on COMMON_CLK
- 	depends on DRM
- 	depends on DRM_DISPLAY_DP_AUX_BUS
- 	depends on DRM_DISPLAY_DP_HELPER
-+	depends on DRM_DISPLAY_HDMI_HELPER
  	depends on DRM_DISPLAY_HELPER
  	depends on OF
--	select DRM_DISPLAY_HDMI_HELPER
  	select DRM_KMS_HELPER
- 	select DRM_MIPI_DSI
- 	select DRM_PANEL
- 	select FB_DMAMEM_HELPERS if DRM_FBDEV_EMULATION
- 	select TEGRA_HOST1X
-diff --git a/drivers/gpu/drm/vc4/Kconfig b/drivers/gpu/drm/vc4/Kconfig
-index 98772a6b5bf0..4801f8b64d3d 100644
---- a/drivers/gpu/drm/vc4/Kconfig
-+++ b/drivers/gpu/drm/vc4/Kconfig
-@@ -2,17 +2,17 @@
- config DRM_VC4
- 	tristate "Broadcom VC4 Graphics"
- 	depends on ARCH_BCM || ARCH_BCM2835 || COMPILE_TEST
- 	depends on COMMON_CLK
- 	depends on DRM
-+	depends on DRM_DISPLAY_HDMI_HELPER
- 	depends on DRM_DISPLAY_HELPER
- 	depends on PM
- 	# Make sure not 'y' when RASPBERRYPI_FIRMWARE is 'm'. This can only
- 	# happen when COMPILE_TEST=y, hence the added !RASPBERRYPI_FIRMWARE.
- 	depends on RASPBERRYPI_FIRMWARE || (COMPILE_TEST && !RASPBERRYPI_FIRMWARE)
- 	depends on SND && SND_SOC
--	select DRM_DISPLAY_HDMI_HELPER
- 	select DRM_KMS_HELPER
- 	select DRM_GEM_DMA_HELPER
- 	select DRM_PANEL_BRIDGE
- 	select SND_PCM
- 	select SND_PCM_ELD
-diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig
-index 1fa8ef75823c..bfa0e9d4bd64 100644
---- a/drivers/gpu/drm/xe/Kconfig
-+++ b/drivers/gpu/drm/xe/Kconfig
-@@ -3,10 +3,11 @@ config DRM_XE
- 	tristate "Intel Xe Graphics"
- 	depends on (m || (y && KUNIT=y))
- 	depends on DRM
- 	depends on DRM_DISPLAY_DP_HELPER
- 	depends on DRM_DISPLAY_HDCP_HELPER
-+	depends on DRM_DISPLAY_HDMI_HELPER
- 	depends on DRM_DISPLAY_HELPER
- 	depends on MMU
- 	depends on PCI
- 	select INTERVAL_TREE
- 	# we need shmfs for the swappable backing store, and in particular
-@@ -17,11 +18,10 @@ config DRM_XE
- 	select DRM_EXEC
- 	select DRM_KMS_HELPER
- 	select DRM_KUNIT_TEST_HELPERS if DRM_XE_KUNIT_TEST != n
- 	select DRM_PANEL
- 	select DRM_SUBALLOC_HELPER
--	select DRM_DISPLAY_HDMI_HELPER
- 	select DRM_MIPI_DSI
- 	select RELAY
- 	select IRQ_WORK
- 	# xe depends on ACPI_VIDEO when ACPI is enabled
- 	# but for select to work, need to select ACPI_VIDEO's dependencies, ick
+-	select DRM_DP_HELPER
+ 	select EXTCON
+ 	select CRYPTO
+ 	select CRYPTO_HASH
+ 	help
+ 	  ITE IT6505 DisplayPort bridge chip driver.
 
 -- 
 2.44.0
