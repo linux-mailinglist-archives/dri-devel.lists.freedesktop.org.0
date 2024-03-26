@@ -2,50 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E60588C00C
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 11:59:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C9E588C011
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 12:00:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF92910EE74;
-	Tue, 26 Mar 2024 10:59:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99BA210EE7E;
+	Tue, 26 Mar 2024 11:00:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="w/mLZvXV";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="HUvEtmTq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8989810EE74
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 10:59:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C28B10EE7E
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 10:59:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1711450776;
- bh=aliybyz47uinRGXtRKuSPxDxjVQ2TQQ62bnfexZTrs0=;
+ s=mail; t=1711450797;
+ bh=WxoMsk2Z9+8SbZmfsPr1f+uE5Xo5qLGQS/KKhgb1puA=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=w/mLZvXVacsLyu1w1YPitYD7b71BVTkwHwEjVQcPrOlcSprscNQbgLFCPjs/hv7VD
- IAi2JzFPKfGSXYLyD/5JEMz1xHzAG7FnqOgmU6OXf/yCn3rWflQExN6oWNoXtygBno
- hqIcspidGTNLc3p86j0Ng5RuU+ag+toUkvuZ1XwqBcL7F+AcM9Aiw8NBvxPoZ0gzu/
- lrwGH4xuuRNaQhS2+lxjsPvUWO0Lm0jjjX0DSzDfinIlY2BPDQsnvapUW3RqFRvWAE
- lgZUdXc4RUXE3pmiWskVNBM3PDHe5qB7V8lG4FngdaxSyYKTgC+GrEO5E7eMjZDIN+
- quDDouyKuxzRg==
+ b=HUvEtmTqGml2fV8i+YzUwhPVop8J8qn3TxEagZYju+O+8rdmE0t56iZu/U0jneHvY
+ IiisESiAl2P026nRB/xOiLAf6RrCNLbNc5UCtvjt5cF+nxQn//b1MF4QiY+01y9py+
+ apkPJClni3MRoOz0EN6YwMTWZRhyNFZwqqtUeSD6S/t9YrT8cMOkGMNVSlGlXH0FWB
+ A/g9ozmve0RrZk2wuCGKzNwOkXahMkCQAOKpiH8d0YfRC6MciR3B4QD5znZpve5j+x
+ 4qXQm13hM4eipNVyYXNq0kG0f1UOQ4zu/jYe0eoH+2S4P+4xTIAf/2OfT3dfa06gR7
+ 4L1tjafpqv7KA==
 Received: from localhost (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 3E65B378110A;
- Tue, 26 Mar 2024 10:59:36 +0000 (UTC)
-Date: Tue, 26 Mar 2024 11:59:34 +0100
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 00550378110A;
+ Tue, 26 Mar 2024 10:59:56 +0000 (UTC)
+Date: Tue, 26 Mar 2024 11:59:55 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Colin Ian King <colin.i.king@gmail.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH][next] drm/panthor: Fix spelling mistake "readyness" ->
- "readiness"
-Message-ID: <20240326115934.726d3ca1@collabora.com>
-In-Reply-To: <20240326100219.43989-1-colin.i.king@gmail.com>
-References: <20240326100219.43989-1-colin.i.king@gmail.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRy?=
+ =?UTF-8?B?acOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com, Stephen Rothwell
+ <sfr@canb.auug.org.au>
+Subject: Re: [PATCH] drm/panthor: Fix wrong kernel-doc format in the uAPI
+ header
+Message-ID: <20240326115955.15ac7e83@collabora.com>
+In-Reply-To: <20240326093055.411932-1-boris.brezillon@collabora.com>
+References: <20240326093055.411932-1-boris.brezillon@collabora.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -66,30 +64,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 26 Mar 2024 10:02:19 +0000
-Colin Ian King <colin.i.king@gmail.com> wrote:
+On Tue, 26 Mar 2024 10:30:55 +0100
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-> There is a spelling mistake in a drm_err message. Fix it.
+> The kernel doc prefix is /** not /*.
 > 
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
 Queued to drm-misc-next.
 
 > ---
->  drivers/gpu/drm/panthor/panthor_gpu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  include/uapi/drm/panthor_drm.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> index 6dbbc4cfbe7e..0f7c962440d3 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> @@ -333,7 +333,7 @@ int panthor_gpu_block_power_on(struct panthor_device *ptdev,
->  						 val, (mask32 & val) == mask32,
->  						 100, timeout_us);
->  		if (ret) {
-> -			drm_err(&ptdev->base, "timeout waiting on %s:%llx readyness",
-> +			drm_err(&ptdev->base, "timeout waiting on %s:%llx readiness",
->  				blk_name, mask);
->  			return ret;
->  		}
+> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> index 373df80f41ed..dadb05ab1235 100644
+> --- a/include/uapi/drm/panthor_drm.h
+> +++ b/include/uapi/drm/panthor_drm.h
+> @@ -336,10 +336,10 @@ struct drm_panthor_gpu_info {
+>  	/** @tiler_present: Bitmask encoding the tiler units exposed by the GPU. */
+>  	__u64 tiler_present;
+>  
+> -	/* @core_features: Used to discriminate core variants when they exist. */
+> +	/** @core_features: Used to discriminate core variants when they exist. */
+>  	__u32 core_features;
+>  
+> -	/* @pad: MBZ. */
+> +	/** @pad: MBZ. */
+>  	__u32 pad;
+>  };
+>  
 
