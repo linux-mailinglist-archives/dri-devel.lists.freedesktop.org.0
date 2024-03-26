@@ -2,109 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF9E888CE21
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 21:19:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C23F088CE61
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 21:25:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 818FF10F293;
-	Tue, 26 Mar 2024 20:19:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CB5E10F2A5;
+	Tue, 26 Mar 2024 20:25:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="FDYWzNtj";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eZhv01Iv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19D4610F289
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 20:19:34 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id
- 4fb4d7f45d1cf-56be32b9775so5864447a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 13:19:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1711484373; x=1712089173;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/HolUtBGOSvO7vytyqHWVK1okzyRfH/uWmvtvWb27FA=;
- b=FDYWzNtjwuSGrA1SGtDv3JXYSrJqtZH7dJJNlD5Ugx9Rk1cEt322Fy62HANfcIPgqO
- yB+IS2Omhwp1ZhEKN90tbvqJT3Lce/i4lUyrl+iu4f+TU45ebOaeFFratKRez/GWC+ZU
- GfB5vjZC/6LWQdg5Gy+MI44/kCTamUh8eChKlCo5XyPdCMXuuphAmarU6TsiDYt9E2ar
- mPzWAJ8pq1dV0ApfVWyij6i/j70uRNCtd+RxVlcQdVNXG5ldB1+XR1p0DYkY5juAYli2
- KSjLLNwUwz/USypSUYdz+JGAlZ1KDSPcVm88Dol0MCf3XN+vE0brqwAVnvT3mjPIR6Sv
- fTwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711484373; x=1712089173;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/HolUtBGOSvO7vytyqHWVK1okzyRfH/uWmvtvWb27FA=;
- b=rDQ476N2/7E5QSl7CdroGpxOVjhhBNm9qQ5Oa+585eqWSREfJa+3FCCsDG3PZr5hS1
- nb3V6fkXyrjauQ6fxcNuNbywI/hjE4PrO7I1sKmcprthnRCEMXIYzVsbx9UyQkCPleQJ
- zoXnVj36F2VzzqdXvQYGJUnm0r1Oc9RZ5TT/0pUYhtrx8+XHuJab+yUr6Nw+jmhZRqy+
- bY/z7Brc9orK+NApDXn1U9bnm6wWjYl0f7CnJKuTtrblmbd839uP5kiM7uLugqrvOH8n
- LJu6VerZrMlTALWv/N23oaYrs0hkY2r4YgBUJosWf4cJeE03tvCnI5bCU5whCoZ/o1LV
- 5Suw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXGCvLykwCOiVDILdH389LBQVl01r1ZsSU2lMBFeHKzykdIcCy59TPt5ZpIO4KRSJNkbXATMO+p7jLjm+LYUY6JmyFz6OdtQLB1zVdblUKs
-X-Gm-Message-State: AOJu0YwCu7G4x6qKqBLUycSOwqjFZm5jQSF1gCCRUgfgvD46M9nbHZE1
- 8OHZpIQquOyMI3AaCi3w+b15dhBP3+bEsNhnb/k0XjKMVNVg0ZxnO5IQ7Ld2X/iSfuRxU42t+A9
- fudFvulZzrOnHnzsQlDW9I22oM2T/Le7avUEA
-X-Google-Smtp-Source: AGHT+IFjAY/eoFDY4BwdVzDOePbePtoPltk1wuczOVWu/9VSVvPKPc9DWk1TgGZAdfUjGFfCBB9+wtsJgpHCZYEgPKU=
-X-Received: by 2002:a17:906:2dc9:b0:a46:70d1:dda6 with SMTP id
- h9-20020a1709062dc900b00a4670d1dda6mr1426517eji.28.1711484372999; Tue, 26 Mar
- 2024 13:19:32 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F69610F2A5
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 20:25:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1711484708; x=1743020708;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=WKb/Rem+q45UacCFCZyCwdPQfAxbGriai4/va9sGbT0=;
+ b=eZhv01IvqK5o3TO6SV2inbylGEDga5EEtjioNIhJBOKo6gtWE10t9wEM
+ YCpjNrWWWrHZS6QlIHI/WH36y0U0HwI5psXCNJRddArmE3Y3Ou1jzk6uf
+ 7dJNXEcfcTtjMfNlD6S5aimJ+Ipn3bHioLefvmnUAN9b6s6QVs+LMgW/v
+ lxkdaOVb90PZ4k/N2WvHMHNN4CBJHDmfIQ6Mdk2vUumJw/3j8sK5+DJ1T
+ GihES4wQJWXQiCZF7qdJ7ytP9QENwuzS8laRio/mcQiPy/qJsH/+kt2vi
+ QhS3La70w6ow/sK9jeWwEpisEEsmBtchDrsI/OTIwSeoKIbzard8gzZ5x w==;
+X-CSE-ConnectionGUID: gdPqSa8pQLeN8K2q19WHEw==
+X-CSE-MsgGUID: qfqObZJpTX20oqzQiFbbkA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="17288139"
+X-IronPort-AV: E=Sophos;i="6.07,157,1708416000"; d="scan'208";a="17288139"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2024 13:25:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,157,1708416000"; d="scan'208";a="16509223"
+Received: from eldobson-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.55.140])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2024 13:24:58 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Arnd Bergmann <arnd@kernel.org>, linux-kbuild@vger.kernel.org, Masahiro
+ Yamada <masahiroy@kernel.org>, Harry Wentland <harry.wentland@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Andrew Jeffery
+ <andrew@codeconstruct.com.au>, Linus Walleij <linus.walleij@linaro.org>,
+ Joel Stanley <joel@jms.id.au>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, Andrew Morton
+ <akpm@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nicolas@fjasle.eu>, Arnd Bergmann <arnd@arndb.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev
+Subject: Re: [PATCH 01/12] kbuild: make -Woverride-init warnings more
+ consistent
+In-Reply-To: <20240326144741.3094687-2-arnd@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240326144741.3094687-1-arnd@kernel.org>
+ <20240326144741.3094687-2-arnd@kernel.org>
+Date: Tue, 26 Mar 2024 22:24:55 +0200
+Message-ID: <87jzlohhbc.fsf@intel.com>
 MIME-Version: 1.0
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-3-almasrymina@google.com>
- <ZfegzB341oNc_Ocz@infradead.org>
- <CAHS8izOUi6qGp=LSQb_o5oph-EnhNOuhLkPSfbQRU3eniZvbdA@mail.gmail.com>
- <ZgC5JoSiWAYf3IgX@infradead.org>
-In-Reply-To: <ZgC5JoSiWAYf3IgX@infradead.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 26 Mar 2024 13:19:20 -0700
-Message-ID: <CAHS8izO5-giYhM1bVCLLOXRXq-Xd0=pi0kPq5E1-R=3i=XihmQ@mail.gmail.com>
-Subject: Re: [RFC PATCH net-next v6 02/15] net: page_pool: create hooks for
- custom page providers
-To: Christoph Hellwig <hch@infradead.org>, shakeel.butt@linux.dev
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, 
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, 
- KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
- Hao Luo <haoluo@google.com>, 
- Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, 
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Jeroen de Borst <jeroendb@google.com>, 
- Praveen Kaligineedi <pkaligineedi@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,42 +81,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 24, 2024 at 4:37=E2=80=AFPM Christoph Hellwig <hch@infradead.or=
-g> wrote:
+On Tue, 26 Mar 2024, Arnd Bergmann <arnd@kernel.org> wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> On Fri, Mar 22, 2024 at 10:54:54AM -0700, Mina Almasry wrote:
-> > Sorry I don't mean to argue but as David mentioned, there are some
-> > plans in the works and ones not in the works to extend this to other
-> > memory types. David mentioned io_uring & Jakub's huge page use cases
-> > which may want to re-use this design. I have an additional one in
-> > mind, which is extending devmem TCP for storage devices. Currently
-> > storage devices do not support dmabuf and my understanding is that
-> > it's very hard to do so, and NVMe uses pci_p2pdma instead. I wonder if
-> > it's possible to extend devmem TCP in the future to support pci_p2pdma
-> > to support nvme devices in the future.
+> The -Woverride-init warn about code that may be intentional or not,
+> but the inintentional ones tend to be real bugs, so there is a bit of
+> disagreement on whether this warning option should be enabled by default
+> and we have multiple settings in scripts/Makefile.extrawarn as well as
+> individual subsystems.
 >
-> The block layer needs to suppotr dmabuf for this kind of I/O.
-> Any special netdev to block side channel will be NAKed before you can
-> even send it out.
+> Older versions of clang only supported -Wno-initializer-overrides with
+> the same meaning as gcc's -Woverride-init, though all supported versions
+> now work with both. Because of this difference, an earlier cleanup of
+> mine accidentally turned the clang warning off for W=1 builds and only
+> left it on for W=2, while it's still enabled for gcc with W=1.
+>
+> There is also one driver that only turns the warning off for newer
+> versions of gcc but not other compilers, and some but not all the
+> Makefiles still use a cc-disable-warning conditional that is no
+> longer needed with supported compilers here.
+>
+> Address all of the above by removing the special cases for clang
+> and always turning the warning off unconditionally where it got
+> in the way, using the syntax that is supported by both compilers.
+>
+> Fixes: 2cd3271b7a31 ("kbuild: avoid duplicate warning options")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/gpu/drm/amd/display/dc/dce110/Makefile |  2 +-
+>  drivers/gpu/drm/amd/display/dc/dce112/Makefile |  2 +-
+>  drivers/gpu/drm/amd/display/dc/dce120/Makefile |  2 +-
+>  drivers/gpu/drm/amd/display/dc/dce60/Makefile  |  2 +-
+>  drivers/gpu/drm/amd/display/dc/dce80/Makefile  |  2 +-
+>  drivers/gpu/drm/i915/Makefile                  |  6 +++---
+>  drivers/gpu/drm/xe/Makefile                    |  4 ++--
+>  drivers/net/ethernet/renesas/sh_eth.c          |  2 +-
+>  drivers/pinctrl/aspeed/Makefile                |  2 +-
+>  fs/proc/Makefile                               |  2 +-
+>  kernel/bpf/Makefile                            |  2 +-
+>  mm/Makefile                                    |  3 +--
+>  scripts/Makefile.extrawarn                     | 10 +++-------
+>  13 files changed, 18 insertions(+), 23 deletions(-)
+>
 
-Thanks, a few questions if you have time to help me understand the
-potential of extending this to storage devices.
+[snip]
 
-Are you envisioning that dmabuf support would be added to the block
-layer (which I understand is part of the VFS and not driver specific),
-or as part of the specific storage driver (like nvme for example)? If
-we can add dmabuf support to the block layer itself that sounds
-awesome. We may then be able to do devmem TCP on all/most storage
-devices without having to modify each individual driver.
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+> index 3ef6ed41e62b..4c2f85632391 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -33,9 +33,9 @@ endif
+>  subdir-ccflags-$(CONFIG_DRM_I915_WERROR) += -Werror
+>  
+>  # Fine grained warnings disable
+> -CFLAGS_i915_pci.o = $(call cc-disable-warning, override-init)
+> -CFLAGS_display/intel_display_device.o = $(call cc-disable-warning, override-init)
+> -CFLAGS_display/intel_fbdev.o = $(call cc-disable-warning, override-init)
+> +CFLAGS_i915_pci.o = -Wno-override-init
+> +CFLAGS_display/intel_display_device.o = -Wno-override-init
+> +CFLAGS_display/intel_fbdev.o = -Wno-override-init
+>  
+>  # Support compiling the display code separately for both i915 and xe
+>  # drivers. Define I915 when building i915.
+> diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
+> index 5a428ca00f10..c29a850859ad 100644
+> --- a/drivers/gpu/drm/xe/Makefile
+> +++ b/drivers/gpu/drm/xe/Makefile
+> @@ -172,8 +172,8 @@ subdir-ccflags-$(CONFIG_DRM_XE_DISPLAY) += \
+>  	-Ddrm_i915_gem_object=xe_bo \
+>  	-Ddrm_i915_private=xe_device
+>  
+> -CFLAGS_i915-display/intel_fbdev.o = $(call cc-disable-warning, override-init)
+> -CFLAGS_i915-display/intel_display_device.o = $(call cc-disable-warning, override-init)
+> +CFLAGS_i915-display/intel_fbdev.o = -Wno-override-init
+> +CFLAGS_i915-display/intel_display_device.o = -Wno-override-init
 
-In your estimation, is adding dmabuf support to the block layer
-something technically feasible & acceptable upstream? I notice you
-suggested it so I'm guessing yes to both, but I thought I'd confirm.
+For i915 and xe parts,
 
-Worthy of note this is all pertaining to potential follow up use
-cases, nothing in this particular proposal is trying to do any of this
-yet.
+Acked-by: Jani Nikula <jani.nikula@intel.com>
 
---=20
-Thanks,
-Mina
+>  # Rule to build SOC code shared with i915
+>  $(obj)/i915-soc/%.o: $(srctree)/drivers/gpu/drm/i915/soc/%.c FORCE
+> diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
+> index 475e1e8c1d35..0786eb0da391 100644
+> --- a/drivers/net/ethernet/renesas/sh_eth.c
+> +++ b/drivers/net/ethernet/renesas/sh_eth.c
+> @@ -50,7 +50,7 @@
+>   * the macros available to do this only define GCC 8.
+>   */
+>  __diag_push();
+> -__diag_ignore(GCC, 8, "-Woverride-init",
+> +__diag_ignore_all("-Woverride-init",
+>  	      "logic to initialize all and then override some is OK");
+
+This is nice because it's more localized than the per-file
+disable. However, we tried to do this in i915, but this doesn't work for
+GCC versions < 8, and some defconfigs enabling -Werror forced us to
+revert. See commit 290d16104575 ("Revert "drm/i915: use localized
+__diag_ignore_all() instead of per file"").
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel
