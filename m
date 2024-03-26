@@ -2,63 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F42688CC29
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 19:42:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A048C88CCC2
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 20:11:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5336210F1E4;
-	Tue, 26 Mar 2024 18:42:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30EC210E7A0;
+	Tue, 26 Mar 2024 19:10:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="M33zc06L";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="K8FB7W9h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 192F710E835;
- Tue, 26 Mar 2024 18:42:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1711478568; x=1743014568;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=8UClEmQS7ztOTKNag8nuBcrd41vmVhHLEKAGZGLJX3E=;
- b=M33zc06L6DKETvJBgrs7RtLdc7bKDxYRtEY6zrxhUigPpXQOPIwwTVIb
- /BoxINpn0q4+EfYsXHTjW692YcTbQwaEQW3rMPSN3pgT0lOCsU/4aj2bd
- mJexkDXIs9cTBPrvfzlaGkG44P65r1TmF740SmSKsW2Uo92SdwUpkTTpb
- uTRewk7Ht2y+pw5nw27lHaem+jxyQH0DJsG1HYYkZ664UgmCD/ckUXs2a
- zFyMXTurXtCwXpHcGmO/PqUpBnTS1VKezEQNmWPamvOce6l9y0mz80T85
- 86H7U7wcYHBBNwTyiIGfARa8rb5VdvBd8Ij9fDWVrwFzIXrMe0AGNxpS0 A==;
-X-CSE-ConnectionGUID: KsDJmXd0RxWRRoL4WwewMw==
-X-CSE-MsgGUID: CeKIsbsUQ0CoKtVwBaKfIQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="17278361"
-X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; d="scan'208";a="17278361"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2024 11:42:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; d="scan'208";a="20532894"
-Received: from unknown (HELO intel.com) ([10.247.118.210])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2024 11:42:41 -0700
-Date: Tue, 26 Mar 2024 19:42:34 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- John Harrison <John.C.Harrison@intel.com>, stable@vger.kernel.org,
- Andi Shyti <andi.shyti@kernel.org>, Tvrtko Ursulin <tursulin@ursulin.net>
-Subject: Re: [PATCH v6 2/3] drm/i915/gt: Do not generate the command streamer
- for all the CCS
-Message-ID: <ZgMXGlfsGSOhbC0b@ashyti-mobl2.lan>
-References: <20240313201955.95716-1-andi.shyti@linux.intel.com>
- <20240313201955.95716-3-andi.shyti@linux.intel.com>
- <20240326160310.GC718896@mdroper-desk1.amr.corp.intel.com>
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
+ [209.85.219.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C1ED10E7A0
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 19:10:58 +0000 (UTC)
+Received: by mail-yb1-f181.google.com with SMTP id
+ 3f1490d57ef6-dcd9e34430cso6110626276.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 12:10:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1711480257; x=1712085057; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=IE7xk3OV0JEnARvb245KGQxZo7yTliXOcGgjSpwEcXU=;
+ b=K8FB7W9hzipRutcqKninsJeeMvE0MKbL9Wwd3EH26bsGDezK5u53Z35rTeuthw92+x
+ lyNmp/WSHbALgC40xoihmCeQbSf4zOAeKK+1rhGXSriwb50jbqAXJ7E3KE2A/ebY8ok1
+ g/AyIS2BzGlDZtQOCxVU+uf66QZWFrL4p7YuJsNGjumM3zppKiOY+XG5/UkGKmDhT5Xk
+ jfZKBliespIUlwkm/hgSs2/vLynKNKBYuB8Fo7Y+M27LpHDxccqU5riSVZHwB0ywXUga
+ SVJhkYJgX3k7LN7Cf4cWiQjf8v+zQQSLcY/3s+GZFxfdsjYV5hbbjr+d96g8AklrlJ6R
+ seCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711480257; x=1712085057;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=IE7xk3OV0JEnARvb245KGQxZo7yTliXOcGgjSpwEcXU=;
+ b=Ocux/suvmMocs9H9nlYDZO0TLh9oZTUJtYVAJaNzB67/zgC5dIufdokcdgSvMjs5Wu
+ +FJDDudXMDfNZTAb7xsjZm8suF3OobNdlHy7Iylq3eRWwHEUQIVL6gnq3AD9nYJetjEL
+ 3JWF0D28lnVFK5UaFzovcG/cAhjEyGtBlPITiPLMzyL1j3UPZmptnRH/XbjoQoJGC5Ks
+ pRoSyfkMSv7uTqLEmIQtWg4yzbX3Gaz6NbabgwwUIwohI95cdXOI0NdGDp9NrTmeBN25
+ aCxcL1hCj8YaM/rzwRd5Aw7t1HXPlb05/An9x1kywPxZa2lI5zD6FJRUMgEsUbigxh8D
+ vZUA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVPlmQes3jIErjb9n51a4IJtrukni+E9b6vBlYmBpxLYhM1ULCUSzMD4nbsyvEF+5xhhGPBDaobnVJmUwucVZ3dLHDcQ96lwBEXCwDxfBoH
+X-Gm-Message-State: AOJu0YypV3JVM0qtWet5NgED0B/ZV3bQVGIjd7UDztWpxQBt/ZYnTbG8
+ /+zH8RTdwuSTf0jpjnBKFsAGWK5z8bXefkQPCGdAxKjchNkuO9EQ/5P1aBURzTJkJFSO1+q7PaH
+ Hg30dtglg4N+SKpg8HoeiIUgR+rYtDk45RaJ/Mw==
+X-Google-Smtp-Source: AGHT+IHxqKh1R1vXRToBFH4FuBo80Q2nNxyZ5k8075XA5DVC95AeGuZIe36QWl9BniHxxTeZsSRtUf9UFqbtNqvcfSo=
+X-Received: by 2002:a25:b103:0:b0:dcf:4663:ecd8 with SMTP id
+ g3-20020a25b103000000b00dcf4663ecd8mr2128971ybj.8.1711480257065; Tue, 26 Mar
+ 2024 12:10:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240326160310.GC718896@mdroper-desk1.amr.corp.intel.com>
+References: <CANiq72mjc5t4n25SQvYSrOEhxxpXYPZ4pPzneSJHEnc3qApu2Q@mail.gmail.com>
+ <CAA8EJprTNFgKJ_3cdZz4f_LCkYFghi-cfaj3bZmYh3oA63my6A@mail.gmail.com>
+ <85204b78-7b24-61cd-4bae-3e7abc6e4fd3@quicinc.com>
+In-Reply-To: <85204b78-7b24-61cd-4bae-3e7abc6e4fd3@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 26 Mar 2024 21:10:45 +0200
+Message-ID: <CAA8EJppqrF10J1qExM=gopiF4GPDt7v4TB6LrQxx5OGyAL9hSg@mail.gmail.com>
+Subject: Re: drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:843:6: error:
+ variable 'out' set but not used
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Rob Clark <robdclark@gmail.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ freedreno@lists.freedesktop.org, linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,37 +85,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matt,
+On Tue, 26 Mar 2024 at 20:31, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 3/26/2024 11:19 AM, Dmitry Baryshkov wrote:
+> > On Tue, 26 Mar 2024 at 20:05, Miguel Ojeda
+> > <miguel.ojeda.sandonis@gmail.com> wrote:
+> >>
+> >> Hi,
+> >>
+> >> In today's next, I got:
+> >>
+> >>      drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:843:6: error: variable
+> >> 'out' set but not used [-Werror,-Wunused-but-set-variable]
+> >>
+> >> `out` seems to be there since commit 64d6255650d4 ("drm/msm: More
+> >> fully implement devcoredump for a7xx").
+> >>
+> >> Untested diff below assuming `dumper->iova` is constant -- if you want
+> >> a formal patch, please let me know.
+> >
+> > Please send a proper patch that we can pick up.
+> >
+>
+> This should be fixed with https://patchwork.freedesktop.org/patch/581853/.
 
-On Tue, Mar 26, 2024 at 09:03:10AM -0700, Matt Roper wrote:
-> On Wed, Mar 13, 2024 at 09:19:50PM +0100, Andi Shyti wrote:
-> > +			/*
-> > +			 * Do not create the command streamer for CCS slices
-> > +			 * beyond the first. All the workload submitted to the
-> > +			 * first engine will be shared among all the slices.
-> > +			 *
-> > +			 * Once the user will be allowed to customize the CCS
-> > +			 * mode, then this check needs to be removed.
-> > +			 */
-> > +			if (IS_DG2(i915) &&
-> > +			    class == COMPUTE_CLASS &&
-> > +			    ccs_instance++)
-> > +				continue;
-> 
-> Wouldn't it be more intuitive to drop the non-lowest CCS engines in
-> init_engine_mask() since that's the function that's dedicated to
-> building the list of engines we'll use?  Then we don't need to kill the
-> assertion farther down either.
+Is that a correct fix? If you check other usage locations for
+CRASHDUMP_READ, you'll see that `out` is the last parameter and it is
+being incremented.
 
-Because we don't check the result of init_engine_mask() while
-creating the engine's structure. We check it only after and
-indeed I removed the drm_WARN_ON() check.
+>
+> We can pickup that one with a Fixes tag applied.
+>
+> >>
+> >> Cheers,
+> >> Miguel
+> >>
+> >> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> >> b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> >> index 1f5245fc2cdc..a847a0f7a73c 100644
+> >> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> >> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> >> @@ -852,7 +852,7 @@ static void a6xx_get_shader_block(struct msm_gpu *gpu,
+> >>               (block->type << 8) | i);
+> >>
+> >>           in += CRASHDUMP_READ(in, REG_A6XX_HLSQ_DBG_AHB_READ_APERTURE,
+> >> -            block->size, dumper->iova + A6XX_CD_DATA_OFFSET);
+> >> +            block->size, out);
+> >>
+> >>           out += block->size * sizeof(u32);
+> >>       }
+> >
+> >
+> >
 
-I think the whole process of creating the engine's structure in
-the intel_engines_init_mmio() can be simplified, but this goes
-beyong the scope of the series.
 
-Or am I missing something?
 
-Thanks,
-Andi
+-- 
+With best wishes
+Dmitry
