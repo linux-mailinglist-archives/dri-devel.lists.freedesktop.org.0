@@ -2,58 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6AB88C006
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 11:57:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E60588C00C
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 11:59:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA41C10EE6C;
-	Tue, 26 Mar 2024 10:57:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF92910EE74;
+	Tue, 26 Mar 2024 10:59:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VUOJtVuX";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="w/mLZvXV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A32510EE6C
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 10:57:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 21203CE203C;
- Tue, 26 Mar 2024 10:57:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0967DC433F1;
- Tue, 26 Mar 2024 10:57:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711450650;
- bh=C4YtCTVCsU9txDUfamcihT62gS2Br/RMet6p7Czen/A=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=VUOJtVuXjf01VgeNeRI2kNPpbqxpBFz0eeEGyNWmMpquO6mJ3oiOHPcKGDCuOk8Rz
- CpEnfcyCNhfyBAK9ofpj+Vuaui6F7388A5/eHjoUy6rcPcaKp4Nl9CAx0clQNyU8b1
- KBWfO1Z/WKpPmUzD4zi0Yszq6UJ9qIeiMUIcBa+xS3tVHIRHwufreoEPln20UeOkf4
- 8/Pz6I2P9eHNolkgiHPe5NMzvHrcczUUTi3D87iEDfSe/yXPOs06GvxQ0RF3WCZGfK
- KS1/YkDE3eEHCoAaiRmbgVOzf+V9rSEs2Lfdr/NOAk0TsUwS6OcYJOFQTRrNFYaofw
- Twp83UEjDB9Sw==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 26 Mar 2024 11:56:25 +0100
-Subject: [PATCH v2 12/12] drm/bridge: it6505: Remove useless select
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8989810EE74
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 10:59:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1711450776;
+ bh=aliybyz47uinRGXtRKuSPxDxjVQ2TQQ62bnfexZTrs0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=w/mLZvXVacsLyu1w1YPitYD7b71BVTkwHwEjVQcPrOlcSprscNQbgLFCPjs/hv7VD
+ IAi2JzFPKfGSXYLyD/5JEMz1xHzAG7FnqOgmU6OXf/yCn3rWflQExN6oWNoXtygBno
+ hqIcspidGTNLc3p86j0Ng5RuU+ag+toUkvuZ1XwqBcL7F+AcM9Aiw8NBvxPoZ0gzu/
+ lrwGH4xuuRNaQhS2+lxjsPvUWO0Lm0jjjX0DSzDfinIlY2BPDQsnvapUW3RqFRvWAE
+ lgZUdXc4RUXE3pmiWskVNBM3PDHe5qB7V8lG4FngdaxSyYKTgC+GrEO5E7eMjZDIN+
+ quDDouyKuxzRg==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 3E65B378110A;
+ Tue, 26 Mar 2024 10:59:36 +0000 (UTC)
+Date: Tue, 26 Mar 2024 11:59:34 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Colin Ian King <colin.i.king@gmail.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH][next] drm/panthor: Fix spelling mistake "readyness" ->
+ "readiness"
+Message-ID: <20240326115934.726d3ca1@collabora.com>
+In-Reply-To: <20240326100219.43989-1-colin.i.king@gmail.com>
+References: <20240326100219.43989-1-colin.i.king@gmail.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240326-kms-kconfig-helpers-v2-12-3b0aeee32217@kernel.org>
-References: <20240326-kms-kconfig-helpers-v2-0-3b0aeee32217@kernel.org>
-In-Reply-To: <20240326-kms-kconfig-helpers-v2-0-3b0aeee32217@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Jani Nikula <jani.nikula@intel.com>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=810; i=mripard@kernel.org;
- h=from:subject:message-id; bh=C4YtCTVCsU9txDUfamcihT62gS2Br/RMet6p7Czen/A=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGlMK2/dObYoIUW35srNiWu2ZTwXVznSs/WXvtineO836
- y0nKW580DGVhUGYk0FWTJHliUzY6eXti6sc7Ff+gJnDygQyhIGLUwAmIt/HWKe79+HB6m/R++9v
- De8WqX5WEi3MfnnV6aq19h3PFUq3b+tvDPwgG6HkYHO07dvLBA8WScb6sEy3WfOfTXkRrf9wyrd
- 9UutePlmyZMvtr7119usX//fQkrrDvj57RznbZIa173bXlay5BQA=
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,32 +66,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The IT6505 bridge Kconfig symbol selects a Kconfig symbol that doesn't
-exist. Remove it.
+On Tue, 26 Mar 2024 10:02:19 +0000
+Colin Ian King <colin.i.king@gmail.com> wrote:
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/bridge/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+> There is a spelling mistake in a drm_err message. Fix it.
+> 
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index 6e6ec300ab16..d1fbf8796fea 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -96,11 +96,10 @@ config DRM_ITE_IT6505
- 	depends on DRM_DISPLAY_DP_HELPER
- 	depends on DRM_DISPLAY_HDCP_HELPER
- 	depends on DRM_DISPLAY_HELPER
- 	depends on OF
- 	select DRM_KMS_HELPER
--	select DRM_DP_HELPER
- 	select EXTCON
- 	select CRYPTO
- 	select CRYPTO_HASH
- 	help
- 	  ITE IT6505 DisplayPort bridge chip driver.
+Queued to drm-misc-next.
 
--- 
-2.44.0
+> ---
+>  drivers/gpu/drm/panthor/panthor_gpu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> index 6dbbc4cfbe7e..0f7c962440d3 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> @@ -333,7 +333,7 @@ int panthor_gpu_block_power_on(struct panthor_device *ptdev,
+>  						 val, (mask32 & val) == mask32,
+>  						 100, timeout_us);
+>  		if (ret) {
+> -			drm_err(&ptdev->base, "timeout waiting on %s:%llx readyness",
+> +			drm_err(&ptdev->base, "timeout waiting on %s:%llx readiness",
+>  				blk_name, mask);
+>  			return ret;
+>  		}
 
