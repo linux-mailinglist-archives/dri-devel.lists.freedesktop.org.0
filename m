@@ -2,74 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66D888C845
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 16:57:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83AE088D38F
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 01:59:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF16A10F0BF;
-	Tue, 26 Mar 2024 15:57:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9637F10F5BD;
+	Wed, 27 Mar 2024 00:59:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="MGeFeauL";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Oj+o/evb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03EC510F0B0
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 15:57:08 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1B74EC0002;
- Tue, 26 Mar 2024 15:57:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1711468627;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=k5k6zlsPQGeew0PrMggR4KbUmKnw3U9EYAk0N55BMMM=;
- b=MGeFeauLOFKPa/AdbJw+QoRbOsm8jWa8Fphert3dII+l1+D/bMbdDYB9X4EFT7yqLOL6g2
- CrML8eWMg7Xx3Dw0dQQJq1gV6ZPh7ZB98OipmWMbTOSbXihsXk8eWHrVkA3ctyUz+p67ch
- mcH01/YY7oYOBMAv1tmAgWEitX5GGrwV3VB8Yv03ALePFodryowJEHDaqctcS4rg423Jx0
- qPrDYheuu2HPuYxh2Zxhx6cLHOvG0mp38ndAKMPYpBlL4ifWG4WNwm1ABkqEjPgtx++iHl
- Tqoy53/w0Skq3Bs9RFX1wieUNd576kPXVHCusSVqPo5ij8XdNI3q5YJJ/ZUgsg==
-Date: Tue, 26 Mar 2024 16:57:03 +0100
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, arthurgrillo@riseup.net,
- Jonathan Corbet <corbet@lwn.net>, pekka.paalanen@haloniitty.fi,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, seanpaul@google.com,
- marcheu@google.com, nicolejadeyee@google.com
-Subject: Re: [PATCH v5 14/16] drm/vkms: Create KUnit tests for YUV conversions
-Message-ID: <ZgLwT2Pm1DbO2vh2@localhost.localdomain>
-Mail-Followup-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, arthurgrillo@riseup.net,
- Jonathan Corbet <corbet@lwn.net>, pekka.paalanen@haloniitty.fi,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, seanpaul@google.com,
- marcheu@google.com, nicolejadeyee@google.com
-References: <20240313-yuv-v5-0-e610cbd03f52@bootlin.com>
- <20240313-yuv-v5-14-e610cbd03f52@bootlin.com>
- <89748cd9-286b-4b07-b96b-5167e4b22cd2@igalia.com>
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+ [209.85.208.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2422910F111
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 17:01:04 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-2d6ee6c9945so5423901fa.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 10:01:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1711472462; x=1712077262; darn=lists.freedesktop.org;
+ h=mime-version:user-agent:references:message-id:date:in-reply-to
+ :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=gzfexKZPZkf85+a0gllV0ajlzNUH9m6yIuTzuBccjB8=;
+ b=Oj+o/evb11IleRPLMJP/TrAvCjnMafnUwFzzVNxJwEz2+3kQM3OQ1nh/AMU7v3Scz5
+ f6TcmoCWwZmK1LYyIyEwYuV2LBPwD3v+XIMhWXXe2GxGN4LxAhEiYJO2F4eLXVmmKhk4
+ wOAMjS2vPPUyVdxmA94ylCMl8JGxm6BiLE12IrLBR2BMljFILviWm1KZQ/UdxEFzYJ/v
+ 1AGf1HE2GxtqarhER52Ae87PduZY1QbAymUSGXR1aGJwG91rpqwfiaWxZ7Q8o+0jKXTS
+ p8aeosuDVTQoVbV6+SyjdEZmou34Jzy44ruWugZfvDiWRq1bOdeNZ7F0iT5eMt+Ksn+R
+ aadQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711472462; x=1712077262;
+ h=mime-version:user-agent:references:message-id:date:in-reply-to
+ :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gzfexKZPZkf85+a0gllV0ajlzNUH9m6yIuTzuBccjB8=;
+ b=D1hpYzeoIzDf5VMy3mUhiZ9GxcxNdbDyBoePOZ7c8zwO0iwn4RZ6SW8LVsY+4xfWhm
+ knvjuTTe4jOUaPnHt0kP1spGT+zZqmWLz4j74D4uV4Fi2pD7H1mmn3/78qkpi4VXcPQe
+ UWTOF4is9Nz8n1j6UarpRPsEQC06HouY/0iT3odPr4pxDF5q0poeTxTqd5J4Ki+NQAQg
+ 0vbzSIi5GGRYGygtuDHVUthZfM0B16n+WInG9V963GKbBabV5LILeaZbvv/Vtjr6wbHJ
+ BcPbNKxATXCkENsTB4/IR1f1TOufRTAaZXdlZypU+gxN0bE03dPY0GdZ95qLHR/vE/WL
+ ngOw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXNWCizaQa+JBkedjCt4JHdxdpHgVjGmL/R4OxZMNk853la2B10fSIj53Wg3P1i/cykuEtOXfJa3swfx8iXAtcEn9Kll5b3ytPVG5G5FUnd
+X-Gm-Message-State: AOJu0YzscJQeX7+MO/va4qgG/oyX6zcOcaCQPJ43JbgLEC+5LLHsNOi/
+ 4DgnH4z19Yo950hHfyh37nN16H0lGZbOIUJZl0pAMNB8Ypve+gpoyOIWyAqAk8A=
+X-Google-Smtp-Source: AGHT+IH8ru9poxTyHOPjWkzoiAaXgaGlMH2HCJf8Y/pvDqqw8XN1YAg1gTzHA8UnbhEqJC3qSt7zJw==
+X-Received: by 2002:a2e:9b01:0:b0:2d6:c535:bf3e with SMTP id
+ u1-20020a2e9b01000000b002d6c535bf3emr1250510lji.14.1711472461652; 
+ Tue, 26 Mar 2024 10:01:01 -0700 (PDT)
+Received: from imac ([2a02:8010:60a0:0:e486:aac9:8397:25ce])
+ by smtp.gmail.com with ESMTPSA id
+ o33-20020a05600c512100b004131310a29fsm12116647wms.15.2024.03.26.10.01.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Mar 2024 10:01:01 -0700 (PDT)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: amogh.linux.kernel.dev@gmail.com,  airlied@gmail.com,  corbet@lwn.net,
+ daniel@ffwll.ch,  dri-devel@lists.freedesktop.org,
+ javier.carrasco.cruz@gmail.com,  linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org,  skhan@linuxfoundation.org,  tzimmermann@suse.de,
+ willy@infradead.org,  Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v2] Fix duplicate C declaration warnings
+In-Reply-To: <f735ce0b-db1e-49bc-86ac-b5ab8e4aec31@gmail.com> (Akira
+ Yokosawa's message of "Tue, 26 Mar 2024 13:05:39 +0900")
+Date: Tue, 26 Mar 2024 16:01:50 +0000
+Message-ID: <m2bk710yoh.fsf@gmail.com>
+References: <287eb3f74e4c31adb065668ff49c8e1577388227.camel@gmail.com>
+ <f735ce0b-db1e-49bc-86ac-b5ab8e4aec31@gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <89748cd9-286b-4b07-b96b-5167e4b22cd2@igalia.com>
-X-GND-Sasl: louis.chauvet@bootlin.com
+Content-Type: text/plain
+X-Mailman-Approved-At: Wed, 27 Mar 2024 00:59:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,228 +89,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 25/03/24 - 11:34, Maíra Canal a écrit :
-> On 3/13/24 14:45, Louis Chauvet wrote:
-> > From: Arthur Grillo <arthurgrillo@riseup.net>
-> > 
-> > Create KUnit tests to test the conversion between YUV and RGB. Test each
-> > conversion and range combination with some common colors.
-> > 
-> > The code used to compute the expected result can be found in comment.
-> > 
-> > Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> > [Louis Chauvet:
-> > - fix minor formating issues (whitespace, double line)
-> > - change expected alpha from 0x0000 to 0xffff
-> > - adapt to the new get_conversion_matrix usage
-> > - apply the changes from Arthur
-> > - move struct pixel_yuv_u8 to the test itself]
-> 
-> Again, a Co-developed-by tag might be more proper.
+Akira Yokosawa <akiyks@gmail.com> writes:
+>
+> That message of mine just pointed out that the Sphinx bug of false
+> duplicate C declaration warning first reported by Mauro (+CC'd) at:
+> https://github.com/sphinx-doc/sphinx/issues/8241 --
+> "C domain issues when building the Linux Kernel documentation".
+> It had not been resolved despite Mauro's recognition of the issue at the
+> time.
+>
+> It was closed without fixing the bug but delegate the issue to an earlier
+> one of the same nature at: https://github.com/sphinx-doc/sphinx/issues/7819 --
+> "C, distinguish between ordinary identifiers and tag names", which was
+> opened on Jun 12, 2020 and has not been resolved.  (almost 4 years ago!)
+>
+> There is two pull requests attempting to resolve the issue at:
+> https://github.com/sphinx-doc/sphinx/pull/8313 --
+> "C, distinguish between tag names and ordinary names" and
+> https://github.com/sphinx-doc/sphinx/pull/8929 --
+> "Intersphinx delegation to domains".
+> PR #8313 needs #8929 as its prerequisite.
+>
+> Unfortunately, both PRs are still open as well as the issue #7819.
+> Honestly speaking, I don't have any idea what prevents those pulls,
+> give or take the need of rebasing with conflict resolution.
+>
+>>                                                  So by changing the
+>> function name to something like "query_drm_format_info(u32 format)" is
+>> a possible fix. Question is what should I rename this function to, that
+>> aligns with the coding standards? Also suggest a new function name for
+>> "drm_modeset_lock" that causes the second warning.
+>
+> So, I would rather not rename valid identifiers for the sake of working
+> around a bug of Sphinx.  Rather, I'd appreciate if you'd send a message
+> encouraging Sphinx devs to resolve the issue sooner rather than later.
+>
+>         Thanks, Akira
 
-For this patch, my contribution was very minimal (I only add a call to 
-get_conversion_matrix_to_argb_u16), so I will not add the Co-developed-by.
+Agreed, we should try and get the bug resolved in Sphinx. This same
+issue came up in relation to this PR that I am working on so hopefully
+we can work together to get fixes merged upstream:
 
-> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > ---
-> >   drivers/gpu/drm/vkms/Kconfig                  |  15 ++
-> >   drivers/gpu/drm/vkms/Makefile                 |   1 +
-> >   drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
-> >   drivers/gpu/drm/vkms/tests/Makefile           |   3 +
-> >   drivers/gpu/drm/vkms/tests/vkms_format_test.c | 230 ++++++++++++++++++++++++++
-> >   drivers/gpu/drm/vkms/vkms_formats.c           |   7 +-
-> >   drivers/gpu/drm/vkms/vkms_formats.h           |   4 +
-> >   7 files changed, 262 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/vkms/Kconfig b/drivers/gpu/drm/vkms/Kconfig
-> > index b9ecdebecb0b..9b0e1940c14f 100644
-> > --- a/drivers/gpu/drm/vkms/Kconfig
-> > +++ b/drivers/gpu/drm/vkms/Kconfig
-> > @@ -13,3 +13,18 @@ config DRM_VKMS
-> >   	  a VKMS.
-> >   
-> >   	  If M is selected the module will be called vkms.
-> > +
-> > +config DRM_VKMS_KUNIT_TESTS
-> > +	tristate "Tests for VKMS" if !KUNIT_ALL_TESTS
-> 
-> "KUnit tests for VKMS"
+https://github.com/sphinx-doc/sphinx/pull/12162
 
-Fixed in v6.
-
-> > +	depends on DRM_VKMS && KUNIT
-> > +	default KUNIT_ALL_TESTS
-> > +	help
-> > +	  This builds unit tests for VKMS. This option is not useful for
-> > +	  distributions or general kernels, but only for kernel
-> > +	  developers working on VKMS.
-> > +
-> > +	  For more information on KUnit and unit tests in general,
-> > +	  please refer to the KUnit documentation in
-> > +	  Documentation/dev-tools/kunit/.
-> > +
-> > +	  If in doubt, say "N".
-> > \ No newline at end of file
-> > diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
-> > index 1b28a6a32948..8d3e46dde635 100644
-> > --- a/drivers/gpu/drm/vkms/Makefile
-> > +++ b/drivers/gpu/drm/vkms/Makefile
-> > @@ -9,3 +9,4 @@ vkms-y := \
-> >   	vkms_writeback.o
-> >   
-> >   obj-$(CONFIG_DRM_VKMS) += vkms.o
-> > +obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) += tests/
-> > diff --git a/drivers/gpu/drm/vkms/tests/.kunitconfig b/drivers/gpu/drm/vkms/tests/.kunitconfig
-> > new file mode 100644
-> > index 000000000000..70e378228cbd
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/vkms/tests/.kunitconfig
-> > @@ -0,0 +1,4 @@
-> > +CONFIG_KUNIT=y
-> > +CONFIG_DRM=y
-> > +CONFIG_DRM_VKMS=y
-> > +CONFIG_DRM_VKMS_KUNIT_TESTS=y
-> > diff --git a/drivers/gpu/drm/vkms/tests/Makefile b/drivers/gpu/drm/vkms/tests/Makefile
-> > new file mode 100644
-> > index 000000000000..2d1df668569e
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/vkms/tests/Makefile
-> > @@ -0,0 +1,3 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
-> > +
-> > +obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) += vkms_format_test.o
-> > diff --git a/drivers/gpu/drm/vkms/tests/vkms_format_test.c b/drivers/gpu/drm/vkms/tests/vkms_format_test.c
-> > new file mode 100644
-> > index 000000000000..0954d606e44a
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/vkms/tests/vkms_format_test.c
-
-[...]
-
-> > +/*
-> > + * The YUV color representation were acquired via the colour python framework.
-> > + * Below are the function calls used for generating each case.
-> > + *
-> > + * for more information got to the docs:
-> 
-> s/for/For
-
-Fixed in v6.
-
-> > + * https://colour.readthedocs.io/en/master/generated/colour.RGB_to_YCbCr.html
-> > + */
-> > +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
-> > +	/*
-> > +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
-> > +	 *                     K=colour.WEIGHTS_YCBCR["ITU-R BT.601"],
-> > +	 *                     in_bits = 16,
-> > +	 *                     in_legal = False,
-> > +	 *                     in_int = True,
-> > +	 *                     out_bits = 8,
-> > +	 *                     out_legal = False,
-> > +	 *                     out_int = True)
-> > +	 */
-> 
-> I feel that this Python code is kind of poluting the test cases.
-
-This python code is needed to understand where the values come from. I 
-think we should keep it for future reference (add more cases, test yuv 16 
-bits...)
-
-Maybe we can change the array comment to
-
- /*
-  * The yuv color representation were acquired via the colour python framework:
-  *
-  * colour.RGB_to_YCbCr(<rgb color in 16 bits form>,
-  *			K=color.WEIGHTS_YCBCR["<format>"],
-  *			[...],
-  *			out_legal = <limited or full range>)
-  *
-  * The exact function call arguments are given for each element of this list.
-  *
-  * [...]
-  */
-
-And above each test case:
-
- /*
-  * format = "ITU-R BT.601"
-  * out_legal = False
-  */
-
-@Arthur, do you agree with those modifications?
-
-> > +	{
-> > +		.encoding = DRM_COLOR_YCBCR_BT601,
-> > +		.range = DRM_COLOR_YCBCR_FULL_RANGE,
-> > +		.n_colors = 6,
-> > +		.colors = {
-> > +			{ "white", { 0xff, 0x80, 0x80 }, { 0xffff, 0xffff, 0xffff, 0xffff }},
-> > +			{ "gray",  { 0x80, 0x80, 0x80 }, { 0xffff, 0x8080, 0x8080, 0x8080 }},
-> > +			{ "black", { 0x00, 0x80, 0x80 }, { 0xffff, 0x0000, 0x0000, 0x0000 }},
-> > +			{ "red",   { 0x4c, 0x55, 0xff }, { 0xffff, 0xffff, 0x0000, 0x0000 }},
-> > +			{ "green", { 0x96, 0x2c, 0x15 }, { 0xffff, 0x0000, 0xffff, 0x0000 }},
-> > +			{ "blue",  { 0x1d, 0xff, 0x6b }, { 0xffff, 0x0000, 0x0000, 0xffff }},
-> > +		},
-> > +	},
-
-[...]
-
-> > diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-> > index edbf4b321b91..863fc91d6d48 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> > @@ -7,6 +7,8 @@
-> >   #include <drm/drm_rect.h>
-> >   #include <drm/drm_fixed.h>
-> >   
-> > +#include <kunit/visibility.h>
-> > +
-> >   #include "vkms_formats.h"
-> >   
-> >   /**
-> > @@ -199,8 +201,8 @@ static struct pixel_argb_u16 argb_u16_from_RGB565(const u16 *pixel)
-> >   	return out_pixel;
-> >   }
-> >   
-> > -static struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 cb, u8 cr,
-> > -						  struct conversion_matrix *matrix)
-> > +VISIBLE_IF_KUNIT struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 cb, u8 cr,
-> > +							    struct conversion_matrix *matrix)
-> >   {
-> >   	u8 r, g, b;
-> >   	s64 fp_y, fp_cb, fp_cr;
-> > @@ -234,6 +236,7 @@ static struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 cb, u8 cr,
-> >   
-> >   	return argb_u16_from_u8888(255, r, g, b);
-> >   }
-> > +EXPORT_SYMBOL_IF_KUNIT(argb_u16_from_yuv888);
-> >   
-> >   /*
-> >    * The following functions are read_line function for each pixel format supported by VKMS.
-> > diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
-> > index e1d324764b17..21e66a0cac16 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_formats.h
-> > +++ b/drivers/gpu/drm/vkms/vkms_formats.h
-> > @@ -13,4 +13,8 @@ struct conversion_matrix *
-> >   get_conversion_matrix_to_argb_u16(u32 format, enum drm_color_encoding encoding,
-> >   				  enum drm_color_range range);
-> >   
-> > +#if IS_ENABLED(CONFIG_KUNIT)
-> 
-> What about the CONFIG_DRM_EXPORT_FOR_TESTS?
-
-As the documentation for CONFIG_DRM_EXPORT_FOR_TESTS don't exists, I don't 
-know what to use. Maybe Arthur knows what to do here? If needed I can 
-apply the modifications for the next iteration.
-
-Thanks for all your reviews,
-Louis Chauvet
- 
-[...]
-
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Thanks,
+Donald.
