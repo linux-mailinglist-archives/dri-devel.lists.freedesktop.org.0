@@ -2,79 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D1D88B68B
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 02:10:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D69588B782
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 03:38:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73C6D10EBEB;
-	Tue, 26 Mar 2024 01:10:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AEE810EA91;
+	Tue, 26 Mar 2024 02:38:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="rhJ7uKz/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jKVzI5yy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 679FD10EBEB
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 01:10:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=2+G6lqjrPiGO7sJw8UoeY7bYbprZSC43xVHllYnfJhk=; b=rhJ7uKz/jNbiljxVy2Ig0qkt0g
- kvpuUE1lPLbwPzGEmAlvqhxspbyqAuhp3lvVu2/0lRADtNrnqN1QVyowSfck4x7sswZ3Mf2c+isL5
- JHZn0pHwYrSeW216yn4KsRHK18declY467zYpe1aGEz4NXQ34ztnSOhzbkext8kKJgZdEYIA3CDQl
- MqJkCcu19SKuJctfquerQaSbPbb9T0JPq0vVllSSIHhmlX5nSZbHfYt1w1RnUNz1OMZqjwluyIgKJ
- Z/NwN46y340x2/yIZMUl99PpWvJ+BJHNP4LRLQigoe4+IwdjCfowt9nl3g3oxJgDc06FTbUHhayoY
- +ROL5mmQ==;
-Received: from [177.34.169.255] (helo=[192.168.0.139])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1rovJx-00FHd6-1x; Tue, 26 Mar 2024 02:09:45 +0100
-Message-ID: <7f6a223f-f432-4e1b-a67e-3816448224a1@igalia.com>
-Date: Mon, 25 Mar 2024 22:09:31 -0300
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6E6A10EA91
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 02:38:48 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id
+ a640c23a62f3a-a465ddc2c09so278568766b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Mar 2024 19:38:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1711420727; x=1712025527; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xvuTO++gksCL8fZc9rnTMteYbv8VDF4X35FDvigGhis=;
+ b=jKVzI5yyQsQRKH8P1hRCKIIlq78gqCH5S75yfGxSNSPFcRf4K+70wLmeK2cnRTGrP1
+ wnUHCtVPwVaFe3O0LlKSsBwHWxu6U1hdJyAx2oIMe2HBNwcFB8siq5LrdTtiXsNy040g
+ lFaz+6BN+eddLTDrJ523iKULxXRh3lAbWhMY26FXRAajcHVsi+B10YEy55uDDOcwJiHs
+ xEkmgHn4d+uqOk/QXAabbflbEgAcUz4O1XYm81vQQuuHTnfr2Owh8vygqTD7z2ou+8hb
+ r4Tfcj/iglAXPrdz6zaV3wDvDTASKdM8stWCvcOc7HcfLwRVbFBO8aXIQ80X7KxH7r2a
+ +VlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711420727; x=1712025527;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xvuTO++gksCL8fZc9rnTMteYbv8VDF4X35FDvigGhis=;
+ b=W9KnQK/mtyE3ZUz2hrJXWE/xszLkXhYtmOLEOAenk4xybBCAwaQ5A8dX9YyXyZN31C
+ MPQzaY1SY98eTxztdMLKkzar34Oc+kaYmbnky9inisuyN42eXn1Fu4GAXwHV4/S0RGpM
+ K/+EiM3RyMU8gHuHxC/r6PPPUQer0AhQL9557yCnDgMWM1vqiC9UdB4hMnobiRKA3HAx
+ HDLFf9XPJxJSytNvrUBAaGJn+TBm4z2++B9OrOWyY1ZNtGhTq3E8diALLJ7bIgueaoSG
+ /usLD8rfqLPU979aqsRTNLRsT/3Ip6euIGvc/tJ5v0km3Q4teC85LJIT971Oda+8Cn3i
+ s6XA==
+X-Gm-Message-State: AOJu0Yz5qKpZcsGcznqg030bkQxOQu3tXNHmRrkVClw1bM0H+eu6yTgd
+ GCtec9Q8dPCU+Je+xXqfH1NcXV66Py8hMMRU9FQxrieZtaznQX9/x4o+HX128561PU0o9IToECd
+ wZaLmhyNBZyUG2e5+x6j6+gQNu3g=
+X-Google-Smtp-Source: AGHT+IHOdLWyBfukeIVQCzdbwxRaGW3vVBOom0CaCVMlu32t8AKYWeJCkDsVov9mGGSIhvtfIDAySQLVgGHxvqfS2+Q=
+X-Received: by 2002:a05:6402:520a:b0:56c:d21:d919 with SMTP id
+ s10-20020a056402520a00b0056c0d21d919mr5364774edd.34.1711420726461; Mon, 25
+ Mar 2024 19:38:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/14] drm: Suppress intentional warning backtraces in
- scaling unit tests
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>, Dan Carpenter <dan.carpenter@linaro.org>,
- Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>,
- David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
+References: <20240322214801.319975-1-robdclark@gmail.com>
+ <CABUrSUAykXUoX0y6jzCw1s=E=E08Z54Ygo1TvBm49_iT88oDFg@mail.gmail.com>
+In-Reply-To: <CABUrSUAykXUoX0y6jzCw1s=E=E08Z54Ygo1TvBm49_iT88oDFg@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 25 Mar 2024 19:38:34 -0700
+Message-ID: <CAF6AEGvK7fBhh36rQyqiHf_qVvsCJhHZjoyOqGqxRPcMZ3dzjw@mail.gmail.com>
+Subject: Re: [PATCH] drm/prime: Unbreak virtgpu dma-buf export
+To: Dominik Behr <dbehr@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Maxime Ripard
- <mripard@kernel.org>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- kunit-dev@googlegroups.com, linux-arch@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- loongarch@lists.linux.dev, netdev@vger.kernel.org,
- Linux Kernel Functional Testing <lkft@linaro.org>
-References: <20240325175248.1499046-1-linux@roeck-us.net>
- <20240325175248.1499046-6-linux@roeck-us.net>
- <0729b218-53f1-4139-b165-a324794a9abd@igalia.com>
- <e880828b-552e-488e-9f31-3989bec276ae@roeck-us.net>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <e880828b-552e-488e-9f31-3989bec276ae@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Simon Ser <contact@emersion.fr>, open list <linux-kernel@vger.kernel.org>, 
+ "open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
+ <linux-media@vger.kernel.org>, 
+ "moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
+ <linaro-mm-sig@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,60 +87,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/25/24 16:24, Guenter Roeck wrote:
-> Hi,
-> 
-> On Mon, Mar 25, 2024 at 04:05:06PM -0300, Maíra Canal wrote:
->> Hi Guenter,
+This is actually a bit concerning.. importing a host page backed
+buffer without guest mapping into a passthru device probably doesn't
+work and should be rejected earlier.
+
+I do think we should relax the restriction (either taking my patch or
+reverting the commit it fixes) until we work this out properly
+(because the original patch is a regression), but importing a buffer
+without guest pages into a passthru device can't possibly work
+properly.  Maybe it works by chance if the host buffer is mapped to
+the guest, but that is not guaranteed.
+
+BR,
+-R
+
+On Mon, Mar 25, 2024 at 3:35=E2=80=AFPM Dominik Behr <dbehr@chromium.org> w=
+rote:
+>
+> It also fixes importing virtgpu blobs into real hardware, for instance am=
+dgpu for DRI_PRIME rendering.
+>
+> On Fri, Mar 22, 2024 at 2:48=E2=80=AFPM Rob Clark <robdclark@gmail.com> w=
+rote:
 >>
->> On 3/25/24 14:52, Guenter Roeck wrote:
->>> The drm_test_rect_calc_hscale and drm_test_rect_calc_vscale unit tests
->>> intentionally trigger warning backtraces by providing bad parameters to
->>> the tested functions. What is tested is the return value, not the existence
->>> of a warning backtrace. Suppress the backtraces to avoid clogging the
->>> kernel log.
->>>
->>> Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
->>> Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
->>> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
->>> ---
->>> - Rebased to v6.9-rc1
->>> - Added Tested-by:, Acked-by:, and Reviewed-by: tags
->>>
->>>    drivers/gpu/drm/tests/drm_rect_test.c | 6 ++++++
->>>    1 file changed, 6 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/tests/drm_rect_test.c b/drivers/gpu/drm/tests/drm_rect_test.c
->>> index 76332cd2ead8..75614cb4deb5 100644
->>> --- a/drivers/gpu/drm/tests/drm_rect_test.c
->>> +++ b/drivers/gpu/drm/tests/drm_rect_test.c
->>> @@ -406,22 +406,28 @@ KUNIT_ARRAY_PARAM(drm_rect_scale, drm_rect_scale_cases, drm_rect_scale_case_desc
->>>    static void drm_test_rect_calc_hscale(struct kunit *test)
->>>    {
->>> +	DEFINE_SUPPRESSED_WARNING(drm_calc_scale);
->>>    	const struct drm_rect_scale_case *params = test->param_value;
->>>    	int scaling_factor;
->>> +	START_SUPPRESSED_WARNING(drm_calc_scale);
+>> From: Rob Clark <robdclark@chromium.org>
 >>
->> I'm not sure if it is not that obvious only to me, but it would be nice
->> to have a comment here, remembering that we provide bad parameters in
->> some test cases.
-> 
-> Sure. Something like this ?
-> 
->          /*
->           * drm_rect_calc_hscale() generates a warning backtrace whenever bad
->           * parameters are passed to it. This affects all unit tests with an
->           * error code in expected_scaling_factor.
->           */
-> 
-
-Yeah, perfect. With that, feel free to add my
-
-Acked-by: Maíra Canal <mcanal@igalia.com>
-
-Best Regards,
-- Maíra
-
-> Thanks,
-> Guenter
+>> virtgpu "vram" GEM objects do not implement obj->get_sg_table().  But
+>> they also don't use drm_gem_map_dma_buf().  In fact they may not even
+>> have guest visible pages.  But it is perfectly fine to export and share
+>> with other virtual devices.
+>>
+>> Reported-by: Dominik Behr <dbehr@chromium.org>
+>> Fixes: 207395da5a97 ("drm/prime: reject DMA-BUF attach when get_sg_table=
+ is missing")
+>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>> ---
+>>  drivers/gpu/drm/drm_prime.c | 7 ++++++-
+>>  1 file changed, 6 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+>> index 7352bde299d5..64dd6276e828 100644
+>> --- a/drivers/gpu/drm/drm_prime.c
+>> +++ b/drivers/gpu/drm/drm_prime.c
+>> @@ -582,7 +582,12 @@ int drm_gem_map_attach(struct dma_buf *dma_buf,
+>>  {
+>>         struct drm_gem_object *obj =3D dma_buf->priv;
+>>
+>> -       if (!obj->funcs->get_sg_table)
+>> +       /*
+>> +        * drm_gem_map_dma_buf() requires obj->get_sg_table(), but drive=
+rs
+>> +        * that implement their own ->map_dma_buf() do not.
+>> +        */
+>> +       if ((dma_buf->ops->map_dma_buf =3D=3D drm_gem_map_dma_buf) &&
+>> +           !obj->funcs->get_sg_table)
+>>                 return -ENOSYS;
+>>
+>>         return drm_gem_pin(obj);
+>> --
+>> 2.44.0
+>>
