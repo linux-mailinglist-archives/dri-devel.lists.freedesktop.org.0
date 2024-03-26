@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8B788C6DA
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 16:28:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5914188C6DC
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 16:28:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CDEC10EBBA;
-	Tue, 26 Mar 2024 15:28:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23CBC10EBFB;
+	Tue, 26 Mar 2024 15:28:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="R9H3froV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Hxc4m8W1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA9F910EBFB
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 15:28:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4495410E8BE
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 15:28:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 4DE84CE1843;
- Tue, 26 Mar 2024 15:27:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43B18C433B1;
- Tue, 26 Mar 2024 15:27:54 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id E84ADCE2270;
+ Tue, 26 Mar 2024 15:28:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 038BDC433F1;
+ Tue, 26 Mar 2024 15:27:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711466878;
- bh=hRH8KwD0yeb6Ii/FGemUiqr+aQmrUQOnUFhl/QaNG9o=;
+ s=k20201202; t=1711466883;
+ bh=rtyqG7tbP6UdPkekPZzDTtw8SgBNzRw2sMyiAo22mhs=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=R9H3froV73QGMdXLc9BBRgXfXoWKxlqMl7mfPzkiV0Xotb+lR0OyS567kcVd2m/01
- LInj8GTpsyRNN9SSVSTS6Lu3uLl2pGzZ7tAaBlgd7FKSj/5E1kuOSmiZ1sMVeENSLM
- xC3kaP05IWC150YFK8BFnXYQv9W+B0928djHny3OBZ+24C3+glAUY2nff0owN2kgoJ
- BG2o0V5bsX+KC9E7DnYDUK0aN50eMP/r2nNOzydUOmr0OEevwfIxqnVNe4F6PufLjR
- xYJ4VHNDO7zKjJl7kFfXKdw5ZsK4z1va7FkozBAMAkJpHb14C9yHr5nhY65b2BypjN
- jDxpj16VqKVtQ==
+ b=Hxc4m8W14eaRDGErYkG+g97Das8kOomVfVpVzmgTi8R+hLsDJG1g0s/AyCfvuUk6f
+ IcWSC1pA1JrKLH4AEFZxSf3t9qYiTX2bOAs1iy17ylh96i2CnCPnquwew8XwLixVUt
+ h4WNokMzanCKMtItm6z42ROvj2D7F+GqcPYAT8N8ZfddJTaZ7RN+1a0V19F95nkOQY
+ lSsgz8i24rh8bxqNgBBfqRj2IjJpg+Hx787PQYjb4lqJqvZ5gkZdc6FO5crMPyjQDD
+ ZO6Fv6Gp4oLt6wqDC2kbKJ1YgGDVjOnwHzbW9WFSHAUBFkX5zgllVwFsLCj7wEb2FJ
+ QvvISKPVukXYg==
 From: Mark Brown <broonie@kernel.org>
 To: Lars-Peter Clausen <lars@metafoo.de>, Jaroslav Kysela <perex@perex.cz>, 
  Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, 
@@ -46,11 +46,12 @@ Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, Vishal Sagar <vishal.sagar@amd.com>, 
  Anatoliy Klymenko <anatoliy.klymenko@amd.com>, 
  =?utf-8?q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-In-Reply-To: <20240312-xilinx-dp-audio-v1-0-696c79facbb9@ideasonboard.com>
-References: <20240312-xilinx-dp-audio-v1-0-696c79facbb9@ideasonboard.com>
-Subject: Re: (subset) [PATCH 0/4] drm: xlnx: zynqmp: Add DP audio support
-Message-Id: <171146687400.132239.7354638412011978940.b4-ty@kernel.org>
-Date: Tue, 26 Mar 2024 15:27:54 +0000
+In-Reply-To: <20240319-xilinx-dp-audio-v2-0-92d6d3a7ca7e@ideasonboard.com>
+References: <20240319-xilinx-dp-audio-v2-0-92d6d3a7ca7e@ideasonboard.com>
+Subject: Re: (subset) [PATCH v2 0/4] drm: xlnx: zynqmp: Add DP audio
+ support
+Message-Id: <171146687873.132239.7709540608544229526.b4-ty@kernel.org>
+Date: Tue, 26 Mar 2024 15:27:58 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -70,7 +71,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 12 Mar 2024 11:41:01 +0200, Tomi Valkeinen wrote:
+On Tue, 19 Mar 2024 10:22:35 +0200, Tomi Valkeinen wrote:
 > Add DisplayPort audio support for Xilinx ZynqMP platforms.
 > 
 > This depends on patch adding cyclic DMA mode for DPDMA driver:
