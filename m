@@ -2,64 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F77A88C18C
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 13:06:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2D588C282
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 13:47:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 053D510E36E;
-	Tue, 26 Mar 2024 12:06:21 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OEj5cTLQ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B86A10E374;
+	Tue, 26 Mar 2024 12:47:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C03610E36E;
- Tue, 26 Mar 2024 12:06:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1711454779; x=1742990779;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=VMOQQWQ8zlA4KMRdap0GxAhv5vGKeo6xRzJmQ3DuzK4=;
- b=OEj5cTLQptpqtSoWiY+ht8s2R+4CdeLMBv7/7o+yxlsF35pR9IVDxg+Q
- AxOuiLjqXMqtgiWNVWXKTq67XPTFY/3JdMfcWL8WSlj6aV9ExvHEkI/ry
- s0QgYIJi/KYhui/6p+I/b2ujsPWg0GixDwbIQIZwLwC8Tevwdkcf+FD0e
- KwMnITD7ljBUlzkXXItvDmDa8BTLteopJzfrkh2EKmN3V54NnGer2h22d
- AZmAgch8y0CHyY2ptG9s97wYFYOrqCaj1zpT1U2L58lIG7QnVPD/kCNAQ
- QTQQfCy+eCHrodDArEqZtMoQs+MeLJOmDH6s9OOZGmIQKUwZ8gjmbxDkt g==;
-X-CSE-ConnectionGUID: qKm1MrcGRmukf9VrL1958w==
-X-CSE-MsgGUID: wNBV4AUTQNmDFedrOoC+nQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="17229270"
-X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; d="scan'208";a="17229270"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2024 05:05:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; d="scan'208";a="15928553"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.246.52.33])
- ([10.246.52.33])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2024 05:05:39 -0700
-Message-ID: <49e4ab49-e928-475a-bbaf-19c9009fdd1f@linux.intel.com>
-Date: Tue, 26 Mar 2024 13:05:37 +0100
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2983A10E374
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 12:47:22 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.44])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4V3qJ843l4z2BhYv;
+ Tue, 26 Mar 2024 20:44:40 +0800 (CST)
+Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
+ by mail.maildlp.com (Postfix) with ESMTPS id 4E2C9140120;
+ Tue, 26 Mar 2024 20:47:19 +0800 (CST)
+Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
+ (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Tue, 26 Mar
+ 2024 20:47:18 +0800
+Subject: Re: [RFC PATCH net-next v6 00/15] Device Memory TCP
+To: Mina Almasry <almasrymina@google.com>, YiFei Zhu <zhuyifei@google.com>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-alpha@vger.kernel.org>,
+ <linux-mips@vger.kernel.org>, <linux-parisc@vger.kernel.org>,
+ <sparclinux@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
+ <linux-arch@vger.kernel.org>, <bpf@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, <linux-media@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Richard
+ Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky
+ <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, Thomas
+ Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
+ <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
+ <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav Fomichev
+ <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+ David Ahern <dsahern@kernel.org>, Willem de Bruijn
+ <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, Sumit
+ Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=c3=b6nig?=
+ <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
+ Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand
+ <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel
+ Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>, Praveen
+ Kaligineedi <pkaligineedi@google.com>
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <6208950d-6453-e797-7fc3-1dcf15b49dbe@huawei.com>
+ <CAHS8izMwTRyqUS0iRtErfAqDVsXRia5Ajx9PRK3vcfo8utJoUA@mail.gmail.com>
+ <CAHS8izPR+SioMKNv3=2ajK=GGOE26BTaxOMykHJfjttqYjx1wQ@mail.gmail.com>
+From: Yunsheng Lin <linyunsheng@huawei.com>
+Message-ID: <ca9ab650-3f77-509c-7a29-6d7dd775b6d1@huawei.com>
+Date: Tue, 26 Mar 2024 20:47:18 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/i915/gem: Calculate object page offset for partial
- memory mapping
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andi Shyti <andi.shyti@kernel.org>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-References: <20240325134033.287913-1-andi.shyti@linux.intel.com>
- <db2627fa-b1da-4a27-8c87-bebe0407d8a7@linux.intel.com>
- <ZgKttR-loIoAZoOE@ashyti-mobl2.lan>
+In-Reply-To: <CAHS8izPR+SioMKNv3=2ajK=GGOE26BTaxOMykHJfjttqYjx1wQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-From: Nirmoy Das <nirmoy.das@linux.intel.com>
-In-Reply-To: <ZgKttR-loIoAZoOE@ashyti-mobl2.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.69.30.204]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm500005.china.huawei.com (7.185.36.74)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,58 +87,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andi,
+On 2024/3/26 8:28, Mina Almasry wrote:
+> On Tue, Mar 5, 2024 at 11:38 AM Mina Almasry <almasrymina@google.com> wrote:
+>>
+>> On Tue, Mar 5, 2024 at 4:54 AM Yunsheng Lin <linyunsheng@huawei.com> wrote:
+>>>
+>>> On 2024/3/5 10:01, Mina Almasry wrote:
+>>>
+>>> ...
+>>>
+>>>>
+>>>> Perf - page-pool benchmark:
+>>>> ---------------------------
+>>>>
+>>>> bench_page_pool_simple.ko tests with and without these changes:
+>>>> https://pastebin.com/raw/ncHDwAbn
+>>>>
+>>>> AFAIK the number that really matters in the perf tests is the
+>>>> 'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
+>>>> cycles without the changes but there is some 1 cycle noise in some
+>>>> results.
+>>>>
+>>>> With the patches this regresses to 9 cycles with the changes but there
+>>>> is 1 cycle noise occasionally running this test repeatedly.
+>>>>
+>>>> Lastly I tried disable the static_branch_unlikely() in
+>>>> netmem_is_net_iov() check. To my surprise disabling the
+>>>> static_branch_unlikely() check reduces the fast path back to 8 cycles,
+>>>> but the 1 cycle noise remains.
+>>>>
+>>>
+>>> The last sentence seems to be suggesting the above 1 ns regresses is caused
+>>> by the static_branch_unlikely() checking?
+>>
+>> Note it's not a 1ns regression, it's looks like maybe a 1 cycle
+>> regression (slightly less than 1ns if I'm reading the output of the
+>> test correctly):
+>>
+>> # clean net-next
+>> time_bench: Type:tasklet_page_pool01_fast_path Per elem: 8 cycles(tsc)
+>> 2.993 ns (step:0)
+>>
+>> # with patches
+>> time_bench: Type:tasklet_page_pool01_fast_path Per elem: 9 cycles(tsc)
+>> 3.679 ns (step:0)
+>>
+>> # with patches and with diff that disables static branching:
+>> time_bench: Type:tasklet_page_pool01_fast_path Per elem: 8 cycles(tsc)
+>> 3.248 ns (step:0)
+>>
+>> I do see noise in the test results between run and run, and any
+>> regression (if any) is slightly obfuscated by the noise, so it's a bit
+>> hard to make confident statements. So far it looks like a ~0.25ns
+>> regression without static branch and about ~0.65ns with static branch.
+>>
+>> Honestly when I saw all 3 results were within some noise I did not
+>> investigate more, but if this looks concerning to you I can dig
+>> further. I likely need to gather a few test runs to filter out the
+>> noise and maybe investigate the assembly my compiler is generating to
+>> maybe narrow down what changes there.
+>>
+> 
+> I did some more investigation here to gather more data to filter out
+> the noise, and recorded the summary here:
+> 
+> https://pastebin.com/raw/v5dYRg8L
+> 
+> Long story short, the page_pool benchmark results are consistent with
+> some outlier noise results that I'm discounting here. Currently
+> page_pool fast path is at 8 cycles
+> 
+> [ 2115.724510] time_bench: Type:tasklet_page_pool01_fast_path Per
+> elem: 8 cycles(tsc) 3.187 ns (step:0) - (measurement period
+> time:0.031870585 sec time_interval:31870585) - (invoke count:10000000
+> tsc_interval:86043192)
+> 
+> and with this patch series it degrades to 10 cycles, or about a 0.7ns
+> degradation or so:
 
-On 3/26/2024 12:12 PM, Andi Shyti wrote:
-> Hi Nirmoy,
->
-> ...
->
->>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
->>> index a2195e28b625..57a2dda2c3cc 100644
->>> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
->>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
->>> @@ -276,7 +276,7 @@ static vm_fault_t vm_fault_cpu(struct vm_fault *vmf)
->>>    	/* PTEs are revoked in obj->ops->put_pages() */
->>>    	err = remap_io_sg(area,
->>>    			  area->vm_start, area->vm_end - area->vm_start,
->>> -			  obj->mm.pages->sgl, iomap);
->>> +			  obj->mm.pages->sgl, 0, iomap);
->> Why don't we need partial mmap for CPU but only for GTT ?
-> As far as I understood we don't. I have a version with the CPU
-> offset as well in trybot[*]
->
-> But without support for segmented buffer objects, I don't know
-> how much this has any effect.
+Even if the absolute value for the overhead is small, we seems have a
+degradation of about 20% for tasklet_page_pool01_fast_path testcase,
+which seems scary.
 
-You confused me more :) Why segmented buffer object is needed for 
-partial CPU mmap but not for GTT  ?
+I am assuming that every page is recyclable for tasklet_page_pool01_fast_path
+testcase, and that code path matters for page_pool, it would be good to
+remove any additional checking for that code path.
 
- From high level,  GTT and CPU both should support partial mmap unless I 
-missing something here.
+And we already have pool->has_init_callback checking when we have to use
+a new page, it may make sense to refactor that to share the same checking
+for provider to avoid the overhead as much as possible.
 
->
->> Sounds like this also need to be cover by a IGT tests.
-> Yes, I it does need some igt work, working on it.
->
->> Don't we need "Fixes" tag for this?
-> Why should we? I'm not fixing anything here,
+Also, I am not sure if it really matter that much, as with the introducing
+of netmem_is_net_iov() checking spreading in the networking, the overhead
+might add up for other case too.
 
-If userspace  expects partial mmap to work then this is a bug/gap in 
-i915 so we need to
-
-backport this as far as possible. Need some information about the 
-requirement about  why we need this patch suddenly?
-
-
-Regards,
-
-Nirmoy
-
->   I'm just
-> recalculating the mapping not starting from the beginning of the
-> scatter page.
->
-> Andi
->
-> [*] https://patchwork.freedesktop.org/patch/584474/?series=131539&rev=2
+> 
+> [  498.226127] time_bench: Type:tasklet_page_pool01_fast_path Per
+> elem: 10 cycles(tsc) 3.944 ns (step:0) - (measurement period
+> time:0.039442539 sec time_interval:39442539) - (invoke count:10000000
+> tsc_interval:106485268)
+> 
+> I took the time to dig into where the degradation comes from, and to
+> my surprise we can shave off 1 cycle in perf by removing the
+> static_branch_unlikely check in netmem_is_net_iov() like so:
+> 
+> diff --git a/include/net/netmem.h b/include/net/netmem.h
+> index fe354d11a421..2b4310ac1115 100644
+> --- a/include/net/netmem.h
+> +++ b/include/net/netmem.h
+> @@ -122,8 +122,7 @@ typedef unsigned long __bitwise netmem_ref;
+>  static inline bool netmem_is_net_iov(const netmem_ref netmem)
+>  {
+>  #ifdef CONFIG_PAGE_POOL
+> -       return static_branch_unlikely(&page_pool_mem_providers) &&
+> -              (__force unsigned long)netmem & NET_IOV;
+> +       return (__force unsigned long)netmem & NET_IOV;
+>  #else
+>         return false;
+>  #endif
+> 
+> With this change, the fast path is 9 cycles, only  a 1 cycle (~0.35ns)
+> regression:
+> 
+> [  199.184429] time_bench: Type:tasklet_page_pool01_fast_path Per
+> elem: 9 cycles(tsc) 3.552 ns (step:0) - (measurement period
+> time:0.035524013 sec time_interval:35524013) - (invoke count:10000000
+> tsc_interval:95907775)
+> 
+> I did some digging with YiFei on why the static_branch_unlikely
+> appears to be causing a 1 cycle regression, but could not get an
+> answer that makes sense. The # of instructions in
+> page_pool_return_page() with the static_branch_unlikely and without is
+> about the same in the compiled .o file, and my understanding is that
+> static_branch will cause code re-writing anyway so looking at the
+> compiled code may not be representative.
+> 
+> Worthy of note is that I get ~95% line rate of devmem TCP regardless
+> of the static_branch_unlikely() or not, so impact of the static_branch
+> is not large enough to be measurable end-to-end. I'm thinking I want
+> to drop the static_branch_unlikely() in the next RFC since it doesn't
+> improve the end-to-end throughput number and is resulting in a
+> measurable improvement in the page pool benchmark.
+> 
