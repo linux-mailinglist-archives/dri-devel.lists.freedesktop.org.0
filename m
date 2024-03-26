@@ -2,65 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5532888D1AD
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 23:51:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE1C688D1A3
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Mar 2024 23:51:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11C8210F471;
-	Tue, 26 Mar 2024 22:51:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D551210F460;
+	Tue, 26 Mar 2024 22:51:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="NUvXLzkg";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="f4FJdyV/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com
  [209.85.128.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4A0C10F45D
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 22:51:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 816E710F45B
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 22:51:24 +0000 (UTC)
 Received: by mail-yw1-f202.google.com with SMTP id
- 00721157ae682-60a61b31993so104650827b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 15:51:22 -0700 (PDT)
+ 00721157ae682-60a605154d0so3916507b3.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Mar 2024 15:51:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1711493481; x=1712098281;
+ d=google.com; s=20230601; t=1711493483; x=1712098283;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=E4NPaM5natLoBukffWYJGpyczDTSfX6IYb3b0cFCB0U=;
- b=NUvXLzkgRO/Fg5Qbwrt1eZVfkOfCO0mi0h6ZFWt/Cm1Eth7EL9rcG0+5Jrfhy9zs6Y
- XlxD5g1a3aSqHNseaFjyj+cmCQfZHVdXZYMfOi9fjV5DGAknjYkQGwUStQ6+3Z3Dytt2
- 5QZ2o/FhaHn0YKG/HRO/khI/hDmrGqbsEhbG6lfOpBizfraLzpldfuWU7+tTvNQtOQ3Z
- j+JqnfhsncDFfyjQPCm+kAU9mzAT4akDfy2+hVrurDVMW1JlHAzcv64fzzgonnsGIwYz
- hzPVfHAjwKJigXGFgCShOcGAMUETb71v8GUWtwnDlFAz3BTqBhhd8jJbqn+6/kdRJKZY
- NZZw==
+ bh=lIxgxWYAWNpmGTchIJLssxmSoAncEifA/ricFxsFt70=;
+ b=f4FJdyV/fIGd86v7pwMu4mshhyfXD7IoomAg5dXWGylIn0K+3lZl8htpYcpytELZVH
+ JmZ/kFyx5rrT0e/WYrqBUdSOVhPUu/Z8Ph8jlYByVxRTB1sSSzH5hj/mhqv/42teI+GH
+ x/A6VaHCFpVdrO5VffO6C8JNi3R0Ldvwq8f/Qgy0LePEmGUfVYtHkbWYVj1N5wWj/LZ2
+ n9E5hrmRYAKAdlmonnDFi5lrzNTv9csqHVjFv/acdPbcPCabZNZeAey/LqrdspgiHEiD
+ l8JMQeG7+XirABIMqqizLYi/MagXOjBlq0Ty8z+gbKT2m/NYnvJ0aNIChHXaejyXWc7X
+ B+lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711493481; x=1712098281;
+ d=1e100.net; s=20230601; t=1711493483; x=1712098283;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=E4NPaM5natLoBukffWYJGpyczDTSfX6IYb3b0cFCB0U=;
- b=KOm3Uhn4KbvGTqEJqSkUDaL4iHFfXj2xKQb5CKqlBFaH2p3VwwmP9BUiYU/Qe6UlaX
- FNERauGV2TQYxkEY6fwh2wdzhmHLVsQ3DVr0a/riD1LTYNkq9GQOPcITwVHD66/qbIpo
- DD30sEPj39g65Gq8LEoatrlXnm3tco1JvWF5JyFA/5+Byp28ggCsXlg9t4qjLnSrTU1C
- YHQrizWqD7Ux5K2bc9NuWUYXItTVKhS2M/rxNFdap8UxYId6Mst3MiW9aIoLTJqfKKYF
- HTnsO55QuoMTl39TfNdZ9fJz5fFbYOUdvFuu3xCLqx2L1EColDPbfEu3PhKD8vP3i+tS
- Kcmg==
+ bh=lIxgxWYAWNpmGTchIJLssxmSoAncEifA/ricFxsFt70=;
+ b=NRLDSq7NrgK2aG8CmocbDIiHND2vY0wNHF2J70EzvzDnA0GKmuCftLHgxIpo8wKK+L
+ G6gjHjEtgBxlCgOLQSSeYbH3ZOymLvK0XRKbxJLO5Ifwh2rzf7DVmtR5brDDKl92/HkZ
+ iIgD95dA6xpv7pSuHcVJkvDbXqjq/0DEsPf8bCM5qcNxIIwxjefbvO8jcWhtIiNl17Jw
+ NfG0b0nK4EnQSmZZxraJgb2r05O7htb1dwLh5EP7GOBzEsNPd6a4TEYqmzl6h+nqfgAm
+ wjX9F+7+b3OWdithvC9ptqTLAWT+zvPvaSzO4Gd1LEu1WRbzJInRrDId5FWrYNVJuLGn
+ 7hJg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU03Jeq9ZzZUpxkMvXRyggni1ScIp+w+Wm0iZ3ElngcE1+4f+wl2BvWhIHI+jrw1QQABKXQK1RzyPEJBExYY7WnUqIrgVImywGBWzqWtsri
-X-Gm-Message-State: AOJu0YxbcNhPnbCx9CZSJBMdNIu29epvU445jLiRqY0RwFtqogyeBcEx
- Jrfa7IeYYzj6GHsUsBvRJ/y/r/SqDRR/oKjjNYXMTRbxrZa3GXYuLNng3Qv06XOjSZs8PuhmIfM
- SAJGAVfVMCVDe1wdguBFVlw==
-X-Google-Smtp-Source: AGHT+IGulVc5H0BzG8gM92NcgbldQ+zage8+aSQ2rhtePhNSpN4eZBgET7JCWv8NQ1a+wWAOHR3A7MAsl44BFZ6hvA==
+ AJvYcCW/GwkBvfkxkIzNhJhXe3XKpF+7Dec+7Y/GnC76th8i+SoHr7SFg7ytVnerme2+6bynJ4A0QsGZ6vIljIyT4ylsXPYRfXG/lYw6zeWbo4Bf
+X-Gm-Message-State: AOJu0Yy4c6hGcB/DVw1RNDJtP7DYnTXNnDtBN3D4GfStzX5VbBtoDxy4
+ ir7uB59FrHw+C5oprdgNZbypsW6T2LzpsDHo0pMU3i3Gnjwffm0sZEgQtzf+b/AGWFBbyr8p6KI
+ +UiGoR7jCrFVaRm1YIH/jLg==
+X-Google-Smtp-Source: AGHT+IHq3YCIuMF8IcYFchTPGwDa2KzdnlAJaebiQh729kXZCqq7c3XDBz93vsozmWTK5o1tGi0sLk+18kxYKz+twg==
 X-Received: from almasrymina.svl.corp.google.com
  ([2620:15c:2c4:200:c51e:bdd0:7cc8:695c])
- (user=almasrymina job=sendgmr) by 2002:a05:6902:260f:b0:dc7:68b5:4f3d with
- SMTP id dw15-20020a056902260f00b00dc768b54f3dmr3456842ybb.11.1711493481430;
- Tue, 26 Mar 2024 15:51:21 -0700 (PDT)
-Date: Tue, 26 Mar 2024 15:50:43 -0700
+ (user=almasrymina job=sendgmr) by 2002:a05:690c:f0e:b0:611:537:2c0f with SMTP
+ id dc14-20020a05690c0f0e00b0061105372c0fmr697423ywb.2.1711493483601; Tue, 26
+ Mar 2024 15:51:23 -0700 (PDT)
+Date: Tue, 26 Mar 2024 15:50:44 -0700
 In-Reply-To: <20240326225048.785801-1-almasrymina@google.com>
 Mime-Version: 1.0
 References: <20240326225048.785801-1-almasrymina@google.com>
 X-Mailer: git-send-email 2.44.0.396.g6e790dbe36-goog
-Message-ID: <20240326225048.785801-13-almasrymina@google.com>
-Subject: [RFC PATCH net-next v7 12/14] net: add SO_DEVMEM_DONTNEED setsockopt
- to release RX frags
+Message-ID: <20240326225048.785801-14-almasrymina@google.com>
+Subject: [RFC PATCH net-next v7 13/14] net: add devmem TCP documentation
 From: Mina Almasry <almasrymina@google.com>
 To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
@@ -102,8 +101,7 @@ Cc: Mina Almasry <almasrymina@google.com>,
  Shailend Chand <shailend@google.com>,
  Harshitha Ramamurthy <hramamurthy@google.com>, 
  Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+ Praveen Kaligineedi <pkaligineedi@google.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -120,193 +118,300 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add an interface for the user to notify the kernel that it is done
-reading the devmem dmabuf frags returned as cmsg. The kernel will
-drop the reference on the frags to make them available for reuse.
+Add documentation outlining the usage and details of devmem TCP.
 
-Signed-off-by: Willem de Bruijn <willemb@google.com>
-Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
 Signed-off-by: Mina Almasry <almasrymina@google.com>
 
 ---
 
 v7:
-- Updated SO_DEVMEM_* uapi to use the next available entry (Arnd).
+- Applied docs suggestions (Jakub).
 
-v6:
-- Squash in locking optimizations from edumazet@google.com. With his
-  changes we lock the xarray once per sock_devmem_dontneed operation
-  rather than once per frag.
+v2:
 
-Changes in v1:
-- devmemtoken -> dmabuf_token (David).
-- Use napi_pp_put_page() for refcounting (Yunsheng).
-- Fix build error with missing socket options on other asms.
+- Missing spdx (simon)
+- add to index.rst (simon)
 
 ---
- arch/alpha/include/uapi/asm/socket.h  |  1 +
- arch/mips/include/uapi/asm/socket.h   |  1 +
- arch/parisc/include/uapi/asm/socket.h |  1 +
- arch/sparc/include/uapi/asm/socket.h  |  1 +
- include/uapi/asm-generic/socket.h     |  1 +
- include/uapi/linux/uio.h              |  4 ++
- net/core/sock.c                       | 61 +++++++++++++++++++++++++++
- 7 files changed, 70 insertions(+)
+ Documentation/networking/devmem.rst | 256 ++++++++++++++++++++++++++++
+ Documentation/networking/index.rst  |   1 +
+ 2 files changed, 257 insertions(+)
+ create mode 100644 Documentation/networking/devmem.rst
 
-diff --git a/arch/alpha/include/uapi/asm/socket.h b/arch/alpha/include/uapi/asm/socket.h
-index ef4656a41058..251b73c5481e 100644
---- a/arch/alpha/include/uapi/asm/socket.h
-+++ b/arch/alpha/include/uapi/asm/socket.h
-@@ -144,6 +144,7 @@
- #define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
- #define SO_DEVMEM_DMABUF	79
- #define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
-+#define SO_DEVMEM_DONTNEED	80
- 
- #if !defined(__KERNEL__)
- 
-diff --git a/arch/mips/include/uapi/asm/socket.h b/arch/mips/include/uapi/asm/socket.h
-index 414807d55e33..8ab7582291ab 100644
---- a/arch/mips/include/uapi/asm/socket.h
-+++ b/arch/mips/include/uapi/asm/socket.h
-@@ -155,6 +155,7 @@
- #define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
- #define SO_DEVMEM_DMABUF	79
- #define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
-+#define SO_DEVMEM_DONTNEED	80
- 
- #if !defined(__KERNEL__)
- 
-diff --git a/arch/parisc/include/uapi/asm/socket.h b/arch/parisc/include/uapi/asm/socket.h
-index 2b817efd4544..38fc0b188e08 100644
---- a/arch/parisc/include/uapi/asm/socket.h
-+++ b/arch/parisc/include/uapi/asm/socket.h
-@@ -136,6 +136,7 @@
- #define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
- #define SO_DEVMEM_DMABUF	79
- #define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
-+#define SO_DEVMEM_DONTNEED	80
- 
- #if !defined(__KERNEL__)
- 
-diff --git a/arch/sparc/include/uapi/asm/socket.h b/arch/sparc/include/uapi/asm/socket.h
-index 00248fc68977..57084ed2f3c4 100644
---- a/arch/sparc/include/uapi/asm/socket.h
-+++ b/arch/sparc/include/uapi/asm/socket.h
-@@ -137,6 +137,7 @@
- #define SCM_DEVMEM_LINEAR        SO_DEVMEM_LINEAR
- #define SO_DEVMEM_DMABUF         0x0058
- #define SCM_DEVMEM_DMABUF        SO_DEVMEM_DMABUF
-+#define SO_DEVMEM_DONTNEED       0x0059
- 
- #if !defined(__KERNEL__)
- 
-diff --git a/include/uapi/asm-generic/socket.h b/include/uapi/asm-generic/socket.h
-index 25a2f5255f52..1acb77780f10 100644
---- a/include/uapi/asm-generic/socket.h
-+++ b/include/uapi/asm-generic/socket.h
-@@ -135,6 +135,7 @@
- #define SO_PASSPIDFD		76
- #define SO_PEERPIDFD		77
- 
-+#define SO_DEVMEM_DONTNEED	97
- #define SO_DEVMEM_LINEAR	98
- #define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
- #define SO_DEVMEM_DMABUF	99
-diff --git a/include/uapi/linux/uio.h b/include/uapi/linux/uio.h
-index 3a22ddae376a..d17f8fcd93ec 100644
---- a/include/uapi/linux/uio.h
-+++ b/include/uapi/linux/uio.h
-@@ -33,6 +33,10 @@ struct dmabuf_cmsg {
- 				 */
- };
- 
-+struct dmabuf_token {
-+	__u32 token_start;
-+	__u32 token_count;
-+};
- /*
-  *	UIO_MAXIOV shall be at least 16 1003.1g (5.4.1.1)
-  */
-diff --git a/net/core/sock.c b/net/core/sock.c
-index 43bf3818c19e..b589610cbe4a 100644
---- a/net/core/sock.c
-+++ b/net/core/sock.c
-@@ -1049,6 +1049,63 @@ static int sock_reserve_memory(struct sock *sk, int bytes)
- 	return 0;
- }
- 
-+#ifdef CONFIG_PAGE_POOL
-+static noinline_for_stack int
-+sock_devmem_dontneed(struct sock *sk, sockptr_t optval, unsigned int optlen)
-+{
-+	unsigned int num_tokens, i, j, k, netmem_num = 0;
-+	struct dmabuf_token *tokens;
-+	netmem_ref netmems[16];
-+	int ret;
+diff --git a/Documentation/networking/devmem.rst b/Documentation/networking/devmem.rst
+new file mode 100644
+index 000000000000..b0899e8e9e83
+--- /dev/null
++++ b/Documentation/networking/devmem.rst
+@@ -0,0 +1,256 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+	if (sk->sk_type != SOCK_STREAM || sk->sk_protocol != IPPROTO_TCP)
-+		return -EBADF;
++=================
++Device Memory TCP
++=================
 +
-+	if (optlen % sizeof(struct dmabuf_token) ||
-+	    optlen > sizeof(*tokens) * 128)
-+		return -EINVAL;
 +
-+	tokens = kvmalloc_array(128, sizeof(*tokens), GFP_KERNEL);
-+	if (!tokens)
-+		return -ENOMEM;
++Intro
++=====
 +
-+	num_tokens = optlen / sizeof(struct dmabuf_token);
-+	if (copy_from_sockptr(tokens, optval, optlen))
-+		return -EFAULT;
++Device memory TCP (devmem TCP) enables receiving data directly into device
++memory (dmabuf). The feature is currently implemented for TCP sockets.
 +
-+	ret = 0;
 +
-+	xa_lock_bh(&sk->sk_user_frags);
-+	for (i = 0; i < num_tokens; i++) {
-+		for (j = 0; j < tokens[i].token_count; j++) {
-+			netmem_ref netmem = (__force netmem_ref)__xa_erase(
-+				&sk->sk_user_frags, tokens[i].token_start + j);
++Opportunity
++-----------
 +
-+			if (netmem &&
-+			    !WARN_ON_ONCE(!netmem_is_net_iov(netmem))) {
-+				netmems[netmem_num++] = netmem;
-+				if (netmem_num == ARRAY_SIZE(netmems)) {
-+					xa_unlock_bh(&sk->sk_user_frags);
-+					for (k = 0; k < netmem_num; k++)
-+						WARN_ON_ONCE(!napi_pp_put_page(netmems[k],
-+									       false));
-+					netmem_num = 0;
-+					xa_lock_bh(&sk->sk_user_frags);
-+				}
-+				ret++;
++A large number of data transfers have device memory as the source and/or
++destination. Accelerators drastically increased the prevalence of such
++transfers.  Some examples include:
++
++- Distributed training, where ML accelerators, such as GPUs on different hosts,
++  exchange data.
++
++- Distributed raw block storage applications transfer large amounts of data with
++  remote SSDs, much of this data does not require host processing.
++
++Typically the Device-to-Device data transfers the network are implemented as the
++following low level operations: Device-to-Host copy, Host-to-Host network
++transfer, and Host-to-Device copy.
++
++The flow involving host copies is suboptimal, especially for bulk data transfers,
++and can put significant strains on system resources such as host memory
++bandwidth and PCIe bandwidth.
++
++Devmem TCP optimizes this use case by implementing socket APIs that enable
++the user to receive incoming network packets directly into device memory.
++
++Packet payloads go directly from the NIC to device memory.
++
++Packet headers go to host memory and are processed by the TCP/IP stack
++normally. The NIC must support header split to achieve this.
++
++Advantages:
++
++- Alleviate host memory bandwidth pressure, compared to existing
++  network-transfer + device-copy semantics.
++
++- Alleviate PCIe bandwidth pressure, by limiting data transfer to the lowest
++  level of the PCIe tree, compared to traditional path which sends data through
++  the root complex.
++
++
++More Info
++---------
++
++  slides, video
++    https://netdevconf.org/0x17/sessions/talk/device-memory-tcp.html
++
++  patchset
++    [RFC PATCH v6 00/12] Device Memory TCP
++    https://lore.kernel.org/netdev/20240305020153.2787423-1-almasrymina@google.com/
++
++
++Interface
++=========
++
++Example
++-------
++
++tools/testing/selftests/net/ncdevmem.c:do_server shows an example of setting up
++the RX path of this API.
++
++NIC Setup
++---------
++
++Header split, flow steering, & RSS are required features for devmem TCP.
++
++Header split is used to split incoming packets into a header buffer in host
++memory, and a payload buffer in device memory.
++
++Flow steering & RSS are used to ensure that only flows targeting devmem land on
++RX queue bound to devmem.
++
++Enable header split & flow steering::
++
++	# enable header split
++	ethtool -G eth1 tcp-data-split on
++
++
++	# enable flow steering
++	ethtool -K eth1 ntuple on
++
++Configure RSS to steer all traffic away from the target RX queue (queue 15 in
++this example)::
++
++	ethtool --set-rxfh-indir eth1 equal 15
++
++
++The user must bind a dmabuf to any number of RX queues on a given NIC using
++netlink API::
++
++	/* Bind dmabuf to NIC RX queue 15 */
++	struct netdev_queue *queues;
++	queues = malloc(sizeof(*queues) * 1);
++
++	queues[0]._present.type = 1;
++	queues[0]._present.idx = 1;
++	queues[0].type = NETDEV_RX_QUEUE_TYPE_RX;
++	queues[0].idx = 15;
++
++	*ys = ynl_sock_create(&ynl_netdev_family, &yerr);
++
++	req = netdev_bind_rx_req_alloc();
++	netdev_bind_rx_req_set_ifindex(req, 1 /* ifindex */);
++	netdev_bind_rx_req_set_dmabuf_fd(req, dmabuf_fd);
++	__netdev_bind_rx_req_set_queues(req, queues, n_queue_index);
++
++	rsp = netdev_bind_rx(*ys, req);
++
++	dmabuf_id = rsp->dmabuf_id;
++
++
++The netlink API returns a dmabuf_id: a unique ID that refers to this dmabuf
++that has been bound.
++
++Socket Setup
++------------
++
++The socket must be flow steering to the dmabuf bound RX queue::
++
++	ethtool -N eth1 flow-type tcp4 ... queue 15,
++
++
++Receiving data
++--------------
++
++The user application must signal to the kernel that it is capable of receiving
++devmem data by passing the MSG_SOCK_DEVMEM flag to recvmsg::
++
++	ret = recvmsg(fd, &msg, MSG_SOCK_DEVMEM);
++
++Applications that do not specify the MSG_SOCK_DEVMEM flag will receive an EFAULT
++on devmem data.
++
++Devmem data is received directly into the dmabuf bound to the NIC in 'NIC
++Setup', and the kernel signals such to the user via the SCM_DEVMEM_* cmsgs::
++
++		for (cm = CMSG_FIRSTHDR(&msg); cm; cm = CMSG_NXTHDR(&msg, cm)) {
++			if (cm->cmsg_level != SOL_SOCKET ||
++				(cm->cmsg_type != SCM_DEVMEM_DMABUF &&
++				 cm->cmsg_type != SCM_DEVMEM_LINEAR))
++				continue;
++
++			dmabuf_cmsg = (struct dmabuf_cmsg *)CMSG_DATA(cm);
++
++			if (cm->cmsg_type == SCM_DEVMEM_DMABUF) {
++				/* Frag landed in dmabuf.
++				 *
++				 * dmabuf_cmsg->dmabuf_id is the dmabuf the
++				 * frag landed on.
++				 *
++				 * dmabuf_cmsg->frag_offset is the offset into
++				 * the dmabuf where the frag starts.
++				 *
++				 * dmabuf_cmsg->frag_size is the size of the
++				 * frag.
++				 *
++				 * dmabuf_cmsg->frag_token is a token used to
++				 * refer to this frag for later freeing.
++				 */
++
++				struct dmabuf_token token;
++				token.token_start = dmabuf_cmsg->frag_token;
++				token.token_count = 1;
++				continue;
 +			}
++
++			if (cm->cmsg_type == SCM_DEVMEM_LINEAR)
++				/* Frag landed in linear buffer.
++				 *
++				 * dmabuf_cmsg->frag_size is the size of the
++				 * frag.
++				 */
++				continue;
++
 +		}
-+	}
 +
-+	xa_unlock_bh(&sk->sk_user_frags);
-+	for (k = 0; k < netmem_num; k++)
-+		WARN_ON_ONCE(!napi_pp_put_page(netmems[k], false));
++Applications may receive 2 cmsgs:
 +
-+	kvfree(tokens);
-+	return ret;
-+}
-+#endif
++- SCM_DEVMEM_DMABUF: this indicates the fragment landed in the dmabuf indicated
++  by dmabuf_id.
 +
- void sockopt_lock_sock(struct sock *sk)
- {
- 	/* When current->bpf_ctx is set, the setsockopt is called from
-@@ -1200,6 +1257,10 @@ int sk_setsockopt(struct sock *sk, int level, int optname,
- 			ret = -EOPNOTSUPP;
- 		return ret;
- 		}
-+#ifdef CONFIG_PAGE_POOL
-+	case SO_DEVMEM_DONTNEED:
-+		return sock_devmem_dontneed(sk, optval, optlen);
-+#endif
- 	}
- 
- 	sockopt_lock_sock(sk);
++- SCM_DEVMEM_LINEAR: this indicates the fragment landed in the linear buffer.
++  This typically happens when the NIC is unable to split the packet at the
++  header boundary, such that part (or all) of the payload landed in host
++  memory.
++
++Applications may receive no SO_DEVMEM_* cmsgs. That indicates non-devmem,
++regular TCP data that landed on an RX queue not bound to a dmabuf.
++
++
++Freeing frags
++-------------
++
++Frags received via SCM_DEVMEM_DMABUF are pinned by the kernel while the user
++processes the frag. The user must return the frag to the kernel via
++SO_DEVMEM_DONTNEED::
++
++	ret = setsockopt(client_fd, SOL_SOCKET, SO_DEVMEM_DONTNEED, &token,
++			 sizeof(token));
++
++The user must ensure the tokens are returned to the kernel in a timely manner.
++Failure to do so will exhaust the limited dmabuf that is bound to the RX queue
++and will lead to packet drops.
++
++
++Implementation & Caveats
++========================
++
++Unreadable skbs
++---------------
++
++Devmem payloads are inaccessible to the kernel processing the packets. This
++results in a few quirks for payloads of devmem skbs:
++
++- Loopback is not functional. Loopback relies on copying the payload, which is
++  not possible with devmem skbs.
++
++- Software checksum calculation fails.
++
++- TCP Dump and bpf can't access devmem packet payloads.
++
++
++Testing
++=======
++
++More realistic example code can be found in the kernel source under
++tools/testing/selftests/net/ncdevmem.c
++
++ncdevmem is a devmem TCP netcat. It works very similarly to netcat, but
++receives data directly into a udmabuf.
++
++To run ncdevmem, you need to run it a server on the machine under test, and you
++need to run netcat on a peer to provide the TX data.
++
++ncdevmem has a validation mode as well that expects a repeating pattern of
++incoming data and validates it as such::
++
++	# On server:
++	ncdevmem -s <server IP> -c <client IP> -f eth1 -d 3 -n 0000:06:00.0 -l \
++		 -p 5201 -v 7
++
++	# On client:
++	yes $(echo -e \\x01\\x02\\x03\\x04\\x05\\x06) | \
++		tr \\n \\0 | head -c 5G | nc <server IP> 5201 -p 5201
+diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+index 473d72c36d61..6b47a51caad6 100644
+--- a/Documentation/networking/index.rst
++++ b/Documentation/networking/index.rst
+@@ -48,6 +48,7 @@ Contents:
+    cdc_mbim
+    dccp
+    dctcp
++   devmem
+    dns_resolver
+    driver
+    eql
 -- 
 2.44.0.396.g6e790dbe36-goog
 
