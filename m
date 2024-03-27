@@ -2,100 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF90088E9DC
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 16:52:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB5288E9F5
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 16:57:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8735910FDB5;
-	Wed, 27 Mar 2024 15:52:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47EDB10FDB7;
+	Wed, 27 Mar 2024 15:57:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VKEjNhjC";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K+9/qG5r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8667710FDB5
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 15:52:41 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE6EA10FA03;
+ Wed, 27 Mar 2024 15:57:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1711554761; x=1743090761;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=qW/fd5BsHMv42OERGvBEWgfMs2nJ8WYa2Q4ev1Mj2bE=;
- b=VKEjNhjCo5dz0X98CMMQ5IANSQtvF4YOOP3sKa2h7XjOZO9xn0sbvnGV
- jwqSoitRWyhAi7eQPhBKeggJgoQ5ob9gX9i4LkYlcR4rswN1aJCUdgoMG
- iThHldMOr5YcsWMv1+xaqO2taR4L/0otY1YNTiX33Dlk+NwlqA8dnVWj8
- MdbhxCDUclYQ6r42Ig4rIP9v1ICGch4uxrzNKtDlgGZOh63dbjPXzslLD
- r6st8vRzw9rebOEs3G+U9HrdmcavdHpLm9C30w7DfqDCVoA3bddup99Vb
- VI2DVEJ9if7tAwiFvxzE2MuOcTKJDs/sGx4jbqORPrYAj5+eXZt5KymW+ Q==;
-X-CSE-ConnectionGUID: 4EEisAcqQzWEeO0kTHe11A==
-X-CSE-MsgGUID: jOyd8we/T0KoJr7DKz0Hsg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="17302199"
-X-IronPort-AV: E=Sophos;i="6.07,159,1708416000"; d="scan'208";a="17302199"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Mar 2024 08:52:40 -0700
+ t=1711555023; x=1743091023;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=CezWxV1ugvmeHdvtfKDNqDryeTvRwf2uaIO+AyEy+mw=;
+ b=K+9/qG5rtl7zvQqOMekbw5UDDoz+mKBtzxNvuRbX3KffKnctBiOda4Lo
+ AKPZ/Bty9cWjEqf0J6CVOYgMVTndGBwmrOMzzS85mWG7Ap1+b17PBCPrK
+ ozFEut72rzJ23r0DpIBkGZUy7F0vPFTFXui8nDKCg7TgGvKwNSpCOAP15
+ Pq0V6TX45HiHWKtRsAB2rXgI7m2c4cjxuPM8ZBiPnfJz9uMtm8ypUlRif
+ OKgui5Wx8M2jKcFRqr7inMUXTCxzQc0QgVP4R22Cd28/T3ZSNs0ZAJyIe
+ ReTm+EXWKiXCZ4yiljSXoBJGhnrH4IVn+5P5p+8hdIbKYLI9ggyA+Ynoq w==;
+X-CSE-ConnectionGUID: vAcJ4sRETu+vXr/G45gOiA==
+X-CSE-MsgGUID: srm9tbynQXOkFnvJJC4c+w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="17215709"
+X-IronPort-AV: E=Sophos;i="6.07,159,1708416000"; d="scan'208";a="17215709"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Mar 2024 08:57:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,159,1708416000"; d="scan'208";a="20816491"
-Received: from djiang5-mobl3.amr.corp.intel.com (HELO [10.212.56.222])
- ([10.212.56.222])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Mar 2024 08:52:37 -0700
-Message-ID: <2757205c-8a58-4619-bed1-d511812d5a18@intel.com>
-Date: Wed, 27 Mar 2024 08:52:35 -0700
+X-IronPort-AV: E=Sophos;i="6.07,159,1708416000"; d="scan'208";a="47548021"
+Received: from unknown (HELO intel.com) ([10.247.118.215])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Mar 2024 08:56:54 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Michal Mrozek <michal.mrozek@intel.com>, stable@vger.kernel.org,
+ Andi Shyti <andi.shyti@linux.intel.com>, Andi Shyti <andi.shyti@kernel.org>
+Subject: [PATCH v7 0/3] Disable automatic load CCS load balancing
+Date: Wed, 27 Mar 2024 16:56:16 +0100
+Message-ID: <20240327155622.538140-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 18/22] nvdimm: virtio_pmem: drop owner assignment
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Jens Axboe <axboe@kernel.dk>, Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Olivia Mackall <olivia@selenic.com>, Herbert Xu
- <herbert@gondor.apana.org.au>, Amit Shah <amit@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Gonglei <arei.gonglei@huawei.com>, "David S. Miller" <davem@davemloft.net>,
- Viresh Kumar <vireshk@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, David Airlie <airlied@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Joerg Roedel <joro@8bytes.org>, Alexander Graf <graf@amazon.com>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Eric Van Hensbergen <ericvh@kernel.org>,
- Latchesar Ionkov <lucho@ionkov.net>,
- Dominique Martinet <asmadeus@codewreck.org>,
- Christian Schoenebeck <linux_oss@crudebyte.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Kalle Valo <kvalo@kernel.org>,
- Dan Williams <dan.j.williams@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
- Anton Yakovlev <anton.yakovlev@opensynergy.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: virtualization@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
- linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- iommu@lists.linux.dev, netdev@vger.kernel.org, v9fs@lists.linux.dev,
- kvm@vger.kernel.org, linux-wireless@vger.kernel.org, nvdimm@lists.linux.dev,
- linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org
-References: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
- <20240327-module-owner-virtio-v1-18-0feffab77d99@linaro.org>
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20240327-module-owner-virtio-v1-18-0feffab77d99@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,32 +70,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
+this series does basically two things:
 
-On 3/27/24 5:41 AM, Krzysztof Kozlowski wrote:
-> virtio core already sets the .owner, so driver does not need to.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+1. Disables automatic load balancing as adviced by the hardware
+   workaround.
 
-Acked-by: Dave Jiang <dave.jiang@intel.com>
-> 
-> ---
-> 
-> Depends on the first patch.
-> ---
->  drivers/nvdimm/virtio_pmem.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/nvdimm/virtio_pmem.c b/drivers/nvdimm/virtio_pmem.c
-> index 4ceced5cefcf..c9b97aeabf85 100644
-> --- a/drivers/nvdimm/virtio_pmem.c
-> +++ b/drivers/nvdimm/virtio_pmem.c
-> @@ -151,7 +151,6 @@ static struct virtio_driver virtio_pmem_driver = {
->  	.feature_table		= features,
->  	.feature_table_size	= ARRAY_SIZE(features),
->  	.driver.name		= KBUILD_MODNAME,
-> -	.driver.owner		= THIS_MODULE,
->  	.id_table		= id_table,
->  	.validate		= virtio_pmem_validate,
->  	.probe			= virtio_pmem_probe,
-> 
+2. Assigns all the CCS slices to one single user engine. The user
+   will then be able to query only one CCS engine
+
+From v5 I have created a new file, gt/intel_gt_ccs_mode.c where
+I added the intel_gt_apply_ccs_mode(). In the upcoming patches,
+this file will contain the implementation for dynamic CCS mode
+setting.
+
+Thanks Tvrtko, Matt, John and Joonas for your reviews!
+
+Andi
+
+Changelog
+=========
+v6 -> v7
+ - find a more appropriate place where to remove the CCS engines:
+   remove them in init_engine_mask() instead of
+   intel_engines_init_mmio(). (Thanks, Matt)
+ - Add Michal's ACK, thanks Michal!
+
+v5 -> v6 (thanks Matt for the suggestions in v6)
+ - Remove the refactoring and the for_each_available_engine()
+   macro and instead do not create the intel_engine_cs structure
+   at all.
+ - In patch 1 just a trivial reordering of the bit definitions.
+
+v4 -> v5
+ - Use the workaround framework to do all the CCS balancing
+   settings in order to always apply the modes also when the
+   engine resets. Put everything in its own specific function to
+   be executed for the first CCS engine encountered. (Thanks
+   Matt)
+ - Calculate the CCS ID for the CCS mode as the first available
+   CCS among all the engines (Thanks Matt)
+ - create the intel_gt_ccs_mode.c function to host the CCS
+   configuration. We will have it ready for the next series.
+ - Fix a selftest that was failing because could not set CCS2.
+ - Add the for_each_available_engine() macro to exclude CCS1+ and
+   start using it in the hangcheck selftest.
+
+v3 -> v4
+ - Reword correctly the comment in the workaround
+ - Fix a buffer overflow (Thanks Joonas)
+ - Handle properly the fused engines when setting the CCS mode.
+
+v2 -> v3
+ - Simplified the algorithm for creating the list of the exported
+   uabi engines. (Patch 1) (Thanks, Tvrtko)
+ - Consider the fused engines when creating the uabi engine list
+   (Patch 2) (Thanks, Matt)
+ - Patch 4 now uses a the refactoring from patch 1, in a cleaner
+   outcome.
+
+v1 -> v2
+ - In Patch 1 use the correct workaround number (thanks Matt).
+ - In Patch 2 do not add the extra CCS engines to the exposed
+   UABI engine list and adapt the engine counting accordingly
+   (thanks Tvrtko).
+ - Reword the commit of Patch 2 (thanks John).
+
+Andi Shyti (3):
+  drm/i915/gt: Disable HW load balancing for CCS
+  drm/i915/gt: Do not generate the command streamer for all the CCS
+  drm/i915/gt: Enable only one CCS for compute workload
+
+ drivers/gpu/drm/i915/Makefile               |  1 +
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c   | 15 ++++++++
+ drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c | 39 +++++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h | 13 +++++++
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  6 ++++
+ drivers/gpu/drm/i915/gt/intel_workarounds.c | 30 ++++++++++++++--
+ 6 files changed, 102 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h
+
+-- 
+2.43.0
+
