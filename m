@@ -2,63 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454BA88DBE3
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 12:03:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E96C288DC82
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 12:29:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CEDC10F002;
-	Wed, 27 Mar 2024 11:03:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB2F410FA30;
+	Wed, 27 Mar 2024 11:29:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ss2PaF00";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="FQ60FFdj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F04D810F002
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 11:03:55 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 40E8C61459;
- Wed, 27 Mar 2024 11:03:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23C4BC433F1;
- Wed, 27 Mar 2024 11:03:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711537434;
- bh=075CAxFyshcdITi7Eob2VV8YtmjSSujhs+tXkhV1Hfo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ss2PaF001uFUEoxURWx+us8kMC5n1eirUmOoys0zLyxA+s8OYoz7gcyB+09uPVj2t
- 5L5X1qTH0PHxMmcIm9ffKng7EinyOmRt9OrP5txDF/inld19QMjCO3zDFa6G9ldt4V
- buab9lv+onmusRZdOV6wNuSyagZxS7DOvmv5j2sHeEup5cxit4fn9508SAq01s5gOn
- 0CU2o/783Uaw9rZ54J7sSGZs/iPUvD/XH2NlcOP3/isuCt5kG/lxAyxVekkAC+Aqq8
- wxrcGQgZ4xXC/Bfz2+TJqS05DoZ0BGzNuql2CoeJJqWYl1Q7ikN3HOgUL5MKBT36om
- MZ6rp+NDXChAg==
-Date: Wed, 27 Mar 2024 12:03:49 +0100
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Werner Sembach <wse@tuxedocomputers.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Lee Jones <lee@kernel.org>, 
- jikos@kernel.org, linux-kernel@vger.kernel.org,
- Jelle van der Waa <jelle@vdwaa.nl>, 
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, 
- linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
- Gregor Riepl <onitake@gmail.com>
-Subject: Re: In kernel virtual HID devices (was Future handling of complex
- RGB devices on Linux v3)
-Message-ID: <qsfdhmss6tyk6momjh65rwpqdoxhdi3l4takqy6u5c4iactcuf@gecjc364qmsn>
-References: <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
- <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
- <1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com>
- <aec1d22d-9e59-4dfc-b108-5ba339b0e76a@redhat.com>
- <siebkhaauocqkuox73q2e5p2mbsyc7j4gvpzfvt4c3gvncdpap@oxh5pp4gxpuo>
- <870cca8a-1a1b-4d17-874e-a26c30aca2bf@tuxedocomputers.com>
- <fcf4dd53-f461-4c2e-8fbe-50b50e4e6797@redhat.com>
- <65b24776-ae1a-4290-a1d5-c7637ad0accc@tuxedocomputers.com>
- <vjd5xqgd2gsyz4ubgk6eusuyqdtxpdw6vogc5u537x2a245xcj@m2twppbxea4p>
- <9b5151f9-4d1c-401e-abb5-540097749b76@tuxedocomputers.com>
+Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7D3810FA30;
+ Wed, 27 Mar 2024 11:29:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=4yqcVS9tS0F+Iulfwdo+fmCleD7lL6bAvnduFniubqA=; b=FQ60FFdj24vArt0Y1vJ1Nud6aF
+ SYWXEOJc2C7d9M3XQygfO7ozy2Z/vnOm8tz6WvBCUj6Nt/yKFbYYbxgbpJHRdv4q2X1HP7mM5ZOwU
+ XRAaPPwfP32+YqIG2O/l8Vq838cP7r0lTUR8qv+2uKtsBLyMO/gZdM+F/qapTi90MoKhnO/pDDDwV
+ bDf/973zcDf+hMxEGkEShiPYTULdw9WvxFNrwswjtqZKKeq0LwcKsLdAW1AaB3PlDfKAtNxZTW76G
+ 0XwAt/eBDK1LIQz4uHntQ7Yv7PAg/tju4tPE9u/6WUbnLv+klJwytU4eqoV6S1e0afUFISewIrd1k
+ aWAZqong==;
+Received: from [194.136.85.206] (port=37818 helo=eldfell)
+ by whm50.louhi.net with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
+ (envelope-from <pekka.paalanen@haloniitty.fi>) id 1rpRTB-0001Iy-22;
+ Wed, 27 Mar 2024 13:29:25 +0200
+Date: Wed, 27 Mar 2024 13:29:16 +0200
+From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+To: "Garg, Nemesa" <nemesa.garg@intel.com>
+Cc: Simon Ser <contact@emersion.fr>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "G M, Adarsh" <adarsh.g.m@intel.com>
+Subject: Re: [RFC 0/5]  Introduce drm sharpening property
+Message-ID: <20240327132916.43f83069@eldfell>
+In-Reply-To: <IA1PR11MB646705FED711C1F129E5C5E3E3342@IA1PR11MB6467.namprd11.prod.outlook.com>
+References: <20240214112457.3734871-1-nemesa.garg@intel.com>
+ <8Ma-GlU3bFAuSPpFhGbYYuXQ8OeeDjMK9WiWO6KP-4pPO41fLnLrgABkRfhjHY6XlIh5u67vcEbD8ejDq7-zo5BXf-too0Pt7oTDhWCOPlU=@emersion.fr>
+ <IA1PR11MB6467A91412978DE0FFCAB50FE34C2@IA1PR11MB6467.namprd11.prod.outlook.com>
+ <20240216103620.33deabb1@eldfell>
+ <IA1PR11MB6467F801FFB564769E357EA9E3232@IA1PR11MB6467.namprd11.prod.outlook.com>
+ <uL84QKNtst1cp9uG3HqNAqEpJS2pT07qxwufONZx8Zq3t665BwY15fHRm3cZxMtiecQlPlNTs9srrmlIzRKmRYItWUv6cQbDEkms8eUT84Y=@emersion.fr>
+ <IA1PR11MB6467C642ABBD54BD82DF46B9E32B2@IA1PR11MB6467.namprd11.prod.outlook.com>
+ <20240312162600.7358e146@eldfell> <20240313113638.3ff61e4f@eldfell>
+ <IA1PR11MB646705FED711C1F129E5C5E3E3342@IA1PR11MB6467.namprd11.prod.outlook.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9b5151f9-4d1c-401e-abb5-540097749b76@tuxedocomputers.com>
+Content-Type: multipart/signed; boundary="Sig_/z6jMLYSlrTMOJ3Gjd3=7liM";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - whm50.louhi.net
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - haloniitty.fi
+X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
+ pekka.paalanen@haloniitty.fi
+X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,190 +81,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mar 26 2024, Werner Sembach wrote:
-> Hi all,
-> 
-> Am 26.03.24 um 16:39 schrieb Benjamin Tissoires:
-> > On Mar 26 2024, Werner Sembach wrote:
-> > > Hi all,
-> > > 
-> > > Am 25.03.24 um 19:30 schrieb Hans de Goede:
-> > > 
-> > > [snip]
-> > > > > > If the kernel already handles the custom protocol into generic HID, the
-> > > > > > work for userspace is not too hard because they can deal with a known
-> > > > > > protocol and can be cross-platform in their implementation.
-> > > > > > 
-> > > > > > I'm mentioning that cross-platform because SDL used to rely on the
-> > > > > > input, LEDs, and other Linux peculiarities and eventually fell back on
-> > > > > > using hidraw only because it's way more easier that way.
-> > > > > > 
-> > > > > > The other advantage of LampArray is that according to Microsoft's
-> > > > > > document, new devices are going to support it out of the box, so they'll
-> > > > > > be supported out of the box directly.
-> > > > > > 
-> > > > > > Most of the time my stance is "do not add new kernel API, you'll regret
-> > > > > > it later". So in that case, given that we have a formally approved
-> > > > > > standard, I would suggest to use it, and consider it your API.
-> > > > > The only new UAPI would be the use_leds_uapi switch to turn on/off the backwards compatibility.
-> > I have my reserves with such a kill switch (see below).
-> > 
-> > > > Actually we don't even need that. Typically there is a single HID
-> > > > driver handling both keys and the backlight, so userspace cannot
-> > > > just unbind the HID driver since then the keys stop working.
-> > I don't think Werner meant unbinding the HID driver, just a toggle to
-> > enable/disable the basic HID core processing of LampArray.
-> > 
-> > > > But with a virtual LampArray HID device the only functionality
-> > > > for an in kernel HID driver would be to export a basic keyboard
-> > > > backlight control interface for simple non per key backlight control
-> > > > to integrate nicely with e.g. GNOME's backlight control.
-> > > Don't forget that in the future there will be devices that natively support
-> > > LampArray in their firmware, so for them it is the same device.
-> > Yeah, the generic LampArray support will not be able to differentiate
-> > "emulated" devices from native ones.
-> > 
-> > > Regards,
-> > > 
-> > > Werner
-> > > 
-> > > > And then when OpenRGB wants to take over it can just unbind the HID
-> > > > driver from the HID device using existing mechanisms for that.
-> > Again no, it'll be too unpredicted.
-> > 
-> > > > Hmm, I wonder if that will not also kill hidraw support though ...
-> > > > I guess getting hidraw support back might require then also manually
-> > > > binding the default HID input driver.  Bentiss any input on this?
-> > To be able to talk over hidraw you need a driver to be bound, yes. But I
-> > had the impression that LampArray would be supported by default in
-> > hid-input.c, thus making this hard to remove. Having a separate driver
-> > will work, but as soon as the LampArray device will also export a
-> > multitouch touchpad, we are screwed and will have to make a choice
-> > between LampArray and touch...
-> > 
-> > > > Background info: as discussed earlier in the thread Werner would like
-> > > > to have a basic driver registering a /sys/class/leds/foo::kbd_backlight/
-> > > > device, since those are automatically supported by GNOME (and others)
-> > > > and will give basic kbd backlight brightness control in the desktop
-> > > > environment. This could be a simple HID driver for
-> > > > the hid_allocate_device()-ed virtual HID device, but userspace needs
-> > > > to be able to move that out of the way when it wants to take over
-> > > > full control of the per key lighting.
-> > Do we really need to entirely unregister the led class device? Can't we
-> > snoop on the commands and get some "mean value"?
-> > 
-> > > > Regards,
-> > > > 
-> > > > Hans
-> > > > 
-> > > > 
-> > > > 
-> > > > 
-> > > > 
-> > > > 
-> > > > 
-> > > > > The control flow for the whole system would look something like this:
-> > > > > 
-> > > > > - System boots
-> > > > > 
-> > > > >       - Kernel driver initializes keyboard (maybe stops rainbowpuke boot effects, sets brightness to a default value, or initializes a solid color)
-> > > > > 
-> > > > >       - systemd-backlight restores last keyboard backlight brightness
-> > > > > 
-> > > > >       - UPower sees sysfs leds entry and exposes it to DBus for DEs to do keyboard brightness handling
-> > > > > 
-> > > > > - If the user wants more control they (auto-)start OpenRGB
-> > > > > 
-> > > > >       - OpenRGB disables sysfs leds entry via use_leds_uapi to prevent double control of the same device by UPower
-> > > > > 
-> > > > >       - OpenRGB directly interacts with hidraw device via LampArray API to give fine granular control of the backlight
-> > > > > 
-> > > > >       - When OpenRGB closes it should reenable the sysfs leds entry
-> > That's where your plan falls short: if OpenRGB crashes, or is killed it
-> > will not reset that bit.
-> > 
-> > Next question: is OpenRGB supposed to keep the hidraw node opened all
-> > the time or not?
-> TBH I didn't look at the OpenRGB code yet and LampArray there is currently
-> only planned. I somewhat hope that until the kernel driver is ready someone
-> else already picked up implementing LampArray in OpenRGB.
-> > 
-> > If it has to keep it open, we should be able to come up with a somewhat
-> > similar hack that we have with hid-steam: when the hidraw node is
-> > opened, we disable the kernel processing of LampArray. When the node is
-> > closed, we re-enable it.
-> > 
-> > But that also means we have to distinguish steam/SDL from OpenRGB...
-> 
-> My first thought here also: What is if something else is reading hidraw devices?
-> 
-> Especially for hidraw devices that are not just LampArray.
-> 
-> > 
-> > I just carefully read the LampArray spec. And it's simpler than what
-> > I expected. But the thing that caught my attention was that it's
-> > mentioned that there is no way for the host to query the current
-> > color/illumination of the LEDs when the mode is set to
-> > AutonomousMode=false. Which means that the kernel should be able to
-> > snoop into any commands sent from OpenRGB to the device, compute a mean
-> > value and update its internal state.
-> > 
-> > Basically all we need is the "toggle" to put the led class in read-only
-> > mode while OpenRGB kicks in. Maybe given that we are about to snoop on
-> > the commands sent, we can detect that there is a LampArray command
-> > emitted, attach this information to the struct file * in hidraw, and
-> > then re-enable rw when that user closes the hidraw node.
-> 
-> I think a read-only mode is not part of the current led class UAPI. Also I
-> don't want to associate AutonomousMode=true with led class is used.
-> AutonomousMode=true could for example mean that it is controlled via
-> keyboard shortcuts that are directly handled in the keyboard firmware, aka a
-> case where you want neither OpenRGB nor led class make any writes to the
-> keyboard.
-> 
-> Or AutonomousMode=true could mean that on a device that implements both a
-> LampArray interface as well as a proprietary legacy interface is currently
-> controlled via the proprietary legacy interface (a lot of which are
-> supported by OpenRGB).
+--Sig_/z6jMLYSlrTMOJ3Gjd3=7liM
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Then how is the kernel supposed to handle LampArrays?
+On Wed, 27 Mar 2024 07:11:48 +0000
+"Garg, Nemesa" <nemesa.garg@intel.com> wrote:
 
-If you need the kernel to use a ledclass, the kernel will have to set
-the device into AutonomousMode=false. When the kernel is done
-configuring the leds, it can not switch back to AutonomousMode=true or
-its config will likely be dumped by the device.
+> > -----Original Message-----
+> > From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+> > Sent: Wednesday, March 13, 2024 3:07 PM
+> > To: Garg, Nemesa <nemesa.garg@intel.com>
+> > Cc: Simon Ser <contact@emersion.fr>; intel-gfx@lists.freedesktop.org; d=
+ri-
+> > devel@lists.freedesktop.org; G M, Adarsh <adarsh.g.m@intel.com>
+> > Subject: Re: [RFC 0/5] Introduce drm sharpening property
+> >=20
+> > On Tue, 12 Mar 2024 16:26:00 +0200
+> > Pekka Paalanen <pekka.paalanen@haloniitty.fi> wrote:
+> >  =20
+> > > On Tue, 12 Mar 2024 08:30:34 +0000
+> > > "Garg, Nemesa" <nemesa.garg@intel.com> wrote:
+> > > =20
+> > > > This  KMS property is not implementing any formula =20
+> > >
+> > > Sure it is. Maybe Intel just does not want to tell what the algorithm
+> > > is, or maybe it's even patented.
+> > > =20
+> > > > and the values
+> > > > that are being used are based on empirical analysis and certain
+> > > > experiments done on the hardware. These values are fixed and is not
+> > > > expected to change and this can change from vendor to vendor. The
+> > > > client can choose any sharpness value on the scale and on the basis
+> > > > of it the sharpness will be set. The sharpness effect can be changed
+> > > > from content to content and from display to display so user needs to
+> > > > adjust the optimum intensity value so as to get good experience on
+> > > > the screen.
+> > > > =20
+> > >
+> > > IOW, it's an opaque box operation, and there is no way to reproduce
+> > > its results without the specific Intel hardware. Definitely no way to
+> > > reproduce its results in free open source software alone.
+> > >
+> > > Such opaque box operations can only occur after KMS blending, at the
+> > > CRTC or later stage. They cannot appear before blending, not in the
+> > > new KMS color pipeline design at least. The reason is that the modern
+> > > way to use KMS planes is opportunistic composition off-loading.
+> > > Opportunistic means that userspace decides from time to time whether
+> > > it composes the final picture using KMS or some other rendering method
+> > > (usually GPU and shaders). Since userspace will arbitrarily switch
+> > > between KMS and render composition, both must result in the exact same
+> > > image, or end users will observe unwanted flicker.
+> > >
+> > > Such opaque box operations are fine after blending, because there they
+> > > can be configured once and remain on forever. No switching, no flicke=
+r. =20
+> >=20
+> > If you want to see how sharpness property would apply in Wayland design=
+, it
+> > would be in step 5 "Adjust (settings UI)" of
+> > https://gitlab.freedesktop.org/pq/color-and-hdr/-/blob/main/doc/color-
+> > management-model.md#compositor-color-management-model
+> >=20
+> > To relate that diagram to KMS color processing, you can identify step 3=
+ "Compose"
+> > as the KMS blending step. Everything before step 3 happens in KMS plane=
+ color
+> > processing, and steps 4-5 happen in KMS CRTC color processing.
+> >=20
+> > Sharpening would essentially be a "compositor color effect", it just ha=
+ppens to be
+> > implementable only by specific Intel hardware.
+> >=20
+> > If a color effect is dynamic or content-dependant, it will preclude col=
+orimetric
+> > monitor calibration.
+> >=20
+> >=20
+> > Thanks,
+> > pq
+> >=20
+> >  =20
+> > > Where does "sharpeness" operation occur in the Intel color processing
+> > > chain? Is it before or after blending?
+> > >  =20
+> Thank you for detail explanation and link.
+> Sharpness operation occur post blending in CRTC ie on the final=20
+> composed output after blending . Yes Pekka you are right as per the=20
+> diagram it is done at step 5  "Adjust (settings UI)").  I  will also docu=
+ment this thing=20
+> along with documentation change.
+>=20
+> > > What kind of transfer characteristics does it expect from the image,
+> > > and can those be realized with KMS CRTC properties if KMS is
+> > > configured such that the blending happens using some other characteri=
+stics =20
+> > (e.g. =20
+> > > blending in optical space)?
+> > > =20
+> The filter values are not dependent/calculated on the inputs of=20
+>  image but depending on the blending space and other inputs the=20
+> blended output gets changed and the sharpness is applied post=20
+> blending so according to the content user needs to adjust the=20
+> strength value to get the better visual effect. So tuning of sharpness st=
+rength=20
+> may be needed by user based on  the input contents and blending policy
+> to get the desired experience.
+>=20
+> > > What about SDR vs. HDR imagery?
+> > > =20
+> The interface can be used for both HDR and SDR. The effect is more promin=
+ent for SDR use cases.
+> For HDR filter values and tap value may change.
 
-OpenRGB can open the device, switch it to AutonomousMode=false and we
-can rely on it to do the right things as long as it is alive. But I do
-not see how the kernel could do the same.
+Who will be providing these values?
 
-FWIW, I also have a couple of crazy ideas currently boiling in my head
-to "solve" that but I'd rather have a consensus on the high level side
-of things before we go too deep into the technical workaround.
+The kernel driver cannot know if it is dealing with SDR or HDR or which
+transfer function is in effect at that point of the post-blending color
+pipeline.
 
-Cheers,
-Benjamin
+If the UAPI is one "strength" value, then how can it work?
 
-> 
-> Regards,
-> 
-> Werner
-> 
-> > 
-> > Cheers,
-> > Benjamin
-> > 
-> > > > > - System shutdown
-> > > > > 
-> > > > >       - Since OpenRGB reenables the sysfs leds entry, systemd-backlight can correctly store a brightness value for next boot
-> > > > > 
-> > > > > Regards,
-> > > > > 
-> > > > > Werner
-> > > > > 
-> > > > > > Side note to self: I really need to resurrect the hidraw revoke series
-> > > > > > so we could export those hidraw node to userspace with uaccess through
-> > > > > > logind...
-> > > > > > 
-> > > > > > Cheers,
-> > > > > > Benjamin
+Maybe the UAPI needs more controls, if not providing all "filter and
+tap" values directly. Maybe all the filter and tap values should be
+provided by userspace?
+
+
+Thanks,
+pq
+
+--Sig_/z6jMLYSlrTMOJ3Gjd3=7liM
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYEAwwACgkQI1/ltBGq
+qqcoCg/9F7rUs1SNU1cehYWcs7ZjnrbUPFcR6zF6wI1uKryRcv2WPn7HFX1nPKfv
+yeIsit0cqibCs/FhD/DEUUsYo3u9qIzJA4wRZABUdUojwsMpy8bK0vhRFs6iKtZM
+GKkJbZtvSmcRp2Fm0c/sO5EZiqquOXHab/obJxwrUQ6t6wrqGOXMOPaSQnmpbtkY
+D/9R5We8q5JGyJ4YqMpfkyMpeTeF5Yzp6x8vrcIKHEk9WpJopPyKMH3MXV5zyVIP
+LW3ZG+0XbmEfW3fHuzboAf2JcJzbHsK5wYWrMkAPVBRB+PoZGCTOH5s+mx0uD1Yg
+Ow+PNtltwq7n15WoWDsiGbuiIqn4GEKmAi7vNbiDqz1QYGpx617aeO04cg1enGEX
+XWNlH7TPEvhv5Thz7dt78OjuY6/SGKkfCheOQhfHadRtEf/+D3bBo62UK2YilaZD
+/24m+2tDPLdnfTos1I9ROV6cxoFRZmfujy2sCbOgkjEI7dG28w0hnObjYK0oo5bJ
+42H+bubpX6amjmNi1co4hD3TVpUNt2LLzzzmYH76h64vaapf4TKYap2GYtxgoFtp
+RzPXI28Unlj/WJhUZA1RAK0cT1EBQJsX31ai1Kvz02HviGPtS3/7ZYhIIaI9D8aN
+8wHy+45U9IYzwWTLGO1JjIFb9Cuje8Ft4SYYKRCnL9OdbVhmoAk=
+=3q9E
+-----END PGP SIGNATURE-----
+
+--Sig_/z6jMLYSlrTMOJ3Gjd3=7liM--
