@@ -2,68 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F4EB88EF64
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 20:39:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 404EA88EFD5
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 21:06:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31E7810EA6F;
-	Wed, 27 Mar 2024 19:39:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7351410FFB1;
+	Wed, 27 Mar 2024 20:06:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SKHszxO4";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LXVMkoZL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9624710EA6F
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 19:39:29 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5DD3761173;
- Wed, 27 Mar 2024 19:39:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3492BC433C7;
- Wed, 27 Mar 2024 19:39:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711568368;
- bh=mgDCCV9DYm3gE81YovhkygNKHO9RS0DsGnhFgu3kHyA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SKHszxO4HY0/TKQKrYd5xjeNheZExttn6ouZSQo7RamEADgZOHEGKOgxLgWnDAQsX
- TQk1EiCgbOjPSXUXVDKc1GHuMb8JYfr2n9dUTSMBL4fPlQCFaWvqtzr7SljGX8ozL0
- d+GxeE8i5/jrK3YAq+PzsRs9yg9Ub9Ye0zUWxbvydciwA80gaS/Cm+ZdJSIaW62wjN
- 8mgdqhfJd0T7WESQFdfsQPBT5oU/lItq2D11cSo/Qk/7TSLc6IaPfRphmumfAFxMTP
- w0oml1KABCZkKYStlxNthCpMKTFGN6FZPoQQlay9J46ava0AXCk2S+OoNd/Q7U91J0
- LlcAACEC05P/g==
-Date: Wed, 27 Mar 2024 19:39:20 +0000
-From: Simon Horman <horms@kernel.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>,
- David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Maxime Ripard <mripard@kernel.org>,
- Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, loongarch@lists.linux.dev,
- netdev@vger.kernel.org, Linux Kernel Functional Testing <lkft@linaro.org>
-Subject: Re: [PATCH v2 12/14] sh: Add support for suppressing warning
- backtraces
-Message-ID: <20240327193920.GV403975@kernel.org>
-References: <20240325175248.1499046-1-linux@roeck-us.net>
- <20240325175248.1499046-13-linux@roeck-us.net>
- <20240327144431.GL403975@kernel.org>
- <320aacc6-b7e5-4c3d-948e-d0743ab26c5d@roeck-us.net>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DB4110FFB1;
+ Wed, 27 Mar 2024 20:06:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1711569976; x=1743105976;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=am2mj8+T6SMuackNPS20P6/aicAB83dsYfqBlgU/oRc=;
+ b=LXVMkoZL+0l3t7nvzWvXep2kvOA2Fsuyc4I2Pu6lqtIimJDbdL6bO+/p
+ ZCxNgy92HSh7Ci/EiNO6w8izk113DM3nkt6f8dzmceU7NlF+GIK0tjumq
+ +NmXb9IE/62ech/53SZdQ1vqbSiDLOupQ5nwVDHti+Lwv2k5IohU1IxhQ
+ Tty+GVHEmapoqAC0frbY86zQxBIbZos/9lzqxQcH0aokklBrsRZQeFqFO
+ p9WArJfWy2HBdj/U4yO4nzBPaVV6NY2oCykPo+QPttITADvzSiRTS5pQB
+ YxamzHuMphFJY+CCN4riBIBTCkD5WesiScC3kToea1EpDeE2V4sp0D55H A==;
+X-CSE-ConnectionGUID: YgM83BlqQBKDHuQctz5rCA==
+X-CSE-MsgGUID: P2SsMx3sSH6P/+HmzQ9W1A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="6526135"
+X-IronPort-AV: E=Sophos;i="6.07,159,1708416000"; 
+   d="scan'208";a="6526135"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Mar 2024 13:06:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,159,1708416000"; d="scan'208";a="21126588"
+Received: from unknown (HELO intel.com) ([10.247.118.215])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Mar 2024 13:06:07 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Michal Mrozek <michal.mrozek@intel.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ mateusz.jablonski@intel.com, Andi Shyti <andi.shyti@kernel.org>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
+Subject: [PATCH] drm/i915/gt: Limit the reserved VM space to only the
+ platforms that need it
+Date: Wed, 27 Mar 2024 21:05:46 +0100
+Message-ID: <20240327200546.640108-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <320aacc6-b7e5-4c3d-948e-d0743ab26c5d@roeck-us.net>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,101 +73,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 27, 2024 at 08:10:51AM -0700, Guenter Roeck wrote:
-> On 3/27/24 07:44, Simon Horman wrote:
-> > On Mon, Mar 25, 2024 at 10:52:46AM -0700, Guenter Roeck wrote:
-> > > Add name of functions triggering warning backtraces to the __bug_table
-> > > object section to enable support for suppressing WARNING backtraces.
-> > > 
-> > > To limit image size impact, the pointer to the function name is only added
-> > > to the __bug_table section if both CONFIG_KUNIT_SUPPRESS_BACKTRACE and
-> > > CONFIG_DEBUG_BUGVERBOSE are enabled. Otherwise, the __func__ assembly
-> > > parameter is replaced with a (dummy) NULL parameter to avoid an image size
-> > > increase due to unused __func__ entries (this is necessary because __func__
-> > > is not a define but a virtual variable).
-> > > 
-> > > Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
-> > > Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> > > ---
-> > > - Rebased to v6.9-rc1
-> > > - Added Tested-by:, Acked-by:, and Reviewed-by: tags
-> > > - Introduced KUNIT_SUPPRESS_BACKTRACE configuration option
-> > > 
-> > >   arch/sh/include/asm/bug.h | 26 ++++++++++++++++++++++----
-> > >   1 file changed, 22 insertions(+), 4 deletions(-)
-> > > 
-> > > diff --git a/arch/sh/include/asm/bug.h b/arch/sh/include/asm/bug.h
-> > > index 05a485c4fabc..470ce6567d20 100644
-> > > --- a/arch/sh/include/asm/bug.h
-> > > +++ b/arch/sh/include/asm/bug.h
-> > > @@ -24,21 +24,36 @@
-> > >    * The offending file and line are encoded in the __bug_table section.
-> > >    */
-> > >   #ifdef CONFIG_DEBUG_BUGVERBOSE
-> > > +
-> > > +#ifdef CONFIG_KUNIT_SUPPRESS_BACKTRACE
-> > > +# define HAVE_BUG_FUNCTION
-> > > +# define __BUG_FUNC_PTR	"\t.long %O2\n"
-> > > +#else
-> > > +# define __BUG_FUNC_PTR
-> > > +#endif /* CONFIG_KUNIT_SUPPRESS_BACKTRACE */
-> > > +
-> > 
-> > Hi Guenter,
-> > 
-> > a minor nit from my side: this change results in a Kernel doc warning.
-> > 
-> >       .../bug.h:29: warning: expecting prototype for _EMIT_BUG_ENTRY(). Prototype was for HAVE_BUG_FUNCTION() instead
-> > 
-> > Perhaps either the new code should be placed above the Kernel doc,
-> > or scripts/kernel-doc should be enhanced?
-> > 
-> 
-> Thanks a lot for the feedback.
-> 
-> The definition block needs to be inside CONFIG_DEBUG_BUGVERBOSE,
-> so it would be a bit odd to move it above the documentation
-> just to make kerneldoc happy. I am not really sure that to do
-> about it.
+Commit 9bb66c179f50 ("drm/i915: Reserve some kernel space per
+vm") reduces the available VM space of one page in order to apply
+Wa_16018031267 and Wa_16018063123.
 
-FWIIW, I agree that would be odd.
-But perhaps the #ifdef could also move above the Kernel doc?
-Maybe not a great idea, but the best one I've had so far.
+This page was reserved indiscrimitely in all platforms even when
+not needed. Limit it to DG2 onwards.
 
-> I'll wait for comments from others before making any changes.
-> 
-> Thanks,
-> Guenter
-> 
-> > >   #define _EMIT_BUG_ENTRY				\
-> > >   	"\t.pushsection __bug_table,\"aw\"\n"	\
-> > >   	"2:\t.long 1b, %O1\n"			\
-> > > -	"\t.short %O2, %O3\n"			\
-> > > -	"\t.org 2b+%O4\n"			\
-> > > +	__BUG_FUNC_PTR				\
-> > > +	"\t.short %O3, %O4\n"			\
-> > > +	"\t.org 2b+%O5\n"			\
-> > >   	"\t.popsection\n"
-> > >   #else
-> > >   #define _EMIT_BUG_ENTRY				\
-> > >   	"\t.pushsection __bug_table,\"aw\"\n"	\
-> > >   	"2:\t.long 1b\n"			\
-> > > -	"\t.short %O3\n"			\
-> > > -	"\t.org 2b+%O4\n"			\
-> > > +	"\t.short %O4\n"			\
-> > > +	"\t.org 2b+%O5\n"			\
-> > >   	"\t.popsection\n"
-> > >   #endif
-> > > +#ifdef HAVE_BUG_FUNCTION
-> > > +# define __BUG_FUNC	__func__
-> > > +#else
-> > > +# define __BUG_FUNC	NULL
-> > > +#endif
-> > > +
-> > >   #define BUG()						\
-> > >   do {							\
-> > >   	__asm__ __volatile__ (				\
-> > 
-> > ...
-> 
+Fixes: 9bb66c179f50 ("drm/i915: Reserve some kernel space per vm")
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
+Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
+Cc: Nirmoy Das <nirmoy.das@intel.com>
+---
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c | 3 +++
+ drivers/gpu/drm/i915/gt/intel_gt.c   | 6 ++++++
+ drivers/gpu/drm/i915/gt/intel_gt.h   | 9 +++++----
+ 3 files changed, 14 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+index 1bd0e041e15c..398d60a66410 100644
+--- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
++++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+@@ -961,6 +961,9 @@ static int gen8_init_rsvd(struct i915_address_space *vm)
+ 	struct i915_vma *vma;
+ 	int ret;
+ 
++	if (!intel_gt_needs_wa_16018031267(vm->gt))
++		return 0;
++
+ 	/* The memory will be used only by GPU. */
+ 	obj = i915_gem_object_create_lmem(i915, PAGE_SIZE,
+ 					  I915_BO_ALLOC_VOLATILE |
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+index 2c6d31b8fc1a..580b5141ce1e 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+@@ -1024,6 +1024,12 @@ enum i915_map_type intel_gt_coherent_map_type(struct intel_gt *gt,
+ 		return I915_MAP_WC;
+ }
+ 
++bool intel_gt_needs_wa_16018031267(struct intel_gt *gt)
++{
++	/* Wa_16018031267, Wa_16018063123 */
++	return IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 55), IP_VER(12, 71));
++}
++
+ bool intel_gt_needs_wa_22016122933(struct intel_gt *gt)
+ {
+ 	return MEDIA_VER_FULL(gt->i915) == IP_VER(13, 0) && gt->type == GT_MEDIA;
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
+index 6e7cab60834c..b5e114d284ad 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt.h
+@@ -82,17 +82,18 @@ struct drm_printer;
+ 		  ##__VA_ARGS__);					\
+ } while (0)
+ 
+-#define NEEDS_FASTCOLOR_BLT_WABB(engine) ( \
+-	IS_GFX_GT_IP_RANGE(engine->gt, IP_VER(12, 55), IP_VER(12, 71)) && \
+-	engine->class == COPY_ENGINE_CLASS && engine->instance == 0)
+-
+ static inline bool gt_is_root(struct intel_gt *gt)
+ {
+ 	return !gt->info.id;
+ }
+ 
++bool intel_gt_needs_wa_16018031267(struct intel_gt *gt);
+ bool intel_gt_needs_wa_22016122933(struct intel_gt *gt);
+ 
++#define NEEDS_FASTCOLOR_BLT_WABB(engine) ( \
++	intel_gt_needs_wa_16018031267(engine->gt) && \
++	engine->class == COPY_ENGINE_CLASS && engine->instance == 0)
++
+ static inline struct intel_gt *uc_to_gt(struct intel_uc *uc)
+ {
+ 	return container_of(uc, struct intel_gt, uc);
+-- 
+2.43.0
+
