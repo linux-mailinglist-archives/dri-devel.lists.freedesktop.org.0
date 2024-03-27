@@ -2,57 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE33488ECB6
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 18:33:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D366088ECFD
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 18:47:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D680C10FE4D;
-	Wed, 27 Mar 2024 17:33:33 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HswMO7Dh";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FC0B10FECF;
+	Wed, 27 Mar 2024 17:47:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EEAA10FE4D
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 17:33:32 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5795810FECF
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 17:47:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5D98760BA0;
- Wed, 27 Mar 2024 17:33:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1591C433F1;
- Wed, 27 Mar 2024 17:33:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711560811;
- bh=XcISWJmiP1jYqJUIUhyT8r1VsuUqiY1gK8gvy6LLjU4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HswMO7Dh++iQsFShyRLIWJ8dAKKMGV9SwB+Zkp8RfWzkNV/aksMVeBechXf6+yGAm
- nxGO0uBjsWVRcTYD4w8T9aZ0/R4ofuWlkdzJIVwV5Q1R4wmIZbSTD/hslco8t0e8Pe
- jqsFrYGwleZia8Fx8QlspHSX1UpTvNstm7AG3DHR5cbsttX4HsjURyOUZkwAyaq4uy
- Lqc3qeSOQ5j+vwXRSB1tF43QFM4pqIgJn2YyHJZ3+ul1fs3N8KR6/8oA6eAKs/YYg7
- 0MddWO3+wbOq1nkQUsg9FCDZqrIUvK+ABoLxABGS3sFLIaRNywvYbNXTRZnovtKbMF
- 8Z6VdhHo1N2Jg==
-Date: Wed, 27 Mar 2024 12:33:28 -0500
-From: Rob Herring <robh@kernel.org>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Daniel Vetter <daniel@ffwll.ch>, Robert Foss <rfoss@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [PATCH v2] dt-bindings: display: bridge: it6505: Add
- #sound-dai-cells
-Message-ID: <171156080808.3681700.13600868771478432605.robh@kernel.org>
-References: <20240327085250.3427496-1-wenst@chromium.org>
+ by sin.source.kernel.org (Postfix) with ESMTP id B33ABCE263C;
+ Wed, 27 Mar 2024 17:47:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31ECDC43390;
+ Wed, 27 Mar 2024 17:47:17 +0000 (UTC)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] video: backlight: otm3225a: drop driver owner assignment
+Date: Wed, 27 Mar 2024 18:47:14 +0100
+Message-Id: <20240327174714.519577-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240327085250.3427496-1-wenst@chromium.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,27 +44,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Core in spi_register_driver() already sets the .owner, so driver
+does not need to.
 
-On Wed, 27 Mar 2024 16:52:48 +0800, Chen-Yu Tsai wrote:
-> The ITE IT6505 display bridge can take one I2S input and transmit it
-> over the DisplayPort link.
-> 
-> Add #sound-dai-cells (= 0) to the binding for it.
-> 
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
-> Changes since v1 [1]:
-> - Reference /schemas/sound/dai-common.yaml
-> - Change "additionalProperties: false" to "unevaluatedProperties: false"
-> 
-> The driver side changes [2] are still being worked on.
-> 
-> [1] https://lore.kernel.org/dri-devel/20240126073511.2708574-1-wenst@chromium.org/
-> [2] https://lore.kernel.org/linux-arm-kernel/20230730180803.22570-4-jiaxin.yu@mediatek.com/
-> ---
->  .../devicetree/bindings/display/bridge/ite,it6505.yaml    | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ drivers/video/backlight/otm3225a.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+diff --git a/drivers/video/backlight/otm3225a.c b/drivers/video/backlight/otm3225a.c
+index 2472e2167aae..4568020abf3c 100644
+--- a/drivers/video/backlight/otm3225a.c
++++ b/drivers/video/backlight/otm3225a.c
+@@ -239,7 +239,6 @@ static int otm3225a_probe(struct spi_device *spi)
+ static struct spi_driver otm3225a_driver = {
+ 	.driver = {
+ 		.name = "otm3225a",
+-		.owner = THIS_MODULE,
+ 	},
+ 	.probe = otm3225a_probe,
+ };
+-- 
+2.34.1
 
