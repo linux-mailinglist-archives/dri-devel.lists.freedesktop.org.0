@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DA3588DF77
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:24:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC9F88DF7C
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:24:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E96410FC5C;
-	Wed, 27 Mar 2024 12:24:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D518E10FC55;
+	Wed, 27 Mar 2024 12:24:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ut55yG+D";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="squHc9Id";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23BAD10FC4C;
- Wed, 27 Mar 2024 12:24:10 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23E1910FC53;
+ Wed, 27 Mar 2024 12:24:25 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 6C9F0CE2615;
- Wed, 27 Mar 2024 12:24:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE5E9C433C7;
- Wed, 27 Mar 2024 12:24:06 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8DA5D61507;
+ Wed, 27 Mar 2024 12:24:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 082EFC433F1;
+ Wed, 27 Mar 2024 12:24:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711542247;
- bh=KgA1WFhnJIUHCVfRQyIfO8XDVvOxQtNa6YUEtVnt09Q=;
+ s=k20201202; t=1711542264;
+ bh=gy4WXB35sp3fKwpgMCxRtYEoja6KLUZWH8meEUVY4Tg=;
  h=From:To:Cc:Subject:Date:From;
- b=Ut55yG+D9Ond13evlXfGKoWAt88cQMwIzUHgdWtJGj1EHwatz4likyN290tT3rbjt
- mQ8/97yE3YSzmx1P1+SE1WHZ5W71uJIMFQCOacbY9jaRGKI723FVq8SDlzGTQo7+fc
- GdfNiwcnUcLwL9xxJVLaF6bsSKqPV/n6m24I/64yrGDvKYFAqpA7gUS6nDakaqiDEL
- M57v9moN0EI9rfeqICJ1qlcx2+zk+D9KYjxF8ccGSIltxzvaUBtkYd0kVAtmie+MO0
- UmM/yiXpyRcQwClEvsPLJqjEy24I9djlGVQcXuQN3XCM+o3PSSIt2sH+76exCuXsjS
- h93OfvmbEzmdQ==
+ b=squHc9IdXVF8geFMlD7k6usNBOQcJZT6ZkKIDcjIQx/h3huFpjHZaau5xn1h4SM1p
+ 55gIwn64s22Dj7oKXaYzlta2qiHhnjaBpyizxiJkKI1ayz/6Il1e2R8MVmx/6tNxkR
+ PiZkh3n+JRxJPYpS9bR4PJYsHVjmvTx07Rldm+0yj6O5SiNu4OIa0P47qkH9KE6Bf6
+ NQQKZrytb4JQL5FgPwoUzQGdaKxzCGPRaIn+FPXblKPbFuac2g4xAOF6ZkcwBSvzva
+ dxiHY+LwfnOnOCRs0Q3Lu96SXHCZcQg1GscnjoJvCV7u61Rbywcy7mDm3p/RJMYy0F
+ UQ7UCD7oL35Vg==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	ivlipski@amd.com
-Cc: Daniel Wheeler <daniel.wheeler@amd.com>, Sun peng Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+	charlene.liu@amd.com
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Sung joon Kim <sungjoon.kim@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: Add monitor patch for specific eDP"
- failed to apply to 5.4-stable tree
-Date: Wed, 27 Mar 2024 08:24:05 -0400
-Message-ID: <20240327122405.2839110-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/amd/display: Add logging resource checks" failed
+ to apply to 5.4-stable tree
+Date: Wed, 27 Mar 2024 08:24:21 -0400
+Message-ID: <20240327122422.2839355-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -71,46 +72,81 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 21afc872fbc29cd68cfde816d1df4d55848c3f61 Mon Sep 17 00:00:00 2001
-From: Ivan Lipski <ivlipski@amd.com>
-Date: Fri, 1 Dec 2023 06:25:16 -0700
-Subject: [PATCH] drm/amd/display: Add monitor patch for specific eDP
+From 012fe0674af0753e71424b638960adbfb7f3db5a Mon Sep 17 00:00:00 2001
+From: Charlene Liu <charlene.liu@amd.com>
+Date: Thu, 28 Dec 2023 13:19:33 -0500
+Subject: [PATCH] drm/amd/display: Add logging resource checks
 
-[WHY]
-Some eDP panels's ext caps don't write initial value cause the value of
-dpcd_addr(0x317) is random.  It means that sometimes the eDP will
-clarify it is OLED, miniLED...etc cause the backlight control interface
-is incorrect.
+[Why]
+When mapping resources, resources could be unavailable.
 
-[HOW]
-Add a new panel patch to remove sink ext caps(HDR,OLED...etc)
-
+Cc: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: stable@vger.kernel.org
+Reviewed-by: Sung joon Kim <sungjoon.kim@amd.com>
+Acked-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Charlene Liu <charlene.liu@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Reviewed-by: Sun peng Li <sunpeng.li@amd.com>
-Acked-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
-Signed-off-by: Ivan Lipski <ivlipski@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/amd/display/dc/core/dc.c          | 4 +++-
+ drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 4 ++++
+ drivers/gpu/drm/amd/display/dc/core/dc_state.c    | 5 +++--
+ 3 files changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index b4696ec621c45..eaf8d9f482446 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -64,6 +64,12 @@ static void apply_edid_quirks(struct edid *edid, struct dc_edid_caps *edid_caps)
- 		DRM_DEBUG_DRIVER("Disabling FAMS on monitor with panel id %X\n", panel_id);
- 		edid_caps->panel_patch.disable_fams = true;
- 		break;
-+	/* Workaround for some monitors that do not clear DPCD 0x317 if FreeSync is unsupported */
-+	case drm_edid_encode_panel_id('A', 'U', 'O', 0xA7AB):
-+	case drm_edid_encode_panel_id('A', 'U', 'O', 0xE69B):
-+		DRM_DEBUG_DRIVER("Clearing DPCD 0x317 on monitor with panel id %X\n", panel_id);
-+		edid_caps->panel_patch.remove_sink_ext_caps = true;
-+		break;
- 	default:
- 		return;
- 	}
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 69e726630241d..aa7c02ba948e9 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -3522,7 +3522,7 @@ static void commit_planes_for_stream(struct dc *dc,
+ 	top_pipe_to_program = resource_get_otg_master_for_stream(
+ 				&context->res_ctx,
+ 				stream);
+-
++	ASSERT(top_pipe_to_program != NULL);
+ 	for (i = 0; i < dc->res_pool->pipe_count; i++) {
+ 		struct pipe_ctx *old_pipe = &dc->current_state->res_ctx.pipe_ctx[i];
+ 
+@@ -4345,6 +4345,8 @@ static bool should_commit_minimal_transition_for_windowed_mpo_odm(struct dc *dc,
+ 
+ 	cur_pipe = resource_get_otg_master_for_stream(&dc->current_state->res_ctx, stream);
+ 	new_pipe = resource_get_otg_master_for_stream(&context->res_ctx, stream);
++	if (!cur_pipe || !new_pipe)
++		return false;
+ 	cur_is_odm_in_use = resource_get_odm_slice_count(cur_pipe) > 1;
+ 	new_is_odm_in_use = resource_get_odm_slice_count(new_pipe) > 1;
+ 	if (cur_is_odm_in_use == new_is_odm_in_use)
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+index f2abc1096ffb6..9fbdb09697fd5 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+@@ -2194,6 +2194,10 @@ void resource_log_pipe_topology_update(struct dc *dc, struct dc_state *state)
+ 	for (stream_idx = 0; stream_idx < state->stream_count; stream_idx++) {
+ 		otg_master = resource_get_otg_master_for_stream(
+ 				&state->res_ctx, state->streams[stream_idx]);
++		if (!otg_master	|| otg_master->stream_res.tg == NULL) {
++			DC_LOG_DC("topology update: otg_master NULL stream_idx %d!\n", stream_idx);
++			return;
++		}
+ 		slice_count = resource_get_opp_heads_for_otg_master(otg_master,
+ 				&state->res_ctx, opp_heads);
+ 		for (slice_idx = 0; slice_idx < slice_count; slice_idx++) {
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_state.c b/drivers/gpu/drm/amd/display/dc/core/dc_state.c
+index 56feee0ff01b1..88c6436b28b69 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_state.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_state.c
+@@ -434,8 +434,9 @@ bool dc_state_add_plane(
+ 
+ 	otg_master_pipe = resource_get_otg_master_for_stream(
+ 			&state->res_ctx, stream);
+-	added = resource_append_dpp_pipes_for_plane_composition(state,
+-			dc->current_state, pool, otg_master_pipe, plane_state);
++	if (otg_master_pipe)
++		added = resource_append_dpp_pipes_for_plane_composition(state,
++				dc->current_state, pool, otg_master_pipe, plane_state);
+ 
+ 	if (added) {
+ 		stream_status->plane_states[stream_status->plane_count] =
 -- 
 2.43.0
 
