@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8537B88DDB5
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:10:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD4A588DDB8
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:10:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7DFF10FAE6;
-	Wed, 27 Mar 2024 12:10:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98EA710FAEA;
+	Wed, 27 Mar 2024 12:10:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kIoltMBT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ai+Ntd+S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEC1A10FADC;
- Wed, 27 Mar 2024 12:10:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3929E10FADF;
+ Wed, 27 Mar 2024 12:10:47 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4191361519;
- Wed, 27 Mar 2024 12:10:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D01DCC43390;
- Wed, 27 Mar 2024 12:10:35 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9381461516;
+ Wed, 27 Mar 2024 12:10:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEC2BC43390;
+ Wed, 27 Mar 2024 12:10:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541437;
- bh=973BjNaEfoc4WksJE7g+5Gek4K2dQ/b3ekPtSZXKHug=;
+ s=k20201202; t=1711541446;
+ bh=K2PVQU4TqWEZirqo8n6sE/o/4af9Vnjw4M8jG2nVK0w=;
  h=From:To:Cc:Subject:Date:From;
- b=kIoltMBTKSi4U5K0yTKsgZV8iuoF1MVgVXTWHr3PoYcDIyJVjDXwg7DdixFSV4KEY
- TcRKu6Et6jpeJ5o8YMqGLwaup0sA2ercFdfDA/htTrCf4h9X7HC+Q5xQo9T9V2sfoJ
- jIwroyry3CjJC+s8lpbSH+0auzSpoPRWi+BdcHXoOla49exay1cgyiPwrmy2aW+eW2
- Hs9XgcPbgdBBzcQiJ+HjoWjzB44NfZ3JYH9fT56Z2caY1CpTZ8BCHTMQ09H8k7SiA4
- LPXJYFOeO5NW/8AD6/IFjhmrNi/NBIDyEHELrCmw87U522VpS5V3xcq5yLTsGDOjQV
- DOjKjfQgXN/Ag==
+ b=Ai+Ntd+SyHQLoP+D3uP6xSijfEfmQ/Ck8Sl0tImqeIT4oizsQROlUGfPZG0djS8pr
+ DBOXf73LXGLoz7L1/PawdXQwyooiaUssVoKFnX4WFtBPq0qo6wP6CZ55AdPdXiwIQW
+ u0R2Ul+fz6QlCrWVaXbVdhX75xGstWj3Zs0qZYEPvqEZSwHHLWRSioXS8UiPZOL2Et
+ zfPi9M3KN6f3j07oqErO4BFx0Z0NohjkYPb48NpS9goA2hntvIDzLh7fuieMyewodo
+ AP4HJlEBY48gpVrLvajN/ypVG2NmjS1tOOJ5bJ/gHPl37/jkgfQCM5um7vPa4Q3nA8
+ qbnxqBAo1pK0g==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	sohaib.nadeem@amd.com
+	charlene.liu@amd.com
 Cc: Mario Limonciello <mario.limonciello@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
- Alex Hung <alex.hung@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: Override min required DCFCLK in
- dml1_validate" failed to apply to 6.6-stable tree
-Date: Wed, 27 Mar 2024 08:10:34 -0400
-Message-ID: <20240327121034.2828064-1-sashal@kernel.org>
+ Alex Deucher <alexander.deucher@amd.com>,
+ Sung joon Kim <sungjoon.kim@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: FAILED: Patch "drm/amd/display: Add logging resource checks" failed
+ to apply to 6.6-stable tree
+Date: Wed, 27 Mar 2024 08:10:43 -0400
+Message-ID: <20240327121044.2828208-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -72,81 +72,81 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 26fbcb3da77efc77bd7327b7916338d773cca484 Mon Sep 17 00:00:00 2001
-From: Sohaib Nadeem <sohaib.nadeem@amd.com>
-Date: Wed, 14 Feb 2024 13:51:16 -0500
-Subject: [PATCH] drm/amd/display: Override min required DCFCLK in
- dml1_validate
+From 012fe0674af0753e71424b638960adbfb7f3db5a Mon Sep 17 00:00:00 2001
+From: Charlene Liu <charlene.liu@amd.com>
+Date: Thu, 28 Dec 2023 13:19:33 -0500
+Subject: [PATCH] drm/amd/display: Add logging resource checks
 
-[WHY]:
-Increasing min DCFCLK addresses underflow issues that occur when phantom
-pipe is turned on for some Sub-Viewport configs
-
-[HOW]:
-dcn32_override_min_req_dcfclk is added to override DCFCLK value in
-dml1_validate when subviewport is being used.
+[Why]
+When mapping resources, resources could be unavailable.
 
 Cc: Mario Limonciello <mario.limonciello@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
-Reviewed-by: Alvin Lee <alvin.lee2@amd.com>
+Reviewed-by: Sung joon Kim <sungjoon.kim@amd.com>
 Acked-by: Alex Hung <alex.hung@amd.com>
-Signed-off-by: Sohaib Nadeem <sohaib.nadeem@amd.com>
+Signed-off-by: Charlene Liu <charlene.liu@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- .../gpu/drm/amd/display/dc/dcn32/dcn32_resource_helpers.c   | 6 ++++++
- .../gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c  | 1 +
- .../gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.h  | 3 +++
- 3 files changed, 10 insertions(+)
+ drivers/gpu/drm/amd/display/dc/core/dc.c          | 4 +++-
+ drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 4 ++++
+ drivers/gpu/drm/amd/display/dc/core/dc_state.c    | 5 +++--
+ 3 files changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource_helpers.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource_helpers.c
-index 87760600e154d..f98def6c8c2d2 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource_helpers.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource_helpers.c
-@@ -782,3 +782,9 @@ void dcn32_update_dml_pipes_odm_policy_based_on_context(struct dc *dc, struct dc
- 		pipe_cnt++;
- 	}
- }
-+
-+void dcn32_override_min_req_dcfclk(struct dc *dc, struct dc_state *context)
-+{
-+	if (dcn32_subvp_in_use(dc, context) && context->bw_ctx.bw.dcn.clk.dcfclk_khz <= MIN_SUBVP_DCFCLK_KHZ)
-+		context->bw_ctx.bw.dcn.clk.dcfclk_khz = MIN_SUBVP_DCFCLK_KHZ;
-+}
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
-index 3f3951f3ba983..f844f57ecc49b 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
-@@ -1771,6 +1771,7 @@ static bool dml1_validate(struct dc *dc, struct dc_state *context, bool fast_val
- 	dc->res_pool->funcs->calculate_wm_and_dlg(dc, context, pipes, pipe_cnt, vlevel);
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 69e726630241d..aa7c02ba948e9 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -3522,7 +3522,7 @@ static void commit_planes_for_stream(struct dc *dc,
+ 	top_pipe_to_program = resource_get_otg_master_for_stream(
+ 				&context->res_ctx,
+ 				stream);
+-
++	ASSERT(top_pipe_to_program != NULL);
+ 	for (i = 0; i < dc->res_pool->pipe_count; i++) {
+ 		struct pipe_ctx *old_pipe = &dc->current_state->res_ctx.pipe_ctx[i];
  
- 	dcn32_override_min_req_memclk(dc, context);
-+	dcn32_override_min_req_dcfclk(dc, context);
+@@ -4345,6 +4345,8 @@ static bool should_commit_minimal_transition_for_windowed_mpo_odm(struct dc *dc,
  
- 	BW_VAL_TRACE_END_WATERMARKS();
+ 	cur_pipe = resource_get_otg_master_for_stream(&dc->current_state->res_ctx, stream);
+ 	new_pipe = resource_get_otg_master_for_stream(&context->res_ctx, stream);
++	if (!cur_pipe || !new_pipe)
++		return false;
+ 	cur_is_odm_in_use = resource_get_odm_slice_count(cur_pipe) > 1;
+ 	new_is_odm_in_use = resource_get_odm_slice_count(new_pipe) > 1;
+ 	if (cur_is_odm_in_use == new_is_odm_in_use)
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+index f2abc1096ffb6..9fbdb09697fd5 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+@@ -2194,6 +2194,10 @@ void resource_log_pipe_topology_update(struct dc *dc, struct dc_state *state)
+ 	for (stream_idx = 0; stream_idx < state->stream_count; stream_idx++) {
+ 		otg_master = resource_get_otg_master_for_stream(
+ 				&state->res_ctx, state->streams[stream_idx]);
++		if (!otg_master	|| otg_master->stream_res.tg == NULL) {
++			DC_LOG_DC("topology update: otg_master NULL stream_idx %d!\n", stream_idx);
++			return;
++		}
+ 		slice_count = resource_get_opp_heads_for_otg_master(otg_master,
+ 				&state->res_ctx, opp_heads);
+ 		for (slice_idx = 0; slice_idx < slice_count; slice_idx++) {
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_state.c b/drivers/gpu/drm/amd/display/dc/core/dc_state.c
+index 56feee0ff01b1..88c6436b28b69 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_state.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_state.c
+@@ -434,8 +434,9 @@ bool dc_state_add_plane(
  
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.h b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.h
-index 0c87b0fabba7d..2258c5c7212d8 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.h
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.h
-@@ -42,6 +42,7 @@
- #define SUBVP_ACTIVE_MARGIN_LIST_LEN 2
- #define DCN3_2_MAX_SUBVP_PIXEL_RATE_MHZ 1800
- #define DCN3_2_VMIN_DISPCLK_HZ 717000000
-+#define MIN_SUBVP_DCFCLK_KHZ 400000
+ 	otg_master_pipe = resource_get_otg_master_for_stream(
+ 			&state->res_ctx, stream);
+-	added = resource_append_dpp_pipes_for_plane_composition(state,
+-			dc->current_state, pool, otg_master_pipe, plane_state);
++	if (otg_master_pipe)
++		added = resource_append_dpp_pipes_for_plane_composition(state,
++				dc->current_state, pool, otg_master_pipe, plane_state);
  
- #define TO_DCN32_RES_POOL(pool)\
- 	container_of(pool, struct dcn32_resource_pool, base)
-@@ -181,6 +182,8 @@ bool dcn32_subvp_vblank_admissable(struct dc *dc, struct dc_state *context, int
- 
- void dcn32_update_dml_pipes_odm_policy_based_on_context(struct dc *dc, struct dc_state *context, display_e2e_pipe_params_st *pipes);
- 
-+void dcn32_override_min_req_dcfclk(struct dc *dc, struct dc_state *context);
-+
- /* definitions for run time init of reg offsets */
- 
- /* CLK SRC */
+ 	if (added) {
+ 		stream_status->plane_states[stream_status->plane_count] =
 -- 
 2.43.0
 
