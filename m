@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E37188DEE5
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:19:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E88C688DEE8
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:20:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EAE310FBD9;
-	Wed, 27 Mar 2024 12:19:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0407610FBDE;
+	Wed, 27 Mar 2024 12:20:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jL/+v8wk";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mH0tDSyr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BF1C10FBD6;
- Wed, 27 Mar 2024 12:19:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D29B10FBDA;
+ Wed, 27 Mar 2024 12:19:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D41E0614E2;
- Wed, 27 Mar 2024 12:19:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 751D7C433F1;
- Wed, 27 Mar 2024 12:19:47 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id F1570614E2;
+ Wed, 27 Mar 2024 12:19:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92634C433F1;
+ Wed, 27 Mar 2024 12:19:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541988;
- bh=egbXLkqW2ltqYLDtV6wrlHM4IKYp43oTYDDs7XtRjas=;
+ s=k20201202; t=1711541993;
+ bh=Tv6o3r7sQVwgQRW6nRj1GjB2HdqmINurVXYvEg1NhLE=;
  h=From:To:Cc:Subject:Date:From;
- b=jL/+v8wk6SaqbT5RprVf52E/yxtdY+3GRIdgJJxpr8NUpRn6f/9SDoPGKQczfXUlU
- PFLCnXIFxm/1vdJjmxExIAChTXx6mkgh6zVzWDI6ruggtmTzbonSgxpjfjWrQuqcpf
- inbz1ZUpotGGjL5GrhWjkZtk9g5SBGVzFQLpel0Wf2KZKde1+5SGlVMZh6A5OdG+89
- tVuxCzY8BsNcznxrYNnmE4N+5nADGGEHb19JT2RbYB9GBvkpMiwdF4Qriq+hzt/KfM
- ewSJJfzVePbMEX0q9XX6GJgxkKzF/ejQI1Q1iPlaTtp+9Q7UH1wNQYffry6lwULAir
- Gzva0okKwawHA==
+ b=mH0tDSyr2NT7mE8UnbGwyHbHO9nbpU8nB9AzNsTHqH9oEc7ItOKdRGBtbSIm7R+NE
+ gNGSFmeWqwV8nFVbKDlifihjVqNl9nVIEM+i0pke5WMCZxNf8UEmV6cDJoHY81Gtge
+ kQhEICEGqHfHGWKmsYwqipj5ZkOGkA1eRTP3HgYTu6IjZKC9uYvcC3X+y5/RAuA0Qd
+ N6IqGgobri8J2Zx9f6gvKp9y8/sMueoitgC7HR2bwreRCO/SMhOLwg+TGszJQH+fUb
+ pSYb9A4rhLUHp5fCkPLTHrB5k/EbAcJ85oJoktK3KTtfMJ8dQ54wAszIcXrrHYdVem
+ Xg6DepzWReX/A==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	allen.pan@amd.com
+	sohaib.nadeem@amd.com
 Cc: Mario Limonciello <mario.limonciello@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Charlene Liu <charlene.liu@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: Add a dc_state NULL check in
- dc_state_release" failed to apply to 5.10-stable tree
-Date: Wed, 27 Mar 2024 08:19:46 -0400
-Message-ID: <20240327121946.2835462-1-sashal@kernel.org>
+Subject: FAILED: Patch "Revert "drm/amd/display: increased min_dcfclk_mhz and
+ min_fclk_mhz"" failed to apply to 5.10-stable tree
+Date: Wed, 27 Mar 2024 08:19:51 -0400
+Message-ID: <20240327121951.2835537-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -72,41 +72,42 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 334b56cea5d9df5989be6cf1a5898114fa70ad98 Mon Sep 17 00:00:00 2001
-From: Allen Pan <allen.pan@amd.com>
-Date: Fri, 23 Feb 2024 18:20:16 -0500
-Subject: [PATCH] drm/amd/display: Add a dc_state NULL check in
- dc_state_release
+From 194bef0cc1f5ce5e2ca84d366c74be2bd9736aa3 Mon Sep 17 00:00:00 2001
+From: Sohaib Nadeem <sohaib.nadeem@amd.com>
+Date: Mon, 29 Jan 2024 17:33:40 -0500
+Subject: [PATCH] Revert "drm/amd/display: increased min_dcfclk_mhz and
+ min_fclk_mhz"
 
-[How]
-Check wheather state is NULL before releasing it.
+[why]:
+This reverts commit 2ff33c759a4247c84ec0b7815f1f223e155ba82a.
+
+The commit caused corruption when running some applications in fullscreen
 
 Cc: Mario Limonciello <mario.limonciello@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
-Reviewed-by: Charlene Liu <charlene.liu@amd.com>
-Acked-by: Alex Hung <alex.hung@amd.com>
-Signed-off-by: Allen Pan <allen.pan@amd.com>
+Reviewed-by: Alvin Lee <alvin.lee2@amd.com>
+Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Signed-off-by: Sohaib Nadeem <sohaib.nadeem@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_state.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_state.c b/drivers/gpu/drm/amd/display/dc/core/dc_state.c
-index 180ac47868c22..5cc7f8da209c5 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_state.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_state.c
-@@ -334,7 +334,8 @@ static void dc_state_free(struct kref *kref)
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+index ba76dd4a2ce29..a0a65e0991041 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+@@ -2760,7 +2760,7 @@ static int build_synthetic_soc_states(bool disable_dc_mode_overwrite, struct clk
+ 	struct _vcs_dpi_voltage_scaling_st entry = {0};
+ 	struct clk_limit_table_entry max_clk_data = {0};
  
- void dc_state_release(struct dc_state *state)
- {
--	kref_put(&state->refcount, dc_state_free);
-+	if (state != NULL)
-+		kref_put(&state->refcount, dc_state_free);
- }
- /*
-  * dc_state_add_stream() - Add a new dc_stream_state to a dc_state.
+-	unsigned int min_dcfclk_mhz = 399, min_fclk_mhz = 599;
++	unsigned int min_dcfclk_mhz = 199, min_fclk_mhz = 299;
+ 
+ 	static const unsigned int num_dcfclk_stas = 5;
+ 	unsigned int dcfclk_sta_targets[DC__VOLTAGE_STATES] = {199, 615, 906, 1324, 1564};
 -- 
 2.43.0
 
