@@ -2,36 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E5BB88ED11
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 18:49:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD1C888ED49
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 18:56:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 484F110FEDA;
-	Wed, 27 Mar 2024 17:49:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF2BB10FEEB;
+	Wed, 27 Mar 2024 17:56:52 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oJLaRwV+";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB9AF10FEDA
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 17:49:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6516110FEF8;
+ Wed, 27 Mar 2024 17:56:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 398C3CE2776;
- Wed, 27 Mar 2024 17:49:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D9F5C433F1;
- Wed, 27 Mar 2024 17:48:58 +0000 (UTC)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: David Lechner <david@lechnology.com>,
+ by sin.source.kernel.org (Postfix) with ESMTP id 00EB7CE2534;
+ Wed, 27 Mar 2024 17:56:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1B8DC433C7;
+ Wed, 27 Mar 2024 17:56:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1711562208;
+ bh=pKuISH9h1n83BoSbEk6oIRQvBztb2uVAQCVjoqJHhUw=;
+ h=From:To:Cc:Subject:Date:From;
+ b=oJLaRwV+CJsu2Yrg5VZootPUJY7AFWOEkOAzEDE2SL1OA52sYTmuQOHAfLhSaqRt6
+ yusGg0Ou/c7wyIYWgoBR0mpsEeu5v7DZTINWbk1K7I6jEkagUTx4228++Eh9q6rlcS
+ YHoNiJlhcF/ukHA0WGak2jy44J5O7zCArnXPeEW2Jzf+rdzuKHS2+Twe433TrbNtzg
+ q8mYAkpcY0uT2EBAo1wtbCpr/c934Up7uVIUe6WoWgIDplJbm3j/w4JueLmA+FXTnu
+ xWWYXh6H3An2kqJIVP6QNYrwHMs9T2MYZ4Tq2VRXlCbO9IsT5oBhGg5OGUmjzZHthm
+ X3aIhw7ejkFyQ==
+From: Miguel Ojeda <ojeda@kernel.org>
+To: Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 4/4] drm/tiny: st7586: drop driver owner assignment
-Date: Wed, 27 Mar 2024 18:48:42 +0100
-Message-Id: <20240327174842.519758-4-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240327174842.519758-1-krzysztof.kozlowski@linaro.org>
-References: <20240327174842.519758-1-krzysztof.kozlowski@linaro.org>
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Alon Levy <alevy@redhat.com>, Frediano Ziglio <fziglio@redhat.com>,
+ Miguel Ojeda <ojeda@kernel.org>, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] drm/qxl: remove unused `count` variable from
+ `qxl_surface_id_alloc()`
+Date: Wed, 27 Mar 2024 18:55:55 +0100
+Message-ID: <20240327175556.233126-1-ojeda@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -49,26 +60,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Core in spi_register_driver() already sets the .owner, so driver
-does not need to.
+Clang 14 in an (essentially) defconfig loongarch64 build for next-20240326
+reports [1]:
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+    drivers/gpu/drm/qxl/qxl_cmd.c:424:6: error: variable 'count' set
+    but not used [-Werror,-Wunused-but-set-variable]
+
+The variable is already unused in the version that got into the tree.
+
+Thus remove the unused variable.
+
+Fixes: f64122c1f6ad ("drm: add new QXL driver. (v1.4)")
+Closes: https://lore.kernel.org/lkml/CANiq72mjc5t4n25SQvYSrOEhxxpXYPZ4pPzneSJHEnc3qApu2Q@mail.gmail.com/
+Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- drivers/gpu/drm/tiny/st7586.c | 1 -
- 1 file changed, 1 deletion(-)
+Given there is a loop going on here, it would be good to double-check whether
+this variable was supposed to be used for something useful or if it was just a
+remnant of a version previous to v1.4.
 
-diff --git a/drivers/gpu/drm/tiny/st7586.c b/drivers/gpu/drm/tiny/st7586.c
-index 7336fa1ddaed..c4ad8340180e 100644
---- a/drivers/gpu/drm/tiny/st7586.c
-+++ b/drivers/gpu/drm/tiny/st7586.c
-@@ -392,7 +392,6 @@ static void st7586_shutdown(struct spi_device *spi)
- static struct spi_driver st7586_spi_driver = {
- 	.driver = {
- 		.name = "st7586",
--		.owner = THIS_MODULE,
- 		.of_match_table = st7586_of_match,
- 	},
- 	.id_table = st7586_id,
--- 
-2.34.1
+ drivers/gpu/drm/qxl/qxl_cmd.c | 2 --
+ 1 file changed, 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/qxl/qxl_cmd.c b/drivers/gpu/drm/qxl/qxl_cmd.c
+index 281edab518cd..d6ea01f3797b 100644
+--- a/drivers/gpu/drm/qxl/qxl_cmd.c
++++ b/drivers/gpu/drm/qxl/qxl_cmd.c
+@@ -421,7 +421,6 @@ int qxl_surface_id_alloc(struct qxl_device *qdev,
+ {
+ 	uint32_t handle;
+ 	int idr_ret;
+-	int count = 0;
+ again:
+ 	idr_preload(GFP_ATOMIC);
+ 	spin_lock(&qdev->surf_id_idr_lock);
+@@ -433,7 +432,6 @@ int qxl_surface_id_alloc(struct qxl_device *qdev,
+ 	handle = idr_ret;
+
+ 	if (handle >= qdev->rom->n_surfaces) {
+-		count++;
+ 		spin_lock(&qdev->surf_id_idr_lock);
+ 		idr_remove(&qdev->surf_id_idr, handle);
+ 		spin_unlock(&qdev->surf_id_idr_lock);
+
+base-commit: 26074e1be23143b2388cacb36166766c235feb7c
+--
+2.44.0
