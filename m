@@ -2,51 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E1BB88DDA1
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:10:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E50888DDA3
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:10:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C8E410FAD2;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8349610FAD4;
 	Wed, 27 Mar 2024 12:10:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Se37dmrr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Mha8lhqi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B42D610FADB;
- Wed, 27 Mar 2024 12:10:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36A2A10FABE;
+ Wed, 27 Mar 2024 12:10:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id A1C29CE178E;
- Wed, 27 Mar 2024 12:09:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3819C433F1;
- Wed, 27 Mar 2024 12:09:57 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 66CC4CE16C2;
+ Wed, 27 Mar 2024 12:10:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0BA7C433C7;
+ Wed, 27 Mar 2024 12:10:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541398;
- bh=rxwMib3+tOXikktoaWgCIrfR1l/T8AWUfxw3mFkVN60=;
+ s=k20201202; t=1711541404;
+ bh=RWEIZ255bmbgDlx7jX6+2xTRGrPjXnnv6wh8EEn9Vt0=;
  h=From:To:Cc:Subject:Date:From;
- b=Se37dmrrSK9NCKE6M10q4w4NrcfZ3ZBtUscKPrL1w+NkvsCdKfjAl+3ok8fw0BONi
- TxBvERcxMnTJnlH6rONS32TQJ8MF2D/3rA9ZvdjlpiM0NzIlfUo3OVhHdPRESxm2hN
- F2E58/yLFz+gm/K/fdTtS6ZyF3hIYk6cvfdyBdsC7u2mQ4X7MXaZR6QYQERgQOP+5M
- WZhlfaya4DnX7WqdLyNN0fX0QMbtbUuOauqjkyA9jcfTTXLdpR65l8cM03oBu0Eh4+
- Tow/xqV7lYD1uBetKurxEG2c8haKpgnnvA+4Dx7Y2In69FD8IswLShWmCXCtOkCQ/f
- 2RNw5BahPztug==
+ b=Mha8lhqiBPZaR7/fWt0cpTHXOJ5/f2LFA6j3eIjl57RPbLuhp2YVXZ1wPtwNrv76t
+ RPNotuhf3Je2wzlzmsHknn5n7gFfKBK7qer72dT6hZcf/c9mP2AfBHYkSYSLKbwXQt
+ 6NM2RITspTFlF7JxViRTbKam4uNSlbg9RZ4IcTm6MybQXNQqKAskt3Ebi8idZIc/e0
+ mFGrfrqAz1XzWvVad1sQNoKcQaSnKmyHUGl5Z5nVMgPLicvEblhDyT2Hb9LNeSAezM
+ nNCLsF7v5lcAUmd5RYN4P6bwLNPtPJICUzt2nhGKFVACyL9egpiKQHzht68a1Jr5Mh
+ QTr/P4ycfVNMg==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	roman.li@amd.com
-Cc: Mario Limonciello <mario.limonciello@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: Fix array-index-out-of-bounds in
- dcn35_clkmgr" failed to apply to 6.6-stable tree
-Date: Wed, 27 Mar 2024 08:09:56 -0400
-Message-ID: <20240327120956.2827462-1-sashal@kernel.org>
+	ville.syrjala@linux.intel.com
+Cc: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: FAILED: Patch "drm/i915/dp: Limit SST link rate to <=8.1Gbps" failed
+ to apply to 6.6-stable tree
+Date: Wed, 27 Mar 2024 08:10:02 -0400
+Message-ID: <20240327121002.2827540-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
 X-stable: review
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,75 +71,40 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From a8edc9cc0b14e3769bbc9b82d00e5e5fc6b5ff0a Mon Sep 17 00:00:00 2001
-From: Roman Li <roman.li@amd.com>
-Date: Tue, 30 Jan 2024 18:07:24 -0500
-Subject: [PATCH] drm/amd/display: Fix array-index-out-of-bounds in
- dcn35_clkmgr
+From 6061811d72e14f41f71b6a025510920b187bfcca Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+Date: Thu, 8 Feb 2024 17:45:52 +0200
+Subject: [PATCH] drm/i915/dp: Limit SST link rate to <=8.1Gbps
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-[Why]
-There is a potential memory access violation while
-iterating through array of dcn35 clks.
+Limit the link rate to HBR3 or below (<=8.1Gbps) in SST mode.
+UHBR (10Gbps+) link rates require 128b/132b channel encoding
+which we have not yet hooked up into the SST/no-sideband codepaths.
 
-[How]
-Limit iteration per array size.
-
-Cc: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
-Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Signed-off-by: Roman Li <roman.li@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240208154552.14545-1-ville.syrjala@linux.intel.com
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 ---
- .../amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c  | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
-index 36e5bb611fb10..c378b879c76d8 100644
---- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
-+++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
-@@ -658,10 +658,13 @@ static void dcn35_clk_mgr_helper_populate_bw_params(struct clk_mgr_internal *clk
- 	struct clk_limit_table_entry def_max = bw_params->clk_table.entries[bw_params->clk_table.num_entries - 1];
- 	uint32_t max_fclk = 0, min_pstate = 0, max_dispclk = 0, max_dppclk = 0;
- 	uint32_t max_pstate = 0, max_dram_speed_mts = 0, min_dram_speed_mts = 0;
-+	uint32_t num_memps, num_fclk, num_dcfclk;
- 	int i;
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index ab415f41924d7..5045c34a16be1 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -2356,6 +2356,9 @@ intel_dp_compute_config_limits(struct intel_dp *intel_dp,
+ 	limits->min_rate = intel_dp_common_rate(intel_dp, 0);
+ 	limits->max_rate = intel_dp_max_link_rate(intel_dp);
  
- 	/* Determine min/max p-state values. */
--	for (i = 0; i < clock_table->NumMemPstatesEnabled; i++) {
-+	num_memps = (clock_table->NumMemPstatesEnabled > NUM_MEM_PSTATE_LEVELS) ? NUM_MEM_PSTATE_LEVELS :
-+		clock_table->NumMemPstatesEnabled;
-+	for (i = 0; i < num_memps; i++) {
- 		uint32_t dram_speed_mts = calc_dram_speed_mts(&clock_table->MemPstateTable[i]);
++	/* FIXME 128b/132b SST support missing */
++	limits->max_rate = min(limits->max_rate, 810000);
++
+ 	limits->min_lane_count = 1;
+ 	limits->max_lane_count = intel_dp_max_lane_count(intel_dp);
  
- 		if (is_valid_clock_value(dram_speed_mts) && dram_speed_mts > max_dram_speed_mts) {
-@@ -673,7 +676,7 @@ static void dcn35_clk_mgr_helper_populate_bw_params(struct clk_mgr_internal *clk
- 	min_dram_speed_mts = max_dram_speed_mts;
- 	min_pstate = max_pstate;
- 
--	for (i = 0; i < clock_table->NumMemPstatesEnabled; i++) {
-+	for (i = 0; i < num_memps; i++) {
- 		uint32_t dram_speed_mts = calc_dram_speed_mts(&clock_table->MemPstateTable[i]);
- 
- 		if (is_valid_clock_value(dram_speed_mts) && dram_speed_mts < min_dram_speed_mts) {
-@@ -702,9 +705,13 @@ static void dcn35_clk_mgr_helper_populate_bw_params(struct clk_mgr_internal *clk
- 	/* Base the clock table on dcfclk, need at least one entry regardless of pmfw table */
- 	ASSERT(clock_table->NumDcfClkLevelsEnabled > 0);
- 
--	max_fclk = find_max_clk_value(clock_table->FclkClocks_Freq, clock_table->NumFclkLevelsEnabled);
-+	num_fclk = (clock_table->NumFclkLevelsEnabled > NUM_FCLK_DPM_LEVELS) ? NUM_FCLK_DPM_LEVELS :
-+		clock_table->NumFclkLevelsEnabled;
-+	max_fclk = find_max_clk_value(clock_table->FclkClocks_Freq, num_fclk);
- 
--	for (i = 0; i < clock_table->NumDcfClkLevelsEnabled; i++) {
-+	num_dcfclk = (clock_table->NumFclkLevelsEnabled > NUM_DCFCLK_DPM_LEVELS) ? NUM_DCFCLK_DPM_LEVELS :
-+		clock_table->NumDcfClkLevelsEnabled;
-+	for (i = 0; i < num_dcfclk; i++) {
- 		int j;
- 
- 		/* First search defaults for the clocks we don't read using closest lower or equal default dcfclk */
 -- 
 2.43.0
 
