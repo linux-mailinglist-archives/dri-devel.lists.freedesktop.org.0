@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D43A888DFCD
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:26:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46FBA88DFD1
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:27:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6C0F10FCA3;
-	Wed, 27 Mar 2024 12:26:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C6F110FCAA;
+	Wed, 27 Mar 2024 12:26:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iWsWPH75";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sPF7FXjl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABD2410FCA1;
- Wed, 27 Mar 2024 12:26:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D78B710FCA7;
+ Wed, 27 Mar 2024 12:26:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 05A1E614CD;
- Wed, 27 Mar 2024 12:26:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B674C433F1;
- Wed, 27 Mar 2024 12:26:49 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id B389A614DE;
+ Wed, 27 Mar 2024 12:26:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BDE1C43390;
+ Wed, 27 Mar 2024 12:26:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711542410;
- bh=WEtxCxxL/rvcvqyyqrFgq+5WjkM27F2dsBpW3j4xAbY=;
+ s=k20201202; t=1711542414;
+ bh=+PswCz0QfOBCmTWqnUH5gEesvyjDhZQd4YlAbO0n5b0=;
  h=From:To:Cc:Subject:Date:From;
- b=iWsWPH75mUlB3CHTFvXg7cLjlFSOavcQlIJWFia9U2/ARAGoyFjc+C6o0ZrcdcySH
- dV2YPL5RMMnuTyYCq9i/eU3QSxwoZ4SFeJX8EpcnIopv1HE+deBu72C7kxyiDh1kvf
- Iyd6gtgk2LS+gn5UHoyNIEV5mC5zrCTkuW6RaWMA49dOfJkSq1CtIwe3TPWHnXV4Pv
- XGx5PoRLL2XLk4Gci7Ecc0lZKAgVyVGywGaA5ScRaCyB5NzlX7b1yIij36Lsf7O+RC
- LELnTJB3h9tPBiHesC4OAw/9l5H8292D+ceqjc9nZFI+phRnWJKO4qdupzFGorLGrL
- lka8jcuHxSGcQ==
+ b=sPF7FXjlKCpOYlvkhCMqeXXzGJdZmUwO76N5QVrth9jmTvwAYeN4f5ro6Lp4FNqy8
+ 7I6BJCWj4jYACDt+MKh63VWm4KgqvTZFcXoo+bD71wHtcXCRG7Sdxe6d3WwhhvOCmT
+ A7FYNFA5ZlteFZLQVswxJHfjSBKdFmo76duBK7raugIQ3xzpSs8Zg4yIT5VSGuj6Z+
+ 6lOtRDHXKp8bpfbTj7nzU9pOwMcL8MTp366C/DQyOwgAsjoIe+CcOom0/j+lvB/Hww
+ hpe7DY0exEmd6h0u2hm/4R+pJV9WATNVlUh6bU3HE3zHqDeIZhoaDrwaNLn1s43K5E
+ aiaTYUW64n+UQ==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	wenjing.liu@amd.com
-Cc: Mario Limonciello <mario.limonciello@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
- Alex Hung <alex.hung@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
+	friedrich.vock@gmx.de
+Cc: Joshua Ashton <joshua@froggi.es>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: Lock all enabled otg pipes even with
- no planes" failed to apply to 4.19-stable tree
-Date: Wed, 27 Mar 2024 08:26:48 -0400
-Message-ID: <20240327122648.2841380-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/amdgpu: Reset IH OVERFLOW_CLEAR bit" failed to
+ apply to 4.19-stable tree
+Date: Wed, 27 Mar 2024 08:26:51 -0400
+Message-ID: <20240327122652.2841417-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
 X-stable: review
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,92 +72,205 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 94040c2cbb1a872ff779da06bf034ccfee0f9cba Mon Sep 17 00:00:00 2001
-From: Wenjing Liu <wenjing.liu@amd.com>
-Date: Fri, 23 Feb 2024 15:17:39 -0500
-Subject: [PATCH] drm/amd/display: Lock all enabled otg pipes even with no
- planes
+From 9217b91c64587459362f211b0310e2bdaeb67719 Mon Sep 17 00:00:00 2001
+From: Friedrich Vock <friedrich.vock@gmx.de>
+Date: Tue, 23 Jan 2024 12:52:03 +0100
+Subject: [PATCH] drm/amdgpu: Reset IH OVERFLOW_CLEAR bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-[WHY]
-On DCN32 we support dynamic ODM even when OTG is blanked. When ODM
-configuration is dynamically changed and the OTG is on blank pattern,
-we will need to reprogram OPP's test pattern based on new ODM
-configuration. Therefore we need to lock the OTG pipe to avoid temporary
-corruption when we are reprogramming OPP blank patterns.
+Allows us to detect subsequent IH ring buffer overflows as well.
 
-[HOW]
-Add a new interdependent update lock implementation to lock all enabled
-OTG pipes even when there is no plane on the OTG for DCN32.
-
-Cc: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Joshua Ashton <joshua@froggi.es>
 Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Christian König <christian.koenig@amd.com>
 Cc: stable@vger.kernel.org
-Reviewed-by: Alvin Lee <alvin.lee2@amd.com>
-Acked-by: Alex Hung <alex.hung@amd.com>
-Signed-off-by: Wenjing Liu <wenjing.liu@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Friedrich Vock <friedrich.vock@gmx.de>
+Reviewed-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- .../amd/display/dc/hwss/dcn32/dcn32_hwseq.c   | 23 +++++++++++++++++++
- .../amd/display/dc/hwss/dcn32/dcn32_hwseq.h   |  2 ++
- .../amd/display/dc/hwss/dcn32/dcn32_init.c    |  2 +-
- 3 files changed, 26 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/cik_ih.c     | 6 ++++++
+ drivers/gpu/drm/amd/amdgpu/cz_ih.c      | 5 +++++
+ drivers/gpu/drm/amd/amdgpu/iceland_ih.c | 5 +++++
+ drivers/gpu/drm/amd/amdgpu/ih_v6_0.c    | 6 ++++++
+ drivers/gpu/drm/amd/amdgpu/ih_v6_1.c    | 7 +++++++
+ drivers/gpu/drm/amd/amdgpu/navi10_ih.c  | 6 ++++++
+ drivers/gpu/drm/amd/amdgpu/si_ih.c      | 6 ++++++
+ drivers/gpu/drm/amd/amdgpu/tonga_ih.c   | 6 ++++++
+ drivers/gpu/drm/amd/amdgpu/vega10_ih.c  | 6 ++++++
+ drivers/gpu/drm/amd/amdgpu/vega20_ih.c  | 6 ++++++
+ 10 files changed, 59 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
-index b890db0bfc46b..c0b526cf17865 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
-@@ -1785,3 +1785,26 @@ void dcn32_prepare_bandwidth(struct dc *dc,
- 		context->bw_ctx.bw.dcn.clk.p_state_change_support = p_state_change_support;
+diff --git a/drivers/gpu/drm/amd/amdgpu/cik_ih.c b/drivers/gpu/drm/amd/amdgpu/cik_ih.c
+index 6f7c031dd197a..f24e34dc33d1d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/cik_ih.c
++++ b/drivers/gpu/drm/amd/amdgpu/cik_ih.c
+@@ -204,6 +204,12 @@ static u32 cik_ih_get_wptr(struct amdgpu_device *adev,
+ 		tmp = RREG32(mmIH_RB_CNTL);
+ 		tmp |= IH_RB_CNTL__WPTR_OVERFLOW_CLEAR_MASK;
+ 		WREG32(mmIH_RB_CNTL, tmp);
++
++		/* Unset the CLEAR_OVERFLOW bit immediately so new overflows
++		 * can be detected.
++		 */
++		tmp &= ~IH_RB_CNTL__WPTR_OVERFLOW_CLEAR_MASK;
++		WREG32(mmIH_RB_CNTL, tmp);
  	}
+ 	return (wptr & ih->ptr_mask);
  }
-+
-+void dcn32_interdependent_update_lock(struct dc *dc,
-+		struct dc_state *context, bool lock)
-+{
-+	unsigned int i;
-+	struct pipe_ctx *pipe;
-+	struct timing_generator *tg;
-+
-+	for (i = 0; i < dc->res_pool->pipe_count; i++) {
-+		pipe = &context->res_ctx.pipe_ctx[i];
-+		tg = pipe->stream_res.tg;
-+
-+		if (!resource_is_pipe_type(pipe, OTG_MASTER) ||
-+				!tg->funcs->is_tg_enabled(tg) ||
-+				dc_state_get_pipe_subvp_type(context, pipe) == SUBVP_PHANTOM)
-+			continue;
-+
-+		if (lock)
-+			dc->hwss.pipe_control_lock(dc, pipe, true);
-+		else
-+			dc->hwss.pipe_control_lock(dc, pipe, false);
-+	}
-+}
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.h b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.h
-index 069e20bc87c0a..f55c11fc56ec7 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.h
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.h
-@@ -129,4 +129,6 @@ bool dcn32_is_pipe_topology_transition_seamless(struct dc *dc,
- void dcn32_prepare_bandwidth(struct dc *dc,
- 	struct dc_state *context);
+diff --git a/drivers/gpu/drm/amd/amdgpu/cz_ih.c b/drivers/gpu/drm/amd/amdgpu/cz_ih.c
+index b8c47e0cf37ad..c19681492efa7 100644
+--- a/drivers/gpu/drm/amd/amdgpu/cz_ih.c
++++ b/drivers/gpu/drm/amd/amdgpu/cz_ih.c
+@@ -216,6 +216,11 @@ static u32 cz_ih_get_wptr(struct amdgpu_device *adev,
+ 	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
+ 	WREG32(mmIH_RB_CNTL, tmp);
  
-+void dcn32_interdependent_update_lock(struct dc *dc,
-+		struct dc_state *context, bool lock);
- #endif /* __DC_HWSS_DCN32_H__ */
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_init.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_init.c
-index 2b073123d3ede..67d661dbd5b7c 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_init.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_init.c
-@@ -58,7 +58,7 @@ static const struct hw_sequencer_funcs dcn32_funcs = {
- 	.disable_plane = dcn20_disable_plane,
- 	.disable_pixel_data = dcn20_disable_pixel_data,
- 	.pipe_control_lock = dcn20_pipe_control_lock,
--	.interdependent_update_lock = dcn10_lock_all_pipes,
-+	.interdependent_update_lock = dcn32_interdependent_update_lock,
- 	.cursor_lock = dcn10_cursor_lock,
- 	.prepare_bandwidth = dcn32_prepare_bandwidth,
- 	.optimize_bandwidth = dcn20_optimize_bandwidth,
++	/* Unset the CLEAR_OVERFLOW bit immediately so new overflows
++	 * can be detected.
++	 */
++	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 0);
++	WREG32(mmIH_RB_CNTL, tmp);
+ 
+ out:
+ 	return (wptr & ih->ptr_mask);
+diff --git a/drivers/gpu/drm/amd/amdgpu/iceland_ih.c b/drivers/gpu/drm/amd/amdgpu/iceland_ih.c
+index aecad530b10a6..2c02ae69883d2 100644
+--- a/drivers/gpu/drm/amd/amdgpu/iceland_ih.c
++++ b/drivers/gpu/drm/amd/amdgpu/iceland_ih.c
+@@ -215,6 +215,11 @@ static u32 iceland_ih_get_wptr(struct amdgpu_device *adev,
+ 	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
+ 	WREG32(mmIH_RB_CNTL, tmp);
+ 
++	/* Unset the CLEAR_OVERFLOW bit immediately so new overflows
++	 * can be detected.
++	 */
++	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 0);
++	WREG32(mmIH_RB_CNTL, tmp);
+ 
+ out:
+ 	return (wptr & ih->ptr_mask);
+diff --git a/drivers/gpu/drm/amd/amdgpu/ih_v6_0.c b/drivers/gpu/drm/amd/amdgpu/ih_v6_0.c
+index d9ed7332d805d..ad4ad39f128f7 100644
+--- a/drivers/gpu/drm/amd/amdgpu/ih_v6_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/ih_v6_0.c
+@@ -418,6 +418,12 @@ static u32 ih_v6_0_get_wptr(struct amdgpu_device *adev,
+ 	tmp = RREG32_NO_KIQ(ih_regs->ih_rb_cntl);
+ 	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
+ 	WREG32_NO_KIQ(ih_regs->ih_rb_cntl, tmp);
++
++	/* Unset the CLEAR_OVERFLOW bit immediately so new overflows
++	 * can be detected.
++	 */
++	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 0);
++	WREG32_NO_KIQ(ih_regs->ih_rb_cntl, tmp);
+ out:
+ 	return (wptr & ih->ptr_mask);
+ }
+diff --git a/drivers/gpu/drm/amd/amdgpu/ih_v6_1.c b/drivers/gpu/drm/amd/amdgpu/ih_v6_1.c
+index 8fb05eae340ad..b8da0fc29378c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/ih_v6_1.c
++++ b/drivers/gpu/drm/amd/amdgpu/ih_v6_1.c
+@@ -418,6 +418,13 @@ static u32 ih_v6_1_get_wptr(struct amdgpu_device *adev,
+ 	tmp = RREG32_NO_KIQ(ih_regs->ih_rb_cntl);
+ 	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
+ 	WREG32_NO_KIQ(ih_regs->ih_rb_cntl, tmp);
++
++	/* Unset the CLEAR_OVERFLOW bit immediately so new overflows
++	 * can be detected.
++	 */
++	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 0);
++	WREG32_NO_KIQ(ih_regs->ih_rb_cntl, tmp);
++
+ out:
+ 	return (wptr & ih->ptr_mask);
+ }
+diff --git a/drivers/gpu/drm/amd/amdgpu/navi10_ih.c b/drivers/gpu/drm/amd/amdgpu/navi10_ih.c
+index 57d04ed20357b..4178f4e5dad73 100644
+--- a/drivers/gpu/drm/amd/amdgpu/navi10_ih.c
++++ b/drivers/gpu/drm/amd/amdgpu/navi10_ih.c
+@@ -442,6 +442,12 @@ static u32 navi10_ih_get_wptr(struct amdgpu_device *adev,
+ 	tmp = RREG32_NO_KIQ(ih_regs->ih_rb_cntl);
+ 	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
+ 	WREG32_NO_KIQ(ih_regs->ih_rb_cntl, tmp);
++
++	/* Unset the CLEAR_OVERFLOW bit immediately so new overflows
++	 * can be detected.
++	 */
++	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 0);
++	WREG32_NO_KIQ(ih_regs->ih_rb_cntl, tmp);
+ out:
+ 	return (wptr & ih->ptr_mask);
+ }
+diff --git a/drivers/gpu/drm/amd/amdgpu/si_ih.c b/drivers/gpu/drm/amd/amdgpu/si_ih.c
+index 9a24f17a57502..cada9f300a7f5 100644
+--- a/drivers/gpu/drm/amd/amdgpu/si_ih.c
++++ b/drivers/gpu/drm/amd/amdgpu/si_ih.c
+@@ -119,6 +119,12 @@ static u32 si_ih_get_wptr(struct amdgpu_device *adev,
+ 		tmp = RREG32(IH_RB_CNTL);
+ 		tmp |= IH_RB_CNTL__WPTR_OVERFLOW_CLEAR_MASK;
+ 		WREG32(IH_RB_CNTL, tmp);
++
++		/* Unset the CLEAR_OVERFLOW bit immediately so new overflows
++		 * can be detected.
++		 */
++		tmp &= ~IH_RB_CNTL__WPTR_OVERFLOW_CLEAR_MASK;
++		WREG32(IH_RB_CNTL, tmp);
+ 	}
+ 	return (wptr & ih->ptr_mask);
+ }
+diff --git a/drivers/gpu/drm/amd/amdgpu/tonga_ih.c b/drivers/gpu/drm/amd/amdgpu/tonga_ih.c
+index 917707bba7f36..450b6e8315091 100644
+--- a/drivers/gpu/drm/amd/amdgpu/tonga_ih.c
++++ b/drivers/gpu/drm/amd/amdgpu/tonga_ih.c
+@@ -219,6 +219,12 @@ static u32 tonga_ih_get_wptr(struct amdgpu_device *adev,
+ 	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
+ 	WREG32(mmIH_RB_CNTL, tmp);
+ 
++	/* Unset the CLEAR_OVERFLOW bit immediately so new overflows
++	 * can be detected.
++	 */
++	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 0);
++	WREG32(mmIH_RB_CNTL, tmp);
++
+ out:
+ 	return (wptr & ih->ptr_mask);
+ }
+diff --git a/drivers/gpu/drm/amd/amdgpu/vega10_ih.c b/drivers/gpu/drm/amd/amdgpu/vega10_ih.c
+index d364c6dd152c3..bf68e18e3824b 100644
+--- a/drivers/gpu/drm/amd/amdgpu/vega10_ih.c
++++ b/drivers/gpu/drm/amd/amdgpu/vega10_ih.c
+@@ -373,6 +373,12 @@ static u32 vega10_ih_get_wptr(struct amdgpu_device *adev,
+ 	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
+ 	WREG32_NO_KIQ(ih_regs->ih_rb_cntl, tmp);
+ 
++	/* Unset the CLEAR_OVERFLOW bit immediately so new overflows
++	 * can be detected.
++	 */
++	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 0);
++	WREG32_NO_KIQ(ih_regs->ih_rb_cntl, tmp);
++
+ out:
+ 	return (wptr & ih->ptr_mask);
+ }
+diff --git a/drivers/gpu/drm/amd/amdgpu/vega20_ih.c b/drivers/gpu/drm/amd/amdgpu/vega20_ih.c
+index ddfc6941f9d55..db66e6cccaf2a 100644
+--- a/drivers/gpu/drm/amd/amdgpu/vega20_ih.c
++++ b/drivers/gpu/drm/amd/amdgpu/vega20_ih.c
+@@ -421,6 +421,12 @@ static u32 vega20_ih_get_wptr(struct amdgpu_device *adev,
+ 	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
+ 	WREG32_NO_KIQ(ih_regs->ih_rb_cntl, tmp);
+ 
++	/* Unset the CLEAR_OVERFLOW bit immediately so new overflows
++	 * can be detected.
++	 */
++	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 0);
++	WREG32_NO_KIQ(ih_regs->ih_rb_cntl, tmp);
++
+ out:
+ 	return (wptr & ih->ptr_mask);
+ }
 -- 
 2.43.0
 
