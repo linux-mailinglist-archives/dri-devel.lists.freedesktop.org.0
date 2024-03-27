@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EBA588DD70
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:08:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 727CE88DD73
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:08:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5873A10FAB0;
-	Wed, 27 Mar 2024 12:08:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A00610FAB1;
+	Wed, 27 Mar 2024 12:08:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aLuY61H8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="k6e+ZNC8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 174F610FAAA;
- Wed, 27 Mar 2024 12:08:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBCB810FAB1;
+ Wed, 27 Mar 2024 12:08:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 5E3BACE25AC;
- Wed, 27 Mar 2024 12:08:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AFF8C43143;
- Wed, 27 Mar 2024 12:08:35 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id ED08FCE169E;
+ Wed, 27 Mar 2024 12:08:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3A50C433F1;
+ Wed, 27 Mar 2024 12:08:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541316;
- bh=h2tgrs2uNgXzSXW5PHoTPUwhMpvafx50r23jrhrkiqE=;
+ s=k20201202; t=1711541322;
+ bh=RefdEEQR2WW+1s1RlS40ESTXryb1X0ViQR6Q4wLd6tU=;
  h=From:To:Cc:Subject:Date:From;
- b=aLuY61H8MrDkG277bA7k2UsD9NTvge+xt1jYUzeB9Ju08in63UzS5H/Lc6dqvmsOq
- 3xH+4XAfHb3AMJGimcTzxSUBdGqiRnN7Bd7nwE4/5YYCoFiVObpCFmcFnofshD+vB9
- wQy5pra0DNT70rSwQMv7JTW4MguaQ4UjFcAJc/19obn9zWQ/2/ro80DuYfSJeAfxke
- rwWFKpape62tCRNiQ99AJgJLFubLNSW1Wb0TPayZ0tVW/N/czc7yA1PMo4kupurrAU
- blBqHxvc9qX5o4g5VRA8T9FK+4B+EY9l3zCSj/lOSKYd1NEbYm9Uln3xWp5VWuUxsf
- n1m26mFxo40WA==
+ b=k6e+ZNC8XEIvWdxoEEe4w+K/b2+p6FAmtRx7QnV15sJpsCmUrZCruYcu0Y1mZtSA0
+ U2cNouG9Cc/CwqhqmVvsp6NP8FIyzX6Df4DMxL9+KAaDqf9toBHy/6jqpXNoHyzxXu
+ vaXknoa3jiCp4Rm+nx+oq/UUQNrFnljLwsmpQQR31Ct0Crne9jHfkwFsmhKcYOM495
+ Y/2PnmHegLPjzfhSj3GYgqBK5/K9J5bO4M9CQHpW739tVz//I0TMQE0GYco0O1Ncj5
+ B9GhGSUawAefnCegt4kj/t1hzmpervnKy8vYuXtc9aFCYbmWuIH44fqURazwpC3Bop
+ 6x4MBPdADdcXg==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	wenjing.liu@amd.com
-Cc: Mario Limonciello <mario.limonciello@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Chaitanya Dhere <chaitanya.dhere@amd.com>,
- Martin Leung <martin.leung@amd.com>, Wayne Lin <wayne.lin@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
+	srinivasan.shanmugam@amd.com
+Cc: Alex Hung <alex.hung@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: Revert Remove pixle rate limit for
- subvp" failed to apply to 6.7-stable tree
-Date: Wed, 27 Mar 2024 08:08:34 -0400
-Message-ID: <20240327120834.2826317-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/amd/display: Drop 'acrtc' and add 'new_crtc_state'
+ NULL check for writeback requests." failed to apply to 6.7-stable tree
+Date: Wed, 27 Mar 2024 08:08:39 -0400
+Message-ID: <20240327120839.2826392-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -73,46 +72,52 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From cf8c498694a443e28dc1222f3ab94677114a4724 Mon Sep 17 00:00:00 2001
-From: Wenjing Liu <wenjing.liu@amd.com>
-Date: Mon, 4 Mar 2024 11:20:27 -0500
-Subject: [PATCH] drm/amd/display: Revert Remove pixle rate limit for subvp
+From b2f26f49e84bea03dddb5f37ff137c97b165107b Mon Sep 17 00:00:00 2001
+From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+Date: Sat, 13 Jan 2024 14:32:27 +0530
+Subject: [PATCH] drm/amd/display: Drop 'acrtc' and add 'new_crtc_state' NULL
+ check for writeback requests.
 
-This reverts commit 340383c734f8 ("drm/amd/display: Remove pixle rate
-limit for subvp")
+Return value of 'to_amdgpu_crtc' which is container_of(...) can't be
+null, so it's null check 'acrtc' is dropped.
 
-[why]
-The original commit causes a regression when subvp is applied
-on ODM required 8k60hz timing. The display shows black screen
-on boot. The issue can be recovered with hotplug. It also causes
-MPO to fail. We will temprarily revert this commit and investigate
-the root cause further.
+Fixing the below:
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9302 amdgpu_dm_atomic_commit_tail() error: we previously assumed 'acrtc' could be null (see line 9299)
 
-Cc: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Added 'new_crtc_state' NULL check for function
+'drm_atomic_get_new_crtc_state' that retrieves the new state for a CRTC,
+while enabling writeback requests.
+
 Cc: stable@vger.kernel.org
-Reviewed-by: Chaitanya Dhere <chaitanya.dhere@amd.com>
-Reviewed-by: Martin Leung <martin.leung@amd.com>
-Acked-by: Wayne Lin <wayne.lin@amd.com>
-Signed-off-by: Wenjing Liu <wenjing.liu@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Cc: Alex Hung <alex.hung@amd.com>
+Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Cc: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Signed-off-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+Reviewed-by: Alex Hung <alex.hung@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-index b49e1dc9d8ba5..a0a65e0991041 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-@@ -623,6 +623,7 @@ static bool dcn32_assign_subvp_pipe(struct dc *dc,
- 		 * - Not TMZ surface
- 		 */
- 		if (pipe->plane_state && !pipe->top_pipe && !dcn32_is_center_timing(pipe) &&
-+				!(pipe->stream->timing.pix_clk_100hz / 10000 > DCN3_2_MAX_SUBVP_PIXEL_RATE_MHZ) &&
- 				(!dcn32_is_psr_capable(pipe) || (context->stream_count == 1 && dc->caps.dmub_caps.subvp_psr)) &&
- 				dc_state_get_pipe_subvp_type(context, pipe) == SUBVP_NONE &&
- 				(refresh_rate < 120 || dcn32_allow_subvp_high_refresh_rate(dc, context, pipe)) &&
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 36af104e7663c..8623722e954f9 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -9327,10 +9327,10 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
+ 		if (!new_con_state->writeback_job)
+ 			continue;
+ 
+-		new_crtc_state = NULL;
++		new_crtc_state = drm_atomic_get_new_crtc_state(state, &acrtc->base);
+ 
+-		if (acrtc)
+-			new_crtc_state = drm_atomic_get_new_crtc_state(state, &acrtc->base);
++		if (!new_crtc_state)
++			continue;
+ 
+ 		if (acrtc->wb_enabled)
+ 			continue;
 -- 
 2.43.0
 
