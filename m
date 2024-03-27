@@ -2,43 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66C3388DE90
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:17:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3BE88DE92
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:17:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7D1910F0AD;
-	Wed, 27 Mar 2024 12:17:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C259A10FB9B;
+	Wed, 27 Mar 2024 12:17:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cT4CtCbh";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bWC/lsPQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C75CC10FB95
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 12:17:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 757FB10FB97;
+ Wed, 27 Mar 2024 12:17:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 389BF6150C;
- Wed, 27 Mar 2024 12:17:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 461BEC433C7;
- Wed, 27 Mar 2024 12:17:19 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id E922761507;
+ Wed, 27 Mar 2024 12:17:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A25B6C433F1;
+ Wed, 27 Mar 2024 12:17:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541839;
- bh=O/PabvBnYeiHwfcOh16pSl7bJkgOld9zUkMMbdOMcEs=;
+ s=k20201202; t=1711541842;
+ bh=PHf8wlZRQC26DVlRvQiL2FXSBkxXak4B92Bmy54w5kM=;
  h=From:To:Cc:Subject:Date:From;
- b=cT4CtCbh6+3RHbwwb+x99lvTjaA8fNhIwOsvIqkQAz13WrNgcW+ptJw9MWuugxhDY
- 4WSvA5C/KT7URwH2vw/zqAD/pSIKoOTEcX3Pf5Vrbt/TobO4pRRxGgtI7vKqmmCXpC
- 1jAQ8jCQUFLWjV5dI20ZNwh4WYyc5Wjmj5ju1h7QaAwd2iMkr5+nj40q1OFo6OAiZO
- xoIs3y8pkldmVGaZo2J46NxpiSoOvrjfRy7O9GuqGbOBR19iKYzd+m/VY/F2rLwMv1
- PIbeogsoSQCs1MjOdJ4yDs86jun4Pna2fIsK4l1f2jby/TSyRbQdfLZiLhNPgtcbWP
- PqabMtx+tdo8Q==
+ b=bWC/lsPQstFas2N/xtPEHRY+C3O3a7Le9Pp3xl2DmvXe06RaPQnVllMeS/SLDNJ1H
+ z9oCOtHEDApSNrk4XHs/MxXwxqSuZ+nTnM+YJsdkQJdoFaKcqMQQwuicSfTNN3n0Jj
+ qXPOYeY48Gb9chPVjRhJiVGFMD2lrVSRfH12ntR5jvml28Dj3LlZenCHAIxmjz2abX
+ Xg9nKAU0uRdgyaR+yCCkc1UxdCoSW4W845PXIVlNzDHB0wBDGwnPPZI39HtZREqxEG
+ 5xB8MRPlEdOpyjBJSK5R6YNwylEZqx+w6dfsX4ugXFho7uuhItH3xBFF3YvEEYSGOQ
+ Wu5owoPMxvJZg==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	jani.nikula@intel.com
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/probe-helper: warn about negative .get_modes()"
- failed to apply to 5.15-stable tree
-Date: Wed, 27 Mar 2024 08:17:18 -0400
-Message-ID: <20240327121718.2833433-1-sashal@kernel.org>
+	nicholas.kazlauskas@amd.com
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Charlene Liu <charlene.liu@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: FAILED: Patch "drm/amd/display: Port DENTIST hang and TDR fixes to
+ OTG disable W/A" failed to apply to 5.15-stable tree
+Date: Wed, 27 Mar 2024 08:17:20 -0400
+Message-ID: <20240327121720.2833470-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -69,59 +72,87 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 7af03e688792293ba33149fb8df619a8dff90e80 Mon Sep 17 00:00:00 2001
-From: Jani Nikula <jani.nikula@intel.com>
-Date: Fri, 8 Mar 2024 18:03:39 +0200
-Subject: [PATCH] drm/probe-helper: warn about negative .get_modes()
+From 6c605f44086af24d7ac1867245aa10bb3360c5bf Mon Sep 17 00:00:00 2001
+From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Date: Fri, 15 Dec 2023 11:01:42 -0500
+Subject: [PATCH] drm/amd/display: Port DENTIST hang and TDR fixes to OTG
+ disable W/A
 
-The .get_modes() callback is supposed to return the number of modes,
-never a negative error code. If a negative value is returned, it'll just
-be interpreted as a negative count, and added to previous calculations.
+[Why]
+We can experience DENTIST hangs during optimize_bandwidth or TDRs if
+FIFO is toggled and hangs.
 
-Document the rules, but handle the negative values gracefully with an
-error message.
+[How]
+Port the DCN35 fixes to DCN314.
 
+Cc: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/50208c866facc33226a3c77b82bb96aeef8ef310.1709913674.git.jani.nikula@intel.com
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+Reviewed-by: Charlene Liu <charlene.liu@amd.com>
+Acked-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- drivers/gpu/drm/drm_probe_helper.c       | 7 +++++++
- include/drm/drm_modeset_helper_vtables.h | 3 ++-
- 2 files changed, 9 insertions(+), 1 deletion(-)
+ .../dc/clk_mgr/dcn314/dcn314_clk_mgr.c        | 21 ++++++++-----------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index 19ecb749704be..75f84753f6ee3 100644
---- a/drivers/gpu/drm/drm_probe_helper.c
-+++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -422,6 +422,13 @@ static int drm_helper_probe_get_modes(struct drm_connector *connector)
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c
+index 878c0e7b78abd..a84f1e376dee4 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c
+@@ -145,30 +145,27 @@ static int dcn314_get_active_display_cnt_wa(
+ 	return display_count;
+ }
  
- 	count = connector_funcs->get_modes(connector);
+-static void dcn314_disable_otg_wa(struct clk_mgr *clk_mgr_base, struct dc_state *context, bool disable)
++static void dcn314_disable_otg_wa(struct clk_mgr *clk_mgr_base, struct dc_state *context,
++				  bool safe_to_lower, bool disable)
+ {
+ 	struct dc *dc = clk_mgr_base->ctx->dc;
+ 	int i;
  
-+	/* The .get_modes() callback should not return negative values. */
-+	if (count < 0) {
-+		drm_err(connector->dev, ".get_modes() returned %pe\n",
-+			ERR_PTR(count));
-+		count = 0;
-+	}
-+
- 	/*
- 	 * Fallback for when DDC probe failed in drm_get_edid() and thus skipped
- 	 * override/firmware EDID.
-diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
-index 881b03e4dc288..9ed42469540eb 100644
---- a/include/drm/drm_modeset_helper_vtables.h
-+++ b/include/drm/drm_modeset_helper_vtables.h
-@@ -898,7 +898,8 @@ struct drm_connector_helper_funcs {
- 	 *
- 	 * RETURNS:
- 	 *
--	 * The number of modes added by calling drm_mode_probed_add().
-+	 * The number of modes added by calling drm_mode_probed_add(). Return 0
-+	 * on failures (no modes) instead of negative error codes.
- 	 */
- 	int (*get_modes)(struct drm_connector *connector);
+ 	for (i = 0; i < dc->res_pool->pipe_count; ++i) {
+-		struct pipe_ctx *pipe = &dc->current_state->res_ctx.pipe_ctx[i];
++		struct pipe_ctx *pipe = safe_to_lower
++			? &context->res_ctx.pipe_ctx[i]
++			: &dc->current_state->res_ctx.pipe_ctx[i];
  
+ 		if (pipe->top_pipe || pipe->prev_odm_pipe)
+ 			continue;
+ 		if (pipe->stream && (pipe->stream->dpms_off || dc_is_virtual_signal(pipe->stream->signal))) {
+-			struct stream_encoder *stream_enc = pipe->stream_res.stream_enc;
+-
+ 			if (disable) {
+-				if (stream_enc && stream_enc->funcs->disable_fifo)
+-					pipe->stream_res.stream_enc->funcs->disable_fifo(stream_enc);
++				if (pipe->stream_res.tg && pipe->stream_res.tg->funcs->immediate_disable_crtc)
++					pipe->stream_res.tg->funcs->immediate_disable_crtc(pipe->stream_res.tg);
+ 
+-				pipe->stream_res.tg->funcs->immediate_disable_crtc(pipe->stream_res.tg);
+ 				reset_sync_context_for_pipe(dc, context, i);
+ 			} else {
+ 				pipe->stream_res.tg->funcs->enable_crtc(pipe->stream_res.tg);
+-
+-				if (stream_enc && stream_enc->funcs->enable_fifo)
+-					pipe->stream_res.stream_enc->funcs->enable_fifo(stream_enc);
+ 			}
+ 		}
+ 	}
+@@ -297,11 +294,11 @@ void dcn314_update_clocks(struct clk_mgr *clk_mgr_base,
+ 	}
+ 
+ 	if (should_set_clock(safe_to_lower, new_clocks->dispclk_khz, clk_mgr_base->clks.dispclk_khz)) {
+-		dcn314_disable_otg_wa(clk_mgr_base, context, true);
++		dcn314_disable_otg_wa(clk_mgr_base, context, safe_to_lower, true);
+ 
+ 		clk_mgr_base->clks.dispclk_khz = new_clocks->dispclk_khz;
+ 		dcn314_smu_set_dispclk(clk_mgr, clk_mgr_base->clks.dispclk_khz);
+-		dcn314_disable_otg_wa(clk_mgr_base, context, false);
++		dcn314_disable_otg_wa(clk_mgr_base, context, safe_to_lower, false);
+ 
+ 		update_dispclk = true;
+ 	}
 -- 
 2.43.0
 
