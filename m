@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BCB488ED0D
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 18:49:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DC4088ED0F
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 18:49:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8109410FED4;
-	Wed, 27 Mar 2024 17:48:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8954010FED6;
+	Wed, 27 Mar 2024 17:49:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D314710FED4
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 17:48:56 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68B3010FED6
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 17:48:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id C70EECE268E;
+ by dfw.source.kernel.org (Postfix) with ESMTP id B14D6615C5;
+ Wed, 27 Mar 2024 17:48:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12431C43394;
  Wed, 27 Mar 2024 17:48:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC7A8C433F1;
- Wed, 27 Mar 2024 17:48:50 +0000 (UTC)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: David Lechner <david@lechnology.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -26,9 +26,9 @@ To: David Lechner <david@lechnology.com>,
  =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 2/4] drm/tiny: mi0283qt: drop driver owner assignment
-Date: Wed, 27 Mar 2024 18:48:40 +0100
-Message-Id: <20240327174842.519758-2-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 3/4] drm/tiny: panel-mipi-dbi: drop driver owner assignment
+Date: Wed, 27 Mar 2024 18:48:41 +0100
+Message-Id: <20240327174842.519758-3-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240327174842.519758-1-krzysztof.kozlowski@linaro.org>
 References: <20240327174842.519758-1-krzysztof.kozlowski@linaro.org>
@@ -54,20 +54,20 @@ does not need to.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/gpu/drm/tiny/mi0283qt.c | 1 -
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tiny/mi0283qt.c b/drivers/gpu/drm/tiny/mi0283qt.c
-index 01ff43c8ac3f..05509e519518 100644
---- a/drivers/gpu/drm/tiny/mi0283qt.c
-+++ b/drivers/gpu/drm/tiny/mi0283qt.c
-@@ -263,7 +263,6 @@ static const struct dev_pm_ops mi0283qt_pm_ops = {
- static struct spi_driver mi0283qt_spi_driver = {
+diff --git a/drivers/gpu/drm/tiny/panel-mipi-dbi.c b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
+index f80a141fcf36..a3cc09c578c5 100644
+--- a/drivers/gpu/drm/tiny/panel-mipi-dbi.c
++++ b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
+@@ -384,7 +384,6 @@ MODULE_DEVICE_TABLE(spi, panel_mipi_dbi_spi_id);
+ static struct spi_driver panel_mipi_dbi_spi_driver = {
  	.driver = {
- 		.name = "mi0283qt",
+ 		.name = "panel-mipi-dbi-spi",
 -		.owner = THIS_MODULE,
- 		.of_match_table = mi0283qt_of_match,
- 		.pm = &mi0283qt_pm_ops,
+ 		.of_match_table = panel_mipi_dbi_spi_of_match,
+ 		.pm = &panel_mipi_dbi_pm_ops,
  	},
 -- 
 2.34.1
