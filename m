@@ -2,55 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CB6388E27B
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 14:27:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2FDA88E4BF
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 15:12:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEA4810EE6E;
-	Wed, 27 Mar 2024 13:27:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E966610FA3E;
+	Wed, 27 Mar 2024 14:12:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p4cYrqgk";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="CbUJLPf5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F197210EE6E;
- Wed, 27 Mar 2024 13:27:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 632E7CE1DB4;
- Wed, 27 Mar 2024 13:27:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 527BDC433C7;
- Wed, 27 Mar 2024 13:27:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711546051;
- bh=+fnPEP5LofR/YkwTOOjws1iuVa2ieMZ1vJLvtYNQ7OQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=p4cYrqgkZ5yR7qOyVmXAK6DNicMANTj9MoO3Ly2aMyd9olFbTRqMM410U7a1HbqBF
- BBGyKztQYn+jgZ0gMdHhmWE/CQLavoPNnnA77UiTkS+Jingwh7g5AVE4tP4G4e+WFy
- azkgCGC3Mk8wbHHnbmmKObNlVP5pDWzqdhqh+HAXPE8o+1l+Hlu8tswxiaVM1Ul+v3
- UZIRARydgHnI7ECFVslwev4AIl3+vH0o85jzBa4zAD8XNfd936b14q//9bEplTNQEs
- DOK3S7d/FoKpW3V3bjlb0IdnyLScR5VwaGAJ1kq+XFnDpPAL50yEJQi08FswygCuFA
- RH7g1qmxJ7Dxw==
-Date: Wed, 27 Mar 2024 14:27:29 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: Alex Constantino <dreaming.about.electric.sheep@gmail.com>, 
- 1054514@bugs.debian.org, airlied@redhat.com, carnil@debian.org, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, kraxel@redhat.com,
- linux-kernel@vger.kernel.org, 
- spice-devel@lists.freedesktop.org, timo.lindfors@iki.fi, tzimmermann@suse.de, 
- virtualization@lists.linux-foundation.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [PATCH 1/1] drm/qxl: fixes qxl_fence_wait
-Message-ID: <20240327-cuddly-smooth-trogon-59c02d@houat>
-References: <fb0fda6a-3750-4e1b-893f-97a3e402b9af@leemhuis.info>
- <20240308010851.17104-1-dreaming.about.electric.sheep@gmail.com>
- <20240308010851.17104-2-dreaming.about.electric.sheep@gmail.com>
- <db4c8e74-5c79-49be-9781-a5d8669eccc1@leemhuis.info>
+X-Greylist: delayed 2252 seconds by postgrey-1.36 at gabe;
+ Wed, 27 Mar 2024 14:12:15 UTC
+Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6207510FD15
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 14:12:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+ Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+ Resent-Cc:Resent-Message-ID; bh=NZdy0X3liUqTEzRbInNe/vjDY6MNb1re1WUM40McVv8=; 
+ t=1711548735; x=1712758335; b=CbUJLPf5pbW+QqDTMediStge3/J6oxuBG4GwEesyEiIzPYi
+ qljuuKjwsIxQLGr+FBrZU/kReKrsQxeyIbFEt0sy/gBrix+W0bZuF4imWWFXm/PAcLQRkTKPXlCBH
+ Ywkc5X4vQfWkSu9vK4yYsLpRRXzV4KcUSr+/LHYMRcR9kKCAQPdYehx5u3iXcZ/jKiV2fj7VrROeo
+ gDpEBz1uldFQxn+Mpi4Lnf87a69mr6hA1HUe1vwzOEzUIWDSXIwONbWP6dKjMRJ0BK/XrOGB4xPIt
+ TkAl3kttxnhvO6gDfUwntaPzxbZ2QLvacNMG0F7oCW5ZWifSUvPsnJw1MZl/JEHQ==;
+Received: by sipsolutions.net with esmtpsa
+ (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.97) (envelope-from <johannes@sipsolutions.net>)
+ id 1rpTPq-0000000H6pw-3l9Q; Wed, 27 Mar 2024 14:34:07 +0100
+Message-ID: <46e9539f59c82762e3468a9519fa4123566910d5.camel@sipsolutions.net>
+Subject: Re: [PATCH 02/22] um: virt-pci: drop owner assignment
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, "Michael S.
+ Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>,  Richard Weinberger <richard@nod.at>, Anton
+ Ivanov <anton.ivanov@cambridgegreys.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe
+ <axboe@kernel.dk>, Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von
+ Dentz <luiz.dentz@gmail.com>, Olivia Mackall <olivia@selenic.com>, Herbert
+ Xu <herbert@gondor.apana.org.au>, Amit Shah <amit@kernel.org>, Arnd
+ Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Gonglei <arei.gonglei@huawei.com>, "David S. Miller" <davem@davemloft.net>,
+ Viresh Kumar <vireshk@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, David
+ Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, Gurchetan
+ Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, Joerg Roedel
+ <joro@8bytes.org>, Alexander Graf <graf@amazon.com>, Eric Dumazet
+ <edumazet@google.com>,  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Eric Van Hensbergen <ericvh@kernel.org>, Latchesar
+ Ionkov <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>,
+ Christian Schoenebeck <linux_oss@crudebyte.com>,  Stefano Garzarella
+ <sgarzare@redhat.com>, Kalle Valo <kvalo@kernel.org>, Dan Williams
+ <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Dave
+ Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, Pankaj Gupta
+ <pankaj.gupta.linux@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
+ Mathieu Poirier <mathieu.poirier@linaro.org>, "Martin K. Petersen"
+ <martin.petersen@oracle.com>, Vivek Goyal <vgoyal@redhat.com>, Miklos
+ Szeredi <miklos@szeredi.hu>, Anton Yakovlev
+ <anton.yakovlev@opensynergy.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>
+Cc: virtualization@lists.linux.dev, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-um@lists.infradead.org, 
+ linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
+ linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ iommu@lists.linux.dev, netdev@vger.kernel.org, v9fs@lists.linux.dev, 
+ kvm@vger.kernel.org, linux-wireless@vger.kernel.org,
+ nvdimm@lists.linux.dev,  linux-remoteproc@vger.kernel.org,
+ linux-scsi@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+ alsa-devel@alsa-project.org,  linux-sound@vger.kernel.org
+Date: Wed, 27 Mar 2024 14:34:04 +0100
+In-Reply-To: <20240327-module-owner-virtio-v1-2-0feffab77d99@linaro.org>
+References: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
+ <20240327-module-owner-virtio-v1-2-0feffab77d99@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="odhn7ryspel32gtq"
-Content-Disposition: inline
-In-Reply-To: <db4c8e74-5c79-49be-9781-a5d8669eccc1@leemhuis.info>
+X-malware-bazaar: not-scanned
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,68 +97,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 2024-03-27 at 13:40 +0100, Krzysztof Kozlowski wrote:
+> virtio core already sets the .owner, so driver does not need to.
 
---odhn7ryspel32gtq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> All further patches depend on the first virtio patch, therefore please ac=
+k
+> and this should go via one tree: virtio?
 
-Hi,
+Sure. Though it's not really actually necessary, you can set it in the
+core and merge the other patches in the next cycle; those drivers that
+_have_ an .owner aren't broken after all.
 
-On Wed, Mar 20, 2024 at 04:25:48PM +0100, Linux regression tracking (Thorst=
-en Leemhuis) wrote:
-> On 08.03.24 02:08, Alex Constantino wrote:
-> > Fix OOM scenario by doing multiple notifications to the OOM handler thr=
-ough
-> > a busy wait logic.
-> > Changes from commit 5a838e5d5825 ("drm/qxl: simplify qxl_fence_wait") w=
-ould
-> > result in a '[TTM] Buffer eviction failed' exception whenever it reache=
-d a
-> > timeout.
-> >=20
-> > Fixes: 5a838e5d5825 ("drm/qxl: simplify qxl_fence_wait")
-> > Link: https://lore.kernel.org/regressions/fb0fda6a-3750-4e1b-893f-97a3e=
-402b9af@leemhuis.info
-> > Reported-by: Timo Lindfors <timo.lindfors@iki.fi>
-> > Closes: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D1054514
-> > Signed-off-by: Alex Constantino <dreaming.about.electric.sheep@gmail.co=
-m>
-> > ---
-> >  drivers/gpu/drm/qxl/qxl_release.c | 20 ++++++++++++++------
-> >  1 file changed, 14 insertions(+), 6 deletions(-)
->=20
-> Hey Dave and Gerd as well as Thomas, Maarten and Maxime (the latter two
-> I just added to the CC), it seems to me this regression fix did not
-> maybe any progress since it was posted. Did I miss something, is it just
-> "we are busy with the merge window", or is there some other a reason?
-> Just wondering, I just saw someone on a Fedora IRC channel complaining
-> about the regression, that's why I'm asking. Would be really good to
-> finally get this resolved...
+Acked-by: Johannes Berg <johannes@sipsolutions.net>
 
-I've ping'd Gerd last week about it, but he couldn't remember the
-details of why that patch was warranted in the first place.
-
-If it works, I'd prefer to revert the original patch that we know used
-to work instead of coming up with some less proven logic, which seems to
-be quite different to what it used to be.
-
-Alex, could you try reverting 5a838e5d5825c85556011478abde708251cc0776
-and letting us know the result?
-
-Thanks!
-Maxime
-
---odhn7ryspel32gtq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZgQeuAAKCRAnX84Zoj2+
-dtzBAX9D2qc3cRTI5gt0TJbZn+B1KZluieFl8m0F3A4+AMDS3Evkhqnpw13peeHP
-19X3+xUBgN+7f0zhgWoJGzvnglkgra50VOoD9JZHUkmxpgZHXMavpspIDYDdwpKe
-xEgQ8lSVDQ==
-=4Ivy
------END PGP SIGNATURE-----
-
---odhn7ryspel32gtq--
+johannes
