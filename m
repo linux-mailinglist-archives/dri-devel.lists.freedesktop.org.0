@@ -2,63 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB9A988EAA4
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 17:08:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2941888EAAC
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 17:09:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8468810FDD1;
-	Wed, 27 Mar 2024 16:08:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5537510FDCF;
+	Wed, 27 Mar 2024 16:09:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="YBhZXN0X";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QfKe9Umm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8F2C10FDCF
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 16:08:54 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9FDCE240006;
- Wed, 27 Mar 2024 16:08:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1711555732;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+jkgAP/v9+Siqc6CqYICxsZyvqgYRhV+/aIoRxwwyJA=;
- b=YBhZXN0X1RSLgvcjwuVb2D5YFbir3khOoiv0JlScOddWzHqPe3coFTrCBu3ckJmeyOwf2m
- +RCA1J0jjJRKs+xjX0Zr9GVgKiYqVeFZFbk3oZjTx5mhVKFdiLn8+QhZD3YY1iwDLxcXHa
- 1HnWPkcxFDVWnaTilsWQt8AB8lAu4/ezIjbqKDuGJL0kJEuaswR0DRlqs9DRpEQUND45Ex
- fWiaYVs2SeuZ1pUczBvfolCeW+X09cx/mF5ii90VwCa90N3Lm4Nn+a3+0W9cR8WO6YMDfS
- 1e6nnWayhRdg0usnfv2MxVUyBD0F3K5FFVigceI9VAsg/KAz1lFDO7Ic2XBvWw==
-Date: Wed, 27 Mar 2024 17:08:49 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Paul Kocialkowski <contact@paulk.fr>, =?UTF-8?Q?He?=
- =?UTF-8?Q?rv=C3=A9?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Paul Kocialkowski
- <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH 4/4] drm/bridge: hotplug-bridge: add driver to support
- hot-pluggable DSI bridges
-Message-ID: <20240327170849.0c14728d@booty>
-In-Reply-To: <20240327-radiant-cherry-myna-25afc4@houat>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E37D010FDCF
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 16:09:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id DA0D1CE263C;
+ Wed, 27 Mar 2024 16:09:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1317C433F1;
+ Wed, 27 Mar 2024 16:09:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1711555751;
+ bh=7T5BGCgr9wS3JyIXUuZj45o2W4RjyxGPRlRV3KjkiR4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QfKe9Ummb1Wuiv7L+kpncdWozSCKk+PB5D7rWUWkaFNAYfRZn+DbpcVO8s3vi7eib
+ keLxWh1PKWe1ExQ5TlqVM3uIoz7SWDP//aVLfwNcdej7PmjfdMSr2s5N/8jacJDsFQ
+ F0O7zMTBXtsW2CVAMdGb4b8792vbVzKZ1F6Mp9ah1dmHgaqsl7QjS139fzp+SmOVPA
+ YJyXd7N01LS1PLAyLV35txUfhWcm44u/suRDKJuE0azWKWY+acumVfleERK4obiicW
+ 76MqOyHrAFAzNK7zdJEFXasTxmGDMk9ZJ2j4UxXapOCz49IN/Ey6r/pc42SlIiXyVN
+ M1cdgflipBJ8w==
+Date: Wed, 27 Mar 2024 11:09:08 -0500
+From: Rob Herring <robh@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Paul Kocialkowski <contact@paulk.fr>,
+ =?iso-8859-1?Q?Herv=E9?= Codina <herve.codina@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH 1/4] dt-bindings: display: bridge: add the Hot-plug MIPI
+ DSI connector
+Message-ID: <20240327160908.GA3460963-robh@kernel.org>
 References: <20240326-hotplug-drm-bridge-v1-0-4b51b5eb75d5@bootlin.com>
- <20240326-hotplug-drm-bridge-v1-4-4b51b5eb75d5@bootlin.com>
- <20240327-radiant-cherry-myna-25afc4@houat>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+ <20240326-hotplug-drm-bridge-v1-1-4b51b5eb75d5@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240326-hotplug-drm-bridge-v1-1-4b51b5eb75d5@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,196 +72,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-On Wed, 27 Mar 2024 13:42:40 +0100
-Maxime Ripard <mripard@kernel.org> wrote:
-
-> On Tue, Mar 26, 2024 at 05:28:14PM +0100, Luca Ceresoli wrote:
-> > This driver implements the point of a DRM pipeline where a connector allows
-> > removal of all the following bridges up to the panel.
-> > 
-> > The DRM subsystem currently allows hotplug of the monitor but not preceding
-> > components. However there are embedded devices where the "tail" of the DRM
-> > pipeline, including one or more bridges, can be physically removed:
-> > 
-> >  .------------------------.
-> >  |   DISPLAY CONTROLLER   |
-> >  | .---------.   .------. |
-> >  | | ENCODER |<--| CRTC | |
-> >  | '---------'   '------' |
-> >  '------|-----------------'
-> >         |
-> >         |               HOTPLUG
-> >         V              CONNECTOR
-> >    .---------.        .--.    .-.        .---------.         .-------.
-> >    | 0 to N  |        | _|   _| |        | 1 to N  |         |       |
-> >    | BRIDGES |--DSI-->||_   |_  |--DSI-->| BRIDGES |--LVDS-->| PANEL |
-> >    |         |        |  |    | |        |         |         |       |
-> >    '---------'        '--'    '-'        '---------'         '-------'
-> > 
-> >  [--- fixed components --]  [----------- removable add-on -----------]
-> > 
-> > This driver supports such devices, where the final segment of a MIPI DSI
-> > bus, including one or more bridges, can be physically disconnected and
-> > reconnected at runtime, possibly with a different model.
-> > 
-> > This implementation supports a MIPI DSI bus only, but it is designed to be
-> > as far as possible generic and extendable to other busses that have no
-> > native hotplug and model ID discovery.
-> >
-> > This driver does not provide facilities to add and remove the hot-pluggable
-> > components from the kernel: this needs to be done by other means
-> > (e.g. device tree overlay runtime insertion and removal). The
-> > hotplug-bridge gets notified of hot-plugging by the DRM bridge notifier
-> > callbacks after they get added or before they get removed.
-> > 
-> > The hotplug-bridge role is to implement the "hot-pluggable connector" in
-> > the bridge chain. In this position, what the hotplug-bridge should ideally
-> > do is:
-> > 
-> >  * communicate with the previous component (bridge or encoder) so that it
-> >    believes it always has a connected bridge following it and the DRM card
-> >    is always present
-> >  * be notified of the addition and removal of the following bridge and
-> >    attach/detach to/from it
-> >  * communicate with the following bridge so that it will attach and detach
-> >    using the normal procedure (as if the entire pipeline were being created
-> >    or destroyed, not only the tail)
-> >  * expose the "add-on connected/disconnected" status via the DRM connector
-> >    connected/disconnected status, so that users of the DRM pipeline know
-> >    when they can render output on the display
-> > 
-> > However some aspects make it a bit more complex than that. Most notably:
-> > 
-> >  * the next bridge can be probed and removed at any moment and all probing
-> >    sequences need to be handled
-> >  * the DSI host/device registration process, which adds to the DRM bridge
-> >    attach process, makes the initial card registration tricky
-> >  * the need to register and deregister the following bridges at runtime
-> >    without tearing down the whole DRM card prevents using the functions
-> >    that are normally recommended
-> >  * the automatic mechanism to call the appropriate .get_modes operation
-> >    (typically provided by the panel bridge) cannot work as the panel can
-> >    disappear and reappear as a different model, so an ad-hoc lookup is
-> >    needed  
+On Tue, Mar 26, 2024 at 05:28:11PM +0100, Luca Ceresoli wrote:
+> Add bindings for a physical, hot-pluggable connector allowing the far end
+> of a MIPI DSI bus to be connected and disconnected at runtime.
 > 
-> There's several additional hurdles there:
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> ---
+>  .../bridge/hotplug-video-connector-dsi.yaml        | 87 ++++++++++++++++++++++
+>  MAINTAINERS                                        |  5 ++
+>  2 files changed, 92 insertions(+)
 > 
->  - You mentioned the connector in your ideal scenario. But as soon as
->    you remove the last bridge, the connector will probably go away too.
->    There's two scenarii here then:
-> 
->    - The driver is ok, and it will stay there until the last user its to
->      the main DRM device. Which means that if you create a new one,
->      you'll have the old one and the new one together, but you can't
->      tell which one you're supposed to use.
-> 
->    - If the driver isn't ok, the connector will be freed immediately.
->      There's plenty of lingering pointers in the framework, and
->      especially the states though, leading to use-after-free errors.
-> 
->  - So far, we told everyone that the graphics pipeline wasn't going to
->    change. How do you expect applications to deal with a connector going
->    away without any regression? I guess the natural thing here would be
->    to emit a uevent just like we do when the connection status change,
->    but the thing is: we're doing that for the connector, and the
->    connector is gone.
+> diff --git a/Documentation/devicetree/bindings/display/bridge/hotplug-video-connector-dsi.yaml b/Documentation/devicetree/bindings/display/bridge/hotplug-video-connector-dsi.yaml
+> new file mode 100644
+> index 000000000000..05beb8aa9ab4
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/hotplug-video-connector-dsi.yaml
+> @@ -0,0 +1,87 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/hotplug-video-connector-dsi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Hot-pluggable connector on a MIPI DSI bus
+> +
+> +maintainers:
+> +  - Luca Ceresoli <luca.ceresoli@bootlin.com>
+> +
+> +description:
+> +  A bridge representing a physical, hot-pluggable connector on a MIPI DSI
+> +  video bus. The connector splits the video pipeline in a fixed part and a
+> +  removable part.
+> +
+> +  The fixed part of the video pipeline includes all components up to the
+> +  display controller and 0 or more bridges. The removable part includes one
+> +  or more bridges and any other components up to the panel.
+> +
+> +  The removable part of the pipeline can be physically disconnected at any
+> +  moment, making all of its components not usable anymore. The same or a
+> +  different removable part of the pipeline can be reconnected later on.
+> +
+> +  Note that the hotplug-video-connector does not describe video busses
+> +  having native hotplug capabilities in the hardware, such as HDMI.
+> +
+> +properties:
+> +  compatible:
+> +    const: hotplug-video-connector-dsi
 
-Thanks for your feedback. I probably should have discussed this aspect
-in my cover letter, sorry about that, let me amend now.
+Got a spec for this connector? How do I know if I have one or not?
 
-I think there are two possible approaches.
+The problem here is what else is on this connector? GPIO controls, 
+power rails, etc.?
 
-The first approach is based on removing the drm_connector. My laptop
-uses the i915 driver, and I have observed that attaching/removing a
-USB-C dock with an HDMI connector connected to a monitor, a new
-drm_connector appears/disappears for the card. User space gets notified
-and the external monitor is enabled/disabled, just the way a desktop
-user would expect, so this is possible. I had a look at the driver but
-how this magic happens was not clear to me honestly.
+If this is some kind of standard connector, then we need to be able to 
+remap everything on the connector not just DSI signals. And for that, 
+it's not just DSI signals, so I'd say we would need some sort of generic 
+graph remapping that the core graph code handles transparently.
 
-The second approach is simpler and based on keeping the drm_connector
-always instantiated, and it is what this driver does. The drm_connector
-is added by the hotplug-bridge driver in the drm_bridge_funcs.attach op,
-which happens initially, and only removed by drm_bridge_funcs.detach,
-so it is never removed when detaching the _following_ part of the
-pipeline (which the card is unaware of). So the encoder always has a
-drm_connector.
+ If it is not standard, then you don't need any remapping and can just 
+use an overlay that connects the ports directly.
 
-Note when attaching to the downstream bridge we pass the
-DRM_BRIDGE_ATTACH_NO_CONNECTOR flag, which _should_ prevent creation of a
-second connector. I'd expect some drivers to not honour that flag, but
-they can be fixed if needed.
-
-When the tail of the pipeline is connected/removed, the
-hpb->next_bridge pointer becomes valid/NULL. And
-hotplug_bridge_detect() looks at exactly that pointer to return a
-connected or disconnected status.
-
-The result is that when the add-on is connected, 'modetest -c' shows:
-
-  Connectors:
-  id      encoder status          name            size (mm)       modes   encoders
-  37      0       connected       DSI-1           293x165         1       36
-    modes:
-          index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot
-    #0 1920x1080 60.00 1920 1978 2020 2108 1080 1088 1102 1116 141140 flags: ; type: preferred, driver
-    props:
-  ...
-
-and when it is disconnected, it shows:
-
-  Connectors:
-  id      encoder status          name            size (mm)       modes   encoders
-  37      0       disconnected    DSI-1           0x0             0       36
-    props:
-  ...
-
-weston detects the HPD events from the connector and starts/stops using
-the removable display correctly.
-
-Does this clarify the approach?
-
-I could be missing some aspects of course, especially in case of more
-complex hardware setups than the one I have. However the code in this
-series has been tested for a long time and no memory-safety issue has
-appeared.
-
-> Between the userspace expectations and the memory-safety issue plaguing
-> way too many drivers, I'm not sure this approach can work.
-> 
-> I guess one way to somewhat achieve what you're trying to do would be to
-> introduce the connection status at the bridge level, reflect the
-> aggregate connection status of all bridges on the connector, and make
-> each bridge driver probe its device in the connect hook through DCS or
-> I2C.
-
-I think you mean: keeping all the bridge drivers instantiated, even
-when the physical chip is removed.
-
-This is of course another possible approach. However it would be more
-invasive, forcing bridge drivers to change their current behaviour. And
-it would violate the design that a driver is probed when a device is
-there, and removed when the hardware goes away.
-
-The approach I took firstly allows to have zero modifications to
-existing bridge drivers -- not necessarily the right thing to do, but I
-didn't find any good reason to require that.
-
-Additionally, it is designed to allow removing an add-on having bridge
-XYZ and then plugging in another add-on with bridge ABC, having a
-different driver. Keeping alive the XYZ driver on unplug would not make
-sense in such a case. This is not a tested scenario as I have no
-hardware allowing that, but it is part of the design goals and I see no
-obvious reason it wouldn't work with this patch as is, since the
-downstream bridge driver is removed on disconnect and probed on connect
-for whatever bridge will be connected.
-
-Best regards,
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Rob
