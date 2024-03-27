@@ -2,71 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8FB088E7C3
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 16:04:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9233788E802
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 16:11:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6093310EE41;
-	Wed, 27 Mar 2024 15:04:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BAAF10FD6D;
+	Wed, 27 Mar 2024 15:10:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="GE/y00td";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DzfDrqQ9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D033C10EE41
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 15:04:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=xo1GqznxK0Gmyrr9ZOtGr4W7JP3bZGzh0OdZQVVxER4=; b=GE/y00td2HheVLK9VZTPtBY6ye
- /PrHjfariKLUkb9H+jgTR7QYn9VnSny3EjwHCSc9KNx2PZZEbrDwqPEZPO0P4mMfMstLyNBpz9Xg/
- krga2D4cuVcdmDWrFtcjTuBtEm3o5o4epeiX2kr2eHNl5QZYdDiKbpf7Wv0rHiY/99kcn2pfiDrhs
- 1vreE7SmpVRnBow5gq9BF2Wu9S2vMqun0IuU/70uR1Brl8gmC+e14yvFmkdU8+kNj+dCdB7X0+wHD
- pYDsvT/HrJOArHmc2AKvrPQHEsijYm0zRXjUJxcw+f7AKO0ZAwNe/5FHmNY8OBSFfL51dFCx6zbUA
- BST0201Q==;
-Received: from [177.34.169.255] (helo=[192.168.0.139])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1rpUoQ-00FtuU-P0; Wed, 27 Mar 2024 16:03:35 +0100
-Message-ID: <6be935f8-8a4d-4490-91df-7982d3beee38@igalia.com>
-Date: Wed, 27 Mar 2024 12:03:25 -0300
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+ [209.85.210.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21DE910FD6D
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 15:10:56 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id
+ d2e1a72fcca58-6e740fff1d8so4975877b3a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 08:10:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1711552255; x=1712157055; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=GhC1S2pW9btr9pVuDZELsqNgJuQdIsA6xlv8onmT65s=;
+ b=DzfDrqQ9phoyGg27LkXyXnNHllCb6hkui9vJh0ufjtfuIRDOCa8rESql3nvGl47Fs6
+ ja2AOG1OJoDl5yXrEfvhzmAdQLQCc1WM1UvKCGB6Yt73gJYd8YDFfEmPZUCkwnx1mVQ0
+ BHyte+SYYeCtH+KlHPUZClal9BB2zdcUwstJW71QxRasgbftXtZyC6RF9TimZWcoD7Ue
+ mSiJcwbHukFSenj2e/XgIsebx8z2EcU9/Gdt/gbWggF6UwYwlcDFwYfCrenC4fjRXxaE
+ 5hLSoCmpkNFa7TuWDK7qWTya4b7OPNU/0GtLqZb/pEqofDT5z2jWZmUeV0/zhgRTHVyq
+ SLFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711552255; x=1712157055;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=GhC1S2pW9btr9pVuDZELsqNgJuQdIsA6xlv8onmT65s=;
+ b=H6Pk9u7F50gsuqIpJsM87yKCtpNBwLRPRvPqBIjx6hoOb/QM2Sijmf08js11tGioI6
+ P5vlqBrDpohqghqJ/mPwFYwMRN6+2pFPq4lnt4SOA8qFzZMRqHGdRxj2uKIQFt370v0n
+ IKtd/ZtcqCxXnCPSnkH0Ko4WoCjyC/KUV8Een/DZcpG4GOK/NbMbiifkQz1Q72BRH1qY
+ vd9PTwDd69sXo0rjKS9ryTZDuwZJKkhQAhxeuJhD5PXUeZ0P2bMEiFjwk42w0cNzeCAm
+ 2pDceUJwAbH3Vu4W6JebFNygUh4yh5TX7zCgVxsbtOVje8R1yJcjanPlf7c7G3vEU9Qm
+ tc9Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVmgxCu1THDrVAE4rBe8JQqKoSdcMTqbnhhWERXxBd2nt0xU6rQp55Pd7M8o3xKxbonmzzFwVlRNQhB4YIKZ9CxcDABQvQ4oVu7/E2QVebu
+X-Gm-Message-State: AOJu0Yz5h3Pmv52/NQPfYdjlufOd9mgoIBk1/IxUkGn/8UTKzyLQQYiC
+ B0U9DeaqZrYRq+e02pEbYZAxaWnEXh4qiG9w0r6kXee97zfOkxP9
+X-Google-Smtp-Source: AGHT+IFTcwPFOlfI6eRT+0rf0ZnAMCTISb8ttH9tKFaraPJRt460mqVcAAiNBuFiDAxZrRyiWoSPIw==
+X-Received: by 2002:a05:6a20:f39d:b0:1a0:adbc:7a96 with SMTP id
+ qr29-20020a056a20f39d00b001a0adbc7a96mr225466pzb.36.1711552255375; 
+ Wed, 27 Mar 2024 08:10:55 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ u8-20020a62ed08000000b006e4e616e520sm7950526pfh.72.2024.03.27.08.10.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Mar 2024 08:10:54 -0700 (PDT)
+Message-ID: <320aacc6-b7e5-4c3d-948e-d0743ab26c5d@roeck-us.net>
+Date: Wed, 27 Mar 2024 08:10:51 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 04/16] drm/vkms: Add typedef and documentation for
- pixel_read and pixel_write functions
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, arthurgrillo@riseup.net,
- Jonathan Corbet <corbet@lwn.net>, pekka.paalanen@haloniitty.fi,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com,
- nicolejadeyee@google.com
-References: <20240313-yuv-v5-0-e610cbd03f52@bootlin.com>
- <20240313-yuv-v5-4-e610cbd03f52@bootlin.com>
- <b401851b-19ec-4ddb-beec-d4bd8578a620@igalia.com>
- <ZgLwSqFP5uMm8seR@localhost.localdomain>
+Subject: Re: [PATCH v2 12/14] sh: Add support for suppressing warning
+ backtraces
 Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <ZgLwSqFP5uMm8seR@localhost.localdomain>
+To: Simon Horman <horms@kernel.org>
+Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
+ Arnd Bergmann <arnd@arndb.de>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, Dan Carpenter <dan.carpenter@linaro.org>,
+ Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>,
+ David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Maxime Ripard
+ <mripard@kernel.org>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?=
+ <ville.syrjala@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ kunit-dev@googlegroups.com, linux-arch@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+ loongarch@lists.linux.dev, netdev@vger.kernel.org,
+ Linux Kernel Functional Testing <lkft@linaro.org>
+References: <20240325175248.1499046-1-linux@roeck-us.net>
+ <20240325175248.1499046-13-linux@roeck-us.net>
+ <20240327144431.GL403975@kernel.org>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20240327144431.GL403975@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,370 +150,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/26/24 12:56, Louis Chauvet wrote:
-> Le 25/03/24 - 10:56, Maíra Canal a écrit :
->> On 3/13/24 14:44, Louis Chauvet wrote:
->>> Introduce two typedefs: pixel_read_t and pixel_write_t. It allows the
->>> compiler to check if the passed functions take the correct arguments.
->>> Such typedefs will help ensuring consistency across the code base in
->>> case of update of these prototypes.
->>>
->>> Rename input/output variable in a consistent way between read_line and
->>> write_line.
->>>
->>> A warn has been added in get_pixel_*_function to alert when an unsupported
->>> pixel format is requested. As those formats are checked before
->>> atomic_update callbacks, it should never append.
->>>
->>> Document for those typedefs.
->>>
->>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
->>> ---
->>>    drivers/gpu/drm/vkms/vkms_drv.h     |  23 ++++++-
->>>    drivers/gpu/drm/vkms/vkms_formats.c | 124 +++++++++++++++++++++---------------
->>>    drivers/gpu/drm/vkms/vkms_formats.h |   4 +-
->>>    drivers/gpu/drm/vkms/vkms_plane.c   |   2 +-
->>>    4 files changed, 95 insertions(+), 58 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
->>> index 18086423a3a7..4bfc62d26f08 100644
->>> --- a/drivers/gpu/drm/vkms/vkms_drv.h
->>> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
->>> @@ -53,12 +53,31 @@ struct line_buffer {
->>>    	struct pixel_argb_u16 *pixels;
->>>    };
->>>    
->>> +/**
->>> + * typedef pixel_write_t - These functions are used to read a pixel from a
->>> + * `struct pixel_argb_u16*`, convert it in a specific format and write it in the @dst_pixels
->>> + * buffer.
+On 3/27/24 07:44, Simon Horman wrote:
+> On Mon, Mar 25, 2024 at 10:52:46AM -0700, Guenter Roeck wrote:
+>> Add name of functions triggering warning backtraces to the __bug_table
+>> object section to enable support for suppressing WARNING backtraces.
 >>
->> Your brief description looks a bit big to me. Also, take a look at the
->> cross-references docs [1].
+>> To limit image size impact, the pointer to the function name is only added
+>> to the __bug_table section if both CONFIG_KUNIT_SUPPRESS_BACKTRACE and
+>> CONFIG_DEBUG_BUGVERBOSE are enabled. Otherwise, the __func__ assembly
+>> parameter is replaced with a (dummy) NULL parameter to avoid an image size
+>> increase due to unused __func__ entries (this is necessary because __func__
+>> is not a define but a virtual variable).
+>>
+>> Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
+>> Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
+>> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+>> ---
+>> - Rebased to v6.9-rc1
+>> - Added Tested-by:, Acked-by:, and Reviewed-by: tags
+>> - Introduced KUNIT_SUPPRESS_BACKTRACE configuration option
+>>
+>>   arch/sh/include/asm/bug.h | 26 ++++++++++++++++++++++----
+>>   1 file changed, 22 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/arch/sh/include/asm/bug.h b/arch/sh/include/asm/bug.h
+>> index 05a485c4fabc..470ce6567d20 100644
+>> --- a/arch/sh/include/asm/bug.h
+>> +++ b/arch/sh/include/asm/bug.h
+>> @@ -24,21 +24,36 @@
+>>    * The offending file and line are encoded in the __bug_table section.
+>>    */
+>>   #ifdef CONFIG_DEBUG_BUGVERBOSE
+>> +
+>> +#ifdef CONFIG_KUNIT_SUPPRESS_BACKTRACE
+>> +# define HAVE_BUG_FUNCTION
+>> +# define __BUG_FUNC_PTR	"\t.long %O2\n"
+>> +#else
+>> +# define __BUG_FUNC_PTR
+>> +#endif /* CONFIG_KUNIT_SUPPRESS_BACKTRACE */
+>> +
 > 
-> Is this description sufficient?
+> Hi Guenter,
 > 
-> 	typedef pixel_write_t - Convert a pixel from a &struct pixel_argb_u16 into a specific format
+> a minor nit from my side: this change results in a Kernel doc warning.
+> 
+>       .../bug.h:29: warning: expecting prototype for _EMIT_BUG_ENTRY(). Prototype was for HAVE_BUG_FUNCTION() instead
+> 
+> Perhaps either the new code should be placed above the Kernel doc,
+> or scripts/kernel-doc should be enhanced?
+> 
 
-Yeah.
+Thanks a lot for the feedback.
 
-Best Regards,
-- Maíra
+The definition block needs to be inside CONFIG_DEBUG_BUGVERBOSE,
+so it would be a bit odd to move it above the documentation
+just to make kerneldoc happy. I am not really sure that to do
+about it.
 
->   
->> [1]
->> https://docs.kernel.org/doc-guide/kernel-doc.html#highlights-and-cross-references
->>
->>> + *
->>> + * @out_pixel: destination address to write the pixel
->>> + * @in_pixel: pixel to write
->>> + */
->>> +typedef void (*pixel_write_t)(u8 *out_pixel, struct pixel_argb_u16 *in_pixel);
->>> +
->>>    struct vkms_writeback_job {
->>>    	struct iosys_map data[DRM_FORMAT_MAX_PLANES];
->>>    	struct vkms_frame_info wb_frame_info;
->>> -	void (*pixel_write)(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel);
->>> +	pixel_write_t pixel_write;
->>>    };
->>>    
->>> +/**
->>> + * typedef pixel_read_t - These functions are used to read a pixel in the source frame,
->>> + * convert it to `struct pixel_argb_u16` and write it to @out_pixel.
->>
->> Same.
+I'll wait for comments from others before making any changes.
+
+Thanks,
+Guenter
+
+>>   #define _EMIT_BUG_ENTRY				\
+>>   	"\t.pushsection __bug_table,\"aw\"\n"	\
+>>   	"2:\t.long 1b, %O1\n"			\
+>> -	"\t.short %O2, %O3\n"			\
+>> -	"\t.org 2b+%O4\n"			\
+>> +	__BUG_FUNC_PTR				\
+>> +	"\t.short %O3, %O4\n"			\
+>> +	"\t.org 2b+%O5\n"			\
+>>   	"\t.popsection\n"
+>>   #else
+>>   #define _EMIT_BUG_ENTRY				\
+>>   	"\t.pushsection __bug_table,\"aw\"\n"	\
+>>   	"2:\t.long 1b\n"			\
+>> -	"\t.short %O3\n"			\
+>> -	"\t.org 2b+%O4\n"			\
+>> +	"\t.short %O4\n"			\
+>> +	"\t.org 2b+%O5\n"			\
+>>   	"\t.popsection\n"
+>>   #endif
+>>   
+>> +#ifdef HAVE_BUG_FUNCTION
+>> +# define __BUG_FUNC	__func__
+>> +#else
+>> +# define __BUG_FUNC	NULL
+>> +#endif
+>> +
+>>   #define BUG()						\
+>>   do {							\
+>>   	__asm__ __volatile__ (				\
 > 
-> 	typedef pixel_read_t - Read a pixel and convert it to a &struct pixel_argb_u16
->   
->>> + *
->>> + * @in_pixel: Pointer to the pixel to read
->>> + * @out_pixel: Pointer to write the converted pixel
->>
->> s/Pointer/pointer
-> 
-> Fixed in v6.
-> 
->>> + */
->>> +typedef void (*pixel_read_t)(u8 *in_pixel, struct pixel_argb_u16 *out_pixel);
->>> +
->>>    /**
->>>     * vkms_plane_state - Driver specific plane state
->>>     * @base: base plane state
->>> @@ -69,7 +88,7 @@ struct vkms_writeback_job {
->>>    struct vkms_plane_state {
->>>    	struct drm_shadow_plane_state base;
->>>    	struct vkms_frame_info *frame_info;
->>> -	void (*pixel_read)(u8 *src_buffer, struct pixel_argb_u16 *out_pixel);
->>> +	pixel_read_t pixel_read;
->>>    };
->>>    
->>>    struct vkms_plane {
->>> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
->>> index 6e3dc8682ff9..55a4365d21a4 100644
->>> --- a/drivers/gpu/drm/vkms/vkms_formats.c
->>> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
->>> @@ -76,7 +76,7 @@ static int get_x_position(const struct vkms_frame_info *frame_info, int limit, i
->>>     * They are used in the `vkms_compose_row` function to handle multiple formats.
->>>     */
->>>    
->>> -static void ARGB8888_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
->>> +static void ARGB8888_to_argb_u16(u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
->>>    {
->>>    	/*
->>>    	 * The 257 is the "conversion ratio". This number is obtained by the
->>> @@ -84,48 +84,48 @@ static void ARGB8888_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixe
->>>    	 * the best color value in a pixel format with more possibilities.
->>>    	 * A similar idea applies to others RGB color conversions.
->>>    	 */
->>> -	out_pixel->a = (u16)src_pixels[3] * 257;
->>> -	out_pixel->r = (u16)src_pixels[2] * 257;
->>> -	out_pixel->g = (u16)src_pixels[1] * 257;
->>> -	out_pixel->b = (u16)src_pixels[0] * 257;
->>> +	out_pixel->a = (u16)in_pixel[3] * 257;
->>> +	out_pixel->r = (u16)in_pixel[2] * 257;
->>> +	out_pixel->g = (u16)in_pixel[1] * 257;
->>> +	out_pixel->b = (u16)in_pixel[0] * 257;
->>>    }
->>>    
->>> -static void XRGB8888_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
->>> +static void XRGB8888_to_argb_u16(u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
->>>    {
->>>    	out_pixel->a = (u16)0xffff;
->>> -	out_pixel->r = (u16)src_pixels[2] * 257;
->>> -	out_pixel->g = (u16)src_pixels[1] * 257;
->>> -	out_pixel->b = (u16)src_pixels[0] * 257;
->>> +	out_pixel->r = (u16)in_pixel[2] * 257;
->>> +	out_pixel->g = (u16)in_pixel[1] * 257;
->>> +	out_pixel->b = (u16)in_pixel[0] * 257;
->>>    }
->>>    
->>> -static void ARGB16161616_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
->>> +static void ARGB16161616_to_argb_u16(u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
->>>    {
->>> -	u16 *pixels = (u16 *)src_pixels;
->>> +	u16 *pixel = (u16 *)in_pixel;
->>>    
->>> -	out_pixel->a = le16_to_cpu(pixels[3]);
->>> -	out_pixel->r = le16_to_cpu(pixels[2]);
->>> -	out_pixel->g = le16_to_cpu(pixels[1]);
->>> -	out_pixel->b = le16_to_cpu(pixels[0]);
->>> +	out_pixel->a = le16_to_cpu(pixel[3]);
->>> +	out_pixel->r = le16_to_cpu(pixel[2]);
->>> +	out_pixel->g = le16_to_cpu(pixel[1]);
->>> +	out_pixel->b = le16_to_cpu(pixel[0]);
->>>    }
->>>    
->>> -static void XRGB16161616_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
->>> +static void XRGB16161616_to_argb_u16(u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
->>>    {
->>> -	u16 *pixels = (u16 *)src_pixels;
->>> +	u16 *pixel = (u16 *)in_pixel;
->>>    
->>>    	out_pixel->a = (u16)0xffff;
->>> -	out_pixel->r = le16_to_cpu(pixels[2]);
->>> -	out_pixel->g = le16_to_cpu(pixels[1]);
->>> -	out_pixel->b = le16_to_cpu(pixels[0]);
->>> +	out_pixel->r = le16_to_cpu(pixel[2]);
->>> +	out_pixel->g = le16_to_cpu(pixel[1]);
->>> +	out_pixel->b = le16_to_cpu(pixel[0]);
->>>    }
->>>    
->>> -static void RGB565_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
->>> +static void RGB565_to_argb_u16(u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
->>>    {
->>> -	u16 *pixels = (u16 *)src_pixels;
->>> +	u16 *pixel = (u16 *)in_pixel;
->>>    
->>>    	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
->>>    	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
->>>    
->>> -	u16 rgb_565 = le16_to_cpu(*pixels);
->>> +	u16 rgb_565 = le16_to_cpu(*pixel);
->>>    	s64 fp_r = drm_int2fixp((rgb_565 >> 11) & 0x1f);
->>>    	s64 fp_g = drm_int2fixp((rgb_565 >> 5) & 0x3f);
->>>    	s64 fp_b = drm_int2fixp(rgb_565 & 0x1f);
->>> @@ -169,12 +169,12 @@ void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state
->>>    
->>>    /*
->>>     * The following functions take one argb_u16 pixel and convert it to a specific format. The
->>> - * result is stored in @dst_pixels.
->>> + * result is stored in @out_pixel.
->>>     *
->>>     * They are used in the `vkms_writeback_row` to convert and store a pixel from the src_buffer to
->>>     * the writeback buffer.
->>>     */
->>> -static void argb_u16_to_ARGB8888(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
->>> +static void argb_u16_to_ARGB8888(u8 *out_pixel, struct pixel_argb_u16 *in_pixel)
->>>    {
->>>    	/*
->>>    	 * This sequence below is important because the format's byte order is
->>> @@ -186,43 +186,43 @@ static void argb_u16_to_ARGB8888(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel
->>>    	 * | Addr + 2 | = Red channel
->>>    	 * | Addr + 3 | = Alpha channel
->>>    	 */
->>> -	dst_pixels[3] = DIV_ROUND_CLOSEST(in_pixel->a, 257);
->>> -	dst_pixels[2] = DIV_ROUND_CLOSEST(in_pixel->r, 257);
->>> -	dst_pixels[1] = DIV_ROUND_CLOSEST(in_pixel->g, 257);
->>> -	dst_pixels[0] = DIV_ROUND_CLOSEST(in_pixel->b, 257);
->>> +	out_pixel[3] = DIV_ROUND_CLOSEST(in_pixel->a, 257);
->>> +	out_pixel[2] = DIV_ROUND_CLOSEST(in_pixel->r, 257);
->>> +	out_pixel[1] = DIV_ROUND_CLOSEST(in_pixel->g, 257);
->>> +	out_pixel[0] = DIV_ROUND_CLOSEST(in_pixel->b, 257);
->>>    }
->>>    
->>> -static void argb_u16_to_XRGB8888(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
->>> +static void argb_u16_to_XRGB8888(u8 *out_pixel, struct pixel_argb_u16 *in_pixel)
->>>    {
->>> -	dst_pixels[3] = 0xff;
->>> -	dst_pixels[2] = DIV_ROUND_CLOSEST(in_pixel->r, 257);
->>> -	dst_pixels[1] = DIV_ROUND_CLOSEST(in_pixel->g, 257);
->>> -	dst_pixels[0] = DIV_ROUND_CLOSEST(in_pixel->b, 257);
->>> +	out_pixel[3] = 0xff;
->>> +	out_pixel[2] = DIV_ROUND_CLOSEST(in_pixel->r, 257);
->>> +	out_pixel[1] = DIV_ROUND_CLOSEST(in_pixel->g, 257);
->>> +	out_pixel[0] = DIV_ROUND_CLOSEST(in_pixel->b, 257);
->>>    }
->>>    
->>> -static void argb_u16_to_ARGB16161616(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
->>> +static void argb_u16_to_ARGB16161616(u8 *out_pixel, struct pixel_argb_u16 *in_pixel)
->>>    {
->>> -	u16 *pixels = (u16 *)dst_pixels;
->>> +	u16 *pixel = (u16 *)out_pixel;
->>>    
->>> -	pixels[3] = cpu_to_le16(in_pixel->a);
->>> -	pixels[2] = cpu_to_le16(in_pixel->r);
->>> -	pixels[1] = cpu_to_le16(in_pixel->g);
->>> -	pixels[0] = cpu_to_le16(in_pixel->b);
->>> +	pixel[3] = cpu_to_le16(in_pixel->a);
->>> +	pixel[2] = cpu_to_le16(in_pixel->r);
->>> +	pixel[1] = cpu_to_le16(in_pixel->g);
->>> +	pixel[0] = cpu_to_le16(in_pixel->b);
->>>    }
->>>    
->>> -static void argb_u16_to_XRGB16161616(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
->>> +static void argb_u16_to_XRGB16161616(u8 *out_pixel, struct pixel_argb_u16 *in_pixel)
->>>    {
->>> -	u16 *pixels = (u16 *)dst_pixels;
->>> +	u16 *pixel = (u16 *)out_pixel;
->>>    
->>> -	pixels[3] = 0xffff;
->>> -	pixels[2] = cpu_to_le16(in_pixel->r);
->>> -	pixels[1] = cpu_to_le16(in_pixel->g);
->>> -	pixels[0] = cpu_to_le16(in_pixel->b);
->>> +	pixel[3] = 0xffff;
->>> +	pixel[2] = cpu_to_le16(in_pixel->r);
->>> +	pixel[1] = cpu_to_le16(in_pixel->g);
->>> +	pixel[0] = cpu_to_le16(in_pixel->b);
->>>    }
->>>    
->>> -static void argb_u16_to_RGB565(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
->>> +static void argb_u16_to_RGB565(u8 *out_pixel, struct pixel_argb_u16 *in_pixel)
->>>    {
->>> -	u16 *pixels = (u16 *)dst_pixels;
->>> +	u16 *pixel = (u16 *)out_pixel;
->>>    
->>>    	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
->>>    	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
->>> @@ -235,7 +235,7 @@ static void argb_u16_to_RGB565(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
->>>    	u16 g = drm_fixp2int(drm_fixp_div(fp_g, fp_g_ratio));
->>>    	u16 b = drm_fixp2int(drm_fixp_div(fp_b, fp_rb_ratio));
->>>    
->>> -	*pixels = cpu_to_le16(r << 11 | g << 5 | b);
->>> +	*pixel = cpu_to_le16(r << 11 | g << 5 | b);
->>>    }
->>>    
->>>    /**
->>> @@ -266,7 +266,7 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
->>>     *
->>>     * @format: DRM_FORMAT_* value for which to obtain a conversion function (see [drm_fourcc.h])
->>>     */
->>> -void *get_pixel_conversion_function(u32 format)
->>> +pixel_read_t get_pixel_read_function(u32 format)
->>>    {
->>>    	switch (format) {
->>>    	case DRM_FORMAT_ARGB8888:
->>> @@ -280,7 +280,16 @@ void *get_pixel_conversion_function(u32 format)
->>>    	case DRM_FORMAT_RGB565:
->>>    		return &RGB565_to_argb_u16;
->>>    	default:
->>> -		return NULL;
->>> +		/*
->>> +		 * This is a bug in vkms_plane_atomic_check. All the supported
->>
->> s/vkms_plane_atomic_check/vkms_plane_atomic_check()
-> 
-> Fixed in v6.
-> 
-> Thanks,
-> Louis Chauvet
-> 
->> Best Regards,
->> - Maíra
->>
->>> +		 * format must:
->>> +		 * - Be listed in vkms_formats in vkms_plane.c
->>> +		 * - Have a pixel_read callback defined here
->>> +		 */
->>> +		WARN(true,
->>> +		     "Pixel format %p4cc is not supported by VKMS planes. This is a kernel bug, atomic check must forbid this configuration.\n",
->>> +		     &format);
->>> +		return (pixel_read_t)NULL;
->>>    	}
->>>    }
->>>    
->>> @@ -291,7 +300,7 @@ void *get_pixel_conversion_function(u32 format)
->>>     *
->>>     * @format: DRM_FORMAT_* value for which to obtain a conversion function (see [drm_fourcc.h])
->>>     */
->>> -void *get_pixel_write_function(u32 format)
->>> +pixel_write_t get_pixel_write_function(u32 format)
->>>    {
->>>    	switch (format) {
->>>    	case DRM_FORMAT_ARGB8888:
->>> @@ -305,6 +314,15 @@ void *get_pixel_write_function(u32 format)
->>>    	case DRM_FORMAT_RGB565:
->>>    		return &argb_u16_to_RGB565;
->>>    	default:
->>> -		return NULL;
->>> +		/*
->>> +		 * This is a bug in vkms_writeback_atomic_check. All the supported
->>> +		 * format must:
->>> +		 * - Be listed in vkms_wb_formats in vkms_writeback.c
->>> +		 * - Have a pixel_write callback defined here
->>> +		 */
->>> +		WARN(true,
->>> +		     "Pixel format %p4cc is not supported by VKMS writeback. This is a kernel bug, atomic check must forbid this configuration.\n",
->>> +		     &format);
->>> +		return (pixel_write_t)NULL;
->>>    	}
->>>    }
->>> diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
->>> index cf59c2ed8e9a..3ecea4563254 100644
->>> --- a/drivers/gpu/drm/vkms/vkms_formats.h
->>> +++ b/drivers/gpu/drm/vkms/vkms_formats.h
->>> @@ -5,8 +5,8 @@
->>>    
->>>    #include "vkms_drv.h"
->>>    
->>> -void *get_pixel_conversion_function(u32 format);
->>> +pixel_read_t get_pixel_read_function(u32 format);
->>>    
->>> -void *get_pixel_write_function(u32 format);
->>> +pixel_write_t get_pixel_write_function(u32 format);
->>>    
->>>    #endif /* _VKMS_FORMATS_H_ */
->>> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
->>> index 21b5adfb44aa..10e9b23dab28 100644
->>> --- a/drivers/gpu/drm/vkms/vkms_plane.c
->>> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
->>> @@ -125,7 +125,7 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
->>>    	drm_rect_rotate(&frame_info->rotated, drm_rect_width(&frame_info->rotated),
->>>    			drm_rect_height(&frame_info->rotated), frame_info->rotation);
->>>    
->>> -	vkms_plane_state->pixel_read = get_pixel_conversion_function(fmt);
->>> +	vkms_plane_state->pixel_read = get_pixel_read_function(fmt);
->>>    }
->>>    
->>>    static int vkms_plane_atomic_check(struct drm_plane *plane,
->>>
-> 
+> ...
+
