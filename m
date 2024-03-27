@@ -2,87 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7CA88E140
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:56:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8263388E157
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:59:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04AA110F5D0;
-	Wed, 27 Mar 2024 12:56:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE83C10E87E;
+	Wed, 27 Mar 2024 12:59:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PeI1DRl9";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="EOcOp85j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 477E810F5D0
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 12:56:17 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 2187BCE2616;
- Wed, 27 Mar 2024 12:56:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59C93C43390;
- Wed, 27 Mar 2024 12:56:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711544174;
- bh=t5Dr+QPEU1FaZbxI2VzHHPUV33oVM25Zuyjp8wRwBxQ=;
- h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
- b=PeI1DRl97jSBL5h+TjLof7OmsdrUn8XoRsGQVaXc1QrS2MsqMVnRRdmF+M5dmweaA
- Cf4i01dUWOny6pJ6QuLijRvpE44xS0PcZc1e9PeN+WBhzhBO4xJy/Ts3k409QwdVEV
- p+A11VpmypxO3Ps9Q8jXDfwY+GDNk4U7h2495MzupWAahXb3s6nMhf4xTbKbYBv9sH
- Qg2EVim4HGea+Pk1qx3RaNxw1jAVCalYFQ1zjH9SvFpUEhLNt2Q6UwcJWGcqLuJGpO
- jNEGpE3iLazGfTCtetqVqdY3FWUY6/vKk+gRsmlO3tArdLh8t7rKXHMt3Lo2FnfSbu
- armFDkXpy3JVQ==
-From: Kalle Valo <kvalo@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,  Jason Wang
- <jasowang@redhat.com>,  Xuan Zhuo <xuanzhuo@linux.alibaba.com>,  Richard
- Weinberger <richard@nod.at>,  Anton Ivanov
- <anton.ivanov@cambridgegreys.com>,  Johannes Berg
- <johannes@sipsolutions.net>,  Paolo Bonzini <pbonzini@redhat.com>,  Stefan
- Hajnoczi <stefanha@redhat.com>,  Jens Axboe <axboe@kernel.dk>,  Marcel
- Holtmann <marcel@holtmann.org>,  Luiz Augusto von Dentz
- <luiz.dentz@gmail.com>,  Olivia Mackall <olivia@selenic.com>,  Herbert Xu
- <herbert@gondor.apana.org.au>,  Amit Shah <amit@kernel.org>,  Arnd
- Bergmann <arnd@arndb.de>,  Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  Gonglei <arei.gonglei@huawei.com>,  "David
- S. Miller" <davem@davemloft.net>,  Viresh Kumar <vireshk@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,  Bartosz Golaszewski
- <brgl@bgdev.pl>,  David Airlie <airlied@redhat.com>,  Gerd Hoffmann
- <kraxel@redhat.com>,  Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>,  Jean-Philippe Brucker
- <jean-philippe@linaro.org>,  Joerg Roedel <joro@8bytes.org>,  Alexander
- Graf <graf@amazon.com>,  Eric Dumazet <edumazet@google.com>,  Jakub
- Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>,  Eric Van
- Hensbergen <ericvh@kernel.org>,  Latchesar Ionkov <lucho@ionkov.net>,
- Dominique Martinet <asmadeus@codewreck.org>,  Christian Schoenebeck
- <linux_oss@crudebyte.com>,  Stefano Garzarella <sgarzare@redhat.com>,  Dan
- Williams <dan.j.williams@intel.com>,  Vishal Verma
- <vishal.l.verma@intel.com>,  Dave Jiang <dave.jiang@intel.com>,  Ira Weiny
- <ira.weiny@intel.com>,  Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,  Mathieu Poirier
- <mathieu.poirier@linaro.org>,  "Martin K. Petersen"
- <martin.petersen@oracle.com>,  Vivek Goyal <vgoyal@redhat.com>,  Miklos
- Szeredi <miklos@szeredi.hu>,  Anton Yakovlev
- <anton.yakovlev@opensynergy.com>,  Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,  virtualization@lists.linux.dev,
- linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
- linux-um@lists.infradead.org,  linux-block@vger.kernel.org,
- linux-bluetooth@vger.kernel.org,  linux-crypto@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,  linux-gpio@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  iommu@lists.linux.dev,
- netdev@vger.kernel.org,  v9fs@lists.linux.dev,  kvm@vger.kernel.org,
- linux-wireless@vger.kernel.org,  nvdimm@lists.linux.dev,
- linux-remoteproc@vger.kernel.org,  linux-scsi@vger.kernel.org,
- linux-fsdevel@vger.kernel.org,  alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org
-Subject: Re: [PATCH 17/22] wireless: mac80211_hwsim: drop owner assignment
-References: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
- <20240327-module-owner-virtio-v1-17-0feffab77d99@linaro.org>
-Date: Wed, 27 Mar 2024 14:55:58 +0200
-In-Reply-To: <20240327-module-owner-virtio-v1-17-0feffab77d99@linaro.org>
- (Krzysztof Kozlowski's message of "Wed, 27 Mar 2024 13:41:10 +0100")
-Message-ID: <87plvf7s0x.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EA8E10E87E
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 12:59:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1711544359;
+ bh=KuIKkEx2FN2gJJ0JnEltYYk/kEe8H+S/yJvDKKOeFU8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=EOcOp85jf6rE2+8kld3RSHYY3MypF1Cj87X/jiNuA8IMP7B+e6dVu8V6GfpoVKb9E
+ vM4QRpy0ldrH1VumFe03WXRERLdnRkE0dBLanmra69rPfvo8KT9wkKS4ieBDEIJnjH
+ 8g0vh3IGQPXmjp3/YTWDDOrqDVSYuKTt4p0vs37EyAyERx7MJYbZbfIvfj7IU09fkm
+ ay3CQX9qdde2TYjK2EZsRzb/6PyFoNXQJjMfr1xZBWxbv/lb/SnWBMVFGCDN8ACN4i
+ hD59+VKkT5dBORhuVys1BG1ZRExemFUz0ljkuAwbT0tMhBMAD8MghgDJKDiiJmyYs7
+ rG2JmAvlkDq+w==
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2EB7B37811CD;
+ Wed, 27 Mar 2024 12:59:18 +0000 (UTC)
+Date: Wed, 27 Mar 2024 14:59:16 +0200
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: =?UTF-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
+Cc: Louis Chauvet <louis.chauvet@bootlin.com>, Rodrigo Siqueira
+ <rodrigosiqueiramelo@gmail.com>, Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, arthurgrillo@riseup.net, Jonathan Corbet
+ <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
+Subject: Re: [PATCH v5 11/16] drm/vkms: Add YUV support
+Message-ID: <20240327145916.6a9d9998.pekka.paalanen@collabora.com>
+In-Reply-To: <ZgLwT2Kkax8cJEhz@localhost.localdomain>
+References: <20240313-yuv-v5-0-e610cbd03f52@bootlin.com>
+ <20240313-yuv-v5-11-e610cbd03f52@bootlin.com>
+ <e5d8297f-3e1f-459f-bef2-3a91f2caf94f@igalia.com>
+ <ZgLwT2Kkax8cJEhz@localhost.localdomain>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; boundary="Sig_/3F4ZuOcBoEqlm+d7_/Z5vFu";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,16 +72,164 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> writes:
+--Sig_/3F4ZuOcBoEqlm+d7_/Z5vFu
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-> virtio core already sets the .owner, so driver does not need to.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Tue, 26 Mar 2024 16:57:03 +0100
+Louis Chauvet <louis.chauvet@bootlin.com> wrote:
 
-We use "wifi:" in the title, not "wireless:". It would be nice if you
-can fix this during commit.
+> Le 25/03/24 - 11:26, Ma=C3=ADra Canal a =C3=A9crit :
+> > On 3/13/24 14:45, Louis Chauvet wrote: =20
+> > > From: Arthur Grillo <arthurgrillo@riseup.net>
+> > >=20
+> > > Add support to the YUV formats bellow:
+> > >=20
+> > > - NV12/NV16/NV24
+> > > - NV21/NV61/NV42
+> > > - YUV420/YUV422/YUV444
+> > > - YVU420/YVU422/YVU444
+> > >=20
+> > > The conversion from yuv to rgb is done with fixed-point arithmetic, u=
+sing
+> > > 32.32 floats and the drm_fixed helpers.
+> > >=20
+> > > To do the conversion, a specific matrix must be used for each color r=
+ange
+> > > (DRM_COLOR_*_RANGE) and encoding (DRM_COLOR_*). This matrix is stored=
+ in
+> > > the `conversion_matrix` struct, along with the specific y_offset need=
+ed.
+> > > This matrix is queried only once, in `vkms_plane_atomic_update` and
+> > > stored in a `vkms_plane_state`. Those conversion matrices of each
+> > > encoding and range were obtained by rounding the values of the origin=
+al
+> > > conversion matrices multiplied by 2^32. This is done to avoid the use=
+ of
+> > > floating point operations.
+> > >=20
+> > > The same reading function is used for YUV and YVU formats. As the only
+> > > difference between those two category of formats is the order of fiel=
+d, a
+> > > simple swap in conversion matrix columns allows using the same functi=
+on.
+> > >=20
+> > > Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> > > [Louis Chauvet:
+> > > - Adapted Arthur's work
+> > > - Implemented the read_line_t callbacks for yuv
+> > > - add struct conversion_matrix
+> > > - remove struct pixel_yuv_u8
+> > > - update the commit message
+> > > - Merge the modifications from Arthur] =20
+> >=20
+> > A Co-developed-by tag would be more appropriate. =20
+>=20
+> I am not the main author of this part, I only applied a few simple=20
+> suggestions, the complex part was done by Arthur.
+>=20
+> I will wait for Arthur's confirmation to change it to Co-developed by if
+> he agrees.
 
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
+Co-developed-by is an additional tag, and does not replace S-o-b. To my
+understanding, the kernel rules and Developers' Certificate of Origin
+require S-o-b to be added by anyone who has taken a patch and
+re-submitted it, regardless of who the original author is, and
+especially if the patch was modified.
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+Personally I also like to keep the list of changes like Louis added, to
+credit people better.
+
+> > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > > ---
+> > >   drivers/gpu/drm/vkms/vkms_drv.h     |  22 ++
+> > >   drivers/gpu/drm/vkms/vkms_formats.c | 431 +++++++++++++++++++++++++=
++++++++++++
+> > >   drivers/gpu/drm/vkms/vkms_formats.h |   4 +
+> > >   drivers/gpu/drm/vkms/vkms_plane.c   |  17 +-
+> > >   4 files changed, 473 insertions(+), 1 deletion(-)
+> > >=20
+
+...
+
+> > >   };
+> > >  =20
+> > >   static struct drm_plane_state *
+> > > @@ -117,12 +129,15 @@ static void vkms_plane_atomic_update(struct drm=
+_plane *plane,
+> > >   	drm_framebuffer_get(frame_info->fb);
+> > >   	frame_info->rotation =3D drm_rotation_simplify(new_state->rotation=
+, DRM_MODE_ROTATE_0 |
+> > >   									  DRM_MODE_ROTATE_90 |
+> > > +									  DRM_MODE_ROTATE_180 | =20
+> >=20
+> > Why do we need to add DRM_MODE_ROTATE_180 here? Isn't the same as
+> > reflecting both along the X and Y axis? =20
+>=20
+> Oops, I had no intention of putting that change here. I will move it to=20
+> another patch.
+>=20
+> I don't understand why DRM_MODE_ROTATE_180 isn't in this list. If I read=
+=20
+> the drm_rotation_simplify documentation, it explains that this argument=20
+> should contain all supported rotations and reflections, and ROT_180 is=20
+> supported by VKMS. Perhaps this call is unnecessary because all=20
+> combinations are supported by vkms?
+
+If you truly handle all bit patterns that the rotation bitfield can
+have, then yes, the call seems unnecessary.
+
+However, as documented, the bitfield contains redundancy: the same
+orientation can be expressed in more than one bit pattern. One example
+is that ROTATE_180 is equivalent to REFLECT_X | REFLECT_Y.
+
+Since it's a bitmask, userspace can give you funny values like
+ROTATE_0 | ROTATE_90 | ROTATE_180. That is a valid orientation of
+270-degree rotation (according to UAPI doc), but it is very awkwardly
+expressed, hence the need to normalise it into a minimal bit pattern.
+
+It does not look like drm_rotation_simplify() actually does this
+minimisation!
+
+I was not able to tell if DRM common code actually stops userspace from
+combining multiple ROTATE bits in the same value. I suspect it must
+stop them, or perhaps all code dealing with rotation is actually broken.
+
+drm_rotation_simplify() is useful for cases where your hardware does
+not have exactly the same flexibility. Maybe it cannot do REFLECT_Y but
+it can do everything else? Then drm_rotation_simplify() gives you a bit
+pattern that you can use directly, or fails if the orientation is not
+representable with what your hardware can do.
+
+At least, that's my understanding of quickly glancing over it.
+
+IOW, if you wanted to never have to deal with REFLECT_Y bit, you could
+leave it out here. Or, if you never want to deal with ROTATE_180, leave
+that out - you will get REFLECT_X | REFLECT_Y instead. In theory.
+
+
+Thanks,
+pq
+
+--Sig_/3F4ZuOcBoEqlm+d7_/Z5vFu
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYEGCQACgkQI1/ltBGq
+qqeHVw/+LAnSqO/H67KZLln0BM4bxFm/xL3LxsplHKSYvq/8eyVj+wNcEcYMWL1a
+Ua7UppRcOEReIac3euHFMJVM2WS8aEUyKQYlypA9FV44czxGdzW40/lev7Zxvbib
+pOipcoKOI3XK1SbUHRa48PcdaTfG4zWcxeRoJVAuRmDtXLMdjo55codKjrRlsJ0s
+gDO2ZlhkBrXBuzPxy1tLF99gwPXF6U7tcScA8AvSdwlq2Wo728Yy9pAl4Y/PPRYF
+QHUi5r1TBThqmvsTW6/Jd3Vldx3gSiSfsMe8wamLiK+2twRB9A+SLTi1L32JjUZh
+DAflyGuxIyeQrFPAGcHKytob6KbXTrvauvOALr39KnokoNRjOlldW4o1iPGvWwdm
+KpW+71gRr20BcLcX565rtspIjshVJ7iwAUCAE4XME9o05Fl6/hby1ef6v7AvQdd8
+x94wwt4zOhK+Yr0rxfFYijTveRbWUSVDy0mxejXsYYG4ACATToq6khWthPa61Me6
+u6XTnFQOKTnao/jt9dnHHFO0cKwTFZwct31e0JT5bmfWIhRBcWvDpxFIvULxO90F
+vt3a7rxKjZ5jZ7XQezFEr7D/cLz9BxdlUwAjpjDEM7lmiiMr+wskzQdhoBLBqDlS
+5jGItXeZtf7rqGqEXAmd2kTOJRKvQRnMAZw2IaP3mjPnrctvpCo=
+=HnCy
+-----END PGP SIGNATURE-----
+
+--Sig_/3F4ZuOcBoEqlm+d7_/Z5vFu--
