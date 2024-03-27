@@ -2,49 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53ABE88DFAC
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:25:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3E9488DFAF
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:26:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ECD410FC88;
-	Wed, 27 Mar 2024 12:25:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 899DC10FC85;
+	Wed, 27 Mar 2024 12:26:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uOa3hXkd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Z9jDKOhN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A30310FC7F;
- Wed, 27 Mar 2024 12:25:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D997B10FC86;
+ Wed, 27 Mar 2024 12:25:56 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 78D366150C;
- Wed, 27 Mar 2024 12:25:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D6BFC433C7;
- Wed, 27 Mar 2024 12:25:46 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 421AC61508;
+ Wed, 27 Mar 2024 12:25:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8E20C433F1;
+ Wed, 27 Mar 2024 12:25:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711542347;
- bh=psvgXbG2gTrRyjCssaHHhVqrC/thkTr/Z9hoJMREg7Q=;
+ s=k20201202; t=1711542355;
+ bh=6wzOWb/8p7pIs1roWp4r1ucQYxLyfDMhVMgdd6sBSAI=;
  h=From:To:Cc:Subject:Date:From;
- b=uOa3hXkdc4APegBMdBeyNxYU/nnoaLQwvAcN101uSXHi8pln63BkU2r76zo0QLO1k
- Fuv4CU1Ptcj5WyvAHvjSHG8pu5MpONky1QjDqoLwDpk+MnPLY1YBkZJh3bTFeM7Tom
- bATkZCkkHK//cdTrqihL601lON7WmCNwRwabgBQ7eHM3j2yUbB/GmVB0q5+o/WyifF
- uaZWEuy8vHMkop9ojSCN2JCVLss9/sMLRDM8fSXU2YVZP/zaMadxcoBcNkvEtSrSaz
- HlLEqmPaoOOzdSgmsXgrYGnlEH6cIIhFRddyyNs88GYmU2Sgx0fs6/CfP44pDoa6Hs
- 5oMi7J4EUH+nw==
+ b=Z9jDKOhN5jB6TQ5TKszJgsX7uhVwpFWynlS591x17Q4GgzeP4z9Q4CdYbH5M4Bn4/
+ J24sJVuOVTBMvQgUn6zIwAGRwJ2Y7a79sUWXyvhh5bUCZGMQv901r+bjTFN2Hfmxr4
+ dkDFUnCH9M6x2Maiev2G6wnEyS5YcvPkkWlk06/t/7UcEI46hfbCBl5nOURLkaPrQS
+ SXFtbBJL5tzTfC7UZ60VgDN8z5ulY83ljZ1LsYE7YxnYe2HBNeeDHtw7MmU6qV8C2S
+ 9IcaI13cxyb+N+IlMQSNanAUJAGnQHEzObKPcKDtMJ5apKpicDZSeElL3vOtl9+INL
+ ELYz4ORlZ6P5A==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	ville.syrjala@linux.intel.com
-Cc: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "Revert "drm/i915/dsi: Do display on sequence later on
- icl+"" failed to apply to 4.19-stable tree
-Date: Wed, 27 Mar 2024 08:25:45 -0400
-Message-ID: <20240327122545.2840512-1-sashal@kernel.org>
+	wenjing.liu@amd.com
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Chaitanya Dhere <chaitanya.dhere@amd.com>,
+ Martin Leung <martin.leung@amd.com>, Wayne Lin <wayne.lin@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: FAILED: Patch "drm/amd/display: Revert Remove pixle rate limit for
+ subvp" failed to apply to 4.19-stable tree
+Date: Wed, 27 Mar 2024 08:25:52 -0400
+Message-ID: <20240327122553.2840626-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
 X-stable: review
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,64 +73,46 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From dc524d05974f615b145404191fcf91b478950499 Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-Date: Tue, 16 Jan 2024 23:08:21 +0200
-Subject: [PATCH] Revert "drm/i915/dsi: Do display on sequence later on icl+"
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From cf8c498694a443e28dc1222f3ab94677114a4724 Mon Sep 17 00:00:00 2001
+From: Wenjing Liu <wenjing.liu@amd.com>
+Date: Mon, 4 Mar 2024 11:20:27 -0500
+Subject: [PATCH] drm/amd/display: Revert Remove pixle rate limit for subvp
 
-This reverts commit 88b065943cb583e890324d618e8d4b23460d51a3.
+This reverts commit 340383c734f8 ("drm/amd/display: Remove pixle rate
+limit for subvp")
 
-Lenovo 82TQ is unhappy if we do the display on sequence this
-late. The display output shows severe corruption.
+[why]
+The original commit causes a regression when subvp is applied
+on ODM required 8k60hz timing. The display shows black screen
+on boot. The issue can be recovered with hotplug. It also causes
+MPO to fail. We will temprarily revert this commit and investigate
+the root cause further.
 
-It's unclear if this is a failure on our part (perhaps
-something to do with sending commands in LP mode after HS
-/video mode transmission has been started? Though the backlight
-on command at least seems to work) or simply that there are
-some commands in the sequence that are needed to be done
-earlier (eg. could be some DSC init stuff?). If the latter
-then I don't think the current Windows code would work
-either, but maybe this was originally tested with an older
-driver, who knows.
-
-Root causing this fully would likely require a lot of
-experimentation which isn't really feasible without direct
-access to the machine, so let's just accept failure and
-go back to the original sequence.
-
+Cc: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
-Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/10071
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240116210821.30194-1-ville.syrjala@linux.intel.com
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+Reviewed-by: Chaitanya Dhere <chaitanya.dhere@amd.com>
+Reviewed-by: Martin Leung <martin.leung@amd.com>
+Acked-by: Wayne Lin <wayne.lin@amd.com>
+Signed-off-by: Wenjing Liu <wenjing.liu@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- drivers/gpu/drm/i915/display/icl_dsi.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/i915/display/icl_dsi.c b/drivers/gpu/drm/i915/display/icl_dsi.c
-index ac456a2275dba..eda4a8b885904 100644
---- a/drivers/gpu/drm/i915/display/icl_dsi.c
-+++ b/drivers/gpu/drm/i915/display/icl_dsi.c
-@@ -1155,6 +1155,7 @@ static void gen11_dsi_powerup_panel(struct intel_encoder *encoder)
- 	}
- 
- 	intel_dsi_vbt_exec_sequence(intel_dsi, MIPI_SEQ_INIT_OTP);
-+	intel_dsi_vbt_exec_sequence(intel_dsi, MIPI_SEQ_DISPLAY_ON);
- 
- 	/* ensure all panel commands dispatched before enabling transcoder */
- 	wait_for_cmds_dispatched_to_panel(encoder);
-@@ -1255,8 +1256,6 @@ static void gen11_dsi_enable(struct intel_atomic_state *state,
- 	/* step6d: enable dsi transcoder */
- 	gen11_dsi_enable_transcoder(encoder);
- 
--	intel_dsi_vbt_exec_sequence(intel_dsi, MIPI_SEQ_DISPLAY_ON);
--
- 	/* step7: enable backlight */
- 	intel_backlight_enable(crtc_state, conn_state);
- 	intel_dsi_vbt_exec_sequence(intel_dsi, MIPI_SEQ_BACKLIGHT_ON);
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+index b49e1dc9d8ba5..a0a65e0991041 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+@@ -623,6 +623,7 @@ static bool dcn32_assign_subvp_pipe(struct dc *dc,
+ 		 * - Not TMZ surface
+ 		 */
+ 		if (pipe->plane_state && !pipe->top_pipe && !dcn32_is_center_timing(pipe) &&
++				!(pipe->stream->timing.pix_clk_100hz / 10000 > DCN3_2_MAX_SUBVP_PIXEL_RATE_MHZ) &&
+ 				(!dcn32_is_psr_capable(pipe) || (context->stream_count == 1 && dc->caps.dmub_caps.subvp_psr)) &&
+ 				dc_state_get_pipe_subvp_type(context, pipe) == SUBVP_NONE &&
+ 				(refresh_rate < 120 || dcn32_allow_subvp_high_refresh_rate(dc, context, pipe)) &&
 -- 
 2.43.0
 
