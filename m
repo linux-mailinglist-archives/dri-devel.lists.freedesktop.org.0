@@ -2,54 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4046988F15E
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 22:50:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 148D888F1A1
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 23:09:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 585BE1120B3;
-	Wed, 27 Mar 2024 21:50:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 706CB1120DE;
+	Wed, 27 Mar 2024 22:09:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="IigA34ew";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XnXmdQby";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 327E01120B0;
- Wed, 27 Mar 2024 21:50:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=Rb47TC+5s1SseXZclT0xe/2fdBd19Pjj6gVCBAYVCco=; b=IigA34ew0AWz3FCtmQLFcevTVa
- EffvGrTjjJ3CP0wLFRpIUiIBFgwMiJhM4/nYBFsra8pKy0XPwk653355zZ4xtFle0kchqUVmQ8Ncz
- 2YT1mEDPxPzZZPKmQXMHXV6odyHYxNFlxjdEdpXb4h+3clV6YvNBseTMII77qg8K6uFpfWgalW6hU
- p+kRExHisbb89t3/DGVGK13NrNKnZn6bpbHjbppWFuRNUWGaQRZtWZ6BtcWtVC2ixqSdvbCl/SeXH
- 0BbvsS1qFeqUt00nSLUqneVMrlrSm0ZwDfhReVBr1m0MauKtyQqSew1YbRC3Kx0AkQUM4a59sIjUM
- /+Mbd4OA==;
-Received: from [189.6.17.125] (helo=killbill.home)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1rpbAJ-00G1qx-4A; Wed, 27 Mar 2024 22:50:35 +0100
-From: Melissa Wen <mwen@igalia.com>
-To: Harry Wentland <harry.wentland@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, Alex Hung <alex.hung@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>, airlied@gmail.com,
- daniel@ffwll.ch
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, amd-gfx@lists.freedesktop.org,
- kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH v3 6/6] drm/amd/display: remove redundant freesync parser
- for DP
-Date: Wed, 27 Mar 2024 18:44:07 -0300
-Message-ID: <20240327214953.367126-7-mwen@igalia.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240327214953.367126-1-mwen@igalia.com>
-References: <20240327214953.367126-1-mwen@igalia.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C4B61120DD;
+ Wed, 27 Mar 2024 22:09:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1711577347; x=1743113347;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=7kf+PcK0am1UahGEH5DxmmB8hkCBunUBFuNyblWIzYM=;
+ b=XnXmdQbyHYeDe/qmyw7cyC0eY29Y/DVHjt0uSjE+SCM9xqni2Qd5mlqo
+ hzU5Yf7ols8dfAL1jZdL1JX+dHaOfXSlO6A452zZJWptZ8YqE3aYfvfmO
+ q29SZjNcI3KECtJ/zcD7gXjd7N3LxjgnWKw6Fgm7ewB/iT5Pupy7ypbbC
+ Ta2wK1rMXcXF7R8dbAu8V/szadXoEnF8gaJn1rRCOUIBx6lGMg4EHf/Ri
+ kN5xNkQZjVaSy7pd6Z81qrRaEYlQAEghe43pae2SI0PPIEDGg0BFNAInK
+ IPy/YocQbZ5W7cguiW2p+UwT6JUxF5mtMf5W1HwU8Fc/TMHSc2CKQ04UU A==;
+X-CSE-ConnectionGUID: X2oJfuEMSuSGHXwoTR5o8Q==
+X-CSE-MsgGUID: HYlT0gHLQ6akx4sX+QL4fQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="18145583"
+X-IronPort-AV: E=Sophos;i="6.07,160,1708416000"; d="scan'208";a="18145583"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Mar 2024 15:09:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,160,1708416000"; d="scan'208";a="16460934"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 27 Mar 2024 15:09:06 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 27 Mar 2024 15:09:06 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 27 Mar 2024 15:09:05 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Wed, 27 Mar 2024 15:09:05 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.41) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Wed, 27 Mar 2024 15:09:05 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Fg0ROLVb+snwiYBCOcljva+j75B9YQP9BNtVTrO8m7HiycDUMFYj46L13up4t8cFceEpBYPCo0TdQs+Yx+OEvzKL1bK43DRQT2MCUaroKNOJ4alBYMoJf2VlHdkG2WGEEsXSJBolqiKmDooWpIbtd6HNlxIcAHSYvWuIVqKGX2hv//kbXhTH67Lntz7T/n+RMJswqjmmX3uP1ScsTTcJIlbJ4ewaPJz4K8BmdDiS/BIOj00ClhPRuTsqVhd5zMoqFkGKNUNxLke06el51gtQ0Z51UpeDtmXGZF2XID/MnQ08xquIjb3UaMXoER4tRGNuV9xNkBYpqJ2eSNsS03n/zQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AuqJmt9kaDBVjR5665yvEbDwxJs8vTSYwtsZuVTCV+I=;
+ b=ap72hI1PVJlOwhkLVEhG5XM9gkkuPkmvqHQIeY3rhp30M02oBdKTcdHWQcAbB5oskZYYTatz7a0PLkW0gqK5l/hdUj2M14kKJxRtHZrcpliGJHeETodC61rDXvYN0ct8xBygnyBFrf33XW1ddnvaZtcemPylIaPU//5hWNxLzNz8DPBsQhq577kgIIZgHa6eLZ+sWAnSEduEOxtWRFi4eG6Rfkv7n9KHKKhCzHPvUdBFJKk5/XCaolmKMIKJfKNOSJ9auJSk6RUkYVgWVSCVIqUmkhBRvLEu+9HRCnX0/uQX8/thH3OpQQm/RkgxmAPS+zvYAHaHW7szvPxOZbxqIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB8182.namprd11.prod.outlook.com (2603:10b6:8:163::17)
+ by DM4PR11MB6237.namprd11.prod.outlook.com (2603:10b6:8:a9::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.32; Wed, 27 Mar
+ 2024 22:09:02 +0000
+Received: from DS0PR11MB8182.namprd11.prod.outlook.com
+ ([fe80::45cf:261e:c084:9493]) by DS0PR11MB8182.namprd11.prod.outlook.com
+ ([fe80::45cf:261e:c084:9493%6]) with mapi id 15.20.7409.028; Wed, 27 Mar 2024
+ 22:09:01 +0000
+Date: Wed, 27 Mar 2024 15:08:58 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+CC: intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel
+ <dri-devel@lists.freedesktop.org>, Chris Wilson
+ <chris.p.wilson@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, John Harrison <John.C.Harrison@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Michal Mrozek
+ <michal.mrozek@intel.com>, <stable@vger.kernel.org>, Andi Shyti
+ <andi.shyti@kernel.org>
+Subject: Re: [PATCH v7 2/3] drm/i915/gt: Do not generate the command streamer
+ for all the CCS
+Message-ID: <20240327220858.GG718896@mdroper-desk1.amr.corp.intel.com>
+References: <20240327155622.538140-1-andi.shyti@linux.intel.com>
+ <20240327155622.538140-3-andi.shyti@linux.intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240327155622.538140-3-andi.shyti@linux.intel.com>
+X-ClientProxiedBy: SJ0PR03CA0242.namprd03.prod.outlook.com
+ (2603:10b6:a03:3a0::7) To DS0PR11MB8182.namprd11.prod.outlook.com
+ (2603:10b6:8:163::17)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB8182:EE_|DM4PR11MB6237:EE_
+X-MS-Office365-Filtering-Correlation-Id: d735a13f-aa3b-4807-2cd6-08dc4eaa81c1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: B22/VIsZwyVs/x07Mq0gRO3MXW7K9OJplOVhY9Ekqm6UQ4watdbTOYz6hoaZd5W3GIl/sn0vyMYPRPj3AxLWrKAk980XcXa1so4EZlJTO8yfNwvQYmr+9EoiQirF+UIidXxPFFgK9VrT7kkrgcsV6Haq/qXgs0S9sTPsbK+qUIrKvAwIW/7M3y+mNpg/f4qaHNsJay3eD3MQFuuIglhJ/0pfT3GXcLLJMcC/8ZMPrilx85HcvYep4YOw0Zmjyby0qEzQaFvdcu7hPCgcU9wVGFLT/X7iPUVggGaX6qos2m3Zw8VEcaqdCsevjzQwbuF7u3L53dRx66LCub0H/VavWyK3ombJDfWwV3Xk4WJb1kFvtT/iO5sVZEqgiet1xRORWUIszR+Uaw8L7JTEoQo+bQLbl3dP8KWEknG6FlUziFm0eHlScrQ4IubASc1DF0aT+e6Ig0A1u8I4erdRPmNHn4AXT4Wo0q9K/xP3KolGQbSL0X53JHq+QGg7po35YtIgUlVmxpfSEl0SczZdZzkG9n8rfHbslfkSJvDidR/znuy2KAkqHY0qM2LWR8V47ydxkfNE9kbVMGxHZTimS9f80wtmtdALS0is/o02RO3atmjHaPo6KAQ3XLjmEMvNRb+NA5J4IHZx2iyhdv3yAoGnwJIwmbAIIC5grOUp0xvUaL8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR11MB8182.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376005)(1800799015)(366007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mtTaxRIN+cuh1HQjS/BlUj1J86CEIufquP67EHtqRqNiGVA3lc4y8Ja2LXYU?=
+ =?us-ascii?Q?UWq7ggRfxry8IDiTYwJIB5g+ktl5l/1UR5Hyq5Uo3j2aUq3RAwqgKj3eVGOd?=
+ =?us-ascii?Q?6veDXd9MBHJiaqug7Dl9NprUcrPnu5s0vVW2gTat48rBe6lH2kzOuPnJXGSv?=
+ =?us-ascii?Q?KMU3QfjCtZKAnpGBYPJSbK5XDUc7pACKwa9v2oDSIYkQTh/Lq9AlEiRNqIu/?=
+ =?us-ascii?Q?HUV6vDx6UIfDOBRW/Rw4ArIlAORCsWWHKXKN3peTUS/LOqpXkta3XXWfnKIk?=
+ =?us-ascii?Q?UkR7Lme3Z1Ttyij9m4BLK8vjSyxO6bsKLzwvpRC903DEh2TyFOARPSmUDQK6?=
+ =?us-ascii?Q?m6bCXgd4F5vciyvjUtzRVMioav9Bm/LfAA0JkElxeXDFu9HDSbtLLVofitQS?=
+ =?us-ascii?Q?PcbDydaj932htuWKIsIT6dcmtQnAdMi62V/NVohoxFxUGTJEiJhmQ5aYoFiZ?=
+ =?us-ascii?Q?TMhiwLvKemyWNZAXsxHD8XQd7mPGQUSS7er3Qt8KYYW21/IOJt/JHmCsxtmq?=
+ =?us-ascii?Q?WtTOsuaLDf2Qsg2dd/xrdyGlAbruhudS3B/8sMIx+ZBHPTSkH6U2mYkjxuy9?=
+ =?us-ascii?Q?mW42O0WmXTqMGwIwqrrJbgymg0qVJkhQCxoTkhZ/hAQnCOvktPnbHktXFV6D?=
+ =?us-ascii?Q?25VfGSYzWQFESZmN+i/yXQ/NJNWKL504yIg7QC2M3xhHLfNNOnI9ppqGxr8m?=
+ =?us-ascii?Q?PgL/B2QSEId5AKzvJO57ci33ys5Bf7Dfxe4uPhcOOy2kZRZIOaGCGW+iVuFC?=
+ =?us-ascii?Q?ruU9AdzCsEcqBxYEc6zzIpQUG2deriDb2qF4SGy9R5lghoVh8KKaYW1XbOqg?=
+ =?us-ascii?Q?jVJjp4AS4aoOeBGU/DxmxKll8dWCv/iwIPbNfJDjqXg8CDFtOSM4462AnSEw?=
+ =?us-ascii?Q?HItbI7ig4Pva8bYLXg0x5vHAo3bHfpHKc7ky3i55FtasONuNrlbtFqG+zsqb?=
+ =?us-ascii?Q?laaCCDzjJl4RR0V4KLGIvdD3hXamTA56VvqpoongVnDs8Jxq9x7BdWxBZ9uk?=
+ =?us-ascii?Q?AV6b/7EXwrdE1xPZgFI0JFxMolhC7alF6Ev2SqiNi4xohkFuFipZ6Z/ITAq8?=
+ =?us-ascii?Q?Z9RMkStgob/XE30wBMgABHMNv/PhdIMxO7+NUpFmt67BxiH+c6GIOTAnwSMZ?=
+ =?us-ascii?Q?jh3AYtbWTeBpPaqQNgOWEwneKuUL+l4LNimHcyNnTEUwYVOjPuJbUuF2U2L1?=
+ =?us-ascii?Q?GZDZEj7BPj/tiYl8NjtE0YxI27jT5+JUgqQ+GMtJkEfJr1XttRCjqbjMd96q?=
+ =?us-ascii?Q?u9+PcDvqFM4/R/DqYG/8Mi58rvSEZhdWxDSG6XO+b7UVgT66Sz8Ttm+0eUQm?=
+ =?us-ascii?Q?pr4jLnqmBEuAKiL3cWdrzfwbDvyRI69+1+u2ExBDO0oNv3ctOySreNow1nlj?=
+ =?us-ascii?Q?hRcFJ6sOY0tBdPgI58V6tpsRVkwQIEi6k1sZdmn5mi0tnz3AiGBOnmOvFnUi?=
+ =?us-ascii?Q?AwWp1FukcwWv6HmevW/tZ615jZeeMOm2BNPZ9055wivaBhXYl98Ty4ZPMG9B?=
+ =?us-ascii?Q?s8J6w6oEA+bndP/+JsP4Sk3uyGCwnFXei57LfRaKxaSp4S30FGlvsVua1aLq?=
+ =?us-ascii?Q?/1rKxjAKjh+Aw+7rp64W9UNaFtc/1rpkgZQmG4iwmQLxTm99uJohEP9EHz8c?=
+ =?us-ascii?Q?mw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: d735a13f-aa3b-4807-2cd6-08dc4eaa81c1
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB8182.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2024 22:09:01.0172 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WACFd+CZEabji8013Dcix3TxWeCLTDbKKZF881v6MQVxVdv8Ic9mSt98JJCfyLVncgGomxAE8fnoCthcLxk2PcAoKfVGIAQQO4Ol36USI5I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6237
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,141 +162,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When updating connector under drm_edid infrastructure, many calculations
-and validations are already done and become redundant inside AMD driver.
-Remove those driver-specific code in favor of the DRM common code.
+On Wed, Mar 27, 2024 at 04:56:18PM +0100, Andi Shyti wrote:
+> We want a fixed load CCS balancing consisting in all slices
+> sharing one single user engine. For this reason do not create the
+> intel_engine_cs structure with its dedicated command streamer for
+> CCS slices beyond the first.
+> 
+> Fixes: d2eae8e98d59 ("drm/i915/dg2: Drop force_probe requirement")
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Cc: <stable@vger.kernel.org> # v6.2+
+> Acked-by: Michal Mrozek <michal.mrozek@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_engine_cs.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> index f553cf4e6449..47c4a69e854c 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> @@ -908,6 +908,21 @@ static intel_engine_mask_t init_engine_mask(struct intel_gt *gt)
+>  		info->engine_mask &= ~BIT(GSC0);
+>  	}
+>  
+> +	/*
+> +	 * Do not create the command streamer for CCS slices beyond the first.
+> +	 * All the workload submitted to the first engine will be shared among
+> +	 * all the slices.
+> +	 *
+> +	 * Once the user will be allowed to customize the CCS mode, then this
+> +	 * check needs to be removed.
+> +	 */
+> +	if (IS_DG2(gt->i915)) {
+> +		intel_engine_mask_t first_ccs = BIT((CCS0 + __ffs(CCS_MASK(gt))));
+> +		intel_engine_mask_t all_ccs = CCS_MASK(gt) << CCS0;
+> +
+> +		info->engine_mask &= ~(all_ccs &= ~first_ccs);
 
-Signed-off-by: Melissa Wen <mwen@igalia.com>
----
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 86 +------------------
- 1 file changed, 4 insertions(+), 82 deletions(-)
+Shouldn't the second "&=" just be an "&" since there's no need to modify
+the all_ccs variable that never gets used again?
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index b3c396d626e9..7e0f93de27e6 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -10994,24 +10994,6 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
- 	return ret;
- }
- 
--static bool is_dp_capable_without_timing_msa(struct dc *dc,
--					     struct amdgpu_dm_connector *amdgpu_dm_connector)
--{
--	u8 dpcd_data;
--	bool capable = false;
--
--	if (amdgpu_dm_connector->dc_link &&
--		dm_helpers_dp_read_dpcd(
--				NULL,
--				amdgpu_dm_connector->dc_link,
--				DP_DOWN_STREAM_PORT_COUNT,
--				&dpcd_data,
--				sizeof(dpcd_data))) {
--		capable = (dpcd_data & DP_MSA_TIMING_PAR_IGNORED) ? true:false;
--	}
--
--	return capable;
--}
- 
- static bool dm_edid_parser_send_cea(struct amdgpu_display_manager *dm,
- 		unsigned int offset,
-@@ -11225,9 +11207,6 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
- 				    const struct drm_edid *drm_edid)
- {
- 	int i = 0;
--	const struct detailed_timing *timing;
--	const struct detailed_non_pixel *data;
--	const struct detailed_data_monitor_range *range;
- 	struct amdgpu_dm_connector *amdgpu_dm_connector =
- 			to_amdgpu_dm_connector(connector);
- 	struct dm_connector_state *dm_con_state = NULL;
-@@ -11254,8 +11233,6 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
- 
- 		amdgpu_dm_connector->min_vfreq = 0;
- 		amdgpu_dm_connector->max_vfreq = 0;
--		connector->display_info.monitor_range.min_vfreq = 0;
--		connector->display_info.monitor_range.max_vfreq = 0;
- 		freesync_capable = false;
- 
- 		goto update;
-@@ -11269,65 +11246,11 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
- 	edid = drm_edid_raw(drm_edid); // FIXME: Get rid of drm_edid_raw()
- 	if (edid && (sink->sink_signal == SIGNAL_TYPE_DISPLAY_PORT ||
- 		     sink->sink_signal == SIGNAL_TYPE_EDP)) {
--		bool edid_check_required = false;
-+		amdgpu_dm_connector->min_vfreq = connector->display_info.monitor_range.min_vfreq;
-+		amdgpu_dm_connector->max_vfreq = connector->display_info.monitor_range.max_vfreq;
-+		if (amdgpu_dm_connector->max_vfreq - amdgpu_dm_connector->min_vfreq > 10)
-+			freesync_capable = true;
- 
--		if (is_dp_capable_without_timing_msa(adev->dm.dc,
--						     amdgpu_dm_connector)) {
--			if (edid->features & DRM_EDID_FEATURE_CONTINUOUS_FREQ) {
--				freesync_capable = true;
--				amdgpu_dm_connector->min_vfreq = connector->display_info.monitor_range.min_vfreq;
--				amdgpu_dm_connector->max_vfreq = connector->display_info.monitor_range.max_vfreq;
--			} else {
--				edid_check_required = edid->version > 1 ||
--						      (edid->version == 1 &&
--						       edid->revision > 1);
--			}
--		}
--
--		if (edid_check_required) {
--			for (i = 0; i < 4; i++) {
--
--				timing	= &edid->detailed_timings[i];
--				data	= &timing->data.other_data;
--				range	= &data->data.range;
--				/*
--				 * Check if monitor has continuous frequency mode
--				 */
--				if (data->type != EDID_DETAIL_MONITOR_RANGE)
--					continue;
--				/*
--				 * Check for flag range limits only. If flag == 1 then
--				 * no additional timing information provided.
--				 * Default GTF, GTF Secondary curve and CVT are not
--				 * supported
--				 */
--				if (range->flags != 1)
--					continue;
--
--				connector->display_info.monitor_range.min_vfreq = range->min_vfreq;
--				connector->display_info.monitor_range.max_vfreq = range->max_vfreq;
--
--				if (edid->revision >= 4) {
--					if (data->pad2 & DRM_EDID_RANGE_OFFSET_MIN_VFREQ)
--						connector->display_info.monitor_range.min_vfreq += 255;
--					if (data->pad2 & DRM_EDID_RANGE_OFFSET_MAX_VFREQ)
--						connector->display_info.monitor_range.max_vfreq += 255;
--				}
--
--				amdgpu_dm_connector->min_vfreq =
--					connector->display_info.monitor_range.min_vfreq;
--				amdgpu_dm_connector->max_vfreq =
--					connector->display_info.monitor_range.max_vfreq;
--
--				break;
--			}
--
--			if (amdgpu_dm_connector->max_vfreq -
--			    amdgpu_dm_connector->min_vfreq > 10) {
--
--				freesync_capable = true;
--			}
--		}
- 		parse_amd_vsdb(amdgpu_dm_connector, edid, &vsdb_info);
- 
- 		if (vsdb_info.replay_mode) {
-@@ -11335,7 +11258,6 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
- 			amdgpu_dm_connector->vsdb_info.amd_vsdb_version = vsdb_info.amd_vsdb_version;
- 			amdgpu_dm_connector->as_type = ADAPTIVE_SYNC_TYPE_EDP;
- 		}
--
- 	} else if (drm_edid && sink->sink_signal == SIGNAL_TYPE_HDMI_TYPE_A) {
- 		i = parse_hdmi_amd_vsdb(amdgpu_dm_connector, edid, &vsdb_info);
- 		if (i >= 0 && vsdb_info.freesync_supported) {
+In fact since this is DG2-specific, it seems like it might be more
+intuitive to just write the whole thing more directly as
+
+        if (IS_DG2(gt->i915)) {
+                int first_ccs = __ffs(CCS_MASK(gt));
+
+                info->engine_mask &= ~GENMASK(CCS3, CCS0);
+                info->engine_mask |= BIT(_CCS(first_ccs));
+        }
+
+But up to you; if you just want to remove the unnecessary "=" that's
+fine too.  Either way,
+
+        Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+
+
+Matt
+
+> +	}
+> +
+>  	return info->engine_mask;
+>  }
+>  
+> -- 
+> 2.43.0
+> 
+
 -- 
-2.43.0
-
+Matt Roper
+Graphics Software Engineer
+Linux GPU Platform Enablement
+Intel Corporation
