@@ -2,47 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4242588DE47
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:15:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BE7388DE4C
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:15:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 476DB10FB5E;
-	Wed, 27 Mar 2024 12:15:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 241E210FB60;
+	Wed, 27 Mar 2024 12:15:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="P261RMMr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bc5esJAw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9148710FB59;
- Wed, 27 Mar 2024 12:15:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 604A810FB5D;
+ Wed, 27 Mar 2024 12:15:10 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id DCEE361511;
- Wed, 27 Mar 2024 12:15:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A866C43390;
- Wed, 27 Mar 2024 12:15:00 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C854361514;
+ Wed, 27 Mar 2024 12:15:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A65EAC43390;
+ Wed, 27 Mar 2024 12:15:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541701;
- bh=wHbQ6OzJI+cq5Zfhqiz2zMNZDTWFONw5ajEppfHkq8s=;
+ s=k20201202; t=1711541709;
+ bh=Bo2dCeM2uEGk/0qpn0AGa5cVN2chYYs8wXP4rWIQdNk=;
  h=From:To:Cc:Subject:Date:From;
- b=P261RMMrLdkgr1u60R4tsI0Dgur9JdooCkO7UOQ/l8JB101/B4seyBCeN9XOyHLQE
- aLCgIWWxwi5PaNBVWERGO53c4cZ4+mBUOzC5DAno1dkEiTmIjqNF24f+jUOr6BjakF
- wqCu88YYrXEfTrpIPs9oZz/tc8HsWVYLpwc5jcucnddcCXnd3dRIl1RyoHUzhG7f8H
- yZYq7yIMgYo9RfjsVyeeno9mUhIReda3EfuSFGX4QXsu5DMuoBgBsvSXBbN/izgHLs
- ArzPvHymShxiNgVIcZUKiwit1V9863F54YIe1nlSO6cFi0+OZT1+cHELhPSU1lZBE4
- H7X/eIUwGBrsw==
+ b=bc5esJAwsWWv+TmaUImiAoxRlzjrpml6ZBEDJdGqyhfh+tq6uuG1yw1C5vWF/IPwo
+ 19ahC8+nKINIbm4FetZ9YbocN2Cyi4xkJgnoynNM5IsKTX3rIFVu5knH9EDyQK23Jt
+ 3ozkpcqjm0oIOjOw2oiFAjScYjY2BO+84UiE6zXIfpKoG5LEJ6if7kpj33S53musxP
+ xIGh0d6BDcWe3Mt4wspajITDfMpG6rPbOSiCeJ7OzRuCfKoOFJrfznlqxfwc6rIsDY
+ FzDij3twqGLZtobQsFttmpjkmRVpelvyqdcQUZWTt+RK3b1Hph1mtpbvuFRl4a39aO
+ C7Qu4mgr413sA==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	wenjing.liu@amd.com
-Cc: Mario Limonciello <mario.limonciello@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Chaitanya Dhere <chaitanya.dhere@amd.com>,
- Martin Leung <martin.leung@amd.com>, Wayne Lin <wayne.lin@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
+	alexander.deucher@amd.com
+Cc: Feifei Xu <Feifei.Xu@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: Revert Remove pixle rate limit for
- subvp" failed to apply to 5.15-stable tree
-Date: Wed, 27 Mar 2024 08:14:59 -0400
-Message-ID: <20240327121459.2831534-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/amdgpu/gfx10: set UNORD_DISPATCH in compute MQDs"
+ failed to apply to 5.15-stable tree
+Date: Wed, 27 Mar 2024 08:15:07 -0400
+Message-ID: <20240327121507.2831649-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -73,46 +69,50 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From cf8c498694a443e28dc1222f3ab94677114a4724 Mon Sep 17 00:00:00 2001
-From: Wenjing Liu <wenjing.liu@amd.com>
-Date: Mon, 4 Mar 2024 11:20:27 -0500
-Subject: [PATCH] drm/amd/display: Revert Remove pixle rate limit for subvp
+From ca01082353d4c7c316cd8cfa53879970564a9c71 Mon Sep 17 00:00:00 2001
+From: Alex Deucher <alexander.deucher@amd.com>
+Date: Fri, 19 Jan 2024 12:23:55 -0500
+Subject: [PATCH] drm/amdgpu/gfx10: set UNORD_DISPATCH in compute MQDs
 
-This reverts commit 340383c734f8 ("drm/amd/display: Remove pixle rate
-limit for subvp")
+This needs to be set to 1 to avoid a potential deadlock in
+the GC 10.x and newer.  On GC 9.x and older, this needs
+to be set to 0.  This can lead to hangs in some mixed
+graphics and compute workloads.  Updated firmware is also
+required for AQL.
 
-[why]
-The original commit causes a regression when subvp is applied
-on ODM required 8k60hz timing. The display shows black screen
-on boot. The issue can be recovered with hotplug. It also causes
-MPO to fail. We will temprarily revert this commit and investigate
-the root cause further.
-
-Cc: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: stable@vger.kernel.org
-Reviewed-by: Chaitanya Dhere <chaitanya.dhere@amd.com>
-Reviewed-by: Martin Leung <martin.leung@amd.com>
-Acked-by: Wayne Lin <wayne.lin@amd.com>
-Signed-off-by: Wenjing Liu <wenjing.liu@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Reviewed-by: Feifei Xu <Feifei.Xu@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Cc: stable@vger.kernel.org
 ---
- drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c           | 2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-index b49e1dc9d8ba5..a0a65e0991041 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-@@ -623,6 +623,7 @@ static bool dcn32_assign_subvp_pipe(struct dc *dc,
- 		 * - Not TMZ surface
- 		 */
- 		if (pipe->plane_state && !pipe->top_pipe && !dcn32_is_center_timing(pipe) &&
-+				!(pipe->stream->timing.pix_clk_100hz / 10000 > DCN3_2_MAX_SUBVP_PIXEL_RATE_MHZ) &&
- 				(!dcn32_is_psr_capable(pipe) || (context->stream_count == 1 && dc->caps.dmub_caps.subvp_psr)) &&
- 				dc_state_get_pipe_subvp_type(context, pipe) == SUBVP_NONE &&
- 				(refresh_rate < 120 || dcn32_allow_subvp_high_refresh_rate(dc, context, pipe)) &&
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+index 420c82b54650f..be4d5c1e826f3 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+@@ -6589,7 +6589,7 @@ static int gfx_v10_0_compute_mqd_init(struct amdgpu_device *adev, void *m,
+ #ifdef __BIG_ENDIAN
+ 	tmp = REG_SET_FIELD(tmp, CP_HQD_PQ_CONTROL, ENDIAN_SWAP, 1);
+ #endif
+-	tmp = REG_SET_FIELD(tmp, CP_HQD_PQ_CONTROL, UNORD_DISPATCH, 0);
++	tmp = REG_SET_FIELD(tmp, CP_HQD_PQ_CONTROL, UNORD_DISPATCH, 1);
+ 	tmp = REG_SET_FIELD(tmp, CP_HQD_PQ_CONTROL, TUNNEL_DISPATCH,
+ 			    prop->allow_tunneling);
+ 	tmp = REG_SET_FIELD(tmp, CP_HQD_PQ_CONTROL, PRIV_STATE, 1);
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c
+index 8b7fed9135269..22cbfa1bdaddb 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c
+@@ -170,6 +170,7 @@ static void update_mqd(struct mqd_manager *mm, void *mqd,
+ 	m->cp_hqd_pq_control = 5 << CP_HQD_PQ_CONTROL__RPTR_BLOCK_SIZE__SHIFT;
+ 	m->cp_hqd_pq_control |=
+ 			ffs(q->queue_size / sizeof(unsigned int)) - 1 - 1;
++	m->cp_hqd_pq_control |= CP_HQD_PQ_CONTROL__UNORD_DISPATCH_MASK;
+ 	pr_debug("cp_hqd_pq_control 0x%x\n", m->cp_hqd_pq_control);
+ 
+ 	m->cp_hqd_pq_base_lo = lower_32_bits((uint64_t)q->queue_address >> 8);
 -- 
 2.43.0
 
