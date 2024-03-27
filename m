@@ -2,70 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E96C288DC82
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 12:29:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A1B88DCCE
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 12:48:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB2F410FA30;
-	Wed, 27 Mar 2024 11:29:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15DE210E7D5;
+	Wed, 27 Mar 2024 11:48:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="FQ60FFdj";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="qiNKtOaS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7D3810FA30;
- Wed, 27 Mar 2024 11:29:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=4yqcVS9tS0F+Iulfwdo+fmCleD7lL6bAvnduFniubqA=; b=FQ60FFdj24vArt0Y1vJ1Nud6aF
- SYWXEOJc2C7d9M3XQygfO7ozy2Z/vnOm8tz6WvBCUj6Nt/yKFbYYbxgbpJHRdv4q2X1HP7mM5ZOwU
- XRAaPPwfP32+YqIG2O/l8Vq838cP7r0lTUR8qv+2uKtsBLyMO/gZdM+F/qapTi90MoKhnO/pDDDwV
- bDf/973zcDf+hMxEGkEShiPYTULdw9WvxFNrwswjtqZKKeq0LwcKsLdAW1AaB3PlDfKAtNxZTW76G
- 0XwAt/eBDK1LIQz4uHntQ7Yv7PAg/tju4tPE9u/6WUbnLv+klJwytU4eqoV6S1e0afUFISewIrd1k
- aWAZqong==;
-Received: from [194.136.85.206] (port=37818 helo=eldfell)
- by whm50.louhi.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <pekka.paalanen@haloniitty.fi>) id 1rpRTB-0001Iy-22;
- Wed, 27 Mar 2024 13:29:25 +0200
-Date: Wed, 27 Mar 2024 13:29:16 +0200
-From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-To: "Garg, Nemesa" <nemesa.garg@intel.com>
-Cc: Simon Ser <contact@emersion.fr>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "G M, Adarsh" <adarsh.g.m@intel.com>
-Subject: Re: [RFC 0/5]  Introduce drm sharpening property
-Message-ID: <20240327132916.43f83069@eldfell>
-In-Reply-To: <IA1PR11MB646705FED711C1F129E5C5E3E3342@IA1PR11MB6467.namprd11.prod.outlook.com>
-References: <20240214112457.3734871-1-nemesa.garg@intel.com>
- <8Ma-GlU3bFAuSPpFhGbYYuXQ8OeeDjMK9WiWO6KP-4pPO41fLnLrgABkRfhjHY6XlIh5u67vcEbD8ejDq7-zo5BXf-too0Pt7oTDhWCOPlU=@emersion.fr>
- <IA1PR11MB6467A91412978DE0FFCAB50FE34C2@IA1PR11MB6467.namprd11.prod.outlook.com>
- <20240216103620.33deabb1@eldfell>
- <IA1PR11MB6467F801FFB564769E357EA9E3232@IA1PR11MB6467.namprd11.prod.outlook.com>
- <uL84QKNtst1cp9uG3HqNAqEpJS2pT07qxwufONZx8Zq3t665BwY15fHRm3cZxMtiecQlPlNTs9srrmlIzRKmRYItWUv6cQbDEkms8eUT84Y=@emersion.fr>
- <IA1PR11MB6467C642ABBD54BD82DF46B9E32B2@IA1PR11MB6467.namprd11.prod.outlook.com>
- <20240312162600.7358e146@eldfell> <20240313113638.3ff61e4f@eldfell>
- <IA1PR11MB646705FED711C1F129E5C5E3E3342@IA1PR11MB6467.namprd11.prod.outlook.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6680710E7D5
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 11:48:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1711540103;
+ bh=3sk4zjCCtDc6KYaI3PqLEnSxJKrj4tSQGn57GgNp1w8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=qiNKtOaSMVISNNx7awmHbCzBRer/z5ZGzimoNJtP06jfd2mag5u/wnqSL5RNYklHb
+ 2Oxrc2Xekejo0nug3C/DCaZEeJfDaq8/Fr15J9laf2pAqkQLs/Xie0HBg7aMo/UR/j
+ yQ542h2hKMztTMiAQdgGo/EtsF0Lt85EhnOEH8GtrrYazLKO14ks+Hg9RgdSiSyhmU
+ VHxAuKd+e7549XcLnL0ENyVIwwQ0Kwk0nlXe4gTfOB4Z9s9rG35HcJPtoEV9vI32wx
+ AqwHIaeH7mkvi8EsyqUoCksT9OJaL8x5qz7imr7qRYo/9C/J/z6CY0JjYbk33JV64M
+ xNej8qfVyk+LA==
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 8DB8837820E4;
+ Wed, 27 Mar 2024 11:48:22 +0000 (UTC)
+Date: Wed, 27 Mar 2024 13:48:21 +0200
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
+ <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com,
+ nicolejadeyee@google.com
+Subject: Re: [PATCH v5 08/16] drm/vkms: Avoid computing blending limits
+ inside pre_mul_alpha_blend
+Message-ID: <20240327134821.3a985ab5.pekka.paalanen@collabora.com>
+In-Reply-To: <ZgLwTNsehDG4z6Bo@localhost.localdomain>
+References: <20240313-yuv-v5-0-e610cbd03f52@bootlin.com>
+ <20240313-yuv-v5-8-e610cbd03f52@bootlin.com>
+ <20240325144101.6d9fcf7e.pekka.paalanen@collabora.com>
+ <ZgLwTNsehDG4z6Bo@localhost.localdomain>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/z6jMLYSlrTMOJ3Gjd3=7liM";
+Content-Type: multipart/signed; boundary="Sig_/BpgFWwG.B4zFeuVTStC0wqj";
  protocol="application/pgp-signature"; micalg=pgp-sha256
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - whm50.louhi.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - haloniitty.fi
-X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
- pekka.paalanen@haloniitty.fi
-X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,154 +74,215 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/z6jMLYSlrTMOJ3Gjd3=7liM
-Content-Type: text/plain; charset=US-ASCII
+--Sig_/BpgFWwG.B4zFeuVTStC0wqj
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 27 Mar 2024 07:11:48 +0000
-"Garg, Nemesa" <nemesa.garg@intel.com> wrote:
+On Tue, 26 Mar 2024 16:57:00 +0100
+Louis Chauvet <louis.chauvet@bootlin.com> wrote:
 
-> > -----Original Message-----
-> > From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-> > Sent: Wednesday, March 13, 2024 3:07 PM
-> > To: Garg, Nemesa <nemesa.garg@intel.com>
-> > Cc: Simon Ser <contact@emersion.fr>; intel-gfx@lists.freedesktop.org; d=
-ri-
-> > devel@lists.freedesktop.org; G M, Adarsh <adarsh.g.m@intel.com>
-> > Subject: Re: [RFC 0/5] Introduce drm sharpening property
-> >=20
-> > On Tue, 12 Mar 2024 16:26:00 +0200
-> > Pekka Paalanen <pekka.paalanen@haloniitty.fi> wrote:
+> Le 25/03/24 - 14:41, Pekka Paalanen a =C3=A9crit :
+> > On Wed, 13 Mar 2024 18:45:02 +0100
+> > Louis Chauvet <louis.chauvet@bootlin.com> wrote:
 > >  =20
-> > > On Tue, 12 Mar 2024 08:30:34 +0000
-> > > "Garg, Nemesa" <nemesa.garg@intel.com> wrote:
+> > > The pre_mul_alpha_blend is dedicated to blending, so to avoid mixing
+> > > different concepts (coordinate calculation and color management), ext=
+ract
+> > > the x_limit and x_dst computation outside of this helper.
+> > > It also increases the maintainability by grouping the computation rel=
+ated
+> > > to coordinates in the same place: the loop in `blend`.
+> > >=20
+> > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > > ---
+> > >  drivers/gpu/drm/vkms/vkms_composer.c | 40 +++++++++++++++++---------=
+----------
+> > >  1 file changed, 19 insertions(+), 21 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/v=
+kms/vkms_composer.c
+> > > index da0651a94c9b..9254086f23ff 100644
+> > > --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> > > +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> > > @@ -24,34 +24,30 @@ static u16 pre_mul_blend_channel(u16 src, u16 dst=
+, u16 alpha)
 > > > =20
-> > > > This  KMS property is not implementing any formula =20
-> > >
-> > > Sure it is. Maybe Intel just does not want to tell what the algorithm
-> > > is, or maybe it's even patented.
-> > > =20
-> > > > and the values
-> > > > that are being used are based on empirical analysis and certain
-> > > > experiments done on the hardware. These values are fixed and is not
-> > > > expected to change and this can change from vendor to vendor. The
-> > > > client can choose any sharpness value on the scale and on the basis
-> > > > of it the sharpness will be set. The sharpness effect can be changed
-> > > > from content to content and from display to display so user needs to
-> > > > adjust the optimum intensity value so as to get good experience on
-> > > > the screen.
-> > > > =20
-> > >
-> > > IOW, it's an opaque box operation, and there is no way to reproduce
-> > > its results without the specific Intel hardware. Definitely no way to
-> > > reproduce its results in free open source software alone.
-> > >
-> > > Such opaque box operations can only occur after KMS blending, at the
-> > > CRTC or later stage. They cannot appear before blending, not in the
-> > > new KMS color pipeline design at least. The reason is that the modern
-> > > way to use KMS planes is opportunistic composition off-loading.
-> > > Opportunistic means that userspace decides from time to time whether
-> > > it composes the final picture using KMS or some other rendering method
-> > > (usually GPU and shaders). Since userspace will arbitrarily switch
-> > > between KMS and render composition, both must result in the exact same
-> > > image, or end users will observe unwanted flicker.
-> > >
-> > > Such opaque box operations are fine after blending, because there they
-> > > can be configured once and remain on forever. No switching, no flicke=
-r. =20
+> > >  /**
+> > >   * pre_mul_alpha_blend - alpha blending equation
+> > > - * @frame_info: Source framebuffer's metadata
+> > >   * @stage_buffer: The line with the pixels from src_plane
+> > >   * @output_buffer: A line buffer that receives all the blends output
+> > > + * @x_start: The start offset to avoid useless copy =20
 > >=20
-> > If you want to see how sharpness property would apply in Wayland design=
-, it
-> > would be in step 5 "Adjust (settings UI)" of
-> > https://gitlab.freedesktop.org/pq/color-and-hdr/-/blob/main/doc/color-
-> > management-model.md#compositor-color-management-model
+> > I'd say just:
 > >=20
-> > To relate that diagram to KMS color processing, you can identify step 3=
- "Compose"
-> > as the KMS blending step. Everything before step 3 happens in KMS plane=
- color
-> > processing, and steps 4-5 happen in KMS CRTC color processing.
+> > + * @x_start: The start offset
 > >=20
-> > Sharpening would essentially be a "compositor color effect", it just ha=
-ppens to be
-> > implementable only by specific Intel hardware.
+> > It describes the parameter, and the paragraph below explains the why.
 > >=20
-> > If a color effect is dynamic or content-dependant, it will preclude col=
-orimetric
-> > monitor calibration.
-> >=20
-> >=20
-> > Thanks,
-> > pq
-> >=20
-> >  =20
-> > > Where does "sharpeness" operation occur in the Intel color processing
-> > > chain? Is it before or after blending?
-> > >  =20
-> Thank you for detail explanation and link.
-> Sharpness operation occur post blending in CRTC ie on the final=20
-> composed output after blending . Yes Pekka you are right as per the=20
-> diagram it is done at step 5  "Adjust (settings UI)").  I  will also docu=
-ment this thing=20
-> along with documentation change.
+> > It would be explaining, that x_start applies to output_buffer, but
+> > input_buffer is always read starting from 0. =20
 >=20
-> > > What kind of transfer characteristics does it expect from the image,
-> > > and can those be realized with KMS CRTC properties if KMS is
-> > > configured such that the blending happens using some other characteri=
-stics =20
-> > (e.g. =20
-> > > blending in optical space)?
-> > > =20
-> The filter values are not dependent/calculated on the inputs of=20
->  image but depending on the blending space and other inputs the=20
-> blended output gets changed and the sharpness is applied post=20
-> blending so according to the content user needs to adjust the=20
-> strength value to get the better visual effect. So tuning of sharpness st=
-rength=20
-> may be needed by user based on  the input contents and blending policy
-> to get the desired experience.
+> I will change it to:
 >=20
-> > > What about SDR vs. HDR imagery?
+>  * Using @x_start and @count information, only few pixel can be blended i=
+nstead of the whole line
+>  * each time. @x_start is only used for the output buffer. The staging bu=
+ffer is always read from
+>  * the start (0..@count in stage_buffer is blended at @x_start..@x_start+=
+@count in output_buffer).
+
+The important part is
+
+0..@count in stage_buffer is blended at @x_start..@x_start+@count in output=
+_buffer
+
+and everything else from that paragraph is not really adding much.
+
+Remember to update the doc in "drm/vkms: Re-introduce line-per-line
+composition  algorithm" to follow the changes.
+
+
+> > > + * @count: The number of byte to copy =20
+> >=20
+> > You named it pixel_count, and it counts pixels, not bytes. It's not a
+> > copy but a blend into output_buffer. =20
+>=20
+> Oops, fixed in v6.
+> =20
+> > >   *
+> > > - * Using the information from the `frame_info`, this blends only the
+> > > - * necessary pixels from the `stage_buffer` to the `output_buffer`
+> > > - * using premultiplied blend formula.
+> > > + * Using @x_start and @count information, only few pixel can be blen=
+ded instead of the whole line
+> > > + * each time.
+> > >   *
+> > >   * The current DRM assumption is that pixel color values have been a=
+lready
+> > >   * pre-multiplied with the alpha channel values. See more
+> > >   * drm_plane_create_blend_mode_property(). Also, this formula assume=
+s a
+> > >   * completely opaque background.
+> > >   */
+> > > -static void pre_mul_alpha_blend(struct vkms_frame_info *frame_info,
+> > > -				struct line_buffer *stage_buffer,
+> > > -				struct line_buffer *output_buffer)
+> > > +static void pre_mul_alpha_blend(const struct line_buffer *stage_buff=
+er,
+> > > +				struct line_buffer *output_buffer, int x_start, int pixel_count)
+> > >  {
+> > > -	int x_dst =3D frame_info->dst.x1;
+> > > -	struct pixel_argb_u16 *out =3D output_buffer->pixels + x_dst;
+> > > -	struct pixel_argb_u16 *in =3D stage_buffer->pixels;
+> > > -	int x_limit =3D min_t(size_t, drm_rect_width(&frame_info->dst),
+> > > -			    stage_buffer->n_pixels);
+> > > -
+> > > -	for (int x =3D 0; x < x_limit; x++) {
+> > > -		out[x].a =3D (u16)0xffff;
+> > > -		out[x].r =3D pre_mul_blend_channel(in[x].r, out[x].r, in[x].a);
+> > > -		out[x].g =3D pre_mul_blend_channel(in[x].g, out[x].g, in[x].a);
+> > > -		out[x].b =3D pre_mul_blend_channel(in[x].b, out[x].b, in[x].a);
+> > > +	struct pixel_argb_u16 *out =3D &output_buffer->pixels[x_start];
+> > > +	const struct pixel_argb_u16 *in =3D stage_buffer->pixels;
+> > > +
+> > > +	for (int i =3D 0; i < pixel_count; i++) {
+> > > +		out[i].a =3D (u16)0xffff;
+> > > +		out[i].r =3D pre_mul_blend_channel(in[i].r, out[i].r, in[i].a);
+> > > +		out[i].g =3D pre_mul_blend_channel(in[i].g, out[i].g, in[i].a);
+> > > +		out[i].b =3D pre_mul_blend_channel(in[i].b, out[i].b, in[i].a);
+> > >  	}
+> > >  }
 > > > =20
-> The interface can be used for both HDR and SDR. The effect is more promin=
-ent for SDR use cases.
-> For HDR filter values and tap value may change.
+> > > @@ -183,7 +179,7 @@ static void blend(struct vkms_writeback_job *wb,
+> > >  {
+> > >  	struct vkms_plane_state **plane =3D crtc_state->active_planes;
+> > >  	u32 n_active_planes =3D crtc_state->num_active_planes;
+> > > -	int y_pos;
+> > > +	int y_pos, x_dst, x_limit;
+> > > =20
+> > >  	const struct pixel_argb_u16 background_color =3D { .a =3D 0xffff };
+> > > =20
+> > > @@ -201,14 +197,16 @@ static void blend(struct vkms_writeback_job *wb,
+> > > =20
+> > >  		/* The active planes are composed associatively in z-order. */
+> > >  		for (size_t i =3D 0; i < n_active_planes; i++) {
+> > > +			x_dst =3D plane[i]->frame_info->dst.x1;
+> > > +			x_limit =3D min_t(size_t, drm_rect_width(&plane[i]->frame_info->d=
+st),
+> > > +					stage_buffer->n_pixels); =20
+> >=20
+> > Are those input values to min_t() really of type size_t? Or why is
+> > size_t here? =20
+>=20
+> n_pixel is size_t, drm_rect_width is int. I will change everything to int=
+.=20
+> Is there a way to ask the compiler "please don't do implicit conversion=20
+> and report them as warn/errors"?
 
-Who will be providing these values?
-
-The kernel driver cannot know if it is dealing with SDR or HDR or which
-transfer function is in effect at that point of the post-blending color
-pipeline.
-
-If the UAPI is one "strength" value, then how can it work?
-
-Maybe the UAPI needs more controls, if not providing all "filter and
-tap" values directly. Maybe all the filter and tap values should be
-provided by userspace?
+There probably is, you can find it in the gcc manual. However, I suspect
+you would drown in warnings for cases where the implicit conversion is
+wanted and an explicit cast is unwanted.
 
 
 Thanks,
 pq
 
---Sig_/z6jMLYSlrTMOJ3Gjd3=7liM
+> > >  			y_pos =3D get_y_pos(plane[i]->frame_info, y);
+> > > =20
+> > >  			if (!check_limit(plane[i]->frame_info, y_pos))
+> > >  				continue;
+> > > =20
+> > >  			vkms_compose_row(stage_buffer, plane[i], y_pos);
+> > > -			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
+> > > -					    output_buffer);
+> > > +			pre_mul_alpha_blend(stage_buffer, output_buffer, x_dst, x_limit);=
+ =20
+> >=20
+> > I thought it was a count, not a limit?
+> >=20
+> > "Limit" sounds to me like "end", and end - start =3D count. =20
+>=20
+> It is effectively a pixel count. I just took those naming from the=20
+> original pre_mul_alpha_blend. I will change it to pixel_count.
+>=20
+> Thanks,
+> Louis Chauvet
+>=20
+> > >  		}
+> > > =20
+> > >  		apply_lut(crtc_state, output_buffer);
+> > >  =20
+> >=20
+> > The details aside, this is a good move.
+> >=20
+> >=20
+> > Thanks,
+> > pq =20
+>=20
+>=20
+>=20
+
+
+--Sig_/BpgFWwG.B4zFeuVTStC0wqj
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYEAwwACgkQI1/ltBGq
-qqcoCg/9F7rUs1SNU1cehYWcs7ZjnrbUPFcR6zF6wI1uKryRcv2WPn7HFX1nPKfv
-yeIsit0cqibCs/FhD/DEUUsYo3u9qIzJA4wRZABUdUojwsMpy8bK0vhRFs6iKtZM
-GKkJbZtvSmcRp2Fm0c/sO5EZiqquOXHab/obJxwrUQ6t6wrqGOXMOPaSQnmpbtkY
-D/9R5We8q5JGyJ4YqMpfkyMpeTeF5Yzp6x8vrcIKHEk9WpJopPyKMH3MXV5zyVIP
-LW3ZG+0XbmEfW3fHuzboAf2JcJzbHsK5wYWrMkAPVBRB+PoZGCTOH5s+mx0uD1Yg
-Ow+PNtltwq7n15WoWDsiGbuiIqn4GEKmAi7vNbiDqz1QYGpx617aeO04cg1enGEX
-XWNlH7TPEvhv5Thz7dt78OjuY6/SGKkfCheOQhfHadRtEf/+D3bBo62UK2YilaZD
-/24m+2tDPLdnfTos1I9ROV6cxoFRZmfujy2sCbOgkjEI7dG28w0hnObjYK0oo5bJ
-42H+bubpX6amjmNi1co4hD3TVpUNt2LLzzzmYH76h64vaapf4TKYap2GYtxgoFtp
-RzPXI28Unlj/WJhUZA1RAK0cT1EBQJsX31ai1Kvz02HviGPtS3/7ZYhIIaI9D8aN
-8wHy+45U9IYzwWTLGO1JjIFb9Cuje8Ft4SYYKRCnL9OdbVhmoAk=
-=3q9E
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYEB4UACgkQI1/ltBGq
+qqdORBAAnCedEcvQbA5YNgvJhMd6M7Ee8pjqvxsC+9jBy0MYwfosnYIB1E9jbDcl
+2QZNb8/bH9Cuv7muJWqeCGTwyygMmyNltMqBUE81gDXKOETkr7EVWhfItch5vuQV
+W5OtRnave1L6X8qm9vJGAKTAaX5gcWEppogMyhRQ9ujhx57W+aF19aqS8Y2NmqKq
++X2C46O5fU9a9dVTvp2aQkmxG5fOUxoHls4TL/wsyXvgzMyPVGPgf7DvI364GdWu
+twYXhUMH0XWlLgVd8Ka1RCJGc1FgLU2/l9wNcnoLbaa6OGiFr7Gl8/4vHiaXuUDi
+l4ukf0J6cb2UfGXr2w3MY8ODsZWxHu6XLuqRXcTunefooAZYwSmB/Q3B26TdmEgB
+1NMTJpLvKf2MnLcu2Lz9/6qPc7GmGmO/a+q5o3Kj7J7Uo+s6Dlx5WxOmii4d/hxi
+ig6PQQLIpchBI8ytsPavQmsYyMm4SY5z8gIluNH39cSMw4RbQ8XBQ+62dZlaG9xk
+Oohg7DS5ag8+OSGmb9fOANhOYtIb7UY4RXYivROJDg6B3RJMkwPViiTphV8Cqw0c
+JbGIzyLQCeJv9po/9vjNMXS2ObZRaM/lZlH/3i8BlMrQkG7bDC2YE6qIsPgIRMSb
+9nnpHOrSujO8eH8WljdqnosopA5s/Y4sOG06AsUUvjKV4Klyvvw=
+=LoLO
 -----END PGP SIGNATURE-----
 
---Sig_/z6jMLYSlrTMOJ3Gjd3=7liM--
+--Sig_/BpgFWwG.B4zFeuVTStC0wqj--
