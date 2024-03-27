@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C3E688DE11
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:13:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F0888DE13
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:13:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E26810FB2C;
-	Wed, 27 Mar 2024 12:13:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 033F510E43E;
+	Wed, 27 Mar 2024 12:13:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AkT/HJ3l";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HpUFvs5Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14DA110E43E;
- Wed, 27 Mar 2024 12:13:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 240F410FB29;
+ Wed, 27 Mar 2024 12:13:28 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 62BC8CE178E;
- Wed, 27 Mar 2024 12:13:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 419B0C433C7;
- Wed, 27 Mar 2024 12:13:21 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 4DFA1CE25AC;
+ Wed, 27 Mar 2024 12:13:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E822C43390;
+ Wed, 27 Mar 2024 12:13:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541602;
- bh=nTTYaWXrG10v6nwJ+JBCk2YPABn7JNGqqxEe6uL27yQ=;
+ s=k20201202; t=1711541605;
+ bh=mMX2x+2vaei6U/ylr9NhOjmaTkh9q7mzJ5yCbMhF3qc=;
  h=From:To:Cc:Subject:Date:From;
- b=AkT/HJ3lQS9SCd98j16jwab8GHZtelIfvOavXaslfc1k46WhsPMxnoVW1Peq6dCjS
- EfOFZSJeoZ3vELQP64O+w1Wcr3j0sfWiep3TDEK9Vg1v3guTMOcsibp+sOsrGw2Lxm
- qC7ogC7nMjiV+M1Nh634mv7359EynDwuLAvTraQNbjtINnTFD/BDRSt9A+AVL+10qD
- 9aSCoysnrQdXS+We/xtOqxFAjB8LJf68ZaBxtR8RKmdJ2OA4bt4sMzjtEsB4FdybX9
- X1iKg/sN33Ronnv3ZrhOmMFbWvRO9ZsdYlBVz8qeEywKmnnxbZg0NCQgE4VGTUH6cY
- eJ2mI4EAiWznQ==
+ b=HpUFvs5YBFSSYJHUJaDYVPmcnGvzTcDMhemmL/cNPoY98ckmOYuVC2C7txZ+N3lFY
+ epfZeFpdBdIoci/hSt2Dz2pq/t/PMKRfrpkkIgpp8Q0wRt265MBcsnUv3FRDITidUQ
+ qK6Zoz1bSoYfs2WqPz7n1K/OSR27+qOPkfSeYI0cv1RJ4nVL3gmb0LiQRU1Lj07aIP
+ tGVcsZEHoe82vNiaMD28goWhsckHSq+vOh2vMVZfDOurvDlZ7GF+d9xpgC/usgidTr
+ QSleVpSzrKx9/SVNnx2P4AfiKcOzqGiac69ACnI9rQlTyTCYduu6Wx9IaOrdZIHbyQ
+ WGMA+724rLSdQ==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	wenjing.liu@amd.com
+	swapnil.patel@amd.com
 Cc: Mario Limonciello <mario.limonciello@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>,
- Dillon Varone <dillon.varone@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Chaitanya Dhere <chaitanya.dhere@amd.com>, Alex Hung <alex.hung@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: Update odm when ODM combine is
- changed on an otg master pipe with no plane" failed to apply to 6.1-stable
- tree
-Date: Wed, 27 Mar 2024 08:13:19 -0400
-Message-ID: <20240327121320.2830238-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/amd/display: Change default size for dummy plane
+ in DML2" failed to apply to 6.1-stable tree
+Date: Wed, 27 Mar 2024 08:13:23 -0400
+Message-ID: <20240327121323.2830275-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -73,152 +72,70 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 86e9523fb0efce27095d3086473c739cce720d01 Mon Sep 17 00:00:00 2001
-From: Wenjing Liu <wenjing.liu@amd.com>
-Date: Wed, 21 Feb 2024 16:55:04 -0500
-Subject: [PATCH] drm/amd/display: Update odm when ODM combine is changed on an
- otg master pipe with no plane
+From 75eb8f7df65c5e6eb22a5aff8deb60ce0b65de1a Mon Sep 17 00:00:00 2001
+From: Swapnil Patel <swapnil.patel@amd.com>
+Date: Tue, 13 Feb 2024 08:09:48 -0500
+Subject: [PATCH] drm/amd/display: Change default size for dummy plane in DML2
 
-[WHY]
-When committing an update with ODM combine change when the plane is
-removing or already removed, we fail to detect odm change in pipe
-update flags. This has caused mismatch between new dc state and the
-actual hardware state, because we missed odm programming.
-
-[HOW]
-- Detect odm change even for otg master pipe without a plane.
-- Update odm config before calling program pipes for pipe with planes.
-
-The commit also updates blank pattern programming when odm is changed
-without plane. This is because number of OPP is changed when ODM
-combine is changed. Blank pattern is per OPP so we will need to
-reprogram OPP based on the new pipe topology.
+[WHY & HOW]
+Currently, to map dc states into dml_display_cfg,
+We create a dummy plane if the stream doesn't have any planes
+attached to it. This dummy plane uses max addersable width height.
+This results in certain mode validations failing when they shouldn't.
 
 Cc: Mario Limonciello <mario.limonciello@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
-Reviewed-by: Dillon Varone <dillon.varone@amd.com>
+Reviewed-by: Chaitanya Dhere <chaitanya.dhere@amd.com>
 Acked-by: Alex Hung <alex.hung@amd.com>
-Signed-off-by: Wenjing Liu <wenjing.liu@amd.com>
+Signed-off-by: Swapnil Patel <swapnil.patel@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- .../amd/display/dc/hwss/dcn20/dcn20_hwseq.c   | 41 ++++++++++---------
- .../amd/display/dc/hwss/dcn32/dcn32_hwseq.c   |  7 ++++
- 2 files changed, 28 insertions(+), 20 deletions(-)
+ .../display/dc/dml2/dml2_translation_helper.c  | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
-index c55d5155ecb9c..40098d9f70cbc 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
-@@ -1498,6 +1498,11 @@ static void dcn20_detect_pipe_changes(struct dc_state *old_state,
- 		return;
- 	}
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c b/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c
+index 1ba6933d2b361..17a58f41fc6a8 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c
++++ b/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c
+@@ -824,13 +824,25 @@ static struct scaler_data get_scaler_data_for_plane(const struct dc_plane_state
  
-+	if (resource_is_pipe_type(new_pipe, OTG_MASTER) &&
-+			resource_is_odm_topology_changed(new_pipe, old_pipe))
-+		/* Detect odm changes */
-+		new_pipe->update_flags.bits.odm = 1;
+ static void populate_dummy_dml_plane_cfg(struct dml_plane_cfg_st *out, unsigned int location, const struct dc_stream_state *in)
+ {
++	dml_uint_t width, height;
 +
- 	/* Exit on unchanged, unused pipe */
- 	if (!old_pipe->plane_state && !new_pipe->plane_state)
- 		return;
-@@ -1551,10 +1556,6 @@ static void dcn20_detect_pipe_changes(struct dc_state *old_state,
- 
- 	/* Detect top pipe only changes */
- 	if (resource_is_pipe_type(new_pipe, OTG_MASTER)) {
--		/* Detect odm changes */
--		if (resource_is_odm_topology_changed(new_pipe, old_pipe))
--			new_pipe->update_flags.bits.odm = 1;
--
- 		/* Detect global sync changes */
- 		if (old_pipe->pipe_dlg_param.vready_offset != new_pipe->pipe_dlg_param.vready_offset
- 				|| old_pipe->pipe_dlg_param.vstartup_start != new_pipe->pipe_dlg_param.vstartup_start
-@@ -1999,19 +2000,20 @@ void dcn20_program_front_end_for_ctx(
- 	DC_LOGGER_INIT(dc->ctx->logger);
- 	unsigned int prev_hubp_count = 0;
- 	unsigned int hubp_count = 0;
-+	struct pipe_ctx *pipe;
- 
- 	if (resource_is_pipe_topology_changed(dc->current_state, context))
- 		resource_log_pipe_topology_update(dc, context);
- 
- 	if (dc->hwss.program_triplebuffer != NULL && dc->debug.enable_tri_buf) {
- 		for (i = 0; i < dc->res_pool->pipe_count; i++) {
--			struct pipe_ctx *pipe_ctx = &context->res_ctx.pipe_ctx[i];
-+			pipe = &context->res_ctx.pipe_ctx[i];
- 
--			if (!pipe_ctx->top_pipe && !pipe_ctx->prev_odm_pipe && pipe_ctx->plane_state) {
--				ASSERT(!pipe_ctx->plane_state->triplebuffer_flips);
-+			if (!pipe->top_pipe && !pipe->prev_odm_pipe && pipe->plane_state) {
-+				ASSERT(!pipe->plane_state->triplebuffer_flips);
- 				/*turn off triple buffer for full update*/
- 				dc->hwss.program_triplebuffer(
--						dc, pipe_ctx, pipe_ctx->plane_state->triplebuffer_flips);
-+						dc, pipe, pipe->plane_state->triplebuffer_flips);
- 			}
- 		}
- 	}
-@@ -2085,12 +2087,22 @@ void dcn20_program_front_end_for_ctx(
- 			DC_LOG_DC("Reset mpcc for pipe %d\n", dc->current_state->res_ctx.pipe_ctx[i].pipe_idx);
- 		}
- 
-+	/* update ODM for blanked OTG master pipes */
-+	for (i = 0; i < dc->res_pool->pipe_count; i++) {
-+		pipe = &context->res_ctx.pipe_ctx[i];
-+		if (resource_is_pipe_type(pipe, OTG_MASTER) &&
-+				!resource_is_pipe_type(pipe, DPP_PIPE) &&
-+				pipe->update_flags.bits.odm &&
-+				hws->funcs.update_odm)
-+			hws->funcs.update_odm(dc, context, pipe);
-+	}
++	if (in->timing.h_addressable > 3840)
++		width = 3840;
++	else
++		width = in->timing.h_addressable;	// 4K max
 +
- 	/*
- 	 * Program all updated pipes, order matters for mpcc setup. Start with
- 	 * top pipe and program all pipes that follow in order
- 	 */
- 	for (i = 0; i < dc->res_pool->pipe_count; i++) {
--		struct pipe_ctx *pipe = &context->res_ctx.pipe_ctx[i];
-+		pipe = &context->res_ctx.pipe_ctx[i];
- 
- 		if (pipe->plane_state && !pipe->top_pipe) {
- 			while (pipe) {
-@@ -2129,17 +2141,6 @@ void dcn20_program_front_end_for_ctx(
- 			context->stream_status[0].plane_count > 1) {
- 			pipe->plane_res.hubp->funcs->hubp_wait_pipe_read_start(pipe->plane_res.hubp);
- 		}
--
--		/* when dynamic ODM is active, pipes must be reconfigured when all planes are
--		 * disabled, as some transitions will leave software and hardware state
--		 * mismatched.
--		 */
--		if (dc->debug.enable_single_display_2to1_odm_policy &&
--			pipe->stream &&
--			pipe->update_flags.bits.disable &&
--			!pipe->prev_odm_pipe &&
--			hws->funcs.update_odm)
--			hws->funcs.update_odm(dc, context, pipe);
- 	}
- }
- 
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
-index aa36d7a56ca8c..b890db0bfc46b 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
-@@ -1156,6 +1156,13 @@ void dcn32_update_odm(struct dc *dc, struct dc_state *context, struct pipe_ctx *
- 			dsc->funcs->dsc_disconnect(dsc);
- 		}
- 	}
++	if (in->timing.v_addressable > 2160)
++		height = 2160;
++	else
++		height = in->timing.v_addressable;	// 4K max
 +
-+	if (!resource_is_pipe_type(pipe_ctx, DPP_PIPE))
-+		/*
-+		 * blank pattern is generated by OPP, reprogram blank pattern
-+		 * due to OPP count change
-+		 */
-+		dc->hwseq->funcs.blank_pixel_data(dc, pipe_ctx, true);
- }
+ 	out->CursorBPP[location] = dml_cur_32bit;
+ 	out->CursorWidth[location] = 256;
  
- unsigned int dcn32_calculate_dccg_k1_k2_values(struct pipe_ctx *pipe_ctx, unsigned int *k1_div, unsigned int *k2_div)
+ 	out->GPUVMMinPageSizeKBytes[location] = 256;
+ 
+-	out->ViewportWidth[location] = in->timing.h_addressable;
+-	out->ViewportHeight[location] = in->timing.v_addressable;
++	out->ViewportWidth[location] = width;
++	out->ViewportHeight[location] = height;
+ 	out->ViewportStationary[location] = false;
+ 	out->ViewportWidthChroma[location] = 0;
+ 	out->ViewportHeightChroma[location] = 0;
+@@ -849,7 +861,7 @@ static void populate_dummy_dml_plane_cfg(struct dml_plane_cfg_st *out, unsigned
+ 	out->HTapsChroma[location] = 0;
+ 	out->VTapsChroma[location] = 0;
+ 	out->SourceScan[location] = dml_rotation_0;
+-	out->ScalerRecoutWidth[location] = in->timing.h_addressable;
++	out->ScalerRecoutWidth[location] = width;
+ 
+ 	out->LBBitPerPixel[location] = 57;
+ 
 -- 
 2.43.0
 
