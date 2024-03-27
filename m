@@ -2,63 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6A1B88DCCE
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 12:48:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CA7088DD0E
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:04:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15DE210E7D5;
-	Wed, 27 Mar 2024 11:48:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1BAF10FA4B;
+	Wed, 27 Mar 2024 12:04:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="qiNKtOaS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cBhU6GQu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6680710E7D5
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 11:48:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1711540103;
- bh=3sk4zjCCtDc6KYaI3PqLEnSxJKrj4tSQGn57GgNp1w8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=qiNKtOaSMVISNNx7awmHbCzBRer/z5ZGzimoNJtP06jfd2mag5u/wnqSL5RNYklHb
- 2Oxrc2Xekejo0nug3C/DCaZEeJfDaq8/Fr15J9laf2pAqkQLs/Xie0HBg7aMo/UR/j
- yQ542h2hKMztTMiAQdgGo/EtsF0Lt85EhnOEH8GtrrYazLKO14ks+Hg9RgdSiSyhmU
- VHxAuKd+e7549XcLnL0ENyVIwwQ0Kwk0nlXe4gTfOB4Z9s9rG35HcJPtoEV9vI32wx
- AqwHIaeH7mkvi8EsyqUoCksT9OJaL8x5qz7imr7qRYo/9C/J/z6CY0JjYbk33JV64M
- xNej8qfVyk+LA==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 8DB8837820E4;
- Wed, 27 Mar 2024 11:48:22 +0000 (UTC)
-Date: Wed, 27 Mar 2024 13:48:21 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
- <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com,
- nicolejadeyee@google.com
-Subject: Re: [PATCH v5 08/16] drm/vkms: Avoid computing blending limits
- inside pre_mul_alpha_blend
-Message-ID: <20240327134821.3a985ab5.pekka.paalanen@collabora.com>
-In-Reply-To: <ZgLwTNsehDG4z6Bo@localhost.localdomain>
-References: <20240313-yuv-v5-0-e610cbd03f52@bootlin.com>
- <20240313-yuv-v5-8-e610cbd03f52@bootlin.com>
- <20240325144101.6d9fcf7e.pekka.paalanen@collabora.com>
- <ZgLwTNsehDG4z6Bo@localhost.localdomain>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08F5810EDD2;
+ Wed, 27 Mar 2024 12:04:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id A4730CE23FA;
+ Wed, 27 Mar 2024 12:04:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18610C433F1;
+ Wed, 27 Mar 2024 12:04:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1711541089;
+ bh=qu6pAAksjCh286Qmk8VmwuY5VshP4H7poEcP+eIgXQs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=cBhU6GQuWwvz1uQjwygbTuDioBtolPfMAY5pJag0z0e3cH7XnESQBxvpoal1QjXJB
+ 2OUT0xUjGdIkP9Sr1owe5W7sJw0I0LRbVavIz4pCCayMzpfnS8M2D2gWjCkCUHFOiS
+ q+Dk9NzqIPFH1OtsiOeJhWd1gPqOX3aJuSTyP3cFaABK32guMPYto8lkuMbx+tBfo5
+ hKAmiusgk5VAkom+g4hHttqCx20LTjkFtcPfeZqiAF6lLUPXEQqYamZTE3qhpl4Nx4
+ +9UA3xAOlFN5Vp6RBWMz0Jj5XAn6gqpp7FqKE6vI/LOSJNXF7E/EXinmUmJDeyrw03
+ +N/v8uC1HYT/A==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org,
+	hamza.mahfooz@amd.com
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: FAILED: Patch "drm/amdgpu: make damage clips support configurable"
+ failed to apply to 6.8-stable tree
+Date: Wed, 27 Mar 2024 08:04:47 -0400
+Message-ID: <20240327120448.2824384-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/BpgFWwG.B4zFeuVTStC0wqj";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Patchwork-Hint: ignore
+X-stable: review
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,215 +60,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/BpgFWwG.B4zFeuVTStC0wqj
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 26 Mar 2024 16:57:00 +0100
-Louis Chauvet <louis.chauvet@bootlin.com> wrote:
-
-> Le 25/03/24 - 14:41, Pekka Paalanen a =C3=A9crit :
-> > On Wed, 13 Mar 2024 18:45:02 +0100
-> > Louis Chauvet <louis.chauvet@bootlin.com> wrote:
-> >  =20
-> > > The pre_mul_alpha_blend is dedicated to blending, so to avoid mixing
-> > > different concepts (coordinate calculation and color management), ext=
-ract
-> > > the x_limit and x_dst computation outside of this helper.
-> > > It also increases the maintainability by grouping the computation rel=
-ated
-> > > to coordinates in the same place: the loop in `blend`.
-> > >=20
-> > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > ---
-> > >  drivers/gpu/drm/vkms/vkms_composer.c | 40 +++++++++++++++++---------=
-----------
-> > >  1 file changed, 19 insertions(+), 21 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/v=
-kms/vkms_composer.c
-> > > index da0651a94c9b..9254086f23ff 100644
-> > > --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> > > +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> > > @@ -24,34 +24,30 @@ static u16 pre_mul_blend_channel(u16 src, u16 dst=
-, u16 alpha)
-> > > =20
-> > >  /**
-> > >   * pre_mul_alpha_blend - alpha blending equation
-> > > - * @frame_info: Source framebuffer's metadata
-> > >   * @stage_buffer: The line with the pixels from src_plane
-> > >   * @output_buffer: A line buffer that receives all the blends output
-> > > + * @x_start: The start offset to avoid useless copy =20
-> >=20
-> > I'd say just:
-> >=20
-> > + * @x_start: The start offset
-> >=20
-> > It describes the parameter, and the paragraph below explains the why.
-> >=20
-> > It would be explaining, that x_start applies to output_buffer, but
-> > input_buffer is always read starting from 0. =20
->=20
-> I will change it to:
->=20
->  * Using @x_start and @count information, only few pixel can be blended i=
-nstead of the whole line
->  * each time. @x_start is only used for the output buffer. The staging bu=
-ffer is always read from
->  * the start (0..@count in stage_buffer is blended at @x_start..@x_start+=
-@count in output_buffer).
-
-The important part is
-
-0..@count in stage_buffer is blended at @x_start..@x_start+@count in output=
-_buffer
-
-and everything else from that paragraph is not really adding much.
-
-Remember to update the doc in "drm/vkms: Re-introduce line-per-line
-composition  algorithm" to follow the changes.
-
-
-> > > + * @count: The number of byte to copy =20
-> >=20
-> > You named it pixel_count, and it counts pixels, not bytes. It's not a
-> > copy but a blend into output_buffer. =20
->=20
-> Oops, fixed in v6.
-> =20
-> > >   *
-> > > - * Using the information from the `frame_info`, this blends only the
-> > > - * necessary pixels from the `stage_buffer` to the `output_buffer`
-> > > - * using premultiplied blend formula.
-> > > + * Using @x_start and @count information, only few pixel can be blen=
-ded instead of the whole line
-> > > + * each time.
-> > >   *
-> > >   * The current DRM assumption is that pixel color values have been a=
-lready
-> > >   * pre-multiplied with the alpha channel values. See more
-> > >   * drm_plane_create_blend_mode_property(). Also, this formula assume=
-s a
-> > >   * completely opaque background.
-> > >   */
-> > > -static void pre_mul_alpha_blend(struct vkms_frame_info *frame_info,
-> > > -				struct line_buffer *stage_buffer,
-> > > -				struct line_buffer *output_buffer)
-> > > +static void pre_mul_alpha_blend(const struct line_buffer *stage_buff=
-er,
-> > > +				struct line_buffer *output_buffer, int x_start, int pixel_count)
-> > >  {
-> > > -	int x_dst =3D frame_info->dst.x1;
-> > > -	struct pixel_argb_u16 *out =3D output_buffer->pixels + x_dst;
-> > > -	struct pixel_argb_u16 *in =3D stage_buffer->pixels;
-> > > -	int x_limit =3D min_t(size_t, drm_rect_width(&frame_info->dst),
-> > > -			    stage_buffer->n_pixels);
-> > > -
-> > > -	for (int x =3D 0; x < x_limit; x++) {
-> > > -		out[x].a =3D (u16)0xffff;
-> > > -		out[x].r =3D pre_mul_blend_channel(in[x].r, out[x].r, in[x].a);
-> > > -		out[x].g =3D pre_mul_blend_channel(in[x].g, out[x].g, in[x].a);
-> > > -		out[x].b =3D pre_mul_blend_channel(in[x].b, out[x].b, in[x].a);
-> > > +	struct pixel_argb_u16 *out =3D &output_buffer->pixels[x_start];
-> > > +	const struct pixel_argb_u16 *in =3D stage_buffer->pixels;
-> > > +
-> > > +	for (int i =3D 0; i < pixel_count; i++) {
-> > > +		out[i].a =3D (u16)0xffff;
-> > > +		out[i].r =3D pre_mul_blend_channel(in[i].r, out[i].r, in[i].a);
-> > > +		out[i].g =3D pre_mul_blend_channel(in[i].g, out[i].g, in[i].a);
-> > > +		out[i].b =3D pre_mul_blend_channel(in[i].b, out[i].b, in[i].a);
-> > >  	}
-> > >  }
-> > > =20
-> > > @@ -183,7 +179,7 @@ static void blend(struct vkms_writeback_job *wb,
-> > >  {
-> > >  	struct vkms_plane_state **plane =3D crtc_state->active_planes;
-> > >  	u32 n_active_planes =3D crtc_state->num_active_planes;
-> > > -	int y_pos;
-> > > +	int y_pos, x_dst, x_limit;
-> > > =20
-> > >  	const struct pixel_argb_u16 background_color =3D { .a =3D 0xffff };
-> > > =20
-> > > @@ -201,14 +197,16 @@ static void blend(struct vkms_writeback_job *wb,
-> > > =20
-> > >  		/* The active planes are composed associatively in z-order. */
-> > >  		for (size_t i =3D 0; i < n_active_planes; i++) {
-> > > +			x_dst =3D plane[i]->frame_info->dst.x1;
-> > > +			x_limit =3D min_t(size_t, drm_rect_width(&plane[i]->frame_info->d=
-st),
-> > > +					stage_buffer->n_pixels); =20
-> >=20
-> > Are those input values to min_t() really of type size_t? Or why is
-> > size_t here? =20
->=20
-> n_pixel is size_t, drm_rect_width is int. I will change everything to int=
-.=20
-> Is there a way to ask the compiler "please don't do implicit conversion=20
-> and report them as warn/errors"?
-
-There probably is, you can find it in the gcc manual. However, I suspect
-you would drown in warnings for cases where the implicit conversion is
-wanted and an explicit cast is unwanted.
-
+The patch below does not apply to the 6.8-stable tree.
+If someone wants it applied there, or to any other stable or longterm
+tree, then please email the backport, including the original git commit
+id to <stable@vger.kernel.org>.
 
 Thanks,
-pq
+Sasha
 
-> > >  			y_pos =3D get_y_pos(plane[i]->frame_info, y);
-> > > =20
-> > >  			if (!check_limit(plane[i]->frame_info, y_pos))
-> > >  				continue;
-> > > =20
-> > >  			vkms_compose_row(stage_buffer, plane[i], y_pos);
-> > > -			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
-> > > -					    output_buffer);
-> > > +			pre_mul_alpha_blend(stage_buffer, output_buffer, x_dst, x_limit);=
- =20
-> >=20
-> > I thought it was a count, not a limit?
-> >=20
-> > "Limit" sounds to me like "end", and end - start =3D count. =20
->=20
-> It is effectively a pixel count. I just took those naming from the=20
-> original pre_mul_alpha_blend. I will change it to pixel_count.
->=20
-> Thanks,
-> Louis Chauvet
->=20
-> > >  		}
-> > > =20
-> > >  		apply_lut(crtc_state, output_buffer);
-> > >  =20
-> >=20
-> > The details aside, this is a good move.
-> >=20
-> >=20
-> > Thanks,
-> > pq =20
->=20
->=20
->=20
+------------------ original commit in Linus's tree ------------------
+
+From fc184dbe9fd99ad2dfb197b6fe18768bae1774b1 Mon Sep 17 00:00:00 2001
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Date: Thu, 8 Feb 2024 16:23:29 -0500
+Subject: [PATCH] drm/amdgpu: make damage clips support configurable
+
+We have observed that there are quite a number of PSR-SU panels on the
+market that are unable to keep up with what user space throws at them,
+resulting in hangs and random black screens. So, make damage clips
+support configurable and disable it by default for PSR-SU displays.
+
+Cc: stable@vger.kernel.org
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h               |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c           | 13 +++++++++++++
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  7 +++++++
+ 3 files changed, 21 insertions(+)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+index 312dfaec7b4a7..1291b8eb9dffa 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+@@ -198,6 +198,7 @@ extern uint amdgpu_dc_debug_mask;
+ extern uint amdgpu_dc_visual_confirm;
+ extern uint amdgpu_dm_abm_level;
+ extern int amdgpu_backlight;
++extern int amdgpu_damage_clips;
+ extern struct amdgpu_mgpu_info mgpu_info;
+ extern int amdgpu_ras_enable;
+ extern uint amdgpu_ras_mask;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index 161ecf9b41747..6ef7f22c1152c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -211,6 +211,7 @@ int amdgpu_seamless = -1; /* auto */
+ uint amdgpu_debug_mask;
+ int amdgpu_agp = -1; /* auto */
+ int amdgpu_wbrf = -1;
++int amdgpu_damage_clips = -1; /* auto */
+ 
+ static void amdgpu_drv_delayed_reset_work_handler(struct work_struct *work);
+ 
+@@ -859,6 +860,18 @@ int amdgpu_backlight = -1;
+ MODULE_PARM_DESC(backlight, "Backlight control (0 = pwm, 1 = aux, -1 auto (default))");
+ module_param_named(backlight, amdgpu_backlight, bint, 0444);
+ 
++/**
++ * DOC: damageclips (int)
++ * Enable or disable damage clips support. If damage clips support is disabled,
++ * we will force full frame updates, irrespective of what user space sends to
++ * us.
++ *
++ * Defaults to -1 (where it is enabled unless a PSR-SU display is detected).
++ */
++MODULE_PARM_DESC(damageclips,
++		 "Damage clips support (0 = disable, 1 = enable, -1 auto (default))");
++module_param_named(damageclips, amdgpu_damage_clips, int, 0444);
++
+ /**
+  * DOC: tmz (int)
+  * Trusted Memory Zone (TMZ) is a method to protect data being written
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index b7a717c3682f9..f9a7a16f1ec21 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -5254,6 +5254,7 @@ static void fill_dc_dirty_rects(struct drm_plane *plane,
+ 				struct drm_plane_state *new_plane_state,
+ 				struct drm_crtc_state *crtc_state,
+ 				struct dc_flip_addrs *flip_addrs,
++				bool is_psr_su,
+ 				bool *dirty_regions_changed)
+ {
+ 	struct dm_crtc_state *dm_crtc_state = to_dm_crtc_state(crtc_state);
+@@ -5278,6 +5279,10 @@ static void fill_dc_dirty_rects(struct drm_plane *plane,
+ 	num_clips = drm_plane_get_damage_clips_count(new_plane_state);
+ 	clips = drm_plane_get_damage_clips(new_plane_state);
+ 
++	if (num_clips && (!amdgpu_damage_clips || (amdgpu_damage_clips < 0 &&
++						   is_psr_su)))
++		goto ffu;
++
+ 	if (!dm_crtc_state->mpo_requested) {
+ 		if (!num_clips || num_clips > DC_MAX_DIRTY_RECTS)
+ 			goto ffu;
+@@ -8412,6 +8417,8 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+ 			fill_dc_dirty_rects(plane, old_plane_state,
+ 					    new_plane_state, new_crtc_state,
+ 					    &bundle->flip_addrs[planes_count],
++					    acrtc_state->stream->link->psr_settings.psr_version ==
++					    DC_PSR_VERSION_SU_1,
+ 					    &dirty_rects_changed);
+ 
+ 			/*
+-- 
+2.43.0
 
 
---Sig_/BpgFWwG.B4zFeuVTStC0wqj
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYEB4UACgkQI1/ltBGq
-qqdORBAAnCedEcvQbA5YNgvJhMd6M7Ee8pjqvxsC+9jBy0MYwfosnYIB1E9jbDcl
-2QZNb8/bH9Cuv7muJWqeCGTwyygMmyNltMqBUE81gDXKOETkr7EVWhfItch5vuQV
-W5OtRnave1L6X8qm9vJGAKTAaX5gcWEppogMyhRQ9ujhx57W+aF19aqS8Y2NmqKq
-+X2C46O5fU9a9dVTvp2aQkmxG5fOUxoHls4TL/wsyXvgzMyPVGPgf7DvI364GdWu
-twYXhUMH0XWlLgVd8Ka1RCJGc1FgLU2/l9wNcnoLbaa6OGiFr7Gl8/4vHiaXuUDi
-l4ukf0J6cb2UfGXr2w3MY8ODsZWxHu6XLuqRXcTunefooAZYwSmB/Q3B26TdmEgB
-1NMTJpLvKf2MnLcu2Lz9/6qPc7GmGmO/a+q5o3Kj7J7Uo+s6Dlx5WxOmii4d/hxi
-ig6PQQLIpchBI8ytsPavQmsYyMm4SY5z8gIluNH39cSMw4RbQ8XBQ+62dZlaG9xk
-Oohg7DS5ag8+OSGmb9fOANhOYtIb7UY4RXYivROJDg6B3RJMkwPViiTphV8Cqw0c
-JbGIzyLQCeJv9po/9vjNMXS2ObZRaM/lZlH/3i8BlMrQkG7bDC2YE6qIsPgIRMSb
-9nnpHOrSujO8eH8WljdqnosopA5s/Y4sOG06AsUUvjKV4Klyvvw=
-=LoLO
------END PGP SIGNATURE-----
-
---Sig_/BpgFWwG.B4zFeuVTStC0wqj--
