@@ -2,51 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2991A88ED4B
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 18:57:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9064188EDE2
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 19:13:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20C5510FEED;
-	Wed, 27 Mar 2024 17:56:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B510310FF17;
+	Wed, 27 Mar 2024 18:13:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gyJhsudI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HhLKoxqj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24A6610FEF1;
- Wed, 27 Mar 2024 17:56:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 723AD615EB;
- Wed, 27 Mar 2024 17:56:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04744C433F1;
- Wed, 27 Mar 2024 17:56:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711562213;
- bh=81om+e8n4vrHpgDjOmkmoW483t3RenxrqBAsOHmYQXk=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gyJhsudIqBxcsetwtVDJDjAzhnfjap4Hzg1pjrXZ5cCmQa1Vqqz7A0QOCTALf4FUT
- 4h90vDIO4lk4bJ3ZfqFOOin7pQoPPxGgVx5+5ih37g3RqMmJIAAQ23P33FgAMCTgNG
- owTlNx7ttatG0969MEJhQNXwhFckhUWGYA9Xpn5ST0eiJHZe5iVVkXGvLmzedg1Nw+
- EnUQjASGScYzvtYxv4m2NymSYBDaL/YJyewDAMBn6jDiU+A4Q94BAdlEz2DMRCeqs8
- DYgBqeobMUj5CrCcvvTR5C4BGKr1oxMH30ypWlM0ck2IQcjld91pSdaMzITphk9ynC
- w1YmFYlPSZ8Hg==
-From: Miguel Ojeda <ojeda@kernel.org>
-To: Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Alon Levy <alevy@redhat.com>, Frediano Ziglio <fziglio@redhat.com>,
- Miguel Ojeda <ojeda@kernel.org>, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] drm/qxl: remove unused variable from
- `qxl_process_single_command()`
-Date: Wed, 27 Mar 2024 18:55:56 +0100
-Message-ID: <20240327175556.233126-2-ojeda@kernel.org>
-In-Reply-To: <20240327175556.233126-1-ojeda@kernel.org>
-References: <20240327175556.233126-1-ojeda@kernel.org>
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1914D10E674;
+ Wed, 27 Mar 2024 18:13:16 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id
+ 98e67ed59e1d1-29c14800a7fso117356a91.2; 
+ Wed, 27 Mar 2024 11:13:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1711563195; x=1712167995; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=F+Apmp+5NG0ozOI/JWe7g3FmXSoAcJcuTi09oKHmC84=;
+ b=HhLKoxqjc+TxXtLByubOs8DeDRe+AIZY2+1Mip/qj8eDPvkz53lyGrYcUfKc/33vJ6
+ I7XubOLod/KzFyinUfSjft6EekRR2R/EU9eew3EtprXqXxYuXAZ1bTUTASqnjbb5QGkD
+ VMc2NNuXXHW05G8lrd+Lub94zKxx3JQR51vazT5KevGfhBNuno/cPD1HJ89foWuF/bSa
+ W2MTGjiknzSiithNHFo61mRtdufdlKBfXVv0Z7PAagW3k8QIRbghxVtfafvT/aIGhhgT
+ giP/kaueggKBxxf01V2QQi+SSJRSCdMs9DRxTioTVi26HdCxY8QccXpidLRq+RVzPMrb
+ DCxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711563195; x=1712167995;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=F+Apmp+5NG0ozOI/JWe7g3FmXSoAcJcuTi09oKHmC84=;
+ b=ptzUnkOpUZ5vFe0FtbsrIqmzftdcRv0CbS+BrzbWkBVkI7BoYfAAD6GK724lJXHc5m
+ KhefSXoQHgAhhcDoE8WtwTPkw1BL/mb+JW/k/LVR4XD0kudnvdsWG/INWyBqgDSS2jWP
+ xJE8YnQeHvUsT5867TvD7pPyoTG7Vo0E8+k7K3X/S3V9x+rxYtCu0V2cCNtYD9QQqSXO
+ J/tFInnOsQRlCzS91yf+wXgB4q696+6Ov4f0QMWkOQMueZyR+Py7iK/keGSCY5mIK4Tl
+ 0AR1U42WdeIPVSoMAZDfqQTTIheHbrCQBjE9TGyrjTD5U20MKujMPgVreI7jrVtFdPu6
+ j0Cw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWHaF4YkVSyJrgMSspoASIwOKPebFXyejeIhf7/uxcZdYvW+KTC/K4Dk8ql9OYavmYCPQqfqynmEbn/niVPNlS+hnOCV/4CuYUFaY8is88N6d/VsMGFwlEtuBSzLsRjdW9F1SlCnVSX4rDt72iOcVbbxLo=
+X-Gm-Message-State: AOJu0YzbBnCMMLz+18ek+2ey0SsxD3/YC7+4/8w19ZS6m5sBW+9JxxMJ
+ aL6pjbNbG+nI7klgXQdjNiWmHUNmdSVg3lM2IJHhDFNRh7ji8u204epv7sBUJOnWsyh/VYFQcIN
+ pOVqUvoxuuIPH09kgs8E1SNzc/+o=
+X-Google-Smtp-Source: AGHT+IHLikdTRV0YFY05LU+4dKjjaqnZE0r4ZhQYCDgh/j+5MZTT1jmReESMvyU/J8EN3USD/LkkQwkRCTSMfu5GTf8=
+X-Received: by 2002:a17:90b:3702:b0:29d:dfae:4fac with SMTP id
+ mg2-20020a17090b370200b0029ddfae4facmr514671pjb.23.1711563195269; Wed, 27 Mar
+ 2024 11:13:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CANiq72mbsAYmR_dRPpQQ=9-NWhTtp0TWiOz0v=V-0AvwYbWw4A@mail.gmail.com>
+ <20240327-magnetic-nonchalant-hare-bbe8d2@houat>
+ <CANiq72kqqQfUxLkHJYqeBAhpc6YcX7bfR96gmmbF=j8hEOykqw@mail.gmail.com>
+In-Reply-To: <CANiq72kqqQfUxLkHJYqeBAhpc6YcX7bfR96gmmbF=j8hEOykqw@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 27 Mar 2024 19:12:47 +0100
+Message-ID: <CANiq72=hguVfscJQSCAYS2FfL1VpUVvX_Chd4X8gAX4Twq-TLQ@mail.gmail.com>
+Subject: Re: drivers/gpu/drm/qxl/qxl_cmd.c:424:6: error: variable 'count' set
+ but not used
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,54 +87,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clang 14 in an (essentially) defconfig loongarch64 build for next-20240327
-reports [1]:
+On Wed, Mar 27, 2024 at 3:43=E2=80=AFPM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+>
+> Will do -- I found another one when running the CI with the above one fix=
+ed:
+>
+>     drivers/gpu/drm/qxl/qxl_ioctl.c:148:14: error: variable
+> 'num_relocs' set but not used [-Werror,-Wunused-but-set-variable]
+>
+> I will send you one for that too then.
 
-     drivers/gpu/drm/qxl/qxl_ioctl.c:148:14: error: variable 'num_relocs'
-     set but not used [-Werror,-Wunused-but-set-variable]
+Done: https://lore.kernel.org/lkml/20240327175556.233126-1-ojeda@kernel.org=
+/
 
-The variable was originally used in the `out_free_bos` label, but commit
-74d9a6335dce ("drm/qxl: Simplify cleaning qxl processing command")
-removed the use that happened in that label.
-
-Thus remove the unused variable.
-
-Fixes: 74d9a6335dce ("drm/qxl: Simplify cleaning qxl processing command")
-Closes: https://lore.kernel.org/lkml/CANiq72kqqQfUxLkHJYqeBAhpc6YcX7bfR96gmmbF=j8hEOykqw@mail.gmail.com/ [1]
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
----
- drivers/gpu/drm/qxl/qxl_ioctl.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/qxl/qxl_ioctl.c b/drivers/gpu/drm/qxl/qxl_ioctl.c
-index dd0f834d881c..506ae1f5e099 100644
---- a/drivers/gpu/drm/qxl/qxl_ioctl.c
-+++ b/drivers/gpu/drm/qxl/qxl_ioctl.c
-@@ -145,7 +145,7 @@ static int qxl_process_single_command(struct qxl_device *qdev,
- 	struct qxl_release *release;
- 	struct qxl_bo *cmd_bo;
- 	void *fb_cmd;
--	int i, ret, num_relocs;
-+	int i, ret;
- 	int unwritten;
- 
- 	switch (cmd->type) {
-@@ -200,7 +200,6 @@ static int qxl_process_single_command(struct qxl_device *qdev,
- 	}
- 
- 	/* fill out reloc info structs */
--	num_relocs = 0;
- 	for (i = 0; i < cmd->relocs_num; ++i) {
- 		struct drm_qxl_reloc reloc;
- 		struct drm_qxl_reloc __user *u = u64_to_user_ptr(cmd->relocs);
-@@ -230,7 +229,6 @@ static int qxl_process_single_command(struct qxl_device *qdev,
- 			reloc_info[i].dst_bo = cmd_bo;
- 			reloc_info[i].dst_offset = reloc.dst_offset + release->release_offset;
- 		}
--		num_relocs++;
- 
- 		/* reserve and validate the reloc dst bo */
- 		if (reloc.reloc_type == QXL_RELOC_TYPE_BO || reloc.src_handle) {
--- 
-2.44.0
-
+Cheers,
+Miguel
