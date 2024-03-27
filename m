@@ -2,47 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA23788DEDF
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:19:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0C388DEE3
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:19:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D17EB10FBD4;
-	Wed, 27 Mar 2024 12:19:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9C0D10FBD5;
+	Wed, 27 Mar 2024 12:19:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Wb8yZjcs";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ekLBkyJp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C19A710FBD3;
- Wed, 27 Mar 2024 12:19:43 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C7C510FBD6;
+ Wed, 27 Mar 2024 12:19:48 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2250861519;
- Wed, 27 Mar 2024 12:19:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF7DDC43390;
- Wed, 27 Mar 2024 12:19:41 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 7AD58CE2630;
+ Wed, 27 Mar 2024 12:19:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78983C43390;
+ Wed, 27 Mar 2024 12:19:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541982;
- bh=bnUB4C5n/YL5crTAVZbDDemqN2fLAzWLNhHj26IJp84=;
+ s=k20201202; t=1711541985;
+ bh=dxKl+wIsc5e+G+1JLzrhnnMSsQu/o2QjHtSTiYpzH6g=;
  h=From:To:Cc:Subject:Date:From;
- b=Wb8yZjcsO9qA6WnIASYIhpJ8el7PtMpzAgeLw98rbspxqYUU0P+QmHX7TwDgg1YJD
- NB2LAr1tiJvIH7QZdAD+jgLBj2/nmD7THnYw4zytsSf9rOSLrtVKKUu4NdrfcOgoGI
- 3Lk1fDzS9FrSC0bF976FECP9ET/ABSGuxV0AF0WLNs7MSYIVApB70pSwqxcB9wNG3i
- pX3aVV7V6MgtrgcA4+LH+LrlpK0wK2n+Mub3Rd4pfPhsLdpRQtERJJRsNpfjAnDcsV
- BfvxNsQnmiL1YQdpl2klPlBIGBJSs4rRq0r3T+VctTgCBYRG8bH/sdzmGif3z4L4T2
- MRKYA9Xga4xoQ==
+ b=ekLBkyJp+1C4fPNdDMjqC6IQOe/lersvkS16fkR1nKP8yv9OybsqQZGZx4QIpoVs/
+ gFXxdKqA26yWVR2TqzU160VEJ3IiP05GaX2/ygw0K3iCWpYXcJ/Y9xvzLvsyRXKJKZ
+ 7ytnNxjviwGs0iwOxp/7PNrko+gqJ9eFO93DFd2L4h3UgV91mZJ5Rm+NpBEwoYva5l
+ YgPBOj0suRDDZnwffledi9k05f64+GV6KxwkwCcTktjTyJmfCafMqX/VYCfIvKWoBV
+ a+bimgZPP1EfYZuHM/kvIjo39TeQRmGknkeqWUQ/6Mt0v+9nmkJTpgkcOyt72arKVz
+ Yp3F20Nfis3vg==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	sohaib.nadeem@amd.com
+	wenjing.liu@amd.com
 Cc: Mario Limonciello <mario.limonciello@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>,
- Josip Pavic <josip.pavic@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
+ Nevenko Stupar <nevenko.stupar@amd.com>,
+ Chaitanya Dhere <chaitanya.dhere@amd.com>,
+ Tom Chung <chiahsuan.chung@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: fixed integer types and null check
- locations" failed to apply to 5.10-stable tree
-Date: Wed, 27 Mar 2024 08:19:40 -0400
-Message-ID: <20240327121940.2835388-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/amd/display: fix incorrect mpc_combine array size"
+ failed to apply to 5.10-stable tree
+Date: Wed, 27 Mar 2024 08:19:43 -0400
+Message-ID: <20240327121943.2835425-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -73,112 +75,47 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 616b39467e816851335277d817ec98b7a9b92758 Mon Sep 17 00:00:00 2001
-From: Sohaib Nadeem <sohaib.nadeem@amd.com>
-Date: Wed, 31 Jan 2024 16:40:37 -0500
-Subject: [PATCH] drm/amd/display: fixed integer types and null check locations
+From 607e1b0cf480cb8dbd65b372397871d7389942b5 Mon Sep 17 00:00:00 2001
+From: Wenjing Liu <wenjing.liu@amd.com>
+Date: Thu, 18 Jan 2024 15:14:15 -0500
+Subject: [PATCH] drm/amd/display: fix incorrect mpc_combine array size
 
-[why]:
-issues fixed:
-- comparison with wider integer type in loop condition which can cause
-infinite loops
-- pointer dereference before null check
+[why]
+MAX_SURFACES is per stream, while MAX_PLANES is per asic. The
+mpc_combine is an array that records all the planes per asic. Therefore
+MAX_PLANES should be used as the array size. Using MAX_SURFACES causes
+array overflow when there are more than 3 planes.
+
+[how]
+Use the MAX_PLANES for the mpc_combine array size.
 
 Cc: Mario Limonciello <mario.limonciello@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
-Reviewed-by: Josip Pavic <josip.pavic@amd.com>
-Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Signed-off-by: Sohaib Nadeem <sohaib.nadeem@amd.com>
+Reviewed-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
+Reviewed-by: Nevenko Stupar <nevenko.stupar@amd.com>
+Reviewed-by: Chaitanya Dhere <chaitanya.dhere@amd.com>
+Acked-by: Tom Chung <chiahsuan.chung@amd.com>
+Signed-off-by: Wenjing Liu <wenjing.liu@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- .../gpu/drm/amd/display/dc/bios/bios_parser2.c   | 16 ++++++++++------
- .../drm/amd/display/dc/link/link_validation.c    |  2 +-
- 2 files changed, 11 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-index 960c4b4f6ddf3..05f392501c0ae 100644
---- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-+++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-@@ -1850,19 +1850,21 @@ static enum bp_result get_firmware_info_v3_2(
- 		/* Vega12 */
- 		smu_info_v3_2 = GET_IMAGE(struct atom_smu_info_v3_2,
- 							DATA_TABLES(smu_info));
--		DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", smu_info_v3_2->gpuclk_ss_percentage);
- 		if (!smu_info_v3_2)
- 			return BP_RESULT_BADBIOSTABLE;
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+index 9b80f65c04664..a7981a0c4158f 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+@@ -1113,7 +1113,7 @@ struct pipe_slice_table {
+ 		struct pipe_ctx *pri_pipe;
+ 		struct dc_plane_state *plane;
+ 		int slice_count;
+-	} mpc_combines[MAX_SURFACES];
++	} mpc_combines[MAX_PLANES];
+ 	int mpc_combine_count;
+ };
  
-+		DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", smu_info_v3_2->gpuclk_ss_percentage);
-+
- 		info->default_engine_clk = smu_info_v3_2->bootup_dcefclk_10khz * 10;
- 	} else if (revision.minor == 3) {
- 		/* Vega20 */
- 		smu_info_v3_3 = GET_IMAGE(struct atom_smu_info_v3_3,
- 							DATA_TABLES(smu_info));
--		DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", smu_info_v3_3->gpuclk_ss_percentage);
- 		if (!smu_info_v3_3)
- 			return BP_RESULT_BADBIOSTABLE;
- 
-+		DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", smu_info_v3_3->gpuclk_ss_percentage);
-+
- 		info->default_engine_clk = smu_info_v3_3->bootup_dcefclk_10khz * 10;
- 	}
- 
-@@ -2422,10 +2424,11 @@ static enum bp_result get_integrated_info_v11(
- 	info_v11 = GET_IMAGE(struct atom_integrated_system_info_v1_11,
- 					DATA_TABLES(integratedsysteminfo));
- 
--	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v11->gpuclk_ss_percentage);
- 	if (info_v11 == NULL)
- 		return BP_RESULT_BADBIOSTABLE;
- 
-+	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v11->gpuclk_ss_percentage);
-+
- 	info->gpu_cap_info =
- 	le32_to_cpu(info_v11->gpucapinfo);
- 	/*
-@@ -2637,11 +2640,12 @@ static enum bp_result get_integrated_info_v2_1(
- 
- 	info_v2_1 = GET_IMAGE(struct atom_integrated_system_info_v2_1,
- 					DATA_TABLES(integratedsysteminfo));
--	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v2_1->gpuclk_ss_percentage);
- 
- 	if (info_v2_1 == NULL)
- 		return BP_RESULT_BADBIOSTABLE;
- 
-+	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v2_1->gpuclk_ss_percentage);
-+
- 	info->gpu_cap_info =
- 	le32_to_cpu(info_v2_1->gpucapinfo);
- 	/*
-@@ -2799,11 +2803,11 @@ static enum bp_result get_integrated_info_v2_2(
- 	info_v2_2 = GET_IMAGE(struct atom_integrated_system_info_v2_2,
- 					DATA_TABLES(integratedsysteminfo));
- 
--	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v2_2->gpuclk_ss_percentage);
--
- 	if (info_v2_2 == NULL)
- 		return BP_RESULT_BADBIOSTABLE;
- 
-+	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v2_2->gpuclk_ss_percentage);
-+
- 	info->gpu_cap_info =
- 	le32_to_cpu(info_v2_2->gpucapinfo);
- 	/*
-diff --git a/drivers/gpu/drm/amd/display/dc/link/link_validation.c b/drivers/gpu/drm/amd/display/dc/link/link_validation.c
-index 1c038e2a527b3..1aed55b0ab6a0 100644
---- a/drivers/gpu/drm/amd/display/dc/link/link_validation.c
-+++ b/drivers/gpu/drm/amd/display/dc/link/link_validation.c
-@@ -359,7 +359,7 @@ bool link_validate_dpia_bandwidth(const struct dc_stream_state *stream, const un
- 	struct dc_link *dpia_link[MAX_DPIA_NUM] = {0};
- 	int num_dpias = 0;
- 
--	for (uint8_t i = 0; i < num_streams; ++i) {
-+	for (unsigned int i = 0; i < num_streams; ++i) {
- 		if (stream[i].signal == SIGNAL_TYPE_DISPLAY_PORT) {
- 			/* new dpia sst stream, check whether it exceeds max dpia */
- 			if (num_dpias >= MAX_DPIA_NUM)
 -- 
 2.43.0
 
