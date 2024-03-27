@@ -2,49 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A0C388DEE3
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:19:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E37188DEE5
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:19:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9C0D10FBD5;
-	Wed, 27 Mar 2024 12:19:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EAE310FBD9;
+	Wed, 27 Mar 2024 12:19:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ekLBkyJp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jL/+v8wk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C7C510FBD6;
- Wed, 27 Mar 2024 12:19:48 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BF1C10FBD6;
+ Wed, 27 Mar 2024 12:19:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 7AD58CE2630;
- Wed, 27 Mar 2024 12:19:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78983C43390;
- Wed, 27 Mar 2024 12:19:44 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id D41E0614E2;
+ Wed, 27 Mar 2024 12:19:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 751D7C433F1;
+ Wed, 27 Mar 2024 12:19:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541985;
- bh=dxKl+wIsc5e+G+1JLzrhnnMSsQu/o2QjHtSTiYpzH6g=;
+ s=k20201202; t=1711541988;
+ bh=egbXLkqW2ltqYLDtV6wrlHM4IKYp43oTYDDs7XtRjas=;
  h=From:To:Cc:Subject:Date:From;
- b=ekLBkyJp+1C4fPNdDMjqC6IQOe/lersvkS16fkR1nKP8yv9OybsqQZGZx4QIpoVs/
- gFXxdKqA26yWVR2TqzU160VEJ3IiP05GaX2/ygw0K3iCWpYXcJ/Y9xvzLvsyRXKJKZ
- 7ytnNxjviwGs0iwOxp/7PNrko+gqJ9eFO93DFd2L4h3UgV91mZJ5Rm+NpBEwoYva5l
- YgPBOj0suRDDZnwffledi9k05f64+GV6KxwkwCcTktjTyJmfCafMqX/VYCfIvKWoBV
- a+bimgZPP1EfYZuHM/kvIjo39TeQRmGknkeqWUQ/6Mt0v+9nmkJTpgkcOyt72arKVz
- Yp3F20Nfis3vg==
+ b=jL/+v8wk6SaqbT5RprVf52E/yxtdY+3GRIdgJJxpr8NUpRn6f/9SDoPGKQczfXUlU
+ PFLCnXIFxm/1vdJjmxExIAChTXx6mkgh6zVzWDI6ruggtmTzbonSgxpjfjWrQuqcpf
+ inbz1ZUpotGGjL5GrhWjkZtk9g5SBGVzFQLpel0Wf2KZKde1+5SGlVMZh6A5OdG+89
+ tVuxCzY8BsNcznxrYNnmE4N+5nADGGEHb19JT2RbYB9GBvkpMiwdF4Qriq+hzt/KfM
+ ewSJJfzVePbMEX0q9XX6GJgxkKzF/ejQI1Q1iPlaTtp+9Q7UH1wNQYffry6lwULAir
+ Gzva0okKwawHA==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	wenjing.liu@amd.com
+	allen.pan@amd.com
 Cc: Mario Limonciello <mario.limonciello@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>,
- Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
- Nevenko Stupar <nevenko.stupar@amd.com>,
- Chaitanya Dhere <chaitanya.dhere@amd.com>,
- Tom Chung <chiahsuan.chung@amd.com>,
+ Charlene Liu <charlene.liu@amd.com>, Alex Hung <alex.hung@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: fix incorrect mpc_combine array size"
- failed to apply to 5.10-stable tree
-Date: Wed, 27 Mar 2024 08:19:43 -0400
-Message-ID: <20240327121943.2835425-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/amd/display: Add a dc_state NULL check in
+ dc_state_release" failed to apply to 5.10-stable tree
+Date: Wed, 27 Mar 2024 08:19:46 -0400
+Message-ID: <20240327121946.2835462-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -75,47 +72,41 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 607e1b0cf480cb8dbd65b372397871d7389942b5 Mon Sep 17 00:00:00 2001
-From: Wenjing Liu <wenjing.liu@amd.com>
-Date: Thu, 18 Jan 2024 15:14:15 -0500
-Subject: [PATCH] drm/amd/display: fix incorrect mpc_combine array size
+From 334b56cea5d9df5989be6cf1a5898114fa70ad98 Mon Sep 17 00:00:00 2001
+From: Allen Pan <allen.pan@amd.com>
+Date: Fri, 23 Feb 2024 18:20:16 -0500
+Subject: [PATCH] drm/amd/display: Add a dc_state NULL check in
+ dc_state_release
 
-[why]
-MAX_SURFACES is per stream, while MAX_PLANES is per asic. The
-mpc_combine is an array that records all the planes per asic. Therefore
-MAX_PLANES should be used as the array size. Using MAX_SURFACES causes
-array overflow when there are more than 3 planes.
-
-[how]
-Use the MAX_PLANES for the mpc_combine array size.
+[How]
+Check wheather state is NULL before releasing it.
 
 Cc: Mario Limonciello <mario.limonciello@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
-Reviewed-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
-Reviewed-by: Nevenko Stupar <nevenko.stupar@amd.com>
-Reviewed-by: Chaitanya Dhere <chaitanya.dhere@amd.com>
-Acked-by: Tom Chung <chiahsuan.chung@amd.com>
-Signed-off-by: Wenjing Liu <wenjing.liu@amd.com>
+Reviewed-by: Charlene Liu <charlene.liu@amd.com>
+Acked-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Allen Pan <allen.pan@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/core/dc_state.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-index 9b80f65c04664..a7981a0c4158f 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-@@ -1113,7 +1113,7 @@ struct pipe_slice_table {
- 		struct pipe_ctx *pri_pipe;
- 		struct dc_plane_state *plane;
- 		int slice_count;
--	} mpc_combines[MAX_SURFACES];
-+	} mpc_combines[MAX_PLANES];
- 	int mpc_combine_count;
- };
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_state.c b/drivers/gpu/drm/amd/display/dc/core/dc_state.c
+index 180ac47868c22..5cc7f8da209c5 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_state.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_state.c
+@@ -334,7 +334,8 @@ static void dc_state_free(struct kref *kref)
  
+ void dc_state_release(struct dc_state *state)
+ {
+-	kref_put(&state->refcount, dc_state_free);
++	if (state != NULL)
++		kref_put(&state->refcount, dc_state_free);
+ }
+ /*
+  * dc_state_add_stream() - Add a new dc_stream_state to a dc_state.
 -- 
 2.43.0
 
