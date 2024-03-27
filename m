@@ -2,47 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A67588DD6A
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:08:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D7188DD6D
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:08:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B9F110FA9D;
-	Wed, 27 Mar 2024 12:08:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79D1610FAAE;
+	Wed, 27 Mar 2024 12:08:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pfVI8ceF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="K38slKvI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C69EA10FAA7;
- Wed, 27 Mar 2024 12:08:28 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 845C710FAAA;
+ Wed, 27 Mar 2024 12:08:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3BF17614DE;
- Wed, 27 Mar 2024 12:08:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7996C433F1;
- Wed, 27 Mar 2024 12:08:26 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id A01ECCE2614;
+ Wed, 27 Mar 2024 12:08:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C64A2C433C7;
+ Wed, 27 Mar 2024 12:08:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541308;
- bh=JYWo6E6cEbEaCVb6pcyDHMLnDRkTp3hpzGa/8HFT2f4=;
+ s=k20201202; t=1711541310;
+ bh=+6Y/rySNhxC1EF9/6EjIu3gQHaidUbRWc6Err1nFeCY=;
  h=From:To:Cc:Subject:Date:From;
- b=pfVI8ceFn7PO2d2VHqwci9sofywJY2eCrmncAkv6SWgPrA1eUD5uj4/nx1ilN1LUF
- /wpbtD9ZJtUOZpwE1pLOcoHwuUTDbI188uTW60nidhZEeAasoHIIxaGhSnYq3BqLqo
- HqdSO+BoNhKtFUlgECcnJ9TP3OEzGH4Uvn0RiId8MYYjiHsbftQuHmEznhm5NyuWV5
- uMvkJMZ7CXFGKuj44onefUoQXtwa/rYExonHtwi0s0+23jighOASmKV/jNPhtR431/
- Q/qA09lOK5pWTQewpryxRzxKkoWGIO5r42Pl/mnN4JNrDjoGoICr4714VVe6nBPhiw
- tAUcZYD1f7x/A==
+ b=K38slKvIngki1eEm0687YuzwgNCrtEOEyZmS/h48jGWt9hM3YRxWokbxxt697UrWv
+ aV3v7fkPuqwz00vdPI/9k7FwKZu7K/2WYcv6vxmw3C87TxcceYTwUwpwdXPPKOIF9U
+ uRt2bzoL0pnpdXND7NcaWhpbMn5/H/Flo0qInBottDs/zcM+f15obWyEKIkYHKBuZ9
+ voJW2/o+dZwz+PcEx6dwTPl5gJFBy1r/Udo9GDmvgCbl65xwoCQKkTnb2c3wP6/FY7
+ qJAf/ZJbbPt4SFFuLrxC/QqnS31luz3NejuucjbpXcYBtVuZ1AldPRpl7VRxooZymK
+ E8ZXIOxSw4o+g==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	george.shen@amd.com
-Cc: Mario Limonciello <mario.limonciello@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Martin Leung <martin.leung@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
+	nirmoy.das@intel.com
+Cc: Andi Shyti <andi.shyti@linux.intel.com>, Shawn Lee <shawn.c.lee@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "Revert "drm/amd/display: Add left edge pixel for
- YCbCr422/420 + ODM pipe split"" failed to apply to 6.7-stable tree
-Date: Wed, 27 Mar 2024 08:08:25 -0400
-Message-ID: <20240327120825.2826177-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/i915: Check before removing mm notifier" failed to
+ apply to 6.7-stable tree
+Date: Wed, 27 Mar 2024 08:08:28 -0400
+Message-ID: <20240327120828.2826214-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -73,168 +71,41 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From e9e1abb397e550aec86a6d9eb7c6f8ed4271d742 Mon Sep 17 00:00:00 2001
-From: George Shen <george.shen@amd.com>
-Date: Fri, 2 Feb 2024 17:45:32 -0500
-Subject: [PATCH] Revert "drm/amd/display: Add left edge pixel for YCbCr422/420
- + ODM pipe split"
+From db7bbd13f08774cde0332c705f042e327fe21e73 Mon Sep 17 00:00:00 2001
+From: Nirmoy Das <nirmoy.das@intel.com>
+Date: Mon, 19 Feb 2024 13:50:47 +0100
+Subject: [PATCH] drm/i915: Check before removing mm notifier
 
-[Why/How]
-A regression was identified with the change to add left edge pixel for
-YCbCr422/420 + ODM combine cases.
+Error in mmu_interval_notifier_insert() can leave a NULL
+notifier.mm pointer. Catch that and return early.
 
-This reverts commit 288c0254a0b0c9980dba9df7d5afadf27280b99c
-
-Cc: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: stable@vger.kernel.org
-Reviewed-by: Martin Leung <martin.leung@amd.com>
-Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Signed-off-by: George Shen <george.shen@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Fixes: ed29c2691188 ("drm/i915: Fix userptr so we do not have to worry about obj->mm.lock, v7.")
+Cc: <stable@vger.kernel.org> # v5.13+
+[tursulin: Added Fixes and cc stable.]
+Cc: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Shawn Lee <shawn.c.lee@intel.com>
+Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240219125047.28906-1-nirmoy.das@intel.com
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc.c      |  4 --
- .../gpu/drm/amd/display/dc/core/dc_resource.c | 37 -------------------
- .../amd/display/dc/hwss/dcn20/dcn20_hwseq.c   |  7 +---
- .../gpu/drm/amd/display/dc/inc/core_types.h   |  2 -
- drivers/gpu/drm/amd/display/dc/inc/resource.h |  4 --
- 5 files changed, 1 insertion(+), 53 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index 1d0fd69cc7bd1..4d5194293dbd5 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-@@ -3098,10 +3098,6 @@ static bool update_planes_and_stream_state(struct dc *dc,
- 
- 			if (otg_master && otg_master->stream->test_pattern.type != DP_TEST_PATTERN_VIDEO_MODE)
- 				resource_build_test_pattern_params(&context->res_ctx, otg_master);
--
--			if (otg_master && (otg_master->stream->timing.pixel_encoding == PIXEL_ENCODING_YCBCR422 ||
--					otg_master->stream->timing.pixel_encoding == PIXEL_ENCODING_YCBCR420))
--				resource_build_subsampling_params(&context->res_ctx, otg_master);
- 		}
- 	}
- 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-index 96ea283bd1690..1b7765bc5e5ef 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-@@ -822,16 +822,6 @@ static struct rect calculate_odm_slice_in_timing_active(struct pipe_ctx *pipe_ct
- 			stream->timing.v_border_bottom +
- 			stream->timing.v_border_top;
- 
--	/* Recout for ODM slices after the first slice need one extra left edge pixel
--	 * for 3-tap chroma subsampling.
--	 */
--	if (odm_slice_idx > 0 &&
--			(pipe_ctx->stream->timing.pixel_encoding == PIXEL_ENCODING_YCBCR422 ||
--				pipe_ctx->stream->timing.pixel_encoding == PIXEL_ENCODING_YCBCR420)) {
--		odm_rec.x -= 1;
--		odm_rec.width += 1;
--	}
--
- 	return odm_rec;
- }
- 
-@@ -1448,7 +1438,6 @@ void resource_build_test_pattern_params(struct resource_context *res_ctx,
- 	enum controller_dp_test_pattern controller_test_pattern;
- 	enum controller_dp_color_space controller_color_space;
- 	enum dc_color_depth color_depth = otg_master->stream->timing.display_color_depth;
--	enum dc_pixel_encoding pixel_encoding = otg_master->stream->timing.pixel_encoding;
- 	int h_active = otg_master->stream->timing.h_addressable +
- 		otg_master->stream->timing.h_border_left +
- 		otg_master->stream->timing.h_border_right;
-@@ -1480,36 +1469,10 @@ void resource_build_test_pattern_params(struct resource_context *res_ctx,
- 		else
- 			params->width = last_odm_slice_width;
- 
--		/* Extra left edge pixel is required for 3-tap chroma subsampling. */
--		if (i != 0 && (pixel_encoding == PIXEL_ENCODING_YCBCR422 ||
--				pixel_encoding == PIXEL_ENCODING_YCBCR420)) {
--			params->offset -= 1;
--			params->width += 1;
--		}
--
- 		offset += odm_slice_width;
- 	}
- }
- 
--void resource_build_subsampling_params(struct resource_context *res_ctx,
--	struct pipe_ctx *otg_master)
--{
--	struct pipe_ctx *opp_heads[MAX_PIPES];
--	int odm_cnt = 1;
--	int i;
--
--	odm_cnt = resource_get_opp_heads_for_otg_master(otg_master, res_ctx, opp_heads);
--
--	/* For ODM slices after the first slice, extra left edge pixel is required
--	 * for 3-tap chroma subsampling.
--	 */
--	if (otg_master->stream->timing.pixel_encoding == PIXEL_ENCODING_YCBCR422 ||
--			otg_master->stream->timing.pixel_encoding == PIXEL_ENCODING_YCBCR420) {
--		for (i = 0; i < odm_cnt; i++)
--			opp_heads[i]->stream_res.left_edge_extra_pixel = (i == 0) ? false : true;
--	}
--}
--
- bool resource_build_scaling_params(struct pipe_ctx *pipe_ctx)
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+index 0e21ce9d3e5ac..61abfb505766d 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+@@ -349,6 +349,9 @@ i915_gem_userptr_release(struct drm_i915_gem_object *obj)
  {
- 	const struct dc_plane_state *plane_state = pipe_ctx->plane_state;
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
-index f15ba7335336a..c55d5155ecb9c 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
-@@ -1573,8 +1573,7 @@ static void dcn20_detect_pipe_changes(struct dc_state *old_state,
- 	 * makes this assumption at the moment with how hubp reset is matched to
- 	 * same index mpcc reset.
- 	 */
--	if (old_pipe->stream_res.opp != new_pipe->stream_res.opp ||
--			old_pipe->stream_res.left_edge_extra_pixel != new_pipe->stream_res.left_edge_extra_pixel)
-+	if (old_pipe->stream_res.opp != new_pipe->stream_res.opp)
- 		new_pipe->update_flags.bits.opp_changed = 1;
- 	if (old_pipe->stream_res.tg != new_pipe->stream_res.tg)
- 		new_pipe->update_flags.bits.tg_changed = 1;
-@@ -1962,10 +1961,6 @@ static void dcn20_program_pipe(
- 			pipe_ctx->stream_res.opp,
- 			&pipe_ctx->stream->bit_depth_params,
- 			&pipe_ctx->stream->clamping);
--
--		pipe_ctx->stream_res.opp->funcs->opp_program_left_edge_extra_pixel(
--			pipe_ctx->stream_res.opp,
--			pipe_ctx->stream_res.left_edge_extra_pixel);
- 	}
+ 	GEM_WARN_ON(obj->userptr.page_ref);
  
- 	/* Set ABM pipe after other pipe configurations done */
-diff --git a/drivers/gpu/drm/amd/display/dc/inc/core_types.h b/drivers/gpu/drm/amd/display/dc/inc/core_types.h
-index ebb659c327e06..3a6bf77a68732 100644
---- a/drivers/gpu/drm/amd/display/dc/inc/core_types.h
-+++ b/drivers/gpu/drm/amd/display/dc/inc/core_types.h
-@@ -333,8 +333,6 @@ struct stream_resource {
- 	uint8_t gsl_group;
- 
- 	struct test_pattern_params test_pattern_params;
--
--	bool left_edge_extra_pixel;
- };
- 
- struct plane_resource {
-diff --git a/drivers/gpu/drm/amd/display/dc/inc/resource.h b/drivers/gpu/drm/amd/display/dc/inc/resource.h
-index b14d52e52fa2f..77a60aa9f27bb 100644
---- a/drivers/gpu/drm/amd/display/dc/inc/resource.h
-+++ b/drivers/gpu/drm/amd/display/dc/inc/resource.h
-@@ -107,10 +107,6 @@ void resource_build_test_pattern_params(
- 		struct resource_context *res_ctx,
- 		struct pipe_ctx *pipe_ctx);
- 
--void resource_build_subsampling_params(
--		struct resource_context *res_ctx,
--		struct pipe_ctx *pipe_ctx);
--
- bool resource_build_scaling_params(struct pipe_ctx *pipe_ctx);
- 
- enum dc_status resource_build_scaling_params_for_context(
++	if (!obj->userptr.notifier.mm)
++		return;
++
+ 	mmu_interval_notifier_remove(&obj->userptr.notifier);
+ 	obj->userptr.notifier.mm = NULL;
+ }
 -- 
 2.43.0
 
