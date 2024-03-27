@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E89088DD53
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:08:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6132E88DD59
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:08:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 901EF10FA97;
-	Wed, 27 Mar 2024 12:08:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A524110FA98;
+	Wed, 27 Mar 2024 12:08:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="g0G43IGT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="j/w80+RU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EB4510FA92;
- Wed, 27 Mar 2024 12:08:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7207C10FA92;
+ Wed, 27 Mar 2024 12:08:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B92FB614CD;
- Wed, 27 Mar 2024 12:08:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39C89C43399;
- Wed, 27 Mar 2024 12:07:59 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C5EB661517;
+ Wed, 27 Mar 2024 12:08:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36ED2C433C7;
+ Wed, 27 Mar 2024 12:08:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541280;
- bh=4qFhr1I6nsrTVTR45fEiijDXQsLNyF63gQIWgwVY7Y4=;
+ s=k20201202; t=1711541283;
+ bh=LQJvW/5F5pb6y3BD3VeOnlXzajsSx47no9m9Wu8BeVE=;
  h=From:To:Cc:Subject:Date:From;
- b=g0G43IGT7RrP7uteZZOScyPGstqI5Rp3zHma+QakcrwfAjSWIt5wrzcN7GvbVwM5E
- h2uOyrm4h/91zdPb/mUJOoEijaYk8fsw89cxRMzNY4cV3IDXs4t/tizzCCMLzodR72
- YVGKysmYrn1TMZdqqJ7D1GSb24B8FtadomSkX/PwHvg151Mh7f6ydHpX9aWcivK0pk
- CypoS0e0YsPpUjWxYItko9M+KfUve/N0Xi7dwUwRvtdNW69DFmJIl2df9l2GKoz7Rn
- roaFZM2RHf/WWVNiNLhh281vTqzggd7fw9vGK49r/Z8V/ulsO8aYB86DFQlIW24hcc
- BzNq5oOWNWEiQ==
+ b=j/w80+RUeIjw1xFQWgMvXPruO13CrBfnrhsRETmDXQgH2K0hM3TLh7EVB5fjNgzZd
+ i48QDoCMhZ2hQnxpeVFfY7aN3piUMUElE/kNd4HToSmtPUA9Ly4QwCnmob0iiV5eRI
+ O+SRe8AEgdA30WTuS0LWcYan/WCJovKLxpgtxkSQz3LnIid+fCtOoTn53SkWpdzQH1
+ WBvHjST+XEffysP3PgvxI8ZxyDe21y2MhadPti4o7jBoh0NtJlt/UFeTZofSxp+EFD
+ e9eP0jVt6mQPzXKN9FEBwlQQhAmWafuxP4m23/JQMSZIpg4rHVl9bdh92HNGKtgNfl
+ mhRARjF7+QjVA==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	lewis.huang@amd.com
+	tsung-hua.lin@amd.com
 Cc: Mario Limonciello <mario.limonciello@amd.com>,
- Anthony Koo <anthony.koo@amd.com>,
- Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Chris Chi <moukong.chi@amd.com>,
+ Wayne Lin <wayne.lin@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: Only allow dig mapping to pwrseq in
- new asic" failed to apply to 6.8-stable tree
-Date: Wed, 27 Mar 2024 08:07:57 -0400
-Message-ID: <20240327120758.2825841-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/amd/display: Add monitor patch for specific eDP"
+ failed to apply to 6.8-stable tree
+Date: Wed, 27 Mar 2024 08:08:01 -0400
+Message-ID: <20240327120801.2825878-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -73,142 +72,64 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 4af4d2c275aeb667bc2bca0d2135b825e931a55a Mon Sep 17 00:00:00 2001
-From: Lewis Huang <lewis.huang@amd.com>
-Date: Wed, 31 Jan 2024 17:20:17 +0800
-Subject: [PATCH] drm/amd/display: Only allow dig mapping to pwrseq in new asic
+From 04a59c54757567f19dff4571ff7338476ec0f604 Mon Sep 17 00:00:00 2001
+From: Ryan Lin <tsung-hua.lin@amd.com>
+Date: Wed, 21 Feb 2024 19:10:27 +0800
+Subject: [PATCH] drm/amd/display: Add monitor patch for specific eDP
 
-[Why]
-The old asic only have 1 pwrseq hw.
-We don't need to map the diginst to pwrseq inst in old asic.
+[WHY]
+Some eDP panels' ext caps don't write initial values. The value of
+dpcd_addr (0x317) can be random and the backlight control interface
+will be incorrect.
 
-[How]
-1. Only mapping dig to pwrseq for new asic.
-2. Move mapping function into dcn specific panel control component
+[HOW]
+Add new panel patches to remove sink ext caps.
 
-Cc: Stable <stable@vger.kernel.org> # v6.6+
 Cc: Mario Limonciello <mario.limonciello@amd.com>
-Link: https://gitlab.freedesktop.org/drm/amd/-/issues/3122
-Reviewed-by: Anthony Koo <anthony.koo@amd.com>
-Acked-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: stable@vger.kernel.org # 6.5.x
+Cc: Tsung-hua Lin <tsung-hua.lin@amd.com>
+Cc: Chris Chi <moukong.chi@amd.com>
+Reviewed-by: Wayne Lin <wayne.lin@amd.com>
+Acked-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Ryan Lin <tsung-hua.lin@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Lewis Huang <lewis.huang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- .../drm/amd/display/dc/dce/dce_panel_cntl.c   |  1 +
- .../amd/display/dc/dcn301/dcn301_panel_cntl.c |  1 +
- .../amd/display/dc/dcn31/dcn31_panel_cntl.c   | 18 ++++++++++++-
- .../drm/amd/display/dc/inc/hw/panel_cntl.h    |  2 +-
- .../drm/amd/display/dc/link/link_factory.c    | 26 +------------------
- 5 files changed, 21 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_panel_cntl.c b/drivers/gpu/drm/amd/display/dc/dce/dce_panel_cntl.c
-index e8570060d007b..5bca67407c5b1 100644
---- a/drivers/gpu/drm/amd/display/dc/dce/dce_panel_cntl.c
-+++ b/drivers/gpu/drm/amd/display/dc/dce/dce_panel_cntl.c
-@@ -290,4 +290,5 @@ void dce_panel_cntl_construct(
- 	dce_panel_cntl->base.funcs = &dce_link_panel_cntl_funcs;
- 	dce_panel_cntl->base.ctx = init_data->ctx;
- 	dce_panel_cntl->base.inst = init_data->inst;
-+	dce_panel_cntl->base.pwrseq_inst = 0;
- }
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_panel_cntl.c b/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_panel_cntl.c
-index ad0df1a72a90a..9e96a3ace2077 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_panel_cntl.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_panel_cntl.c
-@@ -215,4 +215,5 @@ void dcn301_panel_cntl_construct(
- 	dcn301_panel_cntl->base.funcs = &dcn301_link_panel_cntl_funcs;
- 	dcn301_panel_cntl->base.ctx = init_data->ctx;
- 	dcn301_panel_cntl->base.inst = init_data->inst;
-+	dcn301_panel_cntl->base.pwrseq_inst = 0;
- }
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_panel_cntl.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_panel_cntl.c
-index 03248422d6ffd..281be20b1a107 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_panel_cntl.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_panel_cntl.c
-@@ -154,8 +154,24 @@ void dcn31_panel_cntl_construct(
- 	struct dcn31_panel_cntl *dcn31_panel_cntl,
- 	const struct panel_cntl_init_data *init_data)
- {
-+	uint8_t pwrseq_inst = 0xF;
-+
- 	dcn31_panel_cntl->base.funcs = &dcn31_link_panel_cntl_funcs;
- 	dcn31_panel_cntl->base.ctx = init_data->ctx;
- 	dcn31_panel_cntl->base.inst = init_data->inst;
--	dcn31_panel_cntl->base.pwrseq_inst = init_data->pwrseq_inst;
-+
-+	switch (init_data->eng_id) {
-+	case ENGINE_ID_DIGA:
-+		pwrseq_inst = 0;
-+		break;
-+	case ENGINE_ID_DIGB:
-+		pwrseq_inst = 1;
-+		break;
-+	default:
-+		DC_LOG_WARNING("Unsupported pwrseq engine id: %d!\n", init_data->eng_id);
-+		ASSERT(false);
-+		break;
-+	}
-+
-+	dcn31_panel_cntl->base.pwrseq_inst = pwrseq_inst;
- }
-diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw/panel_cntl.h b/drivers/gpu/drm/amd/display/dc/inc/hw/panel_cntl.h
-index 5dcbaa2db964a..e97d964a1791c 100644
---- a/drivers/gpu/drm/amd/display/dc/inc/hw/panel_cntl.h
-+++ b/drivers/gpu/drm/amd/display/dc/inc/hw/panel_cntl.h
-@@ -57,7 +57,7 @@ struct panel_cntl_funcs {
- struct panel_cntl_init_data {
- 	struct dc_context *ctx;
- 	uint32_t inst;
--	uint32_t pwrseq_inst;
-+	uint32_t eng_id;
- };
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+index 85b7f58a7f35a..c27063305a134 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+@@ -67,6 +67,8 @@ static void apply_edid_quirks(struct edid *edid, struct dc_edid_caps *edid_caps)
+ 	/* Workaround for some monitors that do not clear DPCD 0x317 if FreeSync is unsupported */
+ 	case drm_edid_encode_panel_id('A', 'U', 'O', 0xA7AB):
+ 	case drm_edid_encode_panel_id('A', 'U', 'O', 0xE69B):
++	case drm_edid_encode_panel_id('B', 'O', 'E', 0x092A):
++	case drm_edid_encode_panel_id('L', 'G', 'D', 0x06D1):
+ 		DRM_DEBUG_DRIVER("Clearing DPCD 0x317 on monitor with panel id %X\n", panel_id);
+ 		edid_caps->panel_patch.remove_sink_ext_caps = true;
+ 		break;
+@@ -120,6 +122,8 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
  
- struct panel_cntl {
-diff --git a/drivers/gpu/drm/amd/display/dc/link/link_factory.c b/drivers/gpu/drm/amd/display/dc/link/link_factory.c
-index 37d3027c32dcb..cf22b8f28ba6c 100644
---- a/drivers/gpu/drm/amd/display/dc/link/link_factory.c
-+++ b/drivers/gpu/drm/amd/display/dc/link/link_factory.c
-@@ -370,30 +370,6 @@ static enum transmitter translate_encoder_to_transmitter(
- 	}
- }
+ 	edid_caps->edid_hdmi = connector->display_info.is_hdmi;
  
--static uint8_t translate_dig_inst_to_pwrseq_inst(struct dc_link *link)
--{
--	uint8_t pwrseq_inst = 0xF;
--	struct dc_context *dc_ctx = link->dc->ctx;
++	apply_edid_quirks(edid_buf, edid_caps);
++
+ 	sad_count = drm_edid_to_sad((struct edid *) edid->raw_edid, &sads);
+ 	if (sad_count <= 0)
+ 		return result;
+@@ -146,8 +150,6 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+ 	else
+ 		edid_caps->speaker_flags = DEFAULT_SPEAKER_LOCATION;
+ 
+-	apply_edid_quirks(edid_buf, edid_caps);
 -
--	DC_LOGGER_INIT(dc_ctx->logger);
--
--	switch (link->eng_id) {
--	case ENGINE_ID_DIGA:
--		pwrseq_inst = 0;
--		break;
--	case ENGINE_ID_DIGB:
--		pwrseq_inst = 1;
--		break;
--	default:
--		DC_LOG_WARNING("Unsupported pwrseq engine id: %d!\n", link->eng_id);
--		ASSERT(false);
--		break;
--	}
--
--	return pwrseq_inst;
--}
--
--
- static void link_destruct(struct dc_link *link)
- {
- 	int i;
-@@ -657,7 +633,7 @@ static bool construct_phy(struct dc_link *link,
- 			link->link_id.id == CONNECTOR_ID_LVDS)) {
- 		panel_cntl_init_data.ctx = dc_ctx;
- 		panel_cntl_init_data.inst = panel_cntl_init_data.ctx->dc_edp_id_count;
--		panel_cntl_init_data.pwrseq_inst = translate_dig_inst_to_pwrseq_inst(link);
-+		panel_cntl_init_data.eng_id = link->eng_id;
- 		link->panel_cntl =
- 			link->dc->res_pool->funcs->panel_cntl_create(
- 								&panel_cntl_init_data);
+ 	kfree(sads);
+ 	kfree(sadb);
+ 
 -- 
 2.43.0
 
