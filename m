@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C858A88DFF0
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:27:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D56E688DFF5
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:28:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B02B10FCC5;
-	Wed, 27 Mar 2024 12:27:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B176410FCC9;
+	Wed, 27 Mar 2024 12:28:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="i9o6h1tV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rJSuPMyI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEF1C10FCC1;
- Wed, 27 Mar 2024 12:27:43 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA07B10F88D;
+ Wed, 27 Mar 2024 12:27:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 07379CE25AC;
- Wed, 27 Mar 2024 12:27:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E482C43390;
- Wed, 27 Mar 2024 12:27:40 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 200B6614BA;
+ Wed, 27 Mar 2024 12:27:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7D92C43394;
+ Wed, 27 Mar 2024 12:27:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711542461;
- bh=cTS98JDtdYWAwWJuHBqxfLgQO9ifxJ5kdKpRVvyrirg=;
+ s=k20201202; t=1711542471;
+ bh=4j7xOyFIOAoBexVjx0vKlpN7tyhmAHrYlqfIm6sy5n4=;
  h=From:To:Cc:Subject:Date:From;
- b=i9o6h1tVfSUKWmZrw/yvSm3fODGfMTwRMr1KwgZ0u5soliyM0hYhZlw0tzdxe58Ja
- EewU3qaa48UvJnWwT83ky+PfqztQXWcoK0xJ5fA/do1fIZjaABr21V8fmOs4ujMkhB
- pe2RsrC8tKidBctWP5Pae6fbzIezQc2MIBUuuuJm/EnJHw2qXFFqR9LA/ezzXN2rVl
- W76YLzjZzm60dA2NPNEML0St1fMfrHt2lG7+h7/W5qbdlUx/xRVZ5nJDSXOmryhdiJ
- HeDfeLYHAXWSN6GQR2odrGNnX1Ei1WJ0wtXUFArvk5NSmt0zg2ndfG7iwsdabuTYJH
- ggF4NQ4eZMaOw==
+ b=rJSuPMyIYFPgQr9pP1A8j/AIdR+/31uBKL0EGv+oc08IEvyh3+xJniaWxTMM6R15i
+ wp4YUOaQtMSDdQ1kkOd6vbjYUF2LkDk+bDXd5gbNz09aXhWJaS4iKBJX6B9uHldKBh
+ 04/tgi1Fe9L/TuHBbsx/BgY3Zh98aE6RZjsCwB7QjauAivf3Moh91L8LlEJYNW1Gm+
+ 8CUp0u6IVW2XG/Juxc/JEO18wJx5Q59lBcMlXDKCOO9nieKN+lCeNiUjmPMCJ0moqx
+ k2IVEEGXzbAvR6GzAxxtTLP/St5jOElmyfklCYlq1hKBsnzyU5OCy1e3wjXI5y/L63
+ VWeMRS1oegVZQ==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	hanghong.ma@amd.com
+	sohaib.nadeem@amd.com
 Cc: Mario Limonciello <mario.limonciello@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Wenjing Liu <wenjing.liu@amd.com>, Wayne Lin <wayne.lin@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: Fix noise issue on HDMI AV mute"
- failed to apply to 4.19-stable tree
-Date: Wed, 27 Mar 2024 08:27:39 -0400
-Message-ID: <20240327122739.2842100-1-sashal@kernel.org>
+ Alex Deucher <alexander.deucher@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
+ Alex Hung <alex.hung@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: FAILED: Patch "drm/amd/display: Override min required DCFCLK in
+ dml1_validate" failed to apply to 4.19-stable tree
+Date: Wed, 27 Mar 2024 08:27:49 -0400
+Message-ID: <20240327122750.2842254-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -72,57 +72,81 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 69e3be6893a7e668660b05a966bead82bbddb01d Mon Sep 17 00:00:00 2001
-From: Leo Ma <hanghong.ma@amd.com>
-Date: Fri, 28 Jul 2023 08:35:07 -0400
-Subject: [PATCH] drm/amd/display: Fix noise issue on HDMI AV mute
+From 26fbcb3da77efc77bd7327b7916338d773cca484 Mon Sep 17 00:00:00 2001
+From: Sohaib Nadeem <sohaib.nadeem@amd.com>
+Date: Wed, 14 Feb 2024 13:51:16 -0500
+Subject: [PATCH] drm/amd/display: Override min required DCFCLK in
+ dml1_validate
 
-[Why]
-When mode switching is triggered there is momentary noise visible on
-some HDMI TV or displays.
+[WHY]:
+Increasing min DCFCLK addresses underflow issues that occur when phantom
+pipe is turned on for some Sub-Viewport configs
 
-[How]
-Wait for 2 frames to make sure we have enough time to send out AV mute
-and sink receives a full frame.
+[HOW]:
+dcn32_override_min_req_dcfclk is added to override DCFCLK value in
+dml1_validate when subviewport is being used.
 
 Cc: Mario Limonciello <mario.limonciello@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
-Reviewed-by: Wenjing Liu <wenjing.liu@amd.com>
-Acked-by: Wayne Lin <wayne.lin@amd.com>
-Signed-off-by: Leo Ma <hanghong.ma@amd.com>
+Reviewed-by: Alvin Lee <alvin.lee2@amd.com>
+Acked-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Sohaib Nadeem <sohaib.nadeem@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- .../gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c  | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_resource_helpers.c   | 6 ++++++
+ .../gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c  | 1 +
+ .../gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.h  | 3 +++
+ 3 files changed, 10 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c
-index 7e6b7f2a6dc9e..8bc3d01537bbd 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c
-@@ -812,10 +812,20 @@ void dcn30_set_avmute(struct pipe_ctx *pipe_ctx, bool enable)
- 	if (pipe_ctx == NULL)
- 		return;
- 
--	if (dc_is_hdmi_signal(pipe_ctx->stream->signal) && pipe_ctx->stream_res.stream_enc != NULL)
-+	if (dc_is_hdmi_signal(pipe_ctx->stream->signal) && pipe_ctx->stream_res.stream_enc != NULL) {
- 		pipe_ctx->stream_res.stream_enc->funcs->set_avmute(
- 				pipe_ctx->stream_res.stream_enc,
- 				enable);
-+
-+		/* Wait for two frame to make sure AV mute is sent out */
-+		if (enable) {
-+			pipe_ctx->stream_res.tg->funcs->wait_for_state(pipe_ctx->stream_res.tg, CRTC_STATE_VACTIVE);
-+			pipe_ctx->stream_res.tg->funcs->wait_for_state(pipe_ctx->stream_res.tg, CRTC_STATE_VBLANK);
-+			pipe_ctx->stream_res.tg->funcs->wait_for_state(pipe_ctx->stream_res.tg, CRTC_STATE_VACTIVE);
-+			pipe_ctx->stream_res.tg->funcs->wait_for_state(pipe_ctx->stream_res.tg, CRTC_STATE_VBLANK);
-+			pipe_ctx->stream_res.tg->funcs->wait_for_state(pipe_ctx->stream_res.tg, CRTC_STATE_VACTIVE);
-+		}
-+	}
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource_helpers.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource_helpers.c
+index 87760600e154d..f98def6c8c2d2 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource_helpers.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource_helpers.c
+@@ -782,3 +782,9 @@ void dcn32_update_dml_pipes_odm_policy_based_on_context(struct dc *dc, struct dc
+ 		pipe_cnt++;
+ 	}
  }
++
++void dcn32_override_min_req_dcfclk(struct dc *dc, struct dc_state *context)
++{
++	if (dcn32_subvp_in_use(dc, context) && context->bw_ctx.bw.dcn.clk.dcfclk_khz <= MIN_SUBVP_DCFCLK_KHZ)
++		context->bw_ctx.bw.dcn.clk.dcfclk_khz = MIN_SUBVP_DCFCLK_KHZ;
++}
+diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
+index 3f3951f3ba983..f844f57ecc49b 100644
+--- a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
+@@ -1771,6 +1771,7 @@ static bool dml1_validate(struct dc *dc, struct dc_state *context, bool fast_val
+ 	dc->res_pool->funcs->calculate_wm_and_dlg(dc, context, pipes, pipe_cnt, vlevel);
  
- void dcn30_update_info_frame(struct pipe_ctx *pipe_ctx)
+ 	dcn32_override_min_req_memclk(dc, context);
++	dcn32_override_min_req_dcfclk(dc, context);
+ 
+ 	BW_VAL_TRACE_END_WATERMARKS();
+ 
+diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.h b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.h
+index 0c87b0fabba7d..2258c5c7212d8 100644
+--- a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.h
++++ b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.h
+@@ -42,6 +42,7 @@
+ #define SUBVP_ACTIVE_MARGIN_LIST_LEN 2
+ #define DCN3_2_MAX_SUBVP_PIXEL_RATE_MHZ 1800
+ #define DCN3_2_VMIN_DISPCLK_HZ 717000000
++#define MIN_SUBVP_DCFCLK_KHZ 400000
+ 
+ #define TO_DCN32_RES_POOL(pool)\
+ 	container_of(pool, struct dcn32_resource_pool, base)
+@@ -181,6 +182,8 @@ bool dcn32_subvp_vblank_admissable(struct dc *dc, struct dc_state *context, int
+ 
+ void dcn32_update_dml_pipes_odm_policy_based_on_context(struct dc *dc, struct dc_state *context, display_e2e_pipe_params_st *pipes);
+ 
++void dcn32_override_min_req_dcfclk(struct dc *dc, struct dc_state *context);
++
+ /* definitions for run time init of reg offsets */
+ 
+ /* CLK SRC */
 -- 
 2.43.0
 
