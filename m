@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9898388DE8C
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:17:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F36AD88DE8E
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:17:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62A0310FB93;
-	Wed, 27 Mar 2024 12:17:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD28D10FB95;
+	Wed, 27 Mar 2024 12:17:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SIU6GDy9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="P+5qNYYQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BA5810FB93;
- Wed, 27 Mar 2024 12:17:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B6C410FB95;
+ Wed, 27 Mar 2024 12:17:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 66970CE0E36;
- Wed, 27 Mar 2024 12:17:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90CD2C433C7;
- Wed, 27 Mar 2024 12:17:13 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 3F3E4CE17F8;
+ Wed, 27 Mar 2024 12:17:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64BEBC433C7;
+ Wed, 27 Mar 2024 12:17:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541834;
- bh=5+KUrWmuR0D3D/HWrsoIQeg+Lwj9k7uVG2/VRcEqCCI=;
+ s=k20201202; t=1711541837;
+ bh=6zVzj5OBYXkKDTcJNIOwo1u+s56nZB0tUZnWbm39TyQ=;
  h=From:To:Cc:Subject:Date:From;
- b=SIU6GDy9JPBsByRiwlRNZR70NyjjrpfqfuMkXLqu8l7Ig9Edkpsm3H8qlgkh01gpm
- wZJ2Q6GmPsaOow2mzZu6eKA4deaUw7JiqRTeA8W75mKPEx0A9J86oxIXnA31e3lNbi
- U83TIkpIn6sMB32EepfBCzfZVIQeh51oeEwT40t0M3AtP89amyLhP7H9mDan2PgfKL
- DdZryvbv39+5MT0TzW2VBk3N2K8OdrMeru1fdDyRHzbhu/Yf/bUwqx9Pdd5ga1qcRv
- upBm6FhHQ3ce8Tt1GeafzxpDKGaOgQzep8PfCiwJcWRQQPiM+6vyT7J7dzfTjOTdMM
- sJWyqqfUkIUzg==
+ b=P+5qNYYQQZnYjYkHXUYFH7wtGlwMqCL/fBq79W4g1vpQ0Ec9ykNqfY+QE+8zToaYd
+ B6bbjMqBYHw9Pb6SOv0P4Mvs+D+x6jV+YTpHeqkdVvIK2HA4qHEzjSJODz+a2xzdRs
+ 6xYdpbjybUsds1WG9VHgaZG7EjZkkVUD9OtvGnMC0yiHZrIwBCBdct62ehux63oFeY
+ fuV7XueFyD7cVvpwCVMjcSQue/bzxhr1aDcz2hnmI3yi757uvTvDOwq1z8HQTqMRX5
+ YhprlKll1BnD/xm2RCJKqzYWJfJ81WbRmEOtwhvJeRzwYFYL6DnFO6PaWcA/kPI20s
+ 8M9AAbsKp9khw==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	chuntao.tso@amd.com
+	josip.pavic@amd.com
 Cc: Mario Limonciello <mario.limonciello@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
- Alex Hung <alex.hung@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: Amend coasting vtotal for replay low
- hz" failed to apply to 5.15-stable tree
-Date: Wed, 27 Mar 2024 08:17:12 -0400
-Message-ID: <20240327121712.2833358-1-sashal@kernel.org>
+ Alex Deucher <alexander.deucher@amd.com>,
+ Anthony Koo <anthony.koo@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: FAILED: Patch "drm/amd/display: Allow dirty rects to be sent to dmub
+ when abm is active" failed to apply to 5.15-stable tree
+Date: Wed, 27 Mar 2024 08:17:15 -0400
+Message-ID: <20240327121715.2833395-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -72,157 +72,45 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 8e054b0f1e71531762b8ded7f66c1b4af734671b Mon Sep 17 00:00:00 2001
-From: ChunTao Tso <chuntao.tso@amd.com>
-Date: Tue, 20 Feb 2024 17:08:39 +0800
-Subject: [PATCH] drm/amd/display: Amend coasting vtotal for replay low hz
+From 7fb19d9510937121a1f285894cffd30bc96572e3 Mon Sep 17 00:00:00 2001
+From: Josip Pavic <josip.pavic@amd.com>
+Date: Fri, 9 Feb 2024 16:05:18 -0500
+Subject: [PATCH] drm/amd/display: Allow dirty rects to be sent to dmub when
+ abm is active
 
 [WHY]
-The original coasting vtotal is 2 bytes, and it need to
-be amended to 4 bytes because low hz case.
+It's beneficial for ABM to know when new frame data are available.
 
 [HOW]
-Amend coasting vtotal from 2 bytes to 4 bytes.
+Add new condition to allow dirty rects to be sent to DMUB when ABM is
+active. ABM will use this as a signal that a new frame has arrived.
 
 Cc: Mario Limonciello <mario.limonciello@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
-Reviewed-by: Alvin Lee <alvin.lee2@amd.com>
+Reviewed-by: Anthony Koo <anthony.koo@amd.com>
 Acked-by: Alex Hung <alex.hung@amd.com>
-Signed-off-by: ChunTao Tso <chuntao.tso@amd.com>
+Signed-off-by: Josip Pavic <josip.pavic@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- drivers/gpu/drm/amd/display/dc/dc_types.h                 | 4 ++--
- drivers/gpu/drm/amd/display/dc/inc/link.h                 | 4 ++--
- .../display/dc/link/protocols/link_edp_panel_control.c    | 4 ++--
- .../display/dc/link/protocols/link_edp_panel_control.h    | 4 ++--
- drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h           | 8 ++++++++
- drivers/gpu/drm/amd/display/modules/power/power_helpers.c | 2 +-
- drivers/gpu/drm/amd/display/modules/power/power_helpers.h | 2 +-
- 7 files changed, 18 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dc_types.h b/drivers/gpu/drm/amd/display/dc/dc_types.h
-index 9900dda2eef5c..be2ac5c442a48 100644
---- a/drivers/gpu/drm/amd/display/dc/dc_types.h
-+++ b/drivers/gpu/drm/amd/display/dc/dc_types.h
-@@ -1085,9 +1085,9 @@ struct replay_settings {
- 	/* SMU optimization is enabled */
- 	bool replay_smu_opt_enable;
- 	/* Current Coasting vtotal */
--	uint16_t coasting_vtotal;
-+	uint32_t coasting_vtotal;
- 	/* Coasting vtotal table */
--	uint16_t coasting_vtotal_table[PR_COASTING_TYPE_NUM];
-+	uint32_t coasting_vtotal_table[PR_COASTING_TYPE_NUM];
- 	/* Maximum link off frame count */
- 	enum replay_link_off_frame_count_level link_off_frame_count_level;
- 	/* Replay pseudo vtotal for abm + ips on full screen video which can improve ips residency */
-diff --git a/drivers/gpu/drm/amd/display/dc/inc/link.h b/drivers/gpu/drm/amd/display/dc/inc/link.h
-index 26fe81f213da5..bf29fc58ea6a6 100644
---- a/drivers/gpu/drm/amd/display/dc/inc/link.h
-+++ b/drivers/gpu/drm/amd/display/dc/inc/link.h
-@@ -285,12 +285,12 @@ struct link_service {
- 			enum replay_FW_Message_type msg,
- 			union dmub_replay_cmd_set *cmd_data);
- 	bool (*edp_set_coasting_vtotal)(
--			struct dc_link *link, uint16_t coasting_vtotal);
-+			struct dc_link *link, uint32_t coasting_vtotal);
- 	bool (*edp_replay_residency)(const struct dc_link *link,
- 			unsigned int *residency, const bool is_start,
- 			const bool is_alpm);
- 	bool (*edp_set_replay_power_opt_and_coasting_vtotal)(struct dc_link *link,
--			const unsigned int *power_opts, uint16_t coasting_vtotal);
-+			const unsigned int *power_opts, uint32_t coasting_vtotal);
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 5211c1c0f3c0c..613d09c42f3b9 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -3270,6 +3270,9 @@ static bool dc_dmub_should_send_dirty_rect_cmd(struct dc *dc, struct dc_stream_s
+ 	if (stream->link->replay_settings.config.replay_supported)
+ 		return true;
  
- 	bool (*edp_wait_for_t12)(struct dc_link *link);
- 	bool (*edp_is_ilr_optimization_required)(struct dc_link *link,
-diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.c
-index acfbbc638cc64..3baa2bdd6dd65 100644
---- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.c
-+++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.c
-@@ -1034,7 +1034,7 @@ bool edp_send_replay_cmd(struct dc_link *link,
- 	return true;
++	if (stream->ctx->dce_version >= DCN_VERSION_3_5 && stream->abm_level)
++		return true;
++
+ 	return false;
  }
  
--bool edp_set_coasting_vtotal(struct dc_link *link, uint16_t coasting_vtotal)
-+bool edp_set_coasting_vtotal(struct dc_link *link, uint32_t coasting_vtotal)
- {
- 	struct dc *dc = link->ctx->dc;
- 	struct dmub_replay *replay = dc->res_pool->replay;
-@@ -1073,7 +1073,7 @@ bool edp_replay_residency(const struct dc_link *link,
- }
- 
- bool edp_set_replay_power_opt_and_coasting_vtotal(struct dc_link *link,
--	const unsigned int *power_opts, uint16_t coasting_vtotal)
-+	const unsigned int *power_opts, uint32_t coasting_vtotal)
- {
- 	struct dc  *dc = link->ctx->dc;
- 	struct dmub_replay *replay = dc->res_pool->replay;
-diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.h b/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.h
-index 34e521af7bb48..a158c6234d422 100644
---- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.h
-+++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.h
-@@ -59,12 +59,12 @@ bool edp_setup_replay(struct dc_link *link,
- bool edp_send_replay_cmd(struct dc_link *link,
- 			enum replay_FW_Message_type msg,
- 			union dmub_replay_cmd_set *cmd_data);
--bool edp_set_coasting_vtotal(struct dc_link *link, uint16_t coasting_vtotal);
-+bool edp_set_coasting_vtotal(struct dc_link *link, uint32_t coasting_vtotal);
- bool edp_replay_residency(const struct dc_link *link,
- 	unsigned int *residency, const bool is_start, const bool is_alpm);
- bool edp_get_replay_state(const struct dc_link *link, uint64_t *state);
- bool edp_set_replay_power_opt_and_coasting_vtotal(struct dc_link *link,
--	const unsigned int *power_opts, uint16_t coasting_vtotal);
-+	const unsigned int *power_opts, uint32_t coasting_vtotal);
- bool edp_wait_for_t12(struct dc_link *link);
- bool edp_is_ilr_optimization_required(struct dc_link *link,
-        struct dc_crtc_timing *crtc_timing);
-diff --git a/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h b/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
-index a529e369b2ace..af3fe8bb0728b 100644
---- a/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
-+++ b/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
-@@ -3238,6 +3238,14 @@ struct dmub_cmd_replay_set_coasting_vtotal_data {
- 	 * Currently the support is only for 0 or 1
- 	 */
- 	uint8_t panel_inst;
-+	/**
-+	 * 16-bit value dicated by driver that indicates the coasting vtotal high byte part.
-+	 */
-+	uint16_t coasting_vtotal_high;
-+	/**
-+	 * Explicit padding to 4 byte boundary.
-+	 */
-+	uint8_t pad[2];
- };
- 
- /**
-diff --git a/drivers/gpu/drm/amd/display/modules/power/power_helpers.c b/drivers/gpu/drm/amd/display/modules/power/power_helpers.c
-index e304e8435fb8f..2a3698fd2dc24 100644
---- a/drivers/gpu/drm/amd/display/modules/power/power_helpers.c
-+++ b/drivers/gpu/drm/amd/display/modules/power/power_helpers.c
-@@ -975,7 +975,7 @@ bool psr_su_set_dsc_slice_height(struct dc *dc, struct dc_link *link,
- 
- void set_replay_coasting_vtotal(struct dc_link *link,
- 	enum replay_coasting_vtotal_type type,
--	uint16_t vtotal)
-+	uint32_t vtotal)
- {
- 	link->replay_settings.coasting_vtotal_table[type] = vtotal;
- }
-diff --git a/drivers/gpu/drm/amd/display/modules/power/power_helpers.h b/drivers/gpu/drm/amd/display/modules/power/power_helpers.h
-index bef4815e1703d..ff7e6f3cd6be2 100644
---- a/drivers/gpu/drm/amd/display/modules/power/power_helpers.h
-+++ b/drivers/gpu/drm/amd/display/modules/power/power_helpers.h
-@@ -56,7 +56,7 @@ bool dmub_init_abm_config(struct resource_pool *res_pool,
- void init_replay_config(struct dc_link *link, struct replay_config *pr_config);
- void set_replay_coasting_vtotal(struct dc_link *link,
- 	enum replay_coasting_vtotal_type type,
--	uint16_t vtotal);
-+	uint32_t vtotal);
- void set_replay_ips_full_screen_video_src_vtotal(struct dc_link *link, uint16_t vtotal);
- void calculate_replay_link_off_frame_count(struct dc_link *link,
- 	uint16_t vtotal, uint16_t htotal);
 -- 
 2.43.0
 
