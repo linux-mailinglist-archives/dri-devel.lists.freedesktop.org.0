@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF11088DDF3
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:12:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F349188DDED
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:12:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B878410F393;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6873910E107;
 	Wed, 27 Mar 2024 12:12:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TK4pXMuu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PLyw89DU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA07D10FB13;
- Wed, 27 Mar 2024 12:12:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFBE310E107;
+ Wed, 27 Mar 2024 12:12:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2380861507;
- Wed, 27 Mar 2024 12:12:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD5F5C433F1;
- Wed, 27 Mar 2024 12:12:08 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6355461517;
+ Wed, 27 Mar 2024 12:12:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F086BC43399;
+ Wed, 27 Mar 2024 12:12:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541529;
- bh=83YOMDbkkPBQAbQ8+fXA0SSs3bJHl9mseQE6IHwOxFI=;
+ s=k20201202; t=1711541541;
+ bh=0hjkE2z8/y6K8PgS9Nz0BLaJVsYcwRj4GO9+J12z3bs=;
  h=From:To:Cc:Subject:Date:From;
- b=TK4pXMuuomoUoM65F3w3OZL9fe32V0idJV90GCAs6oCt8N+cKWVB9pGdwg0m+6lbI
- 2Yq0ckBgQXDCPqTTBzck4NudEEzGb0IKRlGKND9dfnI/ZDCg3ArbNVSQk1xMqilOD4
- IlGUDOfnpH3LvITomvibhSl/X2vg5LOdPRHLQlQBZT2VKTZZ54FZQqE6Fe7h7uthyq
- nJANOfNH0T0HVUlBlstz9y6mXvkLGFF+k/oDzesq2ZQLo9oVrWttQQjW3hB6o7UD44
- LxKdxpV7wI3El3x+irbrCtJZJM/2ZPt6aJNg3HAVcwTjeqDC52HqAZIRcFTt1KbqZI
- 7Yx3rQjjN64pg==
+ b=PLyw89DUEogmhOgH8ZjNHvwX2RillZbO2RDnJmVt/y2nSk/8BCTcdCr+V/ZI2bgSw
+ DKfZtLKGr8/c2yeR0ThZUIlud0yc6totB4xGeIH8KCTwVODmUPFWgaeeNLSwREXCd9
+ YKzMWpuZIggeYdCtu1OzNU+bYdWXer+8rL/tZspM+UKwzkK0AJYotfJFnIGds4hRfE
+ e3QatLgHYxAPNbzjO1Fv6U9vtJv6vGfKlQhfwdcu9wKgabw4N6oAb6GAdP74tCJ0dt
+ S18oR4k9Ed0pBA4TQVO1kcORy92tSMuh9PGlEPOcK8e/0sh4lU+7coTHMbe+KK4P+V
+ YZnxCDAw0hKRQ==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	wayne.lin@amd.com
-Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+	ilya.bakoulin@amd.com
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Charlene Liu <charlene.liu@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: adjust few initialization order in
- dm" failed to apply to 6.1-stable tree
-Date: Wed, 27 Mar 2024 08:12:07 -0400
-Message-ID: <20240327121207.2829277-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/amd/display: Clear OPTC mem select on disable"
+ failed to apply to 6.1-stable tree
+Date: Wed, 27 Mar 2024 08:12:18 -0400
+Message-ID: <20240327121219.2829427-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -72,110 +72,60 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From c9aef4f6c6d7cdc92a64ffe761c6921ec85157ae Mon Sep 17 00:00:00 2001
-From: Wayne Lin <wayne.lin@amd.com>
-Date: Fri, 2 Feb 2024 17:34:11 +0800
-Subject: [PATCH] drm/amd/display: adjust few initialization order in dm
+From b4e05bb1dec53fe28c3c88425aded824498666e5 Mon Sep 17 00:00:00 2001
+From: Ilya Bakoulin <ilya.bakoulin@amd.com>
+Date: Wed, 3 Jan 2024 09:42:04 -0500
+Subject: [PATCH] drm/amd/display: Clear OPTC mem select on disable
 
 [Why]
-Observe error message "Can't retrieve aconnector in hpd_rx_irq_offload_work"
-when boot up with a mst tbt4 dock connected. After analyzing, there are few
-parts needed to be adjusted:
-
-1. hpd_rx_offload_wq[].aconnector is not initialzed before the dmub outbox
-hpd_irq handler get registered which causes the error message.
-
-2. registeration of hpd and hpd_rx_irq event for usb4 dp tunneling is not
-aligned with legacy interface sequence
+Not clearing the memory select bits prior to OPTC disable can cause DSC
+corruption issues when attempting to reuse a memory instance for another
+OPTC that enables ODM.
 
 [How]
-Put DMUB_NOTIFICATION_HPD and DMUB_NOTIFICATION_HPD_IRQ handler
-registration into register_hpd_handlers() to align other interfaces and
-get hpd_rx_offload_wq[].aconnector initialized earlier than that.
+Clear the memory select bits prior to disabling an OPTC.
 
-Leave DMUB_NOTIFICATION_AUX_REPLY registered as it was since we need that
-while calling dc_link_detect(). USB4 connection status will be proactively
-detected by dc_link_detect_connection_type() in amdgpu_dm_initialize_drm_device()
-
-Cc: Stable <stable@vger.kernel.org>
-Reviewed-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Acked-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
+Cc: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: stable@vger.kernel.org
+Reviewed-by: Charlene Liu <charlene.liu@amd.com>
+Acked-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Ilya Bakoulin <ilya.bakoulin@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Wayne Lin <wayne.lin@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 37 +++++++++----------
- 1 file changed, 18 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/amd/display/dc/optc/dcn32/dcn32_optc.c | 3 +++
+ drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c | 3 +++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 985137b51372d..8b13cb334b366 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -1844,21 +1844,12 @@ static int amdgpu_dm_init(struct amdgpu_device *adev)
- 			DRM_ERROR("amdgpu: fail to register dmub aux callback");
- 			goto error;
- 		}
--		if (!register_dmub_notify_callback(adev, DMUB_NOTIFICATION_HPD, dmub_hpd_callback, true)) {
--			DRM_ERROR("amdgpu: fail to register dmub hpd callback");
--			goto error;
--		}
--		if (!register_dmub_notify_callback(adev, DMUB_NOTIFICATION_HPD_IRQ, dmub_hpd_callback, true)) {
--			DRM_ERROR("amdgpu: fail to register dmub hpd callback");
--			goto error;
--		}
--	}
--
--	/* Enable outbox notification only after IRQ handlers are registered and DMUB is alive.
--	 * It is expected that DMUB will resend any pending notifications at this point, for
--	 * example HPD from DPIA.
--	 */
--	if (dc_is_dmub_outbox_supported(adev->dm.dc)) {
-+		/* Enable outbox notification only after IRQ handlers are registered and DMUB is alive.
-+		 * It is expected that DMUB will resend any pending notifications at this point. Note
-+		 * that hpd and hpd_irq handler registration are deferred to register_hpd_handlers() to
-+		 * align legacy interface initialization sequence. Connection status will be proactivly
-+		 * detected once in the amdgpu_dm_initialize_drm_device.
-+		 */
- 		dc_enable_dmub_outbox(adev->dm.dc);
+diff --git a/drivers/gpu/drm/amd/display/dc/optc/dcn32/dcn32_optc.c b/drivers/gpu/drm/amd/display/dc/optc/dcn32/dcn32_optc.c
+index 1788eb29474b4..8234935433254 100644
+--- a/drivers/gpu/drm/amd/display/dc/optc/dcn32/dcn32_optc.c
++++ b/drivers/gpu/drm/amd/display/dc/optc/dcn32/dcn32_optc.c
+@@ -173,6 +173,9 @@ static bool optc32_disable_crtc(struct timing_generator *optc)
+ 			OPTC_SEG3_SRC_SEL, 0xf,
+ 			OPTC_NUM_OF_INPUT_SEGMENT, 0);
  
- 		/* DPIA trace goes to dmesg logs only if outbox is enabled */
-@@ -3547,6 +3538,14 @@ static void register_hpd_handlers(struct amdgpu_device *adev)
- 	int_params.requested_polarity = INTERRUPT_POLARITY_DEFAULT;
- 	int_params.current_polarity = INTERRUPT_POLARITY_DEFAULT;
- 
-+	if (dc_is_dmub_outbox_supported(adev->dm.dc)) {
-+		if (!register_dmub_notify_callback(adev, DMUB_NOTIFICATION_HPD, dmub_hpd_callback, true))
-+			DRM_ERROR("amdgpu: fail to register dmub hpd callback");
++	REG_UPDATE(OPTC_MEMORY_CONFIG,
++			OPTC_MEM_SEL, 0);
 +
-+		if (!register_dmub_notify_callback(adev, DMUB_NOTIFICATION_HPD_IRQ, dmub_hpd_callback, true))
-+			DRM_ERROR("amdgpu: fail to register dmub hpd callback");
-+	}
+ 	/* disable otg request until end of the first line
+ 	 * in the vertical blank region
+ 	 */
+diff --git a/drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c b/drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c
+index 3d6c1b2c2b4d6..5b15475088503 100644
+--- a/drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c
++++ b/drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c
+@@ -145,6 +145,9 @@ static bool optc35_disable_crtc(struct timing_generator *optc)
+ 			OPTC_SEG3_SRC_SEL, 0xf,
+ 			OPTC_NUM_OF_INPUT_SEGMENT, 0);
+ 
++	REG_UPDATE(OPTC_MEMORY_CONFIG,
++			OPTC_MEM_SEL, 0);
 +
- 	list_for_each_entry(connector,
- 			&dev->mode_config.connector_list, head)	{
- 
-@@ -3575,10 +3574,6 @@ static void register_hpd_handlers(struct amdgpu_device *adev)
- 					handle_hpd_rx_irq,
- 					(void *) aconnector);
- 		}
--
--		if (adev->dm.hpd_rx_offload_wq)
--			adev->dm.hpd_rx_offload_wq[connector->index].aconnector =
--				aconnector;
- 	}
- }
- 
-@@ -4590,6 +4585,10 @@ static int amdgpu_dm_initialize_drm_device(struct amdgpu_device *adev)
- 			goto fail;
- 		}
- 
-+		if (dm->hpd_rx_offload_wq)
-+			dm->hpd_rx_offload_wq[aconnector->base.index].aconnector =
-+				aconnector;
-+
- 		if (!dc_link_detect_connection_type(link, &new_connection_type))
- 			DRM_ERROR("KMS: Failed to detect connector\n");
- 
+ 	/* disable otg request until end of the first line
+ 	 * in the vertical blank region
+ 	 */
 -- 
 2.43.0
 
