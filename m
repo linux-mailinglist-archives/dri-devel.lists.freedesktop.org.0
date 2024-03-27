@@ -2,46 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 280D888DF80
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:24:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F9A088DF81
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:24:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2CDB10FC5F;
-	Wed, 27 Mar 2024 12:24:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A702A10FC61;
+	Wed, 27 Mar 2024 12:24:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bvxUQF4z";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PUAe1R5W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CB0010FC5B;
- Wed, 27 Mar 2024 12:24:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF8E410FC5D
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 12:24:37 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id A8C44CE16C2;
- Wed, 27 Mar 2024 12:24:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1DE8C433C7;
- Wed, 27 Mar 2024 12:24:31 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 21F1CCE17F8;
+ Wed, 27 Mar 2024 12:24:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCDBCC433C7;
+ Wed, 27 Mar 2024 12:24:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711542272;
- bh=ADQPzvOaXVjhUf4GjOq9t1hnKX5dHQyMDgapdqiwSLE=;
+ s=k20201202; t=1711542275;
+ bh=tTbI+n51ClUIpACMLIM6sqH+Uk8gmneJZvGFy8l37VI=;
  h=From:To:Cc:Subject:Date:From;
- b=bvxUQF4zBdoChgLr2I1GCijMupsBWZzxo+/I3tsqIauhL1zn8pvX/YNluDY6jbthf
- IZIbtxgrVgtB2CAMpEq+a+sGV0ujbfWFfPOLQfqKaG8JtAwArpaAxEC2UWn9H7n2F8
- +Hy2q+iZKM1NnPTnAIDERibSfk3BNem7gEas1J7vKiBfgFjlMe6lxLphFdDCd5F76P
- g7CCcwKlUfre1QmdYK/n3gwfRNPlvm3c/hvtBb6FZke60duHpAL0FRRGVF4Ez0I/qd
- 5xx1Mzu/5AmY2ODdaxvg/6kN1TdbRmN1Uq6dhdMlAfGbMHai0bN0OlXVIVMNjtRGqt
- WBRpYUE44287Q==
+ b=PUAe1R5W1QDJ9NnwcBsDpPglvwn16eeX+j207eGBuIhdINKN8BowWow20kfYVx0gD
+ mdYEqx68jD/gkeJcDeGspWANN03uLarfm0/OSq/IbdU1ZnY0+tm7mkxx0X2O4PNXS3
+ hm93g+P/9AzFESMNn8efqoU2WcYvdfHQIASjKN01NLkTb/rN2NqDkE9OBNfMg+iRC2
+ /wyjlJFGIQnlN3cK9kXjE+ZiSTUC/wHdYxJYeqpQ07S0UUBxkH2t/YVxWeQtB0TwWr
+ ze5199fZF9PLv/icI/WP4lCvw4T9zl693q3nS+L6g3w942d3/Cl7gRHYRqzR7xXRuJ
+ Aj+IwZOh9PWug==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	josip.pavic@amd.com
-Cc: Mario Limonciello <mario.limonciello@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Anthony Koo <anthony.koo@amd.com>, Alex Hung <alex.hung@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: Allow dirty rects to be sent to dmub
- when abm is active" failed to apply to 5.4-stable tree
-Date: Wed, 27 Mar 2024 08:24:30 -0400
-Message-ID: <20240327122430.2839466-1-sashal@kernel.org>
+	jani.nikula@intel.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: FAILED: Patch "drm/probe-helper: warn about negative .get_modes()"
+ failed to apply to 5.4-stable tree
+Date: Wed, 27 Mar 2024 08:24:33 -0400
+Message-ID: <20240327122433.2839503-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -72,44 +69,58 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 7fb19d9510937121a1f285894cffd30bc96572e3 Mon Sep 17 00:00:00 2001
-From: Josip Pavic <josip.pavic@amd.com>
-Date: Fri, 9 Feb 2024 16:05:18 -0500
-Subject: [PATCH] drm/amd/display: Allow dirty rects to be sent to dmub when
- abm is active
+From 7af03e688792293ba33149fb8df619a8dff90e80 Mon Sep 17 00:00:00 2001
+From: Jani Nikula <jani.nikula@intel.com>
+Date: Fri, 8 Mar 2024 18:03:39 +0200
+Subject: [PATCH] drm/probe-helper: warn about negative .get_modes()
 
-[WHY]
-It's beneficial for ABM to know when new frame data are available.
+The .get_modes() callback is supposed to return the number of modes,
+never a negative error code. If a negative value is returned, it'll just
+be interpreted as a negative count, and added to previous calculations.
 
-[HOW]
-Add new condition to allow dirty rects to be sent to DMUB when ABM is
-active. ABM will use this as a signal that a new frame has arrived.
+Document the rules, but handle the negative values gracefully with an
+error message.
 
-Cc: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
-Reviewed-by: Anthony Koo <anthony.koo@amd.com>
-Acked-by: Alex Hung <alex.hung@amd.com>
-Signed-off-by: Josip Pavic <josip.pavic@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://patchwork.freedesktop.org/patch/msgid/50208c866facc33226a3c77b82bb96aeef8ef310.1709913674.git.jani.nikula@intel.com
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/drm_probe_helper.c       | 7 +++++++
+ include/drm/drm_modeset_helper_vtables.h | 3 ++-
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index 5211c1c0f3c0c..613d09c42f3b9 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-@@ -3270,6 +3270,9 @@ static bool dc_dmub_should_send_dirty_rect_cmd(struct dc *dc, struct dc_stream_s
- 	if (stream->link->replay_settings.config.replay_supported)
- 		return true;
+diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+index 19ecb749704be..75f84753f6ee3 100644
+--- a/drivers/gpu/drm/drm_probe_helper.c
++++ b/drivers/gpu/drm/drm_probe_helper.c
+@@ -422,6 +422,13 @@ static int drm_helper_probe_get_modes(struct drm_connector *connector)
  
-+	if (stream->ctx->dce_version >= DCN_VERSION_3_5 && stream->abm_level)
-+		return true;
+ 	count = connector_funcs->get_modes(connector);
+ 
++	/* The .get_modes() callback should not return negative values. */
++	if (count < 0) {
++		drm_err(connector->dev, ".get_modes() returned %pe\n",
++			ERR_PTR(count));
++		count = 0;
++	}
 +
- 	return false;
- }
+ 	/*
+ 	 * Fallback for when DDC probe failed in drm_get_edid() and thus skipped
+ 	 * override/firmware EDID.
+diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+index 881b03e4dc288..9ed42469540eb 100644
+--- a/include/drm/drm_modeset_helper_vtables.h
++++ b/include/drm/drm_modeset_helper_vtables.h
+@@ -898,7 +898,8 @@ struct drm_connector_helper_funcs {
+ 	 *
+ 	 * RETURNS:
+ 	 *
+-	 * The number of modes added by calling drm_mode_probed_add().
++	 * The number of modes added by calling drm_mode_probed_add(). Return 0
++	 * on failures (no modes) instead of negative error codes.
+ 	 */
+ 	int (*get_modes)(struct drm_connector *connector);
  
 -- 
 2.43.0
