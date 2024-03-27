@@ -2,79 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B85A88D97D
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 09:52:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAC3D88D9A1
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 09:55:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8204310F95E;
-	Wed, 27 Mar 2024 08:52:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78B8A10F979;
+	Wed, 27 Mar 2024 08:55:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cCLIh75J";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="mTntEdRx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
- [209.85.128.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E6EA10F967
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 08:52:14 +0000 (UTC)
-Received: by mail-yw1-f178.google.com with SMTP id
- 00721157ae682-60a0a1bd04eso72975507b3.1
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 01:52:14 -0700 (PDT)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
+ [209.85.210.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF2D310F972
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 08:55:07 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id
+ d2e1a72fcca58-6e6b5432439so5024361b3a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 01:55:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711529533; x=1712134333; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=QKDxo5SiDJux2nq6LZtCe3mC0jTYYBUZBjVfmvT96ys=;
- b=cCLIh75JT2LLXyl3vZJkvuPV7ymwv+58GRUTUArxMp7y5zWC/IrmO1H5mtmvqGtk7Y
- BPXi00dwp7RhIQgovD1Lfh87nwl52U+CNwN6ghWN+Fcrl8ZCPm1y+2sm3c2K7KtAECo9
- 86QJ6XUSnbf0reRnr5BsTmhQC6YrlWehRwh2BO6TDPpSEPetp+xK68Wb1vgNeWV/XMvQ
- pGQVJ7w0uWO4I6lnrc+TeAVNClf8hXL+Jk5/IhWRMlMLJcZF0cO4nnZWV6EaB5akt5lu
- gHyvWD1rKAPKCX/E3ENTvf6hzNriACXTNMQMbuFHvRkWhhakp8ISVVP5Jd2DeJANeJQ2
- MRbg==
+ d=chromium.org; s=google; t=1711529707; x=1712134507;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=9dKcZjC/OoDiaM+OdJQAME/VGMT+Uf23GJ2KQctLAZo=;
+ b=mTntEdRxjMLIkZUa1dvFUuILmIcm7kD6A7qEvBMu1V0yETMi6WfrDBisS8ket1t1xc
+ ss0Mh2Fe1G+k1RdYlKpmIUgzOVLCCM9IHdMJxUkwUWUK5JMj+IOWmX0w3AecLfcqS/Qs
+ /iBESctTwYIutIXWPl1pgP2SxxbXG4TWQyFkU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711529533; x=1712134333;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1711529707; x=1712134507;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=QKDxo5SiDJux2nq6LZtCe3mC0jTYYBUZBjVfmvT96ys=;
- b=RKOI83lpl6KmKQ+sYPpz1HUmetnnMckeajMWkWpi0z+UHDHd5u3pr94SeMJOqQevdi
- +CP37opWEHQhudBEg0kU9Y5wAVEQ1DHpXEy7Vp6uYgPWHnQwgld2prgVV4jbKsoMzui4
- Z38PckTmo08ZvrjG6kt8kWfPDEEiaKIKmpzWozTNP9qnKDjIn0kjOJFX7Vd9i8noh4IV
- ir2j+3qmxEyFFFNdyqRikXU0jqi1gQal8AeMXiM+3dGzqTlgHdx3vt3xhX409+EB84VU
- jhDhlNexMmieyfUJBa5cKjhPIdc2TXySDuqJjehuDO3J9p96oq8Eva+4SVdd3SD8VI+e
- W26w==
+ bh=9dKcZjC/OoDiaM+OdJQAME/VGMT+Uf23GJ2KQctLAZo=;
+ b=uLNSw83SpdPxgLlGmI1IqJW5j5Lr0AIWAVe7hUJkb5awC82NFHDu8mpvyHWMWs0ET2
+ upYjDpgr0zrwHhRYGB3CMJLUdRMhi320khf1AzePtsEAeRgatvz8/2OoHBr3bBZahaBa
+ z8/m5ly+6rL2VEzw2VOGSrr1bwWbDFwCsRVkzLe7ZjMAmF8qx+BNeUDIs6rdjDXhHuuG
+ BAHu6GNn0V2OOOgA2p6hZ0nLeN3BNVO4Hu1C8jTV2ptDE5f4RNmkaymRh958qwFZJ0fv
+ ay97RqzorzMr+U+DP1sZQvViGBbAOKJJAsejw7D7vHuNB9q0vbtSrt6Goud/kLF4OcF4
+ cCyQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXeBiPMr11FvP5F5GIyqYDGaciFtDeJe4un50Dzz8tugJxluzRPO9SMzoWMeicnLvj47umVm9dp0tStIgtXaDUSzIyQT4DvDN6knSz/YhVX
-X-Gm-Message-State: AOJu0YwlF4DHFDDOruiBKY2CTauZop7ECEiqzWt323HqwOtK2oOedu5O
- 0DEPxWtdI6YuDnCO7mNcdXF1URusmuGjrlgHrlmaO//1y1iEuu9yxAv1yd780NXlV6FEBgwZmfE
- OKcoxy+msNfE6mos+jGhFNMKAcRa8mUiSB00PEw==
-X-Google-Smtp-Source: AGHT+IHT7KGPtquwpuaNGQTzLwDxTjgBrwNcRbeqAf2i/0d4TNxkYwnbGP08o1u9++zU+7flQ/+MYOMmfXQVv2GFuRs=
-X-Received: by 2002:a05:6902:1366:b0:dcc:a61b:1a72 with SMTP id
- bt6-20020a056902136600b00dcca61b1a72mr1960452ybb.47.1711529533479; Wed, 27
- Mar 2024 01:52:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240326-fd-fix-schema-v1-0-4475d6d6d633@linaro.org>
- <20240326-fd-fix-schema-v1-1-4475d6d6d633@linaro.org>
- <e9ce004a-952a-4a94-abe9-2a8dd96b37fb@linaro.org>
-In-Reply-To: <e9ce004a-952a-4a94-abe9-2a8dd96b37fb@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 27 Mar 2024 10:52:02 +0200
-Message-ID: <CAA8EJprg55BkRL5KUZ+6gNniq9TZjEem8MLqQdMZcXntvttEVg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] dt-bindings: display/msm: sm8150-mdss: add DP node
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ AJvYcCVHvXEzOt9nfKGX/WwISbMyzHsoZhxEkfS43kOjrGuS8ZjFIstUHAjQQW/wjOkyRz0bw/ukpsraM4l0qWgmbj0Qpyc4pEED3CisdWgnXWYl
+X-Gm-Message-State: AOJu0YwMp4XQD98ajO8mVke6eOqTAqIktpiM1X2BJjkWvrM93BM61lbe
+ dJIXLN2njK+E4PRxtyhvzfWVgos44afrcu6bqK+G1Q59wHxIzhQGmPVjaBwdNA==
+X-Google-Smtp-Source: AGHT+IFUfIVQvdLysyZn334SAY0D7Vx2KrUYwFkbjwbnUAsEt/qwEP0DXbUtpROi/ojeOIlZdyTbcw==
+X-Received: by 2002:a05:6a00:b48:b0:6e6:946b:a983 with SMTP id
+ p8-20020a056a000b4800b006e6946ba983mr4563684pfo.10.1711529706853; 
+ Wed, 27 Mar 2024 01:55:06 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com
+ ([2401:fa00:1:10:74c2:3606:170b:52f3])
+ by smtp.gmail.com with ESMTPSA id
+ h7-20020aa79f47000000b006e724ccdc3esm7329514pfr.55.2024.03.27.01.55.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Mar 2024 01:55:06 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Vinod Koul <vkoul@kernel.org>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Chen-Yu Tsai <wenst@chromium.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] dt-bindings: display: bridge: it6505: Add #sound-dai-cells
+Date: Wed, 27 Mar 2024 16:52:48 +0800
+Message-ID: <20240327085250.3427496-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.44.0.396.g6e790dbe36-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,32 +88,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 27 Mar 2024 at 10:45, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 26/03/2024 21:02, Dmitry Baryshkov wrote:
-> > diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8150-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8150-mdss.yaml
-> > index c0d6a4fdff97..40b077fb20aa 100644
-> > --- a/Documentation/devicetree/bindings/display/msm/qcom,sm8150-mdss.yaml
-> > +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8150-mdss.yaml
-> > @@ -53,6 +53,16 @@ patternProperties:
-> >        compatible:
-> >          const: qcom,sm8150-dpu
-> >
-> > +  "^displayport-controller@[0-9a-f]+$":
-> > +    type: object
-> > +    additionalProperties: true
-> > +
-> > +    properties:
-> > +      compatible:
-> > +        items:
-> > +          - const: qcom,sm8150-dp
-> > +          - const: qcom,sm8350-dp
->
-> This does not look right. sm8350 has its own mdss binding file.
+The ITE IT6505 display bridge can take one I2S input and transmit it
+over the DisplayPort link.
 
-So just a single entry here, even though SM8150 uses fallback compat string?
+Add #sound-dai-cells (= 0) to the binding for it.
 
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+---
+Changes since v1 [1]:
+- Reference /schemas/sound/dai-common.yaml
+- Change "additionalProperties: false" to "unevaluatedProperties: false"
+
+The driver side changes [2] are still being worked on.
+
+[1] https://lore.kernel.org/dri-devel/20240126073511.2708574-1-wenst@chromium.org/
+[2] https://lore.kernel.org/linux-arm-kernel/20230730180803.22570-4-jiaxin.yu@mediatek.com/
+---
+ .../devicetree/bindings/display/bridge/ite,it6505.yaml    | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+index c9a882ee6d98..c4469f463978 100644
+--- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+@@ -9,6 +9,9 @@ title: ITE it6505
+ maintainers:
+   - Allen Chen <allen.chen@ite.com.tw>
+ 
++allOf:
++  - $ref: /schemas/sound/dai-common.yaml#
++
+ description: |
+   The IT6505 is a high-performance DisplayPort 1.1a transmitter,
+   fully compliant with DisplayPort 1.1a, HDCP 1.3 specifications.
+@@ -52,6 +55,9 @@ properties:
+     maxItems: 1
+     description: extcon specifier for the Power Delivery
+ 
++  "#sound-dai-cells":
++    const: 0
++
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
+ 
+@@ -105,7 +111,7 @@ required:
+   - extcon
+   - ports
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
+
+base-commit: 084c8e315db34b59d38d06e684b1a0dd07d30287
 -- 
-With best wishes
-Dmitry
+2.44.0.396.g6e790dbe36-goog
+
