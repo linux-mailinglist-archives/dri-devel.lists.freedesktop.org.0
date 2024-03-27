@@ -2,49 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D489488DD47
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:07:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3737C88DD48
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:07:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96FAC10F7CE;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1F1B10FA88;
 	Wed, 27 Mar 2024 12:07:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DdFbfuvK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WYVok1HR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98CD310FA85;
- Wed, 27 Mar 2024 12:07:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8712C10FA85;
+ Wed, 27 Mar 2024 12:07:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 18C9861507;
- Wed, 27 Mar 2024 12:07:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D731C433F1;
- Wed, 27 Mar 2024 12:07:34 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id E648861518;
+ Wed, 27 Mar 2024 12:07:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1174C433A6;
+ Wed, 27 Mar 2024 12:07:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541255;
- bh=z27ctd1wqikApmCBJsojXFRGwBDUyNl1AUcGGmUOJTI=;
+ s=k20201202; t=1711541261;
+ bh=eFH26xCM18VNDdbQec8LnfEtht/dNYrj3ygQx7P/rYI=;
  h=From:To:Cc:Subject:Date:From;
- b=DdFbfuvKGX8/ZvDOlR4+myQW5bdeak1LY1mHXVdpmoHcVVt3XWDHLLOhRhuabnFPG
- jQyjnUDrd6bG1cq1/pJpCcLf2bwz4G8/usK5tTGVqMy0YI0jRGBlS7scF6r12aXiDH
- TdRplkcDnaXN6SAJTWshvuqrQzTQFLs/fPdwwo6AvuM9sSjI3lNh8pVHDGEdaBjHdZ
- 001R281Y8tZb71BynXE8Q0g+luDPItT8q3xCL0IRpTHO6xswBoQPKbWJt4MSWB+fpM
- IuLAAURlL3kzLvoozmJur7LhI1WEuL2JAGDfQZtGssCKOUQF3ILLON1rScqiFeCbEK
- WXHtrMjq6Dn3w==
+ b=WYVok1HRt+WwYJsiCid1+fE2TSmSI05T3+L6zEzld5rdE4tpHmwp8ycn7W5aFPIWp
+ EJV/q+qu8XQE+V3kX+sdGl1QE00XIqoCG+b15479Hyfi1CsnBR++7E5MJ0YQyb3oO2
+ cwUREYOcU1jQYQilDJTL6qcjIjy6K1GfS2otvYu5ruu1lykI/mHZiaKOC4nZi9TOlF
+ PL68cuYwUvx/L4ZvQikS4kLTaUcWzvhx9Z04vaW6/nUPi2gpk8h9wIrJ4xaNUEDL4J
+ sFLUGj1jW0LHSXVUpQn5wUms83gE3QErdkFO3SaH28pSp6RY3B79YtFZyhRZQFnxbY
+ 6ZGdqDcM6sVDg==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	wenjing.liu@amd.com
+	sohaib.nadeem@amd.com
 Cc: Mario Limonciello <mario.limonciello@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
- Nevenko Stupar <nevenko.stupar@amd.com>,
- Chaitanya Dhere <chaitanya.dhere@amd.com>,
- Tom Chung <chiahsuan.chung@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: fix incorrect mpc_combine array size"
- failed to apply to 6.8-stable tree
-Date: Wed, 27 Mar 2024 08:07:33 -0400
-Message-ID: <20240327120733.2825545-1-sashal@kernel.org>
+Subject: FAILED: Patch "Revert "drm/amd/display: increased min_dcfclk_mhz and
+ min_fclk_mhz"" failed to apply to 6.8-stable tree
+Date: Wed, 27 Mar 2024 08:07:38 -0400
+Message-ID: <20240327120739.2825619-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -75,28 +72,23 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 607e1b0cf480cb8dbd65b372397871d7389942b5 Mon Sep 17 00:00:00 2001
-From: Wenjing Liu <wenjing.liu@amd.com>
-Date: Thu, 18 Jan 2024 15:14:15 -0500
-Subject: [PATCH] drm/amd/display: fix incorrect mpc_combine array size
+From 194bef0cc1f5ce5e2ca84d366c74be2bd9736aa3 Mon Sep 17 00:00:00 2001
+From: Sohaib Nadeem <sohaib.nadeem@amd.com>
+Date: Mon, 29 Jan 2024 17:33:40 -0500
+Subject: [PATCH] Revert "drm/amd/display: increased min_dcfclk_mhz and
+ min_fclk_mhz"
 
-[why]
-MAX_SURFACES is per stream, while MAX_PLANES is per asic. The
-mpc_combine is an array that records all the planes per asic. Therefore
-MAX_PLANES should be used as the array size. Using MAX_SURFACES causes
-array overflow when there are more than 3 planes.
+[why]:
+This reverts commit 2ff33c759a4247c84ec0b7815f1f223e155ba82a.
 
-[how]
-Use the MAX_PLANES for the mpc_combine array size.
+The commit caused corruption when running some applications in fullscreen
 
 Cc: Mario Limonciello <mario.limonciello@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
-Reviewed-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
-Reviewed-by: Nevenko Stupar <nevenko.stupar@amd.com>
-Reviewed-by: Chaitanya Dhere <chaitanya.dhere@amd.com>
-Acked-by: Tom Chung <chiahsuan.chung@amd.com>
-Signed-off-by: Wenjing Liu <wenjing.liu@amd.com>
+Reviewed-by: Alvin Lee <alvin.lee2@amd.com>
+Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Signed-off-by: Sohaib Nadeem <sohaib.nadeem@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
@@ -104,18 +96,18 @@ Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-index 9b80f65c04664..a7981a0c4158f 100644
+index ba76dd4a2ce29..a0a65e0991041 100644
 --- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
 +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-@@ -1113,7 +1113,7 @@ struct pipe_slice_table {
- 		struct pipe_ctx *pri_pipe;
- 		struct dc_plane_state *plane;
- 		int slice_count;
--	} mpc_combines[MAX_SURFACES];
-+	} mpc_combines[MAX_PLANES];
- 	int mpc_combine_count;
- };
+@@ -2760,7 +2760,7 @@ static int build_synthetic_soc_states(bool disable_dc_mode_overwrite, struct clk
+ 	struct _vcs_dpi_voltage_scaling_st entry = {0};
+ 	struct clk_limit_table_entry max_clk_data = {0};
  
+-	unsigned int min_dcfclk_mhz = 399, min_fclk_mhz = 599;
++	unsigned int min_dcfclk_mhz = 199, min_fclk_mhz = 299;
+ 
+ 	static const unsigned int num_dcfclk_stas = 5;
+ 	unsigned int dcfclk_sta_targets[DC__VOLTAGE_STATES] = {199, 615, 906, 1324, 1564};
 -- 
 2.43.0
 
