@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52AB588DDB3
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:10:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8537B88DDB5
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:10:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E641010FAE1;
-	Wed, 27 Mar 2024 12:10:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7DFF10FAE6;
+	Wed, 27 Mar 2024 12:10:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="E818UR3W";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kIoltMBT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 752E210FADC;
- Wed, 27 Mar 2024 12:10:36 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEC1A10FADC;
+ Wed, 27 Mar 2024 12:10:37 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 9148FCE2630;
- Wed, 27 Mar 2024 12:10:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0FCCC433F1;
- Wed, 27 Mar 2024 12:10:32 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 4191361519;
+ Wed, 27 Mar 2024 12:10:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D01DCC43390;
+ Wed, 27 Mar 2024 12:10:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541433;
- bh=kVGztSXoCNM2CtcsNjAj4RJwr8crHwTY7PMb9c3CMrk=;
+ s=k20201202; t=1711541437;
+ bh=973BjNaEfoc4WksJE7g+5Gek4K2dQ/b3ekPtSZXKHug=;
  h=From:To:Cc:Subject:Date:From;
- b=E818UR3WRS6CLxoyn/SF1ebWzpNUemJeO/upFlTlkZUrK7sMFTwiYKjPFc81qyl+E
- Wb6LUqdiDXtSH7p7bxLJ9mAM5bKwpF5uh8X0skJAD5szsav+XKDOyAyn6GLW1KMr0j
- cPMYXeNAeyYjOeiQ8LLcgz+i0J5ROkM2SdUxsva5ad4ngfW/zN2kIC672+Wn3pEr3i
- 3DHiaVLuR88+ZZw3GJX5N+i6orrwoEihOmRMyZjC4rsws5e7rCL6+0Zq/D26dwP+ny
- zItoAIsoKAn2/34/O34aDThrqLbcupSRz3fW2EXoN1bwzBIqOnKPhcN/Qbt/qYgwf6
- 5JanMXC78+NPA==
+ b=kIoltMBTKSi4U5K0yTKsgZV8iuoF1MVgVXTWHr3PoYcDIyJVjDXwg7DdixFSV4KEY
+ TcRKu6Et6jpeJ5o8YMqGLwaup0sA2ercFdfDA/htTrCf4h9X7HC+Q5xQo9T9V2sfoJ
+ jIwroyry3CjJC+s8lpbSH+0auzSpoPRWi+BdcHXoOla49exay1cgyiPwrmy2aW+eW2
+ Hs9XgcPbgdBBzcQiJ+HjoWjzB44NfZ3JYH9fT56Z2caY1CpTZ8BCHTMQ09H8k7SiA4
+ LPXJYFOeO5NW/8AD6/IFjhmrNi/NBIDyEHELrCmw87U522VpS5V3xcq5yLTsGDOjQV
+ DOjKjfQgXN/Ag==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	swapnil.patel@amd.com
+	sohaib.nadeem@amd.com
 Cc: Mario Limonciello <mario.limonciello@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Chaitanya Dhere <chaitanya.dhere@amd.com>, Alex Hung <alex.hung@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: Change default size for dummy plane
- in DML2" failed to apply to 6.6-stable tree
-Date: Wed, 27 Mar 2024 08:10:31 -0400
-Message-ID: <20240327121031.2828024-1-sashal@kernel.org>
+ Alex Deucher <alexander.deucher@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
+ Alex Hung <alex.hung@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: FAILED: Patch "drm/amd/display: Override min required DCFCLK in
+ dml1_validate" failed to apply to 6.6-stable tree
+Date: Wed, 27 Mar 2024 08:10:34 -0400
+Message-ID: <20240327121034.2828064-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -72,70 +72,81 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 75eb8f7df65c5e6eb22a5aff8deb60ce0b65de1a Mon Sep 17 00:00:00 2001
-From: Swapnil Patel <swapnil.patel@amd.com>
-Date: Tue, 13 Feb 2024 08:09:48 -0500
-Subject: [PATCH] drm/amd/display: Change default size for dummy plane in DML2
+From 26fbcb3da77efc77bd7327b7916338d773cca484 Mon Sep 17 00:00:00 2001
+From: Sohaib Nadeem <sohaib.nadeem@amd.com>
+Date: Wed, 14 Feb 2024 13:51:16 -0500
+Subject: [PATCH] drm/amd/display: Override min required DCFCLK in
+ dml1_validate
 
-[WHY & HOW]
-Currently, to map dc states into dml_display_cfg,
-We create a dummy plane if the stream doesn't have any planes
-attached to it. This dummy plane uses max addersable width height.
-This results in certain mode validations failing when they shouldn't.
+[WHY]:
+Increasing min DCFCLK addresses underflow issues that occur when phantom
+pipe is turned on for some Sub-Viewport configs
+
+[HOW]:
+dcn32_override_min_req_dcfclk is added to override DCFCLK value in
+dml1_validate when subviewport is being used.
 
 Cc: Mario Limonciello <mario.limonciello@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
-Reviewed-by: Chaitanya Dhere <chaitanya.dhere@amd.com>
+Reviewed-by: Alvin Lee <alvin.lee2@amd.com>
 Acked-by: Alex Hung <alex.hung@amd.com>
-Signed-off-by: Swapnil Patel <swapnil.patel@amd.com>
+Signed-off-by: Sohaib Nadeem <sohaib.nadeem@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- .../display/dc/dml2/dml2_translation_helper.c  | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_resource_helpers.c   | 6 ++++++
+ .../gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c  | 1 +
+ .../gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.h  | 3 +++
+ 3 files changed, 10 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c b/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c
-index 1ba6933d2b361..17a58f41fc6a8 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c
-@@ -824,13 +824,25 @@ static struct scaler_data get_scaler_data_for_plane(const struct dc_plane_state
- 
- static void populate_dummy_dml_plane_cfg(struct dml_plane_cfg_st *out, unsigned int location, const struct dc_stream_state *in)
- {
-+	dml_uint_t width, height;
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource_helpers.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource_helpers.c
+index 87760600e154d..f98def6c8c2d2 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource_helpers.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource_helpers.c
+@@ -782,3 +782,9 @@ void dcn32_update_dml_pipes_odm_policy_based_on_context(struct dc *dc, struct dc
+ 		pipe_cnt++;
+ 	}
+ }
 +
-+	if (in->timing.h_addressable > 3840)
-+		width = 3840;
-+	else
-+		width = in->timing.h_addressable;	// 4K max
++void dcn32_override_min_req_dcfclk(struct dc *dc, struct dc_state *context)
++{
++	if (dcn32_subvp_in_use(dc, context) && context->bw_ctx.bw.dcn.clk.dcfclk_khz <= MIN_SUBVP_DCFCLK_KHZ)
++		context->bw_ctx.bw.dcn.clk.dcfclk_khz = MIN_SUBVP_DCFCLK_KHZ;
++}
+diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
+index 3f3951f3ba983..f844f57ecc49b 100644
+--- a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
+@@ -1771,6 +1771,7 @@ static bool dml1_validate(struct dc *dc, struct dc_state *context, bool fast_val
+ 	dc->res_pool->funcs->calculate_wm_and_dlg(dc, context, pipes, pipe_cnt, vlevel);
+ 
+ 	dcn32_override_min_req_memclk(dc, context);
++	dcn32_override_min_req_dcfclk(dc, context);
+ 
+ 	BW_VAL_TRACE_END_WATERMARKS();
+ 
+diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.h b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.h
+index 0c87b0fabba7d..2258c5c7212d8 100644
+--- a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.h
++++ b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.h
+@@ -42,6 +42,7 @@
+ #define SUBVP_ACTIVE_MARGIN_LIST_LEN 2
+ #define DCN3_2_MAX_SUBVP_PIXEL_RATE_MHZ 1800
+ #define DCN3_2_VMIN_DISPCLK_HZ 717000000
++#define MIN_SUBVP_DCFCLK_KHZ 400000
+ 
+ #define TO_DCN32_RES_POOL(pool)\
+ 	container_of(pool, struct dcn32_resource_pool, base)
+@@ -181,6 +182,8 @@ bool dcn32_subvp_vblank_admissable(struct dc *dc, struct dc_state *context, int
+ 
+ void dcn32_update_dml_pipes_odm_policy_based_on_context(struct dc *dc, struct dc_state *context, display_e2e_pipe_params_st *pipes);
+ 
++void dcn32_override_min_req_dcfclk(struct dc *dc, struct dc_state *context);
 +
-+	if (in->timing.v_addressable > 2160)
-+		height = 2160;
-+	else
-+		height = in->timing.v_addressable;	// 4K max
-+
- 	out->CursorBPP[location] = dml_cur_32bit;
- 	out->CursorWidth[location] = 256;
+ /* definitions for run time init of reg offsets */
  
- 	out->GPUVMMinPageSizeKBytes[location] = 256;
- 
--	out->ViewportWidth[location] = in->timing.h_addressable;
--	out->ViewportHeight[location] = in->timing.v_addressable;
-+	out->ViewportWidth[location] = width;
-+	out->ViewportHeight[location] = height;
- 	out->ViewportStationary[location] = false;
- 	out->ViewportWidthChroma[location] = 0;
- 	out->ViewportHeightChroma[location] = 0;
-@@ -849,7 +861,7 @@ static void populate_dummy_dml_plane_cfg(struct dml_plane_cfg_st *out, unsigned
- 	out->HTapsChroma[location] = 0;
- 	out->VTapsChroma[location] = 0;
- 	out->SourceScan[location] = dml_rotation_0;
--	out->ScalerRecoutWidth[location] = in->timing.h_addressable;
-+	out->ScalerRecoutWidth[location] = width;
- 
- 	out->LBBitPerPixel[location] = 57;
- 
+ /* CLK SRC */
 -- 
 2.43.0
 
