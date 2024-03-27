@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 971E688DF08
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:20:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B3D788DF0C
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:21:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6921D10FBFD;
-	Wed, 27 Mar 2024 12:20:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0574D10FC01;
+	Wed, 27 Mar 2024 12:21:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EsNfVlKf";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jbPLby8b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1477510FBFB;
- Wed, 27 Mar 2024 12:20:50 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 950E410FBFB;
+ Wed, 27 Mar 2024 12:20:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 5EDA9CE2542;
- Wed, 27 Mar 2024 12:20:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86297C433C7;
- Wed, 27 Mar 2024 12:20:46 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 01B7661503;
+ Wed, 27 Mar 2024 12:20:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0771C433A6;
+ Wed, 27 Mar 2024 12:20:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711542047;
- bh=BXLvhNCgC/YLtiNUbjr30+il9Xkr2H1JhrdeFzhOhCw=;
+ s=k20201202; t=1711542050;
+ bh=MY6Msd5ZZwC9n8085OfFa1is44/bOUeMRgmyWKGvnMw=;
  h=From:To:Cc:Subject:Date:From;
- b=EsNfVlKf/cbjveoaQaCuaZwv3HA7LQO3+H6QKJ2rjnEDbKHtHkqtKKpc0BVr48J3D
- pM9+/oLX9Q0wrHYXn0vamikbHvQd6235CEyfyjhuimVbtNSwmKYeVqLO69d3PpJowG
- /DxtLClMLCfl9Qwdc9z+evzbAGL/3LUdfxOWv/35/Fp705+xQOXHXC2zwdDWrgTEO+
- 2DVvk3rtOCmZarIAXaVTTZoVG/mAzH+X+uDdbPBH0J+I4Tg3cyUsYMRPPDPHl2N5i9
- DTWzZw6eXq0sw/wTS13htDEbXcL73giPYKSe0+luxLz7iHcvDMI01H1Hj4bRFjbd+v
- VNFr34wxC/99g==
+ b=jbPLby8bncUJG3SQ7WQc+tGs3ms5+A0r6TMHQxpgoueYOk9KTsVq+Ep0h5EUxd6nQ
+ Ec0TQRAzA5q0A5z80SWGYdTVo9Uw5aPo1zDiloezE7ndyxm7hNQvGnNLTEtxciejcy
+ RDkanMFngrGLvu8zIUx1adujiCbksCLyHvj5dkH6RjqNjC/+1J7bIzwbxKmmrHYPpB
+ zdPMUjd+jxXfSJ9dJrTfYK5lSmo/8mlpvY0tIz3ArorPUJqbW9SAVErGEwq3FLYMBj
+ r9EQ/qcfUwZW+JVVMadTOTjlpXeVnaj0mCbubuTuIrdnbbgg9NXU7MgErw0eLgAeKK
+ q2FRCWnN2mCIg==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	nicholas.kazlauskas@amd.com
+	dillon.varone@amd.com
 Cc: Mario Limonciello <mario.limonciello@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>,
- Charlene Liu <charlene.liu@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Chaitanya Dhere <chaitanya.dhere@amd.com>, Alex Hung <alex.hung@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: Port DENTIST hang and TDR fixes to
- OTG disable W/A" failed to apply to 5.10-stable tree
-Date: Wed, 27 Mar 2024 08:20:45 -0400
-Message-ID: <20240327122045.2836306-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/amd/display: Init DPPCLK from SMU on dcn32" failed
+ to apply to 5.10-stable tree
+Date: Wed, 27 Mar 2024 08:20:48 -0400
+Message-ID: <20240327122048.2836343-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -72,87 +72,154 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 6c605f44086af24d7ac1867245aa10bb3360c5bf Mon Sep 17 00:00:00 2001
-From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Date: Fri, 15 Dec 2023 11:01:42 -0500
-Subject: [PATCH] drm/amd/display: Port DENTIST hang and TDR fixes to OTG
- disable W/A
+From 4f5b8d78ca43fcc695ba16c83ebfabbfe09506d6 Mon Sep 17 00:00:00 2001
+From: Dillon Varone <dillon.varone@amd.com>
+Date: Wed, 21 Feb 2024 13:21:20 -0500
+Subject: [PATCH] drm/amd/display: Init DPPCLK from SMU on dcn32
 
-[Why]
-We can experience DENTIST hangs during optimize_bandwidth or TDRs if
-FIFO is toggled and hangs.
-
-[How]
-Port the DCN35 fixes to DCN314.
+[WHY & HOW]
+DPPCLK ranges should be obtained from the SMU when available.
 
 Cc: Mario Limonciello <mario.limonciello@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
-Reviewed-by: Charlene Liu <charlene.liu@amd.com>
+Reviewed-by: Chaitanya Dhere <chaitanya.dhere@amd.com>
 Acked-by: Alex Hung <alex.hung@amd.com>
-Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Signed-off-by: Dillon Varone <dillon.varone@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- .../dc/clk_mgr/dcn314/dcn314_clk_mgr.c        | 21 ++++++++-----------
- 1 file changed, 9 insertions(+), 12 deletions(-)
+ .../display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c  | 14 ++++++++++
+ .../drm/amd/display/dc/dml2/dml2_wrapper.c    | 28 +++++++++++++------
+ .../drm/amd/display/dc/dml2/dml2_wrapper.h    |  3 ++
+ .../dc/resource/dcn32/dcn32_resource.c        |  2 ++
+ .../dc/resource/dcn321/dcn321_resource.c      |  2 ++
+ 5 files changed, 41 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c
-index 878c0e7b78abd..a84f1e376dee4 100644
---- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c
-+++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c
-@@ -145,30 +145,27 @@ static int dcn314_get_active_display_cnt_wa(
- 	return display_count;
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c
+index 668f05c8654ef..bec252e1dd27a 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c
+@@ -216,6 +216,16 @@ void dcn32_init_clocks(struct clk_mgr *clk_mgr_base)
+ 	if (clk_mgr_base->bw_params->dc_mode_limit.dispclk_mhz > 1950)
+ 		clk_mgr_base->bw_params->dc_mode_limit.dispclk_mhz = 1950;
+ 
++	/* DPPCLK */
++	dcn32_init_single_clock(clk_mgr, PPCLK_DPPCLK,
++			&clk_mgr_base->bw_params->clk_table.entries[0].dppclk_mhz,
++			&num_entries_per_clk->num_dppclk_levels);
++	num_levels = num_entries_per_clk->num_dppclk_levels;
++	clk_mgr_base->bw_params->dc_mode_limit.dppclk_mhz = dcn30_smu_get_dc_mode_max_dpm_freq(clk_mgr, PPCLK_DPPCLK);
++	//HW recommends limit of 1950 MHz in display clock for all DCN3.2.x
++	if (clk_mgr_base->bw_params->dc_mode_limit.dppclk_mhz > 1950)
++		clk_mgr_base->bw_params->dc_mode_limit.dppclk_mhz = 1950;
++
+ 	if (num_entries_per_clk->num_dcfclk_levels &&
+ 			num_entries_per_clk->num_dtbclk_levels &&
+ 			num_entries_per_clk->num_dispclk_levels)
+@@ -240,6 +250,10 @@ void dcn32_init_clocks(struct clk_mgr *clk_mgr_base)
+ 					= khz_to_mhz_ceil(clk_mgr_base->ctx->dc->debug.min_dpp_clk_khz);
+ 	}
+ 
++	for (i = 0; i < num_levels; i++)
++		if (clk_mgr_base->bw_params->clk_table.entries[i].dppclk_mhz > 1950)
++			clk_mgr_base->bw_params->clk_table.entries[i].dppclk_mhz = 1950;
++
+ 	/* Get UCLK, update bounding box */
+ 	clk_mgr_base->funcs->get_memclk_states_from_smu(clk_mgr_base);
+ 
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml2_wrapper.c b/drivers/gpu/drm/amd/display/dc/dml2/dml2_wrapper.c
+index 2a58a7687bdb5..72cca367062e1 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml2/dml2_wrapper.c
++++ b/drivers/gpu/drm/amd/display/dc/dml2/dml2_wrapper.c
+@@ -703,13 +703,8 @@ static inline struct dml2_context *dml2_allocate_memory(void)
+ 	return (struct dml2_context *) kzalloc(sizeof(struct dml2_context), GFP_KERNEL);
  }
  
--static void dcn314_disable_otg_wa(struct clk_mgr *clk_mgr_base, struct dc_state *context, bool disable)
-+static void dcn314_disable_otg_wa(struct clk_mgr *clk_mgr_base, struct dc_state *context,
-+				  bool safe_to_lower, bool disable)
+-bool dml2_create(const struct dc *in_dc, const struct dml2_configuration_options *config, struct dml2_context **dml2)
++static void dml2_init(const struct dc *in_dc, const struct dml2_configuration_options *config, struct dml2_context **dml2)
  {
- 	struct dc *dc = clk_mgr_base->ctx->dc;
- 	int i;
- 
- 	for (i = 0; i < dc->res_pool->pipe_count; ++i) {
--		struct pipe_ctx *pipe = &dc->current_state->res_ctx.pipe_ctx[i];
-+		struct pipe_ctx *pipe = safe_to_lower
-+			? &context->res_ctx.pipe_ctx[i]
-+			: &dc->current_state->res_ctx.pipe_ctx[i];
- 
- 		if (pipe->top_pipe || pipe->prev_odm_pipe)
- 			continue;
- 		if (pipe->stream && (pipe->stream->dpms_off || dc_is_virtual_signal(pipe->stream->signal))) {
--			struct stream_encoder *stream_enc = pipe->stream_res.stream_enc;
+-	// Allocate Mode Lib Ctx
+-	*dml2 = dml2_allocate_memory();
 -
- 			if (disable) {
--				if (stream_enc && stream_enc->funcs->disable_fifo)
--					pipe->stream_res.stream_enc->funcs->disable_fifo(stream_enc);
-+				if (pipe->stream_res.tg && pipe->stream_res.tg->funcs->immediate_disable_crtc)
-+					pipe->stream_res.tg->funcs->immediate_disable_crtc(pipe->stream_res.tg);
+-	if (!(*dml2))
+-		return false;
  
--				pipe->stream_res.tg->funcs->immediate_disable_crtc(pipe->stream_res.tg);
- 				reset_sync_context_for_pipe(dc, context, i);
- 			} else {
- 				pipe->stream_res.tg->funcs->enable_crtc(pipe->stream_res.tg);
--
--				if (stream_enc && stream_enc->funcs->enable_fifo)
--					pipe->stream_res.stream_enc->funcs->enable_fifo(stream_enc);
- 			}
- 		}
- 	}
-@@ -297,11 +294,11 @@ void dcn314_update_clocks(struct clk_mgr *clk_mgr_base,
- 	}
+ 	// Store config options
+ 	(*dml2)->config = *config;
+@@ -737,9 +732,18 @@ bool dml2_create(const struct dc *in_dc, const struct dml2_configuration_options
+ 	initialize_dml2_soc_bbox(*dml2, in_dc, &(*dml2)->v20.dml_core_ctx.soc);
  
- 	if (should_set_clock(safe_to_lower, new_clocks->dispclk_khz, clk_mgr_base->clks.dispclk_khz)) {
--		dcn314_disable_otg_wa(clk_mgr_base, context, true);
-+		dcn314_disable_otg_wa(clk_mgr_base, context, safe_to_lower, true);
+ 	initialize_dml2_soc_states(*dml2, in_dc, &(*dml2)->v20.dml_core_ctx.soc, &(*dml2)->v20.dml_core_ctx.states);
++}
++
++bool dml2_create(const struct dc *in_dc, const struct dml2_configuration_options *config, struct dml2_context **dml2)
++{
++	// Allocate Mode Lib Ctx
++	*dml2 = dml2_allocate_memory();
++
++	if (!(*dml2))
++		return false;
++
++	dml2_init(in_dc, config, dml2);
  
- 		clk_mgr_base->clks.dispclk_khz = new_clocks->dispclk_khz;
- 		dcn314_smu_set_dispclk(clk_mgr, clk_mgr_base->clks.dispclk_khz);
--		dcn314_disable_otg_wa(clk_mgr_base, context, false);
-+		dcn314_disable_otg_wa(clk_mgr_base, context, safe_to_lower, false);
+-	/*Initialize DML20 instance which calls dml2_core_create, and core_dcn3_populate_informative*/
+-	//dml2_initialize_instance(&(*dml_ctx)->v20.dml_init);
+ 	return true;
+ }
  
- 		update_dispclk = true;
- 	}
+@@ -779,3 +783,11 @@ bool dml2_create_copy(struct dml2_context **dst_dml2,
+ 
+ 	return true;
+ }
++
++void dml2_reinit(const struct dc *in_dc,
++				 const struct dml2_configuration_options *config,
++				 struct dml2_context **dml2)
++{
++
++	dml2_init(in_dc, config, dml2);
++}
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml2_wrapper.h b/drivers/gpu/drm/amd/display/dc/dml2/dml2_wrapper.h
+index ee0eb184eb6d7..cc662d682fd4d 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml2/dml2_wrapper.h
++++ b/drivers/gpu/drm/amd/display/dc/dml2/dml2_wrapper.h
+@@ -214,6 +214,9 @@ void dml2_copy(struct dml2_context *dst_dml2,
+ 	struct dml2_context *src_dml2);
+ bool dml2_create_copy(struct dml2_context **dst_dml2,
+ 	struct dml2_context *src_dml2);
++void dml2_reinit(const struct dc *in_dc,
++				 const struct dml2_configuration_options *config,
++				 struct dml2_context **dml2);
+ 
+ /*
+  * dml2_validate - Determines if a display configuration is supported or not.
+diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
+index f844f57ecc49b..ce1754cc1f463 100644
+--- a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
+@@ -1931,6 +1931,8 @@ static void dcn32_update_bw_bounding_box(struct dc *dc, struct clk_bw_params *bw
+ {
+ 	DC_FP_START();
+ 	dcn32_update_bw_bounding_box_fpu(dc, bw_params);
++	if (dc->debug.using_dml2 && dc->current_state && dc->current_state->bw_ctx.dml2)
++		dml2_reinit(dc, &dc->dml2_options, &dc->current_state->bw_ctx.dml2);
+ 	DC_FP_END();
+ }
+ 
+diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn321/dcn321_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn321/dcn321_resource.c
+index b356fed1726d9..296a0a8e71459 100644
+--- a/drivers/gpu/drm/amd/display/dc/resource/dcn321/dcn321_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/resource/dcn321/dcn321_resource.c
+@@ -1581,6 +1581,8 @@ static void dcn321_update_bw_bounding_box(struct dc *dc, struct clk_bw_params *b
+ {
+ 	DC_FP_START();
+ 	dcn321_update_bw_bounding_box_fpu(dc, bw_params);
++	if (dc->debug.using_dml2 && dc->current_state && dc->current_state->bw_ctx.dml2)
++		dml2_reinit(dc, &dc->dml2_options, &dc->current_state->bw_ctx.dml2);
+ 	DC_FP_END();
+ }
+ 
 -- 
 2.43.0
 
