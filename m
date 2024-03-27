@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B980888DD5F
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:08:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2A688DD60
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:08:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26EBC10FA9B;
-	Wed, 27 Mar 2024 12:08:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 207E010FAA0;
+	Wed, 27 Mar 2024 12:08:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IwkUgrmG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HorGSGkg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FA6E10FA9A;
- Wed, 27 Mar 2024 12:08:10 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C1D210FA9F;
+ Wed, 27 Mar 2024 12:08:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id CD029614CD;
- Wed, 27 Mar 2024 12:08:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21342C433F1;
- Wed, 27 Mar 2024 12:08:08 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 5C993CE25AF;
+ Wed, 27 Mar 2024 12:08:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C58AC433F1;
+ Wed, 27 Mar 2024 12:08:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541289;
- bh=bdkaNm3Hf0PN2eOyxC0BSth1SDHmvN0juC3U7GklOWc=;
+ s=k20201202; t=1711541295;
+ bh=qPO9mbpce+BNGpnGhjrqZJHlmZ2LNJpqP9j1dM+AKJ0=;
  h=From:To:Cc:Subject:Date:From;
- b=IwkUgrmGiBElP/NhLyUYTDhvY/etxyi9D6d1gaOuUM0OTovCV2aCZbdijtx14XyiP
- d3lkKCXoClcAPFQD6tOu90MR0vG1ONeYBSuQ8tmXxmJaPCloryTOOWqlXY0UzN1CD8
- Xb9cce62I+qFxNeZreJMNNA+BKpY0A/qIPg0QjBXJg07p9OA+D1Ap4pK23VEOhtK14
- TXWIh5wIStFaVIJUuhGY2B19VUh+lwrSDYl1SF65gKhUTzoyUal4NDA6bisAfXXCg7
- Gen8yqqMwdkQpqKImOG3Ar1cYbXLgnu6G3Hx+4cse3kmRyAvzoe8vimXRO9pQsHY91
- dks56OO/0H6Uw==
+ b=HorGSGkgsfvE/QcthLbXaCLXeNe+uGFWfRrEUPHSEFFRO+gO0/hOeDost5D14DDVy
+ iTNrgRa4JMHSKuVH/P5Ifb0AOXc6xUX6+Fl69lo8fMxcSs7PpjWvUkpnMllQTaFOZp
+ c1NyKt4Ajnqa+MukAduMRY38tZwW50mhpnvSMJ3yAtoSePRIEnJDuOTogTjoqLlti4
+ lKKYe01+XwGfZznY5O1lD/RBL8WP5oJ5sU/5hBjot/nFeSUSs4Uo4qyOfw24gagAEG
+ gIARag5h1iJEw7YwLpp0cPPloPzhP4U4eykYic8QHU1xNM6Lg+4z45SQ9l1KHydi82
+ blOERHciy9hOA==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	gabe.teeger@amd.com
+	zhikai.zhai@amd.com
 Cc: Mario Limonciello <mario.limonciello@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>,
- Ovidiu Bunea <ovidiu.bunea@amd.com>,
+ Wenjing Liu <wenjing.liu@amd.com>,
  Aurabindo Pillai <aurabindo.pillai@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "Revert "drm/amd/display: Send DTBCLK disable message
- on first commit"" failed to apply to 6.8-stable tree
-Date: Wed, 27 Mar 2024 08:08:07 -0400
-Message-ID: <20240327120807.2825952-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/amd/display: Add align done check" failed to apply
+ to 6.8-stable tree
+Date: Wed, 27 Mar 2024 08:08:13 -0400
+Message-ID: <20240327120813.2826028-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -73,41 +73,56 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 3a6a32b31a111f6e66526fb2d3cb13a876465076 Mon Sep 17 00:00:00 2001
-From: Gabe Teeger <gabe.teeger@amd.com>
-Date: Mon, 29 Jan 2024 13:31:44 -0500
-Subject: [PATCH] Revert "drm/amd/display: Send DTBCLK disable message on first
- commit"
+From 1b5078f01b953a43d6198180ca5b110017315672 Mon Sep 17 00:00:00 2001
+From: Zhikai Zhai <zhikai.zhai@amd.com>
+Date: Mon, 29 Jan 2024 17:02:18 +0800
+Subject: [PATCH] drm/amd/display: Add align done check
 
-This reverts commit f341055b10bd8be55c3c995dff5f770b236b8ca9.
+[WHY]
+We Double-check link status if training successful,
+but miss the lane align status.
 
-System hang observed, this commit is thought to be the
-regression point.
+[HOW]
+Add the lane align status check
 
 Cc: Mario Limonciello <mario.limonciello@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
-Reviewed-by: Ovidiu Bunea <ovidiu.bunea@amd.com>
+Reviewed-by: Wenjing Liu <wenjing.liu@amd.com>
 Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Signed-off-by: Gabe Teeger <gabe.teeger@amd.com>
+Signed-off-by: Zhikai Zhai <zhikai.zhai@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c | 1 -
- 1 file changed, 1 deletion(-)
+ .../gpu/drm/amd/display/dc/link/protocols/link_dp_training.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
-index 06edca50a8fa1..36e5bb611fb10 100644
---- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
-+++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
-@@ -414,7 +414,6 @@ static void init_clk_states(struct clk_mgr *clk_mgr)
- 	uint32_t ref_dtbclk = clk_mgr->clks.ref_dtbclk_khz;
- 	memset(&(clk_mgr->clks), 0, sizeof(struct dc_clocks));
+diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c
+index e06d3c2d89102..e538c67d3ed91 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c
++++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c
+@@ -517,6 +517,7 @@ enum link_training_result dp_check_link_loss_status(
+ {
+ 	enum link_training_result status = LINK_TRAINING_SUCCESS;
+ 	union lane_status lane_status;
++	union lane_align_status_updated dpcd_lane_status_updated;
+ 	uint8_t dpcd_buf[6] = {0};
+ 	uint32_t lane;
  
--	clk_mgr->clks.dtbclk_en = true;
- 	clk_mgr->clks.ref_dtbclk_khz = ref_dtbclk;	// restore ref_dtbclk
- 	clk_mgr->clks.p_state_change_support = true;
- 	clk_mgr->clks.prev_p_state_change_support = true;
+@@ -532,10 +533,12 @@ enum link_training_result dp_check_link_loss_status(
+ 		 * check lanes status
+ 		 */
+ 		lane_status.raw = dp_get_nibble_at_index(&dpcd_buf[2], lane);
++		dpcd_lane_status_updated.raw = dpcd_buf[4];
+ 
+ 		if (!lane_status.bits.CHANNEL_EQ_DONE_0 ||
+ 			!lane_status.bits.CR_DONE_0 ||
+-			!lane_status.bits.SYMBOL_LOCKED_0) {
++			!lane_status.bits.SYMBOL_LOCKED_0 ||
++			!dp_is_interlane_aligned(dpcd_lane_status_updated)) {
+ 			/* if one of the channel equalization, clock
+ 			 * recovery or symbol lock is dropped
+ 			 * consider it as (link has been
 -- 
 2.43.0
 
