@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BAA088DD94
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:09:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2401988DD99
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:09:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 032C410FAD5;
-	Wed, 27 Mar 2024 12:09:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 344AC10FACE;
+	Wed, 27 Mar 2024 12:09:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MJGdDyUL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PEeYUfDZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D86F10FAE7;
- Wed, 27 Mar 2024 12:09:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FEDA10FAD6;
+ Wed, 27 Mar 2024 12:09:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4CA3D6150C;
- Wed, 27 Mar 2024 12:09:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5E5EC433F1;
- Wed, 27 Mar 2024 12:09:42 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 142D7614CD;
+ Wed, 27 Mar 2024 12:09:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76BE4C433F1;
+ Wed, 27 Mar 2024 12:09:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541383;
- bh=PdO3QTWWXdtXH/faSHBeGBKz4oXryRW19An/VRbluwU=;
+ s=k20201202; t=1711541389;
+ bh=rkdqF7LbDGTK3X3bGgq1lZqzEgq6frDciqHqmJHSVFE=;
  h=From:To:Cc:Subject:Date:From;
- b=MJGdDyULZm4P7Ke0AyCO4eMSILW9OPiJU4jCMgBNpuZVXjziw6X0B/Wkl27dL11Zh
- Kb+H1ADfhAJ0ioc/wtZzTtA4jSFGeggffP7UuJJXUoZ/N3mzhFp0Xyn7ntaCNpcFtz
- LaeJ76dmDlmrz7WLbc2lhjtQxdCZ0aqLgGKMm3lxor9/XdlLpOVakJnjciIxvB1FTc
- 82ZepGQ1VukU1YvfoHbah39PA7vWtQiBg+uMm6p704fYRYNca2h9zIR7OcWGH78U50
- oLppYtxRv8EqrBWMWZxSx7gWNEXoVE2Ii0aYnRrNmPik5d3dS5UEjuZyAVA79pjqkg
- tGAAi+H0I7VEA==
+ b=PEeYUfDZFfiTM10t+qw9YZ8vxq+SkVeQzgfudLdPe84DhQ5WI5Uq578xdZlgjxZt/
+ YEXi7PONMuUh8AGhRie/TmCXOg01NB15Zk92Ntlkt6PAdvhLczhoSAxuOfCZyy0yae
+ +KMGWnAkGG+DwtPYWhrQPqVXN7KkX8XZez+xVUKAk8DigWIRI6SBczyfaQlIy5WDQn
+ MigzVnZdfi3/ysDbqJE+G3r/8q9J075SPQiNKl80t5ZmaCz5SSLiRD5ybIck+Epw3l
+ IHbBY9Ie9gGBJQDEHYFkBf8o8uACK+Wj22dsIlGeSshKX8mdJM4/5x+GxLTzmrZFF7
+ 0qXP3xe0e/ynA==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	dillon.varone@amd.com
+	ilya.bakoulin@amd.com
 Cc: Mario Limonciello <mario.limonciello@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>,
- Martin Leung <martin.leung@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Charlene Liu <charlene.liu@amd.com>, Alex Hung <alex.hung@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: Init link enc resources in dc_state
- only if res_pool presents" failed to apply to 6.6-stable tree
-Date: Wed, 27 Mar 2024 08:09:41 -0400
-Message-ID: <20240327120941.2827276-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/amd/display: Clear OPTC mem select on disable"
+ failed to apply to 6.6-stable tree
+Date: Wed, 27 Mar 2024 08:09:47 -0400
+Message-ID: <20240327120947.2827350-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -72,43 +72,60 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From ca25a2b5f841f991e472e2dde7f5e2d337dbea08 Mon Sep 17 00:00:00 2001
-From: Dillon Varone <dillon.varone@amd.com>
-Date: Thu, 28 Dec 2023 21:36:39 -0500
-Subject: [PATCH] drm/amd/display: Init link enc resources in dc_state only if
- res_pool presents
+From b4e05bb1dec53fe28c3c88425aded824498666e5 Mon Sep 17 00:00:00 2001
+From: Ilya Bakoulin <ilya.bakoulin@amd.com>
+Date: Wed, 3 Jan 2024 09:42:04 -0500
+Subject: [PATCH] drm/amd/display: Clear OPTC mem select on disable
 
-[Why & How]
-res_pool is not initialized in all situations such as virtual
-environments, and therefore link encoder resources should not be
-initialized if res_pool is NULL.
+[Why]
+Not clearing the memory select bits prior to OPTC disable can cause DSC
+corruption issues when attempting to reuse a memory instance for another
+OPTC that enables ODM.
+
+[How]
+Clear the memory select bits prior to disabling an OPTC.
 
 Cc: Mario Limonciello <mario.limonciello@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
-Reviewed-by: Martin Leung <martin.leung@amd.com>
+Reviewed-by: Charlene Liu <charlene.liu@amd.com>
 Acked-by: Alex Hung <alex.hung@amd.com>
-Signed-off-by: Dillon Varone <dillon.varone@amd.com>
+Signed-off-by: Ilya Bakoulin <ilya.bakoulin@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_state.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/optc/dcn32/dcn32_optc.c | 3 +++
+ drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c | 3 +++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_state.c b/drivers/gpu/drm/amd/display/dc/core/dc_state.c
-index 460a8010c79fe..56feee0ff01b1 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_state.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_state.c
-@@ -267,7 +267,8 @@ void dc_state_construct(struct dc *dc, struct dc_state *state)
- 	state->clk_mgr = dc->clk_mgr;
+diff --git a/drivers/gpu/drm/amd/display/dc/optc/dcn32/dcn32_optc.c b/drivers/gpu/drm/amd/display/dc/optc/dcn32/dcn32_optc.c
+index 1788eb29474b4..8234935433254 100644
+--- a/drivers/gpu/drm/amd/display/dc/optc/dcn32/dcn32_optc.c
++++ b/drivers/gpu/drm/amd/display/dc/optc/dcn32/dcn32_optc.c
+@@ -173,6 +173,9 @@ static bool optc32_disable_crtc(struct timing_generator *optc)
+ 			OPTC_SEG3_SRC_SEL, 0xf,
+ 			OPTC_NUM_OF_INPUT_SEGMENT, 0);
  
- 	/* Initialise DIG link encoder resource tracking variables. */
--	link_enc_cfg_init(dc, state);
-+	if (dc->res_pool)
-+		link_enc_cfg_init(dc, state);
- }
++	REG_UPDATE(OPTC_MEMORY_CONFIG,
++			OPTC_MEM_SEL, 0);
++
+ 	/* disable otg request until end of the first line
+ 	 * in the vertical blank region
+ 	 */
+diff --git a/drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c b/drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c
+index 3d6c1b2c2b4d6..5b15475088503 100644
+--- a/drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c
++++ b/drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c
+@@ -145,6 +145,9 @@ static bool optc35_disable_crtc(struct timing_generator *optc)
+ 			OPTC_SEG3_SRC_SEL, 0xf,
+ 			OPTC_NUM_OF_INPUT_SEGMENT, 0);
  
- void dc_state_destruct(struct dc_state *state)
++	REG_UPDATE(OPTC_MEMORY_CONFIG,
++			OPTC_MEM_SEL, 0);
++
+ 	/* disable otg request until end of the first line
+ 	 * in the vertical blank region
+ 	 */
 -- 
 2.43.0
 
