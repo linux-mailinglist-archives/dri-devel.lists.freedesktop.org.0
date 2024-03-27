@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D13588DBA2
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 11:57:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1996888DBA4
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 11:57:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 972A410F9F4;
-	Wed, 27 Mar 2024 10:57:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7411D10F9F8;
+	Wed, 27 Mar 2024 10:57:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c5mqt2E9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ImHAcUp/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4204C10F9EC
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 10:57:26 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AE9610F9F1
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 10:57:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7CF8561423;
- Wed, 27 Mar 2024 10:57:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A7F2C43394;
- Wed, 27 Mar 2024 10:57:24 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id D0C09CE2387;
+ Wed, 27 Mar 2024 10:57:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA14DC433A6;
+ Wed, 27 Mar 2024 10:57:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711537045;
- bh=fNaimuoHSsgrvou3A7pRWnd9jF14e+9xHIs3h+JgTaw=;
+ s=k20201202; t=1711537048;
+ bh=RgXTYjenZlb2gm3MqpLGeXNi/9tzYzVu7kMQHNa8PvY=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=c5mqt2E9R/cmAj1brpjBe+PI2wocPxMXCCAGQ2/PoOc9+NrCoUa1x2hF4Q/ISrH+6
- 4D3BZvilQ2qMeXh3rYvaOqOhnT/a7zNM6mb5NLI9lr+72y24pc99QUrNWE7av+zr38
- fDR7723LmqEuGtc7+kxTtn/RE/1cDGAp1VMl4Q5vFnszIpzK8AQ1D49qPml8gKD3W/
- dKvx4/eePO9qM5qCRvsJud+z/V3gWDd3AF+eapSU6YKST+sth21AFcBzvnr3FrBmdA
- obt1rDwaVVGaJHrbawLpQ77/VE2iEJNey0aplp2u4/enjQMEoKqPju78EBXdtC+hkh
- 8nmc0sLtezWDQ==
+ b=ImHAcUp/Kz1WYFBN6vhj53LpkokRJPKanr+KBbWq1owP5JPugp3j7EjQsWQ7VBU5o
+ HuzrO5x8p82k5BJJLPbIvfkrZ49tDkpFTAO4lWs7yADBskHlUb2rFIs5ahzpTNXbk9
+ WjOiqMzz9ml6lLrREP79rxKgOYnyRLkgKtBE1Q4cYkK0R+iuY7K8EAzXk6LhioyQFB
+ tebefGoCjG+B13S229yw+4NLX9K/+mft7Cn/rwpNEF/2/hD2QrRSOte4SaIBC8RNyb
+ ftLVouz0WvHPs9OLRv7lfbQfJq2eFiXz8jOzG7kwMPLYZ5gpj4CIeAunVORczJJObl
+ e3i7RjMu7PRBQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 27 Mar 2024 11:56:59 +0100
-Subject: [PATCH v3 04/13] drm/display: Make DisplayPort CEC-over-AUX
- Kconfig name consistent
+Date: Wed, 27 Mar 2024 11:57:00 +0100
+Subject: [PATCH v3 05/13] drm/display: Reorder Kconfig symbols
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240327-kms-kconfig-helpers-v3-4-eafee11b84b3@kernel.org>
+Message-Id: <20240327-kms-kconfig-helpers-v3-5-eafee11b84b3@kernel.org>
 References: <20240327-kms-kconfig-helpers-v3-0-eafee11b84b3@kernel.org>
 In-Reply-To: <20240327-kms-kconfig-helpers-v3-0-eafee11b84b3@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -48,12 +47,12 @@ Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  Jani Nikula <jani.nikula@intel.com>, 
  Lucas De Marchi <lucas.demarchi@intel.com>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3355; i=mripard@kernel.org;
- h=from:subject:message-id; bh=fNaimuoHSsgrvou3A7pRWnd9jF14e+9xHIs3h+JgTaw=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGnMvxu/rnwYfH2OQcTOE5tTr/hIHSnyNZ/3zJ1pSrfjz
- 5se2wR6O6ayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBEwpcx1sfl/IysCtt26KFt
- xDWG+h7eGW9YmDnO6ml/mPnH5QbLzrNHulkz5QP+sqeHKO458Ei2mLGhI+bLzH1ic/Tf5viW3e3
- UM6meWZRmVO1vKHrn6YMXmunZdUpqvw9fCD+w9pJHxaI5tWEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2795; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=RgXTYjenZlb2gm3MqpLGeXNi/9tzYzVu7kMQHNa8PvY=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGnMvxuN58g+mnbr9NaEO3Z5y/aaR224KTb90qbtFmlSL
+ E16fzylO6ayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBEnrxnbLi9uCK99PnUaLtg
+ hR6OdSuuFPxPvv/9jc8LBpW/v73r9LlMPfumlQe3B199repdc6zoAmOtXDJLWSbDKq27qY4xc0R
+ z5Td+S5v1q/ey2R3/Y3qCh3XmiJzzEsyurHkuVP3ivfs8250A
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,87 +70,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While most display helpers Kconfig symbols have the DRM_DISPLAY prefix,
-the DisplayPort CEC tunnelling implementation uses CONFIG_DRM_DISPLAY_DP_AUX_CEC.
-
-Since the number of users is limited, we can easily rename it to make it
-consistent.
+The display kconfig helpers are not organized in any particular order,
+so let's move them around to create an alphabetical order.
 
 Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- arch/parisc/configs/generic-32bit_defconfig | 2 +-
- drivers/gpu/drm/display/Kconfig             | 2 +-
- drivers/gpu/drm/display/Makefile            | 2 +-
- include/drm/display/drm_dp_helper.h         | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/display/Kconfig | 52 ++++++++++++++++++++---------------------
+ 1 file changed, 26 insertions(+), 26 deletions(-)
 
-diff --git a/arch/parisc/configs/generic-32bit_defconfig b/arch/parisc/configs/generic-32bit_defconfig
-index ee4febb30386..5ce258f3fffa 100644
---- a/arch/parisc/configs/generic-32bit_defconfig
-+++ b/arch/parisc/configs/generic-32bit_defconfig
-@@ -129,11 +129,11 @@ CONFIG_PRINTER=m
- CONFIG_PPDEV=m
- # CONFIG_HW_RANDOM is not set
- CONFIG_I2C=y
- CONFIG_HWMON=m
- CONFIG_DRM=m
--CONFIG_DRM_DP_CEC=y
-+CONFIG_DRM_DISPLAY_DP_AUX_CEC=y
- # CONFIG_DRM_I2C_CH7006 is not set
- # CONFIG_DRM_I2C_SIL164 is not set
- CONFIG_DRM_RADEON=m
- CONFIG_DRM_NOUVEAU=m
- # CONFIG_DRM_NOUVEAU_BACKLIGHT is not set
 diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kconfig
-index 038be9795581..35cb68db0bfd 100644
+index 35cb68db0bfd..864a6488bfdf 100644
 --- a/drivers/gpu/drm/display/Kconfig
 +++ b/drivers/gpu/drm/display/Kconfig
-@@ -57,11 +57,11 @@ config DRM_DISPLAY_DP_AUX_CHARDEV
- 	help
- 	  Choose this option to enable a /dev/drm_dp_auxN node that allows to
- 	  read and write values to arbitrary DPCD registers on the DP aux
- 	  channel.
+@@ -1,18 +1,39 @@
+ # SPDX-License-Identifier: MIT
  
--config DRM_DP_CEC
+-config DRM_DISPLAY_DP_AUX_BUS
+-	tristate
+-	depends on DRM
+-	depends on OF || COMPILE_TEST
+-
+ config DRM_DISPLAY_HELPER
+ 	tristate
+ 	depends on DRM
+ 	help
+ 	  DRM helpers for display adapters.
+ 
++config DRM_DISPLAY_DP_AUX_BUS
++	tristate
++	depends on DRM
++	depends on OF || COMPILE_TEST
++
 +config DRM_DISPLAY_DP_AUX_CEC
- 	bool "Enable DisplayPort CEC-Tunneling-over-AUX HDMI support"
- 	depends on DRM && DRM_DISPLAY_HELPER
- 	select DRM_DISPLAY_DP_HELPER
- 	select CEC_CORE
++	bool "Enable DisplayPort CEC-Tunneling-over-AUX HDMI support"
++	depends on DRM && DRM_DISPLAY_HELPER
++	select DRM_DISPLAY_DP_HELPER
++	select CEC_CORE
++	help
++	  Choose this option if you want to enable HDMI CEC support for
++	  DisplayPort/USB-C to HDMI adapters.
++
++	  Note: not all adapters support this feature, and even for those
++	  that do support this they often do not hook up the CEC pin.
++
++config DRM_DISPLAY_DP_AUX_CHARDEV
++	bool "DRM DP AUX Interface"
++	depends on DRM && DRM_DISPLAY_HELPER
++	select DRM_DISPLAY_DP_HELPER
++	help
++	  Choose this option to enable a /dev/drm_dp_auxN node that allows to
++	  read and write values to arbitrary DPCD registers on the DP aux
++	  channel.
++
+ config DRM_DISPLAY_DP_HELPER
+ 	bool
+ 	depends on DRM_DISPLAY_HELPER
  	help
-diff --git a/drivers/gpu/drm/display/Makefile b/drivers/gpu/drm/display/Makefile
-index 44015aef1e8c..17d2cc73ff56 100644
---- a/drivers/gpu/drm/display/Makefile
-+++ b/drivers/gpu/drm/display/Makefile
-@@ -13,8 +13,8 @@ drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_TUNNEL) += \
- drm_display_helper-$(CONFIG_DRM_DISPLAY_HDCP_HELPER) += drm_hdcp_helper.o
- drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_HELPER) += \
- 	drm_hdmi_helper.o \
- 	drm_scdc_helper.o
- drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_AUX_CHARDEV) += drm_dp_aux_dev.o
--drm_display_helper-$(CONFIG_DRM_DP_CEC) += drm_dp_cec.o
-+drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_AUX_CEC) += drm_dp_cec.o
- 
- obj-$(CONFIG_DRM_DISPLAY_HELPER) += drm_display_helper.o
-diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-index a62fcd051d4d..46f4e0467d24 100644
---- a/include/drm/display/drm_dp_helper.h
-+++ b/include/drm/display/drm_dp_helper.h
-@@ -720,11 +720,11 @@ static inline int drm_panel_dp_aux_backlight(struct drm_panel *panel,
- 	return 0;
- }
- 
- #endif
- 
--#ifdef CONFIG_DRM_DP_CEC
-+#ifdef CONFIG_DRM_DISPLAY_DP_AUX_CEC
- void drm_dp_cec_irq(struct drm_dp_aux *aux);
- void drm_dp_cec_register_connector(struct drm_dp_aux *aux,
- 				   struct drm_connector *connector);
- void drm_dp_cec_unregister_connector(struct drm_dp_aux *aux);
- void drm_dp_cec_attach(struct drm_dp_aux *aux, u16 source_physical_address);
+ 	  DRM display helpers for DisplayPort.
+@@ -47,26 +68,5 @@ config DRM_DISPLAY_HDCP_HELPER
+ config DRM_DISPLAY_HDMI_HELPER
+ 	bool
+ 	depends on DRM_DISPLAY_HELPER
+ 	help
+ 	  DRM display helpers for HDMI.
+-
+-config DRM_DISPLAY_DP_AUX_CHARDEV
+-	bool "DRM DP AUX Interface"
+-	depends on DRM && DRM_DISPLAY_HELPER
+-	select DRM_DISPLAY_DP_HELPER
+-	help
+-	  Choose this option to enable a /dev/drm_dp_auxN node that allows to
+-	  read and write values to arbitrary DPCD registers on the DP aux
+-	  channel.
+-
+-config DRM_DISPLAY_DP_AUX_CEC
+-	bool "Enable DisplayPort CEC-Tunneling-over-AUX HDMI support"
+-	depends on DRM && DRM_DISPLAY_HELPER
+-	select DRM_DISPLAY_DP_HELPER
+-	select CEC_CORE
+-	help
+-	  Choose this option if you want to enable HDMI CEC support for
+-	  DisplayPort/USB-C to HDMI adapters.
+-
+-	  Note: not all adapters support this feature, and even for those
+-	  that do support this they often do not hook up the CEC pin.
 
 -- 
 2.44.0
