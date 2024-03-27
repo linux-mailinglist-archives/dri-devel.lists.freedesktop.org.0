@@ -2,46 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943D788DDA7
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:10:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33E8A88DDAD
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:10:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ED1710FAE9;
-	Wed, 27 Mar 2024 12:10:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE28A10FADA;
+	Wed, 27 Mar 2024 12:10:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Q3hKxehw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="N5sAach7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E85BE10FAD6;
- Wed, 27 Mar 2024 12:10:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBF8710FAD8;
+ Wed, 27 Mar 2024 12:10:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 140CACE139F;
- Wed, 27 Mar 2024 12:10:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23C04C43390;
- Wed, 27 Mar 2024 12:10:15 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 01024CE16C2;
+ Wed, 27 Mar 2024 12:10:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5537C433C7;
+ Wed, 27 Mar 2024 12:10:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541416;
- bh=c8SN4/lCpKMitjXB3iBSLw28bk/PHz7DCX4goeT/MJo=;
+ s=k20201202; t=1711541422;
+ bh=n15hOzHIXDB2VbiSNmKcqjhmERERL1RmXbb9LVlt/O8=;
  h=From:To:Cc:Subject:Date:From;
- b=Q3hKxehw6tgv4dOtH80hkV2Kj2+SHpxF9XIulZ9+nJw/Ncj7XYrhrcgBzMVcK8N/h
- 7VdS+OHgAPJ9WfVjG5SGFxaGQf7Oxia6v/DbDLRO+H7IMvuUfB0C8i9qZEWns7nD3m
- ko9mpba2wLGPi3hPVeaR9V+E+NZizav+QQzj/Hmjj+TWVm+gOEgTrbQgSjFIAcBmhp
- 5uYUYL8DHmBYLchAnW1SLO6Xwim7ILDy35u/lsnAaram7XuFX1pJUM/OA6VIvD/4wJ
- VJZrsJFA0j9oSm2R1+EeIpMuvgogn2DIYyOMNU/r5EoegbOEFeXmbixde4lUkBzBaB
- C2eqP6JaKczxA==
+ b=N5sAach7eBznevmSH4vxulrM/JZqSVz7GYZox22+HUMeieVOas5RtfMX5DuWCAvSV
+ PCVkHiD83+rrcApfvmKVUPWg8Rfd1iLZzrY8JQZq0BaZz0hNM1UTWA3HWDIL7RKMCf
+ ACYSwvbEcldYQegOh78cwI1X9Lk5sJK4YXi9AYHCHwojySCkXrUYBrAze4fuiRyqo/
+ 5zHjO7PXzG6eKqQC9EcFhvo563ENWLoL9MUud1UiSv00+ZQla8T+9qR3p8LaqOg7wh
+ tG/9LxGyD1mTrvo2wUKe8ntDa0sUA/0DSI2aycOIWQtnxEN/Q27vRjF+NSw8QL0Ieq
+ U0meDPa5zNVZw==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	ovidiu.bunea@amd.com
+	wenjing.liu@amd.com
 Cc: Mario Limonciello <mario.limonciello@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>,
- Charlene Liu <charlene.liu@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
+ Nevenko Stupar <nevenko.stupar@amd.com>,
+ Chaitanya Dhere <chaitanya.dhere@amd.com>,
+ Tom Chung <chiahsuan.chung@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: Fix DML2 watermark calculation"
+Subject: FAILED: Patch "drm/amd/display: fix incorrect mpc_combine array size"
  failed to apply to 6.6-stable tree
-Date: Wed, 27 Mar 2024 08:10:13 -0400
-Message-ID: <20240327121014.2827700-1-sashal@kernel.org>
+Date: Wed, 27 Mar 2024 08:10:19 -0400
+Message-ID: <20240327121019.2827857-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -72,55 +75,47 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 2254ab45dab22a18fdd29fe0e471706872c00093 Mon Sep 17 00:00:00 2001
-From: Ovidiu Bunea <ovidiu.bunea@amd.com>
-Date: Mon, 18 Dec 2023 21:40:45 -0500
-Subject: [PATCH] drm/amd/display: Fix DML2 watermark calculation
+From 607e1b0cf480cb8dbd65b372397871d7389942b5 Mon Sep 17 00:00:00 2001
+From: Wenjing Liu <wenjing.liu@amd.com>
+Date: Thu, 18 Jan 2024 15:14:15 -0500
+Subject: [PATCH] drm/amd/display: fix incorrect mpc_combine array size
 
-[Why]
-core_mode_programming in DML2 should output watermark calculations
-to locals, but it incorrectly uses mode_lib
+[why]
+MAX_SURFACES is per stream, while MAX_PLANES is per asic. The
+mpc_combine is an array that records all the planes per asic. Therefore
+MAX_PLANES should be used as the array size. Using MAX_SURFACES causes
+array overflow when there are more than 3 planes.
 
-[How]
-update code to match HW DML2
+[how]
+Use the MAX_PLANES for the mpc_combine array size.
 
 Cc: Mario Limonciello <mario.limonciello@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
-Reviewed-by: Charlene Liu <charlene.liu@amd.com>
-Acked-by: Alex Hung <alex.hung@amd.com>
-Signed-off-by: Ovidiu Bunea <ovidiu.bunea@amd.com>
+Reviewed-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
+Reviewed-by: Nevenko Stupar <nevenko.stupar@amd.com>
+Reviewed-by: Chaitanya Dhere <chaitanya.dhere@amd.com>
+Acked-by: Tom Chung <chiahsuan.chung@amd.com>
+Signed-off-by: Wenjing Liu <wenjing.liu@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- .../drm/amd/display/dc/dml2/display_mode_core.c    | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c b/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
-index a6b938a12de13..9be5ebf3a8c0b 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
-@@ -9446,13 +9446,13 @@ void dml_core_mode_programming(struct display_mode_lib_st *mode_lib, const struc
- 		CalculateWatermarks_params->CompressedBufferSizeInkByte = locals->CompressedBufferSizeInkByte;
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+index 9b80f65c04664..a7981a0c4158f 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+@@ -1113,7 +1113,7 @@ struct pipe_slice_table {
+ 		struct pipe_ctx *pri_pipe;
+ 		struct dc_plane_state *plane;
+ 		int slice_count;
+-	} mpc_combines[MAX_SURFACES];
++	} mpc_combines[MAX_PLANES];
+ 	int mpc_combine_count;
+ };
  
- 		// Output
--		CalculateWatermarks_params->Watermark = &s->dummy_watermark; // Watermarks *Watermark
--		CalculateWatermarks_params->DRAMClockChangeSupport = &mode_lib->ms.support.DRAMClockChangeSupport[0];
--		CalculateWatermarks_params->MaxActiveDRAMClockChangeLatencySupported = &s->dummy_single_array[0][0]; // dml_float_t *MaxActiveDRAMClockChangeLatencySupported[]
--		CalculateWatermarks_params->SubViewportLinesNeededInMALL = &mode_lib->ms.SubViewportLinesNeededInMALL[j]; // dml_uint_t SubViewportLinesNeededInMALL[]
--		CalculateWatermarks_params->FCLKChangeSupport = &mode_lib->ms.support.FCLKChangeSupport[0];
--		CalculateWatermarks_params->MaxActiveFCLKChangeLatencySupported = &s->dummy_single[0]; // dml_float_t *MaxActiveFCLKChangeLatencySupported
--		CalculateWatermarks_params->USRRetrainingSupport = &mode_lib->ms.support.USRRetrainingSupport[0];
-+		CalculateWatermarks_params->Watermark = &locals->Watermark; // Watermarks *Watermark
-+		CalculateWatermarks_params->DRAMClockChangeSupport = &locals->DRAMClockChangeSupport;
-+		CalculateWatermarks_params->MaxActiveDRAMClockChangeLatencySupported = locals->MaxActiveDRAMClockChangeLatencySupported; // dml_float_t *MaxActiveDRAMClockChangeLatencySupported[]
-+		CalculateWatermarks_params->SubViewportLinesNeededInMALL = locals->SubViewportLinesNeededInMALL; // dml_uint_t SubViewportLinesNeededInMALL[]
-+		CalculateWatermarks_params->FCLKChangeSupport = &locals->FCLKChangeSupport;
-+		CalculateWatermarks_params->MaxActiveFCLKChangeLatencySupported = &locals->MaxActiveFCLKChangeLatencySupported; // dml_float_t *MaxActiveFCLKChangeLatencySupported
-+		CalculateWatermarks_params->USRRetrainingSupport = &locals->USRRetrainingSupport;
- 
- 		CalculateWatermarksMALLUseAndDRAMSpeedChangeSupport(
- 			&mode_lib->scratch,
 -- 
 2.43.0
 
