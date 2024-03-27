@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E11D788E181
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 14:05:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7360D88E193
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 14:06:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E26A110F8FE;
-	Wed, 27 Mar 2024 13:05:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93A2B10FA54;
+	Wed, 27 Mar 2024 13:06:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8005410F8FE
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 13:05:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9537210FA54
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 13:06:47 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B5B746152C;
- Wed, 27 Mar 2024 13:05:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA955C433F1;
- Wed, 27 Mar 2024 13:04:22 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A32AB61426;
+ Wed, 27 Mar 2024 13:06:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24F80C43394;
+ Wed, 27 Mar 2024 13:05:57 +0000 (UTC)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
  Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
@@ -66,9 +66,9 @@ Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org,
  linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Subject: [PATCH 20/22] scsi: virtio: drop owner assignment
-Date: Wed, 27 Mar 2024 14:04:15 +0100
-Message-Id: <20240327130415.378738-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 21/22] fuse: virtio: drop owner assignment
+Date: Wed, 27 Mar 2024 14:05:52 +0100
+Message-Id: <20240327130552.378821-1-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
 References: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
@@ -97,21 +97,21 @@ Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Depends on the first patch.
 ---
- drivers/scsi/virtio_scsi.c | 1 -
+ fs/fuse/virtio_fs.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/scsi/virtio_scsi.c b/drivers/scsi/virtio_scsi.c
-index 617eb892f4ad..89ca26945721 100644
---- a/drivers/scsi/virtio_scsi.c
-+++ b/drivers/scsi/virtio_scsi.c
-@@ -1052,7 +1052,6 @@ static struct virtio_driver virtio_scsi_driver = {
- 	.feature_table = features,
- 	.feature_table_size = ARRAY_SIZE(features),
- 	.driver.name = KBUILD_MODNAME,
--	.driver.owner = THIS_MODULE,
- 	.id_table = id_table,
- 	.probe = virtscsi_probe,
- #ifdef CONFIG_PM_SLEEP
+diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
+index 322af827a232..ca7b64f9c3c7 100644
+--- a/fs/fuse/virtio_fs.c
++++ b/fs/fuse/virtio_fs.c
+@@ -1023,7 +1023,6 @@ static const unsigned int feature_table[] = {};
+ 
+ static struct virtio_driver virtio_fs_driver = {
+ 	.driver.name		= KBUILD_MODNAME,
+-	.driver.owner		= THIS_MODULE,
+ 	.id_table		= id_table,
+ 	.feature_table		= feature_table,
+ 	.feature_table_size	= ARRAY_SIZE(feature_table),
 -- 
 2.34.1
 
