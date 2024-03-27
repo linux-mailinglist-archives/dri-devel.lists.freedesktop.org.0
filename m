@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A723688DE08
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A9C88DE07
 	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:13:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D43B10FB27;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 282DA10FB21;
 	Wed, 27 Mar 2024 12:13:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GrrPVtps";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bn2AAxD9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F4BF10F102;
- Wed, 27 Mar 2024 12:13:04 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF20F10F61B;
+ Wed, 27 Mar 2024 12:13:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 1924FCE16C2;
- Wed, 27 Mar 2024 12:13:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26512C433C7;
- Wed, 27 Mar 2024 12:13:01 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 439376151A;
+ Wed, 27 Mar 2024 12:13:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF918C433C7;
+ Wed, 27 Mar 2024 12:13:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541582;
- bh=rwyQLzSPJ2i0LvxtIc1Tgco9OhoYWE7NrxS9+kcZ3Ig=;
+ s=k20201202; t=1711541588;
+ bh=bvFf50gKkBSe43/H7Qar+5HnGyWggDxUtaodGznFoQo=;
  h=From:To:Cc:Subject:Date:From;
- b=GrrPVtpsmN3sON+5RjxakYZwNOONJWG5OQCbYNo0Q2W95xLsZ5SmySGkhb0ZtBvuF
- nNSF55JPX4O0aUKKwQWeunRGCI8EIyj7Icyr/GxcYY1pv42ScerfH2/T1/nDym5/8+
- 4p7dQhLC4PgP+vL5QblYrYqVjvjxqNddK+yJEp7VbU+jXVo+YnIPEwnni0xO0zUyt6
- bEfV3HEOfBlHto4iMEKVRYnen/86p3RS6gHIiQkll5r+9OxAI9OYdClq/Uo0k8Mq+s
- aIDqIghJLi0Zu9LmKqgxbO8i5n+0XwSOSnsWHAcowsS3WGzFBpZ3Qw1IFN3Yp2j64p
- RrapnPRWZjR1g==
+ b=bn2AAxD9Xv1VB/Bl/W3eH7hFa2/nxhXpyhlv4bPOikMQYkvz5KCHcMHDlOTDo6qWh
+ 5LjhmSVPd0x5FnsF2dsh1ONoWDrweLPR+ai6uHR4Zu2Jt/e/J93mpPiF955ekP2Dt7
+ zHL4RJ3if8H0batSWsxkyaiX9CSkCWQ76wef019ZSuvFgfskObJfGSU9ACzHUB6wSV
+ nl5O8vI9qmpwMkAPt3TtoBMprfVBkZ6c47CWJPXuDjSpKfL/f2zVPfa7XZNILMdgKj
+ tnpOd6oneuDXX04uFbjCBauOz54O4Wxv4pTN8Rd0vM6BwLk/DqSulPuOWrz8H0BSoL
+ hmW4Pi/ZpkRhA==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	ovidiu.bunea@amd.com
+	sohaib.nadeem@amd.com
 Cc: Mario Limonciello <mario.limonciello@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>,
- Charlene Liu <charlene.liu@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Josip Pavic <josip.pavic@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: Fix DML2 watermark calculation"
- failed to apply to 6.1-stable tree
-Date: Wed, 27 Mar 2024 08:12:59 -0400
-Message-ID: <20240327121300.2829975-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/amd/display: fixed integer types and null check
+ locations" failed to apply to 6.1-stable tree
+Date: Wed, 27 Mar 2024 08:13:05 -0400
+Message-ID: <20240327121305.2830053-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -72,55 +73,112 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 2254ab45dab22a18fdd29fe0e471706872c00093 Mon Sep 17 00:00:00 2001
-From: Ovidiu Bunea <ovidiu.bunea@amd.com>
-Date: Mon, 18 Dec 2023 21:40:45 -0500
-Subject: [PATCH] drm/amd/display: Fix DML2 watermark calculation
+From 616b39467e816851335277d817ec98b7a9b92758 Mon Sep 17 00:00:00 2001
+From: Sohaib Nadeem <sohaib.nadeem@amd.com>
+Date: Wed, 31 Jan 2024 16:40:37 -0500
+Subject: [PATCH] drm/amd/display: fixed integer types and null check locations
 
-[Why]
-core_mode_programming in DML2 should output watermark calculations
-to locals, but it incorrectly uses mode_lib
-
-[How]
-update code to match HW DML2
+[why]:
+issues fixed:
+- comparison with wider integer type in loop condition which can cause
+infinite loops
+- pointer dereference before null check
 
 Cc: Mario Limonciello <mario.limonciello@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
-Reviewed-by: Charlene Liu <charlene.liu@amd.com>
-Acked-by: Alex Hung <alex.hung@amd.com>
-Signed-off-by: Ovidiu Bunea <ovidiu.bunea@amd.com>
+Reviewed-by: Josip Pavic <josip.pavic@amd.com>
+Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Signed-off-by: Sohaib Nadeem <sohaib.nadeem@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- .../drm/amd/display/dc/dml2/display_mode_core.c    | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ .../gpu/drm/amd/display/dc/bios/bios_parser2.c   | 16 ++++++++++------
+ .../drm/amd/display/dc/link/link_validation.c    |  2 +-
+ 2 files changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c b/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
-index a6b938a12de13..9be5ebf3a8c0b 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
-@@ -9446,13 +9446,13 @@ void dml_core_mode_programming(struct display_mode_lib_st *mode_lib, const struc
- 		CalculateWatermarks_params->CompressedBufferSizeInkByte = locals->CompressedBufferSizeInkByte;
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+index 960c4b4f6ddf3..05f392501c0ae 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+@@ -1850,19 +1850,21 @@ static enum bp_result get_firmware_info_v3_2(
+ 		/* Vega12 */
+ 		smu_info_v3_2 = GET_IMAGE(struct atom_smu_info_v3_2,
+ 							DATA_TABLES(smu_info));
+-		DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", smu_info_v3_2->gpuclk_ss_percentage);
+ 		if (!smu_info_v3_2)
+ 			return BP_RESULT_BADBIOSTABLE;
  
- 		// Output
--		CalculateWatermarks_params->Watermark = &s->dummy_watermark; // Watermarks *Watermark
--		CalculateWatermarks_params->DRAMClockChangeSupport = &mode_lib->ms.support.DRAMClockChangeSupport[0];
--		CalculateWatermarks_params->MaxActiveDRAMClockChangeLatencySupported = &s->dummy_single_array[0][0]; // dml_float_t *MaxActiveDRAMClockChangeLatencySupported[]
--		CalculateWatermarks_params->SubViewportLinesNeededInMALL = &mode_lib->ms.SubViewportLinesNeededInMALL[j]; // dml_uint_t SubViewportLinesNeededInMALL[]
--		CalculateWatermarks_params->FCLKChangeSupport = &mode_lib->ms.support.FCLKChangeSupport[0];
--		CalculateWatermarks_params->MaxActiveFCLKChangeLatencySupported = &s->dummy_single[0]; // dml_float_t *MaxActiveFCLKChangeLatencySupported
--		CalculateWatermarks_params->USRRetrainingSupport = &mode_lib->ms.support.USRRetrainingSupport[0];
-+		CalculateWatermarks_params->Watermark = &locals->Watermark; // Watermarks *Watermark
-+		CalculateWatermarks_params->DRAMClockChangeSupport = &locals->DRAMClockChangeSupport;
-+		CalculateWatermarks_params->MaxActiveDRAMClockChangeLatencySupported = locals->MaxActiveDRAMClockChangeLatencySupported; // dml_float_t *MaxActiveDRAMClockChangeLatencySupported[]
-+		CalculateWatermarks_params->SubViewportLinesNeededInMALL = locals->SubViewportLinesNeededInMALL; // dml_uint_t SubViewportLinesNeededInMALL[]
-+		CalculateWatermarks_params->FCLKChangeSupport = &locals->FCLKChangeSupport;
-+		CalculateWatermarks_params->MaxActiveFCLKChangeLatencySupported = &locals->MaxActiveFCLKChangeLatencySupported; // dml_float_t *MaxActiveFCLKChangeLatencySupported
-+		CalculateWatermarks_params->USRRetrainingSupport = &locals->USRRetrainingSupport;
++		DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", smu_info_v3_2->gpuclk_ss_percentage);
++
+ 		info->default_engine_clk = smu_info_v3_2->bootup_dcefclk_10khz * 10;
+ 	} else if (revision.minor == 3) {
+ 		/* Vega20 */
+ 		smu_info_v3_3 = GET_IMAGE(struct atom_smu_info_v3_3,
+ 							DATA_TABLES(smu_info));
+-		DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", smu_info_v3_3->gpuclk_ss_percentage);
+ 		if (!smu_info_v3_3)
+ 			return BP_RESULT_BADBIOSTABLE;
  
- 		CalculateWatermarksMALLUseAndDRAMSpeedChangeSupport(
- 			&mode_lib->scratch,
++		DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", smu_info_v3_3->gpuclk_ss_percentage);
++
+ 		info->default_engine_clk = smu_info_v3_3->bootup_dcefclk_10khz * 10;
+ 	}
+ 
+@@ -2422,10 +2424,11 @@ static enum bp_result get_integrated_info_v11(
+ 	info_v11 = GET_IMAGE(struct atom_integrated_system_info_v1_11,
+ 					DATA_TABLES(integratedsysteminfo));
+ 
+-	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v11->gpuclk_ss_percentage);
+ 	if (info_v11 == NULL)
+ 		return BP_RESULT_BADBIOSTABLE;
+ 
++	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v11->gpuclk_ss_percentage);
++
+ 	info->gpu_cap_info =
+ 	le32_to_cpu(info_v11->gpucapinfo);
+ 	/*
+@@ -2637,11 +2640,12 @@ static enum bp_result get_integrated_info_v2_1(
+ 
+ 	info_v2_1 = GET_IMAGE(struct atom_integrated_system_info_v2_1,
+ 					DATA_TABLES(integratedsysteminfo));
+-	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v2_1->gpuclk_ss_percentage);
+ 
+ 	if (info_v2_1 == NULL)
+ 		return BP_RESULT_BADBIOSTABLE;
+ 
++	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v2_1->gpuclk_ss_percentage);
++
+ 	info->gpu_cap_info =
+ 	le32_to_cpu(info_v2_1->gpucapinfo);
+ 	/*
+@@ -2799,11 +2803,11 @@ static enum bp_result get_integrated_info_v2_2(
+ 	info_v2_2 = GET_IMAGE(struct atom_integrated_system_info_v2_2,
+ 					DATA_TABLES(integratedsysteminfo));
+ 
+-	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v2_2->gpuclk_ss_percentage);
+-
+ 	if (info_v2_2 == NULL)
+ 		return BP_RESULT_BADBIOSTABLE;
+ 
++	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v2_2->gpuclk_ss_percentage);
++
+ 	info->gpu_cap_info =
+ 	le32_to_cpu(info_v2_2->gpucapinfo);
+ 	/*
+diff --git a/drivers/gpu/drm/amd/display/dc/link/link_validation.c b/drivers/gpu/drm/amd/display/dc/link/link_validation.c
+index 1c038e2a527b3..1aed55b0ab6a0 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/link_validation.c
++++ b/drivers/gpu/drm/amd/display/dc/link/link_validation.c
+@@ -359,7 +359,7 @@ bool link_validate_dpia_bandwidth(const struct dc_stream_state *stream, const un
+ 	struct dc_link *dpia_link[MAX_DPIA_NUM] = {0};
+ 	int num_dpias = 0;
+ 
+-	for (uint8_t i = 0; i < num_streams; ++i) {
++	for (unsigned int i = 0; i < num_streams; ++i) {
+ 		if (stream[i].signal == SIGNAL_TYPE_DISPLAY_PORT) {
+ 			/* new dpia sst stream, check whether it exceeds max dpia */
+ 			if (num_dpias >= MAX_DPIA_NUM)
 -- 
 2.43.0
 
