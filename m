@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDCC288DF1F
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:21:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF3388DF24
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:21:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E73810FC12;
-	Wed, 27 Mar 2024 12:21:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 103DD10FC14;
+	Wed, 27 Mar 2024 12:21:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p1eQuoG7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bjYMh4SX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5BDC10FC12
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 12:21:26 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A9C910FC0E;
+ Wed, 27 Mar 2024 12:21:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 3D1D2CE184D;
- Wed, 27 Mar 2024 12:21:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95149C433F1;
- Wed, 27 Mar 2024 12:21:23 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A1955614BA;
+ Wed, 27 Mar 2024 12:21:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51F13C433C7;
+ Wed, 27 Mar 2024 12:21:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711542084;
- bh=CIIr3gCEG+3opvY+S/mrbaoCSt0eZctrjskSgO9hl54=;
+ s=k20201202; t=1711542092;
+ bh=WzAts3itri9Y1SLbajroPBQOpKguEKCub9D1jDLTxAs=;
  h=From:To:Cc:Subject:Date:From;
- b=p1eQuoG7OzDcLUkkXpIEjy1AJuDQ7A3HyuZtDjkJrBP1BHHcZlbMhEkV4hPWbl7lw
- MGIN2ceUkzvXcZYRgZx9LdIHIChAKKvio7/EDcmSpeO6qW3Rw/FYXejGJDqbiHFM7R
- 0ZICeta0ZampNT3H6V80Phqru7lvs5zMCBgroo/9Jkkhr0sO+CjSCCDZSx4t4EnCAZ
- Adt1FHoiFXPeuoGKnO46SzYEmU4tJLqUcImpT7oHZcEBMtyR8hJutMTCVmPzCkmk7i
- hu7PenbUntHiiKnifcYbfUDxm1fk1cFcONni/VQ48ASgIUDLzv0bKt/GH2kjnZml3L
- hePOMPmsK6l4A==
+ b=bjYMh4SXd1o68I9slhavTa9OsBX3obzVJM4M6/4R/7EVPHx1sGs/WXXny4yrnfunL
+ iiJEyzTNZy1rfuuiDVcfXsYZRVW4FcXGseViTVT3xG3f2BSbQUsxDDeM7Fde4olxY1
+ YMLUqJhR2t0lQM/dKgm1YqzhbbNPaJX4gKQ9urywCMRq95PtOcl448k2/uyu2XatTx
+ JNT2eGxoEvocetYoNBX3HPxEXWhubf6POOR823SICBxpcfgiJZjq7Qn4GQGEQRv+OE
+ GyLFMOMwK2m+LaGI8JWaFZBqRQCqvWOhp7pMP/gMWYjFtYirAZhzGHQFoeJFDcuMnp
+ CJeakzAZzcfAg==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	jani.nikula@intel.com
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/panel: do not return negative error codes from
- drm_panel_get_modes()" failed to apply to 5.4-stable tree
-Date: Wed, 27 Mar 2024 08:21:22 -0400
-Message-ID: <20240327122122.2836791-1-sashal@kernel.org>
+	Rodrigo.Siqueira@amd.com
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: FAILED: Patch "drm/amd/display: Return the correct HDCP error code"
+ failed to apply to 5.4-stable tree
+Date: Wed, 27 Mar 2024 08:21:30 -0400
+Message-ID: <20240327122130.2836906-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -71,72 +71,40 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From fc4e97726530241d96dd7db72eb65979217422c9 Mon Sep 17 00:00:00 2001
-From: Jani Nikula <jani.nikula@intel.com>
-Date: Fri, 8 Mar 2024 18:03:40 +0200
-Subject: [PATCH] drm/panel: do not return negative error codes from
- drm_panel_get_modes()
+From e64b3f55e458ce7e2087a0051f47edabf74545e7 Mon Sep 17 00:00:00 2001
+From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Date: Wed, 14 Feb 2024 13:29:51 -0700
+Subject: [PATCH] drm/amd/display: Return the correct HDCP error code
 
-None of the callers of drm_panel_get_modes() expect it to return
-negative error codes. Either they propagate the return value in their
-struct drm_connector_helper_funcs .get_modes() hook (which is also not
-supposed to return negative codes), or add it to other counts leading to
-bogus values.
+[WHY & HOW]
+If the display is null when creating an HDCP session, return a proper
+error code.
 
-On the other hand, many of the struct drm_panel_funcs .get_modes() hooks
-do return negative error codes, so handle them gracefully instead of
-propagating further.
-
-Return 0 for no modes, whatever the reason.
-
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/79f559b72d8c493940417304e222a4b04dfa19c4.1709913674.git.jani.nikula@intel.com
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+Acked-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- drivers/gpu/drm/drm_panel.c | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/amd/display/modules/hdcp/hdcp_psp.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-index e814020bbcd3b..cfbe020de54e0 100644
---- a/drivers/gpu/drm/drm_panel.c
-+++ b/drivers/gpu/drm/drm_panel.c
-@@ -274,19 +274,24 @@ EXPORT_SYMBOL(drm_panel_disable);
-  * The modes probed from the panel are automatically added to the connector
-  * that the panel is attached to.
-  *
-- * Return: The number of modes available from the panel on success or a
-- * negative error code on failure.
-+ * Return: The number of modes available from the panel on success, or 0 on
-+ * failure (no modes).
-  */
- int drm_panel_get_modes(struct drm_panel *panel,
- 			struct drm_connector *connector)
- {
- 	if (!panel)
--		return -EINVAL;
-+		return 0;
+diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_psp.c b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_psp.c
+index 8c137d7c032e1..7c9805705fd38 100644
+--- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_psp.c
++++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_psp.c
+@@ -513,6 +513,9 @@ enum mod_hdcp_status mod_hdcp_hdcp2_create_session(struct mod_hdcp *hdcp)
+ 	hdcp_cmd = (struct ta_hdcp_shared_memory *)psp->hdcp_context.context.mem_context.shared_buf;
+ 	memset(hdcp_cmd, 0, sizeof(struct ta_hdcp_shared_memory));
  
--	if (panel->funcs && panel->funcs->get_modes)
--		return panel->funcs->get_modes(panel, connector);
-+	if (panel->funcs && panel->funcs->get_modes) {
-+		int num;
- 
--	return -EOPNOTSUPP;
-+		num = panel->funcs->get_modes(panel, connector);
-+		if (num > 0)
-+			return num;
-+	}
++	if (!display)
++		return MOD_HDCP_STATUS_DISPLAY_NOT_FOUND;
 +
-+	return 0;
- }
- EXPORT_SYMBOL(drm_panel_get_modes);
+ 	hdcp_cmd->in_msg.hdcp2_create_session_v2.display_handle = display->index;
  
+ 	if (hdcp->connection.link.adjust.hdcp2.force_type == MOD_HDCP_FORCE_TYPE_0)
 -- 
 2.43.0
 
