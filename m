@@ -2,62 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C77E88E179
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 14:04:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E11D788E181
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 14:05:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86BCE10F7DD;
-	Wed, 27 Mar 2024 13:04:01 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kiXNd6Ei";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id E26A110F8FE;
+	Wed, 27 Mar 2024 13:05:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56CD610F78C
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 13:04:00 +0000 (UTC)
-Received: from [127.0.1.1] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CAB38675;
- Wed, 27 Mar 2024 14:03:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1711544606;
- bh=fBckXIMsHbe2+Au1I+FoaYupzsY+KA/9pDk1D4J+lrA=;
- h=From:Date:Subject:To:Cc:From;
- b=kiXNd6EiywZInrxTUGsPmXI5/cxcIGs1SsCgdnoqpj4m2xvfWUY1qjHPvvmQjjhMP
- pJSHyxHrKlteTkg4YYv6jGlIpdf/5fFaOkgh6vLlynUiHKDL3wicN1Dfl6KqL1hPZq
- Dmr/aIfJ0k9aSYwMmQVValoI3FXd4CNWdJyfkdjs=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 27 Mar 2024 15:03:33 +0200
-Subject: [PATCH] MAINTAINERS: Add myself as maintainer for Xilinx DRM drivers
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8005410F8FE
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 13:05:02 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id B5B746152C;
+ Wed, 27 Mar 2024 13:05:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA955C433F1;
+ Wed, 27 Mar 2024 13:04:22 +0000 (UTC)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Jens Axboe <axboe@kernel.dk>, Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Olivia Mackall <olivia@selenic.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Amit Shah <amit@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Gonglei <arei.gonglei@huawei.com>, "David S. Miller" <davem@davemloft.net>,
+ Viresh Kumar <vireshk@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, David Airlie <airlied@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Joerg Roedel <joro@8bytes.org>, Alexander Graf <graf@amazon.com>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Eric Van Hensbergen <ericvh@kernel.org>,
+ Latchesar Ionkov <lucho@ionkov.net>,
+ Dominique Martinet <asmadeus@codewreck.org>,
+ Christian Schoenebeck <linux_oss@crudebyte.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Kalle Valo <kvalo@kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Ira Weiny <ira.weiny@intel.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
+ Anton Yakovlev <anton.yakovlev@opensynergy.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ virtualization@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ iommu@lists.linux.dev, netdev@vger.kernel.org, v9fs@lists.linux.dev,
+ kvm@vger.kernel.org, linux-wireless@vger.kernel.org,
+ nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Subject: [PATCH 20/22] scsi: virtio: drop owner assignment
+Date: Wed, 27 Mar 2024 14:04:15 +0100
+Message-Id: <20240327130415.378738-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
+References: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240327-xilinx-maintainer-v1-1-c5fdc115f448@ideasonboard.com>
-X-B4-Tracking: v=1; b=H4sIACQZBGYC/x2MQQqAIBAAvyJ7TjATg74SHUzXWigLjRDEvycd5
- jCHmQIJI2GCiRWI+FKiKzTpOwZ2N2FDTq45SCGVGOTIMx0UMj8NhaeBkXstpPDarkY5aN0d0VP
- +n/NS6weR6D87YwAAAA==
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=795;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=fBckXIMsHbe2+Au1I+FoaYupzsY+KA/9pDk1D4J+lrA=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBmBBk6L8A9Xw88l1g2tAOprbKEqvM/FkgDFMvRy
- GIXq1PQrL6JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZgQZOgAKCRD6PaqMvJYe
- 9Tk8D/4nlr7//mnEaXjY4VB+nbvdiZd8PrY7w/u4Bj0G4sg3+mXp2amK74xzBx6IN4/tWjBfmmx
- dngDQ6Mt3s9XE3hO9vZbNmK5IFRNBSwPZxkofpRWa/18QE0TNNyk9smJcTGeeZ1HTcMDTke146G
- blrMJfukfPO6n7AIZHetyDMebRpd7tTqL/9HvgLV7zAWj+Hr4+0JeQh5x6cFOhBBg/hzpS1ftdZ
- pmWthypWIyZP9hP/vdOZ0A3T/XJlLpPrmwd9VE2Q31/rMPNOffC0jWHJnmHywkhL/0KJGT/RraK
- 7SHZ+9mtfIoXIRMAMxi3KaNgg3G/qbksQG0brjLPmdjdq2FuNz+oj1ZPDcUmoX7sTwt7rjUczgL
- RxQL9rSSpsi+R40OHHDUd2qXNpTryfdpnKvUdUxh0G5GyzNHDp49dYKbNoM3EQX0XRbfzI7yQ01
- ZNLl7j8SLEO0ecEQQQke31bsKmvwvFu29Ie9Su+qrXWZ+ynFw4fdNXTipD0/5nUNn/d2lzCiJIY
- GdYsEwSWrW20EYQbI4OanhZlY2OcX0BcNomPWHNVVvoldRqPYolALIfbyHA9LJ44Xgn9Pgr5vS3
- SpXGML1TFLsRCHsvqU379BX/AYOf/LTO5IBZYxgfQCu2/KvR3F2toeFPFZ0nBuq9oQ/gi9QOcVR
- ZF7zNBREqcXB6DA==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,31 +89,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add myself as a co-maintainer for Xilinx DRM drivers to help Laurent.
+virtio core already sets the .owner, so driver does not need to.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1aabf1c15bb3..79ef5a6bf21b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7306,6 +7306,7 @@ F:	drivers/gpu/drm/xen/
- 
- DRM DRIVERS FOR XILINX
- M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-+M:	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
- L:	dri-devel@lists.freedesktop.org
- S:	Maintained
- T:	git git://anongit.freedesktop.org/drm/drm-misc
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 ---
-base-commit: e8f897f4afef0031fe618a8e94127a0934896aba
-change-id: 20240327-xilinx-maintainer-f6020f6cba4d
 
-Best regards,
+Depends on the first patch.
+---
+ drivers/scsi/virtio_scsi.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/scsi/virtio_scsi.c b/drivers/scsi/virtio_scsi.c
+index 617eb892f4ad..89ca26945721 100644
+--- a/drivers/scsi/virtio_scsi.c
++++ b/drivers/scsi/virtio_scsi.c
+@@ -1052,7 +1052,6 @@ static struct virtio_driver virtio_scsi_driver = {
+ 	.feature_table = features,
+ 	.feature_table_size = ARRAY_SIZE(features),
+ 	.driver.name = KBUILD_MODNAME,
+-	.driver.owner = THIS_MODULE,
+ 	.id_table = id_table,
+ 	.probe = virtscsi_probe,
+ #ifdef CONFIG_PM_SLEEP
 -- 
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+2.34.1
 
