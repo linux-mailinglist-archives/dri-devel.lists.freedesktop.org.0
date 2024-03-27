@@ -2,46 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA2E388DD1F
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:07:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5639288DD21
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:07:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00A0F10FA6C;
-	Wed, 27 Mar 2024 12:06:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F08B010FA6A;
+	Wed, 27 Mar 2024 12:06:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AiYKpqpf";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hlhbx/M9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D9FE10FA66;
- Wed, 27 Mar 2024 12:06:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5846110FA6A;
+ Wed, 27 Mar 2024 12:06:56 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id ECF6F6151C;
- Wed, 27 Mar 2024 12:06:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFD6CC433C7;
- Wed, 27 Mar 2024 12:06:51 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C98B861529;
+ Wed, 27 Mar 2024 12:06:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8205FC43390;
+ Wed, 27 Mar 2024 12:06:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541212;
- bh=JsFLmICPclUEfk3uONVg9S1ufjrbfa369jBFDcMe1D8=;
+ s=k20201202; t=1711541215;
+ bh=+J7ERlUOqwzi8/rVnchw03P5BC09HJILEOn2wX+hlzc=;
  h=From:To:Cc:Subject:Date:From;
- b=AiYKpqpfZLIB0RhUbv3jjPdfam3Ptoab8wn0i9RB3nydQkMScSpAejqhkhmbsoNew
- uNSdNILLvUvxfTqzjNCOTevyVQqVhXUILYXa9WgrnDYVD4ypGpvrrQA0WjGStkna3B
- cFv9J8Gjk2j+8b8ccm5LfTo+flUV+95kDrQgVsDck38+uaohle/9kACHO6blQqTH/S
- TGLOam0e9cBx9v1mhNPTnaTSGjWaQQL1gqLsdcXzSgq+wJjpFXw8I+lpxUkDUMS1aD
- GPG1Ht/VaPdL512PleSk6NgbSvdAIRDOYzDvzvRhTMZW3dQ9He2bO67U2OLRAia3Bu
- sn3kSMTM0da4g==
+ b=hlhbx/M9AVnSW+gQHForzSHGIEoK+QxP1Me/6Bo5HK6saz9NgaXJxxsIF2f+FUwZO
+ NNsniJjlY8Z/AT/ULn6rv6QX8w0TCNv9Vj0DPRs/HOBijQYxVOcuSftvmY2LEwalfV
+ Oeav1fTmuUzRVRLjMcoHcnvct65/juDoxLIkFE7qqxAzCSYShmudIYkdcdFP9JiLIV
+ A5XA5Jjj8m0ybY31bgafg8SCspTOP54JPE40BpLz6HzSkxjPmKlwewjbjQP6bCQpu3
+ KZ17cPyM1bfWjiSYfAch5M682FF6dQ+ZAFmocaFsETSrMm9sZEEvuxjm4A6yk7l+4h
+ c4pzq/3/xITCw==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	wayne.lin@amd.com
-Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
+	corngood@gmail.com
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: adjust few initialization order in
- dm" failed to apply to 6.8-stable tree
-Date: Wed, 27 Mar 2024 08:06:50 -0400
-Message-ID: <20240327120650.2824824-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/amd: Don't init MEC2 firmware when it fails to
+ load" failed to apply to 6.8-stable tree
+Date: Wed, 27 Mar 2024 08:06:53 -0400
+Message-ID: <20240327120653.2824861-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -72,110 +70,36 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From c9aef4f6c6d7cdc92a64ffe761c6921ec85157ae Mon Sep 17 00:00:00 2001
-From: Wayne Lin <wayne.lin@amd.com>
-Date: Fri, 2 Feb 2024 17:34:11 +0800
-Subject: [PATCH] drm/amd/display: adjust few initialization order in dm
+From c3ec8c4f9a470c026066ac7b2e4bac898bc7ff02 Mon Sep 17 00:00:00 2001
+From: David McFarland <corngood@gmail.com>
+Date: Mon, 29 Jan 2024 18:18:22 -0400
+Subject: [PATCH] drm/amd: Don't init MEC2 firmware when it fails to load
 
-[Why]
-Observe error message "Can't retrieve aconnector in hpd_rx_irq_offload_work"
-when boot up with a mst tbt4 dock connected. After analyzing, there are few
-parts needed to be adjusted:
+The same calls are made directly above, but conditional on the firmware
+loading and validating successfully.
 
-1. hpd_rx_offload_wq[].aconnector is not initialzed before the dmub outbox
-hpd_irq handler get registered which causes the error message.
-
-2. registeration of hpd and hpd_rx_irq event for usb4 dp tunneling is not
-aligned with legacy interface sequence
-
-[How]
-Put DMUB_NOTIFICATION_HPD and DMUB_NOTIFICATION_HPD_IRQ handler
-registration into register_hpd_handlers() to align other interfaces and
-get hpd_rx_offload_wq[].aconnector initialized earlier than that.
-
-Leave DMUB_NOTIFICATION_AUX_REPLY registered as it was since we need that
-while calling dc_link_detect(). USB4 connection status will be proactively
-detected by dc_link_detect_connection_type() in amdgpu_dm_initialize_drm_device()
-
-Cc: Stable <stable@vger.kernel.org>
-Reviewed-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Acked-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Wayne Lin <wayne.lin@amd.com>
+Cc: stable@vger.kernel.org
+Fixes: 9931b67690cf ("drm/amd: Load GFX10 microcode during early_init")
+Signed-off-by: David McFarland <corngood@gmail.com>
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 37 +++++++++----------
- 1 file changed, 18 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 985137b51372d..8b13cb334b366 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -1844,21 +1844,12 @@ static int amdgpu_dm_init(struct amdgpu_device *adev)
- 			DRM_ERROR("amdgpu: fail to register dmub aux callback");
- 			goto error;
- 		}
--		if (!register_dmub_notify_callback(adev, DMUB_NOTIFICATION_HPD, dmub_hpd_callback, true)) {
--			DRM_ERROR("amdgpu: fail to register dmub hpd callback");
--			goto error;
--		}
--		if (!register_dmub_notify_callback(adev, DMUB_NOTIFICATION_HPD_IRQ, dmub_hpd_callback, true)) {
--			DRM_ERROR("amdgpu: fail to register dmub hpd callback");
--			goto error;
--		}
--	}
--
--	/* Enable outbox notification only after IRQ handlers are registered and DMUB is alive.
--	 * It is expected that DMUB will resend any pending notifications at this point, for
--	 * example HPD from DPIA.
--	 */
--	if (dc_is_dmub_outbox_supported(adev->dm.dc)) {
-+		/* Enable outbox notification only after IRQ handlers are registered and DMUB is alive.
-+		 * It is expected that DMUB will resend any pending notifications at this point. Note
-+		 * that hpd and hpd_irq handler registration are deferred to register_hpd_handlers() to
-+		 * align legacy interface initialization sequence. Connection status will be proactivly
-+		 * detected once in the amdgpu_dm_initialize_drm_device.
-+		 */
- 		dc_enable_dmub_outbox(adev->dm.dc);
- 
- 		/* DPIA trace goes to dmesg logs only if outbox is enabled */
-@@ -3547,6 +3538,14 @@ static void register_hpd_handlers(struct amdgpu_device *adev)
- 	int_params.requested_polarity = INTERRUPT_POLARITY_DEFAULT;
- 	int_params.current_polarity = INTERRUPT_POLARITY_DEFAULT;
- 
-+	if (dc_is_dmub_outbox_supported(adev->dm.dc)) {
-+		if (!register_dmub_notify_callback(adev, DMUB_NOTIFICATION_HPD, dmub_hpd_callback, true))
-+			DRM_ERROR("amdgpu: fail to register dmub hpd callback");
-+
-+		if (!register_dmub_notify_callback(adev, DMUB_NOTIFICATION_HPD_IRQ, dmub_hpd_callback, true))
-+			DRM_ERROR("amdgpu: fail to register dmub hpd callback");
-+	}
-+
- 	list_for_each_entry(connector,
- 			&dev->mode_config.connector_list, head)	{
- 
-@@ -3575,10 +3574,6 @@ static void register_hpd_handlers(struct amdgpu_device *adev)
- 					handle_hpd_rx_irq,
- 					(void *) aconnector);
- 		}
--
--		if (adev->dm.hpd_rx_offload_wq)
--			adev->dm.hpd_rx_offload_wq[connector->index].aconnector =
--				aconnector;
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+index be4d5c1e826f3..b02d63328f1cd 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+@@ -4027,8 +4027,6 @@ static int gfx_v10_0_init_microcode(struct amdgpu_device *adev)
+ 		err = 0;
+ 		adev->gfx.mec2_fw = NULL;
  	}
- }
+-	amdgpu_gfx_cp_init_microcode(adev, AMDGPU_UCODE_ID_CP_MEC2);
+-	amdgpu_gfx_cp_init_microcode(adev, AMDGPU_UCODE_ID_CP_MEC2_JT);
  
-@@ -4590,6 +4585,10 @@ static int amdgpu_dm_initialize_drm_device(struct amdgpu_device *adev)
- 			goto fail;
- 		}
- 
-+		if (dm->hpd_rx_offload_wq)
-+			dm->hpd_rx_offload_wq[aconnector->base.index].aconnector =
-+				aconnector;
-+
- 		if (!dc_link_detect_connection_type(link, &new_connection_type))
- 			DRM_ERROR("KMS: Failed to detect connector\n");
- 
+ 	gfx_v10_0_check_fw_write_wait(adev);
+ out:
 -- 
 2.43.0
 
