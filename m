@@ -2,51 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3EEB88E6B0
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 15:41:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E9788E6D8
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 15:44:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05D3310FD3D;
-	Wed, 27 Mar 2024 14:41:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DB5B10FD45;
+	Wed, 27 Mar 2024 14:44:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GEi97qAG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BNy1IT4n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C1A110FD42
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 14:41:48 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id EEB34CE250F;
- Wed, 27 Mar 2024 14:41:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEF28C433C7;
- Wed, 27 Mar 2024 14:41:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711550504;
- bh=J5RwImEVko3XXHlw0U1eaYiyHIrUU00GRqnsbrUSwkU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GEi97qAGxxDSmBrAC7IzOexogPNDn/APGkN2rJ8itsCq9qcKcloXZLBGX8Zp7MhvS
- uzL/ceINB5eQySXzxrejzkVO2pP2dgOUKcimaZ9/WttzaMS/S9Bf76agvM+wLteZMm
- 0LMrYtpO/2v6FS329OVSVLfisw4akytslQpZOEms1ufa9mfCaCI4Zx2VZTePxe+Nki
- ySQYif7aCvXM4ca+9/xXRdeEM7YgV1AREFYvzmUORz/8wTnNY10cJSl0Iayh6fJbq5
- LWwvWWFmQNGs4nlakh2UFyBvm1Mgj2XlTh3459Ib/ZsqZi/vr16EKkqpUkLF1bNc2g
- fSP5XRbH0L4yA==
-Date: Wed, 27 Mar 2024 14:41:39 +0000
-From: Lee Jones <lee@kernel.org>
-To: daniel.thompson@linaro.org, jingoohan1@gmail.com, deller@gmx.de,
- andy@kernel.org, geert@linux-m68k.org, dan.carpenter@linaro.org,
- sam@ravnborg.org, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 0/6] backlight: Remove struct
- backlight_properties.fb_blank
-Message-ID: <20240327144139.GT13211@google.com>
-References: <20240319093915.31778-1-tzimmermann@suse.de>
- <171155045756.1586093.3975287359071936779.b4-ty@kernel.org>
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B751210FD45;
+ Wed, 27 Mar 2024 14:44:23 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id
+ d2e1a72fcca58-6e8f765146fso5257978b3a.0; 
+ Wed, 27 Mar 2024 07:44:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1711550663; x=1712155463; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7q2C6v07RAOGYu2hu4GY7euXWF8ETU7ffxo3I9AlpmE=;
+ b=BNy1IT4n/0Qd9H3hbC1UG28BwzMCo4TmoBGd4wGLjLbg5k80EmHIWhMuLN+3ZNxBY3
+ d6cE0XT2MOHvGoZ/rQnNBMO2HriDQKmLb1OCDfT8cXoaMoVOSnAaHFJ1ZEhH2VxppruV
+ 7kvqohANIJFvC9GZ2XIPAhicT4lbT/HMGCUoHNaF7BMfiiSPAVSMfpHS7J1zMsEWpzIq
+ PE9oBUNndGyNj8kwNAYS7sJugxVRDvgxEKyCjhVqSrl3pea0j7hbJJjcDHd3UetQ9vEJ
+ efOGHwe2TFds+urrJDJmfl69bezJoUe9ouZpK7L18xsYFpsx5jOcXd2jQSgwUw44/xsp
+ qHrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711550663; x=1712155463;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7q2C6v07RAOGYu2hu4GY7euXWF8ETU7ffxo3I9AlpmE=;
+ b=EbmN33S76omkUXZ4yxylmOBpqsVG8pfToBaXSXIByc+93UKehZXASGfARgQ+aTgFCE
+ rAg7cpDUPg8DyUxZ//wb05XXQeGnl0v48BAsU+06PtaqnV2C90Klch9PJpLSW+XKz8p0
+ 5Io+id9Dd3zvZTsdpVNZeAss9dFzVkDx/lqTQmm+Qb9xeQX9hpN0MGMIBSc7Efw+iKIG
+ rcrOK+OR4rXig/FhBZxKi0CItJ0hNNLL1HyCGRqbeksbd656Z5S99z5js45lCG9uRkgQ
+ wz0Co/ajELJ8gaqcMhZ0qmFw7xhM7OjfVs0/KDNBs55ZlASMxk6PFj4SLs1yvvLFWYwp
+ uaVg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVxPlQwT2cLnSJE171ZBTxNCGK0m8pSTBI+3MwEvJdZWONMsUT9wo4NQI6JUfavx3Ce++I3AitWhRGs2HB7nr3k8ZDaqssUfXhp3WXmeexZ0Tjk07XGD7JVEo1B2IJgaUZsSJk8865d6TVKCt8UO5+GnBA=
+X-Gm-Message-State: AOJu0YxDdLHv8V/OlunstyMZ922Atx4iD0ZOc11sUGrJAIbXKgMyVVAt
+ vIKjzZmoflPeIflTJDd4yvwGEDbXAHecSa0hVUTeoCU5EA0jqKPc011RU2ptSgoqt1bNC79Tbw/
+ zrvWESnpHAEP/lTXzECNxlbLA2bI=
+X-Google-Smtp-Source: AGHT+IE1qaXoQhFdrtV7QT8MND6FcMTo2zAxmPDuHTiYsb86YGvn9Hfou3VfjATjJrHui3jRqwzdKYDjQpt/iPCMqrw=
+X-Received: by 2002:a05:6a20:7a9a:b0:1a3:69e9:63a9 with SMTP id
+ u26-20020a056a207a9a00b001a369e963a9mr56558pzh.18.1711550663028; Wed, 27 Mar
+ 2024 07:44:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <171155045756.1586093.3975287359071936779.b4-ty@kernel.org>
+References: <CANiq72mbsAYmR_dRPpQQ=9-NWhTtp0TWiOz0v=V-0AvwYbWw4A@mail.gmail.com>
+ <20240327-magnetic-nonchalant-hare-bbe8d2@houat>
+In-Reply-To: <20240327-magnetic-nonchalant-hare-bbe8d2@houat>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 27 Mar 2024 15:43:55 +0100
+Message-ID: <CANiq72kqqQfUxLkHJYqeBAhpc6YcX7bfR96gmmbF=j8hEOykqw@mail.gmail.com>
+Subject: Re: drivers/gpu/drm/qxl/qxl_cmd.c:424:6: error: variable 'count' set
+ but not used
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,36 +86,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 27 Mar 2024, Lee Jones wrote:
+On Wed, Mar 27, 2024 at 8:59=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
+>
+> It looks reasonable to me, can you send a formal patch?
 
-> On Tue, 19 Mar 2024 10:37:19 +0100, Thomas Zimmermann wrote:
-> > The field fb_blank in struct backlight_properties has been marked for
-> > removal. Remove it in favor of the power and state fields.
-> > 
-> > Patches 1 to 5 prepare several backlight drivers. They remove fb_blank
-> > or replace driver code with existing helpers.
-> > 
-> > Patch 6 removes fb_blank from backlight core and drivers. This resolves
-> > another dependency between backlight nad fbdev.
-> > 
-> > [...]
-> 
-> Applied, thanks!
-> 
-> [1/6] auxdisplay: ht16k33: Replace use of fb_blank with backlight helper
->       commit: 7f17d16ea8b470e068bf53835bf05a995bc445db
-> [2/6] backlight: omap1: Remove unused struct omap_backlight_config.set_power
->       commit: 06239b0914ad09e3f051f5f36280206f09533622
-> [3/6] backlight: omap1: Replace FB_BLANK_ states with simple on/off
->       commit: c42cf539bed201cb774c65b8963faf7aaf5633f7
-> [4/6] fbdev: omap2/omapfb: Replace use of fb_blank with backlight helpers
->       commit: fa10b6597b12a384357f422bb160d2833d2bba22
-> [5/6] staging: fbtft: Remove reference to fb_blank
->       commit: d126df04320d4d82bc85273b8af89ea0a22565d3
-> [6/6] backlight: Remove fb_blank from struct backlight_properties
->       commit: 95342cdb3f438d378f48e4db188aa217b9b0a66e
+Will do -- I found another one when running the CI with the above one fixed=
+:
 
-Sent for build testing.  I'll report back once complete.
+    drivers/gpu/drm/qxl/qxl_ioctl.c:148:14: error: variable
+'num_relocs' set but not used [-Werror,-Wunused-but-set-variable]
 
--- 
-Lee Jones [李琼斯]
+I will send you one for that too then.
+
+Thanks!
+
+Cheers,
+Miguel
