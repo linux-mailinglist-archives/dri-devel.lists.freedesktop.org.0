@@ -2,49 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A4E588DDF9
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:12:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3BA588DDFE
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:12:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3910510FB1F;
-	Wed, 27 Mar 2024 12:12:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 990A610FB1E;
+	Wed, 27 Mar 2024 12:12:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G1580LdN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oxIZa/Na";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C27FE10FB1B;
- Wed, 27 Mar 2024 12:12:36 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B0F610FB1E;
+ Wed, 27 Mar 2024 12:12:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 44D62614CD;
- Wed, 27 Mar 2024 12:12:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35B8DC43390;
- Wed, 27 Mar 2024 12:12:35 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id CBB0ECE262F;
+ Wed, 27 Mar 2024 12:12:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2913C433C7;
+ Wed, 27 Mar 2024 12:12:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541556;
- bh=Hn5Xtt8cfgQCV4XlMCbeyL8L+BxqJXvYnJjave/+Qxw=;
+ s=k20201202; t=1711541562;
+ bh=3gOTcSfpvoPoURCbubBqohbjwh1DJnoyYzhkx4XqD3g=;
  h=From:To:Cc:Subject:Date:From;
- b=G1580LdNE/uM1DYumzwue+Wgb/1uw015BDWWPdF7EIZwzgKjlxHUI+jPzNGnLMJBg
- SQuyBSdWOTropYUcyyOSBRATB+Y79OeU5tfOeUa/iQSA2An2HFYxUIfMRlXPt5NoQK
- vpdHTkAC/gkXidQ2zxiFA29bvjsi/y87hEm4RY1jfFbmo3a2YGVE/9wpuqlBRCY+UP
- AZYOi4BY7cIKWCt7ADR6aihzYMV4GQV2cw8guXnqgd7u3sne2xk9J9xPuTXJEL4jlv
- OSzzNuFetfgxkMwXU7TlN1CainkwRAJ4iHwcF3IMLU/aQrS8Z/Fqj1dGXqAB9diJXF
- TGte1NC5zwD1A==
+ b=oxIZa/NaXbeq67l7M6kzzEguu4C/X4yxCgplAZtPJmuR2tGFVmLBdVbUKjbtHRL7L
+ fu1V42EFmlxODR9DgFriD5Tc3tPJOdkfT1dF+ilRQicpK5bSFFX7DhUqk0lnswEJst
+ GRsyA+/Na5uyk3yBL9myaYtQekDfYh6PT8o+3WpduiO/MoBT8t+0WplaRzQYmVdRde
+ 4tuo9b+taJCzY6CQgOhJDSmGBZROtjaTr0IJ8j9ZZHTc+2i8PXAP2yKaf4AKuyqGHs
+ 2IjdLxAqs5GgX06Hns6rhx8mAfZ+UyDBhhPSZXqG9HCG1fLsxjWXY9B1PPxqSzTbrA
+ WkJmnGtR7FlfA==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	ville.syrjala@linux.intel.com
-Cc: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/i915/dp: Limit SST link rate to <=8.1Gbps" failed
- to apply to 6.1-stable tree
-Date: Wed, 27 Mar 2024 08:12:34 -0400
-Message-ID: <20240327121234.2829619-1-sashal@kernel.org>
+	srinivasan.shanmugam@amd.com
+Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: FAILED: Patch "drm/amd/display: Fix late derefrence 'dsc' check in
+ 'link_set_dsc_pps_packet()'" failed to apply to 6.1-stable tree
+Date: Wed, 27 Mar 2024 08:12:39 -0400
+Message-ID: <20240327121239.2829699-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
 X-stable: review
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,40 +73,54 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 6061811d72e14f41f71b6a025510920b187bfcca Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-Date: Thu, 8 Feb 2024 17:45:52 +0200
-Subject: [PATCH] drm/i915/dp: Limit SST link rate to <=8.1Gbps
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From 166225e79ccc3d02c4c46e1b3c09d03eb91473ca Mon Sep 17 00:00:00 2001
+From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+Date: Wed, 10 Jan 2024 20:58:35 +0530
+Subject: [PATCH] drm/amd/display: Fix late derefrence 'dsc' check in
+ 'link_set_dsc_pps_packet()'
 
-Limit the link rate to HBR3 or below (<=8.1Gbps) in SST mode.
-UHBR (10Gbps+) link rates require 128b/132b channel encoding
-which we have not yet hooked up into the SST/no-sideband codepaths.
+In link_set_dsc_pps_packet(), 'struct display_stream_compressor *dsc'
+was dereferenced in a DC_LOGGER_INIT(dsc->ctx->logger); before the 'dsc'
+NULL pointer check.
+
+Fixes the below:
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_dpms.c:905 link_set_dsc_pps_packet() warn: variable dereferenced before check 'dsc' (see line 903)
 
 Cc: stable@vger.kernel.org
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240208154552.14545-1-ville.syrjala@linux.intel.com
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Cc: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Cc: Wenjing Liu <wenjing.liu@amd.com>
+Cc: Qingqing Zhuo <qingqing.zhuo@amd.com>
+Signed-off-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+Reviewed-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- drivers/gpu/drm/i915/display/intel_dp.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/amd/display/dc/link/link_dpms.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index ab415f41924d7..5045c34a16be1 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -2356,6 +2356,9 @@ intel_dp_compute_config_limits(struct intel_dp *intel_dp,
- 	limits->min_rate = intel_dp_common_rate(intel_dp, 0);
- 	limits->max_rate = intel_dp_max_link_rate(intel_dp);
+diff --git a/drivers/gpu/drm/amd/display/dc/link/link_dpms.c b/drivers/gpu/drm/amd/display/dc/link/link_dpms.c
+index 3de148004c066..3cbfbf8d107e9 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/link_dpms.c
++++ b/drivers/gpu/drm/amd/display/dc/link/link_dpms.c
+@@ -900,11 +900,15 @@ bool link_set_dsc_pps_packet(struct pipe_ctx *pipe_ctx, bool enable, bool immedi
+ {
+ 	struct display_stream_compressor *dsc = pipe_ctx->stream_res.dsc;
+ 	struct dc_stream_state *stream = pipe_ctx->stream;
+-	DC_LOGGER_INIT(dsc->ctx->logger);
  
-+	/* FIXME 128b/132b SST support missing */
-+	limits->max_rate = min(limits->max_rate, 810000);
+-	if (!pipe_ctx->stream->timing.flags.DSC || !dsc)
++	if (!pipe_ctx->stream->timing.flags.DSC)
+ 		return false;
+ 
++	if (!dsc)
++		return false;
 +
- 	limits->min_lane_count = 1;
- 	limits->max_lane_count = intel_dp_max_lane_count(intel_dp);
- 
++	DC_LOGGER_INIT(dsc->ctx->logger);
++
+ 	if (enable) {
+ 		struct dsc_config dsc_cfg;
+ 		uint8_t dsc_packed_pps[128];
 -- 
 2.43.0
 
