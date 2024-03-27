@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 149BB88DFF7
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:28:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ACF588DFF9
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:28:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B999E10EA79;
-	Wed, 27 Mar 2024 12:28:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DC6010F054;
+	Wed, 27 Mar 2024 12:28:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OpoesEO2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qea+K034";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 716D910FCC4;
- Wed, 27 Mar 2024 12:27:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59D2710F054
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 12:28:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 80364CE25AC;
- Wed, 27 Mar 2024 12:27:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF4B2C43390;
- Wed, 27 Mar 2024 12:27:53 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id A8536CE2615;
+ Wed, 27 Mar 2024 12:28:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C04F2C433C7;
+ Wed, 27 Mar 2024 12:28:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711542474;
- bh=rTBPWU1aiDp3tF/LT+tV3R1tLt7v/O3Bw1EJvWaFZWc=;
+ s=k20201202; t=1711542488;
+ bh=8rHkXgsNXtISc0+6xFhktGiHJ0cO+8sY0nyEZ1IjZdQ=;
  h=From:To:Cc:Subject:Date:From;
- b=OpoesEO2e9TUeKTAPeDBfVh/qD+pMPBWuofvBN5Q93fNfF+AqGhpRxMw7jNtHoa2V
- p0OVS78ZjuKC6v6lKcKNnR8iEyeUY3vdrun0ZHUj4Zotl+Rd3OzQ0prHN6O+hHDLnj
- QRNCPHY/LuRY8WgjxocIYx5OE2KhZz/ii1eickcip7U6oKanznW7NiTw6XLjAcNXgR
- YVsf/+Tqqlhn3J5WmkS31aDl3CBgUHOkEd+VW6eQB9/67r3jR0gX9JqaKXyMzf0O58
- 1Ig9sjQ57Xlsv8R8lokVFyEmyl+Q0pKU73cONNfoefq66ox8zEUvmvXuvsrHx0fQgo
- olVJsNixcQLLw==
+ b=qea+K034Ofey84Kuwbni/D+h6Q+wE5pDtxiI736++iHFxUAqLpQgPsrQun5hy642C
+ J5tEvFL0364z7lUXUvouYjSUOSuempDNk0p/w/ymAxuoKus3OGQ0fcMQjrrCOj6mDM
+ 9IQqwHR22PBL5eTxYgY9C9Lh2a0o6U4IeNGyqw6LkNiw/JpkHuR4Bvr5doGgSsy3ZP
+ JQezNHomK/gTBu/FrVsdrErGAxPWh0Zf4uhZpgTJhoCU+ZsZe5I6OfVx0WDI5d77Va
+ 0VNIfakXRX5aLN45oYBi0iUtlY71edqDv1jU4RHYqonOnYLSs0UY+aY4UTbVrtsK0C
+ kJpobKxdaGvxA==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	ivlipski@amd.com
-Cc: Daniel Wheeler <daniel.wheeler@amd.com>, Sun peng Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: Add monitor patch for specific eDP"
- failed to apply to 4.19-stable tree
-Date: Wed, 27 Mar 2024 08:27:52 -0400
-Message-ID: <20240327122752.2842291-1-sashal@kernel.org>
+	jani.nikula@intel.com
+Cc: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: FAILED: Patch "drm/exynos: do not return negative values from
+ .get_modes()" failed to apply to 4.19-stable tree
+Date: Wed, 27 Mar 2024 08:28:06 -0400
+Message-ID: <20240327122806.2842495-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -71,46 +72,65 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 21afc872fbc29cd68cfde816d1df4d55848c3f61 Mon Sep 17 00:00:00 2001
-From: Ivan Lipski <ivlipski@amd.com>
-Date: Fri, 1 Dec 2023 06:25:16 -0700
-Subject: [PATCH] drm/amd/display: Add monitor patch for specific eDP
+From 13d5b040363c7ec0ac29c2de9cf661a24a8aa531 Mon Sep 17 00:00:00 2001
+From: Jani Nikula <jani.nikula@intel.com>
+Date: Fri, 8 Mar 2024 18:03:41 +0200
+Subject: [PATCH] drm/exynos: do not return negative values from .get_modes()
 
-[WHY]
-Some eDP panels's ext caps don't write initial value cause the value of
-dpcd_addr(0x317) is random.  It means that sometimes the eDP will
-clarify it is OLED, miniLED...etc cause the backlight control interface
-is incorrect.
+The .get_modes() hooks aren't supposed to return negative error
+codes. Return 0 for no modes, whatever the reason.
 
-[HOW]
-Add a new panel patch to remove sink ext caps(HDR,OLED...etc)
-
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Reviewed-by: Sun peng Li <sunpeng.li@amd.com>
-Acked-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
-Signed-off-by: Ivan Lipski <ivlipski@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Cc: Inki Dae <inki.dae@samsung.com>
+Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+Cc: Kyungmin Park <kyungmin.park@samsung.com>
+Cc: stable@vger.kernel.org
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://patchwork.freedesktop.org/patch/msgid/d8665f620d9c252aa7d5a4811ff6b16e773903a2.1709913674.git.jani.nikula@intel.com
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/exynos/exynos_drm_vidi.c | 4 ++--
+ drivers/gpu/drm/exynos/exynos_hdmi.c     | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index b4696ec621c45..eaf8d9f482446 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -64,6 +64,12 @@ static void apply_edid_quirks(struct edid *edid, struct dc_edid_caps *edid_caps)
- 		DRM_DEBUG_DRIVER("Disabling FAMS on monitor with panel id %X\n", panel_id);
- 		edid_caps->panel_patch.disable_fams = true;
- 		break;
-+	/* Workaround for some monitors that do not clear DPCD 0x317 if FreeSync is unsupported */
-+	case drm_edid_encode_panel_id('A', 'U', 'O', 0xA7AB):
-+	case drm_edid_encode_panel_id('A', 'U', 'O', 0xE69B):
-+		DRM_DEBUG_DRIVER("Clearing DPCD 0x317 on monitor with panel id %X\n", panel_id);
-+		edid_caps->panel_patch.remove_sink_ext_caps = true;
-+		break;
- 	default:
- 		return;
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
+index 00382f28748ac..f5bbba9ad2252 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
+@@ -316,14 +316,14 @@ static int vidi_get_modes(struct drm_connector *connector)
+ 	 */
+ 	if (!ctx->raw_edid) {
+ 		DRM_DEV_DEBUG_KMS(ctx->dev, "raw_edid is null.\n");
+-		return -EFAULT;
++		return 0;
  	}
+ 
+ 	edid_len = (1 + ctx->raw_edid->extensions) * EDID_LENGTH;
+ 	edid = kmemdup(ctx->raw_edid, edid_len, GFP_KERNEL);
+ 	if (!edid) {
+ 		DRM_DEV_DEBUG_KMS(ctx->dev, "failed to allocate edid\n");
+-		return -ENOMEM;
++		return 0;
+ 	}
+ 
+ 	drm_connector_update_edid_property(connector, edid);
+diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
+index 43bed6cbaaea0..b1d02dec3774d 100644
+--- a/drivers/gpu/drm/exynos/exynos_hdmi.c
++++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
+@@ -887,11 +887,11 @@ static int hdmi_get_modes(struct drm_connector *connector)
+ 	int ret;
+ 
+ 	if (!hdata->ddc_adpt)
+-		return -ENODEV;
++		return 0;
+ 
+ 	edid = drm_get_edid(connector, hdata->ddc_adpt);
+ 	if (!edid)
+-		return -ENODEV;
++		return 0;
+ 
+ 	hdata->dvi_mode = !connector->display_info.is_hdmi;
+ 	DRM_DEV_DEBUG_KMS(hdata->dev, "%s : width[%d] x height[%d]\n",
 -- 
 2.43.0
 
