@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6359E88DE9F
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:17:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF1388DEA4
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:17:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55DE410FBA4;
-	Wed, 27 Mar 2024 12:17:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B553B10F7E8;
+	Wed, 27 Mar 2024 12:17:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LvWuVDX5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NVWozZhP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF77E10FBA1;
- Wed, 27 Mar 2024 12:17:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 678E110FBA1;
+ Wed, 27 Mar 2024 12:17:38 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2299061515;
- Wed, 27 Mar 2024 12:17:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0A92C433C7;
- Wed, 27 Mar 2024 12:17:33 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id CE18A614CD;
+ Wed, 27 Mar 2024 12:17:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BF29C43390;
+ Wed, 27 Mar 2024 12:17:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541854;
- bh=rbfDrddplKEBc78G+emDnzYQbvlYfaYHFyuBflOcgZc=;
+ s=k20201202; t=1711541857;
+ bh=PpM8KzlK6wLgyz6IEA3d1W0gFLaLENknEdcZAZ0yJK0=;
  h=From:To:Cc:Subject:Date:From;
- b=LvWuVDX5woBRcNSqQavuXUBxitUWosBeXhLNrYgX6ActN3n+RU5nvX59OcMABLUXQ
- E6Y1fzx5jO36K4kuVzzpC7mwgaVpu8/TbF/XAhSDzvpItfkaUuU7rYc2nYk5LUXV2X
- n0Quf9P2sk7Mh6wPIhF/EY0XfJjPYT9NGtxZSd1dQxEn7wTOBQ7GRrgeRa5SjVDMVc
- WNtkyw0aWIIJcFldkDxp/kHsiAAIdGd2P8E6ZX4qpb7Y9fAUTquCfAc+oc0LUJWTsm
- TekvN/tPBLoangLMb/ik1lkcPVOZQd1Etzjfi8gbWhEczmThpbtHZ6hlYEmCtDqZ1b
- vnHrOmbPNCi0A==
+ b=NVWozZhPVg/5Gy2rDcFjToAKm3JX2RHj7qAIhy/3sUg+9FfiiuVCCOOCK6DMgDkRG
+ Qh0wtTIjRxyvhv1m4Ie5hpRapXqWijsLgrbbIViI3xKtvMa+CCaXU3+OlHaCpnlrqv
+ 0Bp/pirxycmX/mjLV604eBKVq/POWR46djKtRyy55wOX2zL5/0hVOsZPROLmsQZrK7
+ vhxD3iUP81pfOF8U/110Pcj486gEcuRLV5KmToTcsS8F1SfPfW7DoK7CMtbeZ1fEi7
+ rkzuV0edPfQtcEYyRAI6+/4pLw5uesrEmzkD3nVX8kTogUdoT6TBiPEcw6uzTHpZg6
+ OgJwlkk3b++hQ==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	Wayne.Lin@amd.com
+	gabe.teeger@amd.com
 Cc: Mario Limonciello <mario.limonciello@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Ovidiu Bunea <ovidiu.bunea@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amd/display: Align the returned error code with
- legacy DP" failed to apply to 5.15-stable tree
-Date: Wed, 27 Mar 2024 08:17:32 -0400
-Message-ID: <20240327121732.2833618-1-sashal@kernel.org>
+Subject: FAILED: Patch "Revert "drm/amd/display: Send DTBCLK disable message
+ on first commit"" failed to apply to 5.15-stable tree
+Date: Wed, 27 Mar 2024 08:17:35 -0400
+Message-ID: <20240327121735.2833655-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -71,47 +73,41 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 3b84525544be4ca0481110263a6d73eb00741cf3 Mon Sep 17 00:00:00 2001
-From: Wayne Lin <Wayne.Lin@amd.com>
-Date: Tue, 2 Jan 2024 14:20:37 +0800
-Subject: [PATCH] drm/amd/display: Align the returned error code with legacy DP
+From 3a6a32b31a111f6e66526fb2d3cb13a876465076 Mon Sep 17 00:00:00 2001
+From: Gabe Teeger <gabe.teeger@amd.com>
+Date: Mon, 29 Jan 2024 13:31:44 -0500
+Subject: [PATCH] Revert "drm/amd/display: Send DTBCLK disable message on first
+ commit"
 
-[Why]
-For usb4 connector, AUX transaction is handled by dmub utilizing a differnt
-code path comparing to legacy DP connector. If the usb4 DP connector is
-disconnected, AUX access will report EBUSY and cause igt@kms_dp_aux_dev
-fail.
+This reverts commit f341055b10bd8be55c3c995dff5f770b236b8ca9.
 
-[How]
-Align the error code with the one reported by legacy DP as EIO.
+System hang observed, this commit is thought to be the
+regression point.
 
 Cc: Mario Limonciello <mario.limonciello@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
-Acked-by: Alex Hung <alex.hung@amd.com>
-Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
+Reviewed-by: Ovidiu Bunea <ovidiu.bunea@amd.com>
+Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Signed-off-by: Gabe Teeger <gabe.teeger@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index eaf8d9f482446..85b7f58a7f35a 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -979,6 +979,11 @@ int dm_helper_dmub_aux_transfer_sync(
- 		struct aux_payload *payload,
- 		enum aux_return_code_type *operation_result)
- {
-+	if (!link->hpd_status) {
-+		*operation_result = AUX_RET_ERROR_HPD_DISCON;
-+		return -1;
-+	}
-+
- 	return amdgpu_dm_process_dmub_aux_transfer_sync(ctx, link->link_index, payload,
- 			operation_result);
- }
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
+index 06edca50a8fa1..36e5bb611fb10 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
+@@ -414,7 +414,6 @@ static void init_clk_states(struct clk_mgr *clk_mgr)
+ 	uint32_t ref_dtbclk = clk_mgr->clks.ref_dtbclk_khz;
+ 	memset(&(clk_mgr->clks), 0, sizeof(struct dc_clocks));
+ 
+-	clk_mgr->clks.dtbclk_en = true;
+ 	clk_mgr->clks.ref_dtbclk_khz = ref_dtbclk;	// restore ref_dtbclk
+ 	clk_mgr->clks.p_state_change_support = true;
+ 	clk_mgr->clks.prev_p_state_change_support = true;
 -- 
 2.43.0
 
