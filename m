@@ -2,43 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 474C888E20B
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 14:18:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB6388E27B
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 14:27:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B7E610EDAD;
-	Wed, 27 Mar 2024 13:18:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEA4810EE6E;
+	Wed, 27 Mar 2024 13:27:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Y7jtTKcr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p4cYrqgk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3619D10EDAD
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 13:18:10 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 75E1A675;
- Wed, 27 Mar 2024 14:17:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1711545457;
- bh=K5p0LQUVGEjvqZlnZQdHgOEYJ2uEEM4vsv9v1Xr+OhU=;
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F197210EE6E;
+ Wed, 27 Mar 2024 13:27:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 632E7CE1DB4;
+ Wed, 27 Mar 2024 13:27:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 527BDC433C7;
+ Wed, 27 Mar 2024 13:27:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1711546051;
+ bh=+fnPEP5LofR/YkwTOOjws1iuVa2ieMZ1vJLvtYNQ7OQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Y7jtTKcr2CCJPe2Q35s1BtZbsbxNS9bdvXO5tUBBMTz/t9tWOeuEfmvtNrDI2TEiG
- BxiNafgPsql1Qg6JkM9UTC4xTDDRrp4QOM/idKGkGFmTpYLsWFruNwZAzGWpvUY3+v
- 3WQTEc1Ot0102n8nV6IkhmFjIouj5OGvpPVyjqrA=
-Date: Wed, 27 Mar 2024 15:18:00 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: Add myself as maintainer for Xilinx DRM
- drivers
-Message-ID: <20240327131800.GA4666@pendragon.ideasonboard.com>
-References: <20240327-xilinx-maintainer-v1-1-c5fdc115f448@ideasonboard.com>
+ b=p4cYrqgkZ5yR7qOyVmXAK6DNicMANTj9MoO3Ly2aMyd9olFbTRqMM410U7a1HbqBF
+ BBGyKztQYn+jgZ0gMdHhmWE/CQLavoPNnnA77UiTkS+Jingwh7g5AVE4tP4G4e+WFy
+ azkgCGC3Mk8wbHHnbmmKObNlVP5pDWzqdhqh+HAXPE8o+1l+Hlu8tswxiaVM1Ul+v3
+ UZIRARydgHnI7ECFVslwev4AIl3+vH0o85jzBa4zAD8XNfd936b14q//9bEplTNQEs
+ DOK3S7d/FoKpW3V3bjlb0IdnyLScR5VwaGAJ1kq+XFnDpPAL50yEJQi08FswygCuFA
+ RH7g1qmxJ7Dxw==
+Date: Wed, 27 Mar 2024 14:27:29 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Linux regressions mailing list <regressions@lists.linux.dev>
+Cc: Alex Constantino <dreaming.about.electric.sheep@gmail.com>, 
+ 1054514@bugs.debian.org, airlied@redhat.com, carnil@debian.org, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, kraxel@redhat.com,
+ linux-kernel@vger.kernel.org, 
+ spice-devel@lists.freedesktop.org, timo.lindfors@iki.fi, tzimmermann@suse.de, 
+ virtualization@lists.linux-foundation.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: Re: [PATCH 1/1] drm/qxl: fixes qxl_fence_wait
+Message-ID: <20240327-cuddly-smooth-trogon-59c02d@houat>
+References: <fb0fda6a-3750-4e1b-893f-97a3e402b9af@leemhuis.info>
+ <20240308010851.17104-1-dreaming.about.electric.sheep@gmail.com>
+ <20240308010851.17104-2-dreaming.about.electric.sheep@gmail.com>
+ <db4c8e74-5c79-49be-9781-a5d8669eccc1@leemhuis.info>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="odhn7ryspel32gtq"
 Content-Disposition: inline
-In-Reply-To: <20240327-xilinx-maintainer-v1-1-c5fdc115f448@ideasonboard.com>
+In-Reply-To: <db4c8e74-5c79-49be-9781-a5d8669eccc1@leemhuis.info>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,41 +66,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
 
-Thank you for the patch.
+--odhn7ryspel32gtq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 27, 2024 at 03:03:33PM +0200, Tomi Valkeinen wrote:
-> Add myself as a co-maintainer for Xilinx DRM drivers to help Laurent.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Hi,
 
-Much appreciated :-)
+On Wed, Mar 20, 2024 at 04:25:48PM +0100, Linux regression tracking (Thorst=
+en Leemhuis) wrote:
+> On 08.03.24 02:08, Alex Constantino wrote:
+> > Fix OOM scenario by doing multiple notifications to the OOM handler thr=
+ough
+> > a busy wait logic.
+> > Changes from commit 5a838e5d5825 ("drm/qxl: simplify qxl_fence_wait") w=
+ould
+> > result in a '[TTM] Buffer eviction failed' exception whenever it reache=
+d a
+> > timeout.
+> >=20
+> > Fixes: 5a838e5d5825 ("drm/qxl: simplify qxl_fence_wait")
+> > Link: https://lore.kernel.org/regressions/fb0fda6a-3750-4e1b-893f-97a3e=
+402b9af@leemhuis.info
+> > Reported-by: Timo Lindfors <timo.lindfors@iki.fi>
+> > Closes: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D1054514
+> > Signed-off-by: Alex Constantino <dreaming.about.electric.sheep@gmail.co=
+m>
+> > ---
+> >  drivers/gpu/drm/qxl/qxl_release.c | 20 ++++++++++++++------
+> >  1 file changed, 14 insertions(+), 6 deletions(-)
+>=20
+> Hey Dave and Gerd as well as Thomas, Maarten and Maxime (the latter two
+> I just added to the CC), it seems to me this regression fix did not
+> maybe any progress since it was posted. Did I miss something, is it just
+> "we are busy with the merge window", or is there some other a reason?
+> Just wondering, I just saw someone on a Fedora IRC channel complaining
+> about the regression, that's why I'm asking. Would be really good to
+> finally get this resolved...
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+I've ping'd Gerd last week about it, but he couldn't remember the
+details of why that patch was warranted in the first place.
 
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 1aabf1c15bb3..79ef5a6bf21b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7306,6 +7306,7 @@ F:	drivers/gpu/drm/xen/
->  
->  DRM DRIVERS FOR XILINX
->  M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> +M:	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->  L:	dri-devel@lists.freedesktop.org
->  S:	Maintained
->  T:	git git://anongit.freedesktop.org/drm/drm-misc
-> 
-> ---
-> base-commit: e8f897f4afef0031fe618a8e94127a0934896aba
-> change-id: 20240327-xilinx-maintainer-f6020f6cba4d
+If it works, I'd prefer to revert the original patch that we know used
+to work instead of coming up with some less proven logic, which seems to
+be quite different to what it used to be.
 
--- 
-Regards,
+Alex, could you try reverting 5a838e5d5825c85556011478abde708251cc0776
+and letting us know the result?
 
-Laurent Pinchart
+Thanks!
+Maxime
+
+--odhn7ryspel32gtq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZgQeuAAKCRAnX84Zoj2+
+dtzBAX9D2qc3cRTI5gt0TJbZn+B1KZluieFl8m0F3A4+AMDS3Evkhqnpw13peeHP
+19X3+xUBgN+7f0zhgWoJGzvnglkgra50VOoD9JZHUkmxpgZHXMavpspIDYDdwpKe
+xEgQ8lSVDQ==
+=4Ivy
+-----END PGP SIGNATURE-----
+
+--odhn7ryspel32gtq--
