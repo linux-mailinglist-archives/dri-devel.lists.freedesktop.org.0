@@ -2,58 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9AF488DDEC
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:12:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F8E88DDE7
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:12:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BD2D10F36F;
-	Wed, 27 Mar 2024 12:12:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B30810FB11;
+	Wed, 27 Mar 2024 12:12:08 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VjDoWGQj";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DAF810F196
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 12:12:22 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1rpS8K-0004ds-Ci; Wed, 27 Mar 2024 13:11:56 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1rpS8I-008nwn-4g; Wed, 27 Mar 2024 13:11:54 +0100
-Received: from pza by lupine with local (Exim 4.96)
- (envelope-from <p.zabel@pengutronix.de>) id 1rpS8I-0007xg-0D;
- Wed, 27 Mar 2024 13:11:54 +0100
-Message-ID: <5f6ab3804baa87f6e2299f668d2ab41be3a13f13.camel@pengutronix.de>
-Subject: Re: [PATCH v5 11/16] drm/vkms: Add YUV support
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Louis Chauvet <louis.chauvet@bootlin.com>, Rodrigo Siqueira
- <rodrigosiqueiramelo@gmail.com>, Melissa Wen <melissa.srw@gmail.com>, 
- =?ISO-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>, Haneen Mohammed
- <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, arthurgrillo@riseup.net, Jonathan Corbet
- <corbet@lwn.net>,  pekka.paalanen@haloniitty.fi
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com, 
- thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com, 
- nicolejadeyee@google.com
-Date: Wed, 27 Mar 2024 13:11:53 +0100
-In-Reply-To: <20240313-yuv-v5-11-e610cbd03f52@bootlin.com>
-References: <20240313-yuv-v5-0-e610cbd03f52@bootlin.com>
- <20240313-yuv-v5-11-e610cbd03f52@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 385BA10FB0D;
+ Wed, 27 Mar 2024 12:12:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 446A1CE169E;
+ Wed, 27 Mar 2024 12:12:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4527C433C7;
+ Wed, 27 Mar 2024 12:11:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1711541520;
+ bh=N0hPK8OGTcXqixJQ4v4bcu//sIbohRsnR2qFsRNfYnw=;
+ h=From:To:Cc:Subject:Date:From;
+ b=VjDoWGQjxcTnozErm0vmU6YvckXVWFUNmhdM/UH83mXbfhqoeClg4D73a90ama/nx
+ p9oyNHO/ogwuuhWb9MwVN7D9OD2Iv0gZx8UqN+qvQKh0gr0bHCDY0x2diFpKsUuz9W
+ uwEr4188Rj+mgw5DbQFWfU45DjxD7RDRO+MoMGmFbOeOs8oLZrbuK6ee0pm3VpHVqn
+ ld/x5jnXox0APlbxnRbl4WsevPw8hM1Pd4EupekpFKVmF4Vy8aQktzn82XnaaS85xH
+ 4sk4BlKkZ+SnZzszCBFi1JItNoyJwvFrVBryQpOh59zQoagOTkWDb826Wr/5hdrw0i
+ Pm/f0MqAyaZQg==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org,
+	alexander.deucher@amd.com
+Cc: Feifei Xu <Feifei.Xu@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: FAILED: Patch "drm/amdgpu/gfx10: set UNORD_DISPATCH in compute MQDs"
+ failed to apply to 6.1-stable tree
+Date: Wed, 27 Mar 2024 08:11:58 -0400
+Message-ID: <20240327121158.2829162-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+X-Patchwork-Hint: ignore
+X-stable: review
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,62 +59,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Louis,
+The patch below does not apply to the 6.1-stable tree.
+If someone wants it applied there, or to any other stable or longterm
+tree, then please email the backport, including the original git commit
+id to <stable@vger.kernel.org>.
 
-On Mi, 2024-03-13 at 18:45 +0100, Louis Chauvet wrote:
-> From: Arthur Grillo <arthurgrillo@riseup.net>
->=20
-> Add support to the YUV formats bellow:
->=20
-> - NV12/NV16/NV24
-> - NV21/NV61/NV42
-> - YUV420/YUV422/YUV444
-> - YVU420/YVU422/YVU444
->=20
-> The conversion from yuv to rgb is done with fixed-point arithmetic, using
-> 32.32 floats and the drm_fixed helpers.
+Thanks,
+Sasha
 
-s/floats/fixed-point numbers/
+------------------ original commit in Linus's tree ------------------
 
-Nothing floating here, the point is fixed.
+From ca01082353d4c7c316cd8cfa53879970564a9c71 Mon Sep 17 00:00:00 2001
+From: Alex Deucher <alexander.deucher@amd.com>
+Date: Fri, 19 Jan 2024 12:23:55 -0500
+Subject: [PATCH] drm/amdgpu/gfx10: set UNORD_DISPATCH in compute MQDs
 
-[...]
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
-drv.h
-> index 23e1d247468d..f3116084de5a 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -99,6 +99,27 @@ typedef void (*pixel_read_line_t)(const struct vkms_pl=
-ane_state *plane, int x_st
->  				  int y_start, enum pixel_read_direction direction, int count,
->  				  struct pixel_argb_u16 out_pixel[]);
-> =20
-> +/**
-> + * CONVERSION_MATRIX_FLOAT_DEPTH - Number of digits after the point for =
-conversion matrix values
+This needs to be set to 1 to avoid a potential deadlock in
+the GC 10.x and newer.  On GC 9.x and older, this needs
+to be set to 0.  This can lead to hangs in some mixed
+graphics and compute workloads.  Updated firmware is also
+required for AQL.
 
-s/CONVERSION_MATRIX_FLOAT_DEPTH/CONVERSION_MATRIX_FRACTIONAL_BITS/
+Reviewed-by: Feifei Xu <Feifei.Xu@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Cc: stable@vger.kernel.org
+---
+ drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c           | 2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-Just a suggestion, maybe there are better terms, but using "FLOAT" here
-is confusing.
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+index 420c82b54650f..be4d5c1e826f3 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+@@ -6589,7 +6589,7 @@ static int gfx_v10_0_compute_mqd_init(struct amdgpu_device *adev, void *m,
+ #ifdef __BIG_ENDIAN
+ 	tmp = REG_SET_FIELD(tmp, CP_HQD_PQ_CONTROL, ENDIAN_SWAP, 1);
+ #endif
+-	tmp = REG_SET_FIELD(tmp, CP_HQD_PQ_CONTROL, UNORD_DISPATCH, 0);
++	tmp = REG_SET_FIELD(tmp, CP_HQD_PQ_CONTROL, UNORD_DISPATCH, 1);
+ 	tmp = REG_SET_FIELD(tmp, CP_HQD_PQ_CONTROL, TUNNEL_DISPATCH,
+ 			    prop->allow_tunneling);
+ 	tmp = REG_SET_FIELD(tmp, CP_HQD_PQ_CONTROL, PRIV_STATE, 1);
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c
+index 8b7fed9135269..22cbfa1bdaddb 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c
+@@ -170,6 +170,7 @@ static void update_mqd(struct mqd_manager *mm, void *mqd,
+ 	m->cp_hqd_pq_control = 5 << CP_HQD_PQ_CONTROL__RPTR_BLOCK_SIZE__SHIFT;
+ 	m->cp_hqd_pq_control |=
+ 			ffs(q->queue_size / sizeof(unsigned int)) - 1 - 1;
++	m->cp_hqd_pq_control |= CP_HQD_PQ_CONTROL__UNORD_DISPATCH_MASK;
+ 	pr_debug("cp_hqd_pq_control 0x%x\n", m->cp_hqd_pq_control);
+ 
+ 	m->cp_hqd_pq_base_lo = lower_32_bits((uint64_t)q->queue_address >> 8);
+-- 
+2.43.0
 
-> + */
-> +#define CONVERSION_MATRIX_FLOAT_DEPTH 32
-> +
-> +/**
-> + * struct conversion_matrix - Matrix to use for a specific encoding and =
-range
-> + *
-> + * @matrix: Conversion matrix from yuv to rgb. The matrix is stored in a=
- row-major manner and is
-> + * used to compute rgb values from yuv values:
-> + *     [[r],[g],[b]] =3D @matrix * [[y],[u],[v]]
-> + *   OR for yvu formats:
-> + *     [[r],[g],[b]] =3D @matrix * [[y],[v],[u]]
-> + *  The values of the matrix are fixed floats, 32.CONVERSION_MATRIX_FLOA=
-T_DEPTH
 
-s/fixed floats/fixed-point numbers/
 
-regards
-Philipp
+
