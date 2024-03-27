@@ -2,43 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A9E788DEAC
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:18:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8DAB88DEB5
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Mar 2024 13:18:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44B3710FA3F;
-	Wed, 27 Mar 2024 12:18:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BA0F10FBAD;
+	Wed, 27 Mar 2024 12:18:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FGUDB47Y";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mmsloUiR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23BE110FA3F;
- Wed, 27 Mar 2024 12:18:04 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52B1610FBAD;
+ Wed, 27 Mar 2024 12:18:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9819361511;
- Wed, 27 Mar 2024 12:18:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88747C43390;
- Wed, 27 Mar 2024 12:18:02 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 9C455CE2640;
+ Wed, 27 Mar 2024 12:18:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE6EFC43399;
+ Wed, 27 Mar 2024 12:18:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711541883;
- bh=9Yi0T0LkSLpTnLQ/txC1nQOT89nbA/ndE+6gRJjYopY=;
+ s=k20201202; t=1711541891;
+ bh=w2u4vgu6Du69+3H02MFyKLByvShk4lpvH/ZdlMuMX5s=;
  h=From:To:Cc:Subject:Date:From;
- b=FGUDB47YoB8znILVgtFpbYkDWEIyW2nIQraYPPCLJ0LuGQRb87ShYs3CPYktrJ8tA
- cN47HgQN9USEF2F7Sym5+vrbnqRuORiu/TSWF+KFcfvFZ81yPPsT31aizX1dchjLgA
- 784vrTUrtSCyOUYHbXsaShyLCbKDWK/dCWXaIaNwkdQVW6f1ur/ahiJuCqCAki+jRR
- jUhnkbyHV9FYhyE/Ozyzz0i9JJA40vxPnVRG+4WLuvezt++Ne3lx59txJ/V1WUdcbH
- H0HcGLfVzG9xo+rK1rqsLRPW9rl/MKA4zV+Uc2bq6ace2kyk8Jt5vOUU65O6Sw5bRd
- +52z1Ftfe89jQ==
+ b=mmsloUiR0Q3feEhkROWvNAVhojcYITfYs7w2+jkrKeQZg2NbMjoX/IPpGpqwpEPNZ
+ SgNKd3RkHIGmRfNvv4OZepOM+RUU7ZXtx21wrZ7dC28+10kpNT3O9zA+jXasscbioG
+ wxbznD44hWL2M1sxedDUvxoS28W8fhKg4Pq15DlxDdNWQoX74cADFWRcDP2OdcMvEc
+ oJ94GnWwRec2GTUG0sxpbhKmubf9tE3/2HsUrm/uWvHxiYUhEa9xuZ4o/DiWH9UXZi
+ xOq/Q8TK2IHTfxCgvUcSsPMySJyf9yuauvkoc78QDalqZ/pMe+qlR641o/MR4+drVC
+ E9vZr11sh7TFg==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	alexander.deucher@amd.com
-Cc: Feifei Xu <Feifei.Xu@amd.com>, amd-gfx@lists.freedesktop.org,
+	george.shen@amd.com
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Martin Leung <martin.leung@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "drm/amdgpu/gfx11: set UNORD_DISPATCH in compute MQDs"
- failed to apply to 5.10-stable tree
-Date: Wed, 27 Mar 2024 08:18:01 -0400
-Message-ID: <20240327121801.2833996-1-sashal@kernel.org>
+Subject: FAILED: Patch "Revert "drm/amd/display: Add left edge pixel for
+ YCbCr422/420 + ODM pipe split"" failed to apply to 5.10-stable tree
+Date: Wed, 27 Mar 2024 08:18:09 -0400
+Message-ID: <20240327121809.2834111-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -69,50 +73,168 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From fc8f5a29d4cf0979ac4019282c3ca5cb246969f9 Mon Sep 17 00:00:00 2001
-From: Alex Deucher <alexander.deucher@amd.com>
-Date: Fri, 19 Jan 2024 12:32:59 -0500
-Subject: [PATCH] drm/amdgpu/gfx11: set UNORD_DISPATCH in compute MQDs
+From e9e1abb397e550aec86a6d9eb7c6f8ed4271d742 Mon Sep 17 00:00:00 2001
+From: George Shen <george.shen@amd.com>
+Date: Fri, 2 Feb 2024 17:45:32 -0500
+Subject: [PATCH] Revert "drm/amd/display: Add left edge pixel for YCbCr422/420
+ + ODM pipe split"
 
-This needs to be set to 1 to avoid a potential deadlock in
-the GC 10.x and newer.  On GC 9.x and older, this needs
-to be set to 0. This can lead to hangs in some mixed
-graphics and compute workloads. Updated firmware is also
-required for AQL.
+[Why/How]
+A regression was identified with the change to add left edge pixel for
+YCbCr422/420 + ODM combine cases.
 
-Reviewed-by: Feifei Xu <Feifei.Xu@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+This reverts commit 288c0254a0b0c9980dba9df7d5afadf27280b99c
+
+Cc: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
+Reviewed-by: Martin Leung <martin.leung@amd.com>
+Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Signed-off-by: George Shen <george.shen@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c           | 2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c      |  4 --
+ .../gpu/drm/amd/display/dc/core/dc_resource.c | 37 -------------------
+ .../amd/display/dc/hwss/dcn20/dcn20_hwseq.c   |  7 +---
+ .../gpu/drm/amd/display/dc/inc/core_types.h   |  2 -
+ drivers/gpu/drm/amd/display/dc/inc/resource.h |  4 --
+ 5 files changed, 1 insertion(+), 53 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-index 043eff309100f..c1e0000107608 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-@@ -3846,7 +3846,7 @@ static int gfx_v11_0_compute_mqd_init(struct amdgpu_device *adev, void *m,
- 			    (order_base_2(prop->queue_size / 4) - 1));
- 	tmp = REG_SET_FIELD(tmp, CP_HQD_PQ_CONTROL, RPTR_BLOCK_SIZE,
- 			    (order_base_2(AMDGPU_GPU_PAGE_SIZE / 4) - 1));
--	tmp = REG_SET_FIELD(tmp, CP_HQD_PQ_CONTROL, UNORD_DISPATCH, 0);
-+	tmp = REG_SET_FIELD(tmp, CP_HQD_PQ_CONTROL, UNORD_DISPATCH, 1);
- 	tmp = REG_SET_FIELD(tmp, CP_HQD_PQ_CONTROL, TUNNEL_DISPATCH,
- 			    prop->allow_tunneling);
- 	tmp = REG_SET_FIELD(tmp, CP_HQD_PQ_CONTROL, PRIV_STATE, 1);
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c
-index 15277f1d5cf0a..d722cbd317834 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c
-@@ -224,6 +224,7 @@ static void update_mqd(struct mqd_manager *mm, void *mqd,
- 	m->cp_hqd_pq_control = 5 << CP_HQD_PQ_CONTROL__RPTR_BLOCK_SIZE__SHIFT;
- 	m->cp_hqd_pq_control |=
- 			ffs(q->queue_size / sizeof(unsigned int)) - 1 - 1;
-+	m->cp_hqd_pq_control |= CP_HQD_PQ_CONTROL__UNORD_DISPATCH_MASK;
- 	pr_debug("cp_hqd_pq_control 0x%x\n", m->cp_hqd_pq_control);
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 1d0fd69cc7bd1..4d5194293dbd5 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -3098,10 +3098,6 @@ static bool update_planes_and_stream_state(struct dc *dc,
  
- 	m->cp_hqd_pq_base_lo = lower_32_bits((uint64_t)q->queue_address >> 8);
+ 			if (otg_master && otg_master->stream->test_pattern.type != DP_TEST_PATTERN_VIDEO_MODE)
+ 				resource_build_test_pattern_params(&context->res_ctx, otg_master);
+-
+-			if (otg_master && (otg_master->stream->timing.pixel_encoding == PIXEL_ENCODING_YCBCR422 ||
+-					otg_master->stream->timing.pixel_encoding == PIXEL_ENCODING_YCBCR420))
+-				resource_build_subsampling_params(&context->res_ctx, otg_master);
+ 		}
+ 	}
+ 
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+index 96ea283bd1690..1b7765bc5e5ef 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+@@ -822,16 +822,6 @@ static struct rect calculate_odm_slice_in_timing_active(struct pipe_ctx *pipe_ct
+ 			stream->timing.v_border_bottom +
+ 			stream->timing.v_border_top;
+ 
+-	/* Recout for ODM slices after the first slice need one extra left edge pixel
+-	 * for 3-tap chroma subsampling.
+-	 */
+-	if (odm_slice_idx > 0 &&
+-			(pipe_ctx->stream->timing.pixel_encoding == PIXEL_ENCODING_YCBCR422 ||
+-				pipe_ctx->stream->timing.pixel_encoding == PIXEL_ENCODING_YCBCR420)) {
+-		odm_rec.x -= 1;
+-		odm_rec.width += 1;
+-	}
+-
+ 	return odm_rec;
+ }
+ 
+@@ -1448,7 +1438,6 @@ void resource_build_test_pattern_params(struct resource_context *res_ctx,
+ 	enum controller_dp_test_pattern controller_test_pattern;
+ 	enum controller_dp_color_space controller_color_space;
+ 	enum dc_color_depth color_depth = otg_master->stream->timing.display_color_depth;
+-	enum dc_pixel_encoding pixel_encoding = otg_master->stream->timing.pixel_encoding;
+ 	int h_active = otg_master->stream->timing.h_addressable +
+ 		otg_master->stream->timing.h_border_left +
+ 		otg_master->stream->timing.h_border_right;
+@@ -1480,36 +1469,10 @@ void resource_build_test_pattern_params(struct resource_context *res_ctx,
+ 		else
+ 			params->width = last_odm_slice_width;
+ 
+-		/* Extra left edge pixel is required for 3-tap chroma subsampling. */
+-		if (i != 0 && (pixel_encoding == PIXEL_ENCODING_YCBCR422 ||
+-				pixel_encoding == PIXEL_ENCODING_YCBCR420)) {
+-			params->offset -= 1;
+-			params->width += 1;
+-		}
+-
+ 		offset += odm_slice_width;
+ 	}
+ }
+ 
+-void resource_build_subsampling_params(struct resource_context *res_ctx,
+-	struct pipe_ctx *otg_master)
+-{
+-	struct pipe_ctx *opp_heads[MAX_PIPES];
+-	int odm_cnt = 1;
+-	int i;
+-
+-	odm_cnt = resource_get_opp_heads_for_otg_master(otg_master, res_ctx, opp_heads);
+-
+-	/* For ODM slices after the first slice, extra left edge pixel is required
+-	 * for 3-tap chroma subsampling.
+-	 */
+-	if (otg_master->stream->timing.pixel_encoding == PIXEL_ENCODING_YCBCR422 ||
+-			otg_master->stream->timing.pixel_encoding == PIXEL_ENCODING_YCBCR420) {
+-		for (i = 0; i < odm_cnt; i++)
+-			opp_heads[i]->stream_res.left_edge_extra_pixel = (i == 0) ? false : true;
+-	}
+-}
+-
+ bool resource_build_scaling_params(struct pipe_ctx *pipe_ctx)
+ {
+ 	const struct dc_plane_state *plane_state = pipe_ctx->plane_state;
+diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
+index f15ba7335336a..c55d5155ecb9c 100644
+--- a/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
+@@ -1573,8 +1573,7 @@ static void dcn20_detect_pipe_changes(struct dc_state *old_state,
+ 	 * makes this assumption at the moment with how hubp reset is matched to
+ 	 * same index mpcc reset.
+ 	 */
+-	if (old_pipe->stream_res.opp != new_pipe->stream_res.opp ||
+-			old_pipe->stream_res.left_edge_extra_pixel != new_pipe->stream_res.left_edge_extra_pixel)
++	if (old_pipe->stream_res.opp != new_pipe->stream_res.opp)
+ 		new_pipe->update_flags.bits.opp_changed = 1;
+ 	if (old_pipe->stream_res.tg != new_pipe->stream_res.tg)
+ 		new_pipe->update_flags.bits.tg_changed = 1;
+@@ -1962,10 +1961,6 @@ static void dcn20_program_pipe(
+ 			pipe_ctx->stream_res.opp,
+ 			&pipe_ctx->stream->bit_depth_params,
+ 			&pipe_ctx->stream->clamping);
+-
+-		pipe_ctx->stream_res.opp->funcs->opp_program_left_edge_extra_pixel(
+-			pipe_ctx->stream_res.opp,
+-			pipe_ctx->stream_res.left_edge_extra_pixel);
+ 	}
+ 
+ 	/* Set ABM pipe after other pipe configurations done */
+diff --git a/drivers/gpu/drm/amd/display/dc/inc/core_types.h b/drivers/gpu/drm/amd/display/dc/inc/core_types.h
+index ebb659c327e06..3a6bf77a68732 100644
+--- a/drivers/gpu/drm/amd/display/dc/inc/core_types.h
++++ b/drivers/gpu/drm/amd/display/dc/inc/core_types.h
+@@ -333,8 +333,6 @@ struct stream_resource {
+ 	uint8_t gsl_group;
+ 
+ 	struct test_pattern_params test_pattern_params;
+-
+-	bool left_edge_extra_pixel;
+ };
+ 
+ struct plane_resource {
+diff --git a/drivers/gpu/drm/amd/display/dc/inc/resource.h b/drivers/gpu/drm/amd/display/dc/inc/resource.h
+index b14d52e52fa2f..77a60aa9f27bb 100644
+--- a/drivers/gpu/drm/amd/display/dc/inc/resource.h
++++ b/drivers/gpu/drm/amd/display/dc/inc/resource.h
+@@ -107,10 +107,6 @@ void resource_build_test_pattern_params(
+ 		struct resource_context *res_ctx,
+ 		struct pipe_ctx *pipe_ctx);
+ 
+-void resource_build_subsampling_params(
+-		struct resource_context *res_ctx,
+-		struct pipe_ctx *pipe_ctx);
+-
+ bool resource_build_scaling_params(struct pipe_ctx *pipe_ctx);
+ 
+ enum dc_status resource_build_scaling_params_for_context(
 -- 
 2.43.0
 
