@@ -2,40 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C0588FD12
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 11:32:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4907F88FD1A
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 11:32:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 739A41123D0;
-	Thu, 28 Mar 2024 10:32:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B7E210F419;
+	Thu, 28 Mar 2024 10:32:56 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MB90J5XA";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 842071123C4
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 10:32:10 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5F3A615A1;
- Thu, 28 Mar 2024 03:32:43 -0700 (PDT)
-Received: from bogus (unknown [10.57.81.195])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EC6443F7BD;
- Thu, 28 Mar 2024 03:32:07 -0700 (PDT)
-Date: Thu, 28 Mar 2024 10:32:05 +0000
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Dejia Shang <Dejia.Shang@armchina.com>
-Cc: "ogabbay@kernel.org" <ogabbay@kernel.org>,
- Sudeep Holla <sudeep.holla@arm.com>,
- "airlied@redhat.com" <airlied@redhat.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: About upstreaming ArmChina NPU driver
-Message-ID: <20240328103205.seht2hbog3o4giv5@bogus>
-References: <SH0PR01MB063461EBC046437C88A6AE84983BA@SH0PR01MB0634.CHNPR01.prod.partner.outlook.cn>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED56510F419
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 10:32:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5519D60C61;
+ Thu, 28 Mar 2024 10:32:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E461C433F1;
+ Thu, 28 Mar 2024 10:32:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1711621974;
+ bh=OjnZXo6Q9uDkGmIDHFIa6XgV3eDBiEPaBDR+3c4XXrg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MB90J5XAetTAhGkp36UhtimN7sGX8q7bMdb3bYZQhfawv/QLXsuDgqwNYuF7Ur8v4
+ HCwiH0xZGF3dCoFWXgWIJav5GXgpsPrbF2IZPP9scPq5I1nU8W8lYR4e8M7LSNF+ws
+ 3lv5coUVqaI+NQcXfIPnmVckRXF+QCjsV4Iri56t8Er3/Yc4K8lVwFrvagm0UIEF24
+ OoLfjUQMKzvC3CzY3zKVf88R02Ra+WIbsjeDygI1moDWsoeqoh9j7C96gvNNjbp12H
+ eIa0yn27M8aeqrUMv2IRhviXR5JtHmxZAmhbr15cT51dWPPMEb3Mb/bFERfRLFd4UW
+ p4ZUmovLC/tOA==
+Date: Thu, 28 Mar 2024 10:32:48 +0000
+From: Lee Jones <lee@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: daniel.thompson@linaro.org, jingoohan1@gmail.com, deller@gmx.de,
+ andy@kernel.org, geert@linux-m68k.org, dan.carpenter@linaro.org,
+ sam@ravnborg.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [GIT PULL] Immutable branch between MFD, Auxdisplay, Staging, fbdev
+ and OMAP due for the v6.9 merge window
+Message-ID: <20240328103248.GY13211@google.com>
+References: <20240319093915.31778-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <SH0PR01MB063461EBC046437C88A6AE84983BA@SH0PR01MB0634.CHNPR01.prod.partner.outlook.cn>
+In-Reply-To: <20240319093915.31778-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,15 +61,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 28, 2024 at 07:46:01AM +0000, Dejia Shang wrote:
-> IMPORTANT NOTICE: The contents of this email and any attachments may be privileged and confidential. If you are not the intended recipient, please delete the email immediately. It is strictly prohibited to disclose the contents to any other person, use it for any purpose, or store or copy the information in any medium. Thank you. ©Arm Technology (China) Co., Ltd copyright and reserve all rights. 重要提示：本邮件（包括任何附件）可能含有专供明确的个人或目的使用的机密信息，并受法律保护。如果您并非该收件人，请立即删除此邮件。严禁通过任何渠道，以任何目的，向任何人披露、储存或复制邮件信息或者据此采取任何行动。感谢您的配合。 ©安谋科技（中国）有限公司 版权所有并保留一切权利。
+Enjoy!
 
-You need to get this fixed, otherwise people will delete this email
-as you have suggested and/or refrain from responding to this email.
+The following changes since commit 4cece764965020c22cff7665b18a012006359095:
 
-Please talk to your local IT and get a setup without this disclaimer for
-all mailing list activities.
+  Linux 6.9-rc1 (2024-03-24 14:10:05 -0700)
 
---
-Regards,
-Sudeep
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git ib-backlight-auxdisplay-staging-omap-v6.9
+
+for you to fetch changes up to 4551978bb50a8d59b49629deebacd73478a8b1e1:
+
+  backlight: Remove fb_blank from struct backlight_properties (2024-03-28 10:16:26 +0000)
+
+----------------------------------------------------------------
+Immutable branch between MFD, Auxdisplay, Staging, fbdev and OMAP due for the v6.9 merge window
+
+----------------------------------------------------------------
+Thomas Zimmermann (6):
+      auxdisplay: ht16k33: Replace use of fb_blank with backlight helper
+      backlight: omap1: Remove unused struct omap_backlight_config.set_power
+      backlight: omap1: Replace FB_BLANK_ states with simple on/off
+      fbdev: omap2/omapfb: Replace use of fb_blank with backlight helpers
+      staging: fbtft: Remove reference to fb_blank
+      backlight: Remove fb_blank from struct backlight_properties
+
+ drivers/auxdisplay/ht16k33.c                       |  7 +---
+ drivers/staging/fbtft/fb_ssd1351.c                 |  4 +-
+ drivers/staging/fbtft/fbtft-core.c                 |  5 +--
+ drivers/video/backlight/backlight.c                |  2 -
+ drivers/video/backlight/mp3309c.c                  |  1 -
+ drivers/video/backlight/omap1_bl.c                 | 47 +++++++++-------------
+ drivers/video/fbdev/atmel_lcdfb.c                  |  1 -
+ .../fbdev/omap2/omapfb/displays/panel-dsi-cm.c     |  7 +---
+ .../omap2/omapfb/displays/panel-sony-acx565akm.c   | 10 +----
+ include/linux/backlight.h                          | 25 +-----------
+ include/linux/platform_data/omap1_bl.h             |  1 -
+ 11 files changed, 26 insertions(+), 84 deletions(-)
+
+-- 
+Lee Jones [李琼斯]
