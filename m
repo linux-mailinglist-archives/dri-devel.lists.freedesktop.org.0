@@ -2,154 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6BEB890022
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 14:24:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC3F489002F
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 14:27:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C064B11241F;
-	Thu, 28 Mar 2024 13:23:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BF3410F6C4;
+	Thu, 28 Mar 2024 13:27:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="H/ff7VMO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="j6883XZz";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oVwe4PFK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="E0FhyfcQ";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PmrGQ9Kc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6361112423
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 13:23:57 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1675D10F6C4
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 13:26:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1711632416;
+ bh=sujgBuYQtY13TTpTdfQEXBxrBtYs4wxALaYTuvqw3qI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=PmrGQ9KcwnuSOZMqs+OV0YUrc2FsOWYU9wgCIQ9uwk2jEEb/F1rGLNNV+tSVclfJ3
+ PblpW3KDfoFd25ERV17nV+f46WRUrWGwsXJVnmdNqTjYcYXulk6J9aP4jINa/Z2rUK
+ JBJnmAEq+nP7Yxvyw2J5xQcQPnpF9RLgftPmZy6jbvYbKfIO+MNGd35DgpSJ1xeOb6
+ TWyvvUpj5v6+GdqVbFqb61gl+8kJjiIBpdXSJl5CfdU05Bd/u3Pz6SE8pRvrouTSRH
+ +/lP5yqwQ6QHGAMlOyw6Zxs59Z89sGyjobYxFQ02Cn+DIyLa9xRdQ8zD7Brsg2NcgS
+ E34VTBGLxLQcA==
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 26F7422626;
- Thu, 28 Mar 2024 13:23:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1711632236; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=cE1HJS/wRX1Dncixs5UhBGJAhu6OL2KkpGFOlWlnWwc=;
- b=H/ff7VMOhTmfzHQDt2gnhAp2O7Ob3fyb+XnYBmkUiKIrQoNY3fQTSwDJk9Mnab2m6I7XEp
- KAEIeFBhrCBzMgxskZjr7A6CdqtyUHYhl0Cohot6y9Q3i7ATKWxrrbqO3gKY0ouL0XyXPi
- eCjhjytEdnhVTSs6lbemsB9TAbirJyI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1711632236;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=cE1HJS/wRX1Dncixs5UhBGJAhu6OL2KkpGFOlWlnWwc=;
- b=j6883XZzoLCy4fWQOTkExtkwAxZ6/jC9LZAOEHb+yX/s1YhCIBgNQJrP5IzFx1I8dZino2
- oAMbzwybhUxdVHAg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1711632235; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=cE1HJS/wRX1Dncixs5UhBGJAhu6OL2KkpGFOlWlnWwc=;
- b=oVwe4PFKz3oA91pJDphmG3JYHmiW4SgPyPSCPnmFaBJNK6U5Hcfpemosdl4LFIddl1j2wf
- KYe2KFt/W6Yj8MKKaRr8YA/YeDWF7uVLxKbEZMY/9MrstmW3DmOCJWmq1S7MMi7wwdByRt
- TQSRsrSEwAJewK3oy8tPv8abhBpmD3I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1711632235;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=cE1HJS/wRX1Dncixs5UhBGJAhu6OL2KkpGFOlWlnWwc=;
- b=E0FhyfcQHxSu5FP1E4GVSRJaaIZNlqOQ4yIze1jmLX70dval50fE+i0DfMIfcPbMxVsFa6
- qtin3UKgWKuF3NBg==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id B7F4313AB3;
- Thu, 28 Mar 2024 13:23:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap2.dmz-prg2.suse.org with ESMTPSA id xgboKmpvBWavPQAAn2gu4w
- (envelope-from <tzimmermann@suse.de>); Thu, 28 Mar 2024 13:23:54 +0000
-Message-ID: <dbea9119-58c3-42b4-a50b-7438f4c04385@suse.de>
-Date: Thu, 28 Mar 2024 14:23:54 +0100
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id C7FA83780629;
+ Thu, 28 Mar 2024 13:26:54 +0000 (UTC)
+Date: Thu, 28 Mar 2024 15:26:31 +0200
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: =?UTF-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
+Cc: Louis Chauvet <louis.chauvet@bootlin.com>, Rodrigo Siqueira
+ <rodrigosiqueiramelo@gmail.com>, Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, arthurgrillo@riseup.net, Jonathan Corbet
+ <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
+Subject: Re: [PATCH v5 14/16] drm/vkms: Create KUnit tests for YUV conversions
+Message-ID: <20240328152631.63af0e8c.pekka.paalanen@collabora.com>
+In-Reply-To: <89748cd9-286b-4b07-b96b-5167e4b22cd2@igalia.com>
+References: <20240313-yuv-v5-0-e610cbd03f52@bootlin.com>
+ <20240313-yuv-v5-14-e610cbd03f52@bootlin.com>
+ <89748cd9-286b-4b07-b96b-5167e4b22cd2@igalia.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] arch: Rename fbdev header and source files
-Content-Language: en-US
-To: Arnd Bergmann <arnd@arndb.de>, Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>, sui.jingfeng@linux.dev
-Cc: Linux-Arch <linux-arch@vger.kernel.org>, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-sh@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-parisc@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org,
- linux-kernel@vger.kernel.org, Vineet Gupta <vgupta@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- "David S . Miller" <davem@davemloft.net>,
- Andreas Larsson <andreas@gaisler.com>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>
-References: <20240327204450.14914-1-tzimmermann@suse.de>
- <20240327204450.14914-4-tzimmermann@suse.de>
- <140d6bb3-5f44-49cb-846b-7141e551eedd@gmx.de>
- <72e8aa58-c732-4a96-bcb1-32310ee041b3@app.fastmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <72e8aa58-c732-4a96-bcb1-32310ee041b3@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -7.25
-X-Spamd-Result: default: False [-7.25 / 50.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; XM_UA_NO_VERSION(0.01)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
- REPLY(-4.00)[]; BAYES_HAM(-1.96)[94.83%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_RATELIMIT(0.00)[to_ip_from(RLthqzz6q5hnubohss7ffybi86)];
- RCVD_COUNT_THREE(0.00)[3];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-0.996]; RCPT_COUNT_TWELVE(0.00)[38];
- FREEMAIL_TO(0.00)[arndb.de,gmx.de,redhat.com,linux.dev];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+];
- FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.ozlabs.org,lists.linux-m68k.org,lists.linux.dev,lists.infradead.org,kernel.org,arm.com,xen0n.name,linux-m68k.org,alpha.franken.de,HansenPartnership.com,ellerman.id.au,gmail.com,users.sourceforge.jp,libc.org,physik.fu-berlin.de,davemloft.net,gaisler.com,linutronix.de,redhat.com,alien8.de,linux.intel.com,zytor.com];
- RCVD_TLS_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[]
-X-Spam-Level: 
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Flag: NO
+Content-Type: multipart/signed; boundary="Sig_/GE4vZKTXISViEEd2qeObyM7";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,43 +71,269 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+--Sig_/GE4vZKTXISViEEd2qeObyM7
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Am 28.03.24 um 13:51 schrieb Arnd Bergmann:
-> On Thu, Mar 28, 2024, at 13:46, Helge Deller wrote:
->> On 3/27/24 21:41, Thomas Zimmermann wrote:
->>> +++ b/arch/arc/include/asm/video.h
->>> @@ -0,0 +1,8 @@
->>> +/* SPDX-License-Identifier: GPL-2.0 */
->>> +
->>> +#ifndef _ASM_VIDEO_H_
->>> +#define _ASM_VIDEO_H_
->>> +
->>> +#include <asm-generic/video.h>
->>> +
->>> +#endif /* _ASM_VIDEO_H_ */
->> I wonder, since that file simply #includes the generic version,
->> wasn't there a possibility that kbuild could symlink
->> the generic version for us?
->> Does it need to be mandatory in include/asm-generic/Kbuild ?
->> Same applies to a few other files below.
-> It should be enough to just remove the files entirely,
-> as kbuild will generate the same wrappers for mandatory files.
+On Mon, 25 Mar 2024 11:34:17 -0300
+Ma=C3=ADra Canal <mcanal@igalia.com> wrote:
 
-If that works, I'm happy to remove these wrapper files.
+> On 3/13/24 14:45, Louis Chauvet wrote:
+> > From: Arthur Grillo <arthurgrillo@riseup.net>
+> >=20
+> > Create KUnit tests to test the conversion between YUV and RGB. Test each
+> > conversion and range combination with some common colors.
+> >=20
+> > The code used to compute the expected result can be found in comment.
+> >=20
+> > Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> > [Louis Chauvet:
+> > - fix minor formating issues (whitespace, double line)
+> > - change expected alpha from 0x0000 to 0xffff
+> > - adapt to the new get_conversion_matrix usage
+> > - apply the changes from Arthur
+> > - move struct pixel_yuv_u8 to the test itself] =20
+>=20
+> Again, a Co-developed-by tag might be more proper.
+>=20
+> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > ---
+> >   drivers/gpu/drm/vkms/Kconfig                  |  15 ++
+> >   drivers/gpu/drm/vkms/Makefile                 |   1 +
+> >   drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
+> >   drivers/gpu/drm/vkms/tests/Makefile           |   3 +
+> >   drivers/gpu/drm/vkms/tests/vkms_format_test.c | 230 +++++++++++++++++=
++++++++++
+> >   drivers/gpu/drm/vkms/vkms_formats.c           |   7 +-
+> >   drivers/gpu/drm/vkms/vkms_formats.h           |   4 +
+> >   7 files changed, 262 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/vkms/Kconfig b/drivers/gpu/drm/vkms/Kconfig
+> > index b9ecdebecb0b..9b0e1940c14f 100644
+> > --- a/drivers/gpu/drm/vkms/Kconfig
+> > +++ b/drivers/gpu/drm/vkms/Kconfig
+> > @@ -13,3 +13,18 @@ config DRM_VKMS
+> >   	  a VKMS.
+> >  =20
+> >   	  If M is selected the module will be called vkms.
+> > +
+> > +config DRM_VKMS_KUNIT_TESTS
+> > +	tristate "Tests for VKMS" if !KUNIT_ALL_TESTS =20
+>=20
+> "KUnit tests for VKMS"
+>=20
+> > +	depends on DRM_VKMS && KUNIT
+> > +	default KUNIT_ALL_TESTS
+> > +	help
+> > +	  This builds unit tests for VKMS. This option is not useful for
+> > +	  distributions or general kernels, but only for kernel
+> > +	  developers working on VKMS.
+> > +
+> > +	  For more information on KUnit and unit tests in general,
+> > +	  please refer to the KUnit documentation in
+> > +	  Documentation/dev-tools/kunit/.
+> > +
+> > +	  If in doubt, say "N".
+> > \ No newline at end of file
+> > diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makef=
+ile
+> > index 1b28a6a32948..8d3e46dde635 100644
+> > --- a/drivers/gpu/drm/vkms/Makefile
+> > +++ b/drivers/gpu/drm/vkms/Makefile
+> > @@ -9,3 +9,4 @@ vkms-y :=3D \
+> >   	vkms_writeback.o
+> >  =20
+> >   obj-$(CONFIG_DRM_VKMS) +=3D vkms.o
+> > +obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) +=3D tests/
+> > diff --git a/drivers/gpu/drm/vkms/tests/.kunitconfig b/drivers/gpu/drm/=
+vkms/tests/.kunitconfig
+> > new file mode 100644
+> > index 000000000000..70e378228cbd
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/vkms/tests/.kunitconfig
+> > @@ -0,0 +1,4 @@
+> > +CONFIG_KUNIT=3Dy
+> > +CONFIG_DRM=3Dy
+> > +CONFIG_DRM_VKMS=3Dy
+> > +CONFIG_DRM_VKMS_KUNIT_TESTS=3Dy
+> > diff --git a/drivers/gpu/drm/vkms/tests/Makefile b/drivers/gpu/drm/vkms=
+/tests/Makefile
+> > new file mode 100644
+> > index 000000000000..2d1df668569e
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/vkms/tests/Makefile
+> > @@ -0,0 +1,3 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +
+> > +obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) +=3D vkms_format_test.o
+> > diff --git a/drivers/gpu/drm/vkms/tests/vkms_format_test.c b/drivers/gp=
+u/drm/vkms/tests/vkms_format_test.c
+> > new file mode 100644
+> > index 000000000000..0954d606e44a
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/vkms/tests/vkms_format_test.c
+> > @@ -0,0 +1,230 @@
+> > +// SPDX-License-Identifier: GPL-2.0+
+> > +
+> > +#include <kunit/test.h>
+> > +
+> > +#include <drm/drm_fixed.h>
+> > +#include <drm/drm_fourcc.h>
+> > +#include <drm/drm_print.h>
+> > +
+> > +#include "../../drm_crtc_internal.h"
+> > +
+> > +#include "../vkms_drv.h"
+> > +#include "../vkms_formats.h"
+> > +
+> > +#define TEST_BUFF_SIZE 50
+> > +
+> > +struct pixel_yuv_u8 {
+> > +	u8 y, u, v;
+> > +};
+> > +
+> > +struct yuv_u8_to_argb_u16_case {
+> > +	enum drm_color_encoding encoding;
+> > +	enum drm_color_range range;
+> > +	size_t n_colors;
+> > +	struct format_pair {
+> > +		char *name;
+> > +		struct pixel_yuv_u8 yuv;
+> > +		struct pixel_argb_u16 argb;
+> > +	} colors[TEST_BUFF_SIZE];
+> > +};
+> > +
+> > +/*
+> > + * The YUV color representation were acquired via the colour python fr=
+amework.
+> > + * Below are the function calls used for generating each case.
+> > + *
+> > + * for more information got to the docs: =20
+>=20
+> s/for/For
+>=20
+> > + * https://colour.readthedocs.io/en/master/generated/colour.RGB_to_YCb=
+Cr.html
+> > + */
+> > +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] =3D {
+> > +	/*
+> > +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
+> > +	 *                     K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.601"],
+> > +	 *                     in_bits =3D 16,
+> > +	 *                     in_legal =3D False,
+> > +	 *                     in_int =3D True,
+> > +	 *                     out_bits =3D 8,
+> > +	 *                     out_legal =3D False,
+> > +	 *                     out_int =3D True)
+> > +	 */ =20
+>=20
+> I feel that this Python code is kind of poluting the test cases.
 
-Best regards
-Thomas
+I asked for the python code.
 
->
->       Arnd
+How would you verify that the expected values are actually correct
+without these comments?
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+You cannot trust that the test values are good if the tests pass. Both
+the test values and the tested code could be wrong simultaneously and
+agree on wrong results.
 
+
+I love these comments that explicitly give the python snippets used to
+generate the test values. Well done!
+
+Louis' suggestion of collecting the common python bits together is
+fine, too. As long as the comments clearly explain what python commands
+produced the test values, I'm happy.
+
+Anyway,
+
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+
+
+Thanks,
+pq
+
+> > +	{
+> > +		.encoding =3D DRM_COLOR_YCBCR_BT601,
+> > +		.range =3D DRM_COLOR_YCBCR_FULL_RANGE,
+> > +		.n_colors =3D 6,
+> > +		.colors =3D {
+> > +			{ "white", { 0xff, 0x80, 0x80 }, { 0xffff, 0xffff, 0xffff, 0xffff }=
+},
+> > +			{ "gray",  { 0x80, 0x80, 0x80 }, { 0xffff, 0x8080, 0x8080, 0x8080 }=
+},
+> > +			{ "black", { 0x00, 0x80, 0x80 }, { 0xffff, 0x0000, 0x0000, 0x0000 }=
+},
+> > +			{ "red",   { 0x4c, 0x55, 0xff }, { 0xffff, 0xffff, 0x0000, 0x0000 }=
+},
+> > +			{ "green", { 0x96, 0x2c, 0x15 }, { 0xffff, 0x0000, 0xffff, 0x0000 }=
+},
+> > +			{ "blue",  { 0x1d, 0xff, 0x6b }, { 0xffff, 0x0000, 0x0000, 0xffff }=
+},
+> > +		},
+> > +	},
+> > +	/*
+> > +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
+> > +	 *                     K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.601"],
+> > +	 *                     in_bits =3D 16,
+> > +	 *                     in_legal =3D False,
+> > +	 *                     in_int =3D True,
+> > +	 *                     out_bits =3D 8,
+> > +	 *                     out_legal =3D True,
+> > +	 *                     out_int =3D True)
+> > +	 */
+> > +	{
+> > +		.encoding =3D DRM_COLOR_YCBCR_BT601,
+> > +		.range =3D DRM_COLOR_YCBCR_LIMITED_RANGE,
+> > +		.n_colors =3D 6,
+> > +		.colors =3D {
+> > +			{ "white", { 0xeb, 0x80, 0x80 }, { 0xffff, 0xffff, 0xffff, 0xffff }=
+},
+> > +			{ "gray",  { 0x7e, 0x80, 0x80 }, { 0xffff, 0x8080, 0x8080, 0x8080 }=
+},
+> > +			{ "black", { 0x10, 0x80, 0x80 }, { 0xffff, 0x0000, 0x0000, 0x0000 }=
+},
+> > +			{ "red",   { 0x51, 0x5a, 0xf0 }, { 0xffff, 0xffff, 0x0000, 0x0000 }=
+},
+> > +			{ "green", { 0x91, 0x36, 0x22 }, { 0xffff, 0x0000, 0xffff, 0x0000 }=
+},
+> > +			{ "blue",  { 0x29, 0xf0, 0x6e }, { 0xffff, 0x0000, 0x0000, 0xffff }=
+},
+> > +		},
+> > +	},
+> > +	/*
+> > +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
+> > +	 *                     K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.709"],
+> > +	 *                     in_bits =3D 16,
+> > +	 *                     in_legal =3D False,
+> > +	 *                     in_int =3D True,
+> > +	 *                     out_bits =3D 8,
+> > +	 *                     out_legal =3D False,
+> > +	 *                     out_int =3D True)
+> > +	 */
+> > +	{
+
+
+--Sig_/GE4vZKTXISViEEd2qeObyM7
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYFcAcACgkQI1/ltBGq
+qqdtfg//aR9IWCoptr+hasnOCmoAiOppJsvqaITUFyRIKkV4D6AcUfe8s4i81K1U
+CKZaDtEfJJh0adX5nA53Hld4w1hOY9+dpeeaH107Hco6Bbnx68DaEvCY/si+aG7l
+596JOeGiHlMYxHtlN8KR18pqRkldW1Jn8LLVSqRJ3etqI5vrdpuoCEVvGnEYy99m
+3bgpF2Pf+F2MTdz3yiUV8oWK0QlcVyLZBuYytlJssrOTN40i/YtgXarQRcThc+WR
+MVfrnpi4OEMoX07qglhiSLaCsKYWXCz6tV6Lsia+8Aq867sIOJu2PF6GQEr+zlb9
+YiCw4nSK9kTj8JvTktaWzi+S7Cm0EOV/HNkC3Jnm6zha+FB6cfDW7VGGFIXRpkvC
+KLwGO8W3WmMjIcOOudhi0cWrPzCdyRpCBukNU78kMGbcf311J1pJtDJisCKTMLXR
+K0j5VYuOnzgww437TNEzX7isOBTwsO41C8O7ag/mI0COJL5gjwhd9FLOmDLf1UGi
+4N5W7W4bYcXDwjekCHX3DfUZXaThN2Z4EzNKVLYj5/3C7oOk2F3a/TZce4r5eRKi
+2cw73No7g7TBtw5FdEJ+7TUV4WliYm7k54uo59TtF6eYOcp0syKB6pXRaMMeW36y
+aBXEqsryYB/YZ5uJlo3Q6DeVpGPAW5k64X+w1E3wNuf4rmKiV54=
+=jcDv
+-----END PGP SIGNATURE-----
+
+--Sig_/GE4vZKTXISViEEd2qeObyM7--
