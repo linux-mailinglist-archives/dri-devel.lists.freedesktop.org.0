@@ -2,105 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66EA788FF99
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 13:52:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE3C288FFE8
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 14:15:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0682810F291;
-	Thu, 28 Mar 2024 12:52:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FEF310F68C;
+	Thu, 28 Mar 2024 13:15:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="lJeza5yy";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="Bb0RNIiz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QzX/RxoZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh4-smtp.messagingengine.com
- (fhigh4-smtp.messagingengine.com [103.168.172.155])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48B7810F5FC
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 12:52:20 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailfhigh.nyi.internal (Postfix) with ESMTP id 521AA11400CB;
- Thu, 28 Mar 2024 08:52:19 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
- by compute5.internal (MEProxy); Thu, 28 Mar 2024 08:52:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:subject
- :subject:to:to; s=fm1; t=1711630339; x=1711716739; bh=Lh4MuWdYpt
- nETV0Wdnx8P7s+c4JMcLpkbpgMh56pLFU=; b=lJeza5yyYcri2tqJXpeirr9IYD
- QgEwfGN2RlgSUZc2rPDvxJhYxVV/089I5H8oqHMLkN1+FSFdvimIGpzJdybXiVd5
- 2Hh7M3Fpr5K+u/YoqlSgteczcWUPaZe5PebEFQhsn8cz06VmU1/BTqmSG88UpbbW
- IRDHUvWeKM93m9tnIVFqW9PGvlFsvxcia5odqwnh/sOipC53vjPC915vrwXdf3ah
- NQDPw1x0KM/1Z6i113r4SH/r8f13MvPNNpADkwyEjH+JePCvmsqUsdRpbb4ui8li
- J45J5/3Dd68gaDOg4hUkS0HOa1RLi7A6iqh9EgTFdOh7UQ2jAtXzjQh8oNKg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1711630339; x=1711716739; bh=Lh4MuWdYptnETV0Wdnx8P7s+c4JM
- cLpkbpgMh56pLFU=; b=Bb0RNIizRq1jBDXW2lq5jH171BDUGdtZOBg2yhJaGCQ5
- MBUTySW+5j/DdyxglMRP3qw/rYCu0oiLgYsbKnKkbNOTFRIfXop0TJU5J9/Nuwht
- IH+tgwf4DUiVeonklvbKjpPszY0PLMdnEchwigznQZzcjH99EbmiLLpg1qf34krT
- iJghoc6WkCjfz5VazuLrz8Gy/4B3LuUTJh7DtGLExpprxflXUKQ5u16km0VO9gz/
- /xIY+MDt7wkkOiFfd34Gcgjv5bdHKl97f1ijnvyK1q2AxPNwwE/+Te5MSHhM3YvC
- /1bTpCSbgPPNegyP+O+CzYBZP3dLsoFPbxV98O3B/Q==
-X-ME-Sender: <xms:AWgFZudGwHi-Z_ipu-DAtsUL6gJmM5eGp3QTYrVOimzirRINehkvoQ>
- <xme:AWgFZoPWeyCXm0gz801Wq1t5hhpzKklxaM1TLa1qtwhXC7iwXRxMyw3onJxip2eAj
- WWQT6wPeOdpsid83Ls>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudduledggeegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
- nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
- htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
- teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
- hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:AWgFZvhfmGntOEERrkeD9wQxbG3BBl0ymkFJFs1vm6jkXMFebhBQyQ>
- <xmx:AWgFZr8YnamA7dSxSPnNPmMKwDGtXJdBScUKn5dZp1VpBND1nJVyTQ>
- <xmx:AWgFZqvndgo1Vk3LX14Uj8eNF0kPqgRQgY7FmHK6m8-J_1U1eqBvWg>
- <xmx:AWgFZiHiTqUPJIypCNK7EW6Z8ridICdLObLwSNabIfJrzpIA_ulyaA>
- <xmx:A2gFZq2IF3v0r4kisD05XZs3sJZhIlR4o-eCVWP-cdF5aXis-a6QEw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 69BC9B6008D; Thu, 28 Mar 2024 08:52:17 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-333-gbfea15422e-fm-20240327.001-gbfea1542
-MIME-Version: 1.0
-Message-Id: <72e8aa58-c732-4a96-bcb1-32310ee041b3@app.fastmail.com>
-In-Reply-To: <140d6bb3-5f44-49cb-846b-7141e551eedd@gmx.de>
-References: <20240327204450.14914-1-tzimmermann@suse.de>
- <20240327204450.14914-4-tzimmermann@suse.de>
- <140d6bb3-5f44-49cb-846b-7141e551eedd@gmx.de>
-Date: Thu, 28 Mar 2024 13:51:57 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Helge Deller" <deller@gmx.de>, "Thomas Zimmermann" <tzimmermann@suse.de>, 
- "Javier Martinez Canillas" <javierm@redhat.com>, sui.jingfeng@linux.dev
-Cc: Linux-Arch <linux-arch@vger.kernel.org>, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-sh@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-parisc@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org,
- linux-kernel@vger.kernel.org, "Vineet Gupta" <vgupta@kernel.org>,
- "Catalin Marinas" <catalin.marinas@arm.com>,
- "Will Deacon" <will@kernel.org>, "Huacai Chen" <chenhuacai@kernel.org>,
- "WANG Xuerui" <kernel@xen0n.name>,
- "Geert Uytterhoeven" <geert@linux-m68k.org>,
- "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
- "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Michael Ellerman" <mpe@ellerman.id.au>,
- "Nicholas Piggin" <npiggin@gmail.com>,
- "Yoshinori Sato" <ysato@users.sourceforge.jp>,
- "Rich Felker" <dalias@libc.org>,
- "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
- "David S . Miller" <davem@davemloft.net>,
- "Andreas Larsson" <andreas@gaisler.com>,
- "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>,
- "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4D5A10F68C
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 13:15:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1711631737; x=1743167737;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Xo032l06yr/hR/jwn/WjJ3wew5ThoMRYTk7U+HZZzrE=;
+ b=QzX/RxoZSCsPY+P434NzI4KRgu0qQ8ZeA0pWuZ18Hil4a76E6r4X9Xuv
+ J6gqR4qM2sEgYw4cCie+wMmLWOGTwvP78ETDAeVhIP1g46TKcr3tf+4+F
+ NE3DPvhEb/keBVS4BSFu8aMdJJ4CXlCHFKB0Z1Rs1HNO2DID15PqHR0f2
+ /1P0ITjuoKhp8bMpSjCN8auZiYe5RQQtjPeH8/pVjOZGv4A36qZvugvCY
+ 0geBQAGm87x27cXy6n8pVXA1phkHTlEELVAU82NRkUI6SbybEtndvOvpj
+ ab2Q6nei3KxusDxR4AEXIMSfJ4scX4Z8e/RH5E1Ae6oawliVw0zYSZolW A==;
+X-CSE-ConnectionGUID: BHsw58/AQU6MiJ6jMyuxsQ==
+X-CSE-MsgGUID: 4sEdrXS9SlaxYmYDUi7nUg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="6999354"
+X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; 
+   d="scan'208";a="6999354"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2024 06:15:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; d="scan'208";a="16637521"
+Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
+ by fmviesa007.fm.intel.com with ESMTP; 28 Mar 2024 06:15:08 -0700
+Received: from kbuild by be39aa325d23 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rppb0-0002A6-01;
+ Thu, 28 Mar 2024 13:15:06 +0000
+Date: Thu, 28 Mar 2024 21:15:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, arnd@arndb.de,
+ javierm@redhat.com, deller@gmx.de, sui.jingfeng@linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-sh@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-parisc@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ loongarch@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Vineet Gupta <vgupta@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ WANG Xuerui <kernel@xen0n.name>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>
 Subject: Re: [PATCH v2 3/3] arch: Rename fbdev header and source files
-Content-Type: text/plain
+Message-ID: <202403282102.OEKoBT3H-lkp@intel.com>
+References: <20240327204450.14914-4-tzimmermann@suse.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240327204450.14914-4-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,27 +83,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 28, 2024, at 13:46, Helge Deller wrote:
-> On 3/27/24 21:41, Thomas Zimmermann wrote:
+Hi Thomas,
 
->> +++ b/arch/arc/include/asm/video.h
->> @@ -0,0 +1,8 @@
->> +/* SPDX-License-Identifier: GPL-2.0 */
->> +
->> +#ifndef _ASM_VIDEO_H_
->> +#define _ASM_VIDEO_H_
->> +
->> +#include <asm-generic/video.h>
->> +
->> +#endif /* _ASM_VIDEO_H_ */
->
-> I wonder, since that file simply #includes the generic version,
-> wasn't there a possibility that kbuild could symlink
-> the generic version for us?
-> Does it need to be mandatory in include/asm-generic/Kbuild ?
-> Same applies to a few other files below.
+kernel test robot noticed the following build errors:
 
-It should be enough to just remove the files entirely,
-as kbuild will generate the same wrappers for mandatory files.
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.9-rc1 next-20240328]
+[cannot apply to tip/x86/core deller-parisc/for-next arnd-asm-generic/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-     Arnd
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/arch-Select-fbdev-helpers-with-CONFIG_VIDEO/20240328-044735
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240327204450.14914-4-tzimmermann%40suse.de
+patch subject: [PATCH v2 3/3] arch: Rename fbdev header and source files
+config: um-randconfig-001-20240328 (https://download.01.org/0day-ci/archive/20240328/202403282102.OEKoBT3H-lkp@intel.com/config)
+compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240328/202403282102.OEKoBT3H-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403282102.OEKoBT3H-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   /usr/bin/ld: drivers/video/fbdev/core/fb_io_fops.o: in function `fb_io_mmap':
+>> fb_io_fops.c:(.text+0x251): undefined reference to `pgprot_framebuffer'
+   collect2: error: ld returned 1 exit status
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
