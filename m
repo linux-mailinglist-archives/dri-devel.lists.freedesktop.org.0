@@ -2,93 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E098A88FEE3
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 13:25:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48BBE88FF12
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 13:34:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DF061123EC;
-	Thu, 28 Mar 2024 12:25:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE9C810F5CC;
+	Thu, 28 Mar 2024 12:34:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="SarVm9ox";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="p6mhDEu8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CCBA10EB98
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 12:25:08 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-41490d05bafso8876065e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 05:25:08 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0606610F5CC
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 12:34:23 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-41549a9dcbaso1843905e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 05:34:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711628707; x=1712233507;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711629262; x=1712234062;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=IewWu8lmxt6/0HVEI36CNBq5rN/g2F+PxaVTBG2h/iU=;
- b=SarVm9oxX/3//MVqjan5sjsaCjAb0eeXnF6xYkkpjC4/tJnFicXoJHKjX8AewmWVSZ
- ytkFpkpmZiWvCzg3bZP5rzxPobOhbLuVl02Cw/i9sP+UAhzNWF1RM1XpDADdPbU5MaZp
- xnNkBiEICcv7rlsYk7wyT2B2XH59rsq/t5Z1VuDD4OPEn+4Uku6zkkkfjkIsDYGYVIHD
- ke7gLtE+UWB8dZjvLYF2XrHQlKITTSpfhJgXgcumw1TdHI3qh0uM/Bi+tCIDevanFOXv
- G5cwp3JowUDb1GNI3n46wNuam8K/QWOrBk8RiBQtTopooLij4J2ADEA/VUeD8rCgkoxY
- KRaQ==
+ bh=qWn4vKf6jmo6u/KAkidvDYA7hMTdnPHRFemGgPWSlIk=;
+ b=p6mhDEu8TxASRqSuJgfT03ZOIG87HzioENIxAAYgRBgu+TOLVFI1qpD28d7cVS+Ta6
+ L2KcUhk301V23dJYSDXzDmxMLUDklFzE4GkbXXQY7vzc8Jq2nWODUfJ84mJPYvuuAAlh
+ dZPSviiBcHrpXpanMqVBUnrLgQ26BtTBFZrPlxKPNWFtmutW8ayOVUAz0MPorAmz32ou
+ mjl3cLmuy+Esdjj5Tw3gBqR0OTH5PsI1i4DTvAyFFd36q9wDWfj0a2EZe0S7SdL46YTD
+ bM747sPf0fblhudrlJdkuUleXYAOnUl9flpYRFDLzE7qgFp05x1eaAeERNcPeOcWEnPv
+ tUZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711628707; x=1712233507;
+ d=1e100.net; s=20230601; t=1711629262; x=1712234062;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IewWu8lmxt6/0HVEI36CNBq5rN/g2F+PxaVTBG2h/iU=;
- b=vQw3aUGGuB5NGLIs4d3PDpHeqvtZBaWayzbq6vw0ooKDoiH4Sfrnbj6pDYSTo0NayE
- cLHIaRV5S5rJWCSSaSxkeRV+0EpgDhUjKs7Zmy4su7OGJSSjebt5n/2jnIkSj78bM6rz
- K0KIlsKtLPX9C8R3oUqcaeBqmDy8oKTl86QlYyDQAry+fq9JOTNlsc4PZ89eMFGK4imm
- 1lv6u7Mu5NL/qnlCPL8k29GFi3qAm0cfZDfTjniHCrtJJ6JVLwN4Auihp66Ssz77Be/u
- W43+yvtEqENLMO8LtJYrPMqcd70q0TBg8w/nff9IMTWtThYDpYpVGggBnxq4tfWeocch
- oBTg==
+ bh=qWn4vKf6jmo6u/KAkidvDYA7hMTdnPHRFemGgPWSlIk=;
+ b=n9A7zq7E/gRmCG+g/X0iBscW5rZzZVaaRqCVXZ/lQKwKkgTo6LjykYjrRnvUsCRZJe
+ BzHPwkXg6gg9CHBGQKEEpqWw9dI/1o5GHRfUrEYodoy1Mg9Hctv2Hc292+cJcoEDtt3R
+ py/PK/BOCnDlI3sh2d2KuZTi/pvOaOebj0OQ9uqsqovh2TH/neGgq/7sPdAYsCUtVeQw
+ 9sQMuYP1JN4YNn21ekwpqwPyvA6yAeCp2lVtNBUcPdYxBlOHfOYWMZ1U8udiz6+nBv7+
+ hZVdqvGdXMfWB0tMXaP7CZAbqqqMK1mfjYis4VUeH1LxGT13H4cgMOIgGgFeKeBJkWdi
+ eVmQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUfeefFRGu12tYlcU/DrQ8KWpp2yoTD8Ym9kH2cE6lSMtC1u5K6NMtjiVIM1cGS1jnihtmClALHz1TBegRWka+WdTkvX24R23oVhcnWUOKZ
-X-Gm-Message-State: AOJu0YxYJt2uzJ37yKg67699rNWszpATxWVj8Il2SoG18G9rI2wIfZOc
- jIXFT4Zmtuel6ibD2iCx+mzE+CqNF8tH7XB+R6+0AJ/vZXkax9/fE53n2/cGvRI=
-X-Google-Smtp-Source: AGHT+IH0y2fo2UTEGk+nQ03ttrhLqd3C0Z1OT03HbenKppy5AOYESKIChnTRGuAmLfyXp7UsaXIgVA==
-X-Received: by 2002:a05:600c:1c8d:b0:413:feed:b309 with SMTP id
- k13-20020a05600c1c8d00b00413feedb309mr2723847wms.6.1711628706870; 
- Thu, 28 Mar 2024 05:25:06 -0700 (PDT)
+ AJvYcCWruhNWIF1CWPgeWJF2ef90s406CtsAbka49mvahhoWfy1zeoPZGJgLY6EohirJeIJ4pcd/qpcxlKwBQaPdB0xB+ICeE/6Ur+RtDvp+FLen
+X-Gm-Message-State: AOJu0Ywd8jfJ6nRkX4Vl/VIK5YuQSdx4si/e6897KhT4LjM6LJMG8+f1
+ i4xGkh8aiETDG9LdMufWadIs0KqCZXzwhSPKzChy+ZB2ocChHM+h8IXCu+GfGWI=
+X-Google-Smtp-Source: AGHT+IFLB/cUHJWkbnWrK10eduOa8rRtXuIj5s2I8YXRQ+IvMFyMnMJuaj5WaCt6J4TWoyPiuBZHlA==
+X-Received: by 2002:a05:600c:45ca:b0:414:8948:621c with SMTP id
+ s10-20020a05600c45ca00b004148948621cmr2473201wmo.8.1711629262250; 
+ Thu, 28 Mar 2024 05:34:22 -0700 (PDT)
 Received: from [10.1.5.112]
  (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
  by smtp.gmail.com with ESMTPSA id
- fb7-20020a05600c520700b00414969894a1sm4030818wmb.13.2024.03.28.05.25.06
+ fc9-20020a05600c524900b004154399fbd9sm2287689wmb.45.2024.03.28.05.34.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Mar 2024 05:25:06 -0700 (PDT)
-Message-ID: <342cdc02-22e7-4caf-b00e-b46cbcdf36fa@baylibre.com>
-Date: Thu, 28 Mar 2024 13:25:05 +0100
+ Thu, 28 Mar 2024 05:34:22 -0700 (PDT)
+Message-ID: <34f9a771-08dd-4db6-9790-cc5f70f707c7@baylibre.com>
+Date: Thu, 28 Mar 2024 13:34:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v5 1/3] net: ethernet: ti: Add accessors for
- struct k3_cppi_desc_pool members
-To: Naveen Mamindlapalli <naveenm@marvell.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Russell King <linux@armlinux.org.uk>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
+Subject: Re: [PATCH net-next v5 3/3] net: ethernet: ti: am65-cpsw: Add minimal
+ XDP support
+To: Ratheesh Kannoth <rkannoth@marvell.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
  Jesper Dangaard Brouer <hawk@kernel.org>,
  John Fastabend <john.fastabend@gmail.com>,
  Sumit Semwal <sumit.semwal@linaro.org>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  Simon Horman <horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
- Ratheesh Kannoth <rkannoth@marvell.com>
-Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
 References: <20240223-am65-cpsw-xdp-basic-v5-0-bc1739170bc6@baylibre.com>
- <20240223-am65-cpsw-xdp-basic-v5-1-bc1739170bc6@baylibre.com>
- <SJ2PR18MB5635B9F20BB6CE1CC945F3B2A23B2@SJ2PR18MB5635.namprd18.prod.outlook.com>
+ <20240223-am65-cpsw-xdp-basic-v5-3-bc1739170bc6@baylibre.com>
+ <20240328114245.GA1560669@maili.marvell.com>
 Content-Language: en-US
 From: Julien Panis <jpanis@baylibre.com>
-In-Reply-To: <SJ2PR18MB5635B9F20BB6CE1CC945F3B2A23B2@SJ2PR18MB5635.namprd18.prod.outlook.com>
+In-Reply-To: <20240328114245.GA1560669@maili.marvell.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,77 +100,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/28/24 13:06, Naveen Mamindlapalli wrote:
->> -----Original Message-----
->> From: Julien Panis <jpanis@baylibre.com>
->> Sent: Thursday, March 28, 2024 2:57 PM
->> To: David S. Miller <davem@davemloft.net>; Eric Dumazet
->> <edumazet@google.com>; Jakub Kicinski <kuba@kernel.org>; Paolo Abeni
->> <pabeni@redhat.com>; Russell King <linux@armlinux.org.uk>; Alexei Starovoitov
->> <ast@kernel.org>; Daniel Borkmann <daniel@iogearbox.net>; Jesper Dangaard
->> Brouer <hawk@kernel.org>; John Fastabend <john.fastabend@gmail.com>;
->> Sumit Semwal <sumit.semwal@linaro.org>; Christian König
->> <christian.koenig@amd.com>; Simon Horman <horms@kernel.org>; Andrew
->> Lunn <andrew@lunn.ch>; Ratheesh Kannoth <rkannoth@marvell.com>
->> Cc: netdev@vger.kernel.org; linux-kernel@vger.kernel.org; bpf@vger.kernel.org;
->> linux-media@vger.kernel.org; dri-devel@lists.freedesktop.org; linaro-mm-
->> sig@lists.linaro.org; Julien Panis <jpanis@baylibre.com>
->> Subject: [PATCH net-next v5 1/3] net: ethernet: ti: Add accessors
->> for struct k3_cppi_desc_pool members
+On 3/28/24 12:42, Ratheesh Kannoth wrote:
+> On 2024-03-28 at 14:56:42, Julien Panis (jpanis@baylibre.com) wrote:
+>> This patch adds XDP (eXpress Data Path) support to TI AM65 CPSW
+>> Ethernet driver. The following features are implemented:
+>> - NETDEV_XDP_ACT_BASIC (XDP_PASS, XDP_TX, XDP_DROP, XDP_ABORTED)
+>> - NETDEV_XDP_ACT_REDIRECT (XDP_REDIRECT)
+>> - NETDEV_XDP_ACT_NDO_XMIT (ndo_xdp_xmit callback)
 >>
->> This patch adds accessors for desc_size and cpumem members. They may be
->> used, for instance, to compute a descriptor index.
+>> The page pool memory model is used to get better performance.
+>> Below are benchmark results obtained for the receiver with iperf3 default
+>> parameters:
+>> - Without page pool: 495 Mbits/sec
+>> - With page pool: 505 Mbits/sec (actually 510 Mbits/sec, with a 5 Mbits/sec
+>> loss due to extra processing in the hot path to handle XDP).
 >>
 >> Signed-off-by: Julien Panis <jpanis@baylibre.com>
 >> ---
->>   drivers/net/ethernet/ti/k3-cppi-desc-pool.c | 12 ++++++++++++
->> drivers/net/ethernet/ti/k3-cppi-desc-pool.h |  2 ++
->>   2 files changed, 14 insertions(+)
->>
->> diff --git a/drivers/net/ethernet/ti/k3-cppi-desc-pool.c b/drivers/net/ethernet/ti/k3-
->> cppi-desc-pool.c
->> index 05cc7aab1ec8..fe8203c05731 100644
->> --- a/drivers/net/ethernet/ti/k3-cppi-desc-pool.c
->> +++ b/drivers/net/ethernet/ti/k3-cppi-desc-pool.c
->> @@ -132,5 +132,17 @@ size_t k3_cppi_desc_pool_avail(struct
->> k3_cppi_desc_pool *pool)  }  EXPORT_SYMBOL_GPL(k3_cppi_desc_pool_avail);
->>
->> +size_t k3_cppi_desc_pool_desc_size(struct k3_cppi_desc_pool *pool) {
->> +	return pool->desc_size;
-> Don't you need to add NULL check on pool ptr since this function is exported?
 
-Thanks for the review.
-Absolutely, you're right.
+[...]
 
->
->> +}
->> +EXPORT_SYMBOL_GPL(k3_cppi_desc_pool_desc_size);
+>> +static struct sk_buff *am65_cpsw_alloc_skb(struct am65_cpsw_rx_chn *rx_chn,
+>> +					   struct net_device *ndev,
+>> +					   unsigned int len,
+>> +					   int desc_idx)
+>> +{
+>> +	struct sk_buff *skb;
+>> +	struct page *page;
 >> +
->> +void *k3_cppi_desc_pool_cpuaddr(struct k3_cppi_desc_pool *pool) {
->> +	return pool->cpumem;
-> Same here.
->
->> +}
->> +EXPORT_SYMBOL_GPL(k3_cppi_desc_pool_cpuaddr);
+>> +	page = page_pool_dev_alloc_pages(rx_chn->page_pool);
+>> +	if (unlikely(!page))
+>> +		return NULL;
 >> +
->>   MODULE_LICENSE("GPL");
->>   MODULE_DESCRIPTION("TI K3 CPPI5 descriptors pool API"); diff --git
->> a/drivers/net/ethernet/ti/k3-cppi-desc-pool.h b/drivers/net/ethernet/ti/k3-cppi-desc-
->> pool.h
->> index a7e3fa5e7b62..149d5579a5e2 100644
->> --- a/drivers/net/ethernet/ti/k3-cppi-desc-pool.h
->> +++ b/drivers/net/ethernet/ti/k3-cppi-desc-pool.h
->> @@ -26,5 +26,7 @@ k3_cppi_desc_pool_dma2virt(struct k3_cppi_desc_pool
->> *pool, dma_addr_t dma);  void *k3_cppi_desc_pool_alloc(struct
->> k3_cppi_desc_pool *pool);  void k3_cppi_desc_pool_free(struct
->> k3_cppi_desc_pool *pool, void *addr);  size_t k3_cppi_desc_pool_avail(struct
->> k3_cppi_desc_pool *pool);
->> +size_t k3_cppi_desc_pool_desc_size(struct k3_cppi_desc_pool *pool);
->> +void *k3_cppi_desc_pool_cpuaddr(struct k3_cppi_desc_pool *pool);
->>
->>   #endif /* K3_CPPI_DESC_POOL_H_ */
->>
->> --
->> 2.37.3
->>
+>> +	len += AM65_CPSW_HEADROOM;
+>> +
+>> +	skb = build_skb(page_address(page), len);
+>> +	if (unlikely(!skb)) {
+>> +		page_pool_put_full_page(rx_chn->page_pool, page, ndev);
+> Is it compiling ? third argument should be a bool.
+
+Thank you for the time you spent on this patch.
+
+Yes, it is compiling.
+This was intentional but it may be unclear indeed.
+I'll make the bool using more explicit in next version.
 
