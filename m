@@ -2,55 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29920890907
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 20:21:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1E91890908
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 20:21:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D5681120D4;
-	Thu, 28 Mar 2024 19:21:36 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=proton.me header.i=@proton.me header.b="VzVU3Au5";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20E9D11253E;
+	Thu, 28 Mar 2024 19:21:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 961 seconds by postgrey-1.36 at gabe;
- Wed, 27 Mar 2024 21:06:51 UTC
-Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch
- [185.70.40.134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A003911203D
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Mar 2024 21:06:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
- s=protonmail; t=1711573609; x=1711832809;
- bh=tmh4P03wZoUNrmGMRDjppoh9LNoMf3SVixBqcaDEGJE=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=VzVU3Au50Flw9LC5rZqT4ufKGY2RGvXVAD6wqVWwHR3g+HcKuyPqFqKLXbzMVNIq/
- bB/KSJNYpUi/Z9uUo2mwGyz8MjMqYGBe5jc1cJqmLrv1QFAHguXDxk6d0qkYeunOxu
- yeUvGtr0AHi/VaWcYtb5ay87EmGVyfvHjrFkKamyeukRgeUMu1taw1uUaeDgRjpTUx
- UO2Rj++2rE2fvIBpaBA5q2qI45its36ojMnA6d6wIyfaiNaHKw9ueUag5bfUOhoHUZ
- LPeJO0p9tpaHDHI3ay1MdoFAA5p2/DYsWAl0UBlhNCGAaZqWlwTfRpArIIoBEIm0r1
- Slcsdqv9eH/sw==
-Date: Wed, 27 Mar 2024 21:06:42 +0000
-To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org
-From: Benno Lossin <benno.lossin@proton.me>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl <aliceryhl@google.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 2/4] WIP: drm: Introduce rvkms
-Message-ID: <b41f707d-7e06-4c1a-93f0-d74ee242b650@proton.me>
-In-Reply-To: <20240322221305.1403600-3-lyude@redhat.com>
-References: <20240322221305.1403600-1-lyude@redhat.com>
- <20240322221305.1403600-3-lyude@redhat.com>
-Feedback-ID: 71780778:user:proton
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E5BC1123B5
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 10:22:19 +0000 (UTC)
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+ by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
+ id 1rpmdb-00C7Dr-R3; Thu, 28 Mar 2024 18:05:36 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation);
+ Thu, 28 Mar 2024 18:05:52 +0800
+Date: Thu, 28 Mar 2024 18:05:52 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Akhil R <akhilrajeev@nvidia.com>
+Cc: davem@davemloft.net, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com,
+ catalin.marinas@arm.com, will@kernel.org, mperttunen@nvidia.com,
+ airlied@gmail.com, daniel@ffwll.ch, linux-crypto@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v6 3/5] crypto: tegra: Add Tegra Security Engine driver
+Message-ID: <ZgVBAFmfK7GKgmYi@gondor.apana.org.au>
+References: <20240319082306.34716-1-akhilrajeev@nvidia.com>
+ <20240319082306.34716-4-akhilrajeev@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240319082306.34716-4-akhilrajeev@nvidia.com>
 X-Mailman-Approved-At: Thu, 28 Mar 2024 19:21:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,88 +51,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22.03.24 23:03, Lyude Paul wrote:
-> diff --git a/drivers/gpu/drm/rvkms/connector.rs b/drivers/gpu/drm/rvkms/c=
-onnector.rs
-> new file mode 100644
-> index 0000000000000..40f84d38437ee
-> --- /dev/null
-> +++ b/drivers/gpu/drm/rvkms/connector.rs
-> @@ -0,0 +1,55 @@
-> +// TODO: License and stuff
-> +// Contain's rvkms's drm_connector implementation
-> +
-> +use super::{RvkmsDriver, RvkmsDevice, MAX_RES, DEFAULT_RES};
-> +use kernel::{
-> +    prelude::*,
-> +    drm::{
-> +        device::Device,
-> +        kms::{
-> +            connector::{self, ConnectorGuard},
-> +            ModeConfigGuard
-> +        }
-> +    },
-> +    prelude::*
-> +};
-> +use core::marker::PhantomPinned;
-> +
-> +#[pin_data]
-> +pub(crate) struct DriverConnector {
-> +    #[pin]
-> +    _p: PhantomPinned
-> +}
+On Tue, Mar 19, 2024 at 01:53:04PM +0530, Akhil R wrote:
+>
+> +		.alg.skcipher.op.do_one_request	= tegra_aes_do_one_req,
+> +		.alg.skcipher.base = {
+> +			.init = tegra_aes_cra_init,
+> +			.exit = tegra_aes_cra_exit,
+> +			.setkey = tegra_aes_setkey,
+> +			.encrypt = tegra_aes_encrypt,
+> +			.decrypt = tegra_aes_decrypt,
+> +			.min_keysize = AES_MIN_KEY_SIZE,
+> +			.max_keysize = AES_MAX_KEY_SIZE,
+> +			.ivsize	= AES_BLOCK_SIZE,
+> +			.base = {
+> +				.cra_name = "ofb(aes)",
+> +				.cra_driver_name = "ofb-aes-tegra",
+> +				.cra_priority = 500,
+> +				.cra_flags = CRYPTO_ALG_TYPE_SKCIPHER | CRYPTO_ALG_ASYNC,
+> +				.cra_blocksize = AES_BLOCK_SIZE,
+> +				.cra_ctxsize = sizeof(struct tegra_aes_ctx),
+> +				.cra_alignmask = 0xf,
+> +				.cra_module = THIS_MODULE,
+> +			},
+> +		}
+> +	}, {
 
-This struct does not need to be annotated with `#[pin_data]`, this
-should just work:
+OFB no longer exists in the kernel.  Please remove all traces of it
+from your driver.
 
-pub(crate) struct DriverConnector;
+Also please ensure that yuor driver passes the extra fuzz tests.
 
-> +
-> +pub(crate) type Connector =3D connector::Connector<DriverConnector>;
-> +
-> +impl connector::DriverConnector for DriverConnector {
-> +    type Initializer =3D impl PinInit<Self, Error>;
-> +
-> +    type State =3D ConnectorState;
-> +
-> +    type Driver =3D RvkmsDriver;
-> +
-> +    type Args =3D ();
-> +
-> +    fn new(dev: &Device<Self::Driver>, args: Self::Args) -> Self::Initia=
-lizer {
-
-And then here just return `Self`.
-
-This works, since there is a blanket impl `PinInit<T, E> for T`.
-
-Looking at how you use this API, I am not sure if you actually need
-pin-init for the type that implements `DriverConnector`.
-Do you need to store eg `Mutex<T>` or something else that needs
-pin-init in here in a more complex driver?
-
---=20
-Cheers,
-Benno
-
-> +        try_pin_init!(Self { _p: PhantomPinned })
-> +    }
-> +
-> +    fn get_modes(
-> +        connector: ConnectorGuard<'_, Self>,
-> +        _guard: &ModeConfigGuard<'_, Self::Driver>
-> +    ) -> i32 {
-> +        let count =3D connector.add_modes_noedid(MAX_RES);
-> +
-> +        connector.set_preferred_mode(DEFAULT_RES);
-> +        count
-> +    }
-> +}
-> +
-> +#[derive(Clone, Default)]
-> +pub(crate) struct ConnectorState;
-> +
-> +impl connector::DriverConnectorState for ConnectorState {
-> +    type Connector =3D DriverConnector;
-> +}
-
+Thanks,
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
