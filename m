@@ -2,69 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 462F88901F4
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 15:35:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC0089024F
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 15:53:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74CE5112469;
-	Thu, 28 Mar 2024 14:35:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A873112466;
+	Thu, 28 Mar 2024 14:53:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="s6mXgQ3V";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="l9LeqVpT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD07B112468;
- Thu, 28 Mar 2024 14:35:29 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3A52561798;
- Thu, 28 Mar 2024 14:35:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D270C4166B;
- Thu, 28 Mar 2024 14:35:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711636529;
- bh=Kr9lQ3sO2i8J+JqxBgX/JkrQt58EHLLHgmBCd+Xz7iY=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=s6mXgQ3VfJMRXPIHeqp54ulRg1m7Q8tLnbwpIR1GiaLXoMvoJLtEybBSe8lHYHb0o
- 7k7rikFnytieQPO0JXQkRSY9HgsKoH5CMPfpdKFAQNSpqqVMm/QWOMK+/K9aOqZihD
- SqYWJ6pg1s+pj0n1E9CVVwUrvFMJtFpr2IqfUnlyICq98oQ4xgMdjDWr6vsXnAVb6u
- fGPsyPEgkcmM9Jb/jsivc9J3zpjumLKxVV9jWqgCJJO3zteRg03vrpZ2lT86qczji3
- zERN52E2SKLqk9qh1wzr8XWlFFbpwrlhb32WHaREUcXx6ZKOeARQZggCLOmiZmEAAo
- 7jnieO1JfadhQ==
-From: Bjorn Andersson <andersson@kernel.org>
-Date: Thu, 28 Mar 2024 07:40:05 -0700
-Subject: [PATCH v2 6/6] drm/msm/dp: Use function arguments for audio operations
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B29D112466
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 14:53:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=nkqbgG1HrRF3ejvn+5iZhShKyFwlWg+3aA2aTIsKg7Y=; b=l9LeqVpTWjHKfGQt+kKRgbPf8s
+ WDAvhfYh7NGSMUBT3eh5GC3BQi5huG4D9JB5ZBx4Mqb3+esFsPfopskhXCorPVKofm1eftxDa2j5S
+ 1zLJdlHiqsf2EF/zNn7eSnMC3u1sYU1+U5Xyn5SIXUH5DXkPEZTfI1FmrDxa9xorxPgxxp5A+uewc
+ eKLRmXUhXLcxbYcNi0X/ZBMFCRR8GOVw4Ko6rZBT36YuzPkYiG+fY8x2ecMVd8MRFyFjb3WJRreUz
+ 59LzJf1f8s6AhFmM8GC3eOjxHZzmVJHy3KEkD4qF9EWg6ps8XNaHIVofUMCn1JCp5qUdKpK02FS73
+ S2eNoFAg==;
+Received: from [84.65.0.132] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1rpr8Q-00GHNP-GR; Thu, 28 Mar 2024 15:53:42 +0100
+From: Tvrtko Ursulin <tursulin@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, kernel-dev@igalia.com
+Subject: [PATCH] dma-buf: Do not build debugfs related code when
+ !CONFIG_DEBUG_FS
+Date: Thu, 28 Mar 2024 14:53:23 +0000
+Message-ID: <20240328145323.68872-1-tursulin@igalia.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240328-msm-dp-cleanup-v2-6-a5aed9798d32@quicinc.com>
-References: <20240328-msm-dp-cleanup-v2-0-a5aed9798d32@quicinc.com>
-In-Reply-To: <20240328-msm-dp-cleanup-v2-0-a5aed9798d32@quicinc.com>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Bjorn Andersson <quic_bjorande@quicinc.com>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8343;
- i=quic_bjorande@quicinc.com; h=from:subject:message-id;
- bh=LkCwztOrVV+hfqYB41Cl8YqF/cppd90OpyDB9gSFXnA=;
- b=owEBgwJ8/ZANAwAIAQsfOT8Nma3FAcsmYgBmBYFIC0R8+CRkJwGR7ZPxfU8HQh/c3dF+taX28
- mTd0sRZ4DeJAkkEAAEIADMWIQQF3gPMXzXqTwlm1SULHzk/DZmtxQUCZgWBSBUcYW5kZXJzc29u
- QGtlcm5lbC5vcmcACgkQCx85Pw2ZrcWRuA/5AUu0jBvNPPxQCAtzZNSeEQwpKTLJlBBzNy9rpvf
- KB3kZwAQ/ZtMX7SsvbMdZxuWeKDkenrsQ7ay3kC+xGSzln86OsRJzNgJY3TWkP++flaw9xRErVX
- 5LPykqHf1VEYahW+fiiURKOFhIbuZ/kMEZ/a072GSR1JA+D5AQaj83pyaiQMz5HAoSUsP3dVkzv
- 8/4tLnISk/qyM30K54DSKwzxm+uY8dvShrp5gNQa5yLv1q9rm335NrzDKlRKCa7S52ZTerVI57C
- 2Tnr3hjBIHpfECwOAvZmuLZ0ZLNxwOf8NtF34Rlsz84wsHfGZ3CFG4W+ENPQuY/vPima/UG6Mbw
- RUr4luJ9GJf+8g3HTdbH8sKtkb8MJSPcxwiYnCXSUqg1lh16dZf/u0TQ/WMd/YaqG76Tc2ikZWB
- XGjT7D03SabYVv/WHDYqNZ5FSzm1UzobPnVySd2/dgfwrDbfJs5vMGux/s1QuZgtaJ3kBYo09JH
- LC8BcfCMPVPq4diYYmGkbjJoYOPQrClEm0Cu5BdxwqX2w1vuNVm0+nh4NljeGQrzFlQME3EAmxW
- pA0fzyW9+gT0zI7iYozxGKiuO9lRmmgnaBtQZXhb9MyuRWO/4vYidLBjO+Yz7FEnL05Gr9K6f6s
- M+7JXR60U6nbN5/W4hEEe0j9GktxdRh2iirFjKyMmEjs=
-X-Developer-Key: i=quic_bjorande@quicinc.com; a=openpgp;
- fpr=05DE03CC5F35EA4F0966D5250B1F393F0D99ADC5
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,236 +62,158 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Bjorn Andersson <quic_bjorande@quicinc.com>
+From: Tvrtko Ursulin <tursulin@ursulin.net>
 
-The dp_audio read and write operations uses members in struct dp_catalog
-for passing arguments and return values. This adds unnecessary
-complexity to the implementation, as it turns out after detangling the
-logic that no state is actually held in these variables.
+There is no point in compiling in the list and mutex operations which are
+only used from the dma-buf debugfs code, if debugfs is not compiled in.
 
-Clean this up by using function arguments and return values for passing
-the data.
+Put the code in questions behind some kconfig guards and so save some text
+and maybe even a pointer per object at runtime when not enabled.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+Signed-off-by: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: linux-kernel@vger.kernel.org
+Cc: kernel-dev@igalia.com
 ---
- drivers/gpu/drm/msm/dp/dp_audio.c   | 20 +++++--------------
- drivers/gpu/drm/msm/dp/dp_catalog.c | 39 +++++++++++++------------------------
- drivers/gpu/drm/msm/dp/dp_catalog.h | 18 +++++++++--------
- 3 files changed, 28 insertions(+), 49 deletions(-)
+ drivers/dma-buf/dma-buf.c | 56 ++++++++++++++++++++++++---------------
+ include/linux/dma-buf.h   |  2 ++
+ 2 files changed, 36 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_audio.c b/drivers/gpu/drm/msm/dp/dp_audio.c
-index 7fd0c1793ba3..a599fc5d63c5 100644
---- a/drivers/gpu/drm/msm/dp/dp_audio.c
-+++ b/drivers/gpu/drm/msm/dp/dp_audio.c
-@@ -32,11 +32,7 @@ static u32 dp_audio_get_header(struct dp_catalog *catalog,
- 		enum dp_catalog_audio_sdp_type sdp,
- 		enum dp_catalog_audio_header_type header)
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 8fe5aa67b167..8892bc701a66 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -35,12 +35,35 @@
+ 
+ static inline int is_dma_buf_file(struct file *);
+ 
+-struct dma_buf_list {
+-	struct list_head head;
+-	struct mutex lock;
+-};
++#if IS_ENABLED(CONFIG_DEBUG_FS)
++static DEFINE_MUTEX(debugfs_list_mutex);
++static LIST_HEAD(debugfs_list);
+ 
+-static struct dma_buf_list db_list;
++static void __dma_buf_debugfs_list_add(struct dma_buf *dmabuf)
++{
++	mutex_lock(&debugfs_list_mutex);
++	list_add(&dmabuf->list_node, &debugfs_list);
++	mutex_unlock(&debugfs_list_mutex);
++}
++
++static void __dma_buf_debugfs_list_del(struct dma_buf *dmabuf)
++{
++	if (!dmabuf)
++		return;
++
++	mutex_lock(&debugfs_list_mutex);
++	list_del(&dmabuf->list_node);
++	mutex_unlock(&debugfs_list_mutex);
++}
++#else
++static void __dma_buf_debugfs_list_add(struct dma_buf *dmabuf)
++{
++}
++
++static void __dma_buf_debugfs_list_del(struct file *file)
++{
++}
++#endif
+ 
+ static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
  {
--	catalog->sdp_type = sdp;
--	catalog->sdp_header = header;
--	dp_catalog_audio_get_header(catalog);
+@@ -89,17 +112,10 @@ static void dma_buf_release(struct dentry *dentry)
+ 
+ static int dma_buf_file_release(struct inode *inode, struct file *file)
+ {
+-	struct dma_buf *dmabuf;
 -
--	return catalog->audio_data;
-+	return dp_catalog_audio_get_header(catalog, sdp, header);
+ 	if (!is_dma_buf_file(file))
+ 		return -EINVAL;
+ 
+-	dmabuf = file->private_data;
+-	if (dmabuf) {
+-		mutex_lock(&db_list.lock);
+-		list_del(&dmabuf->list_node);
+-		mutex_unlock(&db_list.lock);
+-	}
++	__dma_buf_debugfs_list_del(file->private_data);
+ 
+ 	return 0;
+ }
+@@ -672,9 +688,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+ 	file->f_path.dentry->d_fsdata = dmabuf;
+ 	dmabuf->file = file;
+ 
+-	mutex_lock(&db_list.lock);
+-	list_add(&dmabuf->list_node, &db_list.head);
+-	mutex_unlock(&db_list.lock);
++	__dma_buf_debugfs_list_add(dmabuf);
+ 
+ 	return dmabuf;
+ 
+@@ -1611,7 +1625,7 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+ 	size_t size = 0;
+ 	int ret;
+ 
+-	ret = mutex_lock_interruptible(&db_list.lock);
++	ret = mutex_lock_interruptible(&debugfs_list_mutex);
+ 
+ 	if (ret)
+ 		return ret;
+@@ -1620,7 +1634,7 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+ 	seq_printf(s, "%-8s\t%-8s\t%-8s\t%-8s\texp_name\t%-8s\tname\n",
+ 		   "size", "flags", "mode", "count", "ino");
+ 
+-	list_for_each_entry(buf_obj, &db_list.head, list_node) {
++	list_for_each_entry(buf_obj, &debugfs_list, list_node) {
+ 
+ 		ret = dma_resv_lock_interruptible(buf_obj->resv, NULL);
+ 		if (ret)
+@@ -1657,11 +1671,11 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+ 
+ 	seq_printf(s, "\nTotal %d objects, %zu bytes\n", count, size);
+ 
+-	mutex_unlock(&db_list.lock);
++	mutex_unlock(&debugfs_list_mutex);
+ 	return 0;
+ 
+ error_unlock:
+-	mutex_unlock(&db_list.lock);
++	mutex_unlock(&debugfs_list_mutex);
+ 	return ret;
  }
  
- static void dp_audio_set_header(struct dp_catalog *catalog,
-@@ -44,10 +40,7 @@ static void dp_audio_set_header(struct dp_catalog *catalog,
- 		enum dp_catalog_audio_sdp_type sdp,
- 		enum dp_catalog_audio_header_type header)
- {
--	catalog->sdp_type = sdp;
--	catalog->sdp_header = header;
--	catalog->audio_data = data;
--	dp_catalog_audio_set_header(catalog);
-+	dp_catalog_audio_set_header(catalog, sdp, header, data);
+@@ -1718,8 +1732,6 @@ static int __init dma_buf_init(void)
+ 	if (IS_ERR(dma_buf_mnt))
+ 		return PTR_ERR(dma_buf_mnt);
+ 
+-	mutex_init(&db_list.lock);
+-	INIT_LIST_HEAD(&db_list.head);
+ 	dma_buf_init_debugfs();
+ 	return 0;
  }
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index 8ff4add71f88..36216d28d8bd 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -370,8 +370,10 @@ struct dma_buf {
+ 	 */
+ 	struct module *owner;
  
- static void dp_audio_stream_sdp(struct dp_audio_private *audio)
-@@ -317,8 +310,7 @@ static void dp_audio_setup_acr(struct dp_audio_private *audio)
- 		break;
- 	}
++#if IS_ENABLED(CONFIG_DEBUG_FS)
+ 	/** @list_node: node for dma_buf accounting and debugging. */
+ 	struct list_head list_node;
++#endif
  
--	catalog->audio_data = select;
--	dp_catalog_audio_config_acr(catalog);
-+	dp_catalog_audio_config_acr(catalog, select);
- }
- 
- static void dp_audio_safe_to_exit_level(struct dp_audio_private *audio)
-@@ -344,16 +336,14 @@ static void dp_audio_safe_to_exit_level(struct dp_audio_private *audio)
- 		break;
- 	}
- 
--	catalog->audio_data = safe_to_exit_level;
--	dp_catalog_audio_sfe_level(catalog);
-+	dp_catalog_audio_sfe_level(catalog, safe_to_exit_level);
- }
- 
- static void dp_audio_enable(struct dp_audio_private *audio, bool enable)
- {
- 	struct dp_catalog *catalog = audio->catalog;
- 
--	catalog->audio_data = enable;
--	dp_catalog_audio_enable(catalog);
-+	dp_catalog_audio_enable(catalog, enable);
- }
- 
- static struct dp_audio_private *dp_audio_get_data(struct platform_device *pdev)
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index 00ad3ebaa5a1..970d62e1610c 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -1159,34 +1159,28 @@ struct dp_catalog *dp_catalog_get(struct device *dev)
- 	return &catalog->dp_catalog;
- }
- 
--void dp_catalog_audio_get_header(struct dp_catalog *dp_catalog)
-+u32 dp_catalog_audio_get_header(struct dp_catalog *dp_catalog,
-+				enum dp_catalog_audio_sdp_type sdp,
-+				enum dp_catalog_audio_header_type header)
- {
- 	struct dp_catalog_private *catalog;
- 	u32 (*sdp_map)[DP_AUDIO_SDP_HEADER_MAX];
--	enum dp_catalog_audio_sdp_type sdp;
--	enum dp_catalog_audio_header_type header;
--
--	if (!dp_catalog)
--		return;
- 
- 	catalog = container_of(dp_catalog,
- 		struct dp_catalog_private, dp_catalog);
- 
- 	sdp_map = catalog->audio_map;
--	sdp     = dp_catalog->sdp_type;
--	header  = dp_catalog->sdp_header;
- 
--	dp_catalog->audio_data = dp_read_link(catalog,
--			sdp_map[sdp][header]);
-+	return dp_read_link(catalog, sdp_map[sdp][header]);
- }
- 
--void dp_catalog_audio_set_header(struct dp_catalog *dp_catalog)
-+void dp_catalog_audio_set_header(struct dp_catalog *dp_catalog,
-+				 enum dp_catalog_audio_sdp_type sdp,
-+				 enum dp_catalog_audio_header_type header,
-+				 u32 data)
- {
- 	struct dp_catalog_private *catalog;
- 	u32 (*sdp_map)[DP_AUDIO_SDP_HEADER_MAX];
--	enum dp_catalog_audio_sdp_type sdp;
--	enum dp_catalog_audio_header_type header;
--	u32 data;
- 
- 	if (!dp_catalog)
- 		return;
-@@ -1195,17 +1189,14 @@ void dp_catalog_audio_set_header(struct dp_catalog *dp_catalog)
- 		struct dp_catalog_private, dp_catalog);
- 
- 	sdp_map = catalog->audio_map;
--	sdp     = dp_catalog->sdp_type;
--	header  = dp_catalog->sdp_header;
--	data    = dp_catalog->audio_data;
- 
- 	dp_write_link(catalog, sdp_map[sdp][header], data);
- }
- 
--void dp_catalog_audio_config_acr(struct dp_catalog *dp_catalog)
-+void dp_catalog_audio_config_acr(struct dp_catalog *dp_catalog, u32 select)
- {
- 	struct dp_catalog_private *catalog;
--	u32 acr_ctrl, select;
-+	u32 acr_ctrl;
- 
- 	if (!dp_catalog)
- 		return;
-@@ -1213,7 +1204,6 @@ void dp_catalog_audio_config_acr(struct dp_catalog *dp_catalog)
- 	catalog = container_of(dp_catalog,
- 		struct dp_catalog_private, dp_catalog);
- 
--	select = dp_catalog->audio_data;
- 	acr_ctrl = select << 4 | BIT(31) | BIT(8) | BIT(14);
- 
- 	drm_dbg_dp(catalog->drm_dev, "select: %#x, acr_ctrl: %#x\n",
-@@ -1222,10 +1212,9 @@ void dp_catalog_audio_config_acr(struct dp_catalog *dp_catalog)
- 	dp_write_link(catalog, MMSS_DP_AUDIO_ACR_CTRL, acr_ctrl);
- }
- 
--void dp_catalog_audio_enable(struct dp_catalog *dp_catalog)
-+void dp_catalog_audio_enable(struct dp_catalog *dp_catalog, bool enable)
- {
- 	struct dp_catalog_private *catalog;
--	bool enable;
- 	u32 audio_ctrl;
- 
- 	if (!dp_catalog)
-@@ -1234,7 +1223,6 @@ void dp_catalog_audio_enable(struct dp_catalog *dp_catalog)
- 	catalog = container_of(dp_catalog,
- 		struct dp_catalog_private, dp_catalog);
- 
--	enable = !!dp_catalog->audio_data;
- 	audio_ctrl = dp_read_link(catalog, MMSS_DP_AUDIO_CFG);
- 
- 	if (enable)
-@@ -1329,10 +1317,10 @@ void dp_catalog_audio_init(struct dp_catalog *dp_catalog)
- 	catalog->audio_map = sdp_map;
- }
- 
--void dp_catalog_audio_sfe_level(struct dp_catalog *dp_catalog)
-+void dp_catalog_audio_sfe_level(struct dp_catalog *dp_catalog, u32 safe_to_exit_level)
- {
- 	struct dp_catalog_private *catalog;
--	u32 mainlink_levels, safe_to_exit_level;
-+	u32 mainlink_levels;
- 
- 	if (!dp_catalog)
- 		return;
-@@ -1340,7 +1328,6 @@ void dp_catalog_audio_sfe_level(struct dp_catalog *dp_catalog)
- 	catalog = container_of(dp_catalog,
- 		struct dp_catalog_private, dp_catalog);
- 
--	safe_to_exit_level = dp_catalog->audio_data;
- 	mainlink_levels = dp_read_link(catalog, REG_DP_MAINLINK_LEVELS);
- 	mainlink_levels &= 0xFE0;
- 	mainlink_levels |= safe_to_exit_level;
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-index a82ab4856b50..cd1ad046a953 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-@@ -48,9 +48,6 @@ enum dp_catalog_audio_header_type {
- };
- 
- struct dp_catalog {
--	enum dp_catalog_audio_sdp_type sdp_type;
--	enum dp_catalog_audio_header_type sdp_header;
--	u32 audio_data;
- 	bool wide_bus_en;
- };
- 
-@@ -114,12 +111,17 @@ void dp_catalog_panel_tpg_disable(struct dp_catalog *dp_catalog);
- struct dp_catalog *dp_catalog_get(struct device *dev);
- 
- /* DP Audio APIs */
--void dp_catalog_audio_get_header(struct dp_catalog *catalog);
--void dp_catalog_audio_set_header(struct dp_catalog *catalog);
--void dp_catalog_audio_config_acr(struct dp_catalog *catalog);
--void dp_catalog_audio_enable(struct dp_catalog *catalog);
-+u32 dp_catalog_audio_get_header(struct dp_catalog *dp_catalog,
-+				enum dp_catalog_audio_sdp_type sdp,
-+				enum dp_catalog_audio_header_type header);
-+void dp_catalog_audio_set_header(struct dp_catalog *dp_catalog,
-+				 enum dp_catalog_audio_sdp_type sdp,
-+				 enum dp_catalog_audio_header_type header,
-+				 u32 data);
-+void dp_catalog_audio_config_acr(struct dp_catalog *catalog, u32 select);
-+void dp_catalog_audio_enable(struct dp_catalog *catalog, bool enable);
- void dp_catalog_audio_config_sdp(struct dp_catalog *catalog);
- void dp_catalog_audio_init(struct dp_catalog *catalog);
--void dp_catalog_audio_sfe_level(struct dp_catalog *catalog);
-+void dp_catalog_audio_sfe_level(struct dp_catalog *catalog, u32 safe_to_exit_level);
- 
- #endif /* _DP_CATALOG_H_ */
-
+ 	/** @priv: exporter specific private data for this buffer object. */
+ 	void *priv;
 -- 
-2.43.0
+2.44.0
 
