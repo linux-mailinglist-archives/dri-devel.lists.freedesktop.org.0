@@ -2,91 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31EB288FC7B
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 11:09:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD53588FC96
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 11:11:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA67610F4C7;
-	Thu, 28 Mar 2024 10:09:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C235A10F7F3;
+	Thu, 28 Mar 2024 10:11:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="H9bGvRGt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZnuMpnRg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68ED210F4C7
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 10:09:36 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-34175878e3cso532372f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 03:09:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711620574; x=1712225374;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=f5wMiw22c5vII85IvPgCG/zbOc7PIefhra+kZ3K8oIE=;
- b=H9bGvRGtCflwxNbBubnIQpoFtFwqBhpRd9a5MWrONW2WzvVg7QFBZzHt3EjxVxZvoT
- vfZia2tNx7eYHVjEX0RqWUHY52aP8hk2c/a9qeXJp4RHO/O2PeKRFZ3r+qV7lPWp2pTw
- k26puqjMW5I/VmyGt+vfyj/BSRxbbJdj9N7lzDf+fth67FTY6xPJCih9CIzG0NWG0fjl
- 4Rup9Vw9FRP03GTN4Sjn/b4pgUinbqZFbFb59yXm+BGX2bBVDLp2WCqaiykX9KejzJtb
- JVDwVvqc08L4C4AHbJWlnf8lHu02HZ0Ey8d+h2rjWORWeqHIPgSlAk3k8rpOXXFQtsa9
- sMug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711620574; x=1712225374;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=f5wMiw22c5vII85IvPgCG/zbOc7PIefhra+kZ3K8oIE=;
- b=bv9pJyOrAu3mdGMNq6dK1IZqpriOee/t/dfRKXxs7niWYWIXdjwyTOUgaVX/npL9Rm
- 3TxIGJnt3eTbUDcbTpMzjtSNcd5xHEIdQ6COVO4Gdap7uSbykS783MCPDYDX1ySwqm4L
- PkSaiwa9PihO7vqtxbcwtJAucZ6KJvNK5nrs/uxEgFei8gPRFnF9kG9aPJrwb53GvWBW
- f1cIQvZJzr4XP1UYc4/MSWzzqcVuIY8BlgLETjJGTe6f9upw7gqzMVhvPbWybX15LIuA
- sIvJkRJXivchZS1e1KlOi4BZxBNdQoQkfKjvXgeZpA57yBaiHQBUtXxRYAlsdVF8eYrf
- VRrA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUABAuyJ7IAJlYRU/uUBoCyczyOcov43YblFUZJP2TSD6bhFLKB9WN2kAeSX2ucUpdDZzQPycoX600di71Pq0Rd8egSK0MmNZbxsKh7tK3Z
-X-Gm-Message-State: AOJu0Yxn+cSosZUdNQikORGwfBmzN7fOXT1i8M/xf7T5Oo00jbtundF9
- zJDVfutZ61TDDHRAWcZ/0ek0Q1EbLBdEwHbQWzjbT894IOs8lTc7zI6mhcm6f7A=
-X-Google-Smtp-Source: AGHT+IFGHWYadDJCgABhwjbgmr/G/9ahD5CWJZRFUjAkHe014xq2ZOOYv0q270M74EFrQt4il5g9rw==
-X-Received: by 2002:a5d:6d82:0:b0:33e:9292:b194 with SMTP id
- l2-20020a5d6d82000000b0033e9292b194mr2493550wrs.14.1711620574475; 
- Thu, 28 Mar 2024 03:09:34 -0700 (PDT)
-Received: from [10.1.5.127]
- (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id
- ea2-20020a0560000ec200b003432d79876esm1316197wrb.97.2024.03.28.03.09.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Mar 2024 03:09:34 -0700 (PDT)
-Message-ID: <4dba5a65-d1dc-4a80-bcaa-fe9ba02c5082@baylibre.com>
-Date: Thu, 28 Mar 2024 11:09:32 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B80810F7F3
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 10:11:26 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9074F60C19;
+ Thu, 28 Mar 2024 10:11:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 205E1C433C7;
+ Thu, 28 Mar 2024 10:11:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1711620685;
+ bh=/iYJllScuVN6X9EML6q5PXNHY8zPt1H2IRj7tnZN5Eg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZnuMpnRgXxbyxxVjxbv6mntmLR20Py4SnOpS2JcomdOHGP9F6hYdITusD2bexeDz3
+ MwFi7L/pK6aQoOWMRifhNVe/Yi48dxiBYvJe0SJyq1ya1L6R4t1+N6s5d5tx+I+/2P
+ crAHyaqUi+/3HoOs+4FDzRMDJ8NKUPKpx/HgLWBSalu3NjXcYzY8JpzvDeOmdpJiKI
+ US+5Czvt2RJH5UPYJIRVMWZIYbS0ptRkZ88CUARpjh+bTun5qYRaWEjGNBG+7UHO1e
+ qlQpILAtKBaxWhR+y+7+xZ63Q9oH9kaNCrQLBC5xZTSL4BdPGWg7vcz7HlqPyU6A7K
+ ZuuwglAW4DGRg==
+Date: Thu, 28 Mar 2024 10:11:20 +0000
+From: Lee Jones <lee@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: andy@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
+ deller@gmx.de, robin@protonic.nl, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: [GIT PULL] Immutable branch between MFD, Auxdisplay, HID and FB due
+ for the v6.9 merge window
+Message-ID: <20240328101120.GX13211@google.com>
+References: <20240305162425.23845-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/18] Add audio support for the MediaTek Genio 350-evk
- board
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- Lee Jones <lee@kernel.org>, Mark Brown <broonie@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Conor Dooley
- <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
- Catalin Marinas <catalin.marinas@arm.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-arm-kernel@lists.infradead.org, Takashi Iwai <tiwai@suse.com>,
- Jaroslav Kysela <perex@perex.cz>, Flora Fu <flora.fu@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nicolas Belin <nbelin@baylibre.com>, Fabien Parent <fparent@baylibre.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Will Deacon <will@kernel.org>
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <53671deb-9c11-43c1-8deb-93fe4708651a@collabora.com>
-Content-Language: en-US
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <53671deb-9c11-43c1-8deb-93fe4708651a@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240305162425.23845-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,49 +61,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Angelo
+Enjoy!
 
-On 26/02/2024 15:54, AngeloGioacchino Del Regno wrote:
-> Il 26/02/24 15:01, Alexandre Mergnat ha scritto:
->> This serie aim to add the following audio support for the Genio 350-evk:
->> - Playback
->>    - 2ch Headset Jack (Earphone)
->>    - 1ch Line-out Jack (Speaker)
->>    - 8ch HDMI Tx
->> - Capture
->>    - 1ch DMIC (On-board Digital Microphone)
->>    - 1ch AMIC (On-board Analogic Microphone)
->>    - 1ch Headset Jack (External Analogic Microphone)
->>
->> Of course, HDMI playback need the MT8365 display patches [1] and a DTS
->> change documented in "mediatek,mt8365-mt6357.yaml".
->>
->> [1]: 
->> https://lore.kernel.org/all/20231023-display-support-v1-0-5c860ed5c33b@baylibre.com/
->>
->> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> 
-> Actually, I am cooking a series (I'm finishing the testing....) that 
-> brings quite
-> a bit of cleanups in MTK ASoC, including the commonization of the 
-> machine driver
-> probe, with the dai-link DT nodes, and which also modernizes most of the 
-> existing
-> drivers to use that instead.
-> 
-> If you wait for a day or two, your mt8365-mt6357.c driver's probe 
-> function can be
-> shrunk to ~3 lines or something like that.. very easily :-)
+The following changes since commit 4cece764965020c22cff7665b18a012006359095:
 
-Just to inform you. I'm aware of your serie. Currently, I've fixed my 
-patches according to the comments. The next step will be to rebase my 
-serie over yours and do the changes to be aligned with your new 
-implementation.
+  Linux 6.9-rc1 (2024-03-24 14:10:05 -0700)
 
-I've planned to review your serie during my last task, but it seems 
-already approved and already (partially) merged into linux-next, sorry.
+are available in the Git repository at:
 
+  git://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git ib-backlight-auxdisplay-hid-fb-v6.9
+
+for you to fetch changes up to 0a4be7263749945a3882f7a0e2e5b1c45c31064e:
+
+  backlight: Add controls_device callback to struct backlight_ops (2024-03-28 10:09:06 +0000)
+
+----------------------------------------------------------------
+Immutable branch between MFD, Auxdisplay, HID and FB due for the v6.9 merge window
+
+----------------------------------------------------------------
+Thomas Zimmermann (10):
+      backlight: Match backlight device against struct fb_info.bl_dev
+      auxdisplay: ht16k33: Remove struct backlight_ops.check_fb
+      hid: hid-picolcd: Fix initialization order
+      hid: hid-picolcd: Remove struct backlight_ops.check_fb
+      backlight: aat2870-backlight: Remove struct backlight.check_fb
+      backlight: pwm-backlight: Remove struct backlight_ops.check_fb
+      fbdev: sh_mobile_lcdc_fb: Remove struct backlight_ops.check_fb
+      fbdev: ssd1307fb: Init backlight before registering framebuffer
+      fbdev: ssd1307fb: Remove struct backlight_ops.check_fb
+      backlight: Add controls_device callback to struct backlight_ops
+
+ drivers/auxdisplay/ht16k33.c             |  8 --------
+ drivers/hid/hid-picolcd_backlight.c      |  7 -------
+ drivers/hid/hid-picolcd_core.c           | 14 +++++++-------
+ drivers/hid/hid-picolcd_fb.c             |  6 ++++++
+ drivers/video/backlight/aat2870_bl.c     |  7 -------
+ drivers/video/backlight/backlight.c      |  8 ++++++--
+ drivers/video/backlight/bd6107.c         | 12 ++++++------
+ drivers/video/backlight/gpio_backlight.c | 12 ++++++------
+ drivers/video/backlight/lv5207lp.c       | 12 ++++++------
+ drivers/video/backlight/pwm_bl.c         | 12 ------------
+ drivers/video/fbdev/core/fb_backlight.c  |  6 ++++++
+ drivers/video/fbdev/sh_mobile_lcdcfb.c   |  7 -------
+ drivers/video/fbdev/ssd1307fb.c          | 31 +++++++++++--------------------
+ include/linux/backlight.h                | 16 ++++++++--------
+ include/linux/fb.h                       |  9 +++++++++
+ include/linux/pwm_backlight.h            |  1 -
+ 16 files changed, 71 insertions(+), 97 deletions(-)
 
 -- 
-Regards,
-Alexandre
+Lee Jones [李琼斯]
