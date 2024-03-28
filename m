@@ -2,55 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A764088FE75
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 12:59:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C11288FE7C
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 13:01:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4B9910E615;
-	Thu, 28 Mar 2024 11:59:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84AD91123E6;
+	Thu, 28 Mar 2024 12:01:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="U4+g4GQd";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="aR9MULsH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BD2510E615
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 11:59:14 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01CDC1123E6
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 12:01:12 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3CD1461476;
- Thu, 28 Mar 2024 11:59:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D7ECC433F1;
- Thu, 28 Mar 2024 11:59:13 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id AE347CE24E7;
+ Thu, 28 Mar 2024 12:01:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82799C433F1;
+ Thu, 28 Mar 2024 12:01:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1711627154;
- bh=9nsT8fHj6sfhBsSfZYt5q8FpfT54bgl+bVhOjsgfDiI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=U4+g4GQdOI6JToTQkRHWdWTqomcGll7yLt+UMv38d5WYMs7CYWMlXSGWwWS+GXRWn
- E8rNGB2bF5M6qZeTCO962l/Gu8iv/sp0pxla4/rG5uA/oNrmQo8f6d+8PldC6mVSke
- goJdaRrlpo305xugrT+1jCSmim3dZtZivhEyBEX0=
+ s=korg; t=1711627268;
+ bh=I1avYsd9ETlkYpKipMeGrNMLkEiqUIC6QVZi8T+EEGM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=aR9MULsHFZg8qjpCiOb6GC0EKdcsPIw+hkjBydQxI8NI0RYYEHIV2MEzd/2IDxyRI
+ btjxVcqQXmaOy3ho3AC4oeKNyhSxFBgLIVWfS4PCmLiYKIuk3Q5ANal2awJqPyPFYP
+ XJfahJ1QQajwSbkT+bDxMupBzRhxmqqRKc2t93AM=
+Date: Thu, 28 Mar 2024 13:01:00 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: lee@kernel.org
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, daniel.thompson@linaro.org,
- jingoohan1@gmail.com, deller@gmx.de,
- "Ricardo B. Marliere" <ricardo@marliere.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v2 2/2] video: backlight: lcd: make lcd_class constant
-Date: Thu, 28 Mar 2024 12:59:07 +0100
-Message-ID: <2024032809-enchanted-conducive-3677@gregkh>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <2024032805-putdown-mushy-a0f9@gregkh>
-References: <2024032805-putdown-mushy-a0f9@gregkh>
+To: Lee Jones <lee@kernel.org>
+Cc: "Ricardo B. Marliere" <ricardo@marliere.net>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] video: backlight: constify struct class usage
+Message-ID: <2024032816-tightrope-lushness-00f1@gregkh>
+References: <20240305-class_cleanup-backlight-v1-0-c0e15cc25be1@marliere.net>
+ <20240328114131.GB13211@google.com>
 MIME-Version: 1.0
-Lines: 79
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2535;
- i=gregkh@linuxfoundation.org; h=from:subject:message-id;
- bh=yCsQQAr22nUmFXlA9JkgS4sO+euLEjucK5Uqyl8x3Co=;
- b=owGbwMvMwCRo6H6F97bub03G02pJDGms0b2bl367zNNasmV5Vp74ykaFDXN3nwrnmXJCq/RL3
- iH/kNo1HbEsDIJMDLJiiixftvEc3V9xSNHL0PY0zBxWJpAhDFycAjARiwaGeer+U79vdj98eRl7
- jsrWsiL3d57bFzIsWOcevdJ+kufkX1N47hx/1/LLXfduHQA=
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
- fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240328114131.GB13211@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,85 +58,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Ricardo B. Marliere" <ricardo@marliere.net>
+On Thu, Mar 28, 2024 at 11:41:31AM +0000, Lee Jones wrote:
+> On Tue, 05 Mar 2024, Ricardo B. Marliere wrote:
+> 
+> > This is a simple and straight forward cleanup series that aims to make the
+> > class structures in backlight constant. This has been possible since 2023
+> > [1].
+> > 
+> > [1]: https://lore.kernel.org/all/2023040248-customary-release-4aec@gregkh/
+> > 
+> > Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
+> > ---
+> > Ricardo B. Marliere (2):
+> >       video: backlight: make backlight_class constant
+> >       video: backlight: lcd: make lcd_class constant
+> > 
+> >  drivers/video/backlight/backlight.c | 29 ++++++++++++++++-------------
+> >  drivers/video/backlight/lcd.c       | 23 +++++++++++++----------
+> >  2 files changed, 29 insertions(+), 23 deletions(-)
+> 
+> No longer apply.
+> 
+> Please rebase on top of v6.9-rc1 or for-backlight-next.
 
-Since commit 43a7206b0963 ("driver core: class: make class_register() take
-a const *"), the driver core allows for struct class to be in read-only
-memory, so move the lcd_class structure to be declared at build time
-placing it into read-only memory, instead of having to be dynamically
-allocated at boot time.
+As I already had this in my local tree, I've sent out a v2 at:
+	https://lore.kernel.org/lkml/2024032805-putdown-mushy-a0f9@gregkh/
 
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: "Ricardo B. Marliere" <ricardo@marliere.net>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
-v2: rebased on 6.9-rc1
+thanks,
 
- drivers/video/backlight/lcd.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/video/backlight/lcd.c b/drivers/video/backlight/lcd.c
-index 77c5cb2a44e2..ba4771cbd781 100644
---- a/drivers/video/backlight/lcd.c
-+++ b/drivers/video/backlight/lcd.c
-@@ -159,8 +159,6 @@ static ssize_t max_contrast_show(struct device *dev,
- }
- static DEVICE_ATTR_RO(max_contrast);
- 
--static struct class *lcd_class;
--
- static void lcd_device_release(struct device *dev)
- {
- 	struct lcd_device *ld = to_lcd_device(dev);
-@@ -175,6 +173,11 @@ static struct attribute *lcd_device_attrs[] = {
- };
- ATTRIBUTE_GROUPS(lcd_device);
- 
-+static const struct class lcd_class = {
-+	.name = "lcd",
-+	.dev_groups = lcd_device_groups,
-+};
-+
- /**
-  * lcd_device_register - register a new object of lcd_device class.
-  * @name: the name of the new object(must be the same as the name of the
-@@ -202,7 +205,7 @@ struct lcd_device *lcd_device_register(const char *name, struct device *parent,
- 	mutex_init(&new_ld->ops_lock);
- 	mutex_init(&new_ld->update_lock);
- 
--	new_ld->dev.class = lcd_class;
-+	new_ld->dev.class = &lcd_class;
- 	new_ld->dev.parent = parent;
- 	new_ld->dev.release = lcd_device_release;
- 	dev_set_name(&new_ld->dev, "%s", name);
-@@ -318,19 +321,19 @@ EXPORT_SYMBOL(devm_lcd_device_unregister);
- 
- static void __exit lcd_class_exit(void)
- {
--	class_destroy(lcd_class);
-+	class_unregister(&lcd_class);
- }
- 
- static int __init lcd_class_init(void)
- {
--	lcd_class = class_create("lcd");
--	if (IS_ERR(lcd_class)) {
--		pr_warn("Unable to create backlight class; errno = %ld\n",
--			PTR_ERR(lcd_class));
--		return PTR_ERR(lcd_class);
-+	int ret;
-+
-+	ret = class_register(&lcd_class);
-+	if (ret) {
-+		pr_warn("Unable to create backlight class; errno = %d\n", ret);
-+		return ret;
- 	}
- 
--	lcd_class->dev_groups = lcd_device_groups;
- 	return 0;
- }
- 
--- 
-2.44.0
-
+greg k-h
