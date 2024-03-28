@@ -2,52 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1AF88FD09
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 11:29:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84C0588FD12
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 11:32:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B5231123B7;
-	Thu, 28 Mar 2024 10:29:44 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AerGmLRA";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 739A41123D0;
+	Thu, 28 Mar 2024 10:32:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D2B31123B7
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 10:29:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8888960EB7;
- Thu, 28 Mar 2024 10:29:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3B94C433F1;
- Thu, 28 Mar 2024 10:29:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711621782;
- bh=/E5PSzRbsq+9zCnmlK9iHP77LX6f4UHO2zjqnjvhyYk=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=AerGmLRA0B602nhIDHe/HSwEG8AYdimKpG4kqGxPuMA5IdIdaTgcKrH5bZJS+97Ss
- hSG3hcJxa6KG0TuM4S7BDakNbcWWlZLu4Kp1Jf+Eob4XhjAfJACDZHp1pe0YhOcP/s
- 8c72ZP3edPizd/A+NvOAlxRzG2/DOlPG2oKFLiQiHqakvq/PNY32ZdjP+qaG5dfaA4
- ujgEha+LEXH+l7hjFA5FF10vFJcdr2dWAZeH7g2JZr/KHT+aKYXPRxnOSqMJD6NVXl
- UolFGjU3P3pIPy1wmt/iwP5RVbsWzEhUvOXT/eUOQ1X7Y6qMVbKogsdSVTdXacea7U
- fCnjXzNN8WtSw==
-From: Maxime Ripard <mripard@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Maxime Ripard <mripard@kernel.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- kernel test robot <lkp@intel.com>
-In-Reply-To: <20240327-kms-kconfig-helpers-v3-0-eafee11b84b3@kernel.org>
-References: <20240327-kms-kconfig-helpers-v3-0-eafee11b84b3@kernel.org>
-Subject: Re: [PATCH v3 00/13] drm/display: Convert helpers Kconfig symbols
- to depends on
-Message-Id: <171162177899.407972.17600614685255017033.b4-ty@kernel.org>
-Date: Thu, 28 Mar 2024 11:29:38 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 842071123C4
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 10:32:10 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5F3A615A1;
+ Thu, 28 Mar 2024 03:32:43 -0700 (PDT)
+Received: from bogus (unknown [10.57.81.195])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EC6443F7BD;
+ Thu, 28 Mar 2024 03:32:07 -0700 (PDT)
+Date: Thu, 28 Mar 2024 10:32:05 +0000
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Dejia Shang <Dejia.Shang@armchina.com>
+Cc: "ogabbay@kernel.org" <ogabbay@kernel.org>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ "airlied@redhat.com" <airlied@redhat.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Subject: Re: About upstreaming ArmChina NPU driver
+Message-ID: <20240328103205.seht2hbog3o4giv5@bogus>
+References: <SH0PR01MB063461EBC046437C88A6AE84983BA@SH0PR01MB0634.CHNPR01.prod.partner.outlook.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <SH0PR01MB063461EBC046437C88A6AE84983BA@SH0PR01MB0634.CHNPR01.prod.partner.outlook.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,18 +51,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 27 Mar 2024 11:56:55 +0100, Maxime Ripard wrote:
-> Jani recently pointed out that the Kconfig symbols are a bit difficult
-> to work with at the moment when they depend on each other, and that
-> using depends on would be a better idea, but no one really did the work
-> so far.
-> 
-> So here it goes :)
-> 
-> [...]
+On Thu, Mar 28, 2024 at 07:46:01AM +0000, Dejia Shang wrote:
+> IMPORTANT NOTICE: The contents of this email and any attachments may be privileged and confidential. If you are not the intended recipient, please delete the email immediately. It is strictly prohibited to disclose the contents to any other person, use it for any purpose, or store or copy the information in any medium. Thank you. ©Arm Technology (China) Co., Ltd copyright and reserve all rights. 重要提示：本邮件（包括任何附件）可能含有专供明确的个人或目的使用的机密信息，并受法律保护。如果您并非该收件人，请立即删除此邮件。严禁通过任何渠道，以任何目的，向任何人披露、储存或复制邮件信息或者据此采取任何行动。感谢您的配合。 ©安谋科技（中国）有限公司 版权所有并保留一切权利。
 
-Applied to misc/kernel.git (drm-misc-next).
+You need to get this fixed, otherwise people will delete this email
+as you have suggested and/or refrain from responding to this email.
 
-Thanks!
-Maxime
+Please talk to your local IT and get a setup without this disclaimer for
+all mailing list activities.
 
+--
+Regards,
+Sudeep
