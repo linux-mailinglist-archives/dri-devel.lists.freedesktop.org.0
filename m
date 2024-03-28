@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC168901EF
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 15:35:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 462F88901F4
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 15:35:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78FD3112468;
-	Thu, 28 Mar 2024 14:35:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74CE5112469;
+	Thu, 28 Mar 2024 14:35:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lJGFbr1S";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="s6mXgQ3V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EBF1112465;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD07B112468;
  Thu, 28 Mar 2024 14:35:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6FC4461793;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3A52561798;
+ Thu, 28 Mar 2024 14:35:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D270C4166B;
  Thu, 28 Mar 2024 14:35:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43B46C433A6;
- Thu, 28 Mar 2024 14:35:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711636528;
- bh=Dqd+kXEvsLwgGeIQGSkViQKw4HO+Q93TaZM7h2qYbzc=;
+ s=k20201202; t=1711636529;
+ bh=Kr9lQ3sO2i8J+JqxBgX/JkrQt58EHLLHgmBCd+Xz7iY=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=lJGFbr1Smyq57XfdbLxau75pFzhb5Yw1TIDCKuR9EiGIFy6ciJ+uevKVncaj/nCor
- PGK85Pb+0fEpRhfu1DQ8HtqgxQlbAqLrzjwdNf+aC+KmkfEPDeEL0H4L1zCLOyldyR
- g7Gxf4sCBJrabDtDiLy40/sIq7/dYfy4RwfbXvzxpBfQoMfY+DjnMQ41ghCvi65O+s
- K7R21TIGR6+EyaDX2i0pmJfbUdk1eVmKFsrK+95P4L9N1v6e6vSKFlEXNiR340VN3V
- z0IT9L9A4E4lOm+meq7x1TAP9a66/H0EZ60AouOXxXmUBglEc0w5/6cdBUUFM8iEky
- BomUQkvz9WgbA==
+ b=s6mXgQ3VfJMRXPIHeqp54ulRg1m7Q8tLnbwpIR1GiaLXoMvoJLtEybBSe8lHYHb0o
+ 7k7rikFnytieQPO0JXQkRSY9HgsKoH5CMPfpdKFAQNSpqqVMm/QWOMK+/K9aOqZihD
+ SqYWJ6pg1s+pj0n1E9CVVwUrvFMJtFpr2IqfUnlyICq98oQ4xgMdjDWr6vsXnAVb6u
+ fGPsyPEgkcmM9Jb/jsivc9J3zpjumLKxVV9jWqgCJJO3zteRg03vrpZ2lT86qczji3
+ zERN52E2SKLqk9qh1wzr8XWlFFbpwrlhb32WHaREUcXx6ZKOeARQZggCLOmiZmEAAo
+ 7jnieO1JfadhQ==
 From: Bjorn Andersson <andersson@kernel.org>
-Date: Thu, 28 Mar 2024 07:40:04 -0700
-Subject: [PATCH v2 5/6] drm/msm/dp: Use function arguments for timing
- configuration
+Date: Thu, 28 Mar 2024 07:40:05 -0700
+Subject: [PATCH v2 6/6] drm/msm/dp: Use function arguments for audio operations
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240328-msm-dp-cleanup-v2-5-a5aed9798d32@quicinc.com>
+Message-Id: <20240328-msm-dp-cleanup-v2-6-a5aed9798d32@quicinc.com>
 References: <20240328-msm-dp-cleanup-v2-0-a5aed9798d32@quicinc.com>
 In-Reply-To: <20240328-msm-dp-cleanup-v2-0-a5aed9798d32@quicinc.com>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -49,21 +48,21 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Bjorn Andersson <quic_bjorande@quicinc.com>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4629;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8343;
  i=quic_bjorande@quicinc.com; h=from:subject:message-id;
- bh=p6zl39KBq28yg/YN5707OZTxRbZDEkda5d4ZGgyTaKA=;
- b=owEBgwJ8/ZANAwAIAQsfOT8Nma3FAcsmYgBmBYFIiZW3sGxpGa3yGwbDxqhKCDH2SDbeZ/e5A
- Gsvw0H9Pp6JAkkEAAEIADMWIQQF3gPMXzXqTwlm1SULHzk/DZmtxQUCZgWBSBUcYW5kZXJzc29u
- QGtlcm5lbC5vcmcACgkQCx85Pw2ZrcX+Ag//ewq4SKTTS7mL6qxsVF0flZEDbLJ1vcO84q/jIxO
- Hb9NbLJR1suRb+Lazia/lDPg1S4dNoSBWPMs+9kvxIhCwUj8tuVYL+WeVEbC2tI4IVgaGai/kKa
- 9g+ixmpn8XEEUTtQCwvRMNl+St5fmeN+VNZyPnlKl7pINc2lf+qt7L0SLX1HRHAg+GpsGAZWlNW
- /tyAbPNXBWa5fPbw6O4lY0OAg0JXMQvc+/HmoedHkgZaKaks6Q837gr0PGccW9SOczJ1MQRLbw7
- wuGKUjXBy4PfgJ9usAzfnzGL/mK/3lvNeZEgmYnX+2odTgGrQhqJuBuITvpL4rnpLHOmFSRe6Hc
- 1d+2GmYRNGTYM2mViz+1nHyLTbBgT82YT3EOi1mC8W0mHRxZcosoL/691AgEqDjmETgGuIIvv+G
- Zlva023YB/kZiIRHLwaJoWiZbU3z2uo+4mQOZrWW44jcQrlhdLRKKau7BbCeKaRuFz/uPMs/qW5
- bwSGhfpF63cydmex9g2uT8m8WwsksEL4D021GF/f32T7EzE+GhUYWxm/Kzkhryz3RvNdEWcK2Wl
- QyArioKHiHN82nlx4MbJglvn9l5RsAbh+jwUEOc0I4/9zzbGEATj3v+rEPk7erFJWj8+3NLVPsW
- 2RTD4S/Qf7TJOucn1h0AtebMKkevFJm6qfNvl+UAmPGU=
+ bh=LkCwztOrVV+hfqYB41Cl8YqF/cppd90OpyDB9gSFXnA=;
+ b=owEBgwJ8/ZANAwAIAQsfOT8Nma3FAcsmYgBmBYFIC0R8+CRkJwGR7ZPxfU8HQh/c3dF+taX28
+ mTd0sRZ4DeJAkkEAAEIADMWIQQF3gPMXzXqTwlm1SULHzk/DZmtxQUCZgWBSBUcYW5kZXJzc29u
+ QGtlcm5lbC5vcmcACgkQCx85Pw2ZrcWRuA/5AUu0jBvNPPxQCAtzZNSeEQwpKTLJlBBzNy9rpvf
+ KB3kZwAQ/ZtMX7SsvbMdZxuWeKDkenrsQ7ay3kC+xGSzln86OsRJzNgJY3TWkP++flaw9xRErVX
+ 5LPykqHf1VEYahW+fiiURKOFhIbuZ/kMEZ/a072GSR1JA+D5AQaj83pyaiQMz5HAoSUsP3dVkzv
+ 8/4tLnISk/qyM30K54DSKwzxm+uY8dvShrp5gNQa5yLv1q9rm335NrzDKlRKCa7S52ZTerVI57C
+ 2Tnr3hjBIHpfECwOAvZmuLZ0ZLNxwOf8NtF34Rlsz84wsHfGZ3CFG4W+ENPQuY/vPima/UG6Mbw
+ RUr4luJ9GJf+8g3HTdbH8sKtkb8MJSPcxwiYnCXSUqg1lh16dZf/u0TQ/WMd/YaqG76Tc2ikZWB
+ XGjT7D03SabYVv/WHDYqNZ5FSzm1UzobPnVySd2/dgfwrDbfJs5vMGux/s1QuZgtaJ3kBYo09JH
+ LC8BcfCMPVPq4diYYmGkbjJoYOPQrClEm0Cu5BdxwqX2w1vuNVm0+nh4NljeGQrzFlQME3EAmxW
+ pA0fzyW9+gT0zI7iYozxGKiuO9lRmmgnaBtQZXhb9MyuRWO/4vYidLBjO+Yz7FEnL05Gr9K6f6s
+ M+7JXR60U6nbN5/W4hEEe0j9GktxdRh2iirFjKyMmEjs=
 X-Developer-Key: i=quic_bjorande@quicinc.com; a=openpgp;
  fpr=05DE03CC5F35EA4F0966D5250B1F393F0D99ADC5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,125 +82,233 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Bjorn Andersson <quic_bjorande@quicinc.com>
 
-dp_catalog_panel_timing_cfg() takes 4 arguments, which are passed from
-the calling function through members of struct dp_catalog.
+The dp_audio read and write operations uses members in struct dp_catalog
+for passing arguments and return values. This adds unnecessary
+complexity to the implementation, as it turns out after detangling the
+logic that no state is actually held in these variables.
 
-No state is maintained other than across this call, so switch to
-function arguments to clean up the code.
+Clean this up by using function arguments and return values for passing
+the data.
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
 ---
- drivers/gpu/drm/msm/dp/dp_catalog.c | 14 ++++++--------
- drivers/gpu/drm/msm/dp/dp_catalog.h |  7 ++-----
- drivers/gpu/drm/msm/dp/dp_panel.c   | 14 +++++++++-----
- 3 files changed, 17 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_audio.c   | 20 +++++--------------
+ drivers/gpu/drm/msm/dp/dp_catalog.c | 39 +++++++++++++------------------------
+ drivers/gpu/drm/msm/dp/dp_catalog.h | 18 +++++++++--------
+ 3 files changed, 28 insertions(+), 49 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index 295bd4cb72cc..00ad3ebaa5a1 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -880,19 +880,17 @@ u32 dp_catalog_ctrl_read_phy_pattern(struct dp_catalog *dp_catalog)
+diff --git a/drivers/gpu/drm/msm/dp/dp_audio.c b/drivers/gpu/drm/msm/dp/dp_audio.c
+index 7fd0c1793ba3..a599fc5d63c5 100644
+--- a/drivers/gpu/drm/msm/dp/dp_audio.c
++++ b/drivers/gpu/drm/msm/dp/dp_audio.c
+@@ -32,11 +32,7 @@ static u32 dp_audio_get_header(struct dp_catalog *catalog,
+ 		enum dp_catalog_audio_sdp_type sdp,
+ 		enum dp_catalog_audio_header_type header)
+ {
+-	catalog->sdp_type = sdp;
+-	catalog->sdp_header = header;
+-	dp_catalog_audio_get_header(catalog);
+-
+-	return catalog->audio_data;
++	return dp_catalog_audio_get_header(catalog, sdp, header);
  }
  
- /* panel related catalog functions */
--int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog)
-+int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog, u32 total,
-+				u32 sync_start, u32 width_blanking, u32 dp_active)
+ static void dp_audio_set_header(struct dp_catalog *catalog,
+@@ -44,10 +40,7 @@ static void dp_audio_set_header(struct dp_catalog *catalog,
+ 		enum dp_catalog_audio_sdp_type sdp,
+ 		enum dp_catalog_audio_header_type header)
  {
- 	struct dp_catalog_private *catalog = container_of(dp_catalog,
- 				struct dp_catalog_private, dp_catalog);
- 	u32 reg;
+-	catalog->sdp_type = sdp;
+-	catalog->sdp_header = header;
+-	catalog->audio_data = data;
+-	dp_catalog_audio_set_header(catalog);
++	dp_catalog_audio_set_header(catalog, sdp, header, data);
+ }
  
--	dp_write_link(catalog, REG_DP_TOTAL_HOR_VER,
--				dp_catalog->total);
--	dp_write_link(catalog, REG_DP_START_HOR_VER_FROM_SYNC,
--				dp_catalog->sync_start);
--	dp_write_link(catalog, REG_DP_HSYNC_VSYNC_WIDTH_POLARITY,
--				dp_catalog->width_blanking);
--	dp_write_link(catalog, REG_DP_ACTIVE_HOR_VER, dp_catalog->dp_active);
-+	dp_write_link(catalog, REG_DP_TOTAL_HOR_VER, total);
-+	dp_write_link(catalog, REG_DP_START_HOR_VER_FROM_SYNC, sync_start);
-+	dp_write_link(catalog, REG_DP_HSYNC_VSYNC_WIDTH_POLARITY, width_blanking);
-+	dp_write_link(catalog, REG_DP_ACTIVE_HOR_VER, dp_active);
+ static void dp_audio_stream_sdp(struct dp_audio_private *audio)
+@@ -317,8 +310,7 @@ static void dp_audio_setup_acr(struct dp_audio_private *audio)
+ 		break;
+ 	}
  
- 	reg = dp_read_p0(catalog, MMSS_DP_INTF_CONFIG);
+-	catalog->audio_data = select;
+-	dp_catalog_audio_config_acr(catalog);
++	dp_catalog_audio_config_acr(catalog, select);
+ }
  
+ static void dp_audio_safe_to_exit_level(struct dp_audio_private *audio)
+@@ -344,16 +336,14 @@ static void dp_audio_safe_to_exit_level(struct dp_audio_private *audio)
+ 		break;
+ 	}
+ 
+-	catalog->audio_data = safe_to_exit_level;
+-	dp_catalog_audio_sfe_level(catalog);
++	dp_catalog_audio_sfe_level(catalog, safe_to_exit_level);
+ }
+ 
+ static void dp_audio_enable(struct dp_audio_private *audio, bool enable)
+ {
+ 	struct dp_catalog *catalog = audio->catalog;
+ 
+-	catalog->audio_data = enable;
+-	dp_catalog_audio_enable(catalog);
++	dp_catalog_audio_enable(catalog, enable);
+ }
+ 
+ static struct dp_audio_private *dp_audio_get_data(struct platform_device *pdev)
+diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
+index 00ad3ebaa5a1..970d62e1610c 100644
+--- a/drivers/gpu/drm/msm/dp/dp_catalog.c
++++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+@@ -1159,34 +1159,28 @@ struct dp_catalog *dp_catalog_get(struct device *dev)
+ 	return &catalog->dp_catalog;
+ }
+ 
+-void dp_catalog_audio_get_header(struct dp_catalog *dp_catalog)
++u32 dp_catalog_audio_get_header(struct dp_catalog *dp_catalog,
++				enum dp_catalog_audio_sdp_type sdp,
++				enum dp_catalog_audio_header_type header)
+ {
+ 	struct dp_catalog_private *catalog;
+ 	u32 (*sdp_map)[DP_AUDIO_SDP_HEADER_MAX];
+-	enum dp_catalog_audio_sdp_type sdp;
+-	enum dp_catalog_audio_header_type header;
+-
+-	if (!dp_catalog)
+-		return;
+ 
+ 	catalog = container_of(dp_catalog,
+ 		struct dp_catalog_private, dp_catalog);
+ 
+ 	sdp_map = catalog->audio_map;
+-	sdp     = dp_catalog->sdp_type;
+-	header  = dp_catalog->sdp_header;
+ 
+-	dp_catalog->audio_data = dp_read_link(catalog,
+-			sdp_map[sdp][header]);
++	return dp_read_link(catalog, sdp_map[sdp][header]);
+ }
+ 
+-void dp_catalog_audio_set_header(struct dp_catalog *dp_catalog)
++void dp_catalog_audio_set_header(struct dp_catalog *dp_catalog,
++				 enum dp_catalog_audio_sdp_type sdp,
++				 enum dp_catalog_audio_header_type header,
++				 u32 data)
+ {
+ 	struct dp_catalog_private *catalog;
+ 	u32 (*sdp_map)[DP_AUDIO_SDP_HEADER_MAX];
+-	enum dp_catalog_audio_sdp_type sdp;
+-	enum dp_catalog_audio_header_type header;
+-	u32 data;
+ 
+ 	if (!dp_catalog)
+ 		return;
+@@ -1195,17 +1189,14 @@ void dp_catalog_audio_set_header(struct dp_catalog *dp_catalog)
+ 		struct dp_catalog_private, dp_catalog);
+ 
+ 	sdp_map = catalog->audio_map;
+-	sdp     = dp_catalog->sdp_type;
+-	header  = dp_catalog->sdp_header;
+-	data    = dp_catalog->audio_data;
+ 
+ 	dp_write_link(catalog, sdp_map[sdp][header], data);
+ }
+ 
+-void dp_catalog_audio_config_acr(struct dp_catalog *dp_catalog)
++void dp_catalog_audio_config_acr(struct dp_catalog *dp_catalog, u32 select)
+ {
+ 	struct dp_catalog_private *catalog;
+-	u32 acr_ctrl, select;
++	u32 acr_ctrl;
+ 
+ 	if (!dp_catalog)
+ 		return;
+@@ -1213,7 +1204,6 @@ void dp_catalog_audio_config_acr(struct dp_catalog *dp_catalog)
+ 	catalog = container_of(dp_catalog,
+ 		struct dp_catalog_private, dp_catalog);
+ 
+-	select = dp_catalog->audio_data;
+ 	acr_ctrl = select << 4 | BIT(31) | BIT(8) | BIT(14);
+ 
+ 	drm_dbg_dp(catalog->drm_dev, "select: %#x, acr_ctrl: %#x\n",
+@@ -1222,10 +1212,9 @@ void dp_catalog_audio_config_acr(struct dp_catalog *dp_catalog)
+ 	dp_write_link(catalog, MMSS_DP_AUDIO_ACR_CTRL, acr_ctrl);
+ }
+ 
+-void dp_catalog_audio_enable(struct dp_catalog *dp_catalog)
++void dp_catalog_audio_enable(struct dp_catalog *dp_catalog, bool enable)
+ {
+ 	struct dp_catalog_private *catalog;
+-	bool enable;
+ 	u32 audio_ctrl;
+ 
+ 	if (!dp_catalog)
+@@ -1234,7 +1223,6 @@ void dp_catalog_audio_enable(struct dp_catalog *dp_catalog)
+ 	catalog = container_of(dp_catalog,
+ 		struct dp_catalog_private, dp_catalog);
+ 
+-	enable = !!dp_catalog->audio_data;
+ 	audio_ctrl = dp_read_link(catalog, MMSS_DP_AUDIO_CFG);
+ 
+ 	if (enable)
+@@ -1329,10 +1317,10 @@ void dp_catalog_audio_init(struct dp_catalog *dp_catalog)
+ 	catalog->audio_map = sdp_map;
+ }
+ 
+-void dp_catalog_audio_sfe_level(struct dp_catalog *dp_catalog)
++void dp_catalog_audio_sfe_level(struct dp_catalog *dp_catalog, u32 safe_to_exit_level)
+ {
+ 	struct dp_catalog_private *catalog;
+-	u32 mainlink_levels, safe_to_exit_level;
++	u32 mainlink_levels;
+ 
+ 	if (!dp_catalog)
+ 		return;
+@@ -1340,7 +1328,6 @@ void dp_catalog_audio_sfe_level(struct dp_catalog *dp_catalog)
+ 	catalog = container_of(dp_catalog,
+ 		struct dp_catalog_private, dp_catalog);
+ 
+-	safe_to_exit_level = dp_catalog->audio_data;
+ 	mainlink_levels = dp_read_link(catalog, REG_DP_MAINLINK_LEVELS);
+ 	mainlink_levels &= 0xFE0;
+ 	mainlink_levels |= safe_to_exit_level;
 diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-index 290ef8180c12..a82ab4856b50 100644
+index a82ab4856b50..cd1ad046a953 100644
 --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
 +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-@@ -48,10 +48,6 @@ enum dp_catalog_audio_header_type {
+@@ -48,9 +48,6 @@ enum dp_catalog_audio_header_type {
  };
  
  struct dp_catalog {
--	u32 total;
--	u32 sync_start;
--	u32 width_blanking;
--	u32 dp_active;
- 	enum dp_catalog_audio_sdp_type sdp_type;
- 	enum dp_catalog_audio_header_type sdp_header;
- 	u32 audio_data;
-@@ -106,7 +102,8 @@ void dp_catalog_ctrl_send_phy_pattern(struct dp_catalog *dp_catalog,
- u32 dp_catalog_ctrl_read_phy_pattern(struct dp_catalog *dp_catalog);
+-	enum dp_catalog_audio_sdp_type sdp_type;
+-	enum dp_catalog_audio_header_type sdp_header;
+-	u32 audio_data;
+ 	bool wide_bus_en;
+ };
  
- /* DP Panel APIs */
--int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog);
-+int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog, u32 total,
-+				u32 sync_start, u32 width_blanking, u32 dp_active);
- void dp_catalog_panel_enable_vsc_sdp(struct dp_catalog *dp_catalog, struct dp_sdp *vsc_sdp);
- void dp_catalog_panel_disable_vsc_sdp(struct dp_catalog *dp_catalog);
- void dp_catalog_dump_regs(struct dp_catalog *dp_catalog);
-diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-index 8e7069453952..07db8f37cd06 100644
---- a/drivers/gpu/drm/msm/dp/dp_panel.c
-+++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-@@ -353,6 +353,10 @@ int dp_panel_timing_cfg(struct dp_panel *dp_panel)
- 	struct dp_catalog *catalog;
- 	struct dp_panel_private *panel;
- 	struct drm_display_mode *drm_mode;
-+	u32 width_blanking;
-+	u32 sync_start;
-+	u32 dp_active;
-+	u32 total;
+@@ -114,12 +111,17 @@ void dp_catalog_panel_tpg_disable(struct dp_catalog *dp_catalog);
+ struct dp_catalog *dp_catalog_get(struct device *dev);
  
- 	panel = container_of(dp_panel, struct dp_panel_private, dp_panel);
- 	catalog = panel->catalog;
-@@ -376,13 +380,13 @@ int dp_panel_timing_cfg(struct dp_panel *dp_panel)
- 	data <<= 16;
- 	data |= total_hor;
+ /* DP Audio APIs */
+-void dp_catalog_audio_get_header(struct dp_catalog *catalog);
+-void dp_catalog_audio_set_header(struct dp_catalog *catalog);
+-void dp_catalog_audio_config_acr(struct dp_catalog *catalog);
+-void dp_catalog_audio_enable(struct dp_catalog *catalog);
++u32 dp_catalog_audio_get_header(struct dp_catalog *dp_catalog,
++				enum dp_catalog_audio_sdp_type sdp,
++				enum dp_catalog_audio_header_type header);
++void dp_catalog_audio_set_header(struct dp_catalog *dp_catalog,
++				 enum dp_catalog_audio_sdp_type sdp,
++				 enum dp_catalog_audio_header_type header,
++				 u32 data);
++void dp_catalog_audio_config_acr(struct dp_catalog *catalog, u32 select);
++void dp_catalog_audio_enable(struct dp_catalog *catalog, bool enable);
+ void dp_catalog_audio_config_sdp(struct dp_catalog *catalog);
+ void dp_catalog_audio_init(struct dp_catalog *catalog);
+-void dp_catalog_audio_sfe_level(struct dp_catalog *catalog);
++void dp_catalog_audio_sfe_level(struct dp_catalog *catalog, u32 safe_to_exit_level);
  
--	catalog->total = data;
-+	total = data;
- 
- 	data = (drm_mode->vtotal - drm_mode->vsync_start);
- 	data <<= 16;
- 	data |= (drm_mode->htotal - drm_mode->hsync_start);
- 
--	catalog->sync_start = data;
-+	sync_start = data;
- 
- 	data = drm_mode->vsync_end - drm_mode->vsync_start;
- 	data <<= 16;
-@@ -390,15 +394,15 @@ int dp_panel_timing_cfg(struct dp_panel *dp_panel)
- 	data |= drm_mode->hsync_end - drm_mode->hsync_start;
- 	data |= (panel->dp_panel.dp_mode.h_active_low << 15);
- 
--	catalog->width_blanking = data;
-+	width_blanking = data;
- 
- 	data = drm_mode->vdisplay;
- 	data <<= 16;
- 	data |= drm_mode->hdisplay;
- 
--	catalog->dp_active = data;
-+	dp_active = data;
- 
--	dp_catalog_panel_timing_cfg(catalog);
-+	dp_catalog_panel_timing_cfg(catalog, total, sync_start, width_blanking, dp_active);
- 
- 	if (dp_panel->dp_mode.out_fmt_is_yuv_420)
- 		dp_panel_setup_vsc_sdp_yuv_420(dp_panel);
+ #endif /* _DP_CATALOG_H_ */
 
 -- 
 2.43.0
