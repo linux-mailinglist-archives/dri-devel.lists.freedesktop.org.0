@@ -2,59 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF505890337
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 16:38:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0AD9890339
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 16:39:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B295F10EF80;
-	Thu, 28 Mar 2024 15:38:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 781D511249E;
+	Thu, 28 Mar 2024 15:39:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fm4u9YVv";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OSsmWM+H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B15110EF80
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 15:38:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6AE4560CA4;
- Thu, 28 Mar 2024 15:38:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08E81C433F1;
- Thu, 28 Mar 2024 15:38:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711640292;
- bh=a3UiF8Jb5VsXbW8jUWWhts4BMqGG1Eg6dk9smFBR0Hk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fm4u9YVvM62G4iA4zhCy+erMwipS4b5BSZOx7Cmzuo1x17b+BJJYzqNqSkliEMtfw
- DQxQRnqinXSN4Z0eL7TtHPM0Hg3GfrACIrroy4JWQOCAYvQL8+JVtriCdrOgJOxrTL
- QNqWYQuR3Mq/bzT3a7tbXgt8j3sZ1TYUSYzgns6LGwG5ifaa4Jls7WPf5cDXXschNK
- uoIcAO0XYD9+jOFTVc+2Lx8URvVLW9JnoboNm7QRLfJMzdpHxo9u97+vXsh9tYTp8A
- xtc5/l6l8Lj3UOcBQFsBzI+lXueMnhM+DFnyX5Xk5eduwrQD6zNXfQkw9dQedrlfQO
- 0CctndvqCj0Kw==
-Date: Thu, 28 Mar 2024 08:38:09 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- "Marty E . Plummer" <hanetzer@startmail.com>,
- Rob Herring <robh@kernel.org>,
- =?iso-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>,
- Nicolas Boichat <drinkcat@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- Daniel Stone <daniels@collabora.com>, Liviu Dudau <Liviu.Dudau@arm.com>,
- Steven Price <steven.price@arm.com>,
- Robin Murphy <robin.murphy@arm.com>, kernel@collabora.com,
- Heiko Stuebner <heiko@sntech.de>, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
- Chris Diamand <chris.diamand@foss.arm.com>,
- Ketil Johnsen <ketil.johnsen@arm.com>,
- Maxime Ripard <mripard@kernel.org>, llvm@lists.linux.dev
-Subject: Re: [PATCH v6 10/14] drm/panthor: Add the scheduler logical block
-Message-ID: <20240328153809.GA2673768@dev-arch.thelio-3990X>
-References: <20240229162230.2634044-1-boris.brezillon@collabora.com>
- <20240229162230.2634044-11-boris.brezillon@collabora.com>
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A5C511249E
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 15:39:18 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id
+ d2e1a72fcca58-6e6b6f86975so760528b3a.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 08:39:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1711640358; x=1712245158; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=mPjQD/vT8EW8FIsS5EhEUvjw7Yq2DPw74odbleQjQC0=;
+ b=OSsmWM+H5B9/Hfu0Q8pRuf8YfAUbMz8SVzqTbewN4VjI1ViYPo030rWpA80DYjpOAd
+ tajvoaThW0oM4CT1yUiH0efZzEpvgLZMesODI/Eu3vHiktht9iDG5TQUDJO3t8vBJE6P
+ e4N5FiRuJCh/Q3RVVmURhS2vlDHT3psyz85oj9/H0p+z0CM8g8toWbVbE6B/1yTbdixJ
+ b7SybPir6pWbF0a+LUasAV34xklltBCR93g0KZcnWbY55xu+Zvw22G9kJLiUhYDz6UPy
+ 9q2nfjA7h4MBA4y7sAytHtPzjTiaiaGdPyvZ/hRHMDdA8utANwdMJgXns68otxis0aiw
+ TqXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711640358; x=1712245158;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mPjQD/vT8EW8FIsS5EhEUvjw7Yq2DPw74odbleQjQC0=;
+ b=lGpSAkgcLF0oj+bSekiRu625eD3MGo56j+YhInrA4V4XnY+1VhLJj0uvqSeNEr+MZV
+ eU0kWkF0jr9wJsFECfRsIHHzGd272ty4nK3528gFj8uw4lNu5n6CXk3Q0oDbakBNSFRz
+ s/dhnFOBfKkMJux8MB+lP5Z+NCAqXCHHe9Z4dWRdPq++LX9YnlkuIln1c4sYkpTwj6bP
+ NVtvacChGp1Cmu3NQR7bgTqKd7i2/yg+RVuJ8OGAd+TwiXPmpFJUWFSIHHE3CJP1CAnR
+ jGAY/w7aOtDOMVKuqX0VGxQY6BMvjMWIceEX+xXROL6BRnuROwO6qEtEOE3ZDuGdh5h9
+ hgsg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVRpJ3xyvIacqNCLyjsUs1Ne3uYkSF/NYYCTWcQsflHQlrlrgydc0Qr4j+cKL+1UzS+V41QB9g8/pm9mNodoodDJsann/4r/CbmCgKv6Jaa
+X-Gm-Message-State: AOJu0YyBunxcmbsFJ1Ppe2QotW5BQsTRt5xjNZzxMxKouNqz2mIWXZ7w
+ nvLp7yjKVYnQejPDhIgV4wxlkdLC/qZk5X7T+6nWMM5OQ57MPZgXYjD0qO3YbDc=
+X-Google-Smtp-Source: AGHT+IGhUQYINGDQ7hWfiGCoXweY10vLCz/e/x+HjJ8dVvYs43ivIcKXZCgoqnZGIv+19J3DIwIpug==
+X-Received: by 2002:a05:6a00:a12:b0:6ea:92a7:fb82 with SMTP id
+ p18-20020a056a000a1200b006ea92a7fb82mr3800870pfh.27.1711640357806; 
+ Thu, 28 Mar 2024 08:39:17 -0700 (PDT)
+Received: from p14s ([2604:3d09:148c:c800:ff63:c57b:4625:b68c])
+ by smtp.gmail.com with ESMTPSA id
+ e2-20020aa798c2000000b006ea923678a6sm1505830pfm.137.2024.03.28.08.39.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Mar 2024 08:39:17 -0700 (PDT)
+Date: Thu, 28 Mar 2024 09:39:10 -0600
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+ Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Olivia Mackall <olivia@selenic.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Gonglei <arei.gonglei@huawei.com>, "David S. Miller" <davem@davemloft.net>,
+ Viresh Kumar <vireshk@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, David Airlie <airlied@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Joerg Roedel <joro@8bytes.org>, Alexander Graf <graf@amazon.com>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Eric Van Hensbergen <ericvh@kernel.org>,
+ Latchesar Ionkov <lucho@ionkov.net>,
+ Dominique Martinet <asmadeus@codewreck.org>,
+ Christian Schoenebeck <linux_oss@crudebyte.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Kalle Valo <kvalo@kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>,
+ Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
+ Anton Yakovlev <anton.yakovlev@opensynergy.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ virtualization@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ iommu@lists.linux.dev, netdev@vger.kernel.org, v9fs@lists.linux.dev,
+ kvm@vger.kernel.org, linux-wireless@vger.kernel.org,
+ nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 19/22] rpmsg: virtio: drop owner assignment
+Message-ID: <ZgWPHntosUk+5qac@p14s>
+References: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
+ <20240327-module-owner-virtio-v1-19-0feffab77d99@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240229162230.2634044-11-boris.brezillon@collabora.com>
+In-Reply-To: <20240327-module-owner-virtio-v1-19-0feffab77d99@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,213 +129,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Boris,
-
-On Thu, Feb 29, 2024 at 05:22:24PM +0100, Boris Brezillon wrote:
-<snip>
-> ---
->  drivers/gpu/drm/panthor/panthor_sched.c | 3502 +++++++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_sched.h |   50 +
->  2 files changed, 3552 insertions(+)
->  create mode 100644 drivers/gpu/drm/panthor/panthor_sched.c
->  create mode 100644 drivers/gpu/drm/panthor/panthor_sched.h
+On Wed, Mar 27, 2024 at 01:41:12PM +0100, Krzysztof Kozlowski wrote:
+> virtio core already sets the .owner, so driver does not need to.
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> new file mode 100644
-> index 000000000000..5f7803b6fc48
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-<snip>
-> +static void
-> +tick_ctx_apply(struct panthor_scheduler *sched, struct panthor_sched_tick_ctx *ctx)
-> +{
-> +	struct panthor_group *group, *tmp;
-> +	struct panthor_device *ptdev = sched->ptdev;
-> +	struct panthor_csg_slot *csg_slot;
-> +	int prio, new_csg_prio = MAX_CSG_PRIO, i;
-> +	u32 csg_mod_mask = 0, free_csg_slots = 0;
-> +	struct panthor_csg_slots_upd_ctx upd_ctx;
-> +	int ret;
-> +
-> +	csgs_upd_ctx_init(&upd_ctx);
-> +
-> +	for (prio = PANTHOR_CSG_PRIORITY_COUNT - 1; prio >= 0; prio--) {
-> +		/* Suspend or terminate evicted groups. */
-> +		list_for_each_entry(group, &ctx->old_groups[prio], run_node) {
-> +			bool term = !group_can_run(group);
-> +			int csg_id = group->csg_id;
-> +
-> +			if (drm_WARN_ON(&ptdev->base, csg_id < 0))
-> +				continue;
-> +
-> +			csg_slot = &sched->csg_slots[csg_id];
-> +			csgs_upd_ctx_queue_reqs(ptdev, &upd_ctx, csg_id,
-> +						term ? CSG_STATE_TERMINATE : CSG_STATE_SUSPEND,
-> +						CSG_STATE_MASK);
-> +		}
-> +
-> +		/* Update priorities on already running groups. */
-> +		list_for_each_entry(group, &ctx->groups[prio], run_node) {
-> +			struct panthor_fw_csg_iface *csg_iface;
-> +			int csg_id = group->csg_id;
-> +
-> +			if (csg_id < 0) {
-> +				new_csg_prio--;
-> +				continue;
-> +			}
-> +
-> +			csg_slot = &sched->csg_slots[csg_id];
-> +			csg_iface = panthor_fw_get_csg_iface(ptdev, csg_id);
-> +			if (csg_slot->priority == new_csg_prio) {
-> +				new_csg_prio--;
-> +				continue;
-> +			}
-> +
-> +			panthor_fw_update_reqs(csg_iface, endpoint_req,
-> +					       CSG_EP_REQ_PRIORITY(new_csg_prio),
-> +					       CSG_EP_REQ_PRIORITY_MASK);
-> +			csgs_upd_ctx_queue_reqs(ptdev, &upd_ctx, csg_id,
-> +						csg_iface->output->ack ^ CSG_ENDPOINT_CONFIG,
-> +						CSG_ENDPOINT_CONFIG);
-> +			new_csg_prio--;
-> +		}
-> +	}
-> +
-> +	ret = csgs_upd_ctx_apply_locked(ptdev, &upd_ctx);
-> +	if (ret) {
-> +		panthor_device_schedule_reset(ptdev);
-> +		ctx->csg_upd_failed_mask |= upd_ctx.timedout_mask;
-> +		return;
-> +	}
-> +
-> +	/* Unbind evicted groups. */
-> +	for (prio = PANTHOR_CSG_PRIORITY_COUNT - 1; prio >= 0; prio--) {
-> +		list_for_each_entry(group, &ctx->old_groups[prio], run_node) {
-> +			/* This group is gone. Process interrupts to clear
-> +			 * any pending interrupts before we start the new
-> +			 * group.
-> +			 */
-> +			if (group->csg_id >= 0)
-> +				sched_process_csg_irq_locked(ptdev, group->csg_id);
-> +
-> +			group_unbind_locked(group);
-> +		}
-> +	}
-> +
-> +	for (i = 0; i < sched->csg_slot_count; i++) {
-> +		if (!sched->csg_slots[i].group)
-> +			free_csg_slots |= BIT(i);
-> +	}
-> +
-> +	csgs_upd_ctx_init(&upd_ctx);
-> +	new_csg_prio = MAX_CSG_PRIO;
-> +
-> +	/* Start new groups. */
-> +	for (prio = PANTHOR_CSG_PRIORITY_COUNT - 1; prio >= 0; prio--) {
-> +		list_for_each_entry(group, &ctx->groups[prio], run_node) {
-> +			int csg_id = group->csg_id;
-> +			struct panthor_fw_csg_iface *csg_iface;
-> +
-> +			if (csg_id >= 0) {
-> +				new_csg_prio--;
-> +				continue;
-> +			}
-> +
-> +			csg_id = ffs(free_csg_slots) - 1;
-> +			if (drm_WARN_ON(&ptdev->base, csg_id < 0))
-> +				break;
-> +
-> +			csg_iface = panthor_fw_get_csg_iface(ptdev, csg_id);
-> +			csg_slot = &sched->csg_slots[csg_id];
-> +			csg_mod_mask |= BIT(csg_id);
-> +			group_bind_locked(group, csg_id);
-> +			csg_slot_prog_locked(ptdev, csg_id, new_csg_prio--);
-> +			csgs_upd_ctx_queue_reqs(ptdev, &upd_ctx, csg_id,
-> +						group->state == PANTHOR_CS_GROUP_SUSPENDED ?
-> +						CSG_STATE_RESUME : CSG_STATE_START,
-> +						CSG_STATE_MASK);
-> +			csgs_upd_ctx_queue_reqs(ptdev, &upd_ctx, csg_id,
-> +						csg_iface->output->ack ^ CSG_ENDPOINT_CONFIG,
-> +						CSG_ENDPOINT_CONFIG);
-> +			free_csg_slots &= ~BIT(csg_id);
-> +		}
-> +	}
-> +
-> +	ret = csgs_upd_ctx_apply_locked(ptdev, &upd_ctx);
-> +	if (ret) {
-> +		panthor_device_schedule_reset(ptdev);
-> +		ctx->csg_upd_failed_mask |= upd_ctx.timedout_mask;
-> +		return;
-> +	}
-> +
-> +	for (prio = PANTHOR_CSG_PRIORITY_COUNT - 1; prio >= 0; prio--) {
-> +		list_for_each_entry_safe(group, tmp, &ctx->groups[prio], run_node) {
-> +			list_del_init(&group->run_node);
-> +
-> +			/* If the group has been destroyed while we were
-> +			 * scheduling, ask for an immediate tick to
-> +			 * re-evaluate as soon as possible and get rid of
-> +			 * this dangling group.
-> +			 */
-> +			if (group->destroyed)
-> +				ctx->immediate_tick = true;
-> +			group_put(group);
-> +		}
-> +
-> +		/* Return evicted groups to the idle or run queues. Groups
-> +		 * that can no longer be run (because they've been destroyed
-> +		 * or experienced an unrecoverable error) will be scheduled
-> +		 * for destruction in tick_ctx_cleanup().
-> +		 */
-> +		list_for_each_entry_safe(group, tmp, &ctx->old_groups[prio], run_node) {
-> +			if (!group_can_run(group))
-> +				continue;
-> +
-> +			if (group_is_idle(group))
-> +				list_move_tail(&group->run_node, &sched->groups.idle[prio]);
-> +			else
-> +				list_move_tail(&group->run_node, &sched->groups.runnable[prio]);
-> +			group_put(group);
-> +		}
-> +	}
-> +
-> +	sched->used_csg_slot_count = ctx->group_count;
-> +	sched->might_have_idle_groups = ctx->idle_group_count > 0;
-> +}
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> Depends on the first patch.
+> ---
+>  drivers/rpmsg/virtio_rpmsg_bus.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/rpmsg/virtio_rpmsg_bus.c b/drivers/rpmsg/virtio_rpmsg_bus.c
+> index 1062939c3264..e9e8c1f7829f 100644
+> --- a/drivers/rpmsg/virtio_rpmsg_bus.c
+> +++ b/drivers/rpmsg/virtio_rpmsg_bus.c
+> @@ -1053,7 +1053,6 @@ static struct virtio_driver virtio_ipc_driver = {
+>  	.feature_table	= features,
+>  	.feature_table_size = ARRAY_SIZE(features),
+>  	.driver.name	= KBUILD_MODNAME,
+> -	.driver.owner	= THIS_MODULE,
+>  	.id_table	= id_table,
+>  	.probe		= rpmsg_probe,
+>  	.remove		= rpmsg_remove,
 
-Clang builds fail after this change in -next as commit
-de8548813824 ("drm/panthor: Add the scheduler logical block"):
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 
-  drivers/gpu/drm/panthor/panthor_sched.c:2048:6: error: variable 'csg_mod_mask' set but not used [-Werror,-Wunused-but-set-variable]
-   2048 |         u32 csg_mod_mask = 0, free_csg_slots = 0;
-        |             ^
-  1 error generated.
-
-It appears legitimate to me, csg_mod_mask is only updated with '|=' but
-never accessed in any other manner. Should the variable be removed or
-was it supposed to be used somewhere else?
-
-Cheers,
-Nathan
-
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index 5f7803b6fc48..e5a710f190d2 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -2045,7 +2045,7 @@ tick_ctx_apply(struct panthor_scheduler *sched, struct panthor_sched_tick_ctx *c
- 	struct panthor_device *ptdev = sched->ptdev;
- 	struct panthor_csg_slot *csg_slot;
- 	int prio, new_csg_prio = MAX_CSG_PRIO, i;
--	u32 csg_mod_mask = 0, free_csg_slots = 0;
-+	u32 free_csg_slots = 0;
- 	struct panthor_csg_slots_upd_ctx upd_ctx;
- 	int ret;
- 
-@@ -2139,7 +2139,6 @@ tick_ctx_apply(struct panthor_scheduler *sched, struct panthor_sched_tick_ctx *c
- 
- 			csg_iface = panthor_fw_get_csg_iface(ptdev, csg_id);
- 			csg_slot = &sched->csg_slots[csg_id];
--			csg_mod_mask |= BIT(csg_id);
- 			group_bind_locked(group, csg_id);
- 			csg_slot_prog_locked(ptdev, csg_id, new_csg_prio--);
- 			csgs_upd_ctx_queue_reqs(ptdev, &upd_ctx, csg_id,
+> 
+> -- 
+> 2.34.1
+> 
