@@ -2,124 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2272F89027D
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 16:00:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EC51890299
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 16:05:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39F6311247D;
-	Thu, 28 Mar 2024 15:00:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9803112481;
+	Thu, 28 Mar 2024 15:05:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="Wx3CBzYB";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="alsUWsCj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1B8B112479
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 15:00:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1711637973; x=1712242773; i=deller@gmx.de;
- bh=YDPVzfrvCv+pzuXSEy32SACNexDWUcs4tGK+eCOtLyM=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
- In-Reply-To;
- b=Wx3CBzYBHr9nc/IRrk2z31GjbumaJZ/bAeCu4XyCdbBU9LgVrXbM5+XVE4MK+Eni
- ECldR0xODKA2jN8dW/Aou8jEzj8GdkC0NE1P7w9vRpx5MVIIEfXmfuBWMPJHcmuHC
- U2FPSUmWWRFicjFyplPA4lu5eldSexmlLDznzqXSxXt8yhARHmtuPF+JmYIhxkJsD
- wmkzWQcVHnqvh2gMgE22wVm/+OEDs87HS5o9sdV6TwHCLBJy6s5bRFDe6Avc6wf7S
- KY+qaIG/fGQg8vhqEWHGNMe8gHs1RQ3p3xedh2r44boU7Rb865PHfMbnKel/Z5zXh
- 3FHelrpVAg0gw9421w==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [10.8.0.6] ([78.94.87.245]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mof57-1se6Ht3RxR-00p0hR; Thu, 28
- Mar 2024 15:59:33 +0100
-Message-ID: <2a017fe8-5261-4ad9-a958-85f147185e07@gmx.de>
-Date: Thu, 28 Mar 2024 15:59:27 +0100
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
+ [209.85.219.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4940A112481
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 15:05:21 +0000 (UTC)
+Received: by mail-yb1-f181.google.com with SMTP id
+ 3f1490d57ef6-dc74435c428so1092540276.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 08:05:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1711638320; x=1712243120; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=kWfA5aPAvh98tytKTp4cttImQzYAy3tSsHDp9BTN8yI=;
+ b=alsUWsCjLcEC7OVmmrtqGw3qYMWEKeeqO8Izf3I79X/3llpTm6j86STHNoAtX9HSJL
+ BF8XGaUBFlSKRUbwEfVWbTXBcwpuPy1p5atd9YuPOqWceCEIm2czmhINBGtq5v3f5lXt
+ H4ESFQl1Awb/tuwBHW7K8InP+EOTzXZPUp7IQ5a3TksaBY0KgN9mKhNHpIkdYT7yTNWj
+ nPzIWi+kY99ukhv7kD6Ubp5WVchwAxXg5w10jwKUYjvbtWdRD2uB/Is2N6s65cPlzWcA
+ wIBHiS4QWCMtx3l6DUwUNBfAQAbP3/EH/SvNVVXxtGuNE3m4wwUztqxxk9fh7EvOopLL
+ mOqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711638320; x=1712243120;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kWfA5aPAvh98tytKTp4cttImQzYAy3tSsHDp9BTN8yI=;
+ b=k8kOVpxfTxXVd9Q6TCRhJHKBnGKkxgi0S17mldYNMGNdlgSWW7QetrUTEA+eNzfY9L
+ 3nvXA6kJ1y11LAhCXapiU6JePriyl/UGRd2RtIDJV8FSSkJt4YeZTTkPGScS+TTDyuyV
+ DOGonPw3MPxpxnok/0ki9ktERfq2UYC4zBDgRokZ4a5x+E8skl73NgB3hXaKs7n+7BDW
+ 8z5gIi1eGUnQ0///pwqFd24EDxj8pd2cYBRWl7cLt1Pq7ZHHCmNSGK89Zkkeu1wOtdpK
+ rkOZbnYo8GThTD26wc0CTnRLK66YF6ptJGXCCKXrp1fGRWnIdiJU0LZ2j3VqbcDSQgqu
+ 0tUg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXSZE0e8kFu6D6LTg3uParSzZNQ26jCCgKDoZP4ce3cWIIE6DCIegjhSGdcQ3G2ApgbMdTTNKngus2e9i/N6s1miL/am2hwu5NKG7QY+Y9H
+X-Gm-Message-State: AOJu0YwDSvRR52LhsvuklPGDSsPHeY6BJ1nAdLrOcYjkFlP0zWJAxIbc
+ 7P+gXwX/RksMCYh4jHVlaWvyBZPRahQAk0ABHNu8sKBTFkRfXC8cAzbS4Qj+PJY/BdyOOdBd/mZ
+ n2R8xQIZaxueVh3Nj425tg0+L1EuKni/sWLaOiA==
+X-Google-Smtp-Source: AGHT+IH5Xh+9FupHdZIT67h4lmZsG0DyoBdLyn4cmVbBccJpUVdzNv2lXzX29oOTWVqXhXAL3MPjvraXmi+NFx2bMAU=
+X-Received: by 2002:a25:b843:0:b0:dc2:5553:ca12 with SMTP id
+ b3-20020a25b843000000b00dc25553ca12mr2994878ybm.14.1711638320206; Thu, 28 Mar
+ 2024 08:05:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] arch: Remove struct fb_info from video helpers
-To: Thomas Zimmermann <tzimmermann@suse.de>, arnd@arndb.de,
- javierm@redhat.com, sui.jingfeng@linux.dev
-Cc: linux-arch@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-sh@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-parisc@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org,
- linux-kernel@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "David S. Miller" <davem@davemloft.net>,
- Andreas Larsson <andreas@gaisler.com>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>
-References: <20240327204450.14914-1-tzimmermann@suse.de>
- <20240327204450.14914-3-tzimmermann@suse.de>
- <b5a8bc60-ad16-407d-9e57-c224467c3f06@gmx.de>
- <9db306b2-b102-4bf5-a120-e1d279269fe9@suse.de>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <9db306b2-b102-4bf5-a120-e1d279269fe9@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:7SWJg03mME+2vw8fb9mxmZKSJMDEo0mYJI2J/T0ImsQ5mhttnG0
- iBaFsAdrlSeIFpZ0cWgCd4uGlQYlXcUi5Zpcy3iAYz1i9QHGWtLhhZjLv9Z8Ir6J86LVacs
- +aQYyTrzgmYujTZODvUjFNl/NjPQnY2fRMy5lxrzpb922oh+DGwCAsIOL3IYfo3osCDms6X
- 1BKDcYxw9teL2gTlonvnA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:in3ib8DI/UQ=;kh/43hDUJpFePNUZFXuwCb/rS5P
- JVZy5WsGUNMASMfYITGnTfXwAZvBSre8fCLA2J/O9Ngw2Cwll7f/hr4EPqpMUpF2hxAC35mB5
- G0o9h78NFccWc2ws1B3AdrZu1rEYkNmbvCcS56DNZ5DuL3UZ6ITCynCyaTt3ov5bk0uYnCITB
- Mvehl1G3RNQ14AsbOmooCI+J0iOcfyw9C66+Et+qlTvNIW0GRjK32nj8mDAmPS9ACbtGe0Kvm
- zDX0ouKF5ojMIc+uUrloPg7D4YRfLzwVMhiDqzm2JtkeUMEe4WtbUzPMo3uiAEjYii/UZ3zPn
- 65e72gFqvW4nq9lY3sagPOXNFFPrQaGWSHYqsXd8V2ixzeI3fNH3L2fvhaI9PDRVvi7znyToe
- 5c8MbhTVNubRLjH+cNgUlXaDG2HznwhCWYSeZ5LPBSqSsDb41UQx+O9/6vYAI4E/GvObWZSCK
- bhaEACmJUbskma36CBnIHqR/EaysUI7QZCrJIZkFRzWpLYozhJKCzo8eXX/S/CkXeHo7CVQpu
- NxoLBKCn9d0vQN+ke9+yG/RFGY8cL5a8G+51OoMxOkZ2w5+Ss5WAD45Qx7Gur1Y/ZW2yVq5iz
- XcI5ggmsCUcFa77bh94EtF90IO8OWbdeXDxQvZU+N1uIBfbo/qbuHM6kmeoQa+EdjNDqalYOW
- XFxeXi6ieCII8Ate1L9ZJKDhkch5ZmCrOAyMRwELBctemqSgFY+xDZz388EZoj+800Sex6I8V
- prXBpkeMYRJfXCyhkdu23g986R2pWQOr2jthIQ+3HGlQJORhYv5zUSjqtYGHtbbaIomcDQj2y
- QZfDoRCjtYIGXEaBfiO1+mXRWAMicXr5tMFCqwXztkUUg=
+References: <20240328111158.2074351-1-jun.nie@linaro.org>
+In-Reply-To: <20240328111158.2074351-1-jun.nie@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 28 Mar 2024 17:05:09 +0200
+Message-ID: <CAA8EJpq7eHgryrNnnR=Yh46PdkAQA-YNzTz_0gaWbr_g9CWSxA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm/msm/dpu: fix DSC for DSI video mode
+To: Jun Nie <jun.nie@linaro.org>
+Cc: neil.armstrong@linaro.org, sam@ravnborg.org, airlied@gmail.com, 
+ daniel@ffwll.ch, quic_parellan@quicinc.com, freedreno@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ robdclark@gmail.com, seanpaul@chromium.org, swboyd@chromium.org, 
+ quic_abhinavk@quicinc.com, quic_jesszhan@quicinc.com, 
+ marijn.suijten@somainline.org, sean@poorly.run
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,36 +81,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/28/24 14:33, Thomas Zimmermann wrote:
-> Am 28.03.24 um 12:04 schrieb Helge Deller:
->> On 3/27/24 21:41, Thomas Zimmermann wrote:
->>> The per-architecture video helpers do not depend on struct fb_info
->>> or anything else from fbdev. Remove it from the interface and replace
->>> fb_is_primary_device() with video_is_primary_device(). The new helper
->>
->> Since you rename this function, wouldn't something similar to
->>
->> device_is_primary_display()
->> =C2=A0=C2=A0=C2=A0=C2=A0or
->> device_is_primary_console()
->> =C2=A0=C2=A0=C2=A0=C2=A0or
->> is_primary_graphics_device()
->> =C2=A0=C2=A0=C2=A0=C2=A0or
->> is_primary_display_device()
->>
->> be a better name?
+On Thu, 28 Mar 2024 at 13:12, Jun Nie <jun.nie@linaro.org> wrote:
 >
-> The video_ prefix is there to signal that the code is part of the video =
-subsystem.
+> Fix DSC timing and control configurations in DPU for DSI video mode.
+> Only compression ratio 3:1 is handled and tested.
 >
-> But there's too much code that tried to figure out a default video
-> device. So I actually have different plans for this function. I'd
-> like to replace it with a helper that returns the default device
-> instead of just testing for it. Sample code for x86 is already in
-> vgaarb.c. [1] The function's name would then be
-> video_default_device() and return the appropriate struct device*.
-> video_is_primary device() will be removed. This rename here is the
-> easiest step towards the new helper. Ok?
-Sounds ok.
+> This patch is modified from patchs of Jonathan Marek.
+>
+> Signed-off-by: Jun Nie <jun.nie@linaro.org>
 
-Helge
+This almost looks like a joke, except it isn't the 1st of April yet.
+The patch lacks proper Author / Sign-off tags from Jonathan.
+This is pretty close to copyright infringement. I'm sorry, but I'd
+have to ask you to abstain from sending patches w/o prior internal
+review.
+
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |  2 +-
+>  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |  2 +-
+>  .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  | 12 +++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c   | 10 +++-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h   |  1 +
+>  drivers/gpu/drm/msm/dsi/dsi.xml.h             |  1 +
+>  drivers/gpu/drm/msm/dsi/dsi_host.c            | 48 +++++++++++--------
+>  include/drm/display/drm_dsc.h                 |  4 ++
+
+Ok. The feedback for the original patchset [1]  was that it should be
+split logically. Instead you pile everything together into a single
+patch. This is a complete no-go.
+
+Also, this patchset lacks changelog in comparison to the previous
+patchseris. I don't think I'll continue the review of this patch.
+Please rework it properly and add corresponding changelog.
+
+[1] https://patchwork.freedesktop.org/patch/567518/?series=126430&rev=1
+
+>  8 files changed, 56 insertions(+), 24 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 6a4b489d44e5..c1b9da06dde2 100644
+
+-- 
+With best wishes
+Dmitry
