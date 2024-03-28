@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DF97890CCC
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 22:59:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 736B0890DAE
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 23:36:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60A0E10EB7F;
-	Thu, 28 Mar 2024 21:59:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B50E10ED1B;
+	Thu, 28 Mar 2024 22:36:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="0cNIl6rL";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OvzjuBoY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 682E110EB7F
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 21:59:29 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id
- 4fb4d7f45d1cf-56c4ca65dc6so1797987a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 14:59:29 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com
+ [209.85.219.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67CEE10ED1B
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 22:36:18 +0000 (UTC)
+Received: by mail-yb1-f170.google.com with SMTP id
+ 3f1490d57ef6-dcc4de7d901so1369826276.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 15:36:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1711663167; x=1712267967;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JkrR3TRsPYSXBmltvKoz6z3FLacSM3QfrKhBArRhwdM=;
- b=0cNIl6rLazojfxpH8Nx5Efm8kcv3Nj6ThC3jkhaq2EFTvoA4yyqR2NweE/8Lr1mrIY
- LXWvC2C9l7Ew//DOmkWTMBTGzVucrc9OnahXJvrLUWciLh6Ed/8yGsGIHZJKVBtwva1m
- VyNed33TLmO1+0J0DkSHLa/4i7eMBGoNNZLDHEzh7Hte6xjmP8sdNhYuaTQKBosEa21Z
- OBtP5ei6TSm/KkJ0pDHeGpA+QUn6OJcq/sRjsHOuWOFbS7XSEU8SfIZ3OsARLx59qJ2z
- R7WW71ie2fNyZMmyJN++syTWNzhqEINGnZPS3U/7akkfXdhU6MutDGn4JQSwNAKY5tcH
- ZqsA==
+ d=linaro.org; s=google; t=1711665377; x=1712270177; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=LjY+wgOUFRoXu57CnEBA1CkVg+Yjx2wYh83Heq0qxKg=;
+ b=OvzjuBoYeT5vRYhb4iOaccNfA+gpTArWodjYRNL+Ao90vwdUReYeateL0c+VZAci/i
+ 90PFi52MeRACtJnrXGJE1lkNuxCNyk7c9GARlKc6SdPRUYr0ey1iiYsTv9bfZ+oxOtd5
+ kVRXVq58+/CA7MEQT9QVh7CIb7od9012PqwlJkw2aBBtI/PZFczynWxRdWN1MNHkkN08
+ JOp7Xnfj+QljzOv2e1XLC2U5NcQ/OlsM+X2KLdD2Pw9h7BixtltBYWSF0Fs5pEVppAee
+ q7JS6R46QSR6Aha0Qrjm6OM36jLOnqWcAFcMxH/ePmdPCGRCdZavfGgErB6r5SDeL1ih
+ zRhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711663167; x=1712267967;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JkrR3TRsPYSXBmltvKoz6z3FLacSM3QfrKhBArRhwdM=;
- b=JiJw3CCOmamJ7Ze8hXf1s9v/Pg1f+hrUxAwT6hscmeE0Da7Y4+Ie+4jz4CXDWXQ9WV
- 0lyB66SYgufNVi19luGtUIzW4+Uj/bQ80CbMrEGWaZ2AeJqFA+bcEvbivKrSqKn5rj1N
- IescVJ/txIwkgA3W5Jjdo1hkVl753hByV43sCMNk/xcmQhp12pW9o3403T+h744xr8E5
- kQKMej70R9jToL/ipxtOawCLBSeFDCwjD8BHwT06BrMzyHC5K2qgfkol7yu2h++Ognt1
- KF8OL65PVT9FxXRxiFeC3/7lWs8LChey0BiiUXwsvU/lCwVgW2KC/N/W9YiDXsuIDRyH
- 3tRg==
+ d=1e100.net; s=20230601; t=1711665377; x=1712270177;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LjY+wgOUFRoXu57CnEBA1CkVg+Yjx2wYh83Heq0qxKg=;
+ b=u476t8+MkQUBYUguYED3PdVA4hIAn/Jf99NokKSNDkc8PCE4aDYkkf4dnIPICAhw8l
+ bCn67PPXpwiwDjXrVrh3FCzT51LrmXZDAy/8/sV0k3vzhxYd7cd+7dwkALI3XzIlRnv7
+ 5ZNOa/D4rbhnpmfjGW0rHOIDVJ4n6bnJkZXRNbBeLZYh7IdlRlMHq+FUeq4m3Y1pmnf3
+ CrBiaD+l8tL302u9rmNigDycS23j2hn3WwlaVBjFMlPiXwvTsLjyElqbg8KUqBhPWMyf
+ 96XXUap0ydPrnAUUetBgXBiiJwPzNKVTp8h4h3GlI7rqm38THq/+o+f+cKato/a4poaV
+ ILHQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXDgqNbiqXaFT3eie+sYtmDmeIAb5gHmrbV0GWkm4JdluHSL647MsfDpSb3bJpLqQDegqPU4g3fC4olFPpVHxJnpwlzk7bwHo+2TsQZXDlI
-X-Gm-Message-State: AOJu0Yz9thCvlFV1tBZoDMLHsDR+vXxhaJh4cncvS0eiBc5PQG/UA+no
- bRpyfDHtcGMKRhuka/nE96ouK+gPBsnWlaG3hC3ACZiYmH1tVKvHxAldcASrk3404eK6gaTvxpH
- YIK8wHdq+v6tShQMnK2U7TpuDY17RtXmYfZA+
-X-Google-Smtp-Source: AGHT+IHxVJPGgWlPUtD38LmquZT+Kw2h6yv1jTsdsBsy+O/RrcoVPzZF9uidn02SdlhCE7x48PGrZPsbAniqVO9n/64=
-X-Received: by 2002:a05:6402:3548:b0:56b:c210:870c with SMTP id
- f8-20020a056402354800b0056bc210870cmr331295edd.15.1711663167480; Thu, 28 Mar
- 2024 14:59:27 -0700 (PDT)
+ AJvYcCViCeWNU1lqSgfXl9KVyGY12TkvagembGdMCOSp2gOwotH2TGcRfrxwELc+2PRu5Ra/atOdep6U9H3lSJhXMbbZL4c+y5I0+jOC2jD+3nGk
+X-Gm-Message-State: AOJu0Yxo9J1oXUa1pcdH/uK72XvfFsOLKt7SS/03+ygx/Et+cKUn9jOH
+ PJRuaCKoSEBGTQkCtu8vR1p5MngtZ+1GvHKfj15KzLPojK3w0FEU57YnuC4Eu5QHn92pGjMKZ6A
+ pkoS0Y+1dcEPBtkdH0H2d+20PWcYzsl3myGC5Nw==
+X-Google-Smtp-Source: AGHT+IHaI+kjiLOUYNKBR/srDk7VFG1X/iL9Lyrl5XxlS/w0akawROX6LC6YYP28982DF251YeuCQALSFyoyvb3mAX4=
+X-Received: by 2002:a5b:183:0:b0:dcd:24b6:1ae7 with SMTP id
+ r3-20020a5b0183000000b00dcd24b61ae7mr643047ybl.63.1711665377097; Thu, 28 Mar
+ 2024 15:36:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240328-panthor-drop-csg_mod_mask-v1-1-5a80be3df581@kernel.org>
-In-Reply-To: <20240328-panthor-drop-csg_mod_mask-v1-1-5a80be3df581@kernel.org>
-From: Justin Stitt <justinstitt@google.com>
-Date: Thu, 28 Mar 2024 14:59:15 -0700
-Message-ID: <CAFhGd8qJQw9TFPzM5VqwPAdvFCfYRW6TMFYZcOOPWW74qvNz6Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/panthor: Fix clang -Wunused-but-set-variable in
- tick_ctx_apply()
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: boris.brezillon@collabora.com, steven.price@arm.com, liviu.dudau@arm.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- ndesaulniers@google.com, morbo@google.com, heiko@sntech.de, 
- dri-devel@lists.freedesktop.org, llvm@lists.linux.dev, 
- patches@lists.linux.dev
+References: <1711660035-9656-1-git-send-email-quic_khsieh@quicinc.com>
+ <6641b5c9-1685-3d90-ac15-0b2e9d546bc5@quicinc.com>
+In-Reply-To: <6641b5c9-1685-3d90-ac15-0b2e9d546bc5@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 29 Mar 2024 00:36:06 +0200
+Message-ID: <CAA8EJpoXgtodevy_AHGRR8o3yB08dK1oeHdWUrnx13rsYgY=Dg@mail.gmail.com>
+Subject: Re: [PATCH v1] phy/qcom-qmp-combo: propagate correct return value at
+ phy_power_on()
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org, 
+ robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org, 
+ dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com, 
+ agross@kernel.org, abel.vesa@linaro.org, andersson@kernel.org, 
+ quic_jesszhan@quicinc.com, quic_sbillaka@quicinc.com, 
+ marijn.suijten@somainline.org, freedreno@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,65 +84,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 28, 2024 at 9:22=E2=80=AFAM Nathan Chancellor <nathan@kernel.or=
-g> wrote:
+On Thu, 28 Mar 2024 at 23:36, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
 >
-> Clang warns (or errors with CONFIG_WERROR):
 >
->   drivers/gpu/drm/panthor/panthor_sched.c:2048:6: error: variable 'csg_mo=
-d_mask' set but not used [-Werror,-Wunused-but-set-variable]
->    2048 |         u32 csg_mod_mask =3D 0, free_csg_slots =3D 0;
->         |             ^
->   1 error generated.
 >
-> The variable is an artifact left over from refactoring that occurred
-> during the development of the initial series for this driver. Remove it
-> to resolve the warning.
+> On 3/28/2024 2:07 PM, Kuogee Hsieh wrote:
+> > Currently qmp_combo_dp_power_on() always return 0 in regardless of
+> > return value of cfg->configure_dp_phy(). This patch propagate
+> > return value of cfg->configure_dp_phy() all the way back to caller.
+> >
+>
+> This is good. But I am also thinking if we should add some prints in
+> this driver like it doesnt even tell where it failed like here
+>
+>
+>          ret = qmp_v456_configure_dp_phy(qmp);
+>          if (ret < 0)
+>                  return ret;
+>
+> > Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> > ---
+> >   drivers/phy/qualcomm/phy-qcom-qmp-combo.c | 5 +++--
+> >   1 file changed, 3 insertions(+), 2 deletions(-)
+> >
+>
+> Also, I think we should have
+>
+> Fixes: 94a407cc17a4 ("phy: qcom-qmp: create copies of QMP PHY driver")
+>
+> If there is a better fixes tag for this, please let me know.
 
-Yep, makes sense.
+Fixes: 52e013d0bffa ("phy: qcom-qmp: Add support for DP in USB3+DP combo phy")
+
+Otherwise LGTM
 
 >
-> Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> > diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+> > index 36632fa..884973a 100644
+> > --- a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+> > +++ b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+> > @@ -2754,6 +2754,7 @@ static int qmp_combo_dp_power_on(struct phy *phy)
+> >       const struct qmp_phy_cfg *cfg = qmp->cfg;
+> >       void __iomem *tx = qmp->dp_tx;
+> >       void __iomem *tx2 = qmp->dp_tx2;
+> > +     int ret = 0;
+> >
+> >       mutex_lock(&qmp->phy_mutex);
+> >
+> > @@ -2766,11 +2767,11 @@ static int qmp_combo_dp_power_on(struct phy *phy)
+> >       cfg->configure_dp_tx(qmp);
+> >
+> >       /* Configure link rate, swing, etc. */
+> > -     cfg->configure_dp_phy(qmp);
+> > +     ret = cfg->configure_dp_phy(qmp);
+> >
+> >       mutex_unlock(&qmp->phy_mutex);
+> >
+> > -     return 0;
+> > +     return ret;
+> >   }
+> >
+> >   static int qmp_combo_dp_power_off(struct phy *phy)
 
-Reviewed-by: Justin Stitt <justinstitt@google.com>
 
-> ---
->  drivers/gpu/drm/panthor/panthor_sched.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/pa=
-nthor/panthor_sched.c
-> index 5f7803b6fc48..e5a710f190d2 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -2045,7 +2045,7 @@ tick_ctx_apply(struct panthor_scheduler *sched, str=
-uct panthor_sched_tick_ctx *c
->         struct panthor_device *ptdev =3D sched->ptdev;
->         struct panthor_csg_slot *csg_slot;
->         int prio, new_csg_prio =3D MAX_CSG_PRIO, i;
-> -       u32 csg_mod_mask =3D 0, free_csg_slots =3D 0;
-> +       u32 free_csg_slots =3D 0;
->         struct panthor_csg_slots_upd_ctx upd_ctx;
->         int ret;
->
-> @@ -2139,7 +2139,6 @@ tick_ctx_apply(struct panthor_scheduler *sched, str=
-uct panthor_sched_tick_ctx *c
->
->                         csg_iface =3D panthor_fw_get_csg_iface(ptdev, csg=
-_id);
->                         csg_slot =3D &sched->csg_slots[csg_id];
-> -                       csg_mod_mask |=3D BIT(csg_id);
->                         group_bind_locked(group, csg_id);
->                         csg_slot_prog_locked(ptdev, csg_id, new_csg_prio-=
--);
->                         csgs_upd_ctx_queue_reqs(ptdev, &upd_ctx, csg_id,
->
-> ---
-> base-commit: d180649238f04183950d9c8a7d8a2c2f1788a89c
-> change-id: 20240328-panthor-drop-csg_mod_mask-b4bbe317d690
->
-> Best regards,
-> --
-> Nathan Chancellor <nathan@kernel.org>
->
+
+-- 
+With best wishes
+Dmitry
