@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80BCA890BF6
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 21:51:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 046AC890BFD
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 21:52:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 873B610FDE6;
-	Thu, 28 Mar 2024 20:51:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DBA210E7B5;
+	Thu, 28 Mar 2024 20:52:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VvlsDCvp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EkTv1rFJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03445112555;
- Thu, 28 Mar 2024 20:51:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 355E010E7B5;
+ Thu, 28 Mar 2024 20:52:53 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 1DAE0CE2CF8;
- Thu, 28 Mar 2024 20:51:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E2A8C433C7;
- Thu, 28 Mar 2024 20:51:05 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id E7F08CE2CF8;
+ Thu, 28 Mar 2024 20:52:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0769AC43394;
+ Thu, 28 Mar 2024 20:52:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711659065;
- bh=iOyWwbSJk+L+ozP+CdGJ5tWsDyrn3ZFA+c6SRWUyhZo=;
+ s=k20201202; t=1711659170;
+ bh=M9alpGSonvC9HQq088c3j8Jt1zhm8w+ga/H5dJYrQe8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VvlsDCvp5nvBMzJIew5rLj4PkeBWXO81h3W+/fgJBa1a5k7xSTMCLMJ3p1bBJh9YT
- UrB72nDFPCpzBAjsVo/tf7vgoVWlrW4DSV7tY6vt4r+hIWJIV1Xz8APeKXRUeSunzS
- oQZ4yJ/4ft5PCnU8aRuPKeQobdVfUFfHFqzHvr6q8KwjIqEnREVaafCs5o/Vd0/1RK
- XOCbRB4Ma0zXwEmsWZ/A3ACYIi+Vey1SIj6cABbPaVy8trgJakk2wh5HlFYJn0tTi2
- DhikL8dzknvtYreOW59zlvYToENi7KXeQSFQFBvhnzJSLNfv+OoZjwA34gf8qI++xH
- EL20FRmVuMOnw==
-Date: Thu, 28 Mar 2024 15:51:03 -0500
+ b=EkTv1rFJvYbq0ASv6+ZA/X/T9fbUnAVKggRTD4ISVPJI3XLJaE/ENHWXn0uOFgphW
+ gsgdgG8jSDEQQKLX8nzb+GV/LqtgJfPqfNDJXW1Xn5KvQGB86MdXWzzhVKZn+rLUgS
+ OdUXEb/lRPhsfeLTKPydek6xgxuiZoH8U/vmLpXddHCuGo0Z3Btaetplz4BYKdTkUl
+ TZmYiPg+HTg9i+Im20o52OZnRaw2oxbx5a6vZ3ODm/tOoPnF+oal3HeNnfVbzdhK7E
+ 2Sn1+LDNgkotXphJ8oRsVUI19laBrBmkw4fBk1KNkNyYCzi74HoJwC6ClS/2ylgdhx
+ hMF+2NUMpslWA==
+Date: Thu, 28 Mar 2024 15:52:47 -0500
 From: Rob Herring <robh@kernel.org>
 To: Luca Weiss <luca.weiss@fairphone.com>
-Cc: Konrad Dybcio <konrad.dybcio@linaro.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org,
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, Sean Paul <sean@poorly.run>,
- Daniel Vetter <daniel@ffwll.ch>, ~postmarketos/upstreaming@lists.sr.ht,
- Rob Clark <robdclark@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
- freedreno@lists.freedesktop.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, phone-devel@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: display: msm: dp-controller: document
- SM8250 compatible
-Message-ID: <171165906079.323814.7495184633421494076.robh@kernel.org>
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] dt-bindings: display: msm: sm6350-mdss: document DP
+ controller subnode
+Message-ID: <20240328205247.GA324023-robh@kernel.org>
 References: <20240328-sm6350-dp-v1-0-215ca2b81c35@fairphone.com>
- <20240328-sm6350-dp-v1-1-215ca2b81c35@fairphone.com>
+ <20240328-sm6350-dp-v1-2-215ca2b81c35@fairphone.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240328-sm6350-dp-v1-1-215ca2b81c35@fairphone.com>
+In-Reply-To: <20240328-sm6350-dp-v1-2-215ca2b81c35@fairphone.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,16 +74,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Thu, 28 Mar 2024 10:42:44 +0100, Luca Weiss wrote:
-> Add the compatible string for the DisplayPort controller on SM6350 which
-> is compatible with the one on SM8350.
+On Thu, Mar 28, 2024 at 10:42:45AM +0100, Luca Weiss wrote:
+> Document the displayport controller subnode of the SM6350 MDSS.
 > 
 > Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
 > ---
->  Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 1 +
->  1 file changed, 1 insertion(+)
+>  .../devicetree/bindings/display/msm/qcom,sm6350-mdss.yaml      | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 > 
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6350-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6350-mdss.yaml
+> index c9ba1fae8042..d91b8eca6aba 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm6350-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6350-mdss.yaml
+> @@ -53,6 +53,16 @@ patternProperties:
+>        compatible:
+>          const: qcom,sm6350-dpu
+>  
+> +  "^displayport-controller@[0-9a-f]+$":
+> +    type: object
+> +    additionalProperties: true
+> +
+> +    properties:
+> +      compatible:
+> +        items:
+> +          - const: qcom,sm6350-dp
+> +          - const: qcom,sm8350-dp
 
-Acked-by: Rob Herring <robh@kernel.org>
+Just use 'contains' here with qcom,sm6350-dp. The full schema will check 
+the order.
 
+Rob
