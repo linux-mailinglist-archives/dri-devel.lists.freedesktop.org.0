@@ -2,155 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB24988F5E7
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 04:28:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3E1788F63D
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 05:18:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0402E10F2AA;
-	Thu, 28 Mar 2024 03:28:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 187C310EBD2;
+	Thu, 28 Mar 2024 04:18:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RMvey6TN";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="TtGLV67C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD3A810EF9C;
- Thu, 28 Mar 2024 03:28:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1711596487; x=1743132487;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=D78I0wrmGiDlz69+Rg0gAfqwgVy0wbr1I3ejk2gNGgw=;
- b=RMvey6TNqTMqst8KujYUAYyrxnKVboFBqLR/J27Vk0af+J/qQR+vTfQQ
- KQQBeKEe2+JKLZ0EqGK00j36L9ain9IeS/GkvlZrMw/RVMmR44JFZ93Oe
- tob1jRu9VeGa6MLf5ouJlEsDxs7pWDvkYjQmPiibAtY8wvTh2vjVPrpeX
- X1YOB7RIrZyYUl7ni3RjCBc1Is2dxQ8xk//cWqYPkwvQuI+MSVr1/LaOU
- EKhBeqvT4dRv9B6uIYidmUOqTPN6acqXHT01lglY5zrkEexcVhqZg4Jtp
- o4mWPtuxQEOGC8f8kQ+t5Bf3qsMV9Cs17opFchaMjhlpx/nindxL5E+IO g==;
-X-CSE-ConnectionGUID: iIyap8UQRqSlTOGjY8JHmg==
-X-CSE-MsgGUID: 8ucju6XDSmaoUkJx4G4DLw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="32130761"
-X-IronPort-AV: E=Sophos;i="6.07,160,1708416000"; d="scan'208";a="32130761"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Mar 2024 20:28:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,160,1708416000"; d="scan'208";a="16533535"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 27 Mar 2024 20:28:06 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 27 Mar 2024 20:28:06 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Wed, 27 Mar 2024 20:28:06 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 27 Mar 2024 20:28:03 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2070.outbound.protection.outlook.com [40.107.237.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEE2C10EBD2;
+ Thu, 28 Mar 2024 04:18:32 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GF/HKxpJMcnLvJoBfQatUu0jcukqRQtgyCqUYnGxBu2tVL2InBHXnlnFH/x66F0NKa/Ouqjn9z4Lvo/d4sREV2FFHI3ci/umctBNBPwQCzpWpyE6DDkZe9LijrQ7zSkSH41m7DFciS10DjaBymzbwNbEG1dbVOUxoSgfm3T47wEzuifbFsSj1BBfPlp8lTqd1QX0gPpVSK8oaF6iLJFWKh6crBKHvrHIQa+Qp5giFp9n8QaMpdEk49Pezm0vwba44CTQxGUUgSFSpEVu3XYPRH1rFqGcrbPps//zBqNb40L3VII6iFjojz5q842fAiY7qAZYdwszd3+v4wY6Jr4bBg==
+ b=iMq/aHwZQnjDA1QmoDn00R8SW2uDPRut/5G4WLTMy3XYdTRjj7ZTGsJjLDMHOzi8B+1ypl+cL7gm00LBhXK8xQk8Dv+p9RO+V/mpd2L3Vip9hf7glBrIBRmzPiYmT32YU8hK2l+tqv8Cwocn2BICdjVBR1q81mfC/KIKfTsPuneoKR96f1lycehw/YUe92nO2t/Mz8KTeO4AzwJOpqvj8zmVNCkmRwSKADA4rB+W2lpMK+7KdPmY32ZLKYp1FY86oOlvtJBNGGNSAoG4x/ATmJNJjk07w+nsrnpD0lKBe5s76nLt1R83qPHyHOzF9wnnWgXPBeCGzemUP9Qfr0G0Rg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fHoOIDVrSybP7KgJPCrwJmQJxmKD5zEVg1O5twRck/U=;
- b=GQMI5zDHIQy73gnnFXXOJfzD5soY0wNJjrEdYe0UO+T+8br2Ci3ZrCSTAL0/zF5EyqhyfB8Ipl5p2BsNFcrvGXZc6L1lRTqY9fD++ThqeO2PHYK6A4n4Z9EqiByIJlFEY84MWUstkXkTLEc8iLRmKlH6+LCSBUFzPZ9y5lKOEFcTVn+aHE5tAdKsXnNDEyUHpqFJh2dSSgr8kt73k2cUkY0XeLPl84apYpyD8dgSGK3Bgs6mfHkuIFOxaqCG1eKxIVg35MV4gEA6mbUnL9We9UpAGpkSsr2xVPdwYApvmbnvSX1YdrLOo8L7fNNmUALg/eDyS/n19XaB+t5wrSRnLA==
+ bh=CRyp0gvdjPJzFOP2ppgNmmenCRv/rv5wKT0Wc8Ld0YY=;
+ b=lCPptV8VfFHIPCNqH6Ss2s9WjFGfGgsl0exx97AM67nZacpJmF9eYqbJJBVDVE9UEOWBoT5CXJ0gnO4evRZOOzF0JdMpfDcl/A6PpvaPyThu0G8MfVBT3l0HjQSvU9/WkHpRGueLirIWUj0PCiD90UDzFFbvttKEl5ZRq05LOsE++Rp8u8V/DpxHpIXxsrLOzuRgwrrXGzZDCdmzzi1bE3+8BYqR0RJoWP85/AXXov2wU71GD7KtRfb5dZH7G3JAFhFGGpKbCBUf+n39hVVLUJ0hs+1lp+D3h9xFYYvGUwVFtoesK9ePK6Q2t0tCeJBgDQZK0fXfXKVn3nX/i2G+hw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CRyp0gvdjPJzFOP2ppgNmmenCRv/rv5wKT0Wc8Ld0YY=;
+ b=TtGLV67C81NjPBzXUvWQKjjT4irQ2a7gKLBSNDT2vylZg/smL7SE1khI0hb4s3XE5e+xdAQSYDtEzxlKAUO59oSXbLZiFcLsgdBxwp6NsNme6KIxIi6/awRIWxt9dC2RlEhE3YYkFZKSzZ+NZjYuQPRTKEoU3gP451VIanThtww=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
- by SJ0PR11MB4799.namprd11.prod.outlook.com (2603:10b6:a03:2ae::19) with
- Microsoft SMTP Server (version=TLS1_2,
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5596.namprd12.prod.outlook.com (2603:10b6:510:136::13)
+ by MN0PR12MB5882.namprd12.prod.outlook.com (2603:10b6:208:37a::21)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.32; Thu, 28 Mar
- 2024 03:27:57 +0000
-Received: from DM4PR11MB5341.namprd11.prod.outlook.com
- ([fe80::31a1:93ed:8501:f2c9]) by DM4PR11MB5341.namprd11.prod.outlook.com
- ([fe80::31a1:93ed:8501:f2c9%3]) with mapi id 15.20.7409.031; Thu, 28 Mar 2024
- 03:27:57 +0000
-Message-ID: <bcb30af2-87bb-4b39-aaac-71800f8f271a@intel.com>
-Date: Thu, 28 Mar 2024 08:57:51 +0530
+ 2024 04:18:28 +0000
+Received: from PH7PR12MB5596.namprd12.prod.outlook.com
+ ([fe80::6974:3875:ed0:7033]) by PH7PR12MB5596.namprd12.prod.outlook.com
+ ([fe80::6974:3875:ed0:7033%3]) with mapi id 15.20.7409.028; Thu, 28 Mar 2024
+ 04:18:27 +0000
+Message-ID: <c41d7f3c-c717-43b7-86e5-c74532e4a2ec@amd.com>
+Date: Thu, 28 Mar 2024 09:48:18 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/11] drm/dp_mst: Add drm_dp_mst_aux_for_parent()
-To: <imre.deak@intel.com>
-CC: <intel-gfx@lists.freedesktop.org>, Lyude Paul <lyude@redhat.com>,
- <dri-devel@lists.freedesktop.org>
-References: <20240320201152.3487892-1-imre.deak@intel.com>
- <20240320201152.3487892-10-imre.deak@intel.com>
- <ca468470-3b9f-4c06-8faf-ae9063cbe09c@intel.com>
- <ZgQsUy15GWxvz/Gh@ideak-desk.fi.intel.com>
+Subject: Re: [PATCH] drm/amdgpu: add IP's FW information to devcoredump
 Content-Language: en-US
-From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-In-Reply-To: <ZgQsUy15GWxvz/Gh@ideak-desk.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0133.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:6::18) To DM4PR11MB5341.namprd11.prod.outlook.com
- (2603:10b6:5:390::22)
+To: Alex Deucher <alexdeucher@gmail.com>, Sunil Khatri <sunil.khatri@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Shashank Sharma <shashank.sharma@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Hawking Zhang <Hawking.Zhang@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, Lijo Lazar <lijo.lazar@amd.com>
+References: <20240326173142.2324624-1-sunil.khatri@amd.com>
+ <CADnq5_ONivR7io0w6vkHsQSSMnNCRJU=XdDD6D6SQZ8t9o3FAA@mail.gmail.com>
+From: "Khatri, Sunil" <sukhatri@amd.com>
+In-Reply-To: <CADnq5_ONivR7io0w6vkHsQSSMnNCRJU=XdDD6D6SQZ8t9o3FAA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN3PR01CA0035.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:97::14) To PH7PR12MB5596.namprd12.prod.outlook.com
+ (2603:10b6:510:136::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5341:EE_|SJ0PR11MB4799:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3a3020fa-2ebf-40f1-b37a-08dc4ed70f90
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5596:EE_|MN0PR12MB5882:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6ba2729e-52ff-4601-8fed-08dc4ede1e18
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zZO8rqOY1KyNUrgHy8rh4XcaHJTeKbMGSPfAhASgjm3yARWIf3NainMmOv8lVeUEGLMVaby8ERqJwnkCHWaJ90yJcqEWhCH7ljR6PX8L/S5O5xw0MX+0CPfbuQLKs8PfdNDI0yIAFV1xdDhW6H/SHivm5FkrhBe1b99nwak1u9RG1j/NYCh5IgodXVwmRa4LAP+dpmCheIoblGNv+WupHCF1LoWeSJNm3BS5dBTx0z2R6i7qXjzu3n4LMeyqPTt47XUdfPc/MUMqbpyM8p85spUT7lwAkPyPjQm8yJtkCHUEPD0a5OT29EWWo+G8jK6/OaTVms73/2VTc56riyPxCj/Z2sXsdG9rYYO0tOZBoignuq4+OG+iTnpL56OmpTnO0OnT+8bvTJvn+Z31UiC3JK8+0oBPF0e13FgIshx4HWXVpDGL9rJvYkFpHFNRG5+SReC/NEkCdOVP540zOB2J4cQ0YeEkgmyZDWtuazeWHAfhdObT1AH0bxP8tMJ1cCD0+ExsFazoXPKZfyduN9JPAV9rHPgxVKpLuWPgJI45RnmuGt/69GfU9fLWQP8jBWMhZP6StsObdhEHKCcX4wNpB9uihkVt+44IgytFnihWv37XmymPIisul2gSIOo8MexUFaUQw7ccsKbNafDVtTi1G6YvwVUMcaqUue3n+WS0PEc=
+X-Microsoft-Antispam-Message-Info: ilsKgfERnK0GyO7MOOm5wmU5sgEKnIRNcb5xoGkXhpRs6bzlOGQYFUhNs90D9Zrp9CDMoiOSqhr33LQ/u4rygDyg4kLFJbsiutVwCiCGBK8jk9yI3eq1awxqMvnqj4wC8Z2ftgRHB8Gt1TGraN4ByJMd+4d4yBPRYaERMQO0mOPEBLlj7aACONJrocvPiQXkEjRwb/4slchIi4FWWG2yUOmnAJ+Uls+EW+FJFVLhqzDHkiRkQkORuoaflRmVqQq6l+WDbMVUNBtlcoCFkq+4X5FVBjc1idZ6a/IXO3gxOVbsbHo+PrJymEK8eSc6Xd9xpNYELX6NWhzLupxHJ+AfjC3Fd5ugFhycqREow9ufBgT/XqbKs7qgAHWCN54fhHH3HDSG+EZnFatlEUdCMBIj9bxBlNDcwgiPAMaMFPPSNcjbg2UN8jPZ+tyKwgsGRg2zJWKtcPqjg4r/djEoW4A1JAXrK3dSNJeBG95biHAfhKbg4Ecbdqo11QMfQdAa/+5vadNq1o9jDvA6dbXhLEBW3npbNyBanIXWl+f2B861l+nnVufTJqAdWPhCysxfIbAgGhxbYm+qtsKqPHEPrvOA/XtemQAl32oi/Odto9PBO8m/iV2pqzRSWcSyALn9GJEHyCWFJzNQW2lGnZJrQP2sSnjPF90Bj7juHIPIFkyyRL4=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(1800799015)(376005)(366007); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5596.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366007)(1800799015)(376005); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b2RrcURmanNIRjdTOTNtVVdPT3ZTWC9NbFlmU1QwNjVnTVdaVnZ4aURXODJP?=
- =?utf-8?B?dTZCUjlqZ3VSajIwa3ozbG1lSTlBenFPVEpFMHFESm9YZWlDV00yd2hMOERn?=
- =?utf-8?B?WFJoN09SZzBBVGt0am9IaXgwdEJicFlBaitsTjBiZTkwWkRXNXF6U0Q3T28v?=
- =?utf-8?B?VGUxU2RmT0g5QnhDd0JXSGsrdTQ2dGRGQWFEVlJ3ZjRsYUdSQ0M1OE9QQUhv?=
- =?utf-8?B?S09aQnFVdWloQ1VZMTBLQjN0NXhDQmRucGxsaGNRWXhoWTRMK0VMWXczcUIv?=
- =?utf-8?B?M2ZoeldaaFVqWjF1N2lyVHhVOFlhOGFieHB0cGJuaEMrTFVJZ0E0UUd1NWMy?=
- =?utf-8?B?d2dURjM1QVZyUWFkK0tmR2VKVU4zM0pVL2UvL3dHK1lFcU9wQk1Bc1BvT2dh?=
- =?utf-8?B?R1FOSTM2MHN2ODhyRmV1UnNiOCtoQ2JYL1AxR3ZCUW5McjFlMHJpZXBieXJ4?=
- =?utf-8?B?c0kwUHY0WktRWE1qUEpUZHVtQ1BLQTJZQTFyY0hOcUxMSGpQblpwZ254cVJV?=
- =?utf-8?B?ZUFqSThaZGxMMk1LbUxSei9DWFUvZVN1QUdpWmcwd1M3SzlEKzcvZ1p1VnNi?=
- =?utf-8?B?R2tOYXBvemNuRmgyMG43Vi9kUCsyYnlIRk1XQWNxZXMyc0JNSm1PaCs1c1hP?=
- =?utf-8?B?RnRrTmk2YUFXSUo1dGtlY0JQL0wzUzlzQnZrelZNbnRyakh0cHF2UERIQUE1?=
- =?utf-8?B?UlhwTkxzKytURnlVcGE3aWlsUFdmYzA1TWRFdExoVkJrTVNyVUI2REJKV3hz?=
- =?utf-8?B?SEpJa0FUY3dHcVJNc2V0bTgyN2RqaGRvV2o3Qm52bExQLy9WZEdwTVQxTTJR?=
- =?utf-8?B?TGRwOFlvSThzWG9Cd2IxZE1lNDZyc1p3NFBsWml3dzk0eVhxbFAxRVRNU0VN?=
- =?utf-8?B?Tm4zd2xSR2Vta1l1cFhaVS95b1pCemhsVVo0RDJmQWppWmtGdm4zWVhIckJu?=
- =?utf-8?B?Z0FMelZhK0VnQ21wQ2FDSW56Rzg1dW5kTVBjZDN1bmNWYlVwb0FEWm1TVGw1?=
- =?utf-8?B?aEM0VnU0dllObDBGc1ZmYUZCMjBIWWFoVlJ6dU5MekFJVldQZDlUd2kvelJI?=
- =?utf-8?B?NHNvSTVXakdFdGV0cTNqanNyRHAwak41ak5SWFk5VGU5Y09Ub3h2SGxKdDF6?=
- =?utf-8?B?R1lxZlNxbit2MXNVVUNqM3czZ051bk13YmllTEVZdk0rNk85cXk1SVc5dGI2?=
- =?utf-8?B?VFFzQkswbGwwR1c2SFNiM04vWFhRa1ZOdUwrbU0rZCs4WlZQcG5UZVQ4TVFW?=
- =?utf-8?B?VWVMZlliQkZyZzNrZnY0dVVCZmY1dndhNitic2JOZ0doQ1F3ZS9pc1hRS0FU?=
- =?utf-8?B?RmVzVjZFeTlXWTJjWldTODNPbU90cG1MckNXNHFFY2NqSE1qTm5Ia2FQZ0NW?=
- =?utf-8?B?WFBpQ1BzNnRJU1ZwZXBDaWcvTHhIdzZyeWVqdUxjREwyVEh5b3lUZXR4ODZS?=
- =?utf-8?B?VFlhUDkzTFR5RUdVZzVjYUdWRHhQQkJCdFd0NEdvZGV1aHZKdGNDa3ZCNXJO?=
- =?utf-8?B?TXJQT2Q0dnNFSmFYaUQvZXpaTzA4d0x6ZThpWW1jd3pkc0RVRUtpOTdyQmF1?=
- =?utf-8?B?Q0FPQ0VRbUdOZWR3cUQ0T2Z0WVhRUS9TWFg3ajFlV0ZvLzhnbVExMi9GaTd5?=
- =?utf-8?B?bzlXQVNVR0swTEJYZ1hCRE1oU3RnRm1SU2FpL0JrWXVSNW9TOW1lZU5LSWl3?=
- =?utf-8?B?TU9McnlndHlDcE5CcHUvU2VTckdmN0R2ZGJiQ2g3OGV0M0ZSd0YrUjNvWE5V?=
- =?utf-8?B?U0VFd3ZMTnFySFhCRk5Nbi9XViszSHh2TGpYRnBKQ004R2FZRGRBTnNiUDAy?=
- =?utf-8?B?QVpPVkRCWEVPanZrNjZZckZHOUEvQmRyWlVoZFJFZ2I3dUMyQkZ5NDduMnkx?=
- =?utf-8?B?U3RneXZNOWVPaFlvS1lnam5LNVV0TGoyYXJMMFVkclZSMWdtLzJ3aWtiRElp?=
- =?utf-8?B?N0QvU1BYTjRwNWJIK1dsNzZFYXpLYlRDUXVaWWcwQVRnODZRVW1UMjFxbmZv?=
- =?utf-8?B?ZVMxQlVma3QwTEx6dWZwSmJpWE5RRWZiTzNJb3ZxWmw2R3VTcm1oUCtQaXpm?=
- =?utf-8?B?VXlESGpFd0wxZjRwL2ExdWFnSkpYWUlNVFpCSTJrS1lNeE5yZ3gwTGpMRlgx?=
- =?utf-8?B?TFdDMHRlREtLVWdIbDdka3VDdTZSSGc2RmhDemZVWjNJSUpaWkNzSFlqTnNE?=
- =?utf-8?B?aGc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3a3020fa-2ebf-40f1-b37a-08dc4ed70f90
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MXB5dDFkQ0RHV2JsS1l1Vk41b1NoKzllbVBYN0J6ZHA5MDZlaFFOc0hGTWlp?=
+ =?utf-8?B?c2NBSzg4NUhPVmRxYzlMTzNlRnc0Y2h4dHljL2R0YnJWcUQ2dGtqYWFianVq?=
+ =?utf-8?B?MXNUd3pudEsvUUhEd2UyamRZRjROdXNLem42bzF2bTBaMkVKVmJ4MURENVhU?=
+ =?utf-8?B?QUpzaUliMU82K201VllHT2dnSVB1dkdnbC9PQ05kQjZOZy80aktmWTdBdEtE?=
+ =?utf-8?B?UHlmaXZnNEZZRTJGbFZMSTE4RGN4b3VXUmZ2OVREaSs4SXJNTFozMmZodVJj?=
+ =?utf-8?B?aXpoTFVJNnlSZERGbWlLLzhSR1RCWVhFUEpIMG9ta1ZHNWg4VVNuSEREK21F?=
+ =?utf-8?B?ejdQUUk4RGN1WWJpL1hzRzNGSzB5SkdXcmNlTVFhZ2Z0TlpINVZqUXMzMFVa?=
+ =?utf-8?B?K0lGZDVTbUlBSDFNSFhvaVE5d21sTGJqRTl2Z0ZwVFhrNTU0cE5yWldWYkUx?=
+ =?utf-8?B?Sll0V3Y5S2Z6dWVhZ01YZkxqb0g4Wjh3V1pjYWNZQ3R4UTVGeDRGcDZUbkpr?=
+ =?utf-8?B?S28yb0lIMm1pQ2RCNUx4Y2FBVzY4em0zekducWxPTEt3ZHhmd1htN09yWUZE?=
+ =?utf-8?B?WmNPSWp3S0l6ci9BYXk1S1d5eDZ1amU0TTdBUmRGbzhsVnNQU2NIeFU0UDd6?=
+ =?utf-8?B?Y2ZUbHlsVURDZ3JLb1R6eCtmRlRUTkd6RWZWcUtvK3FyTmNFcUUzSWlCb043?=
+ =?utf-8?B?ZTZ3M0lyNDJoMDZLQWlydWwva0FkOTJZa2wzeWlVSUtmcE5mN2JuSzJaU1Bu?=
+ =?utf-8?B?b01XR1N0MTROK0dpTmhxK1U4MHNhTUh0NEFTQXJOeFlqOUNxS2ZISTh0Zm9v?=
+ =?utf-8?B?NVBneUFxQVc5amh5MFpIWjRWcFA0SmpsUU5GMDVNSktOZmZ0R1ZabUlJWGJV?=
+ =?utf-8?B?YThDWTY4c3Noc0drSVFVRVhrek5RV0NPMTh2VEJmMkxCcnYxQVArL0FIR2lH?=
+ =?utf-8?B?azdwaVROVUZOM29MS3VQUkhtYXk5Q2x5ZFpCYk4ramc4b1NQMTZsSVRmOW9W?=
+ =?utf-8?B?TlBVTXVTS2FVRVBZZndMd0t4NGpJYjlZMFh6U1BMRWdaejhTZmJGMENZdVVh?=
+ =?utf-8?B?YzAxTTEvYU1KQlpXSUtSY3ZmcCtRKzA2bGQ1eDI1RE5Ia0FwNytPaFBYdUNs?=
+ =?utf-8?B?RXArVUJueVI0TVZsV0ZkLy9LUWFTN0xhMGRWemVlalBLcENLOGZyVlh0SkEy?=
+ =?utf-8?B?RkhCNVZhV0tEVXgyY29VbVpiejRWb0pzc1A3T0NaeE9NWUoxNWtPK0o1V2gr?=
+ =?utf-8?B?aXRDcVIrSHlxNTNySXNjMjRZZUdTcDVSNG11M2lCL1FaQWZEOWRYRUNCMEM2?=
+ =?utf-8?B?YmpVK2hLR0tvVlRXWFBORHZpQVNpZkQ0anIyaFYzTXQxSXo3WFhrSC94bkU3?=
+ =?utf-8?B?SnovR0taa0xCcmVlNGp4WW9qdmk5NHUyWXBLRWVrblllT1BCSlZIN00xcWJZ?=
+ =?utf-8?B?emRuTzc1bGFBTDFHWG9BQS9sOStzVVhkWTBEMEhES25KOC8wT1Y1OGF2a3NI?=
+ =?utf-8?B?ZXlUTEh4Y2RqQkFnalBLWkhOQkxHV3hNR0JxUUNVZ1dYQ2Zia3o3UEcxSjBu?=
+ =?utf-8?B?T0ExdmRHWHdIOTR1M3BwRXN0OFIyTW5EQkFCZWxUS3hkKy9KWlcvaDdGM0Zo?=
+ =?utf-8?B?azliRm80MzNPNTFCQklwaStBRXlxcmZSek9HLytQa1gvNnRIZXpUK2xqdlZN?=
+ =?utf-8?B?QWVkK2JoaksvcjNsdHhJVExMbFJnUkVVTzlhRFNDY3dIUnRMM1FOUkdjRkl4?=
+ =?utf-8?B?c0pjSWJXTjZkeUk3cEh4Qld2Sm4zUnBqYmg5dFZoa09RQStHR0VrWEQrV21w?=
+ =?utf-8?B?SklEc0JadVBqZkFjcVA2cXNUU2V5cC9ZOTdlVHJwV0VEd0d5Sy9nR1dXVDdu?=
+ =?utf-8?B?U1NZeWk0OXJwWFlJQzhUU1J0SlRWR0RsNHRNTGdCdytkazFpWFhTSWVISlJN?=
+ =?utf-8?B?RHIvTUl0NnRMYy9wdjZOdU1veHNGam1wQTFpVDBtdEQ1RjFLWTR1bno1N05H?=
+ =?utf-8?B?L3VTNUI2bCtLSDlGUVI5cHpnUWE2cGI2OFNvbXU1WEVZK2pMV3dXZDJ1Yk1i?=
+ =?utf-8?B?eFlRZW03TjB6eTR6S09XQ21TRUVNWTB1dTArcEQrbmhtTndNRm55K0pIcTRn?=
+ =?utf-8?Q?qxJpWLlPhNoyiZlcWQdB8vAFm?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ba2729e-52ff-4601-8fed-08dc4ede1e18
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5596.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Mar 2024 03:27:56.9779 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Mar 2024 04:18:27.7751 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V4UZLInLtNwgbFRCABq2YjbGry03U1O836ChRb6FEe60MOlpdJlWeOU+1JmUeGm0BzBKvAXqyqVsXWztUDYKZOD/8S45oL0pmoxpYMMwtmc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4799
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7Mp4I7Hu9PEaaTxftXxBvSSkvSPvoFRAnPcQJZnvNURY52TD2fwRxmrUWR1Ik1fBI74i9o/RjxZcLPiya5zoKA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5882
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -167,55 +136,170 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 3/27/2024 7:55 PM, Imre Deak wrote:
-> On Wed, Mar 27, 2024 at 02:30:53PM +0530, Nautiyal, Ankit K wrote:
->> On 3/21/2024 1:41 AM, Imre Deak wrote:
->>> Add a function to get the AUX device of the parent of an MST port, used
->>> by a follow-up i915 patch in the patchset.
->>>
->>> Cc: Lyude Paul <lyude@redhat.com>
->>> Cc: dri-devel@lists.freedesktop.org
->>> Signed-off-by: Imre Deak <imre.deak@intel.com>
->>> ---
->>>    drivers/gpu/drm/display/drm_dp_mst_topology.c | 16 ++++++++++++++++
->>>    1 file changed, 16 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
->>> index 6bd471a2266ce..d70f7de644371 100644
->>> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
->>> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
->>> @@ -6004,6 +6004,22 @@ static bool drm_dp_mst_is_virtual_dpcd(struct drm_dp_mst_port *port)
->>>    	return false;
->>>    }
->>> +/**
->>> + * drm_dp_mst_aux_for_parent() - Get the AUX device for an MST port's parent
->>> + * @port: MST port whose parent's AUX device is returned
->>> + *
->>> + * Return the AUX device for @port's parent or NULL if port's parent is the
->>> + * root port.
->>> + */
->>> +struct drm_dp_aux *drm_dp_mst_aux_for_parent(struct drm_dp_mst_port *port)
->>> +{
->>> +	if (!port->parent || !port->parent->port_parent)
->>> +		return NULL;
->>> +
->>> +	return &port->parent->port_parent->aux;
->>> +}
->>> +EXPORT_SYMBOL(drm_dp_mst_aux_for_parent);
->> As mentioned in previous patch, the declaration of this in the header,
->> got included in previous patch.
-> Yes thanks, the header change should've been in this patch, will move it here
-> (while applying the patches if nothing else comes up).
-
-With the above fixed, this is:
-
-Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-
->> Regards,
+On 3/28/2024 8:38 AM, Alex Deucher wrote:
+> On Tue, Mar 26, 2024 at 1:31 PM Sunil Khatri <sunil.khatri@amd.com> wrote:
+>> Add FW information of all the IP's in the devcoredump.
 >>
->> Ankit
+>> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
+> Might want to include the vbios version info as well, e.g.,
+> atom_context->name
+> atom_context->vbios_pn
+> atom_context->vbios_ver_str
+> atom_context->date
+
+Sure i will add those parameters too.
+
+Regards
+
+Sunil
+
+> Either way,
+> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+>
+>> ---
+>>   .../gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c  | 122 ++++++++++++++++++
+>>   1 file changed, 122 insertions(+)
 >>
->>> +
->>>    /**
->>>     * drm_dp_mst_dsc_aux_for_port() - Find the correct aux for DSC
->>>     * @port: The port to check. A leaf of the MST tree with an attached display.
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+>> index 44c5da8aa9ce..d598b6520ec9 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+>> @@ -69,6 +69,124 @@ const char *hw_ip_names[MAX_HWIP] = {
+>>          [PCIE_HWIP]             = "PCIE",
+>>   };
+>>
+>> +static void amdgpu_devcoredump_fw_info(struct amdgpu_device *adev,
+>> +                                      struct drm_printer *p)
+>> +{
+>> +       uint32_t version;
+>> +       uint32_t feature;
+>> +       uint8_t smu_program, smu_major, smu_minor, smu_debug;
+>> +
+>> +       drm_printf(p, "VCE feature version: %u, fw version: 0x%08x\n",
+>> +                  adev->vce.fb_version, adev->vce.fw_version);
+>> +       drm_printf(p, "UVD feature version: %u, fw version: 0x%08x\n", 0,
+>> +                  adev->uvd.fw_version);
+>> +       drm_printf(p, "GMC feature version: %u, fw version: 0x%08x\n", 0,
+>> +                  adev->gmc.fw_version);
+>> +       drm_printf(p, "ME feature version: %u, fw version: 0x%08x\n",
+>> +                  adev->gfx.me_feature_version, adev->gfx.me_fw_version);
+>> +       drm_printf(p, "PFP feature version: %u, fw version: 0x%08x\n",
+>> +                  adev->gfx.pfp_feature_version, adev->gfx.pfp_fw_version);
+>> +       drm_printf(p, "CE feature version: %u, fw version: 0x%08x\n",
+>> +                  adev->gfx.ce_feature_version, adev->gfx.ce_fw_version);
+>> +       drm_printf(p, "RLC feature version: %u, fw version: 0x%08x\n",
+>> +                  adev->gfx.rlc_feature_version, adev->gfx.rlc_fw_version);
+>> +
+>> +       drm_printf(p, "RLC SRLC feature version: %u, fw version: 0x%08x\n",
+>> +                  adev->gfx.rlc_srlc_feature_version,
+>> +                  adev->gfx.rlc_srlc_fw_version);
+>> +       drm_printf(p, "RLC SRLG feature version: %u, fw version: 0x%08x\n",
+>> +                  adev->gfx.rlc_srlg_feature_version,
+>> +                  adev->gfx.rlc_srlg_fw_version);
+>> +       drm_printf(p, "RLC SRLS feature version: %u, fw version: 0x%08x\n",
+>> +                  adev->gfx.rlc_srls_feature_version,
+>> +                  adev->gfx.rlc_srls_fw_version);
+>> +       drm_printf(p, "RLCP feature version: %u, fw version: 0x%08x\n",
+>> +                  adev->gfx.rlcp_ucode_feature_version,
+>> +                  adev->gfx.rlcp_ucode_version);
+>> +       drm_printf(p, "RLCV feature version: %u, fw version: 0x%08x\n",
+>> +                  adev->gfx.rlcv_ucode_feature_version,
+>> +                  adev->gfx.rlcv_ucode_version);
+>> +       drm_printf(p, "MEC feature version: %u, fw version: 0x%08x\n",
+>> +                  adev->gfx.mec_feature_version, adev->gfx.mec_fw_version);
+>> +
+>> +       if (adev->gfx.mec2_fw)
+>> +               drm_printf(p, "MEC2 feature version: %u, fw version: 0x%08x\n",
+>> +                          adev->gfx.mec2_feature_version,
+>> +                          adev->gfx.mec2_fw_version);
+>> +
+>> +       drm_printf(p, "IMU feature version: %u, fw version: 0x%08x\n", 0,
+>> +                  adev->gfx.imu_fw_version);
+>> +       drm_printf(p, "PSP SOS feature version: %u, fw version: 0x%08x\n",
+>> +                  adev->psp.sos.feature_version, adev->psp.sos.fw_version);
+>> +       drm_printf(p, "PSP ASD feature version: %u, fw version: 0x%08x\n",
+>> +                  adev->psp.asd_context.bin_desc.feature_version,
+>> +                  adev->psp.asd_context.bin_desc.fw_version);
+>> +
+>> +       drm_printf(p, "TA XGMI feature version: 0x%08x, fw version: 0x%08x\n",
+>> +                  adev->psp.xgmi_context.context.bin_desc.feature_version,
+>> +                  adev->psp.xgmi_context.context.bin_desc.fw_version);
+>> +       drm_printf(p, "TA RAS feature version: 0x%08x, fw version: 0x%08x\n",
+>> +                  adev->psp.ras_context.context.bin_desc.feature_version,
+>> +                  adev->psp.ras_context.context.bin_desc.fw_version);
+>> +       drm_printf(p, "TA HDCP feature version: 0x%08x, fw version: 0x%08x\n",
+>> +                  adev->psp.hdcp_context.context.bin_desc.feature_version,
+>> +                  adev->psp.hdcp_context.context.bin_desc.fw_version);
+>> +       drm_printf(p, "TA DTM feature version: 0x%08x, fw version: 0x%08x\n",
+>> +                  adev->psp.dtm_context.context.bin_desc.feature_version,
+>> +                  adev->psp.dtm_context.context.bin_desc.fw_version);
+>> +       drm_printf(p, "TA RAP feature version: 0x%08x, fw version: 0x%08x\n",
+>> +                  adev->psp.rap_context.context.bin_desc.feature_version,
+>> +                  adev->psp.rap_context.context.bin_desc.fw_version);
+>> +       drm_printf(
+>> +               p,
+>> +               "TA SECURE DISPLAY feature version: 0x%08x, fw version: 0x%08x\n",
+>> +               adev->psp.securedisplay_context.context.bin_desc.feature_version,
+>> +               adev->psp.securedisplay_context.context.bin_desc.fw_version);
+>> +
+>> +       /* SMC firmware */
+>> +       version = adev->pm.fw_version;
+>> +
+>> +       smu_program = (version >> 24) & 0xff;
+>> +       smu_major = (version >> 16) & 0xff;
+>> +       smu_minor = (version >> 8) & 0xff;
+>> +       smu_debug = (version >> 0) & 0xff;
+>> +       drm_printf(p,
+>> +                  "SMC feature version: %u, program: %d, fw version: 0x%08x (%d.%d.%d)\n",
+>> +                  0, smu_program, version, smu_major, smu_minor, smu_debug);
+>> +
+>> +       /* SDMA firmware */
+>> +       for (int i = 0; i < adev->sdma.num_instances; i++) {
+>> +               drm_printf(p,
+>> +                          "SDMA%d feature version: %u, firmware version: 0x%08x\n",
+>> +                          i, adev->sdma.instance[i].feature_version,
+>> +                          adev->sdma.instance[i].fw_version);
+>> +       }
+>> +
+>> +       drm_printf(p, "VCN feature version: %u, fw version: 0x%08x\n", 0,
+>> +                  adev->vcn.fw_version);
+>> +       drm_printf(p, "DMCU feature version: %u, fw version: 0x%08x\n", 0,
+>> +                  adev->dm.dmcu_fw_version);
+>> +       drm_printf(p, "DMCUB feature version: %u, fw version: 0x%08x\n", 0,
+>> +                  adev->dm.dmcub_fw_version);
+>> +       drm_printf(p, "PSP TOC feature version: %u, fw version: 0x%08x\n",
+>> +                  adev->psp.toc.feature_version, adev->psp.toc.fw_version);
+>> +
+>> +       version = adev->mes.kiq_version & AMDGPU_MES_VERSION_MASK;
+>> +       feature = (adev->mes.kiq_version & AMDGPU_MES_FEAT_VERSION_MASK) >>
+>> +                 AMDGPU_MES_FEAT_VERSION_SHIFT;
+>> +       drm_printf(p, "MES_KIQ feature version: %u, fw version: 0x%08x\n",
+>> +                  feature, version);
+>> +
+>> +       version = adev->mes.sched_version & AMDGPU_MES_VERSION_MASK;
+>> +       feature = (adev->mes.sched_version & AMDGPU_MES_FEAT_VERSION_MASK) >>
+>> +                 AMDGPU_MES_FEAT_VERSION_SHIFT;
+>> +       drm_printf(p, "MES feature version: %u, fw version: 0x%08x\n", feature,
+>> +                  version);
+>> +
+>> +       drm_printf(p, "VPE feature version: %u, fw version: 0x%08x\n",
+>> +                  adev->vpe.feature_version, adev->vpe.fw_version);
+>> +}
+>> +
+>>   static ssize_t
+>>   amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
+>>                          void *data, size_t datalen)
+>> @@ -118,6 +236,10 @@ amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
+>>                  }
+>>          }
+>>
+>> +       /* IP firmware information */
+>> +       drm_printf(&p, "\nIP Firmwares\n");
+>> +       amdgpu_devcoredump_fw_info(coredump->adev, &p);
+>> +
+>>          if (coredump->ring) {
+>>                  drm_printf(&p, "\nRing timed out details\n");
+>>                  drm_printf(&p, "IP Type: %d Ring Name: %s\n",
+>> --
+>> 2.34.1
+>>
