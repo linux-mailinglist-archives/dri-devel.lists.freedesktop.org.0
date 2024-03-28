@@ -2,56 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F0A4890782
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 18:48:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 476A28907C9
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 18:55:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 343D611235B;
-	Thu, 28 Mar 2024 17:48:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E40E4112502;
+	Thu, 28 Mar 2024 17:55:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="L8Vfn5+7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jx1+tUAT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52C5711235B
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 17:48:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 255AC112502
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 17:55:53 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4963161797;
- Thu, 28 Mar 2024 17:48:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06368C433F1;
- Thu, 28 Mar 2024 17:48:34 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6F9CC617F3;
+ Thu, 28 Mar 2024 17:55:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A5EBC433C7;
+ Thu, 28 Mar 2024 17:55:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711648117;
- bh=PkXCPOm86ikadMRMC2GpqYlvUbxsONVcFOc0IqJSagU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=L8Vfn5+7uZ0dU8mLzApQYBxbRr5mb2H3IHJ1SpUeu+jQRUxESXvMTdJWZL7M162Pn
- YjAGmqUnOTjdP2Rf54j8x7xZ9UORKfOeFhw3gLuDqwAvE1OQN9iVjgFS3hfGTSB6TE
- DSC+lp5F6nW7XkkquGibYKWOur/D+QWgtLbiHm7SlzfbMLQhkpkxsS6/bv8LfwIhE8
- wQFla1sxdgYzIxGLNBX7NwTqsvxJ6TrUTry8fdHv8b+yb7fsa03mDBlbxgQOTMaIEk
- z2XBZ5nEyE9jW0zMsWqr7VXy8Atw4ZOfz0i29ETja9Gjto/7GjZ2MjGY9PHy06lV35
- kMd5dPXbOoBDg==
-Date: Thu, 28 Mar 2024 17:48:32 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Marek Vasut <marex@denx.de>
-Cc: dri-devel@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ s=k20201202; t=1711648551;
+ bh=uCi1IbyXG6tACQ/Me3G6pXFaxsFaEaBpZ5A7Q7HE4rE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=jx1+tUATA6l2LQsQNv77ConMqeewK72ISeFBP9ORiPKozLpHPgRH5bJ0A4F+0kr5F
+ mL77SIpkMQMgW39Mxup0ojOopzOFNbl6lwL4P2pKVjYespF2iSP/2JI5TGGNdtDf6z
+ UALpOZhg445yl/pd7U1scbe6CMotblxsap4Gj8c02UtDZJQJhuNFYDYHG5EDbFDCiF
+ txtGwPkYZu+Zp2cEoWcYdLYJoRhuRHVybsdhfhFVo4wzLe1LM1seyBssNzz4a4hnwf
+ YrDTNiuo7yVmb9kGgKkUvaz1q4wE9XdYkGSXB6b5vGkNelDn9+MFZU0bxb6m+0NIjg
+ GzNiPRoeF66YA==
+Date: Thu, 28 Mar 2024 12:55:49 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Herring <robh@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/4] dt-bindings: display: simple: Document support for
- Innolux G121XCE-L01
-Message-ID: <20240328-riot-oblivion-06fb4440d3d6@spud>
-References: <20240328102746.17868-1-marex@denx.de>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Sam Ravnborg <sam@ravnborg.org>, dakr@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org, stable@kernel.vger.org
+Subject: Re: [PATCH v4 10/10] drm/vboxvideo: fix mapping leaks
+Message-ID: <20240328175549.GA1574238@bhelgaas>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="nAQA5np1luFy9Pfc"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240328102746.17868-1-marex@denx.de>
+In-Reply-To: <20240301112959.21947-11-pstanner@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,86 +63,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Mar 01, 2024 at 12:29:58PM +0100, Philipp Stanner wrote:
+> When the PCI devres API was introduced to this driver, it was wrongly
+> assumed that initializing the device with pcim_enable_device() instead
+> of pci_enable_device() will make all PCI functions managed.
+> 
+> This is wrong and was caused by the quite confusing PCI devres API in
+> which some, but not all, functions become managed that way.
+> 
+> The function pci_iomap_range() is never managed.
+> 
+> Replace pci_iomap_range() with the actually managed function
+> pcim_iomap_range().
+> 
+> CC: <stable@kernel.vger.org> # v5.10+
 
---nAQA5np1luFy9Pfc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is marked for stable but depends on the preceding patches in this
+series, which are not marked for stable.
 
-On Thu, Mar 28, 2024 at 11:27:35AM +0100, Marek Vasut wrote:
-> Document support for Innolux CheMei 12" G121XCE-L01 XGA LVDS display.
->=20
-> G121XCE-L01 is a Color Active Matrix Liquid Crystal Display composed of
-> a TFT LCD panel, a driver circuit, and LED backlight system. The screen
-> format is intended to support the 4:3, 1024(H) x 768(V) screen and either
-> 262k/16.7M colors (RGB 6-bits or 8-bits) with LED backlight driver circui=
-t.
-> All input signals are LVDS interface compatible.
->=20
-> Documentation [1] and [2] indicate that G121X1-L03 and G121XCE-L01 are
-> effectively identical panels, use the former as RGB 6-bits variant and
-> document the later as RGB 8-bits variant.
->=20
-> [1] https://www.distec.de/fileadmin/pdf/produkte/TFT-Displays/Innolux/G12=
-1X1-L03_Datasheet.pdf
-> [2] https://www.distec.de/fileadmin/pdf/produkte/TFT-Displays/Innolux/G12=
-1XCE-L01_Datasheet.pdf
->=20
-> Signed-off-by: Marek Vasut <marex@denx.de>
+The rest of this series might be picked up automatically for stable,
+but I personally wouldn't suggest backporting it because it's quite a
+lot of change and I don't think it fits per
+Documentation/process/stable-kernel-rules.rst.
+
+So I think the best way to fix the vboxvideo leaks would be to fix
+them independently of this series, then include as a separate patch a
+conversion to the new pcim_iomap_range() in this series (or possibly
+for the next merge window to avoid merge conflicts).
+
+> Fixes: 8558de401b5f ("drm/vboxvideo: use managed pci functions")
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 > ---
-> Cc: Conor Dooley <conor+dt@kernel.org>
-
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
-Thanks,
-Conor.
-
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: devicetree@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple=
-=2Eyaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> index e0f6aa9a025c4..931d98836e121 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> @@ -190,6 +190,8 @@ properties:
->        - innolux,g121i1-l01
->          # Innolux Corporation 12.1" G121X1-L03 XGA (1024x768) TFT LCD pa=
-nel
->        - innolux,g121x1-l03
-> +        # Innolux Corporation 12.1" G121XCE-L01 XGA (1024x768) TFT LCD p=
-anel
-> +      - innolux,g121xce-l01
->          # Innolux Corporation 11.6" WXGA (1366x768) TFT LCD panel
->        - innolux,n116bca-ea1
->          # Innolux Corporation 11.6" WXGA (1366x768) TFT LCD panel
-> --=20
+>  drivers/gpu/drm/vboxvideo/vbox_main.c | 20 +++++++++-----------
+>  1 file changed, 9 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vboxvideo/vbox_main.c b/drivers/gpu/drm/vboxvideo/vbox_main.c
+> index 42c2d8a99509..d4ade9325401 100644
+> --- a/drivers/gpu/drm/vboxvideo/vbox_main.c
+> +++ b/drivers/gpu/drm/vboxvideo/vbox_main.c
+> @@ -42,12 +42,11 @@ static int vbox_accel_init(struct vbox_private *vbox)
+>  	/* Take a command buffer for each screen from the end of usable VRAM. */
+>  	vbox->available_vram_size -= vbox->num_crtcs * VBVA_MIN_BUFFER_SIZE;
+>  
+> -	vbox->vbva_buffers = pci_iomap_range(pdev, 0,
+> -					     vbox->available_vram_size,
+> -					     vbox->num_crtcs *
+> -					     VBVA_MIN_BUFFER_SIZE);
+> -	if (!vbox->vbva_buffers)
+> -		return -ENOMEM;
+> +	vbox->vbva_buffers = pcim_iomap_range(
+> +			pdev, 0, vbox->available_vram_size,
+> +			vbox->num_crtcs * VBVA_MIN_BUFFER_SIZE);
+> +	if (IS_ERR(vbox->vbva_buffers))
+> +		return PTR_ERR(vbox->vbva_buffers);
+>  
+>  	for (i = 0; i < vbox->num_crtcs; ++i) {
+>  		vbva_setup_buffer_context(&vbox->vbva_info[i],
+> @@ -116,11 +115,10 @@ int vbox_hw_init(struct vbox_private *vbox)
+>  	DRM_INFO("VRAM %08x\n", vbox->full_vram_size);
+>  
+>  	/* Map guest-heap at end of vram */
+> -	vbox->guest_heap =
+> -	    pci_iomap_range(pdev, 0, GUEST_HEAP_OFFSET(vbox),
+> -			    GUEST_HEAP_SIZE);
+> -	if (!vbox->guest_heap)
+> -		return -ENOMEM;
+> +	vbox->guest_heap = pcim_iomap_range(pdev, 0,
+> +			GUEST_HEAP_OFFSET(vbox), GUEST_HEAP_SIZE);
+> +	if (IS_ERR(vbox->guest_heap))
+> +		return PTR_ERR(vbox->guest_heap);
+>  
+>  	/* Create guest-heap mem-pool use 2^4 = 16 byte chunks */
+>  	vbox->guest_pool = devm_gen_pool_create(vbox->ddev.dev, 4, -1,
+> -- 
 > 2.43.0
->=20
-
---nAQA5np1luFy9Pfc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZgWtcAAKCRB4tDGHoIJi
-0q1hAQCo84FZjFO3/WGPsL9RV5l7skc5mUedM9L5yr8WP3CuWgD+JOAGLTP0cfYq
-VIaaQQ0mPjy/ePnSRbZxPnb+xEg7WQ0=
-=gcqt
------END PGP SIGNATURE-----
-
---nAQA5np1luFy9Pfc--
+> 
