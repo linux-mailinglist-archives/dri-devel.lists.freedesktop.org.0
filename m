@@ -2,88 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FF34890B34
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 21:24:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D7F890B73
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 21:38:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3978610E5B6;
-	Thu, 28 Mar 2024 20:24:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3383910EC3D;
+	Thu, 28 Mar 2024 20:38:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="NjBtLTQD";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dRfKVHSc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2A1810E4A3;
- Thu, 28 Mar 2024 20:24:50 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 42SIJEQZ017493; Thu, 28 Mar 2024 20:24:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=TXLmFLlzA/Fy9pUe2OqNGbO48JH9rpbJApRfQlvaxk8=; b=Nj
- BtLTQDs6aOc4iMHBBDxNq4d0bu96YBwVo/dYgSFTdveaDn02YluqXUa2fHCsHJBz
- HWQlAHHLe+auPLOlWWk5t3RTkwtEUfcR90+oR45Maq3QvMrP63hIiLP6kWErtmzl
- seOmpyQSwKlMMDt0FjPlnbG+NgR4ZltVbgndn9dyT2jZ81d7nbAIQHnZUNRwz2Ev
- gvkAoG+Nj9s737Zi/hEmI2eppZWgZFoGGCAZT5l72dKgaX6DIXosL3AoGoqjUzLb
- lrXbOOwh/xe40YuI7rVUROFpaRk/EiYfNUznGH2Y3qPLx+BRnySDDCprxVHvnGBu
- NGJLs1mrstB1qwyu/qDg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x5aeg8x73-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 28 Mar 2024 20:24:43 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42SKOfAI008710
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 28 Mar 2024 20:24:41 GMT
-Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 28 Mar
- 2024 13:24:36 -0700
-Message-ID: <55debb0a-c7af-ef71-c49a-414c7ab4f59d@quicinc.com>
-Date: Thu, 28 Mar 2024 13:24:34 -0700
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEFBC10EC3D
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 20:38:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3145E6103B;
+ Thu, 28 Mar 2024 20:38:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEC19C433F1;
+ Thu, 28 Mar 2024 20:38:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1711658301;
+ bh=4V4w7fC0EBbm7te+ffIKRQDvDxxoYpzMpaa3f0AoWlE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dRfKVHScDsH8tRE1//91CYwzd5KWuDIPzdzz4FYy70fYNQxTI4FdYsr0rnVlRlDzy
+ bg2yy/d0f1eEfdelx5bbivx7vjt1I2XcdZlEKOdXeDikFSelU1LkYAktJZJQE5tLsR
+ aWlyXBPbOFfiGkb1rQ9ZnTbgEL0YbJ4i2SbETO+aCf/YHhMcqNdelehX5uFfKS1xll
+ hu+eiqfLfnMN5AkY0NodQO3KanPcw3aHDw1BYdD1SX/2LmnaHHwN/NMDk0K7Em2Psg
+ C2FdKw3cfmIzQDuZNhqbtY1LdZDhPcphkaPSG7Rh5XQWxlmM7Qthw7AzeTMMxiHvhg
+ jCFiIDoVfirww==
+Date: Thu, 28 Mar 2024 20:38:08 +0000
+From: Simon Horman <horms@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>,
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>,
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+ Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+ Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Subject: Re: [RFC PATCH net-next v7 04/14] netdev: support binding dma-buf to
+ netdevice
+Message-ID: <20240328203808.GL651713@kernel.org>
+References: <20240326225048.785801-1-almasrymina@google.com>
+ <20240326225048.785801-5-almasrymina@google.com>
+ <20240328182812.GJ651713@kernel.org>
+ <CAHS8izMZuRwQZsL7PQdoRcrgeh6rEa7n1NMhbm-aZMes2QHVzg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v1] drm/msm/dp: use dp_hpd_plug_handle() and
- dp_hpd_unplug_handle() directly
-Content-Language: en-US
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, <dri-devel@lists.freedesktop.org>, 
- <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
- <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
- <airlied@gmail.com>, <agross@kernel.org>,
- <dmitry.baryshkov@linaro.org>, <abel.vesa@linaro.org>,
- <andersson@kernel.org>, Johan Hovold <johan@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>
-CC: <quic_jesszhan@quicinc.com>, <quic_sbillaka@quicinc.com>,
- <marijn.suijten@somainline.org>, <freedreno@lists.freedesktop.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1711656246-3483-1-git-send-email-quic_khsieh@quicinc.com>
- <1711656246-3483-2-git-send-email-quic_khsieh@quicinc.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <1711656246-3483-2-git-send-email-quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 22RjLSnJ9oM0GTsHGxvgET7PocTL5uIN
-X-Proofpoint-GUID: 22RjLSnJ9oM0GTsHGxvgET7PocTL5uIN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-28_17,2024-03-28_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- lowpriorityscore=0 malwarescore=0 priorityscore=1501 mlxscore=0
- clxscore=1015 mlxlogscore=884 impostorscore=0 adultscore=0 suspectscore=0
- phishscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2403210001 definitions=main-2403280145
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHS8izMZuRwQZsL7PQdoRcrgeh6rEa7n1NMhbm-aZMes2QHVzg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,26 +103,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+ Johan and Bjorn for FYI
-
-On 3/28/2024 1:04 PM, Kuogee Hsieh wrote:
-> For internal HPD case, hpd_event_thread is created to handle HPD
-> interrupts generated by HPD block of DP controller. It converts
-> HPD interrupts into events and executed them under hpd_event_thread
-> context. For external HPD case, HPD events is delivered by way of
-> dp_bridge_hpd_notify() under thread context. Since they are executed
-> under thread context already, there is no reason to hand over those
-> events to hpd_event_thread. Hence dp_hpd_plug_handle() and
-> dp_hpd_unplug_hanlde() are called directly at dp_bridge_hpd_notify().
+On Thu, Mar 28, 2024 at 11:55:23AM -0700, Mina Almasry wrote:
+> On Thu, Mar 28, 2024 at 11:28 AM Simon Horman <horms@kernel.org> wrote:
+> >
+> > On Tue, Mar 26, 2024 at 03:50:35PM -0700, Mina Almasry wrote:
+> > > Add a netdev_dmabuf_binding struct which represents the
+> > > dma-buf-to-netdevice binding. The netlink API will bind the dma-buf to
+> > > rx queues on the netdevice. On the binding, the dma_buf_attach
+> > > & dma_buf_map_attachment will occur. The entries in the sg_table from
+> > > mapping will be inserted into a genpool to make it ready
+> > > for allocation.
+> > >
+> > > The chunks in the genpool are owned by a dmabuf_chunk_owner struct which
+> > > holds the dma-buf offset of the base of the chunk and the dma_addr of
+> > > the chunk. Both are needed to use allocations that come from this chunk.
+> > >
+> > > We create a new type that represents an allocation from the genpool:
+> > > net_iov. We setup the net_iov allocation size in the
+> > > genpool to PAGE_SIZE for simplicity: to match the PAGE_SIZE normally
+> > > allocated by the page pool and given to the drivers.
+> > >
+> > > The user can unbind the dmabuf from the netdevice by closing the netlink
+> > > socket that established the binding. We do this so that the binding is
+> > > automatically unbound even if the userspace process crashes.
+> > >
+> > > The binding and unbinding leaves an indicator in struct netdev_rx_queue
+> > > that the given queue is bound, but the binding doesn't take effect until
+> > > the driver actually reconfigures its queues, and re-initializes its page
+> > > pool.
+> > >
+> > > The netdev_dmabuf_binding struct is refcounted, and releases its
+> > > resources only when all the refs are released.
+> > >
+> > > Signed-off-by: Willem de Bruijn <willemb@google.com>
+> > > Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> > > Signed-off-by: Mina Almasry <almasrymina@google.com>
+> >
+> > ...
+> >
+> > > +int net_devmem_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
+> > > +                                 struct net_devmem_dmabuf_binding *binding)
+> > > +{
+> > > +     struct netdev_rx_queue *rxq;
+> > > +     u32 xa_idx;
+> > > +     int err;
+> > > +
+> > > +     if (rxq_idx >= dev->num_rx_queues)
+> > > +             return -ERANGE;
+> > > +
+> > > +     rxq = __netif_get_rx_queue(dev, rxq_idx);
+> > > +     if (rxq->mp_params.mp_priv)
+> > > +             return -EEXIST;
+> > > +
+> > > +     err = xa_alloc(&binding->bound_rxq_list, &xa_idx, rxq, xa_limit_32b,
+> > > +                    GFP_KERNEL);
+> > > +     if (err)
+> > > +             return err;
+> > > +
+> > > +     /* We hold the rtnl_lock while binding/unbinding dma-buf, so we can't
+> > > +      * race with another thread that is also modifying this value. However,
+> > > +      * the driver may read this config while it's creating its * rx-queues.
+> > > +      * WRITE_ONCE() here to match the READ_ONCE() in the driver.
+> > > +      */
+> > > +     WRITE_ONCE(rxq->mp_params.mp_ops, &dmabuf_devmem_ops);
+> >
+> > Hi Mina,
+> >
+> > This causes a build failure because mabuf_devmem_ops is not added until a
+> > subsequent patch in this series.
+> >
 > 
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/dp/dp_display.c | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
+> My apologies. I do notice the failure in patchwork now. I'll do a
+> patch by patch build for the next iteration.
+
+Thanks, much appreciated.
+
+> > > +     WRITE_ONCE(rxq->mp_params.mp_priv, binding);
+> > > +
+> > > +     err = net_devmem_restart_rx_queue(dev, rxq_idx);
+> > > +     if (err)
+> > > +             goto err_xa_erase;
+> > > +
+> > > +     return 0;
+> > > +
+> > > +err_xa_erase:
+> > > +     WRITE_ONCE(rxq->mp_params.mp_ops, NULL);
+> > > +     WRITE_ONCE(rxq->mp_params.mp_priv, NULL);
+> > > +     xa_erase(&binding->bound_rxq_list, xa_idx);
+> > > +
+> > > +     return err;
+> > > +}
+> >
+> > ...
 > 
-
-Fixes: 542b37efc20e ("drm/msm/dp: Implement hpd_notify()")
-
-Looks right to me,
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> 
+> 
+> -- 
+> Thanks,
+> Mina
+> 
