@@ -2,150 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F4888FC54
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 11:01:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88F3F88FC51
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 11:01:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 243F910E651;
-	Thu, 28 Mar 2024 10:01:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC57010ED89;
+	Thu, 28 Mar 2024 10:01:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fyB6f87B";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="O8xu/gPT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AC7D10E651;
- Thu, 28 Mar 2024 10:01:32 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4238510ED89
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 10:01:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1711620093; x=1743156093;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=7ygww6fxO0O5cjOfFNVtJlj6SInsP4JFgHxQOdt8rg0=;
- b=fyB6f87B+clQK431G7Agd8zK/VhsQ+PkD2xUCItSBH+KEEj9z43+Pw6T
- sSbi2qnISZL3KYzWuU132PZk27aKHsl6rNdgjUuZqc1HeUYfno62hRDOA
- VRTiY58FOiCqs/WMrjCKs20U/lDlxchXGIvqnCrTXfIW28FIbmo4ySMZi
- QVmZku0TIKz3EyVJdqSbf6obUH7T3c2W6+ls7QLclBb8/YeeKcfnlweSw
- qAz/OfZX9v6cc0CG+M3puajD+XBFjh7OZ9p36Xr0y5Qa1ppd2wJFSsZkc
- HvxZFrjMSu6fvbs/OF8Pg6nUfGVq+S3RE7NFXRLo7YsM/ATzw6OaI+PQu g==;
-X-CSE-ConnectionGUID: a/Xsaf9bSh6lk9ixk2t6pA==
-X-CSE-MsgGUID: A4hdkcm6Q7SDE+hmq4Su5w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="6653961"
-X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; 
-   d="scan'208";a="6653961"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2024 03:01:22 -0700
+ t=1711620072; x=1743156072;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=mcgtr76Vb76ep/SNPgUTZUywkBNBQtMr1jhXQ9103ak=;
+ b=O8xu/gPTyIwncx8lEhq7x3tr1p6XbhSWkBw5lh2OrSFNvy+p3Gw5/kop
+ vyjEEPJ5M7VRst/yidDw7B65L3sIBpU6LH6Xf9qhyjJ3f+bS9P6i6Svyw
+ MyleqAVefCc81o6vKIV3c6MKr8bwXZwkith+OT6hgeZdyo/8j8Ai/mmlJ
+ GnMAgrOtG0r++HcjAj/a9uwDGu/1wbQkMWvXnZ8pr9E7YKnm6ewYcJ3NN
+ qYPRBrws6pqLt/iuT9p+6Q4qbhzqKpaRpiS4k3SgOINa/Tjx/aZWH0vqw
+ eQguGd3Bl+qDLolM2YJEQHFaKPcwLlwq0S/KiONCwYGdXdr85ay4j99yR Q==;
+X-CSE-ConnectionGUID: n/oSusy/Q6aRRFQBlC9Bsg==
+X-CSE-MsgGUID: UvU+79LDQpC6OFO1vluirg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="17910110"
+X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; d="scan'208";a="17910110"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2024 03:01:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; d="scan'208";a="21284647"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 28 Mar 2024 03:01:21 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 28 Mar 2024 03:01:20 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Thu, 28 Mar 2024 03:01:20 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 28 Mar 2024 03:00:47 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OxCwxpSx/XYx5fxtEzeD2N+WrjjozhT5WKA87j1Xh5q4jcQ7NPptV4p3g9Tn6zg4Tn1M4nA3nJb65G035JVfwr8MhPg0q9GqyxLWnL5buggxH/kZ0eLZx0JAJwtLAJbTv1/FN9IVAIqL3eMLUZ/IE8a1n4rde8L3W+OOrV4nGW9KnMUrj0GS/vo/X/ZV7w7QXjT3hmkeDbCZEg8jhIXeuIgdY5xMfQ5pmnZ05GkMUN5sq7qH4BEMNdjDpBTotSIXGDGwlEsLcyIeNqZNtqQF7dF765iIiCThfNXDDf1s2bM6pb1n4UBcIpKOEoPxn5JITGm0peM7GXsMijTEM8eaiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7ygww6fxO0O5cjOfFNVtJlj6SInsP4JFgHxQOdt8rg0=;
- b=Bxn8NTFAZjj7LMEd3tm0Rku4gcFAoPR39AJ4S+luzWJKyhdGtkGCLKWumJvTOTE6w+DorTPR9y4qx5EU50aWb/GIqkRipwYAwjc4afwR3DQ6ztXLl2xBThOkYyHqu2bZFy4wW5Rfq8LVkrB3MSHSg6n9VxF7FwqknDWE8VIRZvY7mDCfltvv1Jdfp6VI9EiK9BoADoBw+EJz55vv40116rggq2X+/MQbga7ueW8BRh3kocgwK0ZJSKcoxUwOzYc6BIq7UGBQEojVYdKe6C/aGnHdEx+W1dCwnZqipjIcM/5e1zgK/TsSb120xu6NvXctzFASmJBOVjmSyFgj2sgblQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5275.namprd11.prod.outlook.com (2603:10b6:408:134::24)
- by DM4PR11MB7758.namprd11.prod.outlook.com (2603:10b6:8:101::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.31; Thu, 28 Mar
- 2024 10:00:35 +0000
-Received: from BN9PR11MB5275.namprd11.prod.outlook.com
- ([fe80::46dd:6e91:5461:35a]) by BN9PR11MB5275.namprd11.prod.outlook.com
- ([fe80::46dd:6e91:5461:35a%7]) with mapi id 15.20.7409.031; Thu, 28 Mar 2024
- 10:00:35 +0000
-From: "Mrozek, Michal" <michal.mrozek@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx
- <intel-gfx@lists.freedesktop.org>, dri-devel
- <dri-devel@lists.freedesktop.org>
-CC: "Landwerlin, Lionel G" <lionel.g.landwerlin@intel.com>, "Jablonski,
- Mateusz" <mateusz.jablonski@intel.com>, Andi Shyti <andi.shyti@kernel.org>,
- "Hajda, Andrzej" <andrzej.hajda@intel.com>, Chris Wilson
- <chris.p.wilson@linux.intel.com>, "Cavitt, Jonathan"
- <jonathan.cavitt@intel.com>, "Das, Nirmoy" <nirmoy.das@intel.com>
-Subject: RE: [PATCH] drm/i915/gt: Limit the reserved VM space to only the
- platforms that need it
-Thread-Topic: [PATCH] drm/i915/gt: Limit the reserved VM space to only the
- platforms that need it
-Thread-Index: AQHagIJBWgKv+CDMNkCT2nSszshCrLFM7FHA
-Date: Thu, 28 Mar 2024 10:00:35 +0000
-Message-ID: <BN9PR11MB5275CF6AA1248DD2DD23F3F0E73B2@BN9PR11MB5275.namprd11.prod.outlook.com>
-References: <20240327200546.640108-1-andi.shyti@linux.intel.com>
-In-Reply-To: <20240327200546.640108-1-andi.shyti@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN9PR11MB5275:EE_|DM4PR11MB7758:EE_
-x-ms-office365-filtering-correlation-id: 22a19cf8-4bc2-4908-f987-08dc4f0de9ec
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: YCOsS4spOX2n2IimZAWNnybgBgQeAoMTJzLMW5W4uZlIpNNASjIJL8GkGyCPBOx/twE13wCbHyiJNqOZbhk2ioVqg1TLvpziEmm7/v8468OMFgd+XygMrxp5wdF/D5sEErGhl2l32wwUfgWB31353BeMbl+l1mlmgQYm8KM5VeWOU6zgHtG3SOv6gBlWmPlyGiWRhFawV718wFT0797W/F5X4qRwqvwz0Mmh6UyCIti9ef5v88qWfSibrneqVoALrjP7WRVA0ula8i1mr3KLKApYcdHtE1F5aMMvkrEJQllG9iFMXN+UXTT52EYwRaeIzSFeHj0XediOCo8InHJwcyW6ruVONZ1/DrcyRFGinjzpCiXTvFgz1BTIMnm7kSUlusVaTBgNwI2mfq9Mw0orAak8mNjzBRrxVAt7YFB+BLiRNunGAKOJkadzCmDOn4Wpgv+8R22jUEcfRFoXiqNxyWxBkWYE0mGi+tCjjk93mOzdOfO7txjVjFrjGF/Z9l/9+lSssdAsMI4HDzLL8LUi+TTUJ+JeykAQkMp4MMqaO24IGpejhobs1KxQz97C5Ckm0lh4j30ScFKRh1I6LI0yDZIi9wIVNTi7rT/wcr4M4vWUa6mudmPtvyfG7HyhaibyGmtplD0MhQCcEuCvXWDig/Me1e4J5vrlYsSgltMze6Iji6JTKv0UYURBib0OFcqOQDT2V7e2vgqxfz7GeWsRXEyFWSWviG7wDxqmyp2Dpc0=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR11MB5275.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(1800799015)(366007)(376005)(38070700009); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?1QCOSYNq3D//AQrVFj2zjhbWckwxJK4V18MS9BVpP9XlwLavkcCsX8liXpeQ?=
- =?us-ascii?Q?y1IGDOnsZPr3Y2y8gB2sCv0bNXTGYZwKHtlujAFQCe20cxWZfPGlGfIJ/Vhn?=
- =?us-ascii?Q?2TpVyrrl/2IUqCOUYuPoos3O6fCKdFLknQyRXFhQTwlyQFd/4fxh8fUUgRbp?=
- =?us-ascii?Q?Kbw8v87evN2Iib2utIrZKJSw14OdUhH5XIZHonQ2/BJfAWwvq3xWcSjetKmV?=
- =?us-ascii?Q?X76YXQxFVcfv4WNyNiXxj75WLFDsnbLlcjD97wt6j2N2rPooBRgGfRkCLJdN?=
- =?us-ascii?Q?F+ohImQb45P3AtzzzK1hfp+sIb11X7vPLqleZRL9szwFD3r1y8O0n7yciUHU?=
- =?us-ascii?Q?rFYxNW4zDucRNrchfeYnLUwJiYdshhDEU65BgxwsCXxpcFxvtwB8ZWTz+BkY?=
- =?us-ascii?Q?ALiRBu8FNnTNHyquXgaaU3USeWQCsVl1EMvqX3E237UsTP3b+ZykO55ylHTi?=
- =?us-ascii?Q?7dcKDQXgcKZUYGWSucTqNW/N6sqYHGc6pjzqEo1lc0dHmZIPC60oHw1rd4Vb?=
- =?us-ascii?Q?lYWFO85yQtHenyeMccir+FuSfv6FCJLMtNzt5ab1j7L0kLXzycY0q4rgv1MB?=
- =?us-ascii?Q?cr4simMp9iMpQMOA0+iurTdXIpXNO2Tv/Go7AIDYYJ4dZ1t2yZp/VbBbTo5L?=
- =?us-ascii?Q?ALCtyIOy4+DKsZPPJIHUsAHQ6SrVBcOQdghxVBtVAvbiuo0PyJh0PPtPauVI?=
- =?us-ascii?Q?Onkf6iz9qi2jhKsR3XN6CNrHBe+QGWj+jotbPed86wPZI+mFBSVmKh+ZMS1O?=
- =?us-ascii?Q?RsMkUXARqAAPP2jNixQvXOaIFkArjlctaihv5pdOUYcCOcj+HjC8bq7QbhOj?=
- =?us-ascii?Q?PzLc4jSCyMotXA0yTuk5dZ17tqqWhC0EdVCpwPvJH6O07RBoR8f44n0imoqc?=
- =?us-ascii?Q?jk2GdsrtzRV18Y1Y7QyjthlhtfQGPMWxecaudHPXO9+3b5VyaSagVafpDIxH?=
- =?us-ascii?Q?R8JBcnwEY1LU7G99U5qiAZFBLC8ECV69ED5M7PzGjCgxgbU4aUXHt9D4EvJ0?=
- =?us-ascii?Q?0acTnjMC6iq9FWP6yJOt8S1t2MVdMgvsZRNB+G6PULYwAT347OFJNNuvTZ7E?=
- =?us-ascii?Q?lXI8qQRbf8hhKgYsjVdR2z390tHP0L3DR1kVKocJdJQVWayxtScxuyKq4a6K?=
- =?us-ascii?Q?iEWndrRJ2p/d++bZZv2ZgJIJfacI8x/oLkfke63Jn6I7zMexDWv0Bohn+K+R?=
- =?us-ascii?Q?qPSvx9JNh4o3ke/YutoAm1/d/EQffo1OIHpz2ZcjrQJmIUMorPgU45ZuOk59?=
- =?us-ascii?Q?UCjajocZ805gGp1l6dVidayN4bgMYPH8KfEMZqOpCYziaD9vaKnCdq/19Osg?=
- =?us-ascii?Q?pOMaWgVL0NbLoILmzYX0orhJBmCSDLc/4IjKQ7kBKwOmpb/eNxeslfELXrvM?=
- =?us-ascii?Q?vraLD7Uu1aoDN8kjlyE+kNkk6B//wC83lbTSPKOHATxJFjrb6HjPBO42JIkM?=
- =?us-ascii?Q?zEp79rzUFu3e2Mmma3Q6Gtq1E54gAUBhPbGe/EkXt2C5817EXxi+r1TZ/3ho?=
- =?us-ascii?Q?22MZvCu8mLJvuTVgbZJ+JUhs2zZDqskEWZ7xjf7ohhAP+ZFKphO7EN7o42uh?=
- =?us-ascii?Q?v2Oo6omCW59e0NTn6RyZcZ84JrpJi4lM4FV4PHel?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; d="scan'208";a="16600067"
+Received: from abdulqaf-mobl2.amr.corp.intel.com (HELO localhost)
+ ([10.252.57.138])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2024 03:01:08 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
+ kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v3 07/13] drm: Make drivers depends on DRM_DW_HDMI
+In-Reply-To: <20240327-kms-kconfig-helpers-v3-7-eafee11b84b3@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240327-kms-kconfig-helpers-v3-0-eafee11b84b3@kernel.org>
+ <20240327-kms-kconfig-helpers-v3-7-eafee11b84b3@kernel.org>
+Date: Thu, 28 Mar 2024 12:01:05 +0200
+Message-ID: <87ttkqfzfi.fsf@intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5275.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 22a19cf8-4bc2-4908-f987-08dc4f0de9ec
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Mar 2024 10:00:35.7360 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: da5b/EYkB8kMi+VXkvPSBYtMosn5pEfuSNaSFOIn1UvyNdeXxpAu93ig7GnC9JtUwWCNM7l0ySDd9NAt5je1kw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7758
-X-OriginatorOrg: intel.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,18 +71,174 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 9bb66c179f50 ("drm/i915: Reserve some kernel space per
-vm") reduces the available VM space of one page in order to apply
-Wa_16018031267 and Wa_16018063123.
+On Wed, 27 Mar 2024, Maxime Ripard <mripard@kernel.org> wrote:
+> DRM_DW_HDMI has a number of dependencies that might not be enabled.
+> However, drivers were used to selecting it while not enforcing the
+> DRM_DW_HDMI dependencies.
+>
+> This could result in Kconfig warnings (and further build breakages) such
+> as:
+>
+>   Kconfig warnings: (for reference only)
+>      WARNING: unmet direct dependencies detected for DRM_DW_HDMI
+>      Depends on [n]: HAS_IOMEM [=y] && DRM [=m] && DRM_BRIDGE [=y] && DRM_DISPLAY_HELPER [=n]
+>      Selected by [m]:
+>      - DRM_SUN8I_DW_HDMI [=m] && HAS_IOMEM [=y] && DRM_SUN4I [=m]
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202403262127.kZkttfNz-lkp@intel.com/
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-This page was reserved indiscrimitely in all platforms even when not needed=
-. Limit it to DG2 onwards.
+Acked-by: Jani Nikula <jani.nikula@intel.com>
 
-Fixes: 9bb66c179f50 ("drm/i915: Reserve some kernel space per vm")
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Cc: Nirmoy Das <nirmoy.das@intel.com>
+> ---
+>  drivers/gpu/drm/bridge/imx/Kconfig      | 4 ++--
+>  drivers/gpu/drm/imx/ipuv3/Kconfig       | 5 +++--
+>  drivers/gpu/drm/ingenic/Kconfig         | 2 +-
+>  drivers/gpu/drm/meson/Kconfig           | 2 +-
+>  drivers/gpu/drm/renesas/rcar-du/Kconfig | 2 +-
+>  drivers/gpu/drm/rockchip/Kconfig        | 2 +-
+>  drivers/gpu/drm/sun4i/Kconfig           | 2 +-
+>  7 files changed, 10 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
+> index 5965e8027529..7687ed652df5 100644
+> --- a/drivers/gpu/drm/bridge/imx/Kconfig
+> +++ b/drivers/gpu/drm/bridge/imx/Kconfig
+> @@ -3,13 +3,13 @@ if ARCH_MXC || COMPILE_TEST
+>  config DRM_IMX_LDB_HELPER
+>  	tristate
+>  
+>  config DRM_IMX8MP_DW_HDMI_BRIDGE
+>  	tristate "Freescale i.MX8MP HDMI-TX bridge support"
+> -	depends on OF
+>  	depends on COMMON_CLK
+> -	select DRM_DW_HDMI
+> +	depends on DRM_DW_HDMI
+> +	depends on OF
+>  	select DRM_IMX8MP_HDMI_PVI
+>  	select PHY_FSL_SAMSUNG_HDMI_PHY
+>  	help
+>  	  Choose this to enable support for the internal HDMI encoder found
+>  	  on the i.MX8MP SoC.
+> diff --git a/drivers/gpu/drm/imx/ipuv3/Kconfig b/drivers/gpu/drm/imx/ipuv3/Kconfig
+> index bacf0655ebaf..5d810ac02171 100644
+> --- a/drivers/gpu/drm/imx/ipuv3/Kconfig
+> +++ b/drivers/gpu/drm/imx/ipuv3/Kconfig
+> @@ -33,9 +33,10 @@ config DRM_IMX_LDB
+>  	  Choose this to enable the internal LVDS Display Bridge (LDB)
+>  	  found on i.MX53 and i.MX6 processors.
+>  
+>  config DRM_IMX_HDMI
+>  	tristate "Freescale i.MX DRM HDMI"
+> -	select DRM_DW_HDMI
+> -	depends on DRM_IMX && OF
+> +	depends on DRM_DW_HDMI
+> +	depends on DRM_IMX
+> +	depends on OF
+>  	help
+>  	  Choose this if you want to use HDMI on i.MX6.
+> diff --git a/drivers/gpu/drm/ingenic/Kconfig b/drivers/gpu/drm/ingenic/Kconfig
+> index 3db117c5edd9..23effeb2ac72 100644
+> --- a/drivers/gpu/drm/ingenic/Kconfig
+> +++ b/drivers/gpu/drm/ingenic/Kconfig
+> @@ -25,12 +25,12 @@ config DRM_INGENIC_IPU
+>  
+>  	  The Image Processing Unit (IPU) will appear as a second primary plane.
+>  
+>  config DRM_INGENIC_DW_HDMI
+>  	tristate "Ingenic specific support for Synopsys DW HDMI"
+> +	depends on DRM_DW_HDMI
+>  	depends on MACH_JZ4780
+> -	select DRM_DW_HDMI
+>  	help
+>  	  Choose this option to enable Synopsys DesignWare HDMI based driver.
+>  	  If you want to enable HDMI on Ingenic JZ4780 based SoC, you should
+>  	  select this option.
+>  
+> diff --git a/drivers/gpu/drm/meson/Kconfig b/drivers/gpu/drm/meson/Kconfig
+> index 615fdd0ce41b..5520b9e3f010 100644
+> --- a/drivers/gpu/drm/meson/Kconfig
+> +++ b/drivers/gpu/drm/meson/Kconfig
+> @@ -11,13 +11,13 @@ config DRM_MESON
+>  	select MESON_CANVAS
+>  	select CEC_CORE if CEC_NOTIFIER
+>  
+>  config DRM_MESON_DW_HDMI
+>  	tristate "HDMI Synopsys Controller support for Amlogic Meson Display"
+> +	depends on DRM_DW_HDMI
+>  	depends on DRM_MESON
+>  	default y if DRM_MESON
+> -	select DRM_DW_HDMI
+>  	imply DRM_DW_HDMI_I2S_AUDIO
+>  
+>  config DRM_MESON_DW_MIPI_DSI
+>  	tristate "MIPI DSI Synopsys Controller support for Amlogic Meson Display"
+>  	depends on DRM_MESON
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/Kconfig b/drivers/gpu/drm/renesas/rcar-du/Kconfig
+> index 53c356aed5d5..2dc739db2ba3 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/Kconfig
+> +++ b/drivers/gpu/drm/renesas/rcar-du/Kconfig
+> @@ -23,12 +23,12 @@ config DRM_RCAR_CMM
+>  	depends on DRM_RCAR_USE_CMM
+>  
+>  config DRM_RCAR_DW_HDMI
+>  	tristate "R-Car Gen3 and RZ/G2 DU HDMI Encoder Support"
+>  	depends on DRM && OF
+> +	depends on DRM_DW_HDMI
+>  	depends on DRM_RCAR_DU || COMPILE_TEST
+> -	select DRM_DW_HDMI
+>  	help
+>  	  Enable support for R-Car Gen3 or RZ/G2 internal HDMI encoder.
+>  
+>  config DRM_RCAR_USE_LVDS
+>  	bool "R-Car DU LVDS Encoder Support"
+> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
+> index 1bf3e2829cd0..0d5260e10f27 100644
+> --- a/drivers/gpu/drm/rockchip/Kconfig
+> +++ b/drivers/gpu/drm/rockchip/Kconfig
+> @@ -5,11 +5,10 @@ config DRM_ROCKCHIP
+>  	select DRM_GEM_DMA_HELPER
+>  	select DRM_KMS_HELPER
+>  	select DRM_PANEL
+>  	select VIDEOMODE_HELPERS
+>  	select DRM_ANALOGIX_DP if ROCKCHIP_ANALOGIX_DP
+> -	select DRM_DW_HDMI if ROCKCHIP_DW_HDMI
+>  	select DRM_DW_MIPI_DSI if ROCKCHIP_DW_MIPI_DSI
+>  	select GENERIC_PHY if ROCKCHIP_DW_MIPI_DSI
+>  	select GENERIC_PHY_MIPI_DPHY if ROCKCHIP_DW_MIPI_DSI
+>  	select SND_SOC_HDMI_CODEC if ROCKCHIP_CDN_DP && SND_SOC
+>  	help
+> @@ -55,10 +54,11 @@ config ROCKCHIP_CDN_DP
+>  	  RK3399 based SoC, you should select this
+>  	  option.
+>  
+>  config ROCKCHIP_DW_HDMI
+>  	bool "Rockchip specific extensions for Synopsys DW HDMI"
+> +	depends on DRM_DW_HDMI
+>  	help
+>  	  This selects support for Rockchip SoC specific extensions
+>  	  for the Synopsys DesignWare HDMI driver. If you want to
+>  	  enable HDMI on RK3288 or RK3399 based SoC, you should select
+>  	  this option.
+> diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
+> index 4741d9f6544c..5b19c7cb7b7e 100644
+> --- a/drivers/gpu/drm/sun4i/Kconfig
+> +++ b/drivers/gpu/drm/sun4i/Kconfig
+> @@ -55,12 +55,12 @@ config DRM_SUN6I_DSI
+>  	  sun6i_mipi_dsi.
+>  
+>  config DRM_SUN8I_DW_HDMI
+>  	tristate "Support for Allwinner version of DesignWare HDMI"
+>  	depends on DRM_SUN4I
+> +	depends on DRM_DW_HDMI
+>  	default DRM_SUN4I
+> -	select DRM_DW_HDMI
+>  	help
+>  	  Choose this option if you have an Allwinner SoC with the
+>  	  DesignWare HDMI controller. SoCs that support HDMI and
+>  	  have a Display Engine 2.0 contain this controller. If M is
+>  	  selected the module will be called sun8i_dw_hdmi.
 
-Acked-by: Michal Mrozek <michal.mrozek@intel.com>
+-- 
+Jani Nikula, Intel
