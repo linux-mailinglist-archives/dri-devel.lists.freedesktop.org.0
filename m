@@ -2,92 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03BBE890EA6
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 00:42:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8365C890EB4
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 00:53:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D42910E624;
-	Thu, 28 Mar 2024 23:42:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC15E10E0CF;
+	Thu, 28 Mar 2024 23:52:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Vmg487hU";
+	dkim=pass (1024-bit key; unprotected) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="mFw2fCWe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95EF610E565;
- Thu, 28 Mar 2024 23:42:11 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 42SKfHXL014988; Thu, 28 Mar 2024 23:42:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=Mau55tBozhBMaO0d5Rfa7Yp5L1oCFg3acc+d9Opj8DI=; b=Vm
- g487hUoNyG6qRBbvOJYZ73Gnez818HIILu2cwVUELQ079aO+fK4JYNp5EKxKR8v4
- IUgnTzGR4xEsQ/mJKFEEmbF4WQDNtRFgjjxFRDtwcJMze8qJQIdf8ts8tdrhEyiD
- xBS2Vzg+Cl1TnMn0nUh3wuDPfaPrUN+Qewjao6nC4kUIytd0iqOtl6G00RUAL0UN
- xACEMT1cV4n0lbcTq/z5rpW9sk4tOGPub7iHtGCHNPxGyJVBX6ChTma3LleHEVw5
- /eY8IfbcMXTDt03iC92HZLroAZHvt7SQrwC5dv/LL+q2w5ovUwPElb0OE20t8iDh
- l7HzruaqUNAiRXihQPtw==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x575m9tfe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 28 Mar 2024 23:42:04 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42SNg36q011158
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 28 Mar 2024 23:42:03 GMT
-Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 28 Mar
- 2024 16:41:59 -0700
-Message-ID: <27cadd17-10a3-3b8c-2b29-6698ccdce531@quicinc.com>
-Date: Thu, 28 Mar 2024 16:41:57 -0700
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
+ [157.90.84.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB39910E0CF
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 23:52:56 +0000 (UTC)
+Received: from [192.168.42.20] (pd9e59192.dip0.t-ipconnect.de
+ [217.229.145.146]) (Authenticated sender: wse@tuxedocomputers.com)
+ by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 9BDED2FC0063;
+ Fri, 29 Mar 2024 00:52:53 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+ s=default; t=1711669974;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CnUkd3zrJtf+UF2vp0gAxRqEg8ifjskDZHUDufmdHgk=;
+ b=mFw2fCWeVfehQk4ttWYpWtS4t093YQnGON8cRSJKMYU1SHegar7vmFvRXLEmFNob8uj7AF
+ ONgGzJblTtA7Ag/xmexLvGsICjlBLQlOhxXQXVsT+andHusvtswBjlQb/MuK0iaSlI5EEt
+ bcvXr3iYB6IfFQecgVr2grpXUJiqDuM=
+Authentication-Results: mail.tuxedocomputers.com;
+ auth=pass smtp.auth=wse@tuxedocomputers.com
+ smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <1acb2206-ce77-411c-a4ff-7aa94fd56ad8@tuxedocomputers.com>
+Date: Fri, 29 Mar 2024 00:52:53 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v1] drm/msm/dp: use dp_hpd_plug_handle() and
- dp_hpd_unplug_handle() directly
+User-Agent: Mozilla Thunderbird
+Subject: Re: In kernel virtual HID devices (was Future handling of complex RGB
+ devices on Linux v3)
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>, Lee Jones <lee@kernel.org>,
+ jikos@kernel.org, linux-kernel@vger.kernel.org,
+ Jelle van der Waa <jelle@vdwaa.nl>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org,
+ Pavel Machek <pavel@ucw.cz>, Gregor Riepl <onitake@gmail.com>
+References: <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
+ <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
+ <1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com>
+ <aec1d22d-9e59-4dfc-b108-5ba339b0e76a@redhat.com>
+ <siebkhaauocqkuox73q2e5p2mbsyc7j4gvpzfvt4c3gvncdpap@oxh5pp4gxpuo>
+ <870cca8a-1a1b-4d17-874e-a26c30aca2bf@tuxedocomputers.com>
+ <fcf4dd53-f461-4c2e-8fbe-50b50e4e6797@redhat.com>
+ <65b24776-ae1a-4290-a1d5-c7637ad0accc@tuxedocomputers.com>
+ <vjd5xqgd2gsyz4ubgk6eusuyqdtxpdw6vogc5u537x2a245xcj@m2twppbxea4p>
+ <9b5151f9-4d1c-401e-abb5-540097749b76@tuxedocomputers.com>
+ <qsfdhmss6tyk6momjh65rwpqdoxhdi3l4takqy6u5c4iactcuf@gecjc364qmsn>
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Stephen Boyd <swboyd@chromium.org>, Bjorn Andersson <andersson@kernel.org>,
- Johan Hovold <johan@kernel.org>, Kuogee Hsieh
- <quic_khsieh@quicinc.com>, <abel.vesa@linaro.org>,
- <agross@kernel.org>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <dianders@chromium.org>, <dri-devel@lists.freedesktop.org>,
- <robdclark@gmail.com>, <sean@poorly.run>, <vkoul@kernel.org>,
- <quic_jesszhan@quicinc.com>, <quic_sbillaka@quicinc.com>,
- <marijn.suijten@somainline.org>, <freedreno@lists.freedesktop.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1711656246-3483-1-git-send-email-quic_khsieh@quicinc.com>
- <1711656246-3483-2-git-send-email-quic_khsieh@quicinc.com>
- <55debb0a-c7af-ef71-c49a-414c7ab4f59d@quicinc.com>
- <CAE-0n503FwcwreZ14MMKgdzu8QybWYtMdLOKasiCwmE8pCJOSw@mail.gmail.com>
- <23de89e9-3ef3-c52d-7abf-93dc2dbb51a4@quicinc.com>
- <CAA8EJppEWXnsQzDD1tdNuMb1ijEVtE7LQct9jt1fwVwMd8ch_Q@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJppEWXnsQzDD1tdNuMb1ijEVtE7LQct9jt1fwVwMd8ch_Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: JhyyTv2RyiL88vdIZHPTeOstcC7Jsia1
-X-Proofpoint-GUID: JhyyTv2RyiL88vdIZHPTeOstcC7Jsia1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-28_18,2024-03-28_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0
- mlxscore=0 spamscore=0 mlxlogscore=999 lowpriorityscore=0 malwarescore=0
- clxscore=1015 impostorscore=0 phishscore=0 priorityscore=1501 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2403210001
- definitions=main-2403280172
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <qsfdhmss6tyk6momjh65rwpqdoxhdi3l4takqy6u5c4iactcuf@gecjc364qmsn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,77 +78,214 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Benjamin,
 
-
-On 3/28/2024 3:50 PM, Dmitry Baryshkov wrote:
-> On Thu, 28 Mar 2024 at 23:21, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+Am 27.03.24 um 12:03 schrieb Benjamin Tissoires:
+> On Mar 26 2024, Werner Sembach wrote:
+>> Hi all,
 >>
->>
->>
->> On 3/28/2024 1:58 PM, Stephen Boyd wrote:
->>> Quoting Abhinav Kumar (2024-03-28 13:24:34)
->>>> + Johan and Bjorn for FYI
+>> Am 26.03.24 um 16:39 schrieb Benjamin Tissoires:
+>>> On Mar 26 2024, Werner Sembach wrote:
+>>>> Hi all,
 >>>>
->>>> On 3/28/2024 1:04 PM, Kuogee Hsieh wrote:
->>>>> For internal HPD case, hpd_event_thread is created to handle HPD
->>>>> interrupts generated by HPD block of DP controller. It converts
->>>>> HPD interrupts into events and executed them under hpd_event_thread
->>>>> context. For external HPD case, HPD events is delivered by way of
->>>>> dp_bridge_hpd_notify() under thread context. Since they are executed
->>>>> under thread context already, there is no reason to hand over those
->>>>> events to hpd_event_thread. Hence dp_hpd_plug_handle() and
->>>>> dp_hpd_unplug_hanlde() are called directly at dp_bridge_hpd_notify().
->>>>>
->>>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->>>>> ---
->>>>>     drivers/gpu/drm/msm/dp/dp_display.c | 5 +++--
->>>>>     1 file changed, 3 insertions(+), 2 deletions(-)
->>>>>
+>>>> Am 25.03.24 um 19:30 schrieb Hans de Goede:
 >>>>
->>>> Fixes: 542b37efc20e ("drm/msm/dp: Implement hpd_notify()")
+>>>> [snip]
+>>>>>>> If the kernel already handles the custom protocol into generic HID, the
+>>>>>>> work for userspace is not too hard because they can deal with a known
+>>>>>>> protocol and can be cross-platform in their implementation.
+>>>>>>>
+>>>>>>> I'm mentioning that cross-platform because SDL used to rely on the
+>>>>>>> input, LEDs, and other Linux peculiarities and eventually fell back on
+>>>>>>> using hidraw only because it's way more easier that way.
+>>>>>>>
+>>>>>>> The other advantage of LampArray is that according to Microsoft's
+>>>>>>> document, new devices are going to support it out of the box, so they'll
+>>>>>>> be supported out of the box directly.
+>>>>>>>
+>>>>>>> Most of the time my stance is "do not add new kernel API, you'll regret
+>>>>>>> it later". So in that case, given that we have a formally approved
+>>>>>>> standard, I would suggest to use it, and consider it your API.
+>>>>>> The only new UAPI would be the use_leds_uapi switch to turn on/off the backwards compatibility.
+>>> I have my reserves with such a kill switch (see below).
 >>>
->>> Is this a bug fix or an optimization? The commit text doesn't tell me.
+>>>>> Actually we don't even need that. Typically there is a single HID
+>>>>> driver handling both keys and the backlight, so userspace cannot
+>>>>> just unbind the HID driver since then the keys stop working.
+>>> I don't think Werner meant unbinding the HID driver, just a toggle to
+>>> enable/disable the basic HID core processing of LampArray.
 >>>
->>
->> I would say both.
->>
->> optimization as it avoids the need to go through the hpd_event thread
->> processing.
->>
->> bug fix because once you go through the hpd event thread processing it
->> exposes and often breaks the already fragile hpd handling state machine
->> which can be avoided in this case.
-> 
-> Please add a description for the particular issue that was observed
-> and how it is fixed by the patch.
-> 
-> Otherwise consider there to be an implicit NAK for all HPD-related
-> patches unless it is a series that moves link training to the enable
-> path and drops the HPD state machine completely.
-> 
-> I really mean it. We should stop beating a dead horse unless there is
-> a grave bug that must be fixed.
-> 
-
-I think the commit message is explaining the issue well enough.
-
-This was not fixing any issue we saw to explain you the exact scenario 
-of things which happened but this is just from code walkthrough.
-
-Like kuogee wrote, hpd event thread was there so handle events coming 
-out of the hpd_isr for internal hpd cases. For the hpd_notify coming 
-from pmic_glink or any other extnernal hpd cases, there is no need to 
-put this through the hpd event thread because this will only make things 
-worse of exposing the race conditions of the state machine.
-
-Moving link training to enable and removal of hpd event thread will be 
-worked on but delaying obvious things we can fix does not make sense.
-
->>
+>>>>> But with a virtual LampArray HID device the only functionality
+>>>>> for an in kernel HID driver would be to export a basic keyboard
+>>>>> backlight control interface for simple non per key backlight control
+>>>>> to integrate nicely with e.g. GNOME's backlight control.
+>>>> Don't forget that in the future there will be devices that natively support
+>>>> LampArray in their firmware, so for them it is the same device.
+>>> Yeah, the generic LampArray support will not be able to differentiate
+>>> "emulated" devices from native ones.
+>>>
+>>>> Regards,
 >>>>
->>>> Looks right to me,
+>>>> Werner
 >>>>
->>>> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> 
-> 
-> 
+>>>>> And then when OpenRGB wants to take over it can just unbind the HID
+>>>>> driver from the HID device using existing mechanisms for that.
+>>> Again no, it'll be too unpredicted.
+>>>
+>>>>> Hmm, I wonder if that will not also kill hidraw support though ...
+>>>>> I guess getting hidraw support back might require then also manually
+>>>>> binding the default HID input driver.  Bentiss any input on this?
+>>> To be able to talk over hidraw you need a driver to be bound, yes. But I
+>>> had the impression that LampArray would be supported by default in
+>>> hid-input.c, thus making this hard to remove. Having a separate driver
+>>> will work, but as soon as the LampArray device will also export a
+>>> multitouch touchpad, we are screwed and will have to make a choice
+>>> between LampArray and touch...
+>>>
+>>>>> Background info: as discussed earlier in the thread Werner would like
+>>>>> to have a basic driver registering a /sys/class/leds/foo::kbd_backlight/
+>>>>> device, since those are automatically supported by GNOME (and others)
+>>>>> and will give basic kbd backlight brightness control in the desktop
+>>>>> environment. This could be a simple HID driver for
+>>>>> the hid_allocate_device()-ed virtual HID device, but userspace needs
+>>>>> to be able to move that out of the way when it wants to take over
+>>>>> full control of the per key lighting.
+>>> Do we really need to entirely unregister the led class device? Can't we
+>>> snoop on the commands and get some "mean value"?
+>>>
+>>>>> Regards,
+>>>>>
+>>>>> Hans
+>>>>>
+>>>>>
+>>>>>
+>>>>>
+>>>>>
+>>>>>
+>>>>>
+>>>>>> The control flow for the whole system would look something like this:
+>>>>>>
+>>>>>> - System boots
+>>>>>>
+>>>>>>        - Kernel driver initializes keyboard (maybe stops rainbowpuke boot effects, sets brightness to a default value, or initializes a solid color)
+>>>>>>
+>>>>>>        - systemd-backlight restores last keyboard backlight brightness
+>>>>>>
+>>>>>>        - UPower sees sysfs leds entry and exposes it to DBus for DEs to do keyboard brightness handling
+>>>>>>
+>>>>>> - If the user wants more control they (auto-)start OpenRGB
+>>>>>>
+>>>>>>        - OpenRGB disables sysfs leds entry via use_leds_uapi to prevent double control of the same device by UPower
+>>>>>>
+>>>>>>        - OpenRGB directly interacts with hidraw device via LampArray API to give fine granular control of the backlight
+>>>>>>
+>>>>>>        - When OpenRGB closes it should reenable the sysfs leds entry
+>>> That's where your plan falls short: if OpenRGB crashes, or is killed it
+>>> will not reset that bit.
+>>>
+>>> Next question: is OpenRGB supposed to keep the hidraw node opened all
+>>> the time or not?
+>> TBH I didn't look at the OpenRGB code yet and LampArray there is currently
+>> only planned. I somewhat hope that until the kernel driver is ready someone
+>> else already picked up implementing LampArray in OpenRGB.
+>>> If it has to keep it open, we should be able to come up with a somewhat
+>>> similar hack that we have with hid-steam: when the hidraw node is
+>>> opened, we disable the kernel processing of LampArray. When the node is
+>>> closed, we re-enable it.
+>>>
+>>> But that also means we have to distinguish steam/SDL from OpenRGB...
+>> My first thought here also: What is if something else is reading hidraw devices?
+>>
+>> Especially for hidraw devices that are not just LampArray.
+>>
+>>> I just carefully read the LampArray spec. And it's simpler than what
+>>> I expected. But the thing that caught my attention was that it's
+>>> mentioned that there is no way for the host to query the current
+>>> color/illumination of the LEDs when the mode is set to
+>>> AutonomousMode=false. Which means that the kernel should be able to
+>>> snoop into any commands sent from OpenRGB to the device, compute a mean
+>>> value and update its internal state.
+>>>
+>>> Basically all we need is the "toggle" to put the led class in read-only
+>>> mode while OpenRGB kicks in. Maybe given that we are about to snoop on
+>>> the commands sent, we can detect that there is a LampArray command
+>>> emitted, attach this information to the struct file * in hidraw, and
+>>> then re-enable rw when that user closes the hidraw node.
+>> I think a read-only mode is not part of the current led class UAPI. Also I
+>> don't want to associate AutonomousMode=true with led class is used.
+>> AutonomousMode=true could for example mean that it is controlled via
+>> keyboard shortcuts that are directly handled in the keyboard firmware, aka a
+>> case where you want neither OpenRGB nor led class make any writes to the
+>> keyboard.
+>>
+>> Or AutonomousMode=true could mean that on a device that implements both a
+>> LampArray interface as well as a proprietary legacy interface is currently
+>> controlled via the proprietary legacy interface (a lot of which are
+>> supported by OpenRGB).
+> Then how is the kernel supposed to handle LampArrays?
+>
+> If you need the kernel to use a ledclass, the kernel will have to set
+> the device into AutonomousMode=false. When the kernel is done
+> configuring the leds, it can not switch back to AutonomousMode=true or
+> its config will likely be dumped by the device.
+
+Yes, the kernel leds class driver will set AutonomousMode=false and keep it that 
+way.
+
+The userspace driver/OpenRGB will most likely do the same unless there is a 
+proprietary API active in AutonomousMode=true it wants to use.
+
+>
+> OpenRGB can open the device, switch it to AutonomousMode=false and we
+> can rely on it to do the right things as long as it is alive. But I do
+> not see how the kernel could do the same.
+
+AutonomousMode=false ^= LampArray API is used, AutonomousMode=true something 
+else (if I read the HID docs correctly).
+
+Both the kernel leds class driver as well as OpenRGB probably will interact with 
+these devices via the LampArray API => AutonomousMode=false.
+
+The kernel leds class driver is the fallback as long as userspace don't want to 
+control the lighting. Userspace should get priority over kernel space here. So 
+only kernel needs to know if userspace is controlling the device, not the other 
+way around. So from this perspective checking in kernel if the fd is in use 
+could be used, but what about userspace programs that open the hidraw device for 
+not controlling the leds?
+
+So imho userspace needs some way to explicitly signal it's intentions, e.g. via 
+a sysfs attribute.
+
+Best regards,
+
+Werner
+
+>
+> FWIW, I also have a couple of crazy ideas currently boiling in my head
+> to "solve" that but I'd rather have a consensus on the high level side
+> of things before we go too deep into the technical workaround.
+>
+> Cheers,
+> Benjamin
+>
+>> Regards,
+>>
+>> Werner
+>>
+>>> Cheers,
+>>> Benjamin
+>>>
+>>>>>> - System shutdown
+>>>>>>
+>>>>>>        - Since OpenRGB reenables the sysfs leds entry, systemd-backlight can correctly store a brightness value for next boot
+>>>>>>
+>>>>>> Regards,
+>>>>>>
+>>>>>> Werner
+>>>>>>
+>>>>>>> Side note to self: I really need to resurrect the hidraw revoke series
+>>>>>>> so we could export those hidraw node to userspace with uaccess through
+>>>>>>> logind...
+>>>>>>>
+>>>>>>> Cheers,
+>>>>>>> Benjamin
