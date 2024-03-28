@@ -2,55 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B45588F7CF
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 07:23:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1936288F877
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 08:19:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45CCD10F865;
-	Thu, 28 Mar 2024 06:23:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 223FA10F5C9;
+	Thu, 28 Mar 2024 07:18:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UaMOCYL2";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jA0ClUfB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A042710F28D
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 06:23:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B13C860AFF;
- Thu, 28 Mar 2024 06:23:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48FCCC433C7;
- Thu, 28 Mar 2024 06:23:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711607012;
- bh=XxzwleAMl7kfTQ9nHbAuAtK+mGXYz1Wmw7p/PQbLjFk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UaMOCYL2JBDXma+19hgTY26MKMIj3SGutMo27LVkiQTdoRJZCdyPZe9k2FfGyrbXB
- JjuRTcQIbA70r4j5bNrEHLf2awD4kLSn0hA6tKtMZSmcCsgDdUS/LUom+HDg36W3mA
- qGKOgcsv9S65vTROxRDbsGAo3z/AK9UxKHNkQibOremkn+PMOOVuiW2v7jddpMs8jZ
- YL4cB65gz2SJ3/SfoAd6+OolbK4oXpDnVGmCIUrztpkbAX/HaNFncaa05m8/IRXEwL
- nhtTGTgNj5wxbRBcjrfJM5B3yNhWDui6NEl+WMYVBrthGsYsX+GNQgEeMLGN4dvBg3
- Ire/MFkuR/2wA==
-Date: Thu, 28 Mar 2024 11:53:16 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: Jonathan Cameron <jic23@kernel.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Jonathan Corbet <corbet@lwn.net>, Lars-Peter Clausen <lars@metafoo.de>,
- Sumit Semwal <sumit.semwal@linaro.org>, Nuno Sa <nuno.sa@analog.com>,
- Michael Hennerich <michael.hennerich@analog.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v9 1/6] dmaengine: Add API function
- dmaengine_prep_peripheral_dma_vec()
-Message-ID: <ZgUM1LFEWs3lwoAU@matsya>
-References: <20240310124836.31863-1-paul@crapouillou.net>
- <20240310124836.31863-2-paul@crapouillou.net>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A89BA10E8EC;
+ Thu, 28 Mar 2024 07:18:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1711610333; x=1743146333;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=X2LOfbdANTy/cQynHPcPFwpolUJuL64cjLqo9JNp+4I=;
+ b=jA0ClUfB65NDr54gBJa7H1XwPQxqhuAu/RT4KhGEiwYOVx5ya26PguFG
+ ULrs6Ci0Od2CP6nvcPmELRrZQC4FIlCU40iiapDBFHwKf8fHz5xWaZJTL
+ 3Do6oOlhOoE2F0NUW9WQ5N0ll1A4rsN1xA5BhPtgdU9hOombsh/SgnmrF
+ iCUJHcBsA1BwV7ecBWUqDrKNjD34aJnQU7OeCDM5SQ1EWqea47fFjr5DH
+ h7IvwbmAMbwH4MddtFFgQIpLOcgBSKrO8F6VZ3eRP0eLZartXk8VIBYOa
+ E/MKcRjekjBlenuE/9hGUjrpqF8y6DFdaD+s7sXMYUTeeQNOffZL2uaSz w==;
+X-CSE-ConnectionGUID: odn5HFHcRwusjlzUTGaipQ==
+X-CSE-MsgGUID: R9+BGqVjQqub7esFfKfIhg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="6609817"
+X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; 
+   d="scan'208";a="6609817"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2024 00:18:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; d="scan'208";a="39680377"
+Received: from unknown (HELO intel.com) ([10.247.118.221])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2024 00:18:48 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>
+Subject: [PATCH] drm/i915/gem: Replace dev_priv with i915
+Date: Thu, 28 Mar 2024 08:18:33 +0100
+Message-ID: <20240328071833.664001-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240310124836.31863-2-paul@crapouillou.net>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,104 +69,240 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10-03-24, 13:48, Paul Cercueil wrote:
-> This function can be used to initiate a scatter-gather DMA transfer,
-> where the address and size of each segment is located in one entry of
-> the dma_vec array.
-> 
-> The major difference with dmaengine_prep_slave_sg() is that it supports
-> specifying the lengths of each DMA transfer; as trying to override the
-> length of the transfer with dmaengine_prep_slave_sg() is a very tedious
-> process. The introduction of a new API function is also justified by the
-> fact that scatterlists are on their way out.
-> 
-> Note that dmaengine_prep_interleaved_dma() is not helpful either in that
-> case, as it assumes that the address of each segment will be higher than
-> the one of the previous segment, which we just cannot guarantee in case
-> of a scatter-gather transfer.
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
-> 
-> ---
-> v3: New patch
-> 
-> v5: Replace with function dmaengine_prep_slave_dma_vec(), and struct
->     'dma_vec'.
->     Note that at some point we will need to support cyclic transfers
->     using dmaengine_prep_slave_dma_vec(). Maybe with a new "flags"
->     parameter to the function?
-> 
-> v7:
->   - Renamed *device_prep_slave_dma_vec() -> device_prep_peripheral_dma_vec();
->   - Added a new flag parameter to the function as agreed between Paul
->     and Vinod. I renamed the first parameter to prep_flags as it's supposed to
->     be used (I think) with enum dma_ctrl_flags. I'm not really sure how that API
->     can grow but I was thinking in just having a bool cyclic parameter (as the
->     first intention of the flags is to support cyclic transfers) but ended up
->     "respecting" the previously agreed approach.
-> ---
->  include/linux/dmaengine.h | 27 +++++++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
-> 
-> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
-> index 752dbde4cec1..856df8cd9a4e 100644
-> --- a/include/linux/dmaengine.h
-> +++ b/include/linux/dmaengine.h
-> @@ -160,6 +160,16 @@ struct dma_interleaved_template {
->  	struct data_chunk sgl[];
->  };
->  
-> +/**
-> + * struct dma_vec - DMA vector
-> + * @addr: Bus address of the start of the vector
-> + * @len: Length in bytes of the DMA vector
-> + */
-> +struct dma_vec {
-> +	dma_addr_t addr;
-> +	size_t len;
-> +};
-> +
->  /**
->   * enum dma_ctrl_flags - DMA flags to augment operation preparation,
->   *  control completion, and communicate status.
-> @@ -910,6 +920,10 @@ struct dma_device {
->  	struct dma_async_tx_descriptor *(*device_prep_dma_interrupt)(
->  		struct dma_chan *chan, unsigned long flags);
->  
-> +	struct dma_async_tx_descriptor *(*device_prep_peripheral_dma_vec)(
-> +		struct dma_chan *chan, const struct dma_vec *vecs,
-> +		size_t nents, enum dma_transfer_direction direction,
-> +		unsigned long prep_flags, unsigned long flags);
->  	struct dma_async_tx_descriptor *(*device_prep_slave_sg)(
->  		struct dma_chan *chan, struct scatterlist *sgl,
->  		unsigned int sg_len, enum dma_transfer_direction direction,
-> @@ -973,6 +987,19 @@ static inline struct dma_async_tx_descriptor *dmaengine_prep_slave_single(
->  						  dir, flags, NULL);
->  }
->  
-> +static inline struct dma_async_tx_descriptor *dmaengine_prep_peripheral_dma_vec(
-> +	struct dma_chan *chan, const struct dma_vec *vecs, size_t nents,
-> +	enum dma_transfer_direction dir, unsigned long prep_flags,
-> +	unsigned long flags)
-> +{
-> +	if (!chan || !chan->device || !chan->device->device_prep_peripheral_dma_vec)
-> +		return NULL;
-> +
-> +	return chan->device->device_prep_peripheral_dma_vec(chan, vecs, nents,
-> +							    dir, prep_flags,
-> +							    flags);
-> +}
+Anyone using 'dev_priv' instead of 'i915' in a cleaned-up area
+should be fined and required to do community service for a few
+days.
 
-API looks good to me, thanks
-Few nits though:
-- Can we add kernel-doc for this new API please
-- Also update the documentation adding this new api
-- Lastly, we seem to have two flags, I know you have added a comment but
-  I dont seem to recall the discussion (looked at old threads for clue
-  as well), can you please remind me why we need both? And in your case,
-  what is the intended usage of these flags, i would prefer single
-  clean one...
+I thought I had cleaned up the 'gem/' directory in the past, but
+still, old aficionados of the 'dev_priv' name keep sneaking it
+in.
 
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c |  4 ++--
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c      |  6 +++---
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.h     |  8 ++++----
+ drivers/gpu/drm/i915/gem/i915_gem_tiling.c     | 18 +++++++++---------
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c    |  6 +++---
+ .../gpu/drm/i915/gem/selftests/huge_pages.c    | 14 +++++++-------
+ 6 files changed, 28 insertions(+), 28 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index 3f20fe381199..42619fc05de4 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -2456,7 +2456,7 @@ static int eb_submit(struct i915_execbuffer *eb)
+  * The engine index is returned.
+  */
+ static unsigned int
+-gen8_dispatch_bsd_engine(struct drm_i915_private *dev_priv,
++gen8_dispatch_bsd_engine(struct drm_i915_private *i915,
+ 			 struct drm_file *file)
+ {
+ 	struct drm_i915_file_private *file_priv = file->driver_priv;
+@@ -2464,7 +2464,7 @@ gen8_dispatch_bsd_engine(struct drm_i915_private *dev_priv,
+ 	/* Check whether the file_priv has already selected one ring. */
+ 	if ((int)file_priv->bsd_engine < 0)
+ 		file_priv->bsd_engine =
+-			get_random_u32_below(dev_priv->engine_uabi_class_count[I915_ENGINE_CLASS_VIDEO]);
++			get_random_u32_below(i915->engine_uabi_class_count[I915_ENGINE_CLASS_VIDEO]);
+ 
+ 	return file_priv->bsd_engine;
+ }
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+index 38b72d86560f..c5e1c718a6d2 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+@@ -654,7 +654,7 @@ i915_gem_object_create_shmem(struct drm_i915_private *i915,
+ 
+ /* Allocate a new GEM object and fill it with the supplied data */
+ struct drm_i915_gem_object *
+-i915_gem_object_create_shmem_from_data(struct drm_i915_private *dev_priv,
++i915_gem_object_create_shmem_from_data(struct drm_i915_private *i915,
+ 				       const void *data, resource_size_t size)
+ {
+ 	struct drm_i915_gem_object *obj;
+@@ -663,8 +663,8 @@ i915_gem_object_create_shmem_from_data(struct drm_i915_private *dev_priv,
+ 	resource_size_t offset;
+ 	int err;
+ 
+-	GEM_WARN_ON(IS_DGFX(dev_priv));
+-	obj = i915_gem_object_create_shmem(dev_priv, round_up(size, PAGE_SIZE));
++	GEM_WARN_ON(IS_DGFX(i915));
++	obj = i915_gem_object_create_shmem(i915, round_up(size, PAGE_SIZE));
+ 	if (IS_ERR(obj))
+ 		return obj;
+ 
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.h b/drivers/gpu/drm/i915/gem/i915_gem_stolen.h
+index 258381d1c054..dfe0db8bb1b9 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.h
+@@ -14,14 +14,14 @@ struct drm_i915_gem_object;
+ 
+ #define i915_stolen_fb drm_mm_node
+ 
+-int i915_gem_stolen_insert_node(struct drm_i915_private *dev_priv,
++int i915_gem_stolen_insert_node(struct drm_i915_private *i915,
+ 				struct drm_mm_node *node, u64 size,
+ 				unsigned alignment);
+-int i915_gem_stolen_insert_node_in_range(struct drm_i915_private *dev_priv,
++int i915_gem_stolen_insert_node_in_range(struct drm_i915_private *i915,
+ 					 struct drm_mm_node *node, u64 size,
+ 					 unsigned alignment, u64 start,
+ 					 u64 end);
+-void i915_gem_stolen_remove_node(struct drm_i915_private *dev_priv,
++void i915_gem_stolen_remove_node(struct drm_i915_private *i915,
+ 				 struct drm_mm_node *node);
+ struct intel_memory_region *
+ i915_gem_stolen_smem_setup(struct drm_i915_private *i915, u16 type,
+@@ -31,7 +31,7 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
+ 			   u16 instance);
+ 
+ struct drm_i915_gem_object *
+-i915_gem_object_create_stolen(struct drm_i915_private *dev_priv,
++i915_gem_object_create_stolen(struct drm_i915_private *i915,
+ 			      resource_size_t size);
+ 
+ bool i915_gem_object_is_stolen(const struct drm_i915_gem_object *obj);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_tiling.c b/drivers/gpu/drm/i915/gem/i915_gem_tiling.c
+index a049ca0b7980..d9eb84c1d2f1 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_tiling.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_tiling.c
+@@ -343,12 +343,12 @@ int
+ i915_gem_set_tiling_ioctl(struct drm_device *dev, void *data,
+ 			  struct drm_file *file)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(dev);
++	struct drm_i915_private *i915 = to_i915(dev);
+ 	struct drm_i915_gem_set_tiling *args = data;
+ 	struct drm_i915_gem_object *obj;
+ 	int err;
+ 
+-	if (!to_gt(dev_priv)->ggtt->num_fences)
++	if (!to_gt(i915)->ggtt->num_fences)
+ 		return -EOPNOTSUPP;
+ 
+ 	obj = i915_gem_object_lookup(file, args->handle);
+@@ -374,9 +374,9 @@ i915_gem_set_tiling_ioctl(struct drm_device *dev, void *data,
+ 		args->stride = 0;
+ 	} else {
+ 		if (args->tiling_mode == I915_TILING_X)
+-			args->swizzle_mode = to_gt(dev_priv)->ggtt->bit_6_swizzle_x;
++			args->swizzle_mode = to_gt(i915)->ggtt->bit_6_swizzle_x;
+ 		else
+-			args->swizzle_mode = to_gt(dev_priv)->ggtt->bit_6_swizzle_y;
++			args->swizzle_mode = to_gt(i915)->ggtt->bit_6_swizzle_y;
+ 
+ 		/* Hide bit 17 swizzling from the user.  This prevents old Mesa
+ 		 * from aborting the application on sw fallbacks to bit 17,
+@@ -427,11 +427,11 @@ i915_gem_get_tiling_ioctl(struct drm_device *dev, void *data,
+ 			  struct drm_file *file)
+ {
+ 	struct drm_i915_gem_get_tiling *args = data;
+-	struct drm_i915_private *dev_priv = to_i915(dev);
++	struct drm_i915_private *i915 = to_i915(dev);
+ 	struct drm_i915_gem_object *obj;
+ 	int err = -ENOENT;
+ 
+-	if (!to_gt(dev_priv)->ggtt->num_fences)
++	if (!to_gt(i915)->ggtt->num_fences)
+ 		return -EOPNOTSUPP;
+ 
+ 	rcu_read_lock();
+@@ -447,10 +447,10 @@ i915_gem_get_tiling_ioctl(struct drm_device *dev, void *data,
+ 
+ 	switch (args->tiling_mode) {
+ 	case I915_TILING_X:
+-		args->swizzle_mode = to_gt(dev_priv)->ggtt->bit_6_swizzle_x;
++		args->swizzle_mode = to_gt(i915)->ggtt->bit_6_swizzle_x;
+ 		break;
+ 	case I915_TILING_Y:
+-		args->swizzle_mode = to_gt(dev_priv)->ggtt->bit_6_swizzle_y;
++		args->swizzle_mode = to_gt(i915)->ggtt->bit_6_swizzle_y;
+ 		break;
+ 	default:
+ 	case I915_TILING_NONE:
+@@ -459,7 +459,7 @@ i915_gem_get_tiling_ioctl(struct drm_device *dev, void *data,
+ 	}
+ 
+ 	/* Hide bit 17 from the user -- see comment in i915_gem_set_tiling */
+-	if (dev_priv->gem_quirks & GEM_QUIRK_PIN_SWIZZLED_PAGES)
++	if (i915->gem_quirks & GEM_QUIRK_PIN_SWIZZLED_PAGES)
+ 		args->phys_swizzle_mode = I915_BIT_6_SWIZZLE_UNKNOWN;
+ 	else
+ 		args->phys_swizzle_mode = args->swizzle_mode;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+index 61abfb505766..09b68713ab32 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+@@ -463,13 +463,13 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
+ 		       struct drm_file *file)
+ {
+ 	static struct lock_class_key __maybe_unused lock_class;
+-	struct drm_i915_private *dev_priv = to_i915(dev);
++	struct drm_i915_private *i915 = to_i915(dev);
+ 	struct drm_i915_gem_userptr *args = data;
+ 	struct drm_i915_gem_object __maybe_unused *obj;
+ 	int __maybe_unused ret;
+ 	u32 __maybe_unused handle;
+ 
+-	if (!HAS_LLC(dev_priv) && !HAS_SNOOP(dev_priv)) {
++	if (!HAS_LLC(i915) && !HAS_SNOOP(i915)) {
+ 		/* We cannot support coherent userptr objects on hw without
+ 		 * LLC and broken snooping.
+ 		 */
+@@ -501,7 +501,7 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
+ 		 * On almost all of the older hw, we cannot tell the GPU that
+ 		 * a page is readonly.
+ 		 */
+-		if (!to_gt(dev_priv)->vm->has_read_only)
++		if (!to_gt(i915)->vm->has_read_only)
+ 			return -ENODEV;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+index edb54903be0a..84d41e6ccf05 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
++++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+@@ -1969,19 +1969,19 @@ int i915_gem_huge_page_mock_selftests(void)
+ 		SUBTEST(igt_mock_memory_region_huge_pages),
+ 		SUBTEST(igt_mock_ppgtt_misaligned_dma),
+ 	};
+-	struct drm_i915_private *dev_priv;
++	struct drm_i915_private *i915;
+ 	struct i915_ppgtt *ppgtt;
+ 	int err;
+ 
+-	dev_priv = mock_gem_device();
+-	if (!dev_priv)
++	i915 = mock_gem_device();
++	if (!i915)
+ 		return -ENOMEM;
+ 
+ 	/* Pretend to be a device which supports the 48b PPGTT */
+-	RUNTIME_INFO(dev_priv)->ppgtt_type = INTEL_PPGTT_FULL;
+-	RUNTIME_INFO(dev_priv)->ppgtt_size = 48;
++	RUNTIME_INFO(i915)->ppgtt_type = INTEL_PPGTT_FULL;
++	RUNTIME_INFO(i915)->ppgtt_size = 48;
+ 
+-	ppgtt = i915_ppgtt_create(to_gt(dev_priv), 0);
++	ppgtt = i915_ppgtt_create(to_gt(i915), 0);
+ 	if (IS_ERR(ppgtt)) {
+ 		err = PTR_ERR(ppgtt);
+ 		goto out_unlock;
+@@ -2005,7 +2005,7 @@ int i915_gem_huge_page_mock_selftests(void)
+ out_put:
+ 	i915_vm_put(&ppgtt->vm);
+ out_unlock:
+-	mock_destroy_device(dev_priv);
++	mock_destroy_device(i915);
+ 	return err;
+ }
+ 
 -- 
-~Vinod
+2.43.0
+
