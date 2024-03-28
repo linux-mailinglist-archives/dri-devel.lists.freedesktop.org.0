@@ -2,79 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 013608902C1
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 16:12:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC66C8902D4
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 16:17:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79405112495;
-	Thu, 28 Mar 2024 15:12:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF0A011248D;
+	Thu, 28 Mar 2024 15:17:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Jz5kpA9F";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="a5Q0K7+N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
- [209.85.219.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB37F112493
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 15:12:00 +0000 (UTC)
-Received: by mail-yb1-f181.google.com with SMTP id
- 3f1490d57ef6-dc236729a2bso1039495276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 08:12:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711638720; x=1712243520; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=K1dRERqIwvawP6yvst+7RzsJv2Gfa3ZP4TWtYVKk144=;
- b=Jz5kpA9FRrkKjklfpwSRUxDVWECYHF9GCFpyoZkPM4tGBoOx49KrPQjS304wPUt9Zp
- 4QSNLwgETOWYAVRtOluKQN7v/6l5UeI39l4VOE+yDjFa2QSUY4CjVHMpj0SHGkQPZYSG
- 9rvjE3Skx37MqGaXudmYGDtf4iMuUkd8bYO3456kk9rnqfBkRv9rrbzI5fV0UcQO9HVv
- KEENt26AgdctUZD89huzMcg6vr3cElXGfFRZNgzCmq/5nCxm5Che64Fncda9ria6Mhtf
- aIBB3a8H1FHL0CsEkfcRIysU9Sk0g/Ym6UIeCC7SXYCKNWFYmN7E3CA5pcS6+y9MLlcD
- e9zA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711638720; x=1712243520;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=K1dRERqIwvawP6yvst+7RzsJv2Gfa3ZP4TWtYVKk144=;
- b=XpgcEFNlnwZOaeA+fx4tFDSrNXhTnk6XyeFOsFhGXSbFVXdYy9ln47ImbOydVL33nW
- f7NaO6F/7AVIEjeiDCby6Eo9YQ8k+t52G8/ZVASHrb6hummsexqm1NK4ytdRW46joohn
- SQKtV/zPYXO9Cdpkl/AnwfOE/GLhO9ZzC5Oa0s9Ki4tBQTjgZ+vRm87XaxGqsIcBvxDh
- Gy2zCnMCz5y7Q/DknF0whpt0/2NihgcI4UiGcBzk89bZYKZPZGUb3EPEUrxheQ57DqmL
- gST8ALfQEM7B3waJkgh2yctf96ZJOzbWRFhl71xLs/T2d0Feor80aQQLco7IYKEGaDCl
- d+DA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUiCjBjQ6zYw7M68VN66PbfPKpZvYZRL/YHL7vSgT9/+03tt8WdS/loU1fu0yHMPlSyieAnaywbZGUiWfnQTF0Vj5tJb1S6FRSxy6gKgDNF
-X-Gm-Message-State: AOJu0YwYk+tP08Z2KHCz1LA3VPMjIcz4aZfqFwkMgGnVHDXzzsrEJEQz
- E5TbTzR2t4evWNH5//4gynHyHeloQYLz3Y533s4TgIJGoKPEL+q6HCG/2BmuW+39NdESs/xeNsp
- KmvcxJPun6jkhETWDIFcInsl9Zj2Qybw1/rjHTQ==
-X-Google-Smtp-Source: AGHT+IGrkzP9Sxso9Vjo20YSLlSXYjup2Hg+RTtCFuuy76qY0UhZk+SCGzz1Uxer7GzjgHrcr7xJIaioiBDkEDXa2kE=
-X-Received: by 2002:a25:db85:0:b0:dd1:7128:617b with SMTP id
- g127-20020a25db85000000b00dd17128617bmr3216871ybf.38.1711638719977; Thu, 28
- Mar 2024 08:11:59 -0700 (PDT)
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF68011248D;
+ Thu, 28 Mar 2024 15:17:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1711639020;
+ bh=ev5Hj4kowoGeYRtU8OOEaZGkDO3TmD/BhMPV2cKhGRY=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=a5Q0K7+NKN/FtkW1jhlg4mmKBDgzGHyvIdLnGMXbqASDHtQV5XYHKHNI29FmkwPGs
+ KeXZBDXPe3BJBa9C/V5MuMgX5lIX1BTXFgIkh/cHPX4Q4RfLws8YFc2mLbe9Psn2AM
+ 6NQc1+5XLNdz7q5YFOFCVyRVaCa5hT1CW0/Uzt9RpWtp3tRH+Ky8u7N5SDEemZm87W
+ fifGhXzJ2hvbRv82p05p38XDgFVGd1IBeeWdIIkE6ZHaV/348hTf22M4kEjGrQV6SU
+ 2o7vnXuIzT7GPraqgLZPnahhODQziqXVvqX3r7//OtzXAd8nKhch6IB7bX23Uq1JEx
+ 2yiFs4P1L4AWg==
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id C4468378211C;
+ Thu, 28 Mar 2024 15:16:59 +0000 (UTC)
+Date: Thu, 28 Mar 2024 17:16:58 +0200
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: <sunpeng.li@amd.com>
+Cc: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ Joshua Ashton <joshua@froggi.es>, Michel =?UTF-8?B?RMOkbnplcg==?=
+ <mdaenzer@redhat.com>, Chao Guo <chao.guo@nxp.com>, Xaver Hugl
+ <xaver.hugl@gmail.com>, Vikas Korjani <Vikas.Korjani@amd.com>, Robert Mader
+ <robert.mader@posteo.de>, "Sean Paul" <sean@poorly.run>, Simon Ser
+ <contact@emersion.fr>, Shashank Sharma <shashank.sharma@amd.com>, Harry
+ Wentland <harry.wentland@amd.com>, "Sebastian Wick"
+ <sebastian.wick@redhat.com>
+Subject: Re: [PATCH 1/2] drm/amd/display: Introduce overlay cursor mode
+Message-ID: <20240328171658.25b1ffaf.pekka.paalanen@collabora.com>
+In-Reply-To: <20240315170959.165505-2-sunpeng.li@amd.com>
+References: <20240315170959.165505-1-sunpeng.li@amd.com>
+ <20240315170959.165505-2-sunpeng.li@amd.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20240328-sm6350-dp-v1-0-215ca2b81c35@fairphone.com>
- <20240328-sm6350-dp-v1-3-215ca2b81c35@fairphone.com>
-In-Reply-To: <20240328-sm6350-dp-v1-3-215ca2b81c35@fairphone.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 28 Mar 2024 17:11:49 +0200
-Message-ID: <CAA8EJpp1XEh1CR8898HnStWizcgByREGk-2ae_Yr2xTvcrEbag@mail.gmail.com>
-Subject: Re: [PATCH 3/3] arm64: dts: qcom: sm6350: Add DisplayPort controller
-To: Luca Weiss <luca.weiss@fairphone.com>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>, 
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, ~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/=DZ=rnPVIjFG3hhH3Oi+MHL";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,18 +68,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 28 Mar 2024 at 11:43, Luca Weiss <luca.weiss@fairphone.com> wrote:
->
-> Add the node for the DisplayPort controller found on the SM6350 SoC.
->
-> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+--Sig_/=DZ=rnPVIjFG3hhH3Oi+MHL
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, 15 Mar 2024 13:09:57 -0400
+<sunpeng.li@amd.com> wrote:
+
+> From: Leo Li <sunpeng.li@amd.com>
+>=20
+> [Why]
+>=20
+> DCN is the display hardware for amdgpu. DRM planes are backed by DCN
+> hardware pipes, which carry pixel data from one end (memory), to the
+> other (output encoder).
+>=20
+> Each DCN pipe has the ability to blend in a cursor early on in the
+> pipeline. In other words, there are no dedicated cursor planes in DCN,
+> which makes cursor behavior somewhat unintuitive for compositors.
+>=20
+> For example, if the cursor is in RGB format, but the top-most DRM plane
+> is in YUV format, DCN will not be able to blend them. Because of this,
+> amdgpu_dm rejects all configurations where a cursor needs to be enabled
+> on top of a YUV formatted plane.
+>=20
+> From a compositor's perspective, when computing an allocation for
+> hardware plane offloading, this cursor-on-yuv configuration result in an
+> atomic test failure. Since the failure reason is not obvious at all,
+> compositors will likely fall back to full rendering, which is not ideal.
+>=20
+> Instead, amdgpu_dm can try to accommodate the cursor-on-yuv
+> configuration by opportunistically reserving a separate DCN pipe just
+> for the cursor. We can refer to this as "overlay cursor mode". It is
+> contrasted with "native cursor mode", where the native DCN per-pipe
+> cursor is used.
+
+I can't comment on the code, but this explanation sounds like a really
+good move!
+
+
+Thanks,
+pq
+
+> [How]
+>=20
+> On each crtc, compute whether the cursor plane should be enabled in
+> overlay mode (which currently, is iff the immediate plane below has a
+> YUV format). If it is, mark the CRTC as requesting overlay cursor mode.
+>=20
+> During DC validation, attempt to enable a separate DCN pipe for the
+> cursor if it's in overlay mode. If that fails, or if no overlay mode is
+> requested, then fallback to native mode.
+>=20
+> Signed-off-by: Leo Li <sunpeng.li@amd.com>
 > ---
->  arch/arm64/boot/dts/qcom/sm6350.dtsi | 88 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 88 insertions(+)
->
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 309 +++++++++++++++---
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |   7 +
+>  .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    |   1 +
+>  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   |  13 +-
+>  4 files changed, 288 insertions(+), 42 deletions(-)
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+--Sig_/=DZ=rnPVIjFG3hhH3Oi+MHL
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
--- 
-With best wishes
-Dmitry
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYFieoACgkQI1/ltBGq
+qqcwBxAAk97QZfBlHlsDuYDhMeAkq/kUmUXdkgvypTAxJndMZXA7fYiNOSAeqrwZ
+XgXfQJF43uIwu+Yhf7R6YW+MK7FB2qdbwXd5gsLBmbdBq0n1j9p1BX6Bg3E4zaaX
+9cw9RuzPvGJ3odvcdpEPFe75bS+d78T6/5S2GG2kTTKC8IMRofLODCARs2AxrpqN
+4qGNqZzjgA462dpP8AJiHUOfDhXX7+nng9fPa5BCpkZYqav20yG9cjGNZZk9ilJ/
+SqPRidpgedZ/8jCgSIFdBUhuT8ht80vWqlkmcQhdS0eTMd/mACq+HuNiDe8aVVDC
+4riOzFoBKpzyjVCrHTSuKoO3yuevfggjZqJVKxOEultSyg7FpDB1B+8YUyU1zYKL
+h4EZO+cCDyIfbl/qeXwcnqazWMPAomsvZaIx7UMH9BwSzR+f/IU9eIWe09dbOIwL
+8gGC0tK+usmMBdMIM6oPFdqB3D377h8x/coQ5rJH2k5c6JJnNeZYel+y01MlHbqp
+6yJOcBW3RU3qV+o7lf1+hsO9ElutneVHiXuiAka8xZcRbO5GxryqhzGR5CbqVhZw
+iHRJBQhwSl55JLkMh4hcE4wUZMrVRFHoY3deNJNLAivIukfsjSz/WqdgZPg2/paE
+xKXBvu8S2vk6f6ohYrmdaEB3wY48CDvmtsYsyFzxC13N7f2P0EM=
+=XkHL
+-----END PGP SIGNATURE-----
+
+--Sig_/=DZ=rnPVIjFG3hhH3Oi+MHL--
