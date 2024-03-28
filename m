@@ -2,85 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 034288900A5
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 14:44:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D560F890100
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 15:01:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56FFE10E91F;
-	Thu, 28 Mar 2024 13:44:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F213010FAE5;
+	Thu, 28 Mar 2024 14:01:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="iyfG39VZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+ev2veOK";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="rjNbN4Uv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C016910E334;
- Thu, 28 Mar 2024 13:44:26 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C521910FAE5
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 14:01:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1711634460;
+ bh=4eyuktlj3zT+S0v4lDjOGGPXuz5uyxEP9zOsIuqV3IU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=rjNbN4UvU30FBUsy6OLV1q02Y4AR8Sd4StjrsgDfdkbqqEeuT/4bchJz0gddXxLao
+ qKtA/XmCUKifgYKiVHgGLHKCqlaIiX81cnL9d1hCslPv62yrh5KswPVYe94B3qxeZN
+ ptrzmGrPZUF/W4c3IKTwgObjRVhD+bKmngET2b0gu6S92jOwx9hQ4KBVYfYC9P1nl5
+ MW/CxvJHniM/6ia9vRcE7LKvVV4VHJQ7TPVkxmp8A2kgUIa0ehfPPfEtlrZ7uu+L0e
+ b4CAXXEGnvZ8RNug8Wq5VxToeyMOBlFxyV3tPA0ekP1c3+Wq1NgIFWkK2fseN3Kus0
+ WldEfaMgvh19A==
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1A7A2206AC;
- Thu, 28 Mar 2024 13:44:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1711633465; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=kmTzfL3bcMEfCSVV0rBGQ1+Z9NzunCxP7J4N+YBNjGA=;
- b=iyfG39VZJrvzgzHnetjWOe+sVITq9OhhomNyxtjvbFtA8rsEbmblJPgfP0T0genjji/12N
- UpjqsBy6VgJfu5GoQleb3ulavTr5Yw3YiF6x7lVIFXT+AZYaWPK+Qeqk9V4BzdHmlxvFUa
- ++aTX7tN/1vdCsEpf1/0YmENn8lPwRY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1711633465;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=kmTzfL3bcMEfCSVV0rBGQ1+Z9NzunCxP7J4N+YBNjGA=;
- b=+ev2veOKxi+y4BfEi5wwpXt+7LDWVmnysEBxn8OLEKtXUWkRC7AcxyEhqj+HxlEp5mWaWl
- Kk0MRDgMRyBTBOAQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 6CA9013AF7;
- Thu, 28 Mar 2024 13:44:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap2.dmz-prg2.suse.org with ESMTPSA id +5mAGDh0BWbuQwAAn2gu4w
- (envelope-from <tzimmermann@suse.de>); Thu, 28 Mar 2024 13:44:24 +0000
-Date: Thu, 28 Mar 2024 14:44:17 +0100
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20240328134417.GA8673@localhost.localdomain>
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1D3A73780629;
+ Thu, 28 Mar 2024 14:00:59 +0000 (UTC)
+Date: Thu, 28 Mar 2024 16:00:57 +0200
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
+ <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com,
+ nicolejadeyee@google.com
+Subject: Re: [PATCH v5 16/16] drm/vkms: Add support for DRM_FORMAT_R*
+Message-ID: <20240328160057.124b32c4.pekka.paalanen@collabora.com>
+In-Reply-To: <20240313-yuv-v5-16-e610cbd03f52@bootlin.com>
+References: <20240313-yuv-v5-0-e610cbd03f52@bootlin.com>
+ <20240313-yuv-v5-16-e610cbd03f52@bootlin.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spamd-Result: default: False [-3.10 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MIME_GOOD(-0.10)[text/plain]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FREEMAIL_TO(0.00)[gmail.com,ffwll.ch]; ARC_NA(0.00)[];
- MIME_TRACE(0.00)[0:+]; MISSING_XM_UA(0.00)[];
- RCPT_COUNT_TWELVE(0.00)[16]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap2.dmz-prg2.suse.org:rdns,
- imap2.dmz-prg2.suse.org:helo]
-X-Spam-Score: -3.10
-X-Spam-Level: 
-X-Spam-Flag: NO
+Content-Type: multipart/signed; boundary="Sig_/P3OiAf8YwdepAoHMsEV.zAB";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,133 +71,252 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+--Sig_/P3OiAf8YwdepAoHMsEV.zAB
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-this is the weekly PR for drm-misc-fixes.
+On Wed, 13 Mar 2024 18:45:10 +0100
+Louis Chauvet <louis.chauvet@bootlin.com> wrote:
 
-Best regards
-Thomas
+> This add the support for:
+> - R1/R2/R4/R8
+>=20
+> R1 format was tested with [1] and [2].
+>=20
+> [1]: https://lore.kernel.org/r/20240313-new_rotation-v2-0-6230fd5cae59@bo=
+otlin.com
+> [2]: https://lore.kernel.org/igt-dev/20240306-b4-kms_tests-v1-0-8fe451efd=
+2ac@bootlin.com/
+>=20
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>  drivers/gpu/drm/vkms/vkms_formats.c | 100 ++++++++++++++++++++++++++++++=
+++++++
+>  drivers/gpu/drm/vkms/vkms_plane.c   |   6 ++-
+>  2 files changed, 105 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/v=
+kms_formats.c
+> index 863fc91d6d48..cbb2ec09564a 100644
+> --- a/drivers/gpu/drm/vkms/vkms_formats.c
+> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+> @@ -201,6 +201,11 @@ static struct pixel_argb_u16 argb_u16_from_RGB565(co=
+nst u16 *pixel)
+>  	return out_pixel;
+>  }
+> =20
+> +static struct pixel_argb_u16 argb_u16_from_gray8(u8 gray)
+> +{
+> +	return argb_u16_from_u8888(255, gray, gray, gray);
+> +}
+> +
+>  VISIBLE_IF_KUNIT struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 cb,=
+ u8 cr,
+>  							    struct conversion_matrix *matrix)
+>  {
+> @@ -269,6 +274,89 @@ static void black_to_argb_u16(const struct vkms_plan=
+e_state *plane, int x_start,
+>  	}
+>  }
+> =20
+> +static void Rx_read_line(const struct vkms_plane_state *plane, int x_sta=
+rt,
+> +			 int y_start, enum pixel_read_direction direction, int count,
+> +			 struct pixel_argb_u16 out_pixel[], u8 bit_per_pixel, u8 lum_per_leve=
+l)
+> +{
+> +	struct pixel_argb_u16 *end =3D out_pixel + count;
+> +	u8 *src_pixels;
+> +	int rem_x, rem_y;
+> +
+> +	packed_pixels_addr(plane->frame_info, x_start, y_start, 0, &src_pixels,=
+ &rem_x, &rem_y);
 
-drm-misc-fixes-2024-03-28:
-Short summary of fixes pull:
+Maybe assert that rem_y =3D 0? Or block_h =3D 1.
 
-bridge:
-- select DRM_KMS_HELPER
+> +	int bit_offset =3D (int)rem_x * bit_per_pixel;
 
-dma-buf:
-- fix NULL-pointer deref
+Why cast rem_x to int when it was defined to be int?
 
-dp:
-- fix div-by-zero in DP MST unplug code
+> +	int step =3D get_step_next_block(plane->frame_info->fb, direction, 0);
+> +	int mask =3D (0x1 << bit_per_pixel) - 1;
 
-fbdev:
-- select FB_IOMEM_FOPS for SBus
+Since mask will interact with u8, it should be unsigned too.
 
-nouveau:
-- dmem: handle kcalloc() allocation failures
+> +
+> +	if (direction =3D=3D READ_LEFT_TO_RIGHT || direction =3D=3D READ_RIGHT_=
+TO_LEFT) {
+> +		int restart_bit_offset =3D 0;
+> +		int step_bit_offset =3D bit_per_pixel;
+> +
+> +		if (direction =3D=3D READ_RIGHT_TO_LEFT) {
+> +			restart_bit_offset =3D 8 - bit_per_pixel;
+> +			step_bit_offset =3D -bit_per_pixel;
+> +		}
+> +
+> +		while (out_pixel < end) {
+> +			u8 val =3D (*src_pixels & (mask << bit_offset)) >> bit_offset;
 
-qxl:
-- remove unused variables
+or shorter: (*src_pixels >> bit_offset) & mask
 
-rockchip:
-- vop2: remove support for AR30 and AB30 formats
+However, shouldn't the first pixel be on the high bits?
 
-sched:
-- fix NULL-pointer deref
+That how I would understand the comments in drm_fourcc.h.
 
-vmwgfx:
-- debugfs: create ttm_resource_manager entry only if needed
-The following changes since commit 4cece764965020c22cff7665b18a012006359095:
+Again a reason to avoid a solid color fill in IGT.
 
-  Linux 6.9-rc1 (2024-03-24 14:10:05 -0700)
+> +
+> +			*out_pixel =3D argb_u16_from_gray8(val * lum_per_level);
+> +
+> +			bit_offset +=3D step_bit_offset;
+> +			if (bit_offset < 0 || 8 <=3D bit_offset) {
+> +				bit_offset =3D restart_bit_offset;
+> +				src_pixels +=3D step;
+> +			}
+> +			out_pixel +=3D 1;
+> +		}
+> +	} else if (direction =3D=3D READ_TOP_TO_BOTTOM || direction =3D=3D READ=
+_BOTTOM_TO_TOP) {
+> +		while (out_pixel < end) {
+> +			u8 val =3D (*src_pixels & (mask << bit_offset)) >> bit_offset;
+> +			*out_pixel =3D argb_u16_from_gray8(val * lum_per_level);
+> +			src_pixels +=3D step;
+> +			out_pixel +=3D 1;
+> +		}
+> +	}
+> +}
+> +
+> +static void R1_read_line(const struct vkms_plane_state *plane, int x_sta=
+rt,
+> +			 int y_start, enum pixel_read_direction direction, int count,
+> +			 struct pixel_argb_u16 out_pixel[])
+> +{
+> +	Rx_read_line(plane, x_start, y_start, direction, count, out_pixel, 1, 0=
+xFF);
+> +}
+> +
+> +static void R2_read_line(const struct vkms_plane_state *plane, int x_sta=
+rt,
+> +			 int y_start, enum pixel_read_direction direction, int count,
+> +			 struct pixel_argb_u16 out_pixel[])
+> +{
+> +	Rx_read_line(plane, x_start, y_start, direction, count, out_pixel, 2, 0=
+x55);
+> +}
+> +
+> +static void R4_read_line(const struct vkms_plane_state *plane, int x_sta=
+rt,
+> +			 int y_start, enum pixel_read_direction direction, int count,
+> +			 struct pixel_argb_u16 out_pixel[])
+> +{
+> +	Rx_read_line(plane, x_start, y_start, direction, count, out_pixel, 4, 0=
+x11);
+> +}
+> +
+> +static void R8_read_line(const struct vkms_plane_state *plane, int x_sta=
+rt,
+> +			 int y_start, enum pixel_read_direction direction, int count,
+> +			 struct pixel_argb_u16 out_pixel[])
+> +{
+> +	struct pixel_argb_u16 *end =3D out_pixel + count;
+> +	u8 *src_pixels;
+> +	int rem_x, rem_y;
+> +	int step =3D get_step_next_block(plane->frame_info->fb, direction, 0);
+> +
+> +	packed_pixels_addr(plane->frame_info, x_start, y_start, 0, &src_pixels,=
+ &rem_x, &rem_y);
 
-are available in the Git repository at:
+Assert on block size?
 
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2024-03-28
 
-for you to fetch changes up to aba2a144c0bf1ecdcbc520525712fb661392e509:
+> +
+> +	while (out_pixel < end) {
+> +		*out_pixel =3D argb_u16_from_gray8(*src_pixels);
+> +		src_pixels +=3D step;
+> +		out_pixel +=3D 1;
+> +	}
+> +}
+> +
+>  static void ARGB8888_read_line(const struct vkms_plane_state *plane, int=
+ x_start, int y_start,
+>  			       enum pixel_read_direction direction, int count,
+>  			       struct pixel_argb_u16 out_pixel[])
+> @@ -582,6 +670,14 @@ pixel_read_line_t get_pixel_read_line_function(u32 f=
+ormat)
+>  	case DRM_FORMAT_YVU422:
+>  	case DRM_FORMAT_YVU444:
+>  		return &planar_yuv_read_line;
+> +	case DRM_FORMAT_R1:
+> +		return &R1_read_line;
+> +	case DRM_FORMAT_R2:
+> +		return &R2_read_line;
+> +	case DRM_FORMAT_R4:
+> +		return &R4_read_line;
+> +	case DRM_FORMAT_R8:
+> +		return &R8_read_line;
+>  	default:
+>  		/*
+>  		 * This is a bug in vkms_plane_atomic_check. All the supported
+> @@ -855,6 +951,10 @@ get_conversion_matrix_to_argb_u16(u32 format, enum d=
+rm_color_encoding encoding,
+>  	case DRM_FORMAT_ARGB16161616:
+>  	case DRM_FORMAT_XRGB16161616:
+>  	case DRM_FORMAT_RGB565:
+> +	case DRM_FORMAT_R1:
+> +	case DRM_FORMAT_R2:
+> +	case DRM_FORMAT_R4:
+> +	case DRM_FORMAT_R8:
+>  		/*
+>  		 * Those formats are supported, but they don't need a conversion matri=
+x. Return
 
-  drm/qxl: remove unused variable from `qxl_process_single_command()` (2024-03-28 11:15:48 +0100)
+It is strange that you need to list irrelevant formats here.
 
-----------------------------------------------------------------
-Short summary of fixes pull:
 
-bridge:
-- select DRM_KMS_HELPER
+>  		 * a valid pointer to avoid kernel panic in case this matrix is used/c=
+hecked
+> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkm=
+s_plane.c
+> index e21cc92cf497..dc9d62acf350 100644
+> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> @@ -29,7 +29,11 @@ static const u32 vkms_formats[] =3D {
+>  	DRM_FORMAT_YUV444,
+>  	DRM_FORMAT_YVU420,
+>  	DRM_FORMAT_YVU422,
+> -	DRM_FORMAT_YVU444
+> +	DRM_FORMAT_YVU444,
+> +	DRM_FORMAT_R1,
+> +	DRM_FORMAT_R2,
+> +	DRM_FORMAT_R4,
+> +	DRM_FORMAT_R8
+>  };
+> =20
+>  static struct drm_plane_state *
+>=20
 
-dma-buf:
-- fix NULL-pointer deref
+Thanks,
+pq
 
-dp:
-- fix div-by-zero in DP MST unplug code
+--Sig_/P3OiAf8YwdepAoHMsEV.zAB
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-fbdev:
-- select FB_IOMEM_FOPS for SBus
+-----BEGIN PGP SIGNATURE-----
 
-nouveau:
-- dmem: handle kcalloc() allocation failures
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYFeBkACgkQI1/ltBGq
+qqeHVhAAoWHtPFfcwQBZAL8Q2nrXxgfDguVWiSRZBMVFBhBnGc2t1v3U+BSBNy6u
+lENqEU1LrzRR3aN9LCJVKvz6/7Iq/qvSZXjsqwbs9WRNSytcOxWAXlss+7yn1TS0
+k0DxI1JhJWGCX2D9LyGVc0EzaWKx/GiPqZfAu2F0Tft16IOSUVZ1CT3//XakQGPS
+6mNuyC42XPEWkJVyfXz6tNkLrOS8HIYvLPtsNFzJIv/Z5oDGE72N5ZwWma9UfrEa
+/3c/szbVru6gYzHn7Yhvm0W/H1zOTMqQFRNuRap4EbjKv4XYd9ZwRexn5r23mGpA
+TPZegTlUotCoPUD95ZqQ5oCobP0+K+5CyFy6atBjX0tXkEIdYU1cht4XPeZ2GfsX
+4Pwcpzv3ptCgOZXdjZrz9OkwSzpNsMzdUEVsnGTSqpoxGemJpqNUslQ951HvQvri
+SIC4ZBQ3WQI7BpjekupY9z/BXnR8VOkGQXdaX8+bkEBVW3zD60A3WQXrUAl71RRP
+f1moRzIrRJZYjndttF++GLsBMsTVuUcO6Kce7+n93w8Gzo9tXQzCIRS20uAFJJ0b
+C8H/+mBgboXBfq3oZINHsv/F3T2ttxdh7E8cVNsiLChAJzuskdO2kSddPI+vZVqG
+GWTBF6l0KNI6qKzoS0r/RqbEQQapSFMm/tPnSk7JV4EAkScMxG4=
+=jP0O
+-----END PGP SIGNATURE-----
 
-qxl:
-- remove unused variables
-
-rockchip:
-- vop2: remove support for AR30 and AB30 formats
-
-sched:
-- fix NULL-pointer deref
-
-vmwgfx:
-- debugfs: create ttm_resource_manager entry only if needed
-
-----------------------------------------------------------------
-Andy Yan (1):
-      drm/rockchip: vop2: Remove AR30 and AB30 format support
-
-Chris Bainbridge (1):
-      drm/dp: Fix divide-by-zero regression on DP MST unplug with nouveau
-
-Duoming Zhou (1):
-      nouveau/dmem: handle kcalloc() allocation failure
-
-Jocelyn Falempe (1):
-      drm/vmwgfx: Create debugfs ttm_resource_manager entry only if needed
-
-Luca Weiss (1):
-      drm/bridge: Select DRM_KMS_HELPER for DRM_PANEL_BRIDGE
-
-Miguel Ojeda (2):
-      drm/qxl: remove unused `count` variable from `qxl_surface_id_alloc()`
-      drm/qxl: remove unused variable from `qxl_process_single_command()`
-
-Neil Armstrong (1):
-      Revert "drm/bridge: Select DRM_KMS_HELPER for DRM_PANEL_BRIDGE"
-
-Pavel Sakharov (1):
-      dma-buf: Fix NULL pointer dereference in sanitycheck()
-
-Thomas Zimmermann (3):
-      Merge drm/drm-fixes into drm-misc-fixes
-      Merge drm/drm-fixes into drm-misc-fixes
-      fbdev: Select I/O-memory framebuffer ops for SBus
-
-Vitaly Prosyak (1):
-      drm/sched: fix null-ptr-deref in init entity
-
- drivers/dma-buf/st-dma-fence-chain.c         |  6 +++---
- drivers/gpu/drm/display/drm_dp_helper.c      |  7 +++++++
- drivers/gpu/drm/nouveau/nouveau_dmem.c       | 12 ++++++------
- drivers/gpu/drm/qxl/qxl_cmd.c                |  2 --
- drivers/gpu/drm/qxl/qxl_ioctl.c              |  4 +---
- drivers/gpu/drm/rockchip/rockchip_vop2_reg.c |  2 --
- drivers/gpu/drm/scheduler/sched_entity.c     | 12 +++++++++---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c          | 15 +++++++++------
- drivers/video/fbdev/Kconfig                  |  3 +++
- 9 files changed, 38 insertions(+), 25 deletions(-)
-
--- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+--Sig_/P3OiAf8YwdepAoHMsEV.zAB--
