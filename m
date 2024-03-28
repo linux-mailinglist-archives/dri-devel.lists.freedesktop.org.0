@@ -2,60 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88F3F88FC51
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 11:01:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFC0488FC60
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 11:05:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC57010ED89;
-	Thu, 28 Mar 2024 10:01:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D307C10F4EE;
+	Thu, 28 Mar 2024 10:04:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="O8xu/gPT";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="PsWkm28t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4238510ED89
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 10:01:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1711620072; x=1743156072;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=mcgtr76Vb76ep/SNPgUTZUywkBNBQtMr1jhXQ9103ak=;
- b=O8xu/gPTyIwncx8lEhq7x3tr1p6XbhSWkBw5lh2OrSFNvy+p3Gw5/kop
- vyjEEPJ5M7VRst/yidDw7B65L3sIBpU6LH6Xf9qhyjJ3f+bS9P6i6Svyw
- MyleqAVefCc81o6vKIV3c6MKr8bwXZwkith+OT6hgeZdyo/8j8Ai/mmlJ
- GnMAgrOtG0r++HcjAj/a9uwDGu/1wbQkMWvXnZ8pr9E7YKnm6ewYcJ3NN
- qYPRBrws6pqLt/iuT9p+6Q4qbhzqKpaRpiS4k3SgOINa/Tjx/aZWH0vqw
- eQguGd3Bl+qDLolM2YJEQHFaKPcwLlwq0S/KiONCwYGdXdr85ay4j99yR Q==;
-X-CSE-ConnectionGUID: n/oSusy/Q6aRRFQBlC9Bsg==
-X-CSE-MsgGUID: UvU+79LDQpC6OFO1vluirg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="17910110"
-X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; d="scan'208";a="17910110"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2024 03:01:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; d="scan'208";a="16600067"
-Received: from abdulqaf-mobl2.amr.corp.intel.com (HELO localhost)
- ([10.252.57.138])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2024 03:01:08 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 07/13] drm: Make drivers depends on DRM_DW_HDMI
-In-Reply-To: <20240327-kms-kconfig-helpers-v3-7-eafee11b84b3@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240327-kms-kconfig-helpers-v3-0-eafee11b84b3@kernel.org>
- <20240327-kms-kconfig-helpers-v3-7-eafee11b84b3@kernel.org>
-Date: Thu, 28 Mar 2024 12:01:05 +0200
-Message-ID: <87ttkqfzfi.fsf@intel.com>
+Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D812710F4EE;
+ Thu, 28 Mar 2024 10:04:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=OFj88XgxZ0sWsCzaBI/ywTEqrSVOFXScu8fHL5rQIHU=; b=PsWkm28tOBcyd0LDUAzgfWAhp0
+ uTxnZrpw3oJRX+N5G1SxfIdoTS7H8fC8sdfpcC9tTG09iJTHW96J3Qv96jYeiNgZv09C0NCa3uycj
+ 8OB0gsSzLUCJJkP8faZ9mF/UgTZCPbArhUWVseXtV2/ASwhZm5sRPlE3rHkcbcI7n7z/zs8FqhaqV
+ c5Z7So+schT77J2p0Sdcg9ZWDHCtUkGipZCely+vk1ghw6e6aezXJMKfcM0KEGm6xk9EU5tRBWrna
+ Y3rxs+KpQ27gaJWvCydajS8CpToRdsZ4ERmowy9Hcr6QNu17lSLLaDcxpLR9P2LovzJe+C1Qikruh
+ eyfrCTvw==;
+Received: from [194.136.85.206] (port=57710 helo=eldfell)
+ by whm50.louhi.net with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
+ (envelope-from <pekka.paalanen@haloniitty.fi>) id 1rpmcz-0002oH-0J;
+ Thu, 28 Mar 2024 12:04:57 +0200
+Date: Thu, 28 Mar 2024 12:04:56 +0200
+From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+To: "Garg, Nemesa" <nemesa.garg@intel.com>
+Cc: Simon Ser <contact@emersion.fr>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "G M, Adarsh" <adarsh.g.m@intel.com>
+Subject: Re: [RFC 0/5]  Introduce drm sharpening property
+Message-ID: <20240328120456.1447f2a6@eldfell>
+In-Reply-To: <20240327132916.43f83069@eldfell>
+References: <20240214112457.3734871-1-nemesa.garg@intel.com>
+ <8Ma-GlU3bFAuSPpFhGbYYuXQ8OeeDjMK9WiWO6KP-4pPO41fLnLrgABkRfhjHY6XlIh5u67vcEbD8ejDq7-zo5BXf-too0Pt7oTDhWCOPlU=@emersion.fr>
+ <IA1PR11MB6467A91412978DE0FFCAB50FE34C2@IA1PR11MB6467.namprd11.prod.outlook.com>
+ <20240216103620.33deabb1@eldfell>
+ <IA1PR11MB6467F801FFB564769E357EA9E3232@IA1PR11MB6467.namprd11.prod.outlook.com>
+ <uL84QKNtst1cp9uG3HqNAqEpJS2pT07qxwufONZx8Zq3t665BwY15fHRm3cZxMtiecQlPlNTs9srrmlIzRKmRYItWUv6cQbDEkms8eUT84Y=@emersion.fr>
+ <IA1PR11MB6467C642ABBD54BD82DF46B9E32B2@IA1PR11MB6467.namprd11.prod.outlook.com>
+ <20240312162600.7358e146@eldfell> <20240313113638.3ff61e4f@eldfell>
+ <IA1PR11MB646705FED711C1F129E5C5E3E3342@IA1PR11MB6467.namprd11.prod.outlook.com>
+ <20240327132916.43f83069@eldfell>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; boundary="Sig_/qvsk6kGyEzapSusOKI3/utd";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - whm50.louhi.net
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - haloniitty.fi
+X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
+ pekka.paalanen@haloniitty.fi
+X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,174 +82,189 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 27 Mar 2024, Maxime Ripard <mripard@kernel.org> wrote:
-> DRM_DW_HDMI has a number of dependencies that might not be enabled.
-> However, drivers were used to selecting it while not enforcing the
-> DRM_DW_HDMI dependencies.
->
-> This could result in Kconfig warnings (and further build breakages) such
-> as:
->
->   Kconfig warnings: (for reference only)
->      WARNING: unmet direct dependencies detected for DRM_DW_HDMI
->      Depends on [n]: HAS_IOMEM [=y] && DRM [=m] && DRM_BRIDGE [=y] && DRM_DISPLAY_HELPER [=n]
->      Selected by [m]:
->      - DRM_SUN8I_DW_HDMI [=m] && HAS_IOMEM [=y] && DRM_SUN4I [=m]
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202403262127.kZkttfNz-lkp@intel.com/
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+--Sig_/qvsk6kGyEzapSusOKI3/utd
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+On Wed, 27 Mar 2024 13:29:16 +0200
+Pekka Paalanen <pekka.paalanen@haloniitty.fi> wrote:
 
-> ---
->  drivers/gpu/drm/bridge/imx/Kconfig      | 4 ++--
->  drivers/gpu/drm/imx/ipuv3/Kconfig       | 5 +++--
->  drivers/gpu/drm/ingenic/Kconfig         | 2 +-
->  drivers/gpu/drm/meson/Kconfig           | 2 +-
->  drivers/gpu/drm/renesas/rcar-du/Kconfig | 2 +-
->  drivers/gpu/drm/rockchip/Kconfig        | 2 +-
->  drivers/gpu/drm/sun4i/Kconfig           | 2 +-
->  7 files changed, 10 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
-> index 5965e8027529..7687ed652df5 100644
-> --- a/drivers/gpu/drm/bridge/imx/Kconfig
-> +++ b/drivers/gpu/drm/bridge/imx/Kconfig
-> @@ -3,13 +3,13 @@ if ARCH_MXC || COMPILE_TEST
->  config DRM_IMX_LDB_HELPER
->  	tristate
->  
->  config DRM_IMX8MP_DW_HDMI_BRIDGE
->  	tristate "Freescale i.MX8MP HDMI-TX bridge support"
-> -	depends on OF
->  	depends on COMMON_CLK
-> -	select DRM_DW_HDMI
-> +	depends on DRM_DW_HDMI
-> +	depends on OF
->  	select DRM_IMX8MP_HDMI_PVI
->  	select PHY_FSL_SAMSUNG_HDMI_PHY
->  	help
->  	  Choose this to enable support for the internal HDMI encoder found
->  	  on the i.MX8MP SoC.
-> diff --git a/drivers/gpu/drm/imx/ipuv3/Kconfig b/drivers/gpu/drm/imx/ipuv3/Kconfig
-> index bacf0655ebaf..5d810ac02171 100644
-> --- a/drivers/gpu/drm/imx/ipuv3/Kconfig
-> +++ b/drivers/gpu/drm/imx/ipuv3/Kconfig
-> @@ -33,9 +33,10 @@ config DRM_IMX_LDB
->  	  Choose this to enable the internal LVDS Display Bridge (LDB)
->  	  found on i.MX53 and i.MX6 processors.
->  
->  config DRM_IMX_HDMI
->  	tristate "Freescale i.MX DRM HDMI"
-> -	select DRM_DW_HDMI
-> -	depends on DRM_IMX && OF
-> +	depends on DRM_DW_HDMI
-> +	depends on DRM_IMX
-> +	depends on OF
->  	help
->  	  Choose this if you want to use HDMI on i.MX6.
-> diff --git a/drivers/gpu/drm/ingenic/Kconfig b/drivers/gpu/drm/ingenic/Kconfig
-> index 3db117c5edd9..23effeb2ac72 100644
-> --- a/drivers/gpu/drm/ingenic/Kconfig
-> +++ b/drivers/gpu/drm/ingenic/Kconfig
-> @@ -25,12 +25,12 @@ config DRM_INGENIC_IPU
->  
->  	  The Image Processing Unit (IPU) will appear as a second primary plane.
->  
->  config DRM_INGENIC_DW_HDMI
->  	tristate "Ingenic specific support for Synopsys DW HDMI"
-> +	depends on DRM_DW_HDMI
->  	depends on MACH_JZ4780
-> -	select DRM_DW_HDMI
->  	help
->  	  Choose this option to enable Synopsys DesignWare HDMI based driver.
->  	  If you want to enable HDMI on Ingenic JZ4780 based SoC, you should
->  	  select this option.
->  
-> diff --git a/drivers/gpu/drm/meson/Kconfig b/drivers/gpu/drm/meson/Kconfig
-> index 615fdd0ce41b..5520b9e3f010 100644
-> --- a/drivers/gpu/drm/meson/Kconfig
-> +++ b/drivers/gpu/drm/meson/Kconfig
-> @@ -11,13 +11,13 @@ config DRM_MESON
->  	select MESON_CANVAS
->  	select CEC_CORE if CEC_NOTIFIER
->  
->  config DRM_MESON_DW_HDMI
->  	tristate "HDMI Synopsys Controller support for Amlogic Meson Display"
-> +	depends on DRM_DW_HDMI
->  	depends on DRM_MESON
->  	default y if DRM_MESON
-> -	select DRM_DW_HDMI
->  	imply DRM_DW_HDMI_I2S_AUDIO
->  
->  config DRM_MESON_DW_MIPI_DSI
->  	tristate "MIPI DSI Synopsys Controller support for Amlogic Meson Display"
->  	depends on DRM_MESON
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/Kconfig b/drivers/gpu/drm/renesas/rcar-du/Kconfig
-> index 53c356aed5d5..2dc739db2ba3 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/Kconfig
-> +++ b/drivers/gpu/drm/renesas/rcar-du/Kconfig
-> @@ -23,12 +23,12 @@ config DRM_RCAR_CMM
->  	depends on DRM_RCAR_USE_CMM
->  
->  config DRM_RCAR_DW_HDMI
->  	tristate "R-Car Gen3 and RZ/G2 DU HDMI Encoder Support"
->  	depends on DRM && OF
-> +	depends on DRM_DW_HDMI
->  	depends on DRM_RCAR_DU || COMPILE_TEST
-> -	select DRM_DW_HDMI
->  	help
->  	  Enable support for R-Car Gen3 or RZ/G2 internal HDMI encoder.
->  
->  config DRM_RCAR_USE_LVDS
->  	bool "R-Car DU LVDS Encoder Support"
-> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
-> index 1bf3e2829cd0..0d5260e10f27 100644
-> --- a/drivers/gpu/drm/rockchip/Kconfig
-> +++ b/drivers/gpu/drm/rockchip/Kconfig
-> @@ -5,11 +5,10 @@ config DRM_ROCKCHIP
->  	select DRM_GEM_DMA_HELPER
->  	select DRM_KMS_HELPER
->  	select DRM_PANEL
->  	select VIDEOMODE_HELPERS
->  	select DRM_ANALOGIX_DP if ROCKCHIP_ANALOGIX_DP
-> -	select DRM_DW_HDMI if ROCKCHIP_DW_HDMI
->  	select DRM_DW_MIPI_DSI if ROCKCHIP_DW_MIPI_DSI
->  	select GENERIC_PHY if ROCKCHIP_DW_MIPI_DSI
->  	select GENERIC_PHY_MIPI_DPHY if ROCKCHIP_DW_MIPI_DSI
->  	select SND_SOC_HDMI_CODEC if ROCKCHIP_CDN_DP && SND_SOC
->  	help
-> @@ -55,10 +54,11 @@ config ROCKCHIP_CDN_DP
->  	  RK3399 based SoC, you should select this
->  	  option.
->  
->  config ROCKCHIP_DW_HDMI
->  	bool "Rockchip specific extensions for Synopsys DW HDMI"
-> +	depends on DRM_DW_HDMI
->  	help
->  	  This selects support for Rockchip SoC specific extensions
->  	  for the Synopsys DesignWare HDMI driver. If you want to
->  	  enable HDMI on RK3288 or RK3399 based SoC, you should select
->  	  this option.
-> diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
-> index 4741d9f6544c..5b19c7cb7b7e 100644
-> --- a/drivers/gpu/drm/sun4i/Kconfig
-> +++ b/drivers/gpu/drm/sun4i/Kconfig
-> @@ -55,12 +55,12 @@ config DRM_SUN6I_DSI
->  	  sun6i_mipi_dsi.
->  
->  config DRM_SUN8I_DW_HDMI
->  	tristate "Support for Allwinner version of DesignWare HDMI"
->  	depends on DRM_SUN4I
-> +	depends on DRM_DW_HDMI
->  	default DRM_SUN4I
-> -	select DRM_DW_HDMI
->  	help
->  	  Choose this option if you have an Allwinner SoC with the
->  	  DesignWare HDMI controller. SoCs that support HDMI and
->  	  have a Display Engine 2.0 contain this controller. If M is
->  	  selected the module will be called sun8i_dw_hdmi.
+> On Wed, 27 Mar 2024 07:11:48 +0000
+> "Garg, Nemesa" <nemesa.garg@intel.com> wrote:
+>=20
+> > > -----Original Message-----
+> > > From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+> > > Sent: Wednesday, March 13, 2024 3:07 PM
+> > > To: Garg, Nemesa <nemesa.garg@intel.com>
+> > > Cc: Simon Ser <contact@emersion.fr>; intel-gfx@lists.freedesktop.org;=
+ dri-
+> > > devel@lists.freedesktop.org; G M, Adarsh <adarsh.g.m@intel.com>
+> > > Subject: Re: [RFC 0/5] Introduce drm sharpening property
+> > >=20
+> > > On Tue, 12 Mar 2024 16:26:00 +0200
+> > > Pekka Paalanen <pekka.paalanen@haloniitty.fi> wrote:
+> > >    =20
+> > > > On Tue, 12 Mar 2024 08:30:34 +0000
+> > > > "Garg, Nemesa" <nemesa.garg@intel.com> wrote:
+> > > >   =20
+> > > > > This  KMS property is not implementing any formula   =20
+> > > >
+> > > > Sure it is. Maybe Intel just does not want to tell what the algorit=
+hm
+> > > > is, or maybe it's even patented.
+> > > >   =20
+> > > > > and the values
+> > > > > that are being used are based on empirical analysis and certain
+> > > > > experiments done on the hardware. These values are fixed and is n=
+ot
+> > > > > expected to change and this can change from vendor to vendor. The
+> > > > > client can choose any sharpness value on the scale and on the bas=
+is
+> > > > > of it the sharpness will be set. The sharpness effect can be chan=
+ged
+> > > > > from content to content and from display to display so user needs=
+ to
+> > > > > adjust the optimum intensity value so as to get good experience on
+> > > > > the screen.
+> > > > >   =20
+> > > >
+> > > > IOW, it's an opaque box operation, and there is no way to reproduce
+> > > > its results without the specific Intel hardware. Definitely no way =
+to
+> > > > reproduce its results in free open source software alone.
+> > > >
+> > > > Such opaque box operations can only occur after KMS blending, at the
+> > > > CRTC or later stage. They cannot appear before blending, not in the
+> > > > new KMS color pipeline design at least. The reason is that the mode=
+rn
+> > > > way to use KMS planes is opportunistic composition off-loading.
+> > > > Opportunistic means that userspace decides from time to time whether
+> > > > it composes the final picture using KMS or some other rendering met=
+hod
+> > > > (usually GPU and shaders). Since userspace will arbitrarily switch
+> > > > between KMS and render composition, both must result in the exact s=
+ame
+> > > > image, or end users will observe unwanted flicker.
+> > > >
+> > > > Such opaque box operations are fine after blending, because there t=
+hey
+> > > > can be configured once and remain on forever. No switching, no flic=
+ker.   =20
+> > >=20
+> > > If you want to see how sharpness property would apply in Wayland desi=
+gn, it
+> > > would be in step 5 "Adjust (settings UI)" of
+> > > https://gitlab.freedesktop.org/pq/color-and-hdr/-/blob/main/doc/color-
+> > > management-model.md#compositor-color-management-model
+> > >=20
+> > > To relate that diagram to KMS color processing, you can identify step=
+ 3 "Compose"
+> > > as the KMS blending step. Everything before step 3 happens in KMS pla=
+ne color
+> > > processing, and steps 4-5 happen in KMS CRTC color processing.
+> > >=20
+> > > Sharpening would essentially be a "compositor color effect", it just =
+happens to be
+> > > implementable only by specific Intel hardware.
+> > >=20
+> > > If a color effect is dynamic or content-dependant, it will preclude c=
+olorimetric
+> > > monitor calibration.
+> > >=20
+> > >=20
+> > > Thanks,
+> > > pq
+> > >=20
+> > >    =20
+> > > > Where does "sharpeness" operation occur in the Intel color processi=
+ng
+> > > > chain? Is it before or after blending?
+> > > >    =20
+> > Thank you for detail explanation and link.
+> > Sharpness operation occur post blending in CRTC ie on the final=20
+> > composed output after blending . Yes Pekka you are right as per the=20
+> > diagram it is done at step 5  "Adjust (settings UI)").  I  will also do=
+cument this thing=20
+> > along with documentation change.
+> >  =20
+> > > > What kind of transfer characteristics does it expect from the image,
+> > > > and can those be realized with KMS CRTC properties if KMS is
+> > > > configured such that the blending happens using some other characte=
+ristics   =20
+> > > (e.g.   =20
+> > > > blending in optical space)?
+> > > >   =20
+> > The filter values are not dependent/calculated on the inputs of=20
+> >  image but depending on the blending space and other inputs the=20
+> > blended output gets changed and the sharpness is applied post=20
+> > blending so according to the content user needs to adjust the=20
+> > strength value to get the better visual effect. So tuning of sharpness =
+strength=20
+> > may be needed by user based on  the input contents and blending policy
+> > to get the desired experience.
+> >  =20
+> > > > What about SDR vs. HDR imagery?
+> > > >   =20
+> > The interface can be used for both HDR and SDR. The effect is more prom=
+inent for SDR use cases.
+> > For HDR filter values and tap value may change. =20
+>=20
+> Who will be providing these values?
+>=20
+> The kernel driver cannot know if it is dealing with SDR or HDR or which
+> transfer function is in effect at that point of the post-blending color
+> pipeline.
+>=20
+> If the UAPI is one "strength" value, then how can it work?
+>=20
+> Maybe the UAPI needs more controls, if not providing all "filter and
+> tap" values directly. Maybe all the filter and tap values should be
+> provided by userspace?
 
--- 
-Jani Nikula, Intel
+Actually, is the hardware just doing a convolution with a filter
+defined by the driver?
+
+Convolution algorithm (it is a formula!) is pretty standard stuff I
+believe. If the hardware is actually doing convolution, then the driver
+really should be exposing the convolution operation. Then people can
+choose to use it for sharpening with the Intel developed kernels, or
+for custom effects with custom kernels. Everyone would win. Convolution
+is also something that other hardware vendors could implement.
+
+A convolution filter would fit very well in the new KMS color pipeline
+design for post-compositing operations, too.
+
+Is the sharpening element doing something similar to the unsharp
+masking?
+
+I suppose users might want different strength based on what kind of
+content is the majority on the screen. That makes it something that a
+Wayland compositor would adjust automatically based on Wayland content
+type (similar to HDMI content type), for example.
+
+
+Thanks,
+pq
+
+--Sig_/qvsk6kGyEzapSusOKI3/utd
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYFQMgACgkQI1/ltBGq
+qqehcg//aVO4wTWGRyqns+eeTS4cCMkr2WxrtPqzBP9TEfhG+Ts4fsx/lcgjduU/
+xgWF0KlXARK+d1U+XdylwJ266wYcttc8gyOxj6rVAZMedtigTOJ29K4hb1H09sfU
+oBmU66k52kC7L667nIEjmmwwHdrcFlgMQKxLl1tr4RsMZgjFyCFCy3w1XVU7mFPl
+dvc+3Mn++cmXUWMMfxXLTUe28WAzsbIAMBdb9CbB7sqIbI21xR3sVVJDgZS/Aarz
+WnLjSjCt6A1vPDlqtIDxfqciUDiF3+/j5zTktFbpJ96FjZoiIZGAfFwiaZM5ZbIC
+HgRdVJp5rwfRsx53e0qZ55C5OR7DXjLonlJMy9h2s/dMxsLkgBQrvQ02Mf1FPdWB
+10cOru9kEGIVR7zqv6hx86pz0SWDIgj+fbRpX7wjjsDSW2BiUJL7+ShNR2q6Nnlu
+CFF2ASTMVg1DWjAEp9gatZe7M6gJmB9Vc/eOyfPycqM0kiN2G40N7sy+V0/N13nT
+Va1izQ76mNIjmRRyJ0Ljv23XbGfq2OEHZU2D9FqJq/yoCh66h8Q9LHFUJ59Lpipf
+XtXCcLtZgsqF7EV8hQHYZS4IaxFECTsTPBdupX4VQMnCHtFLA05afHW7faaAqdVy
+fxYU5Q96TAnm7QQaoSVGDNX//2y3WfDQdiFGTWi2i8Q4CuFtmYM=
+=mWXb
+-----END PGP SIGNATURE-----
+
+--Sig_/qvsk6kGyEzapSusOKI3/utd--
