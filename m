@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B8A188FEA2
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 13:07:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A0E188FEA4
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Mar 2024 13:07:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13F2810F3A4;
-	Thu, 28 Mar 2024 12:07:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 787E510EC43;
+	Thu, 28 Mar 2024 12:07:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="fvO7NUGL";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="NNJGvde1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA6F610EC43
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 12:07:23 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D02061123FA
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 12:07:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1711627643;
+ s=mimecast20190719; t=1711627647;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nXcPtyLqeHbb7jPp99zfpO8T0/xgr4Dz5JL/A4RsscI=;
- b=fvO7NUGLQcmGPChcDIRq8YSXO0tqkngq58SQRsP0J9Fjll0avOtFyOK7l1InkD4G1nTb9m
- pHD6P7ypapXCKwmIMudZHdj14HeFTLVlMI8KSNNbWAtDrI9f1V0LUEGawtoClC7YdKQf64
- fs85koHQegT569nGk/JPyEV8ETdFE/8=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-125-tU4WIt6lNTOXlG91YcE8-g-1; Thu,
- 28 Mar 2024 08:07:19 -0400
-X-MC-Unique: tU4WIt6lNTOXlG91YcE8-g-1
+ bh=WBO7tdAXuCDg7aUFObH3QNslNXFPwGpY6HDXiVTCGj8=;
+ b=NNJGvde1NP2VugnH0hx+8xeQuRaSustFjIbrwkJbmgZ+CdR3NHmlEkIwwCGi6wwP0voX1O
+ ZES+Q1Z8aHdU5lni1YPDJtR4PXxevubN8+CLmaN7Q2LKd21T7YPgA2sqmVOed64e3xnnpw
+ r5vWp05HBA8rN9Z+ixO+iA/jg18tObA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-104-4drl-AZ-PHWf52FnRtcE0A-1; Thu, 28 Mar 2024 08:07:22 -0400
+X-MC-Unique: 4drl-AZ-PHWf52FnRtcE0A-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E827E2800494;
- Thu, 28 Mar 2024 12:07:18 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3BB6585A58B;
+ Thu, 28 Mar 2024 12:07:22 +0000 (UTC)
 Received: from hydra.redhat.com (unknown [10.39.194.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E37022024517;
- Thu, 28 Mar 2024 12:07:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 316FE2022EA7;
+ Thu, 28 Mar 2024 12:07:19 +0000 (UTC)
 From: Jocelyn Falempe <jfalempe@redhat.com>
 To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
@@ -48,9 +48,9 @@ To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
  sui.jingfeng@linux.dev
 Cc: gpiccoli@igalia.com,
 	Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH v11 8/9] drm/imx: Add drm_panic support
-Date: Thu, 28 Mar 2024 13:03:50 +0100
-Message-ID: <20240328120638.468738-9-jfalempe@redhat.com>
+Subject: [PATCH v11 9/9] drm/ast: Add drm_panic support
+Date: Thu, 28 Mar 2024 13:03:51 +0100
+Message-ID: <20240328120638.468738-10-jfalempe@redhat.com>
 In-Reply-To: <20240328120638.468738-1-jfalempe@redhat.com>
 References: <20240328120638.468738-1-jfalempe@redhat.com>
 MIME-Version: 1.0
@@ -74,53 +74,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the drm_panic module, which displays a user-friendly
-message to the screen when a kernel panic occurs.
+Add support for the drm_panic module, which displays a message to
+the screen when a kernel panic occurs.
 
-v7:
- * use drm_panic_gem_get_scanout_buffer() helper
+v7
+ * Use drm_for_each_primary_visible_plane()
 
 v8:
  * Replace get_scanout_buffer() logic with drm_panic_set_buffer()
-
+   (Thomas Zimmermann)
 v9:
  * Revert to using get_scanout_buffer() (Sima)
  * move get_scanout_buffer() to plane helper functions
 
 Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+Tested-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 ---
- drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/ast/ast_mode.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c
-index dade8b59feae..3e21d2a1a124 100644
---- a/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c
-+++ b/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c
-@@ -772,6 +772,12 @@ static const struct drm_plane_helper_funcs ipu_plane_helper_funcs = {
- 	.atomic_disable = ipu_plane_atomic_disable,
- 	.atomic_update = ipu_plane_atomic_update,
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index a718646a66b8..49f2d8bd3377 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -43,6 +43,7 @@
+ #include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_gem_shmem_helper.h>
+ #include <drm/drm_managed.h>
++#include <drm/drm_panic.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
+ 
+@@ -700,12 +701,29 @@ static void ast_primary_plane_helper_atomic_disable(struct drm_plane *plane,
+ 	ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x1, 0xdf, 0x20);
+ }
+ 
++static int ast_primary_plane_helper_get_scanout_buffer(struct drm_plane *plane,
++						       struct drm_scanout_buffer *sb)
++{
++	struct ast_plane *ast_plane = to_ast_plane(plane);
++
++	if (plane->state && plane->state->fb && ast_plane->vaddr) {
++		sb->format = plane->state->fb->format;
++		sb->width = plane->state->fb->width;
++		sb->height = plane->state->fb->height;
++		sb->pitch = plane->state->fb->pitches[0];
++		iosys_map_set_vaddr_iomem(&sb->map, ast_plane->vaddr);
++		return 0;
++	}
++	return -ENODEV;
++}
++
+ static const struct drm_plane_helper_funcs ast_primary_plane_helper_funcs = {
+ 	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
+ 	.atomic_check = ast_primary_plane_helper_atomic_check,
+ 	.atomic_update = ast_primary_plane_helper_atomic_update,
+ 	.atomic_enable = ast_primary_plane_helper_atomic_enable,
+ 	.atomic_disable = ast_primary_plane_helper_atomic_disable,
++	.get_scanout_buffer = ast_primary_plane_helper_get_scanout_buffer,
  };
-+static const struct drm_plane_helper_funcs ipu_primary_plane_helper_funcs = {
-+	.atomic_check = ipu_plane_atomic_check,
-+	.atomic_disable = ipu_plane_atomic_disable,
-+	.atomic_update = ipu_plane_atomic_update,
-+	.get_scanout_buffer = drm_panic_gem_get_scanout_buffer,
-+};
  
- bool ipu_plane_atomic_update_pending(struct drm_plane *plane)
- {
-@@ -916,7 +922,10 @@ struct ipu_plane *ipu_plane_init(struct drm_device *dev, struct ipu_soc *ipu,
- 	ipu_plane->dma = dma;
- 	ipu_plane->dp_flow = dp;
- 
--	drm_plane_helper_add(&ipu_plane->base, &ipu_plane_helper_funcs);
-+	if (type == DRM_PLANE_TYPE_PRIMARY)
-+		drm_plane_helper_add(&ipu_plane->base, &ipu_primary_plane_helper_funcs);
-+	else
-+		drm_plane_helper_add(&ipu_plane->base, &ipu_plane_helper_funcs);
- 
- 	if (dp == IPU_DP_FLOW_SYNC_BG || dp == IPU_DP_FLOW_SYNC_FG)
- 		ret = drm_plane_create_zpos_property(&ipu_plane->base, zpos, 0,
+ static const struct drm_plane_funcs ast_primary_plane_funcs = {
 -- 
 2.44.0
 
