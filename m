@@ -2,48 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AFB6891953
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:39:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83295891956
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:40:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C26410EA95;
-	Fri, 29 Mar 2024 12:39:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ED3B10E13C;
+	Fri, 29 Mar 2024 12:39:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="car6bcuB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DC+nerG1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B31510EA95
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 12:39:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC17610E13C
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 12:39:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8129E61920;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 46B9361934;
+ Fri, 29 Mar 2024 12:39:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EFFAC433F1;
  Fri, 29 Mar 2024 12:39:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A1DCC43390;
- Fri, 29 Mar 2024 12:39:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711715960;
- bh=B+UPqiZhHjHusSKbhDQ5UfjOH+MzF07nuUtbkag2bOY=;
- h=From:To:Cc:Subject:Date:From;
- b=car6bcuB6FeQzd5FXirYpsi6jUnfFdsVXKavDUthNvE8K3jfcuS/wwX1ZOSwssZve
- d6Ma7IhKc34P4mdMx1k1ylrLQelG0Hd+b7Bzf7sgWQbtN8AmQ15NC3eTGTKRCpgk0G
- 3sSAkNjYJHdBr9pFmB20meGMBBk3qchmEBrvUWbjcmzGZJhf9kZurU9Fa/7vKecEQ9
- 8iODmxIy9a3f87+tqHOV5clGLt80eNmfh++Qs9/xbIj0eItfIFvQ0frkE8rUCCYqd+
- hUM4MDCWT7C2OqTvAF7MKASn0jSfa2Op5PftFbAfGA/I2aZ7Fiuwj0LV+nZtCYCNfn
- Im9yBjNfNcDeQ==
+ s=k20201202; t=1711715962;
+ bh=lZqrsfz7PMnd6DsRrloCr2AJhrFU8XDS8xiS4KvjE+4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=DC+nerG1ykJeg5eoi4uU8u1FfDhmG3j+zML6Ag1ww2wU7faC/TlOiPWUpCVnX3jFW
+ 3JtwsRBdSPPH92J7FO/9A8DmDAaUzjsTyOFl79GYy+nlz3PaMnYTUSNhMWTzGTw00y
+ vORGwOrXCmrKizFYNTlZn6oG87H8xU6YV7ktgTEF2PNebHGyg1NQLMpBvAulPBLn+n
+ QSZrQjucT0WFsavYXmfva0pE5lZuJH0Wq2olGQaXp0Okdnmj3J/gxSZz3wcsljqPx5
+ c0wIzWDZjXuiXJSIiJOd7VJ2hNBq+HVwh22Yk0hII9hjkVqrK7srcXx8WN5nM72KXc
+ U56jhX7YriJeQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- Maxime Ripard <mripard@kernel.org>, Sasha Levin <sashal@kernel.org>,
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.8 01/98] drm/vc4: don't check if plane->state->fb ==
- state->fb
-Date: Fri, 29 Mar 2024 08:36:32 -0400
-Message-ID: <20240329123919.3087149-1-sashal@kernel.org>
+Cc: Vignesh Raman <vignesh.raman@collabora.com>,
+ David Heidelberg <david.heidelberg@collabora.com>,
+ Helen Koike <helen.koike@collabora.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sasha Levin <sashal@kernel.org>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.8 02/98] drm/ci: uprev mesa version: fix kdl commit
+ fetch
+Date: Fri, 29 Mar 2024 08:36:33 -0400
+Message-ID: <20240329123919.3087149-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240329123919.3087149-1-sashal@kernel.org>
+References: <20240329123919.3087149-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.8.2
@@ -63,100 +67,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maíra Canal <mcanal@igalia.com>
+From: Vignesh Raman <vignesh.raman@collabora.com>
 
-[ Upstream commit 5ee0d47dcf33efd8950b347dcf4d20bab12a3fa9 ]
+[ Upstream commit d315a68e94a76310c349add3f9c914cefda0a87f ]
 
-Currently, when using non-blocking commits, we can see the following
-kernel warning:
+build-kdl.sh was doing a `clone --depth 1` of the default branch,
+then checking out a commit that might not be the latest of that
+branch, resulting in container build error.
 
-[  110.908514] ------------[ cut here ]------------
-[  110.908529] refcount_t: underflow; use-after-free.
-[  110.908620] WARNING: CPU: 0 PID: 1866 at lib/refcount.c:87 refcount_dec_not_one+0xb8/0xc0
-[  110.908664] Modules linked in: rfcomm snd_seq_dummy snd_hrtimer snd_seq snd_seq_device cmac algif_hash aes_arm64 aes_generic algif_skcipher af_alg bnep hid_logitech_hidpp vc4 brcmfmac hci_uart btbcm brcmutil bluetooth snd_soc_hdmi_codec cfg80211 cec drm_display_helper drm_dma_helper drm_kms_helper snd_soc_core snd_compress snd_pcm_dmaengine fb_sys_fops sysimgblt syscopyarea sysfillrect raspberrypi_hwmon ecdh_generic ecc rfkill libaes i2c_bcm2835 binfmt_misc joydev snd_bcm2835(C) bcm2835_codec(C) bcm2835_isp(C) v4l2_mem2mem videobuf2_dma_contig snd_pcm bcm2835_v4l2(C) raspberrypi_gpiomem bcm2835_mmal_vchiq(C) videobuf2_v4l2 snd_timer videobuf2_vmalloc videobuf2_memops videobuf2_common snd videodev vc_sm_cma(C) mc hid_logitech_dj uio_pdrv_genirq uio i2c_dev drm fuse dm_mod drm_panel_orientation_quirks backlight ip_tables x_tables ipv6
-[  110.909086] CPU: 0 PID: 1866 Comm: kodi.bin Tainted: G         C         6.1.66-v8+ #32
-[  110.909104] Hardware name: Raspberry Pi 3 Model B Rev 1.2 (DT)
-[  110.909114] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[  110.909132] pc : refcount_dec_not_one+0xb8/0xc0
-[  110.909152] lr : refcount_dec_not_one+0xb4/0xc0
-[  110.909170] sp : ffffffc00913b9c0
-[  110.909177] x29: ffffffc00913b9c0 x28: 000000556969bbb0 x27: 000000556990df60
-[  110.909205] x26: 0000000000000002 x25: 0000000000000004 x24: ffffff8004448480
-[  110.909230] x23: ffffff800570b500 x22: ffffff802e03a7bc x21: ffffffecfca68c78
-[  110.909257] x20: ffffff8002b42000 x19: ffffff802e03a600 x18: 0000000000000000
-[  110.909283] x17: 0000000000000011 x16: ffffffffffffffff x15: 0000000000000004
-[  110.909308] x14: 0000000000000fff x13: ffffffed577e47e0 x12: 0000000000000003
-[  110.909333] x11: 0000000000000000 x10: 0000000000000027 x9 : c912d0d083728c00
-[  110.909359] x8 : c912d0d083728c00 x7 : 65646e75203a745f x6 : 746e756f63666572
-[  110.909384] x5 : ffffffed579f62ee x4 : ffffffed579eb01e x3 : 0000000000000000
-[  110.909409] x2 : 0000000000000000 x1 : ffffffc00913b750 x0 : 0000000000000001
-[  110.909434] Call trace:
-[  110.909441]  refcount_dec_not_one+0xb8/0xc0
-[  110.909461]  vc4_bo_dec_usecnt+0x4c/0x1b0 [vc4]
-[  110.909903]  vc4_cleanup_fb+0x44/0x50 [vc4]
-[  110.910315]  drm_atomic_helper_cleanup_planes+0x88/0xa4 [drm_kms_helper]
-[  110.910669]  vc4_atomic_commit_tail+0x390/0x9dc [vc4]
-[  110.911079]  commit_tail+0xb0/0x164 [drm_kms_helper]
-[  110.911397]  drm_atomic_helper_commit+0x1d0/0x1f0 [drm_kms_helper]
-[  110.911716]  drm_atomic_commit+0xb0/0xdc [drm]
-[  110.912569]  drm_mode_atomic_ioctl+0x348/0x4b8 [drm]
-[  110.913330]  drm_ioctl_kernel+0xec/0x15c [drm]
-[  110.914091]  drm_ioctl+0x24c/0x3b0 [drm]
-[  110.914850]  __arm64_sys_ioctl+0x9c/0xd4
-[  110.914873]  invoke_syscall+0x4c/0x114
-[  110.914897]  el0_svc_common+0xd0/0x118
-[  110.914917]  do_el0_svc+0x38/0xd0
-[  110.914936]  el0_svc+0x30/0x8c
-[  110.914958]  el0t_64_sync_handler+0x84/0xf0
-[  110.914979]  el0t_64_sync+0x18c/0x190
-[  110.914996] ---[ end trace 0000000000000000 ]---
+https://gitlab.freedesktop.org/mesa/mesa/-/commit/5efa4d56 fixes
+kdl commit fetch issue. Uprev mesa in drm-ci to fix this.
 
-This happens because, although `prepare_fb` and `cleanup_fb` are
-perfectly balanced, we cannot guarantee consistency in the check
-plane->state->fb == state->fb. This means that sometimes we can increase
-the refcount in `prepare_fb` and don't decrease it in `cleanup_fb`. The
-opposite can also be true.
+This commit updates the kernel tag and adds .never-post-merge-rules
+due to the mesa uprev. It also fixes an issue where the virtio-gpu
+pipeline was not getting created with the mesa uprev.
 
-In fact, the struct drm_plane .state shouldn't be accessed directly
-but instead, the `drm_atomic_get_new_plane_state()` helper function should
-be used. So, we could stick to this check, but using
-`drm_atomic_get_new_plane_state()`. But actually, this check is not really
-needed. We can increase and decrease the refcount symmetrically without
-problems.
-
-This is going to make the code more simple and consistent.
-
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240105175908.242000-1-mcanal@igalia.com
+Reviewed-by: David Heidelberg <david.heidelberg@collabora.com>
+Acked-by: Helen Koike <helen.koike@collabora.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Tested-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+Signed-off-by: Helen Koike <helen.koike@collabora.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20231222033434.1537761-1-vignesh.raman@collabora.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vc4/vc4_plane.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/gpu/drm/ci/gitlab-ci.yml | 14 ++++++++++++--
+ drivers/gpu/drm/ci/test.yml      |  1 +
+ 2 files changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index 00e713faecd5a..5948e34f7f813 100644
---- a/drivers/gpu/drm/vc4/vc4_plane.c
-+++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -1505,9 +1505,6 @@ static int vc4_prepare_fb(struct drm_plane *plane,
+diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
+index dac92cc2777cc..084e3ff8e3f42 100644
+--- a/drivers/gpu/drm/ci/gitlab-ci.yml
++++ b/drivers/gpu/drm/ci/gitlab-ci.yml
+@@ -1,6 +1,6 @@
+ variables:
+   DRM_CI_PROJECT_PATH: &drm-ci-project-path mesa/mesa
+-  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha edfbf74df1d4d6ce54ffe24566108be0e1a98c3d
++  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha 9d162de9a05155e1c4041857a5848842749164cf
  
- 	drm_gem_plane_helper_prepare_fb(plane, state);
+   UPSTREAM_REPO: git://anongit.freedesktop.org/drm/drm
+   TARGET_BRANCH: drm-next
+@@ -25,7 +25,9 @@ variables:
+   # per-job artifact storage on MinIO
+   JOB_ARTIFACTS_BASE: ${PIPELINE_ARTIFACTS_BASE}/${CI_JOB_ID}
+   # default kernel for rootfs before injecting the current kernel tree
+-  KERNEL_IMAGE_BASE: https://${S3_HOST}/mesa-lava/gfx-ci/linux/v6.4.12-for-mesa-ci-f6b4ad45f48d
++  KERNEL_REPO: "gfx-ci/linux"
++  KERNEL_TAG: "v6.6.4-for-mesa-ci-e4f4c500f7fb"
++  KERNEL_IMAGE_BASE: https://${S3_HOST}/mesa-lava/${KERNEL_REPO}/${KERNEL_TAG}
+   LAVA_TAGS: subset-1-gfx
+   LAVA_JOB_PRIORITY: 30
  
--	if (plane->state->fb == state->fb)
--		return 0;
--
- 	return vc4_bo_inc_usecnt(bo);
- }
+@@ -133,6 +135,11 @@ stages:
+     - if: &is-pre-merge-for-marge '$GITLAB_USER_LOGIN == "marge-bot" && $CI_PIPELINE_SOURCE == "merge_request_event"'
+       when: on_success
  
-@@ -1516,7 +1513,7 @@ static void vc4_cleanup_fb(struct drm_plane *plane,
- {
- 	struct vc4_bo *bo;
++.never-post-merge-rules:
++  rules:
++    - if: *is-post-merge
++      when: never
++
+ # Rule to filter for only scheduled pipelines.
+ .scheduled_pipeline-rules:
+   rules:
+@@ -150,6 +157,7 @@ stages:
+ .build-rules:
+   rules:
+     - !reference [.no_scheduled_pipelines-rules, rules]
++    - !reference [.never-post-merge-rules, rules]
+     # Run automatically once all dependency jobs have passed
+     - when: on_success
  
--	if (plane->state->fb == state->fb || !state->fb)
-+	if (!state->fb)
- 		return;
+@@ -157,6 +165,7 @@ stages:
+ .container+build-rules:
+   rules:
+     - !reference [.no_scheduled_pipelines-rules, rules]
++    - !reference [.never-post-merge-rules, rules]
+     - when: manual
  
- 	bo = to_vc4_bo(&drm_fb_dma_get_gem_obj(state->fb, 0)->base);
+ .ci-deqp-artifacts:
+@@ -175,6 +184,7 @@ stages:
+ .container-rules:
+   rules:
+     - !reference [.no_scheduled_pipelines-rules, rules]
++    - !reference [.never-post-merge-rules, rules]
+     # Run pipeline by default in the main project if any CI pipeline
+     # configuration files were changed, to ensure docker images are up to date
+     - if: *is-post-merge
+diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
+index 2c9a1838e7284..1705f268547ad 100644
+--- a/drivers/gpu/drm/ci/test.yml
++++ b/drivers/gpu/drm/ci/test.yml
+@@ -324,6 +324,7 @@ virtio_gpu:none:
+     GPU_VERSION: none
+   extends:
+     - .test-gl
++    - .test-rules
+   tags:
+     - kvm
+   script:
 -- 
 2.43.0
 
