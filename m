@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 095FE8919B9
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:46:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 367498919BC
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:46:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 315DF1126D9;
-	Fri, 29 Mar 2024 12:46:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E24A1126DA;
+	Fri, 29 Mar 2024 12:46:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dfEkDg5d";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jCKpqXMG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DC901126DA
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 12:46:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFA801126DA
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 12:46:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 44731CE1D5B;
- Fri, 29 Mar 2024 12:46:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F39EC433F1;
- Fri, 29 Mar 2024 12:46:05 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 011F9CE2F9E;
+ Fri, 29 Mar 2024 12:46:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 105C1C43390;
+ Fri, 29 Mar 2024 12:46:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711716366;
- bh=Wvy/buyETZPHPs421ciUfN+W1lK7MVfN/gcP4Xfgf9A=;
- h=From:To:Cc:Subject:Date:From;
- b=dfEkDg5d5m+2yAPlwDymCNrkmVV60ca4pjZvL8HQYA08/AN/ElvR2g0Ij185yK0Kt
- YqLfSk5u+UTUrs/LPDSMHg3JRyWImchGC0pfAwOWl5CtaDfgv7uzady0qUvTuLl4ek
- suRrw7irpJT8GUyLSnMdmOLkx1w9kPP8lZaX1teXrQLnyXfp3tgCifyjDGZGGqE7UH
- g/+C1enPORVNKKrFKz2AMYGTSb0GqhhdFXHQXMqUMveopkAzAagjO/E4bj3bKl955b
- ckBGZVxSzXNJVOg6vr+WBLH0sGSJWOI4sNOZMoMAIMUu07VIhI6ddp0Pj8X17+HMV7
- qG8Hug5aLX0vQ==
+ s=k20201202; t=1711716370;
+ bh=unAcMRuAE1vIWssF2K6cGs00MZFhLexNVVz7+k7K4PY=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=jCKpqXMGpu4fPQQKpbINyHs/dv7JK8FKorN6YRbCzWdpcsxEQopWYBhA6zu1TV8ab
+ fIZuMPbEzjnT15TdRKr+LhqxpY1ORcqKolxJS19Zudbn5L8/Xzl82awiR/BF0IIqos
+ pTdhhAHoasqGVJvPn6cJBmyJGt8IfFSlYzABNvgqK41E3h0qmhJEV4cW0/5gO6w3h8
+ GPbARRbt9+oetvLTu8Vyv8CqhEsJVo4dEUFtY9vqBjOnTcuo9cCMyZqlxKSXx0/dfe
+ B3+vNoffYeFhu6NAJCkZ/qExESXklnvAVPydQOs+6+b/vfQV0k16co0pI1huX81J6t
+ 9O8nR20iQJhTg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- Maxime Ripard <mripard@kernel.org>, Sasha Levin <sashal@kernel.org>,
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 01/52] drm/vc4: don't check if plane->state->fb ==
- state->fb
-Date: Fri, 29 Mar 2024 08:44:55 -0400
-Message-ID: <20240329124605.3091273-1-sashal@kernel.org>
+Cc: Samuel Dionne-Riel <samuel@dionne-riel.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Sasha Levin <sashal@kernel.org>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.1 03/52] drm: panel-orientation-quirks: Add quirk
+ for GPD Win Mini
+Date: Fri, 29 Mar 2024 08:44:57 -0400
+Message-ID: <20240329124605.3091273-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240329124605.3091273-1-sashal@kernel.org>
+References: <20240329124605.3091273-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.83
@@ -63,100 +64,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maíra Canal <mcanal@igalia.com>
+From: Samuel Dionne-Riel <samuel@dionne-riel.com>
 
-[ Upstream commit 5ee0d47dcf33efd8950b347dcf4d20bab12a3fa9 ]
+[ Upstream commit 2f862fdc0fd802e728b6ca96bc78ec3f01bf161e ]
 
-Currently, when using non-blocking commits, we can see the following
-kernel warning:
+This adds a DMI orientation quirk for the GPD Win Mini panel.
 
-[  110.908514] ------------[ cut here ]------------
-[  110.908529] refcount_t: underflow; use-after-free.
-[  110.908620] WARNING: CPU: 0 PID: 1866 at lib/refcount.c:87 refcount_dec_not_one+0xb8/0xc0
-[  110.908664] Modules linked in: rfcomm snd_seq_dummy snd_hrtimer snd_seq snd_seq_device cmac algif_hash aes_arm64 aes_generic algif_skcipher af_alg bnep hid_logitech_hidpp vc4 brcmfmac hci_uart btbcm brcmutil bluetooth snd_soc_hdmi_codec cfg80211 cec drm_display_helper drm_dma_helper drm_kms_helper snd_soc_core snd_compress snd_pcm_dmaengine fb_sys_fops sysimgblt syscopyarea sysfillrect raspberrypi_hwmon ecdh_generic ecc rfkill libaes i2c_bcm2835 binfmt_misc joydev snd_bcm2835(C) bcm2835_codec(C) bcm2835_isp(C) v4l2_mem2mem videobuf2_dma_contig snd_pcm bcm2835_v4l2(C) raspberrypi_gpiomem bcm2835_mmal_vchiq(C) videobuf2_v4l2 snd_timer videobuf2_vmalloc videobuf2_memops videobuf2_common snd videodev vc_sm_cma(C) mc hid_logitech_dj uio_pdrv_genirq uio i2c_dev drm fuse dm_mod drm_panel_orientation_quirks backlight ip_tables x_tables ipv6
-[  110.909086] CPU: 0 PID: 1866 Comm: kodi.bin Tainted: G         C         6.1.66-v8+ #32
-[  110.909104] Hardware name: Raspberry Pi 3 Model B Rev 1.2 (DT)
-[  110.909114] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[  110.909132] pc : refcount_dec_not_one+0xb8/0xc0
-[  110.909152] lr : refcount_dec_not_one+0xb4/0xc0
-[  110.909170] sp : ffffffc00913b9c0
-[  110.909177] x29: ffffffc00913b9c0 x28: 000000556969bbb0 x27: 000000556990df60
-[  110.909205] x26: 0000000000000002 x25: 0000000000000004 x24: ffffff8004448480
-[  110.909230] x23: ffffff800570b500 x22: ffffff802e03a7bc x21: ffffffecfca68c78
-[  110.909257] x20: ffffff8002b42000 x19: ffffff802e03a600 x18: 0000000000000000
-[  110.909283] x17: 0000000000000011 x16: ffffffffffffffff x15: 0000000000000004
-[  110.909308] x14: 0000000000000fff x13: ffffffed577e47e0 x12: 0000000000000003
-[  110.909333] x11: 0000000000000000 x10: 0000000000000027 x9 : c912d0d083728c00
-[  110.909359] x8 : c912d0d083728c00 x7 : 65646e75203a745f x6 : 746e756f63666572
-[  110.909384] x5 : ffffffed579f62ee x4 : ffffffed579eb01e x3 : 0000000000000000
-[  110.909409] x2 : 0000000000000000 x1 : ffffffc00913b750 x0 : 0000000000000001
-[  110.909434] Call trace:
-[  110.909441]  refcount_dec_not_one+0xb8/0xc0
-[  110.909461]  vc4_bo_dec_usecnt+0x4c/0x1b0 [vc4]
-[  110.909903]  vc4_cleanup_fb+0x44/0x50 [vc4]
-[  110.910315]  drm_atomic_helper_cleanup_planes+0x88/0xa4 [drm_kms_helper]
-[  110.910669]  vc4_atomic_commit_tail+0x390/0x9dc [vc4]
-[  110.911079]  commit_tail+0xb0/0x164 [drm_kms_helper]
-[  110.911397]  drm_atomic_helper_commit+0x1d0/0x1f0 [drm_kms_helper]
-[  110.911716]  drm_atomic_commit+0xb0/0xdc [drm]
-[  110.912569]  drm_mode_atomic_ioctl+0x348/0x4b8 [drm]
-[  110.913330]  drm_ioctl_kernel+0xec/0x15c [drm]
-[  110.914091]  drm_ioctl+0x24c/0x3b0 [drm]
-[  110.914850]  __arm64_sys_ioctl+0x9c/0xd4
-[  110.914873]  invoke_syscall+0x4c/0x114
-[  110.914897]  el0_svc_common+0xd0/0x118
-[  110.914917]  do_el0_svc+0x38/0xd0
-[  110.914936]  el0_svc+0x30/0x8c
-[  110.914958]  el0t_64_sync_handler+0x84/0xf0
-[  110.914979]  el0t_64_sync+0x18c/0x190
-[  110.914996] ---[ end trace 0000000000000000 ]---
-
-This happens because, although `prepare_fb` and `cleanup_fb` are
-perfectly balanced, we cannot guarantee consistency in the check
-plane->state->fb == state->fb. This means that sometimes we can increase
-the refcount in `prepare_fb` and don't decrease it in `cleanup_fb`. The
-opposite can also be true.
-
-In fact, the struct drm_plane .state shouldn't be accessed directly
-but instead, the `drm_atomic_get_new_plane_state()` helper function should
-be used. So, we could stick to this check, but using
-`drm_atomic_get_new_plane_state()`. But actually, this check is not really
-needed. We can increase and decrease the refcount symmetrically without
-problems.
-
-This is going to make the code more simple and consistent.
-
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240105175908.242000-1-mcanal@igalia.com
+Signed-off-by: Samuel Dionne-Riel <samuel@dionne-riel.com>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20231222030149.3740815-2-samuel@dionne-riel.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vc4/vc4_plane.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index eb08020154f30..7e6648b277b25 100644
---- a/drivers/gpu/drm/vc4/vc4_plane.c
-+++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -1415,9 +1415,6 @@ static int vc4_prepare_fb(struct drm_plane *plane,
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index d5c15292ae937..3fe5e6439c401 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -117,6 +117,12 @@ static const struct drm_dmi_panel_orientation_data lcd1080x1920_leftside_up = {
+ 	.orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
+ };
  
- 	drm_gem_plane_helper_prepare_fb(plane, state);
- 
--	if (plane->state->fb == state->fb)
--		return 0;
--
- 	return vc4_bo_inc_usecnt(bo);
- }
- 
-@@ -1426,7 +1423,7 @@ static void vc4_cleanup_fb(struct drm_plane *plane,
- {
- 	struct vc4_bo *bo;
- 
--	if (plane->state->fb == state->fb || !state->fb)
-+	if (!state->fb)
- 		return;
- 
- 	bo = to_vc4_bo(&drm_fb_dma_get_gem_obj(state->fb, 0)->base);
++static const struct drm_dmi_panel_orientation_data lcd1080x1920_rightside_up = {
++	.width = 1080,
++	.height = 1920,
++	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
++};
++
+ static const struct drm_dmi_panel_orientation_data lcd1200x1920_rightside_up = {
+ 	.width = 1200,
+ 	.height = 1920,
+@@ -279,6 +285,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1618-03")
+ 		},
+ 		.driver_data = (void *)&lcd720x1280_rightside_up,
++	}, {	/* GPD Win Mini */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "GPD"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1617-01")
++		},
++		.driver_data = (void *)&lcd1080x1920_rightside_up,
+ 	}, {	/* I.T.Works TW891 */
+ 		.matches = {
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "To be filled by O.E.M."),
 -- 
 2.43.0
 
