@@ -2,52 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 465BC8932B9
-	for <lists+dri-devel@lfdr.de>; Sun, 31 Mar 2024 18:26:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 087AF89335E
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Mar 2024 18:40:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D411410E8A9;
-	Sun, 31 Mar 2024 16:26:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B1CA10E250;
+	Sun, 31 Mar 2024 16:40:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
 	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="s/NFcY4W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from a.mx.secunet.com (a.mx.secunet.com [62.96.220.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 566DF10E8A9;
- Sun, 31 Mar 2024 16:26:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0255910E250;
+ Sun, 31 Mar 2024 16:40:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by a.mx.secunet.com (Postfix) with ESMTP id D4F33208BF;
- Sun, 31 Mar 2024 18:26:25 +0200 (CEST)
+ by a.mx.secunet.com (Postfix) with ESMTP id B462B208C1;
+ Sun, 31 Mar 2024 18:40:08 +0200 (CEST)
 X-Virus-Scanned: by secunet
 Received: from a.mx.secunet.com ([127.0.0.1])
  by localhost (a.mx.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id mro0pfXykjcv; Sun, 31 Mar 2024 18:26:25 +0200 (CEST)
+ with ESMTP id we-V_GRXsPRG; Sun, 31 Mar 2024 18:40:07 +0200 (CEST)
 Received: from mailout1.secunet.com (mailout1.secunet.com [62.96.220.44])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by a.mx.secunet.com (Postfix) with ESMTPS id E2434208A3;
- Sun, 31 Mar 2024 18:26:24 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 a.mx.secunet.com E2434208A3
+ by a.mx.secunet.com (Postfix) with ESMTPS id AE00620892;
+ Sun, 31 Mar 2024 18:40:04 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 a.mx.secunet.com AE00620892
 Received: from cas-essen-01.secunet.de (unknown [10.53.40.201])
- by mailout1.secunet.com (Postfix) with ESMTP id D5B0A80004E;
- Sun, 31 Mar 2024 18:26:24 +0200 (CEST)
+ by mailout1.secunet.com (Postfix) with ESMTP id 9FF4D80004A;
+ Sun, 31 Mar 2024 18:40:04 +0200 (CEST)
 Received: from mbx-essen-01.secunet.de (10.53.40.197) by
  cas-essen-01.secunet.de (10.53.40.201) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sun, 31 Mar 2024 18:26:24 +0200
+ 15.1.2507.35; Sun, 31 Mar 2024 18:40:04 +0200
 Received: from Pickup by mbx-essen-01.secunet.de with Microsoft SMTP Server id
- 15.1.2507.17; Sun, 31 Mar 2024 16:24:02 +0000
+ 15.1.2507.17; Sun, 31 Mar 2024 16:37:12 +0000
 X-sender: <intel-gfx-bounces@lists.freedesktop.org>
 X-Receiver: <martin.weber@secunet.com> ORCPT=rfc822;martin.weber@secunet.com
- NOTIFY=NEVER;
- X-ExtendedProps=BQAVABYAAgAAAAUAFAARAJuYHy0vkvxLoOu7fW2WcxcPADUAAABNaWNyb3NvZnQuRXhjaGFuZ2UuVHJhbnNwb3J0LkRpcmVjdG9yeURhdGEuSXNSZXNvdXJjZQIAAAUAagAJAAEAAAAAAAAABQAWAAIAAAUAQwACAAAFAEYABwADAAAABQBHAAIAAAUAEgAPAF4AAAAvbz1zZWN1bmV0L291PUV4Y2hhbmdlIEFkbWluaXN0cmF0aXZlIEdyb3VwIChGWURJQk9IRjIzU1BETFQpL2NuPVJlY2lwaWVudHMvY249V2ViZXIgTWFydGluOTU1BQALABcAvgAAALMpUnVJ4+pPsL47FHo+lvtDTj1EQjIsQ049RGF0YWJhc2VzLENOPUV4Y2hhbmdlIEFkbWluaXN0cmF0aXZlIEdyb3VwIChGWURJQk9IRjIzU1BETFQpLENOPUFkbWluaXN0cmF0aXZlIEdyb3VwcyxDTj1zZWN1bmV0LENOPU1pY3Jvc29mdCBFeGNoYW5nZSxDTj1TZXJ2aWNlcyxDTj1Db25maWd1cmF0aW9uLERDPXNlY3VuZXQsREM9ZGUFAA4AEQBACf3SYEkDT461FZzDv+B7BQAdAA8ADAAAAG1ieC1lc3Nlbi0wMQUAPAACAAAPADYAAABNaWNyb3NvZnQuRXhjaGFuZ2UuVHJhbnNwb3J0Lk1haWxSZWNpcGllbnQuRGlzcGxheU5hbWUPAA0AAABXZWJlciwgTWFydGluBQAMAAIAAAUAbAACAAAFAFgAFwBGAAAAm5gfLS+S/Eug67t9bZZzF0NOPVdlYmVyIE1hcnRpbixPVT1Vc2VycyxPVT1NaWdyYXRpb24sREM9c2VjdW5ldCxEQz1kZQUAJgACAAEFACIADwAxAAAAQXV0b1Jlc3BvbnNlU3VwcHJlc3M6IDANClRyYW5zbWl0SGlzdG9yeTogRmFsc2UNCg8AL
- wAAAE1pY3Jvc29mdC5FeGNoYW5nZS5UcmFuc3BvcnQuRXhwYW5zaW9uR3JvdXBUeXBlDwAVAAAATWVtYmVyc0dyb3VwRXhwYW5zaW9uBQAjAAIAAQ==
 X-CreatedBy: MSExchange15
-X-HeloDomain: a.mx.secunet.com
-X-ExtendedProps: BQBjAAoAprRAQuxQ3AgFAGEACAABAAAABQA3AAIAAA8APAAAAE1pY3Jvc29mdC5FeGNoYW5nZS5UcmFuc3BvcnQuTWFpbFJlY2lwaWVudC5Pcmdhbml6YXRpb25TY29wZREAAAAAAAAAAAAAAAAAAAAAAAUASQACAAEFAGIACgAEAQAArooAAAUABAAUIAEAAAAYAAAAbWFydGluLndlYmVyQHNlY3VuZXQuY29tBQAGAAIAAQUAKQACAAEPAAkAAABDSUF1ZGl0ZWQCAAEFAAIABwABAAAABQADAAcAAAAAAAUABQACAAEFAGQADwADAAAASHVi
-X-Source: SMTP:Default MBX-DRESDEN-01
-X-SourceIPAddress: 62.96.220.36
-X-EndOfInjectedXHeaders: 19263
+X-HeloDomain: mbx-dresden-01.secunet.de
+X-ExtendedProps: BQBjAAoAonUFfe5Q3AgFADcAAgAADwA8AAAATWljcm9zb2Z0LkV4Y2hhbmdlLlRyYW5zcG9ydC5NYWlsUmVjaXBpZW50Lk9yZ2FuaXphdGlvblNjb3BlEQAAAAAAAAAAAAAAAAAAAAAADwA/AAAATWljcm9zb2Z0LkV4Y2hhbmdlLlRyYW5zcG9ydC5EaXJlY3RvcnlEYXRhLk1haWxEZWxpdmVyeVByaW9yaXR5DwADAAAATG93
+X-Source: SMTP:Default MBX-ESSEN-02
+X-SourceIPAddress: 10.53.40.199
+X-EndOfInjectedXHeaders: 13521
 X-Virus-Scanned: by secunet
 Received-SPF: Pass (sender SPF authorized) identity=mailfrom;
  client-ip=131.252.210.177; helo=gabe.freedesktop.org;
