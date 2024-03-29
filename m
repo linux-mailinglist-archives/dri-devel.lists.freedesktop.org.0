@@ -2,52 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48BCC891951
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:39:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F422E89195F
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:40:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 047C51126BC;
-	Fri, 29 Mar 2024 12:39:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEB671126C0;
+	Fri, 29 Mar 2024 12:40:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lWsCKt87";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TGFmU6ns";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2AB31126BC
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 12:39:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90D3D1126BD;
+ Fri, 29 Mar 2024 12:40:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 46EFF6191D;
- Fri, 29 Mar 2024 12:39:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C5EBC43390;
- Fri, 29 Mar 2024 12:39:33 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id D163D61927;
+ Fri, 29 Mar 2024 12:39:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 438F6C433F1;
+ Fri, 29 Mar 2024 12:39:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711715975;
- bh=Bgva02h10YgXphpv/cc1/YN+9JhBWLSu9nK7PK7/9qw=;
+ s=k20201202; t=1711715980;
+ bh=o0vYGURicCJl6LD77hR9+V7iy5H2Vp0VhcIYqv++Vsg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lWsCKt87Byps5cVWHYCkVYFxrS9M2Qlv56bqdlZabsyJJnaqTnryR1ELO2yLqZYxm
- bjQxCNZ5Kw5WiwJ9VPINzHegmyU3cP54lhpdZdNZcSKqBhfT5Psa4cKsqOO0Orugwm
- 3nfPyrpEgVTHoBjcQU8+QhiKO3TD1Hv++IdwmaAlpU8VIsIRI+cptwz9i5UTbXkFR1
- +PPWicDctxFmluj7Ga7tui5UKs573OoOnG5jmAPZTnqY92xj+dcQJY4qqkRgDjdr+W
- giFFu0FiKabrbgdATOXfN/Qdxj+LGdAonA7+KsC5te16HBU23h2fOqmK8awOAt8OhO
- eNZU0u5s0mrsg==
+ b=TGFmU6nsxW+7tC9te865N80bWdQAHGcVHc/mCP0zs+TivNxPbNDPTyNXj8i2RFpCh
+ ax6KVmAUk1hNlTJTcK9Ox/Nkv50ogs1CfyR36zZEu1ZvafoRbCrqbhWukirVuRVvR7
+ RxAn4bEmp8z36dYiqdQGbe/94vS9j6ixHNcrCB6aZ3o4ir0nmn8KsOfZfPTYNeqDIG
+ 7tFnJKuGi7DRWAwdbNRk1yU/nxfdo1VzYiTFz8BNmFBLAR5x3QXoyQAHPV0C7x0Fux
+ xYHih08USOtoPmfFxdqvfAx5loIzSrl0Ts3WMNjsCYjF6Y3mVLsb7NoPwmRIu0nOci
+ AVaSkNScWwwCg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Zack Rusin <zack.rusin@broadcom.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Sasha Levin <sashal@kernel.org>, ray.huang@amd.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.8 07/98] drm/ttm: return ENOSPC from
- ttm_bo_mem_space v3
-Date: Fri, 29 Mar 2024 08:36:38 -0400
-Message-ID: <20240329123919.3087149-7-sashal@kernel.org>
+Cc: Sohaib Nadeem <sohaib.nadeem@amd.com>,
+ Chaitanya Dhere <chaitanya.dhere@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
+ Tom Chung <chiahsuan.chung@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, jun.lei@amd.com, wenjing.liu@amd.com,
+ austin.zheng@amd.com, Qingqing.Zhuo@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.8 09/98] drm/amd/display: increased min_dcfclk_mhz
+ and min_fclk_mhz
+Date: Fri, 29 Mar 2024 08:36:40 -0400
+Message-ID: <20240329123919.3087149-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240329123919.3087149-1-sashal@kernel.org>
 References: <20240329123919.3087149-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.8.2
@@ -67,59 +70,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Christian König <christian.koenig@amd.com>
+From: Sohaib Nadeem <sohaib.nadeem@amd.com>
 
-[ Upstream commit 28e5126718c7b306b8c29d2ae8f48417e9303aa1 ]
+[ Upstream commit d46fb0068c54d3dc95ae8298299c4d9edb0fb7c1 ]
 
-Only convert it to ENOMEM in ttm_bo_validate.
+[why]
+Originally, PMFW said min FCLK is 300Mhz, but min DCFCLK can be increased
+to 400Mhz because min FCLK is now 600Mhz so FCLK >= 1.5 * DCFCLK hardware
+requirement will still be satisfied. Increasing min DCFCLK addresses
+underflow issues (underflow occurs when phantom pipe is turned on for some
+Sub-Viewport configs).
 
-This allows ttm_bo_validate to distinguish between an out of memory
-situation and just out of space in a placement domain.
+[how]
+Increasing DCFCLK by raising the min_dcfclk_mhz
 
-v2: improve commit message
-v3: fix kerneldoc typos
-
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Zack Rusin <zack.rusin@broadcom.com>
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240112125158.2748-3-christian.koenig@amd.com
+Reviewed-by: Chaitanya Dhere <chaitanya.dhere@amd.com>
+Reviewed-by: Alvin Lee <alvin.lee2@amd.com>
+Acked-by: Tom Chung <chiahsuan.chung@amd.com>
+Signed-off-by: Sohaib Nadeem <sohaib.nadeem@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index edf10618fe2b2..f95b0406ca995 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -770,7 +770,7 @@ static int ttm_bo_mem_force_space(struct ttm_buffer_object *bo,
-  * This function may sleep while waiting for space to become available.
-  * Returns:
-  * -EBUSY: No space available (only if no_wait == 1).
-- * -ENOMEM: Could not allocate memory for the buffer object, either due to
-+ * -ENOSPC: Could not allocate space for the buffer object, either due to
-  * fragmentation or concurrent allocators.
-  * -ERESTARTSYS: An interruptible sleep was interrupted by a signal.
-  */
-@@ -830,7 +830,7 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
- 			goto error;
- 	}
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+index a0a65e0991041..ba76dd4a2ce29 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+@@ -2760,7 +2760,7 @@ static int build_synthetic_soc_states(bool disable_dc_mode_overwrite, struct clk
+ 	struct _vcs_dpi_voltage_scaling_st entry = {0};
+ 	struct clk_limit_table_entry max_clk_data = {0};
  
--	ret = -ENOMEM;
-+	ret = -ENOSPC;
- 	if (!type_found) {
- 		pr_err(TTM_PFX "No compatible memory type found\n");
- 		ret = -EINVAL;
-@@ -916,6 +916,9 @@ int ttm_bo_validate(struct ttm_buffer_object *bo,
- 		return -EINVAL;
+-	unsigned int min_dcfclk_mhz = 199, min_fclk_mhz = 299;
++	unsigned int min_dcfclk_mhz = 399, min_fclk_mhz = 599;
  
- 	ret = ttm_bo_move_buffer(bo, placement, ctx);
-+	/* For backward compatibility with userspace */
-+	if (ret == -ENOSPC)
-+		return -ENOMEM;
- 	if (ret)
- 		return ret;
- 
+ 	static const unsigned int num_dcfclk_stas = 5;
+ 	unsigned int dcfclk_sta_targets[DC__VOLTAGE_STATES] = {199, 615, 906, 1324, 1564};
 -- 
 2.43.0
 
