@@ -2,81 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C5108911F3
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 04:25:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E489C8911F8
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 04:26:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2AEF10EF5C;
-	Fri, 29 Mar 2024 03:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6C0C10F755;
+	Fri, 29 Mar 2024 03:26:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rUqdYLC5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="h5V2HxUs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com
- [209.85.219.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 680D210EF5C
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 03:24:54 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id
- 3f1490d57ef6-dcbcea9c261so1676769276.3
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 20:24:54 -0700 (PDT)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com
+ [209.85.219.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB4A910F9A0
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 03:26:13 +0000 (UTC)
+Received: by mail-yb1-f173.google.com with SMTP id
+ 3f1490d57ef6-dcc80d6006aso1552402276.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 20:26:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711682633; x=1712287433; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=2cGkeY7zQxQRxLqhm5ORukRN8aDetleyVVG2pLEXZBE=;
- b=rUqdYLC5AgIdi1pEZqjHyygTMNADtix3EGsUSGDvy44S8r8i1RS2Tc9MZ20bz+mXxr
- 421m8ilMtgXuWFMlwafh5qiw7EoJVsij2hr80OA7LvBu3MghMMGjecvzceZDXHVppdd4
- BsXgFLiCUTRfizox1ElsonfUVuBD74NNqNHRqaQSWSyvgFs78o+kQTc+5uWlVEFISIQ2
- VZ6PkKQoF4La/9X0KI6OlmVsdBOSQtzBOVV/IjmjCEUBq1PtlqPHqdEl+s2LaS1vY4oM
- SneCRAKhJL++4mpquyRg+duD0umsux8rxpj9VhchbdB/d4vwv2sSjgUcdiBGxVGo3+bf
- vFnQ==
+ d=linaro.org; s=google; t=1711682713; x=1712287513; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Nr/8twKi35UpzKCD9xLfs3GqmEy6CId1PaFPiyuBquw=;
+ b=h5V2HxUsozODZOHInLBl8wlrxJY1+PdstkYMyj8PY2NYK45JYjmneScpbiq90zB46V
+ 5c27LTkwVn1KtHeH9XV6DqxhFuN0LfJ3ZOv8pxDEuRQEDZC4rO6TaltJdm7xl99mL1zZ
+ VHhAQ07MS/KTCt/b9wXbq3wbTz898bAbK6s3pd46Z8jkUuUdGi5Lf2dGFY2vUCJAJNN2
+ T8WsKtmvFZe5YaWAwxMBFu6fk9NUhvAMQvFBrwSjL7NQsm4riB6ixZmgqO8990j2yJwc
+ EJCQ2ZhLeXthVuKiKzyRWj6XhdNg9opPRZUA4Caw6mZgwoBq8kqMwoS0emXH1nnEUkmK
+ A6zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711682633; x=1712287433;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=2cGkeY7zQxQRxLqhm5ORukRN8aDetleyVVG2pLEXZBE=;
- b=DxhA+9qKYG6/H/TpEx8/xuiKrMMDD8DLR3NV/6v+u/FmO3vxysvTqP42RsursgDCni
- TjeT7Vu3y/bAxrlBuPuO4e0A9KMksUeuYoWhGd9/GH81+txXjSBMCSd6LmDeRBWuGvjA
- bnbeCdRP79nn8rp7XG+Ce4pSe4Qll5N61BtUHRIrDgV07wibIE/ny8FxTScC6T3eGGH9
- LnGMuCLe8Zutwg04gyZ4m5RsdQJtmucIoZtlJp20WmVtM9uqTGNf5mxNMgu7k96cpunx
- sG1PVm1l9MiS3sq9IpgPZQ5Nb7SivSqSptOruYk9Yinyy8ISMAMavDinfsftmNdeFpBg
- JTZA==
+ d=1e100.net; s=20230601; t=1711682713; x=1712287513;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Nr/8twKi35UpzKCD9xLfs3GqmEy6CId1PaFPiyuBquw=;
+ b=cO8YNfACXCWPX2gp01p00155mW+6lQyTuk1iOwe8e2urP6WcJN7r7d4Gx8sJ5geY4F
+ 1g0BfUQXrsBaqUQThcoG1w6LHrRlWOJG4FRv82GFh6K52VdJUHp7521ag6Bt/7rRS5X6
+ x+olkwced20FIUE/fE+Srv+TyCo56nP6ndyVuaIfI1tHFqVqgsiq+exNMDP9MReog2D4
+ kDOIvBttbyLNYvz5kdKRdxmZIXt7pOEhU+qkDik7p9QpAPI5v66vdKU2ZUSOVKqpEoAN
+ XjespgCqi/yucBmhaPfkhhdUb2l8cdgiqQ+CQEVU6HEu2JuzkrB9eQOWi7kPU76G8g4I
+ hHQg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWpMybpp1uBp2ELAfD+J0cyjN48YGeCZxp73Zu+XUsId/y+wwoUBaMapV1/4ch5jS5UaKp+E8WVJF7LT3+mZXCcBvQ+vMtHNc2X+KjlTF7y
-X-Gm-Message-State: AOJu0Yy1Uu0M7qHpXrp1d1fjaaJBmClEH3w5nUJhSE/84AGAZSP1eE/z
- +aTSPmbZ5LV+lXMdnfspnHii19+x0+mYXZzNom8WWJJs0eEJvj1Dk40QzfxnmlbBTH9dBgNko8K
- ip7zxUQXeFwqGAsSZSKXEiPnoqXl6PUpck5XV8g==
-X-Google-Smtp-Source: AGHT+IE9Q72EecKSUjdkAGdBSxPtFtYMJ5UUWxsvxQNwZ6y2SKoPJRd/NHT8zNBwM36IvFA+QfBgnXwSpg9cS3MuxQc=
-X-Received: by 2002:a25:df09:0:b0:dcd:aa73:e349 with SMTP id
- w9-20020a25df09000000b00dcdaa73e349mr1168492ybg.12.1711682632909; Thu, 28 Mar
- 2024 20:23:52 -0700 (PDT)
+ AJvYcCWXhaAQ6nF3chLJmGn0MCPnfbS7gfOxDBDeQXuVAYkQAniuSMZdiUVg4YV8IHqGHR59jo4XZStEeF8YG1OJLDBk1WRawMYKdL3xbxqctyWu
+X-Gm-Message-State: AOJu0YzjDWl7Agq4zxMf/eaTT032FGCYUKe7rjA5zYuhD6dlJ9Bib2w1
+ FH9nXnROahfDMxtP+1c9AWoYx6O8V3DfelF0Z4dH5jdhZgi7SE8Fxy6PgZbmFFQqXhjIYotXBnc
+ 5zSD4AkvGVAbBb7g/1eVocTll5VITSI4s27w9fw==
+X-Google-Smtp-Source: AGHT+IEc/spMQTXZC1RG/WUE/vTwyFe2QySMsOuV3o7NaZ652TMmTA3iZU0xZDenXOK8OncbMvR0eeinZOf3A5JMVyc=
+X-Received: by 2002:a5b:a08:0:b0:dcf:411a:3d22 with SMTP id
+ k8-20020a5b0a08000000b00dcf411a3d22mr1249509ybq.60.1711682713054; Thu, 28 Mar
+ 2024 20:25:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <1711656246-3483-1-git-send-email-quic_khsieh@quicinc.com>
- <1711656246-3483-2-git-send-email-quic_khsieh@quicinc.com>
- <55debb0a-c7af-ef71-c49a-414c7ab4f59d@quicinc.com>
- <CAE-0n503FwcwreZ14MMKgdzu8QybWYtMdLOKasiCwmE8pCJOSw@mail.gmail.com>
- <23de89e9-3ef3-c52d-7abf-93dc2dbb51a4@quicinc.com>
- <CAA8EJppEWXnsQzDD1tdNuMb1ijEVtE7LQct9jt1fwVwMd8ch_Q@mail.gmail.com>
- <27cadd17-10a3-3b8c-2b29-6698ccdce531@quicinc.com>
- <CAA8EJpqYVDG9pBj39m40rPwUNgE7x07HfCt6C3yaMN7eOaWk6Q@mail.gmail.com>
- <efbe5aa8-8bbe-26cd-ca70-1974241a3537@quicinc.com>
-In-Reply-To: <efbe5aa8-8bbe-26cd-ca70-1974241a3537@quicinc.com>
+References: <20240328111158.2074351-1-jun.nie@linaro.org>
+ <CAA8EJpq7eHgryrNnnR=Yh46PdkAQA-YNzTz_0gaWbr_g9CWSxA@mail.gmail.com>
+ <CABymUCOdZO7K1F3FMR_KD5sgCUCSKreSYr3BWbNdYMO==+AErA@mail.gmail.com>
+In-Reply-To: <CABymUCOdZO7K1F3FMR_KD5sgCUCSKreSYr3BWbNdYMO==+AErA@mail.gmail.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 29 Mar 2024 05:23:41 +0200
-Message-ID: <CAA8EJprES3q3w6GuQ8dW5vicnzbO_eZ6wpNfWe5njTPRDZm5KQ@mail.gmail.com>
-Subject: Re: [PATCH v1] drm/msm/dp: use dp_hpd_plug_handle() and
- dp_hpd_unplug_handle() directly
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Stephen Boyd <swboyd@chromium.org>, Bjorn Andersson <andersson@kernel.org>,
- Johan Hovold <johan@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- abel.vesa@linaro.org, 
- agross@kernel.org, airlied@gmail.com, daniel@ffwll.ch, dianders@chromium.org, 
- dri-devel@lists.freedesktop.org, robdclark@gmail.com, sean@poorly.run, 
- vkoul@kernel.org, quic_jesszhan@quicinc.com, quic_sbillaka@quicinc.com, 
- marijn.suijten@somainline.org, freedreno@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Fri, 29 Mar 2024 05:25:02 +0200
+Message-ID: <CAA8EJprBAJj8kub0JOk4Dd+-bqgtsrYM15hOKocYbZwrFqOwyg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm/msm/dpu: fix DSC for DSI video mode
+To: Jun Nie <jun.nie@linaro.org>
+Cc: neil.armstrong@linaro.org, sam@ravnborg.org, airlied@gmail.com, 
+ daniel@ffwll.ch, quic_parellan@quicinc.com, freedreno@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ robdclark@gmail.com, seanpaul@chromium.org, swboyd@chromium.org, 
+ quic_abhinavk@quicinc.com, quic_jesszhan@quicinc.com, 
+ marijn.suijten@somainline.org, sean@poorly.run
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,114 +85,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 29 Mar 2024 at 04:16, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+On Fri, 29 Mar 2024 at 04:47, Jun Nie <jun.nie@linaro.org> wrote:
 >
->
->
-> On 3/28/2024 5:10 PM, Dmitry Baryshkov wrote:
-> > On Fri, 29 Mar 2024 at 01:42, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>
-> >>
-> >>
-> >> On 3/28/2024 3:50 PM, Dmitry Baryshkov wrote:
-> >>> On Thu, 28 Mar 2024 at 23:21, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>>>
-> >>>>
-> >>>>
-> >>>> On 3/28/2024 1:58 PM, Stephen Boyd wrote:
-> >>>>> Quoting Abhinav Kumar (2024-03-28 13:24:34)
-> >>>>>> + Johan and Bjorn for FYI
-> >>>>>>
-> >>>>>> On 3/28/2024 1:04 PM, Kuogee Hsieh wrote:
-> >>>>>>> For internal HPD case, hpd_event_thread is created to handle HPD
-> >>>>>>> interrupts generated by HPD block of DP controller. It converts
-> >>>>>>> HPD interrupts into events and executed them under hpd_event_thread
-> >>>>>>> context. For external HPD case, HPD events is delivered by way of
-> >>>>>>> dp_bridge_hpd_notify() under thread context. Since they are executed
-> >>>>>>> under thread context already, there is no reason to hand over those
-> >>>>>>> events to hpd_event_thread. Hence dp_hpd_plug_handle() and
-> >>>>>>> dp_hpd_unplug_hanlde() are called directly at dp_bridge_hpd_notify().
-> >>>>>>>
-> >>>>>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> >>>>>>> ---
-> >>>>>>>      drivers/gpu/drm/msm/dp/dp_display.c | 5 +++--
-> >>>>>>>      1 file changed, 3 insertions(+), 2 deletions(-)
-> >>>>>>>
-> >>>>>>
-> >>>>>> Fixes: 542b37efc20e ("drm/msm/dp: Implement hpd_notify()")
-> >>>>>
-> >>>>> Is this a bug fix or an optimization? The commit text doesn't tell me.
-> >>>>>
-> >>>>
-> >>>> I would say both.
-> >>>>
-> >>>> optimization as it avoids the need to go through the hpd_event thread
-> >>>> processing.
-> >>>>
-> >>>> bug fix because once you go through the hpd event thread processing it
-> >>>> exposes and often breaks the already fragile hpd handling state machine
-> >>>> which can be avoided in this case.
-> >>>
-> >>> Please add a description for the particular issue that was observed
-> >>> and how it is fixed by the patch.
-> >>>
-> >>> Otherwise consider there to be an implicit NAK for all HPD-related
-> >>> patches unless it is a series that moves link training to the enable
-> >>> path and drops the HPD state machine completely.
-> >>>
-> >>> I really mean it. We should stop beating a dead horse unless there is
-> >>> a grave bug that must be fixed.
-> >>>
-> >>
-> >> I think the commit message is explaining the issue well enough.
-> >>
-> >> This was not fixing any issue we saw to explain you the exact scenario
-> >> of things which happened but this is just from code walkthrough.
-> >>
-> >> Like kuogee wrote, hpd event thread was there so handle events coming
-> >> out of the hpd_isr for internal hpd cases. For the hpd_notify coming
-> >> from pmic_glink or any other extnernal hpd cases, there is no need to
-> >> put this through the hpd event thread because this will only make things
-> >> worse of exposing the race conditions of the state machine.
-> >>
-> >> Moving link training to enable and removal of hpd event thread will be
-> >> worked on but delaying obvious things we can fix does not make sense.
+> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2024=E5=B9=B43=E6=
+=9C=8828=E6=97=A5=E5=91=A8=E5=9B=9B 23:05=E5=86=99=E9=81=93=EF=BC=9A
 > >
-> >  From the commit message this feels like an optimisation rather than a
-> > fix. And granted the fragility of the HPD state machine, I'd prefer to
-> > stay away from optimisations. As far as I understood from the history
-> > of the last revert, we'd better make sure that HPD handling goes only
-> > through the HPD event thread.
+> > On Thu, 28 Mar 2024 at 13:12, Jun Nie <jun.nie@linaro.org> wrote:
+> > >
+> > > Fix DSC timing and control configurations in DPU for DSI video mode.
+> > > Only compression ratio 3:1 is handled and tested.
+> > >
+> > > This patch is modified from patchs of Jonathan Marek.
+> > >
+> > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
 > >
+> > This almost looks like a joke, except it isn't the 1st of April yet.
+> > The patch lacks proper Author / Sign-off tags from Jonathan.
+> > This is pretty close to copyright infringement. I'm sorry, but I'd
+> > have to ask you to abstain from sending patches w/o prior internal
+> > review.
 >
-> I think you are mixing the two. We tried to send the events through
-> DRM's hpd_notify which ended up in a bad way and btw, thats still not
-> resolved even though I have seen reports that things are fine with the
-> revert, we are consistently able to see us ending up in a disconnected
-> state with all the reverts and fixes in our x1e80100 DP setup.
+> Thanks for pointing me the previous version. I am not aware of it actuall=
+y.
+> The only version I knew is from internal repo. It is my fault. I see the =
+slides
+> says that Jonathan does not want to disturbed, so only his name is
+> mentioned in the commit message.
 >
-> I plan to investigate that issue properly in the next week and try to
-> make some sense of it all.
->
-> In fact, this patch is removing one more user of the hpd event thread
-> which is the direction in which we all want to head towards.
+> What's the patch set status? I do not see it in mainline yet. If it is
+> in pipeline,
+> I can just forget the DPU side change.
 
-As I stated earlier, from my point of view it doesn't make sense to
-rework the HPD thread in small steps.
+See https://patchwork.freedesktop.org/series/126430/
 
-> On whether this is an optimization or a bug fix. I think by avoiding hpd
-> event thread (which should have never been used for hpd_notify updates,
-> hence a bug) we are avoiding the possibility of more race conditions.
-
-I think that the HPD event thread serializes handling of events, so
-avoiding it increases the possibility of a race condition.
+Jonathan posted the patches, but he didn't seem to be interested in
+following up the review feedback.
 
 >
-> So, this has my R-b and it holds. Upto you.
+> Thanks!
+> Jun
+>
+> >
+> > > ---
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |  2 +-
+> > >  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |  2 +-
+> > >  .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  | 12 +++++
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c   | 10 +++-
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h   |  1 +
+> > >  drivers/gpu/drm/msm/dsi/dsi.xml.h             |  1 +
+> > >  drivers/gpu/drm/msm/dsi/dsi_host.c            | 48 +++++++++++------=
+--
+> > >  include/drm/display/drm_dsc.h                 |  4 ++
+> >
+> > Ok. The feedback for the original patchset [1]  was that it should be
+> > split logically. Instead you pile everything together into a single
+> > patch. This is a complete no-go.
+> >
+> > Also, this patchset lacks changelog in comparison to the previous
+> > patchseris. I don't think I'll continue the review of this patch.
+> > Please rework it properly and add corresponding changelog.
+> >
+> > [1] https://patchwork.freedesktop.org/patch/567518/?series=3D126430&rev=
+=3D1
+> >
+> > >  8 files changed, 56 insertions(+), 24 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gp=
+u/drm/msm/disp/dpu1/dpu_encoder.c
+> > > index 6a4b489d44e5..c1b9da06dde2 100644
+> >
+> > --
+> > With best wishes
+> > Dmitry
 
-I'd wait for a proper description of the issue that was observed and
-how it is solved by this patch.
 
--- 
+
+--=20
 With best wishes
 Dmitry
