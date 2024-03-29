@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 771928921E2
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 17:42:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A15D78921EE
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 17:48:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 484C610F80A;
-	Fri, 29 Mar 2024 16:42:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45C7B10E9B4;
+	Fri, 29 Mar 2024 16:48:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="IueKtM+q";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="QT2vnQ8F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 591C410E50E;
- Fri, 29 Mar 2024 16:41:56 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34EC010E30A;
+ Fri, 29 Mar 2024 16:48:33 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 42TC9QZ1006585; Fri, 29 Mar 2024 16:41:47 GMT
+ 42TGZAux016124; Fri, 29 Mar 2024 16:48:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  from:to:cc:subject:date:message-id:mime-version:content-type; s=
- qcppdkim1; bh=iy4fArS6RL+x9fPCLyL31DSJ7krtKXCXNB9MQQ9rqKo=; b=Iu
- eKtM+qhUC1OgmLfeI8u/Qt/+NDouyUv4ys/y3MSUy94n+e9KE3dsyPWt4YuaKS8a
- 4hBzWWGHRsse163E+PQHg8eUfZF+HUFZT1Qec8RGH67LMIMwv9ikQ7glQZp3Nmjr
- MW4hk71WYTrfkl9457yaoSm66ZaNznrZ5C4ZFja8ZXyF2UM58/XIQ5pTnPRVUC0a
- m5kJ9oo+LPBVdSmKNuGKarriaAuKXSBiM4TtTRuY5NgqiYSJA3JnEuKZCE1pE80E
- DO/9wlFfkAXZhqvLqCPaYkkaBuEIinW1oeITAlZQruvXTUmdtbfYtOcwc2nyLEUR
- BZ2lPHBczCBIMycZRcFQ==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ qcppdkim1; bh=NQ3gGO7tawnFzTN0sD8TN9O73Rb37GQlk0B1YwEqEpI=; b=QT
+ 2vnQ8F29WshB2ogPHhWd1ODeEWjkD6WNNCBMFS/TSkD7h4Gqj9cEa8eEoHNPqSWZ
+ w1iHhFmWs5qZTGIf5GcZJ/ecpdpD2odEJhrUwGH/WQpjT0/IkeqnUg/6u1zN/GL4
+ rr7fkzp1ODtG16iM9LCLVKrcOo3+IRoXZGeYTza8mkSvs3WTlRaOggSlsuUvlRrd
+ nuK6bjc53DEELMHzHqwCPkMgPdT2wHZ+78uZwLegLGFL2xWJK+YpfPXyV1UL1kge
+ 2JRC1OwM2caMsxNusMwSTt42Yw9yNeNu283mmVjL8GFukTHI85oHaxE2k9Eces2H
+ iRGV1nFwAzVOk8iG/L1w==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x5np29vav-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x5ybmr910-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Mar 2024 16:41:47 +0000 (GMT)
+ Fri, 29 Mar 2024 16:48:27 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42TGfkTs021946
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42TGmQdd004467
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Mar 2024 16:41:46 GMT
+ Fri, 29 Mar 2024 16:48:26 GMT
 Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 29 Mar 2024 09:41:45 -0700
+ 15.2.1118.40; Fri, 29 Mar 2024 09:48:25 -0700
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
  <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
@@ -52,30 +52,30 @@ CC: Kuogee Hsieh <quic_khsieh@quicinc.com>, <quic_abhinavk@quicinc.com>,
  <quic_jesszhan@quicinc.com>, <quic_sbillaka@quicinc.com>,
  <marijn.suijten@somainline.org>, <freedreno@lists.freedesktop.org>,
  <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] phy/qcom-qmp-combo: propagate correct return value at
- phy_power_on()
-Date: Fri, 29 Mar 2024 09:41:35 -0700
-Message-ID: <1711730495-30330-1-git-send-email-quic_khsieh@quicinc.com>
+Subject: [PATCH v2] drm/msm/dp: assign correct DP controller ID to x1e80100
+ interface table
+Date: Fri, 29 Mar 2024 09:48:16 -0700
+Message-ID: <1711730896-16637-1-git-send-email-quic_khsieh@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: 90N0YQZVFXb4HZCtSRj0n5qV5-tIGi-c
-X-Proofpoint-GUID: 90N0YQZVFXb4HZCtSRj0n5qV5-tIGi-c
+X-Proofpoint-ORIG-GUID: wHWfh20e3zFEdn7IxfT62se4JQRvdaHj
+X-Proofpoint-GUID: wHWfh20e3zFEdn7IxfT62se4JQRvdaHj
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-03-29_13,2024-03-28_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- lowpriorityscore=0 impostorscore=0 priorityscore=1501 spamscore=0
- bulkscore=0 mlxscore=0 malwarescore=0 clxscore=1015 suspectscore=0
- mlxlogscore=999 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2403210001 definitions=main-2403290147
+ clxscore=1015 impostorscore=0
+ lowpriorityscore=0 malwarescore=0 bulkscore=0 phishscore=0 mlxlogscore=999
+ suspectscore=0 adultscore=0 priorityscore=1501 mlxscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2403210001
+ definitions=main-2403290148
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,66 +91,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently qmp_combo_dp_power_on() always return 0 in regardless of
-return value of cfg->configure_dp_phy(). This patch propagate
-return value of cfg->configure_dp_phy() all the way back to caller.
+At current x1e80100 interface table, interface #3 is wrongly
+connected to DP controller #0 and interface #4 wrongly connected
+to DP controller #2. Fix this problem by connect Interface #3 to
+DP controller #0 and interface #4 connect to DP controller #1.
+Also add interface #6, #7 and #8 connections to DP controller to
+complete x1e80100 interface table.
 
-Fixes: 52e013d0bffa ("phy: qcom-qmp: Add support for DP in USB3+DP combo phy")
+Fixes: e3b1f369db5a ("drm/msm/dpu: Add X1E80100 support")
 Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Reviewed-by: Abel Vesa <abel.vesa@linaro.org>
 ---
- drivers/phy/qualcomm/phy-qcom-qmp-combo.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ .../drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h   | 34 ++++++++++++++++++++--
+ 1 file changed, 31 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
-index 36632fa..513d99d 100644
---- a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
-+++ b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
-@@ -2343,8 +2343,10 @@ static int qmp_v3_configure_dp_phy(struct qmp_combo *qmp)
- 	writel(0x05, qmp->dp_dp_phy + QSERDES_V3_DP_PHY_TX2_TX3_LANE_CTL);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
+index 9a9f709..a3e60ac 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
+@@ -324,6 +324,7 @@ static const struct dpu_wb_cfg x1e80100_wb[] = {
+ 	},
+ };
  
- 	ret = qmp_combo_configure_dp_clocks(qmp);
--	if (ret)
-+	if (ret) {
-+		dev_err(qmp->dev, "dp phy configure failed, err=%d\n", ret);
- 		return ret;
-+	}
++/* TODO: INTF 3, 8 and 7 are used for MST, marked as INTF_NONE for now */
+ static const struct dpu_intf_cfg x1e80100_intf[] = {
+ 	{
+ 		.name = "intf_0", .id = INTF_0,
+@@ -358,8 +359,8 @@ static const struct dpu_intf_cfg x1e80100_intf[] = {
+ 		.name = "intf_3", .id = INTF_3,
+ 		.base = 0x37000, .len = 0x280,
+ 		.features = INTF_SC7280_MASK,
+-		.type = INTF_DP,
+-		.controller_id = MSM_DP_CONTROLLER_1,
++		.type = INTF_NONE,
++		.controller_id = MSM_DP_CONTROLLER_0,	/* pair with intf_0 for DP MST */
+ 		.prog_fetch_lines_worst_case = 24,
+ 		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
+ 		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31),
+@@ -368,7 +369,7 @@ static const struct dpu_intf_cfg x1e80100_intf[] = {
+ 		.base = 0x38000, .len = 0x280,
+ 		.features = INTF_SC7280_MASK,
+ 		.type = INTF_DP,
+-		.controller_id = MSM_DP_CONTROLLER_2,
++		.controller_id = MSM_DP_CONTROLLER_1,
+ 		.prog_fetch_lines_worst_case = 24,
+ 		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 20),
+ 		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 21),
+@@ -381,6 +382,33 @@ static const struct dpu_intf_cfg x1e80100_intf[] = {
+ 		.prog_fetch_lines_worst_case = 24,
+ 		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 22),
+ 		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 23),
++	}, {
++		.name = "intf_6", .id = INTF_6,
++		.base = 0x3A000, .len = 0x280,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_2,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 17),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 16),
++	}, {
++		.name = "intf_7", .id = INTF_7,
++		.base = 0x3b000, .len = 0x280,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_NONE,
++		.controller_id = MSM_DP_CONTROLLER_2,	/* pair with intf_6 for DP MST */
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 18),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 19),
++	}, {
++		.name = "intf_8", .id = INTF_8,
++		.base = 0x3c000, .len = 0x280,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_NONE,
++		.controller_id = MSM_DP_CONTROLLER_1,	/* pair with intf_4 for DP MST */
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 13),
+ 	},
+ };
  
- 	writel(0x04, qmp->dp_dp_phy + QSERDES_DP_PHY_AUX_CFG2);
- 	writel(0x01, qmp->dp_dp_phy + QSERDES_DP_PHY_CFG);
-@@ -2519,8 +2521,10 @@ static int qmp_v4_configure_dp_phy(struct qmp_combo *qmp)
- 	int ret;
- 
- 	ret = qmp_v456_configure_dp_phy(qmp);
--	if (ret < 0)
-+	if (ret < 0) {
-+		dev_err(qmp->dev, "dp phy configure failed, err=%d\n", ret);
- 		return ret;
-+	}
- 
- 	/*
- 	 * At least for 7nm DP PHY this has to be done after enabling link
-@@ -2754,6 +2758,7 @@ static int qmp_combo_dp_power_on(struct phy *phy)
- 	const struct qmp_phy_cfg *cfg = qmp->cfg;
- 	void __iomem *tx = qmp->dp_tx;
- 	void __iomem *tx2 = qmp->dp_tx2;
-+	int ret;
- 
- 	mutex_lock(&qmp->phy_mutex);
- 
-@@ -2766,11 +2771,11 @@ static int qmp_combo_dp_power_on(struct phy *phy)
- 	cfg->configure_dp_tx(qmp);
- 
- 	/* Configure link rate, swing, etc. */
--	cfg->configure_dp_phy(qmp);
-+	ret = cfg->configure_dp_phy(qmp);
- 
- 	mutex_unlock(&qmp->phy_mutex);
- 
--	return 0;
-+	return ret;
- }
- 
- static int qmp_combo_dp_power_off(struct phy *phy)
 -- 
 2.7.4
 
