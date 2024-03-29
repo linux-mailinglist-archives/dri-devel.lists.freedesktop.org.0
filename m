@@ -2,80 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33316892493
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 20:50:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E781892549
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 21:30:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E85AD11285D;
-	Fri, 29 Mar 2024 19:50:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C713010F837;
+	Fri, 29 Mar 2024 20:30:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="XhZxwfMs";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="b6xCybn7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4589011285D;
- Fri, 29 Mar 2024 19:50:51 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 42TJeOW0000759; Fri, 29 Mar 2024 19:50:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- from:to:cc:subject:date:message-id:mime-version:content-type; s=
- qcppdkim1; bh=7rock+tuzQRHkqfp1Y4Kn8OYDsz+pZ5CBU3sKrV+tGY=; b=Xh
- ZxwfMs8QqAYUMJTt0PVclF0OA6lmtWlvL0fvd/65OkvkRNgURFP4+b5FhRZ7yTqU
- xt3rDG9BlstBviwg/6vMjo9KXlRdu3op3E0zT20w4vZAcugchV4Raoxk/oqeqsX0
- 2MPY20vEaQX86v+uSIrRJbt4r+bOTHLfMqDFY6HatcOr+HlHSYL4NQXFeP35Ac05
- VQnp/sk88sLm17xFeRgrXCRZfZDacT52N0tJPIJrNxvj20weLYph1a9VQipUtPFq
- Dkp7LRVnie9AUYWJXHmDww6atpNtLLKWYIylwXceVdKLjPnFQTCQ3FepwuACy+lo
- iol8t6dARICIgH/A05ZA==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x5w6g0x66-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Mar 2024 19:50:44 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42TJohgu024049
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Mar 2024 19:50:43 GMT
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 29 Mar 2024 12:50:43 -0700
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <abel.vesa@linaro.org>, <andersson@kernel.org>
-CC: Kuogee Hsieh <quic_khsieh@quicinc.com>, <quic_abhinavk@quicinc.com>,
- <quic_jesszhan@quicinc.com>, <quic_sbillaka@quicinc.com>,
- <marijn.suijten@somainline.org>, <freedreno@lists.freedesktop.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3] phy/qcom-qmp-combo: propagate correct return value at
- phy_power_on()
-Date: Fri, 29 Mar 2024 12:50:35 -0700
-Message-ID: <1711741835-10044-1-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 007BA10F837
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 20:30:20 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-a45f257b81fso252145566b.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 13:30:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1711744156; x=1712348956; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=dCWlSotjvCGlRdJzAtkZV2YGveK7qqoLd01P5YRtAdk=;
+ b=b6xCybn70n7jF8BCq+cCe+cO2je6UFEuqP/mvDd8fTNGj1d6pLO/+h+FKnj0TJm4/V
+ S5LAruIP5OQ7tOVgn6NDDElqbmz2932ektaobZvYuwlZnJMKZEcQnpIwVYP5UQEamgHL
+ aFNaZUPoTwsQS4myBAFv08f6TzojpnQo5V5puiTBA4+mGJk3BGeJNziotnGiIxPd04N3
+ KdDQFy6xFRIJ93phA/I7c6KvLnI5AZkaX4yGYr/0C45vfJY5koIxYODWDSvMUzQdoy5c
+ 2bN+s0DCtJTL02e6MkEWOl+fbvo6ml5oBmmvOHyySUZ8McA6fTFDmxvKmTZq2Bthq01E
+ L7dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711744156; x=1712348956;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dCWlSotjvCGlRdJzAtkZV2YGveK7qqoLd01P5YRtAdk=;
+ b=Poir7Q44NA0DNC2frRRyO5SZWqi5hvWYBNNEsNEUqrLIh6ay6qJvwMv9HyRY6pgb2G
+ iGy7k/vwfotJcg4j9C5UPt0wdrRtlq9rE3CFLsULpPbN8EHxcS1uJRHNclAUuWzRCF5o
+ hUtgENXlmhsn1QTG/WmBsZleyRXfV0T2/upnXSWrm0QbdYrYdNDhELnyHIxo2n3DT76g
+ 9gNsKdHXeUjZexSofubsdzL48ObFUBiq/Yz8DDSdv15R0SGXk6cs7434i2QNaCWn+PgO
+ M1aHnNYQc7vatpSWUY+CTYcWxmBSeG4URVdcr4ztvn5K4lQihWYSyJkyM4o8SpCF1kfT
+ 9x3w==
+X-Gm-Message-State: AOJu0YybQkQbS1wDoWK/QAbvLb4dQOUyyr7MfagZiv7iBFAh31U5sg/b
+ P4S12rW8SKesszemILF5WLpbaj2JPX9JqKDDinlE/QjTGsCNlDgAqT3szh8npdtasgbb6mAfvMn
+ ISz981m7JwWSgn9HoSZEPu2sEteg=
+X-Google-Smtp-Source: AGHT+IG9knaQtIRqfn4ZHCwMfQvYe8puPmTuerbrkxt1+4O7bN51WTFbnfOqGAYAD0O+trK2dNbyNLhrGBCMETeQvao=
+X-Received: by 2002:a17:906:b104:b0:a4e:1154:fa46 with SMTP id
+ u4-20020a170906b10400b00a4e1154fa46mr2313605ejy.70.1711744156041; Fri, 29 Mar
+ 2024 13:29:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: cvI2yOkFUv_7WnJ4YM2eSZGnz7rLQjSe
-X-Proofpoint-ORIG-GUID: cvI2yOkFUv_7WnJ4YM2eSZGnz7rLQjSe
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-29_13,2024-03-28_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0
- malwarescore=0 adultscore=0 spamscore=0 lowpriorityscore=0 mlxlogscore=999
- impostorscore=0 priorityscore=1501 bulkscore=0 mlxscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2403210001
- definitions=main-2403290178
+From: Dave Airlie <airlied@gmail.com>
+Date: Sat, 30 Mar 2024 06:29:04 +1000
+Message-ID: <CAPM=9tyTKh_qXRW8MaTrRnjN=Da_hLLm66dj2_WcwFQ3e3O+kg@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.9-rc2
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,75 +75,391 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently qmp_combo_dp_power_on() always return 0 in regardless of
-return value of cfg->configure_dp_phy(). This patch propagate
-return value of cfg->configure_dp_phy() all the way back to caller.
+Hi Linus,
 
-Changes in V3:
--- add v2 changes log
+Regular fixes for rc2, quite a few i915/amdgpu as usual, some xe, and
+then mostly scattered around. rc3 might be quieter with the holidays
+but we shall see.
 
-Changes in V2:
--- add Fixes tag
--- add dev_err() to qmp_v3_configure_dp_phy()
--- add dev_err() to qmp_v4_configure_dp_phy()
+Regards.
+Dave.
 
-Fixes: 52e013d0bffa ("phy: qcom-qmp: Add support for DP in USB3+DP combo phy")
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
----
- drivers/phy/qualcomm/phy-qcom-qmp-combo.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+drm-fixes-2024-03-30:
+drm fixes for 6.9-rc2
 
-diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
-index 36632fa..513d99d 100644
---- a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
-+++ b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
-@@ -2343,8 +2343,10 @@ static int qmp_v3_configure_dp_phy(struct qmp_combo *qmp)
- 	writel(0x05, qmp->dp_dp_phy + QSERDES_V3_DP_PHY_TX2_TX3_LANE_CTL);
- 
- 	ret = qmp_combo_configure_dp_clocks(qmp);
--	if (ret)
-+	if (ret) {
-+		dev_err(qmp->dev, "dp phy configure failed, err=%d\n", ret);
- 		return ret;
-+	}
- 
- 	writel(0x04, qmp->dp_dp_phy + QSERDES_DP_PHY_AUX_CFG2);
- 	writel(0x01, qmp->dp_dp_phy + QSERDES_DP_PHY_CFG);
-@@ -2519,8 +2521,10 @@ static int qmp_v4_configure_dp_phy(struct qmp_combo *qmp)
- 	int ret;
- 
- 	ret = qmp_v456_configure_dp_phy(qmp);
--	if (ret < 0)
-+	if (ret < 0) {
-+		dev_err(qmp->dev, "dp phy configure failed, err=%d\n", ret);
- 		return ret;
-+	}
- 
- 	/*
- 	 * At least for 7nm DP PHY this has to be done after enabling link
-@@ -2754,6 +2758,7 @@ static int qmp_combo_dp_power_on(struct phy *phy)
- 	const struct qmp_phy_cfg *cfg = qmp->cfg;
- 	void __iomem *tx = qmp->dp_tx;
- 	void __iomem *tx2 = qmp->dp_tx2;
-+	int ret;
- 
- 	mutex_lock(&qmp->phy_mutex);
- 
-@@ -2766,11 +2771,11 @@ static int qmp_combo_dp_power_on(struct phy *phy)
- 	cfg->configure_dp_tx(qmp);
- 
- 	/* Configure link rate, swing, etc. */
--	cfg->configure_dp_phy(qmp);
-+	ret = cfg->configure_dp_phy(qmp);
- 
- 	mutex_unlock(&qmp->phy_mutex);
- 
--	return 0;
-+	return ret;
- }
- 
- static int qmp_combo_dp_power_off(struct phy *phy)
--- 
-2.7.4
+bridge:
+- select DRM_KMS_HELPER
 
+dma-buf:
+- fix NULL-pointer deref
+
+dp:
+- fix div-by-zero in DP MST unplug code
+
+fbdev:
+- select FB_IOMEM_FOPS for SBus
+
+sched:
+- fix NULL-pointer deref
+
+xe:
+- Fix build on mips
+- Fix wrong bound checks
+- Fix use of msec rather than jiffies
+- Remove dead code
+
+amdgpu:
+- SMU 14.0.1 updates
+- DCN 3.5.x updates
+- VPE fix
+- eDP panel flickering fix
+- Suspend fix
+- PSR fix
+- DCN 3.0+ fix
+- VCN 4.0.6 updates
+- debugfs fix
+
+amdkfd:
+- DMA-Buf fix
+- GFX 9.4.2 TLB flush fix
+- CP interrupt fix
+
+i915:
+- Fix for BUG_ON/BUILD_BUG_ON IN I915_memcpy.c
+- Update a MTL workaround
+- Fix locking inversion in hwmon's sysfs
+- Remove a bogus error message around PXP
+- Fix UAF on VMA
+- Reset queue_priority_hint on parking
+- Display Fixes:
+- Remove duplicated audio enable/disable on SDVO and DP
+- Disable AuxCCS for Xe driver
+- Revert init order of MIPI DSI
+- DRRS debugfs fix with an extra refactor patch
+- VRR related fixes
+- Fix a JSL eDP corruption
+ - Fix the cursor physical dma address
+- BIOS VBT related fix
+
+nouveau:
+- dmem: handle kcalloc() allocation failures
+
+qxl:
+- remove unused variables
+
+rockchip:
+- vop2: remove support for AR30 and AB30 formats
+
+vmwgfx:
+- debugfs: create ttm_resource_manager entry only if needed
+The following changes since commit 4cece764965020c22cff7665b18a012006359095=
+:
+
+  Linux 6.9-rc1 (2024-03-24 14:10:05 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-03-30
+
+for you to fetch changes up to b01f596ab1dd027ce937358007dc1fa3e5a25917:
+
+  Merge tag 'drm-intel-fixes-2024-03-28' of
+https://anongit.freedesktop.org/git/drm/drm-intel into drm-fixes
+(2024-03-30 05:34:06 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.9-rc2
+
+bridge:
+- select DRM_KMS_HELPER
+
+dma-buf:
+- fix NULL-pointer deref
+
+dp:
+- fix div-by-zero in DP MST unplug code
+
+fbdev:
+- select FB_IOMEM_FOPS for SBus
+
+sched:
+- fix NULL-pointer deref
+
+xe:
+- Fix build on mips
+- Fix wrong bound checks
+- Fix use of msec rather than jiffies
+- Remove dead code
+
+amdgpu:
+- SMU 14.0.1 updates
+- DCN 3.5.x updates
+- VPE fix
+- eDP panel flickering fix
+- Suspend fix
+- PSR fix
+- DCN 3.0+ fix
+- VCN 4.0.6 updates
+- debugfs fix
+
+amdkfd:
+- DMA-Buf fix
+- GFX 9.4.2 TLB flush fix
+- CP interrupt fix
+
+i915:
+- Fix for BUG_ON/BUILD_BUG_ON IN I915_memcpy.c
+- Update a MTL workaround
+- Fix locking inversion in hwmon's sysfs
+- Remove a bogus error message around PXP
+- Fix UAF on VMA
+- Reset queue_priority_hint on parking
+- Display Fixes:
+- Remove duplicated audio enable/disable on SDVO and DP
+- Disable AuxCCS for Xe driver
+- Revert init order of MIPI DSI
+- DRRS debugfs fix with an extra refactor patch
+- VRR related fixes
+- Fix a JSL eDP corruption
+ - Fix the cursor physical dma address
+- BIOS VBT related fix
+
+nouveau:
+- dmem: handle kcalloc() allocation failures
+
+qxl:
+- remove unused variables
+
+rockchip:
+- vop2: remove support for AR30 and AB30 formats
+
+vmwgfx:
+- debugfs: create ttm_resource_manager entry only if needed
+
+----------------------------------------------------------------
+Andy Yan (1):
+      drm/rockchip: vop2: Remove AR30 and AB30 format support
+
+Bhanuprakash Modem (2):
+      drm/i915/drrs: Refactor CPU transcoder DRRS check
+      drm/i915/display/debugfs: Fix duplicate checks in i915_drrs_status
+
+Chris Bainbridge (1):
+      drm/dp: Fix divide-by-zero regression on DP MST unplug with nouveau
+
+Chris Park (1):
+      drm/amd/display: Prevent crash when disable stream
+
+Chris Wilson (1):
+      drm/i915/gt: Reset queue_priority_hint on parking
+
+Dave Airlie (5):
+      Merge tag 'drm-xe-fixes-2024-03-26' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+      Merge tag 'amd-drm-fixes-6.9-2024-03-27' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      drm/i915: add bug.h include to i915_memcpy.c
+      Merge tag 'drm-misc-fixes-2024-03-28' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
+      Merge tag 'drm-intel-fixes-2024-03-28' of
+https://anongit.freedesktop.org/git/drm/drm-intel into drm-fixes
+
+Duoming Zhou (1):
+      nouveau/dmem: handle kcalloc() allocation failure
+
+Eric Huang (1):
+      drm/amdkfd: fix TLB flush after unmap for GFX9.4.2
+
+George Shen (1):
+      drm/amd/display: Remove MPC rate control logic from DCN30 and above
+
+Hamza Mahfooz (1):
+      drm/amd/display: fix IPX enablement
+
+Harry Wentland (1):
+      Revert "drm/amd/display: Fix sending VSC (+ colorimetry) packets
+for DP/eDP displays without PSR"
+
+Janusz Krzysztofik (2):
+      drm/i915/hwmon: Fix locking inversion in sysfs getter
+      drm/i915/vma: Fix UAF on destroy against retire race
+
+Jocelyn Falempe (1):
+      drm/vmwgfx: Create debugfs ttm_resource_manager entry only if needed
+
+Johannes Weiner (1):
+      drm/amdgpu: fix deadlock while reading mqd from debugfs
+
+Jonathan Kim (1):
+      drm/amdkfd: range check cp bad op exception interrupts
+
+Jonathon Hall (1):
+      drm/i915: Do not match JSL in ehl_combo_pll_div_frac_wa_needed()
+
+Joonas Lahtinen (1):
+      drm/i915: Add includes for BUG_ON/BUILD_BUG_ON in i915_memcpy.c
+
+Jos=C3=A9 Roberto de Souza (1):
+      drm/i915: Do not print 'pxp init failed with 0' when it succeed
+
+Juha-Pekka Heikkila (1):
+      drm/i915/display: Disable AuxCCS framebuffers if built for Xe
+
+Lang Yu (2):
+      drm/amdgpu/umsch: update UMSCH 4.0 FW interface
+      drm/amdgpu: enable UMSCH 4.0.6
+
+Luca Weiss (1):
+      drm/bridge: Select DRM_KMS_HELPER for DRM_PANEL_BRIDGE
+
+Lucas De Marchi (1):
+      drm/xe: Fix END redefinition
+
+Mario Limonciello (1):
+      drm/amd: Flush GFXOFF requests in prepare stage
+
+Matthew Auld (5):
+      drm/xe/guc_submit: use jiffies for job timeout
+      drm/xe/queue: fix engine_class bounds check
+      drm/xe/device: fix XE_MAX_GT_PER_TILE check
+      drm/xe/device: fix XE_MAX_TILES_PER_DEVICE check
+      drm/xe/query: fix gt_id bounds check
+
+Miguel Ojeda (2):
+      drm/qxl: remove unused `count` variable from `qxl_surface_id_alloc()`
+      drm/qxl: remove unused variable from `qxl_process_single_command()`
+
+Mukul Joshi (1):
+      drm/amdkfd: Check cgroup when returning DMABuf info
+
+Natanel Roizenman (1):
+      drm/amd/display: Increase Z8 watermark times.
+
+Neil Armstrong (1):
+      Revert "drm/bridge: Select DRM_KMS_HELPER for DRM_PANEL_BRIDGE"
+
+Nirmoy Das (1):
+      drm/xe: Remove unused xe_bo->props struct
+
+Pavel Sakharov (1):
+      dma-buf: Fix NULL pointer dereference in sanitycheck()
+
+Peyton Lee (1):
+      drm/amdgpu/vpe: power on vpe when hw_init
+
+Roman Li (1):
+      drm/amd/display: Fix bounds check for dcn35 DcfClocks
+
+Sung Joon Kim (1):
+      drm/amd/display: Update dcn351 to latest dcn35 config
+
+Taimur Hassan (1):
+      drm/amd/display: Send DTBCLK disable message on first commit
+
+Tejas Upadhyay (1):
+      drm/i915/mtl: Update workaround 14018575942
+
+Thomas Zimmermann (3):
+      Merge drm/drm-fixes into drm-misc-fixes
+      Merge drm/drm-fixes into drm-misc-fixes
+      fbdev: Select I/O-memory framebuffer ops for SBus
+
+Ville Syrj=C3=A4l=C3=A4 (6):
+      drm/i915: Stop doing double audio enable/disable on SDVO and g4x+ DP
+      drm/i915/dsi: Go back to the previous INIT_OTP/DISPLAY_ON order, most=
+ly
+      drm/i915/vrr: Generate VRR "safe window" for DSB
+      drm/i915/dsb: Fix DSB vblank waits when using VRR
+      drm/i915: Pre-populate the cursor physical dma address
+      drm/i915/bios: Tolerate devdata=3D=3DNULL in
+intel_bios_encoder_supports_dp_dual_mode()
+
+Vitaly Prosyak (1):
+      drm/sched: fix null-ptr-deref in init entity
+
+Wenjing Liu (1):
+      drm/amd/display: fix a dereference of a NULL pointer
+
+Xi Liu (2):
+      drm/amd/display: increase bb clock for DCN351
+      drm/amd/display: Set DCN351 BB and IP the same as DCN35
+
+lima1002 (1):
+      drm/amd/swsmu: add smu 14.0.1 vcn and jpeg msg
+
+ drivers/dma-buf/st-dma-fence-chain.c               |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c      |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c           |  46 +++++----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.c       |  12 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.h       |  20 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c            |   6 ++
+ drivers/gpu/drm/amd/amdgpu/umsch_mm_v4_0.c         |   7 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c           |   4 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_int_process_v10.c   |   3 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_int_process_v11.c   |   3 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c    |   3 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h              |   2 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   8 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c  |   8 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.h  |   2 +-
+ .../amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c   |   7 +-
+ drivers/gpu/drm/amd/display/dc/core/dc.c           |   6 +-
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_mpc.c   |  54 ++++++-----
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_mpc.h   |  14 +--
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mpc.c   |   5 +-
+ .../gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c   |   4 +-
+ .../gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.c | 103 +++++++++++++++++=
+----
+ .../amd/display/dc/dml2/dml2_translation_helper.c  |   6 +-
+ .../drm/amd/display/dc/hwss/dce110/dce110_hwseq.c  |   3 +-
+ .../drm/amd/display/dc/hwss/dcn314/dcn314_hwseq.c  |  41 --------
+ .../drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c    |  41 --------
+ .../drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c    |  41 --------
+ .../drm/amd/display/dc/hwss/dcn351/dcn351_init.c   |   2 +-
+ .../display/dc/resource/dcn351/dcn351_resource.c   |  11 ++-
+ .../amd/display/modules/info_packet/info_packet.c  |  13 +--
+ drivers/gpu/drm/amd/include/umsch_mm_4_0_api_def.h |  13 ++-
+ .../amd/pm/swsmu/inc/pmfw_if/smu_v14_0_0_ppsmc.h   |  28 +++---
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h       |  10 ++
+ drivers/gpu/drm/amd/pm/swsmu/smu14/smu_v14_0.c     |  50 ++++++++--
+ .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_0_ppt.c   |  21 +++--
+ drivers/gpu/drm/display/drm_dp_helper.c            |   7 ++
+ drivers/gpu/drm/i915/display/g4x_dp.c              |   2 -
+ drivers/gpu/drm/i915/display/icl_dsi.c             |   3 +-
+ drivers/gpu/drm/i915/display/intel_bios.c          |  46 +++++++--
+ drivers/gpu/drm/i915/display/intel_cursor.c        |   4 +-
+ drivers/gpu/drm/i915/display/intel_display_types.h |   1 +
+ drivers/gpu/drm/i915/display/intel_dp.c            |  12 +--
+ drivers/gpu/drm/i915/display/intel_dpll_mgr.c      |   2 +-
+ drivers/gpu/drm/i915/display/intel_drrs.c          |  14 ++-
+ drivers/gpu/drm/i915/display/intel_drrs.h          |   3 +
+ drivers/gpu/drm/i915/display/intel_dsb.c           |  14 +++
+ drivers/gpu/drm/i915/display/intel_fb_pin.c        |  10 ++
+ drivers/gpu/drm/i915/display/intel_sdvo.c          |   4 -
+ drivers/gpu/drm/i915/display/intel_vrr.c           |   7 +-
+ drivers/gpu/drm/i915/display/skl_universal_plane.c |   3 +
+ drivers/gpu/drm/i915/gt/intel_engine_pm.c          |   3 -
+ .../gpu/drm/i915/gt/intel_execlists_submission.c   |   3 +
+ drivers/gpu/drm/i915/gt/intel_workarounds.c        |   1 +
+ drivers/gpu/drm/i915/i915_driver.c                 |   2 +-
+ drivers/gpu/drm/i915/i915_hwmon.c                  |  37 ++++----
+ drivers/gpu/drm/i915/i915_memcpy.c                 |   2 +
+ drivers/gpu/drm/i915/i915_reg.h                    |   2 +-
+ drivers/gpu/drm/i915/i915_vma.c                    |  50 ++++++++--
+ drivers/gpu/drm/nouveau/nouveau_dmem.c             |  12 +--
+ drivers/gpu/drm/qxl/qxl_cmd.c                      |   2 -
+ drivers/gpu/drm/qxl/qxl_ioctl.c                    |   4 +-
+ drivers/gpu/drm/rockchip/rockchip_vop2_reg.c       |   2 -
+ drivers/gpu/drm/scheduler/sched_entity.c           |  12 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c                |  15 +--
+ drivers/gpu/drm/xe/xe_bo.c                         |  59 ++----------
+ drivers/gpu/drm/xe/xe_bo_types.h                   |  19 ----
+ drivers/gpu/drm/xe/xe_device.h                     |   4 +-
+ drivers/gpu/drm/xe/xe_exec_queue.c                 |   2 +-
+ drivers/gpu/drm/xe/xe_guc_submit.c                 |   2 +-
+ drivers/gpu/drm/xe/xe_lrc.c                        |  20 ++--
+ drivers/gpu/drm/xe/xe_query.c                      |   2 +-
+ drivers/video/fbdev/Kconfig                        |   3 +
+ include/uapi/linux/kfd_ioctl.h                     |  17 +++-
+ 74 files changed, 565 insertions(+), 448 deletions(-)
