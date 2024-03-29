@@ -2,55 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314738919D7
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:48:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DF798919DB
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:48:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C6351126E6;
-	Fri, 29 Mar 2024 12:48:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 505531126EC;
+	Fri, 29 Mar 2024 12:48:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DHRK2dhJ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="T7jXYmcx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFAF91126DF;
- Fri, 29 Mar 2024 12:48:20 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3FEEE6192E;
- Fri, 29 Mar 2024 12:48:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32399C43390;
- Fri, 29 Mar 2024 12:48:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711716499;
- bh=aiYW0yw5E+HOidbqciMe7uHQZ7wj+DvE0N4dRycpisI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DHRK2dhJZkcJKNAWf/BFhJy+SylX4zcnvQ/1i8SJs32mVA+z8CVr2fj7o+YVDjAr2
- V570dNpDBEt6hTatldcRBNoB1Qab1iCgCrbKBz2vlAcVyBdwACv5TNP957dgOXtVoe
- kDCXZV6XnnECYMHl7s5nyiQI9vLJH4b3l6cDil3Y5Px1Re2DtG+ZGGuCrdU/ffalZ8
- nCKSc3bK+qFG9oKGEf2ms5YPMGZU3x9VTZ2q/4o9mgiqWEC87ZZ5wxWHk8nQuszdU6
- H420lvdlZMDCiBK8o6ca2ZcoEBtNVrMzMkBiXol9eWpLQvuA92zowGqsHl5i4dqux9
- VD19vtWbbOe0g==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Aric Cyr <aric.cyr@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- dillon.varone@amd.com, aurabindo.pillai@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.15 16/34] drm/amd/display: Fix nanosec stat overflow
-Date: Fri, 29 Mar 2024 08:47:17 -0400
-Message-ID: <20240329124750.3092394-16-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240329124750.3092394-1-sashal@kernel.org>
-References: <20240329124750.3092394-1-sashal@kernel.org>
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE5CB1126ED
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 12:48:27 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-4149746f80aso13292965e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 05:48:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1711716446; x=1712321246; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=qZ7D+5qJ2pNz6EYwHipxqxpZRV6/vgGZ6gzPku1VvVw=;
+ b=T7jXYmcxgkFdaK1HM8xifiOQxS/XrS6TTkTWF7i0XopQS8tRsGZ71Ijz3RvqqwOBxw
+ 05WcnS4pP8/MbsxgB7dSpJzQ01KDLkhapXJHPUlsuz5Oq+8f3tWhfpTkyiamWbC+pPax
+ dLgbGqehq76nFPti0cO26tTEzLijiY5wofTDLT5eTm7w92hZoBV8WVSvKhB4fku56y/w
+ YSydHDtPmHGofuIsR0c3K3btdHDIqBhJu3JL1ppR6LRBySUtIXyljv5Pj9VkcTTi4RSd
+ mJI+E4MUJuzFsVHYSpfRSMA8C9qLNkJ2K4boc5bG25+2M6orNaQmtmiG62eG1bY/pOFm
+ v2sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711716446; x=1712321246;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qZ7D+5qJ2pNz6EYwHipxqxpZRV6/vgGZ6gzPku1VvVw=;
+ b=sl4q2OjbrRTQGOJaodnOReBpzLsq9zVHfP8FxBbEpbq+v5ffpDne9UY+eXHKs021Oh
+ ZOef1lsypz4uBFWw38cdNXdB+KuHcuC/msrRGv+QNqjUVRLHH3KJhVKqMlH9FVmHehj2
+ 7T0IqO2XDs4N7jjKAF10cgO9GtKWmXrsaaHwOHaChP+NHGBh9FFLdpc4Nep3aKqSdsKF
+ 2dTUhNNkgjgeRtmTUPYLrBcpSipTVmPRQ9CRd6KNnOP/x9Y4lQdyv6Ys9D+cJ/GpxJnK
+ bj7IfBMzirRd7oWmHt+SM5a5jcgADpY0lzMtXxs6Oww7MyTt/NdyoWvtqrXQvEJqQ61K
+ ltWw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVuSFgs6bNhZEOfrGZP3AWjAWwozWOIHisoLM0PJeZjmxRkqcgnNa0g0tY1RMgteyFAoRk/Ci2CbIASspkQ+HZXqwF2ZyYKutFbbSXo1mU5
+X-Gm-Message-State: AOJu0YzIbfWFWaOEvMjIzdNlv7MOaGUtAN1oPuyOhnZTnGKaL3JCIHI1
+ bBg6HHpIKhdv8qVARITjrj1c6FoTv01urqZgMncNkjTOVOtvsyDrGwWx/mwmx6o=
+X-Google-Smtp-Source: AGHT+IHMksVfsCu2pMKySfa/MLdds370aYD+GVM9XdFWAjzdOCSgnoygNfqulU33DpUs71aRe4tyDg==
+X-Received: by 2002:a05:600c:3587:b0:414:887f:6167 with SMTP id
+ p7-20020a05600c358700b00414887f6167mr1791150wmq.7.1711716446277; 
+ Fri, 29 Mar 2024 05:47:26 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.50])
+ by smtp.gmail.com with ESMTPSA id
+ fs11-20020a05600c3f8b00b004146dd6bfe2sm5281882wmb.47.2024.03.29.05.47.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Mar 2024 05:47:25 -0700 (PDT)
+Message-ID: <9ec7f1a1-2156-472d-9a3c-0982910e6b4f@linaro.org>
+Date: Fri, 29 Mar 2024 13:47:23 +0100
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.153
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] dt-bindings: display: panel: visionox, vtdr6130: Add
+ mode property
+To: Jun Nie <jun.nie@linaro.org>, neil.armstrong@linaro.org,
+ dmitry.baryshkov@linaro.org
+Cc: sam@ravnborg.org, airlied@gmail.com, daniel@ffwll.ch,
+ quic_parellan@quicinc.com, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com, seanpaul@chromium.org, swboyd@chromium.org,
+ quic_abhinavk@quicinc.com, quic_jesszhan@quicinc.com,
+ marijn.suijten@somainline.org, sean@poorly.run
+References: <20240328111158.2074351-1-jun.nie@linaro.org>
+ <20240328111158.2074351-2-jun.nie@linaro.org>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240328111158.2074351-2-jun.nie@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,43 +137,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aric Cyr <aric.cyr@amd.com>
+On 28/03/2024 12:11, Jun Nie wrote:
+> Add DSI mode property and compression mode property
+> 
+> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> ---
+>  .../bindings/display/panel/visionox,vtdr6130.yaml         | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
 
-[ Upstream commit 14d68acfd04b39f34eea7bea65dda652e6db5bf6 ]
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC. It might happen, that command when run on an older
+kernel, gives you outdated entries. Therefore please be sure you base
+your patches on recent Linux kernel.
 
-[Why]
-Nanosec stats can overflow on long running systems potentially causing
-statistic logging issues.
+Tools like b4 or scripts/get_maintainer.pl provide you proper list of
+people, so fix your workflow. Tools might also fail if you work on some
+ancient tree (don't, instead use mainline), work on fork of kernel
+(don't, instead use mainline) or you ignore some maintainers (really
+don't). Just use b4 and everything should be fine, although remember
+about `b4 prep --auto-to-cc` if you added new patches to the patchset.
 
-[How]
-Use 64bit types for nanosec stats to ensure no overflow.
+You missed at least devicetree list (maybe more), so this won't be
+tested by automated tooling. Performing review on untested code might be
+a waste of time, thus I will skip this patch entirely till you follow
+the process allowing the patch to be tested.
 
-Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Aric Cyr <aric.cyr@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/display/modules/inc/mod_stats.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Please kindly resend and include all necessary To/Cc entries.
 
-diff --git a/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h b/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h
-index 4220fd8fdd60c..54cd86060f4d6 100644
---- a/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h
-+++ b/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h
-@@ -57,10 +57,10 @@ void mod_stats_update_event(struct mod_stats *mod_stats,
- 		unsigned int length);
- 
- void mod_stats_update_flip(struct mod_stats *mod_stats,
--		unsigned long timestamp_in_ns);
-+		unsigned long long timestamp_in_ns);
- 
- void mod_stats_update_vupdate(struct mod_stats *mod_stats,
--		unsigned long timestamp_in_ns);
-+		unsigned long long timestamp_in_ns);
- 
- void mod_stats_update_freesync(struct mod_stats *mod_stats,
- 		unsigned int v_total_min,
--- 
-2.43.0
+
+Best regards,
+Krzysztof
 
