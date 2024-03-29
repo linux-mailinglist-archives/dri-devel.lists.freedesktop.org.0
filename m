@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE8958919A1
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:45:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B17689199F
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:44:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 453CF1126E2;
-	Fri, 29 Mar 2024 12:45:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 646CF1126CC;
+	Fri, 29 Mar 2024 12:44:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M3x6v+eb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vCwAt0TZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B77E1126D0;
- Fri, 29 Mar 2024 12:44:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51A301126D7
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 12:44:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id AE2066193C;
- Fri, 29 Mar 2024 12:44:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A972AC433A6;
- Fri, 29 Mar 2024 12:44:41 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id F0A9B6192E;
+ Fri, 29 Mar 2024 12:44:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C12AC433F1;
+ Fri, 29 Mar 2024 12:44:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711716283;
- bh=aiYW0yw5E+HOidbqciMe7uHQZ7wj+DvE0N4dRycpisI=;
+ s=k20201202; t=1711716288;
+ bh=ch8YjyWB1RWFmmfpIP5tddcgDn4YJeWGhzIDm7eEsD4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=M3x6v+ebKqW3jRgkXYQuPtwlnSC/XkO4ZQYnvZimbmmpfc12zn2F4yoyfM2jtDe7G
- O5STZzbPEwISyPl+6K0S5vvt4nG3xliA5zzNEZq8Ggq9JBAQ3c6+pjSb173SJbAGu4
- rtZaHZCyO7vYWD9CkfCA7Dx35hK2zIv0+ngsevudzWp0LzQJa99nNVafkpjga045Rc
- XRcbd3FGDmiWMWC/YCCmOOmM3+Ys1qUvFiCJ3iQEuMiOxOjlCWxwY30BjVh5nWZufV
- z7fW3nvFOYchwmALfMq0SMRMOyUq3xRc88Bg6cKTT0C7+C45VWCU8eOjUULPU1nlNJ
- IPSoscEqnd6XQ==
+ b=vCwAt0TZ2YspIaHMxiF6ehusGvhEo0WkDAoeOB75YWsOCd/GW8uBTCxPX8r7jzeBs
+ lofRWCT3aio8LzWoi3zI0w0cpqfj3FXnDICMTDUkgWRv+o3WzRqWclCgv4ZpsuHrLS
+ wvbK1IY2MgPjYg04vauqZu+49TWDEaujpL9n3X0LiHW2oCXkGkayCF9b7kpR643T6e
+ RIqrT/HxdxhBe14C79TRM1x1d53MCG+3KJm3IoeSYG4d91FmBAXedX9H5P9m6aWykm
+ M/O+fMu0sMy2fL29QNAJ73BIxdne94acAkAWjkRmpg+ark2CoZ+6eS1XRTNFaqkibN
+ E9i3cgXaA8IPQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Aric Cyr <aric.cyr@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- aurabindo.pillai@amd.com, dillon.varone@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 38/75] drm/amd/display: Fix nanosec stat overflow
-Date: Fri, 29 Mar 2024 08:42:19 -0400
-Message-ID: <20240329124330.3089520-38-sashal@kernel.org>
+Cc: Koby Elbaz <kelbaz@habana.ai>, Oded Gabbay <ogabbay@kernel.org>,
+ Sasha Levin <sashal@kernel.org>, ttayar@habana.ai, obitton@habana.ai,
+ fkassabri@habana.ai, dhirschfeld@habana.ai, osharabi@habana.ai,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 41/75] accel/habanalabs: increase HL_MAX_STR to 64
+ bytes to avoid warnings
+Date: Fri, 29 Mar 2024 08:42:22 -0400
+Message-ID: <20240329124330.3089520-41-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240329124330.3089520-1-sashal@kernel.org>
 References: <20240329124330.3089520-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.23
@@ -66,43 +65,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aric Cyr <aric.cyr@amd.com>
+From: Koby Elbaz <kelbaz@habana.ai>
 
-[ Upstream commit 14d68acfd04b39f34eea7bea65dda652e6db5bf6 ]
+[ Upstream commit 8c075401f2dbda43600c61f780a165abde77877a ]
 
-[Why]
-Nanosec stats can overflow on long running systems potentially causing
-statistic logging issues.
+Fix a warning of a buffer overflow:
+‘snprintf’ output between 38 and 47 bytes into a destination of size 32
 
-[How]
-Use 64bit types for nanosec stats to ensure no overflow.
-
-Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Aric Cyr <aric.cyr@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Koby Elbaz <kelbaz@habana.ai>
+Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
+Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/modules/inc/mod_stats.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/accel/habanalabs/common/habanalabs.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h b/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h
-index 4220fd8fdd60c..54cd86060f4d6 100644
---- a/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h
-+++ b/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h
-@@ -57,10 +57,10 @@ void mod_stats_update_event(struct mod_stats *mod_stats,
- 		unsigned int length);
+diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
+index 05febd5b14e9c..179e5e7013a12 100644
+--- a/drivers/accel/habanalabs/common/habanalabs.h
++++ b/drivers/accel/habanalabs/common/habanalabs.h
+@@ -2508,7 +2508,7 @@ struct hl_state_dump_specs {
+  * DEVICES
+  */
  
- void mod_stats_update_flip(struct mod_stats *mod_stats,
--		unsigned long timestamp_in_ns);
-+		unsigned long long timestamp_in_ns);
+-#define HL_STR_MAX	32
++#define HL_STR_MAX	64
  
- void mod_stats_update_vupdate(struct mod_stats *mod_stats,
--		unsigned long timestamp_in_ns);
-+		unsigned long long timestamp_in_ns);
+ #define HL_DEV_STS_MAX (HL_DEVICE_STATUS_LAST + 1)
  
- void mod_stats_update_freesync(struct mod_stats *mod_stats,
- 		unsigned int v_total_min,
 -- 
 2.43.0
 
