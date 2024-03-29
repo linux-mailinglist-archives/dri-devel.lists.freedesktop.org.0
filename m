@@ -2,114 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF5E8918A1
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:23:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A9D891923
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:36:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3756310E37D;
-	Fri, 29 Mar 2024 12:23:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C79E1126BA;
+	Fri, 29 Mar 2024 12:36:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="Z+PeAg+q";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="D8tgqJWh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1508F10E37D
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 12:23:29 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-2d4515ec3aaso16324081fa.1
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 05:23:29 -0700 (PDT)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+ [209.85.208.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C25711126BF
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 12:36:05 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id
+ 38308e7fff4ca-2d68cf90ec4so27996871fa.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 05:36:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1711714946; x=1712319746;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711715701; x=1712320501;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TdH2/uZDyLmBSFlZ529ZdmMTMc2xJjXR5We9XRvPLc8=;
- b=Z+PeAg+q8sAq81WrLahcR4mxuGkFsUGYtlJpZvglHv0GBtcPmhJa4tRH+PhONlMi61
- F6daVsgkR5ek5rgHppNJRQb1AOvNS8/suqHC+sOrI+sQOQleVZjfIfNj/wSs5m/4Q93X
- f3hxmt9qFYB707FxaVYvU67NeeLtYZ+VcsX3ND12/9rv0vz9KILowYI9gfOdw8/cAoXs
- /1yPUOsbN6xdV4JqFkEJQJgOfMlHP92rdIwNx3SPeNZ/UDFL0//TVveu8tRjvWOALgVA
- kW/sOi1thKMi0v0ULXHeGxacUHt/LxsUJCp/nSyLuRgZeyKG3yPXDYXgFAGThjL6KN7H
- BltQ==
+ h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+ :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+ bh=KC8w3+NJEoEp4iFjjEQ7VsL+cucprnwnTVjKhg4Pdoo=;
+ b=D8tgqJWh4puboVLaFGjbEptB29twZn7tOYGbDCA/v3WDN+g8smienuDFVDN/sADFbL
+ eP+uHf9Dpl5afOoFCgb+qBjjsWWFe92EDrS48wRAUxgPzGyl+njgA9n6veb80HlzTTw/
+ QucbCYsCXp7iTVdSqqkarJUYlhHlEkE3+BZW4vlY2ErVypt2GKMl3HRK2KCX+ak97nHk
+ tBWYzqOela1DAe5fKTPHkB/fUyhRE96B2Y78uwZIB6rUE1uL4Po+2wLQHcYA27t5B0kK
+ DgZ86tf3Uoob28ELxluhqCXHgyEYIBU6ruLp80MyEQcqaWimDziLva/kKg4VgqVrtSXt
+ MG4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711714946; x=1712319746;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TdH2/uZDyLmBSFlZ529ZdmMTMc2xJjXR5We9XRvPLc8=;
- b=xNqr4SsECHG12vML5iOQfpPnM90/ogEY23Fl19Ntn84cIPafHtQ7sshxe4/jhZlltF
- gstxpKi4D/GCscuwPTJcw5JZwEMRpusDDcbuWZO7KEjm2fXKq7gCZuCNr8DWu5rSdhdK
- lOD5rPxBdNyfHwqYs0mPFaom9997G5XHtlDb5rO2Vi6Ml1SPZPaNeAaWDDVkrn0bBRWc
- whgOdouFTXAFGksI7/gR16Yz3iVM1hVUE3npVz/If2u1/G1qTAf2ZP9dyMyhCGzgZT/z
- WosdHK006q5SYsHNf7MFa6vDEzrfbUsggWpKn95wKTIpFC3SG6G50W/nSttCQNUCBgJK
- z91w==
+ d=1e100.net; s=20230601; t=1711715701; x=1712320501;
+ h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+ :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KC8w3+NJEoEp4iFjjEQ7VsL+cucprnwnTVjKhg4Pdoo=;
+ b=wFIijoWJ5fSzxux0iVZ6tyNVgkYE4q7l3ICfQnnKotyury+SfplfYrHQy1CysOQ1HR
+ 8zyXbfirgUYVv7nqLqVrqbwvNQi8Nu2R/IIkcwHbxDg73MCsPvlWDMq3dqxFwiYdK/5L
+ XlzNjJ+HeuMVchXedDuAtLgJJ7kY0oAKitHZ7zapb171+Sv9B5+3Q9MbijafmC80jBJv
+ KQ92hiuPYs3OBZsAtMpKd3ubRzsWOXTP2jYV2z1fZsTJmrwvnMPBWu1nUrPpHCRdpbRd
+ pgjFO+KQM/4qq/XdpCcFWljY5LCW1EGQicX9ztSvJgbmiuIYF2MIdIaUB58WMMoZYO7C
+ JfZA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVq7P4hIRpOdeOH4RUlwaYm86yPmaiv9l0O064XvCzEIzv+y3diX+6DvuJax3NNNvx6OcTQZu7/U0fDM9R6Zq6bXiiu1tkvuhEEuPZvVKJT
-X-Gm-Message-State: AOJu0Ywx2DySqjsFWBlvn4Xxq0IRoch8Bwnjn0H8V7XfOJqBvZwMWjox
- hcyZoUKJukLISAaq8274iz0wJLFt/GF+TLheIejgJu6a7qt+tWmhBo/HpTDKcsKWTdJXM6mHbp7
- x0zS5pumK+BWWDxiNbKlCmmB/zq68fOUcnN0EDg==
-X-Google-Smtp-Source: AGHT+IE+HnSCJL2quawa1K1lMrp38Nm79TgJqcEd/z4x+7H7IfVDrdpUOVuBJN0I2Fw0lOyMRLNfqEQZZUdPpNwT2ZM=
-X-Received: by 2002:a2e:8350:0:b0:2d3:5480:92aa with SMTP id
- l16-20020a2e8350000000b002d3548092aamr644831ljh.25.1711714946358; Fri, 29 Mar
- 2024 05:22:26 -0700 (PDT)
+ AJvYcCUZyDhqaqPLyyp8vfzuZCLm5iMxmpAY5o47OcxmB+UtxCdzFauCT+z/rqWK70mSMkUciYvwrOwVB8gSMuKW532RWq2pvjo/K5mJ6qXCedLk
+X-Gm-Message-State: AOJu0Yx+B+k5a/8pcaFPumkLvU69DOIuqGsgZZon1skSVb1SXqfyF2Jm
+ QyB87w3CDkIMSa6ZzdZFDreHZq93ZAeRadZ4vuCFi2xCAz+9NZoKIMvQnG2xUHU=
+X-Google-Smtp-Source: AGHT+IEqnZmZnd/1sz5qvYox5md+LW+1OE5EJ48R6LS63eh6sEQiAaI25oj7fuUOQA3dlUi+U7wpjA==
+X-Received: by 2002:a2e:7e12:0:b0:2d7:2ba:525 with SMTP id
+ z18-20020a2e7e12000000b002d702ba0525mr1339873ljc.18.1711715701308; 
+ Fri, 29 Mar 2024 05:35:01 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:f8f5:63d4:de5b:e4de])
+ by smtp.gmail.com with ESMTPSA id
+ jb2-20020a05600c54e200b004155387c08esm525835wmb.27.2024.03.29.05.35.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Mar 2024 05:35:00 -0700 (PDT)
+References: <20240325-amlogic-v6-4-upstream-dsi-ccf-vim3-v11-0-04f55de44604@linaro.org>
+ <20240325-amlogic-v6-4-upstream-dsi-ccf-vim3-v11-2-04f55de44604@linaro.org>
+User-agent: mu4e 1.10.8; emacs 29.2
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Nicolas Belin <nbelin@baylibre.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v11 2/7] clk: meson: add vclk driver
+Date: Fri, 29 Mar 2024 13:33:29 +0100
+In-reply-to: <20240325-amlogic-v6-4-upstream-dsi-ccf-vim3-v11-2-04f55de44604@linaro.org>
+Message-ID: <1jzfuh8bd7.fsf@starbuckisacylon.baylibre.com>
 MIME-Version: 1.0
-References: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
- <20240327-module-owner-virtio-v1-9-0feffab77d99@linaro.org>
- <CAMRc=McY6PJj7fmLkNv07ogcYq=8fUb2o6w2uA1=D9cbzyoRoA@mail.gmail.com>
- <1303b572-719e-410d-a11a-3f17a5bb3b63@linaro.org>
-In-Reply-To: <1303b572-719e-410d-a11a-3f17a5bb3b63@linaro.org>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Fri, 29 Mar 2024 13:22:15 +0100
-Message-ID: <CAMRc=Mfeez9kXkkVxdmUk5dy=L=rbnYkYujO6jSCT5WAyUw2HA@mail.gmail.com>
-Subject: Re: [PATCH 09/22] gpio: virtio: drop owner assignment
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>, 
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Jens Axboe <axboe@kernel.dk>, Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
- Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
- Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Gonglei <arei.gonglei@huawei.com>, 
- "David S. Miller" <davem@davemloft.net>, Viresh Kumar <vireshk@kernel.org>, 
- Linus Walleij <linus.walleij@linaro.org>, David Airlie <airlied@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, 
- Chia-I Wu <olvaffe@gmail.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Joerg Roedel <joro@8bytes.org>, Alexander Graf <graf@amazon.com>,
- Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>, 
- Dominique Martinet <asmadeus@codewreck.org>,
- Christian Schoenebeck <linux_oss@crudebyte.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Kalle Valo <kvalo@kernel.org>, 
- Dan Williams <dan.j.williams@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, 
- Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>, 
- Mathieu Poirier <mathieu.poirier@linaro.org>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
- Anton Yakovlev <anton.yakovlev@opensynergy.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- virtualization@lists.linux.dev, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-um@lists.infradead.org, linux-block@vger.kernel.org, 
- linux-bluetooth@vger.kernel.org, linux-crypto@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev, 
- netdev@vger.kernel.org, v9fs@lists.linux.dev, kvm@vger.kernel.org, 
- linux-wireless@vger.kernel.org, nvdimm@lists.linux.dev, 
- linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, alsa-devel@alsa-project.org, 
- linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,52 +95,269 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 29, 2024 at 12:35=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 29/03/2024 11:27, Bartosz Golaszewski wrote:
-> > On Wed, Mar 27, 2024 at 1:45=E2=80=AFPM Krzysztof Kozlowski
-> > <krzysztof.kozlowski@linaro.org> wrote:
-> >>
-> >> virtio core already sets the .owner, so driver does not need to.
-> >>
-> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> >>
-> >> ---
-> >>
-> >> Depends on the first patch.
-> >> ---
-> >>  drivers/gpio/gpio-virtio.c | 1 -
-> >>  1 file changed, 1 deletion(-)
-> >>
-> >> diff --git a/drivers/gpio/gpio-virtio.c b/drivers/gpio/gpio-virtio.c
-> >> index fcc5e8c08973..9fae8e396c58 100644
-> >> --- a/drivers/gpio/gpio-virtio.c
-> >> +++ b/drivers/gpio/gpio-virtio.c
-> >> @@ -653,7 +653,6 @@ static struct virtio_driver virtio_gpio_driver =3D=
- {
-> >>         .remove                 =3D virtio_gpio_remove,
-> >>         .driver                 =3D {
-> >>                 .name           =3D KBUILD_MODNAME,
-> >> -               .owner          =3D THIS_MODULE,
-> >>         },
-> >>  };
-> >>  module_virtio_driver(virtio_gpio_driver);
-> >>
-> >> --
-> >> 2.34.1
-> >>
-> >
-> > Applied, thanks!
->
-> I expressed dependency in two places: cover letter and this patch.
-> Please drop it, because without dependency this won't work. Patch could
-> go with the dependency and with your ack or next cycle.
->
-> Best regards,
-> Krzysztof
->
 
-Dropped, and:
+On Mon 25 Mar 2024 at 12:09, Neil Armstrong <neil.armstrong@linaro.org> wrote:
 
-Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> The VCLK and VCLK_DIV clocks have supplementary bits.
+>
+> The VCLK gate has a "SOFT RESET" bit to toggle after the whole
+> VCLK sub-tree rate has been set, this is implemented in
+> the gate enable callback.
+>
+> The VCLK_DIV clocks as enable and reset bits used to disable
+> and reset the divider, associated with CLK_SET_RATE_GATE it ensures
+> the rate is set while the divider is disabled and in reset mode.
+>
+> The VCLK_DIV enable bit isn't implemented as a gate since it's part
+> of the divider logic and vendor does this exact sequence to ensure
+> the divider is correctly set.
+
+checkpatch reports a few easy CHECKs and one WARNING.
+Could you please fix these ?
+
+Other than that, It looks OK.
+
+>
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>  drivers/clk/meson/Kconfig  |   4 ++
+>  drivers/clk/meson/Makefile |   1 +
+>  drivers/clk/meson/vclk.c   | 141 +++++++++++++++++++++++++++++++++++++++++++++
+>  drivers/clk/meson/vclk.h   |  51 ++++++++++++++++
+>  4 files changed, 197 insertions(+)
+>
+> diff --git a/drivers/clk/meson/Kconfig b/drivers/clk/meson/Kconfig
+> index 29ffd14d267b..8a9823789fa3 100644
+> --- a/drivers/clk/meson/Kconfig
+> +++ b/drivers/clk/meson/Kconfig
+> @@ -30,6 +30,10 @@ config COMMON_CLK_MESON_VID_PLL_DIV
+>  	tristate
+>  	select COMMON_CLK_MESON_REGMAP
+>  
+> +config COMMON_CLK_MESON_VCLK
+> +	tristate
+> +	select COMMON_CLK_MESON_REGMAP
+> +
+>  config COMMON_CLK_MESON_CLKC_UTILS
+>  	tristate
+>  
+> diff --git a/drivers/clk/meson/Makefile b/drivers/clk/meson/Makefile
+> index 9ee4b954c896..9ba43fe7a07a 100644
+> --- a/drivers/clk/meson/Makefile
+> +++ b/drivers/clk/meson/Makefile
+> @@ -12,6 +12,7 @@ obj-$(CONFIG_COMMON_CLK_MESON_PLL) += clk-pll.o
+>  obj-$(CONFIG_COMMON_CLK_MESON_REGMAP) += clk-regmap.o
+>  obj-$(CONFIG_COMMON_CLK_MESON_SCLK_DIV) += sclk-div.o
+>  obj-$(CONFIG_COMMON_CLK_MESON_VID_PLL_DIV) += vid-pll-div.o
+> +obj-$(CONFIG_COMMON_CLK_MESON_VCLK) += vclk.o
+>  
+>  # Amlogic Clock controllers
+>  
+> diff --git a/drivers/clk/meson/vclk.c b/drivers/clk/meson/vclk.c
+> new file mode 100644
+> index 000000000000..3ea813a0a995
+> --- /dev/null
+> +++ b/drivers/clk/meson/vclk.c
+> @@ -0,0 +1,141 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2024 Neil Armstrong <neil.armstrong@linaro.org>
+> + */
+> +
+> +#include <linux/module.h>
+> +#include "vclk.h"
+> +
+> +/* The VCLK gate has a supplementary reset bit to pulse after ungating */
+> +
+> +static inline struct meson_vclk_gate_data *
+> +clk_get_meson_vclk_gate_data(struct clk_regmap *clk)
+> +{
+> +	return (struct meson_vclk_gate_data *)clk->data;
+> +}
+> +
+> +static int meson_vclk_gate_enable(struct clk_hw *hw)
+> +{
+> +	struct clk_regmap *clk = to_clk_regmap(hw);
+> +	struct meson_vclk_gate_data *vclk = clk_get_meson_vclk_gate_data(clk);
+> +
+> +	meson_parm_write(clk->map, &vclk->enable, 1);
+> +
+> +	/* Do a reset pulse */
+> +	meson_parm_write(clk->map, &vclk->reset, 1);
+> +	meson_parm_write(clk->map, &vclk->reset, 0);
+> +
+> +	return 0;
+> +}
+> +
+> +static void meson_vclk_gate_disable(struct clk_hw *hw)
+> +{
+> +	struct clk_regmap *clk = to_clk_regmap(hw);
+> +	struct meson_vclk_gate_data *vclk = clk_get_meson_vclk_gate_data(clk);
+> +
+> +	meson_parm_write(clk->map, &vclk->enable, 0);
+> +}
+> +
+> +static int meson_vclk_gate_is_enabled(struct clk_hw *hw)
+> +{
+> +	struct clk_regmap *clk = to_clk_regmap(hw);
+> +	struct meson_vclk_gate_data *vclk = clk_get_meson_vclk_gate_data(clk);
+> +
+> +	return meson_parm_read(clk->map, &vclk->enable);
+> +}
+> +
+> +const struct clk_ops meson_vclk_gate_ops = {
+> +	.enable = meson_vclk_gate_enable,
+> +	.disable = meson_vclk_gate_disable,
+> +	.is_enabled = meson_vclk_gate_is_enabled,
+> +};
+> +EXPORT_SYMBOL_GPL(meson_vclk_gate_ops);
+> +
+> +/* The VCLK Divider has supplementary reset & enable bits */
+> +
+> +static inline struct meson_vclk_div_data *
+> +clk_get_meson_vclk_div_data(struct clk_regmap *clk)
+> +{
+> +	return (struct meson_vclk_div_data *)clk->data;
+> +}
+> +
+> +static unsigned long meson_vclk_div_recalc_rate(struct clk_hw *hw,
+> +						     unsigned long prate)
+> +{
+> +	struct clk_regmap *clk = to_clk_regmap(hw);
+> +	struct meson_vclk_div_data *vclk = clk_get_meson_vclk_div_data(clk);
+> +
+> +	return divider_recalc_rate(hw, prate, meson_parm_read(clk->map, &vclk->div),
+> +				   vclk->table, vclk->flags, vclk->div.width);
+> +}
+> +
+> +static int meson_vclk_div_determine_rate(struct clk_hw *hw,
+> +					      struct clk_rate_request *req)
+> +{
+> +	struct clk_regmap *clk = to_clk_regmap(hw);
+> +	struct meson_vclk_div_data *vclk = clk_get_meson_vclk_div_data(clk);
+> +
+> +	return divider_determine_rate(hw, req, vclk->table, vclk->div.width,
+> +				      vclk->flags);
+> +}
+> +
+> +static int meson_vclk_div_set_rate(struct clk_hw *hw, unsigned long rate,
+> +					unsigned long parent_rate)
+> +{
+> +	struct clk_regmap *clk = to_clk_regmap(hw);
+> +	struct meson_vclk_div_data *vclk = clk_get_meson_vclk_div_data(clk);
+> +	int ret;
+> +
+> +	ret = divider_get_val(rate, parent_rate, vclk->table, vclk->div.width,
+> +			      vclk->flags);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	meson_parm_write(clk->map, &vclk->div, ret);
+> +
+> +	return 0;
+> +};
+> +
+> +static int meson_vclk_div_enable(struct clk_hw *hw)
+> +{
+> +	struct clk_regmap *clk = to_clk_regmap(hw);
+> +	struct meson_vclk_div_data *vclk = clk_get_meson_vclk_div_data(clk);
+> +
+> +	/* Unreset the divider when ungating */
+> +	meson_parm_write(clk->map, &vclk->reset, 0);
+> +	meson_parm_write(clk->map, &vclk->enable, 1);
+> +
+> +	return 0;
+> +}
+> +
+> +static void meson_vclk_div_disable(struct clk_hw *hw)
+> +{
+> +	struct clk_regmap *clk = to_clk_regmap(hw);
+> +	struct meson_vclk_div_data *vclk = clk_get_meson_vclk_div_data(clk);
+> +
+> +	/* Reset the divider when gating */
+> +	meson_parm_write(clk->map, &vclk->enable, 0);
+> +	meson_parm_write(clk->map, &vclk->reset, 1);
+> +}
+> +
+> +static int meson_vclk_div_is_enabled(struct clk_hw *hw)
+> +{
+> +	struct clk_regmap *clk = to_clk_regmap(hw);
+> +	struct meson_vclk_div_data *vclk = clk_get_meson_vclk_div_data(clk);
+> +
+> +	return meson_parm_read(clk->map, &vclk->enable);
+> +}
+> +
+> +const struct clk_ops meson_vclk_div_ops = {
+> +	.recalc_rate = meson_vclk_div_recalc_rate,
+> +	.determine_rate = meson_vclk_div_determine_rate,
+> +	.set_rate = meson_vclk_div_set_rate,
+> +	.enable = meson_vclk_div_enable,
+> +	.disable = meson_vclk_div_disable,
+> +	.is_enabled = meson_vclk_div_is_enabled,
+> +};
+> +EXPORT_SYMBOL_GPL(meson_vclk_div_ops);
+> +
+> +MODULE_DESCRIPTION("Amlogic vclk clock driver");
+> +MODULE_AUTHOR("Neil Armstrong <neil.armstrong@linaro.org>");
+> +MODULE_LICENSE("GPL v2");
+> diff --git a/drivers/clk/meson/vclk.h b/drivers/clk/meson/vclk.h
+> new file mode 100644
+> index 000000000000..20b0b181db09
+> --- /dev/null
+> +++ b/drivers/clk/meson/vclk.h
+> @@ -0,0 +1,51 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2024 Neil Armstrong <neil.armstrong@linaro.org>
+> + */
+> +
+> +#ifndef __VCLK_H
+> +#define __VCLK_H
+> +
+> +#include "clk-regmap.h"
+> +#include "parm.h"
+> +
+> +/**
+> + * struct meson_vclk_gate_data - vclk_gate regmap backed specific data
+> + *
+> + * @enable:	vclk enable field
+> + * @reset:	vclk reset field
+> + * @flags:	hardware-specific flags
+> + *
+> + * Flags:
+> + * Same as clk_gate except CLK_GATE_HIWORD_MASK which is ignored
+> + */
+> +struct meson_vclk_gate_data {
+> +	struct parm enable;
+> +	struct parm reset;
+> +	u8 flags;
+> +};
+> +
+> +extern const struct clk_ops meson_vclk_gate_ops;
+> +
+> +/**
+> + * struct meson_vclk_div_data - vclk_div regmap back specific data
+> + *
+> + * @div:	divider field
+> + * @enable:	vclk divider enable field
+> + * @reset:	vclk divider reset field
+> + * @table:	array of value/divider pairs, last entry should have div = 0
+> + *
+> + * Flags:
+> + * Same as clk_divider except CLK_DIVIDER_HIWORD_MASK which is ignored
+> + */
+> +struct meson_vclk_div_data {
+> +	struct parm div;
+> +	struct parm enable;
+> +	struct parm reset;
+> +	const struct clk_div_table *table;
+> +	u8 flags;
+> +};
+> +
+> +extern const struct clk_ops meson_vclk_div_ops;
+> +
+> +#endif /* __VCLK_H */
+
+
+-- 
+Jerome
