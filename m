@@ -2,93 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C14D38911B3
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 03:38:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FB8F8911C6
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 03:48:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EBAB10E2BA;
-	Fri, 29 Mar 2024 02:38:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C647E10F52C;
+	Fri, 29 Mar 2024 02:48:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="JgtRMcCH";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="o5DZY/2L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F5BD10E2BA;
- Fri, 29 Mar 2024 02:38:01 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 42T011a7014147; Fri, 29 Mar 2024 02:37:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=iKisYioMzEBw7Rwi9M/qvtiGP/9dquh4W1P2njpTQLs=; b=Jg
- tRMcCHE+NXcFdcrYUowoEq8Q/kVfiPMphig3SeJkqWWt5LKxIlJ/9mBiBBs3GbDm
- pMFlDv39NejJQMztfLr9L9dtDFN9Qgys6XJgvuoFI/hK94cAGBZe4dC9x03F7SXM
- 7pQRDSTzMvYUps9uDM7AjtynzaAJ5r+xFAfntUhd8xU6N8n8srbNmu0h+KBNwt5X
- PzM8oPVzG8kfVvh4oc908VqzvtI29Y2l7cQ4zhEHAFavVWMwajnR/A1h1TMISNZK
- y83TztW/85D+lbwVJlPXOdLpqVcfj5E5mgMWlUsoQzsbw/BFDzvDY9j7eJo9/qy6
- Xx5+Zp3w+rvHM02HMUSg==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x5aeg9hdk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Mar 2024 02:37:53 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42T2brZO030242
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Mar 2024 02:37:53 GMT
-Received: from [10.110.118.161] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 28 Mar
- 2024 19:37:44 -0700
-Message-ID: <3bb6722c-5186-6d25-a4a2-c1ef92977dac@quicinc.com>
-Date: Thu, 28 Mar 2024 19:37:42 -0700
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F05910F52C
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 02:48:39 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id
+ 38308e7fff4ca-2d47a92cfefso18728741fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Mar 2024 19:48:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1711680456; x=1712285256; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rSETHpMqQALVwCbYm94Jc+2S/pi/8MN4MsDFLYYekkU=;
+ b=o5DZY/2LvXCfef2OALRoAI+oBfUxyuzid9hQEnqF989AbvQiX0KlnWSFd99m9iqSre
+ nB+zGkFY84L76pEw/QCNxw7sUCz49a7TS0+hvyKkoahA75HiNfszNmS4TORC4BfJe/qr
+ SEKA/ptWVY2gAHHJkLgBOJwZ7zH7cPGGiKdE2zGA1din7/udAMaPlCGL+cdvYA5OpRp4
+ 17edGeutvxDUO0zqewq35LkISO6TFmdgd9WbRLsOBja5pLVKMff1Zur3aUGzWheG9Fdb
+ pSZ9j66nHJdqllhc9JPNBdf5pkK+A1XJ0a7u0qBdzJaM2p/82GTYSU9KM1EACHwnhlpi
+ MKcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711680456; x=1712285256;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rSETHpMqQALVwCbYm94Jc+2S/pi/8MN4MsDFLYYekkU=;
+ b=ducxQqWNg6qiorujrSSOnlUIGgU6nI5s7lgKy1hS1KBwSCRmEjDVXGzW49E76I38e9
+ dNxVabOLUzufpY6TWFRQ/JK6aRf6kmIP0gHo/Y9lpXmKEy6YBsioIsMBUsUHus2qBG+v
+ 3LwqmaqYhW8BAUrjesXGw7lzOhUP9vFqi1xYvg8NEGEFSqvDZVQWdjJF+d8OPmDavyxv
+ v+xdKmgha3egQcaEHa6JrlykZ0Qc91FD1Jd8MM1H9NdAqCEJ6o7Y4q4Vxd4jLeVzDxAK
+ oxIu/O9K3XYoHDFWxBCJGahHQru8qS7zFgm3MqPi1SL1mo4ab1ztfWb8uy1DqeF4xQgp
+ KU8g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXdT2j1Ox+4a+pbpd2SxvPS0cx4s56sncXvb6d2Wb+JpGfnwRhxVHsTyxk80/Y6KVsBca8RTXhDKd4Jv3nktx+66RiaKte+QiupRFgQzyNA
+X-Gm-Message-State: AOJu0Yzhcatn6ehw+9UdH1nOf8iy0V3798+Nhb6DeuiwcOyAd2tRW99Q
+ YZvh4q0RqzLARGcYD1LAYzqA6wLJflr0pjLFCzsv+o1WV6bQkk4dfoEM0NXFenbbqBZ9H1On9c/
+ eve32tI98yVXF9F0avHp01USRLRzuyBnPq6yYxQ==
+X-Google-Smtp-Source: AGHT+IGkPfHE2Cb4ujRPE2lteIEJE/6vhbAkZFZyGBXNMNjknZyJOjV3GSO913me8KPFw4nJCc4SYzvo3L5pLLRwgX4=
+X-Received: by 2002:a2e:bc21:0:b0:2d6:a699:4bae with SMTP id
+ b33-20020a2ebc21000000b002d6a6994baemr603365ljf.6.1711680455712; Thu, 28 Mar
+ 2024 19:47:35 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v1] drm/msm/dp: use dp_hpd_plug_handle() and
- dp_hpd_unplug_handle() directly
-Content-Language: en-US
-To: Bjorn Andersson <quic_bjorande@quicinc.com>
-CC: Stephen Boyd <swboyd@chromium.org>, Bjorn Andersson <andersson@kernel.org>,
- Johan Hovold <johan@kernel.org>, Kuogee Hsieh
- <quic_khsieh@quicinc.com>, <abel.vesa@linaro.org>,
- <agross@kernel.org>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <dianders@chromium.org>, <dmitry.baryshkov@linaro.org>,
- <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <vkoul@kernel.org>, <quic_jesszhan@quicinc.com>,
- <quic_sbillaka@quicinc.com>, <marijn.suijten@somainline.org>,
- <freedreno@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-References: <1711656246-3483-1-git-send-email-quic_khsieh@quicinc.com>
- <1711656246-3483-2-git-send-email-quic_khsieh@quicinc.com>
- <55debb0a-c7af-ef71-c49a-414c7ab4f59d@quicinc.com>
- <CAE-0n503FwcwreZ14MMKgdzu8QybWYtMdLOKasiCwmE8pCJOSw@mail.gmail.com>
- <23de89e9-3ef3-c52d-7abf-93dc2dbb51a4@quicinc.com>
- <20240329014659.GA3478031@hu-bjorande-lv.qualcomm.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240329014659.GA3478031@hu-bjorande-lv.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: QpIVvtzj8E2DmWjqFm2Yz6BEgVmeMtSk
-X-Proofpoint-GUID: QpIVvtzj8E2DmWjqFm2Yz6BEgVmeMtSk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-29_02,2024-03-28_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- lowpriorityscore=0 malwarescore=0 priorityscore=1501 mlxscore=0
- clxscore=1015 mlxlogscore=999 impostorscore=0 adultscore=0 suspectscore=0
- phishscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2403210001 definitions=main-2403290020
+References: <20240328111158.2074351-1-jun.nie@linaro.org>
+ <CAA8EJpq7eHgryrNnnR=Yh46PdkAQA-YNzTz_0gaWbr_g9CWSxA@mail.gmail.com>
+In-Reply-To: <CAA8EJpq7eHgryrNnnR=Yh46PdkAQA-YNzTz_0gaWbr_g9CWSxA@mail.gmail.com>
+From: Jun Nie <jun.nie@linaro.org>
+Date: Fri, 29 Mar 2024 10:47:24 +0800
+Message-ID: <CABymUCOdZO7K1F3FMR_KD5sgCUCSKreSYr3BWbNdYMO==+AErA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm/msm/dpu: fix DSC for DSI video mode
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: neil.armstrong@linaro.org, sam@ravnborg.org, airlied@gmail.com, 
+ daniel@ffwll.ch, quic_parellan@quicinc.com, freedreno@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ robdclark@gmail.com, seanpaul@chromium.org, swboyd@chromium.org, 
+ quic_abhinavk@quicinc.com, quic_jesszhan@quicinc.com, 
+ marijn.suijten@somainline.org, sean@poorly.run
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,81 +84,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2024=E5=B9=B43=E6=
+=9C=8828=E6=97=A5=E5=91=A8=E5=9B=9B 23:05=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Thu, 28 Mar 2024 at 13:12, Jun Nie <jun.nie@linaro.org> wrote:
+> >
+> > Fix DSC timing and control configurations in DPU for DSI video mode.
+> > Only compression ratio 3:1 is handled and tested.
+> >
+> > This patch is modified from patchs of Jonathan Marek.
+> >
+> > Signed-off-by: Jun Nie <jun.nie@linaro.org>
+>
+> This almost looks like a joke, except it isn't the 1st of April yet.
+> The patch lacks proper Author / Sign-off tags from Jonathan.
+> This is pretty close to copyright infringement. I'm sorry, but I'd
+> have to ask you to abstain from sending patches w/o prior internal
+> review.
 
+Thanks for pointing me the previous version. I am not aware of it actually.
+The only version I knew is from internal repo. It is my fault. I see the sl=
+ides
+says that Jonathan does not want to disturbed, so only his name is
+mentioned in the commit message.
 
-On 3/28/2024 6:46 PM, Bjorn Andersson wrote:
-> On Thu, Mar 28, 2024 at 02:21:14PM -0700, Abhinav Kumar wrote:
->>
->>
->> On 3/28/2024 1:58 PM, Stephen Boyd wrote:
->>> Quoting Abhinav Kumar (2024-03-28 13:24:34)
->>>> + Johan and Bjorn for FYI
->>>>
->>>> On 3/28/2024 1:04 PM, Kuogee Hsieh wrote:
->>>>> For internal HPD case, hpd_event_thread is created to handle HPD
->>>>> interrupts generated by HPD block of DP controller. It converts
->>>>> HPD interrupts into events and executed them under hpd_event_thread
->>>>> context. For external HPD case, HPD events is delivered by way of
->>>>> dp_bridge_hpd_notify() under thread context. Since they are executed
->>>>> under thread context already, there is no reason to hand over those
->>>>> events to hpd_event_thread. Hence dp_hpd_plug_handle() and
->>>>> dp_hpd_unplug_hanlde() are called directly at dp_bridge_hpd_notify().
->>>>>
->>>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->>>>> ---
->>>>>     drivers/gpu/drm/msm/dp/dp_display.c | 5 +++--
->>>>>     1 file changed, 3 insertions(+), 2 deletions(-)
->>>>>
->>>>
->>>> Fixes: 542b37efc20e ("drm/msm/dp: Implement hpd_notify()")
->>>
->>> Is this a bug fix or an optimization? The commit text doesn't tell me.
->>>
->>
->> I would say both.
->>
->> optimization as it avoids the need to go through the hpd_event thread
->> processing.
->>
->> bug fix because once you go through the hpd event thread processing it
->> exposes and often breaks the already fragile hpd handling state machine
->> which can be avoided in this case.
->>
-> 
-> It removes the main users of the thread, but there's still code paths
-> which will post events on the thread.
-> 
-> I think I like the direction this is taking, but does it really fix the
-> whole problem, or just patch one case?
-> 
+What's the patch set status? I do not see it in mainline yet. If it is
+in pipeline,
+I can just forget the DPU side change.
 
-So kuogee's idea behind this that NON-hpd_isr events need not go through 
-event thread at all.
+Thanks!
+Jun
 
-We did not run into any special scenario or issue without this. It was a 
-code walkthrough fix.
-
-> 
-> PS. Please read go/upstream and switch to b4, to avoid some practical
-> issues with the way you posted this patch.
-> 
-> Thanks,
-> Bjorn
-> 
-
-Just to elaborate the practical issues so that developers know what you 
-encountered:
-
--> no need of v1 on the PATCH
--> somehow this patch was linked "in-reply-to" another patch 
-https://lore.kernel.org/all/1711656246-3483-2-git-send-email-quic_khsieh@quicinc.com/ 
-. This is quite strange and not sure how it happened. But will double 
-check if we did something wrong here.
-
-Thanks for sharing these.
-
-
->>>>
->>>> Looks right to me,
->>>>
->>>> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>
+> > ---
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |  2 +-
+> >  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |  2 +-
+> >  .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  | 12 +++++
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c   | 10 +++-
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h   |  1 +
+> >  drivers/gpu/drm/msm/dsi/dsi.xml.h             |  1 +
+> >  drivers/gpu/drm/msm/dsi/dsi_host.c            | 48 +++++++++++--------
+> >  include/drm/display/drm_dsc.h                 |  4 ++
+>
+> Ok. The feedback for the original patchset [1]  was that it should be
+> split logically. Instead you pile everything together into a single
+> patch. This is a complete no-go.
+>
+> Also, this patchset lacks changelog in comparison to the previous
+> patchseris. I don't think I'll continue the review of this patch.
+> Please rework it properly and add corresponding changelog.
+>
+> [1] https://patchwork.freedesktop.org/patch/567518/?series=3D126430&rev=
+=3D1
+>
+> >  8 files changed, 56 insertions(+), 24 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/=
+drm/msm/disp/dpu1/dpu_encoder.c
+> > index 6a4b489d44e5..c1b9da06dde2 100644
+>
+> --
+> With best wishes
+> Dmitry
