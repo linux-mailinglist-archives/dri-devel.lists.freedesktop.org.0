@@ -2,117 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A86E89177C
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 12:15:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3F1891789
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 12:21:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C44FF11265E;
-	Fri, 29 Mar 2024 11:15:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CF2910EDCB;
+	Fri, 29 Mar 2024 11:21:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="r5YsriSp";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="D6MfL56P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2138.outbound.protection.outlook.com [40.107.93.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB79411265E;
- Fri, 29 Mar 2024 11:15:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EkMeNenO/r5cqtn1olNlOBkJq1Ym42C5lG+qg+NyRYZ1vJixWl3pT/8ZrlTNnjLqlmiOyrebnlB1QH/mT5bvoghUXbSNsva7HDBSRP+PBW2LZquJJWK01MRSwdAwpCqo5LTk9qj8dY/yHrFWmu9RzNGXhYhTwLS+56Hif0YQA7FsIRUIBQQqoxUGUWljOIrNA/n95UQgLUCKOkVtSap/eDcEM54gcirz+f0/fzORlu9ZzDyv5UtThHk2o8+HaV0Jt2MhhxieUSf+xPXuRAEEyh8G8EWT91exPc4uGS7Ktvpp1D+gVBtt8Da67O43Jxjhu57LTbDU3/lyBRExlaJRng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ltjyCfUStfIrGkVhqmASdl40r8uHaBEysnD8cOfIGXM=;
- b=n7ouWIKkjC97iEYbCy3w1dOlPIkbqEhb5giKqQcK2vxlj64NvYvzeXswAd9NBstC6wSWYAdHmzfTlna2ZcYjf7nxPriiusB/nPf1Qn6LsFP14obnJfMvOT32LXbKC86SeusLbXH6XLwffpEaXjrjHifcNQToEvfU5y2Kw3QcruoyfFXy49DcJjExdlOgheqs/GnxZ/02gaZ5rTI+3lmKgk7OJHslrQJZOL8REInxChcvnvFMiPk8QuVNkb07ddlxvYG3xHCmx3N6jLkk+EfszTtA7yPlXXKY4tGCHG6b1oR38ur2077GMulXJ5EywQw8ik6nYeaCTk+exS65f4urCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ltjyCfUStfIrGkVhqmASdl40r8uHaBEysnD8cOfIGXM=;
- b=r5YsriSpWsmwe3aG/9Njlc7LJjdQIdZ7qJ9VCYfH71+/UvZ8A60/LRN+dN9EtEi9ldEWRIxjGskj7P1zZlN+4gI1EEkxhN9HsmSi6znIjdVpP8dc7zOCGAo3ejlTdjB7HsA+EOQhXePeYl4US3azp7M5OeaqzqyT8t3Mzo2w+SM=
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CH3PR12MB9077.namprd12.prod.outlook.com (2603:10b6:610:1a2::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.33; Fri, 29 Mar
- 2024 11:15:17 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7409.031; Fri, 29 Mar 2024
- 11:15:17 +0000
-Message-ID: <f4c04ec4-b385-4cd7-af7f-000282443246@amd.com>
-Date: Fri, 29 Mar 2024 12:15:11 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ttm: remove unused paramter
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-To: Jesse Zhang <jesse.zhang@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Cc: Alex Deucher <alexander.deucher@amd.com>
-References: <20240325074540.2426476-1-jesse.zhang@amd.com>
- <f497b2d6-171a-46ec-84a7-cc148b39b992@amd.com>
-Content-Language: en-US
-In-Reply-To: <f497b2d6-171a-46ec-84a7-cc148b39b992@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0120.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a8::10) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BF4E10F726
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 11:21:25 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-a46d0a8399aso494914566b.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 04:21:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1711711222; x=1712316022; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=kKV3KbJjgkEGw8OwdQHUS9b2YPZiHnl3LTkJFrXOS7w=;
+ b=D6MfL56PBmEn/Ovp80MT/dg5lCz2Rl4aZmLwyTl6NF3mMMPnPalz8C2oGwXYZ1qJ3Z
+ tm22rB7zq0JZqULCQOI85W0mimIln3TFJlq5Mab87wqu1Ox13UYju7WR6LgUR6YzB6Y5
+ /eM/UMTGwHFrbNvtFL9r4gcKoUzo7iSpCT35zDysL7eeUcdF8+yZ/VSVEdVhq4OFZg/x
+ BIBsVIWqpsKAzbPYLdjvDqO6YapsKSJxQFiwGZo81wH/IGhfsw5puQDszRXEHDzb0jY9
+ W5AF7xJbhPHueu1abrZHmUFrepcQ8MGWR9LpNEOAI8VXl/V/f3FM0pxJ0gvSlU1V5eFM
+ LAag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711711222; x=1712316022;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kKV3KbJjgkEGw8OwdQHUS9b2YPZiHnl3LTkJFrXOS7w=;
+ b=DEJEGHg6Xz64JG+ZKgfU7PTsk0C9ewWa0QNY5GOHrMr2Mp7liatSrmj5Z1NefimDiJ
+ sGnElaEc6AXvT+aXfA7hPfnuiFjneOM4yQWtvoszoPaUiWTFgEVyxOqhZe5sW2XB3QYh
+ 5WOd6llB4XQ9Su/77kKEp4glUBVkzb2A/NkV82lNWB8e1XZSJX0pk7QIeScemoXpF6ae
+ TIPAt52TfEZVGVZJHarB/fY7yuqp+KmLMaJ36gMjKSHFol+Dim6HQayEQ6PG0/F5UqiT
+ wD6x14hcBwsm59ZIX883hwIPtgR8s8TM+vrktBHEI7E7zNSg8kOrW/6qOY43dBk93eZo
+ Kh7A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXxn2GT2G+0oV1n9REpu6YzpXByH5SGxd73ZmuCCW6RkM3Cv8jJH+H2wNKNl8IXM/fpJSKGEEr8WljB0dy1WLtkUa3bSvUk+KhpV8iaw5lD
+X-Gm-Message-State: AOJu0Yxp94s9NbrT85dVh4Pan7gyBEWjruCB9qdzPuK0ngGTaXXoP+tz
+ lF2Ef3ZGwz3tZGdad5gJ5t9taFxim3IKqy+xD8pFSKAFYhP0kRavZSEyW87xoT0=
+X-Google-Smtp-Source: AGHT+IEIkAJ5ywwRATnP2MCZSETlJm79fyi1m4pgbxPFEky4Hig+TEPkqaU0GNDKkMruZAcPuppxVw==
+X-Received: by 2002:a17:907:6d21:b0:a4e:24b9:bc23 with SMTP id
+ sa33-20020a1709076d2100b00a4e24b9bc23mr3747234ejc.34.1711711222186; 
+ Fri, 29 Mar 2024 04:20:22 -0700 (PDT)
+Received: from [192.168.92.47] (078088045141.garwolin.vectranet.pl.
+ [78.88.45.141]) by smtp.gmail.com with ESMTPSA id
+ r17-20020a170906705100b00a42f6d17123sm1809758ejj.46.2024.03.29.04.20.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Mar 2024 04:20:21 -0700 (PDT)
+Message-ID: <f80c380f-93b5-471c-8a7b-8cf6de0cfdde@linaro.org>
+Date: Fri, 29 Mar 2024 12:20:17 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB9077:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YT6maHFvWxxS1UZqbr2JhXjOB3kR0c63uF3y8m4fEVVyqsL8qCAbogNFMPoe3CEhRuVzoKoPm97HQvcfr8pCCWIuzOXNz7i41d+XVfqCR83lUDn2FsoIFbgDMH/TxlQFrZomAtoziFEhoI76S3EsZztc0RDhQLbMHikIvDg7Np2Udk9EPuXmxOUisG+Zvb+m+jRZYxcWI9dJEOWpJAX1kYu5vQ9gBJ2IMHVd7jHu1OhzHALF8gL7W6jFzGjCY6olmHsV5gM6+SkZb+l6/kmc7Cp83Xkd2y3XgdLrxC0OSCIt6bjBn4jmcvYdPOgww+1xnV4Z72kxv0JNsaB0WjB/htzQAcCBPTfYIQm/h5hm/45OrYU0h+fgehqKPNzJ7HVW38IvVlnZcyro4XilyCDoV/o3TuXFxKAHbSvTWEQGE615z7SS8lm9p9i3I0njjOPP/qy8IQ1jPHblZkOAJL43ie8MHz3fv3NUsXd+QaQP5nd93i+RQe6CUMib0GFLcBbCSpnawl4JhZxgXE8PMIZZrIk8pngDhvimTvZ2iSBl2xW9BXFLOuIFlOhU25NRpST12xkQAa6hgjxFstd5I/aDDyQL/VYvHAoAljcZUoysKbaspIVkyZi2Nz/dwe6Z9xcuNKPnmU/vXg452mb0fqnWFXoGeKZ30wYQ5Msx8wXgzHk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366007)(376005)(1800799015); DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K3NGZ2ZsdU5JdFlKUkNYRmxoc3hVVFdqZC9GRUx6S2ZkZW1Eam54d01TbnRy?=
- =?utf-8?B?STEwbThwbmt0NExhR1I1TUN3aW16ZFNic09HWXlFUHBYTk1YTFp0cktXblJF?=
- =?utf-8?B?WnltVXVDTGgxTzNNSWZjeXNzNm9DMXNWcDk2UlpMc0dnM0Z4TmJoMXJEbVh5?=
- =?utf-8?B?Snd0eDBZTEFuTHRsbnF4SjVqeG4zWXczblYyc1lXUTNCc3NBNWszRE5xVGFK?=
- =?utf-8?B?VitGVE9jaGI5c3BCNzk0ZGlHWTFkQVlVRlAzZVZPM0FXQnhmVTdSaVhyeCs3?=
- =?utf-8?B?ZEJXMEpXVE1WNVhYR1RWWGxPVndzaDNRUzN3czRFSFVWeFFMK2xFVHZJVlNk?=
- =?utf-8?B?SkVvTlp5TWJ5czZzR0pKRStneUExUmw4OEpENmlMdm0zRTNLQ2plZFVmZ0Zs?=
- =?utf-8?B?aWE1Tk80akFQaFlOT3R4RngzeEhaT1dTMzJzbVowOU93YUszSW5XeVZUeDdG?=
- =?utf-8?B?ck5rbE52ZnhaZEliNjY3aUJ4VjBwcEl1bHNrd2lqR2dUYnJyc2FPb2NHNjNM?=
- =?utf-8?B?dWhHQmhiYUtNdHIyM0RRNi9Sb1NRMkFwbWNybTRwWUdJMVRIS0s5UjBkTVI1?=
- =?utf-8?B?cW9FTDIvV0R3VUlXVENFNmhrbjZ0TXhicEQvZXhCLzNHbThxTDJ0MFJGTVNV?=
- =?utf-8?B?WDBSelFVYk0rR1JkZ3h3eHFIQ1lHZS84ck9lNXREZnB4QjB1Vzk5MUp2N3RB?=
- =?utf-8?B?RWxORXVMMEtIbXY2ZE5ycURDV0V6RmpPeVIzWWtmRkIxV04yVTJPSU92RDhY?=
- =?utf-8?B?ditJWEJwRFd1LzVwdUYwSC96OG00ZCtpcEV1TndiV1ZESHdNQXNtMFpvWFBZ?=
- =?utf-8?B?QWJyNWVsRzFadXpyUnlRc2xLcEZzZ1hVOTRobllyWUErQjYrV1k3eE9uS3hK?=
- =?utf-8?B?ZW5GQ09mcW92eWROR3k2SEpDY0phbXUvb0x5L2o0OHZZTjRqcjRZTFFGeDl5?=
- =?utf-8?B?WVdUeVhZUksvc1JyRDZ5MjJaV0FoY2d6ZXNuOUtWTXczcjQzdjRjaWcyNWNk?=
- =?utf-8?B?WGpXeEFmbXdnQlU2VytiUGlUWmR6MWltQkhKZUhaaUEvT2h1eWdGeXpUdlk4?=
- =?utf-8?B?aDZjcHhUQ2RKK2pGbDJEWmR6SXQxL0prTXBYbjBYTk5ubk9SYUtmN0RYZmNY?=
- =?utf-8?B?QTFSaTBaWjBkS0Z1WGtFOGJTcHJhVDdHTHl1QXJJYUFVdGhHNWl6bnZ3bEhs?=
- =?utf-8?B?UmRuWFVRc2ZWaytEdGFhRFdJRFpaT1BoeXNpZm5NdGdKSTlsVndaTXlQNy9D?=
- =?utf-8?B?QThMdFpvOHpTcDhZU3hwQjhKUVFBWWJ5WkVoLzZaUXlKT0p6NVpnZC9ZaW1C?=
- =?utf-8?B?bVdXYkN5MWoyZ2VMRzQrV3BQaFIwemhueDhSMk5UcWo0L2RrMU9OOVJ2WHl4?=
- =?utf-8?B?VGl2blFFckYwYWV6YjVnWWhoVzlsSHRjTHU1aTdyMFJJVkEvUnFZUDJCWG9T?=
- =?utf-8?B?Z2lzYTJTVm1kdElCQVpHQzZnMVhJdU40MVBOb0EzRnJIR0hzU3NhdUptM1RO?=
- =?utf-8?B?L3R3bGxpWEZnSmpkbE5jZi9Uc2NBVUtjeUo1Lzh0eXZGZG9IQUJPbVFnOU1V?=
- =?utf-8?B?VEJOKzNwYnFMUVdmeFhGQURCVVQ0c1VWUHk3TUMvVXdOZ0JCTUU0eG1jUnVw?=
- =?utf-8?B?UzdsMHNtL2RHMit5UWt2Smt4b3gwQU4rNm9Ha1pFallHN09ZdXdUaG15cG1Y?=
- =?utf-8?B?dk9RRUcrd0QyeGlYeERLRWxZemcyaEhicDhBMFN3OTNKWUpWK2hvOElkZDV1?=
- =?utf-8?B?V1BHay9IWmRsbEtRZDR6bDBRVHJ6VDM4TzZTd2hZZGw5TFRQQTNnemlRVGxp?=
- =?utf-8?B?SkU2QWNKekNOeHRUZTIzZUs3a21pNkk3emNHakg5RndGL0hWeWhadSs1MEpV?=
- =?utf-8?B?MFFzMTZFZVQ2bm1MM0NseFhsMCtzUzJaZTNGa2xnQ1pXR2NDcGxMWm1tZHRU?=
- =?utf-8?B?NVdvUnRRWFYyS3k5VWFuNUQ0cFV5L2dUbWdmYUxqRHVDc2VSYkEwY000V3Yw?=
- =?utf-8?B?bmExNlJvWnY0TnBmVmVvRTNSWVRkMHNxbWFWZ3MyVEdFQUE4b1VxQ3dFcS8z?=
- =?utf-8?B?RG9wNU9yQUc4NHN4VW9oNStHK29yZEQ2bGtFQys4TzFDR2pjaEdmeWcyeFFG?=
- =?utf-8?Q?JGfkU9B/MmjSHEWtZdEYbw3BW?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1e60907f-9a53-4712-5bad-08dc4fe18370
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2024 11:15:17.3192 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: guvWHAUvmaNT8y6+3dnjwCIcIGBAF8PjAfp5/cN9S6iobzTKL9AT2cZX7pqaQXXN
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9077
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] arm64: dts: qcom: sm6350: Add DisplayPort
+ controller
+To: Luca Weiss <luca.weiss@fairphone.com>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240329-sm6350-dp-v2-0-e46dceb32ef5@fairphone.com>
+ <20240329-sm6350-dp-v2-3-e46dceb32ef5@fairphone.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <20240329-sm6350-dp-v2-3-e46dceb32ef5@fairphone.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,80 +136,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 29.03.24 um 12:10 schrieb Christian König:
-> Am 25.03.24 um 08:45 schrieb Jesse Zhang:
->> remove the unsed the paramter in the function
->> ttm_bo_bounce_temp_buffer and ttm_bo_add_move_fence.
->>
->> Signed-off-by: Jesse Zhang <Jesse.Zhang@amd.com>
->
-> Good catch, Reviewed-by: Christian König <christian.koenig@amd.com>
+On 29.03.2024 8:45 AM, Luca Weiss wrote:
+> Add the node for the DisplayPort controller found on the SM6350 SoC.
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+> ---
 
-Please rebase that patch on top of drm-misc-next.
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-Regards,
-Christian.
-
->
-> Regards,
-> Christian.
->
->> ---
->>   drivers/gpu/drm/ttm/ttm_bo.c | 10 ++++------
->>   1 file changed, 4 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
->> index edf10618fe2b..7f08787687a7 100644
->> --- a/drivers/gpu/drm/ttm/ttm_bo.c
->> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
->> @@ -402,7 +402,6 @@ void ttm_bo_put(struct ttm_buffer_object *bo)
->>   EXPORT_SYMBOL(ttm_bo_put);
->>     static int ttm_bo_bounce_temp_buffer(struct ttm_buffer_object *bo,
->> -                     struct ttm_resource **mem,
->>                        struct ttm_operation_ctx *ctx,
->>                        struct ttm_place *hop)
->>   {
->> @@ -470,7 +469,7 @@ static int ttm_bo_evict(struct ttm_buffer_object 
->> *bo,
->>           if (ret != -EMULTIHOP)
->>               break;
->>   -        ret = ttm_bo_bounce_temp_buffer(bo, &evict_mem, ctx, &hop);
->> +        ret = ttm_bo_bounce_temp_buffer(bo, ctx, &hop);
->>       } while (!ret);
->>         if (ret) {
->> @@ -699,7 +698,6 @@ EXPORT_SYMBOL(ttm_bo_unpin);
->>    */
->>   static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
->>                    struct ttm_resource_manager *man,
->> -                 struct ttm_resource *mem,
->>                    bool no_wait_gpu)
->>   {
->>       struct dma_fence *fence;
->> @@ -753,7 +751,7 @@ static int ttm_bo_mem_force_space(struct 
->> ttm_buffer_object *bo,
->>               return ret;
->>       } while (1);
->>   -    return ttm_bo_add_move_fence(bo, man, *mem, ctx->no_wait_gpu);
->> +    return ttm_bo_add_move_fence(bo, man, ctx->no_wait_gpu);
->>   }
->>     /**
->> @@ -802,7 +800,7 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
->>           if (unlikely(ret))
->>               goto error;
->>   -        ret = ttm_bo_add_move_fence(bo, man, *mem, ctx->no_wait_gpu);
->> +        ret = ttm_bo_add_move_fence(bo, man, ctx->no_wait_gpu);
->>           if (unlikely(ret)) {
->>               ttm_resource_free(bo, mem);
->>               if (ret == -EBUSY)
->> @@ -866,7 +864,7 @@ static int ttm_bo_move_buffer(struct 
->> ttm_buffer_object *bo,
->>   bounce:
->>       ret = ttm_bo_handle_move_mem(bo, mem, false, ctx, &hop);
->>       if (ret == -EMULTIHOP) {
->> -        ret = ttm_bo_bounce_temp_buffer(bo, &mem, ctx, &hop);
->> +        ret = ttm_bo_bounce_temp_buffer(bo, ctx, &hop);
->>           if (ret)
->>               goto out;
->>           /* try and move to final place now. */
->
-
+Konrad
