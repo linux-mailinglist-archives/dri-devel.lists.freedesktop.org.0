@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CB3B892219
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 18:02:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C9DB89221D
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 18:02:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14BF710E30C;
-	Fri, 29 Mar 2024 17:02:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E5C310E2B3;
+	Fri, 29 Mar 2024 17:02:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="k2OAG2bX";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="V9EU/QtD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id B437E10E88E;
- Fri, 29 Mar 2024 17:02:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8F32310F71B;
+ Fri, 29 Mar 2024 17:02:16 +0000 (UTC)
 Received: from rrs24-12-35.corp.microsoft.com (unknown [131.107.147.137])
- by linux.microsoft.com (Postfix) with ESMTPSA id 524DE20E6F3E;
- Fri, 29 Mar 2024 10:02:15 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 524DE20E6F3E
+ by linux.microsoft.com (Postfix) with ESMTPSA id 139CD20E6F4C;
+ Fri, 29 Mar 2024 10:02:16 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 139CD20E6F4C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1711731735;
- bh=zpJQ9Yx6Dd0ijDrG1ibCrDM6HiWKo8HuenXuwgSh1gs=;
+ s=default; t=1711731736;
+ bh=10QUIiHAlv9I6vQcGTCyRQwtIGq1JOGHzw/GbEWkjZ8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=k2OAG2bXObNwd7zLzFpdKdhsn1LKhDiQITLJKkS3q2pGn9PxA3ubhREeHhGxvckij
- nLyXymTBDq9Ktn8A9/zpNbhRdsl7VLIq5Js+n+Oswu+EbOPOOSioPoSLmBOHoAA2vr
- P5o/VzJptXE99vw9t54N+2+8Dq5xlzvfBuwUqRiY=
+ b=V9EU/QtD7YjVWs7Rf1Y6NCTvJ90Erzdt3jGzDOOOJxaMRNV6JDsb7FyeIUH+qxPRB
+ ae/egRfHYWa45J1dFxqs39V87C2GGQmXtnkcs6DAPy4TkNM0nzv2DR5NN2FqEfSrr7
+ fM4ULK4Qq6R9xLTgWgp8saHdjd260GfyiGqcmbT4=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Easwar Hariharan <eahariha@linux.microsoft.com>,
- linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)), 
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-media@vger.kernel.org (open list:COBALT MEDIA DRIVER),
  linux-kernel@vger.kernel.org (open list)
 Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
  amd-gfx@lists.freedesktop.org (open list:RADEON and AMDGPU DRM DRIVERS),
@@ -42,10 +42,11 @@ Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
  nouveau@lists.freedesktop.org (open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO
  GPUS), linux-i2c@vger.kernel.org (open list:I2C SUBSYSTEM HOST DRIVERS),
  linux-media@vger.kernel.org (open list:BTTV VIDEO4LINUX DRIVER),
- linux-fbdev@vger.kernel.org (open list:FRAMEBUFFER LAYER)
-Subject: [PATCH v0 04/14] media: au0828: Make I2C terminology more inclusive
-Date: Fri, 29 Mar 2024 17:00:28 +0000
-Message-Id: <20240329170038.3863998-5-eahariha@linux.microsoft.com>
+ linux-fbdev@vger.kernel.org (open list:FRAMEBUFFER LAYER),
+ Easwar Hariharan <eahariha@linux.microsoft.com>
+Subject: [PATCH v0 05/14] media: cobalt: Make I2C terminology more inclusive
+Date: Fri, 29 Mar 2024 17:00:29 +0000
+Message-Id: <20240329170038.3863998-6-eahariha@linux.microsoft.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
 References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
@@ -78,45 +79,35 @@ Compile tested, no functionality changes intended
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/media/usb/au0828/au0828-i2c.c   | 4 ++--
- drivers/media/usb/au0828/au0828-input.c | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/media/pci/cobalt/cobalt-i2c.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/usb/au0828/au0828-i2c.c b/drivers/media/usb/au0828/au0828-i2c.c
-index 749f90d73b5b..3e66d42bf134 100644
---- a/drivers/media/usb/au0828/au0828-i2c.c
-+++ b/drivers/media/usb/au0828/au0828-i2c.c
-@@ -23,7 +23,7 @@ MODULE_PARM_DESC(i2c_scan, "scan i2c bus at insmod time");
- #define I2C_WAIT_DELAY 25
- #define I2C_WAIT_RETRY 1000
+diff --git a/drivers/media/pci/cobalt/cobalt-i2c.c b/drivers/media/pci/cobalt/cobalt-i2c.c
+index 10c9ee33f73e..d2963370f949 100644
+--- a/drivers/media/pci/cobalt/cobalt-i2c.c
++++ b/drivers/media/pci/cobalt/cobalt-i2c.c
+@@ -45,10 +45,10 @@ struct cobalt_i2c_regs {
+ /* I2C stop condition */
+ #define M00018_CR_BITMAP_STO_MSK	(1 << 6)
  
--static inline int i2c_slave_did_read_ack(struct i2c_adapter *i2c_adap)
-+static inline int i2c_client_did_read_ack(struct i2c_adapter *i2c_adap)
- {
- 	struct au0828_dev *dev = i2c_adap->algo_data;
- 	return au0828_read(dev, AU0828_I2C_STATUS_201) &
-@@ -35,7 +35,7 @@ static int i2c_wait_read_ack(struct i2c_adapter *i2c_adap)
- 	int count;
+-/* I2C read from slave */
++/* I2C read from client */
+ #define M00018_CR_BITMAP_RD_MSK		(1 << 5)
  
- 	for (count = 0; count < I2C_WAIT_RETRY; count++) {
--		if (!i2c_slave_did_read_ack(i2c_adap))
-+		if (!i2c_client_did_read_ack(i2c_adap))
- 			break;
- 		udelay(I2C_WAIT_DELAY);
- 	}
-diff --git a/drivers/media/usb/au0828/au0828-input.c b/drivers/media/usb/au0828/au0828-input.c
-index 3d3368202cd0..98a57b6e02e2 100644
---- a/drivers/media/usb/au0828/au0828-input.c
-+++ b/drivers/media/usb/au0828/au0828-input.c
-@@ -30,7 +30,7 @@ struct au0828_rc {
- 	int polling;
- 	struct delayed_work work;
+-/* I2C write to slave */
++/* I2C write to client */
+ #define M00018_CR_BITMAP_WR_MSK		(1 << 4)
  
--	/* i2c slave address of external device (if used) */
-+	/* i2c client address of external device (if used) */
- 	u16 i2c_dev_addr;
+ /* I2C ack */
+@@ -59,7 +59,7 @@ struct cobalt_i2c_regs {
  
- 	int  (*get_key_i2c)(struct au0828_rc *ir);
+ /* SR[7:0] - Status register */
+ 
+-/* Receive acknowledge from slave */
++/* Receive acknowledge from client */
+ #define M00018_SR_BITMAP_RXACK_MSK	(1 << 7)
+ 
+ /* Busy, I2C bus busy (as defined by start / stop bits) */
 -- 
 2.34.1
 
