@@ -2,83 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4358289223E
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 18:03:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82042892237
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 18:03:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA92F1127D6;
-	Fri, 29 Mar 2024 17:03:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 477271127D1;
+	Fri, 29 Mar 2024 17:03:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="nyFQ5eHK";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="e1feYB+J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id C8FD61127DB;
- Fri, 29 Mar 2024 17:03:01 +0000 (UTC)
-Received: from rrs24-12-35.corp.microsoft.com (unknown [131.107.147.137])
- by linux.microsoft.com (Postfix) with ESMTPSA id 2105A20E6F57;
- Fri, 29 Mar 2024 10:03:01 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2105A20E6F57
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1711731781;
- bh=b92hXveSFquyQbhxtaUmHSPsbW+5D4vpPR3tMHWATcA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nyFQ5eHK3F9Gs99IX1KCpNgMhRVkTp5UR6tHOjJ+WR/EM+3MCGspplT+DT3anDTJx
- Bfdg4HRBGfvUBJtRwgoMJ0MDwJbEYbn5uVLTta84glTQxdYPHE/X5MemjHvfA2A8Ai
- Nl4Y2RtFlnGVpD6Qr7tJUwG+bdSxUE1t/oRsjUvQ=
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@redhat.com>,
- Andi Shyti <andi.shyti@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Andy Walls <awalls@md.metrocast.net>, Helge Deller <deller@gmx.de>,
- Easwar Hariharan <eahariha@linux.microsoft.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Heiner Kallweit <hkallweit1@gmail.com>, Wolfram Sang <wsa@kernel.org>,
- Zheng Wang <zyytlz.wz@163.com>,
- amd-gfx@lists.freedesktop.org (open list:RADEON and AMDGPU DRM DRIVERS),
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
- linux-kernel@vger.kernel.org (open list),
- intel-gfx@lists.freedesktop.org (open list:INTEL DRM DISPLAY FOR XE AND I915
- DRIVERS), 
- intel-xe@lists.freedesktop.org (open list:INTEL DRM DISPLAY FOR XE AND I915
- DRIVERS), 
- nouveau@lists.freedesktop.org (open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO
- GPUS), linux-i2c@vger.kernel.org (open list:I2C SUBSYSTEM HOST DRIVERS),
- linux-media@vger.kernel.org (open list:BTTV VIDEO4LINUX DRIVER),
- linux-fbdev@vger.kernel.org (open list:FRAMEBUFFER LAYER)
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- amd-gfx@lists.freedesktop.org (open list:RADEON and AMDGPU DRM DRIVERS),
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
- linux-kernel@vger.kernel.org (open list),
- intel-gfx@lists.freedesktop.org (open list:INTEL DRM DISPLAY FOR XE AND I915
- DRIVERS), 
- intel-xe@lists.freedesktop.org (open list:INTEL DRM DISPLAY FOR XE AND I915
- DRIVERS), 
- nouveau@lists.freedesktop.org (open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO
- GPUS), linux-i2c@vger.kernel.org (open list:I2C SUBSYSTEM HOST DRIVERS),
- linux-media@vger.kernel.org (open list:BTTV VIDEO4LINUX DRIVER),
- linux-fbdev@vger.kernel.org (open list:FRAMEBUFFER LAYER)
-Subject: [PATCH v0 14/14] i2c and treewide: Make I2C terminology more inclusive
-Date: Fri, 29 Mar 2024 17:00:38 +0000
-Message-Id: <20240329170038.3863998-15-eahariha@linux.microsoft.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
-References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 417EF1127CA
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 17:03:19 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 42TGGbL7015962; Fri, 29 Mar 2024 17:03:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=mYHS1PYzPXAOWSxRoqYUORZgaQti8trOY34IHxsOj3A=; b=e1
+ feYB+J2VLeslO1PZqLUqLbrfxvh/CHvTWO01bifi8425rn+rNg5LU0onM/HZCfFp
+ MjyxgnCOH1+v5E4MjjzBRGemQV8PL/n991UlADjd8PCr6/JpxCO3RXDlRTpjjYnf
+ fiASMfVlEbumvuitaaDxN9Za906JOrdhXjFmwsWn23o9dcnNtzJ+WGkBq0LhjRCT
+ 0uEc4/F0u2W7ENOUUiPJCvml0SFlGAzToDux0NS4UadrawXQhYvfeLHt0klemMUa
+ d0BmtTzSH48Bs8wFm5mZEpWV41MTM/j0KwpPwaTrOQhKilIbfKR8FjeMRSd7pfLf
+ QgVu2JCqdP2MwGwFJM4A==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x5vn98r4k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 29 Mar 2024 17:03:06 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42TH35X5015920
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 29 Mar 2024 17:03:05 GMT
+Received: from [10.71.108.229] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 29 Mar
+ 2024 10:03:05 -0700
+Message-ID: <a278e765-c300-42d7-aabe-0457508a70b2@quicinc.com>
+Date: Fri, 29 Mar 2024 10:03:04 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] drm/panel: simple: Add missing Innolux G121X1-L03
+ format, flags, connector
+Content-Language: en-US
+To: Marek Vasut <marex@denx.de>, <dri-devel@lists.freedesktop.org>
+CC: Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, David
+ Airlie <airlied@gmail.com>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Rob Herring <robh@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, <devicetree@vger.kernel.org>
+References: <20240328102746.17868-1-marex@denx.de>
+ <20240328102746.17868-2-marex@denx.de>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20240328102746.17868-2-marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: f4-KCHl2X8rho_g4ATxAKoCDPlO9fehG
+X-Proofpoint-GUID: f4-KCHl2X8rho_g4ATxAKoCDPlO9fehG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-29_13,2024-03-28_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=0
+ mlxscore=0 clxscore=1011 adultscore=0 priorityscore=1501 mlxlogscore=999
+ phishscore=0 impostorscore=0 malwarescore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2403210001 definitions=main-2403290150
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,385 +97,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
-with more appropriate terms. Inspired by and following on to Wolfram's
-series to fix drivers/i2c[1], fix the terminology for users of
-I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
-in the specification.
 
-Compile tested, no functionality changes intended
 
-[1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
+On 3/28/2024 3:27 AM, Marek Vasut wrote:
+> The .bpc = 6 implies .bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG ,
+> add the missing bus_format. Add missing connector type and bus_flags
+> as well.
+> 
+> Documentation [1] 1.4 GENERAL SPECIFICATI0NS indicates this panel is
+> capable of both RGB 18bit/24bit panel, the current configuration uses
+> 18bit mode, .bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG , .bpc = 6.
+> 
+> Support for the 24bit mode would require another entry in panel-simple
+> with .bus_format = MEDIA_BUS_FMT_RGB666_1X7X4_SPWG and .bpc = 8, which
+> is out of scope of this fix.
+> 
+> [1] https://www.distec.de/fileadmin/pdf/produkte/TFT-Displays/Innolux/G121X1-L03_Datasheet.pdf
 
-Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c       |  2 +-
- drivers/gpu/drm/amd/amdgpu/smu_v11_0_i2c.c    |  2 +-
- drivers/gpu/drm/gma500/cdv_intel_dp.c         |  2 +-
- drivers/gpu/drm/gma500/intel_gmbus.c          |  4 ++--
- drivers/gpu/drm/gma500/oaktrail_hdmi_i2c.c    |  2 +-
- drivers/gpu/drm/gma500/psb_intel_sdvo.c       |  2 +-
- drivers/gpu/drm/i915/display/intel_gmbus.c    |  4 ++--
- drivers/gpu/drm/i915/display/intel_sdvo.c     |  4 ++--
- drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c |  2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/i2c/bus.c |  2 +-
- drivers/gpu/drm/radeon/radeon_i2c.c           |  4 ++--
- drivers/i2c/algos/i2c-algo-bit.c              | 12 ++++++------
- drivers/media/pci/bt8xx/bttv-i2c.c            |  2 +-
- drivers/media/pci/cobalt/cobalt-i2c.c         |  2 +-
- drivers/media/pci/cx23885/cx23885-i2c.c       |  2 +-
- drivers/media/pci/cx25821/cx25821-i2c.c       |  2 +-
- drivers/media/pci/dm1105/dm1105.c             |  2 +-
- drivers/media/pci/ivtv/ivtv-i2c.c             |  2 +-
- drivers/media/pci/saa7164/saa7164-i2c.c       |  2 +-
- drivers/media/usb/au0828/au0828-i2c.c         |  2 +-
- drivers/video/fbdev/mb862xx/mb862xx-i2c.c     |  2 +-
- 21 files changed, 30 insertions(+), 30 deletions(-)
+Hi Marek,
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c
-index a34626882b67..75793e493df6 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c
-@@ -154,7 +154,7 @@ static void amdgpu_i2c_set_data(void *i2c_priv, int data)
- }
- 
- static const struct i2c_algorithm amdgpu_atombios_i2c_algo = {
--	.master_xfer = amdgpu_atombios_i2c_xfer,
-+	.xfer          = amdgpu_atombios_i2c_xfer,
- 	.functionality = amdgpu_atombios_i2c_func,
- };
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/smu_v11_0_i2c.c b/drivers/gpu/drm/amd/amdgpu/smu_v11_0_i2c.c
-index f2fc96d1cd7b..1d909d33cd15 100644
---- a/drivers/gpu/drm/amd/amdgpu/smu_v11_0_i2c.c
-+++ b/drivers/gpu/drm/amd/amdgpu/smu_v11_0_i2c.c
-@@ -714,7 +714,7 @@ static u32 smu_v11_0_i2c_func(struct i2c_adapter *adap)
- }
- 
- static const struct i2c_algorithm smu_v11_0_i2c_algo = {
--	.master_xfer = smu_v11_0_i2c_xfer,
-+	.xfer          = smu_v11_0_i2c_xfer,
- 	.functionality = smu_v11_0_i2c_func,
- };
- 
-diff --git a/drivers/gpu/drm/gma500/cdv_intel_dp.c b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-index dd1eb7e9877d..d6f3c3bc169f 100644
---- a/drivers/gpu/drm/gma500/cdv_intel_dp.c
-+++ b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-@@ -194,7 +194,7 @@ i2c_algo_dp_aux_functionality(struct i2c_adapter *adapter)
- }
- 
- static const struct i2c_algorithm i2c_dp_aux_algo = {
--	.master_xfer	= i2c_algo_dp_aux_xfer,
-+	.xfer		= i2c_algo_dp_aux_xfer,
- 	.functionality	= i2c_algo_dp_aux_functionality,
- };
- 
-diff --git a/drivers/gpu/drm/gma500/intel_gmbus.c b/drivers/gpu/drm/gma500/intel_gmbus.c
-index 94cf854b1d3d..90c83cae04d9 100644
---- a/drivers/gpu/drm/gma500/intel_gmbus.c
-+++ b/drivers/gpu/drm/gma500/intel_gmbus.c
-@@ -233,7 +233,7 @@ intel_i2c_quirk_xfer(struct drm_psb_private *dev_priv,
- 	set_clock(gpio, 1);
- 	udelay(I2C_RISEFALL_TIME);
- 
--	ret = adapter->algo->master_xfer(adapter, msgs, num);
-+	ret = adapter->algo->xfer(adapter, msgs, num);
- 
- 	set_data(gpio, 1);
- 	set_clock(gpio, 1);
-@@ -374,7 +374,7 @@ static u32 gmbus_func(struct i2c_adapter *adapter)
- }
- 
- static const struct i2c_algorithm gmbus_algorithm = {
--	.master_xfer	= gmbus_xfer,
-+	.xfer		= gmbus_xfer,
- 	.functionality	= gmbus_func
- };
- 
-diff --git a/drivers/gpu/drm/gma500/oaktrail_hdmi_i2c.c b/drivers/gpu/drm/gma500/oaktrail_hdmi_i2c.c
-index 6daa6669ed23..a93e61208a84 100644
---- a/drivers/gpu/drm/gma500/oaktrail_hdmi_i2c.c
-+++ b/drivers/gpu/drm/gma500/oaktrail_hdmi_i2c.c
-@@ -160,7 +160,7 @@ static u32 oaktrail_hdmi_i2c_func(struct i2c_adapter *adapter)
- }
- 
- static const struct i2c_algorithm oaktrail_hdmi_i2c_algorithm = {
--	.master_xfer	= oaktrail_hdmi_i2c_access,
-+	.xfer		= oaktrail_hdmi_i2c_access,
- 	.functionality  = oaktrail_hdmi_i2c_func,
- };
- 
-diff --git a/drivers/gpu/drm/gma500/psb_intel_sdvo.c b/drivers/gpu/drm/gma500/psb_intel_sdvo.c
-index 39a3b696efc5..ad274c8410ca 100644
---- a/drivers/gpu/drm/gma500/psb_intel_sdvo.c
-+++ b/drivers/gpu/drm/gma500/psb_intel_sdvo.c
-@@ -2417,7 +2417,7 @@ static u32 psb_intel_sdvo_ddc_proxy_func(struct i2c_adapter *adapter)
- }
- 
- static const struct i2c_algorithm psb_intel_sdvo_ddc_proxy = {
--	.master_xfer	= psb_intel_sdvo_ddc_proxy_xfer,
-+	.xfer		= psb_intel_sdvo_ddc_proxy_xfer,
- 	.functionality	= psb_intel_sdvo_ddc_proxy_func
- };
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_gmbus.c b/drivers/gpu/drm/i915/display/intel_gmbus.c
-index cbbdd84b4641..d97fe8f03a5d 100644
---- a/drivers/gpu/drm/i915/display/intel_gmbus.c
-+++ b/drivers/gpu/drm/i915/display/intel_gmbus.c
-@@ -759,7 +759,7 @@ gmbus_xfer(struct i2c_adapter *adapter, struct i2c_msg *msgs, int num)
- 	wakeref = intel_display_power_get(i915, POWER_DOMAIN_GMBUS);
- 
- 	if (bus->force_bit) {
--		ret = i2c_bit_algo.master_xfer(adapter, msgs, num);
-+		ret = i2c_bit_algo.xfer(adapter, msgs, num);
- 		if (ret < 0)
- 			bus->force_bit &= ~GMBUS_FORCE_BIT_RETRY;
- 	} else {
-@@ -822,7 +822,7 @@ static u32 gmbus_func(struct i2c_adapter *adapter)
- }
- 
- static const struct i2c_algorithm gmbus_algorithm = {
--	.master_xfer	= gmbus_xfer,
-+	.xfer		= gmbus_xfer,
- 	.functionality	= gmbus_func
- };
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
-index 126493c662c5..0764aaf8fbec 100644
---- a/drivers/gpu/drm/i915/display/intel_sdvo.c
-+++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
-@@ -3299,7 +3299,7 @@ static int intel_sdvo_ddc_proxy_xfer(struct i2c_adapter *adapter,
- 	if (!__intel_sdvo_set_control_bus_switch(sdvo, 1 << ddc->ddc_bus))
- 		return -EIO;
- 
--	return sdvo->i2c->algo->master_xfer(sdvo->i2c, msgs, num);
-+	return sdvo->i2c->algo->xfer(sdvo->i2c, msgs, num);
- }
- 
- static u32 intel_sdvo_ddc_proxy_func(struct i2c_adapter *adapter)
-@@ -3311,7 +3311,7 @@ static u32 intel_sdvo_ddc_proxy_func(struct i2c_adapter *adapter)
- }
- 
- static const struct i2c_algorithm intel_sdvo_ddc_proxy = {
--	.master_xfer	= intel_sdvo_ddc_proxy_xfer,
-+	.xfer		= intel_sdvo_ddc_proxy_xfer,
- 	.functionality	= intel_sdvo_ddc_proxy_func
- };
- 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c
-index d063d0dc13c5..55d45aba8467 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c
-@@ -89,7 +89,7 @@ nvkm_i2c_aux_i2c_func(struct i2c_adapter *adap)
- 
- static const struct i2c_algorithm
- nvkm_i2c_aux_i2c_algo = {
--	.master_xfer = nvkm_i2c_aux_i2c_xfer,
-+	.xfer          = nvkm_i2c_aux_i2c_xfer,
- 	.functionality = nvkm_i2c_aux_i2c_func
- };
- 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/bus.c b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/bus.c
-index ed50cc3736b9..10c7bc68a278 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/bus.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/bus.c
-@@ -97,7 +97,7 @@ nvkm_i2c_bus_func(struct i2c_adapter *adap)
- 
- static const struct i2c_algorithm
- nvkm_i2c_bus_algo = {
--	.master_xfer = nvkm_i2c_bus_xfer,
-+	.xfer          = nvkm_i2c_bus_xfer,
- 	.functionality = nvkm_i2c_bus_func,
- };
- 
-diff --git a/drivers/gpu/drm/radeon/radeon_i2c.c b/drivers/gpu/drm/radeon/radeon_i2c.c
-index 565d59536e9a..95912cce6aef 100644
---- a/drivers/gpu/drm/radeon/radeon_i2c.c
-+++ b/drivers/gpu/drm/radeon/radeon_i2c.c
-@@ -891,12 +891,12 @@ static u32 radeon_hw_i2c_func(struct i2c_adapter *adap)
- }
- 
- static const struct i2c_algorithm radeon_i2c_algo = {
--	.master_xfer = radeon_hw_i2c_xfer,
-+	.xfer          = radeon_hw_i2c_xfer,
- 	.functionality = radeon_hw_i2c_func,
- };
- 
- static const struct i2c_algorithm radeon_atom_i2c_algo = {
--	.master_xfer = radeon_atom_hw_i2c_xfer,
-+	.xfer          = radeon_atom_hw_i2c_xfer,
- 	.functionality = radeon_atom_hw_i2c_func,
- };
- 
-diff --git a/drivers/i2c/algos/i2c-algo-bit.c b/drivers/i2c/algos/i2c-algo-bit.c
-index eddf25b90ca8..de3b41f7d02d 100644
---- a/drivers/i2c/algos/i2c-algo-bit.c
-+++ b/drivers/i2c/algos/i2c-algo-bit.c
-@@ -143,7 +143,7 @@ static void i2c_stop(struct i2c_algo_bit_data *adap)
- 
- 
- /* send a byte without start cond., look for arbitration,
--   check ackn. from slave */
-+   check ackn. from client */
- /* returns:
-  * 1 if the device acknowledged
-  * 0 if the device did not ack
-@@ -182,7 +182,7 @@ static int i2c_outb(struct i2c_adapter *i2c_adap, unsigned char c)
- 		return -ETIMEDOUT;
- 	}
- 
--	/* read ack: SDA should be pulled down by slave, or it may
-+	/* read ack: SDA should be pulled down by client, or it may
- 	 * NAK (usually to report problems with the data we wrote).
- 	 * Always report ACK if SDA is write-only.
- 	 */
-@@ -358,7 +358,7 @@ static int sendbytes(struct i2c_adapter *i2c_adap, struct i2c_msg *msg)
- 			temp++;
- 			wrcount++;
- 
--		/* A slave NAKing the master means the slave didn't like
-+		/* A client NAKing the host means the client didn't like
- 		 * something about the data it saw.  For example, maybe
- 		 * the SMBus PEC was wrong.
- 		 */
-@@ -369,7 +369,7 @@ static int sendbytes(struct i2c_adapter *i2c_adap, struct i2c_msg *msg)
- 		/* Timeout; or (someday) lost arbitration
- 		 *
- 		 * FIXME Lost ARB implies retrying the transaction from
--		 * the first message, after the "winning" master issues
-+		 * the first message, after the "winning" host issues
- 		 * its STOP.  As a rule, upper layer code has no reason
- 		 * to know or care about this ... it is *NOT* an error.
- 		 */
-@@ -619,8 +619,8 @@ static u32 bit_func(struct i2c_adapter *adap)
- /* -----exported algorithm data: -------------------------------------	*/
- 
- const struct i2c_algorithm i2c_bit_algo = {
--	.master_xfer = bit_xfer,
--	.master_xfer_atomic = bit_xfer_atomic,
-+	.xfer = bit_xfer,
-+	.xfer_atomic = bit_xfer_atomic,
- 	.functionality = bit_func,
- };
- EXPORT_SYMBOL(i2c_bit_algo);
-diff --git a/drivers/media/pci/bt8xx/bttv-i2c.c b/drivers/media/pci/bt8xx/bttv-i2c.c
-index 4a8a3f80c6db..285b2bd21278 100644
---- a/drivers/media/pci/bt8xx/bttv-i2c.c
-+++ b/drivers/media/pci/bt8xx/bttv-i2c.c
-@@ -248,7 +248,7 @@ static int bttv_i2c_xfer(struct i2c_adapter *i2c_adap, struct i2c_msg *msgs, int
- }
- 
- static const struct i2c_algorithm bttv_algo = {
--	.master_xfer   = bttv_i2c_xfer,
-+	.xfer          = bttv_i2c_xfer,
- 	.functionality = functionality,
- };
- 
-diff --git a/drivers/media/pci/cobalt/cobalt-i2c.c b/drivers/media/pci/cobalt/cobalt-i2c.c
-index d2963370f949..b70e89669bc7 100644
---- a/drivers/media/pci/cobalt/cobalt-i2c.c
-+++ b/drivers/media/pci/cobalt/cobalt-i2c.c
-@@ -297,7 +297,7 @@ static const struct i2c_adapter cobalt_i2c_adap_template = {
- };
- 
- static const struct i2c_algorithm cobalt_algo = {
--	.master_xfer	= cobalt_xfer,
-+	.xfer		= cobalt_xfer,
- 	.functionality	= cobalt_func,
- };
- 
-diff --git a/drivers/media/pci/cx23885/cx23885-i2c.c b/drivers/media/pci/cx23885/cx23885-i2c.c
-index 385af2a893b4..1e5d0ecde5a3 100644
---- a/drivers/media/pci/cx23885/cx23885-i2c.c
-+++ b/drivers/media/pci/cx23885/cx23885-i2c.c
-@@ -247,7 +247,7 @@ static u32 cx23885_functionality(struct i2c_adapter *adap)
- }
- 
- static const struct i2c_algorithm cx23885_i2c_algo_template = {
--	.master_xfer	= i2c_xfer,
-+	.xfer		= i2c_xfer,
- 	.functionality	= cx23885_functionality,
- };
- 
-diff --git a/drivers/media/pci/cx25821/cx25821-i2c.c b/drivers/media/pci/cx25821/cx25821-i2c.c
-index bad8fb9f5319..ffcdce4971c4 100644
---- a/drivers/media/pci/cx25821/cx25821-i2c.c
-+++ b/drivers/media/pci/cx25821/cx25821-i2c.c
-@@ -268,7 +268,7 @@ static u32 cx25821_functionality(struct i2c_adapter *adap)
- }
- 
- static const struct i2c_algorithm cx25821_i2c_algo_template = {
--	.master_xfer = i2c_xfer,
-+	.xfer          = i2c_xfer,
- 	.functionality = cx25821_functionality,
- #ifdef NEED_ALGO_CONTROL
- 	.algo_control = dummy_algo_control,
-diff --git a/drivers/media/pci/dm1105/dm1105.c b/drivers/media/pci/dm1105/dm1105.c
-index 9e9c7c071acc..d9b8614e8f0b 100644
---- a/drivers/media/pci/dm1105/dm1105.c
-+++ b/drivers/media/pci/dm1105/dm1105.c
-@@ -561,7 +561,7 @@ static u32 functionality(struct i2c_adapter *adap)
- }
- 
- static const struct i2c_algorithm dm1105_algo = {
--	.master_xfer   = dm1105_i2c_xfer,
-+	.xfer          = dm1105_i2c_xfer,
- 	.functionality = functionality,
- };
- 
-diff --git a/drivers/media/pci/ivtv/ivtv-i2c.c b/drivers/media/pci/ivtv/ivtv-i2c.c
-index 967e6a025020..86735f42c23c 100644
---- a/drivers/media/pci/ivtv/ivtv-i2c.c
-+++ b/drivers/media/pci/ivtv/ivtv-i2c.c
-@@ -610,7 +610,7 @@ static u32 ivtv_functionality(struct i2c_adapter *adap)
- }
- 
- static const struct i2c_algorithm ivtv_algo = {
--	.master_xfer   = ivtv_xfer,
-+	.xfer          = ivtv_xfer,
- 	.functionality = ivtv_functionality,
- };
- 
-diff --git a/drivers/media/pci/saa7164/saa7164-i2c.c b/drivers/media/pci/saa7164/saa7164-i2c.c
-index 3b11bf8899a0..aa7d989c1cb4 100644
---- a/drivers/media/pci/saa7164/saa7164-i2c.c
-+++ b/drivers/media/pci/saa7164/saa7164-i2c.c
-@@ -62,7 +62,7 @@ static u32 saa7164_functionality(struct i2c_adapter *adap)
- }
- 
- static const struct i2c_algorithm saa7164_i2c_algo_template = {
--	.master_xfer	= i2c_xfer,
-+	.xfer		= i2c_xfer,
- 	.functionality	= saa7164_functionality,
- };
- 
-diff --git a/drivers/media/usb/au0828/au0828-i2c.c b/drivers/media/usb/au0828/au0828-i2c.c
-index 3e66d42bf134..585fe86f8ed7 100644
---- a/drivers/media/usb/au0828/au0828-i2c.c
-+++ b/drivers/media/usb/au0828/au0828-i2c.c
-@@ -313,7 +313,7 @@ static u32 au0828_functionality(struct i2c_adapter *adap)
- }
- 
- static const struct i2c_algorithm au0828_i2c_algo_template = {
--	.master_xfer	= i2c_xfer,
-+	.xfer		= i2c_xfer,
- 	.functionality	= au0828_functionality,
- };
- 
-diff --git a/drivers/video/fbdev/mb862xx/mb862xx-i2c.c b/drivers/video/fbdev/mb862xx/mb862xx-i2c.c
-index ffdb1597d303..55fe554a0818 100644
---- a/drivers/video/fbdev/mb862xx/mb862xx-i2c.c
-+++ b/drivers/video/fbdev/mb862xx/mb862xx-i2c.c
-@@ -141,7 +141,7 @@ static u32 mb862xx_func(struct i2c_adapter *adap)
- }
- 
- static const struct i2c_algorithm mb862xx_algo = {
--	.master_xfer	= mb862xx_xfer,
-+	.xfer		= mb862xx_xfer,
- 	.functionality	= mb862xx_func,
- };
- 
--- 
-2.34.1
+Acked-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 
+Thanks,
+
+Jessica Zhang
+
+> 
+> Fixes: f8fa17ba812b ("drm/panel: simple: Add support for Innolux G121X1-L03")
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> ---
+>   drivers/gpu/drm/panel/panel-simple.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index d9ddef0e675a7..d4c30a86d15d6 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -2618,6 +2618,9 @@ static const struct panel_desc innolux_g121x1_l03 = {
+>   		.unprepare = 200,
+>   		.disable = 400,
+>   	},
+> +	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+>   };
+>   
+>   static const struct display_timing innolux_g156hce_l01_timings = {
+> -- 
+> 2.43.0
+> 
