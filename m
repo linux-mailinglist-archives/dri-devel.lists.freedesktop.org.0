@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82042892237
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 18:03:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF0089223C
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 18:03:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 477271127D1;
-	Fri, 29 Mar 2024 17:03:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECFFD1127CA;
+	Fri, 29 Mar 2024 17:03:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="e1feYB+J";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="lPGXYxsE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 417EF1127CA
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 17:03:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25DEC1127D6
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 17:03:39 +0000 (UTC)
 Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 42TGGbL7015962; Fri, 29 Mar 2024 17:03:06 GMT
+ 42TGPaE0002928; Fri, 29 Mar 2024 17:03:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  message-id:date:mime-version:subject:to:cc:references:from
  :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=mYHS1PYzPXAOWSxRoqYUORZgaQti8trOY34IHxsOj3A=; b=e1
- feYB+J2VLeslO1PZqLUqLbrfxvh/CHvTWO01bifi8425rn+rNg5LU0onM/HZCfFp
- MjyxgnCOH1+v5E4MjjzBRGemQV8PL/n991UlADjd8PCr6/JpxCO3RXDlRTpjjYnf
- fiASMfVlEbumvuitaaDxN9Za906JOrdhXjFmwsWn23o9dcnNtzJ+WGkBq0LhjRCT
- 0uEc4/F0u2W7ENOUUiPJCvml0SFlGAzToDux0NS4UadrawXQhYvfeLHt0klemMUa
- d0BmtTzSH48Bs8wFm5mZEpWV41MTM/j0KwpPwaTrOQhKilIbfKR8FjeMRSd7pfLf
- QgVu2JCqdP2MwGwFJM4A==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ qcppdkim1; bh=5S9kBbB3DUQHewB0t/rUqWNwUsi1Wxip3f37dc76W24=; b=lP
+ GXYxsEMvOM0JCsDmKJJzknjAaEPpEt90V2ggXYlWhiQPhw3dD6PZxYuVZQzur53l
+ pHO4+kxfShI2DKcAJ4Y/tX8H0irEWTZ2vR4143L0ANjbFDZ7lEKASNEmKlDU7sgG
+ ZU/ovWLoBr3bdVGmF2r6muKWwQR1leGq2y0HUAVJex/xHmK1rpBxPWgSeZoEca12
+ 7UJ2sqvNZYsIN50mieAGmGyjaf+mwSGLvCrSw9jpTHI4PAIkt4V0o5Wzeyv/u4yS
+ Hw7Vet8kPNHaHHy3HazQEIXv1Y+MAZ2RQCNGOm4e4sX9d7yki7kSa2HboD3ypEkl
+ Vm1z71XoofP/uwywZ5Qw==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x5vn98r4k-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x5vn98r8y-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Mar 2024 17:03:06 +0000 (GMT)
+ Fri, 29 Mar 2024 17:03:31 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
  [10.46.141.250])
- by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42TH35X5015920
+ by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42TH3VL7022545
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Mar 2024 17:03:05 GMT
+ Fri, 29 Mar 2024 17:03:31 GMT
 Received: from [10.71.108.229] (10.80.80.8) by nasanex01b.na.qualcomm.com
  (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 29 Mar
- 2024 10:03:05 -0700
-Message-ID: <a278e765-c300-42d7-aabe-0457508a70b2@quicinc.com>
-Date: Fri, 29 Mar 2024 10:03:04 -0700
+ 2024 10:03:30 -0700
+Message-ID: <b328ca2e-ef80-4bfe-80e8-36f4fa18a0f4@quicinc.com>
+Date: Fri, 29 Mar 2024 10:03:30 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] drm/panel: simple: Add missing Innolux G121X1-L03
- format, flags, connector
+Subject: Re: [PATCH 3/4] drm/panel: simple: Convert Innolux G121X1-L03 to
+ display_timing
 Content-Language: en-US
 To: Marek Vasut <marex@denx.de>, <dri-devel@lists.freedesktop.org>
 CC: Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, David
@@ -60,9 +60,9 @@ CC: Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, David
  Thierry Reding <thierry.reding@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, <devicetree@vger.kernel.org>
 References: <20240328102746.17868-1-marex@denx.de>
- <20240328102746.17868-2-marex@denx.de>
+ <20240328102746.17868-3-marex@denx.de>
 From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20240328102746.17868-2-marex@denx.de>
+In-Reply-To: <20240328102746.17868-3-marex@denx.de>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
@@ -71,14 +71,14 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: f4-KCHl2X8rho_g4ATxAKoCDPlO9fehG
-X-Proofpoint-GUID: f4-KCHl2X8rho_g4ATxAKoCDPlO9fehG
+X-Proofpoint-ORIG-GUID: br2U0U3VLCC5ZzcDOHyyB3N2OP4MDDNv
+X-Proofpoint-GUID: br2U0U3VLCC5ZzcDOHyyB3N2OP4MDDNv
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-03-29_13,2024-03-28_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  spamscore=0 bulkscore=0
- mlxscore=0 clxscore=1011 adultscore=0 priorityscore=1501 mlxlogscore=999
+ mlxscore=0 clxscore=1015 adultscore=0 priorityscore=1501 mlxlogscore=999
  phishscore=0 impostorscore=0 malwarescore=0 suspectscore=0
  lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2403210001 definitions=main-2403290150
@@ -100,17 +100,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 3/28/2024 3:27 AM, Marek Vasut wrote:
-> The .bpc = 6 implies .bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG ,
-> add the missing bus_format. Add missing connector type and bus_flags
-> as well.
+> Use display_timing instead of drm_display_mode to define a range of
+> possible display timings supported by this panel. This makes the panel
+> support more flexible and improves compatibility. No functional change
+> is expected.
 > 
-> Documentation [1] 1.4 GENERAL SPECIFICATI0NS indicates this panel is
-> capable of both RGB 18bit/24bit panel, the current configuration uses
-> 18bit mode, .bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG , .bpc = 6.
-> 
-> Support for the 24bit mode would require another entry in panel-simple
-> with .bus_format = MEDIA_BUS_FMT_RGB666_1X7X4_SPWG and .bpc = 8, which
-> is out of scope of this fix.
+> The settings are picked from documentation [1] section 6.1 INPUT SIGNAL
+> TIMING SPECIFICATIONS.
 > 
 > [1] https://www.distec.de/fileadmin/pdf/produkte/TFT-Displays/Innolux/G121X1-L03_Datasheet.pdf
 
@@ -123,7 +119,6 @@ Thanks,
 Jessica Zhang
 
 > 
-> Fixes: f8fa17ba812b ("drm/panel: simple: Add support for Innolux G121X1-L03")
 > Signed-off-by: Marek Vasut <marex@denx.de>
 > ---
 > Cc: Conor Dooley <conor+dt@kernel.org>
@@ -141,23 +136,49 @@ Jessica Zhang
 > Cc: devicetree@vger.kernel.org
 > Cc: dri-devel@lists.freedesktop.org
 > ---
->   drivers/gpu/drm/panel/panel-simple.c | 3 +++
->   1 file changed, 3 insertions(+)
+>   drivers/gpu/drm/panel/panel-simple.c | 26 +++++++++++++-------------
+>   1 file changed, 13 insertions(+), 13 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index d9ddef0e675a7..d4c30a86d15d6 100644
+> index d4c30a86d15d6..737c78b3b8a23 100644
 > --- a/drivers/gpu/drm/panel/panel-simple.c
 > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -2618,6 +2618,9 @@ static const struct panel_desc innolux_g121x1_l03 = {
->   		.unprepare = 200,
->   		.disable = 400,
->   	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
-> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+> @@ -2592,22 +2592,22 @@ static const struct panel_desc innolux_g121i1_l01 = {
+>   	.connector_type = DRM_MODE_CONNECTOR_LVDS,
 >   };
 >   
->   static const struct display_timing innolux_g156hce_l01_timings = {
+> -static const struct drm_display_mode innolux_g121x1_l03_mode = {
+> -	.clock = 65000,
+> -	.hdisplay = 1024,
+> -	.hsync_start = 1024 + 0,
+> -	.hsync_end = 1024 + 1,
+> -	.htotal = 1024 + 0 + 1 + 320,
+> -	.vdisplay = 768,
+> -	.vsync_start = 768 + 38,
+> -	.vsync_end = 768 + 38 + 1,
+> -	.vtotal = 768 + 38 + 1 + 0,
+> -	.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+> +static const struct display_timing innolux_g121x1_l03_timings = {
+> +	.pixelclock = { 57500000, 64900000, 74400000 },
+> +	.hactive = { 1024, 1024, 1024 },
+> +	.hfront_porch = { 90, 140, 190 },
+> +	.hback_porch = { 90, 140, 190 },
+> +	.hsync_len = { 36, 40, 60 },
+> +	.vactive = { 768, 768, 768 },
+> +	.vfront_porch = { 2, 15, 30 },
+> +	.vback_porch = { 2, 15, 30 },
+> +	.vsync_len = { 2, 8, 20 },
+> +	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW,
+>   };
+>   
+>   static const struct panel_desc innolux_g121x1_l03 = {
+> -	.modes = &innolux_g121x1_l03_mode,
+> -	.num_modes = 1,
+> +	.timings = &innolux_g121x1_l03_timings,
+> +	.num_timings = 1,
+>   	.bpc = 6,
+>   	.size = {
+>   		.width = 246,
 > -- 
 > 2.43.0
 > 
