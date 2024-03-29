@@ -2,81 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26C4D892096
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 16:38:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 131618920A9
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 16:41:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C080C112783;
-	Fri, 29 Mar 2024 15:38:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33BAE11279C;
+	Fri, 29 Mar 2024 15:41:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="oRUYCDDp";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="P9xVApaU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 096FA112735;
- Fri, 29 Mar 2024 15:38:01 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 42TEUrBd029454; Fri, 29 Mar 2024 15:37:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=qcppdkim1; bh=OQFdy3sUVFWf0Klmkip3N
- FOHi61RbjiqyF7llsku+EY=; b=oRUYCDDpJpAq6rwi1iO1RFjusRAjgjizUQd/F
- wigVE629aZT5jKXY3ua3yC/0i2tVwWt7DRKXx2oTVfbSCBQgPruef+L3uR+sD1x/
- OqiuiqvBg00EUkMqvhi2oeUro0w3lKqZxUjFy4vcptIH5ypCtWV080qvN2tghLM0
- VtKl66Oiazy7KqbXLg/SZA4oen7h0wDCuTOg4m18QnUDSqbBVjorrsDuR9+tDJNV
- 9wh3C7Hh/ynQq7P6EhPY6F2z4l41O5QDlJ/zMpoAS2i3XqnYim8TjTSAWKEVXz34
- NDE6fIIYNJ/dCQDdzTfEC8OP4CiIBAqlpIEVKVIBcykS/lOYw==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x5sm6h5p9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Mar 2024 15:37:59 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42TFbwOB013590
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Mar 2024 15:37:58 GMT
-Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 29 Mar 2024 08:37:58 -0700
-Date: Fri, 29 Mar 2024 08:37:56 -0700
-From: Bjorn Andersson <quic_bjorande@quicinc.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
- Vetter" <daniel@ffwll.ch>,
- Abel Vesa <abel.vesa@linaro.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm/msm/dp: Remove now unused connector_type from desc
-Message-ID: <20240329153756.GW3213752@hu-bjorande-lv.qualcomm.com>
-References: <20240328-dp-connector-type-cleanup-v1-1-9bf84c5a6082@quicinc.com>
- <CAA8EJpoNBA7L3FMqf+4korbbYfrptHq3Fke86DpfNcbpiBaqzQ@mail.gmail.com>
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
+ [209.85.210.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A76E611277D
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 15:41:10 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id
+ d2e1a72fcca58-6ead4093f85so2010539b3a.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 08:41:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1711726808; x=1712331608; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+ :reply-to; bh=iN31wd2vCkiTGMz1OBtEaB4JW8VyiA1XbISlyEebr3E=;
+ b=P9xVApaUt4ITpSbD6GUF/hKjNqLLIjHQwv9sPhKvbpcIx/psDElEk5uHMR17uo6wId
+ SeypIc9ZmihjHb09IUrfqFni2TX0F7i7Zj7OXi3vR/lVbuh7Yc2VXPw1usYp1eJMZ48F
+ SSiLrmXayPSbk0UoAD+gxlHni1ZEK3X/DjYjDmTu3HffZaxTnQ5rvvwxT5KzcljPXfxR
+ y9c5THrowy3k3XiB6hNEcOo0VFX5ZIKwSnDpXrvpZTufkAeSZyhhV9/PgSoN4/TzzU2x
+ BC7DVDTF7rR4bt6GwXIDqiMfs3bm+i7oV9vLNKT54jsI/tr7EBgAiZIwQ07DzxQQ7Xwz
+ gqoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711726808; x=1712331608;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=iN31wd2vCkiTGMz1OBtEaB4JW8VyiA1XbISlyEebr3E=;
+ b=LMtAPF31E7pToZzxfys6Z/eT+di66l1OID+hz55/GU25ngrCJ9yj5tdYu3h4LSJded
+ oMtWab38Im5AN0J+YQFTj3TwXoU1HDPFM70xxT10xUZzvEUo5D5mbjrszKm59nwY7Y63
+ JpOSiElRkrMMVIjmpAVWBy/pnuBsQbA4MbRq4VtAapJuFOJ25DiGiyTdyigvYyqqPwaG
+ pn/wC0MPqosayFlagp3Qkz9qM4v3Dcjwkr+JJsa0nXpedxnczvdvxMZ+L52pJhumVInz
+ c1ZaYUvSOMOjW1MKzo/1J9noiBUycU9ohBxMFgpAluzirER3Ivl0fG875lelSUptFnsm
+ XWAw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUsPucA6mv/3OfBqrRHFowAyS9XR3vOl19jZTCwAr2ZEp4z265bEGLqTDO5FpDWbaD38K7p3J1JH+as6OppyH0Op9VeJOC+EPi/sriN/jeU
+X-Gm-Message-State: AOJu0Yz5lb8jiRCWRdRFoMMpQGi7UFNDz3lUI6y3kPdMUOsR8QJAFGHn
+ hdpuQ5xoNCA/PyWiytHZ6+1gvQnu8qs9ji7CaOLKr2sEGIgiJAmn
+X-Google-Smtp-Source: AGHT+IF0O7HII5MYlv2g0E+BHBSm5qRGKAR+0KxI+xwk6+g8c7fXn65jtKX0C7ci+tZdnr/ge20LGw==
+X-Received: by 2002:a05:6a20:3c90:b0:1a5:6bfb:76de with SMTP id
+ b16-20020a056a203c9000b001a56bfb76demr2694088pzj.2.1711726808383; 
+ Fri, 29 Mar 2024 08:40:08 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ m9-20020a170902db0900b001dd578121d4sm3581907plx.204.2024.03.29.08.40.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Mar 2024 08:40:07 -0700 (PDT)
+Date: Fri, 29 Mar 2024 08:40:05 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Simon Horman <horms@kernel.org>
+Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>,
+ David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+ linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, loongarch@lists.linux.dev,
+ netdev@vger.kernel.org, Linux Kernel Functional Testing <lkft@linaro.org>
+Subject: Re: [PATCH v2 12/14] sh: Add support for suppressing warning
+ backtraces
+Message-ID: <d7663e19-74d5-478d-becc-0a080075e7d6@roeck-us.net>
+References: <20240325175248.1499046-1-linux@roeck-us.net>
+ <20240325175248.1499046-13-linux@roeck-us.net>
+ <20240327144431.GL403975@kernel.org>
+ <320aacc6-b7e5-4c3d-948e-d0743ab26c5d@roeck-us.net>
+ <20240327193920.GV403975@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAA8EJpoNBA7L3FMqf+4korbbYfrptHq3Fke86DpfNcbpiBaqzQ@mail.gmail.com>
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 0nuwXDAwd1cpYAV1oHt8DmqD3pHS-S4I
-X-Proofpoint-GUID: 0nuwXDAwd1cpYAV1oHt8DmqD3pHS-S4I
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-29_13,2024-03-28_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0
- priorityscore=1501 adultscore=0 mlxlogscore=999 suspectscore=0
- impostorscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2403210001 definitions=main-2403290138
+In-Reply-To: <20240327193920.GV403975@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,16 +105,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 29, 2024 at 07:23:07AM +0200, Dmitry Baryshkov wrote:
-> On Fri, 29 Mar 2024 at 06:02, Bjorn Andersson <quic_bjorande@quicinc.com> wrote:
-> > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-[..]
-> >  static const struct msm_dp_desc sc8280xp_edp_descs[] = {
+On Wed, Mar 27, 2024 at 07:39:20PM +0000, Simon Horman wrote:
+[ ... ]
+> > > 
+> > > Hi Guenter,
+> > > 
+> > > a minor nit from my side: this change results in a Kernel doc warning.
+> > > 
+> > >       .../bug.h:29: warning: expecting prototype for _EMIT_BUG_ENTRY(). Prototype was for HAVE_BUG_FUNCTION() instead
+> > > 
+> > > Perhaps either the new code should be placed above the Kernel doc,
+> > > or scripts/kernel-doc should be enhanced?
+> > > 
+> > 
+> > Thanks a lot for the feedback.
+> > 
+> > The definition block needs to be inside CONFIG_DEBUG_BUGVERBOSE,
+> > so it would be a bit odd to move it above the documentation
+> > just to make kerneldoc happy. I am not really sure that to do
+> > about it.
 > 
-> This can now be merged with sc8280xp_dp_descs
+> FWIIW, I agree that would be odd.
+> But perhaps the #ifdef could also move above the Kernel doc?
+> Maybe not a great idea, but the best one I've had so far.
 > 
 
-You're right, only saw the first level of cleanup. Will repsin this.
+I did that for the next version of the patch series. It is a bit more
+clumsy, so I left it as separate patch on top of this patch. I'd
+still like to get input from others before making the change final.
 
 Thanks,
-Bjorn
+Guenter
