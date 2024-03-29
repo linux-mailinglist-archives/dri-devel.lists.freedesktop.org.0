@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B61889196F
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:41:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2200891999
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:44:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB0D81126C7;
-	Fri, 29 Mar 2024 12:41:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98BFE1126CD;
+	Fri, 29 Mar 2024 12:44:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="D7SefPV7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uKPyu6CV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C53471126CA
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 12:41:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3478F1126DC;
+ Fri, 29 Mar 2024 12:42:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 20F2F61929;
- Fri, 29 Mar 2024 12:41:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ADF2C43390;
- Fri, 29 Mar 2024 12:41:22 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A22356192C;
+ Fri, 29 Mar 2024 12:41:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 147F8C43390;
+ Fri, 29 Mar 2024 12:41:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711716083;
- bh=aBfxlAzff38Lw9SJcNvtB6NOL4XdN34vW1m0GjQTEcU=;
+ s=k20201202; t=1711716101;
+ bh=58rZfvaFipaxYd8uXFiVRAcZUdsrKwMl21wU3vpq4q4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=D7SefPV7kQfZCsoaip9uFS1zD71DT6gJAEOwGCUW6YnJI9HyHIzQQbUzzo8vY3kdK
- u+TStC0z/VlLHtfARt/8Lk05hxjC/yeVMHczcZkZ7ivV94TSazJMEAuDkd9TlMvWaw
- 4jlHl2bszpajArbqEsGahl2CAVv0JRr9eN2Gnu3YGdyErpZGGoTeezsmOA8EfirFY6
- BKXE51C3T1u32XUJNnc1jD+CcHUduPVI/SCjIVLm8FSWjWgdc5yiAh1p8rhVP9wxyp
- mB303iyw5vUMRoSVxi9Wj80CdUbfkABYCdW7JqwJM+nREm+t0jWXr/FhFdysGsmBEm
- 67DoADYwQujhQ==
+ b=uKPyu6CVVWdWaA+vz6/uZEEaFEkg3aIaFDwGNtx01yBYNuezoXkMxpHzTef1kbsT5
+ QCz9n3xgNAyn2XGiuRHKEM8jvoyYenXCZ6Sh7aqod7z9OzbsP7SAMtM76oenlU8Ja1
+ oauW/eokLc8gz13KD52zD5/eVAO82QwNsKe3mGPydQXkJFj21bfqNy1NkztsnO1GQN
+ cBMtFWhueOjc6f7uceG67tOdcWr7aUTMeNeKr/z8tCZ4EPRg3bxNms4AreNMahgKBN
+ AWy935ihw67H7+BU8v/uvO0CkobvZUeE3p7nwxKX257HfVLj1ZWk/rj6HyZ+Ys4NPi
+ EP1aFm/BekePQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Tony Lindgren <tony@atomide.com>,
- Conor Dooley <conor.dooley@microchip.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.8 46/98] drm/panel: simple: Add BOE BP082WX1-100
- 8.2" panel
-Date: Fri, 29 Mar 2024 08:37:17 -0400
-Message-ID: <20240329123919.3087149-46-sashal@kernel.org>
+Cc: Aric Cyr <aric.cyr@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ dillon.varone@amd.com, aurabindo.pillai@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.8 54/98] drm/amd/display: Fix nanosec stat overflow
+Date: Fri, 29 Mar 2024 08:37:25 -0400
+Message-ID: <20240329123919.3087149-54-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240329123919.3087149-1-sashal@kernel.org>
 References: <20240329123919.3087149-1-sashal@kernel.org>
@@ -67,62 +66,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tony Lindgren <tony@atomide.com>
+From: Aric Cyr <aric.cyr@amd.com>
 
-[ Upstream commit dc90214ff58be575fdceb549f901506cdef5d093 ]
+[ Upstream commit 14d68acfd04b39f34eea7bea65dda652e6db5bf6 ]
 
-The BOE BP082WX1-100 is a 8.2" panel similar to the 10.1" panel
-BP101WX1-100. Both panels use the same timings.
+[Why]
+Nanosec stats can overflow on long running systems potentially causing
+statistic logging issues.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Tony Lindgren <tony@atomide.com>
-Link: https://lore.kernel.org/r/20240211111703.7567-2-tony@atomide.com
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240211111703.7567-2-tony@atomide.com
+[How]
+Use 64bit types for nanosec stats to ensure no overflow.
+
+Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Aric Cyr <aric.cyr@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ drivers/gpu/drm/amd/display/modules/inc/mod_stats.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index d493ee735c734..72fdab8adb088 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -1367,6 +1367,23 @@ static const struct drm_display_mode boe_bp101wx1_100_mode = {
- 	.vtotal = 800 + 6 + 8 + 2,
- };
+diff --git a/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h b/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h
+index 5960dd760e91c..8ce6c22e5d041 100644
+--- a/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h
++++ b/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h
+@@ -57,10 +57,10 @@ void mod_stats_update_event(struct mod_stats *mod_stats,
+ 		unsigned int length);
  
-+static const struct panel_desc boe_bp082wx1_100 = {
-+	.modes = &boe_bp101wx1_100_mode,
-+	.num_modes = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 177,
-+		.height = 110,
-+	},
-+	.delay = {
-+		.enable = 50,
-+		.disable = 50,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-+};
-+
- static const struct panel_desc boe_bp101wx1_100 = {
- 	.modes = &boe_bp101wx1_100_mode,
- 	.num_modes = 1,
-@@ -4345,6 +4362,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "bananapi,s070wv20-ct16",
- 		.data = &bananapi_s070wv20_ct16,
-+	}, {
-+		.compatible = "boe,bp082wx1-100",
-+		.data = &boe_bp082wx1_100,
- 	}, {
- 		.compatible = "boe,bp101wx1-100",
- 		.data = &boe_bp101wx1_100,
+ void mod_stats_update_flip(struct mod_stats *mod_stats,
+-		unsigned long timestamp_in_ns);
++		unsigned long long timestamp_in_ns);
+ 
+ void mod_stats_update_vupdate(struct mod_stats *mod_stats,
+-		unsigned long timestamp_in_ns);
++		unsigned long long timestamp_in_ns);
+ 
+ void mod_stats_update_freesync(struct mod_stats *mod_stats,
+ 		unsigned int v_total_min,
 -- 
 2.43.0
 
