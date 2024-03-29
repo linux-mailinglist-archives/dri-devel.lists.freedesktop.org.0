@@ -2,94 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 131618920A9
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 16:41:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47D6A8920CD
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 16:47:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33BAE11279C;
-	Fri, 29 Mar 2024 15:41:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25A8710E41A;
+	Fri, 29 Mar 2024 15:47:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="P9xVApaU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jOUaZZNd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
- [209.85.210.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A76E611277D
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 15:41:10 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id
- d2e1a72fcca58-6ead4093f85so2010539b3a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 08:41:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1711726808; x=1712331608; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
- :reply-to; bh=iN31wd2vCkiTGMz1OBtEaB4JW8VyiA1XbISlyEebr3E=;
- b=P9xVApaUt4ITpSbD6GUF/hKjNqLLIjHQwv9sPhKvbpcIx/psDElEk5uHMR17uo6wId
- SeypIc9ZmihjHb09IUrfqFni2TX0F7i7Zj7OXi3vR/lVbuh7Yc2VXPw1usYp1eJMZ48F
- SSiLrmXayPSbk0UoAD+gxlHni1ZEK3X/DjYjDmTu3HffZaxTnQ5rvvwxT5KzcljPXfxR
- y9c5THrowy3k3XiB6hNEcOo0VFX5ZIKwSnDpXrvpZTufkAeSZyhhV9/PgSoN4/TzzU2x
- BC7DVDTF7rR4bt6GwXIDqiMfs3bm+i7oV9vLNKT54jsI/tr7EBgAiZIwQ07DzxQQ7Xwz
- gqoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711726808; x=1712331608;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=iN31wd2vCkiTGMz1OBtEaB4JW8VyiA1XbISlyEebr3E=;
- b=LMtAPF31E7pToZzxfys6Z/eT+di66l1OID+hz55/GU25ngrCJ9yj5tdYu3h4LSJded
- oMtWab38Im5AN0J+YQFTj3TwXoU1HDPFM70xxT10xUZzvEUo5D5mbjrszKm59nwY7Y63
- JpOSiElRkrMMVIjmpAVWBy/pnuBsQbA4MbRq4VtAapJuFOJ25DiGiyTdyigvYyqqPwaG
- pn/wC0MPqosayFlagp3Qkz9qM4v3Dcjwkr+JJsa0nXpedxnczvdvxMZ+L52pJhumVInz
- c1ZaYUvSOMOjW1MKzo/1J9noiBUycU9ohBxMFgpAluzirER3Ivl0fG875lelSUptFnsm
- XWAw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUsPucA6mv/3OfBqrRHFowAyS9XR3vOl19jZTCwAr2ZEp4z265bEGLqTDO5FpDWbaD38K7p3J1JH+as6OppyH0Op9VeJOC+EPi/sriN/jeU
-X-Gm-Message-State: AOJu0Yz5lb8jiRCWRdRFoMMpQGi7UFNDz3lUI6y3kPdMUOsR8QJAFGHn
- hdpuQ5xoNCA/PyWiytHZ6+1gvQnu8qs9ji7CaOLKr2sEGIgiJAmn
-X-Google-Smtp-Source: AGHT+IF0O7HII5MYlv2g0E+BHBSm5qRGKAR+0KxI+xwk6+g8c7fXn65jtKX0C7ci+tZdnr/ge20LGw==
-X-Received: by 2002:a05:6a20:3c90:b0:1a5:6bfb:76de with SMTP id
- b16-20020a056a203c9000b001a56bfb76demr2694088pzj.2.1711726808383; 
- Fri, 29 Mar 2024 08:40:08 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- m9-20020a170902db0900b001dd578121d4sm3581907plx.204.2024.03.29.08.40.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Mar 2024 08:40:07 -0700 (PDT)
-Date: Fri, 29 Mar 2024 08:40:05 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Simon Horman <horms@kernel.org>
-Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>,
- David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B59310E41A
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 15:47:40 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3003E61957;
+ Fri, 29 Mar 2024 15:47:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65400C433F1;
+ Fri, 29 Mar 2024 15:47:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1711727225;
+ bh=mGMCbTudpO//dsMmAJuxrfDrUsM2TLQi58qOzKNQl9k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jOUaZZNdtIIh47EJVI810yivxPhgr04bdCv5G8syQ9pIqc96Lk1QfVhs1Zg2F3MZ+
+ 8ycCTwvcR7dRIz5PyImHowSY7nGzeP1Fa1weOpI4PXdyLUvxXVh2YM77J4ZnnPZcDJ
+ eme6BIklM4Cr/HfOfALdVa6oRCZCmeBZtrBoRBVZbsLPBXivn+VE/geDCnH5fo9Zke
+ OVY0GzrZctB+LLGPa0koCkG1wtWO4ZbrbHmwwCiqDN2QTp9OtB5D5a66J9WoH2fQFT
+ yLAjAKn/xV6lVUfPEsNTYspoy5GK+5rfK+JLddPBFkJwE2U4/eMbfV7x4pwxuS5A2z
+ x59T2XaUWyIDA==
+Date: Fri, 29 Mar 2024 15:46:59 +0000
+From: Conor Dooley <conor@kernel.org>
+To: "Klymenko, Anatoliy" <Anatoliy.Klymenko@amd.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
  Maxime Ripard <mripard@kernel.org>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, loongarch@lists.linux.dev,
- netdev@vger.kernel.org, Linux Kernel Functional Testing <lkft@linaro.org>
-Subject: Re: [PATCH v2 12/14] sh: Add support for suppressing warning
- backtraces
-Message-ID: <d7663e19-74d5-478d-becc-0a080075e7d6@roeck-us.net>
-References: <20240325175248.1499046-1-linux@roeck-us.net>
- <20240325175248.1499046-13-linux@roeck-us.net>
- <20240327144431.GL403975@kernel.org>
- <320aacc6-b7e5-4c3d-948e-d0743ab26c5d@roeck-us.net>
- <20240327193920.GV403975@kernel.org>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ "Simek, Michal" <michal.simek@amd.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v3 8/9] dt-bindings: xlnx: Add VTC and TPG bindings
+Message-ID: <20240329-overture-tank-d20888f2cb6e@spud>
+References: <20240321-dp-live-fmt-v3-0-d5090d796b7e@amd.com>
+ <20240321-dp-live-fmt-v3-8-d5090d796b7e@amd.com>
+ <a82d525c-737a-4ac4-9d71-e88f4ba69ea1@linaro.org>
+ <MW4PR12MB7165889CE7F27A3F0B29DC7EE6312@MW4PR12MB7165.namprd12.prod.outlook.com>
+ <c0d70ba9-34ef-4121-834d-4d107f03d7f0@linaro.org>
+ <MW4PR12MB716570A3676218F0C6375E37E63A2@MW4PR12MB7165.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Aig4naILjr3w2J70"
 Content-Disposition: inline
-In-Reply-To: <20240327193920.GV403975@kernel.org>
+In-Reply-To: <MW4PR12MB716570A3676218F0C6375E37E63A2@MW4PR12MB7165.namprd12.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,34 +82,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 27, 2024 at 07:39:20PM +0000, Simon Horman wrote:
-[ ... ]
-> > > 
-> > > Hi Guenter,
-> > > 
-> > > a minor nit from my side: this change results in a Kernel doc warning.
-> > > 
-> > >       .../bug.h:29: warning: expecting prototype for _EMIT_BUG_ENTRY(). Prototype was for HAVE_BUG_FUNCTION() instead
-> > > 
-> > > Perhaps either the new code should be placed above the Kernel doc,
-> > > or scripts/kernel-doc should be enhanced?
-> > > 
-> > 
-> > Thanks a lot for the feedback.
-> > 
-> > The definition block needs to be inside CONFIG_DEBUG_BUGVERBOSE,
-> > so it would be a bit odd to move it above the documentation
-> > just to make kerneldoc happy. I am not really sure that to do
-> > about it.
-> 
-> FWIIW, I agree that would be odd.
-> But perhaps the #ifdef could also move above the Kernel doc?
-> Maybe not a great idea, but the best one I've had so far.
-> 
 
-I did that for the next version of the patch series. It is a bit more
-clumsy, so I left it as separate patch on top of this patch. I'd
-still like to get input from others before making the change final.
+--Aig4naILjr3w2J70
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Guenter
+On Fri, Mar 29, 2024 at 12:38:33AM +0000, Klymenko, Anatoliy wrote:
+> Thank you for the feedback.
+> > From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > Subject: Re: [PATCH v3 8/9] dt-bindings: xlnx: Add VTC and TPG bindings
+> > On 22/03/2024 20:12, Klymenko, Anatoliy wrote:
+> > >> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > >> On 21/03/2024 21:43, Anatoliy Klymenko wrote:
+> > >>> diff --git a/include/dt-bindings/media/media-bus-format.h
+> > >>> b/include/dt-
+> > >> bindings/media/media-bus-format.h
+> > >>> new file mode 100644
+> > >>> index 000000000000..60fc6e11dabc
+> > >>> --- /dev/null
+> > >>> +++ b/include/dt-bindings/media/media-bus-format.h
+> > >>> @@ -0,0 +1,177 @@
+> > >>> +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
+> > >>> +/*
+> > >>> + * Media Bus API header
+> > >>> + *
+> > >>> + * Copyright (C) 2009, Guennadi Liakhovetski
+> > >>> +<g.liakhovetski@gmx.de>
+> > >>> + *
+> > >>> + * This program is free software; you can redistribute it and/or
+> > >>> +modify
+> > >>> + * it under the terms of the GNU General Public License version 2
+> > >>> +as
+> > >>> + * published by the Free Software Foundation.
+> > >>
+> > >> That's not true. Your SPDX tells something entirely different.
+> > >>
+> > >
+> > > Thank you - I'll see how to fix it.
+> > >
+> > >> Anyway, you did not explain why you need to copy anything anywhere.
+> > >>
+> > >> Specifically, random hex values *are not bindings*.
+> > >>
+> > >
+> > > The same media bus format values are being used by the reference
+> > > driver in patch #9. And, as far as I know, we cannot use headers from
+> > > Linux API headers directly (at least I
+> >=20
+> > I don't understand what does it mean. You can use in your driver whatev=
+er
+> > headers you wish, I don't care about them.
+> >=20
+> >=20
+> > noticed the same pattern in ../dt-bindings/sdtv-standarts.h for instanc=
+e).
+> > What would be the best approach to reusing the same defines on DT and
+> > driver sides from your point of view? Symlink maybe?
+> > >
+> >=20
+> > Wrap your messages to match mailing list discussion style. There are no
+> > defines used in DT. If there are, show me them in *THIS* or other
+> > *upstreamed* (being upstreamed) patchset.
+> >=20
+>=20
+> Sorry, I didn't explain properly what I'm trying to achieve. I need to
+> create a DT node property that represents video signal format, one of
+> MEDIA_BUS_FMT_* from include/uapi/linux/media-bus-format.h. It would be
+> nice to reuse the same symbolic values in the device tree. What is the
+> best approach here? Should I create a separate header in
+> include/dt-bindings with the same or similar (to avoid multiple
+> definition errors) defines, or is it better to create a symlink to
+> media-bus-format.h like include/dt-bindings/linux-event-codes.h?
+
+Isn't there already a property for this, described in
+Documentation/devicetree/bindings/media/xilinx/video.txt
+?
+
+--Aig4naILjr3w2J70
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZgbicwAKCRB4tDGHoIJi
+0vIxAQDTGIb39pZ2GgViTifY62vMB8y8nobcQ16j//LjfSv8+AD/di6X30rcf2qm
+aucSKfOlVRUnjE+ZOb0HLGjnjVZzFQ4=
+=0Xod
+-----END PGP SIGNATURE-----
+
+--Aig4naILjr3w2J70--
