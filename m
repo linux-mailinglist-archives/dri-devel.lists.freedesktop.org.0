@@ -2,88 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B8B8922D5
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 18:38:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7483892346
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 19:24:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB50F10E37A;
-	Fri, 29 Mar 2024 17:38:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F25D610E7DE;
+	Fri, 29 Mar 2024 18:24:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="cX2kQ6f7";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="O5o/hWK1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1737410E37A;
- Fri, 29 Mar 2024 17:38:29 +0000 (UTC)
-Received: from [100.64.128.229] (unknown [20.29.225.195])
- by linux.microsoft.com (Postfix) with ESMTPSA id 8A372201F16E;
- Fri, 29 Mar 2024 10:38:24 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8A372201F16E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1711733906;
- bh=8tbmpJNBNI1k4VwDOIxfkmsXDU989tyOYol27bNqXbk=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=cX2kQ6f74T2I03q55Vd7kF3+Ls664raID5hfw7D0UiNwgBbbYkRGavQTlFAnCbM9L
- kqCM/BoF10ug6vQ7GnbaoopFkzr692jiKyEuH/t4hii+FxMUY4ZI5aXzomIEuN7X2P
- bcPCAeq2cVRN3AzaLSxywZzWIrVSy1L+jsCYyD5A=
-Message-ID: <5181b1e8-032d-473b-92f3-0402bebad1b4@linux.microsoft.com>
-Date: Fri, 29 Mar 2024 10:38:23 -0700
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75D0210E7DE;
+ Fri, 29 Mar 2024 18:24:27 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 42THep9x004230; Fri, 29 Mar 2024 18:24:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=Qh3m4g8y3ZINF4whjQq7eyoFI2/8iK7n4ltsiqUmFfM=; b=O5
+ o/hWK1uLjJQgMce3C8zJLwBgFXFSzJ4UY4MV39JGvDwmHr8/te4jNwhtL6A+xFBD
+ FaDe3XB0Roqm43K5jQSelFEZmlUxOWJp34mqevFG4NTSV1uJATjTK3XSyp/jMffi
+ H8Kc+GgTDTcUZauzHXixKB537lv+pso8Vuz55IYerd2n39zSBgOq0vSa/cVnj48i
+ cZhwFxI7XJvPe1hdX8caY1BgXBmX/XZ9Oh+kDFuY+DfgPiL9bhA8/vx9OB+MHivy
+ M3ZDzIugO5HIKX8LjVIGa0WiKGbd/wmvq21YkUtciwo5z2TFWBqa5wONmniKpXuf
+ l5pQErFttyJZUKLHcKEA==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x5xcy0m98-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 29 Mar 2024 18:24:20 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42TIOIqA020876
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 29 Mar 2024 18:24:18 GMT
+Received: from [10.110.118.161] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 29 Mar
+ 2024 11:24:14 -0700
+Message-ID: <6dcdc5f6-6e4a-f486-26fb-fd37f44316e8@quicinc.com>
+Date: Fri, 29 Mar 2024 11:24:12 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v0 02/14] drm/amdgpu, drm/radeon: Make I2C terminology more
- inclusive
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Evan Quan <evan.quan@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
- Candice Li <candice.li@amd.com>, Ran Sun <sunran001@208suo.com>,
- Alexander Richards <electrodeyt@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Heiner Kallweit <hkallweit1@gmail.com>, Hamza Mahfooz
- <hamza.mahfooz@amd.com>, Ruan Jinjie <ruanjinjie@huawei.com>,
- Alan Liu <haoping.liu@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Wayne Lin <wayne.lin@amd.com>, Samson Tam <samson.tam@amd.com>,
- Alvin Lee <alvin.lee2@amd.com>, Charlene Liu <charlene.liu@amd.com>,
- Sohaib Nadeem <sohaib.nadeem@amd.com>, Lewis Huang <lewis.huang@amd.com>,
- Tom Chung <chiahsuan.chung@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>,
- George Shen <george.shen@amd.com>, Aric Cyr <aric.cyr@amd.com>,
- Jun Lei <jun.lei@amd.com>, Nicholas Kazlauskas
- <nicholas.kazlauskas@amd.com>, Qingqing Zhuo <Qingqing.Zhuo@amd.com>,
- Dillon Varone <dillon.varone@amd.com>, Le Ma <Le.Ma@amd.com>,
- Lijo Lazar <lijo.lazar@amd.com>, Asad kamal <asad.kamal@amd.com>,
- Kenneth Feng <kenneth.feng@amd.com>, Ma Jun <Jun.Ma2@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Yang Wang <kevinyang.wang@amd.com>, Darren Powell <darren.powell@amd.com>,
- Yifan Zhang <yifan1.zhang@amd.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
- Andi Shyti <andi.shyti@kernel.org>
-References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
- <20240329170038.3863998-3-eahariha@linux.microsoft.com>
- <Zgb3VYsgLjhJ2HKs@ashyti-mobl2.lan>
- <ceeaafe1-49d5-4602-8251-eed63a1be2b6@linux.microsoft.com>
-Content-Language: en-CA
-In-Reply-To: <ceeaafe1-49d5-4602-8251-eed63a1be2b6@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2] phy/qcom-qmp-combo: propagate correct return value at
+ phy_power_on()
+Content-Language: en-US
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, <dri-devel@lists.freedesktop.org>, 
+ <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
+ <airlied@gmail.com>, <agross@kernel.org>,
+ <dmitry.baryshkov@linaro.org>, <abel.vesa@linaro.org>,
+ <andersson@kernel.org>
+CC: <quic_jesszhan@quicinc.com>, <quic_sbillaka@quicinc.com>,
+ <marijn.suijten@somainline.org>, <freedreno@lists.freedesktop.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1711730495-30330-1-git-send-email-quic_khsieh@quicinc.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <1711730495-30330-1-git-send-email-quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: j4A-oPxM-XLrv410vidVyQJhg8DWe4OF
+X-Proofpoint-ORIG-GUID: j4A-oPxM-XLrv410vidVyQJhg8DWe4OF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-29_13,2024-03-28_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ mlxlogscore=970 adultscore=0 malwarescore=0 mlxscore=0 priorityscore=1501
+ spamscore=0 phishscore=0 impostorscore=0 bulkscore=0 lowpriorityscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2403210001 definitions=main-2403290163
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,32 +97,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/29/2024 10:28 AM, Easwar Hariharan wrote:
-> On 3/29/2024 10:16 AM, Andi Shyti wrote:
->> Hi Easwar,
->>
 
-<snip>
 
->>
->> The specification talks about:
->>
->>  - master -> controller
->>  - slave -> target (and not client)
->>
->> But both you and Wolfram have used client. I'd like to reach
->> some more consistency here.
+On 3/29/2024 9:41 AM, Kuogee Hsieh wrote:
+> Currently qmp_combo_dp_power_on() always return 0 in regardless of
+> return value of cfg->configure_dp_phy(). This patch propagate
+> return value of cfg->configure_dp_phy() all the way back to caller.
 > 
-> I had the impression that remote targets (i.e external to the device) were to be called clients,
-> e.g. the QSFP FRUs in drivers/infiniband, and internal ones targets.
-> I chose the terminology according to that understanding, but now I can't find where I got that
-> information.
+> Fixes: 52e013d0bffa ("phy: qcom-qmp: Add support for DP in USB3+DP combo phy")
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>   drivers/phy/qualcomm/phy-qcom-qmp-combo.c | 13 +++++++++----
+>   1 file changed, 9 insertions(+), 4 deletions(-)
 > 
-> Thanks,
-> Easwar
 
-Ah, it was in Wolfram's individual commit messages "They are also more specific because we distinguish now between a remote
-entity ("client") and a local one ("target")."
+Thanks for the cleanup!
 
-Thanks,
-Easwar
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
