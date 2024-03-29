@@ -2,74 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A547E8921BC
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 17:39:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 771928921E2
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 17:42:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF9AE10E05D;
-	Fri, 29 Mar 2024 16:39:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 484C610F80A;
+	Fri, 29 Mar 2024 16:42:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BlwRgPGI";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="IueKtM+q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3088310E05D
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 16:39:02 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-41551500a7eso3671715e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 09:39:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711730279; x=1712335079; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UwLmF2g9SeFgO0qE9J71WGfItvHTsnplXOGpXDPoZl0=;
- b=BlwRgPGIJGTxz+AnnIZzLlbc2ZTVy+GYcxz7GCQJtJEBFYVHWY6iTIs+d7B+pJpoov
- zGkYEZV80mlB1Vw0P3JsAW4bbPxYNktNLEFKPg8gnOCRbn6KT4yJmsJAsWq1hF8hMIkb
- FD5VTCNnSpqO8Qp4Sy+UcV/T9qKjSlnCJAuPzmDwWkWWZ24Ok9vduCm4RH0Av5vMquDP
- 1VyAj+5X2ls4l8Ko1NgMl2fMH+cpDoLBm2tnwAwhPpmugjju7VZOPh8zXJiLS2Uy4mjo
- aH4vhp0QD68Cga+ZP2o8rDQ1orjCe3rzZEpn1je9Kk5GSKRg0jOeipS42mk9b7G0ua82
- db9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711730279; x=1712335079;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UwLmF2g9SeFgO0qE9J71WGfItvHTsnplXOGpXDPoZl0=;
- b=BWIkJ+eRX2AmkmxxIrxTWZ34zr6+x6hoHNgxRuWZTkLXXXUNJiLeFQ2j25aEAjfUlw
- HME21UZuST5F0Y5gSue6EEbB7Ukpbi49Nn4mjZo+R15/WBGX1luqFBnSgnEMwTmtsHJQ
- DwBPSaGv+7TIenXqzHMsZHeQFNT3oLzPqYNLIrz7hUO8ToCZ9qiYnFyEvXkuYN++1etr
- lmp4YRVcBkvpBhh0t6cDfwA8NhbFIFtCcxqjNAH0DI5WeqVLcyacB/NZWJSA3nuuyWqi
- S6+3xgEgLxGq27hOzFDbyDQUPqb3FkeHYOGwOtlaS6XkoU/MAmEOS9VC8IyCBMBTklIa
- u8VQ==
-X-Gm-Message-State: AOJu0Ywosh74TO0isG4Zf+JxHNoMVbaLwe8JI4lKEC9Z/kHaJv255YAw
- STtF2f+z4XYIhb3AsgOCQnHaU1U82Hcj/oWkgdtLsZk8+cfZpuE5dQ6Y34GwFGk=
-X-Google-Smtp-Source: AGHT+IFxR9kCg8wK1tdVBWU2BipcSmXFIAMRH1mlDRbii8iRl38mOAwB9CBqVsbED9XR994yGHrUNw==
-X-Received: by 2002:a05:600c:4f0c:b0:414:85f:1f72 with SMTP id
- l12-20020a05600c4f0c00b00414085f1f72mr1763054wmq.6.1711730279018; 
- Fri, 29 Mar 2024 09:37:59 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- m4-20020a05600c4f4400b004146bcdde06sm5958736wmq.6.2024.03.29.09.37.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Mar 2024 09:37:58 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: linux-rockchip@lists.infradead.org, Chris Morgan <macroalpha82@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- daniel@ffwll.ch, airlied@gmail.com, sam@ravnborg.org, 
- quic_jesszhan@quicinc.com, megi@xff.cz, kernel@puri.sm, agx@sigxcpu.org, 
- heiko@sntech.de, conor+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
- robh@kernel.org, Chris Morgan <macromorgan@hotmail.com>
-In-Reply-To: <20240325134959.11807-1-macroalpha82@gmail.com>
-References: <20240325134959.11807-1-macroalpha82@gmail.com>
-Subject: Re: (subset) [PATCH 0/5] Add Support for RK3326 GameForce Chi
-Message-Id: <171173027816.1500306.363820748335291439.b4-ty@linaro.org>
-Date: Fri, 29 Mar 2024 17:37:58 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 591C410E50E;
+ Fri, 29 Mar 2024 16:41:56 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 42TC9QZ1006585; Fri, 29 Mar 2024 16:41:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ from:to:cc:subject:date:message-id:mime-version:content-type; s=
+ qcppdkim1; bh=iy4fArS6RL+x9fPCLyL31DSJ7krtKXCXNB9MQQ9rqKo=; b=Iu
+ eKtM+qhUC1OgmLfeI8u/Qt/+NDouyUv4ys/y3MSUy94n+e9KE3dsyPWt4YuaKS8a
+ 4hBzWWGHRsse163E+PQHg8eUfZF+HUFZT1Qec8RGH67LMIMwv9ikQ7glQZp3Nmjr
+ MW4hk71WYTrfkl9457yaoSm66ZaNznrZ5C4ZFja8ZXyF2UM58/XIQ5pTnPRVUC0a
+ m5kJ9oo+LPBVdSmKNuGKarriaAuKXSBiM4TtTRuY5NgqiYSJA3JnEuKZCE1pE80E
+ DO/9wlFfkAXZhqvLqCPaYkkaBuEIinW1oeITAlZQruvXTUmdtbfYtOcwc2nyLEUR
+ BZ2lPHBczCBIMycZRcFQ==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x5np29vav-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 29 Mar 2024 16:41:47 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42TGfkTs021946
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 29 Mar 2024 16:41:46 GMT
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Fri, 29 Mar 2024 09:41:45 -0700
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
+ <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <abel.vesa@linaro.org>, <andersson@kernel.org>
+CC: Kuogee Hsieh <quic_khsieh@quicinc.com>, <quic_abhinavk@quicinc.com>,
+ <quic_jesszhan@quicinc.com>, <quic_sbillaka@quicinc.com>,
+ <marijn.suijten@somainline.org>, <freedreno@lists.freedesktop.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2] phy/qcom-qmp-combo: propagate correct return value at
+ phy_power_on()
+Date: Fri, 29 Mar 2024 09:41:35 -0700
+Message-ID: <1711730495-30330-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.4
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 90N0YQZVFXb4HZCtSRj0n5qV5-tIGi-c
+X-Proofpoint-GUID: 90N0YQZVFXb4HZCtSRj0n5qV5-tIGi-c
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-29_13,2024-03-28_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ lowpriorityscore=0 impostorscore=0 priorityscore=1501 spamscore=0
+ bulkscore=0 mlxscore=0 malwarescore=0 clxscore=1015 suspectscore=0
+ mlxlogscore=999 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2403210001 definitions=main-2403290147
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,35 +91,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Currently qmp_combo_dp_power_on() always return 0 in regardless of
+return value of cfg->configure_dp_phy(). This patch propagate
+return value of cfg->configure_dp_phy() all the way back to caller.
 
-On Mon, 25 Mar 2024 08:49:54 -0500, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> Add support for the GameForce Chi [1].
-> 
-> The GameForce Chi has the following hardware:
-> Tested:
->  - 3.5" dual lane 640x480 DSI display.
->  - 15 GPIO based face buttons.
->  - 2 ADC based face buttons.
->  - 1 ADC joystick (left) connected to internal SARADC.
->  - RGB LED arrays for key backlighting
->  - Dual internal speakers.
->  - Realtek RTL8723BS SDIO WiFi.
->  - Single SDMMC slot.
-> 
-> [...]
+Fixes: 52e013d0bffa ("phy: qcom-qmp: Add support for DP in USB3+DP combo phy")
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+---
+ drivers/phy/qualcomm/phy-qcom-qmp-combo.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
-
-[1/5] dt-bindings: vendor-prefix: Add prefix for GameForce
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/59237fc04ee1c4cdf62ad5dba18244713970e36f
-[2/5] dt-bindings: display: Add GameForce Chi Panel
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/387974a21a63b1c7efcbc19c48b9930f6ef5ac63
-[3/5] drm/panel: st7703: Add GameForce Chi Panel Support
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/4c4f33be7e4d476566246e7166c54ef175287e00
-
+diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+index 36632fa..513d99d 100644
+--- a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
++++ b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+@@ -2343,8 +2343,10 @@ static int qmp_v3_configure_dp_phy(struct qmp_combo *qmp)
+ 	writel(0x05, qmp->dp_dp_phy + QSERDES_V3_DP_PHY_TX2_TX3_LANE_CTL);
+ 
+ 	ret = qmp_combo_configure_dp_clocks(qmp);
+-	if (ret)
++	if (ret) {
++		dev_err(qmp->dev, "dp phy configure failed, err=%d\n", ret);
+ 		return ret;
++	}
+ 
+ 	writel(0x04, qmp->dp_dp_phy + QSERDES_DP_PHY_AUX_CFG2);
+ 	writel(0x01, qmp->dp_dp_phy + QSERDES_DP_PHY_CFG);
+@@ -2519,8 +2521,10 @@ static int qmp_v4_configure_dp_phy(struct qmp_combo *qmp)
+ 	int ret;
+ 
+ 	ret = qmp_v456_configure_dp_phy(qmp);
+-	if (ret < 0)
++	if (ret < 0) {
++		dev_err(qmp->dev, "dp phy configure failed, err=%d\n", ret);
+ 		return ret;
++	}
+ 
+ 	/*
+ 	 * At least for 7nm DP PHY this has to be done after enabling link
+@@ -2754,6 +2758,7 @@ static int qmp_combo_dp_power_on(struct phy *phy)
+ 	const struct qmp_phy_cfg *cfg = qmp->cfg;
+ 	void __iomem *tx = qmp->dp_tx;
+ 	void __iomem *tx2 = qmp->dp_tx2;
++	int ret;
+ 
+ 	mutex_lock(&qmp->phy_mutex);
+ 
+@@ -2766,11 +2771,11 @@ static int qmp_combo_dp_power_on(struct phy *phy)
+ 	cfg->configure_dp_tx(qmp);
+ 
+ 	/* Configure link rate, swing, etc. */
+-	cfg->configure_dp_phy(qmp);
++	ret = cfg->configure_dp_phy(qmp);
+ 
+ 	mutex_unlock(&qmp->phy_mutex);
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ static int qmp_combo_dp_power_off(struct phy *phy)
 -- 
-Neil
+2.7.4
 
