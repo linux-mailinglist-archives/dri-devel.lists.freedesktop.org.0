@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 801AE89199C
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:44:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8958919A1
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:45:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B1E41126D0;
-	Fri, 29 Mar 2024 12:44:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 453CF1126E2;
+	Fri, 29 Mar 2024 12:45:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Z5mZdzsm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M3x6v+eb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDBA41126E7
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 12:44:13 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B77E1126D0;
+ Fri, 29 Mar 2024 12:44:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 896FCCE2F9A;
- Fri, 29 Mar 2024 12:43:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75C8FC433C7;
- Fri, 29 Mar 2024 12:43:39 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id AE2066193C;
+ Fri, 29 Mar 2024 12:44:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A972AC433A6;
+ Fri, 29 Mar 2024 12:44:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711716220;
- bh=uVcTjXED8/Jzk0oHqHrJCMbpNGjUw4igMCiReFmmYv8=;
+ s=k20201202; t=1711716283;
+ bh=aiYW0yw5E+HOidbqciMe7uHQZ7wj+DvE0N4dRycpisI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Z5mZdzsmH1xIPAU8HLvtt8GBSZe2gZB+PzsJMh20LfTRS9SIQc7lb+gJaxjt50PAZ
- +zBl5jKx2Mc4mNIZPkhSvVDQgkuTv4etjSyISLhUZRRwyN4dkz1z1iBqYbxnp/2uVZ
- fOau5FIphQ8kuJ9/FoVGJ7wyQfu0D5bOi69t3s9e8rXX7969ACLzkoBMOV5Jx15Zcb
- mfEVBV8h7uvplttcizTRtud5Gp1Fin82R4WDj7lFf0Mofu3zvk3HoPcEi0MVaC5KGr
- JcySZ2qmYsDktO74Cx0gcWX30lTwNHUlpKHd3IaRl648LOxftVs5B4cyJo6/usXG8j
- K/Cih+pNyaUeQ==
+ b=M3x6v+ebKqW3jRgkXYQuPtwlnSC/XkO4ZQYnvZimbmmpfc12zn2F4yoyfM2jtDe7G
+ O5STZzbPEwISyPl+6K0S5vvt4nG3xliA5zzNEZq8Ggq9JBAQ3c6+pjSb173SJbAGu4
+ rtZaHZCyO7vYWD9CkfCA7Dx35hK2zIv0+ngsevudzWp0LzQJa99nNVafkpjga045Rc
+ XRcbd3FGDmiWMWC/YCCmOOmM3+Ys1qUvFiCJ3iQEuMiOxOjlCWxwY30BjVh5nWZufV
+ z7fW3nvFOYchwmALfMq0SMRMOyUq3xRc88Bg6cKTT0C7+C45VWCU8eOjUULPU1nlNJ
+ IPSoscEqnd6XQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Zack Rusin <zack.rusin@broadcom.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Sasha Levin <sashal@kernel.org>, ray.huang@amd.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 05/75] drm/ttm: return ENOSPC from
- ttm_bo_mem_space v3
-Date: Fri, 29 Mar 2024 08:41:46 -0400
-Message-ID: <20240329124330.3089520-5-sashal@kernel.org>
+Cc: Aric Cyr <aric.cyr@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ aurabindo.pillai@amd.com, dillon.varone@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 38/75] drm/amd/display: Fix nanosec stat overflow
+Date: Fri, 29 Mar 2024 08:42:19 -0400
+Message-ID: <20240329124330.3089520-38-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240329124330.3089520-1-sashal@kernel.org>
 References: <20240329124330.3089520-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.23
@@ -67,59 +66,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Christian König <christian.koenig@amd.com>
+From: Aric Cyr <aric.cyr@amd.com>
 
-[ Upstream commit 28e5126718c7b306b8c29d2ae8f48417e9303aa1 ]
+[ Upstream commit 14d68acfd04b39f34eea7bea65dda652e6db5bf6 ]
 
-Only convert it to ENOMEM in ttm_bo_validate.
+[Why]
+Nanosec stats can overflow on long running systems potentially causing
+statistic logging issues.
 
-This allows ttm_bo_validate to distinguish between an out of memory
-situation and just out of space in a placement domain.
+[How]
+Use 64bit types for nanosec stats to ensure no overflow.
 
-v2: improve commit message
-v3: fix kerneldoc typos
-
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Zack Rusin <zack.rusin@broadcom.com>
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240112125158.2748-3-christian.koenig@amd.com
+Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Aric Cyr <aric.cyr@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/modules/inc/mod_stats.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index e58b7e2498166..b3e5185835c37 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -764,7 +764,7 @@ static int ttm_bo_mem_force_space(struct ttm_buffer_object *bo,
-  * This function may sleep while waiting for space to become available.
-  * Returns:
-  * -EBUSY: No space available (only if no_wait == 1).
-- * -ENOMEM: Could not allocate memory for the buffer object, either due to
-+ * -ENOSPC: Could not allocate space for the buffer object, either due to
-  * fragmentation or concurrent allocators.
-  * -ERESTARTSYS: An interruptible sleep was interrupted by a signal.
-  */
-@@ -824,7 +824,7 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
- 			goto error;
- 	}
+diff --git a/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h b/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h
+index 4220fd8fdd60c..54cd86060f4d6 100644
+--- a/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h
++++ b/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h
+@@ -57,10 +57,10 @@ void mod_stats_update_event(struct mod_stats *mod_stats,
+ 		unsigned int length);
  
--	ret = -ENOMEM;
-+	ret = -ENOSPC;
- 	if (!type_found) {
- 		pr_err(TTM_PFX "No compatible memory type found\n");
- 		ret = -EINVAL;
-@@ -910,6 +910,9 @@ int ttm_bo_validate(struct ttm_buffer_object *bo,
- 		return -EINVAL;
+ void mod_stats_update_flip(struct mod_stats *mod_stats,
+-		unsigned long timestamp_in_ns);
++		unsigned long long timestamp_in_ns);
  
- 	ret = ttm_bo_move_buffer(bo, placement, ctx);
-+	/* For backward compatibility with userspace */
-+	if (ret == -ENOSPC)
-+		return -ENOMEM;
- 	if (ret)
- 		return ret;
+ void mod_stats_update_vupdate(struct mod_stats *mod_stats,
+-		unsigned long timestamp_in_ns);
++		unsigned long long timestamp_in_ns);
  
+ void mod_stats_update_freesync(struct mod_stats *mod_stats,
+ 		unsigned int v_total_min,
 -- 
 2.43.0
 
