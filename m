@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F1FF8919FA
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:51:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88A7E891A01
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:51:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45BD5112702;
-	Fri, 29 Mar 2024 12:51:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A4AB1126F1;
+	Fri, 29 Mar 2024 12:51:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OICQ5ysB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iKDS5tOc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5EA81126F6;
- Fri, 29 Mar 2024 12:51:02 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2EE91126F1;
+ Fri, 29 Mar 2024 12:51:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3BB48618D7;
- Fri, 29 Mar 2024 12:50:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2959AC43390;
- Fri, 29 Mar 2024 12:50:30 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id D8C1CCE2E0D;
+ Fri, 29 Mar 2024 12:51:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61388C43390;
+ Fri, 29 Mar 2024 12:51:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711716631;
+ s=k20201202; t=1711716677;
  bh=vWrJHpNpvv/pTjRBRuxyQkmES6YQhamOMA0mHriCXKE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OICQ5ysBrjXUQtRRICa15HU1Ejd1qMZvwmP0IEgtmJNI/pBjRdQICvOursh81ocsW
- HqtW+EUOatSDEquzJOA/ryo/ZcumyxlcaOAGPLEuwJR0lUKlHt7uLqU37orNEeHL4+
- QvlyvGIbZTFLBBlDD+2/jbzHMIR9rtUbmNRU+nNJf0NO5lJtAOJgli2F33NCZE1R8P
- oHeHheIT/Sy6kUhoz+5Ldtrl9z2V+l1dspIbSX0tktttV8mhmZ71zjtBKHeNX2saVI
- JvEJxmEAiSZtIywBx7n49z4uxTgWbpye7WKgCq1LoavBThM5NHlqVR5uDYdcgStiCs
- FccBuRPMDZtMA==
+ b=iKDS5tOc4EPvFLBxavTNAdt+K+XHv5nFnOVeGXuuFOC4BqmG+VdL/6nW20TrHg0gN
+ x8iOR2q5sCnioojchnkWyvlK+fAqfQJMnv2kDHzLr12+8sZOBda9C7c+QaIpw9A9Fp
+ eOw9jBs08NVjoI+cyD9W/rEXVEqULUPMMWdkUpRtL+3px47FVt3rHXcHHPTe0Yhcxe
+ e69Vh5hO788NrAH0mlnfmrB1n90ha80QLWQ0L+crMKZnQYuhJMom6+wlR3fwETzoaZ
+ tXeN26gr7RfvvNFXYTMQRbPy5KJUiQIqJw1gW4FsqzIq5faD/+WC6bMq01vI9b6q1k
+ SP18Klecuf2XA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -40,16 +40,16 @@ Cc: Aric Cyr <aric.cyr@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
  Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
  dillon.varone@amd.com, aurabindo.pillai@amd.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.4 11/23] drm/amd/display: Fix nanosec stat overflow
-Date: Fri, 29 Mar 2024 08:49:44 -0400
-Message-ID: <20240329125009.3093845-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 08/19] drm/amd/display: Fix nanosec stat overflow
+Date: Fri, 29 Mar 2024 08:50:40 -0400
+Message-ID: <20240329125100.3094358-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240329125009.3093845-1-sashal@kernel.org>
-References: <20240329125009.3093845-1-sashal@kernel.org>
+In-Reply-To: <20240329125100.3094358-1-sashal@kernel.org>
+References: <20240329125100.3094358-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.273
+X-stable-base: Linux 4.19.311
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
