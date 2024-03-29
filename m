@@ -2,85 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ED678919A3
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:45:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AFB6891953
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:39:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BE2E1126CE;
-	Fri, 29 Mar 2024 12:45:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C26410EA95;
+	Fri, 29 Mar 2024 12:39:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Z/37Nl02";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="car6bcuB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D5B310E1B0
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 12:43:21 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-33ec7e38b84so1357373f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 05:43:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711716139; x=1712320939;
- darn=lists.freedesktop.org; 
- h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
- :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
- bh=gxIUq/XIwTd2Gc2JEpjZeBosj5SKpZKViU9S1xrv8oA=;
- b=Z/37Nl02ad6ie8ACiCGz2aiWc9PsAk6K3i+coXE10oS9NMSWK+UV6RqGWBH3h8ghu8
- 5kkmj6cZEGbkEk30xCcn0MI3K74O5tTlmYsSIH5WKaZHQKNnV/eLlCzcL8X0lC1ex3Qx
- 0vCi3MhRJjAwSjDCMsFuO6zA3r/2vaSJdvY5idJFl4Kpa77GApdvwqs70KdUjjD3rWAg
- OZaAb9xZnJ7FmiFwdy+VHFDIvF12zX6mcJy3uIXpbR2DZL0gkG1dKKj8JxZOMd07AZEJ
- byMo5vDWJrucjy9T+wxyMljXc2KZLyWJx0Ka5je+DF2AF9leDzt1olZsHRbBps+tkkyt
- geqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711716139; x=1712320939;
- h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
- :user-agent:references:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gxIUq/XIwTd2Gc2JEpjZeBosj5SKpZKViU9S1xrv8oA=;
- b=ko7w/KsE+QpzrO4AV3acf3H4ktAod3a06CdubRa6mxCCwSFYxMH0nCjoHSNnZ+tCRp
- SoGY/226IRSmTZlvXBl1w+YnGREcV9bb0P1QlTh7AAJgX/hvjzvelo/CmkdBxj/3ZqCE
- aO1T17RKhHS17QVH3sLAhIbJBK7kr4xEfwrY98kXEXJrNm76Ro6g/x76cQXfI9q1Mi+X
- iuxd3e51j2IJrPhQtniI4GyNcEZOdK0qWbrYZhkJzuFfXnUkkkBHWrXKMj8weluvaT2L
- 3wimRvlmXZ93q1Fb/4UfFS/H5BOpk1HkiBqquav4I5zvrrf/c6tqHtvWogoSBpQgFvYV
- fRWw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXDXD/LJOYvCYgIOZBq8hlqbtaix/RIgsJbIy2Li7X4gUh0+8k2fj/eL13ZqSxGxLMpO5hokm/RSHI2oqvv7gaCnQdqwUHdlanjDR/Gg+DH
-X-Gm-Message-State: AOJu0YwDO9MtthQ8ghwvkuIAam4HtAi3i3FlCxAhLdzsdxzdlR1p3gd4
- ziGBTItLHkT9f1MZR85TAImrL6Uy4DEDY5wNB9nQNWhYBAkEC3s2l2+bY8tYEHE=
-X-Google-Smtp-Source: AGHT+IFmRrWRL7hTq/l4Iz/3FrZli79Wex7IvqjNpeiE1QS/yuVWtde+4D/dIohJP9FpdUBEQoTyuw==
-X-Received: by 2002:adf:f18f:0:b0:341:a640:b516 with SMTP id
- h15-20020adff18f000000b00341a640b516mr1257720wro.70.1711716139601; 
- Fri, 29 Mar 2024 05:42:19 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:f8f5:63d4:de5b:e4de])
- by smtp.gmail.com with ESMTPSA id
- ch9-20020a5d5d09000000b0034330c9eccasm3640999wrb.79.2024.03.29.05.42.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Mar 2024 05:42:19 -0700 (PDT)
-References: <20240325-amlogic-v6-4-upstream-dsi-ccf-vim3-v11-0-04f55de44604@linaro.org>
- <20240325-amlogic-v6-4-upstream-dsi-ccf-vim3-v11-3-04f55de44604@linaro.org>
-User-agent: mu4e 1.10.8; emacs 29.2
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Nicolas Belin <nbelin@baylibre.com>,
- Jagan Teki <jagan@amarulasolutions.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v11 3/7] clk: meson: g12a: make VCLK2 and ENCL clock
- path configurable by CCF
-Date: Fri, 29 Mar 2024 13:35:11 +0100
-In-reply-to: <20240325-amlogic-v6-4-upstream-dsi-ccf-vim3-v11-3-04f55de44604@linaro.org>
-Message-ID: <1jv8558b11.fsf@starbuckisacylon.baylibre.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B31510EA95
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 12:39:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8129E61920;
+ Fri, 29 Mar 2024 12:39:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A1DCC43390;
+ Fri, 29 Mar 2024 12:39:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1711715960;
+ bh=B+UPqiZhHjHusSKbhDQ5UfjOH+MzF07nuUtbkag2bOY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=car6bcuB6FeQzd5FXirYpsi6jUnfFdsVXKavDUthNvE8K3jfcuS/wwX1ZOSwssZve
+ d6Ma7IhKc34P4mdMx1k1ylrLQelG0Hd+b7Bzf7sgWQbtN8AmQ15NC3eTGTKRCpgk0G
+ 3sSAkNjYJHdBr9pFmB20meGMBBk3qchmEBrvUWbjcmzGZJhf9kZurU9Fa/7vKecEQ9
+ 8iODmxIy9a3f87+tqHOV5clGLt80eNmfh++Qs9/xbIj0eItfIFvQ0frkE8rUCCYqd+
+ hUM4MDCWT7C2OqTvAF7MKASn0jSfa2Op5PftFbAfGA/I2aZ7Fiuwj0LV+nZtCYCNfn
+ Im9yBjNfNcDeQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Maxime Ripard <mripard@kernel.org>, Sasha Levin <sashal@kernel.org>,
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.8 01/98] drm/vc4: don't check if plane->state->fb ==
+ state->fb
+Date: Fri, 29 Mar 2024 08:36:32 -0400
+Message-ID: <20240329123919.3087149-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.8.2
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,298 +63,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Maíra Canal <mcanal@igalia.com>
 
-On Mon 25 Mar 2024 at 12:09, Neil Armstrong <neil.armstrong@linaro.org> wrote:
+[ Upstream commit 5ee0d47dcf33efd8950b347dcf4d20bab12a3fa9 ]
 
-> In order to setup the DSI clock, let's make the unused VCLK2 clock path
-> configuration via CCF.
->
-> The nocache option is removed from following clocks:
-> - vclk2_sel
-> - vclk2_input
-> - vclk2_div
-> - vclk2
-> - vclk_div1
-> - vclk2_div2_en
-> - vclk2_div4_en
-> - vclk2_div6_en
-> - vclk2_div12_en
-> - vclk2_div2
-> - vclk2_div4
-> - vclk2_div6
-> - vclk2_div12
-> - cts_encl_sel
->
-> vclk2 and vclk2_div uses the newly introduced vclk regmap driver
-> to handle the enable and reset bits.
->
-> In order to set a rate on cts_encl via the vclk2 clock path,
-> the NO_REPARENT flag is set on cts_encl_sel & vclk2_sel in order
-> to keep CCF from selection a parent.
-> The parents of cts_encl_sel & vclk2_sel are expected to be defined
-> in DT or manually set by the display driver at some point.
->
-> The following clock scheme is to be used for DSI:
->
-> xtal
-> \_ gp0_pll_dco
->    \_ gp0_pll
->       |- vclk2_sel
->       |  \_ vclk2_input
->       |     \_ vclk2_div
->       |        \_ vclk2
->       |           \_ vclk2_div1
->       |              \_ cts_encl_sel
->       |                 \_ cts_encl	-> to VPU LCD Encoder
->       |- mipi_dsi_pxclk_sel
->       \_ mipi_dsi_pxclk_div
->          \_ mipi_dsi_pxclk		-> to DSI controller
->
-> The mipi_dsi_pxclk_div is set as bypass with a single /1 entry in div_table
-> in order to use the same GP0 for mipi_dsi_pxclk and vclk2_input.
->
-> The SET_RATE_PARENT is only set on the mipi_dsi_pxclk_sel clock so the
-> DSI bitclock is the reference base clock to calculate the vclk2_div value
-> when pixel clock is set on the cts_encl endpoint.
->
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->  drivers/clk/meson/Kconfig |  1 +
->  drivers/clk/meson/g12a.c  | 72 ++++++++++++++++++++++++++++++++++-------------
->  2 files changed, 53 insertions(+), 20 deletions(-)
->
-> diff --git a/drivers/clk/meson/Kconfig b/drivers/clk/meson/Kconfig
-> index 8a9823789fa3..59a40a49f8e1 100644
-> --- a/drivers/clk/meson/Kconfig
-> +++ b/drivers/clk/meson/Kconfig
-> @@ -144,6 +144,7 @@ config COMMON_CLK_G12A
->  	select COMMON_CLK_MESON_EE_CLKC
->  	select COMMON_CLK_MESON_CPU_DYNDIV
->  	select COMMON_CLK_MESON_VID_PLL_DIV
-> +	select COMMON_CLK_MESON_VCLK
->  	select MFD_SYSCON
->  	help
->  	  Support for the clock controller on Amlogic S905D2, S905X2 and S905Y2
-> diff --git a/drivers/clk/meson/g12a.c b/drivers/clk/meson/g12a.c
-> index 90f4c6103014..083882e53b65 100644
-> --- a/drivers/clk/meson/g12a.c
-> +++ b/drivers/clk/meson/g12a.c
-> @@ -22,6 +22,7 @@
->  #include "clk-regmap.h"
->  #include "clk-cpu-dyndiv.h"
->  #include "vid-pll-div.h"
-> +#include "vclk.h"
->  #include "meson-eeclk.h"
->  #include "g12a.h"
->  
-> @@ -3165,7 +3166,7 @@ static struct clk_regmap g12a_vclk2_sel = {
->  		.ops = &clk_regmap_mux_ops,
->  		.parent_hws = g12a_vclk_parent_hws,
->  		.num_parents = ARRAY_SIZE(g12a_vclk_parent_hws),
-> -		.flags = CLK_SET_RATE_NO_REPARENT | CLK_GET_RATE_NOCACHE,
-> +		.flags = CLK_SET_RATE_NO_REPARENT,
->  	},
->  };
->  
-> @@ -3193,7 +3194,6 @@ static struct clk_regmap g12a_vclk2_input = {
->  		.ops = &clk_regmap_gate_ops,
->  		.parent_hws = (const struct clk_hw *[]) { &g12a_vclk2_sel.hw },
->  		.num_parents = 1,
-> -		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
->  	},
->  };
->  
-> @@ -3215,19 +3215,32 @@ static struct clk_regmap g12a_vclk_div = {
->  };
->  
->  static struct clk_regmap g12a_vclk2_div = {
-> -	.data = &(struct clk_regmap_div_data){
-> -		.offset = HHI_VIID_CLK_DIV,
-> -		.shift = 0,
-> -		.width = 8,
-> +	.data = &(struct meson_vclk_div_data){
-> +		.div = {
-> +			.reg_off = HHI_VIID_CLK_DIV,
-> +			.shift   = 0,
-> +			.width   = 8,
-> +		},
-> +		.enable = {
-> +			.reg_off = HHI_VIID_CLK_DIV,
-> +			.shift   = 16,
-> +			.width   = 1,
-> +		},
-> +		.reset = {
-> +			.reg_off = HHI_VIID_CLK_DIV,
-> +			.shift   = 17,
-> +			.width   = 1,
-> +		},
-> +		.flags = CLK_DIVIDER_ROUND_CLOSEST,
->  	},
->  	.hw.init = &(struct clk_init_data){
->  		.name = "vclk2_div",
-> -		.ops = &clk_regmap_divider_ops,
-> +		.ops = &meson_vclk_div_ops,
->  		.parent_hws = (const struct clk_hw *[]) {
->  			&g12a_vclk2_input.hw
->  		},
->  		.num_parents = 1,
-> -		.flags = CLK_GET_RATE_NOCACHE,
-> +		.flags = CLK_SET_RATE_GATE,
->  	},
->  };
->  
-> @@ -3246,16 +3259,24 @@ static struct clk_regmap g12a_vclk = {
->  };
->  
->  static struct clk_regmap g12a_vclk2 = {
-> -	.data = &(struct clk_regmap_gate_data){
-> -		.offset = HHI_VIID_CLK_CNTL,
-> -		.bit_idx = 19,
-> +	.data = &(struct meson_vclk_gate_data){
-> +		.enable = {
-> +			.reg_off = HHI_VIID_CLK_CNTL,
-> +			.shift   = 19,
-> +			.width   = 1,
-> +		},
-> +		.reset = {
-> +			.reg_off = HHI_VIID_CLK_CNTL,
-> +			.shift   = 15,
-> +			.width   = 1,
-> +		},
->  	},
->  	.hw.init = &(struct clk_init_data) {
->  		.name = "vclk2",
-> -		.ops = &clk_regmap_gate_ops,
-> +		.ops = &meson_vclk_gate_ops,
->  		.parent_hws = (const struct clk_hw *[]) { &g12a_vclk2_div.hw },
->  		.num_parents = 1,
-> -		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
-> +		.flags = CLK_SET_RATE_PARENT,
->  	},
->  };
->  
-> @@ -3339,7 +3360,7 @@ static struct clk_regmap g12a_vclk2_div1 = {
->  		.ops = &clk_regmap_gate_ops,
->  		.parent_hws = (const struct clk_hw *[]) { &g12a_vclk2.hw },
->  		.num_parents = 1,
-> -		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
-> +		.flags = CLK_SET_RATE_PARENT,
->  	},
->  };
->  
-> @@ -3353,7 +3374,7 @@ static struct clk_regmap g12a_vclk2_div2_en = {
->  		.ops = &clk_regmap_gate_ops,
->  		.parent_hws = (const struct clk_hw *[]) { &g12a_vclk2.hw },
->  		.num_parents = 1,
-> -		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
-> +		.flags = CLK_SET_RATE_PARENT,
->  	},
->  };
->  
-> @@ -3367,7 +3388,7 @@ static struct clk_regmap g12a_vclk2_div4_en = {
->  		.ops = &clk_regmap_gate_ops,
->  		.parent_hws = (const struct clk_hw *[]) { &g12a_vclk2.hw },
->  		.num_parents = 1,
-> -		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
-> +		.flags = CLK_SET_RATE_PARENT,
->  	},
->  };
->  
-> @@ -3381,7 +3402,7 @@ static struct clk_regmap g12a_vclk2_div6_en = {
->  		.ops = &clk_regmap_gate_ops,
->  		.parent_hws = (const struct clk_hw *[]) { &g12a_vclk2.hw },
->  		.num_parents = 1,
-> -		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
-> +		.flags = CLK_SET_RATE_PARENT,
->  	},
->  };
->  
-> @@ -3395,7 +3416,7 @@ static struct clk_regmap g12a_vclk2_div12_en = {
->  		.ops = &clk_regmap_gate_ops,
->  		.parent_hws = (const struct clk_hw *[]) { &g12a_vclk2.hw },
->  		.num_parents = 1,
-> -		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
-> +		.flags = CLK_SET_RATE_PARENT,
->  	},
->  };
->  
-> @@ -3461,6 +3482,7 @@ static struct clk_fixed_factor g12a_vclk2_div2 = {
->  			&g12a_vclk2_div2_en.hw
->  		},
->  		.num_parents = 1,
-> +		.flags = CLK_SET_RATE_PARENT,
->  	},
->  };
->  
-> @@ -3474,6 +3496,7 @@ static struct clk_fixed_factor g12a_vclk2_div4 = {
->  			&g12a_vclk2_div4_en.hw
->  		},
->  		.num_parents = 1,
-> +		.flags = CLK_SET_RATE_PARENT,
->  	},
->  };
->  
-> @@ -3487,6 +3510,7 @@ static struct clk_fixed_factor g12a_vclk2_div6 = {
->  			&g12a_vclk2_div6_en.hw
->  		},
->  		.num_parents = 1,
-> +		.flags = CLK_SET_RATE_PARENT,
->  	},
->  };
->  
-> @@ -3500,6 +3524,7 @@ static struct clk_fixed_factor g12a_vclk2_div12 = {
->  			&g12a_vclk2_div12_en.hw
->  		},
->  		.num_parents = 1,
-> +		.flags = CLK_SET_RATE_PARENT,
->  	},
->  };
->  
-> @@ -3561,7 +3586,7 @@ static struct clk_regmap g12a_cts_encl_sel = {
->  		.ops = &clk_regmap_mux_ops,
->  		.parent_hws = g12a_cts_parent_hws,
->  		.num_parents = ARRAY_SIZE(g12a_cts_parent_hws),
-> -		.flags = CLK_SET_RATE_NO_REPARENT | CLK_GET_RATE_NOCACHE,
-> +		.flags = CLK_SET_RATE_PARENT | CLK_SET_RATE_NO_REPARENT,
->  	},
->  };
->  
-> @@ -3717,15 +3742,22 @@ static struct clk_regmap g12a_mipi_dsi_pxclk_sel = {
->  		.ops = &clk_regmap_mux_ops,
->  		.parent_hws = g12a_mipi_dsi_pxclk_parent_hws,
->  		.num_parents = ARRAY_SIZE(g12a_mipi_dsi_pxclk_parent_hws),
-> -		.flags = CLK_SET_RATE_NO_REPARENT,
-> +		.flags = CLK_SET_RATE_NO_REPARENT | CLK_SET_RATE_PARENT,
->  	},
->  };
->  
-> +/* Force as bypass by forcing a single /1 table entry, and not rely of boot value */
+Currently, when using non-blocking commits, we can see the following
+kernel warning:
 
-The comment here is not entirely accurate.
+[  110.908514] ------------[ cut here ]------------
+[  110.908529] refcount_t: underflow; use-after-free.
+[  110.908620] WARNING: CPU: 0 PID: 1866 at lib/refcount.c:87 refcount_dec_not_one+0xb8/0xc0
+[  110.908664] Modules linked in: rfcomm snd_seq_dummy snd_hrtimer snd_seq snd_seq_device cmac algif_hash aes_arm64 aes_generic algif_skcipher af_alg bnep hid_logitech_hidpp vc4 brcmfmac hci_uart btbcm brcmutil bluetooth snd_soc_hdmi_codec cfg80211 cec drm_display_helper drm_dma_helper drm_kms_helper snd_soc_core snd_compress snd_pcm_dmaengine fb_sys_fops sysimgblt syscopyarea sysfillrect raspberrypi_hwmon ecdh_generic ecc rfkill libaes i2c_bcm2835 binfmt_misc joydev snd_bcm2835(C) bcm2835_codec(C) bcm2835_isp(C) v4l2_mem2mem videobuf2_dma_contig snd_pcm bcm2835_v4l2(C) raspberrypi_gpiomem bcm2835_mmal_vchiq(C) videobuf2_v4l2 snd_timer videobuf2_vmalloc videobuf2_memops videobuf2_common snd videodev vc_sm_cma(C) mc hid_logitech_dj uio_pdrv_genirq uio i2c_dev drm fuse dm_mod drm_panel_orientation_quirks backlight ip_tables x_tables ipv6
+[  110.909086] CPU: 0 PID: 1866 Comm: kodi.bin Tainted: G         C         6.1.66-v8+ #32
+[  110.909104] Hardware name: Raspberry Pi 3 Model B Rev 1.2 (DT)
+[  110.909114] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  110.909132] pc : refcount_dec_not_one+0xb8/0xc0
+[  110.909152] lr : refcount_dec_not_one+0xb4/0xc0
+[  110.909170] sp : ffffffc00913b9c0
+[  110.909177] x29: ffffffc00913b9c0 x28: 000000556969bbb0 x27: 000000556990df60
+[  110.909205] x26: 0000000000000002 x25: 0000000000000004 x24: ffffff8004448480
+[  110.909230] x23: ffffff800570b500 x22: ffffff802e03a7bc x21: ffffffecfca68c78
+[  110.909257] x20: ffffff8002b42000 x19: ffffff802e03a600 x18: 0000000000000000
+[  110.909283] x17: 0000000000000011 x16: ffffffffffffffff x15: 0000000000000004
+[  110.909308] x14: 0000000000000fff x13: ffffffed577e47e0 x12: 0000000000000003
+[  110.909333] x11: 0000000000000000 x10: 0000000000000027 x9 : c912d0d083728c00
+[  110.909359] x8 : c912d0d083728c00 x7 : 65646e75203a745f x6 : 746e756f63666572
+[  110.909384] x5 : ffffffed579f62ee x4 : ffffffed579eb01e x3 : 0000000000000000
+[  110.909409] x2 : 0000000000000000 x1 : ffffffc00913b750 x0 : 0000000000000001
+[  110.909434] Call trace:
+[  110.909441]  refcount_dec_not_one+0xb8/0xc0
+[  110.909461]  vc4_bo_dec_usecnt+0x4c/0x1b0 [vc4]
+[  110.909903]  vc4_cleanup_fb+0x44/0x50 [vc4]
+[  110.910315]  drm_atomic_helper_cleanup_planes+0x88/0xa4 [drm_kms_helper]
+[  110.910669]  vc4_atomic_commit_tail+0x390/0x9dc [vc4]
+[  110.911079]  commit_tail+0xb0/0x164 [drm_kms_helper]
+[  110.911397]  drm_atomic_helper_commit+0x1d0/0x1f0 [drm_kms_helper]
+[  110.911716]  drm_atomic_commit+0xb0/0xdc [drm]
+[  110.912569]  drm_mode_atomic_ioctl+0x348/0x4b8 [drm]
+[  110.913330]  drm_ioctl_kernel+0xec/0x15c [drm]
+[  110.914091]  drm_ioctl+0x24c/0x3b0 [drm]
+[  110.914850]  __arm64_sys_ioctl+0x9c/0xd4
+[  110.914873]  invoke_syscall+0x4c/0x114
+[  110.914897]  el0_svc_common+0xd0/0x118
+[  110.914917]  do_el0_svc+0x38/0xd0
+[  110.914936]  el0_svc+0x30/0x8c
+[  110.914958]  el0t_64_sync_handler+0x84/0xf0
+[  110.914979]  el0t_64_sync+0x18c/0x190
+[  110.914996] ---[ end trace 0000000000000000 ]---
 
-The table below will actually force to only use a 1 divider on
-.set_rate(), not on boot, AFAICT.
+This happens because, although `prepare_fb` and `cleanup_fb` are
+perfectly balanced, we cannot guarantee consistency in the check
+plane->state->fb == state->fb. This means that sometimes we can increase
+the refcount in `prepare_fb` and don't decrease it in `cleanup_fb`. The
+opposite can also be true.
 
-The boot value will stay in the register until the first call to set_rate().
+In fact, the struct drm_plane .state shouldn't be accessed directly
+but instead, the `drm_atomic_get_new_plane_state()` helper function should
+be used. So, we could stick to this check, but using
+`drm_atomic_get_new_plane_state()`. But actually, this check is not really
+needed. We can increase and decrease the refcount symmetrically without
+problems.
 
-Considering this is quite fragile as it is, It would be nice to prefix
-the updated comment with "FIXME"
+This is going to make the code more simple and consistent.
 
-> +static const struct clk_div_table g12a_mipi_dsi_pxclk_div_table[] = {
-> +	{ .val = 0, .div = 1 },
-> +	{ /* sentinel */ },
-> +};
-> +
->  static struct clk_regmap g12a_mipi_dsi_pxclk_div = {
->  	.data = &(struct clk_regmap_div_data){
->  		.offset = HHI_MIPIDSI_PHY_CLK_CNTL,
->  		.shift = 0,
->  		.width = 7,
-> +		.table = g12a_mipi_dsi_pxclk_div_table,
->  	},
->  	.hw.init = &(struct clk_init_data){
->  		.name = "mipi_dsi_pxclk_div",
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
+Acked-by: Maxime Ripard <mripard@kernel.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240105175908.242000-1-mcanal@igalia.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/vc4/vc4_plane.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-
+diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
+index 00e713faecd5a..5948e34f7f813 100644
+--- a/drivers/gpu/drm/vc4/vc4_plane.c
++++ b/drivers/gpu/drm/vc4/vc4_plane.c
+@@ -1505,9 +1505,6 @@ static int vc4_prepare_fb(struct drm_plane *plane,
+ 
+ 	drm_gem_plane_helper_prepare_fb(plane, state);
+ 
+-	if (plane->state->fb == state->fb)
+-		return 0;
+-
+ 	return vc4_bo_inc_usecnt(bo);
+ }
+ 
+@@ -1516,7 +1513,7 @@ static void vc4_cleanup_fb(struct drm_plane *plane,
+ {
+ 	struct vc4_bo *bo;
+ 
+-	if (plane->state->fb == state->fb || !state->fb)
++	if (!state->fb)
+ 		return;
+ 
+ 	bo = to_vc4_bo(&drm_fb_dma_get_gem_obj(state->fb, 0)->base);
 -- 
-Jerome
+2.43.0
+
