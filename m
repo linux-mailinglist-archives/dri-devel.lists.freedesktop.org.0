@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 367498919BC
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:46:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83FFF8919C7
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:47:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E24A1126DA;
-	Fri, 29 Mar 2024 12:46:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F5151126E0;
+	Fri, 29 Mar 2024 12:47:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jCKpqXMG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="I9zZArx/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFA801126DA
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 12:46:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA3091126DC;
+ Fri, 29 Mar 2024 12:47:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 011F9CE2F9E;
- Fri, 29 Mar 2024 12:46:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 105C1C43390;
- Fri, 29 Mar 2024 12:46:08 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id D921ECE2FAA;
+ Fri, 29 Mar 2024 12:46:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33944C433C7;
+ Fri, 29 Mar 2024 12:46:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711716370;
- bh=unAcMRuAE1vIWssF2K6cGs00MZFhLexNVVz7+k7K4PY=;
+ s=k20201202; t=1711716411;
+ bh=aiYW0yw5E+HOidbqciMe7uHQZ7wj+DvE0N4dRycpisI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jCKpqXMGpu4fPQQKpbINyHs/dv7JK8FKorN6YRbCzWdpcsxEQopWYBhA6zu1TV8ab
- fIZuMPbEzjnT15TdRKr+LhqxpY1ORcqKolxJS19Zudbn5L8/Xzl82awiR/BF0IIqos
- pTdhhAHoasqGVJvPn6cJBmyJGt8IfFSlYzABNvgqK41E3h0qmhJEV4cW0/5gO6w3h8
- GPbARRbt9+oetvLTu8Vyv8CqhEsJVo4dEUFtY9vqBjOnTcuo9cCMyZqlxKSXx0/dfe
- B3+vNoffYeFhu6NAJCkZ/qExESXklnvAVPydQOs+6+b/vfQV0k16co0pI1huX81J6t
- 9O8nR20iQJhTg==
+ b=I9zZArx/ejgGFTEYvrZX8+IKqWa9nCUJyAgQUZcdtw4VpP9MvRAF9w8gniKSOn8zm
+ edUq/IjHzRj7jumccAos2FlwgRxVgUMyZuG1A8NbVE7rRbK50KWLz2UZEByc3zPb9s
+ P7A4bMetDLB8Vgjq8/t/QxSBgDtwps7RdoSh/ENmni1jI6UplhQJ1xDqJXaQ3WtjvJ
+ jRSK6j+DONEvmK6W3JVHoRsrnucA1sX93JVgG+b7muzykwXZu1J2mtKqdxGvf91iVJ
+ lHnRTCHTtxpnY1ng3wLRdD074dXSHIqaM9l0h3o2OM2l7PXMhrgzM7Zl6v+SF5PD96
+ uRrfwPuH393BQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Samuel Dionne-Riel <samuel@dionne-riel.com>,
- Linus Walleij <linus.walleij@linaro.org>, Sasha Levin <sashal@kernel.org>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 03/52] drm: panel-orientation-quirks: Add quirk
- for GPD Win Mini
-Date: Fri, 29 Mar 2024 08:44:57 -0400
-Message-ID: <20240329124605.3091273-3-sashal@kernel.org>
+Cc: Aric Cyr <aric.cyr@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ aurabindo.pillai@amd.com, dillon.varone@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.1 24/52] drm/amd/display: Fix nanosec stat overflow
+Date: Fri, 29 Mar 2024 08:45:18 -0400
+Message-ID: <20240329124605.3091273-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240329124605.3091273-1-sashal@kernel.org>
 References: <20240329124605.3091273-1-sashal@kernel.org>
@@ -64,50 +66,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Samuel Dionne-Riel <samuel@dionne-riel.com>
+From: Aric Cyr <aric.cyr@amd.com>
 
-[ Upstream commit 2f862fdc0fd802e728b6ca96bc78ec3f01bf161e ]
+[ Upstream commit 14d68acfd04b39f34eea7bea65dda652e6db5bf6 ]
 
-This adds a DMI orientation quirk for the GPD Win Mini panel.
+[Why]
+Nanosec stats can overflow on long running systems potentially causing
+statistic logging issues.
 
-Signed-off-by: Samuel Dionne-Riel <samuel@dionne-riel.com>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20231222030149.3740815-2-samuel@dionne-riel.com
+[How]
+Use 64bit types for nanosec stats to ensure no overflow.
+
+Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Aric Cyr <aric.cyr@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/gpu/drm/amd/display/modules/inc/mod_stats.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index d5c15292ae937..3fe5e6439c401 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -117,6 +117,12 @@ static const struct drm_dmi_panel_orientation_data lcd1080x1920_leftside_up = {
- 	.orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
- };
+diff --git a/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h b/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h
+index 4220fd8fdd60c..54cd86060f4d6 100644
+--- a/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h
++++ b/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h
+@@ -57,10 +57,10 @@ void mod_stats_update_event(struct mod_stats *mod_stats,
+ 		unsigned int length);
  
-+static const struct drm_dmi_panel_orientation_data lcd1080x1920_rightside_up = {
-+	.width = 1080,
-+	.height = 1920,
-+	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
-+};
-+
- static const struct drm_dmi_panel_orientation_data lcd1200x1920_rightside_up = {
- 	.width = 1200,
- 	.height = 1920,
-@@ -279,6 +285,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1618-03")
- 		},
- 		.driver_data = (void *)&lcd720x1280_rightside_up,
-+	}, {	/* GPD Win Mini */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "GPD"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1617-01")
-+		},
-+		.driver_data = (void *)&lcd1080x1920_rightside_up,
- 	}, {	/* I.T.Works TW891 */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "To be filled by O.E.M."),
+ void mod_stats_update_flip(struct mod_stats *mod_stats,
+-		unsigned long timestamp_in_ns);
++		unsigned long long timestamp_in_ns);
+ 
+ void mod_stats_update_vupdate(struct mod_stats *mod_stats,
+-		unsigned long timestamp_in_ns);
++		unsigned long long timestamp_in_ns);
+ 
+ void mod_stats_update_freesync(struct mod_stats *mod_stats,
+ 		unsigned int v_total_min,
 -- 
 2.43.0
 
