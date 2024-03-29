@@ -2,120 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A4BF893201
-	for <lists+dri-devel@lfdr.de>; Sun, 31 Mar 2024 16:49:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 465BC8932B9
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Mar 2024 18:26:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC07710E9E9;
-	Sun, 31 Mar 2024 14:49:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D411410E8A9;
+	Sun, 31 Mar 2024 16:26:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VRmJ8Wss";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="s/NFcY4W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com
- [209.85.222.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 220A310E9E9
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Mar 2024 14:49:11 +0000 (UTC)
-Received: by mail-ua1-f41.google.com with SMTP id
- a1e0cc1a2514c-7de446125f7so768636241.1
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Mar 2024 07:49:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1711896549; x=1712501349; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=5ZrhGWnam5ewIEKvi1J/+KImvnv5s5c+ztrxTkd52KY=;
- b=VRmJ8WssmC2VTizqZtCy9EM1qGfQhblT7dKbiNCshcY9RMbbSUPQMtVhXBnsQ260Mt
- pJWZfmRj80vHEIBfHz4har81485ZgDXHD+0cN90fvQhZ5tga5WYavHRLaGx3KkpW8Hes
- /RlptaDu+v9EJbwFJSkw6td2HCAUZCxTwXwdu4GaM1QN6t4Gf5CixVBX3YC4F8WerhDa
- 2zk89oYihcvH9tBZxUXIsNeg3y0AuXqNkUEMTxvxtqEwZ+lhk8BZ64AMrG//jqmycmN3
- dkfMSV4O2ZLbAh5G3wyg02DpD2Uc5nNEp3eDdczjW/YTMaHlMG/CEMfFpoEEW+MQvjtR
- AbjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711896550; x=1712501350;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5ZrhGWnam5ewIEKvi1J/+KImvnv5s5c+ztrxTkd52KY=;
- b=NLFNJYjAhm2A8MeQiuPdyV1q6vkLhfnIiaSfgTQVSmH1r1odfjFdqrk1+yOqUiN1Lj
- 6xlicbXVyGArAaSMJiR8fmwO2aJ02to8KiycmR3Sy9a4EKIoP2BRh0MFgiOJ6tr/bLk2
- WxMQHau8EZf6cPssI5S7DSVrAIPqEIhmjbRZ3Xgesq1X4N/PgN7KJQPYYYM3YWr5GzMF
- WyEz/hFR5ynF8/2ll6n2mwpPAXt33v9ojImUKpYGpBbJwpKAfWTWYY6iPXh4H87F1h7e
- p34WhX1XzVDQ3FldqpJkF8TJ+zyAdzUQJZ3wnTEcGJApCG2yFoG8Vxc7FIxs5MBNEKpB
- cEfA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUeWByhpTj/Qn9OHwvQh6ZxmQtTfYRNb6qFU89FcPvwWY4jSI0IH3CIzRontCHQG+AbbdHJwSlBMVV9XfrY4Z/6Toiogb+Btvt/r2JwNdOl
-X-Gm-Message-State: AOJu0YzVV4bvrjDpr66cv0JxY7vQlYrWAkyOGfJa3LohRLb7aAixMMHR
- OFUaMx9btAMM99bMyTtLIYdBou2cs7IsN2rsqr1Z6hBK+0Y8/mgF9qboM/EH9kB9nTgpuN1+8yA
- tmnvYWyUFO9hvIljzwbxd6woMvmY=
-X-Google-Smtp-Source: AGHT+IFvToDn2sP8Wi5+v8cPfIOyxQBhtd8MxUHO86mJJT0esgw5Bcm/X9E3+Vmr6W4QD1kjdvDaweIsXuHn0rSW0s8=
-X-Received: by 2002:a05:6122:318a:b0:4d4:1fe2:c398 with SMTP id
- ch10-20020a056122318a00b004d41fe2c398mr4258181vkb.2.1711896549612; Sun, 31
- Mar 2024 07:49:09 -0700 (PDT)
+Received: from a.mx.secunet.com (a.mx.secunet.com [62.96.220.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 566DF10E8A9;
+ Sun, 31 Mar 2024 16:26:27 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by a.mx.secunet.com (Postfix) with ESMTP id D4F33208BF;
+ Sun, 31 Mar 2024 18:26:25 +0200 (CEST)
+X-Virus-Scanned: by secunet
+Received: from a.mx.secunet.com ([127.0.0.1])
+ by localhost (a.mx.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id mro0pfXykjcv; Sun, 31 Mar 2024 18:26:25 +0200 (CEST)
+Received: from mailout1.secunet.com (mailout1.secunet.com [62.96.220.44])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by a.mx.secunet.com (Postfix) with ESMTPS id E2434208A3;
+ Sun, 31 Mar 2024 18:26:24 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 a.mx.secunet.com E2434208A3
+Received: from cas-essen-01.secunet.de (unknown [10.53.40.201])
+ by mailout1.secunet.com (Postfix) with ESMTP id D5B0A80004E;
+ Sun, 31 Mar 2024 18:26:24 +0200 (CEST)
+Received: from mbx-essen-01.secunet.de (10.53.40.197) by
+ cas-essen-01.secunet.de (10.53.40.201) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sun, 31 Mar 2024 18:26:24 +0200
+Received: from Pickup by mbx-essen-01.secunet.de with Microsoft SMTP Server id
+ 15.1.2507.17; Sun, 31 Mar 2024 16:24:02 +0000
+X-sender: <intel-gfx-bounces@lists.freedesktop.org>
+X-Receiver: <martin.weber@secunet.com> ORCPT=rfc822;martin.weber@secunet.com
+ NOTIFY=NEVER;
+ X-ExtendedProps=BQAVABYAAgAAAAUAFAARAJuYHy0vkvxLoOu7fW2WcxcPADUAAABNaWNyb3NvZnQuRXhjaGFuZ2UuVHJhbnNwb3J0LkRpcmVjdG9yeURhdGEuSXNSZXNvdXJjZQIAAAUAagAJAAEAAAAAAAAABQAWAAIAAAUAQwACAAAFAEYABwADAAAABQBHAAIAAAUAEgAPAF4AAAAvbz1zZWN1bmV0L291PUV4Y2hhbmdlIEFkbWluaXN0cmF0aXZlIEdyb3VwIChGWURJQk9IRjIzU1BETFQpL2NuPVJlY2lwaWVudHMvY249V2ViZXIgTWFydGluOTU1BQALABcAvgAAALMpUnVJ4+pPsL47FHo+lvtDTj1EQjIsQ049RGF0YWJhc2VzLENOPUV4Y2hhbmdlIEFkbWluaXN0cmF0aXZlIEdyb3VwIChGWURJQk9IRjIzU1BETFQpLENOPUFkbWluaXN0cmF0aXZlIEdyb3VwcyxDTj1zZWN1bmV0LENOPU1pY3Jvc29mdCBFeGNoYW5nZSxDTj1TZXJ2aWNlcyxDTj1Db25maWd1cmF0aW9uLERDPXNlY3VuZXQsREM9ZGUFAA4AEQBACf3SYEkDT461FZzDv+B7BQAdAA8ADAAAAG1ieC1lc3Nlbi0wMQUAPAACAAAPADYAAABNaWNyb3NvZnQuRXhjaGFuZ2UuVHJhbnNwb3J0Lk1haWxSZWNpcGllbnQuRGlzcGxheU5hbWUPAA0AAABXZWJlciwgTWFydGluBQAMAAIAAAUAbAACAAAFAFgAFwBGAAAAm5gfLS+S/Eug67t9bZZzF0NOPVdlYmVyIE1hcnRpbixPVT1Vc2VycyxPVT1NaWdyYXRpb24sREM9c2VjdW5ldCxEQz1kZQUAJgACAAEFACIADwAxAAAAQXV0b1Jlc3BvbnNlU3VwcHJlc3M6IDANClRyYW5zbWl0SGlzdG9yeTogRmFsc2UNCg8AL
+ wAAAE1pY3Jvc29mdC5FeGNoYW5nZS5UcmFuc3BvcnQuRXhwYW5zaW9uR3JvdXBUeXBlDwAVAAAATWVtYmVyc0dyb3VwRXhwYW5zaW9uBQAjAAIAAQ==
+X-CreatedBy: MSExchange15
+X-HeloDomain: a.mx.secunet.com
+X-ExtendedProps: BQBjAAoAprRAQuxQ3AgFAGEACAABAAAABQA3AAIAAA8APAAAAE1pY3Jvc29mdC5FeGNoYW5nZS5UcmFuc3BvcnQuTWFpbFJlY2lwaWVudC5Pcmdhbml6YXRpb25TY29wZREAAAAAAAAAAAAAAAAAAAAAAAUASQACAAEFAGIACgAEAQAArooAAAUABAAUIAEAAAAYAAAAbWFydGluLndlYmVyQHNlY3VuZXQuY29tBQAGAAIAAQUAKQACAAEPAAkAAABDSUF1ZGl0ZWQCAAEFAAIABwABAAAABQADAAcAAAAAAAUABQACAAEFAGQADwADAAAASHVi
+X-Source: SMTP:Default MBX-DRESDEN-01
+X-SourceIPAddress: 62.96.220.36
+X-EndOfInjectedXHeaders: 19263
+X-Virus-Scanned: by secunet
+Received-SPF: Pass (sender SPF authorized) identity=mailfrom;
+ client-ip=131.252.210.177; helo=gabe.freedesktop.org;
+ envelope-from=intel-gfx-bounces@lists.freedesktop.org;
+ receiver=martin.weber@secunet.com 
+DKIM-Filter: OpenDKIM Filter v2.11.0 a.mx.secunet.com 5B9BF2083E
+X-Original-To: intel-gfx@lists.freedesktop.org
+Delivered-To: intel-gfx@lists.freedesktop.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2915720E6F3E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1711731651;
+ bh=R1kI4fSdjXgmDTBK4gwdz/7qy7m6HdXCoh75MR5W1fU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=s/NFcY4WhBBLC6P0yXaPdWjdSd1KLEhzt5QlU8HUQPolmdd//5jDkAXQu4mn4SjCo
+ bn4fbp4Ho3VTBmf5gX48VajFN/A7PdTHE1O7evCm9ovfbS/jyxuny9FcLln7MTu1me
+ /f8k2ymXnbN/1Rh3AQVd0O93PYUn/pPgQtCm+y+U=
+From: Easwar Hariharan <eahariha@linux.microsoft.com>
+To: 
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ amd-gfx@lists.freedesktop.org (open list:RADEON and AMDGPU DRM DRIVERS),
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+ linux-kernel@vger.kernel.org (open list),
+ intel-gfx@lists.freedesktop.org (open list:INTEL DRM DISPLAY FOR XE AND I915
+ DRIVERS), 
+ intel-xe@lists.freedesktop.org (open list:INTEL DRM DISPLAY FOR XE AND I915
+ DRIVERS), 
+ nouveau@lists.freedesktop.org (open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO
+ GPUS), linux-i2c@vger.kernel.org (open list:I2C SUBSYSTEM HOST DRIVERS),
+ linux-media@vger.kernel.org (open list:BTTV VIDEO4LINUX DRIVER),
+ linux-fbdev@vger.kernel.org (open list:FRAMEBUFFER LAYER),
+ Easwar Hariharan <eahariha@linux.microsoft.com>
+Subject: [PATCH v0 00/14] Make I2C terminology more inclusive for I2C Algobit
+ and consumers
+Date: Fri, 29 Mar 2024 17:00:24 +0000
+Message-ID: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240331-module-owner-virtio-v2-0-98f04bfaf46a@linaro.org>
- <20240331-module-owner-virtio-v2-21-98f04bfaf46a@linaro.org>
-In-Reply-To: <20240331-module-owner-virtio-v2-21-98f04bfaf46a@linaro.org>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Sun, 31 Mar 2024 16:48:57 +0200
-Message-ID: <CAM9Jb+jMsVVWufi=E2+rfgHtSsgg+M5CAE0HoqsEVFEOvnNy1Q@mail.gmail.com>
-Subject: Re: [PATCH v2 21/25] nvdimm: virtio_pmem: drop owner assignment
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jonathan Corbet <corbet@lwn.net>, 
- David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
- Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
- Johannes Berg <johannes@sipsolutions.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>, 
- Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
- Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
- Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Gonglei <arei.gonglei@huawei.com>, 
- "David S. Miller" <davem@davemloft.net>, Sudeep Holla <sudeep.holla@arm.com>, 
- Cristian Marussi <cristian.marussi@arm.com>, Viresh Kumar <vireshk@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
- David Airlie <airlied@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, 
- Chia-I Wu <olvaffe@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Daniel Vetter <daniel@ffwll.ch>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>, 
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, 
- Alexander Graf <graf@amazon.com>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Eric Van Hensbergen <ericvh@kernel.org>, 
- Latchesar Ionkov <lucho@ionkov.net>,
- Dominique Martinet <asmadeus@codewreck.org>, 
- Christian Schoenebeck <linux_oss@crudebyte.com>,
- Stefano Garzarella <sgarzare@redhat.com>, 
- Kalle Valo <kvalo@kernel.org>, Dan Williams <dan.j.williams@intel.com>, 
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
- Ira Weiny <ira.weiny@intel.com>, Bjorn Andersson <andersson@kernel.org>, 
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
- Anton Yakovlev <anton.yakovlev@opensynergy.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- virtualization@lists.linux.dev, 
- linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
- linux-um@lists.infradead.org, linux-block@vger.kernel.org, 
- linux-bluetooth@vger.kernel.org, linux-crypto@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev, 
- netdev@vger.kernel.org, v9fs@lists.linux.dev, kvm@vger.kernel.org, 
- linux-wireless@vger.kernel.org, Linux NVDIMM <nvdimm@lists.linux.dev>, 
- linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, alsa-devel@alsa-project.org, 
- linux-sound@vger.kernel.org
-Content-Type: multipart/alternative; boundary="000000000000bb63b70614f5f9fc"
-X-BeenThere: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sun, 31 Mar 2024 08:50:08 +0000
+X-BeenThere: intel-gfx@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: 2c86f778-e09b-4440-8b15-867914633a10
+X-BeenThere: dri-devel@lists.freedesktop.org
 List-Id: Direct Rendering Infrastructure - Development
  <dri-devel.lists.freedesktop.org>
 List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/dri-devel>,
@@ -128,95 +105,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000bb63b70614f5f9fc
-Content-Type: text/plain; charset="UTF-8"
+I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
+with more appropriate terms. Inspired by and following on to Wolfram's
+series to fix drivers/i2c/[1], fix the terminology for users of the
+I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
+in the specification.
 
-virtio core already sets the .owner, so driver does not need to.
->
-> Acked-by: Dave Jiang <dave.jiang@intel.com>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->
-Reviewed-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com
+Compile tested, no functionality changes intended
 
+The last patch updating the .master_xfer method to .xfer depends on
+patch 1 of Wolfram's series below, but the series is otherwise
+independent. It may make sense for the last patch to go in with
+Wolfram's patch series via the I2C tree. Please chime in with your
+opinions and suggestions.
 
----
->
-> Depends on the first patch.
-> ---
->  drivers/nvdimm/virtio_pmem.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/nvdimm/virtio_pmem.c b/drivers/nvdimm/virtio_pmem.c
-> index 4ceced5cefcf..c9b97aeabf85 100644
-> --- a/drivers/nvdimm/virtio_pmem.c
-> +++ b/drivers/nvdimm/virtio_pmem.c
-> @@ -151,7 +151,6 @@ static struct virtio_driver virtio_pmem_driver = {
->         .feature_table          = features,
->         .feature_table_size     = ARRAY_SIZE(features),
->         .driver.name            = KBUILD_MODNAME,
-> -       .driver.owner           = THIS_MODULE,
->         .id_table               = id_table,
->         .validate               = virtio_pmem_validate,
->         .probe                  = virtio_pmem_probe,
->
-> --
-> 2.34.1
->
->
+This series is based on v6.9-rc1.
 
---000000000000bb63b70614f5f9fc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+[1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
 
-<div dir=3D"auto"><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
-s=3D"gmail_attr"><br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">virtio core alrea=
-dy sets the .owner, so driver does not need to.<br>
-<br>
-Acked-by: Dave Jiang &lt;<a href=3D"mailto:dave.jiang@intel.com" rel=3D"nor=
-eferrer noreferrer" target=3D"_blank">dave.jiang@intel.com</a>&gt;<br>
-Signed-off-by: Krzysztof Kozlowski &lt;<a href=3D"mailto:krzysztof.kozlowsk=
-i@linaro.org" rel=3D"noreferrer noreferrer" target=3D"_blank">krzysztof.koz=
-lowski@linaro.org</a>&gt;<br></blockquote></div></div><div dir=3D"auto"><pr=
-e style=3D"font-family:&quot;courier new&quot;,courier,monospace;font-size:=
-16px;font-weight:600">Reviewed-by: Pankaj Gupta &lt;<a href=3D"mailto:panka=
-j.gupta.linux@gmail.com">pankaj.gupta.linux@gmail.com</a></pre></div><div d=
-ir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
-olid;padding-left:1ex">
----<br>
-<br>
-Depends on the first patch.<br>
----<br>
-=C2=A0drivers/nvdimm/virtio_pmem.c | 1 -<br>
-=C2=A01 file changed, 1 deletion(-)<br>
-<br>
-diff --git a/drivers/nvdimm/virtio_pmem.c b/drivers/nvdimm/virtio_pmem.c<br=
->
-index 4ceced5cefcf..c9b97aeabf85 100644<br>
---- a/drivers/nvdimm/virtio_pmem.c<br>
-+++ b/drivers/nvdimm/virtio_pmem.c<br>
-@@ -151,7 +151,6 @@ static struct virtio_driver virtio_pmem_driver =3D {<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .feature_table=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =3D features,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .feature_table_size=C2=A0 =C2=A0 =C2=A0=3D ARRA=
-Y_SIZE(features),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .<a href=3D"http://driver.name" rel=3D"noreferr=
-er noreferrer noreferrer" target=3D"_blank">driver.name</a>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D KBUILD_MODNAME,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0.driver.owner=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0=3D THIS_MODULE,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .id_table=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0=3D id_table,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .validate=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0=3D virtio_pmem_validate,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =3D virtio_pmem_probe,<br>
-<br>
--- <br>
-2.34.1<br>
-<br>
-</blockquote></div></div></div>
+Easwar Hariharan (14):
+  IB/hfi1, IB/qib: Make I2C terminology more inclusive
+  drm/amdgpu,drm/radeon: Make I2C terminology more inclusive
+  drm/gma500,drm/i915: Make I2C terminology more inclusive
+  media: au0828: Make I2C terminology more inclusive
+  media: cobalt: Make I2C terminology more inclusive
+  media: cx18: Make I2C terminology more inclusive
+  media: cx25821: Make I2C terminology more inclusive
+  media: ivtv: Make I2C terminology more inclusive
+  media: cx23885: Make I2C terminology more inclusive
+  sfc: falcon: Make I2C terminology more inclusive
+  fbdev/smscufx: Make I2C terminology more inclusive
+  fbdev/viafb: Make I2C terminology more inclusive
+  drm/nouveau: Make I2C terminology more inclusive
+  i2c and treewide: Make I2C terminology more inclusive
 
---000000000000bb63b70614f5f9fc--
+ .../gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c  |  8 ++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c       | 12 +++----
+ drivers/gpu/drm/amd/amdgpu/atombios_i2c.c     |  8 ++---
+ drivers/gpu/drm/amd/amdgpu/smu_v11_0_i2c.c    | 18 +++++-----
+ .../gpu/drm/amd/display/dc/bios/bios_parser.c |  2 +-
+ .../drm/amd/display/dc/bios/bios_parser2.c    |  2 +-
+ .../drm/amd/display/dc/core/dc_link_exports.c |  4 +--
+ drivers/gpu/drm/amd/display/dc/dc.h           |  2 +-
+ drivers/gpu/drm/amd/display/dc/dce/dce_i2c.c  |  4 +--
+ .../display/include/grph_object_ctrl_defs.h   |  2 +-
+ drivers/gpu/drm/amd/include/atombios.h        |  2 +-
+ drivers/gpu/drm/amd/include/atomfirmware.h    | 26 +++++++-------
+ .../powerplay/hwmgr/vega20_processpptables.c  |  4 +--
+ .../amd/pm/powerplay/inc/smu11_driver_if.h    |  2 +-
+ .../inc/pmfw_if/smu11_driver_if_arcturus.h    |  2 +-
+ .../inc/pmfw_if/smu11_driver_if_navi10.h      |  2 +-
+ .../pmfw_if/smu11_driver_if_sienna_cichlid.h  |  2 +-
+ .../inc/pmfw_if/smu13_driver_if_aldebaran.h   |  2 +-
+ .../inc/pmfw_if/smu13_driver_if_v13_0_0.h     |  2 +-
+ .../inc/pmfw_if/smu13_driver_if_v13_0_7.h     |  2 +-
+ .../gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c |  4 +--
+ .../amd/pm/swsmu/smu11/sienna_cichlid_ppt.c   |  8 ++---
+ drivers/gpu/drm/gma500/cdv_intel_dp.c         |  2 +-
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c       |  2 +-
+ drivers/gpu/drm/gma500/intel_bios.c           | 22 ++++++------
+ drivers/gpu/drm/gma500/intel_bios.h           |  4 +--
+ drivers/gpu/drm/gma500/intel_gmbus.c          |  6 ++--
+ drivers/gpu/drm/gma500/oaktrail_hdmi_i2c.c    |  2 +-
+ drivers/gpu/drm/gma500/psb_drv.h              |  2 +-
+ drivers/gpu/drm/gma500/psb_intel_drv.h        |  2 +-
+ drivers/gpu/drm/gma500/psb_intel_lvds.c       |  4 +--
+ drivers/gpu/drm/gma500/psb_intel_sdvo.c       | 28 +++++++--------
+ drivers/gpu/drm/i915/display/dvo_ch7017.c     | 14 ++++----
+ drivers/gpu/drm/i915/display/dvo_ch7xxx.c     | 18 +++++-----
+ drivers/gpu/drm/i915/display/dvo_ivch.c       | 16 ++++-----
+ drivers/gpu/drm/i915/display/dvo_ns2501.c     | 18 +++++-----
+ drivers/gpu/drm/i915/display/dvo_sil164.c     | 18 +++++-----
+ drivers/gpu/drm/i915/display/dvo_tfp410.c     | 18 +++++-----
+ drivers/gpu/drm/i915/display/intel_bios.c     | 22 ++++++------
+ drivers/gpu/drm/i915/display/intel_ddi.c      |  2 +-
+ .../gpu/drm/i915/display/intel_display_core.h |  2 +-
+ drivers/gpu/drm/i915/display/intel_dsi.h      |  2 +-
+ drivers/gpu/drm/i915/display/intel_dsi_vbt.c  | 18 +++++-----
+ drivers/gpu/drm/i915/display/intel_dvo.c      | 14 ++++----
+ drivers/gpu/drm/i915/display/intel_dvo_dev.h  |  2 +-
+ drivers/gpu/drm/i915/display/intel_gmbus.c    |  8 ++---
+ drivers/gpu/drm/i915/display/intel_sdvo.c     | 34 +++++++++---------
+ drivers/gpu/drm/i915/display/intel_vbt_defs.h |  4 +--
+ drivers/gpu/drm/i915/gvt/edid.c               | 28 +++++++--------
+ drivers/gpu/drm/i915/gvt/edid.h               |  4 +--
+ drivers/gpu/drm/i915/gvt/opregion.c           |  2 +-
+ drivers/gpu/drm/nouveau/dispnv04/dfp.c        | 14 ++++----
+ .../nouveau/include/nvkm/subdev/bios/dcb.h    |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_bios.c        |  4 +--
+ drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c |  2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/i2c/bus.c |  2 +-
+ drivers/gpu/drm/radeon/atombios.h             |  2 +-
+ drivers/gpu/drm/radeon/atombios_i2c.c         |  4 +--
+ drivers/gpu/drm/radeon/radeon_combios.c       | 28 +++++++--------
+ drivers/gpu/drm/radeon/radeon_i2c.c           | 14 ++++----
+ drivers/gpu/drm/radeon/radeon_mode.h          |  6 ++--
+ drivers/i2c/algos/i2c-algo-bit.c              | 12 +++----
+ drivers/infiniband/hw/hfi1/chip.c             |  6 ++--
+ drivers/infiniband/hw/hfi1/chip.h             |  2 +-
+ drivers/infiniband/hw/hfi1/chip_registers.h   |  2 +-
+ drivers/infiniband/hw/hfi1/file_ops.c         |  2 +-
+ drivers/infiniband/hw/hfi1/firmware.c         | 22 ++++++------
+ drivers/infiniband/hw/hfi1/pcie.c             |  2 +-
+ drivers/infiniband/hw/hfi1/qsfp.c             | 36 +++++++++----------
+ drivers/infiniband/hw/hfi1/user_exp_rcv.c     |  2 +-
+ drivers/infiniband/hw/qib/qib_twsi.c          |  6 ++--
+ drivers/media/pci/bt8xx/bttv-i2c.c            |  2 +-
+ drivers/media/pci/cobalt/cobalt-i2c.c         |  8 ++---
+ drivers/media/pci/cx18/cx18-av-firmware.c     |  8 ++---
+ drivers/media/pci/cx18/cx18-cards.c           |  6 ++--
+ drivers/media/pci/cx18/cx18-cards.h           |  4 +--
+ drivers/media/pci/cx18/cx18-gpio.c            |  6 ++--
+ drivers/media/pci/cx23885/cx23885-f300.c      |  8 ++---
+ drivers/media/pci/cx23885/cx23885-i2c.c       |  8 ++---
+ drivers/media/pci/cx25821/cx25821-i2c.c       |  8 ++---
+ drivers/media/pci/dm1105/dm1105.c             |  2 +-
+ drivers/media/pci/ivtv/ivtv-i2c.c             | 18 +++++-----
+ drivers/media/pci/saa7164/saa7164-i2c.c       |  2 +-
+ drivers/media/usb/au0828/au0828-i2c.c         |  6 ++--
+ drivers/media/usb/au0828/au0828-input.c       |  2 +-
+ drivers/net/ethernet/sfc/falcon/falcon.c      |  2 +-
+ drivers/video/fbdev/mb862xx/mb862xx-i2c.c     |  2 +-
+ drivers/video/fbdev/smscufx.c                 |  4 +--
+ drivers/video/fbdev/via/chip.h                |  8 ++---
+ drivers/video/fbdev/via/dvi.c                 | 24 ++++++-------
+ drivers/video/fbdev/via/lcd.c                 |  6 ++--
+ drivers/video/fbdev/via/via_aux.h             |  2 +-
+ drivers/video/fbdev/via/via_i2c.c             | 12 +++----
+ drivers/video/fbdev/via/vt1636.c              |  6 ++--
+ 94 files changed, 381 insertions(+), 381 deletions(-)
+
+-- 
+2.34.1
+
