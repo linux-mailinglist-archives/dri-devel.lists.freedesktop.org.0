@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 817768919EB
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:49:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F1FF8919FA
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:51:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86DF01126F0;
-	Fri, 29 Mar 2024 12:49:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45BD5112702;
+	Fri, 29 Mar 2024 12:51:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uSoV2WQq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OICQ5ysB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E93A1126EF;
- Fri, 29 Mar 2024 12:49:31 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5EA81126F6;
+ Fri, 29 Mar 2024 12:51:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id C780DCE2FA5;
- Fri, 29 Mar 2024 12:49:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DE6AC433F1;
- Fri, 29 Mar 2024 12:49:27 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3BB48618D7;
+ Fri, 29 Mar 2024 12:50:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2959AC43390;
+ Fri, 29 Mar 2024 12:50:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711716569;
- bh=aiYW0yw5E+HOidbqciMe7uHQZ7wj+DvE0N4dRycpisI=;
+ s=k20201202; t=1711716631;
+ bh=vWrJHpNpvv/pTjRBRuxyQkmES6YQhamOMA0mHriCXKE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uSoV2WQq0hKksk6Y8x17z8V0nA8vBF4vgckqxrnHw4Nr4h+fJ3rkUo6RssBo20sPf
- KY9Uahe5mGAqql2kn6dxHT0WAVgIPk4deNz34wpUY1cmhE/Wdipe8ACcx6FpScD37Q
- zXqhbRi8S/7l4FMFb8RGYWN24MuyiIbGGhXXo2ysLTLmnXn7HrJDHLd0dDSJSXUfUA
- Fn/WjgpC42dCZB8m8foZroqVSjd4fmZtRZj8GlsbcntyqoYBB6o9oFS1cXsXlPHlPY
- vIgg3PQEesToqbsEFU1tmSa19cJ/9isXExjsrQVP2pYt/R88KyOQePEyYCBa7R0j4P
- whDC+XWbQ9cOQ==
+ b=OICQ5ysBrjXUQtRRICa15HU1Ejd1qMZvwmP0IEgtmJNI/pBjRdQICvOursh81ocsW
+ HqtW+EUOatSDEquzJOA/ryo/ZcumyxlcaOAGPLEuwJR0lUKlHt7uLqU37orNEeHL4+
+ QvlyvGIbZTFLBBlDD+2/jbzHMIR9rtUbmNRU+nNJf0NO5lJtAOJgli2F33NCZE1R8P
+ oHeHheIT/Sy6kUhoz+5Ldtrl9z2V+l1dspIbSX0tktttV8mhmZ71zjtBKHeNX2saVI
+ JvEJxmEAiSZtIywBx7n49z4uxTgWbpye7WKgCq1LoavBThM5NHlqVR5uDYdcgStiCs
+ FccBuRPMDZtMA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -40,16 +40,16 @@ Cc: Aric Cyr <aric.cyr@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
  Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
  dillon.varone@amd.com, aurabindo.pillai@amd.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.10 14/31] drm/amd/display: Fix nanosec stat overflow
-Date: Fri, 29 Mar 2024 08:48:31 -0400
-Message-ID: <20240329124903.3093161-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 11/23] drm/amd/display: Fix nanosec stat overflow
+Date: Fri, 29 Mar 2024 08:49:44 -0400
+Message-ID: <20240329125009.3093845-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240329124903.3093161-1-sashal@kernel.org>
-References: <20240329124903.3093161-1-sashal@kernel.org>
+In-Reply-To: <20240329125009.3093845-1-sashal@kernel.org>
+References: <20240329125009.3093845-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.214
+X-stable-base: Linux 5.4.273
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,10 +87,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h b/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h
-index 4220fd8fdd60c..54cd86060f4d6 100644
+index 3812094b52e8f..88b312c3eb43a 100644
 --- a/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h
 +++ b/drivers/gpu/drm/amd/display/modules/inc/mod_stats.h
-@@ -57,10 +57,10 @@ void mod_stats_update_event(struct mod_stats *mod_stats,
+@@ -51,10 +51,10 @@ void mod_stats_update_event(struct mod_stats *mod_stats,
  		unsigned int length);
  
  void mod_stats_update_flip(struct mod_stats *mod_stats,
