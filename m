@@ -2,96 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B640889135E
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 06:48:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7806891486
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 08:47:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B89F10EAD6;
-	Fri, 29 Mar 2024 05:48:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F1A111256E;
+	Fri, 29 Mar 2024 07:47:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="DjcgK4RJ";
+	dkim=pass (2048-bit key; unprotected) header.d=fairphone.com header.i=@fairphone.com header.b="cj5vJdZ8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FA6E10E8C4;
- Fri, 29 Mar 2024 05:47:22 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 42T56ewT026747; Fri, 29 Mar 2024 05:47:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=qHMK2c3Hat02bYLCr9tXHxXfHvMIl+7AKGE5P3Sc4w4=; b=Dj
- cgK4RJepikXMTRPmQ+WwxPsgyYMXlUzZZdP8u7rWXLqr4iarbLQ/QF130l3adHNl
- MuwNl/3ypMWNjc6KsZkIJcW5bpoXGjldXf/5N7eCtLaAOEumcWSlpbLPxcVR5IXU
- LzHJHaGAuIKg4OGKRmHDZLHETD+4/21g3wnOH4WXuY/QWxuWPWP1gLIlv6doTXkV
- 076Q3GVDOB+OI5cJhTCVILriefRz/xH3zi/M29BElomm/yty3RLS9y4H4FeQwoWm
- EkY0pWXDk3uHjbeUKRKEwgt1h4hZWJ/He3pOaZXc+w546m+ml6gO/VcIp4L4xTdD
- /UFBkA1c+ji/r0rP6ziw==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x5aeg9vg2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Mar 2024 05:47:12 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42T5lBpC029367
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Mar 2024 05:47:11 GMT
-Received: from [10.110.118.161] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 28 Mar
- 2024 22:47:05 -0700
-Message-ID: <17489ead-2765-7ed1-f4da-4a45e7d83b1b@quicinc.com>
-Date: Thu, 28 Mar 2024 22:47:03 -0700
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
+ [209.85.218.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C825511256B
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 07:46:57 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id
+ a640c23a62f3a-a4e0e3ef357so230937366b.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 00:46:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fairphone.com; s=fair; t=1711698356; x=1712303156; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=O2Yw8I3npoX2UZ1a8v7MBLYBW49lXvLIxaEAjAdwtH0=;
+ b=cj5vJdZ8cpcwyE+sB5CO1lrj32lIwfXk7ajgKtXotyjCGFtZfJtRdlXgIzeInnggbr
+ +MlxmDcnShxC4NxDNqTRvbqxpjQO3QbKR+C4S+3NB73bC4gA9GX4WxUzlfJfsBN7zLR9
+ AdxRWQcRynMC8XFvOFktgBiSMTDzO5RxXASfSKc4D6AM0jm1X8xNAfU0/XhoPyeOju/u
+ OSg515ZqQKXh+AEXBCAmKG8zJO+BKUC+o4wB6I+wNAgcyKByuH7tQHu0JslYn8huB5uh
+ ReS4Hc/sdp86ejKo2SOevzMPGlr4Z4Krho/lIeZ+bzno79rvjZx6IBNuEq52HtOQ3erH
+ w6MA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711698356; x=1712303156;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=O2Yw8I3npoX2UZ1a8v7MBLYBW49lXvLIxaEAjAdwtH0=;
+ b=I3I/WM5Vsh7HS5AHy4IBEP+EUnzPW6iIbsM4ZtEcpUknhQpuVylpVCeLUHF/vX0ERY
+ fdbPzKXa0JWGaOyfoXJmCeocVn9Fu1HnghNHLEp9K4vX3oxvq0kBmQREHbeO2KH/jD+U
+ ScEX5U/dTT+AWzO8GaK0oi2by3pyD0iCetmPgIi3PXeD3sXKdVi4JCobG1pKiyJyarfI
+ Q+2heoaF0WgQzrRZgVRrFpLxg1rzYTuW8lOJesbzhEHiIGL8tTCIHu8SHBLF8xs8Zerm
+ TJ5LUqjj+3sB513kGQ6a/cruZvAWRsuu5R1idvpxOPaGNGXEFD7HWmlIrOtE/I1SPnzl
+ esgw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVsMumLhPFtTdFeY84EO98nU38Ch30Y/SZBsBKDRgRNIH5DAWjp4Qbjc6fGIJwoF8SD2hKCqjJfKYeoiB8ZjIwrsHZCkDJTWUi0vUHcLQTH
+X-Gm-Message-State: AOJu0YxfF7H583yeTQBam3XDpfZrHDfr7f66JfkBvC/oD1pmNObPZASV
+ O3ClTQGsKIr0D4aCbTefmDXsCkPUlgDIJcbcvJxEzukBl1Z2gQn8TrZG4dlVYGQ=
+X-Google-Smtp-Source: AGHT+IFxPMIBsdZk0Lxri/jnEnAqJk6fcA0McqLNuoYlYxcF2e/U3vOHL2/tR0eQxjRYpIKHZ4rGRw==
+X-Received: by 2002:a17:906:f6d4:b0:a47:8767:671a with SMTP id
+ jo20-20020a170906f6d400b00a478767671amr1115394ejb.21.1711698356276; 
+ Fri, 29 Mar 2024 00:45:56 -0700 (PDT)
+Received: from otso.luca.vpn.lucaweiss.eu
+ (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+ by smtp.gmail.com with ESMTPSA id
+ l9-20020a1709060cc900b00a4e24d259edsm1382737ejh.167.2024.03.29.00.45.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Mar 2024 00:45:56 -0700 (PDT)
+From: Luca Weiss <luca.weiss@fairphone.com>
+Subject: [PATCH v2 0/3] DisplayPort support for SM6350/SM7225
+Date: Fri, 29 Mar 2024 08:45:53 +0100
+Message-Id: <20240329-sm6350-dp-v2-0-e46dceb32ef5@fairphone.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v1] drm/msm/dp: use dp_hpd_plug_handle() and
- dp_hpd_unplug_handle() directly
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Stephen Boyd <swboyd@chromium.org>, Bjorn Andersson <andersson@kernel.org>,
- Johan Hovold <johan@kernel.org>, Kuogee Hsieh
- <quic_khsieh@quicinc.com>, <abel.vesa@linaro.org>,
- <agross@kernel.org>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <dianders@chromium.org>, <dri-devel@lists.freedesktop.org>,
- <robdclark@gmail.com>, <sean@poorly.run>, <vkoul@kernel.org>,
- <quic_jesszhan@quicinc.com>, <quic_sbillaka@quicinc.com>,
- <marijn.suijten@somainline.org>, <freedreno@lists.freedesktop.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1711656246-3483-1-git-send-email-quic_khsieh@quicinc.com>
- <1711656246-3483-2-git-send-email-quic_khsieh@quicinc.com>
- <55debb0a-c7af-ef71-c49a-414c7ab4f59d@quicinc.com>
- <CAE-0n503FwcwreZ14MMKgdzu8QybWYtMdLOKasiCwmE8pCJOSw@mail.gmail.com>
- <23de89e9-3ef3-c52d-7abf-93dc2dbb51a4@quicinc.com>
- <CAA8EJppEWXnsQzDD1tdNuMb1ijEVtE7LQct9jt1fwVwMd8ch_Q@mail.gmail.com>
- <27cadd17-10a3-3b8c-2b29-6698ccdce531@quicinc.com>
- <CAA8EJpqYVDG9pBj39m40rPwUNgE7x07HfCt6C3yaMN7eOaWk6Q@mail.gmail.com>
- <efbe5aa8-8bbe-26cd-ca70-1974241a3537@quicinc.com>
- <CAA8EJprES3q3w6GuQ8dW5vicnzbO_eZ6wpNfWe5njTPRDZm5KQ@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJprES3q3w6GuQ8dW5vicnzbO_eZ6wpNfWe5njTPRDZm5KQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: S9XgzICDRkG1LDH9EqIXllzbQO6ZYBBG
-X-Proofpoint-GUID: S9XgzICDRkG1LDH9EqIXllzbQO6ZYBBG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-29_04,2024-03-28_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- lowpriorityscore=0 malwarescore=0 priorityscore=1501 mlxscore=0
- clxscore=1015 mlxlogscore=999 impostorscore=0 adultscore=0 suspectscore=0
- phishscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2403210001 definitions=main-2403290046
+X-B4-Tracking: v=1; b=H4sIALFxBmYC/23MQQ7CIBCF4as0sxYDAxjiynuYLiilMotCAw3RN
+ Nxd7Nrl//LyHVB8Jl/gPhyQfaVCKfbAywAu2PjyjObegBwVl2hYWW9SczZvTAmURmg5KWWg/7f
+ sF3qf1nPsHajsKX9Ouorf+k+pgnGGQjuLkxFO6sdiKW8hRX91aYWxtfYFvdDmaKYAAAA=
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Luca Weiss <luca.weiss@fairphone.com>
+X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,117 +99,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add the required changes to support DisplayPort (normally(?) available
+via the USB-C connector) on the SM6350/SM7225 SoC.
 
+This has been tested on a Fairphone 4 smartphone with additional changes
+not included in this series (mostly just wiring up TCPM and the SBU
+mux).
 
-On 3/28/2024 8:23 PM, Dmitry Baryshkov wrote:
-> On Fri, 29 Mar 2024 at 04:16, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 3/28/2024 5:10 PM, Dmitry Baryshkov wrote:
->>> On Fri, 29 Mar 2024 at 01:42, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>>>
->>>>
->>>>
->>>> On 3/28/2024 3:50 PM, Dmitry Baryshkov wrote:
->>>>> On Thu, 28 Mar 2024 at 23:21, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>>>>>
->>>>>>
->>>>>>
->>>>>> On 3/28/2024 1:58 PM, Stephen Boyd wrote:
->>>>>>> Quoting Abhinav Kumar (2024-03-28 13:24:34)
->>>>>>>> + Johan and Bjorn for FYI
->>>>>>>>
->>>>>>>> On 3/28/2024 1:04 PM, Kuogee Hsieh wrote:
->>>>>>>>> For internal HPD case, hpd_event_thread is created to handle HPD
->>>>>>>>> interrupts generated by HPD block of DP controller. It converts
->>>>>>>>> HPD interrupts into events and executed them under hpd_event_thread
->>>>>>>>> context. For external HPD case, HPD events is delivered by way of
->>>>>>>>> dp_bridge_hpd_notify() under thread context. Since they are executed
->>>>>>>>> under thread context already, there is no reason to hand over those
->>>>>>>>> events to hpd_event_thread. Hence dp_hpd_plug_handle() and
->>>>>>>>> dp_hpd_unplug_hanlde() are called directly at dp_bridge_hpd_notify().
->>>>>>>>>
->>>>>>>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->>>>>>>>> ---
->>>>>>>>>       drivers/gpu/drm/msm/dp/dp_display.c | 5 +++--
->>>>>>>>>       1 file changed, 3 insertions(+), 2 deletions(-)
->>>>>>>>>
->>>>>>>>
->>>>>>>> Fixes: 542b37efc20e ("drm/msm/dp: Implement hpd_notify()")
->>>>>>>
->>>>>>> Is this a bug fix or an optimization? The commit text doesn't tell me.
->>>>>>>
->>>>>>
->>>>>> I would say both.
->>>>>>
->>>>>> optimization as it avoids the need to go through the hpd_event thread
->>>>>> processing.
->>>>>>
->>>>>> bug fix because once you go through the hpd event thread processing it
->>>>>> exposes and often breaks the already fragile hpd handling state machine
->>>>>> which can be avoided in this case.
->>>>>
->>>>> Please add a description for the particular issue that was observed
->>>>> and how it is fixed by the patch.
->>>>>
->>>>> Otherwise consider there to be an implicit NAK for all HPD-related
->>>>> patches unless it is a series that moves link training to the enable
->>>>> path and drops the HPD state machine completely.
->>>>>
->>>>> I really mean it. We should stop beating a dead horse unless there is
->>>>> a grave bug that must be fixed.
->>>>>
->>>>
->>>> I think the commit message is explaining the issue well enough.
->>>>
->>>> This was not fixing any issue we saw to explain you the exact scenario
->>>> of things which happened but this is just from code walkthrough.
->>>>
->>>> Like kuogee wrote, hpd event thread was there so handle events coming
->>>> out of the hpd_isr for internal hpd cases. For the hpd_notify coming
->>>> from pmic_glink or any other extnernal hpd cases, there is no need to
->>>> put this through the hpd event thread because this will only make things
->>>> worse of exposing the race conditions of the state machine.
->>>>
->>>> Moving link training to enable and removal of hpd event thread will be
->>>> worked on but delaying obvious things we can fix does not make sense.
->>>
->>>   From the commit message this feels like an optimisation rather than a
->>> fix. And granted the fragility of the HPD state machine, I'd prefer to
->>> stay away from optimisations. As far as I understood from the history
->>> of the last revert, we'd better make sure that HPD handling goes only
->>> through the HPD event thread.
->>>
->>
->> I think you are mixing the two. We tried to send the events through
->> DRM's hpd_notify which ended up in a bad way and btw, thats still not
->> resolved even though I have seen reports that things are fine with the
->> revert, we are consistently able to see us ending up in a disconnected
->> state with all the reverts and fixes in our x1e80100 DP setup.
->>
->> I plan to investigate that issue properly in the next week and try to
->> make some sense of it all.
->>
->> In fact, this patch is removing one more user of the hpd event thread
->> which is the direction in which we all want to head towards.
-> 
-> As I stated earlier, from my point of view it doesn't make sense to
-> rework the HPD thread in small steps.
-> 
->> On whether this is an optimization or a bug fix. I think by avoiding hpd
->> event thread (which should have never been used for hpd_notify updates,
->> hence a bug) we are avoiding the possibility of more race conditions.
-> 
-> I think that the HPD event thread serializes handling of events, so
-> avoiding it increases the possibility of a race condition.
-> 
->>
->> So, this has my R-b and it holds. Upto you.
-> 
-> I'd wait for a proper description of the issue that was observed and
-> how it is solved by this patch.
-> 
+Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+---
+Changes in v2:
+- Fix typo in dp-controller patch subject
+- Use 'contains' for subnode in mdss schema
+- Pick up tags
+- Link to v1: https://lore.kernel.org/r/20240328-sm6350-dp-v1-0-215ca2b81c35@fairphone.com
 
-This was a code walkthrough fix as I wrote a few times. If there no 
-merit in pushing this, lets ignore it and stop discussing.
+---
+Luca Weiss (3):
+      dt-bindings: display: msm: dp-controller: document SM6350 compatible
+      dt-bindings: display: msm: sm6350-mdss: document DP controller subnode
+      arm64: dts: qcom: sm6350: Add DisplayPort controller
+
+ .../bindings/display/msm/dp-controller.yaml        |  1 +
+ .../bindings/display/msm/qcom,sm6350-mdss.yaml     |  9 +++
+ arch/arm64/boot/dts/qcom/sm6350.dtsi               | 88 ++++++++++++++++++++++
+ 3 files changed, 98 insertions(+)
+---
+base-commit: 871760455183dc66b3e185f8d3ed2184cc9fac25
+change-id: 20240328-sm6350-dp-41238153b448
+
+Best regards,
+-- 
+Luca Weiss <luca.weiss@fairphone.com>
+
