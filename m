@@ -2,52 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56C22891FA1
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 16:08:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95876891FA4
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 16:08:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 264B2112771;
-	Fri, 29 Mar 2024 15:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7F48112779;
+	Fri, 29 Mar 2024 15:08:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=math.uni-bielefeld.de header.i=@math.uni-bielefeld.de header.b="x5tk8xFW";
+	dkim=pass (2048-bit key; secure) header.d=math.uni-bielefeld.de header.i=@math.uni-bielefeld.de header.b="M/CBYvha";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp1.math.uni-bielefeld.de (smtp1.math.uni-bielefeld.de
  [129.70.45.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1C34112771;
- Fri, 29 Mar 2024 15:08:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4A3A112779
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 15:08:42 +0000 (UTC)
 Received: from [192.168.0.100]
  (dslb-088-068-075-039.088.068.pools.vodafone-ip.de [88.68.75.39])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (Client did not present a certificate)
- by smtp1.math.uni-bielefeld.de (Postfix) with ESMTPSA id 8B44860613;
- Fri, 29 Mar 2024 16:08:04 +0100 (CET)
+ by smtp1.math.uni-bielefeld.de (Postfix) with ESMTPSA id EF59F60AC1;
+ Fri, 29 Mar 2024 16:08:40 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=math.uni-bielefeld.de; s=default; t=1711724885;
- bh=kyo1Ad43BuOTHxWe5GQYqSLm6b3RV5mvNXTMTY5jNjg=;
+ d=math.uni-bielefeld.de; s=default; t=1711724921;
+ bh=RBxHBx39Z3hApTw/Hc9bW9JUpCKakI04MTGgLQ23fNM=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=x5tk8xFWVOxpyM+tom2a5qJURqK5k0iyba7xZAEMqnkyGvMfgGDyGa9ChvkzpFn1C
- tcB4hxgfFnjd485lw27m/yCQunGjkFRbUgGQxRhuOA5LNJyAV6S0pFoZEv7CTtFshz
- wJvDuTziUK57qnqPHv74qZ/xtiYX69tJfHiimJVGB9YRmA7Ud6R/aECmr2UWcjhVNJ
- 4pD6+DD0vgz7h/d34lUqFIUk+NuAd82f7M1P0CfUePc0tuBwFb/WhBg/74BTA2Ni2o
- WCLMHWmXkzhqLwfDuSRM/JqCewrHHSiBqgzT8lRkUCQg+IjoHpg8m94W+OBAHzi/Zs
- STFzgRCaWDIRw==
-Message-ID: <ced3a1dc-4e09-467a-a8f8-0747f707b68f@math.uni-bielefeld.de>
-Date: Fri, 29 Mar 2024 16:07:59 +0100
+ b=M/CBYvha5ft4I9NjnxR0RoBz2y1bpV+9vcHfdS0UoAno+fLclDYBaF1ijVW/KWdn4
+ IgPtcumy4DOVOf+xPAMVM75qoMvYpTFOZDDlKdFsNxWc/ECOPOcwfUBUM2swzodnhL
+ m6kHH1YwaVCOGMWzY1z+PdJuIWmcieFfrrxqvt9rI2EmwIL2W81CLwxV3RH4TtA39/
+ rSMaM4gb6bkA+t4g2jp8dMJw1tRZQ7SLm+PUIO4T7TTY8ncNa34YMi+m8ygv5vo2Ks
+ XVNbIwrsDiguAHh/iNBAFVMik/QHyv/qL/Lj64Fa+xfdE1ldC3hglJSHG8rbhQGpqb
+ OUtSyagUEO/WQ==
+Message-ID: <48669277-c0af-4b4d-9a44-4cb244609dd0@math.uni-bielefeld.de>
+Date: Fri, 29 Mar 2024 16:08:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd/display: Add MSF panel to DPCD 0x317 patch list
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240309014732.722139-1-tjakobi@math.uni-bielefeld.de>
+Subject: Re: [PATCH RESEND] drm: panel-orientation-quirks: Add quirk for Aya
+ Neo KUN
 Content-Language: en-US
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240310220401.895591-1-tjakobi@math.uni-bielefeld.de>
 From: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
 Autocrypt: addr=tjakobi@math.uni-bielefeld.de; keydata=
  xsFNBFZhiNQBEAC5wiHN+jpZllNh3qv6Ni+32m4begD1A51ezJGHvubpy04S7noJ3BZvGeMf
@@ -93,9 +90,9 @@ Autocrypt: addr=tjakobi@math.uni-bielefeld.de; keydata=
  pC4w+Ho/cC8OJpuwHWXqg9a3Hs6yH+hLjM/M0yk1vhMyYYXubgMv3DgbNuXAURjQ6DkY1o/8
  5jyYIbLNVBjZKDXq8pN13q6/M9q8MAD2qO3VvMjyEkzypg4qB76YLoiWtsanpUBrp9bYQXQ5
  JRHWPGCL3BhOxQ==
-In-Reply-To: <20240309014732.722139-1-tjakobi@math.uni-bielefeld.de>
+In-Reply-To: <20240310220401.895591-1-tjakobi@math.uni-bielefeld.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,46 +108,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/9/24 02:47, tjakobi@math.uni-bielefeld.de wrote:
+On 3/10/24 23:04, tjakobi@math.uni-bielefeld.de wrote:
 
 > From: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
 >
-> This 8.4 inch panel is integrated in the Ayaneo Kun handheld
-> device. The panel resolution is 2560×1600, i.e. it has
-> portrait dimensions.
->
-> Decoding the EDID shows:
-> Manufacturer: MSF
-> Model: 4099
-> Display Product Name: 'TV080WUM-NL0 '
->
-> Judging from the product name this might be a clone of a
-> BOE panel, but with larger dimensions.
->
-> Panel frequently shows non-functional backlight control. Adding
-> some debug prints to update_connector_ext_caps() shows that
-> something the OLED bit of ext_caps is set, and then the driver
-> assumes that backlight is controlled via AUX.
->
-> Forcing backlight control to PWM via amdgpu.backlight=0 restores
-> backlight operation.
+> Similar to the other Aya Neo devices this one features
+> again a portrait screen, here with a native resolution
+> of 1600x2560.
 >
 > Signed-off-by: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
 > ---
->   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 1 +
->   1 file changed, 1 insertion(+)
+>   drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> index 7a09a72e182f..5a017ba94e3c 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> @@ -68,6 +68,7 @@ static void apply_edid_quirks(struct edid *edid, struct dc_edid_caps *edid_caps)
->   	case drm_edid_encode_panel_id('A', 'U', 'O', 0xE69B):
->   	case drm_edid_encode_panel_id('B', 'O', 'E', 0x092A):
->   	case drm_edid_encode_panel_id('L', 'G', 'D', 0x06D1):
-> +	case drm_edid_encode_panel_id('M', 'S', 'F', 0x1003):
->   		DRM_DEBUG_DRIVER("Clearing DPCD 0x317 on monitor with panel id %X\n", panel_id);
->   		edid_caps->panel_patch.remove_sink_ext_caps = true;
->   		break;
+> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> index 3d92f66e550c..5d3fb11fd45f 100644
+> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> @@ -196,6 +196,12 @@ static const struct dmi_system_id orientation_data[] = {
+>   		  DMI_MATCH(DMI_BOARD_NAME, "NEXT"),
+>   		},
+>   		.driver_data = (void *)&lcd800x1280_rightside_up,
+> +	}, {	/* AYA NEO KUN */
+> +		.matches = {
+> +		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
+> +		  DMI_MATCH(DMI_BOARD_NAME, "KUN"),
+> +		},
+> +		.driver_data = (void *)&lcd1600x2560_rightside_up,
+>   	}, {	/* Chuwi HiBook (CWI514) */
+>   		.matches = {
+>   			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
 Gentle ping...
 
