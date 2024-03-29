@@ -2,49 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF72789199A
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:44:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 801AE89199C
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Mar 2024 13:44:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8666F1126D1;
-	Fri, 29 Mar 2024 12:44:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B1E41126D0;
+	Fri, 29 Mar 2024 12:44:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HFALz0Np";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Z5mZdzsm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD9EC1126E6
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 12:44:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDBA41126E7
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 12:44:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 2EC00CE2FA3;
- Fri, 29 Mar 2024 12:43:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2AB7C433C7;
- Fri, 29 Mar 2024 12:43:34 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 896FCCE2F9A;
+ Fri, 29 Mar 2024 12:43:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75C8FC433C7;
+ Fri, 29 Mar 2024 12:43:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711716215;
- bh=unAcMRuAE1vIWssF2K6cGs00MZFhLexNVVz7+k7K4PY=;
+ s=k20201202; t=1711716220;
+ bh=uVcTjXED8/Jzk0oHqHrJCMbpNGjUw4igMCiReFmmYv8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HFALz0Npzv2X2l80dJHDlVwv2xDTND8pTJwz2AWsfgae9+SsNHSSzw1fkKPJPJ3gy
- z8PsywHS0YAqWbC14wTyGSFFhQlZUi7pzwqFAjNAH0mz/vgruZuh9mooRUg5xzk1cK
- U6v0YOklIR0RMZY2veyW4ECv6ATB55vOnA6dI8lh8EI0B/HXl2FDkcG5hbn0YN2Sn2
- 1UCnnFXpeIlIiUAhOs7yWXHa85wVQgqs1JDhwwQf+ZvH5UU7JCCh28a4zFw28VjQJZ
- HiTzTvn9ttvEHbwMdvvRYyn2dBAkQmo/qJJzrGZL+BK/4feouAckLEPRhsxgLtianV
- 5td484kxyVRsw==
+ b=Z5mZdzsmH1xIPAU8HLvtt8GBSZe2gZB+PzsJMh20LfTRS9SIQc7lb+gJaxjt50PAZ
+ +zBl5jKx2Mc4mNIZPkhSvVDQgkuTv4etjSyISLhUZRRwyN4dkz1z1iBqYbxnp/2uVZ
+ fOau5FIphQ8kuJ9/FoVGJ7wyQfu0D5bOi69t3s9e8rXX7969ACLzkoBMOV5Jx15Zcb
+ mfEVBV8h7uvplttcizTRtud5Gp1Fin82R4WDj7lFf0Mofu3zvk3HoPcEi0MVaC5KGr
+ JcySZ2qmYsDktO74Cx0gcWX30lTwNHUlpKHd3IaRl648LOxftVs5B4cyJo6/usXG8j
+ K/Cih+pNyaUeQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Samuel Dionne-Riel <samuel@dionne-riel.com>,
- Linus Walleij <linus.walleij@linaro.org>, Sasha Levin <sashal@kernel.org>,
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Zack Rusin <zack.rusin@broadcom.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Sasha Levin <sashal@kernel.org>, ray.huang@amd.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 03/75] drm: panel-orientation-quirks: Add quirk
- for GPD Win Mini
-Date: Fri, 29 Mar 2024 08:41:44 -0400
-Message-ID: <20240329124330.3089520-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 05/75] drm/ttm: return ENOSPC from
+ ttm_bo_mem_space v3
+Date: Fri, 29 Mar 2024 08:41:46 -0400
+Message-ID: <20240329124330.3089520-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240329124330.3089520-1-sashal@kernel.org>
 References: <20240329124330.3089520-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.23
@@ -64,50 +67,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Samuel Dionne-Riel <samuel@dionne-riel.com>
+From: Christian König <christian.koenig@amd.com>
 
-[ Upstream commit 2f862fdc0fd802e728b6ca96bc78ec3f01bf161e ]
+[ Upstream commit 28e5126718c7b306b8c29d2ae8f48417e9303aa1 ]
 
-This adds a DMI orientation quirk for the GPD Win Mini panel.
+Only convert it to ENOMEM in ttm_bo_validate.
 
-Signed-off-by: Samuel Dionne-Riel <samuel@dionne-riel.com>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20231222030149.3740815-2-samuel@dionne-riel.com
+This allows ttm_bo_validate to distinguish between an out of memory
+situation and just out of space in a placement domain.
+
+v2: improve commit message
+v3: fix kerneldoc typos
+
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Zack Rusin <zack.rusin@broadcom.com>
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240112125158.2748-3-christian.koenig@amd.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/gpu/drm/ttm/ttm_bo.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index d5c15292ae937..3fe5e6439c401 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -117,6 +117,12 @@ static const struct drm_dmi_panel_orientation_data lcd1080x1920_leftside_up = {
- 	.orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
- };
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index e58b7e2498166..b3e5185835c37 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -764,7 +764,7 @@ static int ttm_bo_mem_force_space(struct ttm_buffer_object *bo,
+  * This function may sleep while waiting for space to become available.
+  * Returns:
+  * -EBUSY: No space available (only if no_wait == 1).
+- * -ENOMEM: Could not allocate memory for the buffer object, either due to
++ * -ENOSPC: Could not allocate space for the buffer object, either due to
+  * fragmentation or concurrent allocators.
+  * -ERESTARTSYS: An interruptible sleep was interrupted by a signal.
+  */
+@@ -824,7 +824,7 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
+ 			goto error;
+ 	}
  
-+static const struct drm_dmi_panel_orientation_data lcd1080x1920_rightside_up = {
-+	.width = 1080,
-+	.height = 1920,
-+	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
-+};
-+
- static const struct drm_dmi_panel_orientation_data lcd1200x1920_rightside_up = {
- 	.width = 1200,
- 	.height = 1920,
-@@ -279,6 +285,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1618-03")
- 		},
- 		.driver_data = (void *)&lcd720x1280_rightside_up,
-+	}, {	/* GPD Win Mini */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "GPD"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1617-01")
-+		},
-+		.driver_data = (void *)&lcd1080x1920_rightside_up,
- 	}, {	/* I.T.Works TW891 */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "To be filled by O.E.M."),
+-	ret = -ENOMEM;
++	ret = -ENOSPC;
+ 	if (!type_found) {
+ 		pr_err(TTM_PFX "No compatible memory type found\n");
+ 		ret = -EINVAL;
+@@ -910,6 +910,9 @@ int ttm_bo_validate(struct ttm_buffer_object *bo,
+ 		return -EINVAL;
+ 
+ 	ret = ttm_bo_move_buffer(bo, placement, ctx);
++	/* For backward compatibility with userspace */
++	if (ret == -ENOSPC)
++		return -ENOMEM;
+ 	if (ret)
+ 		return ret;
+ 
 -- 
 2.43.0
 
