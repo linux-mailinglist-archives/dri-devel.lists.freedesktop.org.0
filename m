@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2A57892CF2
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 21:27:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41750892CF4
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 21:27:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9358910E2D4;
-	Sat, 30 Mar 2024 20:27:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3943410E2BE;
+	Sat, 30 Mar 2024 20:27:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WSnO9cPM";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jZNyL89t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B52518989C
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 20:27:47 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-415482308f8so15890965e9.1
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 13:27:47 -0700 (PDT)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5444D10E2BE
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 20:27:49 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-41558d2a06cso3879505e9.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 13:27:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711830466; x=1712435266; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=3gBZRypw7eFJBqOZhPqW7krS5T53iZPLz//P5NJv5yo=;
- b=WSnO9cPME7+2W/ifU3XJOCTha6PD985egx0Epuk01MEdStqzzVZHYX+v6CEMx+aaZg
- 6VopdKkiCbNng0dm0X5prIJb23PDsKiXwDPgdcIAj6i+iY1pEVyDSKgN9YnWf5OSVJHo
- RmvReqwPcj+Ya7CyKU4pubMobdxhmQQnAjXTShCUOYqS3vDQS/wHedaFUAIZY/JyggnU
- gtiqby1yeVWQq7pMdQlFbYokWPG6kdjUz2vdoPUOta4zVV251EM9td9wtY1vRk0d2Lg8
- YBwfWLtKt2pyZ8/JKQLMg/acPzRVu2U6bkLV03V6704Qho8IqzBLCNBN1C+jyJavyyIU
- N/Gg==
+ d=linaro.org; s=google; t=1711830467; x=1712435267; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qKq1cSJLmBMggJ/k26mH1K2G4dZv2uJutdH8DjECGXE=;
+ b=jZNyL89t6neZReB+ZUGvpmOx6Th9NjVQloedj8i/wFRgZ1FwbnCp2rtgxj69HotOwR
+ X+sZeBE/wmcFW5yIjPsi4yFuxA/hUpfzoNX/cbvdb9c7ffSg85Cmi/Ja0pqrx+56+Zey
+ cCPXdS9Ix32+7yR37LH72yMmW1zHkNn/kIMYsJ+CGi1kD69RNoa7LIXv7UuSHyfJCjd4
+ 4FadW/ZzfIH29cyr+xp7pHXLKYEHh1DnEsNim/9eJfseHg6E+J3VDrhLvbZ2N8e7uJ3/
+ hepJlKNtsIDsx7aJd9lmugR/6qffmD8Mzr3mFY5xbDEXJCiZBDr6Z3WTwH0O1R3F91HU
+ FQZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711830466; x=1712435266;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=3gBZRypw7eFJBqOZhPqW7krS5T53iZPLz//P5NJv5yo=;
- b=NvHkPk2A48ZYqRkewulCUS7g+tZ6kjlmZamtPga+dOvrFnv7APtyrX2nbxYktO5OOd
- sDkHU0aHXptKbKGXe9QRHG0DQAz8/Z4B+u+3N1CoD4T66s3TgtxHepkA7cVNTiAR+Hb4
- 2zLRDsTwGzxVXmmW61xEOUlbE7lEMXs7CK3sFF7XctNkYMbBHlYgEKJrTd+4Tw2xuPNz
- tXJ3Ku6usQ9N38/s8dtu14OjsCbgeofy0bnFxyY2jNCcc8gTKFXuA/Ld2V3eHtIrLXxI
- pSSZS1WqYhBvHS8wV9iEQ+hdoOlJDXHbyB9ERZvEuN8jWKmaChwrONKLCKzFs1yyQn3X
- wuYw==
+ d=1e100.net; s=20230601; t=1711830467; x=1712435267;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qKq1cSJLmBMggJ/k26mH1K2G4dZv2uJutdH8DjECGXE=;
+ b=clMjS8JNvqvGmIH7UilIblCS4ThN8zZHLBLvAI4mo+N1R/ulncyk3+fpfQCI6v0ft/
+ N6DHEoZQj4V60st6DmSIup782r+77OZzz4hTluMpopc/lbzNyMu9KO67kanbHMNoT+mt
+ Om7xZsxta+p25nRN3XjmKHQabT3EjaIgbo5K5yMnuUzsAKDviFk7T8UQnYT/erl/z+Qz
+ ijCuX0CbLCYdxY6eKSY6RrQ18ygBc5xV98fAYWVhzaYpSZfW6jn69oRpMVxBA9j7rD0N
+ fQpXjIVK1KUTb/CRRNC8vLJyWpFmtI4+RGjmU/LP9qvkNsX7DNi6r+29kzpqTVCGmkOu
+ IGfA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW2xhesandIdzLv7iu0f18w/oiFSAgENSaWgiJ8GgHXeRSYTkYvN5hkJ9xZzBT+/jlpRlwOCAycj/d4a8Sqbx1mPPD0WTN+FztAZuEhMCwV
-X-Gm-Message-State: AOJu0YzZGTuTyUhr4VejzoHNbvchIUWp27Sf/5RUsMHQaAiAn6pz7bW+
- WoBxHYudG05V2tFQ03KIKGCEwBYuG26H/C1z0Mk5wye5N6Nat3rVf4rmKAjy+8U=
-X-Google-Smtp-Source: AGHT+IGiediON0ELikHy/elKnPO4WPe3ex+JoynxDpd5PfqunqrjvyVunhrRIHlUdtSG+VqRmnZhmg==
-X-Received: by 2002:a05:600c:1c05:b0:415:456c:a17f with SMTP id
- j5-20020a05600c1c0500b00415456ca17fmr3563275wms.25.1711830465715; 
- Sat, 30 Mar 2024 13:27:45 -0700 (PDT)
+ AJvYcCUDSlb5DDvCZcOK+V6nrMgzv0fFzIVlT7sy5NUbiZ4vXIWwkUBbESiK7IVbFDtDf8t8TBSBp35F59q5DJCJ6ojJYdzrlJy3bXjmxn2896WG
+X-Gm-Message-State: AOJu0YzPLh3VCGtCyFCe1GWiPUJByrwLRNwbi++tEluWBKEL+RcZJU0a
+ r/2A3ZDKMUsqR4GrBgW5qun5uoG6qrQlSBOqrhuCw7e4H59zMk1vURnanxracSo=
+X-Google-Smtp-Source: AGHT+IFuJD+q3yYb7HgBA+jgGA0QcBVPVNkVgdIkuGN72/Mz7njw6maSOomeiJziCDBGX+JyPmDdbw==
+X-Received: by 2002:a7b:c7d3:0:b0:414:d8f:4399 with SMTP id
+ z19-20020a7bc7d3000000b004140d8f4399mr4105090wmk.18.1711830467366; 
+ Sat, 30 Mar 2024 13:27:47 -0700 (PDT)
 Received: from krzk-bin.. ([178.197.223.16]) by smtp.gmail.com with ESMTPSA id
- q17-20020a05600c46d100b0041409db0349sm9505616wmo.48.2024.03.30.13.27.44
+ q17-20020a05600c46d100b0041409db0349sm9505616wmo.48.2024.03.30.13.27.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Mar 2024 13:27:45 -0700 (PDT)
+ Sat, 30 Mar 2024 13:27:46 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Jagan Teki <jagan@amarulasolutions.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -66,10 +67,12 @@ To: Jagan Teki <jagan@amarulasolutions.com>,
  Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 1/2] drm/bridge: chipone-icn6211: drop driver owner assignment
-Date: Sat, 30 Mar 2024 21:27:40 +0100
-Message-Id: <20240330202741.83867-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 2/2] drm/bridge: tc358764: drop driver owner assignment
+Date: Sat, 30 Mar 2024 21:27:41 +0100
+Message-Id: <20240330202741.83867-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240330202741.83867-1-krzysztof.kozlowski@linaro.org>
+References: <20240330202741.83867-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,19 +95,19 @@ does not need to.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/gpu/drm/bridge/chipone-icn6211.c | 1 -
+ drivers/gpu/drm/bridge/tc358764.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
-index 82d23e4df09e..43c1202701ee 100644
---- a/drivers/gpu/drm/bridge/chipone-icn6211.c
-+++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
-@@ -783,7 +783,6 @@ static struct mipi_dsi_driver chipone_dsi_driver = {
- 	.remove = chipone_dsi_remove,
+diff --git a/drivers/gpu/drm/bridge/tc358764.c b/drivers/gpu/drm/bridge/tc358764.c
+index deccb3995022..3d3d135b4348 100644
+--- a/drivers/gpu/drm/bridge/tc358764.c
++++ b/drivers/gpu/drm/bridge/tc358764.c
+@@ -401,7 +401,6 @@ static struct mipi_dsi_driver tc358764_driver = {
+ 	.remove = tc358764_remove,
  	.driver = {
- 		.name = "chipone-icn6211",
+ 		.name = "tc358764",
 -		.owner = THIS_MODULE,
- 		.of_match_table = chipone_of_match,
+ 		.of_match_table = tc358764_of_match,
  	},
  };
 -- 
