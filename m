@@ -2,40 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D4CD892CDF
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 21:07:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A57892CF2
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 21:27:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C29BB10E410;
-	Sat, 30 Mar 2024 20:07:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9358910E2D4;
+	Sat, 30 Mar 2024 20:27:50 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WSnO9cPM";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it [5.144.164.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FBCF10E9D2;
- Sat, 30 Mar 2024 20:07:46 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
- server-digest SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 265153F61D;
- Sat, 30 Mar 2024 21:07:43 +0100 (CET)
-Date: Sat, 30 Mar 2024 21:07:40 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH] drm/msm/dpu: make error messages at
- dpu_core_irq_register_callback() more sensible
-Message-ID: <6ysok4lmub3xuyjwbc32lsecmurfvaciv7bekxrjefdzmv4mrt@sei6yxukozca>
-References: <20240330-dpu-irq-messages-v1-1-9ce782ae35f9@linaro.org>
- <dosvghhvlrmmrdvd5malknbgdel6vlclvozkqcdvbmjnaw2yze@vr4pqvu3mudb>
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B52518989C
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 20:27:47 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-415482308f8so15890965e9.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 13:27:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1711830466; x=1712435266; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=3gBZRypw7eFJBqOZhPqW7krS5T53iZPLz//P5NJv5yo=;
+ b=WSnO9cPME7+2W/ifU3XJOCTha6PD985egx0Epuk01MEdStqzzVZHYX+v6CEMx+aaZg
+ 6VopdKkiCbNng0dm0X5prIJb23PDsKiXwDPgdcIAj6i+iY1pEVyDSKgN9YnWf5OSVJHo
+ RmvReqwPcj+Ya7CyKU4pubMobdxhmQQnAjXTShCUOYqS3vDQS/wHedaFUAIZY/JyggnU
+ gtiqby1yeVWQq7pMdQlFbYokWPG6kdjUz2vdoPUOta4zVV251EM9td9wtY1vRk0d2Lg8
+ YBwfWLtKt2pyZ8/JKQLMg/acPzRVu2U6bkLV03V6704Qho8IqzBLCNBN1C+jyJavyyIU
+ N/Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711830466; x=1712435266;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3gBZRypw7eFJBqOZhPqW7krS5T53iZPLz//P5NJv5yo=;
+ b=NvHkPk2A48ZYqRkewulCUS7g+tZ6kjlmZamtPga+dOvrFnv7APtyrX2nbxYktO5OOd
+ sDkHU0aHXptKbKGXe9QRHG0DQAz8/Z4B+u+3N1CoD4T66s3TgtxHepkA7cVNTiAR+Hb4
+ 2zLRDsTwGzxVXmmW61xEOUlbE7lEMXs7CK3sFF7XctNkYMbBHlYgEKJrTd+4Tw2xuPNz
+ tXJ3Ku6usQ9N38/s8dtu14OjsCbgeofy0bnFxyY2jNCcc8gTKFXuA/Ld2V3eHtIrLXxI
+ pSSZS1WqYhBvHS8wV9iEQ+hdoOlJDXHbyB9ERZvEuN8jWKmaChwrONKLCKzFs1yyQn3X
+ wuYw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW2xhesandIdzLv7iu0f18w/oiFSAgENSaWgiJ8GgHXeRSYTkYvN5hkJ9xZzBT+/jlpRlwOCAycj/d4a8Sqbx1mPPD0WTN+FztAZuEhMCwV
+X-Gm-Message-State: AOJu0YzZGTuTyUhr4VejzoHNbvchIUWp27Sf/5RUsMHQaAiAn6pz7bW+
+ WoBxHYudG05V2tFQ03KIKGCEwBYuG26H/C1z0Mk5wye5N6Nat3rVf4rmKAjy+8U=
+X-Google-Smtp-Source: AGHT+IGiediON0ELikHy/elKnPO4WPe3ex+JoynxDpd5PfqunqrjvyVunhrRIHlUdtSG+VqRmnZhmg==
+X-Received: by 2002:a05:600c:1c05:b0:415:456c:a17f with SMTP id
+ j5-20020a05600c1c0500b00415456ca17fmr3563275wms.25.1711830465715; 
+ Sat, 30 Mar 2024 13:27:45 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.223.16]) by smtp.gmail.com with ESMTPSA id
+ q17-20020a05600c46d100b0041409db0349sm9505616wmo.48.2024.03.30.13.27.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 30 Mar 2024 13:27:45 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 1/2] drm/bridge: chipone-icn6211: drop driver owner assignment
+Date: Sat, 30 Mar 2024 21:27:40 +0100
+Message-Id: <20240330202741.83867-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dosvghhvlrmmrdvd5malknbgdel6vlclvozkqcdvbmjnaw2yze@vr4pqvu3mudb>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,63 +87,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-03-30 11:31:37, Marijn Suijten wrote:
-> On 2024-03-30 05:53:22, Dmitry Baryshkov wrote:
-> > There is little point in using %ps to print a value known to be NULL. On
-> > the other hand it makes sense to print the callback symbol in the
-> > 'invalid IRQ' message. Correct those two error messages to make more
-> > sense.
-> > 
-> > Fixes: 6893199183f8 ("drm/msm/dpu: stop using raw IRQ indices in the kernel output")
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
-> Agreed, this is a lot more clear:
-> 
-> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+Core in mipi_dsi_driver_register() already sets the .owner, so driver
+does not need to.
 
-Note that, as seen in [1], there are still a few codepaths that only print
-"invalid IRQ" without any additional context (if we could even add it - __func__
-might be a good start) and inconsistently use DPU_ERROR vs pr_err too :/
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ drivers/gpu/drm/bridge/chipone-icn6211.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Any possibility to address that?
+diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
+index 82d23e4df09e..43c1202701ee 100644
+--- a/drivers/gpu/drm/bridge/chipone-icn6211.c
++++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
+@@ -783,7 +783,6 @@ static struct mipi_dsi_driver chipone_dsi_driver = {
+ 	.remove = chipone_dsi_remove,
+ 	.driver = {
+ 		.name = "chipone-icn6211",
+-		.owner = THIS_MODULE,
+ 		.of_match_table = chipone_of_match,
+ 	},
+ };
+-- 
+2.34.1
 
-- Marijn
-
-[1]: https://lore.kernel.org/linux-arm-msm/mxwrvnqth5f2vd4m55ryzqgyj7brykiqynzldelanxkuj2zny3@4pqi6p57c2q2/
-
-> > ---
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> > index 946dd0135dff..6a0a74832fb6 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> > @@ -525,14 +525,14 @@ int dpu_core_irq_register_callback(struct dpu_kms *dpu_kms,
-> >  	int ret;
-> >  
-> >  	if (!irq_cb) {
-> > -		DPU_ERROR("invalid IRQ=[%d, %d] irq_cb:%ps\n",
-> > -			  DPU_IRQ_REG(irq_idx), DPU_IRQ_BIT(irq_idx), irq_cb);
-> > +		DPU_ERROR("IRQ=[%d, %d] NULL callback\n",
-> > +			  DPU_IRQ_REG(irq_idx), DPU_IRQ_BIT(irq_idx));
-> >  		return -EINVAL;
-> >  	}
-> >  
-> >  	if (!dpu_core_irq_is_valid(irq_idx)) {
-> > -		DPU_ERROR("invalid IRQ=[%d, %d]\n",
-> > -			  DPU_IRQ_REG(irq_idx), DPU_IRQ_BIT(irq_idx));
-> > +		DPU_ERROR("invalid IRQ=[%d, %d] irq_cb:%ps\n",
-> > +			  DPU_IRQ_REG(irq_idx), DPU_IRQ_BIT(irq_idx), irq_cb);
-> >  		return -EINVAL;
-> >  	}
-> >  
-> > 
-> > ---
-> > base-commit: 13ee4a7161b6fd938aef6688ff43b163f6d83e37
-> > change-id: 20240330-dpu-irq-messages-5cf13fd7568c
-> > 
-> > Best regards,
-> > -- 
-> > Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > 
