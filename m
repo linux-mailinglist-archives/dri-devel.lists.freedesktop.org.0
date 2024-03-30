@@ -2,71 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E9B2892BA7
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 16:00:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5934892BA8
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 16:00:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DAC710E882;
-	Sat, 30 Mar 2024 15:00:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A51B710E886;
+	Sat, 30 Mar 2024 15:00:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=paroga.com header.i=@paroga.com header.b="WS2FelSU";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=paroga.com header.i=@paroga.com header.b="WS2FelSU";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="W6wyLFNr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx104.easyname.com (mx104.easyname.com [77.244.243.90])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07F2C10E882
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 15:00:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=paroga.com; 
- s=easyname;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=ZvjVCv6tx6IWR0JEWMMNFqOIGJ1YPrQjwnbxKPpcxE0=; b=WS2FelSUA4u3/d0BLllAWXpp9/
- W7CZqLMsya8CJoEnCHXmiTIYsyWai7MAy4EJ79UyzjV1Obf9X19Gm75De+tVrtZex9oNduvknWAcY
- aH7wcBir86YAPeImeNt6hzDGi9XqHSrl0BBcNTNETy8QCJ77xry+IsPFdf/0kG0qao2ZhD/DB/OC0
- SpIF0dDWmnbxHKfPuHXUhcn7TrGTLE1YD+bst+t2vZ66hjAuR4McrXiAMbZtfYtLNaTjcmOpPD3K0
- qIgk5aivkE+1bFDJt9ZtuWfGRS9YMvlj0ob8U819EyclkxeNYEeOq9BwY7bVrSc9LbNMyCIpCy8TV
- PUXfrbHA==;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=paroga.com; 
- s=easyname;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=ZvjVCv6tx6IWR0JEWMMNFqOIGJ1YPrQjwnbxKPpcxE0=; b=WS2FelSUA4u3/d0BLllAWXpp9/
- W7CZqLMsya8CJoEnCHXmiTIYsyWai7MAy4EJ79UyzjV1Obf9X19Gm75De+tVrtZex9oNduvknWAcY
- aH7wcBir86YAPeImeNt6hzDGi9XqHSrl0BBcNTNETy8QCJ77xry+IsPFdf/0kG0qao2ZhD/DB/OC0
- SpIF0dDWmnbxHKfPuHXUhcn7TrGTLE1YD+bst+t2vZ66hjAuR4McrXiAMbZtfYtLNaTjcmOpPD3K0
- qIgk5aivkE+1bFDJt9ZtuWfGRS9YMvlj0ob8U819EyclkxeNYEeOq9BwY7bVrSc9LbNMyCIpCy8TV
- PUXfrbHA==;
-Received: from 84-115-225-203.cable.dynamic.surfer.at ([84.115.225.203]
- helo=localhost.localdomain)
- by mx.easyname.com with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <paroga@paroga.com>)
- id 1rqaBv-0002RN-58; Sat, 30 Mar 2024 15:00:23 +0000
-From: Patrick Gansterer <paroga@paroga.com>
-To: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org
-Cc: Patrick Gansterer <paroga@paroga.com>, Lee Jones <lee@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
- Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v5 2/2] backlight: Add new lm3509 backlight driver
-Date: Sat, 30 Mar 2024 15:59:25 +0100
-Message-ID: <20240330145931.729116-3-paroga@paroga.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240330145931.729116-1-paroga@paroga.com>
-References: <20240330145931.729116-1-paroga@paroga.com>
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F06610E892
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 15:00:50 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-513d212f818so3047164e87.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 08:00:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1711810848; x=1712415648; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=qeFUNYhrsBvDmXfNh3GP5CFwWeV+2KjCY5GUTF19i58=;
+ b=W6wyLFNrf98VYZ7cGnSQ6Lr1c1NNvi8D7YT+lVurUqzCIgtyNocLamoxFmczTGOO7w
+ 7lE0mHr28YmNb1l8Qh0meRouSabeoH1gybLMg9k60tCEMnXUk7m6wk49UPjQo0Oldrip
+ SEN+9TtZprVytWY6dOUfxqMKLO3X5MBOOQeiYQLvm2uXNwK7e0USYtcKN4tyiKex+Q3Y
+ H0opLar4UIkoV99rmEl90zG1vZZtYdApAp07v8qKEtH+0i6xsZElxiNE8rBUX5wrsEkQ
+ G5BMUu4CS+4kaegDBqcIuRcpLxWyYNQJcaQaDJggi2YplQnaXenmk7wm+uYQ5bqyu2rM
+ 9Rdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711810848; x=1712415648;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qeFUNYhrsBvDmXfNh3GP5CFwWeV+2KjCY5GUTF19i58=;
+ b=OOvzzs1HUFKisZIxJe62rlx53tIY0BM7YgK3aVH+MY0PBX+0XR1jttcVLeKk1nHxGC
+ KLXhuQGzz4KdfgnBfPURomWUNf0O+N79bWc93QzzaAXuKoorYJdbZXXDMLL21uBhr2j+
+ aL4Y3gf/uHf4A601ucNFuwffQrxDWfAvZNCjtlii4ZE568UfOpYSNDMZRC5xH4cz1dfr
+ eZr6Gk0Uic5CZGOCrhrxiNlOfAzFtHUW8/QbuWhEbz/tWlU4fPC3IauVZUynsnb4+jRS
+ 2E9PpL1Xf9nFPKgoROzbNeIzz9hirREipEaEIH04f2VftqqccZoD/I8UqhVHG7MDMcO/
+ ASIA==
+X-Gm-Message-State: AOJu0YxWiXFRheCQnul1lVKvUWY1B0MJXqeLs/xvzRVygV8XLHC3y77I
+ TpuK1t2N6PznwcjuQw/yS70gZUesccgtCzsvi9u15rb9DQaF5rLGlPCNGyytO30=
+X-Google-Smtp-Source: AGHT+IHN7f4UYparBiAGyFZQsvMsLXikA/nW80TyS4l4HLUhBjxfSbN21Vqi/NPZ7qlAf4/qE6rLmQ==
+X-Received: by 2002:ac2:58f2:0:b0:513:3d26:7cc6 with SMTP id
+ v18-20020ac258f2000000b005133d267cc6mr2848569lfo.15.1711810847829; 
+ Sat, 30 Mar 2024 08:00:47 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
+ j5-20020a056512344500b00515d205a6f0sm496199lfr.29.2024.03.30.08.00.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 30 Mar 2024 08:00:47 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 0/3] drm/panel: add support for LG SW43408 panel
+Date: Sat, 30 Mar 2024 17:00:45 +0200
+Message-Id: <20240330-lg-sw43408-panel-v2-0-293a58717b38@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Easy-Autoreply: EN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAB0pCGYC/32NTQrCMBBGr1Jm7Uh+obryHtJFbCfpQElKIlEpv
+ buxB3D5Hnzv26BQZipw7TbIVLlwig3UqYNxdjEQ8tQYlFBGaC1wCVheRhvR4+oiLfiwVnkj5Wg
+ 1QZutmTy/j+R9aDxzeab8OR6q/Nk/sSpRoLe2F368eDW528LR5XROOcCw7/sXkSIEILEAAAA=
+To: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Caleb Connolly <caleb.connolly@linaro.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Vinod Koul <vkoul@kernel.org>, Caleb Connolly <caleb@connolly.tech>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1736;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=TbTHOui9nRbzInfWv54rG7ybH2YP9w+pNQe9Uik8Gy0=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmCCkeW9RMtkNd3jg/F4YF3+7GbRlOaHo4dt3gG
+ f5lWmdi9/uJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZggpHgAKCRCLPIo+Aiko
+ 1aABCACVd6NQSpXlyfAImYk+V5+sCXVWy/Cu78jlO/LPhB1OjoR5DQ/YwVOttpOAg7b5pZ5dd3I
+ faWpAQ32mUBBtU091NXtPFmAZVmbrjplgCg8HQ3CSuAq266/Y7b5NpwEPLe2u8sGL0sB+EjyDeu
+ Jj9uD9DMDDmAS8ju3jFcWEkehWec1SHrJe97vzFWa9iDp3I8uDC80MXXYSAjdZbzL7fud6GPbcC
+ LRMfhO7q38gMBkBys2rirGZhoH5gaxbRzel22HcaIXCGGRSnw1ZtiFFZtvfLvrpTNIsVeGLY+Q/
+ q/ccLjijPHfpvLswPPiYTttJM7pdyO1DVcrICuq1NRTZFqQy
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,396 +103,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a general driver for LM3509 backlight chip of TI.
-LM3509 is High Efficiency Boost for White LEDs and/or OLED Displays with
-Dual Current Sinks. This driver supports OLED/White LED select, brightness
-control and sub/main control.
-The datasheet can be found at http://www.ti.com/product/lm3509.
+The LG SW43408 panel is used on Google Pixel3 devices. For a long time
+we could not submit the driver, as the panel was not coming up from the
+reset. The panel seems to be picky about some of the delays during init
+and it also uses non-standard payload for MIPI_DSI_COMPRESSION_MODE.
 
-Signed-off-by: Patrick Gansterer <paroga@paroga.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/video/backlight/Kconfig     |   7 +
- drivers/video/backlight/Makefile    |   1 +
- drivers/video/backlight/lm3509_bl.c | 340 ++++++++++++++++++++++++++++
- 3 files changed, 348 insertions(+)
- create mode 100644 drivers/video/backlight/lm3509_bl.c
+Changes in v2:
+- Removed formatting char from schema (Krzysztof)
+- Moved additionalProperties after required (Krzysztof)
+- Added example to the schema (Krzysztof)
+- Removed obsolete comment in the commit message (Marijn)
+- Moved DSC params to the panel struct (Marijn)
+- Changed dsc_en to be an array (Marijn)
+- Added comment regiarding slice_width and slice_count (Marijn)
+- Link to v1: https://lore.kernel.org/r/20240330-lg-sw43408-panel-v1-0-f5580fc9f2da@linaro.org
 
-diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-index 230bca07b09d..3614a5d29c71 100644
---- a/drivers/video/backlight/Kconfig
-+++ b/drivers/video/backlight/Kconfig
-@@ -373,6 +373,13 @@ config BACKLIGHT_AAT2870
- 	  If you have a AnalogicTech AAT2870 say Y to enable the
- 	  backlight driver.
- 
-+config BACKLIGHT_LM3509
-+	tristate "Backlight Driver for LM3509"
-+	depends on I2C
-+	select REGMAP_I2C
-+	help
-+	  This supports TI LM3509 Backlight Driver
-+
- config BACKLIGHT_LM3630A
- 	tristate "Backlight Driver for LM3630A"
- 	depends on I2C && PWM
-diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
-index 8d2cb252042d..8fc98f760a8a 100644
---- a/drivers/video/backlight/Makefile
-+++ b/drivers/video/backlight/Makefile
-@@ -36,6 +36,7 @@ obj-$(CONFIG_BACKLIGHT_IPAQ_MICRO)	+= ipaq_micro_bl.o
- obj-$(CONFIG_BACKLIGHT_KTD253)		+= ktd253-backlight.o
- obj-$(CONFIG_BACKLIGHT_KTD2801)		+= ktd2801-backlight.o
- obj-$(CONFIG_BACKLIGHT_KTZ8866)		+= ktz8866.o
-+obj-$(CONFIG_BACKLIGHT_LM3509)		+= lm3509_bl.o
- obj-$(CONFIG_BACKLIGHT_LM3533)		+= lm3533_bl.o
- obj-$(CONFIG_BACKLIGHT_LM3630A)		+= lm3630a_bl.o
- obj-$(CONFIG_BACKLIGHT_LM3639)		+= lm3639_bl.o
-diff --git a/drivers/video/backlight/lm3509_bl.c b/drivers/video/backlight/lm3509_bl.c
-new file mode 100644
-index 000000000000..ab57f79ffe23
---- /dev/null
-+++ b/drivers/video/backlight/lm3509_bl.c
-@@ -0,0 +1,340 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+#include <linux/backlight.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/regmap.h>
-+
-+#define LM3509_NAME "lm3509_bl"
-+
-+#define LM3509_SINK_MAIN 0
-+#define LM3509_SINK_SUB 1
-+#define LM3509_NUM_SINKS 2
-+
-+#define LM3509_DEF_BRIGHTNESS 0x12
-+#define LM3509_MAX_BRIGHTNESS 0x1F
-+
-+#define REG_GP 0x10
-+#define REG_BMAIN 0xA0
-+#define REG_BSUB 0xB0
-+#define REG_MAX 0xFF
-+
-+enum {
-+	REG_GP_ENM_BIT = 0,
-+	REG_GP_ENS_BIT,
-+	REG_GP_UNI_BIT,
-+	REG_GP_RMP0_BIT,
-+	REG_GP_RMP1_BIT,
-+	REG_GP_OLED_BIT,
-+};
-+
-+struct lm3509_bl {
-+	struct regmap *regmap;
-+	struct backlight_device *bl_main;
-+	struct backlight_device *bl_sub;
-+	struct gpio_desc *reset_gpio;
-+};
-+
-+struct lm3509_bl_led_data {
-+	const char *label;
-+	int led_sources;
-+	u32 brightness;
-+	u32 max_brightness;
-+};
-+
-+static void lm3509_reset(struct lm3509_bl *data)
-+{
-+	if (data->reset_gpio) {
-+		gpiod_set_value(data->reset_gpio, 1);
-+		udelay(1);
-+		gpiod_set_value(data->reset_gpio, 0);
-+		udelay(10);
-+	}
-+}
-+
-+static int lm3509_update_status(struct backlight_device *bl,
-+				unsigned int en_mask, unsigned int br_reg)
-+{
-+	struct lm3509_bl *data = bl_get_data(bl);
-+	int ret;
-+	bool en;
-+
-+	ret = regmap_write(data->regmap, br_reg, backlight_get_brightness(bl));
-+	if (ret < 0)
-+		return ret;
-+
-+	en = !backlight_is_blank(bl);
-+	return regmap_update_bits(data->regmap, REG_GP, en_mask,
-+				  en ? en_mask : 0);
-+}
-+
-+static int lm3509_main_update_status(struct backlight_device *bl)
-+{
-+	return lm3509_update_status(bl, BIT(REG_GP_ENM_BIT), REG_BMAIN);
-+}
-+
-+static const struct backlight_ops lm3509_main_ops = {
-+	.options = BL_CORE_SUSPENDRESUME,
-+	.update_status = lm3509_main_update_status,
-+};
-+
-+static int lm3509_sub_update_status(struct backlight_device *bl)
-+{
-+	return lm3509_update_status(bl, BIT(REG_GP_ENS_BIT), REG_BSUB);
-+}
-+
-+static const struct backlight_ops lm3509_sub_ops = {
-+	.options = BL_CORE_SUSPENDRESUME,
-+	.update_status = lm3509_sub_update_status,
-+};
-+
-+static struct backlight_device *
-+lm3509_backlight_register(struct device *dev, const char *name_suffix,
-+			  struct lm3509_bl *data,
-+			  const struct backlight_ops *ops,
-+			  const struct lm3509_bl_led_data *led_data)
-+
-+{
-+	struct backlight_device *bd;
-+	struct backlight_properties props;
-+	const char *label = led_data->label;
-+	char name[64];
-+
-+	memset(&props, 0, sizeof(props));
-+	props.type = BACKLIGHT_RAW;
-+	props.brightness = led_data->brightness;
-+	props.max_brightness = led_data->max_brightness;
-+	props.scale = BACKLIGHT_SCALE_NON_LINEAR;
-+
-+	if (!label) {
-+		snprintf(name, sizeof(name), "lm3509-%s-%s", dev_name(dev),
-+			 name_suffix);
-+		label = name;
-+	}
-+
-+	bd = devm_backlight_device_register(dev, label, dev, data, ops, &props);
-+	if (bd)
-+		backlight_update_status(bd);
-+
-+	return bd;
-+}
-+
-+static const struct regmap_config lm3509_regmap = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = REG_MAX,
-+};
-+
-+static int lm3509_parse_led_sources(struct device_node *node,
-+				    int default_led_sources)
-+{
-+	u32 sources[LM3509_NUM_SINKS];
-+	int ret, num_sources, i;
-+
-+	num_sources = of_property_count_u32_elems(node, "led-sources");
-+	if (num_sources < 0)
-+		return default_led_sources;
-+	else if (num_sources > ARRAY_SIZE(sources))
-+		return -EINVAL;
-+
-+	ret = of_property_read_u32_array(node, "led-sources", sources,
-+					 num_sources);
-+	if (ret)
-+		return ret;
-+
-+	for (i = 0; i < num_sources; i++) {
-+		if (sources[i] >= LM3509_NUM_SINKS)
-+			return -EINVAL;
-+
-+		ret |= BIT(sources[i]);
-+	}
-+
-+	return ret;
-+}
-+
-+static int lm3509_parse_dt_node(struct device *dev,
-+				struct lm3509_bl_led_data *led_data)
-+{
-+	struct device_node *child;
-+	int seen_led_sources = 0;
-+
-+	for_each_child_of_node(dev->of_node, child) {
-+		struct lm3509_bl_led_data *ld;
-+		int ret;
-+		u32 reg;
-+		int valid_led_sources;
-+
-+		ret = of_property_read_u32(child, "reg", &reg);
-+		if (ret < 0)
-+			return ret;
-+		if (reg >= LM3509_NUM_SINKS)
-+			return -EINVAL;
-+		ld = &led_data[reg];
-+
-+		ld->led_sources = lm3509_parse_led_sources(child, BIT(reg));
-+		if (ld->led_sources < 0)
-+			return ld->led_sources;
-+
-+		if (reg == 0)
-+			valid_led_sources = BIT(LM3509_SINK_MAIN) |
-+					    BIT(LM3509_SINK_SUB);
-+		else
-+			valid_led_sources = BIT(LM3509_SINK_SUB);
-+
-+		if (ld->led_sources != (ld->led_sources & valid_led_sources))
-+			return -EINVAL;
-+
-+		if (seen_led_sources & ld->led_sources)
-+			return -EINVAL;
-+
-+		seen_led_sources |= ld->led_sources;
-+
-+		ld->label = NULL;
-+		of_property_read_string(child, "label", &ld->label);
-+
-+		ld->max_brightness = LM3509_MAX_BRIGHTNESS;
-+		of_property_read_u32(child, "max-brightness",
-+				     &ld->max_brightness);
-+		ld->max_brightness =
-+			min_t(u32, ld->max_brightness, LM3509_MAX_BRIGHTNESS);
-+
-+		ld->brightness = LM3509_DEF_BRIGHTNESS;
-+		of_property_read_u32(child, "default-brightness",
-+				     &ld->brightness);
-+		ld->brightness = min_t(u32, ld->brightness, ld->max_brightness);
-+	}
-+
-+	return 0;
-+}
-+
-+static int lm3509_probe(struct i2c_client *client)
-+{
-+	struct lm3509_bl *data;
-+	struct device *dev = &client->dev;
-+	int ret;
-+	bool oled_mode = false;
-+	unsigned int reg_gp_val = 0;
-+	struct lm3509_bl_led_data led_data[LM3509_NUM_SINKS];
-+	u32 rate_of_change = 0;
-+
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-+		dev_err(dev, "i2c functionality check failed\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	data = devm_kzalloc(dev, sizeof(struct lm3509_bl), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	data->regmap = devm_regmap_init_i2c(client, &lm3509_regmap);
-+	if (IS_ERR(data->regmap))
-+		return PTR_ERR(data->regmap);
-+	i2c_set_clientdata(client, data);
-+
-+	data->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(data->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(data->reset_gpio),
-+				     "Failed to get 'reset' gpio\n");
-+
-+	lm3509_reset(data);
-+
-+	memset(led_data, 0, sizeof(led_data));
-+	ret = lm3509_parse_dt_node(dev, led_data);
-+	if (ret)
-+		return ret;
-+
-+	oled_mode = of_property_read_bool(dev->of_node, "ti,oled-mode");
-+
-+	if (!of_property_read_u32(dev->of_node,
-+				  "ti,brightness-rate-of-change-us",
-+				  &rate_of_change)) {
-+		switch (rate_of_change) {
-+		case 51:
-+			reg_gp_val = 0;
-+			break;
-+		case 13000:
-+			reg_gp_val = BIT(REG_GP_RMP1_BIT);
-+			break;
-+		case 26000:
-+			reg_gp_val = BIT(REG_GP_RMP0_BIT);
-+			break;
-+		case 52000:
-+			reg_gp_val = BIT(REG_GP_RMP0_BIT) |
-+				     BIT(REG_GP_RMP1_BIT);
-+			break;
-+		default:
-+			dev_warn(dev, "invalid rate of change %u\n",
-+				 rate_of_change);
-+			break;
-+		}
-+	}
-+
-+	if (led_data[0].led_sources ==
-+	    (BIT(LM3509_SINK_MAIN) | BIT(LM3509_SINK_SUB)))
-+		reg_gp_val |= BIT(REG_GP_UNI_BIT);
-+	if (oled_mode)
-+		reg_gp_val |= BIT(REG_GP_OLED_BIT);
-+
-+	ret = regmap_write(data->regmap, REG_GP, reg_gp_val);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "failed to write register\n");
-+
-+	if (led_data[0].led_sources) {
-+		data->bl_main = lm3509_backlight_register(
-+			dev, "main", data, &lm3509_main_ops, &led_data[0]);
-+		if (IS_ERR(data->bl_main)) {
-+			return dev_err_probe(
-+				dev, PTR_ERR(data->bl_main),
-+				"failed to register main backlight\n");
-+		}
-+	}
-+
-+	if (led_data[1].led_sources) {
-+		data->bl_sub = lm3509_backlight_register(
-+			dev, "sub", data, &lm3509_sub_ops, &led_data[1]);
-+		if (IS_ERR(data->bl_sub)) {
-+			return dev_err_probe(
-+				dev, PTR_ERR(data->bl_sub),
-+				"failed to register secondary backlight\n");
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static void lm3509_remove(struct i2c_client *client)
-+{
-+	struct lm3509_bl *data = i2c_get_clientdata(client);
-+
-+	regmap_write(data->regmap, REG_GP, 0x00);
-+}
-+
-+static const struct i2c_device_id lm3509_id[] = { { LM3509_NAME, 0 }, {} };
-+
-+MODULE_DEVICE_TABLE(i2c, lm3509_id);
-+
-+static const struct of_device_id lm3509_match_table[] = {
-+	{
-+		.compatible = "ti,lm3509",
-+	},
-+	{},
-+};
-+
-+MODULE_DEVICE_TABLE(of, lm3509_match_table);
-+
-+static struct i2c_driver lm3509_i2c_driver = {
-+	.driver = {
-+		.name = LM3509_NAME,
-+		.of_match_table = lm3509_match_table,
-+	},
-+	.probe = lm3509_probe,
-+	.remove = lm3509_remove,
-+	.id_table = lm3509_id,
-+};
-+
-+module_i2c_driver(lm3509_i2c_driver);
-+
-+MODULE_DESCRIPTION("Texas Instruments Backlight driver for LM3509");
-+MODULE_AUTHOR("Patrick Gansterer <paroga@paroga.com>");
-+MODULE_LICENSE("GPL");
+---
+Dmitry Baryshkov (1):
+      drm/mipi-dsi: add mipi_dsi_compression_mode_raw()
+
+Sumit Semwal (2):
+      dt-bindings: panel: Add LG SW43408 MIPI-DSI panel
+      drm: panel: Add LG sw43408 panel driver
+
+ .../bindings/display/panel/lg,sw43408.yaml         |  62 ++++
+ MAINTAINERS                                        |   8 +
+ drivers/gpu/drm/drm_mipi_dsi.c                     |  34 ++-
+ drivers/gpu/drm/panel/Kconfig                      |  11 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ drivers/gpu/drm/panel/panel-lg-sw43408.c           | 321 +++++++++++++++++++++
+ include/drm/drm_mipi_dsi.h                         |   1 +
+ 7 files changed, 430 insertions(+), 8 deletions(-)
+---
+base-commit: 13ee4a7161b6fd938aef6688ff43b163f6d83e37
+change-id: 20240330-lg-sw43408-panel-b552f411c53e
+
+Best regards,
 -- 
-2.44.0
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
