@@ -2,91 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5393489292B
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 04:59:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E2C8929FD
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 10:19:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41F8010E416;
-	Sat, 30 Mar 2024 03:59:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA6A710E0D2;
+	Sat, 30 Mar 2024 09:19:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qdhb5B/Z";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vZeT9D5B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57A0210E392
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 03:59:34 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-515c3eeea5dso2680332e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 20:59:34 -0700 (PDT)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06ADD10E0D2
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 09:19:05 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-4149749cc36so18004095e9.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 02:19:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711771172; x=1712375972; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=WjzjJkPLaf/5sU8SH37VcIsolFjmu0UrsFouDXMFkec=;
- b=qdhb5B/ZKxBrHhc+hNwVVxou4DFLE6wgM7biHUZnGNjrAaO+Igk/7WtZc/u30fx4GP
- 6GG02XtI1v+hbmGLnqjRUE+55E9bt/lRCLI55vNnfJaLO+NYiLcSZwUaExLf3RWHzOvX
- PxA9KSUOxJ16koAWZpIafZCeXvbNr6C/T/xBZ9m3I7hIFjhJEEEj2zpEgYHdJJCXOOBa
- pL1LDFNwbwpYQLvrcL5uh5qG2qFE24/7xrwt47blPSc3eSPiRslGQK0YuOWrg8wCIOV3
- zWXGRRCCkKS8Apq6fZDHGO2z7kwtFSvUnHkNx7CfAFuASHQTrpaS+U0r/BbxSpfQEMTk
- Qa5g==
+ d=linaro.org; s=google; t=1711790344; x=1712395144; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=w1mk8zBRQYHVvICPsS2N4XIcQtvQjqHklPuab2TK6cg=;
+ b=vZeT9D5BYkCkKPXbGZWLkmto8qPaBCxwoNqxzUEpFxTl/Nxof8SV+waI8Wipb5RhGM
+ 6bqDGMsb2An1c9pNTxiCnfEWsEdtiSqpfAWFHBeOnYFxkuS0m5E3dGUTnCHbn8P4abnp
+ AC2pBeGyAPxxJkYDyb2IXkY3VFMddDGxBnKxN7umiJom7rB+5iJk/NqTxmqQVo3TOxc/
+ jBAT0DP5SVdeIaM++hE71LoaaTfSSoaKO7TEPWMGuLKCh27WAoudwpviDiFTU3BScThW
+ 7G434Ajf8xcB/XryZ1tpi9ShWxYdct0VgpBrzM7u6wFWexQNHijaRAqVfTyMQE0in3KS
+ iY8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711771172; x=1712375972;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WjzjJkPLaf/5sU8SH37VcIsolFjmu0UrsFouDXMFkec=;
- b=sGfUN4xvD12x6dD7djNwobtIFLQRRGjeMCA+qutcbX5DmJOOPlinnkXPqheNjlM9G0
- yGbUptrWQd3Se3mtTSQOGg2kBGZaCJU0HrMG4W2sIvqqejpaHVCNoOH0UTUahfr7MVrJ
- FkpD9EsDcRyfUT4E3yMsCKG6izt09uTE9OjhbVUth6vWjlXt+NU34XGkXEc9HAsloswg
- YboiJqK+s0tPXktp8koMW0MJAZ8UyGxoE9fPwtWNQjK6R+cO1w2n63iOqeEgQ3YhxH0T
- cbwr304KBukoCeiJKZ9kvAlS3dOTbhps375oeI8epf/fm7v1opT7t69xs2KuaFTlN1CJ
- yX8g==
-X-Gm-Message-State: AOJu0Yy+yv8Gccy/f4lGKvPG2JiNkxgkyyQ013PHRR7oJ5OxXW81J3E5
- 6Ccuoa/IuyDhW3A9xgTed8AmLZGyHbKEHDO7t9vDdko63PmGtCOQs76+PGVTTb0=
-X-Google-Smtp-Source: AGHT+IGqVPCCB3/eyVQg9oHRpBYxv5wUfYVbFTb1Te1jY1NNi0uT35uP6k6LWlpa/PFZlqz6q6RHXA==
-X-Received: by 2002:a05:6512:5c9:b0:513:b30c:53c7 with SMTP id
- o9-20020a05651205c900b00513b30c53c7mr2646887lfo.10.1711771172614; 
- Fri, 29 Mar 2024 20:59:32 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- br2-20020a056512400200b00515d1393f3csm423957lfb.104.2024.03.29.20.59.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Mar 2024 20:59:31 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 30 Mar 2024 05:59:30 +0200
-Subject: [PATCH 3/3] drm: panel: Add LG sw43408 panel driver
+ d=1e100.net; s=20230601; t=1711790344; x=1712395144;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=w1mk8zBRQYHVvICPsS2N4XIcQtvQjqHklPuab2TK6cg=;
+ b=Eked+nYBXVvuv1/qHAwClVhBCdYmAwOkgUDFYMMS8LNdImV4oec+mtbtPSD9UBz6TI
+ acKrjsoz3cfsOzPOrJdOFy/DT9RKV9Uio+Q4/EOc5ZiiFywI1kPj5zw5khLiR2sCzoqn
+ KFYxRu9FRmPQM4X4P02lCTPJ8Bar4iIawdLnug51yVezxugte7wGCVIcjsFf++TY43ZG
+ 5yuKjSjLDnc5HEM6/B9v0Xb4mTi9F/xfYLgR/LiSymswwMpQ80OFaEZqasL3Xe/6NHt3
+ GNy70q6lSytpO7J9EsTS7zY21sceN5FkDxIWVfVbL43q6NgQ6FWrVsDy4QzJccOtRsOZ
+ OCHA==
+X-Gm-Message-State: AOJu0Yx0jwkgA0fgZ84uvoJTD0MT/AaRAiOM3fPHmZ3uJUGzWKu0kx/u
+ FrnP56YVPwal7xiy5z4QGWuz7X1xjlsF2TJthuFMXBbPoDhAzk1FH2K3RbvaFc8=
+X-Google-Smtp-Source: AGHT+IGGh6i7z5ymu7YxZxlPO5JyJtK4NDilT7dbif1JUNG5Nd+SS9lsd02nT+psaFpiT2qAGBvO2g==
+X-Received: by 2002:a05:600c:2216:b0:414:8889:5a39 with SMTP id
+ z22-20020a05600c221600b0041488895a39mr3050994wml.17.1711790343822; 
+ Sat, 30 Mar 2024 02:19:03 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.16])
+ by smtp.gmail.com with ESMTPSA id
+ g16-20020a05600c311000b004148670f9ecsm7985933wmo.23.2024.03.30.02.19.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 30 Mar 2024 02:19:03 -0700 (PDT)
+Message-ID: <196f906e-2af5-48ed-85c7-8589becd480a@linaro.org>
+Date: Sat, 30 Mar 2024 10:19:01 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240330-lg-sw43408-panel-v1-3-f5580fc9f2da@linaro.org>
-References: <20240330-lg-sw43408-panel-v1-0-f5580fc9f2da@linaro.org>
-In-Reply-To: <20240330-lg-sw43408-panel-v1-0-f5580fc9f2da@linaro.org>
-To: Sumit Semwal <sumit.semwal@linaro.org>, 
- Caleb Connolly <caleb.connolly@linaro.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dt-bindings: panel: Add LG SW43408 MIPI-DSI panel
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Caleb Connolly <caleb.connolly@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  Vinod Koul <vkoul@kernel.org>, Caleb Connolly <caleb@connolly.tech>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=12464;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=YF+FNs4wpu9U2rfxEq/PVlcJ4tLwN+tWipMzmBnmhFI=;
- b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQxp7n+K+iexlj0y5mdXnTGmYIqmQobNV6/IT+8wTu7kDz
- 818cW1WJ6MxCwMjF4OsmCKLT0HL1JhNyWEfdkythxnEygQyhYGLUwAmkjKd/Z+ho+12o/rVeQ/8
- dDICi017bv+ZFLjO0f62olecq9L+3WuL3SbkeHQ+La0K7S851b7r2MJt4s/8A/Wbkg/0b7lTo+e
- x5dx3mWtViml+x547JRsoyR/qeOusbHtlSaNH3hoRFo49LvxXLnUH9mRs3suvPavp1nuJfb/Vs7
- dbXDBp+Dz/29yiKnPjB1n7v+s4vs9Oy+II8jwU/fyqSdG/VzVutTlO6wK2Tgt80NP9vchw/m27N
- 4lJ03v4f8jteB7ifr7AhfXRTANJ76qXmX8YdKssjBRjr2eluUTZ+8Up9iWEbdRXOZbAL1xq7XDr
- 7rOfSRLsd7b9epqYYcfD/2bBpoqbvRWNxw/PUzBiqa0GAA==
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+References: <20240330-lg-sw43408-panel-v1-0-f5580fc9f2da@linaro.org>
+ <20240330-lg-sw43408-panel-v1-1-f5580fc9f2da@linaro.org>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240330-lg-sw43408-panel-v1-1-f5580fc9f2da@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,413 +140,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sumit Semwal <sumit.semwal@linaro.org>
+On 30/03/2024 04:59, Dmitry Baryshkov wrote:
+> From: Sumit Semwal <sumit.semwal@linaro.org>
+> 
+> LG SW43408 is 1080x2160, 4-lane MIPI-DSI panel present on Google Pixel 3
+> phones.
 
-LG SW43408 is 1080x2160, 4-lane MIPI-DSI panel, used in some Pixel3
-phones.
+... Few nits, which could be ignored, and one thing which is blocking -
+missing example.
 
-Whatever init sequence we have for this panel isn't capable of
-initialising it completely, toggling the reset gpio ever causes the
-panel to die. Until this is resolved we avoid resetting the panel. The
-disable/unprepare functions only put the panel to sleep mode and
-disable the backlight.
+> +
+> +maintainers:
+> +  - Caleb Connolly <caleb.connolly@linaro.org>
+> +
+> +description: |
 
-Signed-off-by: Sumit Semwal <sumit.semwal@linaro.org>
-[vinod: Add DSC support]
-Signed-off-by: Vinod Koul <vkoul@kernel.org>
-[caleb: cleanup and support turning off the panel]
-Signed-off-by: Caleb Connolly <caleb@connolly.tech>
-[DB: partially rewrote the driver and fixed DSC programming]
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- MAINTAINERS                              |   8 +
- drivers/gpu/drm/panel/Kconfig            |  11 ++
- drivers/gpu/drm/panel/Makefile           |   1 +
- drivers/gpu/drm/panel/panel-lg-sw43408.c | 322 +++++++++++++++++++++++++++++++
- 4 files changed, 342 insertions(+)
+Do not need '|' unless you need to preserve formatting.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4b511a55101c..f4cf7ee97376 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6755,6 +6755,14 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
- F:	drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
- 
-+DRM DRIVER FOR LG SW43408 PANELS
-+M:	Sumit Semwal <sumit.semwal@linaro.org>
-+M:	Caleb Connolly <caleb.connolly@linaro.org>
-+S:	Maintained
-+T:	git git://anongit.freedesktop.org/drm/drm-misc
-+F:	Documentation/devicetree/bindings/display/panel/lg,sw43408.yaml
-+F:	drivers/gpu/drm/panel/panel-lg-sw43408.c
-+
- DRM DRIVER FOR LOGICVC DISPLAY CONTROLLER
- M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
- S:	Supported
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index d037b3b8b999..f94c702735cb 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -335,6 +335,17 @@ config DRM_PANEL_LG_LG4573
- 	  Say Y here if you want to enable support for LG4573 RGB panel.
- 	  To compile this driver as a module, choose M here.
- 
-+config DRM_PANEL_LG_SW43408
-+	tristate "LG SW43408 panel"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	help
-+	  Say Y here if you want to enable support for LG sw43408 panel.
-+	  The panel has a 1080x2160 resolution and uses
-+	  24 bit RGB per pixel. It provides a MIPI DSI interface to
-+	  the host and has a built-in LED backlight.
-+
- config DRM_PANEL_MAGNACHIP_D53E6EA8966
- 	tristate "Magnachip D53E6EA8966 DSI panel"
- 	depends on OF && SPI
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index f156d7fa0bcc..a75687d13caf 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -34,6 +34,7 @@ obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK050H3146W) += panel-leadtek-ltk050h3146w.o
- obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK500HD1829) += panel-leadtek-ltk500hd1829.o
- obj-$(CONFIG_DRM_PANEL_LG_LB035Q02) += panel-lg-lb035q02.o
- obj-$(CONFIG_DRM_PANEL_LG_LG4573) += panel-lg-lg4573.o
-+obj-$(CONFIG_DRM_PANEL_LG_SW43408) += panel-lg-sw43408.o
- obj-$(CONFIG_DRM_PANEL_MAGNACHIP_D53E6EA8966) += panel-magnachip-d53e6ea8966.o
- obj-$(CONFIG_DRM_PANEL_NEC_NL8048HL11) += panel-nec-nl8048hl11.o
- obj-$(CONFIG_DRM_PANEL_NEWVISION_NV3051D) += panel-newvision-nv3051d.o
-diff --git a/drivers/gpu/drm/panel/panel-lg-sw43408.c b/drivers/gpu/drm/panel/panel-lg-sw43408.c
-new file mode 100644
-index 000000000000..365d25e14d54
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-lg-sw43408.c
-@@ -0,0 +1,322 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright (C) 2019-2024 Linaro Ltd
-+ * Author: Sumit Semwal <sumit.semwal@linaro.org>
-+ *	 Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-+ */
-+
-+#include <linux/backlight.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/regulator/consumer.h>
-+
-+#include <video/mipi_display.h>
-+
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_panel.h>
-+#include <drm/drm_probe_helper.h>
-+#include <drm/display/drm_dsc.h>
-+#include <drm/display/drm_dsc_helper.h>
-+
-+#define NUM_SUPPLIES 2
-+
-+struct sw43408_panel {
-+	struct drm_panel base;
-+	struct mipi_dsi_device *link;
-+
-+	const struct drm_display_mode *mode;
-+
-+	struct regulator_bulk_data supplies[NUM_SUPPLIES];
-+
-+	struct gpio_desc *reset_gpio;
-+};
-+
-+static inline struct sw43408_panel *to_panel_info(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct sw43408_panel, base);
-+}
-+
-+static int sw43408_unprepare(struct drm_panel *panel)
-+{
-+	struct sw43408_panel *ctx = to_panel_info(panel);
-+	int ret;
-+
-+	ret = mipi_dsi_dcs_set_display_off(ctx->link);
-+	if (ret < 0)
-+		dev_err(panel->dev, "set_display_off cmd failed ret = %d\n", ret);
-+
-+	ret = mipi_dsi_dcs_enter_sleep_mode(ctx->link);
-+	if (ret < 0)
-+		dev_err(panel->dev, "enter_sleep cmd failed ret = %d\n", ret);
-+
-+	msleep(100);
-+
-+	gpiod_set_value(ctx->reset_gpio, 1);
-+
-+	return regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+}
-+
-+static int sw43408_program(struct drm_panel *panel)
-+{
-+	struct sw43408_panel *ctx = to_panel_info(panel);
-+	struct drm_dsc_picture_parameter_set pps;
-+	u8 dsc_en = 0x11;
-+
-+	mipi_dsi_dcs_write_seq(ctx->link, MIPI_DCS_SET_GAMMA_CURVE, 0x02);
-+
-+	mipi_dsi_dcs_set_tear_on(ctx->link, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
-+
-+	mipi_dsi_dcs_write_seq(ctx->link, 0x53, 0x0c, 0x30);
-+	mipi_dsi_dcs_write_seq(ctx->link, 0x55, 0x00, 0x70, 0xdf, 0x00, 0x70, 0xdf);
-+	mipi_dsi_dcs_write_seq(ctx->link, 0xf7, 0x01, 0x49, 0x0c);
-+
-+	mipi_dsi_dcs_exit_sleep_mode(ctx->link);
-+
-+	msleep(135);
-+
-+	mipi_dsi_compression_mode_raw(ctx->link, &dsc_en, 1);
-+
-+	mipi_dsi_dcs_write_seq(ctx->link, 0xb0, 0xac);
-+	mipi_dsi_dcs_write_seq(ctx->link, 0xe5,
-+			       0x00, 0x3a, 0x00, 0x3a, 0x00, 0x0e, 0x10);
-+	mipi_dsi_dcs_write_seq(ctx->link, 0xb5,
-+			       0x75, 0x60, 0x2d, 0x5d, 0x80, 0x00, 0x0a, 0x0b,
-+			       0x00, 0x05, 0x0b, 0x00, 0x80, 0x0d, 0x0e, 0x40,
-+			       0x00, 0x0c, 0x00, 0x16, 0x00, 0xb8, 0x00, 0x80,
-+			       0x0d, 0x0e, 0x40, 0x00, 0x0c, 0x00, 0x16, 0x00,
-+			       0xb8, 0x00, 0x81, 0x00, 0x03, 0x03, 0x03, 0x01,
-+			       0x01);
-+	msleep(85);
-+	mipi_dsi_dcs_write_seq(ctx->link, 0xcd,
-+			       0x00, 0x00, 0x00, 0x19, 0x19, 0x19, 0x19, 0x19,
-+			       0x19, 0x19, 0x19, 0x19, 0x19, 0x19, 0x19, 0x19,
-+			       0x16, 0x16);
-+	mipi_dsi_dcs_write_seq(ctx->link, 0xcb, 0x80, 0x5c, 0x07, 0x03, 0x28);
-+	mipi_dsi_dcs_write_seq(ctx->link, 0xc0, 0x02, 0x02, 0x0f);
-+	mipi_dsi_dcs_write_seq(ctx->link, 0x55, 0x04, 0x61, 0xdb, 0x04, 0x70, 0xdb);
-+	mipi_dsi_dcs_write_seq(ctx->link, 0xb0, 0xca);
-+
-+	mipi_dsi_dcs_set_display_on(ctx->link);
-+
-+	msleep(50);
-+
-+	ctx->link->mode_flags &= ~MIPI_DSI_MODE_LPM;
-+
-+	drm_dsc_pps_payload_pack(&pps, ctx->link->dsc);
-+	mipi_dsi_picture_parameter_set(ctx->link, &pps);
-+
-+	ctx->link->mode_flags |= MIPI_DSI_MODE_LPM;
-+
-+	return 0;
-+}
-+
-+static int sw43408_prepare(struct drm_panel *panel)
-+{
-+	struct sw43408_panel *ctx = to_panel_info(panel);
-+	int ret;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+	if (ret < 0)
-+		return ret;
-+
-+	usleep_range(5000, 6000);
-+
-+	gpiod_set_value(ctx->reset_gpio, 0);
-+	usleep_range(9000, 10000);
-+	gpiod_set_value(ctx->reset_gpio, 1);
-+	usleep_range(1000, 2000);
-+	gpiod_set_value(ctx->reset_gpio, 0);
-+	usleep_range(9000, 10000);
-+
-+	ret = sw43408_program(panel);
-+	if (ret)
-+		goto poweroff;
-+
-+	return 0;
-+
-+poweroff:
-+	gpiod_set_value(ctx->reset_gpio, 1);
-+	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+	return ret;
-+}
-+
-+static int sw43408_get_modes(struct drm_panel *panel,
-+			      struct drm_connector *connector)
-+{
-+	struct sw43408_panel *ctx = to_panel_info(panel);
-+
-+	return drm_connector_helper_get_modes_fixed(connector, ctx->mode);
-+}
-+
-+static int sw43408_backlight_update_status(struct backlight_device *bl)
-+{
-+	struct mipi_dsi_device *dsi = bl_get_data(bl);
-+	uint16_t brightness = backlight_get_brightness(bl);
-+
-+	return mipi_dsi_dcs_set_display_brightness_large(dsi, brightness);
-+}
-+
-+const struct backlight_ops sw43408_backlight_ops = {
-+	.update_status = sw43408_backlight_update_status,
-+};
-+
-+static int sw43408_backlight_init(struct sw43408_panel *ctx)
-+{
-+	struct device *dev = &ctx->link->dev;
-+	const struct backlight_properties props = {
-+		.type = BACKLIGHT_PLATFORM,
-+		.brightness = 255,
-+		.max_brightness = 255,
-+	};
-+
-+	ctx->base.backlight = devm_backlight_device_register(dev, dev_name(dev), dev,
-+							ctx->link,
-+							&sw43408_backlight_ops,
-+							&props);
-+
-+	if (IS_ERR(ctx->base.backlight))
-+		return dev_err_probe(dev, PTR_ERR(ctx->base.backlight),
-+				     "Failed to create backlight\n");
-+
-+	return 0;
-+}
-+
-+static const struct drm_panel_funcs sw43408_funcs = {
-+	.unprepare = sw43408_unprepare,
-+	.prepare = sw43408_prepare,
-+	.get_modes = sw43408_get_modes,
-+};
-+
-+static const struct drm_display_mode sw43408_default_mode = {
-+	.clock = 152340,
-+
-+	.hdisplay = 1080,
-+	.hsync_start = 1080 + 20,
-+	.hsync_end = 1080 + 20 + 32,
-+	.htotal = 1080 + 20 + 32 + 20,
-+
-+	.vdisplay = 2160,
-+	.vsync_start = 2160 + 20,
-+	.vsync_end = 2160 + 20 + 4,
-+	.vtotal = 2160 + 20 + 4 + 20,
-+
-+	.width_mm = 62,
-+	.height_mm = 124,
-+
-+	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-+};
-+
-+static const struct of_device_id sw43408_of_match[] = {
-+	{ .compatible = "lg,sw43408", .data = &sw43408_default_mode },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, sw43408_of_match);
-+
-+static int sw43408_add(struct sw43408_panel *ctx)
-+{
-+	struct device *dev = &ctx->link->dev;
-+	int ret;
-+
-+	ctx->supplies[0].supply = "vddi"; /* 1.88 V */
-+	ctx->supplies[0].init_load_uA = 62000;
-+	ctx->supplies[1].supply = "vpnl"; /* 3.0 V */
-+	ctx->supplies[1].init_load_uA = 857000;
-+
-+	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ctx->supplies),
-+				      ctx->supplies);
-+	if (ret < 0)
-+		return ret;
-+
-+	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(ctx->reset_gpio)) {
-+		dev_err(dev, "cannot get reset gpio %ld\n",
-+			      PTR_ERR(ctx->reset_gpio));
-+		return PTR_ERR(ctx->reset_gpio);
-+	}
-+
-+	ret = sw43408_backlight_init(ctx);
-+	if (ret < 0)
-+		return ret;
-+
-+	ctx->base.prepare_prev_first = true;
-+
-+	drm_panel_init(&ctx->base, dev, &sw43408_funcs, DRM_MODE_CONNECTOR_DSI);
-+
-+	drm_panel_add(&ctx->base);
-+	return ret;
-+}
-+
-+static int sw43408_probe(struct mipi_dsi_device *dsi)
-+{
-+	struct sw43408_panel *ctx;
-+	struct drm_dsc_config *dsc;
-+	int ret;
-+
-+	ctx = devm_kzalloc(&dsi->dev, sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	ctx->mode = of_device_get_match_data(&dsi->dev);
-+	dsi->mode_flags = MIPI_DSI_MODE_LPM;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->lanes = 4;
-+
-+	ctx->link = dsi;
-+	mipi_dsi_set_drvdata(dsi, ctx);
-+
-+	ret = sw43408_add(ctx);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* The panel is DSC panel only, set the dsc params */
-+	dsc = devm_kzalloc(&dsi->dev, sizeof(*dsc), GFP_KERNEL);
-+	if (!dsc)
-+		return -ENOMEM;
-+
-+	dsc->dsc_version_major = 0x1;
-+	dsc->dsc_version_minor = 0x1;
-+
-+	dsc->slice_height = 16;
-+	dsc->slice_width = 540;
-+	dsc->slice_count = 2;
-+	dsc->bits_per_component = 8;
-+	dsc->bits_per_pixel = 8 << 4;
-+	dsc->block_pred_enable = true;
-+
-+	dsi->dsc = dsc;
-+
-+	return mipi_dsi_attach(dsi);
-+}
-+
-+static void sw43408_remove(struct mipi_dsi_device *dsi)
-+{
-+	struct sw43408_panel *ctx = mipi_dsi_get_drvdata(dsi);
-+	int ret;
-+
-+	ret = sw43408_unprepare(&ctx->base);
-+	if (ret < 0)
-+		dev_err(&dsi->dev, "failed to unprepare panel: %d\n",
-+			      ret);
-+
-+	ret = mipi_dsi_detach(dsi);
-+	if (ret < 0)
-+		dev_err(&dsi->dev, "failed to detach from DSI host: %d\n", ret);
-+
-+	drm_panel_remove(&ctx->base);
-+}
-+
-+static struct mipi_dsi_driver sw43408_driver = {
-+	.driver = {
-+		.name = "panel-lg-sw43408",
-+		.of_match_table = sw43408_of_match,
-+	},
-+	.probe = sw43408_probe,
-+	.remove = sw43408_remove,
-+};
-+module_mipi_dsi_driver(sw43408_driver);
-+
-+MODULE_AUTHOR("Sumit Semwal <sumit.semwal@linaro.org>");
-+MODULE_DESCRIPTION("LG SW436408 MIPI-DSI LED panel");
-+MODULE_LICENSE("GPL");
+> +  This panel is used on the Pixel 3, it is a 60hz OLED panel which
+> +  required DSC (Display Stream Compression) and has rounded corners.
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: lg,sw43408
+> +
+> +  reg: true
+> +  port: true
+> +  vddi-supply: true
+> +  vpnl-supply: true
+> +  reset-gpios: true
+> +
+> +additionalProperties: false
 
--- 
-2.39.2
+This goes after required:
+
+> +
+> +required:
+> +  - compatible
+> +  - vddi-supply
+> +  - vpnl-supply
+> +  - reset-gpios
+
+
+Please add example DTS.
+
+Best regards,
+Krzysztof
 
