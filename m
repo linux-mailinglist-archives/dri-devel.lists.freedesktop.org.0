@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F87F892D05
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 21:33:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 087F3892D09
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 21:33:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6D6510E4F2;
-	Sat, 30 Mar 2024 20:33:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 537B410E4BD;
+	Sat, 30 Mar 2024 20:33:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sOn2+KHx";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Wge/M3Gp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C24B610E428
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 20:33:25 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id
- ffacd0b85a97d-341e3682c78so1733943f8f.0
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 13:33:25 -0700 (PDT)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AAFF10E428
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 20:33:27 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id
+ ffacd0b85a97d-341cf28e013so1990975f8f.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 13:33:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711830804; x=1712435604; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1711830806; x=1712435606; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=clpsgKia2XerUP4HrlmZlIy54Q7jyrtNTsV1ZOiogC4=;
- b=sOn2+KHxopIXOJJxJg5LbAn54cfGzvRbtAjoOLGElAGqHlca3lL5gMariQ9N/L1mZF
- Ds8GJFtEY8/QEtHYBVEbDD6P/cSBDSfC5mQZO7Ox+Z1YXEdW/9xB9/zD/JYupmMo86w5
- +uFYlkuyVBxBniQxeHktNB4RpGtYckTvfFHOcVGDkY74oaCAIZ1cmPmvt/tBXTXbDuRL
- wrE15dubS1j+14PmTbgwSvaUekQepb0lIRVf6c8Z3kjfwkoCIb3OW992nUSes5ZBob7y
- 2tiHZMvd3jfZk2CtDfgYBKpunHOcznizYg+WHKM0O1GUPOfHqyPZvKRP9g7UxzAQflba
- 0ahA==
+ :reply-to; bh=z1D2GKKtgBLQaWU6UCZfIYuzr/yBjzb0mw3ATsAKHlc=;
+ b=Wge/M3GpP02UVCb+Wj4+w/50MuvF0EecINasnOXY/tG1JulPIHu23n2kWF5lge3016
+ GndarjxeFthnBLPtHJYrieTvFEUN6oQttvGml6hiyUmzdt7fkjVnRg5hcpxQTUfRMwwl
+ 8noLQmRt4FYnlMaWb+qfEaJjJbFDvtt/Il+MX3PU1E3T5bOrvEoNaZBnqxWH+G7pBHIK
+ vZaCWlxLH0ogKfohp1jK5T9rmh2EzFJ8SB5eOj4518FJVEyro017GhC8K1/g5KTHgVIE
+ Rjq5Mz5G7z/H0z3AGmzwbjCymMLMN9BmTNoiZLxupG0h5giLpMyfwMlhU/Pq9pIVptb5
+ WffA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711830804; x=1712435604;
+ d=1e100.net; s=20230601; t=1711830806; x=1712435606;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=clpsgKia2XerUP4HrlmZlIy54Q7jyrtNTsV1ZOiogC4=;
- b=Erpm2dW06NqSJSbPuWkmflQf7pF+vrSyAa/FZxRfRdbwpbS7jovqVPET5SZ5IJeyXF
- BNowytoXqIYg6jjGOC7f47SWYmn3N0WJ/FSUWUh07wlv13EnNqvpfJHYCeZmqavBaGHS
- cLNWH25D4pjM0doOsga+VDdqo6eg4XzKwyadS4PM21ZMYD8IpNoFc1UKvgtUpAN61N/W
- lQR7aTGDBvJFAP2IGB6fm3xDrYxiuv1qMDD8/gR4QVjqa7UVWVEOXxpRcsuOQ89Qgx8j
- STovUtwZcgOMcU+51AVv9ceutUWLiuFyc4usRPnxUJQdPmf3AODeehsWWa2F1HjIhO6T
- DntA==
-X-Gm-Message-State: AOJu0YzDC6GWGSsiXSzg5L+OB5dYMIxEktrbgMlJRMGDNRUHo9cY5SKD
- lQ4RoWyC30yn/ZjsfCMGi4xdrgLhVKd6Aqzl8814HtKrZETcHTFmCyvm9G3urZM=
-X-Google-Smtp-Source: AGHT+IG8cfxx8ygvJDe2F2vg6nC7yHE1iwGECA3+RNlyBj0C8IGiqTKwAh1xjipjjTdWA0R0u2LkqA==
-X-Received: by 2002:a5d:5268:0:b0:341:bdd4:aedf with SMTP id
- l8-20020a5d5268000000b00341bdd4aedfmr3351086wrc.25.1711830804308; 
- Sat, 30 Mar 2024 13:33:24 -0700 (PDT)
+ bh=z1D2GKKtgBLQaWU6UCZfIYuzr/yBjzb0mw3ATsAKHlc=;
+ b=RFJO4X5XX33ppt0uF4ZH0Dd/jtvhdWJXGKtIx2oRZv5v37FZ1D/eBhwgdNdBMU6PO1
+ Q5P5onFihOgRsTbiKwillSuk3vGc1D6Ekb0PXhuFZN95lCd/82qai3o4HcLjZ1tPG6jR
+ iKu6AQ/Q5zDqDAIRS/Uq7XqELDE6DANvON8bIAj0hWgNG8SdvwP9jos9cJJoUTBe3urk
+ DbYLm/Y0hAndSxCarwp/8NfRXG2Sgr76xO6AGUyvcIBRTWQBa5V/s4w6nrdzflbCn4EE
+ NNVDcmBxVJk0eVaHUae1ES5lxbrBSrt4Nuo9VGdspr+avJAp4eGpl5SgI4a3JDQaufJ3
+ pxAg==
+X-Gm-Message-State: AOJu0YzWPm9jwS5mCFoxpp+beYCIrMyPMzWH/DuvTPSwbyxJrdjrLSED
+ 1/vePglzoOz2D62LjQslUFOuG4XGJYmZ5D0mnTJsdWh1G/B8y5X/jRSOoMop+Sk=
+X-Google-Smtp-Source: AGHT+IGigQOgLeBcNolGJLhXejMHYggnr7rlgEmT1AFz4irqhKtcDbgROMKs7R/eC3QUNH6//jsQTg==
+X-Received: by 2002:adf:e008:0:b0:341:cfd6:42af with SMTP id
+ s8-20020adfe008000000b00341cfd642afmr3985234wrh.31.1711830805823; 
+ Sat, 30 Mar 2024 13:33:25 -0700 (PDT)
 Received: from [127.0.1.1] ([178.197.223.16]) by smtp.gmail.com with ESMTPSA id
- f14-20020adfc98e000000b0033b48190e5esm7209315wrh.67.2024.03.30.13.33.22
+ f14-20020adfc98e000000b0033b48190e5esm7209315wrh.67.2024.03.30.13.33.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Mar 2024 13:33:23 -0700 (PDT)
+ Sat, 30 Mar 2024 13:33:25 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Sat, 30 Mar 2024 21:33:07 +0100
-Subject: [PATCH 03/11] drm/exynos: dsi: drop driver owner initialization
+Date: Sat, 30 Mar 2024 21:33:08 +0100
+Subject: [PATCH 04/11] drm/exynos: g2d: drop driver owner initialization
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240330-b4-module-owner-drm-exynos-v1-3-3fa30e2c7e5a@linaro.org>
+Message-Id: <20240330-b4-module-owner-drm-exynos-v1-4-3fa30e2c7e5a@linaro.org>
 References: <20240330-b4-module-owner-drm-exynos-v1-0-3fa30e2c7e5a@linaro.org>
 In-Reply-To: <20240330-b4-module-owner-drm-exynos-v1-0-3fa30e2c7e5a@linaro.org>
 To: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
@@ -69,21 +69,21 @@ To: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
  linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=852;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=834;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=KoVaQPHwcBE53K4bT1O+VFU2Z1tadYOC4fUf9qvhKG8=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmCHcGyRD2nb2Vdn95Ldfkr93QVk0HwYc7oj74z
- du1HvkV/5+JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZgh3BgAKCRDBN2bmhouD
- 1wHQD/oCjZnIWVTfsxCoRR2NKz5MjOixUCe2W3gvzTaphlnVtY49l4q0T2HhnMn5ndT3TuzkY3U
- rCsahA87PNsNHNpnTrPil7cPzmJygJ/PWZ8V0azkCFSJaede64TvYkZtYW7Rd19Y4//pkc/7T1a
- Hewc33f071/LmhhoBwsUuDt8CBvFR636Dbi6CAHUPCAnjRfzB5O4TI40JfNpmMXXZ9V97e6gDmA
- J6kuniX8LUIvZ+YxC9zM8QlINOqPwxrADOTTD4r2jyuwlC6E0ZDAFxgklRrgofOwKR8vzGnYYPs
- 0IybqLGt8fh/KKnVFdem2zTWbg5ktwAyVx9I69XlT/KTGCRRrs6OOy26zDI1xVivaVwiUCNWgzz
- ECpUyZI32IfbWDqlJkS89JZFleOzJcdfx4X+ysWMiUnMZQfpMqRJpuYWD9kZKzWKCeak6xHUrxe
- lCp0RnuOS1qqrmuUaz1QaRNrPH5mmunKOoe4AQ0jlEahpeXtDtNKhq+aoDosWF+7PbylaRtFS7N
- HkVZOY59/7Gu6ABUaLnbgpVU5m+TRAzBALxu+alySkZxqN0Yc+QnFpa6PJWG8SNv/tn38zpqTgj
- v/YViY0E/UkGF84uyvScclSxF8QFW96x9kAsIv6iRtAqDfi7gbKtt5xra1wp7cbFlA6vWOFIJ5M
- f7t9EzT+L3WguBg==
+ bh=tldT1/fBoaq2haWADAIe5Xo4h0FdGGOuKzR2j/SWneg=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmCHcHRsjhC/8++OmeIDCP4tqjryqtoKoVzciO7
+ VIxxbv5MdKJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZgh3BwAKCRDBN2bmhouD
+ 10FzD/9sgSJFn88mos0b9+dalUSJHv9/5d+greBogCsP4KUY+UK0dNbKEwexYK8uQEtBpG330xH
+ huJDju4xA/490ixgB/b325Mf93NmO9wVJ9eK2yrN3k009JCGCG3cqlW0n9R6rIebI4gRiguDoPI
+ L1s/jRlM/3B9KOyLcmiVR5VBrPK6QWha7dt20PcXNt6mOV1TUXuQHyGAygx8bqLplJmJamkRb/Y
+ rj74/B6p659THl2KY7ZPdEaX9hBGaQNAZepB9AkKFNHZsVbkIVJoOUNy9sf0gps7RWJa2n24DUo
+ 7VAyIDFCG6LjAn0oEZNv7Vz0hcaIMnGooe18HoTA65RAdmXqaEB1xYaBPnUIaF1B8kDGay3da3e
+ E7zJt7Mf0960ZZzPNkI/tFcL/5eBuwD8wJBjB8vpt8LyHU+e9WLPFKvZetDMCjmoqoOvcyjaqDc
+ UVGw2dKGlwqyRQQBxFr719wirWRcErjCIiGqtu0GG+TMIgbIjhF4dNu4YC0myPJhTj1ykyiktrY
+ 2emo+1ANcg2VffN1aXXBOXGuCahFvSszjngEtGW7NrZ7hsHBnCevoMuIj+wFl/mk9lw7vWMmVzx
+ 2y7TFr69ken47MR+fa4MNGHyDqFeNNP/OcSG6y/tynCpDs6UQhjxfALtFwRXjaQWI3xsmT+31vy
+ HqAZTSebw1ndfOg==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,20 +107,20 @@ main driver calling platform_driver_register().
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/gpu/drm/exynos/exynos_drm_dsi.c | 1 -
+ drivers/gpu/drm/exynos/exynos_drm_g2d.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-index 2fe0e5f3f638..bf16deaae68b 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-@@ -184,7 +184,6 @@ struct platform_driver dsi_driver = {
- 	.remove_new = samsung_dsim_remove,
- 	.driver = {
- 		   .name = "exynos-dsi",
--		   .owner = THIS_MODULE,
- 		   .pm = &samsung_dsim_pm_ops,
- 		   .of_match_table = exynos_dsi_of_match,
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+index f3138423612e..3a3b2c00e400 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+@@ -1610,7 +1610,6 @@ struct platform_driver g2d_driver = {
+ 	.remove_new	= g2d_remove,
+ 	.driver		= {
+ 		.name	= "exynos-drm-g2d",
+-		.owner	= THIS_MODULE,
+ 		.pm	= pm_ptr(&g2d_pm_ops),
+ 		.of_match_table = exynos_g2d_match,
  	},
 
 -- 
