@@ -2,80 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75E2C8929FD
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 10:19:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9313A892A02
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 10:27:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA6A710E0D2;
-	Sat, 30 Mar 2024 09:19:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11F8B10E675;
+	Sat, 30 Mar 2024 09:27:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vZeT9D5B";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="P03f4KRl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06ADD10E0D2
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 09:19:05 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-4149749cc36so18004095e9.0
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 02:19:05 -0700 (PDT)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E7D810E675
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 09:27:08 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id
+ ffacd0b85a97d-341cf28e013so1745702f8f.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 02:27:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711790344; x=1712395144; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1711790827; x=1712395627; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=w1mk8zBRQYHVvICPsS2N4XIcQtvQjqHklPuab2TK6cg=;
- b=vZeT9D5BYkCkKPXbGZWLkmto8qPaBCxwoNqxzUEpFxTl/Nxof8SV+waI8Wipb5RhGM
- 6bqDGMsb2An1c9pNTxiCnfEWsEdtiSqpfAWFHBeOnYFxkuS0m5E3dGUTnCHbn8P4abnp
- AC2pBeGyAPxxJkYDyb2IXkY3VFMddDGxBnKxN7umiJom7rB+5iJk/NqTxmqQVo3TOxc/
- jBAT0DP5SVdeIaM++hE71LoaaTfSSoaKO7TEPWMGuLKCh27WAoudwpviDiFTU3BScThW
- 7G434Ajf8xcB/XryZ1tpi9ShWxYdct0VgpBrzM7u6wFWexQNHijaRAqVfTyMQE0in3KS
- iY8w==
+ bh=timTxilapKsONbEjau72+Ou1q/7xtxFnJ1b7itFduSs=;
+ b=P03f4KRl6617atW552hRvtbjo206iSOkjltFlZToD0QilUmeZzRRIkEChNjDekyHvl
+ t2nPSPT3y32Wk5w2p8381z8sil9oCxs5ju7QngP2XHGVzW/dEsiq6pES3munQUOQO50X
+ NqbBRuiNVPYNubWdyRmIo6blHV1CoLtKfVUit4Qp8xPwHiuFF3QZfN/zoTsxT2p1OHKj
+ ylJYYoCH9nUw+irSV8akVS6qMdDwdq1rfyjJbQA4rnp6Ei06SsLZiXJFyunTQCJ1xLNF
+ a40cIo/vLm804IlaOXllwWfdUa8D9x8a5TjgRU2uO4Sinin61JJDgtKqskdEp7cS+e/W
+ CvgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711790344; x=1712395144;
+ d=1e100.net; s=20230601; t=1711790827; x=1712395627;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=w1mk8zBRQYHVvICPsS2N4XIcQtvQjqHklPuab2TK6cg=;
- b=Eked+nYBXVvuv1/qHAwClVhBCdYmAwOkgUDFYMMS8LNdImV4oec+mtbtPSD9UBz6TI
- acKrjsoz3cfsOzPOrJdOFy/DT9RKV9Uio+Q4/EOc5ZiiFywI1kPj5zw5khLiR2sCzoqn
- KFYxRu9FRmPQM4X4P02lCTPJ8Bar4iIawdLnug51yVezxugte7wGCVIcjsFf++TY43ZG
- 5yuKjSjLDnc5HEM6/B9v0Xb4mTi9F/xfYLgR/LiSymswwMpQ80OFaEZqasL3Xe/6NHt3
- GNy70q6lSytpO7J9EsTS7zY21sceN5FkDxIWVfVbL43q6NgQ6FWrVsDy4QzJccOtRsOZ
- OCHA==
-X-Gm-Message-State: AOJu0Yx0jwkgA0fgZ84uvoJTD0MT/AaRAiOM3fPHmZ3uJUGzWKu0kx/u
- FrnP56YVPwal7xiy5z4QGWuz7X1xjlsF2TJthuFMXBbPoDhAzk1FH2K3RbvaFc8=
-X-Google-Smtp-Source: AGHT+IGGh6i7z5ymu7YxZxlPO5JyJtK4NDilT7dbif1JUNG5Nd+SS9lsd02nT+psaFpiT2qAGBvO2g==
-X-Received: by 2002:a05:600c:2216:b0:414:8889:5a39 with SMTP id
- z22-20020a05600c221600b0041488895a39mr3050994wml.17.1711790343822; 
- Sat, 30 Mar 2024 02:19:03 -0700 (PDT)
+ bh=timTxilapKsONbEjau72+Ou1q/7xtxFnJ1b7itFduSs=;
+ b=F9F9lcdRGIFd5XA/nri54kDRnsY8HDDNcT/56EpL9y59zrY4DweFCZ3MkEtuoPc9fC
+ SKK9Giq7xfEj9k/AI3xlukRR/DInCubRe7Ob8WNPAurSipresp6445jLflHs7u3pMv2E
+ fqo/uMFuRNDujm6RI5T1RAfUrJfqJuI+HIcWRlLZgySMcskus47pYAd1uLXvfbjKk6xO
+ +t/BVqGwoYvs29pv/r4gWWCmc/AIYVjOX5bmVNEwPQk0XHs4cZLIAkKJjlxhez0iGaaq
+ ruql80wpKORKz2KK59o3FspDZmXEpRYVLfcGCgSl2PwLn1Ckjx5QIF8tM+cgJ0z/eWq9
+ zQXw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVrePJ+bOJfgBoH2UmD/iU/A6tvszZN7zj/5EaF0iUpC0ATshbIB99zjTx/P+7JDo6BTd9bBN3pNdBmr7CLriV02U6DKtWr7GtW6iilHAbS
+X-Gm-Message-State: AOJu0YxZMXaoCXpD23jPMXsPHrmjMMCNEPGNBU1fGxdGYJwqz/HlkA0O
+ 0B1XgiTUITkTGNvtU+g4CTWwlcygTDJpTPvsOBqmcub72Eoxos0GiLbF4Gydaec=
+X-Google-Smtp-Source: AGHT+IFHJcCwawyg2Si7LdksytC4gyLn+R/HZviukLaXttZxJvajzvyd8WuNDqYG6brpIYxX1Mpqeg==
+X-Received: by 2002:a5d:4491:0:b0:341:8388:31b1 with SMTP id
+ j17-20020a5d4491000000b00341838831b1mr3662835wrq.67.1711790826705; 
+ Sat, 30 Mar 2024 02:27:06 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.16])
  by smtp.gmail.com with ESMTPSA id
- g16-20020a05600c311000b004148670f9ecsm7985933wmo.23.2024.03.30.02.19.02
+ bt30-20020a056000081e00b00341b9e11b11sm6141674wrb.24.2024.03.30.02.27.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 30 Mar 2024 02:19:03 -0700 (PDT)
-Message-ID: <196f906e-2af5-48ed-85c7-8589becd480a@linaro.org>
-Date: Sat, 30 Mar 2024 10:19:01 +0100
+ Sat, 30 Mar 2024 02:27:05 -0700 (PDT)
+Message-ID: <57f29a15-1076-44de-8b85-83983f5e20f3@linaro.org>
+Date: Sat, 30 Mar 2024 10:27:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: panel: Add LG SW43408 MIPI-DSI panel
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Caleb Connolly <caleb.connolly@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+Subject: Re: [PATCH v3 8/9] dt-bindings: xlnx: Add VTC and TPG bindings
+To: "Klymenko, Anatoliy" <Anatoliy.Klymenko@amd.com>,
+ Conor Dooley <conor@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ "Simek, Michal" <michal.simek@amd.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>, Caleb Connolly <caleb@connolly.tech>
-References: <20240330-lg-sw43408-panel-v1-0-f5580fc9f2da@linaro.org>
- <20240330-lg-sw43408-panel-v1-1-f5580fc9f2da@linaro.org>
+ Conor Dooley <conor+dt@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+References: <20240321-dp-live-fmt-v3-0-d5090d796b7e@amd.com>
+ <20240321-dp-live-fmt-v3-8-d5090d796b7e@amd.com>
+ <a82d525c-737a-4ac4-9d71-e88f4ba69ea1@linaro.org>
+ <MW4PR12MB7165889CE7F27A3F0B29DC7EE6312@MW4PR12MB7165.namprd12.prod.outlook.com>
+ <c0d70ba9-34ef-4121-834d-4d107f03d7f0@linaro.org>
+ <MW4PR12MB716570A3676218F0C6375E37E63A2@MW4PR12MB7165.namprd12.prod.outlook.com>
+ <20240329-overture-tank-d20888f2cb6e@spud>
+ <MW4PR12MB7165E47719C72CD5CEB68218E6392@MW4PR12MB7165.namprd12.prod.outlook.com>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -122,7 +137,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240330-lg-sw43408-panel-v1-1-f5580fc9f2da@linaro.org>
+In-Reply-To: <MW4PR12MB7165E47719C72CD5CEB68218E6392@MW4PR12MB7165.namprd12.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -140,53 +155,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/03/2024 04:59, Dmitry Baryshkov wrote:
-> From: Sumit Semwal <sumit.semwal@linaro.org>
-> 
-> LG SW43408 is 1080x2160, 4-lane MIPI-DSI panel present on Google Pixel 3
-> phones.
+On 30/03/2024 03:02, Klymenko, Anatoliy wrote:
+>>>>
+>>>
+>>> Sorry, I didn't explain properly what I'm trying to achieve. I need to
+>>> create a DT node property that represents video signal format, one of
+>>> MEDIA_BUS_FMT_* from include/uapi/linux/media-bus-format.h. It would
+>> be
+>>> nice to reuse the same symbolic values in the device tree. What is the
+>>> best approach here? Should I create a separate header in
 
-... Few nits, which could be ignored, and one thing which is blocking -
-missing example.
+There is no user of this new header, so I don't agree. Please send
+either full work or link your other upstreamed patchset. Anything sent
+as "DO NOT MERGE" does not count because it is not an user.
 
-> +
-> +maintainers:
-> +  - Caleb Connolly <caleb.connolly@linaro.org>
-> +
-> +description: |
+Without the DTS user I claim that you do not bind here anything...
 
-Do not need '|' unless you need to preserve formatting.
+>>> include/dt-bindings with the same or similar (to avoid multiple
+>>> definition errors) defines, or is it better to create a symlink to
+>>> media-bus-format.h like include/dt-bindings/linux-event-codes.h?
 
-> +  This panel is used on the Pixel 3, it is a 60hz OLED panel which
-> +  required DSC (Display Stream Compression) and has rounded corners.
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - const: lg,sw43408
-> +
-> +  reg: true
-> +  port: true
-> +  vddi-supply: true
-> +  vpnl-supply: true
-> +  reset-gpios: true
-> +
-> +additionalProperties: false
+Copying or symlinking entire header into bindings does not help us to
+understand what is exactly a binding here.
 
-This goes after required:
+For example, maybe you encode runtime information into DT (don't do
+this) and that's why you need these defines... Or maybe your block has
+some capabilities. Dunno, patch was not tested, is defined as do not
+merge and is not explaining any of these.
 
-> +
-> +required:
-> +  - compatible
-> +  - vddi-supply
-> +  - vpnl-supply
-> +  - reset-gpios
-
-
-Please add example DTS.
+Therefore, please provide complete set of users ready to be merged, test
+your patches, provide rationale why this is supposed to be a binding and
+why do you think it represents hardware configuration, not OS policy or
+runtime configuration.
 
 Best regards,
 Krzysztof
