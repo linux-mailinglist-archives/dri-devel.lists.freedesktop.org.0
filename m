@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8271B892921
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 04:59:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE3F892928
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 04:59:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B69810E3C9;
-	Sat, 30 Mar 2024 03:59:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 388F410E39D;
+	Sat, 30 Mar 2024 03:59:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ukAblNCy";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hCbLKlj1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6662810E39D
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E763310E39D
  for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 03:59:32 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-515b69e8f38so2616619e87.1
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-513d247e3c4so2389678e87.0
  for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 20:59:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711771170; x=1712375970; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=V/KyYTez7Ham6RArqjYsAGdRx6I3CfaIBG2n577n7v0=;
- b=ukAblNCyTCNG+ORSqh6GSsJ45R14kJ1ZD19n3SNNSEutT4jrZ0XtxztBlqyxQ3xUL0
- prWi+YdZRjjA1h90ps1riIY9OWd/ghQZ7Qjt+Aj1zBJqnf2/7wTT2REWnFA28OKwTDHe
- iL7+TfBDq4jfzzJs6rAXCMWY2TQyTYDV90XMVDRPKzL6C2nqCoOI+T/KLlF+1t0vEGYU
- IcFNkLUB5goTC7U7LO8/vEDKQc9Um1veHQKQ8koaZ/ZIcBmOlMyIiohuvgmRH+SzhTfW
- oW4Xx0BaO1fUGxlVHIbl0jP6Dh5Sj8vcY2WWgA5f6OcXS2L7yI/ncK7GTlghXgwSjMPI
- ciGA==
+ d=linaro.org; s=google; t=1711771171; x=1712375971; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=nEHv7161rF10nD2iZaJbFgvPRz2VUElIFclun8j93Iw=;
+ b=hCbLKlj1sdJbeW/ZCAmaiBOfaICaO8ac5FX6OJFGOk5x2L76kF7mh+8AyCu1KKIHua
+ OaL+XYBSkJZMpfknwRNHmjChseQ2D0726/7UZWfn4IiHPAhnwbOfr+cR6WpARFbSI5cZ
+ JOcf5cXcQg4apNL6MsG+cG9Ol3SaYW/JNiaJzFhySaujzpASsBFbV21LpRyvs2UL9BtL
+ RR06FaRIxU7ouEZffDKRjxBZl90Of0GPlgHbsD+xUqcelXM0oIlE2qyWf74M9r4bywg/
+ US8g3hacHt/AcDegW3AROuhBfAL5CTWbBFpnuhNf7dUf7T1PlvvYKPaplEdANZPiPq1w
+ x2DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711771170; x=1712375970;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=V/KyYTez7Ham6RArqjYsAGdRx6I3CfaIBG2n577n7v0=;
- b=S+osooEK1JgoduKG8nk+zNCjJRsECJv0J3qiOUkeX15xmK6rbrUbNT5UYYyS2oGIjY
- XSlzd5IOgvsgw51+0uYZoyCFm8HYOFfoGBexLER+AeFNvzEHuIr8+k87RiibpqOO8KcX
- h/jllnth5HHxzwpyKIHcfpIrglDl8tUU9exxtB6ZrwU15YC7HT+nbqTnkkw5/4q/oK7p
- voyV8aJGIX6sL8k5GVruUPXtIlpKi1XK3vwDWJ8bnw2j+2FA3BSdR+1aA5KZSRDsrHhN
- OSEqxTKRBdEWl4NIXogamBTmPA3Rxm8ArUKsnw9W9twnlMFJUkOhe+5vrX769Vmy8Mm9
- Nmew==
-X-Gm-Message-State: AOJu0Yy24Wqy3liFAobkMobO517HdcF02mMshZFxDuK3qr5YVYFKOnqz
- 12jo8RHGGBqaune22gPfOeUd7Fuw+uRa+uFHnHQVNdf29oIIeJINb2oLCeyWfis=
-X-Google-Smtp-Source: AGHT+IGQmXGXUknN+Wj2FG7n6iWPBgprhcqnpU4Z7Jb+uCSYuzieUgOOjoMlqaa84Q2JHfEIdl2+hw==
-X-Received: by 2002:a05:6512:1307:b0:513:4f60:82c4 with SMTP id
- x7-20020a056512130700b005134f6082c4mr2915403lfu.3.1711771170376; 
- Fri, 29 Mar 2024 20:59:30 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1711771171; x=1712375971;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nEHv7161rF10nD2iZaJbFgvPRz2VUElIFclun8j93Iw=;
+ b=lkjHh0e+VF8cjgm0fzwWf6D3in1laLoiphThEIAu8FFVFmOtojutX0EUMZzPNWbcsU
+ +V36b/55TBT8V8y3wH+PzBFmncK4mrDLnUuxME8ANs18SDgY/lM631slcg4r2ZREF3kw
+ up6J391quPsbVsPBmKFJ0VBlZj4kZGcx9gc+VFwixpQdxYGGpUT0xuNOR3YNKTK/FYv9
+ QAuN1yk3qwVUUxLt8QojkFIIUn/EaN89F1lKFARc8ZBe11fPNbtWkj4HMbZZcBWZOvaY
+ 4vnPxIW0rp2Y+VsF/ENwns/UV81zx5ib0iK2hSZNa+U/2L3CB2i9NWPTqAb7nVI2hT+V
+ PQNg==
+X-Gm-Message-State: AOJu0Yz1yBEgJlCzoqiNC2N1QmxOA9Hv+pIBpw4C8mzcfJ1ceBL+iM4A
+ H2t3Xt3q0k+z1ms5HzRXmqCG2JsNKDjMDq16xzFA9Q6wQ83kXgtHQxp61RmNMP4=
+X-Google-Smtp-Source: AGHT+IE1ThAnidcAuJUVgaWX29h3ZaFTTmFMn3wvVDDkWWIpuaRfERN6frP0sFDgQn0vjwNXMb6wXw==
+X-Received: by 2002:a05:6512:3b8d:b0:513:922a:4334 with SMTP id
+ g13-20020a0565123b8d00b00513922a4334mr1661298lfv.1.1711771171043; 
+ Fri, 29 Mar 2024 20:59:31 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- br2-20020a056512400200b00515d1393f3csm423957lfb.104.2024.03.29.20.59.29
+ br2-20020a056512400200b00515d1393f3csm423957lfb.104.2024.03.29.20.59.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 29 Mar 2024 20:59:30 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH 0/3] drm/panel: add support for LG SW43408 panel
-Date: Sat, 30 Mar 2024 05:59:27 +0200
-Message-Id: <20240330-lg-sw43408-panel-v1-0-f5580fc9f2da@linaro.org>
+Date: Sat, 30 Mar 2024 05:59:28 +0200
+Subject: [PATCH 1/3] dt-bindings: panel: Add LG SW43408 MIPI-DSI panel
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAB+OB2YC/x3MTQqAIBBA4avIrBvwF6KrRAurqQbERKEC6e5Jy
- 2/xXoVCmanAICpkurjwGRtUJ2A5fNwJeW0GLbWVxkgMO5bbGit7TD5SwNk5vVmlFmcIWpYybfz
- 8y3F63w9k14blYgAAAA==
+Message-Id: <20240330-lg-sw43408-panel-v1-1-f5580fc9f2da@linaro.org>
+References: <20240330-lg-sw43408-panel-v1-0-f5580fc9f2da@linaro.org>
+In-Reply-To: <20240330-lg-sw43408-panel-v1-0-f5580fc9f2da@linaro.org>
 To: Sumit Semwal <sumit.semwal@linaro.org>, 
  Caleb Connolly <caleb.connolly@linaro.org>, 
  Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -76,16 +75,16 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  Vinod Koul <vkoul@kernel.org>, Caleb Connolly <caleb@connolly.tech>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1250;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1583;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=HVQQ/1Sqaeom6RrFBW54Crl9fEDAeeQFXdkKvNlg5mU=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmB44hgrh2oy+/fGY8pSaDoMtDIh0OTOsGKIq/J
- gzwpsBOeeqJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZgeOIQAKCRCLPIo+Aiko
- 1dxCB/4unCfNUOHubbbTywYo1qg6QGSV/hNj4aNbERch4zIqmSeAdnCJ+jhqqI8JVTf9p/K8eGy
- Imft1WGaRzBE4/Mz6X7eYHg0bAnxSKiTcJ/fWjgXUelBwcBhujJdnV/QwD1/31TJwKPTZ8ndtas
- xFvdOUxYLfRSiLCVBha6RHugPSV6jGnORHIa/75nDD0QeieoGUG1hNHNLI27t967xu+PabyHw1N
- dF0xhIyiw7lH3v+3kRnAOUfXusPAFWH6I7KiaUnVfUiI2FV1mAIBVQe3sIepOOqkLjfQUNqQIKz
- Q45lS/fx23lgfYel7BCBih5vpKbUipfx78y05cbBmelONARu
+ bh=LJ+girYe4vykYjxl7S4n4qmMz70uzdqbzojIgAwohpA=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmB44hkYXDEZ4U1NN773kLK8OhcQ/ESozP9fWl1
+ 6XuWJvjcSuJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZgeOIQAKCRCLPIo+Aiko
+ 1YwHCACTsVHb+AVpPFVAJZeqrxDPnebzaXXZ/O+m+gWCihSTksXW7Gac675ctl4z+1HouDBncPg
+ c8NqCesf1zSkhB6cZ9frhnjvw0ruayMxBT5Zc4BRNohFGv7Urz6TZ1/++ylmGBCZVpvvvEIiP4O
+ 1dkz1t1/EH6Vn3l9deKIiHqsVZxErRmZHWU96y95BJJc6Fd3dwlipgy6iSBZJorrrokMw5E2gTJ
+ IdnD2wX3506sW1Vq0T80gc35BydEVKi502pYN2itI8nv5pHrMvyeEEnZLMqp9s4I02EgxoSAhWI
+ zDqreN34UTlIpRoy5sWYQ2kmxkIVp1GoEnkdCHNr886ueVko
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,33 +102,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The LG SW43408 panel is used on Google Pixel3 devices. For a long time
-we could not submit the driver, as the panel was not coming up from the
-reset. The panel seems to be picky about some of the delays during init
-and it also uses non-standard payload for MIPI_DSI_COMPRESSION_MODE.
+From: Sumit Semwal <sumit.semwal@linaro.org>
 
+LG SW43408 is 1080x2160, 4-lane MIPI-DSI panel present on Google Pixel 3
+phones.
+
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
+Signed-off-by: Sumit Semwal <sumit.semwal@linaro.org>
+[caleb: convert to yaml]
+Signed-off-by: Caleb Connolly <caleb@connolly.tech>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-Dmitry Baryshkov (1):
-      drm/mipi-dsi: add mipi_dsi_compression_mode_raw()
+ .../bindings/display/panel/lg,sw43408.yaml         | 37 ++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-Sumit Semwal (2):
-      dt-bindings: panel: Add LG SW43408 MIPI-DSI panel
-      drm: panel: Add LG sw43408 panel driver
+diff --git a/Documentation/devicetree/bindings/display/panel/lg,sw43408.yaml b/Documentation/devicetree/bindings/display/panel/lg,sw43408.yaml
+new file mode 100644
+index 000000000000..f3c9c9343c4f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/lg,sw43408.yaml
+@@ -0,0 +1,37 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/lg,sw43408.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: LG SW43408 1080x2160 DSI panel
++
++maintainers:
++  - Caleb Connolly <caleb.connolly@linaro.org>
++
++description: |
++  This panel is used on the Pixel 3, it is a 60hz OLED panel which
++  required DSC (Display Stream Compression) and has rounded corners.
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    items:
++      - const: lg,sw43408
++
++  reg: true
++  port: true
++  vddi-supply: true
++  vpnl-supply: true
++  reset-gpios: true
++
++additionalProperties: false
++
++required:
++  - compatible
++  - vddi-supply
++  - vpnl-supply
++  - reset-gpios
++...
 
- .../bindings/display/panel/lg,sw43408.yaml         |  37 +++
- MAINTAINERS                                        |   8 +
- drivers/gpu/drm/drm_mipi_dsi.c                     |  34 ++-
- drivers/gpu/drm/panel/Kconfig                      |  11 +
- drivers/gpu/drm/panel/Makefile                     |   1 +
- drivers/gpu/drm/panel/panel-lg-sw43408.c           | 322 +++++++++++++++++++++
- include/drm/drm_mipi_dsi.h                         |   1 +
- 7 files changed, 406 insertions(+), 8 deletions(-)
----
-base-commit: 13ee4a7161b6fd938aef6688ff43b163f6d83e37
-change-id: 20240330-lg-sw43408-panel-b552f411c53e
-
-Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.39.2
 
