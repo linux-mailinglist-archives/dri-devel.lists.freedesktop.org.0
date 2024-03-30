@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1964892D5D
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 21:57:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4BE7892D60
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 21:57:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5681410E3AD;
-	Sat, 30 Mar 2024 20:57:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA9DD10E2C4;
+	Sat, 30 Mar 2024 20:57:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ss9cfKqO";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="PIb3417Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA33610E2C4
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 20:57:29 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-4155c1727ceso2709005e9.1
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 13:57:29 -0700 (PDT)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D168910E2C4
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 20:57:31 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-33d90dfe73cso1484192f8f.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 13:57:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711832248; x=1712437048; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1711832250; x=1712437050; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=gOcnmbZfU1ZiQoZSbx6LjXgQfqNdNpX1u85iKsWkJ+o=;
- b=ss9cfKqOZbD176vk0CWB/IIk7V0/BxkCX4W224f26qlCkYjAURxt0IzG+yFe4NVIGN
- xBDjv+kYELjEqo9vGSmdca6FN8PDj9qkTb8tT9dyc2QM7jczkMPO5QY6xIZjNcDmkVyX
- ekNItfPbQn/EqymjoBWNcUxJGKVqJ49qj30Tn8VOT8AnCqT+PjgbKeLOsVAxbWhKopaH
- Ts7bMqCGKYvZIBLE2r6MAEuRZAiM60hATBRBhqK7TiyG5rWx/cuo97OwgVXhUPIrRrTl
- VZ2uFPCANhpCWvLAjXqu7alciS2g7Q1W/X8QxJNly0W112/DCWHJ6xmi1H4kt8dL3fCY
- EtWQ==
+ bh=T4h+mExzuExAFnvHSQe+SRMmh7AbxjHaFk8xtImqtg8=;
+ b=PIb3417Y2VQIqu+W9EEjCDBA9JkpaejmosayRYs4C8ie3FXMG8FwGTPKtD5L9UhDDF
+ jFA8zyKc2+AHyXNafLGbxnVQ+ex8AOxgTHKiX28ICDXNUsDg9vLHLDxj9W7NKdO9YPOT
+ /2nufp1X8fadGI1tNyYQCemZ2qUPlAflmoGhqJqemA1hKkGTwsi8TYkEca76lFvGbX7W
+ Wdt/EryKKnOATOhqNbS90zLOs1r2ZrNjuOMYUCIgX5n6uZMlZK//lOO3EdsQ7xclGdUu
+ Q9Tcrj0QGALIos9HbpnGVvHmKNQVsd4ptrgnVOjm4weQVv9iN5dAbuZyiRa2qaJHd5s7
+ zG5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711832248; x=1712437048;
+ d=1e100.net; s=20230601; t=1711832250; x=1712437050;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=gOcnmbZfU1ZiQoZSbx6LjXgQfqNdNpX1u85iKsWkJ+o=;
- b=TyiYlO1Q6eBRAzWB2DsMndeVKWMw91wJzwKCNOg4RQZmCXdGgl6CGy7QSGkFoXlVcV
- BH67OHBguPRnyFItIvLZzgdaKcLxnnuChxOV6e+MAMBS4edcnPC05+do7+T2J78b0pkU
- HkqZuUAINOYGRbcekxpuJWyHesrlcyGA9IuELS9SMqdym/zBzUuHSwUeC+bwvS96rEeZ
- yeuSRP5zJLawyVFOuMYzjXVUqWoV3CKr+57YjjnVZbHgBfo2MBsMEqmhAJ+s0YkJ+FuN
- 6+l60oeXB7HLqiggrjP8rZ/2s0Q/UQGMVABfnmVawBawks+UvC9W7zKmDrTJatlFsFGs
- X0GA==
+ bh=T4h+mExzuExAFnvHSQe+SRMmh7AbxjHaFk8xtImqtg8=;
+ b=B+AXmYshAEyv1w2Y/BD+vciSRPvy7citMxpUJ6gnSQWSxYX4OdMFcOk+/fMlIBUPpE
+ cNX67MTsDXVBnhWsWz93zz2pz+0zPKMII0nSgM1EH+w/AfXny2ojWa4LMBqNDj4VgzpP
+ W1H+ZXvxa8iir6Zh7yZMgRhvicXoiT7o0dBES6WrLHtaJ/V4v56bzdJ63/9eLwCpPqi7
+ AHhW8aXtkYcoDDNLAKMddMweOxqsOQYiekG35Z+5sm2g3w2yLvgkNPXmL/8SgpC9Q7ej
+ JR9MQMtqcN9XGUNLYi66ZP2ZdLd21xeBu7KNo+Ha0YeeqxTNej79BqN4YWxmSrvXsU1b
+ gtrA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVpLYxrzPgpaV9JajFFT2RLTXcZABblRWRJMhhuBy7cajbdh+SilhaPv435JQfYSHjcZF3yjrmvlZe6cZru/uKPwFYSFf8HvqMtUmO7fh/W
-X-Gm-Message-State: AOJu0YwReIHB8DOI3SYhPBF9q2blhfxKn6Owpteb7FQmsdKiCmEiwHAr
- NGtQlYMq3+ls7BI5K3r1+xIqnlvzBvUf5KKNK3JNlFjcu1jdn7uM9zvgzB5BT30=
-X-Google-Smtp-Source: AGHT+IEacBpcrAN0Ls7+iM21Siwj/4TlxwR/SuY/ASdUZKiHFJIkasN4tmpfSt6yVMGmanK2stqDnQ==
-X-Received: by 2002:a05:600c:558c:b0:415:55a8:e1a6 with SMTP id
- jp12-20020a05600c558c00b0041555a8e1a6mr2208719wmb.4.1711832247884; 
- Sat, 30 Mar 2024 13:57:27 -0700 (PDT)
+ AJvYcCVRkImYK5O1Ca54jX8/okfDiCCe2+iWSKmr6M9PfklQFuXiigloIaXcb1f6JPwUf3Gw+GSv59shEcRkxccPbbbYJFiItgaYCeBW/921Gyf1
+X-Gm-Message-State: AOJu0Yx9wnFVUxKCtKMm4vRsdmhgsjkno66LhcdedIHfbQku9nbe5t8u
+ lLqV37y9m7drO8vCjnzknclv5tZgfprSRiRgjTQkELBhBHaNIHO0cmF+m+UkxPZMbuyzdeQtqgy
+ w
+X-Google-Smtp-Source: AGHT+IHrRVqigNTr3fU8x+o74S1SpMr+gA+rosmq6f26SYPprbSWdW+W/87/gdT0ZbaSY2Zb70cL7Q==
+X-Received: by 2002:a5d:5408:0:b0:33e:c0f0:c159 with SMTP id
+ g8-20020a5d5408000000b0033ec0f0c159mr6926742wrv.10.1711832249963; 
+ Sat, 30 Mar 2024 13:57:29 -0700 (PDT)
 Received: from krzk-bin.. ([178.197.223.16]) by smtp.gmail.com with ESMTPSA id
- f11-20020a05600c4e8b00b004154e48bcdesm6295786wmq.14.2024.03.30.13.57.26
+ f11-20020a05600c4e8b00b004154e48bcdesm6295786wmq.14.2024.03.30.13.57.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Mar 2024 13:57:27 -0700 (PDT)
+ Sat, 30 Mar 2024 13:57:29 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Alain Volmat <alain.volmat@foss.st.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -63,12 +64,13 @@ To: Alain Volmat <alain.volmat@foss.st.com>,
  Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 5/6] drm/sti: hdmi: drop driver owner assignment
-Date: Sat, 30 Mar 2024 21:57:21 +0100
-Message-Id: <20240330205722.93801-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 6/6] drm/sti: hqvdp: drop driver owner assignment
+Date: Sat, 30 Mar 2024 21:57:22 +0100
+Message-Id: <20240330205722.93801-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240330203831.87003-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240330205722.93801-1-krzysztof.kozlowski@linaro.org>
 References: <20240330203831.87003-1-krzysztof.kozlowski@linaro.org>
+ <20240330205722.93801-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,23 +94,21 @@ main driver calling platform_driver_register().
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
-
-I forgot two drivers.
- drivers/gpu/drm/sti/sti_hdmi.c | 1 -
+ drivers/gpu/drm/sti/sti_hqvdp.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
-index 500936d5743c..b0d84440a87b 100644
---- a/drivers/gpu/drm/sti/sti_hdmi.c
-+++ b/drivers/gpu/drm/sti/sti_hdmi.c
-@@ -1485,7 +1485,6 @@ static void sti_hdmi_remove(struct platform_device *pdev)
- struct platform_driver sti_hdmi_driver = {
+diff --git a/drivers/gpu/drm/sti/sti_hqvdp.c b/drivers/gpu/drm/sti/sti_hqvdp.c
+index 0fb48ac044d8..acbf70b95aeb 100644
+--- a/drivers/gpu/drm/sti/sti_hqvdp.c
++++ b/drivers/gpu/drm/sti/sti_hqvdp.c
+@@ -1414,7 +1414,6 @@ MODULE_DEVICE_TABLE(of, hqvdp_of_match);
+ struct platform_driver sti_hqvdp_driver = {
  	.driver = {
- 		.name = "sti-hdmi",
+ 		.name = "sti-hqvdp",
 -		.owner = THIS_MODULE,
- 		.of_match_table = hdmi_of_match,
+ 		.of_match_table = hqvdp_of_match,
  	},
- 	.probe = sti_hdmi_probe,
+ 	.probe = sti_hqvdp_probe,
 -- 
 2.34.1
 
