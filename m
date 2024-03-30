@@ -2,148 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33B2C893362
-	for <lists+dri-devel@lfdr.de>; Sun, 31 Mar 2024 18:40:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E78CF89337D
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Mar 2024 18:42:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C46110ED59;
-	Sun, 31 Mar 2024 16:40:23 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="SuO/o9hH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CFzrdsSx";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20D54886A4;
+	Sun, 31 Mar 2024 16:42:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from a.mx.secunet.com (a.mx.secunet.com [62.96.220.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 336CE10E9D4
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Mar 2024 16:40:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E849B10ED5C
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Mar 2024 16:42:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by a.mx.secunet.com (Postfix) with ESMTP id 14FDC2083B;
- Sun, 31 Mar 2024 18:40:16 +0200 (CEST)
+ by a.mx.secunet.com (Postfix) with ESMTP id 6D07D208AC;
+ Sun, 31 Mar 2024 18:42:16 +0200 (CEST)
 X-Virus-Scanned: by secunet
 Received: from a.mx.secunet.com ([127.0.0.1])
  by localhost (a.mx.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id z_yk3evSv3ow; Sun, 31 Mar 2024 18:40:15 +0200 (CEST)
-Received: from mailout1.secunet.com (mailout1.secunet.com [62.96.220.44])
+ with ESMTP id IeLII4p38C00; Sun, 31 Mar 2024 18:42:15 +0200 (CEST)
+Received: from mailout2.secunet.com (mailout2.secunet.com [62.96.220.49])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by a.mx.secunet.com (Postfix) with ESMTPS id 6F686208C9;
- Sun, 31 Mar 2024 18:40:10 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 a.mx.secunet.com 6F686208C9
+ by a.mx.secunet.com (Postfix) with ESMTPS id 8C75D208B8;
+ Sun, 31 Mar 2024 18:42:14 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 a.mx.secunet.com 8C75D208B8
 Received: from cas-essen-01.secunet.de (unknown [10.53.40.201])
- by mailout1.secunet.com (Postfix) with ESMTP id 611BD80004A;
- Sun, 31 Mar 2024 18:40:10 +0200 (CEST)
+ by mailout2.secunet.com (Postfix) with ESMTP id 7CB2B80005F;
+ Sun, 31 Mar 2024 18:42:14 +0200 (CEST)
 Received: from mbx-essen-01.secunet.de (10.53.40.197) by
  cas-essen-01.secunet.de (10.53.40.201) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sun, 31 Mar 2024 18:40:10 +0200
+ 15.1.2507.35; Sun, 31 Mar 2024 18:42:14 +0200
 Received: from Pickup by mbx-essen-01.secunet.de with Microsoft SMTP Server id
- 15.1.2507.17; Sun, 31 Mar 2024 16:36:39 +0000
-X-sender: <linux-kernel+bounces-125398-steffen.klassert=secunet.com@vger.kernel.org>
+ 15.1.2507.17; Sun, 31 Mar 2024 16:37:03 +0000
+X-sender: <linux-kernel+bounces-125674-steffen.klassert=secunet.com@vger.kernel.org>
 X-Receiver: <steffen.klassert@secunet.com> ORCPT=rfc822;
  steffen.klassert@secunet.com
 X-CreatedBy: MSExchange15
-X-HeloDomain: mbx-essen-01.secunet.de
-X-ExtendedProps: BQBjAAoAAkamlidQ3AgFADcAAgAADwA8AAAATWljcm9zb2Z0LkV4Y2hhbmdlLlRyYW5zcG9ydC5NYWlsUmVjaXBpZW50Lk9yZ2FuaXphdGlvblNjb3BlEQAAAAAAAAAAAAAAAAAAAAAADwA/AAAATWljcm9zb2Z0LkV4Y2hhbmdlLlRyYW5zcG9ydC5EaXJlY3RvcnlEYXRhLk1haWxEZWxpdmVyeVByaW9yaXR5DwADAAAATG93
+X-HeloDomain: mbx-dresden-01.secunet.de
+X-ExtendedProps: BQBjAAoAL4qmlidQ3AgFADcAAgAADwA8AAAATWljcm9zb2Z0LkV4Y2hhbmdlLlRyYW5zcG9ydC5NYWlsUmVjaXBpZW50Lk9yZ2FuaXphdGlvblNjb3BlEQAAAAAAAAAAAAAAAAAAAAAADwA/AAAATWljcm9zb2Z0LkV4Y2hhbmdlLlRyYW5zcG9ydC5EaXJlY3RvcnlEYXRhLk1haWxEZWxpdmVyeVByaW9yaXR5DwADAAAATG93
 X-Source: SMTP:Default MBX-ESSEN-02
-X-SourceIPAddress: 10.53.40.197
-X-EndOfInjectedXHeaders: 17897
+X-SourceIPAddress: 10.53.40.199
+X-EndOfInjectedXHeaders: 21505
 X-Virus-Scanned: by secunet
 Received-SPF: Pass (sender SPF authorized) identity=mailfrom;
  client-ip=147.75.80.249; helo=am.mirrors.kernel.org;
- envelope-from=linux-kernel+bounces-125398-steffen.klassert=secunet.com@vger.kernel.org;
+ envelope-from=linux-kernel+bounces-125674-steffen.klassert=secunet.com@vger.kernel.org;
  receiver=steffen.klassert@secunet.com 
-DKIM-Filter: OpenDKIM Filter v2.11.0 a.mx.secunet.com 57823207E4
+DKIM-Filter: OpenDKIM Filter v2.11.0 b.mx.secunet.com C40402025D
 Authentication-Results: smtp.subspace.kernel.org;
- dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de
- header.b="SuO/o9hH"; 
- dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de
- header.b="CFzrdsSx"
-Authentication-Results: smtp.subspace.kernel.org;
- arc=none smtp.client-ip=195.135.223.131
+ arc=none smtp.client-ip=5.144.164.170
 ARC-Seal: i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
- t=1711744505; cv=none;
- b=D2ofjUhYBPAnqU8lGAhowDvfKwsItz+8XiC0p7wMkxuzWnDcahsqJl+Z5HKtPDPI+MetQI3YaOVOv5tLpSvIPWVaMMXdp4qlViEK/xXHpxCcdra9ZZYwrzYgXUPMe+gtt1DDxvanHOYB5LZYgh8ofD7NZbGMk2iUTxrdnwldbao=
+ t=1711795520; cv=none;
+ b=WcugkkU6tb5csh4PX9OZdgHVsr1P4062beHTLdN5WXB4kD/XBuDzqhxqy0iPmBbIFbPCyI6lcPyITUvT50HGxQDPT1t4m9LzKkIuyIeqyPbVQRVtKvjEJ/H0b/0feN0wwD/W+lvqG0yLI98RVsDtld8hdF0n9V1Z7vVYBVdTfDY=
 ARC-Message-Signature: i=1; a=rsa-sha256; d=subspace.kernel.org;
- s=arc-20240116; t=1711744505; c=relaxed/simple;
- bh=wjr0wxurAHUDsgUa3LOd+Gda+u2lXRCA/UsEWyt8a0Q=;
- h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
- MIME-Version;
- b=c6zWdb/QOiyoMceMcDcA8vFwnlVuJc7LbUAkHuhp4UngvEgzwkOlU+xd4pRYMEBWm4nDCWGwYto5FgcEGk+gQpyLpmDmAyhWtlQu7cCQyduJxRLVHrvx2TE59dXWhY+fyvmLekudePofipY77J7tV5atAcY5sj1zdGBfrkj9Vps=
+ s=arc-20240116; t=1711795520; c=relaxed/simple;
+ bh=c8N08nzajbS7Tgl5ZlzhtT3eqkrPtdhcztfed5kdWJU=;
+ h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+ Content-Type:Content-Disposition:In-Reply-To;
+ b=NK4Nroftp0nAZ1N8etIzlc+Bzwmo2WUAU5ePSJ34UYbs2HxcXa8TBGYkys7N96wg9sPeBxdUseOW2a5YYxTlqHbISoTl1o5AjDVmx+uhWUX93252zAd53PUO7/eiKPka0k8bi/08qkV5GS71Fw8n6i6MUV9KV4l0YGr9kg7UvL0=
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org;
- dmarc=pass (p=none dis=none) header.from=suse.de;
- spf=pass smtp.mailfrom=suse.de;
- dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SuO/o9hH;
- dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de
- header.b=CFzrdsSx; arc=none smtp.client-ip=195.135.223.131
+ dmarc=none (p=none dis=none)
+ header.from=somainline.org; spf=pass smtp.mailfrom=somainline.org;
+ arc=none smtp.client-ip=5.144.164.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none)
+ header.from=somainline.org
 Authentication-Results: smtp.subspace.kernel.org;
- dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
- spf=pass smtp.mailfrom=suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1711744499; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5zPhAoJzxNIA+Zyc3rmr96I44yGrbHHtvC/kao9p1aE=;
- b=SuO/o9hHDFaqftV6eI2MO+utLXpa5M51LlMEE/ka1+JY65aMSjaH8l+mhXYN1LzyI8ehHU
- l3zrsO0NpwIzc6+J2xu7Ll5okFEvpYRyqkfHV/uZdikGklfdJnlx2cBZLXMkLSVp1fsXfp
- fAld15I8m5n7cmZldzEBJFN/cF4IxAM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1711744499;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5zPhAoJzxNIA+Zyc3rmr96I44yGrbHHtvC/kao9p1aE=;
- b=CFzrdsSxhUSmaQoySt/OHi2C7T3Mr3nGK4vRoiBbHJIe1ukVeOpu2ckjXSBd+87oJ2dZu7
- /PzLmNyBpir4viCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=none
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: arnd@arndb.de, sam@ravnborg.org, javierm@redhat.com, deller@gmx.de,
- sui.jingfeng@linux.dev
-Cc: linux-arch@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-sh@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-parisc@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "David S. Miller" <davem@davemloft.net>,
- Andreas Larsson <andreas@gaisler.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>
-Subject: [PATCH v3 2/3] arch: Remove struct fb_info from video helpers
-Date: Fri, 29 Mar 2024 21:32:11 +0100
-Message-ID: <20240329203450.7824-3-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240329203450.7824-1-tzimmermann@suse.de>
-References: <20240329203450.7824-1-tzimmermann@suse.de>
+ spf=pass smtp.mailfrom=somainline.org
+Date: Sat, 30 Mar 2024 11:27:32 +0100
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Sumit Semwal <sumit.semwal@linaro.org>, Caleb Connolly
+ <caleb.connolly@linaro.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, Vinod Koul <vkoul@kernel.org>, "Caleb
+ Connolly" <caleb@connolly.tech>
+Subject: Re: [PATCH 3/3] drm: panel: Add LG sw43408 panel driver
+Message-ID: <554zkisebym7gbbom3657ws7kqvyidggfmcvetjm6vrnwts3gl@l53hejt72b5q>
+References: <20240330-lg-sw43408-panel-v1-0-f5580fc9f2da@linaro.org>
+ <20240330-lg-sw43408-panel-v1-3-f5580fc9f2da@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel@vger.kernel.org
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: C36DD5CACF
-X-Spamd-Result: default: False [-1.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; R_MISSING_CHARSET(0.50)[];
- NEURAL_HAM_SHORT(-0.19)[-0.968]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- FROM_HAS_DN(0.00)[]; RCPT_COUNT_TWELVE(0.00)[28];
- MIME_TRACE(0.00)[0:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap2.dmz-prg2.suse.org:rdns,imap2.dmz-prg2.suse.org:helo];
- FREEMAIL_TO(0.00)[arndb.de,ravnborg.org,redhat.com,gmx.de,linux.dev];
- R_DKIM_NA(0.00)[];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:98:from];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmx.de]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-Content-Type: text/plain
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240330-lg-sw43408-panel-v1-3-f5580fc9f2da@linaro.org>
 X-EXCLAIMER-MD-CONFIG: 2c86f778-e09b-4440-8b15-867914633a10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -159,263 +107,448 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The per-architecture video helpers do not depend on struct fb_info
-or anything else from fbdev. Remove it from the interface and replace
-fb_is_primary_device() with video_is_primary_device(). The new helper
-is similar in functionality, but can operate on non-fbdev devices.
+On 2024-03-30 05:59:30, Dmitry Baryshkov wrote:
+> From: Sumit Semwal <sumit.semwal@linaro.org>
+> 
+> LG SW43408 is 1080x2160, 4-lane MIPI-DSI panel, used in some Pixel3
+> phones.
+> 
+> Whatever init sequence we have for this panel isn't capable of
+> initialising it completely, toggling the reset gpio ever causes the
+> panel to die. Until this is resolved we avoid resetting the panel. The
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Cc: Helge Deller <deller@gmx.de>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Andreas Larsson <andreas@gaisler.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: x86@kernel.org
-Cc: "H. Peter Anvin" <hpa@zytor.com>
----
- arch/parisc/include/asm/fb.h     |  8 +++++---
- arch/parisc/video/fbdev.c        |  9 +++++----
- arch/sparc/include/asm/fb.h      |  7 ++++---
- arch/sparc/video/fbdev.c         | 17 ++++++++---------
- arch/x86/include/asm/fb.h        |  8 +++++---
- arch/x86/video/fbdev.c           | 18 +++++++-----------
- drivers/video/fbdev/core/fbcon.c |  2 +-
- include/asm-generic/fb.h         | 11 ++++++-----
- 8 files changed, 41 insertions(+), 39 deletions(-)
+Are you sure it is avoided?  This patch seems to be toggling reset_gpio in
+sw43408_prepare()?
 
-diff --git a/arch/parisc/include/asm/fb.h b/arch/parisc/include/asm/fb.h
-index 658a8a7dc5312..ed2a195a3e762 100644
---- a/arch/parisc/include/asm/fb.h
-+++ b/arch/parisc/include/asm/fb.h
-@@ -2,11 +2,13 @@
- #ifndef _ASM_FB_H_
- #define _ASM_FB_H_
- 
--struct fb_info;
-+#include <linux/types.h>
-+
-+struct device;
- 
- #if defined(CONFIG_STI_CORE)
--int fb_is_primary_device(struct fb_info *info);
--#define fb_is_primary_device fb_is_primary_device
-+bool video_is_primary_device(struct device *dev);
-+#define video_is_primary_device video_is_primary_device
- #endif
- 
- #include <asm-generic/fb.h>
-diff --git a/arch/parisc/video/fbdev.c b/arch/parisc/video/fbdev.c
-index e4f8ac99fc9e0..540fa0c919d59 100644
---- a/arch/parisc/video/fbdev.c
-+++ b/arch/parisc/video/fbdev.c
-@@ -5,12 +5,13 @@
-  * Copyright (C) 2001-2002 Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-  */
- 
--#include <linux/fb.h>
- #include <linux/module.h>
- 
- #include <video/sticore.h>
- 
--int fb_is_primary_device(struct fb_info *info)
-+#include <asm/fb.h>
-+
-+bool video_is_primary_device(struct device *dev)
- {
- 	struct sti_struct *sti;
- 
-@@ -21,6 +22,6 @@ int fb_is_primary_device(struct fb_info *info)
- 		return true;
- 
- 	/* return true if it's the default built-in framebuffer driver */
--	return (sti->dev == info->device);
-+	return (sti->dev == dev);
- }
--EXPORT_SYMBOL(fb_is_primary_device);
-+EXPORT_SYMBOL(video_is_primary_device);
-diff --git a/arch/sparc/include/asm/fb.h b/arch/sparc/include/asm/fb.h
-index 24440c0fda490..07f0325d6921c 100644
---- a/arch/sparc/include/asm/fb.h
-+++ b/arch/sparc/include/asm/fb.h
-@@ -3,10 +3,11 @@
- #define _SPARC_FB_H_
- 
- #include <linux/io.h>
-+#include <linux/types.h>
- 
- #include <asm/page.h>
- 
--struct fb_info;
-+struct device;
- 
- #ifdef CONFIG_SPARC32
- static inline pgprot_t pgprot_framebuffer(pgprot_t prot,
-@@ -18,8 +19,8 @@ static inline pgprot_t pgprot_framebuffer(pgprot_t prot,
- #define pgprot_framebuffer pgprot_framebuffer
- #endif
- 
--int fb_is_primary_device(struct fb_info *info);
--#define fb_is_primary_device fb_is_primary_device
-+bool video_is_primary_device(struct device *dev);
-+#define video_is_primary_device video_is_primary_device
- 
- static inline void fb_memcpy_fromio(void *to, const volatile void __iomem *from, size_t n)
- {
-diff --git a/arch/sparc/video/fbdev.c b/arch/sparc/video/fbdev.c
-index bff66dd1909a4..e46f0499c2774 100644
---- a/arch/sparc/video/fbdev.c
-+++ b/arch/sparc/video/fbdev.c
-@@ -1,26 +1,25 @@
- // SPDX-License-Identifier: GPL-2.0
- 
- #include <linux/console.h>
--#include <linux/fb.h>
-+#include <linux/device.h>
- #include <linux/module.h>
- 
-+#include <asm/fb.h>
- #include <asm/prom.h>
- 
--int fb_is_primary_device(struct fb_info *info)
-+bool video_is_primary_device(struct device *dev)
- {
--	struct device *dev = info->device;
--	struct device_node *node;
-+	struct device_node *node = dev->of_node;
- 
- 	if (console_set_on_cmdline)
--		return 0;
-+		return false;
- 
--	node = dev->of_node;
- 	if (node && node == of_console_device)
--		return 1;
-+		return true;
- 
--	return 0;
-+	return false;
- }
--EXPORT_SYMBOL(fb_is_primary_device);
-+EXPORT_SYMBOL(video_is_primary_device);
- 
- MODULE_DESCRIPTION("Sparc fbdev helpers");
- MODULE_LICENSE("GPL");
-diff --git a/arch/x86/include/asm/fb.h b/arch/x86/include/asm/fb.h
-index c3b9582de7efd..999db33792869 100644
---- a/arch/x86/include/asm/fb.h
-+++ b/arch/x86/include/asm/fb.h
-@@ -2,17 +2,19 @@
- #ifndef _ASM_X86_FB_H
- #define _ASM_X86_FB_H
- 
-+#include <linux/types.h>
-+
- #include <asm/page.h>
- 
--struct fb_info;
-+struct device;
- 
- pgprot_t pgprot_framebuffer(pgprot_t prot,
- 			    unsigned long vm_start, unsigned long vm_end,
- 			    unsigned long offset);
- #define pgprot_framebuffer pgprot_framebuffer
- 
--int fb_is_primary_device(struct fb_info *info);
--#define fb_is_primary_device fb_is_primary_device
-+bool video_is_primary_device(struct device *dev);
-+#define video_is_primary_device video_is_primary_device
- 
- #include <asm-generic/fb.h>
- 
-diff --git a/arch/x86/video/fbdev.c b/arch/x86/video/fbdev.c
-index 1dd6528cc947c..4d87ce8e257fe 100644
---- a/arch/x86/video/fbdev.c
-+++ b/arch/x86/video/fbdev.c
-@@ -7,7 +7,6 @@
-  *
-  */
- 
--#include <linux/fb.h>
- #include <linux/module.h>
- #include <linux/pci.h>
- #include <linux/vgaarb.h>
-@@ -25,20 +24,17 @@ pgprot_t pgprot_framebuffer(pgprot_t prot,
- }
- EXPORT_SYMBOL(pgprot_framebuffer);
- 
--int fb_is_primary_device(struct fb_info *info)
-+bool video_is_primary_device(struct device *dev)
- {
--	struct device *device = info->device;
--	struct pci_dev *pci_dev;
-+	struct pci_dev *pdev;
- 
--	if (!device || !dev_is_pci(device))
--		return 0;
-+	if (!dev_is_pci(dev))
-+		return false;
- 
--	pci_dev = to_pci_dev(device);
-+	pdev = to_pci_dev(dev);
- 
--	if (pci_dev == vga_default_device())
--		return 1;
--	return 0;
-+	return (pdev == vga_default_device());
- }
--EXPORT_SYMBOL(fb_is_primary_device);
-+EXPORT_SYMBOL(video_is_primary_device);
- 
- MODULE_LICENSE("GPL");
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index fcabc668e9fbe..3f7333dca508c 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -2907,7 +2907,7 @@ void fbcon_remap_all(struct fb_info *info)
- static void fbcon_select_primary(struct fb_info *info)
- {
- 	if (!map_override && primary_device == -1 &&
--	    fb_is_primary_device(info)) {
-+	    video_is_primary_device(info->device)) {
- 		int i;
- 
- 		printk(KERN_INFO "fbcon: %s (fb%i) is primary device\n",
-diff --git a/include/asm-generic/fb.h b/include/asm-generic/fb.h
-index 6ccabb400aa66..4788c1e1c6bc0 100644
---- a/include/asm-generic/fb.h
-+++ b/include/asm-generic/fb.h
-@@ -10,8 +10,9 @@
- #include <linux/io.h>
- #include <linux/mm_types.h>
- #include <linux/pgtable.h>
-+#include <linux/types.h>
- 
--struct fb_info;
-+struct device;
- 
- #ifndef pgprot_framebuffer
- #define pgprot_framebuffer pgprot_framebuffer
-@@ -23,11 +24,11 @@ static inline pgprot_t pgprot_framebuffer(pgprot_t prot,
- }
- #endif
- 
--#ifndef fb_is_primary_device
--#define fb_is_primary_device fb_is_primary_device
--static inline int fb_is_primary_device(struct fb_info *info)
-+#ifndef video_is_primary_device
-+#define video_is_primary_device video_is_primary_device
-+static inline bool video_is_primary_device(struct device *dev)
- {
--	return 0;
-+	return false;
- }
- #endif
- 
--- 
-2.44.0
+> disable/unprepare functions only put the panel to sleep mode and
+> disable the backlight.
+> 
+> Signed-off-by: Sumit Semwal <sumit.semwal@linaro.org>
+> [vinod: Add DSC support]
+> Signed-off-by: Vinod Koul <vkoul@kernel.org>
+> [caleb: cleanup and support turning off the panel]
+> Signed-off-by: Caleb Connolly <caleb@connolly.tech>
+> [DB: partially rewrote the driver and fixed DSC programming]
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  MAINTAINERS                              |   8 +
+>  drivers/gpu/drm/panel/Kconfig            |  11 ++
+>  drivers/gpu/drm/panel/Makefile           |   1 +
+>  drivers/gpu/drm/panel/panel-lg-sw43408.c | 322 +++++++++++++++++++++++++++++++
+>  4 files changed, 342 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 4b511a55101c..f4cf7ee97376 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6755,6 +6755,14 @@ S:	Maintained
+>  F:	Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
+>  F:	drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+>  
+> +DRM DRIVER FOR LG SW43408 PANELS
+> +M:	Sumit Semwal <sumit.semwal@linaro.org>
+> +M:	Caleb Connolly <caleb.connolly@linaro.org>
+> +S:	Maintained
+> +T:	git git://anongit.freedesktop.org/drm/drm-misc
+> +F:	Documentation/devicetree/bindings/display/panel/lg,sw43408.yaml
+> +F:	drivers/gpu/drm/panel/panel-lg-sw43408.c
+> +
+>  DRM DRIVER FOR LOGICVC DISPLAY CONTROLLER
+>  M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>  S:	Supported
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index d037b3b8b999..f94c702735cb 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -335,6 +335,17 @@ config DRM_PANEL_LG_LG4573
+>  	  Say Y here if you want to enable support for LG4573 RGB panel.
+>  	  To compile this driver as a module, choose M here.
+>  
+> +config DRM_PANEL_LG_SW43408
+> +	tristate "LG SW43408 panel"
+> +	depends on OF
+> +	depends on DRM_MIPI_DSI
+> +	depends on BACKLIGHT_CLASS_DEVICE
+> +	help
+> +	  Say Y here if you want to enable support for LG sw43408 panel.
+> +	  The panel has a 1080x2160 resolution and uses
+> +	  24 bit RGB per pixel. It provides a MIPI DSI interface to
+> +	  the host and has a built-in LED backlight.
+> +
+>  config DRM_PANEL_MAGNACHIP_D53E6EA8966
+>  	tristate "Magnachip D53E6EA8966 DSI panel"
+>  	depends on OF && SPI
+> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+> index f156d7fa0bcc..a75687d13caf 100644
+> --- a/drivers/gpu/drm/panel/Makefile
+> +++ b/drivers/gpu/drm/panel/Makefile
+> @@ -34,6 +34,7 @@ obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK050H3146W) += panel-leadtek-ltk050h3146w.o
+>  obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK500HD1829) += panel-leadtek-ltk500hd1829.o
+>  obj-$(CONFIG_DRM_PANEL_LG_LB035Q02) += panel-lg-lb035q02.o
+>  obj-$(CONFIG_DRM_PANEL_LG_LG4573) += panel-lg-lg4573.o
+> +obj-$(CONFIG_DRM_PANEL_LG_SW43408) += panel-lg-sw43408.o
+>  obj-$(CONFIG_DRM_PANEL_MAGNACHIP_D53E6EA8966) += panel-magnachip-d53e6ea8966.o
+>  obj-$(CONFIG_DRM_PANEL_NEC_NL8048HL11) += panel-nec-nl8048hl11.o
+>  obj-$(CONFIG_DRM_PANEL_NEWVISION_NV3051D) += panel-newvision-nv3051d.o
+> diff --git a/drivers/gpu/drm/panel/panel-lg-sw43408.c b/drivers/gpu/drm/panel/panel-lg-sw43408.c
+> new file mode 100644
+> index 000000000000..365d25e14d54
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panel/panel-lg-sw43408.c
+> @@ -0,0 +1,322 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Copyright (C) 2019-2024 Linaro Ltd
+> + * Author: Sumit Semwal <sumit.semwal@linaro.org>
+> + *	 Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> + */
+> +
+> +#include <linux/backlight.h>
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/regulator/consumer.h>
+> +
+> +#include <video/mipi_display.h>
+> +
+> +#include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_panel.h>
+> +#include <drm/drm_probe_helper.h>
+> +#include <drm/display/drm_dsc.h>
+> +#include <drm/display/drm_dsc_helper.h>
+> +
+> +#define NUM_SUPPLIES 2
+> +
+> +struct sw43408_panel {
+> +	struct drm_panel base;
+> +	struct mipi_dsi_device *link;
+> +
+> +	const struct drm_display_mode *mode;
+> +
+> +	struct regulator_bulk_data supplies[NUM_SUPPLIES];
+> +
+> +	struct gpio_desc *reset_gpio;
+> +};
+> +
+> +static inline struct sw43408_panel *to_panel_info(struct drm_panel *panel)
+> +{
+> +	return container_of(panel, struct sw43408_panel, base);
+> +}
+> +
+> +static int sw43408_unprepare(struct drm_panel *panel)
+> +{
+> +	struct sw43408_panel *ctx = to_panel_info(panel);
+> +	int ret;
+> +
+> +	ret = mipi_dsi_dcs_set_display_off(ctx->link);
+> +	if (ret < 0)
+> +		dev_err(panel->dev, "set_display_off cmd failed ret = %d\n", ret);
+> +
+> +	ret = mipi_dsi_dcs_enter_sleep_mode(ctx->link);
+> +	if (ret < 0)
+> +		dev_err(panel->dev, "enter_sleep cmd failed ret = %d\n", ret);
+> +
+> +	msleep(100);
+> +
+> +	gpiod_set_value(ctx->reset_gpio, 1);
+> +
+> +	return regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+> +}
+> +
+> +static int sw43408_program(struct drm_panel *panel)
+> +{
+> +	struct sw43408_panel *ctx = to_panel_info(panel);
+> +	struct drm_dsc_picture_parameter_set pps;
+> +	u8 dsc_en = 0x11;
 
+Yeah, this is completely strange. Bit 0, 0x1, is to enable DSC which is
+normal. 0x10 however, which is bit 4, selects PPS table 2.  Do you ever set
+pps_identifier in struct drm_dsc_picture_parameter_set to 2?  Or is the table
+that you send below bogus and/or not used?  Maybe the Driver IC on the other
+end of the DSI link has a default PPS table with identifier 2 that works out of
+the box?
+
+> +	mipi_dsi_dcs_write_seq(ctx->link, MIPI_DCS_SET_GAMMA_CURVE, 0x02);
+> +
+> +	mipi_dsi_dcs_set_tear_on(ctx->link, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+> +
+> +	mipi_dsi_dcs_write_seq(ctx->link, 0x53, 0x0c, 0x30);
+> +	mipi_dsi_dcs_write_seq(ctx->link, 0x55, 0x00, 0x70, 0xdf, 0x00, 0x70, 0xdf);
+> +	mipi_dsi_dcs_write_seq(ctx->link, 0xf7, 0x01, 0x49, 0x0c);
+> +
+> +	mipi_dsi_dcs_exit_sleep_mode(ctx->link);
+> +
+> +	msleep(135);
+> +
+> +	mipi_dsi_compression_mode_raw(ctx->link, &dsc_en, 1);
+
+Even though I think we should change this function to describe the known
+bit layout of command 0x7 per the VESA DSI spec, for now replace 1 with
+sizeof(dsc_en)?
+
+> +
+> +	mipi_dsi_dcs_write_seq(ctx->link, 0xb0, 0xac);
+> +	mipi_dsi_dcs_write_seq(ctx->link, 0xe5,
+> +			       0x00, 0x3a, 0x00, 0x3a, 0x00, 0x0e, 0x10);
+> +	mipi_dsi_dcs_write_seq(ctx->link, 0xb5,
+> +			       0x75, 0x60, 0x2d, 0x5d, 0x80, 0x00, 0x0a, 0x0b,
+> +			       0x00, 0x05, 0x0b, 0x00, 0x80, 0x0d, 0x0e, 0x40,
+> +			       0x00, 0x0c, 0x00, 0x16, 0x00, 0xb8, 0x00, 0x80,
+> +			       0x0d, 0x0e, 0x40, 0x00, 0x0c, 0x00, 0x16, 0x00,
+> +			       0xb8, 0x00, 0x81, 0x00, 0x03, 0x03, 0x03, 0x01,
+> +			       0x01);
+> +	msleep(85);
+> +	mipi_dsi_dcs_write_seq(ctx->link, 0xcd,
+> +			       0x00, 0x00, 0x00, 0x19, 0x19, 0x19, 0x19, 0x19,
+> +			       0x19, 0x19, 0x19, 0x19, 0x19, 0x19, 0x19, 0x19,
+> +			       0x16, 0x16);
+> +	mipi_dsi_dcs_write_seq(ctx->link, 0xcb, 0x80, 0x5c, 0x07, 0x03, 0x28);
+> +	mipi_dsi_dcs_write_seq(ctx->link, 0xc0, 0x02, 0x02, 0x0f);
+> +	mipi_dsi_dcs_write_seq(ctx->link, 0x55, 0x04, 0x61, 0xdb, 0x04, 0x70, 0xdb);
+> +	mipi_dsi_dcs_write_seq(ctx->link, 0xb0, 0xca);
+> +
+> +	mipi_dsi_dcs_set_display_on(ctx->link);
+
+Any specific reason to not have the (un)blanking sequence in the enable/disable
+callbacks and leaving display configuration in (un)prepare?
+
+> +	msleep(50);
+> +
+> +	ctx->link->mode_flags &= ~MIPI_DSI_MODE_LPM;
+> +
+> +	drm_dsc_pps_payload_pack(&pps, ctx->link->dsc);
+> +	mipi_dsi_picture_parameter_set(ctx->link, &pps);
+
+I'm always surprised why this is sent _after_ turning the display on (unblanking
+it).  Wouldn't that cause unnecessary corruption?
+
+> +
+> +	ctx->link->mode_flags |= MIPI_DSI_MODE_LPM;
+> +
+> +	return 0;
+> +}
+> +
+> +static int sw43408_prepare(struct drm_panel *panel)
+> +{
+> +	struct sw43408_panel *ctx = to_panel_info(panel);
+> +	int ret;
+> +
+> +	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	usleep_range(5000, 6000);
+> +
+> +	gpiod_set_value(ctx->reset_gpio, 0);
+> +	usleep_range(9000, 10000);
+> +	gpiod_set_value(ctx->reset_gpio, 1);
+> +	usleep_range(1000, 2000);
+> +	gpiod_set_value(ctx->reset_gpio, 0);
+> +	usleep_range(9000, 10000);
+> +
+> +	ret = sw43408_program(panel);
+> +	if (ret)
+> +		goto poweroff;
+> +
+> +	return 0;
+> +
+> +poweroff:
+> +	gpiod_set_value(ctx->reset_gpio, 1);
+> +	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+> +	return ret;
+> +}
+> +
+> +static int sw43408_get_modes(struct drm_panel *panel,
+> +			      struct drm_connector *connector)
+> +{
+> +	struct sw43408_panel *ctx = to_panel_info(panel);
+> +
+> +	return drm_connector_helper_get_modes_fixed(connector, ctx->mode);
+> +}
+> +
+> +static int sw43408_backlight_update_status(struct backlight_device *bl)
+> +{
+> +	struct mipi_dsi_device *dsi = bl_get_data(bl);
+> +	uint16_t brightness = backlight_get_brightness(bl);
+> +
+> +	return mipi_dsi_dcs_set_display_brightness_large(dsi, brightness);
+> +}
+> +
+> +const struct backlight_ops sw43408_backlight_ops = {
+> +	.update_status = sw43408_backlight_update_status,
+> +};
+> +
+> +static int sw43408_backlight_init(struct sw43408_panel *ctx)
+> +{
+> +	struct device *dev = &ctx->link->dev;
+> +	const struct backlight_properties props = {
+> +		.type = BACKLIGHT_PLATFORM,
+> +		.brightness = 255,
+> +		.max_brightness = 255,
+> +	};
+> +
+> +	ctx->base.backlight = devm_backlight_device_register(dev, dev_name(dev), dev,
+> +							ctx->link,
+> +							&sw43408_backlight_ops,
+> +							&props);
+> +
+> +	if (IS_ERR(ctx->base.backlight))
+> +		return dev_err_probe(dev, PTR_ERR(ctx->base.backlight),
+> +				     "Failed to create backlight\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct drm_panel_funcs sw43408_funcs = {
+> +	.unprepare = sw43408_unprepare,
+> +	.prepare = sw43408_prepare,
+> +	.get_modes = sw43408_get_modes,
+> +};
+> +
+> +static const struct drm_display_mode sw43408_default_mode = {
+> +	.clock = 152340,
+> +
+> +	.hdisplay = 1080,
+> +	.hsync_start = 1080 + 20,
+> +	.hsync_end = 1080 + 20 + 32,
+> +	.htotal = 1080 + 20 + 32 + 20,
+> +
+> +	.vdisplay = 2160,
+> +	.vsync_start = 2160 + 20,
+> +	.vsync_end = 2160 + 20 + 4,
+> +	.vtotal = 2160 + 20 + 4 + 20,
+> +
+> +	.width_mm = 62,
+> +	.height_mm = 124,
+> +
+> +	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
+> +};
+> +
+> +static const struct of_device_id sw43408_of_match[] = {
+> +	{ .compatible = "lg,sw43408", .data = &sw43408_default_mode },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, sw43408_of_match);
+> +
+> +static int sw43408_add(struct sw43408_panel *ctx)
+> +{
+> +	struct device *dev = &ctx->link->dev;
+> +	int ret;
+> +
+> +	ctx->supplies[0].supply = "vddi"; /* 1.88 V */
+> +	ctx->supplies[0].init_load_uA = 62000;
+> +	ctx->supplies[1].supply = "vpnl"; /* 3.0 V */
+> +	ctx->supplies[1].init_load_uA = 857000;
+> +
+> +	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ctx->supplies),
+> +				      ctx->supplies);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+> +	if (IS_ERR(ctx->reset_gpio)) {
+> +		dev_err(dev, "cannot get reset gpio %ld\n",
+> +			      PTR_ERR(ctx->reset_gpio));
+> +		return PTR_ERR(ctx->reset_gpio);
+> +	}
+> +
+> +	ret = sw43408_backlight_init(ctx);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ctx->base.prepare_prev_first = true;
+> +
+> +	drm_panel_init(&ctx->base, dev, &sw43408_funcs, DRM_MODE_CONNECTOR_DSI);
+> +
+> +	drm_panel_add(&ctx->base);
+> +	return ret;
+> +}
+> +
+> +static int sw43408_probe(struct mipi_dsi_device *dsi)
+> +{
+> +	struct sw43408_panel *ctx;
+> +	struct drm_dsc_config *dsc;
+> +	int ret;
+> +
+> +	ctx = devm_kzalloc(&dsi->dev, sizeof(*ctx), GFP_KERNEL);
+> +	if (!ctx)
+> +		return -ENOMEM;
+> +
+> +	ctx->mode = of_device_get_match_data(&dsi->dev);
+> +	dsi->mode_flags = MIPI_DSI_MODE_LPM;
+> +	dsi->format = MIPI_DSI_FMT_RGB888;
+> +	dsi->lanes = 4;
+> +
+> +	ctx->link = dsi;
+> +	mipi_dsi_set_drvdata(dsi, ctx);
+> +
+> +	ret = sw43408_add(ctx);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	/* The panel is DSC panel only, set the dsc params */
+> +	dsc = devm_kzalloc(&dsi->dev, sizeof(*dsc), GFP_KERNEL);
+
+We've recently decided to store struct drm_dsc_config in struct sw43408_panel
+and save on an extra allocation.
+
+> +	if (!dsc)
+> +		return -ENOMEM;
+> +
+> +	dsc->dsc_version_major = 0x1;
+> +	dsc->dsc_version_minor = 0x1;
+> +
+> +	dsc->slice_height = 16;
+> +	dsc->slice_width = 540;
+> +	dsc->slice_count = 2;
+
+Maybe incorporate with a comment that slice_count * slice_width == the width of
+the mode?
+
+- Marijn
+
+> +	dsc->bits_per_component = 8;
+> +	dsc->bits_per_pixel = 8 << 4;
+> +	dsc->block_pred_enable = true;
+> +
+> +	dsi->dsc = dsc;
+> +
+> +	return mipi_dsi_attach(dsi);
+> +}
+> +
+> +static void sw43408_remove(struct mipi_dsi_device *dsi)
+> +{
+> +	struct sw43408_panel *ctx = mipi_dsi_get_drvdata(dsi);
+> +	int ret;
+> +
+> +	ret = sw43408_unprepare(&ctx->base);
+> +	if (ret < 0)
+> +		dev_err(&dsi->dev, "failed to unprepare panel: %d\n",
+> +			      ret);
+> +
+> +	ret = mipi_dsi_detach(dsi);
+> +	if (ret < 0)
+> +		dev_err(&dsi->dev, "failed to detach from DSI host: %d\n", ret);
+> +
+> +	drm_panel_remove(&ctx->base);
+> +}
+> +
+> +static struct mipi_dsi_driver sw43408_driver = {
+> +	.driver = {
+> +		.name = "panel-lg-sw43408",
+> +		.of_match_table = sw43408_of_match,
+> +	},
+> +	.probe = sw43408_probe,
+> +	.remove = sw43408_remove,
+> +};
+> +module_mipi_dsi_driver(sw43408_driver);
+> +
+> +MODULE_AUTHOR("Sumit Semwal <sumit.semwal@linaro.org>");
+> +MODULE_DESCRIPTION("LG SW436408 MIPI-DSI LED panel");
+> +MODULE_LICENSE("GPL");
+> 
+> -- 
+> 2.39.2
+> 
 
