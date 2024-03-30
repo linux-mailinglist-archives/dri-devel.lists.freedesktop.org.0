@@ -2,68 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 551338927F5
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 00:53:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04EEE8928B4
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 02:15:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A602E10E49A;
-	Fri, 29 Mar 2024 23:53:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7601910E4CE;
+	Sat, 30 Mar 2024 01:15:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DKLnoGYj";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Rwil++6Y";
 	dkim-atps=neutral
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE72410E48B;
- Fri, 29 Mar 2024 23:53:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1711756387; x=1743292387;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=jaQBy/6ZH4zMzDFjUTCTZxOVmovP6hoVL+quY0fpyfE=;
- b=DKLnoGYjM+IVq7gkkC4BZO9PR2p4AgUinrSqdhUPi+167EatKhB4lEcR
- 8qVTzZX5+RSdBaT1f/pwEPARlj10hYaniQPfICR2ugPgk+hKFOXzg6j2b
- jfmpM7Mnn/11NaLMhGHT4KjGffM42SfYcRHIdHm/en7IOADHpksR8zK0u
- gAJ5DP8iY2qPqb22+NC8BnSop1p1zs0nltK6GpE5LParjpWkMVhqDzYnT
- aFO7VBwNLPzyWNYeF305Kq0BCZAVZdaDVew6gH2cYCVxXVSg5JpUjz8aa
- 0oziwMT65L25MS/V+u5o9FGv6rEHHHU7EmVJXkDLW0J1Tc0ZOz4tTIGQL w==;
-X-CSE-ConnectionGUID: 5q17siZtR2e52fzqgN7s8Q==
-X-CSE-MsgGUID: HM4uTkM1S+OZ7R0eu4XsNQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11028"; a="17677009"
-X-IronPort-AV: E=Sophos;i="6.07,166,1708416000"; d="scan'208";a="17677009"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2024 16:53:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,166,1708416000"; d="scan'208";a="17579058"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
- by orviesa006.jf.intel.com with ESMTP; 29 Mar 2024 16:53:07 -0700
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Cc: DRI-Devel@Lists.FreeDesktop.Org, John Harrison <John.C.Harrison@Intel.com>,
- Zhanjun Dong <zhanjun.dong@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Nirmoy Das <nirmoy.das@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- Madhumitha Tolakanahalli Pradeep <madhumitha.tolakanahalli.pradeep@intel.com>, 
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Ashutosh Dixit <ashutosh.dixit@intel.com>,
- Dnyaneshwar Bhadane <dnyaneshwar.bhadane@intel.com>
-Subject: [PATCH] drm/i915/guc: Fix the fix for reset lock confusion
-Date: Fri, 29 Mar 2024 16:53:05 -0700
-Message-ID: <20240329235306.1559639-1-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.43.2
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7550310E4CE;
+ Sat, 30 Mar 2024 01:15:33 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 42U0rAgA011883; Sat, 30 Mar 2024 01:15:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=RkVNn6MDg6Dgg+fumtXYcl+5uglNdoTu5XTC7Jr4eNA=; b=Rw
+ il++6YvRecVGmHAJw0YsXroC+VWuS1mxySbs956gNUuAVGBdFbClNC12xhnDaN/m
+ gM+U2c/b/Zm4ZFHMQWSy6aAAQwjVmWwxdfbEcIxyve5aAX8L+0sfdJ2U13CYEpAf
+ Lqe0MwK2BWjy+iaW7S3aGARlAsUCRG1H0mIKR4lnjtJyGaPhuPCm/XROEbW4Nr6w
+ hT2sXpNKtUl48bfrAue9x70HwxxbaXMo4t9gUEQIfcyxArXwMnvEfubTfYv0lxr9
+ aS4Klq3tZg12RxjuGFcChFRnqza29l2MpgwtJ/yhm9/1mHSvis38CJvUS66unGDn
+ 5yGtLctYgJGlPMkei1+w==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x5sm6j91t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 30 Mar 2024 01:15:28 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42U1FR8v014057
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 30 Mar 2024 01:15:27 GMT
+Received: from [10.110.118.161] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 29 Mar
+ 2024 18:15:24 -0700
+Message-ID: <8b3108e1-2cb4-4531-576e-0b9791caa71d@quicinc.com>
+Date: Fri, 29 Mar 2024 18:15:22 -0700
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/msm/dp: allow voltage swing / pre emphasis of 3
+Content-Language: en-US
+To: Doug Anderson <dianders@chromium.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Marijn
+ Suijten" <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Stephen Boyd <swboyd@chromium.org>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>
+References: <20240203-dp-swing-3-v1-1-6545e1706196@linaro.org>
+ <CAD=FV=WYsi4Cp2SWySA6jwfTr-xssvfMc4Bt669MEMK4iiyrkA@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAD=FV=WYsi4Cp2SWySA6jwfTr-xssvfMc4Bt669MEMK4iiyrkA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: kRcQd22DnptL-pbhL2zQzUwtYLo1eqEl
+X-Proofpoint-GUID: kRcQd22DnptL-pbhL2zQzUwtYLo1eqEl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-29_13,2024-03-28_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0
+ priorityscore=1501 adultscore=0 mlxlogscore=835 suspectscore=0
+ impostorscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2403210001 definitions=main-2403300007
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,144 +96,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+Hi Doug
 
-The previous fix for the circlular lock splat about the busyness
-worker wasn't quite complete. Even though the reset-in-progress flag
-is cleared at the start of intel_uc_reset_finish, the entire function
-is still inside the reset mutex lock. Not sure why the patch appeared
-to fix the issue both locally and in CI. However, it is now back
-again.
+On 3/29/2024 4:07 PM, Doug Anderson wrote:
+> Hi,
+> 
+> On Sat, Feb 3, 2024 at 5:47 AM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+>>
+>> Both dp_link_adjust_levels() and dp_ctrl_update_vx_px() limit swing and
+>> pre-emphasis to 2, while the real maximum value for the sum of the
+>> voltage swing and pre-emphasis is 3. Fix the DP code to remove this
+>> limitation.
+>>
+>> Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>   drivers/gpu/drm/msm/dp/dp_ctrl.c |  6 +++---
+>>   drivers/gpu/drm/msm/dp/dp_link.c | 22 +++++++++++-----------
+>>   drivers/gpu/drm/msm/dp/dp_link.h | 14 +-------------
+>>   3 files changed, 15 insertions(+), 27 deletions(-)
+> 
+> What ever happened with this patch? It seemed important so I've been
+> trying to check back on it, but it seems to still be in limbo. I was
+> assuming that (maybe?) Abhinav would check things against the hardware
+> documentation and give it a Reviewed-by and then it would land...
+> 
+> -Doug
 
-There is a further complication the wedge code path within
-intel_gt_reset() jumps around so much it results in nested
-reset_prepare/_finish calls. That is, the call sequence is:
-  intel_gt_reset
-  | reset_prepare
-  | __intel_gt_set_wedged
-  | | reset_prepare
-  | | reset_finish
-  | reset_finish
+The issue for which this patch was originally made (DP link training 
+issue on x1e80100) was not getting fixed by this patch.
 
-The nested finish means that even if the clear of the in-progress flag
-was moved to the end of _finish, it would still be clear for the
-entire second call. Surprisingly, this does not seem to be causing any
-other problems at present.
+That one turned out as actually a PLL locking issue. So this kind of 
+went off the radar as it was not immediately needed to fix anything.
 
-As an aside, a wedge on fini does not call the finish functions at
-all. The reset_in_progress flag is left set (twice).
-
-So instead of trying to cancel the worker anywhere at all in the reset
-path, just add a cancel to intel_guc_submission_fini instead. Note
-that it is not a problem if the worker is still active during a reset.
-Either it will run before the reset path starts locking things and
-will simply block the reset code for a tiny amount of time. Or it will
-run after the locks have been acquired and will early exit due to the
-try-lock.
-
-Also, do not use the reset-in-progress flag to decide whether a
-synchronous cancel is safe (from a lockdep perspective) or not.
-Instead, use the actual reset mutex state (both the genuine one and
-the custom rolled BACKOFF one).
-
-Fixes: 0e00a8814eec ("drm/i915/guc: Avoid circular locking issue on busyness flush")
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-Cc: Zhanjun Dong <zhanjun.dong@intel.com>
-Cc: John Harrison <John.C.Harrison@Intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Nirmoy Das <nirmoy.das@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Cc: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
-Cc: Madhumitha Tolakanahalli Pradeep <madhumitha.tolakanahalli.pradeep@intel.com>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
-Cc: Dnyaneshwar Bhadane <dnyaneshwar.bhadane@intel.com>
----
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 23 ++++++++-----------
- drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  4 ++++
- 2 files changed, 13 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 16640d6dd0589..00757d6333e88 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -1403,14 +1403,17 @@ static void guc_cancel_busyness_worker(struct intel_guc *guc)
- 	 * Trying to pass a 'need_sync' or 'in_reset' flag all the way down through
- 	 * every possible call stack is unfeasible. It would be too intrusive to many
- 	 * areas that really don't care about the GuC backend. However, there is the
--	 * 'reset_in_progress' flag available, so just use that.
-+	 * I915_RESET_BACKOFF flag and the gt->reset.mutex can be tested for is_locked.
-+	 * So just use those. Note that testing both is required due to the hideously
-+	 * complex nature of the i915 driver's reset code paths.
- 	 *
- 	 * And note that in the case of a reset occurring during driver unload
--	 * (wedge_on_fini), skipping the cancel in _prepare (when the reset flag is set
--	 * is fine because there is another cancel in _finish (when the reset flag is
--	 * not).
-+	 * (wedged_on_fini), skipping the cancel in reset_prepare/reset_fini (when the
-+	 * reset flag/mutex are set) is fine because there is another explicit cancel in
-+	 * intel_guc_submission_fini (when the reset flag/mutex are not).
- 	 */
--	if (guc_to_gt(guc)->uc.reset_in_progress)
-+	if (mutex_is_locked(&guc_to_gt(guc)->reset.mutex) ||
-+	    test_bit(I915_RESET_BACKOFF, &guc_to_gt(guc)->reset.flags))
- 		cancel_delayed_work(&guc->timestamp.work);
- 	else
- 		cancel_delayed_work_sync(&guc->timestamp.work);
-@@ -1424,8 +1427,6 @@ static void __reset_guc_busyness_stats(struct intel_guc *guc)
- 	unsigned long flags;
- 	ktime_t unused;
- 
--	guc_cancel_busyness_worker(guc);
--
- 	spin_lock_irqsave(&guc->timestamp.lock, flags);
- 
- 	guc_update_pm_timestamp(guc, &unused);
-@@ -2004,13 +2005,6 @@ void intel_guc_submission_cancel_requests(struct intel_guc *guc)
- 
- void intel_guc_submission_reset_finish(struct intel_guc *guc)
- {
--	/*
--	 * Ensure the busyness worker gets cancelled even on a fatal wedge.
--	 * Note that reset_prepare is not allowed to because it confuses lockdep.
--	 */
--	if (guc_submission_initialized(guc))
--		guc_cancel_busyness_worker(guc);
--
- 	/* Reset called during driver load or during wedge? */
- 	if (unlikely(!guc_submission_initialized(guc) ||
- 		     !intel_guc_is_fw_running(guc) ||
-@@ -2136,6 +2130,7 @@ void intel_guc_submission_fini(struct intel_guc *guc)
- 	if (!guc->submission_initialized)
- 		return;
- 
-+	guc_fini_engine_stats(guc);
- 	guc_flush_destroyed_contexts(guc);
- 	guc_lrc_desc_pool_destroy_v69(guc);
- 	i915_sched_engine_put(guc->sched_engine);
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-index b47051ddf17f2..7a63abf8f644c 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-@@ -633,6 +633,10 @@ void intel_uc_reset_finish(struct intel_uc *uc)
- {
- 	struct intel_guc *guc = &uc->guc;
- 
-+	/*
-+	 * NB: The wedge code path results in prepare -> prepare -> finish -> finish.
-+	 * So this function is sometimes called with the in-progress flag not set.
-+	 */
- 	uc->reset_in_progress = false;
- 
- 	/* Firmware expected to be running when this function is called */
--- 
-2.43.2
-
+I will wait for Kuogee's response on this patch. He was OOO entire Feb 
+so this got missed.
