@@ -2,38 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76C86892C16
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 17:49:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7395892C51
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 19:11:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3857110E070;
-	Sat, 30 Mar 2024 16:49:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32C6E10E94E;
+	Sat, 30 Mar 2024 18:11:03 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RUcPbw9s";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay01.th.seeweb.it (relay01.th.seeweb.it [5.144.164.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31C0210E6C3
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 16:49:04 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
- server-digest SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id E863020192;
- Sat, 30 Mar 2024 17:49:01 +0100 (CET)
-Date: Sat, 30 Mar 2024 17:49:00 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH] drm/msm/dpu: fix vblank IRQ handling for command panels
-Message-ID: <mxwrvnqth5f2vd4m55ryzqgyj7brykiqynzldelanxkuj2zny3@4pqi6p57c2q2>
-References: <20240330-dpu-fix-irqs-v1-1-39b8d4e4e918@linaro.org>
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DC8310E94E
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 18:10:59 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-3434275ad73so248973f8f.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 11:10:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1711822258; x=1712427058; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=87ffxS2Z4k6pRWwiORZe6AOO57FJg09xK1iXk/x6q88=;
+ b=RUcPbw9sYyvAFftZWb1HaGQbBODBbeWj+yffznHNzIY3YwkcreHmNQccqG8Lpn6HDn
+ qxJQB1pZVY4iNoAOHGdHJLXgxMbVQ/b74LLYBCDv6oEYAh9HgJbUSLoT62mdLfBdiiXK
+ W2KByxz3iRYTisR9F6TeAFH8W2vi5BsWNpD/DtfmFbcMta7JcQuRc+ypbSV1mPAyRIHT
+ w2aNSe54AC0vGw9cvghqCLBoGyJ7pjUuLrhL9jFsljz2PeRStkAD4WJxByYy7AG3h7I8
+ cGwyJiM6cpjy6k1scxX5JC/vvpRD4UVElhJO+3wIVGomXTF4qRexrFjXSG58eNvjVymH
+ KRfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711822258; x=1712427058;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=87ffxS2Z4k6pRWwiORZe6AOO57FJg09xK1iXk/x6q88=;
+ b=sxS9jcijToIbP3xgRTpIWGgGZtDq6SWIzTC77JmTEwKeLYttanTrHRd+rmZ8fyP3fL
+ ecCmg2rCEx6PHLvtqF5g6TAyzBEpaaGqym9likueXhvWyUslrc+bJ43HS/812zfJ4Her
+ hOrcCtwH5MLH390qHjOXG+p7YQKqjV8MEhxAgT93CujSrhhTxuMxQoFRFrbsM8U6ylqK
+ LUA2u52g8XCmSGa8q7gb+lUsQZYwD8RMJHnY/sUGUW/bi0poJEDanXgnardOKgojqhH2
+ C/ArlqMyKMSYNV0KV2JXS4n+5k19/fHEfcTkuFwITmGE5Nkj15liAejZi9lx1otEuo5/
+ u3og==
+X-Gm-Message-State: AOJu0YzcWNb24J5f7p3HX2rwVqLsMoKFhIXfwuHr880IVIPk7Bk8iOdY
+ eQarR5T+ABCaITWdRF+fzwQcidDHyLli09cRKohGTkvM+lR1s5XwnetFsqOCMgE=
+X-Google-Smtp-Source: AGHT+IHSf24MHXCFM2oQnqc68fb0JfkbU/gQmTyhVXOzuBlSPPZgAtBdkIdsxpek5LvHWlT7coitEw==
+X-Received: by 2002:a5d:4a41:0:b0:341:cf18:70b3 with SMTP id
+ v1-20020a5d4a41000000b00341cf1870b3mr4563234wrs.27.1711822257669; 
+ Sat, 30 Mar 2024 11:10:57 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.16])
+ by smtp.gmail.com with ESMTPSA id
+ ce8-20020a5d5e08000000b003433e4c6d43sm3312954wrb.32.2024.03.30.11.10.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 30 Mar 2024 11:10:56 -0700 (PDT)
+Message-ID: <e1a013e3-52df-441c-b0b0-06b6a877f151@linaro.org>
+Date: Sat, 30 Mar 2024 19:10:54 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240330-dpu-fix-irqs-v1-1-39b8d4e4e918@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] dt-bindings: panel: Add LG SW43408 MIPI-DSI panel
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Caleb Connolly <caleb.connolly@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Vinod Koul <vkoul@kernel.org>, Caleb Connolly <caleb@connolly.tech>
+References: <20240330-lg-sw43408-panel-v2-0-293a58717b38@linaro.org>
+ <20240330-lg-sw43408-panel-v2-1-293a58717b38@linaro.org>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
+ m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
+ HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
+ XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
+ mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
+ v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
+ cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
+ rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
+ qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
+ aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
+ gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
+ dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
+ NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
+ hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
+ oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
+ H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
+ yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
+ 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
+ 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
+ +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
+ FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
+ 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
+ DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
+ oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
+ 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
+ Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
+ qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
+ /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
+ qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
+ EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
+ KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
+ fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240330-lg-sw43408-panel-v2-1-293a58717b38@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,153 +140,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-03-30 05:52:29, Dmitry Baryshkov wrote:
-> In case of CMD DSI panels, the vblank IRQ can be used outside of
-> irq_enable/irq_disable pair. This results in the following kind of
-
-Can you clarify when exactly that is?  Is it via ops.control_vblank_irq in
-dpu_encoder_toggle_vblank_for_crtc()?
-
-> messages. Move assignment of IRQ indices to atomic_enable /
-> atomic_disable callbacks.
+On 30/03/2024 16:00, Dmitry Baryshkov wrote:
+> From: Sumit Semwal <sumit.semwal@linaro.org>
 > 
-> [dpu error]invalid IRQ=[134217727, 31]
-> [drm:dpu_encoder_phys_cmd_control_vblank_irq] *ERROR* vblank irq err id:31 pp:0 ret:-22, enable true/0
-> [drm:dpu_encoder_phys_cmd_control_vblank_irq] *ERROR* vblank irq err id:31 pp:0 ret:-22, enable false/0
+> LG SW43408 is 1080x2160, 4-lane MIPI-DSI panel present on Google Pixel 3
+> phones.
+> 
+> Signed-off-by: Vinod Koul <vkoul@kernel.org>
+> Signed-off-by: Sumit Semwal <sumit.semwal@linaro.org>
+> [caleb: convert to yaml]
+> Signed-off-by: Caleb Connolly <caleb@connolly.tech>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
 
-You are right that such messages are common, both at random but also seemingly
-around toggling the `ACTIVE` property on the CRTC:
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-	[   45.878300] panel-samsung-souxp ae94000.dsi.0: samsung_souxp00_disable
-	[   45.909941] panel-samsung-souxp ae94000.dsi.0: samsung_souxp00_unprepare
-	[   46.093234] [drm:dpu_encoder_helper_wait_for_irq] *ERROR* encoder is disabled id=31, callback=dpu_encoder_phys_cmd_ctl_start_irq, IRQ=[134217727, 31]
-	[   46.130421] panel-samsung-souxp ae94000.dsi.0: samsung_souxp00_prepare
-	[   46.340457] panel-samsung-souxp ae94000.dsi.0: samsung_souxp00_enable
-	[   65.520323] [dpu error]invalid IRQ=[134217727, 31] irq_cb:dpu_encoder_phys_cmd_te_rd_ptr_irq
-	[   65.520463] [drm:dpu_encoder_phys_cmd_control_vblank_irq] *ERROR* vblank irq err id:31 pp:0 ret:-22, enable true/0
-	[   65.630199] [drm:dpu_encoder_phys_cmd_control_vblank_irq] *ERROR* vblank irq err id:31 pp:0 ret:-22, enable false/0
-	[  166.576465] panel-samsung-souxp ae94000.dsi.0: samsung_souxp00_disable
-	[  166.609674] panel-samsung-souxp ae94000.dsi.0: samsung_souxp00_unprepare
-	[  166.781967] [drm:dpu_encoder_helper_wait_for_irq] *ERROR* encoder is disabled id=31, callback=dpu_encoder_phys_cmd_ctl_start_irq, IRQ=[134217727, 31]
-	[  166.829805] panel-samsung-souxp ae94000.dsi.0: samsung_souxp00_prepare
-	[  167.040476] panel-samsung-souxp ae94000.dsi.0: samsung_souxp00_enable
-	[  337.449827] [dpu error]invalid IRQ=[134217727, 31] irq_cb:dpu_encoder_phys_cmd_te_rd_ptr_irq
-	[  337.450434] [drm:dpu_encoder_phys_cmd_control_vblank_irq] *ERROR* vblank irq err id:31 pp:0 ret:-22, enable true/0
-	[  337.569526] [drm:dpu_encoder_phys_cmd_control_vblank_irq] *ERROR* vblank irq err id:31 pp:0 ret:-22, enable false/0
-	[  354.980357] [dpu error]invalid IRQ=[134217727, 31] irq_cb:dpu_encoder_phys_cmd_te_rd_ptr_irq
-	[  354.980495] [drm:dpu_encoder_phys_cmd_control_vblank_irq] *ERROR* vblank irq err id:31 pp:0 ret:-22, enable true/0
-	[  355.090460] [drm:dpu_encoder_phys_cmd_control_vblank_irq] *ERROR* vblank irq err id:31 pp:0 ret:-22, enable false/0
+Best regards,
+Krzysztof
 
-Unfortunately with this patch, turning the CRTC off via ./modetest -M msm -a
--w 81:ACTIVE:0 immediately triggers a bunch of WARNs (note that the CRTC turns
-on immediately again when the command returns, that's probably the framebuffer
-console taking over again).  Running it a few times in succession this may or
-may not happen, or reboot the phone (Xperia Griffin) entirely:
-
-	[   23.423930] panel-samsung-souxp ae94000.dsi.0: samsung_souxp00_disable
-	[   23.461013] [dpu error]invalid IRQ=[134217727, 31]
-	[   23.461144] [dpu error]invalid IRQ=[134217727, 31]
-	[   23.461208] [drm:dpu_encoder_phys_cmd_control_vblank_irq] *ERROR* vblank irq err id:31 pp:0 ret:-22, enable false/1
-	[   23.461340] [dpu error]invalid IRQ=[134217727, 31]
-	[   23.461406] panel-samsung-souxp ae94000.dsi.0: samsung_souxp00_unprepare
-	[   23.641721] [drm:dpu_encoder_helper_wait_for_irq] *ERROR* encoder is disabled id=31, callback=dpu_encoder_phys_cmd_ctl_start_irq, IRQ=[134217727, 31]
-	[   23.679938] panel-samsung-souxp ae94000.dsi.0: samsung_souxp00_prepare
-	[   23.900465] ------------[ cut here ]------------
-	[   23.900813] WARNING: CPU: 1 PID: 747 at drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:545 dpu_core_irq_register_callback+0x1b4/0x244
-	[   23.901450] Modules linked in:
-	[   23.901814] CPU: 1 PID: 747 Comm: modetest Tainted: G     U             6.9.0-rc1-next-20240328-SoMainline-02555-g27abbea53b6b #19
-	[   23.902402] Hardware name: Sony Xperia 1 (DT)
-	[   23.902674] pstate: 804000c5 (Nzcv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-	[   23.903133] pc : dpu_core_irq_register_callback+0x1b4/0x244
-	[   23.903455] lr : dpu_encoder_phys_cmd_irq_enable+0x30/0x8c
-	[   23.903880] sp : ffff800086833930
-	[   23.904123] x29: ffff800086833930 x28: 0000000000000001 x27: ffff0273834522d0
-	[   23.904604] x26: ffffd46ebdb5edc8 x25: ffffd46ebe0f1228 x24: ffff02738106b280
-	[   23.904973] x23: ffff027383452000 x22: ffffd46ebd086290 x21: 0000000000000000
-	[   23.905452] x20: ffff027382712080 x19: 0000000000000008 x18: ffff8000840550d0
-	[   23.905820] x17: 000000040044ffff x16: 005000f2b5503510 x15: 00000000000006ce
-	[   23.906300] x14: 0000000000000f00 x13: 0000000000000f00 x12: 0000000000000f00
-	[   23.906778] x11: 0000000000000040 x10: ffffd46ebe853258 x9 : ffffd46ebe853250
-	[   23.907146] x8 : ffffd46ebec30000 x7 : 0000000000000000 x6 : 0000000000000000
-	[   23.907621] x5 : 0000000000000000 x4 : ffff027384eac080 x3 : ffff027381a1a080
-	[   23.908099] x2 : 0000000000000001 x1 : ffff027384eac140 x0 : ffffd46ebd086290
-	[   23.908467] Call trace:
-	[   23.908688]  dpu_core_irq_register_callback+0x1b4/0x244
-	[   23.909113]  dpu_encoder_phys_cmd_irq_enable+0x30/0x8c
-	[   23.909417]  _dpu_encoder_irq_enable+0x58/0xa4
-	[   23.909814]  dpu_encoder_resource_control+0x1e8/0x498
-	[   23.910116]  dpu_encoder_virt_atomic_enable+0x9c/0x15c
-	[   23.910531]  drm_atomic_helper_commit_modeset_enables+0x180/0x26c
-	[   23.910871]  msm_atomic_commit_tail+0x1a4/0x510
-	[   23.911277]  commit_tail+0xa8/0x19c
-	[   23.911544]  drm_atomic_helper_commit+0x188/0x1a0
-	[   23.911842]  drm_atomic_commit+0xb4/0xf0
-	[   23.912226]  drm_client_modeset_commit_atomic+0x1fc/0x268
-	[   23.912540]  drm_client_modeset_commit_locked+0x60/0x178
-	[   23.912963]  drm_client_modeset_commit+0x30/0x5c
-	[   23.913256]  drm_fb_helper_lastclose+0x64/0xb0
-	[   23.913542]  msm_fbdev_client_restore+0x18/0x2c
-	[   23.913948]  drm_client_dev_restore+0x8c/0xec
-	[   23.914233]  drm_lastclose+0x68/0xac
-	[   23.914499]  drm_release+0x128/0x15c
-	[   23.914765]  __fput+0x7c/0x2cc
-	[   23.915017]  __fput_sync+0x54/0x64
-	[   23.915272]  __arm64_sys_close+0x3c/0x84
-	[   23.915661]  invoke_syscall+0x4c/0x11c
-	[   23.915932]  el0_svc_common.constprop.0+0x44/0xec
-	[   23.916230]  do_el0_svc+0x20/0x30
-	[   23.916600]  el0_svc+0x38/0xe4
-	[   23.916854]  el0t_64_sync_handler+0x128/0x134
-	[   23.917139]  el0t_64_sync+0x198/0x19c
-	[   23.917515] ---[ end trace 0000000000000000 ]---
-	[   23.918007] ------------[ cut here ]------------
-	[   23.918324] WARNING: CPU: 1 PID: 747 at drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:545 dpu_core_irq_register_callback+0x1b4/0x244
-	[   23.918720] Modules linked in:
-	[   23.918878] CPU: 1 PID: 747 Comm: modetest Tainted: G     U  W          6.9.0-rc1-next-20240328-SoMainline-02555-g27abbea53b6b #19
-	[   23.919248] Hardware name: Sony Xperia 1 (DT)
-	[   23.919424] pstate: 804000c5 (Nzcv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-	[   23.919725] pc : dpu_core_irq_register_callback+0x1b4/0x244
-	[   23.919934] lr : dpu_encoder_phys_cmd_irq_enable+0x78/0x8c
-	[   23.920214] sp : ffff800086833930
-	[   23.920373] x29: ffff800086833930 x28: 0000000000000001 x27: ffff0273834522d0
-	[   23.920686] x26: ffffd46ebdb5edc8 x25: ffffd46ebe0f1228 x24: ffff02738106b280
-	[   23.920922] x23: ffff027383452000 x22: ffffd46ebd086020 x21: 0000000000000000
-	[   23.921237] x20: ffff027382712080 x19: 0000000000000029 x18: ffff8000840550d0
-	[   23.921545] x17: 000000040044ffff x16: 005000f2b5503510 x15: 00000000000006ce
-	[   23.921780] x14: 0000000000000f00 x13: 0000000000000f00 x12: 0000000000000f00
-	[   23.922092] x11: 0000000000000040 x10: ffffd46ebe853258 x9 : ffffd46ebe853250
-	[   23.922405] x8 : ffffd46ebec30000 x7 : 0000000000000000 x6 : 0000000000000001
-	[   23.922640] x5 : ffffd46ebe0878d8 x4 : ffff027384eac080 x3 : ffff027381a1a080
-	[   23.922953] x2 : 0000000000000001 x1 : ffff027384eac458 x0 : ffffd46ebd086020
-	[   23.923266] Call trace:
-	[   23.923411]  dpu_core_irq_register_callback+0x1b4/0x244
-	[   23.923616]  dpu_encoder_phys_cmd_irq_enable+0x78/0x8c
-	[   23.923893]  _dpu_encoder_irq_enable+0x58/0xa4
-	[   23.924078]  dpu_encoder_resource_control+0x1e8/0x498
-	[   23.924273]  dpu_encoder_virt_atomic_enable+0x9c/0x15c
-	[   23.924547]  drm_atomic_helper_commit_modeset_enables+0x180/0x26c
-	[   23.924763]  msm_atomic_commit_tail+0x1a4/0x510
-	[   23.925030]  commit_tail+0xa8/0x19c
-	[   23.925205]  drm_atomic_helper_commit+0x188/0x1a0
-	[   23.925477]  drm_atomic_commit+0xb4/0xf0
-	[   23.925653]  drm_client_modeset_commit_atomic+0x1fc/0x268
-	[   23.925856]  drm_client_modeset_commit_locked+0x60/0x178
-	[   23.926136]  drm_client_modeset_commit+0x30/0x5c
-	[   23.926325]  drm_fb_helper_lastclose+0x64/0xb0
-	[   23.926585]  msm_fbdev_client_restore+0x18/0x2c
-	[   23.926771]  drm_client_dev_restore+0x8c/0xec
-	[   23.926956]  drm_lastclose+0x68/0xac
-	[   23.927206]  drm_release+0x128/0x15c
-	[   23.927379]  __fput+0x7c/0x2cc
-	[   23.927541]  __fput_sync+0x54/0x64
-	[   23.927785]  __arm64_sys_close+0x3c/0x84
-	[   23.927965]  invoke_syscall+0x4c/0x11c
-	[   23.928141]  el0_svc_common.constprop.0+0x44/0xec
-	[   23.928411]  do_el0_svc+0x20/0x30
-	[   23.928582]  el0_svc+0x38/0xe4
-	[   23.928746]  el0t_64_sync_handler+0x128/0x134
-	[   23.929008]  el0t_64_sync+0x198/0x19c
-	[   23.929180] ---[ end trace 0000000000000000 ]---
-	[   23.929429] panel-samsung-souxp ae94000.dsi.0: samsung_souxp00_enable
-
-- Marijn
