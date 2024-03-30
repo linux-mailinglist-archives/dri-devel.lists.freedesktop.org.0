@@ -2,63 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D46FB892D3F
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 21:43:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80E2F892D3A
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 21:43:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8D2510E507;
-	Sat, 30 Mar 2024 20:43:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D936910E49F;
+	Sat, 30 Mar 2024 20:43:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kE5EF6CP";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="JB6V0xvl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F31610E045
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 20:43:31 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-33ececeb19eso1746378f8f.3
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 13:43:30 -0700 (PDT)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8524110E045
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 20:43:32 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id
+ ffacd0b85a97d-33ececeb19eso1746382f8f.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 13:43:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711831409; x=1712436209; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1711831411; x=1712436211; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=qQ6iRfApTBoRDrY2t1Fr9Ku/JGHxYaIezlkqm2YUAqc=;
- b=kE5EF6CPwgQVlwx0CCCyC++Y4QAiU7kCf5owRkPLN3LGjaSaKoXNOKYU5EOJitCeYx
- W+j3jBLBtoxW1qQztXvVsBsASE5QFnOmOt/KQfaL0JeHBMCYbgXgtANXM7C65wD1ceMD
- K7s18NEUuijfReGxUx1SMMhfO8MniSDyefn0CKe5vrFIh0JuLX2DZdyRNlsAtnPhr7Ma
- fXsTqj7O5atyDxo603PMREjA06Kzz88a1SajbTw75NgzpSPHFkbbAbg+S1MR0xkKJq/x
- meZH0YPXfbTWl8fF4FL1E4p6niSK3ngoHf4liJ/fSE0CAK/ha5uy9K1N8kqYbMYA5BB6
- PTUQ==
+ :reply-to; bh=gkvgtJfZLFYPx9yFQ6Zl+mYWhCt2xCc9NZAo+ZUMPsg=;
+ b=JB6V0xvltW8Sp9Yrw5dEgfrHQvUwAM3bBpfhmgE717HMOmsLaxznsWtHts5wLKjXvP
+ 2XIp/kUrBsrIiVAKHv6i1tDXpOJcZxGjFN95yi4eZeQXcuIBOk/ciRy4ACYMyxDdGtH0
+ BqInRPiPIkUhD3GqkI5sI9hTzP1pAfTW292n4eZR0c3YRJlfsO4WRjYI84yYHdXYAe9j
+ OhVeQT4nD1nBO2DeWQQBqYunDEaBHR8gLhkk54pyjXzKs9uZ31FlA4+pfmKdjCXHJPsN
+ jfhqOmeUt3G5JXtoaSY3zca393GOPFLUWdYAtAD2Y8Y992YUOUmR6nOfnw9PQ1IqNCsf
+ DY5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711831409; x=1712436209;
+ d=1e100.net; s=20230601; t=1711831411; x=1712436211;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qQ6iRfApTBoRDrY2t1Fr9Ku/JGHxYaIezlkqm2YUAqc=;
- b=FTai0nonoxjtt7BWsijCh3eaXEGn8MM+mo86yKtsVwAEXycwINBiL3REkB+im1GBVF
- R5ajcWXhXz23KclG3m0yT7Ax1WWgYJoblUG7kWvXjnzWnWuhWfJHldIwa/KNmndqo6Yb
- C72yKe/kZZBRUUJVM9VJOp4N4QnYj+QElbEEj3aP44yd0otYVMUEd0zSbbuI+t+qbaJg
- wbxeMlcYeIbluzRb5AY6QVpIsjwdOBc1wlwW0AuuxEEOGZ6mUjLwQEw43jGUsMZeJmQk
- 9qOyWttq5Teow3l9rckFMQonVc3cOeIfWSFb9wJgIY/lGopN7IKSpjbpzNS87mVhCbUN
- rfbw==
-X-Gm-Message-State: AOJu0Yz0bDZXWK4TNCbp9Eba7n1a6SgRwSf7kDJz1q8xfL5a6CEke026
- tBcsb5CavjusbTNRQ79KMs/dejjhRiVAopoEy9Ubg6gp7BGtHOaVbiu9aOXm0X0=
-X-Google-Smtp-Source: AGHT+IFof+wGW9GxDz08XDMp6C+JQTVetnRPBObjFVAE613n9FHrpR+tNujyuR5lpdLBVcyRgTGtXw==
-X-Received: by 2002:a05:6000:250:b0:33e:67c7:e2c0 with SMTP id
- m16-20020a056000025000b0033e67c7e2c0mr3096634wrz.38.1711831409452; 
- Sat, 30 Mar 2024 13:43:29 -0700 (PDT)
+ bh=gkvgtJfZLFYPx9yFQ6Zl+mYWhCt2xCc9NZAo+ZUMPsg=;
+ b=gIjyW7pxmKzxQwkZG1eypqZcqE8BX38D0fWS4z9sP7ZdkTwmhrlE327L7BxE9qlvMl
+ Dfp/f/9H9g434AnesX/yXyvkOurFYhjDucYIxjhZd2CmmjwLL+2YUtADbQA/19gtIREp
+ kZff1+BtuHtWVD2vQYD7mU+NHq6CviZW3VSxgh8NL2/LPQEkKgi5Jg5T/C/Q6z2rzWWq
+ zAQJ2Tev1H8A6tzMVP9PskbJFI/rdL+3aycYD9DjSr6T6bfdAig6RKBP+sL7psMmL6gm
+ 8ZydjN4sBP6BfLKKlrG+WFDnpoMh+oZ43alBAJW3wEBAj9REi0ZYQo6HDuLtaem2M4Ki
+ PqmA==
+X-Gm-Message-State: AOJu0YwG5Xq3JqTTm1ocOaQWEdfWAnofRkrqikt8USByeGvp1f7h9u90
+ qVKuCKVGlKc3LzlPeKaGasPq/yxarTgggPqrA+ipi3HruzucqYirPpfsGNo9bZ3YyC1zIkAyfee
+ V
+X-Google-Smtp-Source: AGHT+IGWOdTkC7o9yGgejAofbZqEmlVeJu8V+2qwkD7lOHPc0dBfgw35/iSYGxJwzZWGT1QRUhFf8A==
+X-Received: by 2002:a5d:6a8b:0:b0:341:c000:5f02 with SMTP id
+ s11-20020a5d6a8b000000b00341c0005f02mr3680932wru.7.1711831410817; 
+ Sat, 30 Mar 2024 13:43:30 -0700 (PDT)
 Received: from [127.0.1.1] ([178.197.223.16]) by smtp.gmail.com with ESMTPSA id
- o12-20020a5d4a8c000000b0033e7b05edf3sm7231299wrq.44.2024.03.30.13.43.28
+ o12-20020a5d4a8c000000b0033e7b05edf3sm7231299wrq.44.2024.03.30.13.43.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Mar 2024 13:43:29 -0700 (PDT)
+ Sat, 30 Mar 2024 13:43:30 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Sat, 30 Mar 2024 21:43:12 +0100
-Subject: [PATCH 01/11] drm/mediatek: aal: drop driver owner initialization
+Date: Sat, 30 Mar 2024 21:43:13 +0100
+Subject: [PATCH 02/11] drm/mediatek: ccorr: drop driver owner
+ initialization
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240330-b4-module-owner-drm-mediatek-v1-1-fd5c4b8d633e@linaro.org>
+Message-Id: <20240330-b4-module-owner-drm-mediatek-v1-2-fd5c4b8d633e@linaro.org>
 References: <20240330-b4-module-owner-drm-mediatek-v1-0-fd5c4b8d633e@linaro.org>
 In-Reply-To: <20240330-b4-module-owner-drm-mediatek-v1-0-fd5c4b8d633e@linaro.org>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
@@ -69,21 +71,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=839;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=857;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=w3IeKAjnHBm8kl2xZSK2QFuYLup7/F/VoSrvI0alzKY=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmCHllE0eKbHKME3Pw1H4CbKUpy9mgJwywTALwm
- 8LLCuYguqyJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZgh5ZQAKCRDBN2bmhouD
- 1002D/9XrWcY2yuyJCyP/EFAaoXJOdXI2ZjZNPj1enhHgt215/5Hq4umqeqJfzLIrjTzKZqMNeT
- 274U1WzmqF3vl7oc8fOG6lArneQdJffyeJTU6IBFx3hUvfStz5a2hERTop6d4/EZ0A27CEsNO/v
- vTQsssxxwN1V7TmiiFqDjwKSGXLZj5KbjJVqJg29vF+cKz9ylWp9D7GO7lTSCnDVy8RT1v7w6Dv
- p/KQS+LcUZNsOhgjeDAaJkiFigku4o3Un/I/T+l0an9KRakHP4ALOas2g52wN7LYeXtj9LGTM7d
- QR4hV1ZwI9rf0NTKpvXjIA6D5ynsS2o9/4/uv5pgA8CUmljDzw+Ar3TkFG7GYBaimmtHJHVQ34z
- rHdRVbBhvPlJf8vLfCpoWvEmSJvONlbndk5UZJrlfJ15yGI1Bh+x/w1fa7NogDKvxheUeUXh7II
- JdKgfZVf02epyusd5EJzrFcL4spSZmlI11kXmSx8dZ1wC5xaYIkAWPtc9mMUcNa238VVUXeQW94
- dA3f7q/uDRXlVDxtMnJK9OE788U1KpgWacBeW4SUiSyB0/DW3Rr8JMVHLK/Esk1JFBC7U7oBCn+
- 94Ao2epihnCjjdLcCTEwIdAZX77dwdCS3TaYSChWa0kTPymFJA6zmDndVtEOlna1yKbho70pInK
- OBYxA/SkR5ieDkg==
+ bh=4HTnieqsHHDdbgAvPLUTi22tPknvvwpSzFloyS9LJ90=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmCHllHnjO2IXgcN6miz8gttSZeT0bPKxGg+MN6
+ ZrEhreFAzeJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZgh5ZQAKCRDBN2bmhouD
+ 1zf0D/9oyBUNxb4yW5y+lYjzW+8hIB36xGGFf78Pk2cRxdk4fUZNyvxpadpNLMu0Pt5tVSvGiRA
+ vCWgIwn2Y1Q0qaYqio07hjx47/wIUzpMqXiZrXEaFgy/hPcuVh5L9bLBhqK2evNoh1S/foRQUde
+ t7Xr5ANtvslUmKkaBnxTMdhKkrxWHm0zwo4gTH9u6Zz8tZAiKPLimKC9cd2o6qTAHZONztgoDMj
+ 0X2+stZuG5HnDhixW52rogHLxTxGOfRT8IySNI4CShMOutaBORFmo48nVsCKOGs1Y0alef5vqDq
+ saQR+JZktEwuqfrPOMYOL2Sd5hUzY2IWVFHBoFyYwnwnaR0f6wo7qkySwkHpVBqYsFCyrhS/fN2
+ /mktuahx18Rf+zNlAruZJzoRZwuTl6Vu0E75RheuK0ahrSjV5P+IeIfmlZh9YzWLTuDdwst5BAm
+ ijpg2rOpAVtKE4B/E+7+k7XjoYgKQpfA/dMP+YWR27kd/F4oEpjxcoeryrSEsPKPwK/19zrwzk0
+ A6gHlTT4k+98Z49dJhkOgmHqAfbMoMceaLv1jwSzlVJ8iCHIoHu08hsmz3kTcAD6rZgor6Wa2W0
+ ZtBPqX7oPOHeaI8XN2WZ5/DIrzq+NqCI5FLDYv/+6N4rFi0i+AoOc7M60jCvG3HPue2Cfkt7PuB
+ WRWLu2iUpD5fhRQ==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,19 +109,19 @@ main driver calling platform_driver_register().
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_aal.c | 1 -
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_aal.c b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-index 40fe403086c3..f6f2c24abc93 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-@@ -223,7 +223,6 @@ struct platform_driver mtk_disp_aal_driver = {
- 	.remove_new	= mtk_disp_aal_remove,
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
+index 465cddce0d32..ff56c20d4e21 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
+@@ -214,7 +214,6 @@ struct platform_driver mtk_disp_ccorr_driver = {
+ 	.remove_new	= mtk_disp_ccorr_remove,
  	.driver		= {
- 		.name	= "mediatek-disp-aal",
+ 		.name	= "mediatek-disp-ccorr",
 -		.owner	= THIS_MODULE,
- 		.of_match_table = mtk_disp_aal_driver_dt_match,
+ 		.of_match_table = mtk_disp_ccorr_driver_dt_match,
  	},
  };
 
