@@ -2,90 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 701C4892D0E
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 21:34:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F842892D26
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 21:38:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40E2910E59A;
-	Sat, 30 Mar 2024 20:34:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD8D410E41C;
+	Sat, 30 Mar 2024 20:38:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cfqg2uMR";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SgYoPbaN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E50B10E584
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 20:33:38 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-34339f01cd2so1314833f8f.2
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 13:33:38 -0700 (PDT)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41D7F10E368
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 20:38:37 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-4155f5b8c41so641755e9.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 13:38:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711830817; x=1712435617; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=hu49pY3Aels4UnjurH0jvHxhGoMk5vz5ZNjCI7/eIj4=;
- b=cfqg2uMRYbY9gC5NOhUBYmL3X1/9surXkzgB7o6D117zWZzBddaEEy/bAI4AD8DpfF
- P6eRcpluOhhof5xJpv/iN4jqwUnNEX2G095mLjmuU2GFSsG8STMWdLopqu+APDqFnBWN
- otdelOOX3OKG0hoq8PJQPqrFdK+agN5as7unEym+v4A04rJwVsskm+UXp6pQQOeSjgMq
- BOHNnzY53lIXtGWbBB9StkvaUD1JjtxxOicKKOMClueLu8cEdRMZCShCpAmQSaEnXJvw
- qc8mxClfiZ5ZtzbQLeVpyG+CQnVJDGT1fg6Er0xz3vE/ded+1uveALcoUiz63FltafXH
- yvVQ==
+ d=linaro.org; s=google; t=1711831115; x=1712435915; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=qiZfiYec9JvljDN1YM11DQZd3LvrJpGPdWmUgthRHDA=;
+ b=SgYoPbaNROSPU+E/PgW1S9ogv1vX1MYchEYWE4g+KbW9csIsJToI4MhtHAc6rijflW
+ jddl/Q8Io7cTjNxVhDvlT1clp334nP+mOeBBxpB1LY+x6NN0gPmwyhLPowibNBOOPieh
+ RBTxMz3HoawLkgjrcBKfTdbRYHw9UBlWvu+mZ0g8Bvi4ws4jvMdWHGqibUnMiNns0ITw
+ jqljbqgo2QrTmc5ci/ijE1D+z33ai50dxEaRgnGhY/92GnhVJPENalb0qW7EDUJxBrQz
+ o/IPvHuV+hk9vbrdvu6r5xlEyf+3baiPnmL+2KrMlwhnImRhBsL9Js/wHDYcDNsJVpb2
+ wCSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711830817; x=1712435617;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=hu49pY3Aels4UnjurH0jvHxhGoMk5vz5ZNjCI7/eIj4=;
- b=mTRHiv8XF43RZ9g7+tvLLyeKvbjFy6MctItm7k5c8k+ybMf9gcVVeznSaKbv1CjuaF
- PXMmBoyf6WpFWXYsMpro8P5mL2pPxk32+fTAL6KDFjOOztoRLjrnUPm9Nem9RW28SnFq
- viiEdAjdDTuVGw8HXad2cHF9JmIBN/XmmIYMpI36UNZ/irc90QAHKGwmrszFlwTMPQ22
- c0QE4MexkDmWiNBk64lpoUkUJSuYR9rt75Z0Ys/Y02127BxBA2lVDycfigggPdmI8Tfz
- 8uLWuzC4EHCBsJY47a/JU/DbkKidFIzun5rf3Q8Y670j1trfcHUtvKszW3jhDPq1Y1eF
- O2gg==
-X-Gm-Message-State: AOJu0YyzT8CO6/ijaYNCLCCUem1nG38XCJqRbwcq/zbouNXCTBn4IRy/
- i1woS0uBceGSKbXwdikI27cBQoYXvCHxVXa3n+D0cmLpuMYCc7Hsi7UTwhEBCG0=
-X-Google-Smtp-Source: AGHT+IE9rECqol/JHoBja75sISL7EwdTrwlxgWuq+Lw/21YRJ06u1rzu9Pk0WA9Fli2/BEJ+D+t1Jw==
-X-Received: by 2002:a05:6000:188a:b0:341:bf1e:45a5 with SMTP id
- a10-20020a056000188a00b00341bf1e45a5mr4126691wri.46.1711830816802; 
- Sat, 30 Mar 2024 13:33:36 -0700 (PDT)
-Received: from [127.0.1.1] ([178.197.223.16]) by smtp.gmail.com with ESMTPSA id
- f14-20020adfc98e000000b0033b48190e5esm7209315wrh.67.2024.03.30.13.33.35
+ d=1e100.net; s=20230601; t=1711831115; x=1712435915;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qiZfiYec9JvljDN1YM11DQZd3LvrJpGPdWmUgthRHDA=;
+ b=a+JfD3VRthm4zD/butAuposb+k+HHrJIpy1uCDAi+3D6w7wXuHpL7yRR5l9mQEuDMl
+ yGpVucQadoRjt30GoBHDnAcHzuZjPBRUlgLe/Nh/h4Zi3U19EomD9NicIBClaaBAUZsB
+ goI2DiHmz7NUeGzWpMPwjGdX1j+FdxxwH17h7ziLuczmg5a+eJrUkPi7Safi8G9X4/Fp
+ OPWdTbUrDoyHswCppT/8GTvIBLMDFQ/YdsEl2mYNZ9QZsvNMQzvjs98ykhgVg8THuu8G
+ fYp4vhndVrsEFDAVkOHoaxsk6Y/KTRWmTAfmNDPdZi8B9jRbrEPTOaLXvcHuKxNJtgg1
+ JCIg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVtohUiiwUWrxxlvOU8XeHYmA2jAs55rdpKbsj9ayeYv0AOdxA9P3cDglq+DGbXwZOq4s343nSKg+kckm6bSJ9d0sqfg4kaBVxUwi/JcROD
+X-Gm-Message-State: AOJu0YyUd8AY9CgJ4UmvJFa0eZQDLgOXiHR0MI0IPT0X0QEnV6fdivxi
+ /RlXo1cmrmBEoDUeDP7tdvu6jFlPZXMSz4/cT74uLkfYNHsLUPWxsgyz1oRTV90=
+X-Google-Smtp-Source: AGHT+IGAw24+hOas7D5hzaxRF5caQ5bx7P/vLD5i+/kvSP3UAzqxOqiL8pC5Mv/I75CHrhlERYGNkA==
+X-Received: by 2002:a05:600c:4eca:b0:412:ea4c:dc4b with SMTP id
+ g10-20020a05600c4eca00b00412ea4cdc4bmr4148579wmq.6.1711831115459; 
+ Sat, 30 Mar 2024 13:38:35 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.223.16]) by smtp.gmail.com with ESMTPSA id
+ n14-20020a05600c4f8e00b0041493e21844sm12663154wmq.27.2024.03.30.13.38.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Mar 2024 13:33:36 -0700 (PDT)
+ Sat, 30 Mar 2024 13:38:34 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Sat, 30 Mar 2024 21:33:15 +0100
-Subject: [PATCH 11/11] drm/exynos: mixer: drop driver owner initialization
+To: Alain Volmat <alain.volmat@foss.st.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 1/4] drm/sti: dvo: drop driver owner assignment
+Date: Sat, 30 Mar 2024 21:38:28 +0100
+Message-Id: <20240330203831.87003-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240330-b4-module-owner-drm-exynos-v1-11-3fa30e2c7e5a@linaro.org>
-References: <20240330-b4-module-owner-drm-exynos-v1-0-3fa30e2c7e5a@linaro.org>
-In-Reply-To: <20240330-b4-module-owner-drm-exynos-v1-0-3fa30e2c7e5a@linaro.org>
-To: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=853;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=HQ87N2g+njEbJxhRoLJs9BnoTb4aNANgi6MNopwNwKM=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmCHcNDMWmrpKmNr486z5EGVste9lYNNRpzO3wp
- HBQmSyImWeJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZgh3DQAKCRDBN2bmhouD
- 1xjiD/9XOlK5ROkZIz3QuqQjP9yXe0fi4Z8Bt0uuVEKlQbVQE+o68EOjwD/EgfF2YyhA0klD/sq
- raE9q0YOpkj6NBrl/0RnDf9uKoYGIeQq9aXI2LPXyuLoNq/zBQ7hzFZdpLhXGTP2RjaBqJ1A7wp
- p7attUaAZDnnHMD8ddDHiMytrfrcVtAi09tf7XCC5xD1Ksx+ovcu0zKae2VnhCSUXzZZEkxyeJy
- 3/tyMB1FjbaBfIaEJOHgJN9egHchSQJV8i9QEO8U2gO+SxMC5w4Ouxu3kdpDvnTnZ41xYkeJrAO
- 9cFbUa4WPbkzHb8OiqtIbSD2GkkXeTZ7oNbhs65wbGZCONFNMCY+5ZQ+BamEbJKJp/coG6NfQzR
- J0JAnvwJpahiIa5tAG1gT9+qX88NMk2AvKs6t+4c9c5zQOcfXrXgf0vJH18g20jgmtHRFF0OucZ
- rxRSaESwCWFUgHdTT3YVknwuw4o6VdjKoPc1l0K7jf0XWT/DCC+2DtFAI2tjPOu3CW1Y3mALBUI
- s0vq+jjunsANsAXIuftDoLB864WCNT6S1Tl+s+qKG8Wb1UaLnKkpkGExQQYR/Nudm+h4rZ8uxCI
- tY+wSu6se4fGzQmcHtTxLYwpEbFEidCsPUUsTu8O992i3te1o/oXM28TMKjQvr6AZAuEEGUYkR8
- jIDNMgV3AKn9H7A==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,22 +89,21 @@ main driver calling platform_driver_register().
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/gpu/drm/exynos/exynos_mixer.c | 1 -
+ drivers/gpu/drm/sti/sti_dvo.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_mixer.c b/drivers/gpu/drm/exynos/exynos_mixer.c
-index 6822333fd0e6..1db955f00044 100644
---- a/drivers/gpu/drm/exynos/exynos_mixer.c
-+++ b/drivers/gpu/drm/exynos/exynos_mixer.c
-@@ -1331,7 +1331,6 @@ static const struct dev_pm_ops exynos_mixer_pm_ops = {
- struct platform_driver mixer_driver = {
+diff --git a/drivers/gpu/drm/sti/sti_dvo.c b/drivers/gpu/drm/sti/sti_dvo.c
+index fd1df4ce3852..00502889c7f4 100644
+--- a/drivers/gpu/drm/sti/sti_dvo.c
++++ b/drivers/gpu/drm/sti/sti_dvo.c
+@@ -581,7 +581,6 @@ MODULE_DEVICE_TABLE(of, dvo_of_match);
+ struct platform_driver sti_dvo_driver = {
  	.driver = {
- 		.name = "exynos-mixer",
+ 		.name = "sti-dvo",
 -		.owner = THIS_MODULE,
- 		.pm = &exynos_mixer_pm_ops,
- 		.of_match_table = mixer_match_types,
+ 		.of_match_table = dvo_of_match,
  	},
-
+ 	.probe = sti_dvo_probe,
 -- 
 2.34.1
 
