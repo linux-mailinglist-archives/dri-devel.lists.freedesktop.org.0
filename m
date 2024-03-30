@@ -2,87 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A67D389291C
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 04:53:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8271B892921
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 04:59:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C45CD10E360;
-	Sat, 30 Mar 2024 03:53:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B69810E3C9;
+	Sat, 30 Mar 2024 03:59:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lZJwtb4g";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ukAblNCy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
  [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 371EE10E350
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 03:53:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6662810E39D
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 03:59:32 +0000 (UTC)
 Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-513d717269fso2894446e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 20:53:25 -0700 (PDT)
+ 2adb3069b0e04-515b69e8f38so2616619e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Mar 2024 20:59:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711770803; x=1712375603; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=4HhadJWBqLYlQ+JGSckxPKjGceAzGEjZXZw9f6mT8Bs=;
- b=lZJwtb4gYsUQgrFryy8kCTrBiV1euiJgB2JYHsXZzgiVXKC044Tap+lqlcP8rshfSH
- AzMYxLUBVWZRVudk173sOQcI00DJrHBh9LF4Z8iKqMDD51HKZbfKKlY3Ke7y88b9lfbH
- yEdDaH0jP1E2ynOlghAo8uU5K5GdENGmbjv3NvQuKQfJF4C6UqyUUfO49RME0eK5bSEq
- s7PImlzy3P87PdRfzoaybt1APJH7uIdHngzX2U51vueRy/OftmzAQAoRfuJyeSlBC8w9
- thW2rhmbAjdxmhL6t++YSZrTHhOYjoa+7vdYARax2849i9o1txCaD5bpCRWgiZEkVjot
- thEQ==
+ d=linaro.org; s=google; t=1711771170; x=1712375970; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=V/KyYTez7Ham6RArqjYsAGdRx6I3CfaIBG2n577n7v0=;
+ b=ukAblNCyTCNG+ORSqh6GSsJ45R14kJ1ZD19n3SNNSEutT4jrZ0XtxztBlqyxQ3xUL0
+ prWi+YdZRjjA1h90ps1riIY9OWd/ghQZ7Qjt+Aj1zBJqnf2/7wTT2REWnFA28OKwTDHe
+ iL7+TfBDq4jfzzJs6rAXCMWY2TQyTYDV90XMVDRPKzL6C2nqCoOI+T/KLlF+1t0vEGYU
+ IcFNkLUB5goTC7U7LO8/vEDKQc9Um1veHQKQ8koaZ/ZIcBmOlMyIiohuvgmRH+SzhTfW
+ oW4Xx0BaO1fUGxlVHIbl0jP6Dh5Sj8vcY2WWgA5f6OcXS2L7yI/ncK7GTlghXgwSjMPI
+ ciGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711770803; x=1712375603;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1711771170; x=1712375970;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=4HhadJWBqLYlQ+JGSckxPKjGceAzGEjZXZw9f6mT8Bs=;
- b=rlFsCOb/1wrc9Lsrt5B1OfD+haRobPG8k6+xBGIsVM6h88elK+HXg6yC3tQFH+gZYX
- R8QmtFDmY+Ty09FYsQYpY36Em6dCtbjBVBnEF0NTQyMt+okPJ72/iUogz8nSSeSghsx9
- TA6mbD52lAWeIeENj/ao8Mb3eJFmXa34JzSxqgipv3aXHhxOKOklrU1eVyIKlT6ogJJ4
- tTQUs8EJekJ+5Y+GbCXbhSA5BHrStM/2G4Pif71DwUsFOMPAMLNxq9sPrmWorKdWH3cZ
- E/VCabqFMHYOxy2dJC3+tbI1MdxG9AMx4Tg+OlU5zUMbwUqoJLzkHHiE72yufs0Z+4LO
- 977w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXtCIOCQxMx0ZuedoMiFys44Ol+bFstHjCLGl1YFHl2eqNkBxFqzzjO9GJt0ZQa7gbw65sS0bkUl73jxCA+GJTILe/D3LIZh+/xGOmOYIAz
-X-Gm-Message-State: AOJu0YxaOhrNn9I7L3zQtmjiVZYbGualk5KewoudHIqmjWlXzv1ssfph
- 7ToKOiL/FvRRnJzYQPY20hfKa4tDXMnouQ57/rRrd1Y4ROf2G/tHBfnaO02sAWk=
-X-Google-Smtp-Source: AGHT+IF/BdmF72FuCVFZpAOD1mbipHH7TP+BtxKqyBNIdVW2qZKlCm4ZpvPVNMKLIuuO2I4jDwVshQ==
-X-Received: by 2002:ac2:41c8:0:b0:515:95cd:6802 with SMTP id
- d8-20020ac241c8000000b0051595cd6802mr2339097lfi.64.1711770803231; 
- Fri, 29 Mar 2024 20:53:23 -0700 (PDT)
+ bh=V/KyYTez7Ham6RArqjYsAGdRx6I3CfaIBG2n577n7v0=;
+ b=S+osooEK1JgoduKG8nk+zNCjJRsECJv0J3qiOUkeX15xmK6rbrUbNT5UYYyS2oGIjY
+ XSlzd5IOgvsgw51+0uYZoyCFm8HYOFfoGBexLER+AeFNvzEHuIr8+k87RiibpqOO8KcX
+ h/jllnth5HHxzwpyKIHcfpIrglDl8tUU9exxtB6ZrwU15YC7HT+nbqTnkkw5/4q/oK7p
+ voyV8aJGIX6sL8k5GVruUPXtIlpKi1XK3vwDWJ8bnw2j+2FA3BSdR+1aA5KZSRDsrHhN
+ OSEqxTKRBdEWl4NIXogamBTmPA3Rxm8ArUKsnw9W9twnlMFJUkOhe+5vrX769Vmy8Mm9
+ Nmew==
+X-Gm-Message-State: AOJu0Yy24Wqy3liFAobkMobO517HdcF02mMshZFxDuK3qr5YVYFKOnqz
+ 12jo8RHGGBqaune22gPfOeUd7Fuw+uRa+uFHnHQVNdf29oIIeJINb2oLCeyWfis=
+X-Google-Smtp-Source: AGHT+IGQmXGXUknN+Wj2FG7n6iWPBgprhcqnpU4Z7Jb+uCSYuzieUgOOjoMlqaa84Q2JHfEIdl2+hw==
+X-Received: by 2002:a05:6512:1307:b0:513:4f60:82c4 with SMTP id
+ x7-20020a056512130700b005134f6082c4mr2915403lfu.3.1711771170376; 
+ Fri, 29 Mar 2024 20:59:30 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- g6-20020ac25386000000b00515b9c40223sm799275lfh.157.2024.03.29.20.53.22
+ br2-20020a056512400200b00515d1393f3csm423957lfb.104.2024.03.29.20.59.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Mar 2024 20:53:22 -0700 (PDT)
+ Fri, 29 Mar 2024 20:59:30 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 30 Mar 2024 05:53:22 +0200
-Subject: [PATCH] drm/msm/dpu: make error messages at
- dpu_core_irq_register_callback() more sensible
+Subject: [PATCH 0/3] drm/panel: add support for LG SW43408 panel
+Date: Sat, 30 Mar 2024 05:59:27 +0200
+Message-Id: <20240330-lg-sw43408-panel-v1-0-f5580fc9f2da@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240330-dpu-irq-messages-v1-1-9ce782ae35f9@linaro.org>
-X-B4-Tracking: v=1; b=H4sIALGMB2YC/x3MPQqAMAxA4atIZgPV+odXEYfSpjWDVRsUQby7x
- fEb3ntAKDEJjMUDiS4W3mJGVRZgFxMDIbtsqFXdKK0Vuv1ETgeuJGICCbbWV9q7vu0GCznbE3m
- +/+U0v+8HNtHKY2IAAAA=
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAB+OB2YC/x3MTQqAIBBA4avIrBvwF6KrRAurqQbERKEC6e5Jy
+ 2/xXoVCmanAICpkurjwGRtUJ2A5fNwJeW0GLbWVxkgMO5bbGit7TD5SwNk5vVmlFmcIWpYybfz
+ 8y3F63w9k14blYgAAAA==
+To: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Caleb Connolly <caleb.connolly@linaro.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Vinod Koul <vkoul@kernel.org>, Caleb Connolly <caleb@connolly.tech>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1572;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1250;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=rmxrPkNwcnQ5eicm+waZz+484lVk8rSYWNsasqg9gss=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmB4yy6zupNXEuQMfp1M8C95DUpWr+L4OjZVQIe
- zfcDrGI5WKJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZgeMsgAKCRCLPIo+Aiko
- 1eP2B/46YLDaoiuJtieSNIpLNqjx3fLskcjuMG5mbDq5Rf0uWWxujyg3SEK5Veffez5b0HQPOu1
- JKFFfJgSRoO3wKRLtjin6cz8CG/86mtQngGOkQJcseDrDPzFNMejSuzT2G5Bt9JMrGGj+VuPWTa
- 7DkgUEPnd7gutF46/ePfykkNyUaZJZvPO/osEc7oK4/hompeGCP6oHohlDy1QUowGGwM1I7n/Vn
- rPxXQJBDO0+dHLwOHxetR8Pt+MMYNVpFRK4CbSQVtuWMm0mvQDepUIW7HESyjtn2osuxpHOyxH7
- r6KqVn4wFleYuZyx1truyyVRbxSn4S3zArxd1EaYklYuPoys
+ bh=HVQQ/1Sqaeom6RrFBW54Crl9fEDAeeQFXdkKvNlg5mU=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmB44hgrh2oy+/fGY8pSaDoMtDIh0OTOsGKIq/J
+ gzwpsBOeeqJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZgeOIQAKCRCLPIo+Aiko
+ 1dxCB/4unCfNUOHubbbTywYo1qg6QGSV/hNj4aNbERch4zIqmSeAdnCJ+jhqqI8JVTf9p/K8eGy
+ Imft1WGaRzBE4/Mz6X7eYHg0bAnxSKiTcJ/fWjgXUelBwcBhujJdnV/QwD1/31TJwKPTZ8ndtas
+ xFvdOUxYLfRSiLCVBha6RHugPSV6jGnORHIa/75nDD0QeieoGUG1hNHNLI27t967xu+PabyHw1N
+ dF0xhIyiw7lH3v+3kRnAOUfXusPAFWH6I7KiaUnVfUiI2FV1mAIBVQe3sIepOOqkLjfQUNqQIKz
+ Q45lS/fx23lgfYel7BCBih5vpKbUipfx78y05cbBmelONARu
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,44 +103,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is little point in using %ps to print a value known to be NULL. On
-the other hand it makes sense to print the callback symbol in the
-'invalid IRQ' message. Correct those two error messages to make more
-sense.
+The LG SW43408 panel is used on Google Pixel3 devices. For a long time
+we could not submit the driver, as the panel was not coming up from the
+reset. The panel seems to be picky about some of the delays during init
+and it also uses non-standard payload for MIPI_DSI_COMPRESSION_MODE.
 
-Fixes: 6893199183f8 ("drm/msm/dpu: stop using raw IRQ indices in the kernel output")
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Dmitry Baryshkov (1):
+      drm/mipi-dsi: add mipi_dsi_compression_mode_raw()
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-index 946dd0135dff..6a0a74832fb6 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-@@ -525,14 +525,14 @@ int dpu_core_irq_register_callback(struct dpu_kms *dpu_kms,
- 	int ret;
- 
- 	if (!irq_cb) {
--		DPU_ERROR("invalid IRQ=[%d, %d] irq_cb:%ps\n",
--			  DPU_IRQ_REG(irq_idx), DPU_IRQ_BIT(irq_idx), irq_cb);
-+		DPU_ERROR("IRQ=[%d, %d] NULL callback\n",
-+			  DPU_IRQ_REG(irq_idx), DPU_IRQ_BIT(irq_idx));
- 		return -EINVAL;
- 	}
- 
- 	if (!dpu_core_irq_is_valid(irq_idx)) {
--		DPU_ERROR("invalid IRQ=[%d, %d]\n",
--			  DPU_IRQ_REG(irq_idx), DPU_IRQ_BIT(irq_idx));
-+		DPU_ERROR("invalid IRQ=[%d, %d] irq_cb:%ps\n",
-+			  DPU_IRQ_REG(irq_idx), DPU_IRQ_BIT(irq_idx), irq_cb);
- 		return -EINVAL;
- 	}
- 
+Sumit Semwal (2):
+      dt-bindings: panel: Add LG SW43408 MIPI-DSI panel
+      drm: panel: Add LG sw43408 panel driver
 
+ .../bindings/display/panel/lg,sw43408.yaml         |  37 +++
+ MAINTAINERS                                        |   8 +
+ drivers/gpu/drm/drm_mipi_dsi.c                     |  34 ++-
+ drivers/gpu/drm/panel/Kconfig                      |  11 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ drivers/gpu/drm/panel/panel-lg-sw43408.c           | 322 +++++++++++++++++++++
+ include/drm/drm_mipi_dsi.h                         |   1 +
+ 7 files changed, 406 insertions(+), 8 deletions(-)
 ---
 base-commit: 13ee4a7161b6fd938aef6688ff43b163f6d83e37
-change-id: 20240330-dpu-irq-messages-5cf13fd7568c
+change-id: 20240330-lg-sw43408-panel-b552f411c53e
 
 Best regards,
 -- 
