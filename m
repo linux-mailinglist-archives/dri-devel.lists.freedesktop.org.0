@@ -2,75 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70713892D29
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 21:38:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2095F892D37
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Mar 2024 21:43:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E14E10E368;
-	Sat, 30 Mar 2024 20:38:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D485A10E47F;
+	Sat, 30 Mar 2024 20:43:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="K777aU4c";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gBRAMsjQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7308410E0BF
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 20:38:41 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-4154471fb59so17650835e9.3
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 13:38:41 -0700 (PDT)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAC2B10E045
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 20:43:29 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-3433e518c78so580962f8f.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Mar 2024 13:43:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711831120; x=1712435920; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Un1QbmvT45lYJwe0aH3oZN8c8VesXAq+GuCUOlRaJG0=;
- b=K777aU4c/8PJUXBC7yvrgmpOZUuIvQrsaBdmyh32wmguHHMUSAyHNvUPbjmKn/PsOg
- WZVOQ0plPGPib56IqCEn0N7cFra/xcVIDbwtaZRaJwUfNQKiN3JFFCj4tTzZDWOA+n6P
- DIreJ/8BuSVgQhl+YOMFIMR4K+xcdwfzVWdjpMvSTwFMB49t+udPZJsg1ZbGO045t5Pv
- tanRNsTuxWrAfsgdaz4JNvZu/XRYMuVW8O+k2e20W6CA2/OpGPFEsuR2p7j4bW6ifhri
- ehpkKUto3+1+UuJ5RwcQbGLMCQp9rOJQbGdIK893cs0uXP4RCv56Jdb6wOOlVl2Dq3//
- q3Uw==
+ d=linaro.org; s=google; t=1711831408; x=1712436208; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=K7N0D7Kjfk0JATRsxflDv0tI3CZgim2NBK8j/8+EBeA=;
+ b=gBRAMsjQzP0S/UAHfoQ8/uwZn8XDw0Th5ijB6sK2Sc8k+BlrlLRWrBhkuc7h4Q8afW
+ ExNbrT30Ywx3caGy58CPZCZ6+0DSx8hKARQVqdOhgo3oNY94WgPv7QvBF+ypOPFwKWy2
+ DLQ16uhOJ8r6t7/UvflxOOIqctN9MeSr3Rjss+qlvyB3RNGXYa0Mh2/LyIv+nZEJSQLd
+ 6NsS4YgTH3LVZGy2bZtBeNpF/vCgJ4zkWAUxW7B3+AnUixKO8BOp4z6lgPOD599LYk6x
+ bpRJlEb5N1X6Nf0zDW/LHnQgacDtKnUPqKJEYrBFJnZBD/GyLy7j0rQLtXt4yrcmvqBo
+ UNLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711831120; x=1712435920;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Un1QbmvT45lYJwe0aH3oZN8c8VesXAq+GuCUOlRaJG0=;
- b=qtb4i2+JZVB+hi5wWiSnttUonIxLFxo+1MsKfdhYskGrj9UObPTFHHzIgdqtFTPyAD
- LmL5uauz+fP8ex8HXUpIH/hB0aDwxdQVLU58ArXmOGAReB6Vs+qXNED6MLQja3ouYxB2
- RsDb1VnJucVGaFmZ/w+cbL50D5mM7VtNgJ4R9GSUxMzbQLr3YXWO9xr60awW0tkBnfI2
- Rg4fbw+01kZQrnlLcJsnzI0WXfJ8K+s68IxMQsOzKveKz3gPiUbdO9++r2zehuj0NosC
- j4Uty3R/ObtCzULGyfnh6WPs3zPmkoG3a1AVERxYOdu414zkNfYs63MmaxZKhTeCJt3H
- nNwg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWQSiUIPG2UgY23Xa2k6SyziqSvoGesP5OhdGmJdfNBxxN4VvIxj2Df8Jq5wZivQcIapp5Kbtzi5TCLdSJbFKQ7VvODBmRqVzHriZD1+EcH
-X-Gm-Message-State: AOJu0YyYIdO5P+KnEtnpAE2Invt52Ath31lDROs5OOtQvyKfcX8M1CvL
- iw5xwdQOfBFmJpmvO/lX5oVvpC1SGnJZqAqwtsH4AhTN7l7DzVINJrx1sXGqxmM=
-X-Google-Smtp-Source: AGHT+IHMmXGFp1Yul8sOgeCFpqScFZ3w8slz8zMmapCjOq3ViqdjJda4cjOX6fibuuQQ86AHXntaRw==
-X-Received: by 2002:a05:600c:4f0d:b0:414:392:3abc with SMTP id
- l13-20020a05600c4f0d00b0041403923abcmr3395249wmq.11.1711831119771; 
- Sat, 30 Mar 2024 13:38:39 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.223.16]) by smtp.gmail.com with ESMTPSA id
- n14-20020a05600c4f8e00b0041493e21844sm12663154wmq.27.2024.03.30.13.38.38
+ d=1e100.net; s=20230601; t=1711831408; x=1712436208;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=K7N0D7Kjfk0JATRsxflDv0tI3CZgim2NBK8j/8+EBeA=;
+ b=Q7gdKVBWy4YY1CBPReP4C1H5ZleD8Kf7goO7bp8w6dg6C8De+5fHIEniNBJ3sjaijM
+ 65hYDeNkGniZuaLRQJsH4zjeK/+fTT77aLv2192EgEDG4+Xolvi6YVMMtobhS11TEtB2
+ dC42gMRjlkN4LW/tZkF1/gHELexwI0CjAIzTPXikD0/5/xFv7NpMihPmnk4AZaOFoaeF
+ 8Qvl+WMR6tPV69zbVKvuJjBP7I3CzfUznPDPAtLaRiZRzB9OvWh4fxflB0ce46Xi7SBQ
+ MhrHsxbCN4NFUNlXTN8TLQibBOccKp+KFI+cSsywbseCGujV0s7OMi928fmVwwWOlXhg
+ bPzQ==
+X-Gm-Message-State: AOJu0Ywa+wSPlBC4zcWhz6DuLjCG0msLWaTnkRh5NbE9pGpzp+lVFhSu
+ nobc3pb/THbzFBaj392fFKufB/t9AyjaxrjQGSpC63Z6DsaKA8JLN8dcyK3t+mTdOPDbsrvGEpy
+ l
+X-Google-Smtp-Source: AGHT+IGovvSTbspKm9/uX3uiFBF3Rzq6mLU/EqERkjT+y/Op/qBmj/dbGtOoq0wlVWRETE6RaWnnJA==
+X-Received: by 2002:a5d:6043:0:b0:33d:8c9d:419 with SMTP id
+ j3-20020a5d6043000000b0033d8c9d0419mr5302058wrt.24.1711831407999; 
+ Sat, 30 Mar 2024 13:43:27 -0700 (PDT)
+Received: from [127.0.1.1] ([178.197.223.16]) by smtp.gmail.com with ESMTPSA id
+ o12-20020a5d4a8c000000b0033e7b05edf3sm7231299wrq.44.2024.03.30.13.43.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Mar 2024 13:38:39 -0700 (PDT)
+ Sat, 30 Mar 2024 13:43:27 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Alain Volmat <alain.volmat@foss.st.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 4/4] drm/sti: vtg: drop driver owner assignment
-Date: Sat, 30 Mar 2024 21:38:31 +0100
-Message-Id: <20240330203831.87003-4-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240330203831.87003-1-krzysztof.kozlowski@linaro.org>
-References: <20240330203831.87003-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 00/11] drm/mediatek: drop driver owner initialization
+Date: Sat, 30 Mar 2024 21:43:11 +0100
+Message-Id: <20240330-b4-module-owner-drm-mediatek-v1-0-fd5c4b8d633e@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAF95CGYC/x3MQQqDMBBG4avIrB2IUSl4FXERm992aJPIRG1Bv
+ HtDlx883kkZKsg0VCcpDsmSYkFTV3R/uvgAiy8ma2xn2tbw3HFIfn+D0ydC2WvgAC9uw4ud620
+ /38xSUiqLVbHI978fp+v6AXV4FlBuAAAA
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1673;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=5hjA386zwMlffmMn4NRghhyylnCA9pQb83mqNAD1Gws=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmCHlky5Ab07wRdqkTCAV1panAirUB2C1L0ur5U
+ OVvafL4tMqJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZgh5ZAAKCRDBN2bmhouD
+ 10EZD/4w3np5oImOf6K7LQ7H1fmbPZuL+mTQh94jIgP6B7mi7lCuetbrxbmX9ijN8D3RvaGfH6S
+ V1+KbFL+cj9L7V76xfnKzZIvbLSKwXqZdxpg6cQqhiFko8NA7d2OrH7Vi4ObyUEGYSuYoZ6s3qK
+ U0ZwJlDue5FA1BWh3GmIjkn/tEiDRb5ALIHn2asHTZlqsBn3YN+N0CtSlB6dIFkWmvNa9e9Ewdz
+ k0U4Fw7hGPH8aQMRbV64K5ykBTKhpyamK5M88gmp/yDN5JVvr7r+sZJi68lpORSr5bpHGXLU1+Y
+ dCYrWy7fPjLbURMCm4IQcTh3bKafPXM3E2gNH+PMz4Bn+iZcgqrBhj750Psn7QTplIwawfFQTQf
+ b7jk8TRAVjRiA0FaVx368uEBGtBJKWX2lllipHiiTYkhvPOYvyVPvdc8FDxebngkxuAxDcBaZok
+ +soCitosPhDTF7SPeqHqBuuS2OADZzJEVINvuXllxkAZ2EewnUrgj281B0BYhmto1ZX6nqb8tZa
+ esoGpfD6kOCoK5BIQUZMPd7CNV6KTXyXzDpaqq1nvwnt4W4KZMn2dEuEmCmZ+g47R4MP6adIfxg
+ bJam4PP2V/8geJx70BJY7XJoWix1UrUwTVAtpENs5W1iKjFSggoGibqIHJe6cEQa8/LPMH9s0Xq
+ gDCpgluIJFYRuBw==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,27 +103,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Core in platform_driver_register() already sets the .owner, so driver
-does not need to.  Whatever is set here will be anyway overwritten by
-main driver calling platform_driver_register().
+Simplify the code by dropping unnecessary .owner initialization in the
+driver.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Best regards,
+Krzysztof
+
 ---
- drivers/gpu/drm/sti/sti_vtg.c | 1 -
- 1 file changed, 1 deletion(-)
+Krzysztof Kozlowski (11):
+      drm/mediatek: aal: drop driver owner initialization
+      drm/mediatek: ccorr: drop driver owner initialization
+      drm/mediatek: color: drop driver owner initialization
+      drm/mediatek: gamma: drop driver owner initialization
+      drm/mediatek: merge: drop driver owner initialization
+      drm/mediatek: ovl: drop driver owner initialization
+      drm/mediatek: ovl_adaptor: drop driver owner initialization
+      drm/mediatek: rdma: drop driver owner initialization
+      drm/mediatek: ethdr: drop driver owner initialization
+      drm/mediatek: mdp_rdma: drop driver owner initialization
+      drm/mediatek: padding: drop driver owner initialization
 
-diff --git a/drivers/gpu/drm/sti/sti_vtg.c b/drivers/gpu/drm/sti/sti_vtg.c
-index 5e5f82b6a5d9..5ba469b711b5 100644
---- a/drivers/gpu/drm/sti/sti_vtg.c
-+++ b/drivers/gpu/drm/sti/sti_vtg.c
-@@ -431,7 +431,6 @@ MODULE_DEVICE_TABLE(of, vtg_of_match);
- struct platform_driver sti_vtg_driver = {
- 	.driver = {
- 		.name = "sti-vtg",
--		.owner = THIS_MODULE,
- 		.of_match_table = vtg_of_match,
- 	},
- 	.probe	= vtg_probe,
+ drivers/gpu/drm/mediatek/mtk_disp_aal.c         | 1 -
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c       | 1 -
+ drivers/gpu/drm/mediatek/mtk_disp_color.c       | 1 -
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c       | 1 -
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c       | 1 -
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c         | 1 -
+ drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c | 1 -
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c        | 1 -
+ drivers/gpu/drm/mediatek/mtk_ethdr.c            | 1 -
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c         | 1 -
+ drivers/gpu/drm/mediatek/mtk_padding.c          | 1 -
+ 11 files changed, 11 deletions(-)
+---
+base-commit: 7fdcff3312e16ba8d1419f8a18f465c5cc235ecf
+change-id: 20240330-b4-module-owner-drm-mediatek-aa525b70f033
+
+Best regards,
 -- 
-2.34.1
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
