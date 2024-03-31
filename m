@@ -2,90 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74BBE893170
-	for <lists+dri-devel@lfdr.de>; Sun, 31 Mar 2024 13:20:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A4BF893201
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Mar 2024 16:49:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B277010E400;
-	Sun, 31 Mar 2024 11:20:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC07710E9E9;
+	Sun, 31 Mar 2024 14:49:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="YmVzaw01";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VRmJ8Wss";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A735F10E400
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Mar 2024 11:20:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1711884041;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZAFJ+0SeTqdsqNS6GC0N4AccV7yeFgGXHpRB2cwbNo4=;
- b=YmVzaw01L6wP0YrHVQehlPiCzbihX9iqYaBOvQPOeQKqqegaZX5Dh8N/Yrs6+803f/aL2t
- 5kVOXpMltgtWJNl2RXl5UJ6fVnLNA01C1cbyjPUBGyOAdwQmZlSu9Yms3zWAMooawf7UOC
- QmYb7UPnglwB1SCEyLtFpA/ydPN6fSY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-279-zklcY1VTMTWydAnX3i9l8A-1; Sun, 31 Mar 2024 07:20:35 -0400
-X-MC-Unique: zklcY1VTMTWydAnX3i9l8A-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-41481ad9364so21227085e9.0
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Mar 2024 04:20:35 -0700 (PDT)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com
+ [209.85.222.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 220A310E9E9
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Mar 2024 14:49:11 +0000 (UTC)
+Received: by mail-ua1-f41.google.com with SMTP id
+ a1e0cc1a2514c-7de446125f7so768636241.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Mar 2024 07:49:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1711896549; x=1712501349; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=5ZrhGWnam5ewIEKvi1J/+KImvnv5s5c+ztrxTkd52KY=;
+ b=VRmJ8WssmC2VTizqZtCy9EM1qGfQhblT7dKbiNCshcY9RMbbSUPQMtVhXBnsQ260Mt
+ pJWZfmRj80vHEIBfHz4har81485ZgDXHD+0cN90fvQhZ5tga5WYavHRLaGx3KkpW8Hes
+ /RlptaDu+v9EJbwFJSkw6td2HCAUZCxTwXwdu4GaM1QN6t4Gf5CixVBX3YC4F8WerhDa
+ 2zk89oYihcvH9tBZxUXIsNeg3y0AuXqNkUEMTxvxtqEwZ+lhk8BZ64AMrG//jqmycmN3
+ dkfMSV4O2ZLbAh5G3wyg02DpD2Uc5nNEp3eDdczjW/YTMaHlMG/CEMfFpoEEW+MQvjtR
+ AbjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711884034; x=1712488834;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZAFJ+0SeTqdsqNS6GC0N4AccV7yeFgGXHpRB2cwbNo4=;
- b=lZ3FeShCMB59cCgXYEneWFlh2jRlzbUDf7ZIZpJMX8FaydkOTwgGGuipWKjFz/bY1f
- GaQKk+YM0mW2MHTdmyxxnCw5ifzX2r1RExibY8T43YE4dqk7bN6HtWLYaVXzfbM7PZck
- 6JrjUXU1i3uj4V9PA35KBDyRdVK+xER946vpPdYCgIQsfzkjJ9hF3WmVMKDW96ozMxF9
- HqXcnDcnABuFXowj8403/4TgsDvSDj9Y3+n31biJ4Gio2u3Rp0anysZPZRfDwWSte2rH
- BLqfz+yUqeBR9+8oUwL6H0wz8WOFQC85X4of7b6DtzHzOzG6S37XyCq1brAvDS13HHgL
- HhJg==
+ d=1e100.net; s=20230601; t=1711896550; x=1712501350;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5ZrhGWnam5ewIEKvi1J/+KImvnv5s5c+ztrxTkd52KY=;
+ b=NLFNJYjAhm2A8MeQiuPdyV1q6vkLhfnIiaSfgTQVSmH1r1odfjFdqrk1+yOqUiN1Lj
+ 6xlicbXVyGArAaSMJiR8fmwO2aJ02to8KiycmR3Sy9a4EKIoP2BRh0MFgiOJ6tr/bLk2
+ WxMQHau8EZf6cPssI5S7DSVrAIPqEIhmjbRZ3Xgesq1X4N/PgN7KJQPYYYM3YWr5GzMF
+ WyEz/hFR5ynF8/2ll6n2mwpPAXt33v9ojImUKpYGpBbJwpKAfWTWYY6iPXh4H87F1h7e
+ p34WhX1XzVDQ3FldqpJkF8TJ+zyAdzUQJZ3wnTEcGJApCG2yFoG8Vxc7FIxs5MBNEKpB
+ cEfA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUC2IuHilg0Rbzq78crAJXo4+U5OGspndHDzcDDq9f/XFNYWwSmF2XXvNiO+09h+NivbammoOC4SgG9fEG21yJQyZLUVxXq1PYycb8l636u
-X-Gm-Message-State: AOJu0YzL2d9swkiCDR3jU3DLCKUUgzBdWY2pLOHYbkIYlPy5L9zpXHg7
- Q2lqmNgfBHxS9E9R7XUoiZnUz3OuViRAg7mgmRsPQ9lVuLcr0EKqLHW2MnC7xKrl9ekmnKhEEo7
- 2RLLfQnSuftlkBWZ4fJYpQh+uIJ0pbWwgdJw4wkj5Qq32DPpgJHtFCM4Xc+vZuYfQ9w==
-X-Received: by 2002:a05:600c:220f:b0:413:e19:337f with SMTP id
- z15-20020a05600c220f00b004130e19337fmr6115862wml.22.1711884034569; 
- Sun, 31 Mar 2024 04:20:34 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEhoN6xvj4jps7JZJhPCGbovoaf04BQIV4BBUP7925nSfWx1HPIV5PQzN7Ku2MIo02ql2sOQw==
-X-Received: by 2002:a05:600c:220f:b0:413:e19:337f with SMTP id
- z15-20020a05600c220f00b004130e19337fmr6115845wml.22.1711884033951; 
- Sun, 31 Mar 2024 04:20:33 -0700 (PDT)
-Received: from redhat.com ([2a02:14f:173:c52c:ce6f:ec9c:ca7c:7200])
- by smtp.gmail.com with ESMTPSA id
- u22-20020a05600c139600b004148d7b889asm14465567wmf.8.2024.03.31.04.20.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 Mar 2024 04:20:33 -0700 (PDT)
-Date: Sun, 31 Mar 2024 07:20:24 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: virtualization@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
- linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- iommu@lists.linux.dev, netdev@vger.kernel.org, v9fs@lists.linux.dev,
- kvm@vger.kernel.org, linux-wireless@vger.kernel.org,
- nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 01/22] virtio: store owner from modules with
- register_virtio_driver()
-Message-ID: <20240331071546-mutt-send-email-mst@kernel.org>
-References: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
- <20240327-module-owner-virtio-v1-1-0feffab77d99@linaro.org>
+ AJvYcCUeWByhpTj/Qn9OHwvQh6ZxmQtTfYRNb6qFU89FcPvwWY4jSI0IH3CIzRontCHQG+AbbdHJwSlBMVV9XfrY4Z/6Toiogb+Btvt/r2JwNdOl
+X-Gm-Message-State: AOJu0YzVV4bvrjDpr66cv0JxY7vQlYrWAkyOGfJa3LohRLb7aAixMMHR
+ OFUaMx9btAMM99bMyTtLIYdBou2cs7IsN2rsqr1Z6hBK+0Y8/mgF9qboM/EH9kB9nTgpuN1+8yA
+ tmnvYWyUFO9hvIljzwbxd6woMvmY=
+X-Google-Smtp-Source: AGHT+IFvToDn2sP8Wi5+v8cPfIOyxQBhtd8MxUHO86mJJT0esgw5Bcm/X9E3+Vmr6W4QD1kjdvDaweIsXuHn0rSW0s8=
+X-Received: by 2002:a05:6122:318a:b0:4d4:1fe2:c398 with SMTP id
+ ch10-20020a056122318a00b004d41fe2c398mr4258181vkb.2.1711896549612; Sun, 31
+ Mar 2024 07:49:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20240327-module-owner-virtio-v1-1-0feffab77d99@linaro.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240331-module-owner-virtio-v2-0-98f04bfaf46a@linaro.org>
+ <20240331-module-owner-virtio-v2-21-98f04bfaf46a@linaro.org>
+In-Reply-To: <20240331-module-owner-virtio-v2-21-98f04bfaf46a@linaro.org>
+From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Date: Sun, 31 Mar 2024 16:48:57 +0200
+Message-ID: <CAM9Jb+jMsVVWufi=E2+rfgHtSsgg+M5CAE0HoqsEVFEOvnNy1Q@mail.gmail.com>
+Subject: Re: [PATCH v2 21/25] nvdimm: virtio_pmem: drop owner assignment
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jonathan Corbet <corbet@lwn.net>, 
+ David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+ Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
+ Johannes Berg <johannes@sipsolutions.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>, 
+ Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+ Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+ Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Gonglei <arei.gonglei@huawei.com>, 
+ "David S. Miller" <davem@davemloft.net>, Sudeep Holla <sudeep.holla@arm.com>, 
+ Cristian Marussi <cristian.marussi@arm.com>, Viresh Kumar <vireshk@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+ David Airlie <airlied@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, 
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, 
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, 
+ Alexander Graf <graf@amazon.com>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Eric Van Hensbergen <ericvh@kernel.org>, 
+ Latchesar Ionkov <lucho@ionkov.net>,
+ Dominique Martinet <asmadeus@codewreck.org>, 
+ Christian Schoenebeck <linux_oss@crudebyte.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, 
+ Kalle Valo <kvalo@kernel.org>, Dan Williams <dan.j.williams@intel.com>, 
+ Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+ Ira Weiny <ira.weiny@intel.com>, Bjorn Andersson <andersson@kernel.org>, 
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
+ Anton Yakovlev <anton.yakovlev@opensynergy.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ virtualization@lists.linux.dev, 
+ linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+ linux-um@lists.infradead.org, linux-block@vger.kernel.org, 
+ linux-bluetooth@vger.kernel.org, linux-crypto@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, iommu@lists.linux.dev, 
+ netdev@vger.kernel.org, v9fs@lists.linux.dev, kvm@vger.kernel.org, 
+ linux-wireless@vger.kernel.org, Linux NVDIMM <nvdimm@lists.linux.dev>, 
+ linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org
+Content-Type: multipart/alternative; boundary="000000000000bb63b70614f5f9fc"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,97 +128,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 27, 2024 at 01:40:54PM +0100, Krzysztof Kozlowski wrote:
-> Modules registering driver with register_virtio_driver() might forget to
-> set .owner field.  i2c-virtio.c for example has it missing.  The field
-> is used by some of other kernel parts for reference counting
-> (try_module_get()), so it is expected that drivers will set it.
-> 
-> Solve the problem by moving this task away from the drivers to the core
-> amba bus code, just like we did for platform_driver in
-> commit 9447057eaff8 ("platform_device: use a macro instead of
-> platform_driver_register").
-> 
+--000000000000bb63b70614f5f9fc
+Content-Type: text/plain; charset="UTF-8"
+
+virtio core already sets the .owner, so driver does not need to.
+>
+> Acked-by: Dave Jiang <dave.jiang@intel.com>
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>
+Reviewed-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com
 
 
-
-This makes sense. So this will be:
-
-Fixes: 3cfc88380413 ("i2c: virtio: add a virtio i2c frontend driver")
-Cc: "Jie Deng" <jie.deng@intel.com>
-
-and I think I will pick this patch for this cycle to fix
-the bug. The cleanups can go in the next cycle.
-
-
+---
+>
+> Depends on the first patch.
 > ---
->  Documentation/driver-api/virtio/writing_virtio_drivers.rst | 1 -
->  drivers/virtio/virtio.c                                    | 6 ++++--
->  include/linux/virtio.h                                     | 7 +++++--
->  3 files changed, 9 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/virtio/writing_virtio_drivers.rst b/Documentation/driver-api/virtio/writing_virtio_drivers.rst
-> index e14c58796d25..e5de6f5d061a 100644
-> --- a/Documentation/driver-api/virtio/writing_virtio_drivers.rst
-> +++ b/Documentation/driver-api/virtio/writing_virtio_drivers.rst
-> @@ -97,7 +97,6 @@ like this::
->  
->  	static struct virtio_driver virtio_dummy_driver = {
->  		.driver.name =  KBUILD_MODNAME,
-> -		.driver.owner = THIS_MODULE,
->  		.id_table =     id_table,
->  		.probe =        virtio_dummy_probe,
->  		.remove =       virtio_dummy_remove,
-> diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
-> index f173587893cb..9510c551dce8 100644
-> --- a/drivers/virtio/virtio.c
-> +++ b/drivers/virtio/virtio.c
-> @@ -362,14 +362,16 @@ static const struct bus_type virtio_bus = {
->  	.remove = virtio_dev_remove,
->  };
->  
-> -int register_virtio_driver(struct virtio_driver *driver)
-> +int __register_virtio_driver(struct virtio_driver *driver, struct module *owner)
->  {
->  	/* Catch this early. */
->  	BUG_ON(driver->feature_table_size && !driver->feature_table);
->  	driver->driver.bus = &virtio_bus;
-> +	driver->driver.owner = owner;
-> +
->  	return driver_register(&driver->driver);
->  }
-> -EXPORT_SYMBOL_GPL(register_virtio_driver);
-> +EXPORT_SYMBOL_GPL(__register_virtio_driver);
->  
->  void unregister_virtio_driver(struct virtio_driver *driver)
->  {
-> diff --git a/include/linux/virtio.h b/include/linux/virtio.h
-> index b0201747a263..26c4325aa373 100644
-> --- a/include/linux/virtio.h
-> +++ b/include/linux/virtio.h
-> @@ -170,7 +170,7 @@ size_t virtio_max_dma_size(const struct virtio_device *vdev);
->  
->  /**
->   * struct virtio_driver - operations for a virtio I/O driver
-> - * @driver: underlying device driver (populate name and owner).
-> + * @driver: underlying device driver (populate name).
->   * @id_table: the ids serviced by this driver.
->   * @feature_table: an array of feature numbers supported by this driver.
->   * @feature_table_size: number of entries in the feature table array.
-> @@ -208,7 +208,10 @@ static inline struct virtio_driver *drv_to_virtio(struct device_driver *drv)
->  	return container_of(drv, struct virtio_driver, driver);
->  }
->  
-> -int register_virtio_driver(struct virtio_driver *drv);
-> +/* use a macro to avoid include chaining to get THIS_MODULE */
-> +#define register_virtio_driver(drv) \
-> +	__register_virtio_driver(drv, THIS_MODULE)
-> +int __register_virtio_driver(struct virtio_driver *drv, struct module *owner);
->  void unregister_virtio_driver(struct virtio_driver *drv);
->  
->  /* module_virtio_driver() - Helper macro for drivers that don't do
-> 
-> -- 
+>  drivers/nvdimm/virtio_pmem.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/nvdimm/virtio_pmem.c b/drivers/nvdimm/virtio_pmem.c
+> index 4ceced5cefcf..c9b97aeabf85 100644
+> --- a/drivers/nvdimm/virtio_pmem.c
+> +++ b/drivers/nvdimm/virtio_pmem.c
+> @@ -151,7 +151,6 @@ static struct virtio_driver virtio_pmem_driver = {
+>         .feature_table          = features,
+>         .feature_table_size     = ARRAY_SIZE(features),
+>         .driver.name            = KBUILD_MODNAME,
+> -       .driver.owner           = THIS_MODULE,
+>         .id_table               = id_table,
+>         .validate               = virtio_pmem_validate,
+>         .probe                  = virtio_pmem_probe,
+>
+> --
 > 2.34.1
+>
+>
 
+--000000000000bb63b70614f5f9fc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
+s=3D"gmail_attr"><br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">virtio core alrea=
+dy sets the .owner, so driver does not need to.<br>
+<br>
+Acked-by: Dave Jiang &lt;<a href=3D"mailto:dave.jiang@intel.com" rel=3D"nor=
+eferrer noreferrer" target=3D"_blank">dave.jiang@intel.com</a>&gt;<br>
+Signed-off-by: Krzysztof Kozlowski &lt;<a href=3D"mailto:krzysztof.kozlowsk=
+i@linaro.org" rel=3D"noreferrer noreferrer" target=3D"_blank">krzysztof.koz=
+lowski@linaro.org</a>&gt;<br></blockquote></div></div><div dir=3D"auto"><pr=
+e style=3D"font-family:&quot;courier new&quot;,courier,monospace;font-size:=
+16px;font-weight:600">Reviewed-by: Pankaj Gupta &lt;<a href=3D"mailto:panka=
+j.gupta.linux@gmail.com">pankaj.gupta.linux@gmail.com</a></pre></div><div d=
+ir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
+olid;padding-left:1ex">
+---<br>
+<br>
+Depends on the first patch.<br>
+---<br>
+=C2=A0drivers/nvdimm/virtio_pmem.c | 1 -<br>
+=C2=A01 file changed, 1 deletion(-)<br>
+<br>
+diff --git a/drivers/nvdimm/virtio_pmem.c b/drivers/nvdimm/virtio_pmem.c<br=
+>
+index 4ceced5cefcf..c9b97aeabf85 100644<br>
+--- a/drivers/nvdimm/virtio_pmem.c<br>
++++ b/drivers/nvdimm/virtio_pmem.c<br>
+@@ -151,7 +151,6 @@ static struct virtio_driver virtio_pmem_driver =3D {<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .feature_table=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =3D features,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .feature_table_size=C2=A0 =C2=A0 =C2=A0=3D ARRA=
+Y_SIZE(features),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .<a href=3D"http://driver.name" rel=3D"noreferr=
+er noreferrer noreferrer" target=3D"_blank">driver.name</a>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D KBUILD_MODNAME,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0.driver.owner=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0=3D THIS_MODULE,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .id_table=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0=3D id_table,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .validate=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0=3D virtio_pmem_validate,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =3D virtio_pmem_probe,<br>
+<br>
+-- <br>
+2.34.1<br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000bb63b70614f5f9fc--
