@@ -2,51 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E00893591
-	for <lists+dri-devel@lfdr.de>; Sun, 31 Mar 2024 21:20:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5727389357F
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Mar 2024 21:14:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EF7510E7EB;
-	Sun, 31 Mar 2024 19:20:27 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=natalenko.name header.i=@natalenko.name header.b="EWburBWB";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C946D10E7D6;
+	Sun, 31 Mar 2024 19:14:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 595 seconds by postgrey-1.36 at gabe;
- Sun, 31 Mar 2024 19:20:25 UTC
-Received: from prime.voidband.net (prime.voidband.net [199.247.17.104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57A8C10E7EB
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Mar 2024 19:20:25 +0000 (UTC)
-Received: from spock.localnet (unknown [94.142.239.106])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
- (No client certificate requested)
- by prime.voidband.net (Postfix) with ESMTPSA id A577C62FD5E0;
- Sun, 31 Mar 2024 21:10:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
- s=dkim-20170712; t=1711912226;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/EtX0OVt3ih5dbQ01+pyMTmXRKnYiOfgjTF+4SBncoQ=;
- b=EWburBWB7TKQXoda3pMGIi/jRURXx0cTJ+HY3XiIq22mxZTtnQZ+lrGDyD3k/0+PtJMW9R
- 51WB8jFLu3p+3YSqm7c1p8hMaJiW8M9I5c6SsMkyWw1sJ1C8AkiuFodk6EICKOlLRbKSEf
- N1PJFoUblLPUF8RiE1hD38Ue8gBh3Wk=
-From: Oleksandr Natalenko <oleksandr@natalenko.name>
-To: linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/display: fix typo
-Date: Sun, 31 Mar 2024 21:10:13 +0200
-Message-ID: <2740172.mvXUDI8C0e@natalenko.name>
-In-Reply-To: <a7c8ec21-adf5-4dcc-af7d-33662f864596@infradead.org>
-References: <20240119102215.201474-1-oleksandr@natalenko.name>
- <a7c8ec21-adf5-4dcc-af7d-33662f864596@infradead.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B1EAC10E7D6
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Mar 2024 19:14:49 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E8F3F11FB;
+ Sun, 31 Mar 2024 12:15:20 -0700 (PDT)
+Received: from bogus (unknown [10.57.81.195])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0E84A3F64C;
+ Sun, 31 Mar 2024 12:14:34 -0700 (PDT)
+Date: Sun, 31 Mar 2024 20:14:32 +0100
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jonathan Corbet <corbet@lwn.net>,
+ David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+ Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Olivia Mackall <olivia@selenic.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Gonglei <arei.gonglei@huawei.com>, "David S. Miller" <davem@davemloft.net>,
+ Cristian Marussi <cristian.marussi@arm.com>,
+ Viresh Kumar <vireshk@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, David Airlie <airlied@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Alexander Graf <graf@amazon.com>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Eric Van Hensbergen <ericvh@kernel.org>,
+ Latchesar Ionkov <lucho@ionkov.net>,
+ Dominique Martinet <asmadeus@codewreck.org>,
+ Christian Schoenebeck <linux_oss@crudebyte.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Kalle Valo <kvalo@kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>,
+ Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
+ Anton Yakovlev <anton.yakovlev@opensynergy.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ virtualization@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ iommu@lists.linux.dev, netdev@vger.kernel.org, v9fs@lists.linux.dev,
+ kvm@vger.kernel.org, linux-wireless@vger.kernel.org,
+ nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Sudeep Holla <sudeep.holla@arm.com>, alsa-devel@alsa-project.org,
+ linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 11/25] firmware: arm_scmi: virtio: drop owner assignment
+Message-ID: <20240331191432.sfp5dq6nyvf4yf34@bogus>
+References: <20240331-module-owner-virtio-v2-0-98f04bfaf46a@linaro.org>
+ <20240331-module-owner-virtio-v2-11-98f04bfaf46a@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart12423692.O9o76ZdvQC";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240331-module-owner-virtio-v2-11-98f04bfaf46a@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,87 +100,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---nextPart12423692.O9o76ZdvQC
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
-From: Oleksandr Natalenko <oleksandr@natalenko.name>
-To: linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] drm/display: fix typo
-Date: Sun, 31 Mar 2024 21:10:13 +0200
-Message-ID: <2740172.mvXUDI8C0e@natalenko.name>
-In-Reply-To: <a7c8ec21-adf5-4dcc-af7d-33662f864596@infradead.org>
-MIME-Version: 1.0
+On Sun, Mar 31, 2024 at 10:43:58AM +0200, Krzysztof Kozlowski wrote:
+> virtio core already sets the .owner, so driver does not need to.
+>
 
-On sobota 20. ledna 2024 7:44:45, CEST Randy Dunlap wrote:
-> 
-> On 1/19/24 02:22, Oleksandr Natalenko wrote:
-> > While studying the code I've bumped into a small typo within the
-> > kernel-doc for two functions, apparently, due to copy-paste.
-> > 
-> > This commit fixes "sizo" word to be "size".
-> > 
-> > Signed-off-by: Oleksandr Natalenko <oleksandr@natalenko.name>
-> 
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> 
-> Thanks.
-> 
-> > ---
-> >  drivers/gpu/drm/display/drm_dp_dual_mode_helper.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-> > index bd61e20770a5b..14a2a8473682b 100644
-> > --- a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-> > +++ b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-> > @@ -52,7 +52,7 @@
-> >   * @adapter: I2C adapter for the DDC bus
-> >   * @offset: register offset
-> >   * @buffer: buffer for return data
-> > - * @size: sizo of the buffer
-> > + * @size: size of the buffer
-> >   *
-> >   * Reads @size bytes from the DP dual mode adaptor registers
-> >   * starting at @offset.
-> > @@ -116,7 +116,7 @@ EXPORT_SYMBOL(drm_dp_dual_mode_read);
-> >   * @adapter: I2C adapter for the DDC bus
-> >   * @offset: register offset
-> >   * @buffer: buffer for write data
-> > - * @size: sizo of the buffer
-> > + * @size: size of the buffer
-> >   *
-> >   * Writes @size bytes to the DP dual mode adaptor registers
-> >   * starting at @offset.
-> 
-> 
-
-Gentle ping. I don't see this change in linux-next, so probably it got lost.
+Acked-by: Sudeep Holla <sudeep.holla@arm.com>
 
 -- 
-Oleksandr Natalenko (post-factum)
---nextPart12423692.O9o76ZdvQC
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEZUOOw5ESFLHZZtOKil/iNcg8M0sFAmYJtRUACgkQil/iNcg8
-M0s4gRAA5iLebl3ys6Ahv0UbaSkAVM2x4sVViWzB8xhhyJ5uzt//1482rTXM/fuk
-griAEfUtxGcoeU+WHSpBNbd6vNfQPgPJU826ZoUkWp7lpebHYSYfGofZjU9226jW
-aAugwhPVnAU5yM/i3d2UnqJXs9iBRyfjFHoBxKOXYJxR+0bbSKvSemRRh0IZQrNd
-EnZ6Q0LSsiin98uFZ7asf+9P1RkXMT/ZSWjg03VNUmMDxC7NVLBCx6erTb6+KN95
-xGxqi7wmQizlYtO9zvVTzYyRt5HCWKzv6SpY6C4fYYFEzjZXncAa+G9DCGnhCR4u
-IIfJUEnp1uW2+AEyflXH4rdv0835yLq+vxeImpo7zjIpgoqUXu0/3HnASmVI3pay
-vMrQC/pWKF+5hz9L154wDsHzYUJvKPAeYIbdDak6QQEppRL6slOqy2dyeK8rsizT
-po4TPtqba2d5QZ3P0p0BOdEjMKCzjRD1nFxbMRi+UkA0EIE9XI3A90WUpcgI1G+A
-0UPCR04RKEgyafXnbLJ0z2Tdan0Inwa64URtkOpVhz11SeYa61JBcQz0wie4v/1k
-aGaHS77AP1s/3NkX4FyrL4SIb3p+pr6DzFGI/MeRRsTGCLzSmdu9X5gdQh5AYpuh
-+5bt2Kny7bvfnCjOOidCvLY4iQvgOysdxgSUTZVDn3Ztwg2FizY=
-=3A4y
------END PGP SIGNATURE-----
-
---nextPart12423692.O9o76ZdvQC--
-
-
-
+Regards,
+Sudeep
