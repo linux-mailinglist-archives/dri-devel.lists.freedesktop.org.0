@@ -2,70 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED2DB8935C5
-	for <lists+dri-devel@lfdr.de>; Sun, 31 Mar 2024 22:29:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE41E8935C9
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Mar 2024 22:29:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB8A910E9EA;
-	Sun, 31 Mar 2024 20:29:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2348510EA02;
+	Sun, 31 Mar 2024 20:29:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Nw2F8wHP";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Vt7r56DY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03F6B10E9EA
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Mar 2024 20:29:07 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-515a81928faso4226908e87.1
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Mar 2024 13:29:07 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A8B210E9EA
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Mar 2024 20:29:08 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-513cf9bacf1so4286392e87.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Mar 2024 13:29:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1711916946; x=1712521746; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Ke8yGtCVv/5QoZ8dU5U7lxdg3fQhjUiZTY8VG7siut0=;
- b=Nw2F8wHPAvwReOwSEqoC6PUZ7eTF6v3qTFtnuOq1QOHF6J6KTjX1sRgB37w6igylg/
- JpMVK51avq8ZnqES7x7bop8ZJj1VF8JAdE240q8nTqnxA9NASjNC1BxVIzLWy+YftjJl
- Y8sZikDPFD7sTxa2thbmlFugeW5M97U9ajTiCvrD9QWZztiNDjoLysIUuxa+D3NH3rCZ
- IN9fcI7PA9Z1PLt4Idpe49Gulh1XBZL1zQURvQuEzZvHY6EGprtFCmgmfyrTjwJcFnkL
- Y8TP0n8Stc/+sUu7Fk6Z3gAaVs97mTmHYlyDpvfiGcWEwcdo51balVZa2U0vXlVr9cBM
- r15w==
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=pQWdjTwgnIdZS6takOhMDQQy8XjSBnwUC2ksC3WzZco=;
+ b=Vt7r56DYDUA8L6srgyMdYNctkwxVyzmHWOVmabvHh51LA+MYlwlrbg7AiAJt8SAGIY
+ bUweqq8+W9hlv+KT/cK46QLq4SMpPIT06XLY2+NIZ8oso1VSn6HKAZxKhK9ryqCXR73L
+ 9VKQKWbJ2F1VTULadq/SP7uMwHgb4Bbk0y2SfkhaTTvWqJysqFja9tnP1qFYvaimbi/r
+ f7a5vENrr7g+JmjxhvCUcePYC5SbDkBRYFiAP1aASOsyqHTPqFWIBXC7xVhfEIS9n2qT
+ uuCk+emErN/2/pHdUh4m//vlWS3vk5K7MHxKLStRw03CC04ouE14sgD6Ot2SszGKwJe0
+ NuYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1711916946; x=1712521746;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Ke8yGtCVv/5QoZ8dU5U7lxdg3fQhjUiZTY8VG7siut0=;
- b=tox0oxmqbwX5QCWWzECzR3emptdjhbMh3mQrLfEAdhg76AkfW7uT0HYLRovPBIQbDl
- 9HSBYi4r/feO/qHleARaPO8hR4LPRZADvFMIEePgtAOTX7vo/Jk0lglwHdk4GqzTjrZp
- +TkIsBxEo/tsFaYX7HDbvS2eXft2/eHgu0yyiH81oyvLlT6O6D/+vXA9Zd0Z04wSehUP
- SpXx9jYkSLybz3NPEyvK704JE5QJ2vO09bVuOFVxEWPPgWyG3eduMZYCg+J469U2hkkl
- ZpjRQewM2agetuztjUZFUnSf/61GXu8ZZ58Xfb0JKbLcgGSHO5VpvZITWdcrZsgSbDVh
- PwkA==
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pQWdjTwgnIdZS6takOhMDQQy8XjSBnwUC2ksC3WzZco=;
+ b=i4NmqqZNceY0XxD8vSFpANipVtsDmv7Op8ea5DyZ5ObjSbRBU4IvOnXrdAdAc8ZG8Z
+ jy3tlHyN6nqtwaCTR2WLAJIwENayBGUXUo7yVcHG797utqFmQDeWem25Sf9+8gI//huP
+ OCmATHx2mfht0oCCLGv3RWVp9web6+CGipa+qfZu1deZCegJBiBLdbfIKQOA07jTpI4z
+ jjgIBbp3F/5zKIs0kzNau7umytg8RQsfm1ijO7yLOLJfrO1Ua8hEHtcIuABvCjQYAKOX
+ bnN9ZACH7/ZyDE1HMmQGcKTsQGhaM1xQY0BmxwaYShpCFqJxclJdqouLmMXUQnmoejvr
+ KNCA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXmSO2ohdhLvne+Vo5vDIcraqIjkYRJendeUlkeyjUbWAX7TIP2Cyn8i7bm8Lzwmt4/0OEh/Vky+3jabXvy+9Hnaj17bm9Zy/coZYnqjOza
-X-Gm-Message-State: AOJu0Yw3J0mJOAnS30pe/6KA4XvTgeSaPXZsZlEFLZzdVsHE0mTdt0OO
- XWBgOw9xUULwNQGbdCUEhoDCQpGiRoThbwzOVdvmMwBdjpep7svFcqCYZEhKA14=
-X-Google-Smtp-Source: AGHT+IHLQL1U5tLEA/uaNC1Wpt0XJL27jBfG3hvdugM1uDaF7fxhj5M2+UlDtzseElbw9HxjBQ7osg==
-X-Received: by 2002:ac2:5224:0:b0:513:5eea:2942 with SMTP id
- i4-20020ac25224000000b005135eea2942mr4878774lfl.37.1711916945549; 
- Sun, 31 Mar 2024 13:29:05 -0700 (PDT)
+ AJvYcCV3B6Wl7gywy0i4hP+h26j5wlXPNhMIt0kwt2Xfyih3wVwEhJhys0MDhABwMT1o3W0CQ0NTZ3stseizfpCAiR2ei0n7euomgFeRh5WCFkIQ
+X-Gm-Message-State: AOJu0YzMjiKBCPQBe1Mnh0QbtUPCVsyjJqDRCP9GTCmInb1v7CqICEkD
+ dcXxPmaAcrIxTmHXhCypkmOTCCZTxILGdHfIz4TAoL38+QsaDUmbPEoJ3XOFgdE=
+X-Google-Smtp-Source: AGHT+IGQdqPZQuZrp4rMIkttCQZXwzzfHQ8qGULNfSAfqZZSLM5BQiVtoEAQJyL03sBpJPsmSiXibg==
+X-Received: by 2002:ac2:465e:0:b0:515:d100:1650 with SMTP id
+ s30-20020ac2465e000000b00515d1001650mr4831112lfo.57.1711916946553; 
+ Sun, 31 Mar 2024 13:29:06 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- y25-20020a197519000000b00513cfc2a7aesm1237276lfe.71.2024.03.31.13.29.04
+ y25-20020a197519000000b00513cfc2a7aesm1237276lfe.71.2024.03.31.13.29.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 31 Mar 2024 13:29:05 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v2 00/12] drm/imx/ipuv3: switch LDB and parallel-display
- driver to use drm_bridge_connector
-Date: Sun, 31 Mar 2024 23:28:57 +0300
-Message-Id: <20240331-drm-imx-cleanup-v2-0-d81c1d1c1026@linaro.org>
+Date: Sun, 31 Mar 2024 23:28:58 +0300
+Subject: [PATCH v2 01/12] dt-bindings: display: fsl-imx-drm: drop edid
+ property support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAInHCWYC/2WNQQ6CMBBFr0Jm7ZhOBYmuvIdhUWGASaAlUyUYw
- t2tJK5cvpf891eIrMIRrtkKyrNECT6BPWRQ9853jNIkBmtsbk5ksNERZVywHtj514RkyvzsLo+
- S2gLSalJuZdmL9ypxL/EZ9L0fzPS1vxb9tWZCg0wmb01RO1fQbRDvNByDdlBt2/YBoEvwOq8AA
- AA=
+Message-Id: <20240331-drm-imx-cleanup-v2-1-d81c1d1c1026@linaro.org>
+References: <20240331-drm-imx-cleanup-v2-0-d81c1d1c1026@linaro.org>
+In-Reply-To: <20240331-drm-imx-cleanup-v2-0-d81c1d1c1026@linaro.org>
 To: Philipp Zabel <p.zabel@pengutronix.de>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -81,16 +79,16 @@ Cc: Chris Healy <cphealy@gmail.com>, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2868;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1524;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=zVnbAbPF8sxPI5DAV4JMslU2Y9lcTwAMMXk+k4+/EQA=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmCceOK2zSH8bT5rAhCDbo6xqbRSw4VoyfN7T5Y
- JX4uWZfri6JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZgnHjgAKCRCLPIo+Aiko
- 1ZDUB/4jbmbPWrHNwE9pT9AGhCIMSIBHR72AqX2B7V9sYkYp0RP+BUdO3z1dYHaCioJXBw5XLkY
- nn8BV/5o2wiXZfxlRwFLe/6f4RLBGYi1Pd+1YIk/cv6BOWQuquu6ivk22dJXdeh5WGrKGkmp0TL
- xOH7pS66fmxI/cLmNzUJNqOyPRLXG2D+9L/gllrrAA3ZL0V6AJISK/pFL1uXe99NgBWlK8utAxK
- Xn6PlF9WZOdeoyl6wvVVb8DnTovfpY4cVo/po7d0JKuMhE4YC2sVWZkrgrqeghJbpDjSjS+wG8w
- CqaBQmEvoIqtcoWzH+QtrbxF5wnL9CHF7SASz9g3cyRulpAM
+ bh=SFNXn1zh/yUH5lKBoXzlQkp+p1CQ7cqY5rYlPQmKP7Y=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmCceOu5x7edAmH8+j3eGaGmmWCs+FoRdo+9fSq
+ UX49KHJUhWJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZgnHjgAKCRCLPIo+Aiko
+ 1XkMB/4jYrMQ2Pto+iPk8j5wCQ3lBNRQBXOOxIa36gpTWGBLXN2GMgq4T7AeSxsn9W4uYJAhsST
+ zHQ4WQaOaSHhKvVfvr6alCYvShW1Yffn7kru9PtHsb1YlYvbfyYV6GJy4r+eOitmea2us9BMgqd
+ 75bzb0KkIdLmVYWRygT8xARQ/AZ0RZRvmWJKAKq94B62Yj3eNCDbWUkpHtkte3s5Z1IawpY75jR
+ RCDDAnQO9BSYH2we2tHqKiIbf4TJBGRQpIM3486HR19gxyNT2AVWyZVuMY2UxZ9drbNgwIfG20z
+ 311P8qvYPgPF4VXolTrtGq+n9JR6WwA+ID/jrmIaxce/aZRk
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -108,61 +106,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The IPUv3 DRM i.MX driver contains several codepaths for different
-usescases: both LDB and paralllel-display drivers handle next-bridge,
-panel and the legacy display-timings DT node on their own.
+None of the in-kernel DT files ever used edid override with the
+fsl-imx-drm driver. In case the EDID needs to be specified manually, DRM
+core allows one to either override it via the debugfs or to load it via
+request_firmware by using DRM_LOAD_EDID_FIRMWARE. In all other cases
+EDID and/or modes are to be provided as a part of the panel driver.
 
-Drop unused ddc-i2c-bus and edid handling (none of the DT files merged
-upstream ever used these features), switch to panel-bridge driver,
-removing the need to handle drm_panel codepaths separately and finally
-switch to drm_bridge_connector, removing requirement for the downstream
-bridges to create drm_connector on their own.
+Drop the edid property from the fsl-imx-drm bindings.
 
-This has been tested on the iMX53 with the DPI panel attached to LDB via
-LVDS decoder, using all possible usecases (lvds-codec + panel, panel
-linked directly to LDB node and the display-timings node).
-
+Acked-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-Changes in v2:
-- Fixed drm_bridge_attach flags in imx/parallel-display driver.
-- Moved the legacy bridge to drivers/gpu/drm/bridge
-- Added missing EXPORT_SYMBOL_GPL to the iMX legacy bridge
-- Link to v1: https://lore.kernel.org/r/20240311-drm-imx-cleanup-v1-0-e104f05caa51@linaro.org
+ Documentation/devicetree/bindings/display/imx/fsl-imx-drm.txt | 2 --
+ 1 file changed, 2 deletions(-)
 
----
-Dmitry Baryshkov (12):
-      dt-bindings: display: fsl-imx-drm: drop edid property support
-      dt-bindings: display: imx/ldb: drop ddc-i2c-bus property
-      drm/imx: cleanup the imx-drm header
-      drm/imx: parallel-display: drop edid override support
-      drm/imx: ldb: drop custom EDID support
-      drm/imx: ldb: drop custom DDC bus support
-      drm/imx: ldb: switch to drm_panel_bridge
-      drm/imx: parallel-display: switch to drm_panel_bridge
-      drm/imx: add internal bridge handling display-timings DT node
-      drm/imx: ldb: switch to imx_legacy_bridge / drm_bridge_connector
-      drm/imx: parallel-display: switch to imx_legacy_bridge / drm_bridge_connector
-      drm/imx: move imx_drm_connector_destroy to imx-tve
+diff --git a/Documentation/devicetree/bindings/display/imx/fsl-imx-drm.txt b/Documentation/devicetree/bindings/display/imx/fsl-imx-drm.txt
+index 3c35338a2867..269b1ae2fca9 100644
+--- a/Documentation/devicetree/bindings/display/imx/fsl-imx-drm.txt
++++ b/Documentation/devicetree/bindings/display/imx/fsl-imx-drm.txt
+@@ -119,7 +119,6 @@ Optional properties:
+ - interface-pix-fmt: How this display is connected to the
+   display interface. Currently supported types: "rgb24", "rgb565", "bgr666"
+   and "lvds666".
+-- edid: verbatim EDID data block describing attached display.
+ - ddc: phandle describing the i2c bus handling the display data
+   channel
+ - port@[0-1]: Port nodes with endpoint definitions as defined in
+@@ -131,7 +130,6 @@ example:
+ 
+ disp0 {
+ 	compatible = "fsl,imx-parallel-display";
+-	edid = [edid-data];
+ 	interface-pix-fmt = "rgb24";
+ 
+ 	port@0 {
 
- .../bindings/display/imx/fsl-imx-drm.txt           |   2 -
- .../devicetree/bindings/display/imx/ldb.txt        |   1 -
- drivers/gpu/drm/bridge/imx/Kconfig                 |  10 +
- drivers/gpu/drm/bridge/imx/Makefile                |   1 +
- drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c     |  85 +++++++++
- drivers/gpu/drm/imx/ipuv3/Kconfig                  |   5 +
- drivers/gpu/drm/imx/ipuv3/imx-drm-core.c           |   7 -
- drivers/gpu/drm/imx/ipuv3/imx-drm.h                |  14 --
- drivers/gpu/drm/imx/ipuv3/imx-ldb.c                | 202 +++++----------------
- drivers/gpu/drm/imx/ipuv3/imx-tve.c                |   8 +-
- drivers/gpu/drm/imx/ipuv3/parallel-display.c       | 137 +++-----------
- include/drm/bridge/imx.h                           |  13 ++
- 12 files changed, 184 insertions(+), 301 deletions(-)
----
-base-commit: 13ee4a7161b6fd938aef6688ff43b163f6d83e37
-change-id: 20240310-drm-imx-cleanup-10746a9b71f5
-
-Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.39.2
 
