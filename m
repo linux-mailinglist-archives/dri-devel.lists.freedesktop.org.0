@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D061F892F6C
-	for <lists+dri-devel@lfdr.de>; Sun, 31 Mar 2024 10:45:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D93F4892F6E
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Mar 2024 10:45:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D966F10E9AD;
-	Sun, 31 Mar 2024 08:45:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 085A510E9C9;
+	Sun, 31 Mar 2024 08:45:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QmszwnYe";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="iSmlHJrL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EEB310E9AD
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Mar 2024 08:45:34 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id
- ffacd0b85a97d-3417a3151c4so2994404f8f.3
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Mar 2024 01:45:34 -0700 (PDT)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E71A410E9C9
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Mar 2024 08:45:38 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id
+ ffacd0b85a97d-33ed4d8e9edso2589976f8f.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Mar 2024 01:45:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711874732; x=1712479532; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1711874737; x=1712479537; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=No4VShp4MNQIo4/ZHdyujXMPexV2jpx81+F0aVzAh9c=;
- b=QmszwnYeNSpgjidgOr/++hrZ2jNC8boQnZOijhGulp2K0ELLrlst2J3YnwmGHZ+OSz
- 9r8oKTIDuT/V0ixJtdiDbMTnm/TN+p9Bt+00v7wsLH6LKgeywY4+904Ms04LAkAnlVgH
- TQRct+FXJpfNPs5Acaf2IUs4Qvb3iSQj7Mp9DGo7wNstrmSyCHRYFJyZvjEo5OkEN7RV
- 0F+OdNcMdrFTJYrXqg4KXdjGnOSyDt8oF0De3ul8hjO7Yx3FCzdQkkKTBaj8Fnt5JLlo
- OK/PTxvnFisanX1febAZM+63tqYB0HRCwpCMxdZYQTch1SM7/E2KbRB81UBkZ9hqyDh2
- eReA==
+ :reply-to; bh=JpODOh8SpqDydjsGmjw6Via7WFpVB11YsZ1xvZ5Vpsw=;
+ b=iSmlHJrLjO61VrNYmgoCRmxco6rPDMsqMsPkR/m7lYLBBw9Ty5mMOfDMDwsdx8NlNM
+ KZ7wpd3Tug+ClvbPY5WrywCsGKqG7sUKpZJCyivHfNXqtyQhcIniSAsGMg5y0OflXC1m
+ cvqBbgjltUpeA7ojr6k8fTSR+0YDkqoH62J3e6hStTLqve1lXIDwoZRFVKEy66RpY2js
+ DPbgEnH+bxipN/1Hp1l4j8c/VCvOfVCkTksVcCA9G5I3EqKyo6/jb6ELrYaoLz/amZa9
+ 7DYstFHjh86MIZbpcqRt3efGxYTsxe3AgiL6phU47IzMjsvU6drKRvT1YU+BjGCbb88u
+ 8rOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711874732; x=1712479532;
+ d=1e100.net; s=20230601; t=1711874737; x=1712479537;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=No4VShp4MNQIo4/ZHdyujXMPexV2jpx81+F0aVzAh9c=;
- b=HVaKqZ0mCTrlEkoqmrvRDpjdNKTLVw/uZJdCZURJm+fEmrs5yg2iZiNMO6Ez/DXyil
- +y/Gbr2AJD9qCVruu3BV8vdAF1VXQCRp31wzXkkNdtjPcy+yK6IawHDkY6noVzccbHmu
- U6h37Tlu8dgXOFmM4i7kwHtm4b6pMp9GxKObRjZcbjA+PHGY3HXqKQLuEa4t+HjiIcUe
- gbm/Exgm0W5JCop7C+8qXZ63CV4rz1eq9jL+K9fF2tqOcGMQWoj6FXt/InIBrUWguOV3
- LRjQ10N3RVx/CrXLcbmzjN3ddTM4/fRW8zSQTHt8I6VQxdLqBswdyiqGSTJRdM3h7eka
- 8irA==
+ bh=JpODOh8SpqDydjsGmjw6Via7WFpVB11YsZ1xvZ5Vpsw=;
+ b=wUmroLDPWxSHYK8jXYzrbIQaLmr+h4D5L0PdaO3bOFK8UB34z8tyQYKd3oxguRolPV
+ 4YAsCSd/4Eh4mx18wM3YsZUFCAS7a3IiFoNZr6JgP8Rxeo+x9WJrWuUvu4A8Tb0txWn1
+ gRKoaQ3SGjM0FR1vD9OyYaXq5L+XVIiakCahjwAsBnHxdvEU47ucsf9XVIHBgfqwwwIp
+ AktGDTF2g02V5WZgilH9/BoKAslLJx1SKO6EoCRteI/9jtaFR8qBfEEUHZhHa+9u1G0N
+ 4Q0awYCJu5toGIxiMVpHK0NbYHgQJPGwhHrKjoT0T1E4uJFz0ZrBmE3b07O2jbIbo0u0
+ 9AHQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUS/BazrpVxHCTmTuXnPnM3SobZuT7ljth8wuHxCZMjmM+G98AdGcLcYZdjoy8VFkwCKqDwdjj+FFFN0iU9uIS3+v1Za5Df0njM0gxM9PcW
-X-Gm-Message-State: AOJu0YyuKIjvOrFePGEJFwIT1/AU8LQdjNYEycyatV45h6JZaVDNxXA7
- y2ambMCrY5TB6J+KEgYA/++r5dkwmyWS0/IdbWAmh4+8MetFjOJ4xV4F2D130LU=
-X-Google-Smtp-Source: AGHT+IEJgcjNuQ7wOAQugOxbGaJ6NQntcIGj1qLI5WyqALHzfY4WmrsIZBXcqF/NvdlZCTDm990T8Q==
-X-Received: by 2002:a5d:6210:0:b0:341:b8ae:4cba with SMTP id
- y16-20020a5d6210000000b00341b8ae4cbamr4747608wru.21.1711874732690; 
- Sun, 31 Mar 2024 01:45:32 -0700 (PDT)
+ AJvYcCXpRa7zfli1KIDImr/RfqyEZSuCItgqYEY2KEMwMknKNpqJZq0VpirJ2xONFwC0JId2kXqCZwnNJXllQHOsfkEOwSpisafcuTMk4CBNwOIa
+X-Gm-Message-State: AOJu0Yz+kYJGaI9j0OKYpKw9ZoFcnKWsq+KnpI5MAUtX7C7Gcb1ahq1Y
+ wSSg91xPe9K0CqxouPSqtJaCb5sgGZLYKtuhEzAFkKqrKwsz60dPvCtBDIasyLk=
+X-Google-Smtp-Source: AGHT+IFhMJyghUycTdACT9icbSfKwd5VYS5+lHR7GEHa8HFyFfxUN9leod9pf+Cfrh2o34+h8a1zxA==
+X-Received: by 2002:a05:6000:120a:b0:33d:4966:fa8f with SMTP id
+ e10-20020a056000120a00b0033d4966fa8fmr3764747wrx.46.1711874737155; 
+ Sun, 31 Mar 2024 01:45:37 -0700 (PDT)
 Received: from [127.0.1.1] ([178.197.223.16]) by smtp.gmail.com with ESMTPSA id
- k17-20020adff5d1000000b00341b7388dafsm8436003wrp.77.2024.03.31.01.45.28
+ k17-20020adff5d1000000b00341b7388dafsm8436003wrp.77.2024.03.31.01.45.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 Mar 2024 01:45:32 -0700 (PDT)
+ Sun, 31 Mar 2024 01:45:36 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Sun, 31 Mar 2024 10:44:01 +0200
-Subject: [PATCH v2 14/25] iommu: virtio: drop owner assignment
+Date: Sun, 31 Mar 2024 10:44:02 +0200
+Subject: [PATCH v2 15/25] misc: nsm: drop owner assignment
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240331-module-owner-virtio-v2-14-98f04bfaf46a@linaro.org>
+Message-Id: <20240331-module-owner-virtio-v2-15-98f04bfaf46a@linaro.org>
 References: <20240331-module-owner-virtio-v2-0-98f04bfaf46a@linaro.org>
 In-Reply-To: <20240331-module-owner-virtio-v2-0-98f04bfaf46a@linaro.org>
 To: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
@@ -118,21 +118,21 @@ Cc: virtualization@lists.linux.dev, linux-doc@vger.kernel.org,
  linux-sound@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=741;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=780;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=jCwmMevYkV3Lqd1Wbq1GxwStD6bPo7hGezrcOjB2c0A=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmCSJcf+cWSGBZ3IzVeFjdJCrigmlZUgggoXFHx
- L3ZNzLA+GCJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZgkiXAAKCRDBN2bmhouD
- 1yz4D/kBJnf+US0Wxk8tJSk6p79WwnzDbdIipicV363WstanAHtkMECia276V98GOZTHKFx91oZ
- xFs88iGedtFNe2lz5YLuDippGKnwdQKFHYxGaFMtOA9azrRcdW1Yi34mh6Rw1Y6KB74d/mkXCHR
- HBbOcVcjuwPWr03OQA+UE+F5P2l+wvvJN0pex0fSfk9v36SnhE1g0hDm+FrdISIvU+9rqTDvE5x
- iNtqop4EDmTWyLVnqUb2eIa+Hc7j/yznKufTQxPZv2tyCQlLam4t86Kfbcxm5JoW9krAef9eXbs
- A5FkPX+lIJm00PCbDmL0YHydbChvEzQky64KSuzuRwgbfQEwcB4ovbo3tkM1rdbzJo+/C1zk9ZW
- 5zQkI8dbBCHRBB8AjA3mODa97MkbBBnQGITT6Mx/O7JqA/DUZNjyQIINDDOwF1gl8holNNnl92j
- uLJF2ny86nAbRgnqs+60EZkU9x5jGyVx8qY2223O3pNjBemocfp/VY1VhLTcKCqY0VFxuKboJhz
- kLGCzGWiU47obYe3V+NoxExY4fC9r8nkWuiGr4WjnlNkHfd7Qmijw9N8VOoi4GY/ZWk/oDjxV1n
- fEMEavVUWoWq/GPV2H/x//mMTkfPZ0lZn3lRXQyjfO26dT6ZkeXfV7Opjib1fX4uOFTcpfb+tX0
- W/QgwYlVrzp55nQ==
+ bh=rkTpT83OyeYcLFTcFWPlfq1EO9ueUCyja/WSxZqw7hc=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmCSJdqEGjps1UnoPgvmyvw1qk/es9sAOvFP6i7
+ rDkSj/3F6mJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZgkiXQAKCRDBN2bmhouD
+ 1zh1D/9K9JiZ97FbRH997WXYeCIcOLie8y2bqS/tD2tujwmKzpHYmuBcAuNOI+xUFCEA8dY9ZXw
+ Xxv/alBFKHlBE+G5EjNOODjB6vPUte/sSc53V4DB1/khRKZXwLX2GCksWhBKxe2Bo8hWQ1uWPrx
+ zZqhsapmUGDnwRrG4U2DvNOQFc2WP9MoXnHRI9Vn4WXcJ8NjXlmBLoh2SmH/y7Xnn83iAsY4Bd9
+ FJtqV6C94yGjdfn3mNcEd1nkXz6GM4cB59sJjLC5LMrCICh6donIiz5rbH2jmwPPMzFCx89FCBo
+ QFtEU7uXE190p/t1P+2MImFzqbzp9AXhclMuU+9H6MHRDTBZ6F5AKb2xCpjNUJ9FYvCT+Oc0/l1
+ yR7kmKwZOYE/Z6N8tohI7QT0GuBxqh9+yh+qsD9MpuHsNSwE2xLFJ29VpEUUcUMXBNYKADSdJbL
+ CF9FasVoxOWKghUj0Si8FZ55UJ92wVI8P4ZTNOUWZ7Rzgyz2txMbsfAslxSkDxEyv+cKDMAYb/X
+ lkeTdl48V+76z4vY3NM3ADVZGkCRhNpnE1/Dylblp2mvOMZGCGh5Qbn6aKYIPbaP8ovLWpLt2ey
+ zWfa1CVWWaXBOT46qGPDtdbm9Wc+IsLSUv46B0GgwCXox+drd7wsQkIOppqY7gTC0Chte/FjF7J
+ 4fZvDPp1PJKyCmw==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -158,21 +158,21 @@ Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Depends on the first patch.
 ---
- drivers/iommu/virtio-iommu.c | 1 -
+ drivers/misc/nsm.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/iommu/virtio-iommu.c b/drivers/iommu/virtio-iommu.c
-index 04048f64a2c0..9ed8958a42bf 100644
---- a/drivers/iommu/virtio-iommu.c
-+++ b/drivers/iommu/virtio-iommu.c
-@@ -1261,7 +1261,6 @@ MODULE_DEVICE_TABLE(virtio, id_table);
- 
- static struct virtio_driver virtio_iommu_drv = {
- 	.driver.name		= KBUILD_MODNAME,
--	.driver.owner		= THIS_MODULE,
- 	.id_table		= id_table,
- 	.feature_table		= features,
- 	.feature_table_size	= ARRAY_SIZE(features),
+diff --git a/drivers/misc/nsm.c b/drivers/misc/nsm.c
+index 0eaa3b4484bd..ef7b32742340 100644
+--- a/drivers/misc/nsm.c
++++ b/drivers/misc/nsm.c
+@@ -494,7 +494,6 @@ static struct virtio_driver virtio_nsm_driver = {
+ 	.feature_table_legacy      = 0,
+ 	.feature_table_size_legacy = 0,
+ 	.driver.name               = KBUILD_MODNAME,
+-	.driver.owner              = THIS_MODULE,
+ 	.id_table                  = id_table,
+ 	.probe                     = nsm_device_probe,
+ 	.remove                    = nsm_device_remove,
 
 -- 
 2.34.1
