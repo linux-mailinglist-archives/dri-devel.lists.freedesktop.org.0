@@ -2,77 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 475E089476A
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 00:43:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93D968947F7
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 01:51:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FA4610F62F;
-	Mon,  1 Apr 2024 22:43:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0893810F65D;
+	Mon,  1 Apr 2024 23:51:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TR8IH3JW";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BXvrHNM6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B64010F62C;
- Mon,  1 Apr 2024 22:43:41 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-513dc9d6938so5475090e87.2; 
- Mon, 01 Apr 2024 15:43:40 -0700 (PDT)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ECF910F65D
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Apr 2024 23:51:16 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-2d68c6a4630so47856501fa.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Apr 2024 16:51:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1712011419; x=1712616219; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=H1HRSs16ZaqWirPKX2Q82tz4rJe4xnCWFUzWP+U9GaI=;
- b=TR8IH3JWuEeVqftDwJCfH+FhY70/APUyMcL6T1AnVwrpVi89veDoi8pOFomhFMLDXk
- guMiCbjfStMso88G0WtG8O37xt7E4LpfmCbW/me0wgh2Ug9kXR1toUf0dDF5i3dsxw3x
- 4h0xG48ZkCVz3nIsyt5tv3BhlzFulWuGSxk4gH/qTCr61EYItuFDna5xaHc3FiR4AaNE
- wLrLHpMMtEeJoHcxatotoEJaE9nbfDPkaN0ccVL5XDUHh1Io7TttwpHCUtsrsJgzDIzc
- t8G7JebdisnjF96UL8946Wy1YmQCrP9GABq2+GZUjijDMfy9orpTEOi/gvnL0UAeGbAB
- Xl3g==
+ d=linaro.org; s=google; t=1712015474; x=1712620274; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=1dcSVI3IWYNVdSPmBC0C2QNVAXSUlaGzN8zET/T3Huo=;
+ b=BXvrHNM63EvbHJei+wHIZotwBp1Z49wA2dPdvV+sW0EX3yjxT23KzhrHk6GIjUhDD2
+ jncvS7z1eSIfnPQLqwO/jvOpnrJZujMMvkcU3OdEquW7xw5clKsPOw4GGDMCiym2c1ru
+ O1yheAgvj6YFyZ6zT3PUlWzQjG1glMRfg/6su9pzKpWp9AOut45sYXE2fhAxqVykGNhX
+ uFfIf2p+BNT/DFPm1jbxYnLx+RorXeF5IigtQJyzlCQoa4fdAGYNOooF5ULz4vUAWz4R
+ ppP3V9F5gMMynI/JQPUWe+vOXAa2QTHVQwgHD4m+/Wqqq0TO56qqtHqGJSNNDIOiZj+Q
+ NTKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712011419; x=1712616219;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=H1HRSs16ZaqWirPKX2Q82tz4rJe4xnCWFUzWP+U9GaI=;
- b=E6Lp3EnoXmaZ1m6IWHnDy8N9NNOh2fljVfBE4lELxD2+cx0OsluCfBDqy8NL9f7oSI
- 2H/26c40oQ8bCVwMpu+jDHWhfX3jK+dFKH5wyGK3TNKnHSc1wDbL6CUNN3F6JiDmFNDn
- l2qJzGM4kxt3s9/bqoHIdXKoF02l2SsA700V4xWw+proQGZRQxDImB/ckxhDhzsjKzTd
- r6g8A9AcDJSUNRhjEtR/CgZ5J4aK5CFwMWMVRUkHZs8fsl46pLmjlCJK4h6XGFHXIABX
- lLCXBwF7tZDFCaQWu6GvTa9tz1qeLwdKQuE6a1PxFzQZ6JkhaD8yY/r2Fx4MtrU03Ol8
- pJsQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV43Dn8nNX25vvcF7CNC0mDrh5FLUwyKT9rrJrsvKYQiILweKMKt2VAyHIMQx6cj8kF3xA+HxWw9Z+TjG8skYmVJhC9i2okylW9/+x+g/xAGLvWRXByWXiLkBR8fO3syWybNvoP2FpvPyz21w==
-X-Gm-Message-State: AOJu0YwBArvilD3UkKDqFhtD77N+huxHmG4BeD+adMhnLaz72gxP65AZ
- SYoR1Kar+wCgZqoqqLw+6HKYK40gYXMC2orpH8Vw5au9/6gIUc+i
-X-Google-Smtp-Source: AGHT+IF5AAFDiHU2c7BlOH2GKKUyK+ACmqIyuoBaH5uCfBfF8+qL4PRYFYq9gmLKpIuJjrRfZZOWXA==
-X-Received: by 2002:a05:6512:3191:b0:513:d524:3790 with SMTP id
- i17-20020a056512319100b00513d5243790mr8255946lfe.43.1712011419012; 
- Mon, 01 Apr 2024 15:43:39 -0700 (PDT)
-Received: from mosaic.enunes.eu (ip-78-45-66-209.bb.vodafone.cz.
- [78.45.66.209]) by smtp.gmail.com with ESMTPSA id
- c3-20020a170906340300b00a4739efd7cesm5796808ejb.60.2024.04.01.15.43.37
+ d=1e100.net; s=20230601; t=1712015474; x=1712620274;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1dcSVI3IWYNVdSPmBC0C2QNVAXSUlaGzN8zET/T3Huo=;
+ b=NxtydMCqPfW/xrE49TYQZLAnuAzal8fQTS34vZasMtO1j0WWLJYPEk3Btbtjx/ATRt
+ +rCkrM7j0/6/+M4vWadJBwjRzXYl9J9h99lJaEmKl6KB5/ZZPV6/rzznZqmYjXJw9I5l
+ 1imOiffrWWHK/L28t1ipJEvgbsdVEPXNdjy0bbhygwR/IW0narCX57LNURnCrXNcmQls
+ Pvvq+y0OSm6Q5CnnHnwYjzELJD/oFiHhyw9cxDqGvb/kblB9ZYAsdEJFfwN/upOD3Sej
+ Z5sMrEpDVMutUwp0HcDVJ6zSpgTHmFJY982VgSogb2HlYKNzDPsDOQMFpWWL8CxwTgOX
+ ckJw==
+X-Gm-Message-State: AOJu0YwHrrFYiTOToajcCH4tYNgt2BrLj8Mw3kCqPQ/fpQl4f+Osz+se
+ EocXXSOnu4wKVoA0A+9ByS0eLAge84ASO/gL7xVy21NpEpPO4WW7xAJdY7JhoXg=
+X-Google-Smtp-Source: AGHT+IFYSCeMxGqZ2MbE1waQe/9063olfwjZ1oTGYegt2N0rOdrSyiwLNPjYVdZg1fOsMFVZeGMzIA==
+X-Received: by 2002:a19:8c04:0:b0:515:9aba:743a with SMTP id
+ o4-20020a198c04000000b005159aba743amr7163184lfd.59.1712015474106; 
+ Mon, 01 Apr 2024 16:51:14 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
+ g28-20020a0565123b9c00b00515d127a399sm1176135lfv.58.2024.04.01.16.51.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Apr 2024 15:43:38 -0700 (PDT)
-From: Erico Nunes <nunes.erico@gmail.com>
-To: Qiang Yu <yuq825@gmail.com>, anarsoul@gmail.com,
- dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org,
- Erico Nunes <nunes.erico@gmail.com>
-Subject: [PATCH 2/2] drm/lima: fix void pointer to enum lima_gpu_id cast
- warning
-Date: Tue,  2 Apr 2024 00:43:29 +0200
-Message-ID: <20240401224329.1228468-3-nunes.erico@gmail.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240401224329.1228468-1-nunes.erico@gmail.com>
-References: <20240401224329.1228468-1-nunes.erico@gmail.com>
+ Mon, 01 Apr 2024 16:51:13 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3 0/4] drm/panel: add support for LG SW43408 panel
+Date: Tue, 02 Apr 2024 02:51:11 +0300
+Message-Id: <20240402-lg-sw43408-panel-v3-0-144f17a11a56@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAG9IC2YC/4XNTQ7CIBCG4as0sxbDb0pdeQ/jglJoJ2mgAYOap
+ neXdudGl++XzDMrZJfQZbg0KyRXMGMMNcSpATuZMDqCQ23glEsqBCXzSPJTCkk1WUxwM+mV4l4
+ yZpVwUM+W5Dy+DvJ2rz1hfsT0Pj4Utq8/sMIIJV4pTb3tPB/MdcZgUjzHNMKuFf5P4FXgnTBKt
+ 6zthf4Stm37AEKhG/vzAAAA
+To: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Caleb Connolly <caleb.connolly@linaro.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Vinod Koul <vkoul@kernel.org>, Caleb Connolly <caleb@connolly.tech>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2055;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=AIE+v3isfbEbNJwblsGQEZ9BeAZNLAvQspWBKbN90cg=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmC0hw1zyg3pAwUtnjkm+5F8dYu9r5Jix16Jwgd
+ d5XVDHdzF+JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZgtIcAAKCRCLPIo+Aiko
+ 1dG3CACR4Oyf2mAyMzZiyD5RWhCiID+SZ5tnwd5Zguqhu+bKP68AWpQ+ckh6dZmUs0A7DslNrAR
+ Z3fYeMEIWHk1sWMxedMcymSYfnBb3VoXunNufkBA3HBylB7zGrSuZ7Gr68W/Z7HXftfu6PeacOx
+ 0ib8+dIrDFXHx7jvzGAIGLIjb7C5Y/qFe/7LsxEeIyNADMoD58iutryQyVrFnGIDLFJFg5nDuFu
+ H1j7k9wxHmQnY91jultTOs/37Rx6gkPKOmZPOsSdKpUj7pQzzV1h3e6BSltztv7hEdUn47hMfUr
+ 3mOnDPjuIRNMF08qnVlteUfwH4NQgTG7uUBocJZvtjX6YbSr
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,88 +104,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create a simple data struct to hold compatible data so that we don't
-have to do the casts to void pointer to hold data.
-Fixes the following warning:
-  drivers/gpu/drm/lima/lima_drv.c:387:13: error: cast to smaller integer
-  type 'enum lima_gpu_id' from 'const void *'
+The LG SW43408 panel is used on Google Pixel3 devices. For a long time
+we could not submit the driver, as the panel was not coming up from the
+reset. The panel seems to be picky about some of the delays during init
+and it also uses non-standard payload for MIPI_DSI_COMPRESSION_MODE.
 
-Signed-off-by: Erico Nunes <nunes.erico@gmail.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/lima/lima_drv.c | 21 ++++++++++++++++++---
- drivers/gpu/drm/lima/lima_drv.h |  5 +++++
- 2 files changed, 23 insertions(+), 3 deletions(-)
+Changes in v3:
+- Fixed return type of MIPI DSC functions
+- Replaced mipi_dsi_compression_mode_raw() with
+  mipi_dsi_compression_mode_ext() (Marijn)
+- Link to v2: https://lore.kernel.org/r/20240330-lg-sw43408-panel-v2-0-293a58717b38@linaro.org
 
-diff --git a/drivers/gpu/drm/lima/lima_drv.c b/drivers/gpu/drm/lima/lima_drv.c
-index 10fd9154cc46..739c865b556f 100644
---- a/drivers/gpu/drm/lima/lima_drv.c
-+++ b/drivers/gpu/drm/lima/lima_drv.c
-@@ -371,6 +371,7 @@ static int lima_pdev_probe(struct platform_device *pdev)
- {
- 	struct lima_device *ldev;
- 	struct drm_device *ddev;
-+	const struct lima_compatible *comp;
- 	int err;
- 
- 	err = lima_sched_slab_init();
-@@ -384,7 +385,13 @@ static int lima_pdev_probe(struct platform_device *pdev)
- 	}
- 
- 	ldev->dev = &pdev->dev;
--	ldev->id = (enum lima_gpu_id)of_device_get_match_data(&pdev->dev);
-+	comp = of_device_get_match_data(&pdev->dev);
-+	if (!comp) {
-+		err = -ENODEV;
-+		goto err_out0;
-+	}
-+
-+	ldev->id = comp->id;
- 
- 	platform_set_drvdata(pdev, ldev);
- 
-@@ -459,9 +466,17 @@ static void lima_pdev_remove(struct platform_device *pdev)
- 	lima_sched_slab_fini();
- }
- 
-+static const struct lima_compatible lima_mali400_data = {
-+	.id = lima_gpu_mali400,
-+};
-+
-+static const struct lima_compatible lima_mali450_data = {
-+	.id = lima_gpu_mali450,
-+};
-+
- static const struct of_device_id dt_match[] = {
--	{ .compatible = "arm,mali-400", .data = (void *)lima_gpu_mali400 },
--	{ .compatible = "arm,mali-450", .data = (void *)lima_gpu_mali450 },
-+	{ .compatible = "arm,mali-400", .data = &lima_mali400_data },
-+	{ .compatible = "arm,mali-450", .data = &lima_mali450_data },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, dt_match);
-diff --git a/drivers/gpu/drm/lima/lima_drv.h b/drivers/gpu/drm/lima/lima_drv.h
-index c738d288547b..6706c19b166e 100644
---- a/drivers/gpu/drm/lima/lima_drv.h
-+++ b/drivers/gpu/drm/lima/lima_drv.h
-@@ -7,6 +7,7 @@
- #include <drm/drm_file.h>
- 
- #include "lima_ctx.h"
-+#include "lima_device.h"
- 
- extern int lima_sched_timeout_ms;
- extern uint lima_heap_init_nr_pages;
-@@ -39,6 +40,10 @@ struct lima_submit {
- 	struct lima_sched_task *task;
- };
- 
-+struct lima_compatible {
-+	enum lima_gpu_id id;
-+};
-+
- static inline struct lima_drm_priv *
- to_lima_drm_priv(struct drm_file *file)
- {
+Changes in v2:
+- Removed formatting char from schema (Krzysztof)
+- Moved additionalProperties after required (Krzysztof)
+- Added example to the schema (Krzysztof)
+- Removed obsolete comment in the commit message (Marijn)
+- Moved DSC params to the panel struct (Marijn)
+- Changed dsc_en to be an array (Marijn)
+- Added comment regiarding slice_width and slice_count (Marijn)
+- Link to v1: https://lore.kernel.org/r/20240330-lg-sw43408-panel-v1-0-f5580fc9f2da@linaro.org
+
+---
+Dmitry Baryshkov (2):
+      drm/mipi-dsi: use correct return type for the DSC functions
+      drm/mipi-dsi: add mipi_dsi_compression_mode_ext()
+
+Sumit Semwal (2):
+      dt-bindings: panel: Add LG SW43408 MIPI-DSI panel
+      drm: panel: Add LG sw43408 panel driver
+
+ .../bindings/display/panel/lg,sw43408.yaml         |  62 ++++
+ MAINTAINERS                                        |   8 +
+ drivers/gpu/drm/drm_mipi_dsi.c                     |  37 ++-
+ drivers/gpu/drm/panel/Kconfig                      |  11 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ drivers/gpu/drm/panel/panel-lg-sw43408.c           | 326 +++++++++++++++++++++
+ include/drm/drm_mipi_dsi.h                         |  15 +-
+ 7 files changed, 449 insertions(+), 11 deletions(-)
+---
+base-commit: a6bd6c9333397f5a0e2667d4d82fef8c970108f2
+change-id: 20240330-lg-sw43408-panel-b552f411c53e
+
+Best regards,
 -- 
-2.44.0
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
