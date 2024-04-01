@@ -2,55 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 796FB893B2B
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 15:03:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44232893B42
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 15:12:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3277010E4C9;
-	Mon,  1 Apr 2024 13:03:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C55310F158;
+	Mon,  1 Apr 2024 13:12:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="t9tDxF+B";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="m7Tcyl7W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B89910E4C9
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Apr 2024 13:03:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1CE810F166
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Apr 2024 13:12:12 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6D2E660B5A;
- Mon,  1 Apr 2024 13:03:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91F3AC43390;
- Mon,  1 Apr 2024 13:03:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1711976629;
- bh=6IX8cDFUlSsk6IxtbhcF68yxgznuBZCAUSinqNSI60Q=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=t9tDxF+B/kICX01tgWTInIvIoSP9ORRRD9KOxwP84iHOUi0SKK/Ie42RUnp7t63FN
- HVqjkZ5KlC6r9xKWCl/PeAJMG/KIh5KXuih4+kiHghdkd8/st153SMr/ZNhz+ZL23p
- D6EuKGrsL+Ai1zBEWIcpOvcddijki3UnjLotM8odP4gXTf7VBLo8n3OihiTeVz6O/V
- 93Vr1FFFPxCnRAvBkZ9v758Qjjkohp6VSPznDAbcnaGecnpbMEcO5WLl7vGxIXqsxs
- CUw4xRe+JpxokeW//OF/xQU0Z3nndTfOdl9EVWPpGm58X/UdaltgtXdup/n47CR6ru
- 8Mu87fvXgThzg==
-Date: Mon, 1 Apr 2024 08:03:47 -0500
-From: Rob Herring <robh@kernel.org>
-To: Patrick Gansterer <paroga@paroga.com>
-Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org, Lee Jones <lee@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
- Sam Ravnborg <sam@ravnborg.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v5 1/2] dt-bindings: backlight: Add Texas Instruments
- LM3509
-Message-ID: <20240401130347.GA274540-robh@kernel.org>
-References: <20240330145931.729116-1-paroga@paroga.com>
- <20240330145931.729116-2-paroga@paroga.com>
+ by dfw.source.kernel.org (Postfix) with ESMTP id F19B560BC4;
+ Mon,  1 Apr 2024 13:12:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 436BCC43399;
+ Mon,  1 Apr 2024 13:12:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1711977131;
+ bh=eHsozHMQ7QtkJFYA+A8f8zFMihC1C9yhJ7LCwmQ00kM=;
+ h=Subject:To:Cc:From:Date:From;
+ b=m7Tcyl7W29SGyJlq93qLWhswmfmHEKBD/XNBsvzvZp3mFWsnJZTYeetkL7RScUIqO
+ 53kk5GdnEP0NRjnEowEypXCWJjehxawsJolhHnQCWep9CMBFhSxHTEKTsjK1Nr1bw8
+ icBZ27tvinbT1fcvXKWdyoUgtipskzes8YxVwIGc=
+Subject: Patch "drm/imx: parallel-display: Remove bus flags check in
+ imx_pd_bridge_atomic_check()" has been added to the 4.19-stable tree
+To: airlied@linux.ie, boris.brezillon@collabora.com,
+ cniedermaier@dh-electronics.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, festevam@gmail.com,
+ gregkh@linuxfoundation.org, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+ maarten.lankhorst@linux.intel.com, marex@denx.de, max.krummenacher@toradex.com,
+ p.zabel@pengutronix.de, s.hauer@pengutronix.de, shawnguo@kernel.org
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 01 Apr 2024 15:12:08 +0200
+Message-ID: <2024040108-path-headboard-57cf@gregkh>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240330145931.729116-2-paroga@paroga.com>
+Content-Type: text/plain; charset=ANSI_X3.4-1968
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,94 +60,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Mar 30, 2024 at 03:59:24PM +0100, Patrick Gansterer wrote:
-> Add Device Tree bindings for Texas Instruments LM3509 - a
-> High Efficiency Boost for White LED's and/or OLED Displays
-> 
-> Signed-off-by: Patrick Gansterer <paroga@paroga.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-> ---
->  .../bindings/leds/backlight/ti,lm3509.yaml    | 139 ++++++++++++++++++
->  1 file changed, 139 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/ti,lm3509.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/ti,lm3509.yaml b/Documentation/devicetree/bindings/leds/backlight/ti,lm3509.yaml
-> new file mode 100644
-> index 000000000000..b67f67648852
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/ti,lm3509.yaml
-> @@ -0,0 +1,139 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/ti,lm3509.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: TI LM3509 High Efficiency Boost for White LED's and/or OLED Displays
-> +
-> +maintainers:
-> +  - Patrick Gansterer <paroga@paroga.com>
-> +
-> +description:
-> +  The LM3509 current mode boost converter offers two separate outputs.
-> +  https://www.ti.com/product/LM3509
-> +
-> +properties:
-> +  compatible:
-> +    const: ti,lm3509
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +
-> +  ti,brightness-rate-of-change-us:
-> +    description: Brightness Rate of Change in microseconds.
-> +    enum: [51, 13000, 26000, 52000]
-> +
-> +  ti,oled-mode:
-> +    description: Enable OLED mode.
-> +    type: boolean
-> +
-> +patternProperties:
-> +  "^led@[01]$":
-> +    type: object
-> +    description: Properties for a string of connected LEDs.
-> +
-> +    allOf:
 
-You don't need allOf here.
+This is a note to let you know that I've just added the patch titled
 
-> +      - $ref: common.yaml#
-> +
-> +    properties:
-> +      reg:
-> +        description:
-> +          The control register that is used to program the two current sinks.
-> +          The LM3509 has two registers (BMAIN and BSUB) and are represented
-> +          as 0 or 1 in this property. The two current sinks can be controlled
-> +          independently with both registers, or register BMAIN can be
-> +          configured to control both sinks with the led-sources property.
-> +        minimum: 0
-> +        maximum: 1
-> +
-> +      label: true
-> +
-> +      led-sources:
-> +        allOf:
+    drm/imx: parallel-display: Remove bus flags check in imx_pd_bridge_atomic_check()
 
-Or here.
+to the 4.19-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
-> +          - minItems: 1
-> +            maxItems: 2
-> +            items:
-> +              minimum: 0
-> +              maximum: 1
+The filename of the patch is:
+     drm-imx-parallel-display-remove-bus-flags-check-in-imx_pd_bridge_atomic_check.patch
+and it can be found in the queue-4.19 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From 6061806a863e8b65b109eb06a280041cc7525442 Mon Sep 17 00:00:00 2001
+From: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+Date: Tue, 1 Feb 2022 12:36:43 +0100
+Subject: drm/imx: parallel-display: Remove bus flags check in imx_pd_bridge_atomic_check()
+
+From: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+
+commit 6061806a863e8b65b109eb06a280041cc7525442 upstream.
+
+If display timings were read from the devicetree using
+of_get_display_timing() and pixelclk-active is defined
+there, the flag DISPLAY_FLAGS_SYNC_POSEDGE/NEGEDGE is
+automatically generated. Through the function
+drm_bus_flags_from_videomode() e.g. called in the
+panel-simple driver this flag got into the bus flags,
+but then in imx_pd_bridge_atomic_check() the bus flag
+check failed and will not initialize the display. The
+original commit fe141cedc433 does not explain why this
+check was introduced. So remove the bus flags check,
+because it stops the initialization of the display with
+valid bus flags.
+
+Fixes: fe141cedc433 ("drm/imx: pd: Use bus format/flags provided by the bridge when available")
+Signed-off-by: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+Cc: Marek Vasut <marex@denx.de>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Cc: linux-arm-kernel@lists.infradead.org
+To: dri-devel@lists.freedesktop.org
+Tested-by: Max Krummenacher <max.krummenacher@toradex.com>
+Acked-by: Boris Brezillon <boris.brezillon@collabora.com>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220201113643.4638-1-cniedermaier@dh-electronics.com
+Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/imx/parallel-display.c |    8 --------
+ 1 file changed, 8 deletions(-)
+
+--- a/drivers/gpu/drm/imx/parallel-display.c
++++ b/drivers/gpu/drm/imx/parallel-display.c
+@@ -235,14 +235,6 @@ static int imx_pd_bridge_atomic_check(st
+ 	if (!imx_pd_format_supported(bus_fmt))
+ 		return -EINVAL;
+ 
+-	if (bus_flags &
+-	    ~(DRM_BUS_FLAG_DE_LOW | DRM_BUS_FLAG_DE_HIGH |
+-	      DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE |
+-	      DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)) {
+-		dev_warn(imxpd->dev, "invalid bus_flags (%x)\n", bus_flags);
+-		return -EINVAL;
+-	}
+-
+ 	bridge_state->output_bus_cfg.flags = bus_flags;
+ 	bridge_state->input_bus_cfg.flags = bus_flags;
+ 	imx_crtc_state->bus_flags = bus_flags;
+
+
+Patches currently in stable-queue which might be from cniedermaier@dh-electronics.com are
+
+queue-4.19/drm-imx-parallel-display-remove-bus-flags-check-in-imx_pd_bridge_atomic_check.patch
