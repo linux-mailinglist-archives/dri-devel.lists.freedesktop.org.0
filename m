@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C21E894768
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 00:43:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 475E089476A
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 00:43:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 575DE10F62E;
-	Mon,  1 Apr 2024 22:43:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FA4610F62F;
+	Mon,  1 Apr 2024 22:43:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LfjpU+Tv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TR8IH3JW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3CB510F628;
- Mon,  1 Apr 2024 22:43:39 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-a4e61accceaso233332966b.2; 
- Mon, 01 Apr 2024 15:43:39 -0700 (PDT)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B64010F62C;
+ Mon,  1 Apr 2024 22:43:41 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-513dc9d6938so5475090e87.2; 
+ Mon, 01 Apr 2024 15:43:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1712011418; x=1712616218; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1712011419; x=1712616219; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=x6wOlanwnyuahzpz0MfNPGNkl1E4bit5o3/S2j1nuGQ=;
- b=LfjpU+TvYgi0IS1bTV9Bcd/ev8kST2zkbg97vk3Us9QTVsfO9T9/qfgqMB4XkczAsH
- T8/yFh9Ph/YF7/uUWW5oh+4KNBVPXIB4YkC6vg5UaKi3aVxELWLQOHJdBdgCl2gOMzW9
- pBU5FUjRZEQUzWkg8UiwT/XvoJQPKfILvzmP3GdxnWVXwKBdKRMRYDPdwP6Uvq6H2nxF
- FLCvkEn7WXzdadLdcmjRgQ+Iqlzh7r0JTgSETqYCD64DTDDNY5oKOF95sa+Ff7ASLOEw
- eTuWxFplXkGadRnonYmLVHN5tIRylDNItoo/2O+TLXFovvKlQal4id9fC0pfLja5vZ5o
- iJQQ==
+ bh=H1HRSs16ZaqWirPKX2Q82tz4rJe4xnCWFUzWP+U9GaI=;
+ b=TR8IH3JWuEeVqftDwJCfH+FhY70/APUyMcL6T1AnVwrpVi89veDoi8pOFomhFMLDXk
+ guMiCbjfStMso88G0WtG8O37xt7E4LpfmCbW/me0wgh2Ug9kXR1toUf0dDF5i3dsxw3x
+ 4h0xG48ZkCVz3nIsyt5tv3BhlzFulWuGSxk4gH/qTCr61EYItuFDna5xaHc3FiR4AaNE
+ wLrLHpMMtEeJoHcxatotoEJaE9nbfDPkaN0ccVL5XDUHh1Io7TttwpHCUtsrsJgzDIzc
+ t8G7JebdisnjF96UL8946Wy1YmQCrP9GABq2+GZUjijDMfy9orpTEOi/gvnL0UAeGbAB
+ Xl3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712011418; x=1712616218;
+ d=1e100.net; s=20230601; t=1712011419; x=1712616219;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=x6wOlanwnyuahzpz0MfNPGNkl1E4bit5o3/S2j1nuGQ=;
- b=QzUdAha6rysBZ37QBB5Pg2OzVvA7vSOd9j+QLeTfhkAxJgUMnO/xNKQOk0ILtM5DfY
- 5pjjKBCIZNAUD8+UH36Q19ioZEsuZf+HSY8ObkzTT/7NHHe49h6uljm8/HKXC5OfHyg3
- ArU9MstwcVLJzCAiIUJqX/2ZEgbDJpwrsz7luqUC+1xtJGhb5Jh+2GRnWAXgD3FJNdk7
- L9oPnwkliCnWRbWKC3TiM6LxjY+V/EHccf68QgY9bqLqN2hKPl+yL2mC1E8gIiJkzNlm
- hhbgRGtJ6w5vmMDgMLwlKM/v2yy48fPTnxpfzfS1JrtSWUChajuYQVpZwkaZKMvD+qvF
- pcuA==
+ bh=H1HRSs16ZaqWirPKX2Q82tz4rJe4xnCWFUzWP+U9GaI=;
+ b=E6Lp3EnoXmaZ1m6IWHnDy8N9NNOh2fljVfBE4lELxD2+cx0OsluCfBDqy8NL9f7oSI
+ 2H/26c40oQ8bCVwMpu+jDHWhfX3jK+dFKH5wyGK3TNKnHSc1wDbL6CUNN3F6JiDmFNDn
+ l2qJzGM4kxt3s9/bqoHIdXKoF02l2SsA700V4xWw+proQGZRQxDImB/ckxhDhzsjKzTd
+ r6g8A9AcDJSUNRhjEtR/CgZ5J4aK5CFwMWMVRUkHZs8fsl46pLmjlCJK4h6XGFHXIABX
+ lLCXBwF7tZDFCaQWu6GvTa9tz1qeLwdKQuE6a1PxFzQZ6JkhaD8yY/r2Fx4MtrU03Ol8
+ pJsQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWoF/OWg5ikvPonD0QqCi505rGzTzcKk4LPBdBwzQ29l2XytoH0pGTzB/kfxQSxrnQ7PwenH0696dAAoH4LUVv7fs20JfsTPEhvTXJUPdo4NQN23IFl3qJK0pgeQk7XFMaCyt4nV9tycHgy+A==
-X-Gm-Message-State: AOJu0YxySKGjn0yswb4wOOXYS0KPxw+t8BSuHf8aT37ebIVkPHra8/NT
- DJjAXxhTTdypPhbg96rLeXu9+OGJR/znVsyD8ZzNMFCUq9YX1YPh
-X-Google-Smtp-Source: AGHT+IHHemzLxeLUMG8/nYzOVnRQOJhwt+KswDgE2bL/9MkeZyGspToRNzYF/9xt03CRuCgLz0TmVw==
-X-Received: by 2002:a17:906:494e:b0:a4e:69b5:9835 with SMTP id
- f14-20020a170906494e00b00a4e69b59835mr2677589ejt.6.1712011417805; 
- Mon, 01 Apr 2024 15:43:37 -0700 (PDT)
+ AJvYcCV43Dn8nNX25vvcF7CNC0mDrh5FLUwyKT9rrJrsvKYQiILweKMKt2VAyHIMQx6cj8kF3xA+HxWw9Z+TjG8skYmVJhC9i2okylW9/+x+g/xAGLvWRXByWXiLkBR8fO3syWybNvoP2FpvPyz21w==
+X-Gm-Message-State: AOJu0YwBArvilD3UkKDqFhtD77N+huxHmG4BeD+adMhnLaz72gxP65AZ
+ SYoR1Kar+wCgZqoqqLw+6HKYK40gYXMC2orpH8Vw5au9/6gIUc+i
+X-Google-Smtp-Source: AGHT+IF5AAFDiHU2c7BlOH2GKKUyK+ACmqIyuoBaH5uCfBfF8+qL4PRYFYq9gmLKpIuJjrRfZZOWXA==
+X-Received: by 2002:a05:6512:3191:b0:513:d524:3790 with SMTP id
+ i17-20020a056512319100b00513d5243790mr8255946lfe.43.1712011419012; 
+ Mon, 01 Apr 2024 15:43:39 -0700 (PDT)
 Received: from mosaic.enunes.eu (ip-78-45-66-209.bb.vodafone.cz.
  [78.45.66.209]) by smtp.gmail.com with ESMTPSA id
- c3-20020a170906340300b00a4739efd7cesm5796808ejb.60.2024.04.01.15.43.36
+ c3-20020a170906340300b00a4739efd7cesm5796808ejb.60.2024.04.01.15.43.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Apr 2024 15:43:37 -0700 (PDT)
+ Mon, 01 Apr 2024 15:43:38 -0700 (PDT)
 From: Erico Nunes <nunes.erico@gmail.com>
 To: Qiang Yu <yuq825@gmail.com>, anarsoul@gmail.com,
  dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org
@@ -64,9 +64,10 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org,
  Erico Nunes <nunes.erico@gmail.com>
-Subject: [PATCH 1/2] drm/lima: fix shared irq handling on driver remove
-Date: Tue,  2 Apr 2024 00:43:28 +0200
-Message-ID: <20240401224329.1228468-2-nunes.erico@gmail.com>
+Subject: [PATCH 2/2] drm/lima: fix void pointer to enum lima_gpu_id cast
+ warning
+Date: Tue,  2 Apr 2024 00:43:29 +0200
+Message-ID: <20240401224329.1228468-3-nunes.erico@gmail.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240401224329.1228468-1-nunes.erico@gmail.com>
 References: <20240401224329.1228468-1-nunes.erico@gmail.com>
@@ -87,79 +88,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-lima uses a shared interrupt, so the interrupt handlers must be prepared
-to be called at any time. At driver removal time, the clocks are
-disabled early and the interrupts stay registered until the very end of
-the remove process due to the devm usage.
-This is potentially a bug as the interrupts access device registers
-which assumes clocks are enabled. A crash can be triggered by removing
-the driver in a kernel with CONFIG_DEBUG_SHIRQ enabled.
-This patch frees the interrupts at each lima device finishing callback
-so that the handlers are already unregistered by the time we fully
-disable clocks.
+Create a simple data struct to hold compatible data so that we don't
+have to do the casts to void pointer to hold data.
+Fixes the following warning:
+  drivers/gpu/drm/lima/lima_drv.c:387:13: error: cast to smaller integer
+  type 'enum lima_gpu_id' from 'const void *'
 
 Signed-off-by: Erico Nunes <nunes.erico@gmail.com>
 ---
- drivers/gpu/drm/lima/lima_gp.c  | 2 ++
- drivers/gpu/drm/lima/lima_mmu.c | 5 +++++
- drivers/gpu/drm/lima/lima_pp.c  | 4 ++++
- 3 files changed, 11 insertions(+)
+ drivers/gpu/drm/lima/lima_drv.c | 21 ++++++++++++++++++---
+ drivers/gpu/drm/lima/lima_drv.h |  5 +++++
+ 2 files changed, 23 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/lima/lima_gp.c b/drivers/gpu/drm/lima/lima_gp.c
-index 6b354e2fb61d..14c39be8da90 100644
---- a/drivers/gpu/drm/lima/lima_gp.c
-+++ b/drivers/gpu/drm/lima/lima_gp.c
-@@ -338,7 +338,9 @@ int lima_gp_init(struct lima_ip *ip)
- 
- void lima_gp_fini(struct lima_ip *ip)
+diff --git a/drivers/gpu/drm/lima/lima_drv.c b/drivers/gpu/drm/lima/lima_drv.c
+index 10fd9154cc46..739c865b556f 100644
+--- a/drivers/gpu/drm/lima/lima_drv.c
++++ b/drivers/gpu/drm/lima/lima_drv.c
+@@ -371,6 +371,7 @@ static int lima_pdev_probe(struct platform_device *pdev)
  {
-+	struct lima_device *dev = ip->dev;
+ 	struct lima_device *ldev;
+ 	struct drm_device *ddev;
++	const struct lima_compatible *comp;
+ 	int err;
  
-+	devm_free_irq(dev->dev, ip->irq, ip);
- }
+ 	err = lima_sched_slab_init();
+@@ -384,7 +385,13 @@ static int lima_pdev_probe(struct platform_device *pdev)
+ 	}
  
- int lima_gp_pipe_init(struct lima_device *dev)
-diff --git a/drivers/gpu/drm/lima/lima_mmu.c b/drivers/gpu/drm/lima/lima_mmu.c
-index e18317c5ca8c..6611e2836bf0 100644
---- a/drivers/gpu/drm/lima/lima_mmu.c
-+++ b/drivers/gpu/drm/lima/lima_mmu.c
-@@ -118,7 +118,12 @@ int lima_mmu_init(struct lima_ip *ip)
- 
- void lima_mmu_fini(struct lima_ip *ip)
- {
-+	struct lima_device *dev = ip->dev;
+ 	ldev->dev = &pdev->dev;
+-	ldev->id = (enum lima_gpu_id)of_device_get_match_data(&pdev->dev);
++	comp = of_device_get_match_data(&pdev->dev);
++	if (!comp) {
++		err = -ENODEV;
++		goto err_out0;
++	}
 +
-+	if (ip->id == lima_ip_ppmmu_bcast)
-+		return;
++	ldev->id = comp->id;
  
-+	devm_free_irq(dev->dev, ip->irq, ip);
+ 	platform_set_drvdata(pdev, ldev);
+ 
+@@ -459,9 +466,17 @@ static void lima_pdev_remove(struct platform_device *pdev)
+ 	lima_sched_slab_fini();
  }
  
- void lima_mmu_flush_tlb(struct lima_ip *ip)
-diff --git a/drivers/gpu/drm/lima/lima_pp.c b/drivers/gpu/drm/lima/lima_pp.c
-index d0d2db0ef1ce..84bec163c9ed 100644
---- a/drivers/gpu/drm/lima/lima_pp.c
-+++ b/drivers/gpu/drm/lima/lima_pp.c
-@@ -286,7 +286,9 @@ int lima_pp_init(struct lima_ip *ip)
++static const struct lima_compatible lima_mali400_data = {
++	.id = lima_gpu_mali400,
++};
++
++static const struct lima_compatible lima_mali450_data = {
++	.id = lima_gpu_mali450,
++};
++
+ static const struct of_device_id dt_match[] = {
+-	{ .compatible = "arm,mali-400", .data = (void *)lima_gpu_mali400 },
+-	{ .compatible = "arm,mali-450", .data = (void *)lima_gpu_mali450 },
++	{ .compatible = "arm,mali-400", .data = &lima_mali400_data },
++	{ .compatible = "arm,mali-450", .data = &lima_mali450_data },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(of, dt_match);
+diff --git a/drivers/gpu/drm/lima/lima_drv.h b/drivers/gpu/drm/lima/lima_drv.h
+index c738d288547b..6706c19b166e 100644
+--- a/drivers/gpu/drm/lima/lima_drv.h
++++ b/drivers/gpu/drm/lima/lima_drv.h
+@@ -7,6 +7,7 @@
+ #include <drm/drm_file.h>
  
- void lima_pp_fini(struct lima_ip *ip)
+ #include "lima_ctx.h"
++#include "lima_device.h"
+ 
+ extern int lima_sched_timeout_ms;
+ extern uint lima_heap_init_nr_pages;
+@@ -39,6 +40,10 @@ struct lima_submit {
+ 	struct lima_sched_task *task;
+ };
+ 
++struct lima_compatible {
++	enum lima_gpu_id id;
++};
++
+ static inline struct lima_drm_priv *
+ to_lima_drm_priv(struct drm_file *file)
  {
-+	struct lima_device *dev = ip->dev;
- 
-+	devm_free_irq(dev->dev, ip->irq, ip);
- }
- 
- int lima_pp_bcast_resume(struct lima_ip *ip)
-@@ -319,7 +321,9 @@ int lima_pp_bcast_init(struct lima_ip *ip)
- 
- void lima_pp_bcast_fini(struct lima_ip *ip)
- {
-+	struct lima_device *dev = ip->dev;
- 
-+	devm_free_irq(dev->dev, ip->irq, ip);
- }
- 
- static int lima_pp_task_validate(struct lima_sched_pipe *pipe,
 -- 
 2.44.0
 
