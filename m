@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091978940E0
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 18:35:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E878B8942E1
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 18:57:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D91110F2B9;
-	Mon,  1 Apr 2024 16:35:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2969210F310;
+	Mon,  1 Apr 2024 16:57:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TSyyAsWr";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="n1YjHyeo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CF0B10F2B9
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Apr 2024 16:35:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96C1610F311
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Apr 2024 16:57:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id B8C61CE118C;
- Mon,  1 Apr 2024 16:35:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C35FC433C7;
- Mon,  1 Apr 2024 16:35:15 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 86568CE1304;
+ Mon,  1 Apr 2024 16:57:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A654C433C7;
+ Mon,  1 Apr 2024 16:57:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1711989316;
- bh=xXZWHx0rpJ1Gep8dKDESFCLIo5NmsMdm46F2h14YAMU=;
+ s=korg; t=1711990627;
+ bh=8QorQFZ/K3ZHGKJXGg97Qs011wV3tTJojBXiLTchW8I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TSyyAsWrHJLs+26AiElPCwfwsGoubV6SfOjEUfh3k3ZMCbMLrk9B7aZityb5/26e3
- lSrp5xKTPIPn+qVAyub8woilhG+Ti2iZJcvPnC8DqE7JYVrYRk5tvp+XHe+KepXyBP
- 4Jev4ovjCPy2z4g6Afd5tOa0ozo7nCJk/6tigN5Y=
+ b=n1YjHyeoZocgNUl10r4vGLI13dReMPPFM/dg814ZZgvIPNyvRotQgeIV+Fs0wV4Zr
+ Swa7CqJzZ4ppcjNuYQ565RQgRA0ZNgWk5Lj6r3PwJDOrRJEGLlon53lm9H05GIokfl
+ yrq1dxZnnNcnul73wQ/3xOkgnYGnt4KmfwGN82tY=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
@@ -36,13 +36,13 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  Ian Forbes <ian.forbes@broadcom.com>,
  Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
  dri-devel@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.6 013/396] drm/vmwgfx: Fix possible null pointer derefence
+Subject: [PATCH 6.1 017/272] drm/vmwgfx: Fix possible null pointer derefence
  with invalid contexts
-Date: Mon,  1 Apr 2024 17:41:02 +0200
-Message-ID: <20240401152548.280692156@linuxfoundation.org>
+Date: Mon,  1 Apr 2024 17:43:27 +0200
+Message-ID: <20240401152530.849312011@linuxfoundation.org>
 X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240401152547.867452742@linuxfoundation.org>
-References: <20240401152547.867452742@linuxfoundation.org>
+In-Reply-To: <20240401152530.237785232@linuxfoundation.org>
+References: <20240401152530.237785232@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -63,7 +63,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.6-stable review patch.  If anyone has any objections, please let me know.
+6.1-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -103,7 +103,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 11 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-index 36987ef3fc300..5fef0b31c1179 100644
+index bc7f02e4ecebb..2f7ac91149fc0 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
 @@ -447,7 +447,7 @@ static int vmw_resource_context_res_add(struct vmw_private *dev_priv,
@@ -115,7 +115,7 @@ index 36987ef3fc300..5fef0b31c1179 100644
  				continue;
  
  			ret = vmw_execbuf_res_val_add(sw_context, res,
-@@ -1266,6 +1266,8 @@ static int vmw_cmd_dx_define_query(struct vmw_private *dev_priv,
+@@ -1259,6 +1259,8 @@ static int vmw_cmd_dx_define_query(struct vmw_private *dev_priv,
  		return -EINVAL;
  
  	cotable_res = vmw_context_cotable(ctx_node->ctx, SVGA_COTABLE_DXQUERY);
@@ -124,7 +124,7 @@ index 36987ef3fc300..5fef0b31c1179 100644
  	ret = vmw_cotable_notify(cotable_res, cmd->body.queryId);
  
  	return ret;
-@@ -2484,6 +2486,8 @@ static int vmw_cmd_dx_view_define(struct vmw_private *dev_priv,
+@@ -2477,6 +2479,8 @@ static int vmw_cmd_dx_view_define(struct vmw_private *dev_priv,
  		return ret;
  
  	res = vmw_context_cotable(ctx_node->ctx, vmw_view_cotables[view_type]);
@@ -133,7 +133,7 @@ index 36987ef3fc300..5fef0b31c1179 100644
  	ret = vmw_cotable_notify(res, cmd->defined_id);
  	if (unlikely(ret != 0))
  		return ret;
-@@ -2569,8 +2573,8 @@ static int vmw_cmd_dx_so_define(struct vmw_private *dev_priv,
+@@ -2562,8 +2566,8 @@ static int vmw_cmd_dx_so_define(struct vmw_private *dev_priv,
  
  	so_type = vmw_so_cmd_to_type(header->id);
  	res = vmw_context_cotable(ctx_node->ctx, vmw_so_cotables[so_type]);
@@ -144,7 +144,7 @@ index 36987ef3fc300..5fef0b31c1179 100644
  	cmd = container_of(header, typeof(*cmd), header);
  	ret = vmw_cotable_notify(res, cmd->defined_id);
  
-@@ -2689,6 +2693,8 @@ static int vmw_cmd_dx_define_shader(struct vmw_private *dev_priv,
+@@ -2682,6 +2686,8 @@ static int vmw_cmd_dx_define_shader(struct vmw_private *dev_priv,
  		return -EINVAL;
  
  	res = vmw_context_cotable(ctx_node->ctx, SVGA_COTABLE_DXSHADER);
@@ -153,7 +153,7 @@ index 36987ef3fc300..5fef0b31c1179 100644
  	ret = vmw_cotable_notify(res, cmd->body.shaderId);
  	if (ret)
  		return ret;
-@@ -3010,6 +3016,8 @@ static int vmw_cmd_dx_define_streamoutput(struct vmw_private *dev_priv,
+@@ -3003,6 +3009,8 @@ static int vmw_cmd_dx_define_streamoutput(struct vmw_private *dev_priv,
  	}
  
  	res = vmw_context_cotable(ctx_node->ctx, SVGA_COTABLE_STREAMOUTPUT);
