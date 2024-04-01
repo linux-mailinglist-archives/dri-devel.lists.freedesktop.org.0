@@ -2,128 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8E7B89411D
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 18:37:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45965894165
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 18:41:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 943AE10F0F7;
-	Mon,  1 Apr 2024 16:37:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AFF710F2F5;
+	Mon,  1 Apr 2024 16:41:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="I4H2ACEX";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="th/fAglj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2098.outbound.protection.outlook.com [40.107.93.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D00C910E619;
- Mon,  1 Apr 2024 16:37:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dNpKatxkKvO382+XW2joWjekJajvsQ7p0l2QHByODXTe3V2e41ihv9eEl9gDpkPQiP+NIwNJRMIX+Nt5F2lHAS7pgy7kRVsv+PKKQum6OY+EeiP6CYnEVCdqD8kt265WZ2hK/oA6SkDTqrw7Nuhzlt4siOkpWJQUfoKhqaXSgHtPYKzPGWaZXrARtVPRvRH6V7Kblbh/Wsj5TMkcLKkA9myW/xiKi+kOm5PhavW1z62tcrFwSn5uag7auZrF5khiCPkNu4VWS2OqheaVANiTYDlTQh4wunaPB97IGmjv4lElr92Fl58uyq8AO7mNtk8dhDD6Bdznc+WB+3ymufYylg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7kGZoSyXZZ/wdf+5r05KceK5nK8C5QJIu8SW3ZeCRNs=;
- b=fsSPxijJlJubUUJ9c7ZadqmGXnlwPQ6Rktj3I8jQSfwQXtgIkbGUTCXbUa7VGKvm7DEK9laB/7VvzgsIXA84SbOmzHKHfPfueFaRmaCchpezKD77jS0SxM3x9RB/+1YufSNv+tCrgR0NLQM0ppQhIQAaZ7zBldyFmVq571AHtnYu7TDglJtZxQloZyVJBVwGnHYNlg9MrzN+WDDRZODU4T3eSwJpEQx/eKgT/lxqkQUAdAP/aGFoO/Ywr4hVQzj01M2/1B+6XKF6Dq0WEikvkLnnH3UYrkm8Kx67wOFtVMPB76KP7T69Zh9V/YIcu6JEwit6gWNuwAKQOYze+dmfMQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7kGZoSyXZZ/wdf+5r05KceK5nK8C5QJIu8SW3ZeCRNs=;
- b=I4H2ACEXsYNzzmQkoRZGvlBznQqHLDEbpyzDZFKHIdf6yPT1DIyYG7dySkitxdLgagmSAanVx9xiXWGJqAYHrRKaxvF0h5qel0vFPCx1A/GgTK2d3pXTQ/vXxC8kQlDTeoEgd5ei9n2sNwcOFqsWjQsY2XhyJYd2KWVdrCWEir4=
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by CY8PR12MB7220.namprd12.prod.outlook.com (2603:10b6:930:58::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Mon, 1 Apr
- 2024 16:37:45 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::8099:8c89:7b48:beed]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::8099:8c89:7b48:beed%7]) with mapi id 15.20.7409.042; Mon, 1 Apr 2024
- 16:37:45 +0000
-Message-ID: <c2caebaa-7735-4c42-9ec1-1426f5896016@amd.com>
-Date: Mon, 1 Apr 2024 12:37:42 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: Proposal to add CRIU support to DRM render nodes
-To: Tvrtko Ursulin <tursulin@ursulin.net>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
- criu@openvz.org
-Cc: "Errabolu, Ramesh" <Ramesh.Errabolu@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-References: <03a9977c-2044-40c7-9688-9ab326abb81c@amd.com>
- <81c7b2c3-564a-4946-832b-5394cd19a7b7@ursulin.net>
- <b5134b40-6e84-47c9-a4f2-2a2c0faa9481@ursulin.net>
- <330606ad-4236-4b2c-9606-b51ec6567a25@amd.com>
- <a9b7e59f-7269-414b-a9f9-68107dc81c8b@ursulin.net>
- <2e2a49bc-1698-4b61-88ad-0ee53ad4d774@ursulin.net>
- <13062848-6538-443f-b204-e61ac4f1d4ec@amd.com>
- <f1ad96c0-2c35-4b5b-bf82-75884e3ac960@ursulin.net>
-Content-Language: en-US
-From: Felix Kuehling <felix.kuehling@amd.com>
-Organization: AMD Inc.
-In-Reply-To: <f1ad96c0-2c35-4b5b-bf82-75884e3ac960@ursulin.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQBPR0101CA0237.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:66::32) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB9C410F300
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Apr 2024 16:41:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1711989699;
+ bh=GmMKXez69kSL48iej+YdLmThm5G0B2vjF5PSzV9APbk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=th/fAgljXfaCEvK0/8uCeXDTBMrt7E0gUp48+WRj8vTRDtaLTwLvw751pQdpiMaWq
+ 68M4UDKr234q9wV8rlZfObwL44BFK4TGT2LVVdw7dvtCiwCcV7MGX9bgFT8T2LYlK+
+ /zwr/+srEB14kQaXYKzJ0ERksE6Q4ID8k+8ytcEu/5SDOBoe+KCawzfpIvYi6dPV43
+ qiytnejKTjcrkwwm2UuSbB2AQoJAehwHfNPqKG4HPvL/j8NtU/+90pKov/Dj2jovle
+ HRkaoBXT9D0EQl3hr8KtDJfE1I8NLQlw5F9CW9jHnVbIH/eOUbMmiNz6KIXBRTxxtU
+ WhBW9zCbG1UPg==
+Received: from [100.95.196.25] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: koike)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 8B314378143B;
+ Mon,  1 Apr 2024 16:41:33 +0000 (UTC)
+Message-ID: <1cd93712-7728-4269-838a-0f4cf13aa58e@collabora.com>
+Date: Mon, 1 Apr 2024 13:41:31 -0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|CY8PR12MB7220:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XWhYJKre8fJU8oOYzkBTMDEWCUL1JHOgOhxk1BuSQ75TypneCpXYejAfeS/ceP6Ro4W5lUy77igyCC7z3wB+qNkQkFhNT3X2vRfZO/cYLwpwzbzzahDmU90gPFWO6yI0hthSL+7njJD78lls5g5J81A/Sizx32gnB2VK3Oodp7j/tUzeBCt+At1jTC2XBlLdu1CoLHwld4S7BmCQfsacijERhj+fyivqBhr4vDEskJzJVMxojmJLHDGFD60ctxXX342lGSOzuKQeMKAsyf93d5G656L8qIXhBKdDjBpyY1HlmcjCZJkDw6AvAO8dfI9+e4WrP4G9j9gI7YzmiaYUowJu//thUOX02q6HVmTe4iEMMc07JBM9bp2Ph9LYtXQxzFy0h1iS0/rNT8GXraaZ4v6tJCbq07cx8EmVzX/qKAzmcW/4Zpq/zkoE5i7JDGiGjlTg73yZgkhaemjeZ2D4Gq10sNQBoq/CxnwStMXt4thg+mhg5NGmPchqhrjdbd758gEOd4AViS+qtkuNEOQaaZCt0E8gtXevG47XVPzkqpoIGGYMGW7H8MVA5GLli0lClfq+tpVY5hdZJy5hx1i4x5flrczvF4g4Nt2azGzyq4+2nqEAEW9aKbIsEcXGQsssphAXqDX662AXgZ12HqC1DBO+aDC2aBkbbKA8bwmJVsg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366007)(376005)(1800799015)(3613699003); DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZlAwMGVBQUI5WGVTU3ZOMEhyNHpzU1NkY1kybU1sNFRISmlab2ZOcXI4MXI2?=
- =?utf-8?B?N3ozcmRrd0pKTVNkSnVPaC9uZTIyb3pQZGVIMEpmUUI4b0oxTjd0WnBxc1ha?=
- =?utf-8?B?RXpZTWZPSjJDTG1OUlFCWVduY3JvVXVVZkJhMzdUSzh3Wktpd0NnRWcyUFFn?=
- =?utf-8?B?MElpMVRJTkdSZ2ZnUTBnZGhiMlBHN2tyQU9lancvcU1FTUlrQjd6ZVV6aE9a?=
- =?utf-8?B?djRKRWQwd0gzcS9GcWdwcGFEb0c0YnJXTjA1VXRhOFR3SG9Uc09rOHVpYUJw?=
- =?utf-8?B?aU5NRzJOZnV3OGpJMnJDeHRieGIzSGRRR05YeE85cTVlTEM2WGp0NXROLytk?=
- =?utf-8?B?OXgyT1VGUXJiSGtKZnlpRjhTYVZIRHovcGZwWVZXM0s1L3U5clppbTNwSXg3?=
- =?utf-8?B?dzMyOTZzVDkvWkpTWGY4S29vbFRBak9DTjJ3bjMxb1pBMlRIcFV6YVg1R1hD?=
- =?utf-8?B?QWZrMW1Id09iUVRMQkVBRHd6NTM3a0FFOHZsNXMxRFh4VElzVEY4RWhqalQz?=
- =?utf-8?B?UkdGSFZ0MnlJUTFpQUJSZy9mOU1KMUU2VkJMRmtTUWFHd1N3Vkh0eVZlR2xM?=
- =?utf-8?B?QzRkMEF5d2k4TmpYd3VHWjdUMU45aDNyanRxNmcrWU51NVFXZUVsa1ZPdHRl?=
- =?utf-8?B?cU0ySlBJK05SWFcrK3lxaGtEc0RlZDNvTkc2Y3d4WWg2YjA1NkhkYjBKUVhE?=
- =?utf-8?B?V1dYaXZRUHZJUVRwNFllcmRZekcyZzVjMU5wQk1nQmNFbUpsZGR6ZGZraTcw?=
- =?utf-8?B?L2prTUU2WkRQaEdNczE1VlNidi9yL0dyQkQ1ZE1hVnBxTTM4QTNqN1l1a1VG?=
- =?utf-8?B?b2RBZHhGWHFhZm5TM0dkaTQyN0FlL2V2UmY0WEFwMzJOSkVrUzZUY2duRXJ4?=
- =?utf-8?B?N3EzdU9aRkJDNE1aZlk4c1dGZlc2V1RNQlJaMHdTS0RzV2J2U1I4amQ2WVBG?=
- =?utf-8?B?cFNsdjZYWHR1UHp2YW9VM25jbFRpd0J3MWRyVnIxM2t5LzRCb2dTUmlGV3ZE?=
- =?utf-8?B?Z2VwMldDYkM0NE5iUmh0bTIxUUNrdVZyUWRKRE9WZk04eUJnODZGY0grYVE2?=
- =?utf-8?B?cklod2NNcFEzalUyMmpGb2lxbmVCNTZQeFN5cEJtRXZjdUdNb2tKVDk4R0pm?=
- =?utf-8?B?cUE0b2I3SjVOdWdPYmg3dUYxS2c4RVdxNFJkamwybHplRFhaNzE2TmxJc1V6?=
- =?utf-8?B?SXcxU3lveGlQVnljck95RWgyRGZOb0YvdE9qZEhTNTk5bU1vY20zalI4QlNj?=
- =?utf-8?B?Zkt1dmNiQ0pKc1hLR2xjcmhWekxReHpLanFYNXg2a1hlNnVCMUZTQlgrbkFn?=
- =?utf-8?B?MERIRWNZNkd2Rm52c3VpOW1RM2ZEZXAzZzFydEpvWmpGRHFEbVIxa2hCNGZn?=
- =?utf-8?B?dWJSQUlQWXNuYWVXdUo4Qm9wV21GVUYvanpYRzR2QWtkbEU4YTl5UVFBVlVK?=
- =?utf-8?B?OERyYnBmMzB2TTE5dmxqT0lBQW9xRjRieFROZVJDQ044MUFRdk9mU3g5eUtO?=
- =?utf-8?B?b3NEbG5uU2Y3QkZZL1loZlFPQUV6Y1czYXljWFB0MHJmVjM4cDlRWUxMMlJU?=
- =?utf-8?B?ZUJEZmR2NUxlWjRtbm4vdFFDaE9QSFI4QVFtM3RxYkEzeVhZZFgrMTYvMXJm?=
- =?utf-8?B?UnQ0SThkZGNIN0pkRG8zZytBdjY4S1lKdlprT2d1WlUweFdiakFqaFJZWWFL?=
- =?utf-8?B?OFBhT0VjdjNoenhwZXQvaG0xWkdkVkljTVpYVXpJR2wybmVIYUo5NnZEYVk0?=
- =?utf-8?B?SnNaWUlwTnA2ZHRsWlNNT2Rpbm5pR2RSWVF6a09rRmpEeTRqclhMNFBJbnNV?=
- =?utf-8?B?Snk1SHJvZnlBQzBvTGpQUWdMaDhpTm5BWVJvQlJsQnpvU0V3K2NCekZYTFBS?=
- =?utf-8?B?c2IramhNcm9hWU9LelY5R3A5OVBqSXdKck1rTEtsWlA4Qkh2Y3Z4NDRveHBq?=
- =?utf-8?B?c2krTVZ0QTVSZTEvTVczaEFRaEgzYzMvOWgwMmZ6SmR5dzNEbFRnYWdWRFdC?=
- =?utf-8?B?UUVhYVZJT3FlV3BqRWEzbndNa3RpSDg0QnM0aFhTTXhPTmZxUVJ3ekpPNEl2?=
- =?utf-8?B?ampwNk94aEJNM2dnYWtOK1RGckpESDdFZU1GcVZvUzVGTE1RMVd0d005SDBH?=
- =?utf-8?Q?gqqP9SvU1T9gW97bkvj6YSpfb?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78a60f4c-74d4-4f69-5e60-08dc526a0ec4
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2024 16:37:44.9277 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XoB1F5VVaocMB9oYIF6zijnMauw1rhY/iaue/jFlO9PB8JgJqLFW4/HQHbabT8NMuhM97/ouMhexP7qkQnQBZw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7220
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 03/10] drm/ci: uprev IGT and update testlist
+To: Vignesh Raman <vignesh.raman@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Cc: daniels@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
+ emma@anholt.net, robdclark@gmail.com, david.heidelberg@collabora.com,
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
+ melissa.srw@gmail.com, mairacanal@riseup.net, mcanal@igalia.com,
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20240401061235.192713-1-vignesh.raman@collabora.com>
+ <20240401061235.192713-4-vignesh.raman@collabora.com>
+Content-Language: en-US
+From: Helen Koike <helen.koike@collabora.com>
+In-Reply-To: <20240401061235.192713-4-vignesh.raman@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,544 +68,834 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-04-01 11:09, Tvrtko Ursulin wrote:
->
-> On 28/03/2024 20:42, Felix Kuehling wrote:
->>
->> On 2024-03-28 12:03, Tvrtko Ursulin wrote:
->>>
->>> Hi Felix,
->>>
->>> I had one more thought while browsing around the amdgpu CRIU plugin. 
->>> It appears it relies on the KFD support being compiled in and 
->>> /dev/kfd present, correct? AFAICT at least, it relies on that to 
->>> figure out the amdgpu DRM node.
->>>
->>> In would be probably good to consider designing things without that 
->>> dependency. So that checkpointing an application which does not use 
->>> /dev/kfd is possible. Or if the kernel does not even have the KFD 
->>> support compiled in.
->>
->> Yeah, if we want to support graphics apps that don't use KFD, we 
->> should definitely do that. Currently we get a lot of topology 
->> information from KFD, not even from the /dev/kfd device but from the 
->> sysfs nodes exposed by KFD. We'd need to get GPU device info from the 
->> render nodes instead. And if KFD is available, we may need to 
->> integrate both sources of information.
->>
->>
->>>
->>> It could perhaps mean no more than adding some GPU discovery code 
->>> into CRIU. Which shuold be flexible enough to account for things 
->>> like re-assigned minor numbers due driver reload.
->>
->> Do you mean adding GPU discovery to the core CRIU, or to the plugin. 
->> I was thinking this is still part of the plugin.
->
-> Yes I agree. I was only thinking about adding some DRM device 
-> discovery code in a more decoupled fashion from the current plugin, 
-> for both the reason discussed above (decoupling a bit from reliance on 
-> kfd sysfs), and then also if/when a new DRM driver might want to 
-> implement this the code could be move to some common plugin area.
->
-> I am not sure how feasible that would be though. The "gpu id" concept 
-> and it's matching in the current kernel code and CRIU plugin - is that 
-> value tied to the physical GPU instance or how it works?
-
-The concept of the GPU ID is that it's stable while the system is up, 
-even when devices get added and removed dynamically. It was baked into 
-the API early on, but I don't think we ever fully validated device hot 
-plug. I think the closest we're getting is with our latest MI GPUs and 
-dynamic partition mode change.
-
-This also highlights another aspect on those spatially partitioned GPUs. 
-GPU IDs identify device partitions, not devices. Similarly, each 
-partition has its own render node, and the KFD topology info in sysfs 
-points to the render-minor number corresponding to each GPU ID.
-
-Regards,
-   Felix
 
 
->
->>> Otherwise I am eagerly awaiting to hear more about the design 
->>> specifics around dma-buf handling. And also seeing how to extend to 
->>> other DRM related anonymous fds.
->>
->> I've been pretty far under-water lately. I hope I'll find time to 
->> work on this more, but it's probably going to be at least a few weeks.
->
-> Got it.
->
-> Regards,
->
-> Tvrtko
->
->>
->> Regards,
->>    Felix
->>
->>
->>>
->>> Regards,
->>>
->>> Tvrtko
->>>
->>> On 15/03/2024 18:36, Tvrtko Ursulin wrote:
->>>>
->>>> On 15/03/2024 02:33, Felix Kuehling wrote:
->>>>>
->>>>> On 2024-03-12 5:45, Tvrtko Ursulin wrote:
->>>>>>
->>>>>> On 11/03/2024 14:48, Tvrtko Ursulin wrote:
->>>>>>>
->>>>>>> Hi Felix,
->>>>>>>
->>>>>>> On 06/12/2023 21:23, Felix Kuehling wrote:
->>>>>>>> Executive Summary: We need to add CRIU support to DRM render 
->>>>>>>> nodes in order to maintain CRIU support for ROCm application 
->>>>>>>> once they start relying on render nodes for more GPU memory 
->>>>>>>> management. In this email I'm providing some background why we 
->>>>>>>> are doing this, and outlining some of the problems we need to 
->>>>>>>> solve to checkpoint and restore render node state and shared 
->>>>>>>> memory (DMABuf) state. I have some thoughts on the API design, 
->>>>>>>> leaning on what we did for KFD, but would like to get feedback 
->>>>>>>> from the DRI community regarding that API and to what extent 
->>>>>>>> there is interest in making that generic.
->>>>>>>>
->>>>>>>> We are working on using DRM render nodes for virtual address 
->>>>>>>> mappings in ROCm applications to implement the CUDA11-style VM 
->>>>>>>> API and improve interoperability between graphics and compute. 
->>>>>>>> This uses DMABufs for sharing buffer objects between KFD and 
->>>>>>>> multiple render node devices, as well as between processes. In 
->>>>>>>> the long run this also provides a path to moving all or most 
->>>>>>>> memory management from the KFD ioctl API to libdrm.
->>>>>>>>
->>>>>>>> Once ROCm user mode starts using render nodes for virtual 
->>>>>>>> address management, that creates a problem for checkpointing 
->>>>>>>> and restoring ROCm applications with CRIU. Currently there is 
->>>>>>>> no support for checkpointing and restoring render node state, 
->>>>>>>> other than CPU virtual address mappings. Support will be needed 
->>>>>>>> for checkpointing GEM buffer objects and handles, their GPU 
->>>>>>>> virtual address mappings and memory sharing relationships 
->>>>>>>> between devices and processes.
->>>>>>>>
->>>>>>>> Eventually, if full CRIU support for graphics applications is 
->>>>>>>> desired, more state would need to be captured, including 
->>>>>>>> scheduler contexts and BO lists. Most of this state is 
->>>>>>>> driver-specific.
->>>>>>>>
->>>>>>>> After some internal discussions we decided to take our design 
->>>>>>>> process public as this potentially touches DRM GEM and DMABuf 
->>>>>>>> APIs and may have implications for other drivers in the future.
->>>>>>>>
->>>>>>>> One basic question before going into any API details: Is there 
->>>>>>>> a desire to have CRIU support for other DRM drivers?
->>>>>>>
->>>>>>> This sounds like a very interesting feature on the overall, 
->>>>>>> although I cannot answer on the last question here.
->>>>>>
->>>>>> I forgot to finish this thought. I cannot answer / don't know of 
->>>>>> any concrete plans, but I think feature is pretty cool and if 
->>>>>> amdgpu gets it working I wouldn't be surprised if other drivers 
->>>>>> would get interested.
->>>>>
->>>>> Thanks, that's good to hear!
->>>>>
->>>>>
->>>>>>
->>>>>>> Funnily enough, it has a tiny relation to an i915 feature I 
->>>>>>> recently implemented on Mesa's request, which is to be able to 
->>>>>>> "upload" the GPU context from the GPU hang error state and 
->>>>>>> replay the hanging request. It is kind of (at a stretch) a very 
->>>>>>> special tiny subset of checkout and restore so I am not 
->>>>>>> mentioning it as a curiosity.
->>>>>>>
->>>>>>> And there is also another partical conceptual intersect with the 
->>>>>>> (at the moment not yet upstream) i915 online debugger. This part 
->>>>>>> being in the area of discovering and enumerating GPU resources 
->>>>>>> beloning to the client.
->>>>>>>
->>>>>>> I don't see an immediate design or code sharing opportunities 
->>>>>>> though but just mentioning.
->>>>>>>
->>>>>>> I did spend some time reading your plugin and kernel 
->>>>>>> implementation out of curiousity and have some comments and 
->>>>>>> questions.
->>>>>>>
->>>>>>>> With that out of the way, some considerations for a possible 
->>>>>>>> DRM CRIU API (either generic of AMDGPU driver specific): The 
->>>>>>>> API goes through several phases during checkpoint and restore:
->>>>>>>>
->>>>>>>> Checkpoint:
->>>>>>>>
->>>>>>>>  1. Process-info (enumerates objects and sizes so user mode can 
->>>>>>>> allocate
->>>>>>>>     memory for the checkpoint, stops execution on the GPU)
->>>>>>>>  2. Checkpoint (store object metadata for BOs, queues, etc.)
->>>>>>>>  3. Unpause (resumes execution after the checkpoint is complete)
->>>>>>>>
->>>>>>>> Restore:
->>>>>>>>
->>>>>>>>  1. Restore (restore objects, VMAs are not in the right place 
->>>>>>>> at this time)
->>>>>>>>  2. Resume (final fixups after the VMAs are sorted out, resume 
->>>>>>>> execution)
->>>>>>>
->>>>>>> Btw is check-pointing guaranteeing all relevant activity is 
->>>>>>> idled? For instance dma_resv objects are free of fences which 
->>>>>>> would need to restored for things to continue executing 
->>>>>>> sensibly? Or how is that handled?
->>>>>
->>>>> In our compute use cases, we suspend user mode queues. This can 
->>>>> include CWSR (compute-wave-save-restore) where the state of 
->>>>> in-flight waves is stored in memory and can be reloaded and 
->>>>> resumed from memory later. We don't use any fences other than 
->>>>> "eviction fences", that are signaled after the queues are 
->>>>> suspended. And those fences are never handed to user mode. So we 
->>>>> don't need to worry about any fence state in the checkpoint.
->>>>>
->>>>> If we extended this to support the kernel mode command submission 
->>>>> APIs, I would expect that we'd wait for all current submissions to 
->>>>> complete, and stop new ones from being sent to the HW before 
->>>>> taking the checkpoint. When we take the checkpoint in the CRIU 
->>>>> plugin, the CPU threads are already frozen and cannot submit any 
->>>>> more work. If we wait for all currently pending submissions to 
->>>>> drain, I think we don't need to save any fence state because all 
->>>>> the fences will have signaled. (I may be missing some intricacies 
->>>>> and I'm afraid it may not be that simple in reality, but that's my 
->>>>> opening bid. ;)
->>>>
->>>> It feels feasible to me too, for the normally behaving clients at 
->>>> least.
->>>>
->>>> Presumably, given that the whole checkpointing is not instant, it 
->>>> would be okay to wait a second or two longer for the in-progress 
->>>> submissions complete. After which kernel would need to prune all 
->>>> signalled fences from the respective container objects before 
->>>> checkpointing.
->>>>
->>>> For the "misbehaving" clients who have perhaps queued up too much 
->>>> work, either still in the scheduler with unsatisfied dependencies, 
->>>> or already submitted to the hardware and/or driver backend, is 
->>>> there a timeout concept in CRIU so it would be possible to say 
->>>> something like "try to checkpoint but if the kernel says no time 
->>>> period t then give up"?
->>>>
->>>>>>>> For some more background about our implementation in KFD, you 
->>>>>>>> can refer to this whitepaper: 
->>>>>>>> https://github.com/checkpoint-restore/criu/blob/criu-dev/plugins/amdgpu/README.md
->>>>>>>>
->>>>>>>> Potential objections to a KFD-style CRIU API in DRM render 
->>>>>>>> nodes, I'll address each of them in more detail below:
->>>>>>>>
->>>>>>>>   * Opaque information in the checkpoint data that user mode can't
->>>>>>>>     interpret or do anything with
->>>>>>>>   * A second API for creating objects (e.g. BOs) that is 
->>>>>>>> separate from
->>>>>>>>     the regular BO creation API
->>>>>>>>   * Kernel mode would need to be involved in restoring BO sharing
->>>>>>>>     relationships rather than replaying BO creation, export and 
->>>>>>>> import
->>>>>>>>     from user mode
->>>>>>>>
->>>>>>>> # Opaque information in the checkpoint
->>>>>>>>
->>>>>>>> This comes out of ABI compatibility considerations. Adding any 
->>>>>>>> new objects or attributes to the driver/HW state that needs to 
->>>>>>>> be checkpointed could potentially break the ABI of the CRIU 
->>>>>>>> checkpoint/restore ioctl if the plugin needs to parse that 
->>>>>>>> information. Therefore, much of the information in our KFD CRIU 
->>>>>>>> ioctl API is opaque. It is written by kernel mode in the 
->>>>>>>> checkpoint, it is consumed by kernel mode when restoring the 
->>>>>>>> checkpoint, but user mode doesn't care about the contents or 
->>>>>>>> binary layout, so there is no user mode ABI to break. This is 
->>>>>>>> how we were able to maintain CRIU support when we added the SVM 
->>>>>>>> API to KFD without changing the CRIU plugin and without 
->>>>>>>> breaking our ABI.
->>>>>>>>
->>>>>>>> Opaque information may also lend itself to API abstraction, if 
->>>>>>>> this becomes a generic DRM API with driver-specific callbacks 
->>>>>>>> that fill in HW-specific opaque data.
->>>>>>>
->>>>>>> This feels sound in principle to me. Fundamentally the state is 
->>>>>>> very hardware specfic, and/or driver version specific, so I 
->>>>>>> don't see anything could be gained in practice by making it much 
->>>>>>> less opaque. (Apart from making things more complicated.)
->>>>>>>
->>>>>>> I was however unsure of the current split of how you dump buffer 
->>>>>>> objects with some data in the defined bo structure, and some in 
->>>>>>> completely opaque private data. Is there a benefit to that 
->>>>>>> split, or maybe in other words, is there a benefit on having 
->>>>>>> part transparent and part opaque for buffer objects?
->>>>>
->>>>> Some of the buffer object state is needed by the plugin. E.g. the 
->>>>> size and mmap offset are needed to match VMAs with BOs. I'd have 
->>>>> to review the plugin in detail to prove that all the fields are, 
->>>>> in fact, needed by the plugin, but that was the intent. Anything 
->>>>> that the plugin doesn't need to know should be in the opaque data 
->>>>> structures.
->>>>
->>>> Right, got it.
->>>>
->>>> Would it make sense to make the opaque data in the same block as 
->>>> the defined one? I mean instead of separating the two in the binary 
->>>> image for instance have struct kfd_criu_bo_bucket have a trailing 
->>>> priv_data blob? Maybe it is too late now if the image format is not 
->>>> versioned or something.
->>>>
->>>>>>> To slightly touch upon the question of whether this could become 
->>>>>>> a generic DRM API. It feels it would be hard to do it from the 
->>>>>>> start. What sounds more feasible is if/when generic looking 
->>>>>>> helpers can be spotted while developing the RFC then potentially 
->>>>>>> structure the code they can easily be promoted to shared/common 
->>>>>>> at some future moment.
->>>>>
->>>>> Yes, that's how this usually goes, in my experience. Thanks for 
->>>>> confirming.
->>>>>
->>>>>
->>>>>>>
->>>>>>>> # Second API for creating objects
->>>>>>>>
->>>>>>>> Creating BOs and other objects when restoring a checkpoint 
->>>>>>>> needs more information than the usual BO alloc and similar APIs 
->>>>>>>> provide. For example, we need to restore BOs with the same GEM 
->>>>>>>> handles so that user mode can continue using those handles 
->>>>>>>> after resuming execution. If BOs are shared through DMABufs 
->>>>>>>> without dynamic attachment, we need to restore pinned BOs as 
->>>>>>>> pinned. Validation of virtual addresses and handling MMU 
->>>>>>>> notifiers must be suspended until the virtual address space is 
->>>>>>>> restored. For user mode queues we need to save and restore a 
->>>>>>>> lot of queue execution state so that execution can resume cleanly.
->>>>>>>
->>>>>>> This also sounds justified to me. Restore creating all internal 
->>>>>>> objects is definitely special and sounds better to add uapi to 
->>>>>>> create them directly with the correct properties, than to add 
->>>>>>> uapi to adjust internal properties after creation. And in case 
->>>>>>> you would always need some new uapi - so at least to adjust 
->>>>>>> after creation. At which point you may have both in one. 
->>>>>>> Internally implementation can be split or common, whatever makes 
->>>>>>> sense for a given object type, but new uapi definitely sounds is 
->>>>>>> required.
->>>>>>>> # Restoring buffer sharing relationships
->>>>>>>>
->>>>>>>> Different GEM handles in different render nodes and processes 
->>>>>>>> can refer to the same underlying shared memory, either by 
->>>>>>>> directly pointing to the same GEM object, or by creating an 
->>>>>>>> import attachment that may get its SG tables invalidated and 
->>>>>>>> updated dynamically through dynamic attachment callbacks. In 
->>>>>>>> the latter case it's obvious, who is the exporter and who is 
->>>>>>>> the importer. In the first case, either one could be the 
->>>>>>>> exporter, and it's not clear who would need to create the BO 
->>>>>>>> and who would need to 
->>>>>>>
->>>>>>> To see if I follow the former case correctly.
->>>>>>>
->>>>>>> This could be two clients A and B, where B has imported a 
->>>>>>> dma-buf shared BO from A and has since closed the dma-buf fd? 
->>>>>>> Which results in a single BO with reference count of 2 and 
->>>>>>> obj->import_attach unset. History of who created the object is 
->>>>>>> lost.
->>>>>
->>>>> Yes. In the amdgpu driver this happens when the exporter and 
->>>>> import device are the same.
->>>>>
->>>>>
->>>>>>>
->>>>>>> In fact it could even be that two imported objects remain 
->>>>>>> (clients A, B and C) and A, who originally created the BO, has 
->>>>>>> since fully released it. So any kind of "creator" tracking if 
->>>>>>> added wouldn't be fully reliable either.
->>>>>
->>>>> That's a good point.
->>>>>
->>>>>
->>>>>>>
->>>>>>>> import it when restoring the checkpoint. To further complicate 
->>>>>>>> things, multiple processes in a checkpoint get restored 
->>>>>>>> concurrently. So there is no guarantee that an exporter has 
->>>>>>>> restored a shared BO at the time an importer is trying to 
->>>>>>>> restore its import.
->>>>>>>>
->>>>>>>> A proposal to deal with these problems would be to treat 
->>>>>>>> importers and exporters the same. Whoever restores first, ends 
->>>>>>>> up creating the BO and potentially attaching to it. The other 
->>>>>>>> process(es) can find BOs that were already restored by another 
->>>>>>>> process by looking it up with a unique ID that could be based 
->>>>>>>> on the DMABuf inode number. An alternative would be a two-pass 
->>>>>>>> approach that needs to restore BOs on two passes:
->>>>>>>>
->>>>>>>>  1. Restore exported BOs
->>>>>>>>  2. Restore imports
->>>>>>>>
->>>>>>>> With some inter-process synchronization in CRIU itself between 
->>>>>>>> these two passes. This may require changes in the core CRIU, 
->>>>>>>> outside our plugin. Both approaches depend on identifying BOs 
->>>>>>>> with some unique ID that could be based on the DMABuf inode 
->>>>>>>> number in the checkpoint. However, we would need to identify 
->>>>>>>> the processes in the same restore session, possibly based on 
->>>>>>>> parent/child process relationships, to create a scope where 
->>>>>>>> those IDs are valid during restore.
->>>>>>>
->>>>>>> If my understanding above is on the right track, then I think 
->>>>>>> this is the only thing which can be done (for all scenarios).
->>>>>
->>>>> I presented two alternatives. I think you're in favor of the first 
->>>>> one, where it doesn't matter who is the importer and exporter. I 
->>>>> think the two-pass approach requires that you can identify an 
->>>>> exporter. And as you pointed out, the exporter may already have 
->>>>> dropped their reference to the BO.
->>>>
->>>> Yep.
->>>>
->>>>>>> I also *think* it would be safe. At least at the moment I cannot 
->>>>>>> think what could go wrong. Semantics are that it doesn't really 
->>>>>>> matter who created the object.
->>>>>
->>>>> I would agree. What matters is that the object is recreated on the 
->>>>> correct device, and that all the direct references and import 
->>>>> attachments pointing to it are restored.
->>>>>
->>>>>
->>>>>>>
->>>>>>>> Finally, we would also need to checkpoint and restore DMABuf 
->>>>>>>> file descriptors themselves. These are anonymous file 
->>>>>>>> descriptors. The CRIU plugin could probably be taught to 
->>>>>>>> recreate them from the original exported BO based on the inode 
->>>>>>>> number that could be queried with fstat in the checkpoint. It 
->>>>>>>> would need help from the render node CRIU API to find the right 
->>>>>>>> BO from the inode, which may be from a different process in the 
->>>>>>>> same restore session.
->>>>>>>
->>>>>>> This part feels like it is breaking the component separation a 
->>>>>>> bit because even for buffers fully owned by amdgpu, strictly 
->>>>>>> speaking the dma-buf fd is not. At least my understanding from 
->>>>>>> the above is that you propose to attempt to import the fd, from 
->>>>>>> the kernel side, during the checkpoint process? Like:
->>>>>>>
->>>>>>> Checkpoint:
->>>>>>>
->>>>>>> CRIU for each anon fd:
->>>>>>>    amdgpu_plugin(fd)
->>>>>>>      -> attempt in kernel dma buf import (passes fd to kernel 
->>>>>>> via ioctl?)
->>>>>>>          -> is it ours? (no -> error)
->>>>>>>              -> create a record mapping fd number to amdgpu BO
->>>>>>>
->>>>>>> Restore:
->>>>>>>
->>>>>>> for each dma-buf fd record:
->>>>>>>     create BO if does not exists
->>>>>>>     export BO to same fd
->>>>>>>     close BO handle if not in regular BO handle records
->>>>>>>
->>>>>>> Or since you mention lookup by inode, that would need to be 
->>>>>>> dmabuf_plugin so it can lookup inodes in the private mount 
->>>>>>> space. However how would it co-operate with amdgpu_plugin is not 
->>>>>>> clear to me.
->>>>>
->>>>> The way I think about the ownership is, whichever driver created 
->>>>> the underlying BO owns the checkpointing of the dmabuf. You need 
->>>>> driver-specific information to link the dmabuf with the driver's 
->>>>> BO and you need the right driver to recreate the BO and the dmabuf 
->>>>> fd when restoring the checkpoint.
->>>>>
->>>>> It gets really interesting if you have an amdgpu plugin and an 
->>>>> i915 plugin, and they checkpoint an application that shares BOs 
->>>>> between the two devices through DMABufs. E.g. if i915 created a BO 
->>>>> and amdgpu imported it, then during restore, i915 needs to restore 
->>>>> the dmabuf before the amdgpu import of it can be restored. I think 
->>>>> that brings us back to a two-phase approach to restoring the 
->>>>> memory sharing relationships. Uff.
->>>>
->>>> I think this part of the discussion somewhat depends on the 
->>>> previous part about idling. If it is feasible to completely idle 
->>>> and prune, and fail if that is not happening quickly enough, then 
->>>> maybe there wouldn't be too much hierarchical state to save.
->>>>
->>>> Otherwise my idea was that there is a top-level drm_plugin.so which 
->>>> understands amdgpu fds, i915, syncobj, sync_file, and uses some new 
->>>> uapi to uniquely identify each, associate with the correct driver, 
->>>> and then internally dispatches to amdgpu|i915|dmabuf|..._plugin.so. 
->>>> Building the in memory representation of their relationships. As 
->>>> long as all objects and their relationships have been recorded I 
->>>> think everything could then be correctly restored.
->>>>
->>>> It is possible there is flaw in my thinking and that something in 
->>>> CRIU design would make this impossible? I think it would require 
->>>> the top-level drm_plugin.so to hold all state in memory until the 
->>>> whole checkpointing is done, and then verify something is not 
->>>> incomplete, failing it all if it was. (For instance one plugin 
->>>> discovered an reference to an object which was not discoverd by any 
->>>> other plugin or things like that.) May need some further tweaks to 
->>>> CRIU common code.
->>>>
->>>> Maybe I need to better understand how exactly you mean to query the 
->>>> DRM driver about random anonymous fds. I see it as a problem in the 
->>>> design, possibly even implementation, but maybe I am missing 
->>>> something which makes it not so. I mean even with my general idea I 
->>>> don't know how would one determine which driver to query about a 
->>>> particular anonymous inode.
->>>>
->>>>>> I later also realised that I was maybe increasing the scope for 
->>>>>> you here. :) You did state focus is ROCm applications which 
->>>>>> possibly doesn't care about dma-resv, fences, syncobjs etc?
->>>>>
->>>>> That's my focus for now. But I don't want to engineer a solution 
->>>>> that would preclude your use cases in the future.
->>>>>
->>>>>
->>>>>>
->>>>>> But I think the "how to handle dma-bufs" design question is still 
->>>>>> relevant and interesting. For example I had this thought that 
->>>>>> perhaps what would be needed is a CRIU plugin hierarchy.
->>>>>>
->>>>>> Because fundamentally we would be snapshoting a hierarcy of 
->>>>>> kernel objects belonging to different drivers (kfd, amdgpu, 
->>>>>> dma-buf, ...). And if one day someone would to try to handle dma 
->>>>>> fences and drm syncobjs, the argument for a hierarchial design 
->>>>>> would be even stronger I think.
->>>>>>
->>>>>> Something like a drm_plugin.so could call sub-plugins (amdgpu, 
->>>>>> dma-buf, sync file, ...) and internally build the representation 
->>>>>> of the whole state and how the relationship between the objects.
->>>>>
->>>>> Maybe. I guess a structure similar to libdrm makes sense. I'm not 
->>>>> sure it's strictly a hierarchy. Maybe more like some common code 
->>>>> shared by multiple GPU driver plugins. I think the common 
->>>>> checkpoint state is quite limited and restoring it requires the 
->>>>> GPU-specific drivers anyway.
->>>>>
->>>>> Also the idea of building a representation of the whole state 
->>>>> doesn't work well with the CRIU design, because "the whole state" 
->>>>> can include multiple processes that restore themselves 
->>>>> concurrently and only synchronize with each other in a few places 
->>>>> in the restore process. I feel, if we can work out how to 
->>>>> checkpoint and restore shared objects between processes, we can do 
->>>>> the same for shared objects between drivers without imposing a 
->>>>> strict hierarchy and some omniscient entity that needs to know 
->>>>> "the whole state".
->>>>
->>>> Okay, this continues on the same problem space as above. And you 
->>>> obviously know how CRIU works much better than me.
->>>>
->>>>>> With that kind of design there probably would be a need to define 
->>>>>> some common kernel side api and uapi, so all involved objects can 
->>>>>> be enumerated with some unique ids etc.
->>>>>>
->>>>>> Now.. the counter argument.. the more state from different 
->>>>>> drivers would one want to handle the bigger this project would 
->>>>>> get. Would it even be feasible is the question, to the point that 
->>>>>> it may be simpler to just run the workload in a VM via SR-IOV and 
->>>>>> simply hibernate the whole thin guest. :)
->>>>>
->>>>> Well, CRIU kind of tries to do that, but with containers instead 
->>>>> of VMs. ;)
->>>>
->>>> It would definitely be useful for hardware and drivers without 
->>>> SR-IOV support so lets hope it is doable. :)
->>>>
->>>> Regards,
->>>>
->>>> Tvrtko
+On 01/04/2024 03:12, Vignesh Raman wrote:
+> Uprev IGT and add amd, v3d, vc4 and vgem specific tests to
+> testlist and skip driver-specific tests. Also add testlist
+> to the MAINTAINERS file and update xfails.
+> 
+> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+
+lgtm
+
+Acked-by: Helen Koike <helen.koike@collabora.com>
+
+Thanks
+
+> ---
+> 
+> v3:
+>    - New patch in series to uprev IGT and update testlist.
+> 
+> v4:
+>    - Add testlists to the MAINTAINERS file and remove amdgpu xfails changes.
+> 
+> v5:
+>    - Keep single testlist and update xfails. Skip driver specific tests.
+> 
+> ---
+>   MAINTAINERS                                   |   8 +
+>   drivers/gpu/drm/ci/gitlab-ci.yml              |   2 +-
+>   drivers/gpu/drm/ci/testlist.txt               | 321 ++++++++++++++++++
+>   .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt |  25 +-
+>   .../drm/ci/xfails/amdgpu-stoney-flakes.txt    |  10 +-
+>   .../gpu/drm/ci/xfails/amdgpu-stoney-skips.txt |  23 +-
+>   drivers/gpu/drm/ci/xfails/i915-amly-skips.txt |   9 +-
+>   drivers/gpu/drm/ci/xfails/i915-apl-skips.txt  |   9 +-
+>   drivers/gpu/drm/ci/xfails/i915-cml-skips.txt  |   7 +
+>   drivers/gpu/drm/ci/xfails/i915-glk-skips.txt  |   9 +-
+>   drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt  |   9 +-
+>   drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt  |   9 +-
+>   drivers/gpu/drm/ci/xfails/i915-whl-skips.txt  |   9 +-
+>   .../drm/ci/xfails/mediatek-mt8173-skips.txt   |   6 +
+>   .../drm/ci/xfails/mediatek-mt8183-skips.txt   |   6 +
+>   .../gpu/drm/ci/xfails/meson-g12b-skips.txt    |   6 +
+>   .../gpu/drm/ci/xfails/msm-apq8016-skips.txt   |   5 +
+>   .../gpu/drm/ci/xfails/msm-apq8096-skips.txt   |   8 +-
+>   .../msm-sc7180-trogdor-kingoftown-skips.txt   |   6 +
+>   ...sm-sc7180-trogdor-lazor-limozeen-skips.txt |   6 +
+>   .../gpu/drm/ci/xfails/msm-sdm845-skips.txt    |   6 +
+>   .../drm/ci/xfails/rockchip-rk3288-skips.txt   |   9 +-
+>   .../drm/ci/xfails/rockchip-rk3399-skips.txt   |   7 +
+>   .../drm/ci/xfails/virtio_gpu-none-skips.txt   |   9 +-
+>   24 files changed, 511 insertions(+), 13 deletions(-)
+>   create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-skips.txt
+>   create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-skips.txt
+>   create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-skips.txt
+>   create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-skips.txt
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 3bc7e122a094..f7d0040a6c21 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1665,6 +1665,7 @@ L:	dri-devel@lists.freedesktop.org
+>   S:	Supported
+>   T:	git git://anongit.freedesktop.org/drm/drm-misc
+>   F:	Documentation/gpu/panfrost.rst
+> +F:	drivers/gpu/drm/ci/testlist.txt
+>   F:	drivers/gpu/drm/panfrost/
+>   F:	include/uapi/drm/panfrost_drm.h
+>   
+> @@ -6753,6 +6754,7 @@ S:	Maintained
+>   B:	https://gitlab.freedesktop.org/drm/msm/-/issues
+>   T:	git https://gitlab.freedesktop.org/drm/msm.git
+>   F:	Documentation/devicetree/bindings/display/msm/
+> +F:	drivers/gpu/drm/ci/testlist.txt
+>   F:	drivers/gpu/drm/ci/xfails/msm*
+>   F:	drivers/gpu/drm/msm/
+>   F:	include/uapi/drm/msm_drm.h
+> @@ -7047,6 +7049,7 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+>   F:	Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
+>   F:	Documentation/devicetree/bindings/display/amlogic,meson-vpu.yaml
+>   F:	Documentation/gpu/meson.rst
+> +F:	drivers/gpu/drm/ci/testlist.txt
+>   F:	drivers/gpu/drm/ci/xfails/meson*
+>   F:	drivers/gpu/drm/meson/
+>   
+> @@ -7160,6 +7163,7 @@ L:	dri-devel@lists.freedesktop.org
+>   L:	linux-mediatek@lists.infradead.org (moderated for non-subscribers)
+>   S:	Supported
+>   F:	Documentation/devicetree/bindings/display/mediatek/
+> +F:	drivers/gpu/drm/ci/testlist.txt
+>   F:	drivers/gpu/drm/ci/xfails/mediatek*
+>   F:	drivers/gpu/drm/mediatek/
+>   F:	drivers/phy/mediatek/phy-mtk-dp.c
+> @@ -7211,6 +7215,7 @@ L:	dri-devel@lists.freedesktop.org
+>   S:	Maintained
+>   T:	git git://anongit.freedesktop.org/drm/drm-misc
+>   F:	Documentation/devicetree/bindings/display/rockchip/
+> +F:	drivers/gpu/drm/ci/testlist.txt
+>   F:	drivers/gpu/drm/ci/xfails/rockchip*
+>   F:	drivers/gpu/drm/rockchip/
+>   
+> @@ -10739,6 +10744,7 @@ C:	irc://irc.oftc.net/intel-gfx
+>   T:	git git://anongit.freedesktop.org/drm-intel
+>   F:	Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon
+>   F:	Documentation/gpu/i915.rst
+> +F:	drivers/gpu/drm/ci/testlist.txt
+>   F:	drivers/gpu/drm/ci/xfails/i915*
+>   F:	drivers/gpu/drm/i915/
+>   F:	include/drm/i915*
+> @@ -18255,6 +18261,7 @@ C:	irc://irc.oftc.net/radeon
+>   T:	git https://gitlab.freedesktop.org/agd5f/linux.git
+>   F:	Documentation/gpu/amdgpu/
+>   F:	drivers/gpu/drm/amd/
+> +F:	drivers/gpu/drm/ci/testlist.txt
+>   F:	drivers/gpu/drm/ci/xfails/amd*
+>   F:	drivers/gpu/drm/radeon/
+>   F:	include/uapi/drm/amdgpu_drm.h
+> @@ -23303,6 +23310,7 @@ L:	dri-devel@lists.freedesktop.org
+>   L:	virtualization@lists.linux.dev
+>   S:	Maintained
+>   T:	git git://anongit.freedesktop.org/drm/drm-misc
+> +F:	drivers/gpu/drm/ci/testlist.txt
+>   F:	drivers/gpu/drm/ci/xfails/virtio*
+>   F:	drivers/gpu/drm/virtio/
+>   F:	include/uapi/linux/virtio_gpu.h
+> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
+> index 2f9a5e217f5c..d03d76692f0e 100644
+> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
+> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
+> @@ -5,7 +5,7 @@ variables:
+>     UPSTREAM_REPO: git://anongit.freedesktop.org/drm/drm
+>     TARGET_BRANCH: drm-next
+>   
+> -  IGT_VERSION: d2af13d9f5be5ce23d996e4afd3e45990f5ab977
+> +  IGT_VERSION: b0cc8160ebdc87ce08b7fd83bb3c99ff7a4d8610
+>   
+>     DEQP_RUNNER_GIT_URL: https://gitlab.freedesktop.org/anholt/deqp-runner.git
+>     DEQP_RUNNER_GIT_TAG: v0.15.0
+> diff --git a/drivers/gpu/drm/ci/testlist.txt b/drivers/gpu/drm/ci/testlist.txt
+> index 3377f002f8c5..8a5967a4b3bd 100644
+> --- a/drivers/gpu/drm/ci/testlist.txt
+> +++ b/drivers/gpu/drm/ci/testlist.txt
+> @@ -2759,3 +2759,324 @@ msm_submit@invalid-duplicate-bo-submit
+>   msm_submit@invalid-cmd-idx-submit
+>   msm_submit@invalid-cmd-type-submit
+>   msm_submit@valid-submit
+> +prime_vgem@basic-read
+> +prime_vgem@basic-write
+> +prime_vgem@basic-gtt
+> +prime_vgem@basic-blt
+> +prime_vgem@shrink
+> +prime_vgem@coherency-gtt
+> +prime_vgem@coherency-blt
+> +prime_vgem@sync
+> +prime_vgem@busy
+> +prime_vgem@wait
+> +prime_vgem@basic-fence-read
+> +prime_vgem@basic-fence-mmap
+> +prime_vgem@basic-fence-blt
+> +prime_vgem@basic-fence-flip
+> +prime_vgem@fence-read-hang
+> +prime_vgem@fence-write-hang
+> +prime_vgem@fence-flip-hang
+> +prime_vgem@fence-wait
+> +vgem_basic@unload
+> +vgem_basic@setversion
+> +vgem_basic@second-client
+> +vgem_basic@create
+> +vgem_basic@mmap
+> +vgem_basic@bad-flag
+> +vgem_basic@bad-pad
+> +vgem_basic@bad-handle
+> +vgem_basic@bad-fence
+> +vgem_basic@busy-fence
+> +vgem_basic@dmabuf-export
+> +vgem_basic@dmabuf-mmap
+> +vgem_basic@dmabuf-fence
+> +vgem_basic@dmabuf-fence-before
+> +vgem_basic@sysfs
+> +vgem_basic@debugfs
+> +vgem_slow@nohang
+> +amdgpu/amd_abm@dpms_cycle
+> +amdgpu/amd_abm@backlight_monotonic_basic
+> +amdgpu/amd_abm@backlight_monotonic_abm
+> +amdgpu/amd_abm@abm_enabled
+> +amdgpu/amd_abm@abm_gradual
+> +amdgpu/amd_bo@amdgpu_bo_export_import
+> +amdgpu/amd_bo@amdgpu_bo_metadata
+> +amdgpu/amd_bo@amdgpu_bo_map_unmap
+> +amdgpu/amd_bo@amdgpu_memory_alloc
+> +amdgpu/amd_bo@amdgpu_mem_fail_alloc
+> +amdgpu/amd_bo@amdgpu_bo_find_by_cpu_mapping
+> +amdgpu/amd_cp_dma_misc@GTT_to_VRAM-AMDGPU_HW_IP_GFX0
+> +amdgpu/amd_cp_dma_misc@GTT_to_VRAM-AMDGPU_HW_IP_COMPUTE0
+> +amdgpu/amd_cp_dma_misc@VRAM_to_GTT-AMDGPU_HW_IP_GFX0
+> +amdgpu/amd_cp_dma_misc@VRAM_to_GTT-AMDGPU_HW_IP_COMPUTE0
+> +amdgpu/amd_cp_dma_misc@VRAM_to_VRAM-AMDGPU_HW_IP_GFX0
+> +amdgpu/amd_cp_dma_misc@VRAM_to_VRAM-AMDGPU_HW_IP_COMPUTE0
+> +amdgpu/amd_dispatch@amdgpu-dispatch-test-compute-with-IP-COMPUTE
+> +amdgpu/amd_dispatch@amdgpu-dispatch-test-gfx-with-IP-GFX
+> +amdgpu/amd_dispatch@amdgpu-dispatch-hang-test-gfx-with-IP-GFX
+> +amdgpu/amd_dispatch@amdgpu-dispatch-hang-test-compute-with-IP-COMPUTE
+> +amdgpu/amd_dispatch@amdgpu-reset-test-gfx-with-IP-GFX-and-COMPUTE
+> +amdgpu/amd_hotplug@basic
+> +amdgpu/amd_hotplug@basic-suspend
+> +amdgpu/amd_jpeg_dec@amdgpu_cs_jpeg_decode
+> +amdgpu/amd_max_bpc@4k-mode-max-bpc
+> +amdgpu/amd_module_load@reload
+> +amdgpu/amd_plane@test-mpo-4k
+> +amdgpu/amd_plane@mpo-swizzle-toggle
+> +amdgpu/amd_plane@mpo-swizzle-toggle-multihead
+> +amdgpu/amd_plane@mpo-pan-rgb
+> +amdgpu/amd_plane@mpo-pan-rgb-multihead
+> +amdgpu/amd_plane@mpo-pan-nv12
+> +amdgpu/amd_plane@mpo-pan-nv12-multihead
+> +amdgpu/amd_plane@mpo-pan-p010
+> +amdgpu/amd_plane@mpo-pan-p010-multihead
+> +amdgpu/amd_plane@mpo-pan-multi-rgb
+> +amdgpu/amd_plane@mpo-pan-multi-nv12
+> +amdgpu/amd_plane@mpo-pan-multi-p010
+> +amdgpu/amd_plane@multi-overlay
+> +amdgpu/amd_plane@multi-overlay-invalid
+> +amdgpu/amd_plane@mpo-scale-rgb
+> +amdgpu/amd_plane@mpo-scale-rgb-multihead
+> +amdgpu/amd_plane@mpo-scale-nv12
+> +amdgpu/amd_plane@mpo-scale-nv12-multihead
+> +amdgpu/amd_plane@mpo-scale-p010
+> +amdgpu/amd_plane@mpo-scale-p010-multihead
+> +amdgpu/amd_pstate@amdgpu_pstate
+> +amdgpu/amd_subvp@dual-4k60
+> +amdgpu/amd_uvd_enc@uvd_enc_create
+> +amdgpu/amd_uvd_enc@amdgpu_uvd_enc_session_init
+> +amdgpu/amd_uvd_enc@amdgpu_uvd_enc_encode
+> +amdgpu/amd_uvd_enc@uvd_enc_destroy
+> +amdgpu/amd_vm@vmid-reserve-test
+> +amdgpu/amd_vm@amdgpu-vm-unaligned-map
+> +amdgpu/amd_vm@amdgpu-vm-mapping-test
+> +amdgpu/amd_assr@assr-links
+> +amdgpu/amd_assr@assr-links-dpms
+> +amdgpu/amd_assr@assr-links-suspend
+> +amdgpu/amd_bypass@8bpc-bypass-mode
+> +amdgpu/amd_cs_nop@cs-nops-with-nop-compute0
+> +amdgpu/amd_cs_nop@cs-nops-with-nop-gfx0
+> +amdgpu/amd_cs_nop@cs-nops-with-sync-compute0
+> +amdgpu/amd_cs_nop@cs-nops-with-sync-gfx0
+> +amdgpu/amd_cs_nop@cs-nops-with-fork-compute0
+> +amdgpu/amd_cs_nop@cs-nops-with-fork-gfx0
+> +amdgpu/amd_cs_nop@cs-nops-with-sync-fork-compute0
+> +amdgpu/amd_cs_nop@cs-nops-with-sync-fork-gfx0
+> +amdgpu/amd_dp_dsc@dsc-enable-basic
+> +amdgpu/amd_dp_dsc@dsc-slice-dimensions-change
+> +amdgpu/amd_dp_dsc@dsc-link-settings
+> +amdgpu/amd_dp_dsc@dsc-bpc
+> +amdgpu/amd_ilr@ilr-link-training-configs
+> +amdgpu/amd_ilr@ilr-policy
+> +amdgpu/amd_link_settings@link-training-configs
+> +amdgpu/amd_mem_leak@connector-suspend-resume
+> +amdgpu/amd_mem_leak@connector-hotplug
+> +amdgpu/amd_odm@odm-combine-2-to-1-4k144
+> +amdgpu/amd_prime@i915-to-amd
+> +amdgpu/amd_prime@amd-to-i915
+> +amdgpu/amd_prime@shrink
+> +amdgpu/amd_ras@RAS-basic
+> +amdgpu/amd_ras@RAS-query
+> +amdgpu/amd_ras@RAS-inject
+> +amdgpu/amd_ras@RAS-disable
+> +amdgpu/amd_ras@RAS-enable
+> +amdgpu/amd_syncobj@amdgpu_syncobj_timeline
+> +amdgpu/amd_vce_dec@amdgpu_cs_vce_create
+> +amdgpu/amd_vce_dec@amdgpu_cs_vce_encode
+> +amdgpu/amd_vce_dec@amdgpu_cs_vce_destroy
+> +amdgpu/amd_vpe@vpe-fence-test
+> +amdgpu/amd_vpe@vpe-blit-test
+> +amdgpu/amd_basic@memory-alloc
+> +amdgpu/amd_basic@userptr-with-IP-DMA
+> +amdgpu/amd_basic@cs-gfx-with-IP-GFX
+> +amdgpu/amd_basic@cs-compute-with-IP-COMPUTE
+> +amdgpu/amd_basic@cs-multi-fence-with-IP-GFX
+> +amdgpu/amd_basic@cs-sdma-with-IP-DMA
+> +amdgpu/amd_basic@semaphore-with-IP-GFX-and-IP-DMA
+> +amdgpu/amd_basic@eviction-test-with-IP-DMA
+> +amdgpu/amd_basic@sync-dependency-test-with-IP-GFX
+> +amdgpu/amd_color@crtc-linear-degamma
+> +amdgpu/amd_color@crtc-linear-regamma
+> +amdgpu/amd_color@crtc-lut-accuracy
+> +amdgpu/amd_deadlock@amdgpu-deadlock-sdma
+> +amdgpu/amd_deadlock@amdgpu-gfx-illegal-reg-access
+> +amdgpu/amd_deadlock@amdgpu-gfx-illegal-mem-access
+> +amdgpu/amd_deadlock@amdgpu-deadlock-gfx
+> +amdgpu/amd_deadlock@amdgpu-deadlock-compute
+> +amdgpu/amd_deadlock@amdgpu-deadlock-sdma-corrupted-header-test
+> +amdgpu/amd_deadlock@amdgpu-deadlock-sdma-slow-linear-copy
+> +amdgpu/amd_freesync_video_mode@freesync-base-to-various
+> +amdgpu/amd_freesync_video_mode@freesync-lower-to-higher
+> +amdgpu/amd_freesync_video_mode@freesync-non-preferred-to-freesync
+> +amdgpu/amd_freesync_video_mode@freesync-custom-mode
+> +amdgpu/amd_info@query-firmware-version
+> +amdgpu/amd_info@query-timestamp
+> +amdgpu/amd_info@query-timestamp-while-idle
+> +amdgpu/amd_mall@static-screen
+> +amdgpu/amd_mode_switch@mode-switch-first-last-pipe-0
+> +amdgpu/amd_mode_switch@mode-switch-first-last-pipe-1
+> +amdgpu/amd_mode_switch@mode-switch-first-last-pipe-2
+> +amdgpu/amd_mode_switch@mode-switch-first-last-pipe-3
+> +amdgpu/amd_mode_switch@mode-switch-first-last-pipe-4
+> +amdgpu/amd_mode_switch@mode-switch-first-last-pipe-5
+> +amdgpu/amd_pci_unplug@amdgpu_hotunplug_simple
+> +amdgpu/amd_pci_unplug@amdgpu_hotunplug_with_cs
+> +amdgpu/amd_pci_unplug@amdgpu_hotunplug_with_exported_bo
+> +amdgpu/amd_pci_unplug@amdgpu_hotunplug_with_exported_fence
+> +amdgpu/amd_psr@psr_enable
+> +amdgpu/amd_psr@psr_enable_null_crtc
+> +amdgpu/amd_psr@psr_su_mpo
+> +amdgpu/amd_psr@psr_su_ffu
+> +amdgpu/amd_psr@psr_su_cursor
+> +amdgpu/amd_psr@psr_su_cursor_mpo
+> +amdgpu/amd_psr@psr_su_mpo_scaling_1_5
+> +amdgpu/amd_psr@psr_su_mpo_scaling_0_75
+> +amdgpu/amd_security@amdgpu-security-alloc-buf-test
+> +amdgpu/amd_security@sdma-write-linear-helper-secure
+> +amdgpu/amd_security@gfx-write-linear-helper-secure
+> +amdgpu/amd_security@amdgpu-secure-bounce
+> +amdgpu/amd_uvd_dec@amdgpu_uvd_dec_create
+> +amdgpu/amd_uvd_dec@amdgpu_uvd_decode
+> +amdgpu/amd_uvd_dec@amdgpu_uvd_dec_destroy
+> +amdgpu/amd_vcn@vcn-decoder-create-decode-destroy
+> +amdgpu/amd_vcn@vcn-encoder-create-encode-destroy
+> +amdgpu/amd_vrr_range@freesync-parsing
+> +amdgpu/amd_vrr_range@freesync-parsing-suspend
+> +amdgpu/amd_vrr_range@freesync-range
+> +amdgpu/amd_vrr_range@freesync-range-suspend
+> +panfrost_get_param@base-params
+> +panfrost_get_param@get-bad-param
+> +panfrost_get_param@get-bad-padding
+> +panfrost_gem_new@gem-new-4096
+> +panfrost_gem_new@gem-new-0
+> +panfrost_gem_new@gem-new-zeroed
+> +panfrost_prime@gem-prime-import
+> +panfrost_submit@pan-submit
+> +panfrost_submit@pan-submit-error-no-jc
+> +panfrost_submit@pan-submit-error-bad-in-syncs
+> +panfrost_submit@pan-submit-error-bad-bo-handles
+> +panfrost_submit@pan-submit-error-bad-requirements
+> +panfrost_submit@pan-submit-error-bad-out-sync
+> +panfrost_submit@pan-reset
+> +panfrost_submit@pan-submit-and-close
+> +panfrost_submit@pan-unhandled-pagefault
+> +v3d_create_bo@create-bo-invalid-flags
+> +v3d_create_bo@create-bo-0
+> +v3d_create_bo@create-bo-4096
+> +v3d_create_bo@create-bo-zeroed
+> +v3d_get_bo_offset@create-get-offsets
+> +v3d_get_bo_offset@get-bad-handle
+> +v3d_get_param@base-params
+> +v3d_get_param@get-bad-param
+> +v3d_get_param@get-bad-flags
+> +v3d_job_submission@array-job-submission
+> +v3d_job_submission@multiple-singlesync-to-multisync
+> +v3d_job_submission@threaded-job-submission
+> +v3d_mmap@mmap-bad-flags
+> +v3d_mmap@mmap-bad-handle
+> +v3d_mmap@mmap-bo
+> +v3d_perfmon@create-perfmon-0
+> +v3d_perfmon@create-perfmon-exceed
+> +v3d_perfmon@create-perfmon-invalid-counters
+> +v3d_perfmon@create-single-perfmon
+> +v3d_perfmon@create-two-perfmon
+> +v3d_perfmon@get-values-invalid-pad
+> +v3d_perfmon@get-values-invalid-perfmon
+> +v3d_perfmon@get-values-invalid-pointer
+> +v3d_perfmon@get-values-valid-perfmon
+> +v3d_perfmon@destroy-invalid-perfmon
+> +v3d_perfmon@destroy-valid-perfmon
+> +v3d_submit_cl@bad-pad
+> +v3d_submit_cl@bad-flag
+> +v3d_submit_cl@bad-extension
+> +v3d_submit_cl@bad-bo
+> +v3d_submit_cl@bad-perfmon
+> +v3d_submit_cl@bad-in-sync
+> +v3d_submit_cl@bad-multisync-pad
+> +v3d_submit_cl@bad-multisync-extension
+> +v3d_submit_cl@bad-multisync-out-sync
+> +v3d_submit_cl@bad-multisync-in-sync
+> +v3d_submit_cl@valid-submission
+> +v3d_submit_cl@single-out-sync
+> +v3d_submit_cl@single-in-sync
+> +v3d_submit_cl@simple-flush-cache
+> +v3d_submit_cl@valid-multisync-submission
+> +v3d_submit_cl@multisync-out-syncs
+> +v3d_submit_cl@multi-and-single-sync
+> +v3d_submit_cl@multiple-job-submission
+> +v3d_submit_cl@job-perfmon
+> +v3d_submit_csd@bad-pad
+> +v3d_submit_csd@bad-flag
+> +v3d_submit_csd@bad-extension
+> +v3d_submit_csd@bad-bo
+> +v3d_submit_csd@bad-perfmon
+> +v3d_submit_csd@bad-in-sync
+> +v3d_submit_csd@bad-multisync-pad
+> +v3d_submit_csd@bad-multisync-extension
+> +v3d_submit_csd@bad-multisync-out-sync
+> +v3d_submit_csd@bad-multisync-in-sync
+> +v3d_submit_csd@valid-submission
+> +v3d_submit_csd@single-out-sync
+> +v3d_submit_csd@single-in-sync
+> +v3d_submit_csd@valid-multisync-submission
+> +v3d_submit_csd@multisync-out-syncs
+> +v3d_submit_csd@multi-and-single-sync
+> +v3d_submit_csd@multiple-job-submission
+> +v3d_submit_csd@job-perfmon
+> +v3d_wait_bo@bad-bo
+> +v3d_wait_bo@bad-pad
+> +v3d_wait_bo@unused-bo-0ns
+> +v3d_wait_bo@unused-bo-1ns
+> +v3d_wait_bo@map-bo-0ns
+> +v3d_wait_bo@map-bo-1ns
+> +v3d_wait_bo@used-bo-0ns
+> +v3d_wait_bo@used-bo-1ns
+> +v3d_wait_bo@used-bo
+> +vc4_create_bo@create-bo-4096
+> +vc4_create_bo@create-bo-0
+> +vc4_create_bo@create-bo-zeroed
+> +vc4_dmabuf_poll@poll-write-waits-until-write-done
+> +vc4_dmabuf_poll@poll-read-waits-until-write-done
+> +vc4_label_bo@set-label
+> +vc4_label_bo@set-bad-handle
+> +vc4_label_bo@set-bad-name
+> +vc4_label_bo@set-kernel-name
+> +vc4_lookup_fail@bad-color-write
+> +vc4_mmap@mmap-bad-handle
+> +vc4_mmap@mmap-bo
+> +vc4_perfmon@create-perfmon-0
+> +vc4_perfmon@create-perfmon-exceed
+> +vc4_perfmon@create-perfmon-invalid-events
+> +vc4_perfmon@create-single-perfmon
+> +vc4_perfmon@create-two-perfmon
+> +vc4_perfmon@get-values-invalid-perfmon
+> +vc4_perfmon@get-values-invalid-pointer
+> +vc4_perfmon@get-values-valid-perfmon
+> +vc4_perfmon@destroy-invalid-perfmon
+> +vc4_perfmon@destroy-valid-perfmon
+> +vc4_purgeable_bo@mark-willneed
+> +vc4_purgeable_bo@mark-purgeable
+> +vc4_purgeable_bo@mark-purgeable-twice
+> +vc4_purgeable_bo@mark-unpurgeable-twice
+> +vc4_purgeable_bo@access-purgeable-bo-mem
+> +vc4_purgeable_bo@access-purged-bo-mem
+> +vc4_purgeable_bo@mark-unpurgeable-check-retained
+> +vc4_purgeable_bo@mark-unpurgeable-purged
+> +vc4_purgeable_bo@free-purged-bo
+> +vc4_tiling@get-bad-handle
+> +vc4_tiling@set-bad-handle
+> +vc4_tiling@get-bad-flags
+> +vc4_tiling@set-bad-flags
+> +vc4_tiling@get-bad-modifier
+> +vc4_tiling@set-bad-modifier
+> +vc4_tiling@set-get
+> +vc4_tiling@get-after-free
+> +vc4_wait_bo@bad-bo
+> +vc4_wait_bo@bad-pad
+> +vc4_wait_bo@unused-bo-0ns
+> +vc4_wait_bo@unused-bo-1ns
+> +vc4_wait_bo@used-bo-0ns
+> +vc4_wait_bo@used-bo-1ns
+> +vc4_wait_bo@used-bo
+> +vc4_wait_seqno@bad-seqno-0ns
+> +vc4_wait_seqno@bad-seqno-1ns
+> diff --git a/drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt b/drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt
+> index ea87dc46bc2b..30d3252adddf 100644
+> --- a/drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt
+> +++ b/drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt
+> @@ -1,3 +1,21 @@
+> +amdgpu/amd_assr@assr-links,Fail
+> +amdgpu/amd_assr@assr-links-dpms,Fail
+> +amdgpu/amd_deadlock@amdgpu-deadlock-compute,Timeout
+> +amdgpu/amd_ilr@ilr-policy,Fail
+> +amdgpu/amd_mall@static-screen,Crash
+> +amdgpu/amd_mode_switch@mode-switch-first-last-pipe-2,Crash
+> +amdgpu/amd_pci_unplug@amdgpu_hotunplug_with_exported_bo,Fail
+> +amdgpu/amd_plane@mpo-pan-nv12,Fail
+> +amdgpu/amd_plane@mpo-pan-p010,Fail
+> +amdgpu/amd_plane@mpo-pan-rgb,Crash
+> +amdgpu/amd_plane@mpo-scale-nv12,Fail
+> +amdgpu/amd_plane@mpo-scale-p010,Fail
+> +amdgpu/amd_plane@mpo-scale-rgb,Crash
+> +amdgpu/amd_plane@mpo-swizzle-toggle,Fail
+> +amdgpu/amd_uvd_dec@amdgpu_uvd_decode,Fail
+> +amdgpu/amd_vce_dec@amdgpu_cs_vce_destroy,Fail
+> +amdgpu/amd_vce_dec@amdgpu_cs_vce_encode,Fail
+> +amdgpu/amd_vrr_range@freesync-parsing,Timeout
+>   kms_addfb_basic@bad-pitch-65536,Fail
+>   kms_addfb_basic@bo-too-small,Fail
+>   kms_addfb_basic@too-high,Fail
+> @@ -14,7 +32,13 @@ kms_bw@linear-tiling-1-displays-3840x2160p,Fail
+>   kms_bw@linear-tiling-2-displays-3840x2160p,Fail
+>   kms_bw@linear-tiling-3-displays-1920x1080p,Fail
+>   kms_color@degamma,Fail
+> +kms_cursor_crc@cursor-onscreen-64x21,Fail
+> +kms_cursor_crc@cursor-onscreen-64x64,Fail
+> +kms_cursor_crc@cursor-random-64x21,Fail
+> +kms_cursor_crc@cursor-random-64x64,Fail
+>   kms_cursor_crc@cursor-size-change,Fail
+> +kms_cursor_crc@cursor-sliding-64x21,Fail
+> +kms_cursor_crc@cursor-sliding-64x64,Fail
+>   kms_cursor_crc@pipe-A-cursor-size-change,Fail
+>   kms_cursor_crc@pipe-B-cursor-size-change,Fail
+>   kms_flip@flip-vs-modeset-vs-hang,Fail
+> @@ -23,5 +47,4 @@ kms_hdr@bpc-switch,Fail
+>   kms_hdr@bpc-switch-dpms,Fail
+>   kms_plane@pixel-format,Fail
+>   kms_plane_multiple@atomic-pipe-A-tiling-none,Fail
+> -kms_rmfb@close-fd,Fail
+>   kms_rotation_crc@primary-rotation-180,Fail
+> diff --git a/drivers/gpu/drm/ci/xfails/amdgpu-stoney-flakes.txt b/drivers/gpu/drm/ci/xfails/amdgpu-stoney-flakes.txt
+> index 6faf75e667d3..c5085c5571eb 100644
+> --- a/drivers/gpu/drm/ci/xfails/amdgpu-stoney-flakes.txt
+> +++ b/drivers/gpu/drm/ci/xfails/amdgpu-stoney-flakes.txt
+> @@ -1 +1,9 @@
+> -kms_async_flips@async-flip-with-page-flip-events
+> +# Board Name: hp-11A-G6-EE-grunt
+> +# Bug Report: https://lore.kernel.org/dri-devel/903b01f7-3f0d-18b7-a4b7-301c118c9321@collabora.com/T/#u
+> +# IGT Version: 1.28-gb0cc8160e
+> +# Linux Version: 6.7.0-rc3
+> +
+> +# Reported by deqp-runner
+> +kms_async_flips@crc
+> +amdgpu/amd_pci_unplug@amdgpu_hotunplug_simple
+> +amdgpu/amd_pci_unplug@amdgpu_hotunplug_with_exported_bo
+> diff --git a/drivers/gpu/drm/ci/xfails/amdgpu-stoney-skips.txt b/drivers/gpu/drm/ci/xfails/amdgpu-stoney-skips.txt
+> index e2c538a0f954..6e6200e6392c 100644
+> --- a/drivers/gpu/drm/ci/xfails/amdgpu-stoney-skips.txt
+> +++ b/drivers/gpu/drm/ci/xfails/amdgpu-stoney-skips.txt
+> @@ -1,2 +1,23 @@
+>   # Suspend to RAM seems to be broken on this machine
+> -.*suspend.*
+> \ No newline at end of file
+> +.*suspend.*
+> +
+> +# Skip driver specific tests
+> +msm_.*
+> +panfrost_.*
+> +v3d_.*
+> +vc4_.*
+> +
+> +# GPU reset seen and it hangs the machine
+> +amdgpu/amd_deadlock@amdgpu-deadlock-sdma
+> +amdgpu/amd_deadlock@amdgpu-gfx-illegal-reg-access
+> +amdgpu/amd_dispatch@amdgpu-reset-test-gfx-with-IP-GFX-and-COMPUTE
+> +
+> +# Hangs the machine and timeout occurs
+> +amdgpu/amd_pci_unplug@amdgpu_hotunplug_simple
+> +amdgpu/amd_pci_unplug@amdgpu_hotunplug_with_cs
+> +amdgpu/amd_pci_unplug@amdgpu_hotunplug_with_exported_bo
+> +amdgpu/amd_pci_unplug@amdgpu_hotunplug_with_exported_fence
+> +
+> +# Skip this test as core_getrevision fails with
+> +# Module amdgpu already inserted
+> +amdgpu/amd_module_load@reload
+> diff --git a/drivers/gpu/drm/ci/xfails/i915-amly-skips.txt b/drivers/gpu/drm/ci/xfails/i915-amly-skips.txt
+> index fe55540a3f9a..33369735c821 100644
+> --- a/drivers/gpu/drm/ci/xfails/i915-amly-skips.txt
+> +++ b/drivers/gpu/drm/ci/xfails/i915-amly-skips.txt
+> @@ -1,4 +1,11 @@
+>   # Suspend to RAM seems to be broken on this machine
+>   .*suspend.*
+>   # This is generating kernel oops with divide error
+> -kms_plane_scaling@invalid-parameters
+> \ No newline at end of file
+> +kms_plane_scaling@invalid-parameters
+> +
+> +# Skip driver specific tests
+> +msm_.*
+> +^amdgpu.*
+> +panfrost_.*
+> +v3d_.*
+> +vc4_.*
+> diff --git a/drivers/gpu/drm/ci/xfails/i915-apl-skips.txt b/drivers/gpu/drm/ci/xfails/i915-apl-skips.txt
+> index 3430b215c06e..9804805984dc 100644
+> --- a/drivers/gpu/drm/ci/xfails/i915-apl-skips.txt
+> +++ b/drivers/gpu/drm/ci/xfails/i915-apl-skips.txt
+> @@ -3,4 +3,11 @@
+>   # This is generating kernel oops with divide error
+>   kms_plane_scaling@invalid-parameters
+>   # This is cascading issues
+> -kms_3d
+> \ No newline at end of file
+> +kms_3d
+> +
+> +# Skip driver specific tests
+> +msm_.*
+> +^amdgpu.*
+> +panfrost_.*
+> +v3d_.*
+> +vc4_.*
+> diff --git a/drivers/gpu/drm/ci/xfails/i915-cml-skips.txt b/drivers/gpu/drm/ci/xfails/i915-cml-skips.txt
+> index 6d3d7ddc377f..e2c542d76e75 100644
+> --- a/drivers/gpu/drm/ci/xfails/i915-cml-skips.txt
+> +++ b/drivers/gpu/drm/ci/xfails/i915-cml-skips.txt
+> @@ -1,2 +1,9 @@
+>   # This is generating kernel oops with divide error
+>   kms_plane_scaling@invalid-parameters
+> +
+> +# Skip driver specific tests
+> +msm_.*
+> +^amdgpu.*
+> +panfrost_.*
+> +v3d_.*
+> +vc4_.*
+> diff --git a/drivers/gpu/drm/ci/xfails/i915-glk-skips.txt b/drivers/gpu/drm/ci/xfails/i915-glk-skips.txt
+> index 4c7d00ce14bc..76d987f9b397 100644
+> --- a/drivers/gpu/drm/ci/xfails/i915-glk-skips.txt
+> +++ b/drivers/gpu/drm/ci/xfails/i915-glk-skips.txt
+> @@ -2,4 +2,11 @@
+>   .*suspend.*
+>   
+>   # This is generating kernel oops with divide error
+> -kms_plane_scaling@invalid-parameters
+> \ No newline at end of file
+> +kms_plane_scaling@invalid-parameters
+> +
+> +# Skip driver specific tests
+> +msm_.*
+> +^amdgpu.*
+> +panfrost_.*
+> +v3d_.*
+> +vc4_.*
+> diff --git a/drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt b/drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt
+> index 4c7d00ce14bc..76d987f9b397 100644
+> --- a/drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt
+> +++ b/drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt
+> @@ -2,4 +2,11 @@
+>   .*suspend.*
+>   
+>   # This is generating kernel oops with divide error
+> -kms_plane_scaling@invalid-parameters
+> \ No newline at end of file
+> +kms_plane_scaling@invalid-parameters
+> +
+> +# Skip driver specific tests
+> +msm_.*
+> +^amdgpu.*
+> +panfrost_.*
+> +v3d_.*
+> +vc4_.*
+> diff --git a/drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt b/drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt
+> index 1d0621750b14..c27412db3041 100644
+> --- a/drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt
+> +++ b/drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt
+> @@ -8,4 +8,11 @@ gem_eio.*
+>   kms_flip@absolute-wf_vblank@a-edp1
+>   
+>   # This is generating kernel oops with divide error
+> -kms_plane_scaling@invalid-parameters
+> \ No newline at end of file
+> +kms_plane_scaling@invalid-parameters
+> +
+> +# Skip driver specific tests
+> +msm_.*
+> +^amdgpu.*
+> +panfrost_.*
+> +v3d_.*
+> +vc4_.*
+> diff --git a/drivers/gpu/drm/ci/xfails/i915-whl-skips.txt b/drivers/gpu/drm/ci/xfails/i915-whl-skips.txt
+> index f3be0888a214..e2c542d76e75 100644
+> --- a/drivers/gpu/drm/ci/xfails/i915-whl-skips.txt
+> +++ b/drivers/gpu/drm/ci/xfails/i915-whl-skips.txt
+> @@ -1,2 +1,9 @@
+>   # This is generating kernel oops with divide error
+> -kms_plane_scaling@invalid-parameters
+> \ No newline at end of file
+> +kms_plane_scaling@invalid-parameters
+> +
+> +# Skip driver specific tests
+> +msm_.*
+> +^amdgpu.*
+> +panfrost_.*
+> +v3d_.*
+> +vc4_.*
+> diff --git a/drivers/gpu/drm/ci/xfails/mediatek-mt8173-skips.txt b/drivers/gpu/drm/ci/xfails/mediatek-mt8173-skips.txt
+> new file mode 100644
+> index 000000000000..f1a96db6a64e
+> --- /dev/null
+> +++ b/drivers/gpu/drm/ci/xfails/mediatek-mt8173-skips.txt
+> @@ -0,0 +1,6 @@
+> +# Skip driver specific tests
+> +msm_.*
+> +^amdgpu.*
+> +panfrost_.*
+> +v3d_.*
+> +vc4_.*
+> diff --git a/drivers/gpu/drm/ci/xfails/mediatek-mt8183-skips.txt b/drivers/gpu/drm/ci/xfails/mediatek-mt8183-skips.txt
+> new file mode 100644
+> index 000000000000..f1a96db6a64e
+> --- /dev/null
+> +++ b/drivers/gpu/drm/ci/xfails/mediatek-mt8183-skips.txt
+> @@ -0,0 +1,6 @@
+> +# Skip driver specific tests
+> +msm_.*
+> +^amdgpu.*
+> +panfrost_.*
+> +v3d_.*
+> +vc4_.*
+> diff --git a/drivers/gpu/drm/ci/xfails/meson-g12b-skips.txt b/drivers/gpu/drm/ci/xfails/meson-g12b-skips.txt
+> new file mode 100644
+> index 000000000000..f1a96db6a64e
+> --- /dev/null
+> +++ b/drivers/gpu/drm/ci/xfails/meson-g12b-skips.txt
+> @@ -0,0 +1,6 @@
+> +# Skip driver specific tests
+> +msm_.*
+> +^amdgpu.*
+> +panfrost_.*
+> +v3d_.*
+> +vc4_.*
+> diff --git a/drivers/gpu/drm/ci/xfails/msm-apq8016-skips.txt b/drivers/gpu/drm/ci/xfails/msm-apq8016-skips.txt
+> new file mode 100644
+> index 000000000000..83d9bba9cafd
+> --- /dev/null
+> +++ b/drivers/gpu/drm/ci/xfails/msm-apq8016-skips.txt
+> @@ -0,0 +1,5 @@
+> +# Skip driver specific tests
+> +^amdgpu.*
+> +panfrost_.*
+> +v3d_.*
+> +vc4_.*
+> diff --git a/drivers/gpu/drm/ci/xfails/msm-apq8096-skips.txt b/drivers/gpu/drm/ci/xfails/msm-apq8096-skips.txt
+> index cd49c8ce2059..66b7fde54bd1 100644
+> --- a/drivers/gpu/drm/ci/xfails/msm-apq8096-skips.txt
+> +++ b/drivers/gpu/drm/ci/xfails/msm-apq8096-skips.txt
+> @@ -1,2 +1,8 @@
+>   # Whole machine hangs
+> -kms_cursor_legacy@all-pipes-torture-move
+> \ No newline at end of file
+> +kms_cursor_legacy@all-pipes-torture-move
+> +
+> +# Skip driver specific tests
+> +^amdgpu.*
+> +panfrost_.*
+> +v3d_.*
+> +vc4_.*
+> diff --git a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-skips.txt b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-skips.txt
+> index 327039f70252..57beedbbedf6 100644
+> --- a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-skips.txt
+> +++ b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-skips.txt
+> @@ -1,2 +1,8 @@
+>   # Suspend to RAM seems to be broken on this machine
+>   .*suspend.*
+> +
+> +# Skip driver specific tests
+> +^amdgpu.*
+> +panfrost_.*
+> +v3d_.*
+> +vc4_.*
+> diff --git a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-skips.txt b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-skips.txt
+> index 327039f70252..57beedbbedf6 100644
+> --- a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-skips.txt
+> +++ b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-skips.txt
+> @@ -1,2 +1,8 @@
+>   # Suspend to RAM seems to be broken on this machine
+>   .*suspend.*
+> +
+> +# Skip driver specific tests
+> +^amdgpu.*
+> +panfrost_.*
+> +v3d_.*
+> +vc4_.*
+> diff --git a/drivers/gpu/drm/ci/xfails/msm-sdm845-skips.txt b/drivers/gpu/drm/ci/xfails/msm-sdm845-skips.txt
+> index 618e3a3a7277..5018fc3f0495 100644
+> --- a/drivers/gpu/drm/ci/xfails/msm-sdm845-skips.txt
+> +++ b/drivers/gpu/drm/ci/xfails/msm-sdm845-skips.txt
+> @@ -5,3 +5,9 @@ kms_bw.*
+>   # https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/4b49f902ec6f2bb382cbbf489870573f4b43371e
+>   # https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/38cdf4c5559771e2474ae0fecef8469f65147bc1
+>   msm_mapping@*
+> +
+> +# Skip driver specific tests
+> +^amdgpu.*
+> +panfrost_.*
+> +v3d_.*
+> +vc4_.*
+> diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt
+> index f20c3574b75a..a90fbb96520d 100644
+> --- a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt
+> +++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt
+> @@ -49,4 +49,11 @@ kms_plane_lowres@pipe-F-tiling-y
+>   kms_cursor_crc.*
+>   
+>   # Machine is hanging in this test, so skip it
+> -kms_pipe_crc_basic@disable-crc-after-crtc
+> \ No newline at end of file
+> +kms_pipe_crc_basic@disable-crc-after-crtc
+> +
+> +# Skip driver specific tests
+> +msm_.*
+> +^amdgpu.*
+> +panfrost_.*
+> +v3d_.*
+> +vc4_.*
+> diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt
+> index 10c3d81a919a..dc8221151d74 100644
+> --- a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt
+> +++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt
+> @@ -3,3 +3,10 @@
+>   
+>   # Too unstable, machine ends up hanging after lots of Oopses
+>   kms_cursor_legacy.*
+> +
+> +# Skip driver specific tests
+> +msm_.*
+> +^amdgpu.*
+> +panfrost_.*
+> +v3d_.*
+> +vc4_.*
+> diff --git a/drivers/gpu/drm/ci/xfails/virtio_gpu-none-skips.txt b/drivers/gpu/drm/ci/xfails/virtio_gpu-none-skips.txt
+> index 78be18174012..4e4a087ce49a 100644
+> --- a/drivers/gpu/drm/ci/xfails/virtio_gpu-none-skips.txt
+> +++ b/drivers/gpu/drm/ci/xfails/virtio_gpu-none-skips.txt
+> @@ -3,4 +3,11 @@
+>   kms_cursor_legacy.*
+>   
+>   # Job just hangs without any output
+> -kms_flip@flip-vs-suspend.*
+> \ No newline at end of file
+> +kms_flip@flip-vs-suspend.*
+> +
+> +# Skip driver specific tests
+> +msm_.*
+> +^amdgpu.*
+> +panfrost_.*
+> +v3d_.*
+> +vc4_.*
