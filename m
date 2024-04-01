@@ -2,51 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EA4B893E35
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 18:00:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3567893F01
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 18:10:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F389510F271;
-	Mon,  1 Apr 2024 16:00:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5100110F299;
+	Mon,  1 Apr 2024 16:10:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="en2stYIv";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="C+FmMjgo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDED310F271
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Apr 2024 16:00:38 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58FC910F298
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Apr 2024 16:10:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id DB001CE1305;
- Mon,  1 Apr 2024 16:00:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC745C433C7;
- Mon,  1 Apr 2024 16:00:35 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 70C4660CFB;
+ Mon,  1 Apr 2024 16:10:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8121DC433C7;
+ Mon,  1 Apr 2024 16:10:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1711987236;
- bh=nBgkeCtsDFNPAaLf8XqZC4lPM3tNbSAlaoO7Rpo1fa4=;
+ s=korg; t=1711987851;
+ bh=mlJbRpPOwQs/zz45A1bsiKIhcZoYO5pQxEiypgSt+AE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=en2stYIvnLcWesRQIY5ViIeS+JAnBnpjJ9RkO953ZQR3FjeJ55Q4Nh+Cqbw6esMuH
- 3V4bH7GtvgdmFJBQp7UdBud2Wf6qrhgWkbp6MV5NNn5c/cfNw0kTF9lQ+pa92mcgyO
- kBQhUZ4FjGo+2vOygkMsGjrFNNpfGiTJ2Ysz7uoI=
+ b=C+FmMjgozzTsQ0fhuHJoGTDvUmcvBNJxThE9eoYy+ycw7LJ9nf/cxLvG34+n6e2i4
+ 2BckBZN91hoZ105qCGBnhvmd+twrj65d+ZSu1VQ4454L9CYCPbO9jpyWgWJPvjSX7p
+ uDl/RP1mrB3PedVy8RoJjDv2WfH+jb9a5QIA3hKA=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  Zack Rusin <zack.rusin@broadcom.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.8 225/399] drm/ttm: Make sure the mapped tt pages are
- decrypted when needed
-Date: Mon,  1 Apr 2024 17:43:11 +0200
-Message-ID: <20240401152555.896138585@linuxfoundation.org>
+ Stefan Hoffmeister <stefan.hoffmeister@econos.de>,
+ Martin Krastev <martin.krastev@broadcom.com>,
+ Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
+ Ian Forbes <ian.forbes@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.7 003/432] drm/vmwgfx: Unmap the surface before resetting it
+ on a plane state
+Date: Mon,  1 Apr 2024 17:39:50 +0200
+Message-ID: <20240401152553.231565418@linuxfoundation.org>
 X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240401152549.131030308@linuxfoundation.org>
-References: <20240401152549.131030308@linuxfoundation.org>
+In-Reply-To: <20240401152553.125349965@linuxfoundation.org>
+References: <20240401152553.125349965@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,162 +66,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.8-stable review patch.  If anyone has any objections, please let me know.
+6.7-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
 From: Zack Rusin <zack.rusin@broadcom.com>
 
-[ Upstream commit 71ce046327cfd3aef3f93d1c44e091395eb03f8f ]
+[ Upstream commit 27571c64f1855881753e6f33c3186573afbab7ba ]
 
-Some drivers require the mapped tt pages to be decrypted. In an ideal
-world this would have been handled by the dma layer, but the TTM page
-fault handling would have to be rewritten to able to do that.
+Switch to a new plane state requires unreferencing of all held surfaces.
+In the work required for mob cursors the mapped surfaces started being
+cached but the variable indicating whether the surface is currently
+mapped was not being reset. This leads to crashes as the duplicated
+state, incorrectly, indicates the that surface is mapped even when
+no surface is present. That's because after unreferencing the surface
+it's perfectly possible for the plane to be backed by a bo instead of a
+surface.
 
-A side-effect of the TTM page fault handling is using a dma allocation
-per order (via ttm_pool_alloc_page) which makes it impossible to just
-trivially use dma_mmap_attrs. As a result ttm has to be very careful
-about trying to make its pgprot for the mapped tt pages match what
-the dma layer thinks it is. At the ttm layer it's possible to
-deduce the requirement to have tt pages decrypted by checking
-whether coherent dma allocations have been requested and the system
-is running with confidential computing technologies.
+Reset the surface mapped flag when unreferencing the plane state surface
+to fix null derefs in cleanup. Fixes crashes in KDE KWin 6.0 on Wayland:
 
-This approach isn't ideal but keeping TTM matching DMAs expectations
-for the page properties is in general fragile, unfortunately proper
-fix would require a rewrite of TTM's page fault handling.
-
-Fixes vmwgfx with SEV enabled.
-
-v2: Explicitly include cc_platform.h
-v3: Use CC_ATTR_GUEST_MEM_ENCRYPT instead of CC_ATTR_MEM_ENCRYPT to
-limit the scope to guests and log when memory decryption is enabled.
+Oops: 0000 [#1] PREEMPT SMP PTI
+CPU: 4 PID: 2533 Comm: kwin_wayland Not tainted 6.7.0-rc3-vmwgfx #2
+Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 11/12/2020
+RIP: 0010:vmw_du_cursor_plane_cleanup_fb+0x124/0x140 [vmwgfx]
+Code: 00 00 00 75 3a 48 83 c4 10 5b 5d c3 cc cc cc cc 48 8b b3 a8 00 00 00 48 c7 c7 99 90 43 c0 e8 93 c5 db ca 48 8b 83 a8 00 00 00 <48> 8b 78 28 e8 e3 f>
+RSP: 0018:ffffb6b98216fa80 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: ffff969d84cdcb00 RCX: 0000000000000027
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: ffff969e75f21600
+RBP: ffff969d4143dc50 R08: 0000000000000000 R09: ffffb6b98216f920
+R10: 0000000000000003 R11: ffff969e7feb3b10 R12: 0000000000000000
+R13: 0000000000000000 R14: 000000000000027b R15: ffff969d49c9fc00
+FS:  00007f1e8f1b4180(0000) GS:ffff969e75f00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000028 CR3: 0000000104006004 CR4: 00000000003706f0
+Call Trace:
+ <TASK>
+ ? __die+0x23/0x70
+ ? page_fault_oops+0x171/0x4e0
+ ? exc_page_fault+0x7f/0x180
+ ? asm_exc_page_fault+0x26/0x30
+ ? vmw_du_cursor_plane_cleanup_fb+0x124/0x140 [vmwgfx]
+ drm_atomic_helper_cleanup_planes+0x9b/0xc0
+ commit_tail+0xd1/0x130
+ drm_atomic_helper_commit+0x11a/0x140
+ drm_atomic_commit+0x97/0xd0
+ ? __pfx___drm_printfn_info+0x10/0x10
+ drm_atomic_helper_update_plane+0xf5/0x160
+ drm_mode_cursor_universal+0x10e/0x270
+ drm_mode_cursor_common+0x102/0x230
+ ? __pfx_drm_mode_cursor2_ioctl+0x10/0x10
+ drm_ioctl_kernel+0xb2/0x110
+ drm_ioctl+0x26d/0x4b0
+ ? __pfx_drm_mode_cursor2_ioctl+0x10/0x10
+ ? __pfx_drm_ioctl+0x10/0x10
+ vmw_generic_ioctl+0xa4/0x110 [vmwgfx]
+ __x64_sys_ioctl+0x94/0xd0
+ do_syscall_64+0x61/0xe0
+ ? __x64_sys_ioctl+0xaf/0xd0
+ ? syscall_exit_to_user_mode+0x2b/0x40
+ ? do_syscall_64+0x70/0xe0
+ ? __x64_sys_ioctl+0xaf/0xd0
+ ? syscall_exit_to_user_mode+0x2b/0x40
+ ? do_syscall_64+0x70/0xe0
+ ? exc_page_fault+0x7f/0x180
+ entry_SYSCALL_64_after_hwframe+0x6e/0x76
+RIP: 0033:0x7f1e93f279ed
+Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff f>
+RSP: 002b:00007ffca0faf600 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 000055db876ed2c0 RCX: 00007f1e93f279ed
+RDX: 00007ffca0faf6c0 RSI: 00000000c02464bb RDI: 0000000000000015
+RBP: 00007ffca0faf650 R08: 000055db87184010 R09: 0000000000000007
+R10: 000055db886471a0 R11: 0000000000000246 R12: 00007ffca0faf6c0
+R13: 00000000c02464bb R14: 0000000000000015 R15: 00007ffca0faf790
+ </TASK>
+Modules linked in: snd_seq_dummy snd_hrtimer nf_conntrack_netbios_ns nf_conntrack_broadcast nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_ine>
+CR2: 0000000000000028
+---[ end trace 0000000000000000 ]---
+RIP: 0010:vmw_du_cursor_plane_cleanup_fb+0x124/0x140 [vmwgfx]
+Code: 00 00 00 75 3a 48 83 c4 10 5b 5d c3 cc cc cc cc 48 8b b3 a8 00 00 00 48 c7 c7 99 90 43 c0 e8 93 c5 db ca 48 8b 83 a8 00 00 00 <48> 8b 78 28 e8 e3 f>
+RSP: 0018:ffffb6b98216fa80 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: ffff969d84cdcb00 RCX: 0000000000000027
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: ffff969e75f21600
+RBP: ffff969d4143dc50 R08: 0000000000000000 R09: ffffb6b98216f920
+R10: 0000000000000003 R11: ffff969e7feb3b10 R12: 0000000000000000
+R13: 0000000000000000 R14: 000000000000027b R15: ffff969d49c9fc00
+FS:  00007f1e8f1b4180(0000) GS:ffff969e75f00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000028 CR3: 0000000104006004 CR4: 00000000003706f0
 
 Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-Fixes: 3bf3710e3718 ("drm/ttm: Add a generic TTM memcpy move for page-based iomem")
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Acked-by: Christian König <christian.koenig@amd.com>
-Cc: Huang Rui <ray.huang@amd.com>
+Fixes: 485d98d472d5 ("drm/vmwgfx: Add support for CursorMob and CursorBypass 4")
+Reported-by: Stefan Hoffmeister <stefan.hoffmeister@econos.de>
+Closes: https://gitlab.freedesktop.org/drm/misc/-/issues/34
+Cc: Martin Krastev <martin.krastev@broadcom.com>
+Cc: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+Cc: Ian Forbes <ian.forbes@broadcom.com>
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-Cc: <stable@vger.kernel.org> # v5.14+
-Link: https://patchwork.freedesktop.org/patch/msgid/20230926040359.3040017-1-zack@kde.org
+Cc: <stable@vger.kernel.org> # v5.19+
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20231224052540.605040-1-zack.rusin@broadcom.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/ttm/ttm_bo_util.c | 13 +++++++++++--
- drivers/gpu/drm/ttm/ttm_tt.c      | 13 +++++++++++++
- include/drm/ttm/ttm_tt.h          |  9 ++++++++-
- 3 files changed, 32 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index fd9fd3d15101c..0b3f4267130c4 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -294,7 +294,13 @@ pgprot_t ttm_io_prot(struct ttm_buffer_object *bo, struct ttm_resource *res,
- 	enum ttm_caching caching;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+index b51578918cf8d..496ff2a6144c1 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+@@ -703,6 +703,10 @@ vmw_du_cursor_plane_prepare_fb(struct drm_plane *plane,
+ 	int ret = 0;
  
- 	man = ttm_manager_type(bo->bdev, res->mem_type);
--	caching = man->use_tt ? bo->ttm->caching : res->bus.caching;
-+	if (man->use_tt) {
-+		caching = bo->ttm->caching;
-+		if (bo->ttm->page_flags & TTM_TT_FLAG_DECRYPTED)
-+			tmp = pgprot_decrypted(tmp);
-+	} else  {
-+		caching = res->bus.caching;
-+	}
- 
- 	return ttm_prot_from_caching(caching, tmp);
- }
-@@ -337,6 +343,8 @@ static int ttm_bo_kmap_ttm(struct ttm_buffer_object *bo,
- 		.no_wait_gpu = false
- 	};
- 	struct ttm_tt *ttm = bo->ttm;
-+	struct ttm_resource_manager *man =
-+			ttm_manager_type(bo->bdev, bo->resource->mem_type);
- 	pgprot_t prot;
- 	int ret;
- 
-@@ -346,7 +354,8 @@ static int ttm_bo_kmap_ttm(struct ttm_buffer_object *bo,
- 	if (ret)
- 		return ret;
- 
--	if (num_pages == 1 && ttm->caching == ttm_cached) {
-+	if (num_pages == 1 && ttm->caching == ttm_cached &&
-+	    !(man->use_tt && (ttm->page_flags & TTM_TT_FLAG_DECRYPTED))) {
- 		/*
- 		 * We're mapping a single page, and the desired
- 		 * page protection is consistent with the bo.
-diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
-index e0a77671edd6c..43eaffa7faae3 100644
---- a/drivers/gpu/drm/ttm/ttm_tt.c
-+++ b/drivers/gpu/drm/ttm/ttm_tt.c
-@@ -31,11 +31,14 @@
- 
- #define pr_fmt(fmt) "[TTM] " fmt
- 
-+#include <linux/cc_platform.h>
- #include <linux/sched.h>
- #include <linux/shmem_fs.h>
- #include <linux/file.h>
- #include <linux/module.h>
- #include <drm/drm_cache.h>
-+#include <drm/drm_device.h>
-+#include <drm/drm_util.h>
- #include <drm/ttm/ttm_bo.h>
- #include <drm/ttm/ttm_tt.h>
- 
-@@ -60,6 +63,7 @@ static atomic_long_t ttm_dma32_pages_allocated;
- int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc)
- {
- 	struct ttm_device *bdev = bo->bdev;
-+	struct drm_device *ddev = bo->base.dev;
- 	uint32_t page_flags = 0;
- 
- 	dma_resv_assert_held(bo->base.resv);
-@@ -81,6 +85,15 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc)
- 		pr_err("Illegal buffer object type\n");
- 		return -EINVAL;
+ 	if (vps->surf) {
++		if (vps->surf_mapped) {
++			vmw_bo_unmap(vps->surf->res.guest_memory_bo);
++			vps->surf_mapped = false;
++		}
+ 		vmw_surface_unreference(&vps->surf);
+ 		vps->surf = NULL;
  	}
-+	/*
-+	 * When using dma_alloc_coherent with memory encryption the
-+	 * mapped TT pages need to be decrypted or otherwise the drivers
-+	 * will end up sending encrypted mem to the gpu.
-+	 */
-+	if (bdev->pool.use_dma_alloc && cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT)) {
-+		page_flags |= TTM_TT_FLAG_DECRYPTED;
-+		drm_info(ddev, "TT memory decryption enabled.");
-+	}
- 
- 	bo->ttm = bdev->funcs->ttm_tt_create(bo, page_flags);
- 	if (unlikely(bo->ttm == NULL))
-diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
-index a4eff85b1f449..2b9d856ff388d 100644
---- a/include/drm/ttm/ttm_tt.h
-+++ b/include/drm/ttm/ttm_tt.h
-@@ -79,6 +79,12 @@ struct ttm_tt {
- 	 *   page_flags = TTM_TT_FLAG_EXTERNAL |
- 	 *		  TTM_TT_FLAG_EXTERNAL_MAPPABLE;
- 	 *
-+	 * TTM_TT_FLAG_DECRYPTED: The mapped ttm pages should be marked as
-+	 * not encrypted. The framework will try to match what the dma layer
-+	 * is doing, but note that it is a little fragile because ttm page
-+	 * fault handling abuses the DMA api a bit and dma_map_attrs can't be
-+	 * used to assure pgprot always matches.
-+	 *
- 	 * TTM_TT_FLAG_PRIV_POPULATED: TTM internal only. DO NOT USE. This is
- 	 * set by TTM after ttm_tt_populate() has successfully returned, and is
- 	 * then unset when TTM calls ttm_tt_unpopulate().
-@@ -87,8 +93,9 @@ struct ttm_tt {
- #define TTM_TT_FLAG_ZERO_ALLOC		BIT(1)
- #define TTM_TT_FLAG_EXTERNAL		BIT(2)
- #define TTM_TT_FLAG_EXTERNAL_MAPPABLE	BIT(3)
-+#define TTM_TT_FLAG_DECRYPTED		BIT(4)
- 
--#define TTM_TT_FLAG_PRIV_POPULATED	BIT(4)
-+#define TTM_TT_FLAG_PRIV_POPULATED	BIT(5)
- 	uint32_t page_flags;
- 	/** @num_pages: Number of pages in the page array. */
- 	uint32_t num_pages;
 -- 
 2.43.0
 
