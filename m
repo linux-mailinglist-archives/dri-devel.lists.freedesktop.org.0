@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CCF3893D13
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 17:49:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA4B893E35
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 18:00:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D68F910F250;
-	Mon,  1 Apr 2024 15:49:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F389510F271;
+	Mon,  1 Apr 2024 16:00:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="h5gF4hAA";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="en2stYIv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA76410F250
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Apr 2024 15:49:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDED310F271
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Apr 2024 16:00:38 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 1C260CE12F2;
- Mon,  1 Apr 2024 15:49:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC783C433C7;
- Mon,  1 Apr 2024 15:49:08 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id DB001CE1305;
+ Mon,  1 Apr 2024 16:00:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC745C433C7;
+ Mon,  1 Apr 2024 16:00:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1711986549;
- bh=EOrgiHfutI1NDk2h4zUnJb/29evVDk6S6oPu0i4IZXA=;
+ s=korg; t=1711987236;
+ bh=nBgkeCtsDFNPAaLf8XqZC4lPM3tNbSAlaoO7Rpo1fa4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=h5gF4hAA8Hq7oGwC7i7KBWoP98T+hPwHt6pl0T4c7AITjDvvse8MV6jzGY5RgcGxw
- yWQZNg1lsJgET9mgLjqtLnNzz4JzZ5jAeAmDUIeULUp7YNXw0FmYHwr54s5sgN2G9z
- 1NGjWbMBuwZ6/P5dS6P7VZvgV8rv5+VREOry9ldw=
+ b=en2stYIvnLcWesRQIY5ViIeS+JAnBnpjJ9RkO953ZQR3FjeJ55Q4Nh+Cqbw6esMuH
+ 3V4bH7GtvgdmFJBQp7UdBud2Wf6qrhgWkbp6MV5NNn5c/cfNw0kTF9lQ+pa92mcgyO
+ kBQhUZ4FjGo+2vOygkMsGjrFNNpfGiTJ2Ysz7uoI=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- Niels De Graef <ndegraef@redhat.com>, Zack Rusin <zack.rusin@broadcom.com>,
- Martin Krastev <martin.krastev@broadcom.com>,
- Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
- Ian Forbes <ian.forbes@broadcom.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- dri-devel@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.8 011/399] drm/vmwgfx: Fix possible null pointer derefence
- with invalid contexts
-Date: Mon,  1 Apr 2024 17:39:37 +0200
-Message-ID: <20240401152549.485349596@linuxfoundation.org>
+ Zack Rusin <zack.rusin@broadcom.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.8 225/399] drm/ttm: Make sure the mapped tt pages are
+ decrypted when needed
+Date: Mon,  1 Apr 2024 17:43:11 +0200
+Message-ID: <20240401152555.896138585@linuxfoundation.org>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240401152549.131030308@linuxfoundation.org>
 References: <20240401152549.131030308@linuxfoundation.org>
@@ -47,6 +46,7 @@ User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,99 +69,156 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Zack Rusin <zack.rusin@broadcom.com>
 
-[ Upstream commit 517621b7060096e48e42f545fa6646fc00252eac ]
+[ Upstream commit 71ce046327cfd3aef3f93d1c44e091395eb03f8f ]
 
-vmw_context_cotable can return either an error or a null pointer and its
-usage sometimes went unchecked. Subsequent code would then try to access
-either a null pointer or an error value.
+Some drivers require the mapped tt pages to be decrypted. In an ideal
+world this would have been handled by the dma layer, but the TTM page
+fault handling would have to be rewritten to able to do that.
 
-The invalid dereferences were only possible with malformed userspace
-apps which never properly initialized the rendering contexts.
+A side-effect of the TTM page fault handling is using a dma allocation
+per order (via ttm_pool_alloc_page) which makes it impossible to just
+trivially use dma_mmap_attrs. As a result ttm has to be very careful
+about trying to make its pgprot for the mapped tt pages match what
+the dma layer thinks it is. At the ttm layer it's possible to
+deduce the requirement to have tt pages decrypted by checking
+whether coherent dma allocations have been requested and the system
+is running with confidential computing technologies.
 
-Check the results of vmw_context_cotable to fix the invalid derefs.
+This approach isn't ideal but keeping TTM matching DMAs expectations
+for the page properties is in general fragile, unfortunately proper
+fix would require a rewrite of TTM's page fault handling.
 
-Thanks:
-ziming zhang(@ezrak1e) from Ant Group Light-Year Security Lab
-who was the first person to discover it.
-Niels De Graef who reported it and helped to track down the poc.
+Fixes vmwgfx with SEV enabled.
 
-Fixes: 9c079b8ce8bf ("drm/vmwgfx: Adapt execbuf to the new validation api")
-Cc: <stable@vger.kernel.org> # v4.20+
-Reported-by: Niels De Graef  <ndegraef@redhat.com>
+v2: Explicitly include cc_platform.h
+v3: Use CC_ATTR_GUEST_MEM_ENCRYPT instead of CC_ATTR_MEM_ENCRYPT to
+limit the scope to guests and log when memory decryption is enabled.
+
 Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-Cc: Martin Krastev <martin.krastev@broadcom.com>
-Cc: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
-Cc: Ian Forbes <ian.forbes@broadcom.com>
-Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Fixes: 3bf3710e3718 ("drm/ttm: Add a generic TTM memcpy move for page-based iomem")
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Acked-by: Christian König <christian.koenig@amd.com>
+Cc: Huang Rui <ray.huang@amd.com>
 Cc: dri-devel@lists.freedesktop.org
-Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
-Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240110200305.94086-1-zack.rusin@broadcom.com
+Cc: linux-kernel@vger.kernel.org
+Cc: <stable@vger.kernel.org> # v5.14+
+Link: https://patchwork.freedesktop.org/patch/msgid/20230926040359.3040017-1-zack@kde.org
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/ttm/ttm_bo_util.c | 13 +++++++++++--
+ drivers/gpu/drm/ttm/ttm_tt.c      | 13 +++++++++++++
+ include/drm/ttm/ttm_tt.h          |  9 ++++++++-
+ 3 files changed, 32 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-index 36987ef3fc300..5fef0b31c1179 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-@@ -447,7 +447,7 @@ static int vmw_resource_context_res_add(struct vmw_private *dev_priv,
- 	    vmw_res_type(ctx) == vmw_res_dx_context) {
- 		for (i = 0; i < cotable_max; ++i) {
- 			res = vmw_context_cotable(ctx, i);
--			if (IS_ERR(res))
-+			if (IS_ERR_OR_NULL(res))
- 				continue;
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+index fd9fd3d15101c..0b3f4267130c4 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_util.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+@@ -294,7 +294,13 @@ pgprot_t ttm_io_prot(struct ttm_buffer_object *bo, struct ttm_resource *res,
+ 	enum ttm_caching caching;
  
- 			ret = vmw_execbuf_res_val_add(sw_context, res,
-@@ -1266,6 +1266,8 @@ static int vmw_cmd_dx_define_query(struct vmw_private *dev_priv,
- 		return -EINVAL;
+ 	man = ttm_manager_type(bo->bdev, res->mem_type);
+-	caching = man->use_tt ? bo->ttm->caching : res->bus.caching;
++	if (man->use_tt) {
++		caching = bo->ttm->caching;
++		if (bo->ttm->page_flags & TTM_TT_FLAG_DECRYPTED)
++			tmp = pgprot_decrypted(tmp);
++	} else  {
++		caching = res->bus.caching;
++	}
  
- 	cotable_res = vmw_context_cotable(ctx_node->ctx, SVGA_COTABLE_DXQUERY);
-+	if (IS_ERR_OR_NULL(cotable_res))
-+		return cotable_res ? PTR_ERR(cotable_res) : -EINVAL;
- 	ret = vmw_cotable_notify(cotable_res, cmd->body.queryId);
+ 	return ttm_prot_from_caching(caching, tmp);
+ }
+@@ -337,6 +343,8 @@ static int ttm_bo_kmap_ttm(struct ttm_buffer_object *bo,
+ 		.no_wait_gpu = false
+ 	};
+ 	struct ttm_tt *ttm = bo->ttm;
++	struct ttm_resource_manager *man =
++			ttm_manager_type(bo->bdev, bo->resource->mem_type);
+ 	pgprot_t prot;
+ 	int ret;
  
- 	return ret;
-@@ -2484,6 +2486,8 @@ static int vmw_cmd_dx_view_define(struct vmw_private *dev_priv,
- 		return ret;
- 
- 	res = vmw_context_cotable(ctx_node->ctx, vmw_view_cotables[view_type]);
-+	if (IS_ERR_OR_NULL(res))
-+		return res ? PTR_ERR(res) : -EINVAL;
- 	ret = vmw_cotable_notify(res, cmd->defined_id);
- 	if (unlikely(ret != 0))
- 		return ret;
-@@ -2569,8 +2573,8 @@ static int vmw_cmd_dx_so_define(struct vmw_private *dev_priv,
- 
- 	so_type = vmw_so_cmd_to_type(header->id);
- 	res = vmw_context_cotable(ctx_node->ctx, vmw_so_cotables[so_type]);
--	if (IS_ERR(res))
--		return PTR_ERR(res);
-+	if (IS_ERR_OR_NULL(res))
-+		return res ? PTR_ERR(res) : -EINVAL;
- 	cmd = container_of(header, typeof(*cmd), header);
- 	ret = vmw_cotable_notify(res, cmd->defined_id);
- 
-@@ -2689,6 +2693,8 @@ static int vmw_cmd_dx_define_shader(struct vmw_private *dev_priv,
- 		return -EINVAL;
- 
- 	res = vmw_context_cotable(ctx_node->ctx, SVGA_COTABLE_DXSHADER);
-+	if (IS_ERR_OR_NULL(res))
-+		return res ? PTR_ERR(res) : -EINVAL;
- 	ret = vmw_cotable_notify(res, cmd->body.shaderId);
+@@ -346,7 +354,8 @@ static int ttm_bo_kmap_ttm(struct ttm_buffer_object *bo,
  	if (ret)
  		return ret;
-@@ -3010,6 +3016,8 @@ static int vmw_cmd_dx_define_streamoutput(struct vmw_private *dev_priv,
+ 
+-	if (num_pages == 1 && ttm->caching == ttm_cached) {
++	if (num_pages == 1 && ttm->caching == ttm_cached &&
++	    !(man->use_tt && (ttm->page_flags & TTM_TT_FLAG_DECRYPTED))) {
+ 		/*
+ 		 * We're mapping a single page, and the desired
+ 		 * page protection is consistent with the bo.
+diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+index e0a77671edd6c..43eaffa7faae3 100644
+--- a/drivers/gpu/drm/ttm/ttm_tt.c
++++ b/drivers/gpu/drm/ttm/ttm_tt.c
+@@ -31,11 +31,14 @@
+ 
+ #define pr_fmt(fmt) "[TTM] " fmt
+ 
++#include <linux/cc_platform.h>
+ #include <linux/sched.h>
+ #include <linux/shmem_fs.h>
+ #include <linux/file.h>
+ #include <linux/module.h>
+ #include <drm/drm_cache.h>
++#include <drm/drm_device.h>
++#include <drm/drm_util.h>
+ #include <drm/ttm/ttm_bo.h>
+ #include <drm/ttm/ttm_tt.h>
+ 
+@@ -60,6 +63,7 @@ static atomic_long_t ttm_dma32_pages_allocated;
+ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc)
+ {
+ 	struct ttm_device *bdev = bo->bdev;
++	struct drm_device *ddev = bo->base.dev;
+ 	uint32_t page_flags = 0;
+ 
+ 	dma_resv_assert_held(bo->base.resv);
+@@ -81,6 +85,15 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc)
+ 		pr_err("Illegal buffer object type\n");
+ 		return -EINVAL;
  	}
++	/*
++	 * When using dma_alloc_coherent with memory encryption the
++	 * mapped TT pages need to be decrypted or otherwise the drivers
++	 * will end up sending encrypted mem to the gpu.
++	 */
++	if (bdev->pool.use_dma_alloc && cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT)) {
++		page_flags |= TTM_TT_FLAG_DECRYPTED;
++		drm_info(ddev, "TT memory decryption enabled.");
++	}
  
- 	res = vmw_context_cotable(ctx_node->ctx, SVGA_COTABLE_STREAMOUTPUT);
-+	if (IS_ERR_OR_NULL(res))
-+		return res ? PTR_ERR(res) : -EINVAL;
- 	ret = vmw_cotable_notify(res, cmd->body.soid);
- 	if (ret)
- 		return ret;
+ 	bo->ttm = bdev->funcs->ttm_tt_create(bo, page_flags);
+ 	if (unlikely(bo->ttm == NULL))
+diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
+index a4eff85b1f449..2b9d856ff388d 100644
+--- a/include/drm/ttm/ttm_tt.h
++++ b/include/drm/ttm/ttm_tt.h
+@@ -79,6 +79,12 @@ struct ttm_tt {
+ 	 *   page_flags = TTM_TT_FLAG_EXTERNAL |
+ 	 *		  TTM_TT_FLAG_EXTERNAL_MAPPABLE;
+ 	 *
++	 * TTM_TT_FLAG_DECRYPTED: The mapped ttm pages should be marked as
++	 * not encrypted. The framework will try to match what the dma layer
++	 * is doing, but note that it is a little fragile because ttm page
++	 * fault handling abuses the DMA api a bit and dma_map_attrs can't be
++	 * used to assure pgprot always matches.
++	 *
+ 	 * TTM_TT_FLAG_PRIV_POPULATED: TTM internal only. DO NOT USE. This is
+ 	 * set by TTM after ttm_tt_populate() has successfully returned, and is
+ 	 * then unset when TTM calls ttm_tt_unpopulate().
+@@ -87,8 +93,9 @@ struct ttm_tt {
+ #define TTM_TT_FLAG_ZERO_ALLOC		BIT(1)
+ #define TTM_TT_FLAG_EXTERNAL		BIT(2)
+ #define TTM_TT_FLAG_EXTERNAL_MAPPABLE	BIT(3)
++#define TTM_TT_FLAG_DECRYPTED		BIT(4)
+ 
+-#define TTM_TT_FLAG_PRIV_POPULATED	BIT(4)
++#define TTM_TT_FLAG_PRIV_POPULATED	BIT(5)
+ 	uint32_t page_flags;
+ 	/** @num_pages: Number of pages in the page array. */
+ 	uint32_t num_pages;
 -- 
 2.43.0
 
