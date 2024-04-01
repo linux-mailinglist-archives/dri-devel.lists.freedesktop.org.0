@@ -2,67 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B54FD89461D
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 22:35:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AC3F89463E
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 22:49:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36B6D10F4F7;
-	Mon,  1 Apr 2024 20:35:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FD3910F513;
+	Mon,  1 Apr 2024 20:49:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="BhGQjmKL";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="gWUhY/nD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com
- [209.85.166.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C165610F508
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Apr 2024 20:35:39 +0000 (UTC)
-Received: by mail-io1-f42.google.com with SMTP id
- ca18e2360f4ac-7cc5fdb0148so190147039f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Apr 2024 13:35:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1712003739; x=1712608539;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=M3IJzLFRvG6o4l+nhtTL6WJJV/ZNPsBvwMCnk0EU60Y=;
- b=BhGQjmKLSSfWlUUCkox2lu0y7u27O6YneM4vz1a0sC5MkTj3SG0qNps/cQOGBA45MJ
- WDjnd5TpKIMKUw9CZ+MuEJY1tEASO2xKwG3b/Ydl7stPgExB67MVFgX3znO+4dwh6i4+
- VqucH+5swlxt3D/JQkPLV5XIwdYq8japx8454=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712003739; x=1712608539;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=M3IJzLFRvG6o4l+nhtTL6WJJV/ZNPsBvwMCnk0EU60Y=;
- b=fvByviZIE8wCRvpg7aHPF1Ov7+IeMVRMpgSVgJ/DJVABh2j9S1AZaIGwB9hE2AWhm0
- 4z2iL+YPhUHUihlHNPnv0XnakGH6AXRAEsXDFC7JEzAqAuxT89VtSBUDjnL/1JFIl+t1
- U/KQbTMUOR0h0KLCVnxq6WywQWwXxwwntXYIr3uotFCOGw6KjqmRXWyWioyCECQSIHxL
- Jr1OT0c/0W3dwaoSseXz39aSTQyWued3QwjM28wFV2Uf8Lhcp38rkBETxMkmUuP5DxWC
- sEfeCoXcCRmDzgVRDrRao3f/jMZBkcvIQs/aPu1+GN6D7rzJaoTFsM4beRdO6DYGOyIU
- 9bsA==
-X-Gm-Message-State: AOJu0YzjpTDRi6oDOMQkcxqq+epyVvJQNcDU4lbKTkL3H4k/dl/pGoNH
- 9CtkTlMQRxiVN1IClj0p2/D6z814X080zDfP/0SKGZwbjT/HmVMuHl92S7ZO8nW0w5QAME9eG4H
- 6s3K9fZ8UG0/FAqqDok4X7WLslaqNxh+uHHYJ6+1TQVkE1oupjkTFEUqAvN1K7IBx+wyR11xDdT
- It6N73oOJ1u1ot1VJ8bIrlKfFYEaD7h9IqasGVRg5504ghQvh7EmUD
-X-Google-Smtp-Source: AGHT+IFIJzazwH5Vf+cK+hMGgu5nQn92cHUj+tCeZlPdx+p3jhrNYHVsORv9/VQr0mx5MyWSbaGWdA==
-X-Received: by 2002:a6b:4e18:0:b0:7cc:5c:e269 with SMTP id
- c24-20020a6b4e18000000b007cc005ce269mr11998031iob.3.1712003738594; 
- Mon, 01 Apr 2024 13:35:38 -0700 (PDT)
-Received: from localhost ([173.205.42.30]) by smtp.gmail.com with ESMTPSA id
- o12-20020a056602124c00b007d062e4cc20sm2847032iou.36.2024.04.01.13.35.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Apr 2024 13:35:38 -0700 (PDT)
-From: Ian Forbes <ian.forbes@broadcom.com>
-To: dri-devel@lists.freedesktop.org
-Cc: bcm-kernel-feedback-list@broadcom.com, zack.rusin@broadcom.com,
- martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com,
- Ian Forbes <ian.forbes@broadcom.com>
-Subject: [PATCH] drm/vmwgfx: Filter modes which exceed graphics memory
-Date: Mon,  1 Apr 2024 14:56:45 -0500
-Message-Id: <20240401195645.31081-1-ian.forbes@broadcom.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DF9810F512;
+ Mon,  1 Apr 2024 20:49:30 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 431JQQrU010966; Mon, 1 Apr 2024 20:49:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding:content-type; s=qcppdkim1; bh=SDPpPZr
+ Ybjlj5SIHl69Y3/3Hon0AHxjShyC0S7sqTuw=; b=gWUhY/nDw1O3b2HSJpQdJ1S
+ YLecUNRaBOdOmUCT1FsK7GcH0MCJacbe4K2KKMjypFqphpo9q6zvpIHfDFiRJTpn
+ hVmuGtYstGQvCtIWILH0zktBsJV5G/bN9eYwxI4fY0D5dK6kEEdNnUoCOcH4jXTp
+ 52jDKptCDyrTb3Bo6tXIWxf+dE4I3WzMwOCQHw8O+YIvJRVLqURvVVZ6YIPUCKk6
+ /f7mC9YYjhc3gUrvUYLQ9xI9rb33rythwSWizub8ZFygUxj4/iQNJ0bAW0bekVU5
+ ggPT1uKZS9f6Mh+19isyr6EUaInRhg5QcdP75bSk99a7jNOTbhqHl0H/hcvR6Jg=
+ =
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x8320r41y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 01 Apr 2024 20:49:22 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 431KnKoA003393
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 1 Apr 2024 20:49:20 GMT
+Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Mon, 1 Apr 2024 13:49:20 -0700
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Helen Koike <helen.koike@collabora.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm: ci: fix the xfails for apq8016
+Date: Mon, 1 Apr 2024 13:48:58 -0700
+Message-ID: <20240401204859.24223-1-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.43.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: WUNq6n4cZHd7jJtRqt-PHtW2RFpAY2OW
+X-Proofpoint-GUID: WUNq6n4cZHd7jJtRqt-PHtW2RFpAY2OW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-01_14,2024-04-01_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0
+ bulkscore=0 suspectscore=0 priorityscore=1501 mlxlogscore=999 spamscore=0
+ clxscore=1011 mlxscore=0 adultscore=0 impostorscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2403210001
+ definitions=main-2404010145
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,71 +93,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SVGA requires individual surfaces to fit within graphics memory
-(max_mob_pages) which means that modes with a final buffer size that would
-exceed graphics memory must be pruned otherwise creation will fail.
+After IGT migrating to dynamic sub-tests, the pipe prefixes
+in the expected fails list are incorrect. Lets drop those
+to accurately match the expected fails.
 
-This fixes an issue where VMs with low graphics memory (< 64MiB) configured
-with high resolution mode boot to a black screen because surface creation
-fails.
+In addition, update the xfails list to match the current passing
+list. This should have ideally failed in the CI run because some
+tests were marked as fail even though they passed but due to the
+mismatch in test names, the matching didn't correctly work and was
+resulting in those failures not being seen.
 
-Fixes: d947d1b71deb ("drm/vmwgfx: Add and connect connector helper function")
-Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
+Here is the passing pipeline for apq8016 with this change:
+
+https://gitlab.freedesktop.org/drm/msm/-/jobs/57050562
+
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c | 32 +++++++++++++++++++++++++++-
- 1 file changed, 31 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt | 13 +------------
+ 1 file changed, 1 insertion(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-index 3c8414a13dba..49583b186a7d 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-@@ -830,7 +830,37 @@ static void vmw_stdu_connector_destroy(struct drm_connector *connector)
- 	vmw_stdu_destroy(vmw_connector_to_stdu(connector));
- }
- 
-+static enum drm_mode_status
-+vmw_stdu_connector_mode_valid(struct drm_connector *connector,
-+			      struct drm_display_mode *mode)
-+{
-+	enum drm_mode_status ret;
-+	struct drm_device *dev = connector->dev;
-+	struct vmw_private *dev_priv = vmw_priv(dev);
-+	u64 assumed_cpp = dev_priv->assume_16bpp ? 2 : 4;
-+	u64 required_mem = mode->hdisplay * assumed_cpp * mode->vdisplay;
-+
-+	ret = drm_mode_validate_size(mode, dev_priv->stdu_max_width,
-+				     dev_priv->stdu_max_height);
-+	if (ret != MODE_OK)
-+		return ret;
-+
-+	ret = drm_mode_validate_size(mode, dev_priv->texture_max_width,
-+				     dev_priv->texture_max_height);
-+	if (ret != MODE_OK)
-+		return ret;
- 
-+	if (required_mem > dev_priv->max_primary_mem)
-+		return MODE_MEM;
-+
-+	if (required_mem > dev_priv->max_mob_pages * PAGE_SIZE)
-+		return MODE_MEM;
-+
-+	if (required_mem > dev_priv->max_mob_size)
-+		return MODE_MEM;
-+
-+	return MODE_OK;
-+}
- 
- static const struct drm_connector_funcs vmw_stdu_connector_funcs = {
- 	.dpms = vmw_du_connector_dpms,
-@@ -846,7 +876,7 @@ static const struct drm_connector_funcs vmw_stdu_connector_funcs = {
- static const struct
- drm_connector_helper_funcs vmw_stdu_connector_helper_funcs = {
- 	.get_modes = vmw_connector_get_modes,
--	.mode_valid = vmw_connector_mode_valid
-+	.mode_valid = vmw_stdu_connector_mode_valid
- };
- 
- 
+diff --git a/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt b/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
+index 44a5c62dedad..b14d4e884971 100644
+--- a/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
++++ b/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
+@@ -1,17 +1,6 @@
+ kms_3d,Fail
+ kms_addfb_basic@addfb25-bad-modifier,Fail
+-kms_cursor_legacy@all-pipes-forked-bo,Fail
+-kms_cursor_legacy@all-pipes-forked-move,Fail
+-kms_cursor_legacy@all-pipes-single-bo,Fail
+-kms_cursor_legacy@all-pipes-single-move,Fail
+-kms_cursor_legacy@all-pipes-torture-bo,Fail
+-kms_cursor_legacy@all-pipes-torture-move,Fail
+-kms_cursor_legacy@pipe-A-forked-bo,Fail
+-kms_cursor_legacy@pipe-A-forked-move,Fail
+-kms_cursor_legacy@pipe-A-single-bo,Fail
+-kms_cursor_legacy@pipe-A-single-move,Fail
+-kms_cursor_legacy@pipe-A-torture-bo,Fail
+-kms_cursor_legacy@pipe-A-torture-move,Fail
++kms_cursor_legacy@torture-bo,Fail
+ kms_force_connector_basic@force-edid,Fail
+ kms_hdmi_inject@inject-4k,Fail
+ kms_selftest@drm_format,Timeout
 -- 
-2.34.1
+2.43.2
 
