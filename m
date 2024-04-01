@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A124C89366E
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 02:05:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC92893670
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 02:05:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C076B10EC4F;
-	Mon,  1 Apr 2024 00:05:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4CBF10EC52;
+	Mon,  1 Apr 2024 00:05:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=renesas.com header.i=@renesas.com header.b="p8quwl96";
+	dkim=pass (1024-bit key; unprotected) header.d=renesas.com header.i=@renesas.com header.b="XhJzAbYo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from JPN01-OS0-obe.outbound.protection.outlook.com
- (mail-os0jpn01on2099.outbound.protection.outlook.com [40.107.113.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABF6110EC4F
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Apr 2024 00:05:47 +0000 (UTC)
+ (mail-os0jpn01on2094.outbound.protection.outlook.com [40.107.113.94])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C07ED10EC52
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Apr 2024 00:05:56 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J/sYn1xa9o1lp+hDwfD62SrVaQeJ4LnLUhefvm0hMAPOzZs6tqn9v5Bzda0PsLdJ/vMTuk+QMGfqjBrPHafiRspaYueV4zSTGtWQr3x9aEv2HdfqkeZ5OmOd4gXwK1VLSF8LilpiR0e40ka6mSlCvlxPVAdo4qZYuHTv9mN9Wtl01Kc0FThJEUeNOTgMt058GrRoFmo9qkG/2huo5oM2Qt29ZXLjbQys8ryliux2EchkWI0vVShoeQ3wcitW2d6eXL/cxywAb5MsTHHIABxReSnjweQRorCkFOE+wfYLc+JjwZW7qWf4oh15X8ApsL94UYMFvpvz1VJ4pzNngZapUg==
+ b=VGazy9fsTdMeACToC9ne+78DlPGaRioJt/maIKMqt2GPVJPnapvKUeLz4GEUVGjgL4IyzUcTcoYuloOAgo6xHacCZdHwJDwzO8kuzwfSts8Kr0PqKPC4oaBklxGuJMY/ISGt8jCaQGgHGE8b8jg5+27P9OkA0buYsmvf8woHnX7O6QO2UKttmntEgx9pYuUdnlNmqBfeOKc4q+fNays1FL10NyQbt/i+/1BQ4KXPJ5AnO4x5WN9nHGH+QodyNjoA5siocrwcyJ5eOZVDjQL8i2Hm7G2G9p0HcjyJHI5xfzBY3J8vEimT0cxuLR4Cvk2D6gxdEb8AWoxyTJbzWHjKng==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+bbQqXVHzVGktvMbxdHS32qeD6T/q73gw92h0AbcRqI=;
- b=iAJkfOb5TWvNzvxH4cK1TLXtDWtKThWkgIntLfHGeV1AQjqlZDvYTlWEo6lyWmxBodHNy/l0UPxfHAWKY5tll1hfVLHVOfO/2SVq4s9qdy9DQGl5u4H2XUcZJyrNzUGZpqvsXHQ07Az29VXiKmc+jR+AhDxh4Ur9OG93KUwJALkS6Zn0BQqrcmeL5vZARCuzIVIY4Z9llfIyaBVtGfOYpyZ+fTXAI7z0Yq20qNCYE27zmR/7q5+3YV4TeiEU55a7jbtCo3+ohfFiy+Kf7KIFLyv0O9QHUVS0MB7VXAs1d2y0q/zdEpytW87u7d9qlNKjYRn5i0esXLXKXruNbiQwWg==
+ bh=dyRXIBsVOEuvEsI+HIz1KBO2P7gmWNbvh+DmO4P6oN0=;
+ b=D5eVUUmo7Nx8l0j2Q9d+DmDXhHtuIidg8mNA5Vt8lyB2GgxAaBOQymHVoRQx5yo4CBJkAqfbzvpGXlzHqGbhqgcgZghneZjxt2a71KhiP2qos41BIXsByBn4YEcJVMxzk6hiuTeI7zFjaNzRmbcJIImoTDXU2HFMvYJe2jC0d2vKISUzUIWSYhRHEfBWPu73NRLhVn8MxkhvdWvcq8Dci2WZRCpKilK+SxPAjKhgC1ibXKqvKEUKJj8WSHMexanSpiUMJUcLJG32FaYPvZui01iTVNB3N3a0woSp/V2hoe9L7O1JxLK5mWAQYgEkFhs/D29A6O6DXJ5z+mTYwuling==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+bbQqXVHzVGktvMbxdHS32qeD6T/q73gw92h0AbcRqI=;
- b=p8quwl96SpT4pWYbMFKdGaD2aW/BHsQ340VG9W0saInJsCnHZEzA5YoYLQk2k43pfWYsLewGz7rqtDubV28CqQ41d3QmPgD/MjWiUcEkRZ9/9PSFHDXsb/jsDwFomIiyNVZGPbgMmd0zDCdJhtlrr34QHajJxtUn/H465VT7RwM=
+ bh=dyRXIBsVOEuvEsI+HIz1KBO2P7gmWNbvh+DmO4P6oN0=;
+ b=XhJzAbYoFF4r2DmnszfQiaoReVE48EA+3uEch5oGF5Fo9thFxqJENUU9g8s5xUpArxaO+AN9hsl+Sh/dzul4FxkOlqaNVxyrWAkge1F6Aalm5NtpJxhtpnNxP0OKo0Mr89dUKcDdslZNHRQ1ZrdAO4QRd3McV6ZEDH+h8XkWCro=
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11) by OS3PR01MB7826.jpnprd01.prod.outlook.com
  (2603:1096:604:177::9) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Mon, 1 Apr
- 2024 00:05:44 +0000
+ 2024 00:05:54 +0000
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::131e:55c0:a4a0:713b]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::131e:55c0:a4a0:713b%7]) with mapi id 15.20.7386.025; Mon, 1 Apr 2024
- 00:05:44 +0000
-Message-ID: <87a5meueuf.wl-kuninori.morimoto.gx@renesas.com>
+ 00:05:54 +0000
+Message-ID: <878r1yueu6.wl-kuninori.morimoto.gx@renesas.com>
 To: "Lad Prabhakar" <prabhakar.csengg@gmail.com>,
  Alexander Shishkin <alexander.shishkin@linux.intel.com>,
  Alexandre Belloni <alexandre.belloni@bootlin.com>,
@@ -60,11 +60,12 @@ To: "Lad Prabhakar" <prabhakar.csengg@gmail.com>,
 In-Reply-To: <87cyrauf0x.wl-kuninori.morimoto.gx@renesas.com>
 References: <87cyrauf0x.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v2 2/8] hwtracing: use for_each_endpoint_of_node()
+Subject: [PATCH v2 3/8] media: platform: microchip: use
+ for_each_endpoint_of_node()
 Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 1 Apr 2024 00:05:44 +0000
-X-ClientProxiedBy: TYCP286CA0180.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3c6::13) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+Date: Mon, 1 Apr 2024 00:05:54 +0000
+X-ClientProxiedBy: TYCP286CA0151.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:383::8) To TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
@@ -73,49 +74,49 @@ X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8CuP2xPC3JSitKax8y6OSBGdo/AFsaVNO+pa9bniysqDWI6gwhox9dgKoblnMd8W3Bm2XRadsusaJZCaq0gFWv7nBVhgpKr122NwDrDjRKbmtI/8mdNxqYZUA3HTHTVbLQyPDC+8N5U3UVK9J3nJZX5C0yU0wVpizn5DGttt5XCJZXnZTlY11T9Zit4/0gWHrBdtUs+lw/EfoTYmyXmkGpIXPnyiQUFdQKhv5g+tgW0auprOp7QcQvLFkVoAF/bulSdd3e6qsSd8kNBJ8oahuvGaPV4f83s+A1vEnHkdaYCMVIBQb85e60i4Us+ge9sca4mQ2rU7MQz37eLU6vDGjN/DKm40WxvbrVe1etvuJNyRWX0fOf4f6BTcMLxHm3eEAw4FM8yVhmkNm0m+UPQPrF7hlKX2Cr9kyMDHnFUCHFsn100K8MCRvTJJOxd8sjYw+8hEv3OdupcIBskQis3cUKFd+eky4ajINdNEn6+xxD8OtQ2cTwk147I5k1cjvqCBCTYWe01mkeRlHUR/ibSq6+ap+6hG0g5iIbDcUMrD98EOwXYYodQ7XWjToDwLigiwDVYj2TIdhrCsSIkscJboKXBXiQjXU89v2SBQ5OIfgcBQqT7mb3dha7wFgArB9nm6Pe8yejkfdJc08AakqauxGf7Qql1iw8G3Ic4oPTObORh794wNxMpb1lti7oA8c4ZD12XGArSFEKydL2d9Bni5YaoP5w0xcSHer99+fZOTba0=
+X-Microsoft-Antispam-Message-Info: CwSm7xsiX1NZ6fCy5313Lmt2v5cv8ZlZcHAiR4uf30MDjYYNmj8kL4YnIFvBrm58VdXdoTDWfhRjXmeArXTd/TWFGGNfIwXz4kiPOtv5e6oMo/SERVSSCgm8IM3ghlRKvxyIjvxWtc4HSvA4ovNaahE5yB+uQ5vvnW8oHHGCKVolwsOG0l9vSxdwi5+PhJuO14J9Rysj+E8ZUKbZXcPe8PTJfaax2pDHcgOqi+jTD/FZTMkWIdTsyVcwY6mBZSSPRVGzgFEAcrtzQTZs5vWSyTMOAfCWhjHcu7K/dUy5ptu27vrmykZtlh5VwDSvSROI4cz/ymMAtP5Y2+C/uEH3Ua9qfMVYtZ5oxmgO1V9OjiGmiUavVMyvdZabKG8QUWDRNFYif6f7s7y/vU5M8bnLr7eqfYa18pf1Vtpd37FjVWHE74QmL585xhxWNbDneRVm/h7il/zlJClsigUT37SRLqx78bbcjFe4Oq8doyOPsf5Naix8oULJoowDPXnFMKiyhhFPIVe0ooN15jTKJDEYaFKl6BECCUKCkBTdIpxnaDt3hrUjMgINKEr7q+4Gku4plFRNsrueykJ9M2hdOmsiiQYsps2e0y3WhlAX5ouQXyUyWUNR0DPIj9ApYxTDLCaiM+RxGsOhWgVnAfdOi2lHLlYiTCLsZKNJHy36H4No6t/8sfY2VPz0RkV4rxtBEzsCDUoTwPcCDHLJAMCgH+qng1+z1MPgPMK/Edgu/QGhIcY=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:TYCPR01MB10914.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230031)(7416005)(376005)(52116005)(1800799015)(366007)(921011)(38350700005);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DshqatcAcmBb30YHToF/DocQE4M+miBR9K8GfvHSUMzN8UuR8YJzbz5R+zkV?=
- =?us-ascii?Q?qvMJYwax8wYMOT4ZblwOJ99G3sjOAdsnK+EdGGqEsK26t5tOaPsJJ9SrsMiO?=
- =?us-ascii?Q?pTMUWGliK0S+THwHzQ2Wl69/CW1k9AHACOyU6VcfXThJDe6CTjWMi4bEJyVO?=
- =?us-ascii?Q?//kMxMPPo1Z1FNFI9Cnlcdvly5Jmtw6sLQQtzJiAflvTxpnBp9vhnrhrZn5j?=
- =?us-ascii?Q?SQ9Ne2JuX4KZEB7Y74klARbVS5rVjJQhiFDhCCnUnYTwElOtcB21mdRY3hWr?=
- =?us-ascii?Q?8E/c76PExYq1AC2wo3TA7SJJ82q8fKiOtL5yO5BE56ZBxlXEpsoIsuT+07bp?=
- =?us-ascii?Q?G5R5ORium1AGCDSeNk/NDc0sXGIdZBawynbu4qI64nBvIERQKwN+yd/S5oXB?=
- =?us-ascii?Q?oWiYbDIlr1jfkZ00PMVklrTGPlYMpHReVJ1DKFs7GOEXM4wx8QgTKhVQ2n8i?=
- =?us-ascii?Q?zpt2iuyssk5u9GibFP3fwEKF8S5aqCwMly6K5d5pVvQS7w4HuI2FlD06LwdK?=
- =?us-ascii?Q?RJhv8GFKqRHodwVYIE4RF0vlrEICNbY+qKWdo1kvORBo4Kc0ycQQH83tSvL6?=
- =?us-ascii?Q?8o1ewAtUF+EAH3BO8jXGWFFqAZ3PR8FfIV9cdGBfPEw0vVXzGAbfVUxgZTC+?=
- =?us-ascii?Q?D5QSaAKQQ2fTMKmosJATv4oupHFPyPvEFn9gGpVVoJHm/FLToJzKRSs8cmIp?=
- =?us-ascii?Q?078HZWdSizuGByjNWbDSOgipQ/1haElIPqZKeEgb/pyAfZ5K5gCzz3tulJux?=
- =?us-ascii?Q?ajPzSFniIA2FJvzFxVxbznWmIOvK5Hh0pr8ubtdtLviYJPmLVVMPAoirQReO?=
- =?us-ascii?Q?Q0qH4rNAHEvzWndIJbAHFG1iIOI52fjLG7ifUZhKnOzSxGBwhIeli7auLM6Y?=
- =?us-ascii?Q?nXtPqP8mowi2IETSrcIMAkyv9ZrUbz4MRW5U+OtWLVcpvgAgRDTBIzFzRlKF?=
- =?us-ascii?Q?MA0nPnjgF19i14UI911f0rjdqYzq++1rYjPbP2ZCQEDu34V0D0l995xnb5ct?=
- =?us-ascii?Q?JiEA+D1SekkBr4CAolAAPqleiuxbm3ZnfX4EWhl1Otq5AKXTIyg1Inmod+0V?=
- =?us-ascii?Q?FcqzzsvDEV5m5kJ9HDaopSz3F6FIO0HSnx4RDppPJ+yqWyVl0NUVMMfpYS67?=
- =?us-ascii?Q?oqoiLxt75PueVj5k7xtBhsp1DiyF/cE/sySoPi0dXUEmZGhffR9f14dsB2Ar?=
- =?us-ascii?Q?S6panxJhqZDfee1Nxcb4owoSOoflcIT+A7BPfCBkqcWenAh/SApICDfjllje?=
- =?us-ascii?Q?HFQ6JQ8fboh1hUc+RBKnNNSZfppx+Rw91+hLFFr26rnnzXv5hW42KqK1P/uI?=
- =?us-ascii?Q?rZJymKfRow8Je/PTwovkTTCq3BtbCvVHtqbvAdrRsk5sefvQegCNQD+8lHkP?=
- =?us-ascii?Q?4kDzdjtc7EeYgTphymUIDkhjaEPtvvXyCy2520NzBtrJi6jtvvj3dgUOojpz?=
- =?us-ascii?Q?Wj2dssD7hDvySWIrocF47F6zrv10I06kKmHugsDBobsP1kBwElpqp0CihHpF?=
- =?us-ascii?Q?ltGLDaJCFFGB+R7oarpx0v4yxZUgThZWIm97jqdW1+D7l/cSl3cJnertqUl3?=
- =?us-ascii?Q?01M4MxqfQdYrllatdUo3Bjd/yP8NwSSZxxNQSil/GeI7kIzNGApd/O5TuRtr?=
- =?us-ascii?Q?NJNDWjgLS6bQXixLvC1FjrY=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ugaFha11OrynSRHxVm952CU29Hl0dl4obe2Ig2xEtzZKGPjOBvmF8Nc/JiLW?=
+ =?us-ascii?Q?BoxOtJe17Yle4a0dOcPjt7yTL0TEK7Hph4MC2sBgGaInRNrvdsQX4LQWWvso?=
+ =?us-ascii?Q?INSbftd/vCzW28MaXfNL3WfqMjqmBG19Mshj5LLvwdV5pG27HXsOE5v9YUIX?=
+ =?us-ascii?Q?1ZGjLixSagVkPtTEsToMm5PNRudLdZOIcpRFDINiJwJT6rmN0q1blYO2M/1X?=
+ =?us-ascii?Q?HpJtHka0V6vJKoHu7+C7VHEWMnBYaPOJA3LbM/ciMLREThn6SzrfpQR4bhgw?=
+ =?us-ascii?Q?+UHFMb4G+CQONkHhuGnXPyYxMqXXE7tUS7F6Rmy6kfxMT5hexGZXMu97KCQ0?=
+ =?us-ascii?Q?WZGWvZl6TZhV5GOSAQzwC3FPaV2DzwzfjFG/D2I1qh05jFZc5AGizINAIHfj?=
+ =?us-ascii?Q?WMvXkYULXnkXsZBFk0danVfB8xrL+fCw7xXaCEu/d77f90Qy5VM7zoMdqNU/?=
+ =?us-ascii?Q?I05rTG8BtSWS2lo20zO6EU0aGm++OKI4vlTrac85kjWQ2zugplIC7RBsWTYU?=
+ =?us-ascii?Q?DuKBA0mCa7nJ33wM00DRHQhMBfAqyQDzUJW7aCB8GPKLUThquWrJaBoHkDLq?=
+ =?us-ascii?Q?FqI+mRYSj44WF/TrVx6nuWjznbaKte4HB9w1EDOoFsO7pp5GPcY2Z6UKzrle?=
+ =?us-ascii?Q?K5+6+mCkpmeoz24G5Axftjqs/B0GgddMYyMlleZhq+SVIw9wJP+0nQ/umQbk?=
+ =?us-ascii?Q?6uXgnwlJ3D+mAg5c1+dRIWwBWMfHb88pIuyywuZYjWEk5dxC3w2XsNaSCWX/?=
+ =?us-ascii?Q?3U8O2PT/RMXKGFLJ2h/Kd1jVHipBpYWzfvpTSnO5JGBf9tVuXpvIzoh/0NX1?=
+ =?us-ascii?Q?zw5hVOItewgPMF6RcT0ZEH53myRoKBT4HOma9IB3Y70sGLxHso0YfXFIyRM+?=
+ =?us-ascii?Q?6G+K4CFKQfixv/47j7okOSn+RKS562B/QMVG14fFrEgKmzV5vzg2j+QQE3Nf?=
+ =?us-ascii?Q?KYPbRWwR6M6E6B/VzCsqGyfS0EABRMaI3b7LWBtVK02kq8yU5pXdQAirqstn?=
+ =?us-ascii?Q?POB+t1XIdAPLJYIcOM0f6oK3g7SmtrVKaU3dToKrjuLUM3vJ2bVmQGFLNW7s?=
+ =?us-ascii?Q?D5++cKFzhIIyJqeBrlIkO5UWJdIC8RM3o+LxVqNK6EhEo8CbZ1Fc9q5/03//?=
+ =?us-ascii?Q?Sp5PtearfalAGUENF5XMyvCfsW0XJqaZUqdF0ZifHBawANf12+bxQnARU5Ys?=
+ =?us-ascii?Q?SOQTuSCR1xrmtXKWwPyx7rxOnCmr9IoJRsWi/yraiylOZ+j0v+edImyDEgCN?=
+ =?us-ascii?Q?CfdiJOPoLnopRWnct+6GxWRWxO//xqxRuLxpxoBaOMz46yneT/7aknfsvLDb?=
+ =?us-ascii?Q?ccyw6KwklZD+dV8bfalc7h6+f8oOUBbaW6g0SvJFs6mGcGKPA/2h1/ifLdP9?=
+ =?us-ascii?Q?VoJIkA1/5Fby1bTfYhN9rGu38iijL3/bRzrvZcS9J08JI44gnS0g8WyWzFoh?=
+ =?us-ascii?Q?pjPERcpqCvNTT1VBvuuUKEOulC7SCgOZXre/8UXT7+lDv2VtvW2kmA8rqGR8?=
+ =?us-ascii?Q?biVMeYgcohSWk1O/M34uQlp8A5rszUUwPLeDAVsahvPEgiDbRZi1F3Tht3P/?=
+ =?us-ascii?Q?zovVUaXPjyfpgwTtr/J//lwbZPjzI3ZB9fzevvyfG09LnCpfIKixXiU8Dh3s?=
+ =?us-ascii?Q?6JZkcOnjP0TjHjTRbXAizaY=3D?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3b86dab-1369-4e39-d494-08dc51df7a0e
+X-MS-Exchange-CrossTenant-Network-Message-Id: add25e60-5fc7-4ad9-ab2f-08dc51df7fb2
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2024 00:05:44.8464 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2024 00:05:54.3268 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EY0Guv0/G89AZOxsGaijSuAUUuZXVnJ1gJJDyrOwQD7IEHYntdJy74AqTRy8yK83RtR89h9g8zmOF0NP/wnd+aB7eYDva7NqksWJey/hbwpWRq252bEmI3nCu3ui1F+3
+X-MS-Exchange-CrossTenant-UserPrincipalName: uhLXQqeWEQxTA0OWHrHUkVxqYK6kVVnFXEJPDY73oLnwQwo0++ok/2Plbss2q/dQUSUR9//33V8wy9JpgjYPgsNslhlvZePp9VWgeT0lo/9HHOpe+ZCkSQFUjWshi34X
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB7826
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -136,33 +137,118 @@ We already have for_each_endpoint_of_node(), don't use
 of_graph_get_next_endpoint() directly. Replace it.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 ---
- drivers/hwtracing/coresight/coresight-platform.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../microchip/microchip-sama5d2-isc.c         | 19 +++++++------------
+ .../microchip/microchip-sama7g5-isc.c         | 19 +++++++------------
+ 2 files changed, 14 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/hwtracing/coresight/coresight-platform.c b/drivers/hwtracing/coresight/coresight-platform.c
-index 9d550f5697fa..e9683e613d52 100644
---- a/drivers/hwtracing/coresight/coresight-platform.c
-+++ b/drivers/hwtracing/coresight/coresight-platform.c
-@@ -275,7 +275,7 @@ static int of_get_coresight_platform_data(struct device *dev,
- 	 */
- 	if (!parent) {
- 		/*
--		 * Avoid warnings in of_graph_get_next_endpoint()
-+		 * Avoid warnings in for_each_endpoint_of_node()
- 		 * if the device doesn't have any graph connections
- 		 */
- 		if (!of_graph_is_present(node))
-@@ -286,7 +286,7 @@ static int of_get_coresight_platform_data(struct device *dev,
- 	}
+diff --git a/drivers/media/platform/microchip/microchip-sama5d2-isc.c b/drivers/media/platform/microchip/microchip-sama5d2-isc.c
+index 5ac149cf3647..d9298771f509 100644
+--- a/drivers/media/platform/microchip/microchip-sama5d2-isc.c
++++ b/drivers/media/platform/microchip/microchip-sama5d2-isc.c
+@@ -356,30 +356,26 @@ static int isc_parse_dt(struct device *dev, struct isc_device *isc)
+ 	struct device_node *epn = NULL;
+ 	struct isc_subdev_entity *subdev_entity;
+ 	unsigned int flags;
+-	int ret;
  
- 	/* Iterate through each output port to discover topology */
--	while ((ep = of_graph_get_next_endpoint(parent, ep))) {
-+	for_each_endpoint_of_node(parent, ep) {
- 		/*
- 		 * Legacy binding mixes input/output ports under the
- 		 * same parent. So, skip the input ports if we are dealing
+ 	INIT_LIST_HEAD(&isc->subdev_entities);
+ 
+-	while (1) {
++	for_each_endpoint_of_node(np, epn) {
+ 		struct v4l2_fwnode_endpoint v4l2_epn = { .bus_type = 0 };
+-
+-		epn = of_graph_get_next_endpoint(np, epn);
+-		if (!epn)
+-			return 0;
++		int ret;
+ 
+ 		ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(epn),
+ 						 &v4l2_epn);
+ 		if (ret) {
+-			ret = -EINVAL;
++			of_node_put(epn);
+ 			dev_err(dev, "Could not parse the endpoint\n");
+-			break;
++			return -EINVAL;
+ 		}
+ 
+ 		subdev_entity = devm_kzalloc(dev, sizeof(*subdev_entity),
+ 					     GFP_KERNEL);
+ 		if (!subdev_entity) {
+-			ret = -ENOMEM;
+-			break;
++			of_node_put(epn);
++			return -ENOMEM;
+ 		}
+ 		subdev_entity->epn = epn;
+ 
+@@ -400,9 +396,8 @@ static int isc_parse_dt(struct device *dev, struct isc_device *isc)
+ 
+ 		list_add_tail(&subdev_entity->list, &isc->subdev_entities);
+ 	}
+-	of_node_put(epn);
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static int microchip_isc_probe(struct platform_device *pdev)
+diff --git a/drivers/media/platform/microchip/microchip-sama7g5-isc.c b/drivers/media/platform/microchip/microchip-sama7g5-isc.c
+index 73445f33d26b..36204fee10aa 100644
+--- a/drivers/media/platform/microchip/microchip-sama7g5-isc.c
++++ b/drivers/media/platform/microchip/microchip-sama7g5-isc.c
+@@ -339,33 +339,29 @@ static int xisc_parse_dt(struct device *dev, struct isc_device *isc)
+ 	struct device_node *epn = NULL;
+ 	struct isc_subdev_entity *subdev_entity;
+ 	unsigned int flags;
+-	int ret;
+ 	bool mipi_mode;
+ 
+ 	INIT_LIST_HEAD(&isc->subdev_entities);
+ 
+ 	mipi_mode = of_property_read_bool(np, "microchip,mipi-mode");
+ 
+-	while (1) {
++	for_each_endpoint_of_node(np, epn) {
+ 		struct v4l2_fwnode_endpoint v4l2_epn = { .bus_type = 0 };
+-
+-		epn = of_graph_get_next_endpoint(np, epn);
+-		if (!epn)
+-			return 0;
++		int ret;
+ 
+ 		ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(epn),
+ 						 &v4l2_epn);
+ 		if (ret) {
+-			ret = -EINVAL;
++			of_node_put(epn);
+ 			dev_err(dev, "Could not parse the endpoint\n");
+-			break;
++			return -EINVAL;
+ 		}
+ 
+ 		subdev_entity = devm_kzalloc(dev, sizeof(*subdev_entity),
+ 					     GFP_KERNEL);
+ 		if (!subdev_entity) {
+-			ret = -ENOMEM;
+-			break;
++			of_node_put(epn);
++			return -ENOMEM;
+ 		}
+ 		subdev_entity->epn = epn;
+ 
+@@ -389,9 +385,8 @@ static int xisc_parse_dt(struct device *dev, struct isc_device *isc)
+ 
+ 		list_add_tail(&subdev_entity->list, &isc->subdev_entities);
+ 	}
+-	of_node_put(epn);
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static int microchip_xisc_probe(struct platform_device *pdev)
 -- 
 2.25.1
 
