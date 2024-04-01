@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13AE4893724
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 04:43:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9057C893730
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 04:43:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C69D710EDE9;
-	Mon,  1 Apr 2024 02:42:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 114D810EDEB;
+	Mon,  1 Apr 2024 02:42:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kNqhUeeI";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ISZ1ELMk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BB6E10EDDD
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEACB10EDDD
  for <dri-devel@lists.freedesktop.org>; Mon,  1 Apr 2024 02:42:52 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-515a81928a1so5788870e87.3
+Received: by mail-lf1-f53.google.com with SMTP id
+ 2adb3069b0e04-515c3eeea5dso4095951e87.1
  for <dri-devel@lists.freedesktop.org>; Sun, 31 Mar 2024 19:42:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711939370; x=1712544170; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1711939371; x=1712544171; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=XBU1j1Bb4M23bRKxe6DgOc9+rJgsvuLmaHrhx7ObqYg=;
- b=kNqhUeeIrF0JhOS9vQa+13UR5NcLFwhriPtHA5t7ko7rXPMrLVVFoFo8Fk1TV/5SNx
- r15GAHhJe49hmCS/LRufDIo+CihZPPd+bl9k+2DMF988bD9ZLuiLZQd5aF8HuBnABHBa
- 3g6BVW0rt5BvsXpHy0Tpg/LWABYucaX/B1HPHmPg1u76sgF4ch0ifwilYh0YGstJomXd
- dvG0gZatvASj3kRPRIGS1IRpxPOvkIjaEj9veoPfX60O9MZolqq4ow5LqYNfkDti51JZ
- kylscjC+XkmR8F3kRwBe88jmFFdCRR9iAzG4ScFADWBe8+qRPlKJYeyQrTVYOGcuxQku
- bKmg==
+ :reply-to; bh=ZBZPTVUNM5ptvyED09fYqwGN0UVbfI1rBIpraMYpmcA=;
+ b=ISZ1ELMkKNM60tNllEi7IHEujZ9JKUsEhbMl1Wvpp9GNXovDtOwE3F9eRxyA7Cv6sD
+ TMSUD/2uVihkAOFlRwutq6cBrKlwEjs50Xaf66JOSYxvWEAEkJnkSLBrSsui1V9Zrtpn
+ Id5+EYrgz3fgwKR8JxCPcrENvIhyYfim6CyAuzuj0MwkIrGHw6gkV7UoKLRVKWJOUNWq
+ JtOPW9gPR0h3FaCywLS/0m/pfnnLjX04kqi8rr1Q7/5Y92jm++5LVoJH0V6GXoGE/ppv
+ g0q6T+sfbgT3eKfSgciMS012Pyrc2KWxCrKzztIkMJd/kZSfGkRPi4Iyk8/o6zDXP6Lc
+ x5WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711939370; x=1712544170;
+ d=1e100.net; s=20230601; t=1711939371; x=1712544171;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XBU1j1Bb4M23bRKxe6DgOc9+rJgsvuLmaHrhx7ObqYg=;
- b=KJL9kDFJjbFFQTZ9a/bACdseELD5HoHizBU5gkmGZCViWaIxOMAcQpuZYsTqw8INkw
- stbWSke0lTFSYJ2kU1A+iOrr1pHUaBptRyIwyobHQTFpI22czLUbXtGnKrKtSjLd/usM
- O6GSPhbg1tokikyz3bIKi93/uFhvcY+a4bD4cTdZsdiQv3AQ0qAyxypXxTrGr8wqPnGS
- rDerSDY72n6XNeRapLHgyrOXcFaUgqH68CQrcTlwJS0iAq0AvPLB2dnc4KpoRI/wQaOL
- BHbVmdxR6Jzsbd6Ai7LgIDOh0xszM3OecIOtLrnnSfYjN+zmhqdFqtgP5iveJdlyzAZd
- dMEA==
+ bh=ZBZPTVUNM5ptvyED09fYqwGN0UVbfI1rBIpraMYpmcA=;
+ b=jivFbBe9TbRWQK/csoYMMLEEUUzOIjSoijYMkX0V1TF7abMYU4vOf8GWmi5vg8r0lX
+ pZG4GVffYxNJ7UGfYfWq+QUQTAYVlUt9ilDG2j2e7Z+28lFSlVsharvhjPsJNo9qXvik
+ L2htlekauArOUEsnoLKOYRLtOwYS9tu6ZXnPS18byEGgHpe1SdHJwefUvf/LBTRlE+kR
+ ivIMQkruvWhWOPkOwBfuKl+KjOnIUKN/lndqg7Jbt4Y4K+hYSLYE/uXrR9NGmjRYcO6+
+ gA+emXIndWoR31lFD9sznbdXxBlMF/ahtHfzFoVfgPxYICHfeyT5dsTsBFpyoSwt+XIn
+ Zq2Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWgxQ4iXtjcE0gHGsXrBgcHF+7zNYzZr80VNo9J3qjnyAzgHGgKpp5N8+r7pj18uCb+RujM5rNHoJTKeA10rM2+vvA3x9pdQzoH6vqeQHNS
-X-Gm-Message-State: AOJu0YydJGN7+YuFo+KhMv8Cd1umE+NGLR4RioY8DC5vQwnMOprKvdMl
- gKn6GAsKtNxoe+uVd1z75pq29P+dmCvJ+fMiMYl7pHKI6egqQXs2i4Won/GRnHw=
-X-Google-Smtp-Source: AGHT+IH/8AVhlLomm3MMMNCdXOZsqPVm0PsZk5TUxtvBae63rJyFgGSLR1du+v1+ZmOqGl915XZa9g==
-X-Received: by 2002:ac2:5476:0:b0:516:a1eb:e6a8 with SMTP id
- e22-20020ac25476000000b00516a1ebe6a8mr2890660lfn.39.1711939370331; 
- Sun, 31 Mar 2024 19:42:50 -0700 (PDT)
+ AJvYcCWGpZQauyKYelrh8C8x5+tjqIkK2uv9VLKCWUp43chqnhNkaEuX/wmNcw/mKXqlsIfuIDPr8XJxgwY1GNrdhlwCyoYEXob+tZt2SzgPgSzZ
+X-Gm-Message-State: AOJu0YxMEXgmX8t/U9wSMT0L9C4AQszISGqhLsMzHRjGoaJ5ZxJzzqkF
+ zffewK2lq3NsedW1KGBeYGcun94aCnE32vME+J+GQHvmFRab8FG3F1aB4dAsbSU=
+X-Google-Smtp-Source: AGHT+IFGmTkIQGxtyVsSp45jgKogdD6qRDnbUYxQVlyK07eHyDo9m/vwx7CZ1n7FWXxVOFCyQgizkA==
+X-Received: by 2002:ac2:465e:0:b0:515:d100:1650 with SMTP id
+ s30-20020ac2465e000000b00515d1001650mr5155841lfo.57.1711939371035; 
+ Sun, 31 Mar 2024 19:42:51 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- w28-20020ac254bc000000b0051593cfb556sm1310603lfk.239.2024.03.31.19.42.49
+ w28-20020ac254bc000000b0051593cfb556sm1310603lfk.239.2024.03.31.19.42.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 Mar 2024 19:42:49 -0700 (PDT)
+ Sun, 31 Mar 2024 19:42:50 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 01 Apr 2024 05:42:32 +0300
-Subject: [PATCH v5 02/18] drm/msm/hdmi: drop qfprom.xml.h
+Date: Mon, 01 Apr 2024 05:42:33 +0300
+Subject: [PATCH v5 03/18] drm/msm/dsi: drop mmss_cc.xml.h
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240401-fd-xml-shipped-v5-2-4bdb277a85a1@linaro.org>
+Message-Id: <20240401-fd-xml-shipped-v5-3-4bdb277a85a1@linaro.org>
 References: <20240401-fd-xml-shipped-v5-0-4bdb277a85a1@linaro.org>
 In-Reply-To: <20240401-fd-xml-shipped-v5-0-4bdb277a85a1@linaro.org>
 To: Masahiro Yamada <masahiroy@kernel.org>, 
@@ -71,16 +71,16 @@ To: Masahiro Yamada <masahiroy@kernel.org>,
 Cc: linux-kbuild@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4767;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7305;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=aup8f5gzkTQtLIAA/X40J7dMV/BjnJJiZcjwWpgwE1M=;
- b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQxqXvMqr3nNCC9xzmiy33cz2Xv9A4KNTB9+VI0ma1fm2O
- drVHo6djMYsDIxcDLJiiiw+BS1TYzYlh33YMbUeZhArE8gUBi5OAZjI5bscDDOPT832ZDBp3mjF
- Hzi/lk/KqT2dOyGxcKakTvoKe2Gvv8ndRitXOP3smvv9zWTt9q2zy9o0DldYqcwwCuOfEiuScDP
- I+wbPwYc/V//Zc6ki/dhs92mqvLtWR8Qs/1bzLovdct4NqbNcJRFXmtPPn1qeqv2Qf67x/1VXuv
- MznkcwsE4x7vFUctzZc27PHHPLPyxLssRcr8nkbspfPmfngVhBK9Me+fJZc2PU9QttrldyhSqau
- uq2dpxwlNp702jH4gvv/y+X/HrfVlur/uwLv5vnopZvCD3f7ZzIp9/f/nTyTu5jlVUnn3G3TG6W
- N+JaoCt/cI1QlOKJ8hkSdw3tWNL5J+ZXMz2xYLd+qVkPAA==
+ bh=ytSJz6AhN6FbeOhHq/vgke5SMH6v8kgj2BIO88lHfSQ=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmCh8kriaJmlaj4TnfxieOeadz1/gzl1aUfn08l
+ nKSDw1FI3iJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZgofJAAKCRCLPIo+Aiko
+ 1QH6B/4lqyKplzuVpF0+8hbLeoXmHLiRWKH9Mqi0oiTjkS6N58Kvk9hEyxs7FgTk7xviKYceREQ
+ pG+HgUoSec+Gh4OwMouTZQIVezeKvrIVRd5MRwcXxMIRrWW4Qz6OIbFUWJOECj0ODseHX2fN83t
+ pp7z0Dg/M4i4ljPn0YVvDdxCZ5K29z4FQGvc6Ds75oYpveGK/noroQ+an2OpM6av7p7R81GTJ6E
+ 1H0v8Dp3rRnUwR5RERQwbSLq50yAxrsorKANCt+Xb5jRyM2El5YhKWPGP3GgugVwEtvEaIWp1AE
+ DXKmXmgxabxJOpcprRUo5uXkXnr8zMLnlAPLdRfkzInqX+dr
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,24 +98,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The qfprom.xml.h contains definitions for the nvmem code. They are not
-used in the existing code. Also if we were to use them later, we should
-have used nvmem cell API instead of using these defs. Drop the file.
+The mmss_cc.xml.h file describes bits of the MMSS clock controller on
+APQ8064 / MSM8960 platforms. They are not used by the driver and do not
+belong to the DRM MSM driver. Drop the file.
 
 Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/hdmi/qfprom.xml.h | 61 -----------------------------------
- 1 file changed, 61 deletions(-)
+ drivers/gpu/drm/msm/dsi/mmss_cc.xml.h | 131 ----------------------------------
+ 1 file changed, 131 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/hdmi/qfprom.xml.h b/drivers/gpu/drm/msm/hdmi/qfprom.xml.h
+diff --git a/drivers/gpu/drm/msm/dsi/mmss_cc.xml.h b/drivers/gpu/drm/msm/dsi/mmss_cc.xml.h
 deleted file mode 100644
-index 498801526695..000000000000
---- a/drivers/gpu/drm/msm/hdmi/qfprom.xml.h
+index 7062f7164216..000000000000
+--- a/drivers/gpu/drm/msm/dsi/mmss_cc.xml.h
 +++ /dev/null
-@@ -1,61 +0,0 @@
--#ifndef QFPROM_XML
--#define QFPROM_XML
+@@ -1,131 +0,0 @@
+-#ifndef MMSS_CC_XML
+-#define MMSS_CC_XML
 -
 -/* Autogenerated file, DO NOT EDIT manually!
 -
@@ -169,12 +169,82 @@ index 498801526695..000000000000
 -*/
 -
 -
--#define REG_QFPROM_CONFIG_ROW0_LSB				0x00000238
--#define QFPROM_CONFIG_ROW0_LSB_HDMI_DISABLE			0x00200000
--#define QFPROM_CONFIG_ROW0_LSB_HDCP_DISABLE			0x00400000
+-enum mmss_cc_clk {
+-	CLK = 0,
+-	PCLK = 1,
+-};
+-
+-#define REG_MMSS_CC_AHB						0x00000008
+-
+-static inline uint32_t __offset_CLK(enum mmss_cc_clk idx)
+-{
+-	switch (idx) {
+-		case CLK: return 0x0000004c;
+-		case PCLK: return 0x00000130;
+-		default: return INVALID_IDX(idx);
+-	}
+-}
+-static inline uint32_t REG_MMSS_CC_CLK(enum mmss_cc_clk i0) { return 0x00000000 + __offset_CLK(i0); }
+-
+-static inline uint32_t REG_MMSS_CC_CLK_CC(enum mmss_cc_clk i0) { return 0x00000000 + __offset_CLK(i0); }
+-#define MMSS_CC_CLK_CC_CLK_EN					0x00000001
+-#define MMSS_CC_CLK_CC_ROOT_EN					0x00000004
+-#define MMSS_CC_CLK_CC_MND_EN					0x00000020
+-#define MMSS_CC_CLK_CC_MND_MODE__MASK				0x000000c0
+-#define MMSS_CC_CLK_CC_MND_MODE__SHIFT				6
+-static inline uint32_t MMSS_CC_CLK_CC_MND_MODE(uint32_t val)
+-{
+-	return ((val) << MMSS_CC_CLK_CC_MND_MODE__SHIFT) & MMSS_CC_CLK_CC_MND_MODE__MASK;
+-}
+-#define MMSS_CC_CLK_CC_PMXO_SEL__MASK				0x00000300
+-#define MMSS_CC_CLK_CC_PMXO_SEL__SHIFT				8
+-static inline uint32_t MMSS_CC_CLK_CC_PMXO_SEL(uint32_t val)
+-{
+-	return ((val) << MMSS_CC_CLK_CC_PMXO_SEL__SHIFT) & MMSS_CC_CLK_CC_PMXO_SEL__MASK;
+-}
+-
+-static inline uint32_t REG_MMSS_CC_CLK_MD(enum mmss_cc_clk i0) { return 0x00000004 + __offset_CLK(i0); }
+-#define MMSS_CC_CLK_MD_D__MASK					0x000000ff
+-#define MMSS_CC_CLK_MD_D__SHIFT					0
+-static inline uint32_t MMSS_CC_CLK_MD_D(uint32_t val)
+-{
+-	return ((val) << MMSS_CC_CLK_MD_D__SHIFT) & MMSS_CC_CLK_MD_D__MASK;
+-}
+-#define MMSS_CC_CLK_MD_M__MASK					0x0000ff00
+-#define MMSS_CC_CLK_MD_M__SHIFT					8
+-static inline uint32_t MMSS_CC_CLK_MD_M(uint32_t val)
+-{
+-	return ((val) << MMSS_CC_CLK_MD_M__SHIFT) & MMSS_CC_CLK_MD_M__MASK;
+-}
+-
+-static inline uint32_t REG_MMSS_CC_CLK_NS(enum mmss_cc_clk i0) { return 0x00000008 + __offset_CLK(i0); }
+-#define MMSS_CC_CLK_NS_SRC__MASK				0x0000000f
+-#define MMSS_CC_CLK_NS_SRC__SHIFT				0
+-static inline uint32_t MMSS_CC_CLK_NS_SRC(uint32_t val)
+-{
+-	return ((val) << MMSS_CC_CLK_NS_SRC__SHIFT) & MMSS_CC_CLK_NS_SRC__MASK;
+-}
+-#define MMSS_CC_CLK_NS_PRE_DIV_FUNC__MASK			0x00fff000
+-#define MMSS_CC_CLK_NS_PRE_DIV_FUNC__SHIFT			12
+-static inline uint32_t MMSS_CC_CLK_NS_PRE_DIV_FUNC(uint32_t val)
+-{
+-	return ((val) << MMSS_CC_CLK_NS_PRE_DIV_FUNC__SHIFT) & MMSS_CC_CLK_NS_PRE_DIV_FUNC__MASK;
+-}
+-#define MMSS_CC_CLK_NS_VAL__MASK				0xff000000
+-#define MMSS_CC_CLK_NS_VAL__SHIFT				24
+-static inline uint32_t MMSS_CC_CLK_NS_VAL(uint32_t val)
+-{
+-	return ((val) << MMSS_CC_CLK_NS_VAL__SHIFT) & MMSS_CC_CLK_NS_VAL__MASK;
+-}
+-
+-#define REG_MMSS_CC_DSI2_PIXEL_CC				0x00000094
+-
+-#define REG_MMSS_CC_DSI2_PIXEL_NS				0x000000e4
+-
+-#define REG_MMSS_CC_DSI2_PIXEL_CC2				0x00000264
 -
 -
--#endif /* QFPROM_XML */
+-#endif /* MMSS_CC_XML */
 
 -- 
 2.39.2
