@@ -2,49 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44232893B42
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 15:12:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE0A3893B5E
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 15:21:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C55310F158;
-	Mon,  1 Apr 2024 13:12:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA6C710F145;
+	Mon,  1 Apr 2024 13:21:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="m7Tcyl7W";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="NHa0hk6s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1CE810F166
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Apr 2024 13:12:12 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id F19B560BC4;
- Mon,  1 Apr 2024 13:12:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 436BCC43399;
- Mon,  1 Apr 2024 13:12:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1711977131;
- bh=eHsozHMQ7QtkJFYA+A8f8zFMihC1C9yhJ7LCwmQ00kM=;
- h=Subject:To:Cc:From:Date:From;
- b=m7Tcyl7W29SGyJlq93qLWhswmfmHEKBD/XNBsvzvZp3mFWsnJZTYeetkL7RScUIqO
- 53kk5GdnEP0NRjnEowEypXCWJjehxawsJolhHnQCWep9CMBFhSxHTEKTsjK1Nr1bw8
- icBZ27tvinbT1fcvXKWdyoUgtipskzes8YxVwIGc=
-Subject: Patch "drm/imx: parallel-display: Remove bus flags check in
- imx_pd_bridge_atomic_check()" has been added to the 4.19-stable tree
-To: airlied@linux.ie, boris.brezillon@collabora.com,
- cniedermaier@dh-electronics.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, festevam@gmail.com,
- gregkh@linuxfoundation.org, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
- maarten.lankhorst@linux.intel.com, marex@denx.de, max.krummenacher@toradex.com,
- p.zabel@pengutronix.de, s.hauer@pengutronix.de, shawnguo@kernel.org
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Mon, 01 Apr 2024 15:12:08 +0200
-Message-ID: <2024040108-path-headboard-57cf@gregkh>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEEBD10EA6C
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Apr 2024 13:21:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=0ztbKwxnOONze6uE5KAh6nif3N82SFeibbZIcAhXlYU=; b=NHa0hk6sMYXxr+xwUvnjlKQUnF
+ MEqYyBd6WXe4P9ZmqgpFKFUvIBNOHaBie9S5C1YhSJv8Rs/O97U7tb1LxxqHskQdD1UlbinKsB+aB
+ EktpoqosJWLm0tByrCD4QbzTiyNWz9U4N/Lz06EG+U+fHcpR6RTubhijoN4D12R1a3RbKhjqZzytW
+ BkIacfu/lXSbvo+KO4MFTQKStY32m8k4CV+MStArowuITtWgTKdneNI3tp8JsNjLFZjrEcpdNHE19
+ hhvZAfb+PsOkhrCrlY+7s1vWxZsBUXWOlsu967nT+FyNAomPB6W6ny8IGWR/HeEKvfcdFSlVpXgY8
+ UuMW3vEw==;
+Received: from [84.65.0.132] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1rrHbF-0001WQ-89; Mon, 01 Apr 2024 15:21:21 +0200
+Message-ID: <4342d02c-a180-4a7e-8ef6-4ece51aba946@igalia.com>
+Date: Mon, 1 Apr 2024 14:21:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-buf: Do not build debugfs related code when
+ !CONFIG_DEBUG_FS
+Content-Language: en-GB
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, "T.J. Mercier"
+ <tjmercier@google.com>, Tvrtko Ursulin <tursulin@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, kernel-dev@igalia.com
+References: <20240328145323.68872-1-tursulin@igalia.com>
+ <CABdmKX3V3HGA4mNQvqHqhcLqyr-A5kJK8v9vmuDybRvV-KsiOg@mail.gmail.com>
+ <9a063c39-6d2f-43c3-98b3-e4f8c3c6e9c4@ursulin.net>
+ <1e94363a-b449-4efb-b2fe-c1dd710b57c9@amd.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <1e94363a-b449-4efb-b2fe-c1dd710b57c9@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,86 +70,42 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-This is a note to let you know that I've just added the patch titled
+On 01/04/2024 13:45, Christian König wrote:
+> Am 01.04.24 um 14:39 schrieb Tvrtko Ursulin:
+>>
+>> On 29/03/2024 00:00, T.J. Mercier wrote:
+>>> On Thu, Mar 28, 2024 at 7:53 AM Tvrtko Ursulin <tursulin@igalia.com> 
+>>> wrote:
+>>>>
+>>>> From: Tvrtko Ursulin <tursulin@ursulin.net>
+>>>>
+>>>> There is no point in compiling in the list and mutex operations 
+>>>> which are
+>>>> only used from the dma-buf debugfs code, if debugfs is not compiled in.
+>>>>
+>>>> Put the code in questions behind some kconfig guards and so save 
+>>>> some text
+>>>> and maybe even a pointer per object at runtime when not enabled.
+>>>>
+>>>> Signed-off-by: Tvrtko Ursulin <tursulin@ursulin.net>
+>>>
+>>> Reviewed-by: T.J. Mercier <tjmercier@google.com>
+>>
+>> Thanks!
+>>
+>> How would patches to dma-buf be typically landed? Via what tree I 
+>> mean? drm-misc-next?
+> 
+> That should go through drm-misc-next.
+> 
+> And feel free to add Reviewed-by: Christian König 
+> <christian.koenig@amd.com> as well.
 
-    drm/imx: parallel-display: Remove bus flags check in imx_pd_bridge_atomic_check()
+Thanks!
 
-to the 4.19-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+Maarten if I got it right you are handling the next drm-misc-next pull - 
+could you merge this one please?
 
-The filename of the patch is:
-     drm-imx-parallel-display-remove-bus-flags-check-in-imx_pd_bridge_atomic_check.patch
-and it can be found in the queue-4.19 subdirectory.
+Regards,
 
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From 6061806a863e8b65b109eb06a280041cc7525442 Mon Sep 17 00:00:00 2001
-From: Christoph Niedermaier <cniedermaier@dh-electronics.com>
-Date: Tue, 1 Feb 2022 12:36:43 +0100
-Subject: drm/imx: parallel-display: Remove bus flags check in imx_pd_bridge_atomic_check()
-
-From: Christoph Niedermaier <cniedermaier@dh-electronics.com>
-
-commit 6061806a863e8b65b109eb06a280041cc7525442 upstream.
-
-If display timings were read from the devicetree using
-of_get_display_timing() and pixelclk-active is defined
-there, the flag DISPLAY_FLAGS_SYNC_POSEDGE/NEGEDGE is
-automatically generated. Through the function
-drm_bus_flags_from_videomode() e.g. called in the
-panel-simple driver this flag got into the bus flags,
-but then in imx_pd_bridge_atomic_check() the bus flag
-check failed and will not initialize the display. The
-original commit fe141cedc433 does not explain why this
-check was introduced. So remove the bus flags check,
-because it stops the initialization of the display with
-valid bus flags.
-
-Fixes: fe141cedc433 ("drm/imx: pd: Use bus format/flags provided by the bridge when available")
-Signed-off-by: Christoph Niedermaier <cniedermaier@dh-electronics.com>
-Cc: Marek Vasut <marex@denx.de>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Shawn Guo <shawnguo@kernel.org>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: NXP Linux Team <linux-imx@nxp.com>
-Cc: linux-arm-kernel@lists.infradead.org
-To: dri-devel@lists.freedesktop.org
-Tested-by: Max Krummenacher <max.krummenacher@toradex.com>
-Acked-by: Boris Brezillon <boris.brezillon@collabora.com>
-Signed-off-by: Marek Vasut <marex@denx.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220201113643.4638-1-cniedermaier@dh-electronics.com
-Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/imx/parallel-display.c |    8 --------
- 1 file changed, 8 deletions(-)
-
---- a/drivers/gpu/drm/imx/parallel-display.c
-+++ b/drivers/gpu/drm/imx/parallel-display.c
-@@ -235,14 +235,6 @@ static int imx_pd_bridge_atomic_check(st
- 	if (!imx_pd_format_supported(bus_fmt))
- 		return -EINVAL;
- 
--	if (bus_flags &
--	    ~(DRM_BUS_FLAG_DE_LOW | DRM_BUS_FLAG_DE_HIGH |
--	      DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE |
--	      DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)) {
--		dev_warn(imxpd->dev, "invalid bus_flags (%x)\n", bus_flags);
--		return -EINVAL;
--	}
--
- 	bridge_state->output_bus_cfg.flags = bus_flags;
- 	bridge_state->input_bus_cfg.flags = bus_flags;
- 	imx_crtc_state->bus_flags = bus_flags;
-
-
-Patches currently in stable-queue which might be from cniedermaier@dh-electronics.com are
-
-queue-4.19/drm-imx-parallel-display-remove-bus-flags-check-in-imx_pd_bridge_atomic_check.patch
+Tvrtko
