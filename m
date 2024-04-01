@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B64C689400E
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 18:25:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AACE8941B5
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 18:45:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0693910F2BF;
-	Mon,  1 Apr 2024 16:25:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF34110F2F2;
+	Mon,  1 Apr 2024 16:45:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WWXNMNSe";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="2K31v8ej";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9BA810F2BF
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Apr 2024 16:25:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A053010F2F2
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Apr 2024 16:45:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id AF9EB60CFB;
- Mon,  1 Apr 2024 16:25:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD7FAC433C7;
- Mon,  1 Apr 2024 16:25:02 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id B9C0D60D45;
+ Mon,  1 Apr 2024 16:45:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3F75C433C7;
+ Mon,  1 Apr 2024 16:45:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1711988703;
- bh=vh8HYeY3QEuMjDyv6XrWLcRk0hsRK2twHm/EM9Ituso=;
+ s=korg; t=1711989907;
+ bh=ndOluXhy5iCnHo+fsgKaqDdkmKdF37DsDI6Xatxaba0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WWXNMNSe6mmEo+SvhYIjv5qC4EGPdIOB4ca/EnxLQbLIBzSxu2kItdEx/dNpkFu6Y
- vnr9M7qhX7BfYXwbfKMrLnpZwBcsh8kjSA2SoFUDxo1zDxy2eOYde/wzxlGa7m6m1P
- Fu20azm9HaXVhlVC5tlMiQsOO64AaITGRD6FnGzI=
+ b=2K31v8ejsp2P7dJ1rFMTyVfGVvLXD6jGCistNDg2KiURf3rDckOXO7nqhVTejvmcD
+ Kgngw+ylDowjWjD/9KLGpTLuHc+6CDsmqHMJeEIlk/LKTdZfKpPg0BM1q28uQZi4cg
+ cA1fDPrC429PWgrgQz78xHzrMlxTh5ggvmlYJLTI=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
@@ -35,13 +35,13 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.7 225/432] drm/ttm: Make sure the mapped tt pages are
+Subject: [PATCH 6.6 189/396] drm/ttm: Make sure the mapped tt pages are
  decrypted when needed
-Date: Mon,  1 Apr 2024 17:43:32 +0200
-Message-ID: <20240401152559.846508342@linuxfoundation.org>
+Date: Mon,  1 Apr 2024 17:43:58 +0200
+Message-ID: <20240401152553.574022311@linuxfoundation.org>
 X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240401152553.125349965@linuxfoundation.org>
-References: <20240401152553.125349965@linuxfoundation.org>
+In-Reply-To: <20240401152547.867452742@linuxfoundation.org>
+References: <20240401152547.867452742@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -63,7 +63,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.7-stable review patch.  If anyone has any objections, please let me know.
+6.6-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
