@@ -2,75 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0894894589
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 21:37:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B54FD89461D
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 22:35:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C083B10F43F;
-	Mon,  1 Apr 2024 19:37:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36B6D10F4F7;
+	Mon,  1 Apr 2024 20:35:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="YrbspNus";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="BhGQjmKL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86F6510F43F
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Apr 2024 19:37:53 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-515c3eeea5dso5048053e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Apr 2024 12:37:53 -0700 (PDT)
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com
+ [209.85.166.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C165610F508
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Apr 2024 20:35:39 +0000 (UTC)
+Received: by mail-io1-f42.google.com with SMTP id
+ ca18e2360f4ac-7cc5fdb0148so190147039f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Apr 2024 13:35:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712000271; x=1712605071; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mpZBIepliUIdIDq9qpuFvhCDBoqwn1BkfdsmAhnd4j8=;
- b=YrbspNusRf/SFoQTY6ddlmOdPx1Utx/l+jRw3LkRvEOjGlMCJ9WO//ULQW4v9Q1/XW
- y4N6ngquMkQEvS/yGt2iZhLtZ8+evYbl4ERX0H4uAOJjFlNzr17XDm4KzFa8ptDe+kdU
- 16LMMZ9jb1rzmyMxSO77vk+e6Hn7qL32fDiPwUvHhDq1v8F++wpxnqUZwqkXC+EYkSnh
- pg4+igqqOFpg4GMD5qyJ6RlIWCARIc4un6+H94fF8G7tLeKADhMPiLEVUeiyYHo43C3H
- RE8VCFTEbIe+TSZeC+LOBn8EAWvngmoiTuiFVN6oB9gQw2M330sulnXxOMRTm/JNkvTu
- HGzg==
+ d=broadcom.com; s=google; t=1712003739; x=1712608539;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=M3IJzLFRvG6o4l+nhtTL6WJJV/ZNPsBvwMCnk0EU60Y=;
+ b=BhGQjmKLSSfWlUUCkox2lu0y7u27O6YneM4vz1a0sC5MkTj3SG0qNps/cQOGBA45MJ
+ WDjnd5TpKIMKUw9CZ+MuEJY1tEASO2xKwG3b/Ydl7stPgExB67MVFgX3znO+4dwh6i4+
+ VqucH+5swlxt3D/JQkPLV5XIwdYq8japx8454=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712000271; x=1712605071;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mpZBIepliUIdIDq9qpuFvhCDBoqwn1BkfdsmAhnd4j8=;
- b=k0Dy7Xdn8eDVsEWiFbv1Uh1kjE1E+gCxGSuMxEF5f54Mg+9kRWVWdBTmN19nlsOTez
- TCy3yWBN4/KoyG2QeHP5o4aKTpJG0nfJ337QZ8bIS0ZVqX6Ttje7vgx46WNcuKjdDSKY
- jV01MUFnpBrLqKKK3UR0VogkgTpJpySpehUDM48ut7NSAoyPWptoKSk3Q06Y+Iwq0IZb
- PjQpSs6wFXFmRgs/z/Q+gkClNshmT/ZcnNXWb2C07ECO88wws5A/5xdxDqL0xcMDsXTs
- cWDH/3moX7Ah12rl5qGwAt0SJXxZ9RgBM3QL7VQS2rVHB5JJKe1rZk2haBmjBSpP/wIc
- ew9Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWtXeB2opXVK4sJrme8F+w7mswZwlEmp8YQRYAFRVOIK8FZE17QtA9mwnbNmJW9/nhRmlyONErqDtVqGBvBhbVnbXwHptLuw0wLYOyyEmEi
-X-Gm-Message-State: AOJu0Yx4rYHX2JhGz0njBaa8Peb3MUv3hWhwswzNc8hk+TIskjS+jxh1
- zTyDvlOcmoPQ6Jq2kF8aXKaZMTs0NELhj4V+TlN52RItYwvQVoM1AedG82u7+K4=
-X-Google-Smtp-Source: AGHT+IHAHDdE8MOUf8TBYkFZMj1NtWlwp0g8RhYYEp41IYSn3JjWicOmxmund8OvWk+LyeavvMmDRg==
-X-Received: by 2002:ac2:5d71:0:b0:513:c9ca:1333 with SMTP id
- h17-20020ac25d71000000b00513c9ca1333mr6333619lft.22.1712000271339; 
- Mon, 01 Apr 2024 12:37:51 -0700 (PDT)
-Received: from eriador.lan (dzyjmhyyyyyyyyyyyykxt-3.rev.dnainternet.fi.
- [2001:14ba:a00e:a300::227]) by smtp.gmail.com with ESMTPSA id
- q17-20020a0565123a9100b00515d1c97053sm1066373lfu.223.2024.04.01.12.37.50
+ d=1e100.net; s=20230601; t=1712003739; x=1712608539;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=M3IJzLFRvG6o4l+nhtTL6WJJV/ZNPsBvwMCnk0EU60Y=;
+ b=fvByviZIE8wCRvpg7aHPF1Ov7+IeMVRMpgSVgJ/DJVABh2j9S1AZaIGwB9hE2AWhm0
+ 4z2iL+YPhUHUihlHNPnv0XnakGH6AXRAEsXDFC7JEzAqAuxT89VtSBUDjnL/1JFIl+t1
+ U/KQbTMUOR0h0KLCVnxq6WywQWwXxwwntXYIr3uotFCOGw6KjqmRXWyWioyCECQSIHxL
+ Jr1OT0c/0W3dwaoSseXz39aSTQyWued3QwjM28wFV2Uf8Lhcp38rkBETxMkmUuP5DxWC
+ sEfeCoXcCRmDzgVRDrRao3f/jMZBkcvIQs/aPu1+GN6D7rzJaoTFsM4beRdO6DYGOyIU
+ 9bsA==
+X-Gm-Message-State: AOJu0YzjpTDRi6oDOMQkcxqq+epyVvJQNcDU4lbKTkL3H4k/dl/pGoNH
+ 9CtkTlMQRxiVN1IClj0p2/D6z814X080zDfP/0SKGZwbjT/HmVMuHl92S7ZO8nW0w5QAME9eG4H
+ 6s3K9fZ8UG0/FAqqDok4X7WLslaqNxh+uHHYJ6+1TQVkE1oupjkTFEUqAvN1K7IBx+wyR11xDdT
+ It6N73oOJ1u1ot1VJ8bIrlKfFYEaD7h9IqasGVRg5504ghQvh7EmUD
+X-Google-Smtp-Source: AGHT+IFIJzazwH5Vf+cK+hMGgu5nQn92cHUj+tCeZlPdx+p3jhrNYHVsORv9/VQr0mx5MyWSbaGWdA==
+X-Received: by 2002:a6b:4e18:0:b0:7cc:5c:e269 with SMTP id
+ c24-20020a6b4e18000000b007cc005ce269mr11998031iob.3.1712003738594; 
+ Mon, 01 Apr 2024 13:35:38 -0700 (PDT)
+Received: from localhost ([173.205.42.30]) by smtp.gmail.com with ESMTPSA id
+ o12-20020a056602124c00b007d062e4cc20sm2847032iou.36.2024.04.01.13.35.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Apr 2024 12:37:50 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: linux-kernel@vger.kernel.org,
- Oleksandr Natalenko <oleksandr@natalenko.name>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/display: fix typo
-Date: Mon,  1 Apr 2024 22:37:49 +0300
-Message-ID: <171200024668.1772895.12933458205220245271.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240119102215.201474-1-oleksandr@natalenko.name>
-References: <20240119102215.201474-1-oleksandr@natalenko.name>
+ Mon, 01 Apr 2024 13:35:38 -0700 (PDT)
+From: Ian Forbes <ian.forbes@broadcom.com>
+To: dri-devel@lists.freedesktop.org
+Cc: bcm-kernel-feedback-list@broadcom.com, zack.rusin@broadcom.com,
+ martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com,
+ Ian Forbes <ian.forbes@broadcom.com>
+Subject: [PATCH] drm/vmwgfx: Filter modes which exceed graphics memory
+Date: Mon,  1 Apr 2024 14:56:45 -0500
+Message-Id: <20240401195645.31081-1-ian.forbes@broadcom.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,19 +78,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 19 Jan 2024 11:22:15 +0100, Oleksandr Natalenko wrote:
-> While studying the code I've bumped into a small typo within the
-> kernel-doc for two functions, apparently, due to copy-paste.
-> 
-> This commit fixes "sizo" word to be "size".
-> 
-> 
+SVGA requires individual surfaces to fit within graphics memory
+(max_mob_pages) which means that modes with a final buffer size that would
+exceed graphics memory must be pruned otherwise creation will fail.
 
-Applied to drm-misc-fixes, thanks!
+This fixes an issue where VMs with low graphics memory (< 64MiB) configured
+with high resolution mode boot to a black screen because surface creation
+fails.
 
-[1/1] drm/display: fix typo
-      commit: fddf09273807bf6e51537823aaae896e05f147f9
+Fixes: d947d1b71deb ("drm/vmwgfx: Add and connect connector helper function")
+Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c | 32 +++++++++++++++++++++++++++-
+ 1 file changed, 31 insertions(+), 1 deletion(-)
 
-Best regards,
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+index 3c8414a13dba..49583b186a7d 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+@@ -830,7 +830,37 @@ static void vmw_stdu_connector_destroy(struct drm_connector *connector)
+ 	vmw_stdu_destroy(vmw_connector_to_stdu(connector));
+ }
+ 
++static enum drm_mode_status
++vmw_stdu_connector_mode_valid(struct drm_connector *connector,
++			      struct drm_display_mode *mode)
++{
++	enum drm_mode_status ret;
++	struct drm_device *dev = connector->dev;
++	struct vmw_private *dev_priv = vmw_priv(dev);
++	u64 assumed_cpp = dev_priv->assume_16bpp ? 2 : 4;
++	u64 required_mem = mode->hdisplay * assumed_cpp * mode->vdisplay;
++
++	ret = drm_mode_validate_size(mode, dev_priv->stdu_max_width,
++				     dev_priv->stdu_max_height);
++	if (ret != MODE_OK)
++		return ret;
++
++	ret = drm_mode_validate_size(mode, dev_priv->texture_max_width,
++				     dev_priv->texture_max_height);
++	if (ret != MODE_OK)
++		return ret;
+ 
++	if (required_mem > dev_priv->max_primary_mem)
++		return MODE_MEM;
++
++	if (required_mem > dev_priv->max_mob_pages * PAGE_SIZE)
++		return MODE_MEM;
++
++	if (required_mem > dev_priv->max_mob_size)
++		return MODE_MEM;
++
++	return MODE_OK;
++}
+ 
+ static const struct drm_connector_funcs vmw_stdu_connector_funcs = {
+ 	.dpms = vmw_du_connector_dpms,
+@@ -846,7 +876,7 @@ static const struct drm_connector_funcs vmw_stdu_connector_funcs = {
+ static const struct
+ drm_connector_helper_funcs vmw_stdu_connector_helper_funcs = {
+ 	.get_modes = vmw_connector_get_modes,
+-	.mode_valid = vmw_connector_mode_valid
++	.mode_valid = vmw_stdu_connector_mode_valid
+ };
+ 
+ 
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.34.1
+
