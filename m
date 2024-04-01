@@ -2,82 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AC3F89463E
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 22:49:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11C1B894675
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 23:20:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FD3910F513;
-	Mon,  1 Apr 2024 20:49:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEA7D10F56B;
+	Mon,  1 Apr 2024 21:20:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="gWUhY/nD";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UqQb71my";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DF9810F512;
- Mon,  1 Apr 2024 20:49:30 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 431JQQrU010966; Mon, 1 Apr 2024 20:49:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding:content-type; s=qcppdkim1; bh=SDPpPZr
- Ybjlj5SIHl69Y3/3Hon0AHxjShyC0S7sqTuw=; b=gWUhY/nDw1O3b2HSJpQdJ1S
- YLecUNRaBOdOmUCT1FsK7GcH0MCJacbe4K2KKMjypFqphpo9q6zvpIHfDFiRJTpn
- hVmuGtYstGQvCtIWILH0zktBsJV5G/bN9eYwxI4fY0D5dK6kEEdNnUoCOcH4jXTp
- 52jDKptCDyrTb3Bo6tXIWxf+dE4I3WzMwOCQHw8O+YIvJRVLqURvVVZ6YIPUCKk6
- /f7mC9YYjhc3gUrvUYLQ9xI9rb33rythwSWizub8ZFygUxj4/iQNJ0bAW0bekVU5
- ggPT1uKZS9f6Mh+19isyr6EUaInRhg5QcdP75bSk99a7jNOTbhqHl0H/hcvR6Jg=
- =
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x8320r41y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 01 Apr 2024 20:49:22 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 431KnKoA003393
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 1 Apr 2024 20:49:20 GMT
-Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Mon, 1 Apr 2024 13:49:20 -0700
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Helen Koike <helen.koike@collabora.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm: ci: fix the xfails for apq8016
-Date: Mon, 1 Apr 2024 13:48:58 -0700
-Message-ID: <20240401204859.24223-1-quic_abhinavk@quicinc.com>
-X-Mailer: git-send-email 2.43.2
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+ [209.85.208.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 586F610F568;
+ Mon,  1 Apr 2024 21:20:34 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id
+ 4fb4d7f45d1cf-56be32b9775so5787554a12.1; 
+ Mon, 01 Apr 2024 14:20:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1712006432; x=1712611232; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=rtOIDYuOCQzCWWiPyJve7IUdlBxqpyYfYMB6nDSQUYE=;
+ b=UqQb71myqusTbL5GJiejCNDngP8s0UsTUP8NfR8pDhclZ5z/IumtJK+uI+2o/YxG+/
+ EstbnNJh+cp95LT/18oGbMhbLnh12zj1pJm+RI6KAkOmCkWehXMcp9wGbbcJevJSFqPD
+ l/v/z0wLeMxv7MaobbGn6ubErp+i/80K1k597SGYYpVtWl3HRXVV0pzn8ZTitWnTLA7V
+ uRa6g0rrTz2YlmZ/JahNrLyCQztkCRrwumcDrNZDzZbHlfmUE3yMvDnbRihjre0dh2Dp
+ 5vNlq6cvTMuhOpZWIg250lJkn43pv4OUSAzF9oseLpjdc81KuI+lesuHd9ueNBmHJCbT
+ d5+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712006432; x=1712611232;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rtOIDYuOCQzCWWiPyJve7IUdlBxqpyYfYMB6nDSQUYE=;
+ b=IVZHMBHhs34R6as0dz37LGdxuKwE6VZ8OliP8DDS2HlMR33UPpa2u2nNDnatsl5OIN
+ Z3kVY5d1o0VImHpXU8O6KqT8/np9ctev6BeThTEyH6SNB7TH6d6CDP515poY6SEPSoTj
+ ea6VMnNSPORQMyRqdgXhqAqad3hNYY2Df4m7/U2f1Z3VF/wP2N4AGbTAtPMD0ULlktex
+ GfA2Bu/4vd9YZQalHOLJlLNHzbV4239UrHTvbHCZqBzDNOAYN9z+yufcL7l+HstKgEaX
+ AXDIqg0PPlFpggAYo+XkINsJQf7gTeQvpLVmffmK99Wll3323UDtyCWlktZsz8tdheXb
+ jMPw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXofBthVR4OIObw1n58MBaWaTiZ3jusPeUgSLHvhB0imx2FFdUzCzlK0uhOUmKpfbCK3/QqNhYs6JsfiFIBaBK/GYyugVpWyUw+mnEgMN7MHgYw65Mmiv3P0it56LLl455Rem84oYyIbo/tSA==
+X-Gm-Message-State: AOJu0YyBKVsyv685Vy3dZEpw2bVWGOa50LasMvplNZExBBUM4yGQ+hjV
+ VLuZt8ylnvD3wkO54R8OHdB0jVtQJv9bMSlSq1HBOLmkOb0QxCmR
+X-Google-Smtp-Source: AGHT+IF/1TkflsuVeUnLYItXsThhHP1RqlVmXnxmKiYJwjqy0QVVdJ/iTih7AO+b1juMz/6FKNa80w==
+X-Received: by 2002:a17:906:4553:b0:a4e:6f5b:17c2 with SMTP id
+ s19-20020a170906455300b00a4e6f5b17c2mr1937387ejq.32.1712006432519; 
+ Mon, 01 Apr 2024 14:20:32 -0700 (PDT)
+Received: from mosaic.enunes.eu (ip-78-45-66-209.bb.vodafone.cz.
+ [78.45.66.209]) by smtp.gmail.com with ESMTPSA id
+ n12-20020a1709061d0c00b00a4da28f42f1sm5737881ejh.177.2024.04.01.14.20.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Apr 2024 14:20:31 -0700 (PDT)
+From: Erico Nunes <nunes.erico@gmail.com>
+To: Qiang Yu <yuq825@gmail.com>, anarsoul@gmail.com,
+ dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, christian.koenig@amd.com, megi@xff.cz,
+ linux-kernel@vger.kernel.org, Erico Nunes <nunes.erico@gmail.com>
+Subject: [PATCH 0/2] drm/lima: fix devfreq refcount imbalance for job timeouts
+Date: Mon,  1 Apr 2024 23:20:00 +0200
+Message-ID: <20240401212002.1191549-1-nunes.erico@gmail.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: WUNq6n4cZHd7jJtRqt-PHtW2RFpAY2OW
-X-Proofpoint-GUID: WUNq6n4cZHd7jJtRqt-PHtW2RFpAY2OW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-01_14,2024-04-01_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0
- bulkscore=0 suspectscore=0 priorityscore=1501 mlxlogscore=999 spamscore=0
- clxscore=1011 mlxscore=0 adultscore=0 impostorscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2403210001
- definitions=main-2404010145
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,48 +84,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After IGT migrating to dynamic sub-tests, the pipe prefixes
-in the expected fails list are incorrect. Lets drop those
-to accurately match the expected fails.
+This is a followup to https://patchwork.freedesktop.org/series/128856/
 
-In addition, update the xfails list to match the current passing
-list. This should have ideally failed in the CI run because some
-tests were marked as fail even though they passed but due to the
-mismatch in test names, the matching didn't correctly work and was
-resulting in those failures not being seen.
+Patch 1 rev1 from that series
+https://patchwork.freedesktop.org/patch/574745/?series=128856&rev=1
+was dropped because it needed a better solution for a race condition
+between the irq and the timeout handler.
+The proposed solution in that discussion is to solve the race condition
+by masking the irqs during the timeout handler execution, which is what
+is done here.
+This bug is very hard to reproduce with regular applications, but I
+found it to be reliable to reproduce with a program that triggers many
+jobs right in the boundary between timeouting, so that jobs still manage
+to complete while the timeout handler runs.
 
-Here is the passing pipeline for apq8016 with this change:
+With this series, I was unable to further reproduce the bug.
 
-https://gitlab.freedesktop.org/drm/msm/-/jobs/57050562
+At first I had only the pp and gp irqs masked and the problem never
+reproduced again on Mali-400, but I still managed to reproduce it on
+Mali-450 after hours of test time. After masking the pp bcast irq as
+well I was not able to reproduce it anymore even on Mali-450, so I think
+that was the missing bit for it.
 
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
----
- drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+Erico Nunes (2):
+  drm/lima: add mask irq callback to gp and pp
+  drm/lima: mask irqs in timeout path before hard reset
 
-diff --git a/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt b/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
-index 44a5c62dedad..b14d4e884971 100644
---- a/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
-+++ b/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
-@@ -1,17 +1,6 @@
- kms_3d,Fail
- kms_addfb_basic@addfb25-bad-modifier,Fail
--kms_cursor_legacy@all-pipes-forked-bo,Fail
--kms_cursor_legacy@all-pipes-forked-move,Fail
--kms_cursor_legacy@all-pipes-single-bo,Fail
--kms_cursor_legacy@all-pipes-single-move,Fail
--kms_cursor_legacy@all-pipes-torture-bo,Fail
--kms_cursor_legacy@all-pipes-torture-move,Fail
--kms_cursor_legacy@pipe-A-forked-bo,Fail
--kms_cursor_legacy@pipe-A-forked-move,Fail
--kms_cursor_legacy@pipe-A-single-bo,Fail
--kms_cursor_legacy@pipe-A-single-move,Fail
--kms_cursor_legacy@pipe-A-torture-bo,Fail
--kms_cursor_legacy@pipe-A-torture-move,Fail
-+kms_cursor_legacy@torture-bo,Fail
- kms_force_connector_basic@force-edid,Fail
- kms_hdmi_inject@inject-4k,Fail
- kms_selftest@drm_format,Timeout
+ drivers/gpu/drm/lima/lima_bcast.c | 12 ++++++++++++
+ drivers/gpu/drm/lima/lima_bcast.h |  3 +++
+ drivers/gpu/drm/lima/lima_gp.c    |  8 ++++++++
+ drivers/gpu/drm/lima/lima_pp.c    | 18 ++++++++++++++++++
+ drivers/gpu/drm/lima/lima_sched.c |  9 +++++++++
+ drivers/gpu/drm/lima/lima_sched.h |  1 +
+ 6 files changed, 51 insertions(+)
+
 -- 
-2.43.2
+2.44.0
 
