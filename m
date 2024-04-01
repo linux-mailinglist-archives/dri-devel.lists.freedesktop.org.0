@@ -2,125 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE566893C48
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 16:38:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B368893C8C
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Apr 2024 17:09:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35D6710F1D7;
-	Mon,  1 Apr 2024 14:38:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71DBF10F219;
+	Mon,  1 Apr 2024 15:09:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="qT9qQtdy";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="c9jrKprD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2093.outbound.protection.outlook.com [40.107.92.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D870B10F1D7;
- Mon,  1 Apr 2024 14:38:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FHUyQSGxT9SMVmihgzFAOzP+s0yYq/GVHsoxhtcmU9hcwyj4j8/w58zNthEzLBAZvJOxxjPr+1BG+d9czkMVN3C4bGS7F1WksWhJ9u+mAnikXA33DGr57IzQpVsmbwKbsdOncQj6OLzRKKtoPOyij6/dSySqozjjbWDk5hOQLppwyGVXxDqT2ebIZ/imw61MMkn38WV8Qe7lcy73zt9ULv8GPfq23ww03MHBIVNt5vFQb2Aa7NG0XpFVaeySX61HfRrovENJ3xi4HvG4E7D82vKd0LYfReVx+TvP3Nw6LWkncTZ4wPHDYLQ6cHLu4I2NyT98ND7aVY4y90ZyGd3kHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oy5/5ToR8kyk5eOCNKmamyBORSgYBa7SgZPfs7yEmLs=;
- b=PJAomY3dLnWApwMb1wX87N4GWI8VgyNohsFbMYEGS9zukPaIi9LJMQFUEQBIZz2FufohfMiVgTSo16ia9DSMSh6LNvAtJRjNeHApkI+fGqZIQ8V1tHo+6W3X1bUmsJDmgUrap4TjzjWMdIylnLuagZ5gOiIO+KdEzAZtTjT1/utnV7ivrWLBUTTSRTIWkD81iqcaPSM7M845GuuN7jW7F0VQVA7uWM0L548yj6Y2W+hM/mIcVlg4JoYOR1wR2p5clW302YvtXkyPCW5kxkUUgieJYFPFMqVdqd3yCar5ij5JNSSIGsHhTQx7hx11zyjrGh9rariB31EANUH/a3zDSw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oy5/5ToR8kyk5eOCNKmamyBORSgYBa7SgZPfs7yEmLs=;
- b=qT9qQtdy/u+QXSZW1I8K7Wm+8VDUCeJA3YgOiaV5/qrXR22WTMyRBogOP9rqj9T+agihaOAseElf6cONIRC5E3Y1w97dMA/CDCVL/e43OeJJzMVFI6Dkt9WSx4SiDjIJiqNdJJZq0jyrJE+2KcnzBN8Yhua+S3nySsS0rRMS8XM=
-Received: from DM4PR12MB5311.namprd12.prod.outlook.com (2603:10b6:5:39f::7) by
- DM4PR12MB6349.namprd12.prod.outlook.com (2603:10b6:8:a4::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7409.33; Mon, 1 Apr 2024 14:38:46 +0000
-Received: from DM4PR12MB5311.namprd12.prod.outlook.com
- ([fe80::f86e:7f84:27b2:f80]) by DM4PR12MB5311.namprd12.prod.outlook.com
- ([fe80::f86e:7f84:27b2:f80%7]) with mapi id 15.20.7409.042; Mon, 1 Apr 2024
- 14:38:46 +0000
-Message-ID: <394f8102-a633-46e6-8727-1b3f68781b80@amd.com>
-Date: Mon, 1 Apr 2024 10:38:41 -0400
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B7D510F219
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Apr 2024 15:09:04 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-415644aca59so8117845e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Apr 2024 08:09:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1711984143; x=1712588943;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Kjwt42nEgbPfW1JwrBsmP+ZXTGblfKlzAg5LtRHbe58=;
+ b=c9jrKprDcN7+XjeqUp6BtxzbvNRfIJc3MrqINY5A7jlJxMbAyzs0n7z+Q7huJPxx0q
+ vJpTzT7FXhWAuURQooS8RLFnyvMABkrR3YXkjkc+vT8CsjkuiOZZO4qADt/US+mN2+5f
+ +IX1ohjBwnESrt2KvFOf3lPutknK9JJc7zvoyFDfr5zamUBN7US+WoLps2swcCwb6ZFD
+ jImfD5k4lusDCDx9H68ZrQtYfC/L8HVMZ+aCP/J91dqIdrngIgDgEeNPPfFEDgJAb7Pv
+ XPbfBq0xbciwIZlmr8hWo5QItIO2DCQhYXoVSYVlMdJ51IWkQPZJo4TX6iW7TuVSj4jf
+ OFOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1711984143; x=1712588943;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Kjwt42nEgbPfW1JwrBsmP+ZXTGblfKlzAg5LtRHbe58=;
+ b=pPUgtBHA5TqGMV8y0k0RTGyRzW7iSSNTEels/DiXtnwMPjVd16cFgbCyoq4S4VjOkn
+ DvrtnerWeEGg/c+8ODm2tLPYJ5dogWsWFV8r5Ccf1Rckz46d7f6Xe5wVIojtMQaTlzdL
+ oJZUgBq2eMgtDa39ZyjkKP1YLx3XBBu963Fgy/ksyTMVqZFYjb7kyfCJQW2/H64TWjez
+ +yIYaQdBkbluNJiFEEzuIIrdsrFrtIHLxIvfcvenCDgcSEZRGcAi77nDRXoxqN8bsVN+
+ RTLSsXmbIHVh3YTw8Bf+SMsH59IUNBhSd1NCse2MkJBTu71Ne6RyK9HfkbhVSRHi2M+3
+ bljQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU4R4hmqvnPWI2FYMed6n0gNdjuRpOR8WnbFYNczlUnpsB0bTBPU5rWXRAhb61lXFgMgT0nRTsSV4wAkSlFDhMv9Yx3pRQnRVQ/D+C9c1aP
+X-Gm-Message-State: AOJu0Yz3bAWq+Y/9qzMR9UOHRGEkH/ES/gMveht/WCW2jAjCPAzIM91p
+ L41pb1n+Lo/9BvvrGTZVUok26VfnLkv8Dz9/hsY54Rj8Z/vXxJfa3CSKre/CPfA=
+X-Google-Smtp-Source: AGHT+IG8mgHU0q67tr/zSE7P/rGWDGMkgGg275w7anLdM4whNgMILyAsuScDH40AtUs7hRkoSQp3/w==
+X-Received: by 2002:adf:e6c4:0:b0:341:cd0d:b78a with SMTP id
+ y4-20020adfe6c4000000b00341cd0db78amr7586010wrm.48.1711984142681; 
+ Mon, 01 Apr 2024 08:09:02 -0700 (PDT)
+Received: from [192.168.0.101] ([84.65.0.132])
+ by smtp.gmail.com with ESMTPSA id
+ e11-20020a05600c4e4b00b00415611f1494sm5317786wmq.14.2024.04.01.08.09.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Apr 2024 08:09:02 -0700 (PDT)
+Message-ID: <f1ad96c0-2c35-4b5b-bf82-75884e3ac960@ursulin.net>
+Date: Mon, 1 Apr 2024 16:09:01 +0100
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/amd/display: Introduce overlay cursor mode
-To: Harry Wentland <harry.wentland@amd.com>,
- Robert Mader <robert.mader@posteo.de>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Cc: Joshua Ashton <joshua@froggi.es>, =?UTF-8?Q?Michel_D=C3=A4nzer?=
- <mdaenzer@redhat.com>, Chao Guo <chao.guo@nxp.com>,
- Xaver Hugl <xaver.hugl@gmail.com>, Vikas Korjani <Vikas.Korjani@amd.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>, Sean Paul <sean@poorly.run>,
- Simon Ser <contact@emersion.fr>, Shashank Sharma <shashank.sharma@amd.com>,
- Sebastian Wick <sebastian.wick@redhat.com>
-References: <20240315170959.165505-1-sunpeng.li@amd.com>
- <20240315170959.165505-2-sunpeng.li@amd.com>
- <a7ea3f24-6e21-4a7d-8f53-42a12a8d8be8@posteo.de>
- <44b81511-ac1c-4104-812b-9cdc04e6bc83@amd.com>
-Content-Language: en-US
-From: Leo Li <sunpeng.li@amd.com>
-In-Reply-To: <44b81511-ac1c-4104-812b-9cdc04e6bc83@amd.com>
+Subject: Re: Proposal to add CRIU support to DRM render nodes
+Content-Language: en-GB
+To: Felix Kuehling <felix.kuehling@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
+ criu@openvz.org
+Cc: "Errabolu, Ramesh" <Ramesh.Errabolu@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <03a9977c-2044-40c7-9688-9ab326abb81c@amd.com>
+ <81c7b2c3-564a-4946-832b-5394cd19a7b7@ursulin.net>
+ <b5134b40-6e84-47c9-a4f2-2a2c0faa9481@ursulin.net>
+ <330606ad-4236-4b2c-9606-b51ec6567a25@amd.com>
+ <a9b7e59f-7269-414b-a9f9-68107dc81c8b@ursulin.net>
+ <2e2a49bc-1698-4b61-88ad-0ee53ad4d774@ursulin.net>
+ <13062848-6538-443f-b204-e61ac4f1d4ec@amd.com>
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <13062848-6538-443f-b204-e61ac4f1d4ec@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT4PR01CA0044.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:fe::19) To DM4PR12MB5311.namprd12.prod.outlook.com
- (2603:10b6:5:39f::7)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5311:EE_|DM4PR12MB6349:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /Ivn6ch/j7OB3KlLq5/I+MCa+yMhIbJKAW07YtyMVabYhRDsQo7nW7QkJzIwJ8g8UX10qac4+zdYBaVSEfY6IQmKY/Tc/37tm5faSFNMumoVagofjSpcHpOcZzHI2Ne/3FIqP19zWKLdgWodUW80FgZ9fgJ36z6b4a/cY36/4paQyHpzB2ESHjF1NAK46UDjs0muFo0jca4oWi0YC7BVbxZbrcStBA+1A5ZDpCBa88FRdM7CtnOQRkw4yL78I2IQ6L8OEC3N32DV4ymNi47PoUpJstI5tx1JefkRn6qq/6CmWGM7we1PJj/WnwIiDkJ/mlXmitjOmikxFwpQ4NnGYmhEylQRdx3nvwkCDrBXuU3v8FN4jjBH2wLeA/9DgXy6gGoi1BJHbFJrvwClFCRa44WCrRg0Oy8UJeQIn+OY54hd6xBStl+4siaiPNJqlgInFMxFt1SnsolukdpWVf7ls1TTrqv2t9UiHng+aAq5aNVqD6Z61G2ul290CvDUOTyvSX5g8syt+2IKw8n9i85EeBiqYYXvlwEvRgnYJFyY4QiCiHszyav+8dOnOIWJ6fPH+kONd2FqFIoCpwI5nCNFb44zwLSUbHYgNayi3eXjhjA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB5311.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(7416005)(1800799015)(366007)(376005); DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dC9GN2gvbithdDV1a2xVR2tMQzhJcmJxcHZxWEVlOUxKditwOWFYYk1zcmNx?=
- =?utf-8?B?S3hoakRvTHRhazduQ2hwN1NQK3RoRm45KzlyNHpTSmlPWGd5ZVRiUU9za0Jy?=
- =?utf-8?B?NGNmK2xYSzNjRVo1NkxHQUxNYVhPNUxJdXRHc2hpSTg5NjZzUys2OTlaWkNL?=
- =?utf-8?B?MjRCSUhCaU9qbmlpUzgyMXZpUzNyMzhiLzJ6Vis0UGhCbkpsMEVLeEV5WHQz?=
- =?utf-8?B?WVl4VUd2dEpOWkYwRi9MMHVJSWZubGtENzY1aTNlYUNaRDMwdHhXRFlmRFdh?=
- =?utf-8?B?eFFpZ2JVOU40TGltTXVNTWozYkhndHVUZGhyRk0rTmRpZ2psY2w1NWpBaFNm?=
- =?utf-8?B?V1RGS2p1c0FySVdGdVVjaENkeVV2TTk4cTdnamhMaWpOeUlDTjJlWjRTUzBI?=
- =?utf-8?B?S21IaDhBSWllWllrOHlVdnRudUJWUmxwQkVnUXVGQkJwcjZ0clh6cExLVWIr?=
- =?utf-8?B?d2pSeWs4QVFLdkVidGhBM2RwVW8zMnIzaHRrOHZwYkxGRzZ3S1E0QWdZVUdM?=
- =?utf-8?B?RDluMzRNbXNacVZuM2xZNmpPZm9KSmtZZUVnM0doNll5K3JRbzZpamRvc1JR?=
- =?utf-8?B?TEI0U1JBbFZoMklpQ2hqQlAzSHlTWTMrUVdGMUlyby9yUlBYSGdGL0htdmoz?=
- =?utf-8?B?bkhYZ1RlMGdDN0FOT0ZiYlloQ1JXc2c3Q3ZlVytmTmdQclg4Nitaa2oxb1Nm?=
- =?utf-8?B?K29jb1o0Z0JXYW81QnpVNEc4cXN2VEZTMUlnU2xrZUVvZ1RJRVJROFhNUkpO?=
- =?utf-8?B?V003U3BLQ3poaDNHRkQzejJpaHJaeHNNMkxudHA4OFdDdHE1emJnT1VDQ3hk?=
- =?utf-8?B?RUVjY0JRUEc4MU1RWXZBdnZKejNLU054U1A0S2ljSnYrMWdkREF6d0orTG5T?=
- =?utf-8?B?QkRmbzN3clFDSTJJajd6alNkT1RrVUJPR3U1dHNBdDVZajVlaDIyVTZEZkVE?=
- =?utf-8?B?R0FVUUNDeGtGaUpNRUF4SnFVYWNuZi9jVTRHWUl5blVrMjJXM0VITXVJTEZX?=
- =?utf-8?B?VDhVMGZYY2p6NzZVY2dDUG05NUxFN2wvZWFQNDNuNTBWeHFaaC9WZWdJQ3Y2?=
- =?utf-8?B?MXQ5ZUlwVHZNZytpT1hxekNtZVRpWVVmYU5UaDBGN0RuTkw1cW5Fb250ZjRx?=
- =?utf-8?B?VjFJZm93TkZzdjRoTmNnU1k3UkthOXROazYvMU02TTI0aHlwZFVJVjlsd3FM?=
- =?utf-8?B?MFpOTU15V01COURwUHYzSVFEcGtxNWJDZ0xNbmlBWmhCQkQ1L1FHSitUL1d4?=
- =?utf-8?B?S0JzWUZZMTVyaVYzSHNLaHFySHlmT2MzbkRHejdvSVdKalVGdUNIcXhic2xv?=
- =?utf-8?B?cnVFZ0xrc2xoeVhIWndjVGpMVmtFS3VhR1BSWEV3U21LTllXelA5bVBqaDNO?=
- =?utf-8?B?WEEwdUJkS0N5cENiN2tIWU5MTStlK1pNa3RZamNuQU1lMmVnanVpYk5vdkYy?=
- =?utf-8?B?RXJNT3Q5RFlLVklDeUEzeDVhVDAxYWZvRFBDd3BlNjU1RzJRaTUyZjNvOHg1?=
- =?utf-8?B?ZHRDL1RubFJVTHJiOUtnaFl3RnE0UVhPaTlvU3VkU1BZdVlPQ0JlTHEwaDlJ?=
- =?utf-8?B?ZUxHdzZEaVdKeG5Bck05NkZDb2FBN0YvZjh1N1llZWhhVnpEYldUd1ZabTZB?=
- =?utf-8?B?aUhpTThnYWxReXNaZjZmZFgrbi9uYzI1cXhLcCtTNzdkOUlCZGU1bTE3Snha?=
- =?utf-8?B?YTFxNlZMaUJ3c2dyaXZWSWdibWlJYXVaUGRQcmdxTDhRL2tLblpmMk4zZnhq?=
- =?utf-8?B?bTdnUEFjMmdHWGhWbnpnVXZQM2pOOThpcFRxd2JqMmZVK1hjY1poZGxXNWhX?=
- =?utf-8?B?MnJrMVRMQ1VBcmF1S3gvL0UzTXN5QlZVejBPMjU4dTFwWXZIRlE2VmR1T21V?=
- =?utf-8?B?aXYrWXZ5MlhoZlFJa0R5Wlhsbk1wbXlkaWZVQnBSNzdLQUZ2NDl0QWlUY29n?=
- =?utf-8?B?SUgzNjE3TUd4ZkE2THpHZE5mQUoyVzRTbmNSY3A3cHVYZCtidE1pZm5EMDI4?=
- =?utf-8?B?a1J1U1VQMmRJc0h5b3BYajVTT2FuUlV0azZSL1NIbmNEZHl0WFZoQmtPOU1H?=
- =?utf-8?B?QlJOWDYvN0loeGRwbVFRNnBTWEVDR0dCV0JWcVBRUmM0WVRYMDBWWEw3WjBt?=
- =?utf-8?Q?9QIzzH5tCBAqMCDPRVNZBNZhd?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b171c295-c252-4bfd-6513-08dc52596fd7
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5311.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2024 14:38:46.3349 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GV6FdKzzIvERNo9iWXTnqHfc6sk5F5mz7+8D76J5QL2nPD6ugEDFDBE40fTGvV5q
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6349
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,602 +97,518 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+On 28/03/2024 20:42, Felix Kuehling wrote:
+> 
+> On 2024-03-28 12:03, Tvrtko Ursulin wrote:
+>>
+>> Hi Felix,
+>>
+>> I had one more thought while browsing around the amdgpu CRIU plugin. 
+>> It appears it relies on the KFD support being compiled in and /dev/kfd 
+>> present, correct? AFAICT at least, it relies on that to figure out the 
+>> amdgpu DRM node.
+>>
+>> In would be probably good to consider designing things without that 
+>> dependency. So that checkpointing an application which does not use 
+>> /dev/kfd is possible. Or if the kernel does not even have the KFD 
+>> support compiled in.
+> 
+> Yeah, if we want to support graphics apps that don't use KFD, we should 
+> definitely do that. Currently we get a lot of topology information from 
+> KFD, not even from the /dev/kfd device but from the sysfs nodes exposed 
+> by KFD. We'd need to get GPU device info from the render nodes instead. 
+> And if KFD is available, we may need to integrate both sources of 
+> information.
+> 
+> 
+>>
+>> It could perhaps mean no more than adding some GPU discovery code into 
+>> CRIU. Which shuold be flexible enough to account for things like 
+>> re-assigned minor numbers due driver reload.
+> 
+> Do you mean adding GPU discovery to the core CRIU, or to the plugin. I 
+> was thinking this is still part of the plugin.
 
-On 2024-03-28 11:52, Harry Wentland wrote:
-> 
-> 
-> On 2024-03-28 11:48, Robert Mader wrote:
->> Hi,
->>
->> On 15.03.24 18:09, sunpeng.li@amd.com wrote:
->>> From: Leo Li <sunpeng.li@amd.com>
->>>
->>> [Why]
->>>
->>> DCN is the display hardware for amdgpu. DRM planes are backed by DCN
->>> hardware pipes, which carry pixel data from one end (memory), to the
->>> other (output encoder).
->>>
->>> Each DCN pipe has the ability to blend in a cursor early on in the
->>> pipeline. In other words, there are no dedicated cursor planes in DCN,
->>> which makes cursor behavior somewhat unintuitive for compositors.
->>>
->>> For example, if the cursor is in RGB format, but the top-most DRM plane
->>> is in YUV format, DCN will not be able to blend them. Because of this,
->>> amdgpu_dm rejects all configurations where a cursor needs to be enabled
->>> on top of a YUV formatted plane.
->>>
->>>  From a compositor's perspective, when computing an allocation for
->>> hardware plane offloading, this cursor-on-yuv configuration result in an
->>> atomic test failure. Since the failure reason is not obvious at all,
->>> compositors will likely fall back to full rendering, which is not ideal.
->>>
->>> Instead, amdgpu_dm can try to accommodate the cursor-on-yuv
->>> configuration by opportunistically reserving a separate DCN pipe just
->>> for the cursor. We can refer to this as "overlay cursor mode". It is
->>> contrasted with "native cursor mode", where the native DCN per-pipe
->>> cursor is used.
->>>
->>> [How]
->>>
->>> On each crtc, compute whether the cursor plane should be enabled in
->>> overlay mode (which currently, is iff the immediate plane below has a
->>> YUV format). If it is, mark the CRTC as requesting overlay cursor mode.
->>
->> iff -> if
->>
->> IIRC another case where this would be needed is when the scale of the plane 
->> below doesn't match the cursor scale. This is especially common for videos and 
->> thus implicitly covered by the YUV check in most cases, but should probably be 
->> made explicit. Michel Dänzer might be able to comment here.
->>
->> Another possible case that could be covered here is when some area is not 
->> covered by any plane and just shows a black background. This happens e.g. if a 
->> compositor puts a YUV surface on the primary plane that has a different 
->> width/high ratio than the display. The compositor can add black bars by just 
->> leaving the area uncovered and thus require only a single hardware plane for 
->> video playback ("Unless explicitly specified (..), the active area of a CRTC 
->> will be black by default." 
->> https://dri.freedesktop.org/docs/drm/gpu/drm-kms.html#plane-abstraction). If 
->> the cursor is visible over this black bars, AMD currently refuses the commit 
->> IIUC (see also Michel Dänzers comment at 
->> https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/3177#note_1924544)
->>
-> 
-> Thanks for mentioning both of these scenarios. I agree it would be
-> good if we can expand the use of the overlay cursor to these cases.
-> 
-> Harry
-> 
->> Thanks,
->>
->> Robert Mader
+Yes I agree. I was only thinking about adding some DRM device discovery 
+code in a more decoupled fashion from the current plugin, for both the 
+reason discussed above (decoupling a bit from reliance on kfd sysfs), 
+and then also if/when a new DRM driver might want to implement this the 
+code could be move to some common plugin area.
 
-All good points, thanks for the feedback. I'll take a peek at the scaling + no
-underlying plane case and send a v2 when I get around to it.
+I am not sure how feasible that would be though. The "gpu id" concept 
+and it's matching in the current kernel code and CRIU plugin - is that 
+value tied to the physical GPU instance or how it works?
 
-Leo
+>> Otherwise I am eagerly awaiting to hear more about the design 
+>> specifics around dma-buf handling. And also seeing how to extend to 
+>> other DRM related anonymous fds.
+> 
+> I've been pretty far under-water lately. I hope I'll find time to work 
+> on this more, but it's probably going to be at least a few weeks.
 
+Got it.
+
+Regards,
+
+Tvrtko
+
+> 
+> Regards,
+>    Felix
+> 
+> 
 >>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>> On 15/03/2024 18:36, Tvrtko Ursulin wrote:
 >>>
->>> During DC validation, attempt to enable a separate DCN pipe for the
->>> cursor if it's in overlay mode. If that fails, or if no overlay mode is
->>> requested, then fallback to native mode.
+>>> On 15/03/2024 02:33, Felix Kuehling wrote:
+>>>>
+>>>> On 2024-03-12 5:45, Tvrtko Ursulin wrote:
+>>>>>
+>>>>> On 11/03/2024 14:48, Tvrtko Ursulin wrote:
+>>>>>>
+>>>>>> Hi Felix,
+>>>>>>
+>>>>>> On 06/12/2023 21:23, Felix Kuehling wrote:
+>>>>>>> Executive Summary: We need to add CRIU support to DRM render 
+>>>>>>> nodes in order to maintain CRIU support for ROCm application once 
+>>>>>>> they start relying on render nodes for more GPU memory 
+>>>>>>> management. In this email I'm providing some background why we 
+>>>>>>> are doing this, and outlining some of the problems we need to 
+>>>>>>> solve to checkpoint and restore render node state and shared 
+>>>>>>> memory (DMABuf) state. I have some thoughts on the API design, 
+>>>>>>> leaning on what we did for KFD, but would like to get feedback 
+>>>>>>> from the DRI community regarding that API and to what extent 
+>>>>>>> there is interest in making that generic.
+>>>>>>>
+>>>>>>> We are working on using DRM render nodes for virtual address 
+>>>>>>> mappings in ROCm applications to implement the CUDA11-style VM 
+>>>>>>> API and improve interoperability between graphics and compute. 
+>>>>>>> This uses DMABufs for sharing buffer objects between KFD and 
+>>>>>>> multiple render node devices, as well as between processes. In 
+>>>>>>> the long run this also provides a path to moving all or most 
+>>>>>>> memory management from the KFD ioctl API to libdrm.
+>>>>>>>
+>>>>>>> Once ROCm user mode starts using render nodes for virtual address 
+>>>>>>> management, that creates a problem for checkpointing and 
+>>>>>>> restoring ROCm applications with CRIU. Currently there is no 
+>>>>>>> support for checkpointing and restoring render node state, other 
+>>>>>>> than CPU virtual address mappings. Support will be needed for 
+>>>>>>> checkpointing GEM buffer objects and handles, their GPU virtual 
+>>>>>>> address mappings and memory sharing relationships between devices 
+>>>>>>> and processes.
+>>>>>>>
+>>>>>>> Eventually, if full CRIU support for graphics applications is 
+>>>>>>> desired, more state would need to be captured, including 
+>>>>>>> scheduler contexts and BO lists. Most of this state is 
+>>>>>>> driver-specific.
+>>>>>>>
+>>>>>>> After some internal discussions we decided to take our design 
+>>>>>>> process public as this potentially touches DRM GEM and DMABuf 
+>>>>>>> APIs and may have implications for other drivers in the future.
+>>>>>>>
+>>>>>>> One basic question before going into any API details: Is there a 
+>>>>>>> desire to have CRIU support for other DRM drivers?
+>>>>>>
+>>>>>> This sounds like a very interesting feature on the overall, 
+>>>>>> although I cannot answer on the last question here.
+>>>>>
+>>>>> I forgot to finish this thought. I cannot answer / don't know of 
+>>>>> any concrete plans, but I think feature is pretty cool and if 
+>>>>> amdgpu gets it working I wouldn't be surprised if other drivers 
+>>>>> would get interested.
+>>>>
+>>>> Thanks, that's good to hear!
+>>>>
+>>>>
+>>>>>
+>>>>>> Funnily enough, it has a tiny relation to an i915 feature I 
+>>>>>> recently implemented on Mesa's request, which is to be able to 
+>>>>>> "upload" the GPU context from the GPU hang error state and replay 
+>>>>>> the hanging request. It is kind of (at a stretch) a very special 
+>>>>>> tiny subset of checkout and restore so I am not mentioning it as a 
+>>>>>> curiosity.
+>>>>>>
+>>>>>> And there is also another partical conceptual intersect with the 
+>>>>>> (at the moment not yet upstream) i915 online debugger. This part 
+>>>>>> being in the area of discovering and enumerating GPU resources 
+>>>>>> beloning to the client.
+>>>>>>
+>>>>>> I don't see an immediate design or code sharing opportunities 
+>>>>>> though but just mentioning.
+>>>>>>
+>>>>>> I did spend some time reading your plugin and kernel 
+>>>>>> implementation out of curiousity and have some comments and 
+>>>>>> questions.
+>>>>>>
+>>>>>>> With that out of the way, some considerations for a possible DRM 
+>>>>>>> CRIU API (either generic of AMDGPU driver specific): The API goes 
+>>>>>>> through several phases during checkpoint and restore:
+>>>>>>>
+>>>>>>> Checkpoint:
+>>>>>>>
+>>>>>>>  1. Process-info (enumerates objects and sizes so user mode can 
+>>>>>>> allocate
+>>>>>>>     memory for the checkpoint, stops execution on the GPU)
+>>>>>>>  2. Checkpoint (store object metadata for BOs, queues, etc.)
+>>>>>>>  3. Unpause (resumes execution after the checkpoint is complete)
+>>>>>>>
+>>>>>>> Restore:
+>>>>>>>
+>>>>>>>  1. Restore (restore objects, VMAs are not in the right place at 
+>>>>>>> this time)
+>>>>>>>  2. Resume (final fixups after the VMAs are sorted out, resume 
+>>>>>>> execution)
+>>>>>>
+>>>>>> Btw is check-pointing guaranteeing all relevant activity is idled? 
+>>>>>> For instance dma_resv objects are free of fences which would need 
+>>>>>> to restored for things to continue executing sensibly? Or how is 
+>>>>>> that handled?
+>>>>
+>>>> In our compute use cases, we suspend user mode queues. This can 
+>>>> include CWSR (compute-wave-save-restore) where the state of 
+>>>> in-flight waves is stored in memory and can be reloaded and resumed 
+>>>> from memory later. We don't use any fences other than "eviction 
+>>>> fences", that are signaled after the queues are suspended. And those 
+>>>> fences are never handed to user mode. So we don't need to worry 
+>>>> about any fence state in the checkpoint.
+>>>>
+>>>> If we extended this to support the kernel mode command submission 
+>>>> APIs, I would expect that we'd wait for all current submissions to 
+>>>> complete, and stop new ones from being sent to the HW before taking 
+>>>> the checkpoint. When we take the checkpoint in the CRIU plugin, the 
+>>>> CPU threads are already frozen and cannot submit any more work. If 
+>>>> we wait for all currently pending submissions to drain, I think we 
+>>>> don't need to save any fence state because all the fences will have 
+>>>> signaled. (I may be missing some intricacies and I'm afraid it may 
+>>>> not be that simple in reality, but that's my opening bid. ;)
 >>>
->>> Signed-off-by: Leo Li <sunpeng.li@amd.com>
->>> ---
->>>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 309 +++++++++++++++---
->>>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |   7 +
->>>   .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    |   1 +
->>>   .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   |  13 +-
->>>   4 files changed, 288 insertions(+), 42 deletions(-)
+>>> It feels feasible to me too, for the normally behaving clients at least.
 >>>
->>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c 
->>> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->>> index 21a61454c878..09ab330aed17 100644
->>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->>> @@ -8359,8 +8359,19 @@ static void amdgpu_dm_commit_planes(struct 
->>> drm_atomic_state *state,
->>>        * Disable the cursor first if we're disabling all the planes.
->>>        * It'll remain on the screen after the planes are re-enabled
->>>        * if we don't.
->>> +     *
->>> +     * If the cursor is transitioning from native to overlay mode, the
->>> +     * native cursor needs to be disabled first.
->>>        */
->>> -    if (acrtc_state->active_planes == 0)
->>> +    if (acrtc_state->cursor_mode == DM_CURSOR_OVERLAY_MODE &&
->>> +        dm_old_crtc_state->cursor_mode == DM_CURSOR_NATIVE_MODE) {
->>> +        struct dc_cursor_position cursor_position = {0};
->>> +        dc_stream_set_cursor_position(acrtc_state->stream,
->>> +                          &cursor_position);
->>> +    }
->>> +
->>> +    if (acrtc_state->active_planes == 0 &&
->>> +        dm_old_crtc_state->cursor_mode == DM_CURSOR_NATIVE_MODE)
->>>           amdgpu_dm_commit_cursors(state);
->>>       /* update planes when needed */
->>> @@ -8374,7 +8385,8 @@ static void amdgpu_dm_commit_planes(struct 
->>> drm_atomic_state *state,
->>>           struct dm_plane_state *dm_new_plane_state = 
->>> to_dm_plane_state(new_plane_state);
->>>           /* Cursor plane is handled after stream updates */
->>> -        if (plane->type == DRM_PLANE_TYPE_CURSOR) {
->>> +        if (plane->type == DRM_PLANE_TYPE_CURSOR &&
->>> +            acrtc_state->cursor_mode == DM_CURSOR_NATIVE_MODE) {
->>>               if ((fb && crtc == pcrtc) ||
->>>                   (old_plane_state->fb && old_plane_state->crtc == pcrtc))
->>>                   cursor_update = true;
->>> @@ -8727,7 +8739,8 @@ static void amdgpu_dm_commit_planes(struct 
->>> drm_atomic_state *state,
->>>        * This avoids redundant programming in the case where we're going
->>>        * to be disabling a single plane - those pipes are being disabled.
->>>        */
->>> -    if (acrtc_state->active_planes)
->>> +    if (acrtc_state->active_planes &&
->>> +        acrtc_state->cursor_mode == DM_CURSOR_NATIVE_MODE)
->>>           amdgpu_dm_commit_cursors(state);
->>>   cleanup:
->>> @@ -10039,7 +10052,8 @@ static bool should_reset_plane(struct 
->>> drm_atomic_state *state,
->>>   {
->>>       struct drm_plane *other;
->>>       struct drm_plane_state *old_other_state, *new_other_state;
->>> -    struct drm_crtc_state *new_crtc_state;
->>> +    struct drm_crtc_state *old_crtc_state, *new_crtc_state;
->>> +    struct dm_crtc_state *old_dm_crtc_state, *new_dm_crtc_state;
->>>       struct amdgpu_device *adev = drm_to_adev(plane->dev);
->>>       int i;
->>> @@ -10061,10 +10075,24 @@ static bool should_reset_plane(struct 
->>> drm_atomic_state *state,
->>>       new_crtc_state =
->>>           drm_atomic_get_new_crtc_state(state, new_plane_state->crtc);
->>> +    old_crtc_state =
->>> +        drm_atomic_get_old_crtc_state(state, old_plane_state->crtc);
->>>       if (!new_crtc_state)
->>>           return true;
->>> +    /*
->>> +     * A change in cursor mode means a new dc pipe needs to be acquired or
->>> +     * released from the state
->>> +     */
->>> +    old_dm_crtc_state = to_dm_crtc_state(old_crtc_state);
->>> +    new_dm_crtc_state = to_dm_crtc_state(new_crtc_state);
->>> +    if (plane->type == DRM_PLANE_TYPE_CURSOR &&
->>> +        old_dm_crtc_state != NULL &&
->>> +        old_dm_crtc_state->cursor_mode != new_dm_crtc_state->cursor_mode) {
->>> +        return true;
->>> +    }
->>> +
->>>       /* CRTC Degamma changes currently require us to recreate planes. */
->>>       if (new_crtc_state->color_mgmt_changed)
->>>           return true;
->>> @@ -10216,6 +10244,68 @@ static int dm_check_cursor_fb(struct amdgpu_crtc 
->>> *new_acrtc,
->>>       return 0;
->>>   }
->>> +/*
->>> + * Helper function for checking the cursor in native mode
->>> + */
->>> +static int dm_check_native_cursor_state(struct drm_crtc *new_plane_crtc,
->>> +                    struct drm_plane *plane,
->>> +                    struct drm_plane_state *new_plane_state,
->>> +                    bool enable)
->>> +{
->>> +
->>> +    struct amdgpu_crtc *new_acrtc;
->>> +    int ret;
->>> +
->>> +    if (!enable || !new_plane_crtc ||
->>> +        drm_atomic_plane_disabling(plane->state, new_plane_state))
->>> +        return 0;
->>> +
->>> +    new_acrtc = to_amdgpu_crtc(new_plane_crtc);
->>> +
->>> +    if (new_plane_state->src_x != 0 || new_plane_state->src_y != 0) {
->>> +        DRM_DEBUG_ATOMIC("Cropping not supported for cursor plane\n");
->>> +        return -EINVAL;
->>> +    }
->>> +
->>> +    if (new_plane_state->fb) {
->>> +        ret = dm_check_cursor_fb(new_acrtc, new_plane_state,
->>> +                        new_plane_state->fb);
->>> +        if (ret)
->>> +            return ret;
->>> +    }
->>> +
->>> +    return 0;
->>> +}
->>> +
->>> +static bool dm_should_update_native_cursor(struct drm_atomic_state *state,
->>> +                       struct drm_crtc *old_plane_crtc,
->>> +                       struct drm_crtc *new_plane_crtc,
->>> +                       bool enable)
->>> +{
->>> +    struct drm_crtc_state *old_crtc_state, *new_crtc_state;
->>> +    struct dm_crtc_state *dm_old_crtc_state, *dm_new_crtc_state;
->>> +
->>> +    if (!enable) {
->>> +        if (old_plane_crtc == NULL)
->>> +            return true;
->>> +
->>> +        old_crtc_state = drm_atomic_get_old_crtc_state(
->>> +            state, old_plane_crtc);
->>> +        dm_old_crtc_state = to_dm_crtc_state(old_crtc_state);
->>> +
->>> +        return dm_old_crtc_state->cursor_mode == DM_CURSOR_NATIVE_MODE;
->>> +    } else {
->>> +        if (new_plane_crtc == NULL)
->>> +            return true;
->>> +
->>> +        new_crtc_state = drm_atomic_get_new_crtc_state(
->>> +            state, new_plane_crtc);
->>> +        dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
->>> +
->>> +        return dm_new_crtc_state->cursor_mode == DM_CURSOR_NATIVE_MODE;
->>> +    }
->>> +}
->>> +
->>>   static int dm_update_plane_state(struct dc *dc,
->>>                    struct drm_atomic_state *state,
->>>                    struct drm_plane *plane,
->>> @@ -10231,8 +10321,7 @@ static int dm_update_plane_state(struct dc *dc,
->>>       struct drm_crtc_state *old_crtc_state, *new_crtc_state;
->>>       struct dm_crtc_state *dm_new_crtc_state, *dm_old_crtc_state;
->>>       struct dm_plane_state *dm_new_plane_state, *dm_old_plane_state;
->>> -    struct amdgpu_crtc *new_acrtc;
->>> -    bool needs_reset;
->>> +    bool needs_reset, update_native_cursor;
->>>       int ret = 0;
->>> @@ -10241,24 +10330,16 @@ static int dm_update_plane_state(struct dc *dc,
->>>       dm_new_plane_state = to_dm_plane_state(new_plane_state);
->>>       dm_old_plane_state = to_dm_plane_state(old_plane_state);
->>> -    if (plane->type == DRM_PLANE_TYPE_CURSOR) {
->>> -        if (!enable || !new_plane_crtc ||
->>> -            drm_atomic_plane_disabling(plane->state, new_plane_state))
->>> -            return 0;
->>> -
->>> -        new_acrtc = to_amdgpu_crtc(new_plane_crtc);
->>> -
->>> -        if (new_plane_state->src_x != 0 || new_plane_state->src_y != 0) {
->>> -            DRM_DEBUG_ATOMIC("Cropping not supported for cursor plane\n");
->>> -            return -EINVAL;
->>> -        }
->>> +    update_native_cursor = dm_should_update_native_cursor(state,
->>> +                                  old_plane_crtc,
->>> +                                  new_plane_crtc,
->>> +                                  enable);
->>> -        if (new_plane_state->fb) {
->>> -            ret = dm_check_cursor_fb(new_acrtc, new_plane_state,
->>> -                         new_plane_state->fb);
->>> -            if (ret)
->>> -                return ret;
->>> -        }
->>> +    if (plane->type == DRM_PLANE_TYPE_CURSOR && update_native_cursor) {
->>> +        ret = dm_check_native_cursor_state(new_plane_crtc, plane,
->>> +                                new_plane_state, enable);
->>> +        if (ret)
->>> +            return ret;
->>>           return 0;
->>>       }
->>> @@ -10285,16 +10366,17 @@ static int dm_update_plane_state(struct dc *dc,
->>>                   plane->base.id, old_plane_crtc->base.id);
->>>           ret = dm_atomic_get_state(state, &dm_state);
->>> -        if (ret)
->>> -            return ret;
->>> +        if (ret) {
->>> +            goto out;
->>> +        }
->>>           if (!dc_state_remove_plane(
->>>                   dc,
->>>                   dm_old_crtc_state->stream,
->>>                   dm_old_plane_state->dc_state,
->>>                   dm_state->context)) {
->>> -
->>> -            return -EINVAL;
->>> +            ret = -EINVAL;
->>> +            goto out;
->>>           }
->>>           if (dm_old_plane_state->dc_state)
->>> @@ -10323,21 +10405,16 @@ static int dm_update_plane_state(struct dc *dc,
->>>               return 0;
->>>           ret = amdgpu_dm_plane_helper_check_state(new_plane_state, 
->>> new_crtc_state);
->>> -        if (ret)
->>> -            return ret;
->>> +        if (ret) {
->>> +            goto out;
->>> +        }
->>>           WARN_ON(dm_new_plane_state->dc_state);
->>>           dc_new_plane_state = dc_create_plane_state(dc);
->>> -        if (!dc_new_plane_state)
->>> -            return -ENOMEM;
->>> -
->>> -        /* Block top most plane from being a video plane */
->>> -        if (plane->type == DRM_PLANE_TYPE_OVERLAY) {
->>> -            if 
->>> (amdgpu_dm_plane_is_video_format(new_plane_state->fb->format->format) && 
->>> *is_top_most_overlay)
->>> -                return -EINVAL;
->>> -
->>> -            *is_top_most_overlay = false;
->>> +        if (!dc_new_plane_state) {
->>> +            ret = -ENOMEM;
->>> +            goto out;
->>>           }
->>>           DRM_DEBUG_ATOMIC("Enabling DRM plane: %d on DRM crtc %d\n",
->>> @@ -10350,13 +10427,13 @@ static int dm_update_plane_state(struct dc *dc,
->>>               new_crtc_state);
->>>           if (ret) {
->>>               dc_plane_state_release(dc_new_plane_state);
->>> -            return ret;
->>> +            goto out;
->>>           }
->>>           ret = dm_atomic_get_state(state, &dm_state);
->>>           if (ret) {
->>>               dc_plane_state_release(dc_new_plane_state);
->>> -            return ret;
->>> +            goto out;
->>>           }
->>>           /*
->>> @@ -10373,7 +10450,8 @@ static int dm_update_plane_state(struct dc *dc,
->>>                   dm_state->context)) {
->>>               dc_plane_state_release(dc_new_plane_state);
->>> -            return -EINVAL;
->>> +            ret = -EINVAL;
->>> +            goto out;
->>>           }
->>>           dm_new_plane_state->dc_state = dc_new_plane_state;
->>> @@ -10388,6 +10466,16 @@ static int dm_update_plane_state(struct dc *dc,
->>>           *lock_and_validation_needed = true;
->>>       }
->>> +out:
->>> +    /* If cursor overlay failed, attempt fallback to native mode */
->>> +    if (ret == -EINVAL && plane->type == DRM_PLANE_TYPE_CURSOR) {
->>> +        ret = dm_check_native_cursor_state(new_plane_crtc, plane,
->>> +                            new_plane_state, enable);
->>> +        if (ret) {
->>> +            return ret;
->>> +        }
->>> +        dm_new_crtc_state->cursor_mode = DM_CURSOR_NATIVE_MODE;
->>> +    }
->>>       return ret;
->>>   }
->>> @@ -10544,6 +10632,126 @@ static int add_affected_mst_dsc_crtcs(struct 
->>> drm_atomic_state *state, struct drm
->>>       return drm_dp_mst_add_affected_dsc_crtcs(state, 
->>> &aconnector->mst_root->mst_mgr);
->>>   }
->>> +/**
->>> + * DOC: Cursor Modes - Native vs Overlay
->>> + *
->>> + * In native mode, the cursor uses a integrated cursor pipe within each DCN hw
->>> + * plane. It does not require a dedicated hw plane to enable, but it is
->>> + * subjected to the same z-order and scaling as the hw plane. It also has 
->>> format
->>> + * restrictions, a RGB cursor in native mode cannot be enabled within a non-RGB
->>> + * hw plane.
->>> + *
->>> + * In overlay mode, the cursor uses a separate DCN hw plane, and thus has its
->>> + * own scaling and z-pos. It also has no blending restrictions. It lends to a
->>> + * cursor behavior more akin to a DRM client's expectations. However, it does
->>> + * occupy an extra DCN plane, and therefore will only be used if a DCN plane is
->>> + * available.
->>> +*/
->>> +
->>> +/**
->>> + * Set whether the cursor should be enabled in native mode, or overlay mode, on
->>> + * the dm_crtc_state.
->>> + *
->>> + * The cursor should be enabled in overlay mode if the immediate underlying
->>> + * plane contains a video format.
->>> + *
->>> + * Since zpos info is required, drm_atomic_normalize_zpos must be called before
->>> + * calling this function.
->>> +*/
->>> +static int dm_crtc_set_cursor_mode(struct drm_atomic_state *state,
->>> +                    struct dm_crtc_state *dm_crtc_state)
->>> +{
->>> +    struct drm_plane_state *plane_state, *old_plane_state, *target_plane_state;
->>> +    struct drm_crtc_state *crtc_state = &dm_crtc_state->base;
->>> +    struct drm_plane *plane;
->>> +    bool consider_mode_change = false;
->>> +    bool cursor_changed = false;
->>> +    unsigned int target_zpos;
->>> +    unsigned int cursor_zpos;
->>> +    int i;
->>> +
->>> +    /*
->>> +     * Cursor mode can change if a plane's format changes, is
->>> +     * enabled/disabled, or z-order changes.
->>> +     */
->>> +    for_each_oldnew_plane_in_state(state, plane, old_plane_state, 
->>> plane_state, i) {
->>> +
->>> +        /* Only care about planes on this CRTC */
->>> +        if ((drm_plane_mask(plane) & crtc_state->plane_mask) == 0)
->>> +            continue;
->>> +
->>> +        if (plane->type == DRM_PLANE_TYPE_CURSOR)
->>> +            cursor_changed = true;
->>> +
->>> +        if (drm_atomic_plane_enabling(old_plane_state, plane_state) ||
->>> +            drm_atomic_plane_disabling(old_plane_state, plane_state) ||
->>> +            old_plane_state->fb->format != plane_state->fb->format) {
->>> +            consider_mode_change = true;
->>> +            break;
->>> +        }
->>> +    }
->>> +
->>> +    if (!consider_mode_change && !crtc_state->zpos_changed) {
->>> +        return 0;
->>> +    }
->>> +
->>> +    /*
->>> +     * If no cursor change on this CRTC, and not enabled on this CRTC, then
->>> +     * no need to set cursor mode. This avoids needlessly locking the cursor
->>> +     * state.
->>> +     */
->>> +    if (!cursor_changed &&
->>> +        !(drm_plane_mask(crtc_state->crtc->cursor) & crtc_state->plane_mask)) {
->>> +        return 0;
->>> +    }
->>> +
->>> +    plane_state = drm_atomic_get_plane_state(state,
->>> +                         crtc_state->crtc->cursor);
->>> +    if (IS_ERR(plane_state))
->>> +        return PTR_ERR(plane_state);
->>> +
->>> +    /* Cursor is disabled */
->>> +    if (!plane_state->fb)
->>> +        return 0;
->>> +
->>> +    cursor_zpos = plane_state->normalized_zpos;
->>> +
->>> +    /* Get enabled plane immediately below cursor. */
->>> +    target_plane_state = NULL;
->>> +    target_zpos = 0;
->>> +    drm_for_each_plane_mask(plane, state->dev, crtc_state->plane_mask) {
->>> +        if (plane->type == DRM_PLANE_TYPE_CURSOR)
->>> +            continue;
->>> +
->>> +        plane_state = drm_atomic_get_plane_state(state, plane);
->>> +        if (IS_ERR(plane_state))
->>> +            return PTR_ERR(plane_state);
->>> +
->>> +        if (!plane_state->fb ||
->>> +            plane_state->normalized_zpos >= cursor_zpos)
->>> +            continue;
->>> +
->>> +        if (plane_state->normalized_zpos >= target_zpos) {
->>> +            target_zpos = plane_state->normalized_zpos;
->>> +            target_plane_state = plane_state;
->>> +        }
->>> +    }
->>> +
->>> +    /* Nothing below cursor - use overlay mode */
->>> +    if (target_plane_state == NULL) {
->>> +        dm_crtc_state->cursor_mode = DM_CURSOR_OVERLAY_MODE;
->>> +        return 0;
->>> +    }
->>> +
->>> +    if 
->>> (amdgpu_dm_plane_is_video_format(target_plane_state->fb->format->format)) {
->>> +        dm_crtc_state->cursor_mode = DM_CURSOR_OVERLAY_MODE;
->>> +    } else {
->>> +        dm_crtc_state->cursor_mode = DM_CURSOR_NATIVE_MODE;
->>> +    }
->>> +
->>> +    return 0;
->>> +}
->>> +
->>>   /**
->>>    * amdgpu_dm_atomic_check() - Atomic check implementation for AMDgpu DM.
->>>    *
->>> @@ -10713,6 +10921,20 @@ static int amdgpu_dm_atomic_check(struct drm_device 
->>> *dev,
->>>           goto fail;
->>>       }
->>> +    /*
->>> +     * Determine whether cursors on each CRTC should be enabled in native or
->>> +     * overlay mode.
->>> +     */
->>> +    for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
->>> +        dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
->>> +
->>> +        ret = dm_crtc_set_cursor_mode(state, dm_new_crtc_state);
->>> +        if (ret) {
->>> +            drm_dbg(dev, "Failed to determine cursor mode\n");
->>> +            goto fail;
->>> +        }
->>> +    }
->>> +
->>>       /* Remove exiting planes if they are modified */
->>>       for_each_oldnew_plane_in_state_reverse(state, plane, old_plane_state, 
->>> new_plane_state, i) {
->>>           if (old_plane_state->fb && new_plane_state->fb &&
->>> @@ -10793,6 +11015,11 @@ static int amdgpu_dm_atomic_check(struct drm_device 
->>> *dev,
->>>       /* Check cursor planes scaling */
->>>       for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
->>> +        /* Overlay cusor does not need scaling check */
->>> +        dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
->>> +        if (dm_new_crtc_state->cursor_mode == DM_CURSOR_OVERLAY_MODE)
->>> +            continue;
->>> +
->>>           ret = dm_check_crtc_cursor(state, crtc, new_crtc_state);
->>>           if (ret) {
->>>               DRM_DEBUG_DRIVER("dm_check_crtc_cursor() failed\n");
->>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h 
->>> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
->>> index 09519b7abf67..b8d39fdd1e09 100644
->>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
->>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
->>> @@ -822,6 +822,11 @@ struct dm_plane_state {
->>>       enum amdgpu_transfer_function blend_tf;
->>>   };
->>> +enum amdgpu_dm_cursor_mode {
->>> +    DM_CURSOR_NATIVE_MODE = 0,
->>> +    DM_CURSOR_OVERLAY_MODE,
->>> +};
->>> +
->>>   struct dm_crtc_state {
->>>       struct drm_crtc_state base;
->>>       struct dc_stream_state *stream;
->>> @@ -852,6 +857,8 @@ struct dm_crtc_state {
->>>        * encoding.
->>>        */
->>>       enum amdgpu_transfer_function regamma_tf;
->>> +
->>> +    enum amdgpu_dm_cursor_mode cursor_mode;
->>>   };
->>>   #define to_dm_crtc_state(x) container_of(x, struct dm_crtc_state, base)
->>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c 
->>> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
->>> index e23a0a276e33..67aea1d2feb9 100644
->>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
->>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
->>> @@ -304,6 +304,7 @@ static struct drm_crtc_state 
->>> *amdgpu_dm_crtc_duplicate_state(struct drm_crtc *cr
->>>       state->regamma_tf = cur->regamma_tf;
->>>       state->crc_skip_count = cur->crc_skip_count;
->>>       state->mpo_requested = cur->mpo_requested;
->>> +    state->cursor_mode = cur->cursor_mode;
->>>       /* TODO Duplicate dc_stream after objects are stream object is 
->>> flattened */
->>>       return &state->base;
->>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c 
->>> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
->>> index 8a4c40b4c27e..ed1fc01f1649 100644
->>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
->>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
->>> @@ -104,7 +104,7 @@ void amdgpu_dm_plane_fill_blending_from_plane_state(const 
->>> struct drm_plane_state
->>>       *global_alpha = false;
->>>       *global_alpha_value = 0xff;
->>> -    if (plane_state->plane->type != DRM_PLANE_TYPE_OVERLAY)
->>> +    if (plane_state->plane->type == DRM_PLANE_TYPE_PRIMARY)
->>>           return;
->>>       if (plane_state->pixel_blend_mode == DRM_MODE_BLEND_PREMULTI ||
->>> @@ -1175,10 +1175,21 @@ static int amdgpu_dm_plane_atomic_check(struct 
->>> drm_plane *plane,
->>>   static int amdgpu_dm_plane_atomic_async_check(struct drm_plane *plane,
->>>                             struct drm_atomic_state *state)
->>>   {
->>> +    struct drm_crtc_state *new_crtc_state;
->>> +    struct drm_plane_state *new_plane_state;
->>> +    struct dm_crtc_state *dm_new_crtc_state;
->>> +
->>>       /* Only support async updates on cursor planes. */
->>>       if (plane->type != DRM_PLANE_TYPE_CURSOR)
->>>           return -EINVAL;
->>> +    new_plane_state = drm_atomic_get_new_plane_state(state, plane);
->>> +    new_crtc_state = drm_atomic_get_new_crtc_state(state, 
->>> new_plane_state->crtc);
->>> +    dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
->>> +    /* Reject overlay cursors for now*/
->>> +    if (dm_new_crtc_state->cursor_mode == DM_CURSOR_OVERLAY_MODE)
->>> +        return -EINVAL;
->>> +
->>>       return 0;
->>>   }
+>>> Presumably, given that the whole checkpointing is not instant, it 
+>>> would be okay to wait a second or two longer for the in-progress 
+>>> submissions complete. After which kernel would need to prune all 
+>>> signalled fences from the respective container objects before 
+>>> checkpointing.
+>>>
+>>> For the "misbehaving" clients who have perhaps queued up too much 
+>>> work, either still in the scheduler with unsatisfied dependencies, or 
+>>> already submitted to the hardware and/or driver backend, is there a 
+>>> timeout concept in CRIU so it would be possible to say something like 
+>>> "try to checkpoint but if the kernel says no time period t then give 
+>>> up"?
+>>>
+>>>>>>> For some more background about our implementation in KFD, you can 
+>>>>>>> refer to this whitepaper: 
+>>>>>>> https://github.com/checkpoint-restore/criu/blob/criu-dev/plugins/amdgpu/README.md
+>>>>>>>
+>>>>>>> Potential objections to a KFD-style CRIU API in DRM render nodes, 
+>>>>>>> I'll address each of them in more detail below:
+>>>>>>>
+>>>>>>>   * Opaque information in the checkpoint data that user mode can't
+>>>>>>>     interpret or do anything with
+>>>>>>>   * A second API for creating objects (e.g. BOs) that is separate 
+>>>>>>> from
+>>>>>>>     the regular BO creation API
+>>>>>>>   * Kernel mode would need to be involved in restoring BO sharing
+>>>>>>>     relationships rather than replaying BO creation, export and 
+>>>>>>> import
+>>>>>>>     from user mode
+>>>>>>>
+>>>>>>> # Opaque information in the checkpoint
+>>>>>>>
+>>>>>>> This comes out of ABI compatibility considerations. Adding any 
+>>>>>>> new objects or attributes to the driver/HW state that needs to be 
+>>>>>>> checkpointed could potentially break the ABI of the CRIU 
+>>>>>>> checkpoint/restore ioctl if the plugin needs to parse that 
+>>>>>>> information. Therefore, much of the information in our KFD CRIU 
+>>>>>>> ioctl API is opaque. It is written by kernel mode in the 
+>>>>>>> checkpoint, it is consumed by kernel mode when restoring the 
+>>>>>>> checkpoint, but user mode doesn't care about the contents or 
+>>>>>>> binary layout, so there is no user mode ABI to break. This is how 
+>>>>>>> we were able to maintain CRIU support when we added the SVM API 
+>>>>>>> to KFD without changing the CRIU plugin and without breaking our 
+>>>>>>> ABI.
+>>>>>>>
+>>>>>>> Opaque information may also lend itself to API abstraction, if 
+>>>>>>> this becomes a generic DRM API with driver-specific callbacks 
+>>>>>>> that fill in HW-specific opaque data.
+>>>>>>
+>>>>>> This feels sound in principle to me. Fundamentally the state is 
+>>>>>> very hardware specfic, and/or driver version specific, so I don't 
+>>>>>> see anything could be gained in practice by making it much less 
+>>>>>> opaque. (Apart from making things more complicated.)
+>>>>>>
+>>>>>> I was however unsure of the current split of how you dump buffer 
+>>>>>> objects with some data in the defined bo structure, and some in 
+>>>>>> completely opaque private data. Is there a benefit to that split, 
+>>>>>> or maybe in other words, is there a benefit on having part 
+>>>>>> transparent and part opaque for buffer objects?
+>>>>
+>>>> Some of the buffer object state is needed by the plugin. E.g. the 
+>>>> size and mmap offset are needed to match VMAs with BOs. I'd have to 
+>>>> review the plugin in detail to prove that all the fields are, in 
+>>>> fact, needed by the plugin, but that was the intent. Anything that 
+>>>> the plugin doesn't need to know should be in the opaque data 
+>>>> structures.
+>>>
+>>> Right, got it.
+>>>
+>>> Would it make sense to make the opaque data in the same block as the 
+>>> defined one? I mean instead of separating the two in the binary image 
+>>> for instance have struct kfd_criu_bo_bucket have a trailing priv_data 
+>>> blob? Maybe it is too late now if the image format is not versioned 
+>>> or something.
+>>>
+>>>>>> To slightly touch upon the question of whether this could become a 
+>>>>>> generic DRM API. It feels it would be hard to do it from the 
+>>>>>> start. What sounds more feasible is if/when generic looking 
+>>>>>> helpers can be spotted while developing the RFC then potentially 
+>>>>>> structure the code they can easily be promoted to shared/common at 
+>>>>>> some future moment.
+>>>>
+>>>> Yes, that's how this usually goes, in my experience. Thanks for 
+>>>> confirming.
+>>>>
+>>>>
+>>>>>>
+>>>>>>> # Second API for creating objects
+>>>>>>>
+>>>>>>> Creating BOs and other objects when restoring a checkpoint needs 
+>>>>>>> more information than the usual BO alloc and similar APIs 
+>>>>>>> provide. For example, we need to restore BOs with the same GEM 
+>>>>>>> handles so that user mode can continue using those handles after 
+>>>>>>> resuming execution. If BOs are shared through DMABufs without 
+>>>>>>> dynamic attachment, we need to restore pinned BOs as pinned. 
+>>>>>>> Validation of virtual addresses and handling MMU notifiers must 
+>>>>>>> be suspended until the virtual address space is restored. For 
+>>>>>>> user mode queues we need to save and restore a lot of queue 
+>>>>>>> execution state so that execution can resume cleanly.
+>>>>>>
+>>>>>> This also sounds justified to me. Restore creating all internal 
+>>>>>> objects is definitely special and sounds better to add uapi to 
+>>>>>> create them directly with the correct properties, than to add uapi 
+>>>>>> to adjust internal properties after creation. And in case you 
+>>>>>> would always need some new uapi - so at least to adjust after 
+>>>>>> creation. At which point you may have both in one. Internally 
+>>>>>> implementation can be split or common, whatever makes sense for a 
+>>>>>> given object type, but new uapi definitely sounds is required.
+>>>>>>> # Restoring buffer sharing relationships
+>>>>>>>
+>>>>>>> Different GEM handles in different render nodes and processes can 
+>>>>>>> refer to the same underlying shared memory, either by directly 
+>>>>>>> pointing to the same GEM object, or by creating an import 
+>>>>>>> attachment that may get its SG tables invalidated and updated 
+>>>>>>> dynamically through dynamic attachment callbacks. In the latter 
+>>>>>>> case it's obvious, who is the exporter and who is the importer. 
+>>>>>>> In the first case, either one could be the exporter, and it's not 
+>>>>>>> clear who would need to create the BO and who would need to 
+>>>>>>
+>>>>>> To see if I follow the former case correctly.
+>>>>>>
+>>>>>> This could be two clients A and B, where B has imported a dma-buf 
+>>>>>> shared BO from A and has since closed the dma-buf fd? Which 
+>>>>>> results in a single BO with reference count of 2 and 
+>>>>>> obj->import_attach unset. History of who created the object is lost.
+>>>>
+>>>> Yes. In the amdgpu driver this happens when the exporter and import 
+>>>> device are the same.
+>>>>
+>>>>
+>>>>>>
+>>>>>> In fact it could even be that two imported objects remain (clients 
+>>>>>> A, B and C) and A, who originally created the BO, has since fully 
+>>>>>> released it. So any kind of "creator" tracking if added wouldn't 
+>>>>>> be fully reliable either.
+>>>>
+>>>> That's a good point.
+>>>>
+>>>>
+>>>>>>
+>>>>>>> import it when restoring the checkpoint. To further complicate 
+>>>>>>> things, multiple processes in a checkpoint get restored 
+>>>>>>> concurrently. So there is no guarantee that an exporter has 
+>>>>>>> restored a shared BO at the time an importer is trying to restore 
+>>>>>>> its import.
+>>>>>>>
+>>>>>>> A proposal to deal with these problems would be to treat 
+>>>>>>> importers and exporters the same. Whoever restores first, ends up 
+>>>>>>> creating the BO and potentially attaching to it. The other 
+>>>>>>> process(es) can find BOs that were already restored by another 
+>>>>>>> process by looking it up with a unique ID that could be based on 
+>>>>>>> the DMABuf inode number. An alternative would be a two-pass 
+>>>>>>> approach that needs to restore BOs on two passes:
+>>>>>>>
+>>>>>>>  1. Restore exported BOs
+>>>>>>>  2. Restore imports
+>>>>>>>
+>>>>>>> With some inter-process synchronization in CRIU itself between 
+>>>>>>> these two passes. This may require changes in the core CRIU, 
+>>>>>>> outside our plugin. Both approaches depend on identifying BOs 
+>>>>>>> with some unique ID that could be based on the DMABuf inode 
+>>>>>>> number in the checkpoint. However, we would need to identify the 
+>>>>>>> processes in the same restore session, possibly based on 
+>>>>>>> parent/child process relationships, to create a scope where those 
+>>>>>>> IDs are valid during restore.
+>>>>>>
+>>>>>> If my understanding above is on the right track, then I think this 
+>>>>>> is the only thing which can be done (for all scenarios).
+>>>>
+>>>> I presented two alternatives. I think you're in favor of the first 
+>>>> one, where it doesn't matter who is the importer and exporter. I 
+>>>> think the two-pass approach requires that you can identify an 
+>>>> exporter. And as you pointed out, the exporter may already have 
+>>>> dropped their reference to the BO.
+>>>
+>>> Yep.
+>>>
+>>>>>> I also *think* it would be safe. At least at the moment I cannot 
+>>>>>> think what could go wrong. Semantics are that it doesn't really 
+>>>>>> matter who created the object.
+>>>>
+>>>> I would agree. What matters is that the object is recreated on the 
+>>>> correct device, and that all the direct references and import 
+>>>> attachments pointing to it are restored.
+>>>>
+>>>>
+>>>>>>
+>>>>>>> Finally, we would also need to checkpoint and restore DMABuf file 
+>>>>>>> descriptors themselves. These are anonymous file descriptors. The 
+>>>>>>> CRIU plugin could probably be taught to recreate them from the 
+>>>>>>> original exported BO based on the inode number that could be 
+>>>>>>> queried with fstat in the checkpoint. It would need help from the 
+>>>>>>> render node CRIU API to find the right BO from the inode, which 
+>>>>>>> may be from a different process in the same restore session.
+>>>>>>
+>>>>>> This part feels like it is breaking the component separation a bit 
+>>>>>> because even for buffers fully owned by amdgpu, strictly speaking 
+>>>>>> the dma-buf fd is not. At least my understanding from the above is 
+>>>>>> that you propose to attempt to import the fd, from the kernel 
+>>>>>> side, during the checkpoint process? Like:
+>>>>>>
+>>>>>> Checkpoint:
+>>>>>>
+>>>>>> CRIU for each anon fd:
+>>>>>>    amdgpu_plugin(fd)
+>>>>>>      -> attempt in kernel dma buf import (passes fd to kernel via 
+>>>>>> ioctl?)
+>>>>>>          -> is it ours? (no -> error)
+>>>>>>              -> create a record mapping fd number to amdgpu BO
+>>>>>>
+>>>>>> Restore:
+>>>>>>
+>>>>>> for each dma-buf fd record:
+>>>>>>     create BO if does not exists
+>>>>>>     export BO to same fd
+>>>>>>     close BO handle if not in regular BO handle records
+>>>>>>
+>>>>>> Or since you mention lookup by inode, that would need to be 
+>>>>>> dmabuf_plugin so it can lookup inodes in the private mount space. 
+>>>>>> However how would it co-operate with amdgpu_plugin is not clear to 
+>>>>>> me.
+>>>>
+>>>> The way I think about the ownership is, whichever driver created the 
+>>>> underlying BO owns the checkpointing of the dmabuf. You need 
+>>>> driver-specific information to link the dmabuf with the driver's BO 
+>>>> and you need the right driver to recreate the BO and the dmabuf fd 
+>>>> when restoring the checkpoint.
+>>>>
+>>>> It gets really interesting if you have an amdgpu plugin and an i915 
+>>>> plugin, and they checkpoint an application that shares BOs between 
+>>>> the two devices through DMABufs. E.g. if i915 created a BO and 
+>>>> amdgpu imported it, then during restore, i915 needs to restore the 
+>>>> dmabuf before the amdgpu import of it can be restored. I think that 
+>>>> brings us back to a two-phase approach to restoring the memory 
+>>>> sharing relationships. Uff.
+>>>
+>>> I think this part of the discussion somewhat depends on the previous 
+>>> part about idling. If it is feasible to completely idle and prune, 
+>>> and fail if that is not happening quickly enough, then maybe there 
+>>> wouldn't be too much hierarchical state to save.
+>>>
+>>> Otherwise my idea was that there is a top-level drm_plugin.so which 
+>>> understands amdgpu fds, i915, syncobj, sync_file, and uses some new 
+>>> uapi to uniquely identify each, associate with the correct driver, 
+>>> and then internally dispatches to amdgpu|i915|dmabuf|..._plugin.so. 
+>>> Building the in memory representation of their relationships. As long 
+>>> as all objects and their relationships have been recorded I think 
+>>> everything could then be correctly restored.
+>>>
+>>> It is possible there is flaw in my thinking and that something in 
+>>> CRIU design would make this impossible? I think it would require the 
+>>> top-level drm_plugin.so to hold all state in memory until the whole 
+>>> checkpointing is done, and then verify something is not incomplete, 
+>>> failing it all if it was. (For instance one plugin discovered an 
+>>> reference to an object which was not discoverd by any other plugin or 
+>>> things like that.) May need some further tweaks to CRIU common code.
+>>>
+>>> Maybe I need to better understand how exactly you mean to query the 
+>>> DRM driver about random anonymous fds. I see it as a problem in the 
+>>> design, possibly even implementation, but maybe I am missing 
+>>> something which makes it not so. I mean even with my general idea I 
+>>> don't know how would one determine which driver to query about a 
+>>> particular anonymous inode.
+>>>
+>>>>> I later also realised that I was maybe increasing the scope for you 
+>>>>> here. :) You did state focus is ROCm applications which possibly 
+>>>>> doesn't care about dma-resv, fences, syncobjs etc?
+>>>>
+>>>> That's my focus for now. But I don't want to engineer a solution 
+>>>> that would preclude your use cases in the future.
+>>>>
+>>>>
+>>>>>
+>>>>> But I think the "how to handle dma-bufs" design question is still 
+>>>>> relevant and interesting. For example I had this thought that 
+>>>>> perhaps what would be needed is a CRIU plugin hierarchy.
+>>>>>
+>>>>> Because fundamentally we would be snapshoting a hierarcy of kernel 
+>>>>> objects belonging to different drivers (kfd, amdgpu, dma-buf, ...). 
+>>>>> And if one day someone would to try to handle dma fences and drm 
+>>>>> syncobjs, the argument for a hierarchial design would be even 
+>>>>> stronger I think.
+>>>>>
+>>>>> Something like a drm_plugin.so could call sub-plugins (amdgpu, 
+>>>>> dma-buf, sync file, ...) and internally build the representation of 
+>>>>> the whole state and how the relationship between the objects.
+>>>>
+>>>> Maybe. I guess a structure similar to libdrm makes sense. I'm not 
+>>>> sure it's strictly a hierarchy. Maybe more like some common code 
+>>>> shared by multiple GPU driver plugins. I think the common checkpoint 
+>>>> state is quite limited and restoring it requires the GPU-specific 
+>>>> drivers anyway.
+>>>>
+>>>> Also the idea of building a representation of the whole state 
+>>>> doesn't work well with the CRIU design, because "the whole state" 
+>>>> can include multiple processes that restore themselves concurrently 
+>>>> and only synchronize with each other in a few places in the restore 
+>>>> process. I feel, if we can work out how to checkpoint and restore 
+>>>> shared objects between processes, we can do the same for shared 
+>>>> objects between drivers without imposing a strict hierarchy and some 
+>>>> omniscient entity that needs to know "the whole state".
+>>>
+>>> Okay, this continues on the same problem space as above. And you 
+>>> obviously know how CRIU works much better than me.
+>>>
+>>>>> With that kind of design there probably would be a need to define 
+>>>>> some common kernel side api and uapi, so all involved objects can 
+>>>>> be enumerated with some unique ids etc.
+>>>>>
+>>>>> Now.. the counter argument.. the more state from different drivers 
+>>>>> would one want to handle the bigger this project would get. Would 
+>>>>> it even be feasible is the question, to the point that it may be 
+>>>>> simpler to just run the workload in a VM via SR-IOV and simply 
+>>>>> hibernate the whole thin guest. :)
+>>>>
+>>>> Well, CRIU kind of tries to do that, but with containers instead of 
+>>>> VMs. ;)
+>>>
+>>> It would definitely be useful for hardware and drivers without SR-IOV 
+>>> support so lets hope it is doable. :)
+>>>
+>>> Regards,
+>>>
+>>> Tvrtko
