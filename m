@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9503894767
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 00:43:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C21E894768
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 00:43:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13ACD10F62A;
-	Mon,  1 Apr 2024 22:43:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 575DE10F62E;
+	Mon,  1 Apr 2024 22:43:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Gu49fWgW";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LfjpU+Tv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4EA310F62A;
- Mon,  1 Apr 2024 22:43:38 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-56d5d4d2e2bso2442209a12.3; 
- Mon, 01 Apr 2024 15:43:38 -0700 (PDT)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3CB510F628;
+ Mon,  1 Apr 2024 22:43:39 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-a4e61accceaso233332966b.2; 
+ Mon, 01 Apr 2024 15:43:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1712011417; x=1712616217; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Qcik2ZKpGkaSDWlkrFdRKbIB9C35lYhPbyGch8RiDYE=;
- b=Gu49fWgW+quLrp3B+Oca3SRKjSeRX2EP3Dnw+H8kkj61xefAQ0KU3Y8j/lu614lKOX
- aGHXVto8Ic19/5DUokuAvW9RJL7HZd8/08+0flsTxY57Td8K5W/Sr+Jq7W7Rg57Eb/JI
- Zu8T4gJs+xatS0dY0HD1vxdkV2jROTDLhW5Q5ZOV5DUTjgKFv0MGoidQIGdD1Y6g14Ci
- gvjIM4SBb3K049Z474utQXU/qLKAQJEHrq46swqvKJpBe7RsN05r9pP/TJFLITz8+jn6
- lMzbyMiIqPkkXSEj9UVqBot+NoaTQjZoPUkVxtZ+w1cZwWddYjW52y4int3kEIWdCW9q
- h5VQ==
+ d=gmail.com; s=20230601; t=1712011418; x=1712616218; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=x6wOlanwnyuahzpz0MfNPGNkl1E4bit5o3/S2j1nuGQ=;
+ b=LfjpU+TvYgi0IS1bTV9Bcd/ev8kST2zkbg97vk3Us9QTVsfO9T9/qfgqMB4XkczAsH
+ T8/yFh9Ph/YF7/uUWW5oh+4KNBVPXIB4YkC6vg5UaKi3aVxELWLQOHJdBdgCl2gOMzW9
+ pBU5FUjRZEQUzWkg8UiwT/XvoJQPKfILvzmP3GdxnWVXwKBdKRMRYDPdwP6Uvq6H2nxF
+ FLCvkEn7WXzdadLdcmjRgQ+Iqlzh7r0JTgSETqYCD64DTDDNY5oKOF95sa+Ff7ASLOEw
+ eTuWxFplXkGadRnonYmLVHN5tIRylDNItoo/2O+TLXFovvKlQal4id9fC0pfLja5vZ5o
+ iJQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712011417; x=1712616217;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Qcik2ZKpGkaSDWlkrFdRKbIB9C35lYhPbyGch8RiDYE=;
- b=DwqrfjVNJUWdhvnl5OX/fWSZe59Uqzkd45o8mtCp114XxTUsBNS3idnb4jFgHmjXTF
- nfctmZGZqB09Dr/li/lMeSdG/EKjYS7QtOvM8t1T1F8cylU7NBdchmZOITpdjqodHS7Y
- mtluJg8Ql1kgK3jRFIG+iReHYcUXN4Y5tT1mdcgVH58lAr91J1WLgMgL3qFIWjPw3Y1e
- ocItilwA1St62WnikcFoXK7mKh4duxapSo8N8rmxfXvr3L857YPT/5GKw8qU6ac4lrPn
- xMRVb/ZvL8zdbEH5JGcmaJ/ygJDvAa2LYB427m3jm3ZXGBtOXKU80jmxj0VgReZnH3hD
- XD9Q==
+ d=1e100.net; s=20230601; t=1712011418; x=1712616218;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=x6wOlanwnyuahzpz0MfNPGNkl1E4bit5o3/S2j1nuGQ=;
+ b=QzUdAha6rysBZ37QBB5Pg2OzVvA7vSOd9j+QLeTfhkAxJgUMnO/xNKQOk0ILtM5DfY
+ 5pjjKBCIZNAUD8+UH36Q19ioZEsuZf+HSY8ObkzTT/7NHHe49h6uljm8/HKXC5OfHyg3
+ ArU9MstwcVLJzCAiIUJqX/2ZEgbDJpwrsz7luqUC+1xtJGhb5Jh+2GRnWAXgD3FJNdk7
+ L9oPnwkliCnWRbWKC3TiM6LxjY+V/EHccf68QgY9bqLqN2hKPl+yL2mC1E8gIiJkzNlm
+ hhbgRGtJ6w5vmMDgMLwlKM/v2yy48fPTnxpfzfS1JrtSWUChajuYQVpZwkaZKMvD+qvF
+ pcuA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWt7KuE+3fws+xSE8EQiWNnan6EwwXqSHl9XtGYwg6obN8ce82BaD7bACSLuOwXPzsRs2hMQiAk4p7GCcF/qLlfILMOepB5qR40kdsJ7KRHYIoKSzIJCohf91m/Hld4UvoNEgkDeWBPO9tn0A==
-X-Gm-Message-State: AOJu0Yyb9FeyQhSLIzc1t8DwPuVgbOuVcuvVA4cvSmCpq/J5QXcThoNk
- r41eZVWXraDbJDha5Ka8X96Eu3lCEQcvpNtgqkki/JN04PlgDz0i
-X-Google-Smtp-Source: AGHT+IFCq9xTRzVKnUogJcMxAWnpUfEpfgOajgprHKVs1djxX9T4SpkK3k/wCGnJbNBww8lu687rQQ==
-X-Received: by 2002:a17:906:4a01:b0:a4e:2ac2:bb27 with SMTP id
- w1-20020a1709064a0100b00a4e2ac2bb27mr6448520eju.9.1712011416859; 
- Mon, 01 Apr 2024 15:43:36 -0700 (PDT)
+ AJvYcCWoF/OWg5ikvPonD0QqCi505rGzTzcKk4LPBdBwzQ29l2XytoH0pGTzB/kfxQSxrnQ7PwenH0696dAAoH4LUVv7fs20JfsTPEhvTXJUPdo4NQN23IFl3qJK0pgeQk7XFMaCyt4nV9tycHgy+A==
+X-Gm-Message-State: AOJu0YxySKGjn0yswb4wOOXYS0KPxw+t8BSuHf8aT37ebIVkPHra8/NT
+ DJjAXxhTTdypPhbg96rLeXu9+OGJR/znVsyD8ZzNMFCUq9YX1YPh
+X-Google-Smtp-Source: AGHT+IHHemzLxeLUMG8/nYzOVnRQOJhwt+KswDgE2bL/9MkeZyGspToRNzYF/9xt03CRuCgLz0TmVw==
+X-Received: by 2002:a17:906:494e:b0:a4e:69b5:9835 with SMTP id
+ f14-20020a170906494e00b00a4e69b59835mr2677589ejt.6.1712011417805; 
+ Mon, 01 Apr 2024 15:43:37 -0700 (PDT)
 Received: from mosaic.enunes.eu (ip-78-45-66-209.bb.vodafone.cz.
  [78.45.66.209]) by smtp.gmail.com with ESMTPSA id
- c3-20020a170906340300b00a4739efd7cesm5796808ejb.60.2024.04.01.15.43.35
+ c3-20020a170906340300b00a4739efd7cesm5796808ejb.60.2024.04.01.15.43.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Apr 2024 15:43:36 -0700 (PDT)
+ Mon, 01 Apr 2024 15:43:37 -0700 (PDT)
 From: Erico Nunes <nunes.erico@gmail.com>
 To: Qiang Yu <yuq825@gmail.com>, anarsoul@gmail.com,
  dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org
@@ -63,10 +64,12 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org,
  Erico Nunes <nunes.erico@gmail.com>
-Subject: [PATCH 0/2] drm/lima: two driver cleanups
-Date: Tue,  2 Apr 2024 00:43:27 +0200
-Message-ID: <20240401224329.1228468-1-nunes.erico@gmail.com>
+Subject: [PATCH 1/2] drm/lima: fix shared irq handling on driver remove
+Date: Tue,  2 Apr 2024 00:43:28 +0200
+Message-ID: <20240401224329.1228468-2-nunes.erico@gmail.com>
 X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240401224329.1228468-1-nunes.erico@gmail.com>
+References: <20240401224329.1228468-1-nunes.erico@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,29 +87,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Patch 1 is a fix for a crash which triggers on removing the module on
-kernels with CONFIG_DEBUG_SHIRQ enabled, such as the Fedora kernel.
+lima uses a shared interrupt, so the interrupt handlers must be prepared
+to be called at any time. At driver removal time, the clocks are
+disabled early and the interrupts stay registered until the very end of
+the remove process due to the devm usage.
+This is potentially a bug as the interrupts access device registers
+which assumes clocks are enabled. A crash can be triggered by removing
+the driver in a kernel with CONFIG_DEBUG_SHIRQ enabled.
+This patch frees the interrupts at each lima device finishing callback
+so that the handlers are already unregistered by the time we fully
+disable clocks.
 
-Patch 2 is a fix to this warning:
-  drivers/gpu/drm/lima/lima_drv.c:387:13: error: cast to smaller integer
-  type 'enum lima_gpu_id' from 'const void *'
-  [-Werror,-Wvoid-pointer-to-enum-cast]
-which we have received as a repeated report from the kernel test bot to
-the lima mailing list.
-The warning only reproduces with recent clang on aarch64, but the patch
-does get rid of it and there seem to be no more warnings for W=1.
+Signed-off-by: Erico Nunes <nunes.erico@gmail.com>
+---
+ drivers/gpu/drm/lima/lima_gp.c  | 2 ++
+ drivers/gpu/drm/lima/lima_mmu.c | 5 +++++
+ drivers/gpu/drm/lima/lima_pp.c  | 4 ++++
+ 3 files changed, 11 insertions(+)
 
-Erico Nunes (2):
-  drm/lima: fix shared irq handling on driver remove
-  drm/lima: fix void pointer to enum lima_gpu_id cast warning
-
- drivers/gpu/drm/lima/lima_drv.c | 21 ++++++++++++++++++---
- drivers/gpu/drm/lima/lima_drv.h |  5 +++++
- drivers/gpu/drm/lima/lima_gp.c  |  2 ++
- drivers/gpu/drm/lima/lima_mmu.c |  5 +++++
- drivers/gpu/drm/lima/lima_pp.c  |  4 ++++
- 5 files changed, 34 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/gpu/drm/lima/lima_gp.c b/drivers/gpu/drm/lima/lima_gp.c
+index 6b354e2fb61d..14c39be8da90 100644
+--- a/drivers/gpu/drm/lima/lima_gp.c
++++ b/drivers/gpu/drm/lima/lima_gp.c
+@@ -338,7 +338,9 @@ int lima_gp_init(struct lima_ip *ip)
+ 
+ void lima_gp_fini(struct lima_ip *ip)
+ {
++	struct lima_device *dev = ip->dev;
+ 
++	devm_free_irq(dev->dev, ip->irq, ip);
+ }
+ 
+ int lima_gp_pipe_init(struct lima_device *dev)
+diff --git a/drivers/gpu/drm/lima/lima_mmu.c b/drivers/gpu/drm/lima/lima_mmu.c
+index e18317c5ca8c..6611e2836bf0 100644
+--- a/drivers/gpu/drm/lima/lima_mmu.c
++++ b/drivers/gpu/drm/lima/lima_mmu.c
+@@ -118,7 +118,12 @@ int lima_mmu_init(struct lima_ip *ip)
+ 
+ void lima_mmu_fini(struct lima_ip *ip)
+ {
++	struct lima_device *dev = ip->dev;
++
++	if (ip->id == lima_ip_ppmmu_bcast)
++		return;
+ 
++	devm_free_irq(dev->dev, ip->irq, ip);
+ }
+ 
+ void lima_mmu_flush_tlb(struct lima_ip *ip)
+diff --git a/drivers/gpu/drm/lima/lima_pp.c b/drivers/gpu/drm/lima/lima_pp.c
+index d0d2db0ef1ce..84bec163c9ed 100644
+--- a/drivers/gpu/drm/lima/lima_pp.c
++++ b/drivers/gpu/drm/lima/lima_pp.c
+@@ -286,7 +286,9 @@ int lima_pp_init(struct lima_ip *ip)
+ 
+ void lima_pp_fini(struct lima_ip *ip)
+ {
++	struct lima_device *dev = ip->dev;
+ 
++	devm_free_irq(dev->dev, ip->irq, ip);
+ }
+ 
+ int lima_pp_bcast_resume(struct lima_ip *ip)
+@@ -319,7 +321,9 @@ int lima_pp_bcast_init(struct lima_ip *ip)
+ 
+ void lima_pp_bcast_fini(struct lima_ip *ip)
+ {
++	struct lima_device *dev = ip->dev;
+ 
++	devm_free_irq(dev->dev, ip->irq, ip);
+ }
+ 
+ static int lima_pp_task_validate(struct lima_sched_pipe *pipe,
 -- 
 2.44.0
 
