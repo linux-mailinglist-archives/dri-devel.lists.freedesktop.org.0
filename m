@@ -2,56 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E95A894E0D
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 10:56:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AA0A894E1B
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 11:00:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76CE810FB8E;
-	Tue,  2 Apr 2024 08:56:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A489410F440;
+	Tue,  2 Apr 2024 09:00:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SBnwY0Zl";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="CRe+ecrf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE0E510FB8D;
- Tue,  2 Apr 2024 08:56:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712048184; x=1743584184;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=A2Ukw8bpcxbC50Nnad7FlhUuyAboO9/3pUwaY99IGUk=;
- b=SBnwY0ZlrV9OPjIoMz/OJkxIfHRu7dJJk3MjjPPd9z+coIwzvYDw6xa/
- ZWK4mgj+IGIJmmeB2AHj600nbz/HUn8ckxtvfDfCSICw5ayhUmgonOH3Z
- 2+nS1jbDHFwOMhT6X6ar6H8XsSkhZflWrJHUSmHJzwd/+SXGAvMw0NZT/
- HCHYv+isZbxWqbJOjvdILpujDSfH+v/lJaG49BYNIP38Si1kQlHP/gSv4
- 5OepxErrgUuyXTESwkB6BY8fJDNwsBcZcSkqxJxlWXnX4MwpvYHIoHj8z
- rT4vHs+hYyloBH82l9qJ2tZNNE5oXHvwqCJzatA5YNg06rfmcuDLMFGK/ A==;
-X-CSE-ConnectionGUID: XMpVkHnrTiOlSM+DUDbbhQ==
-X-CSE-MsgGUID: Nf/Tzi8uQkiqr3yke1dK1Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="18654788"
-X-IronPort-AV: E=Sophos;i="6.07,174,1708416000"; d="scan'208";a="18654788"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Apr 2024 01:56:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,174,1708416000"; d="scan'208";a="49225998"
-Received: from aravind-dev.iind.intel.com ([10.145.162.146])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Apr 2024 01:56:21 -0700
-From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
-To: intel-xe@lists.freedesktop.org, thomas.hellstrom@linux.intel.com,
- rodrigo.vivi@intel.com, lucas.demarchi@intel.com
-Cc: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 4/4] drm/xe/FLR: Support PCIe FLR
-Date: Tue,  2 Apr 2024 14:28:59 +0530
-Message-Id: <20240402085859.1591264-5-aravind.iddamsetty@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240402085859.1591264-1-aravind.iddamsetty@linux.intel.com>
-References: <20240402085859.1591264-1-aravind.iddamsetty@linux.intel.com>
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2118.outbound.protection.outlook.com [40.107.93.118])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4779E10F440
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 09:00:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Dqv1WnpqSHOEyjirP8SCMZ3/YxEufF4h5MCR53iaIX5dUNVsVVfJx0Q7tGuZZCI7o+Ymz9/8FCYOF+6fFClRjAO2xYbc5+uyDE71cHq1MnMQLhaLmqhSojb5bVo+o5mHU6eCNOOxBGCQSj0c6ZSeqmx0JRbUi5kaS+YhWhhepjnxr2YZAzHCd8cPzKwZganmpByh3EQPpiyoISrb0ljQCQGY8nn1WuTSC6D7SVZhZg+ZLD45pO29+yj9PMZx079gmz94LW7O2FMXTJAXdTJPsDmOrQnDlVpuW3etu29fpsGqP/ZknoGUoYLyTV0FbqUxvYUfv2GukOhS3iwt4ifSSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mDDAnTcgRJ7/AIFnXAerRAJhG6wa91+0iSxtSUB2QwA=;
+ b=GX1JBUvzjln0cet6t9WaSBJvLx+C9NBXAM/Rv6Kbnm+YrNHugRvfbJiMg4DdK4eohhP6E96WtHBX3x7F87oelcDcpA6sDG0YgiBDbpEcspcdU68K4F+4kvbobgeqZx9jYDKDR7MT1p7XgQhwd/Hts5/T1f4R4bAehshLXCGJrUYr0dHPbeVwsJ3H9OmtVL83EfRreNGrAQgW9X0AKK48u/UdHw5JHyt+e2tYNRDLD+0vAzd/1cTwwS/okF/XhWaBVkHsySftEB1PclSxKeUOTX4FxmTMngV12R2zHoAsB/ba73e+NdSj5RUHnVUp0V7M3Z4AU2eMNUOUIubsShp+4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mDDAnTcgRJ7/AIFnXAerRAJhG6wa91+0iSxtSUB2QwA=;
+ b=CRe+ecrfj1IwuBXmsObdudsAsfoARty7uwHHlZSwwrc8PBzUzZ68TTyOusRl+43PmrLdIuem8O+AUqP/Opm6+PRALZP45stF163NXq0aQ1/AmDPmR44OgZGOJeXQ7jtDdlFCBvoUnb6PDSG1AOhry1yX3gAVKVT52X4ZZPrqQBJy3WpjC5F6kIpzWd4rhDB4qTELB9IN/Fjg8bJLhCwO0FxNOG/vmZ8Dqy9wjV08cADqmf8x7s1njAhDYQRnndS1LxobPJ8CAdTxptwy7+vExteeRE5TzJ50aHjRpoSJ65TsT1s/o2iQjojxVnch4Y7tv4wRWeZbm9+cq808JtJHLA==
+Received: from SJ1PR12MB6339.namprd12.prod.outlook.com (2603:10b6:a03:454::10)
+ by SJ2PR12MB8011.namprd12.prod.outlook.com (2603:10b6:a03:4c8::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Tue, 2 Apr
+ 2024 09:00:10 +0000
+Received: from SJ1PR12MB6339.namprd12.prod.outlook.com
+ ([fe80::ae74:c645:b13d:3d8c]) by SJ1PR12MB6339.namprd12.prod.outlook.com
+ ([fe80::ae74:c645:b13d:3d8c%7]) with mapi id 15.20.7409.042; Tue, 2 Apr 2024
+ 09:00:10 +0000
+From: Akhil R <akhilrajeev@nvidia.com>
+To: Herbert Xu <herbert@gondor.apana.org.au>
+CC: "davem@davemloft.net" <davem@davemloft.net>, "robh@kernel.org"
+ <robh@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
+ <krzysztof.kozlowski+dt@linaro.org>, "conor+dt@kernel.org"
+ <conor+dt@kernel.org>, "thierry.reding@gmail.com" <thierry.reding@gmail.com>, 
+ Jon Hunter <jonathanh@nvidia.com>, "catalin.marinas@arm.com"
+ <catalin.marinas@arm.com>, "will@kernel.org" <will@kernel.org>, Mikko
+ Perttunen <mperttunen@nvidia.com>, "airlied@gmail.com" <airlied@gmail.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "linux-crypto@vger.kernel.org"
+ <linux-crypto@vger.kernel.org>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "linux-tegra@vger.kernel.org"
+ <linux-tegra@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH v6 3/5] crypto: tegra: Add Tegra Security Engine driver
+Thread-Topic: [PATCH v6 3/5] crypto: tegra: Add Tegra Security Engine driver
+Thread-Index: AQHaedbyTqDDO44+YUOWKfWU3w8p3rFM+1oAgAfIUmA=
+Date: Tue, 2 Apr 2024 09:00:10 +0000
+Message-ID: <SJ1PR12MB63391DEE4A7D11B58E3FCC34C03E2@SJ1PR12MB6339.namprd12.prod.outlook.com>
+References: <20240319082306.34716-1-akhilrajeev@nvidia.com>
+ <20240319082306.34716-4-akhilrajeev@nvidia.com>
+ <ZgVBAFmfK7GKgmYi@gondor.apana.org.au>
+In-Reply-To: <ZgVBAFmfK7GKgmYi@gondor.apana.org.au>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ1PR12MB6339:EE_|SJ2PR12MB8011:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Qh+kld80A90kCRkvNdyVgrPY/rnGHZ1zSU8bXOdNyzwsLwwlIrke9iNX8rqiTHRTmFmRLgNgjBknUswKrvcC7Y3umyiiHmyY2dfscCjGOCP61hD6tRtTuXDuSvmQFncFmZHOIMB15nny2US2x5Ot0yNczuL9L9VZXqoKlPV8XEdQkkFixCvMWZv0hS98VrgSsQ8otoQoY51B8e6hU/xoUm52B3YbStv+3L68of0xAnKXnWWkrTMyOiVTzok/vdTTJ+GDOPSq+jFNk/5PdnDES0a75ZEEXWxpvl1vcLKo7BIGqjk2mfBSdlbqhpfkOO7aaZJUaIV7+wBmLfenGigbENRMMXV9ZmJErehdtyNE8EwjVF4ZdQQxWbwshhI9KsWmM63IsdTKaFzfCjUA6LPHg+d3e280YfwIBgbbDXJ1KUZjBkicu41ckOLhWFrRz2jDyhvcz9un0hzb31eEknqusSXaPh/KkTPxz+F+C1F87LANhULIbrgCk0jGMNX2gZesXb5uT/ny+Hf9R89FqfB4vOwAIkziMk2MfAh4dG3YPcRW+BMQpWnKmRihf300W66gtMsr96m39bDVmIyxqrBqdFwkdoIwhWdGIyrFSHOEJxF+4PqTof12EgcVrN0Z7jfBWBh9XALiHdnp264N4I8V7lnRFZjN2D19k0RRWeBABt0=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ1PR12MB6339.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(7416005)(366007)(1800799015)(376005); DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?5Heq7ZuhlN1ehdno9+VlHHuokKI3SDhW2Qm17sIOxL9TnepWUTbx1/LJJ0Pg?=
+ =?us-ascii?Q?WvB5nzY+P/br3I2aRuWCBKmQAbCnj/YdIcxL81s14LNmdUEs5zvofSG98SfM?=
+ =?us-ascii?Q?L12xElyuZxTXl4pVXtv2E4PXYlXXn3MKxNib8UV10cpT5FaFq8zraseuQ8ZG?=
+ =?us-ascii?Q?Hi9kTe4bDuOlbh1R9HgUjiLR3iCOazxjd7R26XYcWw8MXO5lH04Ni2lW1reF?=
+ =?us-ascii?Q?xH5hai7ykNbk/O6rLkHPY/Wke8SqF1EmzhwXlFD4G9pndqEJvsdhxHd6jk56?=
+ =?us-ascii?Q?zYmp0Pmch9KPOE6Uu3VXpZHaerT3vIQtZ1Jn0WSdYazFLY86swoahk/q3sqt?=
+ =?us-ascii?Q?AzFZgeD6u/vaTD9B+faYgsyV3vkskDracKo0twwwijhpQzF4u/SeDncmjBka?=
+ =?us-ascii?Q?Oh7kcUy4U8iHik9slZ0nM4c4kNPNt7r+zTcMfNdQl9r357UoHDvc6vUSEE5C?=
+ =?us-ascii?Q?PaBeZCIuwqgWRQ9dmwP/ECp4tveNGxH60Nt8P07aitdqAubQQBkq23SEpVkD?=
+ =?us-ascii?Q?FczoCLN/9jRJekK1QEKkpQdBVR/80Oc+aqBQhDGVaui2VYTau7yc56SGRVCK?=
+ =?us-ascii?Q?gmopUKduwHOO0ChJp/qAWQYAPZVPbz92hCxBniBbuqrWVorgXC1JlNp32CIm?=
+ =?us-ascii?Q?eUnyks8SU3//+3zVWkXdie+JaGaL6LrFA7p8pvu215maGzbgbXCI8OwVO8yN?=
+ =?us-ascii?Q?G3XEB0W1RRVJVc2yjXZWYwK52hs21K74+nnV1E5Yck7lrqlhowjv1YttLmiv?=
+ =?us-ascii?Q?sM+GNI9rj4KXTPmUTOWbWsXiAScTPhAmZMSAcwLYc8SabX4SkiFGY1oDJR27?=
+ =?us-ascii?Q?b8mMa3JWVJLYS1T4Pt2veFd4Lnbw+uMORE314FUnFzvNOT38HqpW9YiGt+F5?=
+ =?us-ascii?Q?MWRBKePIz9AfFMXYfsCokeaEVhhtBb0/vL6kt9ds2uQ75p9XAKOmHolZJSrw?=
+ =?us-ascii?Q?pOsr9f+SsmSEghQg8S8RLRsfWLcSSBHVzE8fI/2+W8sQqD9ENj+ckDMTVsuG?=
+ =?us-ascii?Q?iRv/xyq1Taz0yFW9Ri/26bWgiaYT5n4bE9NwgGbPlzPMgy5ScaHliTxeeNhV?=
+ =?us-ascii?Q?o/+h7gXk1KSyNo28nSNeJsHu1QXqcRKfSpm6Cgpp0VTATjk5fUGIyDN+jxvF?=
+ =?us-ascii?Q?66NjPj2Av6wDDa+YhBLn/kV/g62b3EPSmhP2dW/nL8xZxrF0+Lw0cwp8OX2s?=
+ =?us-ascii?Q?bFGatArxVuHsf0mkeQtHDcTjIJmAleYhOn+rb5TQfGkEctoyhC1nzvZPpnL7?=
+ =?us-ascii?Q?76QsrgcCdJSCzJqtC60KYZdLB2v1qYcptF6FF0B9p3+L5cqR6CT0O0XRDDtX?=
+ =?us-ascii?Q?H1olK2dlMyFiQ8LCsnbT7YeVCnPRt78R8TVnJ4F3KuVcJ61prp35VLyAb6o1?=
+ =?us-ascii?Q?OjnnT4qHWMPSUMgisakykk3TyIBrM9/HHaZ05J5l/0gPWZAhp5ikB4sZv2ru?=
+ =?us-ascii?Q?sm5vgxvTGDbZeUr/Tw9gOcbf0tTSldiZU5lMwKfN3Thk2y05FVGwLWjA2tnl?=
+ =?us-ascii?Q?4WOQSeDYegDfRkwtey9kYkQn+mPswGfz9PL838/aCRVm844o60zO5Y0hzfM5?=
+ =?us-ascii?Q?bf1pDCGZQ3KyZEqsyPjHn6u40SYZFCXW9eHz7n+m?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6339.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 437a28ca-d641-4383-b7f7-08dc52f34d12
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Apr 2024 09:00:10.2760 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: bqeG/O1X1D9WDzrSkGntv8uTYAyOYoExjRTCtLP/YlL2tatUWtx1EmtzQEx+S+dHzTfNRjqUIpXGcqJBQHD9mw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8011
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,246 +134,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PCI subsystem provides callbacks to inform the driver about a request to
-do function level reset by user, initiated by writing to sysfs entry
-/sys/bus/pci/devices/.../reset. This will allow the driver to handle FLR
-without the need to do unbind and rebind as the driver needs to
-reinitialize the device afresh post FLR.
+> >
+> > +             .alg.skcipher.op.do_one_request =3D tegra_aes_do_one_req,
+> > +             .alg.skcipher.base =3D {
+> > +                     .init =3D tegra_aes_cra_init,
+> > +                     .exit =3D tegra_aes_cra_exit,
+> > +                     .setkey =3D tegra_aes_setkey,
+> > +                     .encrypt =3D tegra_aes_encrypt,
+> > +                     .decrypt =3D tegra_aes_decrypt,
+> > +                     .min_keysize =3D AES_MIN_KEY_SIZE,
+> > +                     .max_keysize =3D AES_MAX_KEY_SIZE,
+> > +                     .ivsize =3D AES_BLOCK_SIZE,
+> > +                     .base =3D {
+> > +                             .cra_name =3D "ofb(aes)",
+> > +                             .cra_driver_name =3D "ofb-aes-tegra",
+> > +                             .cra_priority =3D 500,
+> > +                             .cra_flags =3D CRYPTO_ALG_TYPE_SKCIPHER |
+> CRYPTO_ALG_ASYNC,
+> > +                             .cra_blocksize =3D AES_BLOCK_SIZE,
+> > +                             .cra_ctxsize =3D sizeof(struct tegra_aes_=
+ctx),
+> > +                             .cra_alignmask =3D 0xf,
+> > +                             .cra_module =3D THIS_MODULE,
+> > +                     },
+> > +             }
+> > +     }, {
+>=20
+> OFB no longer exists in the kernel.  Please remove all traces of it from =
+your driver.
 
-v2:
-1. separate out gt idle and pci save/restore to a separate patch (Lucas)
-2. Fixed the warnings seen around xe_guc_submit_stop, xe_guc_puc_fini
+Okay. Will remove and post a new version.
 
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
----
- drivers/gpu/drm/xe/Makefile          |  1 +
- drivers/gpu/drm/xe/xe_device_types.h |  3 +
- drivers/gpu/drm/xe/xe_guc_pc.c       |  4 ++
- drivers/gpu/drm/xe/xe_pci.c          |  9 ++-
- drivers/gpu/drm/xe/xe_pci.h          |  2 +
- drivers/gpu/drm/xe/xe_pci_err.c      | 93 ++++++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_pci_err.h      | 13 ++++
- 7 files changed, 124 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/xe/xe_pci_err.c
- create mode 100644 drivers/gpu/drm/xe/xe_pci_err.h
+>=20
+> Also please ensure that yuor driver passes the extra fuzz tests.
 
-diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
-index 3c3e67885559..1447712fec65 100644
---- a/drivers/gpu/drm/xe/Makefile
-+++ b/drivers/gpu/drm/xe/Makefile
-@@ -114,6 +114,7 @@ xe-y += xe_bb.o \
- 	xe_module.o \
- 	xe_pat.o \
- 	xe_pci.o \
-+	xe_pci_err.o \
- 	xe_pcode.o \
- 	xe_pm.o \
- 	xe_preempt_fence.o \
-diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
-index 3bfde4b59284..a58d7e14f7a0 100644
---- a/drivers/gpu/drm/xe/xe_device_types.h
-+++ b/drivers/gpu/drm/xe/xe_device_types.h
-@@ -458,6 +458,9 @@ struct xe_device {
- 	/** @pci_state: PCI state of device */
- 	struct pci_saved_state *pci_state;
- 
-+	/** @pci_device_is_reset: device went through PCIe FLR */
-+	bool pci_device_is_reset;
-+
- 	/* private: */
- 
- #if IS_ENABLED(CONFIG_DRM_XE_DISPLAY)
-diff --git a/drivers/gpu/drm/xe/xe_guc_pc.c b/drivers/gpu/drm/xe/xe_guc_pc.c
-index 9c110537d135..b09cacf25094 100644
---- a/drivers/gpu/drm/xe/xe_guc_pc.c
-+++ b/drivers/gpu/drm/xe/xe_guc_pc.c
-@@ -902,6 +902,10 @@ static void xe_guc_pc_fini(struct drm_device *drm, void *arg)
- 		return;
- 	}
- 
-+	/* We already have done this before going through a reset, so skip here */
-+	if (xe->pci_device_is_reset)
-+		return;
-+
- 	XE_WARN_ON(xe_force_wake_get(gt_to_fw(pc_to_gt(pc)), XE_FORCEWAKE_ALL));
- 	XE_WARN_ON(xe_guc_pc_gucrc_disable(pc));
- 	XE_WARN_ON(xe_guc_pc_stop(pc));
-diff --git a/drivers/gpu/drm/xe/xe_pci.c b/drivers/gpu/drm/xe/xe_pci.c
-index e9e10f8d5f2b..3b3876318975 100644
---- a/drivers/gpu/drm/xe/xe_pci.c
-+++ b/drivers/gpu/drm/xe/xe_pci.c
-@@ -23,6 +23,7 @@
- #include "xe_macros.h"
- #include "xe_mmio.h"
- #include "xe_module.h"
-+#include "xe_pci_err.h"
- #include "xe_pci_types.h"
- #include "xe_pm.h"
- #include "xe_sriov.h"
-@@ -728,7 +729,7 @@ static void xe_pci_remove(struct pci_dev *pdev)
- 	pci_set_drvdata(pdev, NULL);
- }
- 
--static int xe_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
-+int xe_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- {
- 	const struct xe_device_desc *desc = (const void *)ent->driver_data;
- 	const struct xe_subplatform_desc *subplatform_desc;
-@@ -970,6 +971,11 @@ static const struct dev_pm_ops xe_pm_ops = {
- };
- #endif
- 
-+const struct pci_error_handlers xe_pci_err_handlers = {
-+	.reset_prepare = xe_pci_reset_prepare,
-+	.reset_done = xe_pci_reset_done,
-+};
-+
- static struct pci_driver xe_pci_driver = {
- 	.name = DRIVER_NAME,
- 	.id_table = pciidlist,
-@@ -979,6 +985,7 @@ static struct pci_driver xe_pci_driver = {
- #ifdef CONFIG_PM_SLEEP
- 	.driver.pm = &xe_pm_ops,
- #endif
-+	.err_handler = &xe_pci_err_handlers,
- };
- 
- int xe_register_pci_driver(void)
-diff --git a/drivers/gpu/drm/xe/xe_pci.h b/drivers/gpu/drm/xe/xe_pci.h
-index 73b90a430d1f..9faf5380a09e 100644
---- a/drivers/gpu/drm/xe/xe_pci.h
-+++ b/drivers/gpu/drm/xe/xe_pci.h
-@@ -7,8 +7,10 @@
- #define _XE_PCI_H_
- 
- struct pci_dev;
-+struct pci_device_id;
- 
- int xe_register_pci_driver(void);
- void xe_unregister_pci_driver(void);
- void xe_load_pci_state(struct pci_dev *pdev);
-+int xe_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent);
- #endif
-diff --git a/drivers/gpu/drm/xe/xe_pci_err.c b/drivers/gpu/drm/xe/xe_pci_err.c
-new file mode 100644
-index 000000000000..81c440e08fbc
---- /dev/null
-+++ b/drivers/gpu/drm/xe/xe_pci_err.c
-@@ -0,0 +1,93 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright © 2024 Intel Corporation
-+ */
-+
-+#include <linux/pci.h>
-+#include <drm/drm_drv.h>
-+
-+#include "xe_device.h"
-+#include "xe_gt.h"
-+#include "xe_gt_printk.h"
-+#include "xe_pci.h"
-+#include "xe_pci_err.h"
-+#include "xe_pm.h"
-+#include "xe_uc.h"
-+
-+/**
-+ * xe_pci_reset_prepare - Called when user issued a PCIe reset
-+ * via /sys/bus/pci/devices/.../reset.
-+ * @pdev: PCI device struct
-+ */
-+void xe_pci_reset_prepare(struct pci_dev *pdev)
-+{
-+	struct xe_device *xe = pci_get_drvdata(pdev);
-+	struct xe_gt *gt;
-+	int id, err;
-+
-+	pci_warn(pdev, "preparing for PCIe reset\n");
-+
-+	drm_warn(&xe->drm, "removing device access to userspace\n");
-+	drm_dev_unplug(&xe->drm);
-+
-+	xe_pm_runtime_get(xe);
-+	/* idle the GTs */
-+	for_each_gt(gt, xe, id) {
-+		err = xe_force_wake_get(gt_to_fw(gt), XE_FORCEWAKE_ALL);
-+		if (err)
-+			goto reset;
-+		xe_uc_reset_prepare(&gt->uc);
-+		err = xe_gt_idle(gt);
-+		if (err) {
-+			xe_gt_err(gt, "failed to idle gt (%pe)\n", ERR_PTR(err));
-+			goto reset;
-+		}
-+
-+		err = xe_force_wake_put(gt_to_fw(gt), XE_FORCEWAKE_ALL);
-+		XE_WARN_ON(err);
-+	}
-+	xe_pm_runtime_put(xe);
-+
-+reset:
-+	pci_disable_device(pdev);
-+}
-+
-+/**
-+ * xe_pci_reset_done - Called when PCIe reset is done.
-+ * @pdev: PCI device struct
-+ */
-+void xe_pci_reset_done(struct pci_dev *pdev)
-+{
-+	const struct pci_device_id *ent = pci_match_id(pdev->driver->id_table, pdev);
-+	struct xe_device *xe = pci_get_drvdata(pdev);
-+
-+	dev_info(&pdev->dev,
-+		 "device went through PCIe reset, reenabling the device\n");
-+
-+	if (pci_enable_device(pdev)) {
-+		dev_err(&pdev->dev,
-+			"Cannot re-enable PCI device after reset\n");
-+		return;
-+	}
-+	pci_set_master(pdev);
-+	xe_load_pci_state(pdev);
-+
-+	xe->pci_device_is_reset = true;
-+	/*
-+	 * We want to completely clean the driver and even destroy
-+	 * the xe private data and reinitialize afresh similar to
-+	 * probe
-+	 */
-+	pdev->driver->remove(pdev);
-+	if (pci_dev_msi_enabled(pdev))
-+		pci_free_irq_vectors(pdev);
-+
-+	devm_drm_dev_release_action(&xe->drm);
-+	pci_disable_device(pdev);
-+
-+	/*
-+	 * if this fails the driver might be in a stale state, only option is
-+	 * to unbind and rebind
-+	 */
-+	xe_pci_probe(pdev, ent);
-+}
-diff --git a/drivers/gpu/drm/xe/xe_pci_err.h b/drivers/gpu/drm/xe/xe_pci_err.h
-new file mode 100644
-index 000000000000..95a4c8ce9cf1
---- /dev/null
-+++ b/drivers/gpu/drm/xe/xe_pci_err.h
-@@ -0,0 +1,13 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright © 2024 Intel Corporation
-+ */
-+
-+#ifndef _XE_PCI_ERR_H_
-+#define _XE_PCI_ERR_H_
-+
-+struct pci_dev;
-+
-+void xe_pci_reset_prepare(struct pci_dev *pdev);
-+void xe_pci_reset_done(struct pci_dev *pdev);
-+#endif
--- 
-2.25.1
+Yes. It does pass the extra fuzz tests.
 
+
+Regards,
+Akhil
