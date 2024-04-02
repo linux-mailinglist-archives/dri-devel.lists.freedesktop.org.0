@@ -2,74 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 059B9894D1A
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 10:03:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A8DC894D06
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 09:56:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 213CE10FB39;
-	Tue,  2 Apr 2024 08:02:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A611910FB08;
+	Tue,  2 Apr 2024 07:56:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="m5/AzlkI";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Jb5Cs+AP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBC0A10FB0A
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 07:54:06 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-a4e0e3ef357so613897866b.2
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Apr 2024 00:54:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1712044445; x=1712649245;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=S0aDPStcWplmgXtw121bO/EPEa2tJmV5qvIMipnIN9E=;
- b=m5/AzlkIh5+gNYKaNTUtAJDCO8eNzKli3hiYA6RTXqDcofvtcFOFHmseU6WzsJ6u+F
- 6HGFgLzXF+nRVAl+iL9cMkwQ75FScKZ3gETwLBdyOKBNtFMb84QwvnFZC28Hr6r6vM9v
- DgYU8ry51I8JucABPWT4EOzvjDGM+q4c4laZ8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712044445; x=1712649245;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=S0aDPStcWplmgXtw121bO/EPEa2tJmV5qvIMipnIN9E=;
- b=TiOuZHJiIymvAIGRZmqNtx4CDWutwlCvCAtOChI852h1huZpU1HJFYNIr2L27JXSuH
- GU680G8dklrWka89/dmU0THW5YQOIScVj6KZU8rK+5+IVc30QHT3hBLxQoNL5qZwI/wR
- yPmuMA4LNC2B3SpuDN67klM96FFcUZTi0pFYQd8XK0zEdsb2DLCAycatqX7mq/yY9Ii+
- frR8xmpunbAPQNevN9blce5xm58lyi5cIFrlAb06nquigNqHnVF5LSAM/t4FhcyZDG+E
- bend63yfXseS+YS2NCPzUF+WYslBU/X+c7cY8YCurbc5VJbldPcvj55UHgqLJkBmsQto
- IXcg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXnyPvXA5ou48ZJteGpli1l/zb8KkALALfLTp//IGl5omhPZ/fsK8xQkzI2bA4NbjPPEyHX9hQ3ksn61IHGsRPRIeE+/Q999Q427JChJfJg
-X-Gm-Message-State: AOJu0Yz4gQsTaLlu1JP22C+txUiHT0RI/s+siI68OC0RIH9ZSRy0geHd
- h35y2cpY/dcE1ehhxELNj7Qm+9mV8NBf3HqXCQEJtS8y4IKE4B2QzlC6ieLUIQ==
-X-Google-Smtp-Source: AGHT+IEO3o3WE2Q6ehT7FdVQbjibduradq+vM90LrmVRkZTLj+wI/38lnWD5V3+vj2JRKKZyNZQGQQ==
-X-Received: by 2002:a17:906:795:b0:a4e:8e54:7962 with SMTP id
- l21-20020a170906079500b00a4e8e547962mr403527ejc.41.1712044445152; 
- Tue, 02 Apr 2024 00:54:05 -0700 (PDT)
-Received: from orzel7.c.googlers.com.com
- (229.112.91.34.bc.googleusercontent.com. [34.91.112.229])
- by smtp.gmail.com with ESMTPSA id
- k5-20020a170906a38500b00a4761c94a5esm6227359ejz.107.2024.04.02.00.54.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Apr 2024 00:54:04 -0700 (PDT)
-From: Wojciech Macek <wmacek@chromium.org>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- chrome-platform@lists.linux.dev
-Cc: Wojciech Macek <wmacek@chromium.org>
-Subject: [PATCH] drm/mediatek: Add RENDER capability to DRM device
-Date: Tue,  2 Apr 2024 07:53:52 +0000
-Message-ID: <20240402075352.3147747-1-wmacek@chromium.org>
-X-Mailer: git-send-email 2.44.0.478.gd926399ef9-goog
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F65B10FB00;
+ Tue,  2 Apr 2024 07:56:42 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D46938B9;
+ Tue,  2 Apr 2024 09:56:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1712044564;
+ bh=3FI6n6LYhHgKYaXZ5dykq7jIVDxDcISNhii4Jg7lEok=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Jb5Cs+AP6ZTZbxlLKQjp/iE+74pBpVWEtBE4ymfRhlDXJEswmunX9K4vCmJiDzvX5
+ cEp2L5m3j59EkjzCT2caW5vAgx2vitxByicZFJyuMko0rdmRgbY9SEZA28U1mIfZia
+ GLdWIcKuDbfIDO9FccdFi6rBOikXfuVIKroIZoBc=
+Date: Tue, 2 Apr 2024 10:56:30 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Cc: Christopher Michael <cmichael@igalia.com>, events@lists.x.org,
+ xorg-devel@lists.x.org, wayland-devel@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, mesa-dev@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, libre-soc-dev@lists.libre-soc.org,
+ elections@x.org, members@x.org, xorg@lists.freedesktop.org
+Subject: Re: 2024 X.Org Foundation Membership deadline for voting in the
+ election
+Message-ID: <20240402075630.GA10288@pendragon.ideasonboard.com>
+References: <0efcdfe3-ea9e-43e5-ab07-6d69dca2c04a@igalia.com>
+ <57dd238b-2b94-4b46-a8be-c53b2f985e46@igalia.com>
+ <20240402104608.6f6a9121@eldfell>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 02 Apr 2024 08:02:52 +0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240402104608.6f6a9121@eldfell>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,29 +62,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM device shall create /dev/dri/renderXXX entry
-to allow ChromeOS VMs to access the OpenGL rendering
-offload.
+Hi Pekka,
 
-Signed-off-by: Wojciech Macek <wmacek@chromium.org>
----
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Tue, Apr 02, 2024 at 10:46:08AM +0300, Pekka Paalanen wrote:
+> On Tue, 26 Mar 2024 11:42:48 -0400 Christopher Michael wrote:
+> 
+> > The 2024 X.Org Foundation membership renewal period has been extended 
+> > one additional week and elections will start the following week on 01 
+> > April 2024.
+> > 
+> > Please note that only current members can vote in the upcoming election, 
+> > and that the deadline for new memberships or renewals to vote in the 
+> > upcoming election is 01 April 2024 at 23:59 UTC.
+> > 
+> > If you are interested in joining the X.Org Foundation or in renewing 
+> > your membership, please visit the membership system site at: 
+> > https://members.x.org/
+> > 
+> > Christopher Michael, on behalf of the X.Org elections committee
+> 
+> Hi everyone,
+> 
+> given that the year's first email reminding everyone to renew their
+> memberships was sent on Feb 7 when the renewal was NOT open yet, I
+> wonder how many people thought they had already renewed and are now
+> thinking they don't need to do anything?
+> 
+> I fell for that: On Feb 7, I went to members.x.org to check my status,
+> it said I was registered for "2023-2024" and there was no button to
+> renew, so I closed the page confident that I was a member for 2024.
+> After all, it said 2024. This was a mistake I realised only after being
+> personally poked to renew. I know for sure of one other person falling
+> for the same.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 74832c213092..afa4d6391b08 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -585,7 +585,8 @@ static struct drm_gem_object *mtk_drm_gem_prime_import(struct drm_device *dev,
- }
- 
- static const struct drm_driver mtk_drm_driver = {
--	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
-+	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC |
-+			   DRIVER_RENDER,
- 
- 	.dumb_create = mtk_drm_gem_dumb_create,
- 
+Make that two. Thanks for the notice.
+
+> Now, the members page for this year says "Application for the period:
+> 02/2024-02/2025". Thanks to the people adding the month to reduce
+> confusion.
+
 -- 
-2.44.0.478.gd926399ef9-goog
+Regards,
 
+Laurent Pinchart
