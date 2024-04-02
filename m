@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13829894F40
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 11:56:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C67C0894F54
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 11:58:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CAA010FBF0;
-	Tue,  2 Apr 2024 09:56:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5B1C10F810;
+	Tue,  2 Apr 2024 09:58:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lWTQZAvQ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bJOBGw7M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CD0D10FBF0
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 09:56:48 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-56df1dbb15dso377574a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Apr 2024 02:56:48 -0700 (PDT)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47E6510F810
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 09:58:15 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id
+ 4fb4d7f45d1cf-56899d9bf52so6286616a12.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Apr 2024 02:58:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712051806; x=1712656606; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1712051893; x=1712656693; darn=lists.freedesktop.org;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :from:to:cc:subject:date:message-id:reply-to;
- bh=718ZM86+71A8BdEVL2GnpD+8wX4z74S1znydXwGnzcw=;
- b=lWTQZAvQatQ8XzbKi4UWgZn++++G7t0mHjTs3bjoTu2KxejRor2wLvuq/cg6OABJNa
- G/81J6+TBw9ZNfcKZP2YcT9Yr4n/H660y6GJ0SU2Fye9U5Qn2T4LlRdR7eh7fp7Ozua6
- sqZxFlo6yIPV8dOQmaDqO5JIUEFlNgiJlnn61kKD/eUm4tabB8F2QV94tpLdR0bkRjTX
- +fvixDUFv5TuJ/HLeMcw05OEQu7q8kNX1+jxA4KNVk+ZNAcOS26NP48EpRYW1nu6FiLs
- bXnNdY6ZabT5McxEsxxN95bet/jTPMUNiBax3mOtyVejtO7id9vR7/NCLs2KuOOXjype
- ZQmA==
+ bh=ld5/UZMRVCPDO/dKTQcgFxFhH+C0bdjqoU583UYXs7Q=;
+ b=bJOBGw7MJvzEbzReP6axR1lJ/6tFGxJxJaWRB/S41t5MaQ2kHR4NdmyG6c2gla+FXm
+ RAuUtT97z6HinntfYmI+rN9+8iKftADJpu6ds7Rm1OEzTIZNJLwjdmQp5McxXNyf72zV
+ KBKpkj3/Psxi6HWD2Rz+mFFWEW1/VRRwR//BzMdd1tt0zPh/j2MFKISdspVoqMtbZXo8
+ tRtvx1FfMXkGQvaQNRurN1uC8qZgJgSdZ3rm//uv1Hy9oJjPnfmVML/XgqBf7499rGUf
+ AHitkxc0+nhMvJ5PlH2Tf/WGE6ONobv3Kw99LpKhle+LKDvXzEFQeQR4S8f839i32Kbu
+ MjHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712051806; x=1712656606;
+ d=1e100.net; s=20230601; t=1712051893; x=1712656693;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=718ZM86+71A8BdEVL2GnpD+8wX4z74S1znydXwGnzcw=;
- b=muhy0eI6b72gLdPut9Wuho3NB3YmjOdYq64tj8hyCcT9Z3kI8+TE/BRG8HT6A7zfc0
- /uTZ4VgSf15T3aED/1cvGEz0jLHQPyb3EvTFXqb4Vutnl+dEpxP+eDMyb7aKIWOtBjny
- UPftKExAh6pFuka4oWur5i9x5NE9SMK6KgpUKDCZa/RLGwdDoux3Ev7NT4FqDEoK9BW3
- f7Xg1lnSD2EdbAYNqPWsO/5su/4imdhD5c/wVaKAaJHev81gP+jlIfMhN1kP/wCM2f8Q
- zTl4gIG52V6br5xj8UFe12roMtZwPkjX0omR51pvtNDnw2R1XIkpMAmA6fRzUFluumsK
- Uxhg==
+ bh=ld5/UZMRVCPDO/dKTQcgFxFhH+C0bdjqoU583UYXs7Q=;
+ b=TeaERYGoLZQagi7m90RbuyV585c/1F6bFoaOmnUyMOzML/V9d17YWWtYhZKWzxJeVO
+ 3FQmbZPvY/0gKsqy4Y1mRlM7PiOnfgINt6+VtikjvSbQGaUSKnPmeCnh88HMqSdvaGPf
+ 6tBW5vAGp46JZ++9akjhigDuCx8mB6/S+APTB3xgXDppaeA5p82A5CRjdF2gY2miwpsu
+ 8eikk5qKe4iO+EL97lxqbq6YV8Rtajd7cONDifpANJOBQbmV1YTBIPB4gBBmdZBwVhN5
+ cWiL/FSS/tDOCir2aAy66Ljrg4T0hAYimXvadmKQ9+Jie7k3SfNHqBqBt5VkSC6uhgA7
+ 19FQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVMNERKeZNkRV4hFUjoZf8LaGefJMOWaG81jBtamVKLJynCJQJUkM9n/dnt9cliggFdKgzpcNcX3JHr2fRHAQj+PoYS7TbDXEyhadJPyNb5
-X-Gm-Message-State: AOJu0YzEXUyZlnhRXfBXew9qiepbXui1Og2isrrHQYYcShd3RowEmn2q
- 1nryFZ+VhrzDI95AnekQrD1+IkIfi05dUonFLqsRDbDiFZcQyeNGws+jPo8qP+w=
-X-Google-Smtp-Source: AGHT+IEJjgwUkgIFH8v8m5U7taah5woPEVoICpVprECTBBshSjtqYr7X1fMj5MRpzZPnXQqCG7ctQg==
-X-Received: by 2002:a05:6402:4311:b0:56c:197a:76e2 with SMTP id
- m17-20020a056402431100b0056c197a76e2mr9137367edc.0.1712051806315; 
- Tue, 02 Apr 2024 02:56:46 -0700 (PDT)
+ AJvYcCVThrgjoUxQLwgp8yvlumodUVL9EWnyTWOHPqz9SxeqnjLNpmYghRZLlAb0Ti8RULeVHcKN1ns+Yy6+Qy1+Y6tlPKXFg7AAmZWduXsuR/hM
+X-Gm-Message-State: AOJu0YzKptY7LJTelcoV0Dgw8rbycw51QZdRMwsYKUdtjZ/cXk7i65sX
+ ndU0+2nItTnMFtoHvc6Ou3eWFfSuBDgbymAcABoDRHV0ZEg/ShdYxXu5VBhRXGk=
+X-Google-Smtp-Source: AGHT+IFgDns4XbXtOdDo3mYfgf9w3lFqwUVjIK8JRoHpGzz1mCaGhgoZUM8ANRaz4ThKySFmuVQUqQ==
+X-Received: by 2002:a50:d4cc:0:b0:56b:9925:38a with SMTP id
+ e12-20020a50d4cc000000b0056b9925038amr7967208edj.38.1712051893318; 
+ Tue, 02 Apr 2024 02:58:13 -0700 (PDT)
 Received: from localhost ([102.222.70.76]) by smtp.gmail.com with ESMTPSA id
- dh25-20020a0564021d3900b0056c09fda4e6sm6726525edb.54.2024.04.02.02.56.45
+ u22-20020aa7d556000000b0056c63ba1387sm5295464edr.86.2024.04.02.02.58.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Apr 2024 02:56:46 -0700 (PDT)
-Date: Tue, 2 Apr 2024 12:56:42 +0300
+ Tue, 02 Apr 2024 02:58:13 -0700 (PDT)
+Date: Tue, 2 Apr 2024 12:58:09 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Boris Brezillon <boris.brezillon@collabora.com>
 Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
@@ -61,10 +61,11 @@ Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Grant Likely <grant.likely@linaro.org>,
  Heiko Stuebner <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] drm/panthor: Fix off by one in panthor_fw_get_cs_iface()
-Message-ID: <62835c16-c85c-483d-a8fe-63be78d49d15@moroto.mountain>
+Subject: [PATCH] drm/panthor: Fix a couple -ENOMEM error codes
+Message-ID: <cf5bbba5-427e-4940-b91e-925f9fa71f8d@moroto.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -84,28 +85,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ->iface.streams[csg_slot][] array has MAX_CS_PER_CSG elements so
-this > comparison needs to be >= to prevent an out of bounds access.
+These error paths forgot to set the error code to -ENOMEM.
 
-Fixes: 2718d91816ee ("drm/panthor: Add the FW logical block")
+Fixes: 647810ec2476 ("drm/panthor: Add the MMU/VM logical block")
 Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- drivers/gpu/drm/panthor/panthor_fw.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/panthor/panthor_mmu.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-index 33c87a59834e..181395e2859a 100644
---- a/drivers/gpu/drm/panthor/panthor_fw.c
-+++ b/drivers/gpu/drm/panthor/panthor_fw.c
-@@ -308,7 +308,7 @@ panthor_fw_get_csg_iface(struct panthor_device *ptdev, u32 csg_slot)
- struct panthor_fw_cs_iface *
- panthor_fw_get_cs_iface(struct panthor_device *ptdev, u32 csg_slot, u32 cs_slot)
- {
--	if (drm_WARN_ON(&ptdev->base, csg_slot >= MAX_CSGS || cs_slot > MAX_CS_PER_CSG))
-+	if (drm_WARN_ON(&ptdev->base, csg_slot >= MAX_CSGS || cs_slot >= MAX_CS_PER_CSG))
- 		return NULL;
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index fdd35249169f..a26b40aab261 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -1264,8 +1264,10 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
+ 	op_ctx->rsvd_page_tables.pages = kcalloc(pt_count,
+ 						 sizeof(*op_ctx->rsvd_page_tables.pages),
+ 						 GFP_KERNEL);
+-	if (!op_ctx->rsvd_page_tables.pages)
++	if (!op_ctx->rsvd_page_tables.pages) {
++		ret = -ENOMEM;
+ 		goto err_cleanup;
++	}
  
- 	return &ptdev->fw->iface.streams[csg_slot][cs_slot];
+ 	ret = kmem_cache_alloc_bulk(pt_cache, GFP_KERNEL, pt_count,
+ 				    op_ctx->rsvd_page_tables.pages);
+@@ -1318,8 +1320,10 @@ static int panthor_vm_prepare_unmap_op_ctx(struct panthor_vm_op_ctx *op_ctx,
+ 		op_ctx->rsvd_page_tables.pages = kcalloc(pt_count,
+ 							 sizeof(*op_ctx->rsvd_page_tables.pages),
+ 							 GFP_KERNEL);
+-		if (!op_ctx->rsvd_page_tables.pages)
++		if (!op_ctx->rsvd_page_tables.pages) {
++			ret = -ENOMEM;
+ 			goto err_cleanup;
++		}
+ 
+ 		ret = kmem_cache_alloc_bulk(pt_cache, GFP_KERNEL, pt_count,
+ 					    op_ctx->rsvd_page_tables.pages);
 -- 
 2.43.0
 
