@@ -2,73 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8F5896021
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 01:28:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBEF5896060
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 01:47:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F02CF11217E;
-	Tue,  2 Apr 2024 23:28:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1525B1121B7;
+	Tue,  2 Apr 2024 23:47:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="bjSYNHnY";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="YP2z9cle";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
- [209.85.210.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21EE411217E
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 23:28:27 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id
- d2e1a72fcca58-6e74bd85f26so4799445b3a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Apr 2024 16:28:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1712100506; x=1712705306;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5s1cpFilIcoj0gF+3G7cV47DBqasfVJnJ4p5Ae2MpMg=;
- b=bjSYNHnYXoRV2Y3ghkaG2Ar6tTDW3/Wy3SuQ5es0PgnXeDf3VJ6V/lmxLeEXn1udZO
- EvGi6AjOc9JyuFBWpM4fpaD9QceyDz4w1S4v5SYKR99aZYfYCkkzXz51T6W01yXZRwpY
- AN0mz1oCegnuLD3uCSNbVTA07PQUsnOAF7w10=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712100506; x=1712705306;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5s1cpFilIcoj0gF+3G7cV47DBqasfVJnJ4p5Ae2MpMg=;
- b=U5qgDMwSwoqaUpiZU+fEoZjHBesIc5aehww8942bzky85S8bP43V06woyUs8o9IzKx
- YxHYlEq5AA1Uqep7khex2x+J30g4pfPZv6M25L52JNmMdwPGv0gpeonhiwKXVd7ZW/+m
- AQ1knlQOWLjnnvgRz+qfzHp3ACVYruX80pUvKUkZCkpCiQhbwbbc7jFdgsOdFHm9I/Yn
- E7GzS/7+WH6u9Pz2zg2ayW/qKqv/M721jJhPR8QwcjNtAKk/n6pVVPDpEW/DYhLfYRop
- qbs32oPVllaGVzXPYOEHHAE39bnTUhg/17HepqTOXvso56RffX//uHQhV2pPvXIQDNEL
- DVpQ==
-X-Gm-Message-State: AOJu0Yy1czv3oRclkTk3GNiPPoOOEQSs1R/UvT/6dsDbv2BN7faz2+aJ
- xDPwIiV7rVm4XYnhHM5jmAlrkaQpu6ke9irPl1g1yqVDh/EMHP3xLE5JeDLaP+p3UBnszb4LzfP
- lsv6h0pFk1Kut/OQHuCoJp5hIITTb7DlPyej4n+uEYQElhDVp2YKkJELencPm8cRYkAvossv/yJ
- bkq5fRWv1Z+8sAKTaVsyrrUQ3OtV9DHAbHhB45Syd2einl7M+2fA==
-X-Google-Smtp-Source: AGHT+IHop2T0a57tWh7gMibQ3cT52SkL4Rn41/Fx8f56Akt9jbz4UDuxv4Hg19Nf1ZQNr0U67u1XmQ==
-X-Received: by 2002:aa7:888d:0:b0:6eb:27:f27c with SMTP id
- z13-20020aa7888d000000b006eb0027f27cmr9508200pfe.26.1712100506073; 
- Tue, 02 Apr 2024 16:28:26 -0700 (PDT)
-Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net.
- [173.49.113.140]) by smtp.gmail.com with ESMTPSA id
- i21-20020aa787d5000000b006eaada3860dsm10385121pfo.200.2024.04.02.16.28.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Apr 2024 16:28:25 -0700 (PDT)
-From: Zack Rusin <zack.rusin@broadcom.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, ian.forbes@broadcom.com,
- martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com,
- Zack Rusin <zack.rusin@broadcom.com>, stable@vger.kernel.org
-Subject: [PATCH 5/5] drm/vmwgfx: Sort primary plane formats by order of
- preference
-Date: Tue,  2 Apr 2024 19:28:13 -0400
-Message-Id: <20240402232813.2670131-6-zack.rusin@broadcom.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240402232813.2670131-1-zack.rusin@broadcom.com>
-References: <20240402232813.2670131-1-zack.rusin@broadcom.com>
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 605851121B1;
+ Tue,  2 Apr 2024 23:47:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1712101629;
+ bh=O1LoqnEQMcpTdBwdEfgqlvn/fIUNF8+6dsCHnA8sUDY=;
+ h=Date:From:To:Cc:Subject:From;
+ b=YP2z9clebzpRta9TeoArx28YOxl7Zk8HUM2pUUwcs+eJYNXV+AuoyBfnGY2MNH4K8
+ 30fXfu7UAqYqQvweszB5pk2QNAPzdFeaxqNhXP0yAPf8B8NxBm0V3wEYAlnzIt5cJX
+ 3e4oA+NGk+/ftjINrI932Mx6FLyh+FuWzYa/2sIRdJtjs+wuY1UTxC8yZiUS5XuCCI
+ H3cJmEpGpiQf9knJ+ALHZxn4jO+qt7f4fVm6C+xhNUh+fdZou8Isvxcwp7xUK9feQz
+ 2ctWCVlqUGLlTb0XQaZPhj+GqRbQcwDqe45Igm/P+WiEIMn4Z701ftSA3pF2sUASwb
+ UImA9jwfPBcOw==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4V8PgK05cdz4wcp;
+ Wed,  3 Apr 2024 10:47:08 +1100 (AEDT)
+Date: Wed, 3 Apr 2024 10:47:05 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
+ Mailing List <linux-next@vger.kernel.org>
+Subject: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20240403104705.2ea598ff@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/=h/rHpjwY4cM717RH==vH..";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,39 +58,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The table of primary plane formats wasn't sorted at all, leading to
-applications picking our least desirable formats by defaults.
+--Sig_/=h/rHpjwY4cM717RH==vH..
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Sort the primary plane formats according to our order of preference.
-Fixes IGT's kms_atomic plane-invalid-params which assumes that the
-preferred format is a 32bpp format.
+Hi all,
 
-Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-Fixes: 36cc79bc9077 ("drm/vmwgfx: Add universal plane support")
-Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v4.12+
----
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+After merging the drm-misc tree, today's linux-next build
+(x86_64_allmodconfig) failed like this:
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-index bf9931e3a728..bf24f2f0dcfc 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-@@ -233,10 +233,10 @@ struct vmw_framebuffer_bo {
- 
- 
- static const uint32_t __maybe_unused vmw_primary_plane_formats[] = {
--	DRM_FORMAT_XRGB1555,
--	DRM_FORMAT_RGB565,
- 	DRM_FORMAT_XRGB8888,
- 	DRM_FORMAT_ARGB8888,
-+	DRM_FORMAT_RGB565,
-+	DRM_FORMAT_XRGB1555,
- };
- 
- static const uint32_t __maybe_unused vmw_cursor_plane_formats[] = {
--- 
-2.40.1
+In file included from drivers/gpu/drm/panthor/panthor_fw.c:19:
+drivers/gpu/drm/panthor/panthor_fw.c: In function 'panthor_job_irq_suspend':
+drivers/gpu/drm/panthor/panthor_device.h:326:13: error: unused variable 'co=
+okie' [-Werror=3Dunused-variable]
+  326 |         int cookie;                                                =
+                             \
+      |             ^~~~~~
+drivers/gpu/drm/panthor/panthor_fw.c:979:1: note: in expansion of macro 'PA=
+NTHOR_IRQ_HANDLER'
+  979 | PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
+      | ^~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/panthor/panthor_fw.c: In function 'panthor_job_irq_resume':
+drivers/gpu/drm/panthor/panthor_device.h:336:13: error: unused variable 'co=
+okie' [-Werror=3Dunused-variable]
+  336 |         int cookie;                                                =
+                             \
+      |             ^~~~~~
+drivers/gpu/drm/panthor/panthor_fw.c:979:1: note: in expansion of macro 'PA=
+NTHOR_IRQ_HANDLER'
+  979 | PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
+      | ^~~~~~~~~~~~~~~~~~~
+cc1: all warnings being treated as errors
+In file included from drivers/gpu/drm/panthor/panthor_gpu.c:19:
+drivers/gpu/drm/panthor/panthor_gpu.c: In function 'panthor_gpu_irq_suspend=
+':
+drivers/gpu/drm/panthor/panthor_device.h:326:13: error: unused variable 'co=
+okie' [-Werror=3Dunused-variable]
+  326 |         int cookie;                                                =
+                             \
+      |             ^~~~~~
+drivers/gpu/drm/panthor/panthor_gpu.c:166:1: note: in expansion of macro 'P=
+ANTHOR_IRQ_HANDLER'
+  166 | PANTHOR_IRQ_HANDLER(gpu, GPU, panthor_gpu_irq_handler);
+      | ^~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/panthor/panthor_gpu.c: In function 'panthor_gpu_irq_resume':
+drivers/gpu/drm/panthor/panthor_device.h:336:13: error: unused variable 'co=
+okie' [-Werror=3Dunused-variable]
+  336 |         int cookie;                                                =
+                             \
+      |             ^~~~~~
+drivers/gpu/drm/panthor/panthor_gpu.c:166:1: note: in expansion of macro 'P=
+ANTHOR_IRQ_HANDLER'
+  166 | PANTHOR_IRQ_HANDLER(gpu, GPU, panthor_gpu_irq_handler);
+      | ^~~~~~~~~~~~~~~~~~~
+cc1: all warnings being treated as errors
+In file included from drivers/gpu/drm/panthor/panthor_mmu.c:30:
+drivers/gpu/drm/panthor/panthor_mmu.c: In function 'panthor_mmu_irq_suspend=
+':
+drivers/gpu/drm/panthor/panthor_device.h:326:13: error: unused variable 'co=
+okie' [-Werror=3Dunused-variable]
+  326 |         int cookie;                                                =
+                             \
+      |             ^~~~~~
+drivers/gpu/drm/panthor/panthor_mmu.c:1689:1: note: in expansion of macro '=
+PANTHOR_IRQ_HANDLER'
+ 1689 | PANTHOR_IRQ_HANDLER(mmu, MMU, panthor_mmu_irq_handler);
+      | ^~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/panthor/panthor_mmu.c: In function 'panthor_mmu_irq_resume':
+drivers/gpu/drm/panthor/panthor_device.h:336:13: error: unused variable 'co=
+okie' [-Werror=3Dunused-variable]
+  336 |         int cookie;                                                =
+                             \
+      |             ^~~~~~
+drivers/gpu/drm/panthor/panthor_mmu.c:1689:1: note: in expansion of macro '=
+PANTHOR_IRQ_HANDLER'
+ 1689 | PANTHOR_IRQ_HANDLER(mmu, MMU, panthor_mmu_irq_handler);
+      | ^~~~~~~~~~~~~~~~~~~
+cc1: all warnings being treated as errors
 
+Caused by commit
+
+  962f88b9c916 ("drm/panthor: Drop the dev_enter/exit() sections in _irq_su=
+spend/resume()")
+
+I have used the drm-misc tree from next-20240402 for today.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/=h/rHpjwY4cM717RH==vH..
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmYMmPkACgkQAVBC80lX
+0GxDKAf9G3v6j8SSmsO725iM40aC0aOWHSxf+5dri4sI6wjIhxTIJ7Iy9x6628/n
+PErvIk03eZeJSF2AfQEtv2EZhdQLveic/2M0qhzoYe8g+XmPF9Ed64F0WBQNFO7i
+/F1RJcTHXDHll83mJroO7yuVFvmidBRhHG7lGUXT9JvHxvImRQZjD4Nw7i4yRN6j
+kPgUWf4wEEPVrthJVoRvo0AFI25aCb+d50yye0oBcXgAMMLlJfdCfysn1d6AcOH5
+UfK9xzntnUkX9wp8ZONMbnnNsiHj7CiC/OuSndeTzAgZx3MIe7ujiFirRk25P+vp
++BVVTQP4xhDo87Z3k6EKBMvIi3c0ZQ==
+=2cUO
+-----END PGP SIGNATURE-----
+
+--Sig_/=h/rHpjwY4cM717RH==vH..--
