@@ -2,64 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E383895606
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 16:02:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F776895609
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 16:02:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43A3810FD59;
-	Tue,  2 Apr 2024 14:02:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CED0810E334;
+	Tue,  2 Apr 2024 14:02:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RHuuwFs1";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="aynbUfgX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6425810FD55;
- Tue,  2 Apr 2024 14:02:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712066521; x=1743602521;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=MnbKETqqvlRt+Iy6DkMGMtHlisuIC0nQBpZ9iTeinyw=;
- b=RHuuwFs1RbUotaiF3Ioyo8SALmkz7My2LhjxL6lJ/VL67rv1X+pTkcG5
- /yFFsR0aTX0eQqGa+VpLAbKfSJy3prgi7NdLd0hGrjbq5iT7xEX0qHFpj
- TYr7Em7xqPkx7UZj/wnY2EAdV2PJ1557TbpuQkCupneaS5soEnEUuV1A7
- o2VKrIL7WMZw96OSPDaNlieoooc+y2+yy7BfQ76FwzxPAsNy0zFmkXxcC
- qgvrUYCVNxnI6pIaoQrd4PGmgL1XBAitLhJOsfMQqOaQJPZlXTIS7xl7m
- QMNjmZ9q3q3nEy34hZ7i9eRTkfItbRzChWTY5j+stOcQuI5//RPDqPeWP Q==;
-X-CSE-ConnectionGUID: 1nYx+0w7ToSS+0q8YzRGFA==
-X-CSE-MsgGUID: cH0tJNY3QAy5i/Llue7gDg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="7090235"
-X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; 
-   d="scan'208";a="7090235"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Apr 2024 07:02:00 -0700
-X-CSE-ConnectionGUID: uNwqPLJ4TjGy4wfV8QLNiA==
-X-CSE-MsgGUID: 3bYASW+EQwmBK4dYaX9Duw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; d="scan'208";a="18149661"
-Received: from pramona-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.57.179])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Apr 2024 07:01:56 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- jani.nikula@intel.com, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH v2] drm: ensure drm headers are self-contained and pass
- kernel-doc
-Date: Tue,  2 Apr 2024 17:01:36 +0300
-Message-Id: <20240402140136.1722533-1-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.39.2
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBDD810E334
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 14:02:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1712066548;
+ bh=+5RKOetbmxrtVOG6OyPkEeOWhTsHnv/SA812/SjWp1s=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=aynbUfgXtmFBI2TkptFysjrYmTBYsmBpzDAsaLfwmUIC7bzDKk3tRel1qxR3Yd2PO
+ 7wn1yQ9mDlU942oV1kE7MudRx9/gFwjYYkewplyD7Gdmcouah6y6wdTXzrd/rhF5yl
+ /blDxRT+es9nJHjkpXG71Hr1+ytOFUCJN89m3J9WXRFageVYQpJjQvDYhDH1r2muks
+ a5WiQKUJs1+V+bkYNyYL9HRfgLvA+OVO4HtqYOhkDg+juj3jdmaPXDjwM+qaig6QAl
+ heJYINY1FBgn3/3E7+u8Wxsyg4F76rvXqPuZUhQ1OPbG4BvoVBumCsNONcdEtVwEoA
+ WLFXE366ysDZw==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 981343780624;
+ Tue,  2 Apr 2024 14:02:27 +0000 (UTC)
+Date: Tue, 2 Apr 2024 16:02:26 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Heiko Stuebner
+ <heiko@sntech.de>, Grant Likely <grant.likely@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dan.carpenter@linaro.org, kernel-janitors@vger.kernel.org,
+ error27@gmail.com
+Subject: Re: [PATCH v2] drm/panthor: Fix couple of NULL vs IS_ERR() bugs
+Message-ID: <20240402160226.4a1ac2d1@collabora.com>
+In-Reply-To: <20240402134709.1706323-1-harshit.m.mogalapalli@oracle.com>
+References: <20240402134709.1706323-1-harshit.m.mogalapalli@oracle.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,120 +67,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ensure drm headers build, are self-contained, have header guards, and
-have no kernel-doc warnings, when CONFIG_DRM_HEADER_TEST=y.
+On Tue,  2 Apr 2024 06:47:08 -0700
+Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com> wrote:
 
-The mechanism follows similar patters used in i915, xe, and usr/include.
+> 1. The devm_drm_dev_alloc() function returns error pointers.
+>    Update the error handling to check for error pointers instead of NULL.
+> 2. Currently panthor_vm_get_heap_pool() returns both ERR_PTR() and
+>    NULL(when create is false and if there is no poool attached to the
+>    VM)
+> 	- Change the function to return error pointers, when pool is
+> 	  NULL return -ENOENT
+> 	- Also handle the callers to check for IS_ERR() on failure.
+> 
+> Fixes: 4bdca1150792 ("drm/panthor: Add the driver frontend block")
+> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+> ---
+> This is spotted by smatch and the patch is only compile tested
+> 
+> v1->v2: Fix the function panthor_vm_get_heap_pool() to only return error
+> pointers and handle the caller sites [Suggested by Boris Brezillon]
+> 	- Also merge these IS_ERR() vs NULL bugs into same patch
+> ---
+>  drivers/gpu/drm/panthor/panthor_drv.c   | 6 +++---
+>  drivers/gpu/drm/panthor/panthor_mmu.c   | 2 ++
+>  drivers/gpu/drm/panthor/panthor_sched.c | 2 +-
+>  3 files changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index 11b3ccd58f85..c8374cd4a30d 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1090,8 +1090,8 @@ static int panthor_ioctl_tiler_heap_destroy(struct drm_device *ddev, void *data,
+>  		return -EINVAL;
+>  
+>  	pool = panthor_vm_get_heap_pool(vm, false);
+> -	if (!pool) {
+> -		ret = -EINVAL;
+> +	if (IS_ERR(pool)) {
+> +		ret = PTR_ERR(pool);
+>  		goto out_put_vm;
+>  	}
+>  
+> @@ -1385,7 +1385,7 @@ static int panthor_probe(struct platform_device *pdev)
+>  
+>  	ptdev = devm_drm_dev_alloc(&pdev->dev, &panthor_drm_driver,
+>  				   struct panthor_device, base);
+> -	if (!ptdev)
+> +	if (IS_ERR(ptdev))
+>  		return -ENOMEM;
+>  
 
-To cover include/drm, we need to recurse there using the top level
-Kbuild and the new include/Kbuild files.
+Sorry, that one deserves a separate patch.
 
-v2: make DRM_HEADER_TEST depend on DRM
-
-Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- Kbuild                   |  1 +
- drivers/gpu/drm/Kconfig  | 11 +++++++++++
- drivers/gpu/drm/Makefile | 18 ++++++++++++++++++
- include/Kbuild           |  1 +
- include/drm/Makefile     | 18 ++++++++++++++++++
- 5 files changed, 49 insertions(+)
- create mode 100644 include/Kbuild
- create mode 100644 include/drm/Makefile
-
-diff --git a/Kbuild b/Kbuild
-index 464b34a08f51..f327ca86990c 100644
---- a/Kbuild
-+++ b/Kbuild
-@@ -97,3 +97,4 @@ obj-$(CONFIG_SAMPLES)	+= samples/
- obj-$(CONFIG_NET)	+= net/
- obj-y			+= virt/
- obj-y			+= $(ARCH_DRIVERS)
-+obj-$(CONFIG_DRM_HEADER_TEST)	+= include/
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 3914aaf443a8..a388c4fda984 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -431,3 +431,14 @@ config DRM_WERROR
- 	  this config option is disabled by default.
- 
- 	  If in doubt, say N.
-+
-+config DRM_HEADER_TEST
-+	bool "Ensure DRM headers are self-contained and pass kernel-doc"
-+	depends on DRM && EXPERT
-+	default n
-+	help
-+	  Ensure the DRM subsystem headers both under drivers/gpu/drm and
-+	  include/drm compile, are self-contained, have header guards, and have
-+	  no kernel-doc warnings.
-+
-+	  If in doubt, say N.
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index a73c04d2d7a3..6605d5686d01 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -218,3 +218,21 @@ obj-y			+= solomon/
- obj-$(CONFIG_DRM_SPRD) += sprd/
- obj-$(CONFIG_DRM_LOONGSON) += loongson/
- obj-$(CONFIG_DRM_POWERVR) += imagination/
-+
-+# Ensure drm headers are self-contained and pass kernel-doc
-+hdrtest-files := \
-+	$(shell cd $(srctree)/$(src) && find . -maxdepth 1 -name 'drm_*.h') \
-+	$(shell cd $(srctree)/$(src) && find display lib -name '*.h')
-+
-+always-$(CONFIG_DRM_HEADER_TEST) += \
-+	$(patsubst %.h,%.hdrtest, $(hdrtest-files))
-+
-+# Include the header twice to detect missing include guard.
-+quiet_cmd_hdrtest = HDRTEST $(patsubst %.hdrtest,%.h,$@)
-+      cmd_hdrtest = \
-+		$(CC) $(c_flags) -fsyntax-only -x c /dev/null -include $< -include $<; \
-+		$(srctree)/scripts/kernel-doc -none $(if $(CONFIG_DRM_WERROR),-Werror) $<; \
-+		touch $@
-+
-+$(obj)/%.hdrtest: $(src)/%.h FORCE
-+	$(call if_changed_dep,hdrtest)
-diff --git a/include/Kbuild b/include/Kbuild
-new file mode 100644
-index 000000000000..5e76a599e2dd
---- /dev/null
-+++ b/include/Kbuild
-@@ -0,0 +1 @@
-+obj-$(CONFIG_DRM_HEADER_TEST)	+= drm/
-diff --git a/include/drm/Makefile b/include/drm/Makefile
-new file mode 100644
-index 000000000000..b9f391d7aadd
---- /dev/null
-+++ b/include/drm/Makefile
-@@ -0,0 +1,18 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+# Ensure drm headers are self-contained and pass kernel-doc
-+hdrtest-files := \
-+	$(shell cd $(srctree)/$(src) && find * -name '*.h' 2>/dev/null)
-+
-+always-$(CONFIG_DRM_HEADER_TEST) += \
-+	$(patsubst %.h,%.hdrtest, $(hdrtest-files))
-+
-+# Include the header twice to detect missing include guard.
-+quiet_cmd_hdrtest = HDRTEST $(patsubst %.hdrtest,%.h,$@)
-+      cmd_hdrtest = \
-+		$(CC) $(c_flags) -fsyntax-only -x c /dev/null -include $< -include $<; \
-+		$(srctree)/scripts/kernel-doc -none $(if $(CONFIG_DRM_WERROR),-Werror) $<; \
-+		touch $@
-+
-+$(obj)/%.hdrtest: $(src)/%.h FORCE
-+	$(call if_changed_dep,hdrtest)
--- 
-2.39.2
+>  	platform_set_drvdata(pdev, ptdev);
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index fdd35249169f..e1285cdb09ff 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -1893,6 +1893,8 @@ struct panthor_heap_pool *panthor_vm_get_heap_pool(struct panthor_vm *vm, bool c
+>  			vm->heaps.pool = panthor_heap_pool_get(pool);
+>  	} else {
+>  		pool = panthor_heap_pool_get(vm->heaps.pool);
+> +		if (!pool)
+> +			pool = ERR_PTR(-ENOENT);
+>  	}
+>  	mutex_unlock(&vm->heaps.lock);
+>  
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index 5f7803b6fc48..617df2b980d0 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -1343,7 +1343,7 @@ static int group_process_tiler_oom(struct panthor_group *group, u32 cs_id)
+>  	if (unlikely(csg_id < 0))
+>  		return 0;
+>  
+> -	if (!heaps || frag_end > vt_end || vt_end >= vt_start) {
+> +	if (IS_ERR(heaps) || frag_end > vt_end || vt_end >= vt_start) {
+>  		ret = -EINVAL;
+>  	} else {
+>  		/* We do the allocation without holding the scheduler lock to avoid
 
