@@ -2,80 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37197894C8A
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 09:23:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE025894CB8
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 09:36:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9241010F3B3;
-	Tue,  2 Apr 2024 07:23:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBF0910FAE8;
+	Tue,  2 Apr 2024 07:36:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XD3d6TYa";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="kQRv9HKA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com
- [209.85.219.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08D7D10F3AF
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 07:23:34 +0000 (UTC)
-Received: by mail-yb1-f182.google.com with SMTP id
- 3f1490d57ef6-dccb1421bdeso4192200276.1
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Apr 2024 00:23:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712042614; x=1712647414; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=TabQ2YZKZbkFzivtnWN/s3P657uIJJTcK5H1sTgsFt8=;
- b=XD3d6TYaGia/pfEWTTIoQl/z94ESnMpgIo4hrhv9Gy9z5Lngi9plcBXc3/S0JTO7Fq
- sTho4YOnqVoGQidMvBXrX9w0PLoQQ34XGJQCeSJGUIPTU9D86z5CAjwChZ6BBcmzIvpy
- 529tENKPOXU5dv652UvbBIrQ9xKbidnQkINOm6mEnfxq0KyakX5kXDV7BZ5ZYXWLUH/l
- y0Wi6ar4KQtGjZqEDLcFh/ALBehU75WEwOUht4HTJAxZuZ9Aukn3RP5KqDI539VY2hIL
- wIOEyJXvicSioKPjKme0xVAIxCQT5VQwtc7tFBScI9NZpk6PUzoiXakIibrevp17V0iE
- byXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712042614; x=1712647414;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TabQ2YZKZbkFzivtnWN/s3P657uIJJTcK5H1sTgsFt8=;
- b=j5jcNoaNj2W2klOtxhJ8v/M1UPGrX971SzbvSqAzA9VWTHQiiXyuE/lO44lj5tqVLv
- pbEu/ADSgqDpRlnFCTuRcAH0kxZvm85IPFabX9Abhb8gkFT9+WCewnNL3/8ILHo6LRoz
- gJIJ2OgABZapTUGwfPSXGb66sWzXTkt6zQHgmfESGYhMe3BcigtYh1wEIlK4osk19SOd
- 0EpFfIEeEq8YYpIEbQu7w47ulw9gSTfHa8OuJxVxZo2W9l+ZydSpGU3zQ6tRXW5nCzOi
- h8XAdF68mMXKmftTzuQooZAjtL38CydQM6kFAGbTYWLvwYCgj15ywjsKImWZopkbfWK5
- LVdw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUCccRfr8PtrRbTFw37ug+XgOS6SyMevuKN0X9OqFVZSO7YR8ZgQlc6JDzBFJDN7GsiQITaFs55YBNK6bwSjGfHP4nvTn4f1ORGFCwCVWdr
-X-Gm-Message-State: AOJu0Yxcd0faF8nzM36XSZUQ3cdb1fYfzsR8nOXMYpJBLTJ/munVXMrI
- BFZi+eBWBrkqIrtWJsoZk2KhzXUUjdu9TmMBSU5ZbT/RbhSXYb/CMjBM1XvCc0nbskVR6hvbYlP
- nTGXzL+7OPeR0+IznWUcaIqY77T7GHrlAgndSSg==
-X-Google-Smtp-Source: AGHT+IFD86Uoe4DkZqNoswdbUsX4qLvBWlBIGcubcGElg6SvFLOP7pWe31TeIM97fq3YF8cj6wVYaY2qIVBhr6NNOiw=
-X-Received: by 2002:a25:ab87:0:b0:dd0:c2a:26f9 with SMTP id
- v7-20020a25ab87000000b00dd00c2a26f9mr9419434ybi.27.1712042613940; Tue, 02 Apr
- 2024 00:23:33 -0700 (PDT)
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74A5010FAEB
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 07:36:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1712043397;
+ bh=uiZD/GIpS541nuZOCp2PJe4nnDJEbZbjHYbmpb2l66M=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=kQRv9HKAwqjQpXQwBNL/epJsVOR2c0HmcVrJN6NrH/divBlGwLcjycHI8AmVsysVT
+ W/QEfpE91ucf2jrdqZr7CS92x3w7ncwb9bK15uiGqpOn9V8GxUlL+ojREUw+/tkTnz
+ yuV+fnnYCj2vfyJCLIc/pBUf35K5iyuiRImNbz8+FleQakCFwzEoVidvoLmlFqx/vq
+ Yfkv4rfhlHMIujANKhUkLznRPgNCVaveVhzoW3B81yAPG3qxzh07B3kF5yMcHPnGPy
+ 5zOQhMVmk47IhFkL0rLotKM3GAkk4QTTCa5cknEK7mcXX5wCVp3wWncz5yAeoIjfxC
+ TwyWV7dGZv4Ag==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9A17F378045F;
+ Tue,  2 Apr 2024 07:36:36 +0000 (UTC)
+Date: Tue, 2 Apr 2024 09:36:35 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRy?=
+ =?UTF-8?B?acOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com, "Lukas F .
+ Hartmann" <lukas@mntmn.com>
+Subject: Re: [PATCH v3 1/3] drm/panthor: Fix IO-page mmap() for 32-bit
+ userspace on 64-bit kernel
+Message-ID: <20240402093635.056bd8dc@collabora.com>
+In-Reply-To: <20240326111205.510019-1-boris.brezillon@collabora.com>
+References: <20240326111205.510019-1-boris.brezillon@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20240402-lg-sw43408-panel-v3-0-144f17a11a56@linaro.org>
- <20240402-lg-sw43408-panel-v3-1-144f17a11a56@linaro.org>
- <9fbb9058-ccfe-436d-b413-b3ba27e4e5f9@linaro.org>
-In-Reply-To: <9fbb9058-ccfe-436d-b413-b3ba27e4e5f9@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 2 Apr 2024 10:23:22 +0300
-Message-ID: <CAA8EJprwWd=ZtwnpTm3cVP8RBEqxCcSGyBu-bHj=iV=+X2=FyQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] dt-bindings: panel: Add LG SW43408 MIPI-DSI panel
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Caleb Connolly <caleb.connolly@linaro.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Vinod Koul <vkoul@kernel.org>, Caleb Connolly <caleb@connolly.tech>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,28 +64,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2 Apr 2024 at 09:31, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 02/04/2024 01:51, Dmitry Baryshkov wrote:
-> > From: Sumit Semwal <sumit.semwal@linaro.org>
-> >
-> > LG SW43408 is 1080x2160, 4-lane MIPI-DSI panel present on Google Pixel 3
-> > phones.
-> >
-> > Signed-off-by: Vinod Koul <vkoul@kernel.org>
-> > Signed-off-by: Sumit Semwal <sumit.semwal@linaro.org>
-> > [caleb: convert to yaml]
-> > Signed-off-by: Caleb Connolly <caleb@connolly.tech>
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
->
-> Tags missing.
->
-> `b4 trailers -u`
+On Tue, 26 Mar 2024 12:12:03 +0100
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-Excuse me, I keep on forgetting it.
+> When mapping an IO region, the pseudo-file offset is dependent on the
+> userspace architecture. panthor_device_mmio_offset() abstracts that
+> away for us by turning a userspace MMIO offset into its kernel
+> equivalent, but we were not updating vm_area_struct::vm_pgoff
+> accordingly, leading us to attach the MMIO region to the wrong file
+> offset.
+>=20
+> This has implications when we start mixing 64 bit and 32 bit apps, but
+> that's only really a problem when we start having more that 2^43 bytes of
+> memory allocated, which is very unlikely to happen.
+>=20
+> What's more problematic is the fact this turns our
+> unmap_mapping_range(DRM_PANTHOR_USER_MMIO_OFFSET) calls, which are
+> supposed to kill the MMIO mapping when entering suspend, into NOPs.
+> Which means we either keep the dummy flush_id mapping active at all
+> times, or we risk a BUS_FAULT if the MMIO region was mapped, and the
+> GPU is suspended after that.
+>=20
+> Solve that by patching vm_pgoff early in panthor_mmap(). With
+> this in place, we no longer need the panthor_device_mmio_offset()
+> helper.
+>=20
+> v3:
+> - No changes
+>=20
+> v2:
+> - Kill panthor_device_mmio_offset()
+>=20
+> Fixes: 5fe909cae118 ("drm/panthor: Add the device logical block")
+> Reported-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+> Reported-by: Lukas F. Hartmann <lukas@mntmn.com>
+> Closes: https://gitlab.freedesktop.org/mesa/mesa/-/issues/10835
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Reviewed-by: Steven Price <steven.price@arm.com>
 
--- 
-With best wishes
-Dmitry
+All 3 patches queued to drm-misc-next.
