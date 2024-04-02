@@ -2,71 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF79C895B92
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 20:19:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E4E9895BA2
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 20:22:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA8FC10FF50;
-	Tue,  2 Apr 2024 18:19:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D03A110E2A9;
+	Tue,  2 Apr 2024 18:22:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="DWioxHIz";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="sEi9sxdy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id C70C610FF50;
- Tue,  2 Apr 2024 18:19:05 +0000 (UTC)
-Received: from [100.64.232.220] (unknown [20.29.225.195])
- by linux.microsoft.com (Postfix) with ESMTPSA id 44D9220E8BDC;
- Tue,  2 Apr 2024 11:19:04 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 44D9220E8BDC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1712081945;
- bh=6CxfCTy2hvljG0KtnNfE1+yaCZUecQ3XXshhsgNm9Uw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=DWioxHIzgS3pFY1uvHRovezlPv1RdDLcO2IT9/uxBMLrPIYLmaifrAV+YozRfQao5
- rn7ZeC4782fWxJ68W1tiLG19p3MAqbIzFdJeAEkZWoLgMwgJMeelbVPX1Afg8R8m6u
- UVRz1yN/74Ux892MYhIq1XY0LntOnyafVlWsWEQ4=
-Message-ID: <75428d6c-c40a-43d8-84e3-f9ed161c37e2@linux.microsoft.com>
-Date: Tue, 2 Apr 2024 11:19:03 -0700
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com
+ [209.85.219.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0E5410E408
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 18:22:21 +0000 (UTC)
+Received: by mail-yb1-f169.google.com with SMTP id
+ 3f1490d57ef6-dd161eb03afso4833536276.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Apr 2024 11:22:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1712082140; x=1712686940;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ia/tbJPIdeMfQ6ZZ+vaPcpfh03Y3DgIKVILN8aSZC/Q=;
+ b=sEi9sxdy7jXqW8x+FRebZX1D13t973fihctVksKTwtelIjcSRIuB39dUtR/q3UYKJQ
+ gLqsO6paoF/gvCBM+hBbv+6qvA1jQjwYT0chcT7bTiwPUTrYNuQtqgItbHu/vN/PbNxw
+ 3eQEgw1kX3b71mNsqQjdDZjrAATCdrFedCwbsbT1jAW5QOTZOwugbzMUSYwbMkD3tCsn
+ ky+P/soMz4gGtHw0OOeQFgaAzUbtSfX6F/5gMNlz65GuFpxRfC+Dz4KewJTnvEqDhKBd
+ b7BGSJOwbl//nljuI/HS4s65ulrWg+yfwv7x5Yx2oc1Rr37Y2lM93FZomA7Qvto8B7q2
+ IUSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712082140; x=1712686940;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ia/tbJPIdeMfQ6ZZ+vaPcpfh03Y3DgIKVILN8aSZC/Q=;
+ b=nZkTDA8UcBuwcD/93A0eU/LMuxhw91FgsswBDNBO45BZNlSPq0DeglWLf1iAZAX5xJ
+ rG+2xmw7m3JG7d9y4yFgcPdLqHWm90fNh47nzsXmNG6wYrCEtUIjUCfggnowIbbqy8O+
+ EH4+gsS25OZpz0xb4YoxPwWnMWWv2F74op1Tn/mu3ZOl4mO0obR568yNkMqtUVNDjHN2
+ SKGys30Hedha3kJo3DdT9TVqkkxi4mna+G/bhuPQNHFl4qVxC+Bz/rHdTOtMbzW2uSnJ
+ da9vVuKPfeYITLoPyhCD5GMoOwQpkG9QeLKTjd+BJEVLpbqtqP4CLqDOAwRUyXbvaOrW
+ uhNg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXKmiU1OpQe39bCZYeQ9m4v0uU5+gpUL3ynA9fXcdw6UiadayWlOhOFLo7r+mCwcBBob5ATJ8TLqQt6XhOBUord6+ok7RQEbqRlgihQKNT7
+X-Gm-Message-State: AOJu0Yz5D1vk2EKM2cGAvR+vCSlsP8sUA2AZRtk1FVH3pCtOP272Erjb
+ ArSej0YpAvo2HKygMSwrKqYAOmFTAEFeFB3mHH6XhxCoS38og20kRTJYWY1BIz+7Aor9SNDFDuF
+ mM9z0RtrdFV/g1dv3l/NUkKd7WY93skRUu5WN
+X-Google-Smtp-Source: AGHT+IELVyAijo8pj3GcLmB3cCFiU9WkTzB0n0l7/6pGqPaQ1F3PpSSJA0zcslPbroERdF7pfvQPJq16K7fY/gzJvBE=
+X-Received: by 2002:a25:ad12:0:b0:dc2:466a:23bd with SMTP id
+ y18-20020a25ad12000000b00dc2466a23bdmr11110164ybi.54.1712082140449; Tue, 02
+ Apr 2024 11:22:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v0 03/14] drm/gma500,drm/i915: Make I2C terminology more
- inclusive
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Zhenyu Wang
- <zhenyuw@linux.intel.com>, Zhi Wang <zhi.wang.linux@gmail.com>,
- dri-devel@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>,
- "open list:INTEL GVT-g DRIVERS (Intel GPU Virtualization)"
- <intel-gvt-dev@lists.freedesktop.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
-References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
- <20240329170038.3863998-4-eahariha@linux.microsoft.com>
- <87a5mcfbms.fsf@intel.com>
- <7d5e6ed0-ffe9-46c2-b3b4-a4a47c09532e@linux.microsoft.com>
- <87ttkjesx8.fsf@intel.com>
- <fde7a0da-1981-48db-95e2-96d45655c11c@linux.microsoft.com>
- <87o7aremfz.fsf@intel.com>
-Content-Language: en-CA
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-In-Reply-To: <87o7aremfz.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240327022903.776-1-justinjiang@vivo.com>
+ <5cf29162-a29d-4af7-b68e-aac5c862d20e@amd.com>
+ <cc7defae-60c1-4cc8-aee5-475d4460e574@vivo.com>
+ <23375ba8-9558-4886-9c65-af9fe8e8e8b6@amd.com>
+In-Reply-To: <23375ba8-9558-4886-9c65-af9fe8e8e8b6@amd.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Tue, 2 Apr 2024 11:22:08 -0700
+Message-ID: <CABdmKX2Kf4ZmVzv3LGTz2GyP-9+rAtFY9hSAxdkrwK8mG0gDvQ@mail.gmail.com>
+Subject: Re: [PATCH] dmabuf: fix dmabuf file poll uaf issue
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: zhiguojiang <justinjiang@vivo.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+ opensource.kernel@vivo.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,70 +85,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/2/2024 9:52 AM, Jani Nikula wrote:
-> On Tue, 02 Apr 2024, Easwar Hariharan <eahariha@linux.microsoft.com> wrote:
->> On 4/2/2024 7:32 AM, Jani Nikula wrote:
->>> On Tue, 02 Apr 2024, Easwar Hariharan <eahariha@linux.microsoft.com> wrote:
->>>> On 4/2/2024 12:48 AM, Jani Nikula wrote:
->>>>> On Fri, 29 Mar 2024, Easwar Hariharan <eahariha@linux.microsoft.com> wrote:
->>>>>> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
->>>>>> with more appropriate terms. Inspired by and following on to Wolfram's
->>>>>> series to fix drivers/i2c/[1], fix the terminology for users of
->>>>>> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
->>>>>> in the specification.
->>>>>
->>>>> gma500 and i915 changes should be split. See MAINTAINERS.
->>>>>
->>>>> Might also split the i915 changes to smaller pieces, it's kind of
->>>>> random. And the changes here are not strictly related to I2C AFAICT, so
->>>>> the commit message should be updated.
->>>>>
->>>>> BR,
->>>>> Jani.
->>>>>
->>>>>
->>>>
->>>> <snip>
->>>>
->>>> I will split gma500 and i915 into their respective patches if possible in v2.
->>>>
->>>> Can you say more about the changes being "not strictly related to I2C"? My
->>>> heuristic was to grep for master/slave, and look in the surrounding context for
->>>> i2c-related terminology (i2c_pin, 7-bit address, struct i2c_adapter, i2c_bus, etc)
->>>> to confirm that they are i2c-related, then following the references around to
->>>> make the compiler happy. For e.g., I did not change the many references to bigjoiner
->>>> master and slave because I understood from context they were not i2c references.
->>>>
->>>> A couple examples would help me restrict the changes to I2C, since as mentioned in the
->>>> discussion on Wolfram's thread, there are places where migrating away from master/slave
->>>> terms in the code would conflict with the original technical manuals and reduce correlation
->>>> and understanding of the code.
->>>
->>> I guess I was looking at the VBT changes in intel_bios.c. Granted, they
->>> do end up being used as i2c addresses. No big deal.
->>>
->>> I think I'd expect the treewide i2c adapter changes to land first, via
->>> i2c, and subsequent cleanups to happen next, via individual driver
->>> trees. There's quite a bit of conflict potential merging this outside of
->>> drm-intel-next, and there's really no need for that.
->>>
->>> BR,
->>> Jani.
->>>
->>
->> Great! Just so I'm clear, do you still want the i915 changes split up more, along with them being
->> split off from gma500?
-> 
-> If we can merge the i915 changes via drm-intel-next, it's probably fine
-> as a big i915 patch. Just the gma500 separated. (The struct
-> i2c_algorithm change etc. necessarily has to go via I2C tree of course.)
-> 
-> BR,
-> Jani.
-> 
+On Tue, Apr 2, 2024 at 1:08=E2=80=AFAM Christian K=C3=B6nig <christian.koen=
+ig@amd.com> wrote:
+>
+> Am 02.04.24 um 08:49 schrieb zhiguojiang:
+> >> As far as I can see that's not because of the DMA-buf code, but
+> >> because you are somehow using this interface incorrectly.
+> >>
+> >> When dma_buf_poll() is called it is mandatory for the caller to hold
+> >> a reference to the file descriptor on which the poll operation is
+> >> executed.
+> >>
+> >> So adding code like "if (!file_count(file))" in the beginning of
+> >> dma_buf_poll() is certainly broken.
+> >>
+> >> My best guess is that you have some unbalanced
+> >> dma_buf_get()/dma_buf_put() somewhere instead.
+> >>
+> >>
+> > Hi Christian,
+> >
+> > The kernel dma_buf_poll() code shound not cause system crashes due to
+> > the user mode usage logical issues ?
+>
+> What user mode logical issues are you talking about? Closing a file
+> while polling on it is perfectly valid.
+>
+> dma_buf_poll() is called by the filesystem layer and it's the filesystem
+> layer which should make sure that a file can't be closed while polling
+> for an event.
+>
+> If that doesn't work then you have stumbled over a massive bug in the fs
+> layer. And I have some doubts that this is actually the case.
+>
+> What is more likely is that some driver messes up the reference count
+> and because of this you see an UAF.
+>
+> Anyway as far as I can see the DMA-buf code is correct regarding this.
+>
+> Regards,
+> Christian.
 
-Got it. I'll send the split out in v1 (not v2 as mentioned earlier) since this is v0.
+I tried to reproduce this problem but I couldn't. What I see is a ref
+get taken when poll is first called. So subsequently closing the fd in
+userspace while it's being polled doesn't take the refcount all the
+way to 0. That happens when dma_buf_poll_cb fires, either due to an
+event or when the fd is closed upon timeout.
 
-Thanks,
-Easwar
-
+I don't really see how this could be triggered from userspace so I am
+also suspicious of dma_buf_get/put.
