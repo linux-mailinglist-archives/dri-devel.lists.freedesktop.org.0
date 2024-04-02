@@ -2,48 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E425E895FC6
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 00:49:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38004895FD7
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 00:54:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5192C11212F;
-	Tue,  2 Apr 2024 22:49:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49E4011213A;
+	Tue,  2 Apr 2024 22:54:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=pm.me header.i=@pm.me header.b="F1Kn5C61";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="zZRzvSV0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-41103.protonmail.ch (mail-41103.protonmail.ch
- [185.70.41.103])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D153F10E4CD
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 22:43:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
- s=protonmail3; t=1712097832; x=1712357032;
- bh=trMcZe8Kca81DGz+C71YrTNCvc3E7JSmP5PWGtCHu/U=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=F1Kn5C614WCQisjsMJFhDyc9fan1niHSvPUg1za6wIStCqtLfu7zKtCSl24utlLps
- oYW0FGqWtikYnMyQFeW9dBL89zasDhhFEHsoJKG7sB18iNnA2BcxCD8DSMSMShpZ2Z
- HnfWM6KBOfV7JmVAV4tSmubBZa/XOFGS7mzZEcNhRv6t+9LbHMTwOSO+y1cjeboJ0Z
- Nzx8eo7uuAFyKVwH1hT6sE1iXNRkjxbNnA4WwZySFrVAc0z0tWWoSI06VA+oQga+Co
- 6ERUKrJlQfN6YNwE/QiIp3EzahhI1ap8g6UtUUQFHfOO+fdmMye/ZyRbSD4I8KxGXv
- soFs4Ur2gR6Ig==
-Date: Tue, 02 Apr 2024 22:43:48 +0000
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-From: Nicolas Devos <ndevos-dev@pm.me>
-Cc: Nicolas Devos <ndevos-dev@pm.me>
-Subject: [PATCH 4/4] gpu/drm: Replace tabs with spaces in comments
-Message-ID: <20240402224320.12146-5-ndevos-dev@pm.me>
-In-Reply-To: <20240402224320.12146-1-ndevos-dev@pm.me>
-References: <20240402224320.12146-1-ndevos-dev@pm.me>
-Feedback-ID: 76711691:user:proton
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2092.outbound.protection.outlook.com [40.107.93.92])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1A0411213A
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 22:54:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JMuKPjj+tG6KNW11ZDIbSlhJGEV/74L6dnz2oLkz88iYydvAVYEHw7pXSzeDxVeGDgc1qHJtaqQWJSFW+7dgFxMTqFOA0uyKzF64mSPfKqaINkv3EbsklsCWi7/eInltcQzpqORhUnrdKG3XMDIPoyxZxfzn9rNCcOnMUWl5+TRvh14lzdKB0j2B9KZDs7KYxJZqPU2cZE6luluaCx33G9OU3kVb5wwtCojg+mfC7c+hIw7X/WELvDwxOdVjOPSmoxXQJPSpHFP9S1iLb7KLeobxZzF/W4q3Dy13pmDjVOvgnlXY5bdBWKCRxzaVx4a2vHY9dj9D6Wgq/WHEUrY7Lg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Zjjjbf0pElRX4DGxzxwtkuahxQ7uhx/vYwmksC9qNgI=;
+ b=PaSLCLkUx759DwLMudqOGB2/OrPLwmToj6x97SrGHDrwb9Mb3vwLRco9hwzvtuYXdWhU3MYXS1ZOlNAN4VYzy+MaDg+UqgJoxQowlIh9zqiSZmTobh7GOrHYbcoeG+EysZi8hL5aw1qMpHg0yUpkGVVW5A6oiHe24EvIvZS5/OB2N6/k0D5jbUKReyf3V+Z1z1blSs80swk8moUDT+tLIxY7Ra/xGKhmANSENDB1VZvb4NKI/55cK0ly5LuQvqZlCftN91H9fMY2TvytdY5ZLTQ/OcyiJmuIGnOrCxgJLwwT88wD5h5LBBABluFCyLVjnV/WFCj0Islw2OJdk7eaPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Zjjjbf0pElRX4DGxzxwtkuahxQ7uhx/vYwmksC9qNgI=;
+ b=zZRzvSV0Mj57P/PSkJ1a7GIDip1rHOuVC4GDpilE+aN/PV3O2wvOlEsfZtnBwWlMrpS7BnyLfArRJSQ3urFGYZqKrEKyve1GoX8qzRR3XhtNn6ZK+3YBqKnInwZ+SWQN9FKSEH2MV263cHL7HdKsnNuDCcYqZrIf5yG9mWlPsWI=
+Received: from MW4PR12MB7165.namprd12.prod.outlook.com (2603:10b6:303:21b::14)
+ by CY8PR12MB8066.namprd12.prod.outlook.com (2603:10b6:930:70::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Tue, 2 Apr
+ 2024 22:54:09 +0000
+Received: from MW4PR12MB7165.namprd12.prod.outlook.com
+ ([fe80::e039:187d:47be:afb7]) by MW4PR12MB7165.namprd12.prod.outlook.com
+ ([fe80::e039:187d:47be:afb7%4]) with mapi id 15.20.7409.042; Tue, 2 Apr 2024
+ 22:54:09 +0000
+From: "Klymenko, Anatoliy" <Anatoliy.Klymenko@amd.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ "Simek, Michal" <michal.simek@amd.com>
+CC: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "Sagar, Vishal"
+ <vishal.sagar@amd.com>, =?utf-8?B?UMOpdGVyIFVqZmFsdXNp?=
+ <peter.ujfalusi@gmail.com>
+Subject: RE: [PATCH v2 4/4] drm: xlnx: zynqmp_dpsub: Add DP audio support
+Thread-Topic: [PATCH v2 4/4] drm: xlnx: zynqmp_dpsub: Add DP audio support
+Thread-Index: AQHaedawAfiIge+qaEyiFKsoLokVYLFVrMyQ
+Date: Tue, 2 Apr 2024 22:54:09 +0000
+Message-ID: <MW4PR12MB7165551D8175661EEF9CE0C6E63E2@MW4PR12MB7165.namprd12.prod.outlook.com>
+References: <20240319-xilinx-dp-audio-v2-0-92d6d3a7ca7e@ideasonboard.com>
+ <20240319-xilinx-dp-audio-v2-4-92d6d3a7ca7e@ideasonboard.com>
+In-Reply-To: <20240319-xilinx-dp-audio-v2-4-92d6d3a7ca7e@ideasonboard.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MW4PR12MB7165:EE_|CY8PR12MB8066:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 1+mz0xxYgEHz1m26cWft4dzdOZeFN/7KXMVNUIp0E8ayXdoM3y2Hp/Eox04nVf/luzPIPclaLsgJQKCkT14bh/o9bu9NAR2sxLhvRPqeiNwzySGjoDz7AFQmTb1JVII2K21jtkMMmuKXKhP1pUQ0L3pTFW7k3qF0UgF5y/6F0uhBiXSyRRcusnj7bAK//kt0HXLYXKqUxvFFtrKTyYraF4Ie32tm+jhyT4j5WEb0rQyy2cid7/SNi6rk9XMX59gkFW0MvNPdS1V52qn2LaeLe8LutWYA9bx9QWxuOxZaamcQXKMcbiIFBNOqDHtJEMkaj28cx1u+2GuA7zRply3pb0Yct8vNTbpMnKN0XtWiW4tUQZ1JK3hxSdLJ1OnYQQhUmPUMyvoB64OVQ6IiuG6TT9K+EtImamj/JnFjI+Lw6ASRyTwMkJ/dj4LqiHvUHisJ6kA5V56LJcZcd8aOkYVddWbrrr4C7RBXpv+gnGF+ZGtu+8fIIVqb7ORpT2oyxr8BoR795Qw7w3hVgI24+NURNfV4BEpmKPjwb3LRgaaV1GojJ9YqRzjWl5VsBYY/n50qPHOjI2RQB4yvxSb3VFMTwSckTVQTFQZuIVqkE+yVeFwtXlGIUMbzrNu8qRCnHB16q5pZO4WRddZqqc7HwxRXtVOECcxN8PMuNmnG60WOhJATHIUsk8R5ufa37wfPLdbun/6Eyzty9RmOETIU6FE2sA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW4PR12MB7165.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366007)(1800799015)(7416005)(376005)(921011); DIR:OUT; SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZkdsWE1jcEg3U0dXckZrK2NMa0V5eCs0UDZDZDMzWnlMeldIV0loSElmeFpF?=
+ =?utf-8?B?QjJyb2IvYUgraG14NjZOLy9EcXlxU1BESGRHVG85clRtNjRYbnBMV1pPQnFX?=
+ =?utf-8?B?MlZJRG5aaDUzREVEWUYzK2JzOG9yYk5pVjJ4NHlMQ3IrSjM0QVQzNEsvNzBw?=
+ =?utf-8?B?aWdVTzJOSFBLSEhIVzNUMVdOaTM3UXBGbzhTa2ZRdXo2bUVobTk0MU5mZENL?=
+ =?utf-8?B?eUYyVEdqczJBbXZCekVjcmhKYUdOcitka1dPL3ZCaTRuT1VxeHBxWFN0SHRP?=
+ =?utf-8?B?VnNEa2RtYUNWcE9aTGduUlcxWGhkVzl4azJQZUFQZmhjQ0hlRDArVXRiOExk?=
+ =?utf-8?B?T3VySmgybDBvRDFFREJlUHVBN2VIMXQ1b1NjdnZ3ZTFsTWx1SlYwdTc4UytX?=
+ =?utf-8?B?bkY2b0IrQ3ZWTmk0dWIrcm1YYWxIcTg2cmlVSEk5a2laQXpmRm1GQXhlRjA2?=
+ =?utf-8?B?cGxES0RhVU9ROHEvaGczbXRDOGNDMm5EUVIyL3BOVktNVHVCdzJEMEVaTkhZ?=
+ =?utf-8?B?Qmh6cHkvZVZaWldOWVN4T0ZWUzRib3BzTFFRbHJtQUI4S0ljSGVtVlBqaHlB?=
+ =?utf-8?B?dUFiaDlFOWFGMUdWMzZXV2tOdk5TL2g1b3hTZ1I3ZXlFUWd4SVJSVDUxY3hI?=
+ =?utf-8?B?ZjBLYWtROFBQZXNXM0lsam5OZS9vbHlhSlM0VmJaYlhFRkg3dVFtRUh2SEp3?=
+ =?utf-8?B?aDg1ZnZQQ013ZG9OZy9qNWpZYjVzQnN1Y1dYOS9ZdUt4NTBaMnFSUVVPUytj?=
+ =?utf-8?B?dDBrbEpZUTlnK0ZHL0xkTzlZdW8xVEpHS0FnRDZvQkQrRHo3U1c3RnNWb0t2?=
+ =?utf-8?B?VjdMZXJDMzN4akk2NWNTVlpDNlJtakRxS25pZ3ozMVI0NjVKV3c5UzZGWmVF?=
+ =?utf-8?B?R0w1Z0ZTQ1FWaFZ5djk4K1JWOTlTb1prdUU3SlcxWHJDSnNWODI3OGJ2Smhs?=
+ =?utf-8?B?OEE1RHRBTWNMU1FYc1lXYXBGWms0bkhIaG5CeDdXLzAxN0RXQUVrSHJIUHNF?=
+ =?utf-8?B?aEFoZlk3OVYreVZzR2QydlRZNW9obEFwWUFRZVlpYUxYR2VhT1ZaR3pCeldi?=
+ =?utf-8?B?Z21JQXRLdTV0MzkyRG9IYld5b2Q3RVJUclZlTFUrOFBHdFAvOWFNaDdwUnJp?=
+ =?utf-8?B?UURCZWw2ajBpOVBMZkNCbmhGRXNGZUFKK1dBNFk4a2kxaStlVGsraUZtK2Jq?=
+ =?utf-8?B?UWNWK01ONFlPMElTWGQ0aTYzeDFpRnMrR1JyNERkdlhmQXJLRGRodmdSS1My?=
+ =?utf-8?B?NVFFOVE5SjFBaFBRYWIrUy9HUld1LzNuRzJRZVltWGc2dEh2UzB4cHAraEFo?=
+ =?utf-8?B?WWhNeUF1Ty9vNUpPbi9pOUQrMytUczZySHhwTVQxKzQ0TmxnWnJ5RkFhTGh1?=
+ =?utf-8?B?R2RSbzkwS0IxWmJWazZRZ2FReUlDdTcrNjFUVHU4N3RoYmQzZXl0c2NLTXZv?=
+ =?utf-8?B?RzFMeFRxL0ZXc3cwcVhBaHE4VGNsN1VHM25oc1lBdU5weTQxTFZSWVAxUVFI?=
+ =?utf-8?B?dkoxRy81eno1NGNYd3NOaWJZSnUyTmJ2SnNtTnRXMTdaVGlIaHk5T0VnYXRp?=
+ =?utf-8?B?MWVJbUczeitkZElRbmYycEtrQ25ueDFxTFdaWmpuY2hKbkJ2NHloVmdCaFZD?=
+ =?utf-8?B?M2h3bGlEd1pETXhCd2dIZGZwK2h6OSt3TFpJV0diWHUxY3hRSG9RWHBHamtt?=
+ =?utf-8?B?ZUQ3TVh0VDFXVWFYMkpNdDRQNmxsYXZYdXhPeU81akw1RUZLajlTdmF6UmFN?=
+ =?utf-8?B?N0t3ajJENTQrVW54OVZqUS9VbHNFbnFhcGx1ZkJFSFV4dkFpcUFZVUc4RmJK?=
+ =?utf-8?B?ai9PMUhKc2xHSmZsYVZlVTlETVZEeXU3RlJRamc5MzBqYmo2T1BrMHFFdjBU?=
+ =?utf-8?B?eHR4VnNFOVdJNDJkVko4WUhEdThTR2hWck54RUtTeFZJMENJNW5HN1BNVjZC?=
+ =?utf-8?B?amNRNFh2Y2FjUTFLMlRROHo1NFZ1TEJnTzlvdFZFc3lucEwwWk9lbXlqZXFS?=
+ =?utf-8?B?b0JiMGVmclgwUFZQK3h4enljMFpuMFBPL2JjNHFhYkFHcHdDTHVPMTg2SSt5?=
+ =?utf-8?B?NERUVHE5QUdYY1NkOFB3Zko0QVlNQ2srU3ZTZlRxWFJmekdwRDB5ajRhSDMv?=
+ =?utf-8?Q?nOBo=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Tue, 02 Apr 2024 22:48:59 +0000
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB7165.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e31e5c2-c106-4b64-1c19-08dc5367ceab
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Apr 2024 22:54:09.3321 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: am+jdBxUCcRIK3oAStx7j0tU58lNvnCFE3/ZvPI0Bs9MavVSdKiGLqCX2QPb0IAKfzcPe5+Av+sGQfaR9yvf5A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8066
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,1030 +144,597 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This commit fixes following warnings found by checkpatch:
-WARNING: please, no space before tabs
-
-Signed-off-by: Nicolas Devos <ndevos-dev@pm.me>
----
- drivers/gpu/drm/drm_connector.c | 712 ++++++++++++++++----------------
- 1 file changed, 356 insertions(+), 356 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connecto=
-r.c
-index de71805aab2c..d90b9ae6be3c 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -1150,70 +1150,70 @@ static const u32 dp_colorspaces =3D
-  * DRM connectors have a few standardized properties:
-  *
-  * EDID:
-- * =09Blob property which contains the current EDID read from the sink. Th=
-is
-- * =09is useful to parse sink identification information like vendor, mode=
-l
-- * =09and serial. Drivers should update this property by calling
-- * =09drm_connector_update_edid_property(), usually after having parsed
-- * =09the EDID using drm_add_edid_modes(). Userspace cannot change this
-- * =09property.
-- *
-- * =09User-space should not parse the EDID to obtain information exposed v=
-ia
-- * =09other KMS properties (because the kernel might apply limits, quirks =
-or
-- * =09fixups to the EDID). For instance, user-space should not try to pars=
-e
-- * =09mode lists from the EDID.
-+ *      Blob property which contains the current EDID read from the sink. =
-This
-+ *      is useful to parse sink identification information like vendor, mo=
-del
-+ *      and serial. Drivers should update this property by calling
-+ *      drm_connector_update_edid_property(), usually after having parsed
-+ *      the EDID using drm_add_edid_modes(). Userspace cannot change this
-+ *      property.
-+ *
-+ *      User-space should not parse the EDID to obtain information exposed=
- via
-+ *      other KMS properties (because the kernel might apply limits, quirk=
-s or
-+ *      fixups to the EDID). For instance, user-space should not try to pa=
-rse
-+ *      mode lists from the EDID.
-  * DPMS:
-- * =09Legacy property for setting the power state of the connector. For at=
-omic
-- * =09drivers this is only provided for backwards compatibility with exist=
-ing
-- * =09drivers, it remaps to controlling the "ACTIVE" property on the CRTC =
-the
-- * =09connector is linked to. Drivers should never set this property direc=
-tly,
-- * =09it is handled by the DRM core by calling the &drm_connector_funcs.dp=
-ms
-- * =09callback. For atomic drivers the remapping to the "ACTIVE" property =
-is
-- * =09implemented in the DRM core.
-- *
-- * =09Note that this property cannot be set through the MODE_ATOMIC ioctl,
-- * =09userspace must use "ACTIVE" on the CRTC instead.
-- *
-- * =09WARNING:
-- *
-- * =09For userspace also running on legacy drivers the "DPMS" semantics ar=
-e a
-- * =09lot more complicated. First, userspace cannot rely on the "DPMS" val=
-ue
-- * =09returned by the GETCONNECTOR actually reflecting reality, because ma=
-ny
-- * =09drivers fail to update it. For atomic drivers this is taken care of =
-in
-- * =09drm_atomic_helper_update_legacy_modeset_state().
-- *
-- * =09The second issue is that the DPMS state is only well-defined when th=
-e
-- * =09connector is connected to a CRTC. In atomic the DRM core enforces th=
-at
-- * =09"ACTIVE" is off in such a case, no such checks exists for "DPMS".
-- *
-- * =09Finally, when enabling an output using the legacy SETCONFIG ioctl th=
-en
-- * =09"DPMS" is forced to ON. But see above, that might not be reflected i=
-n
-- * =09the software value on legacy drivers.
-- *
-- * =09Summarizing: Only set "DPMS" when the connector is known to be enabl=
-ed,
-- * =09assume that a successful SETCONFIG call also sets "DPMS" to on, and
-- * =09never read back the value of "DPMS" because it can be incorrect.
-+ *      Legacy property for setting the power state of the connector. For =
-atomic
-+ *      drivers this is only provided for backwards compatibility with exi=
-sting
-+ *      drivers, it remaps to controlling the "ACTIVE" property on the CRT=
-C the
-+ *      connector is linked to. Drivers should never set this property dir=
-ectly,
-+ *      it is handled by the DRM core by calling the &drm_connector_funcs.=
-dpms
-+ *      callback. For atomic drivers the remapping to the "ACTIVE" propert=
-y is
-+ *      implemented in the DRM core.
-+ *
-+ *      Note that this property cannot be set through the MODE_ATOMIC ioct=
-l,
-+ *      userspace must use "ACTIVE" on the CRTC instead.
-+ *
-+ *      WARNING:
-+ *
-+ *      For userspace also running on legacy drivers the "DPMS" semantics =
-are a
-+ *      lot more complicated. First, userspace cannot rely on the "DPMS" v=
-alue
-+ *      returned by the GETCONNECTOR actually reflecting reality, because =
-many
-+ *      drivers fail to update it. For atomic drivers this is taken care o=
-f in
-+ *      drm_atomic_helper_update_legacy_modeset_state().
-+ *
-+ *      The second issue is that the DPMS state is only well-defined when =
-the
-+ *      connector is connected to a CRTC. In atomic the DRM core enforces =
-that
-+ *      "ACTIVE" is off in such a case, no such checks exists for "DPMS".
-+ *
-+ *      Finally, when enabling an output using the legacy SETCONFIG ioctl =
-then
-+ *      "DPMS" is forced to ON. But see above, that might not be reflected=
- in
-+ *      the software value on legacy drivers.
-+ *
-+ *      Summarizing: Only set "DPMS" when the connector is known to be ena=
-bled,
-+ *      assume that a successful SETCONFIG call also sets "DPMS" to on, an=
-d
-+ *      never read back the value of "DPMS" because it can be incorrect.
-  * PATH:
-- * =09Connector path property to identify how this sink is physically
-- * =09connected. Used by DP MST. This should be set by calling
-- * =09drm_connector_set_path_property(), in the case of DP MST with the
-- * =09path property the MST manager created. Userspace cannot change this
-- * =09property.
-- *
-- * =09In the case of DP MST, the property has the format
-- * =09``mst:<parent>-<ports>`` where ``<parent>`` is the KMS object ID of =
-the
-- * =09parent connector and ``<ports>`` is a hyphen-separated list of DP MS=
-T
-- * =09port numbers. Note, KMS object IDs are not guaranteed to be stable
-- * =09across reboots.
-+ *      Connector path property to identify how this sink is physically
-+ *      connected. Used by DP MST. This should be set by calling
-+ *      drm_connector_set_path_property(), in the case of DP MST with the
-+ *      path property the MST manager created. Userspace cannot change thi=
-s
-+ *      property.
-+ *
-+ *      In the case of DP MST, the property has the format
-+ *      ``mst:<parent>-<ports>`` where ``<parent>`` is the KMS object ID o=
-f the
-+ *      parent connector and ``<ports>`` is a hyphen-separated list of DP =
-MST
-+ *      port numbers. Note, KMS object IDs are not guaranteed to be stable
-+ *      across reboots.
-  * TILE:
-- * =09Connector tile group property to indicate how a set of DRM connector
-- * =09compose together into one logical screen. This is used by both high-=
-res
-- * =09external screens (often only using a single cable, but exposing mult=
-iple
-- * =09DP MST sinks), or high-res integrated panels (like dual-link DSI) wh=
-ich
-- * =09are not gen-locked. Note that for tiled panels which are genlocked, =
-like
-- * =09dual-link LVDS or dual-link DSI, the driver should try to not expose=
- the
-- * =09tiling and virtualise both &drm_crtc and &drm_plane if needed. Drive=
-rs
-- * =09should update this value using drm_connector_set_tile_property().
-- * =09Userspace cannot change this property.
-+ *      Connector tile group property to indicate how a set of DRM connect=
-or
-+ *      compose together into one logical screen. This is used by both hig=
-h-res
-+ *      external screens (often only using a single cable, but exposing mu=
-ltiple
-+ *      DP MST sinks), or high-res integrated panels (like dual-link DSI) =
-which
-+ *      are not gen-locked. Note that for tiled panels which are genlocked=
-, like
-+ *      dual-link LVDS or dual-link DSI, the driver should try to not expo=
-se the
-+ *      tiling and virtualise both &drm_crtc and &drm_plane if needed. Dri=
-vers
-+ *      should update this value using drm_connector_set_tile_property().
-+ *      Userspace cannot change this property.
-  * link-status:
-  *      Connector link-status property to indicate the status of link. The
-  *      default value of link-status is "GOOD". If something fails during =
-or
-@@ -1247,258 +1247,258 @@ static const u32 dp_colorspaces =3D
-  *      to how it might fail if a different screen has been connected in t=
-he
-  *      interim.
-  * non_desktop:
-- * =09Indicates the output should be ignored for purposes of displaying a
-- * =09standard desktop environment or console. This is most likely because
-- * =09the output device is not rectilinear.
-+ *      Indicates the output should be ignored for purposes of displaying =
-a
-+ *      standard desktop environment or console. This is most likely becau=
-se
-+ *      the output device is not rectilinear.
-  * Content Protection:
-- *=09This property is used by userspace to request the kernel protect futu=
-re
-- *=09content communicated over the link. When requested, kernel will apply
-- *=09the appropriate means of protection (most often HDCP), and use the
-- *=09property to tell userspace the protection is active.
-- *
-- *=09Drivers can set this up by calling
-- *=09drm_connector_attach_content_protection_property() on initialization.
-- *
-- *=09The value of this property can be one of the following:
-- *
-- *=09DRM_MODE_CONTENT_PROTECTION_UNDESIRED =3D 0
-- *=09=09The link is not protected, content is transmitted in the clear.
-- *=09DRM_MODE_CONTENT_PROTECTION_DESIRED =3D 1
-- *=09=09Userspace has requested content protection, but the link is not
-- *=09=09currently protected. When in this state, kernel should enable
-- *=09=09Content Protection as soon as possible.
-- *=09DRM_MODE_CONTENT_PROTECTION_ENABLED =3D 2
-- *=09=09Userspace has requested content protection, and the link is
-- *=09=09protected. Only the driver can set the property to this value.
-- *=09=09If userspace attempts to set to ENABLED, kernel will return
-- *=09=09-EINVAL.
-- *
-- *=09A few guidelines:
-- *
-- *=09- DESIRED state should be preserved until userspace de-asserts it by
-- *=09  setting the property to UNDESIRED. This means ENABLED should only
-- *=09  transition to UNDESIRED when the user explicitly requests it.
-- *=09- If the state is DESIRED, kernel should attempt to re-authenticate t=
-he
-- *=09  link whenever possible. This includes across disable/enable, dpms,
-- *=09  hotplug, downstream device changes, link status failures, etc..
-- *=09- Kernel sends uevent with the connector id and property id through
-- *=09  @drm_hdcp_update_content_protection, upon below kernel triggered
-- *=09  scenarios:
-- *
-- *=09=09- DESIRED -> ENABLED (authentication success)
-- *=09=09- ENABLED -> DESIRED (termination of authentication)
-- *=09- Please note no uevents for userspace triggered property state chang=
-es,
-- *=09  which can't fail such as
-- *
-- *=09=09- DESIRED/ENABLED -> UNDESIRED
-- *=09=09- UNDESIRED -> DESIRED
-- *=09- Userspace is responsible for polling the property or listen to ueve=
-nts
-- *=09  to determine when the value transitions from ENABLED to DESIRED.
-- *=09  This signifies the link is no longer protected and userspace should
-- *=09  take appropriate action (whatever that might be).
-+ *      This property is used by userspace to request the kernel protect f=
-uture
-+ *      content communicated over the link. When requested, kernel will ap=
-ply
-+ *      the appropriate means of protection (most often HDCP), and use the
-+ *      property to tell userspace the protection is active.
-+ *
-+ *      Drivers can set this up by calling
-+ *      drm_connector_attach_content_protection_property() on initializati=
-on.
-+ *
-+ *      The value of this property can be one of the following:
-+ *
-+ *      DRM_MODE_CONTENT_PROTECTION_UNDESIRED =3D 0
-+ *              The link is not protected, content is transmitted in the c=
-lear.
-+ *      DRM_MODE_CONTENT_PROTECTION_DESIRED =3D 1
-+ *              Userspace has requested content protection, but the link i=
-s not
-+ *              currently protected. When in this state, kernel should ena=
-ble
-+ *              Content Protection as soon as possible.
-+ *      DRM_MODE_CONTENT_PROTECTION_ENABLED =3D 2
-+ *              Userspace has requested content protection, and the link i=
-s
-+ *              protected. Only the driver can set the property to this va=
-lue.
-+ *              If userspace attempts to set to ENABLED, kernel will retur=
-n
-+ *              -EINVAL.
-+ *
-+ *      A few guidelines:
-+ *
-+ *      - DESIRED state should be preserved until userspace de-asserts it =
-by
-+ *        setting the property to UNDESIRED. This means ENABLED should onl=
-y
-+ *        transition to UNDESIRED when the user explicitly requests it.
-+ *      - If the state is DESIRED, kernel should attempt to re-authenticat=
-e the
-+ *        link whenever possible. This includes across disable/enable, dpm=
-s,
-+ *        hotplug, downstream device changes, link status failures, etc..
-+ *      - Kernel sends uevent with the connector id and property id throug=
-h
-+ *        @drm_hdcp_update_content_protection, upon below kernel triggered
-+ *        scenarios:
-+ *
-+ *              - DESIRED -> ENABLED (authentication success)
-+ *              - ENABLED -> DESIRED (termination of authentication)
-+ *      - Please note no uevents for userspace triggered property state ch=
-anges,
-+ *        which can't fail such as
-+ *
-+ *              - DESIRED/ENABLED -> UNDESIRED
-+ *              - UNDESIRED -> DESIRED
-+ *      - Userspace is responsible for polling the property or listen to u=
-events
-+ *        to determine when the value transitions from ENABLED to DESIRED.
-+ *        This signifies the link is no longer protected and userspace sho=
-uld
-+ *        take appropriate action (whatever that might be).
-  *
-  * HDCP Content Type:
-- *=09This Enum property is used by the userspace to declare the content ty=
-pe
-- *=09of the display stream, to kernel. Here display stream stands for any
-- *=09display content that userspace intended to display through HDCP
-- *=09encryption.
-- *
-- *=09Content Type of a stream is decided by the owner of the stream, as
-- *=09"HDCP Type0" or "HDCP Type1".
-- *
-- *=09The value of the property can be one of the below:
-- *=09  - "HDCP Type0": DRM_MODE_HDCP_CONTENT_TYPE0 =3D 0
-- *=09  - "HDCP Type1": DRM_MODE_HDCP_CONTENT_TYPE1 =3D 1
-- *
-- *=09When kernel starts the HDCP authentication (see "Content Protection"
-- *=09for details), it uses the content type in "HDCP Content Type"
-- *=09for performing the HDCP authentication with the display sink.
-- *
-- *=09Please note in HDCP spec versions, a link can be authenticated with
-- *=09HDCP 2.2 for Content Type 0/Content Type 1. Where as a link can be
-- *=09authenticated with HDCP1.4 only for Content Type 0(though it is impli=
-cit
-- *=09in nature. As there is no reference for Content Type in HDCP1.4).
-- *
-- *=09HDCP2.2 authentication protocol itself takes the "Content Type" as a
-- *=09parameter, which is a input for the DP HDCP2.2 encryption algo.
-- *
-- *=09In case of Type 0 content protection request, kernel driver can choos=
-e
-- *=09either of HDCP spec versions 1.4 and 2.2. When HDCP2.2 is used for
-- *=09"HDCP Type 0", a HDCP 2.2 capable repeater in the downstream can send
-- *=09that content to a HDCP 1.4 authenticated HDCP sink (Type0 link).
-- *=09But if the content is classified as "HDCP Type 1", above mentioned
-- *=09HDCP 2.2 repeater wont send the content to the HDCP sink as it can't
-- *=09authenticate the HDCP1.4 capable sink for "HDCP Type 1".
-- *
-- *=09Please note userspace can be ignorant of the HDCP versions used by th=
-e
-- *=09kernel driver to achieve the "HDCP Content Type".
-- *
-- *=09At current scenario, classifying a content as Type 1 ensures that the
-- *=09content will be displayed only through the HDCP2.2 encrypted link.
-- *
-- *=09Note that the HDCP Content Type property is introduced at HDCP 2.2, a=
-nd
-- *=09defaults to type 0. It is only exposed by drivers supporting HDCP 2.2
-- *=09(hence supporting Type 0 and Type 1). Based on how next versions of
-- *=09HDCP specs are defined content Type could be used for higher versions
-- *=09too.
-- *
-- *=09If content type is changed when "Content Protection" is not UNDESIRED=
-,
-- *=09then kernel will disable the HDCP and re-enable with new type in the
-- *=09same atomic commit. And when "Content Protection" is ENABLED, it mean=
-s
-- *=09that link is HDCP authenticated and encrypted, for the transmission o=
-f
-- *=09the Type of stream mentioned at "HDCP Content Type".
-+ *      This Enum property is used by the userspace to declare the content=
- type
-+ *      of the display stream, to kernel. Here display stream stands for a=
-ny
-+ *      display content that userspace intended to display through HDCP
-+ *      encryption.
-+ *
-+ *      Content Type of a stream is decided by the owner of the stream, as
-+ *      "HDCP Type0" or "HDCP Type1".
-+ *
-+ *      The value of the property can be one of the below:
-+ *        - "HDCP Type0": DRM_MODE_HDCP_CONTENT_TYPE0 =3D 0
-+ *        - "HDCP Type1": DRM_MODE_HDCP_CONTENT_TYPE1 =3D 1
-+ *
-+ *      When kernel starts the HDCP authentication (see "Content Protectio=
-n"
-+ *      for details), it uses the content type in "HDCP Content Type"
-+ *      for performing the HDCP authentication with the display sink.
-+ *
-+ *      Please note in HDCP spec versions, a link can be authenticated wit=
-h
-+ *      HDCP 2.2 for Content Type 0/Content Type 1. Where as a link can be
-+ *      authenticated with HDCP1.4 only for Content Type 0(though it is im=
-plicit
-+ *      in nature. As there is no reference for Content Type in HDCP1.4).
-+ *
-+ *      HDCP2.2 authentication protocol itself takes the "Content Type" as=
- a
-+ *      parameter, which is a input for the DP HDCP2.2 encryption algo.
-+ *
-+ *      In case of Type 0 content protection request, kernel driver can ch=
-oose
-+ *      either of HDCP spec versions 1.4 and 2.2. When HDCP2.2 is used for
-+ *      "HDCP Type 0", a HDCP 2.2 capable repeater in the downstream can s=
-end
-+ *      that content to a HDCP 1.4 authenticated HDCP sink (Type0 link).
-+ *      But if the content is classified as "HDCP Type 1", above mentioned
-+ *      HDCP 2.2 repeater wont send the content to the HDCP sink as it can=
-'t
-+ *      authenticate the HDCP1.4 capable sink for "HDCP Type 1".
-+ *
-+ *      Please note userspace can be ignorant of the HDCP versions used by=
- the
-+ *      kernel driver to achieve the "HDCP Content Type".
-+ *
-+ *      At current scenario, classifying a content as Type 1 ensures that =
-the
-+ *      content will be displayed only through the HDCP2.2 encrypted link.
-+ *
-+ *      Note that the HDCP Content Type property is introduced at HDCP 2.2=
-, and
-+ *      defaults to type 0. It is only exposed by drivers supporting HDCP =
-2.2
-+ *      (hence supporting Type 0 and Type 1). Based on how next versions o=
-f
-+ *      HDCP specs are defined content Type could be used for higher versi=
-ons
-+ *      too.
-+ *
-+ *      If content type is changed when "Content Protection" is not UNDESI=
-RED,
-+ *      then kernel will disable the HDCP and re-enable with new type in t=
-he
-+ *      same atomic commit. And when "Content Protection" is ENABLED, it m=
-eans
-+ *      that link is HDCP authenticated and encrypted, for the transmissio=
-n of
-+ *      the Type of stream mentioned at "HDCP Content Type".
-  *
-  * HDR_OUTPUT_METADATA:
-- *=09Connector property to enable userspace to send HDR Metadata to
-- *=09driver. This metadata is based on the composition and blending
-- *=09policies decided by user, taking into account the hardware and
-- *=09sink capabilities. The driver gets this metadata and creates a
-- *=09Dynamic Range and Mastering Infoframe (DRM) in case of HDMI,
-- *=09SDP packet (Non-audio INFOFRAME SDP v1.3) for DP. This is then
-- *=09sent to sink. This notifies the sink of the upcoming frame's Color
-- *=09Encoding and Luminance parameters.
-- *
-- *=09Userspace first need to detect the HDR capabilities of sink by
-- *=09reading and parsing the EDID. Details of HDR metadata for HDMI
-- *=09are added in CTA 861.G spec. For DP , its defined in VESA DP
-- *=09Standard v1.4. It needs to then get the metadata information
-- *=09of the video/game/app content which are encoded in HDR (basically
-- *=09using HDR transfer functions). With this information it needs to
-- *=09decide on a blending policy and compose the relevant
-- *=09layers/overlays into a common format. Once this blending is done,
-- *=09userspace will be aware of the metadata of the composed frame to
-- *=09be send to sink. It then uses this property to communicate this
-- *=09metadata to driver which then make a Infoframe packet and sends
-- *=09to sink based on the type of encoder connected.
-- *
-- *=09Userspace will be responsible to do Tone mapping operation in case:
-- *=09=09- Some layers are HDR and others are SDR
-- *=09=09- HDR layers luminance is not same as sink
-- *
-- *=09It will even need to do colorspace conversion and get all layers
-- *=09to one common colorspace for blending. It can use either GL, Media
-- *=09or display engine to get this done based on the capabilities of the
-- *=09associated hardware.
-- *
-- *=09Driver expects metadata to be put in &struct hdr_output_metadata
-- *=09structure from userspace. This is received as blob and stored in
-- *=09&drm_connector_state.hdr_output_metadata. It parses EDID and saves th=
-e
-- *=09sink metadata in &struct hdr_sink_metadata, as
-- *=09&drm_connector.hdr_sink_metadata.  Driver uses
-- *=09drm_hdmi_infoframe_set_hdr_metadata() helper to set the HDR metadata,
-- *=09hdmi_drm_infoframe_pack() to pack the infoframe as per spec, in case =
-of
-- *=09HDMI encoder.
-+ *      Connector property to enable userspace to send HDR Metadata to
-+ *      driver. This metadata is based on the composition and blending
-+ *      policies decided by user, taking into account the hardware and
-+ *      sink capabilities. The driver gets this metadata and creates a
-+ *      Dynamic Range and Mastering Infoframe (DRM) in case of HDMI,
-+ *      SDP packet (Non-audio INFOFRAME SDP v1.3) for DP. This is then
-+ *      sent to sink. This notifies the sink of the upcoming frame's Color
-+ *      Encoding and Luminance parameters.
-+ *
-+ *      Userspace first need to detect the HDR capabilities of sink by
-+ *      reading and parsing the EDID. Details of HDR metadata for HDMI
-+ *      are added in CTA 861.G spec. For DP , its defined in VESA DP
-+ *      Standard v1.4. It needs to then get the metadata information
-+ *      of the video/game/app content which are encoded in HDR (basically
-+ *      using HDR transfer functions). With this information it needs to
-+ *      decide on a blending policy and compose the relevant
-+ *      layers/overlays into a common format. Once this blending is done,
-+ *      userspace will be aware of the metadata of the composed frame to
-+ *      be send to sink. It then uses this property to communicate this
-+ *      metadata to driver which then make a Infoframe packet and sends
-+ *      to sink based on the type of encoder connected.
-+ *
-+ *      Userspace will be responsible to do Tone mapping operation in case=
-:
-+ *              - Some layers are HDR and others are SDR
-+ *              - HDR layers luminance is not same as sink
-+ *
-+ *      It will even need to do colorspace conversion and get all layers
-+ *      to one common colorspace for blending. It can use either GL, Media
-+ *      or display engine to get this done based on the capabilities of th=
-e
-+ *      associated hardware.
-+ *
-+ *      Driver expects metadata to be put in &struct hdr_output_metadata
-+ *      structure from userspace. This is received as blob and stored in
-+ *      &drm_connector_state.hdr_output_metadata. It parses EDID and saves=
- the
-+ *      sink metadata in &struct hdr_sink_metadata, as
-+ *      &drm_connector.hdr_sink_metadata.  Driver uses
-+ *      drm_hdmi_infoframe_set_hdr_metadata() helper to set the HDR metada=
-ta,
-+ *      hdmi_drm_infoframe_pack() to pack the infoframe as per spec, in ca=
-se of
-+ *      HDMI encoder.
-  *
-  * max bpc:
-- *=09This range property is used by userspace to limit the bit depth. When
-- *=09used the driver would limit the bpc in accordance with the valid rang=
-e
-- *=09supported by the hardware and sink. Drivers to use the function
-- *=09drm_connector_attach_max_bpc_property() to create and attach the
-- *=09property to the connector during initialization.
-+ *      This range property is used by userspace to limit the bit depth. W=
-hen
-+ *      used the driver would limit the bpc in accordance with the valid r=
-ange
-+ *      supported by the hardware and sink. Drivers to use the function
-+ *      drm_connector_attach_max_bpc_property() to create and attach the
-+ *      property to the connector during initialization.
-  *
-  * Connectors also have one standardized atomic property:
-  *
-  * CRTC_ID:
-- * =09Mode object ID of the &drm_crtc this connector should be connected t=
-o.
-+ *      Mode object ID of the &drm_crtc this connector should be connected=
- to.
-  *
-  * Connectors for LCD panels may also have one standardized property:
-  *
-  * panel orientation:
-- *=09On some devices the LCD panel is mounted in the casing in such a way
-- *=09that the up/top side of the panel does not match with the top side of
-- *=09the device. Userspace can use this property to check for this.
-- *=09Note that input coordinates from touchscreens (input devices with
-- *=09INPUT_PROP_DIRECT) will still map 1:1 to the actual LCD panel
-- *=09coordinates, so if userspace rotates the picture to adjust for
-- *=09the orientation it must also apply the same transformation to the
-- *=09touchscreen input coordinates. This property is initialized by callin=
-g
-- *=09drm_connector_set_panel_orientation() or
-- *=09drm_connector_set_panel_orientation_with_quirk()
-+ *      On some devices the LCD panel is mounted in the casing in such a w=
-ay
-+ *      that the up/top side of the panel does not match with the top side=
- of
-+ *      the device. Userspace can use this property to check for this.
-+ *      Note that input coordinates from touchscreens (input devices with
-+ *      INPUT_PROP_DIRECT) will still map 1:1 to the actual LCD panel
-+ *      coordinates, so if userspace rotates the picture to adjust for
-+ *      the orientation it must also apply the same transformation to the
-+ *      touchscreen input coordinates. This property is initialized by cal=
-ling
-+ *      drm_connector_set_panel_orientation() or
-+ *      drm_connector_set_panel_orientation_with_quirk()
-  *
-  * scaling mode:
-- *=09This property defines how a non-native mode is upscaled to the native
-- *=09mode of an LCD panel:
-- *
-- *=09None:
-- *=09=09No upscaling happens, scaling is left to the panel. Not all
-- *=09=09drivers expose this mode.
-- *=09Full:
-- *=09=09The output is upscaled to the full resolution of the panel,
-- *=09=09ignoring the aspect ratio.
-- *=09Center:
-- *=09=09No upscaling happens, the output is centered within the native
-- *=09=09resolution the panel.
-- *=09Full aspect:
-- *=09=09The output is upscaled to maximize either the width or height
-- *=09=09while retaining the aspect ratio.
-- *
-- *=09This property should be set up by calling
-- *=09drm_connector_attach_scaling_mode_property(). Note that drivers
-- *=09can also expose this property to external outputs, in which case they
-- *=09must support "None", which should be the default (since external scre=
-ens
-- *=09have a built-in scaler).
-+ *      This property defines how a non-native mode is upscaled to the nat=
-ive
-+ *      mode of an LCD panel:
-+ *
-+ *      None:
-+ *              No upscaling happens, scaling is left to the panel. Not al=
-l
-+ *              drivers expose this mode.
-+ *      Full:
-+ *              The output is upscaled to the full resolution of the panel=
-,
-+ *              ignoring the aspect ratio.
-+ *      Center:
-+ *              No upscaling happens, the output is centered within the na=
-tive
-+ *              resolution the panel.
-+ *      Full aspect:
-+ *              The output is upscaled to maximize either the width or hei=
-ght
-+ *              while retaining the aspect ratio.
-+ *
-+ *      This property should be set up by calling
-+ *      drm_connector_attach_scaling_mode_property(). Note that drivers
-+ *      can also expose this property to external outputs, in which case t=
-hey
-+ *      must support "None", which should be the default (since external s=
-creens
-+ *      have a built-in scaler).
-  *
-  * subconnector:
-- *=09This property is used by DVI-I, TVout and DisplayPort to indicate dif=
-ferent
-- *=09connector subtypes. Enum values more or less match with those from ma=
-in
-- *=09connector types.
-- *=09For DVI-I and TVout there is also a matching property "select subconn=
-ector"
-- *=09allowing to switch between signal types.
-- *=09DP subconnector corresponds to a downstream port.
-+ *      This property is used by DVI-I, TVout and DisplayPort to indicate =
-different
-+ *      connector subtypes. Enum values more or less match with those from=
- main
-+ *      connector types.
-+ *      For DVI-I and TVout there is also a matching property "select subc=
-onnector"
-+ *      allowing to switch between signal types.
-+ *      DP subconnector corresponds to a downstream port.
-  *
-  * privacy-screen sw-state, privacy-screen hw-state:
-- *=09These 2 optional properties can be used to query the state of the
-- *=09electronic privacy screen that is available on some displays; and in
-- *=09some cases also control the state. If a driver implements these
-- *=09properties then both properties must be present.
-- *
-- *=09"privacy-screen hw-state" is read-only and reflects the actual state
-- *=09of the privacy-screen, possible values: "Enabled", "Disabled,
-- *=09"Enabled-locked", "Disabled-locked". The locked states indicate
-- *=09that the state cannot be changed through the DRM API. E.g. there
-- *=09might be devices where the firmware-setup options, or a hardware
-- *=09slider-switch, offer always on / off modes.
-- *
-- *=09"privacy-screen sw-state" can be set to change the privacy-screen sta=
-te
-- *=09when not locked. In this case the driver must update the hw-state
-- *=09property to reflect the new state on completion of the commit of the
-- *=09sw-state property. Setting the sw-state property when the hw-state is
-- *=09locked must be interpreted by the driver as a request to change the
-- *=09state to the set state when the hw-state becomes unlocked. E.g. if
-- *=09"privacy-screen hw-state" is "Enabled-locked" and the sw-state
-- *=09gets set to "Disabled" followed by the user unlocking the state by
-- *=09changing the slider-switch position, then the driver must set the
-- *=09state to "Disabled" upon receiving the unlock event.
-- *
-- *=09In some cases the privacy-screen's actual state might change outside =
-of
-- *=09control of the DRM code. E.g. there might be a firmware handled hotke=
-y
-- *=09which toggles the actual state, or the actual state might be changed
-- *=09through another userspace API such as writing /proc/acpi/ibm/lcdshado=
-w.
-- *=09In this case the driver must update both the hw-state and the sw-stat=
-e
-- *=09to reflect the new value, overwriting any pending state requests in t=
-he
-- *=09sw-state. Any pending sw-state requests are thus discarded.
-- *
-- *=09Note that the ability for the state to change outside of control of
-- *=09the DRM master process means that userspace must not cache the value
-- *=09of the sw-state. Caching the sw-state value and including it in later
-- *=09atomic commits may lead to overriding a state change done through e.g=
-.
-- *=09a firmware handled hotkey. Therefor userspace must not include the
-- *=09privacy-screen sw-state in an atomic commit unless it wants to change
-- *=09its value.
-+ *      These 2 optional properties can be used to query the state of the
-+ *      electronic privacy screen that is available on some displays; and =
-in
-+ *      some cases also control the state. If a driver implements these
-+ *      properties then both properties must be present.
-+ *
-+ *      "privacy-screen hw-state" is read-only and reflects the actual sta=
-te
-+ *      of the privacy-screen, possible values: "Enabled", "Disabled,
-+ *      "Enabled-locked", "Disabled-locked". The locked states indicate
-+ *      that the state cannot be changed through the DRM API. E.g. there
-+ *      might be devices where the firmware-setup options, or a hardware
-+ *      slider-switch, offer always on / off modes.
-+ *
-+ *      "privacy-screen sw-state" can be set to change the privacy-screen =
-state
-+ *      when not locked. In this case the driver must update the hw-state
-+ *      property to reflect the new state on completion of the commit of t=
-he
-+ *      sw-state property. Setting the sw-state property when the hw-state=
- is
-+ *      locked must be interpreted by the driver as a request to change th=
-e
-+ *      state to the set state when the hw-state becomes unlocked. E.g. if
-+ *      "privacy-screen hw-state" is "Enabled-locked" and the sw-state
-+ *      gets set to "Disabled" followed by the user unlocking the state by
-+ *      changing the slider-switch position, then the driver must set the
-+ *      state to "Disabled" upon receiving the unlock event.
-+ *
-+ *      In some cases the privacy-screen's actual state might change outsi=
-de of
-+ *      control of the DRM code. E.g. there might be a firmware handled ho=
-tkey
-+ *      which toggles the actual state, or the actual state might be chang=
-ed
-+ *      through another userspace API such as writing /proc/acpi/ibm/lcdsh=
-adow.
-+ *      In this case the driver must update both the hw-state and the sw-s=
-tate
-+ *      to reflect the new value, overwriting any pending state requests i=
-n the
-+ *      sw-state. Any pending sw-state requests are thus discarded.
-+ *
-+ *      Note that the ability for the state to change outside of control o=
-f
-+ *      the DRM master process means that userspace must not cache the val=
-ue
-+ *      of the sw-state. Caching the sw-state value and including it in la=
-ter
-+ *      atomic commits may lead to overriding a state change done through =
-e.g.
-+ *      a firmware handled hotkey. Therefor userspace must not include the
-+ *      privacy-screen sw-state in an atomic commit unless it wants to cha=
-nge
-+ *      its value.
-  *
-  * left margin, right margin, top margin, bottom margin:
-- *=09Add margins to the connector's viewport. This is typically used to
-- *=09mitigate overscan on TVs.
-+ *      Add margins to the connector's viewport. This is typically used to
-+ *      mitigate overscan on TVs.
-  *
-- *=09The value is the size in pixels of the black border which will be
-- *=09added. The attached CRTC's content will be scaled to fill the whole
-- *=09area inside the margin.
-+ *      The value is the size in pixels of the black border which will be
-+ *      added. The attached CRTC's content will be scaled to fill the whol=
-e
-+ *      area inside the margin.
-  *
-- *=09The margins configuration might be sent to the sink, e.g. via HDMI AV=
-I
-- *=09InfoFrames.
-+ *      The margins configuration might be sent to the sink, e.g. via HDMI=
- AVI
-+ *      InfoFrames.
-  *
-- *=09Drivers can set up these properties by calling
-- *=09drm_mode_create_tv_margin_properties().
-+ *      Drivers can set up these properties by calling
-+ *      drm_mode_create_tv_margin_properties().
-  */
-=20
- int drm_connector_create_standard_properties(struct drm_device *dev)
-@@ -1617,28 +1617,28 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_=
-property);
-  * DOC: HDMI connector properties
-  *
-  * content type (HDMI specific):
-- *=09Indicates content type setting to be used in HDMI infoframes to indic=
-ate
-- *=09content type for the external device, so that it adjusts its display
-- *=09settings accordingly.
-+ *      Indicates content type setting to be used in HDMI infoframes to in=
-dicate
-+ *      content type for the external device, so that it adjusts its displ=
-ay
-+ *      settings accordingly.
-  *
-- *=09The value of this property can be one of the following:
-+ *      The value of this property can be one of the following:
-  *
-- *=09No Data:
-- *=09=09Content type is unknown
-- *=09Graphics:
-- *=09=09Content type is graphics
-- *=09Photo:
-- *=09=09Content type is photo
-- *=09Cinema:
-- *=09=09Content type is cinema
-- *=09Game:
-- *=09=09Content type is game
-+ *      No Data:
-+ *              Content type is unknown
-+ *      Graphics:
-+ *              Content type is graphics
-+ *      Photo:
-+ *              Content type is photo
-+ *      Cinema:
-+ *              Content type is cinema
-+ *      Game:
-+ *              Content type is game
-  *
-- *=09The meaning of each content type is defined in CTA-861-G table 15.
-+ *      The meaning of each content type is defined in CTA-861-G table 15.
-  *
-- *=09Drivers can set up this property by calling
-- *=09drm_connector_attach_content_type_property(). Decoding to
-- *=09infoframe values is done through drm_hdmi_avi_infoframe_content_type(=
-).
-+ *      Drivers can set up this property by calling
-+ *      drm_connector_attach_content_type_property(). Decoding to
-+ *      infoframe values is done through drm_hdmi_avi_infoframe_content_ty=
-pe().
-  */
-=20
- /*
-@@ -1656,49 +1656,49 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_=
-property);
-  * DOC: Analog TV Connector Properties
-  *
-  * TV Mode:
-- *=09Indicates the TV Mode used on an analog TV connector. The value
-- *=09of this property can be one of the following:
-+ *      Indicates the TV Mode used on an analog TV connector. The value
-+ *      of this property can be one of the following:
-  *
-- *=09NTSC:
-- *=09=09TV Mode is CCIR System M (aka 525-lines) together with
-- *=09=09the NTSC Color Encoding.
-+ *      NTSC:
-+ *              TV Mode is CCIR System M (aka 525-lines) together with
-+ *              the NTSC Color Encoding.
-  *
-- *=09NTSC-443:
-+ *      NTSC-443:
-  *
-- *=09=09TV Mode is CCIR System M (aka 525-lines) together with
-- *=09=09the NTSC Color Encoding, but with a color subcarrier
-- *=09=09frequency of 4.43MHz
-+ *              TV Mode is CCIR System M (aka 525-lines) together with
-+ *              the NTSC Color Encoding, but with a color subcarrier
-+ *              frequency of 4.43MHz
-  *
-- *=09NTSC-J:
-+ *      NTSC-J:
-  *
-- *=09=09TV Mode is CCIR System M (aka 525-lines) together with
-- *=09=09the NTSC Color Encoding, but with a black level equal to
-- *=09=09the blanking level.
-+ *              TV Mode is CCIR System M (aka 525-lines) together with
-+ *              the NTSC Color Encoding, but with a black level equal to
-+ *              the blanking level.
-  *
-- *=09PAL:
-+ *      PAL:
-  *
-- *=09=09TV Mode is CCIR System B (aka 625-lines) together with
-- *=09=09the PAL Color Encoding.
-+ *              TV Mode is CCIR System B (aka 625-lines) together with
-+ *              the PAL Color Encoding.
-  *
-- *=09PAL-M:
-+ *      PAL-M:
-  *
-- *=09=09TV Mode is CCIR System M (aka 525-lines) together with
-- *=09=09the PAL Color Encoding.
-+ *              TV Mode is CCIR System M (aka 525-lines) together with
-+ *              the PAL Color Encoding.
-  *
-- *=09PAL-N:
-+ *      PAL-N:
-  *
-- *=09=09TV Mode is CCIR System N together with the PAL Color
-- *=09=09Encoding, a color subcarrier frequency of 3.58MHz, the
-- *=09=09SECAM color space, and narrower channels than other PAL
-- *=09=09variants.
-+ *              TV Mode is CCIR System N together with the PAL Color
-+ *              Encoding, a color subcarrier frequency of 3.58MHz, the
-+ *              SECAM color space, and narrower channels than other PAL
-+ *              variants.
-  *
-- *=09SECAM:
-+ *      SECAM:
-  *
-- *=09=09TV Mode is CCIR System B (aka 625-lines) together with
-- *=09=09the SECAM Color Encoding.
-+ *              TV Mode is CCIR System B (aka 625-lines) together with
-+ *              the SECAM Color Encoding.
-  *
-- *=09Drivers can set up this property by calling
-- *=09drm_mode_create_tv_properties().
-+ *      Drivers can set up this property by calling
-+ *      drm_mode_create_tv_properties().
-  */
-=20
- /**
-@@ -1721,7 +1721,7 @@ EXPORT_SYMBOL(drm_connector_attach_content_type_prope=
-rty);
-=20
- /**
-  * drm_connector_attach_tv_margin_properties - attach TV connector margin
-- * =09properties
-+ *      properties
-  * @connector: DRM connector
-  *
-  * Called by a driver when it needs to attach TV margin props to a connect=
-or.
-@@ -1998,31 +1998,31 @@ EXPORT_SYMBOL(drm_mode_create_scaling_mode_property=
-);
-  * on the &drm_connector and &drm_crtc objects.
-  *
-  * "vrr_capable":
-- *=09Optional &drm_connector boolean property that drivers should attach
-- *=09with drm_connector_attach_vrr_capable_property() on connectors that
-- *=09could support variable refresh rates. Drivers should update the
-- *=09property value by calling drm_connector_set_vrr_capable_property().
-+ *      Optional &drm_connector boolean property that drivers should attac=
-h
-+ *      with drm_connector_attach_vrr_capable_property() on connectors tha=
-t
-+ *      could support variable refresh rates. Drivers should update the
-+ *      property value by calling drm_connector_set_vrr_capable_property()=
-.
-  *
-- *=09Absence of the property should indicate absence of support.
-+ *      Absence of the property should indicate absence of support.
-  *
-  * "VRR_ENABLED":
-- *=09Default &drm_crtc boolean property that notifies the driver that the
-- *=09content on the CRTC is suitable for variable refresh rate presentatio=
-n.
-- *=09The driver will take this property as a hint to enable variable
-- *=09refresh rate support if the receiver supports it, ie. if the
-- *=09"vrr_capable" property is true on the &drm_connector object. The
-- *=09vertical front porch duration will be extended until page-flip or
-- *=09timeout when enabled.
-+ *      Default &drm_crtc boolean property that notifies the driver that t=
-he
-+ *      content on the CRTC is suitable for variable refresh rate presenta=
-tion.
-+ *      The driver will take this property as a hint to enable variable
-+ *      refresh rate support if the receiver supports it, ie. if the
-+ *      "vrr_capable" property is true on the &drm_connector object. The
-+ *      vertical front porch duration will be extended until page-flip or
-+ *      timeout when enabled.
-  *
-- *=09The minimum vertical front porch duration is defined as the vertical
-- *=09front porch duration for the current mode.
-+ *      The minimum vertical front porch duration is defined as the vertic=
-al
-+ *      front porch duration for the current mode.
-  *
-- *=09The maximum vertical front porch duration is greater than or equal to
-- *=09the minimum vertical front porch duration. The duration is derived
-- *=09from the minimum supported variable refresh rate for the connector.
-+ *      The maximum vertical front porch duration is greater than or equal=
- to
-+ *      the minimum vertical front porch duration. The duration is derived
-+ *      from the minimum supported variable refresh rate for the connector=
-.
-  *
-- *=09The driver may place further restrictions within these minimum
-- *=09and maximum bounds.
-+ *      The driver may place further restrictions within these minimum
-+ *      and maximum bounds.
-  */
-=20
- /**
-@@ -2606,7 +2606,7 @@ EXPORT_SYMBOL(drm_connector_set_panel_orientation);
-=20
- /**
-  * drm_connector_set_panel_orientation_with_quirk - set the
-- *=09connector's panel_orientation after checking for quirks
-+ *      connector's panel_orientation after checking for quirks
-  * @connector: connector for which to init the panel-orientation property.
-  * @panel_orientation: drm_panel_orientation value to set
-  * @width: width in pixels of the panel, used for panel quirk detection
-@@ -2636,7 +2636,7 @@ EXPORT_SYMBOL(drm_connector_set_panel_orientation_wit=
-h_quirk);
-=20
- /**
-  * drm_connector_set_orientation_from_panel -
-- *=09set the connector's panel_orientation from panel's callback.
-+ *      set the connector's panel_orientation from panel's callback.
-  * @connector: connector for which to init the panel-orientation property.
-  * @panel: panel that can provide orientation information.
-  *
---=20
-2.42.0
-
-
+SGkgVG9taSwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBUb21pIFZh
+bGtlaW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT4NCj4gU2VudDogVHVlc2Rh
+eSwgTWFyY2ggMTksIDIwMjQgMToyMyBBTQ0KPiBUbzogTGFycy1QZXRlciBDbGF1c2VuIDxsYXJz
+QG1ldGFmb28uZGU+OyBKYXJvc2xhdiBLeXNlbGENCj4gPHBlcmV4QHBlcmV4LmN6PjsgVGFrYXNo
+aSBJd2FpIDx0aXdhaUBzdXNlLmNvbT47IExpYW0gR2lyZHdvb2QNCj4gPGxnaXJkd29vZEBnbWFp
+bC5jb20+OyBNYXJrIEJyb3duIDxicm9vbmllQGtlcm5lbC5vcmc+OyBMYXVyZW50DQo+IFBpbmNo
+YXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+OyBNYWFydGVuIExhbmtob3Jz
+dA0KPiA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPjsgTWF4aW1lIFJpcGFyZA0K
+PiA8bXJpcGFyZEBrZXJuZWwub3JnPjsgVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1
+c2UuZGU+Ow0KPiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAZ21haWwuY29tPjsgRGFuaWVsIFZldHRl
+ciA8ZGFuaWVsQGZmd2xsLmNoPjsgUm9iDQo+IEhlcnJpbmcgPHJvYmgrZHRAa2VybmVsLm9yZz47
+IEtyenlzenRvZiBLb3psb3dza2kNCj4gPGtyenlzenRvZi5rb3psb3dza2krZHRAbGluYXJvLm9y
+Zz47IENvbm9yIERvb2xleQ0KPiA8Y29ub3IrZHRAa2VybmVsLm9yZz47IFNpbWVrLCBNaWNoYWwg
+PG1pY2hhbC5zaW1la0BhbWQuY29tPg0KPiBDYzogbGludXgtc291bmRAdmdlci5rZXJuZWwub3Jn
+OyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBkcmktDQo+IGRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZzsgZGV2aWNldHJlZUB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWFybS0NCj4ga2Vy
+bmVsQGxpc3RzLmluZnJhZGVhZC5vcmc7IFNhZ2FyLCBWaXNoYWwgPHZpc2hhbC5zYWdhckBhbWQu
+Y29tPjsNCj4gS2x5bWVua28sIEFuYXRvbGl5IDxBbmF0b2xpeS5LbHltZW5rb0BhbWQuY29tPjsg
+UMOpdGVyIFVqZmFsdXNpDQo+IDxwZXRlci51amZhbHVzaUBnbWFpbC5jb20+OyBUb21pIFZhbGtl
+aW5lbg0KPiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT4NCj4gU3ViamVjdDogW1BB
+VENIIHYyIDQvNF0gZHJtOiB4bG54OiB6eW5xbXBfZHBzdWI6IEFkZCBEUCBhdWRpbyBzdXBwb3J0
+DQo+IA0KPiBDYXV0aW9uOiBUaGlzIG1lc3NhZ2Ugb3JpZ2luYXRlZCBmcm9tIGFuIEV4dGVybmFs
+IFNvdXJjZS4gVXNlIHByb3Blcg0KPiBjYXV0aW9uIHdoZW4gb3BlbmluZyBhdHRhY2htZW50cywg
+Y2xpY2tpbmcgbGlua3MsIG9yIHJlc3BvbmRpbmcuDQo+IA0KPiANCj4gQWRkIGJhc2ljIERpc3Bs
+YXlQb3J0IGF1ZGlvIHN1cHBvcnQuDQo+IA0KPiBTdXBwb3J0IG5vbi1saXZlIGF1ZGlvIHBsYXli
+YWNrIGZyb20gdHdvIFBDTXMgKERNQSBjaGFubmVscyksIGFuZA0KPiB0aGUNCj4gdm9sdW1lIGNv
+bnRyb2wgaW4gdGhlIGF1ZGlvIG1peGVyLg0KPiANCj4gQXMgb2xkZXIgZHRiIGZpbGVzIG1heSBu
+b3QgaGF2ZSB0aGUgYXVkaW8gRE1BIGNoYW5uZWxzIGRlZmluZWQsIHRoZQ0KPiBkcml2ZXIgd2ls
+bCBqdXN0IG1hcmsgdGhlIGF1ZGlvIHN1cHBvcnQgYXMgZGlzYWJsZWQgaWYgdGhlIGF1ZGlvIERN
+QSBpcw0KPiBtaXNzaW5nLCBhbmQgd2lsbCBjb250aW51ZSB3aXRoIG9ubHkgZGlzcGxheSBzdXBw
+b3J0Lg0KPiANCj4gTm90ZTogUmVzZXQgZG9lc24ndCBzZWVtIHRvIHdvcmsgKFpZTlFNUF9ESVNQ
+X0FVRF9TT0ZUX1JFU0VUKS4gSWYNCj4gd2UgZG8NCj4gYSByZXNldCwgYXVkaW8gcGxheWJhY2sg
+d29uJ3Qgc3RhcnQgYWdhaW4gZXZlbiBpZiwgYWZhaWNzLCB3ZSBkbyBzZXQgdXANCj4gYWxsIHRo
+ZSBuZWNlc3NhcnkgcmVnaXN0ZXJzLiBTbywgYXQgdGhlIG1vbWVudCwgcmVzZXR0aW5nIHRoZSBh
+dWRpbw0KPiBibG9jayBpbiBkcF9kYWlfaHdfZnJlZSgpIGlzIGNvbW1lbnRlZCBvdXQuDQo+IA0K
+PiBTaWduZWQtb2ZmLWJ5OiBUb21pIFZhbGtlaW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJv
+YXJkLmNvbT4NCg0KVGVzdGVkLWJ5OiBBbmF0b2xpeSBLbHltZW5rbyA8YW5hdG9saXkua2x5bWVu
+a29AYW1kLmNvbT4NCg0KPiAtLS0NCj4gIGRyaXZlcnMvZ3B1L2RybS94bG54L0tjb25maWcgICAg
+ICAgICAgICB8ICAgOSArDQo+ICBkcml2ZXJzL2dwdS9kcm0veGxueC9NYWtlZmlsZSAgICAgICAg
+ICAgfCAgIDEgKw0KPiAgZHJpdmVycy9ncHUvZHJtL3hsbngvenlucW1wX2Rpc3AuYyAgICAgIHwg
+IDUwIC0tLS0NCj4gIGRyaXZlcnMvZ3B1L2RybS94bG54L3p5bnFtcF9kaXNwX3JlZ3MuaCB8ICAg
+NyArLQ0KPiAgZHJpdmVycy9ncHUvZHJtL3hsbngvenlucW1wX2RwLmMgICAgICAgIHwgIDU0ICsr
+LS0NCj4gIGRyaXZlcnMvZ3B1L2RybS94bG54L3p5bnFtcF9kcC5oICAgICAgICB8ICAgNyArDQo+
+ICBkcml2ZXJzL2dwdS9kcm0veGxueC96eW5xbXBfZHBfYXVkaW8uYyAgfCA0NjENCj4gKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysNCj4gIGRyaXZlcnMvZ3B1L2RybS94bG54L3p5bnFt
+cF9kcHN1Yi5jICAgICB8ICAzOSArLS0NCj4gIGRyaXZlcnMvZ3B1L2RybS94bG54L3p5bnFtcF9k
+cHN1Yi5oICAgICB8ICAxNSArLQ0KPiAgOSBmaWxlcyBjaGFuZ2VkLCA1NDAgaW5zZXJ0aW9ucygr
+KSwgMTAzIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS94
+bG54L0tjb25maWcgYi9kcml2ZXJzL2dwdS9kcm0veGxueC9LY29uZmlnDQo+IGluZGV4IDY4ZWU4
+OTdkZTlkNy4uZDg4Y2ZiYWYyODYzIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0veGxu
+eC9LY29uZmlnDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS94bG54L0tjb25maWcNCj4gQEAgLTE1
+LDMgKzE1LDEyIEBAIGNvbmZpZyBEUk1fWllOUU1QX0RQU1VCDQo+ICAgICAgICAgICBUaGlzIGlz
+IGEgRFJNL0tNUyBkcml2ZXIgZm9yIFp5bnFNUCBEaXNwbGF5UG9ydCBjb250cm9sbGVyLg0KPiBD
+aG9vc2UNCj4gICAgICAgICAgIHRoaXMgb3B0aW9uIGlmIHlvdSBoYXZlIGEgWGlsaW54IFp5bnFN
+UCBTb0Mgd2l0aCBEaXNwbGF5UG9ydA0KPiAgICAgICAgICAgc3Vic3lzdGVtLg0KPiArDQo+ICtj
+b25maWcgRFJNX1pZTlFNUF9EUFNVQl9BVURJTw0KPiArICAgICAgIGJvb2wgIlp5bnFNUCBEaXNw
+bGF5UG9ydCBBdWRpbyBTdXBwb3J0Ig0KPiArICAgICAgIGRlcGVuZHMgb24gRFJNX1pZTlFNUF9E
+UFNVQg0KPiArICAgICAgIGRlcGVuZHMgb24gU05EICYmIFNORF9TT0MNCj4gKyAgICAgICBzZWxl
+Y3QgU05EX1NPQ19HRU5FUklDX0RNQUVOR0lORV9QQ00NCj4gKyAgICAgICBoZWxwDQo+ICsgICAg
+ICAgICBDaG9vc2UgdGhpcyBvcHRpb24gdG8gZW5hYmxlIERpc3BsYXlQb3J0IGF1ZGlvIHN1cHBv
+cnQgaW4gdGhlDQo+IFp5bnFNUA0KPiArICAgICAgICAgRGlzcGxheVBvcnQgZHJpdmVyLg0KPiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3hsbngvTWFrZWZpbGUNCj4gYi9kcml2ZXJzL2dw
+dS9kcm0veGxueC9NYWtlZmlsZQ0KPiBpbmRleCBlYTE0MjJhMzk1MDIuLmFiNmUyZmZkN2U4ZCAx
+MDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3hsbngvTWFrZWZpbGUNCj4gKysrIGIvZHJp
+dmVycy9ncHUvZHJtL3hsbngvTWFrZWZpbGUNCj4gQEAgLTEsMiArMSwzIEBADQo+ICB6eW5xbXAt
+ZHBzdWIteSA6PSB6eW5xbXBfZGlzcC5vIHp5bnFtcF9kcHN1Yi5vIHp5bnFtcF9kcC5vDQo+IHp5
+bnFtcF9rbXMubw0KPiArenlucW1wLWRwc3ViLSQoQ09ORklHX0RSTV9aWU5RTVBfRFBTVUJfQVVE
+SU8pICs9DQo+IHp5bnFtcF9kcF9hdWRpby5vDQo+ICBvYmotJChDT05GSUdfRFJNX1pZTlFNUF9E
+UFNVQikgKz0genlucW1wLWRwc3ViLm8NCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS94
+bG54L3p5bnFtcF9kaXNwLmMNCj4gYi9kcml2ZXJzL2dwdS9kcm0veGxueC96eW5xbXBfZGlzcC5j
+DQo+IGluZGV4IDQwN2JjMDdjZWM2OS4uZDJiZjBlMmQwMTM1IDEwMDY0NA0KPiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0veGxueC96eW5xbXBfZGlzcC5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS94
+bG54L3p5bnFtcF9kaXNwLmMNCj4gQEAgLTEzMCw3ICsxMzAsNiBAQCBzdHJ1Y3QgenlucW1wX2Rp
+c3BfbGF5ZXIgew0KPiAgICogQGRwc3ViOiBEaXNwbGF5IHN1YnN5c3RlbQ0KPiAgICogQGJsZW5k
+LmJhc2U6IFJlZ2lzdGVyIEkvTyBiYXNlIGFkZHJlc3MgZm9yIHRoZSBibGVuZGVyDQo+ICAgKiBA
+YXZidWYuYmFzZTogUmVnaXN0ZXIgSS9PIGJhc2UgYWRkcmVzcyBmb3IgdGhlIGF1ZGlvL3ZpZGVv
+IGJ1ZmZlcg0KPiBtYW5hZ2VyDQo+IC0gKiBAYXVkaW8uYmFzZTogUmVnaXN0ZXJzIEkvTyBiYXNl
+IGFkZHJlc3MgZm9yIHRoZSBhdWRpbyBtaXhlcg0KPiAgICogQGxheWVyczogTGF5ZXJzIChwbGFu
+ZXMpDQo+ICAgKi8NCj4gIHN0cnVjdCB6eW5xbXBfZGlzcCB7DQo+IEBAIC0xNDMsOSArMTQyLDYg
+QEAgc3RydWN0IHp5bnFtcF9kaXNwIHsNCj4gICAgICAgICBzdHJ1Y3Qgew0KPiAgICAgICAgICAg
+ICAgICAgdm9pZCBfX2lvbWVtICpiYXNlOw0KPiAgICAgICAgIH0gYXZidWY7DQo+IC0gICAgICAg
+c3RydWN0IHsNCj4gLSAgICAgICAgICAgICAgIHZvaWQgX19pb21lbSAqYmFzZTsNCj4gLSAgICAg
+ICB9IGF1ZGlvOw0KPiANCj4gICAgICAgICBzdHJ1Y3QgenlucW1wX2Rpc3BfbGF5ZXIgbGF5ZXJz
+W1pZTlFNUF9EUFNVQl9OVU1fTEFZRVJTXTsNCj4gIH07DQo+IEBAIC04MDcsNDIgKzgwMyw2IEBA
+IHN0YXRpYyB2b2lkDQo+IHp5bnFtcF9kaXNwX2JsZW5kX2xheWVyX2Rpc2FibGUoc3RydWN0IHp5
+bnFtcF9kaXNwICpkaXNwLA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgY3NjX3plcm9fb2Zmc2V0cyk7DQo+ICB9DQo+IA0KPiAtLyogLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0NCj4gLSAqIEF1ZGlvIE1peGVyDQo+IC0gKi8NCj4gLQ0KPiAtc3RhdGljIHZvaWQgenlucW1w
+X2Rpc3BfYXVkaW9fd3JpdGUoc3RydWN0IHp5bnFtcF9kaXNwICpkaXNwLCBpbnQgcmVnLA0KPiB1
+MzIgdmFsKQ0KPiAtew0KPiAtICAgICAgIHdyaXRlbCh2YWwsIGRpc3AtPmF1ZGlvLmJhc2UgKyBy
+ZWcpOw0KPiAtfQ0KPiAtDQo+IC0vKioNCj4gLSAqIHp5bnFtcF9kaXNwX2F1ZGlvX2VuYWJsZSAt
+IEVuYWJsZSB0aGUgYXVkaW8gbWl4ZXINCj4gLSAqIEBkaXNwOiBEaXNwbGF5IGNvbnRyb2xsZXIN
+Cj4gLSAqDQo+IC0gKiBFbmFibGUgdGhlIGF1ZGlvIG1peGVyIGJ5IGRlLWFzc2VydGluZyB0aGUg
+c29mdCByZXNldC4gVGhlIGF1ZGlvIHN0YXRlDQo+IGlzIHNldCB0bw0KPiAtICogZGVmYXVsdCB2
+YWx1ZXMgYnkgdGhlIHJlc2V0LCBzZXQgdGhlIGRlZmF1bHQgbWl4ZXIgdm9sdW1lIGV4cGxpY2l0
+bHkuDQo+IC0gKi8NCj4gLXN0YXRpYyB2b2lkIHp5bnFtcF9kaXNwX2F1ZGlvX2VuYWJsZShzdHJ1
+Y3QgenlucW1wX2Rpc3AgKmRpc3ApDQo+IC17DQo+IC0gICAgICAgLyogQ2xlYXIgdGhlIGF1ZGlv
+IHNvZnQgcmVzZXQgcmVnaXN0ZXIgYXMgaXQncyBhbiBub24tcmVzZXQgZmxvcC4gKi8NCj4gLSAg
+ICAgICB6eW5xbXBfZGlzcF9hdWRpb193cml0ZShkaXNwLCBaWU5RTVBfRElTUF9BVURfU09GVF9S
+RVNFVCwNCj4gMCk7DQo+IC0gICAgICAgenlucW1wX2Rpc3BfYXVkaW9fd3JpdGUoZGlzcCwNCj4g
+WllOUU1QX0RJU1BfQVVEX01JWEVSX1ZPTFVNRSwNCj4gLSAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICBaWU5RTVBfRElTUF9BVURfTUlYRVJfVk9MVU1FX05PX1NDQUxFKTsNCj4gLX0NCj4g
+LQ0KPiAtLyoqDQo+IC0gKiB6eW5xbXBfZGlzcF9hdWRpb19kaXNhYmxlIC0gRGlzYWJsZSB0aGUg
+YXVkaW8gbWl4ZXINCj4gLSAqIEBkaXNwOiBEaXNwbGF5IGNvbnRyb2xsZXINCj4gLSAqDQo+IC0g
+KiBEaXNhYmxlIHRoZSBhdWRpbyBtaXhlciBieSBhc3NlcnRpbmcgaXRzIHNvZnQgcmVzZXQuDQo+
+IC0gKi8NCj4gLXN0YXRpYyB2b2lkIHp5bnFtcF9kaXNwX2F1ZGlvX2Rpc2FibGUoc3RydWN0IHp5
+bnFtcF9kaXNwICpkaXNwKQ0KPiAtew0KPiAtICAgICAgIHp5bnFtcF9kaXNwX2F1ZGlvX3dyaXRl
+KGRpc3AsIFpZTlFNUF9ESVNQX0FVRF9TT0ZUX1JFU0VULA0KPiAtICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIFpZTlFNUF9ESVNQX0FVRF9TT0ZUX1JFU0VUX0FVRF9TUlNUKTsNCj4gLX0N
+Cj4gLQ0KPiAgLyogLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gICAqIFp5bnFNUCBEaXNwbGF5IExh
+eWVyICYgRFJNIFBsYW5lDQo+ICAgKi8NCj4gQEAgLTExNjksOCArMTEyOSw2IEBAIHZvaWQgenlu
+cW1wX2Rpc3BfZW5hYmxlKHN0cnVjdCB6eW5xbXBfZGlzcA0KPiAqZGlzcCkNCj4gICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdHJ1ZSk7DQo+ICAgICAgICAgenlu
+cW1wX2Rpc3BfYXZidWZfZW5hYmxlX2NoYW5uZWxzKGRpc3ApOw0KPiAgICAgICAgIHp5bnFtcF9k
+aXNwX2F2YnVmX2VuYWJsZV9hdWRpbyhkaXNwKTsNCj4gLQ0KPiAtICAgICAgIHp5bnFtcF9kaXNw
+X2F1ZGlvX2VuYWJsZShkaXNwKTsNCj4gIH0NCj4gDQo+ICAvKioNCj4gQEAgLTExNzksOCArMTEz
+Nyw2IEBAIHZvaWQgenlucW1wX2Rpc3BfZW5hYmxlKHN0cnVjdCB6eW5xbXBfZGlzcA0KPiAqZGlz
+cCkNCj4gICAqLw0KPiAgdm9pZCB6eW5xbXBfZGlzcF9kaXNhYmxlKHN0cnVjdCB6eW5xbXBfZGlz
+cCAqZGlzcCkNCj4gIHsNCj4gLSAgICAgICB6eW5xbXBfZGlzcF9hdWRpb19kaXNhYmxlKGRpc3Ap
+Ow0KPiAtDQo+ICAgICAgICAgenlucW1wX2Rpc3BfYXZidWZfZGlzYWJsZV9hdWRpbyhkaXNwKTsN
+Cj4gICAgICAgICB6eW5xbXBfZGlzcF9hdmJ1Zl9kaXNhYmxlX2NoYW5uZWxzKGRpc3ApOw0KPiAg
+ICAgICAgIHp5bnFtcF9kaXNwX2F2YnVmX2Rpc2FibGUoZGlzcCk7DQo+IEBAIC0xMjQ5LDEyICsx
+MjA1LDYgQEAgaW50IHp5bnFtcF9kaXNwX3Byb2JlKHN0cnVjdA0KPiB6eW5xbXBfZHBzdWIgKmRw
+c3ViKQ0KPiAgICAgICAgICAgICAgICAgZ290byBlcnJvcjsNCj4gICAgICAgICB9DQo+IA0KPiAt
+ICAgICAgIGRpc3AtPmF1ZGlvLmJhc2UgPQ0KPiBkZXZtX3BsYXRmb3JtX2lvcmVtYXBfcmVzb3Vy
+Y2VfYnluYW1lKHBkZXYsICJhdWQiKTsNCj4gLSAgICAgICBpZiAoSVNfRVJSKGRpc3AtPmF1ZGlv
+LmJhc2UpKSB7DQo+IC0gICAgICAgICAgICAgICByZXQgPSBQVFJfRVJSKGRpc3AtPmF1ZGlvLmJh
+c2UpOw0KPiAtICAgICAgICAgICAgICAgZ290byBlcnJvcjsNCj4gLSAgICAgICB9DQo+IC0NCj4g
+ICAgICAgICByZXQgPSB6eW5xbXBfZGlzcF9jcmVhdGVfbGF5ZXJzKGRpc3ApOw0KPiAgICAgICAg
+IGlmIChyZXQpDQo+ICAgICAgICAgICAgICAgICBnb3RvIGVycm9yOw0KPiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9ncHUvZHJtL3hsbngvenlucW1wX2Rpc3BfcmVncy5oDQo+IGIvZHJpdmVycy9ncHUv
+ZHJtL3hsbngvenlucW1wX2Rpc3BfcmVncy5oDQo+IGluZGV4IGY5MmEwMDZkNTA3MC4uNzdjZmEx
+ODFhNjE1IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0veGxueC96eW5xbXBfZGlzcF9y
+ZWdzLmgNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3hsbngvenlucW1wX2Rpc3BfcmVncy5oDQo+
+IEBAIC0xNzcsMTIgKzE3Nyw3IEBADQo+ICAjZGVmaW5lIFpZTlFNUF9ESVNQX0FVRF9NSVhFUl9W
+T0xVTUUgICAgICAgICAgICAgICAgICAgMHgwDQo+ICAjZGVmaW5lIFpZTlFNUF9ESVNQX0FVRF9N
+SVhFUl9WT0xVTUVfTk9fU0NBTEUNCj4gMHgyMDAwMjAwMA0KPiAgI2RlZmluZSBaWU5RTVBfRElT
+UF9BVURfTUlYRVJfTUVUQV9EQVRBICAgICAgICAgICAgICAgICAgICAgICAgMHg0DQo+IC0jZGVm
+aW5lIFpZTlFNUF9ESVNQX0FVRF9DSF9TVEFUVVMwICAgICAgICAgICAgICAgICAgICAgMHg4DQo+
+IC0jZGVmaW5lIFpZTlFNUF9ESVNQX0FVRF9DSF9TVEFUVVMxICAgICAgICAgICAgICAgICAgICAg
+MHhjDQo+IC0jZGVmaW5lIFpZTlFNUF9ESVNQX0FVRF9DSF9TVEFUVVMyICAgICAgICAgICAgICAg
+ICAgICAgMHgxMA0KPiAtI2RlZmluZSBaWU5RTVBfRElTUF9BVURfQ0hfU1RBVFVTMyAgICAgICAg
+ICAgICAgICAgICAgIDB4MTQNCj4gLSNkZWZpbmUgWllOUU1QX0RJU1BfQVVEX0NIX1NUQVRVUzQg
+ICAgICAgICAgICAgICAgICAgICAweDE4DQo+IC0jZGVmaW5lIFpZTlFNUF9ESVNQX0FVRF9DSF9T
+VEFUVVM1ICAgICAgICAgICAgICAgICAgICAgMHgxYw0KPiArI2RlZmluZSBaWU5RTVBfRElTUF9B
+VURfQ0hfU1RBVFVTKHgpICAgICAgICAgICAgICAgICAgICgweDggKyAoKHgpICogNCkpDQo+ICAj
+ZGVmaW5lIFpZTlFNUF9ESVNQX0FVRF9DSF9BX0RBVEEwICAgICAgICAgICAgICAgICAgICAgMHgy
+MA0KPiAgI2RlZmluZSBaWU5RTVBfRElTUF9BVURfQ0hfQV9EQVRBMSAgICAgICAgICAgICAgICAg
+ICAgIDB4MjQNCj4gICNkZWZpbmUgWllOUU1QX0RJU1BfQVVEX0NIX0FfREFUQTIgICAgICAgICAg
+ICAgICAgICAgICAweDI4DQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0veGxueC96eW5x
+bXBfZHAuYw0KPiBiL2RyaXZlcnMvZ3B1L2RybS94bG54L3p5bnFtcF9kcC5jDQo+IGluZGV4IGEw
+NjA2ZmFiMGUyMi4uNDM4M2VhOTM0MjNjIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+eGxueC96eW5xbXBfZHAuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0veGxueC96eW5xbXBfZHAu
+Yw0KPiBAQCAtMTIyNyw3ICsxMjI3LDYgQEAgc3RhdGljIHZvaWQNCj4genlucW1wX2RwX2VuY29k
+ZXJfbW9kZV9zZXRfc3RyZWFtKHN0cnVjdCB6eW5xbXBfZHAgKmRwLA0KPiAgew0KPiAgICAgICAg
+IHU4IGxhbmVfY250ID0gZHAtPm1vZGUubGFuZV9jbnQ7DQo+ICAgICAgICAgdTMyIHJlZywgd3Bs
+Ow0KPiAtICAgICAgIHVuc2lnbmVkIGludCByYXRlOw0KPiANCj4gICAgICAgICB6eW5xbXBfZHBf
+d3JpdGUoZHAsIFpZTlFNUF9EUF9NQUlOX1NUUkVBTV9IVE9UQUwsIG1vZGUtDQo+ID5odG90YWwp
+Ow0KPiAgICAgICAgIHp5bnFtcF9kcF93cml0ZShkcCwgWllOUU1QX0RQX01BSU5fU1RSRUFNX1ZU
+T1RBTCwgbW9kZS0NCj4gPnZ0b3RhbCk7DQo+IEBAIC0xMjUyLDE4ICsxMjUxLDggQEAgc3RhdGlj
+IHZvaWQNCj4genlucW1wX2RwX2VuY29kZXJfbW9kZV9zZXRfc3RyZWFtKHN0cnVjdCB6eW5xbXBf
+ZHAgKmRwLA0KPiAgICAgICAgICAgICAgICAgcmVnID0gZHJtX2RwX2J3X2NvZGVfdG9fbGlua19y
+YXRlKGRwLT5tb2RlLmJ3X2NvZGUpOw0KPiAgICAgICAgICAgICAgICAgenlucW1wX2RwX3dyaXRl
+KGRwLCBaWU5RTVBfRFBfTUFJTl9TVFJFQU1fTl9WSUQsDQo+IHJlZyk7DQo+ICAgICAgICAgICAg
+ICAgICB6eW5xbXBfZHBfd3JpdGUoZHAsIFpZTlFNUF9EUF9NQUlOX1NUUkVBTV9NX1ZJRCwNCj4g
+bW9kZS0+Y2xvY2spOw0KPiAtICAgICAgICAgICAgICAgcmF0ZSA9IHp5bnFtcF9kcHN1Yl9nZXRf
+YXVkaW9fY2xrX3JhdGUoZHAtPmRwc3ViKTsNCj4gLSAgICAgICAgICAgICAgIGlmIChyYXRlKSB7
+DQo+IC0gICAgICAgICAgICAgICAgICAgICAgIGRldl9kYmcoZHAtPmRldiwgIkF1ZGlvIHJhdGU6
+ICVkXG4iLCByYXRlIC8gNTEyKTsNCj4gLSAgICAgICAgICAgICAgICAgICAgICAgenlucW1wX2Rw
+X3dyaXRlKGRwLCBaWU5RTVBfRFBfVFhfTl9BVUQsIHJlZyk7DQo+IC0gICAgICAgICAgICAgICAg
+ICAgICAgIHp5bnFtcF9kcF93cml0ZShkcCwgWllOUU1QX0RQX1RYX01fQVVELCByYXRlIC8NCj4g
+MTAwMCk7DQo+IC0gICAgICAgICAgICAgICB9DQo+ICAgICAgICAgfQ0KPiANCj4gLSAgICAgICAv
+KiBPbmx5IDIgY2hhbm5lbCBhdWRpbyBpcyBzdXBwb3J0ZWQgbm93ICovDQo+IC0gICAgICAgaWYg
+KHp5bnFtcF9kcHN1Yl9hdWRpb19lbmFibGVkKGRwLT5kcHN1YikpDQo+IC0gICAgICAgICAgICAg
+ICB6eW5xbXBfZHBfd3JpdGUoZHAsIFpZTlFNUF9EUF9UWF9BVURJT19DSEFOTkVMUywgMSk7DQo+
+IC0NCj4gICAgICAgICB6eW5xbXBfZHBfd3JpdGUoZHAsIFpZTlFNUF9EUF9VU0VSX1BJWF9XSURU
+SCwgMSk7DQo+IA0KPiAgICAgICAgIC8qIFRyYW5zbGF0ZSB0byB0aGUgbmF0aXZlIDE2IGJpdCBk
+YXRhcGF0aCBiYXNlZCBvbiBJUCBjb3JlIHNwZWMgKi8NCj4gQEAgLTEyNzIsNiArMTI2MSw0NCBA
+QCBzdGF0aWMgdm9pZA0KPiB6eW5xbXBfZHBfZW5jb2Rlcl9tb2RlX3NldF9zdHJlYW0oc3RydWN0
+IHp5bnFtcF9kcCAqZHAsDQo+ICAgICAgICAgenlucW1wX2RwX3dyaXRlKGRwLCBaWU5RTVBfRFBf
+VVNFUl9EQVRBX0NPVU5UX1BFUl9MQU5FLA0KPiByZWcpOw0KPiAgfQ0KPiANCj4gKy8qIC0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tDQo+ICsgKiBBdWRpbw0KPiArICovDQo+ICsNCj4gK3ZvaWQgenlucW1w
+X2RwX2F1ZGlvX3NldF9jaGFubmVscyhzdHJ1Y3QgenlucW1wX2RwICpkcCwNCj4gKyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHVuc2lnbmVkIGludCBudW1fY2hhbm5lbHMpDQo+ICt7
+DQo+ICsgICAgICAgenlucW1wX2RwX3dyaXRlKGRwLCBaWU5RTVBfRFBfVFhfQVVESU9fQ0hBTk5F
+TFMsDQo+IG51bV9jaGFubmVscyAtIDEpOw0KPiArfQ0KPiArDQo+ICt2b2lkIHp5bnFtcF9kcF9h
+dWRpb19lbmFibGUoc3RydWN0IHp5bnFtcF9kcCAqZHApDQo+ICt7DQo+ICsgICAgICAgenlucW1w
+X2RwX3dyaXRlKGRwLCBaWU5RTVBfRFBfVFhfQVVESU9fQ09OVFJPTCwgMSk7DQo+ICt9DQo+ICsN
+Cj4gK3ZvaWQgenlucW1wX2RwX2F1ZGlvX2Rpc2FibGUoc3RydWN0IHp5bnFtcF9kcCAqZHApDQo+
+ICt7DQo+ICsgICAgICAgenlucW1wX2RwX3dyaXRlKGRwLCBaWU5RTVBfRFBfVFhfQVVESU9fQ09O
+VFJPTCwgMCk7DQo+ICt9DQo+ICsNCj4gK3ZvaWQgenlucW1wX2RwX2F1ZGlvX3dyaXRlX25fbShz
+dHJ1Y3QgenlucW1wX2RwICpkcCkNCj4gK3sNCj4gKyAgICAgICB1bnNpZ25lZCBpbnQgcmF0ZTsN
+Cj4gKyAgICAgICB1MzIgbGlua19yYXRlOw0KPiArDQo+ICsgICAgICAgaWYgKCEoZHAtPmNvbmZp
+Zy5taXNjMCAmDQo+IFpZTlFNUF9EUF9NQUlOX1NUUkVBTV9NSVNDMF9TWU5DX0xPQ0spKQ0KPiAr
+ICAgICAgICAgICAgICAgcmV0dXJuOw0KPiArDQo+ICsgICAgICAgbGlua19yYXRlID0gZHJtX2Rw
+X2J3X2NvZGVfdG9fbGlua19yYXRlKGRwLT5tb2RlLmJ3X2NvZGUpOw0KPiArDQo+ICsgICAgICAg
+cmF0ZSA9IGNsa19nZXRfcmF0ZShkcC0+ZHBzdWItPmF1ZF9jbGspOw0KPiArDQo+ICsgICAgICAg
+ZGV2X2RiZyhkcC0+ZGV2LCAiQXVkaW8gcmF0ZTogJWRcbiIsIHJhdGUgLyA1MTIpOw0KPiArDQo+
+ICsgICAgICAgenlucW1wX2RwX3dyaXRlKGRwLCBaWU5RTVBfRFBfVFhfTl9BVUQsIGxpbmtfcmF0
+ZSk7DQo+ICsgICAgICAgenlucW1wX2RwX3dyaXRlKGRwLCBaWU5RTVBfRFBfVFhfTV9BVUQsIHJh
+dGUgLyAxMDAwKTsNCj4gK30NCj4gKw0KPiAgLyogLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gICAq
+IERJU1AgQ29uZmlndXJhdGlvbg0KPiAgICovDQo+IEBAIC0xNDQ1LDggKzE0NzIsNyBAQCBzdGF0
+aWMgdm9pZA0KPiB6eW5xbXBfZHBfYnJpZGdlX2F0b21pY19lbmFibGUoc3RydWN0IGRybV9icmlk
+Z2UgKmJyaWRnZSwNCj4gICAgICAgICAvKiBFbmFibGUgdGhlIGVuY29kZXIgKi8NCj4gICAgICAg
+ICBkcC0+ZW5hYmxlZCA9IHRydWU7DQo+ICAgICAgICAgenlucW1wX2RwX3VwZGF0ZV9taXNjKGRw
+KTsNCj4gLSAgICAgICBpZiAoenlucW1wX2Rwc3ViX2F1ZGlvX2VuYWJsZWQoZHAtPmRwc3ViKSkN
+Cj4gLSAgICAgICAgICAgICAgIHp5bnFtcF9kcF93cml0ZShkcCwgWllOUU1QX0RQX1RYX0FVRElP
+X0NPTlRST0wsIDEpOw0KPiArDQo+ICAgICAgICAgenlucW1wX2RwX3dyaXRlKGRwLCBaWU5RTVBf
+RFBfVFhfUEhZX1BPV0VSX0RPV04sIDApOw0KPiAgICAgICAgIGlmIChkcC0+c3RhdHVzID09IGNv
+bm5lY3Rvcl9zdGF0dXNfY29ubmVjdGVkKSB7DQo+ICAgICAgICAgICAgICAgICBmb3IgKGkgPSAw
+OyBpIDwgMzsgaSsrKSB7DQo+IEBAIC0xNDc5LDggKzE1MDUsNiBAQCBzdGF0aWMgdm9pZA0KPiB6
+eW5xbXBfZHBfYnJpZGdlX2F0b21pY19kaXNhYmxlKHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2Us
+DQo+ICAgICAgICAgZHJtX2RwX2RwY2Rfd3JpdGViKCZkcC0+YXV4LCBEUF9TRVRfUE9XRVIsDQo+
+IERQX1NFVF9QT1dFUl9EMyk7DQo+ICAgICAgICAgenlucW1wX2RwX3dyaXRlKGRwLCBaWU5RTVBf
+RFBfVFhfUEhZX1BPV0VSX0RPV04sDQo+ICAgICAgICAgICAgICAgICAgICAgICAgIFpZTlFNUF9E
+UF9UWF9QSFlfUE9XRVJfRE9XTl9BTEwpOw0KPiAtICAgICAgIGlmICh6eW5xbXBfZHBzdWJfYXVk
+aW9fZW5hYmxlZChkcC0+ZHBzdWIpKQ0KPiAtICAgICAgICAgICAgICAgenlucW1wX2RwX3dyaXRl
+KGRwLCBaWU5RTVBfRFBfVFhfQVVESU9fQ09OVFJPTCwgMCk7DQo+IA0KPiAgICAgICAgIHp5bnFt
+cF9kcF9kaXNwX2Rpc2FibGUoZHAsIG9sZF9icmlkZ2Vfc3RhdGUpOw0KPiANCj4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS94bG54L3p5bnFtcF9kcC5oDQo+IGIvZHJpdmVycy9ncHUvZHJt
+L3hsbngvenlucW1wX2RwLmgNCj4gaW5kZXggZjA3N2Q3ZmJkMGFkLi5hMzI1Nzc5M2UyM2EgMTAw
+NjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS94bG54L3p5bnFtcF9kcC5oDQo+ICsrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS94bG54L3p5bnFtcF9kcC5oDQo+IEBAIC0yMiw0ICsyMiwxMSBAQCB2b2lk
+IHp5bnFtcF9kcF9kaXNhYmxlX3ZibGFuayhzdHJ1Y3QNCj4genlucW1wX2RwICpkcCk7DQo+ICBp
+bnQgenlucW1wX2RwX3Byb2JlKHN0cnVjdCB6eW5xbXBfZHBzdWIgKmRwc3ViKTsNCj4gIHZvaWQg
+enlucW1wX2RwX3JlbW92ZShzdHJ1Y3QgenlucW1wX2Rwc3ViICpkcHN1Yik7DQo+IA0KPiArdm9p
+ZCB6eW5xbXBfZHBfYXVkaW9fc2V0X2NoYW5uZWxzKHN0cnVjdCB6eW5xbXBfZHAgKmRwLA0KPiAr
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdW5zaWduZWQgaW50IG51bV9jaGFubmVs
+cyk7DQo+ICt2b2lkIHp5bnFtcF9kcF9hdWRpb19lbmFibGUoc3RydWN0IHp5bnFtcF9kcCAqZHAp
+Ow0KPiArdm9pZCB6eW5xbXBfZHBfYXVkaW9fZGlzYWJsZShzdHJ1Y3QgenlucW1wX2RwICpkcCk7
+DQo+ICsNCj4gK3ZvaWQgenlucW1wX2RwX2F1ZGlvX3dyaXRlX25fbShzdHJ1Y3QgenlucW1wX2Rw
+ICpkcCk7DQo+ICsNCj4gICNlbmRpZiAvKiBfWllOUU1QX0RQX0hfICovDQo+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0veGxueC96eW5xbXBfZHBfYXVkaW8uYw0KPiBiL2RyaXZlcnMvZ3B1
+L2RybS94bG54L3p5bnFtcF9kcF9hdWRpby5jDQo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+IGlu
+ZGV4IDAwMDAwMDAwMDAwMC4uOGZkYWI1NTdmM2IyDQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL3hsbngvenlucW1wX2RwX2F1ZGlvLmMNCj4gQEAgLTAsMCArMSw0NjEg
+QEANCj4gKy8vIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wDQo+ICsvKg0KPiArICog
+WnlucU1QIERpc3BsYXlQb3J0IFN1YnN5c3RlbSBEcml2ZXIgLSBBdWRpbyBzdXBwb3J0DQo+ICsg
+Kg0KPiArICogQ29weXJpZ2h0IChDKSAyMDE1IC0gMjAyMyBYaWxpbngsIEluYy4NCj4gKyAqDQo+
+ICsgKiBBdXRob3JzOg0KPiArICogLSBIeXVuIFdvbyBLd29uIDxoeXVuLmt3b25AeGlsaW54LmNv
+bT4NCj4gKyAqIC0gVG9taSBWYWxrZWluZW4gPHRvbWkudmFsa2VpbmVuQGlkZWFzb25ib2FyZC5j
+b20+DQo+ICsgKi8NCj4gKw0KPiArI2luY2x1ZGUgPGxpbnV4L2Nsay5oPg0KPiArI2luY2x1ZGUg
+PGxpbnV4L2RldmljZS5oPg0KPiArI2luY2x1ZGUgPGxpbnV4L211dGV4Lmg+DQo+ICsjaW5jbHVk
+ZSA8bGludXgvcG1fcnVudGltZS5oPg0KPiArDQo+ICsjaW5jbHVkZSA8c291bmQvYXNvdW5kZWYu
+aD4NCj4gKyNpbmNsdWRlIDxzb3VuZC9jb3JlLmg+DQo+ICsjaW5jbHVkZSA8c291bmQvZG1hZW5n
+aW5lX3BjbS5oPg0KPiArI2luY2x1ZGUgPHNvdW5kL2luaXR2YWwuaD4NCj4gKyNpbmNsdWRlIDxz
+b3VuZC9wY20uaD4NCj4gKyNpbmNsdWRlIDxzb3VuZC9zb2MuaD4NCj4gKyNpbmNsdWRlIDxzb3Vu
+ZC90bHYuaD4NCj4gKw0KPiArI2luY2x1ZGUgInp5bnFtcF9kaXNwX3JlZ3MuaCINCj4gKyNpbmNs
+dWRlICJ6eW5xbXBfZHAuaCINCj4gKyNpbmNsdWRlICJ6eW5xbXBfZHBzdWIuaCINCj4gKw0KPiAr
+I2RlZmluZSBaWU5RTVBfRElTUF9BVURfU01QTF9SQVRFX1RPX0NMSyA1MTINCj4gKyNkZWZpbmUg
+WllOUU1QX05VTV9QQ01TIDINCj4gKw0KPiArc3RydWN0IHp5bnFtcF9kcHN1Yl9hdWRpbyB7DQo+
+ICsgICAgICAgdm9pZCBfX2lvbWVtICpiYXNlOw0KPiArDQo+ICsgICAgICAgc3RydWN0IHNuZF9z
+b2NfY2FyZCBjYXJkOw0KPiArDQo+ICsgICAgICAgY29uc3QgY2hhciAqZGFpX25hbWU7DQo+ICsg
+ICAgICAgY29uc3QgY2hhciAqbGlua19uYW1lc1taWU5RTVBfTlVNX1BDTVNdOw0KPiArICAgICAg
+IGNvbnN0IGNoYXIgKnBjbV9uYW1lc1taWU5RTVBfTlVNX1BDTVNdOw0KPiArDQo+ICsgICAgICAg
+c3RydWN0IHNuZF9zb2NfZGFpX2RyaXZlciBkYWlfZHJpdmVyOw0KPiArICAgICAgIHN0cnVjdCBz
+bmRfZG1hZW5naW5lX3BjbV9jb25maWcgcGNtX2NvbmZpZ3NbMl07DQo+ICsNCj4gKyAgICAgICBz
+dHJ1Y3Qgc25kX3NvY19kYWlfbGluayBsaW5rc1taWU5RTVBfTlVNX1BDTVNdOw0KPiArDQo+ICsg
+ICAgICAgc3RydWN0IHsNCj4gKyAgICAgICAgICAgICAgIHN0cnVjdCBzbmRfc29jX2RhaV9saW5r
+X2NvbXBvbmVudCBjcHU7DQo+ICsgICAgICAgICAgICAgICBzdHJ1Y3Qgc25kX3NvY19kYWlfbGlu
+a19jb21wb25lbnQgY29kZWM7DQo+ICsgICAgICAgICAgICAgICBzdHJ1Y3Qgc25kX3NvY19kYWlf
+bGlua19jb21wb25lbnQgcGxhdGZvcm07DQo+ICsgICAgICAgfSBjb21wb25lbnRzW1pZTlFNUF9O
+VU1fUENNU107DQo+ICsNCj4gKyAgICAgICAvKg0KPiArICAgICAgICAqIFByb3RlY3RzOg0KPiAr
+ICAgICAgICAqIC0gZW5hYmxlZF9zdHJlYW1zDQo+ICsgICAgICAgICogLSB2b2x1bWVzDQo+ICsg
+ICAgICAgICogLSBjdXJyZW50X3JhdGUNCj4gKyAgICAgICAgKi8NCj4gKyAgICAgICBzdHJ1Y3Qg
+bXV0ZXggZW5hYmxlX2xvY2s7DQo+ICsNCj4gKyAgICAgICB1MzIgZW5hYmxlZF9zdHJlYW1zOw0K
+PiArICAgICAgIHUzMiBjdXJyZW50X3JhdGU7DQo+ICsNCj4gKyAgICAgICB1MTYgdm9sdW1lc1sy
+XTsNCj4gK307DQo+ICsNCj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3Qgc25kX3BjbV9oYXJkd2FyZSB6
+eW5xbXBfZHBfcGNtX2h3ID0gew0KPiArICAgICAgIC5pbmZvID0gU05EUlZfUENNX0lORk9fTU1B
+UCB8DQo+ICsgICAgICAgICAgICAgICBTTkRSVl9QQ01fSU5GT19NTUFQX1ZBTElEIHwNCj4gKyAg
+ICAgICAgICAgICAgIFNORFJWX1BDTV9JTkZPX0lOVEVSTEVBVkVEIHwNCj4gKyAgICAgICAgICAg
+ICAgIFNORFJWX1BDTV9JTkZPX1BBVVNFIHwNCj4gKyAgICAgICAgICAgICAgIFNORFJWX1BDTV9J
+TkZPX1JFU1VNRSB8DQo+ICsgICAgICAgICAgICAgICBTTkRSVl9QQ01fSU5GT19OT19QRVJJT0Rf
+V0FLRVVQLA0KPiArDQo+ICsgICAgICAgLmJ1ZmZlcl9ieXRlc19tYXggICAgICAgPSAxMjggKiAx
+MDI0LA0KPiArICAgICAgIC5wZXJpb2RfYnl0ZXNfbWluICAgICAgID0gMjU2LA0KPiArICAgICAg
+IC5wZXJpb2RfYnl0ZXNfbWF4ICAgICAgID0gMTAyNCAqIDEwMjQsDQo+ICsgICAgICAgLnBlcmlv
+ZHNfbWluICAgICAgICAgICAgPSAyLA0KPiArICAgICAgIC5wZXJpb2RzX21heCAgICAgICAgICAg
+ID0gMjU2LA0KPiArfTsNCj4gKw0KPiArc3RhdGljIGludCB6eW5xbXBfZHBfc3RhcnR1cChzdHJ1
+Y3Qgc25kX3BjbV9zdWJzdHJlYW0gKnN1YnN0cmVhbSkNCj4gK3sNCj4gKyAgICAgICBzdHJ1Y3Qg
+c25kX3BjbV9ydW50aW1lICpydW50aW1lID0gc3Vic3RyZWFtLT5ydW50aW1lOw0KPiArDQo+ICsg
+ICAgICAgc25kX3BjbV9od19jb25zdHJhaW50X3N0ZXAocnVudGltZSwgMCwNCj4gU05EUlZfUENN
+X0hXX1BBUkFNX1BFUklPRF9CWVRFUywNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAyNTYpOw0KPiArDQo+ICsgICAgICAgcmV0dXJuIDA7DQo+ICt9DQo+ICsNCj4gK3N0YXRp
+YyBjb25zdCBzdHJ1Y3Qgc25kX3NvY19vcHMgenlucW1wX2RwX29wcyA9IHsNCj4gKyAgICAgICAu
+c3RhcnR1cCA9IHp5bnFtcF9kcF9zdGFydHVwLA0KPiArfTsNCj4gKw0KPiArc3RhdGljIHZvaWQg
+enlucW1wX2RwX2F1ZGlvX3dyaXRlKHN0cnVjdCB6eW5xbXBfZHBzdWJfYXVkaW8NCj4gKmF1ZGlv
+LCBpbnQgcmVnLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdTMyIHZhbCkN
+Cj4gK3sNCj4gKyAgICAgICB3cml0ZWwodmFsLCBhdWRpby0+YmFzZSArIHJlZyk7DQo+ICt9DQo+
+ICsNCj4gK3N0YXRpYyBpbnQgZHBfZGFpX2h3X3BhcmFtcyhzdHJ1Y3Qgc25kX3BjbV9zdWJzdHJl
+YW0gKnN1YnN0cmVhbSwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBzbmRf
+cGNtX2h3X3BhcmFtcyAqcGFyYW1zLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgc3Ry
+dWN0IHNuZF9zb2NfZGFpICpzb2NkYWkpDQo+ICt7DQo+ICsgICAgICAgc3RydWN0IHNuZF9zb2Nf
+cGNtX3J1bnRpbWUgKnJ0ZCA9DQo+IHNuZF9zb2Nfc3Vic3RyZWFtX3RvX3J0ZChzdWJzdHJlYW0p
+Ow0KPiArICAgICAgIHN0cnVjdCB6eW5xbXBfZHBzdWIgKmRwc3ViID0NCj4gKyAgICAgICAgICAg
+ICAgIHNuZF9zb2NfZGFpX2dldF9kcnZkYXRhKHNuZF9zb2NfcnRkX3RvX2NwdShydGQsIDApKTsN
+Cj4gKyAgICAgICBzdHJ1Y3QgenlucW1wX2Rwc3ViX2F1ZGlvICphdWRpbyA9IGRwc3ViLT5hdWRp
+bzsNCj4gKyAgICAgICBpbnQgcmV0Ow0KPiArICAgICAgIHUzMiBzYW1wbGVfcmF0ZTsNCj4gKyAg
+ICAgICBzdHJ1Y3Qgc25kX2Flc19pZWM5NTggaWVjID0geyAwIH07DQo+ICsgICAgICAgdW5zaWdu
+ZWQgbG9uZyByYXRlOw0KPiArDQo+ICsgICAgICAgc2FtcGxlX3JhdGUgPSBwYXJhbXNfcmF0ZShw
+YXJhbXMpOw0KPiArDQo+ICsgICAgICAgaWYgKHNhbXBsZV9yYXRlICE9IDQ4MDAwICYmIHNhbXBs
+ZV9yYXRlICE9IDQ0MTAwKQ0KPiArICAgICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7DQo+ICsN
+Cj4gKyAgICAgICBtdXRleF9sb2NrKCZhdWRpby0+ZW5hYmxlX2xvY2spOw0KPiArDQo+ICsgICAg
+ICAgaWYgKGF1ZGlvLT5lbmFibGVkX3N0cmVhbXMgJiYgYXVkaW8tPmN1cnJlbnRfcmF0ZSAhPQ0K
+PiBzYW1wbGVfcmF0ZSkgew0KPiArICAgICAgICAgICAgICAgZGV2X2VycihkcHN1Yi0+ZGV2LA0K
+PiArICAgICAgICAgICAgICAgICAgICAgICAiQ2FuJ3QgY2hhbmdlIHJhdGUgd2hpbGUgcGxheWJh
+Y2sgZW5hYmxlZFxuIik7DQo+ICsgICAgICAgICAgICAgICByZXQgPSAtRUlOVkFMOw0KPiArICAg
+ICAgICAgICAgICAgZ290byBlcnJfdW5sb2NrOw0KPiArICAgICAgIH0NCj4gKw0KPiArICAgICAg
+IGlmIChhdWRpby0+ZW5hYmxlZF9zdHJlYW1zID4gMCkgew0KPiArICAgICAgICAgICAgICAgLyog
+Tm90aGluZyB0byBkbyAqLw0KPiArICAgICAgICAgICAgICAgYXVkaW8tPmVuYWJsZWRfc3RyZWFt
+cysrOw0KPiArICAgICAgICAgICAgICAgbXV0ZXhfdW5sb2NrKCZhdWRpby0+ZW5hYmxlX2xvY2sp
+Ow0KPiArICAgICAgICAgICAgICAgcmV0dXJuIDA7DQo+ICsgICAgICAgfQ0KPiArDQo+ICsgICAg
+ICAgYXVkaW8tPmN1cnJlbnRfcmF0ZSA9IHNhbXBsZV9yYXRlOw0KPiArDQo+ICsgICAgICAgLyog
+Tm90ZTogY2xvY2sgcmF0ZSBjYW4gb25seSBiZSBjaGFuZ2VkIGlmIHRoZSBjbG9jayBpcyBkaXNh
+YmxlZCAqLw0KPiArICAgICAgIHJldCA9IGNsa19zZXRfcmF0ZShkcHN1Yi0+YXVkX2NsaywNCj4g
+KyAgICAgICAgICAgICAgICAgICAgICAgICAgc2FtcGxlX3JhdGUgKg0KPiBaWU5RTVBfRElTUF9B
+VURfU01QTF9SQVRFX1RPX0NMSyk7DQo+ICsgICAgICAgaWYgKHJldCkgew0KPiArICAgICAgICAg
+ICAgICAgZGV2X2VycihkcHN1Yi0+ZGV2LCAiY2FuJ3Qgc2V0IGF1ZF9jbGsgdG8gJXUgZXJyOiVk
+XG4iLA0KPiArICAgICAgICAgICAgICAgICAgICAgICBzYW1wbGVfcmF0ZSAqIFpZTlFNUF9ESVNQ
+X0FVRF9TTVBMX1JBVEVfVE9fQ0xLLA0KPiByZXQpOw0KPiArICAgICAgICAgICAgICAgZ290byBl
+cnJfdW5sb2NrOw0KPiArICAgICAgIH0NCj4gKw0KPiArICAgICAgIGNsa19wcmVwYXJlX2VuYWJs
+ZShkcHN1Yi0+YXVkX2Nsayk7DQo+ICsNCj4gKyAgICAgICByYXRlID0gY2xrX2dldF9yYXRlKGRw
+c3ViLT5hdWRfY2xrKTsNCj4gKw0KPiArICAgICAgIC8qIElnbm9yZSBzb21lIG9mZnNldCArLSAx
+MCAqLw0KPiArICAgICAgIGlmIChhYnMoc2FtcGxlX3JhdGUgKiBaWU5RTVBfRElTUF9BVURfU01Q
+TF9SQVRFX1RPX0NMSyAtDQo+IHJhdGUpID4gMTApIHsNCj4gKyAgICAgICAgICAgICAgIGRldl9l
+cnIoZHBzdWItPmRldiwgImF1ZF9jbGsgb2Zmc2V0IGlzIGhpZ2hlcjogJWxkXG4iLA0KPiArICAg
+ICAgICAgICAgICAgICAgICAgICBzYW1wbGVfcmF0ZSAqIFpZTlFNUF9ESVNQX0FVRF9TTVBMX1JB
+VEVfVE9fQ0xLIC0NCj4gcmF0ZSk7DQo+ICsgICAgICAgICAgICAgICBjbGtfZGlzYWJsZV91bnBy
+ZXBhcmUoZHBzdWItPmF1ZF9jbGspOw0KPiArICAgICAgICAgICAgICAgcmV0ID0gLUVJTlZBTDsN
+Cj4gKyAgICAgICAgICAgICAgIGdvdG8gZXJyX3VubG9jazsNCj4gKyAgICAgICB9DQo+ICsNCj4g
+KyAgICAgICBwbV9ydW50aW1lX2dldF9zeW5jKGRwc3ViLT5kZXYpOw0KPiArDQo+ICsgICAgICAg
+enlucW1wX2RwX2F1ZGlvX3dyaXRlKGF1ZGlvLA0KPiBaWU5RTVBfRElTUF9BVURfTUlYRVJfVk9M
+VU1FLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICBhdWRpby0+dm9sdW1lc1swXSB8
+IChhdWRpby0+dm9sdW1lc1sxXSA8PCAxNikpOw0KPiArDQo+ICsgICAgICAgLyogQ2xlYXIgdGhl
+IGF1ZGlvIHNvZnQgcmVzZXQgcmVnaXN0ZXIgYXMgaXQncyBhbiBub24tcmVzZXQgZmxvcC4gKi8N
+Cj4gKyAgICAgICB6eW5xbXBfZHBfYXVkaW9fd3JpdGUoYXVkaW8sIFpZTlFNUF9ESVNQX0FVRF9T
+T0ZUX1JFU0VULA0KPiAwKTsNCj4gKw0KPiArICAgICAgIC8qIE9ubHkgMiBjaGFubmVsIGF1ZGlv
+IGlzIHN1cHBvcnRlZCBub3cgKi8NCj4gKyAgICAgICB6eW5xbXBfZHBfYXVkaW9fc2V0X2NoYW5u
+ZWxzKGRwc3ViLT5kcCwgMik7DQo+ICsNCj4gKyAgICAgICB6eW5xbXBfZHBfYXVkaW9fd3JpdGVf
+bl9tKGRwc3ViLT5kcCk7DQo+ICsNCj4gKyAgICAgICAvKiBDaGFubmVsIHN0YXR1cyAqLw0KPiAr
+DQo+ICsgICAgICAgaWYgKHNhbXBsZV9yYXRlID09IDQ4MDAwKQ0KPiArICAgICAgICAgICAgICAg
+aWVjLnN0YXR1c1szXSA9IElFQzk1OF9BRVMzX0NPTl9GU180ODAwMDsNCj4gKyAgICAgICBlbHNl
+DQo+ICsgICAgICAgICAgICAgICBpZWMuc3RhdHVzWzNdID0gSUVDOTU4X0FFUzNfQ09OX0ZTXzQ0
+MTAwOw0KPiArDQo+ICsgICAgICAgZm9yICh1bnNpZ25lZCBpbnQgaSA9IDA7IGkgPCBBRVNfSUVD
+OTU4X1NUQVRVU19TSVpFIC8gNDsgKytpKSB7DQo+ICsgICAgICAgICAgICAgICB1MzIgdjsNCj4g
+Kw0KPiArICAgICAgICAgICAgICAgdiA9IChpZWMuc3RhdHVzWyhpICogNCkgKyAwXSA8PCAwKSB8
+DQo+ICsgICAgICAgICAgICAgICAgICAgKGllYy5zdGF0dXNbKGkgKiA0KSArIDFdIDw8IDgpIHwN
+Cj4gKyAgICAgICAgICAgICAgICAgICAoaWVjLnN0YXR1c1soaSAqIDQpICsgMl0gPDwgMTYpIHwN
+Cj4gKyAgICAgICAgICAgICAgICAgICAoaWVjLnN0YXR1c1soaSAqIDQpICsgM10gPDwgMjQpOw0K
+PiArDQo+ICsgICAgICAgICAgICAgICB6eW5xbXBfZHBfYXVkaW9fd3JpdGUoYXVkaW8sDQo+IFpZ
+TlFNUF9ESVNQX0FVRF9DSF9TVEFUVVMoaSksIHYpOw0KPiArICAgICAgIH0NCj4gKw0KPiArICAg
+ICAgIHp5bnFtcF9kcF9hdWRpb19lbmFibGUoZHBzdWItPmRwKTsNCj4gKw0KPiArICAgICAgIGF1
+ZGlvLT5lbmFibGVkX3N0cmVhbXMrKzsNCj4gKw0KPiArICAgICAgIG11dGV4X3VubG9jaygmYXVk
+aW8tPmVuYWJsZV9sb2NrKTsNCj4gKw0KPiArICAgICAgIHJldHVybiAwOw0KPiArDQo+ICtlcnJf
+dW5sb2NrOg0KPiArICAgICAgIG11dGV4X3VubG9jaygmYXVkaW8tPmVuYWJsZV9sb2NrKTsNCj4g
+KyAgICAgICByZXR1cm4gcmV0Ow0KPiArfQ0KPiArDQo+ICtzdGF0aWMgaW50IGRwX2RhaV9od19m
+cmVlKHN0cnVjdCBzbmRfcGNtX3N1YnN0cmVhbSAqc3Vic3RyZWFtLA0KPiArICAgICAgICAgICAg
+ICAgICAgICAgICAgIHN0cnVjdCBzbmRfc29jX2RhaSAqc29jZGFpKQ0KPiArew0KPiArICAgICAg
+IHN0cnVjdCBzbmRfc29jX3BjbV9ydW50aW1lICpydGQgPQ0KPiBzbmRfc29jX3N1YnN0cmVhbV90
+b19ydGQoc3Vic3RyZWFtKTsNCj4gKyAgICAgICBzdHJ1Y3QgenlucW1wX2Rwc3ViICpkcHN1YiA9
+DQo+ICsgICAgICAgICAgICAgICBzbmRfc29jX2RhaV9nZXRfZHJ2ZGF0YShzbmRfc29jX3J0ZF90
+b19jcHUocnRkLCAwKSk7DQo+ICsgICAgICAgc3RydWN0IHp5bnFtcF9kcHN1Yl9hdWRpbyAqYXVk
+aW8gPSBkcHN1Yi0+YXVkaW87DQo+ICsNCj4gKyAgICAgICBtdXRleF9sb2NrKCZhdWRpby0+ZW5h
+YmxlX2xvY2spOw0KPiArDQo+ICsgICAgICAgLyogTm90aGluZyB0byBkbyAqLw0KPiArICAgICAg
+IGlmIChhdWRpby0+ZW5hYmxlZF9zdHJlYW1zID4gMSkgew0KPiArICAgICAgICAgICAgICAgYXVk
+aW8tPmVuYWJsZWRfc3RyZWFtcy0tOw0KPiArICAgICAgICAgICAgICAgbXV0ZXhfdW5sb2NrKCZh
+dWRpby0+ZW5hYmxlX2xvY2spOw0KPiArICAgICAgICAgICAgICAgcmV0dXJuIDA7DQo+ICsgICAg
+ICAgfQ0KPiArDQo+ICsgICAgICAgcG1fcnVudGltZV9wdXQoZHBzdWItPmRldik7DQo+ICsNCj4g
+KyAgICAgICB6eW5xbXBfZHBfYXVkaW9fZGlzYWJsZShkcHN1Yi0+ZHApOw0KPiArDQo+ICsgICAg
+ICAgLyoNCj4gKyAgICAgICAgKiBSZXNldCBkb2Vzbid0IHdvcmsuIElmIHdlIGFzc2VydCByZXNl
+dCBiZXR3ZWVuIGF1ZGlvIHN0b3AgYW5kDQo+IHN0YXJ0LA0KPiArICAgICAgICAqIHRoZSBhdWRp
+byB3b24ndCBzdGFydCBhbnltb3JlLiBQcm9iYWJseSB3ZSBhcmUgbWlzc2luZyB3cml0aW5nDQo+
+ICsgICAgICAgICogc29tZSBhdWRpbyByZWxhdGVkIHJlZ2lzdGVycy4gQS9CIGJ1Zj8NCj4gKyAg
+ICAgICAgKi8NCj4gKyAgICAgICAvKg0KPiArICAgICAgIHp5bnFtcF9kaXNwX2F1ZGlvX3dyaXRl
+KGF1ZGlvLCBaWU5RTVBfRElTUF9BVURfU09GVF9SRVNFVCwNCj4gKyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBaWU5RTVBfRElTUF9BVURfU09GVF9SRVNFVF9BVURfU1JTVCk7DQo+ICsg
+ICAgICAgKi8NCj4gKw0KPiArICAgICAgIGNsa19kaXNhYmxlX3VucHJlcGFyZShkcHN1Yi0+YXVk
+X2Nsayk7DQo+ICsNCj4gKyAgICAgICBhdWRpby0+Y3VycmVudF9yYXRlID0gMDsNCj4gKyAgICAg
+ICBhdWRpby0+ZW5hYmxlZF9zdHJlYW1zLS07DQo+ICsNCj4gKyAgICAgICBtdXRleF91bmxvY2so
+JmF1ZGlvLT5lbmFibGVfbG9jayk7DQo+ICsNCj4gKyAgICAgICByZXR1cm4gMDsNCj4gK30NCj4g
+Kw0KPiArc3RhdGljIGNvbnN0IHN0cnVjdCBzbmRfc29jX2RhaV9vcHMgenlucW1wX2RwX2RhaV9v
+cHMgPSB7DQo+ICsgICAgICAgLmh3X3BhcmFtcyAgICAgID0gZHBfZGFpX2h3X3BhcmFtcywNCj4g
+KyAgICAgICAuaHdfZnJlZSAgICAgICAgPSBkcF9kYWlfaHdfZnJlZSwNCj4gK307DQo+ICsNCj4g
+Ky8qDQo+ICsgKiBNaW4gPSAxMCAqIGxvZzEwKDB4MSAvIDB4MjAwMCkgPSAtMzkuMTMNCj4gKyAq
+IE1heCA9IDEwICogbG9nMTAoMHhmZmZmZmYgLyAweDIwMDApID0gOS4wMw0KPiArICovDQo+ICtz
+dGF0aWMgY29uc3QgREVDTEFSRV9UTFZfREJfUkFOR0UoenlucW1wX2RwX3RsdiwNCj4gKyAgICAg
+ICAweDAsIDB4MCwgVExWX0RCX1NDQUxFX0lURU0oVExWX0RCX0dBSU5fTVVURSwgLTM5MTMsIDEp
+LA0KPiArICAgICAgIDB4MSwgMHgyMDAwLCBUTFZfREJfTElORUFSX0lURU0oLTM5MTMsIDApLA0K
+PiArICAgICAgIDB4MjAwMCwgMHhmZmZmLCBUTFZfREJfTElORUFSX0lURU0oMCwgOTAzKSwNCj4g
+Kyk7DQo+ICsNCj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3Qgc25kX2tjb250cm9sX25ldyB6eW5xbXBf
+ZHBfc25kX2NvbnRyb2xzW10gPSB7DQo+ICsgICAgICAgU09DX1NJTkdMRV9UTFYoIklucHV0MCBQ
+bGF5YmFjayBWb2x1bWUiLCAwLA0KPiArICAgICAgICAgICAgICAgICAgICAgIDAsIDB4ZmZmZiwg
+MCwgenlucW1wX2RwX3RsdiksDQo+ICsgICAgICAgU09DX1NJTkdMRV9UTFYoIklucHV0MSBQbGF5
+YmFjayBWb2x1bWUiLCAxLA0KPiArICAgICAgICAgICAgICAgICAgICAgIDAsIDB4ZmZmZiwgMCwg
+enlucW1wX2RwX3RsdiksDQo+ICt9Ow0KPiArDQo+ICsvKg0KPiArICogTm90ZTogdGhlc2UgcmVh
+ZCAmIHdyaXRlIGZ1bmN0aW9ucyBvbmx5IHN1cHBvcnQgdHdvICJyZWdpc3RlcnMiLCAwDQo+IGFu
+ZCAxLA0KPiArICogZm9yIHZvbHVtZSAwIGFuZCAxLiBJbiBvdGhlciB3b3JkcywgdGhlc2UgYXJl
+IG5vdCByZWFsIHJlZ2lzdGVyDQo+IHJlYWQvd3JpdGUNCj4gKyAqIGZ1bmN0aW9ucy4NCj4gKyAq
+DQo+ICsgKiBUaGlzIGlzIGRvbmUgdG8gc3VwcG9ydCBjYWNoaW5nIHRoZSB2b2x1bWUgdmFsdWUg
+Zm9yIHRoZSBjYXNlIHdoZXJlDQo+IHRoZQ0KPiArICogaGFyZHdhcmUgaXMgbm90IGVuYWJsZWQs
+IGFuZCBhbHNvIHRvIHN1cHBvcnQgbG9ja2luZyBhcyB2b2x1bWVzIDANCj4gYW5kIDENCj4gKyAq
+IGFyZSBpbiB0aGUgc2FtZSByZWdpc3Rlci4NCj4gKyAqLw0KPiArc3RhdGljIHVuc2lnbmVkIGlu
+dCB6eW5xbXBfZHBfZGFpX3JlYWQoc3RydWN0IHNuZF9zb2NfY29tcG9uZW50DQo+ICpjb21wb25l
+bnQsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVuc2lnbmVkIGlu
+dCByZWcpDQo+ICt7DQo+ICsgICAgICAgc3RydWN0IHp5bnFtcF9kcHN1YiAqZHBzdWIgPSBkZXZf
+Z2V0X2RydmRhdGEoY29tcG9uZW50LT5kZXYpOw0KPiArICAgICAgIHN0cnVjdCB6eW5xbXBfZHBz
+dWJfYXVkaW8gKmF1ZGlvID0gZHBzdWItPmF1ZGlvOw0KPiArDQo+ICsgICAgICAgcmV0dXJuIGF1
+ZGlvLT52b2x1bWVzW3JlZ107DQo+ICt9DQo+ICsNCj4gK3N0YXRpYyBpbnQgenlucW1wX2RwX2Rh
+aV93cml0ZShzdHJ1Y3Qgc25kX3NvY19jb21wb25lbnQNCj4gKmNvbXBvbmVudCwNCj4gKyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHVuc2lnbmVkIGludCByZWcsIHVuc2lnbmVkIGludCB2
+YWwpDQo+ICt7DQo+ICsgICAgICAgc3RydWN0IHp5bnFtcF9kcHN1YiAqZHBzdWIgPSBkZXZfZ2V0
+X2RydmRhdGEoY29tcG9uZW50LT5kZXYpOw0KPiArICAgICAgIHN0cnVjdCB6eW5xbXBfZHBzdWJf
+YXVkaW8gKmF1ZGlvID0gZHBzdWItPmF1ZGlvOw0KPiArDQo+ICsgICAgICAgbXV0ZXhfbG9jaygm
+YXVkaW8tPmVuYWJsZV9sb2NrKTsNCj4gKw0KPiArICAgICAgIGF1ZGlvLT52b2x1bWVzW3JlZ10g
+PSB2YWw7DQo+ICsNCj4gKyAgICAgICBpZiAoYXVkaW8tPmVuYWJsZWRfc3RyZWFtcykNCj4gKyAg
+ICAgICAgICAgICAgIHp5bnFtcF9kcF9hdWRpb193cml0ZShhdWRpbywNCj4gWllOUU1QX0RJU1Bf
+QVVEX01JWEVSX1ZPTFVNRSwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBhdWRpby0+dm9sdW1lc1swXSB8DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgKGF1ZGlvLT52b2x1bWVzWzFdIDw8IDE2KSk7DQo+ICsNCj4gKyAgICAgICBtdXRleF91
+bmxvY2soJmF1ZGlvLT5lbmFibGVfbG9jayk7DQo+ICsNCj4gKyAgICAgICByZXR1cm4gMDsNCj4g
+K30NCj4gKw0KPiArc3RhdGljIGNvbnN0IHN0cnVjdCBzbmRfc29jX2NvbXBvbmVudF9kcml2ZXIN
+Cj4genlucW1wX2RwX2NvbXBvbmVudF9kcml2ZXIgPSB7DQo+ICsgICAgICAgLmlkbGVfYmlhc19v
+biAgICAgICAgICAgPSAxLA0KPiArICAgICAgIC51c2VfcG1kb3duX3RpbWUgICAgICAgID0gMSwN
+Cj4gKyAgICAgICAuZW5kaWFubmVzcyAgICAgICAgICAgICA9IDEsDQo+ICsgICAgICAgLmNvbnRy
+b2xzICAgICAgICAgICAgICAgPSB6eW5xbXBfZHBfc25kX2NvbnRyb2xzLA0KPiArICAgICAgIC5u
+dW1fY29udHJvbHMgICAgICAgICAgID0gQVJSQVlfU0laRSh6eW5xbXBfZHBfc25kX2NvbnRyb2xz
+KSwNCj4gKyAgICAgICAucmVhZCAgICAgICAgICAgICAgICAgICA9IHp5bnFtcF9kcF9kYWlfcmVh
+ZCwNCj4gKyAgICAgICAud3JpdGUgICAgICAgICAgICAgICAgICA9IHp5bnFtcF9kcF9kYWlfd3Jp
+dGUsDQo+ICt9Ow0KPiArDQo+ICtpbnQgenlucW1wX2F1ZGlvX2luaXQoc3RydWN0IHp5bnFtcF9k
+cHN1YiAqZHBzdWIpDQo+ICt7DQo+ICsgICAgICAgc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRl
+diA9IHRvX3BsYXRmb3JtX2RldmljZShkcHN1Yi0+ZGV2KTsNCj4gKyAgICAgICBzdHJ1Y3QgZGV2
+aWNlICpkZXYgPSBkcHN1Yi0+ZGV2Ow0KPiArICAgICAgIHN0cnVjdCB6eW5xbXBfZHBzdWJfYXVk
+aW8gKmF1ZGlvOw0KPiArICAgICAgIHN0cnVjdCBzbmRfc29jX2NhcmQgKmNhcmQ7DQo+ICsgICAg
+ICAgdm9pZCAqZGV2X2RhdGE7DQo+ICsgICAgICAgaW50IHJldDsNCj4gKw0KPiArICAgICAgIGlm
+ICghZHBzdWItPmF1ZF9jbGspDQo+ICsgICAgICAgICAgICAgICByZXR1cm4gMDsNCj4gKw0KPiAr
+ICAgICAgIGF1ZGlvID0gZGV2bV9remFsbG9jKGRldiwgc2l6ZW9mKCphdWRpbyksIEdGUF9LRVJO
+RUwpOw0KPiArICAgICAgIGlmICghYXVkaW8pDQo+ICsgICAgICAgICAgICAgICByZXR1cm4gLUVO
+T01FTTsNCj4gKw0KPiArICAgICAgIGRwc3ViLT5hdWRpbyA9IGF1ZGlvOw0KPiArDQo+ICsgICAg
+ICAgbXV0ZXhfaW5pdCgmYXVkaW8tPmVuYWJsZV9sb2NrKTsNCj4gKw0KPiArICAgICAgIC8qIDB4
+MjAwMCBpcyB0aGUgemVybyBsZXZlbCwgbm8gY2hhbmdlICovDQo+ICsgICAgICAgYXVkaW8tPnZv
+bHVtZXNbMF0gPSAweDIwMDA7DQo+ICsgICAgICAgYXVkaW8tPnZvbHVtZXNbMV0gPSAweDIwMDA7
+DQo+ICsNCj4gKyAgICAgICBhdWRpby0+ZGFpX25hbWUgPSBkZXZtX2thc3ByaW50ZihkZXYsIEdG
+UF9LRVJORUwsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIiVz
+LWRhaSIsIGRldl9uYW1lKGRldikpOw0KPiArDQo+ICsgICAgICAgZm9yICh1bnNpZ25lZCBpbnQg
+aSA9IDA7IGkgPCBaWU5RTVBfTlVNX1BDTVM7ICsraSkgew0KPiArICAgICAgICAgICAgICAgYXVk
+aW8tPmxpbmtfbmFtZXNbaV0gPSBkZXZtX2thc3ByaW50ZihkZXYsIEdGUF9LRVJORUwsDQo+ICsg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICIlcy1k
+cC0ldSIsIGRldl9uYW1lKGRldiksIGkpOw0KPiArICAgICAgICAgICAgICAgYXVkaW8tPnBjbV9u
+YW1lc1tpXSA9IGRldm1fa2FzcHJpbnRmKGRldiwgR0ZQX0tFUk5FTCwNCj4gKyAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiJXMtcGNtLSV1IiwgZGV2
+X25hbWUoZGV2KSwgaSk7DQo+ICsgICAgICAgfQ0KPiArDQo+ICsgICAgICAgYXVkaW8tPmJhc2Ug
+PSBkZXZtX3BsYXRmb3JtX2lvcmVtYXBfcmVzb3VyY2VfYnluYW1lKHBkZXYsDQo+ICJhdWQiKTsN
+Cj4gKyAgICAgICBpZiAoSVNfRVJSKGF1ZGlvLT5iYXNlKSkNCj4gKyAgICAgICAgICAgICAgIHJl
+dHVybiBQVFJfRVJSKGF1ZGlvLT5iYXNlKTsNCj4gKw0KPiArICAgICAgIC8qIENyZWF0ZSBDUFUg
+REFJICovDQo+ICsNCj4gKyAgICAgICBhdWRpby0+ZGFpX2RyaXZlciA9IChzdHJ1Y3Qgc25kX3Nv
+Y19kYWlfZHJpdmVyKSB7DQo+ICsgICAgICAgICAgICAgICAubmFtZSAgICAgICAgICAgPSBhdWRp
+by0+ZGFpX25hbWUsDQo+ICsgICAgICAgICAgICAgICAub3BzICAgICAgICAgICAgPSAmenlucW1w
+X2RwX2RhaV9vcHMsDQo+ICsgICAgICAgICAgICAgICAucGxheWJhY2sgICAgICAgPSB7DQo+ICsg
+ICAgICAgICAgICAgICAgICAgICAgIC5jaGFubmVsc19taW4gICA9IDIsDQo+ICsgICAgICAgICAg
+ICAgICAgICAgICAgIC5jaGFubmVsc19tYXggICA9IDIsDQo+ICsgICAgICAgICAgICAgICAgICAg
+ICAgIC5yYXRlcyAgICAgICAgICA9IFNORFJWX1BDTV9SQVRFXzQ0MTAwIHwNCj4gU05EUlZfUENN
+X1JBVEVfNDgwMDAsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgIC5mb3JtYXRzICAgICAgICA9
+IFNORFJWX1BDTV9GTVRCSVRfUzE2X0xFLA0KPiArICAgICAgICAgICAgICAgfSwNCj4gKyAgICAg
+ICB9Ow0KPiArDQo+ICsgICAgICAgcmV0ID0gZGV2bV9zbmRfc29jX3JlZ2lzdGVyX2NvbXBvbmVu
+dChkZXYsDQo+ICZ6eW5xbXBfZHBfY29tcG9uZW50X2RyaXZlciwNCj4gKyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICZhdWRpby0+ZGFpX2RyaXZlciwgMSk7DQo+
+ICsgICAgICAgaWYgKHJldCkgew0KPiArICAgICAgICAgICAgICAgZGV2X2VycihkZXYsICJGYWls
+ZWQgdG8gcmVnaXN0ZXIgQ1BVIERBSVxuIik7DQo+ICsgICAgICAgICAgICAgICByZXR1cm4gcmV0
+Ow0KPiArICAgICAgIH0NCj4gKw0KPiArICAgICAgIC8qIENyZWF0ZSBQQ01zICovDQo+ICsNCj4g
+KyAgICAgICBmb3IgKHVuc2lnbmVkIGludCBpID0gMDsgaSA8IFpZTlFNUF9OVU1fUENNUzsgKytp
+KSB7DQo+ICsgICAgICAgICAgICAgICBzdHJ1Y3Qgc25kX2RtYWVuZ2luZV9wY21fY29uZmlnICpw
+Y21fY29uZmlnID0NCj4gKyAgICAgICAgICAgICAgICAgICAgICAgJmF1ZGlvLT5wY21fY29uZmln
+c1tpXTsNCj4gKw0KPiArICAgICAgICAgICAgICAgKnBjbV9jb25maWcgPSAoc3RydWN0IHNuZF9k
+bWFlbmdpbmVfcGNtX2NvbmZpZyl7DQo+ICsgICAgICAgICAgICAgICAgICAgICAgIC5uYW1lID0g
+YXVkaW8tPnBjbV9uYW1lc1tpXSwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgLnBjbV9oYXJk
+d2FyZSA9ICZ6eW5xbXBfZHBfcGNtX2h3LA0KPiArICAgICAgICAgICAgICAgICAgICAgICAucHJl
+YWxsb2NfYnVmZmVyX3NpemUgPSA2NCAqIDEwMjQsDQo+ICsgICAgICAgICAgICAgICAgICAgICAg
+IC5jaGFuX25hbWVzW1NORFJWX1BDTV9TVFJFQU1fUExBWUJBQ0tdID0NCj4gKyAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBpID09IDAgPyAiYXVkMCIgOiAiYXVkMSIsDQo+ICsgICAgICAg
+ICAgICAgICB9Ow0KPiArDQo+ICsgICAgICAgICAgICAgICByZXQgPSBkZXZtX3NuZF9kbWFlbmdp
+bmVfcGNtX3JlZ2lzdGVyKGRldiwgcGNtX2NvbmZpZywgMCk7DQo+ICsgICAgICAgICAgICAgICBp
+ZiAocmV0KSB7DQo+ICsgICAgICAgICAgICAgICAgICAgICAgIGRldl9lcnIoZGV2LCAiRmFpbGVk
+IHRvIHJlZ2lzdGVyIFBDTSAldVxuIiwgaSk7DQo+ICsgICAgICAgICAgICAgICAgICAgICAgIHJl
+dHVybiByZXQ7DQo+ICsgICAgICAgICAgICAgICB9DQo+ICsgICAgICAgfQ0KPiArDQo+ICsgICAg
+ICAgLyogQ3JlYXRlIGNhcmQgKi8NCj4gKw0KPiArICAgICAgIGNhcmQgPSAmYXVkaW8tPmNhcmQ7
+DQo+ICsgICAgICAgY2FyZC0+bmFtZSA9ICJEaXNwbGF5UG9ydCI7DQo+ICsgICAgICAgY2FyZC0+
+bG9uZ19uYW1lID0gIkRpc3BsYXlQb3J0IE1vbml0b3IiOw0KPiArICAgICAgIGNhcmQtPmRyaXZl
+cl9uYW1lID0gInp5bnFtcF9kcHN1YiI7DQo+ICsgICAgICAgY2FyZC0+ZGV2ID0gZGV2Ow0KPiAr
+ICAgICAgIGNhcmQtPm93bmVyID0gVEhJU19NT0RVTEU7DQo+ICsgICAgICAgY2FyZC0+bnVtX2xp
+bmtzID0gWllOUU1QX05VTV9QQ01TOw0KPiArICAgICAgIGNhcmQtPmRhaV9saW5rID0gYXVkaW8t
+PmxpbmtzOw0KPiArDQo+ICsgICAgICAgZm9yICh1bnNpZ25lZCBpbnQgaSA9IDA7IGkgPCBaWU5R
+TVBfTlVNX1BDTVM7ICsraSkgew0KPiArICAgICAgICAgICAgICAgc3RydWN0IHNuZF9zb2NfZGFp
+X2xpbmsgKmxpbmsgPSAmY2FyZC0+ZGFpX2xpbmtbaV07DQo+ICsNCj4gKyAgICAgICAgICAgICAg
+IGxpbmstPm9wcyA9ICZ6eW5xbXBfZHBfb3BzOw0KPiArDQo+ICsgICAgICAgICAgICAgICBsaW5r
+LT5uYW1lID0gYXVkaW8tPmxpbmtfbmFtZXNbaV07DQo+ICsgICAgICAgICAgICAgICBsaW5rLT5z
+dHJlYW1fbmFtZSA9IGF1ZGlvLT5saW5rX25hbWVzW2ldOw0KPiArDQo+ICsgICAgICAgICAgICAg
+ICBsaW5rLT5jcHVzID0gJmF1ZGlvLT5jb21wb25lbnRzW2ldLmNwdTsNCj4gKyAgICAgICAgICAg
+ICAgIGxpbmstPm51bV9jcHVzID0gMTsNCj4gKyAgICAgICAgICAgICAgIGxpbmstPmNwdXNbMF0u
+ZGFpX25hbWUgPSBhdWRpby0+ZGFpX25hbWU7DQo+ICsNCj4gKyAgICAgICAgICAgICAgIGxpbmst
+PmNvZGVjcyA9ICZhdWRpby0+Y29tcG9uZW50c1tpXS5jb2RlYzsNCj4gKyAgICAgICAgICAgICAg
+IGxpbmstPm51bV9jb2RlY3MgPSAxOw0KPiArICAgICAgICAgICAgICAgbGluay0+Y29kZWNzWzBd
+Lm5hbWUgPSAic25kLXNvYy1kdW1teSI7DQo+ICsgICAgICAgICAgICAgICBsaW5rLT5jb2RlY3Nb
+MF0uZGFpX25hbWUgPSAic25kLXNvYy1kdW1teS1kYWkiOw0KPiArDQo+ICsgICAgICAgICAgICAg
+ICBsaW5rLT5wbGF0Zm9ybXMgPSAmYXVkaW8tPmNvbXBvbmVudHNbaV0ucGxhdGZvcm07DQo+ICsg
+ICAgICAgICAgICAgICBsaW5rLT5udW1fcGxhdGZvcm1zID0gMTsNCj4gKyAgICAgICAgICAgICAg
+IGxpbmstPnBsYXRmb3Jtc1swXS5uYW1lID0gYXVkaW8tPnBjbV9uYW1lc1tpXTsNCj4gKyAgICAg
+ICB9DQo+ICsNCj4gKyAgICAgICAvKg0KPiArICAgICAgICAqIEhBQ0s6IGRldm1fc25kX3NvY19y
+ZWdpc3Rlcl9jYXJkKCkgb3ZlcndyaXRlcyBjdXJyZW50IGRydmRhdGENCj4gKyAgICAgICAgKiBz
+byB3ZSBuZWVkIHRvIGhhY2sgaXQgYmFjay4NCj4gKyAgICAgICAgKi8NCj4gKyAgICAgICBkZXZf
+ZGF0YSA9IGRldl9nZXRfZHJ2ZGF0YShkZXYpOw0KPiArICAgICAgIHJldCA9IGRldm1fc25kX3Nv
+Y19yZWdpc3Rlcl9jYXJkKGRldiwgY2FyZCk7DQo+ICsgICAgICAgZGV2X3NldF9kcnZkYXRhKGRl
+diwgZGV2X2RhdGEpOw0KPiArICAgICAgIGlmIChyZXQpIHsNCj4gKyAgICAgICAgICAgICAgIC8q
+DQo+ICsgICAgICAgICAgICAgICAgKiBBcyBvbGRlciBkdGJzIG1heSBub3QgaGF2ZSB0aGUgYXVk
+aW8gY2hhbm5lbCBkbWFzDQo+IGRlZmluZWQsDQo+ICsgICAgICAgICAgICAgICAgKiBpbnN0ZWFk
+IG9mIHJldHVybmluZyBhbiBlcnJvciBoZXJlIHdlJ2xsIGNvbnRpbnVlIGFuZCBqdXN0DQo+ICsg
+ICAgICAgICAgICAgICAgKiBtYXJrIHRoZSBhdWRpbyBhcyBkaXNhYmxlZC4NCj4gKyAgICAgICAg
+ICAgICAgICAqLw0KPiArICAgICAgICAgICAgICAgZGV2X2VycihkZXYsICJGYWlsZWQgdG8gcmVn
+aXN0ZXIgc291bmQgY2FyZCwgZGlzYWJsaW5nIGF1ZGlvDQo+IHN1cHBvcnRcbiIpOw0KPiArDQo+
+ICsgICAgICAgICAgICAgICBkZXZtX2tmcmVlKGRldiwgYXVkaW8pOw0KPiArICAgICAgICAgICAg
+ICAgZHBzdWItPmF1ZGlvID0gTlVMTDsNCj4gKw0KPiArICAgICAgICAgICAgICAgcmV0dXJuIDA7
+DQo+ICsgICAgICAgfQ0KPiArDQo+ICsgICAgICAgcmV0dXJuIDA7DQo+ICt9DQo+ICsNCj4gK3Zv
+aWQgenlucW1wX2F1ZGlvX3VuaW5pdChzdHJ1Y3QgenlucW1wX2Rwc3ViICpkcHN1YikNCj4gK3sN
+Cj4gKyAgICAgICBzdHJ1Y3QgenlucW1wX2Rwc3ViX2F1ZGlvICphdWRpbyA9IGRwc3ViLT5hdWRp
+bzsNCj4gKw0KPiArICAgICAgIGlmICghYXVkaW8pDQo+ICsgICAgICAgICAgICAgICByZXR1cm47
+DQo+ICsNCj4gKyAgICAgICBpZiAoIWRwc3ViLT5hdWRfY2xrKQ0KPiArICAgICAgICAgICAgICAg
+cmV0dXJuOw0KPiArDQo+ICsgICAgICAgbXV0ZXhfZGVzdHJveSgmYXVkaW8tPmVuYWJsZV9sb2Nr
+KTsNCj4gK30NCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS94bG54L3p5bnFtcF9kcHN1
+Yi5jDQo+IGIvZHJpdmVycy9ncHUvZHJtL3hsbngvenlucW1wX2Rwc3ViLmMNCj4gaW5kZXggODhl
+YjMzYWNkNWYwLi4yYjdkZDM4ZDNkZWYgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS94
+bG54L3p5bnFtcF9kcHN1Yi5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS94bG54L3p5bnFtcF9k
+cHN1Yi5jDQo+IEBAIC01NiwzNiArNTYsNiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRldl9wbV9v
+cHMNCj4genlucW1wX2Rwc3ViX3BtX29wcyA9IHsNCj4gICAgICAgICBTRVRfU1lTVEVNX1NMRUVQ
+X1BNX09QUyh6eW5xbXBfZHBzdWJfc3VzcGVuZCwNCj4genlucW1wX2Rwc3ViX3Jlc3VtZSkNCj4g
+IH07DQo+IA0KPiAtLyogLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gLSAqIERQU1VCIENvbmZpZ3Vy
+YXRpb24NCj4gLSAqLw0KPiAtDQo+IC0vKioNCj4gLSAqIHp5bnFtcF9kcHN1Yl9hdWRpb19lbmFi
+bGVkIC0gSWYgdGhlIGF1ZGlvIGlzIGVuYWJsZWQNCj4gLSAqIEBkcHN1YjogRGlzcGxheVBvcnQg
+c3Vic3lzdGVtDQo+IC0gKg0KPiAtICogUmV0dXJuIGlmIHRoZSBhdWRpbyBpcyBlbmFibGVkIGRl
+cGVuZGluZyBvbiB0aGUgYXVkaW8gY2xvY2suDQo+IC0gKg0KPiAtICogUmV0dXJuOiB0cnVlIGlm
+IGF1ZGlvIGlzIGVuYWJsZWQsIG9yIGZhbHNlLg0KPiAtICovDQo+IC1ib29sIHp5bnFtcF9kcHN1
+Yl9hdWRpb19lbmFibGVkKHN0cnVjdCB6eW5xbXBfZHBzdWIgKmRwc3ViKQ0KPiAtew0KPiAtICAg
+ICAgIHJldHVybiAhIWRwc3ViLT5hdWRfY2xrOw0KPiAtfQ0KPiAtDQo+IC0vKioNCj4gLSAqIHp5
+bnFtcF9kcHN1Yl9nZXRfYXVkaW9fY2xrX3JhdGUgLSBHZXQgdGhlIGN1cnJlbnQgYXVkaW8gY2xv
+Y2sgcmF0ZQ0KPiAtICogQGRwc3ViOiBEaXNwbGF5UG9ydCBzdWJzeXN0ZW0NCj4gLSAqDQo+IC0g
+KiBSZXR1cm46IHRoZSBjdXJyZW50IGF1ZGlvIGNsb2NrIHJhdGUuDQo+IC0gKi8NCj4gLXVuc2ln
+bmVkIGludCB6eW5xbXBfZHBzdWJfZ2V0X2F1ZGlvX2Nsa19yYXRlKHN0cnVjdCB6eW5xbXBfZHBz
+dWINCj4gKmRwc3ViKQ0KPiAtew0KPiAtICAgICAgIGlmICh6eW5xbXBfZHBzdWJfYXVkaW9fZW5h
+YmxlZChkcHN1YikpDQo+IC0gICAgICAgICAgICAgICByZXR1cm4gMDsNCj4gLSAgICAgICByZXR1
+cm4gY2xrX2dldF9yYXRlKGRwc3ViLT5hdWRfY2xrKTsNCj4gLX0NCj4gLQ0KPiAgLyogLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0NCj4gICAqIFByb2JlICYgUmVtb3ZlDQo+ICAgKi8NCj4gQEAgLTI2NCwx
+MCArMjM0LDE3IEBAIHN0YXRpYyBpbnQgenlucW1wX2Rwc3ViX3Byb2JlKHN0cnVjdA0KPiBwbGF0
+Zm9ybV9kZXZpY2UgKnBkZXYpDQo+ICAgICAgICAgICAgICAgICBkcm1fYnJpZGdlX2FkZChkcHN1
+Yi0+YnJpZGdlKTsNCj4gICAgICAgICB9DQo+IA0KPiArICAgICAgIHJldCA9IHp5bnFtcF9hdWRp
+b19pbml0KGRwc3ViKTsNCj4gKyAgICAgICBpZiAocmV0KQ0KPiArICAgICAgICAgICAgICAgZ290
+byBlcnJfZHJtX2NsZWFudXA7DQo+ICsNCj4gICAgICAgICBkZXZfaW5mbygmcGRldi0+ZGV2LCAi
+WnlucU1QIERpc3BsYXlQb3J0IFN1YnN5c3RlbSBkcml2ZXINCj4gcHJvYmVkIik7DQo+IA0KPiAg
+ICAgICAgIHJldHVybiAwOw0KPiANCj4gK2Vycl9kcm1fY2xlYW51cDoNCj4gKyAgICAgICBpZiAo
+ZHBzdWItPmRybSkNCj4gKyAgICAgICAgICAgICAgIHp5bnFtcF9kcHN1Yl9kcm1fY2xlYW51cChk
+cHN1Yik7DQo+ICBlcnJfZGlzcDoNCj4gICAgICAgICB6eW5xbXBfZGlzcF9yZW1vdmUoZHBzdWIp
+Ow0KPiAgZXJyX2RwOg0KPiBAQCAtMjg2LDYgKzI2Myw4IEBAIHN0YXRpYyB2b2lkIHp5bnFtcF9k
+cHN1Yl9yZW1vdmUoc3RydWN0DQo+IHBsYXRmb3JtX2RldmljZSAqcGRldikNCj4gIHsNCj4gICAg
+ICAgICBzdHJ1Y3QgenlucW1wX2Rwc3ViICpkcHN1YiA9IHBsYXRmb3JtX2dldF9kcnZkYXRhKHBk
+ZXYpOw0KPiANCj4gKyAgICAgICB6eW5xbXBfYXVkaW9fdW5pbml0KGRwc3ViKTsNCj4gKw0KPiAg
+ICAgICAgIGlmIChkcHN1Yi0+ZHJtKQ0KPiAgICAgICAgICAgICAgICAgenlucW1wX2Rwc3ViX2Ry
+bV9jbGVhbnVwKGRwc3ViKTsNCj4gICAgICAgICBlbHNlDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJz
+L2dwdS9kcm0veGxueC96eW5xbXBfZHBzdWIuaA0KPiBiL2RyaXZlcnMvZ3B1L2RybS94bG54L3p5
+bnFtcF9kcHN1Yi5oDQo+IGluZGV4IDA5ZWEwMTg3OGYyYS4uOTk1MWQwMTc2NDc2IDEwMDY0NA0K
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0veGxueC96eW5xbXBfZHBzdWIuaA0KPiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0veGxueC96eW5xbXBfZHBzdWIuaA0KPiBAQCAtMTIsNiArMTIsOCBAQA0KPiAg
+I2lmbmRlZiBfWllOUU1QX0RQU1VCX0hfDQo+ICAjZGVmaW5lIF9aWU5RTVBfRFBTVUJfSF8NCj4g
+DQo+ICsjaW5jbHVkZSA8bGludXgvdHlwZXMuaD4NCj4gKw0KPiAgc3RydWN0IGNsazsNCj4gIHN0
+cnVjdCBkZXZpY2U7DQo+ICBzdHJ1Y3QgZHJtX2JyaWRnZTsNCj4gQEAgLTM5LDYgKzQxLDggQEAg
+ZW51bSB6eW5xbXBfZHBzdWJfZm9ybWF0IHsNCj4gICAgICAgICBaWU5RTVBfRFBTVUJfRk9STUFU
+X1lPTkxZLA0KPiAgfTsNCj4gDQo+ICtzdHJ1Y3QgenlucW1wX2Rwc3ViX2F1ZGlvOw0KPiArDQo+
+ICAvKioNCj4gICAqIHN0cnVjdCB6eW5xbXBfZHBzdWIgLSBaeW5xTVAgRGlzcGxheVBvcnQgU3Vi
+c3lzdGVtDQo+ICAgKiBAZGV2OiBUaGUgcGh5c2ljYWwgZGV2aWNlDQo+IEBAIC03NiwxMCArODAs
+MTcgQEAgc3RydWN0IHp5bnFtcF9kcHN1YiB7DQo+ICAgICAgICAgc3RydWN0IHp5bnFtcF9kcCAq
+ZHA7DQo+IA0KPiAgICAgICAgIHVuc2lnbmVkIGludCBkbWFfYWxpZ247DQo+ICsNCj4gKyAgICAg
+ICBzdHJ1Y3QgenlucW1wX2Rwc3ViX2F1ZGlvICphdWRpbzsNCj4gIH07DQo+IA0KPiAtYm9vbCB6
+eW5xbXBfZHBzdWJfYXVkaW9fZW5hYmxlZChzdHJ1Y3QgenlucW1wX2Rwc3ViICpkcHN1Yik7DQo+
+IC11bnNpZ25lZCBpbnQgenlucW1wX2Rwc3ViX2dldF9hdWRpb19jbGtfcmF0ZShzdHJ1Y3Qgenlu
+cW1wX2Rwc3ViDQo+ICpkcHN1Yik7DQo+ICsjaWZkZWYgQ09ORklHX0RSTV9aWU5RTVBfRFBTVUJf
+QVVESU8NCj4gK2ludCB6eW5xbXBfYXVkaW9faW5pdChzdHJ1Y3QgenlucW1wX2Rwc3ViICpkcHN1
+Yik7DQo+ICt2b2lkIHp5bnFtcF9hdWRpb191bmluaXQoc3RydWN0IHp5bnFtcF9kcHN1YiAqZHBz
+dWIpOw0KPiArI2Vsc2UNCj4gK3N0YXRpYyBpbmxpbmUgaW50IHp5bnFtcF9hdWRpb19pbml0KHN0
+cnVjdCB6eW5xbXBfZHBzdWIgKmRwc3ViKSB7DQo+IHJldHVybiAwOyB9DQo+ICtzdGF0aWMgaW5s
+aW5lIHZvaWQgenlucW1wX2F1ZGlvX3VuaW5pdChzdHJ1Y3QgenlucW1wX2Rwc3ViICpkcHN1Yikg
+ew0KPiB9DQo+ICsjZW5kaWYNCj4gDQo+ICB2b2lkIHp5bnFtcF9kcHN1Yl9yZWxlYXNlKHN0cnVj
+dCB6eW5xbXBfZHBzdWIgKmRwc3ViKTsNCj4gDQo+IA0KPiAtLQ0KPiAyLjM0LjENCg0KVGhhbmsg
+eW91LA0KQW5hdG9saXkNCg0K
