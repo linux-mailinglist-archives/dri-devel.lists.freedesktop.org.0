@@ -2,37 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 898E3895EF7
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 23:54:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1509895FC7
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 00:49:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 684AD112090;
-	Tue,  2 Apr 2024 21:54:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3040F11212C;
+	Tue,  2 Apr 2024 22:49:02 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=pm.me header.i=@pm.me header.b="SwvVNHVe";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 85ACA112090
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 21:54:35 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 73ECA1042;
- Tue,  2 Apr 2024 14:55:06 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 37C083F7B4;
- Tue,  2 Apr 2024 14:54:34 -0700 (PDT)
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Steven Price <steven.price@arm.com>
-Subject: [PATCH 2/2] drm/panthor: Fix some kerneldoc warnings
-Date: Tue,  2 Apr 2024 22:54:23 +0100
-Message-ID: <20240402215423.360341-2-liviu.dudau@arm.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240402215423.360341-1-liviu.dudau@arm.com>
-References: <20240402215423.360341-1-liviu.dudau@arm.com>
+Received: from mail-41104.protonmail.ch (mail-41104.protonmail.ch
+ [185.70.41.104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 231EA10EEB4
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 22:43:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+ s=protonmail3; t=1712097819; x=1712357019;
+ bh=MR7zmTwADGewdo6zllRIZ/UTARO0kkmfGknWcirmVYw=;
+ h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+ Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=SwvVNHVeQJJLFM/VFfha1Ro2bdtkvE5DpYjEM//3CSt7emQnfjGMN3H8Jh9Th1BpZ
+ sOMXFe42Ta/5TWlWUm2Pm5Z3YpV+dv1CPiUEbtSHWM/VQ4gwcdG+45l7GQZw07geXP
+ 5v33aTQ5VxoWG/NUBE0tzO7FAuVwsgnehs17WP8Z2WSSfm1AY1spHktsK0VFKDMmxU
+ rU4lRvX2DR+Vl55p7RNoB+75Z8cCpMxMVS6O8W2tSFnpZsnb1dziTx+uZ0U76iknzn
+ pKA4KLXlhGAsBr14vknhm26iFGg+oOZoB1Vq7IPZpuAX+1qW8zEF8QigG7rTl/nE/S
+ 5J5UaalFVPJNg==
+Date: Tue, 02 Apr 2024 22:43:30 +0000
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+From: Nicolas Devos <ndevos-dev@pm.me>
+Cc: Nicolas Devos <ndevos-dev@pm.me>
+Subject: [PATCH 0/4] gpu/drm: Fix checkpatch warnings in drm_connector.c
+Message-ID: <20240402224320.12146-1-ndevos-dev@pm.me>
+Feedback-ID: 76711691:user:proton
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Tue, 02 Apr 2024 22:48:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,58 +56,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When compiling with W=1 the build process will flag empty comments,
-misnamed documented variables and incorrect tagging of functions.
-Fix them in one go.
+Hello,
 
-Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
-Cc: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>
-Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
----
- drivers/gpu/drm/panthor/panthor_sched.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+First time contributor here, I am getting familiar with the flow by
+fixing some checkpatch warnings. This patch series fixes the warnings of
+drivers/gpu/drm/drm_connector.c.
 
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index e5a710f190d2a8..a787f2fea33e98 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -517,7 +517,7 @@ struct panthor_group {
- 	/** @max_compute_cores: Maximum number of shader cores used for compute jobs. */
- 	u8 max_compute_cores;
- 
--	/** @max_compute_cores: Maximum number of shader cores used for fragment jobs. */
-+	/** @max_fragment_cores: Maximum number of shader cores used for fragment jobs. */
- 	u8 max_fragment_cores;
- 
- 	/** @max_tiler_cores: Maximum number of tiler cores used for tiler jobs. */
-@@ -993,7 +993,7 @@ cs_slot_prog_locked(struct panthor_device *ptdev, u32 csg_id, u32 cs_id)
- }
- 
- /**
-- * @cs_slot_reset_locked() - Reset a queue slot
-+ * cs_slot_reset_locked() - Reset a queue slot
-  * @ptdev: Device.
-  * @csg_id: Group slot.
-  * @cs_id: Queue slot.
-@@ -1591,7 +1591,7 @@ static void sched_process_idle_event_locked(struct panthor_device *ptdev)
- }
- 
- /**
-- * panthor_sched_process_global_irq() - Process the scheduling part of a global IRQ
-+ * sched_process_global_irq_locked() - Process the scheduling part of a global IRQ
-  * @ptdev: Device.
-  */
- static void sched_process_global_irq_locked(struct panthor_device *ptdev)
-@@ -1660,8 +1660,6 @@ static const struct dma_fence_ops panthor_queue_fence_ops = {
- 	.get_timeline_name = queue_fence_get_timeline_name,
- };
- 
--/**
-- */
- struct panthor_csg_slots_upd_ctx {
- 	u32 update_mask;
- 	u32 timedout_mask;
--- 
-2.44.0
+The result is 4 patches that each address a separate issue raised by
+the checkpatch.pl script.
+
+My initial attempt [1] was not accepted, this patch series addresses the
+given review comments.
+
+Please, let me know if something is not as expected.
+
+[1]: https://lore.kernel.org/all/20240222204450.7943-1-ndevos-dev@pm.me/
+
+Nicolas Devos (4):
+  gpu/drm: Add SPDX-license-Identifier tag
+  gpu/drm: Remove unnecessary braces
+  gpu/drm: Prefer `unsigned int` over `unsigned`
+  gpu/drm: Replace tabs with spaces in comments
+
+ drivers/gpu/drm/drm_connector.c | 722 ++++++++++++++++----------------
+ 1 file changed, 361 insertions(+), 361 deletions(-)
+
+--=20
+2.42.0
+
 
