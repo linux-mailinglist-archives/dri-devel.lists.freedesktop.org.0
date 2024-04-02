@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5868889499A
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 04:51:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B72894994
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 04:51:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 414A610F816;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 129CC10F818;
 	Tue,  2 Apr 2024 02:51:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FtfHOWcL";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZwGOnw+o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82DD110F818
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E038E10F816
  for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 02:51:47 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-513cf9bacf1so5861155e87.0
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-51588f70d2dso6204901e87.3
  for <dri-devel@lists.freedesktop.org>; Mon, 01 Apr 2024 19:51:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712026305; x=1712631105; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=u51beO54X0b9gZ2OYRcuCm7ajK6+8XO/iEIFNJnKcqQ=;
- b=FtfHOWcL7go98gtv0BlTaBvY88fy2O/JOKuCMf/JCSm+bTNZ5Ued9y6A/YYdz7M/Ze
- LAvm+tTDIY0Jc73tzkagCFCSPY5nDnxmg0Ocxq+SJ7CN0YjTaXhsypiP72hqidSGDjtJ
- qrXxS0GGpgEm/5mwzyZnhgfQjJvm/vhwyzySNv+Pxro5rYCGcb2XwPrKfNl7Vv1K9yOV
- bM+t72VFB+o613HcQ2IzQRqa+PkXKElkUTJ8tlOK8+0IX2Bpo/kGesv4nbpoNRZL4wGX
- 4ZURXIBuUsiyl7BCsKNVtaFPU0weGPQIV7579uc0FZylWVoXcTjpTb8UQ0UOl1DScXLJ
- piqA==
+ d=linaro.org; s=google; t=1712026306; x=1712631106; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=/uwZxnjfekbVPxIm3NgmC3jP31Q9QBFu1AAINEMokbA=;
+ b=ZwGOnw+oDAZjItKmADgCYkPQLL3og5zghye5OOT3tbSkIAUBT2UDGlf2gd1hpXY16Z
+ Gh0zC97BgLHFxBN6c9IXy79i2o07BddA8CtG619pngHRywlUO5h+0nLeVqkEhk6Bhqnj
+ H3ZgbBav6hXHsMxZfR78dsOwTfWSkcsqbGMRTZUkRVOxKqdyJE7SOZR9svqO8fdffXt+
+ /YY45MoUYxEcEfAsnJVilLZDnMAPKjqvxYsowtbV0MXGkqsNpw1dx0kRgEi9WdlzD1uG
+ xLEqKCmXBWdIBVE2rCvaQ5rzO4KNsLAWNz88DsK5HsJGMwIyV0eW6KRGJiV5AVdSe99E
+ y+PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712026305; x=1712631105;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=u51beO54X0b9gZ2OYRcuCm7ajK6+8XO/iEIFNJnKcqQ=;
- b=rzbLFBtd2OZON5njOYqK9xgAxfT6dHDvhhrzLxICiHYnOTmiHAzYqEIGFV2i4BLX+c
- 83UTsnnPfx0f151RTF076ucLlflupbklcFYhXjSiZbpaDzNf1Y5cEvDZed+ct6PRN7N2
- UdiYXxmvMBuz7Xpq2GL9Ff7cwUUN3JYvKBxjifLwrx/GCeKp2L4FOOcLRrlKFP9uNxsV
- ZIKdUO5VGQzPWnFjnkj2tz+1hKopXGyNYEwkIM2BtC8mPjbTXq8JVNa+v6B5Hu8ajyi1
- 66WZjSBzvDbRic+HiWc/rcdlgCfPhS0BOqjzyVqChUoAmobTPOrC0I88usXMW52nkP76
- 9gqQ==
+ d=1e100.net; s=20230601; t=1712026306; x=1712631106;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/uwZxnjfekbVPxIm3NgmC3jP31Q9QBFu1AAINEMokbA=;
+ b=RwbHVJ1OS0Cxk93yVVJI/16twiQiH2qgxD77IAn0YUIbM1blESkrmDk7cKP/vW1+5F
+ P+NyITyNu4O8P49Uik9TVSdis5tkGYoFTO7Bw27qhWDPybyU7Q0HI+93F7smhScUWtZ6
+ VuztH19TOVMhdb1BwUotrft7+JTmnbgYTJGoH0TJUJp3n020hGc+cnBuedhI0Sn9QxqR
+ kPi0FkYnVsYVY7Sz4I0M/FN92kYx8/PIfbsMsCXyo/apTsb57gPCCErctVaEmR4KNASe
+ RhhMs48NjPvd3OKAK9w7LPZV44PdmNyRPpkxUdIFv6rO6oelaUHHlda1bUaXRck3/c4E
+ R+hw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUqSpQIJP6k8WO0OTXk6X8oyuVIqhxmP3oyuavORuVYDjtYSWvlO5qfIrrTlAGBjlzoAkK2aoSNjggg9UNqrnhpKG3Sgv/5cZRr6EcJe68z
-X-Gm-Message-State: AOJu0YxRTydNWF8Juqurz3P0jl0GZGP7AHgo5hL7ooJZHIoKT/Mpp6co
- k3cxvh9N1do7CUtCr+3GwfkkzKFhJHAHFw5qvsY4TbvgyJPNEcpGAIL6N/3QllM=
-X-Google-Smtp-Source: AGHT+IFlJxD1nqWGkA3INBWqc4UKgZGBwfU7efLJ9fDsv0OO5y9LIXZl7K0eYhbMWxAwA3+bti7n9Q==
-X-Received: by 2002:a05:6512:3d0a:b0:516:a978:7b06 with SMTP id
- d10-20020a0565123d0a00b00516a9787b06mr4216248lfv.5.1712026305116; 
+ AJvYcCW701Xor9dW6ptA2tE3fKd2DLycShGkz3WEY8X3CZhFN/JAvLskwc6WHyrbee3wm1LN1JTLQoQDMG7AYcPOFA9KRJWSZA65paDlkp5R1xCL
+X-Gm-Message-State: AOJu0YzJ3mPMX1IRJCv0AYPe3H+Rw6I1qxErDxxZzVOfRtNJh9mt+ROl
+ OhBOy8rZH3tZm/wC/CtEe1tpXuwynlOJRcETilSitDu5ceZLHqUtSN/pYWkUi4VCPFiwXkKtO+L
+ f
+X-Google-Smtp-Source: AGHT+IFeQ4+VkXvXKg2bCoXDwCQ4K+jyRjP9HcxqaqguEWln7ZtxPBY6gnvTPz2mDKcrsBObfpcVPA==
+X-Received: by 2002:a05:6512:3e08:b0:515:d24e:4e2e with SMTP id
+ i8-20020a0565123e0800b00515d24e4e2emr8663492lfv.20.1712026305821; 
  Mon, 01 Apr 2024 19:51:45 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- h26-20020ac24dba000000b00516a1e2a6fcsm738824lfe.256.2024.04.01.19.51.44
+ h26-20020ac24dba000000b00516a1e2a6fcsm738824lfe.256.2024.04.01.19.51.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Apr 2024 19:51:44 -0700 (PDT)
+ Mon, 01 Apr 2024 19:51:45 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v2 0/4] arm64: dts: fix several display-related schema warnings
-Date: Tue, 02 Apr 2024 05:51:42 +0300
-Message-Id: <20240402-fd-fix-schema-v2-0-39bf90051d83@linaro.org>
+Date: Tue, 02 Apr 2024 05:51:43 +0300
+Subject: [PATCH v2 1/4] dt-bindings: display/msm: sm8150-mdss: add DP node
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAL5yC2YC/3WMyw7CIBREf6W5a68prxpc+R+mCyzQ3kShAUM0D
- f8u7d7M6sxkzgbZJXIZrt0GyRXKFEMDfupgWkyYHZJtDLznshd8QG/R0wfztLiXwYdmXkujFRM
- K2mdNrq2H7z42Xii/Y/oe+sL29p+pMOxRyouywx4hbk8KJsVzTDOMtdYfk7X/VqsAAAA=
+Message-Id: <20240402-fd-fix-schema-v2-1-39bf90051d83@linaro.org>
+References: <20240402-fd-fix-schema-v2-0-39bf90051d83@linaro.org>
+In-Reply-To: <20240402-fd-fix-schema-v2-0-39bf90051d83@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
  Marijn Suijten <marijn.suijten@somainline.org>, 
@@ -78,16 +78,16 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1016;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1111;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=y5XQgkEoklAcMcBMPDOFMsdTPOYsPlqbCmGO9xsOB6M=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmC3K/TA5piUtvLCcIOV/X+jNAFTzxG6/hS3/cQ
- rdlHxmDYE6JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZgtyvwAKCRCLPIo+Aiko
- 1XgoB/9W5jpGsTHB+uKoc2v4f+cudCOlCoyXPZZK+DzId83JSBnqmrKueem1SagMmXXqW3+gS6C
- GfxQYyBtyk9kAX16xj+FVBiCwzNpx38OoQWYLVwRsPLRLb6qdS+5chK1Tqtl5RusRrx5WO2C/fk
- cuqTiC+iCuxMfhBQPJERRL+0XeLr+RsFm7Hx55T3DnUiofWhfN7U4aSNx/97ezgehv+ZDd576W8
- hORcdkAsajwaV0oHSSQsGlgWlyIfDFWs22qOZRPe9GRvJmPbYqa3Dp3PBz3M6DpFV5lowLaJ1uP
- HvsgOI3Alkgx73KPu2jxthfAhktxxHnLr2BDm/y3Lg8xSVbj
+ bh=/SFcU8Z7m12JUWBj7jBl6oeySfA8J1iODLj5nSrz7GQ=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmC3K/Ag+vqCLVskhF2HaiDAo4jjfRUIeLKy2cV
+ KXdjUrVzpmJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZgtyvwAKCRCLPIo+Aiko
+ 1XOgB/9AbWI43J4MrsBnywBHEFBCIuHF8FF7xW53Tqne68jpitqrweFqFF/GqCxvy2KyZyhXJzB
+ Q3y5bW5pBv3kVYEzbmbHqpL1iXglRO+gGfKI220ZvtWSigHl2k4pZtvvxElIhbB9hm5n8+5ONWF
+ 8a9oHA8Rb/johEEJw0jljoeKWGyJQoJGa3hZek6eHXwEZPcnOgMIpGEki9tG3JFNqeJZsyVlHF5
+ OvvYsp1aaTT6R7YugXduUDNbGxYtHL3bvawoKqdqVVvnTRzajfHHNtQU/Tb3p1V8bsba1Q7NSZp
+ z95u/aaLjMaATVHDUzjSb/DkiLdiEPfaO4YMpb8Mvm1TOUxr
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,30 +105,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix several warnings produced by the display nodes.
+As Qualcomm SM8150 got support for the DisplayPort, add displayport@
+node as a valid child to the MDSS node.
 
+Fixes: 88806318e2c2 ("dt-bindings: display: msm: dp: declare compatible string for sm8150")
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-Changes in v2:
-- Added Fixes tag to the DP change (Abhinav)
-- Switched the schema patch to use contains (Krzysztof)
-- Link to v1: https://lore.kernel.org/r/20240326-fd-fix-schema-v1-0-4475d6d6d633@linaro.org
+ .../devicetree/bindings/display/msm/qcom,sm8150-mdss.yaml        | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
----
-Dmitry Baryshkov (4):
-      dt-bindings: display/msm: sm8150-mdss: add DP node
-      arm64: dts: qcom: sc8180x: drop legacy property #stream-id-cells
-      arm64: dts: qcom: sc8180x: Drop flags for mdss irqs
-      arm64: dts: qcom: sc8180x: add dp_p1 register blocks to DP nodes
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8150-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8150-mdss.yaml
+index c0d6a4fdff97..e6dc5494baee 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,sm8150-mdss.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8150-mdss.yaml
+@@ -53,6 +53,15 @@ patternProperties:
+       compatible:
+         const: qcom,sm8150-dpu
+ 
++  "^displayport-controller@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        contains:
++          const: qcom,sm8150-dp
++
+   "^dsi@[0-9a-f]+$":
+     type: object
+     additionalProperties: true
 
- .../devicetree/bindings/display/msm/qcom,sm8150-mdss.yaml   |  9 +++++++++
- arch/arm64/boot/dts/qcom/sc8180x.dtsi                       | 13 +++++++------
- 2 files changed, 16 insertions(+), 6 deletions(-)
----
-base-commit: a6bd6c9333397f5a0e2667d4d82fef8c970108f2
-change-id: 20240326-fd-fix-schema-b91f94a95135
-
-Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.39.2
 
