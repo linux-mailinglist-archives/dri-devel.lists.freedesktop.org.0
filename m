@@ -2,167 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EF2F8951BE
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 13:24:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9D9E8951D9
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 13:31:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1C3C10FC83;
-	Tue,  2 Apr 2024 11:24:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C345510F243;
+	Tue,  2 Apr 2024 11:31:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="V/0GGysc";
-	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="SNIdDyCr";
+	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="3+PWiZnt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F41010FC83
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 11:24:17 +0000 (UTC)
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 4327ibk5005854; Tue, 2 Apr 2024 11:24:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2023-11-20;
- bh=RobBsQwgamdvtjqikdbxkKFcJc9hwjq6mRt5HtwphBg=;
- b=V/0GGyscRvZ5AyHxDA7cd8kzGtiu5JGU5aRjrRfKnTrfmxO8LTBwvcJ+eH7KhHt0T34c
- TIm02y0QDUf+mObRtXLwvWNurKE8LMZw3ykcPHG+jrkawynzCJ4EeKzEWq7wpANFsGxH
- 3iYf0vt1apTUktTq4HHf2m9C9/b0ZDQrJihGy8JECk1459FN/bQeEqHbENeJRuXQ38zV
- Xh3jxRtVFVPw3cr7GSGKb2G9DTDMMcPwV8WbUovFaRtZHpO7f7+gFnIFYa91YAfO63C/
- XWr6cGBU5wpf+Bl3PVCb8Vt0vsuwyE7JdrJtwhaaUnCD92yCJyJV6rLAroKYKtZqVKHk fw== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3x69ncmfbp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 02 Apr 2024 11:24:06 +0000
-Received: from pps.filterd
- (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19)
- with ESMTP id 432B23oR008507; Tue, 2 Apr 2024 11:24:05 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2101.outbound.protection.outlook.com [104.47.55.101])
- by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3x696d6ed7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 02 Apr 2024 11:24:05 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PASyL6duXrU43XyT+u68R5RjYW+cTtR/RwX7TFqSrT+pK3xQlwzowYCKP/xpP/XZol+BtplpSX43ItOWWJhKybk2WGAwBk4Z93Iyoexqtt+YjGN3qbDSP4LDXUcaIRc+khCU9Z/HjvPeEz4atGpt+9gUdTOXfXH5H8JjvczmYcnOGCHa7hriuS68PQwleFQuO3aprY1T9eOZZx69mTjDuBZ0+IMIDkCDdcjCTt6aAtVGQ3MUdRtE+ZmQCd9oVqKkIc4nwEZ4JHoGbrPPNJgqYGVtr77AcdgtMh1s2JMpo142pakZ6WXvfT4KolGojB/LTl3ebSUBGCj4LTdgYHnSVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RobBsQwgamdvtjqikdbxkKFcJc9hwjq6mRt5HtwphBg=;
- b=LEKAnF4dOKdBmbWlGdgJlycuiXg0UMnfHb5Uh9LrxoISOnQ6J0CcffnZ13ax/FjYgnSYqk78GyUDcQ5PoeVYxJ5Dz8HXs0l+d9gJnlg/pxPoxkKTDtekVD07KbZmx4DcvtbpzZ+HiTm0SkxAb+27tPx6oFiMIRPss4d1iBD4zHyQ51FRhEbMUTLaCH7/zfai7bFW/7F9Ad4vKTpj01bAMQSIOcV8Tpz6h9W+OAmkFmdExUO4j1ND+PI+0qMlFpFrtMQrjqQ09v5/cVUY06SNevscO7FMfQJg9xC0uGU2RJRziXzcVM1fVnhopcHxuq66EanAjLpGflE2OQW5g0vcJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RobBsQwgamdvtjqikdbxkKFcJc9hwjq6mRt5HtwphBg=;
- b=SNIdDyCriU8NMaaxH3Ui4AMCzsbcUDgPI/czgw1580ElnxJLiQkkROve/ERdS+t3jPmQcRNjBCHdbMIq7fL/efhR1Pbyrz864177AwI898XQUHlGhDSAYiQkj5axxyrBxcRwQexOx0CqkdjtgtYWyGdiyxKWVjiBsXucW3abzMw=
-Received: from PH8PR10MB6290.namprd10.prod.outlook.com (2603:10b6:510:1c1::7)
- by PH7PR10MB6311.namprd10.prod.outlook.com (2603:10b6:510:1b2::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Tue, 2 Apr
- 2024 11:24:02 +0000
-Received: from PH8PR10MB6290.namprd10.prod.outlook.com
- ([fe80::f5ee:d47b:69b8:2e89]) by PH8PR10MB6290.namprd10.prod.outlook.com
- ([fe80::f5ee:d47b:69b8:2e89%3]) with mapi id 15.20.7409.042; Tue, 2 Apr 2024
- 11:24:02 +0000
-Message-ID: <6a6ebf5a-da64-4c5b-b819-cbcbb097fb55@oracle.com>
-Date: Tue, 2 Apr 2024 16:53:53 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panthor: Fix IS_ERR() vs NULL bug in
- group_process_tiler_oom()
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Heiko Stuebner <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: dan.carpenter@linaro.org, kernel-janitors@vger.kernel.org,
- error27@gmail.com
-References: <20240402111740.1700310-1-harshit.m.mogalapalli@oracle.com>
-Content-Language: en-US
-From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-In-Reply-To: <20240402111740.1700310-1-harshit.m.mogalapalli@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: TY2PR01CA0002.jpnprd01.prod.outlook.com
- (2603:1096:404:a::14) To PH8PR10MB6290.namprd10.prod.outlook.com
- (2603:10b6:510:1c1::7)
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31FDD10F3F4
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 11:31:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1712057487;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=RACmCVo3oQizc0IV4xsfh1Yt5T/9H2Y8ArFlx9eSREM=;
+ b=3+PWiZntDUNpIPR9lZJONsKTr7S7V+JfwELyvJim7PbDNPejxbk9kNjwARkaSGeRA35wRu
+ V5DfyIBRIglj7tKbU+PHJ+/asCCVIxK5QV+R5y3Erlo69ehIchvfFuPpaCD8kHqTkHZOnB
+ ULIVfZ6QwtCtP+4iRZjRzESWmMKPAqo=
+Message-ID: <599394c0220079b7b42dc732be817ca8a1eb4214.camel@crapouillou.net>
+Subject: Re: [PATCH v9 1/6] dmaengine: Add API function
+ dmaengine_prep_peripheral_dma_vec()
+From: Paul Cercueil <paul@crapouillou.net>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Jonathan Cameron <jic23@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Jonathan Corbet <corbet@lwn.net>, Lars-Peter
+ Clausen <lars@metafoo.de>, Sumit Semwal <sumit.semwal@linaro.org>, Nuno Sa
+ <nuno.sa@analog.com>,  Michael Hennerich <michael.hennerich@analog.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dmaengine@vger.kernel.org, linux-iio@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org
+Date: Tue, 02 Apr 2024 13:31:25 +0200
+In-Reply-To: <ZgUM1LFEWs3lwoAU@matsya>
+References: <20240310124836.31863-1-paul@crapouillou.net>
+ <20240310124836.31863-2-paul@crapouillou.net> <ZgUM1LFEWs3lwoAU@matsya>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
+ LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
+ FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
+ z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
+ +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
+ 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
+ 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
+ 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
+ dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
+ 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
+ rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
+ lBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFC
+ qaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IWYXnd
+ JO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN70
+ 62DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOt
+ X0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEA
+ AYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/
+ Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmc
+ Gu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2z
+ McLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/
+ 7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2c
+ LUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR10MB6290:EE_|PH7PR10MB6311:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: g583jLQVuenr2Dj0b7cIydy15X9f/yF9oM5ZpU+XM8YbBXvhGGjZvORV3kgM1miGaD0dviiIYfz4kjIhkItt2w9WmfhxkMQiPoT84Kjm0gXfxy7hPyrLe2oypxe++Dk8lXVj4ITOUqv4n4WCSX3Tevbz4f83pCADE06dYgMWWPvR+BIcLhMtlqOOrnyNYPAEGRR39vCBuUA9WX6XkHyVr2P5W3EYN84KXSaZ463qrtAn0leGbSb3fOnIRYBJ4SvGitg2gg4k+mADaVAFgC+ED+86lZKtb2PraL2DkFRyBpeUcQGVXGqPfQsbMJVxTT7r8gE/ubki9slSOtmP4rjkQW16Or9dX5qUPz3oVZLKMOpvsxv+VyTtTaqNZ9ECv/a9ibTWCRPh5tCNQub+74M4ST1CY+PlzWVkRjVjo4J7VWBWcrSZk0s9hGfR/TlpwYzracLaKbZndI8KcAYok5+aIhg/RvPeNg7E6gANxwzgRWfp474OT0yUH6tDulQmpZv2kgMJlGU8vxgv7idYIs95oB/b8Hwv18brEpiDh6nXLnA4sEko8z8Niidrbtu+xEGqFA948fHinbQT7zAr5zSU9+Y9039XHSrTlRkbk7Du6XHtvCMHOnOlq4VPhzuTIKLzCEccy0Q/+T8xw9iNlJBf0ZXM/TbWvOsMGbCrzU67bjDnRhDuaAX7txBqNIfUxeglCF3qwbpFkv9w1ccpk4AcDw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH8PR10MB6290.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005)(7416005)(1800799015)(366007)(921011); DIR:OUT; SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Rm51MlNBSHRKSDcyTzlEem9ic0xBcjI0OWFGTERZMGRXeVpnL1ZlVk1EMnR6?=
- =?utf-8?B?VEJtZTRVSUNuTDJDT0RLcEp5TjBKdFZKSFhqNWZGOVNUdXBhc0xlSzhlTmpt?=
- =?utf-8?B?c0F4aFFkWjJGUXhoYUpGNktMZDFOQWREWFROWDl5SXoyYm9OMnI4SDRCMlk1?=
- =?utf-8?B?Si8xdmFPZE1KemhYd2VVOHZIUExSNDBCUHYrTnhZOVI4TGxHaHA2Nm1jd1M5?=
- =?utf-8?B?dnVsbXZqa2ptWkQzMVpXSEU1azVOYks1YzBxUVpDQmVIZU5EMDJKMytCNHps?=
- =?utf-8?B?dGhmejhnSWtSOTJFZzBQNWxZaXlEd2lkMmlnZVBoYlp2UkpsdXpINGJWSWZM?=
- =?utf-8?B?UkN0UGkwUUxwbk1KaXRVTlJqU2RUN2dPZmJ3dDUyVWM3QStPb2lFZURnTGs3?=
- =?utf-8?B?TktQRWJSTGpNejJ2M3lka1RQYVV6YkdkZDdLWmk2UXp3KzFWSXdTZ0JHT29N?=
- =?utf-8?B?dm92Ulg0cmFoNXQzMU5VNlZuTWdPaG9jczZDTFUxaS85dGI5OUh6OGpkLytk?=
- =?utf-8?B?ci9VSEdFZXQxWnVzM0QvTmkwTmx1d2ZhZFN2NCs3WVVFY29yUGF6VDV3bGls?=
- =?utf-8?B?MWJ5YUF2bENsSU11aVFyc2t2S3ljakJqNFFOQW9aMFZkOFV5UmRHZ0tuK1JM?=
- =?utf-8?B?Zll6aDR3b0hhU3p2cFhPUkdnQVBVbEVIdGp6OTRGdXhRdzBCcFpONVZRODB0?=
- =?utf-8?B?TXY5a0tnQzNpbkczbmZiOGRCOGkybnJSVU9VMVlpdkY1R05QWXN5WXRPeHpR?=
- =?utf-8?B?S0pFeXZFQTZhbUVQM2FsVXlyQ3NNbVV3aUwwUFdDMm5oZEtVTHhnd1RhWklC?=
- =?utf-8?B?QWV0WmpMSnBSY3NzWE5HWUxKZXVxU215VVJWbERaclFpZHJEZm5QQW1nU1ly?=
- =?utf-8?B?OHJnWDhNeklWMjAzRllLUWxHV2xnb2Y2RHhLU3FZbnJQQzNUY1o1Zi9sQytP?=
- =?utf-8?B?MnU4cThXYTJFcmM1bllwWXZVcm84WjlOYnJHek1BMXlyM1IycGVFMURyd2g2?=
- =?utf-8?B?NVV5U285bFcrM2lqdzNQN0k5d2ZRZXB5T0xlS2tHVFY3OFBkOEpuS1FXeWs2?=
- =?utf-8?B?bTdvVXBDcEplU1d2UDlqV2ZzWTRxV2JNclVrd3FtbVJEUVh3b3RqNGZrZUI3?=
- =?utf-8?B?NGdMUUh2QXRYSWt4bkthaDhWMTY0OFRubCt2MjZFZ2dUWkdzRS9oMWJnUDRB?=
- =?utf-8?B?QUlMamZKeExmR2pLMUJPVDYrTkV4ZTBhVHJBa1U3djdUcytsd29qRklJN05N?=
- =?utf-8?B?RWZRUGY1NnVyNUZsTnowVHFqR1d2OFNJbFFzbitlc25pRUlnaWtkWlFWUEVk?=
- =?utf-8?B?WGJYeUowem9EQVMvL3NLK3g1em41cmZuRXJCY3dXRUJsQmxpNnNmUHcrb0lm?=
- =?utf-8?B?QldKeSt5R1Nabkx1M0Jna1BJNnNBM2Z1K2kvbCszVVhvWit5VHVnaXNya2Ew?=
- =?utf-8?B?SFd0VDRtZm9wZ2d2d0tERWR4Skw5WHZ1aWdOR1REcVV4Y3U5M0ZoQzdWdnhD?=
- =?utf-8?B?QWNjSE1DeGplRkcvd1BiT3BoTGRXTHJ0dGZCWjVKcUcyeldONEg2aTBkTWR3?=
- =?utf-8?B?WmVKZFVDT0VnVlNXSVdpVmpaRTZsTE5HRE5IcTEwMHg4dzFUK2ZkSTVhT0dt?=
- =?utf-8?B?RnBzZ3F5Z0wzdkE1c0xXOTZub2U1ejlKYVhSRGJwWThIeUdCbzgveHcxWW45?=
- =?utf-8?B?a09FVVFRdDBlNjlTYmUxc1hyVlJZYzYvbUJOVmxwUUJERGVhN0xzWWFGNU95?=
- =?utf-8?B?alhIbi9iYmFBWkd2d2o3TmVxM3phcitJM1orc0lXWFZNcytwQXcvdHhBVE8x?=
- =?utf-8?B?am43Zm1FanRtQXZIMDVaNE8ycjA2aVV0YU9BSXhBOFh4dmN5L0JFbkh0NzRt?=
- =?utf-8?B?U2xna1dvMjlBdjkxK29WTGtINnZRVm4wcGxvZGhnWC9PdHJ4K3d6TlZmaEJo?=
- =?utf-8?B?L2x4QXdqRmpZUXhtN3pXb3pmVHFsVFQvTVByMC9UNS9Ld2RTeGtHUTBGSk1B?=
- =?utf-8?B?aVlJU252cksrSGVvSVBCNExVSWptQzNxbnNZcml2RERCckxZYmN0SjlKaG1E?=
- =?utf-8?B?QmZ6di85ZGxSQjRTMXBnaFpNTVc4UjZsVnhuOUFuN2JpVWFpYmtFemF5Sm1K?=
- =?utf-8?B?K1ZuS2hPcit0M1F0a0FSMnFjR0hpQmJlMHliUkhkZnhVemtVVjNQN054TnVj?=
- =?utf-8?Q?TMkz+2Uv7IdZ0xGX8WtxJmk=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: RVx51Tu+H5wiQzO9fs7tp92ghCOX5++wHikOBFlefZM2jVZ/2Deln0L1zA07NkCyNIRLyqhH0C0yuGEz9CxTlX4XfPjLJ/wtAJ+QHdgGiyWykFKotsm+UU6/Z3j2hfMyzGoa22LhBSAMms7aR4Kzi2PA6gRaAIt+oYAwuFWI6glIRjp1Dcbaoat3R/LXS9n0pY0ybLTrW40JtiJ65sjo4NTpYSOsDRu5mW5a+MpM/61vHSHTusgcIyVLpCcwB5sQRbXRY541u6gzTeD7RyvXw9mNlFI5/nnhAp9j0NZv9c+92tQsZFB2SeUvSaWaM6yEYOSw/ZkiWCXh4VKzG/7jb27PVmJACGunA06nl5C+Xx0sRSxC4mwzLdtHF9h7d0/X+xuOvuW745ylrfgpkQLRI4EPiDyFPlm+BUd6qdpcpuCaVcpMypmmKwXS+ytw4MPeLcmq4coflMWgZ/oORp7vrbs6bdBolaQstgal0W6hYpOK1bTMyQM/zZxEqg5YaLIIQw40txsgf3sq5HQnIPTCjMbTk2WBiPseAJwBciVtCU9ZFSjLCg+xlLHgAS0AWEuKqsvmngfVHOXP9kGorETbPhUcxzQBMI6Ud7UD8RlyOWQ=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac2358fe-0bc6-40b1-b055-08dc53076613
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR10MB6290.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2024 11:24:02.4259 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9AkiFPeQ84NzL3OvCoYlj3snUZ64NvPqY1483hcVnefMbRfrkqjJCGU9GaLbvLfU5Z/yDpakNZSQriiZ6Bb7VxUb/CExWazf+cQA6JV9evMVoNtHUsWue+9SjcYwwNvf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB6311
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-02_05,2024-04-01_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- suspectscore=0
- phishscore=0 bulkscore=0 spamscore=0 adultscore=0 mlxlogscore=999
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2403210000 definitions=main-2404020083
-X-Proofpoint-GUID: 8tj3uaY8VTqC0HVYnzhsaiJQRkLFRmd2
-X-Proofpoint-ORIG-GUID: 8tj3uaY8VTqC0HVYnzhsaiJQRkLFRmd2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -178,61 +83,157 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Vinod,
 
-On 02/04/24 16:47, Harshit Mogalapalli wrote:
-> panthor_vm_get_heap_pool() returns ERR_PTR on failure, update the check
-> accordingly.
-> 
-> Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
-> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-> ---
-> This is based on static analysis with smatch, only compile tested.
-> ---
->   drivers/gpu/drm/panthor/panthor_sched.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index 5f7803b6fc48..d34f213795a3 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -1343,7 +1343,10 @@ static int group_process_tiler_oom(struct panthor_group *group, u32 cs_id)
->   	if (unlikely(csg_id < 0))
->   		return 0;
->   
-> -	if (!heaps || frag_end > vt_end || vt_end >= vt_start) {
-> +	if (IS_ERR(heaps))
-> +		return PTR_ERR(heaps);
-> +
+Le jeudi 28 mars 2024 =C3=A0 11:53 +0530, Vinod Koul a =C3=A9crit=C2=A0:
+> On 10-03-24, 13:48, Paul Cercueil wrote:
+> > This function can be used to initiate a scatter-gather DMA
+> > transfer,
+> > where the address and size of each segment is located in one entry
+> > of
+> > the dma_vec array.
+> >=20
+> > The major difference with dmaengine_prep_slave_sg() is that it
+> > supports
+> > specifying the lengths of each DMA transfer; as trying to override
+> > the
+> > length of the transfer with dmaengine_prep_slave_sg() is a very
+> > tedious
+> > process. The introduction of a new API function is also justified
+> > by the
+> > fact that scatterlists are on their way out.
+> >=20
+> > Note that dmaengine_prep_interleaved_dma() is not helpful either in
+> > that
+> > case, as it assumes that the address of each segment will be higher
+> > than
+> > the one of the previous segment, which we just cannot guarantee in
+> > case
+> > of a scatter-gather transfer.
+> >=20
+> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> > Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+> >=20
+> > ---
+> > v3: New patch
+> >=20
+> > v5: Replace with function dmaengine_prep_slave_dma_vec(), and
+> > struct
+> > =C2=A0=C2=A0=C2=A0 'dma_vec'.
+> > =C2=A0=C2=A0=C2=A0 Note that at some point we will need to support cycl=
+ic
+> > transfers
+> > =C2=A0=C2=A0=C2=A0 using dmaengine_prep_slave_dma_vec(). Maybe with a n=
+ew "flags"
+> > =C2=A0=C2=A0=C2=A0 parameter to the function?
+> >=20
+> > v7:
+> > =C2=A0 - Renamed *device_prep_slave_dma_vec() ->
+> > device_prep_peripheral_dma_vec();
+> > =C2=A0 - Added a new flag parameter to the function as agreed between
+> > Paul
+> > =C2=A0=C2=A0=C2=A0 and Vinod. I renamed the first parameter to prep_fla=
+gs as it's
+> > supposed to
+> > =C2=A0=C2=A0=C2=A0 be used (I think) with enum dma_ctrl_flags. I'm not =
+really sure
+> > how that API
+> > =C2=A0=C2=A0=C2=A0 can grow but I was thinking in just having a bool cy=
+clic
+> > parameter (as the
+> > =C2=A0=C2=A0=C2=A0 first intention of the flags is to support cyclic tr=
+ansfers)
+> > but ended up
+> > =C2=A0=C2=A0=C2=A0 "respecting" the previously agreed approach.
+> > ---
+> > =C2=A0include/linux/dmaengine.h | 27 +++++++++++++++++++++++++++
+> > =C2=A01 file changed, 27 insertions(+)
+> >=20
+> > diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
+> > index 752dbde4cec1..856df8cd9a4e 100644
+> > --- a/include/linux/dmaengine.h
+> > +++ b/include/linux/dmaengine.h
+> > @@ -160,6 +160,16 @@ struct dma_interleaved_template {
+> > =C2=A0	struct data_chunk sgl[];
+> > =C2=A0};
+> > =C2=A0
+> > +/**
+> > + * struct dma_vec - DMA vector
+> > + * @addr: Bus address of the start of the vector
+> > + * @len: Length in bytes of the DMA vector
+> > + */
+> > +struct dma_vec {
+> > +	dma_addr_t addr;
+> > +	size_t len;
+> > +};
+> > +
+> > =C2=A0/**
+> > =C2=A0 * enum dma_ctrl_flags - DMA flags to augment operation
+> > preparation,
+> > =C2=A0 *=C2=A0 control completion, and communicate status.
+> > @@ -910,6 +920,10 @@ struct dma_device {
+> > =C2=A0	struct dma_async_tx_descriptor
+> > *(*device_prep_dma_interrupt)(
+> > =C2=A0		struct dma_chan *chan, unsigned long flags);
+> > =C2=A0
+> > +	struct dma_async_tx_descriptor
+> > *(*device_prep_peripheral_dma_vec)(
+> > +		struct dma_chan *chan, const struct dma_vec *vecs,
+> > +		size_t nents, enum dma_transfer_direction
+> > direction,
+> > +		unsigned long prep_flags, unsigned long flags);
+> > =C2=A0	struct dma_async_tx_descriptor *(*device_prep_slave_sg)(
+> > =C2=A0		struct dma_chan *chan, struct scatterlist *sgl,
+> > =C2=A0		unsigned int sg_len, enum dma_transfer_direction
+> > direction,
+> > @@ -973,6 +987,19 @@ static inline struct dma_async_tx_descriptor
+> > *dmaengine_prep_slave_single(
+> > =C2=A0						=C2=A0 dir, flags,
+> > NULL);
+> > =C2=A0}
+> > =C2=A0
+> > +static inline struct dma_async_tx_descriptor
+> > *dmaengine_prep_peripheral_dma_vec(
+> > +	struct dma_chan *chan, const struct dma_vec *vecs, size_t
+> > nents,
+> > +	enum dma_transfer_direction dir, unsigned long prep_flags,
+> > +	unsigned long flags)
+> > +{
+> > +	if (!chan || !chan->device || !chan->device-
+> > >device_prep_peripheral_dma_vec)
+> > +		return NULL;
+> > +
+> > +	return chan->device->device_prep_peripheral_dma_vec(chan,
+> > vecs, nents,
+> > +							=C2=A0=C2=A0=C2=A0 dir,
+> > prep_flags,
+> > +							=C2=A0=C2=A0=C2=A0
+> > flags);
+> > +}
+>=20
+> API looks good to me, thanks
+> Few nits though:
+> - Can we add kernel-doc for this new API please
+> - Also update the documentation adding this new api
+> - Lastly, we seem to have two flags, I know you have added a comment
+> but
+> =C2=A0 I dont seem to recall the discussion (looked at old threads for
+> clue
+> =C2=A0 as well), can you please remind me why we need both? And in your
+> case,
+> =C2=A0 what is the intended usage of these flags, i would prefer single
+> =C2=A0 clean one...
+>=20
 
-Please ignore this patch, doesn't look correct on looking at more closely.
+The "prep_flags" is a mask of "enum dma_ctrl_flags".
 
-I should have just done this:
+The second "flags" was supposed to be specific to this function, and
+was to future-proof the API as we eventually want to have a "cyclic"
+flag, which would emulate a cyclic transfer by linking the SG hardware
+descriptors accordingly.
 
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c 
-b/drivers/gpu/drm/panthor/panthor_sched.c
-index 5f7803b6fc48..617df2b980d0 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -1343,7 +1343,7 @@ static int group_process_tiler_oom(struct 
-panthor_group *group, u32 cs_id)
-         if (unlikely(csg_id < 0))
-                 return 0;
+However - I think we can already do that with DMA_PREP_REPEAT and
+DMA_PREP_LOAD_EOT, right? So we can probably drop the second "flags".
 
--       if (!heaps || frag_end > vt_end || vt_end >= vt_start) {
-+       if (IS_ERR(heaps) || frag_end > vt_end || vt_end >= vt_start) {
-                 ret = -EINVAL;
-         } else {
-                 /* We do the allocation without holding the scheduler 
-lock to avoid
-
-
-Thanks,
-Harshit
-
-
-> +	if (frag_end > vt_end || vt_end >= vt_start) {
->   		ret = -EINVAL;
->   	} else {
->   		/* We do the allocation without holding the scheduler lock to avoid
-
+Cheers,
+-Paul
