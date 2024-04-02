@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83719895A50
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 19:00:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00BF5895B62
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 20:07:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A908710FE77;
-	Tue,  2 Apr 2024 17:00:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26E1210FF45;
+	Tue,  2 Apr 2024 18:06:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=dolcini.it header.i=@dolcini.it header.b="SPV4IS2w";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Zk3UILeq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 429 seconds by postgrey-1.36 at gabe;
- Tue, 02 Apr 2024 17:00:24 UTC
-Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E52510FE77
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 17:00:24 +0000 (UTC)
-Received: from francesco-nb (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
- by mail11.truemail.it (Postfix) with ESMTPA id 619571FAA3;
- Tue,  2 Apr 2024 18:53:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
- s=default; t=1712076792;
- bh=PctgBINCFX58WVqQY3z03UnoMSWRHAzvZU5WuaVRFQo=; h=From:To:Subject;
- b=SPV4IS2waVCTTGVjIqICRmtVQjms4nIPuOmv0oiWsDf0jJTHDe6SxPuK32GbH/mO5
- 3zeLNjxE3E1CuL6Zty521LUAsOmBmzhwx7fkzCcfH2Csc9WZfYIJFzZSQ71zSQhC4v
- OXCgOb9mNPc2V4ie4aPYBHcP+/y4CdgoLU4qyK3sGXkthLFGkQu+0bmWv4dcs9fIx8
- lIRImWikSATfVoPAe2p0cZ7tFr12oMeZm3S6ouJHdjkNEOos6qpj0C3iXEXAuUzkII
- DSTLf7fYHbRngHE2PwywYLqfMDmezl6Hc/tfTsGo9mKAa5VkodPKlAy6AxTGAxI/Ez
- 4M4PgR3YEb6yA==
-Date: Tue, 2 Apr 2024 18:53:07 +0200
-From: Francesco Dolcini <francesco@dolcini.it>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B6D510FF3F
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 18:06:56 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id A1CAACE10EF;
+ Tue,  2 Apr 2024 18:06:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AEAAC433F1;
+ Tue,  2 Apr 2024 18:06:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1712081212;
+ bh=TTRXcjTQZRBAmeWDXa+X4kXntSc02ooNowPmLREkays=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Zk3UILeq7LQD7Zzqi1MAz8doOJLTDa0VGtC7FQOmxq41vMi/PcXRHA95ESpn8PlG3
+ cE7NB7fQ2oon2r2T3lt5EhnIBTkdgV23HjLSBzVFOwmqEYK7PDxsLF2FGIpGva3QxT
+ qY01BVgO0cQwVYU0DxtEzNDkkL4eCpVYZwZmy23OnREQBY90aPMsKchWxSueO86Ro/
+ 5wBZ7SC0HYdFtdfC0dPITJa4rA7Dcjx9ePrei9ZFNEZV7REEi9DnJi/ZguvZ2EmYnw
+ /MMn//hr4crdUfy2w2gG+mSNJWdk1BK40NK+K/UvvcWAVmBhuLwfEF7dMuLbgSMzLj
+ nTF7ziMN8kQ6w==
+Date: Tue, 2 Apr 2024 19:06:46 +0100
+From: Conor Dooley <conor@kernel.org>
 To: Alexandru Ardelean <alex@shruggie.ro>
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, adrien.grassein@gmail.com,
@@ -42,13 +43,16 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
  stefan.eichenberger@toradex.com, francesco.dolcini@toradex.com,
  marius.muresan@mxt.ro, irina.muresan@mxt.ro
-Subject: Re: [PATCH 1/2] drm/bridge: lt8912b: add support for P/N pin swap
-Message-ID: <20240402165307.GA31874@francesco-nb>
+Subject: Re: [PATCH 2/2] dt-bindings: display: bridge: lt8912b: document
+ 'lontium,pn-swap' property
+Message-ID: <20240402-sheet-retread-025759b22faf@spud>
 References: <20240402105925.905144-1-alex@shruggie.ro>
+ <20240402105925.905144-2-alex@shruggie.ro>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="IaeEkV6cHbiyMA0K"
 Content-Disposition: inline
-In-Reply-To: <20240402105925.905144-1-alex@shruggie.ro>
+In-Reply-To: <20240402105925.905144-2-alex@shruggie.ro>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,83 +68,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Alexandru, thanks for your patch.
 
-On Tue, Apr 02, 2024 at 01:59:24PM +0300, Alexandru Ardelean wrote:
-> On some HW designs, it's easier for the layout if the P/N pins are swapped.
-> In those cases, we need to adjust (for this) by configuring the MIPI analog
-> registers differently. Specifically, register 0x3e needs to be 0xf6
-> (instead of 0xd6).
-> 
-> This change adds a 'lontium,pn-swap' device-tree property to configure the
-> MIPI analog registers for P/N swap.
-> 
+--IaeEkV6cHbiyMA0K
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Apr 02, 2024 at 01:59:25PM +0300, Alexandru Ardelean wrote:
+> On some HW designs, it's easier for the layout if the P/N pins are swappe=
+d.
+> The driver currently has a DT property to do that.
+
+"currently", because 1/2 adds it. bindings patches should precede the
+driver patches in the series, so please swap the patches and remove this
+portion of the description.
+
+>=20
+> This change documents the 'lontium,pn-swap' property.
+>=20
 > Signed-off-by: Alexandru Ardelean <alex@shruggie.ro>
 > ---
->  drivers/gpu/drm/bridge/lontium-lt8912b.c | 25 +++++++++++++++++++++---
->  1 file changed, 22 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-> index 4b2ae27f0a57f..154126bb922b4 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-> @@ -47,6 +47,7 @@ struct lt8912 {
->  
->  	u8 data_lanes;
->  	bool is_power_on;
-> +	bool do_pn_swap;
->  };
->  
->  static int lt8912_write_init_config(struct lt8912 *lt)
-> @@ -78,15 +79,31 @@ static int lt8912_write_init_config(struct lt8912 *lt)
->  		{0x55, 0x44},
->  		{0x57, 0x01},
->  		{0x5a, 0x02},
-> -
-> -		/*MIPI Analog*/
-> +	};
-> +	const struct reg_sequence mipi_analog_seq[] = {
->  		{0x3e, 0xd6},
->  		{0x3f, 0xd4},
->  		{0x41, 0x3c},
->  		{0xB2, 0x00},
->  	};
-> +	const struct reg_sequence mipi_analog_pn_swap_seq[] = {
-> +		{0x3e, 0xf6},
-> +		{0x3f, 0xd4},
-> +		{0x41, 0x3c},
-> +		{0xB2, 0x00},
-> +	};
-> +	int ret;
->  
-> -	return regmap_multi_reg_write(lt->regmap[I2C_MAIN], seq, ARRAY_SIZE(seq));
-> +	ret = regmap_multi_reg_write(lt->regmap[I2C_MAIN], seq, ARRAY_SIZE(seq));
-> +	if (ret < 0)
-> +		return ret;
+>  .../devicetree/bindings/display/bridge/lontium,lt8912b.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt8=
+912b.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt8912=
+b.yaml
+> index 2cef252157985..3a804926b288a 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.ya=
+ml
+> +++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.ya=
+ml
+> @@ -24,6 +24,12 @@ properties:
+>      maxItems: 1
+>      description: GPIO connected to active high RESET pin.
+> =20
+> +  lontium,pn-swap:
+> +    description: Swap the polarities of the P/N pins in software.
+> +      On some HW designs, the layout is simplified if the P/N pins
+> +      are inverted.
+
+Please explain what configuration of a board would cause these to be
+swapped, rather than why someone might want to configure the board this
+way. I've got no idea what this hardware is actually doing, so this is
+being pulled out of a hat, but I'd expect something like "Some boards
+swap the polarity of the P/N pins, use this property to indicate this to
+software".=20
+
+> +    type: boolean
+
+The type here should be flag.
+
+Cheers,
+Conor.
+
 > +
-> +	if (!lt->do_pn_swap)
-> +		return regmap_multi_reg_write(lt->regmap[I2C_MAIN], mipi_analog_seq,
-> +					      ARRAY_SIZE(mipi_analog_seq));
-> +
-> +	return regmap_multi_reg_write(lt->regmap[I2C_MAIN], mipi_analog_pn_swap_seq,
-> +				      ARRAY_SIZE(mipi_analog_pn_swap_seq));
+>    ports:
+>      $ref: /schemas/graph.yaml#/properties/ports
+> =20
+> --=20
+> 2.44.0
+>=20
 
-Can you just remove {0x3e, 0xd6} from the register/value array and write
-it afterward depending on `do_pn_swap` value? Or keep it with the
-current value and only overwrite it when do_pn_swap is true?
+--IaeEkV6cHbiyMA0K
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If you do it this way is a 4 line change.
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZgxJNgAKCRB4tDGHoIJi
+0p9FAQDInUJtiORRgoENs/9LgrlXyxmmHlbeuiOigy2sEmDRLgEAyH6YAI/dlnFf
+hGfdSbSMzrdRwU0lrpHKwxghq5nLeQU=
+=9xkf
+-----END PGP SIGNATURE-----
 
->  static int lt8912_write_mipi_basic_config(struct lt8912 *lt)
-> @@ -702,6 +719,8 @@ static int lt8912_parse_dt(struct lt8912 *lt)
->  	}
->  	lt->gp_reset = gp_reset;
->  
-> +	lt->do_pn_swap = device_property_read_bool(dev, "lontium,pn-swap");
-
-I would call this variable the same that is called in the lontium
-documentation, mipirx_diff_swap
-
-Francesco
-
+--IaeEkV6cHbiyMA0K--
