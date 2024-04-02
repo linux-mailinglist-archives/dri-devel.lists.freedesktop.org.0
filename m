@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1038E8952D1
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 14:21:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F070895307
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 14:33:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32CBA10FCD5;
-	Tue,  2 Apr 2024 12:21:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B21210FCEE;
+	Tue,  2 Apr 2024 12:33:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="qK5BPooC";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="MPao5FQW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84C8D10FCD5
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 12:21:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CC8110FCEE
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 12:33:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1712060508;
- bh=7SXXtWFFK3yJiK34x7w4K4HBICcMgAm0cuEQJNBk8zk=;
+ s=mail; t=1712061220;
+ bh=JLmZSWuKKx+DVDXAfY3j+SHJ7sahDXjArNMQEbFiR2A=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=qK5BPooCkBTx/paRFFHqxxAzlajZdrTTdIIQYVqoOWIJGP9uL2nxbav/2zGeR9yur
- ePCLBQjf0JEeorEIryqKNOy2Vw0sG3eZjAziCea2Chx1GnPFTAhO6Vvtqfi54OFqYr
- z0SK7Iy99E7crqg08txt7caUB1nqnsumKyqI8afIrW/pUH3BJ8UpF2KYF/jbUCPyIK
- qt4rH0lXbAX3cnEMoi61bsgSM1qQGHm4ihQl0wULPu+ntuztrdpIDlww/ArzkXv7Uj
- U/Lqd75k/0S8+Rr/+86CENrigOYIySEKr6cn8w1V7/xGAskag1YYUfmGOSGF2AXiV4
- XiENTbu4PwHLw==
+ b=MPao5FQWlgblzY4+H4T7w1x53Xgi2A22qSAWdaDILfOuL0LXfVA7Ebap+eNPpKBCu
+ ovvfKyrcDo8wWY8OOLpZLu8qAfNNwyv7vgWJKw66R4NWee0dPjZnBEUUyKf1enABbS
+ ofcyWYPSxJ0XpbPG9AkzQVTbEiE1SWojFlRLTcBNbgDTOlovCMgxx2lZwYuYRUbM2f
+ F5TLUFOpRqUpQuNJX3dc2myKejsI/JPKOCalAnSU88jdmyVRo9M6xKTWPkIdvVJBlx
+ U63np1fBvPCJEm8q9HZ1OqjGSZnwEVQKUDp0vaHrcBCtKU77bOUtkO1h7fellVI6/i
+ tQOFBfmce5LwQ==
 Received: from localhost (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 7E34E3781144;
- Tue,  2 Apr 2024 12:21:47 +0000 (UTC)
-Date: Tue, 2 Apr 2024 14:21:46 +0200
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 3DC1A3781144;
+ Tue,  2 Apr 2024 12:33:39 +0000 (UTC)
+Date: Tue, 2 Apr 2024 14:33:37 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
+To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
 Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
  <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Grant Likely
- <grant.likely@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] drm/panthor: Fix a couple -ENOMEM error codes
-Message-ID: <20240402142146.58a438c9@collabora.com>
-In-Reply-To: <cf5bbba5-427e-4940-b91e-925f9fa71f8d@moroto.mountain>
-References: <cf5bbba5-427e-4940-b91e-925f9fa71f8d@moroto.mountain>
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Heiko Stuebner
+ <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dan.carpenter@linaro.org,
+ kernel-janitors@vger.kernel.org, error27@gmail.com
+Subject: Re: [PATCH] drm/panthor: Fix NULL vs IS_ERR() bug in
+ panthor_ioctl_tiler_heap_destroy()
+Message-ID: <20240402143337.38e864e9@collabora.com>
+In-Reply-To: <20240402103358.1689379-1-harshit.m.mogalapalli@oracle.com>
+References: <20240402103358.1689379-1-harshit.m.mogalapalli@oracle.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -66,46 +67,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2 Apr 2024 12:58:09 +0300
-Dan Carpenter <dan.carpenter@linaro.org> wrote:
+Hello Harshit,
 
-> These error paths forgot to set the error code to -ENOMEM.
+On Tue,  2 Apr 2024 03:33:58 -0700
+Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com> wrote:
+
+> panthor_vm_get_heap_pool() returns ERR_PTR on failure.
 > 
-> Fixes: 647810ec2476 ("drm/panthor: Add the MMU/VM logical block")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-
+> Fixes: 4bdca1150792 ("drm/panthor: Add the driver frontend block")
+> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
 > ---
->  drivers/gpu/drm/panthor/panthor_mmu.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+> This is spotted by smatch and the patch is only compile tested
+> ---
+>  drivers/gpu/drm/panthor/panthor_drv.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index fdd35249169f..a26b40aab261 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -1264,8 +1264,10 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
->  	op_ctx->rsvd_page_tables.pages = kcalloc(pt_count,
->  						 sizeof(*op_ctx->rsvd_page_tables.pages),
->  						 GFP_KERNEL);
-> -	if (!op_ctx->rsvd_page_tables.pages)
-> +	if (!op_ctx->rsvd_page_tables.pages) {
-> +		ret = -ENOMEM;
->  		goto err_cleanup;
-> +	}
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index 11b3ccd58f85..050b905b0453 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1090,8 +1090,8 @@ static int panthor_ioctl_tiler_heap_destroy(struct drm_device *ddev, void *data,
+>  		return -EINVAL;
 >  
->  	ret = kmem_cache_alloc_bulk(pt_cache, GFP_KERNEL, pt_count,
->  				    op_ctx->rsvd_page_tables.pages);
-> @@ -1318,8 +1320,10 @@ static int panthor_vm_prepare_unmap_op_ctx(struct panthor_vm_op_ctx *op_ctx,
->  		op_ctx->rsvd_page_tables.pages = kcalloc(pt_count,
->  							 sizeof(*op_ctx->rsvd_page_tables.pages),
->  							 GFP_KERNEL);
-> -		if (!op_ctx->rsvd_page_tables.pages)
-> +		if (!op_ctx->rsvd_page_tables.pages) {
-> +			ret = -ENOMEM;
->  			goto err_cleanup;
-> +		}
+>  	pool = panthor_vm_get_heap_pool(vm, false);
+> -	if (!pool) {
+> -		ret = -EINVAL;
+> +	if (IS_ERR(pool)) {
+> +		ret = PTR_ERR(pool);
+
+Actually, panthor_vm_get_heap_pool() will return NULL if there's no
+heap pool attached to this VM and create=false, so this was correct.
+This being said, I'm fine making that consistent by returning
+ERR_PTR(-ENOENT) instead of NULL in that case. This way we don't have
+two different semantics based on the 'create' value.
+
+Oh, and please merge everything into a single patch instead of one patch
+per call-site.
+
+Regards,
+
+Boris
+
+>  		goto out_put_vm;
+>  	}
 >  
->  		ret = kmem_cache_alloc_bulk(pt_cache, GFP_KERNEL, pt_count,
->  					    op_ctx->rsvd_page_tables.pages);
 
