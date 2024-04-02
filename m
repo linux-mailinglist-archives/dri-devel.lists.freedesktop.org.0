@@ -2,58 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91DE3895C15
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 20:58:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03BD895D9B
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 22:33:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80E5510EA00;
-	Tue,  2 Apr 2024 18:58:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78F4410E1F5;
+	Tue,  2 Apr 2024 20:33:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BBUutNMj";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="IHYMgMwq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E286A10EA00
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 18:58:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712084326; x=1743620326;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=WDros/Wdz1x6mKOVE+UYycaXkiFNPvPWCkd5FchxvRk=;
- b=BBUutNMj3dYhk8Ji+B4wyxmHoW7rSo00aYQ6zudFPqvDMWJkwMHkB3fR
- aj8Gbvnqb3SGdjYb9p1NVcELl9CEw7ZQ8tnfembP/PhLxW1a0+myZp0em
- fPAzpCoyaFi5Qaemu26aXuLAoxpOAMCyKaG5KBWavkotkx6PEWxl5lCWu
- owhKuh4fHP83ebNk3m40hTHPEQEaEkvTe3Sf9elemtNdFZ59j2BE/W61Z
- UMDjLeQvEWiKLrgYwGKFG+eU8ybg13ljRV8+IDCM4C3uo8l6+9h8O7s6B
- ++t034tRx0bzjIsM2/MYUQ+GW5vD0TAzWK91Ihbo1BE0n+OXP7QENeJvf Q==;
-X-CSE-ConnectionGUID: MeGbl0ZxQleEGVTZYLSyiA==
-X-CSE-MsgGUID: aIMDpVPzS0mDyP02EiPopQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="18435806"
-X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; d="scan'208";a="18435806"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Apr 2024 11:58:46 -0700
-X-CSE-ConnectionGUID: A6QCi3wuR8iVS3pVoYeqtA==
-X-CSE-MsgGUID: NX7Q2buISsiDIWdzLuh/lQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; d="scan'208";a="18629874"
-Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
- by orviesa006.jf.intel.com with ESMTP; 02 Apr 2024 11:58:44 -0700
-Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rrjLG-0001Ru-0N;
- Tue, 02 Apr 2024 18:58:42 +0000
-Date: Wed, 3 Apr 2024 02:58:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Boris Brezillon <bbrezillon@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Liviu Dudau <liviu.dudau@arm.com>, Steven Price <steven.price@arm.com>
-Subject: [drm-misc:for-linux-next 3/4]
- drivers/gpu/drm/panthor/panthor_device.h:326:13: warning: unused variable
- 'cookie'
-Message-ID: <202404030209.n8lhzYfk-lkp@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 921B310E1F5
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 20:33:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1712090018;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=XkVVzn7sUlZgXUm5P4BgsrM9gYYoxT1YIoFUz7D2uhU=;
+ b=IHYMgMwqCFuSQ+/WsA9pbp/btV9ZM+hx+rHMH6kMcgixeugjRrlXtw44Zi1SzcgHIA/YFO
+ IMYrUaBpnZBh/cfBMyt0c62UAiCCQnhfnVyNq7QuZYaAwc5JSTSWGoJmwRiaoUsixLbS8y
+ DIAnpL4H+LHgJ2xxgWpbG9k3aSzPSBM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-455-jOxgHkElN6C86aO7WEzYtw-1; Tue, 02 Apr 2024 16:33:33 -0400
+X-MC-Unique: jOxgHkElN6C86aO7WEzYtw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 16F5010B0702;
+ Tue,  2 Apr 2024 20:33:31 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EF28B17AA0;
+ Tue,  2 Apr 2024 20:33:26 +0000 (UTC)
+Date: Tue, 2 Apr 2024 16:33:21 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jonathan Corbet <corbet@lwn.net>,
+ David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+ Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Olivia Mackall <olivia@selenic.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Gonglei <arei.gonglei@huawei.com>, "David S. Miller" <davem@davemloft.net>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ Cristian Marussi <cristian.marussi@arm.com>,
+ Viresh Kumar <vireshk@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, David Airlie <airlied@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Alexander Graf <graf@amazon.com>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Eric Van Hensbergen <ericvh@kernel.org>,
+ Latchesar Ionkov <lucho@ionkov.net>,
+ Dominique Martinet <asmadeus@codewreck.org>,
+ Christian Schoenebeck <linux_oss@crudebyte.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Kalle Valo <kvalo@kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>,
+ Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
+ Anton Yakovlev <anton.yakovlev@opensynergy.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ virtualization@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ iommu@lists.linux.dev, netdev@vger.kernel.org, v9fs@lists.linux.dev,
+ kvm@vger.kernel.org, linux-wireless@vger.kernel.org,
+ nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 06/25] virtio_blk: drop owner assignment
+Message-ID: <20240402203321.GD2507314@fedora>
+References: <20240331-module-owner-virtio-v2-0-98f04bfaf46a@linaro.org>
+ <20240331-module-owner-virtio-v2-6-98f04bfaf46a@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="n4/kSvCMF0M05hCx"
 Content-Disposition: inline
+In-Reply-To: <20240331-module-owner-virtio-v2-6-98f04bfaf46a@linaro.org>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,166 +123,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
-head:   10021ef27310279c850cf6cb38542c443a995e92
-commit: 962f88b9c91647f3ff4a0d3709662641baed5164 [3/4] drm/panthor: Drop the dev_enter/exit() sections in _irq_suspend/resume()
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240403/202404030209.n8lhzYfk-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240403/202404030209.n8lhzYfk-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404030209.n8lhzYfk-lkp@intel.com/
+--n4/kSvCMF0M05hCx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-All warnings (new ones prefixed by >>):
+On Sun, Mar 31, 2024 at 10:43:53AM +0200, Krzysztof Kozlowski wrote:
+> virtio core already sets the .owner, so driver does not need to.
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>=20
+> ---
+>=20
+> Depends on the first patch.
+> ---
+>  drivers/block/virtio_blk.c | 1 -
+>  1 file changed, 1 deletion(-)
 
-   In file included from drivers/gpu/drm/panthor/panthor_fw.c:19:
-   drivers/gpu/drm/panthor/panthor_fw.c: In function 'panthor_job_irq_suspend':
->> drivers/gpu/drm/panthor/panthor_device.h:326:13: warning: unused variable 'cookie' [-Wunused-variable]
-     326 |         int cookie;                                                                             \
-         |             ^~~~~~
-   drivers/gpu/drm/panthor/panthor_fw.c:979:1: note: in expansion of macro 'PANTHOR_IRQ_HANDLER'
-     979 | PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
-         | ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_fw.c: In function 'panthor_job_irq_resume':
-   drivers/gpu/drm/panthor/panthor_device.h:336:13: warning: unused variable 'cookie' [-Wunused-variable]
-     336 |         int cookie;                                                                             \
-         |             ^~~~~~
-   drivers/gpu/drm/panthor/panthor_fw.c:979:1: note: in expansion of macro 'PANTHOR_IRQ_HANDLER'
-     979 | PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
-         | ^~~~~~~~~~~~~~~~~~~
---
-   In file included from drivers/gpu/drm/panthor/panthor_gpu.c:19:
-   drivers/gpu/drm/panthor/panthor_gpu.c: In function 'panthor_gpu_irq_suspend':
->> drivers/gpu/drm/panthor/panthor_device.h:326:13: warning: unused variable 'cookie' [-Wunused-variable]
-     326 |         int cookie;                                                                             \
-         |             ^~~~~~
-   drivers/gpu/drm/panthor/panthor_gpu.c:166:1: note: in expansion of macro 'PANTHOR_IRQ_HANDLER'
-     166 | PANTHOR_IRQ_HANDLER(gpu, GPU, panthor_gpu_irq_handler);
-         | ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_gpu.c: In function 'panthor_gpu_irq_resume':
-   drivers/gpu/drm/panthor/panthor_device.h:336:13: warning: unused variable 'cookie' [-Wunused-variable]
-     336 |         int cookie;                                                                             \
-         |             ^~~~~~
-   drivers/gpu/drm/panthor/panthor_gpu.c:166:1: note: in expansion of macro 'PANTHOR_IRQ_HANDLER'
-     166 | PANTHOR_IRQ_HANDLER(gpu, GPU, panthor_gpu_irq_handler);
-         | ^~~~~~~~~~~~~~~~~~~
---
-   In file included from drivers/gpu/drm/panthor/panthor_mmu.c:30:
-   drivers/gpu/drm/panthor/panthor_mmu.c: In function 'panthor_mmu_irq_suspend':
->> drivers/gpu/drm/panthor/panthor_device.h:326:13: warning: unused variable 'cookie' [-Wunused-variable]
-     326 |         int cookie;                                                                             \
-         |             ^~~~~~
-   drivers/gpu/drm/panthor/panthor_mmu.c:1689:1: note: in expansion of macro 'PANTHOR_IRQ_HANDLER'
-    1689 | PANTHOR_IRQ_HANDLER(mmu, MMU, panthor_mmu_irq_handler);
-         | ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_mmu.c: In function 'panthor_mmu_irq_resume':
-   drivers/gpu/drm/panthor/panthor_device.h:336:13: warning: unused variable 'cookie' [-Wunused-variable]
-     336 |         int cookie;                                                                             \
-         |             ^~~~~~
-   drivers/gpu/drm/panthor/panthor_mmu.c:1689:1: note: in expansion of macro 'PANTHOR_IRQ_HANDLER'
-    1689 | PANTHOR_IRQ_HANDLER(mmu, MMU, panthor_mmu_irq_handler);
-         | ^~~~~~~~~~~~~~~~~~~
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
+--n4/kSvCMF0M05hCx
+Content-Type: application/pgp-signature; name="signature.asc"
 
-vim +/cookie +326 drivers/gpu/drm/panthor/panthor_device.h
+-----BEGIN PGP SIGNATURE-----
 
-5fe909cae118a7 Boris Brezillon 2024-02-29  271  
-5fe909cae118a7 Boris Brezillon 2024-02-29  272  const char *panthor_exception_name(struct panthor_device *ptdev,
-5fe909cae118a7 Boris Brezillon 2024-02-29  273  				   u32 exception_code);
-5fe909cae118a7 Boris Brezillon 2024-02-29  274  
-5fe909cae118a7 Boris Brezillon 2024-02-29  275  /**
-5fe909cae118a7 Boris Brezillon 2024-02-29  276   * PANTHOR_IRQ_HANDLER() - Define interrupt handlers and the interrupt
-5fe909cae118a7 Boris Brezillon 2024-02-29  277   * registration function.
-5fe909cae118a7 Boris Brezillon 2024-02-29  278   *
-5fe909cae118a7 Boris Brezillon 2024-02-29  279   * The boiler-plate to gracefully deal with shared interrupts is
-5fe909cae118a7 Boris Brezillon 2024-02-29  280   * auto-generated. All you have to do is call PANTHOR_IRQ_HANDLER()
-5fe909cae118a7 Boris Brezillon 2024-02-29  281   * just after the actual handler. The handler prototype is:
-5fe909cae118a7 Boris Brezillon 2024-02-29  282   *
-5fe909cae118a7 Boris Brezillon 2024-02-29  283   * void (*handler)(struct panthor_device *, u32 status);
-5fe909cae118a7 Boris Brezillon 2024-02-29  284   */
-5fe909cae118a7 Boris Brezillon 2024-02-29  285  #define PANTHOR_IRQ_HANDLER(__name, __reg_prefix, __handler)					\
-5fe909cae118a7 Boris Brezillon 2024-02-29  286  static irqreturn_t panthor_ ## __name ## _irq_raw_handler(int irq, void *data)			\
-5fe909cae118a7 Boris Brezillon 2024-02-29  287  {												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  288  	struct panthor_irq *pirq = data;							\
-5fe909cae118a7 Boris Brezillon 2024-02-29  289  	struct panthor_device *ptdev = pirq->ptdev;						\
-5fe909cae118a7 Boris Brezillon 2024-02-29  290  												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  291  	if (atomic_read(&pirq->suspended))							\
-5fe909cae118a7 Boris Brezillon 2024-02-29  292  		return IRQ_NONE;								\
-5fe909cae118a7 Boris Brezillon 2024-02-29  293  	if (!gpu_read(ptdev, __reg_prefix ## _INT_STAT))					\
-5fe909cae118a7 Boris Brezillon 2024-02-29  294  		return IRQ_NONE;								\
-5fe909cae118a7 Boris Brezillon 2024-02-29  295  												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  296  	gpu_write(ptdev, __reg_prefix ## _INT_MASK, 0);						\
-5fe909cae118a7 Boris Brezillon 2024-02-29  297  	return IRQ_WAKE_THREAD;									\
-5fe909cae118a7 Boris Brezillon 2024-02-29  298  }												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  299  												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  300  static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *data)		\
-5fe909cae118a7 Boris Brezillon 2024-02-29  301  {												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  302  	struct panthor_irq *pirq = data;							\
-5fe909cae118a7 Boris Brezillon 2024-02-29  303  	struct panthor_device *ptdev = pirq->ptdev;						\
-5fe909cae118a7 Boris Brezillon 2024-02-29  304  	irqreturn_t ret = IRQ_NONE;								\
-5fe909cae118a7 Boris Brezillon 2024-02-29  305  												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  306  	while (true) {										\
-5fe909cae118a7 Boris Brezillon 2024-02-29  307  		u32 status = gpu_read(ptdev, __reg_prefix ## _INT_RAWSTAT) & pirq->mask;	\
-5fe909cae118a7 Boris Brezillon 2024-02-29  308  												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  309  		if (!status)									\
-5fe909cae118a7 Boris Brezillon 2024-02-29  310  			break;									\
-5fe909cae118a7 Boris Brezillon 2024-02-29  311  												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  312  		gpu_write(ptdev, __reg_prefix ## _INT_CLEAR, status);				\
-5fe909cae118a7 Boris Brezillon 2024-02-29  313  												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  314  		__handler(ptdev, status);							\
-5fe909cae118a7 Boris Brezillon 2024-02-29  315  		ret = IRQ_HANDLED;								\
-5fe909cae118a7 Boris Brezillon 2024-02-29  316  	}											\
-5fe909cae118a7 Boris Brezillon 2024-02-29  317  												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  318  	if (!atomic_read(&pirq->suspended))							\
-5fe909cae118a7 Boris Brezillon 2024-02-29  319  		gpu_write(ptdev, __reg_prefix ## _INT_MASK, pirq->mask);			\
-5fe909cae118a7 Boris Brezillon 2024-02-29  320  												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  321  	return ret;										\
-5fe909cae118a7 Boris Brezillon 2024-02-29  322  }												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  323  												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  324  static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)			\
-5fe909cae118a7 Boris Brezillon 2024-02-29  325  {												\
-5fe909cae118a7 Boris Brezillon 2024-02-29 @326  	int cookie;										\
-5fe909cae118a7 Boris Brezillon 2024-02-29  327  												\
-1de434e0b27570 Boris Brezillon 2024-03-26  328  	pirq->mask = 0;										\
-5fe909cae118a7 Boris Brezillon 2024-02-29  329  	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);					\
-5fe909cae118a7 Boris Brezillon 2024-02-29  330  	synchronize_irq(pirq->irq);								\
-1de434e0b27570 Boris Brezillon 2024-03-26  331  	atomic_set(&pirq->suspended, true);							\
-5fe909cae118a7 Boris Brezillon 2024-02-29  332  }												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  333  												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  334  static inline void panthor_ ## __name ## _irq_resume(struct panthor_irq *pirq, u32 mask)	\
-5fe909cae118a7 Boris Brezillon 2024-02-29  335  {												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  336  	int cookie;										\
-5fe909cae118a7 Boris Brezillon 2024-02-29  337  												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  338  	atomic_set(&pirq->suspended, false);							\
-5fe909cae118a7 Boris Brezillon 2024-02-29  339  	pirq->mask = mask;									\
-5fe909cae118a7 Boris Brezillon 2024-02-29  340  	gpu_write(pirq->ptdev, __reg_prefix ## _INT_CLEAR, mask);				\
-5fe909cae118a7 Boris Brezillon 2024-02-29  341  	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, mask);				\
-5fe909cae118a7 Boris Brezillon 2024-02-29  342  }												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  343  												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  344  static int panthor_request_ ## __name ## _irq(struct panthor_device *ptdev,			\
-5fe909cae118a7 Boris Brezillon 2024-02-29  345  					      struct panthor_irq *pirq,				\
-5fe909cae118a7 Boris Brezillon 2024-02-29  346  					      int irq, u32 mask)				\
-5fe909cae118a7 Boris Brezillon 2024-02-29  347  {												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  348  	pirq->ptdev = ptdev;									\
-5fe909cae118a7 Boris Brezillon 2024-02-29  349  	pirq->irq = irq;									\
-5fe909cae118a7 Boris Brezillon 2024-02-29  350  	panthor_ ## __name ## _irq_resume(pirq, mask);						\
-5fe909cae118a7 Boris Brezillon 2024-02-29  351  												\
-5fe909cae118a7 Boris Brezillon 2024-02-29  352  	return devm_request_threaded_irq(ptdev->base.dev, irq,					\
-5fe909cae118a7 Boris Brezillon 2024-02-29  353  					 panthor_ ## __name ## _irq_raw_handler,		\
-5fe909cae118a7 Boris Brezillon 2024-02-29  354  					 panthor_ ## __name ## _irq_threaded_handler,		\
-5fe909cae118a7 Boris Brezillon 2024-02-29  355  					 IRQF_SHARED, KBUILD_MODNAME "-" # __name,		\
-5fe909cae118a7 Boris Brezillon 2024-02-29  356  					 pirq);							\
-5fe909cae118a7 Boris Brezillon 2024-02-29  357  }
-5fe909cae118a7 Boris Brezillon 2024-02-29  358  
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmYMa5EACgkQnKSrs4Gr
+c8j8dggAqO8KJXvt+0JqXmgxsfDAxN196OA9Q6Rm7VF0fuMhGpVUUh/iuOtkH59k
+ho0oB9szUvz/1tXZEJPtShx/omt2iENmq22unjzWE7ZmNimALVjtXPaZNTCkYxJn
+Z9//Ks9v/lHCNFzLjSiKC94ktRVJLDXSmG7uEpbeutDrzN9TWRJ8DNnylKmm+qWR
+VDiL3/2+03gC5B/LovTli4ozZuS4JlG37Tnh2Z8ACNrcFC74nv45KtNuQLR+hNy8
+12jEUGkhADWps+fQH7bZebswT9ePfwTfA1xh0pXeeWKCkaiKcgFhZH+JcNQLkwkx
+fC80yZK4qnvU1SmzK2tpfzAk7jUMtQ==
+=5tJl
+-----END PGP SIGNATURE-----
 
-:::::: The code at line 326 was first introduced by commit
-:::::: 5fe909cae118a757a77afb37174b99436a36d2e2 drm/panthor: Add the device logical block
+--n4/kSvCMF0M05hCx--
 
-:::::: TO: Boris Brezillon <boris.brezillon@collabora.com>
-:::::: CC: Boris Brezillon <boris.brezillon@collabora.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
