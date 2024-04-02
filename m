@@ -2,82 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50502895128
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 13:00:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 341AC895157
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 13:03:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F56510FC5A;
-	Tue,  2 Apr 2024 10:59:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B93810EFE1;
+	Tue,  2 Apr 2024 11:03:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=shruggie-ro.20230601.gappssmtp.com header.i=@shruggie-ro.20230601.gappssmtp.com header.b="wWV0u0sy";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Rn9WScRQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C13910FC55
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 10:59:53 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-a472f8c6a55so632066766b.0
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Apr 2024 03:59:53 -0700 (PDT)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9085C10EFE1
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 11:03:51 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-4161eb1aa1fso270185e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Apr 2024 04:03:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=shruggie-ro.20230601.gappssmtp.com; s=20230601; t=1712055592; x=1712660392;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rXpPcJrb0/c9fFyOw1QyBw93a9H0uLAjKgu80GZ/xnA=;
- b=wWV0u0sy6zNLhOlUDT1twj/An+5hToxayZ4ewFyx9bxZuplFaoPBm23+cOiwn9YZt8
- QPzV/LiVmAmhGHh0D9zDy32+L4fOttSNxFTpks32qlxi19XZRZoiNitMNzIJODITayDt
- oLWUPvQtCsGzuIo+mN0Y1q1eFPvB48D7DcgoOtugiYyx1L5dizZPDY8AFaNOyPRIYiTa
- ZQLcJ9BK4QkTjOxQKXAHwqVhKBx1H/pnGqATCy2T+aBftvW5hDz+Ek1DaNfeRwFQdJKa
- gKO25IjKVTjdZFXUG7RV10dYjBjACVfKF16sn3MbsXrC3MF+myEOmo1XbIZesoAc/XYo
- Kdaw==
+ d=linaro.org; s=google; t=1712055830; x=1712660630; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=pkXDCtAWQf5f4/vhlPOEJz9BIk+NlDOJWtNC7X7Jx58=;
+ b=Rn9WScRQuXIs5eU2jFVSukQt2RHYJxWIMZ+9bupA5Q3BnS2xXSx5FpYijsw14y+K8+
+ ljnqXdAKwwJTF5q5SjGN2mWIGRHtXHHOM1Yz8wrKfPAwfYUEBnzo/j3VdLpDr+VfE6hn
+ hlAjoUQerlwjunxdkoshfOkKLL7jG1Qkjcr6n3ftjVjUKI7ePYrFY45APgXR/CelSsNF
+ /gBEzWoSAZCKnU3/Ud4A+U9Gv3VFIl3FrijOxy6TRlilrc9WUwBk+dOhAEccpIemayTB
+ ffDmADpjZ5uJBpOoicZ5c88yaQ7XyIqEH7APP4NSOOHPoVJ1M60TO1TN5hKtoOBN1P5k
+ 85Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712055592; x=1712660392;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rXpPcJrb0/c9fFyOw1QyBw93a9H0uLAjKgu80GZ/xnA=;
- b=aDI1G/TwUTGJPMvdSs0CMDkWHZJcJYPuyjJ3Uh/Gpj49xo1ctYPRl/4nasaJ2ROjJP
- Ac8fy2el0QqWlv8YHiyFP3Uh1vm2Lv1Sh39sMoAwULzcZ+19zka7XL368QqIazZtqmTS
- lb3c7FE1QeoZi4fu0w+Mp5Z7H6FwVCRpZgNmFpIYJKHge9LADXUyZs17nFEXYF5c0tA1
- oPaMgmRAo8gVsgV9xveHaiCwyZevFdP89nNqM2PuY+ZX/TH9R/aBogTnG0zf8mwrRyJG
- kTxstBKX0c+BSd/aUg2krjiS0r1LhuuHTdqtJPcwMWmRG+S70l9ZvtaLKsvZ2clirxuu
- wlRw==
+ d=1e100.net; s=20230601; t=1712055830; x=1712660630;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pkXDCtAWQf5f4/vhlPOEJz9BIk+NlDOJWtNC7X7Jx58=;
+ b=eTCunp3zVUdikBwztMZ3z5KuknYT6eK1TX9mcHZUAXFPJGuo1eVk6pZYbLnLQ3HXML
+ CH87zKbI14bNKmyfXqtYY+s5WXy1L3LNpj74aL6QIOZBaRaNI3RKPW5h1YyCZKgygR71
+ 3YCCQ5LXlBsRx4Yw+DKj1bOWsDHm9HYkhrSRvVmRWYwnPM9C+i4dQ1KDyIES9wSSAYEk
+ gdAJk/+1FaeWGBs/VWQEqKQc+TYl2rYH4vcPQGsUPfgJtwxaqpOssXZM5z4RZSWj8qL7
+ SOPo1wF9l9SJPI/k77LO7X2BcUbOLH+yqgkxfnbyaDxSRu9UqSegECxa5+VX49O+gbZD
+ 7oSg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU7H5Dj3yy8JhID+99yw1tCtGYd5b1+Sd0dEAlSdHWznbsAE6moH7vYY2sD+j1uJHVbPiJ4sh4LnYiTpbuLcJg7Fjsfo/za8aFEOBnMebTO
-X-Gm-Message-State: AOJu0YzWr/7P3TComtHricg4iztAxnN9JeQoVkVm/BZCYviuMt86SSaG
- eGM8AfusheVgf9PLPymU1QYMxgPwMHDyjsuDa5kSN5lLIfBViMyjE4fY42c0jPw=
-X-Google-Smtp-Source: AGHT+IGGSoJIA97YOgNxCukuxcOn+f/JIPX2GrbHrot9689BBm4pd2Nezt74kHJqHep0H3+kkPIVRQ==
-X-Received: by 2002:a17:906:d8e:b0:a4a:3557:6be8 with SMTP id
- m14-20020a1709060d8e00b00a4a35576be8mr7750846eji.53.1712055591722; 
- Tue, 02 Apr 2024 03:59:51 -0700 (PDT)
-Received: from localhost.localdomain ([188.27.131.149])
+ AJvYcCUrJoZBV3YMrh5qFY8EXlDQ/WDYxL2qDo+ohf8UwfbhcC7QpFcOjeqi2+Wn+P3ID2N/nvw1jnp1lnKtZ78dzC8astQb8kj0vxY5FFjSmd8E
+X-Gm-Message-State: AOJu0Yzv0hJ0twjp1WJ1Jt5IIMwE4mgvmlg1rwe2YKGwIw/ZcwrGclA3
+ BWyUk1/S0ADlv1qgJM3tGS4sHkOA3I8/mtyeYWEMnnqw6275bcbaMt0z0EEBIRk=
+X-Google-Smtp-Source: AGHT+IEufhh5jSbZqDrpUvGWVHbbF5VFV6RhofXz9rzUdYYsBctfugfPGPViWxk05N45/wOGrEewjw==
+X-Received: by 2002:a05:600c:4753:b0:414:7bd1:4060 with SMTP id
+ w19-20020a05600c475300b004147bd14060mr8803238wmo.2.1712055829600; 
+ Tue, 02 Apr 2024 04:03:49 -0700 (PDT)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
  by smtp.gmail.com with ESMTPSA id
- a17-20020a170906275100b00a4644397aa9sm6398780ejd.67.2024.04.02.03.59.49
+ m4-20020a05600c3b0400b004161b8a0310sm1466450wms.1.2024.04.02.04.03.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Apr 2024 03:59:51 -0700 (PDT)
-From: Alexandru Ardelean <alex@shruggie.ro>
-To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Cc: adrien.grassein@gmail.com, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- stefan.eichenberger@toradex.com, francesco.dolcini@toradex.com,
- marius.muresan@mxt.ro, irina.muresan@mxt.ro,
- Alexandru Ardelean <alex@shruggie.ro>
-Subject: [PATCH 2/2] dt-bindings: display: bridge: lt8912b: document 'lontium,
- pn-swap' property
-Date: Tue,  2 Apr 2024 13:59:25 +0300
-Message-ID: <20240402105925.905144-2-alex@shruggie.ro>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240402105925.905144-1-alex@shruggie.ro>
-References: <20240402105925.905144-1-alex@shruggie.ro>
+ Tue, 02 Apr 2024 04:03:49 -0700 (PDT)
+Date: Tue, 2 Apr 2024 12:03:47 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] video: backlight: otm3225a: drop driver owner assignment
+Message-ID: <20240402110347.GB25200@aspen.lan>
+References: <20240327174714.519577-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240327174714.519577-1-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,33 +84,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On some HW designs, it's easier for the layout if the P/N pins are swapped.
-The driver currently has a DT property to do that.
+On Wed, Mar 27, 2024 at 06:47:14PM +0100, Krzysztof Kozlowski wrote:
+> Core in spi_register_driver() already sets the .owner, so driver
+> does not need to.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-This change documents the 'lontium,pn-swap' property.
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-Signed-off-by: Alexandru Ardelean <alex@shruggie.ro>
----
- .../devicetree/bindings/display/bridge/lontium,lt8912b.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml
-index 2cef252157985..3a804926b288a 100644
---- a/Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml
-@@ -24,6 +24,12 @@ properties:
-     maxItems: 1
-     description: GPIO connected to active high RESET pin.
- 
-+  lontium,pn-swap:
-+    description: Swap the polarities of the P/N pins in software.
-+      On some HW designs, the layout is simplified if the P/N pins
-+      are inverted.
-+    type: boolean
-+
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
- 
--- 
-2.44.0
-
+Daniel.
