@@ -2,65 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C8D0894D6E
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 10:30:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6B0D894DD5
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 10:46:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E468F10F7CA;
-	Tue,  2 Apr 2024 08:29:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEE6A10FB67;
+	Tue,  2 Apr 2024 08:46:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="l55a3AM4";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.b="QY7wOFYA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9917310F3DB;
- Tue,  2 Apr 2024 08:29:58 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E84AF60F81;
- Tue,  2 Apr 2024 08:29:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A6A2C43394;
- Tue,  2 Apr 2024 08:29:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1712046597;
- bh=KLiOyU5gxLUsegc5eE8/HwQZQ1rmvicDU4hOpKd3aeo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=l55a3AM46XbBh4JItwGhAxKslyWIKIYKui6nTuLqnelnvoCzqlpqOBF855wp5JiYA
- Yowmji/9KFQKT7t3FXrheQWOfrZKhf4TXyansdGzhWv+JZ0NKjtP2vXTecC/0VBNXb
- iyeRoNhrs0sqvkO3VW5XtNeqcA6vj8bE4n+Bku10Paa7Sw2yozjgMMQor1qpvpJeni
- NYcWL13S4L1UDvWSpOd96u0uvRmBx+otENbremo5gbkAPR5nG4KtoKeteSAikD4VQo
- aHJSXR2CScq7H9dhwpbQ9dZeGJASNTbz3sbft5dih+eH9O18+aPLDPwjNCJ64V3l+M
- Jnld7gjc+HRxA==
-Date: Tue, 2 Apr 2024 09:29:51 +0100
-From: Simon Horman <horms@kernel.org>
-To: Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: Edward Cree <ecree.xilinx@gmail.com>,
- Martin Habets <habetsm.xilinx@gmail.com>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- "open list:SFC NETWORK DRIVER" <netdev@vger.kernel.org>,
- "open list:SFC NETWORK DRIVER" <linux-net-drivers@amd.com>,
- open list <linux-kernel@vger.kernel.org>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>, 
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>, 
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>, 
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
-Subject: Re: [PATCH v0 10/14] sfc: falcon: Make I2C terminology more inclusive
-Message-ID: <20240402082951.GG26556@kernel.org>
-References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
- <20240329170038.3863998-11-eahariha@linux.microsoft.com>
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [80.237.130.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FA6510FB66;
+ Tue,  2 Apr 2024 08:46:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
+ Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+ In-Reply-To:References; bh=UOKR97xWJsCzeiNSwUpoZzyukhRCG3SAXSValTgdpjo=;
+ t=1712047577; x=1712479577; b=QY7wOFYAEl2GbwxwqcV/x+Qs+5aMVDCyol9VzQ4Rwy6jwKk
+ D4Nd5rhawfwDSSPOWDNEsgdzXz3dGpSx/Heo9SGrXWl4cR5GScuz61OpHbi97rbO9uBNjHM95DlEt
+ hBQr1FvxTT92S5BBn9DhZZyz4GFM3srK+rtmmzVH+4AOrp4I1bNPYzz2CQRNMuwjdMJYLWZVhuJP8
+ OGfHSrlGVZWQKVxx8hAYLUvbTRfBNTX3/3ZmLXRuV92ua6rE7rhhcJL1rAN5qU2WGc5lw0tZbnJGr
+ OfVVnEiYXxVDwV/FYgWK2LRH4sHY6NGW8940fz3VFnKjpb7g+l1I9fwK4UfLWdYg==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1rrZmW-0000jW-Qi; Tue, 02 Apr 2024 10:46:12 +0200
+Message-ID: <ecc8bd98-0dac-4f17-abb3-ebc8b10fd0f7@leemhuis.info>
+Date: Tue, 2 Apr 2024 10:46:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240329170038.3863998-11-eahariha@linux.microsoft.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] external monitor+Dell dock in 6.8
+To: Imre Deak <imre.deak@intel.com>
+Cc: regressions@lists.linux.dev, Andrei Gaponenko <beamflash@quaintcat.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+References: <22aa3878-62c7-9a2c-cfcc-303f373871f6@quaintcat.com>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+Content-Language: en-US, de-DE
+In-Reply-To: <22aa3878-62c7-9a2c-cfcc-303f373871f6@quaintcat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1712047577;
+ d6aa77ea; 
+X-HE-SMSGID: 1rrZmW-0000jW-Qi
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,21 +67,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 29, 2024 at 05:00:34PM +0000, Easwar Hariharan wrote:
-> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
-> with more appropriate terms. Inspired by and following on to Wolfram's
-> series to fix drivers/i2c/[1], fix the terminology for users of
-> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
-> in the specification.
-> 
-> Compile tested, no functionality changes intended
-> 
-> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
-> 
-> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+[Adding a few folks and list while dropping the stable list, as this is
+unrelated to it]
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+On 31.03.24 07:59, Andrei Gaponenko wrote:
+> 
+> I noticed a regression with the mailine kernel pre-compiled by EPEL.
+> I have just tried linux-6.9-rc1.tar.gz from kernel.org, and it still
+> misbehaves.
+> 
+> The default setup: a laptop is connected to a dock, Dell WD22TB4, via
+> a USB-C cable.  The dock is connected to an external monitor via a
+> Display Port cable.  With a "good" kernel everything works.  With a
+> "broken" kernel, the external monitor is still correctly identified by
+> the system, and is shown as enabled in plasma systemsettings. The
+> system also behaves like the monitor is working, for example, one can
+> move the mouse pointer off the laptop screen.  However the external
+> monitor screen stays black, and it eventually goes to sleep.
 
+Just a quick heads up to ensure people are aware of it:
+
+Imre Deak, turns out this is caused by a patch of yours: 55eaef16417448
+("drm/i915/dp_mst: Handle the Synaptics HBlank expansion quirk"). Andrei
+Gaponenko meanwhile filed a ticket about it here:
+
+https://gitlab.freedesktop.org/drm/intel/-/issues/10637
+
+Ciao, Thorsten
+
+> Everything worked with EPEL mainline kernels up to and including
+> kernel-ml-6.7.9-1.el9.elrepo.x86_64
+> 
+> The breakage is observed in
+> 
+> kernel-ml-6.8.1-1.el9.elrepo.x86_64
+> kernel-ml-6.8.2-1.el9.elrepo.x86_64
+> linux-6.9-rc1.tar.gz from kernel.org (with olddefconfig)
+> 
+> Other tests: using an HDMI cable instead of the Display Port cable
+> between the monitor and the dock does not change things, black screen
+> with the newer kernels.
+> 
+> Using a small HDMI-to-USB-C adapter instead of the dock results in a
+> working system, even with the newer kernels.  So the breakage appears
+> to be specific to the Dell WD22TB4 dock.
+> 
+> Operating System: AlmaLinux 9.3 (Shamrock Pampas Cat)
+> 
+> uname -mi: x86_64 x86_64
+> 
+> Laptop: Dell Precision 5470/02RK6V
+> 
+> lsusb |grep dock
+> Bus 003 Device 007: ID 413c:b06e Dell Computer Corp. Dell dock
+> Bus 003 Device 008: ID 413c:b06f Dell Computer Corp. Dell dock
+> Bus 003 Device 006: ID 0bda:5413 Realtek Semiconductor Corp. Dell dock
+> Bus 003 Device 005: ID 0bda:5487 Realtek Semiconductor Corp. Dell dock
+> Bus 002 Device 004: ID 0bda:0413 Realtek Semiconductor Corp. Dell dock
+> Bus 002 Device 003: ID 0bda:0487 Realtek Semiconductor Corp. Dell dock
+> 
+> dmesg and kernel config are attached to 
+> https://bugzilla.kernel.org/show_bug.cgi?id=218663
+> 
+> #regzbot introduced: v6.7.9..v6.8.1
+
+P.S.:
+
+#regzbot duplicate: https://bugzilla.kernel.org/show_bug.cgi?id=218663
+#regzbot duplicate: https://gitlab.freedesktop.org/drm/intel/-/issues/10637
+#regzbot title: drm/i915/dp_mst: external monitor on Dell dock broke
