@@ -2,74 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4736894D19
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 10:02:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37197894C8A
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 09:23:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DBC810FB22;
-	Tue,  2 Apr 2024 08:02:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9241010F3B3;
+	Tue,  2 Apr 2024 07:23:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="HryEj9N+";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XD3d6TYa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
- [209.85.208.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61FC910FABE
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 07:11:21 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id
- 4fb4d7f45d1cf-56c1a65275bso2364196a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Apr 2024 00:11:21 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com
+ [209.85.219.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08D7D10F3AF
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 07:23:34 +0000 (UTC)
+Received: by mail-yb1-f182.google.com with SMTP id
+ 3f1490d57ef6-dccb1421bdeso4192200276.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Apr 2024 00:23:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1712041879; x=1712646679;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ZnIWTbeR2GXQXE2WKV9Ap/wvI2y5jKr9SDTIrGO5fgY=;
- b=HryEj9N+u0f12HyX7xWSDSeC5eCUEnaaadRBzzv60KyYwHtcz02CMelLo/fGFWvTf7
- 8D4QfuNBinQQilP9Lt6JVEtqqIERRF9zAWWVDI6ODAqohv/7EJ49oVaWWLPXAMvIN5Nh
- I+l4ZhTJM6KMj5JkZbnOzL7xG8M0VgsriSI54=
+ d=linaro.org; s=google; t=1712042614; x=1712647414; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=TabQ2YZKZbkFzivtnWN/s3P657uIJJTcK5H1sTgsFt8=;
+ b=XD3d6TYaGia/pfEWTTIoQl/z94ESnMpgIo4hrhv9Gy9z5Lngi9plcBXc3/S0JTO7Fq
+ sTho4YOnqVoGQidMvBXrX9w0PLoQQ34XGJQCeSJGUIPTU9D86z5CAjwChZ6BBcmzIvpy
+ 529tENKPOXU5dv652UvbBIrQ9xKbidnQkINOm6mEnfxq0KyakX5kXDV7BZ5ZYXWLUH/l
+ y0Wi6ar4KQtGjZqEDLcFh/ALBehU75WEwOUht4HTJAxZuZ9Aukn3RP5KqDI539VY2hIL
+ wIOEyJXvicSioKPjKme0xVAIxCQT5VQwtc7tFBScI9NZpk6PUzoiXakIibrevp17V0iE
+ byXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712041879; x=1712646679;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1712042614; x=1712647414;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=ZnIWTbeR2GXQXE2WKV9Ap/wvI2y5jKr9SDTIrGO5fgY=;
- b=i80choIgrnY6jms/H/xfkp75uREagcbqAQMqOf8yu0UPkUCopl0BKxx8DJyyDFj64W
- 0r3pbX4BHqqifPa2MPdy50fCEQcyvvTpzxC/lc7kb0m+5RRu3NUDcJgj8DEYrB0QDDr6
- lW2nxYV1HtUyomTvWj33wei3Mk++UeNRZC8kwMPgWZUtw2iTi1VPUpqxmOGE1NoEwBnZ
- jKWBL1egK+jrn/YZuK/EgQoCNylkyXLQyH/ha2y1i9e6uqWkLhY5hnoPSHClKjt03tiI
- xalTAewmLUIl1vUoecmwnC9AWb3WqbBu7/8SZQGhHzw/QBz0AU1znxrpMw/HwEb79d+1
- XOew==
+ bh=TabQ2YZKZbkFzivtnWN/s3P657uIJJTcK5H1sTgsFt8=;
+ b=j5jcNoaNj2W2klOtxhJ8v/M1UPGrX971SzbvSqAzA9VWTHQiiXyuE/lO44lj5tqVLv
+ pbEu/ADSgqDpRlnFCTuRcAH0kxZvm85IPFabX9Abhb8gkFT9+WCewnNL3/8ILHo6LRoz
+ gJIJ2OgABZapTUGwfPSXGb66sWzXTkt6zQHgmfESGYhMe3BcigtYh1wEIlK4osk19SOd
+ 0EpFfIEeEq8YYpIEbQu7w47ulw9gSTfHa8OuJxVxZo2W9l+ZydSpGU3zQ6tRXW5nCzOi
+ h8XAdF68mMXKmftTzuQooZAjtL38CydQM6kFAGbTYWLvwYCgj15ywjsKImWZopkbfWK5
+ LVdw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVLdNLpdTnJ7cIf2e7C8+7ZDckE1+fy+m12e4fPSRpVUHJcTwq7AUTSmMLPuvgVZzbwxuPubH3Zd9/IQ5C+BfwpX41/KlphOj7KtS3O7F5C
-X-Gm-Message-State: AOJu0YyLS8/XMrSQHQJNSFc2C4nihKawoZMGaAUsYyAK3dxSFEXz81lj
- 2VM89Rokadc7m0HG1+ZZZezDeWzpJhKRde4Q75mGsN5TFs+6Dm/33Y4j+192ZA==
-X-Google-Smtp-Source: AGHT+IGUOjA6NKyVT/+ELVqwwCceZpb+FILLMln0YYk0jw8k+fwEMqxkgdfJr/x+JyjJ3SCGlsnvew==
-X-Received: by 2002:a50:f603:0:b0:56d:e947:dd52 with SMTP id
- c3-20020a50f603000000b0056de947dd52mr471101edn.26.1712041879594; 
- Tue, 02 Apr 2024 00:11:19 -0700 (PDT)
-Received: from orzel7.c.googlers.com.com
- (229.112.91.34.bc.googleusercontent.com. [34.91.112.229])
- by smtp.gmail.com with ESMTPSA id
- g28-20020a056402321c00b0056c1c2b851esm6395171eda.0.2024.04.02.00.11.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Apr 2024 00:11:19 -0700 (PDT)
-From: Wojciech Macek <wmacek@chromium.org>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- chrome-platform@lists.linux.dev
-Cc: Wojciech Macek <wmacek@chromium.com>
-Subject: [PATCH] drm/mediatek/dp: fix mtk_dp_aux_transfer return value
-Date: Tue,  2 Apr 2024 07:11:13 +0000
-Message-ID: <20240402071113.3135903-1-wmacek@chromium.org>
-X-Mailer: git-send-email 2.44.0.478.gd926399ef9-goog
+ AJvYcCUCccRfr8PtrRbTFw37ug+XgOS6SyMevuKN0X9OqFVZSO7YR8ZgQlc6JDzBFJDN7GsiQITaFs55YBNK6bwSjGfHP4nvTn4f1ORGFCwCVWdr
+X-Gm-Message-State: AOJu0Yxcd0faF8nzM36XSZUQ3cdb1fYfzsR8nOXMYpJBLTJ/munVXMrI
+ BFZi+eBWBrkqIrtWJsoZk2KhzXUUjdu9TmMBSU5ZbT/RbhSXYb/CMjBM1XvCc0nbskVR6hvbYlP
+ nTGXzL+7OPeR0+IznWUcaIqY77T7GHrlAgndSSg==
+X-Google-Smtp-Source: AGHT+IFD86Uoe4DkZqNoswdbUsX4qLvBWlBIGcubcGElg6SvFLOP7pWe31TeIM97fq3YF8cj6wVYaY2qIVBhr6NNOiw=
+X-Received: by 2002:a25:ab87:0:b0:dd0:c2a:26f9 with SMTP id
+ v7-20020a25ab87000000b00dd00c2a26f9mr9419434ybi.27.1712042613940; Tue, 02 Apr
+ 2024 00:23:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 02 Apr 2024 08:02:52 +0000
+References: <20240402-lg-sw43408-panel-v3-0-144f17a11a56@linaro.org>
+ <20240402-lg-sw43408-panel-v3-1-144f17a11a56@linaro.org>
+ <9fbb9058-ccfe-436d-b413-b3ba27e4e5f9@linaro.org>
+In-Reply-To: <9fbb9058-ccfe-436d-b413-b3ba27e4e5f9@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 2 Apr 2024 10:23:22 +0300
+Message-ID: <CAA8EJprwWd=ZtwnpTm3cVP8RBEqxCcSGyBu-bHj=iV=+X2=FyQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] dt-bindings: panel: Add LG SW43408 MIPI-DSI panel
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Caleb Connolly <caleb.connolly@linaro.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Vinod Koul <vkoul@kernel.org>, Caleb Connolly <caleb@connolly.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,33 +91,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Wojciech Macek <wmacek@chromium.com>
+On Tue, 2 Apr 2024 at 09:31, Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 02/04/2024 01:51, Dmitry Baryshkov wrote:
+> > From: Sumit Semwal <sumit.semwal@linaro.org>
+> >
+> > LG SW43408 is 1080x2160, 4-lane MIPI-DSI panel present on Google Pixel 3
+> > phones.
+> >
+> > Signed-off-by: Vinod Koul <vkoul@kernel.org>
+> > Signed-off-by: Sumit Semwal <sumit.semwal@linaro.org>
+> > [caleb: convert to yaml]
+> > Signed-off-by: Caleb Connolly <caleb@connolly.tech>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+>
+> Tags missing.
+>
+> `b4 trailers -u`
 
-In case there is no DP device attached to the port the
-transfer function should return IO error, similar to what
-other drivers do.
-In case EAGAIN is returned then any read from /dev/drm_dp_aux
-device ends up in an infinite loop as the upper layers
-constantly repeats the transfer request.
+Excuse me, I keep on forgetting it.
 
-Signed-off-by: Wojciech Macek <wmacek@chromium.com>
----
- drivers/gpu/drm/mediatek/mtk_dp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index 0ba72102636a..536366956447 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -2104,7 +2104,7 @@ static ssize_t mtk_dp_aux_transfer(struct drm_dp_aux *mtk_aux,
- 
- 	if (mtk_dp->bridge.type != DRM_MODE_CONNECTOR_eDP &&
- 	    !mtk_dp->train_info.cable_plugged_in) {
--		ret = -EAGAIN;
-+		ret = -EIO;
- 		goto err;
- 	}
- 
 -- 
-2.44.0.478.gd926399ef9-goog
-
+With best wishes
+Dmitry
