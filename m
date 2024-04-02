@@ -2,81 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 327F2895A2F
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 18:53:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83719895A50
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Apr 2024 19:00:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E1A410FE9E;
-	Tue,  2 Apr 2024 16:53:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A908710FE77;
+	Tue,  2 Apr 2024 17:00:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ikVnJcs1";
+	dkim=pass (2048-bit key; unprotected) header.d=dolcini.it header.i=@dolcini.it header.b="SPV4IS2w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5550D10EA31;
- Tue,  2 Apr 2024 16:53:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712076790; x=1743612790;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=+OIETa7FqtPMYZEyetZK7bSBPqtgACHlQcapBmBrB1s=;
- b=ikVnJcs1tBJ8SnyaglXPhvUo5AgyJftd5ri8/MnztMYAx31SxS0STVBQ
- 0cu5l+Qi26fpOPAPoFfrKZjHELnkM/PgXuXUkuGgx1eOlcXDE0w5vnrAG
- 2nZo31yC2/SoJ5VX+cY9ufoIhvmc7W6hIzw7PHsQlgO20iVT0P5H843bo
- RxtLzXwoyIZ/TYiFUbTktKC7LbpTPwPkNiZKQvB/iXb2UbisnZjQR41W7
- lckCSiEVZR0JIefE/idwClETC6ULLzIRH4TRiTMoPYVRBhdSp+k+oDvTr
- NkbRZtUrA/mSVimMTwvc5rXkvjZhxKCPqxFiFlnyFVYrQLshZgoPsm8hh g==;
-X-CSE-ConnectionGUID: cDsqCvVMQw6aCcavFp65gw==
-X-CSE-MsgGUID: uNt6LdDwSQuHifHcQaiE1Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="7107284"
-X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; 
-   d="scan'208";a="7107284"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Apr 2024 09:53:08 -0700
-X-CSE-ConnectionGUID: ffg8/aPXSdikW95Gpql1bg==
-X-CSE-MsgGUID: UqZyC5N1Sx2Vz2k/GRMH4A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; d="scan'208";a="18552508"
-Received: from pramona-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.57.179])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Apr 2024 09:53:02 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Easwar Hariharan <eahariha@linux.microsoft.com>, Patrik Jakobsson
- <patrik.r.jakobsson@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang
- <zhi.wang.linux@gmail.com>, dri-devel@lists.freedesktop.org, open list
- <linux-kernel@vger.kernel.org>, "open list:INTEL DRM DISPLAY FOR XE AND
- I915 DRIVERS" <intel-gfx@lists.freedesktop.org>, "open list:INTEL DRM
- DISPLAY FOR XE AND I915 DRIVERS" <intel-xe@lists.freedesktop.org>, "open
- list:INTEL GVT-g DRIVERS (Intel GPU Virtualization)"
- <intel-gvt-dev@lists.freedesktop.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, "open list:RADEON and
- AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>, "open list:DRM DRIVER
- FOR NVIDIA GEFORCE/QUADRO GPUS" <nouveau@lists.freedesktop.org>, "open
- list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>, "open
- list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>, "open
- list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
-Subject: Re: [PATCH v0 03/14] drm/gma500,drm/i915: Make I2C terminology more
- inclusive
-In-Reply-To: <fde7a0da-1981-48db-95e2-96d45655c11c@linux.microsoft.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
- <20240329170038.3863998-4-eahariha@linux.microsoft.com>
- <87a5mcfbms.fsf@intel.com>
- <7d5e6ed0-ffe9-46c2-b3b4-a4a47c09532e@linux.microsoft.com>
- <87ttkjesx8.fsf@intel.com>
- <fde7a0da-1981-48db-95e2-96d45655c11c@linux.microsoft.com>
-Date: Tue, 02 Apr 2024 19:52:48 +0300
-Message-ID: <87o7aremfz.fsf@intel.com>
+X-Greylist: delayed 429 seconds by postgrey-1.36 at gabe;
+ Tue, 02 Apr 2024 17:00:24 UTC
+Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E52510FE77
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Apr 2024 17:00:24 +0000 (UTC)
+Received: from francesco-nb (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
+ by mail11.truemail.it (Postfix) with ESMTPA id 619571FAA3;
+ Tue,  2 Apr 2024 18:53:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
+ s=default; t=1712076792;
+ bh=PctgBINCFX58WVqQY3z03UnoMSWRHAzvZU5WuaVRFQo=; h=From:To:Subject;
+ b=SPV4IS2waVCTTGVjIqICRmtVQjms4nIPuOmv0oiWsDf0jJTHDe6SxPuK32GbH/mO5
+ 3zeLNjxE3E1CuL6Zty521LUAsOmBmzhwx7fkzCcfH2Csc9WZfYIJFzZSQ71zSQhC4v
+ OXCgOb9mNPc2V4ie4aPYBHcP+/y4CdgoLU4qyK3sGXkthLFGkQu+0bmWv4dcs9fIx8
+ lIRImWikSATfVoPAe2p0cZ7tFr12oMeZm3S6ouJHdjkNEOos6qpj0C3iXEXAuUzkII
+ DSTLf7fYHbRngHE2PwywYLqfMDmezl6Hc/tfTsGo9mKAa5VkodPKlAy6AxTGAxI/Ez
+ 4M4PgR3YEb6yA==
+Date: Tue, 2 Apr 2024 18:53:07 +0200
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Alexandru Ardelean <alex@shruggie.ro>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, adrien.grassein@gmail.com,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+ rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, airlied@gmail.com,
+ daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ stefan.eichenberger@toradex.com, francesco.dolcini@toradex.com,
+ marius.muresan@mxt.ro, irina.muresan@mxt.ro
+Subject: Re: [PATCH 1/2] drm/bridge: lt8912b: add support for P/N pin swap
+Message-ID: <20240402165307.GA31874@francesco-nb>
+References: <20240402105925.905144-1-alex@shruggie.ro>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240402105925.905144-1-alex@shruggie.ro>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,71 +64,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 02 Apr 2024, Easwar Hariharan <eahariha@linux.microsoft.com> wrote:
-> On 4/2/2024 7:32 AM, Jani Nikula wrote:
->> On Tue, 02 Apr 2024, Easwar Hariharan <eahariha@linux.microsoft.com> wrote:
->>> On 4/2/2024 12:48 AM, Jani Nikula wrote:
->>>> On Fri, 29 Mar 2024, Easwar Hariharan <eahariha@linux.microsoft.com> wrote:
->>>>> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
->>>>> with more appropriate terms. Inspired by and following on to Wolfram's
->>>>> series to fix drivers/i2c/[1], fix the terminology for users of
->>>>> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
->>>>> in the specification.
->>>>
->>>> gma500 and i915 changes should be split. See MAINTAINERS.
->>>>
->>>> Might also split the i915 changes to smaller pieces, it's kind of
->>>> random. And the changes here are not strictly related to I2C AFAICT, so
->>>> the commit message should be updated.
->>>>
->>>> BR,
->>>> Jani.
->>>>
->>>>
->>>
->>> <snip>
->>>
->>> I will split gma500 and i915 into their respective patches if possible in v2.
->>>
->>> Can you say more about the changes being "not strictly related to I2C"? My
->>> heuristic was to grep for master/slave, and look in the surrounding context for
->>> i2c-related terminology (i2c_pin, 7-bit address, struct i2c_adapter, i2c_bus, etc)
->>> to confirm that they are i2c-related, then following the references around to
->>> make the compiler happy. For e.g., I did not change the many references to bigjoiner
->>> master and slave because I understood from context they were not i2c references.
->>>
->>> A couple examples would help me restrict the changes to I2C, since as mentioned in the
->>> discussion on Wolfram's thread, there are places where migrating away from master/slave
->>> terms in the code would conflict with the original technical manuals and reduce correlation
->>> and understanding of the code.
->> 
->> I guess I was looking at the VBT changes in intel_bios.c. Granted, they
->> do end up being used as i2c addresses. No big deal.
->> 
->> I think I'd expect the treewide i2c adapter changes to land first, via
->> i2c, and subsequent cleanups to happen next, via individual driver
->> trees. There's quite a bit of conflict potential merging this outside of
->> drm-intel-next, and there's really no need for that.
->> 
->> BR,
->> Jani.
->> 
->
-> Great! Just so I'm clear, do you still want the i915 changes split up more, along with them being
-> split off from gma500?
+Hello Alexandru, thanks for your patch.
 
-If we can merge the i915 changes via drm-intel-next, it's probably fine
-as a big i915 patch. Just the gma500 separated. (The struct
-i2c_algorithm change etc. necessarily has to go via I2C tree of course.)
+On Tue, Apr 02, 2024 at 01:59:24PM +0300, Alexandru Ardelean wrote:
+> On some HW designs, it's easier for the layout if the P/N pins are swapped.
+> In those cases, we need to adjust (for this) by configuring the MIPI analog
+> registers differently. Specifically, register 0x3e needs to be 0xf6
+> (instead of 0xd6).
+> 
+> This change adds a 'lontium,pn-swap' device-tree property to configure the
+> MIPI analog registers for P/N swap.
+> 
+> Signed-off-by: Alexandru Ardelean <alex@shruggie.ro>
+> ---
+>  drivers/gpu/drm/bridge/lontium-lt8912b.c | 25 +++++++++++++++++++++---
+>  1 file changed, 22 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
+> index 4b2ae27f0a57f..154126bb922b4 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
+> @@ -47,6 +47,7 @@ struct lt8912 {
+>  
+>  	u8 data_lanes;
+>  	bool is_power_on;
+> +	bool do_pn_swap;
+>  };
+>  
+>  static int lt8912_write_init_config(struct lt8912 *lt)
+> @@ -78,15 +79,31 @@ static int lt8912_write_init_config(struct lt8912 *lt)
+>  		{0x55, 0x44},
+>  		{0x57, 0x01},
+>  		{0x5a, 0x02},
+> -
+> -		/*MIPI Analog*/
+> +	};
+> +	const struct reg_sequence mipi_analog_seq[] = {
+>  		{0x3e, 0xd6},
+>  		{0x3f, 0xd4},
+>  		{0x41, 0x3c},
+>  		{0xB2, 0x00},
+>  	};
+> +	const struct reg_sequence mipi_analog_pn_swap_seq[] = {
+> +		{0x3e, 0xf6},
+> +		{0x3f, 0xd4},
+> +		{0x41, 0x3c},
+> +		{0xB2, 0x00},
+> +	};
+> +	int ret;
+>  
+> -	return regmap_multi_reg_write(lt->regmap[I2C_MAIN], seq, ARRAY_SIZE(seq));
+> +	ret = regmap_multi_reg_write(lt->regmap[I2C_MAIN], seq, ARRAY_SIZE(seq));
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (!lt->do_pn_swap)
+> +		return regmap_multi_reg_write(lt->regmap[I2C_MAIN], mipi_analog_seq,
+> +					      ARRAY_SIZE(mipi_analog_seq));
+> +
+> +	return regmap_multi_reg_write(lt->regmap[I2C_MAIN], mipi_analog_pn_swap_seq,
+> +				      ARRAY_SIZE(mipi_analog_pn_swap_seq));
 
-BR,
-Jani.
+Can you just remove {0x3e, 0xd6} from the register/value array and write
+it afterward depending on `do_pn_swap` value? Or keep it with the
+current value and only overwrite it when do_pn_swap is true?
+
+If you do it this way is a 4 line change.
 
 
+>  static int lt8912_write_mipi_basic_config(struct lt8912 *lt)
+> @@ -702,6 +719,8 @@ static int lt8912_parse_dt(struct lt8912 *lt)
+>  	}
+>  	lt->gp_reset = gp_reset;
+>  
+> +	lt->do_pn_swap = device_property_read_bool(dev, "lontium,pn-swap");
 
->
-> Thanks,
-> Easwar
+I would call this variable the same that is called in the lontium
+documentation, mipirx_diff_swap
 
--- 
-Jani Nikula, Intel
+Francesco
+
