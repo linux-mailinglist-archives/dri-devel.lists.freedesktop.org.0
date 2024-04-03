@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 092D98964C9
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 08:46:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F2F58964CA
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 08:46:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D464112530;
-	Wed,  3 Apr 2024 06:46:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DE5A112532;
+	Wed,  3 Apr 2024 06:46:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="X1u1ZoyM";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Hthilw/9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5183F112530
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 06:46:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2401112531
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 06:46:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1712126784;
- bh=4o3ntBNpYqUgIZdHQ1U/y0jQBsMQSH9TcFAtLdKyjuQ=;
+ s=mail; t=1712126794;
+ bh=hIZbR30slL0FGdXzurjYhKrkjHFf/JJm1t6jgO08JD4=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=X1u1ZoyMammAE08xT4ox6hLmoYLdDW2GFZgpWa/l4VDVw1cvFaJ907uYdCznXLMc6
- iSN+Kq53I024oSSq5XxM9VjtWJCTrR15wJueEd+Yc/o3+E6Kz2eex32ekASSCJ5C87
- m7RiImAzBk4U0Kan8hsvzO6IGt3ZhyMf4D+xwMK2nIhiLJSQd/BbJx3WnH2paVaoqz
- CBt2m4M6cqLMc3mCvUuo0eGNfakYuAIUVvwuyfNGgCCR5BfwyZo8Hj9Vo+pfJhN8wO
- bmh2Fu7mSTNSxC6RPbGXF/HmH4FrcsbHotrdcOkxQBDWJXKU0OnKoGZQ8nYbVjRVk5
- pJwoXxKZZ75mg==
+ b=Hthilw/9ANClt2yi6/22ZMDxCdxvHBUzkkCsc8nIh47vcWiehNKyppXr4RWnNrOAn
+ b8lOtpyt2+U0vyt7Pk8doYFk1OgkiNAdgieEGX/dRNt+lOLgO+VtMejN2nun+fFabx
+ cEXlr/9+8hjy13Id0Xt1FwkLDxk9KDbyc0YqtRT41T+ZpvRHkeep9j+5lkmAF9KRI+
+ x83CIo4JPjpcCuLGsHKv/jwOBewKLWoWjtOP5Mk2PBmCpYAbphnZyxSTUpsSK4ceJ1
+ aGACxe25MTdgV21rrl0tq6cziIvbtIJmUKx23uDg/nhgcZV8BPbT0t8mGILseWScbY
+ YdrJcMmpPGWLQ==
 Received: from localhost (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id D632237820CD;
- Wed,  3 Apr 2024 06:46:23 +0000 (UTC)
-Date: Wed, 3 Apr 2024 08:46:22 +0200
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 155F737820CD;
+ Wed,  3 Apr 2024 06:46:34 +0000 (UTC)
+Date: Wed, 3 Apr 2024 08:46:32 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Liviu Dudau <liviu.dudau@arm.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
  <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Steven Price
  <steven.price@arm.com>
-Subject: Re: [PATCH 1/2] drm/panthor: Cleanup unused variable 'cookie'
-Message-ID: <20240403084622.4fc0f0d8@collabora.com>
-In-Reply-To: <20240402215423.360341-1-liviu.dudau@arm.com>
+Subject: Re: [PATCH 2/2] drm/panthor: Fix some kerneldoc warnings
+Message-ID: <20240403084632.1d00d1c6@collabora.com>
+In-Reply-To: <20240402215423.360341-2-liviu.dudau@arm.com>
 References: <20240402215423.360341-1-liviu.dudau@arm.com>
+ <20240402215423.360341-2-liviu.dudau@arm.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -63,14 +64,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue,  2 Apr 2024 22:54:22 +0100
+On Tue,  2 Apr 2024 22:54:23 +0100
 Liviu Dudau <liviu.dudau@arm.com> wrote:
 
-> Commit 962f88b9c916 ("drm/panthor: Drop the dev_enter/exit() sections in
-> _irq_suspend/resume()") removed the code that used the 'cookie' variable
-> but left the declaration in place. Remove it.
+> When compiling with W=1 the build process will flag empty comments,
+> misnamed documented variables and incorrect tagging of functions.
+> Fix them in one go.
 > 
-> Fixes: 962f88b9c916 ("drm/panthor: Drop the dev_enter/exit() sections in _irq_suspend/resume()")
+> Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
 > Cc: Boris Brezillon <boris.brezillon@collabora.com>
 > Cc: Steven Price <steven.price@arm.com>
 > Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
@@ -78,29 +79,47 @@ Liviu Dudau <liviu.dudau@arm.com> wrote:
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
 > ---
->  drivers/gpu/drm/panthor/panthor_device.h | 4 ----
->  1 file changed, 4 deletions(-)
+>  drivers/gpu/drm/panthor/panthor_sched.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-> index dc3e9c666b5bd4..2fdd671b38fd9b 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.h
-> +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> @@ -323,8 +323,6 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
->  												\
->  static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)			\
->  {												\
-> -	int cookie;										\
-> -												\
->  	pirq->mask = 0;										\
->  	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);					\
->  	synchronize_irq(pirq->irq);								\
-> @@ -333,8 +331,6 @@ static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)
->  												\
->  static inline void panthor_ ## __name ## _irq_resume(struct panthor_irq *pirq, u32 mask)	\
->  {												\
-> -	int cookie;										\
-> -												\
->  	atomic_set(&pirq->suspended, false);							\
->  	pirq->mask = mask;									\
->  	gpu_write(pirq->ptdev, __reg_prefix ## _INT_CLEAR, mask);				\
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index e5a710f190d2a8..a787f2fea33e98 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -517,7 +517,7 @@ struct panthor_group {
+>  	/** @max_compute_cores: Maximum number of shader cores used for compute jobs. */
+>  	u8 max_compute_cores;
+>  
+> -	/** @max_compute_cores: Maximum number of shader cores used for fragment jobs. */
+> +	/** @max_fragment_cores: Maximum number of shader cores used for fragment jobs. */
+>  	u8 max_fragment_cores;
+>  
+>  	/** @max_tiler_cores: Maximum number of tiler cores used for tiler jobs. */
+> @@ -993,7 +993,7 @@ cs_slot_prog_locked(struct panthor_device *ptdev, u32 csg_id, u32 cs_id)
+>  }
+>  
+>  /**
+> - * @cs_slot_reset_locked() - Reset a queue slot
+> + * cs_slot_reset_locked() - Reset a queue slot
+>   * @ptdev: Device.
+>   * @csg_id: Group slot.
+>   * @cs_id: Queue slot.
+> @@ -1591,7 +1591,7 @@ static void sched_process_idle_event_locked(struct panthor_device *ptdev)
+>  }
+>  
+>  /**
+> - * panthor_sched_process_global_irq() - Process the scheduling part of a global IRQ
+> + * sched_process_global_irq_locked() - Process the scheduling part of a global IRQ
+>   * @ptdev: Device.
+>   */
+>  static void sched_process_global_irq_locked(struct panthor_device *ptdev)
+> @@ -1660,8 +1660,6 @@ static const struct dma_fence_ops panthor_queue_fence_ops = {
+>  	.get_timeline_name = queue_fence_get_timeline_name,
+>  };
+>  
+> -/**
+> - */
+>  struct panthor_csg_slots_upd_ctx {
+>  	u32 update_mask;
+>  	u32 timedout_mask;
 
