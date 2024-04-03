@@ -2,55 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C38F897842
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 20:30:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12DD289788E
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 20:49:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05716112E25;
-	Wed,  3 Apr 2024 18:30:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A85D10E2F8;
+	Wed,  3 Apr 2024 18:49:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="AmTBmM3B";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="EnB0BvCn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC040112E25
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 18:30:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1712169033;
- bh=X3gawQizTTZ2izaFT0MnlQyxFRjnWmFQBSZh9Jvcdpw=;
- h=From:To:Cc:Subject:Date:From;
- b=AmTBmM3Bjo9n+afuIZfqGHOst3XC2oURKpvaNsUIq+gCXkNBiBQrx7K2jSL6vdVeS
- mpTA8LNdX705fFs9Nek8/IvpOVhesw9n9sAWtO9DjCWkcRJj1YfqMVtKLzPSaNNQJQ
- kS5YPp/vbg+dd01t8P2RSK2w2QRTcXiHyMS/SJezDmcqenIkX14SKxnK4PM29OZDCl
- wrtBM8bNJeV2a7ev9wFY/Xwob2+7jQWDbWHgbmKtzeAya49/8IwZNpPX8dZDY+tMDj
- 2kmSQbillZk1vbXiMjh5GC2KxlCJqxwpZ9TmBm2KHKDqWedBVRjHMRab3+7ZhJzZMv
- QxuXGkbciCslA==
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: alarumbe)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 62EFA37813D7;
- Wed,  3 Apr 2024 18:30:32 +0000 (UTC)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Hans de Goede <hdegoede@redhat.com>
-Cc: kernel@collabora.com,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/sysfs: Add drm class-wide attribute to get active device
- clients
-Date: Wed,  3 Apr 2024 19:29:39 +0100
-Message-ID: <20240403182951.724488-1-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.44.0
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A15A10E2F8
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 18:49:00 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-51588f70d2dso222789e87.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Apr 2024 11:49:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1712170138; x=1712774938; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=T4UlKp0+98qrBZkCwolOL0UjNpShY+5uDH6xj75f1ck=;
+ b=EnB0BvCnbkWcgeYAdWaPtYDlThqTSAxSEth/+H7LbIyLH4WPlxbrxG+iMCrk8Q8Zo3
+ yzZ9nCSmI7htHN+bJjiZb4Ijwg9/trb5ODrJVZvVYS88IdabLl+T32suEYKJPDdEeDPk
+ CyevFHQ20ivNK/d08BW4j6SKvYNOb4sCvNWC/BAktM3moriz2YGCSw+1m0F2tJFxUMAT
+ KQlUiBTwJImKyoR5fH3mC/7yaUYmNOMvi8/5o3TmPb3tExbwGKzN6AvtmSGEYsRYrm6B
+ kOpn3nVbYF+4IdnRcAO7bAas3zJ0KR2v6syKhZGbdwHGmu0WHkcciGR8zyJWkf94w4VP
+ JYhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712170138; x=1712774938;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=T4UlKp0+98qrBZkCwolOL0UjNpShY+5uDH6xj75f1ck=;
+ b=fdxxjmf8oWVwBlkuqmWhIPpXUiSu+cRHzohc22IL8elERjYWinu/xJUnoS08wP/0Og
+ GvzhWmAh6L6Fqjl/TfYHHwkGE64zqs3t/Evh4cLP15ynERQaO7BdgMk7PwCG75u2e/rQ
+ Z3rd4+UU/2/Mg7/NWHcCLBPFrSdY/2u+psic1iTLHj33G4cEhXMOGgm/sGbQLsWHULoi
+ 1urnFaecF9fhRC/sv10P2KFTeHZB9SdqXymgtYbpkefVrHg8C752Y84CrIEeqr3TgjKw
+ zScB9MruV1ZgID5By1WxoECLqh434w5YgLab31RFD6HX1/ti+cVlrHOpDJM0yoO0TuTt
+ zxeA==
+X-Gm-Message-State: AOJu0Ywx1h4RI1w4dNWe23zlB2Bsvdpx9tZGHg+SSElHvB+1Y9MIi4uz
+ 1GgAqjOnC9E6tB/wDFHOcFlOxckxB0W6G5z5PexXl7+V7Tmr2UDOaaqZCyvffPI=
+X-Google-Smtp-Source: AGHT+IGZxvocFB/k0J1XWTW3eUyufirz8K/RKSIbDf1a05LsDIVRxq4ve4g34j9XhmrysecJIF9Tkg==
+X-Received: by 2002:a05:6512:34ce:b0:516:a2fc:9099 with SMTP id
+ w14-20020a05651234ce00b00516a2fc9099mr198845lfr.60.1712170138090; 
+ Wed, 03 Apr 2024 11:48:58 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzyjmhyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a00e:a300::227])
+ by smtp.gmail.com with ESMTPSA id
+ j21-20020a19f515000000b00513cb11cd66sm2069424lfb.219.2024.04.03.11.48.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Apr 2024 11:48:57 -0700 (PDT)
+Date: Wed, 3 Apr 2024 21:48:56 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Cc: dri-devel@lists.freedesktop.org, robdclark@gmail.com, sean@poorly.run, 
+ swboyd@chromium.org, dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, 
+ airlied@gmail.com, agross@kernel.org, abel.vesa@linaro.org,
+ andersson@kernel.org, 
+ quic_abhinavk@quicinc.com, quic_jesszhan@quicinc.com, quic_sbillaka@quicinc.com,
+ marijn.suijten@somainline.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] phy/qcom-qmp-combo: propagate correct return value at
+ phy_power_on()
+Message-ID: <oqqpypb7qkcjrztjpqkkqlg6m55fm6hjhts7plytr27hrdmvcp@og7gwdajvsje>
+References: <1711741835-10044-1-git-send-email-quic_khsieh@quicinc.com>
+ <23f591d7-a5d6-c5d1-9ba1-1584e32e5164@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <23f591d7-a5d6-c5d1-9ba1-1584e32e5164@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,204 +88,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Up to this day, all fdinfo-based GPU profilers must traverse the entire
-/proc directory structure to find open DRM clients with fdinfo file
-descriptors. This is inefficient and time-consuming.
+On Wed, Apr 03, 2024 at 10:22:37AM -0700, Kuogee Hsieh wrote:
+> Dmitry,
+> 
+> Any more comments?
+> 
+> On 3/29/2024 12:50 PM, Kuogee Hsieh wrote:
+> > Currently qmp_combo_dp_power_on() always return 0 in regardless of
+> > return value of cfg->configure_dp_phy(). This patch propagate
+> > return value of cfg->configure_dp_phy() all the way back to caller.
+> > 
+> > Changes in V3:
+> > -- add v2 changes log
+> > 
+> > Changes in V2:
+> > -- add Fixes tag
+> > -- add dev_err() to qmp_v3_configure_dp_phy()
+> > -- add dev_err() to qmp_v4_configure_dp_phy()
+> > 
+> > Fixes: 52e013d0bffa ("phy: qcom-qmp: Add support for DP in USB3+DP combo phy")
+> > Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> > Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> > ---
+> >   drivers/phy/qualcomm/phy-qcom-qmp-combo.c | 13 +++++++++----
+> >   1 file changed, 9 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+> > index 36632fa..513d99d 100644
+> > --- a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+> > +++ b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+> > @@ -2343,8 +2343,10 @@ static int qmp_v3_configure_dp_phy(struct qmp_combo *qmp)
+> >   	writel(0x05, qmp->dp_dp_phy + QSERDES_V3_DP_PHY_TX2_TX3_LANE_CTL);
+> >   	ret = qmp_combo_configure_dp_clocks(qmp);
+> > -	if (ret)
+> > +	if (ret) {
+> > +		dev_err(qmp->dev, "dp phy configure failed, err=%d\n", ret);
+> >   		return ret;
+> > +	}
 
-This patch adds a new device class attribute that will install a sysfs file
-per DRM device, which can be queried by profilers to get a list of PIDs for
-their open clients. This file isn't human-readable, and it's meant to be
-queried only by GPU profilers like gputop and nvtop.
+dev_err() calls are not related to the fix itself. Please split them to
+a separate patch.
 
-Cc: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: Christopher Healy <healych@amazon.com>
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
----
- drivers/gpu/drm/drm_internal.h       |  2 +-
- drivers/gpu/drm/drm_privacy_screen.c |  2 +-
- drivers/gpu/drm/drm_sysfs.c          | 89 ++++++++++++++++++++++------
- 3 files changed, 74 insertions(+), 19 deletions(-)
+> >   	writel(0x04, qmp->dp_dp_phy + QSERDES_DP_PHY_AUX_CFG2);
+> >   	writel(0x01, qmp->dp_dp_phy + QSERDES_DP_PHY_CFG);
+> > @@ -2519,8 +2521,10 @@ static int qmp_v4_configure_dp_phy(struct qmp_combo *qmp)
+> >   	int ret;
+> >   	ret = qmp_v456_configure_dp_phy(qmp);
+> > -	if (ret < 0)
+> > +	if (ret < 0) {
+> > +		dev_err(qmp->dev, "dp phy configure failed, err=%d\n", ret);
+> >   		return ret;
+> > +	}
+> >   	/*
+> >   	 * At least for 7nm DP PHY this has to be done after enabling link
+> > @@ -2754,6 +2758,7 @@ static int qmp_combo_dp_power_on(struct phy *phy)
+> >   	const struct qmp_phy_cfg *cfg = qmp->cfg;
+> >   	void __iomem *tx = qmp->dp_tx;
+> >   	void __iomem *tx2 = qmp->dp_tx2;
+> > +	int ret;
+> >   	mutex_lock(&qmp->phy_mutex);
+> > @@ -2766,11 +2771,11 @@ static int qmp_combo_dp_power_on(struct phy *phy)
+> >   	cfg->configure_dp_tx(qmp);
+> >   	/* Configure link rate, swing, etc. */
+> > -	cfg->configure_dp_phy(qmp);
+> > +	ret = cfg->configure_dp_phy(qmp);
+> >   	mutex_unlock(&qmp->phy_mutex);
+> > -	return 0;
+> > +	return ret;
+> >   }
+> >   static int qmp_combo_dp_power_off(struct phy *phy)
 
-diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index 2215baef9a3e..9a399b03d11c 100644
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -145,7 +145,7 @@ bool drm_master_internal_acquire(struct drm_device *dev);
- void drm_master_internal_release(struct drm_device *dev);
- 
- /* drm_sysfs.c */
--extern struct class *drm_class;
-+extern struct class drm_class;
- 
- int drm_sysfs_init(void);
- void drm_sysfs_destroy(void);
-diff --git a/drivers/gpu/drm/drm_privacy_screen.c b/drivers/gpu/drm/drm_privacy_screen.c
-index 6cc39e30781f..2fbd24ba5818 100644
---- a/drivers/gpu/drm/drm_privacy_screen.c
-+++ b/drivers/gpu/drm/drm_privacy_screen.c
-@@ -401,7 +401,7 @@ struct drm_privacy_screen *drm_privacy_screen_register(
- 	mutex_init(&priv->lock);
- 	BLOCKING_INIT_NOTIFIER_HEAD(&priv->notifier_head);
- 
--	priv->dev.class = drm_class;
-+	priv->dev.class = &drm_class;
- 	priv->dev.type = &drm_privacy_screen_type;
- 	priv->dev.parent = parent;
- 	priv->dev.release = drm_privacy_screen_device_release;
-diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-index a953f69a34b6..56ca9e22c720 100644
---- a/drivers/gpu/drm/drm_sysfs.c
-+++ b/drivers/gpu/drm/drm_sysfs.c
-@@ -58,8 +58,6 @@ static struct device_type drm_sysfs_device_connector = {
- 	.name = "drm_connector",
- };
- 
--struct class *drm_class;
--
- #ifdef CONFIG_ACPI
- static bool drm_connector_acpi_bus_match(struct device *dev)
- {
-@@ -128,6 +126,62 @@ static const struct component_ops typec_connector_ops = {
- 
- static CLASS_ATTR_STRING(version, S_IRUGO, "drm 1.1.0 20060810");
- 
-+static ssize_t clients_show(struct device *cd, struct device_attribute *attr, char *buf)
-+{
-+	struct drm_minor *minor = cd->driver_data;
-+	struct drm_device *ddev = minor->dev;
-+	struct drm_file *priv;
-+	ssize_t offset = 0;
-+	void *pid_buf;
-+
-+	if (minor->type != DRM_MINOR_RENDER)
-+		return 0;
-+
-+	pid_buf = kvmalloc(PAGE_SIZE, GFP_KERNEL);
-+	if (!pid_buf)
-+		return 0;
-+
-+	mutex_lock(&ddev->filelist_mutex);
-+	list_for_each_entry_reverse(priv, &ddev->filelist, lhead) {
-+		struct pid *pid;
-+
-+		if (drm_WARN_ON(ddev, (PAGE_SIZE - offset) < sizeof(pid_t)))
-+			break;
-+
-+		rcu_read_lock();
-+		pid = rcu_dereference(priv->pid);
-+		(*(pid_t *)(pid_buf + offset)) = pid_vnr(pid);
-+		rcu_read_unlock();
-+
-+		offset += sizeof(pid_t);
-+	}
-+	mutex_unlock(&ddev->filelist_mutex);
-+
-+	if (offset < PAGE_SIZE)
-+		(*(pid_t *)(pid_buf + offset)) = 0;
-+
-+	memcpy(buf, pid_buf, offset);
-+
-+	kvfree(pid_buf);
-+
-+	return offset;
-+
-+}
-+static DEVICE_ATTR_RO(clients);
-+
-+static struct attribute *drm_device_attrs[] = {
-+	&dev_attr_clients.attr,
-+	NULL,
-+};
-+ATTRIBUTE_GROUPS(drm_device);
-+
-+struct class drm_class = {
-+	.name		= "drm",
-+	.dev_groups	= drm_device_groups,
-+};
-+
-+static bool drm_class_initialised;
-+
- /**
-  * drm_sysfs_init - initialize sysfs helpers
-  *
-@@ -142,18 +196,19 @@ int drm_sysfs_init(void)
- {
- 	int err;
- 
--	drm_class = class_create("drm");
--	if (IS_ERR(drm_class))
--		return PTR_ERR(drm_class);
-+	err = class_register(&drm_class);
-+	if (err)
-+		return err;
- 
--	err = class_create_file(drm_class, &class_attr_version.attr);
-+	err = class_create_file(&drm_class, &class_attr_version.attr);
- 	if (err) {
--		class_destroy(drm_class);
--		drm_class = NULL;
-+		class_destroy(&drm_class);
- 		return err;
- 	}
- 
--	drm_class->devnode = drm_devnode;
-+	drm_class.devnode = drm_devnode;
-+
-+	drm_class_initialised = true;
- 
- 	drm_sysfs_acpi_register();
- 	return 0;
-@@ -166,12 +221,12 @@ int drm_sysfs_init(void)
-  */
- void drm_sysfs_destroy(void)
- {
--	if (IS_ERR_OR_NULL(drm_class))
-+	if (!drm_class_initialised)
- 		return;
- 	drm_sysfs_acpi_unregister();
--	class_remove_file(drm_class, &class_attr_version.attr);
--	class_destroy(drm_class);
--	drm_class = NULL;
-+	class_remove_file(&drm_class, &class_attr_version.attr);
-+	class_destroy(&drm_class);
-+	drm_class_initialised = false;
- }
- 
- static void drm_sysfs_release(struct device *dev)
-@@ -372,7 +427,7 @@ int drm_sysfs_connector_add(struct drm_connector *connector)
- 		return -ENOMEM;
- 
- 	device_initialize(kdev);
--	kdev->class = drm_class;
-+	kdev->class = &drm_class;
- 	kdev->type = &drm_sysfs_device_connector;
- 	kdev->parent = dev->primary->kdev;
- 	kdev->groups = connector_dev_groups;
-@@ -550,7 +605,7 @@ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
- 			minor_str = "card%d";
- 
- 		kdev->devt = MKDEV(DRM_MAJOR, minor->index);
--		kdev->class = drm_class;
-+		kdev->class = &drm_class;
- 		kdev->type = &drm_sysfs_device_minor;
- 	}
- 
-@@ -579,10 +634,10 @@ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
-  */
- int drm_class_device_register(struct device *dev)
- {
--	if (!drm_class || IS_ERR(drm_class))
-+	if (!drm_class_initialised)
- 		return -ENOENT;
- 
--	dev->class = drm_class;
-+	dev->class = &drm_class;
- 	return device_register(dev);
- }
- EXPORT_SYMBOL_GPL(drm_class_device_register);
-
-base-commit: 45c734fdd43db14444025910b4c59dd2b8be714a
 -- 
-2.44.0
-
+With best wishes
+Dmitry
