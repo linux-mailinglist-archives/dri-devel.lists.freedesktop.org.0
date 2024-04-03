@@ -2,87 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4187A897A88
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 23:20:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A0A8897AAC
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 23:29:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCE5E1121F5;
-	Wed,  3 Apr 2024 21:20:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1294B112F29;
+	Wed,  3 Apr 2024 21:29:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="eJD5G2s8";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="fapoMB1R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D93AC1121F5
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 21:20:36 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-1dff837d674so2328095ad.3
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Apr 2024 14:20:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1712179236; x=1712784036;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=gk/7t8bB/vPp5RYyhmHYp9/pKPIZpl1c0Hpc1VIArKM=;
- b=eJD5G2s8RffAKdraFs1k+/rohmnLLircuqzgJnzihq76jmdgF0b46guCHqBKl0sTrG
- wh9XfgLQol8EK2kNuLlIRCLzT3PB9MvMCTAEh8JQPMUV1haUAJNnMqOUXmu934QxYmbe
- eZPprmFWk7t3Jmnd/ezi5rXKKH5VT0eYmXK1k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712179236; x=1712784036;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gk/7t8bB/vPp5RYyhmHYp9/pKPIZpl1c0Hpc1VIArKM=;
- b=jH1BHbBb5LBgVkpfiBif/gGNqPv0i/qFh9lIdORMEG05bD98+oyVjV+GSoTt3E0s9Y
- pydH3IiCZL8gFpW9sbz/b7VKVjtbs9cywttkueSBP96T0U2daCOUt767RJjY4q7SE2BI
- U5FNmrxOSTPckPa8UcGMiJhls7ecObKcIHFoPcTuN9JIavAcAF2cFu5jXsVprfkdoQVT
- 2hs/uXukzfLbBGkpgj2jDnkqKQRqTNNGfTv8zcU7zZ7yLUT33XWv1gUEugRJ2Z6C0pTS
- eCsn70Ng5qdFOnu6+2gaTbvJG7WenCzojup6jmd+/A8E9vK+redjcfi37KL5d5SlvOCP
- VsPw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX8beDJDNOcOAM0ST/En3qDj/b3efmX3AYbxpObpW+KhiJk+GZfq/me33j62mRR8R+FPgA+FicEfGzGOh8i45ld5T1v9VnToLCMDZLmWHj9
-X-Gm-Message-State: AOJu0YxOBAVVUy8R0WwLF3NooDgf5nF70UH3rnawHbEyK31q/Smiza71
- u3HcXjecddMShqmFfRnKKBgEqtEJzSOgg60n2d/EvMTYbtqlu4hlXfV0QXM/jg==
-X-Google-Smtp-Source: AGHT+IFNWSt+grv0aoo3QXgpCvCZ7QxZ9IBnA1B4gdZs5eLtWkdhNXO9ogb9Q/XDMKHoC6MfZl34Wg==
-X-Received: by 2002:a17:903:110f:b0:1e0:f25b:e795 with SMTP id
- n15-20020a170903110f00b001e0f25be795mr509491plh.11.1712179236057; 
- Wed, 03 Apr 2024 14:20:36 -0700 (PDT)
-Received: from www.outflux.net ([198.0.35.241])
- by smtp.gmail.com with ESMTPSA id
- m16-20020a170902bb9000b001e2a87d7d2dsm163988pls.253.2024.04.03.14.20.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Apr 2024 14:20:35 -0700 (PDT)
-Date: Wed, 3 Apr 2024 14:20:34 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Daniel Diaz <daniel.diaz@linaro.org>, David Gow <davidgow@google.com>,
- Arthur Grillo <arthurgrillo@riseup.net>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Maxime Ripard <mripard@kernel.org>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, loongarch@lists.linux.dev,
- netdev@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v3 00/15] Add support for suppressing warning backtraces
-Message-ID: <202404031414.645255D868@keescook>
-References: <20240403131936.787234-1-linux@roeck-us.net>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57E29112F27;
+ Wed,  3 Apr 2024 21:29:36 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 433L1kqx019834; Wed, 3 Apr 2024 21:29:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=8YfwFoz0sGdQELg09UoYnuG30bJT4f0o798002yH/Kw=; b=fa
+ poMB1Rd5bX92n0ACWmUTLDa6papSTvg9pN9kWXnb3T9QJhZy/g7MIRx5/I6/ho1W
+ 2serEXvhHhzCc8UtU9iMGS3wA5kasiEEbqS4gg0MZnvhmc1z8Z+KIb+q1ulnKjnF
+ WoxS46jm7Xh2IuqD7pajDOcKnFfD3TFR56QEq3URpAedJ+SbFXwFkp+SbTIE/KAP
+ nNiYRwzfEAGdQObriGBuMAzMT7GJorXvpL4o83yQmGDAxH3xJK0JDUGRO8d9jP2P
+ MFRfpjBJs9aU/XXz1XwwR1BQu7YCpdJwCMYkblGWrvLlQuH3sIYkTZdOpoTqkzFo
+ P77gsHSL4vUYtD9aSgEg==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x9en001g1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 03 Apr 2024 21:29:19 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 433LSsBo005071
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 3 Apr 2024 21:28:54 GMT
+Received: from [10.110.9.99] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 3 Apr 2024
+ 14:28:53 -0700
+Message-ID: <01ce1142-04ac-5978-9d5a-88f94b920055@quicinc.com>
+Date: Wed, 3 Apr 2024 14:28:52 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240403131936.787234-1-linux@roeck-us.net>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v3] phy/qcom-qmp-combo: propagate correct return value at
+ phy_power_on()
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>, Kuogee Hsieh
+ <quic_khsieh@quicinc.com>, <abel.vesa@linaro.org>,
+ <agross@kernel.org>, <airlied@gmail.com>, <andersson@kernel.org>,
+ <daniel@ffwll.ch>, <dianders@chromium.org>,
+ <dmitry.baryshkov@linaro.org>, <dri-devel@lists.freedesktop.org>,
+ <robdclark@gmail.com>, <sean@poorly.run>, <vkoul@kernel.org>
+CC: <quic_jesszhan@quicinc.com>, <quic_sbillaka@quicinc.com>,
+ <marijn.suijten@somainline.org>, <freedreno@lists.freedesktop.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1711741835-10044-1-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n50Z2pDGH+ncjQq-huDsn9jdN=1SfaaU+qw229nZpUVCDw@mail.gmail.com>
+ <2f509949-7e7e-cbf6-c1d0-f25971c2d890@quicinc.com>
+ <CAE-0n50qT2mHOGiU89NAmHdADQAAgs3aMP1RFOTTV8oCUbZKgw@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAE-0n50qT2mHOGiU89NAmHdADQAAgs3aMP1RFOTTV8oCUbZKgw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: hYB4IBbHmXEffncdCxv4QEuapA4X3qr3
+X-Proofpoint-ORIG-GUID: hYB4IBbHmXEffncdCxv4QEuapA4X3qr3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-03_22,2024-04-03_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0
+ suspectscore=0 mlxlogscore=999 bulkscore=0 adultscore=0 phishscore=0
+ priorityscore=1501 mlxscore=0 malwarescore=0 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404030147
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,116 +100,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 03, 2024 at 06:19:21AM -0700, Guenter Roeck wrote:
-> Some unit tests intentionally trigger warning backtraces by passing bad
-> parameters to kernel API functions. Such unit tests typically check the
-> return value from such calls, not the existence of the warning backtrace.
-> 
-> Such intentionally generated warning backtraces are neither desirable
-> nor useful for a number of reasons.
-> - They can result in overlooked real problems.
-> - A warning that suddenly starts to show up in unit tests needs to be
->   investigated and has to be marked to be ignored, for example by
->   adjusting filter scripts. Such filters are ad-hoc because there is
->   no real standard format for warnings. On top of that, such filter
->   scripts would require constant maintenance.
-> 
-> One option to address problem would be to add messages such as "expected
-> warning backtraces start / end here" to the kernel log.  However, that
-> would again require filter scripts, it might result in missing real
-> problematic warning backtraces triggered while the test is running, and
-> the irrelevant backtrace(s) would still clog the kernel log.
-> 
-> Solve the problem by providing a means to identify and suppress specific
-> warning backtraces while executing test code. Support suppressing multiple
-> backtraces while at the same time limiting changes to generic code to the
-> absolute minimum. Architecture specific changes are kept at minimum by
-> retaining function names only if both CONFIG_DEBUG_BUGVERBOSE and
-> CONFIG_KUNIT are enabled.
-> 
-> The first patch of the series introduces the necessary infrastructure.
-> The second patch introduces support for counting suppressed backtraces.
-> This capability is used in patch three to implement unit tests.
-> Patch four documents the new API.
-> The next two patches add support for suppressing backtraces in drm_rect
-> and dev_addr_lists unit tests. These patches are intended to serve as
-> examples for the use of the functionality introduced with this series.
-> The remaining patches implement the necessary changes for all
-> architectures with GENERIC_BUG support.
-> 
-> With CONFIG_KUNIT enabled, image size increase with this series applied is
-> approximately 1%. The image size increase (and with it the functionality
-> introduced by this series) can be avoided by disabling
-> CONFIG_KUNIT_SUPPRESS_BACKTRACE.
-> 
-> This series is based on the RFC patch and subsequent discussion at
-> https://patchwork.kernel.org/project/linux-kselftest/patch/02546e59-1afe-4b08-ba81-d94f3b691c9a@moroto.mountain/
-> and offers a more comprehensive solution of the problem discussed there.
-> 
-> Design note:
->   Function pointers are only added to the __bug_table section if both
->   CONFIG_KUNIT_SUPPRESS_BACKTRACE and CONFIG_DEBUG_BUGVERBOSE are enabled
->   to avoid image size increases if CONFIG_KUNIT is disabled. There would be
->   some benefits to adding those pointers all the time (reduced complexity,
->   ability to display function names in BUG/WARNING messages). That change,
->   if desired, can be made later.
-> 
-> Checkpatch note:
->   Remaining checkpatch errors and warnings were deliberately ignored.
->   Some are triggered by matching coding style or by comments interpreted
->   as code, others by assembler macros which are disliked by checkpatch.
->   Suggestions for improvements are welcome.
-> 
-> Changes since RFC:
-> - Introduced CONFIG_KUNIT_SUPPRESS_BACKTRACE
-> - Minor cleanups and bug fixes
-> - Added support for all affected architectures
-> - Added support for counting suppressed warnings
-> - Added unit tests using those counters
-> - Added patch to suppress warning backtraces in dev_addr_lists tests
-> 
-> Changes since v1:
-> - Rebased to v6.9-rc1
-> - Added Tested-by:, Acked-by:, and Reviewed-by: tags
->   [I retained those tags since there have been no functional changes]
-> - Introduced KUNIT_SUPPRESS_BACKTRACE configuration option, enabled by
->   default.
-> 
-> Changes since v2:
-> - Rebased to v6.9-rc2
-> - Added comments to drm warning suppression explaining why it is needed.
-> - Added patch to move conditional code in arch/sh/include/asm/bug.h
->   to avoid kerneldoc warning
-> - Added architecture maintainers to Cc: for architecture specific patches
-> - No functional changes
-> 
-> ----------------------------------------------------------------
-> Guenter Roeck (15):
->       bug/kunit: Core support for suppressing warning backtraces
->       kunit: bug: Count suppressed warning backtraces
->       kunit: Add test cases for backtrace warning suppression
->       kunit: Add documentation for warning backtrace suppression API
->       drm: Suppress intentional warning backtraces in scaling unit tests
->       net: kunit: Suppress lock warning noise at end of dev_addr_lists tests
->       x86: Add support for suppressing warning backtraces
->       arm64: Add support for suppressing warning backtraces
->       loongarch: Add support for suppressing warning backtraces
->       parisc: Add support for suppressing warning backtraces
->       s390: Add support for suppressing warning backtraces
->       sh: Add support for suppressing warning backtraces
->       sh: Move defines needed for suppressing warning backtraces
->       riscv: Add support for suppressing warning backtraces
->       powerpc: Add support for suppressing warning backtraces
 
-Tested-by: Kees Cook <keescook@chromium.org>
 
-(for x86 and um)
+On 4/3/2024 1:04 PM, Stephen Boyd wrote:
+> Quoting Abhinav Kumar (2024-04-03 12:58:50)
+>>
+>>
+>> On 4/3/2024 12:51 PM, Stephen Boyd wrote:
+>>> Quoting Kuogee Hsieh (2024-03-29 12:50:35)
+>>>> Currently qmp_combo_dp_power_on() always return 0 in regardless of
+>>>> return value of cfg->configure_dp_phy(). This patch propagate
+>>>> return value of cfg->configure_dp_phy() all the way back to caller.
+>>>
+>>> Is this found via code inspection or because the phy is failing to power
+>>> on sometimes? I ask because I'm looking at a DP bug on Trogdor with
+>>> chromeos' v6.6 based kernel and wondering if this is related.
+>>>
+>>
+>> No, we actually hit an issue. This issue was originally reported as a
+>> link training issue while bringing up DP on x1e80100.
+>>
+>> While debugging that we noticed that we should not have even proceeded
+>> to link training because the PLL was not getting locked and it was
+>> failing silently since there are no other error prints (and hence the
+>> second part of the patch to improve the error logs), and we do not
+>> return any error code from this driver, we could not catch the PLL
+>> unlocked issue.
+> 
+> Did link training succeed in that case and the screen was black? Also,
+> did you figure out why the PLL failed to lock? I sometimes see reports
+> now with an "Unexpected interrupt:" message from the DP driver and the
+> interrupt is the PLL unlocked one (DP_INTR_PLL_UNLOCKED).
+> 
 
-I was planning to add warning suppression for the "overflow" KUnit
-tests, but it seems the vmalloc routines aren't calling warn_alloc() any
-more for impossible sizes. So, I think, no patches needed for
-lib/overflow_kunit.c, but at the end of the day, I've tested this series
-is working for me. :P
+No the link training had failed.
 
--- 
-Kees Cook
+Yes, root-cause was that the PLL registers were misconfigured in the 
+x1e80100 DP PHY for HBR2. Once we programmed the correct values it 
+worked. This was specific to x1e80100.
+
+Yes, Doug mentioned this to me on IRC that this issue is still there. 
+Surprising because I thought we had pushed 
+https://patchwork.freedesktop.org/patch/551847/ long ago and it was 
+fixed. It certainly did that time when I had tested this.
+
+>>
+>>> Also, is the call to phy_power_on() going to be checked in
+>>> the DP driver?
+>>>
+>>>    $ git grep -n phy_power_on -- drivers/gpu/drm/msm/dp/
+>>>    drivers/gpu/drm/msm/dp/dp_ctrl.c:1453:  phy_power_on(phy);
+>>
+>> Yes, this is a good point. We should also post the patch to add the
+>> error checking in DP driver to fail if phy_power_on fails.
+> 
+> Sounds great, thanks.
