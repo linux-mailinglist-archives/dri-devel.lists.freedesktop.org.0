@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1690896A1E
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 11:11:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EF94896A23
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 11:11:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7F7E112911;
-	Wed,  3 Apr 2024 09:11:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43310112910;
+	Wed,  3 Apr 2024 09:11:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="oHls4PxR";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="b2WwNkal";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F955112915
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 09:11:43 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-1e2178b2cf2so47045615ad.0
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Apr 2024 02:11:43 -0700 (PDT)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCF7E11290F
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 09:11:51 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id
+ d9443c01a7336-1e0f3052145so57682595ad.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Apr 2024 02:11:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712135503; x=1712740303; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1712135511; x=1712740311; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=NOuu3sNA+84lczt5jxnbeGrnj9MwNeOoooH77NlU9Y0=;
- b=oHls4PxRIBNbiqLMVJmbZysN4OcXJRfXtw0KZJn5S0qfAmPtuebNLTd/Vd7HY7ULr+
- 4D969SjRG+DlC78sgpahpxNa1/9krqjybVxcnqzeUhgV0UQj7Jfm/eRTkjj3A+gzrbH7
- ojDbjUj2q+v0ASARsV3bD3FTaaJf39aLr70zo8fi9JIMSd50DGquW0+x5cNW7o5rYG8P
- mpFFWQ7xikevLzpGiUmVml7BECk+C+jMQVYLUvJJy7+IBAmR01qfczyJZSzHJoJGBFbl
- qtg//ktrPPLa+3QH8b3J9NOqMT6UkUA4U2eygufwvT7PpF7Qdf31gKj3yK7gOKBIUeTQ
- kq4Q==
+ :reply-to; bh=+nFa+DoX75Gh3LGa/SLXrbw1YnZbOgzc+2X5SVpsYKU=;
+ b=b2WwNkals+qAVnRK5LC/SxLJufTkaAZHfz6cOP/fTQhbBdKjwz2WekwooMs5IGhiA4
+ YZ//Jc5jKwiz+OEZPuhHDu+xj3dn0fS7+W03QTerDu/KWM7QAqfyhrjhdG3V999tkMZH
+ sgvd5DepmDmNoxIsBRVI0/5sV8T5dVxfm31V+2IHrQJc7CiEBbxW0i78oe8e21kvhrHC
+ KHw04F5RoHsu7lFb9/BHUuzCD+/tLUXYmch/tpV0ENW/4cUa6xeOC/hhMsB4QFPQ7+ae
+ /rq7Bvc/diZLbdBR+veI/fU5XQxQBjQs7zgL13kBvA4b6S595vVLA1QuJTL6Sy9l8wN3
+ YcAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712135503; x=1712740303;
+ d=1e100.net; s=20230601; t=1712135511; x=1712740311;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NOuu3sNA+84lczt5jxnbeGrnj9MwNeOoooH77NlU9Y0=;
- b=E9ISWN+1O6W439/BVagp1NTWupindt0VfxAuDTEwgMy2v4m6RSTSVACVPmQfTPjEFM
- D6n/D2vOKIlzFbjjKD+QmTxtoDfO6xvNjnM2nY0RQBFvbO9HlLMHIsZ6d6rLvC5Dwc6W
- ePs1NQMbHlHyxl1OwLAz0Q4FFvjWZz4v+vZqjmAO3GryThhHlUuXyfPSViLlc+uuI8gi
- NAkKYLDcoy5I51pSNnE7+IYeh9EXf3EMIe3EZ8YV+mwljT5oO+cE9NQ4qIdk7CpgL49m
- 8J+c14cWNNQVHVodeLgrHV8MKHCIc38ZlC48UI3BDPl2kRmrZxYvpyRDCam0GLJnsd1j
- 22Fg==
+ bh=+nFa+DoX75Gh3LGa/SLXrbw1YnZbOgzc+2X5SVpsYKU=;
+ b=tvjK21roh2ERHYg1j5jA5luIddrw6I1pg2MbnUpP/b3C8aupp/v9TUgOueaFTZbUB0
+ RSayjc9M46HK49W1ytU6iiovd5lM49dsT7n1nmXmFOZs9jeOU+K4ZWVlXevfv8qRkUgb
+ F6P2/Ws4r+/+LNIhH6WM+mo0LPt8Xrdnyh4p4XlGJQLY5eZfZl3aHx0Tf9eAd5YVlxJy
+ DxojoUE/cBPyvbjQG1dBmVWmFmaQm7SoMlw106wt/i/1/71LmYfr476z1x9+pg4M3Sbp
+ dN3IjCxdcCDBvB8pSOflygaZDzsei5WyR+4snfLvjq/Lld64e61PiBvNbYMrIg62MWen
+ LD0w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXioEeTVQyR9yiPSF8F84Qi9C5SC46WbScV2jyDm9cIBJOGWtItOLm7W0N6u8TPi+JxxxrVyzaEmInM+J2oAqNXFZP0TmrpK+BKh3sMl8mL
-X-Gm-Message-State: AOJu0Yw0NGGfQUvSQVg9340UabGCe+4hbbw36bf2MAcggDag5B9iuYec
- SaH+RAocqAWqxoysdapsdsdObT/eORssQHanVJpkNwD7c3y9heU+VEocSLELEKM=
-X-Google-Smtp-Source: AGHT+IGE6QcA79jB0k2Li5lWPr2yvCO9+FLkeHddHmJdCmFiKZKqU+kbSjtNfgztpVuY/0gLGWy1dw==
-X-Received: by 2002:a17:902:c94f:b0:1e0:a784:f965 with SMTP id
- i15-20020a170902c94f00b001e0a784f965mr18198301pla.65.1712135502878; 
- Wed, 03 Apr 2024 02:11:42 -0700 (PDT)
+ AJvYcCXQrgfD95zMlFsBpFLAed8nsiMjVZ9vLHpR4Jn4XRImDvWhcUzLvlD50vKz4NZIOV2YsNGUH+wLbRKmljBo2gFX/292uRmY3pLwNL31O3Uf
+X-Gm-Message-State: AOJu0Yzltt/q2QmokKcRFuh9PKPWAFIaxUKQbN0GTzmYMzTaKIbBwP2B
+ sU04BWh70lbGIM4JIPTAoFvch6VjSp9gdyaLGNcf6yUP7+yc7Lvp2ihU7REXJ1A=
+X-Google-Smtp-Source: AGHT+IGDKZpi6IzWPwxcA3gkwURqgiirh03g+6YOT47tXCPNep36CItbq3BtloN4WYOSIhk1Xi88sQ==
+X-Received: by 2002:a17:903:18f:b0:1e2:920a:4add with SMTP id
+ z15-20020a170903018f00b001e2920a4addmr1179553plg.16.1712135511328; 
+ Wed, 03 Apr 2024 02:11:51 -0700 (PDT)
 Received: from [127.0.1.1] ([112.65.12.66]) by smtp.gmail.com with ESMTPSA id
- lo14-20020a170903434e00b001e0aded0ca7sm12688087plb.239.2024.04.03.02.11.36
+ lo14-20020a170903434e00b001e0aded0ca7sm12688087plb.239.2024.04.03.02.11.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Apr 2024 02:11:42 -0700 (PDT)
+ Wed, 03 Apr 2024 02:11:50 -0700 (PDT)
 From: Jun Nie <jun.nie@linaro.org>
-Date: Wed, 03 Apr 2024 17:11:01 +0800
-Subject: [PATCH v3 5/6] drm/display: Add slice_per_pkt for dsc
+Date: Wed, 03 Apr 2024 17:11:02 +0800
+Subject: [PATCH v3 6/6] drm/msm/dsi: support DSC configurations with
+ slice_per_pkt > 1
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240403-msm-drm-dsc-dsi-video-upstream-v1-5-db5036443545@linaro.org>
+Message-Id: <20240403-msm-drm-dsc-dsi-video-upstream-v1-6-db5036443545@linaro.org>
 References: <20240403-msm-drm-dsc-dsi-video-upstream-v1-0-db5036443545@linaro.org>
 In-Reply-To: <20240403-msm-drm-dsc-dsi-video-upstream-v1-0-db5036443545@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -71,13 +72,13 @@ To: Rob Clark <robdclark@gmail.com>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, Vinod Koul <vkoul@kernel.org>
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Jun Nie <jun.nie@linaro.org>
+ Jun Nie <jun.nie@linaro.org>, Jonathan Marek <jonathan@marek.ca>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1712135460; l=867;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1712135460; l=4300;
  i=jun.nie@linaro.org; s=20240403; h=from:subject:message-id;
- bh=MU4Swq5XDKyEWa3JYSzWqbeemF0ZbJTcthPE2KJsZos=;
- b=hpx8rqn0NW6jrZNlHbx/VHfFHcMfnFnfZNwaA4Q9oljlHNkFfqChP0YhKK5MS9joROjHj9ZCY
- Ys/IqPqN+8uDp67ZK5JQqci2IhuEveJuFZTRbjjhY/AmRAejQSlMBMT
+ bh=KdBFnUu2Qm6ZZ65hBcXTk+Bm1tsC1DSuVU4sJTWGxzk=;
+ b=0c+GOay4d8sYuEfmKXCY3qnC69M5LNKT/bdL1VuwVHTTHSJMUP6DvEIlrEPtXbRf7brwZBC9G
+ THfCXQuOr93AkNUmqicPhAO7A7LuE1Xr9W6EM3TZrI+KgKHpwS6Ti1a
 X-Developer-Key: i=jun.nie@linaro.org; a=ed25519;
  pk=MNiBt/faLPvo+iJoP1hodyY2x6ozVXL8QMptmsKg3cc=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,30 +96,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add variable for slice number of a DSC compression bit stream packet.
-Its value shall be specified in panel driver, or default value can be set
-in display controller driver if panel driver does not set it.
+From: Jonathan Marek <jonathan@marek.ca>
 
+Support slice_per_pkt in msm driver.
+
+Note that the removed "pkt_per_line = slice_per_intf * slice_per_pkt"
+comment is incorrect.
+
+Also trim the code to simplify the dsc reference.
+
+Signed-off-by: Jonathan Marek <jonathan@marek.ca>
 Signed-off-by: Jun Nie <jun.nie@linaro.org>
 ---
- include/drm/display/drm_dsc.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 35 ++++++++++++++---------------------
+ 1 file changed, 14 insertions(+), 21 deletions(-)
 
-diff --git a/include/drm/display/drm_dsc.h b/include/drm/display/drm_dsc.h
-index bc90273d06a6..4fac0a2746ae 100644
---- a/include/drm/display/drm_dsc.h
-+++ b/include/drm/display/drm_dsc.h
-@@ -82,6 +82,10 @@ struct drm_dsc_config {
- 	 * @bits_per_component: Bits per component to code (8/10/12)
- 	 */
- 	u8 bits_per_component;
-+	/**
-+	 * @slice_per_pkt: slice number per DSC bit stream packet
-+	 */
-+	u8 slice_per_pkt;
- 	/**
- 	 * @convert_rgb:
- 	 * Flag to indicate if RGB - YCoCg conversion is needed
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index b0507a42ee6a..0c6f40dbd25c 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -866,17 +866,10 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
+ 	slice_per_intf = msm_dsc_get_slices_per_intf(dsc, hdisplay);
+ 
+ 	total_bytes_per_intf = dsc->slice_chunk_size * slice_per_intf;
+-	bytes_per_pkt = dsc->slice_chunk_size; /* * slice_per_pkt; */
+-
++	bytes_per_pkt = dsc->slice_chunk_size * dsc->slice_per_pkt;
+ 	eol_byte_num = total_bytes_per_intf % 3;
+ 
+-	/*
+-	 * Typically, pkt_per_line = slice_per_intf * slice_per_pkt.
+-	 *
+-	 * Since the current driver only supports slice_per_pkt = 1,
+-	 * pkt_per_line will be equal to slice per intf for now.
+-	 */
+-	pkt_per_line = slice_per_intf;
++	pkt_per_line = slice_per_intf / dsc->slice_per_pkt;
+ 
+ 	if (is_cmd_mode) /* packet data type */
+ 		reg = DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE(MIPI_DSI_DCS_LONG_WRITE);
+@@ -916,6 +909,7 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
+ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+ {
+ 	struct drm_display_mode *mode = msm_host->mode;
++	struct drm_dsc_config *dsc = msm_host->dsc;
+ 	u32 hs_start = 0, vs_start = 0; /* take sync start as 0 */
+ 	u32 h_total = mode->htotal;
+ 	u32 v_total = mode->vtotal;
+@@ -947,8 +941,7 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+ 		hdisplay /= 2;
+ 	}
+ 
+-	if (msm_host->dsc) {
+-		struct drm_dsc_config *dsc = msm_host->dsc;
++	if (dsc) {
+ 		u32 bytes_per_pclk;
+ 
+ 		/* update dsc params with timing params */
+@@ -988,14 +981,14 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+ 		else
+ 			bytes_per_pclk = 3;
+ 
+-		hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(msm_host->dsc), bytes_per_pclk);
++		hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(dsc), bytes_per_pclk);
+ 
+ 		h_total += hdisplay;
+ 		ha_end = ha_start + hdisplay;
+ 	}
+ 
+ 	if (msm_host->mode_flags & MIPI_DSI_MODE_VIDEO) {
+-		if (msm_host->dsc)
++		if (dsc)
+ 			dsi_update_dsc_timing(msm_host, false, mode->hdisplay);
+ 
+ 		dsi_write(msm_host, REG_DSI_ACTIVE_H,
+@@ -1016,21 +1009,17 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+ 			DSI_ACTIVE_VSYNC_VPOS_START(vs_start) |
+ 			DSI_ACTIVE_VSYNC_VPOS_END(vs_end));
+ 	} else {		/* command mode */
+-		if (msm_host->dsc)
++		if (dsc)
+ 			dsi_update_dsc_timing(msm_host, true, mode->hdisplay);
+ 
+ 		/* image data and 1 byte write_memory_start cmd */
+-		if (!msm_host->dsc)
++		if (!dsc)
+ 			wc = hdisplay * mipi_dsi_pixel_format_to_bpp(msm_host->format) / 8 + 1;
+ 		else
+ 			/*
+ 			 * When DSC is enabled, WC = slice_chunk_size * slice_per_pkt + 1.
+-			 * Currently, the driver only supports default value of slice_per_pkt = 1
+-			 *
+-			 * TODO: Expand mipi_dsi_device struct to hold slice_per_pkt info
+-			 *       and adjust DSC math to account for slice_per_pkt.
+ 			 */
+-			wc = msm_host->dsc->slice_chunk_size + 1;
++			wc = dsc->slice_chunk_size * dsc->slice_per_pkt + 1;
+ 
+ 		dsi_write(msm_host, REG_DSI_CMD_MDP_STREAM0_CTRL,
+ 			DSI_CMD_MDP_STREAM0_CTRL_WORD_COUNT(wc) |
+@@ -1657,8 +1646,12 @@ static int dsi_host_attach(struct mipi_dsi_host *host,
+ 	msm_host->lanes = dsi->lanes;
+ 	msm_host->format = dsi->format;
+ 	msm_host->mode_flags = dsi->mode_flags;
+-	if (dsi->dsc)
++	if (dsi->dsc) {
+ 		msm_host->dsc = dsi->dsc;
++		/* for backwards compatibility, assume 1 if not set */
++		if (!dsi->dsc->slice_per_pkt)
++			dsi->dsc->slice_per_pkt = 1;
++	}
+ 
+ 	/* Some gpios defined in panel DT need to be controlled by host */
+ 	ret = dsi_host_init_panel_gpios(msm_host, &dsi->dev);
 
 -- 
 2.34.1
