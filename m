@@ -2,72 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 975AB896B33
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 11:57:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7DD896B43
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 12:01:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDDAC112622;
-	Wed,  3 Apr 2024 09:57:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A036311297F;
+	Wed,  3 Apr 2024 10:01:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="meQtWRVg";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Vs3rG+aK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
- [209.85.219.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E30F112600
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 09:57:56 +0000 (UTC)
-Received: by mail-yb1-f180.google.com with SMTP id
- 3f1490d57ef6-dc6d8bd618eso5728343276.3
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Apr 2024 02:57:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712138275; x=1712743075; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=8a49vn1g2GfhymP3UDOjKfMABn27AFlfMB3+8PtG0hY=;
- b=meQtWRVgB0sr7/pKIv6j7BJHb+l78o1A+vvbAVUOUOxW9wRwVLDyxZAmFNfiRtKLMm
- XidtZ14CAWtdWN4YCHPbOdbx3Dv262hpNC7T9oH5k7sdfmYmaIk+lUT8QescO26WoGb4
- xjKob6J2yby/2yM7HUUJ3qhWigE9SIu0L9XzUilLn1U4wJSvAJKOwHcbXn2TYceZltSl
- XBSbkkbcgye9qzB1ZVNp99h2V+jTuwM6ExOpJId2KX7phR5OFjB6IYWsCgm3oAxLbloK
- ixfq9fqutn8D4zSRojKctF0xgoHzshFhG2v1HcsMowX80/J3YUepeq20XuHxMWE056on
- Sfhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712138275; x=1712743075;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8a49vn1g2GfhymP3UDOjKfMABn27AFlfMB3+8PtG0hY=;
- b=pxd6vB9YDbyEr9B/CZVZvdEB2/tq1UjqRiSube4C5SwcOKAET+tWBhveARAdxASvld
- LtKl62OOST11VW6fGugSqBZTCHeN7JUP+nq2ShtRtkTNUPXxUvjQrmB/yR+ovEPPHJgy
- stJjX0ELFMiTti+KGYOFzN6TpSr3ot6qDYSCbl52q8xxG8MsRi7J4EpJjyQ9NdVJeiZS
- aCSWbeLDO6clgA6trQGSguuy2hnOJfNCOXSTN5rsyZW75KAXsNzTugkqeE/QBha+thBa
- ywxKlSg1C1pfpyr2a/b0v06mwAdBnwF65FcHVcfW6C7j6yCciTqQgU1buwFeuLASGQFj
- jiPQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXggE3tBoalaGTtE/Acdi8DqMKzFDuGp5zbnNqXfW/mLqCXW+esR45TcaFQuMizvS2P70eRhQqDVgtJw7jr3tlO4mZy/JSGm7esjWzL7jl/
-X-Gm-Message-State: AOJu0YyXeq0MROw9KPQVRZA6D8E0vfEVoAYKh6bSYGj/c9APLQB4Iewr
- MsegLgQeSo9UNXuqtVnxK72edxvHGptRFGFIJ0SkmPfB1poT8b7zR4+nTEvtzUN8XrPzXFRY3UA
- BLFnw5Qbe/FcIVr0RW4CdEb0EIvtUf6x/YQBAWw==
-X-Google-Smtp-Source: AGHT+IG8nlvk6XbQkC/Ui1tRnBB3XNXB6LgbVsTQjpZEjnESvNEsU3CRk8wWXBQbvmEg7ARzBiH2C1TQfqjjaNgmJqs=
-X-Received: by 2002:a5b:f07:0:b0:dc7:4c92:16a3 with SMTP id
- x7-20020a5b0f07000000b00dc74c9216a3mr11791901ybr.27.1712138275452; Wed, 03
- Apr 2024 02:57:55 -0700 (PDT)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2078.outbound.protection.outlook.com [40.107.243.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E7C411297F
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 10:01:20 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DVNQ9s6g/DX/cXLxhC3EdZURk2Drlr1DwEavso2y+q+EXqagpJQ/vlKKcEA4rzFTDm8J/DsNolALtUYAng/HDwfZi1WjFdYCvviXIIwRIdbJ/7bHw/HalHzKv6Az58+z0JPkgjDf9xJOpEwsjJfsDegFxU92nyHNz7aJYIbSThClavQse3LxNhch/5MoLh4Hl1LKHO/8txuttwxJUXHFjfNyNLYx1hHDKBXbbeMIJP+i2ywTMfHPDAQcOLXQqdo/3uE26yc0MdkYiUMSCgOI1pf6ypKbBjWt58H0WIR1+MS0bmhmeHaJGrtJWRauQ1duYnfGJrmZbvzr9Qe1v70hrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=egAVd7N1brwmQ6m13nvCT5Ot41J04KNSDuLqKvaNUdo=;
+ b=gS/XaehyCU7ofzuWh0C3wkzwnXWVZETXzrq0Al0fq/8BiHMJKzOMSJrTh7L8eujWhplV6x83FkhWFqOMmZ5VuWWaHrvHteg59941UMCwbFtR5PEzGpLzy4IZTbQrmHh3SGAQN/VtRQOftteRC3k1xihEzBCiFPLdJGqIQFws5a0ZuXW7Es2zpzCnnj4JYjx3ug2er1mlv5jW5GMXzO+ty9OxmZ5ehM63R6f9uMOHMbAW/7TWwGqyr/2i9dKJPZM6vKBmsr+7yXnQJ89Rvcf3rZY3Th/pi0luRLacnuN2qs4c7tgCtIumdKP9Ud6RxgunpcHvC0VnEfo34p9Y25Bt8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=gondor.apana.org.au
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=egAVd7N1brwmQ6m13nvCT5Ot41J04KNSDuLqKvaNUdo=;
+ b=Vs3rG+aKahTN0rwic2zPRuHkFoeo4bKL+NHJq6hipahdBY2y3DBvuN+sQq2mX7pm/PzhG/93e2S4FgSIxTIqA4hRWKQaVn4mbQbkxI/RfsT9zaJVxy5RgiwjJak/WvHPoKfGuHwMG2zLSTnd0klofbl/dPi8AD6GkRBr4AFkSYN28H+ErjOrXWkl3kMDL2nD7KWj6NreiMxPoNwjxJtNJvYWgbw1iJOnA8AtI1BGWI6GtxxC6/ntE6ANlEIT3C+G5yLMVGQw+I08fQz+P60Ic6PArPPLoXfOE8fKjyfhwoneOr5kowaf70pxCJ4/DTS/zq2V0+5MY7W4hH2K6Kp4qg==
+Received: from BL6PEPF00013DFC.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:22e:400:0:1001:0:21) by DS0PR12MB9324.namprd12.prod.outlook.com
+ (2603:10b6:8:1b6::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Wed, 3 Apr
+ 2024 10:01:17 +0000
+Received: from BL6PEPF0001AB73.namprd02.prod.outlook.com
+ (2a01:111:f403:f903::) by BL6PEPF00013DFC.outlook.office365.com
+ (2603:1036:903:4::4) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46 via Frontend
+ Transport; Wed, 3 Apr 2024 10:01:17 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ BL6PEPF0001AB73.mail.protection.outlook.com (10.167.242.166) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7452.22 via Frontend Transport; Wed, 3 Apr 2024 10:01:17 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 3 Apr 2024
+ 03:00:59 -0700
+Received: from drhqmail201.nvidia.com (10.126.190.180) by
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.12; Wed, 3 Apr 2024 03:00:58 -0700
+Received: from BUILDSERVER-IO-L4T.nvidia.com (10.127.8.14) by mail.nvidia.com
+ (10.126.190.180) with Microsoft SMTP Server id 15.2.1258.12 via
+ Frontend Transport; Wed, 3 Apr 2024 03:00:53 -0700
+From: Akhil R <akhilrajeev@nvidia.com>
+To: <herbert@gondor.apana.org.au>, <davem@davemloft.net>, <robh@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+ <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+ <catalin.marinas@arm.com>, <will@kernel.org>, <mperttunen@nvidia.com>,
+ <airlied@gmail.com>, <daniel@ffwll.ch>, <linux-crypto@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <dri-devel@lists.freedesktop.org>
+CC: Akhil R <akhilrajeev@nvidia.com>
+Subject: [PATCH v7 0/5] Add Tegra Security Engine driver
+Date: Wed, 3 Apr 2024 15:30:34 +0530
+Message-ID: <20240403100039.33146-1-akhilrajeev@nvidia.com>
+X-Mailer: git-send-email 2.43.2
 MIME-Version: 1.0
-References: <20240403-msm-drm-dsc-dsi-video-upstream-v1-0-db5036443545@linaro.org>
- <20240403-msm-drm-dsc-dsi-video-upstream-v1-1-db5036443545@linaro.org>
-In-Reply-To: <20240403-msm-drm-dsc-dsi-video-upstream-v1-1-db5036443545@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 3 Apr 2024 12:57:44 +0300
-Message-ID: <CAA8EJpqF4rVsWG=A1fNYWWi7rjHDmu_ftZttXH1v41v8wBgAiQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/6] drm/msm/dpu: fix video mode DSC for DSI
-To: Jun Nie <jun.nie@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Vinod Koul <vkoul@kernel.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Jonathan Marek <jonathan@marek.ca>
-Content-Type: text/plain; charset="UTF-8"
+X-NVConfidentiality: public
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB73:EE_|DS0PR12MB9324:EE_
+X-MS-Office365-Filtering-Correlation-Id: 83cfa25b-9f7f-4f7f-b32c-08dc53c5011f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yvfagaMqM9mF8xvya+XBkmROp9r7ZRUw5gaHiOFyerrfTu6avQtwA7h+v7ZPTvBDgMk7XBE95gM8sI1wWbQo9hfM+18hQF2TQSX/LcEklP7n+XJITKgTYvbaUO4/t1LziLbxg2+6Nbpt52CYCLTTt4/TQ2SP47YC5rZFoPoKYKBk5uFAM/RO0W+woA3/wWQZxEY+xIdQxKvfUTTWB6pr0vM5BUrpSlXTnb9G9yMGvdRX2XvlEBYFrD4xNpNTmWkSLK3Zc8rcIKBoXp4KSUXbZjQyj+OqVyXcIJm9zn4cwM67UfUWk0vsIWpAIifR4PpJPcxKlHCRLiRxk8c+m10hwdyWsQE/aznL1tMY9VTsK8v/7t10TxWx7W0eEYwCp1cUFweITP0MRAzGe8kVHwVwCWlUAXw/wE+md/3dYl6ixi89wmsBj14iVohiRZXWgK7ciK8gN8r6/iVxl6rl/c4iZEMtMVNcSVzLwjjum2B7/EUHdx6b0nzjjOENHu+V7NiK8WmX9x5XPVjYFKsb8YzAEfm7V6xj7/X25cCqvBp/aU8MAH1oc3FcRfYA9cN87gPDXxq6nboMFeQhgEloynJ4VY12qI8ADxG7yLOa5ZVnnnP8M/LtovM6FVHGYFlVCfzJhtcbBq+6tbC5hTYRp0Gba24pemeslMsoCXZQVIdlIcTfhfoPrAlXaqT0hRHpSgRDJQjUrJY0Xf0XvV9wr+mSPAk10+JBwMR+0/HfyOExPuc23KGjD6rqGhQBcx38uO7T9bFWjXzPlAE8AKLcAVUHwg==
+X-Forefront-Antispam-Report: CIP:216.228.118.233; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc7edge2.nvidia.com; CAT:NONE;
+ SFS:(13230031)(36860700004)(7416005)(376005)(82310400014)(1800799015)(921011);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2024 10:01:17.0254 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 83cfa25b-9f7f-4f7f-b32c-08dc53c5011f
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.118.233];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB73.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9324
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,69 +120,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 3 Apr 2024 at 12:11, Jun Nie <jun.nie@linaro.org> wrote:
->
-> From: Jonathan Marek <jonathan@marek.ca>
->
-> Add necessary DPU timing and control changes for DSC to work with DSI
-> video mode.
->
-> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
-> Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 9 +++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c          | 8 ++++++++
->  2 files changed, 17 insertions(+)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> index d9e7dbf0499c..c7b009a60b63 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> @@ -115,6 +115,15 @@ static void drm_mode_to_intf_timing_params(
->                 timing->h_front_porch = timing->h_front_porch >> 1;
->                 timing->hsync_pulse_width = timing->hsync_pulse_width >> 1;
->         }
-> +
-> +       /*
-> +        * for DSI, if compression is enabled, then divide the horizonal active
-> +        * timing parameters by compression ratio.
-> +        */
-> +       if (phys_enc->hw_intf->cap->type != INTF_DP && timing->compression_en) {
-> +               timing->width = timing->width / 3; /* XXX: don't assume 3:1 compression ratio */
-> +               timing->xres = timing->width;
-> +       }
->  }
->
->  static u32 get_horizontal_total(const struct dpu_hw_intf_timing_params *timing)
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> index 965692ef7892..079efb48db05 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> @@ -167,6 +167,14 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
->                 intf_cfg2 |= INTF_CFG2_DATABUS_WIDEN;
->
->         data_width = p->width;
-> +       if (p->wide_bus_en && !dp_intf)
-> +               data_width = p->width >> 1;
+Add support for Tegra Security Engine which can accelerates various
+crypto algorithms. The Engine has two separate instances within for
+AES and HASH algorithms respectively.
 
-How is wide_bus relevant to the DSC case?
-Is there a need for the Fixes tag?
+The driver registers two crypto engines - one for AES and another for
+HASH algorithms and these operate independently and both uses the host1x
+bus. Additionally, it provides  hardware-assisted key protection for up to
+15 symmetric keys which it can use for the cipher operations.
 
-> +
-> +       if (p->compression_en)
-> +               intf_cfg2 |= INTF_CFG2_DCE_DATA_COMPRESS;
-> +
-> +       if (p->compression_en && dp_intf)
-> +               DPU_ERROR("missing adjustments for DSC+DP\n");
->
->         hsync_data_start_x = hsync_start_x;
->         hsync_data_end_x =  hsync_start_x + data_width - 1;
->
-> --
-> 2.34.1
->
+v6->v7:
+* Move fallback_tfm and fallback_req to end of struct
+* Set reqsize and statesize based on fallback_tfm
+* Remove ofb(aes)
+v5->v6:
+* Move copy/pase of intermediate results in export()/import() to
+  'update()' callback for CMAC as well.
+* Check for rctx size when using fallback alg.
+* Updated blocksizes to align with generic implementation
+* Combined GCM and CCM init into aead_cra_init
+* Updates to handle invalid cases better
+* Reduce log levels for invalid cases to dev_dbg
+v4->v5:
+* Move copy/paste of intermediate results in export()/import() to
+  'update()' callback
+v3->v4:
+* Remove unused header in bindings doc.
+* Update commit message in host1x change.
+* Fix test bot warning.
+v2->v3:
+* Update compatible in driver and device trees.
+* Remove extra new lines and symbols in binding doc.
+v1->v2:
+* Update probe errors with 'dev_err_probe'.
+* Clean up function prototypes and redundant prints.
+* Remove readl/writel wrappers.
+* Fix test bot warnings.
 
+
+Akhil R (5):
+  dt-bindings: crypto: Add Tegra Security Engine
+  gpu: host1x: Add Tegra SE to SID table
+  crypto: tegra: Add Tegra Security Engine driver
+  arm64: defconfig: Enable Tegra Security Engine
+  arm64: tegra: Add Tegra Security Engine DT nodes
+
+ .../crypto/nvidia,tegra234-se-aes.yaml        |   52 +
+ .../crypto/nvidia,tegra234-se-hash.yaml       |   52 +
+ MAINTAINERS                                   |    5 +
+ arch/arm64/boot/dts/nvidia/tegra234.dtsi      |   16 +
+ arch/arm64/configs/defconfig                  |    1 +
+ drivers/crypto/Kconfig                        |    8 +
+ drivers/crypto/Makefile                       |    1 +
+ drivers/crypto/tegra/Makefile                 |    9 +
+ drivers/crypto/tegra/tegra-se-aes.c           | 1933 +++++++++++++++++
+ drivers/crypto/tegra/tegra-se-hash.c          | 1060 +++++++++
+ drivers/crypto/tegra/tegra-se-key.c           |  156 ++
+ drivers/crypto/tegra/tegra-se-main.c          |  439 ++++
+ drivers/crypto/tegra/tegra-se.h               |  560 +++++
+ drivers/gpu/host1x/dev.c                      |   24 +
+ 14 files changed, 4316 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/crypto/nvidia,tegra234-se-aes.yaml
+ create mode 100644 Documentation/devicetree/bindings/crypto/nvidia,tegra234-se-hash.yaml
+ create mode 100644 drivers/crypto/tegra/Makefile
+ create mode 100644 drivers/crypto/tegra/tegra-se-aes.c
+ create mode 100644 drivers/crypto/tegra/tegra-se-hash.c
+ create mode 100644 drivers/crypto/tegra/tegra-se-key.c
+ create mode 100644 drivers/crypto/tegra/tegra-se-main.c
+ create mode 100644 drivers/crypto/tegra/tegra-se.h
 
 -- 
-With best wishes
-Dmitry
+2.43.2
+
