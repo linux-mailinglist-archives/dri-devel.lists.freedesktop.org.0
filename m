@@ -2,100 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1DD8896EED
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 14:37:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C592896EFB
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 14:39:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD0A5112AB9;
-	Wed,  3 Apr 2024 12:37:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BC521126AF;
+	Wed,  3 Apr 2024 12:39:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Re8F0gky";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="o1jn1zlr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BB2E112AA4;
- Wed,  3 Apr 2024 12:37:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712147822; x=1743683822;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Gz4IMh43tlqJQMtkQNAmSURtoItRp7LuOPT/d9igbhs=;
- b=Re8F0gkyxNMG91bQSCmM+sumsuhc/4ehQlP89bNusxXv2SWnXzgjJPFK
- CLz9kMrGiZewa9C3EdKrNDfRcCrYpPbsat1ytgRlBd62M2VDY1LD+Ppia
- NDTPfLXiUyQLLgXOSSqOQNJyk3X5i0ksIV9GXnhbegDabHOVxRjkAl+L9
- 1ZUb0wesnfVDgV3xE0Vkh7pPrQZ9rTHY/OMJpRIVlgvpfqVym6UYOocSe
- 3WRhKo6d+rlL8wZsHZRVd2l+HJsOaVAjR7TIu82r0UCES6uFWFbRoobwk
- thIu8GRCft8GFjQQxP3XI20hTDJmOw5HsiI8BC9C8GmiaPYY0NQsXtZx4 w==;
-X-CSE-ConnectionGUID: 9buRWh2zSkumz/QaT0a9MQ==
-X-CSE-MsgGUID: 3jpF2ZTeT7mDQpkXQ84gEg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="32764450"
-X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; d="scan'208";a="32764450"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Apr 2024 05:36:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="827789899"
-X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; d="scan'208";a="827789899"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 03 Apr 2024 05:36:43 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 03 Apr 2024 15:36:43 +0300
-Date: Wed, 3 Apr 2024 15:36:43 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Easwar Hariharan <eahariha@linux.microsoft.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	"Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
-	Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
-	Evan Quan <evan.quan@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
-	Candice Li <candice.li@amd.com>, Ran Sun <sunran001@208suo.com>,
-	Alexander Richards <electrodeyt@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Hamza Mahfooz <hamza.mahfooz@amd.com>,
-	Ruan Jinjie <ruanjinjie@huawei.com>, Alan Liu <haoping.liu@amd.com>,
-	Aurabindo Pillai <aurabindo.pillai@amd.com>,
-	Wayne Lin <wayne.lin@amd.com>, Samson Tam <samson.tam@amd.com>,
-	Alvin Lee <alvin.lee2@amd.com>, Charlene Liu <charlene.liu@amd.com>,
-	Sohaib Nadeem <sohaib.nadeem@amd.com>,
-	Lewis Huang <lewis.huang@amd.com>,
-	Tom Chung <chiahsuan.chung@amd.com>,
-	Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
-	Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>,
-	George Shen <george.shen@amd.com>, Aric Cyr <aric.cyr@amd.com>,
-	Jun Lei <jun.lei@amd.com>,
-	Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
-	Qingqing Zhuo <Qingqing.Zhuo@amd.com>,
-	Dillon Varone <dillon.varone@amd.com>, Le Ma <Le.Ma@amd.com>,
-	Lijo Lazar <lijo.lazar@amd.com>, Asad kamal <asad.kamal@amd.com>,
-	Kenneth Feng <kenneth.feng@amd.com>, Ma Jun <Jun.Ma2@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Yang Wang <kevinyang.wang@amd.com>,
-	Darren Powell <darren.powell@amd.com>,
-	Yifan Zhang <yifan1.zhang@amd.com>,
-	"open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
-	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-	open list <linux-kernel@vger.kernel.org>, Wolfram@freedesktop.org,
-	"Sang <wsa+renesas"@sang-engineering
-Subject: Re: [PATCH v0 02/14] drm/amdgpu,drm/radeon: Make I2C terminology
- more inclusive
-Message-ID: <Zg1NW0jqwFn4lvEP@intel.com>
-References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
- <20240329170038.3863998-3-eahariha@linux.microsoft.com>
- <Zgb3VYsgLjhJ2HKs@ashyti-mobl2.lan>
- <ceeaafe1-49d5-4602-8251-eed63a1be2b6@linux.microsoft.com>
- <Zgb8gieDzZtZmg2q@ashyti-mobl2.lan>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69CC61126AE
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 12:39:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1712147965; x=1712752765; i=deller@gmx.de;
+ bh=0/9OdsPnme8O0cpxK4rPy0u9rcwm1H6E5gohpds0soA=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+ In-Reply-To;
+ b=o1jn1zlr/rYsUH2MpvLx2y0B1px41rzkQlAjwdeStqioZNNEPSjQgx6TxTsw+Dq+
+ +CGLAxyGzW3y/k2/O/VS/AXxE+9qp+8t3TbdIyR9/YbHrumG1kJsMuL48uU1QcuZL
+ 2dNLTfmj5vog6xqPVgIL15ed0dS0gD0VjpgWV9e4unNjnsmJrfR+PTAsE7LWsmKiW
+ 5sZrK25N8a/sKnLFBOINnKoGTCRHo5ET9f0jxVShlnNwUJ43+me2LM3HPFh6DwuZj
+ xMDBDeAvQ/QLfPSylIXHELHlSm3UiOMf9CyYoALfqsGTZMb2sT5DGBrl+M3a/3NrU
+ ORlDUJiSGDwkYt1TCQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.198.194] ([109.43.112.31]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1McpNy-1sRssh0qqQ-00ZwMO; Wed, 03
+ Apr 2024 14:39:25 +0200
+Message-ID: <b431cd44-c436-4884-b0a9-bfe6fdcaf5cc@gmx.de>
+Date: Wed, 3 Apr 2024 14:39:22 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zgb8gieDzZtZmg2q@ashyti-mobl2.lan>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 13/34] sisfb: hide unused variables
+To: Arnd Bergmann <arnd@kernel.org>, linux-kernel@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20240403080702.3509288-1-arnd@kernel.org>
+ <20240403080702.3509288-14-arnd@kernel.org>
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <20240403080702.3509288-14-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Lx2iS+6fuDjSKNR2GqFB9k4UHT8MreBYU97WpDd9RYtV8AeNTZX
+ mKtbUsRmHbk6aZv9UgQG6o3RrFF3ItQt8dhXDvOKNSAkZGZyPbYZ1qLj67AOvkCh8cjvDQv
+ pH0uSzUaD6UpkiLx8b4dbux6tca8cNq3JKe+qXsS+RqdjfaawBLkViWfasUd/k2f3fPE6dP
+ Z23POdapr2vYGX/xPjq1A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:e4hjhPC57HM=;h4TZ7lfky2lEiiT1p1qctQVX3NZ
+ eZwHgrYzY2xWragaHQgtRZGIs14uu+JA5kMGZr38jYdCsnPunnuct/AbQIHR45i71vx8cBw2Y
+ baUHuzjhLssTPDBpRh3V6v/FHn8liYPy4AqEDSh3QeOczfZdiv02TkyUoOqX3+TcoImbmEsAt
+ g2Z7NL+32U9EhX2CenIuMBqJNNA6Ep1XYLwVUzyii/MUmJYi9hOuGoI1kU12Oohprdq7FVvv3
+ GREMYrEDt4qZuYSibvmai6g0GqYL6Zg/AuzD8fEs7gqbEIiARK6FQh/OaQpX7OP++V7jffy7t
+ yilGQdE6qNS5ihYDKn+1x772Y7FfrP59cjGfbLWALu625uDdJV70s4RmdJ2uZI3zgww6vJeBy
+ ojolxI6ZvNQMoyN5JuBMhdDr3prQevy3KJ/dgoiMAJRFX7NMSNfd5LClGNyF8Mt243O86kxUg
+ J/wcyj5oyr5dccUCzdcfNYuSbgQA/LosDSDl19eWzWXUKXl2Qps6/WpS7q5kjKDILG8M4dhLd
+ 8TPejJ0f2aeyP8+22WS1A4yMtyxfXdpRZGc8YbGhWXEQimEllnwR2mJpQCqdYRqK0ClgicRPT
+ PfKzv4U9BlCw6cQEA6XT/vMDWQ2iy7/z4WRsEmbCIT4GBXG8KlZkEXlgYqWblA3w6VKw9tUEh
+ 7H6It967BX37GMAz3hh7PkrWUMWi8d2PXyTT2c6qEyrBJL+rPmtzK/xHKQmutBax0/1W+9xBL
+ S09sTimJP8WaJYAEFwx11N9NGIBuMOZ+PTCcXXTHRV9XKpambJfKmypSCF9liiiFvSOYPAM8E
+ hik0cdLWWTCh/Qc6qSvRIRw616WyNzFeXwiVvNzJ+AuOw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,62 +122,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 29, 2024 at 06:38:10PM +0100, Andi Shyti wrote:
-> Hi,
-> 
-> On Fri, Mar 29, 2024 at 10:28:14AM -0700, Easwar Hariharan wrote:
-> > On 3/29/2024 10:16 AM, Andi Shyti wrote:
-> > > Hi Easwar,
-> > > 
-> > > On Fri, Mar 29, 2024 at 05:00:26PM +0000, Easwar Hariharan wrote:
-> > >> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
-> > > 
-> > > I don't understand why we forget that i3c is 1.1.1 :-)
-> > 
-> > That's because it's a copy-paste error from Wolfram's cover letter. :) I'll update
-> > next go-around.
-> 
-> not a binding comment, though. Just for completeness, because we
-> are giving the version to the i2c and smbus, but not i3c.
-> 
-> > >> with more appropriate terms. Inspired by and following on to Wolfram's
-> > >> series to fix drivers/i2c/[1], fix the terminology for users of
-> > >> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
-> > >> in the specification.
-> > > 
-> > > The specification talks about:
-> > > 
-> > >  - master -> controller
-> > >  - slave -> target (and not client)
-> > > 
-> > > But both you and Wolfram have used client. I'd like to reach
-> > > some more consistency here.
-> > 
-> > I had the impression that remote targets (i.e external to the device) were to be called clients,
-> > e.g. the QSFP FRUs in drivers/infiniband, and internal ones targets.
-> > I chose the terminology according to that understanding, but now I can't find where I got that
-> > information.
-> 
-> The word "client" does not even appear in the documentation (only
-> one instance in the i3c document), so that the change is not
-> related to the document as stated in the commit log. Unless, of
-> course, I am missing something.
-> 
-> I'm OK with choosing a "customized" naming, but we need to reach
-> an agreement.
-> 
-> I raised the same question to Wolfram.
+On 4/3/24 10:06, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> Building with W=3D1 shows that a couple of variables in this driver are =
+only
+> used in certain configurations:
+>
+> drivers/video/fbdev/sis/init301.c:239:28: error: 'SiS_Part2CLVX_6' defin=
+ed but not used [-Werror=3Dunused-const-variable=3D]
+> ...
+> Fixes: 5908986ef348 ("video: fbdev: sis: avoid mismatched prototypes")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>   drivers/video/fbdev/sis/init301.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 
-I don't know where that discussion happened, but my opinion
-is NAK to "client". Life is already confusing enough with
-these renames, so let's not make it even more confusing by
-inventing new names nowhere to be found in the spec.
+applied to fbdev git tree.
 
-And let's especially not invent names that don't even fit
-the purpose. "Client" makes me think of "client/server" or
-some real world analogy. Neither of which seem to have any
-resemblence to how the term would be used for i2c.
-
--- 
-Ville Syrjälä
-Intel
+Thanks!
+Helge
