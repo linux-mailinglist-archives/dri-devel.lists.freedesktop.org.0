@@ -2,72 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0ADC896E6C
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 13:45:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3022896EB6
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 14:10:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1784E112A3E;
-	Wed,  3 Apr 2024 11:45:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48371112A6B;
+	Wed,  3 Apr 2024 12:10:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="Kfve3jVX";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dAFpQ6bp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com
- [209.85.219.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E1BB112A3E
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 11:45:06 +0000 (UTC)
-Received: by mail-yb1-f177.google.com with SMTP id
- 3f1490d57ef6-ddda842c399so4993439276.3
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Apr 2024 04:45:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1712144705; x=1712749505;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=H6ji7ukJRPmQhB2qcavC1ueRDs+bCKiR3kOICzSoFek=;
- b=Kfve3jVXRiIKyagHA1DNmouphsXeook7g33nPScs3I3XOcuV7ISrh627CbvN0V9LQq
- WlDQPLsRk/nhCxu0HbmoM6644MzycFruSUQpGM+3u56lm78sr1F+RqL8L6XH4NT2kQGZ
- vlqmvmyuu/Q0hLk/L0GU3X5U8/F/k4CyaxSXw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712144705; x=1712749505;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=H6ji7ukJRPmQhB2qcavC1ueRDs+bCKiR3kOICzSoFek=;
- b=AskKPKoB0/ysu6NJ3iwyKDdBDKxrvaks1SR68Hz4FkMM3g7Ij0c4QjppQYqwfQpVI5
- KmjDhpzn7GlmLrj7CsB2kat5FLYJ2lDJJmX+gPPlnsBxE2P5NFNaPpksX0GcbneVBJFp
- RKlYPK8rCq9I+3MNBqRqVhqbv9GTg+JKupYgtPxSpjMqQlnquZhb87APe8jc1VDo9RSK
- Gb0IhrMvXqO5hfQCRDKZ5AWA6o7ED1pxXVz+hEIbgOe2tWeS1MwtMP1+FJPbzSA6TRR/
- svInxcFs2mrbTmGf+iVgL9AgJACTASQEMzOKKWxFB4cFDN3SMcBWrlpkYs12CUemrT8v
- OqAQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXCd6TOUsVtsup/F9s3QUjc4sIZGmSpGGAj247oU8G2izp+9dJhLofO0VYr6AIVRJEsIdXO+9MqGFJp9tVRERoHeyQTCSJINniOLOwg25lC
-X-Gm-Message-State: AOJu0YzW93Ol4eOGB6WRYQmL62NAFOXLgvYwXki2hKUrCawZKA8n9dOh
- eitsNTnSlevE8vBz9Z3CBv0XRga2WXuFXYe+Iws0t7RQS5QuOQU2n6d0kEz066r5fvwZPENXtRu
- rpaDfmr0erZtzEIBZxHsDDIhxsNKrj2luNV5I
-X-Google-Smtp-Source: AGHT+IFKuYjWza+zXPjWPA5Q0rMCrbgx3HRhz5yHT+6Ft++wJj/e+mXelEtAPaLvU/P/29AJlfH7r0I4bvMQuFJPxtI=
-X-Received: by 2002:a25:b84a:0:b0:dcd:65fa:ea06 with SMTP id
- b10-20020a25b84a000000b00dcd65faea06mr14285654ybm.24.1712144705293; Wed, 03
- Apr 2024 04:45:05 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3650F112A6B;
+ Wed,  3 Apr 2024 12:10:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1712146241; x=1743682241;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=23fq9E2QHaP1cwRS/gBt3YRYnPybXOnaonqdo2J1stg=;
+ b=dAFpQ6bpXNJIBS+um9G4jj2La+RqLpoFW+4xrEr+DFgCjh8fk8mEgyV6
+ e3y3bR7gjR0lED1VgskEOj9Fr2QQrM/mj3vpYIocQSsxZ5sKE2UWQZlhW
+ XChebNs2c2KkLEEURqh8d1uz9ReCoRAevJwR2k+ytIBI2Ni/wRMCvJoXU
+ bgSnMOwNKIMue9/Rc6Z1w+ISFK1zBZ3zk2JP6JyYH1TA91ZwKyfjgNhUX
+ HWSe7xkWWnoTn4osLzyutRhPYUZIVBi2vy2+zDcomUyqsgSAIXBzR6Svt
+ Djr+SnzLqZ+GLAlVfg02SbbVrJgK0gqFZCSuDCDFi40kafrvZ9XN4pdut w==;
+X-CSE-ConnectionGUID: rKSoVTbLRX6+v4V9a26f5g==
+X-CSE-MsgGUID: 64+DFCvgQJenZDDRzw9s8A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="10341792"
+X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; d="scan'208";a="10341792"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Apr 2024 05:10:40 -0700
+X-CSE-ConnectionGUID: Hvq7v1j9Sz6r5oWWugAruQ==
+X-CSE-MsgGUID: +7saXZVQSNKw9Y6rpV/xZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; d="scan'208";a="22890461"
+Received: from melsaid-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.41.235])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Apr 2024 05:10:37 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: imre.deak@intel.com, intel-gfx@lists.freedesktop.org, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, Lyude Paul <lyude@redhat.com>, Ankit K
+ Nautiyal <ankit.k.nautiyal@intel.com>
+Subject: Re: [PATCH 01/11] drm/i915/dp: Fix DSC line buffer depth programming
+In-Reply-To: <ZgVymQ8a9iALSuEi@ideak-desk.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240320201152.3487892-1-imre.deak@intel.com>
+ <20240320201152.3487892-2-imre.deak@intel.com>
+ <ZgVymQ8a9iALSuEi@ideak-desk.fi.intel.com>
+Date: Wed, 03 Apr 2024 15:10:34 +0300
+Message-ID: <87v84yd4ud.fsf@intel.com>
 MIME-Version: 1.0
-References: <20240402232813.2670131-1-zack.rusin@broadcom.com>
- <20240402232813.2670131-6-zack.rusin@broadcom.com>
- <20240403104246.6c94eea0.pekka.paalanen@collabora.com>
-In-Reply-To: <20240403104246.6c94eea0.pekka.paalanen@collabora.com>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Wed, 3 Apr 2024 07:44:54 -0400
-Message-ID: <CABQX2QPW83H5T9Gc5yT8a277tNgjEvC-xK6wDGewq+vQEYZ=2A@mail.gmail.com>
-Subject: Re: [PATCH 5/5] drm/vmwgfx: Sort primary plane formats by order of
- preference
-To: Pekka Paalanen <pekka.paalanen@collabora.com>
-Cc: igt-dev@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- ian.forbes@broadcom.com, 
- martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com, 
- stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,34 +73,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 3, 2024 at 3:43=E2=80=AFAM Pekka Paalanen
-<pekka.paalanen@collabora.com> wrote:
+On Thu, 28 Mar 2024, Imre Deak <imre.deak@intel.com> wrote:
+> On Wed, Mar 20, 2024 at 10:11:41PM +0200, Imre Deak wrote:
+>> Fix the calculation of the DSC line buffer depth. This is limited both
+>> by the source's and sink's maximum line buffer depth, but the former one
+>> was not taken into account. On all Intel platform's the source's maximum
+>> buffer depth is 13, so the overall limit is simply the minimum of the
+>> source/sink's limit, regardless of the DSC version.
+>> 
+>> This leaves the DSI DSC line buffer depth calculation as-is, trusting
+>> VBT.
+>> 
+>> On DSC version 1.2 for sinks reporting a maximum line buffer depth of 16
+>> the line buffer depth was incorrectly programmed as 0, leading to a
+>> corruption in color gradients / lines on the decompressed screen image.
+>> 
+>> Cc: dri-devel@lists.freedesktop.org
+>> Signed-off-by: Imre Deak <imre.deak@intel.com>
 >
-> On Tue,  2 Apr 2024 19:28:13 -0400
-> Zack Rusin <zack.rusin@broadcom.com> wrote:
+> Hi Maarten, Thomas, Maxime,
 >
-> > The table of primary plane formats wasn't sorted at all, leading to
-> > applications picking our least desirable formats by defaults.
-> >
-> > Sort the primary plane formats according to our order of preference.
->
-> This is good.
->
-> > Fixes IGT's kms_atomic plane-invalid-params which assumes that the
-> > preferred format is a 32bpp format.
->
-> That sounds strange, why would IGT depend on preferred format being
-> 32bpp?
->
-> That must be an oversight. IGT cannot dictate the format that hardware
-> must prefer. XRGB8888 is strongly suggested to be supported in general,
-> but why also preferred?
+> are you ok to merge the DRM DP-DSC/MST changes in patches 1, 7-9, 11 via
+> drm-intel-next?
 
-I think it's just a side-effect of the pixman's assert that's failing:
-https://cgit.freedesktop.org/drm/igt-gpu-tools/tree/lib/igt_fb.c#n4190
-i.e. pixman assumes everything is 4 byte aligned.
-I should have rephrased the message as "IGT assumes that the preferred
-fb format is 4 byte aligned because our 16bpp formats are packed and
-pixman can't convert them".
+Ping? Ack for merging via drm-intel-next, please?
 
-z
+BR,
+Jani.
+
+
+>
+> --Imre
+>
+>> ---
+>>  drivers/gpu/drm/i915/display/intel_dp.c | 16 ++++++----------
+>>  include/drm/display/drm_dsc.h           |  3 ---
+>>  2 files changed, 6 insertions(+), 13 deletions(-)
+>> 
+>> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+>> index af7ca00e9bc0a..dbe65651bf277 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+>> @@ -89,6 +89,9 @@
+>>  #define DP_DSC_MAX_ENC_THROUGHPUT_0		340000
+>>  #define DP_DSC_MAX_ENC_THROUGHPUT_1		400000
+>>  
+>> +/* Max DSC line buffer depth supported by HW. */
+>> +#define INTEL_DP_DSC_MAX_LINE_BUF_DEPTH		13
+>> +
+>>  /* DP DSC FEC Overhead factor in ppm = 1/(0.972261) = 1.028530 */
+>>  #define DP_DSC_FEC_OVERHEAD_FACTOR		1028530
+>>  
+>> @@ -1703,7 +1706,6 @@ static int intel_dp_dsc_compute_params(const struct intel_connector *connector,
+>>  {
+>>  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
+>>  	struct drm_dsc_config *vdsc_cfg = &crtc_state->dsc.config;
+>> -	u8 line_buf_depth;
+>>  	int ret;
+>>  
+>>  	/*
+>> @@ -1732,20 +1734,14 @@ static int intel_dp_dsc_compute_params(const struct intel_connector *connector,
+>>  			connector->dp.dsc_dpcd[DP_DSC_DEC_COLOR_FORMAT_CAP - DP_DSC_SUPPORT] &
+>>  			DP_DSC_RGB;
+>>  
+>> -	line_buf_depth = drm_dp_dsc_sink_line_buf_depth(connector->dp.dsc_dpcd);
+>> -	if (!line_buf_depth) {
+>> +	vdsc_cfg->line_buf_depth = min(INTEL_DP_DSC_MAX_LINE_BUF_DEPTH,
+>> +				       drm_dp_dsc_sink_line_buf_depth(connector->dp.dsc_dpcd));
+>> +	if (!vdsc_cfg->line_buf_depth) {
+>>  		drm_dbg_kms(&i915->drm,
+>>  			    "DSC Sink Line Buffer Depth invalid\n");
+>>  		return -EINVAL;
+>>  	}
+>>  
+>> -	if (vdsc_cfg->dsc_version_minor == 2)
+>> -		vdsc_cfg->line_buf_depth = (line_buf_depth == DSC_1_2_MAX_LINEBUF_DEPTH_BITS) ?
+>> -			DSC_1_2_MAX_LINEBUF_DEPTH_VAL : line_buf_depth;
+>> -	else
+>> -		vdsc_cfg->line_buf_depth = (line_buf_depth > DSC_1_1_MAX_LINEBUF_DEPTH_BITS) ?
+>> -			DSC_1_1_MAX_LINEBUF_DEPTH_BITS : line_buf_depth;
+>> -
+>>  	vdsc_cfg->block_pred_enable =
+>>  		connector->dp.dsc_dpcd[DP_DSC_BLK_PREDICTION_SUPPORT - DP_DSC_SUPPORT] &
+>>  		DP_DSC_BLK_PREDICTION_IS_SUPPORTED;
+>> diff --git a/include/drm/display/drm_dsc.h b/include/drm/display/drm_dsc.h
+>> index bc90273d06a62..bbbe7438473d3 100644
+>> --- a/include/drm/display/drm_dsc.h
+>> +++ b/include/drm/display/drm_dsc.h
+>> @@ -40,9 +40,6 @@
+>>  #define DSC_PPS_RC_RANGE_MINQP_SHIFT		11
+>>  #define DSC_PPS_RC_RANGE_MAXQP_SHIFT		6
+>>  #define DSC_PPS_NATIVE_420_SHIFT		1
+>> -#define DSC_1_2_MAX_LINEBUF_DEPTH_BITS		16
+>> -#define DSC_1_2_MAX_LINEBUF_DEPTH_VAL		0
+>> -#define DSC_1_1_MAX_LINEBUF_DEPTH_BITS		13
+>>  
+>>  /**
+>>   * struct drm_dsc_rc_range_parameters - DSC Rate Control range parameters
+>> -- 
+>> 2.43.3
+>> 
+
+-- 
+Jani Nikula, Intel
