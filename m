@@ -2,111 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C592896EFB
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 14:39:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C096896F9F
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 14:57:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BC521126AF;
-	Wed,  3 Apr 2024 12:39:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DA5B112ADE;
+	Wed,  3 Apr 2024 12:57:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="o1jn1zlr";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Q8gC4MT1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69CC61126AE
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 12:39:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1712147965; x=1712752765; i=deller@gmx.de;
- bh=0/9OdsPnme8O0cpxK4rPy0u9rcwm1H6E5gohpds0soA=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
- In-Reply-To;
- b=o1jn1zlr/rYsUH2MpvLx2y0B1px41rzkQlAjwdeStqioZNNEPSjQgx6TxTsw+Dq+
- +CGLAxyGzW3y/k2/O/VS/AXxE+9qp+8t3TbdIyR9/YbHrumG1kJsMuL48uU1QcuZL
- 2dNLTfmj5vog6xqPVgIL15ed0dS0gD0VjpgWV9e4unNjnsmJrfR+PTAsE7LWsmKiW
- 5sZrK25N8a/sKnLFBOINnKoGTCRHo5ET9f0jxVShlnNwUJ43+me2LM3HPFh6DwuZj
- xMDBDeAvQ/QLfPSylIXHELHlSm3UiOMf9CyYoALfqsGTZMb2sT5DGBrl+M3a/3NrU
- ORlDUJiSGDwkYt1TCQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.198.194] ([109.43.112.31]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1McpNy-1sRssh0qqQ-00ZwMO; Wed, 03
- Apr 2024 14:39:25 +0200
-Message-ID: <b431cd44-c436-4884-b0a9-bfe6fdcaf5cc@gmx.de>
-Date: Wed, 3 Apr 2024 14:39:22 +0200
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2100.outbound.protection.outlook.com [40.107.236.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35C80112ADE;
+ Wed,  3 Apr 2024 12:57:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gz0HAL6JosbC4B+PjZgR8UO26mgkVd/QwvBMor182PXGxmsPWUEYfX4K73PwJm9IcXF38Et+Db8IsfrHboACSeR2Iwtxh+NB7OAMnR+C9SViSKjkm5hcUeY1jg3TzUl9un7x3fqnxEycUE8B3h65x2IcCkQYB53Aeun/rj23oe9KZCWwTWD+IDNt8lknVgIB2cpIadmjDB+yWsJqDt5qK6ziIHZoTmochc1/WFpKvcwnn6CWKi7FVrK8Lj8AvUO0m0V1fbsQeijj1A2phFGphsmVSi1/RKeaq8oOCAzwnC+aSah3n2jtcSXIbmBzH+4ssU/oIDtYBC1ahkPKm6gnBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1nN6SZWocct37Xk4v6czZy/tDwdRXY2vIde9HD6pfOA=;
+ b=aDAAVDHIFeJRh5yty0mEWO3W1ocqKTnj3PqVAQGAGBitHJg42H2Hvo+Z+idI55f2XK4u1HhLf20qDgdctkPYLIU/zMLZn9LfVHZolsbsx0e0P6yDurT1nhJk6fv+abtMaIudRYSl16Lt8Y363wDzc3U+FEXG6LtSNLuqkNH/37mQxuD4ScgZ76XQ99JZykxd5D9NRzX2rvYoPYp96Z72ChW8GUUb3wjhGjk5ITYaVQs554Wku9ADlmmzHmKVX8qfytxS+pH4s5Bl9jytHhi/BRyTMR5kc8qSuBHCP2C28VVFbIU38JlsrMwA+z76BuZikDei3r6KdWgda5F9Fqvesw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1nN6SZWocct37Xk4v6czZy/tDwdRXY2vIde9HD6pfOA=;
+ b=Q8gC4MT1+JXE9aHESWIl8QWdzDbS1yAmNiXrBmNjNndCSK59c4MotR4ZZojotkEZ4vxeXm+9BuURMuJbVIdRJAeSVk9QPKmmkQWBhRw3yWuNcREETbZuhGZnlYtChknOhwn3ZNnqG9DkmhHNQhIs/+mKsoetY3bpW/A89ayHgxyBP2DUEeeUIp+i/qbHwbfTOg8UdLArlc5wDBNUFtLON7tlJFmzJJekf6o3B6THBkjP47EMZwClq1M3h04taa0HZQvQl384aktCMUB6n9mj5nVG5dXYDSvLILGdxOvr/UmlGaoHFP1b1y7Gcqc1W+Gr+p8uCpucoILUvpHMbD5WGA==
+Received: from DM6PR12MB3849.namprd12.prod.outlook.com (2603:10b6:5:1c7::26)
+ by CY8PR12MB9035.namprd12.prod.outlook.com (2603:10b6:930:77::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Wed, 3 Apr
+ 2024 12:57:14 +0000
+Received: from DM6PR12MB3849.namprd12.prod.outlook.com
+ ([fe80::6aec:dbca:a593:a222]) by DM6PR12MB3849.namprd12.prod.outlook.com
+ ([fe80::6aec:dbca:a593:a222%5]) with mapi id 15.20.7409.042; Wed, 3 Apr 2024
+ 12:57:14 +0000
+Date: Wed, 3 Apr 2024 09:57:12 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Dave Airlie <airlied@gmail.com>,
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ Matthew Brost <matthew.brost@intel.com>, oak.zeng@intel.com,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: Cross-device and cross-driver HMM support
+Message-ID: <20240403125712.GA1744080@nvidia.com>
+References: <bc4c7b5f19e6479a002ef69949918a45ca89ce69.camel@linux.intel.com>
+ <CAPM=9tyMF2POfE4Sm3717ibH3NSaY-AX3bMz6ZRAeaRaQWEURQ@mail.gmail.com>
+ <5495090e-dee1-4c8e-91bc-240632fd3e35@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5495090e-dee1-4c8e-91bc-240632fd3e35@amd.com>
+X-ClientProxiedBy: SN7PR04CA0199.namprd04.prod.outlook.com
+ (2603:10b6:806:126::24) To DM6PR12MB3849.namprd12.prod.outlook.com
+ (2603:10b6:5:1c7::26)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/34] sisfb: hide unused variables
-To: Arnd Bergmann <arnd@kernel.org>, linux-kernel@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20240403080702.3509288-1-arnd@kernel.org>
- <20240403080702.3509288-14-arnd@kernel.org>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- xsFNBF3Ia3MBEAD3nmWzMgQByYAWnb9cNqspnkb2GLVKzhoH2QD4eRpyDLA/3smlClbeKkWT
- HLnjgkbPFDmcmCz5V0Wv1mKYRClAHPCIBIJgyICqqUZo2qGmKstUx3pFAiztlXBANpRECgwJ
- r+8w6mkccOM9GhoPU0vMaD/UVJcJQzvrxVHO8EHS36aUkjKd6cOpdVbCt3qx8cEhCmaFEO6u
- CL+k5AZQoABbFQEBocZE1/lSYzaHkcHrjn4cQjc3CffXnUVYwlo8EYOtAHgMDC39s9a7S90L
- 69l6G73lYBD/Br5lnDPlG6dKfGFZZpQ1h8/x+Qz366Ojfq9MuuRJg7ZQpe6foiOtqwKym/zV
- dVvSdOOc5sHSpfwu5+BVAAyBd6hw4NddlAQUjHSRs3zJ9OfrEx2d3mIfXZ7+pMhZ7qX0Axlq
- Lq+B5cfLpzkPAgKn11tfXFxP+hcPHIts0bnDz4EEp+HraW+oRCH2m57Y9zhcJTOJaLw4YpTY
- GRUlF076vZ2Hz/xMEvIJddRGId7UXZgH9a32NDf+BUjWEZvFt1wFSW1r7zb7oGCwZMy2LI/G
- aHQv/N0NeFMd28z+deyxd0k1CGefHJuJcOJDVtcE1rGQ43aDhWSpXvXKDj42vFD2We6uIo9D
- 1VNre2+uAxFzqqf026H6cH8hin9Vnx7p3uq3Dka/Y/qmRFnKVQARAQABzRxIZWxnZSBEZWxs
- ZXIgPGRlbGxlckBnbXguZGU+wsGRBBMBCAA7AhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheA
- FiEERUSCKCzZENvvPSX4Pl89BKeiRgMFAl3J1zsCGQEACgkQPl89BKeiRgNK7xAAg6kJTPje
- uBm9PJTUxXaoaLJFXbYdSPfXhqX/BI9Xi2VzhwC2nSmizdFbeobQBTtRIz5LPhjk95t11q0s
- uP5htzNISPpwxiYZGKrNnXfcPlziI2bUtlz4ke34cLK6MIl1kbS0/kJBxhiXyvyTWk2JmkMi
- REjR84lCMAoJd1OM9XGFOg94BT5aLlEKFcld9qj7B4UFpma8RbRUpUWdo0omAEgrnhaKJwV8
- qt0ULaF/kyP5qbI8iA2PAvIjq73dA4LNKdMFPG7Rw8yITQ1Vi0DlDgDT2RLvKxEQC0o3C6O4
- iQq7qamsThLK0JSDRdLDnq6Phv+Yahd7sDMYuk3gIdoyczRkXzncWAYq7XTWl7nZYBVXG1D8
- gkdclsnHzEKpTQIzn/rGyZshsjL4pxVUIpw/vdfx8oNRLKj7iduf11g2kFP71e9v2PP94ik3
- Xi9oszP+fP770J0B8QM8w745BrcQm41SsILjArK+5mMHrYhM4ZFN7aipK3UXDNs3vjN+t0zi
- qErzlrxXtsX4J6nqjs/mF9frVkpv7OTAzj7pjFHv0Bu8pRm4AyW6Y5/H6jOup6nkJdP/AFDu
- 5ImdlA0jhr3iLk9s9WnjBUHyMYu+HD7qR3yhX6uWxg2oB2FWVMRLXbPEt2hRGq09rVQS7DBy
- dbZgPwou7pD8MTfQhGmDJFKm2jvOwU0EXchrcwEQAOsDQjdtPeaRt8EP2pc8tG+g9eiiX9Sh
- rX87SLSeKF6uHpEJ3VbhafIU6A7hy7RcIJnQz0hEUdXjH774B8YD3JKnAtfAyuIU2/rOGa/v
- UN4BY6U6TVIOv9piVQByBthGQh4YHhePSKtPzK9Pv/6rd8H3IWnJK/dXiUDQllkedrENXrZp
- eLUjhyp94ooo9XqRl44YqlsrSUh+BzW7wqwfmu26UjmAzIZYVCPCq5IjD96QrhLf6naY6En3
- ++tqCAWPkqKvWfRdXPOz4GK08uhcBp3jZHTVkcbo5qahVpv8Y8mzOvSIAxnIjb+cklVxjyY9
- dVlrhfKiK5L+zA2fWUreVBqLs1SjfHm5OGuQ2qqzVcMYJGH/uisJn22VXB1c48yYyGv2HUN5
- lC1JHQUV9734I5cczA2Gfo27nTHy3zANj4hy+s/q1adzvn7hMokU7OehwKrNXafFfwWVK3OG
- 1dSjWtgIv5KJi1XZk5TV6JlPZSqj4D8pUwIx3KSp0cD7xTEZATRfc47Yc+cyKcXG034tNEAc
- xZNTR1kMi9njdxc1wzM9T6pspTtA0vuD3ee94Dg+nDrH1As24uwfFLguiILPzpl0kLaPYYgB
- wumlL2nGcB6RVRRFMiAS5uOTEk+sJ/tRiQwO3K8vmaECaNJRfJC7weH+jww1Dzo0f1TP6rUa
- fTBRABEBAAHCwXYEGAEIACAWIQRFRIIoLNkQ2+89Jfg+Xz0Ep6JGAwUCXchrcwIbDAAKCRA+
- Xz0Ep6JGAxtdEAC54NQMBwjUNqBNCMsh6WrwQwbg9tkJw718QHPw43gKFSxFIYzdBzD/YMPH
- l+2fFiefvmI4uNDjlyCITGSM+T6b8cA7YAKvZhzJyJSS7pRzsIKGjhk7zADL1+PJei9p9idy
- RbmFKo0dAL+ac0t/EZULHGPuIiavWLgwYLVoUEBwz86ZtEtVmDmEsj8ryWw75ZIarNDhV74s
- BdM2ffUJk3+vWe25BPcJiaZkTuFt+xt2CdbvpZv3IPrEkp9GAKof2hHdFCRKMtgxBo8Kao6p
- Ws/Vv68FusAi94ySuZT3fp1xGWWf5+1jX4ylC//w0Rj85QihTpA2MylORUNFvH0MRJx4mlFk
- XN6G+5jIIJhG46LUucQ28+VyEDNcGL3tarnkw8ngEhAbnvMJ2RTx8vGh7PssKaGzAUmNNZiG
- MB4mPKqvDZ02j1wp7vthQcOEg08z1+XHXb8ZZKST7yTVa5P89JymGE8CBGdQaAXnqYK3/yWf
- FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
- 4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
- ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20240403080702.3509288-14-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Lx2iS+6fuDjSKNR2GqFB9k4UHT8MreBYU97WpDd9RYtV8AeNTZX
- mKtbUsRmHbk6aZv9UgQG6o3RrFF3ItQt8dhXDvOKNSAkZGZyPbYZ1qLj67AOvkCh8cjvDQv
- pH0uSzUaD6UpkiLx8b4dbux6tca8cNq3JKe+qXsS+RqdjfaawBLkViWfasUd/k2f3fPE6dP
- Z23POdapr2vYGX/xPjq1A==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:e4hjhPC57HM=;h4TZ7lfky2lEiiT1p1qctQVX3NZ
- eZwHgrYzY2xWragaHQgtRZGIs14uu+JA5kMGZr38jYdCsnPunnuct/AbQIHR45i71vx8cBw2Y
- baUHuzjhLssTPDBpRh3V6v/FHn8liYPy4AqEDSh3QeOczfZdiv02TkyUoOqX3+TcoImbmEsAt
- g2Z7NL+32U9EhX2CenIuMBqJNNA6Ep1XYLwVUzyii/MUmJYi9hOuGoI1kU12Oohprdq7FVvv3
- GREMYrEDt4qZuYSibvmai6g0GqYL6Zg/AuzD8fEs7gqbEIiARK6FQh/OaQpX7OP++V7jffy7t
- yilGQdE6qNS5ihYDKn+1x772Y7FfrP59cjGfbLWALu625uDdJV70s4RmdJ2uZI3zgww6vJeBy
- ojolxI6ZvNQMoyN5JuBMhdDr3prQevy3KJ/dgoiMAJRFX7NMSNfd5LClGNyF8Mt243O86kxUg
- J/wcyj5oyr5dccUCzdcfNYuSbgQA/LosDSDl19eWzWXUKXl2Qps6/WpS7q5kjKDILG8M4dhLd
- 8TPejJ0f2aeyP8+22WS1A4yMtyxfXdpRZGc8YbGhWXEQimEllnwR2mJpQCqdYRqK0ClgicRPT
- PfKzv4U9BlCw6cQEA6XT/vMDWQ2iy7/z4WRsEmbCIT4GBXG8KlZkEXlgYqWblA3w6VKw9tUEh
- 7H6It967BX37GMAz3hh7PkrWUMWi8d2PXyTT2c6qEyrBJL+rPmtzK/xHKQmutBax0/1W+9xBL
- S09sTimJP8WaJYAEFwx11N9NGIBuMOZ+PTCcXXTHRV9XKpambJfKmypSCF9liiiFvSOYPAM8E
- hik0cdLWWTCh/Qc6qSvRIRw616WyNzFeXwiVvNzJ+AuOw=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3849:EE_|CY8PR12MB9035:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jsNiLLpZQA+wGRDex6mzI14ysTaztrKUiJhSiT45VrbtVOc2zs7KMt9/jWxBTzsjxXTkVvPN/aFxyIExnM2z7hgNYfTVualdcIeFoeYFKHBM3L53qIG2jkk5+TK97TLxDza1yxHgayil5DfWJsoIJCdpQhewot7zGkrT8qk0vmaEOKQeia5nSNvruzGF5DBYZnrD8jzaCTWvBW8FwLru9Nmw/Wyq8377fJq/63BLCjbhYR0iQYQiGcH03Iz4z3c8ivfD1qi8j5jNp4xX28nYr6EBcxHwyW2Tnm50ojbaglYIcHV0wljUqhecqCeDu/t4/ggwrBlB9tx9WzYP3dsi3NOGf1cqvo1ZYkfmg+59MxPbUZ2aEWrs9hWOxmgIHqA7pjtNOlePa9awqHlssEr5gcO1XMAUwPzuBvEmBe4agPDoWDhy7eBCwHvm8M+6kNvjjK3HWjEYyj4Wei6N0a1OchgeUd5cCBZ+TZp+CRKfJaU+Y642o3k9e5yebaCXv1819cYeK2E61fG06aXa0Bqc7zdgyPX3xjuTkcdY65CEVqAnaIEnWkC/XgsJHEog//vTj5pi1PSU3GaO8DAN51ebbbArFaU26YxxKBHnyeqqb3gwPXbWGo787cmfq2RpqNm8+SH1MYIPsTeNDzJNqIJjal4b316Ixt+LIUwDaO1ZmB4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3849.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366007)(1800799015)(376005); DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RUNGdTVwdW9udW9mVkhHVDdIZDNTTUhIWkphNkFCMWkxWDJZSHFUR0xmQU8v?=
+ =?utf-8?B?WDAxbnY5OFlxYnc2dXd0L0JZZmRTRXQrbVNsVlFyaktJN29QaWUzeDRMbCtq?=
+ =?utf-8?B?VzB0ajdOVE9DVUxMeGFhRktsYWNiUVE0TG8xd3VrQitwQzVxek81NGhkN0gx?=
+ =?utf-8?B?T0krQ21NSEI5Sjd3TiswRkwzczhxM0hBQ3pRVWdrZFZXVUJtQ1ZkMzZwRnV3?=
+ =?utf-8?B?NC9XRFRHRUR6Wnc0QkQxcDNvWHlLNGgxcytvZHBjNUtlVnkwSzB1cUg4SlhK?=
+ =?utf-8?B?cFB0NGRPTCtnR29JTjVZUHFYeGwvSGh6TzlRQXUvTkxCQWt2M05CYlRvKzdB?=
+ =?utf-8?B?eitKc0VlK1FCRnVTRGhyT052T2pJeDJLSk5CNFV5eEI1MFdBbU00WHdhQTVQ?=
+ =?utf-8?B?Zk9QVjNtZ051L0txMWxvdGt6MWhaQjVRQzFlS3dxV3JpMWhvVjhIZ2tubTRH?=
+ =?utf-8?B?ZUY2bHNvNEx3eFZQNVc0c3ZkMzNuLzFrZ1VhZ1VNL3pZTjVCUmtvdTBxQnhY?=
+ =?utf-8?B?MVVJUjBRaEFUVHQ3Q3BYYXdjdm9KdkdwcWpqY2RuVlk4N1ppTytMUmRoUDY2?=
+ =?utf-8?B?VmpkQjV0dmNQQndiSlhxQUlsRUw0SmFWbjNtdGlqN1hDeUF4QVdJZ3VNNHEy?=
+ =?utf-8?B?U1V3WUZPYU1VbWplS1d4U1lyYlR5TnFSYzVCcER6czFhQlRlLzBML093MjMr?=
+ =?utf-8?B?U05KUXoxRXNjKzUxeW9JQ3l2Tnl1MUFRWHJPeVMzemhFUy9OSHVqZXdpY2ho?=
+ =?utf-8?B?aHZPNDkzbTlHd2E5RThLU2grMTlKeGlsbmthQTJlMXNNSmkxRlhlclM2a0w3?=
+ =?utf-8?B?LzVtYkhhdWFUeFB5NzBGTXR2WFY5R052MjVhWStiZStXQlJHNy95WDBZZ1ky?=
+ =?utf-8?B?azhJcm1ZQ0hQSW9Rd05yaExJUmhEUmkwaUhNS3RyR2pOSmNBeUVmRW1yTVlF?=
+ =?utf-8?B?amZRa1R0ZDdwN3N4eU5Wb1oxcUFxM25tbFFpTnVwQ1hKWlRSWmlEdGlpL2px?=
+ =?utf-8?B?TkJsWktkeFdReHY3YTVTMlVJT1FnaUllUWFGeEFkU0pXREsyTnVSTm5WNzJM?=
+ =?utf-8?B?RklKb2tEUktLYldMWVdhbXkxNHJnTVQ1dGhHVjBxUnFUdHR3K1ZMM3g0RXpL?=
+ =?utf-8?B?NVJ5QkpTSGM1c3pDRUVoYmlHR2FLNE5FRlZKMnNDakh6OGZWcDdaSytoR2h0?=
+ =?utf-8?B?UmxQZm9SQXJ6T09iU3B3YStyek5NaGpKamdRK3pxcHdSL0Y1S2lURk83YndE?=
+ =?utf-8?B?MXBzdGZWRGNoZVNWMGVlT29sczNzdzYrZUZZVWZDYnVPRVFCSHNGR0VEd3N1?=
+ =?utf-8?B?MmxsV2JVRFVRaEtKanc1akF5ZWg5QklUTEE1bEVLVmlrVElEWGl6c1VncGd2?=
+ =?utf-8?B?RzhGTk5iTVV5VEVOdVBRTFdCQ0IrdEdLN3h3VFdvYXc0RVhNM2FmR1h0THZy?=
+ =?utf-8?B?ZnFiOUFxdjBQOXBGaDlwejdZUEpla3F5d00vRXdUaDRmbnY0dXI4VlgrRmpU?=
+ =?utf-8?B?UG5wakRHbnNNMUpDcDlvM1pxZFVTS2s0T2ZCNzVkUEVIZW16eE5YWWtST2ZN?=
+ =?utf-8?B?NlA3OWNjTWl3b3BWUVN2T2MvMXdLcFJycFFBTmhxSTVBbFZnVHhrR0g4d0Zo?=
+ =?utf-8?B?TlljZHFkZ1IwUnFsRlpNcFg2WFFjbXpNb09HbUJqY0NyU3NyT1cwenB5ck1u?=
+ =?utf-8?B?b0pPMEdVcjYwTXdDM01tUHZ5NzBUQUkxc1pxZHMrV25YclJtWjRiVWtaVW1y?=
+ =?utf-8?B?eFF3bTl2Y0JWb29TeFBXaUxTVkR0Z2cwTFVCN0JEaENCVGZnRWw0ekZqck1s?=
+ =?utf-8?B?REZ6Z2IydjcxcTBzSU9yd0RSbUpHQTR2OUs0UWY2ZjFRMmtFc3JFUDl2NUFu?=
+ =?utf-8?B?aDNPbm5ZZ3AreVhtS29aTWFPV21NSFhpMGpCNHZuZFV0Wiswa0EvNEtvTXhx?=
+ =?utf-8?B?eUwzMXBZWXBtdVdFZERTN1ZZZUMxTHJ2WmtydlpMOXoyc2dhUjZJbERwT01s?=
+ =?utf-8?B?WDhWdmFqak0wZUlGRUhDWGl5SVd3VzNVTE5GOUtiMmN4aUNJNUx2aEkyS29T?=
+ =?utf-8?B?VUFzaForSERJZkVZREEvOFdyN2w0Q1ZHenZkUjBvTVZNMEtGdG1xSEUxdm03?=
+ =?utf-8?Q?hM3J3VHmgMBrqxXoi75ML1wv/?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 50230e72-1166-4e3b-bb98-08dc53dd955b
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3849.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2024 12:57:14.3557 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4pnMq7lP0+pVkXOlWXxJF0aj++E+1bI0qtZYpT/S0LdYT2tTbUkjIARYNgaeihHW
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB9035
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,23 +132,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/3/24 10:06, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> Building with W=3D1 shows that a couple of variables in this driver are =
-only
-> used in certain configurations:
->
-> drivers/video/fbdev/sis/init301.c:239:28: error: 'SiS_Part2CLVX_6' defin=
-ed but not used [-Werror=3Dunused-const-variable=3D]
-> ...
-> Fixes: 5908986ef348 ("video: fbdev: sis: avoid mismatched prototypes")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->   drivers/video/fbdev/sis/init301.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
+On Wed, Apr 03, 2024 at 11:16:36AM +0200, Christian König wrote:
+> Am 03.04.24 um 00:57 schrieb Dave Airlie:
+> > On Wed, 27 Mar 2024 at 19:52, Thomas Hellström
+> > <thomas.hellstrom@linux.intel.com> wrote:
+> > > Hi!
+> > > 
+> > > With our SVM mirror work we'll soon start looking at HMM cross-device
+> > > support. The identified needs are
+> > > 
+> > > 1) Instead of migrating foreign device memory to system when the
+> > > current device is faulting, leave it in place...
+> > > 1a) for access using internal interconnect,
+> > > 1b) for access using PCIE p2p (probably mostly as a reference)
+> 
+> I still agree with Sima that we won't see P2P based on HMM between devices
+> anytime soon if ever.
 
-applied to fbdev git tree.
+We've got a team working on the subset of this problem where we can
+have a GPU driver install DEVICE_PRIVATE pages and the RDMA driver use
+hmm_range_fault() to take the DEVICE_PRIVATE and return an equivilent
+P2P page for DMA.
 
-Thanks!
-Helge
+We already have a working prototype that is not too bad code wise.
+
+> E.g. there is no common representation of DMA addresses with address spaces.
+> In other words you need to know the device which does DMA for an address to
+> make sense.
+
+? Every device device calls hmm_range_fault() on it's own, to populate
+its own private mirror page table, and gets a P2P page. The device can
+DMA map that P2P for its own use to get a topologically appropriate
+DMA address for its own private page table. The struct page for P2P
+references the pgmap which references the target struct device, the
+DMA API provides the requesting struct device. The infrastructure for
+all this is all there already.
+
+There is a seperate discussion about optimizing away the P2P pgmap,
+but for the moment I'm focused on getting things working by relying on
+it.
+
+> Additional to that we don't have a representation for internal connections,
+> e.g. the common kernel has no idea that device A and device B can talk
+> directly to each other, but not with device C.
+
+We do have this in the PCI P2P framework, it just isn't very complete,
+but it does handle the immediate cases I see people building where we
+have switches and ACS/!ACS paths with different addressing depending
+on topology.
+
+> > > and we plan to add an infrastructure for this. Probably this can be
+> > > done initially without too much (or any) changes to the hmm code
+> > > itself.
+
+It is essential any work in this area is not tied to DRM.
+hmm_range_fault() and DEVICE_PRIVATE are generic kernel concepts we
+need to make them work better not build weird DRM side channels.
+ 
+> > > So the question is basically whether anybody is interested in a
+> > > drm-wide solution for this and in that case also whether anybody sees
+> > > the need for cross-driver support?
+> 
+> We have use cases for this as well, yes.
+
+Unfortunately this is a long journey. The immediate next steps are
+Alistair's work to untangle the DAX refcounting mess from ZONE_DEVICE
+pages:
+
+https://lore.kernel.org/linux-mm/87ttlhmj9p.fsf@nvdebian.thelocal/
+
+Leon is working on improving the DMA API and RDMA's ODP to
+be better setup for this:
+
+https://lore.kernel.org/linux-rdma/cover.1709635535.git.leon@kernel.org/
+
+[Which is also the basis for fixing DMABUF's abuse of the DMA API]
+
+Then it is pretty simple to teach hmm_range_fault() to convert a
+DEVICE_PRIVATE page into a P2P page using a new pgmap op and from
+there the rest already basically exists.
+
+Folks doing non-PCIe topologies will need to teach the P2P layer how
+address translation works on those buses.
+
+Jason
