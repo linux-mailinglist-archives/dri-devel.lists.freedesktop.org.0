@@ -2,108 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0EB3897A76
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 23:13:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46DAF897A75
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 23:13:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2129112EFD;
-	Wed,  3 Apr 2024 21:13:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBD69112894;
+	Wed,  3 Apr 2024 21:13:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="i9S2rWNS";
+	dkim=pass (2048-bit key; unprotected) header.d=cornelisnetworks.com header.i=@cornelisnetworks.com header.b="Sb+CZJW6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F72C112578
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 08:07:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id A376DCE210F;
- Wed,  3 Apr 2024 08:07:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9555FC433C7;
- Wed,  3 Apr 2024 08:07:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1712131648;
- bh=K2ePQOaggCQbp9MAuVhX6tyGJTkfITqYlV3FRyD1b2w=;
- h=From:To:Cc:Subject:Date:From;
- b=i9S2rWNSxBnVceX/PhEYHUL/8obuw7YBD3dJv3NpxgtqFmbZ6YmcytIk5F3iE5aJR
- I5RYRukVlaohxFlUlx3DoVo8ioTOKPq24ESuwErVo02d8QkqEyqWnOCLJPy3IIKQQU
- hPSJJJ28UFYnjJaOw9nBVZfRfW9z44J6zH3uuTF5it8w/Z071qPjEqTUM2WnMMrizN
- fO98GSAxPEoZV8r5mdONzcx9Bk+cWCKiyR3aI2XXY3Z1B5LcdC6almvWr6dDKTwDko
- dlyuak8JP+s7GrNn1iYACGO+Vywch0Qm7yXwZNXpNcwyBGG5wOlDd55NN/VlxGiFO6
- vEIx/q6HxkU2Q==
-From: Arnd Bergmann <arnd@kernel.org>
-To: linux-kernel@vger.kernel.org
-Cc: Arnd Bergmann <arnd@arndb.de>, Michael Ellerman <mpe@ellerman.id.au>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Damien Le Moal <dlemoal@kernel.org>, Jiri Kosina <jikos@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Corey Minyard <minyard@acm.org>, Peter Huewe <peterhuewe@gmx.de>,
- Jarkko Sakkinen <jarkko@kernel.org>, Tero Kristo <kristo@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Ian Abbott <abbotti@mev.co.uk>,
- H Hartley Sweeten <hsweeten@visionengravers.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Len Brown <lenb@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- John Allen <john.allen@amd.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- Vinod Koul <vkoul@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>, Moritz Fischer <mdf@kernel.org>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Andi Shyti <andi.shyti@kernel.org>,
- Michael Hennerich <michael.hennerich@analog.com>,
- Peter Rosin <peda@axentia.se>, Lars-Peter Clausen <lars@metafoo.de>,
- Jonathan Cameron <jic23@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Markuss Broks <markuss.broks@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Lee Jones <lee@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Iyappan Subramanian <iyappan@os.amperecomputing.com>,
- Yisen Zhuang <yisen.zhuang@huawei.com>, Stanislaw Gruszka <stf_xl@wp.pl>,
- Kalle Valo <kvalo@kernel.org>, Sebastian Reichel <sre@kernel.org>,
- Tony Lindgren <tony@atomide.com>, Mark Brown <broonie@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Xiang Chen <chenxiang66@hisilicon.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Heiko Stuebner <heiko@sntech.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Vaibhav Hiremath <hvaibhav.linux@gmail.com>, Alex Elder <elder@kernel.org>,
- Jiri Slaby <jirislaby@kernel.org>, Jacky Huang <ychuang3@nuvoton.com>,
- Helge Deller <deller@gmx.de>, Christoph Hellwig <hch@lst.de>,
- Robin Murphy <robin.murphy@arm.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Kees Cook <keescook@chromium.org>,
- Trond Myklebust <trond.myklebust@hammerspace.com>,
- Anna Schumaker <anna@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, Takashi Iwai <tiwai@suse.com>,
- linuxppc-dev@lists.ozlabs.org, linux-ide@vger.kernel.org,
- openipmi-developer@lists.sourceforge.net, linux-integrity@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-crypto@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-efi@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-fpga@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-fbdev@vger.kernel.org, iommu@lists.linux.dev,
- linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
- linux-hardening@vger.kernel.org, linux-nfs@vger.kernel.org,
- linux-kbuild@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org
-Subject: [PATCH 00/34] address all -Wunused-const warnings
-Date: Wed,  3 Apr 2024 10:06:18 +0200
-Message-Id: <20240403080702.3509288-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on2124.outbound.protection.outlook.com [40.107.102.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4E60112B6D;
+ Wed,  3 Apr 2024 15:55:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GI70qISv8E3rMsJv0Vd0A9aa150TLboXyly6dXuu8PYOLmbm4aw2BaRyu2KYU1RhG3PCDUqpHr4MmfwjkeG7aq2WmnT20NhCGMrUJhXPDXefLa5bgX3tjLo9EG153DpQt1uIJxCGeZgIN/Zd9D3gj53wQfjsNalRY3L2zuDLUVFTIMQ8rZ9fjn4TiRgGcIinlePYzY2NGWCDgW07OcV05knRQb+H28zxvshrDdNvHLDNlGf9rDYmGCQr7ulRL85OyOcJg07aN8G088jJWpSeqbQcZXFs1rQfvTcPReU3DqcMrHBa9x5C9Hv6lmI84uas0qB8640EqO0f06EeacY+Sw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=v/McWCkIj2q23R1TEabqo+jJ4neecfJxIYkwE0wlj6s=;
+ b=Isjzqhz9h3TkhOPW0o5LMEb8X2A4cBKxjZCknw3O6TwvjOJUzEKH7zdVyTkuO5QanC389cmxzbrWGhN4Ta68G3SxB3g9JVVbH12I9ty3tojb46ctlh2KE1Bt2moaiNtonpEDaFBQnYP1ka/Pbu1dVe6q1YOdHu2DJfikHDiFoI/tAL0JPSfOJiM87yKY/C65LJEdikul7eH58g/gnBgaXSRdARq0fY6WYoaHNmR+8oXTFFvGR93N+F5Rm9NuaRhOCvkW9h54Qvyr60Ioa1EJ4SUbRT8DWT6E6MVhxn++YE0jOqrhk7nG2wmBonlv1+R4STpQ1VTLOgPunP7dNyxSMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cornelisnetworks.com; dmarc=pass action=none
+ header.from=cornelisnetworks.com; dkim=pass header.d=cornelisnetworks.com;
+ arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cornelisnetworks.com; 
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=v/McWCkIj2q23R1TEabqo+jJ4neecfJxIYkwE0wlj6s=;
+ b=Sb+CZJW6LaIpobeZyY3P+NlxCD6RW1UlRkk7AmvBdhIYpFn6DSVYEkjmSRqBcJy/ztZTMkK95BTfAPb6FmwkY5qNk/gREKiuLD2FOfyCTmYQrEXGzRt359o7kGEMqHbhZMttSltywmXlfOYUT4Ab+EvRzSPdX1s9fmQ5F+SDXKHeJxGB3raY1xqzSaZFw6b8dJNiGIka/zitSYrD1FRLWUqsLLtsQT1jSoucjDifCARGt5FLwz+jRbmZ3teEBwocQiCX0hhrN4Ct7/AAXNdf1GS8Fkl6ibDMZbxhETX9mKZx2h2xVwUWsfvZts8N7HBxl2JJxAwxJrVTFLD7zcXZZg==
+Received: from SJ0PR01MB6158.prod.exchangelabs.com (2603:10b6:a03:2a0::15) by
+ PH0PR01MB6603.prod.exchangelabs.com (2603:10b6:510:75::9) with
+ Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7409.46; Wed, 3 Apr 2024 15:55:01 +0000
+Received: from SJ0PR01MB6158.prod.exchangelabs.com
+ ([fe80::82ae:ed8b:de46:cff2]) by SJ0PR01MB6158.prod.exchangelabs.com
+ ([fe80::82ae:ed8b:de46:cff2%4]) with mapi id 15.20.7409.042; Wed, 3 Apr 2024
+ 15:55:00 +0000
+Message-ID: <0214214a-73c4-46b4-a099-189036954aa1@cornelisnetworks.com>
+Date: Wed, 3 Apr 2024 11:54:52 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v0 01/14] IB/hfi1, IB/qib: Make I2C terminology more
+ inclusive
+To: Leon Romanovsky <leon@kernel.org>,
+ Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>,
+ "open list:HFI1 DRIVER" <linux-rdma@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-gfx@lists.freedesktop.org>,
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-xe@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>,
+ "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
+ "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
+References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
+ <20240329170038.3863998-2-eahariha@linux.microsoft.com>
+ <20240403083025.GT11187@unreal>
+Content-Language: en-US
+From: Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>
+In-Reply-To: <20240403083025.GT11187@unreal>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BL1P223CA0025.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:208:2c4::30) To SJ0PR01MB6158.prod.exchangelabs.com
+ (2603:10b6:a03:2a0::15)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 03 Apr 2024 21:13:23 +0000
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR01MB6158:EE_|PH0PR01MB6603:EE_
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nrIf/wbLLYHLjaANcEhOVs3emIi2sLx6VK4s8K1UUgBzWAbBwenMECQ7FqLUR4c7H4f9D8NibV4wk87xtMwBAnZkkcBKX5xlUjal4inBVRnKmgsmtaVn1RzuDDUs5QNKtfUDQK5TwCicmyJvnGnHfFT2c8dv9rdmdh9saVvZ6zbqd2dvONg5MNzlSerEzDREDfMI0kq7nCqQpihF6yownjXF5paaDizASDunA+UmF5enmxQ3ckiQsvyTLpXQ/ufEGZyIXYv6Sr/HSw/EIKUeVcoao8CV8dv1ft1vhP8SZu3I7Qc0G/+KfYXSXPlnvSpm4cz+cie93dMNZktDlD125WSxxZATDbX5YfpDu/FOKNhGPn7bRMOPxf7XTUUumch8L8yWbKpRQuVKevc6T2qRS+sMfuYkjRqIBfV+XkMkaEObgkn1yKhuqZQcJ9cQAwJc67r2TrGG42CXl2V4RImktqYqEjs2uaD4JLgPKcGzePGnQEY6rZYEnMjuNzmA6wuFSQldFTwtjWBKwSX6dRA7EMEvHrIMyW3wlNq/c/ZIPVuCCOLt4XfWuFFnL/KbhO3QT4vkeONaNIUCXldv1zPBAeYnmw9yVx1vG3tZ1QCTo2BR00qRGSzrT7Yf/FbtpiwMj8olBaVtJbx7TLeqkzjozeTSyxoCCx/YNV8YhJ7BFSk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR01MB6158.prod.exchangelabs.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366007)(376005)(7416005)(52116005)(1800799015)(38350700005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q1ZxcVpScWJjb2RsY3lNeEszSU9lbyt5UWh6VXpjeTdURzhxOEhvQUwyUXQ2?=
+ =?utf-8?B?eWJ0OUtaUHJjYkVtYzBpVjg5dFpUNUhsa2FEUDViTEVVS2NFcHZ0eWxtdjNH?=
+ =?utf-8?B?bzI5a2psb0YwcWFxVWwvTmdQUDFhVFFQWFM3TGtGNkVhZG1kOFNTMEhJMEw1?=
+ =?utf-8?B?OXNYb0Y1SUlnbDhJVGFIWGVkdXZYZFUwWUxtN0YzOGMzc0JSK0Iwb1RTWEl6?=
+ =?utf-8?B?RE12NjlTdEFybjNuOFNaTldSSzYrTSswaUNBcU9adXdlbnp5NW10TE1sb2gw?=
+ =?utf-8?B?bEJmNFRwekhWM1RXZU1OWHQxWEhMc1h6NHhtZEZJcTExa0prNlVCT2VobEd4?=
+ =?utf-8?B?ZGlQUnZnVWw4RUk4MDNlVmVyMC9WRFZHZ1pkN1o5ME9qZXZRVzlHZzhKSkpP?=
+ =?utf-8?B?aklESmljei9JYzFjSGExL1laZUZjME5YeVBhcDhQbFJPOFFydnh4bmxOcUkz?=
+ =?utf-8?B?NzhBVnhoTzZiRE93Yk5YbVFtbmdhMXk0bFJRdmJVT0RwTkRMMUtnQW5UWGQ2?=
+ =?utf-8?B?ZGx4SE9QSEozWnhhOXM4MW51ZEZwRG5ONHhPZDB4TWVPM2xCekRDRVJGK3R0?=
+ =?utf-8?B?b2lVajdXZ0MzRGxaWS8xVFR6L0lPYkhMVjJya0hubEp2VFlVMmRtS0t0U0Z5?=
+ =?utf-8?B?VWtnS1Z0SmphYWtlNi9abjEyLzZ2ZWVKL0d1ZU1kNWt6NHRkbmZYcy9uREhW?=
+ =?utf-8?B?a0xreGxoMXJoV1RPUWJva3NaSG9QWlVMRHBXbEJsM0lzZ2pwRlRuc3BxWCtu?=
+ =?utf-8?B?VjVKN05ONnNhanFnbzA2MVEwZU9PVjByMlM1RFNYNm5QbVNGS29oKzhJNWh3?=
+ =?utf-8?B?TnVTN0FYNERqMzZLMVBVaHVJWFRqamVYdlN0bzdmVWt2d0VFd3Q5ZitLM2ZV?=
+ =?utf-8?B?NnkwR1ZPNUFWdEdXYzZqUWVabWc3TmVBOXZ3RjJZeUNtOWh2YmxUOWM0ZFYv?=
+ =?utf-8?B?TEpJbWNSMFNaeWZudVpUWElIQngwempTVnQzbFRScjlTQkF4SWt5OFZkNytS?=
+ =?utf-8?B?K2w2Vy9xak13WUxKR2ZiVTYrVG9yWlM5dThpVzdVWXNIOHN3VHl2cjZhRCtp?=
+ =?utf-8?B?TUxnVDJiQjNhMGpqRmRobGlmMExISml0blMwQXlXWnYydGM0V1VuSFRrbjV5?=
+ =?utf-8?B?N21paW95WmRLdFYyTk5YNDlTaUlSUWg1bS9qblVpbjdYcms0eW1SN3dhcllM?=
+ =?utf-8?B?cnpXQk0wLzVzWFJqNTdWVnF1SEVLMklIYmw4dnAvaVU2S3I2QlVXcWUwWFZD?=
+ =?utf-8?B?N21tVytYZDgrbUI1SXpQbVNvQnpRU09GemtKR24vMEZqNjJXVUJIQ3p3S3ZN?=
+ =?utf-8?B?YjdveVJrRFRzbm5LQ3BiZkErTkl0MXdNd29xMVkzdkpxbktvNmlqbDlFbEhC?=
+ =?utf-8?B?V3Urc3JuR1BuQXlvd0UwMzlqSk40NjF2ZWlEVHhSRE9aUk80ZW5UUjhJbkhW?=
+ =?utf-8?B?NGhQMHppZm9uTDEzc0FCQ0dFVFUzWGRrNXBMdGhNUHlEU21YQm8xQXpURlJN?=
+ =?utf-8?B?ZHN3UVBjeVJPWElkaDBRLzdPUDRzYVk2ZmVncVE1TTlUMTB3d2UyZHlXRHZk?=
+ =?utf-8?B?S3ZJOVZ5RXhjYkgwYTRuVzNFcm91dmtxZjZyWVF6OHNCQ0tqVVBHaHhuTnJa?=
+ =?utf-8?B?REIrKzFvdE1mc3UyRHhsZFpacmxwYjNvNlpCc3RKZTVIVkQxY3FEekYxK3ZQ?=
+ =?utf-8?B?amRuTy9OMXU2L2VQS25KRDEvdHg0bS94ajB2SDdOUWQ3TjZqaFZTQndxdzdB?=
+ =?utf-8?B?QytMbUVIK1dzT2xJRTA5UENZYnRnRzdvWEFTQlREUmtMM0lpcnpOTEJxbkky?=
+ =?utf-8?B?V0NvVlpveWtRWUJvc2hsZDN3QUZneEE1MUJkaWEvcndMMkdSUEh6NWU5dTEx?=
+ =?utf-8?B?a2M5V3RrMmpjS0g0WkFzd1Q1N0oxcUM3azFjYUJCajZsN1M4cllnQ0wwK1dL?=
+ =?utf-8?B?Uk1TWlRUSWl3TDFNdFAwNlVnZE00REhVSVB1UlR1SHBDQU1GQ2laU0l0aTN4?=
+ =?utf-8?B?TFJ0eDhwMWZSYzVpU01ScVovVE1DQ3Z3ZmZiTjgva0tWa29jU1puNzBEQ1ls?=
+ =?utf-8?B?N1lsTVlOTnZYYWJXUU02K1pDcXh3RFFQSDdTMExTMkRaNFdXRmVCWmY2UzN1?=
+ =?utf-8?B?cWVUdjJLeWFWZGtwenFzNmp6eFpXamg0WXFnYWFXUHVKUzNLUU56WXdGckpQ?=
+ =?utf-8?Q?HBnu6TdOM8KTUzV2ADxO0sc=3D?=
+X-OriginatorOrg: cornelisnetworks.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52238616-eb3f-4744-034c-08dc53f66b1a
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR01MB6158.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2024 15:55:00.6323 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4dbdb7da-74ee-4b45-8747-ef5ce5ebe68a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /8lVdPrIYGpjpJ7zVHlhIgtO5fHdjrEYdcgLp3d/P/2yZRzBetv72+urNfNc7PJ+Nsq6FicmOPTKil+GN8mKQjY1wmStmxxhDq6SyEB2eyOYWaVm8WopdgjdtSgfjZEV
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR01MB6603
+X-Mailman-Approved-At: Wed, 03 Apr 2024 21:13:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,251 +150,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
 
-Compilers traditionally warn for unused 'static' variables, but not
-if they are constant. The reason here is a custom for C++ programmers
-to define named constants as 'static const' variables in header files
-instead of using macros or enums.
+On 4/3/24 4:30 AM, Leon Romanovsky wrote:
+> On Fri, Mar 29, 2024 at 05:00:25PM +0000, Easwar Hariharan wrote:
+>> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
+>> with more appropriate terms. Inspired by and following on to Wolfram's series
+>> to fix drivers/i2c[1], fix the terminology where I had a role to play, now that
+>> the approved verbiage exists in the specification.
+>>
+>> Compile tested, no functionality changes intended
+>>
+>> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
+>>
+>> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+>> ---
+>>  drivers/infiniband/hw/hfi1/chip.c           |  6 ++--
+>>  drivers/infiniband/hw/hfi1/chip.h           |  2 +-
+>>  drivers/infiniband/hw/hfi1/chip_registers.h |  2 +-
+>>  drivers/infiniband/hw/hfi1/file_ops.c       |  2 +-
+>>  drivers/infiniband/hw/hfi1/firmware.c       | 22 ++++++-------
+>>  drivers/infiniband/hw/hfi1/pcie.c           |  2 +-
+>>  drivers/infiniband/hw/hfi1/qsfp.c           | 36 ++++++++++-----------
+>>  drivers/infiniband/hw/hfi1/user_exp_rcv.c   |  2 +-
+>>  drivers/infiniband/hw/qib/qib_twsi.c        |  6 ++--
+>>  9 files changed, 40 insertions(+), 40 deletions(-)
+> 
+> hfi1 and qib work perfectly fine with the current terminology. There is
+> no need to change old code just for the sake of change.
+> 
+> Let's drop this patch.
 
-In W=1 builds, we get warnings only static const variables in C
-files, but not in headers, which is a good compromise, but this still
-produces warning output in at least 30 files. These warnings are
-almost all harmless, but also trivial to fix, and there is no
-good reason to warn only about the non-const variables being unused.
-
-I've gone through all the files that I found using randconfig and
-allmodconfig builds and created patches to avoid these warnings,
-with the goal of retaining a clean build once the option is enabled
-by default.
-
-Unfortunately, there is one fairly large patch ("drivers: remove
-incorrect of_match_ptr/ACPI_PTR annotations") that touches
-34 individual drivers that all need the same one-line change.
-If necessary, I can split it up by driver or by subsystem,
-but at least for reviewing I would keep it as one piece for
-the moment.
-
-Please merge the individual patches through subsystem trees.
-I expect that some of these will have to go through multiple
-revisions before they are picked up, so anything that gets
-applied early saves me from resending.
-
-        Arnd
-
-Arnd Bergmann (31):
-  powerpc/fsl-soc: hide unused const variable
-  ubsan: fix unused variable warning in test module
-  platform: goldfish: remove ACPI_PTR() annotations
-  i2c: pxa: hide unused icr_bits[] variable
-  3c515: remove unused 'mtu' variable
-  tracing: hide unused ftrace_event_id_fops
-  Input: synaptics: hide unused smbus_pnp_ids[] array
-  power: rt9455: hide unused rt9455_boost_voltage_values
-  efi: sysfb: don't build when EFI is disabled
-  clk: ti: dpll: fix incorrect #ifdef checks
-  apm-emulation: hide an unused variable
-  sisfb: hide unused variables
-  dma/congiguous: avoid warning about unused size_bytes
-  leds: apu: remove duplicate DMI lookup data
-  iio: ad5755: hook up of_device_id lookup to platform driver
-  greybus: arche-ctrl: move device table to its right location
-  lib: checksum: hide unused expected_csum_ipv6_magic[]
-  sunrpc: suppress warnings for unused procfs functions
-  comedi: ni_atmio: avoid warning for unused device_ids[] table
-  iwlegacy: don't warn for unused variables with DEBUG_FS=n
-  drm/komeda: don't warn for unused debugfs files
-  firmware: qcom_scm: mark qcom_scm_qseecom_allowlist as __maybe_unused
-  crypto: ccp - drop platform ifdef checks
-  usb: gadget: omap_udc: remove unused variable
-  isdn: kcapi: don't build unused procfs code
-  cpufreq: intel_pstate: hide unused intel_pstate_cpu_oob_ids[]
-  net: xgbe: remove extraneous #ifdef checks
-  Input: imagis - remove incorrect ifdef checks
-  sata: mv: drop unnecessary #ifdef checks
-  ASoC: remove incorrect of_match_ptr/ACPI_PTR annotations
-  spi: remove incorrect of_match_ptr annotations
-  drivers: remove incorrect of_match_ptr/ACPI_PTR annotations
-  kbuild: always enable -Wunused-const-variable
-
-Krzysztof Kozlowski (1):
-  Input: stmpe-ts - mark OF related data as maybe unused
-
- arch/powerpc/sysdev/fsl_msi.c                 |  2 +
- drivers/ata/sata_mv.c                         | 64 +++++++++----------
- drivers/char/apm-emulation.c                  |  5 +-
- drivers/char/ipmi/ipmb_dev_int.c              |  2 +-
- drivers/char/tpm/tpm_ftpm_tee.c               |  2 +-
- drivers/clk/ti/dpll.c                         | 10 ++-
- drivers/comedi/drivers/ni_atmio.c             |  2 +-
- drivers/cpufreq/intel_pstate.c                |  2 +
- drivers/crypto/ccp/sp-platform.c              | 14 +---
- drivers/dma/img-mdc-dma.c                     |  2 +-
- drivers/firmware/efi/Makefile                 |  3 +-
- drivers/firmware/efi/sysfb_efi.c              |  2 -
- drivers/firmware/qcom/qcom_scm.c              |  2 +-
- drivers/fpga/versal-fpga.c                    |  2 +-
- .../gpu/drm/arm/display/komeda/komeda_dev.c   |  8 ---
- drivers/hid/hid-google-hammer.c               |  6 +-
- drivers/i2c/busses/i2c-pxa.c                  |  2 +-
- drivers/i2c/muxes/i2c-mux-ltc4306.c           |  2 +-
- drivers/i2c/muxes/i2c-mux-reg.c               |  2 +-
- drivers/iio/dac/ad5755.c                      |  1 +
- drivers/input/mouse/synaptics.c               |  2 +
- drivers/input/touchscreen/imagis.c            |  4 +-
- drivers/input/touchscreen/stmpe-ts.c          |  2 +-
- drivers/input/touchscreen/wdt87xx_i2c.c       |  2 +-
- drivers/isdn/capi/Makefile                    |  3 +-
- drivers/isdn/capi/kcapi.c                     |  7 +-
- drivers/leds/leds-apu.c                       |  3 +-
- drivers/mux/adg792a.c                         |  2 +-
- drivers/net/ethernet/3com/3c515.c             |  3 -
- drivers/net/ethernet/amd/xgbe/xgbe-platform.c |  8 ---
- drivers/net/ethernet/apm/xgene-v2/main.c      |  2 +-
- drivers/net/ethernet/hisilicon/hns_mdio.c     |  2 +-
- drivers/net/wireless/intel/iwlegacy/4965-rs.c | 15 +----
- drivers/net/wireless/intel/iwlegacy/common.h  |  2 -
- drivers/platform/goldfish/goldfish_pipe.c     |  2 +-
- drivers/power/supply/rt9455_charger.c         |  2 +
- drivers/regulator/pbias-regulator.c           |  2 +-
- drivers/regulator/twl-regulator.c             |  2 +-
- drivers/regulator/twl6030-regulator.c         |  2 +-
- drivers/rtc/rtc-fsl-ftm-alarm.c               |  2 +-
- drivers/scsi/hisi_sas/hisi_sas_v1_hw.c        |  2 +-
- drivers/scsi/hisi_sas/hisi_sas_v2_hw.c        |  2 +-
- drivers/spi/spi-armada-3700.c                 |  2 +-
- drivers/spi/spi-img-spfi.c                    |  2 +-
- drivers/spi/spi-meson-spicc.c                 |  2 +-
- drivers/spi/spi-meson-spifc.c                 |  2 +-
- drivers/spi/spi-orion.c                       |  2 +-
- drivers/spi/spi-pic32-sqi.c                   |  2 +-
- drivers/spi/spi-pic32.c                       |  2 +-
- drivers/spi/spi-rockchip.c                    |  2 +-
- drivers/spi/spi-s3c64xx.c                     |  2 +-
- drivers/spi/spi-st-ssc4.c                     |  2 +-
- drivers/staging/greybus/arche-apb-ctrl.c      |  1 +
- drivers/staging/greybus/arche-platform.c      |  9 +--
- drivers/staging/pi433/pi433_if.c              |  2 +-
- drivers/tty/serial/amba-pl011.c               |  6 +-
- drivers/tty/serial/ma35d1_serial.c            |  2 +-
- drivers/usb/gadget/udc/omap_udc.c             | 10 +--
- drivers/video/fbdev/sis/init301.c             |  3 +-
- kernel/dma/contiguous.c                       |  2 +-
- kernel/trace/trace_events.c                   |  4 ++
- lib/checksum_kunit.c                          |  2 +
- lib/test_ubsan.c                              |  2 +-
- net/sunrpc/cache.c                            | 10 +--
- scripts/Makefile.extrawarn                    |  1 -
- sound/soc/atmel/sam9x5_wm8731.c               |  2 +-
- sound/soc/codecs/rt5514-spi.c                 |  2 +-
- sound/soc/qcom/lpass-sc7280.c                 |  2 +-
- sound/soc/samsung/aries_wm8994.c              |  2 +-
- 69 files changed, 121 insertions(+), 169 deletions(-)
-
--- 
-2.39.2
-
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: Damien Le Moal <dlemoal@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Corey Minyard <minyard@acm.org>
-Cc: Peter Huewe <peterhuewe@gmx.de>
-Cc: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: Tero Kristo <kristo@kernel.org>
-Cc: Stephen Boyd <sboyd@kernel.org>
-Cc: Ian Abbott <abbotti@mev.co.uk>
-Cc: H Hartley Sweeten <hsweeten@visionengravers.com>
-Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: Len Brown <lenb@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: John Allen <john.allen@amd.com>
-Cc: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: Vinod Koul <vkoul@kernel.org>
-Cc: Ard Biesheuvel <ardb@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>
-Cc: Moritz Fischer <mdf@kernel.org>
-Cc: Liviu Dudau <liviu.dudau@arm.com>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: Andi Shyti <andi.shyti@kernel.org>
-Cc: Michael Hennerich <michael.hennerich@analog.com>
-Cc: Peter Rosin <peda@axentia.se>
-Cc: Lars-Peter Clausen <lars@metafoo.de>
-Cc: Jonathan Cameron <jic23@kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Markuss Broks <markuss.broks@gmail.com>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: Lee Jones <lee@kernel.org>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Cc: Iyappan Subramanian <iyappan@os.amperecomputing.com>
-Cc: Yisen Zhuang <yisen.zhuang@huawei.com>
-Cc: Stanislaw Gruszka <stf_xl@wp.pl>
-Cc: Kalle Valo <kvalo@kernel.org>
-Cc: Sebastian Reichel <sre@kernel.org>
-Cc: Tony Lindgren <tony@atomide.com>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Xiang Chen <chenxiang66@hisilicon.com>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Heiko Stuebner <heiko@sntech.de>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Vaibhav Hiremath <hvaibhav.linux@gmail.com>
-Cc: Alex Elder <elder@kernel.org>
-Cc: Jiri Slaby <jirislaby@kernel.org>
-Cc: Jacky Huang <ychuang3@nuvoton.com>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Trond Myklebust <trond.myklebust@hammerspace.com>
-Cc: Anna Schumaker <anna@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.com>
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-ide@vger.kernel.org
-Cc: openipmi-developer@lists.sourceforge.net
-Cc: linux-integrity@vger.kernel.org
-Cc: linux-omap@vger.kernel.org
-Cc: linux-clk@vger.kernel.org
-Cc: linux-pm@vger.kernel.org
-Cc: linux-crypto@vger.kernel.org
-Cc: dmaengine@vger.kernel.org
-Cc: linux-efi@vger.kernel.org
-Cc: linux-arm-msm@vger.kernel.org
-Cc: linux-fpga@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-input@vger.kernel.org
-Cc: linux-i2c@vger.kernel.org
-Cc: linux-iio@vger.kernel.org
-Cc: linux-stm32@st-md-mailman.stormreply.com
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: netdev@vger.kernel.org
-Cc: linux-leds@vger.kernel.org
-Cc: linux-wireless@vger.kernel.org
-Cc: linux-rtc@vger.kernel.org
-Cc: linux-scsi@vger.kernel.org
-Cc: linux-spi@vger.kernel.org
-Cc: linux-amlogic@lists.infradead.org
-Cc: linux-rockchip@lists.infradead.org
-Cc: linux-samsung-soc@vger.kernel.org
-Cc: greybus-dev@lists.linaro.org
-Cc: linux-staging@lists.linux.dev
-Cc: linux-serial@vger.kernel.org
-Cc: linux-usb@vger.kernel.org
-Cc: linux-fbdev@vger.kernel.org
-Cc: iommu@lists.linux.dev
-Cc: linux-trace-kernel@vger.kernel.org
-Cc: kasan-dev@googlegroups.com
-Cc: linux-hardening@vger.kernel.org
-Cc: linux-nfs@vger.kernel.org
-Cc: linux-kbuild@vger.kernel.org
-Cc: alsa-devel@alsa-project.org
-Cc: linux-sound@vger.kernel.org
+Agreed.
