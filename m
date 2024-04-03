@@ -2,92 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D3C896FF0
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 15:12:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE9AF89701B
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 15:19:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 137FE1126B2;
-	Wed,  3 Apr 2024 13:12:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16DC210FE38;
+	Wed,  3 Apr 2024 13:19:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dtuSJfLX";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Vq0LkGiI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EAC910E1B0;
- Wed,  3 Apr 2024 13:12:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712149958; x=1743685958;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=OXeLQFpYLfKv872kx1DqTxRGattiHdnyN8/e6tdxp0E=;
- b=dtuSJfLXdZxFbiGrcZjj6eleskeqXNsBjGqlQZphE6z20wesqie/b1VX
- L0TwhQJ9/Xdjg5jF52tgOYz4HlS/NpDTq8b/s5IQ8/xaEb1nRlnUgZEkm
- sJBSwYOLBQv3+f8g7CnpOQz9qDAa8+pRnsWzQw1tJEIyBlHqkrh2kJvwM
- ApWmQT9+arOXbBrcPBSyvYaTRuxfBy8vVbcHAFYiMGUC/OEKDrTEIG7pd
- 0twdQ7PhTPISExJ4i8eGDl7vv1NmDFZ+1pDUQhS/TCSdTpHOIcdpM2a5G
- RoB629ZtRghBYPdcXyCc9s0YeAzxwXnKwPyaFhGDrjh+OozAdAJL6o9cX A==;
-X-CSE-ConnectionGUID: adadXHbrQTmw/ezm2T8jvQ==
-X-CSE-MsgGUID: z6z+DjFOTzKyeGYLM+xcQg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="11153852"
-X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; d="scan'208";a="11153852"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Apr 2024 06:12:37 -0700
-X-CSE-ConnectionGUID: A//2uME0RfqongT4o59dUA==
-X-CSE-MsgGUID: VTX4EE0JTMmWTl/dAUo75g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; d="scan'208";a="49403701"
-Received: from melsaid-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.41.235])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Apr 2024 06:12:22 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Andi Shyti
- <andi.shyti@linux.intel.com>
-Cc: Easwar Hariharan <eahariha@linux.microsoft.com>, Alex Deucher
- <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Evan Quan <evan.quan@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
- Candice Li <candice.li@amd.com>, Ran Sun <sunran001@208suo.com>, Alexander
- Richards <electrodeyt@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Heiner Kallweit <hkallweit1@gmail.com>, Hamza
- Mahfooz <hamza.mahfooz@amd.com>, Ruan Jinjie <ruanjinjie@huawei.com>, Alan
- Liu <haoping.liu@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Wayne Lin <wayne.lin@amd.com>, Samson Tam <samson.tam@amd.com>, Alvin Lee
- <alvin.lee2@amd.com>, Charlene Liu <charlene.liu@amd.com>, Sohaib Nadeem
- <sohaib.nadeem@amd.com>, Lewis Huang <lewis.huang@amd.com>, Tom Chung
- <chiahsuan.chung@amd.com>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>, George
- Shen <george.shen@amd.com>, Aric Cyr <aric.cyr@amd.com>, Jun Lei
- <jun.lei@amd.com>, Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Qingqing Zhuo <Qingqing.Zhuo@amd.com>, Dillon Varone
- <dillon.varone@amd.com>, Le Ma <Le.Ma@amd.com>, Lijo Lazar
- <lijo.lazar@amd.com>, Asad kamal <asad.kamal@amd.com>, Kenneth Feng
- <kenneth.feng@amd.com>, Ma Jun <Jun.Ma2@amd.com>, Mario Limonciello
- <mario.limonciello@amd.com>, Yang Wang <kevinyang.wang@amd.com>, Darren
- Powell <darren.powell@amd.com>, Yifan Zhang <yifan1.zhang@amd.com>, "open
- list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>, "open
- list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, open list
- <linux-kernel@vger.kernel.org>, Wolfram Sang <wsa@kernel.org>
-Subject: Re: [PATCH v0 02/14] drm/amdgpu,drm/radeon: Make I2C terminology
- more inclusive
-In-Reply-To: <Zg1NW0jqwFn4lvEP@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
- <20240329170038.3863998-3-eahariha@linux.microsoft.com>
- <Zgb3VYsgLjhJ2HKs@ashyti-mobl2.lan>
- <ceeaafe1-49d5-4602-8251-eed63a1be2b6@linux.microsoft.com>
- <Zgb8gieDzZtZmg2q@ashyti-mobl2.lan> <Zg1NW0jqwFn4lvEP@intel.com>
-Date: Wed, 03 Apr 2024 16:12:20 +0300
-Message-ID: <87sf02d1zf.fsf@intel.com>
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8714210FB98
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 13:19:42 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id
+ d9443c01a7336-1e27f800ad0so11066245ad.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Apr 2024 06:19:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1712150381; x=1712755181; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=5jeOyVY2AHqhv0KvV6kieVXey6Da3SBwUwdCTK976WY=;
+ b=Vq0LkGiIMyt5HiXpciU8vJ8H1XRQ7VNg7QKlQnVkxaN3iSUoBuwwc6W3pPC4285AZ4
+ HkGHXlpWPLrS6/62nRA4rp/OZKLmjlIp1sP4gnH/U/m9L0aVPhQJO9zldJsKnx+YDeel
+ cMxGWefVsKGviQ+w5c61lHYiGrQCgm85wyI2C3nNlza4oUCiXYs8Oc+o8E+BQ8x3chLZ
+ JJZm3XFtwl0oQraV0pE8562ZGGhv2FM6N/f3dzZsmj+t5xUqSeTa9GTfqCs3f0PPGbtS
+ CFgzq47mhs36djiF9XLXAGlgiVEEeTM8+ba/n8WrWJsAvuBLhDr4HGP84Z03GWFt5oT6
+ 2A4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712150381; x=1712755181;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5jeOyVY2AHqhv0KvV6kieVXey6Da3SBwUwdCTK976WY=;
+ b=pXWVh95oJkIpManu1BPfHYrvJhWjkgKbD1i65tQNb+LE31khcKTPuaxYc4ZbkhxUE9
+ aYuZiZfKjT3/CUKkOf78Rwpscfipn4rV5wYRXk19GDSq+1FwLIWA1HvyGRct83Ma+ELU
+ Hg2W27hcSCCF9GCnWln11FiC33jcbdMYu+bMUacQOkKm4HYJ2usD/vO2vNq3YAp2M6Fb
+ 0ZIsR08KA6lZUlv6Q3TLB0uYDuJxVIs4ZBxY8Q8l74FpLUwyprjV1dkM3kyl1B5mtzf0
+ byoFZLCbqzizNkUhrHb6JXGHofDlLjb5LuSCi9VFgSbhqkVNmE4xL4+MMJBZETRdnEcT
+ n5CQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUFm9lMl+SIKf6raTyb3X58CtlCBIJ95wp7VayiMSUvVRfjPXD+Vit2QIBylboDTelzlHflM1M6OHUIvHgYQC/PuaquV7fcZDsaVWlhAGkZ
+X-Gm-Message-State: AOJu0YzkG6djZ5TIQ3dTsU4QmQ2/bfjTw2salyrTZlOqLec+D2k2fsQm
+ Al9ZPBHzxPOJ4h/kUu67RBG+Eja+kbez88v5AV5cKH7GGU+P2qiK
+X-Google-Smtp-Source: AGHT+IGUUHIUOOsCxCF/TsSf8IWxMRQa7fBTBtgLaZOyDBRCO0Z9+JW6g9cTcLQ9TLR427e8GbHcQA==
+X-Received: by 2002:a17:902:f68b:b0:1e2:8ec0:90c4 with SMTP id
+ l11-20020a170902f68b00b001e28ec090c4mr2621403plg.2.1712150381396; 
+ Wed, 03 Apr 2024 06:19:41 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ p2-20020a170902780200b001e00e17c6e2sm13430178pll.138.2024.04.03.06.19.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Apr 2024 06:19:40 -0700 (PDT)
+From: Guenter Roeck <linux@roeck-us.net>
+To: linux-kselftest@vger.kernel.org
+Cc: David Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>,
+ David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+ linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, loongarch@lists.linux.dev,
+ netdev@vger.kernel.org, x86@kernel.org, Guenter Roeck <linux@roeck-us.net>
+Subject: [PATCH v3 00/15] Add support for suppressing warning backtraces
+Date: Wed,  3 Apr 2024 06:19:21 -0700
+Message-Id: <20240403131936.787234-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,83 +97,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 03 Apr 2024, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
-> wrote:
-> On Fri, Mar 29, 2024 at 06:38:10PM +0100, Andi Shyti wrote:
->> Hi,
->>=20
->> On Fri, Mar 29, 2024 at 10:28:14AM -0700, Easwar Hariharan wrote:
->> > On 3/29/2024 10:16 AM, Andi Shyti wrote:
->> > > Hi Easwar,
->> > >=20
->> > > On Fri, Mar 29, 2024 at 05:00:26PM +0000, Easwar Hariharan wrote:
->> > >> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/sla=
-ve"
->> > >=20
->> > > I don't understand why we forget that i3c is 1.1.1 :-)
->> >=20
->> > That's because it's a copy-paste error from Wolfram's cover letter. :)=
- I'll update
->> > next go-around.
->>=20
->> not a binding comment, though. Just for completeness, because we
->> are giving the version to the i2c and smbus, but not i3c.
->>=20
->> > >> with more appropriate terms. Inspired by and following on to Wolfra=
-m's
->> > >> series to fix drivers/i2c/[1], fix the terminology for users of
->> > >> I2C_ALGOBIT bitbanging interface, now that the approved verbiage ex=
-ists
->> > >> in the specification.
->> > >=20
->> > > The specification talks about:
->> > >=20
->> > >  - master -> controller
->> > >  - slave -> target (and not client)
->> > >=20
->> > > But both you and Wolfram have used client. I'd like to reach
->> > > some more consistency here.
->> >=20
->> > I had the impression that remote targets (i.e external to the device) =
-were to be called clients,
->> > e.g. the QSFP FRUs in drivers/infiniband, and internal ones targets.
->> > I chose the terminology according to that understanding, but now I can=
-'t find where I got that
->> > information.
->>=20
->> The word "client" does not even appear in the documentation (only
->> one instance in the i3c document), so that the change is not
->> related to the document as stated in the commit log. Unless, of
->> course, I am missing something.
->>=20
->> I'm OK with choosing a "customized" naming, but we need to reach
->> an agreement.
->>=20
->> I raised the same question to Wolfram.
->
-> I don't know where that discussion happened, but my opinion
-> is NAK to "client". Life is already confusing enough with
-> these renames, so let's not make it even more confusing by
-> inventing new names nowhere to be found in the spec.
->
-> And let's especially not invent names that don't even fit
-> the purpose. "Client" makes me think of "client/server" or
-> some real world analogy. Neither of which seem to have any
-> resemblence to how the term would be used for i2c.
+Some unit tests intentionally trigger warning backtraces by passing bad
+parameters to kernel API functions. Such unit tests typically check the
+return value from such calls, not the existence of the warning backtrace.
 
-Agreed.
+Such intentionally generated warning backtraces are neither desirable
+nor useful for a number of reasons.
+- They can result in overlooked real problems.
+- A warning that suddenly starts to show up in unit tests needs to be
+  investigated and has to be marked to be ignored, for example by
+  adjusting filter scripts. Such filters are ad-hoc because there is
+  no real standard format for warnings. On top of that, such filter
+  scripts would require constant maintenance.
 
-I2C 7.0, I3C 1.1.1, and SMBus 3.2 have all switched to controller/target
-terminology. The SMBus spec has additionally converted generic host
-references to controller.
+One option to address problem would be to add messages such as "expected
+warning backtraces start / end here" to the kernel log.  However, that
+would again require filter scripts, it might result in missing real
+problematic warning backtraces triggered while the test is running, and
+the irrelevant backtrace(s) would still clog the kernel log.
 
-At least for i915 where I have some say in the matter, controller/target
-it shall be.
+Solve the problem by providing a means to identify and suppress specific
+warning backtraces while executing test code. Support suppressing multiple
+backtraces while at the same time limiting changes to generic code to the
+absolute minimum. Architecture specific changes are kept at minimum by
+retaining function names only if both CONFIG_DEBUG_BUGVERBOSE and
+CONFIG_KUNIT are enabled.
 
+The first patch of the series introduces the necessary infrastructure.
+The second patch introduces support for counting suppressed backtraces.
+This capability is used in patch three to implement unit tests.
+Patch four documents the new API.
+The next two patches add support for suppressing backtraces in drm_rect
+and dev_addr_lists unit tests. These patches are intended to serve as
+examples for the use of the functionality introduced with this series.
+The remaining patches implement the necessary changes for all
+architectures with GENERIC_BUG support.
 
-BR,
-Jani.
+With CONFIG_KUNIT enabled, image size increase with this series applied is
+approximately 1%. The image size increase (and with it the functionality
+introduced by this series) can be avoided by disabling
+CONFIG_KUNIT_SUPPRESS_BACKTRACE.
 
+This series is based on the RFC patch and subsequent discussion at
+https://patchwork.kernel.org/project/linux-kselftest/patch/02546e59-1afe-4b08-ba81-d94f3b691c9a@moroto.mountain/
+and offers a more comprehensive solution of the problem discussed there.
 
---=20
-Jani Nikula, Intel
+Design note:
+  Function pointers are only added to the __bug_table section if both
+  CONFIG_KUNIT_SUPPRESS_BACKTRACE and CONFIG_DEBUG_BUGVERBOSE are enabled
+  to avoid image size increases if CONFIG_KUNIT is disabled. There would be
+  some benefits to adding those pointers all the time (reduced complexity,
+  ability to display function names in BUG/WARNING messages). That change,
+  if desired, can be made later.
+
+Checkpatch note:
+  Remaining checkpatch errors and warnings were deliberately ignored.
+  Some are triggered by matching coding style or by comments interpreted
+  as code, others by assembler macros which are disliked by checkpatch.
+  Suggestions for improvements are welcome.
+
+Changes since RFC:
+- Introduced CONFIG_KUNIT_SUPPRESS_BACKTRACE
+- Minor cleanups and bug fixes
+- Added support for all affected architectures
+- Added support for counting suppressed warnings
+- Added unit tests using those counters
+- Added patch to suppress warning backtraces in dev_addr_lists tests
+
+Changes since v1:
+- Rebased to v6.9-rc1
+- Added Tested-by:, Acked-by:, and Reviewed-by: tags
+  [I retained those tags since there have been no functional changes]
+- Introduced KUNIT_SUPPRESS_BACKTRACE configuration option, enabled by
+  default.
+
+Changes since v2:
+- Rebased to v6.9-rc2
+- Added comments to drm warning suppression explaining why it is needed.
+- Added patch to move conditional code in arch/sh/include/asm/bug.h
+  to avoid kerneldoc warning
+- Added architecture maintainers to Cc: for architecture specific patches
+- No functional changes
+
+----------------------------------------------------------------
+Guenter Roeck (15):
+      bug/kunit: Core support for suppressing warning backtraces
+      kunit: bug: Count suppressed warning backtraces
+      kunit: Add test cases for backtrace warning suppression
+      kunit: Add documentation for warning backtrace suppression API
+      drm: Suppress intentional warning backtraces in scaling unit tests
+      net: kunit: Suppress lock warning noise at end of dev_addr_lists tests
+      x86: Add support for suppressing warning backtraces
+      arm64: Add support for suppressing warning backtraces
+      loongarch: Add support for suppressing warning backtraces
+      parisc: Add support for suppressing warning backtraces
+      s390: Add support for suppressing warning backtraces
+      sh: Add support for suppressing warning backtraces
+      sh: Move defines needed for suppressing warning backtraces
+      riscv: Add support for suppressing warning backtraces
+      powerpc: Add support for suppressing warning backtraces
+
+ Documentation/dev-tools/kunit/usage.rst |  30 ++++++++-
+ arch/arm64/include/asm/asm-bug.h        |  29 ++++++---
+ arch/arm64/include/asm/bug.h            |   8 ++-
+ arch/loongarch/include/asm/bug.h        |  38 ++++++++----
+ arch/parisc/include/asm/bug.h           |  29 ++++++---
+ arch/powerpc/include/asm/bug.h          |  37 +++++++++---
+ arch/riscv/include/asm/bug.h            |  38 ++++++++----
+ arch/s390/include/asm/bug.h             |  17 +++++-
+ arch/sh/include/asm/bug.h               |  28 +++++++--
+ arch/x86/include/asm/bug.h              |  21 +++++--
+ drivers/gpu/drm/tests/drm_rect_test.c   |  16 +++++
+ include/asm-generic/bug.h               |  16 ++++-
+ include/kunit/bug.h                     |  56 +++++++++++++++++
+ include/kunit/test.h                    |   1 +
+ include/linux/bug.h                     |  13 ++++
+ lib/bug.c                               |  51 ++++++++++++++--
+ lib/kunit/Kconfig                       |   9 +++
+ lib/kunit/Makefile                      |   7 ++-
+ lib/kunit/backtrace-suppression-test.c  | 104 ++++++++++++++++++++++++++++++++
+ lib/kunit/bug.c                         |  42 +++++++++++++
+ net/core/dev_addr_lists_test.c          |   6 ++
+ 21 files changed, 524 insertions(+), 72 deletions(-)
+ create mode 100644 include/kunit/bug.h
+ create mode 100644 lib/kunit/backtrace-suppression-test.c
+ create mode 100644 lib/kunit/bug.c
