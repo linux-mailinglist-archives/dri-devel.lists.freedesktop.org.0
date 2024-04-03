@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC1E489702C
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 15:20:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1598B897035
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 15:20:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BC8A112214;
-	Wed,  3 Apr 2024 13:19:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80EB1112AEE;
+	Wed,  3 Apr 2024 13:19:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CmPwIG5S";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZnGW8l2l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
  [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18117112214
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 13:19:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D901B112AEE
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 13:19:56 +0000 (UTC)
 Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-1e28be94d32so8110205ad.0
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Apr 2024 06:19:55 -0700 (PDT)
+ d9443c01a7336-1e0411c0a52so54170715ad.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Apr 2024 06:19:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1712150394; x=1712755194; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1712150396; x=1712755196; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
  :message-id:reply-to;
- bh=kz48OxP3NhYfgMKsflTw0/QUK/EsEKDn2LToBTsPHNQ=;
- b=CmPwIG5S46GoUIjDUeCk9gtARiBUaxH/FMHFuXkopJ8UC2qBhjguY/ovW4gWsXTpbj
- lj8TLW/96BDhcgTwzkUdj7pLU41DUdZi2ka4wEnbvOnjeuXEzaMP/EJ1radE0y9MOVvK
- qsPN4X+q8X5djFE+ggG03A7B3vRKXFn65gCms2P01Ix4DUDt40qMKaqmyFq4xEG39yax
- KYzh2a7jI1FJlZVxtKDTGJWLpcYLk/UhSGFiKoRThbayUwlIOsmsJKwTpDOHZVI9n3F6
- Qb01sUAFiFXfCM8ZM/e1nkTfV8KUG1FsZCuAdiD6rbqUG1hsHGT4OjLUMOu0Mv/NsZ9v
- RPEw==
+ bh=xkb1tQP+RY53Yd+dTVS3E48OfxPMmEiIEhGf0kaureE=;
+ b=ZnGW8l2lS9DfhaSs2NvliELPUg5hlq7Wlpozn6JshG1IN6zDjLujcVgI6xtf56rLnk
+ vxWA3rsugaokHrWUDgxbnDTveKSMcABmbgV9dhv1dumMzRnVbOVTj7olO4GIsCK6SXLe
+ t8+6QsoonumrJkCB592Xoisjf3H9LNDxFhEpzSsTZG2fTQYwRAtCVe5CIRLWQAibFUS9
+ XpvhpLqdEwf5NgrTsWHI8H1o0utRqEZznsC+CWjdl31iHudZUQOVrOPf7HDbep2dLOQ1
+ CnpnCcagrK04JCDOAuM1322wODfvUvu+IZsuCRnOwaIf5UXuXkDF0vROeUDa5oHpNuYP
+ ETow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712150394; x=1712755194;
+ d=1e100.net; s=20230601; t=1712150396; x=1712755196;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=kz48OxP3NhYfgMKsflTw0/QUK/EsEKDn2LToBTsPHNQ=;
- b=jXAzcs58hDCWtMru6Lcq/zlBx+YiMZClSopwT6AtvuE4vQcp9YZP8F2lTbJL2o68wr
- sG9+s28tWdPRRBag3Zg0KBxI2GJyrXG7BhhTDebQwRVrqLYk8rL1MidBb3CFjC6j34NI
- oGSpdGhx6ymeXntCf5TmqxcWTu2evtB5I1JE1TrLHF+UYIvoELoHnfAtEfZMqZhs8mKO
- ZzmSTCd5ISImomrnOHMEIwMtbKqGoBdf9FzdhU9i5UUA5LvoqnoIfYclyszTbogHX5PT
- 5VELoKmnkDYgljulqN6bNuUjpY4tHUKgV921Umk4YLD6TSPLSt8XAEmxkRQ9BnPjOdku
- l4uQ==
+ bh=xkb1tQP+RY53Yd+dTVS3E48OfxPMmEiIEhGf0kaureE=;
+ b=EbXaj1rbjNuufrp8I/UvXFrfcgdVyhgcEPxkVD1CapBDHoU8X5ZQ2madUnbjp+3QRZ
+ ifVBivt14Xho5pKcpvqLMZcOjPjGn4ZMZliH9MZfOGHIiyqKTvzEgFqlJmPLBTBQbWHu
+ wobmHlMnksUfJcyb9rHNMTxpGEzfsTXCseHjfEbMIo153rnW0RjmzuPCBAnbZ+W+Chia
+ +Oa1W9oTFBKMhfWnbNXxwMLSeGxKum23x2PA3PclyT2/pMpyn1yA9Xgk31X6YiqfPAr5
+ KVuZp3d5KynqSHHuQiiOa1Y49V/Oy2u05LO3tK+M4Txp7kQLxTKSayqQs3ZbUK8dW0ih
+ siyQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUIIwZe2QaSrzVS8zPCzx2TsmGUTGdpupBXL8OFW3QLZ0NJUfJFr7p/x3ONvV6VdxLIZ0ftckHmsqP5h4rQdZq//boa6AX4+jdpUysQVGQE
-X-Gm-Message-State: AOJu0YyEYVMwrHKqDX94v0bAi1XZORvVYP3PtGMwfgnkiK8qXXskuKvc
- QU00m9OwUWjsCTLVzVuB4Hy9oFvRYnUyAkcUJsHiEFqrSUJfAtYP
-X-Google-Smtp-Source: AGHT+IFNgcjVYp4BARBLtJXFan7xr/0CnX1zHuDDo3GwnVh2w9uqbZMBPA/s2jR8/t1K3n7W3FEYHw==
-X-Received: by 2002:a17:902:ec8b:b0:1e2:2e93:10ef with SMTP id
- x11-20020a170902ec8b00b001e22e9310efmr15831594plg.52.1712150394590; 
- Wed, 03 Apr 2024 06:19:54 -0700 (PDT)
+ AJvYcCW8UNRotPRN3ZcEoi2kKxAUz4b8/n0mduLdtnYghzV1rHTnUiZGK5wgRRJxnHqbzjPHTKMP/XWSmbMEFvMntUFrAiv6LPFPaStRllA0Vk1U
+X-Gm-Message-State: AOJu0Yz1bAeVxShfDbMkHyzNoBOZQp5jDhw2ZfaA/4plC4KUkQIUTeai
+ Knf/fIwnqBfejg58qZhxSrsEC/ttqOq+lvnLv9nQkkMW8bPHzhoC
+X-Google-Smtp-Source: AGHT+IEFIYqOYVWwVKGxmRZLqxD45VjqdbvtvChfTBAzSn1B79yxhWl03nHs5HLMNlC5fEEyMMkQQQ==
+X-Received: by 2002:a17:903:249:b0:1e0:1486:e808 with SMTP id
+ j9-20020a170903024900b001e01486e808mr16191679plh.13.1712150396344; 
+ Wed, 03 Apr 2024 06:19:56 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
  by smtp.gmail.com with ESMTPSA id
- h4-20020a170902704400b001e26e1e62f9sm3840318plt.176.2024.04.03.06.19.53
+ l9-20020a170903120900b001e02875930asm13195748plh.25.2024.04.03.06.19.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Apr 2024 06:19:54 -0700 (PDT)
+ Wed, 03 Apr 2024 06:19:55 -0700 (PDT)
 From: Guenter Roeck <linux@roeck-us.net>
 To: linux-kselftest@vger.kernel.org
 Cc: David Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
@@ -78,11 +78,10 @@ Cc: David Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
  linux-sh@vger.kernel.org, loongarch@lists.linux.dev,
  netdev@vger.kernel.org, x86@kernel.org, Guenter Roeck <linux@roeck-us.net>,
  Linux Kernel Functional Testing <lkft@linaro.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>
-Subject: [PATCH v3 07/15] x86: Add support for suppressing warning backtraces
-Date: Wed,  3 Apr 2024 06:19:28 -0700
-Message-Id: <20240403131936.787234-8-linux@roeck-us.net>
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+Subject: [PATCH v3 08/15] arm64: Add support for suppressing warning backtraces
+Date: Wed,  3 Apr 2024 06:19:29 -0700
+Message-Id: <20240403131936.787234-9-linux@roeck-us.net>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240403131936.787234-1-linux@roeck-us.net>
 References: <20240403131936.787234-1-linux@roeck-us.net>
@@ -115,10 +114,8 @@ is not a define but a virtual variable).
 
 Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
 Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
 Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 ---
 v2:
@@ -128,56 +125,90 @@ v2:
 v3:
 - Rebased to v6.9-rc2
 
- arch/x86/include/asm/bug.h | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+ arch/arm64/include/asm/asm-bug.h | 29 +++++++++++++++++++----------
+ arch/arm64/include/asm/bug.h     |  8 +++++++-
+ 2 files changed, 26 insertions(+), 11 deletions(-)
 
-diff --git a/arch/x86/include/asm/bug.h b/arch/x86/include/asm/bug.h
-index a3ec87d198ac..7698dfa74c98 100644
---- a/arch/x86/include/asm/bug.h
-+++ b/arch/x86/include/asm/bug.h
-@@ -23,18 +23,28 @@
+diff --git a/arch/arm64/include/asm/asm-bug.h b/arch/arm64/include/asm/asm-bug.h
+index c762038ba400..c6d22e3cd840 100644
+--- a/arch/arm64/include/asm/asm-bug.h
++++ b/arch/arm64/include/asm/asm-bug.h
+@@ -8,36 +8,45 @@
+ #include <asm/brk-imm.h>
  
  #ifdef CONFIG_DEBUG_BUGVERBOSE
- 
+-#define _BUGVERBOSE_LOCATION(file, line) __BUGVERBOSE_LOCATION(file, line)
+-#define __BUGVERBOSE_LOCATION(file, line)			\
++
 +#ifdef CONFIG_KUNIT_SUPPRESS_BACKTRACE
 +# define HAVE_BUG_FUNCTION
-+# define __BUG_FUNC_PTR	__BUG_REL(%c1)
++# define __BUG_FUNC_PTR(func)	.long func - .;
++#else
++# define __BUG_FUNC_PTR(func)
++#endif
++
++#define _BUGVERBOSE_LOCATION(file, func, line) __BUGVERBOSE_LOCATION(file, func, line)
++#define __BUGVERBOSE_LOCATION(file, func, line)		\
+ 		.pushsection .rodata.str,"aMS",@progbits,1;	\
+ 	14472:	.string file;					\
+ 		.popsection;					\
+ 								\
+ 		.long 14472b - .;				\
++		__BUG_FUNC_PTR(func)				\
+ 		.short line;
+ #else
+-#define _BUGVERBOSE_LOCATION(file, line)
++#define _BUGVERBOSE_LOCATION(file, func, line)
+ #endif
+ 
+ #ifdef CONFIG_GENERIC_BUG
+ 
+-#define __BUG_ENTRY(flags) 				\
++#define __BUG_ENTRY(flags, func)			\
+ 		.pushsection __bug_table,"aw";		\
+ 		.align 2;				\
+ 	14470:	.long 14471f - .;			\
+-_BUGVERBOSE_LOCATION(__FILE__, __LINE__)		\
+-		.short flags; 				\
++_BUGVERBOSE_LOCATION(__FILE__, func, __LINE__)		\
++		.short flags;				\
+ 		.popsection;				\
+ 	14471:
+ #else
+-#define __BUG_ENTRY(flags)
++#define __BUG_ENTRY(flags, func)
+ #endif
+ 
+-#define ASM_BUG_FLAGS(flags)				\
+-	__BUG_ENTRY(flags)				\
++#define ASM_BUG_FLAGS(flags, func)			\
++	__BUG_ENTRY(flags, func)			\
+ 	brk	BUG_BRK_IMM
+ 
+-#define ASM_BUG()	ASM_BUG_FLAGS(0)
++#define ASM_BUG()	ASM_BUG_FLAGS(0, .)
+ 
+ #endif /* __ASM_ASM_BUG_H */
+diff --git a/arch/arm64/include/asm/bug.h b/arch/arm64/include/asm/bug.h
+index 28be048db3f6..044c5e24a17d 100644
+--- a/arch/arm64/include/asm/bug.h
++++ b/arch/arm64/include/asm/bug.h
+@@ -11,8 +11,14 @@
+ 
+ #include <asm/asm-bug.h>
+ 
++#ifdef HAVE_BUG_FUNCTION
 +# define __BUG_FUNC	__func__
 +#else
-+# define __BUG_FUNC_PTR
 +# define __BUG_FUNC	NULL
-+#endif /* CONFIG_KUNIT_SUPPRESS_BACKTRACE */
++#endif
 +
- #define _BUG_FLAGS(ins, flags, extra)					\
- do {									\
- 	asm_inline volatile("1:\t" ins "\n"				\
- 		     ".pushsection __bug_table,\"aw\"\n"		\
- 		     "2:\t" __BUG_REL(1b) "\t# bug_entry::bug_addr\n"	\
- 		     "\t"  __BUG_REL(%c0) "\t# bug_entry::file\n"	\
--		     "\t.word %c1"        "\t# bug_entry::line\n"	\
--		     "\t.word %c2"        "\t# bug_entry::flags\n"	\
--		     "\t.org 2b+%c3\n"					\
-+		     "\t"  __BUG_FUNC_PTR "\t# bug_entry::function\n"	\
-+		     "\t.word %c2"        "\t# bug_entry::line\n"	\
-+		     "\t.word %c3"        "\t# bug_entry::flags\n"	\
-+		     "\t.org 2b+%c4\n"					\
- 		     ".popsection\n"					\
- 		     extra						\
--		     : : "i" (__FILE__), "i" (__LINE__),		\
-+		     : : "i" (__FILE__), "i" (__BUG_FUNC), "i" (__LINE__),\
- 			 "i" (flags),					\
- 			 "i" (sizeof(struct bug_entry)));		\
- } while (0)
-@@ -80,7 +90,8 @@ do {								\
- do {								\
- 	__auto_type __flags = BUGFLAG_WARNING|(flags);		\
- 	instrumentation_begin();				\
--	_BUG_FLAGS(ASM_UD2, __flags, ASM_REACHABLE);		\
-+	if (!IS_SUPPRESSED_WARNING(__func__))			\
-+		_BUG_FLAGS(ASM_UD2, __flags, ASM_REACHABLE);	\
- 	instrumentation_end();					\
- } while (0)
+ #define __BUG_FLAGS(flags)				\
+-	asm volatile (__stringify(ASM_BUG_FLAGS(flags)));
++	asm volatile (__stringify(ASM_BUG_FLAGS(flags, %c0)) : : "i" (__BUG_FUNC));
  
+ #define BUG() do {					\
+ 	__BUG_FLAGS(0);					\
 -- 
 2.39.2
 
