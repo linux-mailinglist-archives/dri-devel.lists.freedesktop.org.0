@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C1B0896C92
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 12:33:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52AA0896C7D
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 12:32:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 831721129BE;
-	Wed,  3 Apr 2024 10:33:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76BB71129A6;
+	Wed,  3 Apr 2024 10:32:06 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="j+A7gdKs";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4232B1129B6
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 10:33:30 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:98])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBA2D1129B0
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 10:32:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1712140322;
+ bh=QCQv4SlWwu4pTHP3KZHi48pp2atYllgOS/M1veC+SRM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=j+A7gdKsl4qbgkvz+dyY3uNMPiP+lPeH6p0M1oF1lRq1mpjO3WCmazIKjjkN6bhL/
+ 5ERyifQx+RvukIa94tQyJAFDavIFOyWKyIxiJTtu5GrsuOrt7XuWPr/daII/5bNq77
+ Dhp/6VnS9KMKqpCYgdrk36d0R/mNDxsNPe7CxPGT4PCjTu0Gb2nCAJRMuR1+ksTn2q
+ tegKHEzdkez05aQPFbDvu+R9/rbTm5XE4M0oID3vsRN/YKxG2JAonOdVri52rO9p53
+ XsqFt1p3A6CXr+mKJyC+SQPg2WiTT7hxffUXtEejvOx/ajWKWCKTv39KA8BpTj1MAM
+ 3KLcFDBfNWhQA==
+Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com
+ [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id EC17635218;
- Wed,  3 Apr 2024 10:33:28 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id C80E313A8B;
- Wed,  3 Apr 2024 10:33:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap2.dmz-prg2.suse.org with ESMTPSA id KPyhL3gwDWaNEAAAn2gu4w
- (envelope-from <tzimmermann@suse.de>); Wed, 03 Apr 2024 10:33:28 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@redhat.com,
-	jfalempe@redhat.com
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 3/3] drm/ast: Define struct ast_ddc in ast_ddc.c
-Date: Wed,  3 Apr 2024 12:31:30 +0200
-Message-ID: <20240403103325.30457-4-tzimmermann@suse.de>
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 25BD93780624;
+ Wed,  3 Apr 2024 10:32:02 +0000 (UTC)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Moudy Ho <moudy.ho@mediatek.com>,
+ "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: (subset) [PATCH v2 00/12] Remove cl in struct cmdq_pkt
+Date: Wed,  3 Apr 2024 12:31:57 +0200
+Message-ID: <171213938049.123698.15573779837703602591.b4-ty@collabora.com>
 X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240403103325.30457-1-tzimmermann@suse.de>
-References: <20240403103325.30457-1-tzimmermann@suse.de>
+In-Reply-To: <20240222154120.16959-1-chunkuang.hu@kernel.org>
+References: <20240222154120.16959-1-chunkuang.hu@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Score: -4.00
-X-Spam-Level: 
-X-Rspamd-Queue-Id: EC17635218
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,126 +66,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the definition of struct ast_ddc to ast_ddc.c and return the i2c
-adapter from ast_ddc_create(). Update callers accordingly. Avoids
-including Linux i2c header files, except where required. No functional
-changes.
+On Thu, 22 Feb 2024 15:41:08 +0000, Chun-Kuang Hu wrote:
+> cl in struct cmdq_pkt is used to store struct cmdq_client, but every client
+> driver has the struct cmdq_client information, so it's not necessary to
+> store struct cmdq_client in struct cmdq_pkt. Because mailbox maintainer
+> do not like to mix mailbox patch with other patches in a series, so
+> mailbox patch [1] would be sent independently.
+> 
+> Changes in v2:
+> 1. Fix typo of CMDQ_JUMP_RELATIVE
+> 2. Refine cmdq_pkt_create() and cmdq_pkt_destroy()
+> 3. Rename cmdq_pkt_jump() to cmdq_pkt_jump_abs()
+> 4. Add cmdq_pkt_jump_rel() helper function
+> 5. drm/mediatek: Use cmdq_pkt_create() and cmdq_pkt_destroy()
+> 6. mtk-mdp3: Get fine-grain control of cmdq_pkt_finalize()
+> 7. mtk-mdp3: Use cmdq_pkt_create() and cmdq_pkt_destroy()
+> 
+> [...]
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/ast/ast_ddc.c  | 14 ++++++++++++--
- drivers/gpu/drm/ast/ast_ddc.h  | 13 ++-----------
- drivers/gpu/drm/ast/ast_mode.c |  8 ++++----
- 3 files changed, 18 insertions(+), 17 deletions(-)
+Applied to v6.9-next/soc, thanks!
 
-diff --git a/drivers/gpu/drm/ast/ast_ddc.c b/drivers/gpu/drm/ast/ast_ddc.c
-index 4df52aeba4f7e..29cf5d157f344 100644
---- a/drivers/gpu/drm/ast/ast_ddc.c
-+++ b/drivers/gpu/drm/ast/ast_ddc.c
-@@ -21,12 +21,22 @@
-  * of the Software.
-  */
- 
-+#include <linux/i2c-algo-bit.h>
-+#include <linux/i2c.h>
-+
- #include <drm/drm_managed.h>
- #include <drm/drm_print.h>
- 
- #include "ast_ddc.h"
- #include "ast_drv.h"
- 
-+struct ast_ddc {
-+	struct ast_device *ast;
-+
-+	struct i2c_algo_bit_data bit;
-+	struct i2c_adapter adapter;
-+};
-+
- static void ast_ddc_algo_bit_data_setsda(void *data, int state)
- {
- 	struct ast_ddc *ddc = data;
-@@ -132,7 +142,7 @@ static void ast_ddc_release(struct drm_device *dev, void *res)
- 	i2c_del_adapter(&ddc->adapter);
- }
- 
--struct ast_ddc *ast_ddc_create(struct ast_device *ast)
-+struct i2c_adapter *ast_ddc_create(struct ast_device *ast)
- {
- 	struct drm_device *dev = &ast->base;
- 	struct ast_ddc *ddc;
-@@ -173,5 +183,5 @@ struct ast_ddc *ast_ddc_create(struct ast_device *ast)
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	return ddc;
-+	return &ddc->adapter;
- }
-diff --git a/drivers/gpu/drm/ast/ast_ddc.h b/drivers/gpu/drm/ast/ast_ddc.h
-index 08f3994e09ccd..85c93edc9ae12 100644
---- a/drivers/gpu/drm/ast/ast_ddc.h
-+++ b/drivers/gpu/drm/ast/ast_ddc.h
-@@ -3,18 +3,9 @@
- #ifndef __AST_DDC_H__
- #define __AST_DDC_H__
- 
--#include <linux/i2c.h>
--#include <linux/i2c-algo-bit.h>
--
- struct ast_device;
-+struct i2c_adapter;
- 
--struct ast_ddc {
--	struct ast_device *ast;
--
--	struct i2c_adapter adapter;
--	struct i2c_algo_bit_data bit;
--};
--
--struct ast_ddc *ast_ddc_create(struct ast_device *ast);
-+struct i2c_adapter *ast_ddc_create(struct ast_device *ast);
- 
- #endif
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index bb9b66aba9ee9..ae21d89b899c8 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -1360,7 +1360,7 @@ static const struct drm_connector_funcs ast_vga_connector_funcs = {
- static int ast_vga_connector_init(struct drm_device *dev, struct drm_connector *connector)
- {
- 	struct ast_device *ast = to_ast_device(dev);
--	struct ast_ddc *ddc;
-+	struct i2c_adapter *ddc;
- 	int ret;
- 
- 	ddc = ast_ddc_create(ast);
-@@ -1371,7 +1371,7 @@ static int ast_vga_connector_init(struct drm_device *dev, struct drm_connector *
- 	}
- 
- 	ret = drm_connector_init_with_ddc(dev, connector, &ast_vga_connector_funcs,
--					  DRM_MODE_CONNECTOR_VGA, &ddc->adapter);
-+					  DRM_MODE_CONNECTOR_VGA, ddc);
- 	if (ret)
- 		return ret;
- 
-@@ -1429,7 +1429,7 @@ static const struct drm_connector_funcs ast_sil164_connector_funcs = {
- static int ast_sil164_connector_init(struct drm_device *dev, struct drm_connector *connector)
- {
- 	struct ast_device *ast = to_ast_device(dev);
--	struct ast_ddc *ddc;
-+	struct i2c_adapter *ddc;
- 	int ret;
- 
- 	ddc = ast_ddc_create(ast);
-@@ -1440,7 +1440,7 @@ static int ast_sil164_connector_init(struct drm_device *dev, struct drm_connecto
- 	}
- 
- 	ret = drm_connector_init_with_ddc(dev, connector, &ast_sil164_connector_funcs,
--					  DRM_MODE_CONNECTOR_DVII, &ddc->adapter);
-+					  DRM_MODE_CONNECTOR_DVII, ddc);
- 	if (ret)
- 		return ret;
- 
--- 
-2.44.0
+[01/12] soc: mediatek: cmdq: Fix typo of CMDQ_JUMP_RELATIVE
+        commit: 7349d4bdee457715308e6229a674f4cebf42be92
+[02/12] soc: mediatek: cmdq: Add parameter shift_pa to cmdq_pkt_jump()
+        commit: e24e0ff0871b8e3287f258b76b82238b64714628
+[03/12] soc: mediatek: cmdq: Rename cmdq_pkt_jump() to cmdq_pkt_jump_abs()
+        commit: 8a8bcf23b3e0ab333bfc827ea7ed2f9bece9bea8
+[04/12] soc: mediatek: cmdq: Add cmdq_pkt_jump_rel() helper function
+        commit: 78462e312e63c5bc0859934d9457155fb50da2e1
+[05/12] soc: mediatek: cmdq: Add cmdq_pkt_eoc() helper function
+        commit: cad76fa0221c3f8e656b56b7673ae752a65108d8
+[06/12] soc: mediatek: cmdq: Remove cmdq_pkt_flush_async() helper function
+        commit: 3e2b3be190ace43841011ec0bec950a28a012601
+[07/12] soc: mediatek: cmdq: Refine cmdq_pkt_create() and cmdq_pkt_destroy()
+        commit: 62d2fb402b132e52899f52b4d5f150fd1dfd1895
+
+Cheers,
+Angelo
 
