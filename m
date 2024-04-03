@@ -2,47 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E4908965CE
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 09:15:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 802FD8965D2
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 09:15:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA86B11207D;
-	Wed,  3 Apr 2024 07:15:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B047112126;
+	Wed,  3 Apr 2024 07:15:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ZSOfNFjC";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ViAfPzC1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBAA111207D
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 07:15:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AFA3112126
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 07:15:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1712128510;
- bh=qzfSfHG2Ybl71GhTl+7btqP37t8xlMwKwQEX6DKSPuc=;
+ s=mail; t=1712128540;
+ bh=O2Nzrqa1UBTMb8L+eVoapV/8MuTe2W1MsZDuTz8sSHE=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ZSOfNFjCrw4xsn7R+uqY+6VzlKRxIvoD/aWVbFtNhVn80sXm02Bpr0gqGSLr91zGw
- xW9JDqijVntntCRsYNToY5aHEpTTk5vMJvV5iOET1iEh/rPQWmqYfmBxvd2uAxrMXa
- M6FLuM6v0VNaXLK6f8a9P8biOAGSNpeKj3E9QTId/4fZK/EUhxcu//uD1k3ls5qR8o
- IJyXSr1qf5gIWSfvNXBSR1ZPVBorEi3GEPn7kHU1kdnzYve/6g8CddMB3EqQzkJ1lC
- IAIEuNJLm1ZaePI9aCxLzUJZlojyAVbsIe+OCcH6EGf6Z3Cggf/p4GbWgrLEpV83Ra
- n22K46WdDofYQ==
+ b=ViAfPzC17nr2LDYMZ6/FxnERiwG3pLNtEQ1PhWB3lBg4eqEx/rNxSY2FGP4+P5IKo
+ xcwLa4vQiJoE5g6opA/TB04PVtK1hxoyxc17ROithVL6mJgFYM6c7ipDie2lqBS5NV
+ N7taljBXd72ojJvAVzcGTF9S0hyN3SlwIzln4ZiES8NCrb9Ds73SYHIi8PY9wtDe4l
+ YT4UcYDUpqwc8fiiH0twCSpSAEIk7cF/W1ILel1D7L6SuNaqBFfCZ3nynWrGzrUsED
+ S20AqxcjXw1rbd8uM1tq/pNoRf7s2niM+KTIEAqYk2jSQMUJXS2BuXLYiGPM+jGSR2
+ k6lz9WKCHC58g==
 Received: from localhost (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id D9F1037813DC;
- Wed,  3 Apr 2024 07:15:09 +0000 (UTC)
-Date: Wed, 3 Apr 2024 09:15:08 +0200
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 6464F37813DC;
+ Wed,  3 Apr 2024 07:15:39 +0000 (UTC)
+Date: Wed, 3 Apr 2024 09:15:38 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Liviu Dudau <liviu.dudau@arm.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Steven Price
- <steven.price@arm.com>
-Subject: Re: [PATCH 1/2] drm/panthor: Cleanup unused variable 'cookie'
-Message-ID: <20240403091508.009369b0@collabora.com>
-In-Reply-To: <20240402215423.360341-1-liviu.dudau@arm.com>
-References: <20240402215423.360341-1-liviu.dudau@arm.com>
+To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Grant Likely
+ <grant.likely@linaro.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dan.carpenter@linaro.org,
+ kernel-janitors@vger.kernel.org, error27@gmail.com
+Subject: Re: [PATCH] drm/panthor: Fix NULL vs IS_ERR() bug in panthor_probe()
+Message-ID: <20240403091538.1b958019@collabora.com>
+In-Reply-To: <20240402104041.1689951-1-harshit.m.mogalapalli@oracle.com>
+References: <20240402104041.1689951-1-harshit.m.mogalapalli@oracle.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -63,44 +66,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue,  2 Apr 2024 22:54:22 +0100
-Liviu Dudau <liviu.dudau@arm.com> wrote:
+On Tue,  2 Apr 2024 03:40:40 -0700
+Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com> wrote:
 
-> Commit 962f88b9c916 ("drm/panthor: Drop the dev_enter/exit() sections in
-> _irq_suspend/resume()") removed the code that used the 'cookie' variable
-> but left the declaration in place. Remove it.
+> The devm_drm_dev_alloc() function returns error pointers.
+> Update the error handling to check for error pointers instead of NULL.
 > 
-> Fixes: 962f88b9c916 ("drm/panthor: Drop the dev_enter/exit() sections in _irq_suspend/resume()")
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Steven Price <steven.price@arm.com>
-> Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
+> Fixes: 4bdca1150792 ("drm/panthor: Add the driver frontend block")
+> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
 
-Queued both patches to drm-misc-next.
+Queued to drm-misc-next.
+
+Thanks,
+
+Boris
 
 > ---
->  drivers/gpu/drm/panthor/panthor_device.h | 4 ----
->  1 file changed, 4 deletions(-)
+> This is spotted by smatch and the patch is only compile tested
+> ---
+>  drivers/gpu/drm/panthor/panthor_drv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-> index dc3e9c666b5bd4..2fdd671b38fd9b 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.h
-> +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> @@ -323,8 +323,6 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
->  												\
->  static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)			\
->  {												\
-> -	int cookie;										\
-> -												\
->  	pirq->mask = 0;										\
->  	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);					\
->  	synchronize_irq(pirq->irq);								\
-> @@ -333,8 +331,6 @@ static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)
->  												\
->  static inline void panthor_ ## __name ## _irq_resume(struct panthor_irq *pirq, u32 mask)	\
->  {												\
-> -	int cookie;										\
-> -												\
->  	atomic_set(&pirq->suspended, false);							\
->  	pirq->mask = mask;									\
->  	gpu_write(pirq->ptdev, __reg_prefix ## _INT_CLEAR, mask);				\
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index 11b3ccd58f85..1b588b37db98 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1385,7 +1385,7 @@ static int panthor_probe(struct platform_device *pdev)
+>  
+>  	ptdev = devm_drm_dev_alloc(&pdev->dev, &panthor_drm_driver,
+>  				   struct panthor_device, base);
+> -	if (!ptdev)
+> +	if (IS_ERR(ptdev))
+>  		return -ENOMEM;
+>  
+>  	platform_set_drvdata(pdev, ptdev);
 
