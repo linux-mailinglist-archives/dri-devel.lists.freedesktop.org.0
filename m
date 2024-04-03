@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DC16896BB6
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 12:10:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40A20896BCD
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 12:14:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E30E111298C;
-	Wed,  3 Apr 2024 10:10:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3713D11246C;
+	Wed,  3 Apr 2024 10:14:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WF0tvUzC";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="AgGjLuxc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
- [209.85.219.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31C6C11298C
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 10:10:16 +0000 (UTC)
-Received: by mail-yb1-f172.google.com with SMTP id
- 3f1490d57ef6-dcbf82cdf05so5205864276.2
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Apr 2024 03:10:16 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
+ [209.85.219.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 815CA11246C
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 10:14:07 +0000 (UTC)
+Received: by mail-yb1-f179.google.com with SMTP id
+ 3f1490d57ef6-dbed0710c74so4778800276.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Apr 2024 03:14:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712139015; x=1712743815; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1712139246; x=1712744046; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=rx+/ODJmMo86rpamIh1rOudX2tVZC9qd0xdyuh7u+G8=;
- b=WF0tvUzCnZiqOk8+HWMNmhIXSjwwGisCg2gIvb5+VHz2ofjDLY0cOWgUNnkHgrBrGY
- 6feJ1tA+nuWu6UOI/Ph3AglFf9RcEUvUSkR4IxbrLAnV/20LKHG1DjZBUCzZxQUdGxYR
- ikhPc/3wygiOGPRcx2XeYzwDwAlgEMnOSE8GfkfvM8d5aORSzoj4KxBIuHEdf/J7fBy8
- iGXhEcVjwk9m/AX8G/O9bETnlS5ckcOL26PbOBAm1beYHzwlOUGU56hG36inOQDbjMv4
- GK6nM7CSDYrNn7V2mr/wSEwg3pCYKoIbrXOnaZqaQma2OQU+khNRup+5B7TNSXSDud52
- tMjw==
+ bh=wKOQs+TmUwBWd9nBZ5bd0FjYKLI0xx+jqXHAXa7eWSs=;
+ b=AgGjLuxcr0BClZqlGQqTycNXZqjKBt5Nyg/VDLoEdQJsP6QTSvTSTd8UvF4c7jSaNp
+ D5YW9aplX6WSLtplIiglz0wvaSZAc/wRWL6wye1QZxkfr3LQdDRRVbR8gJ09JF2B5wWS
+ 8PqKtbf40E8NhIw1Xd6jIdva+MRMqzAY2S72ioH7EB4nWLkApZfTIQMVYWT6R3gqRyap
+ Svge6PYjLURYwmAIQI/B86jSC6KayhbEWOxoPT43yIBUXjCch7EpXSETU1P5tct6/F++
+ soF2fNspor2jDR6j7VH8fE4nYg/m0jKShwiuSgWvKPw7eR4tl4O/OW5Fch0VJmsqoQHJ
+ 5GuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712139015; x=1712743815;
+ d=1e100.net; s=20230601; t=1712139246; x=1712744046;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=rx+/ODJmMo86rpamIh1rOudX2tVZC9qd0xdyuh7u+G8=;
- b=YYWvShEYszPJMGvno2n5bvFxLq8GB/zK9v9+4tsQCLLtamuF81kRXLL12RVT8nxW7h
- tq4I1OppsIVmwfx3mugWbXbOum/hKuCBxFR0TpcFUkfEKENEqud0nF5tvdnGbu6hP+hQ
- jpiz43UV9rvk6dkeHsP3mpnvHnUQzbVMP3I0VnVKW10/0ShWd1QorpgkuQMtafTo9Yyx
- NPd2lmsyKi0qW+xGpqMnRB9mb2h6PmjMsrnjoamoS048LkuWhYXF8F1CCfP1ACTi+jVJ
- V7eQ4QdHNik4JwV2yCIqO4F/WFu4aGWEhTWFx7IwbX3v/aS2I0F0GnW/VYZPJT9wTCE+
- ReXA==
+ bh=wKOQs+TmUwBWd9nBZ5bd0FjYKLI0xx+jqXHAXa7eWSs=;
+ b=QbO2rrvSly0RJQji+ZXP13uAlplS9sdUXQO3EWBO9Q6NOhKct4ycfzGUY0LkM90lOX
+ cj3zED68JcaHiqBIHPVIlNTMOmuXTB3i/TYRxuFSm2SZZ2Lx5cEc7Sn7tEZkU2SHJooc
+ JYEceoD2CEzHa6tac1AyatL4nv9uQKy7uoOQl103key0xOzClxNfOOdxeeBN3nV/YD7W
+ +UF8+QbQfvd8kaRrxs8BYZiViJwAgSJgIP718sPqej8FqlW7Eu41r8L1ecJWwoboqHSx
+ twu2bVi4Jr/CRqPVlAw0h6Pn9scKuVGhYOFCvr7UEMOgMnPRFpVwYSv4fDpXDwG039V5
+ f1FA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWM/mTy7Iy3c0a8KhoLmnHyEoCP3eGe6rDWwotdkchU9UoMJcaFUJSysLgusmvgivh6UYoOJ+fYEExjg4Gdl2PUqfnxtrw/2zXKgdq/YYVc
-X-Gm-Message-State: AOJu0Yx+owEtnv22DheTkAdDBEj54HEH38VT/yilbwri7Ha8Nh3WbzDE
- qPFB9vqIguLe1SzMSlOmuju6o4dsKNmWVzxhcldSx4W08t2TGneHjPAsWUlpGAsbP+onBPCVZ20
- KHBWiXrTE9mg6EpGBE7U1Cg+PCPAc5nyOVGqezw==
-X-Google-Smtp-Source: AGHT+IGjh7gnnBb9kNyO5PIPLl2Il5vz8QX1R3iBfDYBjyvguAc/FohIsajpw5mGOtCvkRWDwc/PlH4RwAJFT54eBCo=
-X-Received: by 2002:a25:ba42:0:b0:dcb:be59:25e1 with SMTP id
- z2-20020a25ba42000000b00dcbbe5925e1mr12992717ybj.30.1712139015113; Wed, 03
- Apr 2024 03:10:15 -0700 (PDT)
+ AJvYcCV6TP+kkmtaqrhNhg0jjj/nGculremDvgLwCDDjTU/tN3BaIpatzXi9Jz6HIIcepr0AN3wbNKTnpNT1lZmGe66XICz2TZUt8LOOKwH3+DUU
+X-Gm-Message-State: AOJu0YzaNan6DgU50C4CZWzuVwVu//OkYqYKM59njnw1lDDNWzs5BgTO
+ pTFlOyUgX8X47vKPBBRE1mNcXZ1RYDm1YQY6i4bgdztCrTCTf/AaE0Ap5h8bv0ecXtB3M9pPuQw
+ lsNKxIoME5o3uglcl2IZrUvUvot2A2R8przyerw==
+X-Google-Smtp-Source: AGHT+IGzKMz9/iFfBLaO0Exy3dYLERLc70CKCeB/qcA5U78i+AFMpSfiHPfV1+G4P61zpg9KKbLtmi5hXn167JObpzo=
+X-Received: by 2002:a25:b195:0:b0:dca:59a7:896b with SMTP id
+ h21-20020a25b195000000b00dca59a7896bmr14271207ybj.50.1712139246514; Wed, 03
+ Apr 2024 03:14:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240403-msm-drm-dsc-dsi-video-upstream-v1-0-db5036443545@linaro.org>
- <20240403-msm-drm-dsc-dsi-video-upstream-v1-2-db5036443545@linaro.org>
-In-Reply-To: <20240403-msm-drm-dsc-dsi-video-upstream-v1-2-db5036443545@linaro.org>
+ <20240403-msm-drm-dsc-dsi-video-upstream-v1-3-db5036443545@linaro.org>
+In-Reply-To: <20240403-msm-drm-dsc-dsi-video-upstream-v1-3-db5036443545@linaro.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 3 Apr 2024 13:10:03 +0300
-Message-ID: <CAA8EJpo-tZSOD+B+4znyBmFPVOjc6yocsVwYMXPN5d3WQfbr=Q@mail.gmail.com>
-Subject: Re: [PATCH v3 2/6] drm/msm/dsi: set video mode widebus enable bit
- when widebus is enabled
+Date: Wed, 3 Apr 2024 13:13:55 +0300
+Message-ID: <CAA8EJpo1YoLWCPz1TXiV_3YOjOxwxV7Jdq6uhX=15LfWHVBmHg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/6] drm/msm/dsi: set VIDEO_COMPRESSION_MODE_CTRL_WC
+ (fix video mode DSC)
 To: Jun Nie <jun.nie@linaro.org>
 Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
@@ -88,54 +88,47 @@ On Wed, 3 Apr 2024 at 12:11, Jun Nie <jun.nie@linaro.org> wrote:
 >
 > From: Jonathan Marek <jonathan@marek.ca>
 >
-> The value returned by msm_dsi_wide_bus_enabled() doesn't match what the
-> driver is doing in video mode. Fix that by actually enabling widebus for
-> video mode.
+> Video mode DSC won't work if this field is not set correctly. Set it to fix
+> video mode DSC (for slice_per_pkt==1 cases at least).
 >
-> Fixes: efcbd6f9cdeb ("drm/msm/dsi: Enable widebus for DSI")
+> Fixes: 08802f515c3c ("drm/msm/dsi: Add support for DSC configuration")
 > Signed-off-by: Jonathan Marek <jonathan@marek.ca>
-> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-You have ignored all the review comments that were provided for v1.
-None of the tags were picked up either.
-
-Have you posted this for internal review like I have explicitly asked you?
+You S-o-b is missing
 
 > ---
->  drivers/gpu/drm/msm/dsi/dsi.xml.h  | 1 +
->  drivers/gpu/drm/msm/dsi/dsi_host.c | 2 ++
->  2 files changed, 3 insertions(+)
+>  drivers/gpu/drm/msm/dsi/dsi_host.c | 3 +++
+>  1 file changed, 3 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi.xml.h b/drivers/gpu/drm/msm/dsi/dsi.xml.h
-> index 2a7d980e12c3..f0b3cdc020a1 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi.xml.h
-> +++ b/drivers/gpu/drm/msm/dsi/dsi.xml.h
-> @@ -231,6 +231,7 @@ static inline uint32_t DSI_VID_CFG0_TRAFFIC_MODE(enum dsi_traffic_mode val)
->  #define DSI_VID_CFG0_HSA_POWER_STOP                            0x00010000
->  #define DSI_VID_CFG0_HBP_POWER_STOP                            0x00100000
->  #define DSI_VID_CFG0_HFP_POWER_STOP                            0x01000000
-> +#define DSI_VID_CFG0_DATABUS_WIDEN                             0x02000000
->  #define DSI_VID_CFG0_PULSE_MODE_HSA_HE                         0x10000000
-
-From the top of the file:
-
-/* Autogenerated file, DO NOT EDIT manually!
-
->
->  #define REG_DSI_VID_CFG1                                       0x0000001c
 > diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 9d86a6aca6f2..2a0422cad6de 100644
+> index 2a0422cad6de..80ea4f1d8274 100644
 > --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
 > +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -754,6 +754,8 @@ static void dsi_ctrl_enable(struct msm_dsi_host *msm_host,
->                 data |= DSI_VID_CFG0_TRAFFIC_MODE(dsi_get_traffic_mode(flags));
->                 data |= DSI_VID_CFG0_DST_FORMAT(dsi_get_vid_fmt(mipi_fmt));
->                 data |= DSI_VID_CFG0_VIRT_CHANNEL(msm_host->channel);
-> +               if (msm_dsi_host_is_wide_bus_enabled(&msm_host->base))
-> +                       data |= DSI_VID_CFG0_DATABUS_WIDEN;
->                 dsi_write(msm_host, REG_DSI_VID_CFG0, data);
+> @@ -858,6 +858,7 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
+>         u32 slice_per_intf, total_bytes_per_intf;
+>         u32 pkt_per_line;
+>         u32 eol_byte_num;
+> +       u32 bytes_per_pkt;
 >
->                 /* Do not swap RGB colors */
+>         /* first calculate dsc parameters and then program
+>          * compress mode registers
+> @@ -865,6 +866,7 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
+>         slice_per_intf = msm_dsc_get_slices_per_intf(dsc, hdisplay);
+>
+>         total_bytes_per_intf = dsc->slice_chunk_size * slice_per_intf;
+> +       bytes_per_pkt = dsc->slice_chunk_size; /* * slice_per_pkt; */
+>
+>         eol_byte_num = total_bytes_per_intf % 3;
+>
+> @@ -902,6 +904,7 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
+>                 dsi_write(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL, reg_ctrl);
+>                 dsi_write(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL2, reg_ctrl2);
+>         } else {
+> +               reg |= DSI_VIDEO_COMPRESSION_MODE_CTRL_WC(bytes_per_pkt);
+>                 dsi_write(msm_host, REG_DSI_VIDEO_COMPRESSION_MODE_CTRL, reg);
+>         }
+>  }
 >
 > --
 > 2.34.1
