@@ -2,77 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6744A89648E
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 08:33:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21A978964A5
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 08:41:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6EA010F4B3;
-	Wed,  3 Apr 2024 06:32:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7416210FE92;
+	Wed,  3 Apr 2024 06:41:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=shruggie-ro.20230601.gappssmtp.com header.i=@shruggie-ro.20230601.gappssmtp.com header.b="ZSTyEtTP";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kyT37Up9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CFDF10F4B3
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 06:32:54 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-516bfcc76efso188742e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Apr 2024 23:32:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=shruggie-ro.20230601.gappssmtp.com; s=20230601; t=1712125972; x=1712730772;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MQu0eAAfwBJBisoFkbcN2EwG3dZ80aLb6SadbhowWsc=;
- b=ZSTyEtTPYyQrpDyExj1o832RzRIjZBK2+xtpRMLy5ONJAGtmvfFfa242wQBa/zqaih
- YUGjMRdvS3r04rbtbwZo/OiaQ7aYGpCqoEA8tVFeWIXnJw7ViKyr0S6s5sDgRUe8gYa+
- R5FpLoHLenIKhDupYZXsTuU1UxjCTThoDneNPCFxORik4z2S9AbmUvjxh6brugSpu4iQ
- kYTjL4JT7qFRrdxHCfx7mdmA2Q3C+kDMjNfCvc+1btB+dL+BCjNttPujkjCg2NgQllnI
- X/onKe5bcOsskLNx6zrEZAip1HIMWBw7HqCXP4+yMf+nzZ3QaP2y6OLiG/X9fTcQwyak
- LFdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712125972; x=1712730772;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MQu0eAAfwBJBisoFkbcN2EwG3dZ80aLb6SadbhowWsc=;
- b=Unc8BYLuWNHNNb3VHxQPtyF54sgVBocE2WBic2tTsK6oT/moIOFnGWKzsnKYAppyIM
- iz6Uq/9QcvILDtyeSONZOYU3lpYq9oEbVnAGDFZGFJcFsmm0VkOTd6LdEGb3jNx5id7w
- Skd9sHW69eLOi7beMePdSlftmIS7/0T1Df+dkowenh4j7F9FcPEIocBDoAX3TIC3OrP4
- xmPmETxGnJyyJYyqYhJqKpOaRzZFyvhwrfs4VMVD7wbNcj9gpBjDw7iRZsKQ/xo23vCq
- aIw48/F3W9FMQiSuIAEbb2FioOl4NIyX16o+QFJ5yQFrK2o2R1bteO31hMWlPq0KjHX1
- l6Jw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVADC1vsJIh89QgE8ZTSY5kfK5Na/dUo3RSzi6pfG763dZ2n82vK6MorJblDSiHa3Q3LwbjnFs5MnrVIeXd3P2gRhHVJNslTYshGx2a7thd
-X-Gm-Message-State: AOJu0YxjjmTVCDxXod93kcWlD+vZAEUKiWWHvkD8WXabYtFJTsThaXqe
- OIOLA12gKMhYeOFjxKPVFmPIckngrathMpjSMhCCTvJLx5GBISgQO/1DidFg2YQ5zxbs9dQpeJI
- xF/bdahEdiEETBFIy3Kuz5sSv1GMVfZNq1tpekA==
-X-Google-Smtp-Source: AGHT+IGZtMZxTp4P+ypCEELpSKJykyHdbborNz/DySvN9QSemx4mIJKZP+NE2BO0MfJ4vxJRk16FRP/P4NLfj2ygcsk=
-X-Received: by 2002:ac2:5a4b:0:b0:513:d1c7:7d37 with SMTP id
- r11-20020ac25a4b000000b00513d1c77d37mr9499704lfn.51.1712125972550; Tue, 02
- Apr 2024 23:32:52 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5D2C10FE92
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 06:41:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id C7A7F60D2E;
+ Wed,  3 Apr 2024 06:41:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82AA9C433C7;
+ Wed,  3 Apr 2024 06:41:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1712126491;
+ bh=UQwvzFq9nmoVptXxO5VyP6RADeLeS7Kk0i+kC5qILec=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=kyT37Up9iGW/Mut7gS9PEYGFfJ5Q1qi+Ky7WyiM256tfjzIePO7tjksC1m0koEKAk
+ r0pMH/h5DTK12wVUfZhghM4yofIQX3jtma5MCb8fJ0VmeK6b4uW8L/WFByFb+d894T
+ fqa9959g6yDoorZNUTXv8NbnqphUGT80V/r4aVDCAE80Rk6q+ePgMjaUU72UTjo6Vp
+ yrwA7VUXnhE5lhYKr2yw1xb7M+nZ9RgwsJavPRssJtCqYX6uaE3gqyF5jJw1+wyU+O
+ P7vzvlMvlZY3QFEpjHzbfMQBiCfoX1Wn6C9D8I+Vrr9OMeFsC+04zH+a5oIT7mRk8k
+ o3NsaTg1Jne/A==
+Message-ID: <c0986506-ba8b-4c52-88f8-119c23b8778c@kernel.org>
+Date: Wed, 3 Apr 2024 08:41:23 +0200
 MIME-Version: 1.0
-References: <20240402105925.905144-1-alex@shruggie.ro>
- <20240402165307.GA31874@francesco-nb>
-In-Reply-To: <20240402165307.GA31874@francesco-nb>
-From: Alexandru Ardelean <alex@shruggie.ro>
-Date: Wed, 3 Apr 2024 09:32:41 +0300
-Message-ID: <CAH3L5Qr-sT+Q9ZvNSxHKwVMr8-3fU5WPvvaccEWWH49x7oWMyQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/bridge: lt8912b: add support for P/N pin swap
-To: Francesco Dolcini <francesco@dolcini.it>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, adrien.grassein@gmail.com, 
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
- stefan.eichenberger@toradex.com, francesco.dolcini@toradex.com, 
- marius.muresan@mxt.ro, irina.muresan@mxt.ro
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/1] drm/mediatek/dp: The register is written with the
+ parsed DTS SSC value.
+To: Liankun Yang <liankun.yang@mediatek.com>, chunkuang.hu@kernel.org,
+ p.zabel@pengutronix.de, chunfeng.yun@mediatek.com, vkoul@kernel.org,
+ kishon@kernel.org, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, jitao.shi@mediatek.com,
+ mac.shen@mediatek.com
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20240403040517.3279-1-liankun.yang@mediatek.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240403040517.3279-1-liankun.yang@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,117 +108,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 2, 2024 at 7:53=E2=80=AFPM Francesco Dolcini <francesco@dolcini=
-.it> wrote:
->
-> Hello Alexandru, thanks for your patch.
->
-> On Tue, Apr 02, 2024 at 01:59:24PM +0300, Alexandru Ardelean wrote:
-> > On some HW designs, it's easier for the layout if the P/N pins are swap=
-ped.
-> > In those cases, we need to adjust (for this) by configuring the MIPI an=
-alog
-> > registers differently. Specifically, register 0x3e needs to be 0xf6
-> > (instead of 0xd6).
-> >
-> > This change adds a 'lontium,pn-swap' device-tree property to configure =
-the
-> > MIPI analog registers for P/N swap.
-> >
-> > Signed-off-by: Alexandru Ardelean <alex@shruggie.ro>
-> > ---
-> >  drivers/gpu/drm/bridge/lontium-lt8912b.c | 25 +++++++++++++++++++++---
-> >  1 file changed, 22 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm=
-/bridge/lontium-lt8912b.c
-> > index 4b2ae27f0a57f..154126bb922b4 100644
-> > --- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
-> > +++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-> > @@ -47,6 +47,7 @@ struct lt8912 {
-> >
-> >       u8 data_lanes;
-> >       bool is_power_on;
-> > +     bool do_pn_swap;
-> >  };
-> >
-> >  static int lt8912_write_init_config(struct lt8912 *lt)
-> > @@ -78,15 +79,31 @@ static int lt8912_write_init_config(struct lt8912 *=
-lt)
-> >               {0x55, 0x44},
-> >               {0x57, 0x01},
-> >               {0x5a, 0x02},
-> > -
-> > -             /*MIPI Analog*/
-> > +     };
-> > +     const struct reg_sequence mipi_analog_seq[] =3D {
-> >               {0x3e, 0xd6},
-> >               {0x3f, 0xd4},
-> >               {0x41, 0x3c},
-> >               {0xB2, 0x00},
-> >       };
-> > +     const struct reg_sequence mipi_analog_pn_swap_seq[] =3D {
-> > +             {0x3e, 0xf6},
-> > +             {0x3f, 0xd4},
-> > +             {0x41, 0x3c},
-> > +             {0xB2, 0x00},
-> > +     };
-> > +     int ret;
-> >
-> > -     return regmap_multi_reg_write(lt->regmap[I2C_MAIN], seq, ARRAY_SI=
-ZE(seq));
-> > +     ret =3D regmap_multi_reg_write(lt->regmap[I2C_MAIN], seq, ARRAY_S=
-IZE(seq));
-> > +     if (ret < 0)
-> > +             return ret;
-> > +
-> > +     if (!lt->do_pn_swap)
-> > +             return regmap_multi_reg_write(lt->regmap[I2C_MAIN], mipi_=
-analog_seq,
-> > +                                           ARRAY_SIZE(mipi_analog_seq)=
-);
-> > +
-> > +     return regmap_multi_reg_write(lt->regmap[I2C_MAIN], mipi_analog_p=
-n_swap_seq,
-> > +                                   ARRAY_SIZE(mipi_analog_pn_swap_seq)=
-);
->
-> Can you just remove {0x3e, 0xd6} from the register/value array and write
-> it afterward depending on `do_pn_swap` value? Or keep it with the
-> current value and only overwrite it when do_pn_swap is true?
->
-> If you do it this way is a 4 line change.
+On 03/04/2024 06:05, Liankun Yang wrote:
+> [Description]
+> Severe screen flickering has been observed on the external display
+> when the DP projection function is used with the market expansion dock.
+> 
 
-Hmm, good point.
-I did it like this, because I don't have a board with the P/N in the
-0xd6 configuration, to test.
-But, if I leave it like this, and just overwrite 0x3e when
-`do_pn_swap` is true, I can test that; and I don't need to test the
-original case.
+> +	if (!strcmp(mode_name, RG_XTP_GLB_TXPLL_SSC_DELTA_RBR)) {
+> +		regmap_update_bits(dp_phy->regs, ssc_reg_offset,
+> +			   XTP_GLB_TXPLL_SSC_DELTA_RBR_DEFAULT, read_value);
+> +	} else if (!strcmp(mode_name, RG_XTP_GLB_TXPLL_SSC_DELTA_HBR)) {
+> +		read_value = read_value << 16 | 0x0000;
+> +		regmap_update_bits(dp_phy->regs, ssc_reg_offset,
+> +			   XTP_GLB_TXPLL_SSC_DELTA_HBR_DEFAULT, read_value);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static struct device_node *mtk_dp_get_ssc_node(struct phy *phy, struct mtk_dp_phy *dp_phy)
+> +{
+> +	struct device_node *mode_node = NULL;
+> +
+> +	mode_node = of_find_node_by_name(dp_phy->dev->of_node, SSC_SETTING);
 
-I'm actually not 100% sure here if the order of registers (being
-written) matters for the initialization.
+?!?!
+You have the node, why do you try to find it?
 
 
->
->
-> >  static int lt8912_write_mipi_basic_config(struct lt8912 *lt)
-> > @@ -702,6 +719,8 @@ static int lt8912_parse_dt(struct lt8912 *lt)
-> >       }
-> >       lt->gp_reset =3D gp_reset;
-> >
-> > +     lt->do_pn_swap =3D device_property_read_bool(dev, "lontium,pn-swa=
-p");
->
-> I would call this variable the same that is called in the lontium
-> documentation, mipirx_diff_swap
 
-Oh.
-I actually based this change on a reference software for the LT8912B.
-I didn't get a chance to see/find a documentation for the registers.
-I compared with the Linux driver, to see what was missing to get
-output on the HDMI display (for our setup).
+Best regards,
+Krzysztof
 
->
-> Francesco
->
