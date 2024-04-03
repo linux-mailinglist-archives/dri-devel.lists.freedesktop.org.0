@@ -2,47 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6058896B40
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 12:01:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B10E896B89
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 12:06:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87E1111297B;
-	Wed,  3 Apr 2024 10:01:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8287011298A;
+	Wed,  3 Apr 2024 10:06:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7925311297A
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 10:01:13 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.174])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4V8gDN48J0zXkWk;
- Wed,  3 Apr 2024 17:58:12 +0800 (CST)
-Received: from kwepemm600013.china.huawei.com (unknown [7.193.23.68])
- by mail.maildlp.com (Postfix) with ESMTPS id 334AE140F81;
- Wed,  3 Apr 2024 18:01:10 +0800 (CST)
-Received: from [10.174.178.156] (10.174.178.156) by
- kwepemm600013.china.huawei.com (7.193.23.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 3 Apr 2024 18:01:09 +0800
-Message-ID: <9225ff85-1635-da6a-66df-faf957691f35@huawei.com>
-Date: Wed, 3 Apr 2024 18:01:08 +0800
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it [5.144.164.166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E91411298A
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 10:06:02 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
+ server-digest SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id C482D3EDD1;
+ Wed,  3 Apr 2024 12:05:57 +0200 (CEST)
+Date: Wed, 3 Apr 2024 12:05:55 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Caleb Connolly <caleb.connolly@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, Vinod Koul <vkoul@kernel.org>, 
+ Caleb Connolly <caleb@connolly.tech>
+Subject: Re: [PATCH v3 4/4] drm: panel: Add LG sw43408 panel driver
+Message-ID: <vcxytd7cxmvno3hb7tvxwfbnsupaw3mcqplt7mnrntjhkybklr@lxffwioi2bzn>
+References: <20240402-lg-sw43408-panel-v3-0-144f17a11a56@linaro.org>
+ <20240402-lg-sw43408-panel-v3-4-144f17a11a56@linaro.org>
+ <3hh7nfqflj73422q47p6do7aiormxwspwkfg557epeqn2krtcc@dsufsohfaz4l>
+ <pair66urg2ecqhob5gzzdtzuyofrmcf6rk7v2akggbotcpv7ld@bxhxftbd4xbn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH] drm/vkms: call drm_atomic_helper_shutdown before
- drm_dev_put()
-To: Greg KH <gregkh@linuxfoundation.org>
-CC: <stable@vger.kernel.org>, <airlied@linux.ie>,
- <dri-devel@lists.freedesktop.org>, <xuqiang36@huawei.com>
-References: <20240321070752.81405-1-guomengqi3@huawei.com>
- <2024032130-dripping-possum-7528@gregkh>
- <747ff93d-1d05-aabb-0fa2-5a7810f41c85@huawei.com>
- <2024032954-backroom-partition-4647@gregkh>
-From: "guomengqi (A)" <guomengqi3@huawei.com>
-In-Reply-To: <2024032954-backroom-partition-4647@gregkh>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.178.156]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemm600013.china.huawei.com (7.193.23.68)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <pair66urg2ecqhob5gzzdtzuyofrmcf6rk7v2akggbotcpv7ld@bxhxftbd4xbn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,117 +61,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2024-04-03 05:37:29, Dmitry Baryshkov wrote:
+> On Tue, Apr 02, 2024 at 11:17:52PM +0200, Marijn Suijten wrote:
+> > On 2024-04-02 02:51:15, Dmitry Baryshkov wrote:
+> > > From: Sumit Semwal <sumit.semwal@linaro.org>
+> > > 
+> > > LG SW43408 is 1080x2160, 4-lane MIPI-DSI panel, used in some Pixel3
+> > > phones.
+> > 
+> > @60Hz?
+> 
+> With the current settings and timings I'm only getting 30 Hz. I have to
+> double the mode->clock to get 60.
 
-在 2024/3/29 17:57, Greg KH 写道:
-> On Thu, Mar 21, 2024 at 03:55:37PM +0800, guomengqi (A) wrote:
->> 在 2024/3/21 15:39, Greg KH 写道:
->>> On Thu, Mar 21, 2024 at 03:07:52PM +0800, Guo Mengqi wrote:
->>>> commit 73a82b22963d ("drm/atomic: Fix potential use-after-free
->>>> in nonblocking commits") introduced drm_dev_get/put() to
->>>> drm_atomic_helper_shutdown(). And this cause problem in vkms driver exit
->>>> process.
->>>>
->>>> vkms_exit()
->>>>     drm_dev_put()
->>>>       vkms_release()
->>>>         drm_atomic_helper_shutdown()
->>>>           drm_dev_get()
->>>>           drm_dev_put()
->>>>             vkms_release()    ------ null pointer access
->>>>
->>>> Using 4.19 stable x86 image on qemu, below stacktrace can be triggered by
->>>> load and unload vkms.ko.
->>>>
->>>> root:~ # insmod vkms.ko
->>>> [  142.135449] [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
->>>> [  142.138713] [drm] Driver supports precise vblank timestamp query.
->>>> [  142.142390] [drm] Initialized vkms 1.0.0 20180514 for virtual device on minor 0
->>>> root:~ # rmmod vkms.ko
->>>> [  144.093710] BUG: unable to handle kernel NULL pointer dereference at 00000000000000a0
->>>> [  144.097491] PGD 800000023624e067 P4D 800000023624e067 PUD 22ab59067 PMD 0
->>>> [  144.100802] Oops: 0000 [#1] SMP PTI
->>>> [  144.102502] CPU: 0 PID: 3615 Comm: rmmod Not tainted 4.19.310 #1
->>>> [  144.104452] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.13.0-0-gf21b5a4aeb02-prebuilt.qemu.org 04/01/2014
->>>> [  144.107238] RIP: 0010:device_del+0x34/0x3a0
->>>> ...
->>>> [  144.131323] Call Trace:
->>>> [  144.131962]  ? __die+0x7d/0xc0
->>>> [  144.132711]  ? no_context+0x152/0x3b0
->>>> [  144.133605]  ? wake_up_q+0x70/0x70
->>>> [  144.134436]  ? __do_page_fault+0x342/0x4b0
->>>> [  144.135445]  ? __switch_to_asm+0x41/0x70
->>>> [  144.136416]  ? __switch_to_asm+0x35/0x70
->>>> [  144.137366]  ? page_fault+0x1e/0x30
->>>> [  144.138214]  ? __drm_atomic_state_free+0x51/0x60
->>>> [  144.139331]  ? device_del+0x34/0x3a0
->>>> [  144.140197]  platform_device_del.part.14+0x19/0x70
->>>> [  144.141348]  platform_device_unregister+0xe/0x20
->>>> [  144.142458]  vkms_release+0x10/0x30 [vkms]
->>>> [  144.143449]  __drm_atomic_helper_disable_all.constprop.31+0x13b/0x150
->>>> [  144.144980]  drm_atomic_helper_shutdown+0x4b/0x90
->>>> [  144.146102]  vkms_release+0x18/0x30 [vkms]
->>>> [  144.147107]  vkms_exit+0x29/0x8ec [vkms]
->>>> [  144.148053]  __x64_sys_delete_module+0x155/0x220
->>>> [  144.149168]  do_syscall_64+0x43/0x100
->>>> [  144.150056]  entry_SYSCALL_64_after_hwframe+0x5c/0xc1
->>>>
->>>> It seems that the proper unload sequence is:
->>>> 	drm_atomic_helper_shutdown();
->>>> 	drm_dev_put();
->>>>
->>>> Just put drm_atomic_helper_shutdown() before drm_dev_put()
->>>> should solve the problem.
->>>>
->>>> Fixes: 73a82b22963d ("drm/atomic: Fix potential use-after-free in nonblocking commits")
->>>> Signed-off-by: Guo Mengqi <guomengqi3@huawei.com>
->>>> ---
->>>>    drivers/gpu/drm/vkms/vkms_drv.c | 2 +-
->>>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
->>>> index b1201c18d3eb..d32e08f17427 100644
->>>> --- a/drivers/gpu/drm/vkms/vkms_drv.c
->>>> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
->>>> @@ -39,7 +39,6 @@ static void vkms_release(struct drm_device *dev)
->>>>    	struct vkms_device *vkms = container_of(dev, struct vkms_device, drm);
->>>>    	platform_device_unregister(vkms->platform);
->>>> -	drm_atomic_helper_shutdown(&vkms->drm);
->>>>    	drm_mode_config_cleanup(&vkms->drm);
->>>>    	drm_dev_fini(&vkms->drm);
->>>>    }
->>>> @@ -137,6 +136,7 @@ static void __exit vkms_exit(void)
->>>>    	}
->>>>    	drm_dev_unregister(&vkms_device->drm);
->>>> +	drm_atomic_helper_shutdown(&vkms_device->drm);
->>>>    	drm_dev_put(&vkms_device->drm);
->>>>    	kfree(vkms_device);
->>>> -- 
->>>> 2.17.1
->>>>
->>>>
->>> What is the commit id of this change in Linus's tree?
->> Hi,
->>
->> Do you mean this patch? I only send it to stable tree, mainline does not
->> have this bug.
->>
->> vkms exit code is refactored by 53d77aaa3f76 ("drm/vkms: Use
->> devm_drm_dev_alloc") in tags/v5.10-rc1.
->>
->> So this bug only exists on 4.19 and 5.4.
-> Then you need to really really really document that in the changelog,
-> and say what kernel tree(s) you want it applied to, AND get the review
-> of the maintainers of the subsystem/driver you are wanting this applied
-> to.
->
-> Please fix up and resend.
+Still seems useful to mention (here and in Kconfig).  The proposed driver emits
+a mode to userspace of 60Hz, maybe the commit message should say that in the
+current state "something" prevents it from going that fast?
 
-Hi Greg,
+Since I keep forgetting (because it's not mentioned anywhere) that this is a
+cmdmode panel (or at least configured for that with the current driver), I'd
+again suggest to play with sync_cfg_height.  If setting it to 0xfff0 results in
+timeouts, your tear GPIO is misconfigured and not making the MDP aware of the
+actual tick rate.
 
-I resent a new one and put that information both in title and commit 
-log. Thanks for your reminder!
+Otherwise, more likely, just bump up the porches a bit, based on the discussions
+around reduce_pclk_for_compression() /not/ accounting for transfer time in
+cmdmode.  In one of my drivers (pending eternal cleanup hell) I inlined the
+calculation to reverse what the "right" porch should be based on a downstream
+clock rate:
 
-> thanks,
->
-> greg k-h
-> .
+https://github.com/somainline/linux/commit/85978a69cde088a23963c03758dad5f1a2e79bab#diff-a9ac8689e45c59a4fe9aa150e4bd53675687f5c8b4aecb40b5b5b66b864257e0R353-R366
+
+And separately, though I cannot find it, there have been (more accurate?)
+calculations based on downstream `qcom,mdss-dsi-panel-jitter` and friends.
+
+- Marijn
