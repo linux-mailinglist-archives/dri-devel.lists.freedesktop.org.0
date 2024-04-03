@@ -2,40 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F7DC896B25
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 11:55:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1145896B09
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 11:49:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F448112968;
-	Wed,  3 Apr 2024 09:55:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0993811295A;
+	Wed,  3 Apr 2024 09:49:13 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="W5fnCt4i";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E398E112968
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 09:55:40 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.88.194])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4V8g6R50FRz1QC5q;
- Wed,  3 Apr 2024 17:53:03 +0800 (CST)
-Received: from kwepemm600013.china.huawei.com (unknown [7.193.23.68])
- by mail.maildlp.com (Postfix) with ESMTPS id CCBC21402C7;
- Wed,  3 Apr 2024 17:55:37 +0800 (CST)
-Received: from huawei.com (10.175.112.208) by kwepemm600013.china.huawei.com
- (7.193.23.68) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Wed, 3 Apr
- 2024 17:55:37 +0800
-From: Guo Mengqi <guomengqi3@huawei.com>
-To: <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
- <stable@vger.kernel.org>
-CC: <xuqiang36@huawei.com>, <zhangchangzhong@huawei.com>
-Subject: [PATCH 4.19.y] drm/vkms: call drm_atomic_helper_shutdown before
- drm_dev_put()
-Date: Wed, 3 Apr 2024 17:47:16 +0800
-Message-ID: <20240403094716.80313-1-guomengqi3@huawei.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
+ [209.85.219.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFDD211295F
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 09:49:11 +0000 (UTC)
+Received: by mail-yb1-f181.google.com with SMTP id
+ 3f1490d57ef6-dcbc6a6808fso5725522276.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Apr 2024 02:49:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1712137751; x=1712742551; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=3tvxwcGEaXlq9t2qggBvOm4jDfIobjVvvQgoLk34JPw=;
+ b=W5fnCt4iUXkxSQdUW4cpQttpmRphPqFYUqzTLxOXhtRoRTlZmiSRqtPx45jAfyAcCE
+ 9BmYBIjytVQarBzIOVKNjmOeX1Dmp2WE5kUznuGyf3TvFAeQfErXiRrvgWPFUiisCzxI
+ ndQ8DTfrq0+znfuSgMWFgMD1tHEILO4v8RH1AhbbSMtx+ONbqAg2Ulc37iLtqPwJp9ML
+ zrWA3JwITfDIy1K+Rf0HD6BVs7+EPZX2SFStWpCufrU9CTDIGnchdvPV3k0W3bj8SieV
+ cnv+3F55un8XnQsAqlSlnrXAi0Th5UqDzXgSf6oQtrMrzGtU3dSRjaCnwd3tAud8uZg0
+ UrqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712137751; x=1712742551;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3tvxwcGEaXlq9t2qggBvOm4jDfIobjVvvQgoLk34JPw=;
+ b=MYo5lvIyM62cRqT5xAIY9r1Xvx/fa9KnNDTuifkG6C2obfcjFKo/hgT42D0F/tJy2R
+ kIHy+R577cGfnso9fVkKvGIea3fhvOETwJQTn33HJXZMMV1GwZGhL9hqVYbSTvdF5H6M
+ tRVFMHvacgU7uh/VbSo5reOHdqEvfCSuIWOhi29vkZdRuBOkPaSR9nsgx6V8AzihT65R
+ PeQKFUt8LLHipy2snx5lOE2qgI61oEeWS9mIv3Ow4gY6pit/vBx3UnPLkw70Fr3wrom0
+ ihaDzP8+bVdKIqNGZP8qhfL+phuTOO2VZfV4GIwguLAA4RgGPUeZ0dRkUMLoUXj/5bAb
+ XHkQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXTN1stBN8NIVKuZTLFIjyM3LlTlmjJSvLmTwMpyEGU6vrH8EdbmUy2oub7E8TCU8EFi8KqMlcSCE6zMO9wPvfJF3TTUCwTboqtTWgi80ZY
+X-Gm-Message-State: AOJu0YwtJ/cpme+7wqjgaD6WK0cCrm8z2xXWRslV6QD/F+u2yjqbCRjX
+ 4HMC0QEJXNQguNdUiZCQdwwyx9woClvPmMIBEIfDwQRvRfthtUXK0SZkWMLtmUmMc4qNSb45oAM
+ IyO2u1bcmGeCBga6V7dWfbC10nsuvQtAR2weX6g==
+X-Google-Smtp-Source: AGHT+IEpF2mJ7B2oXcCBJscSms9I5JdRsHzjwR2AXCUqHh+AiX5In12EGhsUtCqq2Re95OL5aJpNfwvGQHMpDLx4yAQ=
+X-Received: by 2002:a25:b989:0:b0:dbd:8f9:a71 with SMTP id
+ r9-20020a25b989000000b00dbd08f90a71mr12861423ybg.28.1712137750746; 
+ Wed, 03 Apr 2024 02:49:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.112.208]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- kwepemm600013.china.huawei.com (7.193.23.68)
+References: <20240403-msm-drm-dsc-dsi-video-upstream-v1-0-db5036443545@linaro.org>
+In-Reply-To: <20240403-msm-drm-dsc-dsi-video-upstream-v1-0-db5036443545@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 3 Apr 2024 12:49:00 +0300
+Message-ID: <CAA8EJprd78g0jM4u2uY-vZnqQibbWevjxqzXFaPohkvmyWHkHw@mail.gmail.com>
+Subject: Re: [PATCH v3 0/6] Add DSC support to DSI video panel
+To: Jun Nie <jun.nie@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Vinod Koul <vkoul@kernel.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Jonathan Marek <jonathan@marek.ca>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,93 +82,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-commit 73a82b22963d ("drm/atomic: Fix potential use-after-free
-in nonblocking commits") introduced drm_dev_get/put() to
-drm_atomic_helper_shutdown(). And this cause problem in vkms driver exit
-process.
+On Wed, 3 Apr 2024 at 12:11, Jun Nie <jun.nie@linaro.org> wrote:
+>
+> This is follow up update to Jonathan's patch set.
+>
+> Changes vs V2:
+> - Rebase to latest mainline.
+> - Drop the INTF_CFG2_DATA_HCTL_EN change as it is handled in
+>     latest mainline code.
+> - Drop the bonded DSI patch as I do not have device to test it.
+> - Address comments from version 2.
 
-vkms_exit()
-  drm_dev_put()
-    vkms_release()
-      drm_atomic_helper_shutdown()
-        drm_dev_get()
-        drm_dev_put()
-          vkms_release()    ------ null pointer access
+Which comments? "Adress comments" is the worst case of changelog.
 
-Using 4.19 stable x86 image on qemu, below stacktrace can be triggered by
-load and unload vkms.ko.
+Also, what do you consider as version 2? Jonathan Marek has only sent v1.
 
-root:~ # insmod vkms.ko
-[  142.135449] [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
-[  142.138713] [drm] Driver supports precise vblank timestamp query.
-[  142.142390] [drm] Initialized vkms 1.0.0 20180514 for virtual device on minor 0
-root:~ # rmmod vkms.ko
-[  144.093710] BUG: unable to handle kernel NULL pointer dereference at 00000000000000a0
-[  144.097491] PGD 800000023624e067 P4D 800000023624e067 PUD 22ab59067 PMD 0
-[  144.100802] Oops: 0000 [#1] SMP PTI
-[  144.102502] CPU: 0 PID: 3615 Comm: rmmod Not tainted 4.19.310 #1
-[  144.104452] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.13.0-0-gf21b5a4aeb02-prebuilt.qemu.org 04/01/2014
-[  144.107238] RIP: 0010:device_del+0x34/0x3a0
-...
-[  144.131323] Call Trace:
-[  144.131962]  ? __die+0x7d/0xc0
-[  144.132711]  ? no_context+0x152/0x3b0
-[  144.133605]  ? wake_up_q+0x70/0x70
-[  144.134436]  ? __do_page_fault+0x342/0x4b0
-[  144.135445]  ? __switch_to_asm+0x41/0x70
-[  144.136416]  ? __switch_to_asm+0x35/0x70
-[  144.137366]  ? page_fault+0x1e/0x30
-[  144.138214]  ? __drm_atomic_state_free+0x51/0x60
-[  144.139331]  ? device_del+0x34/0x3a0
-[  144.140197]  platform_device_del.part.14+0x19/0x70
-[  144.141348]  platform_device_unregister+0xe/0x20
-[  144.142458]  vkms_release+0x10/0x30 [vkms]
-[  144.143449]  __drm_atomic_helper_disable_all.constprop.31+0x13b/0x150
-[  144.144980]  drm_atomic_helper_shutdown+0x4b/0x90
-[  144.146102]  vkms_release+0x18/0x30 [vkms]
-[  144.147107]  vkms_exit+0x29/0x8ec [vkms]
-[  144.148053]  __x64_sys_delete_module+0x155/0x220
-[  144.149168]  do_syscall_64+0x43/0x100
-[  144.150056]  entry_SYSCALL_64_after_hwframe+0x5c/0xc1
+>
+> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> ---
+> Jonathan Marek (5):
+>       drm/msm/dpu: fix video mode DSC for DSI
+>       drm/msm/dsi: set video mode widebus enable bit when widebus is enabled
+>       drm/msm/dsi: set VIDEO_COMPRESSION_MODE_CTRL_WC (fix video mode DSC)
+>       drm/msm/dsi: add a comment to explain pkt_per_line encoding
+>       drm/msm/dsi: support DSC configurations with slice_per_pkt > 1
+>
+> Jun Nie (1):
+>       drm/display: Add slice_per_pkt for dsc
+>
+>  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |  9 +++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |  8 +++++
+>  drivers/gpu/drm/msm/dsi/dsi.xml.h                  |  1 +
+>  drivers/gpu/drm/msm/dsi/dsi_host.c                 | 42 +++++++++++-----------
+>  include/drm/display/drm_dsc.h                      |  4 +++
+>  5 files changed, 44 insertions(+), 20 deletions(-)
+> ---
+> base-commit: b1e6ec0a0fd0252af046e542f91234cd6c30b2cb
+> change-id: 20240403-msm-drm-dsc-dsi-video-upstream-1156d110a53d
+>
+> Best regards,
+> --
+> Jun Nie <jun.nie@linaro.org>
+>
 
-It seems that the proper unload sequence is:
-	drm_atomic_helper_shutdown();
-	drm_dev_put();
 
-Just put drm_atomic_helper_shutdown() before drm_dev_put()
-should solve the problem.
-
-Note that vkms exit code is refactored by 53d77aaa3f76 ("drm/vkms: Use
-devm_drm_dev_alloc") in tags/v5.10-rc1.
-
-So this bug only exists on 4.19 and 5.4.
-
-Fixes: 73a82b22963d ("drm/atomic: Fix potential use-after-free in nonblocking commits")
-Signed-off-by: Guo Mengqi <guomengqi3@huawei.com>
----
- drivers/gpu/drm/vkms/vkms_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index b1201c18d3eb..d32e08f17427 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -39,7 +39,6 @@ static void vkms_release(struct drm_device *dev)
- 	struct vkms_device *vkms = container_of(dev, struct vkms_device, drm);
- 
- 	platform_device_unregister(vkms->platform);
--	drm_atomic_helper_shutdown(&vkms->drm);
- 	drm_mode_config_cleanup(&vkms->drm);
- 	drm_dev_fini(&vkms->drm);
- }
-@@ -137,6 +136,7 @@ static void __exit vkms_exit(void)
- 	}
- 
- 	drm_dev_unregister(&vkms_device->drm);
-+	drm_atomic_helper_shutdown(&vkms_device->drm);
- 	drm_dev_put(&vkms_device->drm);
- 
- 	kfree(vkms_device);
--- 
-2.17.1
-
+--
+With best wishes
+Dmitry
