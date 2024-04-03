@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B5FA8974C0
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 18:03:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3DA9897509
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 18:20:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1C8D10E219;
-	Wed,  3 Apr 2024 16:03:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7589A112C96;
+	Wed,  3 Apr 2024 16:20:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qKAjOElX";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="bSnX+0Ui";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAC8C10E219
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 16:03:03 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 42E2CCE1304;
- Wed,  3 Apr 2024 16:03:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2043CC433C7;
- Wed,  3 Apr 2024 16:02:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1712160179;
- bh=ZLGaUAlxN/MigLlqe2ufbLD2YOZsHZFp4bFiSC6MH6w=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qKAjOElXcZoBLG39OjeFDtAe2thsVwavvdRrcX1AjPU+cqi9PmtBpCEYzLrwih/oR
- eSU0wk+bz2v+2LK3+f6q9dxRqhSHvOfgKBGaRYuQfUqLWxCNgH1g9fvIZhfMbd8PA/
- +iu8advVlG1DA5wyhnTkclFCV8CFeiayaSUVYV+VRsU2O6tUfOrFv62opxuBTlod56
- ZM/3RekTzbklkBfKriSNPUDOeSNvscNothpVnVLxuvUVtJM2+Of5n6O8tHHb3O3i8A
- 5lGWkKZ77j3MG2BX+BwMoDP09Km1X821j4Zp2crONXSYIkxsJaLZH2Jwswv3VUE/Ou
- 1wQaQo8ITmUuQ==
-Date: Wed, 3 Apr 2024 17:02:53 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Alexandru Ardelean <alex@shruggie.ro>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, adrien.grassein@gmail.com,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org,
- rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, airlied@gmail.com,
- daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- stefan.eichenberger@toradex.com, francesco.dolcini@toradex.com,
- marius.muresan@mxt.ro, irina.muresan@mxt.ro
-Subject: Re: [PATCH 2/2] dt-bindings: display: bridge: lt8912b: document
- 'lontium,pn-swap' property
-Message-ID: <20240403-cadmium-pasta-eadfdf62f387@spud>
-References: <20240402105925.905144-1-alex@shruggie.ro>
- <20240402105925.905144-2-alex@shruggie.ro>
- <20240402-sheet-retread-025759b22faf@spud>
- <CAH3L5QooAXDYAxOdMkPrW1mx04ZgTv_kMU5VSAby9J3Hb_RFOg@mail.gmail.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32685112C96
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 16:20:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1712161218;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6Z0kPnow2sZ/s9HTpwbsViUDc370/ltZLMH87ZozA7I=;
+ b=bSnX+0Ui6DN5Zfglmd3EIwlc0Y9WM7W3enEFe68DatL1lrWOD/2E4mxy1RV/ouFNwwPxGD
+ ZykHHdMBCahrxKxMlUBT6ezQbAtFB0Ya67zXRYZlWy4zjWiN4xo7AwXCLrdYS7YWLVmTr/
+ +cO1yXi9FHxIaKn0DVuQf6d8mEGdjW8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-533-Br-gaAEYPq2csD5iV9OCcw-1; Wed, 03 Apr 2024 12:20:14 -0400
+X-MC-Unique: Br-gaAEYPq2csD5iV9OCcw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D73388D12C;
+ Wed,  3 Apr 2024 16:20:14 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.146])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7EDF52166B31;
+ Wed,  3 Apr 2024 16:20:13 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/vboxvideo: Replace fake VLA at end of
+ vbva_mouse_pointer_shape with real VLA
+Date: Wed,  3 Apr 2024 18:20:03 +0200
+Message-ID: <20240403162003.345450-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="OIKG09sfb1D7G0KQ"
-Content-Disposition: inline
-In-Reply-To: <CAH3L5QooAXDYAxOdMkPrW1mx04ZgTv_kMU5VSAby9J3Hb_RFOg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,33 +70,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Replace the fake VLA at end of the vbva_mouse_pointer_shape shape with
+a real VLA to fix a "memcpy: detected field-spanning write error" warning:
 
---OIKG09sfb1D7G0KQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[   13.319813] memcpy: detected field-spanning write (size 16896) of single field "p->data" at drivers/gpu/drm/vboxvideo/hgsmi_base.c:154 (size 4)
+[   13.319841] WARNING: CPU: 0 PID: 1105 at drivers/gpu/drm/vboxvideo/hgsmi_base.c:154 hgsmi_update_pointer_shape+0x192/0x1c0 [vboxvideo]
+[   13.320038] Call Trace:
+[   13.320173]  hgsmi_update_pointer_shape [vboxvideo]
+[   13.320184]  vbox_cursor_atomic_update [vboxvideo]
 
-On Wed, Apr 03, 2024 at 09:16:31AM +0300, Alexandru Ardelean wrote:
+Note as mentioned in the added comment it seems the original length
+calculation for the allocated and send hgsmi buffer is 4 bytes too large.
+Changing this is not the goal of this patch, so this behavior is kept.
 
-> >
-> > > +    type: boolean
-> >
-> > The type here should be flag.
->=20
-> ack; i'll change the type
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/gpu/drm/vboxvideo/hgsmi_base.c | 10 +++++++++-
+ drivers/gpu/drm/vboxvideo/vboxvideo.h  |  4 +---
+ 2 files changed, 10 insertions(+), 4 deletions(-)
 
-I prob shoulda said, its "$ref: /schemas/types.yaml#/definitions/flag"
-instead of "type: boolean".
+diff --git a/drivers/gpu/drm/vboxvideo/hgsmi_base.c b/drivers/gpu/drm/vboxvideo/hgsmi_base.c
+index 8c041d7ce4f1..87dccaecc3e5 100644
+--- a/drivers/gpu/drm/vboxvideo/hgsmi_base.c
++++ b/drivers/gpu/drm/vboxvideo/hgsmi_base.c
+@@ -139,7 +139,15 @@ int hgsmi_update_pointer_shape(struct gen_pool *ctx, u32 flags,
+ 		flags |= VBOX_MOUSE_POINTER_VISIBLE;
+ 	}
+ 
+-	p = hgsmi_buffer_alloc(ctx, sizeof(*p) + pixel_len, HGSMI_CH_VBVA,
++	/*
++	 * The 4 extra bytes come from switching struct vbva_mouse_pointer_shape
++	 * from having a 4 bytes fixed array at the end to using a proper VLA
++	 * at the end. These 4 extra bytes were not subtracted from sizeof(*p)
++	 * before the switch to the VLA, so this way the behavior is unchanged.
++	 * Chances are these 4 extra bytes are not necessary but they are kept
++	 * to avoid regressions.
++	 */
++	p = hgsmi_buffer_alloc(ctx, sizeof(*p) + pixel_len + 4, HGSMI_CH_VBVA,
+ 			       VBVA_MOUSE_POINTER_SHAPE);
+ 	if (!p)
+ 		return -ENOMEM;
+diff --git a/drivers/gpu/drm/vboxvideo/vboxvideo.h b/drivers/gpu/drm/vboxvideo/vboxvideo.h
+index f60d82504da0..79ec8481de0e 100644
+--- a/drivers/gpu/drm/vboxvideo/vboxvideo.h
++++ b/drivers/gpu/drm/vboxvideo/vboxvideo.h
+@@ -351,10 +351,8 @@ struct vbva_mouse_pointer_shape {
+ 	 * Bytes in the gap between the AND and the XOR mask are undefined.
+ 	 * XOR mask scanlines have no gap between them and size of XOR mask is:
+ 	 * xor_len = width * 4 * height.
+-	 *
+-	 * Preallocate 4 bytes for accessing actual data as p->data.
+ 	 */
+-	u8 data[4];
++	u8 data[];
+ } __packed;
+ 
+ /* pointer is visible */
+-- 
+2.44.0
 
---OIKG09sfb1D7G0KQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZg19rAAKCRB4tDGHoIJi
-0oqRAP4hwY3sOX9ShDng3WIfjEJxfjKASqN3casNhSiE07qADAD/aGzpCVx8FUez
-kIQGC+Nx5ySg7iMHlwiZt2/u7rE24AI=
-=xnpK
------END PGP SIGNATURE-----
-
---OIKG09sfb1D7G0KQ--
