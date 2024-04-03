@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4246F896A1C
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 11:11:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1690896A1E
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 11:11:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D5DF11290E;
-	Wed,  3 Apr 2024 09:11:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7F7E112911;
+	Wed,  3 Apr 2024 09:11:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lI49oz/2";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="oHls4PxR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBB4211290C
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 09:11:36 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id
- d9443c01a7336-1e220e40998so35468765ad.1
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Apr 2024 02:11:36 -0700 (PDT)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F955112915
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 09:11:43 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-1e2178b2cf2so47045615ad.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Apr 2024 02:11:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712135496; x=1712740296; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1712135503; x=1712740303; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=9hWxdEOmU4e6legIFUkyIF7zkRnOsSH8ACzlOjPdkh8=;
- b=lI49oz/2eK9oMYbQjhgyJ1bndEv/1kkRy9u8fs6a+ezK5GB0522faz9jkuXo3PNt03
- SVlZZgUVsZalGEFE6C/va1MSTRU7T02W7cSucRYrdBmDgWJqb9//dBpNAjUI4+VABojO
- DIFTgUmkJ3lHbWXG7++Ux15x8hLzh5KQwoOzib2JRWZdN8Eu/TygzXaec0hHzGUpK1iE
- G8i9nrPk2UWn7WeLtlh/5NqJpSwFICkAcSyW9GUDtGHqR2Nxk/KTN2Fj7SNsvL8FkUE+
- np/8wC+G1a1oWiSHubcsBO+AEF18BfUVMd+iRhqT+aQ98RueXH8OIiV4czUb0xMMdIGN
- /dcQ==
+ :reply-to; bh=NOuu3sNA+84lczt5jxnbeGrnj9MwNeOoooH77NlU9Y0=;
+ b=oHls4PxRIBNbiqLMVJmbZysN4OcXJRfXtw0KZJn5S0qfAmPtuebNLTd/Vd7HY7ULr+
+ 4D969SjRG+DlC78sgpahpxNa1/9krqjybVxcnqzeUhgV0UQj7Jfm/eRTkjj3A+gzrbH7
+ ojDbjUj2q+v0ASARsV3bD3FTaaJf39aLr70zo8fi9JIMSd50DGquW0+x5cNW7o5rYG8P
+ mpFFWQ7xikevLzpGiUmVml7BECk+C+jMQVYLUvJJy7+IBAmR01qfczyJZSzHJoJGBFbl
+ qtg//ktrPPLa+3QH8b3J9NOqMT6UkUA4U2eygufwvT7PpF7Qdf31gKj3yK7gOKBIUeTQ
+ kq4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712135496; x=1712740296;
+ d=1e100.net; s=20230601; t=1712135503; x=1712740303;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9hWxdEOmU4e6legIFUkyIF7zkRnOsSH8ACzlOjPdkh8=;
- b=hL69ids2LdM7oMGdm0KxGcxVQcBV2sQy9FLhvrBvDJRB+2Lie5dGH+N6kETxAhIyr3
- N8gpoJG6q+PQ+/UPxWZXwV5aharj6YFC4jmiv0n+LqvhFf7kBEm8jVm6SbEzMMUNvjN9
- Z/BND21epTMA7qlBOOirnvs2VzDKpXznTy376uxmzFLKe+mP5ToDOS4ZLShWnSXNAgaZ
- 9+1um+L5k7L/EIafazDsleWiLSM7kni9qrjawue1TpjwAmnwbaJuxLg+kCUkIGeQFvyE
- Oi1oq7D2xfzTpTtH5sK2yjufCC0aFkg0kJMmBaO8lHHnP5aUv1ItmWRrQSoHfxy7nxgB
- iYHg==
+ bh=NOuu3sNA+84lczt5jxnbeGrnj9MwNeOoooH77NlU9Y0=;
+ b=E9ISWN+1O6W439/BVagp1NTWupindt0VfxAuDTEwgMy2v4m6RSTSVACVPmQfTPjEFM
+ D6n/D2vOKIlzFbjjKD+QmTxtoDfO6xvNjnM2nY0RQBFvbO9HlLMHIsZ6d6rLvC5Dwc6W
+ ePs1NQMbHlHyxl1OwLAz0Q4FFvjWZz4v+vZqjmAO3GryThhHlUuXyfPSViLlc+uuI8gi
+ NAkKYLDcoy5I51pSNnE7+IYeh9EXf3EMIe3EZ8YV+mwljT5oO+cE9NQ4qIdk7CpgL49m
+ 8J+c14cWNNQVHVodeLgrHV8MKHCIc38ZlC48UI3BDPl2kRmrZxYvpyRDCam0GLJnsd1j
+ 22Fg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXfYJpU+ddHaouLIM/pc1IEQE+090VTioWbT7rb78sua50vP22eVNzfQR+iYk7xXQXYJctsd/PI/71rYtcw4D47yUMp/lqsWgcjN4Atpc9R
-X-Gm-Message-State: AOJu0YyKvdut5aPJQKwBoH0in67Eb1JqUlbIBAzVEmVdqLL0b2z4W61a
- d3Q5YBfFge03C7IiWKk3jIfmAJq9unxFZ/yQ0Ov98XEo04FS4SEM2C6yFxVM1Gk=
-X-Google-Smtp-Source: AGHT+IEyWqFwLOjN3DoRlpo+4Cc/2ygcGvENqA9aW1FSgOsYovoVqqyZlsMxzOzAo8DY7Gr1mb6hXA==
-X-Received: by 2002:a17:902:ba89:b0:1e0:1bb2:b38f with SMTP id
- k9-20020a170902ba8900b001e01bb2b38fmr1861834pls.59.1712135496335; 
- Wed, 03 Apr 2024 02:11:36 -0700 (PDT)
+ AJvYcCXioEeTVQyR9yiPSF8F84Qi9C5SC46WbScV2jyDm9cIBJOGWtItOLm7W0N6u8TPi+JxxxrVyzaEmInM+J2oAqNXFZP0TmrpK+BKh3sMl8mL
+X-Gm-Message-State: AOJu0Yw0NGGfQUvSQVg9340UabGCe+4hbbw36bf2MAcggDag5B9iuYec
+ SaH+RAocqAWqxoysdapsdsdObT/eORssQHanVJpkNwD7c3y9heU+VEocSLELEKM=
+X-Google-Smtp-Source: AGHT+IGE6QcA79jB0k2Li5lWPr2yvCO9+FLkeHddHmJdCmFiKZKqU+kbSjtNfgztpVuY/0gLGWy1dw==
+X-Received: by 2002:a17:902:c94f:b0:1e0:a784:f965 with SMTP id
+ i15-20020a170902c94f00b001e0a784f965mr18198301pla.65.1712135502878; 
+ Wed, 03 Apr 2024 02:11:42 -0700 (PDT)
 Received: from [127.0.1.1] ([112.65.12.66]) by smtp.gmail.com with ESMTPSA id
- lo14-20020a170903434e00b001e0aded0ca7sm12688087plb.239.2024.04.03.02.11.30
+ lo14-20020a170903434e00b001e0aded0ca7sm12688087plb.239.2024.04.03.02.11.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Apr 2024 02:11:35 -0700 (PDT)
+ Wed, 03 Apr 2024 02:11:42 -0700 (PDT)
 From: Jun Nie <jun.nie@linaro.org>
-Date: Wed, 03 Apr 2024 17:11:00 +0800
-Subject: [PATCH v3 4/6] drm/msm/dsi: add a comment to explain pkt_per_line
- encoding
+Date: Wed, 03 Apr 2024 17:11:01 +0800
+Subject: [PATCH v3 5/6] drm/display: Add slice_per_pkt for dsc
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240403-msm-drm-dsc-dsi-video-upstream-v1-4-db5036443545@linaro.org>
+Message-Id: <20240403-msm-drm-dsc-dsi-video-upstream-v1-5-db5036443545@linaro.org>
 References: <20240403-msm-drm-dsc-dsi-video-upstream-v1-0-db5036443545@linaro.org>
 In-Reply-To: <20240403-msm-drm-dsc-dsi-video-upstream-v1-0-db5036443545@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -72,13 +71,13 @@ To: Rob Clark <robdclark@gmail.com>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, Vinod Koul <vkoul@kernel.org>
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Jun Nie <jun.nie@linaro.org>, Jonathan Marek <jonathan@marek.ca>
+ Jun Nie <jun.nie@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1712135460; l=1185;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1712135460; l=867;
  i=jun.nie@linaro.org; s=20240403; h=from:subject:message-id;
- bh=Px8G3VT/pPMatEDJd8W5yLoDD+nxWLUBSZSRl+j+Bac=;
- b=GouXgYabwVWTVj3bHeksyAclYhr+CiBGfhejkhmQ72YqrJmdWZDRL9rczqXKkqVvK6U3n59oc
- Jop7S7F3ONhAPe9XAtU0TkJ5J1p3pJJ6BIpzfOAN3HGhKpSG0lzgNdq
+ bh=MU4Swq5XDKyEWa3JYSzWqbeemF0ZbJTcthPE2KJsZos=;
+ b=hpx8rqn0NW6jrZNlHbx/VHfFHcMfnFnfZNwaA4Q9oljlHNkFfqChP0YhKK5MS9joROjHj9ZCY
+ Ys/IqPqN+8uDp67ZK5JQqci2IhuEveJuFZTRbjjhY/AmRAejQSlMBMT
 X-Developer-Key: i=jun.nie@linaro.org; a=ed25519;
  pk=MNiBt/faLPvo+iJoP1hodyY2x6ozVXL8QMptmsKg3cc=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,33 +95,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jonathan Marek <jonathan@marek.ca>
+Add variable for slice number of a DSC compression bit stream packet.
+Its value shall be specified in panel driver, or default value can be set
+in display controller driver if panel driver does not set it.
 
-Make it clear why the pkt_per_line value is being "divided by 2".
-
-Signed-off-by: Jonathan Marek <jonathan@marek.ca>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Jun Nie <jun.nie@linaro.org>
 ---
- drivers/gpu/drm/msm/dsi/dsi_host.c | 4 ++++
+ include/drm/display/drm_dsc.h | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index 80ea4f1d8274..b0507a42ee6a 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -886,7 +886,11 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
- 	/* DSI_VIDEO_COMPRESSION_MODE & DSI_COMMAND_COMPRESSION_MODE
- 	 * registers have similar offsets, so for below common code use
- 	 * DSI_VIDEO_COMPRESSION_MODE_XXXX for setting bits
-+	 *
-+	 * pkt_per_line is log2 encoded, >>1 works for supported values (1,2,4)
+diff --git a/include/drm/display/drm_dsc.h b/include/drm/display/drm_dsc.h
+index bc90273d06a6..4fac0a2746ae 100644
+--- a/include/drm/display/drm_dsc.h
++++ b/include/drm/display/drm_dsc.h
+@@ -82,6 +82,10 @@ struct drm_dsc_config {
+ 	 * @bits_per_component: Bits per component to code (8/10/12)
  	 */
-+	if (pkt_per_line > 4)
-+		drm_warn(msm_host->dev, "pkt_per_line too big");
- 	reg |= DSI_VIDEO_COMPRESSION_MODE_CTRL_PKT_PER_LINE(pkt_per_line >> 1);
- 	reg |= DSI_VIDEO_COMPRESSION_MODE_CTRL_EOL_BYTE_NUM(eol_byte_num);
- 	reg |= DSI_VIDEO_COMPRESSION_MODE_CTRL_EN;
+ 	u8 bits_per_component;
++	/**
++	 * @slice_per_pkt: slice number per DSC bit stream packet
++	 */
++	u8 slice_per_pkt;
+ 	/**
+ 	 * @convert_rgb:
+ 	 * Flag to indicate if RGB - YCoCg conversion is needed
 
 -- 
 2.34.1
