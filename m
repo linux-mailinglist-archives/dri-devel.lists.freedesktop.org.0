@@ -2,43 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9215D8967C9
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 10:09:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2C4D8967D6
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 10:11:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76F5A1127B7;
-	Wed,  3 Apr 2024 08:09:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8E861127EB;
+	Wed,  3 Apr 2024 08:11:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RnbFzmjd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NJRQk4h6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E84271127B7
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 08:09:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5BE21127EB
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 08:11:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 3683ACE210C;
- Wed,  3 Apr 2024 08:09:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B11AC43390;
- Wed,  3 Apr 2024 08:09:30 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id BD61ECE20B6;
+ Wed,  3 Apr 2024 08:10:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A31ECC433F1;
+ Wed,  3 Apr 2024 08:10:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1712131772;
- bh=FvIlBe77Yoh0MKWjYe9xoZT/FkLcQ+ILm2wyKc5MkhQ=;
+ s=k20201202; t=1712131858;
+ bh=SG0i7m/Qv+Wgr/oIlICWhiX3c3WYeQZoUHuUuYHJ3Mg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RnbFzmjdcQ30Sndx9lkziwpkmrab2NP+OVJvBb2yaxEFNr9FpWviNtIg1gorVVRei
- L70xsTLYzUCRe/lTrqA6icZWxYwqnUjd8HsI+E6FgfnFdYdwr6KlyJy3q2qWqJspTc
- 6jtYazoHB15Jahe4kdRKCzoOBEZljXCEQpr6hgTGdDOb0nsr3dgwh89azelMWhpb40
- 8qamJntci6zOE9vaHJu36X3BMs21LbZggER3B94qvzbaTDIgr0Vx/Ogiep25DnHlQA
- IJgIW+fS9xHPA3zozHqv6BbLZp69J7CsEoL2dDqLBABIasOTWDAtABcvctQaTTUzaz
- sDNsDcobDonKA==
+ b=NJRQk4h6DbL0PRCv2v9sEcKs42xqNz/dxm75KgThlyRajdVuR078RQ02O7Izdo+ZZ
+ LnK2cN6v+mPmgcHePdMATB3uWETGSzCoSJz5BBh+gbBFtlrzLAOtVzoTK9cKPTD3VX
+ xoglKUzgdJlNV7lO9y0aBfZDI24awPTqxjbDGUnUTcOZxsNcWxCNIyZ+UqDVyYvmJO
+ RYoSNwxAs2MVFI6FRMnpM6OyUArbDkXu+BieEVf366sDxQluFmBuH+PruUunNsQ9nZ
+ NRi1r/PQPL/Svp9zyGT2Mai3oHNv3/DVU/reCWO2S9NvNWzVWNBW42fOs6BC3OmsjV
+ h5Uy2eh2EdNIA==
 From: Arnd Bergmann <arnd@kernel.org>
-To: linux-kernel@vger.kernel.org, Helge Deller <deller@gmx.de>,
- Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Cc: linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 13/34] sisfb: hide unused variables
-Date: Wed,  3 Apr 2024 10:06:31 +0200
-Message-Id: <20240403080702.3509288-14-arnd@kernel.org>
+To: linux-kernel@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ "James Qian Wang (Arm Technology China)" <james.qian.wang@arm.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 22/34] drm/komeda: don't warn for unused debugfs files
+Date: Wed,  3 Apr 2024 10:06:40 +0200
+Message-Id: <20240403080702.3509288-23-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240403080702.3509288-1-arnd@kernel.org>
 References: <20240403080702.3509288-1-arnd@kernel.org>
@@ -61,60 +64,73 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-Building with W=1 shows that a couple of variables in this driver are only
-used in certain configurations:
+With debugfs disabled, the komeda_register debugfs file is unused:
 
-drivers/video/fbdev/sis/init301.c:239:28: error: 'SiS_Part2CLVX_6' defined but not used [-Werror=unused-const-variable=]
-  239 | static const unsigned char SiS_Part2CLVX_6[] = {   /* 1080i */
-      |                            ^~~~~~~~~~~~~~~
-drivers/video/fbdev/sis/init301.c:230:28: error: 'SiS_Part2CLVX_5' defined but not used [-Werror=unused-const-variable=]
-  230 | static const unsigned char SiS_Part2CLVX_5[] = {   /* 750p */
-      |                            ^~~~~~~~~~~~~~~
-drivers/video/fbdev/sis/init301.c:211:28: error: 'SiS_Part2CLVX_4' defined but not used [-Werror=unused-const-variable=]
-  211 | static const unsigned char SiS_Part2CLVX_4[] = {   /* PAL */
-      |                            ^~~~~~~~~~~~~~~
-drivers/video/fbdev/sis/init301.c:192:28: error: 'SiS_Part2CLVX_3' defined but not used [-Werror=unused-const-variable=]
-  192 | static const unsigned char SiS_Part2CLVX_3[] = {  /* NTSC, 525i, 525p */
-      |                            ^~~~~~~~~~~~~~~
-drivers/video/fbdev/sis/init301.c:184:28: error: 'SiS_Part2CLVX_2' defined but not used [-Werror=unused-const-variable=]
-  184 | static const unsigned char SiS_Part2CLVX_2[] = {
-      |                            ^~~~~~~~~~~~~~~
-drivers/video/fbdev/sis/init301.c:176:28: error: 'SiS_Part2CLVX_1' defined but not used [-Werror=unused-const-variable=]
-  176 | static const unsigned char SiS_Part2CLVX_1[] = {
-      |                            ^~~~~~~~~~~~~~~
+drivers/gpu/drm/arm/display/komeda/komeda_dev.c:44:1: error: unused variable 'komeda_register_fops' [-Werror,-Wunused-const-variable]
+DEFINE_SHOW_ATTRIBUTE(komeda_register);
 
-This started showing up after the definitions were moved into the
-source file from the header, which was not flagged by the compiler.
-Move the definition into the appropriate #ifdef block that already
-exists next to them.
+The komeda_debugfs_init() function already has a call to debugfs_initialized()
+that ends up eliminating the file as dead code, so just drop the #ifdef
+to get rid of the warning.
 
-Fixes: 5908986ef348 ("video: fbdev: sis: avoid mismatched prototypes")
+Fixes: 576832681891 ("arm/komeda: Compile komeda_debugfs_init() only if CONFIG_DEBUG_FS is enabled")
+Fixes: 7d3cfb70a604 ("drm/komeda: Add debugfs node "register" for register dump")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/video/fbdev/sis/init301.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/arm/display/komeda/komeda_dev.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/video/fbdev/sis/init301.c b/drivers/video/fbdev/sis/init301.c
-index a8fb41f1a258..09329072004f 100644
---- a/drivers/video/fbdev/sis/init301.c
-+++ b/drivers/video/fbdev/sis/init301.c
-@@ -172,7 +172,7 @@ static const unsigned char SiS_HiTVGroup3_2[] = {
- };
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_dev.c b/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
+index 14ee79becacb..5ba62e637a61 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
+@@ -12,10 +12,8 @@
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/dma-mapping.h>
+-#ifdef CONFIG_DEBUG_FS
+ #include <linux/debugfs.h>
+ #include <linux/seq_file.h>
+-#endif
  
- /* 301C / 302ELV extended Part2 TV registers (4 tap scaler) */
--
-+#ifdef CONFIG_FB_SIS_315
- static const unsigned char SiS_Part2CLVX_1[] = {
-     0x00,0x00,
-     0x00,0x20,0x00,0x00,0x7F,0x20,0x02,0x7F,0x7D,0x20,0x04,0x7F,0x7D,0x1F,0x06,0x7E,
-@@ -245,7 +245,6 @@ static const unsigned char SiS_Part2CLVX_6[] = {   /* 1080i */
-     0xFF,0xFF,
- };
+ #include <drm/drm_print.h>
  
--#ifdef CONFIG_FB_SIS_315
- /* 661 et al LCD data structure (2.03.00) */
- static const unsigned char SiS_LCDStruct661[] = {
-     /* 1024x768 */
+@@ -43,7 +41,6 @@ static int komeda_register_show(struct seq_file *sf, void *x)
+ 
+ DEFINE_SHOW_ATTRIBUTE(komeda_register);
+ 
+-#ifdef CONFIG_DEBUG_FS
+ static void komeda_debugfs_init(struct komeda_dev *mdev)
+ {
+ 	if (!debugfs_initialized())
+@@ -55,7 +52,6 @@ static void komeda_debugfs_init(struct komeda_dev *mdev)
+ 	debugfs_create_x16("err_verbosity", 0664, mdev->debugfs_root,
+ 			   &mdev->err_verbosity);
+ }
+-#endif
+ 
+ static ssize_t
+ core_id_show(struct device *dev, struct device_attribute *attr, char *buf)
+@@ -265,9 +261,7 @@ struct komeda_dev *komeda_dev_create(struct device *dev)
+ 
+ 	mdev->err_verbosity = KOMEDA_DEV_PRINT_ERR_EVENTS;
+ 
+-#ifdef CONFIG_DEBUG_FS
+ 	komeda_debugfs_init(mdev);
+-#endif
+ 
+ 	return mdev;
+ 
+@@ -286,9 +280,7 @@ void komeda_dev_destroy(struct komeda_dev *mdev)
+ 
+ 	sysfs_remove_group(&dev->kobj, &komeda_sysfs_attr_group);
+ 
+-#ifdef CONFIG_DEBUG_FS
+ 	debugfs_remove_recursive(mdev->debugfs_root);
+-#endif
+ 
+ 	if (mdev->aclk)
+ 		clk_prepare_enable(mdev->aclk);
 -- 
 2.39.2
 
