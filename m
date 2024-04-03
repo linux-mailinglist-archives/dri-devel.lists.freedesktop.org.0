@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B1B7897655
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 19:20:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8CB9897656
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 19:20:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CA90112DD8;
-	Wed,  3 Apr 2024 17:20:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06F31112DD9;
+	Wed,  3 Apr 2024 17:20:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="P5ELnJhE";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="f1bLCtQF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35F49112DD8
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 17:20:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E944112DD9
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 17:20:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 77E33CE2BD8;
- Wed,  3 Apr 2024 17:20:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6162C433B1;
- Wed,  3 Apr 2024 17:20:45 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id A1F19CE2BC2;
+ Wed,  3 Apr 2024 17:20:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B155C433F1;
+ Wed,  3 Apr 2024 17:20:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1712164846;
- bh=b/MGW6VFVIb38l7fDj2wuOZ7BQMsikKluRpkQVd+jKM=;
+ s=k20201202; t=1712164849;
+ bh=OVKcgb9zjiNlhCzNE3c8lkJ7toq0usAeeT9Ux2Oi8ew=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=P5ELnJhEcHPkn+aLUu/rwIMPDBO6TVVcV6sJdii24KK/qSay8DpGc3ycdUnVv9zom
- SNcGGNdJDijNOkmib4BUiCuKYeCpuTTue7VAIHdnyGXfwe3T2qyS+EJHD+3iid44wG
- V4P95MmeZHbfV7W+dbWsFMiGa1ZgLuZ9GZIZS7ImnpFLy1RAT2M/oqLCkMSxt2cJvj
- G9J5GucnE45VaauVoj3hWLfKnx8Rh8OgggUsfkuB0iEM052guSRrL2AHVsBf68X6Lo
- Ty3UUSS1EvftljzxNNEWsksd9nZewTIYuYYqdzdV9lbzSZrL61If4x0/7mB+K98llE
- ZHOwmG51CnILQ==
+ b=f1bLCtQFl0XnQ/G+RX+NcXYdgVjh18yKaP58T3rMHYaAzuiB/r9xErQJiHI3GOHlq
+ JsNMOlq7ymrXUvWT6UJCrwabuxrlcFHpjrA+68GuCfPeK2cFGjRMFTAk/S9kCQiNTp
+ GryBhu239XRuzXTSAkBn0lYUmiSz2bvM279kJJ9BecvN76qwGV0VYLfNyqnaYmAUlN
+ 539MM/kFWpDGW7M1lAe8CHlSL0NgUavUVZqkMRa6j6Vs1YB5iM/Pqb8W4il7FKbQnt
+ FZE3b7+XRrjlzpUyMBJKCVWsp5XR20dU5dhgrzaJjj17Rach70OpnGXA9NFxrPg4Bc
+ /wVJB3txzKuew==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Aleksandr Burakov <a.burakov@rosalinux.ru>, Helge Deller <deller@gmx.de>,
- Sasha Levin <sashal@kernel.org>, FlorianSchandinat@gmx.de,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 4.19 4/5] fbdev: viafb: fix typo in hw_bitblt_1 and
- hw_bitblt_2
-Date: Wed,  3 Apr 2024 13:20:37 -0400
-Message-ID: <20240403172041.354877-4-sashal@kernel.org>
+Cc: Roman Smirnov <r.smirnov@omp.ru>, Sergey Shtylyov <s.shtylyov@omp.ru>,
+ Helge Deller <deller@gmx.de>, Sasha Levin <sashal@kernel.org>,
+ daniel@ffwll.ch, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 4.19 5/5] fbmon: prevent division by zero in
+ fb_videomode_from_videomode()
+Date: Wed,  3 Apr 2024 13:20:38 -0400
+Message-ID: <20240403172041.354877-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240403172041.354877-1-sashal@kernel.org>
 References: <20240403172041.354877-1-sashal@kernel.org>
@@ -63,45 +64,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aleksandr Burakov <a.burakov@rosalinux.ru>
+From: Roman Smirnov <r.smirnov@omp.ru>
 
-[ Upstream commit bc87bb342f106a0402186bcb588fcbe945dced4b ]
+[ Upstream commit c2d953276b8b27459baed1277a4fdd5dd9bd4126 ]
 
-There are some actions with value 'tmp' but 'dst_addr' is checked instead.
-It is obvious that a copy-paste error was made here and the value
-of variable 'tmp' should be checked here.
+The expression htotal * vtotal can have a zero value on
+overflow. It is necessary to prevent division by zero like in
+fb_var_to_videomode().
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+Found by Linux Verification Center (linuxtesting.org) with Svace.
 
-Signed-off-by: Aleksandr Burakov <a.burakov@rosalinux.ru>
+Signed-off-by: Roman Smirnov <r.smirnov@omp.ru>
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 Signed-off-by: Helge Deller <deller@gmx.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/via/accel.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/core/fbmon.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/video/fbdev/via/accel.c b/drivers/video/fbdev/via/accel.c
-index eb3615c69987e..f542b01568df9 100644
---- a/drivers/video/fbdev/via/accel.c
-+++ b/drivers/video/fbdev/via/accel.c
-@@ -129,7 +129,7 @@ static int hw_bitblt_1(void __iomem *engine, u8 op, u32 width, u32 height,
+diff --git a/drivers/video/fbdev/core/fbmon.c b/drivers/video/fbdev/core/fbmon.c
+index 8607439d69328..e4040fb860bbc 100644
+--- a/drivers/video/fbdev/core/fbmon.c
++++ b/drivers/video/fbdev/core/fbmon.c
+@@ -1309,7 +1309,7 @@ int fb_get_mode(int flags, u32 val, struct fb_var_screeninfo *var, struct fb_inf
+ int fb_videomode_from_videomode(const struct videomode *vm,
+ 				struct fb_videomode *fbmode)
+ {
+-	unsigned int htotal, vtotal;
++	unsigned int htotal, vtotal, total;
  
- 	if (op != VIA_BITBLT_FILL) {
- 		tmp = src_mem ? 0 : src_addr;
--		if (dst_addr & 0xE0000007) {
-+		if (tmp & 0xE0000007) {
- 			printk(KERN_WARNING "hw_bitblt_1: Unsupported source "
- 				"address %X\n", tmp);
- 			return -EINVAL;
-@@ -274,7 +274,7 @@ static int hw_bitblt_2(void __iomem *engine, u8 op, u32 width, u32 height,
- 		writel(tmp, engine + 0x18);
- 
- 		tmp = src_mem ? 0 : src_addr;
--		if (dst_addr & 0xE0000007) {
-+		if (tmp & 0xE0000007) {
- 			printk(KERN_WARNING "hw_bitblt_2: Unsupported source "
- 				"address %X\n", tmp);
- 			return -EINVAL;
+ 	fbmode->xres = vm->hactive;
+ 	fbmode->left_margin = vm->hback_porch;
+@@ -1342,8 +1342,9 @@ int fb_videomode_from_videomode(const struct videomode *vm,
+ 	vtotal = vm->vactive + vm->vfront_porch + vm->vback_porch +
+ 		 vm->vsync_len;
+ 	/* prevent division by zero */
+-	if (htotal && vtotal) {
+-		fbmode->refresh = vm->pixelclock / (htotal * vtotal);
++	total = htotal * vtotal;
++	if (total) {
++		fbmode->refresh = vm->pixelclock / total;
+ 	/* a mode must have htotal and vtotal != 0 or it is invalid */
+ 	} else {
+ 		fbmode->refresh = 0;
 -- 
 2.43.0
 
