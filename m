@@ -2,79 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91CD089646F
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 08:16:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22AC889647D
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Apr 2024 08:24:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97BEF112501;
-	Wed,  3 Apr 2024 06:16:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79E3510FBEC;
+	Wed,  3 Apr 2024 06:24:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=shruggie-ro.20230601.gappssmtp.com header.i=@shruggie-ro.20230601.gappssmtp.com header.b="a47v2UiO";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="g/CbTEd/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEB5B112501
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 06:16:44 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-513d4559fb4so7464671e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Apr 2024 23:16:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=shruggie-ro.20230601.gappssmtp.com; s=20230601; t=1712125002; x=1712729802;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TUWOAlRew8Y9zlqvI12IsW4qhw1mXgmiBgk1qsYuJAE=;
- b=a47v2UiOus9Gp9+n4uqLeXHSdkWV/5hXeVlZYHRzTPwx8zQRzaRIiGj3wMuwfrnI/q
- ANojNisLDQnzQ7+s7YHderIWJQr2y1E56aiJkohI4K1Lhfnc5yEVFUdGlCtCSA9NxujR
- +Ie6SimHPU1gneh2p9cw0SMf4hJ5x+PKkHxOT8OazxRFPjwA3Lf6YWvbIHaCHsEhGZ2S
- wpYXgzM1KRqzbygVp4Om5pz+hVY4KPg9g9Wo6WqSPxVMrV4IsXMzCLjochiX8Yjl4B5E
- WTI660ZcwScMDx3Q0SemBA+Ff5/5oDc/5NH72bXH2TH37wptV+a3B/RkmYYP73R73E9T
- s6Qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712125002; x=1712729802;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TUWOAlRew8Y9zlqvI12IsW4qhw1mXgmiBgk1qsYuJAE=;
- b=kxrfnDIiS2DPpfEZCj9Tgl2i51xWjFnylsi1hhVTWvD9B9oVdNXFtDvEMBk4b/YxlC
- tSfd7R71zarPk+1Mt0MpQDXYWQG74F7TCff4KBpQK5EEuUEkNe+RELTk8kktrRooj/5N
- 1YbbAyPJvCOURebzR08wkvPFpXM6N0L30v0gCrw9CxjSD7UaP8Tn9eRya92y6AmrUQe3
- 7kfZ9ixoC8Z0rEURq9mGVLz+dD+5gdLwxxxX9Rq7neTyrlKfTkKTJDFAXZDm0mb80tuH
- LvPAtck6N1DPuMnpGWN9QLWbt3Crey5A+K+DvEotfhioo2/e/r9RUW8BNydilaiXV5bN
- YHyQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU1EGi52ngkfv8XHGJgZjF4rwUoshrBNPUN5c3gquhNJBexH8SFRJE+1uJAI7xjyt7Tq+sXcQeugnQDDZ89sEMHv+rHZ13x2JiZApDt4mE2
-X-Gm-Message-State: AOJu0YycP4I59xcpveiAUmo6LnSAWUwo2rODulJVnsrfTmAB6fDMU9h1
- RXso4/yAPQyWBNGI/Qacz+YxpSOTbXmnW3cwqvqhkMiYZU1cAPoY+WK8KyLWwe75//Ka/1eaQS5
- 4lpu2bG9zsJGiSmnRIoZrxqWBK0nB4JRbkS93MQ==
-X-Google-Smtp-Source: AGHT+IHxy5L7IuAClTzOQvPqVmBmGzm4Jxd5dXHEawLJyCom6nIx29NzDwr6gHy4UOjn+UPEdfsKmGeIOhgk1vX2hCY=
-X-Received: by 2002:a19:6a13:0:b0:516:a0a5:a444 with SMTP id
- u19-20020a196a13000000b00516a0a5a444mr8832014lfu.2.1712125002295; Tue, 02 Apr
- 2024 23:16:42 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5570510FBEC
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Apr 2024 06:24:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1712125456; x=1743661456;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=RDyK31AOeEL/cCCmbPt9zfwDnreb2sRz5FeVRJFgW4k=;
+ b=g/CbTEd/+ghxnJHnV5qyGNa87QXKx03BdF8Tl7+iCtw6fE48RwVkmHZl
+ ROsMV9DgpwHMLQEZvHSklarSPR5D9izcMDN77Cl9xzbs/vYMsDO19j3Oy
+ IfQfikR4Jh6FYq7gROB4Js6eMP00UFBR/qqMzLDIZZbiVYZCSQoVRwIbx
+ QS5kzJtb7DcA3r6cNIVCWXpX1fBGLKxPslkLJnP3MkGWbBzEvOVHHWz2s
+ WI6UROdC9WecnbsFRU4nPDEN/enpowUY2Z62xU7Xcv8YN3ZUB+A359kNU
+ 90pKIue/3w+yD+GwQPF/gW95loH/+ghOGyxDzNs4uQhmuHHtvQxJX0Aqj Q==;
+X-CSE-ConnectionGUID: 66QJG2xoS1WUBs0ff5pn/A==
+X-CSE-MsgGUID: puLlesVpSmaPCcoPo7SLkw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="7493070"
+X-IronPort-AV: E=Sophos;i="6.07,176,1708416000"; 
+   d="scan'208";a="7493070"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Apr 2024 23:24:16 -0700
+X-CSE-ConnectionGUID: yQ41SlkZTjuPPmtk41U2Lw==
+X-CSE-MsgGUID: a4yDXplhTUiRPNH+ZpSmng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,176,1708416000"; d="scan'208";a="18748633"
+Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
+ by orviesa007.jf.intel.com with ESMTP; 02 Apr 2024 23:24:14 -0700
+Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rru2d-0001vZ-1y;
+ Wed, 03 Apr 2024 06:24:11 +0000
+Date: Wed, 3 Apr 2024 14:23:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Boris Brezillon <bbrezillon@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>,
+ Steven Price <steven.price@arm.com>
+Subject: [drm-misc:for-linux-next 3/4]
+ drivers/gpu/drm/panthor/panthor_fw.c:979:1: error: unused variable 'cookie'
+Message-ID: <202404031446.7Mpki5DV-lkp@intel.com>
 MIME-Version: 1.0
-References: <20240402105925.905144-1-alex@shruggie.ro>
- <20240402105925.905144-2-alex@shruggie.ro>
- <20240402-sheet-retread-025759b22faf@spud>
-In-Reply-To: <20240402-sheet-retread-025759b22faf@spud>
-From: Alexandru Ardelean <alex@shruggie.ro>
-Date: Wed, 3 Apr 2024 09:16:31 +0300
-Message-ID: <CAH3L5QooAXDYAxOdMkPrW1mx04ZgTv_kMU5VSAby9J3Hb_RFOg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] dt-bindings: display: bridge: lt8912b: document
- 'lontium,pn-swap' property
-To: Conor Dooley <conor@kernel.org>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, adrien.grassein@gmail.com, 
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
- stefan.eichenberger@toradex.com, francesco.dolcini@toradex.com, 
- marius.muresan@mxt.ro, irina.muresan@mxt.ro
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,86 +70,171 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 2, 2024 at 9:06=E2=80=AFPM Conor Dooley <conor@kernel.org> wrot=
-e:
->
-> On Tue, Apr 02, 2024 at 01:59:25PM +0300, Alexandru Ardelean wrote:
-> > On some HW designs, it's easier for the layout if the P/N pins are swap=
-ped.
-> > The driver currently has a DT property to do that.
->
-> "currently", because 1/2 adds it. bindings patches should precede the
-> driver patches in the series, so please swap the patches and remove this
-> portion of the description.
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+head:   10021ef27310279c850cf6cb38542c443a995e92
+commit: 962f88b9c91647f3ff4a0d3709662641baed5164 [3/4] drm/panthor: Drop the dev_enter/exit() sections in _irq_suspend/resume()
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20240403/202404031446.7Mpki5DV-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 546dc2245ffc4cccd0b05b58b7a5955e355a3b27)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240403/202404031446.7Mpki5DV-lkp@intel.com/reproduce)
 
-ack;
-i'll invert the order and remove this;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404031446.7Mpki5DV-lkp@intel.com/
 
->
-> >
-> > This change documents the 'lontium,pn-swap' property.
-> >
-> > Signed-off-by: Alexandru Ardelean <alex@shruggie.ro>
-> > ---
-> >  .../devicetree/bindings/display/bridge/lontium,lt8912b.yaml | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,l=
-t8912b.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt89=
-12b.yaml
-> > index 2cef252157985..3a804926b288a 100644
-> > --- a/Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.=
-yaml
-> > +++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.=
-yaml
-> > @@ -24,6 +24,12 @@ properties:
-> >      maxItems: 1
-> >      description: GPIO connected to active high RESET pin.
-> >
-> > +  lontium,pn-swap:
-> > +    description: Swap the polarities of the P/N pins in software.
-> > +      On some HW designs, the layout is simplified if the P/N pins
-> > +      are inverted.
->
-> Please explain what configuration of a board would cause these to be
-> swapped, rather than why someone might want to configure the board this
-> way. I've got no idea what this hardware is actually doing, so this is
-> being pulled out of a hat, but I'd expect something like "Some boards
-> swap the polarity of the P/N pins, use this property to indicate this to
-> software".
+All errors (new ones prefixed by >>):
 
-ack
-if it's fine with you, i'll use your suggested description;
+   In file included from drivers/gpu/drm/panthor/panthor_fw.c:9:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/panthor/panthor_fw.c:979:1: error: unused variable 'cookie' [-Werror,-Wunused-variable]
+     979 | PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/panthor/panthor_device.h:326:6: note: expanded from macro 'PANTHOR_IRQ_HANDLER'
+     326 |         int cookie;                                                                             \
+         |             ^~~~~~
+>> drivers/gpu/drm/panthor/panthor_fw.c:979:1: error: unused variable 'cookie' [-Werror,-Wunused-variable]
+     979 | PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/panthor/panthor_device.h:336:6: note: expanded from macro 'PANTHOR_IRQ_HANDLER'
+     336 |         int cookie;                                                                             \
+         |             ^~~~~~
+   7 errors generated.
+--
+   In file included from drivers/gpu/drm/panthor/panthor_gpu.c:9:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/panthor/panthor_gpu.c:166:1: error: unused variable 'cookie' [-Werror,-Wunused-variable]
+     166 | PANTHOR_IRQ_HANDLER(gpu, GPU, panthor_gpu_irq_handler);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/panthor/panthor_device.h:326:6: note: expanded from macro 'PANTHOR_IRQ_HANDLER'
+     326 |         int cookie;                                                                             \
+         |             ^~~~~~
+>> drivers/gpu/drm/panthor/panthor_gpu.c:166:1: error: unused variable 'cookie' [-Werror,-Wunused-variable]
+     166 | PANTHOR_IRQ_HANDLER(gpu, GPU, panthor_gpu_irq_handler);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/panthor/panthor_device.h:336:6: note: expanded from macro 'PANTHOR_IRQ_HANDLER'
+     336 |         int cookie;                                                                             \
+         |             ^~~~~~
+   7 errors generated.
+--
+   In file included from drivers/gpu/drm/panthor/panthor_mmu.c:5:
+   In file included from include/drm/drm_debugfs.h:38:
+   In file included from include/drm/drm_gpuvm.h:34:
+   In file included from include/drm/drm_gem.h:42:
+   In file included from include/drm/drm_vma_manager.h:27:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/panthor/panthor_mmu.c:1689:1: error: unused variable 'cookie' [-Werror,-Wunused-variable]
+    1689 | PANTHOR_IRQ_HANDLER(mmu, MMU, panthor_mmu_irq_handler);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/panthor/panthor_device.h:326:6: note: expanded from macro 'PANTHOR_IRQ_HANDLER'
+     326 |         int cookie;                                                                             \
+         |             ^~~~~~
+>> drivers/gpu/drm/panthor/panthor_mmu.c:1689:1: error: unused variable 'cookie' [-Werror,-Wunused-variable]
+    1689 | PANTHOR_IRQ_HANDLER(mmu, MMU, panthor_mmu_irq_handler);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/panthor/panthor_device.h:336:6: note: expanded from macro 'PANTHOR_IRQ_HANDLER'
+     336 |         int cookie;                                                                             \
+         |             ^~~~~~
+   7 errors generated.
 
-for a broader context, we were using a DSI-HDMI converter [1] from
-SomLabs on a different (than SomLabs) board;
-and we were not seeing anything on the HDMI-connected display;
-as I understand it, some DSI-HDMI bridges support P/N auto-inversion;
-this one doesn't AFAICT;
-on this DSI-HDMI converter [1], we've noticed that the P/N pins were
-inverted from the DSI to the chip (vs what we expected to see)
-after changing the register value (for the P/N swap), it worked;
-our conclusion was that, the design of the converter (board) was done
-as-such, because it made the layout easier
 
-[1] https://wiki.somlabs.com/index.php/SL-MIPI-LVDS-HDMI-CNV-11_Datasheet_a=
-nd_Pinout
+vim +/cookie +979 drivers/gpu/drm/panthor/panthor_fw.c
 
->
-> > +    type: boolean
->
-> The type here should be flag.
+2718d91816eeed Boris Brezillon 2024-02-29  965  
+2718d91816eeed Boris Brezillon 2024-02-29  966  static void panthor_job_irq_handler(struct panthor_device *ptdev, u32 status)
+2718d91816eeed Boris Brezillon 2024-02-29  967  {
+2718d91816eeed Boris Brezillon 2024-02-29  968  	if (!ptdev->fw->booted && (status & JOB_INT_GLOBAL_IF))
+2718d91816eeed Boris Brezillon 2024-02-29  969  		ptdev->fw->booted = true;
+2718d91816eeed Boris Brezillon 2024-02-29  970  
+2718d91816eeed Boris Brezillon 2024-02-29  971  	wake_up_all(&ptdev->fw->req_waitqueue);
+2718d91816eeed Boris Brezillon 2024-02-29  972  
+2718d91816eeed Boris Brezillon 2024-02-29  973  	/* If the FW is not booted, don't process IRQs, just flag the FW as booted. */
+2718d91816eeed Boris Brezillon 2024-02-29  974  	if (!ptdev->fw->booted)
+2718d91816eeed Boris Brezillon 2024-02-29  975  		return;
+2718d91816eeed Boris Brezillon 2024-02-29  976  
+2718d91816eeed Boris Brezillon 2024-02-29  977  	panthor_sched_report_fw_events(ptdev, status);
+2718d91816eeed Boris Brezillon 2024-02-29  978  }
+2718d91816eeed Boris Brezillon 2024-02-29 @979  PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
+2718d91816eeed Boris Brezillon 2024-02-29  980  
 
-ack; i'll change the type
+:::::: The code at line 979 was first introduced by commit
+:::::: 2718d91816eeed03c09c8abe872e45f59078768c drm/panthor: Add the FW logical block
 
->
-> Cheers,
-> Conor.
->
-> > +
-> >    ports:
-> >      $ref: /schemas/graph.yaml#/properties/ports
-> >
-> > --
-> > 2.44.0
-> >
+:::::: TO: Boris Brezillon <boris.brezillon@collabora.com>
+:::::: CC: Boris Brezillon <boris.brezillon@collabora.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
