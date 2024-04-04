@@ -2,74 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A67358987B9
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 14:32:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CAC9898810
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 14:41:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 842C411B596;
-	Thu,  4 Apr 2024 12:32:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09ED511A2A3;
+	Thu,  4 Apr 2024 12:41:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XU0Qmu9q";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M1wILHmz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
- [209.85.208.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7C3011B58C;
- Thu,  4 Apr 2024 12:32:52 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id
- 4fb4d7f45d1cf-55a179f5fa1so1200315a12.0; 
- Thu, 04 Apr 2024 05:32:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1712233971; x=1712838771; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GXyy4yHP0CZTf1IBrBojXYAs2I6dwIFFKPaznXSQtH8=;
- b=XU0Qmu9qFBuM+mw2LaNO73m+xRiDJVkX4Eq6sZLxh0j2+rRuyskz4hW+51sc0AZ+x8
- zbWgo90fUKLrtyieoVV0C1nI+faNfz9KgKVCCfieGP8CYmyqXDPbr4BTo0wOGaFmW04p
- OwfOuWr2Ntx2ae+KpQSHikSYShOB7E4D/X7MuqG+Tv0wVNFt4O5IxCQiSAxLeKmJdbo2
- uC8UM6CrvLSry7RFZ8T1YKE2Ac3duxzy0nRgZ/Xj9qik4VhVWfJTwYlZheaUA1z9Un5X
- i/kHA+iL53wgBxkYdgJEFwv2rjIgS3qkpAaemd1gnKJYjMppIarXPSs5l8rdMKwrWG78
- JssA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712233971; x=1712838771;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GXyy4yHP0CZTf1IBrBojXYAs2I6dwIFFKPaznXSQtH8=;
- b=DP9Q3y1Gl2Dbnbqj8ztSHbwqKbJAVuEx3DQOiPrQRs5IU1s+4vAU2IuUOXAkNBZRQY
- oyiNDdFLj/1dI3AKuQxJwA0QJXuN8Yv7BiaLl2Ei7QiLkHDu7cWLxvk5PLMJWiUhNaT3
- LdLxYlaxHMS9gEEEJMj7+sAcciyt+oGyClMSOuXLCFt9jOjm7z01n0j/FwEBvAp2n5oc
- Ipqq4dcyOqolPwQnhoGdUl3v8TeWC1plilp3meLFw85T2iSg5rCZBH0aDb2LaShCBLVh
- Bz69+9BDrEbRGEJMOoayX9Au93RAE/OT7k/hao6bGcD+acSwIUiAQDqzdcpvOZ2S/peP
- iJXg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWpjbG3W1yXfdVNDeP5dcsVEAmlm4gvWrjCrLYyeraJZQzsxDJxDr8HU9QeuO3dq4X7gZmlQpZlPbGWhcDXVOLab0aFW62sfutQq/CQ5TtBAvOqA9MbKxR/Nh7RF+TpitEUGAXMpE357evYpA==
-X-Gm-Message-State: AOJu0YywoxJh98VublYUN5w7LrCMYGgXyMLyNmaKBqiKjrkv1nJMBZVV
- HZ6zDS5n1x7A8DcOZ3w1SI7aRv8lErlcsVHUWPaEfypYyJfKbnlfjt9Yildb0JrdUfRYWX+WdEn
- fTzI55N8S1K3SQfl1ogGfNl2PSGk=
-X-Google-Smtp-Source: AGHT+IFKJiCM2SN2ligv8CNgpJzVYuF8k0i+xEowf+oRyvdrdJO/D69BQmMzHrbs7Ze2WfGJvHj+wCTVv7PdEhfM72Q=
-X-Received: by 2002:a50:8a9a:0:b0:56d:f7ce:e879 with SMTP id
- j26-20020a508a9a000000b0056df7cee879mr1553500edj.37.1712233970904; Thu, 04
- Apr 2024 05:32:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240401212002.1191549-1-nunes.erico@gmail.com>
- <20240401212002.1191549-3-nunes.erico@gmail.com>
-In-Reply-To: <20240401212002.1191549-3-nunes.erico@gmail.com>
-From: Qiang Yu <yuq825@gmail.com>
-Date: Thu, 4 Apr 2024 20:32:39 +0800
-Message-ID: <CAKGbVbudN7s-Q3oUNkopcq1DdwEyJ+yK2j711cgmD-8g2djAJg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/lima: mask irqs in timeout path before hard reset
-To: Erico Nunes <nunes.erico@gmail.com>
-Cc: anarsoul@gmail.com, dri-devel@lists.freedesktop.org, 
- lima@lists.freedesktop.org, 
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D932211A2A3
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 12:41:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id AD8B1CE2A56;
+ Thu,  4 Apr 2024 12:41:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4576C433C7;
+ Thu,  4 Apr 2024 12:41:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1712234468;
+ bh=1+ARrgqOwE2kiq3eGjR0xYk+TKFwqS1s+JPGIlCRzrg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=M1wILHmzWdiOAp7d8xIOgHHXhrz/7TiyaIV1N2+o2verXTbHYiqK0wiSsSsod5n86
+ YbzkiBrkwthA4pFginyMapp29V66ueImtirbBSyRioo09xy5hhd7gYbfsy25QqkVSt
+ uJODYi4DD/IJ1X0yu7ZUKpcc8qPAIjnyRgJxkD9LmBecKcvVN1Hnbao5N096v1ikp5
+ llsQNqn9J+qKXXmzj+55bcTNNXm6Kg9wv5/mBPX/7bEy9vwng9+/gxQLNZzKJLUyFE
+ 0uGjsV5Ci0rgCkwpXuFYzqAgepspQCK/1lkFCHdbZvU7BSUcJD8CC2cTSM6XuF5vI6
+ 9RNZ4CHYRj8lA==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- christian.koenig@amd.com, megi@xff.cz, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org
+Subject: [PATCH] drm: fix DRM_DISPLAY_DP_HELPER dependencies
+Date: Thu,  4 Apr 2024 14:40:51 +0200
+Message-Id: <20240404124101.2988099-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,61 +66,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Qiang Yu <yuq825@gmail.com>
+From: Arnd Bergmann <arnd@arndb.de>
 
-On Tue, Apr 2, 2024 at 5:20=E2=80=AFAM Erico Nunes <nunes.erico@gmail.com> =
-wrote:
->
-> There is a race condition in which a rendering job might take just long
-> enough to trigger the drm sched job timeout handler but also still
-> complete before the hard reset is done by the timeout handler.
-> This runs into race conditions not expected by the timeout handler.
-> In some very specific cases it currently may result in a refcount
-> imbalance on lima_pm_idle, with a stack dump such as:
->
-> [10136.669170] WARNING: CPU: 0 PID: 0 at drivers/gpu/drm/lima/lima_devfre=
-q.c:205 lima_devfreq_record_idle+0xa0/0xb0
-> ...
-> [10136.669459] pc : lima_devfreq_record_idle+0xa0/0xb0
-> ...
-> [10136.669628] Call trace:
-> [10136.669634]  lima_devfreq_record_idle+0xa0/0xb0
-> [10136.669646]  lima_sched_pipe_task_done+0x5c/0xb0
-> [10136.669656]  lima_gp_irq_handler+0xa8/0x120
-> [10136.669666]  __handle_irq_event_percpu+0x48/0x160
-> [10136.669679]  handle_irq_event+0x4c/0xc0
->
-> We can prevent that race condition entirely by masking the irqs at the
-> beginning of the timeout handler, at which point we give up on waiting
-> for that job entirely.
-> The irqs will be enabled again at the next hard reset which is already
-> done as a recovery by the timeout handler.
->
-> Signed-off-by: Erico Nunes <nunes.erico@gmail.com>
-> ---
->  drivers/gpu/drm/lima/lima_sched.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lim=
-a_sched.c
-> index 66841503a618..bbf3f8feab94 100644
-> --- a/drivers/gpu/drm/lima/lima_sched.c
-> +++ b/drivers/gpu/drm/lima/lima_sched.c
-> @@ -430,6 +430,13 @@ static enum drm_gpu_sched_stat lima_sched_timedout_j=
-ob(struct drm_sched_job *job
->                 return DRM_GPU_SCHED_STAT_NOMINAL;
->         }
->
-> +       /*
-> +        * The task might still finish while this timeout handler runs.
-> +        * To prevent a race condition on its completion, mask all irqs
-> +        * on the running core until the next hard reset completes.
-> +        */
-> +       pipe->task_mask_irq(pipe);
-> +
->         if (!pipe->error)
->                 DRM_ERROR("%s job timeout\n", lima_ip_name(ip));
->
-> --
-> 2.44.0
->
+Both the exynos and rockchip drivers ran into link failures after
+a Kconfig cleanup:
+
+aarch64-linux-ld: drivers/gpu/drm/exynos/exynos_dp.o: in function `exynos_dp_resume':
+exynos_dp.c:(.text+0xc0): undefined reference to `analogix_dp_resume'
+aarch64-linux-ld: drivers/gpu/drm/exynos/exynos_dp.o: in function `exynos_dp_suspend':
+exynos_dp.c:(.text+0xf4): undefined reference to `analogix_dp_suspend'
+
+x86_64-linux-ld: drivers/gpu/drm/rockchip/cdn-dp-core.o: in function `cdn_dp_connector_mode_valid':
+cdn-dp-core.c:(.text+0x13a): undefined reference to `drm_dp_bw_code_to_link_rate'
+x86_64-linux-ld: cdn-dp-core.c:(.text+0x148): undefined reference to `drm_dp_bw_code_to_link_rate'
+x86_64-linux-ld: drivers/gpu/drm/rockchip/cdn-dp-core.o: in function `cdn_dp_check_link_status':
+cdn-dp-core.c:(.text+0x1396): undefined reference to `drm_dp_channel_eq_ok'
+
+In both cases, the problem is that ROCKCHIP_CDN_DP and DRM_EXYNOS_DP
+are 'bool' symbols that depend on the the 'tristate' DRM_DISPLAY_HELPER
+symbol, but end up not working when the SoC specific part is built-in
+but the helper is in a loadable module.
+
+Use the same trick that DRM_ROCKCHIP already uses for the EXTCON
+dependency and disallow DP support when it would not work.
+
+Fixes: 0323287de87d ("drm: Switch DRM_DISPLAY_DP_HELPER to depends on")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/exynos/Kconfig   | 2 +-
+ drivers/gpu/drm/rockchip/Kconfig | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/exynos/Kconfig b/drivers/gpu/drm/exynos/Kconfig
+index 6a26a0b8eff2..58cd77220741 100644
+--- a/drivers/gpu/drm/exynos/Kconfig
++++ b/drivers/gpu/drm/exynos/Kconfig
+@@ -68,7 +68,7 @@ config DRM_EXYNOS_DP
+ 	bool "Exynos specific extensions for Analogix DP driver"
+ 	depends on DRM_EXYNOS_FIMD || DRM_EXYNOS7_DECON
+ 	depends on DRM_DISPLAY_DP_HELPER
+-	depends on DRM_DISPLAY_HELPER
++	depends on DRM_DISPLAY_HELPER=y || (DRM_DISPLAY_HELPER=m && DRM_EXYNOS=m)
+ 	select DRM_ANALOGIX_DP
+ 	default DRM_EXYNOS
+ 	select DRM_PANEL
+diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
+index 4b49a14758fe..4b4ad75032fd 100644
+--- a/drivers/gpu/drm/rockchip/Kconfig
++++ b/drivers/gpu/drm/rockchip/Kconfig
+@@ -46,7 +46,7 @@ config ROCKCHIP_ANALOGIX_DP
+ config ROCKCHIP_CDN_DP
+ 	bool "Rockchip cdn DP"
+ 	depends on DRM_DISPLAY_DP_HELPER
+-	depends on DRM_DISPLAY_HELPER
++	depends on DRM_DISPLAY_HELPER=y || (DRM_DISPLAY_HELPER=m && DRM_ROCKCHIP=m)
+ 	depends on EXTCON=y || (EXTCON=m && DRM_ROCKCHIP=m)
+ 	help
+ 	  This selects support for Rockchip SoC specific extensions
+-- 
+2.39.2
+
