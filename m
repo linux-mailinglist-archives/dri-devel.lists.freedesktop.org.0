@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2EB2897F7C
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 07:15:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A029897F77
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 07:15:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78D40112F5F;
-	Thu,  4 Apr 2024 05:15:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27DCA112DCA;
+	Thu,  4 Apr 2024 05:15:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id D8383112D89
+ by gabe.freedesktop.org (Postfix) with ESMTP id DFDD9112DAC
  for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 05:15:15 +0000 (UTC)
 Received: from SIOS1075.ysato.name (al128006.dynamic.ppp.asahi-net.or.jp
  [111.234.128.6])
- by sakura.ysato.name (Postfix) with ESMTPSA id B45D21C0FB3;
- Thu,  4 Apr 2024 14:15:09 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id 985351C0FC7;
+ Thu,  4 Apr 2024 14:15:11 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
 Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
@@ -63,9 +63,9 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
  linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-fbdev@vger.kernel.org
-Subject: [RESEND v7 09/37] dt-binding: Add compatible SH7750 SoC
-Date: Thu,  4 Apr 2024 14:14:20 +0900
-Message-Id: <4ac65d0f311e890c1ca92bf057c70954ec7ac351.1712207606.git.ysato@users.sourceforge.jp>
+Subject: [RESEND v7 10/37] sh: Common PCI Framework driver support.
+Date: Thu,  4 Apr 2024 14:14:21 +0900
+Message-Id: <1dc50e154999c1cf5f13949fdd7d049fa363c34b.1712207606.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1712207606.git.ysato@users.sourceforge.jp>
 References: <cover.1712207606.git.ysato@users.sourceforge.jp>
@@ -86,31 +86,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add New OF based PCI Host driver.
+This driver conflicts some point in legacy PCI driver.
+To resolve the conflict, I made some changes to the legacy driver.
+
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- Documentation/devicetree/bindings/timer/renesas,tmu.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/sh/include/asm/io.h  |  6 ++++++
+ arch/sh/include/asm/pci.h |  4 ++++
+ arch/sh/kernel/iomap.c    | 18 ++++++++++++++++++
+ 3 files changed, 28 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/timer/renesas,tmu.yaml b/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
-index 84bbe15028a1..265d286ffb2f 100644
---- a/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
-+++ b/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
-@@ -39,6 +39,7 @@ properties:
-           - renesas,tmu-r8a779a0 # R-Car V3U
-           - renesas,tmu-r8a779f0 # R-Car S4-8
-           - renesas,tmu-r8a779g0 # R-Car V4H
-+          - renesas,tmu-sh7750   # SH7750
-       - const: renesas,tmu
+diff --git a/arch/sh/include/asm/io.h b/arch/sh/include/asm/io.h
+index 5c544cf5201b..29b5f996cde3 100644
+--- a/arch/sh/include/asm/io.h
++++ b/arch/sh/include/asm/io.h
+@@ -20,6 +20,7 @@
+ #include <asm/page.h>
+ #include <linux/pgtable.h>
+ #include <asm-generic/iomap.h>
++#include <linux/ioport.h>
  
-   reg:
-@@ -96,6 +97,7 @@ if:
-             - renesas,tmu-r8a7740
-             - renesas,tmu-r8a7778
-             - renesas,tmu-r8a7779
-+            - renesas,tmu-sh7750
- then:
-   required:
-     - resets
+ #define __IO_PREFIX     generic
+ #include <asm/io_generic.h>
+@@ -310,4 +311,9 @@ unsigned long long poke_real_address_q(unsigned long long addr,
+ int valid_phys_addr_range(phys_addr_t addr, size_t size);
+ int valid_mmap_phys_addr_range(unsigned long pfn, size_t size);
+ 
++#if defined(CONFIG_PCI) && !defined(CONFIG_GENERIC_IOMAP)
++#define pci_remap_iospace pci_remap_iospace
++int pci_remap_iospace(const struct resource *res, phys_addr_t phys_addr);
++#endif
++
+ #endif /* __ASM_SH_IO_H */
+diff --git a/arch/sh/include/asm/pci.h b/arch/sh/include/asm/pci.h
+index 54c30126ea17..92b3bd604319 100644
+--- a/arch/sh/include/asm/pci.h
++++ b/arch/sh/include/asm/pci.h
+@@ -2,6 +2,7 @@
+ #ifndef __ASM_SH_PCI_H
+ #define __ASM_SH_PCI_H
+ 
++#ifndef CONFIG_SH_DEVICE_TREE
+ /* Can be used to override the logic in pci_scan_bus for skipping
+    already-configured bus numbers - to be used for buggy BIOSes
+    or architectures with incomplete PCI setup by the loader */
+@@ -88,4 +89,7 @@ static inline int pci_proc_domain(struct pci_bus *bus)
+ 	return hose->need_domain_info;
+ }
+ 
++#else /* CONFIG_SH_DEVICE_TREE */
++#include <asm-generic/pci.h>
++#endif
+ #endif /* __ASM_SH_PCI_H */
+diff --git a/arch/sh/kernel/iomap.c b/arch/sh/kernel/iomap.c
+index 0a0dff4e66de..d1b8e496ca23 100644
+--- a/arch/sh/kernel/iomap.c
++++ b/arch/sh/kernel/iomap.c
+@@ -160,3 +160,21 @@ void iowrite32_rep(void __iomem *addr, const void *src, unsigned long count)
+ 	mmio_outsl(addr, src, count);
+ }
+ EXPORT_SYMBOL(iowrite32_rep);
++
++#if defined(pci_remap_iospace)
++int pci_remap_iospace(const struct resource *res, phys_addr_t phys_addr)
++{
++	unsigned long vaddr = res->start;
++
++	if (!(res->flags & IORESOURCE_IO))
++		return -EINVAL;
++
++	if (res->end > IO_SPACE_LIMIT)
++		return -EINVAL;
++
++	__set_io_port_base(phys_addr);
++	return vmap_page_range(vaddr, vaddr + resource_size(res), phys_addr,
++			       pgprot_device(PAGE_KERNEL));
++}
++EXPORT_SYMBOL(pci_remap_iospace);
++#endif
 -- 
 2.39.2
 
