@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD5F48981B8
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 08:57:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB4A38981C1
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 08:58:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D510C1127B4;
-	Thu,  4 Apr 2024 06:57:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1839510E5C6;
+	Thu,  4 Apr 2024 06:58:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jkr3Bvsb";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QanXDvbV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1387D10E052
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 06:57:51 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id
- 4fb4d7f45d1cf-56b0af675deso645108a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Apr 2024 23:57:50 -0700 (PDT)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCC4410E5C6
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 06:58:02 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-4162a6a1f84so3308505e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Apr 2024 23:58:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712213869; x=1712818669; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1712213881; x=1712818681; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=BgbRn3a3/qSKac3ds9oVsAIXFYLFkXSa0lVEp4UKmlA=;
- b=jkr3BvsbY24SkMZN3Eb2gTlHyZnzWt+obBPAQi7w7hacgcbxIRlrL9ntdz5fbI8w3F
- 7U6NQIWQzgm9PYFF5h/kXSFTcr4gw/0eErZ47WDT9ZymmKSwAAFxPsbVeOXC1quFEBT6
- CNQD7ATjMwj8l/H9SzuTUsK8kdx0cuAVedZRgzeg6OVYn0XAqEoF4cWSYvBvbX4wJHo7
- 5i6tcjNc5SfQqs6GaOyynqKk+J44tNR4i8vW8jISMwBZkj5uMo1sjqx7slocbjCyijOh
- radKEjPMl2unFd21j+vqmkD5eChfp1+aqvYsCG76uZj/aVRyfV4BzBgAlq1eKlG709Tb
- yMJg==
+ bh=8C30NdtZ6fNxKiRHZurdUJwH8e6PRfdiRsx6FtyXH+Q=;
+ b=QanXDvbVUakdKqwvu5TMJoHDzbZki5XGv2zLcfrGLN5SkW2YTPVKSYbdFLPKZwp5Jk
+ 6RiTuXaxA1Km8Mmkfuf/xD5RBTjPe3ot9zDp0xyhDBpLCVOYb2N17RuEhEZqNLF8Kl+p
+ XZ1tDO5JA3tpqqU+mp2wGubigHE0T2v1ttMRt4yO9n51Mmu+sRFkDuOo4LOrI9NUxRRU
+ +I+KGYw4Y7i3fWoOexPDsyhWBGJwRJOTxRSWeG1NfwezYZHHXrRWbe3JaxWvWUX+WYJ6
+ N3cAJ3YFEOqRcSnq6DJjSJlwawNqFpdFMd+f+y9HM4cu2/pIN8aCoJ7tLHSzw9+4GMii
+ 6ISA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712213869; x=1712818669;
+ d=1e100.net; s=20230601; t=1712213881; x=1712818681;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BgbRn3a3/qSKac3ds9oVsAIXFYLFkXSa0lVEp4UKmlA=;
- b=teYQmHfKT/vYZ8FXGSFPK/Rf0H/hK91O53BQJrCK1/nRQviyqcy/c3X1W3hFph65Uu
- 0Ztq2+2W0Mms2q+rFpsMC+bBT4iCLgZL1d5aVuKpLZnCAxMQe0JDssBAGJVNgBl3OBZo
- Pp/0qxOqskXHZ3VotrpP9fL4menJ6OgW5hb9hqoNGszdxrgfaDSefbAEhP56XKSOx0tq
- cY36z/YEJU8knn5suyu8ic4wlvjz4M6Yn72XQyEYTN9Zw68iIDqQBzbGkzdnPGjPxqqn
- +XfkpgyWf1gA6JrDfuKgtSM+CFGgO6hfHiXa625UvE/YCzMhjb1w/k4EkkIFgPXW/+Zq
- +A5g==
+ bh=8C30NdtZ6fNxKiRHZurdUJwH8e6PRfdiRsx6FtyXH+Q=;
+ b=nmWcOv5oBcYocrC7ihrjDOqDC7cq8BSpYXD9GWEb6ob2H+TVP+TlHy2Ho+H5/Q91mr
+ v6rQK68tcsssz5E6x3Mk4m8veaXlYY+MQk6DVS7MkjmZC9vrWjNh3eBpJQRl2RIWA5dT
+ We95aYcqi5CE9X0ZvSXEZxaNkRFbq8xZOqtEUc9y4oLEzbNP0RmXCrHVQ7+UJErGZ9yP
+ iI2VpWzJcJLgaUfHJmaqTQqGWWtAB/t4SBl0tH1WUepfg6kKONb5ROeiPjFrIAH/ur1g
+ CZFNv86e0AcFTrcJU4Ep3T8wE+onXRqgq5Knz4t9sF8nJxiceabpSn/BpMcdc01mPBgV
+ T94w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVNim8nJ5Z5DTnNPanBQ96WyPAGko+Vrm35Ws1JTEvHSbdRxiOX0I3GDSxCHLkt9PSh4zCe0qM1+3LnNTmyGxyA4MnzAqoKyliUZwmz2NWF
-X-Gm-Message-State: AOJu0YwwEGQcweh+JEp9Z6xJ3kOGr9WDyuGO8nBWZ1NMJfAipP7fdIdw
- STfSeqmCnPCF33mLyzLJ6PcDIsNwMl4iy94zDNG7qyNPqEqARaJxivuXWCWqS8k=
-X-Google-Smtp-Source: AGHT+IFuAfm1k/JXtICehvmeI7vfvHGFbdjlnmqMs+sHttt3SK3e2S+nxnYd4krGOU+NMDziVpCMrg==
-X-Received: by 2002:a17:906:e0cd:b0:a4e:2b75:e1de with SMTP id
- gl13-20020a170906e0cd00b00a4e2b75e1demr993298ejb.22.1712213869240; 
- Wed, 03 Apr 2024 23:57:49 -0700 (PDT)
+ AJvYcCUrS7lG6aoONXreFxpfC8wOp+D+0IYdZhlHP0BTNISpsSDZsaPDTwojCmhB7EcHrQg98kUWxk9txxVupGVR+tzGuo2gmWfgi2jD0Oms5wq7
+X-Gm-Message-State: AOJu0YxB3oQZ6o9h7wd1DQjXW9TuLfoxvshJArjDCE4Qa352viH8MvKi
+ vzzhBiH0KvkhAYXrxHnHsWmr4JzRJbYxbCzmnF7OEJPq+z16kgv4cW6t8k7uXSc=
+X-Google-Smtp-Source: AGHT+IFrOexegoL2ClOjKIuDGKaUNQb4kAkQqmKnibOBQAErSUAH9L6XR78pWsfSreont7LG0GF72g==
+X-Received: by 2002:adf:cb8a:0:b0:33d:dcd4:9d8f with SMTP id
+ q10-20020adfcb8a000000b0033ddcd49d8fmr1127099wrh.65.1712213880971; 
+ Wed, 03 Apr 2024 23:58:00 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.16])
  by smtp.gmail.com with ESMTPSA id
- n7-20020a170906840700b00a46caa13e67sm8660059ejx.105.2024.04.03.23.57.45
+ u23-20020a170906125700b00a47522c193asm8664090eja.196.2024.04.03.23.57.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Apr 2024 23:57:48 -0700 (PDT)
-Message-ID: <8eb6d39c-63a3-441c-8d74-2023bb82c0e2@linaro.org>
-Date: Thu, 4 Apr 2024 08:57:44 +0200
+ Wed, 03 Apr 2024 23:58:00 -0700 (PDT)
+Message-ID: <9e59fad0-add1-42fb-8538-49e1b7d1b0d6@linaro.org>
+Date: Thu, 4 Apr 2024 08:57:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND v7 26/37] dt-bindings: vendor-prefixes: Add iodata
+Subject: Re: [RESEND v7 27/37] dt-bindings: ata: ata-generic: Add new targets
 To: Yoshinori Sato <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org
 Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
  Rob Herring <robh@kernel.org>,
@@ -104,7 +104,7 @@ Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
  linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-fbdev@vger.kernel.org
 References: <cover.1712207606.git.ysato@users.sourceforge.jp>
- <4649938dc48da6e449ef6f1987c7739ba3a80b42.1712207606.git.ysato@users.sourceforge.jp>
+ <53f85cc2e124d1c2e7394458b73293d797817d6d.1712207606.git.ysato@users.sourceforge.jp>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -151,7 +151,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <4649938dc48da6e449ef6f1987c7739ba3a80b42.1712207606.git.ysato@users.sourceforge.jp>
+In-Reply-To: <53f85cc2e124d1c2e7394458b73293d797817d6d.1712207606.git.ysato@users.sourceforge.jp>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -170,14 +170,11 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 04/04/2024 07:14, Yoshinori Sato wrote:
-> Add IO DATA DEVICE INC.
-> https://www.iodata.com/
+> Added new ata-generic target.
+> - iodata,usl-5p-ata
+> - renesas,rts7751r2d-ata
 > 
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+> Each boards have simple IDE Interface. Use ATA generic driver.
 > 
 
 This is a friendly reminder during the review process.
