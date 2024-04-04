@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6CEE897F28
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 07:10:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCBBE897F4A
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 07:11:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B5CE112C0B;
-	Thu,  4 Apr 2024 05:10:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC333112C3D;
+	Thu,  4 Apr 2024 05:11:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id 431A61127AF
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 05:10:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id AAECC1127AF
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 05:10:29 +0000 (UTC)
 Received: from SIOS1075.ysato.name (al128006.dynamic.ppp.asahi-net.or.jp
  [111.234.128.6])
- by sakura.ysato.name (Postfix) with ESMTPSA id 26EC61C0399;
- Thu,  4 Apr 2024 14:00:42 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id E13311C03E9;
+ Thu,  4 Apr 2024 14:00:43 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
 Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
@@ -63,10 +63,9 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
  linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-fbdev@vger.kernel.org
-Subject: [PATCH v7 04/37] dt-bindings: interrupt-controller: Add header for
- Renesas SH3/4 INTC.
-Date: Thu,  4 Apr 2024 13:59:29 +0900
-Message-Id: <d50827196f7e1201bb9a62656fb04223a8989f1d.1712205900.git.ysato@users.sourceforge.jp>
+Subject: [PATCH v7 05/37] sh: GENERIC_IRQ_CHIP support for CONFIG_OF=y
+Date: Thu,  4 Apr 2024 13:59:30 +0900
+Message-Id: <6e73949abe8d5f4f5bc229716f9a2cfb7db21626.1712205900.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1712205900.git.ysato@users.sourceforge.jp>
 References: <cover.1712205900.git.ysato@users.sourceforge.jp>
@@ -87,39 +86,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Renesas SH7751 Interrupt controller priority register define.
+Remove unused function prototype.
+Add helper update_sr_imask. use for SH7751 irq driver.
+Add stub intc_finalize.
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- .../renesas,sh7751-intc.h                     | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
- create mode 100644 include/dt-bindings/interrupt-controller/renesas,sh7751-intc.h
+ arch/sh/include/asm/io.h       |  2 ++
+ arch/sh/include/asm/irq.h      | 10 ++++++++--
+ arch/sh/kernel/cpu/Makefile    |  5 +----
+ arch/sh/kernel/cpu/irq/imask.c | 17 +++++++++++++++++
+ include/linux/sh_intc.h        |  7 ++++++-
+ 5 files changed, 34 insertions(+), 7 deletions(-)
 
-diff --git a/include/dt-bindings/interrupt-controller/renesas,sh7751-intc.h b/include/dt-bindings/interrupt-controller/renesas,sh7751-intc.h
-new file mode 100644
-index 000000000000..0543bd1b895e
---- /dev/null
-+++ b/include/dt-bindings/interrupt-controller/renesas,sh7751-intc.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+ *
-+ * SH3/4 INTC IPR register offsets (Address / bits)
-+ */
-+
-+#ifndef __DT_BINDINGS_RENESAS_SH7751_INTC
-+#define __DT_BINDINGS_RENESAS_SH7751_INTC
-+
-+#define IPRA			0
-+#define IPRB			4
-+#define IPRC			8
-+#define IPRD			12
-+#define INTPRI00		256
-+#define IPR_B12			12
-+#define IPR_B8			8
-+#define IPR_B4			4
-+#define IPR_B0			0
-+
+diff --git a/arch/sh/include/asm/io.h b/arch/sh/include/asm/io.h
+index cf5eab840d57..5c544cf5201b 100644
+--- a/arch/sh/include/asm/io.h
++++ b/arch/sh/include/asm/io.h
+@@ -121,7 +121,9 @@ __BUILD_MEMORY_STRING(__raw_, q, u64)
+ 
+ #define ioport_map ioport_map
+ #define ioport_unmap ioport_unmap
++#ifndef CONFIG_SH_DEVICE_TREE
+ #define pci_iounmap pci_iounmap
 +#endif
+ 
+ #define ioread8 ioread8
+ #define ioread16 ioread16
+diff --git a/arch/sh/include/asm/irq.h b/arch/sh/include/asm/irq.h
+index 0f384b1f45ca..3d897229dcc4 100644
+--- a/arch/sh/include/asm/irq.h
++++ b/arch/sh/include/asm/irq.h
+@@ -16,8 +16,8 @@
+ /*
+  * Simple Mask Register Support
+  */
+-extern void make_maskreg_irq(unsigned int irq);
+-extern unsigned short *irq_mask_register;
++
++void update_sr_imask(unsigned int irq, bool enable);
+ 
+ /*
+  * PINT IRQs
+@@ -54,4 +54,10 @@ extern void irq_finish(unsigned int irq);
+ 
+ #include <asm-generic/irq.h>
+ 
++/* SH3/4 INTC stuff */
++/* IRL level 0 - 15 */
++#define NR_IRL 15
++/* IRL0 -> IRQ16 */
++#define IRL_BASE_IRQ	16
++
+ #endif /* __ASM_SH_IRQ_H */
+diff --git a/arch/sh/kernel/cpu/Makefile b/arch/sh/kernel/cpu/Makefile
+index e00ebf134985..ad12807fae9c 100644
+--- a/arch/sh/kernel/cpu/Makefile
++++ b/arch/sh/kernel/cpu/Makefile
+@@ -20,7 +20,4 @@ ifndef CONFIG_COMMON_CLK
+ obj-y += clock.o
+ obj-$(CONFIG_SH_CLK_CPG_LEGACY)	+= clock-cpg.o
+ endif
+-ifndef CONFIG_GENERIC_IRQ_CHIP
+-obj-y	+= irq/
+-endif
+-obj-y	+= init.o fpu.o pfc.o proc.o
++obj-y	+= init.o fpu.o pfc.o proc.o irq/
+diff --git a/arch/sh/kernel/cpu/irq/imask.c b/arch/sh/kernel/cpu/irq/imask.c
+index 572585c3f2fd..7589ca7c506c 100644
+--- a/arch/sh/kernel/cpu/irq/imask.c
++++ b/arch/sh/kernel/cpu/irq/imask.c
+@@ -51,6 +51,7 @@ static inline void set_interrupt_registers(int ip)
+ 		     : "t");
+ }
+ 
++#ifndef CONFIG_GENERIC_IRQ_CHIP
+ static void mask_imask_irq(struct irq_data *data)
+ {
+ 	unsigned int irq = data->irq;
+@@ -83,3 +84,19 @@ void make_imask_irq(unsigned int irq)
+ 	irq_set_chip_and_handler_name(irq, &imask_irq_chip, handle_level_irq,
+ 				      "level");
+ }
++#else
++void update_sr_imask(unsigned int irq, bool enable)
++{
++	if (enable) {
++		set_bit(irq, imask_mask);
++		interrupt_priority = IMASK_PRIORITY -
++		  find_first_bit(imask_mask, IMASK_PRIORITY);
++	} else {
++		clear_bit(irq, imask_mask);
++		if (interrupt_priority < IMASK_PRIORITY - irq)
++			interrupt_priority = IMASK_PRIORITY - irq;
++	}
++	set_interrupt_registers(interrupt_priority);
++}
++EXPORT_SYMBOL(update_sr_imask);
++#endif
+diff --git a/include/linux/sh_intc.h b/include/linux/sh_intc.h
+index 27ae79191bdc..994b5b05a0d7 100644
+--- a/include/linux/sh_intc.h
++++ b/include/linux/sh_intc.h
+@@ -139,8 +139,13 @@ struct intc_desc symbol __initdata = {					\
+ int register_intc_controller(struct intc_desc *desc);
+ int intc_set_priority(unsigned int irq, unsigned int prio);
+ int intc_irq_lookup(const char *chipname, intc_enum enum_id);
++#ifndef CONFIG_SH_DEVICE_TREE
+ void intc_finalize(void);
+-
++#else
++static inline void intc_finalize(void)
++{
++}
++#endif
+ #ifdef CONFIG_INTC_USERIMASK
+ int register_intc_userimask(unsigned long addr);
+ #else
 -- 
 2.39.2
 
