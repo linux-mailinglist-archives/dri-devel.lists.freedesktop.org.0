@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E50897F99
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 07:16:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEFA5897F9B
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 07:16:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CD041131E1;
-	Thu,  4 Apr 2024 05:16:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6501113133;
+	Thu,  4 Apr 2024 05:16:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id BE73E1131CA
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 05:15:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8CC44113133
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 05:15:50 +0000 (UTC)
 Received: from SIOS1075.ysato.name (al128006.dynamic.ppp.asahi-net.or.jp
  [111.234.128.6])
- by sakura.ysato.name (Postfix) with ESMTPSA id E38FF1C1038;
- Thu,  4 Apr 2024 14:15:45 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id C34E11C1017;
+ Thu,  4 Apr 2024 14:15:47 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
 Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
@@ -63,10 +63,9 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
  linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-fbdev@vger.kernel.org
-Subject: [RESEND v7 28/37] dt-bindings: soc: renesas: sh: Add SH7751 based
- target
-Date: Thu,  4 Apr 2024 14:14:39 +0900
-Message-Id: <3c2937039026fdb827709b2584528aca263f2668.1712207606.git.ysato@users.sourceforge.jp>
+Subject: [RESEND v7 29/37] sh: SH7751R SoC Internal peripheral definition dtsi.
+Date: Thu,  4 Apr 2024 14:14:40 +0900
+Message-Id: <fe69e328ec617f91a09fa2d00506ba1a664085d8.1712207606.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1712207606.git.ysato@users.sourceforge.jp>
 References: <cover.1712207606.git.ysato@users.sourceforge.jp>
@@ -87,45 +86,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+SH7751R internal peripherals device tree.
+
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- .../devicetree/bindings/soc/renesas/sh.yaml   | 27 +++++++++++++++++++
- 1 file changed, 27 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/soc/renesas/sh.yaml
+ arch/sh/boot/dts/sh7751r.dtsi | 105 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 105 insertions(+)
+ create mode 100644 arch/sh/boot/dts/sh7751r.dtsi
 
-diff --git a/Documentation/devicetree/bindings/soc/renesas/sh.yaml b/Documentation/devicetree/bindings/soc/renesas/sh.yaml
+diff --git a/arch/sh/boot/dts/sh7751r.dtsi b/arch/sh/boot/dts/sh7751r.dtsi
 new file mode 100644
-index 000000000000..9e0f69a8ee6a
+index 000000000000..61b2af5bebde
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/soc/renesas/sh.yaml
-@@ -0,0 +1,27 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/soc/renesas/sh.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/arch/sh/boot/dts/sh7751r.dtsi
+@@ -0,0 +1,105 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Device Tree Source for the SH7751R SoC
++ */
 +
-+title: Renesas SuperH Platform
++#include <dt-bindings/interrupt-controller/irq.h>
++#include <dt-bindings/clock/sh7750-cpg.h>
 +
-+maintainers:
-+  - Yoshinori Sato <ysato@users.sourceforge.jp>
++/ {
++	#address-cells = <1>;
++	#size-cells = <1>;
 +
-+properties:
-+  $nodename:
-+    const: '/'
-+  compatible:
-+    oneOf:
-+      - description: SH7751R based platform
-+        items:
-+          - enum:
-+              - renesas,rts7751r2d      # Renesas SH4 2D graphics board
-+              - iodata,landisk          # LANDISK HDL-U
-+              - iodata,usl-5p           # USL-5P
-+          - const: renesas,sh7751r
++	cpus {
++		#address-cells = <1>;
++		#size-cells = <0>;
 +
-+additionalProperties: true
++		cpu@0 {
++			compatible = "renesas,sh4", "renesas,sh2";
++			device_type = "cpu";
++			reg = <0>;
++			clocks = <&cpg SH7750_CPG_ICK>;
++			clock-names = "ick";
++			icache-size = <16384>;
++			icache-line-size = <32>;
++			dcache-size = <32768>;
++			dcache-line-size = <32>;
++		};
++	};
 +
-+...
++	extal: oscillator {
++		#clock-cells = <0>;
++		compatible = "fixed-clock";
++		clock-frequency = <0>;
++		clock-output-names = "extal";
++	};
++
++	soc {
++		compatible = "simple-bus";
++		interrupt-parent = <&shintc>;
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges;
++
++		cpg: clock-controller@ffc00000 {
++			#clock-cells = <1>;
++			#power-domain-cells = <0>;
++			compatible = "renesas,sh7751r-cpg";
++			clocks = <&extal>;
++			clock-names = "extal";
++			reg = <0xffc00000 20>, <0xfe0a0000 16>;
++			reg-names = "FRQCR", "CLKSTP00";
++			renesas,mode = <0>;
++		};
++
++		shintc: interrupt-controller@ffd00000 {
++			compatible = "renesas,sh7751-intc";
++			#interrupt-cells = <1>;
++			interrupt-controller;
++			reg = <0xffd00000 20>, <0xfe080000 128>;
++			reg-names = "ICR", "INTPRI00";
++		};
++
++		/* sci0 is rarely used, so it is not defined here. */
++		scif1: serial@ffe80000 {
++			compatible = "renesas,scif-sh7751", "renesas,scif";
++			reg = <0xffe80000 0x100>;
++			interrupts = <0x700>,
++				     <0x720>,
++				     <0x760>,
++				     <0x740>;
++			interrupt-names = "eri", "rxi", "txi", "bri";
++			clocks = <&cpg SH7750_MSTP_SCIF>;
++			clock-names = "fck";
++			power-domains = <&cpg>;
++			status = "disabled";
++		};
++
++		/* Normally ch0 and ch1 are used, so we will define ch0 to ch2 here. */
++		tmu0: timer@ffd80000 {
++			compatible = "renesas,tmu-sh7750", "renesas,tmu";
++			reg = <0xffd80000 12>;
++			interrupts = <0x400>,
++				     <0x420>,
++				     <0x440>,
++				     <0x460>;
++			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
++			clocks = <&cpg SH7750_MSTP_TMU012>;
++			clock-names = "fck";
++			power-domains = <&cpg>;
++			#renesas,channels = <3>;
++		};
++
++		pcic: pci@fe200000 {
++			compatible = "renesas,sh7751-pci";
++			#address-cells = <3>;
++			#size-cells = <2>;
++			#interrupt-cells = <1>;
++			device_type = "pci";
++			bus-range = <0 0>;
++			reg = <0xfe200000 0x0400>,
++			      <0xff800000 0x0100>;
++			status = "disabled";
++		};
++	};
++};
 -- 
 2.39.2
 
