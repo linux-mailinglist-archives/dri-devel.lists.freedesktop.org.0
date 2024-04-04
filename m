@@ -2,65 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9C0C898C38
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 18:35:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FDDD898C6F
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 18:44:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B502E1132C8;
-	Thu,  4 Apr 2024 16:35:24 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HWo/yXTx";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39ABC10E900;
+	Thu,  4 Apr 2024 16:44:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46CA71132CA
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 16:35:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712248522; x=1743784522;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=MmhrXXb3uIRaUAMK673aSGEDDVFyLxQk/WLn0pC3LAY=;
- b=HWo/yXTxrV85T12SCZXY8XwRULbb0LxfXwMRoXZ+FbS0FL1cY9UMoy8d
- aPWL8md2/EcP/QmwjlCi7Ddb4sgkeZjNZP1hNcPPtrFXOyYyzB8FutR3o
- cSiKDygeBsMwrJ9GheAV8gjB3aft/mhnUUV8gdnqhP1C5P3Ic2zVXmrh6
- i3ZPc8cnGl3ehgAA/2S0zESkhCYGkVVef4XEDynjU2U/BVhSdkTn9lE8X
- WQpGJhU297th1+D0w+JrGya2YhrX5/+trDWyqtYuMozkCuwWJfIKg+P8i
- EliprqkIQmpEGZlAW4h5P8qTktSf4r5hpvYKTxsuxsxC7TNpWQN1GNauQ A==;
-X-CSE-ConnectionGUID: TRpCj2UXQLedvr3l0Hyqmg==
-X-CSE-MsgGUID: iPVBT/mVT26sLIfW26Y4mw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="7783652"
-X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; 
-   d="scan'208";a="7783652"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2024 09:35:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="915223151"
-X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; d="scan'208";a="915223151"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.72.54])
- by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2024 09:35:16 -0700
-Received: from andy by smile with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1rsQ3U-00000001W57-3W2D; Thu, 04 Apr 2024 19:35:12 +0300
-Date: Thu, 4 Apr 2024 19:35:12 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jianglei Nie <niejianglei2021@163.com>
-Cc: gregkh@linuxfoundation.org, tzimmermann@suse.de, javierm@redhat.com,
- sam@ravnborg.org, steve@sk2.org, noralf@tronnes.org,
- u.kleine-koenig@pengutronix.de, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: core: fix potential memory leak in
- fbtft_probe_common()
-Message-ID: <Zg7WwNEpZlYsvNwJ@smile.fi.intel.com>
-References: <20220928062301.6399-1-niejianglei2021@163.com>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5100E10E6A2
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 16:44:21 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1rsQCI-0000iB-KZ; Thu, 04 Apr 2024 18:44:18 +0200
+Message-ID: <6ae0c57c2176364c8001397d647f9d9fb792fba7.camel@pengutronix.de>
+Subject: Re: [PATCH] drivers: video: logo: Don't mention the full path of
+ the input in output
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Helge Deller <deller@gmx.de>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ kernel@pengutronix.de, patchwork-lst@pengutronix.de
+Date: Thu, 04 Apr 2024 18:44:17 +0200
+In-Reply-To: <c3108939-9e6f-489d-9954-82bd6c2dd3b0@gmx.de>
+References: <20240404121824.3330254-1-l.stach@pengutronix.de>
+ <c3108939-9e6f-489d-9954-82bd6c2dd3b0@gmx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220928062301.6399-1-niejianglei2021@163.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,31 +53,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 28, 2022 at 02:23:01PM +0800, Jianglei Nie wrote:
-> fbtft_probe_common() allocates a memory chunk for "info" with
-> fbtft_framebuffer_alloc(). When "display->buswidth == 0" is true, the
-> function returns without releasing the "info", which will lead to a
-> memory leak.
-> 
-> Fix it by calling fbtft_framebuffer_release() when "display->buswidth
-> == 0" is true.
+Am Donnerstag, dem 04.04.2024 um 15:15 +0200 schrieb Helge Deller:
+> On 4/4/24 14:18, Lucas Stach wrote:
+> > This change strips $abs_srctree of the input file containing the
+> > PNM data in the generated output. The motivation for this change
+> > is Yocto emitting a build warning
+> >=20
+> >      WARNING: linux-foo-6.8-r0 do_package_qa: QA Issue:
+> >      File /usr/src/debug/linux-foo/6.8-r0/drivers/video/logo/logo_linux=
+_clut224.c
+> >      in package linux-foo-src contains reference to TMPDIR
+> >=20
+> > So this change brings us one step closer to make the build result
+> > reproducible independent of the build path.
+> >=20
+> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> > ---
+> >   drivers/video/logo/pnmtologo.c | 14 +++++++++++++-
+> >   1 file changed, 13 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/video/logo/pnmtologo.c b/drivers/video/logo/pnmtol=
+ogo.c
+> > index 2434a25afb64..59ccd721e8af 100644
+> > --- a/drivers/video/logo/pnmtologo.c
+> > +++ b/drivers/video/logo/pnmtologo.c
+> > @@ -223,6 +223,18 @@ static inline int is_equal(struct color c1, struct=
+ color c2)
+> >=20
+> >   static void write_header(void)
+> >   {
+> > +	const char *abs_srctree =3D getenv("abs_srctree");
+> > +	const char *rel_filename;
+> > +
+> > +	if (abs_srctree &&
+> > +	    !strncmp(abs_srctree, filename, strlen(abs_srctree))) {
+> > +		rel_filename =3D filename + strlen(abs_srctree);
+> > +		while (*rel_filename =3D=3D '/')
+> > +			++rel_filename;
+> > +	} else {
+> > +		rel_filename =3D filename;
+> > +	}
+> > +
+> >   	/* open logo file */
+> >   	if (outputname) {
+> >   		out =3D fopen(outputname, "w");
+> > @@ -235,7 +247,7 @@ static void write_header(void)
+> >   	fputs("/*\n", out);
+> >   	fputs(" *  DO NOT EDIT THIS FILE!\n", out);
+> >   	fputs(" *\n", out);
+> > -	fprintf(out, " *  It was automatically generated from %s\n", filename=
+);
+> > +	fprintf(out, " *  It was automatically generated from %s\n", rel_file=
+name);
+>=20
+> can't you use instead: ?
+> > +	fprintf(out, " *  It was automatically generated from %s\n", basename=
+(filename));
+>=20
+The difference to basename is that this keeps the path in the source
+tree intact, e.g. it shortens the absolute path to
+"drivers/video/logo/logo_linux_clut224.c", so the comment in the
+generated file still has a full reference to the file location in the
+source tree. It only strips out the part of the path that is host
+dependent.
 
-Fixes tag?
+Regards,
+Lucas
 
-...
-
->  	if (display->buswidth == 0) {
->  		dev_err(dev, "buswidth is not set\n");
-> +		fbtft_framebuffer_release(info);
->  		return -EINVAL;
-
-		ret = dev_err_probe(dev, -EINVAL, "buswidth is not set\n");
-		goto out_release;
-
->  	}
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+> Helge
+>=20
+>=20
+> >   	fputs(" *\n", out);
+> >   	fprintf(out, " *  Linux logo %s\n", logoname);
+> >   	fputs(" */\n\n", out);
+>=20
 
