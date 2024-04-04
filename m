@@ -2,103 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03D90898AB0
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 17:09:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C426A898AD5
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 17:16:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB3FA10E89A;
-	Thu,  4 Apr 2024 15:09:11 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="VczYSogf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Kb6YpcqD";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VczYSogf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Kb6YpcqD";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6DB9112DAF;
+	Thu,  4 Apr 2024 15:16:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99D5E10F9D8
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 15:09:03 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 54D2C5F845;
- Thu,  4 Apr 2024 15:09:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1712243342; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+u4tbO3fsmhUdl/lIZuxxPkg/sXP/PIJzrW48dC0nqE=;
- b=VczYSogfI9Tm4X3zbGRFIEvL4dSXocd53Md13kRcqA/Ssc5v3reoTeqLiQ02o6zki0ZGW8
- srXchnLrrs4ktNqBpxD4wX3r7tIpnegpHpGdGA5xqURnKbzFC1Yl6aTDRFaMfigcZTh76W
- l+aIxS3+5fVUVt1AUCogVmOTi4mRhbU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1712243342;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+u4tbO3fsmhUdl/lIZuxxPkg/sXP/PIJzrW48dC0nqE=;
- b=Kb6YpcqD9pmihz1QlInqAFa05GcBltwovqrpu1UKXpt/xNHDhJ23S/kh1zo6Xw8Y6PKDtF
- MDsKqeql0FBwpVBA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1712243342; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+u4tbO3fsmhUdl/lIZuxxPkg/sXP/PIJzrW48dC0nqE=;
- b=VczYSogfI9Tm4X3zbGRFIEvL4dSXocd53Md13kRcqA/Ssc5v3reoTeqLiQ02o6zki0ZGW8
- srXchnLrrs4ktNqBpxD4wX3r7tIpnegpHpGdGA5xqURnKbzFC1Yl6aTDRFaMfigcZTh76W
- l+aIxS3+5fVUVt1AUCogVmOTi4mRhbU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1712243342;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+u4tbO3fsmhUdl/lIZuxxPkg/sXP/PIJzrW48dC0nqE=;
- b=Kb6YpcqD9pmihz1QlInqAFa05GcBltwovqrpu1UKXpt/xNHDhJ23S/kh1zo6Xw8Y6PKDtF
- MDsKqeql0FBwpVBA==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 2331313A91;
- Thu,  4 Apr 2024 15:09:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap2.dmz-prg2.suse.org with ESMTPSA id GMdGB47CDmZ2FgAAn2gu4w
- (envelope-from <tzimmermann@suse.de>); Thu, 04 Apr 2024 15:09:02 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com, jani.nikula@linux.intel.com, airlied@redhat.com,
- sean@poorly.run
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 7/7] drm/udl: Remove struct udl_connector
-Date: Thu,  4 Apr 2024 17:03:24 +0200
-Message-ID: <20240404150857.5520-8-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240404150857.5520-1-tzimmermann@suse.de>
-References: <20240404150857.5520-1-tzimmermann@suse.de>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 977AB112DAF;
+ Thu,  4 Apr 2024 15:16:37 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4011CFEC;
+ Thu,  4 Apr 2024 08:17:07 -0700 (PDT)
+Received: from [10.57.17.51] (unknown [10.57.17.51])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C047D3F64C;
+ Thu,  4 Apr 2024 08:16:35 -0700 (PDT)
+Message-ID: <2ac758ce-a196-4e89-a397-488ba31014c4@arm.com>
+Date: Thu, 4 Apr 2024 16:16:34 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-6.80 / 50.00]; REPLY(-4.00)[];
- BAYES_HAM(-3.00)[100.00%]; NEURAL_HAM_LONG(-1.00)[-1.000];
- MID_CONTAINS_FROM(1.00)[]; R_MISSING_CHARSET(0.50)[];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MIME_TRACE(0.00)[0:+]; TO_DN_SOME(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; RCPT_COUNT_FIVE(0.00)[6];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap2.dmz-prg2.suse.org:helo,imap2.dmz-prg2.suse.org:rdns];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -6.80
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/6] drm: enable W=1 warnings by default across the
+ subsystem
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, Mark Brown <broonie@kernel.org>,
+ dri-devel@lists.freedesktop.org
+References: <cover.1704908087.git.jani.nikula@intel.com>
+Content-Language: en-US
+From: Aishwarya TCV <aishwarya.tcv@arm.com>
+In-Reply-To: <cover.1704908087.git.jani.nikula@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,117 +48,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Udl's struct udl_connector is an empty wrapper around struct
-drm_connector. Remove it. Allocate the connector as part of struct
-udl_device and inline the init function into its only caller.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/udl/udl_drv.h     | 10 +------
- drivers/gpu/drm/udl/udl_modeset.c | 47 ++++++-------------------------
- 2 files changed, 10 insertions(+), 47 deletions(-)
 
-diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
-index f112cfb270f31..1eb716d9dad57 100644
---- a/drivers/gpu/drm/udl/udl_drv.h
-+++ b/drivers/gpu/drm/udl/udl_drv.h
-@@ -49,15 +49,6 @@ struct urb_list {
- 	size_t size;
- };
- 
--struct udl_connector {
--	struct drm_connector connector;
--};
--
--static inline struct udl_connector *to_udl_connector(struct drm_connector *connector)
--{
--	return container_of(connector, struct udl_connector, connector);
--}
--
- struct udl_device {
- 	struct drm_device drm;
- 	struct device *dev;
-@@ -66,6 +57,7 @@ struct udl_device {
- 	struct drm_plane primary_plane;
- 	struct drm_crtc crtc;
- 	struct drm_encoder encoder;
-+	struct drm_connector connector;
- 
- 	struct mutex gem_lock;
- 
-diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
-index 4236ce57f5945..ce82382b7a423 100644
---- a/drivers/gpu/drm/udl/udl_modeset.c
-+++ b/drivers/gpu/drm/udl/udl_modeset.c
-@@ -444,49 +444,14 @@ static const struct drm_connector_helper_funcs udl_connector_helper_funcs = {
- 	.detect_ctx = udl_connector_helper_detect_ctx,
- };
- 
--static void udl_connector_destroy(struct drm_connector *connector)
--{
--	struct udl_connector *udl_connector = to_udl_connector(connector);
--
--	drm_connector_cleanup(connector);
--	kfree(udl_connector);
--}
--
- static const struct drm_connector_funcs udl_connector_funcs = {
- 	.reset = drm_atomic_helper_connector_reset,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
--	.destroy = udl_connector_destroy,
-+	.destroy = drm_connector_cleanup,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
- 
--struct drm_connector *udl_connector_init(struct drm_device *dev)
--{
--	struct udl_connector *udl_connector;
--	struct drm_connector *connector;
--	int ret;
--
--	udl_connector = kzalloc(sizeof(*udl_connector), GFP_KERNEL);
--	if (!udl_connector)
--		return ERR_PTR(-ENOMEM);
--
--	connector = &udl_connector->connector;
--	ret = drm_connector_init(dev, connector, &udl_connector_funcs, DRM_MODE_CONNECTOR_VGA);
--	if (ret)
--		goto err_kfree;
--
--	drm_connector_helper_add(connector, &udl_connector_helper_funcs);
--
--	connector->polled = DRM_CONNECTOR_POLL_CONNECT |
--			    DRM_CONNECTOR_POLL_DISCONNECT;
--
--	return connector;
--
--err_kfree:
--	kfree(udl_connector);
--	return ERR_PTR(ret);
--}
--
- /*
-  * Modesetting
-  */
-@@ -556,9 +521,15 @@ int udl_modeset_init(struct drm_device *dev)
- 		return ret;
- 	encoder->possible_crtcs = drm_crtc_mask(crtc);
- 
--	connector = udl_connector_init(dev);
--	if (IS_ERR(connector))
-+	connector = &udl->connector;
-+	ret = drm_connector_init(dev, connector, &udl_connector_funcs, DRM_MODE_CONNECTOR_VGA);
-+	if (ret)
- 		return PTR_ERR(connector);
-+	drm_connector_helper_add(connector, &udl_connector_helper_funcs);
-+
-+	connector->polled = DRM_CONNECTOR_POLL_CONNECT |
-+			    DRM_CONNECTOR_POLL_DISCONNECT;
-+
- 	ret = drm_connector_attach_encoder(connector, encoder);
- 	if (ret)
- 		return ret;
--- 
-2.44.0
+On 10/01/2024 17:39, Jani Nikula wrote:
+> This is v2 of [1] to enable most W=1 warnings across the drm
+> subsystem. Some fixes first, and a CONFIG_DRM_WERROR on top.
+> 
+> I build tested this for x86 (both gcc and clang), arm and arm64.
+> 
+> BR,
+> Jani.
+> 
+> 
+> [1] https://lore.kernel.org/r/20231129181219.1237887-1-jani.nikula@intel.com
+> 
+> 
+> 
+> 
+> Jani Nikula (6):
+>   drm/nouveau/acr/ga102: remove unused but set variable
+>   drm/nouveau/svm: remove unused but set variables
+>   drm/amdgpu: prefer snprintf over sprintf
+>   drm/imx: prefer snprintf over sprintf
+>   drm: enable (most) W=1 warnings by default across the subsystem
+>   drm: Add CONFIG_DRM_WERROR
+> 
+>  drivers/gpu/drm/Kconfig                       | 18 +++++++++++
+>  drivers/gpu/drm/Makefile                      | 30 +++++++++++++++++++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c       |  3 +-
+>  drivers/gpu/drm/imx/ipuv3/imx-ldb.c           |  2 +-
+>  drivers/gpu/drm/nouveau/nouveau_svm.c         | 10 ++-----
+>  .../gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c    |  3 +-
+>  6 files changed, 55 insertions(+), 11 deletions(-)
+> 
 
+Hi Jani,
+
+Observed warning "include/drm/drm_print.h:536:35: warning: '%4.4s'
+directive argument is null [-Wformat-overflow=]" when building the
+modules with "defconfig+kselftest-ftrace"(
+https://github.com/torvalds/linux/blob/master/tools/testing/selftests/ftrace/config
+) against next-master(next-20240404) kernel with Arm64 in our CI.
+
+A bisect identified a61ddb4393ad1be61d2ffd92576d42707b05be17 as the
+first bad commit. Bisected it on the tag "next-20240326" at repo
+"https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git".
+
+I understand that you are turning on the warning here, thought worth
+mentioning about the observation.
+
+Build log:
+---------------
+In file included from ../include/drm/drm_mm.h:51,
+                 from ../include/drm/drm_vma_manager.h:26,
+                 from ../include/drm/drm_gem.h:42,
+                 from ../drivers/gpu/drm/msm/msm_drv.h:34,
+                 from ../drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c:20:
+In function '_dpu_plane_set_qos_lut',
+    inlined from 'dpu_plane_sspp_update_pipe' at
+../drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c:1078:2:
+../include/drm/drm_print.h:536:35: warning: '%4.4s' directive argument
+is null [-Wformat-overflow=]
+  536 | #define __drm_dbg(cat, fmt, ...)  ___drm_dbg(NULL, cat, fmt,
+##__VA_ARGS__)
+      |
+^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../include/drm/drm_print.h:594:2: note: in expansion of macro '__drm_dbg'
+  594 |  __drm_dbg(DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
+      |  ^~~~~~~~~
+../drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c:30:39: note: in expansion
+of macro 'DRM_DEBUG_ATOMIC'
+   30 | #define DPU_DEBUG_PLANE(pl, fmt, ...) DRM_DEBUG_ATOMIC("plane%d
+" fmt,\
+      |                                       ^~~~~~~~~~~~~~~~
+../drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c:290:2: note: in expansion
+of macro 'DPU_DEBUG_PLANE'
+  290 |  DPU_DEBUG_PLANE(pdpu, "pnum:%d fmt: %4.4s rt:%d fl:%u
+lut:0x%llx\n",
+      |  ^~~~~~~~~~~~~~~
+  CC [M]  drivers/net/can/spi/mcp251xfd/mcp251xfd-ethtool.o
+
+
+
+Bisect log:
+------------
+git bisect start
+# good: [4cece764965020c22cff7665b18a012006359095] Linux 6.9-rc1
+git bisect good 4cece764965020c22cff7665b18a012006359095
+# bad: [084c8e315db34b59d38d06e684b1a0dd07d30287] Add linux-next
+specific files for 20240326
+git bisect bad 084c8e315db34b59d38d06e684b1a0dd07d30287
+# good: [1cc931629f2b3de04b7608b8d26692c6f6a52aeb] Merge branch
+'nand/next' of git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git
+git bisect good 1cc931629f2b3de04b7608b8d26692c6f6a52aeb
+# bad: [4f5a3415aaf8fdf945e4cb67b847254ddda2f583] Merge branch
+'drm-xe-next' of https://gitlab.freedesktop.org/drm/xe/kernel
+git bisect bad 4f5a3415aaf8fdf945e4cb67b847254ddda2f583
+# bad: [a13305486485d0657fbf09cee72fca9553d7d6cd] Merge branch
+'drm-next' of https://gitlab.freedesktop.org/agd5f/linux
+git bisect bad a13305486485d0657fbf09cee72fca9553d7d6cd
+# good: [417f78a2a1c8c2d517db8b2e04785c1c94a563b4] drm/amdkfd: Cleanup
+workqueue during module unload
+git bisect good 417f78a2a1c8c2d517db8b2e04785c1c94a563b4
+# bad: [57a4e3a94caee6cfda41700da877bee77eab939c] Revert "drm/panthor:
+Fix undefined panthor_device_suspend/resume symbol issue"
+git bisect bad 57a4e3a94caee6cfda41700da877bee77eab939c
+# bad: [2cddf770be0cebb663af3d72c049b9e24928f335] drm/kunit: fix
+drm_kunit_helpers.h kernel-doc
+git bisect bad 2cddf770be0cebb663af3d72c049b9e24928f335
+# good: [d72f049087d4f973f6332b599c92177e718107de] drm/panthor: Allow
+driver compilation
+git bisect good d72f049087d4f973f6332b599c92177e718107de
+# good: [e18aeeda0b6905c333df5a0566b99f5c84426098] drm/bridge: Fix
+improper bridge init order with pre_enable_prev_first
+git bisect good e18aeeda0b6905c333df5a0566b99f5c84426098
+# bad: [f89632a9e5fa6c4787c14458cd42a9ef42025434] drm: Add CONFIG_DRM_WERROR
+git bisect bad f89632a9e5fa6c4787c14458cd42a9ef42025434
+# good: [460be1d527a8e296d85301e8b14923299508d4fc] drm/nouveau: move
+more missing UAPI bits
+git bisect good 460be1d527a8e296d85301e8b14923299508d4fc
+# bad: [a61ddb4393ad1be61d2ffd92576d42707b05be17] drm: enable (most) W=1
+warnings by default across the subsystem
+git bisect bad a61ddb4393ad1be61d2ffd92576d42707b05be17
+# first bad commit: [a61ddb4393ad1be61d2ffd92576d42707b05be17] drm:
+enable (most) W=1 warnings by default across the subsystem
+
+Thanks,
+Aishwarya
