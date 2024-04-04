@@ -2,50 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA96D898BB9
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 18:02:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C0C898C38
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 18:35:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBC6510E8CA;
-	Thu,  4 Apr 2024 16:02:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B502E1132C8;
+	Thu,  4 Apr 2024 16:35:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NgFs24i1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HWo/yXTx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87F5610E61F;
- Thu,  4 Apr 2024 16:02:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 134E6CE2A56;
- Thu,  4 Apr 2024 16:02:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32065C433F1;
- Thu,  4 Apr 2024 16:02:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1712246561;
- bh=S4vqLtLutHujkNQz1zATc4vO4U4vMe9CCrbAwlFtjfc=;
- h=From:To:Cc:Subject:Date:From;
- b=NgFs24i1FPcjYF68S5NJ9C21Ke4TUmFGvAX1/+vC0iO+QYM2cVVBwdW4/gC9ga5iz
- 1EbkSBzsz4FJ4HIl4B8dFru62IQQ3rvRVS8aQo/SLwv6JVC7xaKo4JthyK1frNi5/r
- KoaUO2F9tnFat+D80UoCAg/6V3s246/rM2qv5igXMCHl+uY+/xmMGlzTNMkkhg/bxw
- doNgsU5apn6jndjpCWURmP0DkVT1Xhhej75+baqkyQIRZfybxkKzb4Vjl4NI16w3IY
- N7r/pyXWblz3wwCyx3PruJVus+rxyQTtD6aG8W5EPMSkANhaotH8R7HFaCL1v/IjjE
- eG7H1tVDs8z6g==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev
-Subject: [PATCH] [v2] nouveau: fix function cast warning
-Date: Thu,  4 Apr 2024 18:02:25 +0200
-Message-Id: <20240404160234.2923554-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46CA71132CA
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 16:35:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1712248522; x=1743784522;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=MmhrXXb3uIRaUAMK673aSGEDDVFyLxQk/WLn0pC3LAY=;
+ b=HWo/yXTxrV85T12SCZXY8XwRULbb0LxfXwMRoXZ+FbS0FL1cY9UMoy8d
+ aPWL8md2/EcP/QmwjlCi7Ddb4sgkeZjNZP1hNcPPtrFXOyYyzB8FutR3o
+ cSiKDygeBsMwrJ9GheAV8gjB3aft/mhnUUV8gdnqhP1C5P3Ic2zVXmrh6
+ i3ZPc8cnGl3ehgAA/2S0zESkhCYGkVVef4XEDynjU2U/BVhSdkTn9lE8X
+ WQpGJhU297th1+D0w+JrGya2YhrX5/+trDWyqtYuMozkCuwWJfIKg+P8i
+ EliprqkIQmpEGZlAW4h5P8qTktSf4r5hpvYKTxsuxsxC7TNpWQN1GNauQ A==;
+X-CSE-ConnectionGUID: TRpCj2UXQLedvr3l0Hyqmg==
+X-CSE-MsgGUID: iPVBT/mVT26sLIfW26Y4mw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="7783652"
+X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; 
+   d="scan'208";a="7783652"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Apr 2024 09:35:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="915223151"
+X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; d="scan'208";a="915223151"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.72.54])
+ by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Apr 2024 09:35:16 -0700
+Received: from andy by smile with local (Exim 4.97)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1rsQ3U-00000001W57-3W2D; Thu, 04 Apr 2024 19:35:12 +0300
+Date: Thu, 4 Apr 2024 19:35:12 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jianglei Nie <niejianglei2021@163.com>
+Cc: gregkh@linuxfoundation.org, tzimmermann@suse.de, javierm@redhat.com,
+ sam@ravnborg.org, steve@sk2.org, noralf@tronnes.org,
+ u.kleine-koenig@pengutronix.de, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: fbtft: core: fix potential memory leak in
+ fbtft_probe_common()
+Message-ID: <Zg7WwNEpZlYsvNwJ@smile.fi.intel.com>
+References: <20220928062301.6399-1-niejianglei2021@163.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220928062301.6399-1-niejianglei2021@163.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,46 +76,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Wed, Sep 28, 2022 at 02:23:01PM +0800, Jianglei Nie wrote:
+> fbtft_probe_common() allocates a memory chunk for "info" with
+> fbtft_framebuffer_alloc(). When "display->buswidth == 0" is true, the
+> function returns without releasing the "info", which will lead to a
+> memory leak.
+> 
+> Fix it by calling fbtft_framebuffer_release() when "display->buswidth
+> == 0" is true.
 
-Calling a function through an incompatible pointer type causes breaks
-kcfi, so clang warns about the assignment:
+Fixes tag?
 
-drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowof.c:73:10: error: cast from 'void (*)(const void *)' to 'void (*)(void *)' converts to incompatible function type [-Werror,-Wcast-function-type-strict]
-   73 |         .fini = (void(*)(void *))kfree,
+...
 
-Avoid this with a trivial wrapper.
+>  	if (display->buswidth == 0) {
+>  		dev_err(dev, "buswidth is not set\n");
+> +		fbtft_framebuffer_release(info);
+>  		return -EINVAL;
 
-Fixes: c39f472e9f14 ("drm/nouveau: remove symlinks, move core/ to nvkm/ (no code changes)")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
-v2: avoid 'return kfree()' expression returning a void
----
- drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowof.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+		ret = dev_err_probe(dev, -EINVAL, "buswidth is not set\n");
+		goto out_release;
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowof.c b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowof.c
-index 4bf486b57101..cb05f7f48a98 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowof.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowof.c
-@@ -66,11 +66,16 @@ of_init(struct nvkm_bios *bios, const char *name)
- 	return ERR_PTR(-EINVAL);
- }
- 
-+static void of_fini(void *p)
-+{
-+	kfree(p);
-+}
-+
- const struct nvbios_source
- nvbios_of = {
- 	.name = "OpenFirmware",
- 	.init = of_init,
--	.fini = (void(*)(void *))kfree,
-+	.fini = of_fini,
- 	.read = of_read,
- 	.size = of_size,
- 	.rw = false,
+>  	}
+
 -- 
-2.39.2
+With Best Regards,
+Andy Shevchenko
+
 
