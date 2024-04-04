@@ -2,52 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9B6A898F99
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 22:33:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5766898F9C
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 22:33:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95CAA11325E;
-	Thu,  4 Apr 2024 20:33:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 458441134E3;
+	Thu,  4 Apr 2024 20:33:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="J1fRZrUB";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XH1dVEZ+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 485D711325E;
- Thu,  4 Apr 2024 20:33:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21B6311325E;
+ Thu,  4 Apr 2024 20:33:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712262821; x=1743798821;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=iMCxIxsnuriYwWTx8Vlt/bZxUxpvB8c5tOVCCIh9qV8=;
- b=J1fRZrUBwr9IVh4YC1iogP2F+57v9yjP6nGb+KaeNk5wdPetyo7o8uSp
- k7Y0DHn9GX7W8nmI0T2fq9SM1l2meU7Co10wNAqZN4o077qxsYFBLJgLy
- E5P1n/jyILqCVbl8GoJUDONERUNX+VbFfCeMXU/nnBTcPOT7pJLCXGbqZ
- 0JfbDRIEH6XAfMLC/CLtCA48Sg9/paHptzevoJNED1wxVKQxWhkB0zv16
- 3x4oRQ0SkSxrniiHaky7ovgKz0x+HMcDxp9jpY6hl5RVPEb7MZviS4pkp
- SKAX1yVT7fcWY1clKN+RHCc/RrCHFWKaQy4Yv/2nNmutuTt1/R0Wvf+/L g==;
-X-CSE-ConnectionGUID: 5rm5wAQFRH6UGUFgbAVacQ==
-X-CSE-MsgGUID: MuV02G3OTrqhaSOSb85iHQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="25019715"
-X-IronPort-AV: E=Sophos;i="6.07,180,1708416000"; d="scan'208";a="25019715"
+ t=1712262823; x=1743798823;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=zilOGH9d9aSJ4609zaqdQzRgfqugSYDSLLlLCXBZbuM=;
+ b=XH1dVEZ+Zb+yq8W4qnaImTg0+yFX3TBCtU+D2yVyQz85saD4/+QCs4a4
+ KbAR3BW5FDTHw5gw7MCkgZFTx9oOIiuFOFEi/PsT5hhYiUu6sXHCGDKOZ
+ RR0GsMHF1Kw1hkZm6P1N6tJxOrGoLxqkJMcpPwoeh+YfzM1mSAoPzBNII
+ PROk88RcDaDg2Lkx0bKska2yVfDJMQ8QFZ57DrRoGGym06ASFT/Iv9S8H
+ uC8HMCvwNmvJcmj1aE502iUoLxjMld4Ia/yN2QJPdBu3q4+w39hkB9q3O
+ 05iax5GU6ioprybCeVjL0wCjeSHDWWdXqWxl5xqUitciRVvTeBnh2GC+1 A==;
+X-CSE-ConnectionGUID: wZBhttGGQHqGg+vn6OumOA==
+X-CSE-MsgGUID: 7n0QYWJXSY+WadUXrEiszg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="25019718"
+X-IronPort-AV: E=Sophos;i="6.07,180,1708416000"; d="scan'208";a="25019718"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2024 13:33:39 -0700
+ 04 Apr 2024 13:33:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="827790577"
-X-IronPort-AV: E=Sophos;i="6.07,180,1708416000"; d="scan'208";a="827790577"
+X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="827790578"
+X-IronPort-AV: E=Sophos;i="6.07,180,1708416000"; d="scan'208";a="827790578"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 04 Apr 2024 13:33:37 -0700
+ by orsmga001.jf.intel.com with SMTP; 04 Apr 2024 13:33:40 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 04 Apr 2024 23:33:36 +0300
+ Thu, 04 Apr 2024 23:33:39 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 00/12] drm/client: Use after free and debug improvements
-Date: Thu,  4 Apr 2024 23:33:24 +0300
-Message-ID: <20240404203336.10454-1-ville.syrjala@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org,
+	stable@vger.kernel.org
+Subject: [PATCH 01/12] drm/client: Fully protect modes[] with
+ dev->mode_config.mutex
+Date: Thu,  4 Apr 2024 23:33:25 +0300
+Message-ID: <20240404203336.10454-2-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.43.2
+In-Reply-To: <20240404203336.10454-1-ville.syrjala@linux.intel.com>
+References: <20240404203336.10454-1-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -68,30 +72,47 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Various improvements to the drm/client code:
-- Fix a use after free (fairly routinely hit by i915 CI)
-- Debug print improvements
-- Cleanups/etc.
+The modes[] array contains pointers to modes on the connectors'
+mode lists, which are protected by dev->mode_config.mutex.
+Thus we need to extend modes[] the same protection or by the
+time we use it the elements may already be pointing to
+freed/reused memory.
 
-Ville Syrjälä (12):
-  drm/client: Fully protect modes[] with dev->mode_config.mutex
-  drm/client:
-    s/drm_connector_has_preferred_mode/drm_connector_preferred_mode/
-  drm/client: Use drm_mode_destroy()
-  drm/client: Add a FIXME around crtc->mode usage
-  drm/client: Nuke outdated fastboot comment
-  drm/client: Constify modes
-  drm/client: Use array notation for function arguments
-  drm/client: Extract drm_connector_first_mode()
-  drm/client: Switch to per-device debugs
-  drm/client: Use [CONNECTOR:%d:%s] formatting
-  drm/client: Streamline mode selection debugs
-  drm/probe-helper: Switch to per-device debugs
+Cc: stable@vger.kernel.org
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/10583
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+---
+ drivers/gpu/drm/drm_client_modeset.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
- drivers/gpu/drm/drm_client_modeset.c | 237 ++++++++++++++-------------
- drivers/gpu/drm/drm_probe_helper.c   |  35 ++--
- 2 files changed, 137 insertions(+), 135 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+index 871e4e2129d6..0683a129b362 100644
+--- a/drivers/gpu/drm/drm_client_modeset.c
++++ b/drivers/gpu/drm/drm_client_modeset.c
+@@ -777,6 +777,7 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
+ 	unsigned int total_modes_count = 0;
+ 	struct drm_client_offset *offsets;
+ 	unsigned int connector_count = 0;
++	/* points to modes protected by mode_config.mutex */
+ 	struct drm_display_mode **modes;
+ 	struct drm_crtc **crtcs;
+ 	int i, ret = 0;
+@@ -845,7 +846,6 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
+ 		drm_client_pick_crtcs(client, connectors, connector_count,
+ 				      crtcs, modes, 0, width, height);
+ 	}
+-	mutex_unlock(&dev->mode_config.mutex);
+ 
+ 	drm_client_modeset_release(client);
+ 
+@@ -875,6 +875,7 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
+ 			modeset->y = offset->y;
+ 		}
+ 	}
++	mutex_unlock(&dev->mode_config.mutex);
+ 
+ 	mutex_unlock(&client->modeset_mutex);
+ out:
 -- 
 2.43.2
 
