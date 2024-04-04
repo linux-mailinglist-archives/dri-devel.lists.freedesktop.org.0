@@ -2,85 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6951A89855F
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 12:48:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C6A7898625
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 13:41:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB74411B3D1;
-	Thu,  4 Apr 2024 10:48:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE31911B491;
+	Thu,  4 Apr 2024 11:41:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Jk6J5UUQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ITfNdB4G";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Hu5CFZxp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0F0411B3CE;
- Thu,  4 Apr 2024 10:48:16 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E46AC37ABE;
- Thu,  4 Apr 2024 10:48:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1712227694; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=ifyVFdgsGutaFbG6us/talgSokPtLGYvOTFyqsTEK9A=;
- b=Jk6J5UUQD98vkrCn1Y9tSF1SuoMN4nUKRtn0W+Q0ExbuOIOzkgckn1eVW3lRr+y60Nt0zi
- uTx9kLrtAhVYw5c/bHqemR/9qA7MnUndXwxIuGduUTHV6dkT5rBYqCLavz62mx06J7/ATo
- rWRy1o9MvZnL97giH1wKC/6eyqBz600=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1712227694;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=ifyVFdgsGutaFbG6us/talgSokPtLGYvOTFyqsTEK9A=;
- b=ITfNdB4G2uQm/UG2h1CUc8qNHLTCktdfGDCQVLR/zqHNCCgMH5LTksQHxkQZcUDUOORAOw
- E97Tm42+5NTetLAw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 6F675139E8;
- Thu,  4 Apr 2024 10:48:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap2.dmz-prg2.suse.org with ESMTPSA id peC4GW6FDmahPwAAn2gu4w
- (envelope-from <tzimmermann@suse.de>); Thu, 04 Apr 2024 10:48:14 +0000
-Date: Thu, 4 Apr 2024 12:48:13 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20240404104813.GA27376@localhost.localdomain>
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com
+ [209.85.219.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C7B711B491
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 11:41:30 +0000 (UTC)
+Received: by mail-yb1-f174.google.com with SMTP id
+ 3f1490d57ef6-dd10ebcd702so1002335276.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Apr 2024 04:41:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1712230889; x=1712835689; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xTu/IdCn/048THaVHddyM991QlKheudeHaOzDUEba/4=;
+ b=Hu5CFZxp/cxca5cb9BbEV86dK7cEScwCwswARQCjqd91h71h4Yq/BUrab9GOzzaqLZ
+ SLLdhRI25sf/y/87Z3ytcMzlR+S1aohID+dppkYyN81CARJlFVtlqWvsdERE4YxmTzGU
+ wuepqD/DTup5LJeEXscrT+jqfiMLBE+PERP+rWHx91GUrtRryagnhyJPXIcIJc9fWali
+ 7gNWatsIdhc9Z2lftiWUbH4MezuTPoB/VwodVm1pyK60k3awWk6/aIhH6BrG1YF90uD/
+ BOkC5ex5cOHwcMv0m91xrngC5IKB3rOyJF9UxSV39oCKsvgaMYZZbdURouVYkTCppDEk
+ I/iA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712230889; x=1712835689;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xTu/IdCn/048THaVHddyM991QlKheudeHaOzDUEba/4=;
+ b=Y/AL3Ljf4vT3b2bnyTEaeupdL4JcIJPsTFJA7egbyTKai+EjFkm6qPYmX6Btvyz1bj
+ DGfOQT9TKFYMT4P9YEm765YKY8iDTZRXFFLgJXmasM7W1sCVCzns9SzXY9XF9Yhxg+YD
+ A9ydaKINYwbRGB6XtDWe8s4DTLNYWH5YUhom5mzIxLPjmPbCopyQww97FFoBT1MRP3qO
+ eWlO+GelHnRC97+Waa7Gxz7ruDdYQY5xef8WJuteNIW+Uk8rCl8qcTXhl5Ro3l5Lirqv
+ HjjWAfilGJZv7qsPf6bI7SzNyfn817VHz1u+8+EtVp53PamedIh7+GQKLmpM4/pBmKCn
+ Q9Fw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVeqoCyMnRsG4Fib8qBAjD/P0oMMHS+ld3XuHbrPbTzpGxxMhsoyYFe/qwaISXsuxUdlrwgEsFHEJHP9weutPFs1exUByxLoj3gTXUMxwcI
+X-Gm-Message-State: AOJu0Yyf8pmixSLriiwRXEDL8UBot434RqTqrLs+8N4457Lw982nEao3
+ 6zvod2G4vb8ViYgsiiQ9Rz2Lf/dS0Sq7AelMuwnhV54F44YSgyyOtMQthyp4KG1Gh4gefaobgtp
+ vX6HMDthjmCxxsudSmEjO60TJYbWZkgXe0diDcg==
+X-Google-Smtp-Source: AGHT+IEhL+O4bSIOCRsSy+Vdywn61xtrVBJ3li47sHwN1FOt8H7g9W+tj2/Or7rao9/9euGeRsXbtXq4vPMz7+GnZRc=
+X-Received: by 2002:a25:ba86:0:b0:dd1:6fab:81e4 with SMTP id
+ s6-20020a25ba86000000b00dd16fab81e4mr2034373ybg.37.1712230889318; Thu, 04 Apr
+ 2024 04:41:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
- NEURAL_HAM_LONG(-1.00)[-1.000]; RCVD_COUNT_THREE(0.00)[3];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-0.988]; RCPT_COUNT_TWELVE(0.00)[16];
- FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
- BAYES_HAM(-3.00)[100.00%]
-X-Spam-Level: 
-X-Spam-Flag: NO
+References: <20240331-module-owner-virtio-v2-0-98f04bfaf46a@linaro.org>
+ <20240331-module-owner-virtio-v2-12-98f04bfaf46a@linaro.org>
+In-Reply-To: <20240331-module-owner-virtio-v2-12-98f04bfaf46a@linaro.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 4 Apr 2024 13:41:18 +0200
+Message-ID: <CACRpkdYpVUq1SgxnPVfRdTiNg3o8dcBePxoxu9GRYy6LdzUE5A@mail.gmail.com>
+Subject: Re: [PATCH v2 12/25] gpio: virtio: drop owner assignment
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jonathan Corbet <corbet@lwn.net>, 
+ David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+ Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
+ Johannes Berg <johannes@sipsolutions.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>, 
+ Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+ Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+ Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Gonglei <arei.gonglei@huawei.com>, 
+ "David S. Miller" <davem@davemloft.net>, Sudeep Holla <sudeep.holla@arm.com>, 
+ Cristian Marussi <cristian.marussi@arm.com>, Viresh Kumar <vireshk@kernel.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, David Airlie <airlied@redhat.com>, 
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>, 
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Joerg Roedel <joro@8bytes.org>, 
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Alexander Graf <graf@amazon.com>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, 
+ Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>, 
+ Dominique Martinet <asmadeus@codewreck.org>,
+ Christian Schoenebeck <linux_oss@crudebyte.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Kalle Valo <kvalo@kernel.org>, 
+ Dan Williams <dan.j.williams@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, 
+ Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>, 
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
+ Anton Yakovlev <anton.yakovlev@opensynergy.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ virtualization@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-um@lists.infradead.org, linux-block@vger.kernel.org, 
+ linux-bluetooth@vger.kernel.org, linux-crypto@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, iommu@lists.linux.dev, 
+ netdev@vger.kernel.org, v9fs@lists.linux.dev, kvm@vger.kernel.org, 
+ linux-wireless@vger.kernel.org, nvdimm@lists.linux.dev, 
+ linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,83 +132,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+On Sun, Mar 31, 2024 at 10:45=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
 
-here's the drm-misc-fixes PR for this week.
+> virtio core already sets the .owner, so driver does not need to.
+>
+> Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Best regards
-Thomas
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
-drm-misc-fixes-2024-04-04:
-Short summary of fixes pull:
-
-display:
-- fix typos in kerneldoc
-
-nouveau:
-- uvmm: fix remap address calculation
-- minor cleanups
-
-panfrost:
-- fix power-transition timeouts
-
-prime:
-- unbreak dma-buf export for virt-gpu
-The following changes since commit aba2a144c0bf1ecdcbc520525712fb661392e509:
-
-  drm/qxl: remove unused variable from `qxl_process_single_command()` (2024-03-28 11:15:48 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2024-04-04
-
-for you to fetch changes up to fddf09273807bf6e51537823aaae896e05f147f9:
-
-  drm/display: fix typo (2024-04-01 22:35:16 +0300)
-
-----------------------------------------------------------------
-Short summary of fixes pull:
-
-display:
-- fix typos in kerneldoc
-
-nouveau:
-- uvmm: fix remap address calculation
-- minor cleanups
-
-panfrost:
-- fix power-transition timeouts
-
-prime:
-- unbreak dma-buf export for virt-gpu
-
-----------------------------------------------------------------
-Christian Hewitt (1):
-      drm/panfrost: fix power transition timeout warnings
-
-Colin Ian King (1):
-      drm/nouveau/gr/gf100: Remove second semicolon
-
-Dave Airlie (1):
-      nouveau/uvmm: fix addr/range calcs for remap operations
-
-Oleksandr Natalenko (1):
-      drm/display: fix typo
-
-Rob Clark (1):
-      drm/prime: Unbreak virtgpu dma-buf export
-
- drivers/gpu/drm/display/drm_dp_dual_mode_helper.c | 4 ++--
- drivers/gpu/drm/drm_prime.c                       | 7 ++++++-
- drivers/gpu/drm/nouveau/nouveau_uvmm.c            | 6 +++---
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c    | 2 +-
- drivers/gpu/drm/panfrost/panfrost_gpu.c           | 6 +++---
- 5 files changed, 15 insertions(+), 10 deletions(-)
-
--- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Yours,
+Linus Walleij
