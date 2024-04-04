@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCBBE897F4A
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 07:11:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 338DA897F23
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 07:10:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC333112C3D;
-	Thu,  4 Apr 2024 05:11:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F584112C08;
+	Thu,  4 Apr 2024 05:10:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id AAECC1127AF
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 05:10:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7029B10F531
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 05:10:32 +0000 (UTC)
 Received: from SIOS1075.ysato.name (al128006.dynamic.ppp.asahi-net.or.jp
  [111.234.128.6])
- by sakura.ysato.name (Postfix) with ESMTPSA id E13311C03E9;
- Thu,  4 Apr 2024 14:00:43 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id A98A31C04AD;
+ Thu,  4 Apr 2024 14:00:45 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
 Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
@@ -63,9 +63,9 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
  linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-fbdev@vger.kernel.org
-Subject: [PATCH v7 05/37] sh: GENERIC_IRQ_CHIP support for CONFIG_OF=y
-Date: Thu,  4 Apr 2024 13:59:30 +0900
-Message-Id: <6e73949abe8d5f4f5bc229716f9a2cfb7db21626.1712205900.git.ysato@users.sourceforge.jp>
+Subject: [PATCH v7 06/37] sh: kernel/setup Update DT support.
+Date: Thu,  4 Apr 2024 13:59:31 +0900
+Message-Id: <a4ce7771faec761b9bbb91ff6694a99e5bc293b6.1712205900.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1712205900.git.ysato@users.sourceforge.jp>
 References: <cover.1712205900.git.ysato@users.sourceforge.jp>
@@ -86,123 +86,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove unused function prototype.
-Add helper update_sr_imask. use for SH7751 irq driver.
-Add stub intc_finalize.
+Fix extrnal fdt initialize and bootargs.
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- arch/sh/include/asm/io.h       |  2 ++
- arch/sh/include/asm/irq.h      | 10 ++++++++--
- arch/sh/kernel/cpu/Makefile    |  5 +----
- arch/sh/kernel/cpu/irq/imask.c | 17 +++++++++++++++++
- include/linux/sh_intc.h        |  7 ++++++-
- 5 files changed, 34 insertions(+), 7 deletions(-)
+ arch/sh/Kconfig             | 23 +++++++++++------------
+ arch/sh/include/asm/setup.h |  1 +
+ arch/sh/kernel/setup.c      | 36 +++++++++++++++++++++++-------------
+ 3 files changed, 35 insertions(+), 25 deletions(-)
 
-diff --git a/arch/sh/include/asm/io.h b/arch/sh/include/asm/io.h
-index cf5eab840d57..5c544cf5201b 100644
---- a/arch/sh/include/asm/io.h
-+++ b/arch/sh/include/asm/io.h
-@@ -121,7 +121,9 @@ __BUILD_MEMORY_STRING(__raw_, q, u64)
+diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
+index 6711cde0d973..242cf30e704d 100644
+--- a/arch/sh/Kconfig
++++ b/arch/sh/Kconfig
+@@ -708,17 +708,22 @@ config ROMIMAGE_MMCIF
+ 	  first part of the romImage which in turn loads the rest the kernel
+ 	  image to RAM using the MMCIF hardware block.
  
- #define ioport_map ioport_map
- #define ioport_unmap ioport_unmap
-+#ifndef CONFIG_SH_DEVICE_TREE
- #define pci_iounmap pci_iounmap
-+#endif
- 
- #define ioread8 ioread8
- #define ioread16 ioread16
-diff --git a/arch/sh/include/asm/irq.h b/arch/sh/include/asm/irq.h
-index 0f384b1f45ca..3d897229dcc4 100644
---- a/arch/sh/include/asm/irq.h
-+++ b/arch/sh/include/asm/irq.h
-@@ -16,8 +16,8 @@
- /*
-  * Simple Mask Register Support
-  */
--extern void make_maskreg_irq(unsigned int irq);
--extern unsigned short *irq_mask_register;
++config CMDLINE
++	string "Kernel command line arguments string"
++	default "console=ttySC1,115200"
 +
-+void update_sr_imask(unsigned int irq, bool enable);
- 
- /*
-  * PINT IRQs
-@@ -54,4 +54,10 @@ extern void irq_finish(unsigned int irq);
- 
- #include <asm-generic/irq.h>
- 
-+/* SH3/4 INTC stuff */
-+/* IRL level 0 - 15 */
-+#define NR_IRL 15
-+/* IRL0 -> IRQ16 */
-+#define IRL_BASE_IRQ	16
+ choice
+ 	prompt "Kernel command line"
+-	optional
+-	default CMDLINE_OVERWRITE
+-	depends on !OF || USE_BUILTIN_DTB
++	default CMDLINE_BOOTLOADER
 +
- #endif /* __ASM_SH_IRQ_H */
-diff --git a/arch/sh/kernel/cpu/Makefile b/arch/sh/kernel/cpu/Makefile
-index e00ebf134985..ad12807fae9c 100644
---- a/arch/sh/kernel/cpu/Makefile
-+++ b/arch/sh/kernel/cpu/Makefile
-@@ -20,7 +20,4 @@ ifndef CONFIG_COMMON_CLK
- obj-y += clock.o
- obj-$(CONFIG_SH_CLK_CPG_LEGACY)	+= clock-cpg.o
- endif
--ifndef CONFIG_GENERIC_IRQ_CHIP
--obj-y	+= irq/
--endif
--obj-y	+= init.o fpu.o pfc.o proc.o
-+obj-y	+= init.o fpu.o pfc.o proc.o irq/
-diff --git a/arch/sh/kernel/cpu/irq/imask.c b/arch/sh/kernel/cpu/irq/imask.c
-index 572585c3f2fd..7589ca7c506c 100644
---- a/arch/sh/kernel/cpu/irq/imask.c
-+++ b/arch/sh/kernel/cpu/irq/imask.c
-@@ -51,6 +51,7 @@ static inline void set_interrupt_registers(int ip)
- 		     : "t");
- }
++config CMDLINE_BOOTLOADER
++	bool "Use bootloader kernel arguments"
+ 	help
+-	  Setting this option allows the kernel command line arguments
+-	  to be set.
++	  Uses the command-line options passed by the boot loader.
++	  If boot loader dosen't provide kernel argments, Use built-in argments.
  
-+#ifndef CONFIG_GENERIC_IRQ_CHIP
- static void mask_imask_irq(struct irq_data *data)
- {
- 	unsigned int irq = data->irq;
-@@ -83,3 +84,19 @@ void make_imask_irq(unsigned int irq)
- 	irq_set_chip_and_handler_name(irq, &imask_irq_chip, handle_level_irq,
- 				      "level");
- }
-+#else
-+void update_sr_imask(unsigned int irq, bool enable)
-+{
-+	if (enable) {
-+		set_bit(irq, imask_mask);
-+		interrupt_priority = IMASK_PRIORITY -
-+		  find_first_bit(imask_mask, IMASK_PRIORITY);
-+	} else {
-+		clear_bit(irq, imask_mask);
-+		if (interrupt_priority < IMASK_PRIORITY - irq)
-+			interrupt_priority = IMASK_PRIORITY - irq;
-+	}
-+	set_interrupt_registers(interrupt_priority);
-+}
-+EXPORT_SYMBOL(update_sr_imask);
-+#endif
-diff --git a/include/linux/sh_intc.h b/include/linux/sh_intc.h
-index 27ae79191bdc..994b5b05a0d7 100644
---- a/include/linux/sh_intc.h
-+++ b/include/linux/sh_intc.h
-@@ -139,8 +139,13 @@ struct intc_desc symbol __initdata = {					\
- int register_intc_controller(struct intc_desc *desc);
- int intc_set_priority(unsigned int irq, unsigned int prio);
- int intc_irq_lookup(const char *chipname, intc_enum enum_id);
-+#ifndef CONFIG_SH_DEVICE_TREE
- void intc_finalize(void);
+ config CMDLINE_OVERWRITE
+-	bool "Overwrite bootloader kernel arguments"
++	bool "Overwrite built-in kernel arguments"
+ 	help
+ 	  Given string will overwrite any arguments passed in by
+ 	  a bootloader.
+@@ -730,12 +735,6 @@ config CMDLINE_EXTEND
+ 	  by a bootloader.
+ 
+ endchoice
 -
-+#else
-+static inline void intc_finalize(void)
-+{
-+}
+-config CMDLINE
+-	string "Kernel command line arguments string"
+-	depends on CMDLINE_OVERWRITE || CMDLINE_EXTEND
+-	default "console=ttySC1,115200"
+-
+ endmenu
+ 
+ menu "Bus options"
+diff --git a/arch/sh/include/asm/setup.h b/arch/sh/include/asm/setup.h
+index fc807011187f..84bb23a771f3 100644
+--- a/arch/sh/include/asm/setup.h
++++ b/arch/sh/include/asm/setup.h
+@@ -21,5 +21,6 @@
+ void sh_mv_setup(void);
+ void check_for_initrd(void);
+ void per_cpu_trap_init(void);
++void sh_fdt_init(phys_addr_t dt_phys);
+ 
+ #endif /* _SH_SETUP_H */
+diff --git a/arch/sh/kernel/setup.c b/arch/sh/kernel/setup.c
+index 620e5cf8ae1e..42e6292a40cf 100644
+--- a/arch/sh/kernel/setup.c
++++ b/arch/sh/kernel/setup.c
+@@ -30,6 +30,7 @@
+ #include <linux/memblock.h>
+ #include <linux/of.h>
+ #include <linux/of_fdt.h>
++#include <linux/libfdt.h>
+ #include <linux/uaccess.h>
+ #include <uapi/linux/mount.h>
+ #include <asm/io.h>
+@@ -269,8 +270,22 @@ void __ref sh_fdt_init(phys_addr_t dt_phys)
+ 
+ void __init setup_arch(char **cmdline_p)
+ {
++#if defined(CONFIG_OF) && defined(CONFIG_OF_EARLY_FLATTREE)
++	if (IS_ENABLED(CONFIG_USE_BUILTIN_DTB)) {
++		/* Relocate Embedded DTB */
++		unflatten_and_copy_device_tree();
++	} else if (initial_boot_params) {
++		/* Reserve external DTB area */
++		memblock_reserve(__pa(initial_boot_params),
++				 fdt_totalsize(initial_boot_params));
++		unflatten_device_tree();
++	}
++	/* copy from /chosen/bootargs */
++	strscpy(command_line, boot_command_line, COMMAND_LINE_SIZE);
 +#endif
- #ifdef CONFIG_INTC_USERIMASK
- int register_intc_userimask(unsigned long addr);
- #else
+ 	enable_mmu();
+ 
++#ifndef CONFIG_OF
+ 	ROOT_DEV = old_decode_dev(ORIG_ROOT_DEV);
+ 
+ 	printk(KERN_NOTICE "Boot params:\n"
+@@ -299,14 +314,17 @@ void __init setup_arch(char **cmdline_p)
+ 	bss_resource.start = virt_to_phys(__bss_start);
+ 	bss_resource.end = virt_to_phys(__bss_stop)-1;
+ 
+-#ifdef CONFIG_CMDLINE_OVERWRITE
+-	strscpy(command_line, CONFIG_CMDLINE, sizeof(command_line));
+-#else
+-	strscpy(command_line, COMMAND_LINE, sizeof(command_line));
++#endif
++#if !defined(CONFIG_OF) || defined(CONFIG_USE_BUILTIN_DTB)
++	if (*COMMAND_LINE)
++		strscpy(command_line, COMMAND_LINE, sizeof(command_line));
++#endif
++	if (*command_line == '\0' || IS_ENABLED(CONFIG_CMDLINE_OVERWRITE))
++		/* Use built-in parameter */
++		strscpy(command_line, CONFIG_CMDLINE, sizeof(command_line));
+ #ifdef CONFIG_CMDLINE_EXTEND
+ 	strlcat(command_line, " ", sizeof(command_line));
+ 	strlcat(command_line, CONFIG_CMDLINE, sizeof(command_line));
+-#endif
+ #endif
+ 
+ 	/* Save unparsed command line copy for /proc/cmdline */
+@@ -322,14 +340,6 @@ void __init setup_arch(char **cmdline_p)
+ 	/* Let earlyprintk output early console messages */
+ 	sh_early_platform_driver_probe("earlyprintk", 1, 1);
+ 
+-#ifdef CONFIG_OF_EARLY_FLATTREE
+-#ifdef CONFIG_USE_BUILTIN_DTB
+-	unflatten_and_copy_device_tree();
+-#else
+-	unflatten_device_tree();
+-#endif
+-#endif
+-
+ 	paging_init();
+ 
+ 	/* Perform the machine specific initialisation */
 -- 
 2.39.2
 
