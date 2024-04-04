@@ -2,67 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D5E58984B4
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 12:08:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B1E88984BC
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 12:08:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20ACD11B32C;
-	Thu,  4 Apr 2024 10:08:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27CAF11B338;
+	Thu,  4 Apr 2024 10:08:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rMYQ3BvT";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tRRrRXuy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70BEA11B32C
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 10:08:09 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-56bdf81706aso1037748a12.2
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Apr 2024 03:08:09 -0700 (PDT)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+ [209.85.208.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78F0C11B32D
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 10:08:10 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-56e0e1d162bso725163a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Apr 2024 03:08:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712225287; x=1712830087; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=qmPmdTR9ZwPxhvP2c4bgI17aKaTHU1vV+VtVIiuiDB4=;
- b=rMYQ3BvTVPCrEgaQ3cAgPez3yGKYocUjdKOUT/XZ0g59Qmh4IBDYPesvJ1qJBEHaNm
- O32E9YrTYjZv06nifmgxV73J0OEnvSB8g2u1l5odI2bCoJ6c15jx50OqFP2jvUH7nrsk
- 45eU/Jo6umLwtLZOaBAqA/G2yK4vGSjKeFKqxi9axh2/Otpv/QGQ3fKCPPcGkRFMPOiH
- guAs/ZHBb0MwR8b6HCTFHMtRhFbJgu7jR43vn9j8pppTX7dCGHXeaqo05VH4xmTKJ8Fg
- Rk4MAPCK9dNIwvXhUgGhRF+40G22WNdS/PS8EXHOLcBS+VRO8ihZC59X8cDcE8YmYBha
- fpCQ==
+ d=linaro.org; s=google; t=1712225289; x=1712830089; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=Dp8USTzsG3ntp/LxWp9gHMeUcZJjL0z8l7/Rhp/dYWg=;
+ b=tRRrRXuyTYoATrxWvu2M9J/av8KgVuLiIgd5lJrODLYBjhXaQ111HsV125XJwARKGy
+ kbz5GJ7ChlM8N0BHvnXiAw3QfOGtPgnJE4uTtslYSCSgYhFsK6bWAO9rNqcTHy4UjZj4
+ AKxdCFGc3rhsdC2t+cLcM6Wh+o5lQVJhrDhvbpj4bJCcfRz4wgHM+Z6AZ1Z3h6RXzcCd
+ vrCJxo83ON3PvWtgpzpAA06fP2le60zvgBpR5mQXZi2YznzsmKbWcu2QTxeYmJ0lezT5
+ d5668dSfKTLUOU61+fylqeMeSe+Y8M18Q2DrBM7wgHeE/61jveoFGEcx/tiZ2TUqZ61Q
+ AJVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712225288; x=1712830088;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=qmPmdTR9ZwPxhvP2c4bgI17aKaTHU1vV+VtVIiuiDB4=;
- b=Zg3K9/SUMqqw/qMMMrWHooby5LsqODrxTsKOkhEQT1VgzHdYfQcvWatju3vef5Bms+
- fvGSL1xssHC7y03XMQOzttAYhGOO18M4Nze57nlsU05L0BajD0nFOYFWDGGtgZ8au6rp
- ewUDzSA2MIy4XLhaSXPYxs4gqIqESV7eO+iQ37jUEtSHcUmx9y65ov7XhunueP2d52Nb
- dSIBATJJF90b4GPwjbhc7GzyHWyVKTEQwHFNP1GtxHesrwfAAsHHnmqgvsypHM4DYOb0
- OA3FJqRY6q5H43t5YSZM9UPa3gxOZoMfo0oVUvfdh++hPY/oXEpkvgxyjmY/dxmb4C31
- NvOQ==
-X-Gm-Message-State: AOJu0YyuQCWx0tk12k3sW7Obp3eSsJJOYI1fuW6TZHXCZbt1XN6ly9DH
- iWneyNb8npfKXXOaKSrEICEerwa1p/TJ/sZw1K2xVjGEBvwYApetVdXqrYo1hzE=
-X-Google-Smtp-Source: AGHT+IGH9QuL6NMx64raNLiACxvVKWuZIeX2HIIWXh2fepAfblZYgtSLhQDB19KMz0mESLgiFnB8Hg==
-X-Received: by 2002:a50:9b1c:0:b0:56d:ece8:a5e8 with SMTP id
- o28-20020a509b1c000000b0056dece8a5e8mr1463406edi.14.1712225287519; 
- Thu, 04 Apr 2024 03:08:07 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1712225289; x=1712830089;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Dp8USTzsG3ntp/LxWp9gHMeUcZJjL0z8l7/Rhp/dYWg=;
+ b=lYqn9uV/Sqsm7gvuijuVyaKbmDdrI8sVSRFUHzS5tXbLyO0mWME09VagEEQ0Wbpx1p
+ PmNxoxnjPRY0Tg7FlLgHECMu1CczjD4LjFrL5LGFD8SlsWFS9NqSmma60E3Xws8jL6dF
+ +KpeTl7U2z+/G5vpy9OvlEACSEky8X0VOLkHHx6inCYr2YGANt/0Wr1xIqsDEEnAMukX
+ jZR6ENrLWBCrcMk7Wq6rwf3VgFsn+X37xJ48LPJbVCH6sIJxppwlzgy2XfQHHGaisXAO
+ MkuX58lcB2y0DuANi/OKqVQEi3ZBKmJ7g7/0dbDCSHGNLShFLJKjfkQ8TySoR/XEZdKv
+ ybCg==
+X-Gm-Message-State: AOJu0YwSUKMy0yPB0Un0zUTSxg52RtjB51LKk1L7aOkDB1OoYyjrXS/t
+ yOdflBILXM7FAYqD6jTsBuaIWS8GxlML7jaRdmoEUBIhPQ4/KaZzmuDgAqbyh1A=
+X-Google-Smtp-Source: AGHT+IHpY7DJnbfRwrN+pggOgCfH6syNZv4JzFQ7NFRdr6EFSZOLNeW3eQkAhrKYCeBUc5BBBg2YBA==
+X-Received: by 2002:a50:d4de:0:b0:56e:df1:534a with SMTP id
+ e30-20020a50d4de000000b0056e0df1534amr1014440edj.42.1712225288726; 
+ Thu, 04 Apr 2024 03:08:08 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- ig10-20020a056402458a00b0056c0a668316sm1984219edb.3.2024.04.04.03.08.06
+ ig10-20020a056402458a00b0056c0a668316sm1984219edb.3.2024.04.04.03.08.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Apr 2024 03:08:07 -0700 (PDT)
+ Thu, 04 Apr 2024 03:08:08 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH 0/6] drm/panel: small fixes for visionox and novatek panel
- drivers
-Date: Thu, 04 Apr 2024 13:07:58 +0300
-Message-Id: <20240404-drop-panel-unregister-v1-0-9f56953c5fb9@linaro.org>
+Date: Thu, 04 Apr 2024 13:07:59 +0300
+Subject: [PATCH 1/6] drm/panel: visionox-rm69299: don't unregister DSI device
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAP57DmYC/x2MQQqAIBAAvxJ7bqFCivpKdBBdayFU1opA/HsSc
- 5rDTIZEwpRgaTIIPZw4+Cp924A5tN8J2VaHoRtUV0ErIWLUnk68vdDO6SLBSSk9O6t6Y0aobRR
- y/P7fdSvlAyplgMhnAAAA
+Message-Id: <20240404-drop-panel-unregister-v1-1-9f56953c5fb9@linaro.org>
+References: <20240404-drop-panel-unregister-v1-0-9f56953c5fb9@linaro.org>
+In-Reply-To: <20240404-drop-panel-unregister-v1-0-9f56953c5fb9@linaro.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -75,16 +73,16 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1356;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=944;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=Du46wueKWvwkNxb//bx6Oplm8RijccGjLPvLCDL3hio=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmDnwFB4ymGew9A+j+lPaxjOF+3+3RraubF85ot
- OjFFlmnjvmJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZg58BQAKCRCLPIo+Aiko
- 1T43B/99SNedkXIzKq81LkZB/eLv5u0TTihQz/8l+QHHCWt0oOkMNGJ1OiuTLDr+ToE8FUWE6MR
- GuVpa19gteiQWaMoOMLaUlGG+yLtiytO3n9DtqRDSEdkeWshqiEW+YdN1Ur8opJZEYUlmnfPYcb
- uSQWI9uSHpch7sZk7im8Xu6b456C+r3slCqiLotvjlaHZ26ghhwV9M05njsLLcxzq1lwRlYMI3y
- XO9wtiu8lczQFupCgCRVuVAHl90JotvyLoC3RV5Vq8qdCEn/L5Cqy/GGdyzttgNeJkZ9PO78HVz
- nze2WXDRUaOPJYEP92kgYo/dSUBocbb3MZ93en0qQFGV7oXr
+ bh=xtfhuUTM99xHxoMeoYk5bzlIduxzhp/GTlxP2mkYgaY=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmDnwFymsormB7E2rQzeFs0/IGcTvRxMiWf2O5A
+ yUo7xUWQCKJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZg58BQAKCRCLPIo+Aiko
+ 1TgJB/4z75ZXyRi0GestVgdCyBjlrKyuTdUKv5EevhWnh+aLaSOFY5w85Ts/sc4S/+3rDxvdwU2
+ CkN/oVbiKN54mlfRaS7cm0j6/4ZpwgfPkr9H/WmkWaCG5eC8HSr4z3U46sxjNJdaj3FuUW8ouk5
+ h04EnLDzSFxa+NJdOnAoFE/qEWblFiPDpVFKpw/ml2sjTU1HUObnzOLZtarfPdKnp10mk7Xmgte
+ pwYLYkrAbrUp0xySxMlW7cfEQS6poi0IhoOj0tt7YLGHJq5j5Cp7x/HwHMfaFAyrayEdvlIXJMT
+ TQ2msvq1B4rSIXl5Ein9MwCCBaktTd8fYP5gAedMvW3SnueF
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,33 +100,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While taking a glance at the novatek-nt36672e driver I stumbled upon a
-call to unregister the DSI device for the panel, although it was not the
-panel driver that registered the device.
+The DSI device for the panel was registered by the DSI host, so it is an
+error to unregister it from the panel driver. Drop the call to
+mipi_dsi_device_unregister().
 
-Remove this call and a similar call from the visionox-rm69299 driver.
-While we are at it, also optimize regulator API calls in these two
-drivers and in the novatek-nt36672a driver.
-
+Fixes: c7f66d32dd43 ("drm/panel: add support for rm69299 visionox panel")
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-Dmitry Baryshkov (6):
-      drm/panel: visionox-rm69299: don't unregister DSI device
-      drm/panel: novatek-nt36682e: don't unregister DSI device
-      drm/panel: novatek-nt36672e: stop setting register load before disable
-      drm/panel: novatek-nt36672e: stop calling regulator_set_load manually
-      drm/panel: novatek-nt36672a: stop calling regulator_set_load manually
-      drm/panel: visionox-rm69299: stop calling regulator_set_load manually
+ drivers/gpu/drm/panel/panel-visionox-rm69299.c | 2 --
+ 1 file changed, 2 deletions(-)
 
- drivers/gpu/drm/panel/panel-novatek-nt36672a.c | 11 +++-----
- drivers/gpu/drm/panel/panel-novatek-nt36672e.c | 35 +++-----------------------
- drivers/gpu/drm/panel/panel-visionox-rm69299.c | 18 ++-----------
- 3 files changed, 9 insertions(+), 55 deletions(-)
----
-base-commit: a6bd6c9333397f5a0e2667d4d82fef8c970108f2
-change-id: 20240404-drop-panel-unregister-744a9fd41cc6
+diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
+index 775144695283..b15ca56a09a7 100644
+--- a/drivers/gpu/drm/panel/panel-visionox-rm69299.c
++++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
+@@ -253,8 +253,6 @@ static void visionox_rm69299_remove(struct mipi_dsi_device *dsi)
+ 	struct visionox_rm69299 *ctx = mipi_dsi_get_drvdata(dsi);
+ 
+ 	mipi_dsi_detach(ctx->dsi);
+-	mipi_dsi_device_unregister(ctx->dsi);
+-
+ 	drm_panel_remove(&ctx->panel);
+ }
+ 
 
-Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.39.2
 
