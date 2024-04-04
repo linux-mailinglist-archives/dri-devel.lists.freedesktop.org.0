@@ -2,86 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4230898267
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 09:46:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56D5D898299
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 09:58:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 077D2112D16;
-	Thu,  4 Apr 2024 07:45:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 332E811328F;
+	Thu,  4 Apr 2024 07:58:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ahmcg0O/";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="NX6sNIxx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7CC0112D0D
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 07:45:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D890D61616;
- Thu,  4 Apr 2024 07:45:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5535EC433F1;
- Thu,  4 Apr 2024 07:45:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1712216752;
- bh=vcETtOrVy9bTRvDJ6u7ogSjCKNt7NXEhds5NARQGbPY=;
- h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
- b=ahmcg0O/wVgUSHDmaLqFtCVQppeFQLHTQcwLUR3ZoemzEiydJLq5n65V+ZZF4U3Z/
- iZTZ2dGWs5n/xGsr2C9Ro8bxdpCo0mryC+/NJ293dDVVrTasGOJjky78rF1l0Vh5Cj
- ewN+vdhM+Vk7MvaEXrP9a5f9hvvIhXjlvvkp5fjW6hQf8tlH5S2zNXD299vhN6PNvh
- Y5zEUTiauyseC4AumRqKYaxCMkjyr8HU9RPqz7Q7M32OkZevScqGC8ldR1pXRVNnPN
- lCtMqbIda7OLCc5vYYCtjdUg0R4nqeFderQtkQlFlCIFJl63TPR9JxYni0ko+ATY12
- 3JVV8cyIjyi9Q==
-Date: Thu, 04 Apr 2024 02:45:51 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8821511328F
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 07:57:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1712217477;
+ bh=JR03O6DqtWABDbF+UOdTpqbBb6MC16JinmCC+MPaEF8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=NX6sNIxxfrVG0gUBHik5LbRQh3vPBIVl+iz/L8TLewL2G9Zr5eU+16R/ZPZQ8U1f/
+ 417XkgyZ9trxK6wGGymLro2RJ8Emegg5FvEDpcwLhl+SNhpChMFIuBrMsvisR5kNJ+
+ XOLai6pqtm4XYbxlsnRKoWIR7ITgdE9/aSOjZSvIFCoLO8DSOssa9ppH+LN3+WAUbk
+ CYG9rDEk0sEdJdjlAn3cmVMZYyIUM4KcUTGypSaEjo/87DaeWXwxOhSnNcLb01GZAP
+ PGRsa7eCaO+TLwsm3YkJFGzmfGDK9ScyLmHZv+HtD1kyQVf7EQKef+a9ptAOZ3PetT
+ j4tj8H2HPMrcw==
+Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com
+ [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id DD48D378209A;
+ Thu,  4 Apr 2024 07:57:56 +0000 (UTC)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: chunkuang.hu@kernel.org
+Cc: p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+ ck.hu@mediatek.com, nancy.lin@mediatek.com, nathan.lu@mediatek.com,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kernel@collabora.com, wenst@chromium.org
+Subject: [PATCH v2 0/3] drm/mediatek: Fixes for DDP component search/destroy
+Date: Thu,  4 Apr 2024 09:57:51 +0200
+Message-ID: <20240404075754.83455-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- linux-ide@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>, 
- Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org, 
- Sam Ravnborg <sam@ravnborg.org>, Stephen Boyd <sboyd@kernel.org>, 
- linux-sh@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- Thomas Gleixner <tglx@linutronix.de>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
- devicetree@vger.kernel.org, Helge Deller <deller@gmx.de>, 
- dri-devel@lists.freedesktop.org, Jonathan Corbet <corbet@lwn.net>, 
- Biju Das <biju.das.jz@bp.renesas.com>, Guenter Roeck <linux@roeck-us.net>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, 
- Damien Le Moal <dlemoal@kernel.org>, Hyeonggon Yoo <42.hyeyoo@gmail.com>, 
- Anup Patel <apatel@ventanamicro.com>, Maxime Ripard <mripard@kernel.org>, 
- Chris Morgan <macromorgan@hotmail.com>, Jiri Slaby <jirislaby@kernel.org>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Javier Martinez Canillas <javierm@redhat.com>, 
- David Rientjes <rientjes@google.com>, 
- Azeem Shaikh <azeemshaikh38@gmail.com>, Conor Dooley <conor+dt@kernel.org>, 
- Arnd Bergmann <arnd@arndb.de>, Rich Felker <dalias@libc.org>, 
- linux-fbdev@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>, 
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
- Daniel Vetter <daniel@ffwll.ch>, linux-serial@vger.kernel.org, 
- linux-pci@vger.kernel.org, Niklas Cassel <cassel@kernel.org>, 
- Sebastian Reichel <sre@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>, 
- Manikanta Guntupalli <manikanta.guntupalli@amd.com>, 
- Guo Ren <guoren@kernel.org>, Jacky Huang <ychuang3@nuvoton.com>, 
- linux-clk@vger.kernel.org, David Airlie <airlied@gmail.com>, 
- Magnus Damm <magnus.damm@gmail.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Herve Codina <herve.codina@bootlin.com>, Vlastimil Babka <vbabka@suse.cz>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Shawn Guo <shawnguo@kernel.org>, Heiko Stuebner <heiko.stuebner@cherry.de>, 
- Baoquan He <bhe@redhat.com>, Kefeng Wang <wangkefeng.wang@huawei.com>, 
- Lorenzo Pieralisi <lpieralisi@kernel.org>
-In-Reply-To: <8d8dec2d75890f3a14632c9606c332fb11d89a95.1712207606.git.ysato@users.sourceforge.jp>
-References: <cover.1712207606.git.ysato@users.sourceforge.jp>
- <8d8dec2d75890f3a14632c9606c332fb11d89a95.1712207606.git.ysato@users.sourceforge.jp>
-Message-Id: <171221675032.1570606.17195739558800384053.robh@kernel.org>
-Subject: Re: [RESEND v7 19/37] dt-bindings: interrupt-controller:
- renesas,sh7751-irl-ext: Add json-schema
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,40 +62,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Changes in v2:
+ - Fixed patch [2/3]
 
-On Thu, 04 Apr 2024 14:14:30 +0900, Yoshinori Sato wrote:
-> Renesas SH7751 external interrupt encoder json-schema.
-> 
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-> ---
->  .../renesas,sh7751-irl-ext.yaml               | 57 +++++++++++++++++++
->  1 file changed, 57 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,sh7751-irl-ext.yaml
-> 
+This series performs some cleanups for DDP component CRTC search and
+correctly iounmaps the previously of_iomap() calls from drm_ddp_comp.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Tested on MT8195 Cherry Tomato
 
-yamllint warnings/errors:
+AngeloGioacchino Del Regno (3):
+  drm/mediatek: drm_ddp_comp: Fix and cleanup DDP component CRTC search
+  drm/mediatek: Perform iounmap on simple DDP component destruction
+  drm/mediatek: drm_ddp_comp: Add mtk_ddp_is_simple_comp() internal
+    helper
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/interrupt-controller/renesas,sh7751-irl-ext.example.dtb: interrupt-controller@a4000000: #interrupt-cells:0:0: 2 was expected
-	from schema $id: http://devicetree.org/schemas/interrupt-controller/renesas,sh7751-irl-ext.yaml#
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 113 +++++++++++++-------
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   1 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c      |   4 +-
+ 3 files changed, 80 insertions(+), 38 deletions(-)
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/8d8dec2d75890f3a14632c9606c332fb11d89a95.1712207606.git.ysato@users.sourceforge.jp
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+-- 
+2.44.0
 
