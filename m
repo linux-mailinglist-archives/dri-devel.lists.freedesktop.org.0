@@ -2,90 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1CB8984BB
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 12:08:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C2E98984EF
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 12:24:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0996811B334;
-	Thu,  4 Apr 2024 10:08:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CD3910E2CC;
+	Thu,  4 Apr 2024 10:24:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dxHZGcZa";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="SfhjUvrY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E04311B335
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 10:08:16 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-56845954ffeso1308654a12.2
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Apr 2024 03:08:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712225295; x=1712830095; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=9gdreFmOsn9hnQ9/3et99EfVumTY2yhwD/QDrRRb3VQ=;
- b=dxHZGcZaDupKsMFjm2rnrtoiNjfPVTES7uXBigKtLxRVx//wIyiU0LozMyM40tglNO
- S0i2BcJuUu1lrt4TPZKdwR+Oym+irGL+HJmcaUzQSOcHwqAQ6oy9UTpTWuQjEDZPhnwj
- svV+NWsTBdeo2QkmSv8GOZdptMA0Jpns0LI9M1YRScLs+jJUxyw8c4OAFQ0w9iDNJ1ck
- neWYvnil58O8gWr6MXRfdc9e/3sgr82eFNOw1gZ8QGbZq0q5JGgw2UUAfnbGCVCGHmtB
- 453Tp1w5xqfYb1L9hpYV+BgtutOTyMonBEqKB2+O/fdyk7bICHtUk73Co6K397saMT0f
- vTNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712225295; x=1712830095;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9gdreFmOsn9hnQ9/3et99EfVumTY2yhwD/QDrRRb3VQ=;
- b=hO/tWET1d9x18s8PEQhi1iYSXayIUByX0gHBMHp7R7shi2rMzcLTLKwnMs2/SVyP0d
- wWRv4NyjoU2gVFmCSkiTgMm/qIX0Z05YgHzbcHXZFzxNuEKPZ6bsBtlbQHvwzJ0TDvg0
- uZI3NJYmJDcTAg+Wb1nHTeQO+pyX00OpwNQk+TPCFQ3+EtgGxNibIqhxAEAK42sh1yiZ
- uEuLkLC1EQFkRADz+5n/Gase3tZolY6fielM835momaMnSvDcAZY6UZ/wWQshfBGDdHz
- JowpJ8g+Q6tSakCI39ZmuC9ixfuhK7o4ibWKHW30drw/U0/LRZfP95xzZ98eh9atiNvE
- kjYg==
-X-Gm-Message-State: AOJu0YzVtdENs2FZYAA1jpZ1Tu5oqdjOqayL6ccyrdBmD78h8dMA7QcU
- yPkEKAT0NIYLTwsE5hmGqA/KEiHuH2Y4M0p4RDhGN70li2kCKzMyqL2X9NyXXiI=
-X-Google-Smtp-Source: AGHT+IG6MIBoUnhn5kD8YkyWDaqubmu5zZw/UDEyEutc/LQNpwjh73npo2Rh0hXKgklGbZY1tDHrxg==
-X-Received: by 2002:a50:999a:0:b0:568:b622:f225 with SMTP id
- m26-20020a50999a000000b00568b622f225mr1367415edb.30.1712225294754; 
- Thu, 04 Apr 2024 03:08:14 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- ig10-20020a056402458a00b0056c0a668316sm1984219edb.3.2024.04.04.03.08.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Apr 2024 03:08:14 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 04 Apr 2024 13:08:04 +0300
-Subject: [PATCH 6/6] drm/panel: visionox-rm69299: stop calling
- regulator_set_load manually
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BAC810E2CC;
+ Thu,  4 Apr 2024 10:24:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1712226262;
+ bh=MBNgvmTzYvdOLez6Ugc2Jt7qEVgyfSikKqoWPAmldqc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=SfhjUvrYBkOSdJ6arYoRXkMmDpMZ+VqiNin3DdVMP0WODHgiq3pEf6Mw4/L9xvjGz
+ yjLClj4xILA58wrCpXnPBa2P4jaq2IkfOhQzlJCsIsY8v+x0tDUzWQufd5cEwDlRU4
+ ss0wE+Lj4JQrvmMlj8HRwuznYhL/JmSAcG2VJE3rsEmHEM14np0QnF6+3Anqvuv+l1
+ SLeX/nmFFSCMNkmacHnB5AmRBtRgU1p+k53e4xOQWpK1xYQsqwbBGFRakUmxZIbQhK
+ cYiZ2Zk5DjjNGbEM6PDlzyJP/raGlrwtK8N1ukS1RZp9xEfSa+1WIpNU1m7mf0kyNR
+ bqhEbfRpO5NOw==
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 399FB37813C0;
+ Thu,  4 Apr 2024 10:24:21 +0000 (UTC)
+Date: Thu, 4 Apr 2024 13:24:11 +0300
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Leo Li <sunpeng.li@amd.com>
+Cc: Marius Vlad <marius.vlad@collabora.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, Joshua
+ Ashton <joshua@froggi.es>, Michel =?UTF-8?B?RMOkbnplcg==?=
+ <mdaenzer@redhat.com>, Chao Guo <chao.guo@nxp.com>, Xaver Hugl
+ <xaver.hugl@gmail.com>, Vikas Korjani <Vikas.Korjani@amd.com>, Robert Mader
+ <robert.mader@posteo.de>, Sean Paul <sean@poorly.run>, Simon Ser
+ <contact@emersion.fr>, Shashank Sharma <shashank.sharma@amd.com>, Harry
+ Wentland <harry.wentland@amd.com>, Sebastian Wick
+ <sebastian.wick@redhat.com>
+Subject: Re: [PATCH 0/2] drm/amdgpu/display: Make multi-plane configurations
+ more flexible
+Message-ID: <20240404132411.5bb5cb53.pekka.paalanen@collabora.com>
+In-Reply-To: <1ca9c55b-2358-4357-a337-c0bf5e3e2118@amd.com>
+References: <20240315170959.165505-1-sunpeng.li@amd.com>
+ <20240328163311.34b58b39.pekka.paalanen@collabora.com>
+ <1ca9c55b-2358-4357-a337-c0bf5e3e2118@amd.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240404-drop-panel-unregister-v1-6-9f56953c5fb9@linaro.org>
-References: <20240404-drop-panel-unregister-v1-0-9f56953c5fb9@linaro.org>
-In-Reply-To: <20240404-drop-panel-unregister-v1-0-9f56953c5fb9@linaro.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Matthias Kaehlcke <mka@chromium.org>, 
- Harigovindan P <harigovi@codeaurora.org>, 
- Ritesh Kumar <quic_riteshk@quicinc.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1559;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=irilOr1F66J72zSf/iZ/FxY1c7hsuCBIEPtG00CVG8k=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmDnwGO0eQ0yN5Gyv9QpomFj0R6gyXZ+5rtNEtm
- IGQoU0uAEaJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZg58BgAKCRCLPIo+Aiko
- 1WYFCACn5db1y7XDZnwi8s8NKNDV0h88BTcuOpypH5tfLwAH0CVs/5d5b23X+DvXMpORhQEi1jY
- Dlh/F0h8AceX/ZhR04srs58R1l1cV18WdVKPKoWheb7OstyQjJweYXovPKwMHJ9oAgyIVfGWA2b
- ZkPVfk1YaWtNi7jLO44GU7J7TOMbi9Y6tHvkxgEb7LpRXi6KzxA5Vxn/hlitMipltv3Th8rHBbU
- k6h0ttkCAmQbWlJKlqYqcNOE615htx4ndaJ81GMF6rJ4I8/2/oiVwmjy5y3aLOLWsJ0Iurs02L+
- MwsKQn0YXCDkU5gtyKKVeeXSmjgnvndGlJJ+gU7szKQ6+s6Q
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Type: multipart/signed; boundary="Sig_/cBo9ue_lBTngwIYCW9.IR1n";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,52 +71,217 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use .init_load_uA part of the bulk regulator API instead of calling
-register_set_load() manually.
+--Sig_/cBo9ue_lBTngwIYCW9.IR1n
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/panel/panel-visionox-rm69299.c | 16 ++--------------
- 1 file changed, 2 insertions(+), 14 deletions(-)
+On Wed, 3 Apr 2024 17:32:46 -0400
+Leo Li <sunpeng.li@amd.com> wrote:
 
-diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-index b15ca56a09a7..272490b9565b 100644
---- a/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-+++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-@@ -197,7 +197,9 @@ static int visionox_rm69299_probe(struct mipi_dsi_device *dsi)
- 	ctx->dsi = dsi;
- 
- 	ctx->supplies[0].supply = "vdda";
-+	ctx->supplies[0].init_load_uA = 32000;
- 	ctx->supplies[1].supply = "vdd3p3";
-+	ctx->supplies[1].init_load_uA = 13200;
- 
- 	ret = devm_regulator_bulk_get(ctx->panel.dev, ARRAY_SIZE(ctx->supplies),
- 				      ctx->supplies);
-@@ -227,22 +229,8 @@ static int visionox_rm69299_probe(struct mipi_dsi_device *dsi)
- 		goto err_dsi_attach;
- 	}
- 
--	ret = regulator_set_load(ctx->supplies[0].consumer, 32000);
--	if (ret) {
--		dev_err(dev, "regulator set load failed for vdda supply ret = %d\n", ret);
--		goto err_set_load;
--	}
--
--	ret = regulator_set_load(ctx->supplies[1].consumer, 13200);
--	if (ret) {
--		dev_err(dev, "regulator set load failed for vdd3p3 supply ret = %d\n", ret);
--		goto err_set_load;
--	}
--
- 	return 0;
- 
--err_set_load:
--	mipi_dsi_detach(dsi);
- err_dsi_attach:
- 	drm_panel_remove(&ctx->panel);
- 	return ret;
+> On 2024-03-28 10:33, Pekka Paalanen wrote:
+> > On Fri, 15 Mar 2024 13:09:56 -0400
+> > <sunpeng.li@amd.com> wrote:
+> >  =20
+> >> From: Leo Li <sunpeng.li@amd.com>
+> >>
+> >> These patches aim to make the amdgpgu KMS driver play nicer with compo=
+sitors
+> >> when building multi-plane scanout configurations. They do so by:
+> >>
+> >> 1. Making cursor behavior more sensible.
+> >> 2. Allowing placement of DRM OVERLAY planes underneath the PRIMARY pla=
+ne for
+> >>     'underlay' configurations (perhaps more of a RFC, see below).
+> >>
+> >> Please see the commit messages for details.
+> >>
+> >>
+> >> For #2, the simplest way to accomplish this was to increase the value =
+of the
+> >> immutable zpos property for the PRIMARY plane. This allowed OVERLAY pl=
+anes with
+> >> a mutable zpos range of (0-254) to be positioned underneath the PRIMAR=
+Y for an
+> >> underlay scanout configuration.
+> >>
+> >> Technically speaking, DCN hardware does not have a concept of primary =
+or overlay
+> >> planes - there are simply 4 general purpose hardware pipes that can be=
+ maped in
+> >> any configuration. So the immutable zpos restriction on the PRIMARY pl=
+ane is
+> >> kind of arbitrary; it can have a mutable range of (0-254) just like the
+> >> OVERLAYs. The distinction between PRIMARY and OVERLAY planes is also s=
+omewhat
+> >> arbitrary. We can interpret PRIMARY as the first plane that should be =
+enabled on
+> >> a CRTC, but beyond that, it doesn't mean much for amdgpu.
+> >>
+> >> Therefore, I'm curious about how compositors devs understand KMS plane=
+s and
+> >> their zpos properties, and how we would like to use them. It isn't cle=
+ar to me
+> >> how compositors wish to interpret and use the DRM zpos property, or
+> >> differentiate between OVERLAY and PRIMARY planes, when it comes to set=
+ting up
+> >> multi-plane scanout. =20
+> >=20
+> > You already quoted me on the Weston link, so I don't think I have
+> > anything to add. Sounds fine to me, and we don't have a standard plane
+> > arrangement algorithm that the kernel could optimize zpos ranges
+> > against, yet.
+> >  =20
+> >> Ultimately, what I'd like to answer is "What can we do on the KMS driv=
+er and DRM
+> >> plane API side, that can make building multi-plane scanout configurati=
+ons easier
+> >> for compositors?" I'm hoping we can converge on something, whether tha=
+t be
+> >> updating the existing documentation to better define the usage, or upd=
+ate the
+> >> API to provide support for something that is lacking. =20
+> >=20
+> > I think there probably should be a standardised plane arrangement
+> > algorithm in userspace, because the search space suffers from
+> > permutational explosion. Either there needs to be very few planes (max
+> > 4 or 5 at-all-possible per CRTC, including shareable ones) for an
+> > exhaustive search to be feasible, or all planes should be more or less
+> > equal in capabilities and userspace employs some simplified or
+> > heuristic search.
+> >=20
+> > If the search algorithm is fixed, then drivers could optimize zpos
+> > ranges to have the algorithm find a solution faster.
+> >=20
+> > My worry is that userspace already has heuristic search algorithms that
+> > may start failing if drivers later change their zpos ranges to be more
+> > optimal for another algorithm.
+> >=20
+> > OTOH, as long as exhaustive search is feasible, then it does not matter
+> > how DRM drivers set up the zpos ranges.
+> >=20
+> > In any case, the zpos ranges should try to allow all possible plane
+> > arrangements while minimizing the number of arrangements that won't
+> > work. The absolute values of zpos are pretty much irrelevant, so I
+> > think setting one plane to have an immutable zpos is a good idea, even
+> > if it's not necessary by the driver. That is one less moving part, and
+> > only the relative ordering between the planes matters.
+> >=20
+> >=20
+> > Thanks,
+> > pq =20
+>=20
+> Right, thanks for your thoughts! I agree that there should be a common pl=
+ane
+> arrangement algorithm. I think libliftoff is the most obvious candidate h=
+ere. It
+> only handles overlay arrangements currently, but mixed-mode arrangements =
+is
+> something I've been trying to look at.
+>=20
+> Taking the driver's reported zpos into account could narrow down the sear=
+ch
+> space for mixed arrangements. We could tell whether underlay, or overlay,=
+ or
+> both, is supported by looking at the allowed zpos ranges.
+>=20
+> I also wonder if it'll make underlay assignments easier. libliftoff has an
+> assumption that the PRIMARY plane has the lowest zpos (which now I realiz=
+e, is
+> not always true). Therefore, the underlay buffer has to be placed on the
+> PRIMARY, with the render buffer on a higher OVERLAY. Swapping buffers bet=
+ween
+> planes when testing mixed-arrangements is kind of awkward, and simply set=
+ting
+> the OVERLAY's zpos to be lower or higher than the PRIMARY's sounds simple=
+r.
+>=20
+> Currently only gamescope makes use of libliftoff, but I'm curious if patc=
+hes
+> hooking it up to Weston would be welcomed? If there are other ways to hav=
+e a
+> common arrangement algorithm, I'd be happy to hear that as well.
 
--- 
-2.39.2
+A natural thing would be to document such an algorithm with the KMS
+UAPI.
 
+I don't know libliftoff well enough to say how welcome it would be in
+Weston. I have no fundamental or policy reason to keep an independent
+implementation in Weston though, so it's plausible at least.
+
+It would need investigation, and perhaps also extending Weston test
+suite a lot more towards VKMS to verify plane assignments. Currently
+all plane assignment testing is manual on real hardware.
+
+> Note that libliftoff's algorithm is more complex than weston, since it se=
+arches
+> harder, and suffers from that permutational explosion. But it solves that=
+ by
+> trying high benefit arrangements first (offloading surfaces that update
+> frequently), and bailing out once the search reaches a hard-coded deadlin=
+e.
+> Since it's currently overlay-only, the goal could be to "simply" have no
+> regressions.
+
+Ensuring no regressions would indeed need to be taken care of by
+extending the VKMS-based automated testing.
+
+
+Thanks,
+pq
+
+> >  =20
+> >> Some links to provide context and details:
+> >> * What is underlay?: https://gitlab.freedesktop.org/emersion/libliftof=
+f/-/issues/76
+> >> * Discussion on how to implement underlay on Weston: https://gitlab.fr=
+eedesktop.org/wayland/weston/-/merge_requests/1258#note_2325164
+> >>
+> >> Cc: Joshua Ashton <joshua@froggi.es>
+> >> Cc: Michel D=C3=A4nzer <mdaenzer@redhat.com>
+> >> Cc: Chao Guo <chao.guo@nxp.com>
+> >> Cc: Xaver Hugl <xaver.hugl@gmail.com>
+> >> Cc: Vikas Korjani <Vikas.Korjani@amd.com>
+> >> Cc: Robert Mader <robert.mader@posteo.de>
+> >> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> >> Cc: Sean Paul <sean@poorly.run>
+> >> Cc: Simon Ser <contact@emersion.fr>
+> >> Cc: Shashank Sharma <shashank.sharma@amd.com>
+> >> Cc: Harry Wentland <harry.wentland@amd.com>
+> >> Cc: Sebastian Wick <sebastian.wick@redhat.com>
+> >>
+> >> Leo Li (2):
+> >>    drm/amd/display: Introduce overlay cursor mode
+> >>    drm/amd/display: Move PRIMARY plane zpos higher
+> >>
+> >>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 405 ++++++++++++++++=
+--
+> >>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |   7 +
+> >>   .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    |   1 +
+> >>   .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   |  28 +-
+> >>   4 files changed, 391 insertions(+), 50 deletions(-)
+> >> =20
+> >  =20
+
+
+--Sig_/cBo9ue_lBTngwIYCW9.IR1n
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYOf8sACgkQI1/ltBGq
+qqdd5xAAp4FbLD6FvwfvSsXXzNikuw/XtEnPzBUSFWGOPimqz4xhtRCQPZMOQMZC
+YbOOv8H2sP60AapTExF/UjbwMOjda0EGEZ3jHY3N6Eo+jACTKI8inSReGWzzSpsa
+WWtplI+9mksQj7pt9zRV3zaQPblE+WycoSj39+Txjg5zXSmcZ3oBWqiHe52KyNm5
+p04EjdhsHHgyulFDJe7lt+hTCgKmvaW3v1x2hUWTi5GwwYVngj+6Ur791YWc4daZ
+rS5VKN2rhNvHL0YkYFBI/Vq8LhnXI5y9D1Hxcn1f1R1eSLlC+pSMQEEGn/FJiDVv
+pGx0FYGtgIg7izjTvObEEbE7CYpQLMGxi2VPvKjpVm37gRsmmKh/hu630EJutjtG
+2Xwf9XmhnDKosDdqszeGJMLgXceAlOtAgNXqUAyzyz5aL3wWS5Tw1ULokNIuOqs+
+9AOsaRo3DQTQIwHfm6lDSzaziTYEDQ8pNBCL6SDJ/oQP+9rfVWtbIwVUSIf2snA6
++OW1RnHn9MdXIi9ZI96l5wpbxAgevxXDSSjmBcE/JHKwD9akEQhwy3J9c1dV9HMh
+wvwtVoKW9nFn33kDN7MIqQ5q58nRcibdVttpegh/rPG7hIgAG65mc2uEhdMTLYdL
+1B32y/b2LlOvjLXudagbVTXGpwWvWq9Hf0mHhOmrz/uKwupZYg8=
+=4B6R
+-----END PGP SIGNATURE-----
+
+--Sig_/cBo9ue_lBTngwIYCW9.IR1n--
