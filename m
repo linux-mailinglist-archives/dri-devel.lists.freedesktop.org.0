@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE469897F6C
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 07:15:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7964897F71
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 07:15:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F9DE112C4E;
-	Thu,  4 Apr 2024 05:15:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8F70112C48;
+	Thu,  4 Apr 2024 05:15:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id 20D4B112C4E
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 05:14:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id A1E41112C4E
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 05:14:58 +0000 (UTC)
 Received: from SIOS1075.ysato.name (al128006.dynamic.ppp.asahi-net.or.jp
  [111.234.128.6])
- by sakura.ysato.name (Postfix) with ESMTPSA id 5AF501C0BD1;
- Thu,  4 Apr 2024 14:14:54 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id 47E951C0DCB;
+ Thu,  4 Apr 2024 14:14:56 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
 Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
@@ -63,9 +63,9 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
  linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-fbdev@vger.kernel.org
-Subject: [RESEND v7 01/37] sh: passing FDT address to kernel startup.
-Date: Thu,  4 Apr 2024 14:14:12 +0900
-Message-Id: <58ead9bb7def6e12a46dd7ad2fee716dc17e44f7.1712207606.git.ysato@users.sourceforge.jp>
+Subject: [RESEND v7 02/37] sh: Kconfig unified OF supported targets.
+Date: Thu,  4 Apr 2024 14:14:13 +0900
+Message-Id: <d0e87238d664b7b1780dd8321a1629e51aa108ec.1712207606.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1712207606.git.ysato@users.sourceforge.jp>
 References: <cover.1712207606.git.ysato@users.sourceforge.jp>
@@ -86,38 +86,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-R4 is caller saved in SH ABI.
-Save it so it doesn't get corrupted until it's needed for initialization.
+Targets that support OF should be treated as one board.
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- arch/sh/boot/compressed/head_32.S | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ arch/sh/Kconfig        |  1 +
+ arch/sh/boards/Kconfig | 23 +++++++++++++----------
+ 2 files changed, 14 insertions(+), 10 deletions(-)
 
-diff --git a/arch/sh/boot/compressed/head_32.S b/arch/sh/boot/compressed/head_32.S
-index 7bb168133dbb..6be59851122e 100644
---- a/arch/sh/boot/compressed/head_32.S
-+++ b/arch/sh/boot/compressed/head_32.S
-@@ -15,7 +15,8 @@ startup:
- 	/* Load initial status register */
- 	mov.l   init_sr, r1
- 	ldc     r1, sr
+diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
+index 2ad3e29f0ebe..cbf48e69ad74 100644
+--- a/arch/sh/Kconfig
++++ b/arch/sh/Kconfig
+@@ -711,6 +711,7 @@ choice
+ 	prompt "Kernel command line"
+ 	optional
+ 	default CMDLINE_OVERWRITE
++	depends on !OF || USE_BUILTIN_DTB
+ 	help
+ 	  Setting this option allows the kernel command line arguments
+ 	  to be set.
+diff --git a/arch/sh/boards/Kconfig b/arch/sh/boards/Kconfig
+index 109bec4dad94..46387fd040ad 100644
+--- a/arch/sh/boards/Kconfig
++++ b/arch/sh/boards/Kconfig
+@@ -19,16 +19,9 @@ config SH_DEVICE_TREE
+ 	select TIMER_OF
+ 	select COMMON_CLK
+ 	select GENERIC_CALIBRATE_DELAY
 -
-+	/* Save FDT address */
-+	mov	r4, r13
- 	/* Move myself to proper location if necessary */
- 	mova	1f, r0
- 	mov.l	1f, r2
-@@ -84,7 +85,7 @@ l1:
- 	/* Jump to the start of the decompressed kernel */
- 	mov.l	kernel_start_addr, r0
- 	jmp	@r0
--	nop
-+	 mov	r13, r4
- 	
- 	.align	2
- bss_start_addr:
+-config SH_JCORE_SOC
+-	bool "J-Core SoC"
+-	select SH_DEVICE_TREE
+-	select CLKSRC_JCORE_PIT
+-	select JCORE_AIC
+-	depends on CPU_J2
+-	help
+-	  Select this option to include drivers core components of the
+-	  J-Core SoC, including interrupt controllers and timers.
++	select GENERIC_IRQ_CHIP
++	select SYS_SUPPORTS_PCI
++	select GENERIC_PCI_IOMAP if PCI
+ 
+ config SH_SOLUTION_ENGINE
+ 	bool "SolutionEngine"
+@@ -293,6 +286,7 @@ config SH_LANDISK
+ 	bool "LANDISK"
+ 	depends on CPU_SUBTYPE_SH7751R
+ 	select HAVE_PCI
++	select SYS_SUPPORTS_PCI
+ 	help
+ 	  I-O DATA DEVICE, INC. "LANDISK Series" support.
+ 
+@@ -369,6 +363,15 @@ config SH_APSH4AD0A
+ 	help
+ 	  Select AP-SH4AD-0A if configuring for an ALPHAPROJECT AP-SH4AD-0A.
+ 
++config SH_OF_BOARD
++	bool "General Open Firmware boards"
++	select SH_DEVICE_TREE
++	select CLKSRC_JCORE_PIT if CPU_J2
++	select JCORE_AIC if CPU_J2
++	select HAVE_PCI if CPU_SUBTYPE_SH7751R
++	help
++	  This board means general OF supported targets.
++
+ source "arch/sh/boards/mach-r2d/Kconfig"
+ source "arch/sh/boards/mach-highlander/Kconfig"
+ source "arch/sh/boards/mach-sdk7780/Kconfig"
 -- 
 2.39.2
 
