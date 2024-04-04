@@ -2,85 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6061289873C
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 14:23:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01969898796
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 14:30:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA8C10FD8A;
-	Thu,  4 Apr 2024 12:23:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96F9C10F1E8;
+	Thu,  4 Apr 2024 12:30:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XF5UEcDM";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ROzCKU8B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2DFD10FD8A
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 12:23:37 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-516c11b6af9so1281300e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Apr 2024 05:23:37 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E86A10F1E8
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 12:30:24 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-516cdb21b34so744120e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Apr 2024 05:30:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712233415; x=1712838215; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=eujsqnNsTdlCsaVOb8FrGI1iNYwUxOE+TZxCC6aPEM8=;
- b=XF5UEcDMPrk10UUZMY6qcIH2Qad3LFmCa2BjAC1rLo6eq3EPT+yPLVSeYsfg4yeMz0
- jQn2YLOXNA4VG2zknIQlTItyNyDH/V9rKAMiG80RkLU+ls99Huo0+1Bkz5a1BFAjmbR8
- F5IAmhlz2GBHRjM/wuA15LIam9FZlKeqLtQR4HKHpIS3GBwNTK4Hep7OlgQXg3x56UBu
- DylLfMHcZj2EIQRnEaPB3JdrvFpYVQOz22HtvrK0U9utcToSNEYJTNtQq48EiB6xSfN0
- +j2+Hz1LtEqeruGwMBPCvSlALUzHQjrYanXVAjl9NA+tmzzjP7+1hcIwF1prTG/jKqw3
- ZUbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712233415; x=1712838215;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=linaro.org; s=google; t=1712233822; x=1712838622; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=eujsqnNsTdlCsaVOb8FrGI1iNYwUxOE+TZxCC6aPEM8=;
- b=ONEpkVpmc/hvrj6e0nXgBFjyLDpCs/kxotVnUsgj4SikH1EVPSEmf485FOZzW/4TiM
- HIBwRmfU0EJRxe5E8sPgsPkM+WRYEJIDApSLFNbXh2y4GlC+0tD+jDWPk90OrzindZre
- OPhTk7yg98nHPJ1AEayx7us03OxBEFCTJEyKGY+8B3cYZPp/xJBElQOAEC0H1IKeD3EK
- Ol0ae7GnXVdG/0h6pyySQp4AkN6yF0YqgauSLFIaiuVCw53fzFSr34QVhl2junF8ocLJ
- 4KegubPiRodxMlpfkhoShHXQmhtbbR2xNYmMBTZOgKepsGlAeomNWn+24PpeZrun/THX
- BBZA==
-X-Gm-Message-State: AOJu0Yxq5I52gk+WxaG1qC0+utj5Dv+5NG6pVMEPeoa6umBaMTAf94c+
- 0NMWZHNhq9ayxgh66qH+P74SfyE+ET5WO50wl9GmiaCdQfMbRnclAsPS27TY8v0=
-X-Google-Smtp-Source: AGHT+IEiC6EifV89yJAb4FjYrCRe0v7lrBhjNcstTawf24NoAdVUVeIn0D+h1SFdO92LrKIFue+53Q==
-X-Received: by 2002:a05:6512:3711:b0:516:a148:2f5 with SMTP id
- z17-20020a056512371100b00516a14802f5mr1453656lfr.40.1712233415518; 
- Thu, 04 Apr 2024 05:23:35 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzyjmhyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a00e:a300::227])
- by smtp.gmail.com with ESMTPSA id
- q20-20020a194314000000b00516c5204f13sm229240lfa.208.2024.04.04.05.23.34
+ bh=X20l1OIbEglZq76t9YzipvH9/8wF8pWqOBX+VeO6mJ4=;
+ b=ROzCKU8BA3r2wDnTacRHG4xB6ZTmR+VekQYvs1PNMUfUxmhPyyMrPhxUxuU5Rc1eHv
+ ONM3yrNeHschdUbMVuWr7tZMCO9MtM/MdVD9F92W63zhLOmwe3wunrhR3etNJwxWSiMY
+ e72vEDlCdrSJNAh/fsVoKx9IOAcBw4pWyO4XkVRGd/NP3zTgg9AgBkSzRvAkTCEZu9xY
+ Xf/KD3EfyOxseWPpfjHPFiNkr4T3bbDC9YJre/ibXl5NXx6/R1TXWhh4/8o24y8J+kvb
+ sqOvjZwKp+RN7mCjQArSx8/c27HYVI06bB4Hcyigmy+PMpWxNOt1DTut1jP9pwvNeYjs
+ Nm6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712233822; x=1712838622;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=X20l1OIbEglZq76t9YzipvH9/8wF8pWqOBX+VeO6mJ4=;
+ b=qkHQHf5CfDp/Q/8GisBX5svw3uOZzd0SnuI8sP1TifYFC/r4gtwQhJ7GfT0+KiX5vL
+ diFzI7zdMrX5y8eAUmu1NQOnPxg6DuOctsxRQLKTU8Gm0av1l2mHdahHlkUK5SGAbVi0
+ aefqfYjFrRPLo1z2zMSw8Fe6mu4yZxpACb55gcR/v8lgLNgELplry8UJ3m8A/rbuo+jD
+ kaeW/uWaVvFXompnrXtlrBgYtXQyRpol1IqgW0DapHiOrT/bGZ/AlqecwsPSaYDuQWY9
+ mGYR+e30AU4FbzKAwe3JYBbJ51EWSInLpFTqHfcV4EB/AnUD4C7bqU/Ox+KedAZDaMOD
+ i8wQ==
+X-Gm-Message-State: AOJu0Yw/cymIQndwaS15SW5G6/5ra0OhxecLPnmtYwbQ1oZ8Ny6q5kvP
+ rwSmxLUxs6YX16HAktD1P+iYM26MKHhRJr+GmJeTkAbO8FNanfZseMVMNc+azfJResk3/2bLKom
+ h
+X-Google-Smtp-Source: AGHT+IFUb5zsg1JnqPSDM6WCJg3DgMPy79GM9WkgadXKzQqBbfSPE4iFlNdz1Kc4Oxni4f8yZOheig==
+X-Received: by 2002:a05:6512:3707:b0:516:a115:4a4d with SMTP id
+ z7-20020a056512370700b00516a1154a4dmr1578665lfr.68.1712233822050; 
+ Thu, 04 Apr 2024 05:30:22 -0700 (PDT)
+Received: from eriador.lan (dzyjmhyyyyyyyyyyyykxt-3.rev.dnainternet.fi.
+ [2001:14ba:a00e:a300::227]) by smtp.gmail.com with ESMTPSA id
+ b19-20020a056512071300b00515abab7697sm2286667lfs.55.2024.04.04.05.30.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Apr 2024 05:23:35 -0700 (PDT)
-Date: Thu, 4 Apr 2024 15:23:33 +0300
+ Thu, 04 Apr 2024 05:30:21 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Adam Ford <aford173@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, aford@beaconembedded.com, 
- laurent.pinchart@ideasonboard.com, Rob Herring <robh@kernel.org>, 
+To: dri-devel@lists.freedesktop.org,
+	Adam Ford <aford173@gmail.com>
+Cc: aford@beaconembedded.com, laurent.pinchart@ideasonboard.com,
+ Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, 
+ Fabio Estevam <festevam@gmail.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- devicetree@vger.kernel.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2 1/2] drm/bridge: adv7511: Allow IRQ to share GPIO pins
-Message-ID: <s463qfxdzpc5udfb6mmlvosc6d42uo752ue7cnpf4rhg3psdaf@kkrjbncbbezl>
+Subject: Re: (subset) [PATCH V2 1/2] drm/bridge: adv7511: Allow IRQ to share
+ GPIO pins
+Date: Thu,  4 Apr 2024 15:30:19 +0300
+Message-ID: <171223381119.1231870.1373781151741394452.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240305004859.201085-1-aford173@gmail.com>
 References: <20240305004859.201085-1-aford173@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240305004859.201085-1-aford173@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,7 +100,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 04, 2024 at 06:48:57PM -0600, Adam Ford wrote:
+On Mon, 04 Mar 2024 18:48:57 -0600, Adam Ford wrote:
 > The IRQ registration currently assumes that the GPIO is dedicated
 > to it, but that may not necessarily be the case. If the board has
 > another device sharing the GPIO, it won't be registered and the
@@ -110,13 +114,15 @@ On Mon, Mar 04, 2024 at 06:48:57PM -0600, Adam Ford wrote:
 > and the return code properly indicating whether or not it there
 > was an IRQ, the IRQF_SHARED can be set to share a GPIO IRQ.
 > 
-> Signed-off-by: Adam Ford <aford173@gmail.com>
-> ---
-> V2:  Add check to see if there is IRQ data to handle
-> 
+> [...]
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Applied to drm-misc-next, thanks!
 
+[1/2] drm/bridge: adv7511: Allow IRQ to share GPIO pins
+      commit: f3d9683346d6b1d6e24f57e954385995601594d4
+
+Best regards,
 -- 
 With best wishes
 Dmitry
+
