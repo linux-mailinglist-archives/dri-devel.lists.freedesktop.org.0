@@ -2,146 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D449898D6F
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 19:46:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E32898D8E
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Apr 2024 19:57:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A5F011327E;
-	Thu,  4 Apr 2024 17:45:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8E491133AC;
+	Thu,  4 Apr 2024 17:57:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="j9QyvMtO";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="Xqdb5k+6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 359F910E294;
- Thu,  4 Apr 2024 17:45:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712252752; x=1743788752;
- h=date:from:to:cc:subject:message-id:
- content-transfer-encoding:mime-version;
- bh=xK8yInnuBTfGTOyyUAGMFdUftPKIGKj2nABN8+ceQQo=;
- b=j9QyvMtOpncyZkEPAcVj72j3I4rmEa+VRPHPI9ZzOV5KwgJZaL2BGESY
- VRWC3Fmu4AY95Sa7XfYS2BBnfNVfLAas6ZOPCWNOpo1jC7QXIL8OTmxXg
- BuaXVtxCyM0RrOBiwCBqu98eSZEndlV/Mt8RBe3nDZ5X2F+a68JyTfODI
- AyoMtzWqEu7NyF4maiNyfFw6wcOjA/NUbFyx/p1ANiEqWRIVB1cPZS8tM
- sgA27CFLfR+hvthNaxWDAWiOVoE+JGfKJqF6KoZ7ZM4FKlOQJgkUfWX9L
- xV5wo9/tZmyB7WZ9OkWpCltvKH+O7lhUni5JjJGUmLRRqCCOYrjF72kOk Q==;
-X-CSE-ConnectionGUID: SLVgH7OJTDiWV3FK1tssyQ==
-X-CSE-MsgGUID: 8fV8VhTmRW2VZZJU9GlJmQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="30024541"
-X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; d="scan'208";a="30024541"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2024 10:45:51 -0700
-X-CSE-ConnectionGUID: BFEpgWW8RGSsTxZiyoaQSg==
-X-CSE-MsgGUID: 4uJGXxnJRVy8jy38+FU5Og==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; d="scan'208";a="18771905"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 04 Apr 2024 10:45:52 -0700
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 4 Apr 2024 10:45:51 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Thu, 4 Apr 2024 10:45:51 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 4 Apr 2024 10:45:50 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X6FPjK1PdBUafCDUoWBN3jtu7Vya8No3nDnuMsvFFutME+0G0kvdxWG/VxcqYMt3II5SDgeglUtqePbApOQdcqYyn7xaUzxSE/amtjbDmLDAYV6SfpitxllENrF3iE9S+vDp9u1V6HvqDDLYJcNV/Syn2V6RkfHWJzBUtHvIcAZ9LN9e9xTAWIE7un78GFjkf1+bgktUbpqhOw/MwzhJr0LbwH7mzrFLv2eZHyjAFJ/ymjiea0BT8b25Y88uhpWvA8NdGWK/G79L06Y/w5dqQdEUzI2+WuQoR9k9WoM2kztZuwONLqOMxmXASHfPWzLM1UjCWD0FZhJl/OxJ5FTN7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uw5c1OTLIZvGXg62/zAM0bS01Od84kpHSqGt4iBAU7Y=;
- b=jf83W3MLY1j5KGENfDEYiI9Uu8AVS2wwJ7z6/fQrUE9hmkuj/+xCFYWI7FK371rrPWE7crClqMTwAmwi3AOgUOj8Pv5GolyRs8wDMR/RZJxJHxpWjToRKMG3M9N2xw8L3RqK+33d9POJr88/9l7Qr0IgTsL2au6j303wT3vMtxk15TCWuUmGsFCK39AjYwLYMu6kfesxF1QO5cESWgsAKBHoEEBNYW3Q5SjEpbIH/50+BAe2oTIyA+T/OatlhHzPyNBSPk7oMofhslc9I0HY2yl3aI/VbeJSNPUHynuqviyk2fQXT4oyI/xdOM6d84YRt6mb8tD+6QJCcXWUGuKEHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by SJ0PR11MB5006.namprd11.prod.outlook.com (2603:10b6:a03:2db::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.26; Thu, 4 Apr
- 2024 17:45:48 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::7607:bd60:9638:7189]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::7607:bd60:9638:7189%4]) with mapi id 15.20.7452.019; Thu, 4 Apr 2024
- 17:45:48 +0000
-Date: Thu, 4 Apr 2024 13:45:44 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>, "Lucas
- De Marchi" <lucas.demarchi@intel.com>, <dri-devel@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
- <dim-tools@lists.freedesktop.org>
-Subject: [PULL] drm-intel-fixes
-Message-ID: <Zg7nSK5oTmWfKPPI@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BN9PR03CA0453.namprd03.prod.outlook.com
- (2603:10b6:408:139::8) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2744F1133AC
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Apr 2024 17:57:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1712253418; x=1712858218; i=deller@gmx.de;
+ bh=KT9Wk3EOVaD8qFBZqzR551rSyPuA9sIvLKDESaxy+94=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+ In-Reply-To;
+ b=Xqdb5k+6WjW0/w0d77ryY6IBFlrgFKcc3UwovYsqacC2VH7aKZxXiSJULzkQAoui
+ I7i9+4HjdQvcm/LwAeHnKfd/XCTC0z1wWxBUpuJzCzN3Vq/bOjViHP57+63Qg9+Gb
+ e1ENLNHK7aJDfrtr2+x6U7f/7KyCXckh3YnNwB0vxAr7dxBzcDRp/fJo9H2oygb50
+ BJ4SPlPZNW3zI29+nCFFruowRta2S/5nX6xCsfptNSt9dWTXMR5PL7e6Ec9GCw33E
+ 8n1VlzvoqZplKV3woRPSF7zw+a56CM/S7IxMw8IkWNHvGrRmhG1eaTCwzstnLnmzi
+ /ZcnrA7z/ZpNd7WkQQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.198.194] ([109.43.113.118]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MTRR0-1sFQko0ZBs-00Tp00; Thu, 04
+ Apr 2024 19:56:58 +0200
+Message-ID: <dcd279e4-9463-4dfb-8aa7-9b9b3111232a@gmx.de>
+Date: Thu, 4 Apr 2024 19:56:56 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|SJ0PR11MB5006:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5MpBmG4jfTqYQABEFF4RnXjhXMvrBBlLN4FxD1WFS2+9kVpdEEoegDb8lOPu7/bpNWtlY2ZA9Hg5UQTML/7bGpGW7rq35JIbVCIqXk+1OyZNuUltp256bvo67/SNdeF1DvVcoxlf7imCToov4L80nbyTG7gKPEcNX7pcWMj1jYikh6GHfmwe6366ZWtX5W89xG9AvY5cxFt3QzyUG0zT1HxlZFCVxyLvB1L2RlGoPyIeDt3jOHO5LJ2IL9psoL7DLkbrEeShEHr3jwiaarBQ2IvSi/hcXoW0b22+5YE5foL6r/DBpoyavkzml7eNxoeGgjrnfYmL+9fNNh1ziQT+tKJLv5Mt7l3Mp9Ouv7CPIz/YGeGCy0R/8LVGvMOxG5tTfO8PMNmQRKQTYl68HZ/7vzS1jTIkV/t5OmbVPtDX0rLx7ykBexYN5yC/SkJq3oeFz0hVm2684fsfmB1qbx02l/n+nnc6xgxqK0JoBZGHSNg79WwC48QEiUj8i9e0+544zR7D6ubSpu7uz+nmCCucHUG8mwMcpj3GJl4KKxK9uNIJjIfgpN/rI171NA9Da2ax/k9xmFTt9kQs9GUoHUUvWGKHqWApL8A5Lov50whLDxw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366007)(376005)(7416005)(1800799015); DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?P9r8na2dkOVByL0iUy0qWrh0zvsj/93zgSXYG7mnhLnr7Hs1xBC5KEQId5?=
- =?iso-8859-1?Q?H9kwzWFZFi9jS0ivOK46mHKSc8I31SMJdVfAQfx441RQhCU51qYMxy+MYw?=
- =?iso-8859-1?Q?kYBtTwmMD2LhvGeV4j53iwLnz/izSqSb05+sO357AXfRJekgoU588YHogE?=
- =?iso-8859-1?Q?FLNQFVXH+9ZSGIQnH6o1SZYxOpJe3Tzer/3ha9u66TDvkSrNsKyEwrN/OS?=
- =?iso-8859-1?Q?rZhIXbnHMbk/9nLfwKD1jIuKqXwvIInCp28aUoCRnFcgrvxIkc2iGlGCIu?=
- =?iso-8859-1?Q?/3qhgav3jnJk0I6XW3rMa8s7hrBWvVuvEE/BF+6gy417HARn+Y/ljvQJaj?=
- =?iso-8859-1?Q?qTK1h6djImQT7b9/KqhUO+rh7OOj8wmx2C+tfIQz7bg8kAFOd4AzpVtp3X?=
- =?iso-8859-1?Q?CCLeuNXFWpItUKm7G3PI8BESq2YClUwyh6P0Vx01A7Oym0rBTWI9cN4mZn?=
- =?iso-8859-1?Q?2MekP+ZOfh2PlmsmGTD6DiyC4FO8JZBC5tuTMkASKZijZdK7j+5PDb7GIT?=
- =?iso-8859-1?Q?wT3PYusqVZ3rkidZSKTnvWRZinIiRYSqr2jUSbGIry2c8NVTUh9JleK6lQ?=
- =?iso-8859-1?Q?4aZWqdg7gHsHW3Gu8gIy93PIq9/bBKFBSDsBCRjEjpaD3sNJq1M2Y0M2o1?=
- =?iso-8859-1?Q?ZXMPJdiXpw/yPmoXFNqI1ubz8TQ5f0WZXGBMxHgCyNOPRbkXNTmSD7Ifpv?=
- =?iso-8859-1?Q?C8UNGTqOUsDbRIxgbj0pSEs2kHpdHaU4tLDCn/zPRGzYZD34BT1hQF1cQU?=
- =?iso-8859-1?Q?csVwJW0LLNIznckV3bMT1vwztCqjyDTsw0H/ZrbuhibZuWiIFfVYgKtel+?=
- =?iso-8859-1?Q?vpaMowcAshdN3v46h2aoOe6sG9q5kYrPUsW8UKphxciA2Ai+RbtMoJCDwm?=
- =?iso-8859-1?Q?Xi5KpowvErB02+CzEBBSgvA0eJWiob30nzParYXtniR0bH4jT9mH511Vea?=
- =?iso-8859-1?Q?HbwrGFOQwciqURkRt41bd6g8e25BK+NuHEM3Gtideo8ZEe7BVTTMAdj33l?=
- =?iso-8859-1?Q?b4cnjkgu2T2y2Rc2aJlDRwobip4SNBsVBNv0ez7xxKGA/gXyJmWWoU/lkP?=
- =?iso-8859-1?Q?rLYjesVCqy9VhuiLZR3eDDcw4OtgphW3FCTz2MwSNVC+kiNW62DAWg9YOx?=
- =?iso-8859-1?Q?b4fI5uGrSuXb5f9KQJC77HBtHRupXi6uRdNDPXEkBpv9E0VpcvXq/x7feG?=
- =?iso-8859-1?Q?cW2HNz5y36l5QvyTEliU7jKKbWvjXfU38jEyN24ab/NuQtfrBsHK2UGhYB?=
- =?iso-8859-1?Q?J9pYRhYd/GID99SI+DIeP4Uz1JHu7W5wDcezpoaV2WpjUdmsbe0pwwlGOR?=
- =?iso-8859-1?Q?oLxrmGE7gTso0P9ReIDN2+Uc32Rj8yE7W1eZaxFZeB0kDMJj6z7KOmZsVf?=
- =?iso-8859-1?Q?GJC+dP3X3vYwMOjeA/HEzDwaLCSPBecKj/xK2brUemWtpgm2wLIxLAtpko?=
- =?iso-8859-1?Q?6Q0G88N83A7ByeBQTsuXAj/VWmNU+qXW4TKaaE7XraB9nu1V7J7hL3CImD?=
- =?iso-8859-1?Q?3rRwI1Cm06nmnZHCsoOinIRQpeilrGt076AgesEFhpnGKL7X3aZZ0bJ+Sp?=
- =?iso-8859-1?Q?yLj8ogkx6NGICUT98EFMV/iExcy23R5I/W2IMUWlyEmFcxqcWtVxRw7r0k?=
- =?iso-8859-1?Q?wa0qEjYppm/vSsezdtAXHkUreBo4COXOMy9sUBMMxfIoyvKBNDzRCd7Q?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6321f3e3-cb5a-430f-9455-08dc54cf0fc6
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2024 17:45:48.1357 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ++PE9uoOLt2GiXGP+iwLkMKn0wFpu28gQhNhQ4eqJqKlkpxUQDM6sXcIKtbIh8IgZdmw0Xm0Fy78PjtohQt/AA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5006
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drivers: video: logo: Don't mention the full path of the
+ input in output
+To: Lucas Stach <l.stach@pengutronix.de>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kernel@pengutronix.de, patchwork-lst@pengutronix.de
+References: <20240404121824.3330254-1-l.stach@pengutronix.de>
+ <c3108939-9e6f-489d-9954-82bd6c2dd3b0@gmx.de>
+ <6ae0c57c2176364c8001397d647f9d9fb792fba7.camel@pengutronix.de>
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <6ae0c57c2176364c8001397d647f9d9fb792fba7.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:mEIjn9BijN3Kt81vPFBS8VM/Ui/4WzBOS2SaplVdlVZ7VjQ8T9U
+ ZPv9nQqavfG9CuZGE2+CD5xo3kfSFocZqigfe8s8cN/2aC8uLfatknqDe6QxvYNKmXl+hBu
+ L97Bx36v3cGnPt+0Oxb0O3EjOWDYjd3kRqkglJ4hTJpILUK8W6IhotnDXCLGfHEs1hL+HMh
+ j6fSn+eAMbjBupOfYG7aA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:y9+o3O/Q7FM=;gR18ZHesquLHv5bFeIdiBsEzR+G
+ gFmYFcetbBp5gq8fc9OzAcxHdqzVPAKKJM1pV9hkDrBfP0h2GdF+9qVnxkmY5bqYhawVJk0Ki
+ cxTuNnkvJm6JICxoICwNzWwy//3nkhUXPgOIHBpQP0sRq2YDQUMrC+Y4y/qHlhv5K7KQ67Uqb
+ eOtCXeT0VIDPx+s08G67t15s2BumDJsxIpVwEFvZ5oOBdfN2W+Mv1+pztNi/rO/dfJyoJZl5F
+ 4fynz0dCirbaI8M+Ck6Bb4Sc5lsRWy3YDcGy6xUQEEIKwl03akvRg3b0Rbt20eer/M8E1H3H7
+ IuJSWSMksexUsmqgNs9pjHu9ZsLZWE5/Ugs+/Kc6Ixi84e88P8ib5wl3iQud7qWpPRiEtwPi7
+ PAb1sBWcWkBnHO5W+dAVid6vBBXS4Rn1mhcMmHMMuL4DNsE+Ig6zAcT8v3SS2BaP1FOLzIpSF
+ NuwyrGIRue05HPkTgG1re7aZFH4aj+QLoBCFmLnTc5R3+JqmZNou35WbHF975lPwNp9hMN05n
+ n8KHIx9OtFaJ7ECynpBEPyh65yIJsmdOR9oJnoZyPULBQXIuTiQwQBO2pCjJdpewqFsVCBaSK
+ yOCTCpAHDMb4iBTjQp0GYjus5h9po5WbhwkGGswCIyYvTH67EuQ72dYMn7WGS5fZSdKFfYQdB
+ DiacKxcdaY5NKQ1ZwnULTzqFaVeGyU/njMf1MtHYWzEVKXp6+Ebz6Wt2NNqOovjqevdaONTkw
+ Z8VP8+KjkHH/Vykpzjc4tJC9dHmkahhwYIwF0nkJMe/hCjExCnzOLKLEET719hO/J0isbZdjv
+ Iug+IW8ZKWVOwL1rJVj18LjAf3Aj4Ei2ACNsFvBcCPtz4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,82 +123,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Sima,
+On 4/4/24 18:44, Lucas Stach wrote:
+> Am Donnerstag, dem 04.04.2024 um 15:15 +0200 schrieb Helge Deller:
+>> On 4/4/24 14:18, Lucas Stach wrote:
+>>> This change strips $abs_srctree of the input file containing the
+>>> PNM data in the generated output. The motivation for this change
+>>> is Yocto emitting a build warning
+>>>
+>>>       WARNING: linux-foo-6.8-r0 do_package_qa: QA Issue:
+>>>       File /usr/src/debug/linux-foo/6.8-r0/drivers/video/logo/logo_linux_clut224.c
+>>>       in package linux-foo-src contains reference to TMPDIR
+>>>
+>>> So this change brings us one step closer to make the build result
+>>> reproducible independent of the build path.
+>>>
+>>> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+>>> ---
+>>>    drivers/video/logo/pnmtologo.c | 14 +++++++++++++-
+>>>    1 file changed, 13 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/video/logo/pnmtologo.c b/drivers/video/logo/pnmtologo.c
+>>> index 2434a25afb64..59ccd721e8af 100644
+>>> --- a/drivers/video/logo/pnmtologo.c
+>>> +++ b/drivers/video/logo/pnmtologo.c
+>>> @@ -223,6 +223,18 @@ static inline int is_equal(struct color c1, struct color c2)
+>>>
+>>>    static void write_header(void)
+>>>    {
+>>> +	const char *abs_srctree = getenv("abs_srctree");
+>>> +	const char *rel_filename;
+>>> +
+>>> +	if (abs_srctree &&
+>>> +	    !strncmp(abs_srctree, filename, strlen(abs_srctree))) {
+>>> +		rel_filename = filename + strlen(abs_srctree);
+>>> +		while (*rel_filename == '/')
+>>> +			++rel_filename;
+>>> +	} else {
+>>> +		rel_filename = filename;
+>>> +	}
+>>> +
+>>>    	/* open logo file */
+>>>    	if (outputname) {
+>>>    		out = fopen(outputname, "w");
+>>> @@ -235,7 +247,7 @@ static void write_header(void)
+>>>    	fputs("/*\n", out);
+>>>    	fputs(" *  DO NOT EDIT THIS FILE!\n", out);
+>>>    	fputs(" *\n", out);
+>>> -	fprintf(out, " *  It was automatically generated from %s\n", filename);
+>>> +	fprintf(out, " *  It was automatically generated from %s\n", rel_filename);
+>>
+>> can't you use instead: ?
+>>> +	fprintf(out, " *  It was automatically generated from %s\n", basename(filename));
+>>
+> The difference to basename is that this keeps the path in the source
+> tree intact, e.g. it shortens the absolute path to
+> "drivers/video/logo/logo_linux_clut224.c", so the comment in the
+> generated file still has a full reference to the file location in the
+> source tree. It only strips out the part of the path that is host
+> dependent.
 
-Here goes drm-intel-fixes-2024-04-04:
+That's true, but
+a) it's just a comment which is generated, and
+b) all source and generated logo files are in the [src|build]/drivers/video/logo/ directory anyway, and
+c) the file name already suggests where it is generated from.
 
-Display fixes:
-- A few DisplayPort related fixes (Imre, Arun, Ankit, Ville)
-- eDP PSR fixes (Jouni)
+So, IMHO basically we could simply drop the whole comment line alltogether as well.
 
-Core/GT fixes:
-- Remove some VM space restrictions on older platforms (Andi)
-- Disable automatic load CCS load balancing (Andi)
-
-Thanks,
-Rodrigo.
-
-The following changes since commit 39cd87c4eb2b893354f3b850f916353f2658ae6f:
-
-  Linux 6.9-rc2 (2024-03-31 14:32:39 -0700)
-
-are available in the Git repository at:
-
-  https://anongit.freedesktop.org/git/drm/drm-intel tags/drm-intel-fixes-2024-04-04
-
-for you to fetch changes up to 99f855082f228cdcecd6ab768d3b8b505e0eb028:
-
-  drm/i915/mst: Reject FEC+MST on ICL (2024-04-03 14:26:11 -0400)
-
-----------------------------------------------------------------
-Display fixes:
-- A few DisplayPort related fixes (Imre, Arun, Ankit, Ville)
-- eDP PSR fixes (Jouni)
-
-Core/GT fixes:
-- Remove some VM space restrictions on older platforms (Andi)
-- Disable automatic load CCS load balancing (Andi)
-
-----------------------------------------------------------------
-Andi Shyti (4):
-      drm/i915/gt: Limit the reserved VM space to only the platforms that need it
-      drm/i915/gt: Disable HW load balancing for CCS
-      drm/i915/gt: Do not generate the command streamer for all the CCS
-      drm/i915/gt: Enable only one CCS for compute workload
-
-Ankit Nautiyal (1):
-      drm/i915/dp: Fix the computation for compressed_bpp for DISPLAY < 13
-
-Arun R Murthy (1):
-      drm/i915/dp: Remove support for UHBR13.5
-
-Imre Deak (1):
-      drm/i915/dp: Fix DSC state HW readout for SST connectors
-
-Jouni Högander (3):
-      drm/i915/psr: Calculate PIPE_SRCSZ_ERLY_TPT value
-      drm/i915/psr: Move writing early transport pipe src
-      drm/i915/psr: Fix intel_psr2_sel_fetch_et_alignment usage
-
-Ville Syrjälä (2):
-      drm/i915/mst: Limit MST+DSC to TGL+
-      drm/i915/mst: Reject FEC+MST on ICL
-
- drivers/gpu/drm/i915/Makefile                      |  1 +
- drivers/gpu/drm/i915/display/intel_display.c       |  9 ---
- .../gpu/drm/i915/display/intel_display_device.h    |  1 +
- drivers/gpu/drm/i915/display/intel_display_types.h |  2 +
- drivers/gpu/drm/i915/display/intel_dp.c            | 11 +--
- drivers/gpu/drm/i915/display/intel_dp_mst.c        |  2 +-
- drivers/gpu/drm/i915/display/intel_psr.c           | 78 ++++++++++++++++------
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c               |  3 +
- drivers/gpu/drm/i915/gt/intel_engine_cs.c          | 17 +++++
- drivers/gpu/drm/i915/gt/intel_gt.c                 |  6 ++
- drivers/gpu/drm/i915/gt/intel_gt.h                 |  9 +--
- drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c        | 39 +++++++++++
- drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h        | 13 ++++
- drivers/gpu/drm/i915/gt/intel_gt_regs.h            |  6 ++
- drivers/gpu/drm/i915/gt/intel_workarounds.c        | 30 ++++++++-
- 15 files changed, 185 insertions(+), 42 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
- create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h
+Helge
