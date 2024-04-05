@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A348899E06
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 15:09:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A6A3899E08
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 15:09:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1804310E120;
-	Fri,  5 Apr 2024 13:09:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDB66113BF8;
+	Fri,  5 Apr 2024 13:09:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WS0svyP5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JgBfZS1E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BDF2113BF2
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 13:09:41 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68500113BF2
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 13:09:47 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7AA69618F4;
- Fri,  5 Apr 2024 13:09:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8D91C433F1;
- Fri,  5 Apr 2024 13:09:39 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 22993CE375E;
+ Fri,  5 Apr 2024 13:09:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2615C433F1;
+ Fri,  5 Apr 2024 13:09:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1712322580;
- bh=pyHYY0cp6y2a364+xVjeEgDvNZHaRJHSrzno1tz0wqI=;
+ s=k20201202; t=1712322583;
+ bh=v7bIaae5C/I6EIJFTJcdJOvBIkgxWyP1jUsycI59f+8=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=WS0svyP5nQ5Y51sfjmnIMoEz4bk7HWaPLMzZ5/XR8ZsndM4HSutHmVx75uhKXnxHz
- a+d+MUETkrKLuFUZiDkkXDelX/QPUVyP3mtHfHYY1F8oiExp3TatZQ6UtesekDiSW7
- 2N23PohtQ9+wOc+UQW6I/VOCeV56swmF0M0ExPBvulC1T1KuFlQdgyYKpffKNTsM1V
- +mP+oIEweIjLxmr/gQGPVYuq29CRiK7uqwtGEPam5sF2W7pBi+vhr/sePNRo4cY4Vg
- iSKPWXZ/MSHkKBqv88ZrCpJbnL4KVaAoiS2XQuXroXAhgGa4Yk3RceKMD8QmS9o8d9
- bxegeazWRQM1A==
+ b=JgBfZS1EDsNnoTq60ro9de0ZIbrh2fHpnCts5KpU6pOCszcYuYFrKZ+ZNwxTb0VN+
+ 4q9fU8l9sFekTKY+zdDStYi/jZu/SdaxmJ4yeD9tXLI6h9nSqvKPF392lX2Ob1zMqw
+ boTG21b9AfgMljRTZ3UYt9r8/oQ6PxaYoMBJmwXHdqAMifkSbR4rY0VHufsurS7skW
+ Hwz90Im0NKVDpwmq7S/iyZcY93sGNpGrKWdAPjHzA6g2bWjOMRpFK02YWFg8Mpl3J3
+ 7Gil4ozHLUjgw0NxmBc+4LtbPSo4YwX0w3TzBedmKeUtUsSsAq9BPA/uklsOjL9Q8N
+ MhHD9Y9vLXLSA==
 From: Maxime Ripard <mripard@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
@@ -51,15 +51,14 @@ Cc: Mark Brown <broonie@kernel.org>,
  Alexander Stein <alexander.stein@ew.tq-group.com>, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
- linux-sunxi@lists.linux.dev, linux-mips@vger.kernel.org, 
- kernel test robot <lkp@intel.com>
-In-Reply-To: <20240403-fix-dw-hdmi-kconfig-v1-1-afbc4a835c38@kernel.org>
+ linux-sunxi@lists.linux.dev, linux-mips@vger.kernel.org
+In-Reply-To: <20240403-fix-dw-hdmi-kconfig-v1-2-afbc4a835c38@kernel.org>
 References: <20240403-fix-dw-hdmi-kconfig-v1-0-afbc4a835c38@kernel.org>
- <20240403-fix-dw-hdmi-kconfig-v1-1-afbc4a835c38@kernel.org>
-Subject: Re: (subset) [PATCH 1/7] drm/display: Select DRM_KMS_HELPER for DP
- helpers
-Message-Id: <171232257737.9066.13262201288345110455.b4-ty@kernel.org>
-Date: Fri, 05 Apr 2024 15:09:37 +0200
+ <20240403-fix-dw-hdmi-kconfig-v1-2-afbc4a835c38@kernel.org>
+Subject: Re: (subset) [PATCH 2/7] drm/bridge: dw-hdmi: Make DRM_DW_HDMI
+ selectable
+Message-Id: <171232258054.9066.6298567481555840770.b4-ty@kernel.org>
+Date: Fri, 05 Apr 2024 15:09:40 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -79,19 +78,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 03 Apr 2024 12:56:19 +0200, Maxime Ripard wrote:
-> The DisplayPort helpers rely on some
-> (__drm_atomic_helper_private_obj_duplicate_state,
-> drm_kms_helper_hotplug_event) helpers found in files compiled by
-> DRM_KMS_HELPER.
+On Wed, 03 Apr 2024 12:56:20 +0200, Maxime Ripard wrote:
+> Commit c0e0f139354c ("drm: Make drivers depends on DRM_DW_HDMI") turned
+> select dependencies into depends on ones. However, DRM_DW_HDMI was not
+> manually selectable which resulted in no way to enable the drivers that
+> were now depending on it.
 > 
-> Prior to commit d674858ff979 ("drm/display: Make all helpers visible and
-> switch to depends on"), DRM_DISPLAY_DP_HELPER was only selectable so it
-> wasn't really a big deal. However, since that commit, it's now something
-> that can be enabled as is, and since there's no expressed dependency
-> with DRM_KMS_HELPER, it can break too.
 > 
-> [...]
 
 Applied to misc/kernel.git (drm-misc-next).
 
