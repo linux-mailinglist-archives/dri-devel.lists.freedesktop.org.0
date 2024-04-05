@@ -2,82 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A7A89992F
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 11:15:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5201289994D
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 11:19:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19F1A10EA13;
-	Fri,  5 Apr 2024 09:15:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8392E10E9C7;
+	Fri,  5 Apr 2024 09:19:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GdAORM3Y";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Q/86jhJt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74AFC10EA11
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 09:15:06 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2978610E9C7
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 09:19:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1712308505;
+ s=mimecast20190719; t=1712308779;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UkJ21UDriSdB6gArKOJeT8psAEbfoK/LWacdcKmVSAE=;
- b=GdAORM3Y4akFscgJWWwxQaesrHqDXZyl0Qwyd19PPuLSCxp44vQ6MXg1/GCMv4d9B9abqf
- MgoR5HjqNQHAf6LJ94l6Bl5rPM6vOcIuoLEeAseKbCK1hV8Z6d8ZVM3tloJihT4D3UWpVi
- XHtyvOEMrIThgPeeDh6+aeBGERCS8FE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=8IF4/jxhc/3/WzvhvhnPveK8cQIaCBIwC34EM7caYDI=;
+ b=Q/86jhJtY4V0PPtwFZoUlpc9g0a4ixfu7LGnwB4By2To/6NVaF8o9Udz6gvM0Xp4X9AP6e
+ NBKAiXDFcN06CA6+j9gpjmjf3pOHtuVmT8dBmEYcDTe2flxvIETi8a+0baBmqTIwoAfI0m
+ D2dPASb9HZ16kBpqb5SiaWzIm10vQZA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-557-zFI3b63WOB6fKARuKGIAwQ-1; Fri, 05 Apr 2024 05:15:03 -0400
-X-MC-Unique: zFI3b63WOB6fKARuKGIAwQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-41552c04845so9424745e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Apr 2024 02:15:03 -0700 (PDT)
+ us-mta-296-3C8B5mdsNzWGVqHtYyKxVg-1; Fri, 05 Apr 2024 05:19:35 -0400
+X-MC-Unique: 3C8B5mdsNzWGVqHtYyKxVg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-414042da713so15461775e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Apr 2024 02:19:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712308503; x=1712913303;
+ d=1e100.net; s=20230601; t=1712308774; x=1712913574;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:from:references:cc:to:subject:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=UkJ21UDriSdB6gArKOJeT8psAEbfoK/LWacdcKmVSAE=;
- b=tVzKLLHSJPVBM+vyCQQdZkNow9ktfVGjyEd+745s+RKAB7h/urCHfAgdD3BuyVuwLc
- TxObRT0Zd4jmNXJrnqhQvP58m7Q59nmYrxZBlGkBx+Cg1ZRzk6M+hYUPxDpIJtb8BocD
- doKhfV6PU3ULUDvzBE2s2R3xwxcd+rcHwSTX+Ql+eCQLfafLyBU+LRe/GTWt9DwqkoOm
- 0cv5OLzByV4IqF0oIgFJ2Nrc/heI9lUrkWKAbhE36/RM8b8DRQ3M8MDyy5+5JW/u8LRw
- 7bAMOLyd90rqgoGB94r8z+KHXvFuMQ9QSlsOZYn6gQuCeJKGbb0jaUpiMMmmWcSL2zZZ
- /guA==
+ bh=8IF4/jxhc/3/WzvhvhnPveK8cQIaCBIwC34EM7caYDI=;
+ b=ZAz+9ZE7GFwXaz4oP0y72bk5m8DIrVU0b53WeJ7UKKAQ8Fb7SUdHO4AWlNYZFrbqoS
+ xN/9zTy38mX2qi6W4a89Qg6YJ9dR8GYQLBzXJZ+LQ4r0jJphEujT1xVoJ6BXU0zcMxPb
+ nvaneuU12WQvA6Rsx6+0SeF1Q2CqmwMZrV5PtEzqlActS5rYMNxJ8SRxZM+xLQRBua88
+ /nCisH4hyV664pZkbEVcbuPbxFuxNSgpfsGv/SCMCW0X5S9Kzrhp7blEfhyZuLji5Add
+ 59rkjWJ+i56/DH5/gq+TDBDV8NwEyFIv4+wBcVBdHCUREISGoSHUZKq/s9fO7aAPtOJa
+ Jd/w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX/VnlNrhMd4kLm4Xgx/7U64t4YakfJWUBy0h11OCAGzBB8W+li//60W/sMVK8SWfFJwD3gZc36PDLc2sQovNcYdkLLu6jW9Cc1Xndq3njK
-X-Gm-Message-State: AOJu0YxAdZekINEzEG5v/tbBpaEjT62EeYdVaONU82iIWyN8fLJdd293
- rXCQW4Hr/zcKsPV8YzsorMX1OeEoDhvBI+ahULXzAoZfxpWSbf4CIuG2ML9J5NPZ5eq7XFLuJVR
- Inelz0j24Va8oUxLHZ1pibdSZpWZXXD2S+B8VVYgv7q/x0w1pw4AxbljHClCG2iqrpA==
-X-Received: by 2002:a05:600c:1395:b0:414:71b2:c915 with SMTP id
- u21-20020a05600c139500b0041471b2c915mr652798wmf.34.1712308502829; 
- Fri, 05 Apr 2024 02:15:02 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHK8iYw5gNsHqd33kUGW5zS/Q/OT++PTQexCmlbKk0IjARRuAEJQnU2Z/jAZYgDVpch62m1Jw==
-X-Received: by 2002:a05:600c:1395:b0:414:71b2:c915 with SMTP id
- u21-20020a05600c139500b0041471b2c915mr652777wmf.34.1712308502426; 
- Fri, 05 Apr 2024 02:15:02 -0700 (PDT)
+ AJvYcCVvC5gQfoZOXvp+zbIfzkGiLoPSO9tfw1G3gn8O11ipSJPmwOS6cfGJgVPznZh/l+KdmTb5hzmI+ZTrLt8lNBzIfZUjd1GIJXwveocramS2
+X-Gm-Message-State: AOJu0YyxJNdAC5YBajohAbWYWm+pr2DZjEFMa8fuyZu2S3WCfsXu4ki2
+ JPrg8i+vZkpUOhiGa1K8G4TMwzU1Uon4tCCC35E2lc6o9uxMezXzecDgVp+P+ZnHyEYLpImZ0De
+ zyyYEm7+0loAQC3pEDZwztim609q5g4gVfyM+/z4O9xRye06QRXwzDkjGWruMqTZhUg==
+X-Received: by 2002:a5d:4705:0:b0:343:7f4b:6da5 with SMTP id
+ y5-20020a5d4705000000b003437f4b6da5mr1728417wrq.17.1712308774398; 
+ Fri, 05 Apr 2024 02:19:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGC9UN9KmrIImOTgNNyitLuITiDXGJ7+WLds70o9ANjlY/L1WXuVcOb379zcScHSd/zjMe+zQ==
+X-Received: by 2002:a5d:4705:0:b0:343:7f4b:6da5 with SMTP id
+ y5-20020a5d4705000000b003437f4b6da5mr1728395wrq.17.1712308774027; 
+ Fri, 05 Apr 2024 02:19:34 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c74b:5500:e1f8:a310:8fa3:4ec1?
  (p200300cbc74b5500e1f8a3108fa34ec1.dip0.t-ipconnect.de.
  [2003:cb:c74b:5500:e1f8:a310:8fa3:4ec1])
  by smtp.gmail.com with ESMTPSA id
- b2-20020a5d5502000000b0033e786abf84sm1536706wrv.54.2024.04.05.02.15.00
+ r24-20020adfb1d8000000b00341b451a31asm1565967wra.36.2024.04.05.02.19.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Apr 2024 02:15:01 -0700 (PDT)
-Message-ID: <a85b5fa1-d155-4be7-a4de-ae466357aef1@redhat.com>
-Date: Fri, 5 Apr 2024 11:15:00 +0200
+ Fri, 05 Apr 2024 02:19:33 -0700 (PDT)
+Message-ID: <a8b536ca-0882-4e13-9681-4ff2f1d2a7d9@redhat.com>
+Date: Fri, 5 Apr 2024 11:19:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 1/8] mm/gup: Introduce unpin_folio/unpin_folios helpers
+Subject: Re: [PATCH v13 2/8] mm/gup: Introduce
+ check_and_migrate_movable_folios()
 To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
  dri-devel@lists.freedesktop.org, linux-mm@kvack.org
 Cc: Matthew Wilcox <willy@infradead.org>,
  Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@nvidia.com>,
  Peter Xu <peterx@redhat.com>
 References: <20240404073053.3073706-1-vivek.kasireddy@intel.com>
- <20240404073053.3073706-2-vivek.kasireddy@intel.com>
+ <20240404073053.3073706-3-vivek.kasireddy@intel.com>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -124,7 +125,7 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <20240404073053.3073706-2-vivek.kasireddy@intel.com>
+In-Reply-To: <20240404073053.3073706-3-vivek.kasireddy@intel.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -146,18 +147,16 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 04.04.24 09:26, Vivek Kasireddy wrote:
-> These helpers are the folio versions of unpin_user_page/unpin_user_pages.
-> They are currently only useful for unpinning folios pinned by
-> memfd_pin_folios() or other associated routines. However, they could
-> find new uses in the future, when more and more folio-only helpers
-> are added to GUP.
+> This helper is the folio equivalent of check_and_migrate_movable_pages().
+> Therefore, all the rules that apply to check_and_migrate_movable_pages()
+> also apply to this one as well. Currently, this helper is only used by
+> memfd_pin_folios().
 > 
-> We should probably sanity check the folio as part of unpin similar
-> to how it is done in unpin_user_page/unpin_user_pages but we cannot
-> cleanly do that at the moment without also checking the subpage.
-> Therefore, sanity checking needs to be added to these routines once
-> we have a way to determine if any given folio is anon-exclusive (via
-> a per folio AnonExclusive flag).
+> This patch also includes changes to rename and convert the internal
+> functions collect_longterm_unpinnable_pages() and
+> migrate_longterm_unpinnable_pages() to work on folios. As a result,
+> check_and_migrate_movable_pages() is now a wrapper around
+> check_and_migrate_movable_folios().
 > 
 > Cc: David Hildenbrand <david@redhat.com>
 > Cc: Matthew Wilcox <willy@infradead.org>
@@ -168,7 +167,74 @@ On 04.04.24 09:26, Vivek Kasireddy wrote:
 > Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 > ---
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+[...]
+
+> +/*
+> + * Check whether all folios are *allowed* to be pinned indefinitely (longterm).
+> + * Rather confusingly, all folios in the range are required to be pinned via
+> + * FOLL_PIN, before calling this routine.
+> + *
+> + * If any folios in the range are not allowed to be pinned, then this routine
+> + * will migrate those folios away, unpin all the folios in the range and return
+> + * -EAGAIN. The caller should re-pin the entire range with FOLL_PIN and then
+> + * call this routine again.
+> + *
+> + * If an error other than -EAGAIN occurs, this indicates a migration failure.
+> + * The caller should give up, and propagate the error back up the call stack.
+> + *
+> + * If everything is OK and all folios in the range are allowed to be pinned,
+> + * then this routine leaves all folios pinned and returns zero for success.
+> + */
+> +static long check_and_migrate_movable_folios(unsigned long nr_folios,
+> +					     struct folio **folios)
+> +{
+> +	unsigned long collected;
+> +	LIST_HEAD(movable_folio_list);
+> +
+> +	collected = collect_longterm_unpinnable_folios(&movable_folio_list,
+> +						       nr_folios, folios);
+> +	if (!collected)
+> +		return 0;
+> +
+> +	return migrate_longterm_unpinnable_folios(&movable_folio_list,
+> +						  nr_folios, folios);
+> +}
+> +
+>   /*
+>    * Check whether all pages are *allowed* to be pinned. Rather confusingly, all
+>    * pages in the range are required to be pinned via FOLL_PIN, before calling
+
+Likely we should just drop that comment and refer to 
+check_and_migrate_movable_folios() instead. No need to duplicate all that.
+
+> @@ -2555,16 +2585,20 @@ static int migrate_longterm_unpinnable_pages(
+>   static long check_and_migrate_movable_pages(unsigned long nr_pages,
+>   					    struct page **pages)
+>   {
+> -	unsigned long collected;
+> -	LIST_HEAD(movable_page_list);
+> +	struct folio **folios;
+> +	long i, ret;
+>   
+> -	collected = collect_longterm_unpinnable_pages(&movable_page_list,
+> -						nr_pages, pages);
+> -	if (!collected)
+> -		return 0;
+> +	folios = kmalloc_array(nr_pages, sizeof(*folios), GFP_KERNEL);
+> +	if (!folios)
+> +		return -ENOMEM;
+>   
+> -	return migrate_longterm_unpinnable_pages(&movable_page_list, nr_pages,
+> -						pages);
+> +	for (i = 0; i < nr_pages; i++)
+> +		folios[i] = page_folio(pages[i]);
+
+
+I wonder if we have to handle pages[i] being NULL. Hopefully not :)
+
+Looks straight forward now:
+
+Acked-by: David Hildenbrand <david@redhat.com>
 
 -- 
 Cheers,
