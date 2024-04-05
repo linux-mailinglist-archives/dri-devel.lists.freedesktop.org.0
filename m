@@ -2,71 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1DB289AA60
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Apr 2024 12:43:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CCE589ACE0
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Apr 2024 22:24:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9BC110E7EA;
-	Sat,  6 Apr 2024 10:43:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1788210F3E9;
+	Sat,  6 Apr 2024 20:24:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="m3POpngX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JzIkAHPz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0574510EA01;
- Sat,  6 Apr 2024 10:43:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712400216; x=1743936216;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Tm6UWiTLvuOtjlROTNsk00qGzT5cJ18ladKJb9+pq98=;
- b=m3POpngXbZTNm+06/6vRyjKB0oiWslDGTjS5vm+QiqGKTv7ISOzuNnEa
- 7cwITpI5EMXOFnk+Np9hXglMt7V8DrznEQjDgLcJZQgXV5jILyAI70CvH
- fVyeyCyKke7zza3wLWiiNXwAEHDGeqmj5ye3EgjYhHub3BpW692FXtE7z
- E3+MiAfJtL7dKFUZMFDMmr5j9Mh0Za/KGS/pCzigIpU/7TaIrxYl9KgEm
- kOBrbSrw44c+bj9H/SLcQ+rhLtRxSXe40WytKLvgkwaP56Ml9lvl6FBg4
- vX4TE8Bm3ahpVdvhKf/m1lrot9KKHjTO/FbZv/gkm2ky23rirsZ3hHlah w==;
-X-CSE-ConnectionGUID: V861EW6WTaG4cMLuBBC68Q==
-X-CSE-MsgGUID: QGk386kpTtGAjCheNR0vSA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11035"; a="7587512"
-X-IronPort-AV: E=Sophos;i="6.07,183,1708416000"; 
-   d="scan'208";a="7587512"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Apr 2024 03:43:35 -0700
-X-CSE-ConnectionGUID: W9ti95udRzCOBx4nQii9Ow==
-X-CSE-MsgGUID: aGMwCivbQ5iG+39nOsS2Tg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,183,1708416000"; d="scan'208";a="24133297"
-Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
- by orviesa004.jf.intel.com with ESMTP; 06 Apr 2024 03:43:30 -0700
-Received: from kbuild by e61807b1d151 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rt3WC-0003OG-0n;
- Sat, 06 Apr 2024 10:43:28 +0000
-Date: Sat, 6 Apr 2024 18:42:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH 4/6] drm/msm/adreno: Implement SMEM-based speed bin
-Message-ID: <202404061841.njUovDV7-lkp@intel.com>
-References: <20240405-topic-smem_speedbin-v1-4-ce2b864251b1@linaro.org>
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
+ [209.85.210.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B36EA10E72C
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 16:58:04 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id
+ d2e1a72fcca58-6ecee5c08e6so2101812b3a.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Apr 2024 09:58:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1712336284; x=1712941084; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=VxOrpUcgWV1BIbN70ZBNYzAG96ZmcBy16Bx9JpTxO+Y=;
+ b=JzIkAHPzAfS0wALxVQ+jGBntkDS0anTjiNlarXVElbGiW6TBuaWMWyYOZQoUjWs1F+
+ IoUib4+TI0pk91IAA+yBtxwfF4Vs/rLa2V4Zxh9O7MUoNfKqiyAGWh/LksqWabNYArjP
+ XC1Lth857A0FDHlpxyhwyTMnArObaewKPmR5BeKN+l8FdGtBY2ZP09HVjmhWHSUpwpO3
+ aXZ3NhckzDkg0TYsSDPx2yHOIK8ZZkaCm5l01Jhks3kYwKoistS1jVsqQdzTAhXbjHZJ
+ YCGx+reV+Q1nZ+FGj1OwKGCQGTm9o6BiYYHR1Sgxsfpibt0+o+YtynlCXfNmJBOkzBkL
+ ipqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712336284; x=1712941084;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VxOrpUcgWV1BIbN70ZBNYzAG96ZmcBy16Bx9JpTxO+Y=;
+ b=QD2IpeazqXE984g+rAxS9EcadNbQlLEpaofxsGlzKr8OEr4VszVmcwNp+3tIODpzRt
+ zWV2VkqVh8rkC3OKcHgbiDccqAx4ByhNcuByX45Abkah7rIk4pFLznXIFeuHUk4rjc2n
+ sVcdC2PIQq3JngnoBCHmGFSkYtTo/S+TfGg4hUQeMfuJxKxE0sz3ARe8fp1eClVxaU3N
+ 0+jDL6n18ezDENaigzUNDjTn6KV6SfcKw5CFLOfdea530RUvt1y/aJLUGqJ3IiLkhbTf
+ uTyMABK3ZKC91XG7oBm8/6F9fI4RlHjudyNG+ZRqfiB6sVkFzEDVlThLXaAF74l3keCF
+ +pMg==
+X-Gm-Message-State: AOJu0YxbsrjP654lym69OTctXDvMD+8XqFKTYL6XWDGlZb8DKjX1CA2q
+ UP16kcNfK8biu6egrWW8L/tQ588nSojEJt9uaylkryAKjlidldre
+X-Google-Smtp-Source: AGHT+IF8+QcgSzXuJgKfFeVtRFmbVoLvx0pIjuAHQZQ5xpIO1ad1rxcl4fMvBNa0DNG870OGXhAphg==
+X-Received: by 2002:a05:6a00:6508:b0:6ec:d950:fd59 with SMTP id
+ hc8-20020a056a00650800b006ecd950fd59mr1796570pfb.29.1712336283914; 
+ Fri, 05 Apr 2024 09:58:03 -0700 (PDT)
+Received: from localhost.localdomain ([168.138.41.106])
+ by smtp.gmail.com with ESMTPSA id
+ c17-20020aa78c11000000b006ed0199bd57sm1447393pfd.177.2024.04.05.09.58.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Apr 2024 09:58:03 -0700 (PDT)
+From: purofle <purofle@gmail.com>
+To: linux-fbdev@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+ gregkh@linuxfoundation.org, purofle <purofle@gmail.com>
+Subject: [PATCH] staging: fbtft: fb_st7789v: support setting offset
+Date: Sat,  6 Apr 2024 00:57:47 +0800
+Message-ID: <20240405165747.93377-1-purofle@gmail.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240405-topic-smem_speedbin-v1-4-ce2b864251b1@linaro.org>
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sat, 06 Apr 2024 20:24:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,72 +79,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Konrad,
+Some screen sizes using st7789v chips are different from 240x320,
+and offsets need to be set to display all images properly.
 
-kernel test robot noticed the following build errors:
+Signed-off-by: purofle <purofle@gmail.com>
+---
+ drivers/staging/fbtft/fb_st7789v.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-[auto build test ERROR on 2b3d5988ae2cb5cd945ddbc653f0a71706231fdd]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/soc-qcom-Move-some-socinfo-defines-to-the-header-expand-them/20240405-164231
-base:   2b3d5988ae2cb5cd945ddbc653f0a71706231fdd
-patch link:    https://lore.kernel.org/r/20240405-topic-smem_speedbin-v1-4-ce2b864251b1%40linaro.org
-patch subject: [PATCH 4/6] drm/msm/adreno: Implement SMEM-based speed bin
-config: i386-buildonly-randconfig-003-20240406 (https://download.01.org/0day-ci/archive/20240406/202404061841.njUovDV7-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240406/202404061841.njUovDV7-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404061841.njUovDV7-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/msm/adreno/adreno_gpu.c: In function 'adreno_read_speedbin':
->> drivers/gpu/drm/msm/adreno/adreno_gpu.c:1090:14: error: implicit declaration of function 'FIELD_PREP'; did you mean 'NEED_PGE'? [-Werror=implicit-function-declaration]
-     *speedbin = FIELD_PREP(ADRENO_SKU_ID_PCODE, pcode) |
-                 ^~~~~~~~~~
-                 NEED_PGE
-   cc1: some warnings being treated as errors
-
-
-vim +1090 drivers/gpu/drm/msm/adreno/adreno_gpu.c
-
-  1062	
-  1063	int adreno_read_speedbin(struct adreno_gpu *adreno_gpu,
-  1064				 struct device *dev, u32 *speedbin)
-  1065	{
-  1066		u32 fcode, pcode;
-  1067		int ret;
-  1068	
-  1069		/* Try reading the speedbin via a nvmem cell first */
-  1070		ret = nvmem_cell_read_variable_le_u32(dev, "speed_bin", speedbin);
-  1071		if (!ret && ret != -EINVAL)
-  1072			return ret;
-  1073	
-  1074		ret = qcom_smem_get_feature_code(&fcode);
-  1075		if (ret) {
-  1076			dev_err(dev, "Couldn't get feature code from SMEM!\n");
-  1077			return ret;
-  1078		}
-  1079	
-  1080		ret = qcom_smem_get_product_code(&pcode);
-  1081		if (ret) {
-  1082			dev_err(dev, "Couldn't get product code from SMEM!\n");
-  1083			return ret;
-  1084		}
-  1085	
-  1086		/* Don't consider fcode for external feature codes */
-  1087		if (fcode <= SOCINFO_FC_EXT_RESERVE)
-  1088			fcode = SOCINFO_FC_UNKNOWN;
-  1089	
-> 1090		*speedbin = FIELD_PREP(ADRENO_SKU_ID_PCODE, pcode) |
-  1091			    FIELD_PREP(ADRENO_SKU_ID_FCODE, fcode);
-  1092	
-  1093		return ret;
-  1094	}
-  1095	
-
+diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
+index 861a15414..d47ab4262 100644
+--- a/drivers/staging/fbtft/fb_st7789v.c
++++ b/drivers/staging/fbtft/fb_st7789v.c
+@@ -30,6 +30,12 @@
+ 
+ #define HSD20_IPS 1
+ 
++#define WIDTH 240
++#define HEIGHT 320
++
++#define LEFT_OFFSET 0
++#define TOP_OFFSET 0
++
+ /**
+  * enum st7789v_command - ST7789V display controller commands
+  *
+@@ -349,6 +355,21 @@ static int set_gamma(struct fbtft_par *par, u32 *curves)
+ 	return 0;
+ }
+ 
++static void set_addr_win(struct fbtft_par *par, int xs, int ys, int xe, int ye)
++{
++	unsigned int x = xs + TOP_OFFSET, y = xe + TOP_OFFSET;
++
++	write_reg(par, MIPI_DCS_SET_COLUMN_ADDRESS, (x >> 8) & 0xFF, xs & 0xFF,
++		  (y >> 8) & 0xFF, xe & 0xFF);
++
++	x = ys + LEFT_OFFSET, y = ye + LEFT_OFFSET;
++
++	write_reg(par, MIPI_DCS_SET_PAGE_ADDRESS, (x >> 8) & 0xFF, ys & 0xFF,
++		  (y >> 8) & 0xFF, ye & 0xFF);
++
++	write_reg(par, MIPI_DCS_WRITE_MEMORY_START);
++}
++
+ /**
+  * blank() - blank the display
+  *
+@@ -379,6 +400,7 @@ static struct fbtft_display display = {
+ 		.set_var = set_var,
+ 		.set_gamma = set_gamma,
+ 		.blank = blank,
++		.set_addr_win = set_addr_win,
+ 	},
+ };
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.44.0
+
