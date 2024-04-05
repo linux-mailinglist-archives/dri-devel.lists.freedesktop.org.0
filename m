@@ -2,60 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAA2D8997BC
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 10:26:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 049798997C0
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 10:26:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9879113A51;
-	Fri,  5 Apr 2024 08:25:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F6B8113A56;
+	Fri,  5 Apr 2024 08:26:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Bh9/DsXj";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ByEbR8sq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yb0DbtiM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ByEbR8sq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yb0DbtiM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2201A113A50;
- Fri,  5 Apr 2024 08:25:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712305556; x=1743841556;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=Bg3i9gUs2KNmsiaeURC3hc68fGURAjloO3OwHQh+kow=;
- b=Bh9/DsXju9FKawzDyZjZ+L0AU67U86iis5crCWF77gTCnGD8d7KNMD6Z
- gDhF1lS7KlDEPkJB8vEbeWep4DSPW0ZWCUMvtRCvhDQkayhCJYMKPaGKw
- knEgRA0kQRp29ax6bbUunGWM1RPlCAE/EmpsY/WqS3GuCAdQuxJSXWibw
- b1kLXr2M3QngLpaAaEzhrqnweNYw/nqv2jFIFzi+MC7pvcFB0fb9UJ6kM
- JF400mFA7fDVVg0gr7AHMo5jjpEOqylvAWIq07iWPraN64sl5j9mH9awM
- BjauqR877SJqufvUl3m2spxGNUBuXK3Kkd04ltvjPBUniP0Tras/6u0sw w==;
-X-CSE-ConnectionGUID: YTIwZRv+QeO8SQ5S5JuaZw==
-X-CSE-MsgGUID: ofEALIiOQ0ah3qa/zkVYFw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="11440539"
-X-IronPort-AV: E=Sophos;i="6.07,180,1708416000"; d="scan'208";a="11440539"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2024 01:25:54 -0700
-X-CSE-ConnectionGUID: 9neCS/knTeGC5q9PT9OiZQ==
-X-CSE-MsgGUID: GGnTn7CiRYyZUcnNLLKIXQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,180,1708416000"; d="scan'208";a="19648678"
-Received: from dtorrice-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.41.202])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2024 01:25:53 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 12/12] drm/probe-helper: Switch to per-device debugs
-In-Reply-To: <20240404203336.10454-13-ville.syrjala@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240404203336.10454-1-ville.syrjala@linux.intel.com>
- <20240404203336.10454-13-ville.syrjala@linux.intel.com>
-Date: Fri, 05 Apr 2024 11:25:49 +0300
-Message-ID: <877chccj1u.fsf@intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B218B113A5A
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 08:26:40 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id BB42921A1C;
+ Fri,  5 Apr 2024 08:26:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1712305598; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=tmIQZbcZvVbKfKyxrKi2zYlGLTSDxc3jt844Xv4WV3I=;
+ b=ByEbR8sq7P7CRJiMKBVW9n2U3gnopNp/KjYYdv8FBRiHJWSiXxhXSJIJsmo/dGRaudS4dy
+ k5Uzm5eH8DBK0YsSZjBzNw3PRZIToh4KaR/tZbnCggMeYmkuv9QxYavNGQYLiuR+a0F11S
+ WPoKf0AfXzea04kt1JRWWLkx3uTTTJE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1712305598;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=tmIQZbcZvVbKfKyxrKi2zYlGLTSDxc3jt844Xv4WV3I=;
+ b=yb0DbtiMAKapigkEPdK7HN5h2puvzFTjvKuUghL+O2GtU4OWKHz1eELYrjPdcjrpqLQ5fI
+ 8srgvUUUJY8wIqDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1712305598; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=tmIQZbcZvVbKfKyxrKi2zYlGLTSDxc3jt844Xv4WV3I=;
+ b=ByEbR8sq7P7CRJiMKBVW9n2U3gnopNp/KjYYdv8FBRiHJWSiXxhXSJIJsmo/dGRaudS4dy
+ k5Uzm5eH8DBK0YsSZjBzNw3PRZIToh4KaR/tZbnCggMeYmkuv9QxYavNGQYLiuR+a0F11S
+ WPoKf0AfXzea04kt1JRWWLkx3uTTTJE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1712305598;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=tmIQZbcZvVbKfKyxrKi2zYlGLTSDxc3jt844Xv4WV3I=;
+ b=yb0DbtiMAKapigkEPdK7HN5h2puvzFTjvKuUghL+O2GtU4OWKHz1eELYrjPdcjrpqLQ5fI
+ 8srgvUUUJY8wIqDw==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 6983C139E8;
+ Fri,  5 Apr 2024 08:26:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id Hsh1GL61D2acQgAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Fri, 05 Apr 2024 08:26:38 +0000
+Message-ID: <80a853ac-0756-4d27-975c-35b2532239ed@suse.de>
+Date: Fri, 5 Apr 2024 10:26:38 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/ast: Fix soft lockup
+To: Jammy Huang <jammy_huang@aspeedtech.com>, jfalempe@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@redhat.com,
+ airlied@gmail.com, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240403090246.1495487-1-jammy_huang@aspeedtech.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240403090246.1495487-1-jammy_huang@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[];
+ FREEMAIL_TO(0.00)[aspeedtech.com,redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[9]; MIME_TRACE(0.00)[0:+];
+ MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap2.dmz-prg2.suse.org:helo,
+ imap2.dmz-prg2.suse.org:rdns]
+X-Spam-Score: -4.29
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,108 +143,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 04 Apr 2024, Ville Syrjala <ville.syrjala@linux.intel.com> wrote:
-> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+Hi,
+
+I've added a Fixes tag and pushed to patch into drm-misc-fixes.
+
+Best regards
+Thomas
+
+Am 03.04.24 um 11:02 schrieb Jammy Huang:
+> There is a while-loop in ast_dp_set_on_off() that could lead to
+> infinite-loop. This is because the register, VGACRI-Dx, checked in
+> this API is a scratch register actually controlled by a MCU, named
+> DPMCU, in BMC.
 >
-> Switch to per-device debugs so that we know which
-> device we're dealing with.
-
-Again see the first handful of patches in the series [1]. It cleans up
-the mode printing as well.
-
-BR,
-Jani.
-
-
-[1] https://lore.kernel.org/r/cover.1709843865.git.jani.nikula@intel.com
-
-
+> These scratch registers are protected by scu-lock. If suc-lock is not
+> off, DPMCU can not update these registers and then host will have soft
+> lockup due to never updated status.
 >
-> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> DPMCU is used to control DP and relative registers to handshake with
+> host's VGA driver. Even the most time-consuming task, DP's link
+> training, is less than 100ms. 200ms should be enough.
+>
+> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+> Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 > ---
->  drivers/gpu/drm/drm_probe_helper.c | 35 ++++++++++++++----------------
->  1 file changed, 16 insertions(+), 19 deletions(-)
+>   drivers/gpu/drm/ast/ast_dp.c | 3 +++
+>   1 file changed, 3 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_pro=
-be_helper.c
-> index 968a3ee66b1e..0860f7367511 100644
-> --- a/drivers/gpu/drm/drm_probe_helper.c
-> +++ b/drivers/gpu/drm/drm_probe_helper.c
-> @@ -567,8 +567,8 @@ int drm_helper_probe_single_connector_modes(struct dr=
-m_connector *connector,
->=20=20
->  	drm_modeset_acquire_init(&ctx, 0);
->=20=20
-> -	DRM_DEBUG_KMS("[CONNECTOR:%d:%s]\n", connector->base.id,
-> -			connector->name);
-> +	drm_dbg_kms(dev, "[CONNECTOR:%d:%s]\n",
-> +		    connector->base.id, connector->name);
->=20=20
->  retry:
->  	ret =3D drm_modeset_lock(&dev->mode_config.connection_mutex, &ctx);
-> @@ -611,11 +611,10 @@ int drm_helper_probe_single_connector_modes(struct =
-drm_connector *connector,
->  	 * check here, and if anything changed start the hotplug code.
->  	 */
->  	if (old_status !=3D connector->status) {
-> -		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] status updated from %s to %s\n",
-> -			      connector->base.id,
-> -			      connector->name,
-> -			      drm_get_connector_status_name(old_status),
-> -			      drm_get_connector_status_name(connector->status));
-> +		drm_dbg_kms(dev, "[CONNECTOR:%d:%s] status updated from %s to %s\n",
-> +			    connector->base.id, connector->name,
-> +			    drm_get_connector_status_name(old_status),
-> +			    drm_get_connector_status_name(connector->status));
->=20=20
->  		/*
->  		 * The hotplug event code might call into the fb
-> @@ -638,8 +637,8 @@ int drm_helper_probe_single_connector_modes(struct dr=
-m_connector *connector,
->  		drm_kms_helper_poll_enable(dev);
->=20=20
->  	if (connector->status =3D=3D connector_status_disconnected) {
-> -		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] disconnected\n",
-> -			connector->base.id, connector->name);
-> +		drm_dbg_kms(dev, "[CONNECTOR:%d:%s] disconnected\n",
-> +			    connector->base.id, connector->name);
->  		drm_connector_update_edid_property(connector, NULL);
->  		drm_mode_prune_invalid(dev, &connector->modes, false);
->  		goto exit;
-> @@ -697,8 +696,8 @@ int drm_helper_probe_single_connector_modes(struct dr=
-m_connector *connector,
->=20=20
->  	drm_mode_sort(&connector->modes);
->=20=20
-> -	DRM_DEBUG_KMS("[CONNECTOR:%d:%s] probed modes :\n", connector->base.id,
-> -			connector->name);
-> +	drm_dbg_kms(dev, "[CONNECTOR:%d:%s] probed modes :\n",
-> +		    connector->base.id, connector->name);
->  	list_for_each_entry(mode, &connector->modes, head) {
->  		drm_mode_set_crtcinfo(mode, CRTC_INTERLACE_HALVE_V);
->  		drm_mode_debug_printmodeline(mode);
-> @@ -834,14 +833,12 @@ static void output_poll_execute(struct work_struct =
-*work)
->  			old =3D drm_get_connector_status_name(old_status);
->  			new =3D drm_get_connector_status_name(connector->status);
->=20=20
-> -			DRM_DEBUG_KMS("[CONNECTOR:%d:%s] "
-> -				      "status updated from %s to %s\n",
-> -				      connector->base.id,
-> -				      connector->name,
-> -				      old, new);
-> -			DRM_DEBUG_KMS("[CONNECTOR:%d:%s] epoch counter %llu -> %llu\n",
-> -				      connector->base.id, connector->name,
-> -				      old_epoch_counter, connector->epoch_counter);
-> +			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] status updated from %s to %s\n",
-> +				    connector->base.id, connector->name,
-> +				    old, new);
-> +			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] epoch counter %llu -> %llu\n",
-> +				    connector->base.id, connector->name,
-> +				    old_epoch_counter, connector->epoch_counter);
->=20=20
->  			changed =3D true;
->  		}
+> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
+> index ebb6d8ebd44e..1e9259416980 100644
+> --- a/drivers/gpu/drm/ast/ast_dp.c
+> +++ b/drivers/gpu/drm/ast/ast_dp.c
+> @@ -180,6 +180,7 @@ void ast_dp_set_on_off(struct drm_device *dev, bool on)
+>   {
+>   	struct ast_device *ast = to_ast_device(dev);
+>   	u8 video_on_off = on;
+> +	u32 i = 0;
+>   
+>   	// Video On/Off
+>   	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE3, (u8) ~AST_DP_VIDEO_ENABLE, on);
+> @@ -192,6 +193,8 @@ void ast_dp_set_on_off(struct drm_device *dev, bool on)
+>   						ASTDP_MIRROR_VIDEO_ENABLE) != video_on_off) {
+>   			// wait 1 ms
+>   			mdelay(1);
+> +			if (++i > 200)
+> +				break;
+>   		}
+>   	}
+>   }
+>
+> base-commit: b0546776ad3f332e215cebc0b063ba4351971cca
 
---=20
-Jani Nikula, Intel
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
