@@ -2,67 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 767AD89A720
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Apr 2024 00:26:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2384189A750
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Apr 2024 00:32:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75A1E10EA94;
-	Fri,  5 Apr 2024 22:26:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 785B810EAAF;
+	Fri,  5 Apr 2024 22:32:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="HqCB5Jou";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PuX9Pyki";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
- [209.85.128.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8646E10EAA1
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 22:26:34 +0000 (UTC)
-Received: by mail-yw1-f175.google.com with SMTP id
- 00721157ae682-6154a3df493so27792177b3.1
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Apr 2024 15:26:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1712355993; x=1712960793;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Xrnb5MtXsI2Kp4v4sJECmVVPOAlcnmKTXOp4YBctWyc=;
- b=HqCB5JouBWhMYn3Y5NpF9F2fftokOwR3CW+Zxbz6wDpM+XRpUZMmEerH0sz7rH9M/M
- mJbgGaqpSWmPDFwE2ZLUZ93u3D3SLSN7K8VqM/QV20VLz4oYFFtEVQIg2USF2G6OY/wJ
- q1xJUBlO9bYjVRrHkdLe1p+2DkBz5m+SYKHgY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712355993; x=1712960793;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Xrnb5MtXsI2Kp4v4sJECmVVPOAlcnmKTXOp4YBctWyc=;
- b=e1CqRObvWvQVpbDjFADiLBRPLXfQ88a1FwtFtazApB8c6ocn4A84SWLTIY1wKeE7tJ
- ppuxaScsSHVVrBxY5wIgSH/10GqHYcsDQf6TAx2u4SoyYHOWF1M9ZZsjNaT/4TZGCGay
- lBm4sf70udy82Ai/sKN+uYvTKel1uN6RN00uzPiHmH5SSA5Z4bHgjElXJ33tZP4qleUo
- jbJEeTg2L4XkC6ewQvpxXkyC4JFQVb0lTnn0CWo1+IdI+WaGH+erVTuu0yllTfEAcjXB
- CoHMJrbynmH6UjixWNSvXlpagnOMN2l0Uh0Iz8TtWlh1A/ZhCJ/TPyab8prZ8ndtnxOn
- jpFw==
-X-Gm-Message-State: AOJu0YzM8q4L0VwtyfZrWPeCyuPl5CpeZNy+sQTI2GMgy9CS5yll3I2O
- HbUJQgUEWj/NNnA6QZ1tVMn3Eo/ypHsCCrrFguz75/kOADrwQAF2hUfz0n6VD3TlERfC/Ieb7cG
- DR+vfFueRZUeyKfdeQlDJR77yA3istcRZ+XMz
-X-Google-Smtp-Source: AGHT+IERvzLPhjAYXLm4XgtUq1vz6bgV/5+OmA3yoYOjPp+4hToVjNsB2bZwrwd4weKGxw34vyhOKqJGczzcUIgsBy0=
-X-Received: by 2002:a25:818a:0:b0:dc6:daa4:e808 with SMTP id
- p10-20020a25818a000000b00dc6daa4e808mr2962223ybk.12.1712355993422; Fri, 05
- Apr 2024 15:26:33 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E3A110EAAF;
+ Fri,  5 Apr 2024 22:32:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1712356331; x=1743892331;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=iacJbwqVzLZ+QPu0PsxC62e+0CS6vwkuBBz/tOH/PtA=;
+ b=PuX9Pykiem0nWHWHDcw00oYe3CRcSWZLuUnb4hUkT0VXTtkRabc+7wqx
+ lE0I989jvN2aBS5PdSwA/Z+dAmDgajJO9f8SC6BnLlK3e777Gz+TSUcag
+ Zw7yzxgXT/lt9zGEmcHqlCkXbvshEf1rw46ZOERZNbQKtVASC80tgECWa
+ fuZ0Jc/G2gPpPGoU9Gi2Z9sfZ5y+cYcAF+qbqZp4Yl3Bo5yaPbsD354Th
+ hJUBHi9rlZyjKJJYwkXCjSdPTYso74wJPY15NITNVMWh1zmS8Wf0XzXVj
+ N/khTa80EIazPRVv1mWLiMe3W5o0PQaSIns1eTSaXtPKwN3ZORflrYhNc g==;
+X-CSE-ConnectionGUID: D7beXzrATNGpJJJSUlFOKQ==
+X-CSE-MsgGUID: kOkyxJ1ZRmWQPSEg27DyUw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11035"; a="18437359"
+X-IronPort-AV: E=Sophos;i="6.07,182,1708416000"; d="scan'208";a="18437359"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Apr 2024 15:32:10 -0700
+X-CSE-ConnectionGUID: HJwq05CxRKyOrruQhDcgjQ==
+X-CSE-MsgGUID: qJXN4bJnRcOu1ZawYBRsfQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,182,1708416000"; d="scan'208";a="19739547"
+Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
+ by orviesa006.jf.intel.com with ESMTP; 05 Apr 2024 15:32:05 -0700
+Received: from kbuild by e61807b1d151 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rss6M-0002mu-2A;
+ Fri, 05 Apr 2024 22:32:02 +0000
+Date: Sat, 6 Apr 2024 06:31:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH 2/6] soc: qcom: smem: Add pcode/fcode getters
+Message-ID: <202404060648.DOjOYUSf-lkp@intel.com>
+References: <20240405-topic-smem_speedbin-v1-2-ce2b864251b1@linaro.org>
 MIME-Version: 1.0
-References: <20240402232813.2670131-1-zack.rusin@broadcom.com>
- <20240402232813.2670131-2-zack.rusin@broadcom.com>
- <0e7ad871-36e8-42bc-a5df-f418b971dfef@broadcom.com>
-In-Reply-To: <0e7ad871-36e8-42bc-a5df-f418b971dfef@broadcom.com>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Fri, 5 Apr 2024 18:26:22 -0400
-Message-ID: <CABQX2QPhW_M9SUZLcT5c30VYK3TFOOusCNQ8utJ7AC6-ticFNg@mail.gmail.com>
-Subject: Re: [PATCH 1/5] drm/vmwgfx: Implement virtual kms
-To: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- ian.forbes@broadcom.com, martin.krastev@broadcom.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240405-topic-smem_speedbin-v1-2-ce2b864251b1@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,58 +81,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 5, 2024 at 5:53=E2=80=AFPM Maaz Mombasawala
-<maaz.mombasawala@broadcom.com> wrote:
->
-> On 4/2/24 16:28, Zack Rusin wrote:
-> >
-> > @@ -541,6 +518,8 @@ static int vmw_ldu_init(struct vmw_private *dev_pri=
-v, unsigned unit)
-> >                        dev_priv->implicit_placement_property,
-> >                        1);
-> >
-> > +     vmw_du_init(&ldu->base);
-> > +
-> >       return 0;
-> >
-> >  err_free_unregister:
->
-> > @@ -905,6 +900,9 @@ static int vmw_sou_init(struct vmw_private *dev_pri=
-v, unsigned unit)
-> >                                  dev->mode_config.suggested_x_property,=
- 0);
-> >       drm_object_attach_property(&connector->base,
-> >                                  dev->mode_config.suggested_y_property,=
- 0);
-> > +
-> > +     vmw_du_init(&sou->base);
-> > +
-> >       return 0;
-> >
-> >  err_free_unregister:
->
-> > @@ -1575,6 +1576,9 @@ static int vmw_stdu_init(struct vmw_private *dev_=
-priv, unsigned unit)
-> >                                  dev->mode_config.suggested_x_property,=
- 0);
-> >       drm_object_attach_property(&connector->base,
-> >                                  dev->mode_config.suggested_y_property,=
- 0);
-> > +
-> > +     vmw_du_init(&stdu->base);
-> > +
-> >       return 0;
-> >
-> >  err_free_unregister:
->
-> Shouldn't calls to vmw_du_init() be behind an if(vkms_enabled) condition?
+Hi Konrad,
 
-So the vmw_du_init is supposed to initialize the base, so that's
-unconditional. To match the unconditional vmw_du_cleanup. There's an
-argument to be made whether both of those should unconditionally  call
-vmw_vkms_crtc_init and vmw_vkms_crtc_cleanup. My opinion was that
-they're not doing anything costly and just initialize members and
-having the members of vmw_display_unit initialized whether vkms is
-enabled or not still makes sense.
+kernel test robot noticed the following build warnings:
 
-z
+[auto build test WARNING on 2b3d5988ae2cb5cd945ddbc653f0a71706231fdd]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/soc-qcom-Move-some-socinfo-defines-to-the-header-expand-them/20240405-164231
+base:   2b3d5988ae2cb5cd945ddbc653f0a71706231fdd
+patch link:    https://lore.kernel.org/r/20240405-topic-smem_speedbin-v1-2-ce2b864251b1%40linaro.org
+patch subject: [PATCH 2/6] soc: qcom: smem: Add pcode/fcode getters
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240406/202404060648.DOjOYUSf-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240406/202404060648.DOjOYUSf-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404060648.DOjOYUSf-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/soc/qcom/smem.c:807: warning: Function parameter or struct member 'code' not described in 'qcom_smem_get_feature_code'
+>> drivers/soc/qcom/smem.c:807: warning: Excess function parameter 'id' description in 'qcom_smem_get_feature_code'
+>> drivers/soc/qcom/smem.c:840: warning: Function parameter or struct member 'code' not described in 'qcom_smem_get_product_code'
+>> drivers/soc/qcom/smem.c:840: warning: Excess function parameter 'id' description in 'qcom_smem_get_product_code'
+
+
+vim +807 drivers/soc/qcom/smem.c
+
+   797	
+   798	/**
+   799	 * qcom_smem_get_feature_code() - return the feature code
+   800	 * @id:	On success, we return the feature code here.
+   801	 *
+   802	 * Look up the feature code identifier from SMEM and return it.
+   803	 *
+   804	 * Return: 0 on success, negative errno on failure.
+   805	 */
+   806	int qcom_smem_get_feature_code(u32 *code)
+ > 807	{
+   808		struct socinfo *info;
+   809		u32 raw_code;
+   810	
+   811		info = qcom_smem_get(QCOM_SMEM_HOST_ANY, SMEM_HW_SW_BUILD_ID, NULL);
+   812		if (IS_ERR(info))
+   813			return PTR_ERR(info);
+   814	
+   815		/* This only makes sense for socinfo >= 16 */
+   816		if (__le32_to_cpu(info->fmt) < SOCINFO_VERSION(0, 16))
+   817			return -EINVAL;
+   818	
+   819		raw_code = __le32_to_cpu(info->feature_code);
+   820	
+   821		/* Ensure the value makes sense */
+   822		if (raw_code >= SOCINFO_FC_INT_RESERVE)
+   823			raw_code = SOCINFO_FC_UNKNOWN;
+   824	
+   825		*code = raw_code;
+   826	
+   827		return 0;
+   828	}
+   829	EXPORT_SYMBOL_GPL(qcom_smem_get_feature_code);
+   830	
+   831	/**
+   832	 * qcom_smem_get_product_code() - return the product code
+   833	 * @id:	On success, we return the product code here.
+   834	 *
+   835	 * Look up feature code identifier from SMEM and return it.
+   836	 *
+   837	 * Return: 0 on success, negative errno on failure.
+   838	 */
+   839	int qcom_smem_get_product_code(u32 *code)
+ > 840	{
+   841		struct socinfo *info;
+   842		u32 raw_code;
+   843	
+   844		info = qcom_smem_get(QCOM_SMEM_HOST_ANY, SMEM_HW_SW_BUILD_ID, NULL);
+   845		if (IS_ERR(info))
+   846			return PTR_ERR(info);
+   847	
+   848		/* This only makes sense for socinfo >= 16 */
+   849		if (__le32_to_cpu(info->fmt) < SOCINFO_VERSION(0, 16))
+   850			return -EINVAL;
+   851	
+   852		raw_code = __le32_to_cpu(info->pcode);
+   853	
+   854		/* Ensure the value makes sense */
+   855		if (raw_code >= SOCINFO_FC_INT_RESERVE)
+   856			raw_code = SOCINFO_FC_UNKNOWN;
+   857	
+   858		*code = raw_code;
+   859	
+   860		return 0;
+   861	}
+   862	EXPORT_SYMBOL_GPL(qcom_smem_get_product_code);
+   863	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
