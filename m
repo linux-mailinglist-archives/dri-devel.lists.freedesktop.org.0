@@ -2,85 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2B189A645
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 23:44:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 231B989A6A4
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 23:53:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F3DA10E65E;
-	Fri,  5 Apr 2024 21:44:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BED610EA73;
+	Fri,  5 Apr 2024 21:53:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="fcOsco/l";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="buA2P7mc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4E2E10E65E
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 21:44:23 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 435L0uwn018392; Fri, 5 Apr 2024 21:43:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=TIKqf+/mjzQE++LZKAfQ2rUXtVcdStL2Y6GyMNGqRI8=; b=fc
- Osco/lNvkY6OidF/l10oMq/2bzYr87JRZ5QClRwsOF0qMRXt4Fbz1ai4i80V+xNG
- n6kTky/7imsZnueu5JfZ1/Apo6xIAcuKe3rTW2TaZIByRFb3pbWuA8oSz0ssIBPC
- cEObCzwZzNHCJQRg+/DRgTQeDlpBTFc+eyPyes5cwsGKlu8+dCdY6XXwMgOxdGpF
- e8rxNuAwvoHSq0Et6V1/MXaZ5B3zTi7g+ax8plIEBp1SE1ksHvzFEjIQT6obj9/8
- xPNvC3Wo1QdFwtGQwIpJhtUXwFfqSNMTNLArTKyxPYNEUrLsT1bY+efbCCZoRi0t
- jB7abRAktHMD7Ot/48BQ==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xahgt1479-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Apr 2024 21:43:46 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 435LhivP032282
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 5 Apr 2024 21:43:44 GMT
-Received: from [10.110.71.75] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 5 Apr 2024
- 14:43:43 -0700
-Message-ID: <d1368d46-5350-4455-ad72-418bad1dec09@quicinc.com>
-Date: Fri, 5 Apr 2024 14:43:43 -0700
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A766910EA75
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 21:53:55 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id
+ d2e1a72fcca58-6e703e0e5deso2399654b3a.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Apr 2024 14:53:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1712354034; x=1712958834;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=sQO+6yaLB4Rb5sgHnSOpqt9vaP8rvsYYSXfywwM4Y/c=;
+ b=buA2P7mcH1KSoPyNbRmgWDANQRJONeBuvuBYpWijmiAR1tpOgDyyyB7aU7Pst56nau
+ 5UM/Gg6xhs5Bc+93HJJw1AoMfm5pPdcpL5WjLyKlSG0RAuGb5Zr6vQsE/+4t8QnhxDep
+ YYu4n49ZcD/G/jkG5mMH1GVp0bwE7CE3KHJAg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712354034; x=1712958834;
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sQO+6yaLB4Rb5sgHnSOpqt9vaP8rvsYYSXfywwM4Y/c=;
+ b=qKK29r83WzuvYGTNnAyFXM7L4QXwv+GIU/fbtr7gZQlXAKp2WCksPx71v8NvPFx4ow
+ mNOXCdxHm53dYFs490dOXUztN7q7Q7vQgzbvCSsGid1hUtDMYwtjpD111y8VPP70gK2a
+ PstMJRZ6A3TniLHB4ObyBHGtcFcayJ3fQ3K8nEF12m8EXWuq1LYuMFbUpaAIwtlFh7s3
+ oWefzhvqasMTkgtGpSXCeKcZ01Ax2EN5D6fQ4rNofPb/rpmjttXDC6IkXgvs7bzAwZtr
+ 0lEwRhzMbvDUxc47jO7hkF15aCmYCjyXwDMAjuaOUNURDY9mbB/XZE6xJQcxNyNu4GmR
+ z/og==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX4DS3g+L4Y83TtkVzEpshvJsYSW6paHy2R/LpCd8MUPCuksN2goerAf+pic+qoz1LzdOArNkHaXcSyxHryfngQ0kGr5qaCd08J5BF95pm9
+X-Gm-Message-State: AOJu0YyinPDyCaQB/YPqfoHHNbjq2zirR/HiQ6cLph8jEBGkTFFfiMlo
+ zxDIfVdbH4B7BRXoPBPk2adDOuhNHkh42dXUsOTMK7ZAUw3rHX9NFInPD3bSUw==
+X-Google-Smtp-Source: AGHT+IE3t9Lw6Gq4bRsN4I7EwlEZptfEj1Zl8LpK+4Kd+ccLk0SeWQSPJWXW+G4Gj2LP9tBYxTK6uQ==
+X-Received: by 2002:a05:6a20:9785:b0:1a7:afc:b057 with SMTP id
+ hx5-20020a056a20978500b001a70afcb057mr2684198pzc.36.1712354034598; 
+ Fri, 05 Apr 2024 14:53:54 -0700 (PDT)
+Received: from [10.211.41.59] ([66.170.99.2]) by smtp.gmail.com with ESMTPSA id
+ g6-20020aa79f06000000b006ed00ea504asm1735753pfr.159.2024.04.05.14.53.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Apr 2024 14:53:53 -0700 (PDT)
+Message-ID: <0e7ad871-36e8-42bc-a5df-f418b971dfef@broadcom.com>
+Date: Fri, 5 Apr 2024 14:53:52 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] drm/panel: novatek-nt36682e: don't unregister DSI
- device
+Subject: Re: [PATCH 1/5] drm/vmwgfx: Implement virtual kms
+To: Zack Rusin <zack.rusin@broadcom.com>, dri-devel@lists.freedesktop.org
+Cc: Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, ian.forbes@broadcom.com,
+ martin.krastev@broadcom.com
+References: <20240402232813.2670131-1-zack.rusin@broadcom.com>
+ <20240402232813.2670131-2-zack.rusin@broadcom.com>
+From: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Matthias Kaehlcke
- <mka@chromium.org>, Harigovindan P <harigovi@codeaurora.org>, Ritesh Kumar
- <quic_riteshk@quicinc.com>, Sumit Semwal <sumit.semwal@linaro.org>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240404-drop-panel-unregister-v1-0-9f56953c5fb9@linaro.org>
- <20240404-drop-panel-unregister-v1-2-9f56953c5fb9@linaro.org>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20240404-drop-panel-unregister-v1-2-9f56953c5fb9@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+In-Reply-To: <20240402232813.2670131-2-zack.rusin@broadcom.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: nXJjY52e_EB-AGW9EaVj9oyjdD6YtJQt
-X-Proofpoint-ORIG-GUID: nXJjY52e_EB-AGW9EaVj9oyjdD6YtJQt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-05_26,2024-04-05_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 clxscore=1015
- lowpriorityscore=0 suspectscore=0 mlxscore=0 malwarescore=0 phishscore=0
- impostorscore=0 adultscore=0 bulkscore=0 spamscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
- definitions=main-2404050155
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,36 +84,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 4/2/24 16:28, Zack Rusin wrote:
+>  
+> @@ -541,6 +518,8 @@ static int vmw_ldu_init(struct vmw_private *dev_priv, unsigned unit)
+>  			 dev_priv->implicit_placement_property,
+>  			 1);
+>  
+> +	vmw_du_init(&ldu->base);
+> +
+>  	return 0;
+>  
+>  err_free_unregister:
 
+> @@ -905,6 +900,9 @@ static int vmw_sou_init(struct vmw_private *dev_priv, unsigned unit)
+>  				   dev->mode_config.suggested_x_property, 0);
+>  	drm_object_attach_property(&connector->base,
+>  				   dev->mode_config.suggested_y_property, 0);
+> +
+> +	vmw_du_init(&sou->base);
+> +
+>  	return 0;
+>  
+>  err_free_unregister:
 
-On 4/4/2024 3:08 AM, Dmitry Baryshkov wrote:
-> The DSI device for the panel was registered by the DSI host, so it is an
-> error to unregister it from the panel driver. Drop the call to
-> mipi_dsi_device_unregister().
-> 
-> Fixes: ea4f9975625a ("drm/panel: Add support for Novatek NT36672E panel driver")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> @@ -1575,6 +1576,9 @@ static int vmw_stdu_init(struct vmw_private *dev_priv, unsigned unit)
+>  				   dev->mode_config.suggested_x_property, 0);
+>  	drm_object_attach_property(&connector->base,
+>  				   dev->mode_config.suggested_y_property, 0);
+> +
+> +	vmw_du_init(&stdu->base);
+> +
+>  	return 0;
+>  
+>  err_free_unregister:
 
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+Shouldn't calls to vmw_du_init() be behind an if(vkms_enabled) condition?
 
-> ---
->   drivers/gpu/drm/panel/panel-novatek-nt36672e.c | 2 --
->   1 file changed, 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36672e.c b/drivers/gpu/drm/panel/panel-novatek-nt36672e.c
-> index cb7406d74466..c39fe0fc5d69 100644
-> --- a/drivers/gpu/drm/panel/panel-novatek-nt36672e.c
-> +++ b/drivers/gpu/drm/panel/panel-novatek-nt36672e.c
-> @@ -614,8 +614,6 @@ static void nt36672e_panel_remove(struct mipi_dsi_device *dsi)
->   	struct nt36672e_panel *ctx = mipi_dsi_get_drvdata(dsi);
->   
->   	mipi_dsi_detach(ctx->dsi);
-> -	mipi_dsi_device_unregister(ctx->dsi);
-> -
->   	drm_panel_remove(&ctx->panel);
->   }
->   
-> 
-> -- 
-> 2.39.2
-> 
+Thanks,
+
+Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+
