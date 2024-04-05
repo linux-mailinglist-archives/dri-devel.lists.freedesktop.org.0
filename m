@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A28A889A593
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 22:18:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 821CB89A594
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 22:19:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E0E610E913;
-	Fri,  5 Apr 2024 20:18:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F3B510E91B;
+	Fri,  5 Apr 2024 20:18:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="P4B1b09b";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="pjqtyCj5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1CB910E913
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 20:18:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6105B10E91E
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 20:18:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=yKJxrC4wblUoFqvRsdoapMOc9qlnruAZAVDJDuBHboQ=; b=P4B1b09bUYetQyCiFLH9hypg9H
- pngsootdyaflZi+l9rKwGnjYBrEV1RHlmLf8mpqIzI8Kel4Zvb3j/SXUzx1W85KuExRg+8CLfbOOR
- 9jwxV+iqhVnCkbw9B109Mbvbf3fjMthRkMlZtmIHzAIdeL3OZi9xffTvG0LUN/LRiU/0TzioY0/F1
- ZJ/sENzsrlx9udqJ+Kk1Gc0Zl+O3pd4TnTlG8nWxZw8k4RKJi+dxzjCBIyDuHSmx3EAXWzu28BGzn
- mmvMMxWx/xXiihic24Ax6iNpFfBwHYMw3eSwOnBK+H66y3mefVWQqUFJHq79YOATfGrNG7YAmmH16
- uF7UmoOQ==;
+ bh=WSPJSnEUXXDUrdTjE3CoaQnugYB03NFKlomjtDUPIZM=; b=pjqtyCj5OJRehmaIrMpeHhWyG8
+ o3H2lYyaaRnPnxnwlZ9/U+QRuF0hQ0VBaOtKObR3pkXLXUQeXygkyuMIgZmacIP+HLULTPoouBl/i
+ tO4SO00Wy55akauwJBk4/7UUg8OtJr8odzovSeh6aXqq5t7j8kF4ZVFqx37niUTJEq3HGe0LrVBHC
+ wHrm1L9GzCjpePUSXDFTra5chj9DsklO90tc9bbUr5SwY+2AB5OrfG2EPqu4FnI5+qvssLVO7JsQU
+ /5iQnbuMUWwwr1v2GiGNwL8r1cE9Q7ojuysHbUIw8FvJPXr9K9eWzUlD4s4lg7RVWMYACHvn62OTa
+ Ja0fUAGg==;
 Received: from [177.34.169.255] (helo=localhost.localdomain)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1rsq1F-001kwR-Nf; Fri, 05 Apr 2024 22:18:38 +0200
+ id 1rsq1K-001kwR-BV; Fri, 05 Apr 2024 22:18:42 +0200
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
  Tvrtko Ursulin <tursulin@igalia.com>,
@@ -42,9 +42,9 @@ To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
  =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-Subject: [PATCH v2 3/6] drm/v3d: Introduce gemfs
-Date: Fri,  5 Apr 2024 15:29:06 -0300
-Message-ID: <20240405201753.1176914-4-mcanal@igalia.com>
+Subject: [PATCH v2 4/6] drm/gem: Create shmem GEM object in a given mountpoint
+Date: Fri,  5 Apr 2024 15:29:07 -0300
+Message-ID: <20240405201753.1176914-5-mcanal@igalia.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240405201753.1176914-1-mcanal@igalia.com>
 References: <20240405201753.1176914-1-mcanal@igalia.com>
@@ -66,136 +66,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create a separate "tmpfs" kernel mount for V3D. This will allow us to
-move away from the shmemfs `shm_mnt` and gives the flexibility to do
-things like set our own mount options. Here, the interest is to use
-"huge=", which should allow us to enable the use of THP for our
-shmem-backed objects.
+Create a function `drm_gem_shmem_create_with_mnt()`, similar to
+`drm_gem_shmem_create()`, that has a mountpoint as a argument. This
+function will create a shmem GEM object in a given tmpfs mountpoint.
+
+This function will be useful for drivers that have a special mountpoint
+with flags enabled.
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
-Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
 ---
- drivers/gpu/drm/v3d/Makefile    |  3 ++-
- drivers/gpu/drm/v3d/v3d_drv.h   |  9 +++++++
- drivers/gpu/drm/v3d/v3d_gem.c   |  3 +++
- drivers/gpu/drm/v3d/v3d_gemfs.c | 46 +++++++++++++++++++++++++++++++++
- 4 files changed, 60 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/v3d/v3d_gemfs.c
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 30 ++++++++++++++++++++++----
+ include/drm/drm_gem_shmem_helper.h     |  3 +++
+ 2 files changed, 29 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/v3d/Makefile b/drivers/gpu/drm/v3d/Makefile
-index b7d673f1153b..fcf710926057 100644
---- a/drivers/gpu/drm/v3d/Makefile
-+++ b/drivers/gpu/drm/v3d/Makefile
-@@ -13,7 +13,8 @@ v3d-y := \
- 	v3d_trace_points.o \
- 	v3d_sched.o \
- 	v3d_sysfs.o \
--	v3d_submit.o
-+	v3d_submit.o \
-+	v3d_gemfs.o
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index 177773bcdbfd..10b7c4c769a3 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -49,7 +49,8 @@ static const struct drm_gem_object_funcs drm_gem_shmem_funcs = {
+ };
  
- v3d-$(CONFIG_DEBUG_FS) += v3d_debugfs.o
- 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index 1950c723dde1..d2ce8222771a 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.h
-+++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -119,6 +119,11 @@ struct v3d_dev {
- 	struct drm_mm mm;
- 	spinlock_t mm_lock;
- 
-+	/*
-+	 * tmpfs instance used for shmem backed objects
-+	 */
-+	struct vfsmount *gemfs;
-+
- 	struct work_struct overflow_mem_work;
- 
- 	struct v3d_bin_job *bin_job;
-@@ -519,6 +524,10 @@ void v3d_reset(struct v3d_dev *v3d);
- void v3d_invalidate_caches(struct v3d_dev *v3d);
- void v3d_clean_caches(struct v3d_dev *v3d);
- 
-+/* v3d_gemfs.c */
-+void v3d_gemfs_init(struct v3d_dev *v3d);
-+void v3d_gemfs_fini(struct v3d_dev *v3d);
-+
- /* v3d_submit.c */
- void v3d_job_cleanup(struct v3d_job *job);
- void v3d_job_put(struct v3d_job *job);
-diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index 66f4b78a6b2e..faefbe497e8d 100644
---- a/drivers/gpu/drm/v3d/v3d_gem.c
-+++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -287,6 +287,8 @@ v3d_gem_init(struct drm_device *dev)
- 	v3d_init_hw_state(v3d);
- 	v3d_mmu_set_page_table(v3d);
- 
-+	v3d_gemfs_init(v3d);
-+
- 	ret = v3d_sched_init(v3d);
+ static struct drm_gem_shmem_object *
+-__drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
++__drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
++		       struct vfsmount *gemfs)
+ {
+ 	struct drm_gem_shmem_object *shmem;
+ 	struct drm_gem_object *obj;
+@@ -76,7 +77,7 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
+ 		drm_gem_private_object_init(dev, obj, size);
+ 		shmem->map_wc = false; /* dma-buf mappings use always writecombine */
+ 	} else {
+-		ret = drm_gem_object_init(dev, obj, size);
++		ret = drm_gem_object_init_with_mnt(dev, obj, size, gemfs);
+ 	}
  	if (ret) {
- 		drm_mm_takedown(&v3d->mm);
-@@ -304,6 +306,7 @@ v3d_gem_destroy(struct drm_device *dev)
- 	struct v3d_dev *v3d = to_v3d_dev(dev);
+ 		drm_gem_private_object_fini(obj);
+@@ -123,10 +124,31 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
+  */
+ struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t size)
+ {
+-	return __drm_gem_shmem_create(dev, size, false);
++	return __drm_gem_shmem_create(dev, size, false, NULL);
+ }
+ EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
  
- 	v3d_sched_fini(v3d);
-+	v3d_gemfs_fini(v3d);
++/**
++ * drm_gem_shmem_create_with_mnt - Allocate an object with the given size in a
++ * given mountpoint
++ * @dev: DRM device
++ * @size: Size of the object to allocate
++ * @gemfs: tmpfs mount where the GEM object will be created
++ *
++ * This function creates a shmem GEM object in a given tmpfs mountpoint.
++ *
++ * Returns:
++ * A struct drm_gem_shmem_object * on success or an ERR_PTR()-encoded negative
++ * error code on failure.
++ */
++struct drm_gem_shmem_object *drm_gem_shmem_create_with_mnt(struct drm_device *dev,
++							   size_t size,
++							   struct vfsmount *gemfs)
++{
++	return __drm_gem_shmem_create(dev, size, false, gemfs);
++}
++EXPORT_SYMBOL_GPL(drm_gem_shmem_create_with_mnt);
++
+ /**
+  * drm_gem_shmem_free - Free resources associated with a shmem GEM object
+  * @shmem: shmem GEM object to free
+@@ -760,7 +782,7 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
+ 	size_t size = PAGE_ALIGN(attach->dmabuf->size);
+ 	struct drm_gem_shmem_object *shmem;
  
- 	/* Waiting for jobs to finish would need to be done before
- 	 * unregistering V3D.
-diff --git a/drivers/gpu/drm/v3d/v3d_gemfs.c b/drivers/gpu/drm/v3d/v3d_gemfs.c
-new file mode 100644
-index 000000000000..31cf5bd11e39
---- /dev/null
-+++ b/drivers/gpu/drm/v3d/v3d_gemfs.c
-@@ -0,0 +1,46 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/* Copyright (C) 2024 Raspberry Pi */
-+
-+#include <linux/fs.h>
-+#include <linux/mount.h>
-+
-+#include "v3d_drv.h"
-+
-+void v3d_gemfs_init(struct v3d_dev *v3d)
-+{
-+	char huge_opt[] = "huge=within_size";
-+	struct file_system_type *type;
-+	struct vfsmount *gemfs;
-+
-+	/*
-+	 * By creating our own shmemfs mountpoint, we can pass in
-+	 * mount flags that better match our usecase. However, we
-+	 * only do so on platforms which benefit from it.
-+	 */
-+	if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
-+		goto err;
-+
-+	type = get_fs_type("tmpfs");
-+	if (!type)
-+		goto err;
-+
-+	gemfs = vfs_kern_mount(type, SB_KERNMOUNT, type->name, huge_opt);
-+	if (IS_ERR(gemfs))
-+		goto err;
-+
-+	v3d->gemfs = gemfs;
-+	drm_info(&v3d->drm, "Using Transparent Hugepages\n");
-+
-+	return;
-+
-+err:
-+	v3d->gemfs = NULL;
-+	drm_notice(&v3d->drm,
-+		   "Transparent Hugepage support is recommended for optimal performance on this platform!\n");
-+}
-+
-+void v3d_gemfs_fini(struct v3d_dev *v3d)
-+{
-+	if (v3d->gemfs)
-+		kern_unmount(v3d->gemfs);
-+}
+-	shmem = __drm_gem_shmem_create(dev, size, true);
++	shmem = __drm_gem_shmem_create(dev, size, true, NULL);
+ 	if (IS_ERR(shmem))
+ 		return ERR_CAST(shmem);
+ 
+diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+index efbc9f27312b..d22e3fb53631 100644
+--- a/include/drm/drm_gem_shmem_helper.h
++++ b/include/drm/drm_gem_shmem_helper.h
+@@ -97,6 +97,9 @@ struct drm_gem_shmem_object {
+ 	container_of(obj, struct drm_gem_shmem_object, base)
+ 
+ struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t size);
++struct drm_gem_shmem_object *drm_gem_shmem_create_with_mnt(struct drm_device *dev,
++							   size_t size,
++							   struct vfsmount *gemfs);
+ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem);
+ 
+ void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem);
 -- 
 2.44.0
 
