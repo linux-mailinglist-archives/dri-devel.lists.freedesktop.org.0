@@ -2,64 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A63089A5DE
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 22:57:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DEC889A642
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 23:43:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3E9810E87C;
-	Fri,  5 Apr 2024 20:57:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D87010EA3A;
+	Fri,  5 Apr 2024 21:43:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KsyLEvAQ";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="am02KRi+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86D5710E6CF;
- Fri,  5 Apr 2024 20:57:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712350629; x=1743886629;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=duwOo0fb7II8vWLfDLuFnG/5jNYOBJiTcFN/PE4MEZ0=;
- b=KsyLEvAQUY1cQndoiCe16ll11/wYtr0OytkDJSjFnVyTyN5pi4XH8mdf
- +TpbGyznaT1FV9XVdwxw1r0aj8shxFU1SdReWrdKXN2bL7/yS3OMgJkJE
- AVRexFvSwkHJK7VUYK0bSWP6c5ESADKj3aZgFVtTVUeIJFbNN8J3pbwsA
- jPlApPutXnEgZwUPIin0XtjHogoOEDUZBPtPl2l95KgWs4fckIV/wuhz5
- oOMC9ak03szRkkZn8xKIq7zn8W9REZPMoOSsRlwkWadOj7xu9zugXx7I3
- ZFDJpq7tON7U/0apJsEAvDqtKrr+TlX/zTIMI01vk2BZIOoGrmGimkpAj Q==;
-X-CSE-ConnectionGUID: 7UEr8n5+RHeBJoMesdV8EA==
-X-CSE-MsgGUID: E8R9ngIvTdaPIewGMvEqLA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11035"; a="18308090"
-X-IronPort-AV: E=Sophos;i="6.07,182,1708416000"; d="scan'208";a="18308090"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2024 13:57:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11035"; a="827791022"
-X-IronPort-AV: E=Sophos;i="6.07,182,1708416000"; d="scan'208";a="827791022"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 05 Apr 2024 13:57:06 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 05 Apr 2024 23:57:05 +0300
-Date: Fri, 5 Apr 2024 23:57:05 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH 01/12] drm/client: Fully protect modes[] with
- dev->mode_config.mutex
-Message-ID: <ZhBloR59z8_K2YbJ@intel.com>
-References: <20240404203336.10454-1-ville.syrjala@linux.intel.com>
- <20240404203336.10454-2-ville.syrjala@linux.intel.com>
- <jeg4se3nkphfpgovaidzu5bspjhyasafplmyktjo6pwzlvpj5s@cmjtomlj4had>
- <ZhBOLh8jk8uN-g1v@intel.com>
- <CAA8EJpoOzKPh1wFfgQy8bZN_jfsrgAcrxM1x1pEFbAwcY9zBUw@mail.gmail.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4888310EAAD
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 21:43:07 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 435LbM5b020139; Fri, 5 Apr 2024 21:42:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=YuuiR+RQPJyVoIjepBYrkuvRsZsSLh0GmO9Ed1j7vq0=; b=am
+ 02KRi+njP+X606LAEly7XjL3xQ7IO/wsTuKDla2/G7DK94aisqZhxLhf7ovcscqB
+ LU0izX9sf0LK1dw+2vguduJuekcjsF1VIxJGlVCtzd7LcxTprb8KCjswEfCDio/I
+ lg4hFawm33QQBQHGpe/OKBi2cUlKJyEh1c7gzTET2T1S/9uY75mIDeQL+0egRfsd
+ 6zQGbURcshpBq5yG0aBo4dsB6vkplYq6UIDj+ymWsnYWfuzdI7Hx8BlR6tK5CnKC
+ jOLzxUXnp+Tf01mq2MZBx5Sv8qGfHeQySTtQ+mMJIbZheAT8dh6cOwOTBhtzGtaG
+ eVtNcX95y0hxyF7jrJdQ==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xaaj1a333-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Apr 2024 21:42:28 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
+ [10.47.209.197])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 435LgR26003029
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 5 Apr 2024 21:42:27 GMT
+Received: from [10.110.71.75] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 5 Apr 2024
+ 14:42:26 -0700
+Message-ID: <b67f530d-6128-44dc-aa93-60fc629c06c6@quicinc.com>
+Date: Fri, 5 Apr 2024 14:42:25 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAA8EJpoOzKPh1wFfgQy8bZN_jfsrgAcrxM1x1pEFbAwcY9zBUw@mail.gmail.com>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] drm/panel: visionox-rm69299: don't unregister DSI
+ device
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Matthias Kaehlcke
+ <mka@chromium.org>, Harigovindan P <harigovi@codeaurora.org>, Ritesh Kumar
+ <quic_riteshk@quicinc.com>, Sumit Semwal <sumit.semwal@linaro.org>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20240404-drop-panel-unregister-v1-0-9f56953c5fb9@linaro.org>
+ <20240404-drop-panel-unregister-v1-1-9f56953c5fb9@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20240404-drop-panel-unregister-v1-1-9f56953c5fb9@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: KkZvom-pySkCLQEs6pQaZznMgyU0JQGX
+X-Proofpoint-GUID: KkZvom-pySkCLQEs6pQaZznMgyU0JQGX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-05_26,2024-04-05_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ phishscore=0 impostorscore=0 bulkscore=0 clxscore=1011 lowpriorityscore=0
+ mlxlogscore=999 suspectscore=0 malwarescore=0 spamscore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404050155
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,46 +96,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 05, 2024 at 11:39:33PM +0300, Dmitry Baryshkov wrote:
-> On Fri, 5 Apr 2024 at 22:17, Ville Syrjälä
-> <ville.syrjala@linux.intel.com> wrote:
-> >
-> > On Fri, Apr 05, 2024 at 06:24:01AM +0300, Dmitry Baryshkov wrote:
-> > > On Thu, Apr 04, 2024 at 11:33:25PM +0300, Ville Syrjala wrote:
-> > > > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > > >
-> > > > The modes[] array contains pointers to modes on the connectors'
-> > > > mode lists, which are protected by dev->mode_config.mutex.
-> > > > Thus we need to extend modes[] the same protection or by the
-> > > > time we use it the elements may already be pointing to
-> > > > freed/reused memory.
-> > > >
-> > > > Cc: stable@vger.kernel.org
-> > > > Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/10583
-> > > > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > >
-> > > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > >
-> > > I tried looking for the proper Fixes tag, but it looks like it might be
-> > > something like 386516744ba4 ("drm/fb: fix fbdev object model + cleanup properly.")
-> >
-> > The history is rather messy. I think it was originally completely
-> > lockless and broken, and got fixed piecemeal later in these:
-> > commit 7394371d8569 ("drm: Take lock around probes for drm_fb_helper_hotplug_event")
-> > commit 966a6a13c666 ("drm: Hold mode_config.lock to prevent hotplug whilst setting up crtcs")
-> >
-> > commit e13a05831050 ("drm/fb-helper: Stop using mode_config.mutex for internals")
-> > looks to me like where the race might have been re-introduced.
-> > But didn't do a thorough analysis so not 100% sure. It's all
-> > rather ancient history by now so a Fixes tag doesn't seem all
-> > that useful anyway.
+
+
+On 4/4/2024 3:07 AM, Dmitry Baryshkov wrote:
+> The DSI device for the panel was registered by the DSI host, so it is an
+> error to unregister it from the panel driver. Drop the call to
+> mipi_dsi_device_unregister().
+
+Hi Dmitry,
+
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+
+Thanks,
+
+Jessica Zhang
+
 > 
-> Well, you have added stable to cc list, so you expect to have this
-> patch backported. Then it should either have a kernel version as a
-> 'starting' point or a Fixes tag to assist the sable team.
-
-It'll get backported just fine without either.
-
--- 
-Ville Syrjälä
-Intel
+> Fixes: c7f66d32dd43 ("drm/panel: add support for rm69299 visionox panel")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/panel/panel-visionox-rm69299.c | 2 --
+>   1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
+> index 775144695283..b15ca56a09a7 100644
+> --- a/drivers/gpu/drm/panel/panel-visionox-rm69299.c
+> +++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
+> @@ -253,8 +253,6 @@ static void visionox_rm69299_remove(struct mipi_dsi_device *dsi)
+>   	struct visionox_rm69299 *ctx = mipi_dsi_get_drvdata(dsi);
+>   
+>   	mipi_dsi_detach(ctx->dsi);
+> -	mipi_dsi_device_unregister(ctx->dsi);
+> -
+>   	drm_panel_remove(&ctx->panel);
+>   }
+>   
+> 
+> -- 
+> 2.39.2
+> 
