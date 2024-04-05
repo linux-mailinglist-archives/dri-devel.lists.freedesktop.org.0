@@ -2,90 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B02A389A1F0
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 17:53:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16DAC89A200
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 17:59:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC91D10E803;
-	Fri,  5 Apr 2024 15:53:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 581D010EB5F;
+	Fri,  5 Apr 2024 15:59:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Wy0rCCCv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Y3ZMNBmz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E13EC10E803
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 15:53:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1712332412;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aI80OQSSTp75Yz5rWxOaRLVcBrwx8DfV0TdIcg8SDyg=;
- b=Wy0rCCCvFvl3t/RmBr2ksjv9jAprigjRV+75jbm/u1/dciDxE4p1HXQuRr+/u8wVvgoR/L
- u5I1h8xukOZx1H5Gw11a+B6dCTape5tKTPRipGDFyHEuFSUy2s/1e+e7vlkzURqI5gsm2r
- V9aXnlGYHCHSV6RjN7xard8IJbEiCtY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-683-GhA30nFKOiytyu-AzpxGMg-1; Fri, 05 Apr 2024 11:53:30 -0400
-X-MC-Unique: GhA30nFKOiytyu-AzpxGMg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-4162bc2da3fso7675065e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Apr 2024 08:53:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712332409; x=1712937209;
- h=content-transfer-encoding:in-reply-to:organization:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=aI80OQSSTp75Yz5rWxOaRLVcBrwx8DfV0TdIcg8SDyg=;
- b=S0duSVz8sTKMQImonF1Dj7X7NGYNkTNAMPrHQ9C1W5K6w1++J28VdJ4LHqIumDPRzk
- 2dwTRhO2H6w5x5w44DFG6mdZMU4V54apflLLwwsF7E98oSwB4HF8nkTS5x4KXMaXptky
- IrQc1Pb00shpJ7JWDz/0g9s6PD+Ifi3BpaEPJFPklULKnjZph7SDnJcUVBBhlHSB+Cmt
- 9x33GSjyKHLbsU9pN2SHmzmA02ewzm+M5fp1X7/M9psjinKZyeqSynlKEddw81p0poss
- 9/XXdXjGhRlHZ04CzajqTL2Aqc7iTOEWAz+m1ctAY8phocrE0zEjxfNN1JVvcE4Wr9Nq
- HETg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUqf2v4dkZLmtrzJVKNy/Ahe7sGIT/VQWx0CuJGPo+/0hQqkwy6NGPToc6WazjAKH125QgxLTaR1ymS5+Sib+2n1eis8Zpk1l/eWPZqjqmZ
-X-Gm-Message-State: AOJu0Yy6cwfILBTamwmIzz5gYz2JxRi3ZJgPfnCsvwqwdNtgkkSeC4lK
- SOpL9jRmClnpjFmzIiHCEcbWuA7uVSJOgrUL60D2ugvSpy9BWZkmu78kMwYoTseWGpgBzhjGL6v
- r80oZGt/BzCCsLyEwzxNGmZkEfX9VnOHWvicft1l8RH1pumX/1JjLrKnDZaDGsvoSfw==
-X-Received: by 2002:a05:600c:5494:b0:416:29e1:48ab with SMTP id
- iv20-20020a05600c549400b0041629e148abmr1383270wmb.29.1712332409505; 
- Fri, 05 Apr 2024 08:53:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHWYKp3MvuNtM1C4UI8yZRQC9e7WA0mMptREYTTgtMTckNkCjjIeh8XWt2OzPDA7mSt68JtQQ==
-X-Received: by 2002:a05:600c:5494:b0:416:29e1:48ab with SMTP id
- iv20-20020a05600c549400b0041629e148abmr1383245wmb.29.1712332409119; 
- Fri, 05 Apr 2024 08:53:29 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
- ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- m13-20020a05600c4f4d00b00416326cc353sm1340950wmq.8.2024.04.05.08.53.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Apr 2024 08:53:28 -0700 (PDT)
-Message-ID: <c3253f8a-e654-4016-b0c6-d92703107c48@redhat.com>
-Date: Fri, 5 Apr 2024 17:53:26 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C17A210EB5F;
+ Fri,  5 Apr 2024 15:59:02 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id CDB00610AB;
+ Fri,  5 Apr 2024 15:59:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22394C433C7;
+ Fri,  5 Apr 2024 15:58:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1712332741;
+ bh=WPpqs+ByS572N6lsI54xqQu7Rf2BIKVicZBECmGPvak=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Y3ZMNBmzeHVJJHI1+iwK2hE3R3lpt4x5GaXibepBvNo39F/hFCewUbtyRAsJC71IH
+ JQFwfVmCI2egKtMeAQ48cdb+BxPVhjsvj8LBmuqUZF2QaXHio4LAYybXDgREOglifj
+ 8IZQHcmSdxogkivig662xG9IHSxZaX/NbrP+44qGbvP3gp2B9PdkE1Xs75LR5lQDEc
+ +ob229m0F4mH8hC4hOhdDWWUQzm71ri3ZywuO2THfMXXDwI5sOPdTxQBGmYkOYoRhV
+ D0xsEJLnk8h1i1ea29a2zt7g/1bK/J+jKZjR7MmxY0F8bAAX9E/80KBuiqzBYb+cgj
+ qdpMvl7sK2YuQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Connor Abbott <cwabbott0@gmail.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/msm: remove an unused-but-set variable
+Date: Fri,  5 Apr 2024 17:58:42 +0200
+Message-Id: <20240405155855.3672853-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: nv04: Add check to avoid out of bounds access
-To: Mikhail Kobuk <m.kobuk@ispras.ru>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Francisco Jerez <currojerez@riseup.net>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- lvc-project@linuxtesting.org, Fedor Pchelkin <pchelkin@ispras.ru>,
- Alexey Khoroshilov <khoroshilov@ispras.ru>
-References: <20240331064552.6112-1-m.kobuk@ispras.ru>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20240331064552.6112-1-m.kobuk@ispras.ru>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,54 +61,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/31/24 08:45, Mikhail Kobuk wrote:
-> Output Resource (dcb->or) value is not guaranteed to be non-zero (i.e.
-> in drivers/gpu/drm/nouveau/nouveau_bios.c, in 'fabricate_dcb_encoder_table()'
-> 'dcb->or' is assigned value '0' in call to 'fabricate_dcb_output()').
+From: Arnd Bergmann <arnd@arndb.de>
 
-I don't really know much about the semantics of this code.
+The modification to a6xx_get_shader_block() had no effect other
+than causing a warning:
 
-Looking at fabricate_dcb_output() though I wonder if the intention was to assign
-BIT(or) to entry->or.
+drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:843:6: error: variable 'out' set but not used [-Werror,-Wunused-but-set-variable]
+        u64 out = dumper->iova + A6XX_CD_DATA_OFFSET;
 
-@Lyude, can you help here?
+Revert this part of the previous patch.
 
-Otherwise, for parsing the DCB entries, it seems that the bound checks are
-happening in olddcb_outp_foreach() [1].
+Fixes: 64d6255650d4 ("drm/msm: More fully implement devcoredump for a7xx")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-[1] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/nouveau/nouveau_bios.c#L1331
-
-> 
-> Add check to validate 'dcb->or' before it's used.
-> 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> 
-> Fixes: 2e5702aff395 ("drm/nouveau: fabricate DCB encoder table for iMac G4")
-> Signed-off-by: Mikhail Kobuk <m.kobuk@ispras.ru>
-> ---
->   drivers/gpu/drm/nouveau/dispnv04/dac.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/dispnv04/dac.c b/drivers/gpu/drm/nouveau/dispnv04/dac.c
-> index d6b8e0cce2ac..0c8d4fc95ff3 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv04/dac.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv04/dac.c
-> @@ -428,7 +428,7 @@ void nv04_dac_update_dacclk(struct drm_encoder *encoder, bool enable)
->   	struct drm_device *dev = encoder->dev;
->   	struct dcb_output *dcb = nouveau_encoder(encoder)->dcb;
->   
-> -	if (nv_gf4_disp_arch(dev)) {
-> +	if (nv_gf4_disp_arch(dev) && ffs(dcb->or)) {
->   		uint32_t *dac_users = &nv04_display(dev)->dac_users[ffs(dcb->or) - 1];
->   		int dacclk_off = NV_PRAMDAC_DACCLK + nv04_dac_output_offset(encoder);
->   		uint32_t dacclk = NVReadRAMDAC(dev, 0, dacclk_off);
-> @@ -453,7 +453,7 @@ bool nv04_dac_in_use(struct drm_encoder *encoder)
->   	struct drm_device *dev = encoder->dev;
->   	struct dcb_output *dcb = nouveau_encoder(encoder)->dcb;
->   
-> -	return nv_gf4_disp_arch(encoder->dev) &&
-> +	return nv_gf4_disp_arch(encoder->dev) && ffs(dcb->or) &&
->   		(nv04_display(dev)->dac_users[ffs(dcb->or) - 1] & ~(1 << dcb->index));
->   }
->   
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+index 1f5245fc2cdc..d4e1ebfcb021 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+@@ -840,7 +840,6 @@ static void a6xx_get_shader_block(struct msm_gpu *gpu,
+ 		struct a6xx_crashdumper *dumper)
+ {
+ 	u64 *in = dumper->ptr;
+-	u64 out = dumper->iova + A6XX_CD_DATA_OFFSET;
+ 	size_t datasize = block->size * A6XX_NUM_SHADER_BANKS * sizeof(u32);
+ 	int i;
+ 
+@@ -853,8 +852,6 @@ static void a6xx_get_shader_block(struct msm_gpu *gpu,
+ 
+ 		in += CRASHDUMP_READ(in, REG_A6XX_HLSQ_DBG_AHB_READ_APERTURE,
+ 			block->size, dumper->iova + A6XX_CD_DATA_OFFSET);
+-
+-		out += block->size * sizeof(u32);
+ 	}
+ 
+ 	CRASHDUMP_FINI(in);
+-- 
+2.39.2
 
