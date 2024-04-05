@@ -2,93 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C8B489A19B
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 17:43:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBC4A89A1BD
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 17:48:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DC4C10E523;
-	Fri,  5 Apr 2024 15:43:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DBF110EB2D;
+	Fri,  5 Apr 2024 15:48:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="eRp/01Vz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gXve/qOJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3253010ED22
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 15:43:42 +0000 (UTC)
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 435FWLis004336; Fri, 5 Apr 2024 15:43:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=rpSXjEhE8oEwfUJNEq7vwit98GJJW3M0TJvFmVqZ9hY=;
- b=eRp/01Vz1Em7n5I0IfC44GOWXg7karaq4g4uzALyvLlMo3i1rqRFREsc8llMqtKOCjbJ
- kAJoL0Qm1ZiVqihqryMRF2vTCPmBXNrptjSVmZJKJKArEBPPpjr3ippRpH5uM41vE0Od
- meTGYVk260hcOPSceX6EuTZAObP8ck4HS1ncFjwwOxUIJ2oRlL+aUfDht+NNKmeAmg/8
- fBxrN0DCMZAe9xWoL0vMDkkeQsN04JcMT1rbvwNzDc+UdsHSi6RHSZ1lY+aTJyM5zVYG
- CcrpBthJXePbYrvS3ndLNZqVDmdT6Ske5dn2OBT85Kd/q7ORfSaMHx772vsdn4PUhghd Ww== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xam1d80t9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Apr 2024 15:43:39 +0000
-Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 435Fhcug020918;
- Fri, 5 Apr 2024 15:43:38 GMT
-Received: from ppma11.dal12v.mail.ibm.com
- (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xam1d80t7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Apr 2024 15:43:38 +0000
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
- by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id
- 435D3ojf003627; Fri, 5 Apr 2024 15:43:37 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3x9epykbgn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Apr 2024 15:43:37 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
- [10.20.54.100])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 435FhWax30016096
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 5 Apr 2024 15:43:34 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7637E20040;
- Fri,  5 Apr 2024 15:43:32 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 464A82004B;
- Fri,  5 Apr 2024 15:43:32 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Fri,  5 Apr 2024 15:43:32 +0000 (GMT)
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Helge Deller <deller@gmx.de>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Arnd Bergmann <arnd@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
- linux-kernel@vger.kernel.org, Niklas Schnelle <schnelle@linux.ibm.com>
-Subject: [PATCH 1/1] vgacon: add HAS_IOPORT dependencies
-Date: Fri,  5 Apr 2024 17:43:31 +0200
-Message-Id: <20240405154331.292421-2-schnelle@linux.ibm.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240405154331.292421-1-schnelle@linux.ibm.com>
-References: <20240405154331.292421-1-schnelle@linux.ibm.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43F3110EB2D
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 15:47:48 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3AB4460FBD;
+ Fri,  5 Apr 2024 15:47:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 908A5C43390;
+ Fri,  5 Apr 2024 15:47:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1712332066;
+ bh=Qz4VZK/ytP0/9s88wplqYqEn1ox2CjHWrrOC2AmtCjQ=;
+ h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+ b=gXve/qOJy2MI9o2c1q8zE5qlqxTpZYzEYcG/lAXMV1wnWf77yf+abI4hYQIkNCQ1P
+ 2rvdYUB+C0PkMh/12FhQy5yNqJpePutP7GfebB9NIf6n4RiIJtZVLS5SrZ9XU0cYe7
+ gmCuZyiDyj/PyqaWGMKMza6iuy8yHDp8XwdWxU8Sz4MSibWanxfQmFwttwR26kSkRN
+ NWpqsZkWOm7exLt4mS1f/qCTQ+SWNxcJG9on95EV/hxkscgZ963H2VccMxN+uHDG2u
+ CvdKb6HwBaMZWLwALCO6CvzTfVweSyS34AXaqNPFJqo1Ea7a6MHS69Sq1SCTnonWdz
+ mUgEb2s6nzFHg==
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailfauth.nyi.internal (Postfix) with ESMTP id 930A6120008F;
+ Fri,  5 Apr 2024 11:47:45 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+ by compute5.internal (MEProxy); Fri, 05 Apr 2024 11:47:45 -0400
+X-ME-Sender: <xms:IR0QZsplW-_ktFdGPCKuRLqTT2VHn6agD75T3GCa1r47_H5Qp4ODvw>
+ <xme:IR0QZirvi1FFsSTamDsCKMwp6-7MWDlywyUIBDcA-Au6hQHbQVlOEko6f-vO8s4AQ
+ yQ5HsMC4_txRe7NeHY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudegtddgleegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+ nhguuceuvghrghhmrghnnhdfuceorghrnhgusehkvghrnhgvlhdrohhrgheqnecuggftrf
+ grthhtvghrnhepvdeviefgtedugeevieelvdfgveeuvdfgteegfeeiieejjeffgeeghedu
+ gedtveehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ eprghrnhguodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduvdekhedujedt
+ vdegqddvkeejtddtvdeigedqrghrnhgupeepkhgvrhhnvghlrdhorhhgsegrrhhnuggsrd
+ guvg
+X-ME-Proxy: <xmx:IR0QZhPpjE8I7K1OMB6CwkGjmhikvFd6jidJ1RjWl_QWmGlpac1slg>
+ <xmx:IR0QZj67zRQv4RABBN40awWEN1AXIM2_iUYq0rNGb0gSwhsQUAEcMw>
+ <xmx:IR0QZr4xPk9YIh4SbMtGBl9860p4KsymijgELnXyVHEUjGRgpkgwTA>
+ <xmx:IR0QZjh-Or6AWnDSXBDsIqK4xP5vFffeTflerfFNOcnAFIzi85h4fg>
+ <xmx:IR0QZu17grOZ_OQZ5kWkV_OkGa2CfvsdBd4y6bH8NwouFprJzflcdmuM>
+Feedback-ID: i36794607:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 473E1B6008D; Fri,  5 Apr 2024 11:47:45 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-333-gbfea15422e-fm-20240327.001-gbfea1542
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 0TMJdTtZ_3uD-FGWfHTv2qNoL_rcSg8D
-X-Proofpoint-ORIG-GUID: 74o-_nl4sXO68hUr_eE49IGptbDPah4S
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-05_16,2024-04-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- priorityscore=1501 clxscore=1011 adultscore=0 bulkscore=0 phishscore=0
- mlxscore=0 spamscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2404010000 definitions=main-2404050112
+Message-Id: <8287be1d-06d7-4ce8-806a-de4e764fdda3@app.fastmail.com>
+In-Reply-To: <20240405154331.292421-2-schnelle@linux.ibm.com>
+References: <20240405154331.292421-1-schnelle@linux.ibm.com>
+ <20240405154331.292421-2-schnelle@linux.ibm.com>
+Date: Fri, 05 Apr 2024 17:47:24 +0200
+From: "Arnd Bergmann" <arnd@kernel.org>
+To: "Niklas Schnelle" <schnelle@linux.ibm.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Helge Deller" <deller@gmx.de>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "Heiko Carstens" <hca@linux.ibm.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] vgacon: add HAS_IOPORT dependencies
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,33 +87,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In a future patch HAS_IOPORT=n will disable inb()/outb() and friends at
-compile time. We thus need to add HAS_IOPORT as dependency for
-those drivers using them.
+On Fri, Apr 5, 2024, at 17:43, Niklas Schnelle wrote:
+> In a future patch HAS_IOPORT=n will disable inb()/outb() and friends at
+> compile time. We thus need to add HAS_IOPORT as dependency for
+> those drivers using them.
+>
+> Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+> Signed-off-by: Arnd Bergmann <arnd@kernel.org>
+> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> ---
+> Note: This patch does not depend any not-yet-mainline HAS_IOPORT changes
+> and may be merged via subsystem specific trees at your earliest
+> convenience.
 
-Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-Signed-off-by: Arnd Bergmann <arnd@kernel.org>
-Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
----
-Note: This patch does not depend any not-yet-mainline HAS_IOPORT changes
-and may be merged via subsystem specific trees at your earliest
-convenience.
+I think this patch can just get dropped now, no need to merge
+it because it's already handled by e9e3300b6e77 ("vgacon:
+rework Kconfig dependencies").
 
- drivers/video/console/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/video/console/Kconfig b/drivers/video/console/Kconfig
-index bc31db6ef7d2..a053a2de4432 100644
---- a/drivers/video/console/Kconfig
-+++ b/drivers/video/console/Kconfig
-@@ -10,6 +10,7 @@ config VGA_CONSOLE
- 	depends on ALPHA || X86 || \
- 		(ARM && ARCH_FOOTBRIDGE) || \
- 		(MIPS && (MIPS_MALTA || SIBYTE_BCM112X || SIBYTE_SB1250 || SIBYTE_BCM1x80 || SNI_RM))
-+	depends on HAS_IOPORT
- 	select APERTURE_HELPERS if (DRM || FB || VFIO_PCI_CORE)
- 	default y
- 	help
--- 
-2.40.1
-
+     Arnd
