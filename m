@@ -2,59 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C792A89A289
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 18:30:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048BA89A2A1
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 18:37:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C90410E86E;
-	Fri,  5 Apr 2024 16:30:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39F3E10E3D2;
+	Fri,  5 Apr 2024 16:37:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="DvATwmVZ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Y3LrAovs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7EBB410E782;
- Fri,  5 Apr 2024 16:30:15 +0000 (UTC)
-Received: from [100.64.217.16] (unknown [20.29.225.195])
- by linux.microsoft.com (Postfix) with ESMTPSA id 6099820E98B9;
- Fri,  5 Apr 2024 09:30:14 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6099820E98B9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1712334614;
- bh=w130JaeBPpS+L9M4QU8ZQXXwRcANcq5ZUO69X1bKRmU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=DvATwmVZCnu2mWeOkHNjSOn3NP+uGroDac1iSpu2wd+v3d//PQw85B2Bdx0Po6Lvd
- ZjMGVuaZ73P4XTz+rG7byN35W0KUrpl5gZ3alXfZ8frHGqOGX4PxPO84VA9eudZIJk
- 732o/mFjv1LuWV0m4a0o7Gs9Fy/VV5ERgAzWEo3E=
-Message-ID: <e6b04b76-c695-47b4-9432-f2316e174585@linux.microsoft.com>
-Date: Fri, 5 Apr 2024 09:30:13 -0700
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6360E10E3D2
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 16:37:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1712335056;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HhqXEsjcQfRnbT+Watd5B6B0qa6OPofOH0VzzxL2RKw=;
+ b=Y3LrAovsOPV8ceN6G3k/bRjiRE/UVG5PDBJLfLJ2tMNZAS28KX3h32uoCsXth2H0o/Nn0D
+ KCFPy5w7nkerGypf7chfvGP/goGxdOHhRWYfIgsQxc1c5PTwqrVze+MAvgrcPBE090rQNK
+ TD5KbStem9MaiGuJAViXAv5oTkJtvTA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-265-94l1bYdrPZO8BX6TUJGyog-1; Fri, 05 Apr 2024 12:37:32 -0400
+X-MC-Unique: 94l1bYdrPZO8BX6TUJGyog-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-4162ebc5a88so5099555e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Apr 2024 09:37:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712335051; x=1712939851;
+ h=content-transfer-encoding:in-reply-to:organization:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HhqXEsjcQfRnbT+Watd5B6B0qa6OPofOH0VzzxL2RKw=;
+ b=g7Z5MMF6UmlSKs9N0DU9bEcxO0XYF3GwIPbUevp156QZlKuzu+twgefkB5rII9B8jB
+ KzvhrQuevDkDNZ27Gu71AmFDeJMKDeY5Uto/IE+fkXplu7Vk+VNrsaAP9SmTa3KP6tyQ
+ hpnlKIuqMz0mw8Z3jZqjJiYDo+GGa6PFM3ZMO8hIxP+W6xniOcBzzpF4ZYTPBDws8ImV
+ BNSmpie9TVBk2vtjLJBwgreIwaEfp6QPUGwIV8VS3CuEyn0eZJFph+e/e6yVRDsbklpu
+ DKPGIaur9PzuFTzet5DFZJql8ntGxnyCaJsnS7TBCFNLYkHqVVHermAsWFTQPRzVvXwE
+ CMnA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXjzzFEvULWcop/U0UBW7w9C7oaqRW9tJ8HHgVO1xKXexs3r+RkPU07xpfP/GTAoA9fiZsZ77ZYpLWRxwjOBvpPEPoB4gxaMIPkiX0QBtR6
+X-Gm-Message-State: AOJu0YwqkQvoD36xzningKRFymVk+5YiP3TvZjvBNckXbnzOtH4kUc48
+ 4qvDTDbKJeQ0oKRsHTBsq2rPpSDwfR95BVBtdiqrjlhrXoK/2GqBUeBenht5rjqgUajaB3v6Ftt
+ SF5LT1xwYxsYGAqHRDl6aRxBtjjHOetqTPxuMBprJBBi+HRgDy+SYMN9YK61v99TZBQ==
+X-Received: by 2002:a05:600c:4510:b0:414:767e:6e76 with SMTP id
+ t16-20020a05600c451000b00414767e6e76mr1596280wmo.21.1712335051627; 
+ Fri, 05 Apr 2024 09:37:31 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEDPCc0VTMBhL7MNqvTz5tlRMoWQPFY1L2zr/0sqh9d3YOQmi5yQiu02UsFqppTmlfZ8bZ/Jg==
+X-Received: by 2002:a05:600c:4510:b0:414:767e:6e76 with SMTP id
+ t16-20020a05600c451000b00414767e6e76mr1596272wmo.21.1712335051297; 
+ Fri, 05 Apr 2024 09:37:31 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
+ by smtp.gmail.com with ESMTPSA id
+ v13-20020a05600c444d00b00416306c17basm2328956wmn.14.2024.04.05.09.37.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Apr 2024 09:37:29 -0700 (PDT)
+Message-ID: <593a8479-741a-44de-a52c-8d34810bfb3e@redhat.com>
+Date: Fri, 5 Apr 2024 18:37:26 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v0 13/14] drm/nouveau: Make I2C terminology more inclusive
-To: Danilo Krummrich <dakr@redhat.com>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <dri-devel@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>,
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
-References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
- <20240329170038.3863998-14-eahariha@linux.microsoft.com>
- <4dc6fb16-3d85-4a7f-85f9-ed249da0df1a@redhat.com>
-Content-Language: en-CA
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-In-Reply-To: <4dc6fb16-3d85-4a7f-85f9-ed249da0df1a@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] nouveau/gsp: Avoid addressing beyond end of rpc->entries
+To: Kees Cook <keescook@chromium.org>
+Cc: Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@redhat.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Timur Tabi <ttabi@nvidia.com>,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Dan Carpenter <dan.carpenter@linaro.org>, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org, Karol Herbst <kherbst@redhat.com>
+References: <20240330141159.work.063-kees@kernel.org>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20240330141159.work.063-kees@kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,59 +102,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/5/2024 9:15 AM, Danilo Krummrich wrote:
-> Hi Easwar,
+On 3/30/24 15:12, Kees Cook wrote:
+> Using the end of rpc->entries[] for addressing runs into both compile-time
+> and run-time detection of accessing beyond the end of the array. Use the
+> base pointer instead, since was allocated with the additional bytes for
+> storing the strings. Avoids the following warning in future GCC releases
+> with support for __counted_by:
 > 
-> On 3/29/24 18:00, Easwar Hariharan wrote:
->> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
->> with more appropriate terms. Inspired by and following on to Wolfram's
->> series to fix drivers/i2c/[1], fix the terminology for users of
->> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
->> in the specification.
->>
->> Compile tested, no functionality changes intended
->>
->> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
->>
->> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
->> ---
->>   drivers/gpu/drm/nouveau/dispnv04/dfp.c             | 14 +++++++-------
->>   .../gpu/drm/nouveau/include/nvkm/subdev/bios/dcb.h |  2 +-
->>   drivers/gpu/drm/nouveau/nouveau_bios.c             |  4 ++--
->>   3 files changed, 10 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/nouveau/dispnv04/dfp.c b/drivers/gpu/drm/nouveau/dispnv04/dfp.c
->> index d5b129dc623b..65b791006b19 100644
->> --- a/drivers/gpu/drm/nouveau/dispnv04/dfp.c
->> +++ b/drivers/gpu/drm/nouveau/dispnv04/dfp.c
->> @@ -149,7 +149,7 @@ void nv04_dfp_update_fp_control(struct drm_encoder *encoder, int mode)
->>       }
->>   }
->>   -static struct drm_encoder *get_tmds_slave(struct drm_encoder *encoder)
->> +static struct drm_encoder *get_tmds_client(struct drm_encoder *encoder)
->>   {
->>       struct drm_device *dev = encoder->dev;
->>       struct dcb_output *dcb = nouveau_encoder(encoder)->dcb;
->> @@ -172,7 +172,7 @@ static struct drm_encoder *get_tmds_slave(struct drm_encoder *encoder)
->>           struct dcb_output *slave_dcb = nouveau_encoder(slave)->dcb;
->>             if (slave_dcb->type == DCB_OUTPUT_TMDS && get_slave_funcs(slave) &&
->> -            slave_dcb->tmdsconf.slave_addr == dcb->tmdsconf.slave_addr)
->> +            slave_dcb->tmdsconf.client_addr == dcb->tmdsconf.client_addr)
->>               return slave;
+> In function 'fortify_memcpy_chk',
+>      inlined from 'r535_gsp_rpc_set_registry' at ../drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1123:3:
+> ../include/linux/fortify-string.h:553:25: error: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Werror=attribute-warning]
+>    553 |                         __write_overflow_field(p_size_field, size);
+>        |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > 
-> While, personally, I think master/slave was well suiting for the device relationship
-> on those busses, I think that if we change it up to conform with the change in
-> specification, we should make sure to update drivers consistently.
+> for this code:
 > 
-> We should make sure to also change the names of the sourrounding structures and variable
-> names, otherwise we just make this code harder to read.
+> 	strings = (char *)&rpc->entries[NV_GSP_REG_NUM_ENTRIES];
+> 	...
+>                  memcpy(strings, r535_registry_entries[i].name, name_len);
 > 
-> - Danilo
-> 
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-Thanks for the review, and for the appetite to go further! So we are on the same page, you would prefer
-renaming to controller/target like the feedback on other drm drivers (i915, gma500, radeon)?
+Applied to drm-misc-fixes, thanks!
 
-Thanks,
-Easwar
+> ---
+> Cc: Karol Herbst <kherbst@redhat.com>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Danilo Krummrich <dakr@redhat.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Ben Skeggs <bskeggs@redhat.com>
+> Cc: Timur Tabi <ttabi@nvidia.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: nouveau@lists.freedesktop.org
+> ---
+>   drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+> index 9994cbd6f1c4..9858c1438aa7 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+> @@ -1112,7 +1112,7 @@ r535_gsp_rpc_set_registry(struct nvkm_gsp *gsp)
+>   	rpc->numEntries = NV_GSP_REG_NUM_ENTRIES;
+>   
+>   	str_offset = offsetof(typeof(*rpc), entries[NV_GSP_REG_NUM_ENTRIES]);
+> -	strings = (char *)&rpc->entries[NV_GSP_REG_NUM_ENTRIES];
+> +	strings = (char *)rpc + str_offset;
+>   	for (i = 0; i < NV_GSP_REG_NUM_ENTRIES; i++) {
+>   		int name_len = strlen(r535_registry_entries[i].name) + 1;
+>   
 
