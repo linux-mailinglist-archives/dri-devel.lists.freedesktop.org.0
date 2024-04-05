@@ -2,57 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A6E089960A
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 08:58:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F0B08995E5
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 08:52:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7989910F2D2;
-	Fri,  5 Apr 2024 06:58:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C93010E7C0;
+	Fri,  5 Apr 2024 06:52:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UsH/gmfw";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="wsGZ0147";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FDE810E258;
- Fri,  5 Apr 2024 06:58:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712300298; x=1743836298;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=5raj5C+ysIqUQ5UhYYvhR/JwBtOXhu9ThhurMWUw26k=;
- b=UsH/gmfwTLjoUsEwPFSWi4o9FHVEEXx9T7KFYxRgKmEa8dFMRPnc42rt
- wg1u6Ha+6O3XfCrxC97jYqnTBs64+xyvvDIuYZTCQjPcSXqH9vuJzMBLD
- rZQ3+mJP6PM2fc0urZD2hjpCzuS8M0QzqFV6D4RSP3IeYC/c0syMSMHn8
- H0fmF1vvRpi1Lxf/4OqnS2HqwxZzzKqv6SejDfktv14opZTr2ACp1iugL
- nuqycCXLR/RsNRjOKX25lFFse7tvZ3aLJ8LTlOpBsTMaoIbkS0j0biGv4
- kdyvTHIRDZsRg1aGYZnoXElBW+RFGbYBEV8Xlo6KgmyFM1+224wIzjFsu g==;
-X-CSE-ConnectionGUID: PIxt4YMHSYi1KDDXNm6ZFg==
-X-CSE-MsgGUID: IUfBavRlTGOSnZTBaSOYJg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="8198822"
-X-IronPort-AV: E=Sophos;i="6.07,180,1708416000"; 
-   d="scan'208";a="8198822"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2024 23:58:18 -0700
-X-CSE-ConnectionGUID: NVycHH/BTt2T7dfejkl8Bw==
-X-CSE-MsgGUID: ZBCpg4tfSU6uK3teRBxF7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,180,1708416000"; d="scan'208";a="19018215"
-Received: from mgolanimitul-x299-ud4-pro.iind.intel.com ([10.190.239.114])
- by orviesa009.jf.intel.com with ESMTP; 04 Apr 2024 23:58:16 -0700
-From: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Cc: ankit.k.nautiyal@intel.com,
-	jani.nikula@intel.com,
-	sfr@canb.auug.org.au
-Subject: [PATCH] drm/dp: correct struct member name in documentation
-Date: Fri,  5 Apr 2024 12:21:59 +0530
-Message-Id: <20240405065159.439145-1-mitulkumar.ajitkumar.golani@intel.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C90A10E7C0
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 06:52:39 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-a51a7dc45easo21157066b.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Apr 2024 23:52:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1712299958; x=1712904758; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+ :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=OAoWz44Vah0FBQQ++BlkUgil4y/bpkTelSJbB2HtwhU=;
+ b=wsGZ0147H7T9ywsP7mZaR1cyBaFXxkd/COpikkbSJ1mlnW6sLRsmVgYIbTjfiIce4/
+ QFqcTL3dX2YbsBJgLUxmx2gr3oAWYMBr7tVrfyLPnWb8CGoL/qTg/1yuuBEkR+zaMDF8
+ bV5P87SxYrBXf7IZLx2kBg3sfpWD9EBubQPGvyra3K4G0rlurzGvvgm81j1kBecrvIjM
+ uX+FR209Z93JVmEu1rZNaiYUzVyljno7B4kCiY6SoBzHlRk4fkR6hAjMJhsc5i0NwiwU
+ TepR3iO4grhoNQG0hyb7JNs3wZb8iE1Vm7tnlQoUplEQCI6HmAnqyGVzBVYi1fWPKFq6
+ v/jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712299958; x=1712904758;
+ h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=OAoWz44Vah0FBQQ++BlkUgil4y/bpkTelSJbB2HtwhU=;
+ b=BwvBk7qXbZY2mkThz2dueFYHvKqg17syeeD8Eu4F412YiRECFz3QzsGjWoJNhz0rfM
+ zgZzXVDg1sgTEGAoYcjzbzLOdMP7wUHMnUgIWSWvTA/2XOH3upZUwjtuABkdv36djSvc
+ 2x76agZokPlagLOpu0lLdC29QLpUJWcbmnTGmuBXiGf8HLTtzG4iwHBcw5ul+/jmZM1V
+ /jk29v7MdmpEX7ZrMiK4Oh8CG2bS9Tv3/SuegYbidb3cng3pB1n6AULS7NHTdKK7S72A
+ JuE3huIiLHloQncwYUoVXlZ9mePzdZS13F0xvKkOsq5dQRdfz/I3gTyRRkuH8DKgMnnr
+ IwtA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVWvCzXSJYNpEHtI7KZTP/FX98AtCeIg9mgFx2sp19Ylxi5ZHB8w9wYUUY75xq+aFnJxOz90HRYpo0DlaIXiVv8r/sRtnAv/oTNHc2gdjRK
+X-Gm-Message-State: AOJu0YyqN58Jn/Ef+r005WC6Po6+DjQeiBKq5KYFJ4bq3YwokyUCgkUh
+ GbChRESDpbQd8UIm4xYO7QZYvlzvzFzBlXVqNxwpi2xsU05XsMUh06piI+J+ptc=
+X-Google-Smtp-Source: AGHT+IHrwnngq+1Rt4kkQZqXldfwAXh/zqUOJ3sPDzmdU91aZ2DmDYA4tJB6sJ+Sb8yrjn9BGztDCg==
+X-Received: by 2002:a17:906:a895:b0:a4e:2a5b:f94 with SMTP id
+ ha21-20020a170906a89500b00a4e2a5b0f94mr412192ejb.6.1712299957495; 
+ Thu, 04 Apr 2024 23:52:37 -0700 (PDT)
+Received: from localhost ([102.222.70.76]) by smtp.gmail.com with ESMTPSA id
+ se1-20020a170906ce4100b00a51a9d87570sm147217ejb.17.2024.04.04.23.52.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Apr 2024 23:52:37 -0700 (PDT)
+Date: Fri, 5 Apr 2024 09:52:34 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
+ javierm@redhat.com, jani.nikula@linux.intel.com, airlied@redhat.com,
+ sean@poorly.run
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 7/7] drm/udl: Remove struct udl_connector
+Message-ID: <39bfffb4-1e72-4b37-bfa7-1c52d969ddd3@moroto.mountain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240404150857.5520-8-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,31 +82,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Correct struct member name to 'mode' instead of 'operation mode'
-in 'drm_dp_as_sdp' structure description.
+Hi Thomas,
 
-Fixes: 0bbb8f594e33 ("drm/dp: Add Adaptive Sync SDP logging")
-Cc: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
-Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
----
- include/drm/display/drm_dp_helper.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-index baf9949ff96f..6799f57d635c 100644
---- a/include/drm/display/drm_dp_helper.h
-+++ b/include/drm/display/drm_dp_helper.h
-@@ -112,7 +112,7 @@ struct drm_dp_vsc_sdp {
-  * @target_rr: Target Refresh
-  * @duration_incr_ms: Successive frame duration increase
-  * @duration_decr_ms: Successive frame duration decrease
-- * @operation_mode: Adaptive Sync Operation Mode
-+ * @mode: Adaptive Sync Operation Mode
-  */
- struct drm_dp_as_sdp {
- 	unsigned char sdp_type;
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-edid-Implement-drm_probe_ddc-with-drm_edid_probe_custom/20240404-231057
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240404150857.5520-8-tzimmermann%40suse.de
+patch subject: [PATCH 7/7] drm/udl: Remove struct udl_connector
+config: parisc-randconfig-r071-20240405 (https://download.01.org/0day-ci/archive/20240405/202404051359.Y6AgUwFi-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202404051359.Y6AgUwFi-lkp@intel.com/
+
+smatch warnings:
+drivers/gpu/drm/udl/udl_modeset.c:527 udl_modeset_init() warn: passing a valid pointer to 'PTR_ERR'
+
+vim +/PTR_ERR +527 drivers/gpu/drm/udl/udl_modeset.c
+
+72d73dd3a95c7e8 Thomas Zimmermann 2022-10-06  518  	encoder = &udl->encoder;
+72d73dd3a95c7e8 Thomas Zimmermann 2022-10-06  519  	ret = drm_encoder_init(dev, encoder, &udl_encoder_funcs, DRM_MODE_ENCODER_DAC, NULL);
+72d73dd3a95c7e8 Thomas Zimmermann 2022-10-06  520  	if (ret)
+72d73dd3a95c7e8 Thomas Zimmermann 2022-10-06  521  		return ret;
+72d73dd3a95c7e8 Thomas Zimmermann 2022-10-06  522  	encoder->possible_crtcs = drm_crtc_mask(crtc);
+5320918b9a87865 Dave Airlie       2010-12-15  523  
+a80d9e00c8195dc Thomas Zimmermann 2024-04-04  524  	connector = &udl->connector;
+a80d9e00c8195dc Thomas Zimmermann 2024-04-04  525  	ret = drm_connector_init(dev, connector, &udl_connector_funcs, DRM_MODE_CONNECTOR_VGA);
+a80d9e00c8195dc Thomas Zimmermann 2024-04-04  526  	if (ret)
+                                                        ^^^^^^^^
+
+fe5b7c86d6068ac Daniel Vetter     2020-03-23 @527  		return PTR_ERR(connector);
+                                                                       ^^^^^^^^^^^^^^^^^^^
+
+This needs to be updated to "return ret;"
+
 -- 
-2.25.1
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
