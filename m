@@ -2,85 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F9B89A3FE
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 20:18:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE9B089A415
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 20:20:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C33E310E348;
-	Fri,  5 Apr 2024 18:18:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12B6C10E607;
+	Fri,  5 Apr 2024 18:20:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="j3ti8y4W";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nShvkqtz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E1AD10E04E;
- Fri,  5 Apr 2024 18:18:00 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 435I7rq9027126; Fri, 5 Apr 2024 18:17:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=NybGbudn9z6p56W6c03m9KOMAa5PIk7QwfVxW2w9RrA=; b=j3
- ti8y4W+ajXAnbaabwoVQ0zFJOcrjSTnr4qX6Jsq+YTpBwEULCwP6bvquw0ts4Hrl
- pNfNK3LYRr0u/cBL5o9NQR5NzY6F4vK84+VsiqABmzOSaVce7jWCkhg/0RTCjiqX
- dhJ52AL3b9bd4s+6r2NsuujyNcBYWqvMG78IoJ7VwmcHEvQXbd/GW2B+yv4GimXw
- ODjSPs/p2NDMgqs5oQ7H98LzdeXRHyeyqplTd7faTHaeQ/N8tXm6W2uLoQLaWMyb
- hiAonq/JQ1G9KFn/Ty3fchryr/PbGl8YwxH2a+um3cFIVa3YMCmRWVEzfvqihAfV
- ldEUN7VXSRzbcbUVa8Ug==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xa8fc1ykt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Apr 2024 18:17:57 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 435IHuYv005471
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 5 Apr 2024 18:17:56 GMT
-Received: from [10.110.24.15] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 5 Apr 2024
- 11:17:52 -0700
-Message-ID: <363efce2-5540-b81a-31be-b5919635b586@quicinc.com>
-Date: Fri, 5 Apr 2024 11:17:48 -0700
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
+ [209.85.219.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F199110E607
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 18:20:05 +0000 (UTC)
+Received: by mail-yb1-f171.google.com with SMTP id
+ 3f1490d57ef6-dc742543119so2499411276.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Apr 2024 11:20:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1712341205; x=1712946005; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=kpDzGRrClkUxxd0wNBawM8cLr5mKpKI36/KDGXm6I7I=;
+ b=nShvkqtz7cFsNeIyTZZQoWOuzzKY7c7sGhGQkamr9tLgHCJqIUejTDyDmgK7VuRqXv
+ rhnHUpXxctUXimCgxj4lv8e1N2QChuAzS8eohVHHKonPygQ5zI5ZXxsPipkvUrI7amRf
+ tUVt4UgFiFTqrWA8Ypm+t57l/9LumB/Qu+hiX5ekbLK5mh/616cNqKT4RCQ4wE4+rk2q
+ nfRf5M+e/SsvnSPLFIxBvNp1oK4mjnqOgU0xE0Ml1S/db6U0kyjImhLsX3cLJdqICLVz
+ aVCPKj3Hk6F1M7bXc6h6vx2OFVQBma+5WnCtVAxUukV8e8J3Md8jpLrj55dMzST5Dthl
+ fHRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712341205; x=1712946005;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kpDzGRrClkUxxd0wNBawM8cLr5mKpKI36/KDGXm6I7I=;
+ b=Df6xzU6jz+Rpu3nxc/YINR92LgRxTpfWDN2adNdRO50eIkYmHUSR0GdTAlc8/3t1c4
+ nCmMVefuqYb+FQlBMqdT3/Z9onx1kpAPq6YhprDWCz4RXXFDNwlRdw1YqkWNPPvdJW8p
+ vubIhoCAJwZdNFQ8q3+GOxHdITK6zM1/FgrGrzrCWb/bYmprExMRpaIwrcCzsUY5lR6R
+ WpR9BP8RxsmnCSsUGfWfkekaf+c3pRnV4YCy7wq0s6k2pzosiEeLlnIs8Ch1xsSxyds9
+ BsOPkpIURYLnpFtCr4Il9fXPDqm6atvAWx7lG6Vy5UUsHKNhb4VgdZbPLqjpEqqLXEg0
+ bTYQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWHjSiz28XCdUFb5uznMV9MV/8eMEGtAtDy83UKQY6mF5Vo9MhJ9FOXwRHrqG4uy90Tfy0QaYez7YwW98LnnE2hgL0cb57dH/6jAotHJOx/
+X-Gm-Message-State: AOJu0YzBniPNkyignz0kbHr4CpVVyGOLqeDYmzDqH7P+8wK+jreq1BC9
+ USzmcIpp62Yi4/ljd7AxV9Da51O3tM1A8FsV7PAoQYejtOtDnqlnLqgc2JxYDea/Q9Cl1a7KqmS
+ 5D9bX4iDmLlsqcXDDBX7TlE+fUZRTrlAMSwI5NA==
+X-Google-Smtp-Source: AGHT+IEmS3F4yd2lSXcfoF8T5aDOGQm50r0FnJ0IB21W480Br+HatBoZliUU6wHsBQ2BYSCNyXyrl0Pj9i762weS68s=
+X-Received: by 2002:a25:69c2:0:b0:dcb:e82c:f7d with SMTP id
+ e185-20020a2569c2000000b00dcbe82c0f7dmr2213889ybc.41.1712341204840; Fri, 05
+ Apr 2024 11:20:04 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 1/3] drm/msm/dsi: remove the drm_bridge_attach fallback
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
 References: <20240309-fd-dsi-cleanup-bridges-v1-0-962ebdba82ed@linaro.org>
  <20240309-fd-dsi-cleanup-bridges-v1-1-962ebdba82ed@linaro.org>
  <88b3722e-aa46-1ffe-9f0f-1939d43e0100@quicinc.com>
  <CAA8EJppbETLONx8pEdT1kT1Hp1i405m-4PfgumvvOa9N2mh6CA@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJppbETLONx8pEdT1kT1Hp1i405m-4PfgumvvOa9N2mh6CA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: vXpjRoCUPaNKGkj1ptZln3kEAJaapKpF
-X-Proofpoint-ORIG-GUID: vXpjRoCUPaNKGkj1ptZln3kEAJaapKpF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-05_19,2024-04-05_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 mlxscore=0
- malwarescore=0 mlxlogscore=712 bulkscore=0 suspectscore=0 clxscore=1015
- priorityscore=1501 adultscore=0 phishscore=0 impostorscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
- definitions=main-2404050128
+ <363efce2-5540-b81a-31be-b5919635b586@quicinc.com>
+In-Reply-To: <363efce2-5540-b81a-31be-b5919635b586@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 5 Apr 2024 21:19:54 +0300
+Message-ID: <CAA8EJpoPbK6rEKG9mh2pfo1tp8Rrn7oqXt50j0q2O5v50A8Zjg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm/msm/dsi: remove the drm_bridge_attach fallback
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,43 +84,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 5 Apr 2024 at 21:17, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 4/5/2024 11:16 AM, Dmitry Baryshkov wrote:
+> > On Fri, 5 Apr 2024 at 20:20, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> >>
+> >>
+> >>
+> >> On 3/9/2024 7:09 AM, Dmitry Baryshkov wrote:
+> >>> All the bridges that are being used with the MSM DSI hosts have been
+> >>> converted to support DRM_BRIDGE_ATTACH_NO_CONNECTOR. Drop the fallback
+> >>> code and require DRM_BRIDGE_ATTACH_NO_CONNECTOR to be supported by the
+> >>> downstream bridges.
+> >>>
+> >>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>> ---
+> >>>    drivers/gpu/drm/msm/dsi/dsi_manager.c | 36 +++++++++++------------------------
+> >>>    1 file changed, 11 insertions(+), 25 deletions(-)
+> >>>
+> >>
+> >> There are the bridges I checked by looking at the dts:
+> >>
+> >> 1) lontium,lt9611
+> >> 2) lontium,lt9611uxc
+> >> 3) adi,adv7533
+> >> 4) ti,sn65dsi86
+> >>
+> >> Are there any more?
+> >>
+> >> If not, this LGTM
+> >>
+> >> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> >
+> >  From your message it looks more like Tested-by rather than just Reviewed-by
+> >
+>
+> No, I only cross-checked the dts.
+>
+> So, its only Reviewed-by :)
+>
+> But I wanted to list down all the bridges
 
+Then I'd also nominate the panel bridge to the list of bridges for
+cross-checking. It is created automatically when we request a bridge,
+but DT has only a panel.
 
-On 4/5/2024 11:16 AM, Dmitry Baryshkov wrote:
-> On Fri, 5 Apr 2024 at 20:20, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 3/9/2024 7:09 AM, Dmitry Baryshkov wrote:
->>> All the bridges that are being used with the MSM DSI hosts have been
->>> converted to support DRM_BRIDGE_ATTACH_NO_CONNECTOR. Drop the fallback
->>> code and require DRM_BRIDGE_ATTACH_NO_CONNECTOR to be supported by the
->>> downstream bridges.
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>    drivers/gpu/drm/msm/dsi/dsi_manager.c | 36 +++++++++++------------------------
->>>    1 file changed, 11 insertions(+), 25 deletions(-)
->>>
->>
->> There are the bridges I checked by looking at the dts:
->>
->> 1) lontium,lt9611
->> 2) lontium,lt9611uxc
->> 3) adi,adv7533
->> 4) ti,sn65dsi86
->>
->> Are there any more?
->>
->> If not, this LGTM
->>
->> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> 
->  From your message it looks more like Tested-by rather than just Reviewed-by
-> 
-
-No, I only cross-checked the dts.
-
-So, its only Reviewed-by :)
-
-But I wanted to list down all the bridges
+-- 
+With best wishes
+Dmitry
