@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 821CB89A594
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 22:19:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D67B289A595
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 22:19:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F3B510E91B;
-	Fri,  5 Apr 2024 20:18:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B22210EF71;
+	Fri,  5 Apr 2024 20:18:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="pjqtyCj5";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Y3tsFkUV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6105B10E91E
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 20:18:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44DFB1129F4
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 20:18:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=WSPJSnEUXXDUrdTjE3CoaQnugYB03NFKlomjtDUPIZM=; b=pjqtyCj5OJRehmaIrMpeHhWyG8
- o3H2lYyaaRnPnxnwlZ9/U+QRuF0hQ0VBaOtKObR3pkXLXUQeXygkyuMIgZmacIP+HLULTPoouBl/i
- tO4SO00Wy55akauwJBk4/7UUg8OtJr8odzovSeh6aXqq5t7j8kF4ZVFqx37niUTJEq3HGe0LrVBHC
- wHrm1L9GzCjpePUSXDFTra5chj9DsklO90tc9bbUr5SwY+2AB5OrfG2EPqu4FnI5+qvssLVO7JsQU
- /5iQnbuMUWwwr1v2GiGNwL8r1cE9Q7ojuysHbUIw8FvJPXr9K9eWzUlD4s4lg7RVWMYACHvn62OTa
- Ja0fUAGg==;
+ bh=FYrZXpjl4jDc4vWpPHPQPeSJ4O/f7bOSiH1A955RYsA=; b=Y3tsFkUVI+dmo4gJB4ZbXwEc4o
+ jzYREJ43HK0taAftqLfFg4Vk2FdOrEv042ROsrqner7jmCTsC/1UFFTzABtRmRL6ZMO1Eg0GfWZLT
+ FUoQXOct3IwWtpVAZGdKTO9b4ttCshWljt4xa2RQHJWoe0oWmcE2ZcBvxxICUXrOzT/NFCJCLaQPA
+ KHE+JI0Ro5SjMmEtkBeIooPxy4QLLPh8GTWZUl0a9YbOOOV3mAynScobmAJV4KFP8xZMtMf42VLOq
+ i7t7G/BsWjirL5WMNw0nqsJRhuNsysvUE3hXn90ojunIwIPPhxFI9yl46v+VJXC1/INxn1d2QYyx8
+ yrnpYoqg==;
 Received: from [177.34.169.255] (helo=localhost.localdomain)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1rsq1K-001kwR-BV; Fri, 05 Apr 2024 22:18:42 +0200
+ id 1rsq1O-001kwR-Ud; Fri, 05 Apr 2024 22:18:47 +0200
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
  Tvrtko Ursulin <tursulin@igalia.com>,
@@ -42,9 +42,9 @@ To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
  =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-Subject: [PATCH v2 4/6] drm/gem: Create shmem GEM object in a given mountpoint
-Date: Fri,  5 Apr 2024 15:29:07 -0300
-Message-ID: <20240405201753.1176914-5-mcanal@igalia.com>
+Subject: [PATCH v2 5/6] drm/v3d: Reduce the alignment of the node allocation
+Date: Fri,  5 Apr 2024 15:29:08 -0300
+Message-ID: <20240405201753.1176914-6-mcanal@igalia.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240405201753.1176914-1-mcanal@igalia.com>
 References: <20240405201753.1176914-1-mcanal@igalia.com>
@@ -66,98 +66,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create a function `drm_gem_shmem_create_with_mnt()`, similar to
-`drm_gem_shmem_create()`, that has a mountpoint as a argument. This
-function will create a shmem GEM object in a given tmpfs mountpoint.
+Currently, we are using an alignment of 128 kB to insert a node, which
+ends up wasting memory as we perform plenty of small BOs allocations
+(<= 4 kB). We require that allocations are aligned to 128Kb so for any
+allocation smaller than that, we are wasting the difference.
 
-This function will be useful for drivers that have a special mountpoint
-with flags enabled.
+This implies that we cannot effectively use the whole 4 GB address space
+available for the GPU in the RPi 4. Currently, we can allocate up to
+32000 BOs of 4 kB (~140 MB) and 3000 BOs of 400 kB (~1,3 GB). This can be
+quite limiting for applications that have a high memory requirement, such
+as vkoverhead [1].
+
+By reducing the page alignment to 4 kB, we can allocate up to 1000000 BOs
+of 4 kB (~4 GB) and 10000 BOs of 400 kB (~4 GB). Moreover, by performing
+benchmarks, we were able to attest that reducing the page alignment to
+4 kB can provide a general performance improvement in OpenGL
+applications (e.g. glmark2).
+
+Therefore, this patch reduces the alignment of the node allocation to 4
+kB, which will allow RPi users to explore the whole 4GB virtual
+address space provided by the hardware. Also, this patch allow users to
+fully run vkoverhead in the RPi 4/5, solving the issue reported in [1].
+
+[1] https://github.com/zmike/vkoverhead/issues/14
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 30 ++++++++++++++++++++++----
- include/drm/drm_gem_shmem_helper.h     |  3 +++
- 2 files changed, 29 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/v3d/v3d_bo.c  | 2 +-
+ drivers/gpu/drm/v3d/v3d_drv.h | 2 --
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 177773bcdbfd..10b7c4c769a3 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -49,7 +49,8 @@ static const struct drm_gem_object_funcs drm_gem_shmem_funcs = {
- };
+diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
+index a07ede668cc1..79e31c5299b1 100644
+--- a/drivers/gpu/drm/v3d/v3d_bo.c
++++ b/drivers/gpu/drm/v3d/v3d_bo.c
+@@ -110,7 +110,7 @@ v3d_bo_create_finish(struct drm_gem_object *obj)
+ 	 */
+ 	ret = drm_mm_insert_node_generic(&v3d->mm, &bo->node,
+ 					 obj->size >> V3D_MMU_PAGE_SHIFT,
+-					 GMP_GRANULARITY >> V3D_MMU_PAGE_SHIFT, 0, 0);
++					 SZ_4K >> V3D_MMU_PAGE_SHIFT, 0, 0);
+ 	spin_unlock(&v3d->mm_lock);
+ 	if (ret)
+ 		return ret;
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
+index d2ce8222771a..17236ee23490 100644
+--- a/drivers/gpu/drm/v3d/v3d_drv.h
++++ b/drivers/gpu/drm/v3d/v3d_drv.h
+@@ -17,8 +17,6 @@ struct clk;
+ struct platform_device;
+ struct reset_control;
  
- static struct drm_gem_shmem_object *
--__drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
-+__drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
-+		       struct vfsmount *gemfs)
- {
- 	struct drm_gem_shmem_object *shmem;
- 	struct drm_gem_object *obj;
-@@ -76,7 +77,7 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
- 		drm_gem_private_object_init(dev, obj, size);
- 		shmem->map_wc = false; /* dma-buf mappings use always writecombine */
- 	} else {
--		ret = drm_gem_object_init(dev, obj, size);
-+		ret = drm_gem_object_init_with_mnt(dev, obj, size, gemfs);
- 	}
- 	if (ret) {
- 		drm_gem_private_object_fini(obj);
-@@ -123,10 +124,31 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
-  */
- struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t size)
- {
--	return __drm_gem_shmem_create(dev, size, false);
-+	return __drm_gem_shmem_create(dev, size, false, NULL);
- }
- EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
+-#define GMP_GRANULARITY (128 * 1024)
+-
+ #define V3D_MMU_PAGE_SHIFT 12
  
-+/**
-+ * drm_gem_shmem_create_with_mnt - Allocate an object with the given size in a
-+ * given mountpoint
-+ * @dev: DRM device
-+ * @size: Size of the object to allocate
-+ * @gemfs: tmpfs mount where the GEM object will be created
-+ *
-+ * This function creates a shmem GEM object in a given tmpfs mountpoint.
-+ *
-+ * Returns:
-+ * A struct drm_gem_shmem_object * on success or an ERR_PTR()-encoded negative
-+ * error code on failure.
-+ */
-+struct drm_gem_shmem_object *drm_gem_shmem_create_with_mnt(struct drm_device *dev,
-+							   size_t size,
-+							   struct vfsmount *gemfs)
-+{
-+	return __drm_gem_shmem_create(dev, size, false, gemfs);
-+}
-+EXPORT_SYMBOL_GPL(drm_gem_shmem_create_with_mnt);
-+
- /**
-  * drm_gem_shmem_free - Free resources associated with a shmem GEM object
-  * @shmem: shmem GEM object to free
-@@ -760,7 +782,7 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
- 	size_t size = PAGE_ALIGN(attach->dmabuf->size);
- 	struct drm_gem_shmem_object *shmem;
- 
--	shmem = __drm_gem_shmem_create(dev, size, true);
-+	shmem = __drm_gem_shmem_create(dev, size, true, NULL);
- 	if (IS_ERR(shmem))
- 		return ERR_CAST(shmem);
- 
-diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index efbc9f27312b..d22e3fb53631 100644
---- a/include/drm/drm_gem_shmem_helper.h
-+++ b/include/drm/drm_gem_shmem_helper.h
-@@ -97,6 +97,9 @@ struct drm_gem_shmem_object {
- 	container_of(obj, struct drm_gem_shmem_object, base)
- 
- struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t size);
-+struct drm_gem_shmem_object *drm_gem_shmem_create_with_mnt(struct drm_device *dev,
-+							   size_t size,
-+							   struct vfsmount *gemfs);
- void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem);
- 
- void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem);
+ #define V3D_MAX_QUEUES (V3D_CPU + 1)
 -- 
 2.44.0
 
