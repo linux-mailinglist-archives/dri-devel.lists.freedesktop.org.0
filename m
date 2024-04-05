@@ -2,169 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 896098998F9
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 11:05:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94A7A89992F
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 11:15:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAA4C10E9AC;
-	Fri,  5 Apr 2024 09:05:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19F1A10EA13;
+	Fri,  5 Apr 2024 09:15:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KH9E3P5Z";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GdAORM3Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F13810E9AB;
- Fri,  5 Apr 2024 09:05:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712307919; x=1743843919;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=MF4POa7zAHE4ofkszeT21EOJQYVqLkg9QObRJ/M8bzQ=;
- b=KH9E3P5Z7nO/EUezsXLPJc9pX9ih2021kqIOdwlaL0CCWYUttiyPCx3e
- bs3MIiX9Zp+YoLmhvqx9r6E2DG1nNLiNgbE49vT+00P1ilISjpZ5Pdeb6
- bbZin52zGcnrQQKodI2Ezon0HHMO7wZuChcSgRJVcx+ENlHbTwa2cBeGS
- yru633fJZdQnMjQgr65FFAb4ea165YQYPEM4BQoinq6KxRwYUyT6negeD
- RSHNIP6Db/PLtGtHDyTieyMgeYoNq+0RQ5uDorzbaMFVCPAZNK89Hv54l
- BdC9FAzPYHhFZMTNZALqkHGH0a6j6IMCAq9kaattThU8VGiAm3UdHP64H w==;
-X-CSE-ConnectionGUID: 8mrt7fElRyKUdkQGG+tUqQ==
-X-CSE-MsgGUID: UlucqwLMQfaAXFPA5V0mUQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="11403857"
-X-IronPort-AV: E=Sophos;i="6.07,181,1708416000"; d="scan'208";a="11403857"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2024 02:05:17 -0700
-X-CSE-ConnectionGUID: pzKqRAOLTSCYZsvp9EOsKA==
-X-CSE-MsgGUID: kXZi0E6PTnq9sGd4v/pZHg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,181,1708416000"; d="scan'208";a="19544999"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 05 Apr 2024 02:05:17 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 5 Apr 2024 02:05:16 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 5 Apr 2024 02:05:16 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 5 Apr 2024 02:04:55 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eQB7bUMQ3/oXrKurkSRZNe/XMl2iDADUCwisIQWevPYhh2OKIrdW8ngV0Cf8wNq/5+mihfXNNoeOjCk21iKfRFpWoIYOt2o9QRuKdoz25qfye8GCA6AeMO0gJDJA8oOIkp0Jy1aP6E25jpXVVczp1RKGkID+dxvH7aRcAQtQsgE3CixX/upDDKbCGOEa1aILTHlh7H6K1Gcs8ijwOIN33Yp3k/zbCy1erX8hUg1i90qc0OYi1Qq8mRaYz3s5rhX5hfEmfm5egdrl5KFVB5Y6hWPf7iAGLybShZcCfpjgiFe9Jtc52TaMWY0xIh55v7AWfQGK8wIRIXGsCyjPvfsySQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MF4POa7zAHE4ofkszeT21EOJQYVqLkg9QObRJ/M8bzQ=;
- b=B3R3W99BAaumYxH2AYv2EJBy2y6ZD685Cfe4PJNByvarU6YojIflpTshe4VFIz86MfGtp2IHb/ZQq32lZ6dDXFs5IMC98G6M43k2IWRyiT+Y7RHfg1RGD9/jsRGFO08QL74GlmpOUsmn82mUwXZCnANva5l0xedADCOe1VIQ3/CaQZYORUDDIMePr7XSmrMAPhJspg+4y+PNWjG8WLQMegPE+9t4IqVHLRTfAWCQ3lLzZzNCsW3MsroRPZpIHo970iyg/YRQb6WeYQKx/0BZSIvtVeciOB7bxivJb7vXUn86ymyS/lHkeHQq7HTkSyBxE042jrdBLHbgzHb/QbIRXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB6019.namprd11.prod.outlook.com (2603:10b6:8:60::5) by
- DM3PR11MB8683.namprd11.prod.outlook.com (2603:10b6:8:1ac::21) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7452.26; Fri, 5 Apr 2024 09:04:53 +0000
-Received: from DM4PR11MB6019.namprd11.prod.outlook.com
- ([fe80::bccd:7928:80ae:179f]) by DM4PR11MB6019.namprd11.prod.outlook.com
- ([fe80::bccd:7928:80ae:179f%5]) with mapi id 15.20.7452.019; Fri, 5 Apr 2024
- 09:04:53 +0000
-From: "Hogander, Jouni" <jouni.hogander@intel.com>
-To: "Upadhyay, Tejas" <tejas.upadhyay@intel.com>, "tzimmermann@suse.de"
- <tzimmermann@suse.de>, "ville.syrjala@linux.intel.com"
- <ville.syrjala@linux.intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
- "ogabbay@kernel.org" <ogabbay@kernel.org>, "javierm@redhat.com"
- <javierm@redhat.com>, "thomas.hellstrom@linux.intel.com"
- <thomas.hellstrom@linux.intel.com>, "tvrtko.ursulin@linux.intel.com"
- <tvrtko.ursulin@linux.intel.com>, "Deak, Imre" <imre.deak@intel.com>, "De
- Marchi, Lucas" <lucas.demarchi@intel.com>, "jani.nikula@linux.intel.com"
- <jani.nikula@linux.intel.com>, "airlied@gmail.com" <airlied@gmail.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH v7 6/6] drm/i915: Implement fbdev emulation as in-kernel
- client
-Thread-Topic: [PATCH v7 6/6] drm/i915: Implement fbdev emulation as in-kernel
- client
-Thread-Index: AQHaa96tKEZt/+IvnUijseKX7vgb77FZkFqAgAAG6gCAAAGggA==
-Date: Fri, 5 Apr 2024 09:04:53 +0000
-Message-ID: <4f2dcd973fa09f77d78f93830073ae30c468677b.camel@intel.com>
-References: <20240301134448.31289-1-tzimmermann@suse.de>
- <20240301134448.31289-7-tzimmermann@suse.de>
- <56b919497a8030839d8e4a2f946d4338b64b043d.camel@intel.com>
- <92fdee78-40c5-41c7-b685-d785f53ee7d3@suse.de>
-In-Reply-To: <92fdee78-40c5-41c7-b685-d785f53ee7d3@suse.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB6019:EE_|DM3PR11MB8683:EE_
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: NW574MxIbgYd4qm5uEeCu20L3dRxubHu0DCJJ7SDhRQSBGyhdygsH7jm/5iDJ5HP/7R5UYo/nfyOIqpwQEMsOa9KuIxhKgNUpD6a9ZMds5U9/LlHQSAmPnlmRkeeWMsgIXTdJdeW7MGdTl5Ss0vmZfSoNAOhoVCDzZ0td3CEYJnIxyKyzNaW34k/wTPQHqe97je3n/lzsPsYt1oUoK7UFkSCVTJNiorvgURToKDrYC9UnfmwniIRfNvbbe4lFHQ9PlWVKJlcth1EaI8GbEoJDsf6+UH7EopgbP2VqCe0R8kqdTcnUef9GEOqzF2pLqACMkrTBCw0diSEZPQBA7BpX8WzBmmVXMTRMJQJOvJtwFIJTShDiRNpRfdQPHGVIboDoP6Rv7ooMNKbLy6coeTV7LV+kDjXsqpzfrc2uxW/3RHgViNskGRpOsZfWqF0ziVjq1nM0IaHdTjWuaK6gLYQBt59kkDYETT54euESnwDEAh/ODpcCODXotqc+CE7YkOi00n+QokKDf9i7JI9KJjrXPK3zKhMIF9sjqg0qXCyM5u+w6uFBmaeZDqHBxJB+Jll3MBcuJvN0UywhWmqv7zIuPcOBKU3sgzz5D4ULA2shSno1aNkctRDgqN0tvq/To4ZNgN4gx6XB5wfQ9gQehBsE55dZ3qCfKw7NoohYYmV5R9gwJsfoHW8VjN9Y0kzpswNmSc7WubyxXeyFcZVgJWwnQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB6019.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(1800799015)(7416005)(376005)(366007)(921011); DIR:OUT; SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TUpiYXY1alJtU3dtMmNOYlVpZjcvZXFFOU9YU3NnUytWN2IxRTBjT2tISGZU?=
- =?utf-8?B?SkFiNUZZVUM4L3UyUjg1MDA4ejVHN2E1NFV1K1grd3dpRGxNeE1XUXQ4NnZm?=
- =?utf-8?B?RUVHT243cHdsMGpUZm1GdmtJbEoyVVhLNFFLUjF6UTBPQXBqdUU3NWtvOERF?=
- =?utf-8?B?VWxYbWRLTHBnOVFqQWVPUGsvRXFOYkt3bE93Wmc2bUJuWnlCL2dBQXpxV1F0?=
- =?utf-8?B?amxiMmZkSE83OXpTRFZRNGJDRFRTOWlLT3NoNWZzazhON2FJd0xwZ3A3Rkt0?=
- =?utf-8?B?SmxMNHloTzNRMERxa1dCbmdKbzBwa2dyNi9iU0MzOWI1cDkyMDFXTXhUV2p4?=
- =?utf-8?B?RWxTOHFER3R2L3dHSUc5dkFXRGZzUi8wa2I5QURDeUJSRHhRYjhlRVBQMUJR?=
- =?utf-8?B?dkoyV1pSUGU1aFdCNUkvOVZabjlEdTNtOVV6MXBLR3B2Y0ZvZmV1cXNYeGhu?=
- =?utf-8?B?RW1GRitLY00rNEFId0xSTHVLb1dYQVZNN1psNFBtQVFkZEVjS3NVZzRCNjFL?=
- =?utf-8?B?amN2OHVYNHpxYVJPbVFUQzdOSnFwOTM4MGcwN1VYeFR6YmFLREZ5d2c0MVUw?=
- =?utf-8?B?OFhaNVRZbzM1a1BvTjNYRU52WCtFeXFZb0FYTCtxejlodkl2SGhKdVJRNk80?=
- =?utf-8?B?Y0pJWTREeWpPSEZieTdjOTN0VUlEalVYZ29hc2FHSml0Y2x1Mkc2Zll1dmlZ?=
- =?utf-8?B?VkZzaGJTZUNLdlFuODhzZnNzb3pYc2RkY3V1andBUGJaV1BvaVdZaFVyaTNh?=
- =?utf-8?B?Wis4d2I5a01GUUJuZ085K2tMOUI2dnVyVWZLTENzL015cVJvNlFucFZxcGNP?=
- =?utf-8?B?Ri9qazBxN2cvRFc5U2JFbUJ3bzBseTMvRXBBYzNLekh0RGozR2JmcS9NR0F1?=
- =?utf-8?B?YUd6anh1eXZlTldqWmNST0ZyWjgvMWdEK0orSy9seU94dGVXNnJvU2Y4S3Zl?=
- =?utf-8?B?ZTZZaklITDAxNUhRMDlZTUlXRjlaYkxWdVJVVGNlZ0RqUStkR1RBZVV3VGti?=
- =?utf-8?B?RDcyTnZqRk5QeThoSkNVeXdsTTVXR2EvV081d2p2bFVDYWFITnhIUmtNQzRp?=
- =?utf-8?B?RlNtZWdXMkZnOE0va2VNWS8zVGlqb0J1ZjYzRDI5ZkVsU3R2dTd5T0NIblZv?=
- =?utf-8?B?MDI1ZzVCSC9BdUtJT3Q0UmliQTFrTVlxRURRODlMN3czYmF4VXpjc09CYU5u?=
- =?utf-8?B?bXQ0T2dBcnJKMVM4a2ZCUEFWeEozK01BdjhrVGF2UFZodHlGOUdxdmIyd0ZN?=
- =?utf-8?B?a2FhT2diUXFOc041UXNPbzNUY0paVEVOd1U5ZjAxS2VRTVkweGJuY0ptRHhr?=
- =?utf-8?B?UzV1QmJYeVpDNzd3OWtUcUVtUG4rRDV4NWhtQ2N5cExWcFpjeEZDNCt4eUNE?=
- =?utf-8?B?MGg3UEdEc2w1YUM3VFcwL0MvcnZFZlcwR1ZaQWdtV0EwTkxEOGIyY0ZieWdM?=
- =?utf-8?B?UHJJWlFiZlVWbmxGRkZtYkZrRFRoUEVFM05TNytJbjY1TzFkTGI3dlN5d2N6?=
- =?utf-8?B?a3FrUlZ4ZEdvMzI0cnc1NnNaMDFIRWpqeG1uSjhNU3h0N25aenVQTTNUWjNi?=
- =?utf-8?B?bGo0RkkrTDk0TitDR1BpNDVsQ0tqYk9ZWEV1b3QyRHNOZjVIVFZWNmxvc2Ro?=
- =?utf-8?B?YUZhL1NTbHlJZVJnNjV3U2VWb0RqOGV4akl0d25RQWZRK3VxaGNqbVBUY08y?=
- =?utf-8?B?WlVRS0tUSlVMQzY2dTJBcUxEbENhTFJNRU04RDNZeVd6L3ZLaEVGR1FONk53?=
- =?utf-8?B?dFhEeHZqenFSb2s4N1hUODBPREEyTkE1RmVEckRDTjRDM2E3MGtCM1Z1d3NW?=
- =?utf-8?B?QlVXS0NLdGFWREVQdDk1WmloWm9YZktZVkpPd0F1SkRYQ0dtcXFsa0lpUS8z?=
- =?utf-8?B?bkMyYTl5dmNoYUxha2RwVFFFUnJVL0JWV2t0QlVmZUU0OFR3MFZ2UVdZZm8v?=
- =?utf-8?B?MjhpVlZHT3RDS2h5bmFDZ21RRHFVcEVaNzVPR1JjcFF5bFVOd2laTElZTE9H?=
- =?utf-8?B?NkZqZWlMbkFVUTNlamswM3k3SmwyWjB0dFJEWlN2RzVWT2E2Witwbk0vQlll?=
- =?utf-8?B?a2xCanp6RklDNWJPeTNpajVGUGJzYmNlR1dMQTF1WVg5dERzSkhXRFBGMFBm?=
- =?utf-8?B?QVB1RnJMQWRtZCtvMWpabmJVYmhmMG1SWVZmT0FlYldzNXRCSGY2aDQ3eVZr?=
- =?utf-8?B?cXc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9FE6E09CAA1C7543A5AB059012F622D7@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74AFC10EA11
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 09:15:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1712308505;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=UkJ21UDriSdB6gArKOJeT8psAEbfoK/LWacdcKmVSAE=;
+ b=GdAORM3Y4akFscgJWWwxQaesrHqDXZyl0Qwyd19PPuLSCxp44vQ6MXg1/GCMv4d9B9abqf
+ MgoR5HjqNQHAf6LJ94l6Bl5rPM6vOcIuoLEeAseKbCK1hV8Z6d8ZVM3tloJihT4D3UWpVi
+ XHtyvOEMrIThgPeeDh6+aeBGERCS8FE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-557-zFI3b63WOB6fKARuKGIAwQ-1; Fri, 05 Apr 2024 05:15:03 -0400
+X-MC-Unique: zFI3b63WOB6fKARuKGIAwQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-41552c04845so9424745e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Apr 2024 02:15:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712308503; x=1712913303;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:from:references:cc:to:subject:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=UkJ21UDriSdB6gArKOJeT8psAEbfoK/LWacdcKmVSAE=;
+ b=tVzKLLHSJPVBM+vyCQQdZkNow9ktfVGjyEd+745s+RKAB7h/urCHfAgdD3BuyVuwLc
+ TxObRT0Zd4jmNXJrnqhQvP58m7Q59nmYrxZBlGkBx+Cg1ZRzk6M+hYUPxDpIJtb8BocD
+ doKhfV6PU3ULUDvzBE2s2R3xwxcd+rcHwSTX+Ql+eCQLfafLyBU+LRe/GTWt9DwqkoOm
+ 0cv5OLzByV4IqF0oIgFJ2Nrc/heI9lUrkWKAbhE36/RM8b8DRQ3M8MDyy5+5JW/u8LRw
+ 7bAMOLyd90rqgoGB94r8z+KHXvFuMQ9QSlsOZYn6gQuCeJKGbb0jaUpiMMmmWcSL2zZZ
+ /guA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX/VnlNrhMd4kLm4Xgx/7U64t4YakfJWUBy0h11OCAGzBB8W+li//60W/sMVK8SWfFJwD3gZc36PDLc2sQovNcYdkLLu6jW9Cc1Xndq3njK
+X-Gm-Message-State: AOJu0YxAdZekINEzEG5v/tbBpaEjT62EeYdVaONU82iIWyN8fLJdd293
+ rXCQW4Hr/zcKsPV8YzsorMX1OeEoDhvBI+ahULXzAoZfxpWSbf4CIuG2ML9J5NPZ5eq7XFLuJVR
+ Inelz0j24Va8oUxLHZ1pibdSZpWZXXD2S+B8VVYgv7q/x0w1pw4AxbljHClCG2iqrpA==
+X-Received: by 2002:a05:600c:1395:b0:414:71b2:c915 with SMTP id
+ u21-20020a05600c139500b0041471b2c915mr652798wmf.34.1712308502829; 
+ Fri, 05 Apr 2024 02:15:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHK8iYw5gNsHqd33kUGW5zS/Q/OT++PTQexCmlbKk0IjARRuAEJQnU2Z/jAZYgDVpch62m1Jw==
+X-Received: by 2002:a05:600c:1395:b0:414:71b2:c915 with SMTP id
+ u21-20020a05600c139500b0041471b2c915mr652777wmf.34.1712308502426; 
+ Fri, 05 Apr 2024 02:15:02 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c74b:5500:e1f8:a310:8fa3:4ec1?
+ (p200300cbc74b5500e1f8a3108fa34ec1.dip0.t-ipconnect.de.
+ [2003:cb:c74b:5500:e1f8:a310:8fa3:4ec1])
+ by smtp.gmail.com with ESMTPSA id
+ b2-20020a5d5502000000b0033e786abf84sm1536706wrv.54.2024.04.05.02.15.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Apr 2024 02:15:01 -0700 (PDT)
+Message-ID: <a85b5fa1-d155-4be7-a4de-ae466357aef1@redhat.com>
+Date: Fri, 5 Apr 2024 11:15:00 +0200
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6019.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bbf5aa01-7052-4dd0-15c4-08dc554f74f8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Apr 2024 09:04:53.2368 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jAen02DLfjNklBtvxUCmGiEAx2j0qliOm8vSNMjKTWIEGqLCDQAcRjHp55YhfuftH7ocDTCdgTRc4XBfcwFWTbXTxJAw0KqQLQXLk9meF/U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR11MB8683
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 1/8] mm/gup: Introduce unpin_folio/unpin_folios helpers
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org
+Cc: Matthew Wilcox <willy@infradead.org>,
+ Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ Peter Xu <peterx@redhat.com>
+References: <20240404073053.3073706-1-vivek.kasireddy@intel.com>
+ <20240404073053.3073706-2-vivek.kasireddy@intel.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <20240404073053.3073706-2-vivek.kasireddy@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,38 +145,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyMDI0LTA0LTA1IGF0IDEwOjU5ICswMjAwLCBUaG9tYXMgWmltbWVybWFubiB3cm90
-ZToNCj4gSGkNCj4gDQo+IEFtIDA1LjA0LjI0IHVtIDEwOjM0IHNjaHJpZWIgSG9nYW5kZXIsIEpv
-dW5pOg0KPiBbLi4uXQ0KPiA+ID4gwqAgDQo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL2k5MTUvaTkxNV9kcml2ZXIuYw0KPiA+ID4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1
-X2RyaXZlci5jDQo+ID4gPiBpbmRleCBlMGYxM2M2MmExODMyLi42OTE3OGI3Mzg0NWUxIDEwMDY0
-NA0KPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9kcml2ZXIuYw0KPiA+ID4g
-KysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9kcml2ZXIuYw0KPiA+ID4gQEAgLTgxNiw2
-ICs4MTYsOCBAQCBpbnQgaTkxNV9kcml2ZXJfcHJvYmUoc3RydWN0IHBjaV9kZXYgKnBkZXYsDQo+
-ID4gPiBjb25zdA0KPiA+ID4gc3RydWN0IHBjaV9kZXZpY2VfaWQgKmVudCkNCj4gPiA+IMKgIA0K
-PiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgaTkxNS0+ZG9fcmVsZWFzZSA9IHRydWU7DQo+ID4gPiDC
-oCANCj4gPiA+ICvCoMKgwqDCoMKgwqDCoGludGVsX2ZiZGV2X3NldHVwKGk5MTUpOw0KPiA+ID4g
-Kw0KPiA+IFRoaXMgZG9lc24ndCB3b3JrIGZvciBYZS4gSSBwcm9wb3NlIHlvdSBtb3ZlIGl0IHRv
-DQo+ID4gZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5X2RpcnZlci5j
-OmludGVsX2Rpc3BsYXlfZA0KPiA+IHJpdmUNCj4gPiByX3Byb2JlPyBPdGhlcndpc2UgcGF0Y2gg
-bG9va3Mgb2sgdG8gbWUuDQo+IA0KPiBDYW4geW91IHNheSB3aHkgaXQgZG9lc24ndCB3b3JrPyBJ
-dCdzIGJlZW4gYSB3aGlsZSwgYnV0IElJUkMgSSByYW4NCj4gdGhpcyANCj4gcGF0Y2ggb24geGUg
-Zm9yIHRlc3RpbmcuDQoNCmk5MTVfZHJpdmVyX3Byb2JlIGlzIG5vdCB1c2VkIGJ5IFhlIGRyaXZl
-ciBhbmQgSSBjYW4ndCBmaW5kIG93biBjYWxsIHRvDQppbnRlbF9mYmRldl9zZXR1cCBpbiBYZSBk
-cml2ZXIuDQoNCkJSLA0KDQpKb3VuaSBIw7ZnYW5kZXINCiANCj4gDQo+IEJlc3QgcmVnYXJkcw0K
-PiBUaG9tYXMNCj4gDQo+ID4gDQo+ID4gQlIsDQo+ID4gDQo+ID4gSm91bmkgSMO2Z2FuZGVyDQo+
-ID4gDQo+ID4gDQo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gMDsNCj4gPiA+IMKgIA0K
-PiA+ID4gwqDCoG91dF9jbGVhbnVwX2dlbToNCj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0veGUvZGlzcGxheS94ZV9kaXNwbGF5LmMNCj4gPiA+IGIvZHJpdmVycy9ncHUvZHJtL3hl
-L2Rpc3BsYXkveGVfZGlzcGxheS5jDQo+ID4gPiBpbmRleCBjZGJjM2YwNGM4MGE3Li5jYTVjYmUx
-ZDhhMDNiIDEwMDY0NA0KPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3hlL2Rpc3BsYXkveGVf
-ZGlzcGxheS5jDQo+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0veGUvZGlzcGxheS94ZV9kaXNw
-bGF5LmMNCj4gPiA+IEBAIC0yMTQsOSArMjE0LDcgQEAgdm9pZCB4ZV9kaXNwbGF5X2Zpbmkoc3Ry
-dWN0IHhlX2RldmljZSAqeGUpDQo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoIXhlLT5pbmZv
-LmVuYWJsZV9kaXNwbGF5KQ0KPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oHJldHVybjsNCj4gPiA+IMKgIA0KPiA+ID4gLcKgwqDCoMKgwqDCoMKgLyogcG9sbCB3b3JrIGNh
-biBjYWxsIGludG8gZmJkZXYsIGhlbmNlIGNsZWFuIHRoYXQgdXANCj4gPiA+IGFmdGVyd2FyZHMg
-Ki8NCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoGludGVsX2hwZF9wb2xsX2ZpbmkoeGUpOw0KPiA+
-ID4gLcKgwqDCoMKgwqDCoMKgaW50ZWxfZmJkZXZfZmluaSh4ZSk7DQo+ID4gPiDCoCANCj4gPiA+
-IMKgwqDCoMKgwqDCoMKgwqDCoGludGVsX2hkY3BfY29tcG9uZW50X2ZpbmkoeGUpOw0KPiA+ID4g
-wqDCoMKgwqDCoMKgwqDCoMKgaW50ZWxfYXVkaW9fZGVpbml0KHhlKTsNCj4gDQoNCg==
+On 04.04.24 09:26, Vivek Kasireddy wrote:
+> These helpers are the folio versions of unpin_user_page/unpin_user_pages.
+> They are currently only useful for unpinning folios pinned by
+> memfd_pin_folios() or other associated routines. However, they could
+> find new uses in the future, when more and more folio-only helpers
+> are added to GUP.
+> 
+> We should probably sanity check the folio as part of unpin similar
+> to how it is done in unpin_user_page/unpin_user_pages but we cannot
+> cleanly do that at the moment without also checking the subpage.
+> Therefore, sanity checking needs to be added to these routines once
+> we have a way to determine if any given folio is anon-exclusive (via
+> a per folio AnonExclusive flag).
+> 
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: Christoph Hellwig <hch@infradead.org>
+> Cc: Jason Gunthorpe <jgg@nvidia.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Suggested-by: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> ---
+
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
+-- 
+Cheers,
+
+David / dhildenb
+
