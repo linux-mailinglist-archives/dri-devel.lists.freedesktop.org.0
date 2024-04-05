@@ -2,79 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EECD89A4B3
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 21:11:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08DDF89A4C3
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 21:17:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EDE810E6B0;
-	Fri,  5 Apr 2024 19:11:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2044A1139D6;
+	Fri,  5 Apr 2024 19:17:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="R1mac/GG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="J2f6PwsZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C5FF10E6B0;
- Fri,  5 Apr 2024 19:11:40 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 435CU31r010030; Fri, 5 Apr 2024 19:11:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=2jNyq1jPDHHHDCOcurM2gKVgKiNdMohMwubwgPaZ9NI=; b=R1
- mac/GGNTRKVX2yzlHB6+tMp7Jx9RlldBgt9agqFLyuxpCfAvIfe44/2KtfOVaLHN
- VDjJ9J0OqYf6K6QwMcsKJZl9jEf2+FHlrwcx+orUxLEbQ/dTScJ9IlqKh47II9u6
- YrZmAvXYVlN+VtXrb5K+HrBqJpki+BAkcIa+Jy3WlXnukwWQW3PMU5QXeUTsDjiV
- Dy0swEfYv272K9aPQlT2MR91ufuUh2Fay9GycqoPIoqaf8axhK/GUUSf/lIuxwKb
- VQlp5+IWbiwhQMax5bjynputPHi3puk3lQXpp+lOsKvCVEDKeUPVVMSaNL7YY9gh
- aP+iFHDHu24Xw+K2N0SQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xahb10xan-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Apr 2024 19:11:26 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 435JBO3U016289
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 5 Apr 2024 19:11:24 GMT
-Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Fri, 5 Apr 2024 12:11:24 -0700
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Stephen Boyd <swboyd@chromium.org>
-CC: Abhinav Kumar <quic_abhinavk@quicinc.com>, <linux-kernel@vger.kernel.org>, 
- <patches@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>
-Subject: Re: [PATCH] drm/msm: Add newlines to some debug prints
-Date: Fri, 5 Apr 2024 12:11:03 -0700
-Message-ID: <171234416740.9339.9412761579283803223.b4-ty@quicinc.com>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240325210810.1340820-1-swboyd@chromium.org>
-References: <20240325210810.1340820-1-swboyd@chromium.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 640AF10FA6A;
+ Fri,  5 Apr 2024 19:17:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1712344628; x=1743880628;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=4+Bux30dqLXg6KuK0fUec4K9aBNqA4+JiCmn0NOpEU4=;
+ b=J2f6PwsZn7QS2zRIKXslZlqcwihRMB+CZYvpZKSe2O4/cJE+5wR+1vi6
+ xpo/GzAvBSA9oWlms+lrWIx5vNxs+Ggufe8oSppcVKF+iyoxyyZriTURt
+ oeyXzwjwsUsY25qXfdS+Ah8M8uuI3y1wfDHspBmfDLJgI5NLWb/ReM/wD
+ qOR3qtX12C6NR+9hjMpB/I/jiyxRTjgzas0/5McNiWhLpYW1fwiRP6O2s
+ ZMmbKeqZXU2QTe0mlyUJ1oLdv+Amh3J5eCfaGe55HNgK/v8rfvsWDtF6Q
+ TP+3N8YEb0ona5gleHIH5WQmMN74N3us+TtUmI9+pgIDJDcb/O386n5qj g==;
+X-CSE-ConnectionGUID: L+4erDr4S8KdBXMSZW2unA==
+X-CSE-MsgGUID: 45OwceIVSwOAA2Uvlj/cxw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11035"; a="7549315"
+X-IronPort-AV: E=Sophos;i="6.07,181,1708416000"; 
+   d="scan'208";a="7549315"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Apr 2024 12:17:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11035"; a="827790993"
+X-IronPort-AV: E=Sophos;i="6.07,181,1708416000"; d="scan'208";a="827790993"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga001.jf.intel.com with SMTP; 05 Apr 2024 12:17:03 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 05 Apr 2024 22:17:02 +0300
+Date: Fri, 5 Apr 2024 22:17:02 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH 01/12] drm/client: Fully protect modes[] with
+ dev->mode_config.mutex
+Message-ID: <ZhBOLh8jk8uN-g1v@intel.com>
+References: <20240404203336.10454-1-ville.syrjala@linux.intel.com>
+ <20240404203336.10454-2-ville.syrjala@linux.intel.com>
+ <jeg4se3nkphfpgovaidzu5bspjhyasafplmyktjo6pwzlvpj5s@cmjtomlj4had>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: BqucVcjZx0K5UVv6t6SuUHmg1ofbKVKp
-X-Proofpoint-GUID: BqucVcjZx0K5UVv6t6SuUHmg1ofbKVKp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-05_21,2024-04-05_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- phishscore=0 spamscore=0 malwarescore=0 impostorscore=0 mlxlogscore=751
- mlxscore=0 suspectscore=0 priorityscore=1501 clxscore=1015 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404050136
+In-Reply-To: <jeg4se3nkphfpgovaidzu5bspjhyasafplmyktjo6pwzlvpj5s@cmjtomlj4had>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,20 +74,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Mon, 25 Mar 2024 14:08:09 -0700, Stephen Boyd wrote:
-> These debug prints are missing newlines, leading to multiple messages
-> being printed on one line and hard to read logs. Add newlines to have
-> the debug prints on separate lines. The DBG macro used to add a newline,
-> but I missed that while migrating to drm_dbg wrappers.
+On Fri, Apr 05, 2024 at 06:24:01AM +0300, Dmitry Baryshkov wrote:
+> On Thu, Apr 04, 2024 at 11:33:25PM +0300, Ville Syrjala wrote:
+> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > 
+> > The modes[] array contains pointers to modes on the connectors'
+> > mode lists, which are protected by dev->mode_config.mutex.
+> > Thus we need to extend modes[] the same protection or by the
+> > time we use it the elements may already be pointing to
+> > freed/reused memory.
+> > 
+> > Cc: stable@vger.kernel.org
+> > Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/10583
+> > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > 
+> I tried looking for the proper Fixes tag, but it looks like it might be
+> something like 386516744ba4 ("drm/fb: fix fbdev object model + cleanup properly.")
 
-Applied, thanks!
+The history is rather messy. I think it was originally completely
+lockless and broken, and got fixed piecemeal later in these:
+commit 7394371d8569 ("drm: Take lock around probes for drm_fb_helper_hotplug_event")
+commit 966a6a13c666 ("drm: Hold mode_config.lock to prevent hotplug whilst setting up crtcs")
 
-[1/1] drm/msm: Add newlines to some debug prints
-      https://gitlab.freedesktop.org/drm/msm/-/commit/c588f7d67044
+commit e13a05831050 ("drm/fb-helper: Stop using mode_config.mutex for internals")
+looks to me like where the race might have been re-introduced.
+But didn't do a thorough analysis so not 100% sure. It's all
+rather ancient history by now so a Fixes tag doesn't seem all
+that useful anyway.
 
-Best regards,
 -- 
-Abhinav Kumar <quic_abhinavk@quicinc.com>
+Ville Syrjälä
+Intel
