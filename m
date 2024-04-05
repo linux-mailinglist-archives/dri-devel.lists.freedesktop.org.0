@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C150899EA6
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 15:45:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9A99899EEE
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 16:03:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 666B110FF96;
-	Fri,  5 Apr 2024 13:45:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E4DE113C36;
+	Fri,  5 Apr 2024 14:03:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com
- [209.85.167.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFE2C113C13
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 13:45:11 +0000 (UTC)
-Received: by mail-oi1-f176.google.com with SMTP id
- 5614622812f47-3bbc649c275so1144915b6e.0
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Apr 2024 06:45:11 -0700 (PDT)
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com
+ [209.85.222.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8618113C40
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 14:03:36 +0000 (UTC)
+Received: by mail-qk1-f171.google.com with SMTP id
+ af79cd13be357-78a2290b48eso122948285a.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Apr 2024 07:03:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712324710; x=1712929510;
+ d=1e100.net; s=20230601; t=1712325815; x=1712930615;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cmgVg+1Qt1l7Val4LNuCcTFJSMT3ZujIhIoVP0zBFgM=;
- b=BOFBAWXMloRWwSJ1zobSYLj4VUSptetdVEPplO7Hx3vN57cJ7XtV4vtJmK5f8Ux8lO
- 7KmZ16cjU1er2qFALQQPwoYOXSwM/mj5Xb1N2u2jmE9yJB5UjbQqTqfVTnH+VSP5E4oI
- Kw5U9HO3tgKzDYbgINeorI12rMQgYehD/AGZ1uuQmfylCk3fNqfwO9pG12Qoq04xk1NK
- 1Q2bCL9U12au1qbkIxILbObqs7MCIpnlT7Ez3G9n4cc+ra1Sac60W7IdoqOL8lkB6Epc
- 7w5zio+e9vpb+UQckYbNM7bMmuMjE9cVPTJ+nLAn92vjE81QD8tiuN7MoUXVYtd1c/AE
- mfeg==
+ bh=zo5dazFCTOKvFVcPPNzGvqZjg5emzEStKUearWVqE/4=;
+ b=sySgIowo07i/vrfoJSi0XSrCynPsYjPUkHinPq5ypqEl1S2QsWRV3I7xKH9g/O50K0
+ ikH/oLzHt2rJl1lQLJql8AXyP72J5D+oSc/I9P264tXDamh0AqQwSVvnmZteBl2zKyhF
+ c5fOXNLxpCQaOsDcHMDd51cRjoa0zh0MDXzL3XUOyv7jwpoUQzUmZVCSfrIk2qdgDpeQ
+ XdI3jNJcVRnhmzTyGPX+Ymbe+XINFaf8ADIPjgt7VC+RjVcDiRb75NcSfw3IGgz88ciF
+ oCmX3E/jah4TEUoRsH2dLIQXRjlkTOP4xSJzu1r9BZpVw8VSsHuHB8vj1+N+9+3dc+d/
+ uUIA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWYuSw8UfPXtRFCa7CjWohqVsafnMEW4enh0memBhPhTI/EW43DDqhXB2Z1i09ycWUm8iS+XD55t+j0dKo19H8MEPEIrf0pHmsmwv5gv/+m
-X-Gm-Message-State: AOJu0YwiL9pfSbdmbDB4wW9yU5P3pRHgnJWEIRzuMNDGXAVqeJ6LQH7/
- dYMrQigF9uFz9hdy9UWxU7cW/8K6Yqhdqmc3cIr5lOhfEmHgTogkLJR+urdyJRU=
-X-Google-Smtp-Source: AGHT+IElmSHHrNaNjKfV9MNd5cRbmKble3J2MXnDaUvSdP19pclVmIfoK90IeBqnREHaXqoqtt1KUg==
-X-Received: by 2002:a05:6808:98:b0:3c3:d2e8:7e5e with SMTP id
- s24-20020a056808009800b003c3d2e87e5emr1515355oic.40.1712324708839; 
- Fri, 05 Apr 2024 06:45:08 -0700 (PDT)
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com.
- [209.85.222.172]) by smtp.gmail.com with ESMTPSA id
- bw9-20020a05622a098900b004330090b874sm758527qtb.95.2024.04.05.06.45.08
+ AJvYcCXFeu/zAwtXxhrR0ozu0YJ/JAb2eKtVHV0/x3YfbBgS8zq7Ok760uW/RUkkIs/vCRNKhEvcbiZ7SshTwiu9It3DUSdiDbjeNckV3AOxn0Ao
+X-Gm-Message-State: AOJu0YyJ9PuSck+AVxcdPo28AuGytq/hd0bXQRTx+01JfBT8rLsLsNuK
+ /FSBuykSr/i41BAQ/OBaEw9y1Tk7MS2XoC2KgQe8ECZQWMbxdQl3XKMJmFT2ABk=
+X-Google-Smtp-Source: AGHT+IGc12+kSyCzNtHINisvQzRA0uKfvELFl3SdI8LVUHU4LJXJZRAFNyl4iIlPd0CCBy8DIe5JqA==
+X-Received: by 2002:a05:620a:1199:b0:78a:5927:607c with SMTP id
+ b25-20020a05620a119900b0078a5927607cmr1397795qkk.4.1712325814829; 
+ Fri, 05 Apr 2024 07:03:34 -0700 (PDT)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com.
+ [209.85.219.52]) by smtp.gmail.com with ESMTPSA id
+ bl18-20020a05620a1a9200b0078a001f7fd8sm657467qkb.6.2024.04.05.07.03.31
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Apr 2024 06:45:08 -0700 (PDT)
-Received: by mail-qk1-f172.google.com with SMTP id
- af79cd13be357-789d76ad270so128869085a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Apr 2024 06:45:08 -0700 (PDT)
+ Fri, 05 Apr 2024 07:03:33 -0700 (PDT)
+Received: by mail-qv1-f52.google.com with SMTP id
+ 6a1803df08f44-699413fbd66so2624826d6.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Apr 2024 07:03:31 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWiriH9pvCxsXPbPyK7OhW3FN88SwEHh4hjc8hFSuo5aVJqndyer/lGQ7YQ9+1dGVkeVjKfz9h7KYDgyIok56dqREfraBRu08ByBU1myZa4
-X-Received: by 2002:a25:9a05:0:b0:dcf:4793:9a25 with SMTP id
- x5-20020a259a05000000b00dcf47939a25mr1436501ybn.44.1712324686416; Fri, 05 Apr
- 2024 06:44:46 -0700 (PDT)
+ AJvYcCUWR6UjlmNs9voV80ID3Ae39wdQNelu4QRuzR3eVz0/f3hx1PxWLQgu8j3z/YVRmjVv9cuAPGcYfpUzf4NJyrq5mhMeWdh9t98ijQam4e9k
+X-Received: by 2002:a5b:b8f:0:b0:dc6:dd80:430e with SMTP id
+ l15-20020a5b0b8f000000b00dc6dd80430emr1385717ybq.27.1712325790915; Fri, 05
+ Apr 2024 07:03:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1712207606.git.ysato@users.sourceforge.jp>
- <3c2937039026fdb827709b2584528aca263f2668.1712207606.git.ysato@users.sourceforge.jp>
-In-Reply-To: <3c2937039026fdb827709b2584528aca263f2668.1712207606.git.ysato@users.sourceforge.jp>
+ <f3af315d575fbec431bad9bfaf9790450ab31ad9.1712207606.git.ysato@users.sourceforge.jp>
+In-Reply-To: <f3af315d575fbec431bad9bfaf9790450ab31ad9.1712207606.git.ysato@users.sourceforge.jp>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 5 Apr 2024 15:44:34 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXetO4FJhL3rByXWS=vevkvNgbgevzTZgDFjh-F3TMb2A@mail.gmail.com>
-Message-ID: <CAMuHMdXetO4FJhL3rByXWS=vevkvNgbgevzTZgDFjh-F3TMb2A@mail.gmail.com>
-Subject: Re: [RESEND v7 28/37] dt-bindings: soc: renesas: sh: Add SH7751 based
- target
+Date: Fri, 5 Apr 2024 16:02:59 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU1vhCZ+mCKB27N57N7atLdxSmEUV8RWJf7uiZkfUvG0A@mail.gmail.com>
+Message-ID: <CAMuHMdU1vhCZ+mCKB27N57N7atLdxSmEUV8RWJf7uiZkfUvG0A@mail.gmail.com>
+Subject: Re: [RESEND v7 21/37] dt-bindings: serial: renesas,
+ scif: Add scif-sh7751.
 To: Yoshinori Sato <ysato@users.sourceforge.jp>
 Cc: linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>, 
  Niklas Cassel <cassel@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -100,7 +100,8 @@ Cc: linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org, 
- linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org
+ linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+ "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -122,33 +123,37 @@ Hi Sato-san,
 
 On Thu, Apr 4, 2024 at 7:15=E2=80=AFAM Yoshinori Sato
 <ysato@users.sourceforge.jp> wrote:
+> Add Renesas SH7751 SCIF.
+>
 > Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Thanks for the update!
+> --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> @@ -18,6 +18,7 @@ properties:
+>        - items:
+>            - enum:
+>                - renesas,scif-r7s72100     # RZ/A1H
+> +              - renesas,scif-sh7751       # SH7751
+>            - const: renesas,scif           # generic SCIF compatible UART
+>
+>        - items:
 
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/soc/renesas/sh.yaml
 
-> +  compatible:
-> +    oneOf:
+If this is applied after "[PATCH v2 2/2] dt-bindings: serial:
+renesas,scif: Validate 'interrupts' and 'interrupt-names'"[1], an extra
+"- renesas,scif-sh7751" line should be added to the 4-interrupt section
+(below "- renesas,scif-r7s72100").
 
-As adding more SoCs is expected, having oneOf from the start is fine.
-
-> +      - description: SH7751R based platform
-> +        items:
-> +          - enum:
-> +              - renesas,rts7751r2d      # Renesas SH4 2D graphics board
-> +              - iodata,landisk          # LANDISK HDL-U
-> +              - iodata,usl-5p           # USL-5P
-> +          - const: renesas,sh7751r
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+[1] https://lore.kernel.org/all/20240307114217.34784-3-prabhakar.mahadev-la=
+d.rj@bp.renesas.com/
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---=20
+
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
 .org
 
