@@ -2,82 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A117989A47D
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 21:02:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0F2E89A485
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 21:02:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A529F10E471;
-	Fri,  5 Apr 2024 19:02:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABAC110E036;
+	Fri,  5 Apr 2024 19:02:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="aCccgfcS";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="R/203oFV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C82910E471;
- Fri,  5 Apr 2024 19:02:01 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 435EIXP6029795; Fri, 5 Apr 2024 19:01:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=xbWS5Wiw8b3vJMw3biJy+RRQElmSanUl30WKx0+vdFQ=; b=aC
- ccgfcSzzhIOkLN+/9V5RlHwEemrXRWUj3ur+0buPxDGhH3mwu5ONtqSKQUchneQF
- Q/02985SThNZx0DL0cCV6ssaAXlIgXqBJqWym/SdrK0uooOIOaXZtUfGTRMd6+3x
- hm7BnFrJIZPPz0zFZwC/EFXQ7la/gRy9CCJ2dSQH9d8Knn+QZMrIq8485TAPoOch
- YHLjShNvou1beUQHdAADuKvxYc+EmWwJQ50zz8uObIOl0FYlDSrZGq7iszjk7Odl
- j2TWwrZHBbPrzgeJqrtN1DQQnkCu5pkQq72j6e1k64KEtp4KkCigg9SCpWTL1AQN
- ogQfJXX8rNrHLc5NOiCg==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xa4ejacx1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Apr 2024 19:01:45 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 435J1j1r028532
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 5 Apr 2024 19:01:45 GMT
-Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Fri, 5 Apr 2024 12:01:44 -0700
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Johan Hovold <johan+linaro@kernel.org>
-CC: Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Kuogee Hsieh
- <quic_khsieh@quicinc.com>, Bjorn Andersson <quic_bjorande@quicinc.com>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/2] drm/msm/dp: fix runtime PM leaks on hotplug
-Date: Fri, 5 Apr 2024 12:01:15 -0700
-Message-ID: <171234049348.25688.14475949253944677974.b4-ty@quicinc.com>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240313164306.23133-1-johan+linaro@kernel.org>
-References: <20240313164306.23133-1-johan+linaro@kernel.org>
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
+ [209.85.128.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39B4910E036
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 19:02:35 +0000 (UTC)
+Received: by mail-yw1-f171.google.com with SMTP id
+ 00721157ae682-615038fc5baso26835447b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Apr 2024 12:02:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1712343754; x=1712948554;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Q+9F5O8eIKV+7UGcG+VUym1A0vGBsTshQ13opkTXvdA=;
+ b=R/203oFVrGYQm4RzMLfYnZVrULQVc8A2TTwgFEWMWJLKi76BQuuzHI/DkYSGoz+nXa
+ 6O56Tkaz7rjT1NCsK+dnnlfBJC+v76lkJ+tetYdkvT3FvtJUGQNifF2NWW2MUgt71wRm
+ XXyBY6SzXziyxDoUCVrhmLo+tu8jhykkZSoGs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712343754; x=1712948554;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Q+9F5O8eIKV+7UGcG+VUym1A0vGBsTshQ13opkTXvdA=;
+ b=Gh4QdACLxKonx9MUjBh0HKghjXCHE+6XUsIPBvfdpZo6aVqgRkoAYpbmWJXsI4jt/6
+ 9DRdiR7YZ8yhtWLL/j13fYNSOBB5PRrdzjd3AavrMei/yND0Royqe/OOYR4eJGmdI4UC
+ cSgrw8WOPrOClpz3+QzEfzA+UHjhLtXL+9c/uC2QC4T+ITRfANEK46+SUyajow6s4hRI
+ wTKToq+/CnDABHpUjZMVte/Wz/BoeVGucu2GXhgqspUDfi867jEFyZ3Y5nhhCRQ55jbk
+ aUYCRT5tVDEH+9ZGJuE0XrEAsbezclUU7bLzFYY29aFfslYSOX3O6bBCWfr4hnOIuluc
+ 2O8A==
+X-Gm-Message-State: AOJu0YxNO2eDVVnmuzEAi0fDEKyiZyYonrvzPAg4awkEzocqEJpgKfuU
+ 7OY7jmdXsIqUIbtC7u7PJo0iJf6+a9USpFFKJcJcxMSNqgwoGulY8dLLLK5LcjoGbBdXG5388QF
+ CtDnRwQTNBoL04tqJwcHC/3hbPwVEU8coQsWp
+X-Google-Smtp-Source: AGHT+IGD1q3YYuPont2fXr2FhDUReli6hVBqnrTA5X+DWnj57jYGh6Kk36EUxXxCC2IMV/sycWLTuEazqirLbZUNX3c=
+X-Received: by 2002:a81:5c87:0:b0:615:184d:275 with SMTP id
+ q129-20020a815c87000000b00615184d0275mr1889977ywb.47.1712343754017; Fri, 05
+ Apr 2024 12:02:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: cuAQkm2Mu3sy5CySf2oNGMj2Pp_HjboG
-X-Proofpoint-GUID: cuAQkm2Mu3sy5CySf2oNGMj2Pp_HjboG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-05_21,2024-04-05_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 clxscore=1015 adultscore=0 mlxlogscore=994 malwarescore=0
- impostorscore=0 spamscore=0 mlxscore=0 lowpriorityscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404050134
+References: <20240402232813.2670131-1-zack.rusin@broadcom.com>
+ <20240402232813.2670131-5-zack.rusin@broadcom.com>
+In-Reply-To: <20240402232813.2670131-5-zack.rusin@broadcom.com>
+From: Ian Forbes <ian.forbes@broadcom.com>
+Date: Fri, 5 Apr 2024 14:02:25 -0500
+Message-ID: <CAO6MGti8duxr3AqWnRCuv2igR=PN4NxoaGnErPxr5hpZzLctEw@mail.gmail.com>
+Subject: Re: [PATCH 4/5] drm/vmwgfx: Fix crtc's atomic check conditional
+To: Zack Rusin <zack.rusin@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ martin.krastev@broadcom.com, 
+ maaz.mombasawala@broadcom.com, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,24 +78,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Makes sense.
 
-On Wed, 13 Mar 2024 17:43:04 +0100, Johan Hovold wrote:
-> As I've reported elsewhere, I've been hitting runtime PM usage count
-> leaks when investigated a DisplayPort hotplug regression on the Lenovo
-> ThinkPad X13s. [1]
-> 
-> This series addresses two obvious leaks on disconnect and on connect
-> failures, respectively.
-> 
-> [...]
+Reviewed-by: Ian Forbes <ian.forbes@broadcom.com>
 
-Applied, thanks!
-
-[1/2] drm/msm/dp: fix runtime PM leak on disconnect
-      https://gitlab.freedesktop.org/drm/msm/-/commit/0640f47b7426
-[2/2] drm/msm/dp: fix runtime PM leak on connect failure
-      https://gitlab.freedesktop.org/drm/msm/-/commit/e86750b01a15      
-
-Best regards,
--- 
-Abhinav Kumar <quic_abhinavk@quicinc.com>
+On Tue, Apr 2, 2024 at 6:28=E2=80=AFPM Zack Rusin <zack.rusin@broadcom.com>=
+ wrote:
+>
+> The conditional was supposed to prevent enabling of a crtc state
+> without a set primary plane. Accidently it also prevented disabling
+> crtc state with a set primary plane. Neither is correct.
+>
+> Fix the conditional and just driver-warn when a crtc state has been
+> enabled without a primary plane which will help debug broken userspace.
+>
+> Fixes IGT's kms_atomic_interruptible and kms_atomic_transition tests.
+>
+> Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+> Fixes: 06ec41909e31 ("drm/vmwgfx: Add and connect CRTC helper functions")
+> Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadc=
+om.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: <stable@vger.kernel.org> # v4.12+
+> ---
+>  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx=
+/vmwgfx_kms.c
+> index e33e5993d8fc..13b2820cae51 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> @@ -931,6 +931,7 @@ int vmw_du_cursor_plane_atomic_check(struct drm_plane=
+ *plane,
+>  int vmw_du_crtc_atomic_check(struct drm_crtc *crtc,
+>                              struct drm_atomic_state *state)
+>  {
+> +       struct vmw_private *vmw =3D vmw_priv(crtc->dev);
+>         struct drm_crtc_state *new_state =3D drm_atomic_get_new_crtc_stat=
+e(state,
+>                                                                          =
+crtc);
+>         struct vmw_display_unit *du =3D vmw_crtc_to_du(new_state->crtc);
+> @@ -938,9 +939,13 @@ int vmw_du_crtc_atomic_check(struct drm_crtc *crtc,
+>         bool has_primary =3D new_state->plane_mask &
+>                            drm_plane_mask(crtc->primary);
+>
+> -       /* We always want to have an active plane with an active CRTC */
+> -       if (has_primary !=3D new_state->enable)
+> -               return -EINVAL;
+> +       /*
+> +        * This is fine in general, but broken userspace might expect
+> +        * some actual rendering so give a clue as why it's blank.
+> +        */
+> +       if (new_state->enable && !has_primary)
+> +               drm_dbg_driver(&vmw->drm,
+> +                              "CRTC without a primary plane will be blan=
+k.\n");
+>
+>
+>         if (new_state->connector_mask !=3D connector_mask &&
+> --
+> 2.40.1
+>
