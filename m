@@ -2,83 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F4ED89A38E
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 19:35:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9FE89A3CA
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 19:59:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7B6310ED50;
-	Fri,  5 Apr 2024 17:35:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AF7A10E383;
+	Fri,  5 Apr 2024 17:59:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="dNA1kOj9";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZXvPOZU1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EE1C10ED50;
- Fri,  5 Apr 2024 17:35:40 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 435CAQEh013170; Fri, 5 Apr 2024 17:35:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=roi4iMBdJJpTdmEMnHc+zgFgLnN3WD/89uIp/RpT6Gk=; b=dN
- A1kOj9DiqVqRmDdAiX8r2df7N+eM9C2olSoCBancKGjGHBDaCRYmsd2SFzTS0CHh
- wlSI+kncR277rA+BW0KAXjqkmHpvB7uUezAmZVYb/GmnmnRioM0DELCONw8cO1Rz
- IdC4tk0BXpvGri/+0SF1juiZlG9Td+0N2zVmC7b1dvWqQe7C6X/HGhvx66FDPzAj
- q55rp1gii42t9Zpq4dq3l5COf3YuHkNkEp4/BbUjNbVBk3M0cpvKGq2AT8HPQ4ig
- laK9/yD38kJpcvI15hZQeX3nIfPkpYOTkL3V9AFF1vs9fWhe6R3hu4uSGd9OFSF1
- ENBSKi4XhvOJlbEw9tCw==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xa1xaahww-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Apr 2024 17:35:37 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 435HZa8V029471
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 5 Apr 2024 17:35:36 GMT
-Received: from [10.110.24.15] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 5 Apr 2024
- 10:35:35 -0700
-Message-ID: <7cecab40-2711-4735-1eb2-45f3942982b1@quicinc.com>
-Date: Fri, 5 Apr 2024 10:35:33 -0700
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75AE410E2A2
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 17:59:31 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-56e32b439c5so430015a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Apr 2024 10:59:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1712339970; x=1712944770; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RxQtwbSHbxkYXoMg2wRUHnRYLyYbVqO8UKCdJttIqfc=;
+ b=ZXvPOZU1D7ZjN7CVqX3fkgVJ+t3X2UY2NbnbWhKb69+HgV3eFWU8fIzDt9O0iVXwgp
+ xUUSPKwoeSuGARb57JmBq5UWLI2kFc42Vzy/2fnC0KBXI5sIdFuvlQ+dS77BwFcCVcD2
+ sm30EEFyZTi/GxkuXJfIIxi5DAV4JFoBTrF3erAj0W+FD/2WtE6oJCVJZEoyiGAh1rbL
+ NVFOSVPDdXRrUHTpqxH21nM1Wm3nLR+cLSDlcl6C+lHHMqbDfB1PD2UwOlGnliQzozw7
+ Ey/02AJ644YTbf+5YesfTOmuliQG2LZzQs8MeO0KUhFdo2EfmE4UsCxONKI0x70ztiI1
+ GWHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712339970; x=1712944770;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=RxQtwbSHbxkYXoMg2wRUHnRYLyYbVqO8UKCdJttIqfc=;
+ b=c26HKXGMRR7bW+PYrCykZQ8Wy8loi4P7aXwQ1e12FuJCcPpVVfhdYmyRF9k0Z8d9De
+ fXKPjeokNDrHDV2YBFb7GANRMA/0uHe71f7+Kfd4SVSVcWzW0Ywtwbn7RoCFQBg3ay6p
+ WkZYmxt0jO2mJosxw4o9oVNUzHGBbHvR1K4ffT0axMzomOIcMiT6zniwUKNx4kSe63Fx
+ pGPS2xU46YEX0Pg/WKChDe/qkj27dl5M9NQL/a3YEraM7Il1DxlHZfgLfwwnSbCGyF+p
+ 6ud9gXiKKZIARBnuJQ2fTLSzYRlAg2AAXobVTItS22Fhp1v/yDUm8Oald9vfN/XYuxnq
+ s3DA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVzfzNM+XZb25vc8IfmW2q2aAYM+sAJ6pp213WXQpT3zLv8orV+tPDeC3T78VOLk9ZlZm7c74I9nMDT5cUCWHlVje/KetVecdrH5sgR9/z8
+X-Gm-Message-State: AOJu0YykWTLzkPRXm4uh7F5U59ZQ41R6Fl1KyEclw7GcISp+N43zBgv9
+ F7EWOSILvydaYBBq7iYZ+7XZ8bHuSZknDtpaOhL05SO3RjJc88gyK/Zv5AnMdv7Fsk1ukf5K2ms
+ vwkuwCgiykdnz3BW7tjureP6amEc=
+X-Google-Smtp-Source: AGHT+IH4r9q9rrjrKyAJ7QfGnmsE9QleqStJZC2e963aF+0dladLufCglT2YNtAWewZ6AchQx+vhek+cVD39oOWcTvo=
+X-Received: by 2002:a50:cd97:0:b0:565:f7c7:f23c with SMTP id
+ p23-20020a50cd97000000b00565f7c7f23cmr2035660edi.3.1712339969335; Fri, 05 Apr
+ 2024 10:59:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 2/3] drm/msm/dsi: move next bridge acquisition to dsi_bind
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20240309-fd-dsi-cleanup-bridges-v1-0-962ebdba82ed@linaro.org>
- <20240309-fd-dsi-cleanup-bridges-v1-2-962ebdba82ed@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240309-fd-dsi-cleanup-bridges-v1-2-962ebdba82ed@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ucamd8ZNN8sZ4Bo_W0KBy8vwQboR8LKB
-X-Proofpoint-ORIG-GUID: ucamd8ZNN8sZ4Bo_W0KBy8vwQboR8LKB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-05_19,2024-04-05_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- spamscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0 mlxlogscore=999
- mlxscore=0 suspectscore=0 priorityscore=1501 phishscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
- definitions=main-2404050123
+References: <20240403182951.724488-1-adrian.larumbe@collabora.com>
+In-Reply-To: <20240403182951.724488-1-adrian.larumbe@collabora.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 5 Apr 2024 10:59:17 -0700
+Message-ID: <CAF6AEGsWtJs2xcZx59P9_maxn1RqCO6-4GwEp2fL31bZtTyuoA@mail.gmail.com>
+Subject: Re: [PATCH] drm/sysfs: Add drm class-wide attribute to get active
+ device clients
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Hans de Goede <hdegoede@redhat.com>, kernel@collabora.com, 
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,90 +87,228 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Apr 3, 2024 at 11:37=E2=80=AFAM Adri=C3=A1n Larumbe
+<adrian.larumbe@collabora.com> wrote:
+>
+> Up to this day, all fdinfo-based GPU profilers must traverse the entire
+> /proc directory structure to find open DRM clients with fdinfo file
+> descriptors. This is inefficient and time-consuming.
+>
+> This patch adds a new device class attribute that will install a sysfs fi=
+le
+> per DRM device, which can be queried by profilers to get a list of PIDs f=
+or
+> their open clients. This file isn't human-readable, and it's meant to be
+> queried only by GPU profilers like gputop and nvtop.
+>
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+> Cc: Christopher Healy <healych@amazon.com>
+> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
 
+It does seem like a good idea.. idk if there is some precedent to
+prefer binary vs ascii in sysfs, but having a way to avoid walking
+_all_ processes is a good idea.
 
-On 3/9/2024 7:09 AM, Dmitry Baryshkov wrote:
-> Currently the MSM DSI driver looks for the next bridge during
-> msm_dsi_modeset_init(). If the bridge is not registered at that point,
-> this might result in -EPROBE_DEFER, which can be problematic that late
-> during the device probe process. Move next bridge acquisition to the
-> dsi_bind state so that probe deferral is returned as early as possible.
-> 
+BR,
+-R
 
-But msm_dsi_modeset)init() is also called during msm_drm_bind() only.
-
-What issue are you suggesting will be fixed by moving this from 
-msm_drm_bind() to dsi_bind()?
-
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->   drivers/gpu/drm/msm/dsi/dsi.c         | 16 ++++++++++++++++
->   drivers/gpu/drm/msm/dsi/dsi.h         |  2 ++
->   drivers/gpu/drm/msm/dsi/dsi_manager.c |  8 +-------
->   3 files changed, 19 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
-> index 37c4c07005fe..38f10f7a10d3 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi.c
-> @@ -120,6 +120,22 @@ static int dsi_bind(struct device *dev, struct device *master, void *data)
->   	struct msm_drm_private *priv = dev_get_drvdata(master);
->   	struct msm_dsi *msm_dsi = dev_get_drvdata(dev);
->   
-> +	/*
-> +	 * Next bridge doesn't exist for the secondary DSI host in a bonded
-> +	 * pair.
-> +	 */
-> +	if (!msm_dsi_is_bonded_dsi(msm_dsi) ||
-> +	    msm_dsi_is_master_dsi(msm_dsi)) {
-> +		struct drm_bridge *ext_bridge;
-> +
-> +		ext_bridge = devm_drm_of_get_bridge(&msm_dsi->pdev->dev,
-> +						    msm_dsi->pdev->dev.of_node, 1, 0);
-> +		if (IS_ERR(ext_bridge))
-> +			return PTR_ERR(ext_bridge);
-> +
-> +		msm_dsi->next_bridge = ext_bridge;
-> +	}
-> +
->   	priv->dsi[msm_dsi->id] = msm_dsi;
->   
->   	return 0;
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
-> index 2ad9a842c678..0adef65be1de 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi.h
-> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
-> @@ -38,6 +38,8 @@ struct msm_dsi {
->   	struct mipi_dsi_host *host;
->   	struct msm_dsi_phy *phy;
->   
-> +	struct drm_bridge *next_bridge;
-> +
->   	struct device *phy_dev;
->   	bool phy_enabled;
->   
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> index a7c7f85b73e4..b7c52b14c790 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> @@ -464,18 +464,12 @@ int msm_dsi_manager_ext_bridge_init(u8 id, struct drm_bridge *int_bridge)
->   	struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
->   	struct drm_device *dev = msm_dsi->dev;
->   	struct drm_encoder *encoder;
-> -	struct drm_bridge *ext_bridge;
->   	struct drm_connector *connector;
->   	int ret;
->   
-> -	ext_bridge = devm_drm_of_get_bridge(&msm_dsi->pdev->dev,
-> -					    msm_dsi->pdev->dev.of_node, 1, 0);
-> -	if (IS_ERR(ext_bridge))
-> -		return PTR_ERR(ext_bridge);
+>  drivers/gpu/drm/drm_internal.h       |  2 +-
+>  drivers/gpu/drm/drm_privacy_screen.c |  2 +-
+>  drivers/gpu/drm/drm_sysfs.c          | 89 ++++++++++++++++++++++------
+>  3 files changed, 74 insertions(+), 19 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_interna=
+l.h
+> index 2215baef9a3e..9a399b03d11c 100644
+> --- a/drivers/gpu/drm/drm_internal.h
+> +++ b/drivers/gpu/drm/drm_internal.h
+> @@ -145,7 +145,7 @@ bool drm_master_internal_acquire(struct drm_device *d=
+ev);
+>  void drm_master_internal_release(struct drm_device *dev);
+>
+>  /* drm_sysfs.c */
+> -extern struct class *drm_class;
+> +extern struct class drm_class;
+>
+>  int drm_sysfs_init(void);
+>  void drm_sysfs_destroy(void);
+> diff --git a/drivers/gpu/drm/drm_privacy_screen.c b/drivers/gpu/drm/drm_p=
+rivacy_screen.c
+> index 6cc39e30781f..2fbd24ba5818 100644
+> --- a/drivers/gpu/drm/drm_privacy_screen.c
+> +++ b/drivers/gpu/drm/drm_privacy_screen.c
+> @@ -401,7 +401,7 @@ struct drm_privacy_screen *drm_privacy_screen_registe=
+r(
+>         mutex_init(&priv->lock);
+>         BLOCKING_INIT_NOTIFIER_HEAD(&priv->notifier_head);
+>
+> -       priv->dev.class =3D drm_class;
+> +       priv->dev.class =3D &drm_class;
+>         priv->dev.type =3D &drm_privacy_screen_type;
+>         priv->dev.parent =3D parent;
+>         priv->dev.release =3D drm_privacy_screen_device_release;
+> diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+> index a953f69a34b6..56ca9e22c720 100644
+> --- a/drivers/gpu/drm/drm_sysfs.c
+> +++ b/drivers/gpu/drm/drm_sysfs.c
+> @@ -58,8 +58,6 @@ static struct device_type drm_sysfs_device_connector =
+=3D {
+>         .name =3D "drm_connector",
+>  };
+>
+> -struct class *drm_class;
 > -
->   	encoder = int_bridge->encoder;
->   
-> -	ret = drm_bridge_attach(encoder, ext_bridge, int_bridge,
-> +	ret = drm_bridge_attach(encoder, msm_dsi->next_bridge, int_bridge,
->   			DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->   	if (ret)
->   		return ret;
-> 
+>  #ifdef CONFIG_ACPI
+>  static bool drm_connector_acpi_bus_match(struct device *dev)
+>  {
+> @@ -128,6 +126,62 @@ static const struct component_ops typec_connector_op=
+s =3D {
+>
+>  static CLASS_ATTR_STRING(version, S_IRUGO, "drm 1.1.0 20060810");
+>
+> +static ssize_t clients_show(struct device *cd, struct device_attribute *=
+attr, char *buf)
+> +{
+> +       struct drm_minor *minor =3D cd->driver_data;
+> +       struct drm_device *ddev =3D minor->dev;
+> +       struct drm_file *priv;
+> +       ssize_t offset =3D 0;
+> +       void *pid_buf;
+> +
+> +       if (minor->type !=3D DRM_MINOR_RENDER)
+> +               return 0;
+> +
+> +       pid_buf =3D kvmalloc(PAGE_SIZE, GFP_KERNEL);
+> +       if (!pid_buf)
+> +               return 0;
+> +
+> +       mutex_lock(&ddev->filelist_mutex);
+> +       list_for_each_entry_reverse(priv, &ddev->filelist, lhead) {
+> +               struct pid *pid;
+> +
+> +               if (drm_WARN_ON(ddev, (PAGE_SIZE - offset) < sizeof(pid_t=
+)))
+> +                       break;
+> +
+> +               rcu_read_lock();
+> +               pid =3D rcu_dereference(priv->pid);
+> +               (*(pid_t *)(pid_buf + offset)) =3D pid_vnr(pid);
+> +               rcu_read_unlock();
+> +
+> +               offset +=3D sizeof(pid_t);
+> +       }
+> +       mutex_unlock(&ddev->filelist_mutex);
+> +
+> +       if (offset < PAGE_SIZE)
+> +               (*(pid_t *)(pid_buf + offset)) =3D 0;
+> +
+> +       memcpy(buf, pid_buf, offset);
+> +
+> +       kvfree(pid_buf);
+> +
+> +       return offset;
+> +
+> +}
+> +static DEVICE_ATTR_RO(clients);
+> +
+> +static struct attribute *drm_device_attrs[] =3D {
+> +       &dev_attr_clients.attr,
+> +       NULL,
+> +};
+> +ATTRIBUTE_GROUPS(drm_device);
+> +
+> +struct class drm_class =3D {
+> +       .name           =3D "drm",
+> +       .dev_groups     =3D drm_device_groups,
+> +};
+> +
+> +static bool drm_class_initialised;
+> +
+>  /**
+>   * drm_sysfs_init - initialize sysfs helpers
+>   *
+> @@ -142,18 +196,19 @@ int drm_sysfs_init(void)
+>  {
+>         int err;
+>
+> -       drm_class =3D class_create("drm");
+> -       if (IS_ERR(drm_class))
+> -               return PTR_ERR(drm_class);
+> +       err =3D class_register(&drm_class);
+> +       if (err)
+> +               return err;
+>
+> -       err =3D class_create_file(drm_class, &class_attr_version.attr);
+> +       err =3D class_create_file(&drm_class, &class_attr_version.attr);
+>         if (err) {
+> -               class_destroy(drm_class);
+> -               drm_class =3D NULL;
+> +               class_destroy(&drm_class);
+>                 return err;
+>         }
+>
+> -       drm_class->devnode =3D drm_devnode;
+> +       drm_class.devnode =3D drm_devnode;
+> +
+> +       drm_class_initialised =3D true;
+>
+>         drm_sysfs_acpi_register();
+>         return 0;
+> @@ -166,12 +221,12 @@ int drm_sysfs_init(void)
+>   */
+>  void drm_sysfs_destroy(void)
+>  {
+> -       if (IS_ERR_OR_NULL(drm_class))
+> +       if (!drm_class_initialised)
+>                 return;
+>         drm_sysfs_acpi_unregister();
+> -       class_remove_file(drm_class, &class_attr_version.attr);
+> -       class_destroy(drm_class);
+> -       drm_class =3D NULL;
+> +       class_remove_file(&drm_class, &class_attr_version.attr);
+> +       class_destroy(&drm_class);
+> +       drm_class_initialised =3D false;
+>  }
+>
+>  static void drm_sysfs_release(struct device *dev)
+> @@ -372,7 +427,7 @@ int drm_sysfs_connector_add(struct drm_connector *con=
+nector)
+>                 return -ENOMEM;
+>
+>         device_initialize(kdev);
+> -       kdev->class =3D drm_class;
+> +       kdev->class =3D &drm_class;
+>         kdev->type =3D &drm_sysfs_device_connector;
+>         kdev->parent =3D dev->primary->kdev;
+>         kdev->groups =3D connector_dev_groups;
+> @@ -550,7 +605,7 @@ struct device *drm_sysfs_minor_alloc(struct drm_minor=
+ *minor)
+>                         minor_str =3D "card%d";
+>
+>                 kdev->devt =3D MKDEV(DRM_MAJOR, minor->index);
+> -               kdev->class =3D drm_class;
+> +               kdev->class =3D &drm_class;
+>                 kdev->type =3D &drm_sysfs_device_minor;
+>         }
+>
+> @@ -579,10 +634,10 @@ struct device *drm_sysfs_minor_alloc(struct drm_min=
+or *minor)
+>   */
+>  int drm_class_device_register(struct device *dev)
+>  {
+> -       if (!drm_class || IS_ERR(drm_class))
+> +       if (!drm_class_initialised)
+>                 return -ENOENT;
+>
+> -       dev->class =3D drm_class;
+> +       dev->class =3D &drm_class;
+>         return device_register(dev);
+>  }
+>  EXPORT_SYMBOL_GPL(drm_class_device_register);
+>
+> base-commit: 45c734fdd43db14444025910b4c59dd2b8be714a
+> --
+> 2.44.0
+>
