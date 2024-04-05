@@ -2,62 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D9E189949F
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 06:58:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B04A8994AD
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 07:19:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0027810E32F;
-	Fri,  5 Apr 2024 04:58:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF33910E5CF;
+	Fri,  5 Apr 2024 05:19:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AY76sWFV";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="q1Riz1Ni";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BF3810E32F;
- Fri,  5 Apr 2024 04:58:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712293087; x=1743829087;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=mjPUZSpDv6YOpyB3tYewjg0KZRAkmu1XAlItDkGZaP4=;
- b=AY76sWFVBpXrUUrJbC1xHXkCUcCf7uYePqLe6sHEPciRYsXCIa7OrVvv
- Sx0g9uaW/03JZ8U8gDyjlZD1Jirf8vyqok3Bq/dM5Zf7Jz3QPVLTEkxLs
- P7ZyYUIumID5RmiSG5u2UiAsurFbTFJL75CJomsUf4e6u+ki7R6cgDqPj
- EdKu+sG02e9hrmj8Oc+otZOVL0Rdsg23ehV9AW5adtdseL3guMfOquTFV
- ObdU9NLOO7tyixp5cQi34jqq2IXFTlhoCAXeurHPwaXjOeRbrp/7VEkPs
- Zzv/Yu78AMcErQXafWy2B+32ct+yY3CW+iboaJIu1C2+fd2mMhT8lckbh w==;
-X-CSE-ConnectionGUID: MhHC3PxwQNeiiCl4JNoECQ==
-X-CSE-MsgGUID: 5kcO/amAT36QL9B6UdVeSg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="7770491"
-X-IronPort-AV: E=Sophos;i="6.07,180,1708416000"; 
-   d="scan'208";a="7770491"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2024 21:58:07 -0700
-X-CSE-ConnectionGUID: 7W2U3d4lQc6y88yE3vH7Eg==
-X-CSE-MsgGUID: j1REZYZbSGyevKiw8FG/Ag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,180,1708416000"; d="scan'208";a="50286872"
-Received: from aravind-dev.iind.intel.com (HELO [10.145.162.146])
- ([10.145.162.146])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2024 21:58:04 -0700
-Message-ID: <6cbe2744-d184-4c7b-8972-eb09a87b5295@linux.intel.com>
-Date: Fri, 5 Apr 2024 10:30:59 +0530
+X-Greylist: delayed 464 seconds by postgrey-1.36 at gabe;
+ Fri, 05 Apr 2024 05:19:13 UTC
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2298210E5CF
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 05:19:12 +0000 (UTC)
+Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
+ by mailout3.samsung.com (KnoxPortal) with ESMTP id
+ 20240405051125epoutp0375510dcd7ad3f2bd0056350f82d96871~DSjdgsZjI1847918479epoutp03k
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 05:11:25 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
+ 20240405051125epoutp0375510dcd7ad3f2bd0056350f82d96871~DSjdgsZjI1847918479epoutp03k
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1712293885;
+ bh=Sg1g9N/G1pvV115mMMnWln56UDO17G4Nqgp6n10MxAU=;
+ h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+ b=q1Riz1NiMrxFpa5owQaFIPQy4RYpkYGS7y4BcUrboRyVDZDE9xfJm4tlYXtGL80Dr
+ srvgoOZCiM4r29xhsh+Zy7Sbg0pEFakhlksBBQ/I6RSGSuKGjz9k49FrX/mnmcv4Ok
+ AjJkx7nIYfGkIGb8ltZjiKoaBR92lDh5lT03h7vs=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+ epcas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20240405051124epcas1p2bf5cf35b3047c5698f9ca4a9e69e58d6~DSjdKC-ai0826508265epcas1p2U;
+ Fri,  5 Apr 2024 05:11:24 +0000 (GMT)
+Received: from epsmges1p3.samsung.com (unknown [182.195.38.231]) by
+ epsnrtp4.localdomain (Postfix) with ESMTP id 4V9mmX0sYHz4x9Q7; Fri,  5 Apr
+ 2024 05:11:24 +0000 (GMT)
+Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
+ epsmges1p3.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 4C.1E.09663.BF78F066; Fri,  5 Apr 2024 14:11:24 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20240405051123epcas1p271e78f5d3b844af6511d7e591df887d7~DSjcOEsKQ0445304453epcas1p2o;
+ Fri,  5 Apr 2024 05:11:23 +0000 (GMT)
+Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20240405051123epsmtrp2f2a5f9764c39b1081fecfee10c7a5cff~DSjcNSsTB0503805038epsmtrp2Z;
+ Fri,  5 Apr 2024 05:11:23 +0000 (GMT)
+X-AuditID: b6c32a37-2f9ff700000025bf-03-660f87fbcbc0
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 29.C0.07541.BF78F066; Fri,  5 Apr 2024 14:11:23 +0900 (KST)
+Received: from inkidae001 (unknown [10.113.221.213]) by epsmtip1.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20240405051123epsmtip15d4fe3d57130e9c0c35db04f6492aa13~DSjb_hNYb2139921399epsmtip1G;
+ Fri,  5 Apr 2024 05:11:23 +0000 (GMT)
+From: =?UTF-8?B?64yA7J246riwL1RpemVuIFBsYXRmb3JtIExhYihTUikv7IK87ISx7KCE7J6Q?=
+ <inki.dae@samsung.com>
+To: "'Krzysztof Kozlowski'" <krzysztof.kozlowski@linaro.org>, "'Seung-Woo
+ Kim'" <sw0312.kim@samsung.com>, "'Kyungmin Park'"
+ <kyungmin.park@samsung.com>, "'David Airlie'" <airlied@gmail.com>, "'Daniel
+ Vetter'" <daniel@ffwll.ch>, "'Alim Akhtar'" <alim.akhtar@samsung.com>
+Cc: <dri-devel@lists.freedesktop.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+In-Reply-To: <20240330-b4-module-owner-drm-exynos-v1-0-3fa30e2c7e5a@linaro.org>
+Subject: RE: [PATCH 00/11] drm/exynos: drop driver owner initialization
+Date: Fri, 5 Apr 2024 14:11:23 +0900
+Message-ID: <017601da8717$b3ebbee0$1bc33ca0$@samsung.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/4] drm/xe: Support PCIe FLR
-Content-Language: en-US
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: intel-xe@lists.freedesktop.org, thomas.hellstrom@linux.intel.com,
- lucas.demarchi@intel.com, dri-devel@lists.freedesktop.org
-References: <20240402085859.1591264-1-aravind.iddamsetty@linux.intel.com>
- <Zg8o2W5whJFJzf8-@intel.com>
-From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
-In-Reply-To: <Zg8o2W5whJFJzf8-@intel.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: ko
+Thread-Index: AQEofrVXOxMdMsLkDHpOmMtI8zwlmAIjrw+ysqwUVQA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrEJsWRmVeSWpSXmKPExsWy7bCmge6fdv40gydXmC1OXF/EZPFg3jY2
+ i//bJjJbXPn6ns1i7+ut7BZnm96wW2x6fI3V4vKuOWwWM87vY7KYMfklmwOXx95vC1g8ds66
+ y+5x59oeNo/73ceZPDYvqffo27KK0ePzJrkA9qhsm4zUxJTUIoXUvOT8lMy8dFsl7+B453hT
+ MwNDXUNLC3MlhbzE3FRbJRefAF23zByg85QUyhJzSoFCAYnFxUr6djZF+aUlqQoZ+cUltkqp
+ BSk5BaYFesWJucWleel6eaklVoYGBkamQIUJ2RkdT/YyFpwQqrgw6xJbA2MffxcjB4eEgInE
+ xadqXYxcHEICOxglOvbMY4JwPjFKXDvTzALhfGOUaP/xl62LkROsY/+J56wQib2MEo93fmSD
+ cF4ySryfuoIFpIpNIF3ibncD2CwRgclMEqtOfGcGcZgFpjFKHJrbyQRSxSngL7HvVxMziC0s
+ 4C5xZOpUMJtFQEXi3YyXTCAX8gpYSjTNkwIJ8woISpyc+QRsAbOAvMT2t3OYIU5SkPj5dBkr
+ RFxEYnZnG1hcRMBK4tCmJnaQvRICBzgk9jT+ZYFocJFYM3khI4QtLPHq+BZ2CFtK4vO7vWwQ
+ DZMZJe5cX8EC4cxglDj88zpUh7HE/qWTwa5jFtCUWL9LH2Izn8S7rz2skGDllehoE4KoVpI4
+ dvEGVKeExIUlE6Hh6CFx9fB9xgmMirOQ/DYLyW+zkPwzC2HZAkaWVYxiqQXFuempxYYFxvD4
+ Ts7P3cQITrxa5jsYp739oHeIkYmD8RCjBAezkghvtwNvmhBvSmJlVWpRfnxRaU5q8SFGU2Bg
+ T2SWEk3OB6b+vJJ4QxNLAxMzI2MTC0MzQyVx3jNXylKFBNITS1KzU1MLUotg+pg4OKUamA6W
+ rJ8vaPnxpWui3O6prjVptps75desf9Gc8ObYtW0LQubwWFdu8+RZXdSiy/LraO5refGli2ws
+ FvHYPHxaeX6mQtW8g2xf5wqUF5pont2juTA5l19KZ0P/ksN88+wf3On0XLFro6ehLGOPs7B1
+ kq2oUHSpwgafhy07v7y06W45991MSuT0ai3bet72ylW1K1ms+lhqam9eEt+hkTUjzlPhw59r
+ b+86z5LnvSywSn7dxa9VJrOetigFHeMx0Qp/qdq5yKj0/k1FYc4vrYuc1u+93L55/5OSv2VT
+ /7vXM0/54L7oTK7t2+h/cT4Nbz8xqycKcB553ufuumCL2UO+3nqBEga5Y3luZw/mfrJfpcRS
+ nJFoqMVcVJwIACrsKa9FBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprNIsWRmVeSWpSXmKPExsWy7bCSnO7vdv40g7+nFS1OXF/EZPFg3jY2
+ i//bJjJbXPn6ns1i7+ut7BZnm96wW2x6fI3V4vKuOWwWM87vY7KYMfklmwOXx95vC1g8ds66
+ y+5x59oeNo/73ceZPDYvqffo27KK0ePzJrkA9igum5TUnMyy1CJ9uwSujI4nexkLTghVXJh1
+ ia2BsY+/i5GTQ0LARGL/ieesXYxcHEICuxkl9k5YwtjFyAGUkJDYspUDwhSWOHy4GKLkOaNE
+ y/upzCC9bAKpEjc+fWQHSYgITGeSWNR7BGwQs8AMRom12y4xQbQsYJQ4dvQ5C0gLp4C/xL5f
+ TWDtwgLuEkemQoxiEVCReDfjJRPIOl4BS4mmeVIgYV4BQYmTM5+AtTILaEv0PmxlhLDlJba/
+ ncMM8YGCxM+ny1gh4iISszvbwOIiAlYShzY1sU9gFJ6FZNQsJKNmIRk1C0n7AkaWVYySqQXF
+ uem5yYYFhnmp5XrFibnFpXnpesn5uZsYwfGnpbGD8d78f3qHGJk4GA8xSnAwK4nwdjvwpgnx
+ piRWVqUW5ccXleakFh9ilOZgURLnNZwxO0VIID2xJDU7NbUgtQgmy8TBKdXAVLjF5JPe02fi
+ T04HNBhF9uQvfVxed0Hp5qFnL2SVt6jMnL77tozuypsWmW8+v3/xc/GmK4/PbpUOcN070Ua9
+ Kijl6zXdxmhzi6sbDvPuNoh+et57a1XKiTi5zwzKWdf+1JQWZJpcz15+osNQMnxFdF/tce8H
+ C4+Z5kVduXCzqnjxslUW1yKA6YH18H/FBZrHJapqd1WsrvqaMePKbWZHB2vx6nKt3CNCfDdk
+ V5o9PnmUL30vm2jahPXNN+rczYuVLCWXVkftfHThxrWQ/wvubZzEYKvYxz51hqXGrMjVM7ir
+ Mh33HPki+NfK5JTG5Bdyrx4U3fBee6yJJaVXZFt6LbspV9iaxodx6lb+DZ9rlViKMxINtZiL
+ ihMBXtExwy4DAAA=
+X-CMS-MailID: 20240405051123epcas1p271e78f5d3b844af6511d7e591df887d7
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240330203328epcas1p3132c85946c00e6a2432d3e23db6213e8
+References: <CGME20240330203328epcas1p3132c85946c00e6a2432d3e23db6213e8@epcas1p3.samsung.com>
+ <20240330-b4-module-owner-drm-exynos-v1-0-3fa30e2c7e5a@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,216 +132,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Krzysztof,
 
-On 05/04/24 03:55, Rodrigo Vivi wrote:
-> On Tue, Apr 02, 2024 at 02:28:55PM +0530, Aravind Iddamsetty wrote:
->> PCI subsystem provides callbacks to inform the driver about a request to
->> do function level reset by user, initiated by writing to sysfs entry
->> /sys/bus/pci/devices/.../reset. This will allow the driver to handle FLR
->> without the need to do unbind and rebind as the driver needs to
->> reinitialize the device afresh post FLR.
->>
->> v2:
-> all the patches looks good to me here. feel free to use
->
-> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
->
-> on them.
+> -----Original Message-----
+> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Sent: Sunday, March 31, 2024 5:33 AM
+> To: Inki Dae <inki.dae@samsung.com>; Seung-Woo Kim
+> <sw0312.kim@samsung.com>; Kyungmin Park <kyungmin.park@samsung.com>; David
+> Airlie <airlied@gmail.com>; Daniel Vetter <daniel@ffwll.ch>; Krzysztof
+> Kozlowski <krzysztof.kozlowski@linaro.org>; Alim Akhtar
+> <alim.akhtar@samsung.com>
+> Cc: dri-devel@lists.freedesktop.org; linux-arm-kernel@lists.infradead.org;
+> linux-samsung-soc@vger.kernel.org; linux-kernel@vger.kernel.org
+> Subject: [PATCH 00/11] drm/exynos: drop driver owner initialization
+> 
+> Simplify the code by dropping unnecessary .owner initialization in the
+> driver.
 
-Thank you!
+Applied.
 
->
-> but I do have some concerns (below)
->
->> 1. Directly expose the devm_drm_dev_release_action instead of introducing
->> a helper (Rodrigo)
->> 2. separate out gt idle and pci save/restore to a separate patch (Lucas)
->> 3. Fixed the warnings seen around xe_guc_submit_stop, xe_guc_puc_fini
-> On this I also had to fight to get something working on the wedged_mode=2:
-> lore.kernel.org/all/20240403150732.102678-4-rodrigo.vivi@intel.com
->
-> perhaps we can unify things here.
-I guess we dealing with different scenarios, in this the warning in xe_guc_submit_stop
-was because not invoking xe_uc_reset_prepare before. and we needn't invoke
-xe_guc_pc_fini as guc is already in stopped.
->
->> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
->> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->>
->> dmesg snip showing FLR recovery:
-> things came different at my DG2 here with display working and all:
-after you mentioned this i tested on DG2 i got warnings but no segmentation fault
-and NPD, i have tested my branch which might not be update to date, will re test with the
-latest branch.
+Thanks. :)
+Inki Dae
+
+> 
+> Best regards,
+> Krzysztof
+> 
+> ---
+> Krzysztof Kozlowski (11):
+>       drm/exynos: fimc: drop driver owner initialization
+>       drm/exynos: fimd: drop driver owner initialization
+>       drm/exynos: dsi: drop driver owner initialization
+>       drm/exynos: g2d: drop driver owner initialization
+>       drm/exynos: gsc: drop driver owner initialization
+>       drm/exynos: mic: drop driver owner initialization
+>       drm/exynos: rotator: drop driver owner initialization
+>       drm/exynos: scaler: drop driver owner initialization
+>       drm/exynos: vidi: drop driver owner initialization
+>       drm/exynos: hdmi: drop driver owner initialization
+>       drm/exynos: mixer: drop driver owner initialization
+> 
+>  drivers/gpu/drm/exynos/exynos_drm_dsi.c     | 1 -
+>  drivers/gpu/drm/exynos/exynos_drm_fimc.c    | 1 -
+>  drivers/gpu/drm/exynos/exynos_drm_fimd.c    | 1 -
+>  drivers/gpu/drm/exynos/exynos_drm_g2d.c     | 1 -
+>  drivers/gpu/drm/exynos/exynos_drm_gsc.c     | 1 -
+>  drivers/gpu/drm/exynos/exynos_drm_mic.c     | 1 -
+>  drivers/gpu/drm/exynos/exynos_drm_rotator.c | 1 -
+>  drivers/gpu/drm/exynos/exynos_drm_scaler.c  | 1 -
+>  drivers/gpu/drm/exynos/exynos_drm_vidi.c    | 1 -
+>  drivers/gpu/drm/exynos/exynos_hdmi.c        | 1 -
+>  drivers/gpu/drm/exynos/exynos_mixer.c       | 1 -
+>  11 files changed, 11 deletions(-)
+> ---
+> base-commit: 7fdcff3312e16ba8d1419f8a18f465c5cc235ecf
+> change-id: 20240330-b4-module-owner-drm-exynos-d2f1b2d48af3
+> 
+> Best regards,
+> --
+> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
 
 
-Thanks,
-Aravnd.
->
-> root@rdvivi-desk:/sys/module/xe/drivers/pci:xe/0000:03:00.0# echo 1 > reset
-> Segmentation fault
->
-> and many kernel warnings
->  WARNING: CPU: 8 PID: 2389 at drivers/gpu/drm/i915/display/intel_display_power_well.c:281 hsw_wait_for_power_well_enable+0x3e7/0x570 [xe]
->  WARNING: CPU: 9 PID: 1700 at drivers/gpu/drm/drm_mm.c:999 drm_mm_takedown+0x41/0x60
->
-> [  117.128330] KASAN: null-ptr-deref in range [0x00000000000004e8-0x00000000000004ef]
-> [  117.128332] CPU: 13 PID: 2389 Comm: bash Tainted: G        W          6.9.0-rc1+ #9
-> [  117.135501]  ? exc_invalid_op+0x13/0x40
-> [  117.143626] Hardware name: iBUYPOWER INTEL/B660 DS3H AC DDR4-Y1, BIOS F5 12/17/2021
-> [  117.143627] RIP: 0010:__mutex_lock+0x124/0x14a0
-> [  117.143631] Code: d0 7c 08 84 d2 0f 85 62 0f 00 00 8b 0d 85 c8 8f 04 85 c9 75 29 48 b8 00 00 00 00 00 fc ff df 49 8d 7f 68 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 46 0f 00 00 4d 3b 7f 68 0f 85 aa 0e 00 00 bf 01
-> [  117.150630]  ? asm_exc_invalid_op+0x16/0x20
-> [  117.156401] RSP: 0018:ffffc90005a37690 EFLAGS: 00010202
-> [  117.156403] RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 0000000000000000
-> [  117.163571]  ? drm_buddy_fini+0x181/0x220
->
->
-> and more issues.
->
-> so it looks like we are still missing some parts of the puzzle here...
->
->
->> [  590.486336] xe 0000:4d:00.0: enabling device (0140 -> 0142)
->> [  590.506933] xe 0000:4d:00.0: [drm] Using GuC firmware from
->> xe/pvc_guc_70.20.0.bin version 70.20.0
->> [  590.542355] xe 0000:4d:00.0: [drm] Using GuC firmware from
->> xe/pvc_guc_70.20.0.bin version 70.20.0
->> [  590.578532] xe 0000:4d:00.0: [drm] VISIBLE VRAM: 0x0000202000000000,
->> 0x0000002000000000
->> [  590.578556] xe 0000:4d:00.0: [drm] VRAM[0, 0]: Actual physical size
->> 0x0000001000000000, usable size exclude stolen 0x0000000fff000000, CPU
->> accessible size 0x0000000fff000000
->> [  590.578560] xe 0000:4d:00.0: [drm] VRAM[0, 0]: DPA range:
->> [0x0000000000000000-1000000000], io range:
->> [0x0000202000000000-202fff000000]
->> [  590.578585] xe 0000:4d:00.0: [drm] VRAM[1, 1]: Actual physical size
->> 0x0000001000000000, usable size exclude stolen 0x0000000fff000000, CPU
->> accessible size 0x0000000fff000000
->> [  590.578589] xe 0000:4d:00.0: [drm] VRAM[1, 1]: DPA range:
->> [0x0000001000000000-2000000000], io range:
->> [0x0000203000000000-203fff000000]
->> [  590.578592] xe 0000:4d:00.0: [drm] Total VRAM: 0x0000202000000000,
->> 0x0000002000000000
->> [  590.578594] xe 0000:4d:00.0: [drm] Available VRAM:
->> 0x0000202000000000, 0x0000001ffe000000
->> [  590.738899] xe 0000:4d:00.0: [drm] GT0: CCS_MODE=0 config:00400000,
->> num_engines:1, num_slices:4
->> [  590.889991] xe 0000:4d:00.0: [drm] GT1: CCS_MODE=0 config:00400000,
->> num_engines:1, num_slices:4
->> [  590.892835] [drm] Initialized xe 1.1.0 20201103 for 0000:4d:00.0 on
->> minor 1
->> [  590.900215] xe 0000:9a:00.0: enabling device (0140 -> 0142)
->> [  590.915991] xe 0000:9a:00.0: [drm] Using GuC firmware from
->> xe/pvc_guc_70.20.0.bin version 70.20.0
->> [  590.957450] xe 0000:9a:00.0: [drm] Using GuC firmware from
->> xe/pvc_guc_70.20.0.bin version 70.20.0
->> [  590.989863] xe 0000:9a:00.0: [drm] VISIBLE VRAM: 0x000020e000000000,
->> 0x0000002000000000
->> [  590.989888] xe 0000:9a:00.0: [drm] VRAM[0, 0]: Actual physical size
->> 0x0000001000000000, usable size exclude stolen 0x0000000fff000000, CPU
->> accessible size 0x0000000fff000000
->> [  590.989893] xe 0000:9a:00.0: [drm] VRAM[0, 0]: DPA range:
->> [0x0000000000000000-1000000000], io range:
->> [0x000020e000000000-20efff000000]
->> [  590.989918] xe 0000:9a:00.0: [drm] VRAM[1, 1]: Actual physical size
->> 0x0000001000000000, usable size exclude stolen 0x0000000fff000000, CPU
->> accessible size 0x0000000fff000000
->> [  590.989921] xe 0000:9a:00.0: [drm] VRAM[1, 1]: DPA range:
->> [0x0000001000000000-2000000000], io range:
->> [0x000020f000000000-20ffff000000]
->> [  590.989924] xe 0000:9a:00.0: [drm] Total VRAM: 0x000020e000000000,
->> 0x0000002000000000
->> [  590.989927] xe 0000:9a:00.0: [drm] Available VRAM:
->> 0x000020e000000000, 0x0000001ffe000000
->> [  591.142061] xe 0000:9a:00.0: [drm] GT0: CCS_MODE=0 config:00400000,
->> num_engines:1, num_slices:4
->> [  591.293505] xe 0000:9a:00.0: [drm] GT1: CCS_MODE=0 config:00400000,
->> num_engines:1, num_slices:4
->> [  591.295487] [drm] Initialized xe 1.1.0 20201103 for 0000:9a:00.0 on
->> minor 2
->> [  610.685993] Console: switching to colour dummy device 80x25
->> [  610.686118] [IGT] xe_exec_basic: executing
->> [  610.755398] xe 0000:4d:00.0: [drm] GT0: CCS_MODE=0 config:00400000,
->> num_engines:1, num_slices:4
->> [  610.771783] xe 0000:4d:00.0: [drm] GT1: CCS_MODE=0 config:00400000,
->> num_engines:1, num_slices:4
->> [  610.773542] [IGT] xe_exec_basic: starting subtest once-basic
->> [  610.960251] [IGT] xe_exec_basic: finished subtest once-basic, SUCCESS
->> [  610.962741] [IGT] xe_exec_basic: exiting, ret=0
->> [  610.977203] Console: switching to colour frame buffer device 128x48
->> [  611.006675] xe_exec_basic (3237) used greatest stack depth: 11128
->> bytes left
->> [  644.682201] xe 0000:4d:00.0: [drm] GT0: CCS_MODE=0 config:00400000,
->> num_engines:1, num_slices:4
->> [  644.699060] xe 0000:4d:00.0: [drm] GT1: CCS_MODE=0 config:00400000,
->> num_engines:1, num_slices:4
->> [  644.699118] xe 0000:4d:00.0: preparing for PCIe FLR reset
->> [  644.699149] xe 0000:4d:00.0: [drm] removing device access to
->> userspace
->> [  644.928577] xe 0000:4d:00.0: PCI device went through FLR, reenabling
->> the device
->> [  656.104233] xe 0000:4d:00.0: [drm] Using GuC firmware from
->> xe/pvc_guc_70.20.0.bin version 70.20.0
->> [  656.149525] xe 0000:4d:00.0: [drm] Using GuC firmware from
->> xe/pvc_guc_70.20.0.bin version 70.20.0
->> [  656.182711] xe 0000:4d:00.0: [drm] VISIBLE VRAM: 0x0000202000000000,
->> 0x0000002000000000
->> [  656.182737] xe 0000:4d:00.0: [drm] VRAM[0, 0]: Actual physical size
->> 0x0000001000000000, usable size exclude stolen 0x0000000fff000000, CPU
->> accessible size 0x0000000fff000000
->> [  656.182742] xe 0000:4d:00.0: [drm] VRAM[0, 0]: DPA range:
->> [0x0000000000000000-1000000000], io range:
->> [0x0000202000000000-202fff000000]
->> [  656.182768] xe 0000:4d:00.0: [drm] VRAM[1, 1]: Actual physical size
->> 0x0000001000000000, usable size exclude stolen 0x0000000fff000000, CPU
->> accessible size 0x0000000fff000000
->> [  656.182772] xe 0000:4d:00.0: [drm] VRAM[1, 1]: DPA range:
->> [0x0000001000000000-2000000000], io range:
->> [0x0000203000000000-203fff000000]
->> [  656.182775] xe 0000:4d:00.0: [drm] Total VRAM: 0x0000202000000000,
->> 0x0000002000000000
->> [  656.182778] xe 0000:4d:00.0: [drm] Available VRAM:
->> 0x0000202000000000, 0x0000001ffe000000
->> [  656.348657] xe 0000:4d:00.0: [drm] GT0: CCS_MODE=0 config:00400000,
->> num_engines:1, num_slices:4
->> [  656.507619] xe 0000:4d:00.0: [drm] GT1: CCS_MODE=0 config:00400000,
->> num_engines:1, num_slices:4
->> [  656.510848] [drm] Initialized xe 1.1.0 20201103 for 0000:4d:00.0 on
->> minor 1
->> [  665.754402] Console: switching to colour dummy device 80x25
->> [  665.754484] [IGT] xe_exec_basic: executing
->> [  665.805853] xe 0000:4d:00.0: [drm] GT0: CCS_MODE=0 config:00400000,
->> num_engines:1, num_slices:4
->> [  665.819825] xe 0000:4d:00.0: [drm] GT1: CCS_MODE=0 config:00400000,
->> num_engines:1, num_slices:4
->> [  665.820359] [IGT] xe_exec_basic: starting subtest once-basic
->> [  665.968899] [IGT] xe_exec_basic: finished subtest once-basic, SUCCESS
->> [  665.969534] [IGT] xe_exec_basic: exiting, ret=0
->> [  665.981027] Console: switching to colour frame buffer device 128x48
->>
->>
->> Aravind Iddamsetty (4):
->>   drm: add devm release action
->>   drm/xe: Save and restore PCI state
->>   drm/xe: Extract xe_gt_idle() helper
->>   drm/xe/FLR: Support PCIe FLR
->>
->>  drivers/gpu/drm/drm_drv.c            |  6 ++
->>  drivers/gpu/drm/xe/Makefile          |  1 +
->>  drivers/gpu/drm/xe/xe_device_types.h |  6 ++
->>  drivers/gpu/drm/xe/xe_gt.c           | 31 +++++++---
->>  drivers/gpu/drm/xe/xe_gt.h           |  1 +
->>  drivers/gpu/drm/xe/xe_guc_pc.c       |  4 ++
->>  drivers/gpu/drm/xe/xe_pci.c          | 57 +++++++++++++++--
->>  drivers/gpu/drm/xe/xe_pci.h          |  6 +-
->>  drivers/gpu/drm/xe/xe_pci_err.c      | 93 ++++++++++++++++++++++++++++
->>  drivers/gpu/drm/xe/xe_pci_err.h      | 13 ++++
->>  include/drm/drm_drv.h                |  2 +
->>  11 files changed, 205 insertions(+), 15 deletions(-)
->>  create mode 100644 drivers/gpu/drm/xe/xe_pci_err.c
->>  create mode 100644 drivers/gpu/drm/xe/xe_pci_err.h
->>
->> -- 
->> 2.25.1
->>
