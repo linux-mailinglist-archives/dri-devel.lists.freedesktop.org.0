@@ -2,37 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD648899C5C
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 14:06:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21B90899C70
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 14:10:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F67D113B80;
-	Fri,  5 Apr 2024 12:06:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28753113B86;
+	Fri,  5 Apr 2024 12:10:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OzJOKNFi";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="X3av7g1s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EFE3113B81
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 12:06:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC673113B86
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 12:10:14 +0000 (UTC)
 Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
  [91.154.34.181])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D7D1F8E1;
- Fri,  5 Apr 2024 14:06:08 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DE7848E1;
+ Fri,  5 Apr 2024 14:09:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1712318769;
- bh=8udbtc3zbmiq/sV8nsHuH04X2jwirz+XbUgbxkncsxU=;
+ s=mail; t=1712318975;
+ bh=jOtEULjQwp1xofWzW2EcwB8eD0K6YYHrQKfAoz2rzgU=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=OzJOKNFiXmMCqPsGl4NC1Hk/6/jFuH1paLdQ5qhv1urzKyWMsgPVlRNdPNMiAThtE
- B3W/952ZOqopPtOFloFBqq5poU+mb//eAnVV6ig+VZiEF/3kInpe7DMDJSjPrRghZp
- C8U5wP6hN65HwWYooVa9FqtZdgkiptQxNur1PYKY=
-Message-ID: <8891d988-9646-45a0-8bd5-68814a3f08d3@ideasonboard.com>
-Date: Fri, 5 Apr 2024 15:06:44 +0300
+ b=X3av7g1skBjPPB2jJm+C+FKmn2ytbbjQGAgemaxf+O/vJVOjjTuNVX6BhXTe9dnp/
+ m6kyat02hObvT3WMaWnV4O71bEy5B1Q1KYW617HztLWk0K5fIhJz6X3wYKbEXwTF8i
+ OQ040D8SIHdNYhiNoxLAwmUeQQN8y/d6/hukb6Vs=
+Message-ID: <e79ca193-0452-47ab-bbdf-56d7c52130a3@ideasonboard.com>
+Date: Fri, 5 Apr 2024 15:10:09 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/9] drm: xlnx: zynqmp_dpsub: Set layer mode during
- creation
+Subject: Re: [PATCH v3 2/9] drm: xlnx: zynqmp_dpsub: Update live format defines
 To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
 Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
@@ -49,7 +48,7 @@ Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  Conor Dooley <conor+dt@kernel.org>,
  Mauro Carvalho Chehab <mchehab@kernel.org>
 References: <20240321-dp-live-fmt-v3-0-d5090d796b7e@amd.com>
- <20240321-dp-live-fmt-v3-1-d5090d796b7e@amd.com>
+ <20240321-dp-live-fmt-v3-2-d5090d796b7e@amd.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -95,7 +94,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240321-dp-live-fmt-v3-1-d5090d796b7e@amd.com>
+In-Reply-To: <20240321-dp-live-fmt-v3-2-d5090d796b7e@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,133 +113,39 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 21/03/2024 22:43, Anatoliy Klymenko wrote:
-> Set layer mode of operation (live or dma-based) during layer creation.
-> 
-> Each DPSUB layer mode of operation is defined by corresponding DT node port
-> connection, so it is possible to assign it during layer object creation.
-> Previously it was set in layer enable functions, although it is too late
-> as setting layer format depends on layer mode, and should be done before
-> given layer enabled.
-> 
-> Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->   drivers/gpu/drm/xlnx/zynqmp_disp.c | 20 ++++++++++++++++----
->   drivers/gpu/drm/xlnx/zynqmp_disp.h | 13 +------------
->   drivers/gpu/drm/xlnx/zynqmp_dp.c   |  2 +-
->   drivers/gpu/drm/xlnx/zynqmp_kms.c  |  2 +-
->   4 files changed, 19 insertions(+), 18 deletions(-)
+> Update live format defines to match DPSUB AV_BUF_LIVE_VID_CONFIG register
+> layout.
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+I think this description needs a bit more. Mention that the defines are 
+not currently used,  so we can change them like this without any other 
+change.
 
   Tomi
 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> index 8a39b3accce5..e6d26ef60e89 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> @@ -64,6 +64,16 @@
->   
->   #define ZYNQMP_DISP_MAX_NUM_SUB_PLANES			3
->   
-> +/**
-> + * enum zynqmp_dpsub_layer_mode - Layer mode
-> + * @ZYNQMP_DPSUB_LAYER_NONLIVE: non-live (memory) mode
-> + * @ZYNQMP_DPSUB_LAYER_LIVE: live (stream) mode
-> + */
-> +enum zynqmp_dpsub_layer_mode {
-> +	ZYNQMP_DPSUB_LAYER_NONLIVE,
-> +	ZYNQMP_DPSUB_LAYER_LIVE,
-> +};
-> +
->   /**
->    * struct zynqmp_disp_format - Display subsystem format information
->    * @drm_fmt: DRM format (4CC)
-> @@ -902,15 +912,12 @@ u32 *zynqmp_disp_layer_drm_formats(struct zynqmp_disp_layer *layer,
->   /**
->    * zynqmp_disp_layer_enable - Enable a layer
->    * @layer: The layer
-> - * @mode: Operating mode of layer
->    *
->    * Enable the @layer in the audio/video buffer manager and the blender. DMA
->    * channels are started separately by zynqmp_disp_layer_update().
->    */
-> -void zynqmp_disp_layer_enable(struct zynqmp_disp_layer *layer,
-> -			      enum zynqmp_dpsub_layer_mode mode)
-> +void zynqmp_disp_layer_enable(struct zynqmp_disp_layer *layer)
->   {
-> -	layer->mode = mode;
->   	zynqmp_disp_avbuf_enable_video(layer->disp, layer);
->   	zynqmp_disp_blend_layer_enable(layer->disp, layer);
->   }
-> @@ -1134,6 +1141,11 @@ static int zynqmp_disp_create_layers(struct zynqmp_disp *disp)
->   		layer->id = i;
->   		layer->disp = disp;
->   		layer->info = &layer_info[i];
-> +		/* For now assume dpsub works in either live or non-live mode for both layers.
-> +		 * Hybrid mode is not supported yet.
-> +		 */
-> +		layer->mode = disp->dpsub->dma_enabled ? ZYNQMP_DPSUB_LAYER_NONLIVE
-> +						       : ZYNQMP_DPSUB_LAYER_LIVE;
->   
->   		ret = zynqmp_disp_layer_request_dma(disp, layer);
->   		if (ret)
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.h b/drivers/gpu/drm/xlnx/zynqmp_disp.h
-> index 123cffac08be..9b8b202224d9 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.h
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.h
-> @@ -42,16 +42,6 @@ enum zynqmp_dpsub_layer_id {
->   	ZYNQMP_DPSUB_LAYER_GFX,
->   };
->   
-> -/**
-> - * enum zynqmp_dpsub_layer_mode - Layer mode
-> - * @ZYNQMP_DPSUB_LAYER_NONLIVE: non-live (memory) mode
-> - * @ZYNQMP_DPSUB_LAYER_LIVE: live (stream) mode
-> - */
-> -enum zynqmp_dpsub_layer_mode {
-> -	ZYNQMP_DPSUB_LAYER_NONLIVE,
-> -	ZYNQMP_DPSUB_LAYER_LIVE,
-> -};
-> -
->   void zynqmp_disp_enable(struct zynqmp_disp *disp);
->   void zynqmp_disp_disable(struct zynqmp_disp *disp);
->   int zynqmp_disp_setup_clock(struct zynqmp_disp *disp,
-> @@ -62,8 +52,7 @@ void zynqmp_disp_blend_set_global_alpha(struct zynqmp_disp *disp,
->   
->   u32 *zynqmp_disp_layer_drm_formats(struct zynqmp_disp_layer *layer,
->   				   unsigned int *num_formats);
-> -void zynqmp_disp_layer_enable(struct zynqmp_disp_layer *layer,
-> -			      enum zynqmp_dpsub_layer_mode mode);
-> +void zynqmp_disp_layer_enable(struct zynqmp_disp_layer *layer);
->   void zynqmp_disp_layer_disable(struct zynqmp_disp_layer *layer);
->   void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
->   				  const struct drm_format_info *info);
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> index 1846c4971fd8..04b6bcac3b07 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> @@ -1295,7 +1295,7 @@ static void zynqmp_dp_disp_enable(struct zynqmp_dp *dp,
->   	/* TODO: Make the format configurable. */
->   	info = drm_format_info(DRM_FORMAT_YUV422);
->   	zynqmp_disp_layer_set_format(layer, info);
-> -	zynqmp_disp_layer_enable(layer, ZYNQMP_DPSUB_LAYER_LIVE);
-> +	zynqmp_disp_layer_enable(layer);
->   
->   	if (layer_id == ZYNQMP_DPSUB_LAYER_GFX)
->   		zynqmp_disp_blend_set_global_alpha(dp->dpsub->disp, true, 255);
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> index db3bb4afbfc4..43bf416b33d5 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> @@ -122,7 +122,7 @@ static void zynqmp_dpsub_plane_atomic_update(struct drm_plane *plane,
->   
->   	/* Enable or re-enable the plane if the format has changed. */
->   	if (format_changed)
-> -		zynqmp_disp_layer_enable(layer, ZYNQMP_DPSUB_LAYER_NONLIVE);
-> +		zynqmp_disp_layer_enable(layer);
->   }
->   
->   static const struct drm_plane_helper_funcs zynqmp_dpsub_plane_helper_funcs = {
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+> ---
+>   drivers/gpu/drm/xlnx/zynqmp_disp_regs.h | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h b/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h
+> index f92a006d5070..fa3935384834 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h
+> @@ -165,10 +165,10 @@
+>   #define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_BPC_10		0x2
+>   #define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_BPC_12		0x3
+>   #define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_BPC_MASK		GENMASK(2, 0)
+> -#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_RGB		0x0
+> -#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_YUV444	0x1
+> -#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_YUV422	0x2
+> -#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_YONLY	0x3
+> +#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_RGB		(0x0 << 4)
+> +#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_YUV444	(0x1 << 4)
+> +#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_YUV422	(0x2 << 4)
+> +#define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_YONLY	(0x3 << 4)
+>   #define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_MASK		GENMASK(5, 4)
+>   #define ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_CB_FIRST		BIT(8)
+>   #define ZYNQMP_DISP_AV_BUF_PALETTE_MEMORY		0x400
 > 
 
