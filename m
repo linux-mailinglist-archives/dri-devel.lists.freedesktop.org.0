@@ -2,60 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C25089996E
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 11:29:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59700899974
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Apr 2024 11:30:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FD6010E2A5;
-	Fri,  5 Apr 2024 09:29:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 762BA10EA1E;
+	Fri,  5 Apr 2024 09:30:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WMzEMuBM";
+	dkim=pass (2048-bit key; unprotected) header.d=kroah.com header.i=@kroah.com header.b="Cf8XpTiJ";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="QCa/R4Em";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E149310E2A5;
- Fri,  5 Apr 2024 09:29:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712309358; x=1743845358;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=gy7Y8lDrWgz3NFY9sKkL4lLPtGzVnG4PwajBq3sumKw=;
- b=WMzEMuBMhHCoJzlAPr+86fWxjQI1hKtIip6wTXBLBCjYUY5C58MHWYBY
- 5BSijFzLyLtp7aZMJQO9wKRI02FPXx8BRmoWpaB2zss8ToSqn4FhEc/Dz
- dQhs+L0qWc16I9Rp3c5FKGVhBe8WZV6XyFYotI9/bUyx6f7t8cOcelGAt
- yE8J5CLgf64RlZ6iXLPBFzFq/1xmh3qsi36pQGBIsCxe305J+NGhFRHz7
- NmD3TszrRtUyTavWrZp2sGNbZTXvuSsxABsc9itVa9OL80BgaMoYPa+gt
- 71xHUi16g0fyAb9wkYGKRYNlJxVFF/aTkmV8zSHtEcdUDOsKPb9D9YIc4 g==;
-X-CSE-ConnectionGUID: DPiz3G9pRzeTDZvEW7XVgg==
-X-CSE-MsgGUID: 54PaQBrKTfy1dK+kE1qVGA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="25137775"
-X-IronPort-AV: E=Sophos;i="6.07,181,1708416000"; d="scan'208";a="25137775"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2024 02:29:17 -0700
-X-CSE-ConnectionGUID: 5yOQY6m7SriyXRoEB0joVg==
-X-CSE-MsgGUID: GfNAzSmkSJOU1IYQmqCSTQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,181,1708416000"; d="scan'208";a="23575402"
-Received: from dtorrice-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.41.202])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2024 02:29:14 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>
-Cc: Jani Nikula <jani.nikula@intel.com>, Aishwarya TCV <aishwarya.tcv@arm.com>
-Subject: [PATCH] drm/msm: convert all pixel format logging to use %p4cc
-Date: Fri,  5 Apr 2024 12:29:07 +0300
-Message-Id: <20240405092907.2334007-1-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.39.2
+Received: from fhigh8-smtp.messagingengine.com
+ (fhigh8-smtp.messagingengine.com [103.168.172.159])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39ECD10EA1E
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Apr 2024 09:30:23 +0000 (UTC)
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+ by mailfhigh.nyi.internal (Postfix) with ESMTP id 1677D11400B1;
+ Fri,  5 Apr 2024 05:30:22 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute7.internal (MEProxy); Fri, 05 Apr 2024 05:30:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:subject
+ :subject:to:to; s=fm2; t=1712309422; x=1712395822; bh=6K8uUGGzLM
+ GxG+0aqNXuFc2GFTOaqL/V0jEVNlaxr4I=; b=Cf8XpTiJsSLpEo4nnWZOov9LN7
+ u8++x0aOGCWyDL364vwh93Xe7FxF3cHAVnVC5/jrzGv34ouZFdRwLbgKq/65H3sM
+ uYugm9vii3T9Iu+dikflBJd+7oVj8RsvSGSLwsgpojZ6WOQ++yWI/37kjcDSAPGg
+ ELvkiYT1a7m3aU9jQtHLqM9aPhe0OQv+mUNjmpIOdZKaB27gj8xOJ5I2PbD9AnSd
+ QVkG9Mp41+QDlU/8dW2Yt9WoYjEgnJM+oxIHHxVOqoA1bnHZkR2x1SR7fXvnlFpz
+ 624vQdSgbmQMsIYCoKhqpA8scO4eZesWixjhkIe0waNl/KxY+/Ivi/Iv+ZZw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1712309422; x=1712395822; bh=6K8uUGGzLMGxG+0aqNXuFc2GFTOa
+ qL/V0jEVNlaxr4I=; b=QCa/R4EmvfNGSlzEAjjKPxuDR60Bg+OoWdzxcfhdIGBi
+ ouLRE9/r9A8kyhHZ7ewOuKQNcVz1Kw1Av+8nF/YvpIrdxo/lfBe2jYE54UY1/A38
+ ocjWwhZ7/1MVZngKwrd1xivg8Sqb5GWkuj07MW6VgknNKMnFCj7YX56jjPdWbRpH
+ 3uYt+o4YYwnzslV56m8W/5mwrvEF93S4m5kCKHpcjIcoQWoerVDC/XF2FCMnEr/u
+ /ULx9Cr3FRW0ScF0Zyn3gZNnH195CcVT//37xPiNEyHW6hcVHOdlUAmzsG613mzI
+ Yu+wNiawLXQLYJgioRUDiRPgtzeVEpYzWkjpMBpi4A==
+X-ME-Sender: <xms:rcQPZu4wjMSIrgL-4EsgbRg5PVIzKgbH4Ed29yNbOp2BKFunKsAdBg>
+ <xme:rcQPZn7FBGunqi8yl2sWcJnmLFQRLC3SG05qyL85R0OSGmGP_Z68NQGpqYFIRnfgP
+ RI_W3adseYl3A>
+X-ME-Received: <xmr:rcQPZtei_yXUF8fUTIDnYHyQDugwDgavPSZtEFV07VP_zDDDw_c1adcI2R721g13FL3AuYH36ibp0KU57SVv0H1aBt7fIyQRySawEg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudegtddgudejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
+ ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepjeduve
+ evhfffheelhfeikedvjeehvdevhfevgfeuheekveevhffgvdffkeekgeefnecuffhomhgr
+ ihhnpehqvghmuhdrohhrghdpuddtqdhrtgdurdhsohenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
+X-ME-Proxy: <xmx:rcQPZrLrPK-5Hlu-MOIJxPO4wTh3Tw2eusAFFsvFBXA2fw_C4PfJIA>
+ <xmx:rcQPZiILDjnEqOhLqqLRu9AuaGDRYe35EwiKa2Fckksjpi_BugQHrQ>
+ <xmx:rcQPZszlOSmRQin-B1jlLjf1urEWFjWFnzMaa9CiiOn2Gmo64d5zkw>
+ <xmx:rcQPZmKxycQIDusGorkj-PCu4rTD2-KibkPrYUoWQvsDm1hr6TflPg>
+ <xmx:rsQPZtbMQhWhAj2lABzbaetG0z8e3y7vxusIYrZxBmjiqmhZ9p5xguHB>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 5 Apr 2024 05:30:21 -0400 (EDT)
+Date: Fri, 5 Apr 2024 11:30:19 +0200
+From: Greg KH <greg@kroah.com>
+To: Guo Mengqi <guomengqi3@huawei.com>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ stable@vger.kernel.org, xuqiang36@huawei.com, zhangchangzhong@huawei.com
+Subject: Re: [PATCH 4.19.y] drm/vkms: call drm_atomic_helper_shutdown before
+ drm_dev_put()
+Message-ID: <2024040549-pushover-applied-4948@gregkh>
+References: <20240403094716.80313-1-guomengqi3@huawei.com>
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240403094716.80313-1-guomengqi3@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,171 +92,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Logging u32 pixel formats using %4.4s format string with a pointer to
-the u32 is somewhat questionable, as well as dependent on byte
-order. There's a kernel extension format specifier %p4cc to format 4cc
-codes. Use it across the board in msm for pixel format logging.
+On Wed, Apr 03, 2024 at 05:47:16PM +0800, Guo Mengqi wrote:
+> commit 73a82b22963d ("drm/atomic: Fix potential use-after-free
+> in nonblocking commits") introduced drm_dev_get/put() to
+> drm_atomic_helper_shutdown(). And this cause problem in vkms driver exit
+> process.
+> 
+> vkms_exit()
+>   drm_dev_put()
+>     vkms_release()
+>       drm_atomic_helper_shutdown()
+>         drm_dev_get()
+>         drm_dev_put()
+>           vkms_release()    ------ null pointer access
+> 
+> Using 4.19 stable x86 image on qemu, below stacktrace can be triggered by
+> load and unload vkms.ko.
+> 
+> root:~ # insmod vkms.ko
+> [  142.135449] [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
+> [  142.138713] [drm] Driver supports precise vblank timestamp query.
+> [  142.142390] [drm] Initialized vkms 1.0.0 20180514 for virtual device on minor 0
+> root:~ # rmmod vkms.ko
+> [  144.093710] BUG: unable to handle kernel NULL pointer dereference at 00000000000000a0
+> [  144.097491] PGD 800000023624e067 P4D 800000023624e067 PUD 22ab59067 PMD 0
+> [  144.100802] Oops: 0000 [#1] SMP PTI
+> [  144.102502] CPU: 0 PID: 3615 Comm: rmmod Not tainted 4.19.310 #1
+> [  144.104452] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.13.0-0-gf21b5a4aeb02-prebuilt.qemu.org 04/01/2014
+> [  144.107238] RIP: 0010:device_del+0x34/0x3a0
+> ...
+> [  144.131323] Call Trace:
+> [  144.131962]  ? __die+0x7d/0xc0
+> [  144.132711]  ? no_context+0x152/0x3b0
+> [  144.133605]  ? wake_up_q+0x70/0x70
+> [  144.134436]  ? __do_page_fault+0x342/0x4b0
+> [  144.135445]  ? __switch_to_asm+0x41/0x70
+> [  144.136416]  ? __switch_to_asm+0x35/0x70
+> [  144.137366]  ? page_fault+0x1e/0x30
+> [  144.138214]  ? __drm_atomic_state_free+0x51/0x60
+> [  144.139331]  ? device_del+0x34/0x3a0
+> [  144.140197]  platform_device_del.part.14+0x19/0x70
+> [  144.141348]  platform_device_unregister+0xe/0x20
+> [  144.142458]  vkms_release+0x10/0x30 [vkms]
+> [  144.143449]  __drm_atomic_helper_disable_all.constprop.31+0x13b/0x150
+> [  144.144980]  drm_atomic_helper_shutdown+0x4b/0x90
+> [  144.146102]  vkms_release+0x18/0x30 [vkms]
+> [  144.147107]  vkms_exit+0x29/0x8ec [vkms]
+> [  144.148053]  __x64_sys_delete_module+0x155/0x220
+> [  144.149168]  do_syscall_64+0x43/0x100
+> [  144.150056]  entry_SYSCALL_64_after_hwframe+0x5c/0xc1
+> 
+> It seems that the proper unload sequence is:
+> 	drm_atomic_helper_shutdown();
+> 	drm_dev_put();
+> 
+> Just put drm_atomic_helper_shutdown() before drm_dev_put()
+> should solve the problem.
+> 
+> Note that vkms exit code is refactored by 53d77aaa3f76 ("drm/vkms: Use
+> devm_drm_dev_alloc") in tags/v5.10-rc1.
+> 
+> So this bug only exists on 4.19 and 5.4.
 
-This should also fix the reported build warning:
+Do we also need this for 5.4?  If so, can you send a version for that
+tree with the correct Fixes: information, and I will be glad to queue
+both of these up.
 
-  include/drm/drm_print.h:536:35: warning: '%4.4s' directive argument is
-  null [-Wformat-overflow=]
+thanks,
 
-Reported-by: Aishwarya TCV <aishwarya.tcv@arm.com>
-Closes: https://lore.kernel.org/r/2ac758ce-a196-4e89-a397-488ba31014c4@arm.com
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-
----
-
-Tip: 'git show --color-words -w' might be the easiest way to review.
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |  8 +++----
- .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c   |  4 ++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     | 24 +++++++++----------
- drivers/gpu/drm/msm/msm_fb.c                  | 10 ++++----
- 5 files changed, 24 insertions(+), 24 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 9a14d2232e4a..aa1e68379d9f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -2203,8 +2203,8 @@ void dpu_encoder_helper_phys_setup_cdm(struct dpu_encoder_phys *phys_enc,
- 		return;
- 
- 	if (!DPU_FORMAT_IS_YUV(dpu_fmt)) {
--		DPU_DEBUG("[enc:%d] cdm_disable fmt:%x\n", DRMID(phys_enc->parent),
--			  dpu_fmt->base.pixel_format);
-+		DPU_DEBUG("[enc:%d] cdm_disable fmt:%p4cc\n", DRMID(phys_enc->parent),
-+			  &dpu_fmt->base.pixel_format);
- 		if (hw_cdm->ops.bind_pingpong_blk)
- 			hw_cdm->ops.bind_pingpong_blk(hw_cdm, PINGPONG_NONE);
- 
-@@ -2244,9 +2244,9 @@ void dpu_encoder_helper_phys_setup_cdm(struct dpu_encoder_phys *phys_enc,
- 		break;
- 	}
- 
--	DPU_DEBUG("[enc:%d] cdm_enable:%d,%d,%X,%d,%d,%d,%d]\n",
-+	DPU_DEBUG("[enc:%d] cdm_enable:%d,%d,%p4cc,%d,%d,%d,%d]\n",
- 		  DRMID(phys_enc->parent), cdm_cfg->output_width,
--		  cdm_cfg->output_height, cdm_cfg->output_fmt->base.pixel_format,
-+		  cdm_cfg->output_height, &cdm_cfg->output_fmt->base.pixel_format,
- 		  cdm_cfg->output_type, cdm_cfg->output_bit_depth,
- 		  cdm_cfg->h_cdwn_type, cdm_cfg->v_cdwn_type);
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-index 1924a2b28e53..9dbb8ddcddec 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-@@ -580,7 +580,7 @@ static void dpu_encoder_phys_wb_prepare_wb_job(struct dpu_encoder_phys *phys_enc
- 			format->pixel_format, job->fb->modifier);
- 	if (!wb_cfg->dest.format) {
- 		/* this error should be detected during atomic_check */
--		DPU_ERROR("failed to get format %x\n", format->pixel_format);
-+		DPU_ERROR("failed to get format %p4cc\n", &format->pixel_format);
- 		return;
- 	}
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
-index e366ab134249..95e6e58b1a21 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
-@@ -647,8 +647,8 @@ static int _dpu_format_get_plane_sizes_ubwc(
- 
- 	color = _dpu_format_get_media_color_ubwc(fmt);
- 	if (color < 0) {
--		DRM_ERROR("UBWC format not supported for fmt: %4.4s\n",
--			(char *)&fmt->base.pixel_format);
-+		DRM_ERROR("UBWC format not supported for fmt: %p4cc\n",
-+			  &fmt->base.pixel_format);
- 		return -EINVAL;
- 	}
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index ff975ad51145..ff4ac4daaeca 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -234,9 +234,9 @@ static int _dpu_plane_calc_fill_level(struct drm_plane *plane,
- 		}
- 	}
- 
--	DPU_DEBUG_PLANE(pdpu, "pnum:%d fmt: %4.4s w:%u fl:%u\n",
-+	DPU_DEBUG_PLANE(pdpu, "pnum:%d fmt: %p4cc w:%u fl:%u\n",
- 			pipe->sspp->idx - SSPP_VIG0,
--			(char *)&fmt->base.pixel_format,
-+			&fmt->base.pixel_format,
- 			src_width, total_fl);
- 
- 	return total_fl;
-@@ -287,9 +287,9 @@ static void _dpu_plane_set_qos_lut(struct drm_plane *plane,
- 			(fmt) ? fmt->base.pixel_format : 0,
- 			pdpu->is_rt_pipe, total_fl, cfg.creq_lut, lut_usage);
- 
--	DPU_DEBUG_PLANE(pdpu, "pnum:%d fmt: %4.4s rt:%d fl:%u lut:0x%llx\n",
-+	DPU_DEBUG_PLANE(pdpu, "pnum:%d fmt: %p4cc rt:%d fl:%u lut:0x%llx\n",
- 			pdpu->pipe - SSPP_VIG0,
--			fmt ? (char *)&fmt->base.pixel_format : NULL,
-+			fmt ? &fmt->base.pixel_format : NULL,
- 			pdpu->is_rt_pipe, total_fl, cfg.creq_lut);
- 
- 	trace_dpu_perf_set_danger_luts(pdpu->pipe - SSPP_VIG0,
-@@ -298,12 +298,12 @@ static void _dpu_plane_set_qos_lut(struct drm_plane *plane,
- 			cfg.danger_lut,
- 			cfg.safe_lut);
- 
--	DPU_DEBUG_PLANE(pdpu, "pnum:%d fmt: %4.4s mode:%d luts[0x%x, 0x%x]\n",
--		pdpu->pipe - SSPP_VIG0,
--		fmt ? (char *)&fmt->base.pixel_format : NULL,
--		fmt ? fmt->fetch_mode : -1,
--		cfg.danger_lut,
--		cfg.safe_lut);
-+	DPU_DEBUG_PLANE(pdpu, "pnum:%d fmt: %p4cc mode:%d luts[0x%x, 0x%x]\n",
-+			pdpu->pipe - SSPP_VIG0,
-+			fmt ? &fmt->base.pixel_format : NULL,
-+			fmt ? fmt->fetch_mode : -1,
-+			cfg.danger_lut,
-+			cfg.safe_lut);
- 
- 	pipe->sspp->ops.setup_qos_lut(pipe->sspp, &cfg);
- }
-@@ -1118,9 +1118,9 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
- 	pdpu->is_rt_pipe = is_rt_pipe;
- 
- 	DPU_DEBUG_PLANE(pdpu, "FB[%u] " DRM_RECT_FP_FMT "->crtc%u " DRM_RECT_FMT
--			", %4.4s ubwc %d\n", fb->base.id, DRM_RECT_FP_ARG(&state->src),
-+			", %p4cc ubwc %d\n", fb->base.id, DRM_RECT_FP_ARG(&state->src),
- 			crtc->base.id, DRM_RECT_ARG(&state->dst),
--			(char *)&fmt->base.pixel_format, DPU_FORMAT_IS_UBWC(fmt));
-+			&fmt->base.pixel_format, DPU_FORMAT_IS_UBWC(fmt));
- 
- 	dpu_plane_sspp_update_pipe(plane, pipe, pipe_cfg, fmt,
- 				   drm_mode_vrefresh(&crtc->mode),
-diff --git a/drivers/gpu/drm/msm/msm_fb.c b/drivers/gpu/drm/msm/msm_fb.c
-index e3f61c39df69..2cccf2ece7ac 100644
---- a/drivers/gpu/drm/msm/msm_fb.c
-+++ b/drivers/gpu/drm/msm/msm_fb.c
-@@ -176,16 +176,16 @@ static struct drm_framebuffer *msm_framebuffer_init(struct drm_device *dev,
- 	const struct msm_format *format;
- 	int ret, i, n;
- 
--	drm_dbg_state(dev, "create framebuffer: mode_cmd=%p (%dx%d@%4.4s)",
--			mode_cmd, mode_cmd->width, mode_cmd->height,
--			(char *)&mode_cmd->pixel_format);
-+	drm_dbg_state(dev, "create framebuffer: mode_cmd=%p (%dx%d@%p4cc)",
-+		      mode_cmd, mode_cmd->width, mode_cmd->height,
-+		      &mode_cmd->pixel_format);
- 
- 	n = info->num_planes;
- 	format = kms->funcs->get_format(kms, mode_cmd->pixel_format,
- 			mode_cmd->modifier[0]);
- 	if (!format) {
--		DRM_DEV_ERROR(dev->dev, "unsupported pixel format: %4.4s\n",
--				(char *)&mode_cmd->pixel_format);
-+		DRM_DEV_ERROR(dev->dev, "unsupported pixel format: %p4cc\n",
-+			      &mode_cmd->pixel_format);
- 		ret = -EINVAL;
- 		goto fail;
- 	}
--- 
-2.39.2
-
+greg k-h
