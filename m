@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4155989A86D
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Apr 2024 04:21:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C04EF89A873
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Apr 2024 04:22:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C37D1136F6;
-	Sat,  6 Apr 2024 02:21:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD4C91138AD;
+	Sat,  6 Apr 2024 02:22:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="oswb0q41";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nsLJDfAI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A5531136F6
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Apr 2024 02:21:29 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-516be63af88so3187192e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Apr 2024 19:21:29 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D11AA10EDAC
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Apr 2024 02:22:32 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-516d4d80d00so1484708e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Apr 2024 19:22:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712370087; x=1712974887; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1712370151; x=1712974951; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=e3RQ6maZdShuVraNYItBn9lrjW9BLdIDbgZu10qFIzM=;
- b=oswb0q41FsOWK5UQLcHYmfk2OzwdWh05KRvYEQuveFaTkmzTVMRMgw1+nvzuerHQMx
- 8yA84ys2i/yQxqR76REFt6gKc8KxHTWZP/zhJ6TvEatoTLmRYxiVrvyuaHJba/uednfC
- /+O24tUdX3jSmBc5oMc7oxsnIiaDYhjyK0vlE8hGzuPkvZklB0UxoDK7vqMxVEaKT0SJ
- YUbcZYc2bRypMbyN6Pvc2zL/P/WWIAI9pyenr05hiw0n2VY2crQPKYNPyIXZ63a1uhZa
- eRpX8ZA0NnJymBvbDBdb9HKEZ8/znfkJSzMbpeY5njQ/xmjVVTU8xF3fhNlmoH5Qiouy
- vOCw==
+ bh=0ZyKLzJVktAzILDZDjIRmvAZaNHxUI4+ew0iZ8nIBhA=;
+ b=nsLJDfAIUUNJD9cvIy9W1knmh1u6xmxq5zJaUGSi3ooUppRiguBmkrRTmsRXiHEBfG
+ nGUMOzQCq9aiBITg5enHZrT/evnmQZK6LBMQdR20TM/r73Rm55fXRABr2UoroxtwGDj0
+ SxGU+/6NPfJQPr66Vhr3avYAovSllWfrAvtofcQwlQuoPbpqYBj64j6C/0KjWH3rDknz
+ pJGQdBMM9YDd9OuH1zXbfWqeS1KeC1NXM+rOZ/WO4cLb/lcOd5csUX6oa0AwdG2t+hgu
+ GEc9i0+qtuh2Uyu4Uo6IGd9pdbESjRIayFmNtD0pxv9+AJbLATwmFQwY5o9Df246rvD9
+ cemw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712370087; x=1712974887;
+ d=1e100.net; s=20230601; t=1712370151; x=1712974951;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=e3RQ6maZdShuVraNYItBn9lrjW9BLdIDbgZu10qFIzM=;
- b=AEhcYai57gsb5QfEbedjSYx8CuAjGVhuoenQnePnuzyITxlMwyCeZpbB2zPkoFVl9W
- n1UdApR8dIDc1lz6HeeuwnEw/yLSC5UbmDpdGL5RUPb7XnpKJV+iAKW8LSS1p2FTqvIe
- D5djoz9zzWlc6BDr6thAls1zhjkgzs10CmuT9LOnRTo30CQV5Fn2dlJje7uvfPdWFIgi
- LyU0I2INHlWxWCweyq1FPj67aqEtJR2V394wzH0E30MqK7ZSGAc8iCtwHshT3Ymy4bdX
- c0IcEmSEp/A8ctRxOA5vUa1TJcrv7l4Kzk9hVeToyIRaABMMGUfHTxIU30V/CC3hzMTa
- 0wWA==
+ bh=0ZyKLzJVktAzILDZDjIRmvAZaNHxUI4+ew0iZ8nIBhA=;
+ b=WMibq610jehBV/CIpgeATtDyYwf2PXqsSp/cXWeEUfLdIU/QGzXkhfb17IBOp8yfaO
+ JZKVus0rns5rGD9JoKjCqKzHgmYcVUddNwPryZD3F00ls+qXTbep0ZZ0ax9wRaVYVVix
+ HJCvMrvAjSZ0dW90iQ+nVuzK9hI7WzelZABI/2UYoCSt5Cu33N1hAThTAGt2eIDcA47L
+ 3nS+/EnrBQHnWfTfKlTuUWK9JnkT3ugKnHCBOigL2S77siwHYVcNCeWVV/KlPUGzBcpc
+ xeR76cHcb/jx5gsMlUy/F2H27FdrbBPAUcarihZl4GGqZVOnphmWFzkbjRTHyzIcDj0Y
+ 8u6g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXCxAnnCvLU+7vYU45wgLkqeDWwtq/eN2mYxNaqzQ0Nxhdy2G+bPjMA+um4QAnw08rixLrNLzakWBl4Ol7QpHeGoiw1vdHOhiW6qj83oLCG
-X-Gm-Message-State: AOJu0YyURVnjrwXvL/hpz3IAh1ORt5TAcRaiAacB1z8/7Q4m040Xj58I
- hMXGCF9MpCdisTXORZfY1PKDpNL+XdGgNA6uSzyKdECxwJW1dgqlCG4aK+hqVWI=
-X-Google-Smtp-Source: AGHT+IGCUxPA1x4pPvDKIPymyHQ9MIdDiuKIitgDDF5LRK2zKejYoRo8ce/mKSI+1tszTynrahREJQ==
-X-Received: by 2002:ac2:5b91:0:b0:516:d259:ee5f with SMTP id
- o17-20020ac25b91000000b00516d259ee5fmr1862751lfn.7.1712370087329; 
- Fri, 05 Apr 2024 19:21:27 -0700 (PDT)
+ AJvYcCWswZaM3AQQrBfuPymNPLmGF9NJfyhE4TXZ202KDKUE5uiBUqvM5fmGJ5IgZV5cAjeqqjOkgcCdOaRQzeqnLsnKmeh5ij9hHVCLUAgPG7BA
+X-Gm-Message-State: AOJu0Yy9LxzoYq+pUEPqMuk8VJFXZY/exKObIwDkxUJt2PjNtxKkSvKn
+ neIjmfT9xIAW5IradfB6vQbsnK56kksSC/1LBl+mVPjZxZX5TSTQcQiXff0caTg=
+X-Google-Smtp-Source: AGHT+IGvb4XRGR6EdNfCX6p/VaXQdYVMCyH8vn9vZL77k7LU0xmSF1owwRXRLY7RdG5Y7Nb4kOAN8g==
+X-Received: by 2002:a2e:9805:0:b0:2d8:68ad:1e8b with SMTP id
+ a5-20020a2e9805000000b002d868ad1e8bmr1928276ljj.52.1712370150743; 
+ Fri, 05 Apr 2024 19:22:30 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzyjmhyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a00e:a300::227])
  by smtp.gmail.com with ESMTPSA id
- w1-20020ac25981000000b00516d6924bc6sm234716lfn.175.2024.04.05.19.21.26
+ f1-20020a05651c02c100b002d86145ecaesm338732ljo.86.2024.04.05.19.22.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Apr 2024 19:21:26 -0700 (PDT)
-Date: Sat, 6 Apr 2024 05:21:25 +0300
+ Fri, 05 Apr 2024 19:22:30 -0700 (PDT)
+Date: Sat, 6 Apr 2024 05:22:28 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Konrad Dybcio <konrad.dybcio@linaro.org>
 Cc: Bjorn Andersson <andersson@kernel.org>, 
@@ -69,14 +69,15 @@ Cc: Bjorn Andersson <andersson@kernel.org>,
  dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
  Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 2/6] soc: qcom: smem: Add pcode/fcode getters
-Message-ID: <zc5u7ixaser6ekl3sltzxccstu63tpydxybquxz5hcasj4cmfo@csjwfifugeod>
+Subject: Re: [PATCH 1/6] soc: qcom: Move some socinfo defines to the header,
+ expand them
+Message-ID: <zua77x2vpfgahghxe33hrhimwh4wl4vu3ttvtao2xnwbvxfesm@rks7ue7cgwhu>
 References: <20240405-topic-smem_speedbin-v1-0-ce2b864251b1@linaro.org>
- <20240405-topic-smem_speedbin-v1-2-ce2b864251b1@linaro.org>
+ <20240405-topic-smem_speedbin-v1-1-ce2b864251b1@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240405-topic-smem_speedbin-v1-2-ce2b864251b1@linaro.org>
+In-Reply-To: <20240405-topic-smem_speedbin-v1-1-ce2b864251b1@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,107 +93,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 05, 2024 at 10:41:30AM +0200, Konrad Dybcio wrote:
-> Introduce getters for SoC product and feature codes and export them.
+On Fri, Apr 05, 2024 at 10:41:29AM +0200, Konrad Dybcio wrote:
+> In preparation for parsing the chip "feature code" (FC) and "product
+> code" (PC) (essentially the parameters that let us conclusively
+> characterize the sillicon we're running on, including various speed
+> bins), move the socinfo version defines to the public header and
+> include some more FC/PC defines.
 > 
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->  drivers/soc/qcom/smem.c       | 66 +++++++++++++++++++++++++++++++++++++++++++
->  include/linux/soc/qcom/smem.h |  2 ++
->  2 files changed, 68 insertions(+)
+>  drivers/soc/qcom/socinfo.c       |  8 --------
+>  include/linux/soc/qcom/socinfo.h | 36 ++++++++++++++++++++++++++++++++++++
+>  2 files changed, 36 insertions(+), 8 deletions(-)
 > 
-> diff --git a/drivers/soc/qcom/smem.c b/drivers/soc/qcom/smem.c
-> index 7191fa0c087f..e89b4d26877a 100644
-> --- a/drivers/soc/qcom/smem.c
-> +++ b/drivers/soc/qcom/smem.c
-> @@ -795,6 +795,72 @@ int qcom_smem_get_soc_id(u32 *id)
->  }
->  EXPORT_SYMBOL_GPL(qcom_smem_get_soc_id);
+> diff --git a/drivers/soc/qcom/socinfo.c b/drivers/soc/qcom/socinfo.c
+> index 277c07a6603d..cf4616a468f2 100644
+> --- a/drivers/soc/qcom/socinfo.c
+> +++ b/drivers/soc/qcom/socinfo.c
+> @@ -21,14 +21,6 @@
 >  
-> +/**
-> + * qcom_smem_get_feature_code() - return the feature code
-> + * @id:	On success, we return the feature code here.
-> + *
-> + * Look up the feature code identifier from SMEM and return it.
-> + *
-> + * Return: 0 on success, negative errno on failure.
+>  #include <dt-bindings/arm/qcom,ids.h>
+>  
+> -/*
+> - * SoC version type with major number in the upper 16 bits and minor
+> - * number in the lower 16 bits.
+> - */
+> -#define SOCINFO_MAJOR(ver) (((ver) >> 16) & 0xffff)
+> -#define SOCINFO_MINOR(ver) ((ver) & 0xffff)
+> -#define SOCINFO_VERSION(maj, min)  ((((maj) & 0xffff) << 16)|((min) & 0xffff))
+> -
+>  /* Helper macros to create soc_id table */
+>  #define qcom_board_id(id) QCOM_ID_ ## id, __stringify(id)
+>  #define qcom_board_id_named(id, name) QCOM_ID_ ## id, (name)
+> diff --git a/include/linux/soc/qcom/socinfo.h b/include/linux/soc/qcom/socinfo.h
+> index e78777bb0f4a..ba7f683bd32c 100644
+> --- a/include/linux/soc/qcom/socinfo.h
+> +++ b/include/linux/soc/qcom/socinfo.h
+> @@ -3,6 +3,8 @@
+>  #ifndef __QCOM_SOCINFO_H__
+>  #define __QCOM_SOCINFO_H__
+>  
+> +#include <linux/types.h>
+> +
+>  /*
+>   * SMEM item id, used to acquire handles to respective
+>   * SMEM region.
+> @@ -12,6 +14,14 @@
+>  #define SMEM_SOCINFO_BUILD_ID_LENGTH	32
+>  #define SMEM_SOCINFO_CHIP_ID_LENGTH	32
+>  
+> +/*
+> + * SoC version type with major number in the upper 16 bits and minor
+> + * number in the lower 16 bits.
 > + */
-> +int qcom_smem_get_feature_code(u32 *code)
-> +{
-> +	struct socinfo *info;
-> +	u32 raw_code;
+> +#define SOCINFO_MAJOR(ver) (((ver) >> 16) & 0xffff)
+> +#define SOCINFO_MINOR(ver) ((ver) & 0xffff)
+> +#define SOCINFO_VERSION(maj, min)  ((((maj) & 0xffff) << 16)|((min) & 0xffff))
 > +
-> +	info = qcom_smem_get(QCOM_SMEM_HOST_ANY, SMEM_HW_SW_BUILD_ID, NULL);
-> +	if (IS_ERR(info))
-> +		return PTR_ERR(info);
+>  /* Socinfo SMEM item structure */
+>  struct socinfo {
+>  	__le32 fmt;
+> @@ -74,4 +84,30 @@ struct socinfo {
+>  	__le32 boot_core;
+>  };
+>  
+> +/* Internal feature codes */
+> +enum feature_code {
+> +	/* External feature codes */
+> +	SOCINFO_FC_UNKNOWN = 0x0,
+> +	SOCINFO_FC_AA,
+> +	SOCINFO_FC_AB,
+> +	SOCINFO_FC_AC,
+> +	SOCINFO_FC_AD,
+> +	SOCINFO_FC_AE,
+> +	SOCINFO_FC_AF,
+> +	SOCINFO_FC_AG,
+> +	SOCINFO_FC_AH,
+> +	SOCINFO_FC_EXT_RESERVE,
+> +};
 > +
-> +	/* This only makes sense for socinfo >= 16 */
-> +	if (__le32_to_cpu(info->fmt) < SOCINFO_VERSION(0, 16))
-> +		return -EINVAL;
+> +/* Internal feature codes */
+> +/* Valid values: 0 <= n <= 0xf */
+> +#define SOCINFO_FC_Yn(n)		(0xf1 + n)
+> +#define SOCINFO_FC_INT_RESERVE		SOCINFO_FC_Yn(0x10)
 > +
-> +	raw_code = __le32_to_cpu(info->feature_code);
-> +
-> +	/* Ensure the value makes sense */
-> +	if (raw_code >= SOCINFO_FC_INT_RESERVE)
-> +		raw_code = SOCINFO_FC_UNKNOWN;
-> +
-> +	*code = raw_code;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(qcom_smem_get_feature_code);
-> +
-> +/**
-> + * qcom_smem_get_product_code() - return the product code
-> + * @id:	On success, we return the product code here.
-> + *
-> + * Look up feature code identifier from SMEM and return it.
-> + *
-> + * Return: 0 on success, negative errno on failure.
-> + */
-> +int qcom_smem_get_product_code(u32 *code)
-> +{
-> +	struct socinfo *info;
-> +	u32 raw_code;
-> +
-> +	info = qcom_smem_get(QCOM_SMEM_HOST_ANY, SMEM_HW_SW_BUILD_ID, NULL);
-> +	if (IS_ERR(info))
-> +		return PTR_ERR(info);
-> +
-> +	/* This only makes sense for socinfo >= 16 */
-> +	if (__le32_to_cpu(info->fmt) < SOCINFO_VERSION(0, 16))
-> +		return -EINVAL;
-> +
-> +	raw_code = __le32_to_cpu(info->pcode);
-> +
-> +	/* Ensure the value makes sense */
-> +	if (raw_code >= SOCINFO_FC_INT_RESERVE)
-> +		raw_code = SOCINFO_FC_UNKNOWN;
+> +/* Product codes */
+> +#define SOCINFO_PC_UNKNOWN		0
+> +/* Valid values: 0 <= n <= 8, the rest is reserved */
+> +#define SOCINFO_PCn(n)			(n + 1)
+> +#define SOCINFO_PC_RESERVE		(BIT(31) - 1)
 
-This looks like a c&p from the previous function. Should we be comparing
-the raw_code with a SOCINFO_PC_ constant?
+Please move these defines into the next patch.
 
 > +
-> +	*code = raw_code;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(qcom_smem_get_product_code);
-> +
->  static int qcom_smem_get_sbl_version(struct qcom_smem *smem)
->  {
->  	struct smem_header *header;
-> diff --git a/include/linux/soc/qcom/smem.h b/include/linux/soc/qcom/smem.h
-> index a36a3b9d4929..aef8c9fc6c08 100644
-> --- a/include/linux/soc/qcom/smem.h
-> +++ b/include/linux/soc/qcom/smem.h
-> @@ -13,5 +13,7 @@ int qcom_smem_get_free_space(unsigned host);
->  phys_addr_t qcom_smem_virt_to_phys(void *p);
->  
->  int qcom_smem_get_soc_id(u32 *id);
-> +int qcom_smem_get_feature_code(u32 *code);
-> +int qcom_smem_get_product_code(u32 *code);
->  
 >  #endif
 > 
 > -- 
