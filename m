@@ -2,74 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B543089A992
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Apr 2024 09:32:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF6B089AA38
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Apr 2024 11:48:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05EF210E26D;
-	Sat,  6 Apr 2024 07:32:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F16B010E10C;
+	Sat,  6 Apr 2024 09:48:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="i4BRM9bS";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="k/x6q/wi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86D3510E75E;
- Sat,  6 Apr 2024 07:32:50 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-a51beae2f13so11925066b.1; 
- Sat, 06 Apr 2024 00:32:50 -0700 (PDT)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+ [209.85.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A008210E10C
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Apr 2024 09:48:16 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id
+ d2e1a72fcca58-6ed150119f6so204945b3a.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 06 Apr 2024 02:48:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1712388769; x=1712993569; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=013IZU5d3S0NSE/vfboHFT2kND7XDrhmbJn2/miWjio=;
- b=i4BRM9bSFuDJtkEiSpAOUvXCld84NVOviiNtkbMqPTm3OcbKdFH9rSCGJZpmku9ioR
- ag2lcjkgsERNxun4gEdmmKAaT9nYt5z5QJI3wNZ+2qXtWdHUHnyGihVRkwWzLq1firZn
- zm9Ogvxus6CuXMYdEoUH0l/8Iqs663hF856NT7GqeMMiwi2OZwVIIca7XbNrDuuGsmQ5
- TNZLK/mWQnGI4566VfUxpWPxEaqgHr/TSxpa1o3eknQx+WkiA6CK7BN6Vt4tUvfI15PM
- oucO+QQ9672O9OHjIM1X/xHWqQPkdVdQkj414xOsbMdOyIu1Oz66QcI6Tp0nTf5ytxm2
- 8a0w==
+ d=gmail.com; s=20230601; t=1712396896; x=1713001696; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=48v1DyWIRGHgOWn3r5CxOJNWFsbPTbw0i9C5xk0EDEI=;
+ b=k/x6q/wi0QoXpCxOLn9H2VPIvKqAZ3z/s4T2EReugEdnlWviNrs4EBMtdn3Y0hbYod
+ YD96h0L/PC04anbK9otUDVARsJZLNP08258vwlwVkIJjciBpvv81OVvRq/pwk0SxF9V9
+ mh7fB9AGhC5DedVuUobEnnQq4ww1FCIqfO1MFNj4gNV7GlPEYGpUdJuylSD0t/ePTKJE
+ ZyVEzRHgFjNBhLLs5usFtOBOmx1dvivlLEtKpX3egvMHrcVbaODTw+hoP18wgVxcT1ej
+ O5PxrP4TAhaeLpLwqayBMLouB/X9AEn46E7wiCPcO3yTn4sOyicFrh1BY23bfQnWYqTO
+ YnFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712388769; x=1712993569;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=013IZU5d3S0NSE/vfboHFT2kND7XDrhmbJn2/miWjio=;
- b=r8Gb5qSrFdfKkN9s69QV8AfUoDytEy+UsW3Ob/dYVcWaDsWGSGVCqK9i40bI05QczP
- nOdzel2nJbf05UoAHGSLHREHgZiQgau3SvnbORYEu2gEifMxgxeoGSDAFh8RkEO12fUL
- TXEg2W5VKHOPKNixoTBH3z0K7R8N90UMrYhp/gqZSqTFGEDG/k1tiudY6TfzOEKUolU7
- hRtxDtouxhl44aAwEF7I1RZqzq+i2P0f5ZGXK0RJHFHgyCKnh+bYxOJEC4SrmMDQ6ux9
- t9Go71F6jnZ7G4Z9YwRi4TcBfFnXlMHqJrk5sUhBiRsMRgUmOHSzpaXc9hMADoBNzK1a
- bKMA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXax0o/DzABbBDPtYId77W3Gwm2TcNCZ5Mj1GYPIVmZZmjs5TI3FJBK63KpjlWOHMmO59MS775qXJAb03XvkIL6lI0ddnX372n/c8AyUfy7Egih4chGP7Crkro5DQsJy0WqLUJswoccNjIOcQ==
-X-Gm-Message-State: AOJu0Yx/4KgbQh4ya4dn7ndJhXqneEJmhbkJjDdKVKUj0d7se9NVFBhb
- jKljEE4Ewms/9K1PEj6gRMCMrGaNYJm0NmGAa2XHlgzSBLwP1qlAiPB36q7qyajVFlRbj8YceWa
- R/0jUT7BnqyX+IvSud5ql3ForJNM=
-X-Google-Smtp-Source: AGHT+IFfMYPeVHT6k5a4kWIko7MIMciS7wY1H9ZYhRPYpikHEHFMCapwLGgkvsgTPm9GQ6v8k595fKNbEsCUm3U4uEo=
-X-Received: by 2002:a17:906:f909:b0:a47:3651:a302 with SMTP id
- lc9-20020a170906f90900b00a473651a302mr2066556ejb.42.1712388768454; Sat, 06
- Apr 2024 00:32:48 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1712396896; x=1713001696;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=48v1DyWIRGHgOWn3r5CxOJNWFsbPTbw0i9C5xk0EDEI=;
+ b=rINl+9YDnNx71cGdj8/9JgMmdce+3aY3eiUQrvmWPDYIJxnz5TaXj4YQXcF4PFuO/Y
+ CgPCxdnO+qy3IC2NUKGr4dibzjcikdMoN8R192g1ZJbTZp9hVu2yRlWFNbBSNujd42yC
+ rgyg6ZRMIAOURLhCFFOSxEjnQdaDY/dHSgraT3L1rYbiISomYUn3lKjHa5Qg0xCnPZ88
+ IX5moenNq58DYsOwYg611fDnzeXw/NaFEKyKi9cmplch5DAztG1g9yGYdUjpR9PPT1bq
+ pVKUxc37ztXqYPQi89nfWZqnNOYa1cOhhDti6Nu5k+FditJfZ/+Ln93PefVwfUT5IyKL
+ UAaw==
+X-Gm-Message-State: AOJu0Yy3DMkLWNon4ThkxjbJu8M36TczEw+m+Ry6+ObZjI4RHCbua6yM
+ TXb+CSK3QkZPFA0e9AVHswy/OcG/nuAHpwrWzjinTXdm3FwedU+E
+X-Google-Smtp-Source: AGHT+IGCWcAU2MpP1I6UGGQFKMtNKfCgiiUZSakrZ9PbkmO4OoKTK7qFHCDjW0zqxVNfGpmgqJ2uKw==
+X-Received: by 2002:a05:6a20:8423:b0:1a3:ac20:e204 with SMTP id
+ c35-20020a056a20842300b001a3ac20e204mr4823805pzd.3.1712396895877; 
+ Sat, 06 Apr 2024 02:48:15 -0700 (PDT)
+Received: from kernel.. ([2402:e280:214c:86:6906:a9a6:61b7:7791])
+ by smtp.gmail.com with ESMTPSA id
+ it10-20020a056a00458a00b006ece7862035sm2855249pfb.128.2024.04.06.02.47.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 06 Apr 2024 02:48:05 -0700 (PDT)
+From: R SUNDAR <prosunofficial@gmail.com>
+To: airlied@gmail.com, daniel@ffwll.ch, dmitry.baryshkov@linaro.org,
+ ankit.k.nautiyal@intel.com, mripard@kernel.org, jani.nikula@intel.com,
+ quic_abhinavk@quicinc.com, imre.deak@intel.com, dianders@chromium.org,
+ mitulkumar.ajitkumar.golani@intel.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ R SUNDAR <prosunofficial@gmail.com>
+Subject: [PATCH] Fix for kernel doc warning
+Date: Sat,  6 Apr 2024 15:17:40 +0530
+Message-Id: <20240406094740.7143-1-prosunofficial@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240405152951.1531555-1-nunes.erico@gmail.com>
-In-Reply-To: <20240405152951.1531555-1-nunes.erico@gmail.com>
-From: Qiang Yu <yuq825@gmail.com>
-Date: Sat, 6 Apr 2024 15:32:36 +0800
-Message-ID: <CAKGbVbszmRpWfaXVjQ83RiFBapjent9UKM=JcGTMVsOk3bqJkQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] drm/lima: fix devfreq refcount imbalance for job
- timeouts
-To: Erico Nunes <nunes.erico@gmail.com>
-Cc: anarsoul@gmail.com, dri-devel@lists.freedesktop.org, 
- lima@lists.freedesktop.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- christian.koenig@amd.com, megi@xff.cz, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,30 +81,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Serial is Reviewed-by: Qiang Yu <yuq825@gmail.com>
+[linux-next] Changed enum name to field name to fix kernel doc warning.
 
-On Fri, Apr 5, 2024 at 11:31=E2=80=AFPM Erico Nunes <nunes.erico@gmail.com>=
- wrote:
->
-> v1 reference:
-> https://patchwork.freedesktop.org/series/131902/
->
-> Changes v1 -> v2:
-> - Split synchronize_irq of pp bcast irq change into (new) patch 2.
->
-> Erico Nunes (3):
->   drm/lima: add mask irq callback to gp and pp
->   drm/lima: include pp bcast irq in timeout handler check
->   drm/lima: mask irqs in timeout path before hard reset
->
->  drivers/gpu/drm/lima/lima_bcast.c | 12 ++++++++++++
->  drivers/gpu/drm/lima/lima_bcast.h |  3 +++
->  drivers/gpu/drm/lima/lima_gp.c    |  8 ++++++++
->  drivers/gpu/drm/lima/lima_pp.c    | 18 ++++++++++++++++++
->  drivers/gpu/drm/lima/lima_sched.c |  9 +++++++++
->  drivers/gpu/drm/lima/lima_sched.h |  1 +
->  6 files changed, 51 insertions(+)
->
-> --
-> 2.44.0
->
+./include/drm/display/drm_dp_helper.h:126: warning: Function parameter or struct member 'mode' not described in 'drm_dp_as_sdp'
+./include/drm/display/drm_dp_helper.h:126: warning: Excess struct member 'operation_mode' description in 'drm_dp_as_sdp'
+
+Signed-off-by: R SUNDAR <prosunofficial@gmail.com>
+---
+ include/drm/display/drm_dp_helper.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+index baf9949ff96f..6799f57d635c 100644
+--- a/include/drm/display/drm_dp_helper.h
++++ b/include/drm/display/drm_dp_helper.h
+@@ -112,7 +112,7 @@ struct drm_dp_vsc_sdp {
+  * @target_rr: Target Refresh
+  * @duration_incr_ms: Successive frame duration increase
+  * @duration_decr_ms: Successive frame duration decrease
+- * @operation_mode: Adaptive Sync Operation Mode
++ * @mode: Adaptive Sync Operation Mode
+  */
+ struct drm_dp_as_sdp {
+ 	unsigned char sdp_type;
+-- 
+2.34.1
+
