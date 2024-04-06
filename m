@@ -2,68 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3E4989E452
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 22:25:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 437DC89E454
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 22:26:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 091BB112F32;
-	Tue,  9 Apr 2024 20:25:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF7C112F35;
+	Tue,  9 Apr 2024 20:25:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="MrSmirbW";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="d1nsbhon";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
- [209.85.166.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71B5D112F32
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 20:25:45 +0000 (UTC)
-Received: by mail-io1-f46.google.com with SMTP id
- ca18e2360f4ac-7d03a6a11a2so272714039f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Apr 2024 13:25:45 -0700 (PDT)
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
+ [209.85.166.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11DE0112F33
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 20:25:47 +0000 (UTC)
+Received: by mail-io1-f50.google.com with SMTP id
+ ca18e2360f4ac-7d5de651252so123450839f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Apr 2024 13:25:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1712694344; x=1713299144;
+ d=broadcom.com; s=google; t=1712694347; x=1713299147;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sBJiED0TyH4RQk18xi+RG5P3LrKHVX44W8sTVR9okKc=;
- b=MrSmirbW0fGbdnO9T6yo0TCVOtNDBWLcMjqIAOtaSCu7PQed/SzPuZn2oZ8u9jZoqW
- SGlTwMeoyazL3NgS0KfdlnTEclJSy6qXLHUvuL/qREsGtA24nR4vLi8X0FdyssHK/agm
- 3yw57dWpDK/Tyakrf8Yryo0E1QpCUPPCxz2ik=
+ bh=/TyaY/I5CyvrBegK79hP9X4uvBfReIuIWj8s/HCupCM=;
+ b=d1nsbhon2XmNZUP0wjBrH3wgo+NcMxnKj3WAv1418vkJVLBK55R5LBKTtif7OR/7hA
+ VwpR3AObsoTnWQY0RjMu0ey2GZxkdSpGGw/cE34vBpoSOD/EWdg9vIjFx7u1CtbvqFRN
+ pnzjHY1mEBOYF1BoaOJI18cN7ILRcSkgPMZkE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712694344; x=1713299144;
+ d=1e100.net; s=20230601; t=1712694347; x=1713299147;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sBJiED0TyH4RQk18xi+RG5P3LrKHVX44W8sTVR9okKc=;
- b=Ek53U3onG8qaDC1+w2ylKOqARBoDws5rUgWdd5IhptAmKd4M7/5OOeqlrHWi70iA29
- PMzxAqRI0NcTKnczcz7JDGS1cRa655jhQlDRalx684WwiO9r8GmAcFwz2nGrDwrIss8R
- GBStKlH9FGKCkbezdcQc9yqYiAsDfnxr6Obw8mYtE0/Z47MP/bue9s37YuPgnwA/Up2P
- Gu+VDvJI5GthMN5yfJE8CZm6wQyp03C5yKbDuX2D/70QtSUwsFUC/E0NwoDbS9j6NDrF
- FdyEgA+GxVt8Dm+rXeimpbRtAQqHDkdxOApNuMsMSNNJjjoj+bp/QiPOUYpscjWcEYd0
- mDrQ==
-X-Gm-Message-State: AOJu0YwNV3nIN0KZqmiCadOIBasP2qMKt+22k6d+WojkM0pIXpEX9x2R
- hANADkr9llZCJyUoPKS0OXRX0hX6pfDX1ypUlJvah2lEB6nKw8U5dDMTlSq14InWXsilbrOKoRA
- MQq06d9aEcn4Qfw+Qj4RoD1tpk76gpBl7fWZX3MDw1Yvp/KtwSlfwudHJH+wWBKP8bqVNN8R93J
- 5jp4KlTJtnZpxfmF9GKaRptBsuRjQ99qOacYcbjObFYU1UT5rbE/uV
-X-Google-Smtp-Source: AGHT+IEDGG0D4I7B5IUcym90bLh5GJB5vmqKhZFjci+VUaWMWjuzPiZq7sCzcSTdNxgSyD/MdmsKlA==
-X-Received: by 2002:a6b:7a44:0:b0:7d5:dc67:156c with SMTP id
- k4-20020a6b7a44000000b007d5dc67156cmr925849iop.13.1712694344186; 
- Tue, 09 Apr 2024 13:25:44 -0700 (PDT)
-Received: from localhost ([173.205.42.30]) by smtp.gmail.com with ESMTPSA id
- j4-20020a05663822c400b0047ad636c705sm3428070jat.73.2024.04.09.13.25.43
+ bh=/TyaY/I5CyvrBegK79hP9X4uvBfReIuIWj8s/HCupCM=;
+ b=vF6l9n1XQkdXc9IJnDi5/lQs2Cjb6aDtkyGlnSVW84VTpfw1bDjV/TPLTNJrm0Uvd6
+ f8Zf5Ci8keZTi5VP9EPOhWrfiXWLG8PwteZAWumnpqgIozdrjtwWvi8wVcYTSd3rjunM
+ BOSVAzhcCRaB1uVTMdjU5JR13QH9n43YqJeiYBrxBI94tb3KTtnCeKnycoyBk9QMiOUM
+ WePQglwSjb3ABdBNfGUWoUJFgs2mekjHujqSPZ8NoWCZYE5Vm8gQL0tyTdveogQLQ0KS
+ +/YVedUN/jc/XOGNB9MvxtpbF2FW8acLyWaBV6mDD0ME/yGpDGvtDdsAielcCaa2rRt9
+ QV8Q==
+X-Gm-Message-State: AOJu0YwScTEcEBtWNbzevV6RRfmHwfuyqrvOW2jJJra/g4zffMGotKtD
+ pMxFx3hrbG5bwr+QfuEWsogmOZKX9j64TtNJ4qvRgwFvL6AdcegCkTDdkyUMNXZTZXs5REecmOQ
+ E1BgjJRYBIqmj/kiOPd1pvgQJtCbTs3HRg03fBrd3nBZpRO+WueoyLXrtqVa/LmU0biu+ywF6rf
+ cs57zXWhakZY86M3apNdazGXIspk1f/70Q1ToXmJSF5m9sXaB/VpIH
+X-Google-Smtp-Source: AGHT+IH9KEQ7pqp79DsthUhbiVLTtS3xrOvIMyQyIqAGbx5ZpNfRw8A+A4T7eczZrSNItnU8/525Lg==
+X-Received: by 2002:a05:6602:36ca:b0:7d5:c3d9:d979 with SMTP id
+ bg10-20020a05660236ca00b007d5c3d9d979mr982221iob.8.1712694346986; 
+ Tue, 09 Apr 2024 13:25:46 -0700 (PDT)
+Received: from localhost ([216.221.31.53]) by smtp.gmail.com with ESMTPSA id
+ iq5-20020a056638840500b00482adf840f1sm424532jab.62.2024.04.09.13.25.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Apr 2024 13:25:43 -0700 (PDT)
+ Tue, 09 Apr 2024 13:25:46 -0700 (PDT)
 From: Ian Forbes <ian.forbes@broadcom.com>
 To: dri-devel@lists.freedesktop.org
 Cc: bcm-kernel-feedback-list@broadcom.com, zack.rusin@broadcom.com,
  martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com,
  Ian Forbes <ian.forbes@broadcom.com>
-Subject: [PATCH v2 0/4] Fix memory limits for STDU
-Date: Sat,  6 Apr 2024 04:11:15 -0500
-Message-Id: <20240406091119.26567-1-ian.forbes@broadcom.com>
+Subject: [PATCH v2 1/4] drm/vmwgfx: Filter modes which exceed graphics memory
+Date: Sat,  6 Apr 2024 04:11:16 -0500
+Message-Id: <20240406091119.26567-2-ian.forbes@broadcom.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240401195645.31081-1-ian.forbes@broadcom.com>
+In-Reply-To: <20240406091119.26567-1-ian.forbes@broadcom.com>
 References: <20240401195645.31081-1-ian.forbes@broadcom.com>
+ <20240406091119.26567-1-ian.forbes@broadcom.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,24 +82,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-v2:
- - Fix bug when not using 3D
- - Remove STDU code from generic code path
- - Always use KiB when logging kibibytes
+SVGA requires individual surfaces to fit within graphics memory
+(max_mob_pages) which means that modes with a final buffer size that would
+exceed graphics memory must be pruned otherwise creation will fail.
 
-Ian Forbes (4):
-  drm/vmwgfx: Filter modes which exceed graphics memory
-  drm/vmwgfx: 3D disabled should not effect STDU memory limits
-  drm/vmwgfx: Remove STDU logic from generic mode_valid function
-  drm/vmwgfx: Standardize use of kibibytes when logging
+This fixes an issue where VMs with low graphics memory (< 64MiB) configured
+with high resolution mode boot to a black screen because surface creation
+fails.
 
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           | 19 ++++-------
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           |  3 --
- drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c |  4 +--
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 26 ++++++---------
- drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c          | 32 ++++++++++++++++++-
- 5 files changed, 48 insertions(+), 36 deletions(-)
+Fixes: d947d1b71deb ("drm/vmwgfx: Add and connect connector helper function")
+Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c | 32 +++++++++++++++++++++++++++-
+ 1 file changed, 31 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+index 2041c4d48daa..70b2ae974df3 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+@@ -829,7 +829,37 @@ static void vmw_stdu_connector_destroy(struct drm_connector *connector)
+ 	vmw_stdu_destroy(vmw_connector_to_stdu(connector));
+ }
+ 
++static enum drm_mode_status
++vmw_stdu_connector_mode_valid(struct drm_connector *connector,
++			      struct drm_display_mode *mode)
++{
++	enum drm_mode_status ret;
++	struct drm_device *dev = connector->dev;
++	struct vmw_private *dev_priv = vmw_priv(dev);
++	u64 assumed_cpp = dev_priv->assume_16bpp ? 2 : 4;
++	u64 required_mem = mode->hdisplay * assumed_cpp * mode->vdisplay;
++
++	ret = drm_mode_validate_size(mode, dev_priv->stdu_max_width,
++				     dev_priv->stdu_max_height);
++	if (ret != MODE_OK)
++		return ret;
++
++	ret = drm_mode_validate_size(mode, dev_priv->texture_max_width,
++				     dev_priv->texture_max_height);
++	if (ret != MODE_OK)
++		return ret;
+ 
++	if (required_mem > dev_priv->max_primary_mem)
++		return MODE_MEM;
++
++	if (required_mem > dev_priv->max_mob_pages * PAGE_SIZE)
++		return MODE_MEM;
++
++	if (required_mem > dev_priv->max_mob_size)
++		return MODE_MEM;
++
++	return MODE_OK;
++}
+ 
+ static const struct drm_connector_funcs vmw_stdu_connector_funcs = {
+ 	.dpms = vmw_du_connector_dpms,
+@@ -845,7 +875,7 @@ static const struct drm_connector_funcs vmw_stdu_connector_funcs = {
+ static const struct
+ drm_connector_helper_funcs vmw_stdu_connector_helper_funcs = {
+ 	.get_modes = vmw_connector_get_modes,
+-	.mode_valid = vmw_connector_mode_valid
++	.mode_valid = vmw_stdu_connector_mode_valid
+ };
+ 
+ 
 -- 
 2.34.1
 
