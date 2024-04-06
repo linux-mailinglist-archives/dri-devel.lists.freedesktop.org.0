@@ -2,97 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78C7A89A7D3
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Apr 2024 02:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C1B589A7E2
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Apr 2024 02:17:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 917B210EB6D;
-	Sat,  6 Apr 2024 00:04:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72ACF10E6C6;
+	Sat,  6 Apr 2024 00:17:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="TpqP2OyL";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="auLtYgNM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3155710EB6C;
- Sat,  6 Apr 2024 00:04:15 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CC5C10E6C6;
+ Sat,  6 Apr 2024 00:17:31 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 43603PLn029361; Sat, 6 Apr 2024 00:04:08 GMT
+ 435NouIN020781; Sat, 6 Apr 2024 00:17:26 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:from:to:cc:references
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=n3fd1TvHrmS8REdQAHXxCVY08vIpmivPBdyqmYLuVNU=; b=Tp
- qP2OyLmf4s6fzYRYX7qAcxuPIJ8XPXVCWeh0AwbA7nV/lISX5TORkQc3hOQfW+Li
- nQMOpYu7bxabgiCqL5/I6sGhh5w0URwvBTw1moOcwQTf+ReCv9gzJoSCMj/Z/reJ
- 1VDcwLvCByLbkyMoSt/9PKctUSUPZgSWIreQeWxw7vGqrXw2gVZyZZL5UjZaAn4r
- /kufmTEaoD6OJCBRuUr8Suzb4k4+b9wd6DEenU+8CJuAuy2lCXksRHpv40IWl/g8
- FIJqxe3aDnbyPlgV9IkownAfhnH53mzU9H+owbTlPdI20cJy7dcDiP/DPiLr9rQO
- Q2jEDaab4QM8nNyKr0WA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding:content-type; s=qcppdkim1; bh=PcooOqL
+ N8RXngIbQhg9Z61r/5fHlOoN76fVOjQMWr3Y=; b=auLtYgNMAysPBT9X/DiTO15
+ Q7WXK4DC0s7MFmBfcqmSVJ1h00CNKk6hhkxGspVXm2RKwHK16iiBrmdZtqE5DY7T
+ I9v/5P7tDskN5hoZWLEVA9/7n9hLtQDSu+zeSxoEl1TPCnajexfZLbEo/8HSSPjX
+ DOhyGfXxkB/B/8AFPlcQ10/Wbcc+fg19qFev79cOQ5Z+IsVzkEFIZqCJo5AOIREz
+ gO4PCxAZcmYYWWLy7DpOf2+6rQBvAkITpk5Yk0UrGc6oCN+HHurFBqS1Z9nY3UMh
+ P0umQSssWxge69NXlHf7Iuy3gKICcBOd3WxdUVkwZawEphLKS+RUnLASYEJNzxQ=
+ =
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xa7snter1-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xa8fc2f9s-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 06 Apr 2024 00:04:07 +0000 (GMT)
+ Sat, 06 Apr 2024 00:17:25 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4360466n023355
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4360HOMf024602
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 6 Apr 2024 00:04:06 GMT
-Received: from [10.110.24.15] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 5 Apr 2024
- 17:04:04 -0700
-Message-ID: <176bad3e-4b67-f716-cd4f-f85bc66204f4@quicinc.com>
-Date: Fri, 5 Apr 2024 17:04:03 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v1] drm/msm/dp: use dp_hpd_plug_handle() and
- dp_hpd_unplug_handle() directly
-Content-Language: en-US
+ Sat, 6 Apr 2024 00:17:24 GMT
+Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.4; Fri, 5 Apr 2024 17:17:23 -0700
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Stephen Boyd <swboyd@chromium.org>, Bjorn Andersson <andersson@kernel.org>,
- Johan Hovold <johan@kernel.org>, Kuogee Hsieh
- <quic_khsieh@quicinc.com>, <abel.vesa@linaro.org>,
- <agross@kernel.org>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <dianders@chromium.org>, <dri-devel@lists.freedesktop.org>,
- <robdclark@gmail.com>, <sean@poorly.run>, <vkoul@kernel.org>,
- <quic_jesszhan@quicinc.com>, <quic_sbillaka@quicinc.com>,
- <marijn.suijten@somainline.org>, <freedreno@lists.freedesktop.org>,
+To: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>, "Kuogee
+ Hsieh" <quic_khsieh@quicinc.com>
+CC: <dri-devel@lists.freedesktop.org>, <seanpaul@chromium.org>,
+ <swboyd@chromium.org>, <quic_jesszhan@quicinc.com>,
+ <quic_bjorande@quicinc.com>, <johan@kernel.org>,
  <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1711656246-3483-1-git-send-email-quic_khsieh@quicinc.com>
- <1711656246-3483-2-git-send-email-quic_khsieh@quicinc.com>
- <55debb0a-c7af-ef71-c49a-414c7ab4f59d@quicinc.com>
- <CAE-0n503FwcwreZ14MMKgdzu8QybWYtMdLOKasiCwmE8pCJOSw@mail.gmail.com>
- <23de89e9-3ef3-c52d-7abf-93dc2dbb51a4@quicinc.com>
- <CAA8EJppEWXnsQzDD1tdNuMb1ijEVtE7LQct9jt1fwVwMd8ch_Q@mail.gmail.com>
- <27cadd17-10a3-3b8c-2b29-6698ccdce531@quicinc.com>
- <CAA8EJpqYVDG9pBj39m40rPwUNgE7x07HfCt6C3yaMN7eOaWk6Q@mail.gmail.com>
- <efbe5aa8-8bbe-26cd-ca70-1974241a3537@quicinc.com>
- <CAA8EJprES3q3w6GuQ8dW5vicnzbO_eZ6wpNfWe5njTPRDZm5KQ@mail.gmail.com>
- <17489ead-2765-7ed1-f4da-4a45e7d83b1b@quicinc.com>
-In-Reply-To: <17489ead-2765-7ed1-f4da-4a45e7d83b1b@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Subject: [PATCH v2] drm/msm/dp: call dp_hpd_plug_handle()/unplug_handle()
+ directly for external HPD
+Date: Fri, 5 Apr 2024 17:17:14 -0700
+Message-ID: <20240406001715.8181-1-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.43.2
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: JhsB2FcBkn6Js2N3f__Ng_vZ8qDBx_pL
-X-Proofpoint-ORIG-GUID: JhsB2FcBkn6Js2N3f__Ng_vZ8qDBx_pL
+X-Proofpoint-GUID: c6CjJTsfoP7elp0HjNKekg1Y4Lb4eZf1
+X-Proofpoint-ORIG-GUID: c6CjJTsfoP7elp0HjNKekg1Y4Lb4eZf1
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-04-05_29,2024-04-05_02,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 bulkscore=0 clxscore=1015 mlxscore=0 spamscore=0
- suspectscore=0 priorityscore=1501 malwarescore=0 mlxlogscore=999
- adultscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404050173
+ lowpriorityscore=0 mlxscore=0
+ malwarescore=0 mlxlogscore=999 bulkscore=0 suspectscore=0 clxscore=1011
+ priorityscore=1501 adultscore=0 phishscore=0 impostorscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
+ definitions=main-2404060000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,137 +94,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 
+In the external HPD case, hotplug event is delivered by pmic glink to DP driver
+using drm_aux_hpd_bridge_notify().
 
-On 3/28/2024 10:47 PM, Abhinav Kumar wrote:
-> 
-> 
-> On 3/28/2024 8:23 PM, Dmitry Baryshkov wrote:
->> On Fri, 29 Mar 2024 at 04:16, Abhinav Kumar 
->> <quic_abhinavk@quicinc.com> wrote:
->>>
->>>
->>>
->>> On 3/28/2024 5:10 PM, Dmitry Baryshkov wrote:
->>>> On Fri, 29 Mar 2024 at 01:42, Abhinav Kumar 
->>>> <quic_abhinavk@quicinc.com> wrote:
->>>>>
->>>>>
->>>>>
->>>>> On 3/28/2024 3:50 PM, Dmitry Baryshkov wrote:
->>>>>> On Thu, 28 Mar 2024 at 23:21, Abhinav Kumar 
->>>>>> <quic_abhinavk@quicinc.com> wrote:
->>>>>>>
->>>>>>>
->>>>>>>
->>>>>>> On 3/28/2024 1:58 PM, Stephen Boyd wrote:
->>>>>>>> Quoting Abhinav Kumar (2024-03-28 13:24:34)
->>>>>>>>> + Johan and Bjorn for FYI
->>>>>>>>>
->>>>>>>>> On 3/28/2024 1:04 PM, Kuogee Hsieh wrote:
->>>>>>>>>> For internal HPD case, hpd_event_thread is created to handle HPD
->>>>>>>>>> interrupts generated by HPD block of DP controller. It converts
->>>>>>>>>> HPD interrupts into events and executed them under 
->>>>>>>>>> hpd_event_thread
->>>>>>>>>> context. For external HPD case, HPD events is delivered by way of
->>>>>>>>>> dp_bridge_hpd_notify() under thread context. Since they are 
->>>>>>>>>> executed
->>>>>>>>>> under thread context already, there is no reason to hand over 
->>>>>>>>>> those
->>>>>>>>>> events to hpd_event_thread. Hence dp_hpd_plug_handle() and
->>>>>>>>>> dp_hpd_unplug_hanlde() are called directly at 
->>>>>>>>>> dp_bridge_hpd_notify().
->>>>>>>>>>
->>>>>>>>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->>>>>>>>>> ---
->>>>>>>>>>       drivers/gpu/drm/msm/dp/dp_display.c | 5 +++--
->>>>>>>>>>       1 file changed, 3 insertions(+), 2 deletions(-)
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>> Fixes: 542b37efc20e ("drm/msm/dp: Implement hpd_notify()")
->>>>>>>>
->>>>>>>> Is this a bug fix or an optimization? The commit text doesn't 
->>>>>>>> tell me.
->>>>>>>>
->>>>>>>
->>>>>>> I would say both.
->>>>>>>
->>>>>>> optimization as it avoids the need to go through the hpd_event 
->>>>>>> thread
->>>>>>> processing.
->>>>>>>
->>>>>>> bug fix because once you go through the hpd event thread 
->>>>>>> processing it
->>>>>>> exposes and often breaks the already fragile hpd handling state 
->>>>>>> machine
->>>>>>> which can be avoided in this case.
->>>>>>
->>>>>> Please add a description for the particular issue that was observed
->>>>>> and how it is fixed by the patch.
->>>>>>
->>>>>> Otherwise consider there to be an implicit NAK for all HPD-related
->>>>>> patches unless it is a series that moves link training to the enable
->>>>>> path and drops the HPD state machine completely.
->>>>>>
->>>>>> I really mean it. We should stop beating a dead horse unless there is
->>>>>> a grave bug that must be fixed.
->>>>>>
->>>>>
->>>>> I think the commit message is explaining the issue well enough.
->>>>>
->>>>> This was not fixing any issue we saw to explain you the exact scenario
->>>>> of things which happened but this is just from code walkthrough.
->>>>>
->>>>> Like kuogee wrote, hpd event thread was there so handle events coming
->>>>> out of the hpd_isr for internal hpd cases. For the hpd_notify coming
->>>>> from pmic_glink or any other extnernal hpd cases, there is no need to
->>>>> put this through the hpd event thread because this will only make 
->>>>> things
->>>>> worse of exposing the race conditions of the state machine.
->>>>>
->>>>> Moving link training to enable and removal of hpd event thread will be
->>>>> worked on but delaying obvious things we can fix does not make sense.
->>>>
->>>>   From the commit message this feels like an optimisation rather than a
->>>> fix. And granted the fragility of the HPD state machine, I'd prefer to
->>>> stay away from optimisations. As far as I understood from the history
->>>> of the last revert, we'd better make sure that HPD handling goes only
->>>> through the HPD event thread.
->>>>
->>>
->>> I think you are mixing the two. We tried to send the events through
->>> DRM's hpd_notify which ended up in a bad way and btw, thats still not
->>> resolved even though I have seen reports that things are fine with the
->>> revert, we are consistently able to see us ending up in a disconnected
->>> state with all the reverts and fixes in our x1e80100 DP setup.
->>>
->>> I plan to investigate that issue properly in the next week and try to
->>> make some sense of it all.
->>>
->>> In fact, this patch is removing one more user of the hpd event thread
->>> which is the direction in which we all want to head towards.
->>
->> As I stated earlier, from my point of view it doesn't make sense to
->> rework the HPD thread in small steps.
->>
->>> On whether this is an optimization or a bug fix. I think by avoiding hpd
->>> event thread (which should have never been used for hpd_notify updates,
->>> hence a bug) we are avoiding the possibility of more race conditions.
->>
->> I think that the HPD event thread serializes handling of events, so
->> avoiding it increases the possibility of a race condition.
->>
->>>
->>> So, this has my R-b and it holds. Upto you.
->>
->> I'd wait for a proper description of the issue that was observed and
->> how it is solved by this patch.
->>
-> 
-> This was a code walkthrough fix as I wrote a few times. If there no 
-> merit in pushing this, lets ignore it and stop discussing.
-> 
+The stacktrace showing the sequence of events is below:
 
-Ok, so after we debugged the HPD issue on we have found the issue and 
-why actually this change will help. I am going to post a V2 with more 
-details on the commit text. We can discuss after that.
+dp_bridge_hpd_notify+0x18/0x70 [msm]
+drm_bridge_connector_detect+0x60/0xe8 [drm_kms_helper]
+drm_helper_probe_detect+0x94/0xc0 [drm_kms_helper]
+drm_helper_probe_single_connector_modes+0x43c/0x53c [drm_kms_helper]
+drm_client_modeset_probe+0x240/0x1114 [drm]
+drm_fb_helper_hotplug_event.part.26+0x9c/0xe8 [drm_kms_helper]
+drm_fb_helper_hotplug_event+0x24/0x38 [drm_kms_helper]
+msm_fbdev_client_hotplug+0x24/0xd4 [msm]
+drm_client_dev_hotplug+0xd8/0x148 [drm]
+drm_kms_helper_connector_hotplug_event+0x30/0x3c [drm_kms_helper]
+drm_bridge_connector_handle_hpd+0x84/0x94 [drm_kms_helper]
+drm_bridge_connector_hpd_cb+0xc/0x14 [drm_kms_helper]
+drm_bridge_hpd_notify+0x38/0x50 [drm]
+drm_aux_hpd_bridge_notify+0x14/0x20 [aux_hpd_bridge]
+pmic_glink_altmode_worker+0xec/0x27c [pmic_glink_altmode]
+process_scheduled_works+0x17c/0x2cc
+worker_thread+0x2ac/0x2d0
+kthread+0xfc/0x120
+
+There are three notifications delivered to DP driver for each notification event.
+
+1) From the drm_aux_hpd_bridge_notify() itself as shown above
+
+2) From output_poll_execute() thread which arises due to
+drm_helper_probe_single_connector_modes() call of the above stacktrace
+as shown in more detail here.
+
+dp_bridge_hpd_notify+0x18/0x70 [msm]
+drm_bridge_connector_detect+0x60/0xe8 [drm_kms_helper]
+drm_helper_probe_detect+0x94/0xc0 [drm_kms_helper]
+drm_helper_probe_single_connector_modes+0x43c/0x53c [drm_kms_helper]
+drm_client_modeset_probe+0x240/0x1114 [drm]
+drm_fb_helper_hotplug_event.part.26+0x9c/0xe8 [drm_kms_helper]
+drm_fb_helper_hotplug_event+0x24/0x38 [drm_kms_helper]
+msm_fbdev_client_hotplug+0x24/0xd4 [msm]
+drm_client_dev_hotplug+0xd8/0x148 [drm]
+drm_kms_helper_hotplug_event+0x30/0x3c [drm_kms_helper]
+output_poll_execute+0xe0/0x210 [drm_kms_helper]
+
+3) From the DP driver as the dp_bridge_hpd_notify() callback today triggers
+the hpd_event_thread for connect and disconnect events respectively via below stack
+
+dp_bridge_hpd_notify+0x18/0x70 [msm]
+drm_bridge_connector_detect+0x60/0xe8 [drm_kms_helper]
+drm_helper_probe_detect_ctx+0x98/0x110 [drm_kms_helper]
+check_connector_changed+0x4c/0x20c [drm_kms_helper]
+drm_helper_hpd_irq_event+0x98/0x120 [drm_kms_helper]
+hpd_event_thread+0x478/0x5bc [msm]
+
+We have to address why we end up with 3 events for every single event so something
+is broken with how we work with the drm_bridge_connector.
+
+But, the dp_bridge_hpd_notify() delivered from output_poll_execute() thread will
+return the incorrect HPD status DP driver because the .detect() returns the value
+of link_ready and not the HPD status currently.
+
+And because the HPD event thread has not run yet and this results in the two complementary
+events.
+
+To fix this problem lets have dp_bridge_hpd_notify() call
+dp_hpd_plug_handle/unplug_handle() directly instead of going through the
+event thread.
+
+Then the following .detect() called by drm_kms_helper_connector_hotplug_event()
+will return correct value of HPD status since it uses the correct link_ready value.
+
+With this change, the HPD status delivered by both drm_bridge_connector_hpd_notify()
+and drm_kms_helper_connector_hotplug_event() will match each other consistently.
+
+changes in v2:
+	- Fix the commit message to explain the scenario
+	- Fix the subject a little as well
+
+Fixes: 542b37efc20e ("drm/msm/dp: Implement hpd_notify()")
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+---
+ drivers/gpu/drm/msm/dp/dp_display.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index d80f89581760..dfb10584ff97 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -1665,7 +1665,8 @@ void dp_bridge_hpd_notify(struct drm_bridge *bridge,
+ 		return;
+ 
+ 	if (!dp_display->link_ready && status == connector_status_connected)
+-		dp_add_event(dp, EV_HPD_PLUG_INT, 0, 0);
++		dp_hpd_plug_handle(dp, 0);
+ 	else if (dp_display->link_ready && status == connector_status_disconnected)
+-		dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
++		dp_hpd_unplug_handle(dp, 0);
++
+ }
+-- 
+2.43.2
+
