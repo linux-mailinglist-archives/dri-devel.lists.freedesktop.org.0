@@ -2,78 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F9C89A8B7
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Apr 2024 05:47:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B543089A992
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Apr 2024 09:32:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8362510E99A;
-	Sat,  6 Apr 2024 03:47:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05EF210E26D;
+	Sat,  6 Apr 2024 07:32:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pmru5Ze6";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="i4BRM9bS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B112510EE2A
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Apr 2024 03:47:37 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-516cbf3fe68so3164899e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Apr 2024 20:47:37 -0700 (PDT)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86D3510E75E;
+ Sat,  6 Apr 2024 07:32:50 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-a51beae2f13so11925066b.1; 
+ Sat, 06 Apr 2024 00:32:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712375256; x=1712980056; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=F/uU7IKHxTMAAbrC11KIil89Yya/JAHmkuNwgB4NZyE=;
- b=pmru5Ze6qjxohm9ezRwdKGvANkaPrcn2KpTs+Sqg94f8Ocj+5Zqys+5gqxKc7/LaDV
- t+PaSrfsSpiUjQdBORhgUpECHUCHIhTpyoq9bEDYZz9VIoTgMpxVecdzPkaRKP2DI6xw
- KxZaE5XJ3KuqBUM15sGbgZf/+CW05PT01jdoGIpzvSo+9+P0ToPtwMJNbW3cl/53AMA6
- HHjx3fodBUE5iBHPi1s65j4IDr7Lz2FqwrqR94JU1r2+4E+rHZIvPh51yaOKOqypqZj4
- M4yLvvIqqWoLssTtOffb2KCUx/I9CwksSBFMZJqP901FNQHzZhRKwEXB7+6JkSm6Orp/
- Fp5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712375256; x=1712980056;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1712388769; x=1712993569; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=F/uU7IKHxTMAAbrC11KIil89Yya/JAHmkuNwgB4NZyE=;
- b=UhpU+SgS4ijk8H4sNYcm6dESziVU9/AdbG++dZs6/ghLI554/Lap7ix/j0n1LXp5Fy
- LzDs+VQdEXaDhW3eNYuMXFTLIq5sks1Pev04Jz5dp/cLSkC1C/7r0QICYBr0N/BeDYbA
- DcArl4gQhjC4IHX9EMvwZvyZkR59YhZ0pDEBGEYFs82xP6JLuQUoqnC9YJ79nK4ccNhP
- o6AMqhl924Gt4Hac+cGJrTyDS2QgYRJppx+Lj/pungmudyjnNZhc9ghYldkgqlpcUNjQ
- 6uhTYM+qF3pwSwGsbbcwmp5+6/LbQ6PEFt6PtpmHoGvbW/gqLhNrRpA9BkNrAOiH3ljc
- lTLQ==
+ bh=013IZU5d3S0NSE/vfboHFT2kND7XDrhmbJn2/miWjio=;
+ b=i4BRM9bSFuDJtkEiSpAOUvXCld84NVOviiNtkbMqPTm3OcbKdFH9rSCGJZpmku9ioR
+ ag2lcjkgsERNxun4gEdmmKAaT9nYt5z5QJI3wNZ+2qXtWdHUHnyGihVRkwWzLq1firZn
+ zm9Ogvxus6CuXMYdEoUH0l/8Iqs663hF856NT7GqeMMiwi2OZwVIIca7XbNrDuuGsmQ5
+ TNZLK/mWQnGI4566VfUxpWPxEaqgHr/TSxpa1o3eknQx+WkiA6CK7BN6Vt4tUvfI15PM
+ oucO+QQ9672O9OHjIM1X/xHWqQPkdVdQkj414xOsbMdOyIu1Oz66QcI6Tp0nTf5ytxm2
+ 8a0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712388769; x=1712993569;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=013IZU5d3S0NSE/vfboHFT2kND7XDrhmbJn2/miWjio=;
+ b=r8Gb5qSrFdfKkN9s69QV8AfUoDytEy+UsW3Ob/dYVcWaDsWGSGVCqK9i40bI05QczP
+ nOdzel2nJbf05UoAHGSLHREHgZiQgau3SvnbORYEu2gEifMxgxeoGSDAFh8RkEO12fUL
+ TXEg2W5VKHOPKNixoTBH3z0K7R8N90UMrYhp/gqZSqTFGEDG/k1tiudY6TfzOEKUolU7
+ hRtxDtouxhl44aAwEF7I1RZqzq+i2P0f5ZGXK0RJHFHgyCKnh+bYxOJEC4SrmMDQ6ux9
+ t9Go71F6jnZ7G4Z9YwRi4TcBfFnXlMHqJrk5sUhBiRsMRgUmOHSzpaXc9hMADoBNzK1a
+ bKMA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVM5oETNfGI+NcaLlrfBSs5s0+AmtFaXxGTgR3O/UVuFFwpQ/q+k2ECoA+8lv6dnIf67JKY5LUj8JzcuXHIeLABAHwFg9MJyoFkjyeSaXin
-X-Gm-Message-State: AOJu0YyCRofFsVmHqkcFC9GJ8FHbMzdyjMjKLcu1B6IyhcVrtxWRG4qV
- GBAnfHLlMNeBiGw3mOem1hSU2TCZqBR7mxjJs9GfWE64gVPi2QiMN7y0xMoepYI=
-X-Google-Smtp-Source: AGHT+IGnVgGJgW4W+EbWQbKLF8gQTo8Hs7EZYSTgxIwK/hl1vXLroiMKUu/oLwz+20+QBTD/hTSGKQ==
-X-Received: by 2002:ac2:42c9:0:b0:516:82c1:7d65 with SMTP id
- n9-20020ac242c9000000b0051682c17d65mr2054746lfl.23.1712375255742; 
- Fri, 05 Apr 2024 20:47:35 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzyjmhyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a00e:a300::227])
- by smtp.gmail.com with ESMTPSA id
- m17-20020a195211000000b00516a234ca0dsm357975lfb.192.2024.04.05.20.47.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Apr 2024 20:47:35 -0700 (PDT)
-Date: Sat, 6 Apr 2024 06:47:33 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <quic_bjorande@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Abel Vesa <abel.vesa@linaro.org>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/msm/dp: Remove now unused connector_type from desc
-Message-ID: <iwsvkn6u3aindxqhkbyygoyy36chwuastxvmkoknb2vpgdq6mr@bnuuxveszbk3>
-References: <20240405-dp-connector-type-cleanup-v2-1-0f47d5462ab9@quicinc.com>
+ AJvYcCXax0o/DzABbBDPtYId77W3Gwm2TcNCZ5Mj1GYPIVmZZmjs5TI3FJBK63KpjlWOHMmO59MS775qXJAb03XvkIL6lI0ddnX372n/c8AyUfy7Egih4chGP7Crkro5DQsJy0WqLUJswoccNjIOcQ==
+X-Gm-Message-State: AOJu0Yx/4KgbQh4ya4dn7ndJhXqneEJmhbkJjDdKVKUj0d7se9NVFBhb
+ jKljEE4Ewms/9K1PEj6gRMCMrGaNYJm0NmGAa2XHlgzSBLwP1qlAiPB36q7qyajVFlRbj8YceWa
+ R/0jUT7BnqyX+IvSud5ql3ForJNM=
+X-Google-Smtp-Source: AGHT+IFfMYPeVHT6k5a4kWIko7MIMciS7wY1H9ZYhRPYpikHEHFMCapwLGgkvsgTPm9GQ6v8k595fKNbEsCUm3U4uEo=
+X-Received: by 2002:a17:906:f909:b0:a47:3651:a302 with SMTP id
+ lc9-20020a170906f90900b00a473651a302mr2066556ejb.42.1712388768454; Sat, 06
+ Apr 2024 00:32:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240405-dp-connector-type-cleanup-v2-1-0f47d5462ab9@quicinc.com>
+References: <20240405152951.1531555-1-nunes.erico@gmail.com>
+In-Reply-To: <20240405152951.1531555-1-nunes.erico@gmail.com>
+From: Qiang Yu <yuq825@gmail.com>
+Date: Sat, 6 Apr 2024 15:32:36 +0800
+Message-ID: <CAKGbVbszmRpWfaXVjQ83RiFBapjent9UKM=JcGTMVsOk3bqJkQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] drm/lima: fix devfreq refcount imbalance for job
+ timeouts
+To: Erico Nunes <nunes.erico@gmail.com>
+Cc: anarsoul@gmail.com, dri-devel@lists.freedesktop.org, 
+ lima@lists.freedesktop.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ christian.koenig@amd.com, megi@xff.cz, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,27 +85,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 05, 2024 at 08:14:11PM -0700, Bjorn Andersson wrote:
-> Now that the connector_type is dynamically determined, the
-> connector_type of the struct msm_dp_desc is unused. Clean it up.
-> 
-> Remaining duplicate entries are squashed.
-> 
-> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
-> ---
-> This cleans up after, and hence depends on,
-> https://lore.kernel.org/all/20240324-x1e80100-display-refactor-connector-v4-1-e0ebaea66a78@linaro.org/
-> ---
-> Changes in v2:
-> - Squashed now duplicate entries
-> - Link to v1: https://lore.kernel.org/r/20240328-dp-connector-type-cleanup-v1-1-9bf84c5a6082@quicinc.com
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 48 +++++++++++++------------------------
->  1 file changed, 17 insertions(+), 31 deletions(-)
-> 
+Serial is Reviewed-by: Qiang Yu <yuq825@gmail.com>
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
--- 
-With best wishes
-Dmitry
+On Fri, Apr 5, 2024 at 11:31=E2=80=AFPM Erico Nunes <nunes.erico@gmail.com>=
+ wrote:
+>
+> v1 reference:
+> https://patchwork.freedesktop.org/series/131902/
+>
+> Changes v1 -> v2:
+> - Split synchronize_irq of pp bcast irq change into (new) patch 2.
+>
+> Erico Nunes (3):
+>   drm/lima: add mask irq callback to gp and pp
+>   drm/lima: include pp bcast irq in timeout handler check
+>   drm/lima: mask irqs in timeout path before hard reset
+>
+>  drivers/gpu/drm/lima/lima_bcast.c | 12 ++++++++++++
+>  drivers/gpu/drm/lima/lima_bcast.h |  3 +++
+>  drivers/gpu/drm/lima/lima_gp.c    |  8 ++++++++
+>  drivers/gpu/drm/lima/lima_pp.c    | 18 ++++++++++++++++++
+>  drivers/gpu/drm/lima/lima_sched.c |  9 +++++++++
+>  drivers/gpu/drm/lima/lima_sched.h |  1 +
+>  6 files changed, 51 insertions(+)
+>
+> --
+> 2.44.0
+>
