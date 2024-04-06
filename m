@@ -2,83 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45D5089A891
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Apr 2024 05:14:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 087AA89A895
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Apr 2024 05:16:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66E7710EDF1;
-	Sat,  6 Apr 2024 03:14:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 305EF112E1E;
+	Sat,  6 Apr 2024 03:16:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="D7EPlUvt";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="jP/ES/PU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79D9410EDF1;
- Sat,  6 Apr 2024 03:14:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ACF510F6C5;
+ Sat,  6 Apr 2024 03:16:04 +0000 (UTC)
 Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 4363CGx4025658; Sat, 6 Apr 2024 03:14:24 GMT
+ 4362uPoq027459; Sat, 6 Apr 2024 03:15:59 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- from:date:subject:mime-version:content-type
- :content-transfer-encoding:message-id:to:cc; s=qcppdkim1; bh=kEu
- HkBDAyR9swyPiPjsVlVand8PV9Rguo/9+l/pkcBQ=; b=D7EPlUvtW1o4TU1qjAD
- 2EeOW8tQD5y/QiCgEWl0x9uPoocMOsDlKDnzulavc+iqiPAXXTUCSHkXpTLBbCCs
- jj2AeLR2iIKNkJMWgxdq4za7RLzHzJO5YsPoWymvPPqtEMz2hJwZO5af/uU44Mxd
- Eudja5nJyAEseCxmFKDAlfrcfJpuBIM4gBQOkyciLOIF/HthASPLn6zG2aIqmiBW
- lPzDe+YzVU37jcVzjxdy+kxaF7UxgST4U0S0d2R6eDHTRgjQNx+9mQeGQO4aZ64s
- xKjgZqhoBt7bhOMSpcL3S8o1ZMVkVo8Hqos3xJtV4UGqPM9CdAcc5Eu9axyJb9Yx
- e/w==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding:content-type; s=qcppdkim1; bh=8e7K1ZI
+ uNe7swty97ta2beArCZ5WELl3PnRnzrT2CfQ=; b=jP/ES/PUsjBH1e/oAE1hgYx
+ kuGF+Qlbgptnvp7APhH8xNMpkIvS+5VmkHUHYZIWv9tL9E/3mey26PCSWk/B5U16
+ TPWs7+PN+xsciM4EiS7ft91S3ZYlEv1F9TvQNw7QLML+emlz268T2rIgjZhLhFnf
+ b2i66Be9v0JtaeAoWdns5xqz2ujAzgHmyE7num+DNwvS90zCybKGbbP7mjIAsdJ/
+ N0EHFUdWWrkEweodexqUJvFSlH6kYDXM/UdfMz1ivdayIRPG1mEDxei6UXXaYwzA
+ 0NvMEyxmT4AdCwYXGYp7ygADzdl5byURTx1rstUZUv6Ca8gEBrqqyEQ7lUB7Bdw=
+ =
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xawdcg1sd-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xawdcg1uj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 06 Apr 2024 03:14:23 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
- [10.47.97.35])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4363EM9N005038
+ Sat, 06 Apr 2024 03:15:58 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4363FvmC018149
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 6 Apr 2024 03:14:22 GMT
-Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ Sat, 6 Apr 2024 03:15:57 GMT
+Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Fri, 5 Apr 2024 20:14:22 -0700
-From: Bjorn Andersson <quic_bjorande@quicinc.com>
-Date: Fri, 5 Apr 2024 20:14:11 -0700
-Subject: [PATCH v2] drm/msm/dp: Remove now unused connector_type from desc
+ 15.2.1544.4; Fri, 5 Apr 2024 20:15:56 -0700
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>, "Kuogee
+ Hsieh" <quic_khsieh@quicinc.com>
+CC: <dri-devel@lists.freedesktop.org>, <seanpaul@chromium.org>,
+ <swboyd@chromium.org>, <quic_jesszhan@quicinc.com>,
+ <quic_bjorande@quicinc.com>, <johan@kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3] drm/msm/dp: call dp_hpd_plug_handle()/unplug_handle()
+ directly for external HPD
+Date: Fri, 5 Apr 2024 20:15:47 -0700
+Message-ID: <20240406031548.25829-1-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.43.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20240405-dp-connector-type-cleanup-v2-1-0f47d5462ab9@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIAAK+EGYC/42NTQ6CMBBGr0K6dkxbfkRW3sOwKMMgk2hbWyASw
- t2tnMDl+5L3vk1ECkxRNNkmAi0c2dkE+pQJHI19EHCfWGipC5nrGnoP6KwlnFyAafUE+CRjZw9
- mqEqpKL8UXS6S7wMN/Dna9zbxyDE563G1qN/6T3VRoODaDXWBpalkrW/vmZEtntG9RLvv+xdGZ
- p+gxAAAAA==
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Abel Vesa <abel.vesa@linaro.org>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Bjorn
- Andersson" <quic_bjorande@quicinc.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1712373261; l=6181;
- i=quic_bjorande@quicinc.com; s=20230915; h=from:subject:message-id;
- bh=NexkJVry2eripASBXl/WSU1Tcr3pd3sOiQ/qBQVgSfk=;
- b=bLpdBxq/NLTbkjYD9xTkSSb2ShMo78OXwkmpksSrsW0lO3bl9YVSHmtqmjR9Lob/mgwgbyU4u
- drSOQZ5OVTZCFmFgmI2r6LJTy3Jk9ku6F1LvgVgxAfFy1J5ao3JI1om
-X-Developer-Key: i=quic_bjorande@quicinc.com; a=ed25519;
- pk=VkhObtljigy9k0ZUIE1Mvr0Y+E1dgBEH9WoLQnUtbIM=
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: dVhmvzeEQlyKis2Oyme-A48Al-Xum5uy
-X-Proofpoint-ORIG-GUID: dVhmvzeEQlyKis2Oyme-A48Al-Xum5uy
+X-Proofpoint-GUID: 0irvAP2_jKJRQupanpi4uIFFyXTBYDCq
+X-Proofpoint-ORIG-GUID: 0irvAP2_jKJRQupanpi4uIFFyXTBYDCq
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-04-06_02,2024-04-05_02,2023-05-22_02
@@ -103,116 +94,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the connector_type is dynamically determined, the
-connector_type of the struct msm_dp_desc is unused. Clean it up.
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 
-Remaining duplicate entries are squashed.
+For HPD events coming from external modules using drm_bridge_hpd_notify(),
+the sequence of calls leading to dp_bridge_hpd_notify() is like below:
 
-Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+dp_bridge_hpd_notify+0x18/0x70 [msm]
+drm_bridge_connector_detect+0x60/0xe8 [drm_kms_helper]
+drm_helper_probe_detect+0x94/0xc0 [drm_kms_helper]
+drm_helper_probe_single_connector_modes+0x43c/0x53c [drm_kms_helper]
+drm_client_modeset_probe+0x240/0x1114 [drm]
+drm_fb_helper_hotplug_event.part.26+0x9c/0xe8 [drm_kms_helper]
+drm_fb_helper_hotplug_event+0x24/0x38 [drm_kms_helper]
+msm_fbdev_client_hotplug+0x24/0xd4 [msm]
+drm_client_dev_hotplug+0xd8/0x148 [drm]
+drm_kms_helper_connector_hotplug_event+0x30/0x3c [drm_kms_helper]
+drm_bridge_connector_handle_hpd+0x84/0x94 [drm_kms_helper]
+drm_bridge_connector_hpd_cb+0xc/0x14 [drm_kms_helper]
+drm_bridge_hpd_notify+0x38/0x50 [drm]
+drm_aux_hpd_bridge_notify+0x14/0x20 [aux_hpd_bridge]
+pmic_glink_altmode_worker+0xec/0x27c [pmic_glink_altmode]
+process_scheduled_works+0x17c/0x2cc
+worker_thread+0x2ac/0x2d0
+kthread+0xfc/0x120
+
+There are three notifications delivered to DP driver for each notification event.
+
+1) From the drm_aux_hpd_bridge_notify() itself as shown above
+
+2) From output_poll_execute() thread which arises due to
+drm_helper_probe_single_connector_modes() call of the above stacktrace
+as shown in more detail here.
+
+dp_bridge_hpd_notify+0x18/0x70 [msm]
+drm_bridge_connector_detect+0x60/0xe8 [drm_kms_helper]
+drm_helper_probe_detect+0x94/0xc0 [drm_kms_helper]
+drm_helper_probe_single_connector_modes+0x43c/0x53c [drm_kms_helper]
+drm_client_modeset_probe+0x240/0x1114 [drm]
+drm_fb_helper_hotplug_event.part.26+0x9c/0xe8 [drm_kms_helper]
+drm_fb_helper_hotplug_event+0x24/0x38 [drm_kms_helper]
+msm_fbdev_client_hotplug+0x24/0xd4 [msm]
+drm_client_dev_hotplug+0xd8/0x148 [drm]
+drm_kms_helper_hotplug_event+0x30/0x3c [drm_kms_helper]
+output_poll_execute+0xe0/0x210 [drm_kms_helper]
+
+3) From the DP driver as the dp_bridge_hpd_notify() callback today triggers
+the hpd_event_thread for connect and disconnect events respectively via below stack
+
+dp_bridge_hpd_notify+0x18/0x70 [msm]
+drm_bridge_connector_detect+0x60/0xe8 [drm_kms_helper]
+drm_helper_probe_detect_ctx+0x98/0x110 [drm_kms_helper]
+check_connector_changed+0x4c/0x20c [drm_kms_helper]
+drm_helper_hpd_irq_event+0x98/0x120 [drm_kms_helper]
+hpd_event_thread+0x478/0x5bc [msm]
+
+dp_bridge_hpd_notify() delivered from output_poll_execute() thread
+returns the incorrect HPD status as the MSM DP driver returns the value
+of link_ready and not the HPD status currently in the .detect() callback.
+
+And because the HPD event thread has not run yet, this results in two complementary
+events.
+
+To address this, fix dp_bridge_hpd_notify() to call dp_hpd_plug_handle/unplug_handle()
+directly to return consistent values for the above scenarios.
+
+changes in v3:
+	- Fix the commit message as per submitting guidelines.
+	- remove extra line added
+
+changes in v2:
+	- Fix the commit message to explain the scenario
+	- Fix the subject a little as well
+
+Fixes: 542b37efc20e ("drm/msm/dp: Implement hpd_notify()")
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 ---
-This cleans up after, and hence depends on,
-https://lore.kernel.org/all/20240324-x1e80100-display-refactor-connector-v4-1-e0ebaea66a78@linaro.org/
----
-Changes in v2:
-- Squashed now duplicate entries
-- Link to v1: https://lore.kernel.org/r/20240328-dp-connector-type-cleanup-v1-1-9bf84c5a6082@quicinc.com
----
- drivers/gpu/drm/msm/dp/dp_display.c | 48 +++++++++++++------------------------
- 1 file changed, 17 insertions(+), 31 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_display.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 521cba76d2a0..12c01625c551 100644
+index d80f89581760..bfb6dfff27e8 100644
 --- a/drivers/gpu/drm/msm/dp/dp_display.c
 +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -119,55 +119,41 @@ struct dp_display_private {
- struct msm_dp_desc {
- 	phys_addr_t io_start;
- 	unsigned int id;
--	unsigned int connector_type;
- 	bool wide_bus_supported;
- };
+@@ -1665,7 +1665,7 @@ void dp_bridge_hpd_notify(struct drm_bridge *bridge,
+ 		return;
  
- static const struct msm_dp_desc sc7180_dp_descs[] = {
--	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
-+	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0 },
- 	{}
- };
- 
- static const struct msm_dp_desc sc7280_dp_descs[] = {
--	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
--	{ .io_start = 0x0aea0000, .id = MSM_DP_CONTROLLER_1, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_supported = true },
-+	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
-+	{ .io_start = 0x0aea0000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true },
- 	{}
- };
- 
- static const struct msm_dp_desc sc8180x_dp_descs[] = {
--	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
--	{ .io_start = 0x0ae98000, .id = MSM_DP_CONTROLLER_1, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
--	{ .io_start = 0x0ae9a000, .id = MSM_DP_CONTROLLER_2, .connector_type = DRM_MODE_CONNECTOR_eDP },
-+	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0 },
-+	{ .io_start = 0x0ae98000, .id = MSM_DP_CONTROLLER_1 },
-+	{ .io_start = 0x0ae9a000, .id = MSM_DP_CONTROLLER_2 },
- 	{}
- };
- 
- static const struct msm_dp_desc sc8280xp_dp_descs[] = {
--	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
--	{ .io_start = 0x0ae98000, .id = MSM_DP_CONTROLLER_1, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
--	{ .io_start = 0x0ae9a000, .id = MSM_DP_CONTROLLER_2, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
--	{ .io_start = 0x0aea0000, .id = MSM_DP_CONTROLLER_3, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
--	{ .io_start = 0x22090000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
--	{ .io_start = 0x22098000, .id = MSM_DP_CONTROLLER_1, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
--	{ .io_start = 0x2209a000, .id = MSM_DP_CONTROLLER_2, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
--	{ .io_start = 0x220a0000, .id = MSM_DP_CONTROLLER_3, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
--	{}
--};
--
--static const struct msm_dp_desc sc8280xp_edp_descs[] = {
--	{ .io_start = 0x0ae9a000, .id = MSM_DP_CONTROLLER_2, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_supported = true },
--	{ .io_start = 0x0aea0000, .id = MSM_DP_CONTROLLER_3, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_supported = true },
--	{ .io_start = 0x2209a000, .id = MSM_DP_CONTROLLER_2, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_supported = true },
--	{ .io_start = 0x220a0000, .id = MSM_DP_CONTROLLER_3, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_supported = true },
--	{}
--};
--
--static const struct msm_dp_desc sm8350_dp_descs[] = {
--	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
-+	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
-+	{ .io_start = 0x0ae98000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true },
-+	{ .io_start = 0x0ae9a000, .id = MSM_DP_CONTROLLER_2, .wide_bus_supported = true },
-+	{ .io_start = 0x0aea0000, .id = MSM_DP_CONTROLLER_3, .wide_bus_supported = true },
-+	{ .io_start = 0x22090000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
-+	{ .io_start = 0x22098000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true },
-+	{ .io_start = 0x2209a000, .id = MSM_DP_CONTROLLER_2, .wide_bus_supported = true },
-+	{ .io_start = 0x220a0000, .id = MSM_DP_CONTROLLER_3, .wide_bus_supported = true },
- 	{}
- };
- 
- static const struct msm_dp_desc sm8650_dp_descs[] = {
--	{ .io_start = 0x0af54000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
-+	{ .io_start = 0x0af54000, .id = MSM_DP_CONTROLLER_0 },
- 	{}
- };
- 
-@@ -186,9 +172,9 @@ static const struct of_device_id dp_dt_match[] = {
- 	{ .compatible = "qcom,sc8180x-dp", .data = &sc8180x_dp_descs },
- 	{ .compatible = "qcom,sc8180x-edp", .data = &sc8180x_dp_descs },
- 	{ .compatible = "qcom,sc8280xp-dp", .data = &sc8280xp_dp_descs },
--	{ .compatible = "qcom,sc8280xp-edp", .data = &sc8280xp_edp_descs },
-+	{ .compatible = "qcom,sc8280xp-edp", .data = &sc8280xp_dp_descs },
- 	{ .compatible = "qcom,sdm845-dp", .data = &sc7180_dp_descs },
--	{ .compatible = "qcom,sm8350-dp", .data = &sm8350_dp_descs },
-+	{ .compatible = "qcom,sm8350-dp", .data = &sc7180_dp_descs },
- 	{ .compatible = "qcom,sm8650-dp", .data = &sm8650_dp_descs },
- 	{ .compatible = "qcom,x1e80100-dp", .data = &x1e80100_dp_descs },
- 	{}
-
----
-base-commit: a874b50929e2596deeeeaf21d09f1561a7c59537
-change-id: 20240328-dp-connector-type-cleanup-af6501e374b3
-
-Best regards,
+ 	if (!dp_display->link_ready && status == connector_status_connected)
+-		dp_add_event(dp, EV_HPD_PLUG_INT, 0, 0);
++		dp_hpd_plug_handle(dp, 0);
+ 	else if (dp_display->link_ready && status == connector_status_disconnected)
+-		dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
++		dp_hpd_unplug_handle(dp, 0);
+ }
 -- 
-Bjorn Andersson <quic_bjorande@quicinc.com>
+2.43.2
 
