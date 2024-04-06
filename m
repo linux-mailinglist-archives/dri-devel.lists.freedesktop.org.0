@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C172189AA56
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Apr 2024 12:33:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1DB289AA60
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Apr 2024 12:43:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB16210F040;
-	Sat,  6 Apr 2024 10:33:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9BC110E7EA;
+	Sat,  6 Apr 2024 10:43:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZeZhQfgI";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="m3POpngX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D31D10F044;
- Sat,  6 Apr 2024 10:33:35 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0574510EA01;
+ Sat,  6 Apr 2024 10:43:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712399616; x=1743935616;
+ t=1712400216; x=1743936216;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=X5tsa7eLX6h92RpchhaZofh+CcOwNJe3uIwkNfFcBrc=;
- b=ZeZhQfgI023MBA4C2DutgU2cY8H1FhKWHLLpL65G2ASzVZzqCFDmYNAG
- ODHrx9brvt7/3DHTGx/SBdqER5mH+qlvHrV3pyemti85pTEHej8dZMptn
- dEUFaTuyXnStsYKDAxdw4++o2vEGzYsh6eyy6R4W88/9EB2K3hO5i+w4t
- cWRX3rGKaHmLOKXSg2cIW5BESGLb35eh9Kjg/MvR1WR0NWEYeZPRDtRyF
- kZ0M7lIh+a2TU3w9vSJUe5V2aNEjVo/vJ57EeKZv6PrN5hzoYwj6FHK9x
- aQtfgXO49ZBi5W3UbFLq3MQ5/VLAH+XyRDf63a5Lvg7PqPskU/Cu+E/cm Q==;
-X-CSE-ConnectionGUID: 9Wbup3pYQJi/ziX2qGL4qA==
-X-CSE-MsgGUID: SHhcw7XuQb6Qo2nbxJv8NA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11035"; a="25234380"
-X-IronPort-AV: E=Sophos;i="6.07,182,1708416000"; d="scan'208";a="25234380"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Apr 2024 03:33:35 -0700
-X-CSE-ConnectionGUID: G9PzvfOATT+1qypTb+2KIA==
-X-CSE-MsgGUID: sVDakfYxRMSk61kSRpmTIA==
+ bh=Tm6UWiTLvuOtjlROTNsk00qGzT5cJ18ladKJb9+pq98=;
+ b=m3POpngXbZTNm+06/6vRyjKB0oiWslDGTjS5vm+QiqGKTv7ISOzuNnEa
+ 7cwITpI5EMXOFnk+Np9hXglMt7V8DrznEQjDgLcJZQgXV5jILyAI70CvH
+ fVyeyCyKke7zza3wLWiiNXwAEHDGeqmj5ye3EgjYhHub3BpW692FXtE7z
+ E3+MiAfJtL7dKFUZMFDMmr5j9Mh0Za/KGS/pCzigIpU/7TaIrxYl9KgEm
+ kOBrbSrw44c+bj9H/SLcQ+rhLtRxSXe40WytKLvgkwaP56Ml9lvl6FBg4
+ vX4TE8Bm3ahpVdvhKf/m1lrot9KKHjTO/FbZv/gkm2ky23rirsZ3hHlah w==;
+X-CSE-ConnectionGUID: V861EW6WTaG4cMLuBBC68Q==
+X-CSE-MsgGUID: QGk386kpTtGAjCheNR0vSA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11035"; a="7587512"
+X-IronPort-AV: E=Sophos;i="6.07,183,1708416000"; 
+   d="scan'208";a="7587512"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Apr 2024 03:43:35 -0700
+X-CSE-ConnectionGUID: W9ti95udRzCOBx4nQii9Ow==
+X-CSE-MsgGUID: aGMwCivbQ5iG+39nOsS2Tg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,183,1708416000"; d="scan'208";a="19266072"
+X-IronPort-AV: E=Sophos;i="6.07,183,1708416000"; d="scan'208";a="24133297"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
- by orviesa010.jf.intel.com with ESMTP; 06 Apr 2024 03:33:30 -0700
+ by orviesa004.jf.intel.com with ESMTP; 06 Apr 2024 03:43:30 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rt3MW-0003Nu-0H;
- Sat, 06 Apr 2024 10:33:28 +0000
-Date: Sat, 6 Apr 2024 18:32:43 +0800
+ (envelope-from <lkp@intel.com>) id 1rt3WC-0003OG-0n;
+ Sat, 06 Apr 2024 10:43:28 +0000
+Date: Sat, 6 Apr 2024 18:42:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: Konrad Dybcio <konrad.dybcio@linaro.org>,
  Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
@@ -54,13 +55,13 @@ To: Konrad Dybcio <konrad.dybcio@linaro.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>
 Subject: Re: [PATCH 4/6] drm/msm/adreno: Implement SMEM-based speed bin
-Message-ID: <202404061839.0waGfXwj-lkp@intel.com>
+Message-ID: <202404061841.njUovDV7-lkp@intel.com>
 References: <20240405-topic-smem_speedbin-v1-4-ce2b864251b1@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -91,24 +92,26 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/soc-qcom-Mo
 base:   2b3d5988ae2cb5cd945ddbc653f0a71706231fdd
 patch link:    https://lore.kernel.org/r/20240405-topic-smem_speedbin-v1-4-ce2b864251b1%40linaro.org
 patch subject: [PATCH 4/6] drm/msm/adreno: Implement SMEM-based speed bin
-config: i386-buildonly-randconfig-001-20240406 (https://download.01.org/0day-ci/archive/20240406/202404061839.0waGfXwj-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240406/202404061839.0waGfXwj-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-003-20240406 (https://download.01.org/0day-ci/archive/20240406/202404061841.njUovDV7-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240406/202404061841.njUovDV7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404061839.0waGfXwj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404061841.njUovDV7-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/msm/adreno/adreno_gpu.c:1090:14: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1090 |         *speedbin = FIELD_PREP(ADRENO_SKU_ID_PCODE, pcode) |
-         |                     ^
-   1 error generated.
+   drivers/gpu/drm/msm/adreno/adreno_gpu.c: In function 'adreno_read_speedbin':
+>> drivers/gpu/drm/msm/adreno/adreno_gpu.c:1090:14: error: implicit declaration of function 'FIELD_PREP'; did you mean 'NEED_PGE'? [-Werror=implicit-function-declaration]
+     *speedbin = FIELD_PREP(ADRENO_SKU_ID_PCODE, pcode) |
+                 ^~~~~~~~~~
+                 NEED_PGE
+   cc1: some warnings being treated as errors
 
 
-vim +/FIELD_PREP +1090 drivers/gpu/drm/msm/adreno/adreno_gpu.c
+vim +1090 drivers/gpu/drm/msm/adreno/adreno_gpu.c
 
   1062	
   1063	int adreno_read_speedbin(struct adreno_gpu *adreno_gpu,
