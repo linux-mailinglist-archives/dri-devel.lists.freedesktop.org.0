@@ -2,60 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BEBC89AD29
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Apr 2024 23:59:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 818A889ADF7
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Apr 2024 04:04:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A6C910E7E9;
-	Sat,  6 Apr 2024 21:59:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FCA510F673;
+	Sun,  7 Apr 2024 02:04:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dprD2xMz";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kjS0hESS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ED2010E7E9;
- Sat,  6 Apr 2024 21:59:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712440793; x=1743976793;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=X36AahOvRdmhhEHZoQJWezKkzEmJVfURxWwBjvTWeA0=;
- b=dprD2xMzXc9iaFUsqVz7I66Br7n7nFTwbCx6XF82xnZf4DuyuEczVpYC
- DCp9V/bsg3cKRSQZweHERggSW4k5a+vvQCkXEtD8AGs4tJ+XLX5EWrKiM
- omAsBDSAW4FmFJ8W7rMYSpxZ6pcS3bvJb6aLNhU4vhUYh675L3j5OaCE/
- ukDy7Afwks3cHyo19VRHIhXEdSktNvLCRmomUS/WoAtyzR/Bt2NSVKObZ
- k0vdchPayIVwvZbIv2I3rzByKqGV+4/DUO+B0i0r2tzgUhOau8LH0AMzH
- 0h7RW/FN165lExpKi472lYeChFyfiZkQ2ClLS0cHOnwFfAZvjFiLM5ucX A==;
-X-CSE-ConnectionGUID: W1QN0I9HTI231ah3UjJUFQ==
-X-CSE-MsgGUID: 9HGohI1jT5W6DRqI8a0icw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11036"; a="18318127"
-X-IronPort-AV: E=Sophos;i="6.07,184,1708416000"; d="scan'208";a="18318127"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Apr 2024 14:59:52 -0700
-X-CSE-ConnectionGUID: eoTrljCeSVq8BwFg4XTNfg==
-X-CSE-MsgGUID: QWTEMOYVTByICr1JYSSDiQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,184,1708416000"; d="scan'208";a="23977349"
-Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
- by fmviesa005.fm.intel.com with ESMTP; 06 Apr 2024 14:59:50 -0700
-Received: from kbuild by e61807b1d151 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rtE4i-0003sj-0k;
- Sat, 06 Apr 2024 21:59:48 +0000
-Date: Sun, 7 Apr 2024 05:59:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 06/12] drm/client: Constify modes
-Message-ID: <202404070528.NgbaKKH3-lkp@intel.com>
-References: <20240404203336.10454-7-ville.syrjala@linux.intel.com>
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
+ [209.85.219.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EE4C10F672
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Apr 2024 02:04:00 +0000 (UTC)
+Received: by mail-yb1-f175.google.com with SMTP id
+ 3f1490d57ef6-dccb1421bdeso3367171276.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 06 Apr 2024 19:04:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1712455439; x=1713060239; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=/EZBl0kCTgMxcq/jZN2+jK2LUFglvi7j7hmZF1Wp3+U=;
+ b=kjS0hESSUrIq01fzvsYvgpVpvY/hUHcyGYSCrgnatx1wZrCp53XgspD9ofVekGl/nU
+ ShSCCYTV3H/mNarvBOXvbiQHsSO+HQ2vA5muZh0TzHd39ESnXkgnd70ofVF0LNwJqL6S
+ 6VjnPfiazwP4qQMZVzCGfs4vwCe9KeDjUy2rvXyYxefRW2b+JdqR+Kv7hoIbnXrlBLfO
+ PRzVB6J0qrxc12+ZW9OoU4mQ4LPRwKF7xfSSvF9dWopLrzFHOSkHr7tSaQcT1gGLvEO8
+ 1Gypen9Z9rmL3j5JiiosjGAm4AHjeaeuCsKSMoaFCMc+DhyxNL+01iI8syDTHxyTTjRF
+ 0lTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712455439; x=1713060239;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/EZBl0kCTgMxcq/jZN2+jK2LUFglvi7j7hmZF1Wp3+U=;
+ b=ZnpMGKrP/sUNxL0bonos5lh/iq3qw7AJm+rfhvl97U549AkK0XNBRIrzTSGcTeWgO9
+ ea3pGc+IXXSUs/HtTBPnPhEE19rBVfxUIexRpO3QkuCPN1sqi0lLQRAeZzC9uWJvGL9i
+ i/k9OpV4VNe9w4K14rS0puR5JZCdc02qB1DypO9lYhbOeoZ7b7kplGcLAEkSPsxh2yUT
+ cM+doiQqc83WiWkEAE4Xt/r86cwqIoKer0xjTy0HKOsvt95FtTHLHXA0aui9OjYOIwL4
+ qCRPLMPOQ7Sf0bsriPepLUPUwI0PgQ8aCyCgb6Yh/sLBKR5RyDZOfDSn/9D2W9h/VbVY
+ PXTw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUwdnztsjj1GsO/74tG4N8rC/2nHpTeN4h8YFI12mbL2hmhP0yn4ZWhqGb5A3SCGIf7a2Wpb+fXNMqAwjg3JILfmHMqOmAtWFD/HIA6Bbf3
+X-Gm-Message-State: AOJu0YxxKiRfd8JyjKV408g/bCKpPhqZdDxDhQN1CBmKcjpiUXqEdece
+ IoW5l0So+GUt5l1QVGicC3pUhAnXsiEFaTiZvf9sjjrju7L/l2dhn7VJmJr7yEKz7++6IgidFOe
+ zaXezYNWikfR1ifqZwXY4phYdTSFgZ2MgeOgrwg==
+X-Google-Smtp-Source: AGHT+IESVmqrBCQSNOIT/MkWy80FprAX2aIJsvoJBlMs+XmRvzK7dLUtQxc4/cWFcP0mJPU8jaki6SnYPrG6VITHuTM=
+X-Received: by 2002:a25:a282:0:b0:dcd:6722:c728 with SMTP id
+ c2-20020a25a282000000b00dcd6722c728mr3984209ybi.14.1712455439287; Sat, 06 Apr
+ 2024 19:03:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240404203336.10454-7-ville.syrjala@linux.intel.com>
+References: <20240406031548.25829-1-quic_abhinavk@quicinc.com>
+In-Reply-To: <20240406031548.25829-1-quic_abhinavk@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sun, 7 Apr 2024 05:03:48 +0300
+Message-ID: <CAA8EJpo5=t7JUDmq9cbzBgk+MVmwUC=QD3XTtiVY+F9kPyyLwQ@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/msm/dp: call dp_hpd_plug_handle()/unplug_handle()
+ directly for external HPD
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Bjorn Andersson <andersson@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ dri-devel@lists.freedesktop.org, seanpaul@chromium.org, swboyd@chromium.org, 
+ quic_jesszhan@quicinc.com, quic_bjorande@quicinc.com, johan@kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,148 +83,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ville,
+On Sat, 6 Apr 2024 at 06:16, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+> From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>
+> For HPD events coming from external modules using drm_bridge_hpd_notify(),
+> the sequence of calls leading to dp_bridge_hpd_notify() is like below:
+>
+> dp_bridge_hpd_notify+0x18/0x70 [msm]
+> drm_bridge_connector_detect+0x60/0xe8 [drm_kms_helper]
+> drm_helper_probe_detect+0x94/0xc0 [drm_kms_helper]
+> drm_helper_probe_single_connector_modes+0x43c/0x53c [drm_kms_helper]
+> drm_client_modeset_probe+0x240/0x1114 [drm]
+> drm_fb_helper_hotplug_event.part.26+0x9c/0xe8 [drm_kms_helper]
+> drm_fb_helper_hotplug_event+0x24/0x38 [drm_kms_helper]
+> msm_fbdev_client_hotplug+0x24/0xd4 [msm]
+> drm_client_dev_hotplug+0xd8/0x148 [drm]
+> drm_kms_helper_connector_hotplug_event+0x30/0x3c [drm_kms_helper]
+> drm_bridge_connector_handle_hpd+0x84/0x94 [drm_kms_helper]
+> drm_bridge_connector_hpd_cb+0xc/0x14 [drm_kms_helper]
+> drm_bridge_hpd_notify+0x38/0x50 [drm]
+> drm_aux_hpd_bridge_notify+0x14/0x20 [aux_hpd_bridge]
+> pmic_glink_altmode_worker+0xec/0x27c [pmic_glink_altmode]
+> process_scheduled_works+0x17c/0x2cc
+> worker_thread+0x2ac/0x2d0
+> kthread+0xfc/0x120
+>
+> There are three notifications delivered to DP driver for each notification event.
+>
+> 1) From the drm_aux_hpd_bridge_notify() itself as shown above
+>
+> 2) From output_poll_execute() thread which arises due to
+> drm_helper_probe_single_connector_modes() call of the above stacktrace
+> as shown in more detail here.
+>
+> dp_bridge_hpd_notify+0x18/0x70 [msm]
+> drm_bridge_connector_detect+0x60/0xe8 [drm_kms_helper]
+> drm_helper_probe_detect+0x94/0xc0 [drm_kms_helper]
+> drm_helper_probe_single_connector_modes+0x43c/0x53c [drm_kms_helper]
+> drm_client_modeset_probe+0x240/0x1114 [drm]
+> drm_fb_helper_hotplug_event.part.26+0x9c/0xe8 [drm_kms_helper]
+> drm_fb_helper_hotplug_event+0x24/0x38 [drm_kms_helper]
+> msm_fbdev_client_hotplug+0x24/0xd4 [msm]
+> drm_client_dev_hotplug+0xd8/0x148 [drm]
+> drm_kms_helper_hotplug_event+0x30/0x3c [drm_kms_helper]
+> output_poll_execute+0xe0/0x210 [drm_kms_helper]
+>
+> 3) From the DP driver as the dp_bridge_hpd_notify() callback today triggers
+> the hpd_event_thread for connect and disconnect events respectively via below stack
+>
+> dp_bridge_hpd_notify+0x18/0x70 [msm]
+> drm_bridge_connector_detect+0x60/0xe8 [drm_kms_helper]
+> drm_helper_probe_detect_ctx+0x98/0x110 [drm_kms_helper]
+> check_connector_changed+0x4c/0x20c [drm_kms_helper]
+> drm_helper_hpd_irq_event+0x98/0x120 [drm_kms_helper]
+> hpd_event_thread+0x478/0x5bc [msm]
+>
+> dp_bridge_hpd_notify() delivered from output_poll_execute() thread
+> returns the incorrect HPD status as the MSM DP driver returns the value
+> of link_ready and not the HPD status currently in the .detect() callback.
+>
+> And because the HPD event thread has not run yet, this results in two complementary
+> events.
+>
+> To address this, fix dp_bridge_hpd_notify() to call dp_hpd_plug_handle/unplug_handle()
+> directly to return consistent values for the above scenarios.
+>
+> changes in v3:
+>         - Fix the commit message as per submitting guidelines.
+>         - remove extra line added
+>
+> changes in v2:
+>         - Fix the commit message to explain the scenario
+>         - Fix the subject a little as well
+>
+> Fixes: 542b37efc20e ("drm/msm/dp: Implement hpd_notify()")
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_display.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.9-rc2 next-20240405]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ville-Syrjala/drm-client-Fully-protect-modes-with-dev-mode_config-mutex/20240405-043540
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240404203336.10454-7-ville.syrjala%40linux.intel.com
-patch subject: [PATCH 06/12] drm/client: Constify modes
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240407/202404070528.NgbaKKH3-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 546dc2245ffc4cccd0b05b58b7a5955e355a3b27)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240407/202404070528.NgbaKKH3-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404070528.NgbaKKH3-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/drm_client_modeset.c:16:
-   In file included from include/drm/drm_atomic.h:31:
-   In file included from include/drm/drm_crtc.h:32:
-   In file included from include/drm/drm_modes.h:33:
-   In file included from include/drm/drm_connector.h:32:
-   In file included from include/drm/drm_util.h:35:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:547:31: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/gpu/drm/drm_client_modeset.c:16:
-   In file included from include/drm/drm_atomic.h:31:
-   In file included from include/drm/drm_crtc.h:32:
-   In file included from include/drm/drm_modes.h:33:
-   In file included from include/drm/drm_connector.h:32:
-   In file included from include/drm/drm_util.h:35:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:573:61: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/gpu/drm/drm_client_modeset.c:16:
-   In file included from include/drm/drm_atomic.h:31:
-   In file included from include/drm/drm_crtc.h:32:
-   In file included from include/drm/drm_modes.h:33:
-   In file included from include/drm/drm_connector.h:32:
-   In file included from include/drm/drm_util.h:35:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:584:33: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/gpu/drm/drm_client_modeset.c:16:
-   In file included from include/drm/drm_atomic.h:31:
-   In file included from include/drm/drm_crtc.h:32:
-   In file included from include/drm/drm_modes.h:33:
-   In file included from include/drm/drm_connector.h:32:
-   In file included from include/drm/drm_util.h:36:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/gpu/drm/drm_client_modeset.c:1241:
->> drivers/gpu/drm/tests/drm_client_modeset_test.c:108:7: error: assigning to 'struct drm_display_mode *' from 'const struct drm_display_mode *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     108 |         mode = drm_connector_pick_cmdline_mode(connector);
-         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   8 errors generated.
-
-
-vim +108 drivers/gpu/drm/tests/drm_client_modeset_test.c
-
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   84  
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   85  static void drm_test_pick_cmdline_res_1920_1080_60(struct kunit *test)
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   86  {
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   87  	struct drm_client_modeset_test_priv *priv = test->priv;
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   88  	struct drm_device *drm = priv->drm;
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   89  	struct drm_connector *connector = &priv->connector;
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   90  	struct drm_cmdline_mode *cmdline_mode = &connector->cmdline_mode;
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   91  	struct drm_display_mode *expected_mode, *mode;
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   92  	const char *cmdline = "1920x1080@60";
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   93  	int ret;
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   94  
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   95  	expected_mode = drm_mode_find_dmt(priv->drm, 1920, 1080, 60, false);
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   96  	KUNIT_ASSERT_NOT_NULL(test, expected_mode);
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   97  
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   98  	KUNIT_ASSERT_TRUE(test,
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14   99  			  drm_mode_parse_command_line_for_connector(cmdline,
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  100  								    connector,
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  101  								    cmdline_mode));
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  102  
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  103  	mutex_lock(&drm->mode_config.mutex);
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  104  	ret = drm_helper_probe_single_connector_modes(connector, 1920, 1080);
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  105  	mutex_unlock(&drm->mode_config.mutex);
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  106  	KUNIT_ASSERT_GT(test, ret, 0);
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  107  
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14 @108  	mode = drm_connector_pick_cmdline_mode(connector);
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  109  	KUNIT_ASSERT_NOT_NULL(test, mode);
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  110  
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  111  	KUNIT_EXPECT_TRUE(test, drm_mode_equal(expected_mode, mode));
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  112  }
-8fc0380f6ba7e9 Maxime Ripard 2022-11-14  113  
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With best wishes
+Dmitry
