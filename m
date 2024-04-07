@@ -2,75 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1949B89B2A5
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Apr 2024 17:11:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06EBA89B363
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Apr 2024 19:50:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68F2D10E13F;
-	Sun,  7 Apr 2024 15:11:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15E0D10FB78;
+	Sun,  7 Apr 2024 17:50:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uuqkIEnX";
+	dkim=pass (2048-bit key; secure) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="I8rcFXs8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92B9C10E13F
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Apr 2024 15:11:50 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-a4644bde1d4so509652766b.3
- for <dri-devel@lists.freedesktop.org>; Sun, 07 Apr 2024 08:11:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712502708; x=1713107508; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=1L6tj3Ykhqe3bT0DzwbvYek6Lx7l4bP1RVMn9TnkTIM=;
- b=uuqkIEnXTtWc3b8JC8xpLl1oT3pfpmRI9m+8Qc5tEsHhIYLzJu/A16kL5aRDjWwU+k
- 9gDVB+bNiZL8g5ZLWwy5EgsOmy8KiGyILlJ2YKx81ANxgqbTHGj+Qk+5tx4+DNKf+sbu
- wk7nkc5Hi/NEoxptVVPie//wakrayM2DUmdl6VlPj3HazTx4KFQMMqhpf0Sx9pB/0fdP
- YRDPoxCmSjXZw9iyp/z1KyyAmU6TdV/d7gUM/gKWBke93DVQrWpjt8px+ewCd13usCVL
- 9dkYwTlLI0j0jQRdtOpY2Qe6Po5C8+XZBGi98q87ggsTFAH+wE/j3mQhOT/elFZV4q4+
- x4rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712502708; x=1713107508;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1L6tj3Ykhqe3bT0DzwbvYek6Lx7l4bP1RVMn9TnkTIM=;
- b=XDUOmdI1eCZ/bK8cWI4nd7tbcpHUKrHPGOxNarb2tMh8TtVeKOpVOP4LnD0KcnSJrj
- EiYsAEr71BMOigojBfBbHKQpTwSA6B86fbQoVHL9JwY4FepzAKonJ70nlIjOQm9Hu21U
- BJfMEh8X7DYpht5nC95dNC29ysFctCoRDar/m9sv7j1FqTAd0IdQBPFF1//y8AlqIQMU
- oY/5Q2RApEtAUXzcY+Uk4zA70V+e3nYVP7GAgokwE/PbfmxpmmhjulHoYLUo8DUqBvu2
- iTWN1FbcuMJCBTc0GupXM8Vp1OrLfwE5HoHaPuppHsQP7j6z7HAZqjSWEVdVPa3dq86w
- ze4g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUQ3eHHPk/PQyws1b7m0HIjdE4xyZRNbaNmZhAdD6iaThmPcgn6aYaMxyP8Y3n92AmkNjTDXMUup6BdNzgV5EersFLBvf3OKBCIGrYbgMc3
-X-Gm-Message-State: AOJu0YyzMRFSIBILeWRBHMLnyueMF36IKcBQNrhDiqbndTRc4K+5Iiyp
- CFV0tFFBxyGl4m6u/LLO/VC8rhz01D9MnancwM3CkJI/zaREEgE+Z0EPJiPFwgY=
-X-Google-Smtp-Source: AGHT+IHElRvRYkTsvef4HJyWIpPMDFwQYWdafxiP3Xm2EkrU6lPRRRXxKLZTeoMyg+mwIL/wZIUWOQ==
-X-Received: by 2002:a17:907:3daa:b0:a51:d4fa:cf92 with SMTP id
- he42-20020a1709073daa00b00a51d4facf92mr306861ejc.14.1712502707981; 
- Sun, 07 Apr 2024 08:11:47 -0700 (PDT)
-Received: from linaro.org ([79.114.172.194]) by smtp.gmail.com with ESMTPSA id
- dr2-20020a170907720200b00a4ea1fbb323sm3239743ejc.98.2024.04.07.08.11.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Apr 2024 08:11:47 -0700 (PDT)
-Date: Sun, 7 Apr 2024 18:11:46 +0300
-From: Abel Vesa <abel.vesa@linaro.org>
-To: Bjorn Andersson <quic_bjorande@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/msm/dp: Remove now unused connector_type from desc
-Message-ID: <ZhK3sijUdGBSCMVz@linaro.org>
-References: <20240405-dp-connector-type-cleanup-v2-1-0f47d5462ab9@quicinc.com>
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E99310FB76
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Apr 2024 17:50:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ sang-engineering.com; h=date:from:to:cc:subject:message-id
+ :references:mime-version:content-type:in-reply-to; s=k1; bh=4t2Y
+ Q/qy30jidZ7O24IB3uqzEABMi7K+pNMZ6EvQcas=; b=I8rcFXs8Ya99YYGwKQjv
+ BDixyZfMkAM0HErrUX9O+UN9Cl4QLLoj+1+tW9ghHFlZcZLg19vMflJtIBWr6mWI
+ kiREuEovpji1/WrfPNyyxzK+loDURCBXJYw+OqS0f5b7x/XJw2SkAD3LRrOpJ5T6
+ T0JwU2yacMK0fgWJzl8kuPxknxooMbcY0LcPQsVNdLuBpf1Lnq1jdSlIfvMEfSAE
+ STnGfKR202alQDncdL3TVlC5VPbqov6TNPuwo0CLHEtm3j9qvg4XBx392N8pPGLG
+ 5D6FQEzlzMX8kvu28JTDoA2tgyNWbZmW6r2OsRZBr5oP4flPBJMXUjGFHhLf8d2Y
+ 6w==
+Received: (qmail 538382 invoked from network); 7 Apr 2024 19:50:45 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted,
+ authenticated); 7 Apr 2024 19:50:45 +0200
+X-UD-Smtp-Session: l3s3148p1@Dli0U4UVEoUgAQnoAF4/ADroH6KhJW9n
+Date: Sun, 7 Apr 2024 19:50:39 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>, 
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-gfx@lists.freedesktop.org>, 
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-xe@lists.freedesktop.org>, 
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>, 
+ "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
+ "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
+Subject: Re: [PATCH v0 00/14] Make I2C terminology more inclusive for I2C
+ Algobit and consumers
+Message-ID: <20240407175039.za3eg7la7i2jwvun@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Easwar Hariharan <eahariha@linux.microsoft.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-gfx@lists.freedesktop.org>, 
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-xe@lists.freedesktop.org>, 
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>, 
+ "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
+ "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
+References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
+ <ffumcagmzdstcf3qcn3f26555pnu7i6azjppciyd4zvcoit7pv@vu262tsfnqyr>
+ <3bd8d2f6-dfe1-479f-bff1-f2921b1940ed@linux.microsoft.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="otbz5n53lv3dv44g"
 Content-Disposition: inline
-In-Reply-To: <20240405-dp-connector-type-cleanup-v2-1-0f47d5462ab9@quicinc.com>
+In-Reply-To: <3bd8d2f6-dfe1-479f-bff1-f2921b1940ed@linux.microsoft.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,120 +84,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24-04-05 20:14:11, Bjorn Andersson wrote:
-> Now that the connector_type is dynamically determined, the
-> connector_type of the struct msm_dp_desc is unused. Clean it up.
-> 
-> Remaining duplicate entries are squashed.
-> 
-> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
 
-Reviewed-by: Abel Vesa <abel.vesa@linaro.org>
+--otbz5n53lv3dv44g
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> ---
-> This cleans up after, and hence depends on,
-> https://lore.kernel.org/all/20240324-x1e80100-display-refactor-connector-v4-1-e0ebaea66a78@linaro.org/
-> ---
-> Changes in v2:
-> - Squashed now duplicate entries
-> - Link to v1: https://lore.kernel.org/r/20240328-dp-connector-type-cleanup-v1-1-9bf84c5a6082@quicinc.com
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 48 +++++++++++++------------------------
->  1 file changed, 17 insertions(+), 31 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 521cba76d2a0..12c01625c551 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -119,55 +119,41 @@ struct dp_display_private {
->  struct msm_dp_desc {
->  	phys_addr_t io_start;
->  	unsigned int id;
-> -	unsigned int connector_type;
->  	bool wide_bus_supported;
->  };
->  
->  static const struct msm_dp_desc sc7180_dp_descs[] = {
-> -	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
-> +	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0 },
->  	{}
->  };
->  
->  static const struct msm_dp_desc sc7280_dp_descs[] = {
-> -	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
-> -	{ .io_start = 0x0aea0000, .id = MSM_DP_CONTROLLER_1, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_supported = true },
-> +	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
-> +	{ .io_start = 0x0aea0000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true },
->  	{}
->  };
->  
->  static const struct msm_dp_desc sc8180x_dp_descs[] = {
-> -	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
-> -	{ .io_start = 0x0ae98000, .id = MSM_DP_CONTROLLER_1, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
-> -	{ .io_start = 0x0ae9a000, .id = MSM_DP_CONTROLLER_2, .connector_type = DRM_MODE_CONNECTOR_eDP },
-> +	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0 },
-> +	{ .io_start = 0x0ae98000, .id = MSM_DP_CONTROLLER_1 },
-> +	{ .io_start = 0x0ae9a000, .id = MSM_DP_CONTROLLER_2 },
->  	{}
->  };
->  
->  static const struct msm_dp_desc sc8280xp_dp_descs[] = {
-> -	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
-> -	{ .io_start = 0x0ae98000, .id = MSM_DP_CONTROLLER_1, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
-> -	{ .io_start = 0x0ae9a000, .id = MSM_DP_CONTROLLER_2, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
-> -	{ .io_start = 0x0aea0000, .id = MSM_DP_CONTROLLER_3, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
-> -	{ .io_start = 0x22090000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
-> -	{ .io_start = 0x22098000, .id = MSM_DP_CONTROLLER_1, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
-> -	{ .io_start = 0x2209a000, .id = MSM_DP_CONTROLLER_2, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
-> -	{ .io_start = 0x220a0000, .id = MSM_DP_CONTROLLER_3, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
-> -	{}
-> -};
-> -
-> -static const struct msm_dp_desc sc8280xp_edp_descs[] = {
-> -	{ .io_start = 0x0ae9a000, .id = MSM_DP_CONTROLLER_2, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_supported = true },
-> -	{ .io_start = 0x0aea0000, .id = MSM_DP_CONTROLLER_3, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_supported = true },
-> -	{ .io_start = 0x2209a000, .id = MSM_DP_CONTROLLER_2, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_supported = true },
-> -	{ .io_start = 0x220a0000, .id = MSM_DP_CONTROLLER_3, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_supported = true },
-> -	{}
-> -};
-> -
-> -static const struct msm_dp_desc sm8350_dp_descs[] = {
-> -	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
-> +	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
-> +	{ .io_start = 0x0ae98000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true },
-> +	{ .io_start = 0x0ae9a000, .id = MSM_DP_CONTROLLER_2, .wide_bus_supported = true },
-> +	{ .io_start = 0x0aea0000, .id = MSM_DP_CONTROLLER_3, .wide_bus_supported = true },
-> +	{ .io_start = 0x22090000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
-> +	{ .io_start = 0x22098000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true },
-> +	{ .io_start = 0x2209a000, .id = MSM_DP_CONTROLLER_2, .wide_bus_supported = true },
-> +	{ .io_start = 0x220a0000, .id = MSM_DP_CONTROLLER_3, .wide_bus_supported = true },
->  	{}
->  };
->  
->  static const struct msm_dp_desc sm8650_dp_descs[] = {
-> -	{ .io_start = 0x0af54000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
-> +	{ .io_start = 0x0af54000, .id = MSM_DP_CONTROLLER_0 },
->  	{}
->  };
->  
-> @@ -186,9 +172,9 @@ static const struct of_device_id dp_dt_match[] = {
->  	{ .compatible = "qcom,sc8180x-dp", .data = &sc8180x_dp_descs },
->  	{ .compatible = "qcom,sc8180x-edp", .data = &sc8180x_dp_descs },
->  	{ .compatible = "qcom,sc8280xp-dp", .data = &sc8280xp_dp_descs },
-> -	{ .compatible = "qcom,sc8280xp-edp", .data = &sc8280xp_edp_descs },
-> +	{ .compatible = "qcom,sc8280xp-edp", .data = &sc8280xp_dp_descs },
->  	{ .compatible = "qcom,sdm845-dp", .data = &sc7180_dp_descs },
-> -	{ .compatible = "qcom,sm8350-dp", .data = &sm8350_dp_descs },
-> +	{ .compatible = "qcom,sm8350-dp", .data = &sc7180_dp_descs },
->  	{ .compatible = "qcom,sm8650-dp", .data = &sm8650_dp_descs },
->  	{ .compatible = "qcom,x1e80100-dp", .data = &x1e80100_dp_descs },
->  	{}
-> 
-> ---
-> base-commit: a874b50929e2596deeeeaf21d09f1561a7c59537
-> change-id: 20240328-dp-connector-type-cleanup-af6501e374b3
-> 
-> Best regards,
-> -- 
-> Bjorn Andersson <quic_bjorande@quicinc.com>
-> 
+Hi Easwar,
+
+> Sorry, got excited. :) There were drivers I'd been part of that I specifi=
+cally
+> wanted to fixup, but then the scope grew to other users of algobit.
+
+Well, you got some positive feedback, so that is good.
+
+> > It is true that I changed quite some controller drivers within the i2c
+> > realm. I did this to gain experience. As you also noticed quite some
+> > questions came up. We need to agree on answers first. And once we are
+> > happy with the answers we found, then IMO we can go outside of the i2c
+> > realm and send patches to other subsystems referencing agreed
+> > precedence. I intentionally did not go outside i2c yet. Since your
+> > patches are already there, you probably want to foster them until they
+> > are ready for inclusion.
+>=20
+> Sorry, I don't quite follow what you mean by foster in this context. Are
+> you asking me to hold off on merging the series, or to follow through on
+> getting it merged?
+
+I think they are your patches, so this is up to you to decide. With
+"foster", I meant you keep working on them until everyone is happy. I
+haven't looked at the drivers you modify. I can't tell if they can be
+converted right away or if they use a lot of I2C API calls, so that it
+makes sense to wait until the core is converted. I trust you to decide
+this.
+
+Happy hacking,
+
+   Wolfram
+
+--otbz5n53lv3dv44g
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmYS3OoACgkQFA3kzBSg
+KbYf7g/+KaVes7wupe7nkKcoPIanoG7cxHpUDAmN7oUnNvo+ohAUMW4QQArNIm2s
+5XNlfsu3X6VylCN8OD2kzHwBeAv706tbSViyjCtxmeVKAaXEh7/WMAfKBkrcDZMr
+RCcbCz3DiLj7jX+r4iaSebNE3FBuLX6seWUJgN0vF0M+RvsS5uQhsmUd4+cUHBo3
+pMk38vgS7Q3H47QRW64JJRKsKT3N5S8NMoYZKGDMt8omF6hnkvgJ9W0TnvenD6Q9
+QTMZur4Z25/gnF3Ds2WS4R4Y0VNo6EFludz5hNNg56DuMF9ErhUkGeixAYIgRJG2
+6YxZ1f003gWC3SgXuw91vD32QNJoR49DTaE4AnRhSx/EFK7zvwMoA7jOj7xx43i1
+xUPEpGjI4K68E32JP9wLj/rvjAW7REQyA+nKVaO7O6vbKVihpdMr/HgMq/UE3sIK
+CpMJ1Czfd56FUKE38vNihyL4V70O9iqMMiJmGd0gTQZ+WLYootZU9u68kQeMDah7
+2bbZnQzBSDy/xGzVdfrozrUkvAqd0Lo9qIJcCxTqMSrC7QWBGLkQXMOTWivlCRe7
+TtE5kBO4N4deizuNFwQEnoBpM9RCV+P/Jxd9EXHbQ8uwVWC2xU0QAJdWJwjicO5x
+Qmmz2/i/uKhU6Xwi82t8aASq+Lyc/L5LLwBDymYh51o1dRG3mVM=
+=V5fB
+-----END PGP SIGNATURE-----
+
+--otbz5n53lv3dv44g--
