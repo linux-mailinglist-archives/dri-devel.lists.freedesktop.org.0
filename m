@@ -2,55 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A30789B114
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Apr 2024 15:13:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1949B89B2A5
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Apr 2024 17:11:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F143D10E3FE;
-	Sun,  7 Apr 2024 13:13:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68F2D10E13F;
+	Sun,  7 Apr 2024 15:11:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Nuv96dqY";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uuqkIEnX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2F1910E526;
- Sun,  7 Apr 2024 13:13:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2F47C60C1C;
- Sun,  7 Apr 2024 13:13:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F14EC43390;
- Sun,  7 Apr 2024 13:13:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1712495584;
- bh=oWCzXN+vCCpyVNvZ5+D/zJUDwJXHUttz1Y7S2CW20QA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Nuv96dqYDUMBjFLenYi3+hNkO8RbpZayPFxsoCGbGOfw0gZoGKuyiNssoOnnVs13b
- Tpo4LB1bYJVoYFePIzKY0My65PtxldWt8UqZRzRRKRBaeAjsc/f+UZzAg+Wm1AMVI8
- 9158ECT6WaWMoDPujaoejQ8UK90zcq02R7v/KhJRrsUI5qaASyYNTiH90AwxDQhzpj
- m5Xqrlupn5q9CCE8yFlOcbunODsoOPEDMdBas5FP3U/77nbIrXLMWvemItStQEQPdI
- RQTWTe0S7hM1Jh0/CL1qEbfAlJwRh1zL2xAax14cdAkTc88yaeJ9bA+YOPEqAr8Eg6
- f58jN06aUD8aQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Jonathan Kim <Jonathan.Kim@amd.com>, Jonathan Kim <jonathan.kim@amd.com>,
- Jesse Zhang <jesse.zhang@amd.com>, Felix Kuehling <felix.kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- Felix.Kuehling@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 19/22] drm/amdkfd: range check cp bad op exception
- interrupts
-Date: Sun,  7 Apr 2024 09:12:18 -0400
-Message-ID: <20240407131231.1051652-19-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240407131231.1051652-1-sashal@kernel.org>
-References: <20240407131231.1051652-1-sashal@kernel.org>
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
+ [209.85.218.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92B9C10E13F
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Apr 2024 15:11:50 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id
+ a640c23a62f3a-a4644bde1d4so509652766b.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 07 Apr 2024 08:11:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1712502708; x=1713107508; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=1L6tj3Ykhqe3bT0DzwbvYek6Lx7l4bP1RVMn9TnkTIM=;
+ b=uuqkIEnXTtWc3b8JC8xpLl1oT3pfpmRI9m+8Qc5tEsHhIYLzJu/A16kL5aRDjWwU+k
+ 9gDVB+bNiZL8g5ZLWwy5EgsOmy8KiGyILlJ2YKx81ANxgqbTHGj+Qk+5tx4+DNKf+sbu
+ wk7nkc5Hi/NEoxptVVPie//wakrayM2DUmdl6VlPj3HazTx4KFQMMqhpf0Sx9pB/0fdP
+ YRDPoxCmSjXZw9iyp/z1KyyAmU6TdV/d7gUM/gKWBke93DVQrWpjt8px+ewCd13usCVL
+ 9dkYwTlLI0j0jQRdtOpY2Qe6Po5C8+XZBGi98q87ggsTFAH+wE/j3mQhOT/elFZV4q4+
+ x4rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712502708; x=1713107508;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1L6tj3Ykhqe3bT0DzwbvYek6Lx7l4bP1RVMn9TnkTIM=;
+ b=XDUOmdI1eCZ/bK8cWI4nd7tbcpHUKrHPGOxNarb2tMh8TtVeKOpVOP4LnD0KcnSJrj
+ EiYsAEr71BMOigojBfBbHKQpTwSA6B86fbQoVHL9JwY4FepzAKonJ70nlIjOQm9Hu21U
+ BJfMEh8X7DYpht5nC95dNC29ysFctCoRDar/m9sv7j1FqTAd0IdQBPFF1//y8AlqIQMU
+ oY/5Q2RApEtAUXzcY+Uk4zA70V+e3nYVP7GAgokwE/PbfmxpmmhjulHoYLUo8DUqBvu2
+ iTWN1FbcuMJCBTc0GupXM8Vp1OrLfwE5HoHaPuppHsQP7j6z7HAZqjSWEVdVPa3dq86w
+ ze4g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUQ3eHHPk/PQyws1b7m0HIjdE4xyZRNbaNmZhAdD6iaThmPcgn6aYaMxyP8Y3n92AmkNjTDXMUup6BdNzgV5EersFLBvf3OKBCIGrYbgMc3
+X-Gm-Message-State: AOJu0YyzMRFSIBILeWRBHMLnyueMF36IKcBQNrhDiqbndTRc4K+5Iiyp
+ CFV0tFFBxyGl4m6u/LLO/VC8rhz01D9MnancwM3CkJI/zaREEgE+Z0EPJiPFwgY=
+X-Google-Smtp-Source: AGHT+IHElRvRYkTsvef4HJyWIpPMDFwQYWdafxiP3Xm2EkrU6lPRRRXxKLZTeoMyg+mwIL/wZIUWOQ==
+X-Received: by 2002:a17:907:3daa:b0:a51:d4fa:cf92 with SMTP id
+ he42-20020a1709073daa00b00a51d4facf92mr306861ejc.14.1712502707981; 
+ Sun, 07 Apr 2024 08:11:47 -0700 (PDT)
+Received: from linaro.org ([79.114.172.194]) by smtp.gmail.com with ESMTPSA id
+ dr2-20020a170907720200b00a4ea1fbb323sm3239743ejc.98.2024.04.07.08.11.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 07 Apr 2024 08:11:47 -0700 (PDT)
+Date: Sun, 7 Apr 2024 18:11:46 +0300
+From: Abel Vesa <abel.vesa@linaro.org>
+To: Bjorn Andersson <quic_bjorande@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm/msm/dp: Remove now unused connector_type from desc
+Message-ID: <ZhK3sijUdGBSCMVz@linaro.org>
+References: <20240405-dp-connector-type-cleanup-v2-1-0f47d5462ab9@quicinc.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.25
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240405-dp-connector-type-cleanup-v2-1-0f47d5462ab9@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,102 +86,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jonathan Kim <Jonathan.Kim@amd.com>
+On 24-04-05 20:14:11, Bjorn Andersson wrote:
+> Now that the connector_type is dynamically determined, the
+> connector_type of the struct msm_dp_desc is unused. Clean it up.
+> 
+> Remaining duplicate entries are squashed.
+> 
+> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
 
-[ Upstream commit 0cac183b98d8a8c692c98e8dba37df15a9e9210d ]
+Reviewed-by: Abel Vesa <abel.vesa@linaro.org>
 
-Due to a CP interrupt bug, bad packet garbage exception codes are raised.
-Do a range check so that the debugger and runtime do not receive garbage
-codes.
-Update the user api to guard exception code type checking as well.
-
-Signed-off-by: Jonathan Kim <jonathan.kim@amd.com>
-Tested-by: Jesse Zhang <jesse.zhang@amd.com>
-Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- .../gpu/drm/amd/amdkfd/kfd_int_process_v10.c    |  3 ++-
- .../gpu/drm/amd/amdkfd/kfd_int_process_v11.c    |  3 ++-
- drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c |  3 ++-
- include/uapi/linux/kfd_ioctl.h                  | 17 ++++++++++++++---
- 4 files changed, 20 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v10.c b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v10.c
-index a7697ec8188e0..f85ca6cb90f56 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v10.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v10.c
-@@ -336,7 +336,8 @@ static void event_interrupt_wq_v10(struct kfd_node *dev,
- 				break;
- 			}
- 			kfd_signal_event_interrupt(pasid, context_id0 & 0x7fffff, 23);
--		} else if (source_id == SOC15_INTSRC_CP_BAD_OPCODE) {
-+		} else if (source_id == SOC15_INTSRC_CP_BAD_OPCODE &&
-+			   KFD_DBG_EC_TYPE_IS_PACKET(KFD_DEBUG_CP_BAD_OP_ECODE(context_id0))) {
- 			kfd_set_dbg_ev_from_interrupt(dev, pasid,
- 				KFD_DEBUG_DOORBELL_ID(context_id0),
- 				KFD_EC_MASK(KFD_DEBUG_CP_BAD_OP_ECODE(context_id0)),
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v11.c b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v11.c
-index 2a65792fd1162..3ca9c160da7c2 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v11.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v11.c
-@@ -325,7 +325,8 @@ static void event_interrupt_wq_v11(struct kfd_node *dev,
- 		/* CP */
- 		if (source_id == SOC15_INTSRC_CP_END_OF_PIPE)
- 			kfd_signal_event_interrupt(pasid, context_id0, 32);
--		else if (source_id == SOC15_INTSRC_CP_BAD_OPCODE)
-+		else if (source_id == SOC15_INTSRC_CP_BAD_OPCODE &&
-+			 KFD_DBG_EC_TYPE_IS_PACKET(KFD_CTXID0_CP_BAD_OP_ECODE(context_id0)))
- 			kfd_set_dbg_ev_from_interrupt(dev, pasid,
- 				KFD_CTXID0_DOORBELL_ID(context_id0),
- 				KFD_EC_MASK(KFD_CTXID0_CP_BAD_OP_ECODE(context_id0)),
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c
-index 27cdaea405017..8a6729939ae55 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c
-@@ -385,7 +385,8 @@ static void event_interrupt_wq_v9(struct kfd_node *dev,
- 				break;
- 			}
- 			kfd_signal_event_interrupt(pasid, sq_int_data, 24);
--		} else if (source_id == SOC15_INTSRC_CP_BAD_OPCODE) {
-+		} else if (source_id == SOC15_INTSRC_CP_BAD_OPCODE &&
-+			   KFD_DBG_EC_TYPE_IS_PACKET(KFD_DEBUG_CP_BAD_OP_ECODE(context_id0))) {
- 			kfd_set_dbg_ev_from_interrupt(dev, pasid,
- 				KFD_DEBUG_DOORBELL_ID(context_id0),
- 				KFD_EC_MASK(KFD_DEBUG_CP_BAD_OP_ECODE(context_id0)),
-diff --git a/include/uapi/linux/kfd_ioctl.h b/include/uapi/linux/kfd_ioctl.h
-index eeb2fdcbdcb70..cd924c959d732 100644
---- a/include/uapi/linux/kfd_ioctl.h
-+++ b/include/uapi/linux/kfd_ioctl.h
-@@ -909,14 +909,25 @@ enum kfd_dbg_trap_exception_code {
- 				 KFD_EC_MASK(EC_DEVICE_NEW))
- #define KFD_EC_MASK_PROCESS	(KFD_EC_MASK(EC_PROCESS_RUNTIME) |	\
- 				 KFD_EC_MASK(EC_PROCESS_DEVICE_REMOVE))
-+#define KFD_EC_MASK_PACKET	(KFD_EC_MASK(EC_QUEUE_PACKET_DISPATCH_DIM_INVALID) |	\
-+				 KFD_EC_MASK(EC_QUEUE_PACKET_DISPATCH_GROUP_SEGMENT_SIZE_INVALID) |	\
-+				 KFD_EC_MASK(EC_QUEUE_PACKET_DISPATCH_CODE_INVALID) |	\
-+				 KFD_EC_MASK(EC_QUEUE_PACKET_RESERVED) |	\
-+				 KFD_EC_MASK(EC_QUEUE_PACKET_UNSUPPORTED) |	\
-+				 KFD_EC_MASK(EC_QUEUE_PACKET_DISPATCH_WORK_GROUP_SIZE_INVALID) |	\
-+				 KFD_EC_MASK(EC_QUEUE_PACKET_DISPATCH_REGISTER_INVALID) |	\
-+				 KFD_EC_MASK(EC_QUEUE_PACKET_VENDOR_UNSUPPORTED))
- 
- /* Checks for exception code types for KFD search */
-+#define KFD_DBG_EC_IS_VALID(ecode) (ecode > EC_NONE && ecode < EC_MAX)
- #define KFD_DBG_EC_TYPE_IS_QUEUE(ecode)					\
--			(!!(KFD_EC_MASK(ecode) & KFD_EC_MASK_QUEUE))
-+			(KFD_DBG_EC_IS_VALID(ecode) && !!(KFD_EC_MASK(ecode) & KFD_EC_MASK_QUEUE))
- #define KFD_DBG_EC_TYPE_IS_DEVICE(ecode)				\
--			(!!(KFD_EC_MASK(ecode) & KFD_EC_MASK_DEVICE))
-+			(KFD_DBG_EC_IS_VALID(ecode) && !!(KFD_EC_MASK(ecode) & KFD_EC_MASK_DEVICE))
- #define KFD_DBG_EC_TYPE_IS_PROCESS(ecode)				\
--			(!!(KFD_EC_MASK(ecode) & KFD_EC_MASK_PROCESS))
-+			(KFD_DBG_EC_IS_VALID(ecode) && !!(KFD_EC_MASK(ecode) & KFD_EC_MASK_PROCESS))
-+#define KFD_DBG_EC_TYPE_IS_PACKET(ecode)				\
-+			(KFD_DBG_EC_IS_VALID(ecode) && !!(KFD_EC_MASK(ecode) & KFD_EC_MASK_PACKET))
- 
- 
- /* Runtime enable states */
--- 
-2.43.0
-
+> ---
+> This cleans up after, and hence depends on,
+> https://lore.kernel.org/all/20240324-x1e80100-display-refactor-connector-v4-1-e0ebaea66a78@linaro.org/
+> ---
+> Changes in v2:
+> - Squashed now duplicate entries
+> - Link to v1: https://lore.kernel.org/r/20240328-dp-connector-type-cleanup-v1-1-9bf84c5a6082@quicinc.com
+> ---
+>  drivers/gpu/drm/msm/dp/dp_display.c | 48 +++++++++++++------------------------
+>  1 file changed, 17 insertions(+), 31 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 521cba76d2a0..12c01625c551 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -119,55 +119,41 @@ struct dp_display_private {
+>  struct msm_dp_desc {
+>  	phys_addr_t io_start;
+>  	unsigned int id;
+> -	unsigned int connector_type;
+>  	bool wide_bus_supported;
+>  };
+>  
+>  static const struct msm_dp_desc sc7180_dp_descs[] = {
+> -	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
+> +	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0 },
+>  	{}
+>  };
+>  
+>  static const struct msm_dp_desc sc7280_dp_descs[] = {
+> -	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
+> -	{ .io_start = 0x0aea0000, .id = MSM_DP_CONTROLLER_1, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_supported = true },
+> +	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
+> +	{ .io_start = 0x0aea0000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true },
+>  	{}
+>  };
+>  
+>  static const struct msm_dp_desc sc8180x_dp_descs[] = {
+> -	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
+> -	{ .io_start = 0x0ae98000, .id = MSM_DP_CONTROLLER_1, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
+> -	{ .io_start = 0x0ae9a000, .id = MSM_DP_CONTROLLER_2, .connector_type = DRM_MODE_CONNECTOR_eDP },
+> +	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0 },
+> +	{ .io_start = 0x0ae98000, .id = MSM_DP_CONTROLLER_1 },
+> +	{ .io_start = 0x0ae9a000, .id = MSM_DP_CONTROLLER_2 },
+>  	{}
+>  };
+>  
+>  static const struct msm_dp_desc sc8280xp_dp_descs[] = {
+> -	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
+> -	{ .io_start = 0x0ae98000, .id = MSM_DP_CONTROLLER_1, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
+> -	{ .io_start = 0x0ae9a000, .id = MSM_DP_CONTROLLER_2, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
+> -	{ .io_start = 0x0aea0000, .id = MSM_DP_CONTROLLER_3, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
+> -	{ .io_start = 0x22090000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
+> -	{ .io_start = 0x22098000, .id = MSM_DP_CONTROLLER_1, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
+> -	{ .io_start = 0x2209a000, .id = MSM_DP_CONTROLLER_2, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
+> -	{ .io_start = 0x220a0000, .id = MSM_DP_CONTROLLER_3, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_supported = true },
+> -	{}
+> -};
+> -
+> -static const struct msm_dp_desc sc8280xp_edp_descs[] = {
+> -	{ .io_start = 0x0ae9a000, .id = MSM_DP_CONTROLLER_2, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_supported = true },
+> -	{ .io_start = 0x0aea0000, .id = MSM_DP_CONTROLLER_3, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_supported = true },
+> -	{ .io_start = 0x2209a000, .id = MSM_DP_CONTROLLER_2, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_supported = true },
+> -	{ .io_start = 0x220a0000, .id = MSM_DP_CONTROLLER_3, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_supported = true },
+> -	{}
+> -};
+> -
+> -static const struct msm_dp_desc sm8350_dp_descs[] = {
+> -	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
+> +	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
+> +	{ .io_start = 0x0ae98000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true },
+> +	{ .io_start = 0x0ae9a000, .id = MSM_DP_CONTROLLER_2, .wide_bus_supported = true },
+> +	{ .io_start = 0x0aea0000, .id = MSM_DP_CONTROLLER_3, .wide_bus_supported = true },
+> +	{ .io_start = 0x22090000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
+> +	{ .io_start = 0x22098000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true },
+> +	{ .io_start = 0x2209a000, .id = MSM_DP_CONTROLLER_2, .wide_bus_supported = true },
+> +	{ .io_start = 0x220a0000, .id = MSM_DP_CONTROLLER_3, .wide_bus_supported = true },
+>  	{}
+>  };
+>  
+>  static const struct msm_dp_desc sm8650_dp_descs[] = {
+> -	{ .io_start = 0x0af54000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
+> +	{ .io_start = 0x0af54000, .id = MSM_DP_CONTROLLER_0 },
+>  	{}
+>  };
+>  
+> @@ -186,9 +172,9 @@ static const struct of_device_id dp_dt_match[] = {
+>  	{ .compatible = "qcom,sc8180x-dp", .data = &sc8180x_dp_descs },
+>  	{ .compatible = "qcom,sc8180x-edp", .data = &sc8180x_dp_descs },
+>  	{ .compatible = "qcom,sc8280xp-dp", .data = &sc8280xp_dp_descs },
+> -	{ .compatible = "qcom,sc8280xp-edp", .data = &sc8280xp_edp_descs },
+> +	{ .compatible = "qcom,sc8280xp-edp", .data = &sc8280xp_dp_descs },
+>  	{ .compatible = "qcom,sdm845-dp", .data = &sc7180_dp_descs },
+> -	{ .compatible = "qcom,sm8350-dp", .data = &sm8350_dp_descs },
+> +	{ .compatible = "qcom,sm8350-dp", .data = &sc7180_dp_descs },
+>  	{ .compatible = "qcom,sm8650-dp", .data = &sm8650_dp_descs },
+>  	{ .compatible = "qcom,x1e80100-dp", .data = &x1e80100_dp_descs },
+>  	{}
+> 
+> ---
+> base-commit: a874b50929e2596deeeeaf21d09f1561a7c59537
+> change-id: 20240328-dp-connector-type-cleanup-af6501e374b3
+> 
+> Best regards,
+> -- 
+> Bjorn Andersson <quic_bjorande@quicinc.com>
+> 
