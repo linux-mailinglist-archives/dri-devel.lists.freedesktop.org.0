@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E42F89B101
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Apr 2024 15:12:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87A0289B103
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Apr 2024 15:12:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 028A510E153;
-	Sun,  7 Apr 2024 13:12:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DDF210E1A6;
+	Sun,  7 Apr 2024 13:12:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Gvfb/Mt+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="I962Q8yr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB9E510E153;
- Sun,  7 Apr 2024 13:12:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65FFC10E1A6;
+ Sun,  7 Apr 2024 13:12:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id BA97ECE0AD4;
- Sun,  7 Apr 2024 13:11:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAB04C433A6;
- Sun,  7 Apr 2024 13:11:56 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 42164CE0A47;
+ Sun,  7 Apr 2024 13:12:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28208C433F1;
+ Sun,  7 Apr 2024 13:12:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1712495518;
- bh=aTWtRfUCjhuH9NSo70GCmFUYOJph1+AAFA4H+EN+RJg=;
+ s=k20201202; t=1712495525;
+ bh=dRchvoO2syoNRVVAjgj+vST9WW44gcdsEwYNqJsk+Cs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Gvfb/Mt+tBlEm7D4LzR2J2qnEW6rzlOR1KgIajMrHvMtFgzv9dQPAfIzhEtasUpL/
- SZzDVKQnFVmR4oma3dk7okZ/uILxQrdpkFfVSB/Fsvu/1kYTWwihuaZkZb4C8daO+m
- weegH1PXJuA/851dnstIHSD+4NPn1UImXmZ2QGZ7Er8gp+9vb7Y/LadF8d4YwFbEIJ
- h+GN068rShXPiuge8nVyXjDhYGFUGunmHE1gLtdCb5ORPjsdalsuyl5hwS4nL1zimS
- CimkVE2+1I7NtjjpfySBQnuFsNx9o2mEP3kj/hflWWxGgPxwCnRc3lYgDhwKJoOPEO
- drbbgEzTGyoXQ==
+ b=I962Q8yr79kAQb89XjSGhPpDZwFWEq9P4Z5U4Sp/XGaTiLd0WA2w38G4quBx4cSNG
+ YtUxLNibKlgm8nZ4CTW9s050mzqb9XuNbQ106tHiUBqDyGN9Wxk73Ucg7je1n3TUzz
+ oHtb2oNTTn84F/Esr3pfU5GuLpA2VJjnPVhTVUWceHQnditcQul4AZIzz/kW2Hyi9m
+ 8nrCovWNgMi4R1vhISGJVhMEDvO1fFi+jHp1iKvfjrGBWy74uKg59hMR58y4fKv1Oj
+ RkI8GrcDECxLpl4+14Qt9Lu23kF0cF77JDD9jO4N/8Xs2xlItpfRtg3GSvuY2g29GR
+ nx/dmYzNlOx2g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- Guenter Roeck <linux@roeck-us.net>, Jani Nikula <jani.nikula@intel.com>,
- Sasha Levin <sashal@kernel.org>, ogabbay@kernel.org,
- thomas.hellstrom@linux.intel.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, intel-xe@lists.freedesktop.org,
+Cc: Mukul Joshi <mukul.joshi@amd.com>, Felix Kuehling <felix.kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ Felix.Kuehling@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.8 16/25] drm/xe: Fix END redefinition
-Date: Sun,  7 Apr 2024 09:11:04 -0400
-Message-ID: <20240407131130.1050321-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.8 20/25] drm/amdkfd: Check cgroup when returning
+ DMABuf info
+Date: Sun,  7 Apr 2024 09:11:08 -0400
+Message-ID: <20240407131130.1050321-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240407131130.1050321-1-sashal@kernel.org>
 References: <20240407131130.1050321-1-sashal@kernel.org>
@@ -66,125 +65,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lucas De Marchi <lucas.demarchi@intel.com>
+From: Mukul Joshi <mukul.joshi@amd.com>
 
-[ Upstream commit 0d8cf0c924732a045273c6aca6900a340ac88529 ]
+[ Upstream commit 9d7993a7ab9651afd5fb295a4992e511b2b727aa ]
 
-mips declares an END macro in its headers so it can't be used without
-namespace in a driver like xe.
+Check cgroup permissions when returning DMA-buf info and
+based on cgroup info return the GPU id of the GPU that have
+access to the BO.
 
-Instead of coming up with a longer name, just remove the macro and
-replace its use with 0 since it's still clear what that means:
-set_offsets() was already using that implicitly when checking the data
-variable.
-
-Reported-by: Guenter Roeck <linux@roeck-us.net>
-Closes: http://kisskb.ellerman.id.au/kisskb/buildresult/15143996/
-Tested-by: Guenter Roeck <linux@roeck-us.net>
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240322145037.196548-1-lucas.demarchi@intel.com
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-(cherry picked from commit 35b22649eb4155ca6bcffcb2c6e2a1d311aaaf72)
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Signed-off-by: Mukul Joshi <mukul.joshi@amd.com>
+Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/xe_lrc.c | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_lrc.c b/drivers/gpu/drm/xe/xe_lrc.c
-index b38319d2801e0..0aa4bcfb90d9d 100644
---- a/drivers/gpu/drm/xe/xe_lrc.c
-+++ b/drivers/gpu/drm/xe/xe_lrc.c
-@@ -95,7 +95,6 @@ static void set_offsets(u32 *regs,
- #define REG16(x) \
- 	(((x) >> 9) | BIT(7) | BUILD_BUG_ON_ZERO(x >= 0x10000)), \
- 	(((x) >> 2) & 0x7f)
--#define END 0
- {
- 	const u32 base = hwe->mmio_base;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+index 80e90fdef291d..9a88b35cd8966 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+@@ -1522,7 +1522,7 @@ static int kfd_ioctl_get_dmabuf_info(struct file *filep,
  
-@@ -166,7 +165,7 @@ static const u8 gen12_xcs_offsets[] = {
- 	REG16(0x274),
- 	REG16(0x270),
+ 	/* Find a KFD GPU device that supports the get_dmabuf_info query */
+ 	for (i = 0; kfd_topology_enum_kfd_devices(i, &dev) == 0; i++)
+-		if (dev)
++		if (dev && !kfd_devcgroup_check_permission(dev))
+ 			break;
+ 	if (!dev)
+ 		return -EINVAL;
+@@ -1544,7 +1544,7 @@ static int kfd_ioctl_get_dmabuf_info(struct file *filep,
+ 	if (xcp_id >= 0)
+ 		args->gpu_id = dmabuf_adev->kfd.dev->nodes[xcp_id]->id;
+ 	else
+-		args->gpu_id = dmabuf_adev->kfd.dev->nodes[0]->id;
++		args->gpu_id = dev->id;
+ 	args->flags = flags;
  
--	END
-+	0
- };
- 
- static const u8 dg2_xcs_offsets[] = {
-@@ -200,7 +199,7 @@ static const u8 dg2_xcs_offsets[] = {
- 	REG16(0x274),
- 	REG16(0x270),
- 
--	END
-+	0
- };
- 
- static const u8 gen12_rcs_offsets[] = {
-@@ -296,7 +295,7 @@ static const u8 gen12_rcs_offsets[] = {
- 	REG(0x084),
- 	NOP(1),
- 
--	END
-+	0
- };
- 
- static const u8 xehp_rcs_offsets[] = {
-@@ -337,7 +336,7 @@ static const u8 xehp_rcs_offsets[] = {
- 	LRI(1, 0),
- 	REG(0x0c8),
- 
--	END
-+	0
- };
- 
- static const u8 dg2_rcs_offsets[] = {
-@@ -380,7 +379,7 @@ static const u8 dg2_rcs_offsets[] = {
- 	LRI(1, 0),
- 	REG(0x0c8),
- 
--	END
-+	0
- };
- 
- static const u8 mtl_rcs_offsets[] = {
-@@ -423,7 +422,7 @@ static const u8 mtl_rcs_offsets[] = {
- 	LRI(1, 0),
- 	REG(0x0c8),
- 
--	END
-+	0
- };
- 
- #define XE2_CTX_COMMON \
-@@ -469,7 +468,7 @@ static const u8 xe2_rcs_offsets[] = {
- 	LRI(1, 0),              /* [0x47] */
- 	REG(0x0c8),             /* [0x48] R_PWR_CLK_STATE */
- 
--	END
-+	0
- };
- 
- static const u8 xe2_bcs_offsets[] = {
-@@ -480,16 +479,15 @@ static const u8 xe2_bcs_offsets[] = {
- 	REG16(0x200),           /* [0x42] BCS_SWCTRL */
- 	REG16(0x204),           /* [0x44] BLIT_CCTL */
- 
--	END
-+	0
- };
- 
- static const u8 xe2_xcs_offsets[] = {
- 	XE2_CTX_COMMON,
- 
--	END
-+	0
- };
- 
--#undef END
- #undef REG16
- #undef REG
- #undef LRI
+ 	/* Copy metadata buffer to user mode */
 -- 
 2.43.0
 
