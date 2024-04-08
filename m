@@ -2,52 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79ECA89CA41
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 19:04:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 541A789CA42
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 19:04:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB0A3112813;
-	Mon,  8 Apr 2024 17:04:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E4E911288E;
+	Mon,  8 Apr 2024 17:04:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dPTDTuH0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jR3metUM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78A80112813
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 17:04:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 251E6112854
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 17:04:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712595870; x=1744131870;
- h=from:to:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=awzwign24z2Ua3YBdDGqFJ4b8QgPxP60ZUVr8uvT5pw=;
- b=dPTDTuH0fPrmXDYMD1fZw1ZEZCCYEJQB3iQhWLhypcJZ+OKIUd57yoer
- BKxqFH4pF+8MYcLAw0zm0fjp4STvKNxo9/zwhncavhC0YYC8YjQjoMPTA
- ujYQfOlGte73U4B3Wd98DwCkUHJwaVbg5TyEr0GZvJfRHmCVVGNfP3Gyh
- vOvzYeT07TpSxdLfZR1GZDztZMQUiMMAJO2Q2i89bzLRrgJ5/cu1gPGCg
- YDk0Lueaxvr8FnIVTpKiK9hNAa3BH8MB8ZIoxitrEmpakFzcqloVaxkvP
- 1efnkmxZYMX/cwWneYYyeq2JYxNdyoooPoxZtcyIiKncaEKm1c41aJjm2 w==;
-X-CSE-ConnectionGUID: dNw0Zw/4Q5iecXgOnDbOzw==
-X-CSE-MsgGUID: izACJGQXRJiRCxkoZOzPkQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="7793335"
+ t=1712595873; x=1744131873;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=GDTb2AOVhBcDXMyGU85jB79LpVC7WmIrryK5iL8loDA=;
+ b=jR3metUMzbVAAtq2ocL1mvUsngsNApeevAI4IEf5T3U2tRXKTSbK2Stj
+ sZNVW6+RMCdbnu8xGoJNZAqyJ4o5jBZGvpKU0kYcEHxabLcEhlVtmFB23
+ 3Hdb1kN5ddEs8mw1tSOca3rmZvPIJPpzy2y8o1SqIeil1s5VdEnEWLhUe
+ m3nxchq4vkxGS3tH9xgZ7D1VNnvh9bvFGjB77zE9i4VK9sY5IBpBC+SAi
+ +l23Gck+K5MbGSPajxuftRCW3Qt1It2voUmVMQEiXkx3WSCWs9RPujPKM
+ l0ySYpqzHe3sb+eB1BkQFmIrQ5xIYrmkHaZIX9Rnb2Jzt/Blkh/K0Srb1 g==;
+X-CSE-ConnectionGUID: iHEgKJ1zQguqGHhH51u+pA==
+X-CSE-MsgGUID: d/mLPY7lQOqLoBudhZQCFQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="7793340"
 X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
-   d="scan'208";a="7793335"
+   d="scan'208";a="7793340"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2024 10:04:29 -0700
+ 08 Apr 2024 10:04:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="827792324"
-X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; d="scan'208";a="827792324"
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="827792325"
+X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; d="scan'208";a="827792325"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 08 Apr 2024 10:04:26 -0700
+ by orsmga001.jf.intel.com with SMTP; 08 Apr 2024 10:04:29 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 08 Apr 2024 20:04:26 +0300
+ Mon, 08 Apr 2024 20:04:29 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 00/21] drm: Increase COMPILE_TEST=y coverage
-Date: Mon,  8 Apr 2024 20:04:05 +0300
-Message-ID: <20240408170426.9285-1-ville.syrjala@linux.intel.com>
+Cc: Russell King <linux@armlinux.org.uk>
+Subject: [PATCH 01/21] drm/armada: Fix printk arguments
+Date: Mon,  8 Apr 2024 20:04:06 +0300
+Message-ID: <20240408170426.9285-2-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.43.2
+In-Reply-To: <20240408170426.9285-1-ville.syrjala@linux.intel.com>
+References: <20240408170426.9285-1-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -68,58 +71,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-I got fed up having to build multiple architectures when
-doing subsystem wide refactoring. So I decided to attack
-the low hanging COMPILE_TEST=y fruit. Here are the
-results. All of these drivers now build with COMPILE_TEST=y
-on x86/x86_64
+../drivers/gpu/drm/armada/armada_gem.c: In function ‘armada_gem_pwrite_ioctl’:
+../drivers/gpu/drm/armada/armada_gem.c:367:27: warning: format ‘%u’ expects argument of type ‘unsigned int’, but argument 2 has type ‘size_t’ {aka ‘long unsigned int’} [-Wformat=]
+  367 |                 DRM_ERROR("invalid size: object size %u\n", dobj->obj.size);
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~
+      |                                                                      |
+      |                                                                      size_t {aka long unsigned int}
 
-Ville Syrjälä (21):
-  drm/armada: Fix printk arguments
-  drm/armada: Fix armada_debugfs_crtc_reg_write() return type
-  drm/armada: Allow build with COMPILE_TEST=y
-  drm/imx/dcss: Fix 64bit divisions
-  drm/imx/dcss: Allow build with COMPILE_TEST=y
-  drm/sti: Include linux/io.h for devm_ioremap()
-  drm/sti: Allow build with COMPILE_TEST=y
-  drm/hisilicon/kirin: Include linux/io.h for readl()/writel()
-  drm/hisilicon/kirin: Fix 64bit divisions
-  drm/hisilicon/kirin: Fix MASK(32) on 32bit architectures
-  drm/hisilicon/kirin: Allow build with COMPILE_TEST=y
-  drm/tilcdc: Allow build without __iowmb()
-  drm/tilcdc: Allow build with COMPILE_TEST=y
-  drm/omap: Open code phys_to_page()
-  drm/omap: Allow build with COMPILE_TEST=y
-  drm/atmel-hlcdc: Allow build with COMPILE_TEST=y
-  drm/fsl-dcu: Allow build with COMPILE_TEST=y
-  drm/mediatek: Allow build with COMPILE_TEST=y
-  drm/meson: Allow build with COMPILE_TEST=y
-  drm/rcar-du: Allow build with COMPILE_TEST=y
-  drm/stm: Allow build with COMPILE_TEST=y
+Cc: Russell King <linux@armlinux.org.uk>
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+---
+ drivers/gpu/drm/armada/armada_gem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/gpu/drm/armada/Kconfig                  |  2 +-
- drivers/gpu/drm/armada/armada_debugfs.c         |  2 +-
- drivers/gpu/drm/armada/armada_gem.c             |  2 +-
- drivers/gpu/drm/atmel-hlcdc/Kconfig             |  2 +-
- drivers/gpu/drm/fsl-dcu/Kconfig                 |  2 +-
- drivers/gpu/drm/hisilicon/kirin/Kconfig         |  2 +-
- drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c    | 11 +++++------
- drivers/gpu/drm/hisilicon/kirin/dw_dsi_reg.h    |  2 ++
- drivers/gpu/drm/hisilicon/kirin/kirin_ade_reg.h |  2 +-
- drivers/gpu/drm/imx/dcss/Kconfig                |  2 +-
- drivers/gpu/drm/imx/dcss/dcss-scaler.c          |  4 ++--
- drivers/gpu/drm/mediatek/Kconfig                |  4 ++--
- drivers/gpu/drm/meson/Kconfig                   |  2 +-
- drivers/gpu/drm/omapdrm/Kconfig                 |  2 +-
- drivers/gpu/drm/omapdrm/omap_gem.c              |  4 ++--
- drivers/gpu/drm/renesas/rcar-du/Kconfig         |  2 +-
- drivers/gpu/drm/sti/Kconfig                     |  2 +-
- drivers/gpu/drm/sti/sti_dvo.c                   |  1 +
- drivers/gpu/drm/stm/Kconfig                     |  2 +-
- drivers/gpu/drm/tilcdc/Kconfig                  |  2 +-
- drivers/gpu/drm/tilcdc/tilcdc_regs.h            |  2 ++
- 21 files changed, 30 insertions(+), 26 deletions(-)
-
+diff --git a/drivers/gpu/drm/armada/armada_gem.c b/drivers/gpu/drm/armada/armada_gem.c
+index 26d10065d534..e9575ef5aaef 100644
+--- a/drivers/gpu/drm/armada/armada_gem.c
++++ b/drivers/gpu/drm/armada/armada_gem.c
+@@ -364,7 +364,7 @@ int armada_gem_pwrite_ioctl(struct drm_device *dev, void *data,
+ 
+ 	if (args->offset > dobj->obj.size ||
+ 	    args->size > dobj->obj.size - args->offset) {
+-		DRM_ERROR("invalid size: object size %u\n", dobj->obj.size);
++		DRM_ERROR("invalid size: object size %zu\n", dobj->obj.size);
+ 		ret = -EINVAL;
+ 		goto unref;
+ 	}
 -- 
 2.43.2
 
