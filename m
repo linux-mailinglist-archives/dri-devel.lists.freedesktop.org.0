@@ -2,38 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A06589BCCB
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 12:15:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A1D889BCCD
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 12:16:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4B5A1123F0;
-	Mon,  8 Apr 2024 10:15:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 843FA1123F1;
+	Mon,  8 Apr 2024 10:16:09 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="aaY5QGWE";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 08E591123F0
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 10:15:49 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 93586339
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 03:16:18 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E1CD03F766
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 03:15:47 -0700 (PDT)
-Date: Mon, 8 Apr 2024 11:15:41 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Huai-Yuan Liu <qq810974084@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- baijiaju1990@outlook.com
-Subject: Re: [PATCH V2] drm/arm/malidp: fix a possible null pointer dereference
-Message-ID: <ZhPDzdRp_6BAQkyP@e110455-lin.cambridge.arm.com>
-References: <20240407063053.5481-1-qq810974084@gmail.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61A1A1123F1
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 10:16:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1712571365;
+ bh=su42lLW6PD3z+UBwwbFQ0posL3pq3ei8eZhPwV7J1QU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=aaY5QGWExwVtL7oX5bMM2dEOfNtL1HOeztXi5FJXuvvhWIuxrbzODt/767fCfgNvi
+ zFUowTzx0VKnymoQvkXzj73u5/ZHw4o/2BC7HmPwmdUT3jojDy1H1vCFpTxsmGv3KI
+ tqXGNeshynXl0YQS/vODDfUl5DWbZb0jAF5cJTATPg+tJOiV8rVXVnHSk5nMQUsJnf
+ jNnAHdgwqkmoVMzktYrKnyEfxgO5Xjf9GQL0MdukR/htkCPqqzBsVERbgLMZNWNky6
+ JCeLMA0hrNlXYb0IisVRdkZzWodc6l3iK4n+qLUxeV3mn+zWLAp63ZhnESId8gZoMb
+ 3B+cTnpnSZDew==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 398633780627;
+ Mon,  8 Apr 2024 10:16:04 +0000 (UTC)
+Message-ID: <5e385c2e-6509-4347-96a5-4606b32d20ff@collabora.com>
+Date: Mon, 8 Apr 2024 12:16:03 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 2/3] dt-bindings: arm: mediatek: mmsys: Add OF graph
+ support for board path
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: chunkuang.hu@kernel.org, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ matthias.bgg@gmail.com, shawn.sung@mediatek.com, yu-chang.lee@mediatek.com,
+ ck.hu@mediatek.com, jitao.shi@mediatek.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ kernel@collabora.com
+References: <20240404081635.91412-1-angelogioacchino.delregno@collabora.com>
+ <20240404081635.91412-3-angelogioacchino.delregno@collabora.com>
+ <CAGXv+5F9rfTVDExKSCF7fBKwR+HijNzFYE6+4aHKw3ZP81DG9w@mail.gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <CAGXv+5F9rfTVDExKSCF7fBKwR+HijNzFYE6+4aHKw3ZP81DG9w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240407063053.5481-1-qq810974084@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,57 +71,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Apr 07, 2024 at 02:30:53PM +0800, Huai-Yuan Liu wrote:
-> In malidp_mw_connector_reset, new memory is allocated with kzalloc, but 
-> no check is performed. In order to prevent null pointer dereferencing, 
-> ensure that mw_state is checked before calling 
-> __drm_atomic_helper_connector_reset.
+Il 08/04/24 05:20, Chen-Yu Tsai ha scritto:
+> On Thu, Apr 4, 2024 at 4:16 PM AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> wrote:
+>>
+>> Document OF graph on MMSYS/VDOSYS: this supports up to three DDP paths
+>> per HW instance (so potentially up to six displays for multi-vdo SoCs).
+>>
+>> The MMSYS or VDOSYS is always the first component in the DDP pipeline,
+>> so it only supports an output port with multiple endpoints - where each
+>> endpoint defines the starting point for one of the (currently three)
+>> possible hardware paths.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> ---
+>>   .../bindings/arm/mediatek/mediatek,mmsys.yaml | 23 +++++++++++++++++++
+>>   1 file changed, 23 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+>> index b3c6888c1457..90758bb5bcb1 100644
+>> --- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+>> +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+>> @@ -93,6 +93,29 @@ properties:
+>>     '#reset-cells':
+>>       const: 1
+>>
+>> +  port:
+>> +    $ref: /schemas/graph.yaml#/properties/port
+>> +    description:
+>> +      Output port node. This port connects the MMSYS/VDOSYS output to
+>> +      the first component of one display pipeline, for example one of
+>> +      the available OVL or RDMA blocks.
+>> +      Some MediaTek SoCs support up to three display outputs per MMSYS.
+>> +    properties:
+>> +      endpoint@0:
+>> +        $ref: /schemas/graph.yaml#/properties/endpoint
+>> +        description: Output to the primary display pipeline
+>> +
+>> +      endpoint@1:
+>> +        $ref: /schemas/graph.yaml#/properties/endpoint
+>> +        description: Output to the secondary display pipeline
+>> +
+>> +      endpoint@2:
+>> +        $ref: /schemas/graph.yaml#/properties/endpoint
+>> +        description: Output to the tertiary display pipeline
+>> +
+>> +      required:
+>> +        - endpoint@0
+>> +
 > 
-> Fixes: 8cbc5caf36ef ("drm: mali-dp: Add writeback connector")
-> Signed-off-by: Huai-Yuan Liu <qq810974084@gmail.com>
-
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-
-Thanks for the patch. I will pull it into drm-misc-fixes before the end of the week.
-
-Best regards,
-Liviu
-
-> ---
-> V2:
-> * In patch V2, we additionally set connector->state to NULL. In this way
-> we can ensure that there is no state pointing to freed memory.
->   Thanks to Liviu Dudau for helpful suggestion.
-> ---
->  drivers/gpu/drm/arm/malidp_mw.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/arm/malidp_mw.c b/drivers/gpu/drm/arm/malidp_mw.c
-> index 626709bec6f5..2577f0cef8fc 100644
-> --- a/drivers/gpu/drm/arm/malidp_mw.c
-> +++ b/drivers/gpu/drm/arm/malidp_mw.c
-> @@ -72,7 +72,10 @@ static void malidp_mw_connector_reset(struct drm_connector *connector)
->  		__drm_atomic_helper_connector_destroy_state(connector->state);
->  
->  	kfree(connector->state);
-> -	__drm_atomic_helper_connector_reset(connector, &mw_state->base);
-> +	connector->state = NULL;
-> +
-> +	if (mw_state)
-> +		__drm_atomic_helper_connector_reset(connector, &mw_state->base);
->  }
->  
->  static enum drm_connector_status
-> -- 
-> 2.34.1
+> Technically the mmsys device serves as an glue layer for the display
+> pipeline, providing things like clock control and signal routing; the
+> device itself is not part of the pipeline, and probably shouldn't be
+> part of the graph?
 > 
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+That is (only) partially true: in the case of older SoCs, the MMSYS can only
+connect to a single first IP of the pipeline, but in the case of newer ones,
+and especially (but not limited to) MT8195 onwards having multiple instances
+of VDOSYS, that really becomes part of the pipeline.
+
+This is not because of the possible different first IP in the pipeline, but
+because of support for dual-interface (DSI and DP) that, in even newer SoCs,
+can be done with cross-mmsys (cross-vdosys, actually...) as some of those do
+have the two in different VDOs.
+
+So yes, this can be done without the graph in MMSYS *in this precise moment in
+time*, but we'll anyway end up adding it sooner than later - and I'm doing this
+right now, instead of later, because it's also simplifying the implementation
+so like that I'm "catching two birds with one stone" :-)
+
+Cheers,
+Angelo
+
+> ChenYu
+> 
+>>   required:
+>>     - compatible
+>>     - reg
+>> --
+>> 2.44.0
+>>
+
+
