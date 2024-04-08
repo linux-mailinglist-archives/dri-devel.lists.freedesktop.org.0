@@ -2,62 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA1989CB76
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 20:06:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E69A289CB84
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 20:11:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E3ED10FD8B;
-	Mon,  8 Apr 2024 18:06:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E35841127F8;
+	Mon,  8 Apr 2024 18:11:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jx9A4F50";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QgAwc20x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62EAE10FD3A;
- Mon,  8 Apr 2024 18:06:52 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 515E211292C;
+ Mon,  8 Apr 2024 18:11:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712599613; x=1744135613;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=o7PRP4CSBoHLJcwklDmSp0l5qaAgKxnPAFK7SlWjBCQ=;
- b=jx9A4F50ZirGtHtZPjRxR5eQ13LstEnvZPNmfVLG+kPhOAyOsvcQNU2I
- NSf57hbd24JFjkidZItrC1K/SYqGU7QvDpMR1c1ACRVuNAF7tuhqE7+U/
- 0WwURxIbHdwd5Usb6ejGoutTfDvV0LlMwc0fCEIOgiNg9MTflHVl93qS+
- WLjYdEgu5QlYIgN6LgIFthLNy6WXRcU1XaqagnpuEv062IkL9oBuDurkI
- F3yYf1u6SXLOXJPxatHcQSkLMvC+evo7plPrQmEW2U30UHxLZh1r+sA10
- fmFor4McWyzKxIkfjSzc5bSwl1kGtUm4Mpmnh6XLOucF/1Ut7FzppNFZO g==;
-X-CSE-ConnectionGUID: jBAuBmEuS7+hi8aDQ892kg==
-X-CSE-MsgGUID: pFD00f+gQJSgv/OrrXyF2w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="19038292"
-X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; d="scan'208";a="19038292"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2024 11:06:52 -0700
-X-CSE-ConnectionGUID: sCV1sE+uSkCE0KGtmN9uEQ==
-X-CSE-MsgGUID: 7y0P/VQhTyWNTKt2PoTdhg==
+ t=1712599863; x=1744135863;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=6agTnyCAhDq1HzcHIodsGtM2CgMbMrLkaqyqn3MODqA=;
+ b=QgAwc20xxejE5zJQYBYXIn/gQBdQfCAstwJCLQPyHFiTGPA9kKhuf43Q
+ C6B2LGC4MtsNIW3q1IfnGOFDTkHlrGqxTR6Vf1pt+OK5OIyK9YM4omgRe
+ 4fWXZx4oHJxsBkqWktjl8mJ4gI+3e+JMkZnoexTUpAl7lmDSPOq+XYUkr
+ ujKP5g20vVI5QzYp9pS7IGHyIgHKLTODpxhwm+4nu7Ia664HAPna4adkA
+ QtkaPjgtEnVgyNRSOMJ6X9S0eufO3t/1sOn8bjFiULWh8in5G2abAqSBT
+ QBoX4j4xQmzBItqOsNYQ3W0nrQwl3JWrt6yqa7od7dpwgrB1eqq/vCOZ5 A==;
+X-CSE-ConnectionGUID: rF6U/JMtTWKJiMPxQ6vXlQ==
+X-CSE-MsgGUID: 4UCxKGZrTiu8aDaVmSjC+g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="8018227"
+X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
+   d="scan'208";a="8018227"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2024 11:11:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; d="scan'208";a="43144113"
-Received: from unknown (HELO [10.245.245.223]) ([10.245.245.223])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2024 11:06:50 -0700
-Message-ID: <025f993b-0ce8-4977-b43a-454563509034@intel.com>
-Date: Mon, 8 Apr 2024 19:06:48 +0100
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="827792367"
+X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; d="scan'208";a="827792367"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga001.jf.intel.com with SMTP; 08 Apr 2024 11:11:00 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 08 Apr 2024 21:10:59 +0300
+Date: Mon, 8 Apr 2024 21:10:59 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 1/4] drm/edid: add drm_edid_get_product_id()
+Message-ID: <ZhQzM2bCCKDr0IsY@intel.com>
+References: <cover.1711015462.git.jani.nikula@intel.com>
+ <e3e7194ae72190a48916defa77b0a4de2fc87086.1711015462.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 3/3] drm/tests: Add a test case for drm buddy clear
- allocation
-To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Cc: christian.koenig@amd.com, alexander.deucher@amd.com,
- mario.limonciello@amd.com, felix.kuehling@amd.com
-References: <20240408151620.528163-1-Arunpravin.PaneerSelvam@amd.com>
- <20240408151620.528163-3-Arunpravin.PaneerSelvam@amd.com>
-Content-Language: en-GB
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20240408151620.528163-3-Arunpravin.PaneerSelvam@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e3e7194ae72190a48916defa77b0a4de2fc87086.1711015462.git.jani.nikula@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,189 +71,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/04/2024 16:16, Arunpravin Paneer Selvam wrote:
-> Add a new test case for the drm buddy clear and dirty
-> allocation.
+On Thu, Mar 21, 2024 at 12:05:09PM +0200, Jani Nikula wrote:
+> Add a struct drm_edid based function to get the vendor and product ID
+> from an EDID. Add a separate struct for defining this part of the EDID,
+> with defined byte order for product code and serial number.
 > 
-> v2:(Matthew)
->    - make size as u32
->    - rename PAGE_SIZE with SZ_4K
->    - dont fragment the address space for all the order allocation
->      iterations. we can do it once and just increment and allocate
->      the size.
->    - create new mm with non power-of-two size to ensure the multi-root
->      force_merge during fini.
-> 
-> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-> Suggested-by: Matthew Auld <matthew.auld@intel.com>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 > ---
->   drivers/gpu/drm/tests/drm_buddy_test.c | 141 +++++++++++++++++++++++++
->   1 file changed, 141 insertions(+)
+>  drivers/gpu/drm/drm_edid.c | 15 +++++++++++++++
+>  include/drm/drm_edid.h     | 25 ++++++++++++++++++++-----
+>  2 files changed, 35 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
-> index 4621a860cb05..b07f132f2835 100644
-> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
-> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
-> @@ -224,6 +224,146 @@ static void drm_test_buddy_alloc_range_bias(struct kunit *test)
->   	drm_buddy_fini(&mm);
->   }
->   
-> +static void drm_test_buddy_alloc_clear(struct kunit *test)
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index ea77577a3786..626a0e24e66a 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -2756,6 +2756,21 @@ const struct drm_edid *drm_edid_read(struct drm_connector *connector)
+>  }
+>  EXPORT_SYMBOL(drm_edid_read);
+>  
+> +/**
+> + * drm_edid_get_product_id - Get the vendor and product identification
+> + * @drm_edid: EDID
+> + * @id: Where to place the product id
+> + */
+> +void drm_edid_get_product_id(const struct drm_edid *drm_edid,
+> +			     struct drm_edid_product_id *id)
 > +{
-> +	unsigned long n_pages, total, i = 0;
-> +	const unsigned long ps = SZ_4K;
-> +	struct drm_buddy_block *block;
-> +	const int max_order = 12;
-> +	LIST_HEAD(allocated);
-> +	struct drm_buddy mm;
-> +	unsigned int order;
-> +	u32 mm_size, size;
-> +	LIST_HEAD(dirty);
-> +	LIST_HEAD(clean);
-> +
-> +	mm_size = SZ_4K << max_order;
-> +	KUNIT_EXPECT_FALSE(test, drm_buddy_init(&mm, mm_size, ps));
-> +
-> +	KUNIT_EXPECT_EQ(test, mm.max_order, max_order);
-> +
-> +	/*
-> +	 * Idea is to allocate and free some random portion of the address space,
-> +	 * returning those pages as non-dirty and randomly alternate between
-> +	 * requesting dirty and non-dirty pages (not going over the limit
-> +	 * we freed as non-dirty), putting that into two separate lists.
-> +	 * Loop over both lists at the end checking that the dirty list
-> +	 * is indeed all dirty pages and vice versa. Free it all again,
-> +	 * keeping the dirty/clear status.
-> +	 */
-> +	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
-> +							    5 * ps, ps, &allocated,
-> +							    DRM_BUDDY_TOPDOWN_ALLOCATION),
-> +				"buddy_alloc hit an error size=%lu\n", 5 * ps);
-> +	drm_buddy_free_list(&mm, &allocated, DRM_BUDDY_CLEARED);
-> +
-> +	n_pages = 10;
-> +	do {
-> +		unsigned long flags;
-> +		struct list_head *list;
-> +		int slot = i % 2;
-> +
-> +		if (slot == 0) {
-> +			list = &dirty;
-> +			flags = 0;
-> +		} else {
-> +			list = &clean;
-> +			flags = DRM_BUDDY_CLEAR_ALLOCATION;
-> +		}
-> +
-> +		KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
-> +								    ps, ps, list,
-> +								    flags),
-> +					"buddy_alloc hit an error size=%lu\n", ps);
-> +	} while (++i < n_pages);
-> +
-> +	list_for_each_entry(block, &clean, link)
-> +		KUNIT_EXPECT_EQ(test, drm_buddy_block_is_clear(block), true);
-> +
-> +	list_for_each_entry(block, &dirty, link)
-> +		KUNIT_EXPECT_EQ(test, drm_buddy_block_is_clear(block), false);
-> +
-> +	drm_buddy_free_list(&mm, &clean, DRM_BUDDY_CLEARED);
-> +
-> +	/*
-> +	 * Trying to go over the clear limit for some allocation.
-> +	 * The allocation should never fail with reasonable page-size.
-> +	 */
-> +	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
-> +							    10 * ps, ps, &clean,
-> +							    DRM_BUDDY_CLEAR_ALLOCATION),
-> +				"buddy_alloc hit an error size=%lu\n", 10 * ps);
-> +
-> +	drm_buddy_free_list(&mm, &clean, DRM_BUDDY_CLEARED);
-> +	drm_buddy_free_list(&mm, &dirty, 0);
-> +	drm_buddy_fini(&mm);
-> +
-> +	KUNIT_EXPECT_FALSE(test, drm_buddy_init(&mm, mm_size, ps));
-> +
-> +	/*
-> +	 * Create a new mm. Intentionally fragment the address space by creating
-> +	 * two alternating lists. Free both lists, one as dirty the other as clean.
-> +	 * Try to allocate double the previous size with matching min_page_size. The
-> +	 * allocation should never fail as it calls the force_merge. Also check that
-> +	 * the page is always dirty after force_merge. Free the page as dirty, then
-> +	 * repeat the whole thing, increment the order until we hit the max_order.
-> +	 */
-> +
-> +	i = 0;
-> +	n_pages = mm_size / ps;
-> +	do {
-> +		struct list_head *list;
-> +		int slot = i % 2;
-> +
-> +		if (slot == 0)
-> +			list = &dirty;
-> +		else
-> +			list = &clean;
-> +
-> +		KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
-> +								    ps, ps, list, 0),
-> +					"buddy_alloc hit an error size=%lu\n", ps);
-> +	} while (++i < n_pages);
-> +
-> +	drm_buddy_free_list(&mm, &clean, DRM_BUDDY_CLEARED);
-> +	drm_buddy_free_list(&mm, &dirty, 0);
-> +
-> +	order = 1;
-> +	do {
-> +		size = SZ_4K << order;
-> +
-> +		KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
-> +								    size, size, &allocated,
-> +								    DRM_BUDDY_CLEAR_ALLOCATION),
-> +					"buddy_alloc hit an error size=%u\n", size);
-> +		total = 0;
-> +		list_for_each_entry(block, &allocated, link) {
-> +			if (size != mm_size)
-> +				KUNIT_EXPECT_EQ(test, drm_buddy_block_is_clear(block), false);
-> +			total += drm_buddy_block_size(&mm, block);
-> +		}
-> +		KUNIT_EXPECT_EQ(test, total, size);
-> +
-> +		drm_buddy_free_list(&mm, &allocated, 0);
-> +	} while (++order <= max_order);
-> +
-> +	drm_buddy_fini(&mm);
-> +
-> +	/*
-> +	 * Create a new mm with a non power-of-two size. Allocate a random size, free as
-> +	 * cleared and then call fini. This will ensure the multi-root force merge during
-> +	 * fini.
-> +	 */
-> +	mm_size = 12 * SZ_4K;
-
-I don't see any randomness? Maybe something like:
-
-size = max(round_up(prandom_u32_state(&prng) % mm_size, ps), ps);
-
-Otherwise,
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-
-> +	KUNIT_EXPECT_FALSE(test, drm_buddy_init(&mm, mm_size, ps));
-> +	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
-> +							    4 * ps, ps, &allocated,
-> +							    DRM_BUDDY_TOPDOWN_ALLOCATION),
-> +				"buddy_alloc hit an error size=%lu\n", 4 * ps);
-> +	drm_buddy_free_list(&mm, &allocated, DRM_BUDDY_CLEARED);
-> +	drm_buddy_fini(&mm);
+> +	if (drm_edid && drm_edid->edid && drm_edid->size >= EDID_LENGTH)
+> +		memcpy(id, &drm_edid->edid->product_id, sizeof(*id));
+> +	else
+> +		memset(id, 0, sizeof(*id));
 > +}
+> +EXPORT_SYMBOL(drm_edid_get_product_id);
 > +
->   static void drm_test_buddy_alloc_contiguous(struct kunit *test)
->   {
->   	const unsigned long ps = SZ_4K, mm_size = 16 * 3 * SZ_4K;
-> @@ -584,6 +724,7 @@ static struct kunit_case drm_buddy_tests[] = {
->   	KUNIT_CASE(drm_test_buddy_alloc_pessimistic),
->   	KUNIT_CASE(drm_test_buddy_alloc_pathological),
->   	KUNIT_CASE(drm_test_buddy_alloc_contiguous),
-> +	KUNIT_CASE(drm_test_buddy_alloc_clear),
->   	KUNIT_CASE(drm_test_buddy_alloc_range_bias),
->   	{}
->   };
+>  /**
+>   * drm_edid_get_panel_id - Get a panel's ID from EDID
+>   * @drm_edid: EDID that contains panel ID.
+> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> index 6f65bbf655a1..7911a2f8a672 100644
+> --- a/include/drm/drm_edid.h
+> +++ b/include/drm/drm_edid.h
+> @@ -272,14 +272,27 @@ struct detailed_timing {
+>  #define DRM_EDID_DSC_MAX_SLICES			0xf
+>  #define DRM_EDID_DSC_TOTAL_CHUNK_KBYTES		0x3f
+>  
+> +struct drm_edid_product_id {
+> +	u8 manufacturer_name[2];
+
+__be16?
+
+> +	__le16 product_code;
+> +	__le32 serial_number;
+> +	u8 week_of_manufacture;
+> +	u8 year_of_manufacture;
+> +} __packed;
+> +
+>  struct edid {
+>  	u8 header[8];
+>  	/* Vendor & product info */
+> -	u8 mfg_id[2];
+> -	u8 prod_code[2];
+> -	u32 serial; /* FIXME: byte order */
+> -	u8 mfg_week;
+> -	u8 mfg_year;
+> +	union {
+> +		struct drm_edid_product_id product_id;
+> +		struct {
+> +			u8 mfg_id[2];
+> +			u8 prod_code[2];
+> +			u32 serial; /* FIXME: byte order */
+> +			u8 mfg_week;
+> +			u8 mfg_year;
+> +		} __packed;
+> +	} __packed;
+>  	/* EDID version */
+>  	u8 version;
+>  	u8 revision;
+> @@ -466,6 +479,8 @@ int drm_edid_connector_update(struct drm_connector *connector,
+>  			      const struct drm_edid *edid);
+>  int drm_edid_connector_add_modes(struct drm_connector *connector);
+>  bool drm_edid_is_digital(const struct drm_edid *drm_edid);
+> +void drm_edid_get_product_id(const struct drm_edid *drm_edid,
+> +			     struct drm_edid_product_id *id);
+>  
+>  const u8 *drm_find_edid_extension(const struct drm_edid *drm_edid,
+>  				  int ext_id, int *ext_index);
+> -- 
+> 2.39.2
+
+-- 
+Ville Syrjälä
+Intel
