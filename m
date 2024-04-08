@@ -2,72 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A84289BB23
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 11:03:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F53F89BB27
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 11:03:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6910E1120C8;
-	Mon,  8 Apr 2024 09:03:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3D42112310;
+	Mon,  8 Apr 2024 09:03:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="F8cv0kAE";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="mC7Ub3I/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com
- [209.85.219.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55CAF10F8C5
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 09:03:16 +0000 (UTC)
-Received: by mail-yb1-f176.google.com with SMTP id
- 3f1490d57ef6-dc25e12cc63so4648106276.0
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Apr 2024 02:03:16 -0700 (PDT)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+ [209.85.222.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5FEA112310
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 09:03:35 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id
+ af79cd13be357-78d44fc73c5so96292585a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Apr 2024 02:03:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712566995; x=1713171795; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=aCQgRHW7r77MxQqZTezP2GVYmRv+i8mKc4OgUigdufA=;
- b=F8cv0kAEf96gSGdbdUdXsW6Tx59e99IoaL6zJLPt11QS7wSQMI+fBteDLbz3blvMPX
- bfVU4BXDD9zMKy9eahRH6zbtuhrCW4Fli+THujAxm3SJVawrVjjaGQkBY69tlc+Ztzc+
- qj+Pstw0oMa12yrclcimgqB7BUwfvdcCng7DPa2ZCzWvqSHTsbJZh0+l3RYhrXK08g4S
- gOyRDdR5h3NtnlPwyLgB+cBjH2JjklmsYX0cIFAakWEn1xNx0s0BYez45HFj3OqsrSJB
- Ywl08l27vSeM6gLb0sEu0sRf0pGZeTSlUfcxNZRQAl1SdW3vTP3WLJP3oUXcM7ft49Lc
- CdEQ==
+ d=chromium.org; s=google; t=1712567014; x=1713171814;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2IC/HIheh5QVM3Z0m3XyNIldq+Pet/IJYQah2gajnbg=;
+ b=mC7Ub3I/vjXW6vGaU7eaToKE1mL2MXPiQdChdpbZAjiCuEfnZW5pVLWvgtMQLLqKg+
+ 6DvG6VLzXJ0BHJ8UrSo2QuGaqW2fm5EkS+YdaUqw5eRXvs3fRYu07AZ1vAQlLzZsq5K+
+ Ds8nBqhXrLohLsfk6uR9V1CjjCAgrmaI+Tj0Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712566995; x=1713171795;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=aCQgRHW7r77MxQqZTezP2GVYmRv+i8mKc4OgUigdufA=;
- b=l7UAvkUNwvkuDyog5Gi8q7s+pXE8PIA/WakxlzYphl7raSvOFrvls6W44zFbdBkIvj
- MRbEKmvWcmlnM9Ymm0557DttUmPXmS8OEnkUeymRR0x+rlWmGJe6QCq79QfJvrQhBNWt
- 76WfhaEXwo1Q9uG699texiBfWjD97hp0J2ZLu1OZEZz1vM437usvmwdpdTHEle+57QoR
- uO6Sj/3HXnVJts9rL7yTOPwLVcWiqHs+/+bHSX/FEchOYtTSTWlKQQhbmLbc+LAReiRv
- 8U5CHewrE/yJdpVTR6ylsBrhD3JqHf7h3CT3YyRPCGeU2n0EJDpAmgZAcZUKD5QPjzDF
- kESw==
+ d=1e100.net; s=20230601; t=1712567014; x=1713171814;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=2IC/HIheh5QVM3Z0m3XyNIldq+Pet/IJYQah2gajnbg=;
+ b=vdv0k3WagFtLFG7vuCIuM39tstszEd1KYm0Q/shJEl/I/ZvjzZ+bAX6a3BQkSPCA0o
+ PeW2eQnIqTu3G94KucNhWqgvAhxgGXcQsCVHk14q903Rheix7c3zLTpRPDN5qS/CLFur
+ 7W3mKnYRLOj5ZISuvxQNRn3Qboj2C3yKBHoDMUO7ToPtmYz6l1xvjhOytuRFZAXacobm
+ lChjcw+L+CNSppezlZipsICgodWJJE+UVtvsnMwVavUswzxD26UbVfTuEOoDdeQDDOSj
+ 7tEiVbzOIeJWq02iXsI0sUtYEIUdvRBNy7lTxmZM33ibbHoSKSyYOnBSV+qQHPSdMvEr
+ s46Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVEzD9Pt4s8CoOiOXdZJRjErDFLl4fVLB60olvwl3GKpclVE21uTxYGjG3QmM3gXToDJZATvmoUgI7zDhmrNoxedwEI50IPJPUbsQFLGUEx
-X-Gm-Message-State: AOJu0YwWhtSPKjiqoMWpO+8uuPvRUjhao0szOtMNtpPiQbZXPTBhanJr
- YDt5JNgTOrOFQ8L+WJi7g6+7kOKMHp8e3Vg/LXsmuhIwNjFJNkpi/iZmu3S1tb9JLxgchibNcei
- zB1fucAaImksgyOxxdYD9CaaYznp1FGYg2BkSZA==
-X-Google-Smtp-Source: AGHT+IFZJ9m4KwrMQclgS3pdMGserVsWA/uepMAkYkmTnJlObRmstHDdU51+G69xsZ5HR/xHo/fjR/LGWzIt8jOomIE=
-X-Received: by 2002:a25:6ec3:0:b0:dc6:d258:c694 with SMTP id
- j186-20020a256ec3000000b00dc6d258c694mr5932139ybc.19.1712566995186; Mon, 08
- Apr 2024 02:03:15 -0700 (PDT)
+ AJvYcCUs7ke1F8jkovwdz0bH/hcPPN2balYcbuizAjEEXqC+SIHkH/LtUy35q1O2JaJYSrIGlgTe+Rqf+R+f2nyVNScmkGMvThAwfAyToF+94V0z
+X-Gm-Message-State: AOJu0YzwTQqTDUMuVQHpVtPVuu05CgnI3qmDOoMbnc40s8Hm4DwkA9ov
+ liRvsJguoGbDLmaCk+OpCdQI/FZbxvbB2TmcAnNVQY77toS2EnLs1gfDExnXT3MB25AX4w8Vz6W
+ 57g==
+X-Google-Smtp-Source: AGHT+IHznT1Z/+MIPHOspbhZiftF2ookw1Rrxt4bfpcNP04RCz9l4XNcDG3DVmaQ2SANKBLJmROImQ==
+X-Received: by 2002:a05:620a:91d:b0:78b:e922:c38 with SMTP id
+ v29-20020a05620a091d00b0078be9220c38mr8281530qkv.64.1712567013726; 
+ Mon, 08 Apr 2024 02:03:33 -0700 (PDT)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com.
+ [209.85.160.182]) by smtp.gmail.com with ESMTPSA id
+ j4-20020a37ef04000000b0078bcc4b72adsm3032391qkk.124.2024.04.08.02.03.32
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Apr 2024 02:03:33 -0700 (PDT)
+Received: by mail-qt1-f182.google.com with SMTP id
+ d75a77b69052e-43477091797so287421cf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Apr 2024 02:03:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU8uCwucMfh/7slrRkVeoSwbOUS+pzsd8UAZKVDdU3b+Zsvsi1DeYsciiqxtcSwS9/DUd5uzh/Rcwc0yKO2RmwrYF2eG9mA3VinE5fxI+Ld
+X-Received: by 2002:a05:622a:4812:b0:434:7bb9:f231 with SMTP id
+ fb18-20020a05622a481200b004347bb9f231mr289728qtb.12.1712567012530; Mon, 08
+ Apr 2024 02:03:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240408085523.12231-1-amishin@t-argos.ru>
-In-Reply-To: <20240408085523.12231-1-amishin@t-argos.ru>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 8 Apr 2024 12:03:04 +0300
-Message-ID: <CAA8EJppTM4tpsFaZKupPe=0Oc9qDp7dBqHyHGP4E5bTHKT=hSw@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dpu: Add callback function pointer check before
- its call
-To: Aleksandr Mishin <amishin@t-argos.ru>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- lvc-project@linuxtesting.org
+References: <20240408073623.186489-1-j-choudhary@ti.com>
+In-Reply-To: <20240408073623.186489-1-j-choudhary@ti.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 8 Apr 2024 02:03:15 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V6vUgcPn0zhA+9k4cHVpqqeSVCSJG23XEE5KMAHUCCoQ@mail.gmail.com>
+Message-ID: <CAD=FV=V6vUgcPn0zhA+9k4cHVpqqeSVCSJG23XEE5KMAHUCCoQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Fix ti_sn_bridge_set_dsi_rate
+ function
+To: Jayesh Choudhary <j-choudhary@ti.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, mripard@kernel.org, jonas@kwiboo.se, 
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, 
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, andersson@kernel.org, 
+ robdclark@gmail.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,46 +97,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 8 Apr 2024 at 11:57, Aleksandr Mishin <amishin@t-argos.ru> wrote:
->
-> In dpu_core_irq_callback_handler() callback function pointer is compared to NULL,
-> but then callback function is unconditionally called by this pointer.
-> Fix this bug by adding conditional return.
->
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+Hi,
 
-This should be converted to a proper Reported-by: trailer.
-
+On Mon, Apr 8, 2024 at 12:36=E2=80=AFAM Jayesh Choudhary <j-choudhary@ti.co=
+m> wrote:
 >
-> Fixes: c929ac60b3ed ("drm/msm/dpu: allow just single IRQ callback")
-> Signed-off-by: Aleksandr Mishin <amishin@t-argos.ru>
+> Due to integer calculations, the rounding off can cause errors in the fin=
+al
+> value propagated in the registers.
+> Considering the example of 1080p (very common resolution), the mode->cloc=
+k
+> is 148500, dsi->lanes =3D 4, and bpp =3D 24, with the previous logic, the=
+ DSI
+> clock frequency would come as 444 when we are expecting the value 445.5
+> which would reflect in SN_DSIA_CLK_FREQ_REG.
+> So move the division to be the last operation where rounding off will not
+> impact the register value.
+
+Given that this driver is used on a whole pile of shipping Chromebooks
+and those devices have been working just fine (with 1080p resolution)
+for years, I'm curious how you noticed this. Was it actually causing
+real problems for you, or did you notice it just from code inspection?
+You should include this information in the commit message.
+
+I'm travelling for the next two weeks so I can't actually check on a
+device to see if your patch makes any difference on hardware I have,
+but I'd presume that things were working "well enough" with the old
+value and they'll still work with the new value?
+
+
+> Also according to the SN65DSI86 datasheet[0], the minimum value for that
+> reg is 0x08 (inclusive) and the maximum value is 0x97 (exclusive). So add
+> check for that.
+
+Maybe the range checking should be a separate patch?
+
+
+> [0]: <https://www.ti.com/lit/gpn/sn65dsi86>
+>
+> Fixes: ca1b885cbe9e ("drm/bridge: ti-sn65dsi86: Split the setting of the =
+dp and dsi rates")
+
+Are you sure that's the commit you're fixing? In the commit text of
+that commit I wrote that it was supposed to "have zero functional
+change". Looking back at the change I still believe it had zero
+functional change. The rounding error looks like it predates the
+patch.
+
+As far as I can tell the rounding error has been there since commit
+a095f15c00e2 ("drm/bridge: add support for sn65dsi86 bridge driver").
+
+
+> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+
+It's great to see a TI engineer contributing to this driver! Awesome!
+
+
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 48 +++++++++++++++++++++------
+>  1 file changed, 37 insertions(+), 11 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> index 946dd0135dff..03a16fbd4c99 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> @@ -223,9 +223,11 @@ static void dpu_core_irq_callback_handler(struct dpu_kms *dpu_kms, unsigned int
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/brid=
+ge/ti-sn65dsi86.c
+> index 84698a0b27a8..f9cf6b14d85e 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -111,7 +111,14 @@
+>  #define  AUX_IRQ_STATUS_AUX_SHORT              BIT(5)
+>  #define  AUX_IRQ_STATUS_NAT_I2C_FAIL           BIT(6)
 >
->         VERB("IRQ=[%d, %d]\n", DPU_IRQ_REG(irq_idx), DPU_IRQ_BIT(irq_idx));
+> -#define MIN_DSI_CLK_FREQ_MHZ   40
+> +/*
+> + * NOTE: DSI clock frequency range: [40MHz,755MHz)
+> + * DSI clock frequency range is in 5-MHz increments
+> + * So minimum frequency 40MHz translates to 0x08
+> + * And maximum frequency 755MHz translates to 0x97
+> + */
+> +#define MIN_DSI_CLK_RANGE      0x8
+> +#define MAX_DSI_CLK_RANGE      0x97
+
+It's a little weird to call this min/max and have one be inclusive and
+one be exclusive. Be consistent and say that this is the minimum legal
+value and the maximum legal value. I think that means the MAX should
+be 0x96.
+
+
+>  /* fudge factor required to account for 8b/10b encoding */
+>  #define DP_CLK_FUDGE_NUM       10
+> @@ -820,22 +827,37 @@ static void ti_sn_bridge_atomic_disable(struct drm_=
+bridge *bridge,
+>         regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG, VSTREAM_ENABL=
+E, 0);
+>  }
 >
-> -       if (!irq_entry->cb)
-> +       if (!irq_entry->cb) {
->                 DRM_ERROR("no registered cb, IRQ=[%d, %d]\n",
->                           DPU_IRQ_REG(irq_idx), DPU_IRQ_BIT(irq_idx));
-> +               return;
+> -static void ti_sn_bridge_set_dsi_rate(struct ti_sn65dsi86 *pdata)
+> +static int ti_sn_bridge_set_dsi_rate(struct ti_sn65dsi86 *pdata)
+>  {
+> -       unsigned int bit_rate_mhz, clk_freq_mhz;
+> +       unsigned int bit_rate_khz;
+>         unsigned int val;
+>         struct drm_display_mode *mode =3D
+>                 &pdata->bridge.encoder->crtc->state->adjusted_mode;
+>
+> -       /* set DSIA clk frequency */
+> -       bit_rate_mhz =3D (mode->clock / 1000) *
+> -                       mipi_dsi_pixel_format_to_bpp(pdata->dsi->format);
+> -       clk_freq_mhz =3D bit_rate_mhz / (pdata->dsi->lanes * 2);
+> +       /*
+> +        * Set DSIA clk frequency
+> +        * Maximum supported value of bit_rate_khz turns out to be
+> +        * 6040000 which can be put in 32-bit variable so no overflow
+> +        * possible in this calculation.
+
+The way you've written this comment makes me worried. You're saying
+that the only supported result of the math has to fit in 32-bits so
+we're OK. ...and then _after_ you do the math you check to see if the
+clock rate is within the supported range. It makes me feel like you
+could still overflow.
+
+I think your comment here should say something like:
+
+The maximum value returned by mipi_dsi_pixel_format_to_bpp() is 24.
+That means that as long as "mode->clock" is less than 178,956,971 kHz
+then the calculation can't overflow and can fit in 32-bits.
+
+If you wanted to be really good you could even put a check earlier in
+the function to make sure that mode->clock wasn't something totally
+crazy (could confirm it's < 100GHz maybe?) so you absolutely knew it
+couldn't overflow.
+
+> +        */
+> +       bit_rate_khz =3D mode->clock *
+> +                      mipi_dsi_pixel_format_to_bpp(pdata->dsi->format);
+> +
+> +       /*
+> +        * For each increment in val, frequency increases by 5MHz
+> +        * and the factor of 1000 comes from kHz to MHz conversion
+> +        */
+> +       val =3D (bit_rate_khz / (pdata->dsi->lanes * 2 * 1000 * 5)) & 0xF=
+F;
+> +
+> +       if (val >=3D MAX_DSI_CLK_RANGE || val < MIN_DSI_CLK_RANGE) {
+> +               drm_err(pdata->bridge.dev,
+> +                       "DSI clock frequency not in the supported range\n=
+");
+> +               return -EINVAL;
 > +       }
->
->         atomic_inc(&irq_entry->count);
->
-> --
-> 2.30.2
->
->
 
+Shouldn't the above be in atomic_check()? There's a reason why
+atomic_enable() can't return error codes.
 
--- 
-With best wishes
-Dmitry
+-Doug
