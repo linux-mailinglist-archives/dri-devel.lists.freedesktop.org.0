@@ -2,44 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6610A89B7CC
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 08:43:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A00F189B7E7
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 08:48:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84E9D112145;
-	Mon,  8 Apr 2024 06:43:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82B6310EE33;
+	Mon,  8 Apr 2024 06:48:51 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PB6WFMUB";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [207.211.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 835D410F9F0
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 06:43:09 +0000 (UTC)
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-591-U-eJ-QBXN_OmDCw0hOp7bA-1; Mon,
- 08 Apr 2024 02:43:06 -0400
-X-MC-Unique: U-eJ-QBXN_OmDCw0hOp7bA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9939929AC004;
- Mon,  8 Apr 2024 06:43:06 +0000 (UTC)
-Received: from dreadlord.redhat.com (unknown [10.64.136.26])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 944D240B4979;
- Mon,  8 Apr 2024 06:43:05 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org
-Subject: [PATCH] nouveau: fix devinit paths to only handle display on GSP.
-Date: Mon,  8 Apr 2024 16:42:43 +1000
-Message-ID: <20240408064243.2219527-1-airlied@gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A12010EE33
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 06:48:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1614060C66;
+ Mon,  8 Apr 2024 06:48:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9475BC433F1;
+ Mon,  8 Apr 2024 06:48:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1712558927;
+ bh=fdlmo9nLEZZM0AajDxaXARTs2D2/fr2yANRzgsov9XQ=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=PB6WFMUBsWePt6MPDVGzjykATl5kIcolPq/DLxwqs//oBCb1C/Yk/z9Of2FEs0bUq
+ fZ16EyAYreDRW37w6FaiAvs2FGG/zKeNxkM9ELyV7TGrlAjgYOQhS0tpvW6YAFyvz8
+ IcLsT5SP1jheavN5f5UTTd16JvwjoedFC105oS5BIhBsmy5m1+9jYm2BUcRUYI5zHw
+ 4v2XQKaZD04yAuzuIxJZArCpAwgwrEjtH4YIxP2SrAuwLAsDLwvOWtcN1FysAPMDhq
+ +Xe9ooN4viv3dsoHK4nSFO5xV2lrZOsCxpZn1KiW3Vgep887kUpfBcp+GKVmGxpUWh
+ 1GGXb/AIOeKcA==
+Message-ID: <5b88fb4c1e02303bcbc59b92496735c9.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: gmail.com
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
+In-Reply-To: <87frw2a2e4.fsf@oltmanns.dev>
+References: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev>
+ <87frw2a2e4.fsf@oltmanns.dev>
+Subject: Re: [PATCH v4 0/5] Pinephone video out fixes (flipping between two
+ frames)
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: Guido =?utf-8?q?G=C3=BCnther?= <agx@sigxcpu.org>,
+ Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, stable@vger.kernel.org,
+ Diego Roversi <diegor@tiscali.it>, Erico Nunes <nunes.erico@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>, Frank Oltmanns <frank@oltmanns.dev>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>
+Date: Sun, 07 Apr 2024 23:48:45 -0700
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,66 +74,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts:
-nouveau/gsp: don't check devinit disable on GSP.
-and applies a further fix.
+Quoting Frank Oltmanns (2024-04-03 08:31:47)
+> Dear clk and sunxi-ng maintainers,
+>=20
+> Patches 1-4 have been reviewed and there are no pending issues. If there
+> is something else you need me to do to get this applied, please let me
+> know.
+>=20
 
-It turns out the open gpu driver, checks this register, but only for displa=
-y.
-
-Match that behaviour and only disable displays on turings.
-
-Fixes: 5d4e8ae6e57b ("nouveau/gsp: don't check devinit disable on GSP.")
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c | 12 ++++++++----
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/r535.c  |  1 +
- 2 files changed, 9 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c b/drivers/=
-gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c
-index 7bcbc4895ec2..271bfa038f5b 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c
-@@ -25,6 +25,7 @@
-=20
- #include <subdev/bios.h>
- #include <subdev/bios/init.h>
-+#include <subdev/gsp.h>
-=20
- void
- gm107_devinit_disable(struct nvkm_devinit *init)
-@@ -33,10 +34,13 @@ gm107_devinit_disable(struct nvkm_devinit *init)
- =09u32 r021c00 =3D nvkm_rd32(device, 0x021c00);
- =09u32 r021c04 =3D nvkm_rd32(device, 0x021c04);
-=20
--=09if (r021c00 & 0x00000001)
--=09=09nvkm_subdev_disable(device, NVKM_ENGINE_CE, 0);
--=09if (r021c00 & 0x00000004)
--=09=09nvkm_subdev_disable(device, NVKM_ENGINE_CE, 2);
-+=09/* gsp only wants to enable/disable display */
-+=09if (!nvkm_gsp_rm(device->gsp)) {
-+=09=09if (r021c00 & 0x00000001)
-+=09=09=09nvkm_subdev_disable(device, NVKM_ENGINE_CE, 0);
-+=09=09if (r021c00 & 0x00000004)
-+=09=09=09nvkm_subdev_disable(device, NVKM_ENGINE_CE, 2);
-+=09}
- =09if (r021c04 & 0x00000001)
- =09=09nvkm_subdev_disable(device, NVKM_ENGINE_DISP, 0);
- }
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/r535.c b/drivers/g=
-pu/drm/nouveau/nvkm/subdev/devinit/r535.c
-index 11b4c9c274a1..666eb93b1742 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/r535.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/r535.c
-@@ -41,6 +41,7 @@ r535_devinit_new(const struct nvkm_devinit_func *hw,
-=20
- =09rm->dtor =3D r535_devinit_dtor;
- =09rm->post =3D hw->post;
-+=09rm->disable =3D hw->disable;
-=20
- =09ret =3D nv50_devinit_new_(rm, device, type, inst, pdevinit);
- =09if (ret)
---=20
-2.44.0
-
+I'm assuming sunxi maintainers will pick up the clk patches and send
+them to clk tree in a PR.
