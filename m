@@ -2,52 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A2189BFBD
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 15:01:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95D1689BF76
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 14:51:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFA5911256B;
-	Mon,  8 Apr 2024 13:01:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EF5C112556;
+	Mon,  8 Apr 2024 12:51:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="XO1WOIC9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="itSKLIkj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D720811256B
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 13:01:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B4CD46120C;
- Mon,  8 Apr 2024 13:01:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0194BC433F1;
- Mon,  8 Apr 2024 13:01:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1712581273;
- bh=0SuGBsuVsq9kRwpetWNvUjteVZdtCHwmn2c8m5ijG6w=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XO1WOIC9gmXHMcevgWF1aUhCVsTpAJtBKkwuzwSo6A7WdlPh0Ycv/qOGGOE40TD3w
- M+1umLfcRABuqaDRnwKGrirmSRNJCROy/tt2rQhYn8KuhFxFK4GdxVwAQyx4IkpmzK
- hlQKl6Ct++MMO66bufBolIzhTW5ScCy+2RsMwdYs=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- Niels De Graef <ndegraef@redhat.com>, Zack Rusin <zack.rusin@broadcom.com>,
- Martin Krastev <martin.krastev@broadcom.com>,
- Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
- Ian Forbes <ian.forbes@broadcom.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- dri-devel@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.15 016/690] drm/vmwgfx: Fix possible null pointer derefence
- with invalid contexts
-Date: Mon,  8 Apr 2024 14:48:02 +0200
-Message-ID: <20240408125400.132490561@linuxfoundation.org>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240408125359.506372836@linuxfoundation.org>
-References: <20240408125359.506372836@linuxfoundation.org>
-User-Agent: quilt/0.67
-X-stable: review
-X-Patchwork-Hint: ignore
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41227112556;
+ Mon,  8 Apr 2024 12:51:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1712580704; x=1744116704;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=gbv+Wvg5dd7WPdDlDRXmFPd6E5AwOV3OIz+mA5OwJxg=;
+ b=itSKLIkjCc0qNcRaNIH7Osyq0r1D5rQrYHOT+LaLuM7PpisAVf4AbFeF
+ k/ZHk+hjO/c6IOWodRmg3kOvgnq34NZKTBRVYctaEq7yJEsYXhxaqzZmH
+ M86v29leC3guqVcdqkissE8VhXJ/k6TgioJvGd9fNRTQX9ZvasOTF+uNh
+ v6Ax4u7OCh2t4TMJgEXcmzXNKFNk0lYxEkAGWXn5FLxfUJWaUFAw/6A5c
+ 4Ldk0uSb0VrhBRO5hYNA6YUeQxEEev+BayIT0H3JHvziGrvlqTkFv7MwR
+ AX2+gToGLpnbOUnIZmlgnSs9TmPKQzAX729vBxSDOhfGh0V3//YFYWbgT g==;
+X-CSE-ConnectionGUID: NUMVAjvCRbG23moS4eqpqg==
+X-CSE-MsgGUID: r6YViW62Sd2dUrHhV7aeGA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11037"; a="33252068"
+X-IronPort-AV: E=Sophos;i="6.07,186,1708416000"; d="scan'208";a="33252068"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2024 05:51:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11037"; a="827792248"
+X-IronPort-AV: E=Sophos;i="6.07,186,1708416000"; d="scan'208";a="827792248"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga001.jf.intel.com with SMTP; 08 Apr 2024 05:51:39 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 08 Apr 2024 15:51:38 +0300
+Date: Mon, 8 Apr 2024 15:51:38 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 7/7] drm: prefer DRM_MODE_FMT/ARG over
+ drm_mode_debug_printmodeline()
+Message-ID: <ZhPoWiXybrTxGte2@intel.com>
+References: <cover.1712568037.git.jani.nikula@intel.com>
+ <6df18588dfa17c5d0a1501f5af9ff21f25a1981b.1712568037.git.jani.nikula@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <6df18588dfa17c5d0a1501f5af9ff21f25a1981b.1712568037.git.jani.nikula@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,107 +72,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-5.15-stable review patch.  If anyone has any objections, please let me know.
+On Mon, Apr 08, 2024 at 12:24:02PM +0300, Jani Nikula wrote:
+> We have DRM_MODE_FMT and DRM_MODE_ARG() macros to allow unified debug
+> printing of modes in any printk-formatted logging. Prefer them over
+> drm_mode_debug_printmodeline().
+> 
+> This allows drm device specific logging of modes, in the right drm debug
+> category, and inline with the rest of the logging instead of split to
+> multiple lines.
+> 
+> Suggested-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-------------------
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-From: Zack Rusin <zack.rusin@broadcom.com>
+> ---
+>  drivers/gpu/drm/drm_atomic_uapi.c  |  6 +++---
+>  drivers/gpu/drm/drm_crtc.c         |  6 +++---
+>  drivers/gpu/drm/drm_crtc_helper.c  |  9 ++++-----
+>  drivers/gpu/drm/drm_modes.c        | 13 +++++--------
+>  drivers/gpu/drm/drm_probe_helper.c |  3 ++-
+>  5 files changed, 17 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> index 29d4940188d4..fc16fddee5c5 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -145,10 +145,10 @@ int drm_atomic_set_mode_prop_for_crtc(struct drm_crtc_state *state,
+>  					     &state->mode, blob->data);
+>  		if (ret) {
+>  			drm_dbg_atomic(crtc->dev,
+> -				       "[CRTC:%d:%s] invalid mode (ret=%d, status=%s):\n",
+> +				       "[CRTC:%d:%s] invalid mode (%s, %pe): " DRM_MODE_FMT "\n",
+>  				       crtc->base.id, crtc->name,
+> -				       ret, drm_get_mode_status_name(state->mode.status));
+> -			drm_mode_debug_printmodeline(&state->mode);
+> +				       drm_get_mode_status_name(state->mode.status),
+> +				       ERR_PTR(ret), DRM_MODE_ARG(&state->mode));
+>  			return -EINVAL;
+>  		}
+>  
+> diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+> index b0a0e27e83eb..483969b84a30 100644
+> --- a/drivers/gpu/drm/drm_crtc.c
+> +++ b/drivers/gpu/drm/drm_crtc.c
+> @@ -775,9 +775,9 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
+>  
+>  		ret = drm_mode_convert_umode(dev, mode, &crtc_req->mode);
+>  		if (ret) {
+> -			drm_dbg_kms(dev, "Invalid mode (ret=%d, status=%s)\n",
+> -				    ret, drm_get_mode_status_name(mode->status));
+> -			drm_mode_debug_printmodeline(mode);
+> +			drm_dbg_kms(dev, "Invalid mode (%s, %pe): " DRM_MODE_FMT "\n",
+> +				    drm_get_mode_status_name(mode->status),
+> +				    ERR_PTR(ret), DRM_MODE_ARG(mode));
+>  			goto out;
+>  		}
+>  
+> diff --git a/drivers/gpu/drm/drm_crtc_helper.c b/drivers/gpu/drm/drm_crtc_helper.c
+> index af7ac9d9192a..0955f1c385dd 100644
+> --- a/drivers/gpu/drm/drm_crtc_helper.c
+> +++ b/drivers/gpu/drm/drm_crtc_helper.c
+> @@ -657,8 +657,8 @@ int drm_crtc_helper_set_config(struct drm_mode_set *set,
+>  	if (!drm_mode_equal(set->mode, &set->crtc->mode)) {
+>  		drm_dbg_kms(dev, "[CRTC:%d:%s] modes are different, full mode set:\n",
+>  			    set->crtc->base.id, set->crtc->name);
+> -		drm_mode_debug_printmodeline(&set->crtc->mode);
+> -		drm_mode_debug_printmodeline(set->mode);
+> +		drm_dbg_kms(dev, DRM_MODE_FMT "\n", DRM_MODE_ARG(&set->crtc->mode));
+> +		drm_dbg_kms(dev, DRM_MODE_FMT "\n", DRM_MODE_ARG(set->mode));
+>  		mode_changed = true;
+>  	}
+>  
+> @@ -766,9 +766,8 @@ int drm_crtc_helper_set_config(struct drm_mode_set *set,
+>  
+>  	if (mode_changed) {
+>  		if (drm_helper_crtc_in_use(set->crtc)) {
+> -			drm_dbg_kms(dev, "[CRTC:%d:%s] attempting to set mode from userspace\n",
+> -				    set->crtc->base.id, set->crtc->name);
+> -			drm_mode_debug_printmodeline(set->mode);
+> +			drm_dbg_kms(dev, "[CRTC:%d:%s] attempting to set mode from userspace: " DRM_MODE_FMT "\n",
+> +				    set->crtc->base.id, set->crtc->name, DRM_MODE_ARG(set->mode));
+>  			set->crtc->primary->fb = set->fb;
+>  			if (!drm_crtc_helper_set_mode(set->crtc, set->mode,
+>  						      set->x, set->y,
+> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+> index 408ee1b5e44d..2d8b0371619d 100644
+> --- a/drivers/gpu/drm/drm_modes.c
+> +++ b/drivers/gpu/drm/drm_modes.c
+> @@ -1201,9 +1201,8 @@ int of_get_drm_display_mode(struct device_node *np,
+>  	if (bus_flags)
+>  		drm_bus_flags_from_videomode(&vm, bus_flags);
+>  
+> -	pr_debug("%pOF: got %dx%d display mode\n",
+> -		np, vm.hactive, vm.vactive);
+> -	drm_mode_debug_printmodeline(dmode);
+> +	pr_debug("%pOF: got %dx%d display mode: " DRM_MODE_FMT "\n",
+> +		 np, vm.hactive, vm.vactive, DRM_MODE_ARG(dmode));
+>  
+>  	return 0;
+>  }
+> @@ -1251,7 +1250,7 @@ int of_get_drm_panel_display_mode(struct device_node *np,
+>  	dmode->width_mm = width_mm;
+>  	dmode->height_mm = height_mm;
+>  
+> -	drm_mode_debug_printmodeline(dmode);
+> +	pr_debug(DRM_MODE_FMT "\n", DRM_MODE_ARG(dmode));
+>  
+>  	return 0;
+>  }
+> @@ -1813,10 +1812,8 @@ void drm_mode_prune_invalid(struct drm_device *dev,
+>  					 DRM_MODE_FMT "\n", DRM_MODE_ARG(mode));
+>  			}
+>  			if (verbose) {
+> -				drm_mode_debug_printmodeline(mode);
+> -				drm_dbg_kms(dev, "Not using %s mode: %s\n",
+> -					    mode->name,
+> -					    drm_get_mode_status_name(mode->status));
+> +				drm_dbg_kms(dev, "Rejected mode: " DRM_MODE_FMT " (%s)\n",
+> +					    DRM_MODE_ARG(mode), drm_get_mode_status_name(mode->status));
+>  			}
+>  			drm_mode_destroy(dev, mode);
+>  		}
+> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+> index 19bf5d298257..4f75a1cfd820 100644
+> --- a/drivers/gpu/drm/drm_probe_helper.c
+> +++ b/drivers/gpu/drm/drm_probe_helper.c
+> @@ -701,7 +701,8 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
+>  
+>  	list_for_each_entry(mode, &connector->modes, head) {
+>  		drm_mode_set_crtcinfo(mode, CRTC_INTERLACE_HALVE_V);
+> -		drm_mode_debug_printmodeline(mode);
+> +		drm_dbg_kms(dev, "Probed mode: " DRM_MODE_FMT "\n",
+> +			    DRM_MODE_ARG(mode));
+>  	}
+>  
+>  	return count;
+> -- 
+> 2.39.2
 
-[ Upstream commit 517621b7060096e48e42f545fa6646fc00252eac ]
-
-vmw_context_cotable can return either an error or a null pointer and its
-usage sometimes went unchecked. Subsequent code would then try to access
-either a null pointer or an error value.
-
-The invalid dereferences were only possible with malformed userspace
-apps which never properly initialized the rendering contexts.
-
-Check the results of vmw_context_cotable to fix the invalid derefs.
-
-Thanks:
-ziming zhang(@ezrak1e) from Ant Group Light-Year Security Lab
-who was the first person to discover it.
-Niels De Graef who reported it and helped to track down the poc.
-
-Fixes: 9c079b8ce8bf ("drm/vmwgfx: Adapt execbuf to the new validation api")
-Cc: <stable@vger.kernel.org> # v4.20+
-Reported-by: Niels De Graef  <ndegraef@redhat.com>
-Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-Cc: Martin Krastev <martin.krastev@broadcom.com>
-Cc: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
-Cc: Ian Forbes <ian.forbes@broadcom.com>
-Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org
-Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
-Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240110200305.94086-1-zack.rusin@broadcom.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-index b91f8d17404d6..21134c7f18382 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-@@ -472,7 +472,7 @@ static int vmw_resource_context_res_add(struct vmw_private *dev_priv,
- 	    vmw_res_type(ctx) == vmw_res_dx_context) {
- 		for (i = 0; i < cotable_max; ++i) {
- 			res = vmw_context_cotable(ctx, i);
--			if (IS_ERR(res))
-+			if (IS_ERR_OR_NULL(res))
- 				continue;
- 
- 			ret = vmw_execbuf_res_noctx_val_add(sw_context, res,
-@@ -1277,6 +1277,8 @@ static int vmw_cmd_dx_define_query(struct vmw_private *dev_priv,
- 		return -EINVAL;
- 
- 	cotable_res = vmw_context_cotable(ctx_node->ctx, SVGA_COTABLE_DXQUERY);
-+	if (IS_ERR_OR_NULL(cotable_res))
-+		return cotable_res ? PTR_ERR(cotable_res) : -EINVAL;
- 	ret = vmw_cotable_notify(cotable_res, cmd->body.queryId);
- 
- 	return ret;
-@@ -2455,6 +2457,8 @@ static int vmw_cmd_dx_view_define(struct vmw_private *dev_priv,
- 		return ret;
- 
- 	res = vmw_context_cotable(ctx_node->ctx, vmw_view_cotables[view_type]);
-+	if (IS_ERR_OR_NULL(res))
-+		return res ? PTR_ERR(res) : -EINVAL;
- 	ret = vmw_cotable_notify(res, cmd->defined_id);
- 	if (unlikely(ret != 0))
- 		return ret;
-@@ -2540,8 +2544,8 @@ static int vmw_cmd_dx_so_define(struct vmw_private *dev_priv,
- 
- 	so_type = vmw_so_cmd_to_type(header->id);
- 	res = vmw_context_cotable(ctx_node->ctx, vmw_so_cotables[so_type]);
--	if (IS_ERR(res))
--		return PTR_ERR(res);
-+	if (IS_ERR_OR_NULL(res))
-+		return res ? PTR_ERR(res) : -EINVAL;
- 	cmd = container_of(header, typeof(*cmd), header);
- 	ret = vmw_cotable_notify(res, cmd->defined_id);
- 
-@@ -2660,6 +2664,8 @@ static int vmw_cmd_dx_define_shader(struct vmw_private *dev_priv,
- 		return -EINVAL;
- 
- 	res = vmw_context_cotable(ctx_node->ctx, SVGA_COTABLE_DXSHADER);
-+	if (IS_ERR_OR_NULL(res))
-+		return res ? PTR_ERR(res) : -EINVAL;
- 	ret = vmw_cotable_notify(res, cmd->body.shaderId);
- 	if (ret)
- 		return ret;
-@@ -2981,6 +2987,8 @@ static int vmw_cmd_dx_define_streamoutput(struct vmw_private *dev_priv,
- 	}
- 
- 	res = vmw_context_cotable(ctx_node->ctx, SVGA_COTABLE_STREAMOUTPUT);
-+	if (IS_ERR_OR_NULL(res))
-+		return res ? PTR_ERR(res) : -EINVAL;
- 	ret = vmw_cotable_notify(res, cmd->body.soid);
- 	if (ret)
- 		return ret;
 -- 
-2.43.0
-
-
-
+Ville Syrjälä
+Intel
