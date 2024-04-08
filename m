@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CBF189CA4D
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 19:05:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A253089CA4F
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 19:05:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10EC81128A0;
-	Mon,  8 Apr 2024 17:05:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 511091128A5;
+	Mon,  8 Apr 2024 17:05:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JAOR0d8P";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="W8Fn0+e/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34507112876
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 17:04:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A8FD1128A0
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 17:04:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712595896; x=1744131896;
+ t=1712595900; x=1744131900;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=TaYLEYhEVr2q/TPhG+Z5oGuaBRkrRlk3EKUJnJEvuaU=;
- b=JAOR0d8PXdm6/K/WbOWqPRJILmyNqcnHSMwIGG74w7siRGXh4bChUP3j
- 2wiisM3TOYCy+2s1QzjY50XxREB18lMTjBHKf+1OFuu/7llABON0fsG+r
- 5olsKax8VwcKuRSvXDN2RjANXEZerJ94g4XJm/eXQJEvjNh38TnvzG14r
- sYFrGFsXMLd+D7ll+b0mNGKHC1yRYg6FC+nfju6EBK3Sq3gtRqJOfQS6e
- +LhtOdNvybl1Uh+/MTTrsUvs3q85vDd80VL+xRPF2uv7nzT+l3/Hr/+L6
- /j9O5hscffa+ebHiAsgttQcvx/XnqMxxh6Crh26DiaHmAroRzrr8oWcUt w==;
-X-CSE-ConnectionGUID: nDRnQa+ARMeRrbfB5/lYxw==
-X-CSE-MsgGUID: uAXuvfCKTx2a6atUwdMdtg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="7793387"
+ bh=Q1tlsRqiakjCYTxdTuQM+nSROJkwpZ0EQYl2CuLR4Yc=;
+ b=W8Fn0+e/LAU6L2u1V8s79bAFGewc/R3+JYYsZbT0NLAach3qGJHn7QGN
+ MWqge9VmQl4A5onY+rYLykfHvjwXyRyPknbRDr43m7ft7vW/q20NC7m4r
+ jvVVp8LEAR3u9yQdokEOR/mcGw714awZppqa8j3Eaez6zjK4ghrnxUbhK
+ TJ8Lk2uh281jJT0MuFyFOMPJxFcKjnCNOS3qGSjdN4sN2Q2+ChKMIHndu
+ HJJwwgSOvQCgsTdYn6c5mDxhm7Qu0owb2nzznKdU1XNTRuVx/zQp+NWI9
+ 8dpcyine7U22tCDI/4xtEPakSD2awKoVgU1NyPAHOu/MsQn6yH/CHUv34 w==;
+X-CSE-ConnectionGUID: +caUdeuTRWqP2LXdQBnWvQ==
+X-CSE-MsgGUID: 99FWgwslQtOVylETenI4Tw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="7793400"
 X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
-   d="scan'208";a="7793387"
+   d="scan'208";a="7793400"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2024 10:04:55 -0700
+ 08 Apr 2024 10:05:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="827792332"
-X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; d="scan'208";a="827792332"
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="827792333"
+X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; d="scan'208";a="827792333"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 08 Apr 2024 10:04:51 -0700
+ by orsmga001.jf.intel.com with SMTP; 08 Apr 2024 10:04:55 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 08 Apr 2024 20:04:51 +0300
+ Mon, 08 Apr 2024 20:04:55 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>,
  Xinwei Kong <kong.kongxinwei@hisilicon.com>,
  Sumit Semwal <sumit.semwal@linaro.org>,
  Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>
-Subject: [PATCH 08/21] drm/hisilicon/kirin: Include linux/io.h for
- readl()/writel()
-Date: Mon,  8 Apr 2024 20:04:13 +0300
-Message-ID: <20240408170426.9285-9-ville.syrjala@linux.intel.com>
+Subject: [PATCH 09/21] drm/hisilicon/kirin: Fix 64bit divisions
+Date: Mon,  8 Apr 2024 20:04:14 +0300
+Message-ID: <20240408170426.9285-10-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240408170426.9285-1-ville.syrjala@linux.intel.com>
 References: <20240408170426.9285-1-ville.syrjala@linux.intel.com>
@@ -75,15 +74,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Include linux/io.h for readl()/writel().
-
-When built on x86_64 w/ COMPILE_TEST=y:
-../drivers/gpu/drm/hisilicon/kirin/dw_dsi_reg.h:93:16: error: implicit declaration of function ‘readl’ [-Werror=implicit-function-declaration]
-   93 |         orig = readl(addr);
-      |                ^~~~~
-../drivers/gpu/drm/hisilicon/kirin/dw_dsi_reg.h:96:9: error: implicit declaration of function ‘writel’ [-Werror=implicit-function-declaration]
-   96 |         writel(tmp, addr);
-      |         ^~~~~~
+Use the appropriate 64bit division helpers to make the code
+build on 32bit architectures.
 
 Cc: Xinliang Liu <xinliang.liu@linaro.org>
 Cc: Tian Tao <tiantao6@hisilicon.com>
@@ -93,22 +85,45 @@ Cc: Yongqin Liu <yongqin.liu@linaro.org>
 Cc: John Stultz <jstultz@google.com>
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/hisilicon/kirin/dw_dsi_reg.h | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/hisilicon/kirin/dw_dsi_reg.h b/drivers/gpu/drm/hisilicon/kirin/dw_dsi_reg.h
-index d79fc031e53d..a87d1135856f 100644
---- a/drivers/gpu/drm/hisilicon/kirin/dw_dsi_reg.h
-+++ b/drivers/gpu/drm/hisilicon/kirin/dw_dsi_reg.h
-@@ -7,6 +7,8 @@
- #ifndef __DW_DSI_REG_H__
- #define __DW_DSI_REG_H__
+diff --git a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c b/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
+index 566de4658719..a39cc549c20b 100644
+--- a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
++++ b/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
+@@ -157,8 +157,8 @@ static u32 dsi_calc_phy_rate(u32 req_kHz, struct mipi_phy_params *phy)
+ 			q_pll = 0x10 >> (7 - phy->hstx_ckg_sel);
  
-+#include <linux/io.h>
-+
- #define MASK(x)				(BIT(x) - 1)
+ 		temp = f_kHz * (u64)q_pll * (u64)ref_clk_ps;
+-		m_n_int = temp / (u64)1000000000;
+-		m_n = (temp % (u64)1000000000) / (u64)100000000;
++		m_n_int = div64_u64_rem(temp, 1000000000, &temp);
++		m_n = div_u64(temp, 100000000);
  
- /*
+ 		if (m_n_int % 2 == 0) {
+ 			if (m_n * 6 >= 50) {
+@@ -229,9 +229,8 @@ static u32 dsi_calc_phy_rate(u32 req_kHz, struct mipi_phy_params *phy)
+ 			phy->pll_fbd_div5f = 1;
+ 		}
+ 
+-		f_kHz = (u64)1000000000 * (u64)m_pll /
+-			((u64)ref_clk_ps * (u64)n_pll * (u64)q_pll);
+-
++		f_kHz = div64_u64((u64)1000000000 * (u64)m_pll,
++				  (u64)ref_clk_ps * (u64)n_pll * (u64)q_pll);
+ 		if (f_kHz >= req_kHz)
+ 			break;
+ 
+@@ -490,7 +489,7 @@ static void dsi_set_mode_timing(void __iomem *base,
+ 	hsa_time = (hsw * lane_byte_clk_kHz) / pixel_clk_kHz;
+ 	hbp_time = (hbp * lane_byte_clk_kHz) / pixel_clk_kHz;
+ 	tmp = (u64)htot * (u64)lane_byte_clk_kHz;
+-	hline_time = DIV_ROUND_UP(tmp, pixel_clk_kHz);
++	hline_time = DIV_ROUND_UP_ULL(tmp, pixel_clk_kHz);
+ 
+ 	/* all specified in byte-lane clocks */
+ 	writel(hsa_time, base + VID_HSA_TIME);
 -- 
 2.43.2
 
