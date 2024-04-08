@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 541A789CA42
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 19:04:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1036789CA43
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 19:04:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E4E911288E;
-	Mon,  8 Apr 2024 17:04:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E29C7112891;
+	Mon,  8 Apr 2024 17:04:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jR3metUM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Fob7pgEI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 251E6112854
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 17:04:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CF14112889
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 17:04:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712595873; x=1744131873;
+ t=1712595876; x=1744131876;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=GDTb2AOVhBcDXMyGU85jB79LpVC7WmIrryK5iL8loDA=;
- b=jR3metUMzbVAAtq2ocL1mvUsngsNApeevAI4IEf5T3U2tRXKTSbK2Stj
- sZNVW6+RMCdbnu8xGoJNZAqyJ4o5jBZGvpKU0kYcEHxabLcEhlVtmFB23
- 3Hdb1kN5ddEs8mw1tSOca3rmZvPIJPpzy2y8o1SqIeil1s5VdEnEWLhUe
- m3nxchq4vkxGS3tH9xgZ7D1VNnvh9bvFGjB77zE9i4VK9sY5IBpBC+SAi
- +l23Gck+K5MbGSPajxuftRCW3Qt1It2voUmVMQEiXkx3WSCWs9RPujPKM
- l0ySYpqzHe3sb+eB1BkQFmIrQ5xIYrmkHaZIX9Rnb2Jzt/Blkh/K0Srb1 g==;
-X-CSE-ConnectionGUID: iHEgKJ1zQguqGHhH51u+pA==
-X-CSE-MsgGUID: d/mLPY7lQOqLoBudhZQCFQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="7793340"
+ bh=CtBTBjbm+qOyMI4jbSL0/XF518dp/uvv8sVsSOgGuC4=;
+ b=Fob7pgEITKkpRkLbcfBEDTy6ZouX5DngTeyCDHww9WUFT1BZrqQ1Y4i2
+ wOgGFr+iBRWPvGJ9Z9zmY4Huvf+xGnBq/+1s/T+qoMDO92OdAC8CI3HjA
+ bOjwlvnYqZfZBAYd5aoiAH8Wl8L0e3tWNLEiG146PBNqN4JF5Yd1K78UU
+ kj7mREic7GjRbpdquXDRo9ejoy12Rn1NZoNXdmFxKl9p9vSOsvnaRIZpN
+ zQbv2/nx0xbxiaeIx7Bkwfayjqj2awf5Xzlt8qXpL8chP0a+BCY676MCa
+ OcBU/o/nV+4iHHPaqu5jTyTaYrZd1B5naFj9/BqCjkH5+89YfNnDwgVzc g==;
+X-CSE-ConnectionGUID: jR5pNofmT9OhBNRMR/muVA==
+X-CSE-MsgGUID: j3nguOBsRqueG8e4j+JgXA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="7793345"
 X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
-   d="scan'208";a="7793340"
+   d="scan'208";a="7793345"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2024 10:04:32 -0700
+ 08 Apr 2024 10:04:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="827792325"
-X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; d="scan'208";a="827792325"
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="827792326"
+X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; d="scan'208";a="827792326"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 08 Apr 2024 10:04:29 -0700
+ by orsmga001.jf.intel.com with SMTP; 08 Apr 2024 10:04:32 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 08 Apr 2024 20:04:29 +0300
+ Mon, 08 Apr 2024 20:04:32 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: Russell King <linux@armlinux.org.uk>
-Subject: [PATCH 01/21] drm/armada: Fix printk arguments
-Date: Mon,  8 Apr 2024 20:04:06 +0300
-Message-ID: <20240408170426.9285-2-ville.syrjala@linux.intel.com>
+Subject: [PATCH 02/21] drm/armada: Fix armada_debugfs_crtc_reg_write() return
+ type
+Date: Mon,  8 Apr 2024 20:04:07 +0300
+Message-ID: <20240408170426.9285-3-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240408170426.9285-1-ville.syrjala@linux.intel.com>
 References: <20240408170426.9285-1-ville.syrjala@linux.intel.com>
@@ -71,32 +72,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-../drivers/gpu/drm/armada/armada_gem.c: In function ‘armada_gem_pwrite_ioctl’:
-../drivers/gpu/drm/armada/armada_gem.c:367:27: warning: format ‘%u’ expects argument of type ‘unsigned int’, but argument 2 has type ‘size_t’ {aka ‘long unsigned int’} [-Wformat=]
-  367 |                 DRM_ERROR("invalid size: object size %u\n", dobj->obj.size);
-      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~
-      |                                                                      |
-      |                                                                      size_t {aka long unsigned int}
+Change the armada_debugfs_crtc_reg_write() return type to
+the correct ssize_t. This makes the code actually build on
+certain architectures.
 
 Cc: Russell King <linux@armlinux.org.uk>
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/armada/armada_gem.c | 2 +-
+ drivers/gpu/drm/armada/armada_debugfs.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/armada/armada_gem.c b/drivers/gpu/drm/armada/armada_gem.c
-index 26d10065d534..e9575ef5aaef 100644
---- a/drivers/gpu/drm/armada/armada_gem.c
-+++ b/drivers/gpu/drm/armada/armada_gem.c
-@@ -364,7 +364,7 @@ int armada_gem_pwrite_ioctl(struct drm_device *dev, void *data,
+diff --git a/drivers/gpu/drm/armada/armada_debugfs.c b/drivers/gpu/drm/armada/armada_debugfs.c
+index 29f4b52e3c8d..338f0f6ca441 100644
+--- a/drivers/gpu/drm/armada/armada_debugfs.c
++++ b/drivers/gpu/drm/armada/armada_debugfs.c
+@@ -48,7 +48,7 @@ static int armada_debugfs_crtc_reg_open(struct inode *inode, struct file *file)
+ 			   inode->i_private);
+ }
  
- 	if (args->offset > dobj->obj.size ||
- 	    args->size > dobj->obj.size - args->offset) {
--		DRM_ERROR("invalid size: object size %u\n", dobj->obj.size);
-+		DRM_ERROR("invalid size: object size %zu\n", dobj->obj.size);
- 		ret = -EINVAL;
- 		goto unref;
- 	}
+-static int armada_debugfs_crtc_reg_write(struct file *file,
++static ssize_t armada_debugfs_crtc_reg_write(struct file *file,
+ 	const char __user *ptr, size_t len, loff_t *off)
+ {
+ 	struct armada_crtc *dcrtc;
 -- 
 2.43.2
 
