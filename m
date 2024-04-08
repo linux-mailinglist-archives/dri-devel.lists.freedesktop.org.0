@@ -2,70 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3FAF89CA81
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 19:12:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C55FB89CA84
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 19:12:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5B1A1128E0;
-	Mon,  8 Apr 2024 17:12:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 082821128E5;
+	Mon,  8 Apr 2024 17:12:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="FgJ8BcJO";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jL0BqglA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A98E1128DC
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 17:11:59 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-41687826509so3005e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Apr 2024 10:11:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1712596317; x=1713201117;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZO6clXaO1hNCYP3oo0zaifY/rEezEg75y3W9xYPPEAQ=;
- b=FgJ8BcJO954HZk3bISze07/zWLhsFon2KJDty9x3IWQb1IsulyJO9GkYHT/DsqpXbU
- 1o4PcyY196KZU6vp/bqtGbEwTF8tzuqNHuMInStV/8Pi2Zt7oX2M7fKwFgWwT0aqy8ZK
- uMJjgNreksECZ/4OtJDfqLOeDCqXNzH69GOeioR1QZ3CgQgqn1jg+kiXVP0M0T3be8uE
- bO7idNrItXjJ/V2CXwymjGJe+dZKvEMVA6X+jQRxqQuAyczcolMVfrsxZbvkfQgn9k0q
- CK5DEAXL+sHkMuF2W7w/QaJmFaS2x/Kx4Tz2x8FhxaoD/uO1mKplVgJ/n/zQAwjom294
- +qSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712596317; x=1713201117;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ZO6clXaO1hNCYP3oo0zaifY/rEezEg75y3W9xYPPEAQ=;
- b=dexwqnBymeqI0LyahTnY34EdkOh98BoAkQ9e2/oDAjED6JXN/UQPbGk5osaF7uuZ3Y
- dn+LyMMYQBKqvberIzaN42mhyfxfNER/vFb53sVe5Ql0TT19Wv8/qNFC+RY6w3vPvGOB
- X/FN4B3J5JXA5WwVE+K88YHvMWg+83/uwqO5nL2pHX/rtUkJ10waqRjXb4tVfuMUkeAp
- p9iDx/bcMKUKSeves3dx8mWZrqIlPyKPyy4v5/SGvFHxKteSz4C7PmtnC7dAF0Ha31vt
- saG7Mv+5khEfLr8cQHB4mJTdLExq0xxOXsp7v63H6DiO0yA7CSwZK1hNIlT78BYW2Lbd
- 6Fow==
-X-Gm-Message-State: AOJu0Ywj2G0Qupb8Q4dm9qjyQFbxZ/pZ0GLLvj+/pGouhkS5Irc2TdwC
- f40AzUyUXzTQZNCOZBWfbp3GWbf1IJIxG6zEOSLL1tMs1szjMClpv7dtgSG+moOn00bt9HEIA1v
- Kx8/g1wn4nCp2DCAebn6cB6QfAeQZX3CTeXA=
-X-Google-Smtp-Source: AGHT+IEhQX+c36AoXjkaA/7lO4vlXvia/QncPVDzbG0dUoQhkRBHugSSxvpcgHNl5FrWVSY4mVa26s47UU4sREAcZwE=
-X-Received: by 2002:a05:600c:3c97:b0:416:2b7f:211c with SMTP id
- bg23-20020a05600c3c9700b004162b7f211cmr394110wmb.5.1712596317561; Mon, 08 Apr
- 2024 10:11:57 -0700 (PDT)
-MIME-Version: 1.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 640F81128E5
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 17:12:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1712596361; x=1744132361;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=LM51WNt4LKD9F91xkInIrmNKLU9g81q/kDLyolQS1Zw=;
+ b=jL0BqglA6fmkgAUkSVFO0hkWFB5Y8fCSLlnh1O6hVWdcVzJFh5Sq4Yw+
+ 3PIMx76wG6yAIrn+PpNIgCGQGBKM7hqEdEgMEWUsuTHCpLNQKcGWYMlg6
+ PNEVZLqjHYBxjIA/kF3rF6xScst4GU6WStZ7r91YRoT4cStr72UUcOaLH
+ wvHEx8NyFhWlg1XgKAIDKBq2b5xusY6Amza7/1tlb1KWL5N0wOcb/Kio7
+ aM4yERxV8inhl6DbPolqHiYO/5/qZBPjTYWxJsj44Cz7Crx8xQpAhr+FU
+ HO4fdINQsJGqWuIKg3vH5ESH6G4Ekoqc0DL4Y8jzMwBoNG7WMIF98rsVS A==;
+X-CSE-ConnectionGUID: sLp95jchTOWJbDaExjWm4g==
+X-CSE-MsgGUID: m2DdJAyMQfmU4yHpPwepzA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="7794000"
+X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
+   d="scan'208";a="7794000"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2024 10:12:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="827792346"
+X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; d="scan'208";a="827792346"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga001.jf.intel.com with SMTP; 08 Apr 2024 10:12:37 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 08 Apr 2024 20:12:37 +0300
+Date: Mon, 8 Apr 2024 20:12:37 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH 15/21] drm/omap: Allow build with COMPILE_TEST=y
+Message-ID: <ZhQlheAqYXuAUHk-@intel.com>
 References: <20240408170426.9285-1-ville.syrjala@linux.intel.com>
- <20240408170426.9285-12-ville.syrjala@linux.intel.com>
-In-Reply-To: <20240408170426.9285-12-ville.syrjala@linux.intel.com>
-From: John Stultz <jstultz@google.com>
-Date: Mon, 8 Apr 2024 10:11:46 -0700
-Message-ID: <CANDhNCqWcDgdKfv1OY+som4nYQMWqiTArfP-044G3F58RDqmHA@mail.gmail.com>
-Subject: Re: [PATCH 11/21] drm/hisilicon/kirin: Allow build with COMPILE_TEST=y
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, Xinliang Liu <xinliang.liu@linaro.org>, 
- Tian Tao <tiantao6@hisilicon.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <20240408170426.9285-16-ville.syrjala@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240408170426.9285-16-ville.syrjala@linux.intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,20 +71,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 8, 2024 at 10:05=E2=80=AFAM Ville Syrjala
-<ville.syrjala@linux.intel.com> wrote:
->
-> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->
-> Allow kirin to be built with COMPILE_TEST=3Dy for greater
-> coverage. Builds fine on x86/x86_64 at least.
->
-> Cc: Xinliang Liu <xinliang.liu@linaro.org>
-> Cc: Tian Tao <tiantao6@hisilicon.com>
-> Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Yongqin Liu <yongqin.liu@linaro.org>
-> Cc: John Stultz <jstultz@google.com>
-> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+On Mon, Apr 08, 2024 at 08:04:20PM +0300, Ville Syrjala wrote:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> 
+> Allow omapdrm to be built with COMPILE_TEST=y for greater
+> coverage.
+> 
+> FIXME: Still borked due to ?
 
-Acked-by: John Stultz <jstultz@google.com>
+In fact not borked anymore. Just forgot to update
+the commit message.
+
+> 
+> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> ---
+>  drivers/gpu/drm/omapdrm/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/Kconfig b/drivers/gpu/drm/omapdrm/Kconfig
+> index 6c49270cb290..85ed92042b74 100644
+> --- a/drivers/gpu/drm/omapdrm/Kconfig
+> +++ b/drivers/gpu/drm/omapdrm/Kconfig
+> @@ -2,7 +2,7 @@
+>  config DRM_OMAP
+>  	tristate "OMAP DRM"
+>  	depends on DRM && OF
+> -	depends on ARCH_OMAP2PLUS
+> +	depends on ARCH_OMAP2PLUS || COMPILE_TEST
+>  	select DRM_KMS_HELPER
+>  	select FB_DMAMEM_HELPERS_DEFERRED if DRM_FBDEV_EMULATION
+>  	select VIDEOMODE_HELPERS
+> -- 
+> 2.43.2
+
+-- 
+Ville Syrjälä
+Intel
