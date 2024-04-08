@@ -2,130 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD97489B8F2
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 09:46:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF05189B909
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 09:48:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34F851121EB;
-	Mon,  8 Apr 2024 07:46:50 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="on4n2ytU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zsRhW/yH";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Tg4jiPt3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ShusbYvM";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A9BD1121DE;
+	Mon,  8 Apr 2024 07:48:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 090131121EE;
- Mon,  8 Apr 2024 07:46:47 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6EAAC21FB5;
- Mon,  8 Apr 2024 07:46:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1712562406; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=67YotKV3mXANMbfvYdzpddAWCuSwlnT6sl1AMkQgeKQ=;
- b=on4n2ytU8PzyPzz8twH8dhApmvfJD14VX1ptibBZPPc/2cTUZ1+qQH+7lRAYESL8gZsG3A
- nb7WCzHraDhdTHM5kvgOYS0lxHazsOhf/Fva0rKIuTLA5Gx9iHP995TG0xSgLff/61RrH9
- I/+ftvs6ft0kL6frC+NhJCl2XQH9DWw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1712562406;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=67YotKV3mXANMbfvYdzpddAWCuSwlnT6sl1AMkQgeKQ=;
- b=zsRhW/yH/8Fc+/RrxTe9fvka2oX9rH1+m+HGsVhLCXzLOUj/lrkCz647uxvC/CsEzEZZie
- NJpDIv1SBvQDR7BQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1712562405; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=67YotKV3mXANMbfvYdzpddAWCuSwlnT6sl1AMkQgeKQ=;
- b=Tg4jiPt3l30e8i54U+v5jE8zz/+dnit14VbP/KTBeufCnDXyLh0QE9T80vhcJeLlRl3m5s
- Zd2bs4wnBgspbCMLXM265HjgnFrGEhhxK2ZuJk6G0tPUsXrrUOPFqV0m2DU6vmArkDmHJI
- lQC6Ay8580COV63ryvsVhqSTlythWcY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1712562405;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=67YotKV3mXANMbfvYdzpddAWCuSwlnT6sl1AMkQgeKQ=;
- b=ShusbYvMYqvtbVZqTNMqlAdosLIFF/3otL7ckAWRzhhipM73xhuoXy/HejcwYHeG71oFMu
- 0Hdauc2YCnGw3+BA==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 4A73D13A92;
- Mon,  8 Apr 2024 07:46:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap2.dmz-prg2.suse.org with ESMTPSA id t8MWEOWgE2YtFwAAn2gu4w
- (envelope-from <tzimmermann@suse.de>); Mon, 08 Apr 2024 07:46:45 +0000
-Message-ID: <752f5073-20b3-4671-bf12-1cf0756313a6@suse.de>
-Date: Mon, 8 Apr 2024 09:46:44 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C72F810FF29;
+ Mon,  8 Apr 2024 07:48:20 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2B55A60EAB;
+ Mon,  8 Apr 2024 07:48:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A6E6C433F1;
+ Mon,  8 Apr 2024 07:48:17 +0000 (UTC)
+Message-ID: <12daffe3-ae5e-4b0f-bb61-3dd233e344bb@xs4all.nl>
+Date: Mon, 8 Apr 2024 09:48:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/12] drm/client: Streamline mode selection debugs
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-References: <20240404203336.10454-1-ville.syrjala@linux.intel.com>
- <20240404203336.10454-12-ville.syrjala@linux.intel.com>
- <9f689077-529f-431b-9506-e92f8a1d8003@suse.de> <ZhBX-2FDEJH98IrR@intel.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <ZhBX-2FDEJH98IrR@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.29
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- XM_UA_NO_VERSION(0.01)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- ARC_NA(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- MIME_TRACE(0.00)[0:+]; FROM_HAS_DN(0.00)[];
- RCVD_TLS_ALL(0.00)[]; RCPT_COUNT_THREE(0.00)[3];
- FROM_EQ_ENVFROM(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; RCVD_VIA_SMTP_AUTH(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap2.dmz-prg2.suse.org:helo,
- imap2.dmz-prg2.suse.org:rdns, intel.com:email]
+Subject: Re: [PATCH v0 00/14] Make I2C terminology more inclusive for I2C
+ Algobit and consumers
+Content-Language: en-US, nl
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Easwar Hariharan <eahariha@linux.microsoft.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-gfx@lists.freedesktop.org>,
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-xe@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>,
+ "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
+ "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
+References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
+ <ffumcagmzdstcf3qcn3f26555pnu7i6azjppciyd4zvcoit7pv@vu262tsfnqyr>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <ffumcagmzdstcf3qcn3f26555pnu7i6azjppciyd4zvcoit7pv@vu262tsfnqyr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,115 +102,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On 05/04/2024 12:18, Wolfram Sang wrote:
+> Hello Easwar,
+> 
+> On Fri, Mar 29, 2024 at 05:00:24PM +0000, Easwar Hariharan wrote:
+>> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
+>> with more appropriate terms. Inspired by and following on to Wolfram's
+>> series to fix drivers/i2c/[1], fix the terminology for users of the
+>> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
+>> in the specification.
+> 
+> I really appreciate that you want to assist in this task to improve the
+> I2C core. I do. I am afraid, however, that you took the second step
+> before the first one, though. As I mentioned in my original cover
+> letter, this is not only about renaming but also improving the I2C API
+> (splitting up header files...). So, drivers are not a priority right
+> now. They can be better fixed once the core is ready.
+> 
+> It is true that I changed quite some controller drivers within the i2c
+> realm. I did this to gain experience. As you also noticed quite some
+> questions came up. We need to agree on answers first. And once we are
+> happy with the answers we found, then IMO we can go outside of the i2c
+> realm and send patches to other subsystems referencing agreed
+> precedence. I intentionally did not go outside i2c yet. Since your
+> patches are already there, you probably want to foster them until they
+> are ready for inclusion. Yet, regarding further patches, my suggestion
+> is to wait until the core is ready. That might take a while, though.
+> However, there is enough to discuss until the core is ready. So, your
+> collaboration there is highly appreciated!
+> 
+>> The last patch updating the .master_xfer method to .xfer depends on
+>> patch 1 of Wolfram's series below, but the series is otherwise
+>> independent. It may make sense for the last patch to go in with
+> 
+> Please drop the last patch from this series. It will nicely remove the
+> dependency. Also, like above, I first want to gain experience with i2c
+> before going to other subsystems. That was intended.
 
-Am 05.04.24 um 21:58 schrieb Ville Syrjälä:
-> On Fri, Apr 05, 2024 at 09:57:07AM +0200, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 04.04.24 um 22:33 schrieb Ville Syrjala:
->>> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
->>>
->>> Get rid of all the redundant debugs and just wait until the end
->>> to print which mode (and of which type) we picked.
->>>
->>> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
->>> ---
->>>    drivers/gpu/drm/drm_client_modeset.c | 65 +++++++++++++---------------
->>>    1 file changed, 31 insertions(+), 34 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
->>> index 415d1799337b..ad88c11037d8 100644
->>> --- a/drivers/gpu/drm/drm_client_modeset.c
->>> +++ b/drivers/gpu/drm/drm_client_modeset.c
->>> @@ -408,6 +408,8 @@ static bool drm_client_target_preferred(struct drm_device *dev,
->>>    
->>>    retry:
->>>    	for (i = 0; i < connector_count; i++) {
->>> +		const char *mode_type;
->>> +
->>>    		connector = connectors[i];
->>>    
->>>    		if (conn_configured & BIT_ULL(i))
->>> @@ -440,20 +442,20 @@ static bool drm_client_target_preferred(struct drm_device *dev,
->>>    			drm_client_get_tile_offsets(dev, connectors, connector_count, modes, offsets, i,
->>>    						    connector->tile_h_loc, connector->tile_v_loc);
->>>    		}
->>> -		drm_dbg_kms(dev, "looking for cmdline mode on [CONNECTOR:%d:%s]\n",
->>> -			    connector->base.id, connector->name);
->>>    
->>> -		/* got for command line mode first */
->>> +		mode_type = "cmdline";
->>>    		modes[i] = drm_connector_pick_cmdline_mode(connector);
->>> +
->>>    		if (!modes[i]) {
->>> -			drm_dbg_kms(dev, "looking for preferred mode on [CONNECTOR:%d:%s] (tile group: %d)\n",
->>> -				    connector->base.id, connector->name,
->>> -				    connector->tile_group ? connector->tile_group->id : 0);
->>> +			mode_type = "preferred";
->>>    			modes[i] = drm_connector_preferred_mode(connector, width, height);
->>>    		}
->>> -		/* No preferred modes, pick one off the list */
->>> -		if (!modes[i])
->>> +
->>> +		if (!modes[i]) {
->>> +			mode_type = "first";
->>>    			modes[i] = drm_connector_first_mode(connector);
->>> +		}
->>> +
->>>    		/*
->>>    		 * In case of tiled mode if all tiles not present fallback to
->>>    		 * first available non tiled mode.
->>> @@ -468,16 +470,20 @@ static bool drm_client_target_preferred(struct drm_device *dev,
->>>    			    (connector->tile_h_loc == 0 &&
->>>    			     connector->tile_v_loc == 0 &&
->>>    			     !drm_connector_get_tiled_mode(connector))) {
->>> -				drm_dbg_kms(dev, "Falling back to non tiled mode on [CONNECTOR:%d:%s]\n",
->>> -					    connector->base.id, connector->name);
->>> +				mode_type = "non tiled";
->>>    				modes[i] = drm_connector_fallback_non_tiled_mode(connector);
->>>    			} else {
->>> +				mode_type = "tiled";
->>>    				modes[i] = drm_connector_get_tiled_mode(connector);
->>>    			}
->>>    		}
->>>    
->>> -		drm_dbg_kms(dev, "found mode %s\n",
->>> -			    modes[i] ? modes[i]->name : "none");
->>> +		if (!modes[i])
->>> +			mode_type = "no";
->>> +
->>> +		drm_dbg_kms(dev, "[CONNECTOR:%d:%s] found %s mode: %s\n",
->>> +			    connector->base.id, connector->name,
->>> +			    mode_type, modes[i] ? modes[i]->name : "none");
->> Instead of tracking the whole mode_type thing, maybe just do
->>
->> if (!modes[i])
->>       drm_dbg_kms(dev, "[CONNECTOR:%d:%s] found mode: " DRM_MODE_FMT,
->> DRM_MODE_ARG(modes[i]) );
->>
->> to print the full mode.
-> The point of the mode_type is to indicate how we derived
-> that mode. Printing the full modeline doesn't help with that.
+OK, based on this I'll mark the media patches in this series as 'Deferred'
+in our patchwork.
 
-But do we care where the mode comes from? At least from my experience, 
-it's much more important to know which modes had been available.
+Regards,
 
-If the source of the mode is really important, the old messages seem 
-preferable to me. Debugging code should be trivial and not add logic or 
-flow control to a function IMHO.
+	Hans
 
-Best regards
-Thomas
-
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+> 
+> All the best and happy hacking,
+> 
+>    Wolfram
+> 
 
