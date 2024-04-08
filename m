@@ -2,124 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 046E889BBC0
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 11:32:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 120CD89BBE1
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 11:38:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB14E10F1F5;
-	Mon,  8 Apr 2024 09:32:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4BD110E280;
+	Mon,  8 Apr 2024 09:38:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.b="YeOx9XKb";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Jwx7GBzk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-PSA-obe.outbound.protection.outlook.com
- (mail-psaapc01on2130.outbound.protection.outlook.com [40.107.255.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 769D211236E
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 09:32:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G2RyKWYUdSME1GrLTbhercDmdJ87z/OIxNHfU2BTG4WufpTB3xo2t4k0MWcmNsAlmsUifhTvfWoXA4QIvRFT39K/GRsZyNflCwlRuB0I7gMaC3GfQTUuyme7SyTKw/btFeubL4mc0yewNcHdlF1QxdOQ9AVZJX1lpmPAadMRdJsOMR0UmQED+slsGGfU9Ecolbr5p4CAanvQJyStP1OyghbWfKos+gP46HyErnY4+wfI5vMwkS4uLrHN0TfcgrdMvvDElG05ixYwyvDimRa9OvBADBKB5qIYclZhoDmArjgbXpja9MMY+VHTs6A6D5/hHUboLyYViLePnCzTV1ZPoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=66X7XdkhIwaU5yCXkwuMDGX0Lf84ipMsiqOHlFPwbaA=;
- b=ArcmXgTXHL+e5JBdw2fMK1EHJlIcTXfB0NFehcZIEqU4tspnFKSKWMOle3JUy/tJOS6eKrsJmhsqnFwdU3ePfYfA2V7+08e4wUXA+2obakKkrDTPE8gv7RA/l2gEFHmd4SmhgQ3Y534BzASsYgEFMYwtRfF0fAoqBBEbVKf/7+XXqZ2+rz8oWW8iaQzBQGBxmqdpnaqrHnLqSRc00+NlCzA7EjRrBmV3iWJwiC4i7Q4sJiWbFsfSHW3Stg9Th2lNO3A7OVmK+n7EyH7pUvw3LZjADFYswLkTamI1NfNkPygBosZyR7/jIeGG1HFjtWixNw+gdRje4ksrKfNtrLuVcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=66X7XdkhIwaU5yCXkwuMDGX0Lf84ipMsiqOHlFPwbaA=;
- b=YeOx9XKblRWvtpdOaerx1pqm3mb//my3KOCL0VkqM2yshnX68ebHRVbnBf6O6rcLbeoTzGbuWOE7QK3vmUtuYIXL20UgTdSgnwZfY7MO03GN2Ue2a/WhKSVTkIf4Mhr81Y5VAIdBNSsE0eJF58MmFwPqRCW5xEvVCz8eNaZi9eFq705bLN9PZqojlutjpXoaTvOYhf6K9SKyApU3PE69+kgwNnCqV8DTLOczSRBvbs30ymFFyx7xd70bWenCUMAzsvMcz4ZbLjxNRiE/k+BV0tEHR4d8BwB/BlJsNZNScxQOOAQtVfRjmL93u50jvp0SLP8KF50qXB+jPq7oAc9iRw==
-Received: from TYZPR06MB6568.apcprd06.prod.outlook.com (2603:1096:400:45f::6)
- by KL1PR06MB7432.apcprd06.prod.outlook.com (2603:1096:820:143::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Mon, 8 Apr
- 2024 09:31:57 +0000
-Received: from TYZPR06MB6568.apcprd06.prod.outlook.com
- ([fe80::563:faf6:dfdc:3c21]) by TYZPR06MB6568.apcprd06.prod.outlook.com
- ([fe80::563:faf6:dfdc:3c21%2]) with mapi id 15.20.7409.042; Mon, 8 Apr 2024
- 09:31:56 +0000
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, "jfalempe@redhat.com"
- <jfalempe@redhat.com>, "maarten.lankhorst@linux.intel.com"
- <maarten.lankhorst@linux.intel.com>, "mripard@kernel.org"
- <mripard@kernel.org>, "airlied@redhat.com" <airlied@redhat.com>,
- "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v2] drm/ast: Fix soft lockup
-Thread-Topic: [PATCH v2] drm/ast: Fix soft lockup
-Thread-Index: AQHahzL63ETFg/AmsUKZKjVFn26dR7FeILQA
-Date: Mon, 8 Apr 2024 09:31:55 +0000
-Message-ID: <TYZPR06MB6568098AA65B5DEEA17CF4BCF1002@TYZPR06MB6568.apcprd06.prod.outlook.com>
-References: <20240403090246.1495487-1-jammy_huang@aspeedtech.com>
- <80a853ac-0756-4d27-975c-35b2532239ed@suse.de>
-In-Reply-To: <80a853ac-0756-4d27-975c-35b2532239ed@suse.de>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR06MB6568:EE_|KL1PR06MB7432:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: H/EV82dHWuPr+esAED1stw1QcrGUkR92N8n5O+I2lgXAA1MqCqhrVRICOkSl9aTYJNJ/Gyv9yz8U4oaJ8L74GLk+EocmPgIT8GIwMX8+tyfrWqJqrMtAIMsPhm8rtEoeguGM9S6rt4ilOFcMt8sATAZy6ABfB82GdLITeyhhMJpC7HhWiLTqkcoaHCgEj0Fy+IGEaWDAm/x6Bov5Hyzif6Ggl9UhtwB1uvmUqFLhMw2UAVm+va+bF0kwQv7aeBW5nlnX4nAo2WB4WAFYLn5VuMuFtrXBjtlKunKBTdoJ27My2FKNCQHU0Dc49+tqVsDeeMZQTsGsLR64x/xdFVpuvIPKbFPIIYBjTSQiq1wiaSTaR+He6Zt46tdythRL5nRN2O1lN0UibMyGkoQ5dtlQs3BsBJdsagpSMKRnMqGrsUrllq0mFL/XKOLlHmdBq7k2Is8gy8aQGkLw3MZgc5gxNucFQGRS2YRvuwfZEAtmwjw2tKOXv5hL9ksqNKUPL9wx6joqUa41yFBVD0+vAUzIs27huWxbhlUqB0Njodaxengoxj90DtzvbOgtJEa+f+devbsomYPZ3OxHJorfLYXT1y1mEWvJKGNyWkxqjhe1COgzBTChOt58Q4mmMmPrYl1FJ2exldo26SnqTU+nK4Wo9FAvfWz4NBZtDC7UtsyuEHk=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:zh-tw; SCL:1;
- SRV:; IPV:NLI; SFV:NSPM; H:TYZPR06MB6568.apcprd06.prod.outlook.com; PTR:;
- CAT:NONE; SFS:(13230031)(376005)(1800799015)(366007); DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Z1BsWVRVYlBxZUdPYSt4T2pxWHgvQVVmUmpkUjVMNXV3c2EvRXdhN3pSRUEy?=
- =?utf-8?B?UFIwa1hkZTE3NjM0a0RIekd0TWluUU82eDdLQXpxdXJVWElNMU5OZGt5OTR0?=
- =?utf-8?B?WlFMc3NtYURINEIvb3pzT2dxTFFtWGJoeCt3eFU2S0tmcUpRY0w4L25RaTVF?=
- =?utf-8?B?WEdEZ09DTWJYUDdTSHJCQlJqclV2TVl4UlAvOTlVVE5Ebm5yU1ZOWUJWYTZ4?=
- =?utf-8?B?M0EzU1BsdWVTUVh1WFVoZk9nczZHVjdBSDJLeTRWeFBZa3BQMWFuaFlCMkwr?=
- =?utf-8?B?end0VnZET3FhOE1sU0gzZGdselA3NTZyM2V3UGROd29FeVhaVkd1am42K3Fa?=
- =?utf-8?B?UG9USlJBb213bFRDYy9SVXVMUlhGalJRbE16QmppTERneFVuR2FFeWxabm1v?=
- =?utf-8?B?dm1jSlgwcmtYd1Q2STNhNzdMZkdCcEgwcCs3dEg4cE5wUnVjWkhTSHZyL1pu?=
- =?utf-8?B?T0swazZLaERuRkZBQ0VwZlo4RGV6SGxCOXRLT0kreDBsVnhnUmhvckk0RWpX?=
- =?utf-8?B?VUczRmNqZDNwc2NKR0UvRUdteXUyQVAzMlJjcXFEb1BQbTRzNks0RmFqdUtX?=
- =?utf-8?B?amkvN2tNTGwwelVoUnBRMWttQ0RWa2F2UVhKNHlmREVJc3gyOW1hZFF0Q1hF?=
- =?utf-8?B?NHZEeTdzYkQyZTdUSk9xZ0hVTDVudW8zUVRHS0M5bFkrWlRuWkxvYS82anNC?=
- =?utf-8?B?ZTRRWVBCMHdKeEh4V0RVSTJYS3ZsdzE4bFhsU1VNaU84cGlUWjRnVXhMTGJh?=
- =?utf-8?B?cER2VFFxdjY5aW5jNnR2STZIZHVqZXlleDVaTkFuU3FoM0RkeVQ5VWRkRDU5?=
- =?utf-8?B?WSs3ZUk3YURoc2tGTnZIeEM5eHVuTFhXM1FyU09nOWx1a0RrVGF2N0NBcWZu?=
- =?utf-8?B?RVJiSHFnWXkvV0l4U2ZXQXZpenpSQUIwUEZ1UVNDejlIYTdXUjhPOENKZmtH?=
- =?utf-8?B?Rk9rVzM5R01sZ2FFT1A4SVdIUlFZL3FHZ25mTllMbkE2akh3TUcvNmwxQ0l4?=
- =?utf-8?B?Wm5yNWVZalowRTZDNDdFU1owWDE4eWdnN3phTkJreEd1dWRiT1FKQjNaVTRE?=
- =?utf-8?B?WStWN29zWGVNeTJIZVl5UFc2MjRUK3kxZStmcXpsWXNJcktqSmhuYUIrNGF6?=
- =?utf-8?B?MjlEcDdtWENoMHZ6WHlySkpVSkZSQmdaVTJXcFYySWliRHFpTUhaY1lrMHFj?=
- =?utf-8?B?cG00RDBwc0k1bU5GQWo1VWJJSldHcjlNRmdEdUwrenc3VzMwc29KNmk4c0U5?=
- =?utf-8?B?OUlNeEppdHBSOFRpZklYbzZtUmJZOFk3WmxCWDJlZ2VhdVZXY2x5cG1wWFlW?=
- =?utf-8?B?MWNIaTI0Q3M4OVVaVUs3Z1lXWmpibHpLQTBIS2FFaVpqRjQzRnFIWEJIbWVP?=
- =?utf-8?B?ekF5WU5aTzhNcHNyZkNWY2UvdzJFQlJha2c1a0J3T2NaMVFTZlZKT2FyZXdq?=
- =?utf-8?B?NE9TeUN2SmQ4a1BScnB1K3lTQVRVUEhmWkNSZDBtZkR6ZS80ZlFqMktiVVVW?=
- =?utf-8?B?UDBnTnJjSzZjYjNZc1hHRlYvYlNUcnl5SlRheDA2OG1vN1dzQ1M5czFSK2V0?=
- =?utf-8?B?RDBvek5wRHkzcjNWdTI0T2NnY2xlb00vcUVEY09FVFJzbmUzbmJUZ28rckkx?=
- =?utf-8?B?SjVxZi8zaE80cmZTMFg0VUdvNHNxMVVsRmRtNlRHcHJwMTdmZW1aem9pOFRL?=
- =?utf-8?B?dUkxVGNqbGwzVG45aWVIZktmL3VzMm9DUk9hM21oOEhpejdLLzBDRHp1WEdX?=
- =?utf-8?B?SXduQXp6aXMxVHJOdXkyUUZOQ05RMW45ZU5YejZnYjBOa21EVHFhUC9xTWEz?=
- =?utf-8?B?Zk9IRG9SQ29MQkFOcmZXNjZ4eXRENFJRS3ZwNjRMRjFoaWR2ajVCbnFrbXQ4?=
- =?utf-8?B?OS9TeFhXUjkrZkVkWmxTSitJM2s2RTRvejEyK3E1V2xlcm1NMlJMQURQY1k4?=
- =?utf-8?B?YXdVUTJURU5ybk5EZWJkSDNEUCttaStFOUlSZVczK2FaNkUyNVdmMTdSZTBZ?=
- =?utf-8?B?Ty83WlBjRUx3SzhHYzFjOHVyTDZXekJaUGFFNWgzRDExdGR5a0xWYlpIS3pW?=
- =?utf-8?B?SFlqNEMwQzAyV2pLemg0QVl6TlQyaHhJYU5ubjNyYThFOGJXeURpRG15RW9a?=
- =?utf-8?B?dy9tVlpDSnRMcFhMN1RZZlJRQVpKTHpPeklKQWlKZDZrVUhvVGRtYzY5MlJT?=
- =?utf-8?B?R3c9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE22910E280
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 09:38:11 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-a51abd0d7c2so364113566b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Apr 2024 02:38:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712569090; x=1713173890;
+ darn=lists.freedesktop.org; 
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=m1PLjRGl2MYyX+2zKdFV7iSC02Qe1cYgW7veKZ91RLg=;
+ b=Jwx7GBzkbIwqnwQADPjcJ2EinLk4VTv0pEtc9Xialf7xeTu7U0PJJSOG4QSVwY6HkA
+ uuTACOMe+rpShy3EXI7P6q2zQy8PCf84XawRT+Kf41W6RhKlimtZqg6O4fIdW+C8ALiv
+ YBTO0d6ucNkTA33q47bPvnkOZyi9cnMVd6vnl5JdmQzOolAfXfoqOF6qK5VHyskHUbIi
+ znNBE9i4UMrdJ5UEThvMlBvX6k/H2U8KOd7D6+eQRIm7DWofPBTTiAyR0KxlQ0AwNO3M
+ ++2V9mT+MGIraXmAYabAxGK6BmEOi5hn1Y1tefrC50M3XAt0F1PVJW1m5FF7fEO608vn
+ TGsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712569090; x=1713173890;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=m1PLjRGl2MYyX+2zKdFV7iSC02Qe1cYgW7veKZ91RLg=;
+ b=Lsqr/oZ9mkL98pdtrCcHHiKa2f/g31KNeIaw9SEg9lZ7oCTiy3EkD/V3EvgWzEiFjy
+ vI36IHbG3vrYxd5r2/Zv7a+s+UfMzazZU/2dBQgRFsFU6X61eljgd4zZWAhPuqg0SjLa
+ XYgdTvObupaLMkuXohSdiAhAF94jlOcWqKOCgAt/GLYOZlQjg279oeRGmrQlqwVjtAAp
+ ewvZRZ832XcY38iKzGbuo7euLGtNvAdDOJ4QVLkAAcxK5snnAJcHHM5xWIzwfKNg7RsZ
+ 5UXgie+tvGIsnkAjikl+tW2sT0FwDRE44WzwMGiEYTJ+GDUZdyrdPW3nlM550MT3Gu/N
+ imZw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUR/Asw6HiKqyn6uuflJ0qov8g2PGoqs0dhzyxoe/TZ+xvvBmgL78uxqD/NH4HQakuepCnEXvNjbtpL639rpR/GTYIHh/m7RDZ+nD5xxgl1
+X-Gm-Message-State: AOJu0Yy6PLVwQhRMj2VYQLqWYr/Xpan8yqL8m/Bq0bxUVpPQFOdKjP26
+ Q/xx2dPIBIu5uG1fv07yFQIxlEw19B+tx7Cu4zjPcIOqcUllS10gVK3UYAwzudU=
+X-Google-Smtp-Source: AGHT+IGnQd1kztAY4avgfZG8BTwixabZYgbRBBawEhqGsrjNGUFhp8SXWgLnOMI0cl/Wn5n5NhooZQ==
+X-Received: by 2002:a17:907:e8d:b0:a51:db9a:47ca with SMTP id
+ ho13-20020a1709070e8d00b00a51db9a47camr1001978ejc.28.1712569090032; 
+ Mon, 08 Apr 2024 02:38:10 -0700 (PDT)
+Received: from [127.0.1.1] ([84.102.31.74]) by smtp.gmail.com with ESMTPSA id
+ ne6-20020a1709077b8600b00a4e5a6b57a2sm4175803ejc.163.2024.04.08.02.38.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Apr 2024 02:38:09 -0700 (PDT)
+From: Julien Panis <jpanis@baylibre.com>
+Subject: [PATCH net-next v8 0/3] Add minimal XDP support to TI AM65 CPSW
+ Ethernet driver
+Date: Mon, 08 Apr 2024 11:38:01 +0200
+Message-Id: <20240223-am65-cpsw-xdp-basic-v8-0-f3421b58da09@baylibre.com>
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB6568.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 55365ce2-7b07-49ae-de81-08dc57aebb74
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Apr 2024 09:31:56.0094 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yry3l0wKNbEdCxRGnI+XRBdWlCAjRXP9xKKi8l55hEiXWeFGjCKZR6IlZ3mlodX2usjpatZLUcIcJqPZhFf0etIJedvsFb2tKd0GXuaG9JU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR06MB7432
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPm6E2YC/43QzW7CMAwH8FdBOZMt30132ntMCDmOOzJBqBrUg
+ RDvvtDbpmrK0bH9y1++s0JTosLeNnc20ZxKOuda+O2G4QHyJ/EUa82UUEYopTmcnOU4lm9+jSM
+ PUBJyE4NX3gofjGd1s74SDxNkPDx3v0bIqbzW+f0JUj6mTPtZPAfHiYZ0Xb7/YJkuPNP1wna1c
+ 0jlcp5uS65ZLv1/I8ySS94PIjgMEbQU7wFuxxQmesHzaSFn1cAoLriQ6BAAIQS3wugGRlfGxt4
+ Y6KM3sJbGNDCmMtprJ8FpMD78ZrabhnVFxpKNhML4lRS2IYWtTEDZ6V52IuDaTVwD455ppCIaB
+ huiHVaYroHpKoPa2w69ihD/3GT3eDx+AOgc/bfVAgAA
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Jesper Dangaard Brouer <hawk@kernel.org>, 
+ John Fastabend <john.fastabend@gmail.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Simon Horman <horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
+ Ratheesh Kannoth <rkannoth@marvell.com>, 
+ Naveen Mamindlapalli <naveenm@marvell.com>
+Cc: danishanwar@ti.com, yuehaibing@huawei.com, rogerq@kernel.org, 
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, Julien Panis <jpanis@baylibre.com>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1712569087; l=2999;
+ i=jpanis@baylibre.com; s=20230526; h=from:subject:message-id;
+ bh=3Oe0Hs1hEKEvDoktbHfU95I86ttlMXOY6/+XRDoZZiw=;
+ b=9c3VEL8gylBs0NJqjRRKrAl3fE1uu9hbotAKaeGSKKPIEaUPo1qk3Gid5iSdZL6f7XQUH7zZo
+ uOuDDcsXCGWD9kKXcSpvD14RsAuXAkWbP+uz1lxCdtZzcv2trFjRSVk
+X-Developer-Key: i=jpanis@baylibre.com; a=ed25519;
+ pk=8eSM4/xkiHWz2M1Cw1U3m2/YfPbsUdEJPCWY3Mh9ekQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,41 +107,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgVGhvbWFzLA0KDQpUaGFuayB5b3UuDQoNClJlZ2FyZHMsDQpKYW1teSBIdWFuZw0KDQo+IA0K
-PiBIaSwNCj4gDQo+IEkndmUgYWRkZWQgYSBGaXhlcyB0YWcgYW5kIHB1c2hlZCB0byBwYXRjaCBp
-bnRvIGRybS1taXNjLWZpeGVzLg0KPiANCj4gQmVzdCByZWdhcmRzDQo+IFRob21hcw0KPiANCj4g
-QW0gMDMuMDQuMjQgdW0gMTE6MDIgc2NocmllYiBKYW1teSBIdWFuZzoNCj4gPiBUaGVyZSBpcyBh
-IHdoaWxlLWxvb3AgaW4gYXN0X2RwX3NldF9vbl9vZmYoKSB0aGF0IGNvdWxkIGxlYWQgdG8NCj4g
-PiBpbmZpbml0ZS1sb29wLiBUaGlzIGlzIGJlY2F1c2UgdGhlIHJlZ2lzdGVyLCBWR0FDUkktRHgs
-IGNoZWNrZWQgaW4NCj4gPiB0aGlzIEFQSSBpcyBhIHNjcmF0Y2ggcmVnaXN0ZXIgYWN0dWFsbHkg
-Y29udHJvbGxlZCBieSBhIE1DVSwgbmFtZWQNCj4gPiBEUE1DVSwgaW4gQk1DLg0KPiA+DQo+ID4g
-VGhlc2Ugc2NyYXRjaCByZWdpc3RlcnMgYXJlIHByb3RlY3RlZCBieSBzY3UtbG9jay4gSWYgc3Vj
-LWxvY2sgaXMgbm90DQo+ID4gb2ZmLCBEUE1DVSBjYW4gbm90IHVwZGF0ZSB0aGVzZSByZWdpc3Rl
-cnMgYW5kIHRoZW4gaG9zdCB3aWxsIGhhdmUgc29mdA0KPiA+IGxvY2t1cCBkdWUgdG8gbmV2ZXIg
-dXBkYXRlZCBzdGF0dXMuDQo+ID4NCj4gPiBEUE1DVSBpcyB1c2VkIHRvIGNvbnRyb2wgRFAgYW5k
-IHJlbGF0aXZlIHJlZ2lzdGVycyB0byBoYW5kc2hha2Ugd2l0aA0KPiA+IGhvc3QncyBWR0EgZHJp
-dmVyLiBFdmVuIHRoZSBtb3N0IHRpbWUtY29uc3VtaW5nIHRhc2ssIERQJ3MgbGluaw0KPiA+IHRy
-YWluaW5nLCBpcyBsZXNzIHRoYW4gMTAwbXMuIDIwMG1zIHNob3VsZCBiZSBlbm91Z2guDQo+ID4N
-Cj4gPiBTaWduZWQtb2ZmLWJ5OiBKYW1teSBIdWFuZyA8amFtbXlfaHVhbmdAYXNwZWVkdGVjaC5j
-b20+DQo+ID4gUmV2aWV3ZWQtYnk6IEpvY2VseW4gRmFsZW1wZSA8amZhbGVtcGVAcmVkaGF0LmNv
-bT4NCj4gPiAtLS0NCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2RwLmMgfCAzICsrKw0K
-PiA+ICAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQ0KPiA+DQo+ID4gZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2RwLmMNCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9h
-c3QvYXN0X2RwLmMgaW5kZXggZWJiNmQ4ZWJkNDRlLi4xZTkyNTk0MTY5ODAgMTAwNjQ0DQo+ID4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHAuYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9hc3QvYXN0X2RwLmMNCj4gPiBAQCAtMTgwLDYgKzE4MCw3IEBAIHZvaWQgYXN0X2RwX3Nl
-dF9vbl9vZmYoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgYm9vbA0KPiBvbikNCj4gPiAgIHsNCj4g
-PiAgIAlzdHJ1Y3QgYXN0X2RldmljZSAqYXN0ID0gdG9fYXN0X2RldmljZShkZXYpOw0KPiA+ICAg
-CXU4IHZpZGVvX29uX29mZiA9IG9uOw0KPiA+ICsJdTMyIGkgPSAwOw0KPiA+DQo+ID4gICAJLy8g
-VmlkZW8gT24vT2ZmDQo+ID4gICAJYXN0X3NldF9pbmRleF9yZWdfbWFzayhhc3QsIEFTVF9JT19W
-R0FDUkksIDB4RTMsICh1OCkNCj4gPiB+QVNUX0RQX1ZJREVPX0VOQUJMRSwgb24pOyBAQCAtMTky
-LDYgKzE5Myw4IEBAIHZvaWQNCj4gYXN0X2RwX3NldF9vbl9vZmYoc3RydWN0IGRybV9kZXZpY2Ug
-KmRldiwgYm9vbCBvbikNCj4gPiAgIAkJCQkJCUFTVERQX01JUlJPUl9WSURFT19FTkFCTEUpICE9
-DQo+IHZpZGVvX29uX29mZikgew0KPiA+ICAgCQkJLy8gd2FpdCAxIG1zDQo+ID4gICAJCQltZGVs
-YXkoMSk7DQo+ID4gKwkJCWlmICgrK2kgPiAyMDApDQo+ID4gKwkJCQlicmVhazsNCj4gPiAgIAkJ
-fQ0KPiA+ICAgCX0NCj4gPiAgIH0NCj4gPg0KPiA+IGJhc2UtY29tbWl0OiBiMDU0Njc3NmFkM2Yz
-MzJlMjE1Y2ViYzBiMDYzYmE0MzUxOTcxY2NhDQo+IA0KPiAtLQ0KPiAtLQ0KPiBUaG9tYXMgWmlt
-bWVybWFubg0KPiBHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQo+IFNVU0UgU29mdHdhcmUgU29s
-dXRpb25zIEdlcm1hbnkgR21iSA0KPiBGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVy
-ZywgR2VybWFueQ0KPiBHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFs
-ZCwgQm91ZGllbiBNb2VybWFuIEhSQg0KPiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0KDQo=
+This patch adds XDP support to TI AM65 CPSW Ethernet driver.
+
+The following features are implemented: NETDEV_XDP_ACT_BASIC,
+NETDEV_XDP_ACT_REDIRECT, and NETDEV_XDP_ACT_NDO_XMIT.
+
+Zero-copy and non-linear XDP buffer supports are NOT implemented.
+
+Besides, the page pool memory model is used to get better performance.
+
+Signed-off-by: Julien Panis <jpanis@baylibre.com>
+---
+Changes in v8:
+- Fix some warnings reported by patchwork.
+- Link to v7: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v7-0-c3857c82dadb@baylibre.com
+
+Changes in v7:
+- Move xdp_do_flush() function call in am65_cpsw_nuss_rx_poll().
+- Link to v6: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v6-0-212eeff5bd5f@baylibre.com
+
+Changes in v6:
+- In k3_cppi_*() functions, use const qualifier when the content of
+pool is not modified.
+- Add allow_direct bool parameter to am65_cpsw_alloc_skb() function
+for direct use by page_pool_put_full_page().
+- Link to v5: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v5-0-bc1739170bc6@baylibre.com
+
+Changes in v5:
+- In k3_cppi_desc_pool_destroy(), free memory allocated for desc_infos.
+- Link to v4: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v4-0-2e45e5dec048@baylibre.com
+
+Changes in v4:
+- Add skb_mark_for_recycle() in am65_cpsw_nuss_rx_packets() function.
+- Specify napi page pool parameter in am65_cpsw_create_xdp_rxqs() function.
+- Add benchmark numbers (with VS without page pool) in the commit description.
+- Add xdp_do_flush() in am65_cpsw_run_xdp() function for XDP_REDIRECT case.
+- Link to v3: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v3-0-5d944a9d84a0@baylibre.com
+
+Changes in v3:
+- Fix a potential issue with TX buffer type, which is now set for each buffer.
+- Link to v2: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v2-0-01c6caacabb6@baylibre.com
+
+Changes in v2:
+- Use page pool memory model instead of MEM_TYPE_PAGE_ORDER0.
+- In am65_cpsw_alloc_skb(), release reference on the page pool page
+in case of error returned by build_skb().
+- [nit] Cleanup am65_cpsw_nuss_common_open/stop() functions.
+- [nit] Arrange local variables in reverse xmas tree order.
+- Link to v1: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v1-1-9f0b6cbda310@baylibre.com
+
+---
+Julien Panis (3):
+      net: ethernet: ti: Add accessors for struct k3_cppi_desc_pool members
+      net: ethernet: ti: Add desc_infos member to struct k3_cppi_desc_pool
+      net: ethernet: ti: am65-cpsw: Add minimal XDP support
+
+ drivers/net/ethernet/ti/am65-cpsw-nuss.c    | 569 +++++++++++++++++++++++++---
+ drivers/net/ethernet/ti/am65-cpsw-nuss.h    |  13 +
+ drivers/net/ethernet/ti/k3-cppi-desc-pool.c |  41 ++
+ drivers/net/ethernet/ti/k3-cppi-desc-pool.h |   6 +
+ 4 files changed, 578 insertions(+), 51 deletions(-)
+---
+base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
+change-id: 20240223-am65-cpsw-xdp-basic-4db828508b48
+
+Best regards,
+-- 
+Julien Panis <jpanis@baylibre.com>
+
