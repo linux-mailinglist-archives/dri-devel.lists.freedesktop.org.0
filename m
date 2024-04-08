@@ -2,69 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69C3789CE65
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 00:28:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E0B789CE6D
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 00:33:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BEAD10E38C;
-	Mon,  8 Apr 2024 22:28:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EB3F10E2AF;
+	Mon,  8 Apr 2024 22:33:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fmX8Ow3W";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="XbA/ZiaO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A54810E38C;
- Mon,  8 Apr 2024 22:28:27 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-56e2e09fc27so6782230a12.0; 
- Mon, 08 Apr 2024 15:28:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1712615305; x=1713220105; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=QGCVo4CTXBLwTYH+iiI/NIF2pRRvzU2RZ76rFTzzLEo=;
- b=fmX8Ow3WnS/U3bhsx1vKwOhDLGZf9inFgLXF22CbuPZbrPP6dQw4jSaqLJQAC65srj
- JSufHJrVGBrU7bUi3DrozdGJNzauAOaeQqBd+vKmeDj9Sh/QQvs2/oW6muzlEjBh9hah
- TybaJLQlNyeuvzMrBEoy/HGhXANdd/oF/1dkHzeOoPltMhZa9ZLzKHp/l8BLy8MamQ1c
- lZ2T3QF7FrNmIzV7Dg1IX86TBlXx+rxFkF1ZAwgfyL8+BxYTft2fkNonaTjkys9T3DSV
- yJS0BWIyng3q7llCh0jFYfROKjF0nn/lWmvzGzMZSdUCotxmPAW4LkWI6hp3gDZZNQqe
- /rbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712615305; x=1713220105;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=QGCVo4CTXBLwTYH+iiI/NIF2pRRvzU2RZ76rFTzzLEo=;
- b=Yj2hulpk/f8vY8z7II6F9ZJPgDE/gAm4ybwanNJYHbLUOMZjuzIHNYFk7F/c5rK+5w
- GAnL5BIxu+UppXczfaaBRBQcXm0nppH4w0uod7ha1OBuBluFd1DOnJMj8NLHk50m+2e4
- KTh5n8Lir8tmbjQSqzlnhXTxScEvQVheAWl4oc3vvPS+gqJc87ys6ezCtb02+UGAerwb
- RXxA+HjWhsyaELTTr9Xf3UDfUiJRlka5piQrk9VhSEN6a18xUTdXJBGvLef59jsDITyD
- AKzjoYRSS3RoAYNWo02Ww/USxKPmng1NSfdQmi+1vwquEPJgvEWaxxzj2QHz/uf8NbNL
- oj0Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWZTtTtxFWStmUi3zuS6kYE8Go1xoNXKsC2GE9a73V6aadDd/6oT5SZpLfDnm4GIguHKhMI16M+MCbV5UqpwBscsG+X2gljTrBlZviF2Y8T
-X-Gm-Message-State: AOJu0YxeXZOVrsHVvXIPVET4y6h6AbLoSdUNdZqLCOWtpT2z9972h1Yu
- vMqvHrLBs4MGMwHNMVnzYBuEOE7Pkjvv/QXVgA6qoJvlSV3Uy+BGQlRxu3om2/c71NhF9IgDnb8
- kv2C0oZ4yO/cr0ihdJ/uqgnrCH6veBkU8c28=
-X-Google-Smtp-Source: AGHT+IGEgHggUKRJS6kEApnOO0TdYyJ8yYoQMQXYMTy+aSEO7rQgl7Xwa4KDmwUZYs+d9EYIdW7qHtqfjtn0F9QggOw=
-X-Received: by 2002:a50:9fc9:0:b0:56d:f29d:c80d with SMTP id
- c67-20020a509fc9000000b0056df29dc80dmr762183edf.5.1712615304926; Mon, 08 Apr
- 2024 15:28:24 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45A9210E145;
+ Mon,  8 Apr 2024 22:33:06 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 438Kmsvd008018; Mon, 8 Apr 2024 22:33:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=bgHxFY1joSX3CmgA8lmWaDpJpppLl3Jt9l/kVH4Do2Q=; b=Xb
+ A/ZiaOe+WQoSJ4ftljoqE1SRZyP9OLBCb8MZBhzXXGNB9n+C8AVXjC6tcluT224p
+ 8YsINhJ28czwi6p/wrLjvXAAAgomWYxkMJ5DdWqiqrD5QJL9G37UPEAhmg66DcuA
+ jzW0Az8pr0JFpW/Q/4fFotximh6InySbUErHSR5a66XQJL8EPbW6MsP8MmdRxmf6
+ 1dWnhAWk4KowSpSNZ/gmUt20WUZgHjEbOCBqOm6PMgdcnZa1Tu0jbd6zrQHch//E
+ HIxlcKECHszNY+D/idddvpJvMd9ghYEyYEjxRQ1pJwy4FvkOGWp2RuWwYgVky8vI
+ /j6cuzhGCPMerDkBZoHA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xcbg3hxkc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 08 Apr 2024 22:33:03 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 438MX244019126
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 8 Apr 2024 22:33:02 GMT
+Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 8 Apr 2024
+ 15:33:01 -0700
+Message-ID: <c44d6fd3-3b65-b47e-113c-ba1a6115c8b8@quicinc.com>
+Date: Mon, 8 Apr 2024 15:33:01 -0700
 MIME-Version: 1.0
-References: <20240404233736.7946-1-lyude@redhat.com>
- <20240404233736.7946-2-lyude@redhat.com>
-In-Reply-To: <20240404233736.7946-2-lyude@redhat.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Tue, 9 Apr 2024 08:28:11 +1000
-Message-ID: <CAPM=9twXXx9c9O7GFBHMhANOuMqt_tUKr97-2cPCwzZoJFtH0g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/nouveau/kms/nv50-: Disable AUX bus for
- disconnected DP ports
-To: Lyude Paul <lyude@redhat.com>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- Karol Herbst <kherbst@redhat.com>, Danilo Krummrich <dakr@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 3/3] drm/msm/dsi: simplify connector creation
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20240309-fd-dsi-cleanup-bridges-v1-0-962ebdba82ed@linaro.org>
+ <20240309-fd-dsi-cleanup-bridges-v1-3-962ebdba82ed@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20240309-fd-dsi-cleanup-bridges-v1-3-962ebdba82ed@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: i_Cvt1ET_ju5pS6IbVuN0Vf8CZhioEwE
+X-Proofpoint-ORIG-GUID: i_Cvt1ET_ju5pS6IbVuN0Vf8CZhioEwE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-08_17,2024-04-05_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0
+ clxscore=1015 priorityscore=1501 suspectscore=0 impostorscore=0
+ adultscore=0 spamscore=0 mlxlogscore=621 malwarescore=0 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404080171
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,71 +94,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 5 Apr 2024 at 09:37, Lyude Paul <lyude@redhat.com> wrote:
->
-> GSP has its own state for keeping track of whether or not a given display
-> connector is plugged in or not, and enforces this state on the driver. In
-> particular, AUX transactions on a DisplayPort connector which GSP says is
-> disconnected can never succeed - and can in some cases even cause
-> unexpected timeouts, which can trickle up to cause other problems. A good
-> example of this is runtime power management: where we can actually get
-> stuck trying to resume the GPU if a userspace application like fwupd tries
-> accessing a drm_aux_dev for a disconnected port. This was an issue I hit a
-> few times with my Slimbook Executive 16 - where trying to offload something
-> to the discrete GPU would wake it up, and then potentially cause it to
-> timeout as fwupd tried to immediately access the dp_aux_dev nodes for
-> nouveau.
->
-> Likewise: we don't really have any cases I know of where we'd want to
-> ignore this state and try an aux transaction anyway - and failing pointless
-> aux transactions immediately can even speed things up. So - let's start
-> enabling/disabling the aux bus in nouveau_dp_detect() to fix this. We
-> enable the aux bus during connector probing, and leave it enabled if we
-> discover something is actually on the connector. Otherwise, we just shut it
-> off.
->
-> This should fix some people's runtime PM issues (like myself), and also get
-> rid of quite of a lot of GSP error spam in dmesg.
->
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
 
 
-For the two patches,
-
-Reviewed-by: Dave Airlie <airlied@redhat.com>
-
+On 3/9/2024 7:09 AM, Dmitry Baryshkov wrote:
+> Instead of having two functions, msm_dsi_manager_bridge_init()
+> and msm_dsi_manager_ext_bridge_init(), merge them into
+> msm_dsi_manager_connector_init(), moving drm_bridge_attach() to be
+> called from the bridge's attach callback (as most other bridges do).
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  drivers/gpu/drm/nouveau/nouveau_dp.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_dp.c b/drivers/gpu/drm/nouveau/nouveau_dp.c
-> index fb06ee17d9e54..8b1be7dd64ebe 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_dp.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_dp.c
-> @@ -232,6 +232,9 @@ nouveau_dp_detect(struct nouveau_connector *nv_connector,
->             dpcd[DP_DPCD_REV] != 0)
->                 return NOUVEAU_DP_SST;
->
-> +       // Ensure that the aux bus is enabled for probing
-> +       drm_dp_dpcd_set_powered(&nv_connector->aux, true);
-> +
->         mutex_lock(&nv_encoder->dp.hpd_irq_lock);
->         if (mstm) {
->                 /* If we're not ready to handle MST state changes yet, just
-> @@ -293,6 +296,13 @@ nouveau_dp_detect(struct nouveau_connector *nv_connector,
->         if (mstm && !mstm->suspended && ret != NOUVEAU_DP_MST)
->                 nv50_mstm_remove(mstm);
->
-> +       /* GSP doesn't like when we try to do aux transactions on a port it considers disconnected,
-> +        * and since we don't really have a usecase for that anyway - just disable the aux bus here
-> +        * if we've decided the connector is disconnected
-> +        */
-> +       if (ret == NOUVEAU_DP_NONE)
-> +               drm_dp_dpcd_set_powered(&nv_connector->aux, false);
-> +
->         mutex_unlock(&nv_encoder->dp.hpd_irq_lock);
->         return ret;
->  }
-> --
-> 2.44.0
->
+>   drivers/gpu/drm/msm/dsi/dsi.c         | 10 +--------
+>   drivers/gpu/drm/msm/dsi/dsi.h         |  5 ++---
+>   drivers/gpu/drm/msm/dsi/dsi_manager.c | 41 +++++++++++++++--------------------
+>   3 files changed, 21 insertions(+), 35 deletions(-)
+> 
+
+LGTM,
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
