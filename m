@@ -2,61 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 635A389CC3D
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 21:06:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 527AD89CC96
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 21:43:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC2CE10F874;
-	Mon,  8 Apr 2024 19:06:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D796B10F2AB;
+	Mon,  8 Apr 2024 19:43:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="A35BH2al";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="BWYznZ/w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B345F112942;
- Mon,  8 Apr 2024 19:06:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712603190; x=1744139190;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=qd2mOofz2eNc9Qw85grCoUgsywew+5chLlSHFR0+KIs=;
- b=A35BH2alasEDpputHisD+xESKerXFDh3+oeXhzUw5ot4mvFJFvZywJF9
- 0LbyD419H8VdvzTwIc5Z9RkcohzGNGo8GjqcV7lTYDQ6lgfrKx4+qfjIC
- s8cw6MH4Kejx9/4KbIKdZlCHqzFW2Cm3RtCNiUbQvFtY5ZX7Iq7fDEViO
- 6DBjRxaKNwUzqgc5bTYJO1IFp5MraFP39qHV8jT/mNQlzRfDcoIlCw8rb
- kW7OHyIg5R5TLtdRvCB9mTvmIKb6ZBF1cjjCB8oi4noFOtCa79RpBXS1J
- K8EwqRO3qHevwMmSqJRXhAD8wcr4iipLfZF3bfZpr4BD7KOs7PZRJhQwV Q==;
-X-CSE-ConnectionGUID: tPDeHazjTIiSwJF9MueA7g==
-X-CSE-MsgGUID: qIE34v9zQFiC8KqcKHxb7Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="19278651"
-X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; d="scan'208";a="19278651"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2024 12:06:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="827792380"
-X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; d="scan'208";a="827792380"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 08 Apr 2024 12:06:26 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 08 Apr 2024 22:06:25 +0300
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 5/5] drm/vkms: Use drm_crtc_vblank_crtc()
-Date: Mon,  8 Apr 2024 22:06:11 +0300
-Message-ID: <20240408190611.24914-5-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240408190611.24914-1-ville.syrjala@linux.intel.com>
-References: <20240408190611.24914-1-ville.syrjala@linux.intel.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03A2D10E7DE;
+ Mon,  8 Apr 2024 19:43:42 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 438JfQOW007984; Mon, 8 Apr 2024 19:43:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=NnZPJcKl9SdjfnzULqOfrYiXk7aiKOqGcOxrbkMLOak=; b=BW
+ YznZ/wWE7AJD8mDXDEv2nQqf4XFYheL6hGLjLmi838SA0jnieRepKBrBZ06xOtkj
+ JxgYXO9k4v+JaXR15DOVTHCoO68/aesrXZc75G8xbPwx8ELScaeSLqMec3vUQwMz
+ hYwVYVN1u1835J0hJ+3WwEwo34skOMo0ZzZe3pTusR8x1fHy0ggYSb0or25Accaa
+ g73rLOzFiL4jM6d99vNzEzZMUj6bT0Qb0nFd+dOIs1bSpvnJWQ3CSgrq3aSE+TfP
+ B5/4jGiNvoCHPF5OEPmsAwdyhz9SEY5d+QDzNa8z+Kej0BWF17m1patCIJCHT3At
+ r5aEI66gGwtYiLLMR5hQ==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xcbg1hqwb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 08 Apr 2024 19:43:36 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 438JhZAP023202
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 8 Apr 2024 19:43:36 GMT
+Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 8 Apr 2024
+ 12:43:34 -0700
+Message-ID: <01cb1c0d-a801-37f9-2f55-2bbd8d3a68b9@quicinc.com>
+Date: Mon, 8 Apr 2024 12:43:34 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v3] drm/msm/dp: call dp_hpd_plug_handle()/unplug_handle()
+ directly for external HPD
+Content-Language: en-US
+To: Bjorn Andersson <andersson@kernel.org>
+CC: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>,
+ "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, Sean Paul
+ <sean@poorly.run>, "Marijn Suijten" <marijn.suijten@somainline.org>, David
+ Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Kuogee Hsieh
+ <quic_khsieh@quicinc.com>,
+ <dri-devel@lists.freedesktop.org>, <seanpaul@chromium.org>,
+ <swboyd@chromium.org>, <quic_jesszhan@quicinc.com>,
+ <quic_bjorande@quicinc.com>, <johan@kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20240406031548.25829-1-quic_abhinavk@quicinc.com>
+ <ale6wbwzkfagcg2q6glb4vsxu3pthhkk3tquv2ixlatbdryqvh@xscsq2h6emho>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <ale6wbwzkfagcg2q6glb4vsxu3pthhkk3tquv2ixlatbdryqvh@xscsq2h6emho>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: JX3nzlGBV-y0cklqZx_cWNhNUOBvcnab
+X-Proofpoint-GUID: JX3nzlGBV-y0cklqZx_cWNhNUOBvcnab
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-08_17,2024-04-05_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0
+ impostorscore=0 adultscore=0 priorityscore=1501 malwarescore=0 spamscore=0
+ mlxlogscore=999 suspectscore=0 lowpriorityscore=0 clxscore=1015 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
+ definitions=main-2404080152
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,48 +99,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Replace the open coded drm_crtc_vblank_crtc() with the real
-thing.
 
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-Cc: Melissa Wen <melissa.srw@gmail.com>
-Cc: "Maíra Canal" <mairacanal@riseup.net>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
----
- drivers/gpu/drm/vkms/vkms_crtc.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+On 4/7/2024 11:48 AM, Bjorn Andersson wrote:
+> On Fri, Apr 05, 2024 at 08:15:47PM -0700, Abhinav Kumar wrote:
+>> From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> [..]
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+>> index d80f89581760..bfb6dfff27e8 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> @@ -1665,7 +1665,7 @@ void dp_bridge_hpd_notify(struct drm_bridge *bridge,
+>>   		return;
+>>   
+>>   	if (!dp_display->link_ready && status == connector_status_connected)
+>> -		dp_add_event(dp, EV_HPD_PLUG_INT, 0, 0);
+>> +		dp_hpd_plug_handle(dp, 0);
+> 
+> If I read the code correctly, and we get an external connect event
+> inbetween a previous disconnect and the related disable call, this
+> should result in a PLUG_INT being injected into the queue still.
+> 
+> Will that not cause the same problem?
+> 
+> Regards,
+> Bjorn
+>
 
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index 61e500b8c9da..40b4d084e3ce 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -61,9 +61,7 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
- 
- static int vkms_enable_vblank(struct drm_crtc *crtc)
- {
--	struct drm_device *dev = crtc->dev;
--	unsigned int pipe = drm_crtc_index(crtc);
--	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
-+	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
- 	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
- 
- 	drm_calc_timestamping_constants(crtc, &crtc->mode);
-@@ -88,10 +86,9 @@ static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
- 				      bool in_vblank_irq)
- {
- 	struct drm_device *dev = crtc->dev;
--	unsigned int pipe = crtc->index;
- 	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
- 	struct vkms_output *output = &vkmsdev->output;
--	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
-+	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
- 
- 	if (!READ_ONCE(vblank->enabled)) {
- 		*vblank_time = ktime_get();
--- 
-2.43.2
+Yes, your observation is correct and I had asked the same question to 
+kuogee before taking over this change and posting.
 
+We will have to handle that case separately. I don't have a good 
+solution yet for it without requiring further rework or we drop the 
+below snippet.
+
+         if (state == ST_DISCONNECT_PENDING) {
+                 /* wait until ST_DISCONNECTED */
+                 dp_add_event(dp, EV_HPD_PLUG_INT, 0, 1); /* delay = 1 */
+                 mutex_unlock(&dp->event_mutex);
+                 return 0;
+         }
+
+I will need sometime to address that use-case as I need to see if we can 
+handle that better and then drop the the DISCONNECT_PENDING state to 
+address this fully. But it needs more testing.
+
+But, we will need this patch anyway because without this we will not be 
+able to fix even the most regular and commonly seen case of basic 
+connect/disconnect receiving complementary events.
+
+
+>>   	else if (dp_display->link_ready && status == connector_status_disconnected)
+>> -		dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
+>> +		dp_hpd_unplug_handle(dp, 0);
+>>   }
+>> -- 
+>> 2.43.2
+>>
