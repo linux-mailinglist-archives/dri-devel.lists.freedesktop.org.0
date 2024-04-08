@@ -2,88 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 527AD89CC96
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 21:43:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C55589CCC4
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 22:06:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D796B10F2AB;
-	Mon,  8 Apr 2024 19:43:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E509911285A;
+	Mon,  8 Apr 2024 20:05:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="BWYznZ/w";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="N74Cd/iy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03A2D10E7DE;
- Mon,  8 Apr 2024 19:43:42 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 438JfQOW007984; Mon, 8 Apr 2024 19:43:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=NnZPJcKl9SdjfnzULqOfrYiXk7aiKOqGcOxrbkMLOak=; b=BW
- YznZ/wWE7AJD8mDXDEv2nQqf4XFYheL6hGLjLmi838SA0jnieRepKBrBZ06xOtkj
- JxgYXO9k4v+JaXR15DOVTHCoO68/aesrXZc75G8xbPwx8ELScaeSLqMec3vUQwMz
- hYwVYVN1u1835J0hJ+3WwEwo34skOMo0ZzZe3pTusR8x1fHy0ggYSb0or25Accaa
- g73rLOzFiL4jM6d99vNzEzZMUj6bT0Qb0nFd+dOIs1bSpvnJWQ3CSgrq3aSE+TfP
- B5/4jGiNvoCHPF5OEPmsAwdyhz9SEY5d+QDzNa8z+Kej0BWF17m1patCIJCHT3At
- r5aEI66gGwtYiLLMR5hQ==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xcbg1hqwb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 08 Apr 2024 19:43:36 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 438JhZAP023202
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 8 Apr 2024 19:43:36 GMT
-Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 8 Apr 2024
- 12:43:34 -0700
-Message-ID: <01cb1c0d-a801-37f9-2f55-2bbd8d3a68b9@quicinc.com>
-Date: Mon, 8 Apr 2024 12:43:34 -0700
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59EE511285A;
+ Mon,  8 Apr 2024 20:05:56 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id
+ 98e67ed59e1d1-2a5595eecdaso449401a91.3; 
+ Mon, 08 Apr 2024 13:05:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1712606756; x=1713211556; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NUqdZE6kzzC+YTBzuDMEGCl6gVl6Zy5qnlm5WmWCMEw=;
+ b=N74Cd/iy7BhMAVXheYyUwzR7qEzkm4h4Ln49BYh+6bG7TzlVuAvfK21WjxxbmoTvQH
+ wPmkkzpLceby8zB37KFDsEDC8p1hAlIu8091eGwi349uV+adwXCJgMhNvZemPc2zOE5O
+ jPicrSIp25ZfofXJOhWKKKxvMti54hP+HzXjWCgy3oz209pOowFdKmU0JRvZdkHWKpV5
+ lGJnoFVT/jjoaYMDzr89t+7Ad42ivDoeu9vxPXqBqFstKi5S9eYTnJH7Oc0e2IeIXQ61
+ O9EeXVOUOH5YrnQe3DjXn6ULAF081lmCP/a+On6iZzHIe/ypLXUb1A3e0873T1CBO/rf
+ bVBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712606756; x=1713211556;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NUqdZE6kzzC+YTBzuDMEGCl6gVl6Zy5qnlm5WmWCMEw=;
+ b=QTzqBVQLpKtupIJ7Wz6rZgAB/Iy1PEXd98Lxfyi8JUbonysLBcYMvnhWH3n/P9udJy
+ G1zV/CsZgFnv7FbY+LdYVT9aM4S/G+5ZaEnIGywh3OEP5Kc2oavSYUed6GWZYUfxMcH2
+ O67Wt+1oCIQBKQ675gHnDHqF92RzhB2IFO+4Yn1lwnkTnL0Qtq3ULz4wiNywdl6byohC
+ +av7hZUGCcmrfxxkdpMqhKjdICxY9xMtRF2qaXAPBkv2AM8a3JAdLokDacskLtTF343d
+ X60RNlx6pGPQz+NYDf/IaKT2HL/ZqmKVpXdPKAFlYq1NHwzFLJOa8sqEmQG7jJjCgPng
+ grAQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU5DMKC41UFRP/s8w9CYL0oJq/PojpJ3EY68PMw1plv3CalRa6fJgkKn1b5SH0YKdo5r20CdpT0xoSjIrn0dCrvYFIKimMXVWtQZ84ygIUmeLPXwTeyXTevXrTxt/YCTh8u7GSXvEwQHEY3e8t/Zw==
+X-Gm-Message-State: AOJu0YzHDkCXB64RAdl8o24Q9W8ioIo/tG7mZvyewbebP1p3KFhZETih
+ Htan1H6B3gD7R+7w5soGkxOA+TKskythyBlSuidPceICP1Pm92Wpl+4HEfvyWG4oPy6PpLWpgsW
+ JsQ4R8acz9+z5FbCVR85JdVtbIbA=
+X-Google-Smtp-Source: AGHT+IFAsAW5Q31/Vc72tX8MYJxjAXGXGJkMw6FDJT5agkQzF72ip3OaPkCp8oywDbR6fsOAlW6JqIPz8LjboQowH2U=
+X-Received: by 2002:a17:90a:a38a:b0:2a2:7693:399e with SMTP id
+ x10-20020a17090aa38a00b002a27693399emr7380737pjp.4.1712606755689; Mon, 08 Apr
+ 2024 13:05:55 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3] drm/msm/dp: call dp_hpd_plug_handle()/unplug_handle()
- directly for external HPD
-Content-Language: en-US
-To: Bjorn Andersson <andersson@kernel.org>
-CC: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>,
- "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, Sean Paul
- <sean@poorly.run>, "Marijn Suijten" <marijn.suijten@somainline.org>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Kuogee Hsieh
- <quic_khsieh@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <seanpaul@chromium.org>,
- <swboyd@chromium.org>, <quic_jesszhan@quicinc.com>,
- <quic_bjorande@quicinc.com>, <johan@kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240406031548.25829-1-quic_abhinavk@quicinc.com>
- <ale6wbwzkfagcg2q6glb4vsxu3pthhkk3tquv2ixlatbdryqvh@xscsq2h6emho>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <ale6wbwzkfagcg2q6glb4vsxu3pthhkk3tquv2ixlatbdryqvh@xscsq2h6emho>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: JX3nzlGBV-y0cklqZx_cWNhNUOBvcnab
-X-Proofpoint-GUID: JX3nzlGBV-y0cklqZx_cWNhNUOBvcnab
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-08_17,2024-04-05_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0
- impostorscore=0 adultscore=0 priorityscore=1501 malwarescore=0 spamscore=0
- mlxlogscore=999 suspectscore=0 lowpriorityscore=0 clxscore=1015 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
- definitions=main-2404080152
+References: <AS8PR02MB723799AFF24E7524364F66708B392@AS8PR02MB7237.eurprd02.prod.outlook.com>
+ <c2182ac1-368c-441b-b6ed-b5d15a8f9f38@amd.com>
+In-Reply-To: <c2182ac1-368c-441b-b6ed-b5d15a8f9f38@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 8 Apr 2024 16:05:43 -0400
+Message-ID: <CADnq5_OsJ+VxY9z_iqOscvWAoRqK2hZ0thUOHtBzhfo3De4EoA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/radeon/radeon_display: Decrease the size of
+ allocated memory
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Erick Archer <erick.archer@outlook.com>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Kees Cook <keescook@chromium.org>, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,60 +87,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 4/7/2024 11:48 AM, Bjorn Andersson wrote:
-> On Fri, Apr 05, 2024 at 08:15:47PM -0700, Abhinav Kumar wrote:
->> From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> [..]
->> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
->> index d80f89581760..bfb6dfff27e8 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->> @@ -1665,7 +1665,7 @@ void dp_bridge_hpd_notify(struct drm_bridge *bridge,
->>   		return;
->>   
->>   	if (!dp_display->link_ready && status == connector_status_connected)
->> -		dp_add_event(dp, EV_HPD_PLUG_INT, 0, 0);
->> +		dp_hpd_plug_handle(dp, 0);
-> 
-> If I read the code correctly, and we get an external connect event
-> inbetween a previous disconnect and the related disable call, this
-> should result in a PLUG_INT being injected into the queue still.
-> 
-> Will that not cause the same problem?
-> 
-> Regards,
-> Bjorn
+On Mon, Apr 1, 2024 at 8:35=E2=80=AFAM Christian K=C3=B6nig <christian.koen=
+ig@amd.com> wrote:
 >
+> Am 30.03.24 um 17:34 schrieb Erick Archer:
+> > This is an effort to get rid of all multiplications from allocation
+> > functions in order to prevent integer overflows [1] [2].
+> >
+> > In this case, the memory allocated to store RADEONFB_CONN_LIMIT pointer=
+s
+> > to "drm_connector" structures can be avoided. This is because this
+> > memory area is never accessed.
+> >
+> > Also, in the kzalloc function, it is preferred to use sizeof(*pointer)
+> > instead of sizeof(type) due to the type of the variable can change and
+> > one needs not change the former (unlike the latter).
+> >
+> > At the same time take advantage to remove the "#if 0" block, the code
+> > where the removed memory area was accessed, and the RADEONFB_CONN_LIMIT
+> > constant due to now is never used.
+> >
+> > Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#op=
+en-coded-arithmetic-in-allocator-arguments [1]
+> > Link: https://github.com/KSPP/linux/issues/160 [2]
+> > Signed-off-by: Erick Archer <erick.archer@outlook.com>
+>
+> Well in general we don't do any new feature development any more for the
+> radeon driver.
+>
+> But this cleanup looks so straight forward that the risk of breaking
+> something is probably very low.
+>
+> Acked-by from my side, but Alex should probably take a look as well.
 
-Yes, your observation is correct and I had asked the same question to 
-kuogee before taking over this change and posting.
+I can't remember why that was done that way.  Maybe some leftover from
+the early KMS days before we finalized the fbdev interactions?
+Anyway, patch applied.  Thanks.
 
-We will have to handle that case separately. I don't have a good 
-solution yet for it without requiring further rework or we drop the 
-below snippet.
+Alex
 
-         if (state == ST_DISCONNECT_PENDING) {
-                 /* wait until ST_DISCONNECTED */
-                 dp_add_event(dp, EV_HPD_PLUG_INT, 0, 1); /* delay = 1 */
-                 mutex_unlock(&dp->event_mutex);
-                 return 0;
-         }
-
-I will need sometime to address that use-case as I need to see if we can 
-handle that better and then drop the the DISCONNECT_PENDING state to 
-address this fully. But it needs more testing.
-
-But, we will need this patch anyway because without this we will not be 
-able to fix even the most regular and commonly seen case of basic 
-connect/disconnect receiving complementary events.
-
-
->>   	else if (dp_display->link_ready && status == connector_status_disconnected)
->> -		dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
->> +		dp_hpd_unplug_handle(dp, 0);
->>   }
->> -- 
->> 2.43.2
->>
+>
+> Regards,
+> Christian.
+>
+> > ---
+> > Changes in v2:
+> > - Rebase against linux-next.
+> >
+> > Previous versions:
+> > v1 -> https://lore.kernel.org/linux-hardening/20240222180431.7451-1-eri=
+ck.archer@gmx.com/
+> >
+> > Hi everyone,
+> >
+> > Any comments would be greatly appreciated. The first version was
+> > not commented.
+> >
+> > Thanks,
+> > Erick
+> > ---
+> >   drivers/gpu/drm/radeon/radeon.h         | 1 -
+> >   drivers/gpu/drm/radeon/radeon_display.c | 8 +-------
+> >   2 files changed, 1 insertion(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/r=
+adeon.h
+> > index 3e5ff17e3caf..0999c8eaae94 100644
+> > --- a/drivers/gpu/drm/radeon/radeon.h
+> > +++ b/drivers/gpu/drm/radeon/radeon.h
+> > @@ -132,7 +132,6 @@ extern int radeon_cik_support;
+> >   /* RADEON_IB_POOL_SIZE must be a power of 2 */
+> >   #define RADEON_IB_POOL_SIZE                 16
+> >   #define RADEON_DEBUGFS_MAX_COMPONENTS               32
+> > -#define RADEONFB_CONN_LIMIT                  4
+> >   #define RADEON_BIOS_NUM_SCRATCH                     8
+> >
+> >   /* internal ring indices */
+> > diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/=
+radeon/radeon_display.c
+> > index efd18c8d84c8..5f1d24d3120c 100644
+> > --- a/drivers/gpu/drm/radeon/radeon_display.c
+> > +++ b/drivers/gpu/drm/radeon/radeon_display.c
+> > @@ -683,7 +683,7 @@ static void radeon_crtc_init(struct drm_device *dev=
+, int index)
+> >       struct radeon_device *rdev =3D dev->dev_private;
+> >       struct radeon_crtc *radeon_crtc;
+> >
+> > -     radeon_crtc =3D kzalloc(sizeof(struct radeon_crtc) + (RADEONFB_CO=
+NN_LIMIT * sizeof(struct drm_connector *)), GFP_KERNEL);
+> > +     radeon_crtc =3D kzalloc(sizeof(*radeon_crtc), GFP_KERNEL);
+> >       if (radeon_crtc =3D=3D NULL)
+> >               return;
+> >
+> > @@ -709,12 +709,6 @@ static void radeon_crtc_init(struct drm_device *de=
+v, int index)
+> >       dev->mode_config.cursor_width =3D radeon_crtc->max_cursor_width;
+> >       dev->mode_config.cursor_height =3D radeon_crtc->max_cursor_height=
+;
+> >
+> > -#if 0
+> > -     radeon_crtc->mode_set.crtc =3D &radeon_crtc->base;
+> > -     radeon_crtc->mode_set.connectors =3D (struct drm_connector **)(ra=
+deon_crtc + 1);
+> > -     radeon_crtc->mode_set.num_connectors =3D 0;
+> > -#endif
+> > -
+> >       if (rdev->is_atom_bios && (ASIC_IS_AVIVO(rdev) || radeon_r4xx_ato=
+m))
+> >               radeon_atombios_init_crtc(dev, radeon_crtc);
+> >       else
+>
