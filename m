@@ -2,56 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BC8189BB13
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 11:00:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A6D89BB18
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 11:02:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B23BC112312;
-	Mon,  8 Apr 2024 09:00:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FF3C112311;
+	Mon,  8 Apr 2024 09:02:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ldAfodDe";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hQGxZ/kQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 649D211230A
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 09:00:12 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 108B8112310
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 09:02:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712566813; x=1744102813;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=OApAM7gHetZoouA51QgkSDBhGpafpL6BKVnGbDIvrHc=;
- b=ldAfodDeZXW43v9vR/H69g8H4vLErikCrAugQo/+9p9fGmV4EpfptZ9z
- aDtjipeD4kdh7h4UwKyUdApECxrO0Gd9jJOjlbFIXHhOioPxmFmP6Fb78
- b/Eossazn0FSEq8DESHpaT/uCoHi3OEmhS9ox6EFT/C0tIm5aCrNMySTY
- yjGRIzhOTupnEY8FTcaFpeuid2aeIg44TFt063Z5hlbmwkCWrGmvGaln7
- ddmBONQHmB5NeyaweD780SmP/qEapwSq2PQzQkabew584umndxf2//qbt
- ua7o0QNogxtm6eaQUpxS+INps74nVMSNfpXbNZp2Nf82QKkSYfxsbNJpU g==;
-X-CSE-ConnectionGUID: zUv2DjjYR4SRKp/ua8vGZg==
-X-CSE-MsgGUID: C2QNQ5p+Q86he6ZINe1Xsg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11037"; a="7698586"
-X-IronPort-AV: E=Sophos;i="6.07,186,1708416000"; 
-   d="scan'208";a="7698586"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2024 02:00:12 -0700
-X-CSE-ConnectionGUID: YNlnGHMnQ8G8vlcR1vibgw==
-X-CSE-MsgGUID: EqlAMSJrScylZpAnbhjUSQ==
+ t=1712566942; x=1744102942;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=xTdEWG6ffNkRHSU94Ra5So/Y5WBk6zfpiUra+a7SV/s=;
+ b=hQGxZ/kQjpQIwkYJwj/sWA4CurEAqCi8MJbfGj6lTAuOU9EAMZyE1yZI
+ WUnVpLrLzMEXdL+4SobkNeZk/RChKV+jALKmepBpxJklxzrZBhzxU2CUD
+ Mj0L9SwhO9SW1cpAl+X7kk1GGBlmLVN2UhYZgsKY5zjNhUY36Fz7UOUs/
+ bgB5WpL1yfpWBlerxGPPzrIFehiseFvcr6EpsooA4bmvugT8EWbubstEW
+ usFDXwmRQs+vRMeOFQzKlmdEXIt4fRh5jKAJdCvwjZcnaGpf4ocUWghfZ
+ ALGq5fGIiGlguClv9IrgGPHV3WFsSsP6P6Yr2z54d0gUsZQY8sKNXYHKW w==;
+X-CSE-ConnectionGUID: A5guCVXJSQuwAIqk28CHQg==
+X-CSE-MsgGUID: GWjb3l4PSha79bD57EQ1/Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11037"; a="11625820"
+X-IronPort-AV: E=Sophos;i="6.07,186,1708416000"; d="scan'208";a="11625820"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2024 02:02:21 -0700
+X-CSE-ConnectionGUID: A2NVYi21TvqxlA6zYd0wyg==
+X-CSE-MsgGUID: sumzI1zUTB2/EahMDrWYCw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,186,1708416000"; d="scan'208";a="50804656"
-Received: from bauinger-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.42.71])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2024 02:00:11 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/edid: make drm_edid_are_equal() static
-In-Reply-To: <20240314112620.1728394-1-jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240314112620.1728394-1-jani.nikula@intel.com>
-Date: Mon, 08 Apr 2024 12:00:07 +0300
-Message-ID: <87a5m4b560.fsf@intel.com>
+X-IronPort-AV: E=Sophos;i="6.07,186,1708416000"; d="scan'208";a="19947900"
+Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.246.3.118])
+ ([10.246.3.118])
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2024 02:02:20 -0700
+Message-ID: <efda28cd-3bc9-43a5-b9ab-3cd9f94705d3@linux.intel.com>
+Date: Mon, 8 Apr 2024 11:02:17 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/8] accel/ivpu: Fixes for 6.9-rc3
+To: dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com
+References: <20240402104929.941186-1-jacek.lawrynowicz@linux.intel.com>
+Content-Language: en-US
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20240402104929.941186-1-jacek.lawrynowicz@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,53 +72,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 14 Mar 2024, Jani Nikula <jani.nikula@intel.com> wrote:
-> drm_edid_are_equal() is only used within drm_edid.c. Make it static. Do
-> not encourage more uses of struct edid.
+Applied to drm-misc-fixes
 
-Resent as part of https://patchwork.freedesktop.org/series/132142/
-
->
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  drivers/gpu/drm/drm_edid.c | 3 +--
->  include/drm/drm_edid.h     | 2 --
->  2 files changed, 1 insertion(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 923c4423151c..4c4e0d161490 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -1818,7 +1818,7 @@ static bool edid_block_is_zero(const void *edid)
->   * This helper can be used during probing to determine if
->   * edid had changed.
->   */
-> -bool drm_edid_are_equal(const struct edid *edid1, const struct edid *edid2)
-> +static bool drm_edid_are_equal(const struct edid *edid1, const struct edid *edid2)
->  {
->  	int edid1_len, edid2_len;
->  	bool edid1_present = edid1 != NULL;
-> @@ -1840,7 +1840,6 @@ bool drm_edid_are_equal(const struct edid *edid1, const struct edid *edid2)
->  
->  	return true;
->  }
-> -EXPORT_SYMBOL(drm_edid_are_equal);
->  
->  enum edid_block_status {
->  	EDID_BLOCK_OK = 0,
-> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-> index 7923bc00dc7a..b3f01f388ea8 100644
-> --- a/include/drm/drm_edid.h
-> +++ b/include/drm/drm_edid.h
-> @@ -327,8 +327,6 @@ int drm_edid_to_speaker_allocation(const struct edid *edid, u8 **sadb);
->  int drm_av_sync_delay(struct drm_connector *connector,
->  		      const struct drm_display_mode *mode);
->  
-> -bool drm_edid_are_equal(const struct edid *edid1, const struct edid *edid2);
-> -
->  int
->  drm_hdmi_avi_infoframe_from_display_mode(struct hdmi_avi_infoframe *frame,
->  					 const struct drm_connector *connector,
-
--- 
-Jani Nikula, Intel
+On 02.04.2024 12:49, Jacek Lawrynowicz wrote:
+> A couple of small stability fixes, one UAPI fix and some error message fixes.
+> 
+> Jacek Lawrynowicz (5):
+>   accel/ivpu: Remove d3hot_after_power_off WA
+>   accel/ivpu: Put NPU back to D3hot after failed resume
+>   accel/ivpu: Return max freq for DRM_IVPU_PARAM_CORE_CLOCK_RATE
+>   accel/ivpu: Fix missed error message after VPU rename
+>   accel/ivpu: Fix deadlock in context_xa
+> 
+> Wachowski, Karol (3):
+>   accel/ivpu: Check return code of ipc->lock init
+>   accel/ivpu: Fix PCI D0 state entry in resume
+>   accel/ivpu: Improve clarity of MMU error messages
+> 
+>  drivers/accel/ivpu/ivpu_drv.c     | 40 ++++++++++---------------------
+>  drivers/accel/ivpu/ivpu_drv.h     |  3 +--
+>  drivers/accel/ivpu/ivpu_hw.h      |  6 +++++
+>  drivers/accel/ivpu/ivpu_hw_37xx.c | 11 ++++-----
+>  drivers/accel/ivpu/ivpu_hw_40xx.c |  6 +++++
+>  drivers/accel/ivpu/ivpu_ipc.c     |  8 +++++--
+>  drivers/accel/ivpu/ivpu_mmu.c     |  8 +++----
+>  drivers/accel/ivpu/ivpu_pm.c      | 14 +++++------
+>  8 files changed, 46 insertions(+), 50 deletions(-)
+> 
+> --
+> 2.43.2
