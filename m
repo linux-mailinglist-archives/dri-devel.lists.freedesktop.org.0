@@ -2,104 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3166389B8A4
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 09:41:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD97489B8F2
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 09:46:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 258031121D3;
-	Mon,  8 Apr 2024 07:41:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34F851121EB;
+	Mon,  8 Apr 2024 07:46:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="rqo4PwEq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XegZwyAP";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rqo4PwEq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XegZwyAP";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="on4n2ytU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zsRhW/yH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Tg4jiPt3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ShusbYvM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E52D1121D2;
- Mon,  8 Apr 2024 07:41:13 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 090131121EE;
+ Mon,  8 Apr 2024 07:46:47 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A906022627;
- Mon,  8 Apr 2024 07:41:11 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6EAAC21FB5;
+ Mon,  8 Apr 2024 07:46:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1712562071; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1712562406; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=bsGCGQ79B7R1EBJ7je8XgDTFUmmCqP3FXPUlWRlIEaQ=;
- b=rqo4PwEqbkeCGnV5AkSgWmy40mZ58233Mu7MLvreIRG0d2RJ7DkFnUaxdAEp2ZlCUm0og4
- kThqfmykBf5VpNs1xRI+KVnK4ahYKJfXXFMYtArOE0sGuR/6MSRVFNvnhyPLI3S4RyIHzS
- jPpbTttCnC0Jq5mbPQAJa2T8Bvd3R8M=
+ bh=67YotKV3mXANMbfvYdzpddAWCuSwlnT6sl1AMkQgeKQ=;
+ b=on4n2ytU8PzyPzz8twH8dhApmvfJD14VX1ptibBZPPc/2cTUZ1+qQH+7lRAYESL8gZsG3A
+ nb7WCzHraDhdTHM5kvgOYS0lxHazsOhf/Fva0rKIuTLA5Gx9iHP995TG0xSgLff/61RrH9
+ I/+ftvs6ft0kL6frC+NhJCl2XQH9DWw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1712562071;
+ s=susede2_ed25519; t=1712562406;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=bsGCGQ79B7R1EBJ7je8XgDTFUmmCqP3FXPUlWRlIEaQ=;
- b=XegZwyAPQ8C0XT2aRi0nkWOCIcoo3ewoN/PY2Gg2h/VD+xxp2LEkBPyaOF7McaF10Tsa+0
- F2bmq1zUr1zv+RBw==
+ bh=67YotKV3mXANMbfvYdzpddAWCuSwlnT6sl1AMkQgeKQ=;
+ b=zsRhW/yH/8Fc+/RrxTe9fvka2oX9rH1+m+HGsVhLCXzLOUj/lrkCz647uxvC/CsEzEZZie
+ NJpDIv1SBvQDR7BQ==
 Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rqo4PwEq;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=XegZwyAP
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1712562071; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1712562405; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=bsGCGQ79B7R1EBJ7je8XgDTFUmmCqP3FXPUlWRlIEaQ=;
- b=rqo4PwEqbkeCGnV5AkSgWmy40mZ58233Mu7MLvreIRG0d2RJ7DkFnUaxdAEp2ZlCUm0og4
- kThqfmykBf5VpNs1xRI+KVnK4ahYKJfXXFMYtArOE0sGuR/6MSRVFNvnhyPLI3S4RyIHzS
- jPpbTttCnC0Jq5mbPQAJa2T8Bvd3R8M=
+ bh=67YotKV3mXANMbfvYdzpddAWCuSwlnT6sl1AMkQgeKQ=;
+ b=Tg4jiPt3l30e8i54U+v5jE8zz/+dnit14VbP/KTBeufCnDXyLh0QE9T80vhcJeLlRl3m5s
+ Zd2bs4wnBgspbCMLXM265HjgnFrGEhhxK2ZuJk6G0tPUsXrrUOPFqV0m2DU6vmArkDmHJI
+ lQC6Ay8580COV63ryvsVhqSTlythWcY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1712562071;
+ s=susede2_ed25519; t=1712562405;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=bsGCGQ79B7R1EBJ7je8XgDTFUmmCqP3FXPUlWRlIEaQ=;
- b=XegZwyAPQ8C0XT2aRi0nkWOCIcoo3ewoN/PY2Gg2h/VD+xxp2LEkBPyaOF7McaF10Tsa+0
- F2bmq1zUr1zv+RBw==
+ bh=67YotKV3mXANMbfvYdzpddAWCuSwlnT6sl1AMkQgeKQ=;
+ b=ShusbYvMYqvtbVZqTNMqlAdosLIFF/3otL7ckAWRzhhipM73xhuoXy/HejcwYHeG71oFMu
+ 0Hdauc2YCnGw3+BA==
 Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 02D1513A92;
- Mon,  8 Apr 2024 07:41:10 +0000 (UTC)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 4A73D13A92;
+ Mon,  8 Apr 2024 07:46:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap2.dmz-prg2.suse.org with ESMTPSA id 4taoOpafE2bRFQAAn2gu4w
- (envelope-from <tzimmermann@suse.de>); Mon, 08 Apr 2024 07:41:10 +0000
-Message-ID: <9873332a-eafd-4ee4-b9a3-8db7f1cc4d9e@suse.de>
-Date: Mon, 8 Apr 2024 09:41:10 +0200
+ by imap2.dmz-prg2.suse.org with ESMTPSA id t8MWEOWgE2YtFwAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Mon, 08 Apr 2024 07:46:45 +0000
+Message-ID: <752f5073-20b3-4671-bf12-1cf0756313a6@suse.de>
+Date: Mon, 8 Apr 2024 09:46:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 6/6] drm/i915: Implement fbdev emulation as in-kernel
- client
-To: "Hogander, Jouni" <jouni.hogander@intel.com>,
- "Upadhyay, Tejas" <tejas.upadhyay@intel.com>,
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
- "ogabbay@kernel.org" <ogabbay@kernel.org>,
- "javierm@redhat.com" <javierm@redhat.com>,
- "thomas.hellstrom@linux.intel.com" <thomas.hellstrom@linux.intel.com>,
- "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
- "Deak, Imre" <imre.deak@intel.com>,
- "De Marchi, Lucas" <lucas.demarchi@intel.com>,
- "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
- "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-References: <20240301134448.31289-1-tzimmermann@suse.de>
- <20240301134448.31289-7-tzimmermann@suse.de>
- <56b919497a8030839d8e4a2f946d4338b64b043d.camel@intel.com>
- <92fdee78-40c5-41c7-b685-d785f53ee7d3@suse.de>
- <4f2dcd973fa09f77d78f93830073ae30c468677b.camel@intel.com>
+Subject: Re: [PATCH 11/12] drm/client: Streamline mode selection debugs
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+References: <20240404203336.10454-1-ville.syrjala@linux.intel.com>
+ <20240404203336.10454-12-ville.syrjala@linux.intel.com>
+ <9f689077-529f-431b-9506-e92f8a1d8003@suse.de> <ZhBX-2FDEJH98IrR@intel.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -126,34 +107,25 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <4f2dcd973fa09f77d78f93830073ae30c468677b.camel@intel.com>
+In-Reply-To: <ZhBX-2FDEJH98IrR@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.50 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; XM_UA_NO_VERSION(0.01)[];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_TO(0.00)[intel.com,linux.intel.com,kernel.org,redhat.com,gmail.com,ffwll.ch];
- ARC_NA(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
- TO_DN_EQ_ADDR_SOME(0.00)[]; RCPT_COUNT_TWELVE(0.00)[17];
- MIME_TRACE(0.00)[0:+]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap2.dmz-prg2.suse.org:helo,
- imap2.dmz-prg2.suse.org:rdns, suse.de:dkim]
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: A906022627
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.50
+X-Spam-Score: -4.29
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ ARC_NA(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ MIME_TRACE(0.00)[0:+]; FROM_HAS_DN(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; RCPT_COUNT_THREE(0.00)[3];
+ FROM_EQ_ENVFROM(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap2.dmz-prg2.suse.org:helo,
+ imap2.dmz-prg2.suse.org:rdns, intel.com:email]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,73 +143,106 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi
 
-Am 05.04.24 um 11:04 schrieb Hogander, Jouni:
-> On Fri, 2024-04-05 at 10:59 +0200, Thomas Zimmermann wrote:
+Am 05.04.24 um 21:58 schrieb Ville Syrjälä:
+> On Fri, Apr 05, 2024 at 09:57:07AM +0200, Thomas Zimmermann wrote:
 >> Hi
 >>
->> Am 05.04.24 um 10:34 schrieb Hogander, Jouni:
->> [...]
->>>>    
->>>> diff --git a/drivers/gpu/drm/i915/i915_driver.c
->>>> b/drivers/gpu/drm/i915/i915_driver.c
->>>> index e0f13c62a1832..69178b73845e1 100644
->>>> --- a/drivers/gpu/drm/i915/i915_driver.c
->>>> +++ b/drivers/gpu/drm/i915/i915_driver.c
->>>> @@ -816,6 +816,8 @@ int i915_driver_probe(struct pci_dev *pdev,
->>>> const
->>>> struct pci_device_id *ent)
->>>>    
->>>>           i915->do_release = true;
->>>>    
->>>> +       intel_fbdev_setup(i915);
->>>> +
->>> This doesn't work for Xe. I propose you move it to
->>> drivers/gpu/drm/i915/display/intel_display_dirver.c:intel_display_d
->>> rive
->>> r_probe? Otherwise patch looks ok to me.
->> Can you say why it doesn't work? It's been a while, but IIRC I ran
->> this
->> patch on xe for testing.
-> i915_driver_probe is not used by Xe driver and I can't find own call to
-> intel_fbdev_setup in Xe driver.
+>> Am 04.04.24 um 22:33 schrieb Ville Syrjala:
+>>> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+>>>
+>>> Get rid of all the redundant debugs and just wait until the end
+>>> to print which mode (and of which type) we picked.
+>>>
+>>> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+>>> ---
+>>>    drivers/gpu/drm/drm_client_modeset.c | 65 +++++++++++++---------------
+>>>    1 file changed, 31 insertions(+), 34 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+>>> index 415d1799337b..ad88c11037d8 100644
+>>> --- a/drivers/gpu/drm/drm_client_modeset.c
+>>> +++ b/drivers/gpu/drm/drm_client_modeset.c
+>>> @@ -408,6 +408,8 @@ static bool drm_client_target_preferred(struct drm_device *dev,
+>>>    
+>>>    retry:
+>>>    	for (i = 0; i < connector_count; i++) {
+>>> +		const char *mode_type;
+>>> +
+>>>    		connector = connectors[i];
+>>>    
+>>>    		if (conn_configured & BIT_ULL(i))
+>>> @@ -440,20 +442,20 @@ static bool drm_client_target_preferred(struct drm_device *dev,
+>>>    			drm_client_get_tile_offsets(dev, connectors, connector_count, modes, offsets, i,
+>>>    						    connector->tile_h_loc, connector->tile_v_loc);
+>>>    		}
+>>> -		drm_dbg_kms(dev, "looking for cmdline mode on [CONNECTOR:%d:%s]\n",
+>>> -			    connector->base.id, connector->name);
+>>>    
+>>> -		/* got for command line mode first */
+>>> +		mode_type = "cmdline";
+>>>    		modes[i] = drm_connector_pick_cmdline_mode(connector);
+>>> +
+>>>    		if (!modes[i]) {
+>>> -			drm_dbg_kms(dev, "looking for preferred mode on [CONNECTOR:%d:%s] (tile group: %d)\n",
+>>> -				    connector->base.id, connector->name,
+>>> -				    connector->tile_group ? connector->tile_group->id : 0);
+>>> +			mode_type = "preferred";
+>>>    			modes[i] = drm_connector_preferred_mode(connector, width, height);
+>>>    		}
+>>> -		/* No preferred modes, pick one off the list */
+>>> -		if (!modes[i])
+>>> +
+>>> +		if (!modes[i]) {
+>>> +			mode_type = "first";
+>>>    			modes[i] = drm_connector_first_mode(connector);
+>>> +		}
+>>> +
+>>>    		/*
+>>>    		 * In case of tiled mode if all tiles not present fallback to
+>>>    		 * first available non tiled mode.
+>>> @@ -468,16 +470,20 @@ static bool drm_client_target_preferred(struct drm_device *dev,
+>>>    			    (connector->tile_h_loc == 0 &&
+>>>    			     connector->tile_v_loc == 0 &&
+>>>    			     !drm_connector_get_tiled_mode(connector))) {
+>>> -				drm_dbg_kms(dev, "Falling back to non tiled mode on [CONNECTOR:%d:%s]\n",
+>>> -					    connector->base.id, connector->name);
+>>> +				mode_type = "non tiled";
+>>>    				modes[i] = drm_connector_fallback_non_tiled_mode(connector);
+>>>    			} else {
+>>> +				mode_type = "tiled";
+>>>    				modes[i] = drm_connector_get_tiled_mode(connector);
+>>>    			}
+>>>    		}
+>>>    
+>>> -		drm_dbg_kms(dev, "found mode %s\n",
+>>> -			    modes[i] ? modes[i]->name : "none");
+>>> +		if (!modes[i])
+>>> +			mode_type = "no";
+>>> +
+>>> +		drm_dbg_kms(dev, "[CONNECTOR:%d:%s] found %s mode: %s\n",
+>>> +			    connector->base.id, connector->name,
+>>> +			    mode_type, modes[i] ? modes[i]->name : "none");
+>> Instead of tracking the whole mode_type thing, maybe just do
+>>
+>> if (!modes[i])
+>>       drm_dbg_kms(dev, "[CONNECTOR:%d:%s] found mode: " DRM_MODE_FMT,
+>> DRM_MODE_ARG(modes[i]) );
+>>
+>> to print the full mode.
+> The point of the mode_type is to indicate how we derived
+> that mode. Printing the full modeline doesn't help with that.
 
-Ok, thanks a lot for reviewing these patches. I'll send out an update soon.
+But do we care where the mode comes from? At least from my experience, 
+it's much more important to know which modes had been available.
+
+If the source of the mode is really important, the old messages seem 
+preferable to me. Debugging code should be trivial and not add logic or 
+flow control to a function IMHO.
 
 Best regards
 Thomas
 
 >
-> BR,
->
-> Jouni Högander
->   
->> Best regards
->> Thomas
->>
->>> BR,
->>>
->>> Jouni Högander
->>>
->>>
->>>>           return 0;
->>>>    
->>>>    out_cleanup_gem:
->>>> diff --git a/drivers/gpu/drm/xe/display/xe_display.c
->>>> b/drivers/gpu/drm/xe/display/xe_display.c
->>>> index cdbc3f04c80a7..ca5cbe1d8a03b 100644
->>>> --- a/drivers/gpu/drm/xe/display/xe_display.c
->>>> +++ b/drivers/gpu/drm/xe/display/xe_display.c
->>>> @@ -214,9 +214,7 @@ void xe_display_fini(struct xe_device *xe)
->>>>           if (!xe->info.enable_display)
->>>>                   return;
->>>>    
->>>> -       /* poll work can call into fbdev, hence clean that up
->>>> afterwards */
->>>>           intel_hpd_poll_fini(xe);
->>>> -       intel_fbdev_fini(xe);
->>>>    
->>>>           intel_hdcp_component_fini(xe);
->>>>           intel_audio_deinit(xe);
 
 -- 
 --
