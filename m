@@ -2,63 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8866D89B740
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 07:47:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6610A89B7CC
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 08:43:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83E8F1120BA;
-	Mon,  8 Apr 2024 05:47:44 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="D/uk7c5w";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84E9D112145;
+	Mon,  8 Apr 2024 06:43:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A34F31120BA;
- Mon,  8 Apr 2024 05:47:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712555263; x=1744091263;
- h=message-id:date:mime-version:subject:from:to:cc:
- references:in-reply-to:content-transfer-encoding;
- bh=dviuG++J2rxAMUsQFEUZixHm6bLk7jbvyHNBbs8ViXs=;
- b=D/uk7c5w20wA2uYMAm9gXhEsRLcInqkWVdRPClROjx2SEfjuyvjFry63
- MrZYNdZxLx924pbr50N5z/mnGcDBVBHCLy1L6V7yw573bfG7uBvhgTgQC
- PhqALukH2fAIAX8fRRd4K0iN317Y7atkllgK/YbuO3hdtn1rENBOVAr9v
- +CpYW18SfTSGKdEV+CIzEDJuJJfIrmv/JPa9k3GCn2pgCM9ZT23wRCqgq
- O9/aYY6BZxBxNgHWPxpHL06O15cRyE0JydXBqnu6KedBNeUD3O7oe06kS
- rYeM4zE7r6uDhgcIYzNMVwm3hM3OhXeTZd4wgX7jyObN1vzexjHOD7jCr g==;
-X-CSE-ConnectionGUID: Qlr08vDtQsCfHykACptnTw==
-X-CSE-MsgGUID: yp6QCmorSMWcRYg2yD6YXw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11037"; a="7998616"
-X-IronPort-AV: E=Sophos;i="6.07,186,1708416000"; 
-   d="scan'208";a="7998616"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2024 22:47:42 -0700
-X-CSE-ConnectionGUID: 9Xhz41K7S3+V2PeakWdZZA==
-X-CSE-MsgGUID: e1NspWM+QSeJYY7FhM0wqA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,186,1708416000"; d="scan'208";a="24506784"
-Received: from aravind-dev.iind.intel.com (HELO [10.145.162.146])
- ([10.145.162.146])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2024 22:47:38 -0700
-Message-ID: <45e36b75-54c8-45cb-9683-b16faab15833@linux.intel.com>
-Date: Mon, 8 Apr 2024 11:20:34 +0530
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [207.211.30.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 835D410F9F0
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 06:43:09 +0000 (UTC)
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-591-U-eJ-QBXN_OmDCw0hOp7bA-1; Mon,
+ 08 Apr 2024 02:43:06 -0400
+X-MC-Unique: U-eJ-QBXN_OmDCw0hOp7bA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9939929AC004;
+ Mon,  8 Apr 2024 06:43:06 +0000 (UTC)
+Received: from dreadlord.redhat.com (unknown [10.64.136.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 944D240B4979;
+ Mon,  8 Apr 2024 06:43:05 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Subject: [PATCH] nouveau: fix devinit paths to only handle display on GSP.
+Date: Mon,  8 Apr 2024 16:42:43 +1000
+Message-ID: <20240408064243.2219527-1-airlied@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/4] drm/xe: Support PCIe FLR
-Content-Language: en-US
-From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: intel-xe@lists.freedesktop.org, thomas.hellstrom@linux.intel.com,
- lucas.demarchi@intel.com, dri-devel@lists.freedesktop.org
-References: <20240402085859.1591264-1-aravind.iddamsetty@linux.intel.com>
- <Zg8o2W5whJFJzf8-@intel.com>
- <6cbe2744-d184-4c7b-8972-eb09a87b5295@linux.intel.com>
-In-Reply-To: <6cbe2744-d184-4c7b-8972-eb09a87b5295@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,219 +55,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This reverts:
+nouveau/gsp: don't check devinit disable on GSP.
+and applies a further fix.
 
-On 05/04/24 10:30, Aravind Iddamsetty wrote:
-> On 05/04/24 03:55, Rodrigo Vivi wrote:
->> On Tue, Apr 02, 2024 at 02:28:55PM +0530, Aravind Iddamsetty wrote:
->>> PCI subsystem provides callbacks to inform the driver about a request to
->>> do function level reset by user, initiated by writing to sysfs entry
->>> /sys/bus/pci/devices/.../reset. This will allow the driver to handle FLR
->>> without the need to do unbind and rebind as the driver needs to
->>> reinitialize the device afresh post FLR.
->>>
->>> v2:
->> all the patches looks good to me here. feel free to use
->>
->> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
->>
->> on them.
-> Thank you!
->
->> but I do have some concerns (below)
->>
->>> 1. Directly expose the devm_drm_dev_release_action instead of introducing
->>> a helper (Rodrigo)
->>> 2. separate out gt idle and pci save/restore to a separate patch (Lucas)
->>> 3. Fixed the warnings seen around xe_guc_submit_stop, xe_guc_puc_fini
->> On this I also had to fight to get something working on the wedged_mode=2:
->> lore.kernel.org/all/20240403150732.102678-4-rodrigo.vivi@intel.com
->>
->> perhaps we can unify things here.
-> I guess we dealing with different scenarios, in this the warning in xe_guc_submit_stop
-> was because not invoking xe_uc_reset_prepare before. and we needn't invoke
-> xe_guc_pc_fini as guc is already in stopped.
->>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
->>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->>>
->>> dmesg snip showing FLR recovery:
->> things came different at my DG2 here with display working and all:
-> after you mentioned this i tested on DG2 i got warnings but no segmentation fault
-> and NPD, i have tested my branch which might not be update to date, will re test with the
-> latest branch.
+It turns out the open gpu driver, checks this register, but only for displa=
+y.
 
-While I check upon this is it ok to have this version of series to be merged, as I see
-even with warnings with display the device and driver are recoverable.
+Match that behaviour and only disable displays on turings.
 
-Thanks,
-Aravind.
->
->
-> Thanks,
-> Aravnd.
->> root@rdvivi-desk:/sys/module/xe/drivers/pci:xe/0000:03:00.0# echo 1 > reset
->> Segmentation fault
->>
->> and many kernel warnings
->>  WARNING: CPU: 8 PID: 2389 at drivers/gpu/drm/i915/display/intel_display_power_well.c:281 hsw_wait_for_power_well_enable+0x3e7/0x570 [xe]
->>  WARNING: CPU: 9 PID: 1700 at drivers/gpu/drm/drm_mm.c:999 drm_mm_takedown+0x41/0x60
->>
->> [  117.128330] KASAN: null-ptr-deref in range [0x00000000000004e8-0x00000000000004ef]
->> [  117.128332] CPU: 13 PID: 2389 Comm: bash Tainted: G        W          6.9.0-rc1+ #9
->> [  117.135501]  ? exc_invalid_op+0x13/0x40
->> [  117.143626] Hardware name: iBUYPOWER INTEL/B660 DS3H AC DDR4-Y1, BIOS F5 12/17/2021
->> [  117.143627] RIP: 0010:__mutex_lock+0x124/0x14a0
->> [  117.143631] Code: d0 7c 08 84 d2 0f 85 62 0f 00 00 8b 0d 85 c8 8f 04 85 c9 75 29 48 b8 00 00 00 00 00 fc ff df 49 8d 7f 68 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 46 0f 00 00 4d 3b 7f 68 0f 85 aa 0e 00 00 bf 01
->> [  117.150630]  ? asm_exc_invalid_op+0x16/0x20
->> [  117.156401] RSP: 0018:ffffc90005a37690 EFLAGS: 00010202
->> [  117.156403] RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 0000000000000000
->> [  117.163571]  ? drm_buddy_fini+0x181/0x220
->>
->>
->> and more issues.
->>
->> so it looks like we are still missing some parts of the puzzle here...
->>
->>
->>> [  590.486336] xe 0000:4d:00.0: enabling device (0140 -> 0142)
->>> [  590.506933] xe 0000:4d:00.0: [drm] Using GuC firmware from
->>> xe/pvc_guc_70.20.0.bin version 70.20.0
->>> [  590.542355] xe 0000:4d:00.0: [drm] Using GuC firmware from
->>> xe/pvc_guc_70.20.0.bin version 70.20.0
->>> [  590.578532] xe 0000:4d:00.0: [drm] VISIBLE VRAM: 0x0000202000000000,
->>> 0x0000002000000000
->>> [  590.578556] xe 0000:4d:00.0: [drm] VRAM[0, 0]: Actual physical size
->>> 0x0000001000000000, usable size exclude stolen 0x0000000fff000000, CPU
->>> accessible size 0x0000000fff000000
->>> [  590.578560] xe 0000:4d:00.0: [drm] VRAM[0, 0]: DPA range:
->>> [0x0000000000000000-1000000000], io range:
->>> [0x0000202000000000-202fff000000]
->>> [  590.578585] xe 0000:4d:00.0: [drm] VRAM[1, 1]: Actual physical size
->>> 0x0000001000000000, usable size exclude stolen 0x0000000fff000000, CPU
->>> accessible size 0x0000000fff000000
->>> [  590.578589] xe 0000:4d:00.0: [drm] VRAM[1, 1]: DPA range:
->>> [0x0000001000000000-2000000000], io range:
->>> [0x0000203000000000-203fff000000]
->>> [  590.578592] xe 0000:4d:00.0: [drm] Total VRAM: 0x0000202000000000,
->>> 0x0000002000000000
->>> [  590.578594] xe 0000:4d:00.0: [drm] Available VRAM:
->>> 0x0000202000000000, 0x0000001ffe000000
->>> [  590.738899] xe 0000:4d:00.0: [drm] GT0: CCS_MODE=0 config:00400000,
->>> num_engines:1, num_slices:4
->>> [  590.889991] xe 0000:4d:00.0: [drm] GT1: CCS_MODE=0 config:00400000,
->>> num_engines:1, num_slices:4
->>> [  590.892835] [drm] Initialized xe 1.1.0 20201103 for 0000:4d:00.0 on
->>> minor 1
->>> [  590.900215] xe 0000:9a:00.0: enabling device (0140 -> 0142)
->>> [  590.915991] xe 0000:9a:00.0: [drm] Using GuC firmware from
->>> xe/pvc_guc_70.20.0.bin version 70.20.0
->>> [  590.957450] xe 0000:9a:00.0: [drm] Using GuC firmware from
->>> xe/pvc_guc_70.20.0.bin version 70.20.0
->>> [  590.989863] xe 0000:9a:00.0: [drm] VISIBLE VRAM: 0x000020e000000000,
->>> 0x0000002000000000
->>> [  590.989888] xe 0000:9a:00.0: [drm] VRAM[0, 0]: Actual physical size
->>> 0x0000001000000000, usable size exclude stolen 0x0000000fff000000, CPU
->>> accessible size 0x0000000fff000000
->>> [  590.989893] xe 0000:9a:00.0: [drm] VRAM[0, 0]: DPA range:
->>> [0x0000000000000000-1000000000], io range:
->>> [0x000020e000000000-20efff000000]
->>> [  590.989918] xe 0000:9a:00.0: [drm] VRAM[1, 1]: Actual physical size
->>> 0x0000001000000000, usable size exclude stolen 0x0000000fff000000, CPU
->>> accessible size 0x0000000fff000000
->>> [  590.989921] xe 0000:9a:00.0: [drm] VRAM[1, 1]: DPA range:
->>> [0x0000001000000000-2000000000], io range:
->>> [0x000020f000000000-20ffff000000]
->>> [  590.989924] xe 0000:9a:00.0: [drm] Total VRAM: 0x000020e000000000,
->>> 0x0000002000000000
->>> [  590.989927] xe 0000:9a:00.0: [drm] Available VRAM:
->>> 0x000020e000000000, 0x0000001ffe000000
->>> [  591.142061] xe 0000:9a:00.0: [drm] GT0: CCS_MODE=0 config:00400000,
->>> num_engines:1, num_slices:4
->>> [  591.293505] xe 0000:9a:00.0: [drm] GT1: CCS_MODE=0 config:00400000,
->>> num_engines:1, num_slices:4
->>> [  591.295487] [drm] Initialized xe 1.1.0 20201103 for 0000:9a:00.0 on
->>> minor 2
->>> [  610.685993] Console: switching to colour dummy device 80x25
->>> [  610.686118] [IGT] xe_exec_basic: executing
->>> [  610.755398] xe 0000:4d:00.0: [drm] GT0: CCS_MODE=0 config:00400000,
->>> num_engines:1, num_slices:4
->>> [  610.771783] xe 0000:4d:00.0: [drm] GT1: CCS_MODE=0 config:00400000,
->>> num_engines:1, num_slices:4
->>> [  610.773542] [IGT] xe_exec_basic: starting subtest once-basic
->>> [  610.960251] [IGT] xe_exec_basic: finished subtest once-basic, SUCCESS
->>> [  610.962741] [IGT] xe_exec_basic: exiting, ret=0
->>> [  610.977203] Console: switching to colour frame buffer device 128x48
->>> [  611.006675] xe_exec_basic (3237) used greatest stack depth: 11128
->>> bytes left
->>> [  644.682201] xe 0000:4d:00.0: [drm] GT0: CCS_MODE=0 config:00400000,
->>> num_engines:1, num_slices:4
->>> [  644.699060] xe 0000:4d:00.0: [drm] GT1: CCS_MODE=0 config:00400000,
->>> num_engines:1, num_slices:4
->>> [  644.699118] xe 0000:4d:00.0: preparing for PCIe FLR reset
->>> [  644.699149] xe 0000:4d:00.0: [drm] removing device access to
->>> userspace
->>> [  644.928577] xe 0000:4d:00.0: PCI device went through FLR, reenabling
->>> the device
->>> [  656.104233] xe 0000:4d:00.0: [drm] Using GuC firmware from
->>> xe/pvc_guc_70.20.0.bin version 70.20.0
->>> [  656.149525] xe 0000:4d:00.0: [drm] Using GuC firmware from
->>> xe/pvc_guc_70.20.0.bin version 70.20.0
->>> [  656.182711] xe 0000:4d:00.0: [drm] VISIBLE VRAM: 0x0000202000000000,
->>> 0x0000002000000000
->>> [  656.182737] xe 0000:4d:00.0: [drm] VRAM[0, 0]: Actual physical size
->>> 0x0000001000000000, usable size exclude stolen 0x0000000fff000000, CPU
->>> accessible size 0x0000000fff000000
->>> [  656.182742] xe 0000:4d:00.0: [drm] VRAM[0, 0]: DPA range:
->>> [0x0000000000000000-1000000000], io range:
->>> [0x0000202000000000-202fff000000]
->>> [  656.182768] xe 0000:4d:00.0: [drm] VRAM[1, 1]: Actual physical size
->>> 0x0000001000000000, usable size exclude stolen 0x0000000fff000000, CPU
->>> accessible size 0x0000000fff000000
->>> [  656.182772] xe 0000:4d:00.0: [drm] VRAM[1, 1]: DPA range:
->>> [0x0000001000000000-2000000000], io range:
->>> [0x0000203000000000-203fff000000]
->>> [  656.182775] xe 0000:4d:00.0: [drm] Total VRAM: 0x0000202000000000,
->>> 0x0000002000000000
->>> [  656.182778] xe 0000:4d:00.0: [drm] Available VRAM:
->>> 0x0000202000000000, 0x0000001ffe000000
->>> [  656.348657] xe 0000:4d:00.0: [drm] GT0: CCS_MODE=0 config:00400000,
->>> num_engines:1, num_slices:4
->>> [  656.507619] xe 0000:4d:00.0: [drm] GT1: CCS_MODE=0 config:00400000,
->>> num_engines:1, num_slices:4
->>> [  656.510848] [drm] Initialized xe 1.1.0 20201103 for 0000:4d:00.0 on
->>> minor 1
->>> [  665.754402] Console: switching to colour dummy device 80x25
->>> [  665.754484] [IGT] xe_exec_basic: executing
->>> [  665.805853] xe 0000:4d:00.0: [drm] GT0: CCS_MODE=0 config:00400000,
->>> num_engines:1, num_slices:4
->>> [  665.819825] xe 0000:4d:00.0: [drm] GT1: CCS_MODE=0 config:00400000,
->>> num_engines:1, num_slices:4
->>> [  665.820359] [IGT] xe_exec_basic: starting subtest once-basic
->>> [  665.968899] [IGT] xe_exec_basic: finished subtest once-basic, SUCCESS
->>> [  665.969534] [IGT] xe_exec_basic: exiting, ret=0
->>> [  665.981027] Console: switching to colour frame buffer device 128x48
->>>
->>>
->>> Aravind Iddamsetty (4):
->>>   drm: add devm release action
->>>   drm/xe: Save and restore PCI state
->>>   drm/xe: Extract xe_gt_idle() helper
->>>   drm/xe/FLR: Support PCIe FLR
->>>
->>>  drivers/gpu/drm/drm_drv.c            |  6 ++
->>>  drivers/gpu/drm/xe/Makefile          |  1 +
->>>  drivers/gpu/drm/xe/xe_device_types.h |  6 ++
->>>  drivers/gpu/drm/xe/xe_gt.c           | 31 +++++++---
->>>  drivers/gpu/drm/xe/xe_gt.h           |  1 +
->>>  drivers/gpu/drm/xe/xe_guc_pc.c       |  4 ++
->>>  drivers/gpu/drm/xe/xe_pci.c          | 57 +++++++++++++++--
->>>  drivers/gpu/drm/xe/xe_pci.h          |  6 +-
->>>  drivers/gpu/drm/xe/xe_pci_err.c      | 93 ++++++++++++++++++++++++++++
->>>  drivers/gpu/drm/xe/xe_pci_err.h      | 13 ++++
->>>  include/drm/drm_drv.h                |  2 +
->>>  11 files changed, 205 insertions(+), 15 deletions(-)
->>>  create mode 100644 drivers/gpu/drm/xe/xe_pci_err.c
->>>  create mode 100644 drivers/gpu/drm/xe/xe_pci_err.h
->>>
->>> -- 
->>> 2.25.1
->>>
+Fixes: 5d4e8ae6e57b ("nouveau/gsp: don't check devinit disable on GSP.")
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c | 12 ++++++++----
+ drivers/gpu/drm/nouveau/nvkm/subdev/devinit/r535.c  |  1 +
+ 2 files changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c b/drivers/=
+gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c
+index 7bcbc4895ec2..271bfa038f5b 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c
+@@ -25,6 +25,7 @@
+=20
+ #include <subdev/bios.h>
+ #include <subdev/bios/init.h>
++#include <subdev/gsp.h>
+=20
+ void
+ gm107_devinit_disable(struct nvkm_devinit *init)
+@@ -33,10 +34,13 @@ gm107_devinit_disable(struct nvkm_devinit *init)
+ =09u32 r021c00 =3D nvkm_rd32(device, 0x021c00);
+ =09u32 r021c04 =3D nvkm_rd32(device, 0x021c04);
+=20
+-=09if (r021c00 & 0x00000001)
+-=09=09nvkm_subdev_disable(device, NVKM_ENGINE_CE, 0);
+-=09if (r021c00 & 0x00000004)
+-=09=09nvkm_subdev_disable(device, NVKM_ENGINE_CE, 2);
++=09/* gsp only wants to enable/disable display */
++=09if (!nvkm_gsp_rm(device->gsp)) {
++=09=09if (r021c00 & 0x00000001)
++=09=09=09nvkm_subdev_disable(device, NVKM_ENGINE_CE, 0);
++=09=09if (r021c00 & 0x00000004)
++=09=09=09nvkm_subdev_disable(device, NVKM_ENGINE_CE, 2);
++=09}
+ =09if (r021c04 & 0x00000001)
+ =09=09nvkm_subdev_disable(device, NVKM_ENGINE_DISP, 0);
+ }
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/r535.c b/drivers/g=
+pu/drm/nouveau/nvkm/subdev/devinit/r535.c
+index 11b4c9c274a1..666eb93b1742 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/r535.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/r535.c
+@@ -41,6 +41,7 @@ r535_devinit_new(const struct nvkm_devinit_func *hw,
+=20
+ =09rm->dtor =3D r535_devinit_dtor;
+ =09rm->post =3D hw->post;
++=09rm->disable =3D hw->disable;
+=20
+ =09ret =3D nv50_devinit_new_(rm, device, type, inst, pdevinit);
+ =09if (ret)
+--=20
+2.44.0
+
