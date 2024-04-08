@@ -2,85 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A51F789CDC8
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 23:45:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8809089CE3C
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 00:08:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9406611287D;
-	Mon,  8 Apr 2024 21:45:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE5FB10EC48;
+	Mon,  8 Apr 2024 22:08:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="fwzbokP+";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Y6q6n1WL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B079F11287D;
- Mon,  8 Apr 2024 21:45:09 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 438LdsOh025089; Mon, 8 Apr 2024 21:45:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=Afdn36TdS9ViFZw2dsAR0Lj++mbD7UpHSP0NWJEu2YE=; b=fw
- zbokP+Wkh2lECDkCXXvhmNwf6fkjDuexg2RsL7ZcY2SwDHktPHdmOOWPNDtm0fcL
- M3EvtlsCqkNsjNJsK+kmjXfP4Rahl+tSOO5BSc2SKedNZV6VhbIK8CENqK6xJWSX
- Hv8pZzyMlJDrmSbxUEjpHfsCEVKOO05drrSqw6scyt7ZXQbhNcAFHjE8DjpKtZeP
- vqkUPYaazsi7hmd+eZQPKpXTUnhjaWVkEqdsErb1yctmYqfrBnc7Z1mkHuWXs9xH
- ELzYQ9t2ScjKRWQ7h/wGvXyYtDUsKMM7Kw5Cs6vXUt6tshaNGv1lcJoKsvJTWhYq
- jtMScOrfS6XhUWYNRmYw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xcbg0hxb6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 08 Apr 2024 21:45:06 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 438Lj51t016450
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 8 Apr 2024 21:45:05 GMT
-Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 8 Apr 2024
- 14:45:04 -0700
-Message-ID: <481df20e-8946-abc7-da9c-da8cc7332098@quicinc.com>
-Date: Mon, 8 Apr 2024 14:45:03 -0700
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com
+ [209.85.219.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C02310F07E
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 22:08:09 +0000 (UTC)
+Received: by mail-yb1-f169.google.com with SMTP id
+ 3f1490d57ef6-dd02fb9a31cso4416409276.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Apr 2024 15:08:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1712614088; x=1713218888; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=VMPTa7YZG9SFezIxNc9hWe537aXkTHEaz4nODnhs3/4=;
+ b=Y6q6n1WL9Xj51OHVyAVucw3c+A/Oi/cMP+hk/ilxd9Csddoioyd0G6FOEy7LaRMRHm
+ Rg2GD7vl954SmPrnQsYoddk6n6W+iEADr9V3YH0zHpF+mQzNof+tAmL0l9rpkkOhNOmy
+ SzjsF84JVoovXBaUTuqCY97F0UTqORjvaAiKZcssVTZY3GSj75rjB5E3zkiv5ALbquFG
+ fWJXTH/etp4skqOCr1c7T554fyrKFdA7LQOxVfr7l2ipTSZ7eVS8m+4Na+e97w49lyWu
+ WzncCe27pX2+ES/1lB29U3oDZ6cBzAW5BcoSqcUtFRtgGlN2KZm3MvZWnxOW/l31wn2A
+ CiUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712614088; x=1713218888;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VMPTa7YZG9SFezIxNc9hWe537aXkTHEaz4nODnhs3/4=;
+ b=S0jOaQA1G0y1olCpiQywcvCnAjyVPYoulGXKy972QyoOyUB/lubmQkBK9Aj5AyP9Er
+ 2mRe7+2ioPI8RaPGDdHhf2AWqf11VwpZfhh4bF9fN3PubTSPw06KRw1TW258wr7gOj/l
+ a2dLdVH8fOLaNCvowDOQG+Qo5l1GOFTD8J0HiAw+mxR6026zzkEFpfRY5wklrSR710Ja
+ l0Fq/y8d4nrFnSf33eAijF15JdB3JMdweDemRIYgLCCljHnJVn+o74FqLiKU7GHPVhEn
+ sZQ7VwWa8UVl0n5B/b8/8+WiKN0inavJXUl6WKlFWZ8UTmdR6Ip+Xs1Jxm2acnkfX1CN
+ 1gyw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXunojeMwG2gCCtkDYf4qD7oT0g5WopKMinRpkL1cKStl9FypxSLGPtCOGrje19sheJvlaQaYxSsYZkqYefXGUvTvNWr/kGP87fQrhL5+yQ
+X-Gm-Message-State: AOJu0YxG2conL+QNz0hhf3ibnuzXCsO84sRs+mEFACcEreatGPfCBzki
+ wCj9vgtkDUVH3uDKyTr670OlMht2W6Y1tCXUFUMJI5O13ZrS04u8ImT9GIT/cutbq5Dnk5kWxlZ
+ EFPjo5tnKNrbeWgDmC4R/n5ha+12D/7P5nuTYSA==
+X-Google-Smtp-Source: AGHT+IHnwDBFmtmInPRd6q4lnmrUf3qgd9ZdW3vy7JyOs/HLpkeABlYPfLgTMEPSv4mYhPXpglVRbif+gfL2zsRQTqA=
+X-Received: by 2002:a25:48ca:0:b0:dc6:9daf:35c7 with SMTP id
+ v193-20020a2548ca000000b00dc69daf35c7mr7528021yba.28.1712614088530; Mon, 08
+ Apr 2024 15:08:08 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 2/3] drm/msm/dsi: move next bridge acquisition to dsi_bind
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20240309-fd-dsi-cleanup-bridges-v1-0-962ebdba82ed@linaro.org>
- <20240309-fd-dsi-cleanup-bridges-v1-2-962ebdba82ed@linaro.org>
- <7cecab40-2711-4735-1eb2-45f3942982b1@quicinc.com>
- <CAA8EJpodmW8+JDxLx8+1sYURsXGZfmV1q6wzyxF1cxAx2Jo5dg@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJpodmW8+JDxLx8+1sYURsXGZfmV1q6wzyxF1cxAx2Jo5dg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: A1k2trpgcwpcQ7MVxABOVEcctDKffNi1
-X-Proofpoint-ORIG-GUID: A1k2trpgcwpcQ7MVxABOVEcctDKffNi1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-08_17,2024-04-05_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 priorityscore=1501
- adultscore=0 mlxlogscore=983 malwarescore=0 impostorscore=0
- lowpriorityscore=0 clxscore=1015 spamscore=0 suspectscore=0 bulkscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404080167
+References: <20240406031548.25829-1-quic_abhinavk@quicinc.com>
+ <ale6wbwzkfagcg2q6glb4vsxu3pthhkk3tquv2ixlatbdryqvh@xscsq2h6emho>
+ <01cb1c0d-a801-37f9-2f55-2bbd8d3a68b9@quicinc.com>
+ <CAA8EJprzH0LiWNx9Udt6og3G063odY6ccvaAgsNS1r3zG8TmdA@mail.gmail.com>
+ <905222ad-612a-3eaf-d966-23c89c99e1f0@quicinc.com>
+In-Reply-To: <905222ad-612a-3eaf-d966-23c89c99e1f0@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 9 Apr 2024 01:07:57 +0300
+Message-ID: <CAA8EJpp6Lc7sc5fnKp+O8TYdaywiE+dZ=YJin351s=r5rxi+Kw@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/msm/dp: call dp_hpd_plug_handle()/unplug_handle()
+ directly for external HPD
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Bjorn Andersson <andersson@kernel.org>, freedreno@lists.freedesktop.org, 
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ dri-devel@lists.freedesktop.org, seanpaul@chromium.org, swboyd@chromium.org, 
+ quic_jesszhan@quicinc.com, quic_bjorande@quicinc.com, johan@kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,44 +88,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 9 Apr 2024 at 00:23, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 4/8/2024 2:12 PM, Dmitry Baryshkov wrote:
+> > On Mon, 8 Apr 2024 at 22:43, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> >>
+> >>
+> >>
+> >> On 4/7/2024 11:48 AM, Bjorn Andersson wrote:
+> >>> On Fri, Apr 05, 2024 at 08:15:47PM -0700, Abhinav Kumar wrote:
+> >>>> From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> >>> [..]
+> >>>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> >>>> index d80f89581760..bfb6dfff27e8 100644
+> >>>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> >>>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> >>>> @@ -1665,7 +1665,7 @@ void dp_bridge_hpd_notify(struct drm_bridge *bridge,
+> >>>>               return;
+> >>>>
+> >>>>       if (!dp_display->link_ready && status == connector_status_connected)
+> >>>> -            dp_add_event(dp, EV_HPD_PLUG_INT, 0, 0);
+> >>>> +            dp_hpd_plug_handle(dp, 0);
+> >>>
+> >>> If I read the code correctly, and we get an external connect event
+> >>> inbetween a previous disconnect and the related disable call, this
+> >>> should result in a PLUG_INT being injected into the queue still.
+> >>>
+> >>> Will that not cause the same problem?
+> >>>
+> >>> Regards,
+> >>> Bjorn
+> >>>
+> >>
+> >> Yes, your observation is correct and I had asked the same question to
+> >> kuogee before taking over this change and posting.
+> >
+> > Should it then have the Co-developed-by trailers?
+> >
+>
+> hmmm, perhaps but that didnt result in any code change between v2 and
+> v3, so I didnt add it.
+
+So who authored v0 of it? From your text I had an impression that it
+was Kuogee. Please excuse me if I was wrong.
+
+>
+> >> We will have to handle that case separately. I don't have a good
+> >> solution yet for it without requiring further rework or we drop the
+> >> below snippet.
+> >>
+> >>           if (state == ST_DISCONNECT_PENDING) {
+> >>                   /* wait until ST_DISCONNECTED */
+> >>                   dp_add_event(dp, EV_HPD_PLUG_INT, 0, 1); /* delay = 1 */
+> >>                   mutex_unlock(&dp->event_mutex);
+> >>                   return 0;
+> >>           }
+> >>
+> >> I will need sometime to address that use-case as I need to see if we can
+> >> handle that better and then drop the the DISCONNECT_PENDING state to
+> >> address this fully. But it needs more testing.
+> >>
+> >> But, we will need this patch anyway because without this we will not be
+> >> able to fix even the most regular and commonly seen case of basic
+> >> connect/disconnect receiving complementary events.
+> >
+> > Hmm, no. We need to drop the HPD state machine, not to patch it. Once
+> > the driver has proper detect() callback, there will be no
+> > complementary events. That is a proper way to fix the code, not these
+> > kinds of band-aids patches.
+> >
+>
+> I had discussed this part too :)
+>
+> I totally agree we should fix .detect()'s behavior to just match cable
+> connect/disconnect and not link_ready status.
+>
+> But that alone would not have fixed this issue. If HPD thread does not
+> get scheduled and plug_handle() was not executed, .detect() would have
+> still returned old status as we will update the cable status only in
+> plug_handle() / unplug_handle() to have a common API between internal
+> and external hpd execution.
+
+I think there should be just hpd_notify, which if the HPD is up,
+attempts to read the DPCD. No need for separate plug/unplug_handle.
+The detect() can be as simple as !drm_dp_is_branch() || sink_count != 0.
+
+>
+> So we need to do both, make .detect() return correct status AND drop hpd
+> event thread processing.
+>
+> But, dropping the hpd event thread processing alone was fixing the
+> complimentary events issue. So kuogee had only this part in this patch.
+
+I'd prefer to wait for the final patchset then. Which has the HPD
+thread completely removed.
+
+>
+>
+> >>>>       else if (dp_display->link_ready && status == connector_status_disconnected)
+> >>>> -            dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
+> >>>> +            dp_hpd_unplug_handle(dp, 0);
+> >>>>    }
+> >>>> --
+> >>>> 2.43.2
+> >>>>
+> >
+> >
+> >
 
 
-On 4/5/2024 11:15 AM, Dmitry Baryshkov wrote:
-> On Fri, 5 Apr 2024 at 20:35, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 3/9/2024 7:09 AM, Dmitry Baryshkov wrote:
->>> Currently the MSM DSI driver looks for the next bridge during
->>> msm_dsi_modeset_init(). If the bridge is not registered at that point,
->>> this might result in -EPROBE_DEFER, which can be problematic that late
->>> during the device probe process. Move next bridge acquisition to the
->>> dsi_bind state so that probe deferral is returned as early as possible.
->>>
->>
->> But msm_dsi_modeset)init() is also called during msm_drm_bind() only.
->>
->> What issue are you suggesting will be fixed by moving this from
->> msm_drm_bind() to dsi_bind()?
-> 
-> The goal is to return as early as possible as not not cause
-> probe-deferral loops. See commit fbc35b45f9f6 ("Add documentation on
-> meaning of -EPROBE_DEFER"). It discusses returning from probe() but
-> the same logic applies to bind().
-> 
 
-Understood. I was trying to make sure the purpose of the patch is that 
-"deferral in component_bind() is better than component_master_bind()"
-
-But yes, overall that is better since the unbounding path will be more 
-in the master case.
-
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>    drivers/gpu/drm/msm/dsi/dsi.c         | 16 ++++++++++++++++
->>>    drivers/gpu/drm/msm/dsi/dsi.h         |  2 ++
->>>    drivers/gpu/drm/msm/dsi/dsi_manager.c |  8 +-------
->>>    3 files changed, 19 insertions(+), 7 deletions(-)
->>>
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+--
+With best wishes
+Dmitry
