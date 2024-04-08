@@ -2,71 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B3189CCE2
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 22:18:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A516389CD05
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 22:42:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ED1310EE54;
-	Mon,  8 Apr 2024 20:18:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4324F112962;
+	Mon,  8 Apr 2024 20:42:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="C5wBo34i";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="g833Jq0J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
- [209.85.210.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A37410E741;
- Mon,  8 Apr 2024 20:18:25 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id
- d2e1a72fcca58-6ed2170d89fso1084855b3a.1; 
- Mon, 08 Apr 2024 13:18:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1712607505; x=1713212305; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IjywxhKqwhdxKvwBJv3ojTQEEiN0ox1Lv386oTrVMHU=;
- b=C5wBo34iRyQaWuI4N9UhjSF9PPxyJptXHbz+dQfP12kUvL/Yzhq5AyhIG532N/d3gP
- IKRkbGWwy7+x51tqMjQ/4l0D5vLHvU+EkSrMymektZArAOkGN+G6HLYFg4BjjVqAj5lm
- sMrdrIZIpSYd9QHpTlivou7S00zxf8eV8/Bjh3As7aUpY/ZyhzIdf3xMX27e/pAk/iHS
- a20LqRXN92mfAwAsElOxoLTnikvPDSIsEg+7PAeoA65nToV1rmiTcEsNITpEOkINIKBn
- /y2C7cZrswxCtGc4yhNXIXnWyKzY+3bsyNzq77XLZc+e74TL+quL8/nTHzQ5Pq3+2iWU
- 2YYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712607505; x=1713212305;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IjywxhKqwhdxKvwBJv3ojTQEEiN0ox1Lv386oTrVMHU=;
- b=MrgLf/3Wdf9L6ylqh85QBrhGA/Vtrx2xfPCCUH9eA0OOy2lUf4nx+cHhC8s5sXj9YD
- ZxegiS6/GU95Nzm+BxGgMJH1Z7t9myGzk07zY558XFpMLvJ0SAw5GF2p1w5AmwIHqqXA
- f+SPm+0UQHRjMKhjRC8SAiFfMfPPcLUlQNFaxuzo3YgsVAK9YVgsLgX1rkkEAkuIVytJ
- hvdlaIXpLnF+bBnfZch84TUCHUrN2DWh79E1LMkLCJNLbLlN6V3T/VSbrr1a2b0PUQsf
- mHHGcmz2ZZ1Jt6ouOoXXbJg5Xu1lFUB324/XP3lvkuyuqHpJU+k2bTT1J2LmfSGgo9Nf
- U1+w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVvQUQ4TokPpFYWzVBZL69H8vv8qZpxi37IgZx7Ncm6/mFZuXJMNkCu2SBOzcyknoHkumGYO5RgHzOhg2yQAUVo8cLaUAowGMT7p3UA/Hrdn3QRKVInkw193flaNeE5jGjk6pADQ2jnIUGPV/jZ8g==
-X-Gm-Message-State: AOJu0YxwWTwjdMmUXU9BtxwZSIysROsFrxpr5UkFv6w2mJ6+BEwdlFzK
- aesgljiB2b9VdGZIsDFANoGqpH6EcmDIddFCjgbf0wKhE9rG010SgbywvYHhc9qUYukXkmifGn+
- DQ5dC2ySOJ6KdbB2ucokj1uS0H94=
-X-Google-Smtp-Source: AGHT+IEU/gLpnTbGMR0cEp+1ByYalelfaGmw8RRspkrV99DF0W6hc4XtNjXpCOlWW/B8O+P2F8gR0jLeeo3r95NydEw=
-X-Received: by 2002:a17:90a:d249:b0:2a4:b04b:d204 with SMTP id
- o9-20020a17090ad24900b002a4b04bd204mr1043588pjw.7.1712607504932; Mon, 08 Apr
- 2024 13:18:24 -0700 (PDT)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2F43112962;
+ Mon,  8 Apr 2024 20:42:00 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 17D60CE1254;
+ Mon,  8 Apr 2024 20:41:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA163C433F1;
+ Mon,  8 Apr 2024 20:41:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1712608917;
+ bh=tfdC6IUIDOInprI5HAyhCtD8GrE4tlPMNfZeyK0mQ5c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=g833Jq0JM+10ZJ+ETjg9N7wqx+vDkgbHh+qPxlWZPM58bhix0xse+CvnYjZEAJ++t
+ ZFIiPv7TdMTA5Wi8avhKDi/+PR756//shV3JnFWMXBHdJiV+Z0w+JQVtD64wmOoW+n
+ SMF7812fbkYYd3tQLWxC0ylgTYtLfVpUSCzaoYWo27MkBuAxdJf5m1EP83d1Ql9WQ8
+ DEJ7UyVK3LeleDrUhD4LdRccUYPhuH0nnjxczEJWfuos3fdRYcnKBEwbkNcseFHs2F
+ HGQb5Bb40e6779tzRaCnRMb7JOyj+89tz9ddkkRkQOyXYXnPfQNvV9WiNOI+f8xTRk
+ rBpQo1p9UuNYQ==
+Date: Mon, 8 Apr 2024 15:41:54 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ dri-devel@lists.freedesktop.org, seanpaul@chromium.org, swboyd@chromium.org, 
+ quic_jesszhan@quicinc.com, quic_bjorande@quicinc.com, johan@kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] drm/msm/dp: call dp_hpd_plug_handle()/unplug_handle()
+ directly for external HPD
+Message-ID: <k7f22hyltul4h4o4vqe6prc2yx3mm2q4dzk66j3xrsdpdtqllb@3c6ul4fpimwz>
+References: <20240406031548.25829-1-quic_abhinavk@quicinc.com>
+ <ale6wbwzkfagcg2q6glb4vsxu3pthhkk3tquv2ixlatbdryqvh@xscsq2h6emho>
+ <01cb1c0d-a801-37f9-2f55-2bbd8d3a68b9@quicinc.com>
 MIME-Version: 1.0
-References: <20240407090131.269287-1-xiangyang3@huawei.com>
- <20240407090131.269287-2-xiangyang3@huawei.com>
-In-Reply-To: <20240407090131.269287-2-xiangyang3@huawei.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 8 Apr 2024 16:18:13 -0400
-Message-ID: <CADnq5_OVWQDpzsDum1QAtAWAP7oS+CmrXOcdWV26+LN=qk9bnA@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/amd/display: delete the redundant
- initialization in dcn3_51_soc
-To: Xiang Yang <xiangyang3@huawei.com>
-Cc: airlied@gmail.com, daniel@ffwll.ch, swapnil.patel@amd.com, 
- wayne.lin@amd.com, xi.liu@amd.com, alexander.deucher@amd.com, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <01cb1c0d-a801-37f9-2f55-2bbd8d3a68b9@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,38 +66,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+On Mon, Apr 08, 2024 at 12:43:34PM -0700, Abhinav Kumar wrote:
+> 
+> 
+> On 4/7/2024 11:48 AM, Bjorn Andersson wrote:
+> > On Fri, Apr 05, 2024 at 08:15:47PM -0700, Abhinav Kumar wrote:
+> > > From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> > [..]
+> > > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> > > index d80f89581760..bfb6dfff27e8 100644
+> > > --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> > > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> > > @@ -1665,7 +1665,7 @@ void dp_bridge_hpd_notify(struct drm_bridge *bridge,
+> > >   		return;
+> > >   	if (!dp_display->link_ready && status == connector_status_connected)
+> > > -		dp_add_event(dp, EV_HPD_PLUG_INT, 0, 0);
+> > > +		dp_hpd_plug_handle(dp, 0);
+> > 
+> > If I read the code correctly, and we get an external connect event
+> > inbetween a previous disconnect and the related disable call, this
+> > should result in a PLUG_INT being injected into the queue still.
+> > 
+> > Will that not cause the same problem?
+> > 
+> > Regards,
+> > Bjorn
+> > 
+> 
+> Yes, your observation is correct and I had asked the same question to kuogee
+> before taking over this change and posting.
+> 
+> We will have to handle that case separately. I don't have a good solution
+> yet for it without requiring further rework or we drop the below snippet.
+> 
+>         if (state == ST_DISCONNECT_PENDING) {
+>                 /* wait until ST_DISCONNECTED */
+>                 dp_add_event(dp, EV_HPD_PLUG_INT, 0, 1); /* delay = 1 */
+>                 mutex_unlock(&dp->event_mutex);
+>                 return 0;
+>         }
+> 
+> I will need sometime to address that use-case as I need to see if we can
+> handle that better and then drop the the DISCONNECT_PENDING state to address
+> this fully. But it needs more testing.
+> 
+> But, we will need this patch anyway because without this we will not be able
+> to fix even the most regular and commonly seen case of basic
+> connect/disconnect receiving complementary events.
+> 
 
-Applied.
+I did some more testing on this patch. Connecting and disconnecting the
+cable while in fbcon works reliably, except for:
+- edid/modes are not read before we bring up the link so I always end up
+  with 640x480
 
-Thanks,
+- if I run modetest -s <id>:<mode> the link is brought up with the new
+  resolution and I get my test image on the screen.
+  But as we're shutting down the link for the resolution chance I end up
+  in dp_bridge_hpd_notify() with link_ready && state = disconnected.
+  This triggers an unplug which hangs on the event_mutex, such that as
+  soon as I get the test image, the state machine enters
+  DISCONNECT_PENDING. This is immediately followed by another
+  !link_ready && status = connected, which attempts to perform the plug
+  operation, but as we're in DISCONNECT_PENDING this is posted on the
+  event queue. From there I get a log entry from my PLUG_INT, every
+  100ms stating that we're still in DISCONNECT_PENDING. If I exit
+  modetest the screen goes black, and no new mode can be selected,
+  because we're in DISCONNECT_PENDING. The only way out is to disconnect
+  the cable to complete the DISCONNECT_PENDING.
 
-Alex
+Regards,
+Bjorn
 
-On Mon, Apr 8, 2024 at 3:45=E2=80=AFAM Xiang Yang <xiangyang3@huawei.com> w=
-rote:
->
-> the dram_clock_change_latency_us in dcn3_51_soc is initialized twice, so
-> delete one of them.
->
-> Signed-off-by: Xiang Yang <xiangyang3@huawei.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.c b/dri=
-vers/gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.c
-> index b3ffab77cf88..f1c0d5b77f1b 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.c
-> @@ -237,7 +237,6 @@ struct _vcs_dpi_soc_bounding_box_st dcn3_51_soc =3D {
->         .urgent_latency_adjustment_fabric_clock_component_us =3D 0,
->         .urgent_latency_adjustment_fabric_clock_reference_mhz =3D 0,
->         .num_chans =3D 4,
-> -       .dram_clock_change_latency_us =3D 11.72,
->         .dispclk_dppclk_vco_speed_mhz =3D 2400.0,
->  };
->
-> --
-> 2.34.1
->
+> 
+> > >   	else if (dp_display->link_ready && status == connector_status_disconnected)
+> > > -		dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
+> > > +		dp_hpd_unplug_handle(dp, 0);
+> > >   }
+> > > -- 
+> > > 2.43.2
+> > > 
