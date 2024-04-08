@@ -2,86 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D5CA89BA98
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 10:45:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E6689BAC5
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 10:48:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 304751122C2;
-	Mon,  8 Apr 2024 08:45:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DF761122CC;
+	Mon,  8 Apr 2024 08:48:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QwfhcyHB";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LIJzlvsE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8852B1122BE
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 08:44:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1712565892;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OnmS+ZQ70OmsHKGyqstMbXO2wKO+H5ag8eg75yEHt7A=;
- b=QwfhcyHBP9Godl1kDZ+nRv8ZPsBNIGEKVPHDSITIeXnNKA00G5TqQzh+QxB+qe21w37FgZ
- cJgXpyCsE0JTLzkwHRvrNQHF+owifn8hmPHpLgiw8+6bB9GfN0grM98/gauFe44k4mll9q
- RTCmQgOSRZZ+3UFD5vlhc4Y8I+EqDcU=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-1-hw1nCBZrPGipAl9PnvhWng-1; Mon, 08 Apr 2024 04:44:51 -0400
-X-MC-Unique: hw1nCBZrPGipAl9PnvhWng-1
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-78a5e62931cso55282485a.0
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Apr 2024 01:44:51 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com
+ [209.85.219.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF8081122CC
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 08:48:53 +0000 (UTC)
+Received: by mail-yb1-f182.google.com with SMTP id
+ 3f1490d57ef6-dccb1421bdeso4031278276.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Apr 2024 01:48:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1712566132; x=1713170932; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=F7NI1a3KJOYbUdllvSAieuMW0BytOpwEyZTxcjSweC0=;
+ b=LIJzlvsEQe36jdxAshThIzUwRw7pQqM+ZU2LZSGka2WAY/27gFrSc6YEIFb1Bhdyp8
+ jcb9/5Do/Lx9eNQYZk5Mb96N+F1DEsjrV8XEEElSkDkTBiyqc/6aBKTfJHv2hj8gIMks
+ YQ2BsQ6P0P7FEpyf5j8Hbx0szdvps2trNfauQFsrBJsD1eMjPNWQYgxhu53MFXkOnHUg
+ BZOBM370k6sl+5jytwvNwk3WcVh2hGEzAHOFbFVGwKyob3n4h01XZIeY5g3E4+tgi3go
+ uW6X0sO6lw31LqlCrqDAcwtgCAY9LS3xFSee27ZB+whuIuJWviX6cdEwYLdUafq7zMoJ
+ e7XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712565891; x=1713170691;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=OnmS+ZQ70OmsHKGyqstMbXO2wKO+H5ag8eg75yEHt7A=;
- b=A9/SCNThVto3dlJMcqY0EMfZ8qiEkqGohjHelYxTGFgoN1Bm9eNSrooSBQdoHiYRfm
- HHDI499ZW6XtomtBUI/WCJDwBrTluYmXodHw/92WINb9KWBuhE19iKc28N4S10bTLmVu
- 6zS1Zd/HerV0exGK9IBkrBDwPKT6UMbInD8Dl50LhbStc/yuHmpAtyKAz+0s8ELHmNR8
- DdepIia1WXeTFifeHG8dmXHBSeLTYp+0QHLYDAIvU0Lp4fpKZv11vHxd6J4VD2gbzncU
- PPzkdEZaAR1B8enL+VmJ90uW3zlzuq9gmzwIpmYMCSLx7v2uLero//UNk6hgcwPRGiCI
- ilfQ==
-X-Gm-Message-State: AOJu0YwWz69Tu3SpoFA3hL6CGS3EhIknLSnNsbs5KpDSUGNu+ef8zj8U
- /PKmKVkLs37C6Hv31z+xR8HJdm8TOv4GZq5djwF5dGOtAnbSLk0E/IYU8HDD9Y/326t4gxrKuMK
- v/l+tGzI0DssPp9KJdxlLwHrlJsR4EF5XhCFYjBGe8dFESVsF6pVQKnqij0Lp4K3UiA==
-X-Received: by 2002:a05:620a:319e:b0:78d:5fd5:9254 with SMTP id
- bi30-20020a05620a319e00b0078d5fd59254mr5644010qkb.5.1712565890767; 
- Mon, 08 Apr 2024 01:44:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHsVOxGIi2Iuj/AVIRSbBNaD6COng8+R3PpINEdp5/DQW+HcEotDsruGHbTospw6yxnsP+ZjA==
-X-Received: by 2002:a05:620a:319e:b0:78d:5fd5:9254 with SMTP id
- bi30-20020a05620a319e00b0078d5fd59254mr5643989qkb.5.1712565890518; 
- Mon, 08 Apr 2024 01:44:50 -0700 (PDT)
-Received: from pstanner-thinkpadt14sgen1.muc.redhat.com
- (nat-pool-muc-t.redhat.com. [149.14.88.26])
- by smtp.gmail.com with ESMTPSA id
- oo15-20020a05620a530f00b0078d54e39f6csm2036989qkn.23.2024.04.08.01.44.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Apr 2024 01:44:50 -0700 (PDT)
-From: Philipp Stanner <pstanner@redhat.com>
-To: Hans de Goede <hdegoede@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>,
- Sam Ravnborg <sam@ravnborg.org>, dakr@redhat.com
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org, Philipp Stanner <pstanner@redhat.com>
-Subject: [PATCH v6 10/10] drm/vboxvideo: fix mapping leaks
-Date: Mon,  8 Apr 2024 10:44:22 +0200
-Message-ID: <20240408084423.6697-11-pstanner@redhat.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240408084423.6697-1-pstanner@redhat.com>
-References: <20240408084423.6697-1-pstanner@redhat.com>
+ d=1e100.net; s=20230601; t=1712566132; x=1713170932;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=F7NI1a3KJOYbUdllvSAieuMW0BytOpwEyZTxcjSweC0=;
+ b=S8PIcYy8x3RTjEkVAh9E41/FWeoNC7OEGe8ELB1oRnJ2/+alBdc7XdRIUrfkku902U
+ zMfHtRcIu1ZI3V5iG+dnBBqCPwXqY3pd5KtugAfzuRjvVLzuR+pHHY55T0GX8Z+jDohb
+ 1kSfG2Ya+JU8kDxrJ1sIPTh9AJ6L2vqycflW1kOnM55V47Bo6xxtv5shbDtoxtXFREBB
+ VwYz4KLMgSOS9PrDg/ftD4D/qwmFX8WeWKWhYMMRaobtPJEUmRrhhtmE6fn5fNBEp2AV
+ 5O9g1WndiJ/KJzaEGV95+AKBQgqoKhpfqmkj581PZHu9zIPxXdGg7N5rwd+5MjRGJ3YF
+ PQpg==
+X-Gm-Message-State: AOJu0YxgYp9Ao6s1FprswGOb01QmRPVfQHaNv9dhCp4BhOcTuEvIZlGT
+ SGDwhop6ck/rbbUSVxXKaF1bVVif4x2aJoBsdS4MNPlOwVqkTunIpS3XM5epovryPyV9i7lAUer
+ 1tc/bMkshiqbp35hA9+xWtbF85IRE+ETj14GmUw==
+X-Google-Smtp-Source: AGHT+IEQeHmk38rLUm1S6f8awpQg2EktVcFZ4Lukaa8kZida8w/IUtZcOLqQzNPzXn2oIiDTfj5wNOxJrG7cDph37d8=
+X-Received: by 2002:a05:6902:2b04:b0:dca:c369:fac2 with SMTP id
+ fi4-20020a0569022b0400b00dcac369fac2mr6609762ybb.3.1712566132588; Mon, 08 Apr
+ 2024 01:48:52 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+References: <20240405092907.2334007-1-jani.nikula@intel.com>
+ <eondf5x3wz3nccxpnqxtb7gtvf3k5u3bz4qwhn3gbcy5pj73ku@fue4tej3xgnq>
+ <87frvwb7i5.fsf@intel.com>
+In-Reply-To: <87frvwb7i5.fsf@intel.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 8 Apr 2024 11:48:41 +0300
+Message-ID: <CAA8EJpr9cEv6Yi1q+8u-+mU2V3yp=C9rtpnCu+pyouozukYQ=g@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: convert all pixel format logging to use %p4cc
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Aishwarya TCV <aishwarya.tcv@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,62 +80,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the PCI devres API was introduced to this driver, it was wrongly
-assumed that initializing the device with pcim_enable_device() instead
-of pci_enable_device() will make all PCI functions managed.
+On Mon, 8 Apr 2024 at 11:09, Jani Nikula <jani.nikula@intel.com> wrote:
+>
+> On Fri, 05 Apr 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+> > On Fri, Apr 05, 2024 at 12:29:07PM +0300, Jani Nikula wrote:
+> >> Logging u32 pixel formats using %4.4s format string with a pointer to
+> >> the u32 is somewhat questionable, as well as dependent on byte
+> >> order. There's a kernel extension format specifier %p4cc to format 4cc
+> >> codes. Use it across the board in msm for pixel format logging.
+> >>
+> >> This should also fix the reported build warning:
+> >>
+> >>   include/drm/drm_print.h:536:35: warning: '%4.4s' directive argument is
+> >>   null [-Wformat-overflow=]
+> >>
+> >> Reported-by: Aishwarya TCV <aishwarya.tcv@arm.com>
+> >> Closes: https://lore.kernel.org/r/2ac758ce-a196-4e89-a397-488ba31014c4@arm.com
+> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> >>
+> >> ---
+> >>
+> >> Tip: 'git show --color-words -w' might be the easiest way to review.
+> >> ---
+> >>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |  8 +++----
+> >>  .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |  2 +-
+> >>  drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c   |  4 ++--
+> >>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     | 24 +++++++++----------
+> >>  drivers/gpu/drm/msm/msm_fb.c                  | 10 ++++----
+> >>  5 files changed, 24 insertions(+), 24 deletions(-)
+> >
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>
+> Thanks! Do you take this via the msm tree?
 
-This is wrong and was caused by the quite confusing PCI devres API in
-which some, but not all, functions become managed that way.
+Yes, I will
 
-The function pci_iomap_range() is never managed.
 
-Replace pci_iomap_range() with the actually managed function
-pcim_iomap_range().
-
-Fixes: 8558de401b5f ("drm/vboxvideo: use managed pci functions")
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
----
- drivers/gpu/drm/vboxvideo/vbox_main.c | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/gpu/drm/vboxvideo/vbox_main.c b/drivers/gpu/drm/vboxvideo/vbox_main.c
-index 42c2d8a99509..d4ade9325401 100644
---- a/drivers/gpu/drm/vboxvideo/vbox_main.c
-+++ b/drivers/gpu/drm/vboxvideo/vbox_main.c
-@@ -42,12 +42,11 @@ static int vbox_accel_init(struct vbox_private *vbox)
- 	/* Take a command buffer for each screen from the end of usable VRAM. */
- 	vbox->available_vram_size -= vbox->num_crtcs * VBVA_MIN_BUFFER_SIZE;
- 
--	vbox->vbva_buffers = pci_iomap_range(pdev, 0,
--					     vbox->available_vram_size,
--					     vbox->num_crtcs *
--					     VBVA_MIN_BUFFER_SIZE);
--	if (!vbox->vbva_buffers)
--		return -ENOMEM;
-+	vbox->vbva_buffers = pcim_iomap_range(
-+			pdev, 0, vbox->available_vram_size,
-+			vbox->num_crtcs * VBVA_MIN_BUFFER_SIZE);
-+	if (IS_ERR(vbox->vbva_buffers))
-+		return PTR_ERR(vbox->vbva_buffers);
- 
- 	for (i = 0; i < vbox->num_crtcs; ++i) {
- 		vbva_setup_buffer_context(&vbox->vbva_info[i],
-@@ -116,11 +115,10 @@ int vbox_hw_init(struct vbox_private *vbox)
- 	DRM_INFO("VRAM %08x\n", vbox->full_vram_size);
- 
- 	/* Map guest-heap at end of vram */
--	vbox->guest_heap =
--	    pci_iomap_range(pdev, 0, GUEST_HEAP_OFFSET(vbox),
--			    GUEST_HEAP_SIZE);
--	if (!vbox->guest_heap)
--		return -ENOMEM;
-+	vbox->guest_heap = pcim_iomap_range(pdev, 0,
-+			GUEST_HEAP_OFFSET(vbox), GUEST_HEAP_SIZE);
-+	if (IS_ERR(vbox->guest_heap))
-+		return PTR_ERR(vbox->guest_heap);
- 
- 	/* Create guest-heap mem-pool use 2^4 = 16 byte chunks */
- 	vbox->guest_pool = devm_gen_pool_create(vbox->ddev.dev, 4, -1,
 -- 
-2.44.0
-
+With best wishes
+Dmitry
