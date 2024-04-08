@@ -2,75 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9705789CAF8
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 19:47:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 352B689CB06
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 19:50:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FFA811291A;
-	Mon,  8 Apr 2024 17:47:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 203D3112920;
+	Mon,  8 Apr 2024 17:49:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="fKqFsq6e";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="A4evjKDL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
- [209.85.219.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DC24112917
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 17:47:01 +0000 (UTC)
-Received: by mail-yb1-f172.google.com with SMTP id
- 3f1490d57ef6-dcbd1d4904dso4684726276.3
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Apr 2024 10:47:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1712598420; x=1713203220;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0YbW5SOLOTenM+r6RQas4H/M9J4T+E9gkfjLqxxbMwg=;
- b=fKqFsq6ed0oVsrDglzSIe0+kXSY/GlvkMhP+NosXr+WpFXpCicEf96xsmKeEGI0OSe
- I68wRpqTUDINNMUsQEVxgx+9Y3Qu8t8t6GWWYtJXPWhjt1P+2mwlqIXdXIaLgt++aW+Y
- 6igx/36askru+Sitk9EAWbwJDQolCnDNce2Ps=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712598420; x=1713203220;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0YbW5SOLOTenM+r6RQas4H/M9J4T+E9gkfjLqxxbMwg=;
- b=ZgrKgH9ObAuZLWg9e2oSe4Eer/UaG5RuNx/j4v7pw+g+zYlp1RZc/Y9Snc7rlkUvDn
- IxtbUS8oDdP/Ni2hVvEIbXjo9xoz/SU79aeDEZo5Rv8nXqZ8vtanTpOe4lHf+sqbfXkj
- XLlms6q6dCLkRTni8EsnntDXUNYnrWozPGoCx/3M0CrwTJTAmd5EsohexTUPBUFcOYdz
- E5scSEZ4DOue+lYlnvSG8F12EWieql4mqMhp6UAIduMYYhf5qbNIBa2fgDC8e1CpJKwl
- lhFrYOSE5OS51EReI0G570EpSBv0BrEQ8xnmWqBFlKjS4F6GCOa8qwz1pRbnRh2dRt+i
- lsHA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXIMCoQuxmG51OXUzdb7WPc73++U0qU0mtJ2scLj4l03DKiXrnwVMwHeOvS9rwxI34xHm4w0aHjsA6xfGm8swQiNZuTjIt/YcG/9QxeEtOk
-X-Gm-Message-State: AOJu0YxSUjXR4Jwgz7pMxuU43Dlj80NEFp9HGBzqwINFCIDF5MwuABUR
- Dz9bhrg+bjlqrV6OOdGqv+X7wGVxm+phVIJIs4Kd0GTajH1Z/VSNTtugFomDtpnjr69RmtyuNjJ
- XYxkDv9msNPD7YzKgbzOtN0Gd2ombQq5UKKGQ
-X-Google-Smtp-Source: AGHT+IHJElG6RyxN5KsSAQgpDvZ6UdSTRc5tikioKhfMtj/AlFIOyYZ9i8vPa7wr84cqzBwszV2q3jnb2JLEmmtXWQw=
-X-Received: by 2002:a25:bbc2:0:b0:dcd:2aa3:d73b with SMTP id
- c2-20020a25bbc2000000b00dcd2aa3d73bmr7422172ybk.50.1712598420397; Mon, 08 Apr
- 2024 10:47:00 -0700 (PDT)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2073.outbound.protection.outlook.com [40.107.92.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88568112922;
+ Mon,  8 Apr 2024 17:49:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=b9JJ0HJwiQdCPPp/AEIAfGs5J3RlTWJpqB2KysRs9D6vlW11KdPWI6gibOhIVmywLdtfdYzrbkBgf/np1ZPz6JbFcO88vRZdQQkqF3y4IM2NM2QY3IHzxo1ZmnPiKFjyCkpJOZocnaykUZDZFEd8oQwptdXF61ax6fLejFmk6ZrwlTNK/1r0BR7gnC5LEGJW4Ddsrl0n2fRX+9R6EpQTt3iMbgTl0PW0CmGE4wIShco4UNzyxyquCAlYzRKcJRHi3e6bNzvNelW+ocJn7twHLdrlINlVgmjoLMBSdxxn1Vpi2Y3swVe8jrQ3qotNztiS43ZNkVuCmq/DjE+U5sRHaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rj+rbfm8CdKBqDjcRocV4M68vtQSM1usYukysJjwTqc=;
+ b=l5pMR1hx+1tHIUkHrQIEurbs385okisn3aNX/7lf9aDIrNRpnznPsiMg4C/Xjo+ArHXM831NY34mA9lp8pD5bwfAoTPTRPlrVe2bA+8FcWoQolmiwqmLaC/JhL6FrKqvWEPxJnGMVql812VtIQZqD1t/GP0glcSGtAMD0yvw3BQaaU70Bu7UFcF8RK/XtRDUtVyYpTeFcYkGGJcwiCJxsHYqCK563aM8alHmn0d/yqynF4NhG9ZJJVWf2jcHyPXZhUoZIJxs9DqrIifmlCsxq36EN8EsRmAwkxHaY1BxWiJ1k7rNFMQq8IbE7rrhozUsYRm5R+ASK3JVPm6VfaOEEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rj+rbfm8CdKBqDjcRocV4M68vtQSM1usYukysJjwTqc=;
+ b=A4evjKDLnooni+kfMQ2jTmkXPjfuPzWfsep/BNnf9il+VLmSqDKungFShNlhvAneboiPaLG+6HsTab29yONkEWeU9ryf5RcNmKpx/A/PFP9KcGk/EO4/ODKrNdKdJfsfM2ud2Atnsp9ICFumLHon1UO5v2Lj8JZ4T36vlyYYOOc=
+Received: from MW4PR03CA0116.namprd03.prod.outlook.com (2603:10b6:303:b7::31)
+ by MW4PR12MB7014.namprd12.prod.outlook.com (2603:10b6:303:218::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Mon, 8 Apr
+ 2024 17:49:47 +0000
+Received: from MWH0EPF000971E5.namprd02.prod.outlook.com
+ (2603:10b6:303:b7:cafe::16) by MW4PR03CA0116.outlook.office365.com
+ (2603:10b6:303:b7::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.35 via Frontend
+ Transport; Mon, 8 Apr 2024 17:49:47 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ MWH0EPF000971E5.mail.protection.outlook.com (10.167.243.73) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7452.22 via Frontend Transport; Mon, 8 Apr 2024 17:49:46 +0000
+Received: from rajneesh-desk.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Mon, 8 Apr
+ 2024 12:49:44 -0500
+From: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+CC: <felix.kuehling@amd.com>, <alexander.deucher@amd.com>,
+ <christian.koenig@amd.com>, Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+Subject: [PATCH] drm/ttm: Make ttm shrinkers NUMA aware
+Date: Mon, 8 Apr 2024 13:49:32 -0400
+Message-ID: <20240408174932.1546519-1-rajneesh.bhardwaj@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240408155605.1398631-1-zack.rusin@broadcom.com>
- <843fdfa2-348b-410e-8ff1-84ab86cac17d@amd.com>
- <CABQX2QMtTB9iiQuce36dnk6eO1Xcsm+Xt3vc1Nk93TGD+TtV9w@mail.gmail.com>
- <5ca415e9-fb3e-4d81-b385-71e8780a1399@amd.com>
-In-Reply-To: <5ca415e9-fb3e-4d81-b385-71e8780a1399@amd.com>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Mon, 8 Apr 2024 13:46:49 -0400
-Message-ID: <CABQX2QMaF6e6o4Ewg6sExfaEZMXRaUrNHNYUCAYG3+44P=7epQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/ttm: Print the memory decryption status just once
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- dri-devel@lists.freedesktop.org
-Cc: Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, 
- Ian Forbes <ian.forbes@broadcom.com>,
- Martin Krastev <martin.krastev@broadcom.com>, 
- Maaz Mombasawala <maaz.mombasawala@broadcom.com>, 
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000971E5:EE_|MW4PR12MB7014:EE_
+X-MS-Office365-Filtering-Correlation-Id: aa1648fa-91e5-4967-9604-08dc57f447f3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: n1YYG8ZN3d2zdhCV8yWwJLENkY5k63rA2zYw7TGrg75CgZOXvlwLFhomkIG8Az/0cZd/g5FRldJeMxts0o9EIniuUQT94OH2oKAcHNrtcIYO3vWPV6sh/FFGMRxjWhGuW8RhcjbWSSx0XBnLJKIIYRZsUXaKqhlydReVc63pAFyVdbLrRK7GX/4hLk8BBgh1zv53U4J3vR1ENwW9iqNi6OmHTe4j8XsJROj7LsfVk+WMfeMRVSqYmDyQx/spp+j4Wc7vV8NfTxgY1a2U3F3D+hkoWCgzm7TgXQsKmzmuxo5mjCvvCVV8XOYu1g8WuqYx9t4MPT22XC4L6lpxJsg/HDIUDuoWjkVtVe2frwvifpb8j68J0HTtRkVxmaQMEnCVzdWWFPqLErzHrnRvuwdiTLQdYwaHqVOcgnUoJysV6TJWLsMwpNiDnMW85/1RFtzCLM+DxjaR1rMx9DfjEz2oFn5zhzUd1NRDNyu1bu988sVMRZrZvvFi6xgeeLKmhNFJVAEHStzwJQYYg2XffxRh53W8gftxxqwht36TtztpvsWRBM9wnEG/V0frhZbHHc+hNcuS3Rb4P34GbFlLHj4LjjNB+gNxALBAOJv/LvbC7mvyp8JF+LKCps8duJj0LbfQqYLdWLtq7jFHYYh9XQa5mVkYGGc5BGeA+lVoRK9B/LgcPGeUT3pkq3kLxNWWxradLjtJJGEzrkEQQwh0HhVsHRe0ElbNJIbl03IrSuYLH1EfasV2s6E84evHJBnkMyen
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(376005)(1800799015)(82310400014)(36860700004); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2024 17:49:46.7581 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa1648fa-91e5-4967-9604-08dc57f447f3
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000971E5.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7014
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,40 +106,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sorry, apologies to everyone. By accident I replied off the list.
-Redoing it now on the list. More below.
+Otherwise the nid is always passed as 0 during memory reclaim so
+make TTM shrinkers NUMA aware.
 
-On Mon, Apr 8, 2024 at 12:10=E2=80=AFPM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 08.04.24 um 18:04 schrieb Zack Rusin:
-> > On Mon, Apr 8, 2024 at 11:59=E2=80=AFAM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> >> Am 08.04.24 um 17:56 schrieb Zack Rusin:
-> >>> Stop printing the TT memory decryption status info each time tt is cr=
-eated
-> >>> and instead print it just once.
-> >>>
-> >>> Reduces the spam in the system logs when running guests with SEV enab=
-led.
-> >> Do we then really need this in the first place?
-> > Thomas asked for it just to have an indication when those paths are
-> > being used because they could potentially break things pretty bad. I
-> > think it is useful knowing that those paths are hit (but only once).
-> > It makes it pretty easy for me to tell whether bug reports with people
-> > who report black screen can be answered with "the kernel needs to be
-> > upgraded" ;)
->
-> Sounds reasonable, but my expectation was rather that we would print
-> something on the device level.
->
-> If that's not feasible for whatever reason than printing it once works
-> as well of course.
+Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+---
+ drivers/gpu/drm/ttm/ttm_pool.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-TBH, I think it's pretty convenient to have the drm_info in the TT
-just to make sure that when drivers request use_dma_alloc on SEV
-systems TT turns decryption on correctly, i.e. it's a nice sanity
-check when reading the logs. But if you'd prefer it in the driver I
-can move this logic there as well.
+diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+index dbc96984d331..514261f44b78 100644
+--- a/drivers/gpu/drm/ttm/ttm_pool.c
++++ b/drivers/gpu/drm/ttm/ttm_pool.c
+@@ -794,7 +794,7 @@ int ttm_pool_mgr_init(unsigned long num_pages)
+ 			    &ttm_pool_debugfs_shrink_fops);
+ #endif
+ 
+-	mm_shrinker = shrinker_alloc(0, "drm-ttm_pool");
++	mm_shrinker = shrinker_alloc(SHRINKER_NUMA_AWARE, "drm-ttm_pool");
+ 	if (!mm_shrinker)
+ 		return -ENOMEM;
+ 
+-- 
+2.34.1
 
-z
