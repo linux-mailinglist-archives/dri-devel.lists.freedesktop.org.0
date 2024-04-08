@@ -2,57 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF60B89BD72
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 12:42:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1782389BDBE
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 13:06:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E63D810F45F;
-	Mon,  8 Apr 2024 10:42:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2388511245F;
+	Mon,  8 Apr 2024 11:06:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IJIYKpc6";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="U/cqQqaR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Qk0OytZi";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="U/cqQqaR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Qk0OytZi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACBF610F45F
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 10:42:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712572958; x=1744108958;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=OU+UZGi1PyA5JjiB1etB2Smvad04FCCAFO2yw6CFAOg=;
- b=IJIYKpc6gxdsApwVtOfVkejZYRK0JwYOK2QDVAB5getflQR4EA4L2iOt
- XWbuC0bGbhDNEbYFWsrtesfceXnlAOiBUFQ4aWhk6ZGI1Hg4c7rPw1Oq0
- x/mBZa/P15d3ExZDeDytou8Hh5LzF41uSk7ior6BTVESf6w8EUJYAAAOi
- r8ezV0fz0CUi47RUQXlimWymwT7IgI/U4IuxFAPIHbV2JDjhY7FqhD/pl
- Ci7IpxRcx4ZwB+ZTtiD6VSrCEXRAYzH+PwHCwXJdYsakYMPgxp20j9cWV
- zT+bWA/gtDkXu/ZTWmf4Ukr70sl7dB1f4ohg/5MMuxhmKyH7ALp+NxA6J w==;
-X-CSE-ConnectionGUID: 2oigdd2JQxC1X7LTnEl+sQ==
-X-CSE-MsgGUID: 5807E/jpR4KRNsd4nO04ZQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11037"; a="33240592"
-X-IronPort-AV: E=Sophos;i="6.07,186,1708416000"; d="scan'208";a="33240592"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2024 03:42:36 -0700
-X-CSE-ConnectionGUID: rHubO+q+T4OFLxEIqLkszQ==
-X-CSE-MsgGUID: 3wseCqnFQuyJoAxkxWwSmg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,186,1708416000"; d="scan'208";a="24624471"
-Received: from bauinger-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.42.71])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2024 03:42:35 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: jani.nikula@intel.com,
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Subject: [PATCH] drm: remove unused header gma_drm.h
-Date: Mon,  8 Apr 2024 13:42:30 +0300
-Message-Id: <20240408104230.3191827-1-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.39.2
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40C5811245D
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 11:06:06 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1B205202D7;
+ Mon,  8 Apr 2024 11:06:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1712574364; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=lpRpfx+39mabbK9SQ7ZB9lm/nEEkyHfwdlbR11cUEfk=;
+ b=U/cqQqaRf7TiwSrudoqySDxCB0slwko9E5l+3NFoK+MMDNl+a4H/acBfCPYvM4gwzSXV2H
+ +OCVeHkQs0zoZ7axYT8AGHSkoZkC87pjD/ggjlFoWhkLVax1TFRzMphqM6Jki5tuAgBBYy
+ scASkQ3K3AWiH6ms7e9UA+05kAHP6Xg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1712574364;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=lpRpfx+39mabbK9SQ7ZB9lm/nEEkyHfwdlbR11cUEfk=;
+ b=Qk0OytZixSK0dv/kiZ0AvoQGn1V8/6d6GV8Kkdy/tgE8YgHVIqTl1m2e2WsjKR6Xa1CjRY
+ 3lN3Ai/1vijb9EDg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1712574364; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=lpRpfx+39mabbK9SQ7ZB9lm/nEEkyHfwdlbR11cUEfk=;
+ b=U/cqQqaRf7TiwSrudoqySDxCB0slwko9E5l+3NFoK+MMDNl+a4H/acBfCPYvM4gwzSXV2H
+ +OCVeHkQs0zoZ7axYT8AGHSkoZkC87pjD/ggjlFoWhkLVax1TFRzMphqM6Jki5tuAgBBYy
+ scASkQ3K3AWiH6ms7e9UA+05kAHP6Xg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1712574364;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=lpRpfx+39mabbK9SQ7ZB9lm/nEEkyHfwdlbR11cUEfk=;
+ b=Qk0OytZixSK0dv/kiZ0AvoQGn1V8/6d6GV8Kkdy/tgE8YgHVIqTl1m2e2WsjKR6Xa1CjRY
+ 3lN3Ai/1vijb9EDg==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id D031713A92;
+ Mon,  8 Apr 2024 11:06:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id h5MEMZvPE2abQQAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Mon, 08 Apr 2024 11:06:03 +0000
+Message-ID: <78c64f64-d37b-42a5-8a91-513d6af32cf1@suse.de>
+Date: Mon, 8 Apr 2024 13:06:03 +0200
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/11] drm/mgag200: Detect connector status
+To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, jani.nikula@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org
+References: <20240403093114.22163-1-tzimmermann@suse.de>
+ <f88584ae-b1c0-4542-9171-93f1760b65ad@redhat.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <f88584ae-b1c0-4542-9171-93f1760b65ad@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[];
+ FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; RCPT_COUNT_SEVEN(0.00)[8];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap2.dmz-prg2.suse.org:helo,
+ imap2.dmz-prg2.suse.org:rdns]
+X-Spam-Score: -4.29
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,34 +144,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-gma_drm.h has become an empty, unused header. Remove.
+Hi
 
-Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- include/drm/gma_drm.h | 13 -------------
- 1 file changed, 13 deletions(-)
- delete mode 100644 include/drm/gma_drm.h
+Am 08.04.24 um 12:36 schrieb Jocelyn Falempe:
+> Hi Thomas,
+>
+> I've tested this series on my Dell T310, and it works well, when I 
+> plug/unplug the VGA screen, it's reflected in /sys/class/drm/.../status
+>
+> I've also tested it remotely on a Dell R640, which doesn't have a VGA 
+> monitor connected.
+>
+> After the patch, on the iDrac console, I only get a green screen saying:
+>
+> "Out of Range
+> Reason: Video Capture Failure
+> Detected Resolution: 0x768
+> Detected Color Depth-1bpp"
+>
+> and the file:
+> /sys/class/drm/card0-VGA-1/modes
+> is empty
+>
+> Before the patch, the driver reports VGA as connected, and modes 
+> contains 1024x768 and others.
+>
+> I think we may need to add a virtual connector for BMC, like I've done 
+> for AST ?
+> So that when no VGA monitor is available, you can still choose an 
+> appropriate resolution.
 
-diff --git a/include/drm/gma_drm.h b/include/drm/gma_drm.h
-deleted file mode 100644
-index 228f43e8df89..000000000000
---- a/include/drm/gma_drm.h
-+++ /dev/null
-@@ -1,13 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/**************************************************************************
-- * Copyright (c) 2007-2011, Intel Corporation.
-- * All Rights Reserved.
-- * Copyright (c) 2008, Tungsten Graphics Inc.  Cedar Park, TX., USA.
-- * All Rights Reserved.
-- *
-- **************************************************************************/
--
--#ifndef _GMA_DRM_H_
--#define _GMA_DRM_H_
--
--#endif
+Argh, I feared that would be the case. I'll submit another update that 
+will contain the BMC support.
+
+Best regards
+Thomas
+
+
+>
+> Best regards,
+>
+
 -- 
-2.39.2
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
