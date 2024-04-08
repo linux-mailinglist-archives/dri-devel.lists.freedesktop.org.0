@@ -2,131 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B54E389CD3C
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 23:12:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F392C89C933
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 17:59:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 862E911297F;
-	Mon,  8 Apr 2024 21:12:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0804011273F;
+	Mon,  8 Apr 2024 15:59:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IpPpWluk";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="mrH8TNwu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAA8C10E263
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 15:57:53 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id
- 98e67ed59e1d1-29c14800a7fso3278143a91.2
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Apr 2024 08:57:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1712591873; x=1713196673; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=untIyZUBolJmBC+haXZFudxoskemR2WDjgQpB/oOF7s=;
- b=IpPpWlukx5kktXVJCEdPqGGRelA1jc6nmkrb3XSYCUcb4Xo/q2c/+DBnaXi+ddeFkE
- uYMX/Z38X3eLtk/46pTLW95IjvnGHY7xT0fijtqEnBjpwnP408Tkw2N8kMDy6GN+9wm7
- 7MGF2to1X87i6MtG+LveGyFzq0fnucHEfAPxpolYqC+h2uFh+N6LM8BiOsNkeLCQvcAo
- /1ARRNQRnC+pmkCK0ZehkCAu38LhRS70ViKG4up2Yatj/AwGIIOfEBf4h2/DgBeuN4MO
- 2AnkQ84xnBWDqUKNUgWkZRPWdfOlUkh0bjUhgFiBWf48H9KLCH0IcsGyMBbF6mnqdE3L
- qRXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712591873; x=1713196673;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=untIyZUBolJmBC+haXZFudxoskemR2WDjgQpB/oOF7s=;
- b=WL2VZct1EncYK5b3eeee2pQDF8RJH1oMyO776B87B5ishRmsL+p3js8PbZ2tVA57mK
- +z99fo3qo1OdmcX9+nkXVXZydc8BcaL49BQrhp2CykMd4Hr/wlXKlYvXrDBG5XrH6gsn
- 95mc+U5LbzaQMNWfH7cHdskAhgtvl5pyXbsYZraWLn77gb+p7fbD90yhwS/SJTCo0sU3
- txm0xgMmKtgA6+lWZGqdOYOWE9uzo7TtrxnhoaJQufPKZYoDITNcGeRlotU/Cbhli03p
- BwRlPd3D8HkU+OeL7yJhZqOeE1m5Rs+VjJnUBhtg+f7/XhdBL6LQvbRXVtFbNLAqdz/V
- DV9A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV89/gWfdjRbnfcY0ihdgNq18hgJaFw+OzeAsvm911Se/jIlzdA77GrRpiiW6Gt7Dw7mZxBb2H6PHmKLkRjAgvlgHpD8jb8N8EECllpVLvB
-X-Gm-Message-State: AOJu0Yy8wfGKLcX9A8uUmTAahkeskg/649YDwTuNgh88RwjrPFnkGC4x
- qX9gJlScFIKdo9EMi6e/zn75WohaClMLTqM/95SvwU0CLa8POo58
-X-Google-Smtp-Source: AGHT+IGJbb2MaWRtYADIA840woW+fg7lVmIt69WB4JS2RPl12DQD69jPbBmSk/iEenJzneHNW7DHjg==
-X-Received: by 2002:a17:90a:ab0d:b0:2a5:513:921e with SMTP id
- m13-20020a17090aab0d00b002a50513921emr2739861pjq.31.1712591873008; 
- Mon, 08 Apr 2024 08:57:53 -0700 (PDT)
-Received: from localhost ([2601:647:6881:9060:13a8:4fe8:4da1:7ea2])
- by smtp.gmail.com with ESMTPSA id
- z24-20020a17090ab11800b002a2559fe52esm6580894pjq.56.2024.04.08.08.57.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Apr 2024 08:57:52 -0700 (PDT)
-Date: Mon, 8 Apr 2024 08:57:51 -0700
-From: Cong Wang <xiyou.wangcong@gmail.com>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>,
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>,
- KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
- Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
- Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Amritha Nambiar <amritha.nambiar@intel.com>,
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
- Alexander Mikhalitsyn <alexander@mihalicyn.com>,
- Kaiyuan Zhang <kaiyuanz@google.com>,
- Christian Brauner <brauner@kernel.org>, Simon Horman <horms@kernel.org>,
- David Howells <dhowells@redhat.com>, Florian Westphal <fw@strlen.de>,
- Yunsheng Lin <linyunsheng@huawei.com>,
- Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
- Arseniy Krasnov <avkrasnov@salutedevices.com>,
- Aleksander Lobakin <aleksander.lobakin@intel.com>,
- Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Lorenzo Bianconi <lorenzo@kernel.org>,
- Richard Gobert <richardbgobert@gmail.com>,
- Sridhar Samudrala <sridhar.samudrala@intel.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Johannes Berg <johannes.berg@intel.com>,
- Abel Wu <wuyun.abel@bytedance.com>, Breno Leitao <leitao@debian.org>,
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>
-Subject: Re: [RFC PATCH net-next v8 14/14] selftests: add ncdevmem, netcat
- for devmem TCP
-Message-ID: <ZhQT/4RpKIkUmWut@pop-os.localdomain>
-References: <20240403002053.2376017-1-almasrymina@google.com>
- <20240403002053.2376017-15-almasrymina@google.com>
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2104.outbound.protection.outlook.com [40.107.236.104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EC0C11273F
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 15:59:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HjaQHED2mPff4yvG6KEgtuBWAdd1DuzNYKgl0Kf5VARn+ySq14jisFqsm89TP+mIea+HlPpDKWW33CkmmkoZdVuvNjKtWE8v1mGXJuA/bZuQVwQpZ7ZJIqaRWvYC+B9C5lLJ8HDxk7AVgs6RPd7cxIuiuoMEj8XAVAQARKFj8YePukVpOf0TadLiMB6n5snJnI9RCHusVuoG0qzY9udxb1pY4G2YK51JWNsPT0pasAz8y4qw3Db9bUjw03qu4buDOL6GUD2z3ORjRkHS8/trd4ixHiOrwo8P4ds+810q9pTIigpc1oqNBdV3a5Js6oUSlJMYBsfF1HNUlRLpU0n9qA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k/LDjZ3YY7Mj8/zoC9dLGpO68W62a3X0wMUre/G5Ar8=;
+ b=D8w0JohO+pdtwx9H1tK49V9vzMs+nqaC9FeYnLqkF9DgnN7dK6sVJN6p8CEgdVJKNjG48x7kRm2drkeXDgUJBnIIsV/7/T+tFpWIiT7+nHs1r4ThezpQO2lGb9ExbApPPuS1veNH4LG4NadnAQWbv/vKqM23KHJsmqAeL4Ra2EmiQP2fwkZUyHNJjhR30rCCsJGkegbpZabC1Ibj+gRdJLn/ope7iUGBKe31zAS6CxypV7+kraTjjlWjC0Nj1JkXm2swFauGb1Fwkz9z0MrCf2QJfJeqXUH2wzb1/fj4dDIgcVNaQ1sXjKTRSVgcpZTRGmNkuODsHDEvSc3NQqCYOQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k/LDjZ3YY7Mj8/zoC9dLGpO68W62a3X0wMUre/G5Ar8=;
+ b=mrH8TNwu7fIv4opYIzuEcutzHjrLtktRHnpRr2lTc3KsCiCftgmIDctnsbzc/U+8wSpxCHbGNsmHslbm3Xwmv7H2SchJCFJXAAMRI0/JFtBJzGxYP2CV2kzfQSqjIXdEFVfSSQxlgcsXOEcZrQz5QPH5o1xAicOtnDDacISGmJ0=
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SJ2PR12MB8036.namprd12.prod.outlook.com (2603:10b6:a03:4c1::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Mon, 8 Apr
+ 2024 15:59:38 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7409.042; Mon, 8 Apr 2024
+ 15:59:38 +0000
+Message-ID: <843fdfa2-348b-410e-8ff1-84ab86cac17d@amd.com>
+Date: Mon, 8 Apr 2024 17:59:31 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ttm: Print the memory decryption status just once
+To: Zack Rusin <zack.rusin@broadcom.com>, dri-devel@lists.freedesktop.org
+Cc: Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, ian.forbes@broadcom.com,
+ martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20240408155605.1398631-1-zack.rusin@broadcom.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20240408155605.1398631-1-zack.rusin@broadcom.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: VI1PR06CA0128.eurprd06.prod.outlook.com
+ (2603:10a6:803:a0::21) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240403002053.2376017-15-almasrymina@google.com>
-X-Mailman-Approved-At: Mon, 08 Apr 2024 21:12:18 +0000
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ2PR12MB8036:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 67BDl0y4V4lVRxeAlgNp0Zy+vidV0lfxOxGFGBsTNITeme82ticJ6I34uGnMcWHLCBoSOrZIiSGA6/iwvyoUvDd00bKCsIP+86IJ67+7PDxwa8xXzgD5mT5nphPpU9FHl//4Ijl2qjNP23c3TawDMDydzEF0izYT79xa3MxYaKnaRkcR5pb/YtOJZ/Xxnf3JXI3sAxjOD+yurCO79Kf0frlESpcIGND61TSxI69fVETViugqQCwRcyjBmXvBlhvIpnQyHR3Ip5T+NWAOrGkgoxtMAU0L7A1OgeH10dqJy4LDkWBKGuHLaqF4srNRQyXAGQEu1s3KQ616mZoWgGKI5W0MAKAJdE/6oq7ooJV6hDRqNb2DxehcAnxAAK2OjxUtQY48bs3oYUlhywa9p3NlREoFrZegtbku+WE+WLGyJNRLAqQhJNjLlHhbH4dtU3q3Rb5dq8RLtklW/iaAI4yJdaqms/xhmKg0+F5FlPLGBBbeXmpFl8/5uHgDBJVbExzfj02PP5Y7RiJvutng4lWywAkB7sMLiFdyP8UFkTvj6y3Bqp+oRu4rGrlINbTtJ72EP6PvPVu600Oq4GHLELwiG3VT85qkv6i+BzAXyUqs8T467zIvIo7NX6AgYPdQ2fN1baoQoVckUPrnPiyZlJNCLPBhHFC9Bzkqrk7L+ul0bNY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366007)(376005)(1800799015); DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Tzh6dEtleHAzcVpmMGY4aExTalp2dllIZUVsQkd6ZkkyRU5lNFNmc3psNFlP?=
+ =?utf-8?B?V01ISXFiSHV4SXdLOTBFMlBxcjBtR0Q4eDAwU2FOMm9ZMlVzclIrQWlBMk9W?=
+ =?utf-8?B?cVhVMnBleVZ5ZUVTMXdKTnd2MEZkaVAyMXoxd0x1T3RabU9qMVg4Z05lQ0NL?=
+ =?utf-8?B?RVdJYllBTThMb3FMSlJIZk15WU03ZVM5aktwVHBEWXRrMXFuYmVhWXd0VTcy?=
+ =?utf-8?B?N0dUWmtCS2lDRGlFNFlRYXBmVzR5cDU1WXpkNHlkeTNxa0RLU2w0OXIyMVBn?=
+ =?utf-8?B?eUJsWktlS1FIM29LV0p0OWFDUnVnV0tqQyswTldiRHIwUk1UVThzUEdmNFE1?=
+ =?utf-8?B?Zmx6S0tFL2xNaDcxR3A1bFIvL2EyRmNuNk02Q1o4VVhmV1pGeWFnMXBpbmNN?=
+ =?utf-8?B?Y241ZWVjOXFVRnVweEpoOW1pMi9PR1pTY0FLWWlkemNLN3hvRHFoRmRvWDN4?=
+ =?utf-8?B?QXFBQ3ltbUF1dWxEZDZjbHdGa24xN1RWaVhDcDN0b2ZkTnVOQ0o1amxVYXQ0?=
+ =?utf-8?B?Z0dhdDQyQjNZNlJleDRudVlzcGo4MzhYMXlsRFpOOW5ibGNlUStNeUZWZTQz?=
+ =?utf-8?B?SlhsbWpoVWNaSWpRcWFnYUk4d25BYVVtWTlpMlBRVFB3OWdiT2lqY3VUbjRH?=
+ =?utf-8?B?QkJzZG5BSjFtaThHZ3ZGUUd1Ui9sM1FYaUlyYmJ2QWpIK1N2d2NUNDM3eFBS?=
+ =?utf-8?B?VzR6ZEVtZVdaWXJ2cGdJb0NneVloQnBZSmFoaHpIaHorRFI5UFl3OUdFV09S?=
+ =?utf-8?B?YnlmWnJpQW9rdWJjeit3VXY4TUVmeWJ2dVVkbGM2NW9FdFJmVUZXdXEvYjkw?=
+ =?utf-8?B?UGNwT0RCVUUxRXpUSXEvdmNRTDlYWlM4Tkp3UVlsSCsxMkk3NlRUTG9DdU9j?=
+ =?utf-8?B?cjZMVXpjcVVNYWFJK3FQVVNydGZTYTluU1dNamdwVHRCK1hXODl4ZGZYY0sr?=
+ =?utf-8?B?YTNnSEJLcnhnNDR2WVp0SGpMTU43SjFGSVE3YllCbmNJZEpVOHlWWmRVM0l4?=
+ =?utf-8?B?K1lUR21EQ0hyaGx1SzhMaElLZURLOUxuT0FsbFcyd0FpVnErdlkrMmRHSmxv?=
+ =?utf-8?B?VWV2U2ZNMkdMM2wzSEJKMVFMRmZmeU52c0NsU2JwdmJEa0VYL0RldkIxZWx3?=
+ =?utf-8?B?ODM2TG8xRHJZanVFckxvNlc1bDl2cEZOUmJCVnh1RDU0QXVzWVZpYzgyeVM5?=
+ =?utf-8?B?RytVQXFySDRYWWRVdHRVdHZpeW5oNEJObkk4Nkc1Zm53UFIrOS9NTThJRkZ0?=
+ =?utf-8?B?VWx4bHV0dGtVbDc2M0FFQ3JKeHZRY3ZhVTN0QTJyd0dSdVBxSzNFSUx4R2JO?=
+ =?utf-8?B?MklUdjRSczBqTENnUFBGVm1hNzRUQ1FNdHkydzM4NjJZN1BOK2lINzlhM1ZJ?=
+ =?utf-8?B?TlhLVmJlTU9PSXgrMXVBaUdDSTNNV3lXbFIxR1FEMm95cHNyblh2dExZUW1i?=
+ =?utf-8?B?ZzJPODhnc2hidnl5ZHRMRDZIaUJGczdwQk1HaVNGczdzTXU1U2FrUHZyQ2Yz?=
+ =?utf-8?B?TGs0S1JrQ0V0ZGwrVlpzbVM4ZmFPZ1daRlhkbjZkZk5Xam5JMXd1ZWJZbkhr?=
+ =?utf-8?B?aENmQjF3Vng0WENQc2xpVEE2K1VqL01LZWZnM01BdUxwZHNkcWhTZ3RUMVln?=
+ =?utf-8?B?dEprTEFkeVpTLzVmYzc0c2xtUjByWC8vbzR4UTI0Q3JTOTdnWnFPV0VsNFhQ?=
+ =?utf-8?B?MkxtTGJhd2RGbzVHSC9XOHlKRzNFTTNpK1g1ck5FOVRteGFHcnRFQUhIRTBl?=
+ =?utf-8?B?MThDbzR2Umh3bFMxMUhBQThIU1EzbUszYWl1UUJEYlRxaVhpNmNsSHJGOXF1?=
+ =?utf-8?B?YXo2ZERGZkdneERCWC9PMEZET0JIYkJ0Q0pOOXNQUnpKSUd1Mk14Vjh1WWhF?=
+ =?utf-8?B?c1VrV2l2bUlQalRJOTdLUG83bnJNYVAySzVxTUJyNWxZMW10andRWkErYWVz?=
+ =?utf-8?B?cWZmeGtFRGVCY1d5THVYMmVVUHJ3eE9QMmR6T25tWkEzRy9iOC9TTm9mRzdX?=
+ =?utf-8?B?L0hNTFoyRHE3bCsreHJGKzB6bnliaVU3ZW9zRGJsdkc4MGN4MXNlVFIrcUFN?=
+ =?utf-8?B?WTVkN2kzR0owSk9sc0dkZVR4LytrcHlRRmo2Rm5SQm9Qd2ZsdkhrUEM0SWU5?=
+ =?utf-8?Q?zqaQ=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f679758-6434-40b7-1161-08dc57e4e4c5
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2024 15:59:38.4957 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hIYZAbv13bFpqMnfSpFuyebrcN7ySTKYeFXJ92h5tp1kJJGxzuGF0nKqzhMqUzw/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8036
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,17 +130,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 02, 2024 at 05:20:51PM -0700, Mina Almasry wrote:
-> +static char *server_ip = "192.168.1.4";
-> +static char *client_ip = "192.168.1.2";
-> +static char *port = "5201";
-> +static size_t do_validation;
-> +static int start_queue = 8;
-> +static int num_queues = 8;
-> +static char *ifname = "eth1";
-> +static unsigned int ifindex = 3;
-> +static char *nic_pci_addr = "0000:06:00.0";
+Am 08.04.24 um 17:56 schrieb Zack Rusin:
+> Stop printing the TT memory decryption status info each time tt is created
+> and instead print it just once.
+>
+> Reduces the spam in the system logs when running guests with SEV enabled.
 
-It seems this is set but never used.
+Do we then really need this in the first place?
 
-Thanks.
+Regards,
+Christian.
+
+>
+> Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+> Fixes: 71ce046327cf ("drm/ttm: Make sure the mapped tt pages are decrypted when needed")
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: <stable@vger.kernel.org> # v5.14+
+> ---
+>   drivers/gpu/drm/ttm/ttm_tt.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+> index 578a7c37f00b..d776e3f87064 100644
+> --- a/drivers/gpu/drm/ttm/ttm_tt.c
+> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
+> @@ -92,7 +92,7 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc)
+>   	 */
+>   	if (bdev->pool.use_dma_alloc && cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT)) {
+>   		page_flags |= TTM_TT_FLAG_DECRYPTED;
+> -		drm_info(ddev, "TT memory decryption enabled.");
+> +		drm_info_once(ddev, "TT memory decryption enabled.");
+>   	}
+>   
+>   	bo->ttm = bdev->funcs->ttm_tt_create(bo, page_flags);
+
