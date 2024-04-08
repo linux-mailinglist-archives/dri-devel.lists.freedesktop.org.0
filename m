@@ -2,91 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF05189B909
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 09:48:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BFA389B92C
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 09:50:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A9BD1121DE;
-	Mon,  8 Apr 2024 07:48:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B02E91121FF;
+	Mon,  8 Apr 2024 07:50:27 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="IbRjOK4W";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C72F810FF29;
- Mon,  8 Apr 2024 07:48:20 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2B55A60EAB;
- Mon,  8 Apr 2024 07:48:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A6E6C433F1;
- Mon,  8 Apr 2024 07:48:17 +0000 (UTC)
-Message-ID: <12daffe3-ae5e-4b0f-bb61-3dd233e344bb@xs4all.nl>
-Date: Mon, 8 Apr 2024 09:48:15 +0200
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8680D112207
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 07:50:23 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 746921BF205;
+ Mon,  8 Apr 2024 07:50:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1712562621;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fG5x70aSVPk+aHFK4ec69DT/VHGbN6aSFCoxCXffed8=;
+ b=IbRjOK4WLhYsNIbnehCCoP4RUaqyJ2SYfo9S0zUrUFZF/ppNhhyTDismX2AYRO8iN1dSKg
+ JgIbhvuGPwtXmxI8Fh3y5CXy8lchx9K8wUWlgu6BpL99DFPb/L8EAA88aiKrPwyk019/PM
+ r1TI+bRZv11MPaKwO4oq5/1APWf1x3MmF9igHP5EPxlCYSpjIu0IaiTDDyLCo0i9Aadywe
+ pDUHHF4hsiAsigG+w+VRYjf/DeTAn5wKkraPUxj6C350S+QLqCJZpX2aXOd3q5FbaF1R7y
+ QVLfUOylc1urdLGM54Ouvd52XdhAHlpx5sMqDlLXM3pRTeCKByq1f0kV7iw5SQ==
+Date: Mon, 8 Apr 2024 09:50:18 +0200
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Pekka Paalanen <pekka.paalanen@collabora.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, arthurgrillo@riseup.net,
+ Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
+Subject: Re: [PATCH v5 08/16] drm/vkms: Avoid computing blending limits
+ inside pre_mul_alpha_blend
+Message-ID: <ZhOhuh61AoGxaxTL@louis-chauvet-laptop>
+Mail-Followup-To: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, arthurgrillo@riseup.net,
+ Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
+References: <20240313-yuv-v5-0-e610cbd03f52@bootlin.com>
+ <20240313-yuv-v5-8-e610cbd03f52@bootlin.com>
+ <20240325144101.6d9fcf7e.pekka.paalanen@collabora.com>
+ <ZgLwTNsehDG4z6Bo@localhost.localdomain>
+ <20240327134821.3a985ab5.pekka.paalanen@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v0 00/14] Make I2C terminology more inclusive for I2C
- Algobit and consumers
-Content-Language: en-US, nl
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Easwar Hariharan <eahariha@linux.microsoft.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
-References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
- <ffumcagmzdstcf3qcn3f26555pnu7i6azjppciyd4zvcoit7pv@vu262tsfnqyr>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <ffumcagmzdstcf3qcn3f26555pnu7i6azjppciyd4zvcoit7pv@vu262tsfnqyr>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240327134821.3a985ab5.pekka.paalanen@collabora.com>
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,53 +88,189 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/04/2024 12:18, Wolfram Sang wrote:
-> Hello Easwar,
+Le 27/03/24 - 13:48, Pekka Paalanen a écrit :
+> On Tue, 26 Mar 2024 16:57:00 +0100
+> Louis Chauvet <louis.chauvet@bootlin.com> wrote:
 > 
-> On Fri, Mar 29, 2024 at 05:00:24PM +0000, Easwar Hariharan wrote:
->> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
->> with more appropriate terms. Inspired by and following on to Wolfram's
->> series to fix drivers/i2c/[1], fix the terminology for users of the
->> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
->> in the specification.
+> > Le 25/03/24 - 14:41, Pekka Paalanen a écrit :
+> > > On Wed, 13 Mar 2024 18:45:02 +0100
+> > > Louis Chauvet <louis.chauvet@bootlin.com> wrote:
+> > >   
+> > > > The pre_mul_alpha_blend is dedicated to blending, so to avoid mixing
+> > > > different concepts (coordinate calculation and color management), extract
+> > > > the x_limit and x_dst computation outside of this helper.
+> > > > It also increases the maintainability by grouping the computation related
+> > > > to coordinates in the same place: the loop in `blend`.
+> > > > 
+> > > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > > > ---
+> > > >  drivers/gpu/drm/vkms/vkms_composer.c | 40 +++++++++++++++++-------------------
+> > > >  1 file changed, 19 insertions(+), 21 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+> > > > index da0651a94c9b..9254086f23ff 100644
+> > > > --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> > > > +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> > > > @@ -24,34 +24,30 @@ static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
+> > > >  
+> > > >  /**
+> > > >   * pre_mul_alpha_blend - alpha blending equation
+> > > > - * @frame_info: Source framebuffer's metadata
+> > > >   * @stage_buffer: The line with the pixels from src_plane
+> > > >   * @output_buffer: A line buffer that receives all the blends output
+> > > > + * @x_start: The start offset to avoid useless copy  
+> > > 
+> > > I'd say just:
+> > > 
+> > > + * @x_start: The start offset
+> > > 
+> > > It describes the parameter, and the paragraph below explains the why.
+> > > 
+> > > It would be explaining, that x_start applies to output_buffer, but
+> > > input_buffer is always read starting from 0.  
+> > 
+> > I will change it to:
+> > 
+> >  * Using @x_start and @count information, only few pixel can be blended instead of the whole line
+> >  * each time. @x_start is only used for the output buffer. The staging buffer is always read from
+> >  * the start (0..@count in stage_buffer is blended at @x_start..@x_start+@count in output_buffer).
 > 
-> I really appreciate that you want to assist in this task to improve the
-> I2C core. I do. I am afraid, however, that you took the second step
-> before the first one, though. As I mentioned in my original cover
-> letter, this is not only about renaming but also improving the I2C API
-> (splitting up header files...). So, drivers are not a priority right
-> now. They can be better fixed once the core is ready.
+> The important part is
 > 
-> It is true that I changed quite some controller drivers within the i2c
-> realm. I did this to gain experience. As you also noticed quite some
-> questions came up. We need to agree on answers first. And once we are
-> happy with the answers we found, then IMO we can go outside of the i2c
-> realm and send patches to other subsystems referencing agreed
-> precedence. I intentionally did not go outside i2c yet. Since your
-> patches are already there, you probably want to foster them until they
-> are ready for inclusion. Yet, regarding further patches, my suggestion
-> is to wait until the core is ready. That might take a while, though.
-> However, there is enough to discuss until the core is ready. So, your
-> collaboration there is highly appreciated!
+> 0..@count in stage_buffer is blended at @x_start..@x_start+@count in output_buffer
 > 
->> The last patch updating the .master_xfer method to .xfer depends on
->> patch 1 of Wolfram's series below, but the series is otherwise
->> independent. It may make sense for the last patch to go in with
-> 
-> Please drop the last patch from this series. It will nicely remove the
-> dependency. Also, like above, I first want to gain experience with i2c
-> before going to other subsystems. That was intended.
+> and everything else from that paragraph is not really adding much.
 
-OK, based on this I'll mark the media patches in this series as 'Deferred'
-in our patchwork.
+Ok, I will only keep this sentence.
+ 
+> Remember to update the doc in "drm/vkms: Re-introduce line-per-line
+> composition  algorithm" to follow the changes.
 
-Regards,
-
-	Hans
+Thanks for the reminder, I will check!
 
 > 
-> All the best and happy hacking,
+> > > > + * @count: The number of byte to copy  
+> > > 
+> > > You named it pixel_count, and it counts pixels, not bytes. It's not a
+> > > copy but a blend into output_buffer.  
+> > 
+> > Oops, fixed in v6.
+> >  
+> > > >   *
+> > > > - * Using the information from the `frame_info`, this blends only the
+> > > > - * necessary pixels from the `stage_buffer` to the `output_buffer`
+> > > > - * using premultiplied blend formula.
+> > > > + * Using @x_start and @count information, only few pixel can be blended instead of the whole line
+> > > > + * each time.
+> > > >   *
+> > > >   * The current DRM assumption is that pixel color values have been already
+> > > >   * pre-multiplied with the alpha channel values. See more
+> > > >   * drm_plane_create_blend_mode_property(). Also, this formula assumes a
+> > > >   * completely opaque background.
+> > > >   */
+> > > > -static void pre_mul_alpha_blend(struct vkms_frame_info *frame_info,
+> > > > -				struct line_buffer *stage_buffer,
+> > > > -				struct line_buffer *output_buffer)
+> > > > +static void pre_mul_alpha_blend(const struct line_buffer *stage_buffer,
+> > > > +				struct line_buffer *output_buffer, int x_start, int pixel_count)
+> > > >  {
+> > > > -	int x_dst = frame_info->dst.x1;
+> > > > -	struct pixel_argb_u16 *out = output_buffer->pixels + x_dst;
+> > > > -	struct pixel_argb_u16 *in = stage_buffer->pixels;
+> > > > -	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+> > > > -			    stage_buffer->n_pixels);
+> > > > -
+> > > > -	for (int x = 0; x < x_limit; x++) {
+> > > > -		out[x].a = (u16)0xffff;
+> > > > -		out[x].r = pre_mul_blend_channel(in[x].r, out[x].r, in[x].a);
+> > > > -		out[x].g = pre_mul_blend_channel(in[x].g, out[x].g, in[x].a);
+> > > > -		out[x].b = pre_mul_blend_channel(in[x].b, out[x].b, in[x].a);
+> > > > +	struct pixel_argb_u16 *out = &output_buffer->pixels[x_start];
+> > > > +	const struct pixel_argb_u16 *in = stage_buffer->pixels;
+> > > > +
+> > > > +	for (int i = 0; i < pixel_count; i++) {
+> > > > +		out[i].a = (u16)0xffff;
+> > > > +		out[i].r = pre_mul_blend_channel(in[i].r, out[i].r, in[i].a);
+> > > > +		out[i].g = pre_mul_blend_channel(in[i].g, out[i].g, in[i].a);
+> > > > +		out[i].b = pre_mul_blend_channel(in[i].b, out[i].b, in[i].a);
+> > > >  	}
+> > > >  }
+> > > >  
+> > > > @@ -183,7 +179,7 @@ static void blend(struct vkms_writeback_job *wb,
+> > > >  {
+> > > >  	struct vkms_plane_state **plane = crtc_state->active_planes;
+> > > >  	u32 n_active_planes = crtc_state->num_active_planes;
+> > > > -	int y_pos;
+> > > > +	int y_pos, x_dst, x_limit;
+> > > >  
+> > > >  	const struct pixel_argb_u16 background_color = { .a = 0xffff };
+> > > >  
+> > > > @@ -201,14 +197,16 @@ static void blend(struct vkms_writeback_job *wb,
+> > > >  
+> > > >  		/* The active planes are composed associatively in z-order. */
+> > > >  		for (size_t i = 0; i < n_active_planes; i++) {
+> > > > +			x_dst = plane[i]->frame_info->dst.x1;
+> > > > +			x_limit = min_t(size_t, drm_rect_width(&plane[i]->frame_info->dst),
+> > > > +					stage_buffer->n_pixels);  
+> > > 
+> > > Are those input values to min_t() really of type size_t? Or why is
+> > > size_t here?  
+> > 
+> > n_pixel is size_t, drm_rect_width is int. I will change everything to int. 
+> > Is there a way to ask the compiler "please don't do implicit conversion 
+> > and report them as warn/errors"?
 > 
->    Wolfram
+> There probably is, you can find it in the gcc manual. However, I suspect
+> you would drown in warnings for cases where the implicit conversion is
+> wanted and an explicit cast is unwanted.
+
+That true, I found it (-Wconversion), but very noisy...
+
+Thanks,
+Louis Chauvet
+
+> 
+> Thanks,
+> pq
+> 
+> > > >  			y_pos = get_y_pos(plane[i]->frame_info, y);
+> > > >  
+> > > >  			if (!check_limit(plane[i]->frame_info, y_pos))
+> > > >  				continue;
+> > > >  
+> > > >  			vkms_compose_row(stage_buffer, plane[i], y_pos);
+> > > > -			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
+> > > > -					    output_buffer);
+> > > > +			pre_mul_alpha_blend(stage_buffer, output_buffer, x_dst, x_limit);  
+> > > 
+> > > I thought it was a count, not a limit?
+> > > 
+> > > "Limit" sounds to me like "end", and end - start = count.  
+> > 
+> > It is effectively a pixel count. I just took those naming from the 
+> > original pre_mul_alpha_blend. I will change it to pixel_count.
+> > 
+> > Thanks,
+> > Louis Chauvet
+> > 
+> > > >  		}
+> > > >  
+> > > >  		apply_lut(crtc_state, output_buffer);
+> > > >   
+> > > 
+> > > The details aside, this is a good move.
+> > > 
+> > > 
+> > > Thanks,
+> > > pq  
+> > 
+> > 
+> > 
 > 
 
+
+
+-- 
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
