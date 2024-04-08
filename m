@@ -2,73 +2,158 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F9AB89B9C3
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 10:10:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3166389B8A4
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 09:41:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D19211224E;
-	Mon,  8 Apr 2024 08:10:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 258031121D3;
+	Mon,  8 Apr 2024 07:41:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="C/6UyKEw";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="rqo4PwEq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XegZwyAP";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rqo4PwEq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XegZwyAP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
- [209.85.208.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1360B11224E
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 08:10:25 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id
- 4fb4d7f45d1cf-56bdf81706aso5509450a12.2
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Apr 2024 01:10:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712563823; x=1713168623; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=LOr2piSF59rBtL6qQkJRVxuVH7En2uLFiUAi/dy63d4=;
- b=C/6UyKEwT7vQwzqQzfdJFzYXaKRVpCymMjKbT0qZYojz40UMI07on8s9PVs7IqKL/R
- KfJUJnlBnH2xcDW3qqRYrLAYriyj/HZi2eRQetshRpoX3IRjSpwIfRKEwOQNjeS6Krvm
- oZ1BwuFawzfC8OQhBwm0OGFWB4DgIHRvoRwTIWMh/eHneQWaznWg06W4TewhnNj2k3GR
- CZTvp5U84qtM1a6eWw5zImsQUvjxjGbc5rpmyAc8J73Pq3pxPewIN/9CGJcmt8MAjVju
- 2Qp8VbUht+ZoubGX4ggjs8UhGYcQIH7w45qmzt0lf6vU172Hzc8JVz/jsKulGIeS7b2z
- RfPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712563823; x=1713168623;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LOr2piSF59rBtL6qQkJRVxuVH7En2uLFiUAi/dy63d4=;
- b=sGvt+wLrQvXwynAEGAlUU0tWZ29YmqUdi9bT6JYqgfEM/Yld0VvEUd+ykB7HMO0Pyz
- SYVaq4oS5JGdqhnSodwd0eeM3L1X3NLp1/9rhyzB46MuRtx3IOuFzafCbFu1Ow8mzjB+
- KkLGzuznjuMrLyVvn9V1yIfxB4Lr/GbQB550pOha88QRbupdyJy6yFJC3juW4RSrgq7r
- hbtoEURKwAbe3SmBGWj6cEUJJKHkwcYDZCx51GE+kRXJ1X1ZDy2fT+XtRzhDmp7wh43/
- HPMDhzNGwi36RTm3OuLJc5jubL6Q+cEDEvzXhXInZneyx4vPw/og1P1CW49MWEsoLDn9
- wwpQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU3RtBbB9wGIPA9Lpx5UhqaJBANh//kywwGy4NajeO266iVQb5yKzQm06irM/eKM71hwcqf1vg/0zBSg7TPTmqgq+G1I8smIIPwH3P9bR93
-X-Gm-Message-State: AOJu0YyD4fyoQR6slo5l7kmrFzPJLNIqobB89KJqYpfk0uV/5VxtmuAi
- 7/KTMX4t5ou7tVOi77KuuRW6gocS9MrdR7eVztcrVdWpYa5REozhZ6oOPXHsDmw=
-X-Google-Smtp-Source: AGHT+IHSMNUBKuLQipt6eiK/GpbVAIRoVBfOGY9eusOY9M1lS39qRZiKY7EBBCgcSpTRamQWTGpjPQ==
-X-Received: by 2002:a50:d6d2:0:b0:56e:2bf4:fe0a with SMTP id
- l18-20020a50d6d2000000b0056e2bf4fe0amr6239511edj.35.1712563823192; 
- Mon, 08 Apr 2024 01:10:23 -0700 (PDT)
-Received: from localhost ([102.222.70.76]) by smtp.gmail.com with ESMTPSA id
- b14-20020aa7c90e000000b0056e46beba6dsm2416447edt.16.2024.04.08.01.10.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Apr 2024 01:10:23 -0700 (PDT)
-Date: Mon, 8 Apr 2024 10:36:35 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: [PATCH] drm/panthor: clean up some types in panthor_sched_suspend()
-Message-ID: <85356b15-4840-4e64-8c75-922cdd6a5fef@moroto.mountain>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E52D1121D2;
+ Mon,  8 Apr 2024 07:41:13 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:98])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A906022627;
+ Mon,  8 Apr 2024 07:41:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1712562071; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=bsGCGQ79B7R1EBJ7je8XgDTFUmmCqP3FXPUlWRlIEaQ=;
+ b=rqo4PwEqbkeCGnV5AkSgWmy40mZ58233Mu7MLvreIRG0d2RJ7DkFnUaxdAEp2ZlCUm0og4
+ kThqfmykBf5VpNs1xRI+KVnK4ahYKJfXXFMYtArOE0sGuR/6MSRVFNvnhyPLI3S4RyIHzS
+ jPpbTttCnC0Jq5mbPQAJa2T8Bvd3R8M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1712562071;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=bsGCGQ79B7R1EBJ7je8XgDTFUmmCqP3FXPUlWRlIEaQ=;
+ b=XegZwyAPQ8C0XT2aRi0nkWOCIcoo3ewoN/PY2Gg2h/VD+xxp2LEkBPyaOF7McaF10Tsa+0
+ F2bmq1zUr1zv+RBw==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rqo4PwEq;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=XegZwyAP
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1712562071; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=bsGCGQ79B7R1EBJ7je8XgDTFUmmCqP3FXPUlWRlIEaQ=;
+ b=rqo4PwEqbkeCGnV5AkSgWmy40mZ58233Mu7MLvreIRG0d2RJ7DkFnUaxdAEp2ZlCUm0og4
+ kThqfmykBf5VpNs1xRI+KVnK4ahYKJfXXFMYtArOE0sGuR/6MSRVFNvnhyPLI3S4RyIHzS
+ jPpbTttCnC0Jq5mbPQAJa2T8Bvd3R8M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1712562071;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=bsGCGQ79B7R1EBJ7je8XgDTFUmmCqP3FXPUlWRlIEaQ=;
+ b=XegZwyAPQ8C0XT2aRi0nkWOCIcoo3ewoN/PY2Gg2h/VD+xxp2LEkBPyaOF7McaF10Tsa+0
+ F2bmq1zUr1zv+RBw==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 02D1513A92;
+ Mon,  8 Apr 2024 07:41:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id 4taoOpafE2bRFQAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Mon, 08 Apr 2024 07:41:10 +0000
+Message-ID: <9873332a-eafd-4ee4-b9a3-8db7f1cc4d9e@suse.de>
+Date: Mon, 8 Apr 2024 09:41:10 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 6/6] drm/i915: Implement fbdev emulation as in-kernel
+ client
+To: "Hogander, Jouni" <jouni.hogander@intel.com>,
+ "Upadhyay, Tejas" <tejas.upadhyay@intel.com>,
+ "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
+ "ogabbay@kernel.org" <ogabbay@kernel.org>,
+ "javierm@redhat.com" <javierm@redhat.com>,
+ "thomas.hellstrom@linux.intel.com" <thomas.hellstrom@linux.intel.com>,
+ "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
+ "Deak, Imre" <imre.deak@intel.com>,
+ "De Marchi, Lucas" <lucas.demarchi@intel.com>,
+ "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+ "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+References: <20240301134448.31289-1-tzimmermann@suse.de>
+ <20240301134448.31289-7-tzimmermann@suse.de>
+ <56b919497a8030839d8e4a2f946d4338b64b043d.camel@intel.com>
+ <92fdee78-40c5-41c7-b685-d785f53ee7d3@suse.de>
+ <4f2dcd973fa09f77d78f93830073ae30c468677b.camel@intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <4f2dcd973fa09f77d78f93830073ae30c468677b.camel@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.50 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; XM_UA_NO_VERSION(0.01)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_TO(0.00)[intel.com,linux.intel.com,kernel.org,redhat.com,gmail.com,ffwll.ch];
+ ARC_NA(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+ TO_DN_EQ_ADDR_SOME(0.00)[]; RCPT_COUNT_TWELVE(0.00)[17];
+ MIME_TRACE(0.00)[0:+]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap2.dmz-prg2.suse.org:helo,
+ imap2.dmz-prg2.suse.org:rdns, suse.de:dkim]
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: A906022627
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Score: -4.50
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,33 +169,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These variables should be u32 instead of u64 because they're only
-storing u32 values.  Also static checkers complain when we do:
+Hi
 
-	suspended_slots &= ~upd_ctx.timedout_mask;
+Am 05.04.24 um 11:04 schrieb Hogander, Jouni:
+> On Fri, 2024-04-05 at 10:59 +0200, Thomas Zimmermann wrote:
+>> Hi
+>>
+>> Am 05.04.24 um 10:34 schrieb Hogander, Jouni:
+>> [...]
+>>>>    
+>>>> diff --git a/drivers/gpu/drm/i915/i915_driver.c
+>>>> b/drivers/gpu/drm/i915/i915_driver.c
+>>>> index e0f13c62a1832..69178b73845e1 100644
+>>>> --- a/drivers/gpu/drm/i915/i915_driver.c
+>>>> +++ b/drivers/gpu/drm/i915/i915_driver.c
+>>>> @@ -816,6 +816,8 @@ int i915_driver_probe(struct pci_dev *pdev,
+>>>> const
+>>>> struct pci_device_id *ent)
+>>>>    
+>>>>           i915->do_release = true;
+>>>>    
+>>>> +       intel_fbdev_setup(i915);
+>>>> +
+>>> This doesn't work for Xe. I propose you move it to
+>>> drivers/gpu/drm/i915/display/intel_display_dirver.c:intel_display_d
+>>> rive
+>>> r_probe? Otherwise patch looks ok to me.
+>> Can you say why it doesn't work? It's been a while, but IIRC I ran
+>> this
+>> patch on xe for testing.
+> i915_driver_probe is not used by Xe driver and I can't find own call to
+> intel_fbdev_setup in Xe driver.
 
-In this code "suspended_slots" is a u64 and "upd_ctx.timedout_mask".  The
-mask clears out the top 32 bits which would likely be a bug if anything
-were stored there.
+Ok, thanks a lot for reviewing these patches. I'll send out an update soon.
 
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/gpu/drm/panthor/panthor_sched.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Best regards
+Thomas
 
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index d4bc652b34d5..b3a51a6de523 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -2546,7 +2546,7 @@ void panthor_sched_suspend(struct panthor_device *ptdev)
- {
- 	struct panthor_scheduler *sched = ptdev->scheduler;
- 	struct panthor_csg_slots_upd_ctx upd_ctx;
--	u64 suspended_slots, faulty_slots;
-+	u32 suspended_slots, faulty_slots;
- 	struct panthor_group *group;
- 	u32 i;
- 
+>
+> BR,
+>
+> Jouni Högander
+>   
+>> Best regards
+>> Thomas
+>>
+>>> BR,
+>>>
+>>> Jouni Högander
+>>>
+>>>
+>>>>           return 0;
+>>>>    
+>>>>    out_cleanup_gem:
+>>>> diff --git a/drivers/gpu/drm/xe/display/xe_display.c
+>>>> b/drivers/gpu/drm/xe/display/xe_display.c
+>>>> index cdbc3f04c80a7..ca5cbe1d8a03b 100644
+>>>> --- a/drivers/gpu/drm/xe/display/xe_display.c
+>>>> +++ b/drivers/gpu/drm/xe/display/xe_display.c
+>>>> @@ -214,9 +214,7 @@ void xe_display_fini(struct xe_device *xe)
+>>>>           if (!xe->info.enable_display)
+>>>>                   return;
+>>>>    
+>>>> -       /* poll work can call into fbdev, hence clean that up
+>>>> afterwards */
+>>>>           intel_hpd_poll_fini(xe);
+>>>> -       intel_fbdev_fini(xe);
+>>>>    
+>>>>           intel_hdcp_component_fini(xe);
+>>>>           intel_audio_deinit(xe);
+
 -- 
-2.43.0
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
