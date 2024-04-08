@@ -2,35 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78FB189C1B4
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 15:23:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5012E89C286
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 15:30:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6463D1125B5;
-	Mon,  8 Apr 2024 13:23:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFE331125D7;
+	Mon,  8 Apr 2024 13:30:51 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="IIL1o73o";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hs01.dakr.org (hs01.dk-develop.de [173.249.23.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 040961125B3;
- Mon,  8 Apr 2024 13:23:11 +0000 (UTC)
-Message-ID: <03263130-0627-45c4-ab14-aa0e3b597442@dakr.org>
-Date: Mon, 8 Apr 2024 15:23:01 +0200
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E40391125D5;
+ Mon,  8 Apr 2024 13:30:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=iEzhrV/4AZ1Q2iBVM+ClyexC/iuULKkkSDvEbS9aDPk=; b=IIL1o73oseMI77kloHVdkvTz8x
+ LtkUrLmDuqXg8+GctRIrzKBlKpX9jZowl0p045Upbr7ETmsrj8c0QkNKyBjXkxlKpJyNUcaxFEOQa
+ QLBEM1Jm736SjxOKz/LiMjSfuXQ2j/MnQvntp97qNLc8TEFNoBPW5cJ6vmyca7bFUn0QTFCizw2O9
+ c7dB9ELsRYjR59Gi6bdi6wEnJI8fRvyXfQt8PKh7YgMYuCAFMujSVBhrKDT/Cn+UC7h+TUcDNn6fw
+ vFQo6Ll8JSzkG7ID3epOlLMAAHhQ1NBSCtVrAiUGtBoXFKGz9+R0doDxwbeY4hrH9B7wODlY+ky8j
+ hOUpXzHw==;
+Received: from [189.6.17.125] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1rtp56-002VxU-Ee; Mon, 08 Apr 2024 15:30:41 +0200
+Date: Mon, 8 Apr 2024 10:30:09 -0300
+From: Melissa Wen <mwen@igalia.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ Ville Syrjala <ville.syrjala@linux.intel.com>,
+ Harry Wentland <harry.wentland@amd.com>, 
+ Mario Limonciello <mario.limonciello@amd.com>, Alex Hung <alex.hung@amd.com>
+Subject: Re: [PATCH 0/4] drm/edid & drm/i915: vendor and product id logging
+ improvements
+Message-ID: <y53wbwylvn4ybx3gdxb3r3w5harbkyavtqepdevnhygn5e63xs@z2iexp765n7o>
+References: <cover.1711015462.git.jani.nikula@intel.com>
+ <87zfucdu9v.fsf@intel.com>
+ <2qptajfrvnotxjyymphzrqyjxcrof46rlnjto62j6wtkanzk5g@e6oek426opcj>
+ <87o7ak9f86.fsf@intel.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm: nv04: Add check to avoid out of bounds access
-To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@redhat.com>,
- Mikhail Kobuk <m.kobuk@ispras.ru>, Karol Herbst <kherbst@redhat.com>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Francisco Jerez <currojerez@riseup.net>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- lvc-project@linuxtesting.org, Fedor Pchelkin <pchelkin@ispras.ru>,
- Alexey Khoroshilov <khoroshilov@ispras.ru>
-References: <20240331064552.6112-1-m.kobuk@ispras.ru>
- <c3253f8a-e654-4016-b0c6-d92703107c48@redhat.com>
- <11096e558e67f2fea2aee976c70a19af1b7c212b.camel@redhat.com>
-Content-Language: en-US
-From: Danilo Krummrich <me@dakr.org>
-In-Reply-To: <11096e558e67f2fea2aee976c70a19af1b7c212b.camel@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87o7ak9f86.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,90 +65,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/5/24 22:05, Lyude Paul wrote:
-> On Fri, 2024-04-05 at 17:53 +0200, Danilo Krummrich wrote:
->> On 3/31/24 08:45, Mikhail Kobuk wrote:
->>> Output Resource (dcb->or) value is not guaranteed to be non-zero
->>> (i.e.
->>> in drivers/gpu/drm/nouveau/nouveau_bios.c, in
->>> 'fabricate_dcb_encoder_table()'
->>> 'dcb->or' is assigned value '0' in call to
->>> 'fabricate_dcb_output()').
->>
->> I don't really know much about the semantics of this code.
->>
->> Looking at fabricate_dcb_output() though I wonder if the intention
->> was to assign
->> BIT(or) to entry->or.
->>
->> @Lyude, can you help here?
+On 04/08, Jani Nikula wrote:
+> On Mon, 08 Apr 2024, Melissa Wen <mwen@igalia.com> wrote:
+> > On 04/02, Jani Nikula wrote:
+> >> On Thu, 21 Mar 2024, Jani Nikula <jani.nikula@intel.com> wrote:
+> >> > Jani Nikula (4):
+> >> >   drm/edid: add drm_edid_get_product_id()
+> >> >   drm/edid: add drm_edid_print_product_id()
+> >> >   drm/i915/bios: switch to struct drm_edid and struct
+> >> >     drm_edid_product_id
+> >> >   drm/i915/bios: return drm_edid_product_id from get_lvds_pnp_id()
+> >> 
+> >> Ping for reviews please? This should be helpful in eradicating one class
+> >> of drm_edid_raw() uses.
+> >
+> > Hi Jani,
+> >
+> > I took a look at the series. AFAIU your solution with
+> > `drm_edid_product_id` mostly fits AMD display driver needs, except that
+> > it needs the `product_code` split into two parts (like manufacturer
+> > name) because the driver handles prod_code parts to configure a register
+> > for audio, as in the path below:
+> >
+> > 1. https://gitlab.freedesktop.org/drm/kernel/-/blob/drm-next/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c#L113
+> > 2. https://gitlab.freedesktop.org/drm/kernel/-/blob/drm-next/drivers/gpu/drm/amd/display/dc/core/dc_stream.c#L90
+> > 3. https://gitlab.freedesktop.org/drm/kernel/-/blob/drm-next/drivers/gpu/drm/amd/display/dc/dce/dce_audio.c#L873
+> >
+> > What do you think on keeping `prod_code` split into two part in
+> > `drm_edid_product_id`?
 > 
-> This code is definitely a bit before my time as well - but I think
-> you're completely correct. Especially considering this bit I found in
-> nouveau_bios.h:
+> I think having it as "__le16 product_code" is better and
+> self-documenting. This is what the spec says it is, so why split it to
+> two parts where you always need to wonder about the byte order?
 
-Thanks for confirming.
+I have no strong opinion, I was only thinking that two parts would make
+this `edid_buf->prod_code[0] | edid_buf->prod_code[1] << 8` operation
+more intuitive.
 
-@Mikhail, I think we should rather fix this assignment then.
+As you mentioned the currrent product_code format fits specs better, I
+understand we can get the same result on amd with:
+le16_to_cpu() --> split --> second part shift.
 
-- Danilo
+Anyway, it's certainly not a blocker. The series LGTM.
+
+Acked-by: Melissa Wen <mwen@igalia.com>
 
 > 
-> enum nouveau_or {
-> 	DCB_OUTPUT_A = (1 << 0),
-> 	DCB_OUTPUT_B = (1 << 1),
-> 	DCB_OUTPUT_C = (1 << 2)
-> };
+> This is how you'd use it:
 > 
+> 	edid_caps->product_id = le16_to_cpu(id->product_code);
 > 
->>
->> Otherwise, for parsing the DCB entries, it seems that the bound
->> checks are
->> happening in olddcb_outp_foreach() [1].
->>
->> [1]
->> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/nouveau/nouveau_bios.c#L1331
->>
->>>
->>> Add check to validate 'dcb->or' before it's used.
->>>
->>> Found by Linux Verification Center (linuxtesting.org) with SVACE.
->>>
->>> Fixes: 2e5702aff395 ("drm/nouveau: fabricate DCB encoder table for
->>> iMac G4")
->>> Signed-off-by: Mikhail Kobuk <m.kobuk@ispras.ru>
->>> ---
->>>    drivers/gpu/drm/nouveau/dispnv04/dac.c | 4 ++--
->>>    1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/nouveau/dispnv04/dac.c
->>> b/drivers/gpu/drm/nouveau/dispnv04/dac.c
->>> index d6b8e0cce2ac..0c8d4fc95ff3 100644
->>> --- a/drivers/gpu/drm/nouveau/dispnv04/dac.c
->>> +++ b/drivers/gpu/drm/nouveau/dispnv04/dac.c
->>> @@ -428,7 +428,7 @@ void nv04_dac_update_dacclk(struct drm_encoder
->>> *encoder, bool enable)
->>>    	struct drm_device *dev = encoder->dev;
->>>    	struct dcb_output *dcb = nouveau_encoder(encoder)->dcb;
->>>    
->>> -	if (nv_gf4_disp_arch(dev)) {
->>> +	if (nv_gf4_disp_arch(dev) && ffs(dcb->or)) {
->>>    		uint32_t *dac_users = &nv04_display(dev)-
->>>> dac_users[ffs(dcb->or) - 1];
->>>    		int dacclk_off = NV_PRAMDAC_DACCLK +
->>> nv04_dac_output_offset(encoder);
->>>    		uint32_t dacclk = NVReadRAMDAC(dev, 0,
->>> dacclk_off);
->>> @@ -453,7 +453,7 @@ bool nv04_dac_in_use(struct drm_encoder
->>> *encoder)
->>>    	struct drm_device *dev = encoder->dev;
->>>    	struct dcb_output *dcb = nouveau_encoder(encoder)->dcb;
->>>    
->>> -	return nv_gf4_disp_arch(encoder->dev) &&
->>> +	return nv_gf4_disp_arch(encoder->dev) && ffs(dcb->or) &&
->>>    		(nv04_display(dev)->dac_users[ffs(dcb->or) - 1] &
->>> ~(1 << dcb->index));
->>>    }
->>>    
->>
+> BR,
+> Jani.
 > 
+> >
+> > (cc'ing some AMD devs that might have a better understanding of this use case)
+> >
+> > Thanks a lot for addressing this pending issue!
+> >
+> > Melissa
+> >
+> >> 
+> >> BR,
+> >> Jani.
+> >> 
+> >> 
+> >> >
+> >> >  drivers/gpu/drm/drm_edid.c                | 50 +++++++++++++++++++++++
+> >> >  drivers/gpu/drm/i915/display/intel_bios.c | 49 ++++++++++------------
+> >> >  include/drm/drm_edid.h                    | 28 ++++++++++---
+> >> >  3 files changed, 94 insertions(+), 33 deletions(-)
+> >> 
+> >> -- 
+> >> Jani Nikula, Intel
+> 
+> -- 
+> Jani Nikula, Intel
