@@ -2,67 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4502189BDC5
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 13:08:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66A9E89BDDF
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 13:15:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C602112464;
-	Mon,  8 Apr 2024 11:08:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 581EA112465;
+	Mon,  8 Apr 2024 11:15:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Ht5rXnBv";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="cSSVLPkK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TPodpi/d";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cSSVLPkK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TPodpi/d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5076410E03A
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 11:07:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=G8yNq+5/1rE8/5Dwk4z6wsHTs+C7YBQ68IPG6F+ovZ4=; b=Ht5rXnBvynUwwe/qU0kYhHgQC1
- 6P0cPSJATQGx0nHe6NQoKbIkAmZjdBsLxkIa1HDIwNH57McaHgs8iZZGafYVY0CT1k2YSrv/JXoLC
- lU1xexwN53IQORZdi08jz9lI3P23ebeejTcI9ju67bd92HMrJG6sVU9RnXVQjZEIO2hBdWmA5RqTX
- pBNcS2stYbU5lGoEQ4GroAZCjXMySrSkpm1bq4gjyJb+OnCKAqvznji/nRJ1uftpEzUR2ShDvjPi5
- B5zT8m+MiBJ1mdoGZmysdTkN19nHGFtE4ta1ShF1jAyLYX0NjM3LdyGj/JyF7xzLeYv5x2E3ePXRg
- Ovd53EVQ==;
-Received: from [177.34.169.255] (helo=[192.168.0.139])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1rtmqY-002Tcn-Hz; Mon, 08 Apr 2024 13:07:30 +0200
-Message-ID: <eb52c5b7-074e-4f63-a5c4-c693190b5805@igalia.com>
-Date: Mon, 8 Apr 2024 08:07:20 -0300
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D078112470;
+ Mon,  8 Apr 2024 11:15:04 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7F22F202E4;
+ Mon,  8 Apr 2024 11:15:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1712574902; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=a0CVn0IswIjV4VQnYbm4xt2waAbsmXxMBUxkStjBtos=;
+ b=cSSVLPkKrvCO4edTUqAUPbSfNew3Kox+WicyTVU9osbBP3mMCVl2aqTBoCuzOpLELJEuws
+ SrQuLGMD+yhvjqIA/mOR7/Smg5JDg1xq3k/G1XZtmkSQ62lATfv7dGyUEltZg00VqT86d5
+ dwLPRDLjkGdz8/VlAVBZtje8Bmru38A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1712574902;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=a0CVn0IswIjV4VQnYbm4xt2waAbsmXxMBUxkStjBtos=;
+ b=TPodpi/dV2zNY49LD6iMm1eJw5f17RZkZISeM3GgAwtNawiMmbe6b+y1SYXJtm8SYNRMrv
+ 5mFL9VwR5v83GXCw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1712574902; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=a0CVn0IswIjV4VQnYbm4xt2waAbsmXxMBUxkStjBtos=;
+ b=cSSVLPkKrvCO4edTUqAUPbSfNew3Kox+WicyTVU9osbBP3mMCVl2aqTBoCuzOpLELJEuws
+ SrQuLGMD+yhvjqIA/mOR7/Smg5JDg1xq3k/G1XZtmkSQ62lATfv7dGyUEltZg00VqT86d5
+ dwLPRDLjkGdz8/VlAVBZtje8Bmru38A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1712574902;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=a0CVn0IswIjV4VQnYbm4xt2waAbsmXxMBUxkStjBtos=;
+ b=TPodpi/dV2zNY49LD6iMm1eJw5f17RZkZISeM3GgAwtNawiMmbe6b+y1SYXJtm8SYNRMrv
+ 5mFL9VwR5v83GXCw==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 4AC6F13A92;
+ Mon,  8 Apr 2024 11:15:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id Z3pTELbRE2avQwAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Mon, 08 Apr 2024 11:15:02 +0000
+Message-ID: <67e8ac8c-e73c-4b51-b4aa-122ba5041c23@suse.de>
+Date: Mon, 8 Apr 2024 13:15:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panfrost: Show overall GPU usage stats through sysfs
- knob
-To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- kernel@collabora.com, Christopher Healy <healych@amazon.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240404140014.1022816-1-adrian.larumbe@collabora.com>
- <364bd804-2be6-4a0a-a3d2-e6fa136a73ab@igalia.com>
- <6aoklcyuvvxgqecjzatn2xopevbsrejhkvzmcqosbu2wkngtui@36gynkk5fay6>
+Subject: Re: [PATCH v2 0/7] drm: debug logging improvements
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ ville.syrjala@linux.intel.com
+References: <cover.1712568037.git.jani.nikula@intel.com>
 Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <6aoklcyuvvxgqecjzatn2xopevbsrejhkvzmcqosbu2wkngtui@36gynkk5fay6>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <cover.1712568037.git.jani.nikula@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.29
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ MIME_TRACE(0.00)[0:+]; TO_DN_SOME(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]; ARC_NA(0.00)[];
+ RCVD_TLS_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_FIVE(0.00)[5]; FROM_EQ_ENVFROM(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,211 +139,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/4/24 18:30, Adrián Larumbe wrote:
-> On 04.04.2024 11:31, Maíra Canal wrote:
->> On 4/4/24 11:00, Adrián Larumbe wrote:
->>> This changeset is heavily inspired by commit 509433d8146c ("drm/v3d: Expose
->>> the total GPU usage stats on sysfs"). The point is making broader GPU
->>> occupancy numbers available through the sysfs interface, so that for every
->>> job slot, its number of processed jobs and total processing time are
->>> displayed.
->>
->> Shouldn't we make this sysfs interface a generic DRM interface?
->> Something that would be standard for all drivers and that we could
->> integrate into gputop in the future.
-> 
-> I think the best way to generalise this sysfs knob would be to create a DRM
-> class attribute somewhere in drivers/gpu/drm/drm_sysfs.c and then adding a new
-> function to 'struct drm_driver' that would return a structure with the relevant
-> information (execution units and their names, number of processed jobs, etc).
+Hi
 
-These is exactly what I was thinking about.
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-> 
-> What that information would exactly be is up to debate, I guess, since different
-> drivers might be interested in showing different bits of information.
+for patches 5 to 7.
 
-I believe we can start with the requirements of V3D and Panfrost and 
-them, expand from it.
+Best regards
+Thomas
 
-> 
-> Laying that down is important because the sysfs file would become part of the
-> device class API.
+Am 08.04.24 um 11:23 schrieb Jani Nikula:
+> v2 of [1], dropping drm_mode_print() stuff altogether, and switching to
+> DRM_MODE_FMT/DRM_MODE_ARG() in a separate patch. Also add a few more drm
+> device based logging conversion patches, so the last patch makes more sense.
+>
+> BR,
+> Jani.
+>
+> [1] https://patchwork.freedesktop.org/series/130881/
+>
+> Jani Nikula (7):
+>    drm/probe-helper: switch to drm device based logging
+>    drm/modes: switch to drm device based error logging
+>    drm/sysfs: switch to drm device based logging
+>    drm/client: switch to drm device based logging, and more
+>    drm/crtc: switch to drm device based logging
+>    drm/crtc-helper: switch to drm device based logging and warns
+>    drm: prefer DRM_MODE_FMT/ARG over drm_mode_debug_printmodeline()
+>
+>   drivers/gpu/drm/drm_atomic_uapi.c    |   6 +-
+>   drivers/gpu/drm/drm_client_modeset.c | 129 +++++++++++++++------------
+>   drivers/gpu/drm/drm_crtc.c           |  38 ++++----
+>   drivers/gpu/drm/drm_crtc_helper.c    | 100 +++++++++++----------
+>   drivers/gpu/drm/drm_modes.c          |  40 ++++-----
+>   drivers/gpu/drm/drm_probe_helper.c   |  39 ++++----
+>   drivers/gpu/drm/drm_sysfs.c          |  20 ++---
+>   7 files changed, 193 insertions(+), 179 deletions(-)
+>
 
-My PoV: it is important, but not completly tragic if we don't get it
-perfect. Just like fdinfo, which is evolving.
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-> 
-> I might come up with a new RFC patch series that does precisely that, at least
-> for v3d and Panfrost, and maybe other people could pitch in with the sort of
-> things they'd like to see for other drivers?
-
-Yeah, this would be a great idea. Please, CC me on this series.
-
-Best Regards,
-- Maíra
-
-> 
-> Cheers,
-> Adrian
-> 
->> Best Regards,
->> - Maíra
->>
->>>
->>> Cc: Boris Brezillon <boris.brezillon@collabora.com>
->>> Cc: Christopher Healy <healych@amazon.com>
->>> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
->>> ---
->>>    drivers/gpu/drm/panfrost/panfrost_device.h |  5 +++
->>>    drivers/gpu/drm/panfrost/panfrost_drv.c    | 49 ++++++++++++++++++++--
->>>    drivers/gpu/drm/panfrost/panfrost_job.c    | 17 +++++++-
->>>    drivers/gpu/drm/panfrost/panfrost_job.h    |  3 ++
->>>    4 files changed, 68 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
->>> index cffcb0ac7c11..1d343351c634 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
->>> @@ -169,6 +169,11 @@ struct panfrost_engine_usage {
->>>    	unsigned long long cycles[NUM_JOB_SLOTS];
->>>    };
->>> +struct panfrost_slot_usage {
->>> +	u64 enabled_ns;
->>> +	u64 jobs_sent;
->>> +};
->>> +
->>>    struct panfrost_file_priv {
->>>    	struct panfrost_device *pfdev;
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
->>> index ef9f6c0716d5..6afcde66270f 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
->>> @@ -8,6 +8,7 @@
->>>    #include <linux/pagemap.h>
->>>    #include <linux/platform_device.h>
->>>    #include <linux/pm_runtime.h>
->>> +#include <linux/sched/clock.h>
->>>    #include <drm/panfrost_drm.h>
->>>    #include <drm/drm_drv.h>
->>>    #include <drm/drm_ioctl.h>
->>> @@ -524,6 +525,10 @@ static const struct drm_ioctl_desc panfrost_drm_driver_ioctls[] = {
->>>    	PANFROST_IOCTL(MADVISE,		madvise,	DRM_RENDER_ALLOW),
->>>    };
->>> +static const char * const engine_names[] = {
->>> +	"fragment", "vertex-tiler", "compute-only"
->>> +};
->>> +
->>>    static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
->>>    				     struct panfrost_file_priv *panfrost_priv,
->>>    				     struct drm_printer *p)
->>> @@ -543,10 +548,6 @@ static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
->>>    	 *   job spent on the GPU.
->>>    	 */
->>> -	static const char * const engine_names[] = {
->>> -		"fragment", "vertex-tiler", "compute-only"
->>> -	};
->>> -
->>>    	BUILD_BUG_ON(ARRAY_SIZE(engine_names) != NUM_JOB_SLOTS);
->>>    	for (i = 0; i < NUM_JOB_SLOTS - 1; i++) {
->>> @@ -716,8 +717,48 @@ static ssize_t profiling_store(struct device *dev,
->>>    static DEVICE_ATTR_RW(profiling);
->>> +static ssize_t
->>> +gpu_stats_show(struct device *dev, struct device_attribute *attr, char *buf)
->>> +{
->>> +	struct panfrost_device *pfdev = dev_get_drvdata(dev);
->>> +	struct panfrost_slot_usage stats;
->>> +	u64 timestamp = local_clock();
->>> +	ssize_t len = 0;
->>> +	unsigned int i;
->>> +
->>> +	BUILD_BUG_ON(ARRAY_SIZE(engine_names) != NUM_JOB_SLOTS);
->>> +
->>> +	len += sysfs_emit(buf, "queue        timestamp        jobs        runtime\n");
->>> +	len += sysfs_emit_at(buf, len, "-------------------------------------------------\n");
->>> +
->>> +	for (i = 0; i < NUM_JOB_SLOTS - 1; i++) {
->>> +
->>> +		stats = get_slot_stats(pfdev, i);
->>> +
->>> +		/*
->>> +		 * Each line will display the slot name, timestamp, the number
->>> +		 * of jobs handled by that engine and runtime, as shown below:
->>> +		 *
->>> +		 * queue        timestamp        jobs        runtime
->>> +		 * -------------------------------------------------
->>> +		 * fragment     12252943467507   638         1184747640
->>> +		 * vertex-tiler 12252943467507   636         121663838
->>> +		 *
->>> +		 */
->>> +		len += sysfs_emit_at(buf, len, "%-13s%-17llu%-12llu%llu\n",
->>> +				     engine_names[i],
->>> +				     timestamp,
->>> +				     stats.jobs_sent,
->>> +				     stats.enabled_ns);
->>> +	}
->>> +
->>> +	return len;
->>> +}
->>> +static DEVICE_ATTR_RO(gpu_stats);
->>> +
->>>    static struct attribute *panfrost_attrs[] = {
->>>    	&dev_attr_profiling.attr,
->>> +	&dev_attr_gpu_stats.attr,
->>>    	NULL,
->>>    };
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
->>> index a61ef0af9a4e..4c779e6f4cb0 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
->>> @@ -31,6 +31,8 @@ struct panfrost_queue_state {
->>>    	struct drm_gpu_scheduler sched;
->>>    	u64 fence_context;
->>>    	u64 emit_seqno;
->>> +
->>> +	struct panfrost_slot_usage stats;
->>>    };
->>>    struct panfrost_job_slot {
->>> @@ -160,15 +162,20 @@ panfrost_dequeue_job(struct panfrost_device *pfdev, int slot)
->>>    	WARN_ON(!job);
->>>    	if (job->is_profiled) {
->>> +		u64 job_time = ktime_to_ns(ktime_sub(ktime_get(), job->start_time));
->>> +
->>>    		if (job->engine_usage) {
->>> -			job->engine_usage->elapsed_ns[slot] +=
->>> -				ktime_to_ns(ktime_sub(ktime_get(), job->start_time));
->>> +			job->engine_usage->elapsed_ns[slot] += job_time;
->>>    			job->engine_usage->cycles[slot] +=
->>>    				panfrost_cycle_counter_read(pfdev) - job->start_cycles;
->>>    		}
->>> +
->>>    		panfrost_cycle_counter_put(job->pfdev);
->>> +		pfdev->js->queue[slot].stats.enabled_ns += job_time;
->>>    	}
->>> +	pfdev->js->queue[slot].stats.jobs_sent++;
->>> +
->>>    	pfdev->jobs[slot][0] = pfdev->jobs[slot][1];
->>>    	pfdev->jobs[slot][1] = NULL;
->>> @@ -987,3 +994,9 @@ int panfrost_job_is_idle(struct panfrost_device *pfdev)
->>>    	return true;
->>>    }
->>> +
->>> +struct panfrost_slot_usage
->>> +get_slot_stats(struct panfrost_device *pfdev, unsigned int slot)
->>> +{
->>> +	return pfdev->js->queue[slot].stats;
->>> +}
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
->>> index ec581b97852b..e9e2c9db0526 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_job.h
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.h
->>> @@ -50,4 +50,7 @@ void panfrost_job_enable_interrupts(struct panfrost_device *pfdev);
->>>    void panfrost_job_suspend_irq(struct panfrost_device *pfdev);
->>>    int panfrost_job_is_idle(struct panfrost_device *pfdev);
->>> +struct panfrost_slot_usage
->>> +get_slot_stats(struct panfrost_device *pfdev, unsigned int slot);
->>> +
->>>    #endif
->>>
->>> base-commit: 45c734fdd43db14444025910b4c59dd2b8be714a
->>> prerequisite-patch-id: 06ac397dd381984bfbff2a7661320c4f05470635
