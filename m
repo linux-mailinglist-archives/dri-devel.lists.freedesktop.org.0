@@ -2,60 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A1D889BCCD
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 12:16:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0927289BD61
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 12:37:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 843FA1123F1;
-	Mon,  8 Apr 2024 10:16:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26434112427;
+	Mon,  8 Apr 2024 10:37:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="aaY5QGWE";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RyypQ+/P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61A1A1123F1
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 10:16:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1712571365;
- bh=su42lLW6PD3z+UBwwbFQ0posL3pq3ei8eZhPwV7J1QU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=aaY5QGWExwVtL7oX5bMM2dEOfNtL1HOeztXi5FJXuvvhWIuxrbzODt/767fCfgNvi
- zFUowTzx0VKnymoQvkXzj73u5/ZHw4o/2BC7HmPwmdUT3jojDy1H1vCFpTxsmGv3KI
- tqXGNeshynXl0YQS/vODDfUl5DWbZb0jAF5cJTATPg+tJOiV8rVXVnHSk5nMQUsJnf
- jNnAHdgwqkmoVMzktYrKnyEfxgO5Xjf9GQL0MdukR/htkCPqqzBsVERbgLMZNWNky6
- JCeLMA0hrNlXYb0IisVRdkZzWodc6l3iK4n+qLUxeV3mn+zWLAp63ZhnESId8gZoMb
- 3B+cTnpnSZDew==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 398633780627;
- Mon,  8 Apr 2024 10:16:04 +0000 (UTC)
-Message-ID: <5e385c2e-6509-4347-96a5-4606b32d20ff@collabora.com>
-Date: Mon, 8 Apr 2024 12:16:03 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B739B112425
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 10:37:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1712572616;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UEuaFAKd6SJyY02mGd3rdGzayUCZrJ0Um5mQfFRWUaA=;
+ b=RyypQ+/PVIHXi9A6sZ4giL6BwX7N5ePTbQ92s1XhcB+uE2GvBB3rQIwllPeu5CxsxR6I34
+ i55xC+E0eHPHiUmxdqEVpB7v8FioUv5F154QYEGpw1eHMOXEN7D9cKq2miX+0ygIGEgCOh
+ 9R8IKH76zjIAOL04fp3c9NhwuBmmN3Q=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-384-7RfetguwMIGC9Zukyy2wBg-1; Mon, 08 Apr 2024 06:36:53 -0400
+X-MC-Unique: 7RfetguwMIGC9Zukyy2wBg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-345aa380e51so539732f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Apr 2024 03:36:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712572612; x=1713177412;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=UEuaFAKd6SJyY02mGd3rdGzayUCZrJ0Um5mQfFRWUaA=;
+ b=bVs06Tc6yj9ANFXPTLZtL5oS6LItUYJlHF+Tw6YSJz9iFJszRDeB85zf6dU0Gpfymi
+ 2hkN+xZxFLGD6jHMom6YyzmwdX/La2T+wAyTHVR1bU6dWr1ezX9VUdCelzNTgYF4Y51P
+ mwziOsv8If402Z6kjFLjSJf6AZvSjDGqFBKCKKQn7nXlf4lQgW6tNOUjyOhvY8zPD/Sw
+ 0llNT5d/wAFMhSBuEIyQ1Mn6KZvAQ3STnKSzy0fssy6ICMEbpWX2f4xfKQ08fENm7e1D
+ b2snokZ3ONfjCy+lPwchUVFzeBRJgZbOY+RSutxutil1FMmP0fEYirFMmKlFrEsm0wic
+ SXZQ==
+X-Gm-Message-State: AOJu0Yy6h70w3CMnNKVjEkPXkjlFxrwYUtv1MQ8OFglqm+uPbxFMtZyG
+ VXUM/V81KgCXy2wYihgwz2Z27QKF2hZGEb12iiSVadCFn5pyK8LWTDYM/wiUpEDuEqaIbDf4L6U
+ hv6LbVtPpz8khXQhbJ/E+HWPExW5oK8cE2RDPlGVVmZmcdLb3nIo4TitWJ//1UcEl/g==
+X-Received: by 2002:a5d:6890:0:b0:343:94a8:8edc with SMTP id
+ h16-20020a5d6890000000b0034394a88edcmr5677715wru.56.1712572611883; 
+ Mon, 08 Apr 2024 03:36:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH5fSBVKl1JetjGSsG7BngvKrrjN0N+i2bSLl098pXKBi+QxkReGFRfWMwOQ/XRU5WekgZBgg==
+X-Received: by 2002:a5d:6890:0:b0:343:94a8:8edc with SMTP id
+ h16-20020a5d6890000000b0034394a88edcmr5677700wru.56.1712572611454; 
+ Mon, 08 Apr 2024 03:36:51 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:d5:a000:f101:edd0:5929:7a40?
+ ([2a01:e0a:d5:a000:f101:edd0:5929:7a40])
+ by smtp.gmail.com with ESMTPSA id
+ k4-20020a5d4284000000b0033e7603987dsm8706453wrq.12.2024.04.08.03.36.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Apr 2024 03:36:51 -0700 (PDT)
+Message-ID: <f88584ae-b1c0-4542-9171-93f1760b65ad@redhat.com>
+Date: Mon, 8 Apr 2024 12:36:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/3] dt-bindings: arm: mediatek: mmsys: Add OF graph
- support for board path
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: chunkuang.hu@kernel.org, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- matthias.bgg@gmail.com, shawn.sung@mediatek.com, yu-chang.lee@mediatek.com,
- ck.hu@mediatek.com, jitao.shi@mediatek.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- kernel@collabora.com
-References: <20240404081635.91412-1-angelogioacchino.delregno@collabora.com>
- <20240404081635.91412-3-angelogioacchino.delregno@collabora.com>
- <CAGXv+5F9rfTVDExKSCF7fBKwR+HijNzFYE6+4aHKw3ZP81DG9w@mail.gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <CAGXv+5F9rfTVDExKSCF7fBKwR+HijNzFYE6+4aHKw3ZP81DG9w@mail.gmail.com>
+Subject: Re: [PATCH 00/11] drm/mgag200: Detect connector status
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, jani.nikula@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org
+References: <20240403093114.22163-1-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20240403093114.22163-1-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,86 +94,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 08/04/24 05:20, Chen-Yu Tsai ha scritto:
-> On Thu, Apr 4, 2024 at 4:16 PM AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> wrote:
->>
->> Document OF graph on MMSYS/VDOSYS: this supports up to three DDP paths
->> per HW instance (so potentially up to six displays for multi-vdo SoCs).
->>
->> The MMSYS or VDOSYS is always the first component in the DDP pipeline,
->> so it only supports an output port with multiple endpoints - where each
->> endpoint defines the starting point for one of the (currently three)
->> possible hardware paths.
->>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> ---
->>   .../bindings/arm/mediatek/mediatek,mmsys.yaml | 23 +++++++++++++++++++
->>   1 file changed, 23 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
->> index b3c6888c1457..90758bb5bcb1 100644
->> --- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
->> +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
->> @@ -93,6 +93,29 @@ properties:
->>     '#reset-cells':
->>       const: 1
->>
->> +  port:
->> +    $ref: /schemas/graph.yaml#/properties/port
->> +    description:
->> +      Output port node. This port connects the MMSYS/VDOSYS output to
->> +      the first component of one display pipeline, for example one of
->> +      the available OVL or RDMA blocks.
->> +      Some MediaTek SoCs support up to three display outputs per MMSYS.
->> +    properties:
->> +      endpoint@0:
->> +        $ref: /schemas/graph.yaml#/properties/endpoint
->> +        description: Output to the primary display pipeline
->> +
->> +      endpoint@1:
->> +        $ref: /schemas/graph.yaml#/properties/endpoint
->> +        description: Output to the secondary display pipeline
->> +
->> +      endpoint@2:
->> +        $ref: /schemas/graph.yaml#/properties/endpoint
->> +        description: Output to the tertiary display pipeline
->> +
->> +      required:
->> +        - endpoint@0
->> +
+Hi Thomas,
+
+I've tested this series on my Dell T310, and it works well, when I 
+plug/unplug the VGA screen, it's reflected in /sys/class/drm/.../status
+
+I've also tested it remotely on a Dell R640, which doesn't have a VGA 
+monitor connected.
+
+After the patch, on the iDrac console, I only get a green screen saying:
+
+"Out of Range
+Reason: Video Capture Failure
+Detected Resolution: 0x768
+Detected Color Depth-1bpp"
+
+and the file:
+/sys/class/drm/card0-VGA-1/modes
+is empty
+
+Before the patch, the driver reports VGA as connected, and modes 
+contains 1024x768 and others.
+
+I think we may need to add a virtual connector for BMC, like I've done 
+for AST ?
+So that when no VGA monitor is available, you can still choose an 
+appropriate resolution.
+
+Best regards,
+
+-- 
+
+Jocelyn
+
+
+
+On 03/04/2024 11:24, Thomas Zimmermann wrote:
+> Detect the connector status by polling the DDC. Update the status at
+> runtime. Clean up a the driver's DDC code in the process.
 > 
-> Technically the mmsys device serves as an glue layer for the display
-> pipeline, providing things like clock control and signal routing; the
-> device itself is not part of the pipeline, and probably shouldn't be
-> part of the graph?
+> Patches 1 and 2 fix long-standing problems in the DDC code.
 > 
-
-That is (only) partially true: in the case of older SoCs, the MMSYS can only
-connect to a single first IP of the pipeline, but in the case of newer ones,
-and especially (but not limited to) MT8195 onwards having multiple instances
-of VDOSYS, that really becomes part of the pipeline.
-
-This is not because of the possible different first IP in the pipeline, but
-because of support for dual-interface (DSI and DP) that, in even newer SoCs,
-can be done with cross-mmsys (cross-vdosys, actually...) as some of those do
-have the two in different VDOs.
-
-So yes, this can be done without the graph in MMSYS *in this precise moment in
-time*, but we'll anyway end up adding it sooner than later - and I'm doing this
-right now, instead of later, because it's also simplifying the implementation
-so like that I'm "catching two birds with one stone" :-)
-
-Cheers,
-Angelo
-
-> ChenYu
+> Patches 3 to 9 refactor the DDC code. The code then keeps its data
+> structures internal, acquires locks automatically and it much more
+> readable overall.
 > 
->>   required:
->>     - compatible
->>     - reg
->> --
->> 2.44.0
->>
-
+> With patches 10 and 11, mgag200 makes use of existing helpers for
+> reading and probing the DDC. It then correctly updates the status
+> and EDID at runtime.
+> 
+> Tested on various Matrox hardware.
+> 
+> Thomas Zimmermann (11):
+>    drm/mgag200: Set DDC timeout in milliseconds
+>    drm/mgag200: Bind I2C lifetime to DRM device
+>    drm/mgag200: Store pointer to struct mga_device in struct mga_i2c_chan
+>    drm/mgag200: Allocate instance of struct mga_i2c_chan dynamically
+>    drm/mgag200: Inline mgag200_i2c_init()
+>    drm/mgag200: Replace struct mga_i2c_chan with struct mgag200_ddc
+>    drm/mgag200: Rename mgag200_i2c.c to mgag200_ddc.c
+>    drm/mgag200: Rename struct i2c_algo_bit_data callbacks
+>    drm/mgag200: Acquire I/O-register lock in DDC code
+>    drm/mgag200: Use drm_connector_helper_get_modes()
+>    drm/mgag200: Set .detect_ctx() and enable connector polling
+> 
+>   drivers/gpu/drm/mgag200/Makefile          |   2 +-
+>   drivers/gpu/drm/mgag200/mgag200_ddc.c     | 179 ++++++++++++++++++++++
+>   drivers/gpu/drm/mgag200/mgag200_ddc.h     |  11 ++
+>   drivers/gpu/drm/mgag200/mgag200_drv.h     |  19 +--
+>   drivers/gpu/drm/mgag200/mgag200_g200.c    |  15 +-
+>   drivers/gpu/drm/mgag200/mgag200_g200eh.c  |  15 +-
+>   drivers/gpu/drm/mgag200/mgag200_g200eh3.c |  15 +-
+>   drivers/gpu/drm/mgag200/mgag200_g200er.c  |  15 +-
+>   drivers/gpu/drm/mgag200/mgag200_g200ev.c  |  15 +-
+>   drivers/gpu/drm/mgag200/mgag200_g200ew3.c |  15 +-
+>   drivers/gpu/drm/mgag200/mgag200_g200se.c  |  15 +-
+>   drivers/gpu/drm/mgag200/mgag200_g200wb.c  |  15 +-
+>   drivers/gpu/drm/mgag200/mgag200_i2c.c     | 129 ----------------
+>   drivers/gpu/drm/mgag200/mgag200_mode.c    |  27 +---
+>   14 files changed, 274 insertions(+), 213 deletions(-)
+>   create mode 100644 drivers/gpu/drm/mgag200/mgag200_ddc.c
+>   create mode 100644 drivers/gpu/drm/mgag200/mgag200_ddc.h
+>   delete mode 100644 drivers/gpu/drm/mgag200/mgag200_i2c.c
+> 
 
