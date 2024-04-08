@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD3B589CA6C
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 19:09:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB5589CA6F
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 19:10:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9157A1128C9;
-	Mon,  8 Apr 2024 17:09:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB2601128B9;
+	Mon,  8 Apr 2024 17:10:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="gzyAu6bS";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="bgvFfnN1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16FB11128C9
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 17:09:35 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-4154d38ce9dso5375e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Apr 2024 10:09:34 -0700 (PDT)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACE031128CE
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 17:10:04 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-4154d38ce9dso5455e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Apr 2024 10:10:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1712596173; x=1713200973;
+ d=google.com; s=20230601; t=1712596203; x=1713201003;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=aWv+MCKJaEsQPXdoYfTnJgUSPnngM6E5fFgeUlDzwNk=;
- b=gzyAu6bSWfMbiWtrch6+BT0Ap/O6WYR3FM07eIa4cUrc9ofKTCY15nvM9eiJKnloAk
- McxyBd57dnSwIygl3G2F/MrYxvU26oA9oDFVCD57Ron92qwzIwNwcxW4VkTmpfMropaj
- 2+aoSC+eTSqIVyJ+q2WFAFWiBxBqIwF6OLYHhhZW0StTWgI/PIGnnczExjQnegrwqM8m
- B1L8vz9a/5X4Amc9QRBC/RmOkOd7LRLIQMfR0DkQPTgswuOdjWJMr5emYXdnmSaNRvXF
- pfy+/UbuKGv7/idfB42ZerCh/IXZm2nYxHFmSdgl0r9cSN/WcG+fg9K0i9kmBkZc9oVD
- N6NQ==
+ bh=vBWbPMlJ/Wvzu60cl4CASmNzGCgdWYVGEx3Wm8d/QPw=;
+ b=bgvFfnN1DHG514C3d2Rz6Uqb1jFfDVmNpqA6wABTfcIY0QwUoPypEZOitYeJPC6Crv
+ MOb1hspDhQwU8TG9LR5GyU5mk4hpc/4uQiiudUYODs6PS4hJeIobEwYVi9Q01dxPVXQp
+ tLPnN8ZsqrEmC9qr/YWsLHmIE/34wWIVzU9AOBgeh6gChB6eBJHMDeCAOsP0ej15+onR
+ PPvZC+Ovn7lKrXXO+yDLyQpzIcTipjd011Fdezv+LBHvxLeYSpr9PsA75mC2cLxa5mw/
+ u/PPBanr8DVc8LXtfmChtpfq8JIe+1YXW3lUBAN7pWVLXbuD/2UbKhVluj0llE/KqXyD
+ yRNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712596173; x=1713200973;
+ d=1e100.net; s=20230601; t=1712596203; x=1713201003;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=aWv+MCKJaEsQPXdoYfTnJgUSPnngM6E5fFgeUlDzwNk=;
- b=TRsf8zJ1ZbgfWRfToRDw6nqx5AM5RV2s/bgA8knsPFkxxtDW0h8pAP0q63P/SyjqZO
- RNEcbTY5bMJA55IHDRNGXbh9S3dmEkWTKn0fSskLEvFu7Jk2UY/C7F/Cifc0KNGQXN6H
- K1BMpEWotMxso1huLgrAuVsC0wRXrgyzej2tBxvbprmiEvt2XYTtAQXYNpbk5Bq3IDfz
- 2q0eU/t/cxL2M+dQVYTBIz2XQSZa3p4/tRzAO4o0MDWjPSuzmjO5UTgN/Dq6wbWJuh15
- c/GmFZjNAo88oVEHXFtw/wRBeEuB21KicDD+FPqwA8M8PeV661RzvtL7aRtWSdQYLIUC
- v9Cg==
-X-Gm-Message-State: AOJu0YypCTJBSB5FNLaI108RevUxM/xYAkGr5XbykkKHHSQjlM/jbK2B
- 8HPGSxXWiSwPNQsZqHr+JTyajsoPdE5BwAaboCo5hwCeaNpsHR4C9+sEZl38tkc+9AeUhxXtv52
- lNc89AKbQiwJbT9SQuWgpDI+bO2FfqVLIFrI=
-X-Google-Smtp-Source: AGHT+IF/VrvSUScZ/4fURRHeGc4buwQblZbM3N55hSeESb2oYCAzE94/xFMcB+jjxSJjqNngGD6U4Sxu+AH0+vPFLU8=
+ bh=vBWbPMlJ/Wvzu60cl4CASmNzGCgdWYVGEx3Wm8d/QPw=;
+ b=Z3CbOwzVYbfQ7KJBefnygiXj3W5ezOIilWdcqNwZSmyge1z+Q//wL84nzV8IC1bBTO
+ P8suRUUZ0LB2y6wqgaBis48fD4UVNIS3V2vuiM3RwVnsOQ/gac7L00o5weSYBPMzMEl0
+ eWEFk0QAxFWpD4JneCXoLzhD+ERRKaY+GG5jkJk+5qufOkJsxH9Jk6olKTzkzv8C51G7
+ JSN1wBwLzWsEPvmea1+RDUUG25pCls+JyqBMgfQ6ARwmUZKAydHSPL4iVf6QAtXECg2p
+ 70iB//7RK/MsAMJo7Aie4VVHX36mC9vMI/v37s5qbahEAx0JQAweT2PwqtUsyOU5ey+y
+ KCtw==
+X-Gm-Message-State: AOJu0Yw+LVNY1DGBIVkipXO9rzO+NO9Cn8WlcLATkFhKinty/eLAtklG
+ +NikqyBFMx+MbHzPOLWkxksbPOojlTDwwk439VHh37UN3Gts/KT0Jfb5hL8FRcZ9l7mSQc4tVCH
+ uu8A4oz6QLsj+XQq7MCx9g+EcLE8bweweKDk=
+X-Google-Smtp-Source: AGHT+IGhdrGtmyRjqgRWadiA/NngqrBWxKVXcHv0nfhb/lCbkcE5jto1BfWxV9iF37CbGbpPKWSdCOgSljisPgj7j3Y=
 X-Received: by 2002:a05:600c:1d19:b0:416:3014:63f8 with SMTP id
- l25-20020a05600c1d1900b00416301463f8mr402wms.0.1712596173222; Mon, 08 Apr
- 2024 10:09:33 -0700 (PDT)
+ l25-20020a05600c1d1900b00416301463f8mr600wms.0.1712596202837; Mon, 08 Apr
+ 2024 10:10:02 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240408170426.9285-1-ville.syrjala@linux.intel.com>
- <20240408170426.9285-10-ville.syrjala@linux.intel.com>
-In-Reply-To: <20240408170426.9285-10-ville.syrjala@linux.intel.com>
+ <20240408170426.9285-11-ville.syrjala@linux.intel.com>
+In-Reply-To: <20240408170426.9285-11-ville.syrjala@linux.intel.com>
 From: John Stultz <jstultz@google.com>
-Date: Mon, 8 Apr 2024 10:09:22 -0700
-Message-ID: <CANDhNCo6ja_AB304utx6LvWbH2J_xa3HSfKWxigZe4qdRfOkyg@mail.gmail.com>
-Subject: Re: [PATCH 09/21] drm/hisilicon/kirin: Fix 64bit divisions
+Date: Mon, 8 Apr 2024 10:09:51 -0700
+Message-ID: <CANDhNCoYB73zL9LseDpCnuxQLAZj9pOThPdxc_GEpRiQocL7Ag@mail.gmail.com>
+Subject: Re: [PATCH 10/21] drm/hisilicon/kirin: Fix MASK(32) on 32bit
+ architectures
 To: Ville Syrjala <ville.syrjala@linux.intel.com>
 Cc: dri-devel@lists.freedesktop.org, Xinliang Liu <xinliang.liu@linaro.org>, 
  Tian Tao <tiantao6@hisilicon.com>,
@@ -86,8 +87,8 @@ On Mon, Apr 8, 2024 at 10:05=E2=80=AFAM Ville Syrjala
 >
 > From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 >
-> Use the appropriate 64bit division helpers to make the code
-> build on 32bit architectures.
+> BIT(32) is illegal when sizeof(long)=3D=3D4. Use BIT_ULL(32)
+> instead.
 >
 > Cc: Xinliang Liu <xinliang.liu@linaro.org>
 > Cc: Tian Tao <tiantao6@hisilicon.com>
