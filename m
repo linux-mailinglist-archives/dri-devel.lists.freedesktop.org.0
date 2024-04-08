@@ -2,111 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86C6389BA65
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 10:35:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A324E89BA8A
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Apr 2024 10:44:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44AFD112299;
-	Mon,  8 Apr 2024 08:35:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61DF61122B2;
+	Mon,  8 Apr 2024 08:44:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="I7g+Hq4j";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="aO+c+ZZW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDE71112298;
- Mon,  8 Apr 2024 08:35:26 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-41673509e8eso4476755e9.3; 
- Mon, 08 Apr 2024 01:35:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1712565325; x=1713170125; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=uYeAXyuKGODULO+FbNEaQzDLowkIhH9uCziDxOY+3pM=;
- b=I7g+Hq4j88PUIh8k+YMVjBTi8sHVgzKAX2XlQUaftSC/eMMQL0tD/zwdFE+UPDSg3o
- VutdjDmVOCKYGPZ8cU4UG8xR0kjJBT+Fdv/tb1Q+JeeXS0qJen1ggnQkTKKhk04JfkYT
- igT2qrhe364bSVrdpMdtiESpraXE/u0nLYqa9EpTvipP+H75F6qFNEcCqfzcXab7Ss8u
- qqn42N+6J5Bvn1G9SGuY6fdj753QG52yXG8rhnl3F4Ay7WZV/9OSj2sfoldOuCf/tfns
- B6iBpU6616j3L98kvUqF0Ofsa///AjsrVJgcc3hcBiBwvNqZl+AfMtzwhq6WgJGiPh4H
- W4/A==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3807F1122B2
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Apr 2024 08:44:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1712565873;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=d001lAD3qdFhL1jiZqzes39oJoG6dz7X9cNnKIOVG3A=;
+ b=aO+c+ZZWF2Vn/dLw3L7Dvf4UKtzfYlowr3lNEJH6cJazi+WFvyBYmt8VdIM20OulPzb6Pg
+ Gl/8KPhtq0jpnl4VJ7tCdckDNlAUiio3PLVDK0MDGWRilYbGGo36Sj/fdyZ9Z7ap019EcQ
+ 9Yq7AHlMVbvNgde0lA8b0vlmS/k+Uis=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-400-1Z0oIh-7MOKjJrM-KKGVrA-1; Mon, 08 Apr 2024 04:44:29 -0400
+X-MC-Unique: 1Z0oIh-7MOKjJrM-KKGVrA-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-78d699bb0b9so5130985a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Apr 2024 01:44:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712565325; x=1713170125;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uYeAXyuKGODULO+FbNEaQzDLowkIhH9uCziDxOY+3pM=;
- b=M6KIBh32Xyc75UOgjFXeu3XEMHSAXh5qlFCovdBQeokZ5BA7/HMyYNfjqvTKmAO/Gh
- /GUCjwGZZa+WNjLYriP377d11/J9uv5QXKH4j3RHplPm4KPj6RRTimw4RS1RI7BxwIKz
- E9aezXcpcEZ+HoBAYrt5cHvpyDemsVdi6ADZ0znliuLKixV5VhfJPlh2VbYykveLVcPO
- Rs9e0tRjWo00vEQILECf2MX+WrWJth9Z3sNIkbHmQz4X3wsGuqf5c7MXjE7623mnFpWv
- weYpZXoBn38yANmqJb3oWg90SlBJbxX2EZKPj+BXRTZLncRCR3BcePpk2tjs8NqtVFZa
- bJRQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU1F+0IfJRU1ixjth72LzrRjdA7FO3c9Kv/Q8daAqNS1V/eR6hpmFXKUX3ReT9ws4s5690ycDcTIiwKquTqJAFMciMzO2woZrdWuXoc9TIKIq2X9neOHOTwIP1kV+tFXmOOlaIxLCvWUoWGKW7PMEuzGOrJgQTeTUJkFb2PQMffE+vK1mMtAFdOxeHTTcxLYcJj1nyUCGU1o7EVoEQwxxjkyF5jyHqxqz4Gq+R0hC6O68Hag1CPtEknO6wK2WspmUO+3qBlUXa41VTLdya6UA==
-X-Gm-Message-State: AOJu0YylXKRLXHzpT2pzRFTUB/g2OBgSD7TgdAufaEuGEnmfd+pGPl0r
- iC6piY1kh9I17tnGDEFmxCV+nvN4kkaonMyZs0vWOA6e5JI8WV1X
-X-Google-Smtp-Source: AGHT+IHU5k1SefaWsJ4Dm8FLb/xA0Oa19OOVbWsUeKtS2E4eDYDTEpvWcL36P791FhCHmqL0tKsDyA==
-X-Received: by 2002:a05:600c:468b:b0:415:6dae:7759 with SMTP id
- p11-20020a05600c468b00b004156dae7759mr5328190wmo.19.1712565324886; 
- Mon, 08 Apr 2024 01:35:24 -0700 (PDT)
-Received: from localhost ([185.57.101.252]) by smtp.gmail.com with ESMTPSA id
- be9-20020a05600c1e8900b004163ee3922csm7570545wmb.38.2024.04.08.01.35.24
+ d=1e100.net; s=20230601; t=1712565869; x=1713170669;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=d001lAD3qdFhL1jiZqzes39oJoG6dz7X9cNnKIOVG3A=;
+ b=pprFKw3ONM18JxZIpPQBRmj7oxUPOPnO1jlc6J7fKfaSCI9bls/TJ7gYxhPZjaT2vW
+ 5dy7V4/kACxsij8w9lvfBLDpq01z1L2Arnq26TUB3R1g4Jgi0j6J/C4nbkHhYOU/J6qA
+ 3+G5bybIDlPHm0b9X+AnElBfkm4RFmPmhp0QKDB0yVmd/scU6WovdnPsqQoc1JKXqJ3Z
+ SnJg7xRb0tNyQldyS/oclzKUaIaUYEyuGIGRlqDptpjcBz7cMNYMybpV9vlu+/fHXNTb
+ n0ZQywEMcAMAsbHitM8nXTTSqFunpYBQjUYis+geVTtBOGgMwLwsmgEVZNdbVIGi9wOD
+ Ak7Q==
+X-Gm-Message-State: AOJu0Yxc8+z4g0ur9tNCCN8rG0m2oR4vToHj2PKfrdMKHtBfSIBiJdQC
+ isfDI7WPWDeWZaPBNikzX2AV1vIfq6TkuMrGuH2MBJAcVC/2ZIsbjAVikxl9jliq+B0U0XwxUOC
+ OoVtDR/i8EYZxm1YNRIiFvWCt6jEjp9eHnX29zyJa7nF5pb77WAifMM8ZyKJbCUUxWg==
+X-Received: by 2002:a05:620a:4154:b0:78d:6978:35aa with SMTP id
+ k20-20020a05620a415400b0078d697835aamr448080qko.0.1712565868640; 
+ Mon, 08 Apr 2024 01:44:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHQ6H4YaYzmGoDEmgcQrm4a1neORRX6/FgF2RK851AHjC5ozf510YYDnM0NrHdnKQbWb8gHNw==
+X-Received: by 2002:a05:620a:4154:b0:78d:6978:35aa with SMTP id
+ k20-20020a05620a415400b0078d697835aamr448070qko.0.1712565868271; 
+ Mon, 08 Apr 2024 01:44:28 -0700 (PDT)
+Received: from pstanner-thinkpadt14sgen1.muc.redhat.com
+ (nat-pool-muc-t.redhat.com. [149.14.88.26])
+ by smtp.gmail.com with ESMTPSA id
+ oo15-20020a05620a530f00b0078d54e39f6csm2036989qkn.23.2024.04.08.01.44.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Apr 2024 01:35:24 -0700 (PDT)
-Date: Mon, 8 Apr 2024 09:35:23 +0100
-From: Martin Habets <habetsm.xilinx@gmail.com>
-To: Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: Edward Cree <ecree.xilinx@gmail.com>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- "open list:SFC NETWORK DRIVER" <netdev@vger.kernel.org>,
- "open list:SFC NETWORK DRIVER" <linux-net-drivers@amd.com>,
- open list <linux-kernel@vger.kernel.org>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>, 
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>, 
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>, 
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
-Subject: Re: [PATCH v0 10/14] sfc: falcon: Make I2C terminology more inclusive
-Message-ID: <20240408083523.GA5341@gmail.com>
-Mail-Followup-To: Easwar Hariharan <eahariha@linux.microsoft.com>,
- Edward Cree <ecree.xilinx@gmail.com>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- "open list:SFC NETWORK DRIVER" <netdev@vger.kernel.org>,
- "open list:SFC NETWORK DRIVER" <linux-net-drivers@amd.com>,
- open list <linux-kernel@vger.kernel.org>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>, 
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>, 
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>, 
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
-References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
- <20240329170038.3863998-11-eahariha@linux.microsoft.com>
- <20240402090028.GA1759653@gmail.com>
- <0c6ff90d-0709-4fc5-951e-1b0f0b1273dc@linux.microsoft.com>
+ Mon, 08 Apr 2024 01:44:27 -0700 (PDT)
+From: Philipp Stanner <pstanner@redhat.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>,
+ Sam Ravnborg <sam@ravnborg.org>, dakr@redhat.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org, Philipp Stanner <pstanner@redhat.com>
+Subject: [PATCH v6 00/10] Make PCI's devres API more consistent
+Date: Mon,  8 Apr 2024 10:44:12 +0200
+Message-ID: <20240408084423.6697-1-pstanner@redhat.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0c6ff90d-0709-4fc5-951e-1b0f0b1273dc@linux.microsoft.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,32 +94,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 04, 2024 at 12:18:06PM -0700, Easwar Hariharan wrote:
-> On 4/2/2024 2:00 AM, Martin Habets wrote:
-> > On Fri, Mar 29, 2024 at 05:00:34PM +0000, Easwar Hariharan wrote:
-> >> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
-> >> with more appropriate terms. Inspired by and following on to Wolfram's
-> >> series to fix drivers/i2c/[1], fix the terminology for users of
-> >> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
-> >> in the specification.
-> >>
-> >> Compile tested, no functionality changes intended
-> >>
-> >> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
-> >>
-> >> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
-> > 
-> > Reviewed-by: Martin Habets <habetsm.xilinx@gmail.com>
-> > 
-> 
-> Thank you, Martin, for reviewing. I believe that we are settling on controller/target
-> terminology from feedback on the other drivers in this series. Would you want to re-review
-> v1 with that change, or should I add your R-B in v1 despite the change?
+Changes in v6:
+  - Restructure the cleanup in pcim_iomap_regions_request_all() so that
+    it doesn't trigger a (false positive) test robot warning. No
+    behavior change intended. (Dan Carpenter)
 
-You can add in my Reviewed-by.
+Changes in v5:
+  - Add Hans's Reviewed-by to vboxvideo patch (Hans de Goede)
+  - Remove stable-kernel from CC in vboxvideo patch (Hans de Goede)
 
-Martin
+Changes in v4:
+  - Rebase against linux-next
 
-> Thanks,
-> Easwar
-> 
+Changes in v3:
+  - Use the term "PCI devres API" at some forgotten places.
+  - Fix more grammar errors in patch #3.
+  - Remove the comment advising to call (the outdated) pcim_intx() in pci.c
+  - Rename __pcim_request_region_range() flags-field "exclusive" to
+    "req_flags", since this is what the int actually represents.
+  - Remove the call to pcim_region_request() from patch #10. (Hans)
+
+Changes in v2:
+  - Make commit head lines congruent with PCI's style (Bjorn)
+  - Add missing error checks for devm_add_action(). (Andy)
+  - Repair the "Returns: " marks for docu generation (Andy)
+  - Initialize the addr_devres struct with memset(). (Andy)
+  - Make pcim_intx() a PCI-internal function so that new drivers won't
+    be encouraged to use the outdated pci_intx() mechanism.
+    (Andy / Philipp)
+  - Fix grammar and spelling (Bjorn)
+  - Be more precise on why pcim_iomap_table() is problematic (Bjorn)
+  - Provide the actual structs' and functions' names in the commit
+    messages (Bjorn)
+  - Remove redundant variable initializers (Andy)
+  - Regroup PM bitfield members in struct pci_dev (Andy)
+  - Make pcim_intx() visible only for the PCI subsystem so that new    
+    drivers won't use this outdated API (Andy, Myself)
+  - Add a NOTE to pcim_iomap() to warn about this function being the    onee
+    xception that does just return NULL.
+  - Consistently use the term "PCI devres API"; also in Patch #10 (Bjorn)
+
+
+¡Hola!
+
+PCI's devres API suffers several weaknesses:
+
+1. There are functions prefixed with pcim_. Those are always managed
+   counterparts to never-managed functions prefixed with pci_ – or so one
+   would like to think. There are some apparently unmanaged functions
+   (all region-request / release functions, and pci_intx()) which
+   suddenly become managed once the user has initialized the device with
+   pcim_enable_device() instead of pci_enable_device(). This "sometimes
+   yes, sometimes no" nature of those functions is confusing and
+   therefore bug-provoking. In fact, it has already caused a bug in DRM.
+   The last patch in this series fixes that bug.
+2. iomappings: Instead of giving each mapping its own callback, the
+   existing API uses a statically allocated struct tracking one mapping
+   per bar. This is not extensible. Especially, you can't create
+   _ranged_ managed mappings that way, which many drivers want.
+3. Managed request functions only exist as "plural versions" with a
+   bit-mask as a parameter. That's quite over-engineered considering
+   that each user only ever mapps one, maybe two bars.
+
+This series:
+- add a set of new "singular" devres functions that use devres the way
+  its intended, with one callback per resource.
+- deprecates the existing iomap-table mechanism.
+- deprecates the hybrid nature of pci_ functions.
+- preserves backwards compatibility so that drivers using the existing
+  API won't notice any changes.
+- adds documentation, especially some warning users about the
+  complicated nature of PCI's devres.
+
+
+Note that this series is based on my "unify pci_iounmap"-series from a
+few weeks ago. [1]
+
+I tested this on a x86 VM with a simple pci test-device with two
+regions. Operates and reserves resources as intended on my system.
+Kasan and kmemleak didn't find any problems.
+
+I believe this series cleans the API up as much as possible without
+having to port all existing drivers to the new API. Especially, I think
+that this implementation is easy to extend if the need for new managed
+functions arises :)
+
+Greetings,
+P.
+
+Philipp Stanner (10):
+  PCI: Add new set of devres functions
+  PCI: Deprecate iomap-table functions
+  PCI: Warn users about complicated devres nature
+  PCI: Make devres region requests consistent
+  PCI: Move dev-enabled status bit to struct pci_dev
+  PCI: Move pinned status bit to struct pci_dev
+  PCI: Give pcim_set_mwi() its own devres callback
+  PCI: Give pci(m)_intx its own devres callback
+  PCI: Remove legacy pcim_release()
+  drm/vboxvideo: fix mapping leaks
+
+ drivers/gpu/drm/vboxvideo/vbox_main.c |   20 +-
+ drivers/pci/devres.c                  | 1011 +++++++++++++++++++++----
+ drivers/pci/iomap.c                   |   18 +
+ drivers/pci/pci.c                     |  123 ++-
+ drivers/pci/pci.h                     |   21 +-
+ include/linux/pci.h                   |   18 +-
+ 6 files changed, 999 insertions(+), 212 deletions(-)
+
+-- 
+2.44.0
+
