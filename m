@@ -2,67 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31BF689DF16
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 17:30:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7226689DF42
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 17:35:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9AB110E180;
-	Tue,  9 Apr 2024 15:30:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F95C10E821;
+	Tue,  9 Apr 2024 15:35:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="hMOJS2Hm";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="BeLT0oNN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
- [209.85.166.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5787810E180
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 15:30:36 +0000 (UTC)
-Received: by mail-io1-f43.google.com with SMTP id
- ca18e2360f4ac-7d5f3f7addfso74784739f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Apr 2024 08:30:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1712676635; x=1713281435;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=R7pkM9X3L8i+5l2WmNZjwSJL8yHaurOwht5xAgN/gL0=;
- b=hMOJS2HmI+DVSUOyyTVOpsxeQze4+zB//e922S6SF/xudqmtEd5BCeJlRXCtB1vzvY
- gZemvm9+ExCkf/YewoMvOu/XARJauIFxzPaFRMUpUQH4wYCBd4TrB05cOsZS2+Rw+fIL
- HJ6qgBMPIBKPMvRmIjLH+RxyATfqxfy1okcE8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712676635; x=1713281435;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=R7pkM9X3L8i+5l2WmNZjwSJL8yHaurOwht5xAgN/gL0=;
- b=FqHo7uViPINgfyFGL+M5xrrOV7vdFllNtKrMz/f4wsvBjDw0JLbhFfucy8KRVKue9v
- zo3M0HkSZt9tjJiI1L4nEWJQPjhBSsDvCGlZ+8vyqJLACyCtwBT/MJyuf1CtmCi0U5Xv
- KqtcjOrAz3X53/db8g9xBbEQAsJY5XY+4Ew3PAQX670NQ592HocXi/4lHmRIWgN06IrL
- 0AzG8Kmwqro7qnW9JA0nsaQYKdc1hAZ6yAm0rBAOhqvbr3UreyWksuHu5KU5wh4TWPMx
- gZt+lhi8+q/bI5x2h1mxutj1gkX8rMGlZ0O2McDSve5i8taErJ1mL+uHc82vtHgftntk
- q4eQ==
-X-Gm-Message-State: AOJu0YyWvpqUd9mrZcyuGHEQm/cGmGMr4rdtmrl4sPOffMRwhGTk4OTZ
- 5ZYQdhivs0qMy+QrMY7Yo4j2dSldy5I8ypOuEtue8F9HnzHM3RlixMdXh/v0MU8D+m41GlLttXQ
- FdaIyAF38lxvdjl/QkbWb8rOyJ0w5r/bBAcZoBZmucMkqMVkj5myLlVE=
-X-Google-Smtp-Source: AGHT+IFckpVCK3eC57FBtAzs7OITwELUEHs0HsWMmVkd/n3t6mcAdzZWtQB3ZK2Q8e/6vAv1EL10YH/ijceaz6+Dsj0=
-X-Received: by 2002:a05:6602:3f07:b0:7d5:df1d:2562 with SMTP id
- em7-20020a0566023f0700b007d5df1d2562mr110467iob.14.1712676635277; Tue, 09 Apr
- 2024 08:30:35 -0700 (PDT)
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on2122.outbound.protection.outlook.com [40.107.102.122])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86DFC10E6E7
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 15:35:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TXY7YebFidL3ljwwGxw7QhmtW1P/lcmn94vKqxIpQnpJq2xnljCH4HyLfskCYJ0HO8U4LbwAF/4R1F6SiIGAYSXmSec3k2DbvrWuJAFyMNU6me0gFkIj2Vk/Gr1xpzXiECuPej1nHoukhzKEEdxE3zZoeCWj/xDCMy4UfSvbyo6wBZs89mAWFbuEbqr9wq1xKvafuY7tTMsROlBq3yXvuw49O+lt6t64uKKtksOCFwH8fusM97Y7aI/TUc4K8AgLhbbYsjlGJqHi68FA/JbCUszRyEvokTn2N88n/TrgKkeUAy81XY/U9RPvwimLmsEyKkCJinvPCC7N9gTvpFoiqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IzJMaBu9yeXpH7IyyNCB9XetP04HG0RmYP5kALA8sI4=;
+ b=gAjjxQ3BHNP149hudqpVHXFJRMEDbGLIELd/4+9cgU/WH7p6zVmpflO9NpmjOMrSQFSzI4ZErey4wHH7tEahhq0JQ2/EZBAREkUQ9lwRNIuqQUEiKHC6fQCZv9KZ+4wy9suonwNKvvKMnRm7uxYrkX8UUf77AEaFvI/LuG2qLP0lbngcQl2qnYilpypfnoF/wWwDcu19lZqBOVBowGqhXnAQvdhbdoMX7GtAvgeadmh/zzDBqAjHQH9NQQC4rfQuD4rcxiRWOKwgVVELTtrSKbi+BT2SyjWx0zoPMmc3a3975/2CcCoc+gtjgwtdk1ZUmZ0WnIwMOoUbmRZbz328jg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IzJMaBu9yeXpH7IyyNCB9XetP04HG0RmYP5kALA8sI4=;
+ b=BeLT0oNNCaFHx2W8ldwnfc2f+fCpqMn5VrHjNVACCTzr31yHvzTIYv3/TN6tzvSbzSvHZpQXCYLKkvDRDZO5CF58afN498eBGgidTPpo4PSKp64G4Y/b9bRNr1kkk4l0q8g6fN6ES4xXrE47bL0CJDyn87v32z5ID7jIRPCbwVw=
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH7PR12MB6935.namprd12.prod.outlook.com (2603:10b6:510:1b9::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Tue, 9 Apr
+ 2024 15:35:05 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7409.042; Tue, 9 Apr 2024
+ 15:35:05 +0000
+Message-ID: <42aea61f-52d7-4cea-9944-7130ffcf9c15@amd.com>
+Date: Tue, 9 Apr 2024 17:34:58 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-buf: add DMA_BUF_IOCTL_SYNC_PARTIAL support
+To: Rong Qianfeng <11065417@vivo.com>, Rong Qianfeng <rongqianfeng@vivo.com>, 
+ Jianqun Xu <jay.xu@rock-chips.com>, sumit.semwal@linaro.org
+Cc: pekka.paalanen@collabora.com, daniel.vetter@ffwll.ch,
+ jason@jlekstrand.net, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org
+References: <20211113062222.3743909-1-jay.xu@rock-chips.com>
+ <1da5cdf0-ccb8-3740-cf96-794c4d5b2eb4@amd.com>
+ <3175d41a-fc44-4741-91ac-005c8f21abb8@vivo.com>
+ <9e6f1f52-db49-43bb-a0c2-b0ad12c28aa1@amd.com>
+ <5c7ac24c-79fa-45fc-a4fd-5b8fc77a741b@vivo.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <5c7ac24c-79fa-45fc-a4fd-5b8fc77a741b@vivo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0144.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:96::19) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-References: <20240402232813.2670131-1-zack.rusin@broadcom.com>
- <20240402232813.2670131-4-zack.rusin@broadcom.com>
-In-Reply-To: <20240402232813.2670131-4-zack.rusin@broadcom.com>
-From: Martin Krastev <martin.krastev@broadcom.com>
-Date: Tue, 9 Apr 2024 18:30:24 +0300
-Message-ID: <CAKLwHdW+3zP5s7dAb2fkbWjrRvx9EhPTODtdMRfoFYFb+qUvQw@mail.gmail.com>
-Subject: Re: [PATCH 3/5] drm/vmwgfx: Fix prime import/export
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- ian.forbes@broadcom.com, 
- maaz.mombasawala@broadcom.com, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB6935:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: LQwPNWDYyrUqKxONMsorqS+LM1yAzs46r3dJir9uH5EzWYtsZ76S0rRFYYxJBd4nzaSCfzdOYlBsY3Oy/OmrpO16o3lA+41QvPq04bB/986zx05HzKc395n2jUr0iW2Ser5xF4XrTKisInxb/Vko66QGR0aCWWQOqiXk0/YCv0j2ZbdOhWaUt1nT04c2ucLezvvB9MTL3fmQOukU4osyOYWnzMn+glqfd853g/+r4vrDEiHnVduS/rkW2KGkwyr8/UO/AodT/Dlr4CaYis74VFhjK3Mc9QUV0HeBA06HgBYxTcZh+OHfw6oOshScITNZLmZOlQVXY9Mvl4IQut1HeX3OBSu2Rtio7JXayBkYXgaCR7FkK2ulqYcfD/DhzynnN6HooynJmfPirCix0IFAJsUvViiBJ321xhCkql8Vhq52Xt0rizazBzmYFLSG/Fi58/5EcleP6OsVuI0oT6UN0LUirKRCdJ2E6690lwgIhB6H+AUgGgVeJV6LKDIQjlvQqrwqVzS7znypeucRjbOTWb8zQ1X2qJZ/fmRJsVuBHm4AFjwyFhbOUWDAn+cI0iBN70AS9jWU2TADP0uTwmFlSBUZEKR08c18kEL6RgfLcCDirfZCoPRpWp3pJWVAwW75dreiMAenvD3gSI9O2HLcev2Vi1xLcb6qLbmirJnOMUk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376005)(7416005)(1800799015)(366007); DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SVc4czlmR3lDMCswWU9LQXRHVXo4RHF5ZiszYkI2bnNmZEc5K1g4S3NKY2xm?=
+ =?utf-8?B?QS9QV0lib1NIQlY4eDZBZFZWM2pJTXZ3UWdiN2hPanA1NDNKN3VNTzYvVEFW?=
+ =?utf-8?B?YnNqTWxJeFcrWUxLdzAwRWFvdCs4NDNCL1dYaWhHeVJmc1hwQ0VKSGFxSDQ0?=
+ =?utf-8?B?QVU0OFpnSWkzY2lOeVEvWEdvOHdhZnhRS3hpWXpBSytWOUNQV3NMVWk5cDRS?=
+ =?utf-8?B?L1FKUFJwYk5LOVZ1NFlGU3RKeDdnY2ZsWnJscU9MZmtINlNzMERJSFkvNFhx?=
+ =?utf-8?B?SmZlUXJNUTdBL2ZCTEFKYzdjNDRSSHpXSTE5L1BDZE9FVFFmRHZaRE85eXFP?=
+ =?utf-8?B?dzNDdEpXbk5sOGYwZWY1VTRSVTVGVFd0K3dDVEkwN29ZblM1Yk1wUEl4Szd6?=
+ =?utf-8?B?THU1ZmVTTUJveFpWNTM5TVB0d3ppcjR0UVlLTWhpRmt0UC9TeHhpTWIzMGJh?=
+ =?utf-8?B?M0FjbHVLNVJGR0NXNTBzVG9kMS96QlJROUhUUUF4a0FtQzVCUTJDeFU5a3pa?=
+ =?utf-8?B?bWQ1SWc5ZnlBbjBwZEhtQ0dySUdxdnNvVUdjQytEZTNsb1NxVURQSEk0MCtS?=
+ =?utf-8?B?TlpJL091Q3RmbWFxcXJYc1RGb3ZET0tsZUh3aXorcUtyVjdXT1NuT0hCNE1C?=
+ =?utf-8?B?Kzk0dmRGV1dOS2hiSXNyOHVITElUWEVKSVRQVGlyUHFXTDVNbGRXNlVMQjNJ?=
+ =?utf-8?B?SjZmeERsTjJuRWVkU3NpdkRVSVNIQ2dIMTFCNEZmQVpRVmRXOVFUcERpMW15?=
+ =?utf-8?B?VTNwa1FYaXNCQTFmN2g4aExGN2NpQVFYcWVyK3N6Y1p0MlZ2cFlLamVkQXlk?=
+ =?utf-8?B?Q0NqMEJvWkJIOXpxSzRzdlNBY05YN3Y2N3FnTkpRejJIUG5zcm5zVTBKMkhv?=
+ =?utf-8?B?ZC8ycUpLRy83UjRPQmI3QUFLb0Q0cFpKRlVFM1czZkVrQXNFSkY1U1QzQ0Fj?=
+ =?utf-8?B?dEZzc0k1Z3lycVZ2aDhIeW1iZk1iZ3ltYzVnaWVMZkhwZXNrMGdHSnVhYUhX?=
+ =?utf-8?B?YW9WZDFCVUlZcFBhcnZEWmlhbmhCUXdqcUNpRk9Ec2g4czI0ZHJ6a3JJRVl6?=
+ =?utf-8?B?S25uZTMzcExINE1zVHAyendaZy9oVXJ5TnRZanp6TGNucnduZXRpK3RwYjBQ?=
+ =?utf-8?B?bWs3b2x0MVBIbkptcVhxR0l3dDFUZFJQL0wvVHRyb3A3SHkwM3lXSnlRVkNv?=
+ =?utf-8?B?dDRkQWNpRVhMNWtOd3F4L3l0djhkc3ZLZFVDVDBQUG0xNURLd3V3bjRET2wy?=
+ =?utf-8?B?NlVZNVovLzErRksyYjhzcEFmeFhvOGdCeXMwN09qdHZDNGZNR2w0ZXRjR3BS?=
+ =?utf-8?B?TXl6SUNmTys2QUJwcGM4THpUblFmVXZaN0wyVUFDN1crOWNYSk9tZ0pSa3F5?=
+ =?utf-8?B?NCs5Uk1SM2tSWktxWVNWaXh1QStraU1FOG90cVZZNkRwbHoycWtOL3BhLzhw?=
+ =?utf-8?B?cHprb3NOYWNKOURUMzRDSk8vc00rTnM4cGdCVVFMVWNrdit5c01KL0tsQjc5?=
+ =?utf-8?B?UnNrQmZ6cFBjYm5ldm5FeG8ycWpWWWNYa3ZDWE1hZVJGN3VQdktuR1QzZXRa?=
+ =?utf-8?B?NDdnMU1BNk82T3orOWdXdHdRWTdyT1RQR05yQUtnUU90Qkg1bHdWS0E5M0NH?=
+ =?utf-8?B?bHNvTFc4OVAyMHVmMkhLT0tKaExLSnlvay9VS3I4YVQydklSMGVGa09SNWxy?=
+ =?utf-8?B?VzZmVHpMMzJMaFk3cnlaOXlEUFJ3YncrRVFJSVRZbklzaVZ1T3NQTGIzU3F1?=
+ =?utf-8?B?WEtMaDB0RTJFK0p6Mk9uZksyVXgrNWJWZmVtYTBSMjNIRUtOYWpobVYvTys0?=
+ =?utf-8?B?UnhRUkVPT0pySnNRNTN3dUpQN0N4cG80d001UG8xYkFiWjZCNm91OVgrZExy?=
+ =?utf-8?B?ck4yemJwNytmbWVLSCtndW8wWW1CcHpiUUxTRWpMVktVOHJZQ3o0VzVka0pU?=
+ =?utf-8?B?NGpZS0VTTVY1aFgwQXlpWmp5akJrVi9Pd2RlaTBYYnBaMTduc2g0a2NBNE5D?=
+ =?utf-8?B?alJDbTEvZEtNZ3gxelNXMlh4anVWUFlmRlg5bTBWM0xQR0FMaE93T3ZUWlhl?=
+ =?utf-8?B?ejE2MkY5YWw4U1kxL2dtWXlrOGxnTHdiaWd3bGdWeEJUZy9PenI2ZGNORGpi?=
+ =?utf-8?Q?6ZFrgaJqwYxD0OtJtShE/LfFi?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd98731f-1ac4-41f3-a20c-08dc58aaa11c
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2024 15:35:05.3677 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XNDwPIN0nNSmxS9YJcOVy7Hv9+yHXg9YW4W5+Uto/FmZfbxgfvqm8XwVpGgQsScm
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6935
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,375 +134,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Great to have this!
+Am 09.04.24 um 09:32 schrieb Rong Qianfeng:
+>
+> 在 2024/4/8 15:58, Christian König 写道:
+>> Am 07.04.24 um 09:50 schrieb Rong Qianfeng:
+>>> [SNIP]
+>>>> Am 13.11.21 um 07:22 schrieb Jianqun Xu:
+>>>>> Add DMA_BUF_IOCTL_SYNC_PARTIAL support for user to sync dma-buf with
+>>>>> offset and len.
+>>>>
+>>>> You have not given an use case for this so it is a bit hard to 
+>>>> review. And from the existing use cases I don't see why this should 
+>>>> be necessary.
+>>>>
+>>>> Even worse from the existing backend implementation I don't even 
+>>>> see how drivers should be able to fulfill this semantics.
+>>>>
+>>>> Please explain further,
+>>>> Christian.
+>>> Here is a practical case:
+>>> The user space can allocate a large chunk of dma-buf for 
+>>> self-management, used as a shared memory pool.
+>>> Small dma-buf can be allocated from this shared memory pool and 
+>>> released back to it after use, thus improving the speed of dma-buf 
+>>> allocation and release.
+>>> Additionally, custom functionalities such as memory statistics and 
+>>> boundary checking can be implemented in the user space.
+>>> Of course, the above-mentioned functionalities require the 
+>>> implementation of a partial cache sync interface.
+>>
+>> Well that is obvious, but where is the code doing that?
+>>
+>> You can't send out code without an actual user of it. That will 
+>> obviously be rejected.
+>>
+>> Regards,
+>> Christian.
+>
+> In fact, we have already used the user-level dma-buf memory pool in 
+> the camera shooting scenario on the phone.
+>
+> From the test results, The execution time of the photo shooting 
+> algorithm has been reduced from 3.8s to 3s.
+>
+> To be honest, I didn't understand your concern "...how drivers should 
+> be able to fulfill this semantics." Can you please help explain it in 
+> more detail?
 
-Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
+Well you don't give any upstream driver code which actually uses this 
+interface.
+
+If you want to suggest some changes to the core Linux kernel your driver 
+actually needs to be upstream.
+
+As long as that isn't the case this approach here is a completely no-go.
 
 Regards,
-Martin
+Christian.
 
-On Wed, Apr 3, 2024 at 2:28=E2=80=AFAM Zack Rusin <zack.rusin@broadcom.com>=
- wrote:
 >
-> vmwgfx never supported prime import of external buffers. Furthermore the
-> driver exposes two different objects to userspace: vmw_surface's and
-> gem buffers but prime import/export only worked with vmw_surfaces.
+> Thanks,
 >
-> Because gem buffers are used through the dumb_buffer interface this meant
-> that the driver created buffers couldn't have been prime exported or
-> imported.
+> Rong Qianfeng.
 >
-> Fix prime import/export. Makes IGT's kms_prime pass.
->
-> Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-> Fixes: 8afa13a0583f ("drm/vmwgfx: Implement DRIVER_GEM")
-> Cc: <stable@vger.kernel.org> # v6.6+
-> ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_blit.c       | 35 +++++++++++++++--
->  drivers/gpu/drm/vmwgfx/vmwgfx_bo.c         |  7 ++--
->  drivers/gpu/drm/vmwgfx/vmwgfx_bo.h         |  2 +
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c        |  1 +
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  3 ++
->  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c        | 32 ++++++++++++++++
->  drivers/gpu/drm/vmwgfx/vmwgfx_prime.c      | 15 +++++++-
->  drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 44 +++++++++++++++-------
->  8 files changed, 117 insertions(+), 22 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c b/drivers/gpu/drm/vmwgf=
-x/vmwgfx_blit.c
-> index c52c7bf1485b..717d624e9a05 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
-> @@ -456,8 +456,10 @@ int vmw_bo_cpu_blit(struct ttm_buffer_object *dst,
->                 .no_wait_gpu =3D false
->         };
->         u32 j, initial_line =3D dst_offset / dst_stride;
-> -       struct vmw_bo_blit_line_data d;
-> +       struct vmw_bo_blit_line_data d =3D {0};
->         int ret =3D 0;
-> +       struct page **dst_pages =3D NULL;
-> +       struct page **src_pages =3D NULL;
->
->         /* Buffer objects need to be either pinned or reserved: */
->         if (!(dst->pin_count))
-> @@ -477,12 +479,35 @@ int vmw_bo_cpu_blit(struct ttm_buffer_object *dst,
->                         return ret;
->         }
->
-> +       if (!src->ttm->pages && src->ttm->sg) {
-> +               src_pages =3D kvmalloc_array(src->ttm->num_pages,
-> +                                          sizeof(struct page *), GFP_KER=
-NEL);
-> +               if (!src_pages)
-> +                       return -ENOMEM;
-> +               ret =3D drm_prime_sg_to_page_array(src->ttm->sg, src_page=
-s,
-> +                                                src->ttm->num_pages);
-> +               if (ret)
-> +                       goto out;
-> +       }
-> +       if (!dst->ttm->pages && dst->ttm->sg) {
-> +               dst_pages =3D kvmalloc_array(dst->ttm->num_pages,
-> +                                          sizeof(struct page *), GFP_KER=
-NEL);
-> +               if (!dst_pages) {
-> +                       ret =3D -ENOMEM;
-> +                       goto out;
-> +               }
-> +               ret =3D drm_prime_sg_to_page_array(dst->ttm->sg, dst_page=
-s,
-> +                                                dst->ttm->num_pages);
-> +               if (ret)
-> +                       goto out;
-> +       }
-> +
->         d.mapped_dst =3D 0;
->         d.mapped_src =3D 0;
->         d.dst_addr =3D NULL;
->         d.src_addr =3D NULL;
-> -       d.dst_pages =3D dst->ttm->pages;
-> -       d.src_pages =3D src->ttm->pages;
-> +       d.dst_pages =3D dst->ttm->pages ? dst->ttm->pages : dst_pages;
-> +       d.src_pages =3D src->ttm->pages ? src->ttm->pages : src_pages;
->         d.dst_num_pages =3D PFN_UP(dst->resource->size);
->         d.src_num_pages =3D PFN_UP(src->resource->size);
->         d.dst_prot =3D ttm_io_prot(dst, dst->resource, PAGE_KERNEL);
-> @@ -504,6 +529,10 @@ int vmw_bo_cpu_blit(struct ttm_buffer_object *dst,
->                 kunmap_atomic(d.src_addr);
->         if (d.dst_addr)
->                 kunmap_atomic(d.dst_addr);
-> +       if (src_pages)
-> +               kvfree(src_pages);
-> +       if (dst_pages)
-> +               kvfree(dst_pages);
->
->         return ret;
->  }
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/=
-vmwgfx_bo.c
-> index bfd41ce3c8f4..e5eb21a471a6 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-> @@ -377,7 +377,8 @@ static int vmw_bo_init(struct vmw_private *dev_priv,
->  {
->         struct ttm_operation_ctx ctx =3D {
->                 .interruptible =3D params->bo_type !=3D ttm_bo_type_kerne=
-l,
-> -               .no_wait_gpu =3D false
-> +               .no_wait_gpu =3D false,
-> +               .resv =3D params->resv,
->         };
->         struct ttm_device *bdev =3D &dev_priv->bdev;
->         struct drm_device *vdev =3D &dev_priv->drm;
-> @@ -394,8 +395,8 @@ static int vmw_bo_init(struct vmw_private *dev_priv,
->
->         vmw_bo_placement_set(vmw_bo, params->domain, params->busy_domain)=
-;
->         ret =3D ttm_bo_init_reserved(bdev, &vmw_bo->tbo, params->bo_type,
-> -                                  &vmw_bo->placement, 0, &ctx, NULL,
-> -                                  NULL, destroy);
-> +                                  &vmw_bo->placement, 0, &ctx,
-> +                                  params->sg, params->resv, destroy);
->         if (unlikely(ret))
->                 return ret;
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h b/drivers/gpu/drm/vmwgfx/=
-vmwgfx_bo.h
-> index 0d496dc9c6af..f349642e6190 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
-> @@ -55,6 +55,8 @@ struct vmw_bo_params {
->         enum ttm_bo_type bo_type;
->         size_t size;
->         bool pin;
-> +       struct dma_resv *resv;
-> +       struct sg_table *sg;
->  };
->
->  /**
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx=
-/vmwgfx_drv.c
-> index 89d3679d2608..41ad13e45554 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> @@ -1631,6 +1631,7 @@ static const struct drm_driver driver =3D {
->
->         .prime_fd_to_handle =3D vmw_prime_fd_to_handle,
->         .prime_handle_to_fd =3D vmw_prime_handle_to_fd,
-> +       .gem_prime_import_sg_table =3D vmw_prime_import_sg_table,
->
->         .fops =3D &vmwgfx_driver_fops,
->         .name =3D VMWGFX_DRIVER_NAME,
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx=
-/vmwgfx_drv.h
-> index ddbceaa31b59..4ecaea0026fc 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> @@ -1107,6 +1107,9 @@ extern int vmw_prime_handle_to_fd(struct drm_device=
- *dev,
->                                   struct drm_file *file_priv,
->                                   uint32_t handle, uint32_t flags,
->                                   int *prime_fd);
-> +struct drm_gem_object *vmw_prime_import_sg_table(struct drm_device *dev,
-> +                                                struct dma_buf_attachmen=
-t *attach,
-> +                                                struct sg_table *table);
->
->  /*
->   * MemoryOBject management -  vmwgfx_mob.c
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c b/drivers/gpu/drm/vmwgfx=
-/vmwgfx_gem.c
-> index 186150f41fbc..2132a8ad8c0c 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-> @@ -136,6 +136,38 @@ int vmw_gem_object_create_with_handle(struct vmw_pri=
-vate *dev_priv,
->         return ret;
->  }
->
-> +struct drm_gem_object *vmw_prime_import_sg_table(struct drm_device *dev,
-> +                                                struct dma_buf_attachmen=
-t *attach,
-> +                                                struct sg_table *table)
-> +{
-> +       int ret;
-> +       struct vmw_private *dev_priv =3D vmw_priv(dev);
-> +       struct drm_gem_object *gem =3D NULL;
-> +       struct vmw_bo *vbo;
-> +       struct vmw_bo_params params =3D {
-> +               .domain =3D (dev_priv->has_mob) ? VMW_BO_DOMAIN_SYS : VMW=
-_BO_DOMAIN_VRAM,
-> +               .busy_domain =3D VMW_BO_DOMAIN_SYS,
-> +               .bo_type =3D ttm_bo_type_sg,
-> +               .size =3D attach->dmabuf->size,
-> +               .pin =3D false,
-> +               .resv =3D attach->dmabuf->resv,
-> +               .sg =3D table,
-> +
-> +       };
-> +
-> +       dma_resv_lock(params.resv, NULL);
-> +
-> +       ret =3D vmw_bo_create(dev_priv, &params, &vbo);
-> +       if (ret !=3D 0)
-> +               goto out_no_bo;
-> +
-> +       vbo->tbo.base.funcs =3D &vmw_gem_object_funcs;
-> +
-> +       gem =3D &vbo->tbo.base;
-> +out_no_bo:
-> +       dma_resv_unlock(params.resv);
-> +       return gem;
-> +}
->
->  int vmw_gem_object_create_ioctl(struct drm_device *dev, void *data,
->                                 struct drm_file *filp)
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_prime.c b/drivers/gpu/drm/vmwg=
-fx/vmwgfx_prime.c
-> index 2d72a5ee7c0c..c99cad444991 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_prime.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_prime.c
-> @@ -75,8 +75,12 @@ int vmw_prime_fd_to_handle(struct drm_device *dev,
->                            int fd, u32 *handle)
->  {
->         struct ttm_object_file *tfile =3D vmw_fpriv(file_priv)->tfile;
-> +       int ret =3D ttm_prime_fd_to_handle(tfile, fd, handle);
->
-> -       return ttm_prime_fd_to_handle(tfile, fd, handle);
-> +       if (ret)
-> +               ret =3D drm_gem_prime_fd_to_handle(dev, file_priv, fd, ha=
-ndle);
-> +
-> +       return ret;
->  }
->
->  int vmw_prime_handle_to_fd(struct drm_device *dev,
-> @@ -85,5 +89,12 @@ int vmw_prime_handle_to_fd(struct drm_device *dev,
->                            int *prime_fd)
->  {
->         struct ttm_object_file *tfile =3D vmw_fpriv(file_priv)->tfile;
-> -       return ttm_prime_handle_to_fd(tfile, handle, flags, prime_fd);
-> +       int ret;
-> +
-> +       if (handle > VMWGFX_NUM_MOB)
-> +               ret =3D ttm_prime_handle_to_fd(tfile, handle, flags, prim=
-e_fd);
-> +       else
-> +               ret =3D drm_gem_prime_handle_to_fd(dev, file_priv, handle=
-, flags, prime_fd);
-> +
-> +       return ret;
->  }
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm=
-/vmwgfx/vmwgfx_ttm_buffer.c
-> index 4d23d0a70bcb..621d98b376bb 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> @@ -188,13 +188,18 @@ static int vmw_ttm_map_dma(struct vmw_ttm_tt *vmw_t=
-t)
->         switch (dev_priv->map_mode) {
->         case vmw_dma_map_bind:
->         case vmw_dma_map_populate:
-> -               vsgt->sgt =3D &vmw_tt->sgt;
-> -               ret =3D sg_alloc_table_from_pages_segment(
-> -                       &vmw_tt->sgt, vsgt->pages, vsgt->num_pages, 0,
-> -                       (unsigned long)vsgt->num_pages << PAGE_SHIFT,
-> -                       dma_get_max_seg_size(dev_priv->drm.dev), GFP_KERN=
-EL);
-> -               if (ret)
-> -                       goto out_sg_alloc_fail;
-> +               if (vmw_tt->dma_ttm.page_flags  & TTM_TT_FLAG_EXTERNAL) {
-> +                       vsgt->sgt =3D vmw_tt->dma_ttm.sg;
-> +               } else {
-> +                       vsgt->sgt =3D &vmw_tt->sgt;
-> +                       ret =3D sg_alloc_table_from_pages_segment(&vmw_tt=
-->sgt,
-> +                               vsgt->pages, vsgt->num_pages, 0,
-> +                               (unsigned long)vsgt->num_pages << PAGE_SH=
-IFT,
-> +                               dma_get_max_seg_size(dev_priv->drm.dev),
-> +                               GFP_KERNEL);
-> +                       if (ret)
-> +                               goto out_sg_alloc_fail;
-> +               }
->
->                 ret =3D vmw_ttm_map_for_dma(vmw_tt);
->                 if (unlikely(ret !=3D 0))
-> @@ -209,8 +214,9 @@ static int vmw_ttm_map_dma(struct vmw_ttm_tt *vmw_tt)
->         return 0;
->
->  out_map_fail:
-> -       sg_free_table(vmw_tt->vsgt.sgt);
-> -       vmw_tt->vsgt.sgt =3D NULL;
-> +       drm_warn(&dev_priv->drm, "VSG table map failed!");
-> +       sg_free_table(vsgt->sgt);
-> +       vsgt->sgt =3D NULL;
->  out_sg_alloc_fail:
->         return ret;
->  }
-> @@ -356,15 +362,17 @@ static void vmw_ttm_destroy(struct ttm_device *bdev=
-, struct ttm_tt *ttm)
->  static int vmw_ttm_populate(struct ttm_device *bdev,
->                             struct ttm_tt *ttm, struct ttm_operation_ctx =
-*ctx)
->  {
-> -       int ret;
-> +       bool external =3D (ttm->page_flags & TTM_TT_FLAG_EXTERNAL) !=3D 0=
-;
->
-> -       /* TODO: maybe completely drop this ? */
->         if (ttm_tt_is_populated(ttm))
->                 return 0;
->
-> -       ret =3D ttm_pool_alloc(&bdev->pool, ttm, ctx);
-> +       if (external && ttm->sg)
-> +               return  drm_prime_sg_to_dma_addr_array(ttm->sg,
-> +                                                      ttm->dma_address,
-> +                                                      ttm->num_pages);
->
-> -       return ret;
-> +       return ttm_pool_alloc(&bdev->pool, ttm, ctx);
->  }
->
->  static void vmw_ttm_unpopulate(struct ttm_device *bdev,
-> @@ -372,6 +380,10 @@ static void vmw_ttm_unpopulate(struct ttm_device *bd=
-ev,
->  {
->         struct vmw_ttm_tt *vmw_tt =3D container_of(ttm, struct vmw_ttm_tt=
-,
->                                                  dma_ttm);
-> +       bool external =3D (ttm->page_flags & TTM_TT_FLAG_EXTERNAL) !=3D 0=
-;
-> +
-> +       if (external)
-> +               return;
->
->         vmw_ttm_unbind(bdev, ttm);
->
-> @@ -390,6 +402,7 @@ static struct ttm_tt *vmw_ttm_tt_create(struct ttm_bu=
-ffer_object *bo,
->  {
->         struct vmw_ttm_tt *vmw_be;
->         int ret;
-> +       bool external =3D bo->type =3D=3D ttm_bo_type_sg;
->
->         vmw_be =3D kzalloc(sizeof(*vmw_be), GFP_KERNEL);
->         if (!vmw_be)
-> @@ -398,7 +411,10 @@ static struct ttm_tt *vmw_ttm_tt_create(struct ttm_b=
-uffer_object *bo,
->         vmw_be->dev_priv =3D vmw_priv_from_ttm(bo->bdev);
->         vmw_be->mob =3D NULL;
->
-> -       if (vmw_be->dev_priv->map_mode =3D=3D vmw_dma_alloc_coherent)
-> +       if (external)
-> +               page_flags |=3D TTM_TT_FLAG_EXTERNAL | TTM_TT_FLAG_EXTERN=
-AL_MAPPABLE;
-> +
-> +       if (vmw_be->dev_priv->map_mode =3D=3D vmw_dma_alloc_coherent || e=
-xternal)
->                 ret =3D ttm_sg_tt_init(&vmw_be->dma_ttm, bo, page_flags,
->                                      ttm_cached);
->         else
-> --
-> 2.40.1
->
+>>
+>>>
+>>> Thanks
+>>> Rong Qianfeng.
+>>
+
