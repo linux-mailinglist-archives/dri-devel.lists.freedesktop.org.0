@@ -2,67 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E71B89D67B
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 12:14:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B60C989D6AD
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 12:18:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27ED4112C6C;
-	Tue,  9 Apr 2024 10:14:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A540110F47A;
+	Tue,  9 Apr 2024 10:18:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RyScJPCS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ajvumatU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2225112C6A
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 10:14:17 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7636A10F47A
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 10:18:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712657657; x=1744193657;
+ t=1712657889; x=1744193889;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=/HdsMnAppID2c/T4mP9olHUzTPjv3yVarzfCvUZ29fg=;
- b=RyScJPCSzDL/hvHHBZlT/v0v3CSrYPeW5adaXleq84pNxXJ/okwik6zl
- ObT9Av1uR+hhS+g7jrO6kgsiJVDTtbmFHo0d251iTgaXj8zyKkPxjg9qt
- zefWqdOWpEBwlWxd8JkPCwCjZpcD8XCZ7JSqLhzkSUBaR31kS2a32RVwP
- eOgqAStrIAIAHxLhRQV2hptFZBfIcWm3Tptk4eBVevNyq0RRfmSovJzAE
- 73jg8SDEVOmmKRWLopJ8u+ee/oOq85grdBDcnbuh7UuTnzUWZ8EhAw7+d
- ptTY4gvMKTBfwXlpyr6nkmfZQa0hkvkHTsa6aFd8b/DXtBlU9Rierg0MM Q==;
-X-CSE-ConnectionGUID: ayfbzEDTQPCBipWlp0lWdw==
-X-CSE-MsgGUID: 7HhBGb/JTFelamnd/ZU/xg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="8193958"
+ bh=u2U8gJTN1Y6/tkA6R0gZXY/7BUyF0iITDQkVEsbOAnA=;
+ b=ajvumatU/MGHXpxFzrswG24et95j7b6keOdZ/fZQR5C7aXYiYxQ4Sl2P
+ nOvISVvROVcRluOdmhT/mMFp9AsviEte7zp4b/gH8/KKvHyzGdBzB5xqy
+ genozE5v4FiCkJYzBmVdNIKmvjoqGdR3yO23nczLM7JRgsIkUKG0CP84H
+ jt4XfkJ4Lvr1xihRI3pY0XMQIezcj0P3mIYgeiyDDv898L1DiEl+Un795
+ XQhmi6vLwITcA+Eq0byKpcchm7ANCUGkdiwUI0/MOlkEaOhD+ZMpBfVqn
+ GU6eApbpe0dHFPO0kPD4cadspiJyP5u8dS81ab/5OQn5jjnbEQIlgN3Hy A==;
+X-CSE-ConnectionGUID: 0VLk/SsjT/Sbjq+R5WM1lg==
+X-CSE-MsgGUID: yhB5gH3bTPmmaXqpPwpiVA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="7810007"
 X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
-   d="scan'208";a="8193958"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Apr 2024 03:14:17 -0700
-X-CSE-ConnectionGUID: h6vK66UbSkiXc+RIBnnazw==
-X-CSE-MsgGUID: NfhpuIMUS02Pkod9R4umgA==
+   d="scan'208";a="7810007"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Apr 2024 03:18:08 -0700
+X-CSE-ConnectionGUID: LTf4sdfZTz6UbXVmVZS56A==
+X-CSE-MsgGUID: qxFEr1dPQ6GxCjqgjB5/HQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; d="scan'208";a="51180842"
+X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; d="scan'208";a="20754976"
 Received: from mserban-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.59.228])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Apr 2024 03:14:11 -0700
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Apr 2024 03:18:03 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ingo Molnar <mingo@kernel.org>
-Cc: Namhyung Kim <namhyung@kernel.org>, Arnaldo Carvalho de Melo
- <acme@kernel.org>, Ian Rogers <irogers@google.com>, Kan Liang
- <kan.liang@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, Adrian Hunter
- <adrian.hunter@intel.com>, Peter Zijlstra <peterz@infradead.org>, LKML
- <linux-kernel@vger.kernel.org>, linux-perf-users@vger.kernel.org, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/9] tools/include: Sync uapi/drm/i915_drm.h with the
- kernel sources
-In-Reply-To: <ZhTwPLliHXKPAJUQ@gmail.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+ pekka.paalanen@collabora.com, thomas.petazzoni@bootlin.com, Louis Chauvet
+ <louis.chauvet@bootlin.com>
+Subject: Re: [PATCH 0/3] drm: Multiple documentation update
+In-Reply-To: <20240409-google-drm-doc-v1-0-033d55cc8250@bootlin.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240408185520.1550865-1-namhyung@kernel.org>
- <20240408185520.1550865-2-namhyung@kernel.org> <874jcb9etk.fsf@intel.com>
- <ZhTwPLliHXKPAJUQ@gmail.com>
-Date: Tue, 09 Apr 2024 13:14:09 +0300
-Message-ID: <87pluy972m.fsf@intel.com>
+References: <20240409-google-drm-doc-v1-0-033d55cc8250@bootlin.com>
+Date: Tue, 09 Apr 2024 13:18:00 +0300
+Message-ID: <87msq296w7.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,65 +75,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 09 Apr 2024, Ingo Molnar <mingo@kernel.org> wrote:
-> * Jani Nikula <jani.nikula@linux.intel.com> wrote:
+On Tue, 09 Apr 2024, Louis Chauvet <louis.chauvet@bootlin.com> wrote:
+> PATCH 1 and PATCH 2 focus on the rotation property. The rotation property 
+> can be challenging to understand, especially when it is combined with 
+> reflections. These patches aim to provide clearer explanations and 
+> examples to aid in comprehension.
 >
->> On Mon, 08 Apr 2024, Namhyung Kim <namhyung@kernel.org> wrote:
->> > To pick up changes from:
->> >
->> >    b112364867499 ("drm/i915: Add GuC submission interface version query")
->> >    5cf0fbf763741 ("drm/i915: Add some boring kerneldoc")
->> >
->> > This should be used to beautify DRM syscall arguments and it addresses
->> > these tools/perf build warnings:
->> >
->> >   Warning: Kernel ABI header differences:
->> >     diff -u tools/include/uapi/drm/i915_drm.h include/uapi/drm/i915_drm.h
->> 
->> All these years and I never realized there are header copies
->> there. But... why copies?
+> Patch 3 relates to the fourcc property. It includes additional details 
+> about block and char_per_block to provide a more comprehensive 
+> understanding of this feature.
 >
-> It's better than all the alternatives we tried so far:
->
->  - Symbolic links and direct #includes: this was the original approach but 
->    was pushed back on from the kernel side, when tooling modified the 
->    headers and broke them accidentally for kernel builds.
->
->  - Duplicate self-defined ABI headers like glibc: double the maintenance 
->    burden, double the chance for mistakes, plus there's no tech-driven 
->    notification mechanism to look at new kernel side changes.
->
-> What we are doing now is a third option:
->
->  - A software-enforced copy-on-write mechanism of kernel headers to 
->    tooling, driven by non-fatal warnings on the tooling side build when 
->    kernel headers get modified:
->
->     Warning: Kernel ABI header differences:
->       diff -u tools/include/uapi/drm/i915_drm.h include/uapi/drm/i915_drm.h
->       diff -u tools/include/uapi/linux/fs.h include/uapi/linux/fs.h
->       diff -u tools/include/uapi/linux/kvm.h include/uapi/linux/kvm.h
->       ...
->
->    The tooling policy is to always pick up the kernel side headers as-is, 
->    and integate them into the tooling build. The warnings above serve as a 
->    notification to tooling maintainers that there's changes on the kernel 
->    side.
->
-> We've been using this for many years now, and it might seem hacky, but 
-> works surprisingly well.
->
-> Does this make sense to you?
+> Regarding PATCH 1, I would appreciate some feedback on the expected 
+> behavior. During a recent VKMS refactor, I used drm_rect_rotate as a 
+> reference for the rotation. However, during my testing phase, I noticed 
+> that the original VKMS implementation interpreted the rotation 
+> differently. Therefore, I kindly request that someone validate or 
+> invalidate my interpretation before proceeding with the merge.
 
-Yes, although there are probably pieces of the puzzle I'm missing.
-Thanks for the explanation! (That might work almost as-is copied to
-tools/include/uapi/README. ;)
-
-It's also kind of funny to find this kind of back alleys of the kernel
-repo I've never wandered to before.
+Did you run 'make htmldocs' and check the results after your changes?
+I'm almost certain this botches up the layout.
 
 BR,
 Jani.
+
+>
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+> Louis Chauvet (3):
+>       drm: drm_blend.c: Add precision in drm_rotation_simplify kernel doc
+>       drm: drm_blend.c: Improve drm_plane_create_rotation_property kernel doc
+>       drm/fourcc: Add documentation around drm_format_info
+>
+>  drivers/gpu/drm/drm_blend.c | 57 ++++++++++++++++++++++++++++++++++-----------
+>  include/drm/drm_fourcc.h    | 45 +++++++++++++++++++++++++++++------
+>  2 files changed, 81 insertions(+), 21 deletions(-)
+> ---
+> base-commit: e495e523b888a6155f82c767d34c8d712a41ee54
+> change-id: 20240327-google-drm-doc-cd275291792f
+>
+> Best regards,
 
 -- 
 Jani Nikula, Intel
