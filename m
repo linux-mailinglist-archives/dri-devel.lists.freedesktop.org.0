@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E93489DFCD
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 17:57:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FD2389DFDD
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 17:59:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D28F3112DE7;
-	Tue,  9 Apr 2024 15:56:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D28A010E156;
+	Tue,  9 Apr 2024 15:59:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XikRfPgt";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="H0+YSnuf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07F7F112DE7
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 15:56:54 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-a51fea60c0bso82205466b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Apr 2024 08:56:54 -0700 (PDT)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6934D10E148
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 15:59:05 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-2d485886545so101959231fa.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Apr 2024 08:59:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712678213; x=1713283013; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1712678343; x=1713283143; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=cfusfqeFqRJ0WRDgA8cU5FKIiHVgUt/Pa1fP0UY4u98=;
- b=XikRfPgtYXtAXOW/P8mm52UqMGe9gE+HblG2qgQtMei2J9qx0iNGyeLojqy4um2Swm
- 42CooeCW7vhKekY6H4m8Jzh764D4qpzyTW7BLGcGiUov1m1FXnj4VtisXbZYq+NCXPll
- /B2mOUVKWdaDLcgNeAivjDlBOmhECquHx4ma70h66M5Vl4j+I9WyEJ0vt+Z+q8JTuqd1
- 0/Wp7Q0nWZ+TNHD36kEhxD8xUf0cOZFwpDYsNrZT7OSOiPOSHy036I3BUQTbaDSFCm2k
- obEQBCBlkg85GQ53t/bOzNB1QKRpizRCm+LxZqNJuowU7fhQ3rUg0VeB7Ruxsrbuyls1
- L3cA==
+ bh=Y+/spKUkA9slzNHp8vKtqr5Sqc4bQ9ZR/k/vJJvywmg=;
+ b=H0+YSnuf4SLam3+B0TzzTiEz3vpLM66D0j0i48J86fIrgI3K8pbzycZQ8El8imPnPi
+ GfwuIkJqOJEs6nhTGkEHWundUoHWPC9UcbK/8ph7Qc/A/HqF3MVIPfY1vebAK0sJJTzr
+ Rg6K96hmCTHW0P/gWb1O7RqObPBsbtsBKst9IftvPF+/rr5MbxZe66u0LM9elnQ38E2q
+ qwzwAE75k1sRXcBHEo67HsFylugyuGeZKN6QmLgveuzdjkfKbTI6k2+jP2EbdN5I9Z4R
+ 2XuSyTbN7PuL4Dg1zNwK+YX01+R07B6j2m6DtztcnykyqO+S5+k3KJ1FoiOBvXQG/vFD
+ 7peg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712678213; x=1713283013;
+ d=1e100.net; s=20230601; t=1712678343; x=1713283143;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cfusfqeFqRJ0WRDgA8cU5FKIiHVgUt/Pa1fP0UY4u98=;
- b=U0j04LWxi5nqLezS7rmR+sRwmf0SVxCmVG7A5/A/0oDwDLcz2YKw7TXCgct6QUogVk
- wrb6+HbOng8aFmdOFLATtKUJ+mcHVFStxZU1c6HVkT3a4PX+Bx/+Iay8t+vG01RScN1a
- bXQChVIlqqhYVEEfgZfr4QM9uos8FrnjsDhgjntVeI7imHx7AsbO+h43LDlOFwSHOTJa
- hIwbdsPMunOEuuNIpYuq9QHS+u+aHQD4wIPKgiXX7GIF84H+dkRYtmw4bMe9U+ZZGwpr
- +KjnqRPnqnY7U1Jd2frwwO8ziwyhHfK0dU+raMUs5Uc8NwqhTSmwxh7YN6BVcYaDCQSJ
- hSTw==
+ bh=Y+/spKUkA9slzNHp8vKtqr5Sqc4bQ9ZR/k/vJJvywmg=;
+ b=jsM/Kj5OyPthwrcq5+guNgR4/E3ldro33xtDhSe/dWH0Va5MN22ufjvtriAcqoJndL
+ e7mxDihy3AQPNxV2z9LhII9ANNXDvlG68xk8Y/zbixdyYblfBazIxflMb2p8eJtac08O
+ 4bzl955uVWlXrvH2vuw4G8kdy0o5sIfqYtfolduxju9tFQOLIvXMxsqmgQ8jqZ1KZwvB
+ nQzy7z4dlzR9FUz01ChSwWKz7RN9PZnVCWUZvRAjhK7Jn+3IjNBkAr+xLIrXBpC3CkKq
+ UqjTipgIokoDQPIBHKafoy+JL+iEd+PeVitlprz4u3lk8OeqWGPCNe03o4n5vVYAxulS
+ Ha+w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWp+3pdHjUhlxixTuGmI8hjTxJ8H04LCUkF5njZVizF6Ct3Msrs4GveNPNgPn16ZuvvFCdvfHln5Ytt60B7oKJKqaYtf134eBJoxEcfVT6P
-X-Gm-Message-State: AOJu0YzhvFtRcAcJBG0fv+qvwgMLoluYjFx4fC1/+zFwpqeYnliLo3I4
- YvTXdmW8SoD5fJJU0bbuh9MFnQoj1NdNBo/uwFs7Qap7Uxg1JQMHB153AUgYpwE=
-X-Google-Smtp-Source: AGHT+IGz69y5YQmJCMWOCwk0+ovCF0eMOPo7z36gohvpMfMsK6OkGCXH0pCxdYBz5kX6P2cbGycwTg==
-X-Received: by 2002:a17:907:1b17:b0:a51:da26:9062 with SMTP id
- mp23-20020a1709071b1700b00a51da269062mr5127083ejc.36.1712678213231; 
- Tue, 09 Apr 2024 08:56:53 -0700 (PDT)
+ AJvYcCViXx7H8oTdYhXO+xFyzZHiSfdZoQflSSGAfMQlM5i6/kAsbRiLWO2RoMMHvvFiS615ZyO+vhJmXCw/SUOTdGLmqrUml/O7hqG8lC5UzLhs
+X-Gm-Message-State: AOJu0Yxhdf+9g1Kjc4oZSqDGV8hGN5uIWWX8Ir1iVcmjd4PbfqK2AEQS
+ qdrgj05aDjq/+CGt2l6fNaFwAyI+oZgmYpgMZV9DRuujIOT/Xq2/r6Q0xifY5IU=
+X-Google-Smtp-Source: AGHT+IEwmvmvRUWELqbbts3tqSXfa50z4eY5lQY39SDTovI1YrizSuwrb6EVAJvqAhL1f+F/VWmctA==
+X-Received: by 2002:a2e:8303:0:b0:2d8:6a04:3bcd with SMTP id
+ a3-20020a2e8303000000b002d86a043bcdmr222197ljh.3.1712678343286; 
+ Tue, 09 Apr 2024 08:59:03 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.16])
  by smtp.gmail.com with ESMTPSA id
- i3-20020a1709063c4300b00a51fa9f6d92sm809358ejg.38.2024.04.09.08.56.50
+ dm14-20020a170907948e00b00a4e24d259edsm5749071ejc.167.2024.04.09.08.59.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Apr 2024 08:56:52 -0700 (PDT)
-Message-ID: <812696d7-fa85-433a-8457-99754a10a8ef@linaro.org>
-Date: Tue, 9 Apr 2024 17:56:49 +0200
+ Tue, 09 Apr 2024 08:59:02 -0700 (PDT)
+Message-ID: <60fd9942-1621-452d-b7ae-40dd11ee1ae0@linaro.org>
+Date: Tue, 9 Apr 2024 17:58:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 04/18] dt-bindings: mfd: mediatek: Add codec property
- for MT6357 PMIC
+Subject: Re: [PATCH v3 16/18] arm64: dts: mediatek: add mt6357 audio codec
+ support
 To: Alexandre Mergnat <amergnat@baylibre.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
@@ -81,7 +81,7 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
 References: <20240226-audio-i350-v3-0-16bb2c974c55@baylibre.com>
- <20240226-audio-i350-v3-4-16bb2c974c55@baylibre.com>
+ <20240226-audio-i350-v3-16-16bb2c974c55@baylibre.com>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -128,7 +128,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240226-audio-i350-v3-4-16bb2c974c55@baylibre.com>
+In-Reply-To: <20240226-audio-i350-v3-16-16bb2c974c55@baylibre.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -147,30 +147,47 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 09/04/2024 15:42, Alexandre Mergnat wrote:
-> Add the audio codec sub-device. This sub-device is used to set required
-> and optional voltage properties between the codec and the board.
+> Add audio codec support of MT6357 PMIC.
+> Update the file header.
+
+Why?
+
 > 
 > Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 > ---
->  Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
+>  arch/arm64/boot/dts/mediatek/mt6357.dtsi | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
-> index 37423c2e0fdf..7c6a4a587b5f 100644
-> --- a/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
-> @@ -37,6 +37,11 @@ properties:
->    "#interrupt-cells":
->      const: 2
+> diff --git a/arch/arm64/boot/dts/mediatek/mt6357.dtsi b/arch/arm64/boot/dts/mediatek/mt6357.dtsi
+> index 3330a03c2f74..ade410851524 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt6357.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt6357.dtsi
+> @@ -1,7 +1,7 @@
+>  // SPDX-License-Identifier: (GPL-2.0 OR MIT)
+>  /*
+>   * Copyright (c) 2020 MediaTek Inc.
+> - * Copyright (c) 2023 BayLibre Inc.
+> + * Copyright (c) 2024 BayLibre Inc.
+
+That's not a reasonable change. The file was published on 2023, wasn't
+it? If this is not correct, please explain why/how and make it separate
+patch.
+
+>   */
 >  
-> +  codec:
-> +    type: object
-> +    $ref: /schemas/sound/mt6357.yaml
-> +    unevaluatedProperties: false
+>  #include <dt-bindings/input/input.h>
+> @@ -10,6 +10,9 @@ &pwrap {
+>  	mt6357_pmic: pmic {
+>  		compatible = "mediatek,mt6357";
+>  
+> +		mt6357_codec: codec {
+> +		};
 
-Just put the properties here, without the codec node.
+There is no single point of having empty nodes.
 
-Also, your example is now incomplete.
+NAK.
+
+
 
 Best regards,
 Krzysztof
