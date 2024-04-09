@@ -2,57 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C83D89D8B8
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 14:02:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E50FE89DE7D
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 17:16:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B9CB10E6E8;
-	Tue,  9 Apr 2024 12:02:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7D59112242;
+	Tue,  9 Apr 2024 15:16:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="wP0Oj7YV";
+	dkim=pass (1024-bit key; unprotected) header.d=bachmann.info header.i=@bachmann.info header.b="OG3cRUTt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC1A98926D
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 12:02:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1712664140;
- bh=aVIxEjpD/uzrrBgKsGRMZAhTEtz8hbrR5ketpt9U/T8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=wP0Oj7YVgbhqqwOkP8x+86Ev53RSKaYHxJMc8MO+TlbMcf6sbe/umxIA+uFZ/Ox/Z
- SCuar0xAPkxW3dkj0/9Rgc/rCPg4ryMXcHe18azd2SJZ52syXXXi6axweI+f1Lpor+
- Wg5odEfheqJmT/hz7H8/cLyDPnOylZr07B0B4S+WlK88wh+Lda7uRmmlnmKDj7Iqw0
- NggAhwZzRxSffslGsizz/jgcAZcGwgxbdyOz2ETJN7Shg+GZ3JphUiMjPb8IHY3+4/
- Xvl7nXgxvJzDEHbBiVXV9ie4JCG87STUvYxKbNJ/hHuvgRKspp/+3UAQrfMwFTfhB3
- I8uGBhFJriWQA==
-Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com
- [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1630E3782127;
- Tue,  9 Apr 2024 12:02:19 +0000 (UTC)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: chunkuang.hu@kernel.org
-Cc: robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
- shawn.sung@mediatek.com, yu-chang.lee@mediatek.com, ck.hu@mediatek.com,
- jitao.shi@mediatek.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- wenst@chromium.org, kernel@collabora.com
-Subject: [PATCH v2 3/3] drm/mediatek: Implement OF graphs support for display
- paths
-Date: Tue,  9 Apr 2024 14:02:11 +0200
-Message-ID: <20240409120211.321153-4-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240409120211.321153-1-angelogioacchino.delregno@collabora.com>
-References: <20240409120211.321153-1-angelogioacchino.delregno@collabora.com>
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on2090.outbound.protection.outlook.com [40.107.20.90])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BC7E112D22
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 12:06:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gMGqnjFoKvygYAl2l2rsMPX2FivU8MyCm/cveTqj0SycJ0tNFOw9a+F797utkDOz2yLy3Tn6uuZBUIh20CWJ4AUYTAn6WD5wdMeIUXTLqK3DHS/L76wYlAesWajzLi9C3yRNiRt3tJXlffyCUhpsrJFV10oK0m7ZRKAW8ltwFKzVH8g6j+kvpIthi74cmtZtQG1ZFpAvEgP92hwzCrRPLsROXJmx4INGCF1GkI0Krg3JbpQABO0rTo4+bPyEpeMF+3iMUA7RXfZJ8Kt9s7yAeVxKXTrc5ZPUmiSaNA3z0aPEPsLfSyRENjq/196QSQGg/7HmoFCAVhKsU7K1KUHG6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0/tEySYXQu4joJnJd8l8Dy0Y9QiTT4c/JR7NO7UTfV8=;
+ b=Upnisrbl9ZF87DD5Qh9HiIujmXf4bq84hOx0gQuq00iK2NceAphHSrCxff3EuKAGlocwu4kNKdylHdRAF74pLR5LtJe53ClWIpAcHwi0gGdHHKEsNGTHSURHMifTlZw7qCD/uROD4Djb/yWjRVEEmcQpgK7O76R4tZdhAYOP7icDW9G883PVvcEg3i8SnIX67VJNdtqOxQZmWtYcoZZ1HXBwFwUh7vXB0rkhK/BByDMT4/3u2ITWG7NWXjYQyatCXtFRGalJ7VdTxrbpyNBJNpIUn7huoIPmUuXksX/koZ9INtAcmZRtgyCL0pzYJbXrVDsRBpwXMQoNaD/gos5UKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 185.67.228.71) smtp.rcpttodomain=vger.kernel.org
+ smtp.mailfrom=bachmann.info; dmarc=fail (p=quarantine sp=quarantine pct=100)
+ action=quarantine header.from=bachmann.info; dkim=none (message not signed);
+ arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bachmann.info;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0/tEySYXQu4joJnJd8l8Dy0Y9QiTT4c/JR7NO7UTfV8=;
+ b=OG3cRUTthpnMgal+hAuzkVO2R9iD5pmCmt0Yd/J5zauzhxsi1u/iNDGfOrx7DQhbNz2H/ZETCqTOWNQBIDxssDro1OC/7afxRVW1kQrMBloxhZiwp3ckZEdthyKTRoWREBAGGbqsPhe+UmSMB51vdmtI+9rQjsZ66nXWfeCaFyw=
+Received: from AS9PR06CA0309.eurprd06.prod.outlook.com (2603:10a6:20b:45b::11)
+ by AS4PR05MB9695.eurprd05.prod.outlook.com (2603:10a6:20b:4f1::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Tue, 9 Apr
+ 2024 12:06:23 +0000
+Received: from AMS0EPF0000019C.eurprd05.prod.outlook.com
+ (2603:10a6:20b:45b:cafe::59) by AS9PR06CA0309.outlook.office365.com
+ (2603:10a6:20b:45b::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.36 via Frontend
+ Transport; Tue, 9 Apr 2024 12:06:23 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
+ 185.67.228.71) smtp.mailfrom=bachmann.info; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=bachmann.info;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ bachmann.info discourages use of 185.67.228.71 as permitted sender)
+Received: from webmail.bachmann.info (185.67.228.71) by
+ AMS0EPF0000019C.mail.protection.outlook.com (10.167.16.248) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7452.22 via Frontend Transport; Tue, 9 Apr 2024 12:06:23 +0000
+Received: from ATFKPCLXPAFO.bachmann.at (10.204.124.241) by
+ atfkex03.bachmann.at (10.10.10.31) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 9 Apr 2024 14:06:22 +0200
+From: Pascal FONTAIN <Pascal.FONTAIN@bachmann.info>
+To: <linux-kernel@vger.kernel.org>, Derek Kiernan <derek.kiernan@amd.com>,
+ Dragan Cvetic <dragan.cvetic@amd.com>, Arnd Bergmann <arnd@arndb.de>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+CC: <afd@ti.com>, Pascal Fontain <pascal.fontain@bachmann.info>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>
+Subject: [PATCH v3 2/2] misc: sram: Add DMA-BUF Heap exporting of SRAM areas
+Date: Tue, 9 Apr 2024 14:06:05 +0200
+Message-ID: <20240409120605.4138472-3-Pascal.FONTAIN@bachmann.info>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240409120605.4138472-1-Pascal.FONTAIN@bachmann.info>
+References: <20240409120605.4138472-1-Pascal.FONTAIN@bachmann.info>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: atfkex03.bachmann.at (10.10.10.31) To atfkex03.bachmann.at
+ (10.10.10.31)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AMS0EPF0000019C:EE_|AS4PR05MB9695:EE_
+X-MS-Office365-Filtering-Correlation-Id: a2b44e58-01d2-4b5d-087b-08dc588d7993
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: u3gjCNCT+ykSwwkLfH8LW9024Sz9SHzWl5xGx0v3FGp+m75183bLlA5dkVX1Cu5IvLYaZ2UvarZ0WyQK2OTnE8yDBJWVOAhCe5olQvdjIRa5LYTcLKXLoJD3ZjUTg173G1MFWEFo2VXapw6698IOWIa8byKKUoU4anhyZqBrSZ0n9fUL0fAtVM6WTwHOTsOtdcOHohhL2jfins0PCJFMFnqN7ssqLb0vENQ7WZi0y51VVjUX9voqaoeS3BkIH4l4fff0UiyRHxz0cpuds95fUe/75xKxd5h42SGTcRfQG3xYhWO9HnlOj6BMXHg0+8BLzxwXBE9RXiQ58Ml2rDgziidy1FHVz0RSuvNBaBxWM/5bZLSQ+xS0dUU+sRblcmTymb1P51WP6N5UHyRzslq9E/Q3kFWEzHN8U9+HEBxu6LifJcYViCXFEwXaKaCqpQepCid2dt/imsOF9prsbMU4ci85vV1L23EwCbsDObrUDyrtXNPd57MGPpN/S6DVWTJAon3PoNIMt7vKq9S/7/rXLJDop9ebioDLDFxpN7ufWoUMoM3aKzSyXjYnfp0xC9DwJfHahA4BCj8ICauxDQj7fm0sEs1/oj6YZ5VuaO25GqyJdDENAvlDRVAr9RAhMhmPeOw1J7GLtWgftraaWy1zMkpoeiuckeBZoS+5BNoEio+k6HMsxMEPx18Mbl+QgkYgRGnwVpBBbGkoYJ6d3QpbrA==
+X-Forefront-Antispam-Report: CIP:185.67.228.71; CTRY:AT; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:webmail.bachmann.info; PTR:InfoDomainNonexistent;
+ CAT:NONE;
+ SFS:(13230031)(36860700004)(7416005)(376005)(82310400014)(1800799015); DIR:OUT;
+ SFP:1102; 
+X-OriginatorOrg: bachmann.info
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2024 12:06:23.2298 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a2b44e58-01d2-4b5d-087b-08dc588d7993
+X-MS-Exchange-CrossTenant-Id: e3bace4d-d2e7-4d8f-afb8-152509ee3f1a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e3bace4d-d2e7-4d8f-afb8-152509ee3f1a; Ip=[185.67.228.71];
+ Helo=[webmail.bachmann.info]
+X-MS-Exchange-CrossTenant-AuthSource: AMS0EPF0000019C.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR05MB9695
+X-Mailman-Approved-At: Tue, 09 Apr 2024 15:16:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,405 +115,348 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It is impossible to add each and every possible DDP path combination
-for each and every possible combination of SoC and board: right now,
-this driver hardcodes configuration for 10 SoCs and this is going to
-grow larger and larger, and with new hacks like the introduction of
-mtk_drm_route which is anyway not enough for all final routes as the
-DSI cannot be connected to MERGE if it's not a dual-DSI, or enabling
-DSC preventively doesn't work if the display doesn't support it, or
-others.
+From: Andrew Davis <afd@ti.com>
 
-Since practically all display IPs in MediaTek SoCs support being
-interconnected with different instances of other, or the same, IPs
-or with different IPs and in different combinations, the final DDP
-pipeline is effectively a board specific configuration.
+This new export type exposes to userspace the SRAM area as a DMA-BUF
+Heap,
+this allows for allocations of DMA-BUFs that can be consumed by various
+DMA-BUF supporting devices.
 
-Implement OF graphs support to the mediatek-drm drivers, allowing to
-stop hardcoding the paths, and preventing this driver to get a huge
-amount of arrays for each board and SoC combination, also paving the
-way to share the same mtk_mmsys_driver_data between multiple SoCs,
-making it more straightforward to add support for new chips.
-
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Signed-off-by: Andrew Davis <afd@ti.com>
+Tested-by: Pascal Fontain <pascal.fontain@bachmann.info>
 ---
- drivers/gpu/drm/mediatek/mtk_dpi.c     |  16 +-
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 255 ++++++++++++++++++++++---
- drivers/gpu/drm/mediatek/mtk_drm_drv.h |   2 +-
- drivers/gpu/drm/mediatek/mtk_dsi.c     |  10 +-
- 4 files changed, 250 insertions(+), 33 deletions(-)
+ drivers/misc/Kconfig         |   7 +
+ drivers/misc/Makefile        |   1 +
+ drivers/misc/sram-dma-heap.c | 246 +++++++++++++++++++++++++++++++++++
+ drivers/misc/sram.c          |   6 +
+ drivers/misc/sram.h          |  16 +++
+ 5 files changed, 276 insertions(+)
+ create mode 100644 drivers/misc/sram-dma-heap.c
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index beb7d9d08e97..c47648d244fe 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -705,6 +705,15 @@ static int mtk_dpi_bridge_attach(struct drm_bridge *bridge,
- {
- 	struct mtk_dpi *dpi = bridge_to_dpi(bridge);
+diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+index 9e4ad4d61f06..e6674e913168 100644
+--- a/drivers/misc/Kconfig
++++ b/drivers/misc/Kconfig
+@@ -448,6 +448,13 @@ config SRAM
+ config SRAM_EXEC
+ 	bool
  
-+	dpi->next_bridge = devm_drm_of_get_bridge(dpi->dev, dpi->dev->of_node, 1, -1);
-+	if (IS_ERR(dpi->next_bridge)) {
-+		/* Old devicetree has only one endpoint */
-+		dpi->next_bridge = devm_drm_of_get_bridge(dpi->dev, dpi->dev->of_node, 0, 0);
-+		if (IS_ERR(dpi->next_bridge))
-+			return dev_err_probe(dpi->dev, PTR_ERR(dpi->next_bridge),
-+					     "Failed to get bridge\n");
-+	}
++config SRAM_DMA_HEAP
++	bool "Export on-chip SRAM pools using DMA-Heaps"
++	depends on DMABUF_HEAPS && SRAM
++	help
++	  This driver allows the export of on-chip SRAM marked as both pool
++	  and exportable to userspace using the DMA-Heaps interface.
 +
- 	return drm_bridge_attach(bridge->encoder, dpi->next_bridge,
- 				 &dpi->bridge, flags);
- }
-@@ -1055,13 +1064,6 @@ static int mtk_dpi_probe(struct platform_device *pdev)
- 	if (dpi->irq < 0)
- 		return dpi->irq;
- 
--	dpi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
--	if (IS_ERR(dpi->next_bridge))
--		return dev_err_probe(dev, PTR_ERR(dpi->next_bridge),
--				     "Failed to get bridge\n");
--
--	dev_info(dev, "Found bridge node: %pOF\n", dpi->next_bridge->of_node);
--
- 	platform_set_drvdata(pdev, dpi);
- 
- 	dpi->bridge.funcs = &mtk_dpi_bridge_funcs;
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 74832c213092..2baefa06ad16 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -796,12 +796,200 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	{ }
- };
- 
-+static int mtk_drm_of_get_ddp_comp_type(struct device_node *node, enum mtk_ddp_comp_type *ctype)
-+{
-+	const struct of_device_id *of_id = of_match_node(mtk_ddp_comp_dt_ids, node);
-+
-+	if (!of_id)
-+		return -EINVAL;
-+
-+	*ctype = (enum mtk_ddp_comp_type)((uintptr_t)of_id->data);
-+
-+	return 0;
-+}
-+
-+static int mtk_drm_of_get_ddp_ep_cid(struct device_node *node,
-+				     int output_port, enum mtk_drm_crtc_path crtc_path,
-+				     struct device_node **next, unsigned int *cid)
-+{
-+	struct device_node *ep_dev_node, *ep_out;
-+	enum mtk_ddp_comp_type comp_type;
-+	int ret;
-+
-+	ep_out = of_graph_get_endpoint_by_regs(node, output_port, crtc_path);
-+	if (!ep_out)
-+		return -ENOENT;
-+
-+	ep_dev_node = of_graph_get_remote_port_parent(ep_out);
-+	if (!ep_dev_node)
-+		return -EINVAL;
-+
-+	/*
-+	 * Pass the next node pointer regardless of failures in the later code
-+	 * so that if this function is called in a loop it will walk through all
-+	 * of the subsequent endpoints anyway.
-+	 */
-+	*next = ep_dev_node;
-+
-+	if (!of_device_is_available(ep_dev_node))
-+		return -ENODEV;
-+
-+	ret = mtk_drm_of_get_ddp_comp_type(ep_dev_node, &comp_type);
-+	if (ret)
-+		return ret;
-+
-+	ret = mtk_ddp_comp_get_id(ep_dev_node, comp_type);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* All ok! Pass the Component ID to the caller. */
-+	*cid = (unsigned int)ret;
-+
-+	return 0;
-+}
-+
-+/**
-+ * mtk_drm_of_ddp_path_build_one - Build a Display HW Pipeline for a CRTC Path
-+ * @dev:          The mediatek-drm device
-+ * @cpath:        CRTC Path relative to a VDO or MMSYS
-+ * @out_path:     Pointer to an array that will contain the new pipeline
-+ * @out_path_len: Number of entries in the pipeline array
+ config DW_XDATA_PCIE
+ 	depends on PCI
+ 	tristate "Synopsys DesignWare xData PCIe driver"
+diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
+index cdc6405584e3..63effdde5163 100644
+--- a/drivers/misc/Makefile
++++ b/drivers/misc/Makefile
+@@ -47,6 +47,7 @@ obj-$(CONFIG_VMWARE_VMCI)	+= vmw_vmci/
+ obj-$(CONFIG_LATTICE_ECP3_CONFIG)	+= lattice-ecp3-config.o
+ obj-$(CONFIG_SRAM)		+= sram.o
+ obj-$(CONFIG_SRAM_EXEC)		+= sram-exec.o
++obj-$(CONFIG_SRAM_DMA_HEAP)	+= sram-dma-heap.o
+ obj-$(CONFIG_GENWQE)		+= genwqe/
+ obj-$(CONFIG_ECHO)		+= echo/
+ obj-$(CONFIG_CXL_BASE)		+= cxl/
+diff --git a/drivers/misc/sram-dma-heap.c b/drivers/misc/sram-dma-heap.c
+new file mode 100644
+index 000000000000..e5a0bafe8cb9
+--- /dev/null
++++ b/drivers/misc/sram-dma-heap.c
+@@ -0,0 +1,246 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * SRAM DMA-Heap userspace exporter
 + *
-+ * MediaTek SoCs can use different DDP hardware pipelines (or paths) depending
-+ * on the board-specific desired display configuration; this function walks
-+ * through all of the output endpoints starting from a VDO or MMSYS hardware
-+ * instance and builds the right pipeline as specified in device trees.
-+ *
-+ * Return:
-+ * * %0       - Display HW Pipeline successfully built and validated
-+ * * %-ENOENT - Display pipeline was not specified in device tree
-+ * * %-EINVAL - Display pipeline built but validation failed
-+ * * %-ENOMEM - Failure to allocate pipeline array to pass to the caller
++ * Copyright (C) 2019-2022 Texas Instruments Incorporated - https://www.ti.com/
++ *	Andrew Davis <afd@ti.com>
 + */
-+static int mtk_drm_of_ddp_path_build_one(struct device *dev, enum mtk_drm_crtc_path cpath,
-+					 const unsigned int **out_path,
-+					 unsigned int *out_path_len)
++
++#include <linux/dma-mapping.h>
++#include <linux/err.h>
++#include <linux/genalloc.h>
++#include <linux/io.h>
++#include <linux/mm.h>
++#include <linux/scatterlist.h>
++#include <linux/slab.h>
++#include <linux/dma-buf.h>
++#include <linux/dma-heap.h>
++
++#include "sram.h"
++
++struct sram_dma_heap {
++	struct dma_heap *heap;
++	struct gen_pool *pool;
++};
++
++struct sram_dma_heap_buffer {
++	struct gen_pool *pool;
++	struct list_head attachments;
++	struct mutex attachments_lock;
++	unsigned long len;
++	void *vaddr;
++	phys_addr_t paddr;
++};
++
++struct dma_heap_attachment {
++	struct device *dev;
++	struct sg_table *table;
++	struct list_head list;
++};
++
++static int dma_heap_attach(struct dma_buf *dmabuf,
++			   struct dma_buf_attachment *attachment)
 +{
-+	struct device_node *next, *prev, *vdo = dev->parent->of_node;
-+	unsigned int temp_path[DDP_COMPONENT_DRM_ID_MAX] = { 0 };
-+	unsigned int *final_ddp_path;
-+	unsigned short int idx = 0;
-+	int ret;
++	struct sram_dma_heap_buffer *buffer = dmabuf->priv;
++	struct dma_heap_attachment *a;
++	struct sg_table *table;
 +
-+	/* Get the first entry for the temp_path array */
-+	ret = mtk_drm_of_get_ddp_ep_cid(vdo, 0, cpath, &next, &temp_path[idx++]);
-+	if (ret) {
-+		if (next)
-+			dev_err(dev, "Invalid component %pOF\n", next);
-+		else
-+			dev_err(dev, "Cannot find first endpoint for path %d\n", cpath);
++	a = kzalloc(sizeof(*a), GFP_KERNEL);
++	if (!a)
++		return -ENOMEM;
 +
-+		return ret;
++	table = kmalloc(sizeof(*table), GFP_KERNEL);
++	if (!table) {
++		kfree(a);
++		return -ENOMEM;
 +	}
++	if (sg_alloc_table(table, 1, GFP_KERNEL)) {
++		kfree(table);
++		kfree(a);
++		return -ENOMEM;
++	}
++	sg_set_page(table->sgl, pfn_to_page(PFN_DOWN(buffer->paddr)), buffer->len, 0);
++
++	a->table = table;
++	a->dev = attachment->dev;
++	INIT_LIST_HEAD(&a->list);
++
++	attachment->priv = a;
++
++	mutex_lock(&buffer->attachments_lock);
++	list_add(&a->list, &buffer->attachments);
++	mutex_unlock(&buffer->attachments_lock);
++
++	return 0;
++}
++
++static void dma_heap_detatch(struct dma_buf *dmabuf,
++			     struct dma_buf_attachment *attachment)
++{
++	struct sram_dma_heap_buffer *buffer = dmabuf->priv;
++	struct dma_heap_attachment *a = attachment->priv;
++
++	mutex_lock(&buffer->attachments_lock);
++	list_del(&a->list);
++	mutex_unlock(&buffer->attachments_lock);
++
++	sg_free_table(a->table);
++	kfree(a->table);
++	kfree(a);
++}
++
++static struct sg_table *dma_heap_map_dma_buf(struct dma_buf_attachment *attachment,
++					     enum dma_data_direction direction)
++{
++	struct dma_heap_attachment *a = attachment->priv;
++	struct sg_table *table = a->table;
 +
 +	/*
-+	 * Walk through port outputs until we reach the last valid mediatek-drm component.
-+	 * To be valid, this must end with an "invalid" component that is a display node.
++	 * As this heap is backed by uncached SRAM memory we do not need to
++	 * perform any sync operations on the buffer before allowing device
++	 * domain access. For this reason we use SKIP_CPU_SYNC and also do
++	 * not use or provide begin/end_cpu_access() dma-buf functions.
 +	 */
-+	do {
-+		prev = next;
-+		ret = mtk_drm_of_get_ddp_ep_cid(next, 1, cpath, &next, &temp_path[idx]);
-+		of_node_put(prev);
-+		if (ret) {
-+			of_node_put(next);
-+			break;
-+		}
-+	} while (++idx < DDP_COMPONENT_DRM_ID_MAX);
++	if (!dma_map_sg_attrs(attachment->dev, table->sgl, table->nents,
++			      direction, DMA_ATTR_SKIP_CPU_SYNC))
++		return ERR_PTR(-ENOMEM);
 +
-+	/* If the last entry is not a final display output, the configuration is wrong */
-+	switch (temp_path[idx - 1]) {
-+	case DDP_COMPONENT_DP_INTF0:
-+	case DDP_COMPONENT_DP_INTF1:
-+	case DDP_COMPONENT_DPI0:
-+	case DDP_COMPONENT_DPI1:
-+	case DDP_COMPONENT_DSI0:
-+	case DDP_COMPONENT_DSI1:
-+	case DDP_COMPONENT_DSI2:
-+	case DDP_COMPONENT_DSI3:
-+		break;
-+	default:
-+		dev_err(dev, "Invalid display hw pipeline. Last component: %d (ret=%d)\n",
-+			temp_path[idx - 1], ret);
-+		return -EINVAL;
-+	}
-+
-+	final_ddp_path = devm_kmemdup(dev, temp_path, idx * sizeof(temp_path[0]), GFP_KERNEL);
-+	if (!final_ddp_path)
-+		return -ENOMEM;
-+
-+	dev_dbg(dev, "Display HW Pipeline built with %d components.\n", idx);
-+
-+	/* Pipeline built! */
-+	*out_path = final_ddp_path;
-+	*out_path_len = idx;
-+
-+	return 0;
++	return table;
 +}
 +
-+static int mtk_drm_of_ddp_path_build(struct device *dev, struct device_node *node,
-+				     struct mtk_mmsys_driver_data *data)
++static void dma_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
++				   struct sg_table *table,
++				   enum dma_data_direction direction)
 +{
-+	struct device_node *ep_node;
-+	struct of_endpoint of_ep;
-+	bool output_present[MAX_CRTC] = { false };
++	dma_unmap_sg_attrs(attachment->dev, table->sgl, table->nents,
++			   direction, DMA_ATTR_SKIP_CPU_SYNC);
++}
++
++static void dma_heap_dma_buf_release(struct dma_buf *dmabuf)
++{
++	struct sram_dma_heap_buffer *buffer = dmabuf->priv;
++
++	gen_pool_free(buffer->pool, (unsigned long)buffer->vaddr, buffer->len);
++	kfree(buffer);
++}
++
++static int dma_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
++{
++	struct sram_dma_heap_buffer *buffer = dmabuf->priv;
 +	int ret;
 +
-+	for_each_endpoint_of_node(node, ep_node) {
-+		ret = of_graph_parse_endpoint(ep_node, &of_ep);
-+		of_node_put(ep_node);
-+		if (ret) {
-+			dev_err_probe(dev, ret, "Cannot parse endpoint\n");
-+			break;
-+		}
++	/* SRAM mappings are not cached */
++	vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
 +
-+		if (of_ep.port >= MAX_CRTC) {
-+			ret = dev_err_probe(dev, -EINVAL,
-+					    "Invalid endpoint%u number\n", of_ep.port);
-+			break;
-+		}
-+
-+		output_present[of_ep.port] = true;
-+	}
-+
++	ret = vm_iomap_memory(vma, buffer->paddr, buffer->len);
 +	if (ret)
-+		return ret;
++		pr_err("Could not map buffer to userspace\n");
 +
-+	if (output_present[CRTC_MAIN]) {
-+		ret = mtk_drm_of_ddp_path_build_one(dev, CRTC_MAIN,
-+						    &data->main_path, &data->main_len);
-+		if (ret)
-+			return ret;
-+	}
++	return ret;
++}
 +
-+	if (output_present[CRTC_EXT]) {
-+		ret = mtk_drm_of_ddp_path_build_one(dev, CRTC_EXT,
-+						    &data->ext_path, &data->ext_len);
-+		if (ret)
-+			return ret;
-+	}
++static int dma_heap_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
++{
++	struct sram_dma_heap_buffer *buffer = dmabuf->priv;
 +
-+	if (output_present[CRTC_THIRD]) {
-+		ret = mtk_drm_of_ddp_path_build_one(dev, CRTC_THIRD,
-+						    &data->third_path, &data->third_len);
-+		if (ret)
-+			return ret;
-+	}
++	iosys_map_set_vaddr(map, buffer->vaddr);
 +
 +	return 0;
 +}
 +
- static int mtk_drm_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct device_node *phandle = dev->parent->of_node;
- 	const struct of_device_id *of_id;
- 	struct mtk_drm_private *private;
-+	struct mtk_mmsys_driver_data *mtk_drm_data;
- 	struct device_node *node;
- 	struct component_match *match = NULL;
- 	struct platform_device *ovl_adaptor;
-@@ -822,7 +1010,31 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 	if (!of_id)
- 		return -ENODEV;
- 
--	private->data = of_id->data;
-+	mtk_drm_data = (struct mtk_mmsys_driver_data *)of_id->data;
-+	if (!mtk_drm_data)
-+		return -EINVAL;
++static const struct dma_buf_ops sram_dma_heap_buf_ops = {
++	.attach = dma_heap_attach,
++	.detach = dma_heap_detatch,
++	.map_dma_buf = dma_heap_map_dma_buf,
++	.unmap_dma_buf = dma_heap_unmap_dma_buf,
++	.release = dma_heap_dma_buf_release,
++	.mmap = dma_heap_mmap,
++	.vmap = dma_heap_vmap,
++};
 +
-+	private->data = kmemdup(mtk_drm_data, sizeof(*mtk_drm_data), GFP_KERNEL);
-+	if (!private->data)
-+		return -ENOMEM;
++static struct dma_buf *sram_dma_heap_allocate(struct dma_heap *heap,
++					      unsigned long len,
++					      unsigned long fd_flags,
++					      unsigned long heap_flags)
++{
++	struct sram_dma_heap *sram_dma_heap = dma_heap_get_drvdata(heap);
++	struct sram_dma_heap_buffer *buffer;
 +
-+	/* Try to build the display pipeline from devicetree graphs */
-+	if (of_graph_is_present(phandle)) {
-+		dev_dbg(dev, "Building display pipeline for MMSYS %u\n",
-+			mtk_drm_data->mmsys_id);
-+		private->data = devm_kmemdup(dev, mtk_drm_data,
-+					     sizeof(*mtk_drm_data), GFP_KERNEL);
-+		if (!private->data)
-+			return -ENOMEM;
++	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
++	struct dma_buf *dmabuf;
++	int ret;
 +
-+		ret = mtk_drm_of_ddp_path_build(dev, phandle, private->data);
-+		if (ret)
-+			return ret;
-+	} else {
-+		/* No devicetree graphs support: go with hardcoded paths if present */
-+		dev_dbg(dev, "Using hardcoded paths for MMSYS %u\n", mtk_drm_data->mmsys_id);
-+		private->data = mtk_drm_data;
-+	};
- 
- 	private->all_drm_private = devm_kmalloc_array(dev, private->data->mmsys_dev_num,
- 						      sizeof(*private->all_drm_private),
-@@ -844,12 +1056,11 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 
- 	/* Iterate over sibling DISP function blocks */
- 	for_each_child_of_node(phandle->parent, node) {
--		const struct of_device_id *of_id;
- 		enum mtk_ddp_comp_type comp_type;
- 		int comp_id;
- 
--		of_id = of_match_node(mtk_ddp_comp_dt_ids, node);
--		if (!of_id)
-+		ret = mtk_drm_of_get_ddp_comp_type(node, &comp_type);
-+		if (ret)
- 			continue;
- 
- 		if (!of_device_is_available(node)) {
-@@ -858,8 +1069,6 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 			continue;
- 		}
- 
--		comp_type = (enum mtk_ddp_comp_type)(uintptr_t)of_id->data;
--
- 		if (comp_type == MTK_DISP_MUTEX) {
- 			int id;
- 
-@@ -888,22 +1097,24 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 		 * blocks have separate component platform drivers and initialize their own
- 		 * DDP component structure. The others are initialized here.
- 		 */
--		if (comp_type == MTK_DISP_AAL ||
--		    comp_type == MTK_DISP_CCORR ||
--		    comp_type == MTK_DISP_COLOR ||
--		    comp_type == MTK_DISP_GAMMA ||
--		    comp_type == MTK_DISP_MERGE ||
--		    comp_type == MTK_DISP_OVL ||
--		    comp_type == MTK_DISP_OVL_2L ||
--		    comp_type == MTK_DISP_OVL_ADAPTOR ||
--		    comp_type == MTK_DISP_RDMA ||
--		    comp_type == MTK_DP_INTF ||
--		    comp_type == MTK_DPI ||
--		    comp_type == MTK_DSI) {
--			dev_info(dev, "Adding component match for %pOF\n",
--				 node);
--			drm_of_component_match_add(dev, &match, component_compare_of,
--						   node);
-+		switch (comp_type) {
-+		default:
-+			break;
-+		case MTK_DISP_AAL:
-+		case MTK_DISP_CCORR:
-+		case MTK_DISP_COLOR:
-+		case MTK_DISP_GAMMA:
-+		case MTK_DISP_MERGE:
-+		case MTK_DISP_OVL:
-+		case MTK_DISP_OVL_2L:
-+		case MTK_DISP_OVL_ADAPTOR:
-+		case MTK_DISP_RDMA:
-+		case MTK_DP_INTF:
-+		case MTK_DPI:
-+		case MTK_DSI:
-+			dev_info(dev, "Adding component match for %pOF\n", node);
-+			drm_of_component_match_add(dev, &match, component_compare_of, node);
-+			break;
- 		}
- 
- 		ret = mtk_ddp_comp_init(node, &private->ddp_comp[comp_id], comp_id);
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-index 33fadb08dc1c..9b2a7045e69d 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-@@ -59,7 +59,7 @@ struct mtk_drm_private {
- 	struct device *mmsys_dev;
- 	struct device_node *comp_node[DDP_COMPONENT_DRM_ID_MAX];
- 	struct mtk_ddp_comp ddp_comp[DDP_COMPONENT_DRM_ID_MAX];
--	const struct mtk_mmsys_driver_data *data;
-+	struct mtk_mmsys_driver_data *data;
- 	struct drm_atomic_state *suspend_state;
- 	unsigned int mbox_index;
- 	struct mtk_drm_private **all_drm_private;
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index 9501f4019199..1bdbe43e3888 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -903,9 +903,13 @@ static int mtk_dsi_host_attach(struct mipi_dsi_host *host,
- 	dsi->lanes = device->lanes;
- 	dsi->format = device->format;
- 	dsi->mode_flags = device->mode_flags;
--	dsi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
--	if (IS_ERR(dsi->next_bridge))
--		return PTR_ERR(dsi->next_bridge);
-+	dsi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
-+	if (IS_ERR(dsi->next_bridge)) {
-+		/* Old devicetree has only one endpoint */
-+		dsi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
-+		if (IS_ERR(dsi->next_bridge))
-+			return PTR_ERR(dsi->next_bridge);
++	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
++	if (!buffer)
++		return ERR_PTR(-ENOMEM);
++	buffer->pool = sram_dma_heap->pool;
++	INIT_LIST_HEAD(&buffer->attachments);
++	mutex_init(&buffer->attachments_lock);
++	buffer->len = len;
++
++	buffer->vaddr = (void *)gen_pool_alloc(buffer->pool, buffer->len);
++	if (!buffer->vaddr) {
++		ret = -ENOMEM;
++		goto free_buffer;
 +	}
- 
- 	drm_bridge_add(&dsi->bridge);
- 
++
++	buffer->paddr = gen_pool_virt_to_phys(buffer->pool, (unsigned long)buffer->vaddr);
++	if (buffer->paddr == -1) {
++		ret = -ENOMEM;
++		goto free_pool;
++	}
++
++	/* create the dmabuf */
++	exp_info.exp_name = dma_heap_get_name(heap);
++	exp_info.ops = &sram_dma_heap_buf_ops;
++	exp_info.size = buffer->len;
++	exp_info.flags = fd_flags;
++	exp_info.priv = buffer;
++	dmabuf = dma_buf_export(&exp_info);
++	if (IS_ERR(dmabuf)) {
++		ret = PTR_ERR(dmabuf);
++		goto free_pool;
++	}
++
++	return dmabuf;
++
++free_pool:
++	gen_pool_free(buffer->pool, (unsigned long)buffer->vaddr, buffer->len);
++free_buffer:
++	kfree(buffer);
++
++	return ERR_PTR(ret);
++}
++
++static struct dma_heap_ops sram_dma_heap_ops = {
++	.allocate = sram_dma_heap_allocate,
++};
++
++int sram_add_dma_heap(struct sram_dev *sram,
++		      struct sram_reserve *block,
++		      phys_addr_t start,
++		      struct sram_partition *part)
++{
++	struct sram_dma_heap *sram_dma_heap;
++	struct dma_heap_export_info exp_info;
++
++	dev_info(sram->dev, "Exporting SRAM Heap '%s'\n", block->label);
++
++	sram_dma_heap = kzalloc(sizeof(*sram_dma_heap), GFP_KERNEL);
++	if (!sram_dma_heap)
++		return -ENOMEM;
++	sram_dma_heap->pool = part->pool;
++
++	exp_info.name = kasprintf(GFP_KERNEL, "sram_%s", block->label);
++	exp_info.ops = &sram_dma_heap_ops;
++	exp_info.priv = sram_dma_heap;
++	sram_dma_heap->heap = dma_heap_add(&exp_info);
++	if (IS_ERR(sram_dma_heap->heap)) {
++		int ret = PTR_ERR(sram_dma_heap->heap);
++
++		kfree(sram_dma_heap);
++		return ret;
++	}
++
++	return 0;
++}
+diff --git a/drivers/misc/sram.c b/drivers/misc/sram.c
+index 632f90d9bcea..643c77598beb 100644
+--- a/drivers/misc/sram.c
++++ b/drivers/misc/sram.c
+@@ -120,6 +120,12 @@ static int sram_add_partition(struct sram_dev *sram, struct sram_reserve *block,
+ 		ret = sram_add_pool(sram, block, start, part);
+ 		if (ret)
+ 			return ret;
++
++		if (block->export) {
++			ret = sram_add_dma_heap(sram, block, start, part);
++			if (ret)
++				return ret;
++		}
+ 	}
+ 	if (block->export) {
+ 		ret = sram_add_export(sram, block, start, part);
+diff --git a/drivers/misc/sram.h b/drivers/misc/sram.h
+index 397205b8bf6f..062bdd25fa06 100644
+--- a/drivers/misc/sram.h
++++ b/drivers/misc/sram.h
+@@ -60,4 +60,20 @@ static inline int sram_add_protect_exec(struct sram_partition *part)
+ 	return -ENODEV;
+ }
+ #endif /* CONFIG_SRAM_EXEC */
++
++#ifdef CONFIG_SRAM_DMA_HEAP
++int sram_add_dma_heap(struct sram_dev *sram,
++		      struct sram_reserve *block,
++		      phys_addr_t start,
++		      struct sram_partition *part);
++#else
++static inline int sram_add_dma_heap(struct sram_dev *sram,
++				    struct sram_reserve *block,
++				    phys_addr_t start,
++				    struct sram_partition *part)
++{
++	return 0;
++}
++#endif /* CONFIG_SRAM_DMA_HEAP */
++
+ #endif /* __SRAM_H */
 -- 
-2.44.0
+2.39.2
 
