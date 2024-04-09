@@ -2,55 +2,147 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D98189D3F3
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 10:15:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2779B89D418
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 10:21:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D144112B85;
-	Tue,  9 Apr 2024 08:15:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C23D6112B8A;
+	Tue,  9 Apr 2024 08:21:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="TwsH+Mcv";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="c/ToHUxZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o5lpYoxY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1Y3uzl+h";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UyL7zSLo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 533C3112B84
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 08:14:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1712650491;
- bh=sN/o5aQ9LNKUZVHTbcsSX5RLGlDnthy7tx/cHs1xyUQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TwsH+Mcv9xVdmcyBETemeSRSg9FDWLm5Oa4ydbLMZtF1mlzSpCr9waQez1Gj3NQI4
- AviMSUHyPAOhKun1/zVdyw20xSK+WCKVGYbVCVFYvpRinrDAMMoAPPV+5Lc2NDsy3E
- sMU8qXefb8HS61ziPk/2ThdMOG6fDHlgCZU2vdGDEpsYkAkhuEpyCnqfbq3nCZG7Kq
- Eu4Mo2oPAQEu4OgJLPbDWQOekEPXDx7UIXs5ASQc2LWUXzXvMMo+ravv65QHTF7lpe
- GRyJ+SPPwT6kigxTmBNHAaPKM67971vNUOSNodPaXxl5gvWgClLsiFjmVa2d0Z2ADC
- gHoCG3fKPsx6w==
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 222E0112B8A
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 08:21:27 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:98])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9BD1A37820E2;
- Tue,  9 Apr 2024 08:14:47 +0000 (UTC)
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Cc: daniels@collabora.com, helen.koike@collabora.com, airlied@gmail.com,
- daniel@ffwll.ch, emma@anholt.net, robdclark@gmail.com,
- david.heidelberg@collabora.com, guilherme.gallo@collabora.com,
- sergi.blanch.torne@collabora.com, hamohammed.sa@gmail.com,
- rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
- mairacanal@riseup.net, mcanal@igalia.com,
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 8/8] drm/ci: add tests on vkms
-Date: Tue,  9 Apr 2024 13:43:29 +0530
-Message-Id: <20240409081329.472463-9-vignesh.raman@collabora.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240409081329.472463-1-vignesh.raman@collabora.com>
-References: <20240409081329.472463-1-vignesh.raman@collabora.com>
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 22DB420897;
+ Tue,  9 Apr 2024 08:21:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1712650886; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=9gJHFIAFAkdPG4d7RCszDQtBLn57jxEQ/DQDuboB5uY=;
+ b=c/ToHUxZS+aPoalc1cqQgcfZe5ACVpHMd+Nhfzu5LO7e4Ad7+coM7P+2UkQGLtEgW/xy9N
+ CbHzbjI+A3Xpnz0t8BrHC6R6kc6xrzD0faBvCxSAswg8wNHI3/yV+dJG0jiZxXViTo/9Ww
+ 9caCxdnOqXd3uMdxNTgi1VYIcNlYMxM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1712650886;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=9gJHFIAFAkdPG4d7RCszDQtBLn57jxEQ/DQDuboB5uY=;
+ b=o5lpYoxYfHBUySXPYIqWBeuOG9lecZPmE2gtlyJiUxeCEv3RAuK1RhDTnr/JvPVC2e6cuV
+ Ljn88rkzC38hmbDg==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1Y3uzl+h;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UyL7zSLo
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1712650885; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=9gJHFIAFAkdPG4d7RCszDQtBLn57jxEQ/DQDuboB5uY=;
+ b=1Y3uzl+hfKV9qODR1DFsSWAusKxgDCt2ZFcKENCQu0w0wWQVzHFvk/T8BzCbEsaWpXgb6p
+ CdCAd0XS/wrAdHNuJO8El5QAc5u+VeFB+bOf/Wd399q/GXlmmqxQeHgcVU7jwZyrngN/qk
+ xs/sX+IlMjGKJbqVUukHPWB6+2B6SzU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1712650885;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=9gJHFIAFAkdPG4d7RCszDQtBLn57jxEQ/DQDuboB5uY=;
+ b=UyL7zSLo/9PhPgsCeMDu+kNFvxSiWohfj14LxVvSJWMMcf9QnTYsFqjFy/4aSK4eqNOJQM
+ UrVX/uG6EiY2CMDA==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id C908813253;
+ Tue,  9 Apr 2024 08:21:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id Nvm+L4T6FGZuNwAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Tue, 09 Apr 2024 08:21:24 +0000
+Message-ID: <b57f3a3a-68e1-4069-83de-2b3aca6cafb7@suse.de>
+Date: Tue, 9 Apr 2024 10:21:24 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 5/9] drm/fb_dma: Add generic get_scanout_buffer() for
+ drm_panic
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net,
+ noralf@tronnes.org, sui.jingfeng@linux.dev
+Cc: gpiccoli@igalia.com
+References: <20240328120638.468738-1-jfalempe@redhat.com>
+ <20240328120638.468738-6-jfalempe@redhat.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240328120638.468738-6-jfalempe@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.50
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 22DB420897
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.50 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; XM_UA_NO_VERSION(0.01)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[redhat.com,lists.freedesktop.org,linux.intel.com,kernel.org,ffwll.ch,verizon.net,tronnes.org,linux.dev];
+ ARC_NA(0.00)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:98:from]; 
+ TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[verizon.net]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+ MID_RHS_MATCH_FROM(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCPT_COUNT_SEVEN(0.00)[11]; DKIM_TRACE(0.00)[suse.de:+];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap2.dmz-prg2.suse.org:helo,
+ imap2.dmz-prg2.suse.org:rdns]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,269 +158,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add job that runs igt on top of vkms.
+Hi
 
-Acked-by: Maíra Canal <mcanal@igalia.com>
-Acked-by: Helen Koike <helen.koike@collabora.com>
-Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
-Acked-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-Tested-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Helen Koike <helen.koike@collabora.com>
----
+Am 28.03.24 um 13:03 schrieb Jocelyn Falempe:
+> This was initialy done for imx6, but should work on most drivers
+> using drm_fb_dma_helper.
+>
+> v8:
+>   * Replace get_scanout_buffer() logic with drm_panic_set_buffer()
+>     (Thomas Zimmermann)
+>
+> v9:
+>   * go back to get_scanout_buffer()
+>   * move get_scanout_buffer() to plane helper functions
+>
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
+>   drivers/gpu/drm/drm_fb_dma_helper.c | 47 +++++++++++++++++++++++++++++
+>   include/drm/drm_fb_dma_helper.h     |  4 +++
+>   2 files changed, 51 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_fb_dma_helper.c b/drivers/gpu/drm/drm_fb_dma_helper.c
+> index 3b535ad1b07c..010327069ad4 100644
+> --- a/drivers/gpu/drm/drm_fb_dma_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_dma_helper.c
+> @@ -15,6 +15,7 @@
+>   #include <drm/drm_framebuffer.h>
+>   #include <drm/drm_gem_dma_helper.h>
+>   #include <drm/drm_gem_framebuffer_helper.h>
+> +#include <drm/drm_panic.h>
+>   #include <drm/drm_plane.h>
+>   #include <linux/dma-mapping.h>
+>   #include <linux/module.h>
+> @@ -148,3 +149,49 @@ void drm_fb_dma_sync_non_coherent(struct drm_device *drm,
+>   	}
+>   }
+>   EXPORT_SYMBOL_GPL(drm_fb_dma_sync_non_coherent);
+> +
+> +#if defined(CONFIG_DRM_PANIC)
 
-v4:
-  - New patch in the series.
-    https://lore.kernel.org/lkml/20240201065346.801038-1-vignesh.raman@collabora.com/
+I would not bother with CONFIG_DRM_PANIC for now and make the helper 
+generally available.
 
-v5:
-  - Skip driver-specfic tests.
+> +/**
+> + * @plane: DRM primary plane
+> + * @drm_scanout_buffer: scanout buffer for the panic handler
+> + * Returns: 0 or negative error code
+> + *
+> + * Generic get_scanout_buffer() implementation, for drivers that uses the
+> + * drm_fb_dma_helper.
+> + */
+> +int drm_panic_gem_get_scanout_buffer(struct drm_plane *plane,
+> +				     struct drm_scanout_buffer *sb)
 
-v6:
-  - No changes.
+It's neither really a function for panic handling nor a GEM function. 
+This helper needs to be called drm_fb_dma_get_scanout_buffer() IMHO.
 
----
- MAINTAINERS                                   |  2 ++
- drivers/gpu/drm/ci/build.sh                   |  1 -
- drivers/gpu/drm/ci/gitlab-ci.yml              |  1 +
- drivers/gpu/drm/ci/igt_runner.sh              |  6 ++--
- drivers/gpu/drm/ci/image-tags.yml             |  2 +-
- drivers/gpu/drm/ci/test.yml                   | 24 +++++++++++++-
- drivers/gpu/drm/ci/x86_64.config              |  1 +
- .../drm/ci/xfails/virtio_gpu-none-fails.txt   |  1 -
- drivers/gpu/drm/ci/xfails/vkms-none-fails.txt | 33 +++++++++++++++++++
- .../gpu/drm/ci/xfails/vkms-none-flakes.txt    | 20 +++++++++++
- drivers/gpu/drm/ci/xfails/vkms-none-skips.txt | 23 +++++++++++++
- 11 files changed, 107 insertions(+), 7 deletions(-)
- create mode 100644 drivers/gpu/drm/ci/xfails/vkms-none-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/vkms-none-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/vkms-none-skips.txt
+> +{
+> +	struct drm_gem_dma_object *dma_obj;
+> +	struct drm_framebuffer *fb;
+> +
+> +	fb = plane->state->fb;
+> +	/* Only support linear modifier */
+> +	if (fb->modifier != DRM_FORMAT_MOD_LINEAR)
+> +		return -ENODEV;
+> +
+> +	dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
+> +
+> +	/* Buffer should be accessible from the CPU */
+> +	if (dma_obj->base.import_attach)
+> +		return -ENODEV;
+> +
+> +	/* Buffer should be already mapped to CPU */
+> +	if (!dma_obj->vaddr)
+> +		return -ENODEV;
+> +
+> +	iosys_map_set_vaddr(&sb->map, dma_obj->vaddr);
+> +	sb->format = fb->format;
+> +	sb->height = fb->height;
+> +	sb->width = fb->width;
+> +	sb->pitch = fb->pitches[0];
+> +	return 0;
+> +}
+> +#else
+> +int drm_panic_gem_get_scanout_buffer(struct drm_plane *plane,
+> +				     struct drm_scanout_buffer *sb)
+> +{
+> +	return -ENODEV;
+> +}
+> +#endif
+> +EXPORT_SYMBOL(drm_panic_gem_get_scanout_buffer);
+> diff --git a/include/drm/drm_fb_dma_helper.h b/include/drm/drm_fb_dma_helper.h
+> index d5e036c57801..61f24c2aba2f 100644
+> --- a/include/drm/drm_fb_dma_helper.h
+> +++ b/include/drm/drm_fb_dma_helper.h
+> @@ -7,6 +7,7 @@
+>   struct drm_device;
+>   struct drm_framebuffer;
+>   struct drm_plane_state;
+> +struct drm_scanout_buffer;
+>   
+>   struct drm_gem_dma_object *drm_fb_dma_get_gem_obj(struct drm_framebuffer *fb,
+>   	unsigned int plane);
+> @@ -19,5 +20,8 @@ void drm_fb_dma_sync_non_coherent(struct drm_device *drm,
+>   				  struct drm_plane_state *old_state,
+>   				  struct drm_plane_state *state);
+>   
+> +int drm_panic_gem_get_scanout_buffer(struct drm_plane *plane,
+> +				     struct drm_scanout_buffer *sb);
+> +
+>   #endif
+>   
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 92afa7b4f3dc..0aa63fd9a092 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6962,6 +6962,8 @@ L:	dri-devel@lists.freedesktop.org
- S:	Maintained
- T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	Documentation/gpu/vkms.rst
-+F:	drivers/gpu/drm/ci/testlist.txt
-+F:	drivers/gpu/drm/ci/xfails/vkms*
- F:	drivers/gpu/drm/vkms/
- 
- DRM DRIVER FOR VIRTUALBOX VIRTUAL GPU
-diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
-index 8a3baa003904..95493df9cdc2 100644
---- a/drivers/gpu/drm/ci/build.sh
-+++ b/drivers/gpu/drm/ci/build.sh
-@@ -156,7 +156,6 @@ fi
- 
- mkdir -p artifacts/install/lib
- mv install/* artifacts/install/.
--rm -rf artifacts/install/modules
- ln -s common artifacts/install/ci-common
- cp .config artifacts/${CI_JOB_NAME}_config
- 
-diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
-index 5345a970f0b5..df762d03533f 100644
---- a/drivers/gpu/drm/ci/gitlab-ci.yml
-+++ b/drivers/gpu/drm/ci/gitlab-ci.yml
-@@ -114,6 +114,7 @@ stages:
-   - panfrost
-   - powervr
-   - virtio-gpu
-+  - software-driver
- 
- # YAML anchors for rule conditions
- # --------------------------------
-diff --git a/drivers/gpu/drm/ci/igt_runner.sh b/drivers/gpu/drm/ci/igt_runner.sh
-index ce6e22369d4d..c89acb974645 100755
---- a/drivers/gpu/drm/ci/igt_runner.sh
-+++ b/drivers/gpu/drm/ci/igt_runner.sh
-@@ -20,10 +20,10 @@ cat /sys/kernel/debug/dri/*/state
- set -e
- 
- case "$DRIVER_NAME" in
--    amdgpu)
-+    amdgpu|vkms)
-         # Cannot use HWCI_KERNEL_MODULES as at that point we don't have the module in /lib
--        mv /install/modules/lib/modules/* /lib/modules/.
--        modprobe amdgpu
-+        mv /install/modules/lib/modules/* /lib/modules/. || true
-+        modprobe --first-time $DRIVER_NAME
-         ;;
- esac
- 
-diff --git a/drivers/gpu/drm/ci/image-tags.yml b/drivers/gpu/drm/ci/image-tags.yml
-index cf07c3e09b8c..bf861ab8b9c2 100644
---- a/drivers/gpu/drm/ci/image-tags.yml
-+++ b/drivers/gpu/drm/ci/image-tags.yml
-@@ -4,7 +4,7 @@ variables:
-    DEBIAN_BASE_TAG: "${CONTAINER_TAG}"
- 
-    DEBIAN_X86_64_BUILD_IMAGE_PATH: "debian/x86_64_build"
--   DEBIAN_BUILD_TAG: "2023-10-08-config"
-+   DEBIAN_BUILD_TAG: "2024-01-29-vkms"
- 
-    KERNEL_ROOTFS_TAG: "2023-10-06-amd"
-    PKG_REPO_REV: "67f2c46b"
-diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-index 02d6779c456d..b47bf798f4c0 100644
---- a/drivers/gpu/drm/ci/test.yml
-+++ b/drivers/gpu/drm/ci/test.yml
-@@ -411,7 +411,7 @@ panfrost:g12b:
-     - .panfrost-gpu
- 
- virtio_gpu:none:
--  stage: virtio-gpu
-+  stage: software-driver
-   variables:
-     CROSVM_GALLIUM_DRIVER: llvmpipe
-     DRIVER_NAME: virtio_gpu
-@@ -431,3 +431,25 @@ virtio_gpu:none:
-     - debian/x86_64_test-gl
-     - testing:x86_64
-     - igt:x86_64
-+
-+vkms:none:
-+  stage: software-driver
-+  variables:
-+    DRIVER_NAME: vkms
-+    GPU_VERSION: none
-+  extends:
-+    - .test-gl
-+    - .test-rules
-+  tags:
-+    - kvm
-+  script:
-+    - ln -sf $CI_PROJECT_DIR/install /install
-+    - mv install/bzImage /lava-files/bzImage
-+    - mkdir -p /lib/modules
-+    - mkdir -p $CI_PROJECT_DIR/results
-+    - ln -sf $CI_PROJECT_DIR/results /results
-+    - ./install/crosvm-runner.sh ./install/igt_runner.sh
-+  needs:
-+    - debian/x86_64_test-gl
-+    - testing:x86_64
-+    - igt:x86_64
-diff --git a/drivers/gpu/drm/ci/x86_64.config b/drivers/gpu/drm/ci/x86_64.config
-index 1cbd49a5b23a..8eaba388b141 100644
---- a/drivers/gpu/drm/ci/x86_64.config
-+++ b/drivers/gpu/drm/ci/x86_64.config
-@@ -24,6 +24,7 @@ CONFIG_DRM=y
- CONFIG_DRM_PANEL_SIMPLE=y
- CONFIG_PWM_CROS_EC=y
- CONFIG_BACKLIGHT_PWM=y
-+CONFIG_DRM_VKMS=m
- 
- # Strip out some stuff we don't need for graphics testing, to reduce
- # the build.
-diff --git a/drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt b/drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt
-index 5b8cbb28b25c..8c4505d074eb 100644
---- a/drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt
-+++ b/drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt
-@@ -41,7 +41,6 @@ kms_flip@flip-vs-absolute-wf_vblank,Fail
- kms_flip@flip-vs-absolute-wf_vblank-interruptible,Fail
- kms_flip@flip-vs-blocking-wf-vblank,Fail
- kms_flip@flip-vs-expired-vblank,Fail
--kms_flip@flip-vs-expired-vblank-interruptible,Fail
- kms_flip@flip-vs-modeset-vs-hang,Fail
- kms_flip@flip-vs-panning-vs-hang,Fail
- kms_flip@flip-vs-wf_vblank-interruptible,Fail
-diff --git a/drivers/gpu/drm/ci/xfails/vkms-none-fails.txt b/drivers/gpu/drm/ci/xfails/vkms-none-fails.txt
-new file mode 100644
-index 000000000000..ef6101d2c356
---- /dev/null
-+++ b/drivers/gpu/drm/ci/xfails/vkms-none-fails.txt
-@@ -0,0 +1,33 @@
-+kms_cursor_crc@cursor-rapid-movement-128x128,Fail
-+kms_cursor_crc@cursor-rapid-movement-128x42,Fail
-+kms_cursor_crc@cursor-rapid-movement-256x256,Fail
-+kms_cursor_crc@cursor-rapid-movement-256x85,Fail
-+kms_cursor_crc@cursor-rapid-movement-32x10,Fail
-+kms_cursor_crc@cursor-rapid-movement-32x32,Fail
-+kms_cursor_crc@cursor-rapid-movement-512x170,Fail
-+kms_cursor_crc@cursor-rapid-movement-512x512,Fail
-+kms_cursor_crc@cursor-rapid-movement-64x21,Fail
-+kms_cursor_crc@cursor-rapid-movement-64x64,Fail
-+kms_cursor_legacy@basic-flip-before-cursor-atomic,Fail
-+kms_cursor_legacy@basic-flip-before-cursor-legacy,Fail
-+kms_cursor_legacy@cursor-vs-flip-atomic,Fail
-+kms_cursor_legacy@cursor-vs-flip-legacy,Fail
-+kms_cursor_legacy@cursor-vs-flip-toggle,Fail
-+kms_cursor_legacy@cursor-vs-flip-varying-size,Fail
-+kms_cursor_legacy@flip-vs-cursor-atomic,Fail
-+kms_cursor_legacy@flip-vs-cursor-crc-atomic,Fail
-+kms_cursor_legacy@flip-vs-cursor-crc-legacy,Fail
-+kms_cursor_legacy@flip-vs-cursor-legacy,Fail
-+kms_flip@flip-vs-modeset-vs-hang,Fail
-+kms_flip@flip-vs-panning-vs-hang,Fail
-+kms_pipe_crc_basic@nonblocking-crc,Fail
-+kms_pipe_crc_basic@nonblocking-crc-frame-sequence,Fail
-+kms_pipe_crc_basic@suspend-read-crc,Fail
-+kms_plane@plane-panning-bottom-right-suspend,Fail
-+kms_universal_plane@universal-plane-pipe-A-sanity,Fail
-+kms_universal_plane@universal-plane-sanity,Fail
-+kms_vblank@pipe-A-ts-continuation-dpms-suspend,Fail
-+kms_writeback@writeback-check-output,Fail
-+kms_writeback@writeback-fb-id,Fail
-+kms_writeback@writeback-invalid-parameters,Fail
-+kms_writeback@writeback-pixel-formats,Fail
-diff --git a/drivers/gpu/drm/ci/xfails/vkms-none-flakes.txt b/drivers/gpu/drm/ci/xfails/vkms-none-flakes.txt
-new file mode 100644
-index 000000000000..7b52dab45457
---- /dev/null
-+++ b/drivers/gpu/drm/ci/xfails/vkms-none-flakes.txt
-@@ -0,0 +1,20 @@
-+# Board Name: vkms
-+# Bug Report: https://lore.kernel.org/dri-devel/005da8f1-8050-bffd-653c-2a87ae6376f7@collabora.com/T/#u
-+# IGT Version: 1.28-gb0cc8160e
-+# Linux Version: 6.7.0-rc3
-+# Failure Rate: 50
-+
-+# Reported by deqp-runner
-+kms_cursor_legacy@cursorA-vs-flipA-legacy
-+kms_cursor_legacy@cursorA-vs-flipA-varying-size
-+kms_flip@flip-vs-expired-vblank-interruptible
-+kms_flip@flip-vs-expired-vblank
-+kms_flip@plain-flip-fb-recreate
-+kms_flip@plain-flip-fb-recreate-interruptible
-+kms_flip@plain-flip-ts-check-interruptible
-+
-+# The below test shows inconsistency across multiple runs,
-+# giving results of Pass and Fail alternately.
-+kms_cursor_legacy@cursorA-vs-flipA-toggle
-+kms_pipe_crc_basic@nonblocking-crc
-+kms_flip@plain-flip-ts-check
-diff --git a/drivers/gpu/drm/ci/xfails/vkms-none-skips.txt b/drivers/gpu/drm/ci/xfails/vkms-none-skips.txt
-new file mode 100644
-index 000000000000..723de920dc37
---- /dev/null
-+++ b/drivers/gpu/drm/ci/xfails/vkms-none-skips.txt
-@@ -0,0 +1,23 @@
-+# Hits:
-+# rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
-+# rcu: 	Tasks blocked on level-0 rcu_node (CPUs 0-1): P749/1:b..l
-+kms_prop_blob@invalid-get-prop
-+
-+# keeps printing vkms_vblank_simulate: vblank timer overrun and never ends
-+kms_invalid_mode@int-max-clock
-+
-+# Suspend seems to be broken
-+.*suspend.*
-+
-+# Hangs machine and timeout occurs
-+kms_flip@flip-vs-absolute-wf_vblank-interruptible
-+kms_invalid_mode@zero-hdisplay
-+kms_invalid_mode@bad-vtotal
-+kms_cursor_crc.*
-+
-+# Skip hw specific tests
-+msm_.*
-+amdgpu/amd_.*
-+panfrost_.*
-+v3d_.*
-+vc4_.*
 -- 
-2.40.1
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
