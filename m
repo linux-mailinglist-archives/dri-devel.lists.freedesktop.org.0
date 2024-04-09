@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D518989E0C8
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 18:50:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F9489E0DD
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 18:56:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3334610E8EA;
-	Tue,  9 Apr 2024 16:50:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D6C510E8F9;
+	Tue,  9 Apr 2024 16:56:11 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=ravnborg.org header.i=@ravnborg.org header.b="XaJajSFL";
+	dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="2vmNi6/w";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 147FD10E8EA
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 16:50:49 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1ruEgJ-0005dI-4e; Tue, 09 Apr 2024 18:50:47 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1ruEgI-00BKxU-8A; Tue, 09 Apr 2024 18:50:46 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
- (envelope-from <ukl@pengutronix.de>) id 1ruEgI-00H4Qx-0W;
- Tue, 09 Apr 2024 18:50:46 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- kernel@pengutronix.de
-Subject: [PATCH] gpu: host1x: mipi: Benefit from devm_clk_get_prepared()
-Date: Tue,  9 Apr 2024 18:50:43 +0200
-Message-ID: <20240409165043.105137-2-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.43.0
+Received: from mailrelay2-1.pub.mailoutpod3-cph3.one.com
+ (mailrelay2-1.pub.mailoutpod3-cph3.one.com [46.30.211.241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A536310E8F9
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 16:56:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
+ h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+ message-id:subject:cc:to:from:date:from;
+ bh=D+gjx/ET+uz8sc2xxJMW5koH7dvXg3wuvXcXwL00Ppo=;
+ b=XaJajSFLVOPj51V8wYoJ43rJeoSgzusS3RtpCnTSBKvyQPZO3/lAqGkr/o7UrboDPemQuJDhrY4pP
+ VLx9F+12GzKKcBBx2G2Fyxd8OPMAVHrMvvHSDcxPTcgTxDZCkXANe2Lw0OlEOL1dXF7QoEwbM0Cj3X
+ LM942fFcXkr4vpnv7n2qU6pR6fTDI/cxFsGFSnVQKlZX4+aaCueH38IPiO3Qev4Q6vAF6URZeajt+D
+ M/pqD+aTiQAq6TeHwWb1D/5vmwMQ6sFvz9QiHtu22rvu2j8285coXRtdWePRIjpncowFdbsnBY4SNO
+ lvN3xAX+xTfv6nqjSyTDJJX27E28D2w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed2;
+ h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+ message-id:subject:cc:to:from:date:from;
+ bh=D+gjx/ET+uz8sc2xxJMW5koH7dvXg3wuvXcXwL00Ppo=;
+ b=2vmNi6/wyJQdbElVcFKxAquYit5F7KljhUoWOcbtwUqx1eXq4ShUcg1UfwX5pq7Z0Ya502ecsJ7Tq
+ iuY2HHNDA==
+X-HalOne-ID: e78ff64b-f691-11ee-9a0a-657348328a86
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay2.pub.mailoutpod3-cph3.one.com (Halon) with ESMTPSA
+ id e78ff64b-f691-11ee-9a0a-657348328a86;
+ Tue, 09 Apr 2024 16:55:04 +0000 (UTC)
+Date: Tue, 9 Apr 2024 18:55:02 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org,
+	Boris Brezillon <bbrezillon@kernel.org>
+Subject: Re: [PATCH 16/21] drm/atmel-hlcdc: Allow build with COMPILE_TEST=y
+Message-ID: <20240409165502.GA5721@ravnborg.org>
+References: <20240408170426.9285-1-ville.syrjala@linux.intel.com>
+ <20240408170426.9285-17-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2095;
- i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=/YHfO/08ZaKI8GNbh6zOvQnl/lLUDiS75hdRnhQTS1M=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBmFXHkrfIBoRCWyZ/uiIHtF/8ynvJylfBk153+H
- cOU9jOCKvOJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZhVx5AAKCRCPgPtYfRL+
- TiO4CAC74RxiU+wDornc+8rGg0vrWkQo5oUX1OmGngy1YWOb9kreuY9WfUYXcvfsZK9OqrA0tAm
- mdBEuiX26gIo7UIQYHzXE19S2oCalqX7m8f3zKd5o0RdNrls4lN8dHeeSH1jQ/9eL4wdmb7tof1
- 9R/xfkR6ovMdCjwRoUqEhFHrSikTOrn2nuw1p/A2FxW+/QB9yxrB4RGyRu2YZV0C6NCMNd4d5so
- w/Xv1OVrn7av1rckoZuYA3sLwBcO0Z0RgTUPHXZY7w7+63MujxwOwxGPuzIYkX2MS7VT+DSZZ2U
- b+JQ3+NtXB+IJVk+GSlXnT4eF4N/JPpd1btjQGzOZ6qfac3T
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <20240408170426.9285-17-ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,78 +67,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When using devm_clk_get_prepared() instead of devm_clk_get() the clock
-is already returned prepared. So probe doesn't need to call
-clk_prepare() and at remove time the call to clk_unprepare() can be
-dropped. The latter makes the remove callback empty, so it can be
-dropped, too.
-
-Signed-off-by: Uwe Kleine-KÃ¶nig <u.kleine-koenig@pengutronix.de>
----
-Hello,
-
-the motivation for this patch is that the driver uses struct
-platform_driver::remove() which I plan to change the prototype of. Instead
-of converting the driver to the temporal .remove_new() and then back to
-the new .remove(), drop the remove callback completely.
-
-Best regards
-Uwe
-
- drivers/gpu/host1x/mipi.c | 17 +----------------
- 1 file changed, 1 insertion(+), 16 deletions(-)
-
-diff --git a/drivers/gpu/host1x/mipi.c b/drivers/gpu/host1x/mipi.c
-index 4dcec535ec21..e51b43dd15a3 100644
---- a/drivers/gpu/host1x/mipi.c
-+++ b/drivers/gpu/host1x/mipi.c
-@@ -501,7 +501,6 @@ static int tegra_mipi_probe(struct platform_device *pdev)
- {
- 	const struct of_device_id *match;
- 	struct tegra_mipi *mipi;
--	int err;
- 
- 	match = of_match_node(tegra_mipi_of_match, pdev->dev.of_node);
- 	if (!match)
-@@ -520,35 +519,21 @@ static int tegra_mipi_probe(struct platform_device *pdev)
- 
- 	mutex_init(&mipi->lock);
- 
--	mipi->clk = devm_clk_get(&pdev->dev, NULL);
-+	mipi->clk = devm_clk_get_prepared(&pdev->dev, NULL);
- 	if (IS_ERR(mipi->clk)) {
- 		dev_err(&pdev->dev, "failed to get clock\n");
- 		return PTR_ERR(mipi->clk);
- 	}
- 
--	err = clk_prepare(mipi->clk);
--	if (err < 0)
--		return err;
--
- 	platform_set_drvdata(pdev, mipi);
- 
- 	return 0;
- }
- 
--static int tegra_mipi_remove(struct platform_device *pdev)
--{
--	struct tegra_mipi *mipi = platform_get_drvdata(pdev);
--
--	clk_unprepare(mipi->clk);
--
--	return 0;
--}
--
- struct platform_driver tegra_mipi_driver = {
- 	.driver = {
- 		.name = "tegra-mipi",
- 		.of_match_table = tegra_mipi_of_match,
- 	},
- 	.probe = tegra_mipi_probe,
--	.remove = tegra_mipi_remove,
- };
-
-base-commit: a053fd3ca5d1b927a8655f239c84b0d790218fda
--- 
-2.43.0
-
+On Mon, Apr 08, 2024 at 08:04:21PM +0300, Ville Syrjala wrote:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> 
+> Allow atmel-hlcdc to be built with COMPILE_TEST=y for greater
+> coverage. Builds fine on x86/x86_64 at least.
+> 
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Boris Brezillon <bbrezillon@kernel.org>
+> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>  drivers/gpu/drm/atmel-hlcdc/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/atmel-hlcdc/Kconfig b/drivers/gpu/drm/atmel-hlcdc/Kconfig
+> index 3bdbab3a6333..945f3aa7bb24 100644
+> --- a/drivers/gpu/drm/atmel-hlcdc/Kconfig
+> +++ b/drivers/gpu/drm/atmel-hlcdc/Kconfig
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  config DRM_ATMEL_HLCDC
+>  	tristate "DRM Support for ATMEL HLCDC Display Controller"
+> -	depends on DRM && OF && COMMON_CLK && MFD_ATMEL_HLCDC && ARM
+> +	depends on DRM && OF && COMMON_CLK && ((MFD_ATMEL_HLCDC && ARM) || COMPILE_TEST)
+>  	select DRM_GEM_DMA_HELPER
+>  	select DRM_KMS_HELPER
+>  	select DRM_PANEL
+> -- 
+> 2.43.2
