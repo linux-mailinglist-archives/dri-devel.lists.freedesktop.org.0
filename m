@@ -2,64 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E045F89CFFB
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 03:46:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66C0D89D06D
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 04:35:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5B30112A0F;
-	Tue,  9 Apr 2024 01:46:02 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Qx1hPnXd";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 735C7112A56;
+	Tue,  9 Apr 2024 02:35:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDE04112A0F;
- Tue,  9 Apr 2024 01:45:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=K3W57waH2wt/4k9KQXrCvtsTMHC/sRQFgi4Ey4VUSR8=; b=Qx1hPnXdl02Q586CwHKTy9SKj+
- Ug6wJPzHeRqu4vC8dREH/xXUdrfkDzJn1YWO2c3yDz3YY9w3APVNxZ2RtX0mv8c1nP5Y5g9hTXfTq
- 7jDitgPmet1Ts+pFnrJ8oUMb38e0ECVYXQn7qs9tIEl6HTh+E4xdR69q0iwGGruDM7hQ5dbZs/CFk
- ax4AYPhSA4dxz6u3a6Be02LxijZ0KipO4zt5Ww+Z7KGJwi6p3Gmllwc7txR9RSOvlMxli2vD+0FD4
- aFi5X6mhFZtW5Nkn0441ytTHQAqYJLpWZKCydDMpD13YheXMKXa4yPYIspQVp1Qnsb8ZSGCg2TRvX
- xaL92vIA==;
-Received: from [177.34.169.255] (helo=[192.168.0.139])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1ru0Ya-002hx1-SQ; Tue, 09 Apr 2024 03:45:53 +0200
-Message-ID: <589ba372-0a5f-4e82-847c-e3b952cf5647@igalia.com>
-Date: Mon, 8 Apr 2024 22:45:45 -0300
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF2E8112A56
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 02:35:23 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.88.194])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4VD93V5cBtztS6L;
+ Tue,  9 Apr 2024 10:32:38 +0800 (CST)
+Received: from kwepemm600013.china.huawei.com (unknown [7.193.23.68])
+ by mail.maildlp.com (Postfix) with ESMTPS id 780AA140118;
+ Tue,  9 Apr 2024 10:35:20 +0800 (CST)
+Received: from huawei.com (10.175.112.208) by kwepemm600013.china.huawei.com
+ (7.193.23.68) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Tue, 9 Apr
+ 2024 10:35:19 +0800
+From: Guo Mengqi <guomengqi3@huawei.com>
+To: <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
+ <stable@vger.kernel.org>, <xuqiang36@huawei.com>,
+ <zhangchangzhong@huawei.com>, <greg@kroah.com>
+CC: <guomengqi3@huawei.com>
+Subject: [PATCH 5.4.y] drm/vkms: call drm_atomic_helper_shutdown before
+ drm_dev_put()
+Date: Tue, 9 Apr 2024 10:26:47 +0800
+Message-ID: <20240409022647.1821-1-guomengqi3@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] drm/vkms: Use drm_crtc_vblank_crtc()
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20240408190611.24914-1-ville.syrjala@linux.intel.com>
- <20240408190611.24914-5-ville.syrjala@linux.intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <20240408190611.24914-5-ville.syrjala@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.112.208]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemm600013.china.huawei.com (7.193.23.68)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,52 +52,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/8/24 16:06, Ville Syrjala wrote:
-> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> 
-> Replace the open coded drm_crtc_vblank_crtc() with the real
-> thing.
-> 
-> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> Cc: Melissa Wen <melissa.srw@gmail.com>
-> Cc: "Maíra Canal" <mairacanal@riseup.net>
-> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+commit 73a82b22963d ("drm/atomic: Fix potential use-after-free
+in nonblocking commits") introduced drm_dev_get/put() to
+drm_atomic_helper_shutdown(). And this cause problem in vkms driver exit
+process.
 
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
+vkms_exit()
+  drm_dev_put()
+    vkms_release()
+      drm_atomic_helper_shutdown()
+        drm_dev_get()
+        drm_dev_put()
+          vkms_release()    ------ use after free
 
-Best Regards,
-- Maíra
+Using 5.4 stable x86 image on qemu, below stacktrace can be triggered by
+load and unload vkms.ko.
 
-> ---
->   drivers/gpu/drm/vkms/vkms_crtc.c | 7 ++-----
->   1 file changed, 2 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-> index 61e500b8c9da..40b4d084e3ce 100644
-> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> @@ -61,9 +61,7 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
->   
->   static int vkms_enable_vblank(struct drm_crtc *crtc)
->   {
-> -	struct drm_device *dev = crtc->dev;
-> -	unsigned int pipe = drm_crtc_index(crtc);
-> -	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
-> +	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
->   	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
->   
->   	drm_calc_timestamping_constants(crtc, &crtc->mode);
-> @@ -88,10 +86,9 @@ static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
->   				      bool in_vblank_irq)
->   {
->   	struct drm_device *dev = crtc->dev;
-> -	unsigned int pipe = crtc->index;
->   	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
->   	struct vkms_output *output = &vkmsdev->output;
-> -	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
-> +	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
->   
->   	if (!READ_ONCE(vblank->enabled)) {
->   		*vblank_time = ktime_get();
+root:~ # insmod vkms.ko
+[   76.957802] [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
+[   76.961490] [drm] Driver supports precise vblank timestamp query.
+[   76.964416] [drm] Initialized vkms 1.0.0 20180514 for vkms on minor 0
+root:~ # rmmod vkms.ko
+[   79.650202] refcount_t: addition on 0; use-after-free.
+[   79.650249] WARNING: CPU: 2 PID: 3533 at ../lib/refcount.c:25 refcount_warn_saturate+0xcf/0xf0
+[   79.654241] Modules linked in: vkms(-)
+[   79.654249] CPU: 2 PID: 3533 Comm: rmmod Not tainted 5.4.273 #4
+[   79.654251] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.13.0-0-gf21b5a4aeb02-prebuilt.qemu.org 04/01/2014
+[   79.654262] RIP: 0010:refcount_warn_saturate+0xcf/0xf0
+...
+[   79.654296] Call Trace:
+[   79.654462]  ? __warn+0x80/0xd0
+[   79.654473]  ? refcount_warn_saturate+0xcf/0xf0
+[   79.654481]  ? report_bug+0xb6/0x130
+[   79.654484]  ? refcount_warn_saturate+0xcf/0xf0
+[   79.654489]  ? fixup_bug.part.12+0x13/0x30
+[   79.654492]  ? do_error_trap+0x90/0xb0
+[   79.654495]  ? do_invalid_op+0x31/0x40
+[   79.654497]  ? refcount_warn_saturate+0xcf/0xf0
+[   79.654504]  ? invalid_op+0x1e/0x30
+[   79.654508]  ? refcount_warn_saturate+0xcf/0xf0
+[   79.654516]  drm_atomic_state_init+0x68/0xb0
+[   79.654543]  drm_atomic_state_alloc+0x43/0x60
+[   79.654551]  drm_atomic_helper_disable_all+0x13/0x180
+[   79.654562]  drm_atomic_helper_shutdown+0x5f/0xb0
+[   79.654571]  vkms_release+0x18/0x40 [vkms]
+[   79.654575]  vkms_exit+0x29/0xc00 [vkms]
+[   79.654582]  __x64_sys_delete_module+0x155/0x220
+[   79.654592]  do_syscall_64+0x43/0x120
+[   79.654603]  entry_SYSCALL_64_after_hwframe+0x5c/0xc1
+[   79.654619] ---[ end trace ce0c02f57ea6bf73 ]---
+
+It seems that the proper unload sequence is:
+	drm_atomic_helper_shutdown();
+	drm_dev_put();
+
+Just put drm_atomic_helper_shutdown() before drm_dev_put()
+should solve the problem.
+
+Note that vkms exit code is refactored by commit 53d77aaa3f76
+("drm/vkms: Use devm_drm_dev_alloc") in tags/v5.10-rc1.
+
+So this bug only exists on 4.19 and 5.4.
+
+Fixes: 380c7ceabdde ("drm/atomic: Fix potential use-after-free in nonblocking commits")
+Fixes: 2ead1be54b22 ("drm/vkms: Fix connector leak at the module removal")
+Signed-off-by: Guo Mengqi <guomengqi3@huawei.com>
+---
+ drivers/gpu/drm/vkms/vkms_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+index 44ab9f8ef8be..86043d7c0e4b 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.c
++++ b/drivers/gpu/drm/vkms/vkms_drv.c
+@@ -60,7 +60,6 @@ static void vkms_release(struct drm_device *dev)
+ 	struct vkms_device *vkms = container_of(dev, struct vkms_device, drm);
+ 
+ 	platform_device_unregister(vkms->platform);
+-	drm_atomic_helper_shutdown(&vkms->drm);
+ 	drm_mode_config_cleanup(&vkms->drm);
+ 	drm_dev_fini(&vkms->drm);
+ 	destroy_workqueue(vkms->output.composer_workq);
+@@ -194,6 +193,7 @@ static void __exit vkms_exit(void)
+ 	}
+ 
+ 	drm_dev_unregister(&vkms_device->drm);
++	drm_atomic_helper_shutdown(&vkms_device->drm);
+ 	drm_dev_put(&vkms_device->drm);
+ 
+ 	kfree(vkms_device);
+-- 
+2.17.1
+
