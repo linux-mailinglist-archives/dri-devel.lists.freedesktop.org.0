@@ -2,107 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD9C89DE86
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 17:16:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66A3A89D899
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 13:57:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2179310FE86;
-	Tue,  9 Apr 2024 15:16:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D185E10ECFD;
+	Tue,  9 Apr 2024 11:57:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="Re2MZHX5";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="VcPp7UNe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-fw-52003.amazon.com (smtp-fw-52003.amazon.com
- [52.119.213.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1FDC112CF0
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 11:45:50 +0000 (UTC)
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com
+ [209.85.166.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7FF310EE70
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 11:57:00 +0000 (UTC)
+Received: by mail-io1-f53.google.com with SMTP id
+ ca18e2360f4ac-7cf092f6bb7so254351739f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Apr 2024 04:57:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1712663151; x=1744199151;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=GFjr+qUI/xJlRfC49pDYbbQ+5mOHCUk/2gN5wZX0VPA=;
- b=Re2MZHX5GydCM8B6KilkbcXlSGPSLv0DHVNAFcmqvWsd0IZ1NH+wl46p
- jp+rvzqYg9VvAX9wn3JpJghaHuXQWE2yPEhE8P08rq+2tVNxto7uD3tbV
- QrLFtsNiMvuJGKG0kOuG7Rz2NIhkvDaaqqVhKqvF/2RhKVIbglEWBhS4x g=;
-X-IronPort-AV: E=Sophos;i="6.07,189,1708387200"; d="scan'208";a="650727234"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO
- smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.6])
- by smtp-border-fw-52003.iad7.amazon.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 11:45:43 +0000
-Received: from EX19MTAUWC002.ant.amazon.com [10.0.21.151:49900]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.27.169:2525]
- with esmtp (Farcaster)
- id 3f52ccb2-10c8-4639-a2de-4651f9e21034; Tue, 9 Apr 2024 11:45:42 +0000 (UTC)
-X-Farcaster-Flow-ID: 3f52ccb2-10c8-4639-a2de-4651f9e21034
-Received: from EX19D020UWC004.ant.amazon.com (10.13.138.149) by
- EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Tue, 9 Apr 2024 11:45:38 +0000
-Received: from [0.0.0.0] (10.253.83.51) by EX19D020UWC004.ant.amazon.com
- (10.13.138.149) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.28; Tue, 9 Apr
- 2024 11:45:22 +0000
-Message-ID: <7c82670e-6063-4b0f-9bbf-805a0d949d84@amazon.com>
-Date: Tue, 9 Apr 2024 13:45:18 +0200
+ d=broadcom.com; s=google; t=1712663819; x=1713268619;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=h+sFwXoYlvmaRLKdHU2OL3LD5t7Xm+RlcJkwNqyQM6E=;
+ b=VcPp7UNeOQO0fXKb8EdbXKptTrNbqRk4zmMkQ5ndzIQuKJdNJrJm0jLHP697Tg2wKk
+ wN/sStaWlv7Wd/nnbjaLGYMmpda/hR6/etqUymsGUfW5Zv0d7Fao67kViwIgGR2KlKkB
+ reDXZHdLRCm3VpMz79Dk2/sf/bV0hw9d1Yfdk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712663819; x=1713268619;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=h+sFwXoYlvmaRLKdHU2OL3LD5t7Xm+RlcJkwNqyQM6E=;
+ b=YQF3pACyV+I7mR6p8qWhM8NN85jzTJtkLY//7+IZp06zmiaUTSfcaY4pTCGFKWZNo5
+ ceWUR7mz39iCbZWSkl6+ify+yAzn4fuTPeyp8kqooVHP/E+SF6kJnJ4nabx1XKHfzavh
+ J8n3s0c6h52xZOLbC5k6UHHJR2rPxZ/6jAsjCbmCEEqfHT0TT00vVxtqSrx78ob6CBqI
+ lg7fAnuw4sp3BS/0UKvpLq8diM4ph3FUgDA8FVzJRG+hOnpK3uhBY6Q+NWC6fl/4s0kZ
+ KCZLP3cPeDnUpvRqju04CniIZOtYiPXOX6GIl0AKPT0o3punGpCi3Ofhs7TflxdWByo7
+ mCGg==
+X-Gm-Message-State: AOJu0Yx1ceLR62Zh7GjcUVTDe3QI1DiMOFS95nY/xyJ+t4Cc3QJXEAbQ
+ SxmVN/u/MIxoHhSRW1CSYpaXN/nvAh+klNztFtk7fVOR/hhGrYwyvaXDZAz6Uynq0+H/zvY6Bb+
+ VWDawtfNQ1ODn5F8VG4OQrBNQRHGsuhrtTYqS
+X-Google-Smtp-Source: AGHT+IFvIS8zDpgMDAGoXg7iiAGympjAvHb7hn6f+MJNaHDU7uc/jMvy5XAao/Ems5jMBEJEP23RHiuUh6azxOBbuXc=
+X-Received: by 2002:a05:6602:c8c:b0:7d5:efd9:3c87 with SMTP id
+ fp12-20020a0566020c8c00b007d5efd93c87mr4700135iob.5.1712663819589; Tue, 09
+ Apr 2024 04:56:59 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 15/25] misc: nsm: drop owner assignment
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, "Michael S. Tsirkin"
- <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Jonathan Corbet <corbet@lwn.net>, "David
- Hildenbrand" <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, "Richard
- Weinberger" <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
- Johannes Berg <johannes@sipsolutions.net>, Paolo Bonzini
- <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe
- <axboe@kernel.dk>, Marcel Holtmann <marcel@holtmann.org>, "Luiz Augusto von
- Dentz" <luiz.dentz@gmail.com>, Olivia Mackall <olivia@selenic.com>, Herbert
- Xu <herbert@gondor.apana.org.au>, Amit Shah <amit@kernel.org>, Arnd Bergmann
- <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Gonglei
- <arei.gonglei@huawei.com>, "David S. Miller" <davem@davemloft.net>, "Sudeep
- Holla" <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>,
- Viresh Kumar <vireshk@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, David Airlie <airlied@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter
- <daniel@ffwll.ch>, Jean-Philippe Brucker <jean-philippe@linaro.org>, "Joerg
- Roedel" <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy
- <robin.murphy@arm.com>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Eric Van Hensbergen
- <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>, Dominique Martinet
- <asmadeus@codewreck.org>, Christian Schoenebeck <linux_oss@crudebyte.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Kalle Valo <kvalo@kernel.org>, "Dan
- Williams" <dan.j.williams@intel.com>, Vishal Verma
- <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, Ira Weiny
- <ira.weiny@intel.com>, "Pankaj Gupta" <pankaj.gupta.linux@gmail.com>, Bjorn
- Andersson <andersson@kernel.org>, Mathieu Poirier
- <mathieu.poirier@linaro.org>, "James E.J. Bottomley" <jejb@linux.ibm.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>, Vivek Goyal
- <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>, "Anton Yakovlev"
- <anton.yakovlev@opensynergy.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>
-CC: <virtualization@lists.linux.dev>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-um@lists.infradead.org>,
- <linux-block@vger.kernel.org>, <linux-bluetooth@vger.kernel.org>,
- <linux-crypto@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-gpio@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <iommu@lists.linux.dev>, <netdev@vger.kernel.org>, <v9fs@lists.linux.dev>,
- <kvm@vger.kernel.org>, <linux-wireless@vger.kernel.org>,
- <nvdimm@lists.linux.dev>, <linux-remoteproc@vger.kernel.org>,
- <linux-scsi@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
- <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>
-References: <20240331-module-owner-virtio-v2-0-98f04bfaf46a@linaro.org>
- <20240331-module-owner-virtio-v2-15-98f04bfaf46a@linaro.org>
-From: Alexander Graf <graf@amazon.com>
-In-Reply-To: <20240331-module-owner-virtio-v2-15-98f04bfaf46a@linaro.org>
-X-Originating-IP: [10.253.83.51]
-X-ClientProxiedBy: EX19D035UWA002.ant.amazon.com (10.13.139.60) To
- EX19D020UWC004.ant.amazon.com (10.13.138.149)
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: base64
-X-Mailman-Approved-At: Tue, 09 Apr 2024 15:16:14 +0000
+References: <20240408022802.358641-1-zack.rusin@broadcom.com>
+In-Reply-To: <20240408022802.358641-1-zack.rusin@broadcom.com>
+From: Martin Krastev <martin.krastev@broadcom.com>
+Date: Tue, 9 Apr 2024 14:56:48 +0300
+Message-ID: <CAKLwHdU8cv8sBQN0PYG-2w7RnE0CF_AyGnZEV+kJFOABoUb_UA@mail.gmail.com>
+Subject: Re: [PATCH] drm/vmwgfx: Enable DMA mappings with SEV
+To: Zack Rusin <zack.rusin@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ ian.forbes@broadcom.com, 
+ maaz.mombasawala@broadcom.com, Ye Li <ye.li@broadcom.com>,
+ stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,13 +78,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDMxLjAzLjI0IDEwOjQ0LCBLcnp5c3p0b2YgS296bG93c2tpIHdyb3RlOgo+IHZpcnRpbyBj
-b3JlIGFscmVhZHkgc2V0cyB0aGUgLm93bmVyLCBzbyBkcml2ZXIgZG9lcyBub3QgbmVlZCB0by4K
-Pgo+IFNpZ25lZC1vZmYtYnk6IEtyenlzenRvZiBLb3psb3dza2kgPGtyenlzenRvZi5rb3psb3dz
-a2lAbGluYXJvLm9yZz4KCgpSZXZpZXdlZC1ieTogQWxleGFuZGVyIEdyYWYgPGdyYWZAYW1hem9u
-LmNvbT4KCgpBbGV4CgoKCgpBbWF6b24gRGV2ZWxvcG1lbnQgQ2VudGVyIEdlcm1hbnkgR21iSApL
-cmF1c2Vuc3RyLiAzOAoxMDExNyBCZXJsaW4KR2VzY2hhZWZ0c2Z1ZWhydW5nOiBDaHJpc3RpYW4g
-U2NobGFlZ2VyLCBKb25hdGhhbiBXZWlzcwpFaW5nZXRyYWdlbiBhbSBBbXRzZ2VyaWNodCBDaGFy
-bG90dGVuYnVyZyB1bnRlciBIUkIgMTQ5MTczIEIKU2l0ejogQmVybGluClVzdC1JRDogREUgMjg5
-IDIzNyA4NzkKCgo=
+On Mon, Apr 8, 2024 at 5:28=E2=80=AFAM Zack Rusin <zack.rusin@broadcom.com>=
+ wrote:
+>
+> Enable DMA mappings in vmwgfx after TTM has been fixed in commit
+> 3bf3710e3718 ("drm/ttm: Add a generic TTM memcpy move for page-based iome=
+m")
+>
+> This enables full guest-backed memory support and in particular allows
+> usage of screen targets as the presentation mechanism.
+>
+> Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+> Reported-by: Ye Li <ye.li@broadcom.com>
+> Tested-by: Ye Li <ye.li@broadcom.com>
+> Fixes: 3b0d6458c705 ("drm/vmwgfx: Refuse DMA operation when SEV encryptio=
+n is active")
+> Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadc=
+om.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: <stable@vger.kernel.org> # v6.6+
+> ---
+>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx=
+/vmwgfx_drv.c
+> index 41ad13e45554..bdad93864b98 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> @@ -667,11 +667,12 @@ static int vmw_dma_select_mode(struct vmw_private *=
+dev_priv)
+>                 [vmw_dma_map_populate] =3D "Caching DMA mappings.",
+>                 [vmw_dma_map_bind] =3D "Giving up DMA mappings early."};
+>
+> -       /* TTM currently doesn't fully support SEV encryption. */
+> -       if (cc_platform_has(CC_ATTR_MEM_ENCRYPT))
+> -               return -EINVAL;
+> -
+> -       if (vmw_force_coherent)
+> +       /*
+> +        * When running with SEV we always want dma mappings, because
+> +        * otherwise ttm tt pool pages will bounce through swiotlb runnin=
+g
+> +        * out of available space.
+> +        */
+> +       if (vmw_force_coherent || cc_platform_has(CC_ATTR_MEM_ENCRYPT))
+>                 dev_priv->map_mode =3D vmw_dma_alloc_coherent;
+>         else if (vmw_restrict_iommu)
+>                 dev_priv->map_mode =3D vmw_dma_map_bind;
+> --
+> 2.40.1
 
+
+LGTM!
+
+Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
+
+Regards,
+Martin
