@@ -2,86 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A844089DCB7
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 16:39:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0524289DD99
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 17:03:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93E6F1123AF;
-	Tue,  9 Apr 2024 14:39:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0673810E09C;
+	Tue,  9 Apr 2024 15:03:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kF9Jj5Bi";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="NJYXcFaD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B565210FD11
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 14:39:41 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-516cdb21b34so7236890e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Apr 2024 07:39:41 -0700 (PDT)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F01510EF0B
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 15:02:53 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-2d094bc2244so60637211fa.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Apr 2024 08:02:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712673580; x=1713278380; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Sr9qt0BbADGa89YCYwT+Bbk+dGM/AHSN1tyvYdeWW7E=;
- b=kF9Jj5Bifq8bovSoaAGKMua2uz4gqRKAI/u4QsWSqz6DvmZrdIZx81TZerQrFCP/MH
- PAU5XpMm8OZfkjRM59543luNF2+bOLRVdVBE5ErsUrpNh61BY4DSKOzYtt/XIQ4VDb57
- 6bGEcCmGAJr6E6aRAagViiXLgxXtmbuuOls1AGOv6jAJ57laKUCTVkuDfVBPO3//EtZA
- pL72qUIj61HCoDd5XC/8YjiOL6XGzZTi3o5sHPsNhRiIqt/mh0ri2X9dEPzQ+TgmFfVM
- Qm0kPU/P6TFIo8B0Vp/g+S410UgzIMPQw157rCp+5at5HrjLNrGqMfQWy3AiKwtMgN7h
- 5jvA==
+ d=linaro.org; s=google; t=1712674971; x=1713279771; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=MMEQzcoh+W9ymgQy42WUpt0B0+Cde8aQQwQGAW1A/G8=;
+ b=NJYXcFaDZnvch1ga1bxBK7Ynz2B1nj8OU/5rde8MGdTGma70S0FRtMvTpJoVmodLZK
+ SV1hoBYhQbZsKRuTp+PrZAD4Sy/eVgNRXLOQznQqiEEXfhnM+26ybyO452NinsSFmge+
+ RHWiwrBEhdyxRScHEUqZoHJGoGQD86E9izVO6M+V+jx/h88KVcNUjmH/urXf7sQ74bXP
+ 2mWykLEpc4Eh8XZ87/DbSl6w5281mxG2CEUMgGSxQQnN988dhL9VnK5+Be66LU10yI9M
+ RiK7n4vus0hQglzgzM2ATdX/cPkgm3qJrPVBKNSc3p+T09ON9O6dVLwyjn4bdw5ccf/P
+ P4gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712673580; x=1713278380;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Sr9qt0BbADGa89YCYwT+Bbk+dGM/AHSN1tyvYdeWW7E=;
- b=A97bJrmVns5bNI2QXvyvln7JTcxGcODuHtpuDpBcL3vWVrLqOTTc6r7qiDTmNQsm5i
- QzUTB3RMIcgma7UKW2tR4JT8p7tpbLFamtiK36BPZqiI87y5JNc55M2nXQDJuWs4gR5D
- JmBiBa2/F6kF2KFYcmjSXe+Rj4uQ2ZdGq2TOfYJePj2O4c62DnihLLmTB6FqpndhyWAD
- 6ERUWCYDVzLXoSad4U69VUcHAylu3X57i4L1pqNpUEqGX3DPEd5GNOSzS/T5xQnGSFsh
- ydjSHHuCL/fui8MrSwmmZZgsHfb10in8QBFPJjWGzDt1kbVE518B9lg2SwYM4IayrB1s
- w1Ug==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXTHsiongwL370z1NSHWRHTml4uKfelIYT4E8wX3v6M6O5AAJd2lMDrlQl6JWx9Fng/bFfLS5u5/tYg33tmRC4a18tKMmWP0VK0ZBgATmcj
-X-Gm-Message-State: AOJu0YxnkIrsApjDHv6Tx/UWeIawss6xD2xaYFeGYbe6sYspPXfUvyQU
- 7t/9ismUZKK0Wc22+vhns1dKcxz2xWx2mOArSJyU8JNWYzeavW0M6k9+9xZSP7k=
-X-Google-Smtp-Source: AGHT+IFhmq1jH49fs/wNDP2DWefgXDYDOHbmwLUoOSnTyawe10DQy5StJWx9djPeA8rjMN8setjnjA==
-X-Received: by 2002:ac2:59d0:0:b0:516:cd83:71ce with SMTP id
- x16-20020ac259d0000000b00516cd8371cemr7651841lfn.31.1712673579685; 
- Tue, 09 Apr 2024 07:39:39 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1712674971; x=1713279771;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MMEQzcoh+W9ymgQy42WUpt0B0+Cde8aQQwQGAW1A/G8=;
+ b=n1lmvXYBe408i6Qy5sppiMm11mKUpetrOZ84MPOBSr4TQXBLYLr87/sHA+iT9V34cX
+ 4/aOROHt6o8gRBZtIzp4LDfXqtYI4ZYzPb095+TuxsNjTgpoPe3GF2Us2eEGsoKXyhz0
+ JTVo5LDzGMcs4oz7BVzdzh34mh4ZDgAHSbNclR5z32hOVwrN6AErUknmbbfZXXlldqBb
+ 6a2cLbx76YHXEi+V1LrDTdRkPTMC4hqfuUatOOwLZPAe3dEp9ySrzbVeXx2SdofPc+Xz
+ hgdzy3I1dvQpQ61znrMwiyQ0TTH1f9+bRXNlzG7C3nemsYJSutJNzu4oVddi0fbDSo9p
+ 302Q==
+X-Gm-Message-State: AOJu0YzZ1x5jyKJdcyyAOFwgKEZpXvCoNb+/j7VD7cK3IB/VW45Mu0DW
+ UmqPAn1CG8NM734nd/JOY/8/iNmt2S/tAw72HDAczcz9s6WyGnjuAg3WULnigDE=
+X-Google-Smtp-Source: AGHT+IG1DOn2lwakZ6lS5Tchcr1IL09dUEqXy2PWdSWvWJ/sfDjBq2uc8wWh7XDZMMdULS+2tSvSFA==
+X-Received: by 2002:a2e:b055:0:b0:2d8:4158:cbaa with SMTP id
+ d21-20020a2eb055000000b002d84158cbaamr64433ljl.7.1712674970957; 
+ Tue, 09 Apr 2024 08:02:50 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzyjmhyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a00e:a300::227])
  by smtp.gmail.com with ESMTPSA id
- i16-20020ac25230000000b00513d13ede82sm1561676lfl.147.2024.04.09.07.39.39
+ s30-20020a05651c049e00b002d10de4733esm1518715ljc.95.2024.04.09.08.02.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Apr 2024 07:39:39 -0700 (PDT)
-Date: Tue, 9 Apr 2024 17:39:37 +0300
+ Tue, 09 Apr 2024 08:02:50 -0700 (PDT)
+Date: Tue, 9 Apr 2024 18:02:49 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Kuogee Hsieh <quic_khsieh@quicinc.com>, 
- dri-devel@lists.freedesktop.org, seanpaul@chromium.org, swboyd@chromium.org, 
- quic_jesszhan@quicinc.com, quic_bjorande@quicinc.com, johan@kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] drm/msm/dp: call dp_hpd_plug_handle()/unplug_handle()
- directly for external HPD
-Message-ID: <d4gcj4dg5vv5wd72kj7lpzs5cy7b2a4gh4t4lixuigwfkpwt3s@4toc3fpqycwi>
-References: <20240406031548.25829-1-quic_abhinavk@quicinc.com>
- <ale6wbwzkfagcg2q6glb4vsxu3pthhkk3tquv2ixlatbdryqvh@xscsq2h6emho>
- <01cb1c0d-a801-37f9-2f55-2bbd8d3a68b9@quicinc.com>
- <CAA8EJprzH0LiWNx9Udt6og3G063odY6ccvaAgsNS1r3zG8TmdA@mail.gmail.com>
- <905222ad-612a-3eaf-d966-23c89c99e1f0@quicinc.com>
- <CAA8EJpp6Lc7sc5fnKp+O8TYdaywiE+dZ=YJin351s=r5rxi+Kw@mail.gmail.com>
- <covjipaso7bhgiifb62vdh24dpadr7kdypl2dleg7a2vc4jwjd@s4ci5xc6qpa3>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 1/5] drm/vblank: Introduce drm_crtc_vblank_crtc()
+Message-ID: <zbme6rzphmwtaky3r6ozo27hevms2smixn3wjh2msnwmfy5akz@rqjkwpxlvdck>
+References: <20240408190611.24914-1-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <covjipaso7bhgiifb62vdh24dpadr7kdypl2dleg7a2vc4jwjd@s4ci5xc6qpa3>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240408190611.24914-1-ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,65 +82,276 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 08, 2024 at 09:33:01PM -0500, Bjorn Andersson wrote:
-> On Tue, Apr 09, 2024 at 01:07:57AM +0300, Dmitry Baryshkov wrote:
-> > On Tue, 9 Apr 2024 at 00:23, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> > > On 4/8/2024 2:12 PM, Dmitry Baryshkov wrote:
-> > > > On Mon, 8 Apr 2024 at 22:43, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> > > >> On 4/7/2024 11:48 AM, Bjorn Andersson wrote:
-> > > >>> On Fri, Apr 05, 2024 at 08:15:47PM -0700, Abhinav Kumar wrote:
-> > > >>>> From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> > > >>> [..]
-> > > >>>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> [..]
-> > > >>
-> > > >> I will need sometime to address that use-case as I need to see if we can
-> > > >> handle that better and then drop the the DISCONNECT_PENDING state to
-> > > >> address this fully. But it needs more testing.
-> > > >>
-> > > >> But, we will need this patch anyway because without this we will not be
-> > > >> able to fix even the most regular and commonly seen case of basic
-> > > >> connect/disconnect receiving complementary events.
-> > > >
-> > > > Hmm, no. We need to drop the HPD state machine, not to patch it. Once
-> > > > the driver has proper detect() callback, there will be no
-> > > > complementary events. That is a proper way to fix the code, not these
-> > > > kinds of band-aids patches.
-> > > >
-> > >
-> > > I had discussed this part too :)
-> > >
-> > > I totally agree we should fix .detect()'s behavior to just match cable
-> > > connect/disconnect and not link_ready status.
-> > >
-> > > But that alone would not have fixed this issue. If HPD thread does not
-> > > get scheduled and plug_handle() was not executed, .detect() would have
-> > > still returned old status as we will update the cable status only in
-> > > plug_handle() / unplug_handle() to have a common API between internal
-> > > and external hpd execution.
-> > 
-> > I think there should be just hpd_notify, which if the HPD is up,
-> > attempts to read the DPCD. No need for separate plug/unplug_handle.
-> > The detect() can be as simple as !drm_dp_is_branch() || sink_count != 0.
-> > 
+On Mon, Apr 08, 2024 at 10:06:07PM +0300, Ville Syrjala wrote:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > 
-> What is detect() supposed to return in the event that we have external
-> HPD handler? The link state? While the external HPD bridge would return
-> the HPD state?
+> Make life easier by providing a function that hands
+> out the the correct drm_vblank_crtc for a given a drm_crtc.
+> 
+> Also abstract the lower level internals of the vblank
+> code in a similar fashion.
+> 
+> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> ---
+>  drivers/gpu/drm/drm_vblank.c      | 58 ++++++++++++++++++-------------
+>  drivers/gpu/drm/drm_vblank_work.c |  2 +-
+>  include/drm/drm_vblank.h          |  1 +
+>  3 files changed, 36 insertions(+), 25 deletions(-)
 
-It should return the same: there is a sensible display attached. Other
-drivers (and drm/msm/dp internally) use !branch || (sink_count > 0).
 
-> If a driver only drives the link inbetween atomic_enable() and
-> atomic_disable() will the "connected state" then ever be reported as
-> "connected"? (I'm sure I'm still missing pieces of this puzzle).
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-I don't probably get the question. Nothing stops the driver from
-accessing the AUX bus outside of the atomic_enable/disable() brackets.
+I'm looking forward to using this in drm/msm
 
 > 
-> Regards,
-> Bjorn
+> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> index 702a12bc93bd..cc3571e25a9a 100644
+> --- a/drivers/gpu/drm/drm_vblank.c
+> +++ b/drivers/gpu/drm/drm_vblank.c
+> @@ -166,11 +166,24 @@ module_param_named(timestamp_precision_usec, drm_timestamp_precision, int, 0600)
+>  MODULE_PARM_DESC(vblankoffdelay, "Delay until vblank irq auto-disable [msecs] (0: never disable, <0: disable immediately)");
+>  MODULE_PARM_DESC(timestamp_precision_usec, "Max. error on timestamps [usecs]");
+>  
+> +static struct drm_vblank_crtc *
+> +drm_vblank_crtc(struct drm_device *dev, unsigned int pipe)
+> +{
+> +	return &dev->vblank[pipe];
+> +}
+> +
+> +struct drm_vblank_crtc *
+> +drm_crtc_vblank_crtc(struct drm_crtc *crtc)
+> +{
+> +	return drm_vblank_crtc(crtc->dev, drm_crtc_index(crtc));
+> +}
+> +EXPORT_SYMBOL(drm_crtc_vblank_crtc);
+> +
+>  static void store_vblank(struct drm_device *dev, unsigned int pipe,
+>  			 u32 vblank_count_inc,
+>  			 ktime_t t_vblank, u32 last)
+>  {
+> -	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+> +	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
+>  
+>  	assert_spin_locked(&dev->vblank_time_lock);
+>  
+> @@ -184,7 +197,7 @@ static void store_vblank(struct drm_device *dev, unsigned int pipe,
+>  
+>  static u32 drm_max_vblank_count(struct drm_device *dev, unsigned int pipe)
+>  {
+> -	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+> +	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
+>  
+>  	return vblank->max_vblank_count ?: dev->max_vblank_count;
+>  }
+> @@ -273,7 +286,7 @@ static void drm_reset_vblank_timestamp(struct drm_device *dev, unsigned int pipe
+>  static void drm_update_vblank_count(struct drm_device *dev, unsigned int pipe,
+>  				    bool in_vblank_irq)
+>  {
+> -	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+> +	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
+>  	u32 cur_vblank, diff;
+>  	bool rc;
+>  	ktime_t t_vblank;
+> @@ -364,7 +377,7 @@ static void drm_update_vblank_count(struct drm_device *dev, unsigned int pipe,
+>  
+>  u64 drm_vblank_count(struct drm_device *dev, unsigned int pipe)
+>  {
+> -	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+> +	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
+>  	u64 count;
+>  
+>  	if (drm_WARN_ON(dev, pipe >= dev->num_crtcs))
+> @@ -438,7 +451,7 @@ static void __disable_vblank(struct drm_device *dev, unsigned int pipe)
+>   */
+>  void drm_vblank_disable_and_save(struct drm_device *dev, unsigned int pipe)
+>  {
+> -	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+> +	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
+>  	unsigned long irqflags;
+>  
+>  	assert_spin_locked(&dev->vbl_lock);
+> @@ -600,7 +613,7 @@ void drm_calc_timestamping_constants(struct drm_crtc *crtc,
+>  {
+>  	struct drm_device *dev = crtc->dev;
+>  	unsigned int pipe = drm_crtc_index(crtc);
+> -	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+> +	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
+>  	int linedur_ns = 0, framedur_ns = 0;
+>  	int dotclock = mode->crtc_clock;
+>  
+> @@ -930,7 +943,7 @@ EXPORT_SYMBOL(drm_crtc_vblank_count);
+>  static u64 drm_vblank_count_and_time(struct drm_device *dev, unsigned int pipe,
+>  				     ktime_t *vblanktime)
+>  {
+> -	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+> +	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
+>  	u64 vblank_count;
+>  	unsigned int seq;
+>  
+> @@ -985,7 +998,6 @@ EXPORT_SYMBOL(drm_crtc_vblank_count_and_time);
+>   */
+>  int drm_crtc_next_vblank_start(struct drm_crtc *crtc, ktime_t *vblanktime)
+>  {
+> -	unsigned int pipe = drm_crtc_index(crtc);
+>  	struct drm_vblank_crtc *vblank;
+>  	struct drm_display_mode *mode;
+>  	u64 vblank_start;
+> @@ -993,7 +1005,7 @@ int drm_crtc_next_vblank_start(struct drm_crtc *crtc, ktime_t *vblanktime)
+>  	if (!drm_dev_has_vblank(crtc->dev))
+>  		return -EINVAL;
+>  
+> -	vblank = &crtc->dev->vblank[pipe];
+> +	vblank = drm_crtc_vblank_crtc(crtc);
+>  	mode = &vblank->hwmode;
+>  
+>  	if (!vblank->framedur_ns || !vblank->linedur_ns)
+> @@ -1147,7 +1159,7 @@ static int __enable_vblank(struct drm_device *dev, unsigned int pipe)
+>  
+>  static int drm_vblank_enable(struct drm_device *dev, unsigned int pipe)
+>  {
+> -	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+> +	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
+>  	int ret = 0;
+>  
+>  	assert_spin_locked(&dev->vbl_lock);
+> @@ -1185,7 +1197,7 @@ static int drm_vblank_enable(struct drm_device *dev, unsigned int pipe)
+>  
+>  int drm_vblank_get(struct drm_device *dev, unsigned int pipe)
+>  {
+> -	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+> +	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
+>  	unsigned long irqflags;
+>  	int ret = 0;
+>  
+> @@ -1228,7 +1240,7 @@ EXPORT_SYMBOL(drm_crtc_vblank_get);
+>  
+>  void drm_vblank_put(struct drm_device *dev, unsigned int pipe)
+>  {
+> -	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+> +	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
+>  
+>  	if (drm_WARN_ON(dev, pipe >= dev->num_crtcs))
+>  		return;
+> @@ -1274,7 +1286,7 @@ EXPORT_SYMBOL(drm_crtc_vblank_put);
+>   */
+>  void drm_wait_one_vblank(struct drm_device *dev, unsigned int pipe)
+>  {
+> -	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+> +	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
+>  	int ret;
+>  	u64 last;
+>  
+> @@ -1327,7 +1339,7 @@ void drm_crtc_vblank_off(struct drm_crtc *crtc)
+>  {
+>  	struct drm_device *dev = crtc->dev;
+>  	unsigned int pipe = drm_crtc_index(crtc);
+> -	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+> +	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
+>  	struct drm_pending_vblank_event *e, *t;
+>  	ktime_t now;
+>  	u64 seq;
+> @@ -1405,8 +1417,7 @@ EXPORT_SYMBOL(drm_crtc_vblank_off);
+>  void drm_crtc_vblank_reset(struct drm_crtc *crtc)
+>  {
+>  	struct drm_device *dev = crtc->dev;
+> -	unsigned int pipe = drm_crtc_index(crtc);
+> -	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+> +	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
+>  
+>  	spin_lock_irq(&dev->vbl_lock);
+>  	/*
+> @@ -1445,8 +1456,7 @@ void drm_crtc_set_max_vblank_count(struct drm_crtc *crtc,
+>  				   u32 max_vblank_count)
+>  {
+>  	struct drm_device *dev = crtc->dev;
+> -	unsigned int pipe = drm_crtc_index(crtc);
+> -	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+> +	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
+>  
+>  	drm_WARN_ON(dev, dev->max_vblank_count);
+>  	drm_WARN_ON(dev, !READ_ONCE(vblank->inmodeset));
+> @@ -1469,7 +1479,7 @@ void drm_crtc_vblank_on(struct drm_crtc *crtc)
+>  {
+>  	struct drm_device *dev = crtc->dev;
+>  	unsigned int pipe = drm_crtc_index(crtc);
+> -	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+> +	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
+>  
+>  	if (drm_WARN_ON(dev, pipe >= dev->num_crtcs))
+>  		return;
+> @@ -1512,7 +1522,7 @@ static void drm_vblank_restore(struct drm_device *dev, unsigned int pipe)
+>  	assert_spin_locked(&dev->vbl_lock);
+>  	assert_spin_locked(&dev->vblank_time_lock);
+>  
+> -	vblank = &dev->vblank[pipe];
+> +	vblank = drm_vblank_crtc(dev, pipe);
+>  	drm_WARN_ONCE(dev,
+>  		      drm_debug_enabled(DRM_UT_VBL) && !vblank->framedur_ns,
+>  		      "Cannot compute missed vblanks without frame duration\n");
+> @@ -1564,7 +1574,7 @@ static int drm_queue_vblank_event(struct drm_device *dev, unsigned int pipe,
+>  				  union drm_wait_vblank *vblwait,
+>  				  struct drm_file *file_priv)
+>  {
+> -	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+> +	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
+>  	struct drm_pending_vblank_event *e;
+>  	ktime_t now;
+>  	u64 seq;
+> @@ -1872,7 +1882,7 @@ static void drm_handle_vblank_events(struct drm_device *dev, unsigned int pipe)
+>   */
+>  bool drm_handle_vblank(struct drm_device *dev, unsigned int pipe)
+>  {
+> -	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+> +	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
+>  	unsigned long irqflags;
+>  	bool disable_irq;
+>  
+> @@ -1981,7 +1991,7 @@ int drm_crtc_get_sequence_ioctl(struct drm_device *dev, void *data,
+>  
+>  	pipe = drm_crtc_index(crtc);
+>  
+> -	vblank = &dev->vblank[pipe];
+> +	vblank = drm_crtc_vblank_crtc(crtc);
+>  	vblank_enabled = dev->vblank_disable_immediate && READ_ONCE(vblank->enabled);
+>  
+>  	if (!vblank_enabled) {
+> @@ -2046,7 +2056,7 @@ int drm_crtc_queue_sequence_ioctl(struct drm_device *dev, void *data,
+>  
+>  	pipe = drm_crtc_index(crtc);
+>  
+> -	vblank = &dev->vblank[pipe];
+> +	vblank = drm_crtc_vblank_crtc(crtc);
+>  
+>  	e = kzalloc(sizeof(*e), GFP_KERNEL);
+>  	if (e == NULL)
+> diff --git a/drivers/gpu/drm/drm_vblank_work.c b/drivers/gpu/drm/drm_vblank_work.c
+> index 43cd5c0f4f6f..4fe9b1d3b00f 100644
+> --- a/drivers/gpu/drm/drm_vblank_work.c
+> +++ b/drivers/gpu/drm/drm_vblank_work.c
+> @@ -245,7 +245,7 @@ void drm_vblank_work_init(struct drm_vblank_work *work, struct drm_crtc *crtc,
+>  {
+>  	kthread_init_work(&work->base, func);
+>  	INIT_LIST_HEAD(&work->node);
+> -	work->vblank = &crtc->dev->vblank[drm_crtc_index(crtc)];
+> +	work->vblank = drm_crtc_vblank_crtc(crtc);
+>  }
+>  EXPORT_SYMBOL(drm_vblank_work_init);
+>  
+> diff --git a/include/drm/drm_vblank.h b/include/drm/drm_vblank.h
+> index 7f3957943dd1..c8f829b4307c 100644
+> --- a/include/drm/drm_vblank.h
+> +++ b/include/drm/drm_vblank.h
+> @@ -225,6 +225,7 @@ struct drm_vblank_crtc {
+>  	wait_queue_head_t work_wait_queue;
+>  };
+>  
+> +struct drm_vblank_crtc *drm_crtc_vblank_crtc(struct drm_crtc *crtc);
+>  int drm_vblank_init(struct drm_device *dev, unsigned int num_crtcs);
+>  bool drm_dev_has_vblank(const struct drm_device *dev);
+>  u64 drm_crtc_vblank_count(struct drm_crtc *crtc);
+> -- 
+> 2.43.2
+> 
 
 -- 
 With best wishes
