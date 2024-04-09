@@ -2,69 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8446589D7AB
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 13:13:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A59A89D7E9
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 13:33:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7D9C10F5F5;
-	Tue,  9 Apr 2024 11:13:09 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Xi22GX88";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA23F10E6B3;
+	Tue,  9 Apr 2024 11:33:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 527A010F5F5
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 11:13:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712661187; x=1744197187;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=NXG0UT6jJCzP0INeEwW/eyMrQnypHmCbGHpHQ4/tzFk=;
- b=Xi22GX88U1daFPUCOgHwADSghrc9wPJZrA6jPdVFaKNrHl5sug+u6uqD
- 6V2kV3EidCGPXY72TphcvKOlozuReDVXF+JGrRECpfAZ3wEWEbL6pYTcN
- z7n7r1aHYYPVgNFeyqmam/iWFYtDGbqeyohBPF6NAzRtcqnLCE9nhfqZi
- Cqi/UJrgTUG1NlNsJrQwVIcsIeM3GkF1uwzsYvLj2fec7d26AcGxFcqTV
- M6NbTwNLlJk/8wG3fpTIeuw9vwvkIBzuf3vg3+bl+ECF/3NyUr8h3deaz
- 7QLukhjm4dfIQzMLQ8sEb0UOr2V7dublb9KU4cQqUwQAc42yHdspIRjm3 g==;
-X-CSE-ConnectionGUID: oYqtb3IqThSbnYqCwQhVTQ==
-X-CSE-MsgGUID: 8AvHQM52QROxZi7CyrpJaA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="8199253"
-X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
-   d="scan'208";a="8199253"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Apr 2024 04:13:06 -0700
-X-CSE-ConnectionGUID: SRL5sb7wTM21oLCg8Mjllg==
-X-CSE-MsgGUID: JnnQ0X5DR22ejbOutQuriA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; d="scan'208";a="24677841"
-Received: from mserban-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.59.228])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Apr 2024 04:13:02 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, Lucas De Marchi
- <lucas.demarchi@intel.com>, kernel test robot <lkp@intel.com>,
- linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kbuild <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH v3 00/13] drm/display: Convert helpers Kconfig symbols
- to depends on
-In-Reply-To: <CAMuHMdVMhXFm-kZ50Un1ZFmEcjJ7SnpyEyw65-wucBGpVRUFww@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240327-kms-kconfig-helpers-v3-0-eafee11b84b3@kernel.org>
- <a816fea-9974-d17f-bed6-69728e223@linux-m68k.org>
- <87sezu97id.fsf@intel.com>
- <CAMuHMdVMhXFm-kZ50Un1ZFmEcjJ7SnpyEyw65-wucBGpVRUFww@mail.gmail.com>
-Date: Tue, 09 Apr 2024 14:12:59 +0300
-Message-ID: <87edbe94ck.fsf@intel.com>
+Received: from hs01.dakr.org (hs01.dk-develop.de [173.249.23.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94F4C10E54A;
+ Tue,  9 Apr 2024 11:33:28 +0000 (UTC)
+Message-ID: <36664f8f-0e6a-48a9-b9f9-7a6775007486@dakr.org>
+Date: Tue, 9 Apr 2024 13:33:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] nouveau: fix instmem race condition around ptr stores
+To: Lucas Stach <dev@lynxeye.de>, Dave Airlie <airlied@gmail.com>
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20240409003401.2224446-1-airlied@gmail.com>
+ <fcfb16a3a4bc53d4ac1724ab5649ee792977260f.camel@lynxeye.de>
+Content-Language: en-US
+From: Danilo Krummrich <me@dakr.org>
+In-Reply-To: <fcfb16a3a4bc53d4ac1724ab5649ee792977260f.camel@lynxeye.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,80 +40,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 09 Apr 2024, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> Hi Jani,
->
-> On Tue, Apr 9, 2024 at 12:04=E2=80=AFPM Jani Nikula <jani.nikula@linux.in=
-tel.com> wrote:
->> On Tue, 09 Apr 2024, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->> > The user should not need to know which helpers are needed for the driv=
-er
->> > he is interested in.  When a symbol selects another symbol, it should
->> > just make sure the dependencies of the target symbol are met.
+On 4/9/24 10:27, Lucas Stach wrote:
+> Am Dienstag, dem 09.04.2024 um 10:34 +1000 schrieb Dave Airlie:
+>> From: Dave Airlie <airlied@redhat.com>
 >>
->> It's really not "just make sure". This leads to perpetual illegal
->> configurations, and duct tape fixes. Select should not be used for
->> visible symbols or symbols with dependencies [1].
->
-> In other words: none of these helpers should be visible...
+>> Running a lot of VK CTS in parallel against nouveau, once every
+>> few hours you might see something like this crash.
+>>
+>> BUG: kernel NULL pointer dereference, address: 0000000000000008
+>> PGD 8000000114e6e067 P4D 8000000114e6e067 PUD 109046067 PMD 0
+>> Oops: 0000 [#1] PREEMPT SMP PTI
+>> CPU: 7 PID: 53891 Comm: deqp-vk Not tainted 6.8.0-rc6+ #27
+>> Hardware name: Gigabyte Technology Co., Ltd. Z390 I AORUS PRO WIFI/Z390 I AORUS PRO WIFI-CF, BIOS F8 11/05/2021
+>> RIP: 0010:gp100_vmm_pgt_mem+0xe3/0x180 [nouveau]
+>> Code: c7 48 01 c8 49 89 45 58 85 d2 0f 84 95 00 00 00 41 0f b7 46 12 49 8b 7e 08 89 da 42 8d 2c f8 48 8b 47 08 41 83 c7 01 48 89 ee <48> 8b 40 08 ff d0 0f 1f 00 49 8b 7e 08 48 89 d9 48 8d 75 04 48 c1
+>> RSP: 0000:ffffac20c5857838 EFLAGS: 00010202
+>> RAX: 0000000000000000 RBX: 00000000004d8001 RCX: 0000000000000001
+>> RDX: 00000000004d8001 RSI: 00000000000006d8 RDI: ffffa07afe332180
+>> RBP: 00000000000006d8 R08: ffffac20c5857ad0 R09: 0000000000ffff10
+>> R10: 0000000000000001 R11: ffffa07af27e2de0 R12: 000000000000001c
+>> R13: ffffac20c5857ad0 R14: ffffa07a96fe9040 R15: 000000000000001c
+>> FS:  00007fe395eed7c0(0000) GS:ffffa07e2c980000(0000) knlGS:0000000000000000
+>> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>> CR2: 0000000000000008 CR3: 000000011febe001 CR4: 00000000003706f0
+>> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+>> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+>> Call Trace:
+>>
+>> ...
+>>
+>>   ? gp100_vmm_pgt_mem+0xe3/0x180 [nouveau]
+>>   ? gp100_vmm_pgt_mem+0x37/0x180 [nouveau]
+>>   nvkm_vmm_iter+0x351/0xa20 [nouveau]
+>>   ? __pfx_nvkm_vmm_ref_ptes+0x10/0x10 [nouveau]
+>>   ? __pfx_gp100_vmm_pgt_mem+0x10/0x10 [nouveau]
+>>   ? __pfx_gp100_vmm_pgt_mem+0x10/0x10 [nouveau]
+>>   ? __lock_acquire+0x3ed/0x2170
+>>   ? __pfx_gp100_vmm_pgt_mem+0x10/0x10 [nouveau]
+>>   nvkm_vmm_ptes_get_map+0xc2/0x100 [nouveau]
+>>   ? __pfx_nvkm_vmm_ref_ptes+0x10/0x10 [nouveau]
+>>   ? __pfx_gp100_vmm_pgt_mem+0x10/0x10 [nouveau]
+>>   nvkm_vmm_map_locked+0x224/0x3a0 [nouveau]
+>>
+>> Adding any sort of useful debug usually makes it go away, so I hand
+>> wrote the function in a line, and debugged the asm.
+>>
+>> Every so often pt->memory->ptrs is NULL. This ptrs ptr is set in
+>> the nv50_instobj_acquire called from nvkm_kmap.
+>>
+>> If Thread A and Thread B both get to nv50_instobj_acquire around
+>> the same time, and Thread A hits the refcount_set line, and in
+>> lockstep thread B succeeds at refcount_inc_not_zero, there is a
+>> chance the ptrs value won't have been stored since refcount_set
+>> is unordered. Force a memory barrier here, I picked smp_mb, since
+>> we want it on all CPUs and it's write followed by a read.
 
-...and should have no dependencies? :p
+Good catch!
 
->
->> What we'd need for usability is not more abuse of select, but rather 1)
->> warnings for selecting symbols with dependencies, and 2) a way to enable
->
-> Kconfig already warns if dependencies of selected symbols are not met.
+>>
+>> Cc: linux-stable
+>> Signed-off-by: Dave Airlie <airlied@redhat.com>
+>> ---
+>>   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c b/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c
+>> index a7f3fc342d87..cbacc7b11f8c 100644
+>> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c
+>> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c
+>> @@ -250,6 +250,9 @@ nv50_instobj_acquire(struct nvkm_memory *memory)
+>>   			iobj->base.memory.ptrs = &nv50_instobj_fast;
+>>   		else
+>>   			iobj->base.memory.ptrs = &nv50_instobj_slow;
+>> +		/* barrier to ensure ptrs is written before another thread
+>> +		   does refcount_inc_not_zero successfully. */
+>> +		smp_mb();
+> 
+> Doesn't this miss the corresponding smp_rmb after
+> refcount_inc_not_zero? Without it a sufficiently speculating CPU might
+> still hoist the NULL ptr load across the refcount increase.
 
-But it does lead to cases where a builtin tries to use a symbol from a
-module, failing at link time, not config time. Then I regularly see
-patches trying to fix this with IS_REACHABLE(), making it a silent
-runtime failure instead, when it should've been a config issue.
+Agree, also think this one could be smp_wmb() only.
 
->> a kconfig option with all its dependencies, recursively. This is what we
->> lack.
->
-> You cannot force-enable all dependencies of the target symbol, as some
-> of these dependencies may be impossible to meet on the system you are
-> configuring a kernel for.
+I also think it's reasonable to keep "the fast path refcount_inc_not_zero
+that doesn't take the lock", since the scope for this being potentially racy
+is limited to this function only.
 
-Surely kconfig should be able to figure out if they're possible or not.
-
-> The current proper way is to add these dependencies to the source
-> symbol, which is what we have been doing everywhere else.  Another
-> solution may be to teach Kconfig to ignore any symbols that select a
-> symbol with unmet dependencies.
-
-...
-
-It seems like your main argument in favour of using select is that it's
-more convenient for people who configure the kernel. Because the user
-should be able to just enable a driver, and that would select everything
-that's needed. But where do we draw the line? Then what qualifies for
-"depends on"?
-
-Look at config DRM_I915 and where select abuse has lead us. Like, why
-don't we just select DRM, PCI and X86 as well instead of depend. :p
-
-A lot of things we have to select because it appears to generally be the
-case that if some places select and some places depends on a symbol,
-it'll lead to circular dependencies.
-
-Sure there may be a usability issue with using depends on. But the
-proper fix isn't hacking in kconfig files, it's to fix the usability in
-kconfig the tool UI. But nobody steps up, because at least I find the
-kconfig source to be inpenetrable. I've tried many times, and given up.
-
-I mean, if you want to enable a driver D, it could, at a minimum, show
-you a tree of (possibly alternative) things you also need to enable. But
-if the dependencies aren't there, you won't even see the config for
-D. That's not something that should be "fixed" by abusing select in
-kconfig files.
-
-
-BR,
-Jani.
-
-
---=20
-Jani Nikula, Intel
+> 
+> Regards,
+> Lucas
