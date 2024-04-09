@@ -2,29 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A59A89D7E9
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 13:33:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FD9C89DE86
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 17:16:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA23F10E6B3;
-	Tue,  9 Apr 2024 11:33:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2179310FE86;
+	Tue,  9 Apr 2024 15:16:21 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="Re2MZHX5";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hs01.dakr.org (hs01.dk-develop.de [173.249.23.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94F4C10E54A;
- Tue,  9 Apr 2024 11:33:28 +0000 (UTC)
-Message-ID: <36664f8f-0e6a-48a9-b9f9-7a6775007486@dakr.org>
-Date: Tue, 9 Apr 2024 13:33:15 +0200
+Received: from smtp-fw-52003.amazon.com (smtp-fw-52003.amazon.com
+ [52.119.213.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1FDC112CF0
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 11:45:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+ t=1712663151; x=1744199151;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=GFjr+qUI/xJlRfC49pDYbbQ+5mOHCUk/2gN5wZX0VPA=;
+ b=Re2MZHX5GydCM8B6KilkbcXlSGPSLv0DHVNAFcmqvWsd0IZ1NH+wl46p
+ jp+rvzqYg9VvAX9wn3JpJghaHuXQWE2yPEhE8P08rq+2tVNxto7uD3tbV
+ QrLFtsNiMvuJGKG0kOuG7Rz2NIhkvDaaqqVhKqvF/2RhKVIbglEWBhS4x g=;
+X-IronPort-AV: E=Sophos;i="6.07,189,1708387200"; d="scan'208";a="650727234"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO
+ smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.6])
+ by smtp-border-fw-52003.iad7.amazon.com with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 11:45:43 +0000
+Received: from EX19MTAUWC002.ant.amazon.com [10.0.21.151:49900]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.27.169:2525]
+ with esmtp (Farcaster)
+ id 3f52ccb2-10c8-4639-a2de-4651f9e21034; Tue, 9 Apr 2024 11:45:42 +0000 (UTC)
+X-Farcaster-Flow-ID: 3f52ccb2-10c8-4639-a2de-4651f9e21034
+Received: from EX19D020UWC004.ant.amazon.com (10.13.138.149) by
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.28; Tue, 9 Apr 2024 11:45:38 +0000
+Received: from [0.0.0.0] (10.253.83.51) by EX19D020UWC004.ant.amazon.com
+ (10.13.138.149) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.28; Tue, 9 Apr
+ 2024 11:45:22 +0000
+Message-ID: <7c82670e-6063-4b0f-9bbf-805a0d949d84@amazon.com>
+Date: Tue, 9 Apr 2024 13:45:18 +0200
 MIME-Version: 1.0
-Subject: Re: [PATCH] nouveau: fix instmem race condition around ptr stores
-To: Lucas Stach <dev@lynxeye.de>, Dave Airlie <airlied@gmail.com>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20240409003401.2224446-1-airlied@gmail.com>
- <fcfb16a3a4bc53d4ac1724ab5649ee792977260f.camel@lynxeye.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 15/25] misc: nsm: drop owner assignment
 Content-Language: en-US
-From: Danilo Krummrich <me@dakr.org>
-In-Reply-To: <fcfb16a3a4bc53d4ac1724ab5649ee792977260f.camel@lynxeye.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Jonathan Corbet <corbet@lwn.net>, "David
+ Hildenbrand" <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, "Richard
+ Weinberger" <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
+ Johannes Berg <johannes@sipsolutions.net>, Paolo Bonzini
+ <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe
+ <axboe@kernel.dk>, Marcel Holtmann <marcel@holtmann.org>, "Luiz Augusto von
+ Dentz" <luiz.dentz@gmail.com>, Olivia Mackall <olivia@selenic.com>, Herbert
+ Xu <herbert@gondor.apana.org.au>, Amit Shah <amit@kernel.org>, Arnd Bergmann
+ <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Gonglei
+ <arei.gonglei@huawei.com>, "David S. Miller" <davem@davemloft.net>, "Sudeep
+ Holla" <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>,
+ Viresh Kumar <vireshk@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, David Airlie <airlied@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter
+ <daniel@ffwll.ch>, Jean-Philippe Brucker <jean-philippe@linaro.org>, "Joerg
+ Roedel" <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy
+ <robin.murphy@arm.com>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Eric Van Hensbergen
+ <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>, Dominique Martinet
+ <asmadeus@codewreck.org>, Christian Schoenebeck <linux_oss@crudebyte.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Kalle Valo <kvalo@kernel.org>, "Dan
+ Williams" <dan.j.williams@intel.com>, Vishal Verma
+ <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, Ira Weiny
+ <ira.weiny@intel.com>, "Pankaj Gupta" <pankaj.gupta.linux@gmail.com>, Bjorn
+ Andersson <andersson@kernel.org>, Mathieu Poirier
+ <mathieu.poirier@linaro.org>, "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>, Vivek Goyal
+ <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>, "Anton Yakovlev"
+ <anton.yakovlev@opensynergy.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>
+CC: <virtualization@lists.linux.dev>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-um@lists.infradead.org>,
+ <linux-block@vger.kernel.org>, <linux-bluetooth@vger.kernel.org>,
+ <linux-crypto@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-gpio@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <iommu@lists.linux.dev>, <netdev@vger.kernel.org>, <v9fs@lists.linux.dev>,
+ <kvm@vger.kernel.org>, <linux-wireless@vger.kernel.org>,
+ <nvdimm@lists.linux.dev>, <linux-remoteproc@vger.kernel.org>,
+ <linux-scsi@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>
+References: <20240331-module-owner-virtio-v2-0-98f04bfaf46a@linaro.org>
+ <20240331-module-owner-virtio-v2-15-98f04bfaf46a@linaro.org>
+From: Alexander Graf <graf@amazon.com>
+In-Reply-To: <20240331-module-owner-virtio-v2-15-98f04bfaf46a@linaro.org>
+X-Originating-IP: [10.253.83.51]
+X-ClientProxiedBy: EX19D035UWA002.ant.amazon.com (10.13.139.60) To
+ EX19D020UWC004.ant.amazon.com (10.13.138.149)
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: base64
+X-Mailman-Approved-At: Tue, 09 Apr 2024 15:16:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,92 +118,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/9/24 10:27, Lucas Stach wrote:
-> Am Dienstag, dem 09.04.2024 um 10:34 +1000 schrieb Dave Airlie:
->> From: Dave Airlie <airlied@redhat.com>
->>
->> Running a lot of VK CTS in parallel against nouveau, once every
->> few hours you might see something like this crash.
->>
->> BUG: kernel NULL pointer dereference, address: 0000000000000008
->> PGD 8000000114e6e067 P4D 8000000114e6e067 PUD 109046067 PMD 0
->> Oops: 0000 [#1] PREEMPT SMP PTI
->> CPU: 7 PID: 53891 Comm: deqp-vk Not tainted 6.8.0-rc6+ #27
->> Hardware name: Gigabyte Technology Co., Ltd. Z390 I AORUS PRO WIFI/Z390 I AORUS PRO WIFI-CF, BIOS F8 11/05/2021
->> RIP: 0010:gp100_vmm_pgt_mem+0xe3/0x180 [nouveau]
->> Code: c7 48 01 c8 49 89 45 58 85 d2 0f 84 95 00 00 00 41 0f b7 46 12 49 8b 7e 08 89 da 42 8d 2c f8 48 8b 47 08 41 83 c7 01 48 89 ee <48> 8b 40 08 ff d0 0f 1f 00 49 8b 7e 08 48 89 d9 48 8d 75 04 48 c1
->> RSP: 0000:ffffac20c5857838 EFLAGS: 00010202
->> RAX: 0000000000000000 RBX: 00000000004d8001 RCX: 0000000000000001
->> RDX: 00000000004d8001 RSI: 00000000000006d8 RDI: ffffa07afe332180
->> RBP: 00000000000006d8 R08: ffffac20c5857ad0 R09: 0000000000ffff10
->> R10: 0000000000000001 R11: ffffa07af27e2de0 R12: 000000000000001c
->> R13: ffffac20c5857ad0 R14: ffffa07a96fe9040 R15: 000000000000001c
->> FS:  00007fe395eed7c0(0000) GS:ffffa07e2c980000(0000) knlGS:0000000000000000
->> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->> CR2: 0000000000000008 CR3: 000000011febe001 CR4: 00000000003706f0
->> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
->> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
->> Call Trace:
->>
->> ...
->>
->>   ? gp100_vmm_pgt_mem+0xe3/0x180 [nouveau]
->>   ? gp100_vmm_pgt_mem+0x37/0x180 [nouveau]
->>   nvkm_vmm_iter+0x351/0xa20 [nouveau]
->>   ? __pfx_nvkm_vmm_ref_ptes+0x10/0x10 [nouveau]
->>   ? __pfx_gp100_vmm_pgt_mem+0x10/0x10 [nouveau]
->>   ? __pfx_gp100_vmm_pgt_mem+0x10/0x10 [nouveau]
->>   ? __lock_acquire+0x3ed/0x2170
->>   ? __pfx_gp100_vmm_pgt_mem+0x10/0x10 [nouveau]
->>   nvkm_vmm_ptes_get_map+0xc2/0x100 [nouveau]
->>   ? __pfx_nvkm_vmm_ref_ptes+0x10/0x10 [nouveau]
->>   ? __pfx_gp100_vmm_pgt_mem+0x10/0x10 [nouveau]
->>   nvkm_vmm_map_locked+0x224/0x3a0 [nouveau]
->>
->> Adding any sort of useful debug usually makes it go away, so I hand
->> wrote the function in a line, and debugged the asm.
->>
->> Every so often pt->memory->ptrs is NULL. This ptrs ptr is set in
->> the nv50_instobj_acquire called from nvkm_kmap.
->>
->> If Thread A and Thread B both get to nv50_instobj_acquire around
->> the same time, and Thread A hits the refcount_set line, and in
->> lockstep thread B succeeds at refcount_inc_not_zero, there is a
->> chance the ptrs value won't have been stored since refcount_set
->> is unordered. Force a memory barrier here, I picked smp_mb, since
->> we want it on all CPUs and it's write followed by a read.
+Ck9uIDMxLjAzLjI0IDEwOjQ0LCBLcnp5c3p0b2YgS296bG93c2tpIHdyb3RlOgo+IHZpcnRpbyBj
+b3JlIGFscmVhZHkgc2V0cyB0aGUgLm93bmVyLCBzbyBkcml2ZXIgZG9lcyBub3QgbmVlZCB0by4K
+Pgo+IFNpZ25lZC1vZmYtYnk6IEtyenlzenRvZiBLb3psb3dza2kgPGtyenlzenRvZi5rb3psb3dz
+a2lAbGluYXJvLm9yZz4KCgpSZXZpZXdlZC1ieTogQWxleGFuZGVyIEdyYWYgPGdyYWZAYW1hem9u
+LmNvbT4KCgpBbGV4CgoKCgpBbWF6b24gRGV2ZWxvcG1lbnQgQ2VudGVyIEdlcm1hbnkgR21iSApL
+cmF1c2Vuc3RyLiAzOAoxMDExNyBCZXJsaW4KR2VzY2hhZWZ0c2Z1ZWhydW5nOiBDaHJpc3RpYW4g
+U2NobGFlZ2VyLCBKb25hdGhhbiBXZWlzcwpFaW5nZXRyYWdlbiBhbSBBbXRzZ2VyaWNodCBDaGFy
+bG90dGVuYnVyZyB1bnRlciBIUkIgMTQ5MTczIEIKU2l0ejogQmVybGluClVzdC1JRDogREUgMjg5
+IDIzNyA4NzkKCgo=
 
-Good catch!
-
->>
->> Cc: linux-stable
->> Signed-off-by: Dave Airlie <airlied@redhat.com>
->> ---
->>   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c b/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c
->> index a7f3fc342d87..cbacc7b11f8c 100644
->> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c
->> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c
->> @@ -250,6 +250,9 @@ nv50_instobj_acquire(struct nvkm_memory *memory)
->>   			iobj->base.memory.ptrs = &nv50_instobj_fast;
->>   		else
->>   			iobj->base.memory.ptrs = &nv50_instobj_slow;
->> +		/* barrier to ensure ptrs is written before another thread
->> +		   does refcount_inc_not_zero successfully. */
->> +		smp_mb();
-> 
-> Doesn't this miss the corresponding smp_rmb after
-> refcount_inc_not_zero? Without it a sufficiently speculating CPU might
-> still hoist the NULL ptr load across the refcount increase.
-
-Agree, also think this one could be smp_wmb() only.
-
-I also think it's reasonable to keep "the fast path refcount_inc_not_zero
-that doesn't take the lock", since the scope for this being potentially racy
-is limited to this function only.
-
-> 
-> Regards,
-> Lucas
