@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC7889D448
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 10:29:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 857A689D449
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 10:30:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE548112BA1;
-	Tue,  9 Apr 2024 08:29:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3711F112BA2;
+	Tue,  9 Apr 2024 08:30:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="IILgraBC";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="voENGvzn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
- [209.85.208.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27697112BA0
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 08:29:49 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id
- 4fb4d7f45d1cf-56e5bba0908so7490a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Apr 2024 01:29:49 -0700 (PDT)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+ [209.85.208.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0573112BA0
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 08:29:56 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id
+ 4fb4d7f45d1cf-56e5174ffc2so7154a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Apr 2024 01:29:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1712651387; x=1713256187;
+ d=google.com; s=20230601; t=1712651395; x=1713256195;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=xl/NdoYUs9v43LiEEKEvd+h4/wJKrZS+X/bB86f2X44=;
- b=IILgraBCnrdHzCfMzZr2rycl6mXMFBo2W0ixDP8/cBFlcs/53ovQc8nQ0y7MTTp53/
- M4DnSkIiHuGlLFX3k4qqV33R7psVt7FNOWW4Njl9qWsoOpiJfOX/6MpTpnNypwXfzmlh
- 3YI/Zbp/cyRNRdwp5Gtf7ZBPj9zOdyOcw8fosw7mRxVRpeOscvR2WGOSHSrSPYlENE4Y
- oujPUL+VKwoTm3i5BYXU35N/Ia0jpbsaMHMPGaUH5ZVVIqRBHRvj37oXdNh3Nyx4kqpZ
- mco7kE6U8EERL+7F9ttn+YjDKwbxcOWyQ9ilL7nx3XMRsiXVI+mI/ZAMYKwidM9cxdQ9
- taMw==
+ bh=OLitChCYVHt64gIXA1e3QESovDOn4GKGpxe3tl3ihTc=;
+ b=voENGvznk4IThF8hFgU9F1FCZ7Sh6FAbKj4aTwL7KqZLfiEKFHMDhFbrxnrlHWPaUf
+ UmharUBrVIQND2RCftd4INGg7PTqCc4XeirRi/hwSjY5f+WbrlFXxVR71ObKaFpEq0nu
+ dTBjjwFh562rskaDRbzM7Cpr4xcWbrIyTlmnpCQqVJI7/DJp3I2BMEqUdiASWiSCbL8J
+ Y6IZOKlJXAkrKWk01RmweCQ4QeTmo+I9XwbH0WbwI1Usv4ih6I2r2rYmSQLJxm7FBpnw
+ xvcyTfgxCVuPoLdIcAo6aCMYy6y+/H/qMxAiMsCenqciTsgKt5aDHkotpExRpKm9MRFL
+ oTBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712651387; x=1713256187;
+ d=1e100.net; s=20230601; t=1712651395; x=1713256195;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=xl/NdoYUs9v43LiEEKEvd+h4/wJKrZS+X/bB86f2X44=;
- b=LK7lGVcSqKb1flZi1ikO+2NmN6+s7+xlZcbzdLVM3U2MCNWl8EOYe1mW70sJ+zyD0s
- c6f+FuLah9zLAvo5l4OQufpnd0WP0gOAj/eHfaSlkCcJCLXaK8B6JwsFsLshdYMnTePl
- F2+H5b8894/ZE+h1s1SfhIt5HAR0W17+rQQ5W2iCLMWwZYnnfesgAqns8cx9YTTXUuqc
- yxMWDyftyVXktelze9SpI3j9CgIt4rC9rKK8fZpf7IVnnSaRpOyta3OkUicbmDdCb8vQ
- aoDBubinBrMvGHC+7Kfr+fS4yl5WsrUIYdRfaumS33qVcypLamvdoKeC6Igj0rpIyvr0
- +ENA==
+ bh=OLitChCYVHt64gIXA1e3QESovDOn4GKGpxe3tl3ihTc=;
+ b=pPPpfn2e39+6V51dmlIAv9DVrVdV2EYMJmJX9RixeRMRcf9MWaT3u/ulfjPEIt/TAu
+ r4j68yWB2mQsklltb7GyW0V66IWWxO1jGpEWIDYIW43kc+7jvjtmmWZjqFtUe7PVKJqG
+ 3macumFn+uvqcUX4VGj3J/0Ckt6r2UOF1rdJ+3SuIPnb9nIol49xdTc7+2TjJhegq1eW
+ 84Y2YkU9zW5ptYavhzIm68xV7PhVzK0BFcjO7EP8hjY+lox0wH7Jc7KBeMAXNWa/Yd/q
+ qiYYV04qUsh/Hqgr0KiIzfuOPRTWyw6cOcRgjox1gapMvWXOHvS5uYnZfCMkcICoMMhk
+ drjg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV8U/dkNN6TpzYgMwkiEuWfCymJ6ysGqjY3dl7EJtdkCyXiw2+JiRgDdDK6ejDHC43liGjsQ0DnwEv5BnDXFqaJgI3FTZHvdhac6zkiQlKW
-X-Gm-Message-State: AOJu0YyYB6SAbnkZHZcF+DBIE2gQFFsVa8OfARIMmz6h1BoE5TO5lKmr
- nwrCbL4QpZq9HaYKbf14Gqc/jyE2z5lWpfO///HQDq/WROlNmkaIXip3DdrlSCkNsOjLWM4ZuPi
- RK052HLxSY7h4LWga8TGenf6ctbEwTG5JtEt2
-X-Google-Smtp-Source: AGHT+IHd7qlT1kVW/+IHdr+eMTilo12WFoRoA9op5ye7679o1YzrCluEECXoJObuhpq63PDXFlpaJUe6nkYhavY5s7g=
-X-Received: by 2002:aa7:d7da:0:b0:56e:76e:6ea9 with SMTP id
- e26-20020aa7d7da000000b0056e076e6ea9mr106201eds.6.1712651387018; Tue, 09 Apr
- 2024 01:29:47 -0700 (PDT)
+ AJvYcCUqQhkswvG+HP1e5NnDoNGEUtHNY2C2OA1pilgQdUNtUm7b+8tfqrw7m6hcrSelZO7hXmV9C4q3tli1ItpVoxg+Bltt5gmeY5TUcci+1mWz
+X-Gm-Message-State: AOJu0YxzCQvr/DNbArWLC1PEYb/0N5z4GlqBRm+HnBwe1QlTEnDggGlA
+ KMB3ys9aH9kbcrGReIJ9iRwJHSy6Px9+LfqUCKwbnH6Tgd/5yFrrOq+E+SFTo9wEBTtPqFnLHR+
+ 71CClYdTO7m3SFnP/MvT33Pp/VgsyKTmNgyBG
+X-Google-Smtp-Source: AGHT+IFedxUzZzJQZFWpk7PfjqCQe9MhHK9GR/n/K6RNRHxDWuxNRkZZ6+vtRGlle1WaVfFOtzERy2T1KT4gdhzUBGE=
+X-Received: by 2002:aa7:d157:0:b0:56e:2b67:a2f8 with SMTP id
+ r23-20020aa7d157000000b0056e2b67a2f8mr88428edo.7.1712651394704; Tue, 09 Apr
+ 2024 01:29:54 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240403131936.787234-1-linux@roeck-us.net>
- <20240403131936.787234-3-linux@roeck-us.net>
-In-Reply-To: <20240403131936.787234-3-linux@roeck-us.net>
+ <20240403131936.787234-4-linux@roeck-us.net>
+In-Reply-To: <20240403131936.787234-4-linux@roeck-us.net>
 From: David Gow <davidgow@google.com>
-Date: Tue, 9 Apr 2024 16:29:35 +0800
-Message-ID: <CABVgOSmib5PSr2ZJh+oXxk55eqitw6SdgLne3X-Ua6A3fihP-g@mail.gmail.com>
-Subject: Re: [PATCH v3 02/15] kunit: bug: Count suppressed warning backtraces
+Date: Tue, 9 Apr 2024 16:29:42 +0800
+Message-ID: <CABVgOSknXkT=WU-fwi5wP4bWv04DKByxSYAPmhYhC--FaQH-PQ@mail.gmail.com>
+Subject: Re: [PATCH v3 03/15] kunit: Add test cases for backtrace warning
+ suppression
 To: Guenter Roeck <linux@roeck-us.net>
 Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>, 
  Arnd Bergmann <arnd@arndb.de>, =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>,
@@ -80,7 +81,7 @@ Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
  loongarch@lists.linux.dev, netdev@vger.kernel.org, x86@kernel.org, 
  Linux Kernel Functional Testing <lkft@linaro.org>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="00000000000094f4c70615a5b94f"
+ micalg=sha-256; boundary="00000000000007970d0615a5bab9"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,32 +97,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000094f4c70615a5b94f
+--00000000000007970d0615a5bab9
 Content-Type: text/plain; charset="UTF-8"
 
 On Wed, 3 Apr 2024 at 21:19, Guenter Roeck <linux@roeck-us.net> wrote:
 >
-> Count suppressed warning backtraces to enable code which suppresses
-> warning backtraces to check if the expected backtrace(s) have been
-> observed.
+> Add unit tests to verify that warning backtrace suppression works.
 >
-> Using atomics for the backtrace count resulted in build errors on some
-> architectures due to include file recursion, so use a plain integer
-> for now.
+> If backtrace suppression does _not_ work, the unit tests will likely
+> trigger unsuppressed backtraces, which should actually help to get
+> the affected architectures / platforms fixed.
 >
+> Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
 > Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
 > Reviewed-by: Kees Cook <keescook@chromium.org>
-> Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
 > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 > ---
 
-Looks good to me, thanks.
+There's a typo in the Makefile, which stops this from being built at
+all. Otherwise, it seems good to me.
 
-Reviewed-by: David Gow <davidgow@google.com>
-
-Cheers,
 -- David
-
 
 > v2:
 > - Rebased to v6.9-rc1
@@ -130,73 +126,152 @@ Cheers,
 > v3:
 > - Rebased to v6.9-rc2
 >
->  include/kunit/bug.h | 7 ++++++-
->  lib/kunit/bug.c     | 4 +++-
->  2 files changed, 9 insertions(+), 2 deletions(-)
+>  lib/kunit/Makefile                     |   7 +-
+>  lib/kunit/backtrace-suppression-test.c | 104 +++++++++++++++++++++++++
+>  2 files changed, 109 insertions(+), 2 deletions(-)
+>  create mode 100644 lib/kunit/backtrace-suppression-test.c
 >
-> diff --git a/include/kunit/bug.h b/include/kunit/bug.h
-> index bd0fe047572b..72e9fb23bbd5 100644
-> --- a/include/kunit/bug.h
-> +++ b/include/kunit/bug.h
-> @@ -20,6 +20,7 @@
->  struct __suppressed_warning {
->         struct list_head node;
->         const char *function;
-> +       int counter;
->  };
+> diff --git a/lib/kunit/Makefile b/lib/kunit/Makefile
+> index 545b57c3be48..3eee1bd0ce5e 100644
+> --- a/lib/kunit/Makefile
+> +++ b/lib/kunit/Makefile
+> @@ -16,10 +16,13 @@ endif
 >
->  void __start_suppress_warning(struct __suppressed_warning *warning);
-> @@ -28,7 +29,7 @@ bool __is_suppressed_warning(const char *function);
+>  # KUnit 'hooks' and bug handling are built-in even when KUnit is built
+>  # as a module.
+> -obj-y +=                               hooks.o \
+> -                                       bug.o
+> +obj-y +=                               hooks.o
+> +obj-$(CONFIG_KUNIT_SUPPRESS_BACKTRACE) += bug.o
 >
->  #define DEFINE_SUPPRESSED_WARNING(func)        \
->         struct __suppressed_warning __kunit_suppress_##func = \
-> -               { .function = __stringify(func) }
-> +               { .function = __stringify(func), .counter = 0 }
+>  obj-$(CONFIG_KUNIT_TEST) +=            kunit-test.o
+> +ifeq ($(CCONFIG_KUNIT_SUPPRESS_BACKTRACE),y)
+
+s/CCONFIG_/CONFIG_/ ?
+
+
+
+
+> +obj-$(CONFIG_KUNIT_TEST) +=            backtrace-suppression-test.o
+> +endif
 >
->  #define START_SUPPRESSED_WARNING(func) \
->         __start_suppress_warning(&__kunit_suppress_##func)
-> @@ -39,12 +40,16 @@ bool __is_suppressed_warning(const char *function);
->  #define IS_SUPPRESSED_WARNING(func) \
->         __is_suppressed_warning(func)
->
-> +#define SUPPRESSED_WARNING_COUNT(func) \
-> +       (__kunit_suppress_##func.counter)
+>  # string-stream-test compiles built-in only.
+>  ifeq ($(CONFIG_KUNIT_TEST),y)
+> diff --git a/lib/kunit/backtrace-suppression-test.c b/lib/kunit/backtrace-suppression-test.c
+> new file mode 100644
+> index 000000000000..47c619283802
+> --- /dev/null
+> +++ b/lib/kunit/backtrace-suppression-test.c
+> @@ -0,0 +1,104 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * KUnit test for suppressing warning tracebacks
+> + *
+> + * Copyright (C) 2024, Guenter Roeck
+> + * Author: Guenter Roeck <linux@roeck-us.net>
+> + */
 > +
->  #else /* CONFIG_KUNIT_SUPPRESS_BACKTRACE */
->
->  #define DEFINE_SUPPRESSED_WARNING(func)
->  #define START_SUPPRESSED_WARNING(func)
->  #define END_SUPPRESSED_WARNING(func)
->  #define IS_SUPPRESSED_WARNING(func) (false)
-> +#define SUPPRESSED_WARNING_COUNT(func) (0)
->
->  #endif /* CONFIG_KUNIT_SUPPRESS_BACKTRACE */
->  #endif /* __ASSEMBLY__ */
-> diff --git a/lib/kunit/bug.c b/lib/kunit/bug.c
-> index f93544d7a9d1..13b3d896c114 100644
-> --- a/lib/kunit/bug.c
-> +++ b/lib/kunit/bug.c
-> @@ -32,8 +32,10 @@ bool __is_suppressed_warning(const char *function)
->                 return false;
->
->         list_for_each_entry(warning, &suppressed_warnings, node) {
-> -               if (!strcmp(function, warning->function))
-> +               if (!strcmp(function, warning->function)) {
-> +                       warning->counter++;
->                         return true;
-> +               }
->         }
->         return false;
->  }
+> +#include <kunit/test.h>
+> +#include <linux/bug.h>
+> +
+> +static void backtrace_suppression_test_warn_direct(struct kunit *test)
+> +{
+> +       DEFINE_SUPPRESSED_WARNING(backtrace_suppression_test_warn_direct);
+> +
+> +       START_SUPPRESSED_WARNING(backtrace_suppression_test_warn_direct);
+> +       WARN(1, "This backtrace should be suppressed");
+> +       END_SUPPRESSED_WARNING(backtrace_suppression_test_warn_direct);
+> +
+> +       KUNIT_EXPECT_EQ(test, SUPPRESSED_WARNING_COUNT(backtrace_suppression_test_warn_direct), 1);
+> +}
+> +
+> +static void trigger_backtrace_warn(void)
+> +{
+> +       WARN(1, "This backtrace should be suppressed");
+> +}
+> +
+> +static void backtrace_suppression_test_warn_indirect(struct kunit *test)
+> +{
+> +       DEFINE_SUPPRESSED_WARNING(trigger_backtrace_warn);
+> +
+> +       START_SUPPRESSED_WARNING(trigger_backtrace_warn);
+> +       trigger_backtrace_warn();
+> +       END_SUPPRESSED_WARNING(trigger_backtrace_warn);
+> +
+> +       KUNIT_EXPECT_EQ(test, SUPPRESSED_WARNING_COUNT(trigger_backtrace_warn), 1);
+> +}
+> +
+> +static void backtrace_suppression_test_warn_multi(struct kunit *test)
+> +{
+> +       DEFINE_SUPPRESSED_WARNING(trigger_backtrace_warn);
+> +       DEFINE_SUPPRESSED_WARNING(backtrace_suppression_test_warn_multi);
+> +
+> +       START_SUPPRESSED_WARNING(backtrace_suppression_test_warn_multi);
+> +       START_SUPPRESSED_WARNING(trigger_backtrace_warn);
+> +       WARN(1, "This backtrace should be suppressed");
+> +       trigger_backtrace_warn();
+> +       END_SUPPRESSED_WARNING(trigger_backtrace_warn);
+> +       END_SUPPRESSED_WARNING(backtrace_suppression_test_warn_multi);
+> +
+> +       KUNIT_EXPECT_EQ(test, SUPPRESSED_WARNING_COUNT(backtrace_suppression_test_warn_multi), 1);
+> +       KUNIT_EXPECT_EQ(test, SUPPRESSED_WARNING_COUNT(trigger_backtrace_warn), 1);
+> +}
+> +
+> +static void backtrace_suppression_test_warn_on_direct(struct kunit *test)
+> +{
+> +       DEFINE_SUPPRESSED_WARNING(backtrace_suppression_test_warn_on_direct);
+> +
+> +       if (!IS_ENABLED(CONFIG_DEBUG_BUGVERBOSE) && !IS_ENABLED(CONFIG_KALLSYMS))
+> +               kunit_skip(test, "requires CONFIG_DEBUG_BUGVERBOSE or CONFIG_KALLSYMS");
+> +
+> +       START_SUPPRESSED_WARNING(backtrace_suppression_test_warn_on_direct);
+> +       WARN_ON(1);
+> +       END_SUPPRESSED_WARNING(backtrace_suppression_test_warn_on_direct);
+> +
+> +       KUNIT_EXPECT_EQ(test,
+> +                       SUPPRESSED_WARNING_COUNT(backtrace_suppression_test_warn_on_direct), 1);
+> +}
+> +
+> +static void trigger_backtrace_warn_on(void)
+> +{
+> +       WARN_ON(1);
+> +}
+> +
+> +static void backtrace_suppression_test_warn_on_indirect(struct kunit *test)
+> +{
+> +       DEFINE_SUPPRESSED_WARNING(trigger_backtrace_warn_on);
+> +
+> +       if (!IS_ENABLED(CONFIG_DEBUG_BUGVERBOSE))
+> +               kunit_skip(test, "requires CONFIG_DEBUG_BUGVERBOSE");
+> +
+> +       START_SUPPRESSED_WARNING(trigger_backtrace_warn_on);
+> +       trigger_backtrace_warn_on();
+> +       END_SUPPRESSED_WARNING(trigger_backtrace_warn_on);
+> +
+> +       KUNIT_EXPECT_EQ(test, SUPPRESSED_WARNING_COUNT(trigger_backtrace_warn_on), 1);
+> +}
+> +
+> +static struct kunit_case backtrace_suppression_test_cases[] = {
+> +       KUNIT_CASE(backtrace_suppression_test_warn_direct),
+> +       KUNIT_CASE(backtrace_suppression_test_warn_indirect),
+> +       KUNIT_CASE(backtrace_suppression_test_warn_multi),
+> +       KUNIT_CASE(backtrace_suppression_test_warn_on_direct),
+> +       KUNIT_CASE(backtrace_suppression_test_warn_on_indirect),
+> +       {}
+> +};
+> +
+> +static struct kunit_suite backtrace_suppression_test_suite = {
+> +       .name = "backtrace-suppression-test",
+> +       .test_cases = backtrace_suppression_test_cases,
+> +};
+> +kunit_test_suites(&backtrace_suppression_test_suite);
+> +
+> +MODULE_LICENSE("GPL");
 > --
 > 2.39.2
 >
-> --
-> You received this message because you are subscribed to the Google Groups "KUnit Development" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kunit-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kunit-dev/20240403131936.787234-3-linux%40roeck-us.net.
 
---00000000000094f4c70615a5b94f
+--00000000000007970d0615a5bab9
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -264,13 +339,13 @@ wlDp+1p6RAqlDpHifQJW16h5jWIIwYisvm5QyfxQEVc+XH1lt+taSzCfiBT0ZLgjB9Sg+zAo8ys6
 ITv8ZEy6ByumbU23nkHTMOzzQSxczHkT+0q10/MxggJqMIICZgIBATBoMFQxCzAJBgNVBAYTAkJF
 MRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFzIFIz
 IFNNSU1FIENBIDIwMjACEAHS+TgZvH/tCq5FcDC0n9IwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZI
-hvcNAQkEMSIEIBNJrXN7px6Nv4A8dJbTWnbRfbA5CXJAZ2UCkJwi2a7+MBgGCSqGSIb3DQEJAzEL
-BgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI0MDQwOTA4Mjk0N1owaQYJKoZIhvcNAQkPMVww
+hvcNAQkEMSIEIEYJ92tMQt1mLZYqUzFbjlRJnCW5B3EIBXcLly2sk0FjMBgGCSqGSIb3DQEJAzEL
+BgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI0MDQwOTA4Mjk1NVowaQYJKoZIhvcNAQkPMVww
 WjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkq
-hkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQBJG4Rj
-+X8+taWikmSik3BaEFvc3V3a0t4QG6BjaJ6X2uwrsLMiaR7/6PHRZn90jEO1pcW81xJ8kxdQPCsU
-OHtM4PSJ4he1TKFy4GEQAVGb7rxcKfc51d1aD9EkNnHeycBC4A81c28dpnRWJ64JQLv3vdosMjBT
-gzUgNfuMLo/nsOcFf8Z1pf9UCAneT5Z4Bqt8GyWJgNhpPQDxOxfZt48Xz4bbghkptq3c3nLpJaRz
-h1xo2AMNxd5yG4v/IFF/UWrTY/C5YKB5E+ACLEy0zBV357Ny7zDJ2CGk6Fon0v0vxij/LelcjPgl
-4V1dyatZNKgZSbgRGUTN9VoCIPbEfczp
---00000000000094f4c70615a5b94f--
+hkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQBplz+p
+lHrF075AA3Dg264/7JsidsEuMH8LUuD/nhtJfIRePel9iinmyz3Pt0SHKta1ZisckWpcyZBUeLUH
+L9Yl5yKfQrGvmEm6CsKybVt8o0j7oQNg77ZGWNYNWKl+Ff/FrTD2W6r61cCtyEXBEDwcswc4UpjK
+pnXKHLQND2+g/2bQNDdgKN/EJY5538GJg3KL4KcLrAzvc2yXb/X4LemO9o+DFOISDuRRozuHWrzy
++JhEobM2fnXkDgwX+Zw3cYWq4xjZHMgzjFgd8hDOGM53gDSGkE+3ZLc1z7ilc/49hbGL++hVrf4B
+IgY0FfUEYjqaoYvtSGBxMVSnLGFL83E3
+--00000000000007970d0615a5bab9--
