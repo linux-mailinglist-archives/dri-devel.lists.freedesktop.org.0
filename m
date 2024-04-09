@@ -2,67 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66A3A89D899
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 13:57:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA78289D8B3
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 14:02:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D185E10ECFD;
-	Tue,  9 Apr 2024 11:57:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F5928910E;
+	Tue,  9 Apr 2024 12:02:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="VcPp7UNe";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="SHru1cAr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com
- [209.85.166.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7FF310EE70
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 11:57:00 +0000 (UTC)
-Received: by mail-io1-f53.google.com with SMTP id
- ca18e2360f4ac-7cf092f6bb7so254351739f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Apr 2024 04:57:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1712663819; x=1713268619;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=h+sFwXoYlvmaRLKdHU2OL3LD5t7Xm+RlcJkwNqyQM6E=;
- b=VcPp7UNeOQO0fXKb8EdbXKptTrNbqRk4zmMkQ5ndzIQuKJdNJrJm0jLHP697Tg2wKk
- wN/sStaWlv7Wd/nnbjaLGYMmpda/hR6/etqUymsGUfW5Zv0d7Fao67kViwIgGR2KlKkB
- reDXZHdLRCm3VpMz79Dk2/sf/bV0hw9d1Yfdk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712663819; x=1713268619;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=h+sFwXoYlvmaRLKdHU2OL3LD5t7Xm+RlcJkwNqyQM6E=;
- b=YQF3pACyV+I7mR6p8qWhM8NN85jzTJtkLY//7+IZp06zmiaUTSfcaY4pTCGFKWZNo5
- ceWUR7mz39iCbZWSkl6+ify+yAzn4fuTPeyp8kqooVHP/E+SF6kJnJ4nabx1XKHfzavh
- J8n3s0c6h52xZOLbC5k6UHHJR2rPxZ/6jAsjCbmCEEqfHT0TT00vVxtqSrx78ob6CBqI
- lg7fAnuw4sp3BS/0UKvpLq8diM4ph3FUgDA8FVzJRG+hOnpK3uhBY6Q+NWC6fl/4s0kZ
- KCZLP3cPeDnUpvRqju04CniIZOtYiPXOX6GIl0AKPT0o3punGpCi3Ofhs7TflxdWByo7
- mCGg==
-X-Gm-Message-State: AOJu0Yx1ceLR62Zh7GjcUVTDe3QI1DiMOFS95nY/xyJ+t4Cc3QJXEAbQ
- SxmVN/u/MIxoHhSRW1CSYpaXN/nvAh+klNztFtk7fVOR/hhGrYwyvaXDZAz6Uynq0+H/zvY6Bb+
- VWDawtfNQ1ODn5F8VG4OQrBNQRHGsuhrtTYqS
-X-Google-Smtp-Source: AGHT+IFvIS8zDpgMDAGoXg7iiAGympjAvHb7hn6f+MJNaHDU7uc/jMvy5XAao/Ems5jMBEJEP23RHiuUh6azxOBbuXc=
-X-Received: by 2002:a05:6602:c8c:b0:7d5:efd9:3c87 with SMTP id
- fp12-20020a0566020c8c00b007d5efd93c87mr4700135iob.5.1712663819589; Tue, 09
- Apr 2024 04:56:59 -0700 (PDT)
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A84C6112D0F
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 12:02:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1712664135;
+ bh=A30b6H9AYPzyaHHgfAGSsr5txXIHLXEVbKj6/zaklYc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=SHru1cArVCnQ/zxM6iuhiD07AQRBK71kKFQqA8mrCyF2dmu1tdUkO8B0t3HtdtC0i
+ /hiJ5xbxboJSb8lVgaEyLJWiBVcpWMFSPYAJzP5SjZ4spTDXNQc5zQUDa0yf3peFcV
+ bbdGrXXjOz+XoqHkRN4YZzy22znr1do1v8kiMlNY9H2bVHhftjMk9zgXugo7lI8gJR
+ EbYG7pJGFIwN0TbPDhviVBKf7J260VnV3KYVD98uQz0I+wRvnf8mJ8Gl3C0uSQM2+I
+ 5GRR0TwZ0GS/2Up+tNz6dRixUCLxViBMMDczNHLrWB81xJuA2nTHrH2vkzzngAAC5o
+ CviYSZt9rCuHQ==
+Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com
+ [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 3DB1037820F5;
+ Tue,  9 Apr 2024 12:02:14 +0000 (UTC)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: chunkuang.hu@kernel.org
+Cc: robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+ shawn.sung@mediatek.com, yu-chang.lee@mediatek.com, ck.hu@mediatek.com,
+ jitao.shi@mediatek.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ wenst@chromium.org, kernel@collabora.com
+Subject: [PATCH v2 0/3] drm/mediatek: Add support for OF graphs
+Date: Tue,  9 Apr 2024 14:02:08 +0200
+Message-ID: <20240409120211.321153-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-References: <20240408022802.358641-1-zack.rusin@broadcom.com>
-In-Reply-To: <20240408022802.358641-1-zack.rusin@broadcom.com>
-From: Martin Krastev <martin.krastev@broadcom.com>
-Date: Tue, 9 Apr 2024 14:56:48 +0300
-Message-ID: <CAKLwHdU8cv8sBQN0PYG-2w7RnE0CF_AyGnZEV+kJFOABoUb_UA@mail.gmail.com>
-Subject: Re: [PATCH] drm/vmwgfx: Enable DMA mappings with SEV
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- ian.forbes@broadcom.com, 
- maaz.mombasawala@broadcom.com, Ye Li <ye.li@broadcom.com>,
- stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,61 +65,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 8, 2024 at 5:28=E2=80=AFAM Zack Rusin <zack.rusin@broadcom.com>=
- wrote:
->
-> Enable DMA mappings in vmwgfx after TTM has been fixed in commit
-> 3bf3710e3718 ("drm/ttm: Add a generic TTM memcpy move for page-based iome=
-m")
->
-> This enables full guest-backed memory support and in particular allows
-> usage of screen targets as the presentation mechanism.
->
-> Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-> Reported-by: Ye Li <ye.li@broadcom.com>
-> Tested-by: Ye Li <ye.li@broadcom.com>
-> Fixes: 3b0d6458c705 ("drm/vmwgfx: Refuse DMA operation when SEV encryptio=
-n is active")
-> Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadc=
-om.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v6.6+
-> ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx=
-/vmwgfx_drv.c
-> index 41ad13e45554..bdad93864b98 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> @@ -667,11 +667,12 @@ static int vmw_dma_select_mode(struct vmw_private *=
-dev_priv)
->                 [vmw_dma_map_populate] =3D "Caching DMA mappings.",
->                 [vmw_dma_map_bind] =3D "Giving up DMA mappings early."};
->
-> -       /* TTM currently doesn't fully support SEV encryption. */
-> -       if (cc_platform_has(CC_ATTR_MEM_ENCRYPT))
-> -               return -EINVAL;
-> -
-> -       if (vmw_force_coherent)
-> +       /*
-> +        * When running with SEV we always want dma mappings, because
-> +        * otherwise ttm tt pool pages will bounce through swiotlb runnin=
-g
-> +        * out of available space.
-> +        */
-> +       if (vmw_force_coherent || cc_platform_has(CC_ATTR_MEM_ENCRYPT))
->                 dev_priv->map_mode =3D vmw_dma_alloc_coherent;
->         else if (vmw_restrict_iommu)
->                 dev_priv->map_mode =3D vmw_dma_map_bind;
-> --
-> 2.40.1
+Changes in v2:
+ - Fixed wrong `required` block indentation in commit [2/3]
 
 
-LGTM!
+The display IPs in MediaTek SoCs are *VERY* flexible and those support
+being interconnected with different instances of DDP IPs (for example,
+merge0 or merge1) and/or with different DDP IPs (for example, rdma can
+be connected with either color, dpi, dsi, merge, etc), forming a full
+Display Data Path that ends with an actual display.
 
-Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
+This series was born because of an issue that I've found while enabling
+support for MT8195/MT8395 boards with DSI output as main display: the
+current mtk_drm_route variations would not work as currently, the driver
+hardcodes a display path for Chromebooks, which have a DisplayPort panel
+with DSC support, instead of a DSI panel without DSC support.
 
-Regards,
-Martin
+There are other reasons for which I wrote this series, and I find that
+hardcoding those paths - when a HW path is clearly board-specific - is
+highly suboptimal. Also, let's not forget about keeping this driver from
+becoming a huge list of paths for each combination of SoC->board->disp
+and... this and that.
+
+For more information, please look at the commit description for each of
+the commits included in this series.
+
+Please don't mind about the missing OVL_ADAPTOR support for OF graphs
+in this series: that needs a bit more thinking and a bit more work, and
+will come in a second series that will go on top of this a bit later,
+as the OF graph support for *at least* the primary display is essential
+*right now* to enable support for the MT8195/8395 EVK, Kontron SoM,
+Radxa NIO-12L and all of the other non-Chromebook boards to co-exist
+with Chromebooks.
+
+Besides, this is also a valid option for MT8188 Chromebooks which might
+have different DSI-or-eDP displays depending on the model (as far as I
+can see from the mtk_drm_route attempt for this SoC that is already
+present in this driver).
+
+This series was tested on MT8195 Cherry Tomato and on MT8395 Radxa
+NIO-12L with both hardcoded paths, OF graph support and partially
+hardcoded paths (meaning main display through OF graph and external
+display hardcoded, because of OVL_ADAPTOR).
+
+AngeloGioacchino Del Regno (3):
+  dt-bindings: display: mediatek: Add OF graph support for board path
+  dt-bindings: arm: mediatek: mmsys: Add OF graph support for board path
+  drm/mediatek: Implement OF graphs support for display paths
+
+ .../bindings/arm/mediatek/mediatek,mmsys.yaml |  23 ++
+ .../display/mediatek/mediatek,aal.yaml        |  40 +++
+ .../display/mediatek/mediatek,ccorr.yaml      |  21 ++
+ .../display/mediatek/mediatek,color.yaml      |  22 ++
+ .../display/mediatek/mediatek,dither.yaml     |  22 ++
+ .../display/mediatek/mediatek,dpi.yaml        |  25 +-
+ .../display/mediatek/mediatek,dsc.yaml        |  24 ++
+ .../display/mediatek/mediatek,dsi.yaml        |  27 +-
+ .../display/mediatek/mediatek,ethdr.yaml      |  22 ++
+ .../display/mediatek/mediatek,gamma.yaml      |  19 ++
+ .../display/mediatek/mediatek,merge.yaml      |  23 ++
+ .../display/mediatek/mediatek,od.yaml         |  22 ++
+ .../display/mediatek/mediatek,ovl-2l.yaml     |  22 ++
+ .../display/mediatek/mediatek,ovl.yaml        |  22 ++
+ .../display/mediatek/mediatek,postmask.yaml   |  21 ++
+ .../display/mediatek/mediatek,rdma.yaml       |  22 ++
+ .../display/mediatek/mediatek,ufoe.yaml       |  21 ++
+ drivers/gpu/drm/mediatek/mtk_dpi.c            |  16 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 255 ++++++++++++++++--
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |   2 +-
+ drivers/gpu/drm/mediatek/mtk_dsi.c            |  10 +-
+ 21 files changed, 645 insertions(+), 36 deletions(-)
+
+-- 
+2.44.0
+
