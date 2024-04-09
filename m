@@ -2,83 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14D2E89DEEC
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 17:24:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A5FF89DEEF
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Apr 2024 17:24:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 044DA1125C6;
-	Tue,  9 Apr 2024 15:24:19 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mEV71tiF";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59637112DDB;
+	Tue,  9 Apr 2024 15:24:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F125112D5B
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 15:24:17 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-2d6fd3cfaa6so72450221fa.2
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Apr 2024 08:24:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712676255; x=1713281055; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=8W6G8HZYeo1iMSpifmT8ORYKphiMz1er5wWw8HHvUlI=;
- b=mEV71tiFJiLuofZX6HD4c4/S1QLNN0XPhDwLHvEwJoRFb4Ubw07CmMg+5bIWpWrsRB
- WuNatVBHVgIa9vT3NRB3e/AKKD5N9+3wJuZImTbFVF3Flk7Igl2Q/ySxe77I1X5lmwYM
- KHe0kid4DijAXK7yL2c8c9x3Tw8nhRRQ6Ln8NRCnZOHT465PeOj+sAjSwqxh0mjUjRQK
- KS/GYuPZsPSYDNyhLIM13i0Nmkxn3hwcHGMPMC8e+gfBgZ0SXmRkgxgiNHM377zqJg3O
- aHYmkOhZ2RWFU5wLjtV9L120kNdUsPPFXxTppjUXIS+/8FjI2m7PmzLC5VgnAYdldX7V
- ebdw==
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
+ [209.85.128.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EF38112D5B
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Apr 2024 15:24:35 +0000 (UTC)
+Received: by mail-yw1-f173.google.com with SMTP id
+ 00721157ae682-615019cd427so49121467b3.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Apr 2024 08:24:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712676255; x=1713281055;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8W6G8HZYeo1iMSpifmT8ORYKphiMz1er5wWw8HHvUlI=;
- b=qYJB5JMmc9VBdloZ5boi37lx3K6m6pBxhDFjfvm0NPzlx6no6j/BE1HQPwVfeKscV7
- +5vqdUu3jYzrUe2L/vER9iHFaPh7p7GzZh23LGnCrQiCvHMSEZTQpYY3kOwXVX6QAz7A
- ALFyYsB+cg/rIgoKCZl3EhBYGpngjQIukAQYJ5abvklBWoDVcnpYtegqSKGBwZc40gZ7
- omWY/M8fpTnsNKKkzfd/MjGqEFa+/daKRdqvD+vn+XltZK9Rcej3d4U8BcXf2XoCBL9f
- k0HBktl+R5EWZ3GrCW+9l5Lr2f6GQ3axs8whs5lclTYGBq8loSIZLmYITWdgKKcCDjDM
- otUg==
+ d=1e100.net; s=20230601; t=1712676275; x=1713281075;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lu5hD9VvS+qp+vhw7UeQVESAr0EzPRLUzVlLL7V9CRE=;
+ b=J0gp03ZOWlyiFIkkiHaiOsP5Nn0E39BcOzj9th/asOKkBEX7q/esj8LeeK5YeBG8Qq
+ Pm3jmEna0XX+wd8HfcJOKdLHUY1T8EAe8kxoBWcTQtTKtFogk/4SL/2eVoMGS2AaUhwX
+ Ucv/b5N67n63TurqpLui9rDzGxgR1d/3DY3O7ICOOR/vQSCgW20Ol1yNKuchao1JcWEp
+ 4Snfh4W2W6ZcqCsfCZFYvLJKHzylViA/wvc/dwSHPbDOpWUorGPqdtFfBnLDLGhxSItP
+ KmZ8stM7EGieZLNNMxtpGc7TlzxzGDacuuStdH124qIzJWDn+rbgF24moyjQoL44tGD5
+ f0Og==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWjQTfcdvZ8AHZNINJCtm0PvuxCzoNH/A8Qs7hemY10vDklr1xSA4NukJ60O8RGKhqQ0K1WI43/OZ68Rw1sOYYeFrXbK5/cNqtQVS7dYzNW
-X-Gm-Message-State: AOJu0Yx7I++U7O2qSsVckov0ut7CEXIGRBJFaoWUXktwAIkCOpEVzQrH
- 3Sl1WOKMGn1+gAPmOCrvbWeJB5q7Muqy12A6GA87D8/mzEMwuNEYn0tp56nbdRM=
-X-Google-Smtp-Source: AGHT+IGgmNyquLws0Qkisav6dI35WAm8hEi+6R9A8E+K+p3FMjpmyYxLBNTdF+Phz+qzA9Iy+M4e/Q==
-X-Received: by 2002:a2e:7807:0:b0:2d8:3a46:8ab6 with SMTP id
- t7-20020a2e7807000000b002d83a468ab6mr83703ljc.17.1712676255409; 
- Tue, 09 Apr 2024 08:24:15 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzyjmhyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a00e:a300::227])
- by smtp.gmail.com with ESMTPSA id
- s10-20020a2e98ca000000b002d0aad9dcfcsm1584958ljj.59.2024.04.09.08.24.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Apr 2024 08:24:15 -0700 (PDT)
-Date: Tue, 9 Apr 2024 18:24:13 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
- Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 5/6] drm/msm/adreno: Add speedbin data for SM8550 / A740
-Message-ID: <4ghhtxjtkfjzxeyrajn26get4d6xiq57swwsjmyialcyfivui6@se3ukxxukspt>
-References: <20240405-topic-smem_speedbin-v1-0-ce2b864251b1@linaro.org>
- <20240405-topic-smem_speedbin-v1-5-ce2b864251b1@linaro.org>
- <nek4paofg3hturvjwpa2bnsvmicwmvwixzr6e6iuqstemgrqyo@cagcrnzjsne2>
- <0955cabc-fc4e-4790-a82c-7f6f807fe36b@linaro.org>
+ AJvYcCXofg1ExXK15bjZ+OJqG6zekY8nDfrWlblRS+fn41/cOmPvEgT9PN/Zrdk4apITEvEeXs90Ne21JydQWV5Khck3mYnR0guOAiNjtzLo5VWr
+X-Gm-Message-State: AOJu0YzYPzPEzLC8CXrKgKaGguETcupnPy3nr8OSKMN8sSrjLCEfHuR7
+ V6+CVbHIujce+tw4AwQchuBJOixir+0mtLSOibPOkcJ+W/nspsfPEs5brfO1u1g=
+X-Google-Smtp-Source: AGHT+IF7ooVWIEQk1TUhjxiwZoukFvp717hQHYVc1HUyM6fZqxpNqJQtwbdj0XHwvzaOD5c8t1cbKA==
+X-Received: by 2002:a81:9c0c:0:b0:615:49a5:1caa with SMTP id
+ m12-20020a819c0c000000b0061549a51caamr11351113ywa.51.1712676274440; 
+ Tue, 09 Apr 2024 08:24:34 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com.
+ [209.85.219.179]) by smtp.gmail.com with ESMTPSA id
+ q188-20020a8180c5000000b006181ea1051bsm657382ywf.75.2024.04.09.08.24.34
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Apr 2024 08:24:34 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id
+ 3f1490d57ef6-dcc80d6004bso5803356276.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Apr 2024 08:24:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWEPz17oslJwIuGRR9mWbitUD3IzOZm+MtvSiKrkPIA8N85XXy1bTHh3Zxf1kie0AtiSzhwpVvXKDgeKSf0BGtaf51Hag9QMO2apj2l+sbf
+X-Received: by 2002:a25:b10a:0:b0:dcc:f3fe:19c with SMTP id
+ g10-20020a25b10a000000b00dccf3fe019cmr53487ybj.59.1712676273820; Tue, 09 Apr
+ 2024 08:24:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0955cabc-fc4e-4790-a82c-7f6f807fe36b@linaro.org>
+References: <20240327-kms-kconfig-helpers-v3-0-eafee11b84b3@kernel.org>
+ <a816fea-9974-d17f-bed6-69728e223@linux-m68k.org> <87sezu97id.fsf@intel.com>
+ <CAMuHMdVMhXFm-kZ50Un1ZFmEcjJ7SnpyEyw65-wucBGpVRUFww@mail.gmail.com>
+ <87edbe94ck.fsf@intel.com>
+In-Reply-To: <87edbe94ck.fsf@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 9 Apr 2024 17:24:21 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUYqEpKTxHgkdm5B-Q9nM4PyzNDxmqDW=GHG7adcp83+Q@mail.gmail.com>
+Message-ID: <CAMuHMdUYqEpKTxHgkdm5B-Q9nM4PyzNDxmqDW=GHG7adcp83+Q@mail.gmail.com>
+Subject: Re: [PATCH v3 00/13] drm/display: Convert helpers Kconfig symbols to
+ depends on
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, kernel test robot <lkp@intel.com>, 
+ linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kbuild <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,36 +88,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 09, 2024 at 05:13:15PM +0200, Konrad Dybcio wrote:
-> 
-> 
-> On 4/6/24 05:25, Dmitry Baryshkov wrote:
-> > On Fri, Apr 05, 2024 at 10:41:33AM +0200, Konrad Dybcio wrote:
-> > > Add speebin data for A740, as found on SM8550 and derivative SoCs.
-> > > 
-> > > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> > > ---
-> > >   drivers/gpu/drm/msm/adreno/adreno_device.c | 14 ++++++++++++++
-> > >   1 file changed, 14 insertions(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > > index 901ef767e491..c976a485aef2 100644
-> > > --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > > +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > > @@ -570,6 +570,20 @@ static const struct adreno_info gpulist[] = {
-> > >   		.zapfw = "a740_zap.mdt",
-> > >   		.hwcg = a740_hwcg,
-> > >   		.address_space_size = SZ_16G,
-> > > +		.speedbins = ADRENO_SPEEDBINS(
-> > 
-> > I think this deserves either a comment or some info in the commit
-> > message.
-> 
-> "this" = ?
+Hi Jani,
 
-I see two types of speedbins here, it would be nice to understand at
-least some reason or some defailts for that (if you know them).
+On Tue, Apr 9, 2024 at 1:13=E2=80=AFPM Jani Nikula <jani.nikula@linux.intel=
+.com> wrote:
+> On Tue, 09 Apr 2024, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Tue, Apr 9, 2024 at 12:04=E2=80=AFPM Jani Nikula <jani.nikula@linux.=
+intel.com> wrote:
+> >> On Tue, 09 Apr 2024, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> >> > The user should not need to know which helpers are needed for the dr=
+iver
+> >> > he is interested in.  When a symbol selects another symbol, it shoul=
+d
+> >> > just make sure the dependencies of the target symbol are met.
+> >>
+> >> It's really not "just make sure". This leads to perpetual illegal
+> >> configurations, and duct tape fixes. Select should not be used for
+> >> visible symbols or symbols with dependencies [1].
+> >
+> > In other words: none of these helpers should be visible...
+>
+> ...and should have no dependencies? :p
 
--- 
-With best wishes
-Dmitry
+Unless they do have dependencies.
+
+> >> What we'd need for usability is not more abuse of select, but rather 1=
+)
+> >> warnings for selecting symbols with dependencies, and 2) a way to enab=
+le
+> >
+> > Kconfig already warns if dependencies of selected symbols are not met.
+>
+> But it does lead to cases where a builtin tries to use a symbol from a
+> module, failing at link time, not config time. Then I regularly see
+> patches trying to fix this with IS_REACHABLE(), making it a silent
+> runtime failure instead, when it should've been a config issue.
+
+If a symbol for a builtin selects a symbol for a module, the latter
+becomes builtin, too, so that does not cause such issues?
+You can get such issues when a boolean symbol depends on a tristate
+symbol...
+
+> >> a kconfig option with all its dependencies, recursively. This is what =
+we
+> >> lack.
+> >
+> > You cannot force-enable all dependencies of the target symbol, as some
+> > of these dependencies may be impossible to meet on the system you are
+> > configuring a kernel for.
+>
+> Surely kconfig should be able to figure out if they're possible or not.
+>
+> > The current proper way is to add these dependencies to the source
+> > symbol, which is what we have been doing everywhere else.  Another
+> > solution may be to teach Kconfig to ignore any symbols that select a
+> > symbol with unmet dependencies.
+>
+> ...
+>
+> It seems like your main argument in favour of using select is that it's
+> more convenient for people who configure the kernel. Because the user
+> should be able to just enable a driver, and that would select everything
+> that's needed. But where do we draw the line? Then what qualifies for
+> "depends on"?
+
+Hard (platform and subsystem) dependencies.
+
+> Look at config DRM_I915 and where select abuse has lead us. Like, why
+> don't we just select DRM, PCI and X86 as well instead of depend. :p
+
+X86 and PCI are hard platform dependencies.
+DRM is a subsystem dependency.
+
+> A lot of things we have to select because it appears to generally be the
+> case that if some places select and some places depends on a symbol,
+> it'll lead to circular dependencies.
+
+True.  So all library code (incl. helpers) should be selected, and
+not be used as a dependency.
+The user shouldn't be aware that the driver uses library code (or not).
+
+> Sure there may be a usability issue with using depends on. But the
+> proper fix isn't hacking in kconfig files, it's to fix the usability in
+> kconfig the tool UI. But nobody steps up, because at least I find the
+> kconfig source to be inpenetrable. I've tried many times, and given up.
+
+As long as Kconfig does not handle dependencies of selected symbols
+automatically, adding explicit dependencies to the origin symbols is
+the only workable solution.
+
+> I mean, if you want to enable a driver D, it could, at a minimum, show
+> you a tree of (possibly alternative) things you also need to enable. But
+
+And this series is actually making that harder, by turning all these
+selects of helpers into dependencies...
+
+> if the dependencies aren't there, you won't even see the config for
+> D. That's not something that should be "fixed" by abusing select in
+> kconfig files.
+
+I consider not seeing symbols when a hard dependency is not met as
+a good thing.  If everything was visible all the time, you would
+have a very hard (well, harder than the current already-hard ;-)
+time configuring your kernel.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
