@@ -2,48 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 670CC89F066
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 13:11:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95FAA89F086
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 13:17:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8A4811262B;
-	Wed, 10 Apr 2024 11:11:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAEA21120D7;
+	Wed, 10 Apr 2024 11:17:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mgQg8l4t";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="U+Y67atA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22C4011262B
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 11:11:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39E851132DF
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 11:17:32 +0000 (UTC)
 Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
  [91.154.34.181])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A3CA4741;
- Wed, 10 Apr 2024 13:10:44 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id AFCD1741;
+ Wed, 10 Apr 2024 13:16:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1712747445;
- bh=/VeiGzK8lC3FVg2lRwCpx8Hm9fTsDx2RHhQLKAONLqc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=mgQg8l4t09o5g0UmavOhXgAGn1qjP3Zh/RXRb7FApGEUzT//zYQMuyq+Az9GLg3Pj
- 0vF72/zCXKUFrAty95MfnmdNah7e15BHQQxDy0fQJr5p+41JkO6wb4Qeh50vlfqjqi
- kepxIKlmgTNAyj3CumLC7Kb6sXFfZXKGXC6jaDTs=
-Message-ID: <0b4f1714-2c63-4cc5-9288-f419512bf3d4@ideasonboard.com>
-Date: Wed, 10 Apr 2024 14:11:23 +0300
+ s=mail; t=1712747809;
+ bh=/u1p56tdaXxp2yK56jG72UzjVc+r2CoFz/j0yhGHom8=;
+ h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
+ b=U+Y67atAvRJ7sAxq/fm0pC4bnVp4j8JrlaROuK4Xc6lRd+9g3uR57WmDd1BY0C4Uk
+ nwS+vVeWdiYQ3ZOueJL5irITlyOwOHcbnvffwJhBY5ExCWQ7DVsEEQMNtaPRyMXxG1
+ PdQiL5cNF44beNwDz4AaawyLpRZvx2s4G7Vsqto8=
+Message-ID: <37a20f0c-3911-4fa5-a5be-88e1d7fe4c50@ideasonboard.com>
+Date: Wed, 10 Apr 2024 14:17:27 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: xlnx: db: fix a memory leak in probe
-To: Dan Carpenter <dan.carpenter@linaro.org>,
- Rohit Visavalia <rohit.visavalia@amd.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Subject: Re: [PATCH] drm/omap: dmm_tiler: drop driver owner assignment
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20240330202804.83936-1-krzysztof.kozlowski@linaro.org>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Michal Simek <michal.simek@amd.com>, Vishal Sagar <vishal.sagar@amd.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <86def134-9537-4939-912e-3a424e3a75b6@moroto.mountain>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
  wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
@@ -87,7 +83,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <86def134-9537-4939-912e-3a424e3a75b6@moroto.mountain>
+In-Reply-To: <20240330202804.83936-1-krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,28 +101,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/04/2024 10:32, Dan Carpenter wrote:
-> Free "dp" before returning.
+On 30/03/2024 22:28, Krzysztof Kozlowski wrote:
+> Core in platform_driver_register() already sets the .owner, so driver
+> does not need to.  Whatever is set here will be anyway overwritten by
+> main driver calling platform_driver_register().
 > 
-> Fixes: be318d01a903 ("drm: xlnx: dp: Reset DisplayPort IP")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
->   drivers/gpu/drm/xlnx/zynqmp_dp.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/gpu/drm/omapdrm/omap_dmm_tiler.c | 1 -
+>   1 file changed, 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> index 5a40aa1d4283..8a15d18a65a6 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> @@ -1716,7 +1716,7 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
->   
->   	ret = zynqmp_dp_reset(dp, true);
->   	if (ret < 0)
-> -		return ret;
-> +		goto err_free;
->   
->   	ret = zynqmp_dp_reset(dp, false);
->   	if (ret < 0)
+> diff --git a/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c b/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
+> index 9753c1e1f994..1aca3060333e 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
+> @@ -1212,7 +1212,6 @@ struct platform_driver omap_dmm_driver = {
+>   	.probe = omap_dmm_probe,
+>   	.remove_new = omap_dmm_remove,
+>   	.driver = {
+> -		.owner = THIS_MODULE,
+>   		.name = DMM_DRIVER_NAME,
+>   		.of_match_table = of_match_ptr(dmm_of_match),
+>   		.pm = &omap_dmm_pm_ops,
 
 Thanks, applying to drm-misc-next.
 
