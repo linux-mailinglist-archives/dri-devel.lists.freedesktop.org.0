@@ -2,92 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 376BB89F03A
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 12:56:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 670CC89F066
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 13:11:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B1EA10E5D2;
-	Wed, 10 Apr 2024 10:56:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8A4811262B;
+	Wed, 10 Apr 2024 11:11:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="s6ZhzPwM";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mgQg8l4t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 446E21132BB
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 10:56:37 +0000 (UTC)
-Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 43AAqsQ0023054; Wed, 10 Apr 2024 10:56:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=cUqfhbJx+4Wg3bxA8zKrjHOA4D9BAigt9Hhl1lEmrQo=;
- b=s6ZhzPwMMajLOcpcH9Vwt7AHRbV7eosB9/J/9PDoE6YzATVC/d8CVBtufufAMjCxp5m0
- oFxstByVx9d9UwbNoMulGRtQaUUPJu3b8pEjhgwXXC+BaL2oSd2qBBg8aFR6zX2XMvET
- kdm6smvecnW/wVGQFQorPzPjfKBCQ+rnPClwpPWr09D+IYPYvkeOFmIjxEuyLLK1YAKr
- 9LfoSNoizyNbasmAfXGC+JrMJQQ87P2opvEiR2/GAi+9xNTVNq7NYGaWa1xWTM4TvHVe
- eGxLmXHBeRLnjOKxS/5BYzP/HMwuIycD6PCq9YRBYJksRaa5xG5Zd3SdYUcZX5KEcWj4 CQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xdsd4g08m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 10 Apr 2024 10:56:33 +0000
-Received: from m0353727.ppops.net (m0353727.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 43AAuXWq027473;
- Wed, 10 Apr 2024 10:56:33 GMT
-Received: from ppma13.dal12v.mail.ibm.com
- (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xdsd4g08g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 10 Apr 2024 10:56:33 +0000
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
- by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id
- 43A8YZlE021511; Wed, 10 Apr 2024 10:56:32 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
- by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3xbjxkv0jj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 10 Apr 2024 10:56:32 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
- [10.20.54.100])
- by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 43AAuRtB46858726
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 10 Apr 2024 10:56:29 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 26B4A20040;
- Wed, 10 Apr 2024 10:56:27 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 02ECF2004B;
- Wed, 10 Apr 2024 10:56:27 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Wed, 10 Apr 2024 10:56:26 +0000 (GMT)
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-To: Helge Deller <deller@gmx.de>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Arnd Bergmann <arnd@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
- linux-kernel@vger.kernel.org, Niklas Schnelle <schnelle@linux.ibm.com>
-Subject: [PATCH v2 1/1] fbdev: add HAS_IOPORT dependencies
-Date: Wed, 10 Apr 2024 12:56:26 +0200
-Message-Id: <20240410105626.2743168-2-schnelle@linux.ibm.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240410105626.2743168-1-schnelle@linux.ibm.com>
-References: <20240410105626.2743168-1-schnelle@linux.ibm.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22C4011262B
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 11:11:29 +0000 (UTC)
+Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
+ [91.154.34.181])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A3CA4741;
+ Wed, 10 Apr 2024 13:10:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1712747445;
+ bh=/VeiGzK8lC3FVg2lRwCpx8Hm9fTsDx2RHhQLKAONLqc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=mgQg8l4t09o5g0UmavOhXgAGn1qjP3Zh/RXRb7FApGEUzT//zYQMuyq+Az9GLg3Pj
+ 0vF72/zCXKUFrAty95MfnmdNah7e15BHQQxDy0fQJr5p+41JkO6wb4Qeh50vlfqjqi
+ kepxIKlmgTNAyj3CumLC7Kb6sXFfZXKGXC6jaDTs=
+Message-ID: <0b4f1714-2c63-4cc5-9288-f419512bf3d4@ideasonboard.com>
+Date: Wed, 10 Apr 2024 14:11:23 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 2NC-cVop20iqCSKtOmd0cgs6vR6rfu3R
-X-Proofpoint-ORIG-GUID: CkuigeIMlVP2S1dywEOumcAavocQLm1M
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-10_04,2024-04-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- mlxlogscore=999 malwarescore=0 phishscore=0 lowpriorityscore=0 spamscore=0
- suspectscore=0 clxscore=1015 adultscore=0 bulkscore=0 priorityscore=1501
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2404010000 definitions=main-2404100079
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: xlnx: db: fix a memory leak in probe
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+ Rohit Visavalia <rohit.visavalia@amd.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>, Vishal Sagar <vishal.sagar@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <86def134-9537-4939-912e-3a424e3a75b6@moroto.mountain>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
+ wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
+ Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
+ eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
+ LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
+ G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
+ DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
+ 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
+ rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
+ Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
+ aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
+ ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
+ PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
+ VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
+ 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
+ uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
+ R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
+ sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
+ Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
+ PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
+ dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
+ qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
+ hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
+ DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
+ KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
+ 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
+ xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
+ UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
+ /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
+ 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
+ 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
+ mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
+ 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
+ suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
+ xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
+ m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
+ CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
+ CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
+ 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
+ ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
+ yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
+ 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
+In-Reply-To: <86def134-9537-4939-912e-3a424e3a75b6@moroto.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,127 +105,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In a future patch HAS_IOPORT=n will disable inb()/outb() and friends at
-compile time. We thus need to add HAS_IOPORT as dependency for those
-drivers using them.
+On 04/04/2024 10:32, Dan Carpenter wrote:
+> Free "dp" before returning.
+> 
+> Fixes: be318d01a903 ("drm: xlnx: dp: Reset DisplayPort IP")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+>   drivers/gpu/drm/xlnx/zynqmp_dp.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> index 5a40aa1d4283..8a15d18a65a6 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> @@ -1716,7 +1716,7 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
+>   
+>   	ret = zynqmp_dp_reset(dp, true);
+>   	if (ret < 0)
+> -		return ret;
+> +		goto err_free;
+>   
+>   	ret = zynqmp_dp_reset(dp, false);
+>   	if (ret < 0)
 
-Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-Signed-off-by: Arnd Bergmann <arnd@kernel.org>
-Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
----
-Note: This patch does not depend any not-yet-mainline HAS_IOPORT changes
-and may be merged via subsystem specific trees at your earliest
-convenience.
+Thanks, applying to drm-misc-next.
 
-v1 -> v2:
-- Add dependency for FB_ARC
-
- drivers/video/fbdev/Kconfig | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 197b6d5268e9..76bbfd3767da 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -157,7 +157,7 @@ config FB_IMX
- 
- config FB_CYBER2000
- 	tristate "CyberPro 2000/2010/5000 support"
--	depends on FB && PCI && (BROKEN || !SPARC64)
-+	depends on FB && PCI && HAS_IOPORT && (BROKEN || !SPARC64)
- 	select FB_IOMEM_HELPERS
- 	help
- 	  This enables support for the Integraphics CyberPro 20x0 and 5000
-@@ -245,7 +245,7 @@ config FB_FM2
- 
- config FB_ARC
- 	tristate "Arc Monochrome LCD board support"
--	depends on FB && (X86 || COMPILE_TEST)
-+	depends on FB && HAS_IOPORT && (X86 || COMPILE_TEST)
- 	select FB_SYSMEM_HELPERS_DEFERRED
- 	help
- 	  This enables support for the Arc Monochrome LCD board. The board
-@@ -1046,7 +1046,7 @@ config FB_ATY_BACKLIGHT
- 
- config FB_S3
- 	tristate "S3 Trio/Virge support"
--	depends on FB && PCI
-+	depends on FB && PCI && HAS_IOPORT
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
- 	select FB_CFB_IMAGEBLIT
-@@ -1107,7 +1107,7 @@ config FB_SAVAGE_ACCEL
- 
- config FB_SIS
- 	tristate "SiS/XGI display support"
--	depends on FB && PCI
-+	depends on FB && PCI && HAS_IOPORT
- 	select BOOT_VESA_SUPPORT if FB_SIS = y
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
-@@ -1138,7 +1138,7 @@ config FB_SIS_315
- 
- config FB_VIA
- 	tristate "VIA UniChrome (Pro) and Chrome9 display support"
--	depends on FB && PCI && GPIOLIB && I2C && (X86 || COMPILE_TEST)
-+	depends on FB && PCI && GPIOLIB && I2C && HAS_IOPORT && (X86 || COMPILE_TEST)
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
- 	select FB_CFB_IMAGEBLIT
-@@ -1177,7 +1177,7 @@ endif
- 
- config FB_NEOMAGIC
- 	tristate "NeoMagic display support"
--	depends on FB && PCI
-+	depends on FB && PCI && HAS_IOPORT
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
- 	select FB_CFB_IMAGEBLIT
-@@ -1204,7 +1204,7 @@ config FB_KYRO
- 
- config FB_3DFX
- 	tristate "3Dfx Banshee/Voodoo3/Voodoo5 display support"
--	depends on FB && PCI
-+	depends on FB && PCI && HAS_IOPORT
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
- 	select FB_CFB_IMAGEBLIT
-@@ -1252,7 +1252,7 @@ config FB_VOODOO1
- 
- config FB_VT8623
- 	tristate "VIA VT8623 support"
--	depends on FB && PCI
-+	depends on FB && PCI && HAS_IOPORT
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
- 	select FB_CFB_IMAGEBLIT
-@@ -1267,7 +1267,7 @@ config FB_VT8623
- 
- config FB_TRIDENT
- 	tristate "Trident/CyberXXX/CyberBlade support"
--	depends on FB && PCI
-+	depends on FB && PCI && HAS_IOPORT
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
- 	select FB_CFB_IMAGEBLIT
-@@ -1290,7 +1290,7 @@ config FB_TRIDENT
- 
- config FB_ARK
- 	tristate "ARK 2000PV support"
--	depends on FB && PCI
-+	depends on FB && PCI && HAS_IOPORT
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
- 	select FB_CFB_IMAGEBLIT
-@@ -1814,7 +1814,7 @@ config FB_SSD1307
- 
- config FB_SM712
- 	tristate "Silicon Motion SM712 framebuffer support"
--	depends on FB && PCI
-+	depends on FB && PCI && HAS_IOPORT
- 	select FB_IOMEM_HELPERS
- 	help
- 	  Frame buffer driver for the Silicon Motion SM710, SM712, SM721
--- 
-2.40.1
+  Tomi
 
