@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95FAA89F086
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 13:17:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC84F89F0CB
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 13:30:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAEA21120D7;
-	Wed, 10 Apr 2024 11:17:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CC7710E4AA;
+	Wed, 10 Apr 2024 11:29:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="U+Y67atA";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kfLYc5vO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39E851132DF
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 11:17:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB17210E4AA
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 11:29:55 +0000 (UTC)
 Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
  [91.154.34.181])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id AFCD1741;
- Wed, 10 Apr 2024 13:16:48 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 47FA2250;
+ Wed, 10 Apr 2024 13:29:12 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1712747809;
- bh=/u1p56tdaXxp2yK56jG72UzjVc+r2CoFz/j0yhGHom8=;
- h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
- b=U+Y67atAvRJ7sAxq/fm0pC4bnVp4j8JrlaROuK4Xc6lRd+9g3uR57WmDd1BY0C4Uk
- nwS+vVeWdiYQ3ZOueJL5irITlyOwOHcbnvffwJhBY5ExCWQ7DVsEEQMNtaPRyMXxG1
- PdQiL5cNF44beNwDz4AaawyLpRZvx2s4G7Vsqto8=
-Message-ID: <37a20f0c-3911-4fa5-a5be-88e1d7fe4c50@ideasonboard.com>
-Date: Wed, 10 Apr 2024 14:17:27 +0300
+ s=mail; t=1712748552;
+ bh=j+nS+69bHwK3itF6AU2bCp++5mpfWYfQ7SxDQw27RUI=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=kfLYc5vOt/0qOdRTgN8PnQo1/oPxhlRhNrdQdqUdjsbYKQHINtdBJM7LD6XCT9uMf
+ 7oGHZytDEgkGMBmW6fGRUykeP+YfTihHrULvOhKve0eks839cVtafq/4w4qmbLphHE
+ D2katwnYzu69mq1YRj6gaqom3UkcrKTvEhhXqHDE=
+Message-ID: <56a2c5a4-4486-4274-8f3a-6c4e8ffce116@ideasonboard.com>
+Date: Wed, 10 Apr 2024 14:29:51 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/omap: dmm_tiler: drop driver owner assignment
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20240330202804.83936-1-krzysztof.kozlowski@linaro.org>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH] drm: tilcdc: don't use devm_pinctrl_get_select_default()
+ in probe
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-renesas-soc@vger.kernel.org
+Cc: Jyri Sarha <jyri.sarha@iki.fi>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20230922073714.6164-1-wsa+renesas@sang-engineering.com>
 Content-Language: en-US
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
  wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
@@ -83,7 +84,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240330202804.83936-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230922073714.6164-1-wsa+renesas@sang-engineering.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,28 +102,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/03/2024 22:28, Krzysztof Kozlowski wrote:
-> Core in platform_driver_register() already sets the .owner, so driver
-> does not need to.  Whatever is set here will be anyway overwritten by
-> main driver calling platform_driver_register().
+On 22/09/2023 10:37, Wolfram Sang wrote:
+> Since commit ab78029ecc34 ("drivers/pinctrl: grab default handles from
+> device core"), we can rely on device core for setting the default pins.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
->   drivers/gpu/drm/omapdrm/omap_dmm_tiler.c | 1 -
->   1 file changed, 1 deletion(-)
+>   drivers/gpu/drm/tilcdc/tilcdc_panel.c | 6 ------
+>   1 file changed, 6 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c b/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
-> index 9753c1e1f994..1aca3060333e 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
-> @@ -1212,7 +1212,6 @@ struct platform_driver omap_dmm_driver = {
->   	.probe = omap_dmm_probe,
->   	.remove_new = omap_dmm_remove,
->   	.driver = {
-> -		.owner = THIS_MODULE,
->   		.name = DMM_DRIVER_NAME,
->   		.of_match_table = of_match_ptr(dmm_of_match),
->   		.pm = &omap_dmm_pm_ops,
+> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_panel.c b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
+> index 9aefd010acde..68093d6b6b16 100644
+> --- a/drivers/gpu/drm/tilcdc/tilcdc_panel.c
+> +++ b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
+> @@ -6,7 +6,6 @@
+>   
+>   #include <linux/backlight.h>
+>   #include <linux/gpio/consumer.h>
+> -#include <linux/pinctrl/consumer.h>
+>   #include <linux/platform_device.h>
+>   
+>   #include <video/display_timing.h>
+> @@ -308,7 +307,6 @@ static int panel_probe(struct platform_device *pdev)
+>   	struct backlight_device *backlight;
+>   	struct panel_module *panel_mod;
+>   	struct tilcdc_module *mod;
+> -	struct pinctrl *pinctrl;
+>   	int ret;
+>   
+>   	/* bail out early if no DT data: */
+> @@ -342,10 +340,6 @@ static int panel_probe(struct platform_device *pdev)
+>   
+>   	tilcdc_module_init(mod, "panel", &panel_module_ops);
+>   
+> -	pinctrl = devm_pinctrl_get_select_default(&pdev->dev);
+> -	if (IS_ERR(pinctrl))
+> -		dev_warn(&pdev->dev, "pins are not configured\n");
+> -
+>   	panel_mod->timings = of_get_display_timings(node);
+>   	if (!panel_mod->timings) {
+>   		dev_err(&pdev->dev, "could not get panel timings\n");
 
 Thanks, applying to drm-misc-next.
 
