@@ -2,57 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84A0B89FF58
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 20:01:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E29D89FF66
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 20:07:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2893B10FF80;
-	Wed, 10 Apr 2024 18:01:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A80CB10E9BA;
+	Wed, 10 Apr 2024 18:06:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FlIMexGc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Lu35qvDv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2985A10ED70;
- Wed, 10 Apr 2024 18:01:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712772103; x=1744308103;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=N6XrkYYKC8gGwO6vqU7Ke1ZPsiEC1yKtEbvoXwmk2Ak=;
- b=FlIMexGciJqq6GgOGmc6N+Nzu05jBda7aRhS6JVSgTFJeYeotruPJVT6
- dEDeaKwniDV9WXYKjUf66kAYgIlF1lAtdTTi2ACFkRiT8rJvDW4X1/XfR
- MC22Po44ikJnS4EVKohAP2VA9ZlfpZPtnoTlxISSA85v7ieaF3XQChBXx
- g1VQxZOyN8yJYcukA/A9s3JX4OcdwII/voNQOU5B3TiYhPUgOG4OzS0Hz
- ocGTLtkX586d687xr3NxziajHFnHj9hjz05/tSKNIry4WXEhnZf5JcZWv
- 0Adcpzhi56UWEW1EIS47+xxoit2FrvoJ4HBGc43SWMFd9aONGmYt/OXAx g==;
-X-CSE-ConnectionGUID: YxaMQOjHQoOsPGFMjKgx+g==
-X-CSE-MsgGUID: 3tqFGVS1QICOQ+88o+/nBA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8067416"
-X-IronPort-AV: E=Sophos;i="6.07,191,1708416000"; 
-   d="scan'208";a="8067416"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2024 11:01:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="827793216"
-X-IronPort-AV: E=Sophos;i="6.07,191,1708416000"; d="scan'208";a="827793216"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 10 Apr 2024 11:01:39 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 10 Apr 2024 21:01:39 +0300
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: [PATCH] drm/edid: Parse topology block for all DispID structure v1.x
-Date: Wed, 10 Apr 2024 21:01:39 +0300
-Message-ID: <20240410180139.21352-1-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.43.2
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE02910E9BA
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 18:06:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 732A7CE2AF3;
+ Wed, 10 Apr 2024 18:06:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55443C433C7;
+ Wed, 10 Apr 2024 18:06:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1712772408;
+ bh=9mHUvsMCvHI/lEf3R28H/lWIRLZtajg6D7uHi+gu8Xc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Lu35qvDvmqNkvq1o9nxg+w5hL5Uh7lDNWfNvkA5+kkFTIkp1zcQ2dCvhQ7Bmyxiky
+ srIkPzXyQsbllzfitfQ3qBA04frMons8w+N3qunJ0qiyagfuyd8VP3Wuf7DsDyJCX4
+ sADFRrR0lpwBWt2T/VQjb2jupa0lm1/2y1SDR5He9xfnB53rtkenMoKQxAXzpQxaIg
+ g/QgpMxZFgNPTpg/nPfDmiJRljqUaN2o19G9m8w1lUwu/8qPu2foYaJ0CJBQaut8gi
+ mhsGnnBNyndkfB8TLRrdqBenQDhN1PWT6Wo8fCofnQbnBcmDG7c1G0chPGnp2afnGE
+ 5WTuil65Gnjfg==
+Date: Wed, 10 Apr 2024 19:06:39 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Russell King <linux@armlinux.org.uk>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+ linux-sunxi@lists.linux.dev, linux-mips@vger.kernel.org,
+ kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH 0/7] drm/display: Fix display helpers depends on fallouts
+Message-ID: <117b0d3b-a60b-4bc0-9f2c-f0e4fffe634a@sirena.org.uk>
+References: <20240403-fix-dw-hdmi-kconfig-v1-0-afbc4a835c38@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="m8uHuXe8Pt8zgPJR"
+Content-Disposition: inline
+In-Reply-To: <20240403-fix-dw-hdmi-kconfig-v1-0-afbc4a835c38@kernel.org>
+X-Cookie: A bachelor is an unaltared male.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,73 +78,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-DisplayID spec v1.3 revision history notes do claim that
-the toplogy block was added in v1.3 so requiring structure
-v1.2 would seem correct, but there is at least one EDID in
-edid.tv with a topology block and structure v1.0. And
-there are also EDIDs with DisplayID structure v1.3 which
-seems to be totally incorrect as DisplayID spec v1.3 lists
-structure v1.2 as the only legal value.
+--m8uHuXe8Pt8zgPJR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Unfortunately I couldn't find copies of DisplayID spec
-v1.0-v1.2 anywhere (even on vesa.org), so I'll have to
-go on empirical evidence alone.
+On Wed, Apr 03, 2024 at 12:56:18PM +0200, Maxime Ripard wrote:
+> Hi,
+>=20
+> Here's a series addressing the various regressions that were reported
+> after the Kconfig rework for the DRM display helpers.
+>=20
+> Let me know what you think,
+> Maxime
 
-We used to parse the topology block on all v1.x
-structures until the check for structure v2.0 was added.
-Let's go back to doing that as the evidence does suggest
-that there are DisplayIDs in the wild that would miss
-out on the topology stuff otherwise.
+Is there any news on getting the rest of this merged?  It's been more
+than a week now and the Designware display controllers are all still
+broken in -next, causing widespread breakage in CI.  For bisection
+purposes it probably makes sense for the defconfig updates to go along
+with the changes to the Kconfig for the driver...
 
-Also toss out DISPLAY_ID_STRUCTURE_VER_12 entirely as
-it doesn't appear we can really use it for anything.
+--m8uHuXe8Pt8zgPJR
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I *think* we could technically skip all the structure
-version checks as the block tags shouldn't conflict
-between v2.0 and v1.x. But no harm in having a bit of
-extra sanity checks I guess.
+-----BEGIN PGP SIGNATURE-----
 
-So far I'm not aware of any user reported regressions
-from overly strict check, but I do know that it broke
-igt/kms_tiled_display's fake DisplayID as that one
-gets generated with structure v1.0.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYW1S4ACgkQJNaLcl1U
+h9DOSwf/cU2i83arQzeCO07s0n4/uba3xhNrWfvc7xN0GLO+Z8KtAnVQfRMhXF5j
+ayRYwyjGMYcJmGugvdeX68HEbnVSq3PF1F0CSIjX4ElPZ9S7Wbiik4vnL45HJP6c
+IveEkj+HqtAvILP5/07YrflUuqawBsUKDiELWs2p8AqwcpiDy4j6sMJpPZd6n9gf
+9GzlZ5KCvzOua+GmCz9skxnIsXwSIB2HQ2y2zA0hyBbte7XjFFBUE36JW/kSt4z5
+eRZ8AW4MG2hO6f/x965L+SShk1aLPhnYQXx/683Eu5MhYCGzGW7XPuGQDJJ1rAZU
+YkvZX/nVERJeD10LMsjYYPcH/8N8Cw==
+=swV+
+-----END PGP SIGNATURE-----
 
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Fixes: c5a486af9df7 ("drm/edid: parse Tiled Display Topology Data Block for DisplayID 2.0")
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
----
- drivers/gpu/drm/drm_edid.c  | 2 +-
- include/drm/drm_displayid.h | 1 -
- 2 files changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index ea77577a3786..f0948ab214b3 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -7405,7 +7405,7 @@ static void drm_parse_tiled_block(struct drm_connector *connector,
- static bool displayid_is_tiled_block(const struct displayid_iter *iter,
- 				     const struct displayid_block *block)
- {
--	return (displayid_version(iter) == DISPLAY_ID_STRUCTURE_VER_12 &&
-+	return (displayid_version(iter) < DISPLAY_ID_STRUCTURE_VER_20 &&
- 		block->tag == DATA_BLOCK_TILED_DISPLAY) ||
- 		(displayid_version(iter) == DISPLAY_ID_STRUCTURE_VER_20 &&
- 		 block->tag == DATA_BLOCK_2_TILED_DISPLAY_TOPOLOGY);
-diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
-index 566497eeb3b8..bc1f6b378195 100644
---- a/include/drm/drm_displayid.h
-+++ b/include/drm/drm_displayid.h
-@@ -30,7 +30,6 @@ struct drm_edid;
- #define VESA_IEEE_OUI				0x3a0292
- 
- /* DisplayID Structure versions */
--#define DISPLAY_ID_STRUCTURE_VER_12		0x12
- #define DISPLAY_ID_STRUCTURE_VER_20		0x20
- 
- /* DisplayID Structure v1r2 Data Blocks */
--- 
-2.43.2
-
+--m8uHuXe8Pt8zgPJR--
