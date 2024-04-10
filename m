@@ -2,52 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CC468A01D1
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 23:13:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 846EF89FBF2
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 17:47:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0540F10E160;
-	Wed, 10 Apr 2024 21:13:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B29489F27;
+	Wed, 10 Apr 2024 15:47:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ispras.ru header.i=@ispras.ru header.b="bN8ChonH";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pn0+YpIr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13A4210EA45;
- Wed, 10 Apr 2024 15:39:13 +0000 (UTC)
-Received: from [10.240.168.185] (unknown [178.176.73.225])
- by mail.ispras.ru (Postfix) with ESMTPSA id 841D74076735;
- Wed, 10 Apr 2024 15:39:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 841D74076735
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
- s=default; t=1712763550;
- bh=xQKnhyAxfz2O94v4XYI3za4g+mMCNJTNwLCL1CPF8Ok=;
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AE7010EEAB
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 15:47:18 +0000 (UTC)
+Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
+ [91.154.34.181])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E1E7A3A4;
+ Wed, 10 Apr 2024 17:46:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1712763994;
+ bh=4CHWr93ttyXqYiluYIlrywgcESKS5Vf2RjQqUBIK9Lo=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=bN8ChonH1inQLvXBDq36U8i+WC0O2pHHPJZfyfYM7wlLgdot/eojoCS4wURkL4Ebp
- tDwbqg7+qnK6nKWLjpgvGHTY22886SDRtiz2SjKSQ8nmLLU5VYHo63IP+yAbAKze0+
- 4b2lbeBNkcT9LGmUJGit/D/YIpEXp+TIZ9uEcCI4=
-Message-ID: <624ee851-162b-4490-8444-0d9e06b5863b@ispras.ru>
-Date: Wed, 10 Apr 2024 18:39:35 +0300
+ b=pn0+YpIrvlSS+RzMA/UqdJjjQzEOijrQFTr9cTuoYJ0cWkv8Et6eLsK3vS3rCHecK
+ Opxtn39za28zYLHGwUsHMetHp9WfNP2mSNxdcq0Yd0x+Ht63yOkt8qMZVjp9zrbTcv
+ tR3WsRj6AYCq2SGT5Oa545GARtm80wVpcPnctc0I=
+Message-ID: <dedf46a9-640a-4ac4-b992-1bde76307ad2@ideasonboard.com>
+Date: Wed, 10 Apr 2024 18:47:13 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: nv04: Add check to avoid out of bounds access
-To: Danilo Krummrich <me@dakr.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>, Karol Herbst <kherbst@redhat.com>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Francisco Jerez <currojerez@riseup.net>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- lvc-project@linuxtesting.org, Fedor Pchelkin <pchelkin@ispras.ru>,
- Alexey Khoroshilov <khoroshilov@ispras.ru>
-References: <20240331064552.6112-1-m.kobuk@ispras.ru>
- <c3253f8a-e654-4016-b0c6-d92703107c48@redhat.com>
- <11096e558e67f2fea2aee976c70a19af1b7c212b.camel@redhat.com>
- <03263130-0627-45c4-ab14-aa0e3b597442@dakr.org>
+Subject: Re: [PATCH 12/21] drm/tilcdc: Allow build without __iowmb()
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, Jyri Sarha <jyri.sarha@iki.fi>
+References: <20240408170426.9285-1-ville.syrjala@linux.intel.com>
+ <20240408170426.9285-13-ville.syrjala@linux.intel.com>
+ <b944eacf-e284-42ad-aeb6-e7aeb1aa01c1@ideasonboard.com>
+ <ZhavXcFrgzw5UApH@intel.com>
 Content-Language: en-US
-From: Mikhail Kobuk <m.kobuk@ispras.ru>
-In-Reply-To: <03263130-0627-45c4-ab14-aa0e3b597442@dakr.org>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <ZhavXcFrgzw5UApH@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 10 Apr 2024 21:13:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,110 +101,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/04/2024 16:23, Danilo Krummrich wrote:
-> On 4/5/24 22:05, Lyude Paul wrote:
->> On Fri, 2024-04-05 at 17:53 +0200, Danilo Krummrich wrote:
->>> On 3/31/24 08:45, Mikhail Kobuk wrote:
->>>> Output Resource (dcb->or) value is not guaranteed to be non-zero
->>>> (i.e.
->>>> in drivers/gpu/drm/nouveau/nouveau_bios.c, in
->>>> 'fabricate_dcb_encoder_table()'
->>>> 'dcb->or' is assigned value '0' in call to
->>>> 'fabricate_dcb_output()').
+On 10/04/2024 18:25, Ville Syrjälä wrote:
+> On Wed, Apr 10, 2024 at 12:06:29PM +0300, Tomi Valkeinen wrote:
+>> On 08/04/2024 20:04, Ville Syrjala wrote:
+>>> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 >>>
->>> I don't really know much about the semantics of this code.
+>>> __iowmb() isn't available on most architectures. Make
+>>> its use optional so that the driver can be built on
+>>> other architectures with COMPILE_TEST=y.
 >>>
->>> Looking at fabricate_dcb_output() though I wonder if the intention
->>> was to assign
->>> BIT(or) to entry->or.
+>>> Cc: Jyri Sarha <jyri.sarha@iki.fi>
+>>> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+>>> ---
+>>>    drivers/gpu/drm/tilcdc/tilcdc_regs.h | 2 ++
+>>>    1 file changed, 2 insertions(+)
 >>>
->>> @Lyude, can you help here?
->> 
->> This code is definitely a bit before my time as well - but I think
->> you're completely correct. Especially considering this bit I found in
->> nouveau_bios.h:
+>>> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_regs.h b/drivers/gpu/drm/tilcdc/tilcdc_regs.h
+>>> index f90e2dc3457c..44e4ada30fba 100644
+>>> --- a/drivers/gpu/drm/tilcdc/tilcdc_regs.h
+>>> +++ b/drivers/gpu/drm/tilcdc/tilcdc_regs.h
+>>> @@ -125,7 +125,9 @@ static inline void tilcdc_write64(struct drm_device *dev, u32 reg, u64 data)
+>>>    #if defined(iowrite64) && !defined(iowrite64_is_nonatomic)
+>>>    	iowrite64(data, addr);
+>>>    #else
+>>> +#ifdef __iowmb
+>>>    	__iowmb();
+>>> +#endif
+>>>    	/* This compiles to strd (=64-bit write) on ARM7 */
+>>>    	*(volatile u64 __force *)addr = __cpu_to_le64(data);
+>>>    #endif
+>>
+>> As the memory barrier is an important part there, would it be better to
+>> ifdef based on COMPILE_TEST, to make it clear why it's being done?
 > 
-> Thanks for confirming.
+> I can do that if you prefer.
 > 
-> @Mikhail, I think we should rather fix this assignment then.
+> I suppose the real question is why iowrite64() doesn't work
+> if a hand rolled version does work?
 
-Thank you all for a thorough look!
+If I recall right, there is (was?) no iowrite64. The bus is 32 bit 
+anyway. But the two 32 bit registers written with the tilcdc_write64() 
+have an annoying HW race, so we tried to find a method of writing them 
+that reduces the chance of race to a minimum.
 
-> 
-> - Danilo
-> 
->> 
->> enum nouveau_or {
->> 	DCB_OUTPUT_A = (1 << 0),
->> 	DCB_OUTPUT_B = (1 << 1),
->> 	DCB_OUTPUT_C = (1 << 2)
->> };
->> 
->> 
-
-Considering this code bit, and the fact that fabricate_dcb_output() is 
-called in drivers/gpu/drm/nouveau/nouveau_bios.c only, there's option to 
-adjust function calls instead of adding BIT(or), i.e.:
-
-fabricate_dcb_output(dcb, DCB_OUTPUT_TMDS, 0, all_heads, DCB_OUTPUT_B);
-
-instead of current:
-
-fabricate_dcb_output(dcb, DCB_OUTPUT_TMDS, 0, all_heads, 1);
-
-and etc.
-
-Should I make a new patch with adjusted calls or stick with BIT(or)?
-
->>>
->>> Otherwise, for parsing the DCB entries, it seems that the bound
->>> checks are
->>> happening in olddcb_outp_foreach() [1].
->>>
->>> [1]
->>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/nouveau/nouveau_bios.c#L1331
->>>
->>>>
->>>> Add check to validate 'dcb->or' before it's used.
->>>>
->>>> Found by Linux Verification Center (linuxtesting.org) with SVACE.
->>>>
->>>> Fixes: 2e5702aff395 ("drm/nouveau: fabricate DCB encoder table for
->>>> iMac G4")
->>>> Signed-off-by: Mikhail Kobuk <m.kobuk@ispras.ru>
->>>> ---
->>>>    drivers/gpu/drm/nouveau/dispnv04/dac.c | 4 ++--
->>>>    1 file changed, 2 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/nouveau/dispnv04/dac.c
->>>> b/drivers/gpu/drm/nouveau/dispnv04/dac.c
->>>> index d6b8e0cce2ac..0c8d4fc95ff3 100644
->>>> --- a/drivers/gpu/drm/nouveau/dispnv04/dac.c
->>>> +++ b/drivers/gpu/drm/nouveau/dispnv04/dac.c
->>>> @@ -428,7 +428,7 @@ void nv04_dac_update_dacclk(struct drm_encoder
->>>> *encoder, bool enable)
->>>>    	struct drm_device *dev = encoder->dev;
->>>>    	struct dcb_output *dcb = nouveau_encoder(encoder)->dcb;
->>>>    
->>>> -	if (nv_gf4_disp_arch(dev)) {
->>>> +	if (nv_gf4_disp_arch(dev) && ffs(dcb->or)) {
->>>>    		uint32_t *dac_users = &nv04_display(dev)-
->>>>> dac_users[ffs(dcb->or) - 1];
->>>>    		int dacclk_off = NV_PRAMDAC_DACCLK +
->>>> nv04_dac_output_offset(encoder);
->>>>    		uint32_t dacclk = NVReadRAMDAC(dev, 0,
->>>> dacclk_off);
->>>> @@ -453,7 +453,7 @@ bool nv04_dac_in_use(struct drm_encoder
->>>> *encoder)
->>>>    	struct drm_device *dev = encoder->dev;
->>>>    	struct dcb_output *dcb = nouveau_encoder(encoder)->dcb;
->>>>    
->>>> -	return nv_gf4_disp_arch(encoder->dev) &&
->>>> +	return nv_gf4_disp_arch(encoder->dev) && ffs(dcb->or) &&
->>>>    		(nv04_display(dev)->dac_users[ffs(dcb->or) - 1] &
->>>> ~(1 << dcb->index));
->>>>    }
->>>>    
->>>
->> 
+  Tomi
 
