@@ -2,63 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDDE789F14D
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 13:50:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63EBE89F1B7
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 14:09:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 815FD112660;
-	Wed, 10 Apr 2024 11:50:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C16DC112022;
+	Wed, 10 Apr 2024 12:09:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IsWYh4JK";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="c31va0EB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T1qvPvPO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c31va0EB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T1qvPvPO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB461120D4;
- Wed, 10 Apr 2024 11:50:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712749819; x=1744285819;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=48JgxszmgwzSdEYjlQoIe3fDz23+3fpwfQ7RcJKta4c=;
- b=IsWYh4JKJrYWrxW3fYTfB5vD9Ubvkz14KNABfoq5hN2joPTXO0rWtDxf
- F3nbWtNWUCV2QyPvYA3Cs+nAgDZf4nnBs40cvP59K6J1YTD7mhnLA5gVj
- DsyxqActKFRqSSTKSTgZZIjEsfcz5LdtKo78tCtiUL72H1waScWQmVoxu
- 4+b5SiRRnv0yfDspNwo4fNOBvO1cuw4C2mknq9akYl2hQOwGmJvcSCpCj
- P7UxJnlfgfL2cimqWjIDwq89WKyrOwPkaaX5lmNQ44FHqSZ6Xiel3Mh6C
- +ehdl5YOypLFyZH8ECYv8jKn674AcasJve4cg8vJSZ9xgwSP6Gi682zYo w==;
-X-CSE-ConnectionGUID: LhpNe97hTfactw6YWyQJHQ==
-X-CSE-MsgGUID: gm2meCjTQzeL89+8O1I8mA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8208150"
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="8208150"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2024 04:50:18 -0700
-X-CSE-ConnectionGUID: zZV8hHBLQ3esCVySK89uXA==
-X-CSE-MsgGUID: 3PgKakM8S9qvX8DgywkVhQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; d="scan'208";a="25158425"
-Received: from oakasatk-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.60.54])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2024 04:50:14 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, Daniel
- Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Masahiro
- Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH v2] drm: ensure drm headers are self-contained and pass
- kernel-doc
-In-Reply-To: <20240402140136.1722533-1-jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240402140136.1722533-1-jani.nikula@intel.com>
-Date: Wed, 10 Apr 2024 14:50:11 +0300
-Message-ID: <87ttk977yk.fsf@intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C3A610E519
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 12:09:32 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 79C0D350C0;
+ Wed, 10 Apr 2024 12:09:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1712750970; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=lRR4bFBNBJBkbus/oAEV35u3uBhhJWEvwaL6F7PNE7k=;
+ b=c31va0EBKBqTUE9uXSBoXPmU0+N6+H7o9l7BqC6aoA9VGGsnUDH+8/sf6Rs+v9NkDigQeg
+ ozC0aRvO0UZuFgeoxa68v9zGtE5/t0JNHcKQ4dq0IyI17JmiM9ff5l9oi2qIl/gjVDyrv0
+ 6evcBAQRyFEWBq6Z/BEJbdBzKORx3wU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1712750970;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=lRR4bFBNBJBkbus/oAEV35u3uBhhJWEvwaL6F7PNE7k=;
+ b=T1qvPvPORV2LXgVl5ROYIVUlDD9q6OstLmg7eU7L5q2zjafj7tzHCrezY2UOPRBnwfYbwU
+ 0qALlFkuEgkxwEDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1712750970; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=lRR4bFBNBJBkbus/oAEV35u3uBhhJWEvwaL6F7PNE7k=;
+ b=c31va0EBKBqTUE9uXSBoXPmU0+N6+H7o9l7BqC6aoA9VGGsnUDH+8/sf6Rs+v9NkDigQeg
+ ozC0aRvO0UZuFgeoxa68v9zGtE5/t0JNHcKQ4dq0IyI17JmiM9ff5l9oi2qIl/gjVDyrv0
+ 6evcBAQRyFEWBq6Z/BEJbdBzKORx3wU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1712750970;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=lRR4bFBNBJBkbus/oAEV35u3uBhhJWEvwaL6F7PNE7k=;
+ b=T1qvPvPORV2LXgVl5ROYIVUlDD9q6OstLmg7eU7L5q2zjafj7tzHCrezY2UOPRBnwfYbwU
+ 0qALlFkuEgkxwEDw==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 482E913A92;
+ Wed, 10 Apr 2024 12:09:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id YGITEHqBFmY8BQAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Wed, 10 Apr 2024 12:09:30 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com, jani.nikula@linux.intel.com, airlied@redhat.com,
+ sean@poorly.run
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 0/5] drm/udl: Convert to struct drm_edid
+Date: Wed, 10 Apr 2024 14:07:49 +0200
+Message-ID: <20240410120928.26487-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ MIME_GOOD(-0.10)[text/plain]; MIME_TRACE(0.00)[0:+];
+ TO_DN_SOME(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_FIVE(0.00)[6];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap2.dmz-prg2.suse.org:helo,imap2.dmz-prg2.suse.org:rdns];
+ RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,127 +103,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 02 Apr 2024, Jani Nikula <jani.nikula@intel.com> wrote:
-> Ensure drm headers build, are self-contained, have header guards, and
-> have no kernel-doc warnings, when CONFIG_DRM_HEADER_TEST=y.
->
-> The mechanism follows similar patters used in i915, xe, and usr/include.
->
-> To cover include/drm, we need to recurse there using the top level
-> Kbuild and the new include/Kbuild files.
+Convert udl to use struct drm_edid and its helpers. Also clean up
+a few things in the process.
 
-Masahiro, any input? Ack?
+Patch 1 fixes a bug.
 
-BR,
-Jani.
+Patches 2 to 4 convert the current EDID handling to struct drm_edid
+and its helpers. Patch 4 also separates the helpers for .get_modes()
+and .detect_ctx() from each other.
 
->
-> v2: make DRM_HEADER_TEST depend on DRM
->
-> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  Kbuild                   |  1 +
->  drivers/gpu/drm/Kconfig  | 11 +++++++++++
->  drivers/gpu/drm/Makefile | 18 ++++++++++++++++++
->  include/Kbuild           |  1 +
->  include/drm/Makefile     | 18 ++++++++++++++++++
->  5 files changed, 49 insertions(+)
->  create mode 100644 include/Kbuild
->  create mode 100644 include/drm/Makefile
->
-> diff --git a/Kbuild b/Kbuild
-> index 464b34a08f51..f327ca86990c 100644
-> --- a/Kbuild
-> +++ b/Kbuild
-> @@ -97,3 +97,4 @@ obj-$(CONFIG_SAMPLES)	+= samples/
->  obj-$(CONFIG_NET)	+= net/
->  obj-y			+= virt/
->  obj-y			+= $(ARCH_DRIVERS)
-> +obj-$(CONFIG_DRM_HEADER_TEST)	+= include/
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 3914aaf443a8..a388c4fda984 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -431,3 +431,14 @@ config DRM_WERROR
->  	  this config option is disabled by default.
->  
->  	  If in doubt, say N.
-> +
-> +config DRM_HEADER_TEST
-> +	bool "Ensure DRM headers are self-contained and pass kernel-doc"
-> +	depends on DRM && EXPERT
-> +	default n
-> +	help
-> +	  Ensure the DRM subsystem headers both under drivers/gpu/drm and
-> +	  include/drm compile, are self-contained, have header guards, and have
-> +	  no kernel-doc warnings.
-> +
-> +	  If in doubt, say N.
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index a73c04d2d7a3..6605d5686d01 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -218,3 +218,21 @@ obj-y			+= solomon/
->  obj-$(CONFIG_DRM_SPRD) += sprd/
->  obj-$(CONFIG_DRM_LOONGSON) += loongson/
->  obj-$(CONFIG_DRM_POWERVR) += imagination/
-> +
-> +# Ensure drm headers are self-contained and pass kernel-doc
-> +hdrtest-files := \
-> +	$(shell cd $(srctree)/$(src) && find . -maxdepth 1 -name 'drm_*.h') \
-> +	$(shell cd $(srctree)/$(src) && find display lib -name '*.h')
-> +
-> +always-$(CONFIG_DRM_HEADER_TEST) += \
-> +	$(patsubst %.h,%.hdrtest, $(hdrtest-files))
-> +
-> +# Include the header twice to detect missing include guard.
-> +quiet_cmd_hdrtest = HDRTEST $(patsubst %.hdrtest,%.h,$@)
-> +      cmd_hdrtest = \
-> +		$(CC) $(c_flags) -fsyntax-only -x c /dev/null -include $< -include $<; \
-> +		$(srctree)/scripts/kernel-doc -none $(if $(CONFIG_DRM_WERROR),-Werror) $<; \
-> +		touch $@
-> +
-> +$(obj)/%.hdrtest: $(src)/%.h FORCE
-> +	$(call if_changed_dep,hdrtest)
-> diff --git a/include/Kbuild b/include/Kbuild
-> new file mode 100644
-> index 000000000000..5e76a599e2dd
-> --- /dev/null
-> +++ b/include/Kbuild
-> @@ -0,0 +1 @@
-> +obj-$(CONFIG_DRM_HEADER_TEST)	+= drm/
-> diff --git a/include/drm/Makefile b/include/drm/Makefile
-> new file mode 100644
-> index 000000000000..b9f391d7aadd
-> --- /dev/null
-> +++ b/include/drm/Makefile
-> @@ -0,0 +1,18 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +# Ensure drm headers are self-contained and pass kernel-doc
-> +hdrtest-files := \
-> +	$(shell cd $(srctree)/$(src) && find * -name '*.h' 2>/dev/null)
-> +
-> +always-$(CONFIG_DRM_HEADER_TEST) += \
-> +	$(patsubst %.h,%.hdrtest, $(hdrtest-files))
-> +
-> +# Include the header twice to detect missing include guard.
-> +quiet_cmd_hdrtest = HDRTEST $(patsubst %.hdrtest,%.h,$@)
-> +      cmd_hdrtest = \
-> +		$(CC) $(c_flags) -fsyntax-only -x c /dev/null -include $< -include $<; \
-> +		$(srctree)/scripts/kernel-doc -none $(if $(CONFIG_DRM_WERROR),-Werror) $<; \
-> +		touch $@
-> +
-> +$(obj)/%.hdrtest: $(src)/%.h FORCE
-> +	$(call if_changed_dep,hdrtest)
+Patch 5 removes the obsolete struct udl_connector.
+
+v2:
+- drop the generic EDID probing (Jani)
+- fixes
+
+Thomas Zimmermann (5):
+  drm/udl: Remove DRM_CONNECTOR_POLL_HPD
+  drm/udl: Move drm_dev_{enter,exit}() into udl_get_edid_block()
+  drm/udl: Clean up Makefile
+  drm/udl: Untangle .get_modes() and .detect_ctx()
+  drm/udl: Remove struct udl_connector
+
+ drivers/gpu/drm/udl/Makefile      |   8 +-
+ drivers/gpu/drm/udl/udl_drv.h     |  12 +--
+ drivers/gpu/drm/udl/udl_edid.c    |  79 +++++++++++++++++
+ drivers/gpu/drm/udl/udl_edid.h    |  15 ++++
+ drivers/gpu/drm/udl/udl_modeset.c | 138 +++++++-----------------------
+ 5 files changed, 131 insertions(+), 121 deletions(-)
+ create mode 100644 drivers/gpu/drm/udl/udl_edid.c
+ create mode 100644 drivers/gpu/drm/udl/udl_edid.h
 
 -- 
-Jani Nikula, Intel
+2.44.0
+
