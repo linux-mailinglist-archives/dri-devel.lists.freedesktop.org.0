@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 158A689EE26
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 11:06:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5157589EE27
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 11:06:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0DAA113280;
-	Wed, 10 Apr 2024 09:06:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FBA811327E;
+	Wed, 10 Apr 2024 09:06:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VSwsHUB7";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YjV6hLrL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DAE7113280
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 09:06:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76E6911327E
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 09:06:51 +0000 (UTC)
 Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
  [91.154.34.181])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF6DB3A4;
- Wed, 10 Apr 2024 11:05:50 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 74FD33A4;
+ Wed, 10 Apr 2024 11:06:08 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1712739950;
- bh=Hx0+JMZa08LZMdVTnbe/YFH/dQQq0tN6Cl55bYwBs5A=;
+ s=mail; t=1712739968;
+ bh=4uNLj1jxksspAbxiUCFLE9rNhTyqvu+CCuULB/6wlJA=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=VSwsHUB7sZW7SUWAfYbb3hqJGBf2nuCk9eZ8LgL2iFadwR9y56362MNwHMCM9rBJQ
- 5xDxUZFu+RMxuiVNRuBv13ACZX6i+hhjZAuhx8mXuQn3xvZpj5KAXf5a9RpHyYoNOU
- 9YpRaaAqB5DRv3b9Rts4Vg+SoQzyD7GoF5MACIfc=
-Message-ID: <b944eacf-e284-42ad-aeb6-e7aeb1aa01c1@ideasonboard.com>
-Date: Wed, 10 Apr 2024 12:06:29 +0300
+ b=YjV6hLrLsyuI0H18W6mDBg6LT8vKRdpvgRmEgFZFpSyMQVwCMVhDlqbBpGNBz6Yki
+ BcRkVai1k9OwUE7atQr1JcTlvF+duDYHXMlVyqcExANPO8YqWLyKau8Bj7kTRWiokL
+ 2w379OMGzA6hLLFHAWt0huWKMU0TXdAEU/miVqas=
+Message-ID: <af8fe459-e44b-45c7-bce9-7cdc07575caf@ideasonboard.com>
+Date: Wed, 10 Apr 2024 12:06:47 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/21] drm/tilcdc: Allow build without __iowmb()
+Subject: Re: [PATCH 13/21] drm/tilcdc: Allow build with COMPILE_TEST=y
 To: Ville Syrjala <ville.syrjala@linux.intel.com>,
  dri-devel@lists.freedesktop.org
 Cc: Jyri Sarha <jyri.sarha@iki.fi>
 References: <20240408170426.9285-1-ville.syrjala@linux.intel.com>
- <20240408170426.9285-13-ville.syrjala@linux.intel.com>
-Content-Language: en-US
+ <20240408170426.9285-14-ville.syrjala@linux.intel.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
  wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
@@ -82,7 +82,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240408170426.9285-13-ville.syrjala@linux.intel.com>
+In-Reply-To: <20240408170426.9285-14-ville.syrjala@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,34 +103,31 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 08/04/2024 20:04, Ville Syrjala wrote:
 > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > 
-> __iowmb() isn't available on most architectures. Make
-> its use optional so that the driver can be built on
-> other architectures with COMPILE_TEST=y.
+> Allow tilcdc to be built with COMPILE_TEST=y for greater
+> coverage. Builds fine on x86/x86_64 at least.
 > 
 > Cc: Jyri Sarha <jyri.sarha@iki.fi>
 > Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > ---
->   drivers/gpu/drm/tilcdc/tilcdc_regs.h | 2 ++
->   1 file changed, 2 insertions(+)
+>   drivers/gpu/drm/tilcdc/Kconfig | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_regs.h b/drivers/gpu/drm/tilcdc/tilcdc_regs.h
-> index f90e2dc3457c..44e4ada30fba 100644
-> --- a/drivers/gpu/drm/tilcdc/tilcdc_regs.h
-> +++ b/drivers/gpu/drm/tilcdc/tilcdc_regs.h
-> @@ -125,7 +125,9 @@ static inline void tilcdc_write64(struct drm_device *dev, u32 reg, u64 data)
->   #if defined(iowrite64) && !defined(iowrite64_is_nonatomic)
->   	iowrite64(data, addr);
->   #else
-> +#ifdef __iowmb
->   	__iowmb();
-> +#endif
->   	/* This compiles to strd (=64-bit write) on ARM7 */
->   	*(volatile u64 __force *)addr = __cpu_to_le64(data);
->   #endif
+> diff --git a/drivers/gpu/drm/tilcdc/Kconfig b/drivers/gpu/drm/tilcdc/Kconfig
+> index d3bd2d7a181e..1897ef91c70b 100644
+> --- a/drivers/gpu/drm/tilcdc/Kconfig
+> +++ b/drivers/gpu/drm/tilcdc/Kconfig
+> @@ -1,7 +1,7 @@
+>   # SPDX-License-Identifier: GPL-2.0-only
+>   config DRM_TILCDC
+>   	tristate "DRM Support for TI LCDC Display Controller"
+> -	depends on DRM && OF && ARM
+> +	depends on DRM && OF && (ARM || COMPILE_TEST)
+>   	select DRM_KMS_HELPER
+>   	select DRM_GEM_DMA_HELPER
+>   	select DRM_BRIDGE
 
-As the memory barrier is an important part there, would it be better to 
-ifdef based on COMPILE_TEST, to make it clear why it's being done?
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
   Tomi
 
