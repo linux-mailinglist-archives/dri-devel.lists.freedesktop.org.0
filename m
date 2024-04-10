@@ -2,92 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A755C89EEC2
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 11:29:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FFF789F274
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 14:39:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B23D10E9C7;
-	Wed, 10 Apr 2024 09:29:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02FB410E315;
+	Wed, 10 Apr 2024 12:39:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="LUHMIba6";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="1hWDfKtu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 500AE10E989
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 09:29:15 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-41739e4f8caso1625005e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 02:29:15 -0700 (PDT)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CDA110E7CD
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 09:42:08 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-1e2b1cd446fso48218735ad.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 02:42:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712741353; x=1713346153;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712742127; x=1713346927;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Z4kwkorErv8tb8SzoHtazPQP+BQoahujJfqdWOv/amk=;
- b=LUHMIba6rtFKwiGKW/Z7Xc+/mhd9pUTofQGKEwuW015YXI7inzm9lCnKBgqK9OZ7mE
- fdOl6pgaqYql+zrtBavDQ0cUcG/Y2ZGfQcMBrL9mgn6g2AuFXOUa4TLv0yB4kVD/TqiR
- rx0AJDivw1gRgxFPE8Q7FAkDesSF9Vw+380lSgtoG9Y3MYs00jY8uKrzeg5UEjKkEsTf
- Xw33rWcu5lY98giy7aetJ71IKslkQZxOrJMhIJ+NneT6MrYvmctTXz5ttRDGy0jhBcRy
- LCX2slE0iAjCQCFR0LCNyh7wy1zi5Po7BuFdWe0bnVsUXGhU2ixbQx0wq3dbm/Gat80i
- pIFg==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=d6mq+XWVQezektM76wlJCZqJNDL7tm6/6S+c5eJ1L7E=;
+ b=1hWDfKtuqXiyyiaxJzGTpei9cEJzL57Y1zp7pnd+n+fDeq9hyNjWCnQJui9dwPKYVQ
+ lBmaU4gQPAb5X8i1g6xY6XdP10I5KjRDWVCDvzlWghf7YKjz/vHxhrOGsZoxWYSa78Kf
+ znh2GF0j3J5btI9nPq1m8dWIjwcAW3LxRG8UCl3DjtAUgFA0fqa+ouaed4ltaO1BGdfo
+ n098W/F0v8FWuTMYfhguuIAZUA1OYsn0f0ziZxAf0LeW/ixlND9BsVOwfymSxlxlTrG0
+ EDoBRE61+K1Gk9Rg9MK82PW84cOGjSzm6e7HhwhbUtLhbgbmT0lYPqAJQSBuA1vg06EL
+ XiRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712741353; x=1713346153;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Z4kwkorErv8tb8SzoHtazPQP+BQoahujJfqdWOv/amk=;
- b=PDL07zX7QrnSrtHDDg6AWuqlE+LVsAimgCpdAd+nlgfMedhp/2ZQ3AHeI/q+BP3rsC
- WSvuEGWsFrw9B3MZw0WF+yeBoq11lV3ot8aQQxjHTF3Cb+vVLzmZ1gnvqzQpAUlcOKmn
- W1lcYwfRCF6yxa2uD9Evd7k7JBK1EZZ0M7CQkTq3xeLxilHkp+Ag1XLA4lpjsJ8GQLj7
- Df7UU8tW2PSY7cvSbl6tHwEY59GGFAYSR6vAYMG/g7fQmng/TYhOZyFHhg4SOgI3vU2Q
- gdP7W0aOK/1bSaVjxPYmFVzeFFesvG7yBvKFsK54ll3GlswYneXZN4E0rop+W0qY4vle
- autg==
+ d=1e100.net; s=20230601; t=1712742127; x=1713346927;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=d6mq+XWVQezektM76wlJCZqJNDL7tm6/6S+c5eJ1L7E=;
+ b=gVJNJ9i5OA6MWLprjbk6o0FrJBjsFuIMFMCCmQ6nndm1Eso7fR0BQLrNr5UPDbQ+d+
+ BvQFuW/5KBDp0ZkE1lB9pzPAD8D0jsesocn+DWGSiishtm/dDdnMQE8JZJIe6OCGM1eO
+ NEFVVOzwIbycCM4VBtvsmQ5oe+Kc4plQzlMyGl/cdvCo/MYKIzW/2NXksQRB5nP0hIgO
+ KyOrTqsfzYbax3wMppbkXO271NRu1II2dteyj4SV/LgbH+ZWW3P78sEKnvCN2rwMekzL
+ z1VnZ67ar9eBtrHyRXIaG0+Cc2Hkj4RZ+lFI+Y/SqcWTFEgiLjytzwuDaYpVnOyc63Tu
+ vFYA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU0Ew+I3m/yHxtrpABFZWKAwnuOGVha46nkhuhF2yq0MPfYowIUzYnTO5NoCOa/ZcJqSqLkQMYuAf+C8nOl50gaLvOBTdrqEPSJoRgxdb8i
-X-Gm-Message-State: AOJu0YxT28BJsCmsGL5pb1U5SA6A5Ov19D0F2YXSmdV/sL8PGfavGQtW
- nklOb5XbLqfu/dszvmOtr53YELpLdjQBH6t36NkP2lHZWfn7gftBpHA/V4YghaQ=
-X-Google-Smtp-Source: AGHT+IFvXyauqU6yE1hhXxe+82hSR7xjimh79oxs60By+238847k+6MrB7Ys5sLNSFw6IjHtaU72FA==
-X-Received: by 2002:a05:600c:5252:b0:416:643c:8946 with SMTP id
- fc18-20020a05600c525200b00416643c8946mr1274626wmb.17.1712741353432; 
- Wed, 10 Apr 2024 02:29:13 -0700 (PDT)
-Received: from [192.168.1.172] ([93.5.22.158])
- by smtp.gmail.com with ESMTPSA id
- u15-20020a05600c19cf00b004168efc77d1sm1698186wmq.39.2024.04.10.02.29.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Apr 2024 02:29:13 -0700 (PDT)
-Message-ID: <9ecf2158-10d1-47b3-a02f-54a4cddbf426@baylibre.com>
-Date: Wed, 10 Apr 2024 11:29:11 +0200
+ AJvYcCWl9soo11ckJwwDvxMwrGSrnp9BA2GYpGj+7tFxoEwo1GDhTFnqc3sTPm+XuULIJQgBK5gNLMnQ1Whq2OniXtXbHHt80O0eYDrjb10nGkfJ
+X-Gm-Message-State: AOJu0YznkHetIALAV8tNP7cG8mKWoWASrQg40nIwWJTEdxJCMEcX9FUy
+ 54vbgGqz/Of6RhUGwLl0FSWWYsx6vTpNC2QLJtjjoC2+cwE1O13EffUb7Y5a9ozDCrSWeZWn+a3
+ iT9AsnCVwfE76gf/iFfFv/jU3C7FBlKEm/YBW5A==
+X-Google-Smtp-Source: AGHT+IGxW+1SQOW/hjBi7o8UbjyT2DcaFkvuNfI2f6FK1ZRsStq18tyXZyZ9KYXHh22zEmmhmUKOswcUmQ4A1Q7/6qI=
+X-Received: by 2002:a17:90b:3b87:b0:2a0:4495:1f3d with SMTP id
+ pc7-20020a17090b3b8700b002a044951f3dmr2595254pjb.0.1712742127619; Wed, 10 Apr
+ 2024 02:42:07 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/18] ASoC: dt-bindings: mediatek,mt8365-afe: Add
- audio afe document
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
+References: <20240403-amlogic-v6-4-upstream-dsi-ccf-vim3-v12-0-99ecdfdc87fc@linaro.org>
+ <20240403-amlogic-v6-4-upstream-dsi-ccf-vim3-v12-4-99ecdfdc87fc@linaro.org>
+In-Reply-To: <20240403-amlogic-v6-4-upstream-dsi-ccf-vim3-v12-4-99ecdfdc87fc@linaro.org>
+From: Nicolas Belin <nbelin@baylibre.com>
+Date: Wed, 10 Apr 2024 11:41:56 +0200
+Message-ID: <CAJZgTGE10CZiHvahxDu2mf8C0JS9UgQ_x-XCH-G8Vvjfp3CUCg@mail.gmail.com>
+Subject: Re: [PATCH v12 4/7] drm/meson: gate px_clk when setting rate
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Rob Herring <robh@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v3-0-16bb2c974c55@baylibre.com>
- <20240226-audio-i350-v3-1-16bb2c974c55@baylibre.com>
- <e0b48da7-b33c-45e4-b3f3-a6d71bb0afe2@linaro.org>
-Content-Language: en-US
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <e0b48da7-b33c-45e4-b3f3-a6d71bb0afe2@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Conor Dooley <conor+dt@kernel.org>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Jerome Brunet <jbrunet@baylibre.com>, Kevin Hilman <khilman@baylibre.com>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Jagan Teki <jagan@amarulasolutions.com>, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Wed, 10 Apr 2024 12:38:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,54 +94,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Le mer. 3 avr. 2024 =C3=A0 09:46, Neil Armstrong
+<neil.armstrong@linaro.org> a =C3=A9crit :
+>
+> Disable the px_clk when setting the rate to recover a fully
+> configured and correctly reset VCLK clock tree after the rate
+> is set.
+>
+> Fixes: 77d9e1e6b846 ("drm/meson: add support for MIPI-DSI transceiver")
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>  drivers/gpu/drm/meson/meson_dw_mipi_dsi.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c b/drivers/gpu/drm/=
+meson/meson_dw_mipi_dsi.c
+> index a6bc1bdb3d0d..a10cff3ca1fe 100644
+> --- a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
+> +++ b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
+> @@ -95,6 +95,7 @@ static int dw_mipi_dsi_phy_init(void *priv_data)
+>                 return ret;
+>         }
+>
+> +       clk_disable_unprepare(mipi_dsi->px_clk);
+>         ret =3D clk_set_rate(mipi_dsi->px_clk, mipi_dsi->mode->clock * 10=
+00);
+>
+>         if (ret) {
+> @@ -103,6 +104,12 @@ static int dw_mipi_dsi_phy_init(void *priv_data)
+>                 return ret;
+>         }
+>
+> +       ret =3D clk_prepare_enable(mipi_dsi->px_clk);
+> +       if (ret) {
+> +               dev_err(mipi_dsi->dev, "Failed to enable DSI Pixel clock =
+(ret %d)\n", ret);
+> +               return ret;
+> +       }
+> +
+>         switch (mipi_dsi->dsi_device->format) {
+>         case MIPI_DSI_FMT_RGB888:
+>                 dpi_data_format =3D DPI_COLOR_24BIT;
+>
+> --
+> 2.34.1
+>
 
+Looks good to me
 
-On 09/04/2024 17:46, Krzysztof Kozlowski wrote:
->> +    soc {
->> +        #address-cells = <2>;
->> +        #size-cells = <2>;
->> +
->> +        afe@11220000 {
-> Did you implement the comment or decided to keep afe?
-> 
-
-Though it was clear according to [1]:
-"
-Audio Front End, this is the same name used for other MTK SoC, to be
-consistent.
-
-Cook a new patch serie to change "afe" by "audio-controller" for all MTK
-SoC would be great.
-"
-
-I want to keep it and fix it later with ALL other MTK SoC.
-You didn't answer after that, I though it was ok for you...
-So if you don't agree with that, just tell me to change it instead of 
-let me think I've the choice.
-
-
-> BTW, whatever "consistency" you have in mind, it does not really matter
-> that much for that example. And for sure do not add incorrect code
-> intentionally just to fix it in next patch.
-
-I don't get your point.
-What do you mean by "do not add incorrect code intentionally" please ???
-
-
-My PoV: I implement my bindings aligned to ALL other MTK SoC, which have 
-been validated by you in the past. I can understand the copied code is 
-wrong, but I've suggested a solution and you didn't NACK it.
-
-I fell like you bully me. Are you ok to stop insinuating bad things 
-please and tell me directly if a fix is mandatory and if you are waiting 
-for a specific one, tell me directly to avoid this kind of unpleasant 
-talk and waste of time, I know maintainers are busy persons.
-
-Beside that, thanks for your reviews.
-
-[1]: 
-https://lore.kernel.org/all/eeb3329b-0558-4237-8343-4e11f65a6a35@baylibre.com/
-
--- 
-Regards,
-Alexandre
+Reviewed-by: Nicolas Belin <nbelin@baylibre.com>
