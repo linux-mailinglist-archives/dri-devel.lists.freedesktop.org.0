@@ -2,69 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B23189F1D2
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 14:15:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3428589F1D3
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 14:16:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAA311132EC;
-	Wed, 10 Apr 2024 12:15:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19533113064;
+	Wed, 10 Apr 2024 12:16:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="op2N46jT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="g+G9RV4B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C719F113307
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 12:15:31 +0000 (UTC)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 43A7YeaB030243; Wed, 10 Apr 2024 14:15:26 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- selector1; bh=MP03DxtV3A269tTmEUnJA4JKNFDmtFSn6T36kmgxjrU=; b=op
- 2N46jTg4xSbw/zkQSgAiVYnPL9mI7SDW2csYYk2lAOHFDDH8bRXYZSfE3fkv1bK+
- XIJ2vfFVN/gydOJ2BIPrN1WZ2wT4Mxf1Ixv2cUTBwrRO7mxqjfexoq7A1xVsslWN
- h+fpTGiVNnCLnABLXTma8Vi/KpirmZEUjh/NSwHzBLvf6J2ZbL13cBfLkxcV+g6f
- MK/9O+SMo0jAP560Zj5eLRMYo8Eln4gm29ouY22rdxgGUHrwJQRnFamBiDh3aC8B
- XkDFkhVAvCdfSpPNy+dZA8319BQLAIn3ItwlZhurgpZatO9zlGe1awNBy9fX1Os2
- e1qqyUv6MYfJeU8OD1Vg==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3xauh581ua-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 10 Apr 2024 14:15:26 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 64BEB40044;
- Wed, 10 Apr 2024 14:15:22 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id EC7D2223F1C;
- Wed, 10 Apr 2024 14:15:12 +0200 (CEST)
-Received: from [10.129.178.196] (10.129.178.196) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 10 Apr
- 2024 14:15:12 +0200
-Message-ID: <89c1e82f-92dc-4612-b9f6-30217bd8fec7@foss.st.com>
-Date: Wed, 10 Apr 2024 14:15:11 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72634113307
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 12:16:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 56FEA61C00;
+ Wed, 10 Apr 2024 12:16:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA30DC433C7;
+ Wed, 10 Apr 2024 12:16:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1712751390;
+ bh=uqgIbQjDdQ7mXlLuRp0MGBFFQHK0OHDSrqq0mSqlVPU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=g+G9RV4BO0X3JsN/4qj/fub/YCO1DybeOA5yiCnNbFx3qhkImsTvXTWQ79tkGkp1i
+ VUYo/Xh+LaQIJ3EyEZ1gfvBdVXQWpImOH3Ks5aDGqrtuu7ZRf959UinfC11+FR7nNy
+ 4M0WFulk4cnWOsQA0YA7SEISW7DLRwmtgHTwDf4pplsY9D5Ikf0fH3zDjT6Jr5Wui1
+ s8N61TgN8zWUlMmCSoSOF5Xa1dspvlcq51zUskwiRaJ36rsGZ5wf89rT5r8fxFRZpk
+ xf931uUP91Pl/8O+3CN2NdTNbzb6pEmifUJujQp40Mr7p3mYKFDqrmXin8Na+GBtLB
+ T6FpY0ioZg8og==
+Date: Wed, 10 Apr 2024 07:16:27 -0500
+From: Rob Herring <robh@kernel.org>
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
+ Niklas Cassel <cassel@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Thomas Gleixner <tglx@linutronix.de>, Bjorn Helgaas <bhelgaas@google.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Rich Felker <dalias@libc.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Lee Jones <lee@kernel.org>, Helge Deller <deller@gmx.de>,
+ Heiko Stuebner <heiko.stuebner@cherry.de>,
+ Shawn Guo <shawnguo@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+ Chris Morgan <macromorgan@hotmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Arnd Bergmann <arnd@arndb.de>, David Rientjes <rientjes@google.com>,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Baoquan He <bhe@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Kefeng Wang <wangkefeng.wang@huawei.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Guo Ren <guoren@kernel.org>, Azeem Shaikh <azeemshaikh38@gmail.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Jacky Huang <ychuang3@nuvoton.com>,
+ Herve Codina <herve.codina@bootlin.com>,
+ Manikanta Guntupalli <manikanta.guntupalli@amd.com>,
+ Anup Patel <apatel@ventanamicro.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>, Sergey Shtylyov <s.shtylyov@omp.ru>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-ide@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-fbdev@vger.kernel.org
+Subject: Re: [RESEND v7 12/37] dt-bindings: pci: pci-sh7751: Add SH7751 PCI
+Message-ID: <20240410121627.GA4069350-robh@kernel.org>
+References: <cover.1712207606.git.ysato@users.sourceforge.jp>
+ <5ab3c5952b49d7998734855e2ec1ee980795a724.1712207606.git.ysato@users.sourceforge.jp>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 21/21] drm/stm: Allow build with COMPILE_TEST=y
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-CC: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>
-References: <20240408170426.9285-1-ville.syrjala@linux.intel.com>
- <20240408170426.9285-22-ville.syrjala@linux.intel.com>
-Content-Language: en-US
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20240408170426.9285-22-ville.syrjala@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.129.178.196]
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-10_04,2024-04-09_01,2023-05-22_02
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5ab3c5952b49d7998734855e2ec1ee980795a724.1712207606.git.ysato@users.sourceforge.jp>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,39 +102,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ville
-
-On 4/8/24 19:04, Ville Syrjala wrote:
-> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
->
-> Allow stm to be built with COMPILE_TEST=y for greater
-> coverage. Builds fine on x86/x86_64 at least.
->
-> Cc: Yannick Fertre <yannick.fertre@foss.st.com>
-> Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-> Cc: Philippe Cornu <philippe.cornu@foss.st.com>
-> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-
-Thank you for this ! :)
-
-Acked-by: Raphaël Gallais-Pou <raphael.gallais-pou@foss.st.com>
-
-
+On Thu, Apr 04, 2024 at 02:14:23PM +0900, Yoshinori Sato wrote:
+> Renesas SH7751 PCI Controller json-schema.
+> 
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 > ---
->  drivers/gpu/drm/stm/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/stm/Kconfig b/drivers/gpu/drm/stm/Kconfig
-> index fa49cde43bb2..4c906d602825 100644
-> --- a/drivers/gpu/drm/stm/Kconfig
-> +++ b/drivers/gpu/drm/stm/Kconfig
-> @@ -1,7 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  config DRM_STM
->  	tristate "DRM Support for STMicroelectronics SoC Series"
-> -	depends on DRM && ARCH_STM32
-> +	depends on DRM && (ARCH_STM32 || COMPILE_TEST)
->  	select DRM_KMS_HELPER
->  	select DRM_GEM_DMA_HELPER
->  	select DRM_PANEL_BRIDGE
+>  .../bindings/pci/renesas,sh7751-pci.yaml      | 89 +++++++++++++++++++
+>  1 file changed, 89 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/pci/renesas,sh7751-pci.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/pci/renesas,sh7751-pci.yaml b/Documentation/devicetree/bindings/pci/renesas,sh7751-pci.yaml
+> new file mode 100644
+> index 000000000000..115c2bb67339
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/pci/renesas,sh7751-pci.yaml
+> @@ -0,0 +1,89 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/pci/renesas,sh7751-pci.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas SH7751 PCI Host controller
+> +
+> +maintainers:
+> +  - Yoshinori Sato <ysato@users.sourceforge.jp>
+> +
+> +allOf:
+> +  - $ref: /schemas/pci/pci-bus.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: renesas,sh7751-pci
+> +
+> +  reg:
+> +    minItems: 2
+> +    maxItems: 2
+> +
+> +  reg-names:
+> +    items:
+> +      - const: PCI Controller
+> +      - const: Bus State Controller
+> +
 
+> +  "#interrupt-cells":
+> +    const: 1
+> +
+> +  "#address-cells":
+> +    const: 3
+> +
+> +  "#size-cells":
+> +    const: 2
+> +
+> +  ranges: true
+> +
+> +  dma-ranges: true
+
+All 5 of these are defined in pci-bus-common.yaml, so you can drop them.
+
+> +
+> +  interrupt-controller: true
+> +
+> +  renesas,bus-arbit-round-robin:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description: |
+
+Don't need '|'.
+
+> +      Set DMA bus arbitration to round robin.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - "#interrupt-cells"
+
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - ranges
+
+These 3 are already required, so drop.
+
+> +  - interrupt-map
+> +  - interrupt-map-mask
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    pci@fe200000 {
+> +            compatible = "renesas,sh7751-pci";
+> +            #address-cells = <3>;
+> +            #size-cells = <2>;
+> +            #interrupt-cells = <1>;
+> +            interrupt-controller;
+> +            device_type = "pci";
+> +            bus-range = <0 0>;
+> +            ranges = <0x02000000 0 0xfd000000 0xfd000000 0 0x01000000>,
+> +                     <0x01000000 0 0x00000000 0xfe240000 0 0x00040000>;
+> +            dma-ranges = <0x02000000 0 0xc000000 0x0c000000 0 0x04000000>;
+> +            reg = <0xfe200000 0x0400>,
+> +                  <0xff800000 0x0100>;
+> +            interrupt-map = <0x0000 0 0 1 &julianintc 5 IRQ_TYPE_LEVEL_LOW>,
+> +                            <0x0000 0 0 2 &julianintc 6 IRQ_TYPE_LEVEL_LOW>,
+> +                            <0x0000 0 0 3 &julianintc 7 IRQ_TYPE_LEVEL_LOW>,
+> +                            <0x0000 0 0 4 &julianintc 8 IRQ_TYPE_LEVEL_LOW>,
+> +                            <0x0800 0 0 1 &julianintc 6 IRQ_TYPE_LEVEL_LOW>,
+> +                            <0x0800 0 0 2 &julianintc 7 IRQ_TYPE_LEVEL_LOW>,
+> +                            <0x0800 0 0 3 &julianintc 8 IRQ_TYPE_LEVEL_LOW>,
+> +                            <0x0800 0 0 4 &julianintc 5 IRQ_TYPE_LEVEL_LOW>,
+> +                            <0x1000 0 0 1 &julianintc 7 IRQ_TYPE_LEVEL_LOW>,
+> +                            <0x1000 0 0 2 &julianintc 8 IRQ_TYPE_LEVEL_LOW>,
+> +                            <0x1000 0 0 3 &julianintc 5 IRQ_TYPE_LEVEL_LOW>,
+> +                            <0x1000 0 0 4 &julianintc 6 IRQ_TYPE_LEVEL_LOW>;
+> +            interrupt-map-mask = <0x1800 0 0 7>;
+> +    };
+> -- 
+> 2.39.2
+> 
