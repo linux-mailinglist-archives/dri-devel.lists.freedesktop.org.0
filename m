@@ -2,56 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C7B28A0068
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 21:15:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDEC98A0069
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 21:16:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3807310E46B;
-	Wed, 10 Apr 2024 19:15:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AB6510E5B6;
+	Wed, 10 Apr 2024 19:16:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="O6D/MyhR";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="k/1OTCWt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81F2710E46B
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 19:15:30 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 02186CE2B57;
- Wed, 10 Apr 2024 19:15:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3F79C433C7;
- Wed, 10 Apr 2024 19:15:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1712776527;
- bh=Y8HrYr9N2X54zlXcRSCoc2hhNScMqkdWP9FAh9Krwpo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=O6D/MyhRjX4ilUEZ8v2TxELy3AD7IFMbhHI+0f3QYn6legTjbs42EOHPa6Zy/N1Cv
- 8YdZnZW13beNY1N/uwPLTXi/TBR2m5pfJzQ48FsByqAFNfWGKYGXjP3lH8eU47iMcN
- CSB/bud3Vs5fHAeuVXp7i9I4vmDpFB5W2U1iP6Z8oHNACDu9ZoGsmH7b8xVMCdLRjm
- giGQSJMdm9AAKD2Q+Mar3iE5l6Pq7TiMnEkuHcnLw+Xl8E8yOeEpYeAO4VuVf0msiJ
- CDs7PTm8dmFC/Pzq/Jg8gMPDsu6+wGfX2fqBHzQvlC4gxjU8Lrg0WmgZQrSfZDqG3+
- 92LTTQTuF6w+g==
-Date: Wed, 10 Apr 2024 14:15:24 -0500
-From: Rob Herring <robh@kernel.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: chunkuang.hu@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
- daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, matthias.bgg@gmail.com,
- shawn.sung@mediatek.com, yu-chang.lee@mediatek.com,
- ck.hu@mediatek.com, jitao.shi@mediatek.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, wenst@chromium.org,
- kernel@collabora.com
-Subject: Re: [PATCH v2 2/3] dt-bindings: arm: mediatek: mmsys: Add OF graph
- support for board path
-Message-ID: <20240410191524.GA903053-robh@kernel.org>
-References: <20240409120211.321153-1-angelogioacchino.delregno@collabora.com>
- <20240409120211.321153-3-angelogioacchino.delregno@collabora.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9AEA10E5B6;
+ Wed, 10 Apr 2024 19:15:55 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 43AJ7Jwa031087; Wed, 10 Apr 2024 19:15:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=3SWPpukViIY0sQ2aqkLXqWAo9nR5ackHJyG2D+3W6Uc=; b=k/
+ 1OTCWtPHHJyMD1T1tvy/2qchEgLvCsDrTxZ0b9eBfT+ET5dKVNFSAYlDrjPqK9rp
+ CxTr03vUzxUWcx/K8+GlhPafYcvqPQ8QJDz2beyK/SFqWOcx0CbIcxabx9EdKajl
+ 70WcuGDoW9CVhvazbGYlVwrGkMOtTQzChQTG415hM+ackNfwj0yudlmDkwD3nJlV
+ clbWDf14Gl05QUegABEizPflcIG7TlGk3f7kR4V4w1pMxe8QqjHa5f0ZDgxLUqs0
+ bOFqT9kjZon+P2lkAQS9vs1XpASjJUp2ZUsyfh/voq2uS/Zyz2HJMw0AObwboBcM
+ UAAhjaOJBGn11to9cr4A==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xe0hu81mn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 Apr 2024 19:15:48 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43AJFm0E006761
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 Apr 2024 19:15:48 GMT
+Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 10 Apr
+ 2024 12:15:47 -0700
+Message-ID: <bcdb4994-a11a-f80f-15a0-c82c9e34a0ea@quicinc.com>
+Date: Wed, 10 Apr 2024 12:15:46 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240409120211.321153-3-angelogioacchino.delregno@collabora.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 01/12] drm/msm: fix BPC1 -> BPC4
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+CC: Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20231202214016.1257621-1-dmitry.baryshkov@linaro.org>
+ <20231202214016.1257621-2-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20231202214016.1257621-2-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: n54uQs6Qb9M60lTG6xAgqeEEv7U-jnjD
+X-Proofpoint-ORIG-GUID: n54uQs6Qb9M60lTG6xAgqeEEv7U-jnjD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-10_04,2024-04-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0
+ spamscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0 priorityscore=1501
+ suspectscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
+ definitions=main-2404100141
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,59 +95,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 09, 2024 at 02:02:10PM +0200, AngeloGioacchino Del Regno wrote:
-> Document OF graph on MMSYS/VDOSYS: this supports up to three DDP paths
-> per HW instance (so potentially up to six displays for multi-vdo SoCs).
+
+
+On 12/2/2023 1:40 PM, Dmitry Baryshkov wrote:
+> Fix enum mdp_bpc::BPC1 value to be BPC4 instead (as shown in the DPU
+> driver). This commit should be replaced with the registers sync with
+> Mesa instead.
 > 
-> The MMSYS or VDOSYS is always the first component in the DDP pipeline,
-> so it only supports an output port with multiple endpoints - where each
-> endpoint defines the starting point for one of the (currently three)
-> possible hardware paths.
-> 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  .../bindings/arm/mediatek/mediatek,mmsys.yaml | 23 +++++++++++++++++++
->  1 file changed, 23 insertions(+)
+>   drivers/gpu/drm/msm/disp/mdp_common.xml.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-> index b3c6888c1457..4e9acd966aa5 100644
-> --- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-> +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-> @@ -93,6 +93,29 @@ properties:
->    '#reset-cells':
->      const: 1
->  
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
-> +    description:
-> +      Output port node. This port connects the MMSYS/VDOSYS output to
-> +      the first component of one display pipeline, for example one of
-> +      the available OVL or RDMA blocks.
-> +      Some MediaTek SoCs support up to three display outputs per MMSYS.
 
-I'm have a hard time understanding this, but is it 3 outputs 
-simultaneously or connect mmsys to 1 of 3. Generally it's multiple ports 
-for the former and endpoints for the latter.
-
-> +    properties:
-> +      endpoint@0:
-> +        $ref: /schemas/graph.yaml#/properties/endpoint
-> +        description: Output to the primary display pipeline
-> +
-> +      endpoint@1:
-> +        $ref: /schemas/graph.yaml#/properties/endpoint
-> +        description: Output to the secondary display pipeline
-> +
-> +      endpoint@2:
-> +        $ref: /schemas/graph.yaml#/properties/endpoint
-> +        description: Output to the tertiary display pipeline
-> +
-> +    required:
-> +      - endpoint@0
-> +
->  required:
->    - compatible
->    - reg
-> -- 
-> 2.44.0
-> 
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
