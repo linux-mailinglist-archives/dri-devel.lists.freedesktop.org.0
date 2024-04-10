@@ -2,65 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9105889FAE4
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 17:00:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C5689FAED
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 17:02:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 976C01133EF;
-	Wed, 10 Apr 2024 15:00:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFA771133F1;
+	Wed, 10 Apr 2024 15:02:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="2OHlHTn6";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gXma+fnC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E9F41133E9
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 15:00:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1712761237;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=M7TbgmR15fUYIO1G4L4ZqQXlgG8ohcl+qb8Wp0ehvr8=;
- b=2OHlHTn6OMO4uk7hRd1TizpmugQw75/YCcxxQ50lF4XgIxZKKMXUx7m29MG3iIR9nJ1bdN
- 7Fmk1GGoK48dEyhdjBnl2GNyqnitfdwLyRGosNN/btAaSDpXIluNVkJo26UlFFGX5JWv2D
- ITx6xpUGwEVcPIXhL8B6vLOMXviPXJU=
-Message-ID: <60659ae26e88491a51ecbff3f273444d334c5c87.camel@crapouillou.net>
-Subject: Re: [PATCH v2 25/43] drm/ingenic: Use fbdev-dma
-From: Paul Cercueil <paul@crapouillou.net>
-To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
- deller@gmx.de,  airlied@gmail.com, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Date: Wed, 10 Apr 2024 17:00:35 +0200
-In-Reply-To: <20240410130557.31572-26-tzimmermann@suse.de>
-References: <20240410130557.31572-1-tzimmermann@suse.de>
- <20240410130557.31572-26-tzimmermann@suse.de>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
- LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
- FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
- z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
- +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
- 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
- 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
- 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
- dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
- 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
- rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
- lBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFC
- qaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IWYXnd
- JO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN70
- 62DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOt
- X0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEA
- AYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/
- Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmc
- Gu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2z
- McLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/
- 7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2c
- LUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5822810E23A
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 15:02:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id A754B61DF9;
+ Wed, 10 Apr 2024 15:02:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B563C43390;
+ Wed, 10 Apr 2024 15:02:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1712761347;
+ bh=IOowjB6zmv7LWIIHnvL4MTPFjatrAlEyg+PbmUZJMpc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=gXma+fnCrP+8JcafhxFRa8FwqmzMRCM6LT9J47FvXt3BW8mZFWTBRpAU3xsGFCDQW
+ OjWGzbMYCxYOZme9arf3D++/Dj+aAjbdfiyEcrhamdQTpGekuevl5GpW2loZwGooQK
+ 3f+jYvPaMLEQZ8FRE3npnk/eQiPY9X9Z+vh0zdFDOA7ZjVkL644A792E+F6KEMp51C
+ 5098qAjwdTTAmTriGVmyjqlxkVyi2Dljg79fZ4aISlWHf5LzbC2UwzmHbvjpUgw4dO
+ Xvt2GRE9TR4FACx0cvbn8pTfnWDoxmG36K0J6sjNBr5yPAdybjZjnkXJWI8PQEmuIj
+ SSHZg/INvS7bQ==
+Date: Wed, 10 Apr 2024 08:02:25 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Julien Panis <jpanis@baylibre.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Russell King
+ <linux@armlinux.org.uk>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
+ <andrew@lunn.ch>, Ratheesh Kannoth <rkannoth@marvell.com>, Naveen
+ Mamindlapalli <naveenm@marvell.com>, danishanwar@ti.com,
+ yuehaibing@huawei.com, rogerq@kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH net-next v8 3/3] net: ethernet: ti: am65-cpsw: Add
+ minimal XDP support
+Message-ID: <20240410080225.2e024f7c@kernel.org>
+In-Reply-To: <9cb903df-3e83-409a-aa4b-218742804cc6@baylibre.com>
+References: <20240223-am65-cpsw-xdp-basic-v8-0-f3421b58da09@baylibre.com>
+ <20240223-am65-cpsw-xdp-basic-v8-3-f3421b58da09@baylibre.com>
+ <20240409174928.58a7c3f0@kernel.org>
+ <9cb903df-3e83-409a-aa4b-218742804cc6@baylibre.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,46 +72,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le mercredi 10 avril 2024 =C3=A0 15:02 +0200, Thomas Zimmermann a =C3=A9cri=
-t=C2=A0:
-> Implement fbdev emulation with fbdev-dma. Fbdev-dma now supports
-> damage handling, which is required by ingenic. Avoids the overhead of
-> fbdev-generic's additional shadow buffering. No functional changes.
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Paul Cercueil <paul@crapouillou.net>
+On Wed, 10 Apr 2024 16:02:00 +0200 Julien Panis wrote:
+> > You shouldn't build the skb upfront any more. Give the page to the HW,
+> > once HW sends you a completion - build the skbs. If build fails
+> > (allocation failure) just give the page back to HW. If it succeeds,
+> > however, you'll get a skb which is far more likely to be cache hot.  
+> 
+> Not sure I get this point.
+> 
+> "Give the page to the HW" = Do you mean that I should dma_map_single()
+> a full page (|PAGE_SIZE|) in am65_cpsw_nuss_rx_push() ?
 
-Acked-by: Paul Cercueil <paul@crapouillou.net>
-
-Cheers,
--Paul
-
-> ---
-> =C2=A0drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 4 ++--
-> =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> index 0751235007a7e..39fa291f43dd1 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> @@ -31,7 +31,7 @@
-> =C2=A0#include <drm/drm_encoder.h>
-> =C2=A0#include <drm/drm_gem_dma_helper.h>
-> =C2=A0#include <drm/drm_fb_dma_helper.h>
-> -#include <drm/drm_fbdev_generic.h>
-> +#include <drm/drm_fbdev_dma.h>
-> =C2=A0#include <drm/drm_fourcc.h>
-> =C2=A0#include <drm/drm_framebuffer.h>
-> =C2=A0#include <drm/drm_gem_atomic_helper.h>
-> @@ -1399,7 +1399,7 @@ static int ingenic_drm_bind(struct device *dev,
-> bool has_components)
-> =C2=A0		goto err_clk_notifier_unregister;
-> =C2=A0	}
-> =C2=A0
-> -	drm_fbdev_generic_setup(drm, 32);
-> +	drm_fbdev_dma_setup(drm, 32);
-> =C2=A0
-> =C2=A0	return 0;
-> =C2=A0
-
+Yes, I think so. I think that's what you effectively do now anyway,
+you just limit the len and wrap it in an skb. But
+am65_cpsw_nuss_rx_push() will effectively get that page back from
+skb->data and map it.
