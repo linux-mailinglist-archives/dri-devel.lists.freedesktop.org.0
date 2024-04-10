@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5158E89EE5F
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 11:15:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DD0D89EE67
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 11:15:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46CCB10E975;
-	Wed, 10 Apr 2024 09:15:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 904D210E990;
+	Wed, 10 Apr 2024 09:15:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="S3dmSkje";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fEHdaosG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B15910E975
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 09:15:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F7A610E990
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 09:15:20 +0000 (UTC)
 Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
  [91.154.34.181])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3E8D73A4;
- Wed, 10 Apr 2024 11:14:19 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 33D5C3A4;
+ Wed, 10 Apr 2024 11:14:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1712740459;
- bh=9UIcHJL37tRckNTsH6gQjw5ZPpCDHpJqdQnl0Dry3mA=;
+ s=mail; t=1712740477;
+ bh=WqRzxgy88qZpnmp/9uPVQE45IHKdEgip0oWVu5gHSas=;
  h=Date:Subject:To:References:From:In-Reply-To:From;
- b=S3dmSkje1WOe5+HHYkDCjR0h+8SWkTvF0kdoO2l6hNMoFE9IJ7u8s+5FjcBHaz93k
- Okx/x6R9lGxH1/2SZU5K+9iQvJp5yuxrgE+x6ue0VN+Zz+EU4vJviKDEmVn9E5bAHH
- l0271U8+DzOqTcDYjsqocHZYTdItfkpiFdABp+Tc=
-Message-ID: <2ce8092d-9240-4cf5-8082-287c385d5bca@ideasonboard.com>
-Date: Wed, 10 Apr 2024 12:14:58 +0300
+ b=fEHdaosGAtXYzaNSIUqfZ+3i+XDZojXuHC6Cj3RGZBOUhjMJifcvAHlX8aQR2+FNj
+ JPwI53MJf9MkEAGnVcC7h+a+9dMAGC+LGXnT9/MuA19VKpGRN39ikpTSXTp57QOXx0
+ Dgrk0NrTVzN0fMwF7Q90i+FmGamkKTkZxREp2cfs=
+Message-ID: <d68afd4c-667c-437f-afba-1c82510cc1e5@ideasonboard.com>
+Date: Wed, 10 Apr 2024 12:15:16 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 14/21] drm/omap: Open code phys_to_page()
+Subject: Re: [PATCH 15/21] drm/omap: Allow build with COMPILE_TEST=y
 To: Ville Syrjala <ville.syrjala@linux.intel.com>,
  dri-devel@lists.freedesktop.org
 References: <20240408170426.9285-1-ville.syrjala@linux.intel.com>
- <20240408170426.9285-15-ville.syrjala@linux.intel.com>
-Content-Language: en-US
+ <20240408170426.9285-16-ville.syrjala@linux.intel.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
  wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
@@ -81,7 +81,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240408170426.9285-15-ville.syrjala@linux.intel.com>
+In-Reply-To: <20240408170426.9285-16-ville.syrjala@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,31 +102,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 08/04/2024 20:04, Ville Syrjala wrote:
 > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > 
-> phys_to_page() is not available on most architectures.
-> Just open code it like msm does. Allows COMPILE_TEST=y
-> builds of omapdrm on other architectures.
+> Allow omapdrm to be built with COMPILE_TEST=y for greater
+> coverage.
+> 
+> FIXME: Still borked due to ?
 > 
 > Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > ---
->   drivers/gpu/drm/omapdrm/omap_gem.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/omapdrm/Kconfig | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/omapdrm/omap_gem.c b/drivers/gpu/drm/omapdrm/omap_gem.c
-> index 3421e8389222..c4454e7f1c94 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_gem.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_gem.c
-> @@ -1022,8 +1022,8 @@ struct sg_table *omap_gem_get_sg(struct drm_gem_object *obj,
->   
->   	if (addr) {
->   		for_each_sg(sgt->sgl, sg, count, i) {
-> -			sg_set_page(sg, phys_to_page(addr), len,
-> -				offset_in_page(addr));
-> +			sg_set_page(sg, pfn_to_page(__phys_to_pfn(addr)),
-> +				    len, offset_in_page(addr));
->   			sg_dma_address(sg) = addr;
->   			sg_dma_len(sg) = len;
->   
+> diff --git a/drivers/gpu/drm/omapdrm/Kconfig b/drivers/gpu/drm/omapdrm/Kconfig
+> index 6c49270cb290..85ed92042b74 100644
+> --- a/drivers/gpu/drm/omapdrm/Kconfig
+> +++ b/drivers/gpu/drm/omapdrm/Kconfig
+> @@ -2,7 +2,7 @@
+>   config DRM_OMAP
+>   	tristate "OMAP DRM"
+>   	depends on DRM && OF
+> -	depends on ARCH_OMAP2PLUS
+> +	depends on ARCH_OMAP2PLUS || COMPILE_TEST
+>   	select DRM_KMS_HELPER
+>   	select FB_DMAMEM_HELPERS_DEFERRED if DRM_FBDEV_EMULATION
+>   	select VIDEOMODE_HELPERS
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
