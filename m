@@ -2,50 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B3D489ED99
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 10:29:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5AA989EDB6
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 10:36:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0B9B10E830;
-	Wed, 10 Apr 2024 08:29:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCE5A10E8BB;
+	Wed, 10 Apr 2024 08:36:27 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ZJA8ubNg";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D5A410E830
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 08:29:29 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1ruTKg-0007cr-Fg; Wed, 10 Apr 2024 10:29:26 +0200
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1ruTKf-00BSdI-RC; Wed, 10 Apr 2024 10:29:25 +0200
-Received: from pza by lupine with local (Exim 4.96)
- (envelope-from <p.zabel@pengutronix.de>) id 1ruTKf-000463-2X;
- Wed, 10 Apr 2024 10:29:25 +0200
-Message-ID: <4969fb7a602fca2354b8d812a0f48bf495d7941e.camel@pengutronix.de>
-Subject: Re: [PATCH 4/4] gpu: ipu-v3: Convert to platform remove callback
- returning void
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Wed, 10 Apr 2024 10:29:25 +0200
-In-Reply-To: <dee3c0e1c8c6bd1027a91c65be55ac1d6ba9e099.1712681770.git.u.kleine-koenig@pengutronix.de>
-References: <cover.1712681770.git.u.kleine-koenig@pengutronix.de>
- <dee3c0e1c8c6bd1027a91c65be55ac1d6ba9e099.1712681770.git.u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2950910E8BB
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 08:36:22 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-516db2214e6so5366994e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 01:36:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712738180; x=1713342980;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=j9442A62TET00hjBhezvrYLKwHX+oM+EzqcfF+cyAB4=;
+ b=ZJA8ubNgJ9tiz3JTKYahYXW5dnBFe/4h3wGyNLecyuvfzhtkG9CX0p/Vgm1aURlmfZ
+ fyZUJVhfLsiQ+o4GfdmwKQ446QArTOvCG78YGJ0SX1ZOuUlZ4P6YxeU6oWSNYsK8W3e9
+ lhg0JM8amQvtOYgqoZev5+st3quj/D2tPe2Nng7VSH4coYJqVdMq8vtPPK+HfHh6o2Vb
+ hVsPjGjP7JLwwYvdsN1fszDMBnnQ5JB196Ubt7Gdxz6dtVnG78B94ZDqhPYWf3ysS1dy
+ Fk5vdZJnT3hJs7FEfCPmc8awYDLc+zukwdTxDDeFuKvQPXi1QH2gr0ziZa9KB5m/DyK0
+ WZUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712738180; x=1713342980;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=j9442A62TET00hjBhezvrYLKwHX+oM+EzqcfF+cyAB4=;
+ b=rQoVdD7pA8duKaczqnhYS4MaX0lEnm5TcT4s5jZc+x34jbAPByVmuEJT7GE0JeuVyN
+ 4MdKdG/8XPighbXZ2yaZ8hsKSGJVkpjeHdQs4xrSB+vcv+mdrf0AED3Vl8LONdRV+BOr
+ djKqc+rWFQ78RmWyl7SVfiiN82OPKcI/PRI5nISeCmzwUpqVrdhRCjKK9JFc/X1IdNTF
+ W9EDZVePavRrKglXKHDD3im7ouTeuUWeCx+GZRadcz0X/S6orDxgZ+D0613hBgeEJ1ky
+ 0zB/GRN0VKCKTXT3Z1xPxABkeaNenICJPtOtcv/q01Ntwn16T7tHKz0d81UHV52yAxQY
+ N84A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW8rW3OZPdW/TmbVoNgA52d29SP9q4pi3VYmQyqRtnEATy/x+Wgaqrrn5Kjp/wQm+nYuctt6UBWzNFZOxeBvaBJ4j6YGDacwe6B3RXY0psr
+X-Gm-Message-State: AOJu0Ywzz8VT3VvH9lRbo0MI74yJ664zw13W14ERtVblp+2R22LoCxmR
+ 3lkI//HPm5FB0qCFYRHjZDXMXUfjW577wVOGJE0914NGOb5YFPUxTuA6pnQc0+k=
+X-Google-Smtp-Source: AGHT+IFjuM+EmbthlDbYjlSk1kmQ8trGtibZz10xcKh0nWxgzTalqLJgyFM1d4+Ue232gWWi76+xmw==
+X-Received: by 2002:ac2:54a4:0:b0:516:c11a:4dbc with SMTP id
+ w4-20020ac254a4000000b00516c11a4dbcmr981724lfk.22.1712738180088; 
+ Wed, 10 Apr 2024 01:36:20 -0700 (PDT)
+Received: from [192.168.1.70] ([84.102.31.74])
+ by smtp.gmail.com with ESMTPSA id
+ iv6-20020a05600c548600b00417bc4820acsm528157wmb.0.2024.04.10.01.36.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Apr 2024 01:36:19 -0700 (PDT)
+Message-ID: <6f356fec-4384-4367-8812-a18b71156116@baylibre.com>
+Date: Wed, 10 Apr 2024 10:36:16 +0200
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v8 2/3] net: ethernet: ti: Add desc_infos member
+ to struct k3_cppi_desc_pool
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Russell King <linux@armlinux.org.uk>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Simon Horman <horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+ Ratheesh Kannoth <rkannoth@marvell.com>,
+ Naveen Mamindlapalli <naveenm@marvell.com>, danishanwar@ti.com,
+ yuehaibing@huawei.com, rogerq@kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20240223-am65-cpsw-xdp-basic-v8-0-f3421b58da09@baylibre.com>
+ <20240223-am65-cpsw-xdp-basic-v8-2-f3421b58da09@baylibre.com>
+ <20240409173948.66abe6fa@kernel.org>
+Content-Language: en-US
+From: Julien Panis <jpanis@baylibre.com>
+In-Reply-To: <20240409173948.66abe6fa@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,23 +102,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Di, 2024-04-09 at 19:02 +0200, Uwe Kleine-K=C3=B6nig wrote:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is ignored (apart
-> from emitting a warning) and this typically results in resource leaks.
->=20
-> To improve here there is a quest to make the remove callback return
-> void. In the first step of this quest all drivers are converted to
-> .remove_new(), which already returns void. Eventually after all drivers
-> are converted, .remove_new() will be renamed to .remove().
->=20
-> Trivially convert the ipu-v3 platform drivers from always returning zero
-> in the remove callback to the void returning variant.
->=20
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+On 4/10/24 02:39, Jakub Kicinski wrote:
+> On Mon, 08 Apr 2024 11:38:03 +0200 Julien Panis wrote:
+>>   		goto gen_pool_create_fail;
+>>   	}
+>>   
+>> +	pool->desc_infos = kcalloc(pool->num_desc,
+>> +				   sizeof(*pool->desc_infos), GFP_KERNEL);
+>> +	if (!pool->desc_infos) {
+>> +		ret = -ENOMEM;
+>> +		dev_err(pool->dev,
+>> +			"pool descriptor infos alloc failed %d\n", ret);
+> Please don't add errors on mem alloc failures. They just bloat the
+> kernel, there will be a rather large OOM splat in the logs if GFP_KERNEL
+> allocation fails.
+>
+>> +		kfree_const(pool_name);
+>> +		goto gen_pool_desc_infos_alloc_fail;
+>> +	}
+>> +
+>>   	pool->gen_pool->name = pool_name;
+> If you add the new allocation after this line, I think you wouldn't
+> have to free pool_name under the if () explicitly.
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Hello Jakub,
 
-regards
-Philipp
+Thanks for these suggestions, I'll implement them in next version.
+
+Also, about mem alloc failures, shouldn't we free 'pool' on kstrdup_const()
+error at the beginning of k3_cppi_desc_pool_create_name() ?
+I mean, it's not visible in my patch but I now wonder if this was done
+properly even before I modify the file.
+
+Currently, we have:
+     pool_name = kstrdup_const(...)
+     if (!pool_name)
+         return ERR_PTR(ret);
+
+Shouldnt we have instead:
+     pool_name = kstrdup_const(...)
+     if (!pool_name)
+         goto gen_pool_create_fail;
+(maybe label to be renamed)
+...so that 'pool' can be freed before returning error.
+
+Julien
