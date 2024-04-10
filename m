@@ -2,74 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D1FF89F3DA
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 15:18:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D911089F3F5
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 15:20:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 508D011337E;
-	Wed, 10 Apr 2024 13:17:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 697B6113385;
+	Wed, 10 Apr 2024 13:20:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WDlmmzeA";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="eryf69YH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com
- [209.85.219.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA0D8113382
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 13:17:52 +0000 (UTC)
-Received: by mail-yb1-f174.google.com with SMTP id
- 3f1490d57ef6-dbed179f0faso5567603276.1
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 06:17:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712755071; x=1713359871; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=aaut2pBnJQwsZ84leifBiD3Jd/zh/CW3q55Aw0Cq/FM=;
- b=WDlmmzeAipZw3rzuEAAvYN5Rhc1x5xsMHJ80h7+joBYNour5XQaKq1yvolGO8EkpG1
- 0e8arROZCm+6pbZcXGFaRToVDi0p64yJBg6IT2WIccOpPjF0DSy4xKv6/I+TDm/T1m10
- l1aGtckNOmiWLnk1J7TSYr1u3TFZVPJLbsEIQOVMuPC+u+MSYrnJtdfWuq93PUEULOIp
- 6MSb9QKe1mYxkWN5yWYL8FhcIibsrMU2S44KlI5+cqC4h1xsGSKWgPES7rw/+kU4wy5u
- qMUEKyoIn1gGwZ6gk32iCT6mpa5/pTvL7XPGO5Qbl474CxBDEzlVCDq21LNWKG24MT9A
- SxOg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BF5F113385
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 13:20:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1712755230;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4ETAJsDKvc5B7lB1rhXcx7y8Da9mQJUUywbUXeVTtPA=;
+ b=eryf69YHD5BmzkRGlDPF8vN9wvGBBzqR+ObRj8mzw4dYpnSgOD+IUW9t+SsXDf5CsYjDtK
+ wAhyclPwWKQ0po/yH5iouvB1n7kMvzW81vL/1r052nOiVBKZti7olq1CQhzjdYB/A7xWKy
+ yyuKz98f60B/7rQP5uBV4wkyv77qRQw=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-526-JXOXY5ZcOqmsplI5QEhfEA-1; Wed, 10 Apr 2024 09:20:28 -0400
+X-MC-Unique: JXOXY5ZcOqmsplI5QEhfEA-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ a640c23a62f3a-a5199cc13b2so472171866b.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 06:20:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712755071; x=1713359871;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=aaut2pBnJQwsZ84leifBiD3Jd/zh/CW3q55Aw0Cq/FM=;
- b=a4NOCqFbMbkUq0e/wwTMa/xE7gMAVd7C4Y8By2UMOH1KOe6H/R0urhYYhVSKXXqNZJ
- +0EfD6/hSEWZ95uycMI55zq92IOkkR4H3bKSAFXl+tV4QDi6JJFrrYfl8VVBvMAdzlcg
- 2k5pUHWa21fg+kyOAUTmn1wR0GI9yN7U4/gOvrdPO9tNos4CF2nyzswEhBcAxVI7GfpP
- uSts5y2v7CrtrD52c0zvReVU2H1D9yEJzoNQlaI8gzMjBxypxBpjKMA7hJmuTO47ElFx
- dD8wn1YB+bjTZuXgPWpr8Qly2t9PzUDJsokSzcEZ018b79TXrvMw1JK/R5fPCva+I48r
- 6fOg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXimQcVIOZip0WFwx2p+uevaPUaXLTux/LtOu7R974/9s96atG4s8K9f9vjaEFvqjAVVvz85Cj3ia8lo2vQ7CJGCfaVJBT7bxWC2WnB7e9V
-X-Gm-Message-State: AOJu0YzGN0nRI4AuakIT9KLGJYeeH2RhcD4pxHTMpv8oTSKCJcFTzPaV
- BNNWaZkEbrj48NmcTn/4D86bnsEMsztVKcbgRQ0Z7K8SJyk0ChJWyW28GCZX8z2eeee7XWQZhfH
- 1DA8mUAIgFA6QojijVTP7fPFpfP+8tEzi1qtvgQ==
-X-Google-Smtp-Source: AGHT+IFmS5w8AhK8kbcytc2bVAvW9AcSbo4jeQurDEFNC0cSxmV8ZNFN2AK5/kDoM6WitX7Tu3IUL/kE2njb2JKBLgs=
-X-Received: by 2002:a25:8b08:0:b0:dcc:623e:1b5d with SMTP id
- i8-20020a258b08000000b00dcc623e1b5dmr1525941ybl.31.1712755070932; Wed, 10 Apr
- 2024 06:17:50 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1712755227; x=1713360027;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4ETAJsDKvc5B7lB1rhXcx7y8Da9mQJUUywbUXeVTtPA=;
+ b=mObLwgPoUcje5sXcnLNQpdv2aw/8NCldbvc1HfX2aLvnc4Z0o30N6dFMKc2YglbfW4
+ wiY46oIOWwPVpQKn5/HlhHSuPnTRxj6RTJCPcqLfzoWUATGn9JqivTiBhXS2SBo3yTYe
+ nOZQCvlgHmlBRenbgO88RJMiZR6Tu5XC8vhoI9W1NCuNQhppHqROn8lq2Z8Hxxs5xuMo
+ rnQnlVJYgzTxwe6hB6P1xvxJn7p1y1KMu2+BIliVDgjd8qlZbqxk54rKiV12oPYLr7al
+ qOXoNmWVEx1My4jevxudKBIbNFBy6gxulcrTwuol81ngkdKArWlvXU0Z/VILL4gDgZEP
+ APVQ==
+X-Gm-Message-State: AOJu0YyLehaKsUe5NNwKTK36Pu1zKuULBZ8kYSBc9SWNZxtrlWkMVfw5
+ VCi0q8KKC+JXUs5nmEkn8qlJU5b4tOtB8nNek5LrO5vk6NtKH0oxYEtdtQxhYEBXu+a8GuN16cP
+ 3A2131hrXUlS/pbuWzS3CJW+jRVnd0CnmH7hRYFsB8J/4B1moxakV+tvSbPMbRR2QqA==
+X-Received: by 2002:a17:906:3503:b0:a51:fffa:c357 with SMTP id
+ r3-20020a170906350300b00a51fffac357mr3276203eja.8.1712755226948; 
+ Wed, 10 Apr 2024 06:20:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFDjoGPH7+ZwwHniOhWTpD4SzAjPGhJL2COHyZPehGncID3cjxgZJxE+T0o+2qPZqTpiPpPQQ==
+X-Received: by 2002:a17:906:3503:b0:a51:fffa:c357 with SMTP id
+ r3-20020a170906350300b00a51fffac357mr3276183eja.8.1712755226541; 
+ Wed, 10 Apr 2024 06:20:26 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
+ (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+ by smtp.gmail.com with ESMTPSA id
+ jl7-20020a17090775c700b00a4e70ede2b7sm7018744ejc.174.2024.04.10.06.20.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Apr 2024 06:20:25 -0700 (PDT)
+Message-ID: <feabcce4-44aa-4b30-ac1f-b2313ddfac15@redhat.com>
+Date: Wed, 10 Apr 2024 15:20:24 +0200
 MIME-Version: 1.0
-References: <20240408085523.12231-1-amishin@t-argos.ru>
- <CAA8EJppTM4tpsFaZKupPe=0Oc9qDp7dBqHyHGP4E5bTHKT=hSw@mail.gmail.com>
- <2b06e6b2-6fa0-48fa-800b-7aad6735daa6@t-argos.ru>
-In-Reply-To: <2b06e6b2-6fa0-48fa-800b-7aad6735daa6@t-argos.ru>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 10 Apr 2024 16:17:39 +0300
-Message-ID: <CAA8EJpq2=wFEY6GnKBHqnXPdrMs-g-iNuT=DaJddKbFCyBb=Sg@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dpu: Add callback function pointer check before
- its call
-To: Aleksandr Mishin <amishin@t-argos.ru>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- lvc-project@linuxtesting.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 15/43] drm/tiny/gm12u320: Use fbdev-shmem
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+ deller@gmx.de, airlied@gmail.com, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+References: <20240410130557.31572-1-tzimmermann@suse.de>
+ <20240410130557.31572-16-tzimmermann@suse.de>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20240410130557.31572-16-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,68 +95,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 10 Apr 2024 at 14:53, Aleksandr Mishin <amishin@t-argos.ru> wrote:
-> On 08.04.2024 12:03, Dmitry Baryshkov wrote:
-> > On Mon, 8 Apr 2024 at 11:57, Aleksandr Mishin <amishin@t-argos.ru> wrote:
-> >>
-> >> In dpu_core_irq_callback_handler() callback function pointer is compared to NULL,
-> >> but then callback function is unconditionally called by this pointer.
-> >> Fix this bug by adding conditional return.
-> >>
-> >> Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> >
-> > This should be converted to a proper Reported-by: trailer.
-> >
->
-> It is an established practice for our project, you can find 700+ applied
-> patches with similar line:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/?qt=grep&q=linuxtesting.org
+Hi,
 
-Is there any reason why your project doesn't follow established
-guidelines? Compare this to other robots.
+On 4/10/24 3:02 PM, Thomas Zimmermann wrote:
+> Implement fbdev emulation with fbdev-shmem. Avoids the overhead of
+> fbdev-generic's additional shadow buffering. No functional changes.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Hans de Goede <hdegoede@redhat.com>
 
-Anyway:
+Thanks, patch looks good to me:
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
->
-> >>
-> >> Fixes: c929ac60b3ed ("drm/msm/dpu: allow just single IRQ callback")
-> >> Signed-off-by: Aleksandr Mishin <amishin@t-argos.ru>
-> >> ---
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 4 +++-
-> >>   1 file changed, 3 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> >> index 946dd0135dff..03a16fbd4c99 100644
-> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> >> @@ -223,9 +223,11 @@ static void dpu_core_irq_callback_handler(struct dpu_kms *dpu_kms, unsigned int
-> >>
-> >>          VERB("IRQ=[%d, %d]\n", DPU_IRQ_REG(irq_idx), DPU_IRQ_BIT(irq_idx));
-> >>
-> >> -       if (!irq_entry->cb)
-> >> +       if (!irq_entry->cb) {
-> >>                  DRM_ERROR("no registered cb, IRQ=[%d, %d]\n",
-> >>                            DPU_IRQ_REG(irq_idx), DPU_IRQ_BIT(irq_idx));
-> >> +               return;
-> >> +       }
-> >>
-> >>          atomic_inc(&irq_entry->count);
-> >>
-> >> --
-> >> 2.30.2
-> >>
-> >>
-> >
-> >
->
-> --
-> Kind regards
-> Aleksandr
+Regards,
+
+Hans
 
 
 
--- 
-With best wishes
-Dmitry
+> ---
+>  drivers/gpu/drm/tiny/gm12u320.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u320.c
+> index 0187539ff5eaa..8b4efd39d7c41 100644
+> --- a/drivers/gpu/drm/tiny/gm12u320.c
+> +++ b/drivers/gpu/drm/tiny/gm12u320.c
+> @@ -13,7 +13,7 @@
+>  #include <drm/drm_damage_helper.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_edid.h>
+> -#include <drm/drm_fbdev_generic.h>
+> +#include <drm/drm_fbdev_shmem.h>
+>  #include <drm/drm_file.h>
+>  #include <drm/drm_format_helper.h>
+>  #include <drm/drm_fourcc.h>
+> @@ -699,7 +699,7 @@ static int gm12u320_usb_probe(struct usb_interface *interface,
+>  	if (ret)
+>  		goto err_put_device;
+>  
+> -	drm_fbdev_generic_setup(dev, 0);
+> +	drm_fbdev_shmem_setup(dev, 0);
+>  
+>  	return 0;
+>  
+
