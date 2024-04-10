@@ -2,87 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 110288A0127
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 22:18:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0042C8A0160
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 22:40:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8246113371;
-	Wed, 10 Apr 2024 20:18:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2312C10E91B;
+	Wed, 10 Apr 2024 20:40:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="A+Ab6VUm";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="WgYXx2AJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A24E113371;
- Wed, 10 Apr 2024 20:18:51 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 728A310E912;
+ Wed, 10 Apr 2024 20:40:10 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 43AJUHVb012607; Wed, 10 Apr 2024 20:18:46 GMT
+ 43AJubqD011001; Wed, 10 Apr 2024 20:40:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  message-id:date:mime-version:subject:to:cc:references:from
  :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=54q0PWWHwnBwPLnPjMHx3wvCrOzacLFWxrdKSsC6Opk=; b=A+
- Ab6VUmc1pfiX+AI8D0TvdHQMw/n2CFSjkRdUyFIpJiWUrMVhKRxDh7dHqXVFWq++
- AP0sOemT0ehOQGqY/4B+Pej6YoZoSDgGxlfrEVMl6VRN9VWLh92Ixtc+SGsxjmIk
- Vv++lWpDfMe5kwWAJsFgiL1qpEETQ6G42RENRYvl68g3x12T9ebgI5T0zIf5cbFC
- CrOd2T7wKmK2TAfX7GdQlOWWyJ9gSYm6r0fVnl10yFLbvyLY3iBQpF8Wg8kJ432X
- r4OBMexTctkGa6BPjkCCCZJ+pbkHk3fPg9aCEScHLaLhFmpHWX8R+btuCmIqmxl2
- BthbRMA8+78/GegFLBIQ==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ qcppdkim1; bh=ZZYUPcIeOjrC4I6LXrxxHILj/688seia6rP8gkx5jEM=; b=Wg
+ YXx2AJPuZ+QCw5xOYnp3wyyadWdXkapGEkvk9T7+NRl+bTxhuvaJJz6AgVMeWP1w
+ 6bgaHy6hPGUTCauRtsvGBnWAUGwCZTD+5FWpUXvtonMJN4L4g5EKNYxseOnpNX7i
+ +8YH0K4pw4o0Y4Q6o9HDUKt6b/LftztftTTQaAPQ2hQUdu5nHs7zfTlQ6Twl/rct
+ C3xLBBaB/YzDvqvu7pTbktaBqLbZ9rqOCJZmE8A2NxomjgiKemFzjFVCKN6RzUt9
+ xuERiKPo5N3PaTyBIt/vveRp1Ju+zUwp1a/+T7FOhwLIMwxjkRlgau1orEBoHBTL
+ fGyLjoMS26yERfXe5zjQ==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xdnqtkm5u-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xdqy7tuyy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 10 Apr 2024 20:18:46 +0000 (GMT)
+ Wed, 10 Apr 2024 20:40:04 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43AKIiHI018573
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43AKe3eT006596
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 10 Apr 2024 20:18:44 GMT
+ Wed, 10 Apr 2024 20:40:03 GMT
 Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 10 Apr
- 2024 13:18:43 -0700
-Message-ID: <83b45b20-fb7e-564b-4e32-2b6a12c4dc6d@quicinc.com>
-Date: Wed, 10 Apr 2024 13:18:42 -0700
+ 2024 13:40:03 -0700
+Message-ID: <bbc7b585-d0fe-c2db-e9d0-3acf51ab55a8@quicinc.com>
+Date: Wed, 10 Apr 2024 13:40:02 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH 03/12] drm/msm/dpu: use format-related definitions from
- mdp_common.xml.h
+Subject: Re: [PATCH 05/12] drm/msm/dpu: in dpu_format replace bitmap with
+ unsigned long field
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>,
- Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+CC: Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>,
  <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
  <freedreno@lists.freedesktop.org>
 References: <20231202214016.1257621-1-dmitry.baryshkov@linaro.org>
- <20231202214016.1257621-4-dmitry.baryshkov@linaro.org>
- <bb448864-b974-55ac-4709-ea89bbd2694f@quicinc.com>
- <CAA8EJpqnjY35RF52yJ8gFRKHoh1ArnnviacDtfntSYZdALD3bQ@mail.gmail.com>
+ <20231202214016.1257621-6-dmitry.baryshkov@linaro.org>
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJpqnjY35RF52yJ8gFRKHoh1ArnnviacDtfntSYZdALD3bQ@mail.gmail.com>
+In-Reply-To: <20231202214016.1257621-6-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: is-6BHw23MenTxHzSB1ASAJKZywu4yPC
-X-Proofpoint-GUID: is-6BHw23MenTxHzSB1ASAJKZywu4yPC
+X-Proofpoint-GUID: SkW9kimeiCl6PeGhhNw_O_yzrFuDmZGg
+X-Proofpoint-ORIG-GUID: SkW9kimeiCl6PeGhhNw_O_yzrFuDmZGg
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-04-10_05,2024-04-09_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0
- lowpriorityscore=0 mlxscore=0 adultscore=0 impostorscore=0 phishscore=0
- bulkscore=0 priorityscore=1501 malwarescore=0 spamscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
- definitions=main-2404100147
+ priorityscore=1501
+ malwarescore=0 mlxlogscore=639 suspectscore=0 mlxscore=0 clxscore=1015
+ phishscore=0 spamscore=0 adultscore=0 bulkscore=0 impostorscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404100148
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,26 +98,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 4/10/2024 1:16 PM, Dmitry Baryshkov wrote:
-> On Wed, 10 Apr 2024 at 23:00, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 12/2/2023 1:40 PM, Dmitry Baryshkov wrote:
->>> Instead of having DPU-specific defines, switch to the definitions from
->>> the mdp_common.xml.h file. This is the preparation for merged of DPU and
->>> MDP format tables.
->>>
->>
->> Adding MDP_***__ usages in DPU driver is quite confusing.
->>
->> Can we align to a common naming scheme such as DISP_***?
+On 12/2/2023 1:40 PM, Dmitry Baryshkov wrote:
+> Using bitmap for the flags results in a clumsy syntax on test_bit,
+> replace it with unsigned long type and simple binary ops.
 > 
-> No, it's not something display-generic. It is specific to MDP
-> platforms. In the end DPU is a continuation of the MDP lineup, isn't
-> it?
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c | 18 +++++++++---------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h | 16 +++++++---------
+>   2 files changed, 16 insertions(+), 18 deletions(-)
 > 
 
-No some aspects of the hw are completely different as you already know 
-between MDP4/MDP5 and DPU. Bringing back MDP usages into DPU does not 
-seem right.
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
