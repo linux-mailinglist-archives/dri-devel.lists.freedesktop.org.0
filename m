@@ -2,60 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C68289FB72
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 17:25:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC468A01D1
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 23:13:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACA8B10ECF7;
-	Wed, 10 Apr 2024 15:25:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0540F10E160;
+	Wed, 10 Apr 2024 21:13:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VAeWeTYU";
+	dkim=pass (1024-bit key; unprotected) header.d=ispras.ru header.i=@ispras.ru header.b="bN8ChonH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B4C11133E9
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 15:25:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712762721; x=1744298721;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=38KHJ1AxDv/hBddUUD94nB5vN1XfdrPj7b4E71tlpKs=;
- b=VAeWeTYU4N9x+GP+6ruzrdsEyTLNOCTV++NpU2dYWARX3B3A4zDmCSAa
- 81ndnigFxvWFY88JKX/vOuurki9aEPEztXh5fw6mEcpbMGCGFXh8GqYwz
- VOY9EbPuC96TzhBTaHo1wSpKRg4MoDUEp3L2/GWKhxSxTjzfmwELHp9Ag
- lo4PeRrQl4wZFGDpv3sAFpL4gPfschTfo8KLWwLSHg5j8TYOC3n7aD3jg
- 3j9zbR2kzIy+TZQpiul3mrwSgCeiQhMxgJD5L21jPT2dYXe295mXksab6
- V1cwGU3dGhm7e7vIXXTIkEYE74xh7ZKoJhFUVOgdLA/kmbrA1YR8rvfLc w==;
-X-CSE-ConnectionGUID: ftDu4h1hT8utsd07tVtpJg==
-X-CSE-MsgGUID: j7gSpRCYT4u9mwC7Pet1dw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="33536130"
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; d="scan'208";a="33536130"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2024 08:25:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="827793168"
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; d="scan'208";a="827793168"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 10 Apr 2024 08:25:18 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 10 Apr 2024 18:25:17 +0300
-Date: Wed, 10 Apr 2024 18:25:17 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, Jyri Sarha <jyri.sarha@iki.fi>
-Subject: Re: [PATCH 12/21] drm/tilcdc: Allow build without __iowmb()
-Message-ID: <ZhavXcFrgzw5UApH@intel.com>
-References: <20240408170426.9285-1-ville.syrjala@linux.intel.com>
- <20240408170426.9285-13-ville.syrjala@linux.intel.com>
- <b944eacf-e284-42ad-aeb6-e7aeb1aa01c1@ideasonboard.com>
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13A4210EA45;
+ Wed, 10 Apr 2024 15:39:13 +0000 (UTC)
+Received: from [10.240.168.185] (unknown [178.176.73.225])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 841D74076735;
+ Wed, 10 Apr 2024 15:39:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 841D74076735
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+ s=default; t=1712763550;
+ bh=xQKnhyAxfz2O94v4XYI3za4g+mMCNJTNwLCL1CPF8Ok=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=bN8ChonH1inQLvXBDq36U8i+WC0O2pHHPJZfyfYM7wlLgdot/eojoCS4wURkL4Ebp
+ tDwbqg7+qnK6nKWLjpgvGHTY22886SDRtiz2SjKSQ8nmLLU5VYHo63IP+yAbAKze0+
+ 4b2lbeBNkcT9LGmUJGit/D/YIpEXp+TIZ9uEcCI4=
+Message-ID: <624ee851-162b-4490-8444-0d9e06b5863b@ispras.ru>
+Date: Wed, 10 Apr 2024 18:39:35 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: nv04: Add check to avoid out of bounds access
+To: Danilo Krummrich <me@dakr.org>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@redhat.com>, Karol Herbst <kherbst@redhat.com>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Francisco Jerez <currojerez@riseup.net>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ lvc-project@linuxtesting.org, Fedor Pchelkin <pchelkin@ispras.ru>,
+ Alexey Khoroshilov <khoroshilov@ispras.ru>
+References: <20240331064552.6112-1-m.kobuk@ispras.ru>
+ <c3253f8a-e654-4016-b0c6-d92703107c48@redhat.com>
+ <11096e558e67f2fea2aee976c70a19af1b7c212b.camel@redhat.com>
+ <03263130-0627-45c4-ab14-aa0e3b597442@dakr.org>
+Content-Language: en-US
+From: Mikhail Kobuk <m.kobuk@ispras.ru>
+In-Reply-To: <03263130-0627-45c4-ab14-aa0e3b597442@dakr.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b944eacf-e284-42ad-aeb6-e7aeb1aa01c1@ideasonboard.com>
-X-Patchwork-Hint: comment
+X-Mailman-Approved-At: Wed, 10 Apr 2024 21:13:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,44 +63,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 10, 2024 at 12:06:29PM +0300, Tomi Valkeinen wrote:
-> On 08/04/2024 20:04, Ville Syrjala wrote:
-> > From: Ville Syrj�l� <ville.syrjala@linux.intel.com>
-> > 
-> > __iowmb() isn't available on most architectures. Make
-> > its use optional so that the driver can be built on
-> > other architectures with COMPILE_TEST=y.
-> > 
-> > Cc: Jyri Sarha <jyri.sarha@iki.fi>
-> > Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > Signed-off-by: Ville Syrj�l� <ville.syrjala@linux.intel.com>
-> > ---
-> >   drivers/gpu/drm/tilcdc/tilcdc_regs.h | 2 ++
-> >   1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/tilcdc/tilcdc_regs.h b/drivers/gpu/drm/tilcdc/tilcdc_regs.h
-> > index f90e2dc3457c..44e4ada30fba 100644
-> > --- a/drivers/gpu/drm/tilcdc/tilcdc_regs.h
-> > +++ b/drivers/gpu/drm/tilcdc/tilcdc_regs.h
-> > @@ -125,7 +125,9 @@ static inline void tilcdc_write64(struct drm_device *dev, u32 reg, u64 data)
-> >   #if defined(iowrite64) && !defined(iowrite64_is_nonatomic)
-> >   	iowrite64(data, addr);
-> >   #else
-> > +#ifdef __iowmb
-> >   	__iowmb();
-> > +#endif
-> >   	/* This compiles to strd (=64-bit write) on ARM7 */
-> >   	*(volatile u64 __force *)addr = __cpu_to_le64(data);
-> >   #endif
+On 08/04/2024 16:23, Danilo Krummrich wrote:
+> On 4/5/24 22:05, Lyude Paul wrote:
+>> On Fri, 2024-04-05 at 17:53 +0200, Danilo Krummrich wrote:
+>>> On 3/31/24 08:45, Mikhail Kobuk wrote:
+>>>> Output Resource (dcb->or) value is not guaranteed to be non-zero
+>>>> (i.e.
+>>>> in drivers/gpu/drm/nouveau/nouveau_bios.c, in
+>>>> 'fabricate_dcb_encoder_table()'
+>>>> 'dcb->or' is assigned value '0' in call to
+>>>> 'fabricate_dcb_output()').
+>>>
+>>> I don't really know much about the semantics of this code.
+>>>
+>>> Looking at fabricate_dcb_output() though I wonder if the intention
+>>> was to assign
+>>> BIT(or) to entry->or.
+>>>
+>>> @Lyude, can you help here?
+>> 
+>> This code is definitely a bit before my time as well - but I think
+>> you're completely correct. Especially considering this bit I found in
+>> nouveau_bios.h:
 > 
-> As the memory barrier is an important part there, would it be better to 
-> ifdef based on COMPILE_TEST, to make it clear why it's being done?
+> Thanks for confirming.
+> 
+> @Mikhail, I think we should rather fix this assignment then.
 
-I can do that if you prefer.
+Thank you all for a thorough look!
 
-I suppose the real question is why iowrite64() doesn't work
-if a hand rolled version does work?
+> 
+> - Danilo
+> 
+>> 
+>> enum nouveau_or {
+>> 	DCB_OUTPUT_A = (1 << 0),
+>> 	DCB_OUTPUT_B = (1 << 1),
+>> 	DCB_OUTPUT_C = (1 << 2)
+>> };
+>> 
+>> 
 
--- 
-Ville Syrj�l�
-Intel
+Considering this code bit, and the fact that fabricate_dcb_output() is 
+called in drivers/gpu/drm/nouveau/nouveau_bios.c only, there's option to 
+adjust function calls instead of adding BIT(or), i.e.:
+
+fabricate_dcb_output(dcb, DCB_OUTPUT_TMDS, 0, all_heads, DCB_OUTPUT_B);
+
+instead of current:
+
+fabricate_dcb_output(dcb, DCB_OUTPUT_TMDS, 0, all_heads, 1);
+
+and etc.
+
+Should I make a new patch with adjusted calls or stick with BIT(or)?
+
+>>>
+>>> Otherwise, for parsing the DCB entries, it seems that the bound
+>>> checks are
+>>> happening in olddcb_outp_foreach() [1].
+>>>
+>>> [1]
+>>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/nouveau/nouveau_bios.c#L1331
+>>>
+>>>>
+>>>> Add check to validate 'dcb->or' before it's used.
+>>>>
+>>>> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+>>>>
+>>>> Fixes: 2e5702aff395 ("drm/nouveau: fabricate DCB encoder table for
+>>>> iMac G4")
+>>>> Signed-off-by: Mikhail Kobuk <m.kobuk@ispras.ru>
+>>>> ---
+>>>>    drivers/gpu/drm/nouveau/dispnv04/dac.c | 4 ++--
+>>>>    1 file changed, 2 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/nouveau/dispnv04/dac.c
+>>>> b/drivers/gpu/drm/nouveau/dispnv04/dac.c
+>>>> index d6b8e0cce2ac..0c8d4fc95ff3 100644
+>>>> --- a/drivers/gpu/drm/nouveau/dispnv04/dac.c
+>>>> +++ b/drivers/gpu/drm/nouveau/dispnv04/dac.c
+>>>> @@ -428,7 +428,7 @@ void nv04_dac_update_dacclk(struct drm_encoder
+>>>> *encoder, bool enable)
+>>>>    	struct drm_device *dev = encoder->dev;
+>>>>    	struct dcb_output *dcb = nouveau_encoder(encoder)->dcb;
+>>>>    
+>>>> -	if (nv_gf4_disp_arch(dev)) {
+>>>> +	if (nv_gf4_disp_arch(dev) && ffs(dcb->or)) {
+>>>>    		uint32_t *dac_users = &nv04_display(dev)-
+>>>>> dac_users[ffs(dcb->or) - 1];
+>>>>    		int dacclk_off = NV_PRAMDAC_DACCLK +
+>>>> nv04_dac_output_offset(encoder);
+>>>>    		uint32_t dacclk = NVReadRAMDAC(dev, 0,
+>>>> dacclk_off);
+>>>> @@ -453,7 +453,7 @@ bool nv04_dac_in_use(struct drm_encoder
+>>>> *encoder)
+>>>>    	struct drm_device *dev = encoder->dev;
+>>>>    	struct dcb_output *dcb = nouveau_encoder(encoder)->dcb;
+>>>>    
+>>>> -	return nv_gf4_disp_arch(encoder->dev) &&
+>>>> +	return nv_gf4_disp_arch(encoder->dev) && ffs(dcb->or) &&
+>>>>    		(nv04_display(dev)->dac_users[ffs(dcb->or) - 1] &
+>>>> ~(1 << dcb->index));
+>>>>    }
+>>>>    
+>>>
+>> 
+
