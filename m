@@ -2,79 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A221B89F1E1
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 14:19:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0882689F1E6
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 14:19:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D12810F005;
-	Wed, 10 Apr 2024 12:19:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED2F611330C;
+	Wed, 10 Apr 2024 12:19:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="U3+tJcnx";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="d8GYx8Bp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6864C10F005
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 12:18:58 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C3B811330C
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 12:19:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1712751537;
+ s=mimecast20190719; t=1712751586;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=46LrrPp64WiWPNLe7QqFP1tIPhMl34xsYWDYBYEnKuA=;
- b=U3+tJcnx82cVcNyW4xesOF+84vLBw+d5dqcO6vDomK5WQXvbDSdF08HhoXsElSFK9zUwrX
- OsnIoGdm7KBj2RHuhjnsGyGxGki7tXJvxGmoxmb/Wx7+dqjtH4B5UmSsBF04aiq8iQXeGO
- YmLS8lCKEDmHo9A75H3P9k7mBWymcyU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nJ+kGoqQcKnOH48pUA5WHq2ughcDFPQeyQ1mCMN/RAA=;
+ b=d8GYx8BpJb+k++abcHT4QhLK6fUjSxukfP49a+gdLixazguEu1Sf5SWu2Z1T2sWszx4S5r
+ SNR24uqGq0eMCneDFJI57jrmIuvLIBmbiacFmvhXpSe+Q9T5K7EVNxmiULIu8rd4xUj4KK
+ TtgeN/wPN4vlYZWe/R6oRWOtNP86d7w=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-437-PmBbNAWTMSW2sfVSpDHr-Q-1; Wed, 10 Apr 2024 08:18:56 -0400
-X-MC-Unique: PmBbNAWTMSW2sfVSpDHr-Q-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-343cfa7a9ebso3447665f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 05:18:55 -0700 (PDT)
+ us-mta-376-Xnvlr4mAMhKSF9BGj7LUQw-1; Wed, 10 Apr 2024 08:19:45 -0400
+X-MC-Unique: Xnvlr4mAMhKSF9BGj7LUQw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-343d6732721so3014059f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 05:19:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712751534; x=1713356334;
+ d=1e100.net; s=20230601; t=1712751583; x=1713356383;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=46LrrPp64WiWPNLe7QqFP1tIPhMl34xsYWDYBYEnKuA=;
- b=pojvP0VxvK4+qRsFq/V/joDCKL+fkR+4UPqdYbH9AQ9XdPdjvWJmmMwiytLY3T63ap
- +d28oo274klpV0sRNjLrmWS9rFH2E9JE7fDyJ4qIiJg+xSjlLG2A8WogiohlPGa4h+Sb
- 3thobAJlLDo1Wb5nMrwq9s1QTGn9NOaIK2m6GLWFEOBKr7xUDEYZaLKx2ctxGQE1mu43
- ZTGFDiYBUUH/YM9/0ad96/N/usmHZdVaZ6+hzI43UykDeb2L2S7NP+KmO3Q6z8+8T1VU
- aH9eDmjJzaRrrGtrICzJq+n+y4qNpmhlCTOdrwANyFHioztvDI02H5DW3Ebevev+vYnL
- wV3w==
-X-Gm-Message-State: AOJu0YwRkaRrF6G7tFYiAjcgsYnRXgHQ/GAi5DY/a4Ce6uV4AgwvVOnf
- LO45znIJjpi8oZlXBtbCD5IC6Ri+BlTtJAQQ1yeL31wU94HkuvGfjmwPK2zIxf1Nuq1ZhMG959l
- PzVixHw9HPd+k9VAFEcqU8775JH5ATjdPh4FN0rX+ode6qugV145GCWikW/J9xozrLQ==
-X-Received: by 2002:adf:a38d:0:b0:33e:363b:a7dd with SMTP id
- l13-20020adfa38d000000b0033e363ba7ddmr1549965wrb.20.1712751534709; 
- Wed, 10 Apr 2024 05:18:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IECpl1L/oL4mnI82GvOzKPu/U7OJYDEiQinWbtlDFweKbfzg1DEEsIWDiBj0EEBB5P9zTRBxw==
-X-Received: by 2002:adf:a38d:0:b0:33e:363b:a7dd with SMTP id
- l13-20020adfa38d000000b0033e363ba7ddmr1549950wrb.20.1712751534349; 
- Wed, 10 Apr 2024 05:18:54 -0700 (PDT)
+ bh=nJ+kGoqQcKnOH48pUA5WHq2ughcDFPQeyQ1mCMN/RAA=;
+ b=a0ywMz8OSyFgcApRA552DtFeB/fYLDXJdmHHLND+jy9Hnsj4bBjsdSD2o70gQMn+5u
+ 0Q1PiaQStbtuQ4/uc7jXwRa/ARL2rGGxEuLuH6PVyt2xNfolRKB7Au28R2nKWPbqrJwc
+ 2usvBtvyxH+Gyobh7AeKvZFKfk8NlyrOK1MiY61E8hOCGTC00dIP6Aqb0+f6NL3EhB0V
+ WSYb1UOpqIuFYXbvic8TIY3pZIrJLWyQeupLTBHNyi5OkA6ka8bBLNdiDzt+NB3I7WJ7
+ +PnE3FtCqXXoLyq2Z6/L8UuKoUlGHjSZxPXt9cr7RqjQJmeZwkPNI55JlALXY209Cgxk
+ hbjQ==
+X-Gm-Message-State: AOJu0YwXoDTDG6XP8eJyKoUSLMKZgma1Ar3W/257rFkRCUrCNm56kyfl
+ TngrB1HJirSZ75l22Dtxtenwx678r3k0T3uARJsgxa5qYZbQKWMoAEnHY6h92t+V6zqpbGFKKXm
+ hQZ8diW+ZakiYyVYFWppipTpzh9oK6y+F8dyAFxTdHY24fv59rBQqQeQO4aGspOiEYfxLQxh1cw
+ ==
+X-Received: by 2002:adf:cc81:0:b0:341:c8c8:633a with SMTP id
+ p1-20020adfcc81000000b00341c8c8633amr1751114wrj.9.1712751583575; 
+ Wed, 10 Apr 2024 05:19:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE+Abf274iWLLKrGVzm1Fb2pT1ozXwjZIuJrJB8APtmyKplomP95blnsekfu/buxEckXDI4SQ==
+X-Received: by 2002:adf:cc81:0:b0:341:c8c8:633a with SMTP id
+ p1-20020adfcc81000000b00341c8c8633amr1751102wrj.9.1712751583312; 
+ Wed, 10 Apr 2024 05:19:43 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:d5:a000:f101:edd0:5929:7a40?
  ([2a01:e0a:d5:a000:f101:edd0:5929:7a40])
  by smtp.gmail.com with ESMTPSA id
- m6-20020adff386000000b00343300a4eb8sm13584588wro.49.2024.04.10.05.18.53
+ m6-20020adff386000000b00343300a4eb8sm13584588wro.49.2024.04.10.05.19.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Apr 2024 05:18:53 -0700 (PDT)
-Message-ID: <ea86e546-c804-4384-9cd1-82739fc6205f@redhat.com>
-Date: Wed, 10 Apr 2024 14:18:53 +0200
+ Wed, 10 Apr 2024 05:19:42 -0700 (PDT)
+Message-ID: <f52cc0d5-e7ba-4c33-9965-e99e3ea295f0@redhat.com>
+Date: Wed, 10 Apr 2024 14:19:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] drm/ast: Set DDC timeout in milliseconds
+Subject: Re: [PATCH 2/3] drm/ast: Group DDC init code by data structure
 To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com
-Cc: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, stable@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 References: <20240403103325.30457-1-tzimmermann@suse.de>
- <20240403103325.30457-2-tzimmermann@suse.de>
+ <20240403103325.30457-3-tzimmermann@suse.de>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20240403103325.30457-2-tzimmermann@suse.de>
+In-Reply-To: <20240403103325.30457-3-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
@@ -105,37 +104,52 @@ Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
 Jocelyn
 
-
 On 03/04/2024 12:31, Thomas Zimmermann wrote:
-> Compute the i2c timeout in jiffies from a value in milliseconds. The
-> original values of 2 jiffies equals 2 milliseconds if HZ has been
-> configured to a value of 1000. This corresponds to 2.2 milliseconds
-> used by most other DRM drivers. Update ast accordingly.
+> Reorder the code to set up the DDC channel by data structure, so
+> that each data structure's init is in a separate block: first the
+> bit algo then the i2c adapter. Makes the code more readable. No
+> functional changes.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 312fec1405dd ("drm: Initial KMS driver for AST (ASpeed Technologies) 2000 series (v2)")
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Jocelyn Falempe <jfalempe@redhat.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v3.5+
 > ---
->   drivers/gpu/drm/ast/ast_ddc.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/gpu/drm/ast/ast_ddc.c | 16 ++++++++--------
+>   1 file changed, 8 insertions(+), 8 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/ast/ast_ddc.c b/drivers/gpu/drm/ast/ast_ddc.c
-> index b7718084422f3..3e156a6b6831d 100644
+> index 3e156a6b6831d..4df52aeba4f7e 100644
 > --- a/drivers/gpu/drm/ast/ast_ddc.c
 > +++ b/drivers/gpu/drm/ast/ast_ddc.c
-> @@ -153,7 +153,7 @@ struct ast_ddc *ast_ddc_create(struct ast_device *ast)
+> @@ -145,15 +145,7 @@ struct ast_ddc *ast_ddc_create(struct ast_device *ast)
+>   		return ERR_PTR(-ENOMEM);
+>   	ddc->ast = ast;
 >   
+> -	adapter = &ddc->adapter;
+> -	adapter->owner = THIS_MODULE;
+> -	adapter->dev.parent = dev->dev;
+> -	i2c_set_adapdata(adapter, ddc);
+> -	snprintf(adapter->name, sizeof(adapter->name), "AST DDC bus");
+> -
 >   	bit = &ddc->bit;
->   	bit->udelay = 20;
-> -	bit->timeout = 2;
-> +	bit->timeout = usecs_to_jiffies(2200);
+> -	bit->udelay = 20;
+> -	bit->timeout = usecs_to_jiffies(2200);
 >   	bit->data = ddc;
 >   	bit->setsda = ast_ddc_algo_bit_data_setsda;
 >   	bit->setscl = ast_ddc_algo_bit_data_setscl;
+> @@ -161,8 +153,16 @@ struct ast_ddc *ast_ddc_create(struct ast_device *ast)
+>   	bit->getscl = ast_ddc_algo_bit_data_getscl;
+>   	bit->pre_xfer = ast_ddc_algo_bit_data_pre_xfer;
+>   	bit->post_xfer = ast_ddc_algo_bit_data_post_xfer;
+> +	bit->udelay = 20;
+> +	bit->timeout = usecs_to_jiffies(2200);
+>   
+> +	adapter = &ddc->adapter;
+> +	adapter->owner = THIS_MODULE;
+>   	adapter->algo_data = bit;
+> +	adapter->dev.parent = dev->dev;
+> +	snprintf(adapter->name, sizeof(adapter->name), "AST DDC bus");
+> +	i2c_set_adapdata(adapter, ddc);
+> +
+>   	ret = i2c_bit_add_bus(adapter);
+>   	if (ret) {
+>   		drm_err(dev, "Failed to register bit i2c\n");
 
