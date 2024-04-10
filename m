@@ -2,85 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 991B189EE0E
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 10:55:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 586D789EE0C
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 10:54:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03EB111326E;
-	Wed, 10 Apr 2024 08:54:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B34311326D;
+	Wed, 10 Apr 2024 08:54:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KAQdSWiY";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="c7rk875S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 712D611326F
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 08:54:53 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-41745acb8f4so1952045e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 01:54:53 -0700 (PDT)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 875D211326D
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 08:54:54 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-516d3a470d5so6214185e87.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 01:54:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1712739292; x=1713344092; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=D2AsZ1QIiCmfybXFGVW0zxiOuEp+rgs+ouNgKbZDKFg=;
- b=KAQdSWiYpoJdEcL139jmig8ehL8yKS+xpvgbsj1lE4CRue+2KWRpID9ygV/dVx0ElC
- UJrQKn7ZQEIXLu/eR9ZYrvhQLydTqswa6cOty65LCBakMLpGJAhgPnLS2Mcmud4PYR9z
- OBHm35WvMyOCaJ/anj39MC//SdfLKiCDR+L1I5OOxE8EFFBKd6KMAYE4HWd75MB8pMBb
- 3itXKdB9Q4GZW5+wUWvLaqLTcRO/3Ekp7U+DxdK73zt5gU5iAGZqA5MuI6+Pr9ePbgGu
- Ua3k49h3IEgvemhUYHXiT3LnJswoxfjlGCUsb6pa7gdj287DA0svmy5R+tBYyrno46wP
- jxKg==
+ bh=q9n9bIdxiQcPgRyTX+n58GNtmNfwkau4b2336NlqK0w=;
+ b=c7rk875SopWUHe0oPWdRm+efIF08tDxm3B5azBVch1EnTqtMpmMqSMc0LaHQ6BvU+S
+ 7OmHWbDCY/W9iZBIQ3U1RghOYkiQFenIT1MaqBX91v67ofP6NL/unhI1dcnVXcV1a678
+ UGcYkhXyDjVkKce+Pkkly21FNCy86aNQfVJsUBSUrW1DmjNe2eYKlPrkRawJ/aHkk+5a
+ FY14IUcQnUrH1kBE81b1/P1TQVqe9o7xmJmGQdFguCwe9jx33uEBoOzlVdPBnyutpcDG
+ rrXl2E1dNjb92nx9gG35sKM1d6cr3mFcPD0XcgEwtMXgHXm+QFcmTHd+rqg6sqSPRKps
+ LDAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1712739292; x=1713344092;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=D2AsZ1QIiCmfybXFGVW0zxiOuEp+rgs+ouNgKbZDKFg=;
- b=BeSVzqyXDS3Gok7YvDJW6IM9wtg/Jkh6b18vD3UgvCsol8Zd20mEgOLGvtS6PzgKlc
- PNP7ZTy8P72GyhkqU+wqVqDssy/zr7mfM+FBthbUkD5UNIqVvYCPW4W+swghwTWzXWC6
- 2l2ssYX/u3E/9ATyzM4rly26HdnuEntTkp78dUDI80O897QcUK7VQCQUsK40I7gzSmq9
- HcicchbpTo6mqt/7mw2S9BmLXlx4tVrOxoYzSIibnq7TgNJRtoVGLnZmsVeqSR0aYBDX
- d41XRKAA4g4LxXkQwpaU96SlO/qADAjkJGP/pbvprzwlNRwT5Wb7u3jWWPKYSPeAXUAG
- YRYQ==
+ bh=q9n9bIdxiQcPgRyTX+n58GNtmNfwkau4b2336NlqK0w=;
+ b=iU3rxoA2vGOYx04w7Ff0KiV082MgvM0reUWHnHbsPbs38R/TxbbrvyaJnob+2MZPqP
+ leG+J1Q7XCQE7FeZNGWPsyHD6z7zGVmZS+5RU4MDtBSKKYXXVjBixM4NxgMAC0iYygIx
+ UtqhluaXlpsVVjl+7ZgOiW0BdwY1tPq+RhOUoAAJwypiEYHT5/QpAuhVMLaiOxJdUTP+
+ VMzb6KDXj0ALIhEyErQhoLU0ghCeEosENdrvZSCAxKz5fzmKJ5gwWdibExsXgIFFIwC8
+ fTJl/pLBGJqq850mdmwqPXUDp7/RG+XXfqeH56jiwSbc28czr1qq2YgvXCII/uPR1eeY
+ AFrQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXB5LHahc/p0mjM/YtJWExVQ3YFpGAl9rEvUA7Am1/fehzJ9gUTBHo4CyRzbBxRNkZOwv9PMTDqAGfHEa27uD+QGOiDjIQ3AX4HpT6MqZzh
-X-Gm-Message-State: AOJu0YwzYrXCxcrSsu40GRIBzbho2DEIdVVYZpfS6rulhWxYWF1aEBCd
- btpvV8QSSd4Ekz6vT8RzD9ebTVz1jx/UHwTAVF30v6lFnCNQeD4ztEgXE8BsNIa/sFUZq2+49vk
- iTjU=
-X-Google-Smtp-Source: AGHT+IEJgQ9v9FGTkOkguC9zTMYpllaqcg3VK+wytjhD6ErKqeWqI+TOXQq+JItqSKG5kCWe34nSYg==
-X-Received: by 2002:a05:600c:a4b:b0:414:726:87d9 with SMTP id
- c11-20020a05600c0a4b00b00414072687d9mr1961567wmq.12.1712739291342; 
- Wed, 10 Apr 2024 01:54:51 -0700 (PDT)
+ AJvYcCW6IFTQwwLMBAxqDIGYiWxGLBHluLQ24H+p0nPDJxEvnWjrjJGiivfDEo7QC7t0Yzw9X+ydsr+G2ss97+W+Oui6Yp3bZEBJJ0eUq5vwN71n
+X-Gm-Message-State: AOJu0Yx24VwIgkI8h+Ui9FSDoN/AWVA0R3yOwCDC95IYK9SqfUQqWVw4
+ SEJ6MuhBcg9mObs62TX0eIZxfnsmnPqxaB0l+w36wwI5endFL9hdZzmbQdE9+EYvZvzmYgYB9zu
+ Y5Ds=
+X-Google-Smtp-Source: AGHT+IFNFRt4eMSzQqZ/7NkG1db8x/cM2BTv+GM3c/HklSBaajG7sctnDL9a2AdHlmfF903QzBJ7Tw==
+X-Received: by 2002:ac2:47f0:0:b0:516:d30c:7236 with SMTP id
+ b16-20020ac247f0000000b00516d30c7236mr1322034lfp.18.1712739292455; 
+ Wed, 10 Apr 2024 01:54:52 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- j1-20020a05600c1c0100b00417be508e44sm408832wms.34.2024.04.10.01.54.50
+ j1-20020a05600c1c0100b00417be508e44sm408832wms.34.2024.04.10.01.54.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Apr 2024 01:54:50 -0700 (PDT)
+ Wed, 10 Apr 2024 01:54:52 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
 To: Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Kevin Hilman <khilman@baylibre.com>, 
- Jerome Brunet <jbrunet@baylibre.com>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Jerome Brunet <jbrunet@baylibre.com>, Kevin Hilman <khilman@baylibre.com>, 
  Michael Turquette <mturquette@baylibre.com>, 
  Stephen Boyd <sboyd@kernel.org>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Nicolas Belin <nbelin@baylibre.com>, 
  Jagan Teki <jagan@amarulasolutions.com>, 
+ Nicolas Belin <nbelin@baylibre.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
  Conor Dooley <conor.dooley@microchip.com>, 
  "Lukas F. Hartmann" <lukas@mntre.com>
-In-Reply-To: <20240325-amlogic-v6-4-upstream-dsi-ccf-vim3-v11-0-04f55de44604@linaro.org>
-References: <20240325-amlogic-v6-4-upstream-dsi-ccf-vim3-v11-0-04f55de44604@linaro.org>
-Subject: Re: [PATCH v11 0/7] drm/meson: add support for MIPI DSI Display
-Message-Id: <171273929022.3191460.6988833554592946386.b4-ty@linaro.org>
-Date: Wed, 10 Apr 2024 10:54:50 +0200
+In-Reply-To: <20240403-amlogic-v6-4-upstream-dsi-ccf-vim3-v12-0-99ecdfdc87fc@linaro.org>
+References: <20240403-amlogic-v6-4-upstream-dsi-ccf-vim3-v12-0-99ecdfdc87fc@linaro.org>
+Subject: Re: (subset) [PATCH v12 0/7] drm/meson: add support for MIPI DSI
+ Display
+Message-Id: <171273929144.3191460.10788273510731412114.b4-ty@linaro.org>
+Date: Wed, 10 Apr 2024 10:54:51 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -102,12 +103,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Mon, 25 Mar 2024 12:09:46 +0100, Neil Armstrong wrote:
+On Wed, 03 Apr 2024 09:46:31 +0200, Neil Armstrong wrote:
 > The Amlogic G12A, G12B & SM1 SoCs embeds a Synopsys DW-MIPI-DSI transceiver (ver 1.21a),
 > with a custom glue managing the IP resets, clock and data input similar to the DW-HDMI
 > glue on the same Amlogic SoCs.
 > 
-> This is a follow-up of v5  now the DRM patches are applied, the clk & DT changes
+> This is a follow-up of v5 now the DRM patches are applied, the clk & DT changes
 > remains for a full DSI support on G12A & SM1 platforms.
 > 
 > [...]
@@ -116,12 +117,6 @@ Thanks, Applied to https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux
 
 [1/7] dt-bindings: arm: amlogic: Document the MNT Reform 2 CM4 adapter with a BPI-CM4 Module
       https://git.kernel.org/amlogic/c/ef5a84d716042871599ff7c8ff571a6390b99718
-[2/7] clk: meson: add vclk driver
-      (no commit info)
-[3/7] clk: meson: g12a: make VCLK2 and ENCL clock path configurable by CCF
-      (no commit info)
-[4/7] drm/meson: gate px_clk when setting rate
-      (no commit info)
 [5/7] arm64: meson: g12-common: add the MIPI DSI nodes
       https://git.kernel.org/amlogic/c/6f1c2a12ed1138c3e680935718672d361afee372
 [6/7] arm64: meson: khadas-vim3l: add TS050 DSI panel overlay
