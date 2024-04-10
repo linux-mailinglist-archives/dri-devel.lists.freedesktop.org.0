@@ -2,137 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3162A89ECFB
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 10:02:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 361D889EDDE
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 10:43:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EA9110E165;
-	Wed, 10 Apr 2024 08:02:49 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Pk97KuT/";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A6A4112D24;
+	Wed, 10 Apr 2024 08:43:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD2F310E3DF
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 08:02:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1712736165;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DXu5GyWFLRYVVgKT/xx47xxPPvyqqTS3jJA/xlCkkm0=;
- b=Pk97KuT/mE9r5AWVFdqO6INc6z4HesNnp8Eydu2oWb9B1SKZTBktWULMTV6CAv5WHqzYfb
- lEV3l0VSl46VIecpkz+PButrh4dcw0SGAOKtlkkT+cdzv/cTu9TaijbzP+0LS2xbwPCKPq
- mqsjrSmvjJQcMxrmicBH/NKgjbxKZms=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-138-uaIXHQEMMUy6LBJpcxiHvA-1; Wed, 10 Apr 2024 04:02:41 -0400
-X-MC-Unique: uaIXHQEMMUy6LBJpcxiHvA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-4155db7b58cso33153205e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 01:02:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712736160; x=1713340960;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DXu5GyWFLRYVVgKT/xx47xxPPvyqqTS3jJA/xlCkkm0=;
- b=PPQiJG5PIcTJ3Xmgo3gNR5Mm8zbTng6U5k3x74xzy8D0QM2hA1qfynqlm9c95hAdtT
- H1Sm1/uyaodefAxYJexalZ1HETsGNMzAKICGvsMmMtawioUUC0nF3GWHTG0EkvBjh4Db
- j4d9QArVoc6o/G5tlFPD25S62cKNxtSavlogyDHstvHlGmcQE4saECTVDiZCw9aF7M9y
- 3mVE3uMkBGc2STsGwP8aHbDf+OX7zd7EJWS+wXhV5wfb7xNUZG+ExKh0utwHIsSZAUzr
- /3YZ+LYThGhY7oMnsFW12P9baYITmsWq74Dzzy/PpMJ2Rd3ZE+K4OzBJZBw8f9Skfxg2
- /xBA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWXlkGW3RZINS+bROuj6aP4tM4En/gw1WZ6mRNWCpqU7h0LvMQh0GY7CR4M3f0Z/uBJnQ6jLz7uY7sbpIt2EexqqQ1DiISCoGbMSzL/yodA
-X-Gm-Message-State: AOJu0YwlAqjl0xwAVguO0RKl8e6ulFtuY8uhcWPQWa8FLMITepxDUyaC
- 09og8rSRHeGUiWRehUVa2y/6n86KRFWOtfbmZRVZYOQc2/+OOaiMfbNNy2XMqwbf7QoryK+W14C
- i8zOYYy1IdiHKquHjCUB+zlprL2nIuob9+REY3hGa/JCEHbhyCAccLLx7s3VwN+QKbw==
-X-Received: by 2002:a05:600c:1e05:b0:416:6eaa:6179 with SMTP id
- ay5-20020a05600c1e0500b004166eaa6179mr1616309wmb.6.1712736160204; 
- Wed, 10 Apr 2024 01:02:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFmI+bK+Bmn5+2XukodBdn2GXQ92haKG6VohgZt2mHVdjYtyJPyqjLehKUQ4vb5gN6ueySe/w==
-X-Received: by 2002:a05:600c:1e05:b0:416:6eaa:6179 with SMTP id
- ay5-20020a05600c1e0500b004166eaa6179mr1616221wmb.6.1712736159530; 
- Wed, 10 Apr 2024 01:02:39 -0700 (PDT)
-Received: from redhat.com ([2a02:14f:179:8bde:8cd:63ff:6fae:3872])
- by smtp.gmail.com with ESMTPSA id
- t7-20020a05600c198700b00416c160ff88sm1491111wmq.1.2024.04.10.01.02.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Apr 2024 01:02:38 -0700 (PDT)
-Date: Wed, 10 Apr 2024 04:02:23 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>,
- Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Olivia Mackall <olivia@selenic.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Gonglei <arei.gonglei@huawei.com>, "David S. Miller" <davem@davemloft.net>,
- Sudeep Holla <sudeep.holla@arm.com>,
- Cristian Marussi <cristian.marussi@arm.com>,
- Viresh Kumar <vireshk@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, David Airlie <airlied@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Alexander Graf <graf@amazon.com>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Eric Van Hensbergen <ericvh@kernel.org>,
- Latchesar Ionkov <lucho@ionkov.net>,
- Dominique Martinet <asmadeus@codewreck.org>,
- Christian Schoenebeck <linux_oss@crudebyte.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Kalle Valo <kvalo@kernel.org>,
- Dan Williams <dan.j.williams@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>,
- Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
- Anton Yakovlev <anton.yakovlev@opensynergy.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- virtualization@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
- linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- iommu@lists.linux.dev, netdev@vger.kernel.org, v9fs@lists.linux.dev,
- kvm@vger.kernel.org, linux-wireless@vger.kernel.org,
- nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Viresh Kumar <viresh.kumar@linaro.org>
-Subject: Re: [PATCH v2 00/25] virtio: store owner from modules with
- register_virtio_driver()
-Message-ID: <20240410040140-mutt-send-email-mst@kernel.org>
-References: <20240331-module-owner-virtio-v2-0-98f04bfaf46a@linaro.org>
- <285be63c-8939-495c-8411-ce2a68e25b2b@linaro.org>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98C30113235
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 08:02:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 019B5CE2645;
+ Wed, 10 Apr 2024 08:02:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EDFDC43390;
+ Wed, 10 Apr 2024 08:02:36 +0000 (UTC)
+Received: by mercury (Postfix, from userid 1000)
+ id 324081063262; Wed, 10 Apr 2024 10:02:32 +0200 (CEST)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Michael Ellerman <mpe@ellerman.id.au>, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ Damien Le Moal <dlemoal@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Corey Minyard <minyard@acm.org>, Peter Huewe <peterhuewe@gmx.de>, 
+ Jarkko Sakkinen <jarkko@kernel.org>, Tero Kristo <kristo@kernel.org>, 
+ Stephen Boyd <sboyd@kernel.org>, Ian Abbott <abbotti@mev.co.uk>, 
+ H Hartley Sweeten <hsweeten@visionengravers.com>, 
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
+ Len Brown <lenb@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ John Allen <john.allen@amd.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+ Vinod Koul <vkoul@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, Moritz Fischer <mdf@kernel.org>, 
+ Liviu Dudau <liviu.dudau@arm.com>, 
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+ Andi Shyti <andi.shyti@kernel.org>, 
+ Michael Hennerich <michael.hennerich@analog.com>, 
+ Peter Rosin <peda@axentia.se>, Lars-Peter Clausen <lars@metafoo.de>, 
+ Jonathan Cameron <jic23@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Markuss Broks <markuss.broks@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Lee Jones <lee@kernel.org>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
+ Iyappan Subramanian <iyappan@os.amperecomputing.com>, 
+ Yisen Zhuang <yisen.zhuang@huawei.com>, Stanislaw Gruszka <stf_xl@wp.pl>, 
+ Kalle Valo <kvalo@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
+ Tony Lindgren <tony@atomide.com>, Mark Brown <broonie@kernel.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Xiang Chen <chenxiang66@hisilicon.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Heiko Stuebner <heiko@sntech.de>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Vaibhav Hiremath <hvaibhav.linux@gmail.com>, Alex Elder <elder@kernel.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Jacky Huang <ychuang3@nuvoton.com>, 
+ Helge Deller <deller@gmx.de>, Christoph Hellwig <hch@lst.de>, 
+ Robin Murphy <robin.murphy@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Kees Cook <keescook@chromium.org>, 
+ Trond Myklebust <trond.myklebust@hammerspace.com>, 
+ Anna Schumaker <anna@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+ linuxppc-dev@lists.ozlabs.org, linux-ide@vger.kernel.org, 
+ openipmi-developer@lists.sourceforge.net, linux-integrity@vger.kernel.org, 
+ linux-omap@vger.kernel.org, linux-clk@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-crypto@vger.kernel.org, 
+ dmaengine@vger.kernel.org, linux-efi@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-fpga@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org, 
+ linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org, 
+ linux-leds@vger.kernel.org, linux-wireless@vger.kernel.org, 
+ linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ linux-spi@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
+ linux-serial@vger.kernel.org, linux-usb@vger.kernel.org, 
+ linux-fbdev@vger.kernel.org, iommu@lists.linux.dev, 
+ linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
+ linux-hardening@vger.kernel.org, linux-nfs@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20240403080702.3509288-1-arnd@kernel.org>
+References: <20240403080702.3509288-1-arnd@kernel.org>
+Subject: Re: (subset) [PATCH 00/34] address all -Wunused-const warnings
+Message-Id: <171273615213.1094883.18382201508159771859.b4-ty@collabora.com>
+Date: Wed, 10 Apr 2024 10:02:32 +0200
 MIME-Version: 1.0
-In-Reply-To: <285be63c-8939-495c-8411-ce2a68e25b2b@linaro.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
+X-Mailman-Approved-At: Wed, 10 Apr 2024 08:43:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,31 +111,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 10, 2024 at 09:41:57AM +0200, Krzysztof Kozlowski wrote:
-> On 31/03/2024 10:43, Krzysztof Kozlowski wrote:
-> > Changes in v2:
-> > - Three new patches: virtio mem+input+balloon
-> > - Minor commit msg adjustments
-> > - Add tags
-> > - Link to v1: https://lore.kernel.org/r/20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org
-> > 
-> > Merging
-> > =======
-> > All further patches depend on the first virtio patch, therefore please ack
-> > and this should go via one tree: maybe virtio?
-> 
-> Michael, Jason, Xuan,
-> 
-> Will you be able to take the entire patchset through virtio?
-> 
-> Best regards,
-> Krzysztof
 
+On Wed, 03 Apr 2024 10:06:18 +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> Compilers traditionally warn for unused 'static' variables, but not
+> if they are constant. The reason here is a custom for C++ programmers
+> to define named constants as 'static const' variables in header files
+> instead of using macros or enums.
+> 
+> [...]
 
-Hello!
-Yes I intend to take it for the next merge window.
-I am also merging the 1st patch for this release (it's a bugfix).
+Applied, thanks!
 
+[09/34] power: rt9455: hide unused rt9455_boost_voltage_values
+        commit: 452d8950db3e839aba1bb13bc5378f4bac11fa04
+
+Best regards,
 -- 
-MST
+Sebastian Reichel <sebastian.reichel@collabora.com>
 
