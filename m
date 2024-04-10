@@ -2,111 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 568D289F41D
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 15:25:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3EB089F430
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 15:27:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2042911338D;
-	Wed, 10 Apr 2024 13:25:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4A6011338F;
+	Wed, 10 Apr 2024 13:27:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="S3DCsCud";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Xd7G1+pi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C20F11338C
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 13:25:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1712755498; x=1713360298; i=deller@gmx.de;
- bh=AZ+e7abeuMAbqw5DuoP6+wi7y8hthSxtAmUf+jW6o2Q=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
- In-Reply-To;
- b=S3DCsCudv3+cTiXQb4nAlzsx341FtS8rfjx76fVEVGmFqTSEL/AnyJvFxSs1VB9G
- 5IRbXjCwBj8i7dWnAevyR515OmuTWnb1yK0W7Hhj0JxGDVw8uk/8Rm+7OUh4rg3OY
- v+exwBhp17cJy8mcxylOYMtDSyUfQJV/mdMlVJV7xSLwuO+4yJ9QlTWOe7lJXzF7Q
- fdoD5F7HG7GiO7FMbRZWEfXmgHGEbm7rkd7gMWqBOc8U5fmm067A1rZCzWXmGIUBW
- Cw6fW5mGobY66Pt5diWVp13yFiSEbD/5fr5uKRyXwB2REUsjHQjD5Hfrb16RQjzpH
- afIV/wlKSZPLkTwJ6g==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [10.8.0.6] ([78.94.87.245]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mf0BG-1sQqYq1LDe-00gWPK; Wed, 10
- Apr 2024 15:24:58 +0200
-Message-ID: <d701de84-8ee3-40a5-9dc8-575f516560e8@gmx.de>
-Date: Wed, 10 Apr 2024 15:24:57 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BEBB11338E
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 13:27:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1712755626;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=J3K+y0BoRUjA9t/zOSLsmI2A1NLiofwLaNyfdOh6X9A=;
+ b=Xd7G1+pih0NaysjbPUqYKcJ9G5zNKaTxkxrm+LMaaI9Gii2zsqFovqtZ+YAEkqlcYfYWQG
+ xCURJgwxidIvKo9ZZIvvEvtDkpZuKCGpbgLwG3ZdF6Jr7ky2Kv+9olbWJo+zlmzZHpjklI
+ /3lhbTgJrgOqQ2lRtpaGDpFhQ+gd2I8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-408-lNWtEJbrMYS591ERQmRMyA-1; Wed, 10 Apr 2024 09:27:04 -0400
+X-MC-Unique: lNWtEJbrMYS591ERQmRMyA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-343bb240f70so3208727f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 06:27:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712755623; x=1713360423;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=J3K+y0BoRUjA9t/zOSLsmI2A1NLiofwLaNyfdOh6X9A=;
+ b=cR5OZ/59L7J+b+/2AceMevkQtvwFTtqVgPE8UOlYehtuzxE7hyftpesw9wwy4uYVe5
+ pUeEaLb6deSUeI+dVkPK+wx1BedixjEIz+aYVc1tiEKMyK1Dz6yQxgDE1VrmW2xwQikM
+ 2G+okwGYVM3JOvvEqxa5WeTbmq1PNxDD7GcMdcrglfwUIsudbFheuJPsFke2N9s7f4sn
+ RLj83mIqguOq1+jCbyNG1/YOO/KmjPoVwh+6uRQ2upIG6K60xdSARADn8bDRKG33XTEQ
+ q2NmsvtkmdqGKTtsnHlitEUp/hpsPTMDJa/3x4ha9/wd3z4UnVkXaKBpEvVMLX8MGNoW
+ qPHA==
+X-Gm-Message-State: AOJu0YzO/Wsw607a26ZjgitsJAHe66vzC4CyvsWCFpAWOBjEBgUcLOxK
+ P+C8LiOiumFfPNzT9zpp+4cMvrNi0o82uLinUlWT4QV+K0CB1IYXR3FB/Tkeonrzp/VgGwqb3ZA
+ x6K/CaYu1Ax3jT+EWVvCVocPs9NiOvDt2TFAfntzrM884I4x74kOEZCaTUtsM+0+Cgw==
+X-Received: by 2002:adf:fd42:0:b0:343:8beb:34e3 with SMTP id
+ h2-20020adffd42000000b003438beb34e3mr1974521wrs.29.1712755623454; 
+ Wed, 10 Apr 2024 06:27:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEBYdU1l1X8qYYbUaBRSZzWESg4ro7QfHwFrk+H17SMzRKCHhmnDkUemS4L74TBvV2Nht27Hw==
+X-Received: by 2002:adf:fd42:0:b0:343:8beb:34e3 with SMTP id
+ h2-20020adffd42000000b003438beb34e3mr1974488wrs.29.1712755622993; 
+ Wed, 10 Apr 2024 06:27:02 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:d5:a000:f101:edd0:5929:7a40?
+ ([2a01:e0a:d5:a000:f101:edd0:5929:7a40])
+ by smtp.gmail.com with ESMTPSA id
+ k7-20020a5d5187000000b003434c764f01sm13736566wrv.107.2024.04.10.06.27.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Apr 2024 06:27:02 -0700 (PDT)
+Message-ID: <67a5847e-44c4-44f9-9a96-811500821867@redhat.com>
+Date: Wed, 10 Apr 2024 15:27:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] fbdev: add HAS_IOPORT dependencies
-To: Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Arnd Bergmann <arnd@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
- linux-kernel@vger.kernel.org
-References: <20240410105626.2743168-1-schnelle@linux.ibm.com>
- <20240410105626.2743168-2-schnelle@linux.ibm.com>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <20240410105626.2743168-2-schnelle@linux.ibm.com>
+Subject: Re: [PATCH v12 1/9] drm/panic: Add drm panic locking
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, javierm@redhat.com, 
+ bluescreen_avenger@verizon.net, noralf@tronnes.org, sui.jingfeng@linux.dev,
+ gpiccoli@igalia.com, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+ Lukas Wunner <lukas@wunner.de>, Petr Mladek <pmladek@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>, John Ogness
+ <john.ogness@linutronix.de>, Sergey Senozhatsky <senozhatsky@chromium.org>,
+ David Airlie <airlied@gmail.com>
+References: <20240409163432.352518-1-jfalempe@redhat.com>
+ <20240409163432.352518-2-jfalempe@redhat.com>
+ <ZhZGyOtmNkRFDFOR@phenom.ffwll.local>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <ZhZGyOtmNkRFDFOR@phenom.ffwll.local>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:rQPro57Z0kJml3t3HN1mQ0FvFH7vtFvCNogl7+aH8zpDy2cEFBy
- eQMW1T35AXZUaK7U0PXZL7EFvDzXZ4M/kHZY2eFCG6tGNBzVVlK+RadJd0gAgxhBXHihk/Q
- 0gWUoq9ScbabBFtb4SpngDFQkKvzNQDRd1zSLM49sAOEY2pP1CCpyqeC3Zx0yqalrgZ9B0P
- oL2uqBIVGlK6E2Dk0Z42w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:cjDSlXYddeI=;bDiKn/4hxaA4+RMSabL+P4ZVhsA
- d/7kasFxfO/I0VjxyUAEoy7EKAkxqAGcdPXAZATIq68BdV34qyNpC/Qfet/3iP6qACccia8JV
- u/vD9O0esAb7Nr939bjSR4wFIynTS0Kc1A9+4J71Lsj8pPZdBo6F3xnoqUIG2WwLR5A3emaRp
- PTEDnKF0p7uIb+c4Xm+tbhva39CSfM6XM2wwTskA15qW/iqxm+Xe1o84OylIezxpJ85fUPBe9
- rqXku6dclDTCIkaJQa0KL8kTW0l1VBTn09jQKypDaft4rTrYdV7Ro/o71JVeB6c1RXsYXQsW5
- VoriEQxfIQpLBzYgeagrSYvu/SrT1wbdKOSkAgKK07UANkrnPddQ7oPE5sceV3vcSS9GM6D0u
- NyLcx6V+960QOWbxE3Sg5D0uhT+ZJCUfbtR/gd9Uvu0642amORduJUiV920+1pn/RfTrQvaE8
- 80uFJHatvmUtXshQViFbrkuM71bbiVIvzMlxtBoYW3Ed4NhmgEDzdW/eFeFqS8W6toXqj4hGR
- q3TFiOag+eTJSAF5U4yRPase3gbpRPRAqkW7Yzw8bbtgN5qrdNk9OHd8b8LMZALusudHbnI5X
- U4isBcQWEaphGTXOjr8Z72Ok2/0/7MgP4+IYoouhQM937MZLX8oaSNTl1iTtXPYC8q96AN+vv
- RdIDu+msZ6FxXA10HYFt+vXHCS8a0rHJiEwp6vi3Z1jRfu6oDNf+GsGYwAY90J4YEqlLL+Pw0
- S1EJxQBRS7S8jkqUM3Hnn8PzgWyut1+pvi3kZefm7FLqS7Esf7S+LVvALILGDII8zXI9HPJkY
- fnRrSCef/hjxe3VZcFWm0Tch+G8ue8Bu8RmvKrr0i7M/0=
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,135 +103,323 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/10/24 12:56, Niklas Schnelle wrote:
-> In a future patch HAS_IOPORT=3Dn will disable inb()/outb() and friends a=
-t
-> compile time. We thus need to add HAS_IOPORT as dependency for those
-> drivers using them.
->
-> Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-> Signed-off-by: Arnd Bergmann <arnd@kernel.org>
-> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+Hi,
 
-added to fbdev git tree.
+On 10/04/2024 09:59, Daniel Vetter wrote:
+> On Tue, Apr 09, 2024 at 06:30:40PM +0200, Jocelyn Falempe wrote:
+>> From: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>
+>> Rough sketch for the locking of drm panic printing code. The upshot of
+>> this approach is that we can pretty much entirely rely on the atomic
+>> commit flow, with the pair of raw_spin_lock/unlock providing any
+>> barriers we need, without having to create really big critical
+>> sections in code.
+>>
+>> This also avoids the need that drivers must explicitly update the
+>> panic handler state, which they might forget to do, or not do
+>> consistently, and then we blow up in the worst possible times.
+>>
+>> It is somewhat racy against a concurrent atomic update, and we might
+>> write into a buffer which the hardware will never display. But there's
+>> fundamentally no way to avoid that - if we do the panic state update
+>> explicitly after writing to the hardware, we might instead write to an
+>> old buffer that the user will barely ever see.
+>>
+>> Note that an rcu protected deference of plane->state would give us the
+>> the same guarantees, but it has the downside that we then need to
+>> protect the plane state freeing functions with call_rcu too. Which
+>> would very widely impact a lot of code and therefore doesn't seem
+>> worth the complexity compared to a raw spinlock with very tiny
+>> critical sections. Plus rcu cannot be used to protect access to
+>> peek/poke registers anyway, so we'd still need it for those cases.
+>>
+>> Peek/poke registers for vram access (or a gart pte reserved just for
+>> panic code) are also the reason I've gone with a per-device and not
+>> per-plane spinlock, since usually these things are global for the
+>> entire display. Going with per-plane locks would mean drivers for such
+>> hardware would need additional locks, which we don't want, since it
+>> deviates from the per-console takeoverlocks design.
+>>
+>> Longer term it might be useful if the panic notifiers grow a bit more
+>> structure than just the absolute bare
+>> EXPORT_SYMBOL(panic_notifier_list) - somewhat aside, why is that not
+>> EXPORT_SYMBOL_GPL ... If panic notifiers would be more like console
+>> drivers with proper register/unregister interfaces we could perhaps
+>> reuse the very fancy console lock with all it's check and takeover
+>> semantics that John Ogness is developing to fix the console_lock mess.
+>> But for the initial cut of a drm panic printing support I don't think
+>> we need that, because the critical sections are extremely small and
+>> only happen once per display refresh. So generally just 60 tiny locked
+>> sections per second, which is nothing compared to a serial console
+>> running a 115kbaud doing really slow mmio writes for each byte. So for
+>> now the raw spintrylock in drm panic notifier callback should be good
+>> enough.
+>>
+>> Another benefit of making panic notifiers more like full blown
+>> consoles (that are used in panics only) would be that we get the two
+>> stage design, where first all the safe outputs are used. And then the
+>> dangerous takeover tricks are deployed (where for display drivers we
+>> also might try to intercept any in-flight display buffer flips, which
+>> if we race and misprogram fifos and watermarks can hang the memory
+>> controller on some hw).
+>>
+>> For context the actual implementation on the drm side is by Jocelyn
+>> and this patch is meant to be combined with the overall approach in
+>> v7 (v8 is a bit less flexible, which I think is the wrong direction):
+>>
+>> https://lore.kernel.org/dri-devel/20240104160301.185915-1-jfalempe@redhat.com/
+>>
+>> Note that the locking is very much not correct there, hence this
+>> separate rfc.
+>>
+>> v2:
+>> - fix authorship, this was all my typing
+>> - some typo oopsies
+>> - link to the drm panic work by Jocelyn for context
+> 
+> Please annotate that v10 and later is your work, credit where credit is
+> due and all that :-)
 
-Thanks!
-Helge
+Sure, I'll add a comment about this.
+
+> 
+>> v10:
+>> - Use spinlock_irqsave/restore (John Ogness)
+>>
+>> v11:
+>> - Use macro instead of inline functions for drm_panic_lock/unlock (John Ogness)
+>>
+>> Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> Cc: Jocelyn Falempe <jfalempe@redhat.com>
+>> Cc: Andrew Morton <akpm@linux-foundation.org>
+>> Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+>> Cc: Lukas Wunner <lukas@wunner.de>
+>> Cc: Petr Mladek <pmladek@suse.com>
+>> Cc: Steven Rostedt <rostedt@goodmis.org>
+>> Cc: John Ogness <john.ogness@linutronix.de>
+>> Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> Cc: Maxime Ripard <mripard@kernel.org>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: David Airlie <airlied@gmail.com>
+>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>> ---
+>>   drivers/gpu/drm/drm_atomic_helper.c |   4 ++
+>>   drivers/gpu/drm/drm_drv.c           |   1 +
+>>   include/drm/drm_mode_config.h       |  10 +++
+>>   include/drm/drm_panic.h             | 100 ++++++++++++++++++++++++++++
+>>   4 files changed, 115 insertions(+)
+>>   create mode 100644 include/drm/drm_panic.h
+>>
+>> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+>> index 39ef0a6addeb..fb97b51b38f1 100644
+>> --- a/drivers/gpu/drm/drm_atomic_helper.c
+>> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+>> @@ -38,6 +38,7 @@
+>>   #include <drm/drm_drv.h>
+>>   #include <drm/drm_framebuffer.h>
+>>   #include <drm/drm_gem_atomic_helper.h>
+>> +#include <drm/drm_panic.h>
+>>   #include <drm/drm_print.h>
+>>   #include <drm/drm_self_refresh_helper.h>
+>>   #include <drm/drm_vblank.h>
+>> @@ -3016,6 +3017,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
+>>   				  bool stall)
+>>   {
+>>   	int i, ret;
+>> +	unsigned long flags;
+>>   	struct drm_connector *connector;
+>>   	struct drm_connector_state *old_conn_state, *new_conn_state;
+>>   	struct drm_crtc *crtc;
+>> @@ -3099,6 +3101,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
+>>   		}
+>>   	}
+>>   
+>> +	drm_panic_lock(state->dev, flags);
+>>   	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
+>>   		WARN_ON(plane->state != old_plane_state);
+>>   
+>> @@ -3108,6 +3111,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
+>>   		state->planes[i].state = old_plane_state;
+>>   		plane->state = new_plane_state;
+>>   	}
+>> +	drm_panic_unlock(state->dev, flags);
+>>   
+>>   	for_each_oldnew_private_obj_in_state(state, obj, old_obj_state, new_obj_state, i) {
+>>   		WARN_ON(obj->state != old_obj_state);
+>> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+>> index 243cacb3575c..c157500b3135 100644
+>> --- a/drivers/gpu/drm/drm_drv.c
+>> +++ b/drivers/gpu/drm/drm_drv.c
+>> @@ -638,6 +638,7 @@ static int drm_dev_init(struct drm_device *dev,
+>>   	mutex_init(&dev->filelist_mutex);
+>>   	mutex_init(&dev->clientlist_mutex);
+>>   	mutex_init(&dev->master_mutex);
+>> +	raw_spin_lock_init(&dev->mode_config.panic_lock);
+>>   
+>>   	ret = drmm_add_action_or_reset(dev, drm_dev_init_release, NULL);
+>>   	if (ret)
+>> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+>> index 973119a9176b..e79f1a557a22 100644
+>> --- a/include/drm/drm_mode_config.h
+>> +++ b/include/drm/drm_mode_config.h
+>> @@ -505,6 +505,16 @@ struct drm_mode_config {
+>>   	 */
+>>   	struct list_head plane_list;
+>>   
+>> +	/**
+>> +	 * @panic_lock:
+>> +	 *
+>> +	 * Raw spinlock used to protect critical sections of code that access
+>> +	 * the display hardware or modeset software state, which the panic
+>> +	 * printing code must be protected against. See drm_panic_trylock(),
+>> +	 * drm_panic_lock() and drm_panic_unlock().
+>> +	 */
+>> +	struct raw_spinlock panic_lock;
+>> +
+>>   	/**
+>>   	 * @num_crtc:
+>>   	 *
+>> diff --git a/include/drm/drm_panic.h b/include/drm/drm_panic.h
+>> new file mode 100644
+>> index 000000000000..68f57710d2d1
+>> --- /dev/null
+>> +++ b/include/drm/drm_panic.h
+>> @@ -0,0 +1,100 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 or MIT */
+>> +#ifndef __DRM_PANIC_H__
+>> +#define __DRM_PANIC_H__
+>> +
+>> +#include <drm/drm_device.h>
+>> +/*
+>> + * Copyright (c) 2024 Intel
+>> + */
+>> +
+>> +/**
+>> + * drm_panic_trylock - try to enter the panic printing critical section
+>> + * @dev: struct drm_device
+>> + * @flags: unsigned long irq flags you need to pass to the unlock() counterpart
+>> + *
+>> + * This function must be called by any panic printing code. The panic printing
+>> + * attempt must be aborted if the trylock fails.
+>> + *
+>> + * Panic printing code can make the following assumptions while holding the
+>> + * panic lock:
+>> + *
+>> + * - Anything protected by drm_panic_lock() and drm_panic_unlock() pairs is safe
+>> + *   to access.
+>> + *
+>> + * - Furthermore the panic printing code only registers in drm_dev_unregister()
+>> + *   and gets removed in drm_dev_unregister(). This allows the panic code to
+>> + *   safely access any state which is invariant in between these two function
+>> + *   calls, like the list of planes drm_mode_config.plane_list or most of the
+> 
+>                                         &drm_mode_config.plane_list
+> 
+> so that the hyperlinks work. Maybe double-check the generated html for
+> everything at the end of the series to make sure all the hyperlinks do
+> work and there's no typos.
+
+I'm checking the kernel docs, to make sure the doc is up-to-date with 
+the latest version.
+I'm adding "kernel-doc:: include/drm/drm_panic.h" otherwise it was not 
+part of the doc, and there are a few missing "&" which are easy to fix.
+
+> 
+>> + *   struct drm_plane structure.
+>> + *
+>> + * Specifically thanks to the protection around plane updates in
+>> + * drm_atomic_helper_swap_state() the following additional guarantees hold:
+>> + *
+>> + * - It is safe to deference the drm_plane.state pointer.
+>> + *
+>> + * - Anything in struct drm_plane_state or the driver's subclass thereof which
+>> + *   stays invariant after the atomic check code has finished is safe to access.
+>> + *   Specifically this includes the reference counted pointers to framebuffer
+>> + *   and buffer objects.
+>> + *
+>> + * - Anything set up by drm_plane_helper_funcs.fb_prepare and cleaned up
+>> + *   drm_plane_helper_funcs.fb_cleanup is safe to access, as long as it stays
+>> + *   invariant between these two calls. This also means that for drivers using
+>> + *   dynamic buffer management the framebuffer is pinned, and therefer all
+>> + *   relevant datastructures can be accessed without taking any further locks
+>> + *   (which would be impossible in panic context anyway).
+>> + *
+>> + * - Importantly, software and hardware state set up by
+>> + *   drm_plane_helper_funcs.begin_fb_access and
+>> + *   drm_plane_helper_funcs.end_fb_access is not safe to access.
+>> + *
+>> + * Drivers must not make any assumptions about the actual state of the hardware,
+>> + * unless they explicitly protected these hardware access with drm_panic_lock()
+>> + * and drm_panic_unlock().
+>> + *
+>> + * Returns:
+>> + *
+>> + * 0 when failing to acquire the raw spinlock, nonzero on success.
+>> + */
+>> +#define drm_panic_trylock(dev, flags) \
+>> +	raw_spin_trylock_irqsave(&dev->mode_config.panic_lock, flags)
+>> +
+>> +/**
+>> + * drm_panic_lock - protect panic printing relevant state
+>> + * @dev: struct drm_device
+>> + * @flags: unsigned long irq flags you need to pass to the unlock() counterpart
+>> + *
+>> + * This function must be called to protect software and hardware state that the
+>> + * panic printing code must be able to rely on. The protected sections must be
+>> + * as small as possible. It uses the irqsave/irqrestore variant, and can be
+>> + * called from irq handler. Examples include:
+>> + *
+>> + * - Access to peek/poke or other similar registers, if that is the way the
+>> + *   driver prints the pixels into the scanout buffer at panic time.
+>> + *
+>> + * - Updates to pointers like drm_plane.state, allowing the panic handler to
+>> + *   safely deference these. This is done in drm_atomic_helper_swap_state().
+>> + *
+>> + * - An state that isn't invariant and that the driver must be able to access
+>> + *   during panic printing.
+>> + *
+>> + * Returns:
+>> + *
+>> + * The irqflags needed to call drm_panic_unlock().
+> 
+> I think the Returns section should be deleted here, that was for v10?
+
+Sorry, yes it's a leftover from v10, I'll remove it, before pushing.
+
+> 
+> Otherwise Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch> on your changes
+> here.
+> -Sima
+> 
+> 
+Thanks for your review,
+
+-- 
+
+Jocelyn
 
 
-> ---
-> Note: This patch does not depend any not-yet-mainline HAS_IOPORT changes
-> and may be merged via subsystem specific trees at your earliest
-> convenience.
->
-> v1 -> v2:
-> - Add dependency for FB_ARC
->
->   drivers/video/fbdev/Kconfig | 22 +++++++++++-----------
->   1 file changed, 11 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-> index 197b6d5268e9..76bbfd3767da 100644
-> --- a/drivers/video/fbdev/Kconfig
-> +++ b/drivers/video/fbdev/Kconfig
-> @@ -157,7 +157,7 @@ config FB_IMX
->
->   config FB_CYBER2000
->   	tristate "CyberPro 2000/2010/5000 support"
-> -	depends on FB && PCI && (BROKEN || !SPARC64)
-> +	depends on FB && PCI && HAS_IOPORT && (BROKEN || !SPARC64)
->   	select FB_IOMEM_HELPERS
->   	help
->   	  This enables support for the Integraphics CyberPro 20x0 and 5000
-> @@ -245,7 +245,7 @@ config FB_FM2
->
->   config FB_ARC
->   	tristate "Arc Monochrome LCD board support"
-> -	depends on FB && (X86 || COMPILE_TEST)
-> +	depends on FB && HAS_IOPORT && (X86 || COMPILE_TEST)
->   	select FB_SYSMEM_HELPERS_DEFERRED
->   	help
->   	  This enables support for the Arc Monochrome LCD board. The board
-> @@ -1046,7 +1046,7 @@ config FB_ATY_BACKLIGHT
->
->   config FB_S3
->   	tristate "S3 Trio/Virge support"
-> -	depends on FB && PCI
-> +	depends on FB && PCI && HAS_IOPORT
->   	select FB_CFB_FILLRECT
->   	select FB_CFB_COPYAREA
->   	select FB_CFB_IMAGEBLIT
-> @@ -1107,7 +1107,7 @@ config FB_SAVAGE_ACCEL
->
->   config FB_SIS
->   	tristate "SiS/XGI display support"
-> -	depends on FB && PCI
-> +	depends on FB && PCI && HAS_IOPORT
->   	select BOOT_VESA_SUPPORT if FB_SIS =3D y
->   	select FB_CFB_FILLRECT
->   	select FB_CFB_COPYAREA
-> @@ -1138,7 +1138,7 @@ config FB_SIS_315
->
->   config FB_VIA
->   	tristate "VIA UniChrome (Pro) and Chrome9 display support"
-> -	depends on FB && PCI && GPIOLIB && I2C && (X86 || COMPILE_TEST)
-> +	depends on FB && PCI && GPIOLIB && I2C && HAS_IOPORT && (X86 || COMPIL=
-E_TEST)
->   	select FB_CFB_FILLRECT
->   	select FB_CFB_COPYAREA
->   	select FB_CFB_IMAGEBLIT
-> @@ -1177,7 +1177,7 @@ endif
->
->   config FB_NEOMAGIC
->   	tristate "NeoMagic display support"
-> -	depends on FB && PCI
-> +	depends on FB && PCI && HAS_IOPORT
->   	select FB_CFB_FILLRECT
->   	select FB_CFB_COPYAREA
->   	select FB_CFB_IMAGEBLIT
-> @@ -1204,7 +1204,7 @@ config FB_KYRO
->
->   config FB_3DFX
->   	tristate "3Dfx Banshee/Voodoo3/Voodoo5 display support"
-> -	depends on FB && PCI
-> +	depends on FB && PCI && HAS_IOPORT
->   	select FB_CFB_FILLRECT
->   	select FB_CFB_COPYAREA
->   	select FB_CFB_IMAGEBLIT
-> @@ -1252,7 +1252,7 @@ config FB_VOODOO1
->
->   config FB_VT8623
->   	tristate "VIA VT8623 support"
-> -	depends on FB && PCI
-> +	depends on FB && PCI && HAS_IOPORT
->   	select FB_CFB_FILLRECT
->   	select FB_CFB_COPYAREA
->   	select FB_CFB_IMAGEBLIT
-> @@ -1267,7 +1267,7 @@ config FB_VT8623
->
->   config FB_TRIDENT
->   	tristate "Trident/CyberXXX/CyberBlade support"
-> -	depends on FB && PCI
-> +	depends on FB && PCI && HAS_IOPORT
->   	select FB_CFB_FILLRECT
->   	select FB_CFB_COPYAREA
->   	select FB_CFB_IMAGEBLIT
-> @@ -1290,7 +1290,7 @@ config FB_TRIDENT
->
->   config FB_ARK
->   	tristate "ARK 2000PV support"
-> -	depends on FB && PCI
-> +	depends on FB && PCI && HAS_IOPORT
->   	select FB_CFB_FILLRECT
->   	select FB_CFB_COPYAREA
->   	select FB_CFB_IMAGEBLIT
-> @@ -1814,7 +1814,7 @@ config FB_SSD1307
->
->   config FB_SM712
->   	tristate "Silicon Motion SM712 framebuffer support"
-> -	depends on FB && PCI
-> +	depends on FB && PCI && HAS_IOPORT
->   	select FB_IOMEM_HELPERS
->   	help
->   	  Frame buffer driver for the Silicon Motion SM710, SM712, SM721
+>> + */
+>> +
+>> +#define drm_panic_lock(dev, flags) \
+>> +	raw_spin_lock_irqsave(&dev->mode_config.panic_lock, flags)
+>> +
+>> +/**
+>> + * drm_panic_unlock - end of the panic printing critical section
+>> + * @dev: struct drm_device
+>> + * @flags: irq flags that were returned when acquiring the lock
+>> + *
+>> + * Unlocks the raw spinlock acquired by either drm_panic_lock() or
+>> + * drm_panic_trylock().
+>> + */
+>> +#define drm_panic_unlock(dev, flags) \
+>> +	raw_spin_unlock_irqrestore(&dev->mode_config.panic_lock, flags)
+>> +
+>> +#endif /* __DRM_PANIC_H__ */
+>> -- 
+>> 2.44.0
+>>
+> 
 
