@@ -2,92 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3EB089F430
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 15:27:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BDD189F445
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 15:29:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4A6011338F;
-	Wed, 10 Apr 2024 13:27:09 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Xd7G1+pi";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1466112909;
+	Wed, 10 Apr 2024 13:29:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BEBB11338E
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 13:27:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1712755626;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J3K+y0BoRUjA9t/zOSLsmI2A1NLiofwLaNyfdOh6X9A=;
- b=Xd7G1+pih0NaysjbPUqYKcJ9G5zNKaTxkxrm+LMaaI9Gii2zsqFovqtZ+YAEkqlcYfYWQG
- xCURJgwxidIvKo9ZZIvvEvtDkpZuKCGpbgLwG3ZdF6Jr7ky2Kv+9olbWJo+zlmzZHpjklI
- /3lhbTgJrgOqQ2lRtpaGDpFhQ+gd2I8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-408-lNWtEJbrMYS591ERQmRMyA-1; Wed, 10 Apr 2024 09:27:04 -0400
-X-MC-Unique: lNWtEJbrMYS591ERQmRMyA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-343bb240f70so3208727f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 06:27:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712755623; x=1713360423;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=J3K+y0BoRUjA9t/zOSLsmI2A1NLiofwLaNyfdOh6X9A=;
- b=cR5OZ/59L7J+b+/2AceMevkQtvwFTtqVgPE8UOlYehtuzxE7hyftpesw9wwy4uYVe5
- pUeEaLb6deSUeI+dVkPK+wx1BedixjEIz+aYVc1tiEKMyK1Dz6yQxgDE1VrmW2xwQikM
- 2G+okwGYVM3JOvvEqxa5WeTbmq1PNxDD7GcMdcrglfwUIsudbFheuJPsFke2N9s7f4sn
- RLj83mIqguOq1+jCbyNG1/YOO/KmjPoVwh+6uRQ2upIG6K60xdSARADn8bDRKG33XTEQ
- q2NmsvtkmdqGKTtsnHlitEUp/hpsPTMDJa/3x4ha9/wd3z4UnVkXaKBpEvVMLX8MGNoW
- qPHA==
-X-Gm-Message-State: AOJu0YzO/Wsw607a26ZjgitsJAHe66vzC4CyvsWCFpAWOBjEBgUcLOxK
- P+C8LiOiumFfPNzT9zpp+4cMvrNi0o82uLinUlWT4QV+K0CB1IYXR3FB/Tkeonrzp/VgGwqb3ZA
- x6K/CaYu1Ax3jT+EWVvCVocPs9NiOvDt2TFAfntzrM884I4x74kOEZCaTUtsM+0+Cgw==
-X-Received: by 2002:adf:fd42:0:b0:343:8beb:34e3 with SMTP id
- h2-20020adffd42000000b003438beb34e3mr1974521wrs.29.1712755623454; 
- Wed, 10 Apr 2024 06:27:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEBYdU1l1X8qYYbUaBRSZzWESg4ro7QfHwFrk+H17SMzRKCHhmnDkUemS4L74TBvV2Nht27Hw==
-X-Received: by 2002:adf:fd42:0:b0:343:8beb:34e3 with SMTP id
- h2-20020adffd42000000b003438beb34e3mr1974488wrs.29.1712755622993; 
- Wed, 10 Apr 2024 06:27:02 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:d5:a000:f101:edd0:5929:7a40?
- ([2a01:e0a:d5:a000:f101:edd0:5929:7a40])
- by smtp.gmail.com with ESMTPSA id
- k7-20020a5d5187000000b003434c764f01sm13736566wrv.107.2024.04.10.06.27.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Apr 2024 06:27:02 -0700 (PDT)
-Message-ID: <67a5847e-44c4-44f9-9a96-811500821867@redhat.com>
-Date: Wed, 10 Apr 2024 15:27:00 +0200
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 115DB10FE8C
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 13:29:01 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1ruY0K-00060d-RT; Wed, 10 Apr 2024 15:28:44 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1ruY0J-00BVJ9-Hh; Wed, 10 Apr 2024 15:28:43 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+ (envelope-from <ukl@pengutronix.de>) id 1ruY0J-00HaHf-1Q;
+ Wed, 10 Apr 2024 15:28:43 +0200
+Date: Wed, 10 Apr 2024 15:28:43 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Robert Foss <rfoss@kernel.org>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Lucas Stach <l.stach@pengutronix.de>, Maxime Ripard <mripard@kernel.org>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>, 
+ Shawn Guo <shawnguo@kernel.org>, Liu Ying <victor.liu@nxp.com>,
+ imx@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH] drm/bridge: imx8mp-hdmi-pvi: Convert to platform remove
+ callback returning void
+Message-ID: <nb4f2nk2tsx7hitww57nkfjdvxpeowxprxde5qihkzhudm6zoo@ty5r5f3hjuff>
+References: <20240304090555.716327-2-u.kleine-koenig@pengutronix.de>
+ <171275462600.2936896.18026577866490629134.b4-ty@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 1/9] drm/panic: Add drm panic locking
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, javierm@redhat.com, 
- bluescreen_avenger@verizon.net, noralf@tronnes.org, sui.jingfeng@linux.dev,
- gpiccoli@igalia.com, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Peter Zijlstra (Intel)" <peterz@infradead.org>,
- Lukas Wunner <lukas@wunner.de>, Petr Mladek <pmladek@suse.com>,
- Steven Rostedt <rostedt@goodmis.org>, John Ogness
- <john.ogness@linutronix.de>, Sergey Senozhatsky <senozhatsky@chromium.org>,
- David Airlie <airlied@gmail.com>
-References: <20240409163432.352518-1-jfalempe@redhat.com>
- <20240409163432.352518-2-jfalempe@redhat.com>
- <ZhZGyOtmNkRFDFOR@phenom.ffwll.local>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <ZhZGyOtmNkRFDFOR@phenom.ffwll.local>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="zcnaej4vqfuhzrxq"
+Content-Disposition: inline
+In-Reply-To: <171275462600.2936896.18026577866490629134.b4-ty@kernel.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,323 +72,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 10/04/2024 09:59, Daniel Vetter wrote:
-> On Tue, Apr 09, 2024 at 06:30:40PM +0200, Jocelyn Falempe wrote:
->> From: Daniel Vetter <daniel.vetter@ffwll.ch>
->>
->> Rough sketch for the locking of drm panic printing code. The upshot of
->> this approach is that we can pretty much entirely rely on the atomic
->> commit flow, with the pair of raw_spin_lock/unlock providing any
->> barriers we need, without having to create really big critical
->> sections in code.
->>
->> This also avoids the need that drivers must explicitly update the
->> panic handler state, which they might forget to do, or not do
->> consistently, and then we blow up in the worst possible times.
->>
->> It is somewhat racy against a concurrent atomic update, and we might
->> write into a buffer which the hardware will never display. But there's
->> fundamentally no way to avoid that - if we do the panic state update
->> explicitly after writing to the hardware, we might instead write to an
->> old buffer that the user will barely ever see.
->>
->> Note that an rcu protected deference of plane->state would give us the
->> the same guarantees, but it has the downside that we then need to
->> protect the plane state freeing functions with call_rcu too. Which
->> would very widely impact a lot of code and therefore doesn't seem
->> worth the complexity compared to a raw spinlock with very tiny
->> critical sections. Plus rcu cannot be used to protect access to
->> peek/poke registers anyway, so we'd still need it for those cases.
->>
->> Peek/poke registers for vram access (or a gart pte reserved just for
->> panic code) are also the reason I've gone with a per-device and not
->> per-plane spinlock, since usually these things are global for the
->> entire display. Going with per-plane locks would mean drivers for such
->> hardware would need additional locks, which we don't want, since it
->> deviates from the per-console takeoverlocks design.
->>
->> Longer term it might be useful if the panic notifiers grow a bit more
->> structure than just the absolute bare
->> EXPORT_SYMBOL(panic_notifier_list) - somewhat aside, why is that not
->> EXPORT_SYMBOL_GPL ... If panic notifiers would be more like console
->> drivers with proper register/unregister interfaces we could perhaps
->> reuse the very fancy console lock with all it's check and takeover
->> semantics that John Ogness is developing to fix the console_lock mess.
->> But for the initial cut of a drm panic printing support I don't think
->> we need that, because the critical sections are extremely small and
->> only happen once per display refresh. So generally just 60 tiny locked
->> sections per second, which is nothing compared to a serial console
->> running a 115kbaud doing really slow mmio writes for each byte. So for
->> now the raw spintrylock in drm panic notifier callback should be good
->> enough.
->>
->> Another benefit of making panic notifiers more like full blown
->> consoles (that are used in panics only) would be that we get the two
->> stage design, where first all the safe outputs are used. And then the
->> dangerous takeover tricks are deployed (where for display drivers we
->> also might try to intercept any in-flight display buffer flips, which
->> if we race and misprogram fifos and watermarks can hang the memory
->> controller on some hw).
->>
->> For context the actual implementation on the drm side is by Jocelyn
->> and this patch is meant to be combined with the overall approach in
->> v7 (v8 is a bit less flexible, which I think is the wrong direction):
->>
->> https://lore.kernel.org/dri-devel/20240104160301.185915-1-jfalempe@redhat.com/
->>
->> Note that the locking is very much not correct there, hence this
->> separate rfc.
->>
->> v2:
->> - fix authorship, this was all my typing
->> - some typo oopsies
->> - link to the drm panic work by Jocelyn for context
-> 
-> Please annotate that v10 and later is your work, credit where credit is
-> due and all that :-)
+--zcnaej4vqfuhzrxq
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sure, I'll add a comment about this.
+Hello Rob,
 
-> 
->> v10:
->> - Use spinlock_irqsave/restore (John Ogness)
->>
->> v11:
->> - Use macro instead of inline functions for drm_panic_lock/unlock (John Ogness)
->>
->> Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->> Cc: Jocelyn Falempe <jfalempe@redhat.com>
->> Cc: Andrew Morton <akpm@linux-foundation.org>
->> Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
->> Cc: Lukas Wunner <lukas@wunner.de>
->> Cc: Petr Mladek <pmladek@suse.com>
->> Cc: Steven Rostedt <rostedt@goodmis.org>
->> Cc: John Ogness <john.ogness@linutronix.de>
->> Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
->> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> Cc: Maxime Ripard <mripard@kernel.org>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: David Airlie <airlied@gmail.com>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> ---
->>   drivers/gpu/drm/drm_atomic_helper.c |   4 ++
->>   drivers/gpu/drm/drm_drv.c           |   1 +
->>   include/drm/drm_mode_config.h       |  10 +++
->>   include/drm/drm_panic.h             | 100 ++++++++++++++++++++++++++++
->>   4 files changed, 115 insertions(+)
->>   create mode 100644 include/drm/drm_panic.h
->>
->> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
->> index 39ef0a6addeb..fb97b51b38f1 100644
->> --- a/drivers/gpu/drm/drm_atomic_helper.c
->> +++ b/drivers/gpu/drm/drm_atomic_helper.c
->> @@ -38,6 +38,7 @@
->>   #include <drm/drm_drv.h>
->>   #include <drm/drm_framebuffer.h>
->>   #include <drm/drm_gem_atomic_helper.h>
->> +#include <drm/drm_panic.h>
->>   #include <drm/drm_print.h>
->>   #include <drm/drm_self_refresh_helper.h>
->>   #include <drm/drm_vblank.h>
->> @@ -3016,6 +3017,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
->>   				  bool stall)
->>   {
->>   	int i, ret;
->> +	unsigned long flags;
->>   	struct drm_connector *connector;
->>   	struct drm_connector_state *old_conn_state, *new_conn_state;
->>   	struct drm_crtc *crtc;
->> @@ -3099,6 +3101,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
->>   		}
->>   	}
->>   
->> +	drm_panic_lock(state->dev, flags);
->>   	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
->>   		WARN_ON(plane->state != old_plane_state);
->>   
->> @@ -3108,6 +3111,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
->>   		state->planes[i].state = old_plane_state;
->>   		plane->state = new_plane_state;
->>   	}
->> +	drm_panic_unlock(state->dev, flags);
->>   
->>   	for_each_oldnew_private_obj_in_state(state, obj, old_obj_state, new_obj_state, i) {
->>   		WARN_ON(obj->state != old_obj_state);
->> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
->> index 243cacb3575c..c157500b3135 100644
->> --- a/drivers/gpu/drm/drm_drv.c
->> +++ b/drivers/gpu/drm/drm_drv.c
->> @@ -638,6 +638,7 @@ static int drm_dev_init(struct drm_device *dev,
->>   	mutex_init(&dev->filelist_mutex);
->>   	mutex_init(&dev->clientlist_mutex);
->>   	mutex_init(&dev->master_mutex);
->> +	raw_spin_lock_init(&dev->mode_config.panic_lock);
->>   
->>   	ret = drmm_add_action_or_reset(dev, drm_dev_init_release, NULL);
->>   	if (ret)
->> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
->> index 973119a9176b..e79f1a557a22 100644
->> --- a/include/drm/drm_mode_config.h
->> +++ b/include/drm/drm_mode_config.h
->> @@ -505,6 +505,16 @@ struct drm_mode_config {
->>   	 */
->>   	struct list_head plane_list;
->>   
->> +	/**
->> +	 * @panic_lock:
->> +	 *
->> +	 * Raw spinlock used to protect critical sections of code that access
->> +	 * the display hardware or modeset software state, which the panic
->> +	 * printing code must be protected against. See drm_panic_trylock(),
->> +	 * drm_panic_lock() and drm_panic_unlock().
->> +	 */
->> +	struct raw_spinlock panic_lock;
->> +
->>   	/**
->>   	 * @num_crtc:
->>   	 *
->> diff --git a/include/drm/drm_panic.h b/include/drm/drm_panic.h
->> new file mode 100644
->> index 000000000000..68f57710d2d1
->> --- /dev/null
->> +++ b/include/drm/drm_panic.h
->> @@ -0,0 +1,100 @@
->> +/* SPDX-License-Identifier: GPL-2.0 or MIT */
->> +#ifndef __DRM_PANIC_H__
->> +#define __DRM_PANIC_H__
->> +
->> +#include <drm/drm_device.h>
->> +/*
->> + * Copyright (c) 2024 Intel
->> + */
->> +
->> +/**
->> + * drm_panic_trylock - try to enter the panic printing critical section
->> + * @dev: struct drm_device
->> + * @flags: unsigned long irq flags you need to pass to the unlock() counterpart
->> + *
->> + * This function must be called by any panic printing code. The panic printing
->> + * attempt must be aborted if the trylock fails.
->> + *
->> + * Panic printing code can make the following assumptions while holding the
->> + * panic lock:
->> + *
->> + * - Anything protected by drm_panic_lock() and drm_panic_unlock() pairs is safe
->> + *   to access.
->> + *
->> + * - Furthermore the panic printing code only registers in drm_dev_unregister()
->> + *   and gets removed in drm_dev_unregister(). This allows the panic code to
->> + *   safely access any state which is invariant in between these two function
->> + *   calls, like the list of planes drm_mode_config.plane_list or most of the
-> 
->                                         &drm_mode_config.plane_list
-> 
-> so that the hyperlinks work. Maybe double-check the generated html for
-> everything at the end of the series to make sure all the hyperlinks do
-> work and there's no typos.
+On Wed, Apr 10, 2024 at 03:10:26PM +0200, Robert Foss wrote:
+> On Mon, 4 Mar 2024 10:05:56 +0100, Uwe Kleine-K=F6nig wrote:
+> > The .remove() callback for a platform driver returns an int which makes
+> > many driver authors wrongly assume it's possible to do error handling by
+> > returning an error code. However the value returned is ignored (apart
+> > from emitting a warning) and this typically results in resource leaks.
+> >=20
+> > To improve here there is a quest to make the remove callback return
+> > void. In the first step of this quest all drivers are converted to
+> > .remove_new(), which already returns void. Eventually after all drivers
+> > are converted, .remove_new() will be renamed to .remove().
+> >=20
+> > [...]
+>=20
+> Applied, thanks!
+>=20
+> [1/1] drm/bridge: imx8mp-hdmi-pvi: Convert to platform remove callback re=
+turning void
+>       https://cgit.freedesktop.org/drm/drm-misc/commit/?id=3D29b39672bc1d
 
-I'm checking the kernel docs, to make sure the doc is up-to-date with 
-the latest version.
-I'm adding "kernel-doc:: include/drm/drm_panic.h" otherwise it was not 
-part of the doc, and there are a few missing "&" which are easy to fix.
+Great, do you feel like caring for its brother at
 
-> 
->> + *   struct drm_plane structure.
->> + *
->> + * Specifically thanks to the protection around plane updates in
->> + * drm_atomic_helper_swap_state() the following additional guarantees hold:
->> + *
->> + * - It is safe to deference the drm_plane.state pointer.
->> + *
->> + * - Anything in struct drm_plane_state or the driver's subclass thereof which
->> + *   stays invariant after the atomic check code has finished is safe to access.
->> + *   Specifically this includes the reference counted pointers to framebuffer
->> + *   and buffer objects.
->> + *
->> + * - Anything set up by drm_plane_helper_funcs.fb_prepare and cleaned up
->> + *   drm_plane_helper_funcs.fb_cleanup is safe to access, as long as it stays
->> + *   invariant between these two calls. This also means that for drivers using
->> + *   dynamic buffer management the framebuffer is pinned, and therefer all
->> + *   relevant datastructures can be accessed without taking any further locks
->> + *   (which would be impossible in panic context anyway).
->> + *
->> + * - Importantly, software and hardware state set up by
->> + *   drm_plane_helper_funcs.begin_fb_access and
->> + *   drm_plane_helper_funcs.end_fb_access is not safe to access.
->> + *
->> + * Drivers must not make any assumptions about the actual state of the hardware,
->> + * unless they explicitly protected these hardware access with drm_panic_lock()
->> + * and drm_panic_unlock().
->> + *
->> + * Returns:
->> + *
->> + * 0 when failing to acquire the raw spinlock, nonzero on success.
->> + */
->> +#define drm_panic_trylock(dev, flags) \
->> +	raw_spin_trylock_irqsave(&dev->mode_config.panic_lock, flags)
->> +
->> +/**
->> + * drm_panic_lock - protect panic printing relevant state
->> + * @dev: struct drm_device
->> + * @flags: unsigned long irq flags you need to pass to the unlock() counterpart
->> + *
->> + * This function must be called to protect software and hardware state that the
->> + * panic printing code must be able to rely on. The protected sections must be
->> + * as small as possible. It uses the irqsave/irqrestore variant, and can be
->> + * called from irq handler. Examples include:
->> + *
->> + * - Access to peek/poke or other similar registers, if that is the way the
->> + *   driver prints the pixels into the scanout buffer at panic time.
->> + *
->> + * - Updates to pointers like drm_plane.state, allowing the panic handler to
->> + *   safely deference these. This is done in drm_atomic_helper_swap_state().
->> + *
->> + * - An state that isn't invariant and that the driver must be able to access
->> + *   during panic printing.
->> + *
->> + * Returns:
->> + *
->> + * The irqflags needed to call drm_panic_unlock().
-> 
-> I think the Returns section should be deleted here, that was for v10?
+	https://lore.kernel.org/dri-devel/20240304091005.717012-2-u.kleine-koenig@=
+pengutronix.de
 
-Sorry, yes it's a leftover from v10, I'll remove it, before pushing.
+, too?
 
-> 
-> Otherwise Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch> on your changes
-> here.
-> -Sima
-> 
-> 
-Thanks for your review,
+Best regards
+Uwe
 
--- 
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-Jocelyn
+--zcnaej4vqfuhzrxq
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
->> + */
->> +
->> +#define drm_panic_lock(dev, flags) \
->> +	raw_spin_lock_irqsave(&dev->mode_config.panic_lock, flags)
->> +
->> +/**
->> + * drm_panic_unlock - end of the panic printing critical section
->> + * @dev: struct drm_device
->> + * @flags: irq flags that were returned when acquiring the lock
->> + *
->> + * Unlocks the raw spinlock acquired by either drm_panic_lock() or
->> + * drm_panic_trylock().
->> + */
->> +#define drm_panic_unlock(dev, flags) \
->> +	raw_spin_unlock_irqrestore(&dev->mode_config.panic_lock, flags)
->> +
->> +#endif /* __DRM_PANIC_H__ */
->> -- 
->> 2.44.0
->>
-> 
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmYWlAoACgkQj4D7WH0S
+/k4yqQf/Uc0FHle5vWdWreDPieZMw6XYvyes4om62AZHWT0/c8Ep8HzSWZ67Zm/B
+4Zt7DWlsTciavr115GoNbqn990M4ExFyXl7dSgHlWFbPLLJABlYzU336eXG5dFUy
+MTBKNXdSdO7Jlun0q/wkA2CAS+jJkQB35VqcPoOTj1Zfe2GOJ5kOE3rDo06AdPHA
+vf9BmY78zwWA5l18Z3y66eZ86y9TjqrrTZSag0b1RksiGd2YfIm1C4GL4BGaoL1R
+EX3T1yFZ/pO9b5U06bNTkgQXknOHgg8j8h1PSA2eGPC6l99cmwrF7fnoJtfWy6XS
+1Pa+sajbb8V0d9bXqUIgH397ucp8Rg==
+=I27l
+-----END PGP SIGNATURE-----
 
+--zcnaej4vqfuhzrxq--
