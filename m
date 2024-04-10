@@ -2,87 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5157589EE27
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 11:06:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 065BA89EE2A
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 11:07:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FBA811327E;
-	Wed, 10 Apr 2024 09:06:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22B4210E16C;
+	Wed, 10 Apr 2024 09:07:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YjV6hLrL";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="adhKJtF/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76E6911327E
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 09:06:51 +0000 (UTC)
-Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
- [91.154.34.181])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 74FD33A4;
- Wed, 10 Apr 2024 11:06:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1712739968;
- bh=4uNLj1jxksspAbxiUCFLE9rNhTyqvu+CCuULB/6wlJA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=YjV6hLrLsyuI0H18W6mDBg6LT8vKRdpvgRmEgFZFpSyMQVwCMVhDlqbBpGNBz6Yki
- BcRkVai1k9OwUE7atQr1JcTlvF+duDYHXMlVyqcExANPO8YqWLyKau8Bj7kTRWiokL
- 2w379OMGzA6hLLFHAWt0huWKMU0TXdAEU/miVqas=
-Message-ID: <af8fe459-e44b-45c7-bce9-7cdc07575caf@ideasonboard.com>
-Date: Wed, 10 Apr 2024 12:06:47 +0300
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73D5210E16F
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 09:07:44 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-516b6e75dc3so8260231e87.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 02:07:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1712740062; x=1713344862; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=duc/Dbl/Cjtaq4jKQcJqe623WLKfFna/k+1G9vHqsrQ=;
+ b=adhKJtF/xYd0xrihiILtGKqGQi4Sya8pAOo5ORbd5q5WD8yjNzUBGnul359+HITham
+ XR7f/ZZZRbu2+TtMiTJr5NZwWmdzBygYMrqM/PiqJMzuckKRBIgSdb1wQgyJv4c7C4e9
+ OUTwWiWDwLWmbYoLKRdWdtHPtLLQxNpSVAe6/aexfGtaBHv/yb3ERTji2WoRQ1jVv6RE
+ x/9gXZ0Lt+zAgw2yjarxhtcsUWTABb2gj3XFLHYuJtMx9Vdi9i5tgfHYyrMt9t6KtwSP
+ 6wWzHNrpPUMIuNo9SVKr0BJvIBWfiLqzQb9Vtr+o250mQ5AteLZYXE47Tzrao6gLCE6H
+ WWrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712740062; x=1713344862;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=duc/Dbl/Cjtaq4jKQcJqe623WLKfFna/k+1G9vHqsrQ=;
+ b=UY4FsS2qpmKVFvxqHELGVI/GRK8KtDxrIBb36yb1n16rqDUHsadRSo+KimyaepwiaP
+ 8Ej16FdP1H4Pohbn9smFSdoyODOt4DDOlFULPThITsYOa27/U+5QHud5vyum4LkIPKNH
+ T7xdwcsOJo29I8v7PD1aYUPAP6uzCMIHeZODg8cFfM+7zj4hBxOYnzYcPIzXwL4GDvC+
+ +MgXPwSWh1hnXR+CQT6/QaRPd3Xo2Xl/asHbpuW4Qp4eDEDo6RLOs4eukpQg6gWhQNaE
+ aKwp1gL0sS0pR9JrhuyMhFYxc+2zjZjuDCj6wTTRhTNbsHE1MhAw8ZSaS+e1iGwcdw8P
+ /Upw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWrcDvDMFq0fnP1NRombNRZSi4jTEB/G6A7OUlq4ddGZV8OSOeG5HUXhoNLM9N63J4ujKPd1IP7srY5q8dPpl9mjrK3rOmtqxqQ3JvdLY/L
+X-Gm-Message-State: AOJu0YwOTWFOwoZD7UA7jpPc25uYNxanhpfKZKvf4XsxzvQz3Rq0wmrZ
+ i1RRjqipDQU6DlLibhDydKwRZmaQV79w7IKQZo+a98PFlh28jBDzfruOIoOTWcWS3GypfBBwITk
+ Kuv8=
+X-Google-Smtp-Source: AGHT+IHqleKIYdgSYtADyybe6lUqcvkPzHpFY5eWWUAxhHp90xeEfjgOqjhY3Bz8AM9gVtHxMt4Cyw==
+X-Received: by 2002:a05:6512:554:b0:516:d097:8c32 with SMTP id
+ h20-20020a056512055400b00516d0978c32mr1157497lfl.18.1712740062261; 
+ Wed, 10 Apr 2024 02:07:42 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:7b0c:6cd:4afa:674b?
+ ([2a01:e0a:982:cbb0:7b0c:6cd:4afa:674b])
+ by smtp.gmail.com with ESMTPSA id
+ s7-20020adff807000000b00343d6c7240fsm13293822wrp.35.2024.04.10.02.07.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Apr 2024 02:07:41 -0700 (PDT)
+Message-ID: <67aaaea4-089c-4de5-8070-57e6a7134362@linaro.org>
+Date: Wed, 10 Apr 2024 11:07:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/21] drm/tilcdc: Allow build with COMPILE_TEST=y
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: Jyri Sarha <jyri.sarha@iki.fi>
-References: <20240408170426.9285-1-ville.syrjala@linux.intel.com>
- <20240408170426.9285-14-ville.syrjala@linux.intel.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
- wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
- Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
- eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
- LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
- G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
- DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
- 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
- rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
- Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
- aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
- ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
- PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
- VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
- 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
- uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
- R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
- sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
- Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
- PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
- dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
- qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
- hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
- DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
- KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
- 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
- xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
- UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
- /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
- 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
- 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
- mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
- 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
- suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
- xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
- m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
- CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
- CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
- 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
- ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
- yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
- 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240408170426.9285-14-ville.syrjala@linux.intel.com>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH RESEND] drm: use capital "OR" for multiple licenses in SPDX
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20240410082200.44966-1-krzysztof.kozlowski@linaro.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20240410082200.44966-1-krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -97,37 +113,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/04/2024 20:04, Ville Syrjala wrote:
-> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+On 10/04/2024 10:22, Krzysztof Kozlowski wrote:
+> Documentation/process/license-rules.rst expects the SPDX identifier
+> syntax for multiple licenses to use capital "OR".  Correct it to keep
+> consistent format and avoid copy-paste issues.
 > 
-> Allow tilcdc to be built with COMPILE_TEST=y for greater
-> coverage. Builds fine on x86/x86_64 at least.
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > 
-> Cc: Jyri Sarha <jyri.sarha@iki.fi>
-> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > ---
->   drivers/gpu/drm/tilcdc/Kconfig | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/tilcdc/Kconfig b/drivers/gpu/drm/tilcdc/Kconfig
-> index d3bd2d7a181e..1897ef91c70b 100644
-> --- a/drivers/gpu/drm/tilcdc/Kconfig
-> +++ b/drivers/gpu/drm/tilcdc/Kconfig
-> @@ -1,7 +1,7 @@
->   # SPDX-License-Identifier: GPL-2.0-only
->   config DRM_TILCDC
->   	tristate "DRM Support for TI LCDC Display Controller"
-> -	depends on DRM && OF && ARM
-> +	depends on DRM && OF && (ARM || COMPILE_TEST)
->   	select DRM_KMS_HELPER
->   	select DRM_GEM_DMA_HELPER
->   	select DRM_BRIDGE
+> Resend...
+> 
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>   drivers/gpu/drm/drm_client.c        | 2 +-
+>   drivers/gpu/drm/drm_format_helper.c | 2 +-
+>   include/drm/drm_client.h            | 2 +-
+>   3 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
+> index 77fe217aeaf3..d8e3427ae205 100644
+> --- a/drivers/gpu/drm/drm_client.c
+> +++ b/drivers/gpu/drm/drm_client.c
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: GPL-2.0 or MIT
+> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+>   /*
+>    * Copyright 2018 Noralf Trønnes
+>    */
+> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+> index b1be458ed4dd..2348135fb6c0 100644
+> --- a/drivers/gpu/drm/drm_format_helper.c
+> +++ b/drivers/gpu/drm/drm_format_helper.c
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: GPL-2.0 or MIT
+> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+>   /*
+>    * Copyright (C) 2016 Noralf Trønnes
+>    *
+> diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
+> index bc0e66f9c425..1b907709115e 100644
+> --- a/include/drm/drm_client.h
+> +++ b/include/drm/drm_client.h
+> @@ -1,4 +1,4 @@
+> -/* SPDX-License-Identifier: GPL-2.0 or MIT */
+> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
+>   
+>   #ifndef _DRM_CLIENT_H_
+>   #define _DRM_CLIENT_H_
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 
-  Tomi
+I think we'll need maxime or thomas ack to apply this via drm-misc-next
 
+Neil
