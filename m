@@ -2,82 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF14589F16B
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 13:53:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDDE789F14D
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 13:50:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F37210E35C;
-	Wed, 10 Apr 2024 11:53:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 815FD112660;
+	Wed, 10 Apr 2024 11:50:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=t-argos.ru header.i=@t-argos.ru header.b="RQliOMsu";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IsWYh4JK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.t-argos.ru (mx1.t-argos.ru [109.73.34.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7A5910E35C;
- Wed, 10 Apr 2024 11:53:04 +0000 (UTC)
-Received: from mx1.t-argos.ru (localhost [127.0.0.1])
- by mx1.t-argos.ru (Postfix) with ESMTP id EE41D100002;
- Wed, 10 Apr 2024 14:52:47 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=t-argos.ru; s=mail;
- t=1712749968; bh=WJUH5RzBi6ThGn7KLoC7JkfiYKeYqyZ7xZhKdtRWAfI=;
- h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
- b=RQliOMsu1CsL31rk+zQjPobaWvn+7OwssPGXLDAJ+1nrXH73GfJMiDa40pyBFnRgX
- VxOKnIToEshOUVnEKsNPRAp0Mn3NshZS8btJeySsDzHwq/aB/9qbr7GnBmnxg0BE8x
- kFiKKS5PAoSbjPpqGWmO0wU1NPII/F6aIJK1glUeZXWXb/9OeBjYjD8RgcjUlk5bJA
- poHWEuPxI90WUuhK1z7Sk987Qw5HhcY84iVNmX1gpBQimVp6jV+OUlAB34cQ8mNCyV
- 1KFcLby75BVoh6OUZQjHDgTMwrkLcMW+xdSf3dOTjKLpuaX5tw3C9VCtZVRUixszSN
- yjJxeVhcGyngQ==
-Received: from mx1.t-argos.ru.ru (mail.t-argos.ru [172.17.13.212])
- by mx1.t-argos.ru (Postfix) with ESMTP;
- Wed, 10 Apr 2024 14:51:29 +0300 (MSK)
-Received: from [172.17.214.6] (172.17.214.6) by ta-mail-02 (172.17.13.212)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 10 Apr
- 2024 14:51:09 +0300
-Message-ID: <2b06e6b2-6fa0-48fa-800b-7aad6735daa6@t-argos.ru>
-Date: Wed, 10 Apr 2024 14:48:41 +0300
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB461120D4;
+ Wed, 10 Apr 2024 11:50:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1712749819; x=1744285819;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=48JgxszmgwzSdEYjlQoIe3fDz23+3fpwfQ7RcJKta4c=;
+ b=IsWYh4JKJrYWrxW3fYTfB5vD9Ubvkz14KNABfoq5hN2joPTXO0rWtDxf
+ F3nbWtNWUCV2QyPvYA3Cs+nAgDZf4nnBs40cvP59K6J1YTD7mhnLA5gVj
+ DsyxqActKFRqSSTKSTgZZIjEsfcz5LdtKo78tCtiUL72H1waScWQmVoxu
+ 4+b5SiRRnv0yfDspNwo4fNOBvO1cuw4C2mknq9akYl2hQOwGmJvcSCpCj
+ P7UxJnlfgfL2cimqWjIDwq89WKyrOwPkaaX5lmNQ44FHqSZ6Xiel3Mh6C
+ +ehdl5YOypLFyZH8ECYv8jKn674AcasJve4cg8vJSZ9xgwSP6Gi682zYo w==;
+X-CSE-ConnectionGUID: LhpNe97hTfactw6YWyQJHQ==
+X-CSE-MsgGUID: gm2meCjTQzeL89+8O1I8mA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8208150"
+X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
+   d="scan'208";a="8208150"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2024 04:50:18 -0700
+X-CSE-ConnectionGUID: zZV8hHBLQ3esCVySK89uXA==
+X-CSE-MsgGUID: 3PgKakM8S9qvX8DgywkVhQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; d="scan'208";a="25158425"
+Received: from oakasatk-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.60.54])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2024 04:50:14 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, Daniel
+ Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Masahiro
+ Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH v2] drm: ensure drm headers are self-contained and pass
+ kernel-doc
+In-Reply-To: <20240402140136.1722533-1-jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240402140136.1722533-1-jani.nikula@intel.com>
+Date: Wed, 10 Apr 2024 14:50:11 +0300
+Message-ID: <87ttk977yk.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm/dpu: Add callback function pointer check before
- its call
-Content-Language: ru
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Neil Armstrong <neil.armstrong@linaro.org>, Stephen
- Boyd <swboyd@chromium.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
-References: <20240408085523.12231-1-amishin@t-argos.ru>
- <CAA8EJppTM4tpsFaZKupPe=0Oc9qDp7dBqHyHGP4E5bTHKT=hSw@mail.gmail.com>
-From: Aleksandr Mishin <amishin@t-argos.ru>
-In-Reply-To: <CAA8EJppTM4tpsFaZKupPe=0Oc9qDp7dBqHyHGP4E5bTHKT=hSw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.17.214.6]
-X-ClientProxiedBy: ta-mail-02.ta.t-argos.ru (172.17.13.212) To ta-mail-02
- (172.17.13.212)
-X-KSMG-Rule-ID: 1
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 184651 [Apr 10 2024]
-X-KSMG-AntiSpam-Version: 6.1.0.4
-X-KSMG-AntiSpam-Envelope-From: amishin@t-argos.ru
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 16 0.3.16
- 6e64c33514fcbd07e515710c86ba61de7f56194e, {Tracking_uf_ne_domains},
- {Tracking_from_domain_doesnt_match_to}, t-argos.ru:7.1.1;
- d41d8cd98f00b204e9800998ecf8427e.com:7.1.1; 127.0.0.199:7.1.2;
- mx1.t-argos.ru.ru:7.1.1; git.kernel.org:7.1.1, FromAlignment: s
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean, bases: 2024/04/10 07:25:00
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30,
- bases: 2024/04/10 08:25:00 #24735279
-X-KSMG-AntiVirus-Status: Clean, skipped
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,55 +74,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 02 Apr 2024, Jani Nikula <jani.nikula@intel.com> wrote:
+> Ensure drm headers build, are self-contained, have header guards, and
+> have no kernel-doc warnings, when CONFIG_DRM_HEADER_TEST=y.
+>
+> The mechanism follows similar patters used in i915, xe, and usr/include.
+>
+> To cover include/drm, we need to recurse there using the top level
+> Kbuild and the new include/Kbuild files.
 
+Masahiro, any input? Ack?
 
-On 08.04.2024 12:03, Dmitry Baryshkov wrote:
-> On Mon, 8 Apr 2024 at 11:57, Aleksandr Mishin <amishin@t-argos.ru> wrote:
->>
->> In dpu_core_irq_callback_handler() callback function pointer is compared to NULL,
->> but then callback function is unconditionally called by this pointer.
->> Fix this bug by adding conditional return.
->>
->> Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> 
-> This should be converted to a proper Reported-by: trailer.
-> 
+BR,
+Jani.
 
-It is an established practice for our project, you can find 700+ applied
-patches with similar line:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/?qt=grep&q=linuxtesting.org
-
->>
->> Fixes: c929ac60b3ed ("drm/msm/dpu: allow just single IRQ callback")
->> Signed-off-by: Aleksandr Mishin <amishin@t-argos.ru>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
->> index 946dd0135dff..03a16fbd4c99 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
->> @@ -223,9 +223,11 @@ static void dpu_core_irq_callback_handler(struct dpu_kms *dpu_kms, unsigned int
->>
->>          VERB("IRQ=[%d, %d]\n", DPU_IRQ_REG(irq_idx), DPU_IRQ_BIT(irq_idx));
->>
->> -       if (!irq_entry->cb)
->> +       if (!irq_entry->cb) {
->>                  DRM_ERROR("no registered cb, IRQ=[%d, %d]\n",
->>                            DPU_IRQ_REG(irq_idx), DPU_IRQ_BIT(irq_idx));
->> +               return;
->> +       }
->>
->>          atomic_inc(&irq_entry->count);
->>
->> --
->> 2.30.2
->>
->>
-> 
-> 
+>
+> v2: make DRM_HEADER_TEST depend on DRM
+>
+> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  Kbuild                   |  1 +
+>  drivers/gpu/drm/Kconfig  | 11 +++++++++++
+>  drivers/gpu/drm/Makefile | 18 ++++++++++++++++++
+>  include/Kbuild           |  1 +
+>  include/drm/Makefile     | 18 ++++++++++++++++++
+>  5 files changed, 49 insertions(+)
+>  create mode 100644 include/Kbuild
+>  create mode 100644 include/drm/Makefile
+>
+> diff --git a/Kbuild b/Kbuild
+> index 464b34a08f51..f327ca86990c 100644
+> --- a/Kbuild
+> +++ b/Kbuild
+> @@ -97,3 +97,4 @@ obj-$(CONFIG_SAMPLES)	+= samples/
+>  obj-$(CONFIG_NET)	+= net/
+>  obj-y			+= virt/
+>  obj-y			+= $(ARCH_DRIVERS)
+> +obj-$(CONFIG_DRM_HEADER_TEST)	+= include/
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 3914aaf443a8..a388c4fda984 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -431,3 +431,14 @@ config DRM_WERROR
+>  	  this config option is disabled by default.
+>  
+>  	  If in doubt, say N.
+> +
+> +config DRM_HEADER_TEST
+> +	bool "Ensure DRM headers are self-contained and pass kernel-doc"
+> +	depends on DRM && EXPERT
+> +	default n
+> +	help
+> +	  Ensure the DRM subsystem headers both under drivers/gpu/drm and
+> +	  include/drm compile, are self-contained, have header guards, and have
+> +	  no kernel-doc warnings.
+> +
+> +	  If in doubt, say N.
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index a73c04d2d7a3..6605d5686d01 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -218,3 +218,21 @@ obj-y			+= solomon/
+>  obj-$(CONFIG_DRM_SPRD) += sprd/
+>  obj-$(CONFIG_DRM_LOONGSON) += loongson/
+>  obj-$(CONFIG_DRM_POWERVR) += imagination/
+> +
+> +# Ensure drm headers are self-contained and pass kernel-doc
+> +hdrtest-files := \
+> +	$(shell cd $(srctree)/$(src) && find . -maxdepth 1 -name 'drm_*.h') \
+> +	$(shell cd $(srctree)/$(src) && find display lib -name '*.h')
+> +
+> +always-$(CONFIG_DRM_HEADER_TEST) += \
+> +	$(patsubst %.h,%.hdrtest, $(hdrtest-files))
+> +
+> +# Include the header twice to detect missing include guard.
+> +quiet_cmd_hdrtest = HDRTEST $(patsubst %.hdrtest,%.h,$@)
+> +      cmd_hdrtest = \
+> +		$(CC) $(c_flags) -fsyntax-only -x c /dev/null -include $< -include $<; \
+> +		$(srctree)/scripts/kernel-doc -none $(if $(CONFIG_DRM_WERROR),-Werror) $<; \
+> +		touch $@
+> +
+> +$(obj)/%.hdrtest: $(src)/%.h FORCE
+> +	$(call if_changed_dep,hdrtest)
+> diff --git a/include/Kbuild b/include/Kbuild
+> new file mode 100644
+> index 000000000000..5e76a599e2dd
+> --- /dev/null
+> +++ b/include/Kbuild
+> @@ -0,0 +1 @@
+> +obj-$(CONFIG_DRM_HEADER_TEST)	+= drm/
+> diff --git a/include/drm/Makefile b/include/drm/Makefile
+> new file mode 100644
+> index 000000000000..b9f391d7aadd
+> --- /dev/null
+> +++ b/include/drm/Makefile
+> @@ -0,0 +1,18 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +# Ensure drm headers are self-contained and pass kernel-doc
+> +hdrtest-files := \
+> +	$(shell cd $(srctree)/$(src) && find * -name '*.h' 2>/dev/null)
+> +
+> +always-$(CONFIG_DRM_HEADER_TEST) += \
+> +	$(patsubst %.h,%.hdrtest, $(hdrtest-files))
+> +
+> +# Include the header twice to detect missing include guard.
+> +quiet_cmd_hdrtest = HDRTEST $(patsubst %.hdrtest,%.h,$@)
+> +      cmd_hdrtest = \
+> +		$(CC) $(c_flags) -fsyntax-only -x c /dev/null -include $< -include $<; \
+> +		$(srctree)/scripts/kernel-doc -none $(if $(CONFIG_DRM_WERROR),-Werror) $<; \
+> +		touch $@
+> +
+> +$(obj)/%.hdrtest: $(src)/%.h FORCE
+> +	$(call if_changed_dep,hdrtest)
 
 -- 
-Kind regards
-Aleksandr
+Jani Nikula, Intel
