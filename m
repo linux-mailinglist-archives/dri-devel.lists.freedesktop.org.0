@@ -2,88 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DD0D89EE67
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 11:15:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2545689EEB4
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 11:23:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 904D210E990;
-	Wed, 10 Apr 2024 09:15:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3AC710E9A6;
+	Wed, 10 Apr 2024 09:23:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fEHdaosG";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="mbJCbIPP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F7A610E990
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 09:15:20 +0000 (UTC)
-Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
- [91.154.34.181])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 33D5C3A4;
- Wed, 10 Apr 2024 11:14:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1712740477;
- bh=WqRzxgy88qZpnmp/9uPVQE45IHKdEgip0oWVu5gHSas=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=fEHdaosGAtXYzaNSIUqfZ+3i+XDZojXuHC6Cj3RGZBOUhjMJifcvAHlX8aQR2+FNj
- JPwI53MJf9MkEAGnVcC7h+a+9dMAGC+LGXnT9/MuA19VKpGRN39ikpTSXTp57QOXx0
- Dgrk0NrTVzN0fMwF7Q90i+FmGamkKTkZxREp2cfs=
-Message-ID: <d68afd4c-667c-437f-afba-1c82510cc1e5@ideasonboard.com>
-Date: Wed, 10 Apr 2024 12:15:16 +0300
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+ [209.85.215.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77BC610E984
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 09:23:30 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id
+ 41be03b00d2f7-5dbf7b74402so3984380a12.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 02:23:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1712741010; x=1713345810;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uKpQ/L+90YOrIxKPpVkHyeppvZjvg0QRhX3flaz/X3Q=;
+ b=mbJCbIPPUx8/wxVsmFyO3wPH5Dkud8SnVDYIyvAA7Z0KSK06H3w9h/aWhCgEu+uujM
+ SG77Q7HuGY1eTev48hAwdXKXfnOulsDBvNW79OQM/u4pQfbWrKS/dhYgZmAFh+2b001H
+ z5Smzs9lmU8PeMEVmHyql7ewRI0pNc+ERNrxIicLAsR5IO3MMNzRw8WW5RGQvOnAycXd
+ tWyiJWGy8QYNpUisLugQifITnYDSuAfGSnYFL0GBHF8gFvvjTj/nP7Eop2H5vKK94J9I
+ Gup/FXZcGzgxWeUAYIAzirqcHTp3eLjADqvVNvRF7N2Zu4VUIklYfwbJYlLh8VgBd85K
+ J46A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712741010; x=1713345810;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=uKpQ/L+90YOrIxKPpVkHyeppvZjvg0QRhX3flaz/X3Q=;
+ b=EwHuIGQQsNYbtDkfJm88ClvWSd2Tf9zV7ybeppj48FbOIqfBf9qCBNntsyP6xcaX/6
+ JzFEu2J74kpzy3YONcJnmnd7S5XZU+M4SKS9Uad68Jrd6SHl7pdYCpjKilFGRUTeQsp2
+ Gu92eQpbNke2UFG+JKJ1nPXbJAuqfQy8EWjxR5QkjvWNMdiXOF9cpTYukPAvw7qdEHIP
+ NJz3yYJWSnos3q4NM+H9WPtaCOEoFqhElFL6Z/quwy59E7JkX0/7Cv5kMp3B4D21bU5w
+ NZ6CNySZO+IVysThYBvo6i4HQBe8j+MAOaGZrXG2nlVXqatIYS1Jy6f4kBQKTWDSbRss
+ 9gyg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXSPiNW6wV6NwyvFO/TP/uSb+qZQy0lFhxzJ8UMsn3YSxJSCNLpzmNmJqPlPkN7UUfnYw73v8tpQUMwzbA1qLWiQSoSzhnjo4CaqJNqRNfD
+X-Gm-Message-State: AOJu0YxNIlZQfD0JU+9BDn/qyog6/vLefnRD0VATfxhDghq0HnImg9m9
+ ATl9MgpCdu7gNcgHATs3G1Xwhap6m+BmLTd9Dxqv9H+CtiduIEF98i2nhd+5DtEY08Za0Vi5JfY
+ kyzMYTxy3kmzds1CrUW4Ytci0t2iq8r5AeZx88w==
+X-Google-Smtp-Source: AGHT+IElz4DqrpJ78tcUJP8vBVt1F3CCqpzdboJS4Xw/zdtxyKv3r/O2V8DOVdDDoRjGh/Au6/LTGURoB0u7Q1jOkAo=
+X-Received: by 2002:a17:90b:1b08:b0:2a2:1900:493 with SMTP id
+ nu8-20020a17090b1b0800b002a219000493mr1789164pjb.40.1712741009799; Wed, 10
+ Apr 2024 02:23:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 15/21] drm/omap: Allow build with COMPILE_TEST=y
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-References: <20240408170426.9285-1-ville.syrjala@linux.intel.com>
- <20240408170426.9285-16-ville.syrjala@linux.intel.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20240408170426.9285-16-ville.syrjala@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20240410071439.2152588-1-yangcong5@huaqin.corp-partner.google.com>
+ <20240410071439.2152588-2-yangcong5@huaqin.corp-partner.google.com>
+ <0eed83f0-5f5e-41b3-a66c-f46845ddc3a3@linaro.org>
+In-Reply-To: <0eed83f0-5f5e-41b3-a66c-f46845ddc3a3@linaro.org>
+From: cong yang <yangcong5@huaqin.corp-partner.google.com>
+Date: Wed, 10 Apr 2024 17:23:18 +0800
+Message-ID: <CAHwB_N+X5v3nFhtWTH8TRv8to2tcBTu8hn1guGXa7T-MuV3L6A@mail.gmail.com>
+Subject: Re: [PATCH v1 1/4] dt-bindings: display: panel: Add compatible for
+ BOE nv110wum-l60
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
+ dianders@chromium.org, airlied@gmail.com, robh+dt@kernel.org, 
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,35 +86,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/04/2024 20:04, Ville Syrjala wrote:
-> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> 
-> Allow omapdrm to be built with COMPILE_TEST=y for greater
-> coverage.
-> 
-> FIXME: Still borked due to ?
-> 
-> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> ---
->   drivers/gpu/drm/omapdrm/Kconfig | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/Kconfig b/drivers/gpu/drm/omapdrm/Kconfig
-> index 6c49270cb290..85ed92042b74 100644
-> --- a/drivers/gpu/drm/omapdrm/Kconfig
-> +++ b/drivers/gpu/drm/omapdrm/Kconfig
-> @@ -2,7 +2,7 @@
->   config DRM_OMAP
->   	tristate "OMAP DRM"
->   	depends on DRM && OF
-> -	depends on ARCH_OMAP2PLUS
-> +	depends on ARCH_OMAP2PLUS || COMPILE_TEST
->   	select DRM_KMS_HELPER
->   	select FB_DMAMEM_HELPERS_DEFERRED if DRM_FBDEV_EMULATION
->   	select VIDEOMODE_HELPERS
+Hi=EF=BC=8C
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> =E4=BA=8E2024=E5=B9=B4=
+4=E6=9C=8810=E6=97=A5=E5=91=A8=E4=B8=89 16:24=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On 10/04/2024 09:14, Cong Yang wrote:
+> > The BOE nv110wum-l60 is a 11.0" WUXGA TFT LCD panel, which fits in nice=
+ly
+> > with the existing panel-boe-tv101wum-nl6 driver. Hence, we add a new
+> > compatible with panel specific config.
+> >
+> > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> > ---
+> >  .../devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml     | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/panel/boe,tv101w=
+um-nl6.yaml b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-=
+nl6.yaml
+> > index 906ef62709b8..50351dd3d6e5 100644
+> > --- a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.=
+yaml
+> > +++ b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.=
+yaml
+> > @@ -36,6 +36,8 @@ properties:
+> >        - starry,himax83102-j02
+> >          # STARRY ili9882t 10.51" WUXGA TFT LCD panel
+> >        - starry,ili9882t
+> > +        # Boe nv110wum-l60 11.0" WUXGA TFT LCD panel
+> > +      - boe,nv110wum-l60
+>
+> Isn't the list ordered?
 
-  Tomi
-
+Sorry, will be fix in V2 patch . Thanks.
+>
+> Best regards,
+> Krzysztof
+>
