@@ -2,122 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C29589ED7E
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 10:24:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B0FA89ED8B
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 10:28:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47135113248;
-	Wed, 10 Apr 2024 08:24:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 739DA11327A;
+	Wed, 10 Apr 2024 08:28:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="E5i7LB5T";
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="UQcxQHxv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD01A113245
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 08:24:13 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-516b6e75dc3so8208653e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 01:24:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712737452; x=1713342252; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=osmNZYYHYaoEiq+e67YvU3I3gUGFZgWJO10fvS2C8yE=;
- b=E5i7LB5TbKnCiF3gLm9DBJS+kHpEBZt6F3ClX2CIbXf8sBJLpryNb8gz8dCRmTtMt4
- ef8os6XfhXF56G0As7/a82W/KcMSzxAIjbDpLrIbNa4x3ReSRZMeBbpdhj55kudhWfVb
- qdR52uptq/JeGOsmBQkIVXNYbuQ6r5crPudqgr0x9mmw4zdfGO8326NdEIvSpdCNiqer
- nIaRY/vdyukGVhmEUpgfRIJaEwInhUtR1AoUv4tq/G9iFHEHNMx6NXKtqqaYFyZhpWPs
- cIdBzd7fVTohS1Dl+9wZhYDZZrICxd80VExdFqR/qLJyqDGpxLWHLOY5tQsvcSK/6ynV
- RAlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712737452; x=1713342252;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=osmNZYYHYaoEiq+e67YvU3I3gUGFZgWJO10fvS2C8yE=;
- b=YEnURvJzgpe62/VdRy0YmUTlJMvUP35I4o54HR4i80X6mOXAvQDiqXCaUo7+2W7fAA
- 4xNw3TTdQzKUDJGnjOvdJdgGHbJ5dpeYWZx27/fbaq93p6NiD1+Qnz0ufU2gzGQ3UAhX
- 8E4xZbKDrJKLHqDAWbeYOvfYR/bJ2V1I66RhskS0KZKpd4OCjuL8oabE3ZNnqBYRj4Pe
- QRqmX/iyWgnZVuLmKEpeRhWg3wsiY/q58M3Ios7v0qhAkNjKMCW+kVEuBWkNUOEud8r2
- mVzbvO8mv+sjtTVeqMX0Uh6to86oHw2bwJVGQnLr0WkUH0afCwcQvmAmkgFKhcz1IjtV
- AKcw==
-X-Gm-Message-State: AOJu0YyQC4A/fOdMVf/aFrYVVTvhraef3gxejdSnBwWHGPluTmfKdw6D
- J5QC+/zdYvaaBBhAt0HSnlF4SlWLqJsBfaYZNL/7ItyjHvZgkqE+ugjxATjiWXc=
-X-Google-Smtp-Source: AGHT+IF2OCwswt1+i9KeBPeDbtBitGS5VonfN56UIgmfBsfMaitIK3KbAGQPkkbcAY5c4anGR4DiCQ==
-X-Received: by 2002:a05:6512:2824:b0:516:b07b:47b2 with SMTP id
- cf36-20020a056512282400b00516b07b47b2mr1422553lfb.44.1712737451821; 
- Wed, 10 Apr 2024 01:24:11 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.16])
- by smtp.gmail.com with ESMTPSA id
- el1-20020a170907284100b00a51ce6730b5sm4221466ejc.84.2024.04.10.01.24.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Apr 2024 01:24:11 -0700 (PDT)
-Message-ID: <9731687d-b239-469b-b014-dfa5d58a0ab3@linaro.org>
-Date: Wed, 10 Apr 2024 10:24:09 +0200
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9B0B10E830
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 08:28:00 +0000 (UTC)
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 43A8MXuF018972; Wed, 10 Apr 2024 08:27:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=IXHrgXA8ZjJgNFdLGHmP+gSPoVZzMGaz6Ta83jbqg0I=;
+ b=UQcxQHxv3AULKl355I/K7MfEMdVTptplxHLwcD7IES02iq7WbxqvVbgOJofnfylxFiGJ
+ rw4Xr3lMLlbd+m0PuBfBZeKYrhlHNx/7cF7YXA4DF46SYMslCqx4hA437FUYzfRu8Meg
+ 8aVQYS9IkTiNyDbMG7swuuN0A9zMae8g0I5ZE9pFu2zcQXCjViFe1M+AEdAJ8RpMdxtl
+ 90TFply083b76B4PV8Sc441JKTFPHg8tPAbWHOkdZ1VTKMuvROAx8UUpf1RwyqFlCjgL
+ WlzXI6/J6buSeW0aQEnboHfRgop7Bd3DaS3FsKF1AkvAVcr9zJlWtt/qQbilGsQnzU98 ug== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xdq7080dm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 Apr 2024 08:27:50 +0000
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 43A8RoYf025476;
+ Wed, 10 Apr 2024 08:27:50 GMT
+Received: from ppma21.wdc07v.mail.ibm.com
+ (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xdq7080de-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 Apr 2024 08:27:50 +0000
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+ by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 43A74ELq022564; Wed, 10 Apr 2024 08:27:49 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+ by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3xbhqp3kj7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 Apr 2024 08:27:48 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 43A8Rh5M33358276
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 10 Apr 2024 08:27:45 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5730C2004B;
+ Wed, 10 Apr 2024 08:27:43 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3884120040;
+ Wed, 10 Apr 2024 08:27:43 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed, 10 Apr 2024 08:27:43 +0000 (GMT)
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Helge Deller <deller@gmx.de>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Arnd Bergmann <arnd@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
+ linux-kernel@vger.kernel.org, Niklas Schnelle <schnelle@linux.ibm.com>
+Subject: [PATCH 0/1] fbdev: Handle HAS_IOPORT dependencies
+Date: Wed, 10 Apr 2024 10:27:42 +0200
+Message-Id: <20240410082743.1425538-1-schnelle@linux.ibm.com>
+X-Mailer: git-send-email 2.40.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 75fL8BX6Ll_n5_VBrrowMgbxICsHsTWZ
+X-Proofpoint-ORIG-GUID: 5S_8_kmohfv8nZ990FzJT7ouHsGUTToS
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 3/4] dt-bindings: display: panel: Add compatible for
- IVO t109nw41
-To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>, sam@ravnborg.org,
- neil.armstrong@linaro.org, daniel@ffwll.ch, dianders@chromium.org,
- airlied@gmail.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240410071439.2152588-1-yangcong5@huaqin.corp-partner.google.com>
- <20240410071439.2152588-4-yangcong5@huaqin.corp-partner.google.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240410071439.2152588-4-yangcong5@huaqin.corp-partner.google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-10_03,2024-04-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ lowpriorityscore=0 impostorscore=0 suspectscore=0 clxscore=1015
+ priorityscore=1501 spamscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0
+ phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2404010000 definitions=main-2404100061
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,30 +101,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/04/2024 09:14, Cong Yang wrote:
-> The IVO t109nw41 is a 11.0" WUXGA TFT LCD panel, which fits in nicely with
-> the existing panel-boe-tv101wum-nl6 driver. Hence, we add a new compatible
-> with panel specific config.
-> 
-> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-> ---
->  .../devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml     | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
-> index 50351dd3d6e5..f15588a2641c 100644
-> --- a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
-> @@ -38,6 +38,8 @@ properties:
->        - starry,ili9882t
->          # Boe nv110wum-l60 11.0" WUXGA TFT LCD panel
->        - boe,nv110wum-l60
-> +        # Ivo t109nw41 11.0" WUXGA TFT LCD panel
-> +      - ivo,t109nw41
->  
+Hi Helge,
 
-Same problem...
+This is a follow up in my ongoing effort of making inb()/outb() and
+similar I/O port accessors compile-time optional. Previously I sent this
+as a treewide series titled "treewide: Remove I/O port accessors for
+HAS_IOPORT=n" with the latest being its 5th version[0]. With a significant
+subset of patches merged I've changed over to per-subsystem series. These
+series are stand alone and should be merged via the relevant tree such
+that with all subsystems complete we can follow this up with the final
+patch that will make the I/O port accessors compile-time optional.
 
-Best regards,
-Krzysztof
+The current state of the full series with changes to the remaining subsystems
+and the aforementioned final patch can be found for your convenience on my
+git.kernel.org tree in the has_ioport branch[1]. As for compile-time vs runtime
+see Linus' reply to my first attempt[2].
+
+Thanks,
+Niklas
+
+[0] https://lore.kernel.org/all/20230522105049.1467313-1-schnelle@linux.ibm.com/
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git/log/?h=has_ioport
+[2] https://lore.kernel.org/lkml/CAHk-=wg80je=K7madF4e7WrRNp37e3qh6y10Svhdc7O8SZ_-8g@mail.gmail.com/
+
+Niklas Schnelle (1):
+  fbdev: add HAS_IOPORT dependencies
+
+ drivers/video/fbdev/Kconfig | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
+
+-- 
+2.40.1
 
