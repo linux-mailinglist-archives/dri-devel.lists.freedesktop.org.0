@@ -2,91 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC84F89F0CB
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 13:30:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 237FA89F10E
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 13:42:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CC7710E4AA;
-	Wed, 10 Apr 2024 11:29:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01BD410E4C2;
+	Wed, 10 Apr 2024 11:42:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kfLYc5vO";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="Irffg5GU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB17210E4AA
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 11:29:55 +0000 (UTC)
-Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
- [91.154.34.181])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 47FA2250;
- Wed, 10 Apr 2024 13:29:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1712748552;
- bh=j+nS+69bHwK3itF6AU2bCp++5mpfWYfQ7SxDQw27RUI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=kfLYc5vOt/0qOdRTgN8PnQo1/oPxhlRhNrdQdqUdjsbYKQHINtdBJM7LD6XCT9uMf
- 7oGHZytDEgkGMBmW6fGRUykeP+YfTihHrULvOhKve0eks839cVtafq/4w4qmbLphHE
- D2katwnYzu69mq1YRj6gaqom3UkcrKTvEhhXqHDE=
-Message-ID: <56a2c5a4-4486-4274-8f3a-6c4e8ffce116@ideasonboard.com>
-Date: Wed, 10 Apr 2024 14:29:51 +0300
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC18010E20E
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 11:42:50 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 43ABgb77088904;
+ Wed, 10 Apr 2024 06:42:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1712749357;
+ bh=Orwcw5Ia2AB+nDmlojgten3vjJ8b47E/GgQ/goc3VCs=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=Irffg5GUmt1x5SB5XAssmEXglhk4JTfwjhwxNUahC4Jt/FU0S0ptXlDoVgqqoVWnN
+ sYpSHpHIkFZnTHjliZuxwo8ZrCoTqBUTTRTacWGNCzCou7fn49W8jYh0V2rxd/HF3t
+ bgh5SJ6O5Ig6fIGTo4U7EtpSbjPlDQ1gRfHQnnMQ=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 43ABgbCK022407
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 10 Apr 2024 06:42:37 -0500
+Received: from flwvowa02.ent.ti.com (10.64.41.53) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 10
+ Apr 2024 06:42:36 -0500
+Received: from DFLE109.ent.ti.com (10.64.6.30) by flwvowa02.ent.ti.com
+ (10.64.41.53) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2507.34; Wed, 10 Apr
+ 2024 06:42:36 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Wed, 10 Apr 2024 06:42:36 -0500
+Received: from [172.24.227.252]
+ (jayesh-hp-probook-440-g8-notebook-pc.dhcp.ti.com [172.24.227.252])
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 43ABgVU9078615;
+ Wed, 10 Apr 2024 06:42:32 -0500
+Message-ID: <279a1467-9ba4-449c-9076-9b2acef9336c@ti.com>
+Date: Wed, 10 Apr 2024 17:12:30 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: tilcdc: don't use devm_pinctrl_get_select_default()
- in probe
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- linux-renesas-soc@vger.kernel.org
-Cc: Jyri Sarha <jyri.sarha@iki.fi>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20230922073714.6164-1-wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Fix ti_sn_bridge_set_dsi_rate
+ function
+To: Doug Anderson <dianders@chromium.org>
+CC: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
+ <Laurent.pinchart@ideasonboard.com>, <mripard@kernel.org>,
+ <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
+ <maarten.lankhorst@linux.intel.com>, <tzimmermann@suse.de>,
+ <airlied@gmail.com>, <daniel@ffwll.ch>, <andersson@kernel.org>,
+ <robdclark@gmail.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20240408073623.186489-1-j-choudhary@ti.com>
+ <CAD=FV=V6vUgcPn0zhA+9k4cHVpqqeSVCSJG23XEE5KMAHUCCoQ@mail.gmail.com>
 Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20230922073714.6164-1-wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Jayesh Choudhary <j-choudhary@ti.com>
+In-Reply-To: <CAD=FV=V6vUgcPn0zhA+9k4cHVpqqeSVCSJG23XEE5KMAHUCCoQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,48 +82,197 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/09/2023 10:37, Wolfram Sang wrote:
-> Since commit ab78029ecc34 ("drivers/pinctrl: grab default handles from
-> device core"), we can rely on device core for setting the default pins.
+Hello Doug,
+
+Thanks for the review.
+
+On 08/04/24 14:33, Doug Anderson wrote:
+> Hi,
 > 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->   drivers/gpu/drm/tilcdc/tilcdc_panel.c | 6 ------
->   1 file changed, 6 deletions(-)
+> On Mon, Apr 8, 2024 at 12:36 AM Jayesh Choudhary <j-choudhary@ti.com> wrote:
+>>
+>> Due to integer calculations, the rounding off can cause errors in the final
+>> value propagated in the registers.
+>> Considering the example of 1080p (very common resolution), the mode->clock
+>> is 148500, dsi->lanes = 4, and bpp = 24, with the previous logic, the DSI
+>> clock frequency would come as 444 when we are expecting the value 445.5
+>> which would reflect in SN_DSIA_CLK_FREQ_REG.
+>> So move the division to be the last operation where rounding off will not
+>> impact the register value.
 > 
-> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_panel.c b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
-> index 9aefd010acde..68093d6b6b16 100644
-> --- a/drivers/gpu/drm/tilcdc/tilcdc_panel.c
-> +++ b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
-> @@ -6,7 +6,6 @@
->   
->   #include <linux/backlight.h>
->   #include <linux/gpio/consumer.h>
-> -#include <linux/pinctrl/consumer.h>
->   #include <linux/platform_device.h>
->   
->   #include <video/display_timing.h>
-> @@ -308,7 +307,6 @@ static int panel_probe(struct platform_device *pdev)
->   	struct backlight_device *backlight;
->   	struct panel_module *panel_mod;
->   	struct tilcdc_module *mod;
-> -	struct pinctrl *pinctrl;
->   	int ret;
->   
->   	/* bail out early if no DT data: */
-> @@ -342,10 +340,6 @@ static int panel_probe(struct platform_device *pdev)
->   
->   	tilcdc_module_init(mod, "panel", &panel_module_ops);
->   
-> -	pinctrl = devm_pinctrl_get_select_default(&pdev->dev);
-> -	if (IS_ERR(pinctrl))
-> -		dev_warn(&pdev->dev, "pins are not configured\n");
-> -
->   	panel_mod->timings = of_get_display_timings(node);
->   	if (!panel_mod->timings) {
->   		dev_err(&pdev->dev, "could not get panel timings\n");
+> Given that this driver is used on a whole pile of shipping Chromebooks
+> and those devices have been working just fine (with 1080p resolution)
+> for years, I'm curious how you noticed this. Was it actually causing
+> real problems for you, or did you notice it just from code inspection?
+> You should include this information in the commit message.
 
-Thanks, applying to drm-misc-next.
+I am trying to add display support for TI SoC which uses this particular
+bridge. While debugging, I was trying to get all the register value in
+sync with the datasheet and it was then that I observed this issue while
+inspecting the code.
+Maybe Chromebooks are using different set of parameters which does not
+expose this issue. Since parameters for my display (mentioned in commit
+message) yields the frequency at the border, I saw this issue. My debug
+is still ongoing but since the value is not in sync with the
+documentation, I sent out this patch.
 
-  Tomi
+> 
+> I'm travelling for the next two weeks so I can't actually check on a
+> device to see if your patch makes any difference on hardware I have,
+> but I'd presume that things were working "well enough" with the old
+> value and they'll still work with the new value?
+> 
+> 
 
+Yes, ideally they should still work well with this change.
+
+>> Also according to the SN65DSI86 datasheet[0], the minimum value for that
+>> reg is 0x08 (inclusive) and the maximum value is 0x97 (exclusive). So add
+>> check for that.
+> 
+> Maybe the range checking should be a separate patch?
+
+Check should be done before propagating the register value so I added it
+in the same function and hence in the same patch.
+
+> 
+> 
+>> [0]: <https://www.ti.com/lit/gpn/sn65dsi86>
+>>
+>> Fixes: ca1b885cbe9e ("drm/bridge: ti-sn65dsi86: Split the setting of the dp and dsi rates")
+> 
+> Are you sure that's the commit you're fixing? In the commit text of
+> that commit I wrote that it was supposed to "have zero functional
+> change". Looking back at the change I still believe it had zero
+> functional change. The rounding error looks like it predates the
+> patch.
+> 
+> As far as I can tell the rounding error has been there since commit
+> a095f15c00e2 ("drm/bridge: add support for sn65dsi86 bridge driver").
+> 
+
+Yes. Now I see that it fixes the initial support patch.
+I will fix that.
+
+> 
+>> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+> 
+> It's great to see a TI engineer contributing to this driver! Awesome!
+> 
+> 
+>> ---
+>>   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 48 +++++++++++++++++++++------
+>>   1 file changed, 37 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>> index 84698a0b27a8..f9cf6b14d85e 100644
+>> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>> @@ -111,7 +111,14 @@
+>>   #define  AUX_IRQ_STATUS_AUX_SHORT              BIT(5)
+>>   #define  AUX_IRQ_STATUS_NAT_I2C_FAIL           BIT(6)
+>>
+>> -#define MIN_DSI_CLK_FREQ_MHZ   40
+>> +/*
+>> + * NOTE: DSI clock frequency range: [40MHz,755MHz)
+>> + * DSI clock frequency range is in 5-MHz increments
+>> + * So minimum frequency 40MHz translates to 0x08
+>> + * And maximum frequency 755MHz translates to 0x97
+>> + */
+>> +#define MIN_DSI_CLK_RANGE      0x8
+>> +#define MAX_DSI_CLK_RANGE      0x97
+> 
+> It's a little weird to call this min/max and have one be inclusive and
+> one be exclusive. Be consistent and say that this is the minimum legal
+> value and the maximum legal value. I think that means the MAX should
+> be 0x96.
+
+The comment above does specify the inclusive/exclusive behavior.
+Since a value corresponds to 5MHz range, associating the value with
+the range makes more sense if I keep it 0x97 (0x97 * 5 -> 755MHz)
+0x96 corresponds to the range of [750Mz,755MHz).
+
+If this argument does not make sense, I can change it to 0x96 and handle
+it with the inequalities in the function call.
+
+> 
+> 
+>>   /* fudge factor required to account for 8b/10b encoding */
+>>   #define DP_CLK_FUDGE_NUM       10
+>> @@ -820,22 +827,37 @@ static void ti_sn_bridge_atomic_disable(struct drm_bridge *bridge,
+>>          regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG, VSTREAM_ENABLE, 0);
+>>   }
+>>
+>> -static void ti_sn_bridge_set_dsi_rate(struct ti_sn65dsi86 *pdata)
+>> +static int ti_sn_bridge_set_dsi_rate(struct ti_sn65dsi86 *pdata)
+>>   {
+>> -       unsigned int bit_rate_mhz, clk_freq_mhz;
+>> +       unsigned int bit_rate_khz;
+>>          unsigned int val;
+>>          struct drm_display_mode *mode =
+>>                  &pdata->bridge.encoder->crtc->state->adjusted_mode;
+>>
+>> -       /* set DSIA clk frequency */
+>> -       bit_rate_mhz = (mode->clock / 1000) *
+>> -                       mipi_dsi_pixel_format_to_bpp(pdata->dsi->format);
+>> -       clk_freq_mhz = bit_rate_mhz / (pdata->dsi->lanes * 2);
+>> +       /*
+>> +        * Set DSIA clk frequency
+>> +        * Maximum supported value of bit_rate_khz turns out to be
+>> +        * 6040000 which can be put in 32-bit variable so no overflow
+>> +        * possible in this calculation.
+> 
+> The way you've written this comment makes me worried. You're saying
+> that the only supported result of the math has to fit in 32-bits so
+> we're OK. ...and then _after_ you do the math you check to see if the
+> clock rate is within the supported range. It makes me feel like you
+> could still overflow.
+
+I did use reverse calculation for the value that I used in comments. xD
+
+> 
+> I think your comment here should say something like:
+> 
+> The maximum value returned by mipi_dsi_pixel_format_to_bpp() is 24.
+> That means that as long as "mode->clock" is less than 178,956,971 kHz
+> then the calculation can't overflow and can fit in 32-bits.
+> 
+> If you wanted to be really good you could even put a check earlier in
+> the function to make sure that mode->clock wasn't something totally
+> crazy (could confirm it's < 100GHz maybe?) so you absolutely knew it
+> couldn't overflow.
+
+Okay. This makes sense. Will take this into account for v2.
+
+
+> 
+>> +        */
+>> +       bit_rate_khz = mode->clock *
+>> +                      mipi_dsi_pixel_format_to_bpp(pdata->dsi->format);
+>> +
+>> +       /*
+>> +        * For each increment in val, frequency increases by 5MHz
+>> +        * and the factor of 1000 comes from kHz to MHz conversion
+>> +        */
+>> +       val = (bit_rate_khz / (pdata->dsi->lanes * 2 * 1000 * 5)) & 0xFF;
+>> +
+>> +       if (val >= MAX_DSI_CLK_RANGE || val < MIN_DSI_CLK_RANGE) {
+>> +               drm_err(pdata->bridge.dev,
+>> +                       "DSI clock frequency not in the supported range\n");
+>> +               return -EINVAL;
+>> +       }
+> 
+> Shouldn't the above be in atomic_check()? There's a reason why
+> atomic_enable() can't return error codes.
+
+Oops.
+I will handle it how we are handling errors in case of link_training:
+https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/bridge/ti-sn65dsi86.c#L1152
+
+That should be okay I guess?
+
+Warm Regards,
+Jayesh
+
+> 
+> -Doug
