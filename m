@@ -2,94 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54C4289FCC3
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 18:24:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 958AF89FCF1
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 18:34:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3660511231F;
-	Wed, 10 Apr 2024 16:24:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6083110EBEF;
+	Wed, 10 Apr 2024 16:34:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FdgeLxez";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WdGJ+FMW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9099C10EBA9
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 16:24:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1712766265;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SR+1AW9M2A3GnVPo72SCiXJczoeqweAOw7eIFhYpkyg=;
- b=FdgeLxeztcl5LaYNc0AyZJ6Zwlprdg5pZgHEHH9WcPuTUDPpr3ZmQQPv/EjVQQSNJR29rf
- ShG04Sn6y2YyhKlfbGWzsSFDgQ7uBkzrGOpJN199Qlx1CFQqOVbaxrAlMv9fWOOs0iMO7j
- B4+2b5VBM37C2KnVj45EqKh00f32ZxU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-13-ScqJSoGAPEq7XnbnR6UV0w-1; Wed, 10 Apr 2024 12:24:23 -0400
-X-MC-Unique: ScqJSoGAPEq7XnbnR6UV0w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-41663448bcbso17709855e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 09:24:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712766263; x=1713371063;
- h=content-transfer-encoding:in-reply-to:organization:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SR+1AW9M2A3GnVPo72SCiXJczoeqweAOw7eIFhYpkyg=;
- b=G4SQxf7dvBqIZwnEJjBIbHilrMGP4fXJ8GMxQVdvOkOxiMeslCqZ9eFqXWSewqZw73
- XLmclv5rQd0C8rfxSNAMM0nRUZlePUPAIGJGqRJgs2K09oceF4vjKVr9dhNAmNkUFsvW
- PBM6uYrZ/WElp9BAVZnoxlaZ51NnaKCZbp1jpTMWElLM1WkWd68uMEKucFoIintJz/VB
- o80nxi9TqagfNRmOOjvDz9zuC4pdu8iDOsd91aQb8+OsRHCz0UlCfBv/5BrsaibuM692
- veJ50WMnV676ex5Qr2mwceDeiw4u7tTB3iW3iTcUZwiwBBnnFeO5qYWoSTYwpM2V0pZw
- 6dxA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXM2K7FaLZVs/E9YSAUgLoDTnygxOHA92pXjhx2t+v96czVNAm3n6cExUA+9fDgKkgWnwZEV1j3+s8QclmcPJHQDgJIOQcshK30djKLxy0A
-X-Gm-Message-State: AOJu0Yz7JA+PrB0qpiZNOs6ukIP8u+MoYnQcc1NNjNGleXQN/2kSLdlH
- XsgvLWhUbHyXSRt1wy0QdyQukX2DVJePKxcOlXAJF0mWPMS7hM91t6nnwYyKOz00/p5/R9mIoxz
- SB5vv00mqjz2d5SahifUOLiSm8UvPeDWqFVLlmSrRsc7QUw1A1vnnYpDp2X1nx5Mv7g==
-X-Received: by 2002:a5d:46c4:0:b0:343:44cd:7d1e with SMTP id
- g4-20020a5d46c4000000b0034344cd7d1emr118394wrs.17.1712766262840; 
- Wed, 10 Apr 2024 09:24:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEMW1X5i7lkXvrY5pH8/hRbgfI9LM1AIWY8oZ53l2ukbPKVk1TIMAo3XiLMuX7AI0rT7T6YFg==
-X-Received: by 2002:a5d:46c4:0:b0:343:44cd:7d1e with SMTP id
- g4-20020a5d46c4000000b0034344cd7d1emr118363wrs.17.1712766262429; 
- Wed, 10 Apr 2024 09:24:22 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
- ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- y13-20020a5d4acd000000b00343eac2acc4sm13444649wrs.111.2024.04.10.09.24.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Apr 2024 09:24:22 -0700 (PDT)
-Message-ID: <cd044176-ebd3-4fd8-94ca-6630cd3211a8@redhat.com>
-Date: Wed, 10 Apr 2024 18:24:20 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31CB510EBEF
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 16:34:00 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 377FB616F4;
+ Wed, 10 Apr 2024 16:33:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8EBAC43390;
+ Wed, 10 Apr 2024 16:33:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1712766839;
+ bh=+FUDvwQv/pjc3SPd6m6Xsh3tVWiCUKkTIowQBF/v+bo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WdGJ+FMWdhh0ULfdq8PAMBRkV2D07vdl12esxN36qRc7iBlgF3igm9UnHdW77OuFa
+ R1W0JHu1+BnlUhglO03XjKxuV9Rt2mCMQCaSdrf4IRQD0U8D5g/dqXC0haKnWOYlx/
+ Tpra8k4KGnwJ3YtphgLmFLiVaTX5TNMexFojRyJ3FaJEvmdbDTS+6N7skMgDaQOFuC
+ eztJG/y+UXXqSBx5CDHVTVqVsnm+aGnXcRti6BXckFmR/c5/oCclxaYHn2HoTwNkOd
+ FGC8MSUR8t8sqTz/1pWkII2Z0fI6j2RDG+Ademt/aK0H+PfBHKuXYMf9JZ5TszgGZX
+ 22ZZhsz28q9gg==
+Date: Wed, 10 Apr 2024 11:33:55 -0500
+From: Rob Herring <robh@kernel.org>
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
+ Niklas Cassel <cassel@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Thomas Gleixner <tglx@linutronix.de>, Bjorn Helgaas <bhelgaas@google.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Rich Felker <dalias@libc.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Lee Jones <lee@kernel.org>, Helge Deller <deller@gmx.de>,
+ Heiko Stuebner <heiko.stuebner@cherry.de>,
+ Shawn Guo <shawnguo@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+ Chris Morgan <macromorgan@hotmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Arnd Bergmann <arnd@arndb.de>, David Rientjes <rientjes@google.com>,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Baoquan He <bhe@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Kefeng Wang <wangkefeng.wang@huawei.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Guo Ren <guoren@kernel.org>, Azeem Shaikh <azeemshaikh38@gmail.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Jacky Huang <ychuang3@nuvoton.com>,
+ Herve Codina <herve.codina@bootlin.com>,
+ Manikanta Guntupalli <manikanta.guntupalli@amd.com>,
+ Anup Patel <apatel@ventanamicro.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>, Sergey Shtylyov <s.shtylyov@omp.ru>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-ide@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-fbdev@vger.kernel.org
+Subject: Re: [RESEND v7 22/37] dt-bindings: display: smi,sm501: SMI SM501
+ binding json-schema
+Message-ID: <20240410163355.GA386057-robh@kernel.org>
+References: <cover.1712207606.git.ysato@users.sourceforge.jp>
+ <9858ef1c149bd27b27594b3bd388601681d83460.1712207606.git.ysato@users.sourceforge.jp>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: nv04: Add check to avoid out of bounds access
-To: Mikhail Kobuk <m.kobuk@ispras.ru>, Danilo Krummrich <me@dakr.org>,
- Lyude Paul <lyude@redhat.com>, Karol Herbst <kherbst@redhat.com>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Francisco Jerez <currojerez@riseup.net>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- lvc-project@linuxtesting.org, Fedor Pchelkin <pchelkin@ispras.ru>,
- Alexey Khoroshilov <khoroshilov@ispras.ru>
-References: <20240331064552.6112-1-m.kobuk@ispras.ru>
- <c3253f8a-e654-4016-b0c6-d92703107c48@redhat.com>
- <11096e558e67f2fea2aee976c70a19af1b7c212b.camel@redhat.com>
- <03263130-0627-45c4-ab14-aa0e3b597442@dakr.org>
- <624ee851-162b-4490-8444-0d9e06b5863b@ispras.ru>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <624ee851-162b-4490-8444-0d9e06b5863b@ispras.ru>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9858ef1c149bd27b27594b3bd388601681d83460.1712207606.git.ysato@users.sourceforge.jp>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,113 +103,480 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/10/24 17:39, Mikhail Kobuk wrote:
-> On 08/04/2024 16:23, Danilo Krummrich wrote:
->> On 4/5/24 22:05, Lyude Paul wrote:
->>> On Fri, 2024-04-05 at 17:53 +0200, Danilo Krummrich wrote:
->>>> On 3/31/24 08:45, Mikhail Kobuk wrote:
->>>>> Output Resource (dcb->or) value is not guaranteed to be non-zero
->>>>> (i.e.
->>>>> in drivers/gpu/drm/nouveau/nouveau_bios.c, in
->>>>> 'fabricate_dcb_encoder_table()'
->>>>> 'dcb->or' is assigned value '0' in call to
->>>>> 'fabricate_dcb_output()').
->>>>
->>>> I don't really know much about the semantics of this code.
->>>>
->>>> Looking at fabricate_dcb_output() though I wonder if the intention
->>>> was to assign
->>>> BIT(or) to entry->or.
->>>>
->>>> @Lyude, can you help here?
->>>
->>> This code is definitely a bit before my time as well - but I think
->>> you're completely correct. Especially considering this bit I found in
->>> nouveau_bios.h:
->>
->> Thanks for confirming.
->>
->> @Mikhail, I think we should rather fix this assignment then.
+On Thu, Apr 04, 2024 at 02:14:33PM +0900, Yoshinori Sato wrote:
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> ---
+>  .../bindings/display/smi,sm501.yaml           | 398 ++++++++++++++++++
+>  1 file changed, 398 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/smi,sm501.yaml
 > 
-> Thank you all for a thorough look!
-> 
->>
->> - Danilo
->>
->>>
->>> enum nouveau_or {
->>>     DCB_OUTPUT_A = (1 << 0),
->>>     DCB_OUTPUT_B = (1 << 1),
->>>     DCB_OUTPUT_C = (1 << 2)
->>> };
->>>
->>>
-> 
-> Considering this code bit, and the fact that fabricate_dcb_output() is called in drivers/gpu/drm/nouveau/nouveau_bios.c only, there's option to adjust function calls instead of adding BIT(or), i.e.:
-> 
-> fabricate_dcb_output(dcb, DCB_OUTPUT_TMDS, 0, all_heads, DCB_OUTPUT_B);
-> 
-> instead of current:
-> 
-> fabricate_dcb_output(dcb, DCB_OUTPUT_TMDS, 0, all_heads, 1);
-> 
-> and etc.
-> 
-> Should I make a new patch with adjusted calls or stick with BIT(or)?
+> diff --git a/Documentation/devicetree/bindings/display/smi,sm501.yaml b/Documentation/devicetree/bindings/display/smi,sm501.yaml
+> new file mode 100644
+> index 000000000000..06c6af4fa4a9
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/smi,sm501.yaml
+> @@ -0,0 +1,398 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/smi,sm501.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Silicon Motion SM501 Mobile Multimedia Companion Chip
+> +
+> +maintainers:
+> +  - Yoshinori Sato <ysato@user.sourceforge.jp>
+> +
+> +description: |
 
-Please send a new patch adjusting the calls using enum nouveau_or, that
-seems to be cleaner.
+Don't need '|'
 
-- Danilo
+> +  These DT bindings describe the SM501.
 
+Drop "These DT bindings describe" and just describe what the h/w is.
+
+> +
+> +properties:
+> +  compatible:
+> +    const:
+> +      smi,sm501
+> +
+> +  reg:
+> +    maxItems: 2
+> +    description: |
+> +     First entry: System Configuration register
+> +     Second entry: IO space (Display Controller register)
+
+items:
+  - description: System Configuration register
+  - description: IO space (Display Controller register)
+
+Is it just 1 register in each or should be "registers"?
+
+
+> +
+> +  interrupts:
+> +    description: SM501 interrupt to the cpu should be described here.
+> +
+> +  mode:
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    description: select a video mode
+> +
+> +  edid:
+> +    description: |
+
+Don't need '|'.
+
+> +      verbatim EDID data block describing attached display.
+
+s/verbatim/Verbatim/
+
+> +      Data from the detailed timing descriptor will be used to
+> +      program the display controller.
+> +
+> +  little-endian:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description: available on big endian systems, to set different foreign endian.
+> +  big-endian:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description: available on little endian systems, to set different foreign endian.
+> +
+> +  swap-fb-endian:
+
+All these custom properties need vendor prefix.
+
+But really, why are so many custom properties needed? Other display 
+controllers don't need so many, why does this one? Do you actually have 
+users of all of them.
+
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description: swap framebuffer byteorder.
+> +
+> +  route-crt-panel:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description: Panel output merge to CRT.
+> +
+> +  crt:
+> +    type: object
+> +    description: CRT output control
+> +    properties:
+> +      edid:
+
+Huh? You already defined edid elsewhere.
+
+> +        $ref: /schemas/types.yaml#/definitions/uint8-array
+> +        description: |
+> +          verbatim EDID data block describing attached display.
+> +          Data from the detailed timing descriptor will be used to
+> +          program the display controller.
+> +
+> +      smi,flags:
+> +        $ref: /schemas/types.yaml#/definitions/string-array
+> +        description: Display control flags.
+> +        items:
+> +          anyOf:
+> +            - const: use-init-done
+> +            - const: disable-at-exit
+> +            - const: use-hwcursor
+> +            - const: use-hwaccel
+> +            - const: panel-no-fpen
+> +            - const: panel-no-vbiasen
+> +            - const: panel-inv-fpen
+> +            - const: panel-inv-vbiasen
+> +        maxItems: 8
+> +
+> +      bpp:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description: Color depth
+> +
+> +  panel:
+
+Isn't this just the same as 'crt'?
+
+> +    type: object
+> +    description: Panel output control
+> +    properties:
+> +      edid:
+> +        $ref: /schemas/types.yaml#/definitions/uint8-array
+> +        description: |
+> +          verbatim EDID data block describing attached display.
+> +          Data from the detailed timing descriptor will be used to
+> +          program the display controller.
+> +
+> +      smi,flags:
+> +        $ref: /schemas/types.yaml#/definitions/string-array
+> +        description: Display control flags.
+> +        items:
+> +          anyOf:
+> +            - const: use-init-done
+> +            - const: disable-at-exit
+> +            - const: use-hwcursor
+> +            - const: use-hwaccel
+> +            - const: panel-no-fpen
+> +            - const: panel-no-vbiasen
+> +            - const: panel-inv-fpen
+> +            - const: panel-inv-vbiasen
+> +        maxItems: 8
+> +
+> +      bpp:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description: Color depth
+> +
+> +  smi,devices:
+> +    $ref: /schemas/types.yaml#/definitions/string-array
+> +    description: Select SM501 device functions.
+> +    items:
+> +      anyOf:
+> +        - const: usb-host
+> +        - const: usb-slave
+> +        - const: ssp0
+> +        - const: ssp1
+> +        - const: uart0
+> +        - const: uart1
+> +        - const: fbaccel
+> +        - const: ac97
+> +        - const: i2s
+> +        - const: gpio
+> +    minItems: 1
+> +    maxItems: 10
+> +
+> +  smi,mclk:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: mclk frequency.
+> +
+> +  smi,m1xclk:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: m1xclk frequency.
+
+Clock stuff? Use the clock binding.
+
+> +
+> +  misc-timing:
+> +    type: object
+> +    description: Miscellaneous Timing register values.
+> +    properties:
+> +      ex:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description: Extend bus holding time.
+> +
+> +      xc:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description: Xscale clock input select.
+> +
+> +      usb-over-current-detect-disable:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: USB host current detection disable (Us=0).
+> +
+> +      usb-over-current-detect-enable:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: USB host current detection disable (Us=1).
+> +
+> +      sdram-clock-mode1-288mhz:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: SSM1 bit is clear.
+> +
+> +      sdram-clock-mode1-div:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: SSM1 bit is set.
+> +
+> +      sm1:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: SDRAM clock divider for PW mode 1.
+> +
+> +      sdram-clock-mode0-288mhz:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: SSM0 bit is clear.
+> +
+> +      sdram-clock-mode0-div:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: SSM0 bit is set.
+> +
+> +      sm0:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description: SDRAM clock divider for PW mode 0.
+> +
+> +      pll-debug-input:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: 96MHz PLL debug input reference frequency (Deb=0).
+> +
+> +      pll-debug-output:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: 96MHz PLL debug output frequency (Deb=1).
+> +
+> +      no-acpi-control:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: No ACPI control (A=0).
+> +
+> +      acpi-control:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: No ACPI control (A=1).
+> +
+> +      divider:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description: Second PLL output frequency.
+> +
+> +      usb-host-normal:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: USB Host normal mode.
+> +
+> +      usb-host-simulation:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: USB Host simulation mode.
+> +
+> +      delay:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description: Delay time to latch read data. Set the value to 10x.
+> +
+> +  misc-control:
+> +    type: object
+> +    description: Miscellaneous Control register values.
+> +    properties:
+> +      pad:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description: PCI Pad drive strength.
+> +
+> +      usbclk:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description: USB Clcok Select.
+> +
+> +      uart1:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: UART1 (SSP=0)
+> +
+> +      ssp1:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: SSP1 (SSP=1)
+> +
+> +      latch-address-disable:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: 8051 Latch disable (Lat=0).
+> +
+> +      latch-address-enable:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: 8051 Latch enable (Lat=1).
+> +
+> +      panel-data-18bit:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: Flat Panel data 18bit (FP=0).
+> +
+> +      panel-data-24bit:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: Flat Panel data 24bit (FP=1).
+> +
+
+> +      xtal-freq-24mhz:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: Crystal frequency 24MHz (Freq=0).
+> +
+> +      xtal-freq-12mhz:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: Crystal frequency 12MHz (Freq=1).
+
+What's the relationship between these 2 properties? What if neither is 
+present? What if both are? Define properties such that you can't have 
+invalid combinations. Yes, we could just handle that with constraints, 
+but why start with a bad design. There's other cases of this same 
+pattern here.
+
+
+> +
+> +      refresh:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description: Internal memory refresh timing.
+> +
+> +      hold:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description: BUS Hold time.
+> +
+> +      sh-ready-low:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: SuperH ready polarity active low (SH=0).
+> +
+> +      sh-ready-high:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: SuperH ready polarity active high (SH=1).
+> +
+> +      interrupt-normal:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: Interrupt normal (II=0).
+> +
+> +      interrupt-inverted:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: Interrupt Inverting (II=1).
+> +
+> +      pll-clock-count-disable:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: PLL clock count disable.
+> +
+> +      pll-clock-count-enaable:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: PLL clock count enable.
+> +
+> +      dac-power-enable:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: DAC Power enable (DAC=0).
+> +
+> +      dac-power-disable:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: DAC Power disable (DAC=1).
+> +
+> +      usb-slave-cpu:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: USB slave controller cpu (MC=0).
+> +
+> +      usb-slave-8051:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: USB slave controller 8051MCU (MC=1).
+> +
+> +      burst-length-8:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: CPU Master burst length 8 (BL=0).
+> +
+> +      burst-length-1:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: CPU Master burst length 1 (BL=1).
+> +
+> +      usb-port-master:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: USB port master.
+> +
+> +      usb-port-slave:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: USB port slave.
+> +
+> +      vr-mmio-30mb:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: NEC VR Memory map MMIO locatedat 30MB (VR=0)
+> +
+> +      vr-mmio-62mb:
+> +        $ref: /schemas/types.yaml#/definitions/flag
+> +        description: NEC VR Memory map MMIO locatedat 62MB (VR=1)
+> +
+> +  gpio-pin-control:
+> +    type: object
+> +    description: GPIO control configuration.
+> +    properties:
+> +      pin:
+> +        type: object
+> +        properties:
+> +          gpio:
+
+'gpio' is already in use as a property name.
+
+> +            $ref: /schemas/types.yaml#/definitions/flag
+> +            description: pin in/out use GPIO.
+> +          function:
+> +            $ref: /schemas/types.yaml#/definitions/flag
+> +            description: pin in/out use function.
+
+Why do you need 2 nodes and 2 properties to define 3 possible states? 
+There is not present, 'gpio', or 'function'. That's a single 
+tri-state property. What does not present mean?
+
+> +
+> +  gpio-i2c:
+> +    type: object
+> +    description: GPIO I2C definition.
+> +    properties:
+> +      i2c:
+> +        type: object
+> +        properties:
+> +          bus:
+> +            $ref: /schemas/types.yaml#/definitions/uint32
+> +            description: I2C bus number.
+
+How is bus number a property of the h/w?
+
+> +
+> +          sda:
+> +            $ref: /schemas/types.yaml#/definitions/uint32
+> +            description: I2C SDA pin port number.
+> +
+> +          scl:
+> +            $ref: /schemas/types.yaml#/definitions/uint32
+> +            description: I2C SCL pin port number.
+> +
+> +          delay:
+> +            $ref: /schemas/types.yaml#/definitions/uint32
+> +            description: bit transmission delay.
+> +
+> +          timeout:
+> +            $ref: /schemas/types.yaml#/definitions/uint32
+> +            description: transmission timeout.
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +
+> +
+> +examples:
+> +  # MPC5200
+> +  - |
+> +    display@1,0 {
+
+Not a correct unit address.
+
+> +        compatible = "smi,sm501";
+> +        reg = <0x00000000 0x00800000
+> +               0x03e00000 0x00200000>;
+> +        interrupts = <1 1 3>;
+> +        mode = "640x480-32@60";
+> +        edid = [00 ff ff ff ff ff ff 00 00 00 00 00 00 00 00 00
+> +                00 00 01 04 00 00 00 00 00 00 00 00 00 00 00 00
+> +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> +                00 00 00 00 00 00 f0 0a 80 fb 20 e0 25 10 32 60
+> +                02 00 00 00 00 00 00 06 00 00 00 00 00 00 00 00
+> +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 bd];
+
+Kind of a sparse example. Please make examples using optional 
+properties.
+
+> +    };
+> -- 
+> 2.39.2
 > 
->>>>
->>>> Otherwise, for parsing the DCB entries, it seems that the bound
->>>> checks are
->>>> happening in olddcb_outp_foreach() [1].
->>>>
->>>> [1]
->>>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/nouveau/nouveau_bios.c#L1331
->>>>
->>>>>
->>>>> Add check to validate 'dcb->or' before it's used.
->>>>>
->>>>> Found by Linux Verification Center (linuxtesting.org) with SVACE.
->>>>>
->>>>> Fixes: 2e5702aff395 ("drm/nouveau: fabricate DCB encoder table for
->>>>> iMac G4")
->>>>> Signed-off-by: Mikhail Kobuk <m.kobuk@ispras.ru>
->>>>> ---
->>>>>    drivers/gpu/drm/nouveau/dispnv04/dac.c | 4 ++--
->>>>>    1 file changed, 2 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/nouveau/dispnv04/dac.c
->>>>> b/drivers/gpu/drm/nouveau/dispnv04/dac.c
->>>>> index d6b8e0cce2ac..0c8d4fc95ff3 100644
->>>>> --- a/drivers/gpu/drm/nouveau/dispnv04/dac.c
->>>>> +++ b/drivers/gpu/drm/nouveau/dispnv04/dac.c
->>>>> @@ -428,7 +428,7 @@ void nv04_dac_update_dacclk(struct drm_encoder
->>>>> *encoder, bool enable)
->>>>>        struct drm_device *dev = encoder->dev;
->>>>>        struct dcb_output *dcb = nouveau_encoder(encoder)->dcb;
->>>>> -    if (nv_gf4_disp_arch(dev)) {
->>>>> +    if (nv_gf4_disp_arch(dev) && ffs(dcb->or)) {
->>>>>            uint32_t *dac_users = &nv04_display(dev)-
->>>>>> dac_users[ffs(dcb->or) - 1];
->>>>>            int dacclk_off = NV_PRAMDAC_DACCLK +
->>>>> nv04_dac_output_offset(encoder);
->>>>>            uint32_t dacclk = NVReadRAMDAC(dev, 0,
->>>>> dacclk_off);
->>>>> @@ -453,7 +453,7 @@ bool nv04_dac_in_use(struct drm_encoder
->>>>> *encoder)
->>>>>        struct drm_device *dev = encoder->dev;
->>>>>        struct dcb_output *dcb = nouveau_encoder(encoder)->dcb;
->>>>> -    return nv_gf4_disp_arch(encoder->dev) &&
->>>>> +    return nv_gf4_disp_arch(encoder->dev) && ffs(dcb->or) &&
->>>>>            (nv04_display(dev)->dac_users[ffs(dcb->or) - 1] &
->>>>> ~(1 << dcb->index));
->>>>>    }
->>>>
->>>
-> 
-
