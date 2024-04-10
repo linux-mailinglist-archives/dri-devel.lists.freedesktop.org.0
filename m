@@ -2,63 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED44C89EFCC
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 12:26:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB1689F03B
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 12:56:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E9FF11238D;
-	Wed, 10 Apr 2024 10:26:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B28BF10E483;
+	Wed, 10 Apr 2024 10:56:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YX/LTS6A";
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="q8z1P9ZP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0111F11238D;
- Wed, 10 Apr 2024 10:26:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712744788; x=1744280788;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=M3O9qpOpl0tFXPWOqxn9bO81A5EGYim5BIOgoxc4otI=;
- b=YX/LTS6A4Kr7NzBqR+fTzy+7DcGfvJ6mvfP7/YaIGAL/vicousJfK+3Z
- hdedAw2Z1q7gvdyVck0s7Vt2SP4lhL4TiQA0LfsgLFE8i334prKKJ+J/3
- hPreiGx5VOuvj9c8bOxKssQmaBO9glB/Jw2O6F4UaAJgXxs9vHt7+QLMN
- u+uFDkIlMWyRbdzo+FiIMLNPQk+Nx5u2qbhGKRJBSz97qAQrPv9g0XL4F
- 3/a2lmtG1o8Z67rvpqwv0vhOeGfgJhJDCuPP41kUbX2jrlMbU9oe7WKBM
- o/h8C6F3OJBJBubS6TxdxqTVrZLA99ofQ8gvXvDSrvFhiyC7zkKuenYW/ A==;
-X-CSE-ConnectionGUID: FR744s6fSEO8U5Rb7VkCCQ==
-X-CSE-MsgGUID: qMv6GmePS32OsuReqSSFzw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="33504883"
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; d="scan'208";a="33504883"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2024 03:26:27 -0700
-X-CSE-ConnectionGUID: dwIJXnp4Qlm0KFXIAybhmw==
-X-CSE-MsgGUID: 1FiyMWSMSwGJGm4mZVBB8Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; d="scan'208";a="20486655"
-Received: from oakasatk-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.60.54])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2024 03:26:19 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH v2] drm: move i915_drm.h under include/drm/intel
-Date: Wed, 10 Apr 2024 13:26:15 +0300
-Message-Id: <20240410102615.16506-1-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <63e199dec91cc2e717d81ab00e28f68b9bec8461.1712743191.git.jani.nikula@intel.com>
-References: <63e199dec91cc2e717d81ab00e28f68b9bec8461.1712743191.git.jani.nikula@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44F611132BC
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 10:56:37 +0000 (UTC)
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 43AAntHA016605; Wed, 10 Apr 2024 10:56:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=R/RBhDHlEYdGNN5QMTvoxtO0im0LDZl5znVRnkSfqfo=;
+ b=q8z1P9ZP8NGYG9626sgM+CewjNpHhBGBSCbgYHEzq90F2WhGAvRNYSJqQZ0g2WwtNAVl
+ ZG3m3d3Tw/Rcz24nchvB3aPKY70iVeSWNuYsQDJjR5qvN3CpJW9O14T9V67WTfaIl73j
+ UaDN4LfayRsU6mjy6EuhYm5PegsDEl3paR8+XIkMXKpDLRL2heXWifMAwcZr513JlIAv
+ G9MfvJKceV2nPT69men3E+ZuxhH2Q0yIpy2GkftT0lXc8JDS3kJH8mFbyVauc8HCsRuw
+ PclGls14FWxSSe2V6O39grjLjLyk4jaSE+z3LTB1YSIGhhv8Pulmzvy6tYAAFTajHkX+ Yw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xdr7j861s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 Apr 2024 10:56:33 +0000
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 43AAuXNA026677;
+ Wed, 10 Apr 2024 10:56:33 GMT
+Received: from ppma12.dal12v.mail.ibm.com
+ (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xdr7j861p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 Apr 2024 10:56:33 +0000
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+ by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 43A9iXWq013557; Wed, 10 Apr 2024 10:56:32 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+ by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3xbgqtmgy0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 Apr 2024 10:56:32 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
+ [10.20.54.100])
+ by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 43AAuRIa49217812
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 10 Apr 2024 10:56:29 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F0C7620043;
+ Wed, 10 Apr 2024 10:56:26 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CC92020040;
+ Wed, 10 Apr 2024 10:56:26 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed, 10 Apr 2024 10:56:26 +0000 (GMT)
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Helge Deller <deller@gmx.de>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Arnd Bergmann <arnd@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
+ linux-kernel@vger.kernel.org, Niklas Schnelle <schnelle@linux.ibm.com>
+Subject: [PATCH v2 0/1] fbdev: Handle HAS_IOPORT dependencies
+Date: Wed, 10 Apr 2024 12:56:25 +0200
+Message-Id: <20240410105626.2743168-1-schnelle@linux.ibm.com>
+X-Mailer: git-send-email 2.40.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Zwbo5sy1ILBdDnQSeVUA7_LbHuTTNQRK
+X-Proofpoint-GUID: NGlUMgWUTSQQAh78zwa3P_4ALxo3e0VW
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-10_04,2024-04-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0
+ adultscore=0 lowpriorityscore=0 clxscore=1015 phishscore=0 mlxlogscore=999
+ priorityscore=1501 bulkscore=0 impostorscore=0 mlxscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2404010000
+ definitions=main-2404100079
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,139 +101,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clean up the top level include/drm directory by grouping all the Intel
-specific files under a common subdirectory.
+Hi Helge,
 
-v2: Also fix comment in intel_pci_config.h (Ilpo)
+This is a follow up in my ongoing effort of making inb()/outb() and
+similar I/O port accessors compile-time optional. Previously I sent this
+as a treewide series titled "treewide: Remove I/O port accessors for
+HAS_IOPORT=n" with the latest being its 5th version[0]. With a significant
+subset of patches merged I've changed over to per-subsystem series. These
+series are stand alone and should be merged via the relevant tree such
+that with all subsystems complete we can follow this up with the final
+patch that will make the I/O port accessors compile-time optional.
 
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Dave Airlie <airlied@gmail.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Hans de Goede <hdegoede@redhat.com>
-Cc: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- arch/x86/kernel/early-quirks.c             | 2 +-
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c | 2 +-
- drivers/gpu/drm/i915/gt/intel_ggtt.c       | 2 +-
- drivers/gpu/drm/i915/gt/intel_rps.c        | 2 +-
- drivers/gpu/drm/i915/intel_pci_config.h    | 2 +-
- drivers/gpu/drm/i915/soc/intel_gmch.c      | 2 +-
- drivers/gpu/drm/xe/xe_ggtt.c               | 2 +-
- drivers/platform/x86/intel_ips.c           | 2 +-
- include/drm/{ => intel}/i915_drm.h         | 0
- 9 files changed, 8 insertions(+), 8 deletions(-)
- rename include/drm/{ => intel}/i915_drm.h (100%)
+The current state of the full series with changes to the remaining subsystems
+and the aforementioned final patch can be found for your convenience on my
+git.kernel.org tree in the has_ioport branch[1]. As for compile-time vs runtime
+see Linus' reply to my first attempt[2].
 
-diff --git a/arch/x86/kernel/early-quirks.c b/arch/x86/kernel/early-quirks.c
-index 59f4aefc6bc1..5b867c02d2b5 100644
---- a/arch/x86/kernel/early-quirks.c
-+++ b/arch/x86/kernel/early-quirks.c
-@@ -17,7 +17,7 @@
- #include <linux/bcma/bcma.h>
- #include <linux/bcma/bcma_regs.h>
- #include <linux/platform_data/x86/apple.h>
--#include <drm/i915_drm.h>
-+#include <drm/intel/i915_drm.h>
- #include <drm/i915_pciids.h>
- #include <asm/pci-direct.h>
- #include <asm/dma.h>
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-index ad6dd7f3259b..30595b2b63e1 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-@@ -8,7 +8,7 @@
- #include <linux/mutex.h>
- 
- #include <drm/drm_mm.h>
--#include <drm/i915_drm.h>
-+#include <drm/intel/i915_drm.h>
- 
- #include "gem/i915_gem_lmem.h"
- #include "gem/i915_gem_region.h"
-diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-index 2717699c6591..206a5e0fedf1 100644
---- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-@@ -9,7 +9,7 @@
- #include <linux/stop_machine.h>
- 
- #include <drm/drm_managed.h>
--#include <drm/i915_drm.h>
-+#include <drm/intel/i915_drm.h>
- #include <drm/intel/intel-gtt.h>
- 
- #include "display/intel_display.h"
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-index c9cb2a391942..70176be269d3 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-@@ -5,7 +5,7 @@
- 
- #include <linux/string_helpers.h>
- 
--#include <drm/i915_drm.h>
-+#include <drm/intel/i915_drm.h>
- 
- #include "display/intel_display.h"
- #include "display/intel_display_irq.h"
-diff --git a/drivers/gpu/drm/i915/intel_pci_config.h b/drivers/gpu/drm/i915/intel_pci_config.h
-index 23b8e519f333..ebe040828e20 100644
---- a/drivers/gpu/drm/i915/intel_pci_config.h
-+++ b/drivers/gpu/drm/i915/intel_pci_config.h
-@@ -31,7 +31,7 @@ static inline int intel_mmio_bar(int graphics_ver)
- 	}
- }
- 
--/* BSM in include/drm/i915_drm.h */
-+/* BSM in include/drm/intel/i915_drm.h */
- 
- #define MCHBAR_I915				0x44
- #define MCHBAR_I965				0x48
-diff --git a/drivers/gpu/drm/i915/soc/intel_gmch.c b/drivers/gpu/drm/i915/soc/intel_gmch.c
-index 40874ebfb64c..734e9f2801ea 100644
---- a/drivers/gpu/drm/i915/soc/intel_gmch.c
-+++ b/drivers/gpu/drm/i915/soc/intel_gmch.c
-@@ -8,7 +8,7 @@
- #include <linux/vgaarb.h>
- 
- #include <drm/drm_managed.h>
--#include <drm/i915_drm.h>
-+#include <drm/intel/i915_drm.h>
- 
- #include "i915_drv.h"
- #include "intel_gmch.h"
-diff --git a/drivers/gpu/drm/xe/xe_ggtt.c b/drivers/gpu/drm/xe/xe_ggtt.c
-index ff2239c0eda5..7af1a48f3b59 100644
---- a/drivers/gpu/drm/xe/xe_ggtt.c
-+++ b/drivers/gpu/drm/xe/xe_ggtt.c
-@@ -9,7 +9,7 @@
- #include <linux/sizes.h>
- 
- #include <drm/drm_managed.h>
--#include <drm/i915_drm.h>
-+#include <drm/intel/i915_drm.h>
- 
- #include "regs/xe_gt_regs.h"
- #include "regs/xe_gtt_defs.h"
-diff --git a/drivers/platform/x86/intel_ips.c b/drivers/platform/x86/intel_ips.c
-index ba38649cc142..2a88012958eb 100644
---- a/drivers/platform/x86/intel_ips.c
-+++ b/drivers/platform/x86/intel_ips.c
-@@ -59,7 +59,7 @@
- #include <linux/tick.h>
- #include <linux/timer.h>
- #include <linux/dmi.h>
--#include <drm/i915_drm.h>
-+#include <drm/intel/i915_drm.h>
- #include <asm/msr.h>
- #include <asm/processor.h>
- #include "intel_ips.h"
-diff --git a/include/drm/i915_drm.h b/include/drm/intel/i915_drm.h
-similarity index 100%
-rename from include/drm/i915_drm.h
-rename to include/drm/intel/i915_drm.h
+Thanks,
+Niklas
+
+[0] https://lore.kernel.org/all/20230522105049.1467313-1-schnelle@linux.ibm.com/
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git/log/?h=has_ioport
+[2] https://lore.kernel.org/lkml/CAHk-=wg80je=K7madF4e7WrRNp37e3qh6y10Svhdc7O8SZ_-8g@mail.gmail.com/
+
+v1 -> v2:
+- Add dependency for FB_ARC
+
+Niklas Schnelle (1):
+  fbdev: add HAS_IOPORT dependencies
+
+ drivers/video/fbdev/Kconfig | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
+
 -- 
-2.39.2
+2.40.1
 
