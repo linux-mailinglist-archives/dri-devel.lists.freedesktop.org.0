@@ -2,82 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFAD989F145
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 13:49:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B006689F120
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 13:47:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E09051121B9;
-	Wed, 10 Apr 2024 11:49:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 652591132ED;
+	Wed, 10 Apr 2024 11:47:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=t-argos.ru header.i=@t-argos.ru header.b="bLGU83b9";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="re6SrSrq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.t-argos.ru (mx1.t-argos.ru [109.73.34.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5912310FCEE;
- Wed, 10 Apr 2024 11:49:50 +0000 (UTC)
-Received: from mx1.t-argos.ru (localhost [127.0.0.1])
- by mx1.t-argos.ru (Postfix) with ESMTP id 1A576100002;
- Wed, 10 Apr 2024 14:49:32 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=t-argos.ru; s=mail;
- t=1712749772; bh=orBTxthOmkOLw2GzZM5dy/q8ncQT8wiwTCAtBDly8Wc=;
- h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
- b=bLGU83b9vUGLxKi2GmvKDE6DRQDyOKuTFPnxvRnvhwInt8CuRWsslY10v4N2Z40k7
- Yg9CWMFWZN8IiXf+VteYUYx9kVh4dCfPHTY6A7ofG9rxYMH21WQUshbiB+pvM1RTj8
- wmEUX+CZti1oggowfyE8QNJIYevf0Z61p51qgAygq5eGKoI/o+lBEM1iOrOdKGThgl
- p3FrTWg9K/wj5xUHEI93Hj131J9hnbz7VYuDCekvkeXT5RokY8mwqJTwr3TM1+D5YE
- 11QJqWblkPW9OTBXXeaVs/H8b2SyMciyGZSnDnQYw+XZkrCnq9S1WqswSz+INpcUUu
- rfgNcC555wGdw==
-Received: from mx1.t-argos.ru.ru (mail.t-argos.ru [172.17.13.212])
- by mx1.t-argos.ru (Postfix) with ESMTP;
- Wed, 10 Apr 2024 14:48:10 +0300 (MSK)
-Received: from [172.17.214.6] (172.17.214.6) by ta-mail-02 (172.17.13.212)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 10 Apr
- 2024 14:47:50 +0300
-Message-ID: <6151dd67-702b-41e7-8e54-43d4d1178442@t-argos.ru>
-Date: Wed, 10 Apr 2024 14:45:13 +0300
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C812A1132EE
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 11:47:01 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-2d8b2389e73so17095721fa.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 04:47:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1712749620; x=1713354420; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=oZ6YNeiNukRuh6MMTnZ6ixiPqjgd5+C31ndu168QCzk=;
+ b=re6SrSrqq4whacYQScAnUBGOhczRW1bCTQKMvEkIvrSVBeYmAs9VK7niGWg72zy62n
+ Uu/M8bO0lZNB16sWvY27dO6xMymGZMQSSJGvAXaqY0wO1e/WhcQIbKD4t9FxQm1YFDtT
+ 4a6ycukBHaydsgTQjUpmCWA6vavh7yWwJGdXtf3IHdFhckDpMQTmMd7zCI+XDid9+TGe
+ 0Wa/cX4TeYsBgMD1zggMUXDo5CDWk9NCpSBjspkqhCvJ/00tHDXcb+NvHn1MTFT/QIXB
+ +k4rp10I9jEqGZ/x1fhyh7XdqRXdJnaVIeub5L/NYPVZHK8g/CHtjxhr+Ld10qNY/q9K
+ 8wrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712749620; x=1713354420;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oZ6YNeiNukRuh6MMTnZ6ixiPqjgd5+C31ndu168QCzk=;
+ b=gImcnH1nRs3YhQ8C9NWmixrYZxEmcbx+wo3n2aB8fdX8/8Rfni8q093tmq7O8bXj6s
+ McctmUlHpSykQotlo9hSHTJFO9spsp8curwsKGUqVwfGfNSv/l77pM0VZY0XFTjvp2yu
+ BLcOL46NMC6kyHrYxcquuzOKw4iLoJsERh8B0IvqN9ijPTZmIXmHmlGDgAnN/h1cRK4Q
+ Vwd+/adBevT9gVDc8TXCJzn6I/8WHqLvpCcLomvpivumqUWnBVSgs1fzjv8DNQXsy273
+ or1qbq8h3J68q6+mn2O4PaIQBJMFXo5z0tyM7U1meOYnRQ1yHDO10flduubhBcL9gb+a
+ zPBw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUu8SjA16RtB8f41I3WqWYd6dImEDtMblQXG6axeHFpGMydsiFP0aMEVyfSwYc3VNKBB+vGllLGnX5BKrEOtw2zgJEQ9xdaUuXprjLNR7uU
+X-Gm-Message-State: AOJu0Yxrvdy84oVcKpOuXhycGSfKhBueCLnn1DmgEvGL0hXi2V4aLBqn
+ ZBuXNx3lOtRDy7vDa6W9VX+HYwZ8bHRpZoBTv142B71uxtkiZquZ4wnQ6Q51D94=
+X-Google-Smtp-Source: AGHT+IGnm7b8Cinq20QKqQAozywBKC44Y66uug2JGp4mxZff/pCzj2zNm4gy03Ua488m3Kggfu/ZvQ==
+X-Received: by 2002:a05:651c:1037:b0:2d8:71d4:4c62 with SMTP id
+ w23-20020a05651c103700b002d871d44c62mr1461674ljm.49.1712749619821; 
+ Wed, 10 Apr 2024 04:46:59 -0700 (PDT)
+Received: from [172.30.204.89] (UNUSED.212-182-62-129.lubman.net.pl.
+ [212.182.62.129]) by smtp.gmail.com with ESMTPSA id
+ r21-20020a2e9955000000b002d85452f55csm1781619ljj.47.2024.04.10.04.46.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Apr 2024 04:46:59 -0700 (PDT)
+Message-ID: <c547e19c-158a-4512-b2d9-01668b7ac2f0@linaro.org>
+Date: Wed, 10 Apr 2024 13:47:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm/dpu: Add callback function pointer check before
- its call
-Content-Language: ru
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Neil Armstrong <neil.armstrong@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
-References: <20240408085523.12231-1-amishin@t-argos.ru>
- <c2c3b573-0e62-4452-e657-fbef9abb9430@quicinc.com>
-From: Aleksandr Mishin <amishin@t-argos.ru>
-In-Reply-To: <c2c3b573-0e62-4452-e657-fbef9abb9430@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Subject: Re: [PATCH 3/6] drm/msm/adreno: Allow specifying default speedbin
+ value
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Neil Armstrong <neil.armstrong@linaro.org>
+References: <20240405-topic-smem_speedbin-v1-0-ce2b864251b1@linaro.org>
+ <20240405-topic-smem_speedbin-v1-3-ce2b864251b1@linaro.org>
+ <pncr7ecf4eir36skul3iwt2nf5bpuwd5zjfzzfwwnxjwe4hoes@6z2xe54crijp>
+ <d8a2ef87-f29e-4bdb-a9b8-591b8bd5d2b2@linaro.org>
+ <tkcbl2iwcy3feoggbk737gx32qsxe5p4ad6lfrujy2pazccrhm@kif3guuzay6h>
+ <CAF6AEGsg2xCCC27t_Gqu=MMQ6tckVw=Zj90p4x7EuOm+VKA=ig@mail.gmail.com>
+ <quil2y6tbilihgont2xekay4joxgnsanu3khgo77omtwkolslp@ozuaajpv5uon>
+ <b77a3161-9a18-4523-8528-31c2f2f4f476@linaro.org>
+ <x4sgmdodoacsu6culbjjsw52ucaylpqj2ll6tkeppllzhfqiqn@lysclxogvcfq>
+ <74ebd488-15c1-47a5-86f4-14263e3a914e@linaro.org>
+ <CAA8EJprAcBDEwYeGJZ=JX2qkS4wQEraXsgCiCyZU3z1ksuxivw@mail.gmail.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <CAA8EJprAcBDEwYeGJZ=JX2qkS4wQEraXsgCiCyZU3z1ksuxivw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.17.214.6]
-X-ClientProxiedBy: ta-mail-02.ta.t-argos.ru (172.17.13.212) To ta-mail-02
- (172.17.13.212)
-X-KSMG-Rule-ID: 1
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 184651 [Apr 10 2024]
-X-KSMG-AntiSpam-Version: 6.1.0.4
-X-KSMG-AntiSpam-Envelope-From: amishin@t-argos.ru
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 16 0.3.16
- 6e64c33514fcbd07e515710c86ba61de7f56194e, {Tracking_uf_ne_domains},
- {Tracking_from_domain_doesnt_match_to}, t-argos.ru:7.1.1;
- d41d8cd98f00b204e9800998ecf8427e.com:7.1.1; git.kernel.org:7.1.1;
- 127.0.0.199:7.1.2; mx1.t-argos.ru.ru:7.1.1, FromAlignment: s
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean, bases: 2024/04/10 07:25:00
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30,
- bases: 2024/04/10 08:25:00 #24735279
-X-KSMG-AntiVirus-Status: Clean, skipped
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,49 +105,75 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 08.04.2024 19:51, Abhinav Kumar wrote:
-> 
-> 
-> On 4/8/2024 1:55 AM, Aleksandr Mishin wrote:
->> In dpu_core_irq_callback_handler() callback function pointer is 
->> compared to NULL,
->> but then callback function is unconditionally called by this pointer.
->> Fix this bug by adding conditional return.
+On 4/9/24 20:31, Dmitry Baryshkov wrote:
+> On Tue, 9 Apr 2024 at 21:27, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
 >>
->> Found by Linux Verification Center (linuxtesting.org) with SVACE.
 >>
-> 
-> Yes , as dmitry wrote, this should be Reported-by.
-> 
-
-It is an established practice for our project, you can find 700+ applied
-patches with similar line:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/?qt=grep&q=linuxtesting.org
-
-> But rest LGTM.
-> 
->> Fixes: c929ac60b3ed ("drm/msm/dpu: allow just single IRQ callback")
->> Signed-off-by: Aleksandr Mishin <amishin@t-argos.ru>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
 >>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
->> index 946dd0135dff..03a16fbd4c99 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
->> @@ -223,9 +223,11 @@ static void dpu_core_irq_callback_handler(struct 
->> dpu_kms *dpu_kms, unsigned int
->>       VERB("IRQ=[%d, %d]\n", DPU_IRQ_REG(irq_idx), DPU_IRQ_BIT(irq_idx));
->> -    if (!irq_entry->cb)
->> +    if (!irq_entry->cb) {
->>           DRM_ERROR("no registered cb, IRQ=[%d, %d]\n",
->>                 DPU_IRQ_REG(irq_idx), DPU_IRQ_BIT(irq_idx));
->> +        return;
->> +    }
->>       atomic_inc(&irq_entry->count);
+>> On 4/9/24 20:15, Dmitry Baryshkov wrote:
+>>> On Tue, Apr 09, 2024 at 08:07:56PM +0200, Konrad Dybcio wrote:
+>>>>
+>>>>
+>>>> On 4/9/24 20:04, Dmitry Baryshkov wrote:
+>>>>> On Tue, Apr 09, 2024 at 10:12:00AM -0700, Rob Clark wrote:
+>>>>>> On Tue, Apr 9, 2024 at 8:23 AM Dmitry Baryshkov
+>>>>>> <dmitry.baryshkov@linaro.org> wrote:
+>>>>>>>
+>>>>>>> On Tue, Apr 09, 2024 at 05:12:46PM +0200, Konrad Dybcio wrote:
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> On 4/6/24 04:56, Dmitry Baryshkov wrote:
+>>>>>>>>> On Fri, Apr 05, 2024 at 10:41:31AM +0200, Konrad Dybcio wrote:
+>>>>>>>>>> From: Neil Armstrong <neil.armstrong@linaro.org>
+>>>>>>>>>>
+>>>>>>>>>> Usually, speedbin 0 is the "super SKU", a.k.a the one which can clock
+>>>>>>>>>> the highest. Falling back to it when things go wrong is largely
+>>>>>>>>>> suboptimal, as more often than not, the top frequencies are not
+>>>>>>>>>> supposed to work on other bins.
+>>>>>>>>>
+>>>>>>>>> Isn't it better to just return an error here instead of trying to guess
+>>>>>>>>> which speedbin to use?
+>>>>>>>>
+>>>>>>>> Not sure. I'd rather better compatibility for e.g. booting up a new
+>>>>>>>> laptop with just dt.
+>>>>>>>
+>>>>>>> New speedbin can have lower max speed, so by attempting to run it at
+>>>>>>> higher freq you might be breaking it.
+>>>>>>
+>>>>>> Usually there are some OPPs in common to all speedbins, so picking a
+>>>>>> freq from that set would seem like the safe thing to do
+>>>>>
+>>>>> Well, the issue is about an uknown speed bin. So in theory we know
+>>>>> nothing about the set of speeds itsupports. My point is that we should
+>>>>> simplfy fail in such case.
+>>>>
+>>>> Or we could allow e.g. the lowest frequency (or 2) which if often shared
+>>>> across the board to work, giving a compromise between OOBE and sanity
+>>>
+>>> That's also an option. But we should not be using existing speed table for
+>>> the unknown bin.
+>>
+>> I derived this logic from msm-5.15 where it's "intended behavior".. I
+>> suppose we can do better as you said though
+>>
+>> There have been cases in the past where the default speed bin ended up
+>> having a higher max freq than subsequent ones, and I don't think I can
+>> trust this product/feature code approach to guarantee this never
+>> happening again.
+>>
+>> So. I think sticking to a single lowest freq and printing a big red line
+>> in dmesg makes sense here
+> 
+> Make 0x80 the default supported-hw, make sure that the lowest freq has
+> 0xff. Plus big-red-line.
+> And hope that we'll never see 16 speed bins for the hardware.
 
--- 
-Kind regards
-Aleksandr
+opp-supported-hw is a u32 bitmask fwiw
+
+I was thinking, either 0xffffffff or some driver-side hackery
+(dev_pm_opp_enable).
+
+Perhaps I'd be more in favor of the latter, as putting meaningless gobblygoo
+in dt is not good
+
+Konrad
