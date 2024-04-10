@@ -2,60 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65DE289EE22
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 11:04:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 158A689EE26
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 11:06:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB18210F9EA;
-	Wed, 10 Apr 2024 09:04:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0DAA113280;
+	Wed, 10 Apr 2024 09:06:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="a4SQgeOb";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VSwsHUB7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BB9C10F9EA
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 09:04:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712739843; x=1744275843;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=wFAMkb3sGEQtxZKEUOmxsF2nLKXytVfg8WysSciWCJ4=;
- b=a4SQgeOb/SbKFiVJTct5S9TFNss8VuvMV75YRPUAO55UaYi/hJ36EwV9
- vjehZVgBLbSvpdPmlsNrZYqTXyF7NOtwFGjWSIgRsAbPzwA3w/uFKW9t0
- 6gWf1km4D11ojDubcfX62m4nqjTwP5zY3MJXz3AEW5RSY8sp6RU1rkUTF
- qSZZMhKOgdqjIyRhWej0RHXUjK+Vz6IyYiOGpguVQRN94kg51DGLY8taM
- lc2Afml6aYChjNqrWZSRFPaAiA8BZrxTNEdJaOYHmLHdlypSzVz6Ufguj
- A8wjl8YDn298+I1c7wBteXfXYB2dBFBmLjsDk5nMJ/WO7Xp69fdIox4+d A==;
-X-CSE-ConnectionGUID: t/cgg5p6SOS12Rl8Nt1ttw==
-X-CSE-MsgGUID: PH41CkQ+QHSCIV8vcsXr0Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="7947748"
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="7947748"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2024 02:04:02 -0700
-X-CSE-ConnectionGUID: aFzGX31OTziWqceHUDDiPg==
-X-CSE-MsgGUID: LJDYrbCpQ3+EiBgpJE3MZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; d="scan'208";a="43739265"
-Received: from oakasatk-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.60.54])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2024 02:04:00 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org
-Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Subject: Re: [PATCH] drm: remove unused header gma_drm.h
-In-Reply-To: <87bk6hr7cf.fsf@minerva.mail-host-address-is-not-set>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240408104230.3191827-1-jani.nikula@intel.com>
- <87bk6hr7cf.fsf@minerva.mail-host-address-is-not-set>
-Date: Wed, 10 Apr 2024 12:03:57 +0300
-Message-ID: <87bk6h8u82.fsf@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DAE7113280
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 09:06:34 +0000 (UTC)
+Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
+ [91.154.34.181])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF6DB3A4;
+ Wed, 10 Apr 2024 11:05:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1712739950;
+ bh=Hx0+JMZa08LZMdVTnbe/YFH/dQQq0tN6Cl55bYwBs5A=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=VSwsHUB7sZW7SUWAfYbb3hqJGBf2nuCk9eZ8LgL2iFadwR9y56362MNwHMCM9rBJQ
+ 5xDxUZFu+RMxuiVNRuBv13ACZX6i+hhjZAuhx8mXuQn3xvZpj5KAXf5a9RpHyYoNOU
+ 9YpRaaAqB5DRv3b9Rts4Vg+SoQzyD7GoF5MACIfc=
+Message-ID: <b944eacf-e284-42ad-aeb6-e7aeb1aa01c1@ideasonboard.com>
+Date: Wed, 10 Apr 2024 12:06:29 +0300
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 12/21] drm/tilcdc: Allow build without __iowmb()
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Jyri Sarha <jyri.sarha@iki.fi>
+References: <20240408170426.9285-1-ville.syrjala@linux.intel.com>
+ <20240408170426.9285-13-ville.syrjala@linux.intel.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20240408170426.9285-13-ville.syrjala@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,21 +100,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 10 Apr 2024, Javier Martinez Canillas <javierm@redhat.com> wrote:
-> Jani Nikula <jani.nikula@intel.com> writes:
->
->> gma_drm.h has become an empty, unused header. Remove.
->>
->> Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> ---
->
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+On 08/04/2024 20:04, Ville Syrjala wrote:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> 
+> __iowmb() isn't available on most architectures. Make
+> its use optional so that the driver can be built on
+> other architectures with COMPILE_TEST=y.
+> 
+> Cc: Jyri Sarha <jyri.sarha@iki.fi>
+> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> ---
+>   drivers/gpu/drm/tilcdc/tilcdc_regs.h | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_regs.h b/drivers/gpu/drm/tilcdc/tilcdc_regs.h
+> index f90e2dc3457c..44e4ada30fba 100644
+> --- a/drivers/gpu/drm/tilcdc/tilcdc_regs.h
+> +++ b/drivers/gpu/drm/tilcdc/tilcdc_regs.h
+> @@ -125,7 +125,9 @@ static inline void tilcdc_write64(struct drm_device *dev, u32 reg, u64 data)
+>   #if defined(iowrite64) && !defined(iowrite64_is_nonatomic)
+>   	iowrite64(data, addr);
+>   #else
+> +#ifdef __iowmb
+>   	__iowmb();
+> +#endif
+>   	/* This compiles to strd (=64-bit write) on ARM7 */
+>   	*(volatile u64 __force *)addr = __cpu_to_le64(data);
+>   #endif
 
-Thanks, pushed to drm-misc-next.
+As the memory barrier is an important part there, would it be better to 
+ifdef based on COMPILE_TEST, to make it clear why it's being done?
 
-BR,
-Jani.
+  Tomi
 
--- 
-Jani Nikula, Intel
