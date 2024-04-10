@@ -2,82 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC4A8A01CF
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 23:13:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB7278A01C6
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 23:12:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A34E892D3;
-	Wed, 10 Apr 2024 21:13:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 636FE10EFC1;
+	Wed, 10 Apr 2024 21:12:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lu2CMGfL";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="YgOJpPPw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
- [209.85.208.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56B8310E832
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 20:45:53 +0000 (UTC)
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-2d485886545so125798271fa.2
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 13:45:53 -0700 (PDT)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3643610EFC1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 21:12:12 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-516d09bd434so8006689e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 14:12:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1712781951; x=1713386751; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=qsGqX3KEMe0tMFWNo37D5kyKHEthzUhLzdIDt7eGccA=;
- b=lu2CMGfLvoinUFP53Ux6XMVTCzSpmqOF3kj5Kn0ADTLdmn2NZ30aRPhB4xw9vKwOsG
- hXqnD9b2wVQGty2OJdPHAUMquDJUtk61KxsxmlOyl9hgXj5gb+WNfuUYqaX5alozjhKA
- lN8MxFzWTj47Y99mCpEMXTH1GaLwqxX4EXOzS0pJzIW6W9cRjQ4jMmEsrchJGPFSFyrh
- WOLJx4TlOxUvDYX+23pUVzf71TPDKJehnTE/3dFMtaDYtHBZpgUYxRoEnqljvDHCj7uh
- bAQeMRtvb88m4bIWtKdvMFr7iQXnducS69ZGn7H5D190ByyNklOpic1FAtX4d60+UskT
- gjZw==
+ d=linaro.org; s=google; t=1712783530; x=1713388330; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=OZwBCycYY1wJMLbUlMdwvYrZmhATN/7bkb8wxUzPusE=;
+ b=YgOJpPPwYtKWf3/480jRSx4ZKeaEoe4D7Jgk0h9Cszo6OIZ5MzVUmfTuhDrzaFJWfz
+ 3sl6UcOO705x+e7M9xFAh5sFAMpdXaLN76qU/oyo/QqX4tm3eyTZ/7YCAAcYn7M+Z7MT
+ q41hHXttPdFlOiVYwc1pHOs+ovL3vEFVbIOdEHamj0rGYs9VKV2eUu8/mbEEiWi1GHDw
+ uoeRlgrqZ7BFPMTRVuFhjzs5+embMCvS1sOYkAKTbfl8Gm1UHGYojukvfo6XfFxriC84
+ ZCl4bmTDt6kG/S1yN8Ry2ffUNwQsBKqCN50y/VKrVgmMXHMwU3TaLtJOZKdis6c5j4TM
+ H1ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712781951; x=1713386751;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=qsGqX3KEMe0tMFWNo37D5kyKHEthzUhLzdIDt7eGccA=;
- b=F6L1JkxiLokxpKIFmc3Rnh8nOcOvPAjkmNLQQGV0d4kE0bhxkxxJHFEDERMEtQUBvT
- dF9KH/B58tOEiuvPtjjQxQyz8Wjqz0CQB2y9nUWpXps0VYKapCP+kMOKlHfup6Bi6rmb
- 74LETAcvzV3JBTA9AC73rIg2GJBWGndlJA0My/qKJKIk+H8su7qoM57gM70pk+Hp/FRV
- IYGtGDFrBtYSiuk6e7+q3Ynm8gWPn4iI5UNT0DXHpr59BVR2sDHt/RBOt8mh1Gdd6mzR
- bOGCLUTiY0KRP21MfdCOph2jXcP5FnzfmzTz68amw1c5qncbTqT+5gmaXM6pFGAp6D8X
- PNKg==
-X-Gm-Message-State: AOJu0YwoVP9+0zjQNrIBAlSkUsJyUrGc04JoOfWRSTuHfLoHVm5nP6ja
- +tLEL01amoangZvjC1XWdT9wxaHya7PiN5Z/YNGe/ce0jQj4Ip7w
-X-Google-Smtp-Source: AGHT+IH3QYbCsvLH7JDF0/52kyHq3vwRp8DboQ3O3yhv+yJaWJs1M0Qq+jeH4ZaKHY74WkJWalcKnw==
-X-Received: by 2002:a2e:9645:0:b0:2d8:8fb6:a53d with SMTP id
- z5-20020a2e9645000000b002d88fb6a53dmr3057039ljh.42.1712781951058; 
- Wed, 10 Apr 2024 13:45:51 -0700 (PDT)
-Received: from [127.0.1.1] (84-115-213-64.cable.dynamic.surfer.at.
- [84.115.213.64]) by smtp.gmail.com with ESMTPSA id
- jo12-20020a170906f6cc00b00a51e004de4asm43200ejb.11.2024.04.10.13.45.49
+ d=1e100.net; s=20230601; t=1712783530; x=1713388330;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OZwBCycYY1wJMLbUlMdwvYrZmhATN/7bkb8wxUzPusE=;
+ b=BiMiEtKQLV/4op9J4/4yyjcoe8Sd7HwI/U7sKhvHJjF8yYO/Pl5R0dOmtO5t2tsoJQ
+ 5jGSzmO4cHupp/NJ8F2bIw9QyByoLv0FCAv/qj1m7wZwpbghf+2qQiyv1tkaNQsUUm7f
+ BSFp1vnboRyjjv1MGdpZZo2t3CUBoZ8m96ueZVa/bZDFbKZAwO7WW3c87v3r19tKL4Tx
+ gc3BhgwGyBvTfoxTpYUr4okEF0p7ZdTlkfYhTjFSlajtcvuJyzQQTw0pxL9625YqEU8h
+ /FOFBEgV+J+CsyRibuzpxe7VZWGz8kQBGXj68fppXAO1tMGSdnaG3be9a+ts/61YHb8l
+ QUbw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWdazd5QVv8TFk8IYgcxth1nO1klFqBSx9P9WEMTeMFHlUhIXsrBN63oKgrHdG4/2at9+uy8lIcDcBFBGIjG6bpRlMcKSuottonUAqI2gNB
+X-Gm-Message-State: AOJu0YxZbHMLy0sMyIUQobmUw83L36+4jsgd8rOw8qu5ppNfwuXcudWe
+ lBtHrV9xdQ+IG5LV7YxjN8iYN7XRsRS57TU1RM7npjDtp1Cwsw4igZ4G0xfyjhI=
+X-Google-Smtp-Source: AGHT+IEv0hIWdS315GVXqNlHspgdO9aknWPbaAxmVCl0KLCNKAOV5VVBeSrBTsG/U7qRHbDAMlS2DQ==
+X-Received: by 2002:a05:6512:481d:b0:515:d326:9e0c with SMTP id
+ eo29-20020a056512481d00b00515d3269e0cmr2098229lfb.3.1712783529985; 
+ Wed, 10 Apr 2024 14:12:09 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ i26-20020ac25b5a000000b00516d05bb083sm15550lfp.206.2024.04.10.14.12.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Apr 2024 13:45:50 -0700 (PDT)
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Wed, 10 Apr 2024 22:45:43 +0200
-Subject: [PATCH] drm/kmb: Replace of_node_put() with automatic cleanup handler
+ Wed, 10 Apr 2024 14:12:09 -0700 (PDT)
+Date: Thu, 11 Apr 2024 00:12:08 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Stephen Boyd <swboyd@chromium.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH 03/12] drm/msm/dpu: use format-related definitions from
+ mdp_common.xml.h
+Message-ID: <uhyqwsevbgvayqf7ky2tasvutpqgvuaa5o7y7scqete3jueuhk@zgji4hgmh4lu>
+References: <20231202214016.1257621-1-dmitry.baryshkov@linaro.org>
+ <20231202214016.1257621-4-dmitry.baryshkov@linaro.org>
+ <bb448864-b974-55ac-4709-ea89bbd2694f@quicinc.com>
+ <CAA8EJpqnjY35RF52yJ8gFRKHoh1ArnnviacDtfntSYZdALD3bQ@mail.gmail.com>
+ <83b45b20-fb7e-564b-4e32-2b6a12c4dc6d@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240410-kmb_of_node_put-v1-1-4d802add6a89@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAHb6FmYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDE0MD3ezcpPj8tPi8/JTU+ILSEt3ExDTDZHPzFEszQwMloK6CotS0zAq
- widGxtbUATO4l52EAAAA=
-To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
- Edmund Dea <edmund.j.dea@intel.com>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Julia Lawall <julia.lawall@inria.fr>, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>
-X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1712781949; l=3721;
- i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=bMzjQWQMtB75ExL7Mufx5SJbm3fyIcSyleJcxUjqv6A=;
- b=4x42bRafiDixZIvr/1GV+80+RHyrDLGKz29TWe8GX6b0FFhb0v8RSSPpd7pYQWtKbR4sh1t58
- +Olbpp/kpnqBnbdraSQpOzSQURkqny+9MH7QKG9qU0kRfSUtrmPgrzJ
-X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
- pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
-X-Mailman-Approved-At: Wed, 10 Apr 2024 21:13:19 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <83b45b20-fb7e-564b-4e32-2b6a12c4dc6d@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,109 +92,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make use of the __free() cleanup handler to automatically free nodes
-when they get out of scope.
+On Wed, Apr 10, 2024 at 01:18:42PM -0700, Abhinav Kumar wrote:
+> 
+> 
+> On 4/10/2024 1:16 PM, Dmitry Baryshkov wrote:
+> > On Wed, 10 Apr 2024 at 23:00, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> > > 
+> > > 
+> > > 
+> > > On 12/2/2023 1:40 PM, Dmitry Baryshkov wrote:
+> > > > Instead of having DPU-specific defines, switch to the definitions from
+> > > > the mdp_common.xml.h file. This is the preparation for merged of DPU and
+> > > > MDP format tables.
+> > > > 
+> > > 
+> > > Adding MDP_***__ usages in DPU driver is quite confusing.
+> > > 
+> > > Can we align to a common naming scheme such as DISP_***?
+> > 
+> > No, it's not something display-generic. It is specific to MDP
+> > platforms. In the end DPU is a continuation of the MDP lineup, isn't
+> > it?
+> > 
+> 
+> No some aspects of the hw are completely different as you already know
+> between MDP4/MDP5 and DPU. Bringing back MDP usages into DPU does not seem
+> right.
 
-Suggested-by: Julia Lawall <julia.lawall@inria.fr>
-Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
----
-The patch is based on the latest linux-next tag (next-20240410).
----
- drivers/gpu/drm/kmb/kmb_drv.c | 13 ++++---------
- drivers/gpu/drm/kmb/kmb_dsi.c | 11 ++++-------
- 2 files changed, 8 insertions(+), 16 deletions(-)
+MDP4 is different, it's true. But there is a lot of common between MDP5
+and DPU. Frakly speaking, I don't see an issue with using the constant
+that was defined for MDP5 for DPU layer. Especially since we are also
+going to use mdp_ functions for format handling.
 
-diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
-index 169b83987ce2..1a743840688a 100644
---- a/drivers/gpu/drm/kmb/kmb_drv.c
-+++ b/drivers/gpu/drm/kmb/kmb_drv.c
-@@ -480,8 +480,8 @@ static int kmb_probe(struct platform_device *pdev)
- 	struct device *dev = get_device(&pdev->dev);
- 	struct kmb_drm_private *kmb;
- 	int ret = 0;
--	struct device_node *dsi_in;
--	struct device_node *dsi_node;
-+	struct device_node *dsi_in __free(device_node) =
-+		of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
- 	struct platform_device *dsi_pdev;
- 
- 	/* The bridge (ADV 7535) will return -EPROBE_DEFER until it
-@@ -491,28 +491,23 @@ static int kmb_probe(struct platform_device *pdev)
- 	 *  and then the rest of the driver initialization can proceed
- 	 *  afterwards and the bridge can be successfully attached.
- 	 */
--	dsi_in = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
- 	if (!dsi_in) {
- 		DRM_ERROR("Failed to get dsi_in node info from DT");
- 		return -EINVAL;
- 	}
--	dsi_node = of_graph_get_remote_port_parent(dsi_in);
-+	struct device_node *dsi_node __free(device_node) =
-+		of_graph_get_remote_port_parent(dsi_in);
- 	if (!dsi_node) {
--		of_node_put(dsi_in);
- 		DRM_ERROR("Failed to get dsi node from DT\n");
- 		return -EINVAL;
- 	}
- 
- 	dsi_pdev = of_find_device_by_node(dsi_node);
- 	if (!dsi_pdev) {
--		of_node_put(dsi_in);
--		of_node_put(dsi_node);
- 		DRM_ERROR("Failed to get dsi platform device\n");
- 		return -EINVAL;
- 	}
- 
--	of_node_put(dsi_in);
--	of_node_put(dsi_node);
- 	ret = kmb_dsi_host_bridge_init(get_device(&dsi_pdev->dev));
- 
- 	if (ret == -EPROBE_DEFER) {
-diff --git a/drivers/gpu/drm/kmb/kmb_dsi.c b/drivers/gpu/drm/kmb/kmb_dsi.c
-index cf7cf0b07541..61f02462b778 100644
---- a/drivers/gpu/drm/kmb/kmb_dsi.c
-+++ b/drivers/gpu/drm/kmb/kmb_dsi.c
-@@ -216,8 +216,6 @@ static const struct mipi_dsi_host_ops kmb_dsi_host_ops = {
- 
- int kmb_dsi_host_bridge_init(struct device *dev)
- {
--	struct device_node *encoder_node, *dsi_out;
--
- 	/* Create and register MIPI DSI host */
- 	if (!dsi_host) {
- 		dsi_host = kzalloc(sizeof(*dsi_host), GFP_KERNEL);
-@@ -239,21 +237,20 @@ int kmb_dsi_host_bridge_init(struct device *dev)
- 	}
- 
- 	/* Find ADV7535 node and initialize it */
--	dsi_out = of_graph_get_endpoint_by_regs(dev->of_node, 0, 1);
-+	struct device_node *dsi_out __free(device_node) =
-+		of_graph_get_endpoint_by_regs(dev->of_node, 0, 1);
- 	if (!dsi_out) {
- 		DRM_ERROR("Failed to get dsi_out node info from DT\n");
- 		return -EINVAL;
- 	}
--	encoder_node = of_graph_get_remote_port_parent(dsi_out);
-+	struct device_node *encoder_node __free(device_node) =
-+		of_graph_get_remote_port_parent(dsi_out);
- 	if (!encoder_node) {
--		of_node_put(dsi_out);
- 		DRM_ERROR("Failed to get bridge info from DT\n");
- 		return -EINVAL;
- 	}
- 	/* Locate drm bridge from the hdmi encoder DT node */
- 	adv_bridge = of_drm_find_bridge(encoder_node);
--	of_node_put(dsi_out);
--	of_node_put(encoder_node);
- 	if (!adv_bridge) {
- 		DRM_DEBUG("Wait for external bridge driver DT\n");
- 		return -EPROBE_DEFER;
-
----
-base-commit: 6ebf211bb11dfc004a2ff73a9de5386fa309c430
-change-id: 20240410-kmb_of_node_put-aaf1c77d9610
-
-Best regards,
 -- 
-Javier Carrasco <javier.carrasco.cruz@gmail.com>
-
+With best wishes
+Dmitry
