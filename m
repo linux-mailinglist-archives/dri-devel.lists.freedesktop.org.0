@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7183989EB98
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 09:15:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8331189EB9C
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 09:15:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CBE8112A1D;
-	Wed, 10 Apr 2024 07:14:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45B641130BD;
+	Wed, 10 Apr 2024 07:15:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="o+3Cbu0V";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="yYDU0ZYr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F9E9112A1D
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 07:14:56 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id
- d2e1a72fcca58-6ed3cafd766so2340251b3a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 00:14:56 -0700 (PDT)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A18C1130BD
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 07:15:02 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-1e0b889901bso52193625ad.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 00:15:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1712733296; x=1713338096; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=oIMOd1zj3gkMdcIscBRTSVUzcEAoxAPXNWZxjmNC33Y=;
- b=o+3Cbu0VX3UudLq6zMTSAly+EkxL5KRA2JxUZUbn0y3DCDQD4taClYouPcnW874FFN
- ZWSPH+UiLLmdVJrTFg3CLP3SBUdY2KsoPAEo8h89Ihf40gwP2vtcUXgf4+Dc/wIaomLK
- 5/p2fcfEViXvFFe6lEm7IzHyiTzqQFuenPPNvnhE5IDbPUkiKjUOytvVUXwkZDjPGEq9
- rMY3ZzgVBVtpk2tjxmoor0ru0yjHjU4RA16rW3Rt604VVTvZqCwe4lDcCpytg6jRXhwS
- WCtPzM4Z5qXozeYyuBPx5SBVJrWi/7S5TgJZE75GHXr0Jy6U4naF60j/w4erBU85Rhws
- Eswg==
+ t=1712733301; x=1713338101; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NMgN1wGlJBkfHf6qhNjS/iN/zmrqgeoHgJDlTShDEmw=;
+ b=yYDU0ZYrxZabN+dNC4110hFyC4R5rScVFNzrxQgP3bCc4aqAGbBo6nZUa8LxuIDbFn
+ juhOcsloWgEMBzKd1BgbilGua3dlwhQU//K+24IW/YkjFL4YiBJnoWr9Dq5kX4Ru23aq
+ 7MsDD4JOv0ozc3d8ChLZGIbjicqxEAIZLxvZddbvaasolXVyJ5cLCwgyWbcUdjJpGr0p
+ bVPulLADm/ix/rhiyFsj64ItKPrAObJOexDFbzVhZ1CVOetGhGX9NcWk8lc/LJJjqx7w
+ ISYEfOGpYVn/IyQ8/daRAEGAMFjhVkaET7vMo22rzosgIZ/8jp+isPMY2Wj9B2/o2CVn
+ cnTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712733296; x=1713338096;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=oIMOd1zj3gkMdcIscBRTSVUzcEAoxAPXNWZxjmNC33Y=;
- b=kRTwkb6l5UOx/D+Zw0GrPpStbpZPEikwgOiPRyYWf9ZoqLW8xJu033SS+IwUb2vJC0
- yZGr1DMdb7oWPOx+ODZVs1RZMvcxa64MKiZezJt+4RfgCjLqWCy7OJ4PztQNspFwwKU2
- x10GQP6gqu4G/675gnK3lubic5HYusU99ajWYP+/Fc/ohBmthPreJZqG4qk0gJby/dcj
- LqhlBG1IXMVlipqjkVHgWtQv7Qz9xesENshuWoXCwQsYWRzeUZ8JGTw/asVyubZDjeIc
- avpf0iDtiTVpxLJyBQPjH6Xq5HEWA+Qbs1KBXaMDcAJAUAiDwS3a5MfossNx9vsTL5dg
- aBQQ==
-X-Gm-Message-State: AOJu0YyQaMmUoNzgvsLs+shNdnZKw10USo8Uz202fmPR+QbXvzm/41fV
- AyfBaEP7E+3zhwa3S5qe9BZgQOrHbNbyVMJPZiaXLW1IJAe987yfetVzchx1ts4=
-X-Google-Smtp-Source: AGHT+IEVm6HJ8DLUI4GT5B2aoRikQtW20BaDdKOMt4/+udHIsI3m/VTV3o3lGXByhjg8ncO4JyMRtA==
-X-Received: by 2002:a05:6a20:9698:b0:1a8:4254:5cdf with SMTP id
- hp24-20020a056a20969800b001a842545cdfmr1796798pzc.22.1712733295666; 
- Wed, 10 Apr 2024 00:14:55 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1712733301; x=1713338101;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NMgN1wGlJBkfHf6qhNjS/iN/zmrqgeoHgJDlTShDEmw=;
+ b=Z/4EFeNzjpn+msqPva8woryspCT64BJTrLhIhPSloJhaLe+ULwJNVwPcmTI3VM1RcK
+ fLn4d51bZt0WeDnXJ78ZJnzxKpK9Ae/6TfkfohvDQ5i3id0LPbyPUSWcogsDUpDQ2kUv
+ WAonVoJMpunYtug7BAGIkNl9x04SHkoCmrc9jngEyBsvfA3eGWnVtxeY8WWkSjnxzJnt
+ r576o3lG4O0DvI9i/p1ERbdUCRA6P3k80cUnqVIiQbfGxh7aGs9GfojdFvJGzbsITwGz
+ fTAXd0kgsWhncvbUyQtu+HscPmT50GE5cha3Iyy8ImXUcODJa6Q2kS/88smHOtRsI6BS
+ c/yg==
+X-Gm-Message-State: AOJu0Yy7YXNGZxs+ei+aOuHWHLzP9O5uel+7lEyNs73bKgqKHLK/cqhk
+ Rosv6cKZcgrAUHgVIkexmB4eCKFJG7qr+Q7PUebhhr8HKufKmAY/1JkwplfAFpY=
+X-Google-Smtp-Source: AGHT+IFGbsYgF5UbyKw/0YINggk2A28D2EI8l1L+dqGsTasJL7COTt62tjxZ8TKej65BKBde0GIyIg==
+X-Received: by 2002:a17:902:fc48:b0:1e4:4887:74f0 with SMTP id
+ me8-20020a170902fc4800b001e4488774f0mr2348799plb.36.1712733301495; 
+ Wed, 10 Apr 2024 00:15:01 -0700 (PDT)
 Received: from localhost.localdomain ([116.66.212.162])
  by smtp.gmail.com with ESMTPSA id
- z17-20020a170903409100b001e264b50964sm10107975plc.205.2024.04.10.00.14.53
+ z17-20020a170903409100b001e264b50964sm10107975plc.205.2024.04.10.00.14.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Apr 2024 00:14:55 -0700 (PDT)
+ Wed, 10 Apr 2024 00:15:01 -0700 (PDT)
 From: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
 To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
  dianders@chromium.org, airlied@gmail.com, robh+dt@kernel.org,
@@ -61,11 +62,13 @@ To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org,
  Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Subject: [PATCH v1 0/2] Support BOE nv110wum-l60 and IVO t109nw41 MIPI-DSI
- panel
-Date: Wed, 10 Apr 2024 15:14:35 +0800
-Message-Id: <20240410071439.2152588-1-yangcong5@huaqin.corp-partner.google.com>
+Subject: [PATCH v1 1/4] dt-bindings: display: panel: Add compatible for BOE
+ nv110wum-l60
+Date: Wed, 10 Apr 2024 15:14:36 +0800
+Message-Id: <20240410071439.2152588-2-yangcong5@huaqin.corp-partner.google.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240410071439.2152588-1-yangcong5@huaqin.corp-partner.google.com>
+References: <20240410071439.2152588-1-yangcong5@huaqin.corp-partner.google.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,22 +86,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-BOE nv110wum-l60 and IVO t109nw41 both 11.0" WUXGA TFT LCD panel,
-which fits in nicely with the existing panel-boe-tv101wum-nl6 driver.
-Add compatible for BOE nv110wum-l60 and IVO t109nw41
-in dt-bindings.
+The BOE nv110wum-l60 is a 11.0" WUXGA TFT LCD panel, which fits in nicely
+with the existing panel-boe-tv101wum-nl6 driver. Hence, we add a new
+compatible with panel specific config.
 
-Cong Yang (4):
-  dt-bindings: display: panel: Add compatible for BOE nv110wum-l60
-  drm/panel: boe-tv101wum-nl6: Support for BOE nv110wum-l60 MIPI-DSI
-    panel
-  dt-bindings: display: panel: Add compatible for IVO t109nw41
-  drm/panel: boe-tv101wum-nl6: Support for IVO t109nw41 MIPI-DSI panel
+Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+---
+ .../devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml     | 2 ++
+ 1 file changed, 2 insertions(+)
 
- .../display/panel/boe,tv101wum-nl6.yaml       |   4 +
- .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 213 ++++++++++++++++++
- 2 files changed, 217 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
+index 906ef62709b8..50351dd3d6e5 100644
+--- a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
++++ b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
+@@ -36,6 +36,8 @@ properties:
+       - starry,himax83102-j02
+         # STARRY ili9882t 10.51" WUXGA TFT LCD panel
+       - starry,ili9882t
++        # Boe nv110wum-l60 11.0" WUXGA TFT LCD panel
++      - boe,nv110wum-l60
+ 
+   reg:
+     description: the virtual channel number of a DSI peripheral
 -- 
 2.25.1
 
