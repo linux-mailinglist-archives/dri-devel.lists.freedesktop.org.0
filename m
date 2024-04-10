@@ -2,51 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D4F89E7DE
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 03:37:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED14389E8C5
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 06:22:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2701310E64D;
-	Wed, 10 Apr 2024 01:37:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2125F10EC8E;
+	Wed, 10 Apr 2024 04:22:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="j9Wil4H9";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WWG6esB5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24C0E113084;
- Wed, 10 Apr 2024 01:37:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1712713039;
- bh=GI7EAQKn4mkpeL+X3OogK5qZCQ71oAAkd8XB13Tuen0=;
- h=Date:From:To:Cc:Subject:From;
- b=j9Wil4H9LNL8UJyr3T63NHluVVfTiqoN8de1yTiku4zP7ftlb5hkKE/J2CEQXRIDb
- vqNtG4VGKwFwBl8A+QrGqUbdvHJFB0g9bOn9+JDNPXFi+XZwuOFiqHljSc57WR415y
- 72eTN1RAPcGiwQ3wgsiHTq3Gvbf1lsl2s5bdsv9KS2ipTUxDkwlM5b9l/+QC0GGslj
- tG766qd9LPeT+Rw1XAU23sH7QOEZSWMpdOIFpH9w+etz5qyu+98dIp9XXv4P45Yh8H
- eVPSgo6qjyqM0Ixk0Lp186egmQGJ8lJcF+tFJzgQAIwY0r3E1BCkFHk0rsaiubwpQc
- XNWJ3HOCoYqoA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4VDlnB5KPLz4wcn;
- Wed, 10 Apr 2024 11:37:18 +1000 (AEST)
-Date: Wed, 10 Apr 2024 11:37:14 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay
- <ogabbay@kernel.org>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
- <thomas.hellstrom@linux.intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: DRM XE List <intel-xe@lists.freedesktop.org>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
- Mailing List <linux-next@vger.kernel.org>
-Subject: linux-next: manual merge of the drm-xe tree with the drm-intel tree
-Message-ID: <20240410113714.10cf2daf@canb.auug.org.au>
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/_tLqiJw.fJVFx5Ol4OO8Ixk";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5884310EC8E
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 04:22:43 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-34641b7c49aso717828f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Apr 2024 21:22:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1712722961; x=1713327761; darn=lists.freedesktop.org;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=50/EoYp4xiPcQjk7THZgfgs+ueFYqdmiSEQ2Y/A5NR4=;
+ b=WWG6esB5puX3//NuVqS2AKXLkgk6J8awUj6xxOCN9rUiFDt0RWJUyp0YggYBc6uQid
+ Gx1cQHeABU39xjjF52KvFfX5SlghHVd98dbcxDPQ5FxKS3DwgVdPGkRlaI0+HFmeTorC
+ 6ws4DMIoOZqeHOerBehIUDPf2dwVvriThhPES+9S/8/pwPTBlWo3dPvn2odQxf2BC1Gg
+ DgoyH9MTIIE4eEKDf4qstx5w/T4XZRu9igUyAp6igDVhrdeVG2/+fn8fDpdD1nSJL339
+ zvhEwU2OlzwArhGQ55CH85qu9q+s93DEUp9vCQ7s+C8THpw/XZLl5nAdLaSBpKf+wKgb
+ MaMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712722961; x=1713327761;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=50/EoYp4xiPcQjk7THZgfgs+ueFYqdmiSEQ2Y/A5NR4=;
+ b=S1i6sGf+oUmfhxo4kjv9lmvb02XR+AAehbNf90XTXlJ/6OQRarzyZUK15dfganOBBH
+ gpE1oMRY0vhoyIuRuCBPVG34GcDnYpbhpR9Em4xMBCHGxsH0e3C4fuGIP9AqZLonak+p
+ +xSMRH6vK6oFFmZoBRkuTOzVnumwx75gvLadUyIajvn4Xe6gy6cVCP2obbxHfBAxNNZr
+ EhCMxRM2w24/tM2Q0tvKAugr3xyegUwHsTnRMYcNpKDGgxjc/rpH37GWstMqO1oY0pfI
+ 4yW5m9NSvspgP8hAqs29RwnVuuO9NqoVuHgtRLQC2H96v2sAOalVZtdXuGgAOjw/d7LB
+ G6Vg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWjUBXu+aXBBYwF12Apy9SztQEPTdBclogamGNCPVSMgUVNaK2yWWrHHVR7EHGq1iP8xhEnujzwYM0BhUEiqTmoNjBY4SCTDgi2r0AgQpxP
+X-Gm-Message-State: AOJu0Yzf3ZJjddRWLh6ACzF++0miv3QOeCvtdJXyZ10MDRjsv48H9rdA
+ gpJ+B2NFC2w3Muf7ZXg7e2L3qX0tqIE1k0lj2WqDVsHm+aLi5hMc
+X-Google-Smtp-Source: AGHT+IHhKHEr3v3LDAgyhKHwIE9KipXbIkSHGprCwjFscoVbk1+9ZU+3a0NumbkHPHLpvO0f/FlwAg==
+X-Received: by 2002:adf:fc4b:0:b0:343:7d3c:ddcd with SMTP id
+ e11-20020adffc4b000000b003437d3cddcdmr964972wrs.1.1712722961051; 
+ Tue, 09 Apr 2024 21:22:41 -0700 (PDT)
+Received: from smtpclient.apple ([167.99.200.149])
+ by smtp.gmail.com with ESMTPSA id
+ p13-20020a5d638d000000b00343ad4bca7dsm12898554wru.85.2024.04.09.21.22.37
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 09 Apr 2024 21:22:40 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.500.171.1.1\))
+Subject: Re: [PATCH 1/2] dt-bindings: panel-simple-dsi: add New Khadas TS050
+ panel bindings
+From: Christian Hewitt <christianshewitt@gmail.com>
+In-Reply-To: <20240409082641.359627-1-jacobe.zang@wesion.com>
+Date: Wed, 10 Apr 2024 08:22:25 +0400
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, quic_jesszhan@quicinc.com,
+ sam@ravnborg.org, nick@khadas.com, thierry.reding@gmail.com,
+ dri-devel@lists.freedesktop.org, devicetree <devicetree@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ AML <linux-amlogic@lists.infradead.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <3CCAF214-09FE-4580-99CD-AB95E78FFB8F@gmail.com>
+References: <20240409082641.359627-1-jacobe.zang@wesion.com>
+To: Jacobe Zang <jacobe.zang@wesion.com>
+X-Mailer: Apple Mail (2.3774.500.171.1.1)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,58 +96,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/_tLqiJw.fJVFx5Ol4OO8Ixk
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+> On 9 Apr 2024, at 12:26=E2=80=AFPM, Jacobe Zang =
+<jacobe.zang@wesion.com> wrote:
+>=20
+> This add the bindings for the New Khadas TS050 1080x1920 5" LCD DSI =
+panel
+> designed to work with the Khadas VIM3 and VIM3L Single Board =
+Computers.
+>=20
+> Signed-off-by: Jacobe Zang <jacobe.zang@wesion.com>
+> ---
+> .../devicetree/bindings/display/panel/panel-simple-dsi.yaml     | 2 ++
+> 1 file changed, 2 insertions(+)
+>=20
+> diff --git =
+a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml =
+b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+> index f9160d7bac3ca..e194309f31b72 100644
+> --- =
+a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+> +++ =
+b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+> @@ -36,6 +36,8 @@ properties:
+>       - jdi,fhd-r63452
+>         # Khadas TS050 5" 1080x1920 LCD panel
+>       - khadas,ts050
+> +        # Khadas NEW TS050 5" 1080x1920 LCD panel
+> +      - khadas,newts050
 
-Hi all,
+Products are only new until they are old. At some future point there =
+will
+inevitably be a third iteration requiring a =E2=80=98new new=E2=80=99 =
+name. IMHO it would
+be better to use something like khadas,ts050v2.
 
-Today's linux-next merge of the drm-xe tree got a conflict in:
+CH.
 
-  drivers/gpu/drm/xe/xe_device_types.h
+>         # Kingdisplay KD097D04 9.7" 1536x2048 TFT LCD panel
+>       - kingdisplay,kd097d04
+>         # LG ACX467AKM-7 4.95" 1080=C3=971920 LCD Panel
+> --=20
+> 2.34.1
+>=20
+>=20
+> _______________________________________________
+> linux-amlogic mailing list
+> linux-amlogic@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-amlogic
 
-between commits:
-
-  ded402c7a044 ("drm/i915: move skl_preferred_vco_freq to display substruct=
-")
-  8219ab6d6f0d ("drm/i915: move max_dotclk_freq to display substruct")
-  9aad73290686 ("drm/i915: move display_irqs_enabled to display substruct")
-  f25ae90ff9c6 ("drm/i915: move de_irq_mask to display substruct")
-  860cefce5ebe ("drm/i915: move pipestat_irq_mask to display substruct")
-
-from the drm-intel tree and commit:
-
-  070f8fd6c654 ("drm/xe: remove unused struct xe_device members")
-
-from the drm-xe tree.
-
-I fixed it up (I used the former version) and can carry the fix as
-necessary. This is now fixed as far as linux-next is concerned, but any
-non trivial conflicts should be mentioned to your upstream maintainer
-when your tree is submitted for merging.  You may also want to consider
-cooperating with the maintainer of the conflicting tree to minimise any
-particularly complex conflicts.
-
-
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/_tLqiJw.fJVFx5Ol4OO8Ixk
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmYV7UoACgkQAVBC80lX
-0GwV7ggAkFJQho0n2tfMCEk3bAN32r3eqfGbV7AnV1JLHHSqh3S8+zWIFQRuS8Y5
-lGr1IuQSux5N6uc4lvj6P66m/4Rh7tZLd6acSKi95wal5f7vT3juIrW2hlRWoZsN
-VfhIwYsYF1xR25p8mxYo9vboVqOypaQGl46pudHYUZZHcJ/6YEDPF9BR1nSTon7g
-zmSPYr2mwICy8DjStGEUHJukOlPY26kE/vvoH9qQgplQ+YVTL3THdoTHCuLsc7+F
-/OWnMqfofImsDvwTQZTvtNpkc6cPWH0l/IzQdCgtSw8heJTakv42VKYPu2+kljft
-a4F4NQdL+iJtGnWjcE29C8tk19DleQ==
-=a8Jn
------END PGP SIGNATURE-----
-
---Sig_/_tLqiJw.fJVFx5Ol4OO8Ixk--
