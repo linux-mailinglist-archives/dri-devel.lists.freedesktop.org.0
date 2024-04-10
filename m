@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5487489F1BA
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 14:09:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EA9E89F1B5
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 14:09:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37ABF113313;
-	Wed, 10 Apr 2024 12:09:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B65A910E519;
+	Wed, 10 Apr 2024 12:09:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACB85112821
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9483112649
  for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 12:09:32 +0000 (UTC)
 Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:98])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id BB142350C3;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id EF4D2350C4;
  Wed, 10 Apr 2024 12:09:30 +0000 (UTC)
 Authentication-Results: smtp-out1.suse.de;
 	none
@@ -25,20 +25,20 @@ Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 7CDCA13A94;
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id C0F1A13A92;
  Wed, 10 Apr 2024 12:09:30 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
- by imap2.dmz-prg2.suse.org with ESMTPSA id 8IVEHXqBFmY8BQAAn2gu4w
+ by imap2.dmz-prg2.suse.org with ESMTPSA id wDnsLXqBFmY8BQAAn2gu4w
  (envelope-from <tzimmermann@suse.de>); Wed, 10 Apr 2024 12:09:30 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, jani.nikula@linux.intel.com, airlied@redhat.com,
  sean@poorly.run
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Robert Tarasov <tutankhamen@chromium.org>,
- Alex Deucher <alexander.deucher@amd.com>, stable@vger.kernel.org
-Subject: [PATCH v2 1/5] drm/udl: Remove DRM_CONNECTOR_POLL_HPD
-Date: Wed, 10 Apr 2024 14:07:50 +0200
-Message-ID: <20240410120928.26487-2-tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 2/5] drm/udl: Move drm_dev_{enter,
+ exit}() into udl_get_edid_block()
+Date: Wed, 10 Apr 2024 14:07:51 +0200
+Message-ID: <20240410120928.26487-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240410120928.26487-1-tzimmermann@suse.de>
 References: <20240410120928.26487-1-tzimmermann@suse.de>
@@ -46,16 +46,16 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Pre-Result: action=no action; module=replies;
  Message is reply to one we originated
+X-Rspamd-Pre-Result: action=no action; module=replies;
+ Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Level: 
 X-Spamd-Result: default: False [-4.00 / 50.00];
 	REPLY(-4.00)[]
 X-Spam-Flag: NO
 X-Spam-Score: -4.00
-X-Rspamd-Queue-Id: BB142350C3
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: EF4D2350C4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,37 +71,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DisplayLink devices do not generate hotplug events. Remove the poll
-flag DRM_CONNECTOR_POLL_HPD, as it may not be specified together with
-DRM_CONNECTOR_POLL_CONNECT or DRM_CONNECTOR_POLL_DISCONNECT.
+Protect the code in udl_get_edid_block() with drm_dev_enter() and
+drm_dev_exit(), so that all callers automatically invoke it. The
+function uses hardware resources, which can be hot-unplugged at
+any time. The other code in udl_connector_detect() does not use the
+resources of the hardware device and therefore does not require
+protection.
+
+This change will allow to use udl_get_edid_block() in various
+contexts easily.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: afdfc4c6f55f ("drm/udl: Fixed problem with UDL adpater reconnection")
-Cc: Robert Tarasov <tutankhamen@chromium.org>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Sean Paul <sean@poorly.run>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v4.15+
 ---
- drivers/gpu/drm/udl/udl_modeset.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/udl/udl_modeset.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
-index 7702359c90c22..751da3a294c44 100644
+index 751da3a294c44..3df9fc38388b4 100644
 --- a/drivers/gpu/drm/udl/udl_modeset.c
 +++ b/drivers/gpu/drm/udl/udl_modeset.c
-@@ -527,8 +527,7 @@ struct drm_connector *udl_connector_init(struct drm_device *dev)
+@@ -434,13 +434,18 @@ static int udl_get_edid_block(void *data, u8 *buf, unsigned int block, size_t le
+ 	struct drm_device *dev = &udl->drm;
+ 	struct usb_device *udev = udl_to_usb_device(udl);
+ 	u8 *read_buff;
+-	int ret;
++	int idx, ret;
+ 	size_t i;
  
- 	drm_connector_helper_add(connector, &udl_connector_helper_funcs);
+ 	read_buff = kmalloc(2, GFP_KERNEL);
+ 	if (!read_buff)
+ 		return -ENOMEM;
  
--	connector->polled = DRM_CONNECTOR_POLL_HPD |
--			    DRM_CONNECTOR_POLL_CONNECT |
-+	connector->polled = DRM_CONNECTOR_POLL_CONNECT |
- 			    DRM_CONNECTOR_POLL_DISCONNECT;
++	if (!drm_dev_enter(dev, &idx)) {
++		ret = -ENODEV;
++		goto err_kfree;
++	}
++
+ 	for (i = 0; i < len; i++) {
+ 		int bval = (i + block * EDID_LENGTH) << 8;
  
- 	return connector;
+@@ -449,20 +454,23 @@ static int udl_get_edid_block(void *data, u8 *buf, unsigned int block, size_t le
+ 				      0xA1, read_buff, 2, USB_CTRL_GET_TIMEOUT);
+ 		if (ret < 0) {
+ 			drm_err(dev, "Read EDID byte %zu failed err %x\n", i, ret);
+-			goto err_kfree;
++			goto err_drm_dev_exit;
+ 		} else if (ret < 1) {
+ 			ret = -EIO;
+ 			drm_err(dev, "Read EDID byte %zu failed\n", i);
+-			goto err_kfree;
++			goto err_drm_dev_exit;
+ 		}
+ 
+ 		buf[i] = read_buff[1];
+ 	}
+ 
++	drm_dev_exit(idx);
+ 	kfree(read_buff);
+ 
+ 	return 0;
+ 
++err_drm_dev_exit:
++	drm_dev_exit(idx);
+ err_kfree:
+ 	kfree(read_buff);
+ 	return ret;
+@@ -474,21 +482,15 @@ static enum drm_connector_status udl_connector_detect(struct drm_connector *conn
+ 	struct udl_device *udl = to_udl(dev);
+ 	struct udl_connector *udl_connector = to_udl_connector(connector);
+ 	enum drm_connector_status status = connector_status_disconnected;
+-	int idx;
+ 
+ 	/* cleanup previous EDID */
+ 	kfree(udl_connector->edid);
+ 	udl_connector->edid = NULL;
+ 
+-	if (!drm_dev_enter(dev, &idx))
+-		return connector_status_disconnected;
+-
+ 	udl_connector->edid = drm_do_get_edid(connector, udl_get_edid_block, udl);
+ 	if (udl_connector->edid)
+ 		status = connector_status_connected;
+ 
+-	drm_dev_exit(idx);
+-
+ 	return status;
+ }
+ 
 -- 
 2.44.0
 
