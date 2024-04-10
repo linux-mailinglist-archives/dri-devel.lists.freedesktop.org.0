@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ECAA89EF84
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 12:06:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5F789EF7C
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 12:06:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98AE011328A;
-	Wed, 10 Apr 2024 10:06:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC74910F7BB;
+	Wed, 10 Apr 2024 10:06:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EHq8dzZp";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="e1jsvs9M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 323E610EA24;
- Wed, 10 Apr 2024 10:05:56 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75C8410EA32;
+ Wed, 10 Apr 2024 10:06:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712743557; x=1744279557;
+ t=1712743564; x=1744279564;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=mumY1GcVkw8mOGIhsUnZxpQfZ2vPMs+xTyKtdEBX6sA=;
- b=EHq8dzZpHBOXYZRkf1wNC1xb1JGJhAUgn+u5EoU2hWmpXTeL9xlJQpSk
- ZySLH5J1kCk/P+sl51YYtwOJ1EmGiRo+8gKcWF2qJ0H5zeGg4z5ePCiLP
- BtauN7ocTKcdH+BR8aSxDMOmRZHuz/mG46xCY9NR5TnvvRu2bz9SCkjPq
- aDofTZ1p1gdQJpidQzfaWUskRB6keFZy6qGCAmPe12/0mVypuFwKPro+k
- BTgWWs4xtbwHtm0PslcyGcO5/lgVu1QwGd/pJrH8mzovsyVZmsFoMClvH
- WPdzXxZQ4vupm8smdrqepFJRYnxk1h3tKgpl/w5cC6cjLIlv2RItc1a8z w==;
-X-CSE-ConnectionGUID: l1UFSHqnTjS26jQwchrPdw==
-X-CSE-MsgGUID: ccfq0duARJq2slbZqHEsjQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8320059"
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="8320059"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2024 03:05:57 -0700
-X-CSE-ConnectionGUID: TIwbQ4EKRyKCz3sNkTAnyA==
-X-CSE-MsgGUID: vb+dWgstRWOEVPpFwbvF2w==
+ bh=oE6m4k6fw2ovbCGonnwUHHaFNIXRtdmEHq0iiCK39IU=;
+ b=e1jsvs9Mf9UvW8AtLlKtpNvL8Zrurv4VgFFGKG49JaeUAeu1NBFx0ejg
+ plE75IuRasMbZFzJgUItR92nKdNEhSOUai8UdhE7w8bD9FfKAOPbhLoew
+ Jbrff99eKRNWt2M/vQNveOIhdPRLDXeyKU3/+lZGQzAK7wwkJTYncJYIF
+ JTXMSrO5fjJEEWUxauQ4rYChzajPsx80dMUEdoslUD8p9pkztn+6zgNm6
+ s0ZCoDlDAuymt7LlTKnBH8ivp0J/hxDk16Oc1Hcn11WQjFJgItMmOh+mJ
+ r8Pr9tp71Kaughay4r7FKZbkRU9BmSKcpU5Ug46gdzdYGt1MgNH4sQjTE g==;
+X-CSE-ConnectionGUID: co/K+BAqQfafxZ57ehYjgw==
+X-CSE-MsgGUID: ZKFbk5EiT/2PorE3vRl0Ww==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="18808949"
+X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; d="scan'208";a="18808949"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2024 03:06:02 -0700
+X-CSE-ConnectionGUID: NpK971YpQ36V9YICNPUFKw==
+X-CSE-MsgGUID: 4FHN7mZUSLKjXS0WIS0u0Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; d="scan'208";a="20460996"
+X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; d="scan'208";a="51735615"
 Received: from oakasatk-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.60.54])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2024 03:05:53 -0700
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2024 03:05:58 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Cc: jani.nikula@intel.com, Daniel Vetter <daniel@ffwll.ch>,
  Dave Airlie <airlied@gmail.com>,
  Lucas De Marchi <lucas.demarchi@intel.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH 05/10] drm: move intel_lpe_audio.h under include/drm/intel
-Date: Wed, 10 Apr 2024 13:05:12 +0300
-Message-Id: <bf584e79e13001b962370a26e3b93c1c57ac6a1e.1712743191.git.jani.nikula@intel.com>
+ Bjorn Helgaas <bhelgaas@google.com>, Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH 06/10] drm: move i915_drm.h under include/drm/intel
+Date: Wed, 10 Apr 2024 13:05:13 +0300
+Message-Id: <63e199dec91cc2e717d81ab00e28f68b9bec8461.1712743191.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1712743191.git.jani.nikula@intel.com>
 References: <cover.1712743191.git.jani.nikula@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,60 +81,117 @@ specific files under a common subdirectory.
 Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: Dave Airlie <airlied@gmail.com>
 Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_hdmi.c      | 2 +-
- drivers/gpu/drm/i915/display/intel_lpe_audio.c | 2 +-
- include/drm/{ => intel}/intel_lpe_audio.h      | 0
- sound/x86/intel_hdmi_audio.c                   | 2 +-
- 4 files changed, 3 insertions(+), 3 deletions(-)
- rename include/drm/{ => intel}/intel_lpe_audio.h (100%)
+ arch/x86/kernel/early-quirks.c             | 2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c | 2 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c       | 2 +-
+ drivers/gpu/drm/i915/gt/intel_rps.c        | 2 +-
+ drivers/gpu/drm/i915/soc/intel_gmch.c      | 2 +-
+ drivers/gpu/drm/xe/xe_ggtt.c               | 2 +-
+ drivers/platform/x86/intel_ips.c           | 2 +-
+ include/drm/{ => intel}/i915_drm.h         | 0
+ 8 files changed, 7 insertions(+), 7 deletions(-)
+ rename include/drm/{ => intel}/i915_drm.h (100%)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index 5f6deceaf8ba..959aa1143a7d 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -38,7 +38,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_edid.h>
--#include <drm/intel_lpe_audio.h>
-+#include <drm/intel/intel_lpe_audio.h>
+diff --git a/arch/x86/kernel/early-quirks.c b/arch/x86/kernel/early-quirks.c
+index 59f4aefc6bc1..5b867c02d2b5 100644
+--- a/arch/x86/kernel/early-quirks.c
++++ b/arch/x86/kernel/early-quirks.c
+@@ -17,7 +17,7 @@
+ #include <linux/bcma/bcma.h>
+ #include <linux/bcma/bcma_regs.h>
+ #include <linux/platform_data/x86/apple.h>
+-#include <drm/i915_drm.h>
++#include <drm/intel/i915_drm.h>
+ #include <drm/i915_pciids.h>
+ #include <asm/pci-direct.h>
+ #include <asm/dma.h>
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+index ad6dd7f3259b..30595b2b63e1 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+@@ -8,7 +8,7 @@
+ #include <linux/mutex.h>
  
- #include "g4x_hdmi.h"
+ #include <drm/drm_mm.h>
+-#include <drm/i915_drm.h>
++#include <drm/intel/i915_drm.h>
+ 
+ #include "gem/i915_gem_lmem.h"
+ #include "gem/i915_gem_region.h"
+diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+index 2717699c6591..206a5e0fedf1 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+@@ -9,7 +9,7 @@
+ #include <linux/stop_machine.h>
+ 
+ #include <drm/drm_managed.h>
+-#include <drm/i915_drm.h>
++#include <drm/intel/i915_drm.h>
+ #include <drm/intel/intel-gtt.h>
+ 
+ #include "display/intel_display.h"
+diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+index c9cb2a391942..70176be269d3 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rps.c
++++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+@@ -5,7 +5,7 @@
+ 
+ #include <linux/string_helpers.h>
+ 
+-#include <drm/i915_drm.h>
++#include <drm/intel/i915_drm.h>
+ 
+ #include "display/intel_display.h"
+ #include "display/intel_display_irq.h"
+diff --git a/drivers/gpu/drm/i915/soc/intel_gmch.c b/drivers/gpu/drm/i915/soc/intel_gmch.c
+index 40874ebfb64c..734e9f2801ea 100644
+--- a/drivers/gpu/drm/i915/soc/intel_gmch.c
++++ b/drivers/gpu/drm/i915/soc/intel_gmch.c
+@@ -8,7 +8,7 @@
+ #include <linux/vgaarb.h>
+ 
+ #include <drm/drm_managed.h>
+-#include <drm/i915_drm.h>
++#include <drm/intel/i915_drm.h>
+ 
  #include "i915_drv.h"
-diff --git a/drivers/gpu/drm/i915/display/intel_lpe_audio.c b/drivers/gpu/drm/i915/display/intel_lpe_audio.c
-index 5863763de530..4e3f78d1d4f9 100644
---- a/drivers/gpu/drm/i915/display/intel_lpe_audio.c
-+++ b/drivers/gpu/drm/i915/display/intel_lpe_audio.c
-@@ -68,7 +68,7 @@
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
+ #include "intel_gmch.h"
+diff --git a/drivers/gpu/drm/xe/xe_ggtt.c b/drivers/gpu/drm/xe/xe_ggtt.c
+index ff2239c0eda5..7af1a48f3b59 100644
+--- a/drivers/gpu/drm/xe/xe_ggtt.c
++++ b/drivers/gpu/drm/xe/xe_ggtt.c
+@@ -9,7 +9,7 @@
+ #include <linux/sizes.h>
  
--#include <drm/intel_lpe_audio.h>
-+#include <drm/intel/intel_lpe_audio.h>
+ #include <drm/drm_managed.h>
+-#include <drm/i915_drm.h>
++#include <drm/intel/i915_drm.h>
  
- #include "i915_drv.h"
- #include "i915_irq.h"
-diff --git a/include/drm/intel_lpe_audio.h b/include/drm/intel/intel_lpe_audio.h
+ #include "regs/xe_gt_regs.h"
+ #include "regs/xe_gtt_defs.h"
+diff --git a/drivers/platform/x86/intel_ips.c b/drivers/platform/x86/intel_ips.c
+index ba38649cc142..2a88012958eb 100644
+--- a/drivers/platform/x86/intel_ips.c
++++ b/drivers/platform/x86/intel_ips.c
+@@ -59,7 +59,7 @@
+ #include <linux/tick.h>
+ #include <linux/timer.h>
+ #include <linux/dmi.h>
+-#include <drm/i915_drm.h>
++#include <drm/intel/i915_drm.h>
+ #include <asm/msr.h>
+ #include <asm/processor.h>
+ #include "intel_ips.h"
+diff --git a/include/drm/i915_drm.h b/include/drm/intel/i915_drm.h
 similarity index 100%
-rename from include/drm/intel_lpe_audio.h
-rename to include/drm/intel/intel_lpe_audio.h
-diff --git a/sound/x86/intel_hdmi_audio.c b/sound/x86/intel_hdmi_audio.c
-index 02f5a7f9b728..d41ea09ffbe5 100644
---- a/sound/x86/intel_hdmi_audio.c
-+++ b/sound/x86/intel_hdmi_audio.c
-@@ -31,7 +31,7 @@
- #include <sound/jack.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_eld.h>
--#include <drm/intel_lpe_audio.h>
-+#include <drm/intel/intel_lpe_audio.h>
- #include "intel_hdmi_audio.h"
- 
- #define INTEL_HDMI_AUDIO_SUSPEND_DELAY_MS  5000
+rename from include/drm/i915_drm.h
+rename to include/drm/intel/i915_drm.h
 -- 
 2.39.2
 
