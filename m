@@ -2,58 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A6B89F979
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 16:09:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43BA089F992
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 16:12:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6803911291C;
-	Wed, 10 Apr 2024 14:09:07 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="V6UeiAuC";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0585310FF25;
+	Wed, 10 Apr 2024 14:11:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D03B10FF25;
- Wed, 10 Apr 2024 14:09:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712758146; x=1744294146;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=KgQTJUyXjYeoG6WlEkT6Hvk3sthSjdbGKQj/2LcgW6I=;
- b=V6UeiAuCG3r2sT6FoitR6sxi72Q7eEOCg9USkGSSIyhnNATg+YYtaa9/
- gliLjKM1gy3TFVcHZzEelqmuWB7cZZe5fhmg8MasWCybR2hNHp3fMgkfh
- Xoa7/MtEenONlPI4y2YUnjPU+6sqyY8Uh4vTvM4WleWcIetpvYyZjvHFv
- B4DZGrjz87TtrTlQDrIQBcFb/eiPXuT4GxCAuVGg0SXOYMOuZlQ/K2K5p
- Y+60fbe7DBWrp5WE3fhQZHgwi+v2TSyEqnGWcv43q8gEf5iP/dtQcIBGC
- b4OZy54GKMpg5r0GsORFWhC68umrYs2TzDuxQKloU/JYDyCrb8gpyYw9j Q==;
-X-CSE-ConnectionGUID: NB/bTg6BQIGYFq3xsj6SWA==
-X-CSE-MsgGUID: LpDeed6zRKG2tcQ5Lr8wjA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="11900756"
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; d="scan'208";a="11900756"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2024 07:06:19 -0700
-X-CSE-ConnectionGUID: TA56WqCGScq9x5d5PpoTVg==
-X-CSE-MsgGUID: UI6Di26GR7SJEar4pqRrEQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; d="scan'208";a="25089577"
-Received: from unknown (HELO intel.com) ([10.247.118.254])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2024 07:06:15 -0700
-Date: Wed, 10 Apr 2024 16:06:08 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 01/10] drm/i915: use system include for drm headers
-Message-ID: <Zhac0Ax1EF9JKJoE@ashyti-mobl2.lan>
-References: <cover.1712743191.git.jani.nikula@intel.com>
- <ed02b81fcbbc0d27be4af460c521aefbfdc76375.1712743191.git.jani.nikula@intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3D65F1133CD
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 14:11:51 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7178E139F;
+ Wed, 10 Apr 2024 07:12:20 -0700 (PDT)
+Received: from [10.57.74.122] (unknown [10.57.74.122])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C3CD63F766;
+ Wed, 10 Apr 2024 07:11:49 -0700 (PDT)
+Message-ID: <8d68acac-06d2-4d18-b257-2807209dadc5@arm.com>
+Date: Wed, 10 Apr 2024 15:11:52 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ed02b81fcbbc0d27be4af460c521aefbfdc76375.1712743191.git.jani.nikula@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [bug report] drm/panthor: Add the scheduler logical block
+To: Dan Carpenter <dan.carpenter@linaro.org>, boris.brezillon@collabora.com
+Cc: dri-devel@lists.freedesktop.org
+References: <3b7fd2f2-679e-440c-81cd-42fc2573b515@moroto.mountain>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <3b7fd2f2-679e-440c-81cd-42fc2573b515@moroto.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,15 +46,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani,
-
-On Wed, Apr 10, 2024 at 01:05:08PM +0300, Jani Nikula wrote:
-> Use <> instead of "" for including headers from include/, even if the
-> file is in the same directory.
+On 08/04/2024 08:35, Dan Carpenter wrote:
+> Hello Boris Brezillon,
 > 
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> Commit de8548813824 ("drm/panthor: Add the scheduler logical block")
+> from Feb 29, 2024 (linux-next), leads to the following Smatch static
+> checker warning:
+> 
+> 	drivers/gpu/drm/panthor/panthor_sched.c:1153 csg_slot_sync_state_locked()
+> 	error: uninitialized symbol 'new_state'.
+> 
+> drivers/gpu/drm/panthor/panthor_sched.c
+>     1123 static void
+>     1124 csg_slot_sync_state_locked(struct panthor_device *ptdev, u32 csg_id)
+>     1125 {
+>     1126         struct panthor_csg_slot *csg_slot = &ptdev->scheduler->csg_slots[csg_id];
+>     1127         struct panthor_fw_csg_iface *csg_iface;
+>     1128         struct panthor_group *group;
+>     1129         enum panthor_group_state new_state, old_state;
+>     1130 
+>     1131         lockdep_assert_held(&ptdev->scheduler->lock);
+>     1132 
+>     1133         csg_iface = panthor_fw_get_csg_iface(ptdev, csg_id);
+>     1134         group = csg_slot->group;
+>     1135 
+>     1136         if (!group)
+>     1137                 return;
+>     1138 
+>     1139         old_state = group->state;
+>     1140         switch (csg_iface->output->ack & CSG_STATE_MASK) {
+>                                                   ^^^^^^^^^^^^^^
+> This mask is 0x7.  Should it be 0x3?  That would silence the static
+> checker warning.
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+The mask is correct - it's effectively a hardware register (well it's
+read/written by the firmware on the hardware). States 4-7 are officially
+"reserved" and Should Not Happen™!
 
-Thanks,
-Andi
+I guess a "default:" case with a WARN_ON() would be the right solution.
+
+Steve
+
+>     1141         case CSG_STATE_START:
+>     1142         case CSG_STATE_RESUME:
+>     1143                 new_state = PANTHOR_CS_GROUP_ACTIVE;
+>     1144                 break;
+>     1145         case CSG_STATE_TERMINATE:
+>     1146                 new_state = PANTHOR_CS_GROUP_TERMINATED;
+>     1147                 break;
+>     1148         case CSG_STATE_SUSPEND:
+>     1149                 new_state = PANTHOR_CS_GROUP_SUSPENDED;
+>     1150                 break;
+>     1151         }
+>     1152 
+> --> 1153         if (old_state == new_state)
+>     1154                 return;
+>     1155 
+>     1156         if (new_state == PANTHOR_CS_GROUP_SUSPENDED)
+>     1157                 csg_slot_sync_queues_state_locked(ptdev, csg_id);
+>     1158 
+>     1159         if (old_state == PANTHOR_CS_GROUP_ACTIVE) {
+>     1160                 u32 i;
+>     1161 
+>     1162                 /* Reset the queue slots so we start from a clean
+>     1163                  * state when starting/resuming a new group on this
+>     1164                  * CSG slot. No wait needed here, and no ringbell
+>     1165                  * either, since the CS slot will only be re-used
+>     1166                  * on the next CSG start operation.
+>     1167                  */
+>     1168                 for (i = 0; i < group->queue_count; i++) {
+>     1169                         if (group->queues[i])
+>     1170                                 cs_slot_reset_locked(ptdev, csg_id, i);
+>     1171                 }
+>     1172         }
+>     1173 
+>     1174         group->state = new_state;
+>     1175 }
+> 
+> regards,
+> dan carpenter
+
