@@ -2,85 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED14389E8C5
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 06:22:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B4DE89EB7A
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 09:10:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2125F10EC8E;
-	Wed, 10 Apr 2024 04:22:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64BAB1131FC;
+	Wed, 10 Apr 2024 07:10:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WWG6esB5";
+	dkim=pass (1024-bit key; unprotected) header.d=netflix.com header.i=@netflix.com header.b="lLKaljID";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5884310EC8E
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 04:22:43 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-34641b7c49aso717828f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Apr 2024 21:22:43 -0700 (PDT)
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com
+ [209.85.166.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35C0310E28B
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 04:34:46 +0000 (UTC)
+Received: by mail-il1-f177.google.com with SMTP id
+ e9e14a558f8ab-36a1140bd21so16687255ab.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Apr 2024 21:34:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1712722961; x=1713327761; darn=lists.freedesktop.org;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=50/EoYp4xiPcQjk7THZgfgs+ueFYqdmiSEQ2Y/A5NR4=;
- b=WWG6esB5puX3//NuVqS2AKXLkgk6J8awUj6xxOCN9rUiFDt0RWJUyp0YggYBc6uQid
- Gx1cQHeABU39xjjF52KvFfX5SlghHVd98dbcxDPQ5FxKS3DwgVdPGkRlaI0+HFmeTorC
- 6ws4DMIoOZqeHOerBehIUDPf2dwVvriThhPES+9S/8/pwPTBlWo3dPvn2odQxf2BC1Gg
- DgoyH9MTIIE4eEKDf4qstx5w/T4XZRu9igUyAp6igDVhrdeVG2/+fn8fDpdD1nSJL339
- zvhEwU2OlzwArhGQ55CH85qu9q+s93DEUp9vCQ7s+C8THpw/XZLl5nAdLaSBpKf+wKgb
- MaMQ==
+ d=netflix.com; s=google; t=1712723685; x=1713328485; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=a/JPFUxV2ArWkhwNnn1v7zuWOs9XoBJjsryMcg9Mcoo=;
+ b=lLKaljIDk9OkiyVqqIs2eKQk6F1VyxX8qixJiln01CrrjMAzun1SL1tDBnmcEsactF
+ /BIXZzme7douP7BtXndvjyucb4R21nXwjdzyGZahxLZtHyBBZQdehShkpggiWimIGKOg
+ vpJHVwGiVj05CTuJ7N5XGGqhyN3vgEFmDHvbw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712722961; x=1713327761;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=50/EoYp4xiPcQjk7THZgfgs+ueFYqdmiSEQ2Y/A5NR4=;
- b=S1i6sGf+oUmfhxo4kjv9lmvb02XR+AAehbNf90XTXlJ/6OQRarzyZUK15dfganOBBH
- gpE1oMRY0vhoyIuRuCBPVG34GcDnYpbhpR9Em4xMBCHGxsH0e3C4fuGIP9AqZLonak+p
- +xSMRH6vK6oFFmZoBRkuTOzVnumwx75gvLadUyIajvn4Xe6gy6cVCP2obbxHfBAxNNZr
- EhCMxRM2w24/tM2Q0tvKAugr3xyegUwHsTnRMYcNpKDGgxjc/rpH37GWstMqO1oY0pfI
- 4yW5m9NSvspgP8hAqs29RwnVuuO9NqoVuHgtRLQC2H96v2sAOalVZtdXuGgAOjw/d7LB
- G6Vg==
+ d=1e100.net; s=20230601; t=1712723685; x=1713328485;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=a/JPFUxV2ArWkhwNnn1v7zuWOs9XoBJjsryMcg9Mcoo=;
+ b=fak5oQvdBNrS6oNhwiCOAjdGCI29yBlJOO3MbchLSFcF/Co0C9IO+XhwaPfobyXfhC
+ MfbG6rSEPp377yN9A+SNYcOcrHD4hddsK4boCqjovZ/kSKLvLj82ybuOxB+3Bn7rwB5q
+ iCKOX9mAKhVXcF8obBMlGHD8yj4wOOlmHplVvLEb72I7t7Fl+PfyaQHvos20wq0rHbf4
+ +YDOErQiGt5UDYGvn5sw8cPeyUHLuFZcZdSX0npFMOJYR1mSJmzPmhNBGCyqutEl8s/E
+ LvmkJD7LG/TX8QLe0mvsLa0E3Qi0xy94pgGUt9kOXo0tCLzH10RYx6a+R6wvbZ+gWtpl
+ q+ig==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWjUBXu+aXBBYwF12Apy9SztQEPTdBclogamGNCPVSMgUVNaK2yWWrHHVR7EHGq1iP8xhEnujzwYM0BhUEiqTmoNjBY4SCTDgi2r0AgQpxP
-X-Gm-Message-State: AOJu0Yzf3ZJjddRWLh6ACzF++0miv3QOeCvtdJXyZ10MDRjsv48H9rdA
- gpJ+B2NFC2w3Muf7ZXg7e2L3qX0tqIE1k0lj2WqDVsHm+aLi5hMc
-X-Google-Smtp-Source: AGHT+IHhKHEr3v3LDAgyhKHwIE9KipXbIkSHGprCwjFscoVbk1+9ZU+3a0NumbkHPHLpvO0f/FlwAg==
-X-Received: by 2002:adf:fc4b:0:b0:343:7d3c:ddcd with SMTP id
- e11-20020adffc4b000000b003437d3cddcdmr964972wrs.1.1712722961051; 
- Tue, 09 Apr 2024 21:22:41 -0700 (PDT)
-Received: from smtpclient.apple ([167.99.200.149])
- by smtp.gmail.com with ESMTPSA id
- p13-20020a5d638d000000b00343ad4bca7dsm12898554wru.85.2024.04.09.21.22.37
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 09 Apr 2024 21:22:40 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.500.171.1.1\))
-Subject: Re: [PATCH 1/2] dt-bindings: panel-simple-dsi: add New Khadas TS050
- panel bindings
-From: Christian Hewitt <christianshewitt@gmail.com>
-In-Reply-To: <20240409082641.359627-1-jacobe.zang@wesion.com>
-Date: Wed, 10 Apr 2024 08:22:25 +0400
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, quic_jesszhan@quicinc.com,
- sam@ravnborg.org, nick@khadas.com, thierry.reding@gmail.com,
- dri-devel@lists.freedesktop.org, devicetree <devicetree@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- AML <linux-amlogic@lists.infradead.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <3CCAF214-09FE-4580-99CD-AB95E78FFB8F@gmail.com>
-References: <20240409082641.359627-1-jacobe.zang@wesion.com>
-To: Jacobe Zang <jacobe.zang@wesion.com>
-X-Mailer: Apple Mail (2.3774.500.171.1.1)
+ AJvYcCU3N0/QdgtIJcV3EbRByR5/7puuN8EhDndjKB2QshSXy7OLCu3s1fRpiQmXt6CTmdmFFkZ1ASt169rqCa4+mjA7wI42MUk/cxP1Ld4R6Sos
+X-Gm-Message-State: AOJu0YxjcKDymZ8LGBdByv1R4OkTYU0jNaLK+qUkf5iZi2/Ud04N4ebQ
+ 8kDHuOQHDzqPey+yusxDocDl8pPNS7uxa0JaJaPpXu7eqJCYYeq4vk3NFeN1a+Y=
+X-Google-Smtp-Source: AGHT+IFILeN96Xd9wtsGDWKumJLAOJAbRVY+isMe2Tofq8xMm3T+C68RphVpIWdR/vNbrvujRnChCQ==
+X-Received: by 2002:a05:6e02:1607:b0:369:ed5b:dd56 with SMTP id
+ t7-20020a056e02160700b00369ed5bdd56mr2350659ilu.17.1712723685172; 
+ Tue, 09 Apr 2024 21:34:45 -0700 (PDT)
+Received: from localhost ([2601:285:8700:8f20:fa81:e682:614d:196f])
+ by smtp.gmail.com with UTF8SMTPSA id
+ hb2-20020a0566386c0200b0048290482c7bsm2023528jab.54.2024.04.09.21.34.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Apr 2024 21:34:44 -0700 (PDT)
+From: Jose Fernandez <josef@netflix.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Wenjing Liu <wenjing.liu@amd.com>,
+ Alan Liu <haoping.liu@amd.com>, George Shen <george.shen@amd.com>,
+ Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>,
+ Ilya Bakoulin <ilya.bakoulin@amd.com>, Nasir Osman <nasir.osman@amd.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>, Fangzhi Zuo <jerry.zuo@amd.com>,
+ Leo Ma <hanghong.ma@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org,
+	Jose Fernandez <josef@netflix.com>
+Subject: [PATCH] drm/amd/display: Fix division by zero in setup_dsc_config
+Date: Tue,  9 Apr 2024 22:34:33 -0600
+Message-Id: <20240410043433.12854-1-josef@netflix.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 10 Apr 2024 07:10:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,51 +88,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> On 9 Apr 2024, at 12:26=E2=80=AFPM, Jacobe Zang =
-<jacobe.zang@wesion.com> wrote:
->=20
-> This add the bindings for the New Khadas TS050 1080x1920 5" LCD DSI =
-panel
-> designed to work with the Khadas VIM3 and VIM3L Single Board =
-Computers.
->=20
-> Signed-off-by: Jacobe Zang <jacobe.zang@wesion.com>
-> ---
-> .../devicetree/bindings/display/panel/panel-simple-dsi.yaml     | 2 ++
-> 1 file changed, 2 insertions(+)
->=20
-> diff --git =
-a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml =
-b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-> index f9160d7bac3ca..e194309f31b72 100644
-> --- =
-a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-> +++ =
-b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-> @@ -36,6 +36,8 @@ properties:
->       - jdi,fhd-r63452
->         # Khadas TS050 5" 1080x1920 LCD panel
->       - khadas,ts050
-> +        # Khadas NEW TS050 5" 1080x1920 LCD panel
-> +      - khadas,newts050
+When slice_height is 0, the division by slice_height in the calculation
+of the number of slices will cause a division by zero driver crash. This
+leaves the kernel in a state that requires a reboot. This patch adds a
+check to avoid the division by zero.
 
-Products are only new until they are old. At some future point there =
-will
-inevitably be a third iteration requiring a =E2=80=98new new=E2=80=99 =
-name. IMHO it would
-be better to use something like khadas,ts050v2.
+The stack trace below is for the 6.8.4 Kernel. I reproduced the issue on
+a Z16 Gen 2 Lenovo Thinkpad with a Apple Studio Display monitor
+connected via Thunderbolt. The amdgpu driver crashed with this exception
+when I rebooted the system with the monitor connected.
 
-CH.
+kernel: ? die (arch/x86/kernel/dumpstack.c:421 arch/x86/kernel/dumpstack.c:434 arch/x86/kernel/dumpstack.c:447)
+kernel: ? do_trap (arch/x86/kernel/traps.c:113 arch/x86/kernel/traps.c:154)
+kernel: ? setup_dsc_config (drivers/gpu/drm/amd/amdgpu/../display/dc/dsc/dc_dsc.c:1053) amdgpu
+kernel: ? do_error_trap (./arch/x86/include/asm/traps.h:58 arch/x86/kernel/traps.c:175)
+kernel: ? setup_dsc_config (drivers/gpu/drm/amd/amdgpu/../display/dc/dsc/dc_dsc.c:1053) amdgpu
+kernel: ? exc_divide_error (arch/x86/kernel/traps.c:194 (discriminator 2))
+kernel: ? setup_dsc_config (drivers/gpu/drm/amd/amdgpu/../display/dc/dsc/dc_dsc.c:1053) amdgpu
+kernel: ? asm_exc_divide_error (./arch/x86/include/asm/idtentry.h:548)
+kernel: ? setup_dsc_config (drivers/gpu/drm/amd/amdgpu/../display/dc/dsc/dc_dsc.c:1053) amdgpu
+kernel: dc_dsc_compute_config (drivers/gpu/drm/amd/amdgpu/../display/dc/dsc/dc_dsc.c:1109) amdgpu
 
->         # Kingdisplay KD097D04 9.7" 1536x2048 TFT LCD panel
->       - kingdisplay,kd097d04
->         # LG ACX467AKM-7 4.95" 1080=C3=971920 LCD Panel
-> --=20
-> 2.34.1
->=20
->=20
-> _______________________________________________
-> linux-amlogic mailing list
-> linux-amlogic@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-amlogic
+After applying this patch, the driver no longer crashes when the monitor
+is connected and the system is rebooted. I believe this is the same
+issue reported for 3113.
+
+Signed-off-by: Jose Fernandez <josef@netflix.com>
+Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3113
+---
+ drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
+index ac41f9c0a283..597d5425d6cb 100644
+--- a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
++++ b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
+@@ -1055,7 +1055,12 @@ static bool setup_dsc_config(
+ 	if (!is_dsc_possible)
+ 		goto done;
+ 
+-	dsc_cfg->num_slices_v = pic_height/slice_height;
++	if (slice_height > 0)
++		dsc_cfg->num_slices_v = pic_height/slice_height;
++	else {
++		is_dsc_possible = false;
++		goto done;
++	}
+ 
+ 	if (target_bandwidth_kbps > 0) {
+ 		is_dsc_possible = decide_dsc_target_bpp_x16(
+-- 
+2.44.0
 
