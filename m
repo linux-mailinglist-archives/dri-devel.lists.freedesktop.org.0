@@ -2,34 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43BA089F992
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 16:12:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD9ED89F9AD
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Apr 2024 16:15:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0585310FF25;
-	Wed, 10 Apr 2024 14:11:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BDF31133BD;
+	Wed, 10 Apr 2024 14:15:10 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="evxYk03k";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3D65F1133CD
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 14:11:51 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7178E139F;
- Wed, 10 Apr 2024 07:12:20 -0700 (PDT)
-Received: from [10.57.74.122] (unknown [10.57.74.122])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C3CD63F766;
- Wed, 10 Apr 2024 07:11:49 -0700 (PDT)
-Message-ID: <8d68acac-06d2-4d18-b257-2807209dadc5@arm.com>
-Date: Wed, 10 Apr 2024 15:11:52 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73C561133B8;
+ Wed, 10 Apr 2024 14:14:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1712758494; x=1744294494;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=PuC/jGIS+CY3zc7hImaEM42ALmC2vmq1uEJW9Mb8+qw=;
+ b=evxYk03kOuY7UxuUBgHXTlEBPq+gVBv83TpF8SL5S9I3WEy55ccBzI/N
+ Eba1lixYTE8LH8hP7WdE/xZgLMrJhO+/HAkE/psb3RR+FxEUC7+V43K/g
+ UsDOh+jw6v35+eGNjgAhMcpVKFG8d8nhNbMCHETpXs+jNk4932mQde7G4
+ STNSyG+sIJRh+geXMisK1/xFOcmMayp8B1HqwfC1jM4h4RqwPDgRRvVc8
+ EpxHwUlGpe4+BLT40S3PxxEdwZ39163EyhRAZcn8db/2td8b1zODsU40h
+ l/VNT4YKnUtBX7ojei/W/jn7nWg9ZR6gkIsyrKZOfGTBSpZcPg7YLZe4l g==;
+X-CSE-ConnectionGUID: M3iqFH64QsKsaRFtB2cN3A==
+X-CSE-MsgGUID: KArQD4N5S/updcqQRr3NjA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8247763"
+X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
+   d="scan'208";a="8247763"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2024 07:14:47 -0700
+X-CSE-ConnectionGUID: igmPb98LTqGTrrTTkkdaHQ==
+X-CSE-MsgGUID: HrL9u9CBToOJ4sdiaQyNZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; d="scan'208";a="25345138"
+Received: from oakasatk-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.60.54])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2024 07:14:40 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, Huang Rui <ray.huang@amd.com>,
+ nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/print: drop include debugfs.h and include where needed
+Date: Wed, 10 Apr 2024 17:14:33 +0300
+Message-Id: <20240410141434.157908-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [bug report] drm/panthor: Add the scheduler logical block
-To: Dan Carpenter <dan.carpenter@linaro.org>, boris.brezillon@collabora.com
-Cc: dri-devel@lists.freedesktop.org
-References: <3b7fd2f2-679e-440c-81cd-42fc2573b515@moroto.mountain>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <3b7fd2f2-679e-440c-81cd-42fc2573b515@moroto.mountain>
 Content-Type: text/plain; charset=UTF-8
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,83 +84,332 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/04/2024 08:35, Dan Carpenter wrote:
-> Hello Boris Brezillon,
-> 
-> Commit de8548813824 ("drm/panthor: Add the scheduler logical block")
-> from Feb 29, 2024 (linux-next), leads to the following Smatch static
-> checker warning:
-> 
-> 	drivers/gpu/drm/panthor/panthor_sched.c:1153 csg_slot_sync_state_locked()
-> 	error: uninitialized symbol 'new_state'.
-> 
-> drivers/gpu/drm/panthor/panthor_sched.c
->     1123 static void
->     1124 csg_slot_sync_state_locked(struct panthor_device *ptdev, u32 csg_id)
->     1125 {
->     1126         struct panthor_csg_slot *csg_slot = &ptdev->scheduler->csg_slots[csg_id];
->     1127         struct panthor_fw_csg_iface *csg_iface;
->     1128         struct panthor_group *group;
->     1129         enum panthor_group_state new_state, old_state;
->     1130 
->     1131         lockdep_assert_held(&ptdev->scheduler->lock);
->     1132 
->     1133         csg_iface = panthor_fw_get_csg_iface(ptdev, csg_id);
->     1134         group = csg_slot->group;
->     1135 
->     1136         if (!group)
->     1137                 return;
->     1138 
->     1139         old_state = group->state;
->     1140         switch (csg_iface->output->ack & CSG_STATE_MASK) {
->                                                   ^^^^^^^^^^^^^^
-> This mask is 0x7.  Should it be 0x3?  That would silence the static
-> checker warning.
+Surprisingly many places depend on debugfs.h to be included via
+drm_print.h. Fix them.
 
-The mask is correct - it's effectively a hardware register (well it's
-read/written by the firmware on the hardware). States 4-7 are officially
-"reserved" and Should Not Happen™!
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-I guess a "default:" case with a WARN_ON() would be the right solution.
+---
 
-Steve
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Karol Herbst <kherbst@redhat.com>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Danilo Krummrich <dakr@redhat.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Cc: Huang Rui <ray.huang@amd.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org
+---
+ drivers/gpu/drm/bridge/panel.c           | 2 ++
+ drivers/gpu/drm/drm_print.c              | 6 +++---
+ drivers/gpu/drm/i915/display/intel_dmc.c | 1 +
+ drivers/gpu/drm/nouveau/dispnv50/crc.c   | 2 ++
+ drivers/gpu/drm/radeon/r100.c            | 1 +
+ drivers/gpu/drm/radeon/r300.c            | 1 +
+ drivers/gpu/drm/radeon/r420.c            | 1 +
+ drivers/gpu/drm/radeon/r600.c            | 3 ++-
+ drivers/gpu/drm/radeon/radeon_fence.c    | 1 +
+ drivers/gpu/drm/radeon/radeon_gem.c      | 1 +
+ drivers/gpu/drm/radeon/radeon_ib.c       | 2 ++
+ drivers/gpu/drm/radeon/radeon_pm.c       | 1 +
+ drivers/gpu/drm/radeon/radeon_ring.c     | 2 ++
+ drivers/gpu/drm/radeon/radeon_ttm.c      | 1 +
+ drivers/gpu/drm/radeon/rs400.c           | 1 +
+ drivers/gpu/drm/radeon/rv515.c           | 1 +
+ drivers/gpu/drm/ttm/ttm_device.c         | 1 +
+ drivers/gpu/drm/ttm/ttm_resource.c       | 3 ++-
+ drivers/gpu/drm/ttm/ttm_tt.c             | 5 +++--
+ include/drm/drm_print.h                  | 2 +-
+ 20 files changed, 30 insertions(+), 8 deletions(-)
 
->     1141         case CSG_STATE_START:
->     1142         case CSG_STATE_RESUME:
->     1143                 new_state = PANTHOR_CS_GROUP_ACTIVE;
->     1144                 break;
->     1145         case CSG_STATE_TERMINATE:
->     1146                 new_state = PANTHOR_CS_GROUP_TERMINATED;
->     1147                 break;
->     1148         case CSG_STATE_SUSPEND:
->     1149                 new_state = PANTHOR_CS_GROUP_SUSPENDED;
->     1150                 break;
->     1151         }
->     1152 
-> --> 1153         if (old_state == new_state)
->     1154                 return;
->     1155 
->     1156         if (new_state == PANTHOR_CS_GROUP_SUSPENDED)
->     1157                 csg_slot_sync_queues_state_locked(ptdev, csg_id);
->     1158 
->     1159         if (old_state == PANTHOR_CS_GROUP_ACTIVE) {
->     1160                 u32 i;
->     1161 
->     1162                 /* Reset the queue slots so we start from a clean
->     1163                  * state when starting/resuming a new group on this
->     1164                  * CSG slot. No wait needed here, and no ringbell
->     1165                  * either, since the CS slot will only be re-used
->     1166                  * on the next CSG start operation.
->     1167                  */
->     1168                 for (i = 0; i < group->queue_count; i++) {
->     1169                         if (group->queues[i])
->     1170                                 cs_slot_reset_locked(ptdev, csg_id, i);
->     1171                 }
->     1172         }
->     1173 
->     1174         group->state = new_state;
->     1175 }
-> 
-> regards,
-> dan carpenter
+diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+index 7f41525f7a6e..32506524d9a2 100644
+--- a/drivers/gpu/drm/bridge/panel.c
++++ b/drivers/gpu/drm/bridge/panel.c
+@@ -4,6 +4,8 @@
+  * Copyright (C) 2017 Broadcom
+  */
+ 
++#include <linux/debugfs.h>
++
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_connector.h>
+diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+index 699b7dbffd7b..cf2efb44722c 100644
+--- a/drivers/gpu/drm/drm_print.c
++++ b/drivers/gpu/drm/drm_print.c
+@@ -23,13 +23,13 @@
+  * Rob Clark <robdclark@gmail.com>
+  */
+ 
+-#include <linux/stdarg.h>
+-
++#include <linux/debugfs.h>
++#include <linux/dynamic_debug.h>
+ #include <linux/io.h>
+ #include <linux/moduleparam.h>
+ #include <linux/seq_file.h>
+ #include <linux/slab.h>
+-#include <linux/dynamic_debug.h>
++#include <linux/stdarg.h>
+ 
+ #include <drm/drm.h>
+ #include <drm/drm_drv.h>
+diff --git a/drivers/gpu/drm/i915/display/intel_dmc.c b/drivers/gpu/drm/i915/display/intel_dmc.c
+index e61e9c1b8947..84748add186a 100644
+--- a/drivers/gpu/drm/i915/display/intel_dmc.c
++++ b/drivers/gpu/drm/i915/display/intel_dmc.c
+@@ -22,6 +22,7 @@
+  *
+  */
+ 
++#include <linux/debugfs.h>
+ #include <linux/firmware.h>
+ 
+ #include "i915_drv.h"
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/crc.c b/drivers/gpu/drm/nouveau/dispnv50/crc.c
+index 9c942fbd836d..5936b6b3b15d 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/crc.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/crc.c
+@@ -1,5 +1,7 @@
+ // SPDX-License-Identifier: MIT
++#include <linux/debugfs.h>
+ #include <linux/string.h>
++
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_vblank.h>
+diff --git a/drivers/gpu/drm/radeon/r100.c b/drivers/gpu/drm/radeon/r100.c
+index 86b8b770af19..0b1e19345f43 100644
+--- a/drivers/gpu/drm/radeon/r100.c
++++ b/drivers/gpu/drm/radeon/r100.c
+@@ -26,6 +26,7 @@
+  *          Jerome Glisse
+  */
+ 
++#include <linux/debugfs.h>
+ #include <linux/firmware.h>
+ #include <linux/module.h>
+ #include <linux/pci.h>
+diff --git a/drivers/gpu/drm/radeon/r300.c b/drivers/gpu/drm/radeon/r300.c
+index 25201b9a5aae..1620f534f55f 100644
+--- a/drivers/gpu/drm/radeon/r300.c
++++ b/drivers/gpu/drm/radeon/r300.c
+@@ -26,6 +26,7 @@
+  *          Jerome Glisse
+  */
+ 
++#include <linux/debugfs.h>
+ #include <linux/pci.h>
+ #include <linux/seq_file.h>
+ #include <linux/slab.h>
+diff --git a/drivers/gpu/drm/radeon/r420.c b/drivers/gpu/drm/radeon/r420.c
+index eae8a6389f5e..a979662eaa73 100644
+--- a/drivers/gpu/drm/radeon/r420.c
++++ b/drivers/gpu/drm/radeon/r420.c
+@@ -26,6 +26,7 @@
+  *          Jerome Glisse
+  */
+ 
++#include <linux/debugfs.h>
+ #include <linux/pci.h>
+ #include <linux/seq_file.h>
+ #include <linux/slab.h>
+diff --git a/drivers/gpu/drm/radeon/r600.c b/drivers/gpu/drm/radeon/r600.c
+index b5e97d95a19f..087d41e370fd 100644
+--- a/drivers/gpu/drm/radeon/r600.c
++++ b/drivers/gpu/drm/radeon/r600.c
+@@ -26,11 +26,12 @@
+  *          Jerome Glisse
+  */
+ 
++#include <linux/debugfs.h>
+ #include <linux/firmware.h>
+ #include <linux/module.h>
+ #include <linux/pci.h>
+-#include <linux/slab.h>
+ #include <linux/seq_file.h>
++#include <linux/slab.h>
+ 
+ #include <drm/drm_device.h>
+ #include <drm/drm_vblank.h>
+diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
+index 9ebe4a0b9a6c..4fb780d96f32 100644
+--- a/drivers/gpu/drm/radeon/radeon_fence.c
++++ b/drivers/gpu/drm/radeon/radeon_fence.c
+@@ -30,6 +30,7 @@
+  */
+ 
+ #include <linux/atomic.h>
++#include <linux/debugfs.h>
+ #include <linux/firmware.h>
+ #include <linux/kref.h>
+ #include <linux/sched/signal.h>
+diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
+index 3fec3acdaf28..2ef201a072f1 100644
+--- a/drivers/gpu/drm/radeon/radeon_gem.c
++++ b/drivers/gpu/drm/radeon/radeon_gem.c
+@@ -26,6 +26,7 @@
+  *          Jerome Glisse
+  */
+ 
++#include <linux/debugfs.h>
+ #include <linux/iosys-map.h>
+ #include <linux/pci.h>
+ 
+diff --git a/drivers/gpu/drm/radeon/radeon_ib.c b/drivers/gpu/drm/radeon/radeon_ib.c
+index fb9ecf5dbe2b..63d914f3414d 100644
+--- a/drivers/gpu/drm/radeon/radeon_ib.c
++++ b/drivers/gpu/drm/radeon/radeon_ib.c
+@@ -27,6 +27,8 @@
+  *          Christian König
+  */
+ 
++#include <linux/debugfs.h>
++
+ #include <drm/drm_file.h>
+ 
+ #include "radeon.h"
+diff --git a/drivers/gpu/drm/radeon/radeon_pm.c b/drivers/gpu/drm/radeon/radeon_pm.c
+index 4482c8c5f5ce..2d9d9f46f243 100644
+--- a/drivers/gpu/drm/radeon/radeon_pm.c
++++ b/drivers/gpu/drm/radeon/radeon_pm.c
+@@ -21,6 +21,7 @@
+  *          Alex Deucher <alexdeucher@gmail.com>
+  */
+ 
++#include <linux/debugfs.h>
+ #include <linux/hwmon-sysfs.h>
+ #include <linux/hwmon.h>
+ #include <linux/pci.h>
+diff --git a/drivers/gpu/drm/radeon/radeon_ring.c b/drivers/gpu/drm/radeon/radeon_ring.c
+index 38048593bb4a..8d1d458286a8 100644
+--- a/drivers/gpu/drm/radeon/radeon_ring.c
++++ b/drivers/gpu/drm/radeon/radeon_ring.c
+@@ -27,6 +27,8 @@
+  *          Christian König
+  */
+ 
++#include <linux/debugfs.h>
++
+ #include <drm/drm_device.h>
+ #include <drm/drm_file.h>
+ 
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index 2078b0000e22..5c65b6dfb99a 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -30,6 +30,7 @@
+  *    Dave Airlie
+  */
+ 
++#include <linux/debugfs.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/pagemap.h>
+ #include <linux/pci.h>
+diff --git a/drivers/gpu/drm/radeon/rs400.c b/drivers/gpu/drm/radeon/rs400.c
+index d7f552d441ab..d4d1501e6576 100644
+--- a/drivers/gpu/drm/radeon/rs400.c
++++ b/drivers/gpu/drm/radeon/rs400.c
+@@ -26,6 +26,7 @@
+  *          Jerome Glisse
+  */
+ 
++#include <linux/debugfs.h>
+ #include <linux/seq_file.h>
+ #include <linux/slab.h>
+ 
+diff --git a/drivers/gpu/drm/radeon/rv515.c b/drivers/gpu/drm/radeon/rv515.c
+index 79709d26d983..bbc6ccabf788 100644
+--- a/drivers/gpu/drm/radeon/rv515.c
++++ b/drivers/gpu/drm/radeon/rv515.c
+@@ -26,6 +26,7 @@
+  *          Jerome Glisse
+  */
+ 
++#include <linux/debugfs.h>
+ #include <linux/seq_file.h>
+ #include <linux/slab.h>
+ 
+diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+index 76027960054f..434cf0258000 100644
+--- a/drivers/gpu/drm/ttm/ttm_device.c
++++ b/drivers/gpu/drm/ttm/ttm_device.c
+@@ -27,6 +27,7 @@
+ 
+ #define pr_fmt(fmt) "[TTM DEVICE] " fmt
+ 
++#include <linux/debugfs.h>
+ #include <linux/mm.h>
+ 
+ #include <drm/ttm/ttm_bo.h>
+diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+index be8d286513f9..4a66b851b67d 100644
+--- a/drivers/gpu/drm/ttm/ttm_resource.c
++++ b/drivers/gpu/drm/ttm/ttm_resource.c
+@@ -22,8 +22,9 @@
+  * Authors: Christian König
+  */
+ 
+-#include <linux/iosys-map.h>
++#include <linux/debugfs.h>
+ #include <linux/io-mapping.h>
++#include <linux/iosys-map.h>
+ #include <linux/scatterlist.h>
+ 
+ #include <drm/ttm/ttm_bo.h>
+diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+index 578a7c37f00b..474fe7aad2a0 100644
+--- a/drivers/gpu/drm/ttm/ttm_tt.c
++++ b/drivers/gpu/drm/ttm/ttm_tt.c
+@@ -32,10 +32,11 @@
+ #define pr_fmt(fmt) "[TTM] " fmt
+ 
+ #include <linux/cc_platform.h>
+-#include <linux/sched.h>
+-#include <linux/shmem_fs.h>
++#include <linux/debugfs.h>
+ #include <linux/file.h>
+ #include <linux/module.h>
++#include <linux/sched.h>
++#include <linux/shmem_fs.h>
+ #include <drm/drm_cache.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_util.h>
+diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+index 9cc473e5d353..561c3b96b6fd 100644
+--- a/include/drm/drm_print.h
++++ b/include/drm/drm_print.h
+@@ -30,11 +30,11 @@
+ #include <linux/printk.h>
+ #include <linux/seq_file.h>
+ #include <linux/device.h>
+-#include <linux/debugfs.h>
+ #include <linux/dynamic_debug.h>
+ 
+ #include <drm/drm.h>
+ 
++struct debugfs_regset32;
+ struct drm_device;
+ 
+ /* Do *not* use outside of drm_print.[ch]! */
+-- 
+2.39.2
 
