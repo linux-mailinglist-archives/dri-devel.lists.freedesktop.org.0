@@ -2,87 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92978A21A9
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Apr 2024 00:14:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 467988A21D4
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Apr 2024 00:40:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FA2310E679;
-	Thu, 11 Apr 2024 22:14:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8356410F3F8;
+	Thu, 11 Apr 2024 22:40:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KovFftIr";
+	dkim=pass (2048-bit key; unprotected) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="EWxpxzrA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17BBC10EDC2
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 22:14:17 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-2d47a92cfefso2989831fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 15:14:17 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29DE610F46D
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 22:40:05 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-516ab4b3251so388482e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 15:40:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712873656; x=1713478456; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=khe35T3rndQtWq+CLonCh0dK535CORV1sgkkF2YQ4N0=;
- b=KovFftIrmH3enKJIEMI9tuaeePg7N6ov/ddl4novzfNx4kkd71KvDCLjhXqchr/6jY
- XW4HXMHlL5XyI1oJoxqdJcPn0ihVH7g+O9i6jx5bXmAe4a3k+lXxWm9GZJJT2u1EQqOF
- pdJNaAuA1FI3D03j0AkSpNiVk04DYLduR7K0VlUkxIrTcTXJT7QKbSkJtdrHXGEJx/mY
- 5R+VeiX0AEMrT1ShtrfcR8KRbHM9NVq47fRcFnWuz1QqukwUwAyVZVsFEslHXChUBa2G
- GM1dQzsz/hEPzkyAn80SkGxKCQNu/7ygIsfwHA0fiapF5qNhScEwrQgv3siKdqOyOKTi
- 90mQ==
+ d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1712875203; x=1713480003;
+ darn=lists.freedesktop.org; 
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=S4TnsFcjuXgA9nuQRAvIeS3/zSNBm8/9BgUmS0MLmqs=;
+ b=EWxpxzrAP05nE5WhVpSLWMoLHhgLWaVwOXPs8qpumJh8khPnupLIdB6kFWMMLe7y1b
+ EoHAaIzUILpYmbaLYx2c9L5FVmbcIoZnnD0XKBjFtyU1chCx8lifdN9AR5f5sHqW/hca
+ qeQVDHnOLPFWKjeGXj1iwlDCvTaUvPUNNps3DIX5wERuST/4f3TKeo1u4xsil1Uz0Xhn
+ zUZd99H/a1k5ZCK1gEuHJi1krNlC84Fp3ubEFxZ4dCWOODdV0Kphj8LhBPxcUDfntOPe
+ L6zxrpRHgUHYgSd09Ykn7zWA8tM1Gp5H5BfDWY4kj38MpkFd+YPw0aqFHxl1cTNEhcYl
+ wDaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712873656; x=1713478456;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=khe35T3rndQtWq+CLonCh0dK535CORV1sgkkF2YQ4N0=;
- b=MysYVTiM6Pt2UmEBbWL0X0JJH+WsWfABCZe9zwf5FsxbqhG8O5rYCruld+gkHmStbt
- h7e5Og1CxSGW+beYMdMf0BjB/HjnCbvSAERAzBgb1BCsqxknfTCqGch2/CEw1ezGX3av
- bd+h8WuL9tF/xP0uSdEAm7k0F6XIg1b8O40ftYhaRCQ0p/Mf1RTlpOJRZNZV3nlB7d6u
- sJEQ9D1nEziP4b5pyGd/cgDVNSHrg2p9PkLDsfwZwEoK5BEFuDzJS+nF2RbZ8L4WkenY
- Xw6CZ0cL7tgTKXA8XmuUkmmwVRg+gCTG3AapGAR+wzBDU1p0kt6g5QFjZgKEYpc9UJqn
- oXzw==
+ d=1e100.net; s=20230601; t=1712875203; x=1713480003;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=S4TnsFcjuXgA9nuQRAvIeS3/zSNBm8/9BgUmS0MLmqs=;
+ b=oA/buhkBR7Jxo9PQu1c2X2HX1k7UgoyRaQmLeS0ekUgCFE4D4+aCpBHIZq02HynlV7
+ 3RN7SZc/kQSKWZR3iZ7iJ4gZvzkSBg+/NW7sr7NJVfzSfMrC+vpBLFLYRRzAEb5YYSAU
+ IHe6UHU9Iw94ZFuA6ybYruC/abvdhBb5e0C9T21lmzVPcmuxPQMNt2gd4SYVejyhtbd0
+ 14AKCsF7XvHZNxuLoTm0oEDhif4u6x/F8pYgwAp1+I4+GsX5ekZ+AfYFDOuYyrQtXBOG
+ UCTo8/BEeDIcPeE9JoDJAN8gkhEfjCq3Bd8ZS0g6Zulat40/CqLztBCQldgID7Ypk8uc
+ Jl5w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU4UbbiyKD/ck3IzfEYoD5MGmDpZ0tnmEQ5op0epiynYzoiZM6MDEWc/VlLoyVQZpiqdPFnIKUSLfFF2Hs/UazZ2CtMUFjpSiPrp/juBCh2
-X-Gm-Message-State: AOJu0YxZMIbw/Azg7RrWw7KADv00fTG0cdnxMSssi+CjCfeCDL9P8owO
- b4Cm4xZgW3Wc1zRmfx3cOGr3P5I7csxNcoRr33eFQouKwM/y+iyCLkc5muL6LFc=
-X-Google-Smtp-Source: AGHT+IHx0P+eB1kIYT0Tv83YHPKRC5dpyqK+7bi0JOpLYMlHiy8wC8MbHq/bVI7kd2Fur1HzCSF7Eg==
-X-Received: by 2002:a05:6512:3a90:b0:516:d0c0:3c5 with SMTP id
- q16-20020a0565123a9000b00516d0c003c5mr640206lfu.24.1712873655777; 
- Thu, 11 Apr 2024 15:14:15 -0700 (PDT)
-Received: from [172.30.204.35] (UNUSED.212-182-62-129.lubman.net.pl.
- [212.182.62.129]) by smtp.gmail.com with ESMTPSA id
- q12-20020a05651232ac00b00513c253696csm323775lfe.187.2024.04.11.15.14.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Apr 2024 15:14:15 -0700 (PDT)
-Message-ID: <4c13573e-1398-492a-b2cd-3c5ffee348ff@linaro.org>
-Date: Fri, 12 Apr 2024 00:14:13 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/6] drm/msm/adreno: Implement SMEM-based speed bin
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>
-References: <20240405-topic-smem_speedbin-v1-0-ce2b864251b1@linaro.org>
- <20240405-topic-smem_speedbin-v1-4-ce2b864251b1@linaro.org>
- <scvwfj44z3wpp7phvesfwjuv5awtlkwby2vvrpaq4i5fircrt3@i3ebya4iymf3>
- <730d6b9e-d6b4-41fd-bef3-b1fa6e914a35@linaro.org>
- <33qyr6cfruczllvavvwtbkyuqxmtao4bya4j32zhjx6ni27c6d@rxjehsw54l32>
- <321aa524-ab64-458a-b4c0-70294cc5467d@linaro.org>
- <CAA8EJprvss4RTXQWMQpcE6afpc0Q22zzeGxJBxh4s04E=8rGBA@mail.gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <CAA8EJprvss4RTXQWMQpcE6afpc0Q22zzeGxJBxh4s04E=8rGBA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ AJvYcCUEjHATKYYFBW/BTTkfTWpd72J2h0C8x2gCslrL5Tl+XmVF2iPWAN2lJTHCp86Xn2JXlOSv4AlL+wDYQUvd/UJLWjActDp8KQpk4/3gKtfm
+X-Gm-Message-State: AOJu0YxJn4ymUkVZZ90vQ0jwXT824ymuB8dbH1O8FlCqVgGCrm6DCkGj
+ wQJRl+RFBzpgk6A3TljAe0Z4JjWbIfyqo3g5dperLC4iOjs+0aADmQIfCijGu04=
+X-Google-Smtp-Source: AGHT+IGY8qJhojjfCfabFUjR9vvGK5A/WLCfM1Bk52OhJKElMImmd0eUpMrnmf84M99SmcErfv1epA==
+X-Received: by 2002:ac2:57db:0:b0:513:eeaa:8f1f with SMTP id
+ k27-20020ac257db000000b00513eeaa8f1fmr649500lfo.47.1712875203340; 
+ Thu, 11 Apr 2024 15:40:03 -0700 (PDT)
+Received: from smtpclient.apple ([2001:a61:10c6:ce01:a470:5d20:8e1a:464a])
+ by smtp.gmail.com with ESMTPSA id
+ jx24-20020a170907761800b00a46aba003eesm1144762ejc.215.2024.04.11.15.40.01
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 11 Apr 2024 15:40:02 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.500.171.1.1\))
+Subject: Re: [PATCH] treewide: Fix common grammar mistake "the the"
+From: Thorsten Blum <thorsten.blum@toblux.com>
+In-Reply-To: <0bd7ccc2-4d8c-455b-a6c2-972ebe1fcb08@moroto.mountain>
+Date: Fri, 12 Apr 2024 00:39:51 +0200
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
+ speakup@linux-speakup.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-wireless@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-afs@lists.infradead.org, ecryptfs@vger.kernel.org,
+ netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ linux-unionfs@vger.kernel.org, linux-arch@vger.kernel.org,
+ io-uring@vger.kernel.org, cocci@inria.fr, linux-perf-users@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <193B959E-60A3-499A-BFF3-EA7B2D0B6C12@toblux.com>
+References: <20240411150437.496153-4-thorsten.blum@toblux.com>
+ <0bd7ccc2-4d8c-455b-a6c2-972ebe1fcb08@moroto.mountain>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+X-Mailer: Apple Mail (2.3774.500.171.1.1)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,100 +95,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 11. Apr 2024, at 17:25, Dan Carpenter <dan.carpenter@linaro.org> =
+wrote:
+>=20
+> It's tricky to know which tree a patch like this would go through.
 
+The patch is based on the mainline tree. Should I have sent it directly =
+to
+Linus then?
 
-On 4/11/24 23:46, Dmitry Baryshkov wrote:
-> On Fri, 12 Apr 2024 at 00:35, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
->>
->>
->>
->> On 4/10/24 21:26, Dmitry Baryshkov wrote:
->>> On Wed, Apr 10, 2024 at 01:42:33PM +0200, Konrad Dybcio wrote:
->>>>
->>>>
->>>> On 4/6/24 05:23, Dmitry Baryshkov wrote:
->>>>> On Fri, Apr 05, 2024 at 10:41:32AM +0200, Konrad Dybcio wrote:
->>>>>> On recent (SM8550+) Snapdragon platforms, the GPU speed bin data is
->>>>>> abstracted through SMEM, instead of being directly available in a fuse.
->>>>>>
->>>>>> Add support for SMEM-based speed binning, which includes getting
->>>>>> "feature code" and "product code" from said source and parsing them
->>>>>> to form something that lets us match OPPs against.
->>>>>>
->>>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->>>>>> ---
->>>>
->>>> [...]
->>>>
->>>>>
->>>>>> +  }
->>>>>> +
->>>>>> +  ret = qcom_smem_get_product_code(&pcode);
->>>>>> +  if (ret) {
->>>>>> +          dev_err(dev, "Couldn't get product code from SMEM!\n");
->>>>>> +          return ret;
->>>>>> +  }
->>>>>> +
->>>>>> +  /* Don't consider fcode for external feature codes */
->>>>>> +  if (fcode <= SOCINFO_FC_EXT_RESERVE)
->>>>>> +          fcode = SOCINFO_FC_UNKNOWN;
->>>>>> +
->>>>>> +  *speedbin = FIELD_PREP(ADRENO_SKU_ID_PCODE, pcode) |
->>>>>> +              FIELD_PREP(ADRENO_SKU_ID_FCODE, fcode);
->>>>>
->>>>> What about just asking the qcom_smem for the 'gpu_bin' and hiding gory
->>>>> details there? It almost feels that handling raw PCODE / FCODE here is
->>>>> too low-level and a subject to change depending on the socinfo format.
->>>>
->>>> No, the FCODE & PCODE can be interpreted differently across consumers.
->>>
->>> That's why I wrote about asking for 'gpu_bin'.
->>
->> I'd rather keep the magic GPU LUTs inside the adreno driver, especially
->> since not all Snapdragons feature Adreno, but all Adrenos are on
->> Snapdragons (modulo a2xx but I refuse to make design decisions treating
->> these equally to e.g. a6xx)
-> 
-> LUTs - yes. I wanted to push (FC << a) | (PC << b) and all the RESERVE
-> / UNKNOWN magic there.
+I'm relatively new here and therefore only sent it to the corresponding =
+mailing
+lists.
 
-Ohh this specifically.. yeah I considered pushing that there as well,
-but I realized this is specific to the GPU. The socinfo APIs should
-only return a valid/unknown code for both P and F and let the consumer
-figure out how to interpret these.
-
-> 
->>
->>>
->>>>
->>>>>
->>>>>> +
->>>>>> +  return ret;
->>>>>>     }
->>>>>>     int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->>>>>> @@ -1098,9 +1129,9 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->>>>>>                             devm_pm_opp_set_clkname(dev, "core");
->>>>>>             }
->>>>>> -  if (adreno_read_speedbin(dev, &speedbin) || !speedbin)
->>>>>> +  if (adreno_read_speedbin(adreno_gpu, dev, &speedbin) || !speedbin)
->>>>>>                     speedbin = 0xffff;
->>>>>> -  adreno_gpu->speedbin = (uint16_t) (0xffff & speedbin);
->>>>>
->>>>> the &= 0xffff should probably go to the adreno_read_speedbin / nvmem
->>>>> case. WDYT?
->>>>
->>>> Ok, I can keep it, though realistically if this ever does anything
->>>> useful, it likely means the dt is wrong
->>>
->>> Yes, but if DT is wrong, we should probably fail in a sensible way. I
->>> just wanted to point out that previously we had this &0xffff, while your
->>> patch silently removes it.
->>
->> Right, but I don't believe it actually matters.. If that AND ever did
->> anything, this was a silent failure with garbage data passed in anyway.
->>
->> If you really insist, I can remove it separately.
-> 
-> I'd say, up to Rob or up to your consideration.
-
-Konrad
+Thanks,
+Thorsten=
