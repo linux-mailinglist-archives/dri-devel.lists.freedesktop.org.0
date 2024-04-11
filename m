@@ -2,47 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1F688A088D
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 08:36:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2499E8A0896
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 08:37:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE6BD10EE8D;
-	Thu, 11 Apr 2024 06:36:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F06E710E814;
+	Thu, 11 Apr 2024 06:37:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JsBKjj0q";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="giMzWZzS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50F4F10EE8B
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 06:36:37 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A171410E814
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 06:37:38 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 59734CE2F1D;
- Thu, 11 Apr 2024 06:36:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41B5BC433F1;
- Thu, 11 Apr 2024 06:36:30 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A7B6B61F4D;
+ Thu, 11 Apr 2024 06:37:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72E4FC433C7;
+ Thu, 11 Apr 2024 06:37:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1712817393;
- bh=ew0H6GlgaUDutwj6hSLFs9v0asALBYkXv79WkK1Q9zY=;
+ s=k20201202; t=1712817457;
+ bh=J4MtSGZ9A4PqQEESdLkR2qbhqClsDX2SFx9QZn6D+7I=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=JsBKjj0qgHqZq8JpJHO7MSA/nQLEP4wt4/y44lfrjuH+zWwv9eiEW+H6P7xpOeoJ1
- O+y2BsJmTESKt5pTj1AtmgAoQz9nPs1Le+tN7yuCPRQb8VWMUJkSto7q4atRzMJH54
- K0czZDoePD2u7hZctPG7SbIcakN9w0Xq5LjbdNro4hi4AvdrvN9TMM5GFUvJUaxjYM
- O0hBNVygJG4S8RqEzQghFRWV+amc2fcrbF4qSCMykVqC96O+gLzbumxwNQ1M892beM
- lp8AWOWQ6sj3AbRXgZdsc8eRyxLyGY02R6ti+rvWREwfOYTatWXkCnrg27jw7zTMEx
- g+LBIHbLIq48Q==
-Message-ID: <faa1acc3-ae36-4a4b-a8e2-c57e04a45330@kernel.org>
-Date: Thu, 11 Apr 2024 08:36:27 +0200
+ b=giMzWZzSLoxGEKdsth1yCG/ZAGUd5Y9z5/gB/8OF4eLMgcKr2104+egAAjZ+oVS/8
+ Te+r1gtIdNAV/+1cq6vyEjOO9UlA35NUSrrkuVgfZXhJOldeuv948toll/XgpFXuSX
+ VyKf1OBhjYTSqw3U4et+K7DZBX4X9LhXNj9itOGhYnwxOBmNjAXsf3Hffd8W0wirxO
+ qpGPAQ3wVHjOgYWxepx2BM8nsVzcO/4vm3N0jwwMD9xL54Grattg4+qs63VTKx7tMG
+ q4t23QVdz3+ZPCLm8+hFm9Qw/Ur/UeVwMsteZUQDd99qo47D+sBGGEq8LcZAzZO248
+ yUeJkmfcLPtWg==
+Message-ID: <64f6262e-2bef-4603-bd9d-b87926ae88e4@kernel.org>
+Date: Thu, 11 Apr 2024 08:37:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] MAINTAINERS: adjust DRM DRIVERS FOR EXYNOS after
- dt-binding conversion
-To: Lukas Bulwahn <lbulwahn@redhat.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- Lukas Bulwahn <lukas.bulwahn@redhat.com>
-References: <20240411063000.48794-1-lukas.bulwahn@redhat.com>
+Subject: Re: [PATCH v1 1/1] drm/mediatek/dp: The register is written with the
+ parsed DTS SSC value.
+To: =?UTF-8?B?TElBTktVTiBZQU5HICjmnajov57lnaQp?= <Liankun.Yang@mediatek.com>, 
+ "kishon@kernel.org" <kishon@kernel.org>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ =?UTF-8?B?TWFjIFNoZW4gKOayiOS/iik=?= <Mac.Shen@mediatek.com>,
+ =?UTF-8?B?Q2h1bmZlbmcgWXVuICjkupHmmKXls7Ap?= <Chunfeng.Yun@mediatek.com>,
+ =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?= <jitao.shi@mediatek.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "vkoul@kernel.org" <vkoul@kernel.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20240403040517.3279-1-liankun.yang@mediatek.com>
+ <c0986506-ba8b-4c52-88f8-119c23b8778c@kernel.org>
+ <86dd866a-8ead-4fd1-993a-672d4947ba84@kernel.org>
+ <bc785b80e109fc04c5973ee4efad115e0c3907c4.camel@mediatek.com>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -88,9 +102,9 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240411063000.48794-1-lukas.bulwahn@redhat.com>
+In-Reply-To: <bc785b80e109fc04c5973ee4efad115e0c3907c4.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,19 +120,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/04/2024 08:30, Lukas Bulwahn wrote:
-> Commit ad6d17e10306 ("dt-bindings: display: samsung,exynos5-dp: convert to
-> DT Schema") converts the last exynos display devicetree binding to json.
-> With that, all exynos display devicetree bindings are now located in
-> Documentation/devicetree/bindings/display/samsung/ and the directory with
-> the previous txt devicetree bindings, i.e.,
-> Documentation/devicetree/bindings/display/exynos/, has disappeared.
+On 11/04/2024 08:30, LIANKUN YANG (杨连坤) wrote:
+> On Wed, 2024-04-03 at 16:56 +0200, Krzysztof Kozlowski wrote:
+>>  	 
+>> External email : Please do not click links or open attachments until
+>> you have verified the sender or the content.
+>>  On 03/04/2024 08:41, Krzysztof Kozlowski wrote:
+>>> On 03/04/2024 06:05, Liankun Yang wrote:
+>>>> [Description]
+>>>> Severe screen flickering has been observed on the external display
+>>>> when the DP projection function is used with the market expansion
+>> dock.
+>>>>
+>>>
+>>>> +if (!strcmp(mode_name, RG_XTP_GLB_TXPLL_SSC_DELTA_RBR)) {
+>>>> +regmap_update_bits(dp_phy->regs, ssc_reg_offset,
+>>>> +   XTP_GLB_TXPLL_SSC_DELTA_RBR_DEFAULT, read_value);
+>>>> +} else if (!strcmp(mode_name, RG_XTP_GLB_TXPLL_SSC_DELTA_HBR)) {
+>>>> +read_value = read_value << 16 | 0x0000;
+>>>> +regmap_update_bits(dp_phy->regs, ssc_reg_offset,
+>>>> +   XTP_GLB_TXPLL_SSC_DELTA_HBR_DEFAULT, read_value);
+>>>> +}
+>>>> +
+>>>> +return 0;
+>>>> +}
+>>>> +
+>>>> +static struct device_node *mtk_dp_get_ssc_node(struct phy *phy,
+>> struct mtk_dp_phy *dp_phy)
+>>>> +{
+>>>> +struct device_node *mode_node = NULL;
+>>>> +
+>>>> +mode_node = of_find_node_by_name(dp_phy->dev->of_node,
+>> SSC_SETTING);
+>>>
+>>> ?!?!
+>>> You have the node, why do you try to find it?
+>>>
+>>
+>> Wait, that was brainfuck from my side or -ENOCOFFEE. Ignore.
+>>
+>> I still have a question though, where did you document new ABI:
+>> dependency on the node name here?
+>>
+>> Also, why you are not going through direct children -
+>> of_get_child_by_name()?
+>>
+>> Best regards,
+>> Krzysztof
+>>
+>>
 > 
-> Adjust the DRM DRIVERS FOR EXYNOS section to this change.
+> Sorry, there is formatting issue in the previous email.
+> 
+> The dp_phy device has already been registered through the
+> mtk_dp_register_phy function in the mtk_dp.c file, 
+> so it cannot be redefined in the dts. Avoid using of_get_child_by_name
+> for this purpose.
+> 
+> To find the node name, utilize of_find_node_by_name since it has
+> already been registered.
 
-This should go via Rob's tree.
-
-Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+This does not answer my question at all. You speak about driver, I speak
+about ABI and bindings.
 
 Best regards,
 Krzysztof
