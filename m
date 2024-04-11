@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F38E8A1017
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 12:31:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F37CF8A1019
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 12:31:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0703410EFDD;
-	Thu, 11 Apr 2024 10:31:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD3D710EFDF;
+	Thu, 11 Apr 2024 10:31:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="aYml3aJN";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vEWFyrak";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A84E710EFDC
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 10:30:57 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D928010EFDF
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 10:31:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C177362041;
- Thu, 11 Apr 2024 10:30:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13D5FC43390;
- Thu, 11 Apr 2024 10:30:55 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 08CB3CE1EF0;
+ Thu, 11 Apr 2024 10:31:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0ECCC433C7;
+ Thu, 11 Apr 2024 10:31:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1712831456;
- bh=AznrDmZsB01ocltvXnm1LMBuraj9Gty6MlWKyV2qe8g=;
+ s=korg; t=1712831462;
+ bh=IFWxknzMHgFZiZ/9MioDxP3I2ZZRYm2fPlbvvX0JSLs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aYml3aJNEbxonNDgTK0TDYwQMlM/xhJvY94R2FQ2wk+XJQUsl9G6y77zmqzPaQhpp
- c6GmlzXDx8fkZ8UK2zxXTlmMFfDJrbr+xx1TfUl701I3Blc51DQ62jyuFtgsuK5xBk
- PnnuJBQyI9/Wz/3JFqQppancrkVBfm9VlY7j2jnI=
+ b=vEWFyrakcqDFXdSzNtU2WG0m8KNbGvc6mtHFlHjxIVCXmztd58wst1WgHDN1eof5H
+ JxdlizIibUs9sWK5P4m/wzfeLXCfqzw5TdHfD8kRMp6JGqHVzVwdmWZREhA5t4WXGQ
+ HQJSjsfPY17p75M8YYBUh1TUpfGy+iQk3yeYzkBA=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Roland Scheidegger <sroland@vmware.com>, Zack Rusin <zackr@vmware.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>,
- Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.10 015/294] drm/vmwgfx/vmwgfx_cmdbuf_res: Remove unused
- variable ret
-Date: Thu, 11 Apr 2024 11:52:58 +0200
-Message-ID: <20240411095436.093960798@linuxfoundation.org>
+ Niels De Graef <ndegraef@redhat.com>, Zack Rusin <zack.rusin@broadcom.com>,
+ Martin Krastev <martin.krastev@broadcom.com>,
+ Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
+ Ian Forbes <ian.forbes@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ dri-devel@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 5.10 017/294] drm/vmwgfx: Fix possible null pointer derefence
+ with invalid contexts
+Date: Thu, 11 Apr 2024 11:53:00 +0200
+Message-ID: <20240411095436.152044413@linuxfoundation.org>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240411095435.633465671@linuxfoundation.org>
 References: <20240411095435.633465671@linuxfoundation.org>
@@ -46,7 +47,6 @@ User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,52 +67,101 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 ------------------
 
-From: Lee Jones <lee.jones@linaro.org>
+From: Zack Rusin <zack.rusin@broadcom.com>
 
-[ Upstream commit 43ebfe61c3928573a5ef8d80c2f5300aa5c904c0 ]
+[ Upstream commit 517621b7060096e48e42f545fa6646fc00252eac ]
 
-Fixes the following W=1 kernel build warning(s):
+vmw_context_cotable can return either an error or a null pointer and its
+usage sometimes went unchecked. Subsequent code would then try to access
+either a null pointer or an error value.
 
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c: In function ‘vmw_cmdbuf_res_revert’:
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c:162:6: warning: variable ‘ret’ set but not used [-Wunused-but-set-variable]
+The invalid dereferences were only possible with malformed userspace
+apps which never properly initialized the rendering contexts.
 
-Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
-Cc: Roland Scheidegger <sroland@vmware.com>
-Cc: Zack Rusin <zackr@vmware.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
+Check the results of vmw_context_cotable to fix the invalid derefs.
+
+Thanks:
+ziming zhang(@ezrak1e) from Ant Group Light-Year Security Lab
+who was the first person to discover it.
+Niels De Graef who reported it and helped to track down the poc.
+
+Fixes: 9c079b8ce8bf ("drm/vmwgfx: Adapt execbuf to the new validation api")
+Cc: <stable@vger.kernel.org> # v4.20+
+Reported-by: Niels De Graef  <ndegraef@redhat.com>
+Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+Cc: Martin Krastev <martin.krastev@broadcom.com>
+Cc: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+Cc: Ian Forbes <ian.forbes@broadcom.com>
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
-Signed-off-by: Zack Rusin <zackr@vmware.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210115181313.3431493-40-lee.jones@linaro.org
-Stable-dep-of: 517621b70600 ("drm/vmwgfx: Fix possible null pointer derefence with invalid contexts")
+Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240110200305.94086-1-zack.rusin@broadcom.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
-index 44d858ce4ce7f..47b92d0c898a7 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
-@@ -160,7 +160,6 @@ void vmw_cmdbuf_res_commit(struct list_head *list)
- void vmw_cmdbuf_res_revert(struct list_head *list)
- {
- 	struct vmw_cmdbuf_res *entry, *next;
--	int ret;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+index 831291b5d1a03..616f6cb622783 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+@@ -467,7 +467,7 @@ static int vmw_resource_context_res_add(struct vmw_private *dev_priv,
+ 	    vmw_res_type(ctx) == vmw_res_dx_context) {
+ 		for (i = 0; i < cotable_max; ++i) {
+ 			res = vmw_context_cotable(ctx, i);
+-			if (IS_ERR(res))
++			if (IS_ERR_OR_NULL(res))
+ 				continue;
  
- 	list_for_each_entry_safe(entry, next, list, head) {
- 		switch (entry->state) {
-@@ -168,8 +167,7 @@ void vmw_cmdbuf_res_revert(struct list_head *list)
- 			vmw_cmdbuf_res_free(entry->man, entry);
- 			break;
- 		case VMW_CMDBUF_RES_DEL:
--			ret = drm_ht_insert_item(&entry->man->resources,
--						 &entry->hash);
-+			drm_ht_insert_item(&entry->man->resources, &entry->hash);
- 			list_del(&entry->head);
- 			list_add_tail(&entry->head, &entry->man->list);
- 			entry->state = VMW_CMDBUF_RES_COMMITTED;
+ 			ret = vmw_execbuf_res_noctx_val_add(sw_context, res,
+@@ -1272,6 +1272,8 @@ static int vmw_cmd_dx_define_query(struct vmw_private *dev_priv,
+ 		return -EINVAL;
+ 
+ 	cotable_res = vmw_context_cotable(ctx_node->ctx, SVGA_COTABLE_DXQUERY);
++	if (IS_ERR_OR_NULL(cotable_res))
++		return cotable_res ? PTR_ERR(cotable_res) : -EINVAL;
+ 	ret = vmw_cotable_notify(cotable_res, cmd->body.queryId);
+ 
+ 	return ret;
+@@ -2450,6 +2452,8 @@ static int vmw_cmd_dx_view_define(struct vmw_private *dev_priv,
+ 		return ret;
+ 
+ 	res = vmw_context_cotable(ctx_node->ctx, vmw_view_cotables[view_type]);
++	if (IS_ERR_OR_NULL(res))
++		return res ? PTR_ERR(res) : -EINVAL;
+ 	ret = vmw_cotable_notify(res, cmd->defined_id);
+ 	if (unlikely(ret != 0))
+ 		return ret;
+@@ -2535,8 +2539,8 @@ static int vmw_cmd_dx_so_define(struct vmw_private *dev_priv,
+ 
+ 	so_type = vmw_so_cmd_to_type(header->id);
+ 	res = vmw_context_cotable(ctx_node->ctx, vmw_so_cotables[so_type]);
+-	if (IS_ERR(res))
+-		return PTR_ERR(res);
++	if (IS_ERR_OR_NULL(res))
++		return res ? PTR_ERR(res) : -EINVAL;
+ 	cmd = container_of(header, typeof(*cmd), header);
+ 	ret = vmw_cotable_notify(res, cmd->defined_id);
+ 
+@@ -2655,6 +2659,8 @@ static int vmw_cmd_dx_define_shader(struct vmw_private *dev_priv,
+ 		return -EINVAL;
+ 
+ 	res = vmw_context_cotable(ctx_node->ctx, SVGA_COTABLE_DXSHADER);
++	if (IS_ERR_OR_NULL(res))
++		return res ? PTR_ERR(res) : -EINVAL;
+ 	ret = vmw_cotable_notify(res, cmd->body.shaderId);
+ 	if (ret)
+ 		return ret;
+@@ -2976,6 +2982,8 @@ static int vmw_cmd_dx_define_streamoutput(struct vmw_private *dev_priv,
+ 	}
+ 
+ 	res = vmw_context_cotable(ctx_node->ctx, SVGA_COTABLE_STREAMOUTPUT);
++	if (IS_ERR_OR_NULL(res))
++		return res ? PTR_ERR(res) : -EINVAL;
+ 	ret = vmw_cotable_notify(res, cmd->body.soid);
+ 	if (ret)
+ 		return ret;
 -- 
 2.43.0
 
