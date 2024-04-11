@@ -2,75 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F9588A1653
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 15:53:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C42E8A1665
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 16:00:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C79710F0E1;
-	Thu, 11 Apr 2024 13:53:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E44CB10F0F2;
+	Thu, 11 Apr 2024 14:00:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=t-argos.ru header.i=@t-argos.ru header.b="RH9wow2e";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IuYQoFWL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.t-argos.ru (mx1.t-argos.ru [109.73.34.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C259A10F0F1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 13:53:15 +0000 (UTC)
-Received: from mx1.t-argos.ru (localhost [127.0.0.1])
- by mx1.t-argos.ru (Postfix) with ESMTP id 70A86100002;
- Thu, 11 Apr 2024 16:52:57 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=t-argos.ru; s=mail;
- t=1712843577; bh=8ESu4iuRBZIjTPHb0tQ+Ky1GNtW29FKY4e36GtVbDEM=;
- h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
- b=RH9wow2eJPVjMzX5BezRpelreYsbrFyF5hJMq5Nv0yH0DGscHLNWKslrQrIcJEcuD
- 0T/D8OCNojfRft9xaCtXEWmlKDYA86srZeX+0T392JBBlkme7dNrUCtyEwF+zEmIKw
- RAdLTm8ad45hQ3QBg9sw2vHpZujDEHXh6f8x98CLwgxyYhoMAvcF2Xceg/ZJmBcqZv
- yIXQTFmM+norJZjkGjpYtM+SonQpF7Zxb2Mu3hCYyeQAJTaX+e+tSGP0YjjgVTkxG2
- 6SwIhxSvz2zeX1NyeaRMWW4EKbIqvRbTKJ5r50H/iEVQLDFKxcWdbm1zd7AxfSxLkW
- 1lNPWbQqYMizA==
-Received: from mx1.t-argos.ru.ru (mail.t-argos.ru [172.17.13.212])
- by mx1.t-argos.ru (Postfix) with ESMTP;
- Thu, 11 Apr 2024 16:52:40 +0300 (MSK)
-Received: from [172.17.214.6] (172.17.214.6) by ta-mail-02 (172.17.13.212)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 11 Apr
- 2024 16:52:33 +0300
-Message-ID: <d6b7a51e-216e-4059-9f28-74fc47078ecf@t-argos.ru>
-Date: Thu, 11 Apr 2024 16:49:57 +0300
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F51C10F0F2
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 14:00:26 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 9DF77CE2E07;
+ Thu, 11 Apr 2024 14:00:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4C7FC113CD;
+ Thu, 11 Apr 2024 14:00:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1712844022;
+ bh=tRqmwlzhcYdgVr2YujS1WgTqkzUd0nEXs80I0voRZ+c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=IuYQoFWLDW0TewoWOc1egpvTc7oRKlFdRDOxTdOO6mj8F+jf/LWNPnH6utlZMgCRp
+ Wlm7VdDje7q00dBLqJawgrlJWje3n8r7h5914tgSM1R4vzFi/aElZWtaxhbFhhmRgC
+ e58DoLz7Np5deIUBaY59yKM3JF4OYy/zVNTZAdncc0IZG9wlVf/Lp3ONzbho3qDhxA
+ 7PiLNDS4jimFjHuyBxgGXNcQIY7QPBXIJgMAFhYS1GK6mqT4LKEvKcSN1Nce0pzVqp
+ IrVB4USDmK+/pPizmKeVnvc18vBGueLeCeNv0UC1glnbvyiNGiLZG0DyscUb1jvVjk
+ uYc17bsqWwNLA==
+Date: Thu, 11 Apr 2024 16:00:16 +0200
+From: Helge Deller <deller@kernel.org>
+To: Niklas Schnelle <schnelle@linux.ibm.com>
+Cc: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Arnd Bergmann <arnd@kernel.org>,
+ Heiko Carstens <hca@linux.ibm.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] video: Handle HAS_IOPORT dependencies
+Message-ID: <Zhfs8CN5XdgldKUn@carbonx1>
+References: <20240410142329.3567824-1-schnelle@linux.ibm.com>
+ <20240410142329.3567824-2-schnelle@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [bug report] drm: bridge: cdns-mhdp8546: Fix possible null
- pointer dereference
-To: Dan Carpenter <dan.carpenter@linaro.org>
-CC: <dri-devel@lists.freedesktop.org>
-References: <a6e7e2f3-c173-4c33-ba0b-b068140131a9@moroto.mountain>
-Content-Language: ru
-From: Aleksandr Mishin <amishin@t-argos.ru>
-In-Reply-To: <a6e7e2f3-c173-4c33-ba0b-b068140131a9@moroto.mountain>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.17.214.6]
-X-ClientProxiedBy: ta-mail-02.ta.t-argos.ru (172.17.13.212) To ta-mail-02
- (172.17.13.212)
-X-KSMG-Rule-ID: 1
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 184674 [Apr 11 2024]
-X-KSMG-AntiSpam-Version: 6.1.0.4
-X-KSMG-AntiSpam-Envelope-From: amishin@t-argos.ru
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 16 0.3.16
- 6e64c33514fcbd07e515710c86ba61de7f56194e,
- {Tracking_from_domain_doesnt_match_to},
- d41d8cd98f00b204e9800998ecf8427e.com:7.1.1; t-argos.ru:7.1.1;
- mx1.t-argos.ru.ru:7.1.1; 127.0.0.199:7.1.2, FromAlignment: s
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean, bases: 2024/04/11 07:47:00
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30,
- bases: 2024/04/11 10:13:00 #24743273
-X-KSMG-AntiVirus-Status: Clean, skipped
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240410142329.3567824-2-schnelle@linux.ibm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,123 +59,194 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+* Niklas Schnelle <schnelle@linux.ibm.com>:
+> In a future patch HAS_IOPORT=n will disable inb()/outb() and friends at
+> compile time. We thus need to #ifdef functions and their callsites which
+> unconditionally use these I/O accessors. In the include/video/vga.h
+> these are conveniently all those functions with the vga_io_* prefix.
+
+Why don't you code it like in the patch below?
+inb_p(), outb_p() and outw() would then need to be defined externally
+without an implementation so that they would generate link time errors
+(instead of compile time errors).
+
+diff --git a/include/video/vga.h b/include/video/vga.h
+index 947c0abd04ef..32c915e109fa 100644
+--- a/include/video/vga.h
++++ b/include/video/vga.h
+@@ -203,18 +203,20 @@ extern int restore_vga(struct vgastate *state);
+ 
+ static inline unsigned char vga_io_r (unsigned short port)
+ {
+-	return inb_p(port);
++	return IS_ENABLED(CONFIG_HAS_IOPORT) ? inb_p(port) : 0;
+ }
+ 
+ static inline void vga_io_w (unsigned short port, unsigned char val)
+ {
+-	outb_p(val, port);
++	if (IS_ENABLED(CONFIG_HAS_IOPORT))
++		outb_p(val, port);
+ }
+ 
+ static inline void vga_io_w_fast (unsigned short port, unsigned char reg,
+ 				  unsigned char val)
+ {
+-	outw(VGA_OUT16VAL (val, reg), port);
++	if (IS_ENABLED(CONFIG_HAS_IOPORT))
++		outw(VGA_OUT16VAL (val, reg), port);
+ }
+ 
+ static inline unsigned char vga_mm_r (void __iomem *regbase, unsigned short port)
 
 
-On 11.04.2024 16:39, Dan Carpenter wrote:
-> Hello Aleksandr Mishin,
-> 
-> Commit 935a92a1c400 ("drm: bridge: cdns-mhdp8546: Fix possible null
-> pointer dereference") from Apr 8, 2024 (linux-next), leads to the
-> following Smatch static checker warning:
-> 
-> 	drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:2074 cdns_mhdp_atomic_enable()
-> 	warn: inconsistent returns '&mhdp->link_mutex'.
-> 
-> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->      1986 static void cdns_mhdp_atomic_enable(struct drm_bridge *bridge,
->      1987                                     struct drm_bridge_state *bridge_state)
->      1988 {
->      1989         struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
->      1990         struct drm_atomic_state *state = bridge_state->base.state;
->      1991         struct cdns_mhdp_bridge_state *mhdp_state;
->      1992         struct drm_crtc_state *crtc_state;
->      1993         struct drm_connector *connector;
->      1994         struct drm_connector_state *conn_state;
->      1995         struct drm_bridge_state *new_state;
->      1996         const struct drm_display_mode *mode;
->      1997         u32 resp;
->      1998         int ret;
->      1999
->      2000         dev_dbg(mhdp->dev, "bridge enable\n");
->      2001
->      2002         mutex_lock(&mhdp->link_mutex);
->                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> Holding a lock
-> 
->      2003
->      2004         if (mhdp->plugged && !mhdp->link_up) {
->      2005                 ret = cdns_mhdp_link_up(mhdp);
->      2006                 if (ret < 0)
->      2007                         goto out;
->      2008         }
->      2009
->      2010         if (mhdp->info && mhdp->info->ops && mhdp->info->ops->enable)
->      2011                 mhdp->info->ops->enable(mhdp);
->      2012
->      2013         /* Enable VIF clock for stream 0 */
->      2014         ret = cdns_mhdp_reg_read(mhdp, CDNS_DPTX_CAR, &resp);
->      2015         if (ret < 0) {
->      2016                 dev_err(mhdp->dev, "Failed to read CDNS_DPTX_CAR %d\n", ret);
->      2017                 goto out;
->      2018         }
->      2019
->      2020         cdns_mhdp_reg_write(mhdp, CDNS_DPTX_CAR,
->      2021                             resp | CDNS_VIF_CLK_EN | CDNS_VIF_CLK_RSTN);
->      2022
->      2023         connector = drm_atomic_get_new_connector_for_encoder(state,
->      2024                                                              bridge->encoder);
->      2025         if (WARN_ON(!connector))
->      2026                 goto out;
->      2027
->      2028         conn_state = drm_atomic_get_new_connector_state(state, connector);
->      2029         if (WARN_ON(!conn_state))
->      2030                 goto out;
->      2031
->      2032         if (mhdp->hdcp_supported &&
->      2033             mhdp->hw_state == MHDP_HW_READY &&
->      2034             conn_state->content_protection ==
->      2035             DRM_MODE_CONTENT_PROTECTION_DESIRED) {
->      2036                 mutex_unlock(&mhdp->link_mutex);
->      2037                 cdns_mhdp_hdcp_enable(mhdp, conn_state->hdcp_content_type);
->      2038                 mutex_lock(&mhdp->link_mutex);
->      2039         }
->      2040
->      2041         crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
->      2042         if (WARN_ON(!crtc_state))
->      2043                 goto out;
->      2044
->      2045         mode = &crtc_state->adjusted_mode;
->      2046
->      2047         new_state = drm_atomic_get_new_bridge_state(state, bridge);
->      2048         if (WARN_ON(!new_state))
->      2049                 goto out;
->      2050
->      2051         if (!cdns_mhdp_bandwidth_ok(mhdp, mode, mhdp->link.num_lanes,
->      2052                                     mhdp->link.rate)) {
->      2053                 ret = -EINVAL;
->      2054                 goto out;
->      2055         }
->      2056
->      2057         cdns_mhdp_sst_enable(mhdp, mode);
->      2058
->      2059         mhdp_state = to_cdns_mhdp_bridge_state(new_state);
->      2060
->      2061         mhdp_state->current_mode = drm_mode_duplicate(bridge->dev, mode);
->      2062         if (!mhdp_state->current_mode)
->      2063                 return;
->                           ^^^^^^^
-> Needs to unlock before returning.
-
-Yes. Sorry. It's my mistake.
-I'll replace 'return' with 'ret=-EINVAL; goto out;' and offer v2 patch.
 
 > 
->      2064
->      2065         drm_mode_set_name(mhdp_state->current_mode);
->      2066
->      2067         dev_dbg(mhdp->dev, "%s: Enabling mode %s\n", __func__, mode->name);
->      2068
->      2069         mhdp->bridge_enabled = true;
->      2070
->      2071 out:
->      2072         mutex_unlock(&mhdp->link_mutex);
->      2073         if (ret < 0)
-> --> 2074                 schedule_work(&mhdp->modeset_retry_work);
->      2075 }
+> Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+> Signed-off-by: Arnd Bergmann <arnd@kernel.org>
+> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> ---
+> Note: This patch does not depend any not-yet-mainline HAS_IOPORT changes
+> and may be merged via subsystem specific trees at your earliest
+> convenience.
 > 
-> regards,
-> dan carpenter
-
--- 
-Kind regards
-Aleksandr
+>  include/video/vga.h | 35 +++++++++++++++++++++++++----------
+>  1 file changed, 25 insertions(+), 10 deletions(-)
+> 
+> diff --git a/include/video/vga.h b/include/video/vga.h
+> index 947c0abd04ef..ed89295941c4 100644
+> --- a/include/video/vga.h
+> +++ b/include/video/vga.h
+> @@ -201,6 +201,7 @@ extern int restore_vga(struct vgastate *state);
+>   * generic VGA port read/write
+>   */
+>  
+> +#ifdef CONFIG_HAS_IOPORT
+>  static inline unsigned char vga_io_r (unsigned short port)
+>  {
+>  	return inb_p(port);
+> @@ -210,12 +211,12 @@ static inline void vga_io_w (unsigned short port, unsigned char val)
+>  {
+>  	outb_p(val, port);
+>  }
+> -
+>  static inline void vga_io_w_fast (unsigned short port, unsigned char reg,
+>  				  unsigned char val)
+>  {
+>  	outw(VGA_OUT16VAL (val, reg), port);
+>  }
+> +#endif /* CONFIG_HAS_IOPORT */
+>  
+>  static inline unsigned char vga_mm_r (void __iomem *regbase, unsigned short port)
+>  {
+> @@ -235,28 +236,34 @@ static inline void vga_mm_w_fast (void __iomem *regbase, unsigned short port,
+>  
+>  static inline unsigned char vga_r (void __iomem *regbase, unsigned short port)
+>  {
+> -	if (regbase)
+> -		return vga_mm_r (regbase, port);
+> -	else
+> +#ifdef CONFIG_HAS_IOPORT
+> +	if (!regbase)
+>  		return vga_io_r (port);
+> +	else
+> +#endif /* CONFIG_HAS_IOPORT */
+> +		return vga_mm_r (regbase, port);
+>  }
+>  
+>  static inline void vga_w (void __iomem *regbase, unsigned short port, unsigned char val)
+>  {
+> -	if (regbase)
+> -		vga_mm_w (regbase, port, val);
+> -	else
+> +#ifdef CONFIG_HAS_IOPORT
+> +	if (!regbase)
+>  		vga_io_w (port, val);
+> +	else
+> +#endif /* CONFIG_HAS_IOPORT */
+> +		vga_mm_w (regbase, port, val);
+>  }
+>  
+>  
+>  static inline void vga_w_fast (void __iomem *regbase, unsigned short port,
+>  			       unsigned char reg, unsigned char val)
+>  {
+> -	if (regbase)
+> -		vga_mm_w_fast (regbase, port, reg, val);
+> -	else
+> +#ifdef CONFIG_HAS_IOPORT
+> +	if (!regbase)
+>  		vga_io_w_fast (port, reg, val);
+> +	else
+> +#endif /* CONFIG_HAS_IOPORT */
+> +		vga_mm_w_fast (regbase, port, reg, val);
+>  }
+>  
+>  
+> @@ -280,6 +287,7 @@ static inline void vga_wcrt (void __iomem *regbase, unsigned char reg, unsigned
+>  #endif /* VGA_OUTW_WRITE */
+>  }
+>  
+> +#ifdef CONFIG_HAS_IOPORT
+>  static inline unsigned char vga_io_rcrt (unsigned char reg)
+>  {
+>          vga_io_w (VGA_CRT_IC, reg);
+> @@ -295,6 +303,7 @@ static inline void vga_io_wcrt (unsigned char reg, unsigned char val)
+>          vga_io_w (VGA_CRT_DC, val);
+>  #endif /* VGA_OUTW_WRITE */
+>  }
+> +#endif /* CONFIG_HAS_IOPORT */
+>  
+>  static inline unsigned char vga_mm_rcrt (void __iomem *regbase, unsigned char reg)
+>  {
+> @@ -333,6 +342,7 @@ static inline void vga_wseq (void __iomem *regbase, unsigned char reg, unsigned
+>  #endif /* VGA_OUTW_WRITE */
+>  }
+>  
+> +#ifdef CONFIG_HAS_IOPORT
+>  static inline unsigned char vga_io_rseq (unsigned char reg)
+>  {
+>          vga_io_w (VGA_SEQ_I, reg);
+> @@ -348,6 +358,7 @@ static inline void vga_io_wseq (unsigned char reg, unsigned char val)
+>          vga_io_w (VGA_SEQ_D, val);
+>  #endif /* VGA_OUTW_WRITE */
+>  }
+> +#endif /* CONFIG_HAS_IOPORT */
+>  
+>  static inline unsigned char vga_mm_rseq (void __iomem *regbase, unsigned char reg)
+>  {
+> @@ -385,6 +396,7 @@ static inline void vga_wgfx (void __iomem *regbase, unsigned char reg, unsigned
+>  #endif /* VGA_OUTW_WRITE */
+>  }
+>  
+> +#ifdef CONFIG_HAS_IOPORT
+>  static inline unsigned char vga_io_rgfx (unsigned char reg)
+>  {
+>          vga_io_w (VGA_GFX_I, reg);
+> @@ -400,6 +412,7 @@ static inline void vga_io_wgfx (unsigned char reg, unsigned char val)
+>          vga_io_w (VGA_GFX_D, val);
+>  #endif /* VGA_OUTW_WRITE */
+>  }
+> +#endif /* CONFIG_HAS_IOPORT */
+>  
+>  static inline unsigned char vga_mm_rgfx (void __iomem *regbase, unsigned char reg)
+>  {
+> @@ -434,6 +447,7 @@ static inline void vga_wattr (void __iomem *regbase, unsigned char reg, unsigned
+>          vga_w (regbase, VGA_ATT_W, val);
+>  }
+>  
+> +#ifdef CONFIG_HAS_IOPORT
+>  static inline unsigned char vga_io_rattr (unsigned char reg)
+>  {
+>          vga_io_w (VGA_ATT_IW, reg);
+> @@ -445,6 +459,7 @@ static inline void vga_io_wattr (unsigned char reg, unsigned char val)
+>          vga_io_w (VGA_ATT_IW, reg);
+>          vga_io_w (VGA_ATT_W, val);
+>  }
+> +#endif /* CONFIG_HAS_IOPORT */
+>  
+>  static inline unsigned char vga_mm_rattr (void __iomem *regbase, unsigned char reg)
+>  {
+> -- 
+> 2.40.1
+> 
