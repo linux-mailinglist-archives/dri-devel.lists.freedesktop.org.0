@@ -2,80 +2,147 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C3DA8A1A73
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 18:53:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4019F8A1A81
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 18:55:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29D3910E1C7;
-	Thu, 11 Apr 2024 16:53:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C934A10F23E;
+	Thu, 11 Apr 2024 16:55:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="JLtaEV4r";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QEzxcgjA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com
- [209.85.219.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1C6210E1C7
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 16:53:04 +0000 (UTC)
-Received: by mail-yb1-f170.google.com with SMTP id
- 3f1490d57ef6-dc6d8bd618eso7037276.3
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 09:53:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1712854384; x=1713459184;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Xk9ow4mQo0ztyiO7KrDlitvaa4igMglZOi5Xwvcpnhc=;
- b=JLtaEV4rp4db4aYxAYfaL69qzwSyDrk8HHSnl4mYoEnNNyx7VwLamE6rvJRG2c5bNA
- U3v1LLPrOcdwP9ga+oRuhG4sJR+5ubUOtoXwpkb8AXGFhrWhqE42OwSx/Qk9MrCuShDS
- FCMHQY6Kx/vkC2yY/dOv4ndP055gd3sX8UdG0oAFOiC7P2VIhzy34+zKCxl+wd3ohYtT
- c7emPxfIrdYOjC9uBRawN/lyB7JeFgPhDYwXq7KHOG+zlu8YHRZSO9DGz98d/CK62IYD
- 6Jqhs/jqSMgeUtMCoxi+WHm+bHmOg3MNr6fNFcqTjPEbcbwkxFp0JvwPgPatBwtL76Gk
- lseQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712854384; x=1713459184;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Xk9ow4mQo0ztyiO7KrDlitvaa4igMglZOi5Xwvcpnhc=;
- b=P1VIgw/khvHzqImmN2xfXLIoP3LEz7MYnlouGlvxRiJpOmRMpP5Mpr34J6al5eGwHg
- VyTDOD2rPUEYga7zlQAzwkNCtgjekN0BkiBq7Pc7ytZnLN7neqPi5SXQH49j2U3Ec4z9
- I0j1xz8EnjBbgx9eQQGbLYDMHggPMMyIC/qgRxNHPkzp+rJMtdhCY7MYnGVUTYHTiGe0
- wr4Rym8z1Tr1WljdJ+LnXdQfaYFGWFieK0NnTgjeE3SnSEpjB4nGEgEf6vs/Vkf0Fz/A
- dNNqxBj3zr6pPzMbTf6Ft5ZAH8HVaJd+aK77XKwpDKx5zOb/sLG9YQ5T4EQQTLUwmTlK
- 9efg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUY9HsN3vDGc6UEo9L4AXihaKEXRnycnkXhtoNUC8DoU7/WTotzSmd/exL3Wx8RtPZYsWHWzNulaMfCJFBluTsHUeP2MIdTnsSAluGoR7oX
-X-Gm-Message-State: AOJu0YwSUeuLcg0O8ZJi2IBC32HH+5DV+Ry4uiLDy1VqqgDW4Tzf2nhz
- QYp4pOOWvPCuHGertq6cl0Yes5YiXMtNck41+OoCSZ8BHiJ5/Qq4lPFKI/9PdIhMQBtJUgaHZ4P
- eqBT+y7lKJtSsPC9SlhUjnk8fFD58qh0ikm5E
-X-Google-Smtp-Source: AGHT+IHrAmk4FEak1U24FFhz5I0pjJ4Y1W1GoH1d+YXdH2uAvcc4gxTiyypFZ0hyOkDoXT/aukk4rEfY2anMtoK+l4s=
-X-Received: by 2002:a25:86d1:0:b0:dc6:b088:e742 with SMTP id
- y17-20020a2586d1000000b00dc6b088e742mr112053ybm.8.1712854383276; Thu, 11 Apr
- 2024 09:53:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211113062222.3743909-1-jay.xu@rock-chips.com>
- <1da5cdf0-ccb8-3740-cf96-794c4d5b2eb4@amd.com>
- <3175d41a-fc44-4741-91ac-005c8f21abb8@vivo.com>
- <9e6f1f52-db49-43bb-a0c2-b0ad12c28aa1@amd.com>
- <5c7ac24c-79fa-45fc-a4fd-5b8fc77a741b@vivo.com>
- <CABdmKX1OZ9yT3YQA9e7JzKND9wfiL-hnf87Q6v9pwtnAeLHrdA@mail.gmail.com>
- <da21fe55-2ffb-4c8e-9863-2f27aa18cf5c@vivo.com>
-In-Reply-To: <da21fe55-2ffb-4c8e-9863-2f27aa18cf5c@vivo.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Thu, 11 Apr 2024 09:52:51 -0700
-Message-ID: <CABdmKX0AJjdVBPR=3c7oRyDRQx86GCGheVwkheXi7fOkJaRY8A@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: add DMA_BUF_IOCTL_SYNC_PARTIAL support
-To: Rong Qianfeng <11065417@vivo.com>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Rong Qianfeng <rongqianfeng@vivo.com>, Jianqun Xu <jay.xu@rock-chips.com>,
- sumit.semwal@linaro.org, 
- pekka.paalanen@collabora.com, daniel.vetter@ffwll.ch, jason@jlekstrand.net, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
- linux-rockchip@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C757A10F23E;
+ Thu, 11 Apr 2024 16:55:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1712854537; x=1744390537;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=sqpDI+nith4zE04ekr6SOM96vl1EyVf1uHwXBOz+1sw=;
+ b=QEzxcgjAawQQdVkcHmZmDHxnfeSyS09wM1aD/KNKpEvVSlZyhTPeiTR/
+ MfD6W8jnZeQDKABtpSdomsLlnTa6CMce02x/SainsN8TF+fNr0u4hOtVb
+ U0VGeF9o0SimBPWUmEE4vRbgc3eNdFI0BByTOhpDOg3002iz6fsI8cGPl
+ mtCyq3BjdHbBC6ZOw9Zy2Rw164FADV2jNXkNuNYB9kYnReGprhdtclX5/
+ VE1w2PErzvf4vSa3QsaxLw9aWZjB1QKPz6em+qwYU+NxR+sr1sNzhm1KX
+ oXEx19vilzFdN/Gw1gniMIK4mGl0EHAjdSRxS3YO8Kyeg1CXQmGpvUySM Q==;
+X-CSE-ConnectionGUID: epZIjYW1RwepZ3myD2ir9g==
+X-CSE-MsgGUID: pblGCfEcTDeqMbqa2dgYYw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="18887271"
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; d="scan'208";a="18887271"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2024 09:55:32 -0700
+X-CSE-ConnectionGUID: 9rc2ccV6T6Ki6ihoqQ5M+w==
+X-CSE-MsgGUID: Uslv5jl+Q8KyxNJbsizV9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; d="scan'208";a="25613646"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orviesa003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 11 Apr 2024 09:55:32 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 11 Apr 2024 09:55:32 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Thu, 11 Apr 2024 09:55:32 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Thu, 11 Apr 2024 09:55:31 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=N/YqU/NVrITuQPdY9etFEreEdRsHjQpXe4bIUnZ8VYbDBBp0Zz66hA8gzpZWvFSSYeo+zFCWTAqDbw07JblbU3NoAQ0ZweLoxD6FEQyscBqlGVSYn6WUB8k4iSNbfdcUE87m0ozaLZaprRXCDg/OxUqydm8IhPSovJOpy9KOCqDcucjef2AxG7t2hfm3A+0c9dsXIQXNjZZmkvQ4ZD8C0AoBlif+TvddLXLsPgFG6l9zNItEFtj00q1SAzF4LQMhnrAwJA8LvqxX+GWHj9YBX9HQVeuyOBU+XW1HpdGM+QpSjVxBf1MEMaK3o6n1IcltToVE+/6Oq9fa2/ZHHcaGVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=F8lBt11uH3bFhe0BHqQ+yrtlIxB09fd7OQU+ONw0Ns0=;
+ b=UnpDKR7nbTRHHA4JrQkYyQQeduZ7Yeb65rK6FqeX6Awcy+FXpmP5bTKR/aZP2SoW8g0jddEOM5902FVBP2gq7Jm5uYGTm+4E6k4jFpNY7Uht4Zq9GoWYDGocCTNJyjsrVnc7Kqlx0CxoPSjrL452Xedr0/mhqiiHfZemwdcnXgkyGsus9tKkZq4DcMPZwqYF8DPZcansR7sxvWzptzbKjALP+47RdiD4euixda7NweMlKMisS/Qc2V3Ma/ygjvhvRXunm7nnDF4C1FsL003sOVaCsrHoIizgXm4o3VGrStCNqoTk4zd6ay5nfzPI8NVp13wqJ36B2+pSTulCpWADrQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA1PR11MB6348.namprd11.prod.outlook.com (2603:10b6:208:3af::16)
+ by SJ0PR11MB4799.namprd11.prod.outlook.com (2603:10b6:a03:2ae::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.32; Thu, 11 Apr
+ 2024 16:55:29 +0000
+Received: from IA1PR11MB6348.namprd11.prod.outlook.com
+ ([fe80::e014:f1f0:90ca:359c]) by IA1PR11MB6348.namprd11.prod.outlook.com
+ ([fe80::e014:f1f0:90ca:359c%3]) with mapi id 15.20.7452.019; Thu, 11 Apr 2024
+ 16:55:29 +0000
+From: "Golani, Mitulkumar Ajitkumar" <mitulkumar.ajitkumar.golani@intel.com>
+To: "Vivi, Rodrigo" <rodrigo.vivi@intel.com>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
+Subject: RE: [PATCH] drm/dp: correct struct member name in documentation
+Thread-Topic: [PATCH] drm/dp: correct struct member name in documentation
+Thread-Index: AQHahyavaHSTPAJPrU6E1bsmYP78WrFht0wAgAGa81A=
+Date: Thu, 11 Apr 2024 16:55:29 +0000
+Message-ID: <IA1PR11MB6348E9B9AFE0EED886F7F240B2052@IA1PR11MB6348.namprd11.prod.outlook.com>
+References: <20240405065159.439145-1-mitulkumar.ajitkumar.golani@intel.com>
+ <Zha79kKYTltfOtDA@intel.com>
+In-Reply-To: <Zha79kKYTltfOtDA@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA1PR11MB6348:EE_|SJ0PR11MB4799:EE_
+x-ms-office365-filtering-correlation-id: c0a70e1f-77fa-4251-6477-08dc5a4831a8
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: orJqkwkGqsQWv4AAxqnSKQM9J4ShPZFaCikICjAhMPUWWBk+Bwu9p+kkSfcg/1YkWkInyZ7K3eo9grhS75Ju7h8Zb1eTrK/6Eo2EqB1VSSGZ5YfCxQgaTV9BFE7jfwQ6XyrQxFgD/7eH948JhoqFuLPKmIl8lnvv2kqBijMN7IKDaS+ziH9Ne5U2ywG9f6SdfdPAcChmVz6InlHed/+2z0NewlZ7SHBOxF9vEzlUNOSOFVkwRRIsVxxnf+Tb3BRv8N1ADh+EROjlsIXwuiJXEbAftA3QrKYYdV0crWjxBFEgFh7MWmpZzoFgx7XDEyMVTD1ZVLm1FF8UkgPfgIpX9536MCrK+fZzMDVnPlcgl9/JkE8lLvWvAUZoimdi09/zDRx7nlwFR4TjGRAjkiV0Rb8a2qAV0aQ8boWUfqBn8DJu+J53Yq6x52pUxYXtEWC4w865iHwVrodyIVRhU5DzxKFtq3S5ctxIKgikAbzNDpYRWQiB4DVKMBkdfPX5npn7Pr+lEym2Nrih8Jnwal6Z5mHng3KRnKsokgt3yM5wkpbYR68RqV+bgSh5N54Mie6iQfje9OIWYyV8UqtV+qOEMI97VNPLQRQg6qB1yhKAc5PwyBKb5qXm8Bcqnf6nlo/nLOJ3YP+J8148RQOXmCwbaYSIUNtd3IshcSbmaS+UtLobodK9cN0afrYLkZezs81v8lE8CW0z2BaopvFNu/IMxQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:IA1PR11MB6348.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376005)(1800799015)(366007)(38070700009); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?cX55r/IR0oN/8IWDCruJh15eWsZNARrCNc05R5Q0jEP59A/mUtoByKRotLv0?=
+ =?us-ascii?Q?urHGFS3sIko+eiUL2vtaTzU8+6IDnkqzo7KeOP5a0zQclwfenDgnTwgq7/8g?=
+ =?us-ascii?Q?DvJvpdzwgcmZ8l8dCK7cgb74Elj2PdaDzlXM2ablH6wOlG37zT0eJI3U8dvF?=
+ =?us-ascii?Q?LcT/HznTYbau+B2xyKlaYEk3WwxJREvFg/IpKlsgtf7VdnsKoFrjQeMALyFr?=
+ =?us-ascii?Q?uDgqHdLtUieRCkceKyxniPzoQB0NfEi+uVa+izP4dQFDOzQuif6lJosREFNN?=
+ =?us-ascii?Q?HHbOa5jZ5DyLH+KzhrI7VfU4T77IygrwDrpg9FwJ3orCqz1I7MpOd12/8MvJ?=
+ =?us-ascii?Q?ckyHMaBf66+npuOkdUSfrFKl8Xq6GVNnHvRvoM/LOGFV8mVAj7cYvN+V0Y46?=
+ =?us-ascii?Q?fS7tI8SiVFl7lwfkpksNIqEo+LnWPxS0zkVCTMPaNqnT3IbGT3Fi/tj2d8Dt?=
+ =?us-ascii?Q?fuMtyzukr+FXKHBhW9UWKNeBE2IJ4LaC9sfgiTkHVWRYeh8o2x66jclQDA0q?=
+ =?us-ascii?Q?Sa7B6Yd219I0k5kKSEW+Ds441KY/dM3lvYQZMLxV5mWWx7nL3XZIhtrq+x4Q?=
+ =?us-ascii?Q?TtBeTmgC/JNQEcHMoTExxm4uDteKHVW7K0A0dvhj/nVHc9DmFMClU0pwZjz2?=
+ =?us-ascii?Q?rq1zNkgYqQgn7hz0lK8tXOGcZOdCZJspAjy0KoyFpGRBMr/Vtcw2eZ4De/FO?=
+ =?us-ascii?Q?Gm/tzJo3w/U82SrALzXdTJph47cgeDUe1/I0o+ni93bl3I0UgDenWGPnbvPQ?=
+ =?us-ascii?Q?FxxOZ/mqsO6UZum+zcKQc0DLaz3yDg6pdonm4O8YQtnxqUF5VV63ekgpBH8a?=
+ =?us-ascii?Q?xg1Npoa70odwTLzWRMsgIsdihkECYrMgxpB8hwoPrR0e5IkEH2TeHwWreAKB?=
+ =?us-ascii?Q?KNOTJHm5p+zRtniwl7q6aABKx9SE+Ekm7AUyoIpP7owK0M7YQbb4O9wC8uaO?=
+ =?us-ascii?Q?CM9DPp6WmbWYLjI3vPcMpZJ41MReDAe4k+7sJYhKE/bsHcEHhvDnnavN92hM?=
+ =?us-ascii?Q?RRQwkePtQAjL+EVeegQ1WZ+fszGrnZORd/bF/rVG2HjkbaRClow5tP3bq+gK?=
+ =?us-ascii?Q?R9AISSSwfHQd98kE6h2nm19S4WBfs2uGaiF/RseRvBVp5cfd9Hn2aSj7IcYt?=
+ =?us-ascii?Q?sTOPYlMiVBDfBfilG4jTd3AnfWd7JQhfLtV4Y4uWiSiZwMlWtzBUDzePYXLa?=
+ =?us-ascii?Q?7BABQHtS4GMskgGaqKJTXKVCJQgI6WqDO7TKearRTWn4GiBq8tkuAnBGAIco?=
+ =?us-ascii?Q?GGipSbaa1yTulv40w8Kb5NXIOcfrsa3dEa8FOKSnu7imuTnr/cTu2yQLWOlZ?=
+ =?us-ascii?Q?zUL64rmUCS/X+1VIBOd6DLE8VVYITgqfzMlVdhWHDXQ3dPx6eqd4SMvR6o8u?=
+ =?us-ascii?Q?PCR73NbLuv+dkO0RlYk4Wr7iqlq5p+Wu8F7b1mt7rysjyjDxq7YUuJScX4SE?=
+ =?us-ascii?Q?aMPbBC/aVvTYVpJzCagB35pTRdGRNf+wRgoo8RFhy6/TaPJn/ndSWmokz/PL?=
+ =?us-ascii?Q?e4DYGpVfS1TbLie1hl/9kKQ32USEvyviB9vQTQZTynjWNsQ3lWPWOOKCE0sR?=
+ =?us-ascii?Q?JjamxHAYQrSsW9v4wihpRF3hUW1wQft1HiTTfZHrkDKvnvBLY0epduqQ7mMt?=
+ =?us-ascii?Q?Z0SXCVgZVqAUdLKGvi8YJNY=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6348.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c0a70e1f-77fa-4251-6477-08dc5a4831a8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Apr 2024 16:55:29.6564 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Pi8O0BJBrbIj96nu3OCvAjCeHB3voRZj02PuYPzp5L4pBQCMDUzvLJNyy7Ed9t2P/ub/vsPtE85vpuQxpFlui4mYb5VBMPsNfLlQtchgh6W67ANU4h8hBFeJUmUSChGw
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4799
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,113 +158,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 11, 2024 at 1:21=E2=80=AFAM Rong Qianfeng <11065417@vivo.com> w=
-rote:
->
->
-> =E5=9C=A8 2024/4/10 0:37, T.J. Mercier =E5=86=99=E9=81=93:
-> > [You don't often get email from tjmercier@google.com. Learn why this is=
- important at https://aka.ms/LearnAboutSenderIdentification ]
+
+
+> -----Original Message-----
+> From: Vivi, Rodrigo <rodrigo.vivi@intel.com>
+> Sent: Wednesday, April 10, 2024 9:49 PM
+> To: Golani, Mitulkumar Ajitkumar <mitulkumar.ajitkumar.golani@intel.com>;
+> tzimmermann@suse.de; mripard@kernel.org;
+> maarten.lankhorst@linux.intel.com
+> Cc: dri-devel@lists.freedesktop.org; intel-gfx@lists.freedesktop.org; Nau=
+tiyal,
+> Ankit K <ankit.k.nautiyal@intel.com>; Nikula, Jani <jani.nikula@intel.com=
+>;
+> sfr@canb.auug.org.au
+> Subject: Re: [PATCH] drm/dp: correct struct member name in documentation
+>=20
+> On Fri, Apr 05, 2024 at 12:21:59PM +0530, Mitul Golani wrote:
+> > Correct struct member name to 'mode' instead of 'operation mode'
+> > in 'drm_dp_as_sdp' structure description.
 > >
-> > On Tue, Apr 9, 2024 at 12:34=E2=80=AFAM Rong Qianfeng <11065417@vivo.co=
-m> wrote:
-> >>
-> >> =E5=9C=A8 2024/4/8 15:58, Christian K=C3=B6nig =E5=86=99=E9=81=93:
-> >>> Am 07.04.24 um 09:50 schrieb Rong Qianfeng:
-> >>>> [SNIP]
-> >>>>> Am 13.11.21 um 07:22 schrieb Jianqun Xu:
-> >>>>>> Add DMA_BUF_IOCTL_SYNC_PARTIAL support for user to sync dma-buf wi=
-th
-> >>>>>> offset and len.
-> >>>>> You have not given an use case for this so it is a bit hard to
-> >>>>> review. And from the existing use cases I don't see why this should
-> >>>>> be necessary.
-> >>>>>
-> >>>>> Even worse from the existing backend implementation I don't even se=
-e
-> >>>>> how drivers should be able to fulfill this semantics.
-> >>>>>
-> >>>>> Please explain further,
-> >>>>> Christian.
-> >>>> Here is a practical case:
-> >>>> The user space can allocate a large chunk of dma-buf for
-> >>>> self-management, used as a shared memory pool.
-> >>>> Small dma-buf can be allocated from this shared memory pool and
-> >>>> released back to it after use, thus improving the speed of dma-buf
-> >>>> allocation and release.
-> >>>> Additionally, custom functionalities such as memory statistics and
-> >>>> boundary checking can be implemented in the user space.
-> >>>> Of course, the above-mentioned functionalities require the
-> >>>> implementation of a partial cache sync interface.
-> >>> Well that is obvious, but where is the code doing that?
-> >>>
-> >>> You can't send out code without an actual user of it. That will
-> >>> obviously be rejected.
-> >>>
-> >>> Regards,
-> >>> Christian.
-> >> In fact, we have already used the user-level dma-buf memory pool in th=
-e
-> >> camera shooting scenario on the phone.
-> >>
-> >>   From the test results, The execution time of the photo shooting
-> >> algorithm has been reduced from 3.8s to 3s.
-> >>
-> > For phones, the (out of tree) Android version of the system heap has a
-> > page pool connected to a shrinker. That allows you to skip page
-> > allocation without fully pinning the memory like you get when
-> > allocating a dma-buf that's way larger than necessary. If it's for a
-> > camera maybe you need physically contiguous memory, but it's also
-> > possible to set that up.
+> > Fixes: 0bbb8f594e33 ("drm/dp: Add Adaptive Sync SDP logging")
+>=20
+> Probably good to avoid this 'Fixes:' tag, and only use that for real code=
+ bugs.
+
+Thank you for inputs.. I understood and I will take the future note. Please=
+ suggest if required to update the change with new revision or we can take =
+care while merge.. ?
+
+>=20
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>=20
+> drm-misc folks, ack to get this through drm-intel-next, where the origina=
+l patch
+> is?
+>=20
+> Thanks,
+> Rodrigo
+>=20
+> > Cc: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+> > Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> > Cc: Jani Nikula <jani.nikula@intel.com>
+> > Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+>=20
+> > ---
+> >  include/drm/display/drm_dp_helper.h | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > >
-> > https://android.googlesource.com/kernel/common/+/refs/heads/android14-6=
-.1/drivers/dma-buf/heaps/system_heap.c#377
+> > diff --git a/include/drm/display/drm_dp_helper.h
+> > b/include/drm/display/drm_dp_helper.h
+> > index baf9949ff96f..6799f57d635c 100644
+> > --- a/include/drm/display/drm_dp_helper.h
+> > +++ b/include/drm/display/drm_dp_helper.h
+> > @@ -112,7 +112,7 @@ struct drm_dp_vsc_sdp {
+> >   * @target_rr: Target Refresh
+> >   * @duration_incr_ms: Successive frame duration increase
+> >   * @duration_decr_ms: Successive frame duration decrease
+> > - * @operation_mode: Adaptive Sync Operation Mode
+> > + * @mode: Adaptive Sync Operation Mode
+> >   */
+> >  struct drm_dp_as_sdp {
+> >  	unsigned char sdp_type;
+> > --
+> > 2.25.1
 > >
-> Thank you for the reminder.
->
-> The page pool of the system heap can meet the needs of most scenarios,
-> but the camera shooting scenario is quite special.
->
-> Why the camera shooting scenario needs to have a dma-buf memory pool in
-> the user-level=EF=BC=9F
->
-> (1) The memory demand is extremely high and time requirements are
-> stringent.
-
-Preallocating for this makes sense to me, whether it is individual
-buffers or one large one.
-
-> (2) The memory in the page pool(system heap) is easily reclaimed or used
-> by other apps.
-
-Yeah, by design I guess. I have seen an implementation where the page
-pool is proactively refilled after it has been empty for some time
-which would help in scenarios where the pool is often reclaimed and
-low/empty. You could add that in a vendor heap.
-
-> (3) High concurrent allocation and release (with deferred-free) lead to
-> high memory usage peaks.
-
-Hopefully this is not every frame? I saw enough complaints about the
-deferred free of pool pages that it hasn't been carried forward since
-Android 13, so this should be less of a problem on recent kernels.
-
-> Additionally, after the camera exits, the shared memory pool can be
-> released, with minimal impact.
-
-Why do you care about the difference here? In one case it's when the
-buffer refcount goes to 0 and memory is freed immediately, and in the
-other it's the next time reclaim runs the shrinker.
-
-
-I don't want to add UAPI for DMA_BUF_IOCTL_SYNC_PARTIAL to Android
-without it being in the upstream kernel. I don't think we can get that
-without an in-kernel user of dma_buf_begin_cpu_access_partial first,
-even though your use case wouldn't rely on that in-kernel usage. :\ So
-if you want to add this to phones for your camera app, then I think
-your best option is to add a vendor driver which implements this IOCTL
-and calls the dma_buf_begin_cpu_access_partial functions which are
-already exported.
-
-Best,
-T.J.
