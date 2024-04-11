@@ -2,84 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 467988A21D4
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Apr 2024 00:40:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 737968A2298
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Apr 2024 01:50:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8356410F3F8;
-	Thu, 11 Apr 2024 22:40:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15AC410F0D6;
+	Thu, 11 Apr 2024 23:50:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="EWxpxzrA";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="TphtNR/P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29DE610F46D
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 22:40:05 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-516ab4b3251so388482e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 15:40:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1712875203; x=1713480003;
- darn=lists.freedesktop.org; 
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=S4TnsFcjuXgA9nuQRAvIeS3/zSNBm8/9BgUmS0MLmqs=;
- b=EWxpxzrAP05nE5WhVpSLWMoLHhgLWaVwOXPs8qpumJh8khPnupLIdB6kFWMMLe7y1b
- EoHAaIzUILpYmbaLYx2c9L5FVmbcIoZnnD0XKBjFtyU1chCx8lifdN9AR5f5sHqW/hca
- qeQVDHnOLPFWKjeGXj1iwlDCvTaUvPUNNps3DIX5wERuST/4f3TKeo1u4xsil1Uz0Xhn
- zUZd99H/a1k5ZCK1gEuHJi1krNlC84Fp3ubEFxZ4dCWOODdV0Kphj8LhBPxcUDfntOPe
- L6zxrpRHgUHYgSd09Ykn7zWA8tM1Gp5H5BfDWY4kj38MpkFd+YPw0aqFHxl1cTNEhcYl
- wDaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712875203; x=1713480003;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=S4TnsFcjuXgA9nuQRAvIeS3/zSNBm8/9BgUmS0MLmqs=;
- b=oA/buhkBR7Jxo9PQu1c2X2HX1k7UgoyRaQmLeS0ekUgCFE4D4+aCpBHIZq02HynlV7
- 3RN7SZc/kQSKWZR3iZ7iJ4gZvzkSBg+/NW7sr7NJVfzSfMrC+vpBLFLYRRzAEb5YYSAU
- IHe6UHU9Iw94ZFuA6ybYruC/abvdhBb5e0C9T21lmzVPcmuxPQMNt2gd4SYVejyhtbd0
- 14AKCsF7XvHZNxuLoTm0oEDhif4u6x/F8pYgwAp1+I4+GsX5ekZ+AfYFDOuYyrQtXBOG
- UCTo8/BEeDIcPeE9JoDJAN8gkhEfjCq3Bd8ZS0g6Zulat40/CqLztBCQldgID7Ypk8uc
- Jl5w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUEjHATKYYFBW/BTTkfTWpd72J2h0C8x2gCslrL5Tl+XmVF2iPWAN2lJTHCp86Xn2JXlOSv4AlL+wDYQUvd/UJLWjActDp8KQpk4/3gKtfm
-X-Gm-Message-State: AOJu0YxJn4ymUkVZZ90vQ0jwXT824ymuB8dbH1O8FlCqVgGCrm6DCkGj
- wQJRl+RFBzpgk6A3TljAe0Z4JjWbIfyqo3g5dperLC4iOjs+0aADmQIfCijGu04=
-X-Google-Smtp-Source: AGHT+IGY8qJhojjfCfabFUjR9vvGK5A/WLCfM1Bk52OhJKElMImmd0eUpMrnmf84M99SmcErfv1epA==
-X-Received: by 2002:ac2:57db:0:b0:513:eeaa:8f1f with SMTP id
- k27-20020ac257db000000b00513eeaa8f1fmr649500lfo.47.1712875203340; 
- Thu, 11 Apr 2024 15:40:03 -0700 (PDT)
-Received: from smtpclient.apple ([2001:a61:10c6:ce01:a470:5d20:8e1a:464a])
- by smtp.gmail.com with ESMTPSA id
- jx24-20020a170907761800b00a46aba003eesm1144762ejc.215.2024.04.11.15.40.01
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 11 Apr 2024 15:40:02 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.500.171.1.1\))
-Subject: Re: [PATCH] treewide: Fix common grammar mistake "the the"
-From: Thorsten Blum <thorsten.blum@toblux.com>
-In-Reply-To: <0bd7ccc2-4d8c-455b-a6c2-972ebe1fcb08@moroto.mountain>
-Date: Fri, 12 Apr 2024 00:39:51 +0200
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
- speakup@linux-speakup.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-wireless@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-afs@lists.infradead.org, ecryptfs@vger.kernel.org,
- netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- linux-unionfs@vger.kernel.org, linux-arch@vger.kernel.org,
- io-uring@vger.kernel.org, cocci@inria.fr, linux-perf-users@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <193B959E-60A3-499A-BFF3-EA7B2D0B6C12@toblux.com>
-References: <20240411150437.496153-4-thorsten.blum@toblux.com>
- <0bd7ccc2-4d8c-455b-a6c2-972ebe1fcb08@moroto.mountain>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-X-Mailer: Apple Mail (2.3774.500.171.1.1)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDE4B10F0D6;
+ Thu, 11 Apr 2024 23:50:28 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 43BNUFm6029773; Thu, 11 Apr 2024 23:50:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=qcppdkim1; bh=mzQXyjqX1tud9XJAAPq6t
+ aeKKD1DkGuDn7UJbaDURSY=; b=TphtNR/PMDSRSzMWvgOgtlCNtd1GfQC5UQT0H
+ 11DxF6Q2hIGIEWB4PucpPMI1iNYgA3HFW3hiSGJTSn8tctkq+ssUrIfFwD8lsZMe
+ 0V4yXTB+7BdRd3AGOmC3h/A8tDAKhD3EVV7bAdTmU/L1l6t8dhYTdIPmtAIfD0Y6
+ JTZlpVeKts9Bo23vHBx71eImeSJbLk1wIa8sUAjXXoKjDSZbHMoHr1nQ8V0BxYaY
+ ONld9xP6EZtRCTojwBIQKFOUP7PKumSxWh/3wRBI7tzCPKxh1IPTlcuGAhm0aMQE
+ 7NMmj+0isSrL9Ymvks4tnzI8JpksukDvF6sYjiqh5M1DJYKtQ==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xem8m0n26-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 11 Apr 2024 23:50:22 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43BNnjgX012898
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 11 Apr 2024 23:49:45 GMT
+Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 11 Apr 2024 16:49:44 -0700
+Date: Thu, 11 Apr 2024 16:49:44 -0700
+From: Elliot Berman <quic_eberman@quicinc.com>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+CC: Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 1/6] soc: qcom: Move some socinfo defines to the header,
+ expand them
+Message-ID: <20240411162849104-0700.eberman@hu-eberman-lv.qualcomm.com>
+References: <20240405-topic-smem_speedbin-v1-0-ce2b864251b1@linaro.org>
+ <20240405-topic-smem_speedbin-v1-1-ce2b864251b1@linaro.org>
+ <20240410132510649-0700.eberman@hu-eberman-lv.qualcomm.com>
+ <2c2bca6c-b429-4cef-b63a-ee3bd6c9eecb@linaro.org>
+ <20240411130802689-0700.eberman@hu-eberman-lv.qualcomm.com>
+ <bbec514f-9672-4e5a-bd83-20ab59b3dcd9@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <bbec514f-9672-4e5a-bd83-20ab59b3dcd9@linaro.org>
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: F55obkBZh8Y7oG1qCozFOKbMkGxrJdD9
+X-Proofpoint-GUID: F55obkBZh8Y7oG1qCozFOKbMkGxrJdD9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-11_12,2024-04-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0
+ priorityscore=1501 malwarescore=0 phishscore=0 impostorscore=0
+ mlxlogscore=961 bulkscore=0 lowpriorityscore=0 mlxscore=0 spamscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404110171
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,18 +100,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11. Apr 2024, at 17:25, Dan Carpenter <dan.carpenter@linaro.org> =
-wrote:
->=20
-> It's tricky to know which tree a patch like this would go through.
+On Thu, Apr 11, 2024 at 10:24:08PM +0200, Konrad Dybcio wrote:
+> 
+> 
+> On 4/11/24 22:09, Elliot Berman wrote:
+> > On Thu, Apr 11, 2024 at 10:05:30PM +0200, Konrad Dybcio wrote:
+> > > 
+> > > 
+> > > On 4/11/24 20:55, Elliot Berman wrote:
+> > > > On Fri, Apr 05, 2024 at 10:41:29AM +0200, Konrad Dybcio wrote:
+> > > > > In preparation for parsing the chip "feature code" (FC) and "product
+> > > > > code" (PC) (essentially the parameters that let us conclusively
+> > > > > characterize the sillicon we're running on, including various speed
+> > > > > bins), move the socinfo version defines to the public header and
+> > > > > include some more FC/PC defines.
+> > > > > 
+> > > > > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> > > > > ---
+> 
+> [...]
+> 
+> > 
+> > 0xf is the last one.
+> 
+> One more question, are the "internal/external feature codes" referring to
+> internality/externality of the chips (i.e. "are they QC-lab-only engineering
+> samples), or what else does that represent?
 
-The patch is based on the mainline tree. Should I have sent it directly =
-to
-Linus then?
-
-I'm relatively new here and therefore only sent it to the corresponding =
-mailing
-lists.
+Yes, QC-lab-only engineering samples is the right interpretation of
+these feature codes.
 
 Thanks,
-Thorsten=
+Elliot
+
