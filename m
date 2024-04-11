@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D068A0A82
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 09:50:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A7D18A0A85
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 09:50:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D46D10EF32;
-	Thu, 11 Apr 2024 07:50:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7240510EF35;
+	Thu, 11 Apr 2024 07:50:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ce0RpURH";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="g/T5JNan";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3CAC10EF32
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 07:49:57 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F22F10EF35
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 07:50:34 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D3F7D61E2E;
- Thu, 11 Apr 2024 07:49:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EC33C433C7;
- Thu, 11 Apr 2024 07:49:55 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id BD1BDCE2F03;
+ Thu, 11 Apr 2024 07:50:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4E7AC433C7;
+ Thu, 11 Apr 2024 07:50:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1712821796;
- bh=/JgVApK1IBl3YCadLywpa/xMAaFlY/yaqytCBGv3v6s=;
+ s=korg; t=1712821831;
+ bh=lGM4pEmHClNbLjc+1PEQ6aLt+Q0HPTV1F5SOFsF9vBo=;
  h=Subject:To:Cc:From:Date:In-Reply-To:From;
- b=ce0RpURHEPPFHRK1u+Jt01iavpb62uPZEuTrEuPYSjTc4CCX48aqAfEBSzsqpJF7m
- LTvhkDzFfkPhpQyGXElsahHaaX7ar8OynrBZhxvwnbpcfjt3yrractY7Je603+SX1W
- 7ykV/b3BBV4YWyEpDEh3Sf0lIJm8+s1zCUQWurIY=
+ b=g/T5JNancXEIZYyH3DZzbxxY+Igt3aod1wDVIJepoa1jADHHjBnhzXV9o+prVbgz8
+ GJmxrttkdsnpGV6azOMVbxPlM4IUzws5pjNawHpffySfV6bIR8fO0EtAqWHCwAdPND
+ pD68gd0Kewn/nHrOtl16yJSwd3E7lak7x5Eig5zA=
 Subject: Patch "drm/vkms: call drm_atomic_helper_shutdown before
- drm_dev_put()" has been added to the 4.19-stable tree
+ drm_dev_put()" has been added to the 5.4-stable tree
 To: airlied@linux.ie, dri-devel@lists.freedesktop.org, greg@kroah.com,
  gregkh@linuxfoundation.org, guomengqi3@huawei.com, xuqiang36@huawei.com,
  zhangchangzhong@huawei.com
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Thu, 11 Apr 2024 09:49:53 +0200
+Date: Thu, 11 Apr 2024 09:50:14 +0200
 In-Reply-To: <20240409022647.1821-1-guomengqi3@huawei.com>
-Message-ID: <2024041153-charger-clustered-0297@gregkh>
+Message-ID: <2024041113-zips-jukebox-8ae4@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -62,12 +62,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/vkms: call drm_atomic_helper_shutdown before drm_dev_put()
 
-to the 4.19-stable tree which can be found at:
+to the 5.4-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-vkms-call-drm_atomic_helper_shutdown-before-drm_dev_put.patch
-and it can be found in the queue-4.19 subdirectory.
+and it can be found in the queue-5.4 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -155,15 +155,15 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/vkms/vkms_drv.c
 +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -39,7 +39,6 @@ static void vkms_release(struct drm_devi
+@@ -60,7 +60,6 @@ static void vkms_release(struct drm_devi
  	struct vkms_device *vkms = container_of(dev, struct vkms_device, drm);
  
  	platform_device_unregister(vkms->platform);
 -	drm_atomic_helper_shutdown(&vkms->drm);
  	drm_mode_config_cleanup(&vkms->drm);
  	drm_dev_fini(&vkms->drm);
- }
-@@ -137,6 +136,7 @@ static void __exit vkms_exit(void)
+ 	destroy_workqueue(vkms->output.composer_workq);
+@@ -194,6 +193,7 @@ static void __exit vkms_exit(void)
  	}
  
  	drm_dev_unregister(&vkms_device->drm);
@@ -175,4 +175,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from guomengqi3@huawei.com are
 
-queue-4.19/drm-vkms-call-drm_atomic_helper_shutdown-before-drm_dev_put.patch
+queue-5.4/drm-vkms-call-drm_atomic_helper_shutdown-before-drm_dev_put.patch
