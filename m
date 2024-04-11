@@ -2,48 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C42E8A1665
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 16:00:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5979E8A16CF
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 16:11:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E44CB10F0F2;
-	Thu, 11 Apr 2024 14:00:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4723E10F0FD;
+	Thu, 11 Apr 2024 14:11:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IuYQoFWL";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lOZW+E4O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F51C10F0F2
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 14:00:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 9DF77CE2E07;
- Thu, 11 Apr 2024 14:00:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4C7FC113CD;
- Thu, 11 Apr 2024 14:00:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1712844022;
- bh=tRqmwlzhcYdgVr2YujS1WgTqkzUd0nEXs80I0voRZ+c=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IuYQoFWLDW0TewoWOc1egpvTc7oRKlFdRDOxTdOO6mj8F+jf/LWNPnH6utlZMgCRp
- Wlm7VdDje7q00dBLqJawgrlJWje3n8r7h5914tgSM1R4vzFi/aElZWtaxhbFhhmRgC
- e58DoLz7Np5deIUBaY59yKM3JF4OYy/zVNTZAdncc0IZG9wlVf/Lp3ONzbho3qDhxA
- 7PiLNDS4jimFjHuyBxgGXNcQIY7QPBXIJgMAFhYS1GK6mqT4LKEvKcSN1Nce0pzVqp
- IrVB4USDmK+/pPizmKeVnvc18vBGueLeCeNv0UC1glnbvyiNGiLZG0DyscUb1jvVjk
- uYc17bsqWwNLA==
-Date: Thu, 11 Apr 2024 16:00:16 +0200
-From: Helge Deller <deller@kernel.org>
-To: Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Arnd Bergmann <arnd@kernel.org>,
- Heiko Carstens <hca@linux.ibm.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] video: Handle HAS_IOPORT dependencies
-Message-ID: <Zhfs8CN5XdgldKUn@carbonx1>
-References: <20240410142329.3567824-1-schnelle@linux.ibm.com>
- <20240410142329.3567824-2-schnelle@linux.ibm.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A890810F0FA;
+ Thu, 11 Apr 2024 14:11:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1712844692; x=1744380692;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=4bDQwB3VMhxcew6dnmy1Bt6yzMtFxNo+0uH/M/JbTzk=;
+ b=lOZW+E4OY0x5qENpyPGYIyzm20sBBBR/TqJ5IbvjNYI6Gm1SMPHTBtDt
+ QCNKfjSzOqWYnHukWG98s59ys+r2kXLh5JYLT1vtf4FTlGZueenLnJBys
+ nocUKW24p6p+iNi4Y+ixJ1QL4H8ED9i4CoKh+q9N+wMkRRuMNscSBm0HK
+ rIJSAiScZANeYlyzxXqIj7+8IZpnAsixSGYe7Z886eir56/46OAjMgKyj
+ EoEy9zKAqNbP5BmEZ2436jVlj/46V1nDd+AM+//qTwQCvFylilu6skHSZ
+ mBD9grMHM5wCMWmAk0Fi7Nl+RHGIO8hSBFTcEMDf0DgOgBMvv+JngHolZ w==;
+X-CSE-ConnectionGUID: R9j0KK1BQWq/ZJD/ejFiAQ==
+X-CSE-MsgGUID: yywlQKLbSZ2ZKJxviub+Jg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="12034662"
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; d="scan'208";a="12034662"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2024 07:11:31 -0700
+X-CSE-ConnectionGUID: GAoiNYFWTg+ODnKzqLakdQ==
+X-CSE-MsgGUID: R1wmNJR6Ss2IGBsuhfczJQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; d="scan'208";a="25684372"
+Received: from unknown (HELO intel.com) ([10.247.119.2])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2024 07:11:26 -0700
+Date: Thu, 11 Apr 2024 16:11:20 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ Dave Airlie <airlied@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Tomas Winkler <tomas.winkler@intel.com>
+Subject: Re: [PATCH 03/10] drm: move i915_gsc_proxy_mei_interface.h under
+ include/drm/intel
+Message-ID: <ZhfviEwxCx_18k1H@ashyti-mobl2.lan>
+References: <cover.1712743191.git.jani.nikula@intel.com>
+ <63ebb7decdd99568bf8c3162be2e9fa88e3fc9de.1712743191.git.jani.nikula@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240410142329.3567824-2-schnelle@linux.ibm.com>
+In-Reply-To: <63ebb7decdd99568bf8c3162be2e9fa88e3fc9de.1712743191.git.jani.nikula@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,194 +73,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Niklas Schnelle <schnelle@linux.ibm.com>:
-> In a future patch HAS_IOPORT=n will disable inb()/outb() and friends at
-> compile time. We thus need to #ifdef functions and their callsites which
-> unconditionally use these I/O accessors. In the include/video/vga.h
-> these are conveniently all those functions with the vga_io_* prefix.
+Hi Jani,
 
-Why don't you code it like in the patch below?
-inb_p(), outb_p() and outw() would then need to be defined externally
-without an implementation so that they would generate link time errors
-(instead of compile time errors).
-
-diff --git a/include/video/vga.h b/include/video/vga.h
-index 947c0abd04ef..32c915e109fa 100644
---- a/include/video/vga.h
-+++ b/include/video/vga.h
-@@ -203,18 +203,20 @@ extern int restore_vga(struct vgastate *state);
- 
- static inline unsigned char vga_io_r (unsigned short port)
- {
--	return inb_p(port);
-+	return IS_ENABLED(CONFIG_HAS_IOPORT) ? inb_p(port) : 0;
- }
- 
- static inline void vga_io_w (unsigned short port, unsigned char val)
- {
--	outb_p(val, port);
-+	if (IS_ENABLED(CONFIG_HAS_IOPORT))
-+		outb_p(val, port);
- }
- 
- static inline void vga_io_w_fast (unsigned short port, unsigned char reg,
- 				  unsigned char val)
- {
--	outw(VGA_OUT16VAL (val, reg), port);
-+	if (IS_ENABLED(CONFIG_HAS_IOPORT))
-+		outw(VGA_OUT16VAL (val, reg), port);
- }
- 
- static inline unsigned char vga_mm_r (void __iomem *regbase, unsigned short port)
-
-
-
+On Wed, Apr 10, 2024 at 01:05:10PM +0300, Jani Nikula wrote:
+> Clean up the top level include/drm directory by grouping all the Intel
+> specific files under a common subdirectory.
 > 
-> Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-> Signed-off-by: Arnd Bergmann <arnd@kernel.org>
-> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
-> ---
-> Note: This patch does not depend any not-yet-mainline HAS_IOPORT changes
-> and may be merged via subsystem specific trees at your earliest
-> convenience.
-> 
->  include/video/vga.h | 35 +++++++++++++++++++++++++----------
->  1 file changed, 25 insertions(+), 10 deletions(-)
-> 
-> diff --git a/include/video/vga.h b/include/video/vga.h
-> index 947c0abd04ef..ed89295941c4 100644
-> --- a/include/video/vga.h
-> +++ b/include/video/vga.h
-> @@ -201,6 +201,7 @@ extern int restore_vga(struct vgastate *state);
->   * generic VGA port read/write
->   */
->  
-> +#ifdef CONFIG_HAS_IOPORT
->  static inline unsigned char vga_io_r (unsigned short port)
->  {
->  	return inb_p(port);
-> @@ -210,12 +211,12 @@ static inline void vga_io_w (unsigned short port, unsigned char val)
->  {
->  	outb_p(val, port);
->  }
-> -
->  static inline void vga_io_w_fast (unsigned short port, unsigned char reg,
->  				  unsigned char val)
->  {
->  	outw(VGA_OUT16VAL (val, reg), port);
->  }
-> +#endif /* CONFIG_HAS_IOPORT */
->  
->  static inline unsigned char vga_mm_r (void __iomem *regbase, unsigned short port)
->  {
-> @@ -235,28 +236,34 @@ static inline void vga_mm_w_fast (void __iomem *regbase, unsigned short port,
->  
->  static inline unsigned char vga_r (void __iomem *regbase, unsigned short port)
->  {
-> -	if (regbase)
-> -		return vga_mm_r (regbase, port);
-> -	else
-> +#ifdef CONFIG_HAS_IOPORT
-> +	if (!regbase)
->  		return vga_io_r (port);
-> +	else
-> +#endif /* CONFIG_HAS_IOPORT */
-> +		return vga_mm_r (regbase, port);
->  }
->  
->  static inline void vga_w (void __iomem *regbase, unsigned short port, unsigned char val)
->  {
-> -	if (regbase)
-> -		vga_mm_w (regbase, port, val);
-> -	else
-> +#ifdef CONFIG_HAS_IOPORT
-> +	if (!regbase)
->  		vga_io_w (port, val);
-> +	else
-> +#endif /* CONFIG_HAS_IOPORT */
-> +		vga_mm_w (regbase, port, val);
->  }
->  
->  
->  static inline void vga_w_fast (void __iomem *regbase, unsigned short port,
->  			       unsigned char reg, unsigned char val)
->  {
-> -	if (regbase)
-> -		vga_mm_w_fast (regbase, port, reg, val);
-> -	else
-> +#ifdef CONFIG_HAS_IOPORT
-> +	if (!regbase)
->  		vga_io_w_fast (port, reg, val);
-> +	else
-> +#endif /* CONFIG_HAS_IOPORT */
-> +		vga_mm_w_fast (regbase, port, reg, val);
->  }
->  
->  
-> @@ -280,6 +287,7 @@ static inline void vga_wcrt (void __iomem *regbase, unsigned char reg, unsigned
->  #endif /* VGA_OUTW_WRITE */
->  }
->  
-> +#ifdef CONFIG_HAS_IOPORT
->  static inline unsigned char vga_io_rcrt (unsigned char reg)
->  {
->          vga_io_w (VGA_CRT_IC, reg);
-> @@ -295,6 +303,7 @@ static inline void vga_io_wcrt (unsigned char reg, unsigned char val)
->          vga_io_w (VGA_CRT_DC, val);
->  #endif /* VGA_OUTW_WRITE */
->  }
-> +#endif /* CONFIG_HAS_IOPORT */
->  
->  static inline unsigned char vga_mm_rcrt (void __iomem *regbase, unsigned char reg)
->  {
-> @@ -333,6 +342,7 @@ static inline void vga_wseq (void __iomem *regbase, unsigned char reg, unsigned
->  #endif /* VGA_OUTW_WRITE */
->  }
->  
-> +#ifdef CONFIG_HAS_IOPORT
->  static inline unsigned char vga_io_rseq (unsigned char reg)
->  {
->          vga_io_w (VGA_SEQ_I, reg);
-> @@ -348,6 +358,7 @@ static inline void vga_io_wseq (unsigned char reg, unsigned char val)
->          vga_io_w (VGA_SEQ_D, val);
->  #endif /* VGA_OUTW_WRITE */
->  }
-> +#endif /* CONFIG_HAS_IOPORT */
->  
->  static inline unsigned char vga_mm_rseq (void __iomem *regbase, unsigned char reg)
->  {
-> @@ -385,6 +396,7 @@ static inline void vga_wgfx (void __iomem *regbase, unsigned char reg, unsigned
->  #endif /* VGA_OUTW_WRITE */
->  }
->  
-> +#ifdef CONFIG_HAS_IOPORT
->  static inline unsigned char vga_io_rgfx (unsigned char reg)
->  {
->          vga_io_w (VGA_GFX_I, reg);
-> @@ -400,6 +412,7 @@ static inline void vga_io_wgfx (unsigned char reg, unsigned char val)
->          vga_io_w (VGA_GFX_D, val);
->  #endif /* VGA_OUTW_WRITE */
->  }
-> +#endif /* CONFIG_HAS_IOPORT */
->  
->  static inline unsigned char vga_mm_rgfx (void __iomem *regbase, unsigned char reg)
->  {
-> @@ -434,6 +447,7 @@ static inline void vga_wattr (void __iomem *regbase, unsigned char reg, unsigned
->          vga_w (regbase, VGA_ATT_W, val);
->  }
->  
-> +#ifdef CONFIG_HAS_IOPORT
->  static inline unsigned char vga_io_rattr (unsigned char reg)
->  {
->          vga_io_w (VGA_ATT_IW, reg);
-> @@ -445,6 +459,7 @@ static inline void vga_io_wattr (unsigned char reg, unsigned char val)
->          vga_io_w (VGA_ATT_IW, reg);
->          vga_io_w (VGA_ATT_W, val);
->  }
-> +#endif /* CONFIG_HAS_IOPORT */
->  
->  static inline unsigned char vga_mm_rattr (void __iomem *regbase, unsigned char reg)
->  {
-> -- 
-> 2.40.1
-> 
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Dave Airlie <airlied@gmail.com>
+> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> Cc: Tomas Winkler <tomas.winkler@intel.com>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+
+Thanks,
+Andi
