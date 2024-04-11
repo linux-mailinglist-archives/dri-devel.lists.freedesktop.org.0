@@ -2,44 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE95E8A055E
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 03:15:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 991548A0565
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 03:21:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D21810EBDF;
-	Thu, 11 Apr 2024 01:15:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A59010EBF5;
+	Thu, 11 Apr 2024 01:21:11 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="w4gORsvK";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [205.139.111.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24FEA10EBDF
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 01:15:24 +0000 (UTC)
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-612-yd9FTafFMBa5iQGNsqdDoQ-1; Wed, 10 Apr 2024 21:15:16 -0400
-X-MC-Unique: yd9FTafFMBa5iQGNsqdDoQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A6418104D503;
- Thu, 11 Apr 2024 01:15:16 +0000 (UTC)
-Received: from dreadlord.redhat.com (unknown [10.64.136.26])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F478492BC7;
- Thu, 11 Apr 2024 01:15:15 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org
-Subject: [PATCH] nouveau: fix instmem race condition around ptr stores
-Date: Thu, 11 Apr 2024 11:15:09 +1000
-Message-ID: <20240411011510.2546857-1-airlied@gmail.com>
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
+ [209.85.219.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C23510EBF5
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 01:21:09 +0000 (UTC)
+Received: by mail-yb1-f179.google.com with SMTP id
+ 3f1490d57ef6-dcc71031680so6881431276.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 18:21:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1712798469; x=1713403269; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=K78Wb+5lPnl7lDBySF3XIyGuPisCXfXWqPX+4wqyBxE=;
+ b=w4gORsvK6XG8GsYOyAz7yTRKj0sSa17l06elYlU88kmhB7JHH927luSWPKnFl464mF
+ 8hvt3J+jqkb+n8Bjxvf9C2L0DO2Bb52undVJLaAPWpKVpwvPHoHJOMXidoNsAFYe3pQ4
+ 0BcLQHeg+Gj8Jd7csAXW6dBQEsslSOgmQ7gU6VDoGh4s8gPfw4moOhoEjrJNkx4InLev
+ B6ojt/WNc8bPxUBdi9IlMXXHKBrg3/J2hUpToz5v+giNAu9zflp/kdmiQSvXn+dnrNt3
+ dka/htq1JGGjD4O2tNknRGuESxIq2ZH4V4vVZP6KrU+kZDHcUatng3/TJRcx7TcofpX0
+ pdYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712798469; x=1713403269;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=K78Wb+5lPnl7lDBySF3XIyGuPisCXfXWqPX+4wqyBxE=;
+ b=TTlPpwpjQa2rXBsuOsRgZPkeja6qqx1uNE9QdtJ49O1YIyDIszDdxl662MRew5haVB
+ xxOv4Mg7ZwzcFRB2wuM+Osm8r0HuH0eJlEx5sjXwp42F4GycjO2z9SPjqjNWiM9OkOzk
+ c/o9eV5RqeDINtpLLGyxwoxekzJ52lhSx24Q6frP4jndruQruIjoH2SrCO9nJbdv1O+i
+ 3Eqyh4shTwaS3gccMXExRO0FDjZmvOn209jWpadaW27WwUjfjRojyyoJe6F/4N53989p
+ Ph260+szC3S+pkRYMsWku9/JlqB5HxXKN5tk4DNObeVmfCm6Dynm83vsQc2h9JF9xsvq
+ iypg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXAX42KgGcIUjBtd8sW4T8BpMipD6/6CMVBVVmdfKvjcIeTVTQl8MI/MSzxpfTUom7BaTZifUe2/u+yO0G42Oucsb4RWYNY21wUvC6fTw6/
+X-Gm-Message-State: AOJu0YyVC8NZQTmidzXNGYrk4Gd1dUFbnsYCp8IciIuuLh8mrpfY7tdi
+ 0Oty5pems7hd2B6vZ/u9pqBnvX7oCHHDXTUHHAUIdjOc1fVTN97Tz5GX4FtqitTZCUMaNxAdsSz
+ F/1I/cDC/jzcDPzPV1o7WJnsq03a08TF4A8uNkQ==
+X-Google-Smtp-Source: AGHT+IECYTTuldk0RR57VK+SgkF41GoxYrDnN6w0HIGHHRJBHcFKg9PFCu5uNs9HXTZ79S73AY4eMD3N+bDcYc3xG1I=
+X-Received: by 2002:a05:6902:20c1:b0:dc7:4c21:fbd5 with SMTP id
+ dj1-20020a05690220c100b00dc74c21fbd5mr5044699ybb.0.1712798468822; Wed, 10 Apr
+ 2024 18:21:08 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: gmail.com
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
+References: <20231202214016.1257621-1-dmitry.baryshkov@linaro.org>
+ <20231202214016.1257621-4-dmitry.baryshkov@linaro.org>
+ <bb448864-b974-55ac-4709-ea89bbd2694f@quicinc.com>
+ <CAA8EJpqnjY35RF52yJ8gFRKHoh1ArnnviacDtfntSYZdALD3bQ@mail.gmail.com>
+ <83b45b20-fb7e-564b-4e32-2b6a12c4dc6d@quicinc.com>
+ <uhyqwsevbgvayqf7ky2tasvutpqgvuaa5o7y7scqete3jueuhk@zgji4hgmh4lu>
+ <c0274d67-ae15-8b08-a6af-bd1d77698ab9@quicinc.com>
+In-Reply-To: <c0274d67-ae15-8b08-a6af-bd1d77698ab9@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 11 Apr 2024 04:20:57 +0300
+Message-ID: <CAA8EJppSX=ccwXb2f2SYi9menXO6LLYwqEY5HaSR9K4dh3FRJg@mail.gmail.com>
+Subject: Re: [PATCH 03/12] drm/msm/dpu: use format-related definitions from
+ mdp_common.xml.h
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Stephen Boyd <swboyd@chromium.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,98 +88,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
+On Thu, 11 Apr 2024 at 02:54, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 4/10/2024 2:12 PM, Dmitry Baryshkov wrote:
+> > On Wed, Apr 10, 2024 at 01:18:42PM -0700, Abhinav Kumar wrote:
+> >>
+> >>
+> >> On 4/10/2024 1:16 PM, Dmitry Baryshkov wrote:
+> >>> On Wed, 10 Apr 2024 at 23:00, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> >>>>
+> >>>>
+> >>>>
+> >>>> On 12/2/2023 1:40 PM, Dmitry Baryshkov wrote:
+> >>>>> Instead of having DPU-specific defines, switch to the definitions from
+> >>>>> the mdp_common.xml.h file. This is the preparation for merged of DPU and
+> >>>>> MDP format tables.
+> >>>>>
+> >>>>
+> >>>> Adding MDP_***__ usages in DPU driver is quite confusing.
+> >>>>
+> >>>> Can we align to a common naming scheme such as DISP_***?
+> >>>
+> >>> No, it's not something display-generic. It is specific to MDP
+> >>> platforms. In the end DPU is a continuation of the MDP lineup, isn't
+> >>> it?
+> >>>
+> >>
+> >> No some aspects of the hw are completely different as you already know
+> >> between MDP4/MDP5 and DPU. Bringing back MDP usages into DPU does not seem
+> >> right.
+> >
+> > MDP4 is different, it's true. But there is a lot of common between MDP5
+> > and DPU. Frakly speaking, I don't see an issue with using the constant
+> > that was defined for MDP5 for DPU layer. Especially since we are also
+> > going to use mdp_ functions for format handling.
+> >
+>
+> All the HW naming etc in the doc has migrated to DPU and in fact it only
+> makes sense to start using DPU for MDP5 as we plan to move mdp5 targets
+> to DPU anyway. Not the other way around.
+>
+> MDP4 remains different.
+>
+> How about MSM_DISP then? I dont get why this is MDP platform specific.
 
-Running a lot of VK CTS in parallel against nouveau, once every
-few hours you might see something like this crash.
+I expect MSM_DISP to be applicable to all MSM displays, even if e.g.
+at some point DPU2 switches colour component encoding.
 
-BUG: kernel NULL pointer dereference, address: 0000000000000008
-PGD 8000000114e6e067 P4D 8000000114e6e067 PUD 109046067 PMD 0
-Oops: 0000 [#1] PREEMPT SMP PTI
-CPU: 7 PID: 53891 Comm: deqp-vk Not tainted 6.8.0-rc6+ #27
-Hardware name: Gigabyte Technology Co., Ltd. Z390 I AORUS PRO WIFI/Z390 I A=
-ORUS PRO WIFI-CF, BIOS F8 11/05/2021
-RIP: 0010:gp100_vmm_pgt_mem+0xe3/0x180 [nouveau]
-Code: c7 48 01 c8 49 89 45 58 85 d2 0f 84 95 00 00 00 41 0f b7 46 12 49 8b =
-7e 08 89 da 42 8d 2c f8 48 8b 47 08 41 83 c7 01 48 89 ee <48> 8b 40 08 ff d=
-0 0f 1f 00 49 8b 7e 08 48 89 d9 48 8d 75 04 48 c1
-RSP: 0000:ffffac20c5857838 EFLAGS: 00010202
-RAX: 0000000000000000 RBX: 00000000004d8001 RCX: 0000000000000001
-RDX: 00000000004d8001 RSI: 00000000000006d8 RDI: ffffa07afe332180
-RBP: 00000000000006d8 R08: ffffac20c5857ad0 R09: 0000000000ffff10
-R10: 0000000000000001 R11: ffffa07af27e2de0 R12: 000000000000001c
-R13: ffffac20c5857ad0 R14: ffffa07a96fe9040 R15: 000000000000001c
-FS:  00007fe395eed7c0(0000) GS:ffffa07e2c980000(0000) knlGS:000000000000000=
-0
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000000000008 CR3: 000000011febe001 CR4: 00000000003706f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
+> Because the term MDP no longer holds true for DPU.
 
-...
+The XML is still called mdp_common. And the functions are in the mdp_
+namespace. I don't think we should be changing them just because the
+name has changed.
+Likewise if MDP3 is not compatible with these definitions (to be
+honest, I didn't check) I still don't think we should change these
+names.
 
- ? gp100_vmm_pgt_mem+0xe3/0x180 [nouveau]
- ? gp100_vmm_pgt_mem+0x37/0x180 [nouveau]
- nvkm_vmm_iter+0x351/0xa20 [nouveau]
- ? __pfx_nvkm_vmm_ref_ptes+0x10/0x10 [nouveau]
- ? __pfx_gp100_vmm_pgt_mem+0x10/0x10 [nouveau]
- ? __pfx_gp100_vmm_pgt_mem+0x10/0x10 [nouveau]
- ? __lock_acquire+0x3ed/0x2170
- ? __pfx_gp100_vmm_pgt_mem+0x10/0x10 [nouveau]
- nvkm_vmm_ptes_get_map+0xc2/0x100 [nouveau]
- ? __pfx_nvkm_vmm_ref_ptes+0x10/0x10 [nouveau]
- ? __pfx_gp100_vmm_pgt_mem+0x10/0x10 [nouveau]
- nvkm_vmm_map_locked+0x224/0x3a0 [nouveau]
+> I am even looking for future chipsets. We cannot live with MDP5 names.
+> Have to think of generic names for formats.
 
-Adding any sort of useful debug usually makes it go away, so I hand
-wrote the function in a line, and debugged the asm.
+Ok, I'm open for suggestions from your side.
 
-Every so often pt->memory->ptrs is NULL. This ptrs ptr is set in
-the nv50_instobj_acquire called from nvkm_kmap.
-
-If Thread A and Thread B both get to nv50_instobj_acquire around
-the same time, and Thread A hits the refcount_set line, and in
-lockstep thread B succeeds at refcount_inc_not_zero, there is a
-chance the ptrs value won't have been stored since refcount_set
-is unordered. Force a memory barrier here, I picked smp_mb, since
-we want it on all CPUs and it's write followed by a read.
-
-v2: use paired smp_rmb/smp_wmb.
-
-Cc: linux-stable
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c b/drivers/g=
-pu/drm/nouveau/nvkm/subdev/instmem/nv50.c
-index a7f3fc342d87..dd5b5a17ece0 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c
-@@ -222,8 +222,11 @@ nv50_instobj_acquire(struct nvkm_memory *memory)
- =09void __iomem *map =3D NULL;
-=20
- =09/* Already mapped? */
--=09if (refcount_inc_not_zero(&iobj->maps))
-+=09if (refcount_inc_not_zero(&iobj->maps)) {
-+=09=09/* read barrier match the wmb on refcount set */
-+=09=09smp_rmb();
- =09=09return iobj->map;
-+=09}
-=20
- =09/* Take the lock, and re-check that another thread hasn't
- =09 * already mapped the object in the meantime.
-@@ -250,6 +253,8 @@ nv50_instobj_acquire(struct nvkm_memory *memory)
- =09=09=09iobj->base.memory.ptrs =3D &nv50_instobj_fast;
- =09=09else
- =09=09=09iobj->base.memory.ptrs =3D &nv50_instobj_slow;
-+=09=09/* barrier to ensure the ptrs are written before refcount is set */
-+=09=09smp_wmb();
- =09=09refcount_set(&iobj->maps, 1);
- =09}
-=20
---=20
-2.43.2
-
+-- 
+With best wishes
+Dmitry
