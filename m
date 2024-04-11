@@ -2,46 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A7D18A0A85
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 09:50:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 989E38A0AF4
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 10:14:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7240510EF35;
-	Thu, 11 Apr 2024 07:50:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B8E810E35E;
+	Thu, 11 Apr 2024 08:14:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="g/T5JNan";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="da0mi1E9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F22F10EF35
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 07:50:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id BD1BDCE2F03;
- Thu, 11 Apr 2024 07:50:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4E7AC433C7;
- Thu, 11 Apr 2024 07:50:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1712821831;
- bh=lGM4pEmHClNbLjc+1PEQ6aLt+Q0HPTV1F5SOFsF9vBo=;
- h=Subject:To:Cc:From:Date:In-Reply-To:From;
- b=g/T5JNancXEIZYyH3DZzbxxY+Igt3aod1wDVIJepoa1jADHHjBnhzXV9o+prVbgz8
- GJmxrttkdsnpGV6azOMVbxPlM4IUzws5pjNawHpffySfV6bIR8fO0EtAqWHCwAdPND
- pD68gd0Kewn/nHrOtl16yJSwd3E7lak7x5Eig5zA=
-Subject: Patch "drm/vkms: call drm_atomic_helper_shutdown before
- drm_dev_put()" has been added to the 5.4-stable tree
-To: airlied@linux.ie, dri-devel@lists.freedesktop.org, greg@kroah.com,
- gregkh@linuxfoundation.org, guomengqi3@huawei.com, xuqiang36@huawei.com,
- zhangchangzhong@huawei.com
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Thu, 11 Apr 2024 09:50:14 +0200
-In-Reply-To: <20240409022647.1821-1-guomengqi3@huawei.com>
-Message-ID: <2024041113-zips-jukebox-8ae4@gregkh>
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+ [209.85.215.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70D4410E35E
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 08:14:09 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id
+ 41be03b00d2f7-5cdbc4334edso4662163a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 01:14:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1712823249; x=1713428049;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/gPgcOXlZWvzL9hezqXATwov8+wUxqo6rMbClRd0AZQ=;
+ b=da0mi1E9qK7LlfpPTfvuVnC2d/pJe5Kxbjuaar7kmgKK28NFN1gfniKWhQEDjojsWP
+ htSbCrpcgrlm+yWrYp/5cGAWKj5LorUDMLFfwE7bPjOfoUrAVn1xEMP0YRXyPR6HOsfh
+ vcl7eAaoKmn3R50bSAm1YnvxYtv8nSwQaMI+PivuaeT4n66arL+gZR3RxTbAvEMlJZmJ
+ 61UOecnxjAWT5Nsr23WUpl8OwLSnQ9yshBCzhV5zAHAXRqJTNgXWI8xIcQXT89LDXakO
+ aEa1aDbOWH3A63j4J/nO4WfnPoEcue7mQZLLtkKOK+WCr0Xw6aGWSHzantneHpxgO0zU
+ 3CLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712823249; x=1713428049;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/gPgcOXlZWvzL9hezqXATwov8+wUxqo6rMbClRd0AZQ=;
+ b=ROWLyyu7YSE7gco8UqpKNIfgoLyJfE/dQETXS2voQRqC3NQQKPoIpOT/ykxiKLqQHM
+ vE/KR2GRhm00KpTtfYUo0aL5u2Wz01XC93XNlajhnR0KV1gbLEYNgmqZV0QSqCiR2pZP
+ 4OKWDp9jmEP3ZCktILwuAh0CsvIa/fIYW8aVyB43o/wlhL5EM3SbStvrXfzjYFkX4N+0
+ h/IvGwZaOq1gy/ANfGkHb9wy+CRnf3rktsHFlTKnh8r2qIbV3lRiQVl+bHxJTR2rd4Bu
+ fxAw6eWee8v4jx7DOwGZ5oru3FwWmIcGGVQwx96OyzGExiLEyeRgUghmLMYtPosoyt9+
+ bzww==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWjPHG3TKV0tPzUzATlU84NQmR4nuSLiWdieq8vk+ix+XeDG+NPZ++LUbB73eIs536AiGf111Gi0u1D5LNI7qWstZDWzneKoM9qpbXPEWpg
+X-Gm-Message-State: AOJu0YyD9CUstYrNc1m4/QEkNoCcE/mNvewSG5oW7TAhbPDMqmgm/bBI
+ eYBFg06r5yc+sxx/Ua7tlYRLJNK+XYdPiJ76ifwI1XZwORTtSNGTjsmZCqLhwKEg08uroDlU8DS
+ iGttV+I5TdvhceeYjHLRgM4aFxct5+yg7MCaKlQ==
+X-Google-Smtp-Source: AGHT+IGcVDdqOTlwc3wkUZsuRF2Uh7jsC1fxkgbSC0WqLMKH4Jr4w1KEy1uXeIyrNghvA+2+ZMI6+uM5FVhNo39fx20=
+X-Received: by 2002:a05:6a20:dca8:b0:1a7:7fbb:262d with SMTP id
+ ky40-20020a056a20dca800b001a77fbb262dmr4902168pzb.36.1712823248684; Thu, 11
+ Apr 2024 01:14:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+References: <20240410071439.2152588-1-yangcong5@huaqin.corp-partner.google.com>
+ <20240410071439.2152588-3-yangcong5@huaqin.corp-partner.google.com>
+ <CAD=FV=V2J=Tth2zhpo-kPo4uvESt70mFneO2V6TV-haac0VZuQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=V2J=Tth2zhpo-kPo4uvESt70mFneO2V6TV-haac0VZuQ@mail.gmail.com>
+From: cong yang <yangcong5@huaqin.corp-partner.google.com>
+Date: Thu, 11 Apr 2024 16:13:57 +0800
+Message-ID: <CAHwB_NLgZDwX4PSrSDH+qPkjq=060Vx35BdX76iX3mpMRkHDcQ@mail.gmail.com>
+Subject: Re: [PATCH v1 2/4] drm/panel: boe-tv101wum-nl6: Support for BOE
+ nv110wum-l60 MIPI-DSI panel
+To: Doug Anderson <dianders@chromium.org>
+Cc: LinusW <linus.walleij@linaro.org>, sam@ravnborg.org,
+ neil.armstrong@linaro.org, 
+ daniel@ffwll.ch, airlied@gmail.com, robh+dt@kernel.org, 
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,122 +87,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-This is a note to let you know that I've just added the patch titled
+Doug Anderson <dianders@chromium.org> =E4=BA=8E2024=E5=B9=B44=E6=9C=8811=E6=
+=97=A5=E5=91=A8=E5=9B=9B 15:48=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Hi,
+>
+> On Wed, Apr 10, 2024 at 12:15=E2=80=AFAM Cong Yang
+> <yangcong5@huaqin.corp-partner.google.com> wrote:
+> >
+> > The BOE nv110wum-l60 is a 11.0" WUXGA TFT LCD panel, which fits in nice=
+ly
+> > with the existing panel-boe-tv101wum-nl6 driver. Hence, we add a new
+> > compatible with panel specific config.
+>
+> I guess we have the same question we've had with this driver in the
+> past: do we add more tables here, or do we break this out into a
+> separate driver like we ended up doing with "ili9882t". I guess the
+> question is: what is the display controller used with this panel and
+> is it the same (or nearly the same) display controller as other panels
+> in this driver or is it a completely different display controller.
+> Maybe you could provide this information in the commit message to help
+> reviewers understand.
 
-    drm/vkms: call drm_atomic_helper_shutdown before drm_dev_put()
+okay, I will add detailed information in V2 patch.Thanks.
+>
+>
+> > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> > ---
+> >  .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 115 ++++++++++++++++++
+> >  1 file changed, 115 insertions(+)
+>
+> Maybe add Linus W to your patches since he has had opinions on this
+> driver in the past. I've added him as CC here but you should make sure
+> to CC him on future versions unless he says not to. ;-)
 
-to the 5.4-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+Got it,thanks.
 
-The filename of the patch is:
-     drm-vkms-call-drm_atomic_helper_shutdown-before-drm_dev_put.patch
-and it can be found in the queue-5.4 subdirectory.
+>
+>
+> > diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/g=
+pu/drm/panel/panel-boe-tv101wum-nl6.c
+> > index 0ffe8f8c01de..f91827e1548c 100644
+> > --- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+> > +++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+> > @@ -1368,6 +1368,91 @@ static const struct panel_init_cmd starry_himax8=
+3102_j02_init_cmd[] =3D {
+> >         {},
+> >  };
+> >
+> > +static const struct panel_init_cmd boe_nv110wum_init_cmd[] =3D {
+> > +       _INIT_DELAY_CMD(60),
+> > +       _INIT_DCS_CMD(0xB9, 0x83, 0x10, 0x21, 0x55, 0x00),
+>
+> Given that the first command of "(0xB9, 0x83, 0x10, 0x21, 0x55, 0x00)"
+> seems to be the same as "starry_himax83102_j02" maybe those two are
+> the same controller? I'm just guessing, but if those are the same
+> controller as the two new ones you're adding in this series, maybe all
+> 3 of them should be in their own driver? Maybe we can do something to
+> make more sense of some of these commands too? There certainly seem to
+> be a lot of commonalities in the init sequences of all 3 and if we can
+> define the init sequence more logically then we can share more of the
+> code between the different panels and we don't have a giant duplicated
+> blob.
 
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
+Yes, your guess is correct. boe_nv110wum and ivo_t109nw41 and
+starry_himax83102_j02
+are the same controller (himax83102). They are equipped with different
+glass panels (BOE/IVO/starry),
+so there will be some differences in initial code and porch.
 
+>
+>
+> > +       _INIT_DCS_CMD(0xB9, 0x00, 0x00, 0x00),
+> > +       _INIT_DELAY_CMD(50),
+> > +       _INIT_DCS_CMD(0x11),
+> > +       _INIT_DELAY_CMD(110),
+> > +       _INIT_DCS_CMD(0x29),
+> > +       _INIT_DELAY_CMD(25),
+> > +       {},
+> > +};
+> >  static inline struct boe_panel *to_boe_panel(struct drm_panel *panel)
+>
+> nit: should have a blank line between the end of your struct and the
+> next function.
 
-From guomengqi3@huawei.com  Thu Apr 11 09:41:35 2024
-From: Guo Mengqi <guomengqi3@huawei.com>
-Date: Tue, 9 Apr 2024 10:26:47 +0800
-Subject: drm/vkms: call drm_atomic_helper_shutdown before drm_dev_put()
-To: <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>, <stable@vger.kernel.org>, <xuqiang36@huawei.com>, <zhangchangzhong@huawei.com>, <greg@kroah.com>
-Cc: <guomengqi3@huawei.com>
-Message-ID: <20240409022647.1821-1-guomengqi3@huawei.com>
+Got it,thanks.
 
-From: Guo Mengqi <guomengqi3@huawei.com>
+>
+>
+> > +static const struct panel_desc boe_nv110wum_desc =3D {
+> > +       .modes =3D &boe_tv110wum_default_mode,
+> > +       .bpc =3D 8,
+> > +       .size =3D {
+> > +               .width_mm =3D 147,
+> > +               .height_mm =3D 235,
+> > +       },
+> > +       .lanes =3D 4,
+> > +       .format =3D MIPI_DSI_FMT_RGB888,
+> > +       .mode_flags =3D MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_=
+PULSE |
+> > +                     MIPI_DSI_MODE_LPM,
+> > +       .init_cmds =3D boe_nv110wum_init_cmd,
+> > +       .lp11_before_reset =3D true,
+> > +};
+> >  static int boe_panel_get_modes(struct drm_panel *panel,
+> >                                struct drm_connector *connector)
+>
+> nit: should have a blank line between the end of your struct and the
+> next function.
+>
+>
+> > @@ -1973,6 +2085,9 @@ static const struct of_device_id boe_of_match[] =
+=3D {
+> >         { .compatible =3D "starry,himax83102-j02",
+> >           .data =3D &starry_himax83102_j02_desc
+> >         },
+> > +       { .compatible =3D "boe,nv110wum-l60",
+> > +         .data =3D &boe_nv110wum_desc
+> > +       },
+>
+> nit: the existing panels that are supported are sorted alphabetically.
+> Please sort things alphabetically throughout your patch series.
 
-commit 73a82b22963d ("drm/atomic: Fix potential use-after-free
-in nonblocking commits") introduced drm_dev_get/put() to
-drm_atomic_helper_shutdown(). And this cause problem in vkms driver exit
-process.
+Got it, fx net patch. Thanks.
 
-vkms_exit()
-  drm_dev_put()
-    vkms_release()
-      drm_atomic_helper_shutdown()
-        drm_dev_get()
-        drm_dev_put()
-          vkms_release()    ------ use after free
-
-Using 5.4 stable x86 image on qemu, below stacktrace can be triggered by
-load and unload vkms.ko.
-
-root:~ # insmod vkms.ko
-[   76.957802] [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
-[   76.961490] [drm] Driver supports precise vblank timestamp query.
-[   76.964416] [drm] Initialized vkms 1.0.0 20180514 for vkms on minor 0
-root:~ # rmmod vkms.ko
-[   79.650202] refcount_t: addition on 0; use-after-free.
-[   79.650249] WARNING: CPU: 2 PID: 3533 at ../lib/refcount.c:25 refcount_warn_saturate+0xcf/0xf0
-[   79.654241] Modules linked in: vkms(-)
-[   79.654249] CPU: 2 PID: 3533 Comm: rmmod Not tainted 5.4.273 #4
-[   79.654251] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.13.0-0-gf21b5a4aeb02-prebuilt.qemu.org 04/01/2014
-[   79.654262] RIP: 0010:refcount_warn_saturate+0xcf/0xf0
-...
-[   79.654296] Call Trace:
-[   79.654462]  ? __warn+0x80/0xd0
-[   79.654473]  ? refcount_warn_saturate+0xcf/0xf0
-[   79.654481]  ? report_bug+0xb6/0x130
-[   79.654484]  ? refcount_warn_saturate+0xcf/0xf0
-[   79.654489]  ? fixup_bug.part.12+0x13/0x30
-[   79.654492]  ? do_error_trap+0x90/0xb0
-[   79.654495]  ? do_invalid_op+0x31/0x40
-[   79.654497]  ? refcount_warn_saturate+0xcf/0xf0
-[   79.654504]  ? invalid_op+0x1e/0x30
-[   79.654508]  ? refcount_warn_saturate+0xcf/0xf0
-[   79.654516]  drm_atomic_state_init+0x68/0xb0
-[   79.654543]  drm_atomic_state_alloc+0x43/0x60
-[   79.654551]  drm_atomic_helper_disable_all+0x13/0x180
-[   79.654562]  drm_atomic_helper_shutdown+0x5f/0xb0
-[   79.654571]  vkms_release+0x18/0x40 [vkms]
-[   79.654575]  vkms_exit+0x29/0xc00 [vkms]
-[   79.654582]  __x64_sys_delete_module+0x155/0x220
-[   79.654592]  do_syscall_64+0x43/0x120
-[   79.654603]  entry_SYSCALL_64_after_hwframe+0x5c/0xc1
-[   79.654619] ---[ end trace ce0c02f57ea6bf73 ]---
-
-It seems that the proper unload sequence is:
-	drm_atomic_helper_shutdown();
-	drm_dev_put();
-
-Just put drm_atomic_helper_shutdown() before drm_dev_put()
-should solve the problem.
-
-Note that vkms exit code is refactored by commit 53d77aaa3f76
-("drm/vkms: Use devm_drm_dev_alloc") in tags/v5.10-rc1.
-
-So this bug only exists on 4.19 and 5.4.
-
-Fixes: 380c7ceabdde ("drm/atomic: Fix potential use-after-free in nonblocking commits")
-Fixes: 2ead1be54b22 ("drm/vkms: Fix connector leak at the module removal")
-Signed-off-by: Guo Mengqi <guomengqi3@huawei.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/vkms/vkms_drv.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -60,7 +60,6 @@ static void vkms_release(struct drm_devi
- 	struct vkms_device *vkms = container_of(dev, struct vkms_device, drm);
- 
- 	platform_device_unregister(vkms->platform);
--	drm_atomic_helper_shutdown(&vkms->drm);
- 	drm_mode_config_cleanup(&vkms->drm);
- 	drm_dev_fini(&vkms->drm);
- 	destroy_workqueue(vkms->output.composer_workq);
-@@ -194,6 +193,7 @@ static void __exit vkms_exit(void)
- 	}
- 
- 	drm_dev_unregister(&vkms_device->drm);
-+	drm_atomic_helper_shutdown(&vkms_device->drm);
- 	drm_dev_put(&vkms_device->drm);
- 
- 	kfree(vkms_device);
-
-
-Patches currently in stable-queue which might be from guomengqi3@huawei.com are
-
-queue-5.4/drm-vkms-call-drm_atomic_helper_shutdown-before-drm_dev_put.patch
+>
+> -Doug
