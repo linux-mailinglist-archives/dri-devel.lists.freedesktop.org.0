@@ -2,55 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD8DC8A18DA
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 17:38:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40ACA8A18F9
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 17:45:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9220F10F19A;
-	Thu, 11 Apr 2024 15:37:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2675410F1B2;
+	Thu, 11 Apr 2024 15:45:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="XRBu+FT+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="U5xpbGya";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6E8010F1A0;
- Thu, 11 Apr 2024 15:37:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
- Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
- Resent-Cc:Resent-Message-ID; bh=WE1dyOcRCkdDKHVQSE8grhwnH0jVKprFA2u7hDTWTaw=; 
- t=1712849867; x=1714059467; b=XRBu+FT+7gf4nXL527UYPu6pIDg8XI52N1uGTaJ+w3PRART
- pjGwhbT04snPvbFSIWFMgFYDftsjV4ZDVtXs1JnFo0zyt9Z/Dh5Yna78Sqzdu2LEKvjMSe8y9laZt
- Ru4zMpDlQ32UkQamSc0TcC64Y8Ax540ECNMnY8ynSJ+lQK8Y5vvqy2++kXk+LZOygYAXHSdNPD9v5
- 8g/VA0oaxl4jPNxAKSXxM2jjHSIC+y6onW0jFv/QpK7fnUrKwYPb1b3pdpq5ase2/naPkWEJ5J37U
- Lff3ukg558oWQkYzWVBORSBJspFJ/2YbrDCZ1A+RnvY6nvY4iqefSbe+yigWuaJg==;
-Received: by sipsolutions.net with esmtpsa
- (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.97) (envelope-from <johannes@sipsolutions.net>)
- id 1ruwUh-00000002nXW-0s48; Thu, 11 Apr 2024 17:37:43 +0200
-Message-ID: <d2a0cf345c7e049ffd76acd315e6b377d94a344c.camel@sipsolutions.net>
-Subject: Re: [PATCH] treewide: Fix common grammar mistake "the the"
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Thorsten Blum <thorsten.blum@toblux.com>, kernel-janitors@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-s390@vger.kernel.org, speakup@linux-speakup.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-wireless@vger.kernel.org, 
- linux-scsi@vger.kernel.org, linux-afs@lists.infradead.org, 
- ecryptfs@vger.kernel.org, netfs@lists.linux.dev,
- linux-fsdevel@vger.kernel.org,  linux-unionfs@vger.kernel.org,
- linux-arch@vger.kernel.org,  io-uring@vger.kernel.org, cocci@inria.fr,
- linux-perf-users@vger.kernel.org
-Date: Thu, 11 Apr 2024 17:37:41 +0200
-In-Reply-To: <20240411150437.496153-4-thorsten.blum@toblux.com>
-References: <20240411150437.496153-4-thorsten.blum@toblux.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D3D510F1AC;
+ Thu, 11 Apr 2024 15:45:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1712850319; x=1744386319;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=XGWVELg2qaMdFfmrFFk9Y3LNwzmLrR+g9/UOYabFxBk=;
+ b=U5xpbGyaVfqEaJjQbDhSgX+Tfo0psMlshRhi+Z5QR94zWjTVNGrlD9Hz
+ oW7US1mOmODvBrI9atHX8Clohv43PgFEtzNxq3lZQ2HGrgbR0xBUcu5SY
+ b+gcFXxJ2TTMK9aigqOSk+scDXknJSFlxY6ww+jA4OH8CAbylzXqk0sLM
+ Ekp49FM8OSaE7gkJV6dkuXx31VHN94iYkQZBORWqwnHxW7mrXDpPqkc8V
+ SZouCs+W5uGeOLaJUAofTjyNAJ/J5XUnLesJnpELTIxKsXfB2kv8AM7jd
+ nNsombCsmEWzBLOHpE/XPT6hCQGhguUHlUytWdf2yvbQafKbbIuQWvIBW w==;
+X-CSE-ConnectionGUID: 6ajQWc8vQiaNSRU2f62YhQ==
+X-CSE-MsgGUID: 31q5U/VARIiN9/jcIf2Rvg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="18827087"
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; d="scan'208";a="18827087"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2024 08:45:12 -0700
+X-CSE-ConnectionGUID: mKoR+sRVR5Kdo46fv9GmUQ==
+X-CSE-MsgGUID: QX44pQXpRma6ajjP/TPHdA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; d="scan'208";a="20845021"
+Received: from unknown (HELO localhost) ([10.237.66.160])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2024 08:45:08 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: jani.nikula@intel.com, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>
+Subject: [PATCH 11/10] MAINTAINERS: update i915 and xe entries for
+ include/drm/intel
+Date: Thu, 11 Apr 2024 18:45:03 +0300
+Message-Id: <20240411154503.342217-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <cover.1712743191.git.jani.nikula@intel.com>
+References: <cover.1712743191.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,21 +75,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2024-04-11 at 17:04 +0200, Thorsten Blum wrote:
-> Use `find . -type f -exec sed -i 's/\<the the\>/the/g' {} +` to find all
-> occurrences of "the the" and replace them with a single "the".
+With all the Intel specific drm files under include/drm/intel, update
+the i915, xe, and the shared display entries. Do not discriminate based
+on file name pattern, just add the entire directory for all three
+entries.
 
-I estimated that this misses at least ~50 instances split across lines:
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ MAINTAINERS | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-$ git grep -ih -A1 -e 'the$'|grep -vi 'the$'|grep -E -- '^[^a-zA-Z0-9]*the =
-'|wc -l
-51
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e7a511b443af..a71254fdbf4c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10841,6 +10841,7 @@ S:	Supported
+ F:	drivers/gpu/drm/i915/display/
+ F:	drivers/gpu/drm/xe/display/
+ F:	drivers/gpu/drm/xe/compat-i915-headers
++F:	include/drm/intel/
+ 
+ INTEL DRM I915 DRIVER (Meteor Lake, DG2 and older excluding Poulsbo, Moorestown and derivative)
+ M:	Jani Nikula <jani.nikula@linux.intel.com>
+@@ -10858,7 +10859,7 @@ F:	Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon
+ F:	Documentation/gpu/i915.rst
+ F:	drivers/gpu/drm/ci/xfails/i915*
+ F:	drivers/gpu/drm/i915/
+-F:	include/drm/i915*
++F:	include/drm/intel/
+ F:	include/uapi/drm/i915_drm.h
+ 
+ INTEL DRM XE DRIVER (Lunar Lake and newer)
+@@ -10875,7 +10876,7 @@ T:	git https://gitlab.freedesktop.org/drm/xe/kernel.git
+ F:	Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon
+ F:	Documentation/gpu/xe/
+ F:	drivers/gpu/drm/xe/
+-F:	include/drm/xe*
++F:	include/drm/intel/
+ F:	include/uapi/drm/xe_drm.h
+ 
+ INTEL ETHERNET DRIVERS
+-- 
+2.39.2
 
-And a bunch that have more than one space:
-
-$ git grep -E '\<the\s\s+the\>'|wc -l
-20
-
-So not sure you should claim "all" ;-)
-
-johannes
