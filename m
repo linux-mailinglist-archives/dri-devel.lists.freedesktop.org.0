@@ -2,66 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CE9A8A206A
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 22:47:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94A1F8A2096
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 23:02:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3C5510E05A;
-	Thu, 11 Apr 2024 20:47:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0947610F387;
+	Thu, 11 Apr 2024 21:02:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OtsSrZC1";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="fkay/JR2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
- [209.85.208.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52F8A10F35B;
- Thu, 11 Apr 2024 20:47:24 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id
- 4fb4d7f45d1cf-56fe8093c9eso169619a12.3; 
- Thu, 11 Apr 2024 13:47:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1712868442; x=1713473242; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=pNvwduxpSq9WO+e0WyOpsKd++VksO+huhp6HjRMGyn8=;
- b=OtsSrZC18hQnu7uMSXF9EvwfdbKEw3pZFMXKr5ep0XCj/TP2Ekdrnihq0O7RtHH6oB
- WyJa088QeI4BY0RSL1jwjQ4fg90WRtrzTJ05QMD+dIf9LBj917+2s3ukG99ZyPueO+XL
- BN1q4khc8GmOrd0VSzAyt6CbaV09uVQX7mNWNO/mwzSOnyVh/gMUtqrDpVZk8EjYNwa/
- bxs+YTO2eKDwQbbzLwo+ze4Uqg7lRkA4wSEhF1vMCewg4l51EpdE9SrQoZpWP6EPlocY
- TGpbyAp/JQZS38BaR+LtdD9f9Ylo1v8piO5ScrgLvAzjsMLEhf1pBARzpPgescSdMWfo
- uUVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712868442; x=1713473242;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=pNvwduxpSq9WO+e0WyOpsKd++VksO+huhp6HjRMGyn8=;
- b=Dh49yZWwpFxCqBYdEHlBYxW3rWiqSgtXv99na1/96y7IbsDNM0rO1HXFlPNnrnRhbZ
- 2eQWckeFjYo1p7/2/uvSm17z5zDthCPnKZuq7vjdXnGkRLKxL+MG9p/3sEqjfyXG9pWj
- 0IoVOxN15g5XkY3FP68m8ttQwzdz/ezW14x82Po8kl6zeCeczxCmYd/d8C3Ls/pnI0yv
- gRUz+0Xp4hUb+WhVt2kJqDoALScW3/bTrW72U8LBhHppDd7KtrmztgqEY9gwEj/Mg9yK
- W/MpocXUbkxPNtoaIRYDA+lkkx7JvDNknq/7diXaphRqtY2VFsJt9x/WY+R9gnlcNjNj
- WUmw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU9gD2oqEeUQirAx7HJ/+HDFkUkR9IWyxEepEjV+CVexl6M3s2aauXbL+6TBF5ESD5axxa/6VFjpfWx4LdlsQVCQquOp31HuJtUFm+z4HKB
-X-Gm-Message-State: AOJu0YzFb7IRYyLl3mn2vjB9CHXvXfpdrjn0sIYtN5HlGVbCIrY3h7Rm
- kRzMaY95StqKThD+GJJxjyKNHHagheKbLfq3UHpYQJTu2bE5iAavOMlqsD92uKxnuNxLc8MM3t7
- QidmTnuKCDesWU4IrLgWNjXz3CzI=
-X-Google-Smtp-Source: AGHT+IEXC8vd601g34DAlg+5kxr80HRO5E3BH8JsV/SefNBnF2wjRLMMLGOX8rcfSfcyTwdASctFl8TSdN66D0UF2Co=
-X-Received: by 2002:a50:931b:0:b0:56d:f5ff:83ab with SMTP id
- m27-20020a50931b000000b0056df5ff83abmr572001eda.39.1712868440830; Thu, 11 Apr
- 2024 13:47:20 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BD7310F383;
+ Thu, 11 Apr 2024 21:02:24 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 43BKENSf023045; Thu, 11 Apr 2024 21:02:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=gyF26bz2ntr6P14HAZa2oooqdS4ojk3WFGC29s8K5GA=; b=fk
+ ay/JR2PoQNOHkzdzYQk6bBSeo9v5kRbKiaRVlLDLncfNoI6Icr2we4uHu6pBd9Tk
+ FJKOSje4Sf1nvk82J5wd1wk4Gp+AVg+4S80f4denU3I1I+RuXUFmg4DDnjEGwOjg
+ kfqiS9ukrSowkNZDtKscmELfl1fRzjghXMbRO43Q1TrZ8D4QcFyG4P4KFj4bt6Xc
+ CcMyqU4qqWUxZeY/6Mb3g6HBg75syCChWOQvwYddJKkEh567L+53+XZRDXgVtV9/
+ l+/mZvpZoG0a20DA4Yl5EA5lzZPuQY7MyRXXgb/ZZbtkej4SGuYYqmydHtZOz2GU
+ ddjI3qYBVY7o0mHexS+A==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xep6fg4ae-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 11 Apr 2024 21:02:18 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43BL2Hn1017061
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 11 Apr 2024 21:02:17 GMT
+Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 11 Apr
+ 2024 14:02:17 -0700
+Message-ID: <338bbd6b-d9fc-1fa8-0c8d-ed4f03a13061@quicinc.com>
+Date: Thu, 11 Apr 2024 14:02:16 -0700
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 11 Apr 2024 13:47:09 -0700
-Message-ID: <CAF6AEGvFwRUcHGWva7oDeydq1PTiZMduuykCD2MWaFrT4iMGZA@mail.gmail.com>
-Subject: [pull] drm/msm: drm-msm-next-2024-04-11 for v6.9-rc4
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 08/12] drm/msm: convert msm_format::unpack_tight to the
+ flag
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+CC: Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20231202214016.1257621-1-dmitry.baryshkov@linaro.org>
+ <20231202214016.1257621-9-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20231202214016.1257621-9-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: Z045ceKATNTa2CWhmi2QvC0XHaJvrEMy
+X-Proofpoint-ORIG-GUID: Z045ceKATNTa2CWhmi2QvC0XHaJvrEMy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-11_10,2024-04-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0
+ clxscore=1015 bulkscore=0 mlxlogscore=828 adultscore=0 lowpriorityscore=0
+ impostorscore=0 spamscore=0 suspectscore=0 priorityscore=1501 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
+ definitions=main-2404110153
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,77 +96,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
 
-Fixes for v6.9, description below
 
-The following changes since commit 4be445f5b6b6810baf397b2d159bd07c3573fd75:
+On 12/2/2023 1:40 PM, Dmitry Baryshkov wrote:
+> Instead of having a u8 or bool field unpack_tight, convert it to the
+> flag, this save space in the tables and allows us to handle all booleans
+> in the same way.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c | 22 +++------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c |  2 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c   |  2 +-
+>   drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c  |  3 +-
+>   drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c  |  3 +-
+>   drivers/gpu/drm/msm/disp/mdp_format.c       | 52 ++++++++++-----------
+>   drivers/gpu/drm/msm/msm_drv.h               |  4 +-
+>   7 files changed, 41 insertions(+), 47 deletions(-)
+> 
 
-  drm/msm/dpu: capture snapshot on the first commit_done timeout
-(2024-03-04 11:44:03 +0200)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-next-2024-04-11
-
-for you to fetch changes up to 9dc23cba0927d09cb481da064c8413eb9df42e2b:
-
-  drm/msm/adreno: Set highest_bank_bit for A619 (2024-04-05 11:24:53 -0700)
-
-----------------------------------------------------------------
-Fixes for v6.9
-
-Display:
-- Fixes for PM refcount leak when DP goes to disconnected state and
-  also when link training fails. This is also one of the issues found
-  with the pm runtime series
-- Add missing newlines to prints in msm_fb and msm_kms
-- Change permissions of some dpu debugfs entries which write to const
-  data from catalog to read-only to avoid protection faults
-- Fix the interface table for the catalog of X1E80100. This is an
-  important fix to bringup DP for X1E80100.
-- Logging fix to print the callback symbol in the invalid IRQ message
-  case rather than printing when its known to be NULL.
-- Bindings fix to add DP node as child of mdss for mdss node
-- Minor typo fix in DP driver API which handles port status change
-
-GPU:
-- fix CHRASHDUMP_READ()
-- fix HHB (highest bank bit) for a619 to fix UBWC corruption
-
-----------------------------------------------------------------
-Abhinav Kumar (1):
-      drm/msm/dp: fix typo in dp_display_handle_port_status_changed()
-
-Dmitry Baryshkov (3):
-      drm/msm/dpu: don't allow overriding data from catalog
-      drm/msm/dpu: make error messages at
-dpu_core_irq_register_callback() more sensible
-      dt-bindings: display/msm: sm8150-mdss: add DP node
-
-Johan Hovold (2):
-      drm/msm/dp: fix runtime PM leak on disconnect
-      drm/msm/dp: fix runtime PM leak on connect failure
-
-Kuogee Hsieh (1):
-      drm/msm/dp: assign correct DP controller ID to x1e80100 interface table
-
-Luca Weiss (1):
-      drm/msm/adreno: Set highest_bank_bit for A619
-
-Miguel Ojeda (1):
-      drm/msm: fix the `CRASHDUMP_READ` target of `a6xx_get_shader_block()`
-
-Stephen Boyd (1):
-      drm/msm: Add newlines to some debug prints
-
- .../bindings/display/msm/qcom,sm8150-mdss.yaml     |  9 ++++++
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  4 +++
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        |  2 +-
- .../drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h   | 34 ++++++++++++++++++++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c      | 10 +++----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c  |  8 ++---
- drivers/gpu/drm/msm/dp/dp_display.c                |  6 ++--
- drivers/gpu/drm/msm/msm_fb.c                       |  6 ++--
- drivers/gpu/drm/msm/msm_kms.c                      |  4 +--
- 9 files changed, 63 insertions(+), 20 deletions(-)
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
