@@ -2,89 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7328A0A8B
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 09:51:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0D068A0A82
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 09:50:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B6C710EF36;
-	Thu, 11 Apr 2024 07:51:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D46D10EF32;
+	Thu, 11 Apr 2024 07:50:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kroah.com header.i=@kroah.com header.b="AF3ArE2p";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="Rw1Y+yKZ";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ce0RpURH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 521 seconds by postgrey-1.36 at gabe;
- Thu, 11 Apr 2024 07:51:16 UTC
-Received: from wfhigh5-smtp.messagingengine.com
- (wfhigh5-smtp.messagingengine.com [64.147.123.156])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C3D910EF36
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 07:51:15 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailfhigh.west.internal (Postfix) with ESMTP id 3620318000A7;
- Thu, 11 Apr 2024 03:42:33 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 11 Apr 2024 03:42:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1712821352;
- x=1712907752; bh=L1aRStXBed7JkQOFONFj/EZa6Keynn96VjRq49KnU/o=; b=
- AF3ArE2phApSlW6eTlQ8vvvRyINs61aUzQziPBl6P8pUiI3NYuVxN4hRvYuZmYQ+
- WDSp38PZVO3jZT9pYmP6GxcxEu/NzHyNvv/TevWEFDTmhkU+GPF37+HQFRjTrQ7x
- IhyvVbvsGEzfFD7ZdWRjVMnGU27Qkuzy56RdbirEscZdPhyJZihYvDITCJmUzjyO
- ZjAcIsuc39hndYICNlWBu3xFKwSifPtFEjn9y6xWYggNlCfNGWjSbLX49I0VK23M
- /LfpNfQQ6COh6E+u08F3sAPynAAzQGzhvLQ5Nb+sg5iBVqfdnHjbGU34axDr8ffL
- OtrF5M9vBYGcBPoDJuVxjg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1712821352; x=
- 1712907752; bh=L1aRStXBed7JkQOFONFj/EZa6Keynn96VjRq49KnU/o=; b=R
- w1Y+yKZLYHu1ZdMCvgxRnpmM/SJ9L9ZDHyZBWBEmQgmWgoAXoznRLg2ADwvzjCxe
- l85Flrqles1EZcxKVxqqTwdRpYVma0bTyHVO5ITwhrgJYKDYYeQ7C7RKuiWIKKFr
- oVkpaho5cJCnwQ9r/Kp2v9xZW9F1pJMLWEiR55wPRnSN1Y2h3GCJqk4rxss6GCg2
- 5t9B81rXaG1cMzDysd0NEOvs8reblNE5Te67xhqaDuaOlv8UVT6RaZiXq2hiq+up
- ByKMewtsSJLyEYHIV3ISiRmlDSTlw0XuZBLyhGWHsblUzgn8N+nAqjMk4sNhKA5a
- qvG77YMPGvuXq8NX9xAkw==
-X-ME-Sender: <xms:Z5QXZuJQw7JwfIL7polfrqHh8PdCaeHN01l12zhk8s4lq9Go8mC3AA>
- <xme:Z5QXZmKYImzvFPiQVz1CGLNQ62h0XpQSTh9594YXO1QZ5-t2MtQZ3f9LT8yemfuWe
- TuLTFMtgBoSug>
-X-ME-Received: <xmr:Z5QXZutFW423wIuYhoIlRh6xoQz5u9E9y-hbC_KwptVeDdpGaQy-FIRrbNwOzJxsfmsPSAa3dhbNjNmoaB9CnP2LhqSbMY-34Ixs5A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudehjedguddulecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomhepifhr
- vghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepfe
- ettefhtdehffdtffffjeegtdegvdekgeeuvddvteekgffhlefhteegveeuffejnecuffho
- mhgrihhnpehqvghmuhdrohhrghdpuddtqdhrtgdurdhsohdpkhgvrhhnvghlrdhorhhgne
- cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghg
- sehkrhhorghhrdgtohhm
-X-ME-Proxy: <xmx:Z5QXZjZTNbR3UXVxCRAXHAJwCAurWnVcgK5EhTnR3Nd-WpbTNV2JZQ>
- <xmx:Z5QXZla2gml54AQ430VoyhtpLxhuaJieFyQmJYQz8m4ZAdJt3odpdw>
- <xmx:Z5QXZvCCp4jssUxTZPZbrsM2iYWoJ7pqnTqBHEr0cdqCZ3WkwYs0_g>
- <xmx:Z5QXZrbx0_axCbsc8mZ-U0QFEuUgtCqhgkyvwrIUyghMmMsCSBfqLg>
- <xmx:aJQXZpTL18BqCRoX4naEgc7e4aeDeCVVXQ8zFERm4LqQqrmA3GxxtGJ4>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 11 Apr 2024 03:42:31 -0400 (EDT)
-Date: Thu, 11 Apr 2024 09:42:28 +0200
-From: Greg KH <greg@kroah.com>
-To: "guomengqi (A)" <guomengqi3@huawei.com>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org, xuqiang36@huawei.com, zhangchangzhong@huawei.com
-Subject: Re: [PATCH 4.19.y] drm/vkms: call drm_atomic_helper_shutdown before
- drm_dev_put()
-Message-ID: <2024041121-tuition-undermine-26b6@gregkh>
-References: <20240403094716.80313-1-guomengqi3@huawei.com>
- <2024040549-pushover-applied-4948@gregkh>
- <a29f435b-424e-4f9f-36cb-3faf22c4b0b3@huawei.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3CAC10EF32
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 07:49:57 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id D3F7D61E2E;
+ Thu, 11 Apr 2024 07:49:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EC33C433C7;
+ Thu, 11 Apr 2024 07:49:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1712821796;
+ bh=/JgVApK1IBl3YCadLywpa/xMAaFlY/yaqytCBGv3v6s=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:From;
+ b=ce0RpURHEPPFHRK1u+Jt01iavpb62uPZEuTrEuPYSjTc4CCX48aqAfEBSzsqpJF7m
+ LTvhkDzFfkPhpQyGXElsahHaaX7ar8OynrBZhxvwnbpcfjt3yrractY7Je603+SX1W
+ 7ykV/b3BBV4YWyEpDEh3Sf0lIJm8+s1zCUQWurIY=
+Subject: Patch "drm/vkms: call drm_atomic_helper_shutdown before
+ drm_dev_put()" has been added to the 4.19-stable tree
+To: airlied@linux.ie, dri-devel@lists.freedesktop.org, greg@kroah.com,
+ gregkh@linuxfoundation.org, guomengqi3@huawei.com, xuqiang36@huawei.com,
+ zhangchangzhong@huawei.com
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Thu, 11 Apr 2024 09:49:53 +0200
+In-Reply-To: <20240409022647.1821-1-guomengqi3@huawei.com>
+Message-ID: <2024041153-charger-clustered-0297@gregkh>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a29f435b-424e-4f9f-36cb-3faf22c4b0b3@huawei.com>
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,77 +57,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 09, 2024 at 10:38:34AM +0800, guomengqi (A) wrote:
-> 
-> 在 2024/4/5 17:30, Greg KH 写道:
-> > On Wed, Apr 03, 2024 at 05:47:16PM +0800, Guo Mengqi wrote:
-> > > commit 73a82b22963d ("drm/atomic: Fix potential use-after-free
-> > > in nonblocking commits") introduced drm_dev_get/put() to
-> > > drm_atomic_helper_shutdown(). And this cause problem in vkms driver exit
-> > > process.
-> > > 
-> > > vkms_exit()
-> > >    drm_dev_put()
-> > >      vkms_release()
-> > >        drm_atomic_helper_shutdown()
-> > >          drm_dev_get()
-> > >          drm_dev_put()
-> > >            vkms_release()    ------ null pointer access
-> > > 
-> > > Using 4.19 stable x86 image on qemu, below stacktrace can be triggered by
-> > > load and unload vkms.ko.
-> > > 
-> > > root:~ # insmod vkms.ko
-> > > [  142.135449] [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
-> > > [  142.138713] [drm] Driver supports precise vblank timestamp query.
-> > > [  142.142390] [drm] Initialized vkms 1.0.0 20180514 for virtual device on minor 0
-> > > root:~ # rmmod vkms.ko
-> > > [  144.093710] BUG: unable to handle kernel NULL pointer dereference at 00000000000000a0
-> > > [  144.097491] PGD 800000023624e067 P4D 800000023624e067 PUD 22ab59067 PMD 0
-> > > [  144.100802] Oops: 0000 [#1] SMP PTI
-> > > [  144.102502] CPU: 0 PID: 3615 Comm: rmmod Not tainted 4.19.310 #1
-> > > [  144.104452] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.13.0-0-gf21b5a4aeb02-prebuilt.qemu.org 04/01/2014
-> > > [  144.107238] RIP: 0010:device_del+0x34/0x3a0
-> > > ...
-> > > [  144.131323] Call Trace:
-> > > [  144.131962]  ? __die+0x7d/0xc0
-> > > [  144.132711]  ? no_context+0x152/0x3b0
-> > > [  144.133605]  ? wake_up_q+0x70/0x70
-> > > [  144.134436]  ? __do_page_fault+0x342/0x4b0
-> > > [  144.135445]  ? __switch_to_asm+0x41/0x70
-> > > [  144.136416]  ? __switch_to_asm+0x35/0x70
-> > > [  144.137366]  ? page_fault+0x1e/0x30
-> > > [  144.138214]  ? __drm_atomic_state_free+0x51/0x60
-> > > [  144.139331]  ? device_del+0x34/0x3a0
-> > > [  144.140197]  platform_device_del.part.14+0x19/0x70
-> > > [  144.141348]  platform_device_unregister+0xe/0x20
-> > > [  144.142458]  vkms_release+0x10/0x30 [vkms]
-> > > [  144.143449]  __drm_atomic_helper_disable_all.constprop.31+0x13b/0x150
-> > > [  144.144980]  drm_atomic_helper_shutdown+0x4b/0x90
-> > > [  144.146102]  vkms_release+0x18/0x30 [vkms]
-> > > [  144.147107]  vkms_exit+0x29/0x8ec [vkms]
-> > > [  144.148053]  __x64_sys_delete_module+0x155/0x220
-> > > [  144.149168]  do_syscall_64+0x43/0x100
-> > > [  144.150056]  entry_SYSCALL_64_after_hwframe+0x5c/0xc1
-> > > 
-> > > It seems that the proper unload sequence is:
-> > > 	drm_atomic_helper_shutdown();
-> > > 	drm_dev_put();
-> > > 
-> > > Just put drm_atomic_helper_shutdown() before drm_dev_put()
-> > > should solve the problem.
-> > > 
-> > > Note that vkms exit code is refactored by 53d77aaa3f76 ("drm/vkms: Use
-> > > devm_drm_dev_alloc") in tags/v5.10-rc1.
-> > > 
-> > > So this bug only exists on 4.19 and 5.4.
-> > Do we also need this for 5.4?  If so, can you send a version for that
-> > tree with the correct Fixes: information, and I will be glad to queue
-> > both of these up.
-> 
-> I sent a patch to 5.4.y too. Please check it at
-> https://lore.kernel.org/all/20240409022647.1821-1-guomengqi3@huawei.com/T/#u
 
-Both now queued up, thanks.
+This is a note to let you know that I've just added the patch titled
 
-greg k-h
+    drm/vkms: call drm_atomic_helper_shutdown before drm_dev_put()
+
+to the 4.19-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     drm-vkms-call-drm_atomic_helper_shutdown-before-drm_dev_put.patch
+and it can be found in the queue-4.19 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From guomengqi3@huawei.com  Thu Apr 11 09:41:35 2024
+From: Guo Mengqi <guomengqi3@huawei.com>
+Date: Tue, 9 Apr 2024 10:26:47 +0800
+Subject: drm/vkms: call drm_atomic_helper_shutdown before drm_dev_put()
+To: <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>, <stable@vger.kernel.org>, <xuqiang36@huawei.com>, <zhangchangzhong@huawei.com>, <greg@kroah.com>
+Cc: <guomengqi3@huawei.com>
+Message-ID: <20240409022647.1821-1-guomengqi3@huawei.com>
+
+From: Guo Mengqi <guomengqi3@huawei.com>
+
+commit 73a82b22963d ("drm/atomic: Fix potential use-after-free
+in nonblocking commits") introduced drm_dev_get/put() to
+drm_atomic_helper_shutdown(). And this cause problem in vkms driver exit
+process.
+
+vkms_exit()
+  drm_dev_put()
+    vkms_release()
+      drm_atomic_helper_shutdown()
+        drm_dev_get()
+        drm_dev_put()
+          vkms_release()    ------ use after free
+
+Using 5.4 stable x86 image on qemu, below stacktrace can be triggered by
+load and unload vkms.ko.
+
+root:~ # insmod vkms.ko
+[   76.957802] [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
+[   76.961490] [drm] Driver supports precise vblank timestamp query.
+[   76.964416] [drm] Initialized vkms 1.0.0 20180514 for vkms on minor 0
+root:~ # rmmod vkms.ko
+[   79.650202] refcount_t: addition on 0; use-after-free.
+[   79.650249] WARNING: CPU: 2 PID: 3533 at ../lib/refcount.c:25 refcount_warn_saturate+0xcf/0xf0
+[   79.654241] Modules linked in: vkms(-)
+[   79.654249] CPU: 2 PID: 3533 Comm: rmmod Not tainted 5.4.273 #4
+[   79.654251] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.13.0-0-gf21b5a4aeb02-prebuilt.qemu.org 04/01/2014
+[   79.654262] RIP: 0010:refcount_warn_saturate+0xcf/0xf0
+...
+[   79.654296] Call Trace:
+[   79.654462]  ? __warn+0x80/0xd0
+[   79.654473]  ? refcount_warn_saturate+0xcf/0xf0
+[   79.654481]  ? report_bug+0xb6/0x130
+[   79.654484]  ? refcount_warn_saturate+0xcf/0xf0
+[   79.654489]  ? fixup_bug.part.12+0x13/0x30
+[   79.654492]  ? do_error_trap+0x90/0xb0
+[   79.654495]  ? do_invalid_op+0x31/0x40
+[   79.654497]  ? refcount_warn_saturate+0xcf/0xf0
+[   79.654504]  ? invalid_op+0x1e/0x30
+[   79.654508]  ? refcount_warn_saturate+0xcf/0xf0
+[   79.654516]  drm_atomic_state_init+0x68/0xb0
+[   79.654543]  drm_atomic_state_alloc+0x43/0x60
+[   79.654551]  drm_atomic_helper_disable_all+0x13/0x180
+[   79.654562]  drm_atomic_helper_shutdown+0x5f/0xb0
+[   79.654571]  vkms_release+0x18/0x40 [vkms]
+[   79.654575]  vkms_exit+0x29/0xc00 [vkms]
+[   79.654582]  __x64_sys_delete_module+0x155/0x220
+[   79.654592]  do_syscall_64+0x43/0x120
+[   79.654603]  entry_SYSCALL_64_after_hwframe+0x5c/0xc1
+[   79.654619] ---[ end trace ce0c02f57ea6bf73 ]---
+
+It seems that the proper unload sequence is:
+	drm_atomic_helper_shutdown();
+	drm_dev_put();
+
+Just put drm_atomic_helper_shutdown() before drm_dev_put()
+should solve the problem.
+
+Note that vkms exit code is refactored by commit 53d77aaa3f76
+("drm/vkms: Use devm_drm_dev_alloc") in tags/v5.10-rc1.
+
+So this bug only exists on 4.19 and 5.4.
+
+Fixes: 380c7ceabdde ("drm/atomic: Fix potential use-after-free in nonblocking commits")
+Fixes: 2ead1be54b22 ("drm/vkms: Fix connector leak at the module removal")
+Signed-off-by: Guo Mengqi <guomengqi3@huawei.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/vkms/vkms_drv.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/drivers/gpu/drm/vkms/vkms_drv.c
++++ b/drivers/gpu/drm/vkms/vkms_drv.c
+@@ -39,7 +39,6 @@ static void vkms_release(struct drm_devi
+ 	struct vkms_device *vkms = container_of(dev, struct vkms_device, drm);
+ 
+ 	platform_device_unregister(vkms->platform);
+-	drm_atomic_helper_shutdown(&vkms->drm);
+ 	drm_mode_config_cleanup(&vkms->drm);
+ 	drm_dev_fini(&vkms->drm);
+ }
+@@ -137,6 +136,7 @@ static void __exit vkms_exit(void)
+ 	}
+ 
+ 	drm_dev_unregister(&vkms_device->drm);
++	drm_atomic_helper_shutdown(&vkms_device->drm);
+ 	drm_dev_put(&vkms_device->drm);
+ 
+ 	kfree(vkms_device);
+
+
+Patches currently in stable-queue which might be from guomengqi3@huawei.com are
+
+queue-4.19/drm-vkms-call-drm_atomic_helper_shutdown-before-drm_dev_put.patch
