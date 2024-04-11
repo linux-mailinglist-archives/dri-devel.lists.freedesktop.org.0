@@ -2,118 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4935A8A09DF
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 09:34:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45CF58A0A23
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 09:41:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0828510EDE6;
-	Thu, 11 Apr 2024 07:34:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 481AF10F07A;
+	Thu, 11 Apr 2024 07:41:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="LO7WrrPG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kjlgjVfe";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rHg2EINL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yfYlIHVE";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="JqOKnrOP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D58CB10EEED;
- Thu, 11 Apr 2024 07:34:08 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id BFAFD34ED9;
- Thu, 11 Apr 2024 07:34:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1712820846; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=enwRlzWIKwDqXI7ONVgwJ1F0+f00BXv7sMew7TIkoeY=;
- b=LO7WrrPGnfayQzbR6SQMaYuDrSCdEmlFYTFsxmRcYNMvx9sNZRWlZzH+8O8Q9LSv+VdvPQ
- vcCAmn4LdH718snnf9GUf+7vn+7aq/k/XRCsyXQtFWNdrN4lBn+d0EC9prdW101nVzhdTR
- E+qgZuvVK4MnD1bcIRH8ejHT8OQm6NM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1712820846;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=enwRlzWIKwDqXI7ONVgwJ1F0+f00BXv7sMew7TIkoeY=;
- b=kjlgjVfewITc/YA0YWPPndljJa0fdnL7tfaZBDfki8f/ZUO3uPC5dox+d2U0KHNdJnfBUB
- SHTpg1AMe/v2V8Cw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rHg2EINL;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=yfYlIHVE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1712820844; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=enwRlzWIKwDqXI7ONVgwJ1F0+f00BXv7sMew7TIkoeY=;
- b=rHg2EINLDOq4Z1AlEgRQF4TXJk3/S9Iwi1hCNmPL2P8byz1RyrN9qGstOTzltHSLnzzwyR
- 02njDMfOU/3FJBjPYuYBhMCRTaIQxl4wnq/LDGv5G/JUYytf2WVSTenytmgsYjNm1zR8tR
- t6Jnh0BJwJtkR8B1wPEROoQ51sG5Zbc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1712820844;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=enwRlzWIKwDqXI7ONVgwJ1F0+f00BXv7sMew7TIkoeY=;
- b=yfYlIHVE1SnGBuOG9l84j89+9g3ykFp8dSMvg/fueT2KoAdLqh+buO7fBIfG8T1RCMgQ0I
- eFEx/o+LtLqoInCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6B048139DE;
- Thu, 11 Apr 2024 07:34:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id kMsgGWySF2YrNQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 11 Apr 2024 07:34:04 +0000
-Date: Thu, 11 Apr 2024 09:34:03 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20240411073403.GA9895@localhost.localdomain>
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com
+ [209.85.221.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A98B10F07A
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 07:40:58 +0000 (UTC)
+Received: by mail-vk1-f170.google.com with SMTP id
+ 71dfb90a1353d-4daa5d0afb5so2170213e0c.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 00:40:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1712821256; x=1713426056;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9nNN6WlUUNGTzkwo1N4M16DUFdPJ6ZM0diRivpuzi2Y=;
+ b=JqOKnrOPHqckF0NkfC5JLu28cJzKIWf4l7XgYLe5xkgRPOHSs/E05J2jMLhXyRnxCN
+ o+YWFkc4OSVDJBgJ8L/6I65OkRqEnq+GZKSkl0dTjVi3wPHKT/M8MtXI00AnL7VTuhd/
+ YzVRwfH7s/TOhL0j+hbQHR3dPYDhoWejK4NyA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712821256; x=1713426056;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9nNN6WlUUNGTzkwo1N4M16DUFdPJ6ZM0diRivpuzi2Y=;
+ b=LMdJMMddRbHIvmsAGva1A30E5+PFudVyZXYzNMD+VoBqcWbbhlsyFJ0XG3vWf7Livh
+ iQc7AySpKQ5ZSidXvgs01gnIZ/+mgnAe5zLW8Y17AUn2xBxb4GJIWWGwEnOEnTd4Hmb+
+ yKgg6KNO1bTudZSKMwwIJgPmnA9iNjLezBZjWiB0iww8IncPzmIsmZQdTlL1wsBKRKeg
+ 2j9WtG3pynvjroOhbc6mW83jJ8TOq/x8ngNqidFz+l3YpkJCEEDv5M9Q5apebmBTNH9o
+ HhZRacaL34JS+jSPKEdqd/cVtxx4cT9kHpuXhpVgRluTnhlhsVxxqk8qVJJRs01FcdLH
+ MHEA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXb90R/zdC/rhi2PrvSRXOI9OwmOcE8RF3IeN7fN1l+ri51F8FJk/Vmq/c+yfVEV3I2BekUDvy3VlTejA6nfRAcv/dm8ku2aPUHdv222UKh
+X-Gm-Message-State: AOJu0YywBX2YqtXxfJtupbUf7nJjLscAgfqt6+VT7pIiODJvrMazS+JN
+ qjQoNbRBjhFntmP7w9uBHEXt1l4/azL9fc4WK9LJbxll7Wnc89r18X6B5D299W2dc+NPZklzYnU
+ aig==
+X-Google-Smtp-Source: AGHT+IG38Q6GPkdkKz1JgrG4y1OQ44ffN/nrZBS58ODCvan+fEHLDNJgJkaPV+xtEDyeV0ox2vBNIQ==
+X-Received: by 2002:a05:6122:512:b0:4da:dff6:16bc with SMTP id
+ x18-20020a056122051200b004dadff616bcmr4700156vko.15.1712821256415; 
+ Thu, 11 Apr 2024 00:40:56 -0700 (PDT)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com.
+ [209.85.160.175]) by smtp.gmail.com with ESMTPSA id
+ jh17-20020a0562141fd100b006990b44228dsm612548qvb.125.2024.04.11.00.40.55
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Apr 2024 00:40:55 -0700 (PDT)
+Received: by mail-qt1-f175.google.com with SMTP id
+ d75a77b69052e-43477091797so153071cf.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 00:40:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWuBFP49ezVYtVuxC7TEIel2zVaIM2FPD3+lepMZVRnj80wCheNdGAhgRXzKaIXoljouLaWcyxr8uudGRmSIEkeQGsfqKcfKaj2h7qsoJ/g
+X-Received: by 2002:a05:622a:4c12:b0:434:7a13:2e7e with SMTP id
+ ey18-20020a05622a4c1200b004347a132e7emr198846qtb.24.1712821254947; Thu, 11
+ Apr 2024 00:40:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: BFAFD34ED9
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- RCPT_COUNT_TWELVE(0.00)[16];
- FREEMAIL_TO(0.00)[gmail.com,ffwll.ch]; MIME_TRACE(0.00)[0:+];
- MISSING_XM_UA(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
- FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.freedesktop.org:url,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DKIM_TRACE(0.00)[suse.de:+]
+References: <20240410071439.2152588-1-yangcong5@huaqin.corp-partner.google.com>
+ <20240410071439.2152588-3-yangcong5@huaqin.corp-partner.google.com>
+In-Reply-To: <20240410071439.2152588-3-yangcong5@huaqin.corp-partner.google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 11 Apr 2024 00:40:38 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V2J=Tth2zhpo-kPo4uvESt70mFneO2V6TV-haac0VZuQ@mail.gmail.com>
+Message-ID: <CAD=FV=V2J=Tth2zhpo-kPo4uvESt70mFneO2V6TV-haac0VZuQ@mail.gmail.com>
+Subject: Re: [PATCH v1 2/4] drm/panel: boe-tv101wum-nl6: Support for BOE
+ nv110wum-l60 MIPI-DSI panel
+To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>, 
+ LinusW <linus.walleij@linaro.org>
+Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
+ airlied@gmail.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+ conor+dt@kernel.org, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,144 +97,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+Hi,
 
-here's the PR for drm-misc-fixes for this week.
+On Wed, Apr 10, 2024 at 12:15=E2=80=AFAM Cong Yang
+<yangcong5@huaqin.corp-partner.google.com> wrote:
+>
+> The BOE nv110wum-l60 is a 11.0" WUXGA TFT LCD panel, which fits in nicely
+> with the existing panel-boe-tv101wum-nl6 driver. Hence, we add a new
+> compatible with panel specific config.
 
-Best regards
-Thomas
+I guess we have the same question we've had with this driver in the
+past: do we add more tables here, or do we break this out into a
+separate driver like we ended up doing with "ili9882t". I guess the
+question is: what is the display controller used with this panel and
+is it the same (or nearly the same) display controller as other panels
+in this driver or is it a completely different display controller.
+Maybe you could provide this information in the commit message to help
+reviewers understand.
 
-drm-misc-fixes-2024-04-11:
-Short summary of fixes pull:
 
-ast:
-- Fix soft lockup
+> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> ---
+>  .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 115 ++++++++++++++++++
+>  1 file changed, 115 insertions(+)
 
-client:
-- Protect connector modes with mode_config mutex
+Maybe add Linus W to your patches since he has had opinions on this
+driver in the past. I've added him as CC here but you should make sure
+to CC him on future versions unless he says not to. ;-)
 
-host1x:
-- Do not setup DMA for virtual addresses
 
-ivpu:
-- Fix deadlock in context_xa
-- PCI fixes
-- Fixes to error handling
+> diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu=
+/drm/panel/panel-boe-tv101wum-nl6.c
+> index 0ffe8f8c01de..f91827e1548c 100644
+> --- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+> +++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+> @@ -1368,6 +1368,91 @@ static const struct panel_init_cmd starry_himax831=
+02_j02_init_cmd[] =3D {
+>         {},
+>  };
+>
+> +static const struct panel_init_cmd boe_nv110wum_init_cmd[] =3D {
+> +       _INIT_DELAY_CMD(60),
+> +       _INIT_DCS_CMD(0xB9, 0x83, 0x10, 0x21, 0x55, 0x00),
 
-nouveau:
-- gsp: Fix OOB access
-- Fix casting
+Given that the first command of "(0xB9, 0x83, 0x10, 0x21, 0x55, 0x00)"
+seems to be the same as "starry_himax83102_j02" maybe those two are
+the same controller? I'm just guessing, but if those are the same
+controller as the two new ones you're adding in this series, maybe all
+3 of them should be in their own driver? Maybe we can do something to
+make more sense of some of these commands too? There certainly seem to
+be a lot of commonalities in the init sequences of all 3 and if we can
+define the init sequence more logically then we can share more of the
+code between the different panels and we don't have a giant duplicated
+blob.
 
-panfrost:
-- Fix error path in MMU code
 
-qxl:
-- Revert "drm/qxl: simplify qxl_fence_wait"
+> +       _INIT_DCS_CMD(0xB9, 0x00, 0x00, 0x00),
+> +       _INIT_DELAY_CMD(50),
+> +       _INIT_DCS_CMD(0x11),
+> +       _INIT_DELAY_CMD(110),
+> +       _INIT_DCS_CMD(0x29),
+> +       _INIT_DELAY_CMD(25),
+> +       {},
+> +};
+>  static inline struct boe_panel *to_boe_panel(struct drm_panel *panel)
 
-vmwgfx:
-- Enable DMA for SEV mappings
-The following changes since commit fddf09273807bf6e51537823aaae896e05f147f9:
+nit: should have a blank line between the end of your struct and the
+next function.
 
-  drm/display: fix typo (2024-04-01 22:35:16 +0300)
 
-are available in the Git repository at:
+> +static const struct panel_desc boe_nv110wum_desc =3D {
+> +       .modes =3D &boe_tv110wum_default_mode,
+> +       .bpc =3D 8,
+> +       .size =3D {
+> +               .width_mm =3D 147,
+> +               .height_mm =3D 235,
+> +       },
+> +       .lanes =3D 4,
+> +       .format =3D MIPI_DSI_FMT_RGB888,
+> +       .mode_flags =3D MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PU=
+LSE |
+> +                     MIPI_DSI_MODE_LPM,
+> +       .init_cmds =3D boe_nv110wum_init_cmd,
+> +       .lp11_before_reset =3D true,
+> +};
+>  static int boe_panel_get_modes(struct drm_panel *panel,
+>                                struct drm_connector *connector)
 
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2024-04-11
+nit: should have a blank line between the end of your struct and the
+next function.
 
-for you to fetch changes up to 4c08f01934ab67d1d283d5cbaa52b923abcfe4cd:
 
-  drm/vmwgfx: Enable DMA mappings with SEV (2024-04-09 13:36:05 -0400)
+> @@ -1973,6 +2085,9 @@ static const struct of_device_id boe_of_match[] =3D=
+ {
+>         { .compatible =3D "starry,himax83102-j02",
+>           .data =3D &starry_himax83102_j02_desc
+>         },
+> +       { .compatible =3D "boe,nv110wum-l60",
+> +         .data =3D &boe_nv110wum_desc
+> +       },
 
-----------------------------------------------------------------
-Short summary of fixes pull:
+nit: the existing panels that are supported are sorted alphabetically.
+Please sort things alphabetically throughout your patch series.
 
-ast:
-- Fix soft lockup
-
-client:
-- Protect connector modes with mode_config mutex
-
-host1x:
-- Do not setup DMA for virtual addresses
-
-ivpu:
-- Fix deadlock in context_xa
-- PCI fixes
-- Fixes to error handling
-
-nouveau:
-- gsp: Fix OOB access
-- Fix casting
-
-panfrost:
-- Fix error path in MMU code
-
-qxl:
-- Revert "drm/qxl: simplify qxl_fence_wait"
-
-vmwgfx:
-- Enable DMA for SEV mappings
-
-----------------------------------------------------------------
-Alex Constantino (1):
-      Revert "drm/qxl: simplify qxl_fence_wait"
-
-Arnd Bergmann (1):
-      nouveau: fix function cast warning
-
-Boris Brezillon (1):
-      drm/panfrost: Fix the error path in panfrost_mmu_map_fault_addr()
-
-Jacek Lawrynowicz (5):
-      accel/ivpu: Remove d3hot_after_power_off WA
-      accel/ivpu: Put NPU back to D3hot after failed resume
-      accel/ivpu: Return max freq for DRM_IVPU_PARAM_CORE_CLOCK_RATE
-      accel/ivpu: Fix missed error message after VPU rename
-      accel/ivpu: Fix deadlock in context_xa
-
-Jammy Huang (1):
-      drm/ast: Fix soft lockup
-
-Kees Cook (1):
-      nouveau/gsp: Avoid addressing beyond end of rpc->entries
-
-Thierry Reding (1):
-      gpu: host1x: Do not setup DMA for virtual devices
-
-Ville Syrjälä (1):
-      drm/client: Fully protect modes[] with dev->mode_config.mutex
-
-Wachowski, Karol (3):
-      accel/ivpu: Check return code of ipc->lock init
-      accel/ivpu: Fix PCI D0 state entry in resume
-      accel/ivpu: Improve clarity of MMU error messages
-
-Zack Rusin (1):
-      drm/vmwgfx: Enable DMA mappings with SEV
-
- drivers/accel/ivpu/ivpu_drv.c                      | 40 ++++++-----------
- drivers/accel/ivpu/ivpu_drv.h                      |  3 +-
- drivers/accel/ivpu/ivpu_hw.h                       |  6 +++
- drivers/accel/ivpu/ivpu_hw_37xx.c                  | 11 +++--
- drivers/accel/ivpu/ivpu_hw_40xx.c                  |  6 +++
- drivers/accel/ivpu/ivpu_ipc.c                      |  8 +++-
- drivers/accel/ivpu/ivpu_mmu.c                      |  8 ++--
- drivers/accel/ivpu/ivpu_pm.c                       | 14 +++---
- drivers/gpu/drm/ast/ast_dp.c                       |  3 ++
- drivers/gpu/drm/drm_client_modeset.c               |  3 +-
- .../gpu/drm/nouveau/nvkm/subdev/bios/shadowof.c    |  7 ++-
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c     |  2 +-
- drivers/gpu/drm/panfrost/panfrost_mmu.c            | 13 ++++--
- drivers/gpu/drm/qxl/qxl_release.c                  | 50 +++++++++++++++++++---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c                | 11 ++---
- drivers/gpu/host1x/bus.c                           |  8 ----
- include/linux/dma-fence.h                          |  7 +++
- 17 files changed, 125 insertions(+), 75 deletions(-)
-
--- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+-Doug
