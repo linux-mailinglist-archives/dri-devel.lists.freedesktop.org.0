@@ -2,147 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4019F8A1A81
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 18:55:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1631A8A1AE9
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 19:13:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C934A10F23E;
-	Thu, 11 Apr 2024 16:55:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7360B10E6C8;
+	Thu, 11 Apr 2024 17:13:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QEzxcgjA";
+	dkim=pass (2048-bit key; unprotected) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="zkyYPdFW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C757A10F23E;
- Thu, 11 Apr 2024 16:55:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712854537; x=1744390537;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=sqpDI+nith4zE04ekr6SOM96vl1EyVf1uHwXBOz+1sw=;
- b=QEzxcgjAawQQdVkcHmZmDHxnfeSyS09wM1aD/KNKpEvVSlZyhTPeiTR/
- MfD6W8jnZeQDKABtpSdomsLlnTa6CMce02x/SainsN8TF+fNr0u4hOtVb
- U0VGeF9o0SimBPWUmEE4vRbgc3eNdFI0BByTOhpDOg3002iz6fsI8cGPl
- mtCyq3BjdHbBC6ZOw9Zy2Rw164FADV2jNXkNuNYB9kYnReGprhdtclX5/
- VE1w2PErzvf4vSa3QsaxLw9aWZjB1QKPz6em+qwYU+NxR+sr1sNzhm1KX
- oXEx19vilzFdN/Gw1gniMIK4mGl0EHAjdSRxS3YO8Kyeg1CXQmGpvUySM Q==;
-X-CSE-ConnectionGUID: epZIjYW1RwepZ3myD2ir9g==
-X-CSE-MsgGUID: pblGCfEcTDeqMbqa2dgYYw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="18887271"
-X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; d="scan'208";a="18887271"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2024 09:55:32 -0700
-X-CSE-ConnectionGUID: 9rc2ccV6T6Ki6ihoqQ5M+w==
-X-CSE-MsgGUID: Uslv5jl+Q8KyxNJbsizV9g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; d="scan'208";a="25613646"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orviesa003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 11 Apr 2024 09:55:32 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 11 Apr 2024 09:55:32 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Thu, 11 Apr 2024 09:55:32 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 11 Apr 2024 09:55:31 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N/YqU/NVrITuQPdY9etFEreEdRsHjQpXe4bIUnZ8VYbDBBp0Zz66hA8gzpZWvFSSYeo+zFCWTAqDbw07JblbU3NoAQ0ZweLoxD6FEQyscBqlGVSYn6WUB8k4iSNbfdcUE87m0ozaLZaprRXCDg/OxUqydm8IhPSovJOpy9KOCqDcucjef2AxG7t2hfm3A+0c9dsXIQXNjZZmkvQ4ZD8C0AoBlif+TvddLXLsPgFG6l9zNItEFtj00q1SAzF4LQMhnrAwJA8LvqxX+GWHj9YBX9HQVeuyOBU+XW1HpdGM+QpSjVxBf1MEMaK3o6n1IcltToVE+/6Oq9fa2/ZHHcaGVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F8lBt11uH3bFhe0BHqQ+yrtlIxB09fd7OQU+ONw0Ns0=;
- b=UnpDKR7nbTRHHA4JrQkYyQQeduZ7Yeb65rK6FqeX6Awcy+FXpmP5bTKR/aZP2SoW8g0jddEOM5902FVBP2gq7Jm5uYGTm+4E6k4jFpNY7Uht4Zq9GoWYDGocCTNJyjsrVnc7Kqlx0CxoPSjrL452Xedr0/mhqiiHfZemwdcnXgkyGsus9tKkZq4DcMPZwqYF8DPZcansR7sxvWzptzbKjALP+47RdiD4euixda7NweMlKMisS/Qc2V3Ma/ygjvhvRXunm7nnDF4C1FsL003sOVaCsrHoIizgXm4o3VGrStCNqoTk4zd6ay5nfzPI8NVp13wqJ36B2+pSTulCpWADrQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA1PR11MB6348.namprd11.prod.outlook.com (2603:10b6:208:3af::16)
- by SJ0PR11MB4799.namprd11.prod.outlook.com (2603:10b6:a03:2ae::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.32; Thu, 11 Apr
- 2024 16:55:29 +0000
-Received: from IA1PR11MB6348.namprd11.prod.outlook.com
- ([fe80::e014:f1f0:90ca:359c]) by IA1PR11MB6348.namprd11.prod.outlook.com
- ([fe80::e014:f1f0:90ca:359c%3]) with mapi id 15.20.7452.019; Thu, 11 Apr 2024
- 16:55:29 +0000
-From: "Golani, Mitulkumar Ajitkumar" <mitulkumar.ajitkumar.golani@intel.com>
-To: "Vivi, Rodrigo" <rodrigo.vivi@intel.com>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-Subject: RE: [PATCH] drm/dp: correct struct member name in documentation
-Thread-Topic: [PATCH] drm/dp: correct struct member name in documentation
-Thread-Index: AQHahyavaHSTPAJPrU6E1bsmYP78WrFht0wAgAGa81A=
-Date: Thu, 11 Apr 2024 16:55:29 +0000
-Message-ID: <IA1PR11MB6348E9B9AFE0EED886F7F240B2052@IA1PR11MB6348.namprd11.prod.outlook.com>
-References: <20240405065159.439145-1-mitulkumar.ajitkumar.golani@intel.com>
- <Zha79kKYTltfOtDA@intel.com>
-In-Reply-To: <Zha79kKYTltfOtDA@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA1PR11MB6348:EE_|SJ0PR11MB4799:EE_
-x-ms-office365-filtering-correlation-id: c0a70e1f-77fa-4251-6477-08dc5a4831a8
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: orJqkwkGqsQWv4AAxqnSKQM9J4ShPZFaCikICjAhMPUWWBk+Bwu9p+kkSfcg/1YkWkInyZ7K3eo9grhS75Ju7h8Zb1eTrK/6Eo2EqB1VSSGZ5YfCxQgaTV9BFE7jfwQ6XyrQxFgD/7eH948JhoqFuLPKmIl8lnvv2kqBijMN7IKDaS+ziH9Ne5U2ywG9f6SdfdPAcChmVz6InlHed/+2z0NewlZ7SHBOxF9vEzlUNOSOFVkwRRIsVxxnf+Tb3BRv8N1ADh+EROjlsIXwuiJXEbAftA3QrKYYdV0crWjxBFEgFh7MWmpZzoFgx7XDEyMVTD1ZVLm1FF8UkgPfgIpX9536MCrK+fZzMDVnPlcgl9/JkE8lLvWvAUZoimdi09/zDRx7nlwFR4TjGRAjkiV0Rb8a2qAV0aQ8boWUfqBn8DJu+J53Yq6x52pUxYXtEWC4w865iHwVrodyIVRhU5DzxKFtq3S5ctxIKgikAbzNDpYRWQiB4DVKMBkdfPX5npn7Pr+lEym2Nrih8Jnwal6Z5mHng3KRnKsokgt3yM5wkpbYR68RqV+bgSh5N54Mie6iQfje9OIWYyV8UqtV+qOEMI97VNPLQRQg6qB1yhKAc5PwyBKb5qXm8Bcqnf6nlo/nLOJ3YP+J8148RQOXmCwbaYSIUNtd3IshcSbmaS+UtLobodK9cN0afrYLkZezs81v8lE8CW0z2BaopvFNu/IMxQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA1PR11MB6348.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005)(1800799015)(366007)(38070700009); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?cX55r/IR0oN/8IWDCruJh15eWsZNARrCNc05R5Q0jEP59A/mUtoByKRotLv0?=
- =?us-ascii?Q?urHGFS3sIko+eiUL2vtaTzU8+6IDnkqzo7KeOP5a0zQclwfenDgnTwgq7/8g?=
- =?us-ascii?Q?DvJvpdzwgcmZ8l8dCK7cgb74Elj2PdaDzlXM2ablH6wOlG37zT0eJI3U8dvF?=
- =?us-ascii?Q?LcT/HznTYbau+B2xyKlaYEk3WwxJREvFg/IpKlsgtf7VdnsKoFrjQeMALyFr?=
- =?us-ascii?Q?uDgqHdLtUieRCkceKyxniPzoQB0NfEi+uVa+izP4dQFDOzQuif6lJosREFNN?=
- =?us-ascii?Q?HHbOa5jZ5DyLH+KzhrI7VfU4T77IygrwDrpg9FwJ3orCqz1I7MpOd12/8MvJ?=
- =?us-ascii?Q?ckyHMaBf66+npuOkdUSfrFKl8Xq6GVNnHvRvoM/LOGFV8mVAj7cYvN+V0Y46?=
- =?us-ascii?Q?fS7tI8SiVFl7lwfkpksNIqEo+LnWPxS0zkVCTMPaNqnT3IbGT3Fi/tj2d8Dt?=
- =?us-ascii?Q?fuMtyzukr+FXKHBhW9UWKNeBE2IJ4LaC9sfgiTkHVWRYeh8o2x66jclQDA0q?=
- =?us-ascii?Q?Sa7B6Yd219I0k5kKSEW+Ds441KY/dM3lvYQZMLxV5mWWx7nL3XZIhtrq+x4Q?=
- =?us-ascii?Q?TtBeTmgC/JNQEcHMoTExxm4uDteKHVW7K0A0dvhj/nVHc9DmFMClU0pwZjz2?=
- =?us-ascii?Q?rq1zNkgYqQgn7hz0lK8tXOGcZOdCZJspAjy0KoyFpGRBMr/Vtcw2eZ4De/FO?=
- =?us-ascii?Q?Gm/tzJo3w/U82SrALzXdTJph47cgeDUe1/I0o+ni93bl3I0UgDenWGPnbvPQ?=
- =?us-ascii?Q?FxxOZ/mqsO6UZum+zcKQc0DLaz3yDg6pdonm4O8YQtnxqUF5VV63ekgpBH8a?=
- =?us-ascii?Q?xg1Npoa70odwTLzWRMsgIsdihkECYrMgxpB8hwoPrR0e5IkEH2TeHwWreAKB?=
- =?us-ascii?Q?KNOTJHm5p+zRtniwl7q6aABKx9SE+Ekm7AUyoIpP7owK0M7YQbb4O9wC8uaO?=
- =?us-ascii?Q?CM9DPp6WmbWYLjI3vPcMpZJ41MReDAe4k+7sJYhKE/bsHcEHhvDnnavN92hM?=
- =?us-ascii?Q?RRQwkePtQAjL+EVeegQ1WZ+fszGrnZORd/bF/rVG2HjkbaRClow5tP3bq+gK?=
- =?us-ascii?Q?R9AISSSwfHQd98kE6h2nm19S4WBfs2uGaiF/RseRvBVp5cfd9Hn2aSj7IcYt?=
- =?us-ascii?Q?sTOPYlMiVBDfBfilG4jTd3AnfWd7JQhfLtV4Y4uWiSiZwMlWtzBUDzePYXLa?=
- =?us-ascii?Q?7BABQHtS4GMskgGaqKJTXKVCJQgI6WqDO7TKearRTWn4GiBq8tkuAnBGAIco?=
- =?us-ascii?Q?GGipSbaa1yTulv40w8Kb5NXIOcfrsa3dEa8FOKSnu7imuTnr/cTu2yQLWOlZ?=
- =?us-ascii?Q?zUL64rmUCS/X+1VIBOd6DLE8VVYITgqfzMlVdhWHDXQ3dPx6eqd4SMvR6o8u?=
- =?us-ascii?Q?PCR73NbLuv+dkO0RlYk4Wr7iqlq5p+Wu8F7b1mt7rysjyjDxq7YUuJScX4SE?=
- =?us-ascii?Q?aMPbBC/aVvTYVpJzCagB35pTRdGRNf+wRgoo8RFhy6/TaPJn/ndSWmokz/PL?=
- =?us-ascii?Q?e4DYGpVfS1TbLie1hl/9kKQ32USEvyviB9vQTQZTynjWNsQ3lWPWOOKCE0sR?=
- =?us-ascii?Q?JjamxHAYQrSsW9v4wihpRF3hUW1wQft1HiTTfZHrkDKvnvBLY0epduqQ7mMt?=
- =?us-ascii?Q?Z0SXCVgZVqAUdLKGvi8YJNY=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
+ [209.85.218.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 520B410E739
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 17:13:09 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id
+ a640c23a62f3a-a51d0dda061so171629066b.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 10:13:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1712855587; x=1713460387;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hvFX8Zcz52PjVSzNzeS44mNpf2auNf+csb4v+mS26SM=;
+ b=zkyYPdFWDiOIpv8Bf2GkB/3/BKbC/rung07d7OFvVAwQNKHSgjczhnUVaWLA3Hpti3
+ X6SRoC9ALZP4knf+TTbW6JfkzFmPZvXtcpzz9IU8uH0oBoI/Pu2W/2Nm7biCROCsUccD
+ eeUIxy+F4rq/MLRHQZoCGZBcvK7bu14/njkP7PIp9001Wg/J6s7b/W7rF+Qqj93Z3ImP
+ M78RdMkK54boBpzZuXTKzGguE6fN3EBd8iD1gWZeaBMJlsrk6KFWXM3R1NZ+pwzUpNKM
+ 4QNj9ynMLGvPYfleaalWqWBhWSHg1rDHx1Kc2grEXtkdcURnc/N+3vHVw2GV0LrBOpRm
+ m4fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712855587; x=1713460387;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=hvFX8Zcz52PjVSzNzeS44mNpf2auNf+csb4v+mS26SM=;
+ b=m84PW2EMztkNOv/y+qXy0PIzKDak8zMlD3ubIn9tivQOqwPNfNKyX9eCgGJxNXbmVg
+ bjKRSPKjk2Ozbsd5FOa85a0NTzE1gWPLOgvd70r6leiJHm7qx4xMvxTO2YNAzXhhX9Gp
+ vyPNqDPqzKSZ+YLKb7QEXkzMcdHCeZaRBxe+qz42T9DOapsQdpozwItVR4jdoT7jJwgv
+ STA/LrtiMFBVisWlATTD7y7I8B+KH3whVmNVwnZv5GQNrqZodQR0iY2C52AEaz73Zzgi
+ boaEnrqeJ+k5mUQ7i/OgI9B7ZCLmXQij6W6mAuV2uNnrazTHN44EpfwwFGWEr0VLE2QY
+ JkIg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXD2NVTS97BSZKoRJ5KU8tVzAm1JP7l+NbwzSMmtUp3LIh/KRN4W+D6iyOm3Zu02iuWnVhixmMQdEffB8Ooa2t26YJHPJPb+u7Fs0Bb1lK0
+X-Gm-Message-State: AOJu0Yynj1mMClyHf9CKhbz9/1/8MOxj3BIjjKGF3f6EB77PaLikFgmg
+ mj8comGBeev6lanpo7YAscxLsIR11+PVZ5VisSFi8VNJrGvOOZqYmYvI3xvJdUk=
+X-Google-Smtp-Source: AGHT+IFBhtL3EwHN8QLn6F8m7cRV6r1+33o4Pg84QV8nXC7s3i+NcHAHEmjm0MeoaB6rJi5Xyepv0A==
+X-Received: by 2002:a17:907:9450:b0:a52:1fe5:d1bb with SMTP id
+ dl16-20020a170907945000b00a521fe5d1bbmr2387576ejc.11.1712855587193; 
+ Thu, 11 Apr 2024 10:13:07 -0700 (PDT)
+Received: from fedora.fritz.box (aftr-82-135-80-212.dynamic.mnet-online.de.
+ [82.135.80.212]) by smtp.gmail.com with ESMTPSA id
+ g4-20020a1709063b0400b00a51bbee7e55sm918610ejf.53.2024.04.11.10.13.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Apr 2024 10:13:06 -0700 (PDT)
+From: Thorsten Blum <thorsten.blum@toblux.com>
+To: robin.murphy@arm.com
+Cc: cocci@inria.fr, dri-devel@lists.freedesktop.org, ecryptfs@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ io-uring@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-afs@lists.infradead.org, linux-arch@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-unionfs@vger.kernel.org, linux-wireless@vger.kernel.org,
+ netfs@lists.linux.dev, speakup@linux-speakup.org, thorsten.blum@toblux.com,
+ Randy Dunlap <rdunlap@infradead.org>, Tyler Hicks <code@tyhicks.com>
+Subject: [PATCH v2] treewide: Fix common grammar mistake "the the"
+Date: Thu, 11 Apr 2024 19:11:47 +0200
+Message-ID: <20240411171145.535123-3-thorsten.blum@toblux.com>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <f2d1bb68-7ab7-4bbf-a1b1-88334ba52bab@arm.com>
+References: <f2d1bb68-7ab7-4bbf-a1b1-88334ba52bab@arm.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6348.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0a70e1f-77fa-4251-6477-08dc5a4831a8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Apr 2024 16:55:29.6564 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Pi8O0BJBrbIj96nu3OCvAjCeHB3voRZj02PuYPzp5L4pBQCMDUzvLJNyy7Ed9t2P/ub/vsPtE85vpuQxpFlui4mYb5VBMPsNfLlQtchgh6W67ANU4h8hBFeJUmUSChGw
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4799
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,69 +93,462 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Use `find . -type f -exec sed -i 's/\<the the\>/the/g' {} +` to find all
+occurrences of "the the" and replace them with a single "the".
 
+In arch/arm/include/asm/unwind.h replace "the the" with "to the".
 
-> -----Original Message-----
-> From: Vivi, Rodrigo <rodrigo.vivi@intel.com>
-> Sent: Wednesday, April 10, 2024 9:49 PM
-> To: Golani, Mitulkumar Ajitkumar <mitulkumar.ajitkumar.golani@intel.com>;
-> tzimmermann@suse.de; mripard@kernel.org;
-> maarten.lankhorst@linux.intel.com
-> Cc: dri-devel@lists.freedesktop.org; intel-gfx@lists.freedesktop.org; Nau=
-tiyal,
-> Ankit K <ankit.k.nautiyal@intel.com>; Nikula, Jani <jani.nikula@intel.com=
->;
-> sfr@canb.auug.org.au
-> Subject: Re: [PATCH] drm/dp: correct struct member name in documentation
->=20
-> On Fri, Apr 05, 2024 at 12:21:59PM +0530, Mitul Golani wrote:
-> > Correct struct member name to 'mode' instead of 'operation mode'
-> > in 'drm_dp_as_sdp' structure description.
-> >
-> > Fixes: 0bbb8f594e33 ("drm/dp: Add Adaptive Sync SDP logging")
->=20
-> Probably good to avoid this 'Fixes:' tag, and only use that for real code=
- bugs.
+Changes only comments and documentation - no code changes.
 
-Thank you for inputs.. I understood and I will take the future note. Please=
- suggest if required to update the change with new revision or we can take =
-care while merge.. ?
+Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Reviewed-by: Tyler Hicks <code@tyhicks.com>
+---
+Changes in v2:
+- In arch/arm/include/asm/unwind.h: s/the the/to the/ as pointed out by
+  Robin Murphy
+- Preserve Reviewed-by: tags
+---
+ Documentation/trace/histogram.rst                 | 2 +-
+ arch/arm/Kconfig                                  | 4 ++--
+ arch/arm/include/asm/unwind.h                     | 2 +-
+ arch/arm64/Kconfig                                | 2 +-
+ arch/arm64/kernel/entry-ftrace.S                  | 2 +-
+ arch/s390/kernel/perf_cpum_sf.c                   | 2 +-
+ arch/s390/kernel/sthyi.c                          | 2 +-
+ drivers/accessibility/speakup/speakup_soft.c      | 2 +-
+ drivers/gpu/drm/i915/display/intel_crt.c          | 2 +-
+ drivers/gpu/drm/i915/i915_request.c               | 2 +-
+ drivers/mailbox/Kconfig                           | 2 +-
+ drivers/net/wireless/intel/iwlwifi/fw/api/tx.h    | 4 ++--
+ drivers/net/wireless/intel/iwlwifi/mvm/phy-ctxt.c | 2 +-
+ drivers/scsi/bfa/bfa_fcs_rport.c                  | 2 +-
+ drivers/scsi/fcoe/fcoe_ctlr.c                     | 2 +-
+ drivers/scsi/isci/host.h                          | 2 +-
+ drivers/scsi/isci/remote_device.h                 | 2 +-
+ drivers/scsi/isci/remote_node_context.h           | 2 +-
+ drivers/scsi/isci/task.c                          | 2 +-
+ fs/afs/flock.c                                    | 2 +-
+ fs/ecryptfs/keystore.c                            | 2 +-
+ fs/netfs/direct_read.c                            | 2 +-
+ fs/netfs/direct_write.c                           | 2 +-
+ fs/overlayfs/super.c                              | 2 +-
+ include/uapi/asm-generic/fcntl.h                  | 2 +-
+ io_uring/kbuf.c                                   | 2 +-
+ lib/zstd/common/fse_decompress.c                  | 2 +-
+ lib/zstd/decompress/zstd_decompress_block.c       | 2 +-
+ scripts/coccinelle/misc/badty.cocci               | 2 +-
+ tools/perf/Documentation/perf-diff.txt            | 2 +-
+ 30 files changed, 32 insertions(+), 32 deletions(-)
 
->=20
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->=20
-> drm-misc folks, ack to get this through drm-intel-next, where the origina=
-l patch
-> is?
->=20
-> Thanks,
-> Rodrigo
->=20
-> > Cc: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
-> > Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> > Cc: Jani Nikula <jani.nikula@intel.com>
-> > Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
->=20
-> > ---
-> >  include/drm/display/drm_dp_helper.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/include/drm/display/drm_dp_helper.h
-> > b/include/drm/display/drm_dp_helper.h
-> > index baf9949ff96f..6799f57d635c 100644
-> > --- a/include/drm/display/drm_dp_helper.h
-> > +++ b/include/drm/display/drm_dp_helper.h
-> > @@ -112,7 +112,7 @@ struct drm_dp_vsc_sdp {
-> >   * @target_rr: Target Refresh
-> >   * @duration_incr_ms: Successive frame duration increase
-> >   * @duration_decr_ms: Successive frame duration decrease
-> > - * @operation_mode: Adaptive Sync Operation Mode
-> > + * @mode: Adaptive Sync Operation Mode
-> >   */
-> >  struct drm_dp_as_sdp {
-> >  	unsigned char sdp_type;
-> > --
-> > 2.25.1
-> >
+diff --git a/Documentation/trace/histogram.rst b/Documentation/trace/histogram.rst
+index 3c9b263de9c2..18a419925a08 100644
+--- a/Documentation/trace/histogram.rst
++++ b/Documentation/trace/histogram.rst
+@@ -840,7 +840,7 @@ Extended error information
+ 
+   The compound key examples used a key and a sum value (hitcount) to
+   sort the output, but we can just as easily use two keys instead.
+-  Here's an example where we use a compound key composed of the the
++  Here's an example where we use a compound key composed of the
+   common_pid and size event fields.  Sorting with pid as the primary
+   key and 'size' as the secondary key allows us to display an
+   ordered summary of the recvfrom sizes, with counts, received by
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index b14aed3a17ab..f46fb69ff247 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -1479,7 +1479,7 @@ config ARM_ATAG_DTB_COMPAT_CMDLINE_EXTEND
+ 	bool "Extend with bootloader kernel arguments"
+ 	help
+ 	  The command-line arguments provided by the boot loader will be
+-	  appended to the the device tree bootargs property.
++	  appended to the device tree bootargs property.
+ 
+ endchoice
+ 
+@@ -1617,7 +1617,7 @@ config DMI
+ 	  continue to boot on existing non-UEFI platforms.
+ 
+ 	  NOTE: This does *NOT* enable or encourage the use of DMI quirks,
+-	  i.e., the the practice of identifying the platform via DMI to
++	  i.e., the practice of identifying the platform via DMI to
+ 	  decide whether certain workarounds for buggy hardware and/or
+ 	  firmware need to be enabled. This would require the DMI subsystem
+ 	  to be enabled much earlier than we do on ARM, which is non-trivial.
+diff --git a/arch/arm/include/asm/unwind.h b/arch/arm/include/asm/unwind.h
+index d60b09a5acfc..9e4313a6309c 100644
+--- a/arch/arm/include/asm/unwind.h
++++ b/arch/arm/include/asm/unwind.h
+@@ -10,7 +10,7 @@
+ 
+ #ifndef __ASSEMBLY__
+ 
+-/* Unwind reason code according the the ARM EABI documents */
++/* Unwind reason code according to the ARM EABI documents */
+ enum unwind_reason_code {
+ 	URC_OK = 0,			/* operation completed successfully */
+ 	URC_CONTINUE_UNWIND = 8,
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 7b11c98b3e84..285ae4ca0b83 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -2253,7 +2253,7 @@ config CMDLINE
+ 	default ""
+ 	help
+ 	  Provide a set of default command-line options at build time by
+-	  entering them here. As a minimum, you should specify the the
++	  entering them here. As a minimum, you should specify the
+ 	  root device (e.g. root=/dev/nfs).
+ 
+ choice
+diff --git a/arch/arm64/kernel/entry-ftrace.S b/arch/arm64/kernel/entry-ftrace.S
+index f0c16640ef21..e24e7d8f8b61 100644
+--- a/arch/arm64/kernel/entry-ftrace.S
++++ b/arch/arm64/kernel/entry-ftrace.S
+@@ -94,7 +94,7 @@ SYM_CODE_START(ftrace_caller)
+ 	stp	x29, x30, [sp, #FREGS_SIZE]
+ 	add	x29, sp, #FREGS_SIZE
+ 
+-	/* Prepare arguments for the the tracer func */
++	/* Prepare arguments for the tracer func */
+ 	sub	x0, x30, #AARCH64_INSN_SIZE		// ip (callsite's BL insn)
+ 	mov	x1, x9					// parent_ip (callsite's LR)
+ 	mov	x3, sp					// regs
+diff --git a/arch/s390/kernel/perf_cpum_sf.c b/arch/s390/kernel/perf_cpum_sf.c
+index 06efad5b4f93..3e1d8c58e4d1 100644
+--- a/arch/s390/kernel/perf_cpum_sf.c
++++ b/arch/s390/kernel/perf_cpum_sf.c
+@@ -1193,7 +1193,7 @@ static void perf_event_count_update(struct perf_event *event, u64 count)
+  * combined-sampling data entry consists of a basic- and a diagnostic-sampling
+  * data entry.	The sampling function is determined by the flags in the perf
+  * event hardware structure.  The function always works with a combined-sampling
+- * data entry but ignores the the diagnostic portion if it is not available.
++ * data entry but ignores the diagnostic portion if it is not available.
+  *
+  * Note that the implementation focuses on basic-sampling data entries and, if
+  * such an entry is not valid, the entire combined-sampling data entry is
+diff --git a/arch/s390/kernel/sthyi.c b/arch/s390/kernel/sthyi.c
+index 30bb20461db4..77e08ab92568 100644
+--- a/arch/s390/kernel/sthyi.c
++++ b/arch/s390/kernel/sthyi.c
+@@ -250,7 +250,7 @@ static void fill_diag_mac(struct sthyi_sctns *sctns,
+ 	sctns->mac.infmval1 |= MAC_CNT_VLD;
+ }
+ 
+-/* Returns a pointer to the the next partition block. */
++/* Returns a pointer to the next partition block. */
+ static struct diag204_x_part_block *lpar_cpu_inf(struct lpar_cpu_inf *part_inf,
+ 						 bool this_lpar,
+ 						 void *diag224_buf,
+diff --git a/drivers/accessibility/speakup/speakup_soft.c b/drivers/accessibility/speakup/speakup_soft.c
+index 6d446824677b..6549bfb96e7f 100644
+--- a/drivers/accessibility/speakup/speakup_soft.c
++++ b/drivers/accessibility/speakup/speakup_soft.c
+@@ -446,7 +446,7 @@ static int softsynth_adjust(struct spk_synth *synth, struct st_var_header *var)
+ 	if (var->var_id != PUNC_LEVEL)
+ 		return 0;
+ 
+-	/* We want to set the the speech synthesis punctuation level
++	/* We want to set the speech synthesis punctuation level
+ 	 * accordingly, so it properly tunes speaking A_PUNC characters */
+ 	var_data = var->data;
+ 	if (!var_data)
+diff --git a/drivers/gpu/drm/i915/display/intel_crt.c b/drivers/gpu/drm/i915/display/intel_crt.c
+index 93479db0f89f..9ee0c6e986c3 100644
+--- a/drivers/gpu/drm/i915/display/intel_crt.c
++++ b/drivers/gpu/drm/i915/display/intel_crt.c
+@@ -1114,7 +1114,7 @@ void intel_crt_init(struct drm_i915_private *dev_priv)
+ 	drm_connector_helper_add(connector, &intel_crt_connector_helper_funcs);
+ 
+ 	/*
+-	 * TODO: find a proper way to discover whether we need to set the the
++	 * TODO: find a proper way to discover whether we need to set the
+ 	 * polarity and link reversal bits or not, instead of relying on the
+ 	 * BIOS.
+ 	 */
+diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+index 519e096c607c..e0fe24452f38 100644
+--- a/drivers/gpu/drm/i915/i915_request.c
++++ b/drivers/gpu/drm/i915/i915_request.c
+@@ -1779,7 +1779,7 @@ __i915_request_add_to_timeline(struct i915_request *rq)
+ }
+ 
+ /*
+- * NB: This function is not allowed to fail. Doing so would mean the the
++ * NB: This function is not allowed to fail. Doing so would mean the
+  * request is not being tracked for completion but the work itself is
+  * going to happen on the hardware. This would be a Bad Thing(tm).
+  */
+diff --git a/drivers/mailbox/Kconfig b/drivers/mailbox/Kconfig
+index 42940108a187..1e0a14bcdeec 100644
+--- a/drivers/mailbox/Kconfig
++++ b/drivers/mailbox/Kconfig
+@@ -54,7 +54,7 @@ config ARMADA_37XX_RWTM_MBOX
+ 	depends on ARCH_MVEBU || COMPILE_TEST
+ 	depends on OF
+ 	help
+-	  Mailbox implementation for communication with the the firmware
++	  Mailbox implementation for communication with the firmware
+ 	  running on the Cortex-M3 rWTM secure processor of the Armada 37xx
+ 	  SOC. Say Y here if you are building for such a device (for example
+ 	  the Turris Mox router).
+diff --git a/drivers/net/wireless/intel/iwlwifi/fw/api/tx.h b/drivers/net/wireless/intel/iwlwifi/fw/api/tx.h
+index d9e4c75403b8..b19c1d69223e 100644
+--- a/drivers/net/wireless/intel/iwlwifi/fw/api/tx.h
++++ b/drivers/net/wireless/intel/iwlwifi/fw/api/tx.h
+@@ -191,7 +191,7 @@ enum iwl_tx_offload_assist_flags_pos {
+  *	cleared. Combination of RATE_MCS_*
+  * @sta_id: index of destination station in FW station table
+  * @sec_ctl: security control, TX_CMD_SEC_*
+- * @initial_rate_index: index into the the rate table for initial TX attempt.
++ * @initial_rate_index: index into the rate table for initial TX attempt.
+  *	Applied if TX_CMD_FLG_STA_RATE_MSK is set, normally 0 for data frames.
+  * @reserved2: reserved
+  * @key: security key
+@@ -851,7 +851,7 @@ struct iwl_extended_beacon_notif {
+ 
+ /**
+  * enum iwl_dump_control - dump (flush) control flags
+- * @DUMP_TX_FIFO_FLUSH: Dump MSDUs until the the FIFO is empty
++ * @DUMP_TX_FIFO_FLUSH: Dump MSDUs until the FIFO is empty
+  *	and the TFD queues are empty.
+  */
+ enum iwl_dump_control {
+diff --git a/drivers/net/wireless/intel/iwlwifi/mvm/phy-ctxt.c b/drivers/net/wireless/intel/iwlwifi/mvm/phy-ctxt.c
+index ce264b386029..4c958a4692b2 100644
+--- a/drivers/net/wireless/intel/iwlwifi/mvm/phy-ctxt.c
++++ b/drivers/net/wireless/intel/iwlwifi/mvm/phy-ctxt.c
+@@ -31,7 +31,7 @@ u8 iwl_mvm_get_channel_width(const struct cfg80211_chan_def *chandef)
+ 
+ /*
+  * Maps the driver specific control channel position (relative to the center
+- * freq) definitions to the the fw values
++ * freq) definitions to the fw values
+  */
+ u8 iwl_mvm_get_ctrl_pos(const struct cfg80211_chan_def *chandef)
+ {
+diff --git a/drivers/scsi/bfa/bfa_fcs_rport.c b/drivers/scsi/bfa/bfa_fcs_rport.c
+index ce52a9c88ae6..567a640c39c7 100644
+--- a/drivers/scsi/bfa/bfa_fcs_rport.c
++++ b/drivers/scsi/bfa/bfa_fcs_rport.c
+@@ -1987,7 +1987,7 @@ bfa_fcs_rport_gidpn_response(void *fcsarg, struct bfa_fcxp_s *fcxp, void *cbarg,
+ 			/*
+ 			 * Device's PID has changed. We need to cleanup
+ 			 * and re-login. If there is another device with
+-			 * the the newly discovered pid, send an scn notice
++			 * the newly discovered pid, send an scn notice
+ 			 * so that its new pid can be discovered.
+ 			 */
+ 			list_for_each(qe, &rport->port->rport_q) {
+diff --git a/drivers/scsi/fcoe/fcoe_ctlr.c b/drivers/scsi/fcoe/fcoe_ctlr.c
+index 5c8d1ba3f8f3..4050a8d99b1d 100644
+--- a/drivers/scsi/fcoe/fcoe_ctlr.c
++++ b/drivers/scsi/fcoe/fcoe_ctlr.c
+@@ -205,7 +205,7 @@ static int fcoe_sysfs_fcf_add(struct fcoe_fcf *new)
+ 		 * that doesn't have a priv (fcf was deleted). However,
+ 		 * libfcoe will always delete FCFs before trying to add
+ 		 * them. This is ensured because both recv_adv and
+-		 * age_fcfs are protected by the the fcoe_ctlr's mutex.
++		 * age_fcfs are protected by the fcoe_ctlr's mutex.
+ 		 * This means that we should never get a FCF with a
+ 		 * non-NULL priv pointer.
+ 		 */
+diff --git a/drivers/scsi/isci/host.h b/drivers/scsi/isci/host.h
+index 52388374cf31..e4971ca00769 100644
+--- a/drivers/scsi/isci/host.h
++++ b/drivers/scsi/isci/host.h
+@@ -244,7 +244,7 @@ enum sci_controller_states {
+ 	SCIC_INITIALIZED,
+ 
+ 	/**
+-	 * This state indicates the the controller is in the process of becoming
++	 * This state indicates the controller is in the process of becoming
+ 	 * ready (i.e. starting).  In this state no new IO operations are permitted.
+ 	 * This state is entered from the INITIALIZED state.
+ 	 */
+diff --git a/drivers/scsi/isci/remote_device.h b/drivers/scsi/isci/remote_device.h
+index 3ad681c4c20a..db097483ff04 100644
+--- a/drivers/scsi/isci/remote_device.h
++++ b/drivers/scsi/isci/remote_device.h
+@@ -198,7 +198,7 @@ enum sci_status sci_remote_device_reset_complete(
+  * permitted.  This state is entered from the INITIAL state.  This state
+  * is entered from the STOPPING state.
+  *
+- * @SCI_DEV_STARTING: This state indicates the the remote device is in
++ * @SCI_DEV_STARTING: This state indicates the remote device is in
+  * the process of becoming ready (i.e. starting).  In this state no new
+  * IO operations are permitted.  This state is entered from the STOPPED
+  * state.
+diff --git a/drivers/scsi/isci/remote_node_context.h b/drivers/scsi/isci/remote_node_context.h
+index c7ee81d01125..f22950b12b8b 100644
+--- a/drivers/scsi/isci/remote_node_context.h
++++ b/drivers/scsi/isci/remote_node_context.h
+@@ -154,7 +154,7 @@ enum sci_remote_node_context_destination_state {
+ /**
+  * struct sci_remote_node_context - This structure contains the data
+  *    associated with the remote node context object.  The remote node context
+- *    (RNC) object models the the remote device information necessary to manage
++ *    (RNC) object models the remote device information necessary to manage
+  *    the silicon RNC.
+  */
+ struct sci_remote_node_context {
+diff --git a/drivers/scsi/isci/task.c b/drivers/scsi/isci/task.c
+index 3a25b1a2c52d..aeb2cda92465 100644
+--- a/drivers/scsi/isci/task.c
++++ b/drivers/scsi/isci/task.c
+@@ -67,7 +67,7 @@
+ /**
+ * isci_task_refuse() - complete the request to the upper layer driver in
+ *     the case where an I/O needs to be completed back in the submit path.
+-* @ihost: host on which the the request was queued
++* @ihost: host on which the request was queued
+ * @task: request to complete
+ * @response: response code for the completed task.
+ * @status: status code for the completed task.
+diff --git a/fs/afs/flock.c b/fs/afs/flock.c
+index f0e96a35093f..2b1d6eb02553 100644
+--- a/fs/afs/flock.c
++++ b/fs/afs/flock.c
+@@ -151,7 +151,7 @@ static void afs_next_locker(struct afs_vnode *vnode, int error)
+ }
+ 
+ /*
+- * Kill off all waiters in the the pending lock queue due to the vnode being
++ * Kill off all waiters in the pending lock queue due to the vnode being
+  * deleted.
+  */
+ static void afs_kill_lockers_enoent(struct afs_vnode *vnode)
+diff --git a/fs/ecryptfs/keystore.c b/fs/ecryptfs/keystore.c
+index 3fe41964c0d8..2452d6fd7062 100644
+--- a/fs/ecryptfs/keystore.c
++++ b/fs/ecryptfs/keystore.c
+@@ -878,7 +878,7 @@ struct ecryptfs_parse_tag_70_packet_silly_stack {
+  * @filename: This function kmalloc's the memory for the filename
+  * @filename_size: This function sets this to the amount of memory
+  *                 kmalloc'd for the filename
+- * @packet_size: This function sets this to the the number of octets
++ * @packet_size: This function sets this to the number of octets
+  *               in the packet parsed
+  * @mount_crypt_stat: The mount-wide cryptographic context
+  * @data: The memory location containing the start of the tag 70
+diff --git a/fs/netfs/direct_read.c b/fs/netfs/direct_read.c
+index ad4370b3935d..a8a5323e2736 100644
+--- a/fs/netfs/direct_read.c
++++ b/fs/netfs/direct_read.c
+@@ -56,7 +56,7 @@ static ssize_t netfs_unbuffered_read_iter_locked(struct kiocb *iocb, struct iov_
+ 	 * buffer for ourselves as the caller's iterator will be trashed when
+ 	 * we return.
+ 	 *
+-	 * In such a case, extract an iterator to represent as much of the the
++	 * In such a case, extract an iterator to represent as much of the
+ 	 * output buffer as we can manage.  Note that the extraction might not
+ 	 * be able to allocate a sufficiently large bvec array and may shorten
+ 	 * the request.
+diff --git a/fs/netfs/direct_write.c b/fs/netfs/direct_write.c
+index bee047e20f5d..b46e34d528cd 100644
+--- a/fs/netfs/direct_write.c
++++ b/fs/netfs/direct_write.c
+@@ -57,7 +57,7 @@ static ssize_t netfs_unbuffered_write_iter_locked(struct kiocb *iocb, struct iov
+ 		/* If this is an async op and we're not using a bounce buffer,
+ 		 * we have to save the source buffer as the iterator is only
+ 		 * good until we return.  In such a case, extract an iterator
+-		 * to represent as much of the the output buffer as we can
++		 * to represent as much of the output buffer as we can
+ 		 * manage.  Note that the extraction might not be able to
+ 		 * allocate a sufficiently large bvec array and may shorten the
+ 		 * request.
+diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
+index a40fc7e05525..80042bfd4b92 100644
+--- a/fs/overlayfs/super.c
++++ b/fs/overlayfs/super.c
+@@ -1456,7 +1456,7 @@ int ovl_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	sb->s_iflags |= SB_I_SKIP_SYNC;
+ 	/*
+ 	 * Ensure that umask handling is done by the filesystems used
+-	 * for the the upper layer instead of overlayfs as that would
++	 * for the upper layer instead of overlayfs as that would
+ 	 * lead to unexpected results.
+ 	 */
+ 	sb->s_iflags |= SB_I_NOUMASK;
+diff --git a/include/uapi/asm-generic/fcntl.h b/include/uapi/asm-generic/fcntl.h
+index 80f37a0d40d7..1c7a0f6632c0 100644
+--- a/include/uapi/asm-generic/fcntl.h
++++ b/include/uapi/asm-generic/fcntl.h
+@@ -142,7 +142,7 @@
+  * record  locks, but are "owned" by the open file description, not the
+  * process. This means that they are inherited across fork() like BSD (flock)
+  * locks, and they are only released automatically when the last reference to
+- * the the open file against which they were acquired is put.
++ * the open file against which they were acquired is put.
+  */
+ #define F_OFD_GETLK	36
+ #define F_OFD_SETLK	37
+diff --git a/io_uring/kbuf.c b/io_uring/kbuf.c
+index 3aa16e27f509..503244e8470a 100644
+--- a/io_uring/kbuf.c
++++ b/io_uring/kbuf.c
+@@ -731,7 +731,7 @@ struct io_buffer_list *io_pbuf_get_bl(struct io_ring_ctx *ctx,
+ 	 * going away, if someone is trying to be sneaky. Look it up under rcu
+ 	 * so we know it's not going away, and attempt to grab a reference to
+ 	 * it. If the ref is already zero, then fail the mapping. If successful,
+-	 * the caller will call io_put_bl() to drop the the reference at at the
++	 * the caller will call io_put_bl() to drop the reference at at the
+ 	 * end. This may then safely free the buffer_list (and drop the pages)
+ 	 * at that point, vm_insert_pages() would've already grabbed the
+ 	 * necessary vma references.
+diff --git a/lib/zstd/common/fse_decompress.c b/lib/zstd/common/fse_decompress.c
+index 8dcb8ca39767..2de48eee3653 100644
+--- a/lib/zstd/common/fse_decompress.c
++++ b/lib/zstd/common/fse_decompress.c
+@@ -127,7 +127,7 @@ static size_t FSE_buildDTable_internal(FSE_DTable* dt, const short* normalizedCo
+             }
+         }
+         /* Now we spread those positions across the table.
+-         * The benefit of doing it in two stages is that we avoid the the
++         * The benefit of doing it in two stages is that we avoid the
+          * variable size inner loop, which caused lots of branch misses.
+          * Now we can run through all the positions without any branch misses.
+          * We unroll the loop twice, since that is what emperically worked best.
+diff --git a/lib/zstd/decompress/zstd_decompress_block.c b/lib/zstd/decompress/zstd_decompress_block.c
+index c1913b8e7c89..cd2e9acecd84 100644
+--- a/lib/zstd/decompress/zstd_decompress_block.c
++++ b/lib/zstd/decompress/zstd_decompress_block.c
+@@ -510,7 +510,7 @@ void ZSTD_buildFSETable_body(ZSTD_seqSymbol* dt,
+             }
+         }
+         /* Now we spread those positions across the table.
+-         * The benefit of doing it in two stages is that we avoid the the
++         * The benefit of doing it in two stages is that we avoid the
+          * variable size inner loop, which caused lots of branch misses.
+          * Now we can run through all the positions without any branch misses.
+          * We unroll the loop twice, since that is what emperically worked best.
+diff --git a/scripts/coccinelle/misc/badty.cocci b/scripts/coccinelle/misc/badty.cocci
+index ed3e0b8f3b1a..e3530cade156 100644
+--- a/scripts/coccinelle/misc/badty.cocci
++++ b/scripts/coccinelle/misc/badty.cocci
+@@ -4,7 +4,7 @@
+ //# This makes an effort to find cases where the argument to sizeof is wrong
+ //# in memory allocation functions by checking the type of the allocated memory
+ //# when it is a double pointer and ensuring the sizeof argument takes a pointer
+-//# to the the memory being allocated. There are false positives in cases the
++//# to the memory being allocated. There are false positives in cases the
+ //# sizeof argument is not used in constructing the return value. The result
+ //# may need some reformatting.
+ //
+diff --git a/tools/perf/Documentation/perf-diff.txt b/tools/perf/Documentation/perf-diff.txt
+index f3067a4af294..58efab72d2e5 100644
+--- a/tools/perf/Documentation/perf-diff.txt
++++ b/tools/perf/Documentation/perf-diff.txt
+@@ -285,7 +285,7 @@ If specified the 'Weighted diff' column is displayed with value 'd' computed as:
+ 
+   - period being the hist entry period value
+ 
+-  - WEIGHT-A/WEIGHT-B being user supplied weights in the the '-c' option
++  - WEIGHT-A/WEIGHT-B being user supplied weights in the '-c' option
+     behind ':' separator like '-c wdiff:1,2'.
+     - WEIGHT-A being the weight of the data file
+     - WEIGHT-B being the weight of the baseline data file
+-- 
+2.44.0
+
