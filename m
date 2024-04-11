@@ -2,77 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90FAF8A0590
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 03:31:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53D0F8A0597
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Apr 2024 03:34:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1294C10EC19;
-	Thu, 11 Apr 2024 01:31:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63BF410EC2B;
+	Thu, 11 Apr 2024 01:34:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nzAwOZMv";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="jM3azGXr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 752F910EC1E
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Apr 2024 01:31:46 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-516d1c8dc79so8332824e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Apr 2024 18:31:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1712799104; x=1713403904; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=E19K/vS7cBdz0VuoBuxwwccHxe8GH033KAPXkNgYiUY=;
- b=nzAwOZMv1qOL2LR6MPRltJ2kjINi+dKxjpe5K39RkHJqeYC4FB81klAOHijfeHAsKE
- Mng5PZLAhFD41oY0TZCHcEGmrLf2VBgw+/kaCB38uHmAaS+6eGjQJKd+RQnnMjX9HvMG
- 0xR2dANKz7R3rfDLIa4SiFLoUp3nksK+2ME8tIK9QtG+YRjQbZiO1e2oZdpKbBCK/rEJ
- QUUipKjNYJlCHVgZnl4tSkSPg2SxCVXKQx6vy80AzMj+iDN2GhPK7WFqETe6s8QqU1HR
- mqfO3TnCM4Twmu7Q2PChXwREUhO0eWwBjXkxWa4J8XXip1TVTQjnMHK4P8BTGL1iv+kI
- hlbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712799104; x=1713403904;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=E19K/vS7cBdz0VuoBuxwwccHxe8GH033KAPXkNgYiUY=;
- b=O6Qbdsq70T7NFbKNcsuha7l3YFO8xVsG52Rdd7ByNQBmqYkxV9FMhSgh/Wg4v5o7fF
- +hZTjiAZMNUs9FqJsg08OGh+EUXUxodssywenMHX/ZB0zjvqdiRso1k2uVe+SJeNXHNf
- +l4V+WvJpF+O0FwFjkzB1Kov1kLULMGs/G0ql6utmA3y5CydM1DwuRGKU7zqy4Q5jqdI
- QPM0oVHvVLpg7Fcg6GDfOhVEmGGSMUUoSbuVSGD4jBdh1BDt9KCjA+rBz1BdQqXmeciq
- PIOsFk37J2LUrXFGNJYN67sIpt7+TDqfT88x+ueML6U86sghxdCNyX6K2w1fA+V/fV2l
- ydkg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVEa3rNhg21fUwafsfIfFm1c6j0camGeNYokBPfHUzT32vDoXFNx4G059tfAxVTVG77ZGHFso2NpvG0AkGdAifOm/wlevhLjAma8Cbelp0u
-X-Gm-Message-State: AOJu0Yy73sNPxf2IZPseGOL1PkKMrIyLOgMjbydvYcqjvJMsfgjvD1vN
- gqyFcFNFXdAU6eQqh+jSyG91J+aXtW19F4i+zDg9SXaMsDnflCDsR1qeSKQjYfQ=
-X-Google-Smtp-Source: AGHT+IES6pFakWdLWGXexeMvuFmwsYpIR2L71ZkspvFHdvFSeopjAcPfM/o/fxLxhMvfR+6qemFqbA==
-X-Received: by 2002:ac2:5502:0:b0:515:ab92:6a82 with SMTP id
- j2-20020ac25502000000b00515ab926a82mr2912796lfk.17.1712799103691; 
- Wed, 10 Apr 2024 18:31:43 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
- by smtp.gmail.com with ESMTPSA id
- q13-20020a19430d000000b00516a2e40e19sm64871lfa.180.2024.04.10.18.31.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Apr 2024 18:31:43 -0700 (PDT)
-Date: Thu, 11 Apr 2024 04:31:41 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm: Drop msm_read/writel
-Message-ID: <bwhfcobfkddhw2jdj6orvtbejap6ast7njahkbggj6lpelibqi@ae7357lpepmf>
-References: <20240410-topic-msm_rw-v1-1-e1fede9ffaba@linaro.org>
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2071.outbound.protection.outlook.com [40.107.101.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59A4010EC2B;
+ Thu, 11 Apr 2024 01:34:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=X0NwRlNB8/kcbzFPtUIChK9QSePrPVy5C1PoXytpVDjnfcKc1/9Tyk0ujyYQXRVStOxcScFDn4rbT9n+PSXQQZGSS1d1OMTFpvqWWwXGjZtCaYIyXau4AtQ185g3OgbrXguScLFk5yU6dLinwc1pDLF3yhjHaJB97gInj29J3TUDigTj3LRm3Dn1K7N/nbX28zpBgSyYr/azmcdt/v8FFwfdO6Ge8/wH/umzBuFoUL0mJLLfjpCRgm6a8BJRupslPg1CW1ZIBqou8v9vlvQi9JfBvxt0tC9SMRgbk27BvNlUS9v6lidvQbv/+mNdKiPk1LeNbQXMIy6XTA4xAMplxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QaEsWaLb4CxjC6MtDADgL3AeWRGxK8QuWtAbtXbSgiI=;
+ b=bzrJ/Y061g5IrZINTwGOMWqc0+8FM78zxhIjBNFGaFKeek855PEc6vGIpQJJO7OOS/8q7Nd2LQwazeoDIZuQ99hK/FBZ4E2Sq1VvuSXdHB1Y5DDYJInJcO0ZXGZ94+uy1Q/XHC0Sh7wYb4OKkEF0xWzEsDogUxXOLy3D690F/KBptmDVJDIqbZU2YqtvjM5XhFM3o3YUQvFBPdLYHdsY6fIEMXXdyp90GBbUOjmw9thV3+UxzRey9Uxab3aMspLzTBrjW9v/Z86lh4ZTteaTI+zIc1QeAr+4loDcu3BRXNgjBATtPrdM7TK08xV4ZYCM4y6dTrInD19TxqJCQHUawQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QaEsWaLb4CxjC6MtDADgL3AeWRGxK8QuWtAbtXbSgiI=;
+ b=jM3azGXrXFsyt+im3Y3jKMtzmxAncOkxtGHzXEtmT5OShfH3wj4CIu+MOF9wN+G7BrrsGQgbLPCE+J4a3SaFdnk0HeL/sb16TvMe68WT2GIjHL8vankZNWdsGLEyi7xJzgmiHqB2HniBpVmXZWd4J06x6XjnBwBZPAaeGiUvALs=
+Received: from BN8PR15CA0016.namprd15.prod.outlook.com (2603:10b6:408:c0::29)
+ by MN6PR12MB8492.namprd12.prod.outlook.com (2603:10b6:208:472::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Thu, 11 Apr
+ 2024 01:34:43 +0000
+Received: from BN3PEPF0000B06C.namprd21.prod.outlook.com
+ (2603:10b6:408:c0:cafe::7d) by BN8PR15CA0016.outlook.office365.com
+ (2603:10b6:408:c0::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.19 via Frontend
+ Transport; Thu, 11 Apr 2024 01:34:43 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN3PEPF0000B06C.mail.protection.outlook.com (10.167.243.71) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7495.0 via Frontend Transport; Thu, 11 Apr 2024 01:34:42 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Wed, 10 Apr
+ 2024 20:34:41 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+CC: Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu, amdkfd drm-fixes-6.9
+Date: Wed, 10 Apr 2024 21:34:25 -0400
+Message-ID: <20240411013425.6431-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240410-topic-msm_rw-v1-1-e1fede9ffaba@linaro.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B06C:EE_|MN6PR12MB8492:EE_
+X-MS-Office365-Filtering-Correlation-Id: e55181e6-46d1-43a4-ec10-08dc59c79001
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: od0mEoiQC2klUz4y3ZkDGCj5zJK+Y56JxYe+Bk/pNXAxI6pNA8kAcU+tv1y85PCN0SSdeicCXRWvbYWisREbtxb2tenxpnqAKSJ0bH6wDWgerCD34m182KYzDd18PvOGPf0aUgVb4+9oy/5NFHCbWq0pcQmm7n/IOK+2DQwyXNS9fCATobodB1O/kRlcHcyXc7WNmyo04ER28lVEzzMBIl97qjmJPRN/wegYq1/VZxk/P4iM+a2jjTk7UfjiDFl0zTVAj0jjpYwmoqTIpmmP+bmTdg5defWBP9h4K6MQ0hCYkyct+gExYXvHawnQakcBFdK5gl7wzd8S2uKpeZtMq4gwyWoa+q1AaZ/Ui+iIX2ztZv6Ani/qk7g95k2syFaiELjC28UZ7I3XdWssUF+hHoTZf4ufQwHITMQ7i/aSll1h6KYn+vp30SyiIn2w8C+YsEuVwBHYHM1cAjP4DzMZwfn6VkCsgSc2zRcCAFF6430AwKj7xF0G45Ui5C2CR3OasWuAsTS6V8yXAdq/0GcvtL99DXD3ojW9mc3cxA798JO2hkzXtnuUa8gW7ftGdYFVJqMzi/UAjXWvtkNEwRWpMEs+aYqgEl9CHI6SAGVD8LlF+GNDb7+3fV3xwfHdmJKzLju6ObrDqJn8Vp4UahiXOaSDfVVZpXIuMNeLIx0J9LHREnRv+LYuMhmft+EaUqMCRdXmPwjARA/QaQHnmddbgg==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(376005)(82310400014)(36860700004)(1800799015); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2024 01:34:42.8708 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e55181e6-46d1-43a4-ec10-08dc59c79001
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B06C.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8492
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,383 +106,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 10, 2024 at 11:52:52PM +0200, Konrad Dybcio wrote:
-> Totally useless.
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
-> only compile-tested
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c       |  2 +-
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.h       | 12 ++++++------
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.h       |  4 ++--
->  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c |  4 ++--
->  drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.h    |  4 ++--
->  drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h    |  4 ++--
->  drivers/gpu/drm/msm/dsi/dsi_host.c          | 10 +++++-----
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h       |  8 ++++----
->  drivers/gpu/drm/msm/hdmi/hdmi.h             | 10 +++++-----
->  drivers/gpu/drm/msm/hdmi/hdmi_phy_8996.c    |  6 +++---
->  drivers/gpu/drm/msm/hdmi/hdmi_pll_8960.c    |  4 ++--
->  drivers/gpu/drm/msm/msm_drv.h               |  7 ++-----
->  drivers/gpu/drm/msm/msm_gpu.h               | 12 ++++++------
->  13 files changed, 42 insertions(+), 45 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> index 8bea8ef26f77..0e3dfd4c2bc8 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> @@ -507,7 +507,7 @@ static void a6xx_rpmh_stop(struct a6xx_gmu *gmu)
->  
->  static inline void pdc_write(void __iomem *ptr, u32 offset, u32 value)
->  {
-> -	msm_writel(value, ptr + (offset << 2));
-> +	writel(value, ptr + (offset << 2));
->  }
->  
->  static void __iomem *a6xx_gmu_get_mmio(struct platform_device *pdev,
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-> index 592b296aab22..94b6c5cab6f4 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-> @@ -103,12 +103,12 @@ struct a6xx_gmu {
->  
->  static inline u32 gmu_read(struct a6xx_gmu *gmu, u32 offset)
->  {
-> -	return msm_readl(gmu->mmio + (offset << 2));
-> +	return readl(gmu->mmio + (offset << 2));
->  }
->  
->  static inline void gmu_write(struct a6xx_gmu *gmu, u32 offset, u32 value)
->  {
-> -	msm_writel(value, gmu->mmio + (offset << 2));
-> +	writel(value, gmu->mmio + (offset << 2));
->  }
->  
->  static inline void
-> @@ -131,8 +131,8 @@ static inline u64 gmu_read64(struct a6xx_gmu *gmu, u32 lo, u32 hi)
->  {
->  	u64 val;
->  
-> -	val = (u64) msm_readl(gmu->mmio + (lo << 2));
-> -	val |= ((u64) msm_readl(gmu->mmio + (hi << 2)) << 32);
-> +	val = (u64) readl(gmu->mmio + (lo << 2));
-> +	val |= ((u64) readl(gmu->mmio + (hi << 2)) << 32);
->  
->  	return val;
->  }
-> @@ -143,12 +143,12 @@ static inline u64 gmu_read64(struct a6xx_gmu *gmu, u32 lo, u32 hi)
->  
->  static inline u32 gmu_read_rscc(struct a6xx_gmu *gmu, u32 offset)
->  {
-> -	return msm_readl(gmu->rscc + (offset << 2));
-> +	return readl(gmu->rscc + (offset << 2));
->  }
->  
->  static inline void gmu_write_rscc(struct a6xx_gmu *gmu, u32 offset, u32 value)
->  {
-> -	msm_writel(value, gmu->rscc + (offset << 2));
-> +	writel(value, gmu->rscc + (offset << 2));
->  }
->  
->  #define gmu_poll_timeout_rscc(gmu, addr, val, cond, interval, timeout) \
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> index 34822b080759..8917032b7515 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> @@ -69,12 +69,12 @@ static inline void a6xx_llc_rmw(struct a6xx_gpu *a6xx_gpu, u32 reg, u32 mask, u3
->  
->  static inline u32 a6xx_llc_read(struct a6xx_gpu *a6xx_gpu, u32 reg)
->  {
-> -	return msm_readl(a6xx_gpu->llc_mmio + (reg << 2));
-> +	return readl(a6xx_gpu->llc_mmio + (reg << 2));
->  }
->  
->  static inline void a6xx_llc_write(struct a6xx_gpu *a6xx_gpu, u32 reg, u32 value)
->  {
-> -	msm_writel(value, a6xx_gpu->llc_mmio + (reg << 2));
-> +	writel(value, a6xx_gpu->llc_mmio + (reg << 2));
->  }
->  
->  #define shadowptr(_a6xx_gpu, _ring) ((_a6xx_gpu)->shadow_iova + \
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> index a847a0f7a73c..83d7ee01c944 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> @@ -192,10 +192,10 @@ static int debugbus_read(struct msm_gpu *gpu, u32 block, u32 offset,
->  }
->  
->  #define cxdbg_write(ptr, offset, val) \
-> -	msm_writel((val), (ptr) + ((offset) << 2))
-> +	writel((val), (ptr) + ((offset) << 2))
->  
->  #define cxdbg_read(ptr, offset) \
-> -	msm_readl((ptr) + ((offset) << 2))
-> +	readl((ptr) + ((offset) << 2))
->  
->  /* read a value from the CX debug bus */
->  static int cx_debugbus_read(void __iomem *cxdbg, u32 block, u32 offset,
-> diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.h b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.h
-> index 01179e764a29..94b1ba92785f 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.h
-> +++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.h
-> @@ -44,12 +44,12 @@ struct mdp4_kms {
->  
->  static inline void mdp4_write(struct mdp4_kms *mdp4_kms, u32 reg, u32 data)
->  {
-> -	msm_writel(data, mdp4_kms->mmio + reg);
-> +	writel(data, mdp4_kms->mmio + reg);
->  }
->  
->  static inline u32 mdp4_read(struct mdp4_kms *mdp4_kms, u32 reg)
->  {
-> -	return msm_readl(mdp4_kms->mmio + reg);
-> +	return readl(mdp4_kms->mmio + reg);
->  }
->  
->  static inline uint32_t pipe2flush(enum mdp4_pipe pipe)
-> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h
-> index fac9f05aa639..36b6842dfc9c 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h
-> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h
-> @@ -171,13 +171,13 @@ struct mdp5_encoder {
->  static inline void mdp5_write(struct mdp5_kms *mdp5_kms, u32 reg, u32 data)
->  {
->  	WARN_ON(mdp5_kms->enable_count <= 0);
-> -	msm_writel(data, mdp5_kms->mmio + reg);
-> +	writel(data, mdp5_kms->mmio + reg);
->  }
->  
->  static inline u32 mdp5_read(struct mdp5_kms *mdp5_kms, u32 reg)
->  {
->  	WARN_ON(mdp5_kms->enable_count <= 0);
-> -	return msm_readl(mdp5_kms->mmio + reg);
-> +	return readl(mdp5_kms->mmio + reg);
->  }
->  
->  static inline const char *stage2name(enum mdp_mixer_stage_id stage)
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 9d86a6aca6f2..77bd5ff330d7 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -55,7 +55,7 @@ static int dsi_get_version(const void __iomem *base, u32 *major, u32 *minor)
->  	 * scratch register which we never touch)
->  	 */
->  
-> -	ver = msm_readl(base + REG_DSI_VERSION);
-> +	ver = readl(base + REG_DSI_VERSION);
->  	if (ver) {
->  		/* older dsi host, there is no register shift */
->  		ver = FIELD(ver, DSI_VERSION_MAJOR);
-> @@ -73,12 +73,12 @@ static int dsi_get_version(const void __iomem *base, u32 *major, u32 *minor)
->  		 * registers are shifted down, read DSI_VERSION again with
->  		 * the shifted offset
->  		 */
-> -		ver = msm_readl(base + DSI_6G_REG_SHIFT + REG_DSI_VERSION);
-> +		ver = readl(base + DSI_6G_REG_SHIFT + REG_DSI_VERSION);
->  		ver = FIELD(ver, DSI_VERSION_MAJOR);
->  		if (ver == MSM_DSI_VER_MAJOR_6G) {
->  			/* 6G version */
->  			*major = ver;
-> -			*minor = msm_readl(base + REG_DSI_6G_HW_VERSION);
-> +			*minor = readl(base + REG_DSI_6G_HW_VERSION);
->  			return 0;
->  		} else {
->  			return -EINVAL;
-> @@ -186,11 +186,11 @@ struct msm_dsi_host {
->  
->  static inline u32 dsi_read(struct msm_dsi_host *msm_host, u32 reg)
->  {
-> -	return msm_readl(msm_host->ctrl_base + reg);
-> +	return readl(msm_host->ctrl_base + reg);
->  }
->  static inline void dsi_write(struct msm_dsi_host *msm_host, u32 reg, u32 data)
->  {
-> -	msm_writel(data, msm_host->ctrl_base + reg);
-> +	writel(data, msm_host->ctrl_base + reg);
->  }
->  
->  static const struct msm_dsi_cfg_handler *dsi_get_config(
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-> index e4275d3ad581..5a5dc3faa971 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-> @@ -12,10 +12,10 @@
->  
->  #include "dsi.h"
->  
-> -#define dsi_phy_read(offset) msm_readl((offset))
-> -#define dsi_phy_write(offset, data) msm_writel((data), (offset))
-> -#define dsi_phy_write_udelay(offset, data, delay_us) { msm_writel((data), (offset)); udelay(delay_us); }
-> -#define dsi_phy_write_ndelay(offset, data, delay_ns) { msm_writel((data), (offset)); ndelay(delay_ns); }
-> +#define dsi_phy_read(offset) readl((offset))
-> +#define dsi_phy_write(offset, data) writel((data), (offset))
-> +#define dsi_phy_write_udelay(offset, data, delay_us) { writel((data), (offset)); udelay(delay_us); }
-> +#define dsi_phy_write_ndelay(offset, data, delay_ns) { writel((data), (offset)); ndelay(delay_ns); }
+Hi Dave, Sima,
 
-What about also inlining these wrappers?
+Fixes for 6.9.  Two weeks worth.  There is a fairly big update for SMU 14.0.1,
+but that is a new IP for 6.9 so it should be isolated to that.
 
->  
->  struct msm_dsi_phy_ops {
->  	int (*pll_init)(struct msm_dsi_phy *phy);
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdmi.h
-> index ec5786440391..4586baf36415 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi.h
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
-> @@ -115,17 +115,17 @@ void msm_hdmi_set_mode(struct hdmi *hdmi, bool power_on);
->  
->  static inline void hdmi_write(struct hdmi *hdmi, u32 reg, u32 data)
->  {
-> -	msm_writel(data, hdmi->mmio + reg);
-> +	writel(data, hdmi->mmio + reg);
->  }
->  
->  static inline u32 hdmi_read(struct hdmi *hdmi, u32 reg)
->  {
-> -	return msm_readl(hdmi->mmio + reg);
-> +	return readl(hdmi->mmio + reg);
->  }
->  
->  static inline u32 hdmi_qfprom_read(struct hdmi *hdmi, u32 reg)
->  {
-> -	return msm_readl(hdmi->qfprom_mmio + reg);
-> +	return readl(hdmi->qfprom_mmio + reg);
->  }
->  
->  /*
-> @@ -166,12 +166,12 @@ struct hdmi_phy {
->  
->  static inline void hdmi_phy_write(struct hdmi_phy *phy, u32 reg, u32 data)
->  {
-> -	msm_writel(data, phy->mmio + reg);
-> +	writel(data, phy->mmio + reg);
->  }
->  
->  static inline u32 hdmi_phy_read(struct hdmi_phy *phy, u32 reg)
->  {
-> -	return msm_readl(phy->mmio + reg);
-> +	return readl(phy->mmio + reg);
->  }
->  
->  int msm_hdmi_phy_resource_enable(struct hdmi_phy *phy);
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_phy_8996.c b/drivers/gpu/drm/msm/hdmi/hdmi_phy_8996.c
-> index 4dd055416620..8c8d80b59573 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi_phy_8996.c
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_phy_8996.c
-> @@ -86,18 +86,18 @@ static inline struct hdmi_phy *pll_get_phy(struct hdmi_pll_8996 *pll)
->  static inline void hdmi_pll_write(struct hdmi_pll_8996 *pll, int offset,
->  				  u32 data)
->  {
-> -	msm_writel(data, pll->mmio_qserdes_com + offset);
-> +	writel(data, pll->mmio_qserdes_com + offset);
->  }
->  
->  static inline u32 hdmi_pll_read(struct hdmi_pll_8996 *pll, int offset)
->  {
-> -	return msm_readl(pll->mmio_qserdes_com + offset);
-> +	return readl(pll->mmio_qserdes_com + offset);
->  }
->  
->  static inline void hdmi_tx_chan_write(struct hdmi_pll_8996 *pll, int channel,
->  				      int offset, int data)
->  {
-> -	 msm_writel(data, pll->mmio_qserdes_tx[channel] + offset);
-> +	 writel(data, pll->mmio_qserdes_tx[channel] + offset);
->  }
->  
->  static inline u32 pll_get_cpctrl(u64 frac_start, unsigned long ref_clk,
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_pll_8960.c b/drivers/gpu/drm/msm/hdmi/hdmi_pll_8960.c
-> index cb35a297afbd..83c8781fcc3f 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi_pll_8960.c
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_pll_8960.c
-> @@ -236,12 +236,12 @@ static const struct pll_rate freqtbl[] = {
->  
->  static inline void pll_write(struct hdmi_pll_8960 *pll, u32 reg, u32 data)
->  {
-> -	msm_writel(data, pll->mmio + reg);
-> +	writel(data, pll->mmio + reg);
->  }
->  
->  static inline u32 pll_read(struct hdmi_pll_8960 *pll, u32 reg)
->  {
-> -	return msm_readl(pll->mmio + reg);
-> +	return readl(pll->mmio + reg);
->  }
->  
->  static inline struct hdmi_phy *pll_get_phy(struct hdmi_pll_8960 *pll)
-> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-> index 65f213660452..0659459c0b15 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.h
-> +++ b/drivers/gpu/drm/msm/msm_drv.h
-> @@ -488,15 +488,12 @@ void __iomem *msm_ioremap_mdss(struct platform_device *mdss_pdev,
->  
->  struct icc_path *msm_icc_get(struct device *dev, const char *name);
->  
-> -#define msm_writel(data, addr) writel((data), (addr))
-> -#define msm_readl(addr) readl((addr))
-> -
->  static inline void msm_rmw(void __iomem *addr, u32 mask, u32 or)
->  {
-> -	u32 val = msm_readl(addr);
-> +	u32 val = readl(addr);
->  
->  	val &= ~mask;
-> -	msm_writel(val | or, addr);
-> +	writel(val | or, addr);
->  }
->  
->  /**
-> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-> index 2bfcb222e353..a0c1bd6d1d5b 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu.h
-> +++ b/drivers/gpu/drm/msm/msm_gpu.h
-> @@ -555,12 +555,12 @@ struct msm_gpu_state {
->  
->  static inline void gpu_write(struct msm_gpu *gpu, u32 reg, u32 data)
->  {
-> -	msm_writel(data, gpu->mmio + (reg << 2));
-> +	writel(data, gpu->mmio + (reg << 2));
->  }
->  
->  static inline u32 gpu_read(struct msm_gpu *gpu, u32 reg)
->  {
-> -	return msm_readl(gpu->mmio + (reg << 2));
-> +	return readl(gpu->mmio + (reg << 2));
->  }
->  
->  static inline void gpu_rmw(struct msm_gpu *gpu, u32 reg, u32 mask, u32 or)
-> @@ -586,8 +586,8 @@ static inline u64 gpu_read64(struct msm_gpu *gpu, u32 reg)
->  	 * when the lo is read, so make sure to read the lo first to trigger
->  	 * that
->  	 */
-> -	val = (u64) msm_readl(gpu->mmio + (reg << 2));
-> -	val |= ((u64) msm_readl(gpu->mmio + ((reg + 1) << 2)) << 32);
-> +	val = (u64) readl(gpu->mmio + (reg << 2));
-> +	val |= ((u64) readl(gpu->mmio + ((reg + 1) << 2)) << 32);
->  
->  	return val;
->  }
-> @@ -595,8 +595,8 @@ static inline u64 gpu_read64(struct msm_gpu *gpu, u32 reg)
->  static inline void gpu_write64(struct msm_gpu *gpu, u32 reg, u64 val)
->  {
->  	/* Why not a writeq here? Read the screed above */
-> -	msm_writel(lower_32_bits(val), gpu->mmio + (reg << 2));
-> -	msm_writel(upper_32_bits(val), gpu->mmio + ((reg + 1) << 2));
-> +	writel(lower_32_bits(val), gpu->mmio + (reg << 2));
-> +	writel(upper_32_bits(val), gpu->mmio + ((reg + 1) << 2));
->  }
->  
->  int msm_gpu_pm_suspend(struct msm_gpu *gpu);
-> 
-> ---
-> base-commit: 6ebf211bb11dfc004a2ff73a9de5386fa309c430
-> change-id: 20240410-topic-msm_rw-cdc1d85b2ece
-> 
-> Best regards,
-> -- 
-> Konrad Dybcio <konrad.dybcio@linaro.org>
-> 
+The following changes since commit 718c4fb221dbeff9072810841b949413c5ffc345:
 
--- 
-With best wishes
-Dmitry
+  nouveau: fix devinit paths to only handle display on GSP. (2024-04-09 13:14:13 +1000)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.9-2024-04-10
+
+for you to fetch changes up to 6dba20d23e85034901ccb765a7ca71199bcca4df:
+
+  drm/amdgpu: differentiate external rev id for gfx 11.5.0 (2024-04-10 00:00:32 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-6.9-2024-04-10:
+
+amdgpu:
+- GPU reset fixes
+- Fix some confusing logging
+- UMSCH fix
+- Aborted suspend fix
+- DCN 3.5 fixes
+- S4 fix
+- MES logging fixes
+- SMU 14 fixes
+- SDMA 4.4.2 fix
+- KASAN fix
+- SMU 13.0.10 fix
+- VCN partition fix
+- GFX11 fixes
+- DWB fixes
+- Plane handling fix
+- FAMS fix
+- DCN 3.1.6 fix
+- VSC SDP fixes
+- OLED panel fix
+- GFX 11.5 fix
+
+amdkfd:
+- GPU reset fixes
+
+----------------------------------------------------------------
+Alex Deucher (1):
+      drm/amdgpu: always force full reset for SOC21
+
+Alex Hung (2):
+      drm/amd/display: Skip on writeback when it's not applicable
+      drm/amd/display: Return max resolution supported by DWB
+
+Dillon Varone (1):
+      drm/amd/display: Do not recursively call manual trigger programming
+
+Fudongwang (1):
+      drm/amd/display: fix disable otg wa logic in DCN316
+
+Harish Kasiviswanathan (1):
+      drm/amdkfd: Reset GPU on queue preemption failure
+
+Harry Wentland (2):
+      drm/amd/display: Program VSC SDP colorimetry for all DP sinks >= 1.4
+      drm/amd/display: Set VSC SDP Colorimetry same way for MST and SST
+
+Kenneth Feng (1):
+      drm/amd/pm: fix the high voltage issue after unload
+
+Lang Yu (1):
+      drm/amdgpu/umsch: reinitialize write pointer in hw init
+
+Li Ma (1):
+      drm/amd/display: add DCN 351 version for microcode load
+
+Lijo Lazar (3):
+      drm/amdgpu: Refine IB schedule error logging
+      drm/amdgpu: Reset dGPU if suspend got aborted
+      drm/amdgpu: Fix VCN allocation in CPX partition
+
+Tao Zhou (1):
+      drm/amdgpu: implement IRQ_STATE_ENABLE for SDMA v4.4.2
+
+Tim Huang (2):
+      drm/amd/pm: fixes a random hang in S4 for SMU v13.0.4/11
+      drm/amdgpu: fix incorrect number of active RBs for gfx11
+
+Wenjing Liu (1):
+      drm/amd/display: always reset ODM mode in context when adding first plane
+
+Yifan Zhang (2):
+      drm/amdgpu: add smu 14.0.1 discovery support
+      drm/amdgpu: differentiate external rev id for gfx 11.5.0
+
+ZhenGuo Yin (1):
+      drm/amdgpu: clear set_q_mode_offs when VM changed
+
+Zhigang Luo (1):
+      amd/amdkfd: sync all devices to wait all processes being evicted
+
+Zhongwei (1):
+      drm/amd/display: Adjust dprefclk by down spread percentage.
+
+lima1002 (1):
+      drm/amd/swsmu: Update smu v14.0.0 headers to be 14.0.1 compatible
+
+shaoyunl (2):
+      drm/amdgpu : Add mes_log_enable to control mes log feature
+      drm/amdgpu : Increase the mes log buffer size as per new MES FW version
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h                |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  26 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c      |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |  10 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c            |   7 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c            |  10 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mes.h            |   1 +
+ drivers/gpu/drm/amd/amdgpu/aqua_vanjaram.c         |  15 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             |   3 +-
+ drivers/gpu/drm/amd/amdgpu/mes_v11_0.c             |   7 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c           |  16 +-
+ drivers/gpu/drm/amd/amdgpu/soc21.c                 |  32 +-
+ drivers/gpu/drm/amd/amdgpu/umsch_mm_v4_0.c         |   2 +
+ drivers/gpu/drm/amd/amdkfd/kfd_device.c            |  17 +-
+ .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |   1 +
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  31 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c   |   6 +-
+ .../amd/display/dc/clk_mgr/dcn316/dcn316_clk_mgr.c |  19 +-
+ .../amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c   |  50 +++
+ drivers/gpu/drm/amd/display/dc/core/dc_state.c     |   9 +
+ .../gpu/drm/amd/display/dc/dce/dce_clock_source.c  |   8 +-
+ .../gpu/drm/amd/display/dc/optc/dcn32/dcn32_optc.c |   3 -
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |  27 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h      |   1 +
+ .../pm/swsmu/inc/pmfw_if/smu14_driver_if_v14_0_0.h |  33 +-
+ .../amd/pm/swsmu/inc/pmfw_if/smu_v14_0_0_pmfw.h    |  55 +++-
+ .../amd/pm/swsmu/inc/pmfw_if/smu_v14_0_0_ppsmc.h   |  18 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_v14_0.h       |   1 +
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   |   8 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_4_ppt.c   |  12 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu14/smu_v14_0.c     |   2 +-
+ .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_0_ppt.c   | 347 +++++++++++++++++++--
+ 32 files changed, 652 insertions(+), 127 deletions(-)
