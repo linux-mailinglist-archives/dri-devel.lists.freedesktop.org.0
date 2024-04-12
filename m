@@ -2,105 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79B18A342A
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Apr 2024 18:54:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BE008A34A6
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Apr 2024 19:23:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC8FC10EF2B;
-	Fri, 12 Apr 2024 16:54:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9AD810F0A0;
+	Fri, 12 Apr 2024 17:23:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="PPA/FpYZ";
+	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="QgywdGWg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2081.outbound.protection.outlook.com [40.107.102.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F290810EF1D;
- Fri, 12 Apr 2024 16:54:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F3JTHLlXkzpTEWzsR7I+nFf4Q0hlzCf6lc1Ji9YCo+VkexMRzksPynfjxjv1UDnnJ+wA4VEVAw8PDEy8yq91e6dSIGvdEE0KekKQ+R8KS7P3MunSYtPbTSwjQ+ng3oyHRWxleSkxvfPQyRqqQ6bWdSOUAlwJz7L/Vckbs+b4Znd9AVrzL0Pm1gYbHoBvtEjBOT9Q2ec4ddTrdr/CXNdpqUOkkZggVdPrbcy9TwXpkdEZKPdGcwhKYhi+m+e9/0lXW8gTm306Mh/vefi+MbzS6Mrzzkj85tF6sN2lZtYLIpLtAHp+c5RquhEyPUyqLUMN87ZSuFfKzHZ4MlXK8B+ONw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JwpGuO2w762kS7TG1PSgBJ5Vzl/NWWZSvwk62ZSyuOk=;
- b=M1mrTc7GigmhX2jfI9fVC1lgXP34MgX1wdPO2mJXw3BE6DoLzWQfoLSDeh2l8miwvCcBZTRZ3MGnr2kKTZFrpUHm3tpLz05nt8uc7F4SulKaaWTSm/93sRzXSPoikz58E5WTJTWDaXcxDP5VozIsZdest+pezIliufysL0gLaLRElo7+DPfwnGv62Xnv9MuSgNWKJJAJ47l6+C4H51uU1sbGFKtit/eNRUcXWCOvrmL6eXa1I942Af2gDLsyGJtF1n+lcjc5Px+f3vvmG6wW5TsyEzXQDHMBfseh6oNPPnrumd7+KNYB6CLufj31GZgbv8aUXC+L9I8o3cOQ0H2dqA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JwpGuO2w762kS7TG1PSgBJ5Vzl/NWWZSvwk62ZSyuOk=;
- b=PPA/FpYZGMnBBzc3y5hmipMHT38QrfznGT7s8TmrHdOTPxui1E0MKoxaAjZMLl7rFAfACx62s4EtThlAMwSi07z3E0vSkOVXyrQ61s35ql01BVx2Pp2/covEmMylKZMhyVR2ydJZVfb7VNTge6DT2IbECGdY/qN1QAKf9eUp9xj+qVh2s6MbFdiMamwCyPExL/60FH2sOp9guQQhhM3iSuvGUedy1goosM5hyS9XbYLkXnMjmkIAQoWtjmWyYa5cvqjQ1O8O6mPuAjy5ymqTTJR5kLItudEZzB+hAwWNTIIJKRbObzpZzcvaCd6yAoeowBtQBZFmuEHal2xCLZoK9A==
-Received: from PH3PEPF000040AA.namprd05.prod.outlook.com (2603:10b6:518:1::4c)
- by PH7PR12MB7114.namprd12.prod.outlook.com (2603:10b6:510:1ed::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Fri, 12 Apr
- 2024 16:54:41 +0000
-Received: from CY4PEPF0000EDD0.namprd03.prod.outlook.com
- (2a01:111:f403:f912::) by PH3PEPF000040AA.outlook.office365.com
- (2603:1036:903:49::3) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7495.9 via Frontend
- Transport; Fri, 12 Apr 2024 16:54:39 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CY4PEPF0000EDD0.mail.protection.outlook.com (10.167.241.204) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7452.22 via Frontend Transport; Fri, 12 Apr 2024 16:54:39 +0000
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Fri, 12 Apr
- 2024 09:54:18 -0700
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail204.nvidia.com
- (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Fri, 12 Apr
- 2024 09:54:17 -0700
-Received: from moonraker.nvidia.com (10.127.8.9) by mail.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
- Transport; Fri, 12 Apr 2024 09:54:16 -0700
-From: Jon Hunter <jonathanh@nvidia.com>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH] drm/msm: Fix gen_header.py for older python3 versions
-Date: Fri, 12 Apr 2024 17:54:07 +0100
-Message-ID: <20240412165407.42163-1-jonathanh@nvidia.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0890B10F0A0
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Apr 2024 17:23:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+ s=s31663417; t=1712942626; x=1713547426; i=wahrenst@gmx.net;
+ bh=2P7U8Lr3rT/SEdzRkxr8KToUpRcgIP2da99T3eJ4GuM=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=QgywdGWgynk3SsmQwXyaO5AMNf37K4iTQYWb7raI2IhMbuzT//V53y5QHdiVNQZa
+ j7Wm0VVOE/0PeZrQft6UFWdnflrWNLKxjYkeVmAmy0vpX7ASZ/6tMX/aslugf1F3l
+ vosIfh54CwVMjqeKN1OKIg/8Hq4gFET7GonsT6UXF3kYCWNP7rEj7zUi7kup8WKMP
+ 7haeaa0rZMUEfTDjmDF2pdyofLGkQRqYrZ6tV/92Y4qMuU1R9GYrcmYKQa469vTjM
+ UWGII4FTAb6nrYZ3QYHmoiHce3/7AveNCdRQco8AJzU6PEUqC8UBH0R3dOScpUuBV
+ h50Lr3yz1drMwvhSoQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.167] ([37.4.248.43]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MTABT-1sKn5y1Off-00UZRf; Fri, 12
+ Apr 2024 19:17:45 +0200
+Message-ID: <41694292-af1f-4760-a7b6-101ed5dd6f9d@gmx.net>
+Date: Fri, 12 Apr 2024 19:17:41 +0200
 MIME-Version: 1.0
-X-NVConfidentiality: public
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD0:EE_|PH7PR12MB7114:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5f14e99c-a2c0-487e-86e4-08dc5b113e29
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KTXdt0C366YM6fgmJ4I3ZgiF5/cJllBIbbW6VsGPRMXelFiOv8PBxMH/nfpchHVLcgKqsMhBbLwH+heJLXlVZxFziXCTXsLy4BE4+NKBbaYYXJsHsZO7jGODj/4j47XidOGWrd6kXb7IF2vTpEFUcs3P3lRivTsOMmK141ZJ9y+Um/BQFh6AhSC9u8Llfp5Q02JK81Y0FJQRHh/cASntiJ5wWI4EdET4ENSLAvQtmMtnnM5e844t+JiFex9exqmBgYRHkzhVZXFgqr583oq9G0sGESVvEXxrYTrG78WvKBxIfC6oNVgSrmSM6fl+K10xu76J3/pzLpg5IsuG8YgUhca0i0Qm1iEDvcrfGOR4M65DJuaikHzjJGWNpHi8o6H7/7QAZGVgOwrhEbu8xepubmZ/u9azXbnkww4Go86KQaAbjFsY0XDo4JogZrM+R09uM1VoiALrvXshy/hCjt6sF5e2dK47Zl0624IomkNyH6xlUgYTgLsReQvqCSLde9uZd1ocgdXiCyiTSVnAQ1f0RnFdzVT5uAMpKHbyu5CBhesdAxG5I9DRetHSaEGxoQYNU3RN+svuKoMREOo0qqlHgPL0zBBIk+WP8xA/1WL8sKHVMjVZAvMXValGa1qkygE0k93xYGxqvgVlunQH0oJXZ1nNj/CfcpQaHTwlyPkhQOyFopnhFksFnz06DFyOIfOUweyHmiZgsiRS8aFvJQg9o9RwaknBtf6jja/5AFm9sW0FfK/Ez7Awevva5cnGweRZ
-X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230031)(1800799015)(36860700004)(82310400014)(376005); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Apr 2024 16:54:39.2748 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5f14e99c-a2c0-487e-86e4-08dc5b113e29
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EDD0.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7114
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ARM: dts: bcm2835: Enable 3D rendering through V3D
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Maxime Ripard <mripard@kernel.org>, Melissa Wen <mwen@igalia.com>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>,
+ Andre Przywara <andre.przywara@arm.com>,
+ Romain Perier <romain.perier@gmail.com>, Phil Elwell <phil@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, kernel-dev@igalia.com
+References: <20240412132559.2365947-1-mcanal@igalia.com>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20240412132559.2365947-1-mcanal@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:GRDPBx4CDHZqEG72k3y4Xh+do0qOh477K8lZaUHwGA6wtP7+AWh
+ lmcwIf0s2edQokAAvZaviyELcgW4bdhIT+k1qon+3gAazdyC3r/tO8O1g/b2V/tC9A/r2Nm
+ 0LqPCJfYswOxwSYe9vAVJN/wGkRp5BYT5q4n2t8qDqeioMqSHLNZ32v4DUn7RpQAcRIUjeH
+ 7817FaSqkK6EAkAsUi9FA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Au780FEldAQ=;Cs4gGOAU8asdOwd9uFHCVKIs3Ar
+ KjsQKRaHDFHv+Itkw0+PluTFTZdSzid582wwqr7Lwu7yE15+DJ0BYAqXiu64tJlooMJlLgY+s
+ dzG10fKuYM2U8nNp0Mfqjts2t1a+Tx8aUiN1dyIrReOhY61PrI8b6li73wSTR2g8Sqa1YzENS
+ ySIHNkvZCirhMuAlT0pcZOs7WbaVohwLI8dqg2e7Tw2APzzrYqKstLRJVvwPJqx+lZTDAwNZ7
+ gPL7IFBc4idm+aWCSbMN3Ct4lPvaIDpNtjGhaiCtDX79tGlGP2pEjAHYr/C405bJXSA63dIuo
+ v5565NJMkGwhwKUDehzjITtYeDPj2AVdX2JnwuxgWcE0opomnIC2S2IerjYxgXEEnzmWhqJzr
+ 7JO4KfzexXkbeeSYJ4LXSyCmy8pa06WO0YdID3gXEp4YyBZlr2huRVC1bP+0qpVC7P8phJ4MX
+ YEDEss3P/eUl5nQZFaiQ23GOt5yEzqNgFpgJO/m/SOj16Ip4d+LNywZ+sZMhk3JH/g0Mq5Iba
+ rbdhr1DRdeQLJu8JGdKylidLBHdig/KwvbKp0YNMrhef3Yk0it6Wi/hnyZFy5yBQpLsV4xBJl
+ 1z4LKp4tZ39u5jBiSMPJwfHYxLWZZpgMVwK/V6OccpBVqD8AQro6z/juBeGwhhwNpKz+2X6+7
+ Cjprf5miWDUYoStWT5RVaDxC0uYei72thzX1AYgspjJFXGq7JiixIrTnDFrIwhPKhuS0oAubt
+ R0JOh1ViXElpjcOK9ayyClvu07N9R7PvyoZCUJIe73DulhuIUJjNHJC8A4QoKoTZXUiTsyomn
+ 2qJXjPs29ayBtEUQxSR0ELiatYJ10Qi2p3YgSn/0wHgMw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,44 +89,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The gen_header.py script is failing for older versions of python3 such
-as python 3.5. Two issues observed with python 3.5 are ...
+Hi Ma=C3=ADra,
 
- 1. Python 3 versions prior to 3.6 do not support the f-string format.
- 2. Early python 3 versions do not support the 'required' argument for
-    the argparse add_subparsers().
+[add Phil & Dave]
 
-Fix both of the above so that older versions of python 3 still work.
+Am 12.04.24 um 15:25 schrieb Ma=C3=ADra Canal:
+> RPi 0-3 is packed with a GPU that provides 3D rendering capabilities to
+> the RPi. Currently, the downstream kernel uses an overlay to enable the
+> GPU and use GPU hardware acceleration. When deploying a mainline kernel
+> to the RPi 0-3, we end up without any GPU hardware acceleration
+> (essentially, we can't use the OpenGL driver).
+>
+> Therefore, enable the V3D core for the RPi 0-3 in the mainline kernel.
+thanks for trying to improve the combination Raspberry Pi OS + Mainline
+Kernel. I think i'm able to reproduce the issue with Raspberry Pi 3 B +
+on Buster. From the kernel side everything looks good:
 
-Fixes: 8f7abf0b86fe ("drm/msm: generate headers on the fly")
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
----
- drivers/gpu/drm/msm/registers/gen_header.py | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+[=C2=A0=C2=A0 11.054833] vc4-drm soc:gpu: bound 3f902000.hdmi (ops vc4_hdm=
+i_ops [vc4])
+[=C2=A0=C2=A0 11.055118] vc4-drm soc:gpu: bound 3f806000.vec (ops vc4_vec_=
+ops [vc4])
+[=C2=A0=C2=A0 11.055340] vc4-drm soc:gpu: bound 3f004000.txp (ops vc4_txp_=
+ops [vc4])
+[=C2=A0=C2=A0 11.055521] vc4-drm soc:gpu: bound 3f206000.pixelvalve (ops
+vc4_crtc_ops [vc4])
+[=C2=A0=C2=A0 11.055695] vc4-drm soc:gpu: bound 3f207000.pixelvalve (ops
+vc4_crtc_ops [vc4])
+[=C2=A0=C2=A0 11.055874] vc4-drm soc:gpu: bound 3f807000.pixelvalve (ops
+vc4_crtc_ops [vc4])
+[=C2=A0=C2=A0 11.056020] vc4-drm soc:gpu: bound 3fc00000.v3d (ops vc4_v3d_=
+ops [vc4])
+[=C2=A0=C2=A0 11.063277] Bluetooth: hci0: BCM4345C0
+'brcm/BCM4345C0.raspberrypi,3-model-b-plus.hcd' Patch
+[=C2=A0=C2=A0 11.070466] [drm] Initialized vc4 0.0.0 20140616 for soc:gpu =
+on minor 0
+[=C2=A0=C2=A0 11.174803] Console: switching to colour frame buffer device =
+240x75
+[=C2=A0=C2=A0 11.205125] vc4-drm soc:gpu: [drm] fb0: vc4drmfb frame buffer=
+ device
 
-diff --git a/drivers/gpu/drm/msm/registers/gen_header.py b/drivers/gpu/drm/msm/registers/gen_header.py
-index 9b2842d4a354..90d5c2991d05 100644
---- a/drivers/gpu/drm/msm/registers/gen_header.py
-+++ b/drivers/gpu/drm/msm/registers/gen_header.py
-@@ -323,7 +323,7 @@ class Array(object):
- 			indices = []
- 		if self.length != 1:
- 			if self.fixed_offsets:
--				indices.append((self.index_ctype(), None, f"__offset_{self.local_name}"))
-+				indices.append((self.index_ctype(), None, "__offset_%s" % self.local_name))
- 			else:
- 				indices.append((self.index_ctype(), self.stride, None))
- 		return indices
-@@ -942,7 +942,8 @@ def main():
- 	parser.add_argument('--rnn', type=str, required=True)
- 	parser.add_argument('--xml', type=str, required=True)
- 
--	subparsers = parser.add_subparsers(required=True)
-+	subparsers = parser.add_subparsers()
-+	subparsers.required = True
- 
- 	parser_c_defines = subparsers.add_parser('c-defines')
- 	parser_c_defines.set_defaults(func=dump_c_defines)
--- 
-2.34.1
+But in Raspberry Pi OS there is a systemd script which is trying to
+check for the V3D driver /usr/lib/systemd/scripts/gldriver_test.sh
+Within the first check "raspi-config nonint is_kms" is called, which
+always seems to fail. If i run strace on this command it seems to check
+for /proc/device-tree/soc/v3d@7ec00000/status which doesn't exists in
+the Mainline device tree.
+
+Maybe there is a chance to improve the userspace tool?
+
+>
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> ---
+>
+> I decided to add the status property to the `bcm2835-common.dtsi`, but
+> there are two other options:
+>
+> 1. To add the status property to the `bcm2835-rpi-common.dtsi` file
+> 2. To add the status property to each individual RPi model, e.g.
+> `bcm2837-rpi-3-b.dts`.
+>
+> Let me know which option is more suitable, and if `bcm2835-common.dtsi`
+> is not the best option, I can send a v2.
+>
+> Best Regards,
+> - Ma=C3=ADra
+>
+>   arch/arm/boot/dts/broadcom/bcm2835-common.dtsi | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/arch/arm/boot/dts/broadcom/bcm2835-common.dtsi b/arch/arm/b=
+oot/dts/broadcom/bcm2835-common.dtsi
+> index 9261b67dbee1..851a6bce1939 100644
+> --- a/arch/arm/boot/dts/broadcom/bcm2835-common.dtsi
+> +++ b/arch/arm/boot/dts/broadcom/bcm2835-common.dtsi
+> @@ -139,6 +139,7 @@ v3d: v3d@7ec00000 {
+>   			compatible =3D "brcm,bcm2835-v3d";
+>   			reg =3D <0x7ec00000 0x1000>;
+>   			interrupts =3D <1 10>;
+> +			status =3D "okay";
+>   		};
+>
+>   		vc4: gpu {
 
