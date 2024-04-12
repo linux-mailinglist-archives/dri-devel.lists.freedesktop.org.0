@@ -2,50 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C22B8A2955
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Apr 2024 10:29:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32A008A2979
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Apr 2024 10:40:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2821710F3CD;
-	Fri, 12 Apr 2024 08:29:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B07E210E072;
+	Fri, 12 Apr 2024 08:40:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZJZU03Kh";
+	dkim=pass (2048-bit key; unprotected) header.d=t-argos.ru header.i=@t-argos.ru header.b="iXeFh1Eq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2BD910F3CD
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Apr 2024 08:29:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id F0849CE028A;
- Fri, 12 Apr 2024 08:29:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1EA3C113CC;
- Fri, 12 Apr 2024 08:29:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1712910590;
- bh=yNUCTY3R96uKh6sdpi2i9suu0OKXHjTflNqHMb3g/Zw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZJZU03Khdu2WdxWk9+7wNcvmgMETU1OMUS2cQ7EKe2zNGS1IZnCskHzuBG7e2Zowj
- 1fTxSOA9v625MMNkgcQxWLNFl5t6/QWyjTEe0q7btzvTJ7V5orC7we2UYWN2T38Yd5
- Kabaa965su4ebVWb03h4WHpzo48YTdmWFA5LUPUg=
-Date: Fri, 12 Apr 2024 10:29:47 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Naresh Kamboju <naresh.kamboju@linaro.org>
-Cc: stable@vger.kernel.org, patches@lists.linux.dev,
- linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
- akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
- patches@kernelci.org, lkft-triage@lists.linaro.org, pavel@denx.de,
- jonathanh@nvidia.com, f.fainelli@gmail.com,
- sudipm.mukherjee@gmail.com, srw@sladewatkins.net, rwarsow@gmx.de,
- conor@kernel.org, allen.lkml@gmail.com, broonie@kernel.org,
- imx@lists.linux.dev, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 4.19 000/175] 4.19.312-rc1 review
-Message-ID: <2024041240-drastic-crayon-e9d6@gregkh>
-References: <20240411095419.532012976@linuxfoundation.org>
- <CA+G9fYuwCn0D6jzrn0dBKsa+X0zUBUMiuRqcYvc-qkKToXK5dA@mail.gmail.com>
+Received: from mx1.t-argos.ru (mx1.t-argos.ru [109.73.34.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4F9910E072
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Apr 2024 08:40:15 +0000 (UTC)
+Received: from mx1.t-argos.ru (localhost [127.0.0.1])
+ by mx1.t-argos.ru (Postfix) with ESMTP id 69B3D100002;
+ Fri, 12 Apr 2024 11:39:57 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=t-argos.ru; s=mail;
+ t=1712911197; bh=rjbo4UmWfdwF8R6/DF5Fmz37zbZJApM7uAaHW6mJOAY=;
+ h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+ b=iXeFh1EqZq8ZPAePYUl6mbxwrMGpyXIC1+9DRMFGc73/E573jzoGpC5Lx0+DONq3m
+ ArhmsPc0O4i5twLUmUhy1AKQC5bDVXI0QMZU3yRj11y4Yj8H0QQc+mFZ2ub4ahGoVJ
+ JGqbeZpZyEft8TOVtFfGqHQrktvOM7zHlMZIoHkJHy3VEgtyI8lEmgSJqAOTyi7MjG
+ xI1l0tI/QclaAU5QSGcZUxQiN2L9uUc4IyRaX4pAoqsRmqWW9hqdFebFLktRr8XObx
+ ib8mK9p1Jpmxhjrit1lHgY0iQAbkQTNGWkssh+K4XUF28RVnD+vlhqqrHcYx58SwdP
+ sRGkDj7l1ZRLw==
+Received: from mx1.t-argos.ru.ru (ta-mail-02.ta.t-argos.ru [172.17.13.212])
+ by mx1.t-argos.ru (Postfix) with ESMTP;
+ Fri, 12 Apr 2024 11:36:10 +0300 (MSK)
+Received: from localhost.localdomain (172.17.215.6) by ta-mail-02
+ (172.17.13.212) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 12 Apr
+ 2024 11:35:50 +0300
+From: Aleksandr Mishin <amishin@t-argos.ru>
+To: Swapnil Jakhade <sjakhade@cadence.com>
+CC: Aleksandr Mishin <amishin@t-argos.ru>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, Robert
+ Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, Nikhil
+ Devshatwar <nikhil.nd@ti.com>, Aradhya Bhatia <a-bhatia1@ti.com>, Jani Nikula
+ <jani.nikula@intel.com>, Rob Herring <robh@kernel.org>, Zhu Wang
+ <wangzhu9@huawei.com>, Yuti Amonkar <yamonkar@cadence.com>, Jyri Sarha
+ <jsarha@ti.com>, Quentin Schulz <quentin.schulz@free-electrons.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <lvc-project@linuxtesting.org>
+Subject: [PATCH v2] drm: bridge: cdns-mhdp8546: Fix possible null pointer
+ dereference
+Date: Fri, 12 Apr 2024 11:35:32 +0300
+Message-ID: <20240412083532.11540-1-amishin@t-argos.ru>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+G9fYuwCn0D6jzrn0dBKsa+X0zUBUMiuRqcYvc-qkKToXK5dA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.17.215.6]
+X-ClientProxiedBy: ta-mail-02.ta.t-argos.ru (172.17.13.212) To ta-mail-02
+ (172.17.13.212)
+X-KSMG-Rule-ID: 1
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 184683 [Apr 12 2024]
+X-KSMG-AntiSpam-Version: 6.1.0.4
+X-KSMG-AntiSpam-Envelope-From: amishin@t-argos.ru
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 16 0.3.16
+ 6e64c33514fcbd07e515710c86ba61de7f56194e,
+ {Tracking_from_domain_doesnt_match_to}, 127.0.0.199:7.1.2;
+ mx1.t-argos.ru.ru:7.1.1; t-argos.ru:7.1.1;
+ d41d8cd98f00b204e9800998ecf8427e.com:7.1.1, FromAlignment: s
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean, bases: 2024/04/12 08:01:00
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30,
+ bases: 2024/04/12 05:40:00 #24753079
+X-KSMG-AntiVirus-Status: Clean, skipped
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,53 +97,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 11, 2024 at 07:50:57PM +0530, Naresh Kamboju wrote:
-> On Thu, 11 Apr 2024 at 15:30, Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > This is the start of the stable review cycle for the 4.19.312 release.
-> > There are 175 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> >
-> > Responses should be made by Sat, 13 Apr 2024 09:53:55 +0000.
-> > Anything received after that time might be too late.
-> >
-> > The whole patch series can be found in one patch at:
-> >         https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.312-rc1.gz
-> > or in the git tree and branch at:
-> >         git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
-> > and the diffstat can be found below.
-> >
-> > thanks,
-> >
-> > greg k-h
-> 
-> 
-> The arm imx_v6_v7_defconfig build failed with gcc-12 and clang on Linux
-> stable-rc linux-4.19.y.
-> 
-> Regressions:
->  - arm
->     * gcc-12-imx_v6_v7_defconfig - failed
-> 
-> Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
-> 
-> Build log:
-> ----
-> drivers/gpu/drm/imx/parallel-display.c: In function
-> 'imx_pd_bridge_atomic_check':
-> drivers/gpu/drm/imx/parallel-display.c:222:23: error: implicit
-> declaration of function 'drm_bridge_get_next_bridge'
-> [-Werror=implicit-function-declaration]
->   222 |         next_bridge = drm_bridge_get_next_bridge(bridge);
->       |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> 
-> Links:
->  - https://qa-reports.linaro.org/lkft/linux-stable-rc-linux-4.19.y/build/v4.19.311-176-gf0cf5f6110a7/testrun/23411280/suite/build/test/gcc-12-imx_v6_v7_defconfig/details/
->  - https://storage.tuxsuite.com/public/linaro/lkft/builds/2ex1v6eevudbi33g4ozA7hJ4fvs/
+In cdns_mhdp_atomic_enable(), the return value of drm_mode_duplicate() is
+assigned to mhdp_state->current_mode, and there is a dereference of it in
+drm_mode_set_name(), which will lead to a NULL pointer dereference on
+failure of drm_mode_duplicate().
 
-Offending commit now dropped, thanks!
+Fix this bug by adding a check of mhdp_state->current_mode.
 
-greg k-h
+Fixes: fb43aa0acdfd ("drm: bridge: Add support for Cadence MHDP8546 DPI/DP bridge")
+Signed-off-by: Aleksandr Mishin <amishin@t-argos.ru>
+---
+v2: Fix a mistake where the mutex remained locked
+
+ drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+index e226acc5c15e..5b831d6d7764 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+@@ -2059,6 +2059,11 @@ static void cdns_mhdp_atomic_enable(struct drm_bridge *bridge,
+ 	mhdp_state = to_cdns_mhdp_bridge_state(new_state);
+ 
+ 	mhdp_state->current_mode = drm_mode_duplicate(bridge->dev, mode);
++	if (!mhdp_state->current_mode) {
++		ret = -EINVAL;
++		goto out;
++	}
++	
+ 	drm_mode_set_name(mhdp_state->current_mode);
+ 
+ 	dev_dbg(mhdp->dev, "%s: Enabling mode %s\n", __func__, mode->name);
+-- 
+2.30.2
+
