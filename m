@@ -2,68 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 983368A27E4
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Apr 2024 09:24:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC2558A280F
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Apr 2024 09:31:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C916110E0E3;
-	Fri, 12 Apr 2024 07:24:14 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jJ+r1WDg";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 272D010F28D;
+	Fri, 12 Apr 2024 07:31:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCBA410E0E3
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Apr 2024 07:24:13 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-516d68d7a8bso464479e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Apr 2024 00:24:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1712906651; x=1713511451; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=8pYbcULmApkeibT6ZmZHKb3pgiYUDHo2CRg/7dnEbO8=;
- b=jJ+r1WDgPQCHuqDIXstM7ezgQrm6CkH3CvS2BxhzatKPKXm1vq/9v74Jydoe0LFtF0
- XpwCk+rB6ePrEoDdvQG0slbKKoouNzD/CV8M7HQNwPGk2O18pb6VOwwP6ggseOnD8+lv
- /GFBB1QCwAO1O7tV5Km4TxbCIDxfs92kJagVBPWLpsMrGgvyWAeUNpAc4krz1k22lZCy
- AdcbWqSQztcw8qqNJ59QWMYpDNest1+iLBaX8FwYU8iWy0a3sxPjJHRHtiW78L9nL3Tv
- 6Ur0QC2cAa0M580sq7L4p08ndB9Wtl95SKgLZ3bBsjSKsUwZgffwFGmqOMnWQD7bnk/f
- otkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712906651; x=1713511451;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8pYbcULmApkeibT6ZmZHKb3pgiYUDHo2CRg/7dnEbO8=;
- b=Y8bpsGakO/gxJGGkhhMJNiMhePFB+RoGnPXpwYgu4IjZ8EPREUra8z93mn+YAA3KGD
- 4kEaBYXYUJHSyk1PDB8SZOF7lRVjSPrVg27v55lrA3Ro0Xbf1xRIVKDAkMkExU2dzvpM
- PgmYUT0uXPXCkaTTiCurKAPUUSxSXBJpYrMHvptBUyvtpZG+BoG+2UDpE0F63Zdm5rKf
- DFK/S4FCm0/neA+r2wzQmvLZeDQTSgmy9inU+Nz8R+qfoFyA1bKJhwX95TccXLwiUytb
- wCiKLKvF/x/d9UePRq/De7WIVflB8xL3bGeiGiTypDIsXKtw8M1w+xuaNTFUpnw6awWV
- D7AA==
-X-Gm-Message-State: AOJu0Yw9NcQ+CCpQy896Alo1j1MR/9l+klkQij1oDNOAdh0Z6lN8+PjD
- NEd0D486mVusb+EQdgavNsTAz0XPLiwlnZa4ax/3AYdYbl/GYNMrC4Tw7w==
-X-Google-Smtp-Source: AGHT+IHL9BzTyddZP7s7jbhu8DNG/fbmdA6rfsPa6wDzqRoG4jx768QryTVmwWBCp9glKJQ5h4Sa1g==
-X-Received: by 2002:a05:6512:3f1f:b0:518:930d:17c7 with SMTP id
- y31-20020a0565123f1f00b00518930d17c7mr33358lfa.29.1712906651094; 
- Fri, 12 Apr 2024 00:24:11 -0700 (PDT)
-Received: from localhost.localdomain (81-226-149-122-no518.tbcn.telia.com.
- [81.226.149.122]) by smtp.gmail.com with ESMTPSA id
- h16-20020a2ea490000000b002d6c88b9addsm439450lji.50.2024.04.12.00.24.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Apr 2024 00:24:10 -0700 (PDT)
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Enrico Bartky <enrico.bartky@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] drm/gma500: Check power status before accessing lid data in
- opregion
-Date: Fri, 12 Apr 2024 09:24:09 +0200
-Message-ID: <20240412072409.27650-1-patrik.r.jakobsson@gmail.com>
-X-Mailer: git-send-email 2.44.0
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 647CB10F28D
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Apr 2024 07:31:05 +0000 (UTC)
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+ by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
+ id 1rvBMx-000lgX-Jc; Fri, 12 Apr 2024 15:30:44 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation);
+ Fri, 12 Apr 2024 15:31:01 +0800
+Date: Fri, 12 Apr 2024 15:31:01 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Akhil R <akhilrajeev@nvidia.com>
+Cc: davem@davemloft.net, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com,
+ catalin.marinas@arm.com, will@kernel.org, mperttunen@nvidia.com,
+ airlied@gmail.com, daniel@ffwll.ch, linux-crypto@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v7 0/5] Add Tegra Security Engine driver
+Message-ID: <ZhjjNWKexg8p8cJp@gondor.apana.org.au>
+References: <20240403100039.33146-1-akhilrajeev@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240403100039.33146-1-akhilrajeev@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,61 +49,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Due to changes in the order of initialization the psb_lid_timer_func
-could get called without the device being powered. Fix this by checking
-the power status before accessing the opregion.
+On Wed, Apr 03, 2024 at 03:30:34PM +0530, Akhil R wrote:
+> Add support for Tegra Security Engine which can accelerates various
+> crypto algorithms. The Engine has two separate instances within for
+> AES and HASH algorithms respectively.
+> 
+> The driver registers two crypto engines - one for AES and another for
+> HASH algorithms and these operate independently and both uses the host1x
+> bus. Additionally, it provides  hardware-assisted key protection for up to
+> 15 symmetric keys which it can use for the cipher operations.
+> 
+> v6->v7:
+> * Move fallback_tfm and fallback_req to end of struct
+> * Set reqsize and statesize based on fallback_tfm
+> * Remove ofb(aes)
+> v5->v6:
+> * Move copy/pase of intermediate results in export()/import() to
+>   'update()' callback for CMAC as well.
+> * Check for rctx size when using fallback alg.
+> * Updated blocksizes to align with generic implementation
+> * Combined GCM and CCM init into aead_cra_init
+> * Updates to handle invalid cases better
+> * Reduce log levels for invalid cases to dev_dbg
+> v4->v5:
+> * Move copy/paste of intermediate results in export()/import() to
+>   'update()' callback
+> v3->v4:
+> * Remove unused header in bindings doc.
+> * Update commit message in host1x change.
+> * Fix test bot warning.
+> v2->v3:
+> * Update compatible in driver and device trees.
+> * Remove extra new lines and symbols in binding doc.
+> v1->v2:
+> * Update probe errors with 'dev_err_probe'.
+> * Clean up function prototypes and redundant prints.
+> * Remove readl/writel wrappers.
+> * Fix test bot warnings.
+> 
+> 
+> Akhil R (5):
+>   dt-bindings: crypto: Add Tegra Security Engine
+>   gpu: host1x: Add Tegra SE to SID table
+>   crypto: tegra: Add Tegra Security Engine driver
+>   arm64: defconfig: Enable Tegra Security Engine
+>   arm64: tegra: Add Tegra Security Engine DT nodes
+> 
+>  .../crypto/nvidia,tegra234-se-aes.yaml        |   52 +
+>  .../crypto/nvidia,tegra234-se-hash.yaml       |   52 +
+>  MAINTAINERS                                   |    5 +
+>  arch/arm64/boot/dts/nvidia/tegra234.dtsi      |   16 +
+>  arch/arm64/configs/defconfig                  |    1 +
+>  drivers/crypto/Kconfig                        |    8 +
+>  drivers/crypto/Makefile                       |    1 +
+>  drivers/crypto/tegra/Makefile                 |    9 +
+>  drivers/crypto/tegra/tegra-se-aes.c           | 1933 +++++++++++++++++
+>  drivers/crypto/tegra/tegra-se-hash.c          | 1060 +++++++++
+>  drivers/crypto/tegra/tegra-se-key.c           |  156 ++
+>  drivers/crypto/tegra/tegra-se-main.c          |  439 ++++
+>  drivers/crypto/tegra/tegra-se.h               |  560 +++++
+>  drivers/gpu/host1x/dev.c                      |   24 +
+>  14 files changed, 4316 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/crypto/nvidia,tegra234-se-aes.yaml
+>  create mode 100644 Documentation/devicetree/bindings/crypto/nvidia,tegra234-se-hash.yaml
+>  create mode 100644 drivers/crypto/tegra/Makefile
+>  create mode 100644 drivers/crypto/tegra/tegra-se-aes.c
+>  create mode 100644 drivers/crypto/tegra/tegra-se-hash.c
+>  create mode 100644 drivers/crypto/tegra/tegra-se-key.c
+>  create mode 100644 drivers/crypto/tegra/tegra-se-main.c
+>  create mode 100644 drivers/crypto/tegra/tegra-se.h
+> 
+> -- 
+> 2.43.2
 
-Cc: Enrico Bartky <enrico.bartky@gmail.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
----
- drivers/gpu/drm/gma500/psb_lid.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/gma500/psb_lid.c b/drivers/gpu/drm/gma500/psb_lid.c
-index 58a7fe392636..eeb91d11336e 100644
---- a/drivers/gpu/drm/gma500/psb_lid.c
-+++ b/drivers/gpu/drm/gma500/psb_lid.c
-@@ -10,6 +10,7 @@
- #include "psb_drv.h"
- #include "psb_intel_reg.h"
- #include "psb_reg.h"
-+#include "power.h"
- 
- static void psb_lid_timer_func(struct timer_list *t)
- {
-@@ -20,9 +21,12 @@ static void psb_lid_timer_func(struct timer_list *t)
- 	u32 __iomem *lid_state = dev_priv->opregion.lid_state;
- 	u32 pp_status;
- 
--	if (readl(lid_state) == dev_priv->lid_last_state)
-+	if (!gma_power_begin(dev, false))
- 		goto lid_timer_schedule;
- 
-+	if (readl(lid_state) == dev_priv->lid_last_state)
-+		goto power_end;
-+
- 	if ((readl(lid_state)) & 0x01) {
- 		/*lid state is open*/
- 		REG_WRITE(PP_CONTROL, REG_READ(PP_CONTROL) | POWER_TARGET_ON);
-@@ -36,6 +40,7 @@ static void psb_lid_timer_func(struct timer_list *t)
- 			psb_intel_lvds_set_brightness(dev, 100);
- 		} else {
- 			DRM_DEBUG("LVDS panel never powered up");
-+			gma_power_end(dev);
- 			return;
- 		}
- 	} else {
-@@ -48,6 +53,9 @@ static void psb_lid_timer_func(struct timer_list *t)
- 	}
- 	dev_priv->lid_last_state =  readl(lid_state);
- 
-+power_end:
-+	gma_power_end(dev);
-+
- lid_timer_schedule:
- 	spin_lock_irqsave(&dev_priv->lid_lock, irq_flags);
- 	if (!timer_pending(lid_timer)) {
+All applied.  Thanks.
 -- 
-2.44.0
-
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
