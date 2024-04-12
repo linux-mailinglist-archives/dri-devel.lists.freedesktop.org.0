@@ -2,62 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF198A2C22
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Apr 2024 12:19:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11BBC8A2EBD
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Apr 2024 15:03:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2F8610E1E4;
-	Fri, 12 Apr 2024 10:19:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11FF310EB01;
+	Fri, 12 Apr 2024 13:03:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XWp/FyDu";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="p9TRalUN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDC6D10E1E4;
- Fri, 12 Apr 2024 10:18:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712917140; x=1744453140;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=/BNmY8XLnIE9ZLQjwWFSOPhzNj2EmThxaXuG8cnD7PA=;
- b=XWp/FyDu1zf1ycQy/h4PSv+Ta3uN8BPoDEtqYUYL60srN5UyLvwsoaEI
- 1zKvrsuab55VPvtOp2CtCbNQqwlmq9FQ/ZNWlJyx8wY4pEEol7cCi0FH6
- gKA3wmadYOx8i45Nh+DpwhaDnZtxGflElGuUgmqu6i3L4QwOf7v6RcChl
- fkLaDhYkvi+JGf7mhIEzYPqWe8+XNaqBN8clODXeEu7pAZACqj78kjN09
- l3JN6VmXuQdZ0XxqVpMhaRb8dgfQv723H5X5N8obZzPZ1pvxgL8aprQ1m
- 62OXkwdDDtY6UM9aqisfOJwrgC6mfbaR0jnnEYs81N0tb/vJTx6v2GyA9 g==;
-X-CSE-ConnectionGUID: dm4YDnUWR72RgAo78HiSUg==
-X-CSE-MsgGUID: ou2YW6XiQ96ZAFi0cNnRjQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="19788400"
-X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; d="scan'208";a="19788400"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2024 03:19:00 -0700
-X-CSE-ConnectionGUID: IfVim6WjRPqzY4j84Reo5w==
-X-CSE-MsgGUID: Uzc+ao14S+qGshYi46qAqA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; d="scan'208";a="21244704"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO
- jkrzyszt-mobl2.intranet) ([10.213.19.168])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2024 03:18:56 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Nirmoy Das <nirmoy.das@intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: [PATCH] drm/i915/vma: Fix UAF on reopen vs destroy race
-Date: Fri, 12 Apr 2024 12:17:17 +0200
-Message-ID: <20240412101840.329836-2-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.44.0
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7308110EB01
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Apr 2024 13:03:29 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-2d485886545so13127181fa.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Apr 2024 06:03:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1712927007; x=1713531807; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=Nm8LSvH+A0aysY1LVMvbC5kt2UeJVTw7St9EkLFip3k=;
+ b=p9TRalUN7u/LCWSGArEL8e7YpsLu9lbfoV0os9Vx7zmIQAEYOKxEA+qmO+9HslGp/O
+ rWu46uAguuvayNUTiOeAAq2tUUR8GHdGTdKIPlGa5+zuxkioz4TblhmfIMipWPLWSW7K
+ Z79EiXMjuursn2kAKcmhBMnY2u7Uw9vMEtt9hjA5XjuvorVLAk2FsWE+HxeFZ8GgsFU1
+ LVZ5l6HudRjah9G856MWamszumGQGaROlwtfOriMkSMA4FTXBzWQXqxF4RoSP5GmBh1o
+ aYltqLn7WJ8WLVgOzYUbCWmjQjA7g6vDNfXEJdNx9u1yjv1/qS02BWXu3e18EUjuy3xP
+ UJJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1712927007; x=1713531807;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Nm8LSvH+A0aysY1LVMvbC5kt2UeJVTw7St9EkLFip3k=;
+ b=GS77Jr5ZiokLI6ZN7ys4pZvz/1iREJWHALKFa/aP7Bl/E3DRaOta2icHALx8Hf9rV4
+ 0E4NdZrulHZedHTSmvCj55VxucGCQrdRENdw+XLZKzF2WXfiDQRtFkUGMkmk6Rvg7Yn+
+ mSViRKY7SvVEHl7l07XLM5xXX5I858FVloN7ghPsToMg2KiHdYUFu9MgapDkgx0bSYwJ
+ QISD1dSNeEfrduc2IX3/izc1mfn3akqahkmpkZZRvRBUp/F/xcIMLQ61a897iWbBvmn3
+ BaBH3J3xj7jf8EBH6nIryA6OXKmrJHw0/KnKTNojqrX+qYbcBeobdCio4jTdeiqmOgta
+ FOxg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXbjio4pCO+/j2shzW6uQ+MTBZ20IOXi0KarxEJZV3T9Syk4B68e5deMDGwdX6+Iyq9t0fXxSa/7ef3TpUxDqaCEfnhMCxjrX7nvL2VMhpI
+X-Gm-Message-State: AOJu0Yww39qL4Yi503LcjuQtGwusTRU/2YLsPTUnLqSYBi/qr3o20Wf3
+ PlWPNBUOGjCxI57gce7o/VCXmv+9V3oxwlT9as5I0E9tJHt8CrSiDoqbPWV4tcg=
+X-Google-Smtp-Source: AGHT+IHK4CQtsJnkc980vV5S8swNBkt4lBLxARVMCpXsWDOLaK3XIHiJ4ubaGIkNoNRiom/1KZvtjQ==
+X-Received: by 2002:a2e:a545:0:b0:2d8:58b6:c10d with SMTP id
+ e5-20020a2ea545000000b002d858b6c10dmr2214877ljn.18.1712927006961; 
+ Fri, 12 Apr 2024 06:03:26 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:986c:54c:12ce:a121?
+ ([2a01:e0a:982:cbb0:986c:54c:12ce:a121])
+ by smtp.gmail.com with ESMTPSA id
+ n9-20020a05651c000900b002d2697570fcsm502800lja.93.2024.04.12.06.03.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Apr 2024 06:03:26 -0700 (PDT)
+Message-ID: <00b0e513-bb8a-4db7-aa8e-57632add4752@linaro.org>
+Date: Fri, 12 Apr 2024 15:03:22 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v12 4/7] drm/meson: gate px_clk when setting rate
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jerome Brunet <jbrunet@baylibre.com>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jagan Teki <jagan@amarulasolutions.com>, Nicolas Belin
+ <nbelin@baylibre.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
+References: <20240403-amlogic-v6-4-upstream-dsi-ccf-vim3-v12-0-99ecdfdc87fc@linaro.org>
+ <20240403-amlogic-v6-4-upstream-dsi-ccf-vim3-v12-4-99ecdfdc87fc@linaro.org>
+ <CAFBinCChEc+GH+tdmByWDM=Gs_BUpDh=6S=ch3QbGUt501_Ejw@mail.gmail.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <CAFBinCChEc+GH+tdmByWDM=Gs_BUpDh=6S=ch3QbGUt501_Ejw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,192 +122,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We defer actually closing, unbinding and destroying a VMA until next idle
-point, or until the object is freed in the meantime.  By postponing the
-unbind, we allow for the VMA to be reopened by the client, avoiding the
-work required to rebind the VMA.
+On 10/04/2024 21:34, Martin Blumenstingl wrote:
+> Hi Neil,
+> 
+> On Wed, Apr 3, 2024 at 9:46 AM Neil Armstrong <neil.armstrong@linaro.org> wrote:
+>>
+>> Disable the px_clk when setting the rate to recover a fully
+>> configured and correctly reset VCLK clock tree after the rate
+>> is set.
+>>
+>> Fixes: 77d9e1e6b846 ("drm/meson: add support for MIPI-DSI transceiver")
+>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> ---
+>>   drivers/gpu/drm/meson/meson_dw_mipi_dsi.c | 7 +++++++
+>>   1 file changed, 7 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
+>> index a6bc1bdb3d0d..a10cff3ca1fe 100644
+>> --- a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
+>> +++ b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
+>> @@ -95,6 +95,7 @@ static int dw_mipi_dsi_phy_init(void *priv_data)
+>>                  return ret;
+>>          }
+>>
+>> +       clk_disable_unprepare(mipi_dsi->px_clk);
+> nit-pick: clk_disable(mipi_dsi->px_clk); should be enough here as my
+> understanding is that we only need to {un,}prepare a clock once.
+> 
+>>          ret = clk_set_rate(mipi_dsi->px_clk, mipi_dsi->mode->clock * 1000);
+>>
+>>          if (ret) {
+>> @@ -103,6 +104,12 @@ static int dw_mipi_dsi_phy_init(void *priv_data)
+>>                  return ret;
+>>          }
+>>
+>> +       ret = clk_prepare_enable(mipi_dsi->px_clk);
+>> +       if (ret) {
+>> +               dev_err(mipi_dsi->dev, "Failed to enable DSI Pixel clock (ret %d)\n", ret);
+>> +               return ret;
+> If we ever hit this error case then there will be a lot of additional
+> errors in the kernel log:
+> - initially the clock is prepared and enabled in
+> meson_dw_mipi_dsi_probe() by calling devm_clk_get_enabled()
+> - we then disable the clock above (generally disabling a clock is
+> expected to always succeed)
+> - if the clock can NOT be re-enabled here we just log the error
+> - in case a user tries to rmmod the driver (to modprobe it again) to
+> try and recover from an error the automatic disabling of the pix_clk
+> (based on devm_clk_get_enabled() where it was enabled initially) there
+> will be a splat because the clock is already disabled (and enabled
+> count is zero, so it cannot be disabled any further)
+> 
+> For the 32-bit SoC video clocks I keep track of them being enabled or
+> disabled, see [0], [1] and [2].
+> In my case this is important because we can run into cases where the
+> PLL doesn't lock (I am not sure how likely this is for your case).
+> 
+> It *seems* like we need to do something similar as
+> dw_mipi_dsi_phy_init() can be called when changing the display
+> resolution (or whenever drm_bridge_funcs.atomic_pre_enable) is called.
+> To illustrate what I have in mind I attached a diff (it's based on
+> this patch) - it's compile tested only as I have no DSI hardware.
+> In case dw_mipi_dsi_phy_init() is called only once per device
+> lifecycle things may get easier.
 
-It was assumed that as long as a GT is held idle, no VMA would be reopened
-while we destroy them.  That assumption is no longer true in multi-GT
-configurations, where a VMA we reopen may be handled by a GT different
-from the one that we already keep active via its engine while we set up
-an execbuf request.
+Indeed your scheme looks good, I'll try it since indeed we only need
+to prepare it once in the lifetime of the driver.
 
-<4> [260.290809] ------------[ cut here ]------------
-<4> [260.290988] list_del corruption. prev->next should be ffff888118c5d990, but was ffff888118c5a510. (prev=ffff888118c5a510)
-<4> [260.291004] WARNING: CPU: 2 PID: 1143 at lib/list_debug.c:62 __list_del_entry_valid_or_report+0xb7/0xe0
-..
-<4> [260.291055] CPU: 2 PID: 1143 Comm: kms_plane Not tainted 6.9.0-rc2-CI_DRM_14524-ga25d180c6853+ #1
-<4> [260.291058] Hardware name: Intel Corporation Meteor Lake Client Platform/MTL-P LP5x T3 RVP, BIOS MTLPFWI1.R00.3471.D91.2401310918 01/31/2024
-<4> [260.291060] RIP: 0010:__list_del_entry_valid_or_report+0xb7/0xe0
-...
-<4> [260.291087] Call Trace:
-<4> [260.291089]  <TASK>
-<4> [260.291124]  i915_vma_reopen+0x43/0x80 [i915]
-<4> [260.291298]  eb_lookup_vmas+0x9cb/0xcc0 [i915]
-<4> [260.291579]  i915_gem_do_execbuffer+0xc9a/0x26d0 [i915]
-<4> [260.291883]  i915_gem_execbuffer2_ioctl+0x123/0x2a0 [i915]
-...
-<4> [260.292301]  </TASK>
-...
-<4> [260.292506] ---[ end trace 0000000000000000 ]---
-<4> [260.292782] general protection fault, probably for non-canonical address 0x6b6b6b6b6b6b6ca3: 0000 [#1] PREEMPT SMP NOPTI
-<4> [260.303575] CPU: 2 PID: 1143 Comm: kms_plane Tainted: G        W          6.9.0-rc2-CI_DRM_14524-ga25d180c6853+ #1
-<4> [260.313851] Hardware name: Intel Corporation Meteor Lake Client Platform/MTL-P LP5x T3 RVP, BIOS MTLPFWI1.R00.3471.D91.2401310918 01/31/2024
-<4> [260.326359] RIP: 0010:eb_validate_vmas+0x114/0xd80 [i915]
-...
-<4> [260.428756] Call Trace:
-<4> [260.431192]  <TASK>
-<4> [639.283393]  i915_gem_do_execbuffer+0xd05/0x26d0 [i915]
-<4> [639.305245]  i915_gem_execbuffer2_ioctl+0x123/0x2a0 [i915]
-...
-<4> [639.411134]  </TASK>
-...
-<4> [639.449979] ---[ end trace 0000000000000000 ]---
+> 
+> PS: I'm so happy that we don't need any clock notifiers for this!
+> So: good work with the clock driver bits.
 
-Aso soon as we start unbinding and destroing a VMA, marked it as parked,
-and also keep it marked as closed for the rest of its life.  When a VMA
-to be opened occurs closed, reopen it only if not yet parked.
+Thx !
 
-Fixes: b0647a5e79b1 ("drm/i915: Avoid live-lock with i915_vma_parked()")
-Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/10608
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: stable@vger.kernel.org # v6.0+
----
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 10 +++++--
- drivers/gpu/drm/i915/i915_vma.c               | 29 +++++++++++++++----
- drivers/gpu/drm/i915/i915_vma.h               |  2 +-
- drivers/gpu/drm/i915/i915_vma_types.h         |  3 ++
- 4 files changed, 35 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index 42619fc05de48..97e014f94002e 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -847,9 +847,12 @@ static int __eb_add_lut(struct i915_execbuffer *eb,
- 	if (unlikely(!lut))
- 		return -ENOMEM;
- 
-+	if (!i915_vma_open(vma)) {
-+		err = -EEXIST;	/* let eb_vma_lookup() retry */
-+		goto err_lut_free;
-+	}
-+
- 	i915_vma_get(vma);
--	if (!atomic_fetch_inc(&vma->open_count))
--		i915_vma_reopen(vma);
- 	lut->handle = handle;
- 	lut->ctx = ctx;
- 
-@@ -880,8 +883,9 @@ static int __eb_add_lut(struct i915_execbuffer *eb,
- 	return 0;
- 
- err:
--	i915_vma_close(vma);
- 	i915_vma_put(vma);
-+	i915_vma_close(vma);
-+err_lut_free:
- 	i915_lut_handle_free(lut);
- 	return err;
- }
-diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index d2f064d2525cc..f9588e039ae1e 100644
---- a/drivers/gpu/drm/i915/i915_vma.c
-+++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -1735,14 +1735,33 @@ static void __i915_vma_remove_closed(struct i915_vma *vma)
- 	list_del_init(&vma->closed_link);
- }
- 
--void i915_vma_reopen(struct i915_vma *vma)
-+static struct i915_vma *i915_vma_reopen(struct i915_vma *vma)
-+{
-+	if (atomic_read(&vma->flags) & I915_VMA_PARKED)
-+		return NULL;
-+
-+	__i915_vma_remove_closed(vma);
-+	return vma;
-+}
-+
-+struct i915_vma *i915_vma_open(struct i915_vma *vma)
- {
- 	struct intel_gt *gt = vma->vm->gt;
- 
-+	if (atomic_inc_not_zero(&vma->open_count))
-+		return vma;
-+
- 	spin_lock_irq(&gt->closed_lock);
--	if (i915_vma_is_closed(vma))
--		__i915_vma_remove_closed(vma);
-+	if (!atomic_inc_not_zero(&vma->open_count)) {
-+		if (i915_vma_is_closed(vma))
-+			vma = i915_vma_reopen(vma);
-+
-+		if (vma)
-+			atomic_inc(&vma->open_count);
-+	}
- 	spin_unlock_irq(&gt->closed_lock);
-+
-+	return vma;
- }
- 
- static void force_unbind(struct i915_vma *vma)
-@@ -1854,22 +1873,22 @@ void i915_vma_parked(struct intel_gt *gt)
- 		}
- 
- 		list_move(&vma->closed_link, &closed);
-+		atomic_or(I915_VMA_PARKED, &vma->flags);
- 	}
- 	spin_unlock_irq(&gt->closed_lock);
- 
--	/* As the GT is held idle, no vma can be reopened as we destroy them */
- 	list_for_each_entry_safe(vma, next, &closed, closed_link) {
- 		struct drm_i915_gem_object *obj = vma->obj;
- 		struct i915_address_space *vm = vma->vm;
- 
- 		if (i915_gem_object_trylock(obj, NULL)) {
--			INIT_LIST_HEAD(&vma->closed_link);
- 			i915_vma_destroy(vma);
- 			i915_gem_object_unlock(obj);
- 		} else {
- 			/* back you go.. */
- 			spin_lock_irq(&gt->closed_lock);
- 			list_add(&vma->closed_link, &gt->closed_vma);
-+			atomic_andnot(I915_VMA_PARKED, &vma->flags);
- 			spin_unlock_irq(&gt->closed_lock);
- 		}
- 
-diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-index e356dfb883d34..331d19672c764 100644
---- a/drivers/gpu/drm/i915/i915_vma.h
-+++ b/drivers/gpu/drm/i915/i915_vma.h
-@@ -268,7 +268,7 @@ int __must_check i915_vma_unbind_async(struct i915_vma *vma, bool trylock_vm);
- int __must_check i915_vma_unbind_unlocked(struct i915_vma *vma);
- void i915_vma_unlink_ctx(struct i915_vma *vma);
- void i915_vma_close(struct i915_vma *vma);
--void i915_vma_reopen(struct i915_vma *vma);
-+struct i915_vma *i915_vma_open(struct i915_vma *vma);
- 
- void i915_vma_destroy_locked(struct i915_vma *vma);
- void i915_vma_destroy(struct i915_vma *vma);
-diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
-index 559de74d0b114..41784c3025349 100644
---- a/drivers/gpu/drm/i915/i915_vma_types.h
-+++ b/drivers/gpu/drm/i915/i915_vma_types.h
-@@ -263,6 +263,9 @@ struct i915_vma {
- #define I915_VMA_SCANOUT_BIT	17
- #define I915_VMA_SCANOUT	((int)BIT(I915_VMA_SCANOUT_BIT))
- 
-+#define I915_VMA_PARKED_BIT	18
-+#define I915_VMA_PARKED		((int)BIT(I915_VMA_PARKED_BIT))
-+
- 	struct i915_active active;
- 
- #define I915_VMA_PAGES_BIAS 24
--- 
-2.44.0
+> 
+> 
+> Let me know what you think,
+> Martin
+> 
+> 
+> [0] https://github.com/xdarklight/linux/blob/meson-mx-integration-6.9-20240323/drivers/gpu/drm/meson/meson_vclk.c#L1177-L1179
+> [1] https://github.com/xdarklight/linux/blob/meson-mx-integration-6.9-20240323/drivers/gpu/drm/meson/meson_vclk.c#L1077
+> [2] https://github.com/xdarklight/linux/blob/meson-mx-integration-6.9-20240323/drivers/gpu/drm/meson/meson_vclk.c#L1053
 
