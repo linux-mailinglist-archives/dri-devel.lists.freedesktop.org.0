@@ -2,69 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DF1C8A26CA
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Apr 2024 08:41:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7972B8A2733
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Apr 2024 08:58:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B12CA10F492;
-	Fri, 12 Apr 2024 06:41:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAEFE10E38E;
+	Fri, 12 Apr 2024 06:58:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bW7l+kFf";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="F0NQ07yx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EF8C10F492;
- Fri, 12 Apr 2024 06:41:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1712904083; x=1744440083;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=nnftp3y20mnefQs/zA7rIGucHoCz77k4ThTY/2DnxXQ=;
- b=bW7l+kFfeiHCpO+f9v+ewoVM3v62jEy4R3osoWCw50fgFhS4TOsf3HRt
- gpSOqPccH0+k4HQ3Hz5h8PFY509kPQUNMYq9PFlhnyRndrWDTOMc4Uk1H
- XVuPFePk7MKGiu7F2Fy00qLcLHml2pfUHzMr5qxEnevPThSEHedcxajzR
- cMaWXH90l9VXt0Wr+z/5myxslo+DVqHhiVktucxLurFOaUgQsYQrWbUtx
- gtT3S1JAJKF/DJLwUgUHOb9UIzjTy1IQaqqUjXmoOFwiARPd5hiJpAb+8
- 4UtEs75pl7Baik2IoO1Feec8gzN2J/MOvnaIgetZlsPhUoSzRyR4dlZkl g==;
-X-CSE-ConnectionGUID: LY5O3jp5TM+EPtrR2nfP9A==
-X-CSE-MsgGUID: 27vK3mYsQVGKcuymgYWHwg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="19059685"
-X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; d="scan'208";a="19059685"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2024 23:41:22 -0700
-X-CSE-ConnectionGUID: gXMdnuYmRRqCKEW6OOQMYA==
-X-CSE-MsgGUID: D1rZkMzDT4yyHA2nqy/ldg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; d="scan'208";a="21056020"
-Received: from gjantea-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.60.121])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2024 23:41:15 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thorsten Blum <thorsten.blum@toblux.com>, Dan Carpenter
- <dan.carpenter@linaro.org>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
- speakup@linux-speakup.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-wireless@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-afs@lists.infradead.org, ecryptfs@vger.kernel.org,
- netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- linux-unionfs@vger.kernel.org, linux-arch@vger.kernel.org,
- io-uring@vger.kernel.org, cocci@inria.fr, linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH] treewide: Fix common grammar mistake "the the"
-In-Reply-To: <193B959E-60A3-499A-BFF3-EA7B2D0B6C12@toblux.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240411150437.496153-4-thorsten.blum@toblux.com>
- <0bd7ccc2-4d8c-455b-a6c2-972ebe1fcb08@moroto.mountain>
- <193B959E-60A3-499A-BFF3-EA7B2D0B6C12@toblux.com>
-Date: Fri, 12 Apr 2024 09:41:10 +0300
-Message-ID: <87y19j3wxl.fsf@intel.com>
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5A8810E38E;
+ Fri, 12 Apr 2024 06:58:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1712905110;
+ bh=qXSRgwoI/Lc9R2Wx9BxMG9QfSE0orexma7cEd5RYRAk=;
+ h=Date:From:To:Cc:Subject:From;
+ b=F0NQ07yxUDHk8ejDl6Hu4pSWsASLwOESvCqEbqHaeJg2AVACBchMQMMcOt+rrG+Y3
+ vU1i+LfAvwYGr3lypr3AIjxIwlVH1gXXrcXcMQ/Pexf38EHf1mwd5zWUUPGFkopKnq
+ kEqsxmyCCNi+z0SQjOZDaZZX5Yq6/+aggK6L8qm1fEK0PNa42kJTy7JZj5fC9YmZXy
+ XVfDWGTRUFEfITY/xQ3WbmWNHNjKiImNTIa7RQHvbYtuBYwfQRUEcMYDI7qQbplV0S
+ DKRjWGL+EuuqLQDHvH+nva3J+MnXQ7lAPdQtSpiXoHm1wuiJjblJ/OYYetfYtIFduU
+ XAPPceEPGYbAg==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4VG6ps5WJZz4wcq;
+ Fri, 12 Apr 2024 16:58:29 +1000 (AEST)
+Date: Fri, 12 Apr 2024 16:58:26 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Intel
+ Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>
+Subject: linux-next: build warning after merge of the drm-misc tree
+Message-ID: <20240412165826.18e8a5f4@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; boundary="Sig_/tY2.spB_SgTGSLvvWZ5aIrw";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,37 +59,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 12 Apr 2024, Thorsten Blum <thorsten.blum@toblux.com> wrote:
-> On 11. Apr 2024, at 17:25, Dan Carpenter <dan.carpenter@linaro.org> wrote:
->> 
->> It's tricky to know which tree a patch like this would go through.
->
-> The patch is based on the mainline tree. Should I have sent it directly to
-> Linus then?
->
-> I'm relatively new here and therefore only sent it to the corresponding mailing
-> lists.
+--Sig_/tY2.spB_SgTGSLvvWZ5aIrw
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-It's not just about mailing lists, it's also about changes flowing in to
-mainline via a plethora of subsystem and driver repos and branches. See
-MAINTAINERS. Or this old LWN page [1]. The development happens in those
-branches, and if you make treewide changes like this, it's not clear who
-should take it, and you also risk unnecessary conflicts if those places
-get modified in the individual branches. So it might just be easiest to
-split this up to smaller patches sent to the appropriate lists.
+Hi all,
 
-Anyway, all that said,
+After merging the drm-misc tree, today's linux-next build (htmldocs)
+produced this warning:
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+drivers/gpu/drm/drm_plane.c:1767: warning: expecting prototype for drm_plan=
+e_add_size_hint_property(). Prototype was for drm_plane_add_size_hints_prop=
+erty() instead
 
-on the i915 changes here.
+Introduced by commit
 
+  9677547d8362 ("drm: Introduce plane SIZE_HINTS property")
 
-BR,
-Jani.
+--=20
+Cheers,
+Stephen Rothwell
 
+--Sig_/tY2.spB_SgTGSLvvWZ5aIrw
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-[1] https://lwn.net/Articles/737094/
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Jani Nikula, Intel
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmYY25IACgkQAVBC80lX
+0Gwd9Qf+LqI+LoYIwM7wXCo30NPlBxhqrTCnOoVXI8AG1EDedhQdCRns05uUJVjq
+C0h94TCqjEahbCB5t1ea/brXblcFQYj7KCT/+WHNscJ+TW7sXav9pFpkkbGpZGpm
+Wvgduf3Fo7MHqTTagqZmUnllaazVPBvrwkEapkD+0k5kBkAIIsDT5g4EdsZB10HN
+FMJYCv5FaBjWpWkum44wxL5oOIWg4s9taeFTC4l8HVmCU009+HFlrEM2Aio8iPG6
+xsg6FSGSf7PxuAkzrekjsORkWt8pMsYjrYLmXqWrjTGO5Bcm74uBxhxBlCw9lC0K
+Gm5fraODpN/mcY5BczkNwyNj4HrPXA==
+=H44g
+-----END PGP SIGNATURE-----
+
+--Sig_/tY2.spB_SgTGSLvvWZ5aIrw--
