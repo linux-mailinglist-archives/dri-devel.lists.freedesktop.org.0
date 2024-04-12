@@ -2,134 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A43B38A293B
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Apr 2024 10:23:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39D158A2948
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Apr 2024 10:26:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C3EB10F158;
-	Fri, 12 Apr 2024 08:23:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BCC310F4E6;
+	Fri, 12 Apr 2024 08:26:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="H1C1N0z3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J/4paNim";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="H1C1N0z3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J/4paNim";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bWVe/pVY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 074B010F158
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Apr 2024 08:23:43 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 71DF138059;
- Fri, 12 Apr 2024 08:23:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1712910222; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ymYgNmBCgYwZuS6zxx41BA9umstrWSICuHfhrRkl404=;
- b=H1C1N0z3cS1I/s+1SPT+wNJeNbZifGbw8QsFbzbDDdfu4XUgFkPvplc+mMM/zumgdZg1td
- wpPHTKkTqK2wZV9JlRzYDSDwX45WMW5fHC4bNA/NY88EJSoZ/IsU3vrc3xj+dGqJw7NfUK
- MvdUHzGOzbGAgTvOsuLOySupjN25UCM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1712910222;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ymYgNmBCgYwZuS6zxx41BA9umstrWSICuHfhrRkl404=;
- b=J/4paNimpFv4Xd212vpQEMlU9CwPDGehDcgFhrohvgSsHEjpVWxRFX4ovjVZhrDDBuoY6p
- g+sk5wBi1OBgW7DQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1712910222; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ymYgNmBCgYwZuS6zxx41BA9umstrWSICuHfhrRkl404=;
- b=H1C1N0z3cS1I/s+1SPT+wNJeNbZifGbw8QsFbzbDDdfu4XUgFkPvplc+mMM/zumgdZg1td
- wpPHTKkTqK2wZV9JlRzYDSDwX45WMW5fHC4bNA/NY88EJSoZ/IsU3vrc3xj+dGqJw7NfUK
- MvdUHzGOzbGAgTvOsuLOySupjN25UCM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1712910222;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ymYgNmBCgYwZuS6zxx41BA9umstrWSICuHfhrRkl404=;
- b=J/4paNimpFv4Xd212vpQEMlU9CwPDGehDcgFhrohvgSsHEjpVWxRFX4ovjVZhrDDBuoY6p
- g+sk5wBi1OBgW7DQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5464F1368B;
- Fri, 12 Apr 2024 08:23:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
- by imap1.dmz-prg2.suse.org with ESMTPSA id He1OE47vGGZkfAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 12 Apr 2024 08:23:42 +0000
-Message-ID: <84e29479-90eb-4813-a6a0-fe2dbc56d7e6@suse.de>
-Date: Fri, 12 Apr 2024 10:23:41 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F04CA10F4ED;
+ Fri, 12 Apr 2024 08:26:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1712910366; x=1744446366;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=ulV0hDNZ1+YjugVVo9qryca5gjrsSvECiwW95TvIRWY=;
+ b=bWVe/pVYKi9x7TnAgNnpPzl3sIpnILttWcqLoI4uLQPQjYVgBCMWLnBM
+ 5XaVMv/dSoBvuLzIhkFzBzY+xo18zsJ8Bdx9UnOT9QJ1ZqX6bWwdbgId1
+ dkDQI1aheoD67ineY7QUrCncyB1bMd5SoNjrimf4N0jYpHpfAZtZzpepd
+ eq07KC5eOcIWS9aEoeUxjpemR5ota5V7JIaPppyyvqk9tBp6g8DbpQjz7
+ 1+GzCorRuUoIPQRg9FrNOzhgz9Ef0ofN10Ro5M97MhR/j2xML0ZY42Wx/
+ clFsY43nLpKKQFnkSFA1mY4i73z0JIC+yygvn4pHLrMroE4OojwsqU51+ Q==;
+X-CSE-ConnectionGUID: qqGWk+vaS5aRMtvrVMyD8A==
+X-CSE-MsgGUID: rfUifepmTaqAGacamef9Ew==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="8527691"
+X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; 
+   d="scan'208";a="8527691"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2024 01:26:05 -0700
+X-CSE-ConnectionGUID: JxcwGHgmTumVgXAsfsY8Fg==
+X-CSE-MsgGUID: NAu4R6L6QvKbBtHjs5Hqmw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; d="scan'208";a="21259506"
+Received: from mohdaris-mobl1.gar.corp.intel.com (HELO localhost)
+ ([10.252.61.65])
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2024 01:26:03 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, Dmitry Osipenko
+ <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH] drm/edid: Parse topology block for all DispID structure
+ v1.x
+In-Reply-To: <20240410180139.21352-1-ville.syrjala@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240410180139.21352-1-ville.syrjala@linux.intel.com>
+Date: Fri, 12 Apr 2024 11:25:57 +0300
+Message-ID: <87pluv3s2y.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/gma500: Check power status before accessing lid data
- in opregion
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, Enrico Bartky <enrico.bartky@gmail.com>
-References: <20240412072409.27650-1-patrik.r.jakobsson@gmail.com>
- <0e57d2c2-6206-4c05-8960-ea188892a857@suse.de>
- <CAMeQTsYywSAfAkbyqVZuj-_r5-L_pZwxv=UxRhD7pNbwW_sGGw@mail.gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CAMeQTsYywSAfAkbyqVZuj-_r5-L_pZwxv=UxRhD7pNbwW_sGGw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.29
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- XM_UA_NO_VERSION(0.01)[]; RCVD_TLS_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; TAGGED_RCPT(0.00)[];
- TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[gmail.com]; MID_RHS_MATCH_FROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[lists.freedesktop.org,gmail.com];
- RCPT_COUNT_THREE(0.00)[3]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, imap1.dmz-prg2.suse.org:helo,
- imap1.dmz-prg2.suse.org:rdns]
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,114 +73,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On Wed, 10 Apr 2024, Ville Syrjala <ville.syrjala@linux.intel.com> wrote:
+> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>
+> DisplayID spec v1.3 revision history notes do claim that
+> the toplogy block was added in v1.3 so requiring structure
+> v1.2 would seem correct, but there is at least one EDID in
+> edid.tv with a topology block and structure v1.0. And
+> there are also EDIDs with DisplayID structure v1.3 which
+> seems to be totally incorrect as DisplayID spec v1.3 lists
+> structure v1.2 as the only legal value.
+>
+> Unfortunately I couldn't find copies of DisplayID spec
+> v1.0-v1.2 anywhere (even on vesa.org), so I'll have to
+> go on empirical evidence alone.
+>
+> We used to parse the topology block on all v1.x
+> structures until the check for structure v2.0 was added.
+> Let's go back to doing that as the evidence does suggest
+> that there are DisplayIDs in the wild that would miss
+> out on the topology stuff otherwise.
+>
+> Also toss out DISPLAY_ID_STRUCTURE_VER_12 entirely as
+> it doesn't appear we can really use it for anything.
+>
+> I *think* we could technically skip all the structure
+> version checks as the block tags shouldn't conflict
+> between v2.0 and v1.x. But no harm in having a bit of
+> extra sanity checks I guess.
 
-Am 12.04.24 um 10:16 schrieb Patrik Jakobsson:
-> On Fri, Apr 12, 2024 at 10:02 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->> Hi,
->>
->> the issue of hanging during boot is still resent.
-> Thanks for testing. Then it cannot be that psb_lid_timer_func runs
-> before initialization. The BUG from Enrico hints that the
-> set_brightness function is called before initialization. That might be
-> another place to look.
+Our checks for the data block tags is pretty haphazard, and we should
+clean this up across the board. For some things we check only the tag
+for one version or the other, for some things we check both tags but
+without the version check, and for some things (like this one here) we
+do check version and tag. The CTA checks rely on the fact that
+DATA_BLOCK_CTA =3D=3D DATA_BLOCK_2_CTA_DISPLAY_ID.
 
-set_briggtness happens within psb_lid_timer_func() and within 
-psb_intel_lvds_encoder_dpms()
+It's a mess.
 
-I see this:
+I've thought about adding a helper that would check version & 0xf0 when
+checking block tags, and where you could check for one or the other or
+both versions.
 
-[   15.509688] gma500 0000:00:02.0: Backlight lvds set brightness 7a127a12
-[   15.509791] gma500 0000:00:02.0: [drm] Skipping psb-bl backlight 
-registration
-[   15.523883] acpi device:0b: registered as cooling_device2
-[   15.526252] [drm] Initialized gma500 1.0.0 20140314 for 0000:00:02.0 
-on minor 0
-[   15.613363] gma500 0000:00:02.0: Backlight lvds set brightness 7a127a12
+Like, quickly drafting,
 
-before booting stops.
+#define NOPE -1
 
-Best regards
-Thomas
+bool is_block(int tag_to_check, int ver, int tag_v1, int tag_v2)
+{
+	if ((ver & 0xf0) =3D=3D 1 && tag_v1 !=3D NOPE && tag_v1 =3D=3D tag_to_chec=
+k)
+		return true;
+	if ((ver & 0xf0) =3D=3D 2 && tag_v2 !=3D NOPE && tag_v2 =3D=3D tag_to_chec=
+k)
+		return true;
+        return false;
+}
+
+And then something like:
+
+	if (is_block(tag, version, DATA_BLOCK_FOO, DATA_BLOCK_2_FOO))
+		...
+
+or
+
+	if (is_block(tag, version, NOPE, DATA_BLOCK_2_FOO))
+		...
+
+Or just pass iter and block like for displayid_is_tiled_block().
+
+IDK if that becomes unwieldy at the call sites. Maybe we'll need
+additional specific helpers like displayid_is_tiled_block() on top.
+
+Anyway, on the patch at hand,
+
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+
 
 >
-> I'll see if I can do some testing on my own.
+> So far I'm not aware of any user reported regressions
+> from overly strict check, but I do know that it broke
+> igt/kms_tiled_display's fake DisplayID as that one
+> gets generated with structure v1.0.
 >
->> Best regards
->> Thomas
->>
->> Am 12.04.24 um 09:24 schrieb Patrik Jakobsson:
->>> Due to changes in the order of initialization the psb_lid_timer_func
->>> could get called without the device being powered. Fix this by checking
->>> the power status before accessing the opregion.
->>>
->>> Cc: Enrico Bartky <enrico.bartky@gmail.com>
->>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>> Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
->>> ---
->>>    drivers/gpu/drm/gma500/psb_lid.c | 10 +++++++++-
->>>    1 file changed, 9 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/gma500/psb_lid.c b/drivers/gpu/drm/gma500/psb_lid.c
->>> index 58a7fe392636..eeb91d11336e 100644
->>> --- a/drivers/gpu/drm/gma500/psb_lid.c
->>> +++ b/drivers/gpu/drm/gma500/psb_lid.c
->>> @@ -10,6 +10,7 @@
->>>    #include "psb_drv.h"
->>>    #include "psb_intel_reg.h"
->>>    #include "psb_reg.h"
->>> +#include "power.h"
->>>
->>>    static void psb_lid_timer_func(struct timer_list *t)
->>>    {
->>> @@ -20,9 +21,12 @@ static void psb_lid_timer_func(struct timer_list *t)
->>>        u32 __iomem *lid_state = dev_priv->opregion.lid_state;
->>>        u32 pp_status;
->>>
->>> -     if (readl(lid_state) == dev_priv->lid_last_state)
->>> +     if (!gma_power_begin(dev, false))
->>>                goto lid_timer_schedule;
->>>
->>> +     if (readl(lid_state) == dev_priv->lid_last_state)
->>> +             goto power_end;
->>> +
->>>        if ((readl(lid_state)) & 0x01) {
->>>                /*lid state is open*/
->>>                REG_WRITE(PP_CONTROL, REG_READ(PP_CONTROL) | POWER_TARGET_ON);
->>> @@ -36,6 +40,7 @@ static void psb_lid_timer_func(struct timer_list *t)
->>>                        psb_intel_lvds_set_brightness(dev, 100);
->>>                } else {
->>>                        DRM_DEBUG("LVDS panel never powered up");
->>> +                     gma_power_end(dev);
->>>                        return;
->>>                }
->>>        } else {
->>> @@ -48,6 +53,9 @@ static void psb_lid_timer_func(struct timer_list *t)
->>>        }
->>>        dev_priv->lid_last_state =  readl(lid_state);
->>>
->>> +power_end:
->>> +     gma_power_end(dev);
->>> +
->>>    lid_timer_schedule:
->>>        spin_lock_irqsave(&dev_priv->lid_lock, irq_flags);
->>>        if (!timer_pending(lid_timer)) {
->> --
->> --
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Frankenstrasse 146, 90461 Nuernberg, Germany
->> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
->> HRB 36809 (AG Nuernberg)
->>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> Fixes: c5a486af9df7 ("drm/edid: parse Tiled Display Topology Data Block f=
+or DisplayID 2.0")
+> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> ---
+>  drivers/gpu/drm/drm_edid.c  | 2 +-
+>  include/drm/drm_displayid.h | 1 -
+>  2 files changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index ea77577a3786..f0948ab214b3 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -7405,7 +7405,7 @@ static void drm_parse_tiled_block(struct drm_connec=
+tor *connector,
+>  static bool displayid_is_tiled_block(const struct displayid_iter *iter,
+>  				     const struct displayid_block *block)
+>  {
+> -	return (displayid_version(iter) =3D=3D DISPLAY_ID_STRUCTURE_VER_12 &&
+> +	return (displayid_version(iter) < DISPLAY_ID_STRUCTURE_VER_20 &&
+>  		block->tag =3D=3D DATA_BLOCK_TILED_DISPLAY) ||
+>  		(displayid_version(iter) =3D=3D DISPLAY_ID_STRUCTURE_VER_20 &&
+>  		 block->tag =3D=3D DATA_BLOCK_2_TILED_DISPLAY_TOPOLOGY);
+> diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
+> index 566497eeb3b8..bc1f6b378195 100644
+> --- a/include/drm/drm_displayid.h
+> +++ b/include/drm/drm_displayid.h
+> @@ -30,7 +30,6 @@ struct drm_edid;
+>  #define VESA_IEEE_OUI				0x3a0292
+>=20=20
+>  /* DisplayID Structure versions */
+> -#define DISPLAY_ID_STRUCTURE_VER_12		0x12
+>  #define DISPLAY_ID_STRUCTURE_VER_20		0x20
+>=20=20
+>  /* DisplayID Structure v1r2 Data Blocks */
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+--=20
+Jani Nikula, Intel
