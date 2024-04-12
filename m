@@ -2,46 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 790658A3626
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Apr 2024 21:04:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8253E8A367B
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Apr 2024 21:47:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0766610F7F5;
-	Fri, 12 Apr 2024 19:04:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F110910E182;
+	Fri, 12 Apr 2024 19:47:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="F2rzDpux";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="EdnGm+7O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADED310F7F5
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Apr 2024 19:04:09 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (85-76-16-252-nat.elisa-mobile.fi
- [85.76.16.252])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id DF9A0A12;
- Fri, 12 Apr 2024 21:03:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1712948605;
- bh=zdkIDE+9ajHMVys+kPtc1f5OSjUsx0ARovuYB12ViKw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=F2rzDpux40nnQ1TNrwgJKN6ocHDZ1bXi5cUYcY9s5Eh9mw3dJnZN2wyGvCz9GLB4b
- cge79O+uj7t+TFfYD7dvnaTl94Kf2HDuxxbqBDO5MpPHdNH45/4e2w2DmFxmCzwXEJ
- zrHOlokTsFQjVQO+Thc0VPoPaktoselU/KZizP3g=
-Date: Fri, 12 Apr 2024 22:03:57 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: javierm@redhat.com, deller@gmx.de, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2 28/43] drm/renesas/rcar-du: Use fbdev-dma
-Message-ID: <20240412190357.GN31122@pendragon.ideasonboard.com>
-References: <20240410130557.31572-1-tzimmermann@suse.de>
- <20240410130557.31572-29-tzimmermann@suse.de>
- <20240412185724.GL31122@pendragon.ideasonboard.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02D7510E182;
+ Fri, 12 Apr 2024 19:47:32 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 43CEMj2o007544; Fri, 12 Apr 2024 19:47:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=IZzstnZgSRevNWo7tzbcR4Kxui1W803aC8fJ7RM9t48=; b=Ed
+ nGm+7OH5Tboq7imjGb0JjNSJtIyeqls73F6quVVAP2aM7fZfevUjvj1sjhnDfiHl
+ 8si0zG4bfrkSVKK4YFvSmbK7PmL6HhaIv8aOBLXO2iVBw6aBtxwBcm7DuwCW/iTs
+ 9j9sm30OPpgKRRGKThSJf5y5oFFLgKe4CWozH6hFS9tCUJfYG5G2kfRCkVh1fgdI
+ jPUzaW8fWJlvWWfaQp2oHwulq2TyppV8gssWZ3x8wsnSqDkG6YA5Iv/IMdMoBcLC
+ fo+YHie+ystyiZ22hU/r5AZ750LEUcf0MZl4GZzh5OH3gc9r97Rv41WFOXPQ/v+P
+ oURs523qOE9B+Grc5iKg==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xf0uw1st7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 12 Apr 2024 19:47:25 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43CJlOHf019498
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 12 Apr 2024 19:47:24 GMT
+Received: from [10.110.81.58] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 12 Apr
+ 2024 12:47:23 -0700
+Message-ID: <6ed5bb25-979e-bb48-3dfe-4af581bb5dd1@quicinc.com>
+Date: Fri, 12 Apr 2024 12:47:22 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240412185724.GL31122@pendragon.ideasonboard.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 11/12] drm/msm: merge dpu format database to MDP formats
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+CC: Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20231202214016.1257621-1-dmitry.baryshkov@linaro.org>
+ <20231202214016.1257621-12-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20231202214016.1257621-12-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: BFZqlp-R-AUWSzvUyHSXAl5PRCmRCWsT
+X-Proofpoint-ORIG-GUID: BFZqlp-R-AUWSzvUyHSXAl5PRCmRCWsT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-12_16,2024-04-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 spamscore=0
+ mlxlogscore=999 bulkscore=0 phishscore=0 lowpriorityscore=0 mlxscore=0
+ clxscore=1015 impostorscore=0 suspectscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404120144
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,58 +95,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 12, 2024 at 09:57:27PM +0300, Laurent Pinchart wrote:
-> Hi Thomas,
+
+
+On 12/2/2023 1:40 PM, Dmitry Baryshkov wrote:
+> Finally remove duplication between DPU and generic MDP code by merging
+> DPU format lists to the MDP format database.
 > 
-> Thank you for the patch.
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |   2 +-
+>   .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |   4 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c   | 602 ------------------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h   |  23 -
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   |  10 -
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   2 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |   3 +-
+>   drivers/gpu/drm/msm/disp/mdp_format.c         | 595 +++++++++++++++--
+>   drivers/gpu/drm/msm/disp/mdp_kms.h            |   2 -
+>   drivers/gpu/drm/msm/msm_drv.h                 |  12 +
+>   10 files changed, 549 insertions(+), 706 deletions(-)
 > 
-> On Wed, Apr 10, 2024 at 03:02:24PM +0200, Thomas Zimmermann wrote:
-> > Implement fbdev emulation with fbdev-dma. Fbdev-dma now supports
-> > damage handling, which is required by rcar-du. Avoids the overhead of
-> > fbdev-generic's additional shadow buffering. No functional changes.
-> > 
-> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-I meant
+I cross-checked a few macros visually (not each one) and it LGTM in 
+terms of just moving it from dpu_formats.c to mdp_format.c
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Even in this change I had the same concern about whether to use MDP for 
+dpu formats.
 
-> On a side note, I noticed that drm_fbdev_generic_client_funcs and
-> drm_fbdev_dma_client_funcs point to functions that are identical. Would
-> there be a way to avoid the code duplication ?
-> 
-> > ---
-> >  drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> > index dee530e4c8b27..fb719d9aff10d 100644
-> > --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> > +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> > @@ -20,7 +20,7 @@
-> >  
-> >  #include <drm/drm_atomic_helper.h>
-> >  #include <drm/drm_drv.h>
-> > -#include <drm/drm_fbdev_generic.h>
-> > +#include <drm/drm_fbdev_dma.h>
-> >  #include <drm/drm_gem_dma_helper.h>
-> >  #include <drm/drm_managed.h>
-> >  #include <drm/drm_probe_helper.h>
-> > @@ -716,7 +716,7 @@ static int rcar_du_probe(struct platform_device *pdev)
-> >  
-> >  	drm_info(&rcdu->ddev, "Device %s probed\n", dev_name(&pdev->dev));
-> >  
-> > -	drm_fbdev_generic_setup(&rcdu->ddev, 32);
-> > +	drm_fbdev_dma_setup(&rcdu->ddev, 32);
-> >  
-> >  	return 0;
-> >  
+But I think even if we make it MSM_*** then we will have to keep them in 
+some msm_** header and not mdp_format.c
 
--- 
-Regards,
+So lets go ahead with the MDP naming which you have. If we see its not 
+working out later on, please be open to a mass renaming that time.
 
-Laurent Pinchart
+<snip>
+
+> index dea6d47854fe..e7651a0e878c 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.h
+> +++ b/drivers/gpu/drm/msm/msm_drv.h
+> @@ -267,6 +267,16 @@ enum msm_format_flags {
+>   #define MSM_FORMAT_FLAG_UNPACK_ALIGN_MSB BIT(MSM_FORMAT_FLAG_UNPACK_ALIGN_MSB_BIT)
+>   #define MSM_FORMAT_FLAG_ALPHA_ENABLE	BIT(MSM_FORMAT_FLAG_ALPHA_ENABLE_BIT)
+>   
+> +/**
+> + * DPU HW,Component order color map
+> + */
+> +enum {
+> +	C0_G_Y = 0,
+> +	C1_B_Cb = 1,
+> +	C2_R_Cr = 2,
+> +	C3_ALPHA = 3
+> +};
+> +
+>   /**
+>    * struct msm_format: defines the format configuration
+>    * @pixel_format: format fourcc
+> @@ -305,6 +315,8 @@ struct msm_format {
+>   	(((X)->fetch_mode == MDP_FETCH_UBWC) && \
+>   	 ((X)->flags & MSM_FORMAT_FLAG_COMPRESSED))
+>   
+> +const struct msm_format *mdp_get_format(struct msm_kms *kms, uint32_t format, uint64_t modifier);
+> +
+>   struct msm_pending_timer;
+>   
+>   int msm_atomic_init_pending_timer(struct msm_pending_timer *timer,
+
+I am now thinking that do you think it makes sense to move all 
+MDP_FORMAT macros to a new mdp_formats.h including the RGB/YUV bitfield 
+macros (even though I already acked that change).
+
+Instead of bloating msm_drv.h even more?
