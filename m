@@ -2,84 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8253E8A367B
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Apr 2024 21:47:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9738D8A38B8
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Apr 2024 01:06:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F110910E182;
-	Fri, 12 Apr 2024 19:47:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F57610F91E;
+	Fri, 12 Apr 2024 23:06:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="EdnGm+7O";
+	dkim=pass (1024-bit key; unprotected) header.d=kernel-space.org header.i=@kernel-space.org header.b="jpt7E1qq";
+	dkim=pass (1024-bit key) header.d=kernel-space.org header.i=@kernel-space.org header.b="WqcerSlg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02D7510E182;
- Fri, 12 Apr 2024 19:47:32 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 43CEMj2o007544; Fri, 12 Apr 2024 19:47:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=IZzstnZgSRevNWo7tzbcR4Kxui1W803aC8fJ7RM9t48=; b=Ed
- nGm+7OH5Tboq7imjGb0JjNSJtIyeqls73F6quVVAP2aM7fZfevUjvj1sjhnDfiHl
- 8si0zG4bfrkSVKK4YFvSmbK7PmL6HhaIv8aOBLXO2iVBw6aBtxwBcm7DuwCW/iTs
- 9j9sm30OPpgKRRGKThSJf5y5oFFLgKe4CWozH6hFS9tCUJfYG5G2kfRCkVh1fgdI
- jPUzaW8fWJlvWWfaQp2oHwulq2TyppV8gssWZ3x8wsnSqDkG6YA5Iv/IMdMoBcLC
- fo+YHie+ystyiZ22hU/r5AZ750LEUcf0MZl4GZzh5OH3gc9r97Rv41WFOXPQ/v+P
- oURs523qOE9B+Grc5iKg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xf0uw1st7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Apr 2024 19:47:25 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43CJlOHf019498
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Apr 2024 19:47:24 GMT
-Received: from [10.110.81.58] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 12 Apr
- 2024 12:47:23 -0700
-Message-ID: <6ed5bb25-979e-bb48-3dfe-4af581bb5dd1@quicinc.com>
-Date: Fri, 12 Apr 2024 12:47:22 -0700
+X-Greylist: delayed 399 seconds by postgrey-1.36 at gabe;
+ Fri, 12 Apr 2024 19:56:50 UTC
+Received: from mail.kernel-space.org (mail.kernel-space.org [195.201.34.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71F1310F82E
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Apr 2024 19:56:50 +0000 (UTC)
+Received: from kernel-space.org (localhost [127.0.0.1])
+ by kernel-space.org (OpenSMTPD) with ESMTP id d5468626;
+ Fri, 12 Apr 2024 19:50:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=kernel-space.org; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=s1; bh=O8WG5lFRYUHwH7sMeHclDIq16WI
+ =; b=jpt7E1qquc+W4WiOleVHl5BRJ5WeMMDIlOVZ8S/guMYOoF8ebPsWOFlDakv
+ vl6bKcXedjn/iiLc5amM8TloRRqHZx6Gd+FC7o+WfDXSbPYlNXBoKD+BYo61HaAd
+ /tCDx6cWX5MNwlapyFmb9RrvNkwgGT/wsoe6m/AmwQ7E/tg8=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=kernel-space.org; h=from:to
+ :cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; q=dns; s=s1; b=Ok98og8KFq5/qCRZp370O
+ yEfteiq14m9EBLmCx5tpYfBJ4I/b0yYgUSXn7uJlf+aklxoLKZUDrPz2+lFa7to8
+ aPl6jMK+GTQsFc+LT3mAPxPRQNtmcUg7uZRKuKfgjGMooy4ve2S2j9nxTZMH5jtV
+ uOqh+cmW3uVsKnbscVhgvI=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel-space.org;
+ s=s1; t=1712951408;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=nmAEe55rSvZr0yzEZ8g5SkejEeHr+xynYhnI8N+J0sc=;
+ b=WqcerSlglMIAR/fuS02rFCkArzBrWWp3ZKldVM0gmrVVEIGOhrzSZ2K63phvkLk+jp/RED
+ l9veVfeq6d0tXKOEwjTi/f8rAdmakiHWnWMvz97C3kazCeGfi1HrGBUqlm6HTqaqTmc8tG
+ PwD4gQLxuur+zLjSBRKKc7TOJ7wF080=
+Received: from yamato.homenet.telecomitalia.it
+ (host-79-50-77-159.retail.telecomitalia.it [79.50.77.159])
+ by kernel-space.org (OpenSMTPD) with ESMTPSA id f85d54ac
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Fri, 12 Apr 2024 19:50:08 +0000 (UTC)
+From: Angelo Dureghello <angelo@kernel-space.org>
+To: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com
+Cc: Angelo Dureghello <angelo@kernel-space.org>
+Subject: [PATCH v2 1/2] drm/nouveau/disp: add backlight for ada lovelace
+Date: Fri, 12 Apr 2024 21:49:00 +0200
+Message-ID: <20240412194901.1596-1-angelo@kernel-space.org>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 11/12] drm/msm: merge dpu format database to MDP formats
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-CC: Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20231202214016.1257621-1-dmitry.baryshkov@linaro.org>
- <20231202214016.1257621-12-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20231202214016.1257621-12-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: BFZqlp-R-AUWSzvUyHSXAl5PRCmRCWsT
-X-Proofpoint-ORIG-GUID: BFZqlp-R-AUWSzvUyHSXAl5PRCmRCWsT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-12_16,2024-04-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0
- mlxlogscore=999 bulkscore=0 phishscore=0 lowpriorityscore=0 mlxscore=0
- clxscore=1015 impostorscore=0 suspectscore=0 malwarescore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404120144
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Fri, 12 Apr 2024 23:06:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,73 +73,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add working backlight for "ada lovelace" missing case.
 
+The nvif method is actually not working for this chipset so
+used the drm apis. Also, by dpcd, drm layer is calculating a
+max brightness of 255, but to get a real correct max brightnes
+the maximum must be multiplied by a factor of 16.
 
-On 12/2/2023 1:40 PM, Dmitry Baryshkov wrote:
-> Finally remove duplication between DPU and generic MDP code by merging
-> DPU format lists to the MDP format database.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |   2 +-
->   .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |   4 +-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c   | 602 ------------------
->   drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h   |  23 -
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   |  10 -
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   2 +-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |   3 +-
->   drivers/gpu/drm/msm/disp/mdp_format.c         | 595 +++++++++++++++--
->   drivers/gpu/drm/msm/disp/mdp_kms.h            |   2 -
->   drivers/gpu/drm/msm/msm_drv.h                 |  12 +
->   10 files changed, 549 insertions(+), 706 deletions(-)
-> 
+Tested to work properly in Legion Lenovo Pro 5
 
-I cross-checked a few macros visually (not each one) and it LGTM in 
-terms of just moving it from dpu_formats.c to mdp_format.c
+Lenovo Legion 5 Pro 16ARX8
+Bios ver LPCN49WW
+	 LPEC49WW
+SN PF4T63AZ
+Nvidia RTX4060 MaxQ/Mobile rev a1 (ADA LOVELACE AD107M)
+AMD Ryzen 9 7945HX + Radeon
 
-Even in this change I had the same concern about whether to use MDP for 
-dpu formats.
+and wayland.
 
-But I think even if we make it MSM_*** then we will have to keep them in 
-some msm_** header and not mdp_format.c
+---
+Changes for v2:
+- add some comments
+- remove x16 multiplication (hack)
+- remove forgot debug printk
 
-So lets go ahead with the MDP naming which you have. If we see its not 
-working out later on, please be open to a mass renaming that time.
+Signed-off-by: Angelo Dureghello <angelo@kernel-space.org>
+---
+ drivers/gpu/drm/nouveau/nouveau_backlight.c | 54 +++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
 
-<snip>
+diff --git a/drivers/gpu/drm/nouveau/nouveau_backlight.c b/drivers/gpu/drm/nouveau/nouveau_backlight.c
+index d47442125fa1..7b7306d18ad7 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_backlight.c
++++ b/drivers/gpu/drm/nouveau/nouveau_backlight.c
+@@ -286,6 +286,56 @@ nv50_backlight_init(struct nouveau_backlight *bl,
+ 	return 0;
+ }
+ 
++static int
++nv19x_backlight_init(struct nouveau_backlight *bl,
++		     struct nouveau_connector *nv_conn,
++		     struct nouveau_encoder *nv_encoder,
++		     struct backlight_properties *props,
++		     const struct backlight_ops **ops)
++{
++	int ret;
++	u16 current_level;
++	u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE];
++	u8 current_mode;
++	struct nouveau_drm *drm = nouveau_drm(nv_encoder->base.base.dev);
++
++	/*
++	 * nvif functions, so also nvif_outp_bl_get, are not working with this
++	 * connector (return -22), using only drm layer.
++	 */
++	if (nv_conn->type == DCB_CONNECTOR_eDP) {
++
++		ret = drm_dp_dpcd_read(&nv_conn->aux, DP_EDP_DPCD_REV, edp_dpcd,
++				       EDP_DISPLAY_CTL_CAP_SIZE);
++		if (ret < 0)
++			return ret;
++		if (!drm_edp_backlight_supported(edp_dpcd))
++			return -ENODEV;
++
++		ret = drm_edp_backlight_init(&nv_conn->aux, &bl->edp_info, 0, edp_dpcd,
++					 &current_level, &current_mode);
++		if (ret < 0)
++			return ret;
++
++		ret = drm_edp_backlight_enable(&nv_conn->aux, &bl->edp_info, current_level);
++		if (ret < 0) {
++			NV_ERROR(drm, "Failed to enable backlight on %s: %d\n",
++				 nv_conn->base.name, ret);
++			return ret;
++		}
++
++		*ops = &nv50_edp_bl_ops;
++
++		props->max_brightness = bl->edp_info.max;
++		props->brightness = current_level;
++		bl->uses_dpcd = true;
++
++		return 0;
++	}
++
++	return -ENODEV;
++}
++
+ int
+ nouveau_backlight_init(struct drm_connector *connector)
+ {
+@@ -332,6 +382,10 @@ nouveau_backlight_init(struct drm_connector *connector)
+ 		ret = nv50_backlight_init(bl, nouveau_connector(connector),
+ 					  nv_encoder, &props, &ops);
+ 		break;
++	case NV_DEVICE_INFO_V0_ADA:
++		ret = nv19x_backlight_init(bl, nouveau_connector(connector),
++					   nv_encoder, &props, &ops);
++		break;
+ 	default:
+ 		ret = 0;
+ 		goto fail_alloc;
+-- 
+2.44.0
 
-> index dea6d47854fe..e7651a0e878c 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.h
-> +++ b/drivers/gpu/drm/msm/msm_drv.h
-> @@ -267,6 +267,16 @@ enum msm_format_flags {
->   #define MSM_FORMAT_FLAG_UNPACK_ALIGN_MSB BIT(MSM_FORMAT_FLAG_UNPACK_ALIGN_MSB_BIT)
->   #define MSM_FORMAT_FLAG_ALPHA_ENABLE	BIT(MSM_FORMAT_FLAG_ALPHA_ENABLE_BIT)
->   
-> +/**
-> + * DPU HW,Component order color map
-> + */
-> +enum {
-> +	C0_G_Y = 0,
-> +	C1_B_Cb = 1,
-> +	C2_R_Cr = 2,
-> +	C3_ALPHA = 3
-> +};
-> +
->   /**
->    * struct msm_format: defines the format configuration
->    * @pixel_format: format fourcc
-> @@ -305,6 +315,8 @@ struct msm_format {
->   	(((X)->fetch_mode == MDP_FETCH_UBWC) && \
->   	 ((X)->flags & MSM_FORMAT_FLAG_COMPRESSED))
->   
-> +const struct msm_format *mdp_get_format(struct msm_kms *kms, uint32_t format, uint64_t modifier);
-> +
->   struct msm_pending_timer;
->   
->   int msm_atomic_init_pending_timer(struct msm_pending_timer *timer,
-
-I am now thinking that do you think it makes sense to move all 
-MDP_FORMAT macros to a new mdp_formats.h including the RGB/YUV bitfield 
-macros (even though I already acked that change).
-
-Instead of bloating msm_drv.h even more?
