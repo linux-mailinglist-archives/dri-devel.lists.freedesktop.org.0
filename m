@@ -2,74 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC648A3BD8
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Apr 2024 11:09:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 639E58A3B3B
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Apr 2024 08:03:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA7A310E92F;
-	Sat, 13 Apr 2024 09:09:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E994510E616;
+	Sat, 13 Apr 2024 06:03:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OkyV7rxc";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VNQDTc+1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B27510E707;
- Sat, 13 Apr 2024 03:18:15 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id
- a640c23a62f3a-a469dffbdfeso46579166b.0; 
- Fri, 12 Apr 2024 20:18:15 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
+ [209.85.219.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB9BB10E616
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Apr 2024 06:02:55 +0000 (UTC)
+Received: by mail-yb1-f180.google.com with SMTP id
+ 3f1490d57ef6-dcbef31a9dbso1140614276.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Apr 2024 23:02:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1712978294; x=1713583094; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=PNnFVE6OxAC9vi6MOO4Z+HaTgoU0dnwIGRx/mpHEgUA=;
- b=OkyV7rxcsR+9ycOSfzOJR7OriwCM9tLMvWw/NPiJx4ikXZH/ViXR/bOWy8DRKgIg0e
- 7ayvbrIKC5wxFrwfmBfTQszXsr6Mp1SXp21hBVTZvISkd7gh13/7NwlARY0dKfi6TZiK
- BfncEX8LG4RD05bQSnEVb9bvyWIe/BlaoziYod8PuCxP+9akrUq9uJ0pmEWzgoaUjXuB
- a21Pxpzj1lXd+a0LZGlBXfBiD2DvWviss7vGWYmI1TLbxbNzqeLNwU+JK8JUlXMvMCY4
- Ts0bCmkvdZ16I4KEOXu8bTdSOfq1zfBrH27FK9vJN2L+/Lc3VG4bOQwb2Uj3UOhsE5Y1
- 6eQA==
+ d=linaro.org; s=google; t=1712988174; x=1713592974; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=3p6Jg0iNIK+PAJ8XdMgBNFqaUw3Dj5y6DUftWKBMSqc=;
+ b=VNQDTc+1E7vfIO2KfU2XDZ50csdGXlbNG5V/+lfRduFOagqWYdqCgV62qdm6wOw2kf
+ UdGGEpUmOoLry3CAtHVqrfgotxIfXypF6cHOJkKbQ2X5DWb7HHyRBVbubjeH1EzsuWcJ
+ /mIxi3UxYdW0kSLRHJflaBs0+W6Z8YYC1w01dP2wHfg5KSMJF1tlbSCAT1VWpbU5TdLo
+ En40aqpxn4QOxOQglr5UGmlbCEAdmcb1+jVIbdXhRJNSn7xwpcQM1lQsF6neEyTeCOaY
+ 1ZDOZQr/UNvpBn3zTkiCdMSSZklt76bijFzcUGOgz/CHmxkKcOBKK9GYc68qI7RnOkaD
+ dnpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712978294; x=1713583094;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1712988174; x=1713592974;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=PNnFVE6OxAC9vi6MOO4Z+HaTgoU0dnwIGRx/mpHEgUA=;
- b=B+7s8Q/Hl7L7H1BHkpnagx1jC2YcjUmqWcOaT+URuX8aaEYefF2qegNO6RfQDys6/B
- gtiYL54wKYPgHXbEYFug+Qq5Slo3xB+8bgs7oRuPAnLCrodbVfVKT+qUrFq+YpFd4sdr
- zf3ttOgNX5s2v36l/XZH248Tjc6Pkr88b42yYcYNmuOLgn1QpxqoWjbooLSmKNG0FeUx
- SwKTrDLVB+v0TVSztIvPoFbPNieMnRZ2JXrgdbjXKx8F64o/Z5TUhfk+lH11hv5ljCfU
- 3BxmC7QHv9YUzo4h3heTQcnAENG2vHjVlx5EHTSn60wzie3NP/syZ0Xr5OYMym0We5OW
- dNxA==
+ bh=3p6Jg0iNIK+PAJ8XdMgBNFqaUw3Dj5y6DUftWKBMSqc=;
+ b=lLizthtFeVE6Yfo8QKFFpWxRriis9JSSmlsz2XVdPU6SVtyZqGjolP1rtYk/dx0EHF
+ /lhQBx3eTbvV75/fWs4oclgboja+GibKFfaN/TVshoHw/IXoea2S+sqrx+UEwTAsyvgJ
+ 7uZ6rAZLUrzfp3nYhYF6k9qo+qPC8R4Lyv3phN00QE2llaHmzjPZQNeERU9j2r3M3MLS
+ u3uPXrtEBHHpmVhR1ptIVlKi+Qypspbd6kaRMh8BOhAwe8OaUFfeM3FY+hol13qvJ7F+
+ oRKEHfhTsyzhMoHon6X2EwpoD1kaNtxFFqFwN7pZxTz7k8fbIs11AhYxWOncXPjg9ir0
+ /0RQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWTvIh5gXmQseaLY+zHN85V2n1hb5GBBWqtRn196F1bN3hJ6Qr9d5os5PHvMFE8yJp0EPMuMK9wo0HX5WaVrLN5LWY2efsijF5Q8dAjh2JeURynsqW9LXWF9BSWj++1+eKMwXKfdaFi3uJU6h6NckpK
-X-Gm-Message-State: AOJu0YxKbd0JQqjpTtEt0FF/Y/HpQunbMIuUs+BUx4bL7jEBW9yXlenb
- X+Qtno43Lp3gJ3Qek7b0tchhftHShqMJ4zh32EyGf9qiN9Ptw2cN
-X-Google-Smtp-Source: AGHT+IEoRr1BXhNT33CwKQB7WNo688HaHNYsVo8mJA+Hk5OaW9zxOC3HPhro1PhDEYACC3i9jGCV2g==
-X-Received: by 2002:a17:907:6d24:b0:a52:431e:636a with SMTP id
- sa36-20020a1709076d2400b00a52431e636amr1046090ejc.7.1712978293773; 
- Fri, 12 Apr 2024 20:18:13 -0700 (PDT)
-Received: from dmitrii-TM1701.. ([2001:8f8:1d36:b77d:8995:4615:5d13:26])
- by smtp.gmail.com with ESMTPSA id
- g4-20020a1709063b0400b00a51bbee7e55sm2450153ejf.53.2024.04.12.20.18.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Apr 2024 20:18:13 -0700 (PDT)
-From: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tursulin@ursulin.net, airlied@gmail.com,
- daniel@ffwll.ch, dmitrii.bundin.a@gmail.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- bp@suse.de, gongruiqi1@huawei.com, rdunlap@infradead.org,
- michal.wajdeczko@intel.com
-Subject: [PATCH] drm/i915/guc: Fix UB due to signed int overflow
-Date: Sat, 13 Apr 2024 06:17:47 +0300
-Message-Id: <20240413031747.2416581-1-dmitrii.bundin.a@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ AJvYcCVNeoMAfBDcpuNZdV8v8th3YyqBVnU6q3z+8HTmQG1DzmzkT5+7lazI4LysLgypbz/VhFP2F8eLwz3vdGdUyBttC7gUV+D11qwnOKkBT1Sv
+X-Gm-Message-State: AOJu0Yy92xEhpIHAsSxMJgCfay+JbebWwPzehoTHCweL9LO3+/HRmYUJ
+ dJa4lptfQUho4IOQnXqglhqlFG3VB9bm7r6s/Z7MAr7w6PU3clfjHpqUrZs1GO6zU1CHl6ltM67
+ BgsgzqZXjWXLDuI63LxQBQMLQEvs/Mh2VoXG2Hw==
+X-Google-Smtp-Source: AGHT+IFwiHasDbNqUmN3FeLVBrKDayEjmne8Pj/l5CVaBDswgbABq+xouKyVSZPrztCGNB9W5w2neAMPfmbgJxATrOY=
+X-Received: by 2002:a25:4ec2:0:b0:dcc:1449:71ea with SMTP id
+ c185-20020a254ec2000000b00dcc144971eamr4409535ybb.50.1712988174430; Fri, 12
+ Apr 2024 23:02:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sat, 13 Apr 2024 09:09:33 +0000
+References: <20231202214016.1257621-1-dmitry.baryshkov@linaro.org>
+ <20231202214016.1257621-12-dmitry.baryshkov@linaro.org>
+ <6ed5bb25-979e-bb48-3dfe-4af581bb5dd1@quicinc.com>
+In-Reply-To: <6ed5bb25-979e-bb48-3dfe-4af581bb5dd1@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sat, 13 Apr 2024 09:02:43 +0300
+Message-ID: <CAA8EJpqgmf=22O44qFEpxBuGiO4LDyOMrNVnksOdJ9G0z=X2Ug@mail.gmail.com>
+Subject: Re: [PATCH 11/12] drm/msm: merge dpu format database to MDP formats
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Stephen Boyd <swboyd@chromium.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,31 +83,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix compile errors of the form "FIELD_PREP: mask is not constant" caused
-by signed integer constant overflow. Files affected:
+On Fri, 12 Apr 2024 at 22:47, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 12/2/2023 1:40 PM, Dmitry Baryshkov wrote:
+> > Finally remove duplication between DPU and generic MDP code by merging
+> > DPU format lists to the MDP format database.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >   .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |   2 +-
+> >   .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |   4 +-
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c   | 602 ------------------
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h   |  23 -
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   |  10 -
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   2 +-
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |   3 +-
+> >   drivers/gpu/drm/msm/disp/mdp_format.c         | 595 +++++++++++++++--
+> >   drivers/gpu/drm/msm/disp/mdp_kms.h            |   2 -
+> >   drivers/gpu/drm/msm/msm_drv.h                 |  12 +
+> >   10 files changed, 549 insertions(+), 706 deletions(-)
+> >
+>
+> I cross-checked a few macros visually (not each one) and it LGTM in
+> terms of just moving it from dpu_formats.c to mdp_format.c
+>
+> Even in this change I had the same concern about whether to use MDP for
+> dpu formats.
+>
+> But I think even if we make it MSM_*** then we will have to keep them in
+> some msm_** header and not mdp_format.c
+>
+> So lets go ahead with the MDP naming which you have. If we see its not
+> working out later on, please be open to a mass renaming that time.
 
-drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+Ack.
 
-Reproducible with gcc 7.5
+>
+> <snip>
+>
+> > index dea6d47854fe..e7651a0e878c 100644
+> > --- a/drivers/gpu/drm/msm/msm_drv.h
+> > +++ b/drivers/gpu/drm/msm/msm_drv.h
+> > @@ -267,6 +267,16 @@ enum msm_format_flags {
+> >   #define MSM_FORMAT_FLAG_UNPACK_ALIGN_MSB BIT(MSM_FORMAT_FLAG_UNPACK_ALIGN_MSB_BIT)
+> >   #define MSM_FORMAT_FLAG_ALPHA_ENABLE        BIT(MSM_FORMAT_FLAG_ALPHA_ENABLE_BIT)
+> >
+> > +/**
+> > + * DPU HW,Component order color map
+> > + */
+> > +enum {
+> > +     C0_G_Y = 0,
+> > +     C1_B_Cb = 1,
+> > +     C2_R_Cr = 2,
+> > +     C3_ALPHA = 3
+> > +};
+> > +
+> >   /**
+> >    * struct msm_format: defines the format configuration
+> >    * @pixel_format: format fourcc
+> > @@ -305,6 +315,8 @@ struct msm_format {
+> >       (((X)->fetch_mode == MDP_FETCH_UBWC) && \
+> >        ((X)->flags & MSM_FORMAT_FLAG_COMPRESSED))
+> >
+> > +const struct msm_format *mdp_get_format(struct msm_kms *kms, uint32_t format, uint64_t modifier);
+> > +
+> >   struct msm_pending_timer;
+> >
+> >   int msm_atomic_init_pending_timer(struct msm_pending_timer *timer,
+>
+> I am now thinking that do you think it makes sense to move all
+> MDP_FORMAT macros to a new mdp_formats.h including the RGB/YUV bitfield
+> macros (even though I already acked that change).
+>
+> Instead of bloating msm_drv.h even more?
 
-Signed-off-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
----
- drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Sounds like a good idea, yes. Thank you!
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
-index 58012edd4eb0..8814d4cd371c 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
-@@ -29,7 +29,7 @@
-  */
- 
- #define GUC_KLV_LEN_MIN				1u
--#define GUC_KLV_0_KEY				(0xffff << 16)
-+#define GUC_KLV_0_KEY				(0xffffU << 16)
- #define GUC_KLV_0_LEN				(0xffff << 0)
- #define GUC_KLV_n_VALUE				(0xffffffff << 0)
- 
 -- 
-2.34.1
-
+With best wishes
+Dmitry
