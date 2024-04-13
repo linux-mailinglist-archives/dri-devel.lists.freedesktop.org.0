@@ -2,38 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 175888A3BDB
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Apr 2024 11:09:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16D468A3CB8
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Apr 2024 14:36:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0700F10FB69;
-	Sat, 13 Apr 2024 09:09:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B34E610E49B;
+	Sat, 13 Apr 2024 12:36:22 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="UPNMQpXN";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 304 seconds by postgrey-1.36 at gabe;
- Sat, 13 Apr 2024 08:56:15 UTC
-Received: from irl.hu (irl.hu [95.85.9.111])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CB5E10FA62;
- Sat, 13 Apr 2024 08:56:15 +0000 (UTC)
-Received: from [192.168.2.4] (51b68488.dsl.pool.telekom.hu
- [::ffff:81.182.132.136]) (AUTH: CRAM-MD5 soyer@irl.hu, )
- by irl.hu with ESMTPSA
- id 000000000006F759.00000000661A477C.002702C7; Sat, 13 Apr 2024 10:51:08 +0200
-Message-ID: <8b2aef9a51b97ca69cd5bc590f9fa535da5af4e4.camel@irl.hu>
-Subject: Re: [PATCH] drm/amd: Only allow one entity to control ABM
-From: Gergo Koteles <soyer@irl.hu>
-To: harry.wentland@amd.com
-Cc: Hamza.Mahfooz@amd.com, Sunpeng.Li@amd.com,
- amd-gfx@lists.freedesktop.org, ckoenig.leichtzumerken@gmail.com,
- dri-devel@lists.freedesktop.org, mario.limonciello@amd.com
-Date: Sat, 13 Apr 2024 10:51:07 +0200
-In-Reply-To: <20361f26-2c83-4619-8f9e-ec8788b8280f@amd.com>
-Autocrypt: addr=soyer@irl.hu; prefer-encrypt=mutual;
- keydata=mDMEZgeDQBYJKwYBBAHaRw8BAQdAD5oxV6MHkjzSfQL2O8VsPW3rSUeCHfbx/a6Yfj3NUnS0HEdlcmdvIEtvdGVsZXMgPHNveWVyQGlybC5odT6ImQQTFgoAQRYhBLSYvEYEgjzzEMQCqgtEJzXf/1IRBQJmB4NAAhsDBQkFo5qABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheAAAoJEAtEJzXf/1IRmdYA/0bE1BX7zOGKBgCa1DwzH2UHXawSKLpptADvI/ao6OOtAP4+wYgpR0kWR28lhmkRTpzG/+8GiMWsT60SV2bz9B7sCbg4BGYHg0ASCisGAQQBl1UBBQEBB0CPo8ow/E97WYtaek9EsLXvsvwpBsjWLq5mMOgJL/ukCwMBCAeIfgQYFgoAJhYhBLSYvEYEgjzzEMQCqgtEJzXf/1IRBQJmB4NAAhsMBQkFo5qAAAoJEAtEJzXf/1IRklEA/ipTfAI/onzNwZIp9sCdnt0bLhR5Oz8RD/FpbrJV1v7eAP0c/C6NQPDPWbQpobBR0pf1eTjWXjjr1fj2jxSvWbMRCw==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+X-Greylist: delayed 2750 seconds by postgrey-1.36 at gabe;
+ Sat, 13 Apr 2024 12:36:19 UTC
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2A2EF10E49B
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Apr 2024 12:36:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=C/i+R
+ Nq5Pzo3i3TYLnj/DsICAobD6rQqS8xqCwClBB8=; b=UPNMQpXNGkCqNPfm/uiqr
+ 2JLtqx5FZ36szmAX/TW6XXOB3u/8XlO7c1ZjCSGYrO542eBkWiM9MfDktyvIqC9w
+ NfF9P5APJbRxV5gLjeh2MHduBSbPEPpeQOolaVPxVYgvglUD9sO0rfvbCpsIBf+9
+ NBiH31uQOjv+9dDiQgAofE=
+Received: from ProDesk.. (unknown [58.22.7.114])
+ by gzga-smtp-mta-g3-5 (Coremail) with SMTP id _____wD3n+hVcRpmDvQVBA--.50814S2;
+ Sat, 13 Apr 2024 19:49:45 +0800 (CST)
+From: Andy Yan <andyshrk@163.com>
+To: boris.brezillon@collabora.com
+Cc: daniel@ffwll.ch, airlied@gmail.com, liviu.dudau@arm.com,
+ maarten.lankhorst@linux.intel.com, steven.price@arm.com,
+ tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Andy Yan <andy.yan@rock-chips.com>
+Subject: [PATCH] drm/panthor: Add defer probe for firmware load
+Date: Sat, 13 Apr 2024 19:49:38 +0800
+Message-Id: <20240413114938.740631-1-andyshrk@163.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Mailman-Approved-At: Sat, 13 Apr 2024 09:09:34 +0000
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wD3n+hVcRpmDvQVBA--.50814S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWruryxWryrCr4fKF1rKw1kuFg_yoWDtwc_CF
+ 4jyr1fXw48Ga4qqF1vka129Fy2kF4rZF1kZanYq34fCrnrGasrt39Fqry3W3y5WF10vasr
+ ua4UXr40krW7CjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU84v3UUUUUU==
+X-Originating-IP: [58.22.7.114]
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEBu-XmVODWy+XAABsD
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,18 +60,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi>=20
+From: Andy Yan <andy.yan@rock-chips.com>
 
-> ABM will reduce the backlight and compensate by adjusting brightness and =
-contrast of the image. It has 5 levels: 0, 1, 2, 3, 4. 0 means off. 4 means=
- maximum backlight reduction. IMO, 1 and 2 look okay. 3 and 4 can be quite =
-impactful, both to power and visual fidelity.
+The firmware in the rootfs will not be accessible until we
+are in the SYSTEM_RUNNING state, so return EPROBE_DEFER until
+that point.
+This let the driver can load firmware when it is builtin.
 
-I tried this with 6.9 and it looks weird with an OLED panel used with
-dark UI settings.
-The dark is no longer dark, everything is brighter.
-I turned this feature off with amdgpu.abmlevel=3D0.
+Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+---
 
-Best regards,
-Gergo
+ drivers/gpu/drm/panthor/panthor_fw.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+index 33c87a59834e..25e375f8333c 100644
+--- a/drivers/gpu/drm/panthor/panthor_fw.c
++++ b/drivers/gpu/drm/panthor/panthor_fw.c
+@@ -1336,8 +1336,17 @@ int panthor_fw_init(struct panthor_device *ptdev)
+ 	}
+ 
+ 	ret = panthor_fw_load(ptdev);
+-	if (ret)
++	if (ret) {
++		/*
++		 * The firmware in the rootfs will not be accessible until we
++		 * are in the SYSTEM_RUNNING state, so return EPROBE_DEFER until
++		 * that point.
++		 */
++		if (system_state < SYSTEM_RUNNING)
++			ret = -EPROBE_DEFER;
++
+ 		goto err_unplug_fw;
++	}
+ 
+ 	ret = panthor_vm_active(fw->vm);
+ 	if (ret)
+-- 
+2.34.1
 
