@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF1FF8A43F8
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Apr 2024 18:38:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DAC78A43FA
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Apr 2024 18:38:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2A0B1120F7;
-	Sun, 14 Apr 2024 16:38:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9665F89CFA;
+	Sun, 14 Apr 2024 16:38:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CUlqEheB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZWKsnU0z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03D0E1120EB
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Apr 2024 16:37:53 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 420D31120F3
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Apr 2024 16:38:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7799260B98;
+ by sin.source.kernel.org (Postfix) with ESMTP id 00C55CE09B4;
+ Sun, 14 Apr 2024 16:37:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9138AC32783;
  Sun, 14 Apr 2024 16:37:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 429F3C2BD10;
- Sun, 14 Apr 2024 16:37:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713112672;
- bh=pXU6zSARGVDugu8KFvOh/l5OML46BikLSb/4YHqGjAA=;
+ s=k20201202; t=1713112677;
+ bh=jfkmf/5bR8Pn7Nt417Wdx1kiNblxSBy4jfnOmUNCNk0=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=CUlqEheBDuFp/3X8XdJLYUSu+kuT7GqkJO7KgFYaZAL+b93nqY11dSL3q1qPzbOjk
- 26+fGWV75wo2zwytdGcB4Qy/CrSVxuFE0XsNCa5v+o9slldMj35EeSKhmWrjLOe2L5
- 88Wmsxq7Y/71/uj0Y6IGFF6gDdoSqbzoanMMWGgeSt/rhTct/pZe33KJib6HU4gzRz
- tFOF93W838Pubf9YLRLoa2tJ36VVxe8ngG8j5Uw/i3OdLqrmKD+C3Ap/4R+5W09OKS
- BQzH273iba9xq2++WTabNaeNgBG2IrKBZf2EMvMMG7RnkbG7XScsDSBFNYjEFluzMb
- pIL1636ygPHPA==
+ b=ZWKsnU0z0X7LJIBSdWsfkWglKQ3Y6hQ6N4u703hB8loVzvK8vdBlvkGEZkmicggra
+ zYi9k87HU/wUadpTGg4E5y9Hvlgl7vM6EgTc0MUURqljKIUvvrTZhIh8XparKquTwA
+ VROCAMiyqE8RpBzLa8SQXX1l+3NCdOZKpJ6ruUnQ/uGsrcUI2qnldMVYGwHmS7WzUJ
+ sipz3lKodrK0erPw9YDeh11Yk+Xcz7i6iuw5PdTabH7jqkwFuLwqBnPaypSlStXB++
+ KXderH27S1d466W+7onSZhdQgB90hhkqlbjau6UtEmtW/qGrAh/kgh7GmlrvNwwkoL
+ sq1ApYKneLFNA==
 From: Krzysztof Kozlowski <krzk@kernel.org>
-Date: Sun, 14 Apr 2024 18:36:15 +0200
-Subject: [PATCH 17/18] fbdev: imx: Constify lcd_ops
+Date: Sun, 14 Apr 2024 18:36:16 +0200
+Subject: [PATCH 18/18] fbdev: omap: lcd_ams_delta: Constify lcd_ops
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240414-video-backlight-lcd-ops-v1-17-9b37fcbf546a@kernel.org>
+Message-Id: <20240414-video-backlight-lcd-ops-v1-18-9b37fcbf546a@kernel.org>
 References: <20240414-video-backlight-lcd-ops-v1-0-9b37fcbf546a@kernel.org>
 In-Reply-To: <20240414-video-backlight-lcd-ops-v1-0-9b37fcbf546a@kernel.org>
 To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
@@ -51,20 +51,20 @@ Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
  linux-omap@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=829; i=krzk@kernel.org;
- h=from:subject:message-id; bh=pXU6zSARGVDugu8KFvOh/l5OML46BikLSb/4YHqGjAA=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmHAYB/NvPvWOPJzkmhvH02TGCUdXNwXQJNIBfx
- KPbcEVlT0WJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZhwGAQAKCRDBN2bmhouD
- 18apD/47c2Ifg0paDFmM9BvBDW+RwXsN+MCo8yNwr9ziNbmoCZOlXwVdWZwzhdX0zqOWsOq9gyo
- WgqB782wrilmuqSIKOFnodemx5UVNjmtrH2Ena6GLIrz3m3a8v/LIXznSBMVY2Cb07B+jfnEca+
- iHHY7T7rvq+UVbNIEz63PrUmbXaAP77kKSnsTaPcSaaTkPbXTWyghkjlW/lZDy4E1gTq8CwWzOo
- mJRaDlhPFsCS/kKmzdbRwTAvuLxJmXxTsdmbuqDWTthlELxWMmIj75rFTSsqNhxUHi+DntTsEMI
- sBuYYYq2kEhWb7uvSgAmZEyhjcNaT5GoejvA9QxOW4VsmIrrsflQq0tJGAL6bXfjvJHs63Dnf5q
- +QVxaAEEbKABcHzuN2BcNovy22DJgdwhjmine/bxI15c787VOiiuMFfW1oCkekZuFZlIJcu1wDK
- a6BUzont5N/1xPTffBh0GO3wP23bRIn13XR+sKiF+DQ0L7a1U4L7myxMWczmF8ZCH+7dj410uUw
- XcvGzdhA8cDjts7EZEpljxft+Yx7ZUdcYvG0ZGuukFW6MnTgfp1fKTfugweoFqshUIaZaOSAQZr
- cw+fqgFKWTDLRPaNcql0aKxLtPGv5fElVwhfAJuD7VPoKRBnfdIsH7hlzdzZZD/d1vGz8BOfPBk
- GD/v21lf5gh4qng==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=938; i=krzk@kernel.org;
+ h=from:subject:message-id; bh=jfkmf/5bR8Pn7Nt417Wdx1kiNblxSBy4jfnOmUNCNk0=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmHAYCjHH0Cx1DCGwjeQ5m9nnsg2hCJnBhK6Mq1
+ fVWf+PJIyqJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZhwGAgAKCRDBN2bmhouD
+ 13f6D/9zghLij+lmC0ML/pi92moHzAOeagWtT20rHWv7zIwh8jkggvAqmqsmai6Q75+bNS986sV
+ ogKmNtLnpMkPFhfuJ8Woq/DMF3hUNGs3KrMZAflCff/Play1FATCi1xMxdI894OomgNJNmLcbN2
+ +iaqYMm/cnyfQd83jrsuX9cjkD1MO+upTIygA6ClXTaHbKLziQ0dzQcFhAjZOmDfW6vDHohzCU/
+ vInc34ipNfYbw+qkeYWtbwm/tdfEEFAhpwS8D5pq0AaMlrVGYrAsB+C58lrU/aj3sz1jnZOTwPx
+ nOrFBdSmiz08v+eX74Dot8/+uLE+/DWcrocEOHCc4EBPVULolt7u0q8Zsc8JAUsQcjqc8VNiRG7
+ MncqHSrwGPiT+E2GsDK3KWNzChoceOvW91EPWTBg8OG+CBErnyrv+QXpJX6Nn0yP1Gfz+cR5SIW
+ BvOWYZXFM/Pympaqrh5EXydi1qBGaxKyc1REALSG3a3cUmIPieyICtwOTvfrSehghsBCkcX3Dtk
+ 46IcVS6CS2FVMKpeE71ZXjfrB/jwnrqWYtMsh0qHJQ0P6kFgQSoglazclEIr2Gxrkc21Ozaa6bz
+ PJk/1g9MhmqfhXzHLacAmzYumlsV+XINjIuHDG2Fj+SNYcK/A1tP7JCHwBMrAjvJP0EN1aeKbDE
+ gNAgVkhlzyAFAng==
 X-Developer-Key: i=krzk@kernel.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,22 +91,22 @@ Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
 Depends on the first patch in the series.
 ---
- drivers/video/fbdev/imxfb.c | 2 +-
+ drivers/video/fbdev/omap/lcd_ams_delta.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/imxfb.c b/drivers/video/fbdev/imxfb.c
-index a4dbc72f93c3..4ebfe9b9df60 100644
---- a/drivers/video/fbdev/imxfb.c
-+++ b/drivers/video/fbdev/imxfb.c
-@@ -857,7 +857,7 @@ static int imxfb_lcd_set_power(struct lcd_device *lcddev, int power)
- 	return 0;
+diff --git a/drivers/video/fbdev/omap/lcd_ams_delta.c b/drivers/video/fbdev/omap/lcd_ams_delta.c
+index 6f860c814d2c..97e2b71b64d7 100644
+--- a/drivers/video/fbdev/omap/lcd_ams_delta.c
++++ b/drivers/video/fbdev/omap/lcd_ams_delta.c
+@@ -76,7 +76,7 @@ static int ams_delta_lcd_get_contrast(struct lcd_device *dev)
+ 	return ams_delta_lcd & AMS_DELTA_MAX_CONTRAST;
  }
  
--static struct lcd_ops imxfb_lcd_ops = {
-+static const struct lcd_ops imxfb_lcd_ops = {
- 	.check_fb	= imxfb_lcd_check_fb,
- 	.get_contrast	= imxfb_lcd_get_contrast,
- 	.set_contrast	= imxfb_lcd_set_contrast,
+-static struct lcd_ops ams_delta_lcd_ops = {
++static const struct lcd_ops ams_delta_lcd_ops = {
+ 	.get_power = ams_delta_lcd_get_power,
+ 	.set_power = ams_delta_lcd_set_power,
+ 	.get_contrast = ams_delta_lcd_get_contrast,
 
 -- 
 2.34.1
