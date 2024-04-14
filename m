@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38AD98A43E5
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Apr 2024 18:37:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C9398A43EA
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Apr 2024 18:37:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 228DE1120E5;
-	Sun, 14 Apr 2024 16:37:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE3E11120EC;
+	Sun, 14 Apr 2024 16:37:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="adfu4CSE";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Mvk23GC5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9695A1120E6
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Apr 2024 16:37:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1796B1120E7
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Apr 2024 16:37:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 163FC60B2C;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 795E760B67;
+ Sun, 14 Apr 2024 16:37:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 378A8C2BD10;
  Sun, 14 Apr 2024 16:37:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2548C072AA;
- Sun, 14 Apr 2024 16:37:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713112634;
- bh=usQ+7RLGSrfvZ4Uc8oRh0XRypcsevdJ9gNL16CX2QCM=;
+ s=k20201202; t=1713112640;
+ bh=tv/dXn/1EbAmlxq0rha4TdMh0Fw2XbAyNvTO8VxWrfY=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=adfu4CSE4wZoiQtjjxEG8lx3swCraVR9aNGBbOFneSiUvNIlK1iihctdNVjYhhA+I
- Ix1Y+p0A4RtqiXdiNzbg7Rd2PS53TCPV0ZXPfPnM9SuqdQS6wFPJ259P9qDgUqkKzV
- iDlGfx2mZ2/3D+JJP4jCFSSvCR/aNpwYnxwPf4HvxMhwRz55ZbB6nuPmfhYfaDewQR
- m4CufNNYCTYUg2xfF+94HnmSqlY61e/uQgUnuw4AK2TKEJjJ89QwjFFM8SGHHoi0PC
- jn/kPVoG15kXn9lOtrn5GvXr6EuYIimAt2zpnj4r7KBVMM5qKUqaNTjfeY5Gvdx2CT
- 97GvXcGUF6oLw==
+ b=Mvk23GC5o/KR5hw1yWUHcOQ0JLquZS2XLwKhnOVYMKdirBuGyTwcfaN+spOOlHrFV
+ a6cr5vzIwlqB5egzmrQwYLc6P1H2wfSvzfHvfKIBoeX1CEmuxxeFb56EI76gmNQaEI
+ OBtOj7EPggVqyMDdUXVBH4BZMNlUSgmmFZwe2oEq+82xrXyFNF0ONBA5HfMU1NFNS5
+ HTksyUGRMQnqSn/vCP90kw5M3HLyAelC6oth20SikqrU9jreuozYkWligLWjHHRHil
+ W/yQCP+mrAw4PHkL1cQMy6q9N1hs/r2E7CDUcwFH23dAdsV6P24WfPebZwAzJaK1Dc
+ bRckeg1m5mLVQ==
 From: Krzysztof Kozlowski <krzk@kernel.org>
-Date: Sun, 14 Apr 2024 18:36:08 +0200
-Subject: [PATCH 10/18] backlight: lms501kf03: Constify lcd_ops
+Date: Sun, 14 Apr 2024 18:36:09 +0200
+Subject: [PATCH 11/18] backlight: ltv350qv: Constify lcd_ops
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240414-video-backlight-lcd-ops-v1-10-9b37fcbf546a@kernel.org>
+Message-Id: <20240414-video-backlight-lcd-ops-v1-11-9b37fcbf546a@kernel.org>
 References: <20240414-video-backlight-lcd-ops-v1-0-9b37fcbf546a@kernel.org>
 In-Reply-To: <20240414-video-backlight-lcd-ops-v1-0-9b37fcbf546a@kernel.org>
 To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
@@ -51,20 +51,20 @@ Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
  linux-omap@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=816; i=krzk@kernel.org;
- h=from:subject:message-id; bh=usQ+7RLGSrfvZ4Uc8oRh0XRypcsevdJ9gNL16CX2QCM=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmHAX7FpzuMjvna8Y31zY0lIuxkts9wlMdSq0t0
- 7hivN2rfQKJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZhwF+wAKCRDBN2bmhouD
- 1yFDD/4kuHtI7okgawLZYg49MQ9QNb0rJPtMTrHPxA3noOeBmJdpgvme/nc8w8UnvjPflwmfzyu
- ZMiKj3sd6Tsuil8yYpgvSGIPXhtqXAiQRNDu4xg384bAMJq7iTRFOUzXhrNGn8b+vAliVl77AL3
- pLUWOsESv4207ssMlr5pxVOfaZMerWiZtnVe2cWB6n9B+Oytrrbn4xnzXT4ncWARYq2Jrp8AQ4k
- jsaUnhjPyOu1X19du0jRHUHtq97UBiviTn8oTz6dGPn7vJroUnEyt4CjSwWHKFMGwHmq0bWjV41
- wdmSOjKtNfnLMgM+zpDy+vacqXUdBDfQ7xV+wP3dvoSl7bZh6m8P9BpRunYxmRKgaKZti3LhrLZ
- Csa9MqQ+UODSbxLg/VIqUIYm+9MDDfmDtUlHoKAC+Nu62gwZ9TG8oqaCdarq1sayDFaMxnz13IN
- 7v8IIfCBWVl2HHIJ18qE31FOjATlfpr+ZkxNlSWJ2OZ3ABY4lWg6SgD0l6gXrX7tLq+D62IzJd7
- nANkcOdD84Iy5wR3dnqnWWrQI5snPFx8h6YuLCV5hrmjJKlO5up3JcjqwtOfCcZUXHfjykvFR+G
- ctvyq02CLOVd2rC3B/0qynUupt2vUNsSObasyOui9+mPx1TMe+4qf49YhHt9k+m+00nlEzmrFOZ
- 4hVW27Zehxn4tLQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=749; i=krzk@kernel.org;
+ h=from:subject:message-id; bh=tv/dXn/1EbAmlxq0rha4TdMh0Fw2XbAyNvTO8VxWrfY=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmHAX8wDeoy2AroJzqYcLrxCU3NYrvz7HErxPGr
+ bgi9VsTRwOJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZhwF/AAKCRDBN2bmhouD
+ 1wjsD/9/W97+MJ3uicCNV/2XKOLdqkedzANr6kez8MtBavyVmvfC7h0iTZH5yIeMMNDuVPLg9xT
+ ZWPrX9sav1psnR44KEwM0h1eamFmVqIBcO49w6A6yA2mEdaC5PI2UggRle/lrpMJfNx7z89k6HL
+ yRZEGh1dG9p+OfIccTjIy2p3+e4nvjUA8eshh4buTQhZgD8k3e6P2fwE7zpVP3jUkabpT3I7g4z
+ Brc6v1wX/cqVTD1A8f7kf7nF68Ocb5f/ZN7hxrFl+9ljz7aaNrLVswNe0EuA3sX22q4sqooOtRj
+ x2DFZHEEJCICFDYwINUTGTYi7EbSz5Ne/o2zv6r1//DGOENjl100DakAHSx3mqoETEQv1ohC4HK
+ yGsqQrCfUqH02396CosOrt/6DzZZnjXi7yrNUjW7CYeeBOC+cY/L+lOmi7uMVETNBaNz08HtntL
+ xyXS9SnIZnlmBDh3wrdJgfrAKeYQJyCjc0pBm+IVcehLZgR9TbbBGo1NshoJ7Y4pMDN+EiaebtW
+ PB/y2PzhKkgcvcZEQhO8OHrBMapLFrsW+Y637iBopoU3U5XfZ504XV7CouHJpbUO/ai+iIyQakX
+ YaQ/v7cjq3l+OEHiFPm6iXt4ip1pXARzNmoevjl1yM1B8x+Ehfp7CMmB9A+lRahHdaJJmIz4I+L
+ fPjRr4wPjGU4WZw==
 X-Developer-Key: i=krzk@kernel.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,21 +87,21 @@ made const for increased code safety.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- drivers/video/backlight/lms501kf03.c | 2 +-
+ drivers/video/backlight/ltv350qv.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/backlight/lms501kf03.c b/drivers/video/backlight/lms501kf03.c
-index 5c46df8022bf..8aebe0af3391 100644
---- a/drivers/video/backlight/lms501kf03.c
-+++ b/drivers/video/backlight/lms501kf03.c
-@@ -304,7 +304,7 @@ static int lms501kf03_set_power(struct lcd_device *ld, int power)
- 	return lms501kf03_power(lcd, power);
+diff --git a/drivers/video/backlight/ltv350qv.c b/drivers/video/backlight/ltv350qv.c
+index d54f501e4285..cdc4c087f230 100644
+--- a/drivers/video/backlight/ltv350qv.c
++++ b/drivers/video/backlight/ltv350qv.c
+@@ -217,7 +217,7 @@ static int ltv350qv_get_power(struct lcd_device *ld)
+ 	return lcd->power;
  }
  
--static struct lcd_ops lms501kf03_lcd_ops = {
-+static const struct lcd_ops lms501kf03_lcd_ops = {
- 	.get_power = lms501kf03_get_power,
- 	.set_power = lms501kf03_set_power,
+-static struct lcd_ops ltv_ops = {
++static const struct lcd_ops ltv_ops = {
+ 	.get_power	= ltv350qv_get_power,
+ 	.set_power	= ltv350qv_set_power,
  };
 
 -- 
