@@ -2,52 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DCA98A4498
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Apr 2024 20:27:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF35F8A44B2
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Apr 2024 20:48:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4F1911230F;
-	Sun, 14 Apr 2024 18:27:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78BFA10E393;
+	Sun, 14 Apr 2024 18:48:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="VhEMgyE8";
+	dkim=pass (1024-bit key; unprotected) header.d=yandex.com header.i=@yandex.com header.b="hx/WIMir";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A330010E93E
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Apr 2024 18:27:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1713119250;
- bh=QOsx3aQu/JriRpOCWq7oChskggSlT2VJlcFd2Ll+Mhg=;
- h=From:To:Cc:Subject:Date:From;
- b=VhEMgyE8Gf9QvuAUzrkmaBrGtDA8hduJZgqT7CwAHCXIHLZnkP2VSlD0s216FmZVE
- +MHBS3Hx9I+uZeFIkq94PXewGaWCKUPa1T7dSQful+bAx8otwca00fncoACRkeZmmU
- GDcy1+QB++0TOobBHEP0UhP+DobpschWhcCM6GVTqifx5rW+6LLNLSAxGEx3fniUSp
- 2xJVQvnhvvM2OL1dkV0aRNwxPzxoxOIwKLE2u/fCa2N6xYk34bVNAcmhGn78nrTDaU
- eNLCHIKpRcoeiUDCwYHnt4rnJsFRXWYbmUoW+ezvxyGvkUbDeziP1BqbqOV2ge8t0/
- npME9ki1ps2uQ==
-Received: from arisu.hitronhub.home (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: detlev)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id F2D7337814A4;
- Sun, 14 Apr 2024 18:27:26 +0000 (UTC)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: linux-kernel@vger.kernel.org
-Cc: Sandy Huang <hjc@rock-chips.com>, Heiko Stubner <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- Detlev Casanova <detlev.casanova@collabora.com>
-Subject: [PATCH] drm: vop2: Do not divide height twice for YUV
-Date: Sun, 14 Apr 2024 14:27:06 -0400
-Message-ID: <20240414182706.655270-1-detlev.casanova@collabora.com>
-X-Mailer: git-send-email 2.43.2
+X-Greylist: delayed 350 seconds by postgrey-1.36 at gabe;
+ Sun, 14 Apr 2024 18:48:07 UTC
+Received: from forward500c.mail.yandex.net (forward500c.mail.yandex.net
+ [178.154.239.208])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9939A10E393
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Apr 2024 18:48:07 +0000 (UTC)
+Received: from mail-nwsmtp-smtp-production-main-37.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-production-main-37.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c12:3e2b:0:640:4907:0])
+ by forward500c.mail.yandex.net (Yandex) with ESMTPS id 50D5D60DB6;
+ Sun, 14 Apr 2024 21:41:43 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-37.myt.yp-c.yandex.net
+ (smtp/Yandex) with ESMTPSA id bfj4CAaOquQ0-YSWkSvTO; 
+ Sun, 14 Apr 2024 21:41:41 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.com; s=mail;
+ t=1713120101; bh=ncgw3ctShNCfiFpi/FXlW6n3ZHZ090VzmVPeVuJ4WG8=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=hx/WIMirvaFCrgVKL514C7kSdfwgUCLT9g1KU9X+RNRMBLfFYw8R3sVG8zDqFCx8M
+ 2UyesONdvD5RNSKLbPJ5/tefVCpL7ghXTyPJdfumJxC0wRlEiR77wKffMwVmc68QZe
+ 3NET90A/Xs/tX3c0BUmffpYeKTHkWj1L9Hp7HU2Y=
+Authentication-Results: mail-nwsmtp-smtp-production-main-37.myt.yp-c.yandex.net;
+ dkim=pass header.i=@yandex.com
+Message-ID: <0facfa2a-bff7-4cf1-b43a-349bba2f2342@yandex.com>
+Date: Sun, 14 Apr 2024 20:41:37 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] dt-bindings: display: rockchip,dw-hdmi: Fix
+ sound-dai-cells warning
+To: Jonas Karlman <jonas@kwiboo.se>, Heiko Stuebner <heiko@sntech.de>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Mark Yao <markyao0591@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20240414151135.1774981-1-jonas@kwiboo.se>
+ <20240414151135.1774981-4-jonas@kwiboo.se>
+Content-Language: en-US
+From: Johan Jonker <jbx6244@yandex.com>
+In-Reply-To: <20240414151135.1774981-4-jonas@kwiboo.se>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,73 +75,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For the cbcr format, gt2 and gt4 are computed again after src_h has been
-divided by vsub.
 
-As src_h as already been divided by 2 before, introduce cbcr_src_h and
-cbcr_src_w to keep a copy of those values to be used for cbcr gt2 and
-gt4 computation.
 
-This fixes yuv planes being unaligned vertically when down scaling to
-1080 pixels from 2160.
+On 4/14/24 17:11, Jonas Karlman wrote:
+> The rockchip,dw-hdmi node can be used as a sound dai codec, however,
+> dtbs_check may report the following issue:
+> 
+>   hdmi@fe0a0000: Unevaluated properties are not allowed ('#sound-dai-cells' was unexpected)
+>   from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
+> 
+> Add a reference to dai-common.yaml and add the #sound-dai-cells prop to
+> resolve this warning.
+> 
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> ---
 
-Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-Fixes: 604be85547ce ("drm/rockchip: Add VOP2 driver")
----
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 22 +++++++++++---------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+> v2: New patch to fix #sound-dai-cells warning
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index fdd768bbd487c..62ebbdb16253d 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -706,6 +706,8 @@ static void vop2_setup_scale(struct vop2 *vop2, const struct vop2_win *win,
- 	const struct drm_format_info *info;
- 	u16 hor_scl_mode, ver_scl_mode;
- 	u16 hscl_filter_mode, vscl_filter_mode;
-+	uint16_t cbcr_src_w = src_w;
-+	uint16_t cbcr_src_h = src_h;
- 	u8 gt2 = 0;
- 	u8 gt4 = 0;
- 	u32 val;
-@@ -763,27 +765,27 @@ static void vop2_setup_scale(struct vop2 *vop2, const struct vop2_win *win,
- 	vop2_win_write(win, VOP2_WIN_YRGB_VSCL_FILTER_MODE, vscl_filter_mode);
- 
- 	if (info->is_yuv) {
--		src_w /= info->hsub;
--		src_h /= info->vsub;
-+		cbcr_src_w /= info->hsub;
-+		cbcr_src_h /= info->vsub;
- 
- 		gt4 = 0;
- 		gt2 = 0;
- 
--		if (src_h >= (4 * dst_h)) {
-+		if (cbcr_src_h >= (4 * dst_h)) {
- 			gt4 = 1;
--			src_h >>= 2;
--		} else if (src_h >= (2 * dst_h)) {
-+			cbcr_src_h >>= 2;
-+		} else if (cbcr_src_h >= (2 * dst_h)) {
- 			gt2 = 1;
--			src_h >>= 1;
-+			cbcr_src_h >>= 1;
- 		}
- 
--		hor_scl_mode = scl_get_scl_mode(src_w, dst_w);
--		ver_scl_mode = scl_get_scl_mode(src_h, dst_h);
-+		hor_scl_mode = scl_get_scl_mode(cbcr_src_w, dst_w);
-+		ver_scl_mode = scl_get_scl_mode(cbcr_src_h, dst_h);
- 
--		val = vop2_scale_factor(src_w, dst_w);
-+		val = vop2_scale_factor(cbcr_src_w, dst_w);
- 		vop2_win_write(win, VOP2_WIN_SCALE_CBCR_X, val);
- 
--		val = vop2_scale_factor(src_h, dst_h);
-+		val = vop2_scale_factor(cbcr_src_h, dst_h);
- 		vop2_win_write(win, VOP2_WIN_SCALE_CBCR_Y, val);
- 
- 		vop2_win_write(win, VOP2_WIN_VSD_CBCR_GT4, gt4);
--- 
-2.43.2
+Hi,
 
+You are #4 that does an attempt on this subject.
+Coincidence with my patches??
+If other notifications could be fixed with the same amount of interest?
+Please be welcome to pick some other random Rockchip related ones.
+
+Johan
+
+===
+
+[PATCH v1 1/3] dt-bindings: display: add #sound-dai-cells property to rockchip dw hdmi
+https://lore.kernel.org/linux-rockchip/3a035c16-75b5-471d-aa9d-e91c2bb9f8d0@gmail.com/
+
+[PATCH] dt-bindings: display: rockchip: add missing #sound-dai-cells to dw-hdmi
+https://lore.kernel.org/linux-rockchip/20240326172801.1163200-1-heiko@sntech.de/
+
+[PATCH 6/6] dt-bindings: display: rockchip: dw-hdmi: Add missing sound-dai-cells property
+https://lore.kernel.org/linux-rockchip/20231222-pinetab2-v1-6-e148a7f61bd1@mecka.net/
+
+> ---
+>  .../bindings/display/rockchip/rockchip,dw-hdmi.yaml           | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> index af638b6c0d21..3285fff54416 100644
+> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> @@ -15,6 +15,7 @@ description: |
+>  
+>  allOf:
+>    - $ref: ../bridge/synopsys,dw-hdmi.yaml#
+> +  - $ref: /schemas/sound/dai-common.yaml#
+>  
+>  properties:
+>    compatible:
+> @@ -124,6 +125,9 @@ properties:
+>      description:
+>        phandle to the GRF to mux vopl/vopb.
+>  
+> +  "#sound-dai-cells":
+> +    const: 0
+> +
+>  required:
+>    - compatible
+>    - reg
