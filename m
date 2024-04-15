@@ -2,119 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A830C8A525B
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 15:53:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C505F8A526C
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 15:56:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CABE01125BC;
-	Mon, 15 Apr 2024 13:53:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ADF31125C6;
+	Mon, 15 Apr 2024 13:56:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="xuuTpcK8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kdTRWewV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2062.outbound.protection.outlook.com [40.107.94.62])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AC0A1125BC
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 13:53:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QzkgNx8kWKfB/9sYQekRen8bWVieTumm9Ycu1KNyPfsNJBuEX6SRW70O1/l9J5RTMFeETed9IcL6Q8a3e1PBq5F2NiYxy2raw9fioqqnS/iFbW8zbX0/S29JagbzU3KR0xyNuG0wF4/O4gCmTBHEH1DD5zyzo7EnzWPKTGskAO6fg1th44vXN2gN5n17nc9q5MkM6WULOgbb+My2OZaRO1plkkN/rfpPiK1TDwUP7YCDdvfRedtrLU+HG896kc8Y7eHdbNQvCHtNFMHvINpPosU+PbzGvYmMK7v1jsp5WazNW+6FZ+exlYoCYSjWWaia0xKBfr6eTJrd7XzY9aT4RA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NB89RgtAz7xqtJDjzbQ/ex8jw6YJibRhgxelNbkBfEM=;
- b=cesSkKFnLVWSgVfV6xgKH9T8djOoicimvqSyiSqhaKif2DXR2B0/0hlEBkaqChbR+WrACVTyi6+CVOS3ovPxuabZ/yN/48m2mMuUos5bsM+eDzzZD6noNwcStA5MPL+ATPbfWzhKVQ5UQfeG6Dxa9s1RhHxVwgFt2AlA3C4hy/8ibRyK8s2p52bb/zsU6e55wMUGbIt8Yo37jPTj01+y43HMd5V+GEiFXcO+PYjMP6YchVoE5djvNVYVohwsUdxFtndFS3Cwa3lj3l3gqcvDJ6kdrqRlEH+gDezMRW+yR28XHml/U0SRFSBKW8R0xDApcPneanRer8eIWgi0h6Tv8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NB89RgtAz7xqtJDjzbQ/ex8jw6YJibRhgxelNbkBfEM=;
- b=xuuTpcK86lkyerhpOgEfo476dG+yVHtNtmRQK1kdN8Dw7wF9PKMN47+kJfrZNQZL9rHw3d+PNLcC0ZnMhlN7vRGQz3aEvQQFfQM/qKsxBqAC2y2Gc9nOxyUuR6UH0o0xrvnPPlcUt9aot4QIE6/+SK9+U1E5ln6mgwRvHiZFydI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by DM4PR12MB7741.namprd12.prod.outlook.com (2603:10b6:8:103::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Mon, 15 Apr
- 2024 13:53:52 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::d895:b707:1189:dfd7]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::d895:b707:1189:dfd7%3]) with mapi id 15.20.7452.049; Mon, 15 Apr 2024
- 13:53:52 +0000
-Message-ID: <4b04b1d7-2215-42ae-a65a-eb8103bb847e@amd.com>
-Date: Mon, 15 Apr 2024 09:53:48 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ttm: stop pooling cached NUMA pages v2
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Alexander.Deucher@amd.com, Rajneesh.Bhardwaj@amd.com,
- Steven.Roberts@amd.com, dri-devel@lists.freedesktop.org
-References: <20240415134821.1919-1-christian.koenig@amd.com>
-Content-Language: en-US
-From: Felix Kuehling <felix.kuehling@amd.com>
-In-Reply-To: <20240415134821.1919-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQZPR01CA0057.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:88::18) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08A551125C9;
+ Mon, 15 Apr 2024 13:56:49 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id
+ 98e67ed59e1d1-2a2d0ca3c92so2049543a91.0; 
+ Mon, 15 Apr 2024 06:56:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1713189409; x=1713794209; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=N27uhOB3jdl5PJcj6aOsTcYbh8hiJsFDu4/EeTNh8FU=;
+ b=kdTRWewVuXTzi5h8+i1EAfl43y27w3H54QUKB9k9/ZLTeDOjv3rpO/bQJI+8bMYmSj
+ pIFX11tqDAh7fYIeGXl1mMr7hstHxBEQG/KhpcH8oEeZsHYX4kqYnv0ob79qqg1EKHNv
+ 67a5GrEuK5WjacI2tMCKyLYrpl8WOxMhT0aXNnzvbYH/B0tqDKDATHVG54fVQpfKmncY
+ oY3kaH/8gulHwNCAfClKTr2+ig6nk6nZT2Fb8CuRtsIRawKPhxq5kG/WzbP5wDbMRqiL
+ 8bfTzdgcRk2X6HIHPgfpsZvVkhrZZBTKEkR1Tg3FBgyB6V3x949tnY5hrZWCUMRDjhwF
+ TXDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713189409; x=1713794209;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=N27uhOB3jdl5PJcj6aOsTcYbh8hiJsFDu4/EeTNh8FU=;
+ b=pXg11+CGPKXTScnIKcVp/g4PYSI76vyou5UnDBrZuQodLi0EsQcLIwGKEuGzq0zCLT
+ 8MIwt5DZJ8drgB6XuY6UIFAKLdK3Msn29L4D23mujqT0ndarNcMPXh0/EBSO6U4+B8gy
+ MvdkBn4Axm2gexPkNsLkyc1SLeLv1vFmte7yNy5Dokf18FETIjDYynaf2L+EiIS2/1wo
+ gf525ZMIX9/Bea2bU/SQZfDw7/9Ld72pTN1MU3rMoVBTYq7pvwazrEi3olaW5Ud4ejzn
+ iVI7Cr0Pm+5OGELlD5XeCnfUeB4QuQdi/WmHOP4PEoYgS24mjyO8wLgLOZbma/BF3YbT
+ hI+A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXRhtrvxIFJ2XiQ+z16NBsKnR8Osu2eFiCMpdaJeBJqJKgpw6WOiOnUiRk/3Rn6n2bTHVY131c7b/XlSQFhZleNbl273mYvz8ZxSu1Ic87y/ozsnyjvI1XrRh08ZZAf0hebavXxK8CbFxXQymkTNg==
+X-Gm-Message-State: AOJu0YwVsSEyHgkO6+GpMbuNxx7J/3CKOhAdaUceP03hZr/kSsh7Th+d
+ KZmfnERsz/dmPk8EyHge6Vpz62BjmcxbxpYD5rufdIBzwAqV5srqdjG/AIjwfE6skb6LDQcrs44
+ ES5hDrlfR58QDed1L94eTtUpWpL8=
+X-Google-Smtp-Source: AGHT+IEuqzfxEKSwCRqiSawZUWwilC/ojUvHQDxuDQYLsSXPdtaOnhU6lM2L2uNln4vBjCYSGvjs1qSx8rhc0LBcb7A=
+X-Received: by 2002:a17:90b:892:b0:2a6:76e2:86db with SMTP id
+ bj18-20020a17090b089200b002a676e286dbmr14028033pjb.15.1713189409324; Mon, 15
+ Apr 2024 06:56:49 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|DM4PR12MB7741:EE_
-X-MS-Office365-Filtering-Correlation-Id: 46fe7e54-a818-4c9a-0bca-08dc5d537ba7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ck2AzZjH4+ztdL/+2yiSWGsKxfYe8sCZBz9kuLj3qGhFx5QrGYo8qWP80wkRnDpJoWhgAccfveRMwnH/0IXmVxuitWhO+BzB7Gfuotqkr3gB3F8mhsKfXKQetaEn3MdYiyPcUH+Yzs0KQz07G1sCMxXZpk2kQE+IO0qRNEKfm4o4lY8k0KKS4XrVOoNwlM/2cjJRR+LVaLZXRRGq2l3QGzAlJgbumKdXhwsDm+myLqnYRfIexqskbZFRhyEXJQGzg4uLiUcbPyO1RC8j9RWVfPm4ZhZhzUG8gmBGQdGV1gzctcpkre+xHJjSt6MxbROYnPynI37N+CIS7XACTITdagGcry8IGUGPYbc/bZQBUUv6tDYpdG5iSq9RG++ch6xhG8O0XZj/qB3h7DqbLAZghlCXFCV0JSSxy6NMWXEb6sfL2+9xkkYiCNEejQTASTK/zOjuZdQ1Fl86UEvuCQq+jI+6PB0SZDNQeLjJAgc2kYiT/Om2JZcJIUji+wMbtc8eEa6CdSK/g8/vvKc40IMLb0U+GeKon6BAHT3AWyqs+UWXshcUAcurS1VXE3YMEXEp7/GXao1CFHsXii9twSop89BGd2BIEjRNtucq/VEAiUPDvONZbE4yxeCIqV2EEHu8IzPMHOJIlS5uFgGVXudrfRE1dqai9wWTDm+ljs0V0vM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(1800799015)(376005)(366007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q05tYzhCRmZTYTVmRlduVGRURzRLQStRbzA0ZmoxVThCTlovVG5YeWlTc3kz?=
- =?utf-8?B?bGFUMW45djJPZGZnSG5KeUhVd2MyTHhxdDdEWHlpTzI3R2xlSmgxZXBRa25x?=
- =?utf-8?B?bDkyMlIwMzhyR3BIcFRTakpCQ2xZRGV5cFdWZUFIMjhvUDRRQVEwY1lXNDBv?=
- =?utf-8?B?bXowK0F6dnAwaUtIdHFMWmthbzRsTmwxTHh4Z1FqNjNOQ3VxbjRBTUNFRDVt?=
- =?utf-8?B?WmNFVnJwSjk5OStWWkErWUlGTUdTQ21uZ1h5ZFkxa2hQazZ0bmdhY1NQMGcx?=
- =?utf-8?B?am9QaThoNjk2YXd0ZzE0THU5N3IrUytKU2hKTnRyZHdFUHJHaXE1UHJjMUo3?=
- =?utf-8?B?STJKMUNIelVDZVhJZVJNQWN5ZEVoOERTR3NpMXZuT1Z0c2lLK3lvWXljVnUr?=
- =?utf-8?B?bWh3czF6ellvc0NRaXhmcllEVjZSbVJXMUtJdER1RnhEZFk1UkYyRnN1dFVP?=
- =?utf-8?B?eGcycG9JSkdlR2NnNi9ONCtLU2tQK1RMaEFoR0dSR1RGbGpPZEtaek9lVFZL?=
- =?utf-8?B?eDhTRjJYT1RjOTJtZGVxOG5DdFFBeHVhaldFWk1NMXVKSWkyWlVKQWg1US9S?=
- =?utf-8?B?SzZQMmJBUEI0WUtISDRibUF6S3ZKOXVueENndE1KN2hWSkpqK1lvQmwrbU9C?=
- =?utf-8?B?OVdxaEF6Q2cvMzZOdkJONktCOFJOSUdOR2gvb2EzanBTSUpvWG50L0NvN20w?=
- =?utf-8?B?dWNpazFsQWNVSVNHL1ROQkZBNWNhbm5aMnY3SkZoY3dJWlYxWElKcTJjcld1?=
- =?utf-8?B?MWRORmljWmFvUXRPNFh2cW1IcXJkZVpOdXJDUVphQU5ZVXl2aUwxZDZSRHJJ?=
- =?utf-8?B?a1YrMXFGcHY3MWxmT0t1OThsRVpyaDNXa0dNQ3E3SmlONVI4SlBmNGdmbnJ0?=
- =?utf-8?B?OUtGWWhMTitlQ2ZPK3RsWjhmTjgvTTZzdExVeWluQysyTXhyR1IzRTlSTmI2?=
- =?utf-8?B?b1hPQjFlMXZ0OUZEU0xsdGlMRUhDeFRLWGhSQzdjS0JWRmV0dTFlblhiVzBm?=
- =?utf-8?B?QzJncHQ0cnNLdC8wZEVLSVR4QVdmY0ZmbnpTeCtNc3gyZDRuNm9CSEtmbXVw?=
- =?utf-8?B?UHFvNVExb3o0eHQxdEtTcThPNUMyMVVzUTAvT3NMREQyVFVLVkYwV21STjRq?=
- =?utf-8?B?K3VrbG84NnN2MG5qUHh6YVYvS0p0SDZkTENPQXJRaUdnejJsQnFpbGhqelRq?=
- =?utf-8?B?MEdsQ05uQWcvWjdDeWU4alNvbVV6NCtudWVBOTJ6bHJ6SHZyUllocVFPckFm?=
- =?utf-8?B?QTBiTzF5STJFU0s4UXhqRXpjaWhKbUxUTTJUVExycFRPTXRtZ3UxTllGYzNs?=
- =?utf-8?B?VTF3UVgxcGRSWVAxMFMvbzRMSDVaS1EzQzVFajhwaDljNEk2RkF5M29ERmRG?=
- =?utf-8?B?eUVkTFhBbTc0MEpTbzBJSmlaMldyUnp5OUpPZ1h6UCtZaEY0WklUVVZtbFNL?=
- =?utf-8?B?Z1plaFN4UEVOaXJxa2x6OE4veVlybGwza05RZWlER1RRK0hkeVJNOTUxT0Zx?=
- =?utf-8?B?YWpHRDBsS2kraXJNMUZBY1Z6QndrclBpSVZ5aGV5WUc0byt5a2dBM3VEZ0or?=
- =?utf-8?B?VUE1Ynd5TXNDVkgzNmVCM2N5SlNsczNnV1RQaFhKWm9JWVplYWRSQkYwbzVo?=
- =?utf-8?B?V2xXVVIxQnNwWFByRTZVcU96ZE5pMzM1MCt0V2lZYU1lMXFMdVJhblJXdDdL?=
- =?utf-8?B?bEFaaTdjTzEvOE5OL25OS0RMaWRQM0pKTHpWb3FlL09NVldUZC93K1l4R1RJ?=
- =?utf-8?B?YTFqSmhoU2ZSRkNsNFU4UU9EZWMzRUN1dTJENHNrWHhoc2NWaXBtcFpBdTVK?=
- =?utf-8?B?TlRzaDg0L3F2YUFMQjduS1FoTUU1dW15ay95eHJDMW5RR1VHM0RQYUc0b2Zv?=
- =?utf-8?B?V3JXZkw5MDFxU0Q0WkRTTFIxSlFkNkM4TDNZUldxdW5HN1A5QlpZZTFlMlRC?=
- =?utf-8?B?N2pCQU45U3A4YzNQQXUydmJPcUhTVHlEMExkRGdYeUJiZ0daMlZiQjdvR1Vk?=
- =?utf-8?B?WVNvTWVUMHJZY3RaRVY3ekpCNGRaZzlpRVdraHBvL2lOSTlxOHo4ekkySXE4?=
- =?utf-8?B?SnEveUc3aGErZHdQandSdkpGeU9mbS84L2h5bjF3QUVjV21IYVpZZlI4dzZI?=
- =?utf-8?Q?V7i4oZqu22L1w+xUcJyCrG2op?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 46fe7e54-a818-4c9a-0bca-08dc5d537ba7
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2024 13:53:51.9267 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9Ss/bYss1A57xKTgmuppzhbe3YWGD5QiLEcXSYoPSnYgMdnDlLPXY2trL/9wLUTZleTQFCiL3MbEVYT0qpoVyg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7741
+References: <20240414233838.359190-1-thorsten.blum@toblux.com>
+In-Reply-To: <20240414233838.359190-1-thorsten.blum@toblux.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 15 Apr 2024 09:56:37 -0400
+Message-ID: <CADnq5_P1YjyywJ1B+uG+0VRmWKGqiHOLQDuVe5_jmL3cMN-3OQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Add missing space to DRM_WARN() message
+To: Thorsten Blum <thorsten.blum@toblux.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>, 
+ Lijo Lazar <lijo.lazar@amd.com>, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,108 +85,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-04-15 9:48, Christian König wrote:
-> From: Christian König <ckoenig.leichtzumerken@gmail.com>
+On Mon, Apr 15, 2024 at 4:40=E2=80=AFAM Thorsten Blum <thorsten.blum@toblux=
+.com> wrote:
 >
-> We only pool write combined and uncached allocations because they
-> require extra overhead on allocation and release.
+> s/,please/, please/
 >
-> If we also pool cached NUMA it not only means some extra unnecessary
-> overhead, but also that under memory pressure it can happen that
-> pages from the wrong NUMA node enters the pool and are re-used
-> over and over again.
->
-> This can lead to performance reduction after running into memory
-> pressure.
->
-> v2: restructure and cleanup the code a bit from the internal hack to
->      test this.
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Fixes: 4482d3c94d7f ("drm/ttm: add NUMA node id to the pool")
-> CC: stable@vger.kernel.org
+> Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
+
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+
+And applied.  Thanks!
+
+Alex
+
 > ---
->   drivers/gpu/drm/ttm/ttm_pool.c | 38 +++++++++++++++++++++++++---------
->   1 file changed, 28 insertions(+), 10 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-> index 112438d965ff..6e1fd6985ffc 100644
-> --- a/drivers/gpu/drm/ttm/ttm_pool.c
-> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-> @@ -288,17 +288,23 @@ static struct ttm_pool_type *ttm_pool_select_type(struct ttm_pool *pool,
->   						  enum ttm_caching caching,
->   						  unsigned int order)
->   {
-> -	if (pool->use_dma_alloc || pool->nid != NUMA_NO_NODE)
-> +	if (pool->use_dma_alloc)
->   		return &pool->caching[caching].orders[order];
->   
->   #ifdef CONFIG_X86
->   	switch (caching) {
->   	case ttm_write_combined:
-> +		if (pool->nid != NUMA_NO_NODE)
-> +			return &pool->caching[caching].orders[order];
-
-Doesn't this break USWC allocations on NUMA systems, where we set a NUMA 
-node for the default pool (at least we were planning to at some point)?
-
-Regards,
-   Felix
-
-
-> +
->   		if (pool->use_dma32)
->   			return &global_dma32_write_combined[order];
->   
->   		return &global_write_combined[order];
->   	case ttm_uncached:
-> +		if (pool->nid != NUMA_NO_NODE)
-> +			return &pool->caching[caching].orders[order];
-> +
->   		if (pool->use_dma32)
->   			return &global_dma32_uncached[order];
->   
-> @@ -566,11 +572,17 @@ void ttm_pool_init(struct ttm_pool *pool, struct device *dev,
->   	pool->use_dma_alloc = use_dma_alloc;
->   	pool->use_dma32 = use_dma32;
->   
-> -	if (use_dma_alloc || nid != NUMA_NO_NODE) {
-> -		for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
-> -			for (j = 0; j < NR_PAGE_ORDERS; ++j)
-> -				ttm_pool_type_init(&pool->caching[i].orders[j],
-> -						   pool, i, j);
-> +	for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
-> +		for (j = 0; j < NR_PAGE_ORDERS; ++j) {
-> +			struct ttm_pool_type *pt;
-> +
-> +			/* Initialize only pool types which are actually used */
-> +			pt = ttm_pool_select_type(pool, i, j);
-> +			if (pt != &pool->caching[i].orders[j])
-> +				continue;
-> +
-> +			ttm_pool_type_init(pt, pool, i, j);
-> +		}
->   	}
->   }
->   EXPORT_SYMBOL(ttm_pool_init);
-> @@ -599,10 +611,16 @@ void ttm_pool_fini(struct ttm_pool *pool)
->   {
->   	unsigned int i, j;
->   
-> -	if (pool->use_dma_alloc || pool->nid != NUMA_NO_NODE) {
-> -		for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
-> -			for (j = 0; j < NR_PAGE_ORDERS; ++j)
-> -				ttm_pool_type_fini(&pool->caching[i].orders[j]);
-> +	for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
-> +		for (j = 0; j < NR_PAGE_ORDERS; ++j) {
-> +			struct ttm_pool_type *pt;
-> +
-> +			pt = ttm_pool_select_type(pool, i, j);
-> +			if (pt != &pool->caching[i].orders[j])
-> +				continue;
-> +
-> +			ttm_pool_type_fini(pt);
-> +		}
->   	}
->   
->   	/* We removed the pool types from the LRU, but we need to also make sure
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm=
+/amd/amdgpu/amdgpu_device.c
+> index 7753a2e64d41..3cba0e196ca8 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -1455,7 +1455,7 @@ int amdgpu_device_resize_fb_bar(struct amdgpu_devic=
+e *adev)
+>
+>         /* PCI_EXT_CAP_ID_VNDR extended capability is located at 0x100 */
+>         if (!pci_find_ext_capability(adev->pdev, PCI_EXT_CAP_ID_VNDR))
+> -               DRM_WARN("System can't access extended configuration spac=
+e,please check!!\n");
+> +               DRM_WARN("System can't access extended configuration spac=
+e, please check!!\n");
+>
+>         /* skip if the bios has already enabled large BAR */
+>         if (adev->gmc.real_vram_size &&
+> --
+> 2.39.2
+>
