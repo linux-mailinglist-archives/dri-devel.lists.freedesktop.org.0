@@ -2,85 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6876F8A5632
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 17:19:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0038A565B
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 17:27:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 818C8112674;
-	Mon, 15 Apr 2024 15:19:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C29C10E04F;
+	Mon, 15 Apr 2024 15:27:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Ok33NZLg";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="TvZgIJ98";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DD23112675
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 15:19:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1713194380;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=f7fOl3tR+F+7N56uhjNhKTPH7uUxNc/DkB5SISld0k0=;
- b=Ok33NZLgv/Agl2JA2IS05fjPhS6ihSlmE+UApJO26LPWXAfa35aCsvmW7J1jJcLxPwLGlR
- LHmUVt3y0JcJvrYXbqiGrf6Zao3j5CscuIRlLzt4NqG0+y296PgLZudCMxZxzZ3gwAXTwI
- 7AzPMfyjGTEjcmtBCrQtkUntFz6cOcw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-317-pxlwufOyOjS6XKN9xO0rMQ-1; Mon, 15 Apr 2024 11:19:37 -0400
-X-MC-Unique: pxlwufOyOjS6XKN9xO0rMQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-343f8b51910so1995648f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 08:19:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713194376; x=1713799176;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=f7fOl3tR+F+7N56uhjNhKTPH7uUxNc/DkB5SISld0k0=;
- b=OVCRSNyezsRBv++jJ16eAFmj66KlZV5LVb0cJ2Wun61D3SWanX05M0Wp8pvi8fDCLS
- aEvFvEHlXCp8Hb99xAKDuwskozwETNfqmgLiwP2M2Qlqu7Nrg+5mmgD7yzj9uyZsG3dW
- sKRv3ipqOVB2LxcwB1Xai36ZM6qi8fH/W9IPdMGQd5VkpiigzPBFFEY3+DpXO7+i7QGM
- O72iib0p1zbMftWtsEUoHDN68a+Qi2qW2+Sbtf8s2P5wjc24zQ5WKV04bmUgJs5KQRd2
- cfYDpYKv3oc65kjSIE8oIXSsWTrzPceJ5B2xRtaqIh9uOar+vaCfEbzFSG2A0zHppWmP
- KNJQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU/ZvzzzA0CJLynv98MTphDHSPcFLGIAclZ9BjonIitlVk8nmZmcXAi1cN34X1MV2H30fTmB0wQGiJvrwqmCsSr6hiAuYRc4BXJMWSKXNut
-X-Gm-Message-State: AOJu0YzR5PZ8FLId63D9TqN8alxrck/gtfQkJ3937GKS1XaA1EkDQuo6
- dw9dUPYjLAjtHIJ4ys9KtoTW7PI+TbHW0FIJJTXWYLTgo701TqsgIdNiAIL1Itqsej+0eE4kdQu
- 45L1hCfjm8VTwhWXULl/h+CH6mOOvAlrLs8Dgoq2P20jLdAGjplGY3ElUQswESTCHQQ==
-X-Received: by 2002:adf:ef84:0:b0:343:f2f1:21c1 with SMTP id
- d4-20020adfef84000000b00343f2f121c1mr6400598wro.24.1713194376043; 
- Mon, 15 Apr 2024 08:19:36 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE91sYnMcbzJyR992r5RhtOppAYEWn2g2anJ2wj13yUa2OkHygqGMavv2yPPGHyKy5Cp3XnWQ==
-X-Received: by 2002:adf:ef84:0:b0:343:f2f1:21c1 with SMTP id
- d4-20020adfef84000000b00343f2f121c1mr6400578wro.24.1713194375679; 
- Mon, 15 Apr 2024 08:19:35 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- u7-20020adfeb47000000b0033ec9ddc638sm12387124wrn.31.2024.04.15.08.19.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Apr 2024 08:19:35 -0700 (PDT)
-Message-ID: <661a4bd7-a42d-4009-9d61-a1fdbb47681d@redhat.com>
-Date: Mon, 15 Apr 2024 17:19:34 +0200
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B889E11268E
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 15:27:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=g/simM61+7lgnckpkc/ZO44RqqkrmaWqF8atUhHLjIo=; b=TvZgIJ98UNE5RMKfDZpsVfmzyL
+ mYxBPaXCAsQPRIZ+2gr9LMa8ody3wQs2Ouk6YKsGF2lCZZ1quuYAqqSJFDGG/bsXnd1hpuXOlyfin
+ KgR5NGKWnB32vJz7mwcgpNvAmfqY2+Fp2XSwVr8MO+6d1BP32SxBg+mBHn7j1CvIO7mfZe+CVq4nH
+ oglJG5rDk5P6XdjxaabfM2DlV6Qn1aDQbzSAoSKbOmiKau549qb75bqdj8iDnHKGOpgWxwGgeP/ET
+ 4t7iMIOdAL8jSE2UuSHM3B4hTS6Qt543R7ynxib74wJni5Gwv1GBHK+S/p98Z5JQZzpYgBgo35K1i
+ +zRGf+aw==;
+Received: from 3.32.60.213.dynamic.reverse-mundo-r.com ([213.60.32.3]
+ helo=[192.168.50.63]) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1rwOEr-004oXR-H3; Mon, 15 Apr 2024 17:27:21 +0200
+Message-ID: <8df92197-8ea7-45cd-8b99-b60bf4148f3a@igalia.com>
+Date: Mon, 15 Apr 2024 17:27:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/fb_dma:
- s/drm_panic_gem_get_scanout_buffer/drm_fb_dma_get_scanout_buffer
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, tzimmermann@suse.de,
- airlied@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net,
- noralf@tronnes.org, sui.jingfeng@linux.dev
-Cc: gpiccoli@igalia.com, dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-References: <20240415151013.3210278-1-mcanal@igalia.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20240415151013.3210278-1-mcanal@igalia.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
+Subject: Re: [PATCH 3/5] drm/v3d: Create a struct to store the GPU stats
+Content-Language: en-US
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Melissa Wen <mwen@igalia.com>, Tvrtko Ursulin <tursulin@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20240403203517.731876-1-mcanal@igalia.com>
+ <20240403203517.731876-4-mcanal@igalia.com>
+From: Chema Casanova <jmcasanova@igalia.com>
+Organization: Igalia
+In-Reply-To: <20240403203517.731876-4-mcanal@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,67 +66,215 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-You're right, I messed up the rename, and I mostly test on x86, where I 
-don't build the imx driver.
-
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-
-Best regards,
-
--- 
-
-Jocelyn
-
-On 15/04/2024 17:09, Maíra Canal wrote:
-> On version 11, Thomas suggested to change the name of the function and
-> this request was applied on version 12, which is the version that
-> landed. Although the name of the function changed on the C file, it
-> didn't changed on the header file, leading to a compilation error as
-> such:
-> 
-> drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c:780:24: error: use of undeclared
-> identifier 'drm_fb_dma_get_scanout_buffer'; did you mean 'drm_panic_gem_get_scanout_buffer'?
->    780 |         .get_scanout_buffer = drm_fb_dma_get_scanout_buffer,
->        |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->        |                               drm_panic_gem_get_scanout_buffer
-> ./include/drm/drm_fb_dma_helper.h:23:5: note: 'drm_panic_gem_get_scanout_buffer'
-> declared here
->     23 | int drm_panic_gem_get_scanout_buffer(struct drm_plane *plane,
->        |     ^
-> 1 error generated.
-> 
-> Best Regards,
-> - Maíra
-> 
-> Fixes: 879b3b6511fe ("drm/fb_dma: Add generic get_scanout_buffer() for drm_panic"
+El 3/4/24 a las 22:24, Maíra Canal escribió:
+> This will make it easier to instantiate the GPU stats variables and it
+> will create a structure where we can store all the variables that refer
+> to GPU stats.
+>
 > Signed-off-by: Maíra Canal <mcanal@igalia.com>
 > ---
->   include/drm/drm_fb_dma_helper.h | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/drm/drm_fb_dma_helper.h b/include/drm/drm_fb_dma_helper.h
-> index 61f24c2aba2f..c950732c6d36 100644
-> --- a/include/drm/drm_fb_dma_helper.h
-> +++ b/include/drm/drm_fb_dma_helper.h
-> @@ -6,6 +6,7 @@
+>   drivers/gpu/drm/v3d/v3d_drv.c   | 14 ++++++--------
+>   drivers/gpu/drm/v3d/v3d_drv.h   | 18 ++++++++++--------
+>   drivers/gpu/drm/v3d/v3d_gem.c   |  4 +---
+>   drivers/gpu/drm/v3d/v3d_sched.c | 20 ++++++++++++--------
+>   drivers/gpu/drm/v3d/v3d_sysfs.c | 10 ++++++----
+>   5 files changed, 35 insertions(+), 31 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+> index 3debf37e7d9b..cbb62be18aa5 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.c
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
+> @@ -115,14 +115,11 @@ v3d_open(struct drm_device *dev, struct drm_file *file)
+>   	v3d_priv->v3d = v3d;
 >   
->   struct drm_device;
->   struct drm_framebuffer;
-> +struct drm_plane;
->   struct drm_plane_state;
->   struct drm_scanout_buffer;
+>   	for (i = 0; i < V3D_MAX_QUEUES; i++) {
+> -		v3d_priv->enabled_ns[i] = 0;
+> -		v3d_priv->start_ns[i] = 0;
+> -		v3d_priv->jobs_sent[i] = 0;
+> -
+>   		sched = &v3d->queue[i].sched;
+>   		drm_sched_entity_init(&v3d_priv->sched_entity[i],
+>   				      DRM_SCHED_PRIORITY_NORMAL, &sched,
+>   				      1, NULL);
+> +		memset(&v3d_priv->stats[i], 0, sizeof(v3d_priv->stats[i]));
+>   	}
 >   
-> @@ -20,8 +21,8 @@ void drm_fb_dma_sync_non_coherent(struct drm_device *drm,
->   				  struct drm_plane_state *old_state,
->   				  struct drm_plane_state *state);
+>   	v3d_perfmon_open_file(v3d_priv);
+> @@ -151,20 +148,21 @@ static void v3d_show_fdinfo(struct drm_printer *p, struct drm_file *file)
+>   	enum v3d_queue queue;
 >   
-> -int drm_panic_gem_get_scanout_buffer(struct drm_plane *plane,
-> -				     struct drm_scanout_buffer *sb);
-> +int drm_fb_dma_get_scanout_buffer(struct drm_plane *plane,
-> +				  struct drm_scanout_buffer *sb);
+>   	for (queue = 0; queue < V3D_MAX_QUEUES; queue++) {
+> +		struct v3d_stats *stats = &file_priv->stats[queue];
+> +
+>   		/* Note that, in case of a GPU reset, the time spent during an
+>   		 * attempt of executing the job is not computed in the runtime.
+>   		 */
+>   		drm_printf(p, "drm-engine-%s: \t%llu ns\n",
+>   			   v3d_queue_to_string(queue),
+> -			   file_priv->start_ns[queue] ? file_priv->enabled_ns[queue]
+> -						      + timestamp - file_priv->start_ns[queue]
+> -						      : file_priv->enabled_ns[queue]);
+> +			   stats->start_ns ? stats->enabled_ns + timestamp - stats->start_ns
+> +					   : stats->enabled_ns);
 >   
->   #endif
+>   		/* Note that we only count jobs that completed. Therefore, jobs
+>   		 * that were resubmitted due to a GPU reset are not computed.
+>   		 */
+>   		drm_printf(p, "v3d-jobs-%s: \t%llu jobs\n",
+> -			   v3d_queue_to_string(queue), file_priv->jobs_sent[queue]);
+> +			   v3d_queue_to_string(queue), stats->jobs_sent);
+>   	}
+>   }
 >   
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
+> index ee3545226d7f..0117593976ed 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.h
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
+> @@ -36,15 +36,20 @@ static inline char *v3d_queue_to_string(enum v3d_queue queue)
+>   	return "UNKNOWN";
+>   }
+>   
+> +struct v3d_stats {
+> +	u64 start_ns;
+> +	u64 enabled_ns;
+> +	u64 jobs_sent;
+
+As currently, we are only accounting jobs that have been completed. What
+do you think of renaming jobs_sent to jobs_completed?
+
+> +};
+> +
+>   struct v3d_queue_state {
+>   	struct drm_gpu_scheduler sched;
+>   
+>   	u64 fence_context;
+>   	u64 emit_seqno;
+>   
+> -	u64 start_ns;
+> -	u64 enabled_ns;
+> -	u64 jobs_sent;
+> +	/* Stores the GPU stats for this queue in the global context. */
+> +	struct v3d_stats stats;
+>   };
+>   
+>   /* Performance monitor object. The perform lifetime is controlled by userspace
+> @@ -188,11 +193,8 @@ struct v3d_file_priv {
+>   
+>   	struct drm_sched_entity sched_entity[V3D_MAX_QUEUES];
+>   
+> -	u64 start_ns[V3D_MAX_QUEUES];
+> -
+> -	u64 enabled_ns[V3D_MAX_QUEUES];
+> -
+> -	u64 jobs_sent[V3D_MAX_QUEUES];
+> +	/* Stores the GPU stats for a specific queue for this fd. */
+> +	struct v3d_stats stats[V3D_MAX_QUEUES];
+>   };
+>   
+>   struct v3d_bo {
+> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+> index afc565078c78..d14589d3ae6c 100644
+> --- a/drivers/gpu/drm/v3d/v3d_gem.c
+> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+> @@ -248,9 +248,7 @@ v3d_gem_init(struct drm_device *dev)
+>   
+>   	for (i = 0; i < V3D_MAX_QUEUES; i++) {
+>   		v3d->queue[i].fence_context = dma_fence_context_alloc(1);
+> -		v3d->queue[i].start_ns = 0;
+> -		v3d->queue[i].enabled_ns = 0;
+> -		v3d->queue[i].jobs_sent = 0;
+> +		memset(&v3d->queue[i].stats, 0, sizeof(v3d->queue[i].stats));
+>   	}
+>   
+>   	spin_lock_init(&v3d->mm_lock);
+> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+> index 8ca61bcd4b1c..ea5f5a84b55b 100644
+> --- a/drivers/gpu/drm/v3d/v3d_sched.c
+> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
+> @@ -110,10 +110,12 @@ v3d_job_start_stats(struct v3d_job *job, enum v3d_queue queue)
+>   {
+>   	struct v3d_dev *v3d = job->v3d;
+>   	struct v3d_file_priv *file = job->file->driver_priv;
+> +	struct v3d_stats *global_stats = &v3d->queue[queue].stats;
+> +	struct v3d_stats *local_stats = &file->stats[queue];
+>   	u64 now = local_clock();
+>   
+> -	file->start_ns[queue] = now;
+> -	v3d->queue[queue].start_ns = now;
+> +	local_stats->start_ns = now;
+> +	global_stats->start_ns = now;
+>   }
+>   
+>   void
+> @@ -121,15 +123,17 @@ v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue)
+>   {
+>   	struct v3d_dev *v3d = job->v3d;
+>   	struct v3d_file_priv *file = job->file->driver_priv;
+> +	struct v3d_stats *global_stats = &v3d->queue[queue].stats;
+> +	struct v3d_stats *local_stats = &file->stats[queue];
+>   	u64 now = local_clock();
+>   
+> -	file->enabled_ns[queue] += now - file->start_ns[queue];
+> -	file->jobs_sent[queue]++;
+> -	file->start_ns[queue] = 0;
+> +	local_stats->enabled_ns += now - local_stats->start_ns;
+> +	local_stats->jobs_sent++;
+> +	local_stats->start_ns = 0;
+>   
+> -	v3d->queue[queue].enabled_ns += now - v3d->queue[queue].start_ns;
+> -	v3d->queue[queue].jobs_sent++;
+> -	v3d->queue[queue].start_ns = 0;
+> +	global_stats->enabled_ns += now - global_stats->start_ns;
+> +	global_stats->jobs_sent++;
+> +	global_stats->start_ns = 0;
+>   }
+>   
+>   static struct dma_fence *v3d_bin_job_run(struct drm_sched_job *sched_job)
+> diff --git a/drivers/gpu/drm/v3d/v3d_sysfs.c b/drivers/gpu/drm/v3d/v3d_sysfs.c
+> index d106845ba890..1eb5f3de6937 100644
+> --- a/drivers/gpu/drm/v3d/v3d_sysfs.c
+> +++ b/drivers/gpu/drm/v3d/v3d_sysfs.c
+> @@ -21,8 +21,10 @@ gpu_stats_show(struct device *dev, struct device_attribute *attr, char *buf)
+>   	len += sysfs_emit(buf, "queue\ttimestamp\tjobs\truntime\n");
+>   
+>   	for (queue = 0; queue < V3D_MAX_QUEUES; queue++) {
+> -		if (v3d->queue[queue].start_ns)
+> -			active_runtime = timestamp - v3d->queue[queue].start_ns;
+> +		struct v3d_stats *stats = &v3d->queue[queue].stats;
+> +
+> +		if (stats->start_ns)
+> +			active_runtime = timestamp - stats->start_ns;
+>   		else
+>   			active_runtime = 0;
+>   
+> @@ -39,8 +41,8 @@ gpu_stats_show(struct device *dev, struct device_attribute *attr, char *buf)
+>   		len += sysfs_emit_at(buf, len, "%s\t%llu\t%llu\t%llu\n",
+>   				     v3d_queue_to_string(queue),
+>   				     timestamp,
+> -				     v3d->queue[queue].jobs_sent,
+> -				     v3d->queue[queue].enabled_ns + active_runtime);
+> +				     stats->jobs_sent,
+> +				     stats->enabled_ns + active_runtime);
+>   	}
+>   
+>   	return len;
+
+Not related to this review, but as a general doubt, I miss with our current
+implementation the possibility of the user checking if a queue is running
+or not when the stats are checked. That information is stored in the struct
+as (start_ns !=0) but is not exposed, and it could be interesting 
+information.
+
+It would explain why you have running time (enabled_ns>0) but
+jobs_sent/completed is still 0, that is possible as you have one job 
+running.
+It would be useful also if you want to check the average enabled/time 
+per job.
+As we should consider the number of jobs completed + currently running
+to calculate the average.
+
+In any case, this patch is:
+
+Reviewed-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
+
 
