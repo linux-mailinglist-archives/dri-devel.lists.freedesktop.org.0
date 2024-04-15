@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E7EA8A4DD3
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 13:36:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ED848A4DDC
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 13:39:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0B8911231C;
-	Mon, 15 Apr 2024 11:36:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 840A810F78F;
+	Mon, 15 Apr 2024 11:39:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="l7pREGxu";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="IP9BSt4+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2C5F11231C
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 11:36:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1713180992;
- bh=NfQL2hmUBg97tRXNR6BF3G9eOGsFEkKIBSmc/R4PuPk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=l7pREGxuYpAUoYOQydmitKjbEPUv2w5Uwh7YzteYvieYrtUEWUkM71dKHeNBVtqvV
- A5AT7hbGK4xn4Fiy4c4uu1szX68IbuLFSzZ/PZJNmNSIF2x2COxnLGy8v3Qtpj5Rc2
- hFCl1Esn82iZSVLaOC2rHO6Axkp25UPg0SA8TKFkmgX+rWcFE4zu/tCWOTQeydEmTd
- w2G2QPf//7uIrjJFBgrM1GFfazGhVjCPVdo1Q64wRvkJ4dh+4i7JGh7igEODVrIkjX
- tqJu2IoUbOkDtVD0fST6puMgj0jPOLIc2uWP4LkqAhobqoqOofg9f9Qf5vVNQfmcTD
- 9LuwYoXhzEIhg==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 97C253781FE9;
- Mon, 15 Apr 2024 11:36:31 +0000 (UTC)
-Date: Mon, 15 Apr 2024 14:36:22 +0300
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
- thomas.petazzoni@bootlin.com
-Subject: Re: [PATCH 2/3] drm: drm_blend.c: Improve
- drm_plane_create_rotation_property kernel doc
-Message-ID: <20240415143622.7e600508.pekka.paalanen@collabora.com>
-In-Reply-To: <20240409-google-drm-doc-v1-2-033d55cc8250@bootlin.com>
-References: <20240409-google-drm-doc-v1-0-033d55cc8250@bootlin.com>
- <20240409-google-drm-doc-v1-2-033d55cc8250@bootlin.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5F2010F78F
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 11:39:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ExbjZLASxyiy2IoL1i4ktyhUxlvzLOWsy2GGw6IMheE=; b=IP9BSt4+DbCeslFeHGa9aCBhLB
+ OHw2aIWXcn4Mks4pMzmx+56pESenE9YAk1Or7SX9SnocyUPnM1ix1eRikByCi1JWiC3uun8N5wDgX
+ AqV02yCKACQ3lX6AKSETxrjyJ2HhuHlEb6beknUj90uyYpeOeYovFQNmmwfPMcutMDzNx1RyY0T1c
+ qL5x60UGL0x46xKgb14W60aQaYUUTlSqvzWz2uBeymX8K7Ylq9XqIqidJ3hfV051F1xa85sOWxNHB
+ NYgBsu6iRY9OVFE9T1vXn2VGZt5aFAOvvZkHGsViLS+oe9LrXdoPW5lDyxTYPlurZNWd51M73yNh7
+ D2oZVQoA==;
+Received: from 3.32.60.213.dynamic.reverse-mundo-r.com ([213.60.32.3]
+ helo=[192.168.50.63]) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1rwKfj-004k9l-P5; Mon, 15 Apr 2024 13:38:51 +0200
+Message-ID: <b3222af7-68b0-45a1-b1ba-ab9066c169f8@igalia.com>
+Date: Mon, 15 Apr 2024 13:38:51 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/.eSeiLxVd/0e0PuL12Vqoh1";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/5] drm/v3d: Create function to update a set of GPU stats
+Content-Language: en-US
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Melissa Wen <mwen@igalia.com>, Tvrtko Ursulin <tursulin@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20240403203517.731876-1-mcanal@igalia.com>
+ <20240403203517.731876-5-mcanal@igalia.com>
+From: Chema Casanova <jmcasanova@igalia.com>
+Organization: Igalia
+In-Reply-To: <20240403203517.731876-5-mcanal@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,150 +66,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/.eSeiLxVd/0e0PuL12Vqoh1
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 09 Apr 2024 12:04:06 +0200
-Louis Chauvet <louis.chauvet@bootlin.com> wrote:
-
-> The expected behavior of the rotation property was not very clear. Add
-> more examples to explain what is the expected result.
->=20
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+El 3/4/24 a las 22:24, Maíra Canal escribió:
+> Given a set of GPU stats, that is, a `struct v3d_stats` related to a
+> queue in a given context, create a function that can update all this set of
+> GPU stats.
+>
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
 > ---
->  drivers/gpu/drm/drm_blend.c | 52 +++++++++++++++++++++++++++++++++------=
-------
->  1 file changed, 38 insertions(+), 14 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
-> index 8d4b317eb9d7..6fbb8730d8b0 100644
-> --- a/drivers/gpu/drm/drm_blend.c
-> +++ b/drivers/gpu/drm/drm_blend.c
-> @@ -104,6 +104,9 @@
->   *	Without this property the rectangle is only scaled, but not rotated or
->   *	reflected.
->   *
-> + *	See drm_plane_create_rotation_property() for details about the expect=
-ed rotation and
-> + *	reflection behavior.
+>   drivers/gpu/drm/v3d/v3d_sched.c | 20 ++++++++++++--------
+>   1 file changed, 12 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+> index ea5f5a84b55b..754107b80f67 100644
+> --- a/drivers/gpu/drm/v3d/v3d_sched.c
+> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
+> @@ -118,6 +118,16 @@ v3d_job_start_stats(struct v3d_job *job, enum v3d_queue queue)
+>   	global_stats->start_ns = now;
+>   }
+>   
+> +static void
+> +v3d_stats_update(struct v3d_stats *stats)
+> +{
+> +	u64 now = local_clock();
+I understand that with this change, we would be calling twice local_clock()
+for each stat update, once for local and one for global stats. I don't know
+the performance impact of the extra local_clock(), but I understand as 
+you are
+always updating global_stats after local_stats we would be losing the
+correspondence that global_stats is the sum of all local_stats for all 
+process.
+With this approach, it will be always greater or equal.
 
-I think internal function docs should be referring to UAPI docs, and
-not vice versa. Internal functions can change, but UAPI cannot.
-
-> + *
->   *	Possbile values:
->   *
->   *	"rotate-<degrees>":
-> @@ -114,18 +117,6 @@
->   *		Signals that the contents of a drm plane is reflected along the
->   *		<axis> axis, in the same way as mirroring.
->   *
-> - *	reflect-x::
-> - *
-> - *			|o |    | o|
-> - *			|  | -> |  |
-> - *			| v|    |v |
-> - *
-> - *	reflect-y::
-> - *
-> - *			|o |    | ^|
-> - *			|  | -> |  |
-> - *			| v|    |o |
-> - *
->   * zpos:
->   *	Z position is set up with drm_plane_create_zpos_immutable_property() =
-and
->   *	drm_plane_create_zpos_property(). It controls the visibility of overl=
-apping
-> @@ -266,8 +257,41 @@ EXPORT_SYMBOL(drm_plane_create_alpha_property);
->   *
->   * Rotation is the specified amount in degrees in counter clockwise dire=
-ction,
->   * the X and Y axis are within the source rectangle, i.e.  the X/Y axis =
-before
-> - * rotation. After reflection, the rotation is applied to the image samp=
-led from
-> - * the source rectangle, before scaling it to fit the destination rectan=
-gle.
-> + * rotation.
-> + *
-> + * Here are some examples of rotation and reflections:
-> + *
-> + * |o  +|  REFLECT_X  |+  o|
-> + * |    |  =3D=3D=3D=3D=3D=3D=3D=3D>  |    |
-> + * |    |             |    |
-> + *
-> + * |o   |  REFLECT_Y  |+   |
-> + * |    |  =3D=3D=3D=3D=3D=3D=3D=3D>  |    |
-> + * |+   |             |o   |
-> + *
-> + * |o  +|  ROTATE_90  |+   |
-> + * |    |  =3D=3D=3D=3D=3D=3D=3D=3D>  |    |
-> + * |    |             |o   |
-> + *
-> + * |o   |  ROTATE_180 |   +|
-> + * |    |  =3D=3D=3D=3D=3D=3D=3D=3D>  |    |
-> + * |+   |             |   o|
-> + *
-> + * |o   |  ROTATE_270 |+  o|
-> + * |    |  =3D=3D=3D=3D=3D=3D=3D=3D>  |    |
-> + * |+   |             |    |
-> + *
-> + * Rotation and reflection can be combined to handle more situations. In=
- this condition, the
-> + * reflection is applied first and the rotation in second.
-
-When going in which direction? Is the first image the FB source
-rectangle contents, and the second image what the plane looks like in
-CRTC frame of reference?
-
-> + *
-> + * For example the expected result for DRM_MODE_ROTATE_90 | DRM_MODE_REF=
-LECT_X is:
-> + *
-> + * |o  +|  REFLECT_X  |+  o|  ROTATE_90  |o   |
-> + * |    |  =3D=3D=3D=3D=3D=3D=3D=3D>  |    |  =3D=3D=3D=3D=3D=3D=3D=3D> =
- |    |
-> + * |    |             |    |             |+   |
-> + *
-> + * It is not possible to pass multiple rotation at the same time. (i.e R=
-OTATE_90 | ROTATE_180 is
-> + * not the same as ROTATE_270 and is not accepted).
->   */
->  int drm_plane_create_rotation_property(struct drm_plane *plane,
->  				       unsigned int rotation,
->=20
-
-These are definitely improvements. I think they should just be in the
-UAPI section rather than implementation details.
-
-Disclaimer again to everyone else: I cannot tell if this is the correct
-documentation or its inverse.
+Maybe it makes sense to pass an extra parameter now so save one
+local_clock() and the sum of global and local stats is the same when you 
+only
+have one process running.
 
 
-Thanks,
-pq
-
---Sig_/.eSeiLxVd/0e0PuL12Vqoh1
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYdETYACgkQI1/ltBGq
-qqf2Ew/+Masv8B8wRuYbVIcLdgdidzSstdy8f/bnjNyM9e3izGX7dQnrgR9gGPIS
-CIqHP79Sk55p+SHxATK1MslRNDxVwDWVhOFJpG59IP4cgbqcGZUxFy9/lIFbMlx6
-0TKlQSdnWVmw1IeKAHqBn0e/85SvbNpMx6XVs8FVp0bcz42kalyAf8fshSddV0AJ
-WlneYyDt82K/+m7DBIDeUR29PKLbCYNldg29beI1U4Yfy07CXtjr0OCafmfoU8pV
-8rarCnpniHlM6sL0/oOr5NFrDeh9OZ/s/x0SYPgONMGLFb9xm0qmp1QvZtgXVATP
-od2BpB0AE2az09BbqTJF2EDi3THU9sW2kdMl4vDehJ9X3Muo5vQZAsLuh/7GXBYt
-1RUU//gTl4Ocbj5iF7vDTGe6JyzxWTCvxiIaWEOi80S/0pxAtRdxlCn5tpiIH+sk
-3GIHhqGZHkcPy7Q8qMcUMklnnvHiAhJDn8Ed0c7txY5kVpP84XZZWhk6qeNcvfl5
-Xhbt9FiFXW6h8+Sz+dn9QdzWnjRXPTp+rL52GsquQ6HDbwic6nqNZKVP6lbVkF1x
-K721iSjFqhxt7EdMuVKzzzi7ZjrkPekWDP3fJqkL0tFE3IHJ4wpDn+IJzkAYDjvx
-51jSU9nFwuzNIlfhHP14s/7EiqkWe8OgzjdjfcnRNh+dC5P9DN8=
-=nY+N
------END PGP SIGNATURE-----
-
---Sig_/.eSeiLxVd/0e0PuL12Vqoh1--
+> +
+> +	stats->enabled_ns += now - stats->start_ns;
+> +	stats->jobs_sent++;
+> +	stats->start_ns = 0;
+> +}
+> +
+>   void
+>   v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue)
+>   {
+> @@ -125,15 +135,9 @@ v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue)
+>   	struct v3d_file_priv *file = job->file->driver_priv;
+>   	struct v3d_stats *global_stats = &v3d->queue[queue].stats;
+>   	struct v3d_stats *local_stats = &file->stats[queue];
+> -	u64 now = local_clock();
+> -
+> -	local_stats->enabled_ns += now - local_stats->start_ns;
+> -	local_stats->jobs_sent++;
+> -	local_stats->start_ns = 0;
+>   
+> -	global_stats->enabled_ns += now - global_stats->start_ns;
+> -	global_stats->jobs_sent++;
+> -	global_stats->start_ns = 0;
+> +	v3d_stats_update(local_stats);
+> +	v3d_stats_update(global_stats);
+>   }
+>   
+>   static struct dma_fence *v3d_bin_job_run(struct drm_sched_job *sched_job)
