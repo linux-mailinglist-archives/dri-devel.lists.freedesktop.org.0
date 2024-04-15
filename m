@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358C68A5991
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 20:07:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD0448A598D
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 20:05:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A977E10F5C1;
-	Mon, 15 Apr 2024 18:07:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4313411275B;
+	Mon, 15 Apr 2024 18:05:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OEQAvVeD";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="YgnrA7OX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 757A510F5C1;
- Mon, 15 Apr 2024 18:07:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713204457; x=1744740457;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=6O/g0SOedASe2vVnLJOXU5OvPE75QS5/W2Ou0WWgdGU=;
- b=OEQAvVeDLLO1DAl+lkTRCTJ0KlExuwLcgsBsT95IVNrLqhwVcWyTcaMP
- Jq3ABgHEx0AgtHC7qWJkTYAWEEhEO9k7N3Kj5t7Rstf6SpFF/bD/sgAaE
- 6kFCV3K2wXMwyp8db1BNe19IoDPa9EagPqtOwtfs2XbnhqltPkzvb8NzY
- MkymzCexf75yPBa2DCwthNvrBYhs/2iweUfuXoCHOGpx/vvrcA+nOCaSV
- YxSqjVBspTA0JeN33VpvldHXsbhz9JKbHeCK+kfruoEFI1TZ6GuiEkfWy
- 7gh2Nh+7QMmqfOLO+izPCtXmIJrycaQUhHlrYV7DlwibvnZHPX5SJTBZy A==;
-X-CSE-ConnectionGUID: BZITppB2RYOvx0WYuk9EzQ==
-X-CSE-MsgGUID: rqeTI7dMT767JJte4TVVeA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8830381"
-X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
-   d="scan'208";a="8830381"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2024 11:07:36 -0700
-X-CSE-ConnectionGUID: i6cwPYh/T+O1G190X6Ohrg==
-X-CSE-MsgGUID: ZYx8WDVxQ+ejkQKwoYw8QA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; d="scan'208";a="59435074"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO
- jkrzyszt-mobl2.intranet) ([10.213.20.116])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2024 11:07:33 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Nirmoy Das <nirmoy.das@intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: [PATCH v2] drm/i915/vma: Fix UAF on reopen vs destroy race
-Date: Mon, 15 Apr 2024 20:02:18 +0200
-Message-ID: <20240415180302.121298-2-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.44.0
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0304211275B
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 18:05:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=VxQV32SErcW04hsTDpPMBvJua+GrBtQavgUbw02gOuY=; b=YgnrA7OXq3iypHdFYvSLVpgF9P
+ twDIOmCHN8pd801Te8ZAQ4XgO2kLXqwd4K0Pcnh7ni1HiwSW27Ipxh2IqbCUb581e45T6zmf3SWBC
+ 66TfBqgLO976i0xrckHIUoIL8rUTzJUqJjvZV7OWqwOf5uLgJ5wZbqgSqJtGNltC6a2ltiTDmgqO1
+ wEw21GBQmtd6RS4UyBXZjbnU17RPyCIoAvASSt62Nz/Zl54nueVNIl8N5h7I8jcc4dE5NATaD3wQJ
+ K5mqWoD0Nvt+mUpDQvgmQTKAvamIZt+G9zdOPi3xHgFpxQG4NzqFZGiteQVG0T/ghaAIcMYkmRCWR
+ OoeoBySQ==;
+Received: from [177.34.169.177] (helo=[192.168.0.139])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1rwQhR-004rB5-DE; Mon, 15 Apr 2024 20:05:01 +0200
+Message-ID: <9ee7005b-d7cd-4986-bf35-3dbae9395392@igalia.com>
+Date: Mon, 15 Apr 2024 15:04:54 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] drm/v3d: Don't increment `enabled_ns` twice
+To: Melissa Wen <mwen@igalia.com>, Chema Casanova <jmcasanova@igalia.com>,
+ Tvrtko Ursulin <tursulin@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20240403203517.731876-1-mcanal@igalia.com>
+ <20240403203517.731876-2-mcanal@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
+ H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
+ hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
+ GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
+ rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
+ s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
+ GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
+ pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
+In-Reply-To: <20240403203517.731876-2-mcanal@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,203 +74,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We defer actually closing, unbinding and destroying a VMA until next idle
-point, or until the object is freed in the meantime.  By postponing the
-unbind, we allow for the VMA to be reopened by the client, avoiding the
-work required to rebind the VMA.
+On 4/3/24 17:24, Maíra Canal wrote:
+> The commit 509433d8146c ("drm/v3d: Expose the total GPU usage stats on sysfs")
+> introduced the calculation of global GPU stats. For the regards, it used
+> the already existing infrastructure provided by commit 09a93cc4f7d1 ("drm/v3d:
+> Implement show_fdinfo() callback for GPU usage stats"). While adding
+> global GPU stats calculation ability, the author forgot to delete the
+> existing one.
+> 
+> Currently, the value of `enabled_ns` is incremented twice by the end of
+> the job, when it should be added just once. Therefore, delete the
+> leftovers from commit 509433d8146c ("drm/v3d: Expose the total GPU usage
+> stats on sysfs").
+> 
+> Fixes: 509433d8146c ("drm/v3d: Expose the total GPU usage stats on sysfs")
+> Reported-by: Tvrtko Ursulin <tursulin@igalia.com>
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
 
-It was assumed that as long as a GT is held idle, no VMA would be reopened
-while we destroy them.  That assumption is no longer true in multi-GT
-configurations, where a VMA we reopen may be handled by a GT different
-from the one that we already keep active via its engine while we set up
-an execbuf request.
+As this patch is a isolated bugfix and it was reviewed by two
+developers, I'm applying it to drm-misc/drm-misc-fixes.
 
-<4> [260.290809] ------------[ cut here ]------------
-<4> [260.290988] list_del corruption. prev->next should be ffff888118c5d990, but was ffff888118c5a510. (prev=ffff888118c5a510)
-<4> [260.291004] WARNING: CPU: 2 PID: 1143 at lib/list_debug.c:62 __list_del_entry_valid_or_report+0xb7/0xe0
-..
-<4> [260.291055] CPU: 2 PID: 1143 Comm: kms_plane Not tainted 6.9.0-rc2-CI_DRM_14524-ga25d180c6853+ #1
-<4> [260.291058] Hardware name: Intel Corporation Meteor Lake Client Platform/MTL-P LP5x T3 RVP, BIOS MTLPFWI1.R00.3471.D91.2401310918 01/31/2024
-<4> [260.291060] RIP: 0010:__list_del_entry_valid_or_report+0xb7/0xe0
-...
-<4> [260.291087] Call Trace:
-<4> [260.291089]  <TASK>
-<4> [260.291124]  i915_vma_reopen+0x43/0x80 [i915]
-<4> [260.291298]  eb_lookup_vmas+0x9cb/0xcc0 [i915]
-<4> [260.291579]  i915_gem_do_execbuffer+0xc9a/0x26d0 [i915]
-<4> [260.291883]  i915_gem_execbuffer2_ioctl+0x123/0x2a0 [i915]
-...
-<4> [260.292301]  </TASK>
-...
-<4> [260.292506] ---[ end trace 0000000000000000 ]---
-<4> [260.292782] general protection fault, probably for non-canonical address 0x6b6b6b6b6b6b6ca3: 0000 [#1] PREEMPT SMP NOPTI
-<4> [260.303575] CPU: 2 PID: 1143 Comm: kms_plane Tainted: G        W          6.9.0-rc2-CI_DRM_14524-ga25d180c6853+ #1
-<4> [260.313851] Hardware name: Intel Corporation Meteor Lake Client Platform/MTL-P LP5x T3 RVP, BIOS MTLPFWI1.R00.3471.D91.2401310918 01/31/2024
-<4> [260.326359] RIP: 0010:eb_validate_vmas+0x114/0xd80 [i915]
-...
-<4> [260.428756] Call Trace:
-<4> [260.431192]  <TASK>
-<4> [639.283393]  i915_gem_do_execbuffer+0xd05/0x26d0 [i915]
-<4> [639.305245]  i915_gem_execbuffer2_ioctl+0x123/0x2a0 [i915]
-...
-<4> [639.411134]  </TASK>
-...
-<4> [639.449979] ---[ end trace 0000000000000000 ]---
+I'll address the feedback for the rest of the series later and send a
+v2.
 
-As soon as we start unbinding and destroying a VMA, marked it as parked,
-and also keep it marked as closed for the rest of its life.  When a VMA
-to be opened occurs closed, reopen it only if not yet parked.
+Best Regards,
+- Maíra
 
-v2: Since we no longer re-init the VMA closed list link on VMA park so it
-    looks like still on a list, don't try to delete it from the list again
-    after the VMA has been marked as parked.
-
-Fixes: b0647a5e79b1 ("drm/i915: Avoid live-lock with i915_vma_parked()")
-Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/10608
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: stable@vger.kernel.org # v6.0+
----
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 10 ++++--
- drivers/gpu/drm/i915/i915_vma.c               | 32 +++++++++++++++----
- drivers/gpu/drm/i915/i915_vma.h               |  2 +-
- drivers/gpu/drm/i915/i915_vma_types.h         |  3 ++
- 4 files changed, 37 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index 42619fc05de48..97e014f94002e 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -847,9 +847,12 @@ static int __eb_add_lut(struct i915_execbuffer *eb,
- 	if (unlikely(!lut))
- 		return -ENOMEM;
- 
-+	if (!i915_vma_open(vma)) {
-+		err = -EEXIST;	/* let eb_vma_lookup() retry */
-+		goto err_lut_free;
-+	}
-+
- 	i915_vma_get(vma);
--	if (!atomic_fetch_inc(&vma->open_count))
--		i915_vma_reopen(vma);
- 	lut->handle = handle;
- 	lut->ctx = ctx;
- 
-@@ -880,8 +883,9 @@ static int __eb_add_lut(struct i915_execbuffer *eb,
- 	return 0;
- 
- err:
--	i915_vma_close(vma);
- 	i915_vma_put(vma);
-+	i915_vma_close(vma);
-+err_lut_free:
- 	i915_lut_handle_free(lut);
- 	return err;
- }
-diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index d2f064d2525cc..072c2c02edc22 100644
---- a/drivers/gpu/drm/i915/i915_vma.c
-+++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -1735,14 +1735,33 @@ static void __i915_vma_remove_closed(struct i915_vma *vma)
- 	list_del_init(&vma->closed_link);
- }
- 
--void i915_vma_reopen(struct i915_vma *vma)
-+static struct i915_vma *i915_vma_reopen(struct i915_vma *vma)
-+{
-+	if (atomic_read(&vma->flags) & I915_VMA_PARKED)
-+		return NULL;
-+
-+	__i915_vma_remove_closed(vma);
-+	return vma;
-+}
-+
-+struct i915_vma *i915_vma_open(struct i915_vma *vma)
- {
- 	struct intel_gt *gt = vma->vm->gt;
- 
-+	if (atomic_inc_not_zero(&vma->open_count))
-+		return vma;
-+
- 	spin_lock_irq(&gt->closed_lock);
--	if (i915_vma_is_closed(vma))
--		__i915_vma_remove_closed(vma);
-+	if (!atomic_inc_not_zero(&vma->open_count)) {
-+		if (i915_vma_is_closed(vma))
-+			vma = i915_vma_reopen(vma);
-+
-+		if (vma)
-+			atomic_inc(&vma->open_count);
-+	}
- 	spin_unlock_irq(&gt->closed_lock);
-+
-+	return vma;
- }
- 
- static void force_unbind(struct i915_vma *vma)
-@@ -1770,7 +1789,8 @@ static void release_references(struct i915_vma *vma, struct intel_gt *gt,
- 	spin_unlock(&obj->vma.lock);
- 
- 	spin_lock_irq(&gt->closed_lock);
--	__i915_vma_remove_closed(vma);
-+	if (!(atomic_read(&vma->flags & I915_VMA_PARKED)))
-+		__i915_vma_remove_closed(vma);
- 	spin_unlock_irq(&gt->closed_lock);
- 
- 	if (vm_ddestroy)
-@@ -1854,22 +1874,22 @@ void i915_vma_parked(struct intel_gt *gt)
- 		}
- 
- 		list_move(&vma->closed_link, &closed);
-+		atomic_or(I915_VMA_PARKED, &vma->flags);
- 	}
- 	spin_unlock_irq(&gt->closed_lock);
- 
--	/* As the GT is held idle, no vma can be reopened as we destroy them */
- 	list_for_each_entry_safe(vma, next, &closed, closed_link) {
- 		struct drm_i915_gem_object *obj = vma->obj;
- 		struct i915_address_space *vm = vma->vm;
- 
- 		if (i915_gem_object_trylock(obj, NULL)) {
--			INIT_LIST_HEAD(&vma->closed_link);
- 			i915_vma_destroy(vma);
- 			i915_gem_object_unlock(obj);
- 		} else {
- 			/* back you go.. */
- 			spin_lock_irq(&gt->closed_lock);
- 			list_add(&vma->closed_link, &gt->closed_vma);
-+			atomic_andnot(I915_VMA_PARKED, &vma->flags);
- 			spin_unlock_irq(&gt->closed_lock);
- 		}
- 
-diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-index e356dfb883d34..331d19672c764 100644
---- a/drivers/gpu/drm/i915/i915_vma.h
-+++ b/drivers/gpu/drm/i915/i915_vma.h
-@@ -268,7 +268,7 @@ int __must_check i915_vma_unbind_async(struct i915_vma *vma, bool trylock_vm);
- int __must_check i915_vma_unbind_unlocked(struct i915_vma *vma);
- void i915_vma_unlink_ctx(struct i915_vma *vma);
- void i915_vma_close(struct i915_vma *vma);
--void i915_vma_reopen(struct i915_vma *vma);
-+struct i915_vma *i915_vma_open(struct i915_vma *vma);
- 
- void i915_vma_destroy_locked(struct i915_vma *vma);
- void i915_vma_destroy(struct i915_vma *vma);
-diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
-index 559de74d0b114..41784c3025349 100644
---- a/drivers/gpu/drm/i915/i915_vma_types.h
-+++ b/drivers/gpu/drm/i915/i915_vma_types.h
-@@ -263,6 +263,9 @@ struct i915_vma {
- #define I915_VMA_SCANOUT_BIT	17
- #define I915_VMA_SCANOUT	((int)BIT(I915_VMA_SCANOUT_BIT))
- 
-+#define I915_VMA_PARKED_BIT	18
-+#define I915_VMA_PARKED		((int)BIT(I915_VMA_PARKED_BIT))
-+
- 	struct i915_active active;
- 
- #define I915_VMA_PAGES_BIAS 24
--- 
-2.44.0
-
+> ---
+>   drivers/gpu/drm/v3d/v3d_irq.c | 4 ----
+>   1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/v3d/v3d_irq.c b/drivers/gpu/drm/v3d/v3d_irq.c
+> index 2e04f6cb661e..ce6b2fb341d1 100644
+> --- a/drivers/gpu/drm/v3d/v3d_irq.c
+> +++ b/drivers/gpu/drm/v3d/v3d_irq.c
+> @@ -105,7 +105,6 @@ v3d_irq(int irq, void *arg)
+>   		struct v3d_file_priv *file = v3d->bin_job->base.file->driver_priv;
+>   		u64 runtime = local_clock() - file->start_ns[V3D_BIN];
+>   
+> -		file->enabled_ns[V3D_BIN] += local_clock() - file->start_ns[V3D_BIN];
+>   		file->jobs_sent[V3D_BIN]++;
+>   		v3d->queue[V3D_BIN].jobs_sent++;
+>   
+> @@ -126,7 +125,6 @@ v3d_irq(int irq, void *arg)
+>   		struct v3d_file_priv *file = v3d->render_job->base.file->driver_priv;
+>   		u64 runtime = local_clock() - file->start_ns[V3D_RENDER];
+>   
+> -		file->enabled_ns[V3D_RENDER] += local_clock() - file->start_ns[V3D_RENDER];
+>   		file->jobs_sent[V3D_RENDER]++;
+>   		v3d->queue[V3D_RENDER].jobs_sent++;
+>   
+> @@ -147,7 +145,6 @@ v3d_irq(int irq, void *arg)
+>   		struct v3d_file_priv *file = v3d->csd_job->base.file->driver_priv;
+>   		u64 runtime = local_clock() - file->start_ns[V3D_CSD];
+>   
+> -		file->enabled_ns[V3D_CSD] += local_clock() - file->start_ns[V3D_CSD];
+>   		file->jobs_sent[V3D_CSD]++;
+>   		v3d->queue[V3D_CSD].jobs_sent++;
+>   
+> @@ -195,7 +192,6 @@ v3d_hub_irq(int irq, void *arg)
+>   		struct v3d_file_priv *file = v3d->tfu_job->base.file->driver_priv;
+>   		u64 runtime = local_clock() - file->start_ns[V3D_TFU];
+>   
+> -		file->enabled_ns[V3D_TFU] += local_clock() - file->start_ns[V3D_TFU];
+>   		file->jobs_sent[V3D_TFU]++;
+>   		v3d->queue[V3D_TFU].jobs_sent++;
+>   
