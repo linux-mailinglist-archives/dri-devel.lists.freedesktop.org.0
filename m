@@ -2,121 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD268A53F8
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 16:32:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 429E58A543E
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 16:35:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08CE7112614;
-	Mon, 15 Apr 2024 14:32:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E063B112621;
+	Mon, 15 Apr 2024 14:35:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="yUpvLxMF";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="HLz0qcfd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2072.outbound.protection.outlook.com [40.107.94.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ED0F1125F3
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 14:32:54 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2076.outbound.protection.outlook.com [40.107.223.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0BEB112620
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 14:35:16 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EkGwWJIyC4Lwv56WPryiwy5luiMyGC5XBVtP4LXuhIVTVAMlA1SS3uPC/dpGEfPejgpitJ23wI2t0wTdTRsMm45t+Sgq0P9LkPfyWrAUARpH8k5rn4/9bT6XJwBOwD08YWdY+cCetU4P1GRPH0y3IOoc6GbxvdkHUOoqt4/1V6UB32+DY3WDDQWUM2xmcpgdx2QERUEjlBRnZJUPeepDJIu9jbjwAH5HWnX7r5I3Uf+azAqlL4qDL99SoOxoowD+sXp9aWNAR49aZBMPf3qeX/r30nNikeH4kemqLDYOp3IslBwglhk1eUnAw0fU2zFOlwS5ziJQekt8B1nDXlNQ4w==
+ b=fbvB9NtsKJXTTZ2qtRTpU3Eoq0OVqX20IQ4f6kYoOsh5UohbvwV9xlBXq7uMNnEikU4bsZcEQ0jWyvA+5hDGKFVRZEvdam6CRsuhW/0uFzSaWJAkEVL24L0/ij0BYlXN9Ymq5KdE24u8DCqOfc7pLjNFVcbqPuBqEnSr3KQBztpMFth4rXuJ1RlX1Fb0NAx3lgm8d5r+MFQ+WXyK97C7aN3KaGdsMMwuSrdutcIcARZukyye0l/AlhKfY+TmiDmQat3zfPTr1vE/L64T5nuNeQBEKcR3ziVIarWMhhMGcRXR1miDBFyd3BNlzwTpldlz33JutUs5WKhrpYupkjhsQQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5BnV8DedyTTZtorYxu0B87EsM4ZjYTXF4o4n0xE8Dmg=;
- b=fY+Q20zWfnLVNgH5ffIRYV9uyARaKRj8e2C45SCZy3Vuz5KHjjbarhg7nRfGgP8klETK94xbs9LQ+ntLDv9e/yezCitEy0YXSq5sJQlzUafP+6fw91W0Gb9IvA7i9UxdF39QU2tvQTgSUjCU/Xqbcje/aGmd8Y6MJp5jIsBSZxEX5namOVhTd6tHmyQVQW3puq35vfWK+Szeln1QJ4XptN1Z/RJt6KJj9H8Up5NlOfTUrSfHzLxop/fQ8kaOnFP36Hr/S2rlBdFaD5tGETwrsUoCdbojZVNQFTCvt4Z/fVqK18lDwwoDRzeiJYSMRyoCjF32lvFUUhuBpug97bDpuw==
+ bh=kjEpVLiwc54Dbn2fC+VAzB4nRZ7BqeAEjSZYK5mG4uI=;
+ b=CcftXOpqUzuQ8iDZHwEqYtc0Xfb/xFjcFv/ivYOYRz1rghuzZ3p+575YrH4FdfORLGiok+SWfWRVJEHjBFz0YuKBb4I39vbFbk4eqtuAlb00ESgI3Nu5Xw3mWW3ebk5K8rQQCOWnc0xEzjzgKFb+C+EsPRKlM845K9D3ZdAUaKIIxK1p6lwJVbjIBw9HmT2aRC/riEoojT3f3OpPgcTjhFcfR1eVy/bg1Jd+j4VbE1B3ePkInBVywenFeTYIUno0HsbwCvynK1gKR+mMEM/eHpIYRc142mkv0atPURJD+9gxzL17wG7rvj9/S2heOTjEUlC+1FRJT7TqrXM9XcW+sg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5BnV8DedyTTZtorYxu0B87EsM4ZjYTXF4o4n0xE8Dmg=;
- b=yUpvLxMFaIjtKOXr6QlQ+FoA49Fze5epb0wuXcH2RCExm7mZwucj8zkcQQ7xa1ukk/0Kda1s3W0XsiMBdVayanaEHU6bw2tI/67DmurBv3rz87xjyxE4GWalBhdRjEWBvCRPoepXAO8stcbKer9viUdSaWsYK6rQgq8PkV8VDII=
+ bh=kjEpVLiwc54Dbn2fC+VAzB4nRZ7BqeAEjSZYK5mG4uI=;
+ b=HLz0qcfdyqXdimhrDT2wPt1VICn2BYtWuath5mroqnwYuAY/M2cKaQVKjqRbIXa4Dw4uFNx+ungpINZb5ghcvpAylpbE8grvWozWXiQ7Vdblv+fy2ZgQ3XChq/8284W7RMfshEcByZtun12HS99ZahEY/bJzupBHzZwoqFxKqBI=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by SN7PR12MB7106.namprd12.prod.outlook.com (2603:10b6:806:2a1::7)
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SN7PR12MB8791.namprd12.prod.outlook.com (2603:10b6:806:32a::12)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.55; Mon, 15 Apr
- 2024 14:32:51 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::d895:b707:1189:dfd7]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::d895:b707:1189:dfd7%3]) with mapi id 15.20.7452.049; Mon, 15 Apr 2024
- 14:32:51 +0000
-Message-ID: <214a8afb-b338-4470-879a-c172efb4e9a8@amd.com>
-Date: Mon, 15 Apr 2024 10:32:48 -0400
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Mon, 15 Apr
+ 2024 14:35:12 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7452.049; Mon, 15 Apr 2024
+ 14:35:12 +0000
+Message-ID: <cba06e6f-06cb-4b0e-88df-d25d278fb4f2@amd.com>
+Date: Mon, 15 Apr 2024 16:35:07 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ttm: stop pooling cached NUMA pages v2
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Alexander.Deucher@amd.com, Rajneesh.Bhardwaj@amd.com,
- Steven.Roberts@amd.com, dri-devel@lists.freedesktop.org
-References: <20240415134821.1919-1-christian.koenig@amd.com>
- <4b04b1d7-2215-42ae-a65a-eb8103bb847e@amd.com>
- <345a958f-dde4-4211-850c-7b23ddd71b0b@gmail.com>
+Subject: Re: [PATCH] doc: dma-buf: fix grammar typo
+To: Baruch Siach <baruch@tkos.co.il>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <d242a446258e34b2db8990561e51f145df748f83.1713100057.git.baruch@tkos.co.il>
 Content-Language: en-US
-From: Felix Kuehling <felix.kuehling@amd.com>
-In-Reply-To: <345a958f-dde4-4211-850c-7b23ddd71b0b@gmail.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <d242a446258e34b2db8990561e51f145df748f83.1713100057.git.baruch@tkos.co.il>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQBPR0101CA0017.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c00::30) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0069.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:49::22) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|SN7PR12MB7106:EE_
-X-MS-Office365-Filtering-Correlation-Id: d68b49e0-2ab1-4ac7-aa02-08dc5d58ee33
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SN7PR12MB8791:EE_
+X-MS-Office365-Filtering-Correlation-Id: e6134feb-b3c8-495a-d2d6-08dc5d5941e3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lMYydYWIWLVbp+X0kuTFSpYfyqWLMud/G5z0p5VNNV1mPzWWF/pWh4cBZbEB1kJWeCw51OPfv2QCzj2jf7P4qt3pvuYc15gYFzzehJWCDrGQWCgcVf2qPdW/H+O9SIXR7H3EW2P8evs7PnCCXkPrVyyrX/JF6AeTykdspnhoPzyVmU0Yx5wYwSM2yBkl+ap5sRi6D79513ooENPRFAivZalk5Ae48axGlDFxnsAvBd8FF3aACvZzn/rx+oYt7U9gSGFBQ+QGIMj9gi1feEWn9+9sqbl/tAFJHFrPzSwxlbD4t1zE0cSxvgi991ekCYHTavbI5MraiAEN51idTgeD1RlrdrZyAPryC8+slIfW/n9CvSAn64ANZzNhQs1d2QhkREfKGk5xQMVI12V35+DDKdF3homftaEISTwcCvty9HF2fE/FVZz3a1ia8O2tlumTmOeo2ePVkRXE472yxB71xTlU4GLyUcHGt1QD/g027fzA4EU7g/Q52CGi/sGvZchMO2FaRfFAMf0KZNKOEeyrzu7AgoB1nLAHuC/oGxh7C3WHY3+8cIp1KIH8+u1ZEzmvMYlLP+DbeQfn54QYECqYkde8jHGCEZnvODAxEbJsZKtrVx6Nt0UAYmNq7gzJuEqBFR6MxiaA18Pvfaejv70KnhM5Q4ZGVIliKpU5fSbi2Mk=
+X-Microsoft-Antispam-Message-Info: TmUO5Ui4lSzIZBYVD6TJtL/9E86ARDq+oI7+yMhXjSRi7gHFzYpR4fD9Dq3NebTctyP/4Y0KznhXiJt45mVQtFimM/uh0gVLOknB8SEnE7xFYH+2roI+h1aIDeZNnLJMQiz0omjElImETDr41/Ga8wxnFl6JFE3q4ZMFu330F6XnvbQAWZfapVW5tXK6WJudGGOu5Rjh1/malRav567hgwN5qnB9Ysh8/KQmNtoHWANqKQ1N4ZJ6xKK2z+rywzI1zDJrJ1T+ufipwkmJDovTLw7Cu4lPnVkuWENy2pOc5Y7gCGJoIbITMrsCnpj3YyC8q77hV7ZYZZ7PaSi8P/Mwj25WwD9al608fLPq/v+XC0JCi8xw+hvAcvhlNwC9WzkjwY9eQggoJqtR74+zRJQJdwZI8UljDhxQlE/gapyKx+Hyk/ueOcIgUXg+aXLxyfo7MtrqTGNrz/CpcYuQm7PC1snbi0K0ldnBqVEejb7ea6otZhoZwoxCq5mCUkHHB2k2ppiqmJxK1hbUXX70PwhY4+Q7e1I10/131giNrKmvTBEO1YhrttUzplYiTgoJ9k6RF1gB6bb8qi0tI8DIXOGxG90JPiVSgs5oF6GJS0e1ZDLDz44kQoPgokx78zz11M41ti7Kpkjxh27BdY86uRqvHQVpMoS3JVW1o85clG1Mezg=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(1800799015)(376005)(366007); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376005)(1800799015)(366007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NVJMVlRJM1pURXBSbmd1MDdFWlJEUlNyTU9tcWVxd0d5Nk9tZnNVK1VreGVR?=
- =?utf-8?B?bGFvRVpmMS9pTFdqZ1N1Mi9xV2xNcnl1ZUYzUmllRHZMTm5PY1ZsNXJVeXBD?=
- =?utf-8?B?aU1adUlNcCswQTM3VkcrUXpuVzdRa1BkYmdCNnJ1VVFkR1RZblhjZEwyY1Vw?=
- =?utf-8?B?VG83VE9takxEZkEvVjB2TWY0VmkyTEFFQitmcUFyR1dGZjgvR1NjOFNNNW04?=
- =?utf-8?B?Z2M5OSt1OENxR0htWFcyMU51dFk0dXc5Nm5Ed3dQVERyWkRPVXBtRForS0Jv?=
- =?utf-8?B?THlZeDhZSVQzWnJzYml3TWpMQkZYUEtuVUxJNjY2aW9zSkt1cmdlbHRqcy9O?=
- =?utf-8?B?RjBGcnQyZVV4ZSs1UGs3WS9jZyt6Vm55NkxMaXRTU09RMGp0QjlOcTNHWHQw?=
- =?utf-8?B?TTd1L3FLcEI1S1FsSENMN1hzaGNVS3V1b2tuaGdPR21JeXRQVTNEai9zeisr?=
- =?utf-8?B?M1diVlRYM0VTbzNidHJwV2FWV1RQdEhUN2xCVXI1aVJoc2xUQU1PM1ZGdjR3?=
- =?utf-8?B?ajg1ZmxEQ0FRT01nbUt5TXRaeHprT0JBNjNaL1lUU3hTVWpqd3lCbUpsci9r?=
- =?utf-8?B?RUVuOFcvWVZ3dHNtNXQzN2dXL2tydWJ1NWZqOE5lVmtnbGhPOXRtbG93UWNm?=
- =?utf-8?B?QWdHdURmQkZDRytzU3lJMFVVeS9pZmlZV1ZkTXpIR1ZVdTJUdlFQTEJ0WUc2?=
- =?utf-8?B?bzc0b0ZjYys4Tjd1OTAvT3BiSWk1UUJFdmtqM1o2R1g4WG9zNnZ2Mk4yQ0NT?=
- =?utf-8?B?SnRRSmFja3dJNFB0T3B4R1dLUENrZkxObFJHZnZFbFlXWkF2MlZzY29ORmlJ?=
- =?utf-8?B?RVNDcVpSaUZvaWZWQ2VDRENMVXZMUTQwYTNmL0JnSWdpRGZlZnZlSERPVi9D?=
- =?utf-8?B?Rm9GNkVXd3IzYldIc1pyWFhVdXhITTdiR0ZkR25vVy8vT1FKM0dMMDVDU2V0?=
- =?utf-8?B?NlpmN25mRHVINEVZUTlXdUNMOTM3TnpsKy9qMTRuSnJ4dlJyOENjbXB2L0Y0?=
- =?utf-8?B?TXdsNjNEdW05STc0ZUhqTkZLb3pFY0hTM3pqTno0Um1nTGNLN2VUbHFZVFY5?=
- =?utf-8?B?ZURhTDUvZUd0YnBFczNPSjRJZkowRjJGb25LSGZjYkVRbDJ3REo1Tk1pd05I?=
- =?utf-8?B?R2hiaEVBa21QV0VIZDNIUE96bXcyNHR1SDdtY1F3NW0vQndYSUhyV3YxdEZp?=
- =?utf-8?B?em1PN1g5QndGaXFMaHNHdzk5cGplNFF1cEtnUkc5MzZ5RGNoUkJTTzdXaEZP?=
- =?utf-8?B?dVFvU0FtZkNhYVBCd1VjN01hdkpENVVQemJncXl6UEhpMFc0SXM3Z0ZVYytu?=
- =?utf-8?B?TDJOMWpFaHlNeW5TdzNEdXg2VzkwbFQ3dlE4alFWeUNIajhZSmN2cjRpNDJW?=
- =?utf-8?B?aDZhSXdnYTVDK3pNcnVjaHVvTThnVHZNZnpKZHlZejVxRWI3T2t2YWxOWnNR?=
- =?utf-8?B?YnZsZmE0N2ZQdlZ5ak1pdjBTQ0s5aXh1RE5Da2svaCt6T2JKY3BjM2cxd2pJ?=
- =?utf-8?B?N2pMQ2Vaek0rY25idlVvb3V6WU5TRHFXWU1sN0xXa3BiUkRpb0V4THBrb3d5?=
- =?utf-8?B?cldBdE9qeXVBYTB5c0RPYW5MU284a1hvUkh2THpxM3hmZ2UyZnRzUTl4UWZS?=
- =?utf-8?B?YnA4cHdnWGxqbnV6d0xhdXRkZGliSHFZUWNvUm9uOGdPL0VWUEdWVW8zNWV6?=
- =?utf-8?B?WThVTU50bDNqdnZ0VXdiZU94eWNmMGtaMkVPd2ExVUlBd3NvNWRmS3dJZmFK?=
- =?utf-8?B?a1o5eG4xbHNqQ2VDNUJmcjBFNmtSZEp1cGRSM2x1QUx0RXoxSFQ2TDRiKzdD?=
- =?utf-8?B?UEpGNEdWSThKVW02ZjhTZWZ6QjFWQWRGOGtaZmJ6ejltMklIYjkzMXhlRTY0?=
- =?utf-8?B?dWxEV2VHbDlTYmJDWFNkUXRjd25ucjNSM2dKWlBJTHpOSFV6d2JGckxTeWNV?=
- =?utf-8?B?ZEViTzlXSDNBUng5U25Zb3h5SDJYYzlLWTk2T2ZyeXFxVTh2S3VZZEMxcjRj?=
- =?utf-8?B?UndQVy9iKzlmMmE1MmR2eVA0N01JNXlBajVJVjV4dFZTeUJVdTE3MmMwK3l6?=
- =?utf-8?B?bllSVFdZYWhWaE16NmpVanpNdEJ4RXRnZ3BPYXc5SjJNK2FTNFFJT1JHWFNm?=
- =?utf-8?Q?pgt2Iq98CYK+F70GRjM0b2AKl?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bm1RcDQ2VTRVLzBrRW0rcyszVXJwcTZvSkhYYjlhWElCSllONXNZcWw3VFh0?=
+ =?utf-8?B?cS9BRWNLUTYveVpxUlBZSHlkTUcwNG5CQ3VPWjZDUm5WZC9GNGxVckdBdTlq?=
+ =?utf-8?B?U2twZVlENTJncUsyZjdFYVRWVFhLbFlzaDNDdUJYOUxlaHVqcklEREZUbGpZ?=
+ =?utf-8?B?a1p4aml2TjExVklNajNEeis2ZWtxYW9xZ1h2b2RQVTFDMnNOODVhKzViNFB2?=
+ =?utf-8?B?VzlYNW8zaSttcUU2TmNPNmIrejk5Wmx2RHp5TEI3Z04xNmwwVmtLbVA0bmdl?=
+ =?utf-8?B?SnVQMnZmUmVWZnIzZW9JcVNHUEFjbWxiMVNMSE53ZmRnUTRsMHl1STNxOE0w?=
+ =?utf-8?B?TlNKN1VSazZtMmNEZndjSDNNRVdJSG9uMHU3VVEvNWYwVUFLa0xwbld6WVNF?=
+ =?utf-8?B?eWJSbUY3NlMyMDlRN0FkR0RIY1B0bUtNQ2VxcHF4SFA5RWpLQ1FUUmljblhK?=
+ =?utf-8?B?YVRBY0wvWUlHREtNejIxc1BVYXJVclBia3J4Z09ubVdlRk1ndmtKRitNSlZD?=
+ =?utf-8?B?RkZVYzNXTjZwb2NGYWsxVGRpZFBXWk5mNjFjNVRlVDZCTk5DUzlaeG56RWw0?=
+ =?utf-8?B?Q2NtbWVSSTdLVkVYSlRNbSthbnd6eUlKNmtJazA1MWZBNkdBMEJnZDB1Z2NO?=
+ =?utf-8?B?d0ZoVlBxMU5ncEJyRmkwcjBNRmdqa09hRTFFSTVoV2pvYUxXRVZVQ3NNdkFu?=
+ =?utf-8?B?QzBySHBVZVdJM3pja2NDcndBMG56TUVLRERiMTNQc0Q1SkxQVGlzVmw2bW5t?=
+ =?utf-8?B?UENWMCtSbWhDY0luaUMvQTdaVFY4bmVHSGFDYVJ0VnVqZjB6dE1rLzJiNWFj?=
+ =?utf-8?B?V3hQSXJQMlFDUzQ1UW5pMUw5T2JEcDV2MXZsdzEzeFFCcm5acnEyQmVPemkr?=
+ =?utf-8?B?ZU1WUXAxTmFYSE43TXpsSVhoZ01OeFFXZzR0bmV2SlRXN0NrRS9KSndIaGVO?=
+ =?utf-8?B?NUFvbm5QdUV0bk5pVFlveVhqZFZvK3VIemtVb2FlNVRhOVFWSFlkYU1BL25r?=
+ =?utf-8?B?Q1J2ckt0SnZiZEVnRTZERGNCOEJudlNHNXhSbTVMdkRsZ29ET1F0SzJnNzdi?=
+ =?utf-8?B?VVFKVmc3dlVTSVphZ1VtS1Ryc0ZvWFdIb0ZmaXRFY25ISUhxL1k0dGhwU093?=
+ =?utf-8?B?eWdmVGM5dUMrSjdOVmZ4dHhOS2V4ZHpyN0dmRDdOblFOb2UvVmtqb1lKWnpJ?=
+ =?utf-8?B?ZWJJOHJDWW9mZVhTdmZLa2ZjQ2Q2QStxZkZFbkxnVkZ0dEVOOFpFTzExUXJW?=
+ =?utf-8?B?Sm1qYlMzdlVnSlZ3WVFuUTZHQUJOZUduNG15K2RaZGk1N0VvNnpqMGlwRmti?=
+ =?utf-8?B?OUEzbERpaTQ5eStmUlZFUGE2dUdoNTVUYVpVajVNWW0wYVZWWS9xb1lZVmJt?=
+ =?utf-8?B?ZitvMTZVSnVQVlFXSHI3bzZnNDZ2MFVHazVreW1LQWFtSjV6Z0VCN3hkZzhq?=
+ =?utf-8?B?OXFGQXRDNFVnWmtTeEllMDF2anB3UlJPZDU3Z3M4cFJBSFRkenN6NUQ4U1pv?=
+ =?utf-8?B?bEdOUHRWSSs0OUtUcEY0NVhidUF3ekJxQVAremxkcmJnYURINTBsSjZjVjF6?=
+ =?utf-8?B?dXFNa2hNV2Exdi9ieXQ0MVNuNGZHS2pwYWpyRDN4SlorQzFKbnE3VHFTRnNO?=
+ =?utf-8?B?Q2puWVRNc3dhN2xLTkVkOVFGb0tiRzltQUlRQjh0Uk1IN1NFSE5YRXREbjVj?=
+ =?utf-8?B?engyV0kxNUhaV1hjZWRzR1FZaTlObHV4ODd4T0F2Y0dTWUFQMzlpQ0V0eUFi?=
+ =?utf-8?B?MXQ2M3ZMYVJmb28venM0cjhvYjhCdUMrYW1YY1U5a1hFbURsVTRpczZ2Qndl?=
+ =?utf-8?B?bHFLY2FtQ29IMWRNZnBady9Kc3dTQmFmeFJjRWRzWURJdzZHNjR6dWxpMkpW?=
+ =?utf-8?B?Nzk0VEZUZFpIYXlDVGp4eFdwblJVaEh2dGN3M214by9FWGNEUlRGckZ5dnhD?=
+ =?utf-8?B?amQzSS9FVk03emdXS3hzczg5K1UrNGhjZExlZTZ1eXIrMExjNUtkYWZ5d0Fn?=
+ =?utf-8?B?RXBKZmVSU0E0WEk1YVNFN3l1U3FRUWNNYlZHYWtYbW5YTHpzVHdwZTJReHJu?=
+ =?utf-8?B?WnRzZFY0MHN1Q00wSU93TUp0U0lxRTRXSTV4bXd5K2QrYUxrZXpBczhjQ2x4?=
+ =?utf-8?Q?ML3PZq6VLTjBRvWoGlE2rXc5W?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d68b49e0-2ab1-4ac7-aa02-08dc5d58ee33
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e6134feb-b3c8-495a-d2d6-08dc5d5941e3
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2024 14:32:51.5858 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2024 14:35:12.1859 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tKlQ7g4aP/uLeKW5k5KSdOQL3MjLFKzwWkqpvhovnJ5bVtwnQTaWLwWG0ExHh4NErPFgFBvm2WXM1V4HEUnv3A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7106
+X-MS-Exchange-CrossTenant-UserPrincipalName: eGPRp13+JwLKQxgOwOBigCaNiJ71oMANLWyfA0IZbbbxwnrJi7Rc7iW+ayt3gbpX
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8791
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,139 +130,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-04-15 10:08, Christian König wrote:
-> Am 15.04.24 um 15:53 schrieb Felix Kuehling:
->> On 2024-04-15 9:48, Christian König wrote:
->>> From: Christian König <ckoenig.leichtzumerken@gmail.com>
->>>
->>> We only pool write combined and uncached allocations because they
->>> require extra overhead on allocation and release.
->>>
->>> If we also pool cached NUMA it not only means some extra unnecessary
->>> overhead, but also that under memory pressure it can happen that
->>> pages from the wrong NUMA node enters the pool and are re-used
->>> over and over again.
->>>
->>> This can lead to performance reduction after running into memory
->>> pressure.
->>>
->>> v2: restructure and cleanup the code a bit from the internal hack to
->>>      test this.
->>>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> Fixes: 4482d3c94d7f ("drm/ttm: add NUMA node id to the pool")
->>> CC: stable@vger.kernel.org
->>> ---
->>>   drivers/gpu/drm/ttm/ttm_pool.c | 38 
->>> +++++++++++++++++++++++++---------
->>>   1 file changed, 28 insertions(+), 10 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c 
->>> b/drivers/gpu/drm/ttm/ttm_pool.c
->>> index 112438d965ff..6e1fd6985ffc 100644
->>> --- a/drivers/gpu/drm/ttm/ttm_pool.c
->>> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
->>> @@ -288,17 +288,23 @@ static struct ttm_pool_type 
->>> *ttm_pool_select_type(struct ttm_pool *pool,
->>>                             enum ttm_caching caching,
->>>                             unsigned int order)
->>>   {
->>> -    if (pool->use_dma_alloc || pool->nid != NUMA_NO_NODE)
->>> +    if (pool->use_dma_alloc)
->>>           return &pool->caching[caching].orders[order];
->>>     #ifdef CONFIG_X86
->>>       switch (caching) {
->>>       case ttm_write_combined:
->>> +        if (pool->nid != NUMA_NO_NODE)
->>> +            return &pool->caching[caching].orders[order];
->>
->> Doesn't this break USWC allocations on NUMA systems, where we set a 
->> NUMA node for the default pool (at least we were planning to at some 
->> point)?
+Am 14.04.24 um 15:07 schrieb Baruch Siach:
+> Signed-off-by: Baruch Siach <baruch@tkos.co.il>
+> ---
+>   Documentation/driver-api/dma-buf.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> I don't think so, but I might have missed something. Why do you think 
-> that would break?
->
-> I mean the idea is basically if the pool is associated with a NUMA id 
-> we should rather use this pool instead of the global one.
->
-> And that is true for both cases, the default pool and the specialized 
-> ones.
+> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+> index 0c153d79ccc4..29abf1eebf9f 100644
+> --- a/Documentation/driver-api/dma-buf.rst
+> +++ b/Documentation/driver-api/dma-buf.rst
+> @@ -77,7 +77,7 @@ consider though:
+>     the usual size discover pattern size = SEEK_END(0); SEEK_SET(0). Every other
+>     llseek operation will report -EINVAL.
+>   
+> -  If llseek on dma-buf FDs isn't support the kernel will report -ESPIPE for all
+> +  If llseek on dma-buf FDs isn't supported the kernel will report -ESPIPE for all
 
-OK, I think I misunderstood what I was reading. It looked to me like it 
-would always use a "caching" pool if nid was set. But caching here is a 
-variable; each node still has specialized pools for write combining etc.
+Looks valid of hand, but checkpatch.pl complains about 2 errors (missing 
+commit message for example) and a warning.
 
-Then the concern you stated in the commit message "under memory pressure 
-it can happen that pages from the wrong NUMA node enters the pool and 
-are re-used over and over again" is still possible for uncached and wc 
-pages. Anyway, it's better than not having NUMA, I guess.
+Please fix and resend.
 
-The patch is
+Thanks,
+Christian.
 
-Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
+>     cases. Userspace can use this to detect support for discovering the dma-buf
+>     size using llseek.
+>   
 
-
->
-> Regards,
-> Christian.
->
->>
->> Regards,
->>   Felix
->>
->>
->>> +
->>>           if (pool->use_dma32)
->>>               return &global_dma32_write_combined[order];
->>>             return &global_write_combined[order];
->>>       case ttm_uncached:
->>> +        if (pool->nid != NUMA_NO_NODE)
->>> +            return &pool->caching[caching].orders[order];
->>> +
->>>           if (pool->use_dma32)
->>>               return &global_dma32_uncached[order];
->>>   @@ -566,11 +572,17 @@ void ttm_pool_init(struct ttm_pool *pool, 
->>> struct device *dev,
->>>       pool->use_dma_alloc = use_dma_alloc;
->>>       pool->use_dma32 = use_dma32;
->>>   -    if (use_dma_alloc || nid != NUMA_NO_NODE) {
->>> -        for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
->>> -            for (j = 0; j < NR_PAGE_ORDERS; ++j)
->>> - ttm_pool_type_init(&pool->caching[i].orders[j],
->>> -                           pool, i, j);
->>> +    for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
->>> +        for (j = 0; j < NR_PAGE_ORDERS; ++j) {
->>> +            struct ttm_pool_type *pt;
->>> +
->>> +            /* Initialize only pool types which are actually used */
->>> +            pt = ttm_pool_select_type(pool, i, j);
->>> +            if (pt != &pool->caching[i].orders[j])
->>> +                continue;
->>> +
->>> +            ttm_pool_type_init(pt, pool, i, j);
->>> +        }
->>>       }
->>>   }
->>>   EXPORT_SYMBOL(ttm_pool_init);
->>> @@ -599,10 +611,16 @@ void ttm_pool_fini(struct ttm_pool *pool)
->>>   {
->>>       unsigned int i, j;
->>>   -    if (pool->use_dma_alloc || pool->nid != NUMA_NO_NODE) {
->>> -        for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
->>> -            for (j = 0; j < NR_PAGE_ORDERS; ++j)
->>> - ttm_pool_type_fini(&pool->caching[i].orders[j]);
->>> +    for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
->>> +        for (j = 0; j < NR_PAGE_ORDERS; ++j) {
->>> +            struct ttm_pool_type *pt;
->>> +
->>> +            pt = ttm_pool_select_type(pool, i, j);
->>> +            if (pt != &pool->caching[i].orders[j])
->>> +                continue;
->>> +
->>> +            ttm_pool_type_fini(pt);
->>> +        }
->>>       }
->>>         /* We removed the pool types from the LRU, but we need to 
->>> also make sure
->
