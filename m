@@ -2,75 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A969C8A52B3
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 16:08:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB00B8A52D8
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 16:16:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D85021125E6;
-	Mon, 15 Apr 2024 14:08:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B02B91125F7;
+	Mon, 15 Apr 2024 14:16:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fnvcjFmF";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="L4jm1pF4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 060711125E6
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 14:08:55 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-343c2f5b50fso2469351f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 07:08:55 -0700 (PDT)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
+ [209.85.210.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A312E10FD41
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 14:16:23 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id
+ d2e1a72fcca58-6eff2be3b33so933719b3a.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 07:16:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1713190134; x=1713794934; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=7ffqkZv6NU1XVLoi7ZZmP9xiD5mI03MT5YlX8qNMxec=;
- b=fnvcjFmFRneQoMb+toxKzwSeFIiLMom7Igm10Ua6jM7zAPT3spHj8N04AQ6ykxbhud
- 1MbP63lMxgGaIJ20ebOqB6p1rFzoBMWCRGCcFPnADX6OBWH7cndjo51Lp9l7RDbSJx0h
- pcSp4OvtSurN6E33ZWnm+bQcTGAwoWYVn0QK6ntp2K16BslUCZP3zFKZiNIFp6cuRfC0
- hKUEQoQkbrFeuL+AVx5M4SXhHz61frH5KeSbiJfJ5GOw0RYujJtrGYFjVO+1WoJg6QP8
- iNFbGXfDsqqoMc9aDZf8VmXHCMoEXzn5aZ6hg9CBAkNMaDFcIaI8+cFhX5XpAmH8F0MV
- sAkw==
+ d=gmail.com; s=20230601; t=1713190583; x=1713795383; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=QfWZ6p4Ra3V5a1g7hJEFDN7tbjxd+ey9ZnLhDNNg/5k=;
+ b=L4jm1pF4k/giJwsfIz59+tE0Lr/siNHObs8EXe0ytgUJcy6HDz1pLk82Cdmd9L2lLv
+ PN+KC/2+2J7m0hp/2nBZ0nFKszKfmbk8fpcLLRDqkHDJLKu5UMu8k+MBEhac5JlQkBYn
+ 6E1Y+15vqJFUtZty3CnE/IQbYq8N2iXvnEy3wDI9nIl4odE0xXx3wkt6Bxrp5kjX06V1
+ ZGQWb+MtBax2N035pAjJ89nVFKv0gs5zmF9aOWbkGYAJPXj9gaJx2HUO4xRCblgcsBQ+
+ k8IOtiVzjKEadfv8jIHuEZ65NrpBKsYHTDbk3GbG9bZAWTD+YEHNXP58eKy+V/nFWhbs
+ IcnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713190134; x=1713794934;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7ffqkZv6NU1XVLoi7ZZmP9xiD5mI03MT5YlX8qNMxec=;
- b=qvvydrGdTcMiBIKPHLDMwds5X/lNHLP+8IIVdiqrApAUiZw92T7OQoJ8221LExpWrw
- 3t8DHG5oSCe1VIwRzj+la3JGQBfOm6JiCbUs0nbk//luffiaMxhqLfKnZH0CdYy7jcug
- 66hioAaGex5PlcJ55oxDEk7X4d+IHKxUS7Le/Hqr1+u8kXCbquU9E39wNP18FpDB2Rbw
- 5nLhPtyw8n7V3vOjQsZivYkAmIS4JHT+0jRicIR16jrZ1z2BfoYee2o9KKGE0hYa8Iou
- cJ7ODE/l0rR9+hHxl15aB7o96phM63mYRQ5auwNjgEHsHejwmnY5ikJ3pdBa+fGxdl6N
- GpCg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCURzqeqaRvkQwp3pKmLBeFKWFnnOIap7rb1o+H/8aGiyLDcyVcwT8RmD4oK+DREdpcW+uwvEmX9pnTttUpKM9Tsrr/uOLVoHZVRKM5Wal5S
-X-Gm-Message-State: AOJu0YxU69bt3biAn+PoqkeAbSIizdSVu9/7pd4Qc3YX4DnOjW5BtAqy
- eYo0SeHeBxJPh2l7629+xWWG9gAXv0zoP+ENk8iWMRqm1VQvC9gI
-X-Google-Smtp-Source: AGHT+IE+ktQYgsisac562rlKlz2YFklr2GD1YaoOkMzst5BOYaX9SNUBJ70qkBM1Unjkn7prAQRI0A==
-X-Received: by 2002:a5d:4412:0:b0:343:93dc:6255 with SMTP id
- z18-20020a5d4412000000b0034393dc6255mr5913337wrq.27.1713190134125; 
- Mon, 15 Apr 2024 07:08:54 -0700 (PDT)
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
- by smtp.gmail.com with ESMTPSA id
- g14-20020a5d46ce000000b0034335e47102sm12245491wrs.113.2024.04.15.07.08.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Apr 2024 07:08:53 -0700 (PDT)
-Message-ID: <345a958f-dde4-4211-850c-7b23ddd71b0b@gmail.com>
-Date: Mon, 15 Apr 2024 16:08:52 +0200
+ d=1e100.net; s=20230601; t=1713190583; x=1713795383;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=QfWZ6p4Ra3V5a1g7hJEFDN7tbjxd+ey9ZnLhDNNg/5k=;
+ b=JEnbIUxMb3lmcr3+PqA+5JxRyXmSdg64VxkVnCDnT4SbaUHdAHS5NneLm2w/uT1711
+ dRQwpK/mpmABASQMBCqoggcItG/DrHWPEfZgDLPL7D2psOqjq96aBPulmBJr9YdSr+Kc
+ /lc/xs99+Ok/7YNoFl5lc5Zeu2nD4yDgSqdSfwvLRLbNob9o/rku7oI5IIJKCto0xYZm
+ 99HufxBgh1mE1YVN0lm1Rhxq2E6xlHh1oS5izcE53/47VHdqt5okr+W2MCGgjVhJww1c
+ bEGkg0pfJwrjW2doCIH3RL57W5IuYBsDy9Fdo+Rugb8ozPpRiDQGz9x3YY0Xqt9AoGHE
+ zSsQ==
+X-Gm-Message-State: AOJu0Yx3GE8OW5eAGaZIgK0lHeI2cJA7MLZuayoqg58BxF4WzNzK6ack
+ YSiREegbTY34DUtqWC+4lZMg3QDHpAoIp3+0mM1Z0qkVkcBuvdte
+X-Google-Smtp-Source: AGHT+IHx7ybRjl1lX/qgj18sR8Rm0HIVycuQyLLVmCr1H4BxvhQQKLOseYfd8ym1djHwIJvXLoSI2Q==
+X-Received: by 2002:a05:6a00:1406:b0:6ec:d76b:6fac with SMTP id
+ l6-20020a056a00140600b006ecd76b6facmr11387342pfu.12.1713190582734; 
+ Mon, 15 Apr 2024 07:16:22 -0700 (PDT)
+Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
+ y16-20020a056a00181000b006ed9760b815sm7237942pfa.211.2024.04.15.07.16.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Apr 2024 07:16:22 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+ id 59A891832065F; Mon, 15 Apr 2024 21:16:19 +0700 (WIB)
+Date: Mon, 15 Apr 2024 21:16:18 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+ pekka.paalanen@collabora.com, thomas.petazzoni@bootlin.com
+Subject: Re: [PATCH 3/3] drm/fourcc: Add documentation around drm_format_info
+Message-ID: <Zh02sk_NAy6eMSCt@archie.me>
+References: <20240409-google-drm-doc-v1-0-033d55cc8250@bootlin.com>
+ <20240409-google-drm-doc-v1-3-033d55cc8250@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ttm: stop pooling cached NUMA pages v2
-To: Felix Kuehling <felix.kuehling@amd.com>, Alexander.Deucher@amd.com,
- Rajneesh.Bhardwaj@amd.com, Steven.Roberts@amd.com,
- dri-devel@lists.freedesktop.org
-References: <20240415134821.1919-1-christian.koenig@amd.com>
- <4b04b1d7-2215-42ae-a65a-eb8103bb847e@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <4b04b1d7-2215-42ae-a65a-eb8103bb847e@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="/AhLcWdqLXTIlsLz"
+Content-Disposition: inline
+In-Reply-To: <20240409-google-drm-doc-v1-3-033d55cc8250@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,121 +88,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 15.04.24 um 15:53 schrieb Felix Kuehling:
-> On 2024-04-15 9:48, Christian König wrote:
->> From: Christian König <ckoenig.leichtzumerken@gmail.com>
->>
->> We only pool write combined and uncached allocations because they
->> require extra overhead on allocation and release.
->>
->> If we also pool cached NUMA it not only means some extra unnecessary
->> overhead, but also that under memory pressure it can happen that
->> pages from the wrong NUMA node enters the pool and are re-used
->> over and over again.
->>
->> This can lead to performance reduction after running into memory
->> pressure.
->>
->> v2: restructure and cleanup the code a bit from the internal hack to
->>      test this.
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> Fixes: 4482d3c94d7f ("drm/ttm: add NUMA node id to the pool")
->> CC: stable@vger.kernel.org
->> ---
->>   drivers/gpu/drm/ttm/ttm_pool.c | 38 +++++++++++++++++++++++++---------
->>   1 file changed, 28 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c 
->> b/drivers/gpu/drm/ttm/ttm_pool.c
->> index 112438d965ff..6e1fd6985ffc 100644
->> --- a/drivers/gpu/drm/ttm/ttm_pool.c
->> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
->> @@ -288,17 +288,23 @@ static struct ttm_pool_type 
->> *ttm_pool_select_type(struct ttm_pool *pool,
->>                             enum ttm_caching caching,
->>                             unsigned int order)
->>   {
->> -    if (pool->use_dma_alloc || pool->nid != NUMA_NO_NODE)
->> +    if (pool->use_dma_alloc)
->>           return &pool->caching[caching].orders[order];
->>     #ifdef CONFIG_X86
->>       switch (caching) {
->>       case ttm_write_combined:
->> +        if (pool->nid != NUMA_NO_NODE)
->> +            return &pool->caching[caching].orders[order];
->
-> Doesn't this break USWC allocations on NUMA systems, where we set a 
-> NUMA node for the default pool (at least we were planning to at some 
-> point)?
 
-I don't think so, but I might have missed something. Why do you think 
-that would break?
+--/AhLcWdqLXTIlsLz
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I mean the idea is basically if the pool is associated with a NUMA id we 
-should rather use this pool instead of the global one.
+On Tue, Apr 09, 2024 at 12:04:07PM +0200, Louis Chauvet wrote:
+>  /**
+>   * struct drm_format_info - information about a DRM format
+> + *
+> + * A drm_format_info describes how planes and pixels are stored in memor=
+y.
+> + *
+> + * Some format like YUV can have multiple planes, counted in @num_planes=
+=2E It
+> + * means that a full pixel can be stored in multiple non-continuous buff=
+ers.
+> + * For example, NV12 is a YUV format using two planes: one for the Y val=
+ues and
+> + * one for the UV values.
+> + *
+> + * On each plane, the "pixel" unit can be different in case of subsampli=
+ng. For
+> + * example with the NV12 format, a pixel in the UV plane is used for fou=
+r pixels
+> + * in the Y plane.
+> + * The fields @hsub and @vsub are the relation between the size of the m=
+ain
+> + * plane and the size of the subsampled planes in pixels:
+> + *	plane[0] width =3D hsub * plane[1] width
+> + *	plane[0] height =3D vsub * plane[1] height
+> + *
+> + * In some formats, pixels are not independent in memory. It can be a pa=
+cked
+> + * representation to store more pixels per byte (for example P030 uses 4=
+ bytes
+> + * for three 10 bit pixels). It can also be used to represent tiled form=
+ats,
+> + * where a continuous buffer in memory can represent a rectangle of pixe=
+ls (for
+> + * example, in DRM_FORMAT_Y0L0, a buffer of 8 bytes represents a 2x2 pix=
+el
+> + * region of the picture).
+> + *	The field @char_per_block is the size of a block on a specific plane,=
+ in
+> + *	bytes.
+> + *	The fields @block_w and @block_h are the size of a block in pixels.
+> + *
+> + * The older format representation (which only uses @cpp, kept for histo=
+rical
+> + * reasons because there are a lot of places in drivers where it's used)=
+ is
+> + * assuming that a block is always 1x1 pixel.
+> + *
+> + * To keep the compatibility with older format representations and treat=
+ block
+> + * and non-block formats in the same way one should use:
+> + *	- @char_per_block to access the size of a block on a specific plane, =
+in
+> + *	bytes.
+> + *	- drm_format_info_block_width() to access the width of a block of a
+> + *	specific plane, in pixels.
+> + *	- drm_format_info_block_height() to access the height of a block of a
+> + *	specific plane, in pixels.
+>   */
+>  struct drm_format_info {
+>  	/** @format: 4CC format identifier (DRM_FORMAT_*) */
+> @@ -97,13 +135,6 @@ struct drm_format_info {
+>  		 * formats for which the memory needed for a single pixel is not
+>  		 * byte aligned.
+>  		 *
+> -		 * @cpp has been kept for historical reasons because there are
+> -		 * a lot of places in drivers where it's used. In drm core for
+> -		 * generic code paths the preferred way is to use
+> -		 * @char_per_block, drm_format_info_block_width() and
+> -		 * drm_format_info_block_height() which allows handling both
+> -		 * block and non-block formats in the same way.
+> -		 *
+>  		 * For formats that are intended to be used only with non-linear
+>  		 * modifiers both @cpp and @char_per_block must be 0 in the
+>  		 * generic format table. Drivers could supply accurate
+>=20
 
-And that is true for both cases, the default pool and the specialized ones.
+Sphinx reports htmldocs warnings:
 
-Regards,
-Christian.
+Documentation/gpu/drm-kms:357: ./include/drm/drm_fourcc.h:74: ERROR: Unexpe=
+cted indentation.
+Documentation/gpu/drm-kms:357: ./include/drm/drm_fourcc.h:83: ERROR: Unexpe=
+cted indentation.
+Documentation/gpu/drm-kms:357: ./include/drm/drm_fourcc.h:93: ERROR: Unexpe=
+cted indentation.
+Documentation/gpu/drm-kms:357: ./include/drm/drm_fourcc.h:94: WARNING: Bull=
+et list ends without a blank line; unexpected unindent.
 
->
-> Regards,
->   Felix
->
->
->> +
->>           if (pool->use_dma32)
->>               return &global_dma32_write_combined[order];
->>             return &global_write_combined[order];
->>       case ttm_uncached:
->> +        if (pool->nid != NUMA_NO_NODE)
->> +            return &pool->caching[caching].orders[order];
->> +
->>           if (pool->use_dma32)
->>               return &global_dma32_uncached[order];
->>   @@ -566,11 +572,17 @@ void ttm_pool_init(struct ttm_pool *pool, 
->> struct device *dev,
->>       pool->use_dma_alloc = use_dma_alloc;
->>       pool->use_dma32 = use_dma32;
->>   -    if (use_dma_alloc || nid != NUMA_NO_NODE) {
->> -        for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
->> -            for (j = 0; j < NR_PAGE_ORDERS; ++j)
->> - ttm_pool_type_init(&pool->caching[i].orders[j],
->> -                           pool, i, j);
->> +    for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
->> +        for (j = 0; j < NR_PAGE_ORDERS; ++j) {
->> +            struct ttm_pool_type *pt;
->> +
->> +            /* Initialize only pool types which are actually used */
->> +            pt = ttm_pool_select_type(pool, i, j);
->> +            if (pt != &pool->caching[i].orders[j])
->> +                continue;
->> +
->> +            ttm_pool_type_init(pt, pool, i, j);
->> +        }
->>       }
->>   }
->>   EXPORT_SYMBOL(ttm_pool_init);
->> @@ -599,10 +611,16 @@ void ttm_pool_fini(struct ttm_pool *pool)
->>   {
->>       unsigned int i, j;
->>   -    if (pool->use_dma_alloc || pool->nid != NUMA_NO_NODE) {
->> -        for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
->> -            for (j = 0; j < NR_PAGE_ORDERS; ++j)
->> - ttm_pool_type_fini(&pool->caching[i].orders[j]);
->> +    for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
->> +        for (j = 0; j < NR_PAGE_ORDERS; ++j) {
->> +            struct ttm_pool_type *pt;
->> +
->> +            pt = ttm_pool_select_type(pool, i, j);
->> +            if (pt != &pool->caching[i].orders[j])
->> +                continue;
->> +
->> +            ttm_pool_type_fini(pt);
->> +        }
->>       }
->>         /* We removed the pool types from the LRU, but we need to 
->> also make sure
+I have to fix up the lists:
 
+---- >8 ----
+diff --git a/include/drm/drm_fourcc.h b/include/drm/drm_fourcc.h
+index 66cc30e28f794a..10ee74fa46d21e 100644
+--- a/include/drm/drm_fourcc.h
++++ b/include/drm/drm_fourcc.h
+@@ -71,8 +71,9 @@ struct drm_mode_fb_cmd2;
+  * in the Y plane.
+  * The fields @hsub and @vsub are the relation between the size of the main
+  * plane and the size of the subsampled planes in pixels:
+- *	plane[0] width =3D hsub * plane[1] width
+- *	plane[0] height =3D vsub * plane[1] height
++ *
++ *	- plane[0] width =3D hsub * plane[1] width
++ *	- plane[0] height =3D vsub * plane[1] height
+  *
+  * In some formats, pixels are not independent in memory. It can be a pack=
+ed
+  * representation to store more pixels per byte (for example P030 uses 4 b=
+ytes
+@@ -80,9 +81,10 @@ struct drm_mode_fb_cmd2;
+  * where a continuous buffer in memory can represent a rectangle of pixels=
+ (for
+  * example, in DRM_FORMAT_Y0L0, a buffer of 8 bytes represents a 2x2 pixel
+  * region of the picture).
+- *	The field @char_per_block is the size of a block on a specific plane, in
+- *	bytes.
+- *	The fields @block_w and @block_h are the size of a block in pixels.
++ *
++ *	- The field @char_per_block is the size of a block on a specific plane,
++ *	  in bytes.
++ *	- The fields @block_w and @block_h are the size of a block in pixels.
+  *
+  * The older format representation (which only uses @cpp, kept for histori=
+cal
+  * reasons because there are a lot of places in drivers where it's used) is
+@@ -90,12 +92,13 @@ struct drm_mode_fb_cmd2;
+  *
+  * To keep the compatibility with older format representations and treat b=
+lock
+  * and non-block formats in the same way one should use:
++ *
+  *	- @char_per_block to access the size of a block on a specific plane, in
+- *	bytes.
++ *	  bytes.
+  *	- drm_format_info_block_width() to access the width of a block of a
+- *	specific plane, in pixels.
++ *	  specific plane, in pixels.
+  *	- drm_format_info_block_height() to access the height of a block of a
+- *	specific plane, in pixels.
++ *	  specific plane, in pixels.
+  */
+ struct drm_format_info {
+ 	/** @format: 4CC format identifier (DRM_FORMAT_*) */
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--/AhLcWdqLXTIlsLz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZh02rgAKCRD2uYlJVVFO
+o/AIAP9nAjuvp2Syyy0KsbDw+mAbk2nVyjWPoMzlKnG+nYAn3gD/fAP+e2p93os3
+hY0n5qJZp+AlZtoBCoICJkxphd2UCQM=
+=NyHa
+-----END PGP SIGNATURE-----
+
+--/AhLcWdqLXTIlsLz--
