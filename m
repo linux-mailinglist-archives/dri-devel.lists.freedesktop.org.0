@@ -2,62 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 906988A4772
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 06:39:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAD4F8A479C
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 07:37:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5794510E8F6;
-	Mon, 15 Apr 2024 04:39:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5F43112188;
+	Mon, 15 Apr 2024 05:37:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GoriXNdC";
+	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="tEkTfund";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93E2610E054;
- Mon, 15 Apr 2024 04:39:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713155960; x=1744691960;
- h=message-id:date:mime-version:subject:from:to:cc:
- references:in-reply-to:content-transfer-encoding;
- bh=xAD1aFqnzl73taL/FeC1hAcDSI9TFg3roUcmuXf1xsA=;
- b=GoriXNdC6bziqrg6o9ps73sUmXrbXqLYSwFAxynCEKbMLlztKHJOsHzp
- VkLsDPQ6A3RX9hAla+ouez1l2b5iF6xrQhd+iTPEsSeAZYjJcba6K0L67
- enqck7oauUmKHe7MeuNTOhWQeWIWcbA5uwdhHsbvUxr1AM5G6karV/hbj
- J4Lnr2buOhRe9wxrfDUfHkvAOim7SyM9EBGafrqWkCJXdsboBM40B3hmC
- 1VEt2RlYXXbR/EwTQuTNuuXWL/ajOhGd4MJlITQih0oA07KC+Es9xcGTE
- FkMp583FE9N3s5J2Mi1hCdKwO5bUnUB2+8yprkzZDZRUEjDR5xI5NAxDx g==;
-X-CSE-ConnectionGUID: nCxwdPA0RoquElvQOw2OAw==
-X-CSE-MsgGUID: pWZxqbg9Qsi03XjmRE5jdw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11044"; a="8698001"
-X-IronPort-AV: E=Sophos;i="6.07,202,1708416000"; 
-   d="scan'208";a="8698001"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2024 21:39:19 -0700
-X-CSE-ConnectionGUID: uaGur8UmRtq6WiCDcluQ+A==
-X-CSE-MsgGUID: ZkKyovpxSSWgNNGzIdpGew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,202,1708416000"; d="scan'208";a="26596290"
-Received: from aravind-dev.iind.intel.com (HELO [10.145.162.146])
- ([10.145.162.146])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2024 21:39:16 -0700
-Message-ID: <390e30de-3967-41c0-9e38-6421be1b6a1e@linux.intel.com>
-Date: Mon, 15 Apr 2024 10:12:05 +0530
+Received: from mail.mainlining.org (mainlining.org [94.241.141.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6756B112188
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 05:37:06 +0000 (UTC)
+Received: from localhost (docker-mailserver-web-1.docker-mailserver_default
+ [172.18.0.7])
+ by mail.mainlining.org (Postfix) with ESMTPSA id EB9A1E203B;
+ Mon, 15 Apr 2024 05:37:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mainlining.org;
+ s=psm; t=1713159423;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=h7W3LbTdue4pSYiwFamrqkStaJfMW6q25cCT+vst61s=;
+ b=tEkTfund5YDbUgpUAoub7p15puwDZJOfiQb+OQ6sf8BKo95YGNJ9IMXL311zprn+s5CnKe
+ nBZEGphrKP8w+Aqz2BlQQtm0w/qfAo/1R0kNLqIx63Wnzz7PjqUprovX75Dk55ax8RSdGS
+ vWnaSrseaghF7O6PnXptFFFXEdnye8gbJ8mLkxfAPiQz3VKAFdP+qGz3FYuOgJdcNc4oVP
+ aG+mS84Xtgmp5VZMzPV/TbPRIdUAUI0zMhIY+mXlFBxGKVsT8sax9F7EvAGEtaZo7Aku9C
+ ThvvdA11LL6wQBr4UcjBd+CkI9P8byPJhoswaURD9cTnsINzP2Bfox+y6tltEQ==
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] drm: add devm release action
-Content-Language: en-US
-From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
-To: intel-xe@lists.freedesktop.org, thomas.hellstrom@linux.intel.com,
- rodrigo.vivi@intel.com, lucas.demarchi@intel.com
-Cc: dri-devel@lists.freedesktop.org
-References: <20240402085859.1591264-1-aravind.iddamsetty@linux.intel.com>
- <20240402085859.1591264-2-aravind.iddamsetty@linux.intel.com>
-In-Reply-To: <20240402085859.1591264-2-aravind.iddamsetty@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Mon, 15 Apr 2024 07:37:02 +0200
+From: david@mainlining.org
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: airlied@gmail.com, conor+dt@kernel.org, daniel@ffwll.ch,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ konradybcio@kernel.org, krzk+dt@kernel.org, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, marijn.suijten@somainline.org,
+ mripard@kernel.org, neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
+ robh@kernel.org, sam@ravnborg.org, tzimmermann@suse.de,
+ ~postmarketos/upstreaming@lists.sr.ht
+Subject: Re: [PATCH 2/2] drm/panel: Add driver for EDO RM69380 OLED panel
+In-Reply-To: <d0db78dd-c915-41f3-b1be-b30a0266741d@wanadoo.fr>
+References: <20240414-raydium-rm69380-driver-v1-0-5e86ba2490b5@mainlining.org>
+ <20240414-raydium-rm69380-driver-v1-2-5e86ba2490b5@mainlining.org>
+ <d0db78dd-c915-41f3-b1be-b30a0266741d@wanadoo.fr>
+Message-ID: <7529f14b292c7173d4a60a7dca8af92b@mainlining.org>
+X-Sender: david@mainlining.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,57 +67,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+W dniu 2024-04-14 22:22, Christophe JAILLET napisał(a):
+> Le 14/04/2024 à 17:22, David Wronek a écrit :
+>> Add support for the 2560x1600@90Hz OLED panel by EDO bundled with a
+>> Raydium RM69380 controller, as found on the Lenovo Xiaoxin Pad Pro 
+>> 2021.
+>> 
+>> Signed-off-by: David Wronek 
+>> <david-vu3DzTD92ROXwddmVfQv5g@public.gmane.org>
+>> ---
+>>   drivers/gpu/drm/panel/Kconfig                 |  14 +
+>>   drivers/gpu/drm/panel/Makefile                |   1 +
+>>   drivers/gpu/drm/panel/panel-raydium-rm69380.c | 378 
+>> ++++++++++++++++++++++++++
+>>   3 files changed, 393 insertions(+)
+>> 
+>> diff --git a/drivers/gpu/drm/panel/Kconfig 
+>> b/drivers/gpu/drm/panel/Kconfig
+>> index 154f5bf82980..84cbd838f57e 100644
+>> --- a/drivers/gpu/drm/panel/Kconfig
+>> +++ b/drivers/gpu/drm/panel/Kconfig
+>> @@ -542,6 +542,20 @@ config DRM_PANEL_RAYDIUM_RM692E5
+>>   	  Say Y here if you want to enable support for Raydium 
+>> RM692E5-based
+>>   	  display panels, such as the one found in the Fairphone 5 
+>> smartphone.
+>>   +config DRM_PANEL_RAYDIUM_RM69380
+>> +	tristate "Raydium RM69380-based DSI panel"
+>> +	depends on BACKLIGHT_CLASS_DEVICE
+>> +	depends on DRM_DISPLAY_DP_HELPER
+>> +	depends on DRM_DISPLAY_HELPER
+>> +	depends on DRM_MIPI_DSI
+>> +	depends on OF
+>> +	help
+>> +	  Say Y here if you want to enable support for Raydium RM69380-based
+>> +	  display panels.
+>> +
+>> +	  This panel controller can be found in the Lenovo Xiaoxin Pad Pro 
+>> 2021
+>> +	  in combiantion with an EDO OLED panel.
+> 
+> combination?
+> 
 
-Could you share your thoughts on this please.
+Yes, this is just one of the examples where this driver IC can be found. 
+It can also be used with panels other than those from EDO.
 
-Thanks,
-Aravind.
+>> +
+>>   config DRM_PANEL_RONBO_RB070D30
+>>   	tristate "Ronbo Electronics RB070D30 panel"
+>>   	depends on OF
 
-
-On 02/04/24 14:28, Aravind Iddamsetty wrote:
-> In scenarios where drm_dev_put is directly called by driver we want to
-> release devm_drm_dev_init_release action associated with struct
-> drm_device.
->
-> v2: Directly expose the original function, instead of introducing a
-> helper (Rodrigo)
->
-> Cc: Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
-> ---
->  drivers/gpu/drm/drm_drv.c | 6 ++++++
->  include/drm/drm_drv.h     | 2 ++
->  2 files changed, 8 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 243cacb3575c..ba60cbb0725f 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -714,6 +714,12 @@ static int devm_drm_dev_init(struct device *parent,
->  					devm_drm_dev_init_release, dev);
->  }
->  
-> +void devm_drm_dev_release_action(struct drm_device *dev)
-> +{
-> +	devm_release_action(dev->dev, devm_drm_dev_init_release, dev);
-> +}
-> +EXPORT_SYMBOL(devm_drm_dev_release_action);
-> +
->  void *__devm_drm_dev_alloc(struct device *parent,
->  			   const struct drm_driver *driver,
->  			   size_t size, size_t offset)
-> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> index 8878260d7529..fa9123684874 100644
-> --- a/include/drm/drm_drv.h
-> +++ b/include/drm/drm_drv.h
-> @@ -444,6 +444,8 @@ struct drm_driver {
->  	const struct file_operations *fops;
->  };
->  
-> +void devm_drm_dev_release_action(struct drm_device *dev);
-> +
->  void *__devm_drm_dev_alloc(struct device *parent,
->  			   const struct drm_driver *driver,
->  			   size_t size, size_t offset);
+Best regards,
+David Wronek <david@mainlining.org>
