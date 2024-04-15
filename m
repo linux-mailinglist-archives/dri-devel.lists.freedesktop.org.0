@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0C6D8A5498
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 16:38:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF828A5520
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 16:42:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06ED7112620;
-	Mon, 15 Apr 2024 14:38:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA273112636;
+	Mon, 15 Apr 2024 14:42:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EUl1AsO1";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mYH1LVdW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4799A112620
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 14:38:37 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8690112635
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 14:42:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 604C6CE0C45;
- Mon, 15 Apr 2024 14:38:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46C7EC4AF0A;
- Mon, 15 Apr 2024 14:38:34 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3E6E460E09;
+ Mon, 15 Apr 2024 14:42:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F9B6C4AF11;
+ Mon, 15 Apr 2024 14:42:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1713191914;
- bh=I6oJYm0hR08TOpTU4NHwTel8Bht/BaFzQS/ybBX9lRI=;
+ s=korg; t=1713192134;
+ bh=wqlMZfTwF0e1+/s+EKYgq1CyqhcpOOX1tUWFdpBtfj8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EUl1AsO1iGgmino4k7sNUGnwlakmIyHx5CNi8THdP1rnuUUy1DMrhN4JY2Q61OoN9
- Vz4sAPknuxZhx2jASkS3qLReAC/ERygjr8iXzwnzWoE7bLrioznVPbBS4L1SKC0v7Q
- 5ITwFY4h5s+dZECM337/ZMewQ+ydyAcTRzYjEfDg=
+ b=mYH1LVdW/z0N0+QGnhkAV40d6avAO5jizA4EaxjqCKXK9owB1PZj99xKRV78e0bmU
+ +MufCmvM5vgpaCo9WoNER2Jf+m05mHr9jcVD8r55Jem1YgjXKB7d9r6TVQbqyuMtFB
+ hMArFyW8IkorwbilkzQAoDp2GMtvo3FcxuBebOMM=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
@@ -35,12 +35,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  Thomas Zimmermann <tzimmermann@suse.de>,
  KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
  Dave Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org
-Subject: [PATCH 6.6 091/122] drm/ast: Fix soft lockup
-Date: Mon, 15 Apr 2024 16:20:56 +0200
-Message-ID: <20240415141956.105593520@linuxfoundation.org>
+Subject: [PATCH 6.1 48/69] drm/ast: Fix soft lockup
+Date: Mon, 15 Apr 2024 16:21:19 +0200
+Message-ID: <20240415141947.614367351@linuxfoundation.org>
 X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240415141953.365222063@linuxfoundation.org>
-References: <20240415141953.365222063@linuxfoundation.org>
+In-Reply-To: <20240415141946.165870434@linuxfoundation.org>
+References: <20240415141946.165870434@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -61,7 +61,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.6-stable review patch.  If anyone has any objections, please let me know.
+6.1-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -101,15 +101,15 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/ast/ast_dp.c
 +++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -180,6 +180,7 @@ void ast_dp_set_on_off(struct drm_device
+@@ -190,6 +190,7 @@ void ast_dp_set_on_off(struct drm_device
  {
- 	struct ast_device *ast = to_ast_device(dev);
+ 	struct ast_private *ast = to_ast_private(dev);
  	u8 video_on_off = on;
 +	u32 i = 0;
  
  	// Video On/Off
  	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE3, (u8) ~AST_DP_VIDEO_ENABLE, on);
-@@ -192,6 +193,8 @@ void ast_dp_set_on_off(struct drm_device
+@@ -202,6 +203,8 @@ void ast_dp_set_on_off(struct drm_device
  						ASTDP_MIRROR_VIDEO_ENABLE) != video_on_off) {
  			// wait 1 ms
  			mdelay(1);
