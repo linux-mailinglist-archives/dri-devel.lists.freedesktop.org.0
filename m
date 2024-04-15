@@ -2,68 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251ED8A56E3
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 18:00:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBDB68A56F5
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 18:02:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 155A310F715;
-	Mon, 15 Apr 2024 16:00:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1818B10EB3C;
+	Mon, 15 Apr 2024 16:02:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="b3c1shes";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="PTetTvaZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04FA210EA45
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 16:00:45 +0000 (UTC)
-Received: from [127.0.1.1] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7FBE47E4;
- Mon, 15 Apr 2024 17:59:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1713196798;
- bh=aHZGJy27O3UQ6ClAkPEPt8qvWQjPk8Laos6wipFyuwQ=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=b3c1sheswxT8ikKUTQ8Pt3VoSPGellzjUiMwcpuLIaFondbj1fOPgdwVO4HLqRbTM
- STb1eSDtoyF2ldLIzTI8/0v68iRRRVV5uhwIMX+jiqMNQLXbTEkMJNoTtsw8fuWjQ3
- qQ3vJPwqPg5ql6Yu6RnUf03vgms3ruY6gDWI39ng=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Mon, 15 Apr 2024 19:00:24 +0300
-Subject: [PATCH RFC 2/2] pmdomain: ti-sci: Support retaining PD boot time state
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3714F10EAA6
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 16:02:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=gvP98hInYZFCEb5VK1mtdtvDH7LnJs48ws8WOxjRwBY=; b=PTetTvaZs9ggupnEFrB7AJU0mZ
+ mJlQ0/crf9ub0UjAEW+yON6fneMulycSAmSWYD8W9Y1qc6PX7tT2IQRH1Totn/HtrtTWyBzTPj1VH
+ A9/EIuFWKtXSyAICrMXVafo8CME8B+jfM66c8QsZS37Xw5LgCg7fJJta6znGYAq1o7kUHEoC6CNc5
+ ESgt1pfc/8A7I3IuKP845m+bDx9caKo6qCUyTqVzaJugm8lrakjPwit8ExvQ5OVWfAP39KuIz6CfQ
+ 3IK0jTfIpbcMrB/OAX4dcoSdxd3JALXeduAX7V2MuiYkuLH352ApZHFnYkcurK/XVP4swAy3SFExS
+ RBajd2Hg==;
+Received: from [177.34.169.177] (helo=localhost.localdomain)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1rwOmZ-004p8n-Ta; Mon, 15 Apr 2024 18:02:12 +0200
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Maxime Ripard <mripard@kernel.org>, Melissa Wen <mwen@igalia.com>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>,
+ Andre Przywara <andre.przywara@arm.com>,
+ Romain Perier <romain.perier@gmail.com>, Stefan Wahren <wahrenst@gmx.net>
+Cc: dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, kernel-dev@igalia.com,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+Subject: [PATCH v2] ARM: dts: bcm2835: Enable 3D rendering through V3D
+Date: Mon, 15 Apr 2024 13:00:39 -0300
+Message-ID: <20240415160129.14149-2-mcanal@igalia.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240415-ti-sci-pd-v1-2-a0e56b8ad897@ideasonboard.com>
-References: <20240415-ti-sci-pd-v1-0-a0e56b8ad897@ideasonboard.com>
-In-Reply-To: <20240415-ti-sci-pd-v1-0-a0e56b8ad897@ideasonboard.com>
-To: Nishanth Menon <nm@ti.com>, Tero Kristo <kristo@kernel.org>, 
- Santosh Shilimkar <ssantosh@kernel.org>, Dave Gerlach <d-gerlach@ti.com>, 
- J Keerthy <j-keerthy@ti.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Santosh Shilimkar <santosh.shilimkar@oracle.com>, 
- linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4969;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=aHZGJy27O3UQ6ClAkPEPt8qvWQjPk8Laos6wipFyuwQ=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBmHU8o1BLaDv0NeuzDEaSDr1lMCCxM+xTAexGI4
- 03BPSBl+9aJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZh1PKAAKCRD6PaqMvJYe
- 9V50EACQR5lMfH0sU8J1ckdRURsik2Oe516ogzaF77WK53RcpQSizwEC4rmMXtr7c+EH0R99Fv0
- qq5SWYcF/b/A/NNoFFFZUx7Nn3x2A3MkEBfz/3QxvXBtykhELggAT5S711Jc9nh7pFX7GAIow8A
- 57tB8EFNAbqANxYRSgrmJPk0wIEucMd3NRwQIsmc8RejszxiZM2wvZ2uGXOnRRprO0AGyujN64m
- 0mZE5JK6tTTf41uNH36KqO6qEHuV1V0Jm6Mb+awZKvIk2Xl5ZigAe8H5pmDeh91I4piH4AXKM3m
- 7MU+HEdDgjLuxrDdfJks4NmAQFQrDyvWO+3m1pH9G0PJY20ONJJ+O1BSThlpwmYf9uX+RseYb4w
- +XWJhLsb4B4qJohUzJDTUb3v9s//HyxOOUsFQ192QDU8hUBQUw2MAFThqD/kUf4WPoGTWHMHfLO
- mWfDc2kUScL1qhruStp7kkQUZC+EZr33mqPnchZXXsNdMPBjt4gwvROt/T1YBOIxv4ApVjTy87l
- QJs4mo0aMGMM/B2UMO8hZS+gTJoYC6DWzpHS1lntXvV2qKi0aXBkZn2ho//yOC6/zUItS9uN6J8
- KI+P1Npv32mYqomT4gm0f0jJzOx85HociK9SHo2d41c0jw16CFJuFaHtI+P6eLaABRDM6OwUBDa
- r3XMNW7U5/A1Uuw==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,123 +66,229 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new flag, TI_SCI_PD_KEEP_BOOT_STATE, which can be set in the dts
-when referring to power domains. When this flag is set, the ti-sci
-driver will check if the PD is currently enabled in the HW, and if so,
-set the GENPD_FLAG_ALWAYS_ON flag so that the PD will stay enabled.
+RPi 0-3 is packed with a GPU that provides 3D rendering capabilities to
+the RPi. Currently, the downstream kernel uses an overlay to enable the
+GPU and use GPU hardware acceleration. When deploying a mainline kernel
+to the RPi 0-3, we end up without any GPU hardware acceleration
+(essentially, we can't use the OpenGL driver).
 
-The main issue I'm trying to solve here is this:
+Therefore, enable the V3D core for the RPi 0-3 in the mainline kernel.
 
-If the Display Subsystem (DSS) has been enabled by the bootloader, the
-related PD has also been enabled in the HW. When the tidss driver
-probes, the driver framework will automatically enable the PD. While
-executing the probe function it is very common for the probe to return
-EPROBE_DEFER, and, in rarer cases, an actual error. When this happens
-(probe() returns an error), the driver framework will automatically
-disable the related PD.
-
-Powering off the PD while the DSS is enabled and displaying a picture
-will cause the DSS HW to enter a bad state, from which (afaik) it can't
-be woken up except with full power-cycle. Trying to access the DSS in
-this state (e.g. when retrying the probe) will usually cause the board
-to hang sooner or later.
-
-Even if we wouldn't have this board-hangs issue, it's nice to be able to
-keep the DSS PD enabled: we want to keep the DSS enabled when the
-bootloader has enabled the screen. If, instead, we disable the PD at the
-first EPROBE_DEFER, the screen will (probably) go black.
-
-Another option here would perhaps be to change the driver framework
-(drivers/base/platform.c) which attaches and detaches the PD, and make
-it somehow optional, allowing the driver the manage the PD. That option
-has two downsides: 1) the driver _has_ to manage the PD, which would
-rule out the use of simplefb and simpledrm, and 2) it would leave the PD
-in off state from Linux's perspective until a driver enables the PD, and
-that might mean that the PD gets actually disabled as part of normal
-system wide power management (disabling unused resources).
-
-Yet another option would be to do this outside the ti_sci_pm_domains
-driver: a piece of code that would somehow be ran after the
-ti_sci_pm_domains driver has probed (so that we have the PDs), but
-before tidss/simplefb/simpledrm probes. The problem here is the
-"somehow" part. Also, this would partly have the same issue 2) as
-mentioned above.
-
-TODO: If this approach is ok, sci-pm-domain.yaml needs to be extended.
-Also, it sounds a bit like the cell value is not a bit-mask, so maybe
-adding TI_SCI_PD_KEEP_BOOT_STATE flag this way is not fine.
-
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/pmdomain/ti/ti_sci_pm_domains.c    | 27 +++++++++++++++++++++++++--
- include/dt-bindings/soc/ti,sci_pm_domain.h |  1 +
- 2 files changed, 26 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/pmdomain/ti/ti_sci_pm_domains.c b/drivers/pmdomain/ti/ti_sci_pm_domains.c
-index 1510d5ddae3d..b71b390aaa39 100644
---- a/drivers/pmdomain/ti/ti_sci_pm_domains.c
-+++ b/drivers/pmdomain/ti/ti_sci_pm_domains.c
-@@ -103,7 +103,7 @@ static struct generic_pm_domain *ti_sci_pd_xlate(
- 		return ERR_PTR(-ENOENT);
- 
- 	genpd_to_ti_sci_pd(genpd_data->domains[idx])->exclusive =
--		genpdspec->args[1];
-+		genpdspec->args[1] & TI_SCI_PD_EXCLUSIVE;
- 
- 	return genpd_data->domains[idx];
- }
-@@ -161,6 +161,8 @@ static int ti_sci_pm_domain_probe(struct platform_device *pdev)
- 				break;
- 
- 			if (args.args_count >= 1 && args.np == dev->of_node) {
-+				bool is_on = false;
-+
- 				if (args.args[0] > max_id) {
- 					max_id = args.args[0];
- 				} else {
-@@ -189,7 +191,28 @@ static int ti_sci_pm_domain_probe(struct platform_device *pdev)
- 				pd->idx = args.args[0];
- 				pd->parent = pd_provider;
- 
--				pm_genpd_init(&pd->pd, NULL, true);
-+				/*
-+				 * If TI_SCI_PD_KEEP_BOOT_STATE is set and the
-+				 * PD has been enabled by the bootloader, set
-+				 * the PD to GENPD_FLAG_ALWAYS_ON. This will
-+				 * make sure the PD stays enabled until a driver
-+				 * takes over and clears the GENPD_FLAG_ALWAYS_ON
-+				 * flag.
-+				 */
-+				if (args.args_count > 1 &&
-+				    args.args[1] & TI_SCI_PD_KEEP_BOOT_STATE) {
-+					/*
-+					 * We ignore any error here, and in case
-+					 * of error just assume the PD is off.
-+					 */
-+					pd_provider->ti_sci->ops.dev_ops.is_on(pd_provider->ti_sci,
-+						pd->idx, NULL, &is_on);
-+
-+					if (is_on)
-+						pd->pd.flags |= GENPD_FLAG_ALWAYS_ON;
-+				}
-+
-+				pm_genpd_init(&pd->pd, NULL, !is_on);
- 
- 				list_add(&pd->node, &pd_provider->pd_list);
- 			}
-diff --git a/include/dt-bindings/soc/ti,sci_pm_domain.h b/include/dt-bindings/soc/ti,sci_pm_domain.h
-index 8f2a7360b65e..af610208e3a3 100644
---- a/include/dt-bindings/soc/ti,sci_pm_domain.h
-+++ b/include/dt-bindings/soc/ti,sci_pm_domain.h
-@@ -3,6 +3,7 @@
- #ifndef __DT_BINDINGS_TI_SCI_PM_DOMAIN_H
- #define __DT_BINDINGS_TI_SCI_PM_DOMAIN_H
- 
-+#define TI_SCI_PD_KEEP_BOOT_STATE 2
- #define TI_SCI_PD_EXCLUSIVE	1
- #define TI_SCI_PD_SHARED	0
- 
+v1 -> v2: https://lore.kernel.org/dri-devel/41694292-af1f-4760-a7b6-101ed5dd6f9d@gmx.net/T/
 
+* As mentioned by Krzysztof, enabling should be done in last place of
+	override/extend. Therefore, I'm disabling V3D in the common dtsi
+	and enabling in the last place of extend, i.e. the RPi DTS files.
+
+ arch/arm/boot/dts/broadcom/bcm2835-common.dtsi      | 1 +
+ arch/arm/boot/dts/broadcom/bcm2835-rpi-a-plus.dts   | 4 ++++
+ arch/arm/boot/dts/broadcom/bcm2835-rpi-a.dts        | 4 ++++
+ arch/arm/boot/dts/broadcom/bcm2835-rpi-b-plus.dts   | 4 ++++
+ arch/arm/boot/dts/broadcom/bcm2835-rpi-b-rev2.dts   | 4 ++++
+ arch/arm/boot/dts/broadcom/bcm2835-rpi-b.dts        | 4 ++++
+ arch/arm/boot/dts/broadcom/bcm2835-rpi-cm1-io1.dts  | 4 ++++
+ arch/arm/boot/dts/broadcom/bcm2835-rpi-zero-w.dts   | 4 ++++
+ arch/arm/boot/dts/broadcom/bcm2835-rpi-zero.dts     | 4 ++++
+ arch/arm/boot/dts/broadcom/bcm2836-rpi-2-b.dts      | 4 ++++
+ arch/arm/boot/dts/broadcom/bcm2837-rpi-3-a-plus.dts | 4 ++++
+ arch/arm/boot/dts/broadcom/bcm2837-rpi-3-b-plus.dts | 4 ++++
+ arch/arm/boot/dts/broadcom/bcm2837-rpi-3-b.dts      | 4 ++++
+ arch/arm/boot/dts/broadcom/bcm2837-rpi-cm3-io3.dts  | 4 ++++
+ arch/arm/boot/dts/broadcom/bcm2837-rpi-zero-2-w.dts | 4 ++++
+ 15 files changed, 57 insertions(+)
+
+diff --git a/arch/arm/boot/dts/broadcom/bcm2835-common.dtsi b/arch/arm/boot/dts/broadcom/bcm2835-common.dtsi
+index 9261b67dbee1..69e34831de51 100644
+--- a/arch/arm/boot/dts/broadcom/bcm2835-common.dtsi
++++ b/arch/arm/boot/dts/broadcom/bcm2835-common.dtsi
+@@ -139,6 +139,7 @@ v3d: v3d@7ec00000 {
+ 			compatible = "brcm,bcm2835-v3d";
+ 			reg = <0x7ec00000 0x1000>;
+ 			interrupts = <1 10>;
++			status = "disabled";
+ 		};
+ 
+ 		vc4: gpu {
+diff --git a/arch/arm/boot/dts/broadcom/bcm2835-rpi-a-plus.dts b/arch/arm/boot/dts/broadcom/bcm2835-rpi-a-plus.dts
+index 069b48272aa5..495ab1dfd2ce 100644
+--- a/arch/arm/boot/dts/broadcom/bcm2835-rpi-a-plus.dts
++++ b/arch/arm/boot/dts/broadcom/bcm2835-rpi-a-plus.dts
+@@ -128,3 +128,7 @@ &uart0 {
+ 	pinctrl-0 = <&uart0_gpio14>;
+ 	status = "okay";
+ };
++
++&v3d {
++	status = "okay";
++};
+diff --git a/arch/arm/boot/dts/broadcom/bcm2835-rpi-a.dts b/arch/arm/boot/dts/broadcom/bcm2835-rpi-a.dts
+index 2726c00431e8..4634d88ce3af 100644
+--- a/arch/arm/boot/dts/broadcom/bcm2835-rpi-a.dts
++++ b/arch/arm/boot/dts/broadcom/bcm2835-rpi-a.dts
+@@ -121,3 +121,7 @@ &uart0 {
+ 	pinctrl-0 = <&uart0_gpio14>;
+ 	status = "okay";
+ };
++
++&v3d {
++	status = "okay";
++};
+diff --git a/arch/arm/boot/dts/broadcom/bcm2835-rpi-b-plus.dts b/arch/arm/boot/dts/broadcom/bcm2835-rpi-b-plus.dts
+index c57b999a4520..45fa0f6851fc 100644
+--- a/arch/arm/boot/dts/broadcom/bcm2835-rpi-b-plus.dts
++++ b/arch/arm/boot/dts/broadcom/bcm2835-rpi-b-plus.dts
+@@ -130,3 +130,7 @@ &uart0 {
+ 	pinctrl-0 = <&uart0_gpio14>;
+ 	status = "okay";
+ };
++
++&v3d {
++	status = "okay";
++};
+diff --git a/arch/arm/boot/dts/broadcom/bcm2835-rpi-b-rev2.dts b/arch/arm/boot/dts/broadcom/bcm2835-rpi-b-rev2.dts
+index ae6d3a9586ab..c1dac5d704aa 100644
+--- a/arch/arm/boot/dts/broadcom/bcm2835-rpi-b-rev2.dts
++++ b/arch/arm/boot/dts/broadcom/bcm2835-rpi-b-rev2.dts
+@@ -121,3 +121,7 @@ &uart0 {
+ 	pinctrl-0 = <&uart0_gpio14>;
+ 	status = "okay";
+ };
++
++&v3d {
++	status = "okay";
++};
+diff --git a/arch/arm/boot/dts/broadcom/bcm2835-rpi-b.dts b/arch/arm/boot/dts/broadcom/bcm2835-rpi-b.dts
+index 72764be75a79..72ca31f2a7d6 100644
+--- a/arch/arm/boot/dts/broadcom/bcm2835-rpi-b.dts
++++ b/arch/arm/boot/dts/broadcom/bcm2835-rpi-b.dts
+@@ -115,3 +115,7 @@ &uart0 {
+ 	pinctrl-0 = <&uart0_gpio14>;
+ 	status = "okay";
+ };
++
++&v3d {
++	status = "okay";
++};
+diff --git a/arch/arm/boot/dts/broadcom/bcm2835-rpi-cm1-io1.dts b/arch/arm/boot/dts/broadcom/bcm2835-rpi-cm1-io1.dts
+index 3f9d198ac3ab..881a07d2f28f 100644
+--- a/arch/arm/boot/dts/broadcom/bcm2835-rpi-cm1-io1.dts
++++ b/arch/arm/boot/dts/broadcom/bcm2835-rpi-cm1-io1.dts
+@@ -95,3 +95,7 @@ &uart0 {
+ 	pinctrl-0 = <&uart0_gpio14>;
+ 	status = "okay";
+ };
++
++&v3d {
++	status = "okay";
++};
+diff --git a/arch/arm/boot/dts/broadcom/bcm2835-rpi-zero-w.dts b/arch/arm/boot/dts/broadcom/bcm2835-rpi-zero-w.dts
+index 1f0b163e400c..1c7324067442 100644
+--- a/arch/arm/boot/dts/broadcom/bcm2835-rpi-zero-w.dts
++++ b/arch/arm/boot/dts/broadcom/bcm2835-rpi-zero-w.dts
+@@ -134,6 +134,10 @@ &uart1 {
+ 	status = "okay";
+ };
+ 
++&v3d {
++	status = "okay";
++};
++
+ &wifi_pwrseq {
+ 	reset-gpios = <&gpio 41 GPIO_ACTIVE_LOW>;
+ };
+diff --git a/arch/arm/boot/dts/broadcom/bcm2835-rpi-zero.dts b/arch/arm/boot/dts/broadcom/bcm2835-rpi-zero.dts
+index 539c19c10946..1568ddc78f22 100644
+--- a/arch/arm/boot/dts/broadcom/bcm2835-rpi-zero.dts
++++ b/arch/arm/boot/dts/broadcom/bcm2835-rpi-zero.dts
+@@ -117,3 +117,7 @@ &uart0 {
+ 	pinctrl-0 = <&uart0_gpio14>;
+ 	status = "okay";
+ };
++
++&v3d {
++	status = "okay";
++};
+diff --git a/arch/arm/boot/dts/broadcom/bcm2836-rpi-2-b.dts b/arch/arm/boot/dts/broadcom/bcm2836-rpi-2-b.dts
+index 79918033750e..8fab6293d1c7 100644
+--- a/arch/arm/boot/dts/broadcom/bcm2836-rpi-2-b.dts
++++ b/arch/arm/boot/dts/broadcom/bcm2836-rpi-2-b.dts
+@@ -129,3 +129,7 @@ &uart0 {
+ 	pinctrl-0 = <&uart0_gpio14>;
+ 	status = "okay";
+ };
++
++&v3d {
++	status = "okay";
++};
+diff --git a/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-a-plus.dts b/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-a-plus.dts
+index 3548306dfbcb..dc45b56054c7 100644
+--- a/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-a-plus.dts
++++ b/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-a-plus.dts
+@@ -156,3 +156,7 @@ &uart1 {
+ 	pinctrl-0 = <&uart1_gpio14>;
+ 	status = "okay";
+ };
++
++&v3d {
++	status = "okay";
++};
+diff --git a/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-b-plus.dts b/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-b-plus.dts
+index 2f1800cbc522..ce3a9f7ff529 100644
+--- a/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-b-plus.dts
++++ b/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-b-plus.dts
+@@ -161,3 +161,7 @@ &uart1 {
+ &wifi_pwrseq {
+ 	reset-gpios = <&expgpio 1 GPIO_ACTIVE_LOW>;
+ };
++
++&v3d {
++	status = "okay";
++};
+diff --git a/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-b.dts b/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-b.dts
+index 61270340075c..e398546d105b 100644
+--- a/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-b.dts
++++ b/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-b.dts
+@@ -149,6 +149,10 @@ &sdhost {
+ 	bus-width = <4>;
+ };
+ 
++&v3d {
++	status = "okay";
++};
++
+ &wifi_pwrseq {
+ 	reset-gpios = <&expgpio 1 GPIO_ACTIVE_LOW>;
+ };
+diff --git a/arch/arm/boot/dts/broadcom/bcm2837-rpi-cm3-io3.dts b/arch/arm/boot/dts/broadcom/bcm2837-rpi-cm3-io3.dts
+index 72d26d130efa..50471ada79b3 100644
+--- a/arch/arm/boot/dts/broadcom/bcm2837-rpi-cm3-io3.dts
++++ b/arch/arm/boot/dts/broadcom/bcm2837-rpi-cm3-io3.dts
+@@ -94,3 +94,7 @@ &uart0 {
+ 	pinctrl-0 = <&uart0_gpio14>;
+ 	status = "okay";
+ };
++
++&v3d {
++	status = "okay";
++};
+diff --git a/arch/arm/boot/dts/broadcom/bcm2837-rpi-zero-2-w.dts b/arch/arm/boot/dts/broadcom/bcm2837-rpi-zero-2-w.dts
+index 85cf594724ef..876f697e7300 100644
+--- a/arch/arm/boot/dts/broadcom/bcm2837-rpi-zero-2-w.dts
++++ b/arch/arm/boot/dts/broadcom/bcm2837-rpi-zero-2-w.dts
+@@ -132,6 +132,10 @@ &uart1 {
+ 	status = "okay";
+ };
+ 
++&v3d {
++	status = "okay";
++};
++
+ &wifi_pwrseq {
+ 	reset-gpios = <&gpio 41 GPIO_ACTIVE_LOW>;
+ };
 -- 
-2.34.1
+2.44.0
 
