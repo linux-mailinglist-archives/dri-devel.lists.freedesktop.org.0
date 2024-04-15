@@ -2,67 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14FB88A4DAD
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 13:27:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E7EA8A4DD3
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 13:36:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF20D10E311;
-	Mon, 15 Apr 2024 11:27:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0B8911231C;
+	Mon, 15 Apr 2024 11:36:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dxsNNE8G";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="l7pREGxu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3984610E311
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 11:27:35 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-516cbf3fd3dso3850520e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 04:27:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1713180453; x=1713785253; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=9RrWZvmlXurdeISwKYW5FWnmUFYNQimN/t786ma8dqg=;
- b=dxsNNE8GyRYAJ2Ya8HRehjXfGQpdAHTf7cmwqFR64/+cR5493pkwwZyzb7MLdJtLl9
- klKXyna5bvmutN0dCumR2fr7t4IotNsieLrALgDwtRT61EpezaJ9goxBZXUAUUQ2Unwr
- /I81c7vQfDfaPKFu5zvoJhAlFqTmixOndYaVru9iOgYl/ygnUsJ6UGDZB9ylAw83PA4q
- aQF4M+KVnAhsFlwa96712u+chTLZDO6ZcZrv4VUZ5LiMoWjS5JYUohvMhrSUBTe70WeW
- UoPbsLojvT5Yle/5D730oPre2XKCkmuRnRX3frrAg7HDQhGkPIZelCnP6GVM1o/LH8lZ
- fCXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713180453; x=1713785253;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9RrWZvmlXurdeISwKYW5FWnmUFYNQimN/t786ma8dqg=;
- b=ExWdgMBWWE241RsGEGuPyw9QsJYcpAX36JWP95COJGvMFuaEkw5bV0OfAsK0K/MVrQ
- eefXc1qcbWDZQjXwY/skYYMC/AB91QAazvPAy4U32f3Ix7Jj/KAZTVbcutk/sDH1EWzr
- uqsmBnAL9mYc11+F/ReyqQ5leyD5kLIVGLtaugWnTcKptUM4dxLKfQWKTQDK6RKLuu6q
- MxgCT6p8Jpq2fJSwMCWgwPZH+3oQhpCMamd2EiKQLS/xVpuIEYvWsbHX3SKN0aykSWUi
- qpnkBN2kIeHfF+z2T7qUVxoNy0Gs6F653wtw/0jsxodk4wORWecIYXaMIeTe0SEtI20K
- HoQg==
-X-Gm-Message-State: AOJu0YwNbTHBk6qqeA7ksx3JXSNSC9i4ikCkbLLBn+hwXVudoM9mjk4f
- QROXDgPQzlqVb3FWccs1fegOCZRpsuRNDTNLi1t/uRMdM2/zSE4Q84wuDg==
-X-Google-Smtp-Source: AGHT+IHZ5lbUauiyKf19fgR8Hj283fF5zaQM9epZb1BRX2e5evyvlg3iUwgXXdOf/+ZmZdT4ENmzmw==
-X-Received: by 2002:a05:6512:6cb:b0:518:d64c:73ae with SMTP id
- u11-20020a05651206cb00b00518d64c73aemr3098495lff.49.1713180452953; 
- Mon, 15 Apr 2024 04:27:32 -0700 (PDT)
-Received: from localhost.localdomain (81-226-149-122-no518.tbcn.telia.com.
- [81.226.149.122]) by smtp.gmail.com with ESMTPSA id
- s7-20020a056512214700b00516d58590e1sm1228100lfr.250.2024.04.15.04.27.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Apr 2024 04:27:32 -0700 (PDT)
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Enrico Bartky <enrico.bartky@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] drm/gma500: Remove lid code
-Date: Mon, 15 Apr 2024 13:27:31 +0200
-Message-ID: <20240415112731.31841-1-patrik.r.jakobsson@gmail.com>
-X-Mailer: git-send-email 2.44.0
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2C5F11231C
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 11:36:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1713180992;
+ bh=NfQL2hmUBg97tRXNR6BF3G9eOGsFEkKIBSmc/R4PuPk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=l7pREGxuYpAUoYOQydmitKjbEPUv2w5Uwh7YzteYvieYrtUEWUkM71dKHeNBVtqvV
+ A5AT7hbGK4xn4Fiy4c4uu1szX68IbuLFSzZ/PZJNmNSIF2x2COxnLGy8v3Qtpj5Rc2
+ hFCl1Esn82iZSVLaOC2rHO6Axkp25UPg0SA8TKFkmgX+rWcFE4zu/tCWOTQeydEmTd
+ w2G2QPf//7uIrjJFBgrM1GFfazGhVjCPVdo1Q64wRvkJ4dh+4i7JGh7igEODVrIkjX
+ tqJu2IoUbOkDtVD0fST6puMgj0jPOLIc2uWP4LkqAhobqoqOofg9f9Qf5vVNQfmcTD
+ 9LuwYoXhzEIhg==
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 97C253781FE9;
+ Mon, 15 Apr 2024 11:36:31 +0000 (UTC)
+Date: Mon, 15 Apr 2024 14:36:22 +0300
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+ thomas.petazzoni@bootlin.com
+Subject: Re: [PATCH 2/3] drm: drm_blend.c: Improve
+ drm_plane_create_rotation_property kernel doc
+Message-ID: <20240415143622.7e600508.pekka.paalanen@collabora.com>
+In-Reply-To: <20240409-google-drm-doc-v1-2-033d55cc8250@bootlin.com>
+References: <20240409-google-drm-doc-v1-0-033d55cc8250@bootlin.com>
+ <20240409-google-drm-doc-v1-2-033d55cc8250@bootlin.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/.eSeiLxVd/0e0PuL12Vqoh1";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,183 +67,150 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Due to a change in the order of initialization, the lid timer got
-started before proper setup was made. This resulted in a crash during
-boot.
+--Sig_/.eSeiLxVd/0e0PuL12Vqoh1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-The lid switch is handled by gma500 through a timer that periodically
-polls the opregion for changes. These types of ACPI events shouldn't be
-handled by the graphics driver so let's get rid of the lid code.  This
-fixes the crash during boot.
+On Tue, 09 Apr 2024 12:04:06 +0200
+Louis Chauvet <louis.chauvet@bootlin.com> wrote:
 
-Fixes: 8f1aaccb04b7 ("drm/gma500: Implement client-based fbdev emulation")
-Cc: Enrico Bartky <enrico.bartky@gmail.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
----
- drivers/gpu/drm/gma500/Makefile     |  1 -
- drivers/gpu/drm/gma500/psb_device.c |  5 +-
- drivers/gpu/drm/gma500/psb_drv.h    |  9 ----
- drivers/gpu/drm/gma500/psb_lid.c    | 80 -----------------------------
- 4 files changed, 1 insertion(+), 94 deletions(-)
- delete mode 100644 drivers/gpu/drm/gma500/psb_lid.c
+> The expected behavior of the rotation property was not very clear. Add
+> more examples to explain what is the expected result.
+>=20
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>  drivers/gpu/drm/drm_blend.c | 52 +++++++++++++++++++++++++++++++++------=
+------
+>  1 file changed, 38 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
+> index 8d4b317eb9d7..6fbb8730d8b0 100644
+> --- a/drivers/gpu/drm/drm_blend.c
+> +++ b/drivers/gpu/drm/drm_blend.c
+> @@ -104,6 +104,9 @@
+>   *	Without this property the rectangle is only scaled, but not rotated or
+>   *	reflected.
+>   *
+> + *	See drm_plane_create_rotation_property() for details about the expect=
+ed rotation and
+> + *	reflection behavior.
 
-diff --git a/drivers/gpu/drm/gma500/Makefile b/drivers/gpu/drm/gma500/Makefile
-index 4f302cd5e1a6..58fed80c7392 100644
---- a/drivers/gpu/drm/gma500/Makefile
-+++ b/drivers/gpu/drm/gma500/Makefile
-@@ -34,7 +34,6 @@ gma500_gfx-y += \
- 	  psb_intel_lvds.o \
- 	  psb_intel_modes.o \
- 	  psb_intel_sdvo.o \
--	  psb_lid.o \
- 	  psb_irq.o
- 
- gma500_gfx-$(CONFIG_ACPI) +=  opregion.o
-diff --git a/drivers/gpu/drm/gma500/psb_device.c b/drivers/gpu/drm/gma500/psb_device.c
-index dcfcd7b89d4a..6dece8f0e380 100644
---- a/drivers/gpu/drm/gma500/psb_device.c
-+++ b/drivers/gpu/drm/gma500/psb_device.c
-@@ -73,8 +73,7 @@ static int psb_backlight_setup(struct drm_device *dev)
- 	}
- 
- 	psb_intel_lvds_set_brightness(dev, PSB_MAX_BRIGHTNESS);
--	/* This must occur after the backlight is properly initialised */
--	psb_lid_timer_init(dev_priv);
-+
- 	return 0;
- }
- 
-@@ -259,8 +258,6 @@ static int psb_chip_setup(struct drm_device *dev)
- 
- static void psb_chip_teardown(struct drm_device *dev)
- {
--	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
--	psb_lid_timer_takedown(dev_priv);
- 	gma_intel_teardown_gmbus(dev);
- }
- 
-diff --git a/drivers/gpu/drm/gma500/psb_drv.h b/drivers/gpu/drm/gma500/psb_drv.h
-index c5edfa4aa4cc..83c17689c454 100644
---- a/drivers/gpu/drm/gma500/psb_drv.h
-+++ b/drivers/gpu/drm/gma500/psb_drv.h
-@@ -162,7 +162,6 @@
- #define PSB_NUM_VBLANKS 2
- 
- #define PSB_WATCHDOG_DELAY (HZ * 2)
--#define PSB_LID_DELAY (HZ / 10)
- 
- #define PSB_MAX_BRIGHTNESS		100
- 
-@@ -491,11 +490,7 @@ struct drm_psb_private {
- 	/* Hotplug handling */
- 	struct work_struct hotplug_work;
- 
--	/* LID-Switch */
--	spinlock_t lid_lock;
--	struct timer_list lid_timer;
- 	struct psb_intel_opregion opregion;
--	u32 lid_last_state;
- 
- 	/* Watchdog */
- 	uint32_t apm_reg;
-@@ -591,10 +586,6 @@ struct psb_ops {
- 	int i2c_bus;		/* I2C bus identifier for Moorestown */
- };
- 
--/* psb_lid.c */
--extern void psb_lid_timer_init(struct drm_psb_private *dev_priv);
--extern void psb_lid_timer_takedown(struct drm_psb_private *dev_priv);
--
- /* modesetting */
- extern void psb_modeset_init(struct drm_device *dev);
- extern void psb_modeset_cleanup(struct drm_device *dev);
-diff --git a/drivers/gpu/drm/gma500/psb_lid.c b/drivers/gpu/drm/gma500/psb_lid.c
-deleted file mode 100644
-index 58a7fe392636..000000000000
---- a/drivers/gpu/drm/gma500/psb_lid.c
-+++ /dev/null
-@@ -1,80 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/**************************************************************************
-- * Copyright (c) 2007, Intel Corporation.
-- *
-- * Authors: Thomas Hellstrom <thomas-at-tungstengraphics-dot-com>
-- **************************************************************************/
--
--#include <linux/spinlock.h>
--
--#include "psb_drv.h"
--#include "psb_intel_reg.h"
--#include "psb_reg.h"
--
--static void psb_lid_timer_func(struct timer_list *t)
--{
--	struct drm_psb_private *dev_priv = from_timer(dev_priv, t, lid_timer);
--	struct drm_device *dev = (struct drm_device *)&dev_priv->dev;
--	struct timer_list *lid_timer = &dev_priv->lid_timer;
--	unsigned long irq_flags;
--	u32 __iomem *lid_state = dev_priv->opregion.lid_state;
--	u32 pp_status;
--
--	if (readl(lid_state) == dev_priv->lid_last_state)
--		goto lid_timer_schedule;
--
--	if ((readl(lid_state)) & 0x01) {
--		/*lid state is open*/
--		REG_WRITE(PP_CONTROL, REG_READ(PP_CONTROL) | POWER_TARGET_ON);
--		do {
--			pp_status = REG_READ(PP_STATUS);
--		} while ((pp_status & PP_ON) == 0 &&
--			 (pp_status & PP_SEQUENCE_MASK) != 0);
--
--		if (REG_READ(PP_STATUS) & PP_ON) {
--			/*FIXME: should be backlight level before*/
--			psb_intel_lvds_set_brightness(dev, 100);
--		} else {
--			DRM_DEBUG("LVDS panel never powered up");
--			return;
--		}
--	} else {
--		psb_intel_lvds_set_brightness(dev, 0);
--
--		REG_WRITE(PP_CONTROL, REG_READ(PP_CONTROL) & ~POWER_TARGET_ON);
--		do {
--			pp_status = REG_READ(PP_STATUS);
--		} while ((pp_status & PP_ON) == 0);
--	}
--	dev_priv->lid_last_state =  readl(lid_state);
--
--lid_timer_schedule:
--	spin_lock_irqsave(&dev_priv->lid_lock, irq_flags);
--	if (!timer_pending(lid_timer)) {
--		lid_timer->expires = jiffies + PSB_LID_DELAY;
--		add_timer(lid_timer);
--	}
--	spin_unlock_irqrestore(&dev_priv->lid_lock, irq_flags);
--}
--
--void psb_lid_timer_init(struct drm_psb_private *dev_priv)
--{
--	struct timer_list *lid_timer = &dev_priv->lid_timer;
--	unsigned long irq_flags;
--
--	spin_lock_init(&dev_priv->lid_lock);
--	spin_lock_irqsave(&dev_priv->lid_lock, irq_flags);
--
--	timer_setup(lid_timer, psb_lid_timer_func, 0);
--
--	lid_timer->expires = jiffies + PSB_LID_DELAY;
--
--	add_timer(lid_timer);
--	spin_unlock_irqrestore(&dev_priv->lid_lock, irq_flags);
--}
--
--void psb_lid_timer_takedown(struct drm_psb_private *dev_priv)
--{
--	del_timer_sync(&dev_priv->lid_timer);
--}
--
--- 
-2.44.0
+I think internal function docs should be referring to UAPI docs, and
+not vice versa. Internal functions can change, but UAPI cannot.
 
+> + *
+>   *	Possbile values:
+>   *
+>   *	"rotate-<degrees>":
+> @@ -114,18 +117,6 @@
+>   *		Signals that the contents of a drm plane is reflected along the
+>   *		<axis> axis, in the same way as mirroring.
+>   *
+> - *	reflect-x::
+> - *
+> - *			|o |    | o|
+> - *			|  | -> |  |
+> - *			| v|    |v |
+> - *
+> - *	reflect-y::
+> - *
+> - *			|o |    | ^|
+> - *			|  | -> |  |
+> - *			| v|    |o |
+> - *
+>   * zpos:
+>   *	Z position is set up with drm_plane_create_zpos_immutable_property() =
+and
+>   *	drm_plane_create_zpos_property(). It controls the visibility of overl=
+apping
+> @@ -266,8 +257,41 @@ EXPORT_SYMBOL(drm_plane_create_alpha_property);
+>   *
+>   * Rotation is the specified amount in degrees in counter clockwise dire=
+ction,
+>   * the X and Y axis are within the source rectangle, i.e.  the X/Y axis =
+before
+> - * rotation. After reflection, the rotation is applied to the image samp=
+led from
+> - * the source rectangle, before scaling it to fit the destination rectan=
+gle.
+> + * rotation.
+> + *
+> + * Here are some examples of rotation and reflections:
+> + *
+> + * |o  +|  REFLECT_X  |+  o|
+> + * |    |  =3D=3D=3D=3D=3D=3D=3D=3D>  |    |
+> + * |    |             |    |
+> + *
+> + * |o   |  REFLECT_Y  |+   |
+> + * |    |  =3D=3D=3D=3D=3D=3D=3D=3D>  |    |
+> + * |+   |             |o   |
+> + *
+> + * |o  +|  ROTATE_90  |+   |
+> + * |    |  =3D=3D=3D=3D=3D=3D=3D=3D>  |    |
+> + * |    |             |o   |
+> + *
+> + * |o   |  ROTATE_180 |   +|
+> + * |    |  =3D=3D=3D=3D=3D=3D=3D=3D>  |    |
+> + * |+   |             |   o|
+> + *
+> + * |o   |  ROTATE_270 |+  o|
+> + * |    |  =3D=3D=3D=3D=3D=3D=3D=3D>  |    |
+> + * |+   |             |    |
+> + *
+> + * Rotation and reflection can be combined to handle more situations. In=
+ this condition, the
+> + * reflection is applied first and the rotation in second.
+
+When going in which direction? Is the first image the FB source
+rectangle contents, and the second image what the plane looks like in
+CRTC frame of reference?
+
+> + *
+> + * For example the expected result for DRM_MODE_ROTATE_90 | DRM_MODE_REF=
+LECT_X is:
+> + *
+> + * |o  +|  REFLECT_X  |+  o|  ROTATE_90  |o   |
+> + * |    |  =3D=3D=3D=3D=3D=3D=3D=3D>  |    |  =3D=3D=3D=3D=3D=3D=3D=3D> =
+ |    |
+> + * |    |             |    |             |+   |
+> + *
+> + * It is not possible to pass multiple rotation at the same time. (i.e R=
+OTATE_90 | ROTATE_180 is
+> + * not the same as ROTATE_270 and is not accepted).
+>   */
+>  int drm_plane_create_rotation_property(struct drm_plane *plane,
+>  				       unsigned int rotation,
+>=20
+
+These are definitely improvements. I think they should just be in the
+UAPI section rather than implementation details.
+
+Disclaimer again to everyone else: I cannot tell if this is the correct
+documentation or its inverse.
+
+
+Thanks,
+pq
+
+--Sig_/.eSeiLxVd/0e0PuL12Vqoh1
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYdETYACgkQI1/ltBGq
+qqf2Ew/+Masv8B8wRuYbVIcLdgdidzSstdy8f/bnjNyM9e3izGX7dQnrgR9gGPIS
+CIqHP79Sk55p+SHxATK1MslRNDxVwDWVhOFJpG59IP4cgbqcGZUxFy9/lIFbMlx6
+0TKlQSdnWVmw1IeKAHqBn0e/85SvbNpMx6XVs8FVp0bcz42kalyAf8fshSddV0AJ
+WlneYyDt82K/+m7DBIDeUR29PKLbCYNldg29beI1U4Yfy07CXtjr0OCafmfoU8pV
+8rarCnpniHlM6sL0/oOr5NFrDeh9OZ/s/x0SYPgONMGLFb9xm0qmp1QvZtgXVATP
+od2BpB0AE2az09BbqTJF2EDi3THU9sW2kdMl4vDehJ9X3Muo5vQZAsLuh/7GXBYt
+1RUU//gTl4Ocbj5iF7vDTGe6JyzxWTCvxiIaWEOi80S/0pxAtRdxlCn5tpiIH+sk
+3GIHhqGZHkcPy7Q8qMcUMklnnvHiAhJDn8Ed0c7txY5kVpP84XZZWhk6qeNcvfl5
+Xhbt9FiFXW6h8+Sz+dn9QdzWnjRXPTp+rL52GsquQ6HDbwic6nqNZKVP6lbVkF1x
+K721iSjFqhxt7EdMuVKzzzi7ZjrkPekWDP3fJqkL0tFE3IHJ4wpDn+IJzkAYDjvx
+51jSU9nFwuzNIlfhHP14s/7EiqkWe8OgzjdjfcnRNh+dC5P9DN8=
+=nY+N
+-----END PGP SIGNATURE-----
+
+--Sig_/.eSeiLxVd/0e0PuL12Vqoh1--
