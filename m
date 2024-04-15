@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C45658A4F62
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 14:44:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE428A4F64
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 14:45:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F277112528;
-	Mon, 15 Apr 2024 12:44:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51EBC11252B;
+	Mon, 15 Apr 2024 12:45:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GbU2iswS";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rXyd0/bS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF694112528
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 12:44:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31500112527
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 12:45:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 88426CE0B69;
- Mon, 15 Apr 2024 12:44:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ACB5C113CC;
- Mon, 15 Apr 2024 12:44:40 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 401DCCE0B69;
+ Mon, 15 Apr 2024 12:44:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EEB3C2BD10;
+ Mon, 15 Apr 2024 12:44:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1713185080;
- bh=Q+VJIxmudE78JexuvHVfCfe0M8EnTbAoR4dDnMnmpgg=;
+ s=korg; t=1713185098;
+ bh=ANZGpoG9rPHtbxJ4rQ26UT33BXp3BbloctA7wC9g6YU=;
  h=Subject:To:Cc:From:Date:From;
- b=GbU2iswSQLSwIL7RE6SKJ9uaTQcMGQjOzH50TzGNNe/737HUDIWUDLwCbY5uxAzjM
- 78IvxvLDeMR0GI6DUJOaL37oZQ42kIwChs7jJ+NmPXaDbUcTLuDfGeRD9cNzRT+5T/
- byCKcHRoZj+z6hOYCPzyFJ78105TY+JyLm1GtkcA=
-Subject: Patch "drm/ast: Fix soft lockup" has been added to the 6.8-stable tree
-To: airlied@redhat.com, dri-devel@lists.freedesktop.org,
- gregkh@linuxfoundation.org, jammy_huang@aspeedtech.com, jfalempe@redhat.com,
- kuohsiang_chou@aspeedtech.com, tzimmermann@suse.de
+ b=rXyd0/bSNSgR+zRMZ/FSG6LLrz3YQsRnc0bm3rGCMSYMcH7F5uDWS511NgADOvw31
+ HBxJ2SF8elGsuqdS4Lws6Rcbv4hXGIc6O3cKtml8yRlSfviQnX7/AMMCTDAqBt/NKZ
+ ofCgDMB/3a11aStFObm49v5j+6Eu9Sc+ozYjd+lI=
+Subject: Patch "drm/vmwgfx: Enable DMA mappings with SEV" has been added to
+ the 6.8-stable tree
+To: bcm-kernel-feedback-list@broadcom.com, dri-devel@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, martin.krastev@broadcom.com, ye.li@broadcom.com,
+ zack.rusin@broadcom.com
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 15 Apr 2024 14:43:49 +0200
-Message-ID: <2024041549-clump-botany-79ac@gregkh>
+Date: Mon, 15 Apr 2024 14:43:52 +0200
+Message-ID: <2024041552-city-unstopped-6918@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -58,79 +59,70 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is a note to let you know that I've just added the patch titled
 
-    drm/ast: Fix soft lockup
+    drm/vmwgfx: Enable DMA mappings with SEV
 
 to the 6.8-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     drm-ast-fix-soft-lockup.patch
+     drm-vmwgfx-enable-dma-mappings-with-sev.patch
 and it can be found in the queue-6.8 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From bc004f5038220b1891ef4107134ccae44be55109 Mon Sep 17 00:00:00 2001
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-Date: Wed, 3 Apr 2024 17:02:46 +0800
-Subject: drm/ast: Fix soft lockup
+From 4c08f01934ab67d1d283d5cbaa52b923abcfe4cd Mon Sep 17 00:00:00 2001
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Sun, 7 Apr 2024 22:28:02 -0400
+Subject: drm/vmwgfx: Enable DMA mappings with SEV
 
-From: Jammy Huang <jammy_huang@aspeedtech.com>
+From: Zack Rusin <zack.rusin@broadcom.com>
 
-commit bc004f5038220b1891ef4107134ccae44be55109 upstream.
+commit 4c08f01934ab67d1d283d5cbaa52b923abcfe4cd upstream.
 
-There is a while-loop in ast_dp_set_on_off() that could lead to
-infinite-loop. This is because the register, VGACRI-Dx, checked in
-this API is a scratch register actually controlled by a MCU, named
-DPMCU, in BMC.
+Enable DMA mappings in vmwgfx after TTM has been fixed in commit
+3bf3710e3718 ("drm/ttm: Add a generic TTM memcpy move for page-based iomem")
 
-These scratch registers are protected by scu-lock. If suc-lock is not
-off, DPMCU can not update these registers and then host will have soft
-lockup due to never updated status.
+This enables full guest-backed memory support and in particular allows
+usage of screen targets as the presentation mechanism.
 
-DPMCU is used to control DP and relative registers to handshake with
-host's VGA driver. Even the most time-consuming task, DP's link
-training, is less than 100ms. 200ms should be enough.
-
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
-Fixes: 594e9c04b586 ("drm/ast: Create the driver for ASPEED proprietory Display-Port")
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+Reported-by: Ye Li <ye.li@broadcom.com>
+Tested-by: Ye Li <ye.li@broadcom.com>
+Fixes: 3b0d6458c705 ("drm/vmwgfx: Refuse DMA operation when SEV encryption is active")
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.19+
-Link: https://patchwork.freedesktop.org/patch/msgid/20240403090246.1495487-1-jammy_huang@aspeedtech.com
+Cc: <stable@vger.kernel.org> # v6.6+
+Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240408022802.358641-1-zack.rusin@broadcom.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/ast/ast_dp.c |    3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c |   11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
---- a/drivers/gpu/drm/ast/ast_dp.c
-+++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -180,6 +180,7 @@ void ast_dp_set_on_off(struct drm_device
- {
- 	struct ast_device *ast = to_ast_device(dev);
- 	u8 video_on_off = on;
-+	u32 i = 0;
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -666,11 +666,12 @@ static int vmw_dma_select_mode(struct vm
+ 		[vmw_dma_map_populate] = "Caching DMA mappings.",
+ 		[vmw_dma_map_bind] = "Giving up DMA mappings early."};
  
- 	// Video On/Off
- 	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE3, (u8) ~AST_DP_VIDEO_ENABLE, on);
-@@ -192,6 +193,8 @@ void ast_dp_set_on_off(struct drm_device
- 						ASTDP_MIRROR_VIDEO_ENABLE) != video_on_off) {
- 			// wait 1 ms
- 			mdelay(1);
-+			if (++i > 200)
-+				break;
- 		}
- 	}
- }
+-	/* TTM currently doesn't fully support SEV encryption. */
+-	if (cc_platform_has(CC_ATTR_MEM_ENCRYPT))
+-		return -EINVAL;
+-
+-	if (vmw_force_coherent)
++	/*
++	 * When running with SEV we always want dma mappings, because
++	 * otherwise ttm tt pool pages will bounce through swiotlb running
++	 * out of available space.
++	 */
++	if (vmw_force_coherent || cc_platform_has(CC_ATTR_MEM_ENCRYPT))
+ 		dev_priv->map_mode = vmw_dma_alloc_coherent;
+ 	else if (vmw_restrict_iommu)
+ 		dev_priv->map_mode = vmw_dma_map_bind;
 
 
-Patches currently in stable-queue which might be from jammy_huang@aspeedtech.com are
+Patches currently in stable-queue which might be from zack.rusin@broadcom.com are
 
-queue-6.8/drm-ast-fix-soft-lockup.patch
+queue-6.8/drm-vmwgfx-enable-dma-mappings-with-sev.patch
