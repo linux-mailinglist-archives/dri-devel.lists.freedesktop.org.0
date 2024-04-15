@@ -2,56 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5550B8A5298
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 16:03:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A969C8A52B3
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 16:08:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16A1D1125DE;
-	Mon, 15 Apr 2024 14:02:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D85021125E6;
+	Mon, 15 Apr 2024 14:08:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="bRSc7hqe";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fnvcjFmF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 907591125CE;
- Mon, 15 Apr 2024 14:02:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=MIME-Version:Content-Transfer-Encoding:Content-Type:Date:To:
- From:Subject:Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=Ljnuyj309g/2itlVZDdfjNXk+f84QxRXjXC1RNVY8PM=; b=bRSc7hqeT0ebFpgrrSRZNaA0ed
- n26TriUpOtx6cBBF7bzXraz8VFiuGSKVsp1XgcYwVWQ0a3BOeMr0/eod102P2JrkffzA2BcWeiZdZ
- pQujN2ME4bMFMFbeh+uunhSmtPXnLWFqy0JcWJPltB7qDXryWoUP8AnQWZCaJduGLHT992QFBLOHo
- 8xlH8pXfNkDdKxSPhlTaXrn7uzE5TTuY1eSusvZW7p3jsBQLgtPeGp9PWCcf9DGRorXoP0JwRZjzQ
- /d97iImCel8NWXWwL8cpmVztZmwaVQR7+eO3g4wKHyk6hs9780yHc2JaZ44+LX53GYs9N645H0WkN
- fShSpcDQ==;
-Received: from 30.red-83-52-1.dynamicip.rima-tde.net ([83.52.1.30]
- helo=localhost.localdomain) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1rwMux-004mu0-Ni; Mon, 15 Apr 2024 16:02:43 +0200
-Message-ID: <2309afcf8a6d4e67f589e80a92916e6a73058084.camel@igalia.com>
-Subject: 2024 X.Org Foundation Election Results
-From: Ricardo Garcia <rgarcia@igalia.com>
-To: events@lists.x.org, xorg-devel@lists.x.org, 
- wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- libre-soc-dev@lists.libre-soc.org, elections@x.org, members@x.org, xorg
- <xorg@lists.freedesktop.org>
-Date: Mon, 15 Apr 2024 16:02:42 +0200
-Autocrypt: addr=rgarcia@igalia.com; prefer-encrypt=mutual;
- keydata=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
- p0ZW9AkVq7C3F0YSY0Tq5bKR94O8=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 060711125E6
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 14:08:55 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id
+ ffacd0b85a97d-343c2f5b50fso2469351f8f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 07:08:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1713190134; x=1713794934; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=7ffqkZv6NU1XVLoi7ZZmP9xiD5mI03MT5YlX8qNMxec=;
+ b=fnvcjFmFRneQoMb+toxKzwSeFIiLMom7Igm10Ua6jM7zAPT3spHj8N04AQ6ykxbhud
+ 1MbP63lMxgGaIJ20ebOqB6p1rFzoBMWCRGCcFPnADX6OBWH7cndjo51Lp9l7RDbSJx0h
+ pcSp4OvtSurN6E33ZWnm+bQcTGAwoWYVn0QK6ntp2K16BslUCZP3zFKZiNIFp6cuRfC0
+ hKUEQoQkbrFeuL+AVx5M4SXhHz61frH5KeSbiJfJ5GOw0RYujJtrGYFjVO+1WoJg6QP8
+ iNFbGXfDsqqoMc9aDZf8VmXHCMoEXzn5aZ6hg9CBAkNMaDFcIaI8+cFhX5XpAmH8F0MV
+ sAkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713190134; x=1713794934;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7ffqkZv6NU1XVLoi7ZZmP9xiD5mI03MT5YlX8qNMxec=;
+ b=qvvydrGdTcMiBIKPHLDMwds5X/lNHLP+8IIVdiqrApAUiZw92T7OQoJ8221LExpWrw
+ 3t8DHG5oSCe1VIwRzj+la3JGQBfOm6JiCbUs0nbk//luffiaMxhqLfKnZH0CdYy7jcug
+ 66hioAaGex5PlcJ55oxDEk7X4d+IHKxUS7Le/Hqr1+u8kXCbquU9E39wNP18FpDB2Rbw
+ 5nLhPtyw8n7V3vOjQsZivYkAmIS4JHT+0jRicIR16jrZ1z2BfoYee2o9KKGE0hYa8Iou
+ cJ7ODE/l0rR9+hHxl15aB7o96phM63mYRQ5auwNjgEHsHejwmnY5ikJ3pdBa+fGxdl6N
+ GpCg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCURzqeqaRvkQwp3pKmLBeFKWFnnOIap7rb1o+H/8aGiyLDcyVcwT8RmD4oK+DREdpcW+uwvEmX9pnTttUpKM9Tsrr/uOLVoHZVRKM5Wal5S
+X-Gm-Message-State: AOJu0YxU69bt3biAn+PoqkeAbSIizdSVu9/7pd4Qc3YX4DnOjW5BtAqy
+ eYo0SeHeBxJPh2l7629+xWWG9gAXv0zoP+ENk8iWMRqm1VQvC9gI
+X-Google-Smtp-Source: AGHT+IE+ktQYgsisac562rlKlz2YFklr2GD1YaoOkMzst5BOYaX9SNUBJ70qkBM1Unjkn7prAQRI0A==
+X-Received: by 2002:a5d:4412:0:b0:343:93dc:6255 with SMTP id
+ z18-20020a5d4412000000b0034393dc6255mr5913337wrq.27.1713190134125; 
+ Mon, 15 Apr 2024 07:08:54 -0700 (PDT)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ g14-20020a5d46ce000000b0034335e47102sm12245491wrs.113.2024.04.15.07.08.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Apr 2024 07:08:53 -0700 (PDT)
+Message-ID: <345a958f-dde4-4211-850c-7b23ddd71b0b@gmail.com>
+Date: Mon, 15 Apr 2024 16:08:52 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ttm: stop pooling cached NUMA pages v2
+To: Felix Kuehling <felix.kuehling@amd.com>, Alexander.Deucher@amd.com,
+ Rajneesh.Bhardwaj@amd.com, Steven.Roberts@amd.com,
+ dri-devel@lists.freedesktop.org
+References: <20240415134821.1919-1-christian.koenig@amd.com>
+ <4b04b1d7-2215-42ae-a65a-eb8103bb847e@amd.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <4b04b1d7-2215-42ae-a65a-eb8103bb847e@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,34 +86,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Board of Directors election concluded on 08 April 2024. There were
-81 Members of the X.Org Foundation eligible to vote, and 61 Members cast
-votes. This is a 75.3% turn out.
+Am 15.04.24 um 15:53 schrieb Felix Kuehling:
+> On 2024-04-15 9:48, Christian König wrote:
+>> From: Christian König <ckoenig.leichtzumerken@gmail.com>
+>>
+>> We only pool write combined and uncached allocations because they
+>> require extra overhead on allocation and release.
+>>
+>> If we also pool cached NUMA it not only means some extra unnecessary
+>> overhead, but also that under memory pressure it can happen that
+>> pages from the wrong NUMA node enters the pool and are re-used
+>> over and over again.
+>>
+>> This can lead to performance reduction after running into memory
+>> pressure.
+>>
+>> v2: restructure and cleanup the code a bit from the internal hack to
+>>      test this.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> Fixes: 4482d3c94d7f ("drm/ttm: add NUMA node id to the pool")
+>> CC: stable@vger.kernel.org
+>> ---
+>>   drivers/gpu/drm/ttm/ttm_pool.c | 38 +++++++++++++++++++++++++---------
+>>   1 file changed, 28 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c 
+>> b/drivers/gpu/drm/ttm/ttm_pool.c
+>> index 112438d965ff..6e1fd6985ffc 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_pool.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+>> @@ -288,17 +288,23 @@ static struct ttm_pool_type 
+>> *ttm_pool_select_type(struct ttm_pool *pool,
+>>                             enum ttm_caching caching,
+>>                             unsigned int order)
+>>   {
+>> -    if (pool->use_dma_alloc || pool->nid != NUMA_NO_NODE)
+>> +    if (pool->use_dma_alloc)
+>>           return &pool->caching[caching].orders[order];
+>>     #ifdef CONFIG_X86
+>>       switch (caching) {
+>>       case ttm_write_combined:
+>> +        if (pool->nid != NUMA_NO_NODE)
+>> +            return &pool->caching[caching].orders[order];
+>
+> Doesn't this break USWC allocations on NUMA systems, where we set a 
+> NUMA node for the default pool (at least we were planning to at some 
+> point)?
 
-In the election of the Directors to the Board of the X.Org Foundation,
-the results were that=C2=A0Erik Faye-Lund, Simon Ser, Mark Filion and Neal
-Gompa were elected for two-year terms.
+I don't think so, but I might have missed something. Why do you think 
+that would break?
 
-The old full board is:
+I mean the idea is basically if the pool is associated with a NUMA id we 
+should rather use this pool instead of the global one.
 
-* Emma Anholt
-* Mark Filion
-* Ricardo Garcia
-* Arkadiusz Hiler
-* Christopher Michael
-* Lyude Paul
-* Alyssa Rosenzweig
-* Sima Vetter
+And that is true for both cases, the default pool and the specialized ones.
 
-The new full board is:
+Regards,
+Christian.
 
-* Erik Faye-Lund
-* Mark Filion
-* Neal Gompa
-* Arkadiusz Hiler
-* Christopher Michael
-* Lyude Paul
-* Simon Ser
-* Sima Vetter
+>
+> Regards,
+>   Felix
+>
+>
+>> +
+>>           if (pool->use_dma32)
+>>               return &global_dma32_write_combined[order];
+>>             return &global_write_combined[order];
+>>       case ttm_uncached:
+>> +        if (pool->nid != NUMA_NO_NODE)
+>> +            return &pool->caching[caching].orders[order];
+>> +
+>>           if (pool->use_dma32)
+>>               return &global_dma32_uncached[order];
+>>   @@ -566,11 +572,17 @@ void ttm_pool_init(struct ttm_pool *pool, 
+>> struct device *dev,
+>>       pool->use_dma_alloc = use_dma_alloc;
+>>       pool->use_dma32 = use_dma32;
+>>   -    if (use_dma_alloc || nid != NUMA_NO_NODE) {
+>> -        for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
+>> -            for (j = 0; j < NR_PAGE_ORDERS; ++j)
+>> - ttm_pool_type_init(&pool->caching[i].orders[j],
+>> -                           pool, i, j);
+>> +    for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
+>> +        for (j = 0; j < NR_PAGE_ORDERS; ++j) {
+>> +            struct ttm_pool_type *pt;
+>> +
+>> +            /* Initialize only pool types which are actually used */
+>> +            pt = ttm_pool_select_type(pool, i, j);
+>> +            if (pt != &pool->caching[i].orders[j])
+>> +                continue;
+>> +
+>> +            ttm_pool_type_init(pt, pool, i, j);
+>> +        }
+>>       }
+>>   }
+>>   EXPORT_SYMBOL(ttm_pool_init);
+>> @@ -599,10 +611,16 @@ void ttm_pool_fini(struct ttm_pool *pool)
+>>   {
+>>       unsigned int i, j;
+>>   -    if (pool->use_dma_alloc || pool->nid != NUMA_NO_NODE) {
+>> -        for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
+>> -            for (j = 0; j < NR_PAGE_ORDERS; ++j)
+>> - ttm_pool_type_fini(&pool->caching[i].orders[j]);
+>> +    for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
+>> +        for (j = 0; j < NR_PAGE_ORDERS; ++j) {
+>> +            struct ttm_pool_type *pt;
+>> +
+>> +            pt = ttm_pool_select_type(pool, i, j);
+>> +            if (pt != &pool->caching[i].orders[j])
+>> +                continue;
+>> +
+>> +            ttm_pool_type_fini(pt);
+>> +        }
+>>       }
+>>         /* We removed the pool types from the LRU, but we need to 
+>> also make sure
 
--Ricardo Garcia, on behalf of the X.Org elections committee
