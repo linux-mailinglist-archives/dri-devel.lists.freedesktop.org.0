@@ -2,58 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6BF08A4F41
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 14:40:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C45658A4F62
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 14:44:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B87D511251F;
-	Mon, 15 Apr 2024 12:40:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F277112528;
+	Mon, 15 Apr 2024 12:44:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="SbJFW4qV";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GbU2iswS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 534 seconds by postgrey-1.36 at gabe;
- Mon, 15 Apr 2024 12:40:23 UTC
-Received: from mail-m49216.qiye.163.com (mail-m49216.qiye.163.com
- [45.254.49.216])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C1DC11251F
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 12:40:23 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256;
- b=SbJFW4qVuEaI4qcFvFthxSYZN4hPn7MyUoKzRBmeQfFIm3SP37qsqNN4ILlu0sJO5R/nhczUDH9lh3KNsJEJ83P6HwmxII+KR1Hfj1Kezs+6y5/oxgE8vrbbFOvbUFWAG49vJ/AXVl9zgXIDSuDca/M4nY+XqL+wCmz22kDKU3o=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
- bh=7fFzxdWwdQyIeDGK8d/RTm034/Lv0WNsN5Qi/0l6TgI=;
- h=date:mime-version:subject:message-id:from;
-Received: from [172.16.12.141] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTPA id 370E2840680;
- Mon, 15 Apr 2024 20:31:18 +0800 (CST)
-Message-ID: <0bc127b7-ef34-49f6-92d5-03ec3633f694@rock-chips.com>
-Date: Mon, 15 Apr 2024 20:31:03 +0800
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF694112528
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 12:44:44 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 88426CE0B69;
+ Mon, 15 Apr 2024 12:44:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ACB5C113CC;
+ Mon, 15 Apr 2024 12:44:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1713185080;
+ bh=Q+VJIxmudE78JexuvHVfCfe0M8EnTbAoR4dDnMnmpgg=;
+ h=Subject:To:Cc:From:Date:From;
+ b=GbU2iswSQLSwIL7RE6SKJ9uaTQcMGQjOzH50TzGNNe/737HUDIWUDLwCbY5uxAzjM
+ 78IvxvLDeMR0GI6DUJOaL37oZQ42kIwChs7jJ+NmPXaDbUcTLuDfGeRD9cNzRT+5T/
+ byCKcHRoZj+z6hOYCPzyFJ78105TY+JyLm1GtkcA=
+Subject: Patch "drm/ast: Fix soft lockup" has been added to the 6.8-stable tree
+To: airlied@redhat.com, dri-devel@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, jammy_huang@aspeedtech.com, jfalempe@redhat.com,
+ kuohsiang_chou@aspeedtech.com, tzimmermann@suse.de
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 15 Apr 2024 14:43:49 +0200
+Message-ID: <2024041549-clump-botany-79ac@gregkh>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: vop2: Do not divide height twice for YUV
-To: Detlev Casanova <detlev.casanova@collabora.com>,
- linux-kernel@vger.kernel.org
-Cc: Sandy Huang <hjc@rock-chips.com>, Heiko Stubner <heiko@sntech.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org
-References: <20240414182706.655270-1-detlev.casanova@collabora.com>
-Content-Language: en-US
-From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <20240414182706.655270-1-detlev.casanova@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQhgfSFZKHklJTBhIQ05MHR1VEwETFh
- oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5IVUpLS1VKQk
- tLWQY+
-X-HM-Tid: 0a8ee1bd892703a4kunm370e2840680
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MiI6Lzo4STMKLwkiTj8VQ0NI
- TQhPCypVSlVKTEpISkNPSUxCSUlLVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
- WUFZTkNVSUlVTFVKSk9ZV1kIAVlBT09LQjcG
+Content-Type: text/plain; charset=ANSI_X3.4-1968
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,75 +55,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 4/15/24 02:27, Detlev Casanova wrote:
-> For the cbcr format, gt2 and gt4 are computed again after src_h has been
-> divided by vsub.
-> 
-> As src_h as already been divided by 2 before, introduce cbcr_src_h and
-> cbcr_src_w to keep a copy of those values to be used for cbcr gt2 and
-> gt4 computation.
-> 
-> This fixes yuv planes being unaligned vertically when down scaling to
-> 1080 pixels from 2160.
-> 
-> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> Fixes: 604be85547ce ("drm/rockchip: Add VOP2 driver")
+This is a note to let you know that I've just added the patch titled
 
-Acked-by: Andy Yan <andy.yan@rock-chips.com>
-> ---
->   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 22 +++++++++++---------
->   1 file changed, 12 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> index fdd768bbd487c..62ebbdb16253d 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> @@ -706,6 +706,8 @@ static void vop2_setup_scale(struct vop2 *vop2, const struct vop2_win *win,
->   	const struct drm_format_info *info;
->   	u16 hor_scl_mode, ver_scl_mode;
->   	u16 hscl_filter_mode, vscl_filter_mode;
-> +	uint16_t cbcr_src_w = src_w;
-> +	uint16_t cbcr_src_h = src_h;
->   	u8 gt2 = 0;
->   	u8 gt4 = 0;
->   	u32 val;
-> @@ -763,27 +765,27 @@ static void vop2_setup_scale(struct vop2 *vop2, const struct vop2_win *win,
->   	vop2_win_write(win, VOP2_WIN_YRGB_VSCL_FILTER_MODE, vscl_filter_mode);
->   
->   	if (info->is_yuv) {
-> -		src_w /= info->hsub;
-> -		src_h /= info->vsub;
-> +		cbcr_src_w /= info->hsub;
-> +		cbcr_src_h /= info->vsub;
->   
->   		gt4 = 0;
->   		gt2 = 0;
->   
-> -		if (src_h >= (4 * dst_h)) {
-> +		if (cbcr_src_h >= (4 * dst_h)) {
->   			gt4 = 1;
-> -			src_h >>= 2;
-> -		} else if (src_h >= (2 * dst_h)) {
-> +			cbcr_src_h >>= 2;
-> +		} else if (cbcr_src_h >= (2 * dst_h)) {
->   			gt2 = 1;
-> -			src_h >>= 1;
-> +			cbcr_src_h >>= 1;
->   		}
->   
-> -		hor_scl_mode = scl_get_scl_mode(src_w, dst_w);
-> -		ver_scl_mode = scl_get_scl_mode(src_h, dst_h);
-> +		hor_scl_mode = scl_get_scl_mode(cbcr_src_w, dst_w);
-> +		ver_scl_mode = scl_get_scl_mode(cbcr_src_h, dst_h);
->   
-> -		val = vop2_scale_factor(src_w, dst_w);
-> +		val = vop2_scale_factor(cbcr_src_w, dst_w);
->   		vop2_win_write(win, VOP2_WIN_SCALE_CBCR_X, val);
->   
-> -		val = vop2_scale_factor(src_h, dst_h);
-> +		val = vop2_scale_factor(cbcr_src_h, dst_h);
->   		vop2_win_write(win, VOP2_WIN_SCALE_CBCR_Y, val);
->   
->   		vop2_win_write(win, VOP2_WIN_VSD_CBCR_GT4, gt4);
+    drm/ast: Fix soft lockup
+
+to the 6.8-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     drm-ast-fix-soft-lockup.patch
+and it can be found in the queue-6.8 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From bc004f5038220b1891ef4107134ccae44be55109 Mon Sep 17 00:00:00 2001
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+Date: Wed, 3 Apr 2024 17:02:46 +0800
+Subject: drm/ast: Fix soft lockup
+
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+
+commit bc004f5038220b1891ef4107134ccae44be55109 upstream.
+
+There is a while-loop in ast_dp_set_on_off() that could lead to
+infinite-loop. This is because the register, VGACRI-Dx, checked in
+this API is a scratch register actually controlled by a MCU, named
+DPMCU, in BMC.
+
+These scratch registers are protected by scu-lock. If suc-lock is not
+off, DPMCU can not update these registers and then host will have soft
+lockup due to never updated status.
+
+DPMCU is used to control DP and relative registers to handshake with
+host's VGA driver. Even the most time-consuming task, DP's link
+training, is less than 100ms. 200ms should be enough.
+
+Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+Fixes: 594e9c04b586 ("drm/ast: Create the driver for ASPEED proprietory Display-Port")
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v5.19+
+Link: https://patchwork.freedesktop.org/patch/msgid/20240403090246.1495487-1-jammy_huang@aspeedtech.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/ast/ast_dp.c |    3 +++
+ 1 file changed, 3 insertions(+)
+
+--- a/drivers/gpu/drm/ast/ast_dp.c
++++ b/drivers/gpu/drm/ast/ast_dp.c
+@@ -180,6 +180,7 @@ void ast_dp_set_on_off(struct drm_device
+ {
+ 	struct ast_device *ast = to_ast_device(dev);
+ 	u8 video_on_off = on;
++	u32 i = 0;
+ 
+ 	// Video On/Off
+ 	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE3, (u8) ~AST_DP_VIDEO_ENABLE, on);
+@@ -192,6 +193,8 @@ void ast_dp_set_on_off(struct drm_device
+ 						ASTDP_MIRROR_VIDEO_ENABLE) != video_on_off) {
+ 			// wait 1 ms
+ 			mdelay(1);
++			if (++i > 200)
++				break;
+ 		}
+ 	}
+ }
+
+
+Patches currently in stable-queue which might be from jammy_huang@aspeedtech.com are
+
+queue-6.8/drm-ast-fix-soft-lockup.patch
