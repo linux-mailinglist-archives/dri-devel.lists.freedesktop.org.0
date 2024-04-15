@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC3C18A49A8
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 10:01:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98648A49AC
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 10:02:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 816801122B3;
-	Mon, 15 Apr 2024 08:01:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11C281122BB;
+	Mon, 15 Apr 2024 08:02:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="smjpwlAc";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VvsjjS9p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23D881122B3
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 08:01:55 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id
- a640c23a62f3a-a519e1b0e2dso351158066b.2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 01:01:54 -0700 (PDT)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
+ [209.85.208.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C0061122BB
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 08:02:17 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id
+ 4fb4d7f45d1cf-56e56ee8d5cso3423746a12.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 01:02:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713168113; x=1713772913; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1713168136; x=1713772936; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=CPtOHLp/ItL6XzmgbbTsKkPtCjWRiufv9K9fIf2mnm8=;
- b=smjpwlAcThOmjNy7BO4RlXEaHtBqlKrNzj1m3AIop7ZogxAg+jtdsG9nx09A0WPieQ
- nd62qdbdpu86WCioqpk94UYMcKKRyEdnzho7nO2zC3muObGtESeu3tWNVrkoLc5r0eHf
- ox0yVMM5YJWqwaGDf1xbRGLNoBg+SpqoEgQEF8/rXpkxphPnur1hee1A6zmEb+1XY95k
- FHJYVPUdr8LwpwBEE4gFRCqRcmOKG/NYq6lQKwUMOkWfhh1WLz2+XBZXCHE61h20BNql
- 5HWG9oy8QKeWLvhfylDffPkdLdt5s9MkrW9cWrjUH5Hj+s2t26tUkf5pzD9RhEQgnqsI
- 7UFg==
+ bh=RxxnOIbWdKNhd8ESydWyV3bXibSeuFiEKlNzMtKAmLk=;
+ b=VvsjjS9pwHKNxjM7bho98ju7TaMjey09ZA6CGGdwZU+EilGB7SpKf4XQqFsFKFbGvw
+ G6gVQBMIaH7ki1WQO1xxGR/Q7fg5IIOx1rHXEPFQIFAzh+TEOcFaf0ReuvGISLizynpn
+ 06iQjr1vQU1BkNSZFLJhzAKqEq5qs0FodsOZfMkl4olt8mGIq086fPkGbF24F76j6VAN
+ mjs5q+GAXfxmn9nfZo5mA+Wjz8oTvhsObCNI69f8Fq6UBIfQYJ5lkevQFPiH4NztWibd
+ MGc9D8+irSGQ1e0e1eKqPh7uYZaucacAmF/pK/4955JGAo4IyUfSPC/NoVqqOPcCq2K5
+ znMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713168113; x=1713772913;
+ d=1e100.net; s=20230601; t=1713168136; x=1713772936;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CPtOHLp/ItL6XzmgbbTsKkPtCjWRiufv9K9fIf2mnm8=;
- b=vkBM5L3sEw4P1iVphyg+wadHsfz7aYl4WSzqYTg5eWOVoNaaYuMLjJcr9faI+MQGoP
- NxR9hiIiCwWx4rTxYjX6nrYmjlTo7EEhEnAPUlr8VNA7Tfxj2JSVEHVGbnFP9qmnP3q+
- hQlH81Jn/oEaQ2Uayh/I7uIkGuP9fo9Oe8NJBnpu7LuC47Z2nLrgOZUIdy3oQQYPrUnT
- Iqc/CZSOdzdUZhuZC+xA0X/AaY1dwTt0/SqnX7jx4j1AAMr4CAwwjeEXThzO0OSFOZmp
- 7FXEFns7NcKk+Ldj6ZavJ/kM8evSKjqC3OhvkOA/a0btz0X1dTYRSty0SaVntzqoiFHF
- kEOw==
+ bh=RxxnOIbWdKNhd8ESydWyV3bXibSeuFiEKlNzMtKAmLk=;
+ b=MTmDERvVFlqGxHl9z5SY0eDwf3qiJf/9oypvYVejFsC8y1ueCGOMbohbp/uapHcujm
+ xjQkp7fqp8yFYQQmfJNfK45ISBo/UwCrHa+I407U8vstudXYrCHTbQTNeqKZUZ0wGakV
+ EpChF6wNTRU+C4Ra9eASZ16vLmXDAQIrQ6Zf/M04qXyxASkahY0V9BwEjrUWQSZqhdRh
+ ABqmEztek+gVTnvjhzay81YRfKgafpfn0wmiaoWrFNh65RsNzzYtxFtekAOabxQ5JJkj
+ E/vuBE3oIIvCh/JYyJpQ+9klsI8uE5tWPZ1AsUnZyilLadxHfIrZuLnrH9VVP7qclRWl
+ IQgA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXJe7TldYejV3bXg+kiB80xXYgVdp7mRe9g6Zbrcxqi8lI2muVNTitR/cx5TmdI1GH9vQTabf0rQMWiF1CRkkP6DD0XxYRAtMkMw0BqjqvR
-X-Gm-Message-State: AOJu0YxlmfL0DnjwkDTub8JdFm0vCtzFPRXXh3o2qH50Vi1RAfQK3w9v
- l+LmgXUOtS8L4o0EQuP5XrejTsqRoZASSl5FS4mDjOgPVadqpzYL3xF6NhKL88A=
-X-Google-Smtp-Source: AGHT+IEdGqwmGJNHSzZVRiK8R+/NH6MxDXrqe2ePpwNY5brpbviKuBMuMuDBrM2FOKJ/iq2Bog7jGg==
-X-Received: by 2002:a17:907:7da1:b0:a51:b0e1:8640 with SMTP id
- oz33-20020a1709077da100b00a51b0e18640mr7918052ejc.9.1713168113019; 
- Mon, 15 Apr 2024 01:01:53 -0700 (PDT)
+ AJvYcCXZBoL+0gDjDOwl4ilhihFVYaQllTFLqFL03/4PfHoccXkgRCY+3UtfCWD7GwZ1KGoNMsKY35X4KkCMAfsUKrcnOU170747RuXiZeIzDdd5
+X-Gm-Message-State: AOJu0Yyc2IST9Qpk+K4jKbecyDUK75PzxcgiZAud5DlhJYBQwPqIqPTA
+ C9tjgD4xzB6/eP1ydSA0DLj+LnId2jviROt+/CCTXv7JZ9aI13ScdcttI/zU9ks=
+X-Google-Smtp-Source: AGHT+IE+29LAzKxpO+NSRFKt+Kk57LXcT97w4Z8npCIK16tiVH+cS7yhl+ztmLssddXCKvIelgyqlg==
+X-Received: by 2002:a50:d59d:0:b0:56e:4676:aa3a with SMTP id
+ v29-20020a50d59d000000b0056e4676aa3amr6025013edi.16.1713168135626; 
+ Mon, 15 Apr 2024 01:02:15 -0700 (PDT)
 Received: from [10.230.170.72] (46-253-189-43.dynamic.monzoon.net.
  [46.253.189.43]) by smtp.gmail.com with ESMTPSA id
- cw4-20020a170906c78400b00a4e58c74c9fsm5124245ejb.6.2024.04.15.01.01.51
+ s24-20020a056402037800b0056e44b681a6sm4560227edw.57.2024.04.15.01.02.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Apr 2024 01:01:52 -0700 (PDT)
-Message-ID: <17950726-6c8b-4ca6-af90-6abb9b0c05c5@linaro.org>
-Date: Mon, 15 Apr 2024 10:01:51 +0200
+ Mon, 15 Apr 2024 01:02:15 -0700 (PDT)
+Message-ID: <9df035d3-438a-46d7-8fba-183aea84023a@linaro.org>
+Date: Mon, 15 Apr 2024 10:02:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: panel-simple-dsi: add Khadas TS050 V2
- panel bindings
+Subject: Re: [PATCH v2 0/2] drm/panel: add Khadas TS050 V2 panel support
 To: Jacobe Zang <jacobe.zang@wesion.com>, neil.armstrong@linaro.org,
  airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
@@ -72,7 +71,6 @@ Cc: nick@khadas.com, linux-amlogic@lists.infradead.org,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20240415031408.8150-1-jacobe.zang@wesion.com>
- <20240415031408.8150-2-jacobe.zang@wesion.com>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -119,7 +117,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240415031408.8150-2-jacobe.zang@wesion.com>
+In-Reply-To: <20240415031408.8150-1-jacobe.zang@wesion.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -138,33 +136,11 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 15/04/2024 05:14, Jacobe Zang wrote:
-> This add the bindings for the Khadas TS050 V2 1080x1920 5" LCD DSI panel
-> designed to work with the Khadas VIM3 and VIM3L Single Board Computers.
+> Changes from v1 at [1]:
+> - Fix name from "newts050" to "ts050v2"
+> - Add specific description about controller change 
 
-A nit, subject: drop second/last, redundant "bindings". The
-"dt-bindings" prefix is already stating that these are bindings.
-See also:
-https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
-
-
-Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
-
-
----
-
-This is an automated instruction, just in case, because many review tags
-are being ignored. If you know the process, you can skip it (please do
-not feel offended by me posting it here - no bad intentions intended).
-If you do not know the process, here is a short explanation:
-
-Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-versions, under or above your Signed-off-by tag. Tag is "received", when
-provided in a message replied to you on the mailing list. Tools like b4
-can help here. However, there's no need to repost patches *only* to add
-the tags. The upstream maintainer will do that for tags received on the
-version they apply.
-
-https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
+You must say that you ignored/dropped received tags.
 
 Best regards,
 Krzysztof
