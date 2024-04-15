@@ -2,44 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BC198A4F7F
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 14:49:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A44D68A4F79
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 14:48:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93E48112530;
-	Mon, 15 Apr 2024 12:49:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F14F7112534;
+	Mon, 15 Apr 2024 12:48:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="uBvGrQSU";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="irkMiK6r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8083112530
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 12:49:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4277B60B84;
- Mon, 15 Apr 2024 12:49:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E4D9C113CC;
- Mon, 15 Apr 2024 12:49:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1713185346;
- bh=OPjghu2tkRv1wrHuphY1w5Vdo6fCY98maTN0qQUcenw=;
- h=Subject:To:Cc:From:Date:From;
- b=uBvGrQSUQwG83BG7Fy14XU/npmKu42zmyibgTpJJ8xfKmE+U8yyMVU9YPiLwQD6EZ
- 4GbN1p3565WVh1HNerULkmCbmVG6WeA9igOOJIVHApFmUfUAVmEnw35GlX7lXrykX5
- ruoTgQ2yzojiN3vd7ysg3S3zdJi8TzKzD8HoNfSs=
-Subject: Patch "drm/ast: Fix soft lockup" has been added to the 6.1-stable tree
-To: airlied@redhat.com, dri-devel@lists.freedesktop.org,
- gregkh@linuxfoundation.org, jammy_huang@aspeedtech.com, jfalempe@redhat.com,
- kuohsiang_chou@aspeedtech.com, tzimmermann@suse.de
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Mon, 15 Apr 2024 14:47:57 +0200
-Message-ID: <2024041557-vacate-worrisome-4925@gregkh>
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06AA4112530
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 12:48:48 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-41879f3d204so2432425e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 05:48:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1713185327; x=1713790127; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=fYBgV11sH3JLVboFSXkJgCoU/xJb2f3Jo4YenY/vo9Y=;
+ b=irkMiK6rlewC8yOxxsj9TCOgb3RXB3j0gCduLDns+1Hem4f5txEIh4B6jsgLnWeFcb
+ snYKvU6mcCclojxAGkCmjkKAfBOQZUictpcLo2dOPasVHwzrc4ZPVj2+TJxmXPgAGNf+
+ M3B0sZ6aOSv6SmQa3cTlnf6c3+gOXOO27g9Cj3sRj28l0FZV0aLXoXPIvNCu4XlTuL2B
+ bCSD6N3vwkzjfs9cnPwDyFxokOTmwSMBeaRoyiYb5zu5/6z+l4+LIz2gPcHdkKS5TZgD
+ NBplFgxyc7DNaY+PBEvNi83ST+s/O1PoK5+5EsWJinlVwiAITos94ZluBdxK70tBHfdJ
+ d8pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713185327; x=1713790127;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fYBgV11sH3JLVboFSXkJgCoU/xJb2f3Jo4YenY/vo9Y=;
+ b=lT+JZ67T7a0nJFsBBoz/x/qHS2Z/lT7IA85BwES9G4h/QSiifR9FscNArQXv0/H42W
+ WdwqTyagSrr7/n64CQc221odGKUmBmXG8QLTUYWXA0EvyuyV6fNfT2Hn+EzXjEau3AXJ
+ FA+zCu0WwTTXJcSyEIsntJZKcxQvpoAHeOMmzx8nN+ZMz0+RSLRLHNLFvr3dIh96LbCX
+ 1X7nVfFapqWnCCg2c/TEMWNzlxcMoyztbOPZSFU0uNcXijVlzRysjjIdSPntRFphUz/I
+ aGEVtyN+TsZhggnDPuUSkb7Ke8ADAGt1iuQNEe5Ta1f9srCvDES4mYloKdLuasLVIFfW
+ HZMA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV8tk4OdsDghjQ89WK7qWWxrjzcV0Y1V7vOq7JvycwqKtxiRIY1LtS6VrhfL3ZICgJtoHv+DoReSoLgubQ7CDZazvUa3FaQd8yHGfND3cPu
+X-Gm-Message-State: AOJu0YxA2DxMExlGZsDgO/BYCnNFIlSyk7CBSU/HiZGEiG/qjcuPtgpN
+ UCqzp3GWBXqB63jXFO4NjdcJcaCxs9KoCfgnuRfeylGi+5+Q9zxR+rZlENGKiJs=
+X-Google-Smtp-Source: AGHT+IHAa4VIIZPfYQm1PVHVmrI/agaXvepugvesuVkXOga7yarPxPBfCgzSQL+8bsNFdokUf2ibJw==
+X-Received: by 2002:a05:600c:3511:b0:418:3f54:1132 with SMTP id
+ h17-20020a05600c351100b004183f541132mr3484001wmq.12.1713185327355; 
+ Mon, 15 Apr 2024 05:48:47 -0700 (PDT)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ a13-20020a05600c348d00b004186eb69a55sm2411188wmq.25.2024.04.15.05.48.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Apr 2024 05:48:47 -0700 (PDT)
+Date: Mon, 15 Apr 2024 13:48:45 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>,
+ Bruno =?iso-8859-1?Q?Pr=E9mont?= <bonbons@linux-vserver.org>,
+ Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
+ Alexander Shiyan <shc_work@mail.ru>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+ linux-omap@vger.kernel.org
+Subject: Re: [PATCH 03/18] backlight: corgi_lcd: Constify lcd_ops
+Message-ID: <20240415124845.GC222427@aspen.lan>
+References: <20240414-video-backlight-lcd-ops-v1-0-9b37fcbf546a@kernel.org>
+ <20240414-video-backlight-lcd-ops-v1-3-9b37fcbf546a@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240414-video-backlight-lcd-ops-v1-3-9b37fcbf546a@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,82 +93,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sun, Apr 14, 2024 at 06:36:01PM +0200, Krzysztof Kozlowski wrote:
+> 'struct lcd_ops' is not modified by core backlight code, so it can be
+> made const for increased code safety.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-This is a note to let you know that I've just added the patch titled
-
-    drm/ast: Fix soft lockup
-
-to the 6.1-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     drm-ast-fix-soft-lockup.patch
-and it can be found in the queue-6.1 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
 
-From bc004f5038220b1891ef4107134ccae44be55109 Mon Sep 17 00:00:00 2001
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-Date: Wed, 3 Apr 2024 17:02:46 +0800
-Subject: drm/ast: Fix soft lockup
-
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-
-commit bc004f5038220b1891ef4107134ccae44be55109 upstream.
-
-There is a while-loop in ast_dp_set_on_off() that could lead to
-infinite-loop. This is because the register, VGACRI-Dx, checked in
-this API is a scratch register actually controlled by a MCU, named
-DPMCU, in BMC.
-
-These scratch registers are protected by scu-lock. If suc-lock is not
-off, DPMCU can not update these registers and then host will have soft
-lockup due to never updated status.
-
-DPMCU is used to control DP and relative registers to handshake with
-host's VGA driver. Even the most time-consuming task, DP's link
-training, is less than 100ms. 200ms should be enough.
-
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
-Fixes: 594e9c04b586 ("drm/ast: Create the driver for ASPEED proprietory Display-Port")
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.19+
-Link: https://patchwork.freedesktop.org/patch/msgid/20240403090246.1495487-1-jammy_huang@aspeedtech.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/ast/ast_dp.c |    3 +++
- 1 file changed, 3 insertions(+)
-
---- a/drivers/gpu/drm/ast/ast_dp.c
-+++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -190,6 +190,7 @@ void ast_dp_set_on_off(struct drm_device
- {
- 	struct ast_private *ast = to_ast_private(dev);
- 	u8 video_on_off = on;
-+	u32 i = 0;
- 
- 	// Video On/Off
- 	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE3, (u8) ~AST_DP_VIDEO_ENABLE, on);
-@@ -202,6 +203,8 @@ void ast_dp_set_on_off(struct drm_device
- 						ASTDP_MIRROR_VIDEO_ENABLE) != video_on_off) {
- 			// wait 1 ms
- 			mdelay(1);
-+			if (++i > 200)
-+				break;
- 		}
- 	}
- }
-
-
-Patches currently in stable-queue which might be from jammy_huang@aspeedtech.com are
-
-queue-6.1/drm-ast-fix-soft-lockup.patch
+Daniel.
