@@ -2,119 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 429E58A543E
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 16:35:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F208A54A9
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 16:39:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E063B112621;
-	Mon, 15 Apr 2024 14:35:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2D5F11262D;
+	Mon, 15 Apr 2024 14:39:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="HLz0qcfd";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UGMJUbHI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2076.outbound.protection.outlook.com [40.107.223.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0BEB112620
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 14:35:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fbvB9NtsKJXTTZ2qtRTpU3Eoq0OVqX20IQ4f6kYoOsh5UohbvwV9xlBXq7uMNnEikU4bsZcEQ0jWyvA+5hDGKFVRZEvdam6CRsuhW/0uFzSaWJAkEVL24L0/ij0BYlXN9Ymq5KdE24u8DCqOfc7pLjNFVcbqPuBqEnSr3KQBztpMFth4rXuJ1RlX1Fb0NAx3lgm8d5r+MFQ+WXyK97C7aN3KaGdsMMwuSrdutcIcARZukyye0l/AlhKfY+TmiDmQat3zfPTr1vE/L64T5nuNeQBEKcR3ziVIarWMhhMGcRXR1miDBFyd3BNlzwTpldlz33JutUs5WKhrpYupkjhsQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kjEpVLiwc54Dbn2fC+VAzB4nRZ7BqeAEjSZYK5mG4uI=;
- b=CcftXOpqUzuQ8iDZHwEqYtc0Xfb/xFjcFv/ivYOYRz1rghuzZ3p+575YrH4FdfORLGiok+SWfWRVJEHjBFz0YuKBb4I39vbFbk4eqtuAlb00ESgI3Nu5Xw3mWW3ebk5K8rQQCOWnc0xEzjzgKFb+C+EsPRKlM845K9D3ZdAUaKIIxK1p6lwJVbjIBw9HmT2aRC/riEoojT3f3OpPgcTjhFcfR1eVy/bg1Jd+j4VbE1B3ePkInBVywenFeTYIUno0HsbwCvynK1gKR+mMEM/eHpIYRc142mkv0atPURJD+9gxzL17wG7rvj9/S2heOTjEUlC+1FRJT7TqrXM9XcW+sg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kjEpVLiwc54Dbn2fC+VAzB4nRZ7BqeAEjSZYK5mG4uI=;
- b=HLz0qcfdyqXdimhrDT2wPt1VICn2BYtWuath5mroqnwYuAY/M2cKaQVKjqRbIXa4Dw4uFNx+ungpINZb5ghcvpAylpbE8grvWozWXiQ7Vdblv+fy2ZgQ3XChq/8284W7RMfshEcByZtun12HS99ZahEY/bJzupBHzZwoqFxKqBI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SN7PR12MB8791.namprd12.prod.outlook.com (2603:10b6:806:32a::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Mon, 15 Apr
- 2024 14:35:12 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7452.049; Mon, 15 Apr 2024
- 14:35:12 +0000
-Message-ID: <cba06e6f-06cb-4b0e-88df-d25d278fb4f2@amd.com>
-Date: Mon, 15 Apr 2024 16:35:07 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] doc: dma-buf: fix grammar typo
-To: Baruch Siach <baruch@tkos.co.il>, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <d242a446258e34b2db8990561e51f145df748f83.1713100057.git.baruch@tkos.co.il>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <d242a446258e34b2db8990561e51f145df748f83.1713100057.git.baruch@tkos.co.il>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0069.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:49::22) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A355D11263B
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 14:38:59 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-41550858cabso20476185e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 07:38:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1713191938; x=1713796738; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=7mBLr8dU5roN8PFG/4+0xLSLo7YcEd0M0iQo1U2TLyQ=;
+ b=UGMJUbHIq0RXD7kQciep5OFvrDzh6B46qLA4Vbv43A3yJfb7xgsHVr7vMmBMrauwAa
+ iraQZoTFE3WGCbsMtWVDPonIc/v73ttkRxBd5Jl2eNqD5JzfsEQJ3/jaDsirWGcBJ4Ga
+ I/IW8TuREHVGWFBTst0rpIFwWZHaYyPBIJ/6luBzkKSQgU8ACi+srnxHLKRoSzbrWWNH
+ 4rMluSKUm1tq3GFF3dvKvF8Eo7Ev88xpdMusnTYmUU00DU40itTLMmsvmoInX1x4Slky
+ NiYpPh8kjBJUwONjCWYe2T6rrs1uup/nprcfpDRAZBx6MQV/KyLc5kVSfooINVA7u+nb
+ 4N7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713191938; x=1713796738;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7mBLr8dU5roN8PFG/4+0xLSLo7YcEd0M0iQo1U2TLyQ=;
+ b=RRgLnZGE2MMHEnBnE5k4XVnix66au6pVqGhb6vweLYmJtFfLr5xh+JkSLbKhKVNIuT
+ otqz6hN2Ny6CUldGdBNdXEMyTDL9DEAK1Lh8Ac7OP3lIuS41h3kQ9G8SxIWzS2z+105o
+ SkWqRIxDgu6T79YznJfwoUVS8sRaS32zvvCLRfbpcr4d7QzPQ6wVti5U9T62HvZ6Pi1v
+ 63DXTKFiVnlVEA8ZvWv6frNhnkQl55Slt8TRFzD5lDUMMnT2gTsBMQcZcBK6WN6MrT/G
+ FjrFB+d5sGyspKxLwnFeWzw26RQ3agHyHSGdfqkFbo0CJGQ9H1ieSO/IQ5CZJiibPi2y
+ VR3w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXrrbFUTneSoWhWAx/2vh8esMNjPOvT0lylq7rNXvSZPJTxIfy47waK76pYO7s/vlJPPY/4lSVMPIWmRa0scRJJEI7XjsCvGZ0Pj4OfoPu+
+X-Gm-Message-State: AOJu0YzCc1wDyTN8/dzvq/K+IbQYFRlpoCNtjqZ8fjKCB1O5xTU8ikFX
+ UYVwJnivPMfOSHEewAVL4RIPvINY7KxKTmVVhoxsOVGLeQ016h2y
+X-Google-Smtp-Source: AGHT+IHY0qlSJ5S39beKoM6S33mlsos/J3U9eWS6gzFsHDtqOyFVi5Ta2ZCN5wNPUjg/ZeB6PeZsOg==
+X-Received: by 2002:a05:6000:bce:b0:343:79b4:5371 with SMTP id
+ dm14-20020a0560000bce00b0034379b45371mr6248118wrb.69.1713191937701; 
+ Mon, 15 Apr 2024 07:38:57 -0700 (PDT)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ w13-20020a5d680d000000b003433bf6651dsm12324806wru.75.2024.04.15.07.38.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Apr 2024 07:38:57 -0700 (PDT)
+Message-ID: <9a7b61a0-5a74-451f-81d2-b633ac5b1b98@gmail.com>
+Date: Mon, 15 Apr 2024 16:38:56 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SN7PR12MB8791:EE_
-X-MS-Office365-Filtering-Correlation-Id: e6134feb-b3c8-495a-d2d6-08dc5d5941e3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TmUO5Ui4lSzIZBYVD6TJtL/9E86ARDq+oI7+yMhXjSRi7gHFzYpR4fD9Dq3NebTctyP/4Y0KznhXiJt45mVQtFimM/uh0gVLOknB8SEnE7xFYH+2roI+h1aIDeZNnLJMQiz0omjElImETDr41/Ga8wxnFl6JFE3q4ZMFu330F6XnvbQAWZfapVW5tXK6WJudGGOu5Rjh1/malRav567hgwN5qnB9Ysh8/KQmNtoHWANqKQ1N4ZJ6xKK2z+rywzI1zDJrJ1T+ufipwkmJDovTLw7Cu4lPnVkuWENy2pOc5Y7gCGJoIbITMrsCnpj3YyC8q77hV7ZYZZ7PaSi8P/Mwj25WwD9al608fLPq/v+XC0JCi8xw+hvAcvhlNwC9WzkjwY9eQggoJqtR74+zRJQJdwZI8UljDhxQlE/gapyKx+Hyk/ueOcIgUXg+aXLxyfo7MtrqTGNrz/CpcYuQm7PC1snbi0K0ldnBqVEejb7ea6otZhoZwoxCq5mCUkHHB2k2ppiqmJxK1hbUXX70PwhY4+Q7e1I10/131giNrKmvTBEO1YhrttUzplYiTgoJ9k6RF1gB6bb8qi0tI8DIXOGxG90JPiVSgs5oF6GJS0e1ZDLDz44kQoPgokx78zz11M41ti7Kpkjxh27BdY86uRqvHQVpMoS3JVW1o85clG1Mezg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005)(1800799015)(366007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bm1RcDQ2VTRVLzBrRW0rcyszVXJwcTZvSkhYYjlhWElCSllONXNZcWw3VFh0?=
- =?utf-8?B?cS9BRWNLUTYveVpxUlBZSHlkTUcwNG5CQ3VPWjZDUm5WZC9GNGxVckdBdTlq?=
- =?utf-8?B?U2twZVlENTJncUsyZjdFYVRWVFhLbFlzaDNDdUJYOUxlaHVqcklEREZUbGpZ?=
- =?utf-8?B?a1p4aml2TjExVklNajNEeis2ZWtxYW9xZ1h2b2RQVTFDMnNOODVhKzViNFB2?=
- =?utf-8?B?VzlYNW8zaSttcUU2TmNPNmIrejk5Wmx2RHp5TEI3Z04xNmwwVmtLbVA0bmdl?=
- =?utf-8?B?SnVQMnZmUmVWZnIzZW9JcVNHUEFjbWxiMVNMSE53ZmRnUTRsMHl1STNxOE0w?=
- =?utf-8?B?TlNKN1VSazZtMmNEZndjSDNNRVdJSG9uMHU3VVEvNWYwVUFLa0xwbld6WVNF?=
- =?utf-8?B?eWJSbUY3NlMyMDlRN0FkR0RIY1B0bUtNQ2VxcHF4SFA5RWpLQ1FUUmljblhK?=
- =?utf-8?B?YVRBY0wvWUlHREtNejIxc1BVYXJVclBia3J4Z09ubVdlRk1ndmtKRitNSlZD?=
- =?utf-8?B?RkZVYzNXTjZwb2NGYWsxVGRpZFBXWk5mNjFjNVRlVDZCTk5DUzlaeG56RWw0?=
- =?utf-8?B?Q2NtbWVSSTdLVkVYSlRNbSthbnd6eUlKNmtJazA1MWZBNkdBMEJnZDB1Z2NO?=
- =?utf-8?B?d0ZoVlBxMU5ncEJyRmkwcjBNRmdqa09hRTFFSTVoV2pvYUxXRVZVQ3NNdkFu?=
- =?utf-8?B?QzBySHBVZVdJM3pja2NDcndBMG56TUVLRERiMTNQc0Q1SkxQVGlzVmw2bW5t?=
- =?utf-8?B?UENWMCtSbWhDY0luaUMvQTdaVFY4bmVHSGFDYVJ0VnVqZjB6dE1rLzJiNWFj?=
- =?utf-8?B?V3hQSXJQMlFDUzQ1UW5pMUw5T2JEcDV2MXZsdzEzeFFCcm5acnEyQmVPemkr?=
- =?utf-8?B?ZU1WUXAxTmFYSE43TXpsSVhoZ01OeFFXZzR0bmV2SlRXN0NrRS9KSndIaGVO?=
- =?utf-8?B?NUFvbm5QdUV0bk5pVFlveVhqZFZvK3VIemtVb2FlNVRhOVFWSFlkYU1BL25r?=
- =?utf-8?B?Q1J2ckt0SnZiZEVnRTZERGNCOEJudlNHNXhSbTVMdkRsZ29ET1F0SzJnNzdi?=
- =?utf-8?B?VVFKVmc3dlVTSVphZ1VtS1Ryc0ZvWFdIb0ZmaXRFY25ISUhxL1k0dGhwU093?=
- =?utf-8?B?eWdmVGM5dUMrSjdOVmZ4dHhOS2V4ZHpyN0dmRDdOblFOb2UvVmtqb1lKWnpJ?=
- =?utf-8?B?ZWJJOHJDWW9mZVhTdmZLa2ZjQ2Q2QStxZkZFbkxnVkZ0dEVOOFpFTzExUXJW?=
- =?utf-8?B?Sm1qYlMzdlVnSlZ3WVFuUTZHQUJOZUduNG15K2RaZGk1N0VvNnpqMGlwRmti?=
- =?utf-8?B?OUEzbERpaTQ5eStmUlZFUGE2dUdoNTVUYVpVajVNWW0wYVZWWS9xb1lZVmJt?=
- =?utf-8?B?ZitvMTZVSnVQVlFXSHI3bzZnNDZ2MFVHazVreW1LQWFtSjV6Z0VCN3hkZzhq?=
- =?utf-8?B?OXFGQXRDNFVnWmtTeEllMDF2anB3UlJPZDU3Z3M4cFJBSFRkenN6NUQ4U1pv?=
- =?utf-8?B?bEdOUHRWSSs0OUtUcEY0NVhidUF3ekJxQVAremxkcmJnYURINTBsSjZjVjF6?=
- =?utf-8?B?dXFNa2hNV2Exdi9ieXQ0MVNuNGZHS2pwYWpyRDN4SlorQzFKbnE3VHFTRnNO?=
- =?utf-8?B?Q2puWVRNc3dhN2xLTkVkOVFGb0tiRzltQUlRQjh0Uk1IN1NFSE5YRXREbjVj?=
- =?utf-8?B?engyV0kxNUhaV1hjZWRzR1FZaTlObHV4ODd4T0F2Y0dTWUFQMzlpQ0V0eUFi?=
- =?utf-8?B?MXQ2M3ZMYVJmb28venM0cjhvYjhCdUMrYW1YY1U5a1hFbURsVTRpczZ2Qndl?=
- =?utf-8?B?bHFLY2FtQ29IMWRNZnBady9Kc3dTQmFmeFJjRWRzWURJdzZHNjR6dWxpMkpW?=
- =?utf-8?B?Nzk0VEZUZFpIYXlDVGp4eFdwblJVaEh2dGN3M214by9FWGNEUlRGckZ5dnhD?=
- =?utf-8?B?amQzSS9FVk03emdXS3hzczg5K1UrNGhjZExlZTZ1eXIrMExjNUtkYWZ5d0Fn?=
- =?utf-8?B?RXBKZmVSU0E0WEk1YVNFN3l1U3FRUWNNYlZHYWtYbW5YTHpzVHdwZTJReHJu?=
- =?utf-8?B?WnRzZFY0MHN1Q00wSU93TUp0U0lxRTRXSTV4bXd5K2QrYUxrZXpBczhjQ2x4?=
- =?utf-8?Q?ML3PZq6VLTjBRvWoGlE2rXc5W?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6134feb-b3c8-495a-d2d6-08dc5d5941e3
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2024 14:35:12.1859 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eGPRp13+JwLKQxgOwOBigCaNiJ71oMANLWyfA0IZbbbxwnrJi7Rc7iW+ayt3gbpX
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8791
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ttm: stop pooling cached NUMA pages v2
+To: Felix Kuehling <felix.kuehling@amd.com>, Alexander.Deucher@amd.com,
+ Rajneesh.Bhardwaj@amd.com, Steven.Roberts@amd.com,
+ dri-devel@lists.freedesktop.org
+References: <20240415134821.1919-1-christian.koenig@amd.com>
+ <4b04b1d7-2215-42ae-a65a-eb8103bb847e@amd.com>
+ <345a958f-dde4-4211-850c-7b23ddd71b0b@gmail.com>
+ <214a8afb-b338-4470-879a-c172efb4e9a8@amd.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <214a8afb-b338-4470-879a-c172efb4e9a8@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,32 +88,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 14.04.24 um 15:07 schrieb Baruch Siach:
-> Signed-off-by: Baruch Siach <baruch@tkos.co.il>
-> ---
->   Documentation/driver-api/dma-buf.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+Am 15.04.24 um 16:32 schrieb Felix Kuehling:
+> On 2024-04-15 10:08, Christian König wrote:
+>> Am 15.04.24 um 15:53 schrieb Felix Kuehling:
+>>> On 2024-04-15 9:48, Christian König wrote:
+>>>> From: Christian König <ckoenig.leichtzumerken@gmail.com>
+>>>>
+>>>> We only pool write combined and uncached allocations because they
+>>>> require extra overhead on allocation and release.
+>>>>
+>>>> If we also pool cached NUMA it not only means some extra unnecessary
+>>>> overhead, but also that under memory pressure it can happen that
+>>>> pages from the wrong NUMA node enters the pool and are re-used
+>>>> over and over again.
+>>>>
+>>>> This can lead to performance reduction after running into memory
+>>>> pressure.
+>>>>
+>>>> v2: restructure and cleanup the code a bit from the internal hack to
+>>>>      test this.
+>>>>
+>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>>> Fixes: 4482d3c94d7f ("drm/ttm: add NUMA node id to the pool")
+>>>> CC: stable@vger.kernel.org
+>>>> ---
+>>>>   drivers/gpu/drm/ttm/ttm_pool.c | 38 
+>>>> +++++++++++++++++++++++++---------
+>>>>   1 file changed, 28 insertions(+), 10 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c 
+>>>> b/drivers/gpu/drm/ttm/ttm_pool.c
+>>>> index 112438d965ff..6e1fd6985ffc 100644
+>>>> --- a/drivers/gpu/drm/ttm/ttm_pool.c
+>>>> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+>>>> @@ -288,17 +288,23 @@ static struct ttm_pool_type 
+>>>> *ttm_pool_select_type(struct ttm_pool *pool,
+>>>>                             enum ttm_caching caching,
+>>>>                             unsigned int order)
+>>>>   {
+>>>> -    if (pool->use_dma_alloc || pool->nid != NUMA_NO_NODE)
+>>>> +    if (pool->use_dma_alloc)
+>>>>           return &pool->caching[caching].orders[order];
+>>>>     #ifdef CONFIG_X86
+>>>>       switch (caching) {
+>>>>       case ttm_write_combined:
+>>>> +        if (pool->nid != NUMA_NO_NODE)
+>>>> +            return &pool->caching[caching].orders[order];
+>>>
+>>> Doesn't this break USWC allocations on NUMA systems, where we set a 
+>>> NUMA node for the default pool (at least we were planning to at some 
+>>> point)?
+>>
+>> I don't think so, but I might have missed something. Why do you think 
+>> that would break?
+>>
+>> I mean the idea is basically if the pool is associated with a NUMA id 
+>> we should rather use this pool instead of the global one.
+>>
+>> And that is true for both cases, the default pool and the specialized 
+>> ones.
 >
-> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-> index 0c153d79ccc4..29abf1eebf9f 100644
-> --- a/Documentation/driver-api/dma-buf.rst
-> +++ b/Documentation/driver-api/dma-buf.rst
-> @@ -77,7 +77,7 @@ consider though:
->     the usual size discover pattern size = SEEK_END(0); SEEK_SET(0). Every other
->     llseek operation will report -EINVAL.
->   
-> -  If llseek on dma-buf FDs isn't support the kernel will report -ESPIPE for all
-> +  If llseek on dma-buf FDs isn't supported the kernel will report -ESPIPE for all
+> OK, I think I misunderstood what I was reading. It looked to me like 
+> it would always use a "caching" pool if nid was set. But caching here 
+> is a variable; each node still has specialized pools for write 
+> combining etc.
+>
+> Then the concern you stated in the commit message "under memory 
+> pressure it can happen that pages from the wrong NUMA node enters the 
+> pool and are re-used over and over again" is still possible for 
+> uncached and wc pages. Anyway, it's better than not having NUMA, I guess.
 
-Looks valid of hand, but checkpatch.pl complains about 2 errors (missing 
-commit message for example) and a warning.
+Yes, correct. But since KFD doesn't use USWC that much I don't think 
+this will cause an issue.
 
-Please fix and resend.
+If we really start to see issues with that we can always re-consider 
+using __GFP_THIS_NODE.
 
-Thanks,
+>
+> The patch is
+>
+> Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
+
+Thanks, going to push to drm-misc-fixes now.
+
+Regards,
 Christian.
 
->     cases. Userspace can use this to detect support for discovering the dma-buf
->     size using llseek.
->   
+>
+>
+>>
+>> Regards,
+>> Christian.
+>>
+>>>
+>>> Regards,
+>>>   Felix
+>>>
+>>>
+>>>> +
+>>>>           if (pool->use_dma32)
+>>>>               return &global_dma32_write_combined[order];
+>>>>             return &global_write_combined[order];
+>>>>       case ttm_uncached:
+>>>> +        if (pool->nid != NUMA_NO_NODE)
+>>>> +            return &pool->caching[caching].orders[order];
+>>>> +
+>>>>           if (pool->use_dma32)
+>>>>               return &global_dma32_uncached[order];
+>>>>   @@ -566,11 +572,17 @@ void ttm_pool_init(struct ttm_pool *pool, 
+>>>> struct device *dev,
+>>>>       pool->use_dma_alloc = use_dma_alloc;
+>>>>       pool->use_dma32 = use_dma32;
+>>>>   -    if (use_dma_alloc || nid != NUMA_NO_NODE) {
+>>>> -        for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
+>>>> -            for (j = 0; j < NR_PAGE_ORDERS; ++j)
+>>>> - ttm_pool_type_init(&pool->caching[i].orders[j],
+>>>> -                           pool, i, j);
+>>>> +    for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
+>>>> +        for (j = 0; j < NR_PAGE_ORDERS; ++j) {
+>>>> +            struct ttm_pool_type *pt;
+>>>> +
+>>>> +            /* Initialize only pool types which are actually used */
+>>>> +            pt = ttm_pool_select_type(pool, i, j);
+>>>> +            if (pt != &pool->caching[i].orders[j])
+>>>> +                continue;
+>>>> +
+>>>> +            ttm_pool_type_init(pt, pool, i, j);
+>>>> +        }
+>>>>       }
+>>>>   }
+>>>>   EXPORT_SYMBOL(ttm_pool_init);
+>>>> @@ -599,10 +611,16 @@ void ttm_pool_fini(struct ttm_pool *pool)
+>>>>   {
+>>>>       unsigned int i, j;
+>>>>   -    if (pool->use_dma_alloc || pool->nid != NUMA_NO_NODE) {
+>>>> -        for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
+>>>> -            for (j = 0; j < NR_PAGE_ORDERS; ++j)
+>>>> - ttm_pool_type_fini(&pool->caching[i].orders[j]);
+>>>> +    for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
+>>>> +        for (j = 0; j < NR_PAGE_ORDERS; ++j) {
+>>>> +            struct ttm_pool_type *pt;
+>>>> +
+>>>> +            pt = ttm_pool_select_type(pool, i, j);
+>>>> +            if (pt != &pool->caching[i].orders[j])
+>>>> +                continue;
+>>>> +
+>>>> +            ttm_pool_type_fini(pt);
+>>>> +        }
+>>>>       }
+>>>>         /* We removed the pool types from the LRU, but we need to 
+>>>> also make sure
+>>
 
