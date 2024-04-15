@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B19B38A4F83
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 14:49:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB2E08A4F87
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 14:49:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C045A112531;
-	Mon, 15 Apr 2024 12:49:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1638112532;
+	Mon, 15 Apr 2024 12:49:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ig2T5AJJ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Lw9lLwoU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B65C112531
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 12:49:15 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-41879819915so2703335e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 05:49:15 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED79F112532
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 12:49:35 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-4187c47405aso1766605e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 05:49:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713185353; x=1713790153; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1713185374; x=1713790174; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=UimYHbIWNJzstbVfXQ3wDGyO5qJZelnD1Pr7R7RINlo=;
- b=Ig2T5AJJ2MClyl3/WnRJTBLHHHBf4zMcW9Dbi4RiazmHKbUOoL0E1eB1qrEZ51n6MR
- 5AixEfxKoopP48gDsF+miPGy3GOlUggjuKlngXae3LnpJ9zAOr18JnuRvSfuk1AtZrHw
- Ee+D/0nJAQ1B/9vrIwQeMwmMN/fM5XrxxKtdnsovrw+hNiNY+58wQ7QJlndJfHlfyUA0
- P+hSuLQlB6xM3p2zhZCWW+49sFccK/z9i442xB5yWapkiO5Gti9UQDr3xH10d+0f/7lD
- T2YjVHqgPu8PnYWcFWR0K62fXSkIUXq6yvXflcwsXY6Cr0SdhKVd3QZggVWeaJM9UXEK
- 1kUg==
+ bh=7YIJFnYRyaWXrPlltVrIgYB7IVIKl7WksqYGlHILtZ0=;
+ b=Lw9lLwoU8u0iKIgzIY1Kb2vNdfw3tKgPIzhgeDnI62vISrYmJwoLqFsYfDhR/L98m0
+ vcldF/oRUBHHJgWHZkn07pOabYUoJF32VSvrfeFODhdZhGDtJ6c1739c5OHOnO2eRYV8
+ fIVsy5/97/42stgBPQ9ZK0fOTM+Tgf6AvEyxHiFkVOCiXDTZe1Rsx7tSsb80ag9pJo0/
+ bNxFfiX7YR9J7WXpUrXs/pqOqBaG+9+5SKeXtTwLIFUNjReC9slq6NGo2KYyjHHOdrfa
+ XE9yelPx2VBewTW1DGKzNUOxo8pFWBIUlZR+4pLqAoUG5zR+akwK+w4F7LOE9KGaHw6c
+ DuHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713185353; x=1713790153;
+ d=1e100.net; s=20230601; t=1713185374; x=1713790174;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=UimYHbIWNJzstbVfXQ3wDGyO5qJZelnD1Pr7R7RINlo=;
- b=X5GCjv2Qjq8fK07rpyGZyCyB2Odx4x51dpYuWoz6AZ7DxhEkHWWaismZGWmiaUaB69
- VqjYp8dIrvh2jFX0gp1kNrRaYW8At5pgyv8hNsm/smEHDgmbAaULaKZrx0OQFEMdD5tu
- WHe1e2i/KqT3iNwIwtDngp1BLhCqTZnRCnyOE8h/Caqlwce6b676J6CQH6n99niKoUEP
- HoPmdwyAuXMldt7/gIw/PBbAtkxjG+YSGFhxYSDim9jhBCX902tHhEdCEx+EEd1Ag5by
- a7VxleWkb2mJ7Vm+1iWW7JEHt26lZTdKtZ3PaBcWXw9+U8xITAI0wp7CjAUDAw5ybrfz
- cm5A==
+ bh=7YIJFnYRyaWXrPlltVrIgYB7IVIKl7WksqYGlHILtZ0=;
+ b=Tvey2LIs+cPrgmzjplkCwFFYkouYOkI68+cV0XcgLv6lnV4JwNPRVfd9Wk2LezXvCp
+ 9oKUTDhDzf67VR3DkaBo3AEMqN8SeglV6hhfH6O32CRIgdYW7meracj/qMijSDdKtDN1
+ WzlBBuSB2cG0Ra9kcaCiW3gtWeyrc19ieU8y2GhoTdEHNUwvHsrRYA+KTTUVqGG8j+fN
+ +Ip9FL1erUCkvLftDJI/F2iCq3JK36HFYsbAWTpjfcMkjRslcU4EUFAD4yLiT9UXGcpD
+ lmKoJIokYl/8WxvZwf/eHdKgQ68fyl7EGYxIl5rS7hzlDr4k+6l1wFmoetB6T1CeUdQq
+ LU+A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUL3qDtX7gdNZSoOvcuac7/cpYAiD/PPdcGvhuP8sKVZLjjDYJrnTrMFIaMLWtCD+Ov/A1G/rR4jA3Whas0NqQ9Ctg+U2UhbrvEvuNrEkQw
-X-Gm-Message-State: AOJu0YyB3LOYi63kFyEqoFXxXQJK8cbc4GmGkx9IAYDCs7c8OE2dfO5N
- R0SlfWNWx2DixGG0PIph4aCWWH6VQ20DgQqPFlfOQNtEfxLmdIQfHZNoeu03UIw=
-X-Google-Smtp-Source: AGHT+IGio3O7mWx35mEvR609b07A+RZnNzN0tC57IoZigX+R2Bsw1mIXox4a962UuZkyigWVe02A1Q==
-X-Received: by 2002:a05:600c:358d:b0:417:4ff3:391a with SMTP id
- p13-20020a05600c358d00b004174ff3391amr7933682wmq.31.1713185353445; 
- Mon, 15 Apr 2024 05:49:13 -0700 (PDT)
+ AJvYcCVwyxbPEI4KzrfmiPRjyptVJL30HOwxVTEIyxkA2zlJFOWCfySEgkQSIcsPrgi8iFdW1OSZ2ZxNLjx9RtOlJUpyUTpmNmjLsXpNTew77DNp
+X-Gm-Message-State: AOJu0Yw2WAbqcpqBGjbL6NrF+XYHNA0BfKpOpNQ+omOFcFRZdMShicww
+ 9Mk2Gjzvr+4doF81hvalkzZkww/FvhGIFsIJBEp5lm9OeJSWFv02h8p735nLkS4=
+X-Google-Smtp-Source: AGHT+IERNVIb7kkkXkEPWlxI4SlxeSXGIdHfAlszM7dr954BuhwHUlim2WOUoHyibBjW2LFxYJ6i9g==
+X-Received: by 2002:a5d:4e0a:0:b0:33d:fb3:9021 with SMTP id
+ p10-20020a5d4e0a000000b0033d0fb39021mr6183299wrt.54.1713185374316; 
+ Mon, 15 Apr 2024 05:49:34 -0700 (PDT)
 Received: from aspen.lan
  (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
  by smtp.gmail.com with ESMTPSA id
- d4-20020adfc084000000b00343c1cd5aedsm12044366wrf.52.2024.04.15.05.49.12
+ p5-20020a5d4e05000000b0033b48190e5esm12005471wrt.67.2024.04.15.05.49.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Apr 2024 05:49:13 -0700 (PDT)
-Date: Mon, 15 Apr 2024 13:49:11 +0100
+ Mon, 15 Apr 2024 05:49:33 -0700 (PDT)
+Date: Mon, 15 Apr 2024 13:49:31 +0100
 From: Daniel Thompson <daniel.thompson@linaro.org>
 To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
@@ -70,14 +70,14 @@ Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
  linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
  linux-omap@vger.kernel.org
-Subject: Re: [PATCH 04/18] backlight: hx8357: Constify lcd_ops
-Message-ID: <20240415124911.GD222427@aspen.lan>
+Subject: Re: [PATCH 05/18] backlight: ili922x: Constify lcd_ops
+Message-ID: <20240415124931.GE222427@aspen.lan>
 References: <20240414-video-backlight-lcd-ops-v1-0-9b37fcbf546a@kernel.org>
- <20240414-video-backlight-lcd-ops-v1-4-9b37fcbf546a@kernel.org>
+ <20240414-video-backlight-lcd-ops-v1-5-9b37fcbf546a@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240414-video-backlight-lcd-ops-v1-4-9b37fcbf546a@kernel.org>
+In-Reply-To: <20240414-video-backlight-lcd-ops-v1-5-9b37fcbf546a@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,7 +93,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Apr 14, 2024 at 06:36:02PM +0200, Krzysztof Kozlowski wrote:
+On Sun, Apr 14, 2024 at 06:36:03PM +0200, Krzysztof Kozlowski wrote:
 > 'struct lcd_ops' is not modified by core backlight code, so it can be
 > made const for increased code safety.
 >
