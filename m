@@ -2,127 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F0C78A4C9A
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 12:35:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEC848A4D46
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 13:05:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88DCD11243F;
-	Mon, 15 Apr 2024 10:35:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 266B9112489;
+	Mon, 15 Apr 2024 11:05:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="VEpl7yN9";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="qBS9zh06";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-SG2-obe.outbound.protection.outlook.com
- (mail-sgaapc01on2049.outbound.protection.outlook.com [40.107.215.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D65611243F
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 10:35:41 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MG5st2MexJ/jDO+M7G4qw5744PJUtwQJKCywCqgotJnrcKxIJZJ8J7/mdKcPecvBzrlB9Qk1Kjtdtgd+AFo/HZOVg0HccBt+D0O/wROwL9yIcmM9G3c3FKadAxhSJ06s0dEwSZUp8RpPCv308ed2gufQqOrfFHiQLQ1kTU/EMIZcuY/MVINmfmmnSQL+5f7VgTAycFW3ZtHX/ph5zWrsBIiXMphVQxD6YbnWB9Rw5GxO6GTb3g/PLj4eEQSSb6UyUMcO/OEqF2fTeovbg82415MpzTRWCxI6zZEK9+74WD0Vz6Edf3kFhIID3HypZnCok4WqrvyXowlEg/QMvqYS/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oREWkNcx/M39UtvzuHoQg5IwB2MM7TwGSXLrQ/ThrkY=;
- b=hlvX5onMik5KzcCmRbOK7eowRQQUpLHevxvcTeArIzUm81kn8UK/NPotTXkiC5rMaIwoil3OhEUnaVumVc/fPZaw916VJfQO4Qu6T9fbAJS1GTRsWAGMYpXZ26scgESAQcJbTZUG/JsyTBdvLBjzqSYHHU7HQAqaozZCakhYuJIpf3P/zziSvug+BCY5YWaY1BOYDuVx89xlEO13ICxUWD4OQRpcN7a26eb5nnEkfZ2uSQ5XxVyK8E4B14JyRmjmtWWkAgBXartnjtjhxcNkQaA+I/6gH7jXrxGtyoJUXYya2lTNLFxbnU8I0yZu+p1VlIwDb5jX515JCAUYdwhjLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oREWkNcx/M39UtvzuHoQg5IwB2MM7TwGSXLrQ/ThrkY=;
- b=VEpl7yN9LqEQp8leWNi7xVaZhEWPYcFgScpCPy9qiY0RsscC8QgEmTJ3Hdsvd//vDn33SdMismV7gblyHBYTZMWNy+/VsEbM/xHdNT2nguPf2gp3pOYnQxfpaL32PSmFprhuV/eS9//dZ6oWGo30Z4DEdF3+qGoDysLk0awJf7UUIf+PLQmJjQqESTC6wsiF7L5nxsEEBArF6czvXVLt69x7Bmuk8u2RGoLtHwktAdbEiAn4SP8M2qfgV5kZJlhw162d+c2eFfmFb9jfdR1GlAMr4qGuSzYi6mszCYYUCbkNLRfWYyfgxfe5M1lMtVXgp4LxKQBWNzs23b3rTJVF9g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from JH0PR06MB6849.apcprd06.prod.outlook.com (2603:1096:990:47::12)
- by JH0PR06MB6629.apcprd06.prod.outlook.com (2603:1096:990:31::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Mon, 15 Apr
- 2024 10:35:34 +0000
-Received: from JH0PR06MB6849.apcprd06.prod.outlook.com
- ([fe80::ed24:a6cd:d489:c5ed]) by JH0PR06MB6849.apcprd06.prod.outlook.com
- ([fe80::ed24:a6cd:d489:c5ed%2]) with mapi id 15.20.7409.042; Mon, 15 Apr 2024
- 10:35:34 +0000
-Message-ID: <4fedd80c-d5b6-4478-bfd3-02d1ee1a26e5@vivo.com>
-Date: Mon, 15 Apr 2024 18:35:30 +0800
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BBA4112475
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 11:05:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=8UeoaBPJ/IycLEqyUNwYB2ozawL8638hyzQZUc0AWto=; b=qBS9zh06hOebsJrnZCgmcl8Chk
+ qG382JJ8GJwlpb7350AUNshdAmHC2eXsHYefz1kYSjMacBXqj+fwqzPLGtkAdVqrOdZdJ3YWQODvE
+ POuEyFTBWQMJj7t9voO01ME+NB2yGD7F8+r8pseXul89oCXOEfaGGfK+evuv0tUH+Wl/E6l6lPSeF
+ SeHREV78Yti7wkv8RccTrk/lp7KV3hCFRiu8pKJzQasJpsWa/T7fQokPdy/2mWuzMTpVCpZVNYK3f
+ cq4mAvsOMSk5m8klH+IJW33qyuukT6fFlwqKtraKXKXi0JvVI3SuCcAmiJnM1Ib6ixSjuo/CwMx4D
+ vECr62bQ==;
+Received: from [84.65.0.132] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1rwJiS-004iyM-Nh; Mon, 15 Apr 2024 12:37:36 +0200
+Message-ID: <096295d3-72a0-4e2d-884f-eab5526e5dd6@igalia.com>
+Date: Mon, 15 Apr 2024 11:37:35 +0100
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dmabuf: fix dmabuf file poll uaf issue
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "T.J. Mercier" <tjmercier@google.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
-References: <20240327022903.776-1-justinjiang@vivo.com>
- <5cf29162-a29d-4af7-b68e-aac5c862d20e@amd.com>
- <cc7defae-60c1-4cc8-aee5-475d4460e574@vivo.com>
- <23375ba8-9558-4886-9c65-af9fe8e8e8b6@amd.com>
- <CABdmKX2Kf4ZmVzv3LGTz2GyP-9+rAtFY9hSAxdkrwK8mG0gDvQ@mail.gmail.com>
- <e55cad9b-a361-4d27-a351-f6a4f5b8b734@vivo.com>
- <40ac02bb-efe2-4f52-a4f2-7b56d9b93d2c@amd.com>
-From: zhiguojiang <justinjiang@vivo.com>
-In-Reply-To: <40ac02bb-efe2-4f52-a4f2-7b56d9b93d2c@amd.com>
+Subject: Re: [PATCH v2 6/6] drm/v3d: Enable big and super pages
+Content-Language: en-GB
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
+ Tvrtko Ursulin <tursulin@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20240405201753.1176914-1-mcanal@igalia.com>
+ <20240405201753.1176914-7-mcanal@igalia.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20240405201753.1176914-7-mcanal@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI1PR02CA0016.apcprd02.prod.outlook.com
- (2603:1096:4:1f4::17) To JH0PR06MB6849.apcprd06.prod.outlook.com
- (2603:1096:990:47::12)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: JH0PR06MB6849:EE_|JH0PR06MB6629:EE_
-X-MS-Office365-Filtering-Correlation-Id: a58e6b94-d9fe-45e9-148a-08dc5d37c7e1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PPJUp84GUcjlpZbQE5J/oadsIP/e3OiEZ6wb1gwc7UKC5oRf4oAyFC7kjCUNwpId9lKdoe1lVbTJgKE3QuLJZ2Stp/wn4x3oTacq5a2Ox2JbjiLsDDtOcYwxpijxTM0e1WH4nLWsZ14DQJj62DE4AvA9scjxZGu0onDn3mh5cw4OaPiph3PfU0YPUBhlZ6rf5sQ7OIiHIXYTfLa5CqyGRMVpUAdXiVQciU5m3s+fy7/Cm1b1xSLD3+ZMAikLFIVR+1Wa9CRSUgIhhsNkXBikEuxkE973XJOhjI9dknL/3SQ3FCJnliHtM6dtZj7WfeK1qZF/FgDw4GHI+m59MXTeFxYMbHJFvNa6CkseSvgiO0wpdS4T/MWyvZ7yVRRXOHLeXqGFuzarFjVo/nAsYtG7X3bmdpBdymrtELW/w4GUXN0jJZqRnqTBFV3x2CPiN7oItwQhMfIyw1f+vfZiOL2ZHdCaITM8L9J1syxcEfUwuo0yv9FVpwZ3w2z5MyuSKBQHeINnc//4QkINboh/djdNKwlBMOL98eNSYCAyYNuITlnAE0ifcA1UFAf8tKIO1LLGId/bnw6gaZr6eKQpSTC0+5J40N+1VI+4bCYvjV99o5+da480OWrUjEPo87O6InFdo9XRIL2X64wxexvYQywDUSTLV+DAXP59tYtd7Mk0jlnkInEw27W+ANqbJjbMLgMpkxmuDx7NbiTywd+qj6QIdaEP/skSi+N8cIFhbShcSRZTXruwqIA9Vkd+5w+/Vryb
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:JH0PR06MB6849.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(1800799015)(376005)(52116005)(366007)(38350700005)(43062008);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NnNER01GaFh4US9pNUZTeXBSMHFJLytKamYybkZUL3NJN0xzUWd0UDVlVFNG?=
- =?utf-8?B?YkhpTk9BL0dEYzVyZHZkME5zK2o4a1pqTzJCblZMaGcybHpYRVZSQjdBTFJD?=
- =?utf-8?B?V0txUkNhb1hqUW1XRVRQQVVQQmR1RldwRHQvSnhVM0d6YjJMS3JZNnFaK0Qy?=
- =?utf-8?B?bTJkV2tPZjJxZ3NDWDB3M2oxQzNnYjFzMHo4dkYzNTdVSVlDdWhkZkFsUFBp?=
- =?utf-8?B?Z3JvUTY0Z1B0N3JhUkc5VmRnZVZabzNPUTdoSnc5OHpmOWhCcXpSR1V4S1Fv?=
- =?utf-8?B?OU1POGwvM1dRaHVJWWpKQlc0dHNGeEhxaTFSRkFmVEZmV2VsSXM2WWJHRGRx?=
- =?utf-8?B?Vnh4TTVqQnBlejd3ajBpdEZ0VHJWaC9BaEJrRzVmZW9ZSXMzUG9icjNJcmkv?=
- =?utf-8?B?ZkNzM2tobWZ1ckdaN0Nndm9aNzFQNncrUHhxdzE1akNzQ3g3L2hYODRURTMx?=
- =?utf-8?B?SmM3OXkxcWc0Y0ZodzExQkUwd2hqdDBPcWp6UmxXZ2RSbEw3SkFvVEZxbm9F?=
- =?utf-8?B?MGFhWjd0R2VaOFJ3cUVCYS9raUc2U0lFa2VQazlkaDFaRDEwUmk3QW5VYXhO?=
- =?utf-8?B?RTAyOU40eFFhNUpOQ1kwOHVnQmZzQVJGSVphU1pKZUlhMkltQnhNa3J1NUNX?=
- =?utf-8?B?am02YUJNSkljY0ZXMHdyakprajd1VThDR09HOExoQnB6WDl4ekgxRUVrT1di?=
- =?utf-8?B?YkFkc3crUXNrelpsTVg1Tk5NMG12WWVtdStIdU5iTElYS0M3T2dybHl5NmJD?=
- =?utf-8?B?cWN3N2NLbVBpeTNVNFZOLzhQSUt1YlBhM2l2dEd4V1p6QStwakJHdVdyTEgz?=
- =?utf-8?B?cmZ5TVpMaFdGZW5JWllhODJDM3MwTHBON1NsS0lVYksvNHcySVpUdnYwY3RU?=
- =?utf-8?B?Z0lLM3BZUWRheEsreUF4THhkaER4VXJWTWlWc2FJK1pUdkNOekJUSTJ0M1V0?=
- =?utf-8?B?SGprU1FmU2J1OXBORmU2bXo0Wi9HejV5dGQ0M29PLzd6dzNsZEQwY2NlM1NN?=
- =?utf-8?B?L1JNem8zeGpVR2NXNW1Wck5tSTlTYUVsRFkyTDU5SlloRi9RSWNjNVFONThs?=
- =?utf-8?B?Qng3Q3NNdlhjeFVtYzBUSTd1MTlOdXRJR0RhSUpYb1JiRnhvUHFUbnhFdWlQ?=
- =?utf-8?B?TzZYVGJnajJXZ2xyS1pBbDJ2aklocncxRVBoK3dCWGVFOVB0ZTI5MDk4dHFk?=
- =?utf-8?B?c09BMkcybEhYWm9mTks0WnBkdjR0Y3pmTzdibllPSkorSUVFRjNTT1NUN3B0?=
- =?utf-8?B?VVp0Qm04RS9kMERlU1FWajcwY2QreVFOcmlKOWV4QWdseEJqMTBMd2VNV1pN?=
- =?utf-8?B?MUxPNjN2bWZkUFBJVHc3WHhRZlo3Z0xZVnE5UGpSeGJCYmpUTUJ6MGlzNkJE?=
- =?utf-8?B?SSs0eExCV1IxK0E0NC80ZGk1ZW5oUUcvQ2pLYXdZUGJ1Y3hiUExBdUdxUWcv?=
- =?utf-8?B?Sk1rdnRQeXF2eWxZTlhMdlVrdVVlRGV4YzZnb2U0SWFlWDdLTkhZc3cxRWtq?=
- =?utf-8?B?OXVOL3RUbGhOMmVLK1JCSjU0MFNWSExlUWtPZUUrZlFLdTFFeHAzclIreGVT?=
- =?utf-8?B?T2o2MGZkenZ0dlRNVEZ1QnFYZXdRZ1VoOWptUTZjaUJQbXhCc0tkVGxKalRw?=
- =?utf-8?B?bE5qTnNWb0MvQ09sN2RyMGo0c0VPV1BaQ1gxdnRnK1B4RGo4dU9mN2ZFSWxS?=
- =?utf-8?B?WEJlb2FwVllPMm1lVzFLaHFrSWVXV2hCRlVtYzhXRUhOTjRYMWhZaXdwY251?=
- =?utf-8?B?LzVIV21wTmZnb1poV0xUZjRMWFF1aVdRb1N3MytRamxtN3BRSXRqdDN3WWpN?=
- =?utf-8?B?c0dPVFdHNk1XemgxMHlZOFZNTkl3VzZRQU5meTRQU2YzWk4yUXJlb3VLVXUx?=
- =?utf-8?B?eENXay9WQmZKWFZUbUo3c3VUR2o3bnEyQzJtL0tYcEI2YUJDWlg5aHhlUjB5?=
- =?utf-8?B?cmxEMDdrdklvcEpoNXN3Q1hjcXlDa3U1TXVIREMxSFVQdVJaTHpOK2E5QU10?=
- =?utf-8?B?SWlySnFDOVFDMDVPMk5kcDBRV3FuWGNQZm1qVjkwT3hFaERmVVRkQkhjREVp?=
- =?utf-8?B?TFFub0JzOWgyeldUQ3E0c1FyRnVZS3hYK2ltK2h1VWJuS1BNYXN1S2k3TXFa?=
- =?utf-8?Q?XS6dJwW1X7Aj6+DS8/iQuHmFy?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a58e6b94-d9fe-45e9-148a-08dc5d37c7e1
-X-MS-Exchange-CrossTenant-AuthSource: JH0PR06MB6849.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2024 10:35:34.0680 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hBRtQ+xFfGqb5M3au0AVIjVurho5rR6aPR/GshfjeY9yGWMRTmH4iAPOI69QGDxEVMbmy5vsJKEXOaB4938xYw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR06MB6629
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,102 +68,289 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+On 05/04/2024 19:29, Maíra Canal wrote:
+> The V3D MMU also supports 64KB and 1MB pages, called big and super pages,
+> respectively. In order to set a 64KB page or 1MB page in the MMU, we need
+> to make sure that page table entries for all 4KB pages within a big/super
+> page must be correctly configured.
+> 
+> In order to create a big/super page, we need a contiguous memory region.
+> That's why we use a separate mountpoint with THP enabled. In order to
+> place the page table entries in the MMU, we iterate over the 16 4KB pages
+> (for big pages) or 256 4KB pages (for super pages) and insert the PTE.
+> 
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> ---
+>   drivers/gpu/drm/v3d/v3d_bo.c    | 21 +++++++++++++--
+>   drivers/gpu/drm/v3d/v3d_drv.c   |  8 ++++++
+>   drivers/gpu/drm/v3d/v3d_drv.h   |  2 ++
+>   drivers/gpu/drm/v3d/v3d_gemfs.c |  6 +++++
+>   drivers/gpu/drm/v3d/v3d_mmu.c   | 46 ++++++++++++++++++++++++++-------
+>   5 files changed, 71 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
+> index 79e31c5299b1..cfe82232886a 100644
+> --- a/drivers/gpu/drm/v3d/v3d_bo.c
+> +++ b/drivers/gpu/drm/v3d/v3d_bo.c
+> @@ -94,6 +94,7 @@ v3d_bo_create_finish(struct drm_gem_object *obj)
+>   	struct v3d_dev *v3d = to_v3d_dev(obj->dev);
+>   	struct v3d_bo *bo = to_v3d_bo(obj);
+>   	struct sg_table *sgt;
+> +	u64 align;
+>   	int ret;
+> 
+>   	/* So far we pin the BO in the MMU for its lifetime, so use
+> @@ -103,6 +104,15 @@ v3d_bo_create_finish(struct drm_gem_object *obj)
+>   	if (IS_ERR(sgt))
+>   		return PTR_ERR(sgt);
+> 
+> +	if (!v3d->super_pages)
+> +		align = SZ_4K;
+> +	else if (obj->size >= SZ_1M)
+> +		align = SZ_1M;
+> +	else if (obj->size >= SZ_64K)
+> +		align = SZ_64K;
+> +	else
+> +		align = SZ_4K;
+> +
+>   	spin_lock(&v3d->mm_lock);
+>   	/* Allocate the object's space in the GPU's page tables.
+>   	 * Inserting PTEs will happen later, but the offset is for the
+> @@ -110,7 +120,7 @@ v3d_bo_create_finish(struct drm_gem_object *obj)
+>   	 */
+>   	ret = drm_mm_insert_node_generic(&v3d->mm, &bo->node,
+>   					 obj->size >> V3D_MMU_PAGE_SHIFT,
+> -					 SZ_4K >> V3D_MMU_PAGE_SHIFT, 0, 0);
+> +					 align >> V3D_MMU_PAGE_SHIFT, 0, 0);
+>   	spin_unlock(&v3d->mm_lock);
+>   	if (ret)
+>   		return ret;
+> @@ -130,10 +140,17 @@ struct v3d_bo *v3d_bo_create(struct drm_device *dev, struct drm_file *file_priv,
+>   			     size_t unaligned_size)
+>   {
+>   	struct drm_gem_shmem_object *shmem_obj;
+> +	struct v3d_dev *v3d = to_v3d_dev(dev);
+>   	struct v3d_bo *bo;
+>   	int ret;
+> 
+> -	shmem_obj = drm_gem_shmem_create(dev, unaligned_size);
+> +	/* Let the user opt out of allocating the BOs with THP */
+> +	if (v3d->super_pages)
+> +		shmem_obj = drm_gem_shmem_create_with_mnt(dev, unaligned_size,
+> +							  v3d->gemfs);
+> +	else
+> +		shmem_obj = drm_gem_shmem_create(dev, unaligned_size);
+> +
+>   	if (IS_ERR(shmem_obj))
+>   		return ERR_CAST(shmem_obj);
+>   	bo = to_v3d_bo(&shmem_obj->base);
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+> index 3debf37e7d9b..3dbd29560be4 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.c
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
+> @@ -36,6 +36,12 @@
+>   #define DRIVER_MINOR 0
+>   #define DRIVER_PATCHLEVEL 0
+> 
+> +static bool super_pages = true;
+> +module_param_named(super_pages, super_pages, bool, 0400);
+> +MODULE_PARM_DESC(super_pages, "Enable/Disable Super Pages support. Note: \
+> +			       To enable Super Pages, you need support to \
+> +			       enable THP.");
 
-在 2024/4/12 14:39, Christian König 写道:
-> [Some people who received this message don't often get email from 
-> christian.koenig@amd.com. Learn why this is important at 
-> https://aka.ms/LearnAboutSenderIdentification ]
->
-> Am 12.04.24 um 08:19 schrieb zhiguojiang:
->> [SNIP]
->> -> Here task 2220 do epoll again where internally it will get/put then
->> start to free twice and lead to final crash.
->>
->> Here is the basic flow:
->>
->> 1. Thread A install the dma_buf_fd via dma_buf_export, the fd refcount
->> is 1
->>
->> 2. Thread A add the fd to epoll list via epoll_ctl(EPOLL_CTL_ADD)
->>
->> 3. After use the dma buf, Thread A close the fd, then here fd refcount
->> is 0,
->>   and it will run __fput finally to release the file
->
-> Stop, that isn't correct.
->
-> The fs layer which calls dma_buf_poll() should make sure that the file
-> can't go away until the function returns.
->
-> Then inside dma_buf_poll() we add another reference to the file while
-> installing the callback:
->
->                         /* Paired with fput in dma_buf_poll_cb */
->                         get_file(dmabuf->file);
-Hi,
+Maybe not expose the modparam unless CONFIG_TRANSPARENT_HUGEPAGE is 
+enabled? Then you wouldn't have to explain the dependency in the 
+description.
 
-The problem may just occurred here.
+> +
+>   static int v3d_get_param_ioctl(struct drm_device *dev, void *data,
+>   			       struct drm_file *file_priv)
+>   {
+> @@ -308,6 +314,8 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
+>   		return -ENOMEM;
+>   	}
+> 
+> +	v3d->super_pages = super_pages;
+> +
+>   	ret = v3d_gem_init(drm);
+>   	if (ret)
+>   		goto dma_free;
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
+> index 17236ee23490..0a7aacf51164 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.h
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
+> @@ -18,6 +18,7 @@ struct platform_device;
+>   struct reset_control;
+> 
+>   #define V3D_MMU_PAGE_SHIFT 12
+> +#define V3D_PAGE_FACTOR (PAGE_SIZE >> V3D_MMU_PAGE_SHIFT)
+> 
+>   #define V3D_MAX_QUEUES (V3D_CPU + 1)
+> 
+> @@ -121,6 +122,7 @@ struct v3d_dev {
+>   	 * tmpfs instance used for shmem backed objects
+>   	 */
+>   	struct vfsmount *gemfs;
+> +	bool super_pages;
 
-Is it possible file reference count already decreased to 0 and fput 
-already being in progressing just before calling get_file(dmabuf->file) 
-in dma_buf_poll()?
+You could probably get away with not having to add this new bool by 
+basing the runtime checks of v3d->gemfs != NULL. In v3d_gemfs_init you 
+would access the global module param variable directly, after the THP 
+kconfig check. Unless you see a downside it always sounds attractive to 
+me to add less.
 
->
-> This reference is only dropped after the callback is completed in
-> dma_buf_poll_cb():
->
->         /* Paired with get_file in dma_buf_poll */
->         fput(dmabuf->file);
->
-> So your explanation for the issue just seems to be incorrect.
->
->>
->> 4. Here Thread A not do epoll_ctl(EPOLL_CTL_DEL) manunally, so it
->> still resides in one epoll_list.
->>   Although __fput will call eventpoll_release to remove the file from
->> binded epoll list,
->>   but it has small time window where Thread B jumps in.
->
-> Well if that is really the case then that would then be a bug in
-> epoll_ctl().
->
->>
->> 5. During the small window, Thread B do the poll action for
->> dma_buf_fd, where it will fget/fput for the file,
->>   this means the fd refcount will be 0 -> 1 -> 0, and it will call
->> __fput again.
->>   This will lead to __fput twice for the same file.
->>
->> 6. So the potenial fix is use get_file_rcu which to check if file
->> refcount already zero which means under free.
->>   If so, we just return and no need to do the dma_buf_poll.
->
-> Well to say it bluntly as far as I can see this suggestion is completely
-> nonsense.
->
-> When the reference to the file goes away while dma_buf_poll() is
-> executed then that's a massive bug in the caller of that function.
->
-> Regards,
-> Christian.
->
->>
->> Here is the race condition:
->>
->> Thread A Thread B
->> dma_buf_export
->> fd_refcount is 1
->> epoll_ctl(EPOLL_ADD)
->> add dma_buf_fd to epoll list
->> close(dma_buf_fd)
->> fd_refcount is 0
->> __fput
->> dma_buf_poll
->> fget
->> fput
->> fd_refcount is zero again
->>
->> Thanks
->>
->
+> 
+>   	struct work_struct overflow_mem_work;
+> 
+> diff --git a/drivers/gpu/drm/v3d/v3d_gemfs.c b/drivers/gpu/drm/v3d/v3d_gemfs.c
+> index 31cf5bd11e39..7ee55b32c36e 100644
+> --- a/drivers/gpu/drm/v3d/v3d_gemfs.c
+> +++ b/drivers/gpu/drm/v3d/v3d_gemfs.c
+> @@ -12,6 +12,10 @@ void v3d_gemfs_init(struct v3d_dev *v3d)
+>   	struct file_system_type *type;
+>   	struct vfsmount *gemfs;
+> 
+> +	/* The user doesn't want support for Super Pages */
+> +	if (!v3d->super_pages)
+> +		goto err;
+> +
+>   	/*
+>   	 * By creating our own shmemfs mountpoint, we can pass in
+>   	 * mount flags that better match our usecase. However, we
+> @@ -35,6 +39,8 @@ void v3d_gemfs_init(struct v3d_dev *v3d)
+> 
+>   err:
+>   	v3d->gemfs = NULL;
+> +	v3d->super_pages = false;
+> +
+>   	drm_notice(&v3d->drm,
+>   		   "Transparent Hugepage support is recommended for optimal performance on this platform!\n");
+>   }
+> diff --git a/drivers/gpu/drm/v3d/v3d_mmu.c b/drivers/gpu/drm/v3d/v3d_mmu.c
+> index 14f3af40d6f6..48a240c44a22 100644
+> --- a/drivers/gpu/drm/v3d/v3d_mmu.c
+> +++ b/drivers/gpu/drm/v3d/v3d_mmu.c
+> @@ -25,9 +25,16 @@
+>    * superpage bit set.
+>    */
+>   #define V3D_PTE_SUPERPAGE BIT(31)
+> +#define V3D_PTE_BIGPAGE BIT(30)
+>   #define V3D_PTE_WRITEABLE BIT(29)
+>   #define V3D_PTE_VALID BIT(28)
+> 
+> +static bool v3d_mmu_is_aligned(u32 page, u32 pte, size_t alignment)
+> +{
+> +	return IS_ALIGNED(page, alignment >> V3D_MMU_PAGE_SHIFT) &&
+> +		IS_ALIGNED(pte, alignment >> V3D_MMU_PAGE_SHIFT);
+> +}
+> +
+>   static int v3d_mmu_flush_all(struct v3d_dev *v3d)
+>   {
+>   	int ret;
+> @@ -88,18 +95,37 @@ void v3d_mmu_insert_ptes(struct v3d_bo *bo)
+>   	struct v3d_dev *v3d = to_v3d_dev(shmem_obj->base.dev);
+>   	u32 page = bo->node.start;
 
+I had some thoughts whether 'page' could have a more descriptive name, 
+so it is clear when reading the code what memory space is what. GPU VA 
+vs DMA PA I mean. But then I figured out bo->node.start is a page frame, 
+not an address, so I don't really now what naming to suggest.
+
+>   	u32 page_prot = V3D_PTE_WRITEABLE | V3D_PTE_VALID;
+> -	struct sg_dma_page_iter dma_iter;
+> +	struct scatterlist *sgl;
+> +	unsigned int count;
+> 
+> -	for_each_sgtable_dma_page(shmem_obj->sgt, &dma_iter, 0) {
+> -		dma_addr_t dma_addr = sg_page_iter_dma_address(&dma_iter);
+> +	for_each_sgtable_dma_sg(shmem_obj->sgt, sgl, count) {
+> +		dma_addr_t dma_addr = sg_dma_address(sgl);
+>   		u32 page_address = dma_addr >> V3D_MMU_PAGE_SHIFT;
+
+For this one I was wondering if variable name such as pfn would be more 
+descriptive. Because address for me suggests byte units and then later 
+when you have page_address++ I get startled. But maybe it is just me and 
+maybe in v3d page_address is already established that can be page frame 
+numbers. Up to you.
+
+> -		u32 pte = page_prot | page_address;
+> -		u32 i;
+> -
+> -		BUG_ON(page_address + (PAGE_SIZE >> V3D_MMU_PAGE_SHIFT) >=
+> -		       BIT(24));
+> -		for (i = 0; i < PAGE_SIZE >> V3D_MMU_PAGE_SHIFT; i++)
+> -			v3d->pt[page++] = pte + i;
+> +		size_t len = sg_dma_len(sgl);
+
+Sg_dma_len appears to return unsigned int so you may want to align with 
+that, *if* 64-bit builds are a thing for v3d at least.
+
+> +		u32 i, page_size = 0;
+
+And then I would make these two unsigned int too, it is just 
+bikeshedding really but if like that then the below "len -= page_size" 
+would be matching types and widths regardless of the 32- vs 64-bit build.
+
+> +
+> +		while (len > 0) {
+> +			u32 pte = page_prot | page_address;
+> +
+
+Page_prot and page_size could be moved to this scope.
+
+> +			BUG_ON(page_address + V3D_PAGE_FACTOR >= BIT(24));
+> +
+> +			if (len >= SZ_1M && v3d_mmu_is_aligned(page, pte, SZ_1M)) {
+> +				page_size = SZ_1M;
+> +				pte |= V3D_PTE_SUPERPAGE;
+> +			} else if (len >= SZ_64K && v3d_mmu_is_aligned(page, pte, SZ_64K)) {
+> +				page_size = SZ_64K;
+> +				pte |= V3D_PTE_BIGPAGE;
+> +			} else {
+> +				page_size = SZ_4K;
+> +			}
+
+s/pte/page_address/? As it is it works fine, but just because I find it 
+a bit confusing to check the PTE bits for alignment.
+
+> +
+> +			for (i = 0; i < page_size >> V3D_MMU_PAGE_SHIFT; i++) {
+> +				v3d->pt[page++] = pte + i;
+> +				page_address++;
+> +			}
+> +
+> +			len -= page_size;
+> +		}
+>   	}
+> 
+>   	WARN_ON_ONCE(page - bo->node.start !=
+> --
+> 2.44.0
+> 
+> 
+
+As you can see all my comments are either optional bike sheds or small 
+tweaks we can discuss. The main logic and ideas look solid.
+
+Oh there is one more thing to dicsuss.. strictly speaking you could 
+split this patch into two. First one would just implement the 
+v3d_mmu_insert_ptes and connected changes. Because theoretically some of 
+the new code could be triggered by chance even without the 
+THP/gemfs/alignment restrictions.
+
+Then the last patch in the series would be the one which adds the BO 
+creation and gemfs changes.
+
+Or even three patches since you could split up the BO creation to be 
+standalone, *if* the plan to just use v3d->gemfs as criteria works out, 
+given that v3d->gemfs was added earlier in the series already.
+
+To sum up, 6/6 could be replaced with:
+
+6/8: Support big/super pages when writting out PTEs
+7/8: Use gemfs/THP in BO creation if available
+8/8: Add modparam for turning off super pages
+
+Regards,
+
+Tvrtko
