@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C5EF8A4D6D
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 13:16:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E9EF8A4DCF
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 13:35:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F13D911248A;
-	Mon, 15 Apr 2024 11:16:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 727ED1124A0;
+	Mon, 15 Apr 2024 11:35:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="e5AXg0Ic";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="kn6XcJUd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7008811248A
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 11:16:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08BBE11231C
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 11:35:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,35 +22,33 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=weNV9644mW14iFid21PfgaT8UQzuuarZM+tbqJ7b8i8=; b=e5AXg0IctLThhaUMxJ4X3GJ7ZQ
- 1cO0GQmUWAJOEZpTlvysK3+U7jgtt9pf9ybCmsIqeNHwXyYXqcfUCgoJk4RW0QQCOEjmoasxbjy01
- 9toT34PH8oVEka0PNOYkHtINdfYRFeQN0c2GxpCvmUxa5KHQrcADOzhW+oNlXqP+BkFwxUKLozVvJ
- Gx85s9zty1qcvyY+6VYWyrd9HSThMdoGvW0EqIdWp9pfs+hRYp6qpIxmytLQCq65kmZLtNi5/Yu9O
- jpE01s8meYfJKUejkZG4jLHIOx3l3mAKnE62xQEpKKA/OA5p0ZlI7eDpbNoH+c6IsPr/whhLl/4bL
- iKD0qY3g==;
-Received: from [84.65.0.132] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
+ bh=jpW7VC1XG1DBHp6JvE8WNwkFGcpSDkuq6ejUBZ+icPk=; b=kn6XcJUdq/IJq5F7FtbNQw/t7k
+ TJFv45SGMfzRBScWDe9FBixe+vx5VqGFy520dZCNPSKREfvmJj/R8m1vwBS7b2PCkQd5g4lU3HGr8
+ VHbr8QBc9Z1TS4w/nDTRZJoAzVxfR8gBiykWUPUEGqwF0079qaixKRaveQmtuz9+gkMl+J0GLwjcZ
+ bNZrWNaGmIAKoYzlphEiX/s3fovCFJr5ysD5qMNkqPc00ZwR0bL0BL10x9QojBHMbIT+TGzKfW99c
+ tNoNAaUc+Kq/enAzMPjK27epdcY6SIKOLBV1y6emtJDPFLektHk9YnpR0YeIUTk+WhzRgHBQMobGE
+ 75zrBk9g==;
+Received: from 3.32.60.213.dynamic.reverse-mundo-r.com ([213.60.32.3]
+ helo=[192.168.50.63]) by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1rwKJc-004jkX-2U; Mon, 15 Apr 2024 13:16:00 +0200
-Message-ID: <af6a4dfe-b92a-4685-879f-879c66ec760b@igalia.com>
-Date: Mon, 15 Apr 2024 12:15:58 +0100
+ id 1rwKKh-004jlw-Os; Mon, 15 Apr 2024 13:17:07 +0200
+Message-ID: <6a2f8a3e-bc69-4168-89dd-94654d9695d0@igalia.com>
+Date: Mon, 15 Apr 2024 13:17:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/6] drm/gem: Create a drm_gem_object_init_with_mnt()
- function
-Content-Language: en-GB
+Subject: Re: [PATCH 1/5] drm/v3d: Don't increment `enabled_ns` twice
 To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
- Tvrtko Ursulin <tursulin@igalia.com>,
+ Melissa Wen <mwen@igalia.com>, Tvrtko Ursulin <tursulin@igalia.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-References: <20240405201753.1176914-1-mcanal@igalia.com>
- <20240405201753.1176914-3-mcanal@igalia.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20240405201753.1176914-3-mcanal@igalia.com>
+References: <20240403203517.731876-1-mcanal@igalia.com>
+ <20240403203517.731876-2-mcanal@igalia.com>
+From: Chema Casanova <jmcasanova@igalia.com>
+Content-Language: en-US
+Organization: Igalia
+In-Reply-To: <20240403203517.731876-2-mcanal@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,113 +66,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 05/04/2024 19:29, Maíra Canal wrote:
-> For some applications, such as applications that uses huge pages, we might
-> want to have a different mountpoint, for which we pass mount flags that
-> better match our usecase.
-> 
-> Therefore, create a new function `drm_gem_object_init_with_mnt()` that
-> allow us to define the tmpfs mountpoint where the GEM object will be
-> created. If this parameter is NULL, then we fallback to `shmem_file_setup()`.
-> 
+El 3/4/24 a las 22:24, Maíra Canal escribió:
+> The commit 509433d8146c ("drm/v3d: Expose the total GPU usage stats on sysfs")
+> introduced the calculation of global GPU stats. For the regards, it used
+> the already existing infrastructure provided by commit 09a93cc4f7d1 ("drm/v3d:
+> Implement show_fdinfo() callback for GPU usage stats"). While adding
+> global GPU stats calculation ability, the author forgot to delete the
+> existing one.
+>
+> Currently, the value of `enabled_ns` is incremented twice by the end of
+> the job, when it should be added just once. Therefore, delete the
+> leftovers from commit 509433d8146c ("drm/v3d: Expose the total GPU usage
+> stats on sysfs").
+>
+> Fixes: 509433d8146c ("drm/v3d: Expose the total GPU usage stats on sysfs")
+> Reported-by: Tvrtko Ursulin <tursulin@igalia.com>
 > Signed-off-by: Maíra Canal <mcanal@igalia.com>
 > ---
->   drivers/gpu/drm/drm_gem.c | 34 ++++++++++++++++++++++++++++++----
->   include/drm/drm_gem.h     |  3 +++
->   2 files changed, 33 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index d4bbc5d109c8..74ebe68e3d61 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -114,22 +114,32 @@ drm_gem_init(struct drm_device *dev)
->   }
-> 
->   /**
-> - * drm_gem_object_init - initialize an allocated shmem-backed GEM object
-> + * drm_gem_object_init_with_mnt - initialize an allocated shmem-backed GEM
-> + * object in a given shmfs mountpoint
-> + *
->    * @dev: drm_device the object should be initialized for
->    * @obj: drm_gem_object to initialize
->    * @size: object size
-> + * @gemfs: tmpfs mount where the GEM object will be created. If NULL, use
-> + * the usual tmpfs mountpoint (`shm_mnt`).
->    *
->    * Initialize an already allocated GEM object of the specified size with
->    * shmfs backing store.
->    */
-> -int drm_gem_object_init(struct drm_device *dev,
-> -			struct drm_gem_object *obj, size_t size)
-> +int drm_gem_object_init_with_mnt(struct drm_device *dev,
-> +				 struct drm_gem_object *obj, size_t size,
-> +				 struct vfsmount *gemfs)
->   {
->   	struct file *filp;
-> 
->   	drm_gem_private_object_init(dev, obj, size);
-> 
-> -	filp = shmem_file_setup("drm mm object", size, VM_NORESERVE);
-> +	if (gemfs)
-> +		filp = shmem_file_setup_with_mnt(gemfs, "drm mm object", size,
-> +						 VM_NORESERVE);
-> +	else
-> +		filp = shmem_file_setup("drm mm object", size, VM_NORESERVE);
-> +
->   	if (IS_ERR(filp))
->   		return PTR_ERR(filp);
-> 
-> @@ -137,6 +147,22 @@ int drm_gem_object_init(struct drm_device *dev,
-> 
->   	return 0;
->   }
-> +EXPORT_SYMBOL(drm_gem_object_init_with_mnt);
-> +
-> +/**
-> + * drm_gem_object_init - initialize an allocated shmem-backed GEM object
-> + * @dev: drm_device the object should be initialized for
-> + * @obj: drm_gem_object to initialize
-> + * @size: object size
-> + *
-> + * Initialize an already allocated GEM object of the specified size with
-> + * shmfs backing store.
-> + */
-> +int drm_gem_object_init(struct drm_device *dev, struct drm_gem_object *obj,
-> +			size_t size)
-> +{
-> +	return drm_gem_object_init_with_mnt(dev, obj, size, NULL);
-> +}
->   EXPORT_SYMBOL(drm_gem_object_init);
+>   drivers/gpu/drm/v3d/v3d_irq.c | 4 ----
+>   1 file changed, 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/v3d/v3d_irq.c b/drivers/gpu/drm/v3d/v3d_irq.c
+> index 2e04f6cb661e..ce6b2fb341d1 100644
+> --- a/drivers/gpu/drm/v3d/v3d_irq.c
+> +++ b/drivers/gpu/drm/v3d/v3d_irq.c
+> @@ -105,7 +105,6 @@ v3d_irq(int irq, void *arg)
+>   		struct v3d_file_priv *file = v3d->bin_job->base.file->driver_priv;
+>   		u64 runtime = local_clock() - file->start_ns[V3D_BIN];
+>   
+> -		file->enabled_ns[V3D_BIN] += local_clock() - file->start_ns[V3D_BIN];
+>   		file->jobs_sent[V3D_BIN]++;
+>   		v3d->queue[V3D_BIN].jobs_sent++;
+>   
+> @@ -126,7 +125,6 @@ v3d_irq(int irq, void *arg)
+>   		struct v3d_file_priv *file = v3d->render_job->base.file->driver_priv;
+>   		u64 runtime = local_clock() - file->start_ns[V3D_RENDER];
+>   
+> -		file->enabled_ns[V3D_RENDER] += local_clock() - file->start_ns[V3D_RENDER];
+>   		file->jobs_sent[V3D_RENDER]++;
+>   		v3d->queue[V3D_RENDER].jobs_sent++;
+>   
+> @@ -147,7 +145,6 @@ v3d_irq(int irq, void *arg)
+>   		struct v3d_file_priv *file = v3d->csd_job->base.file->driver_priv;
+>   		u64 runtime = local_clock() - file->start_ns[V3D_CSD];
+>   
+> -		file->enabled_ns[V3D_CSD] += local_clock() - file->start_ns[V3D_CSD];
+>   		file->jobs_sent[V3D_CSD]++;
+>   		v3d->queue[V3D_CSD].jobs_sent++;
+>   
+> @@ -195,7 +192,6 @@ v3d_hub_irq(int irq, void *arg)
+>   		struct v3d_file_priv *file = v3d->tfu_job->base.file->driver_priv;
+>   		u64 runtime = local_clock() - file->start_ns[V3D_TFU];
+>   
+> -		file->enabled_ns[V3D_TFU] += local_clock() - file->start_ns[V3D_TFU];
+>   		file->jobs_sent[V3D_TFU]++;
+>   		v3d->queue[V3D_TFU].jobs_sent++;
+>   
 
-I would be tempted to static inline this one but see what other people 
-think. (One wise kernel legend was once annoyed by trivial wrappers / 
-function calls. But some other are then annoyed by static inlines.. so 
-dunno.) For either flavour:
+Thanks for fixing this. I see that I included this error in my first 
+refactoring of
+the original patch.
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Reviewed-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
 
-Regards,
-
-Tvrtko
-
-> 
->   /**
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index bae4865b2101..2ebf6e10cc44 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -472,6 +472,9 @@ void drm_gem_object_release(struct drm_gem_object *obj);
->   void drm_gem_object_free(struct kref *kref);
->   int drm_gem_object_init(struct drm_device *dev,
->   			struct drm_gem_object *obj, size_t size);
-> +int drm_gem_object_init_with_mnt(struct drm_device *dev,
-> +				 struct drm_gem_object *obj, size_t size,
-> +				 struct vfsmount *gemfs);
->   void drm_gem_private_object_init(struct drm_device *dev,
->   				 struct drm_gem_object *obj, size_t size);
->   void drm_gem_private_object_fini(struct drm_gem_object *obj);
-> --
-> 2.44.0
-> 
-> 
