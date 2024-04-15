@@ -2,77 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D45FC8A4C04
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 11:54:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53CDE8A4C0F
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 11:57:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88AD911241D;
-	Mon, 15 Apr 2024 09:54:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F72B112422;
+	Mon, 15 Apr 2024 09:57:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QJWzeUNt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="M+W38l3z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 989F3112419
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 09:54:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1713174878;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=mTxuoeIhHTx2QQNfpc8pvir1olgvTkja6Q/oXHH7tBY=;
- b=QJWzeUNt93cqIg7ok+S2vyfszwKUULsIpLBg+2d8XJgFSAY///tlKI0kmK5rgRvAehwOwX
- JuSUDHlLdogzQXmMBNgGoMOuxhTwmLvqRsdeHaM2xiQ2Mz4mdK2/N3ycfVb3erv/TOJPOV
- U2BCYwB3kZFgtIFQ5uuJ8uo79jmmIm4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-6-B9JnCRbmOA2oy0MelhxyMw-1; Mon, 15 Apr 2024 05:54:37 -0400
-X-MC-Unique: B9JnCRbmOA2oy0MelhxyMw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-417ee376987so11773425e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 02:54:37 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BBEC112421;
+ Mon, 15 Apr 2024 09:57:03 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-3476dcd9c46so1482801f8f.0; 
+ Mon, 15 Apr 2024 02:57:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1713175021; x=1713779821; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=g/rKQn2i9AJe69a9IKOYTlsaBB0pLUNTFKMRgaL9iMo=;
+ b=M+W38l3zURK7FRouxlIwSd63zuBu4G+CQRbMaxSuKqoPY15fhKmk6Er8Em5zx3k8J7
+ a7te5fjjaIEcL0n+fSHeiqKA5M5BSncKdrcC2Tnx55Mcd9V5lIHtDEeMsOX87f+RYmKx
+ UQ2NIAea07F8nKFkl9IoZaxZKEI6dIjA4h1ppKbnOiCRjHTFvlZQPrulB6NeZU9TcPCQ
+ cTMt5hLCMK0tAxaEilDcMUiY0wPVhdFJtkRiEEzfYBPVZiHpUbFC36e2xa3XANojybnD
+ wS5QGG4uGcMPhCeFpISj3X4OrOienf1BFje0zI199RXNAHoNJ0wusj6OMqt8vaV6PJoH
+ m4AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713174876; x=1713779676;
+ d=1e100.net; s=20230601; t=1713175021; x=1713779821;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=mTxuoeIhHTx2QQNfpc8pvir1olgvTkja6Q/oXHH7tBY=;
- b=aXaed1sgVUL5Zy8WDUi0k2tNGbP1RomHJmNkck7nrAxH0SLhocUD7lwt0KrFBlkx9s
- WJEBxy3n+pyonl8AT/VdZjigwBoKuBSWlnANvEpbVn9IiXuyY3VCTUqN+oz62zw44C8h
- 9YsOdVH+fK6kP9CJeWCduHPjdx+eB/aTzI9il0N3pAITvatzA9Pe5xnzZR+QMZHa93yb
- prifXVjMu2weaVkfgUrdeQoLDWp/c5oF2I3gYUghmpNvFjB2qFelkRPWYYxgJMSFfIGP
- NdNR6+ovc5o8GUHzk+Y0uN/A/bYOtSNEdZCDClvNdmBgRUOoFcUSXjNlnv0EktNhyrNU
- Jb/w==
-X-Gm-Message-State: AOJu0Yx7MIv/Ud2g9djKWZimhJuhwxH+JY1aznDr2f/AN9eOQQ5X+cWG
- w6xvgFm27XKjSHaS41Wp3VoLgoPqIgNUFGFpa6kP4yv0/eKnr6ToWgoL5hilNnm94N/2lERY5zj
- yNf86y64TvW4C/9SNTP6oW7P/zisY+Qat76ihF/UBd/bFBXkOKs2WgMHazfkaW256qg==
-X-Received: by 2002:a05:600c:470f:b0:418:41a7:d032 with SMTP id
- v15-20020a05600c470f00b0041841a7d032mr2258402wmo.13.1713174876334; 
- Mon, 15 Apr 2024 02:54:36 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHAAxJVV7Ft7s08BNgaBvjuZ9SxAETqhJ/ICh3d9nFWtVy7rpmTVhzTNsyKEVAnTGtuoAH6kA==
-X-Received: by 2002:a05:600c:470f:b0:418:41a7:d032 with SMTP id
- v15-20020a05600c470f00b0041841a7d032mr2258390wmo.13.1713174876000; 
- Mon, 15 Apr 2024 02:54:36 -0700 (PDT)
-Received: from cassiopeiae.. ([2a02:810d:4b3f:ee94:642:1aff:fe31:a19f])
+ bh=g/rKQn2i9AJe69a9IKOYTlsaBB0pLUNTFKMRgaL9iMo=;
+ b=XfjAXgUyDTUx6H51FxpIvn6WuxE0oLum9ApdTCSpjFaPlt9Srw5USQMS+q9Oi+Y4D+
+ FTTT56GUPxlzj8QmkHeew0g5wawN8qsZAZp06lCcpm/DPUX66yENiSUNlX6UacbVPx6o
+ dH1suxmolCuAJRWNchKprYXM0wyz+XweFqoZUK5qSHj6F2M5QVBEn0s2VPFSQbRwnVp1
+ xoqkLuJA3QnlXDHL25abng9vclgFVFOEsMEg975ChInUCxS4iRc85L0uNnhSFOzNjCZU
+ IyUQI++YvoFnJH5NXB3qI+EJ4C53YCcvzeHWHw8GErqv/9eboQ1ePlMGL+UkfUad3i58
+ 8Z+g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX5WZBztUm2PPuNgwPudslbuvpR0FZ0u237rHg50X9zpqMmsjxsPmpT0V2BgKlgonJTO7NftUcz7oGhvz6NgrpD3fNRN0PWZaOs/AUW2wooY5Aej0O26XuPcvDR/QaviSeqP9TYWBMnsE4q/5biAavC
+X-Gm-Message-State: AOJu0Yy7wYJTQxK69WaLCQOgn8BiVJo8ZDhPcZTjWAD/koYldApdr7Us
+ /x1R3mNdz6uuWDYsLVRn72I46SVKrvPWC8Rihj/nGLqj9HqVRM0VFWLEqsJG
+X-Google-Smtp-Source: AGHT+IHGhS/R4L+sxaYFupE82/pGE1N4pIuX9FJHqwGuvGP7rG+SdGbXleJEfkjqdXjuMaDnzPQgCw==
+X-Received: by 2002:a05:6000:1743:b0:343:8994:313c with SMTP id
+ m3-20020a056000174300b003438994313cmr5217871wrf.5.1713175021220; 
+ Mon, 15 Apr 2024 02:57:01 -0700 (PDT)
+Received: from localhost
+ (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
  by smtp.gmail.com with ESMTPSA id
- k37-20020a05600c1ca500b004187450e4cesm1379392wms.29.2024.04.15.02.54.35
+ c18-20020a5d5292000000b00341b451a31asm11537447wrv.36.2024.04.15.02.57.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Apr 2024 02:54:35 -0700 (PDT)
-From: Danilo Krummrich <dakr@redhat.com>
-To: nouveau@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
-	Danilo Krummrich <dakr@redhat.com>
-Subject: [PATCH] drm/nouveau: use vmemdup_array_user() in u_memcpya()
-Date: Mon, 15 Apr 2024 11:54:09 +0200
-Message-ID: <20240415095433.119163-1-dakr@redhat.com>
-X-Mailer: git-send-email 2.44.0
+ Mon, 15 Apr 2024 02:57:00 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Andi Shyti <andi.shyti@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drm/i915: remove redundant assignement to variable err
+Date: Mon, 15 Apr 2024 10:56:59 +0100
+Message-Id: <20240415095659.482989-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,33 +87,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have vmemdup_array_user(), make use of it.
+The variable err is being assigned a value 0 that is never read, the
+break statement escapes a do-while loop and then the code returns
+without referencing err. The assignment is redundant and can be
+removed.
 
-Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+Cleans up clang scan build warning:
+drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c:1075:5: warning: Value
+stored to 'err' is never read [deadcode.DeadStores]
+
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_drv.h | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
-index e239c6bf4afa..2038d60958e3 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drv.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
-@@ -190,11 +190,8 @@ static inline void *
- u_memcpya(uint64_t user, unsigned int nmemb, unsigned int size)
- {
- 	void __user *userptr = u64_to_user_ptr(user);
--	size_t bytes;
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+index 99a9ade73956..9ca9e9505244 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+@@ -1071,10 +1071,8 @@ static int igt_fill_mappable(struct intel_memory_region *mr,
+ 			if (err != -ENXIO && err != -ENOMEM)
+ 				goto err_close;
  
--	if (unlikely(check_mul_overflow(nmemb, size, &bytes)))
--		return ERR_PTR(-EOVERFLOW);
--	return vmemdup_user(userptr, bytes);
-+	return vmemdup_array_user(userptr, nmemb, size);
- }
+-			if (size == mr->min_page_size) {
+-				err = 0;
++			if (size == mr->min_page_size)
+ 				break;
+-			}
  
- #include <nvif/object.h>
-
-base-commit: a57e191ebbaa0363dbf352cc37447c2230573e29
-prerequisite-patch-id: d18b2d6615c58084a7027f4f1d9b51bd3f9dd83f
+ 			size >>= 1;
+ 			continue;
 -- 
-2.44.0
+2.39.2
 
