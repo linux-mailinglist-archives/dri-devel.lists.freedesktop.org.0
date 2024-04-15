@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C765C8A5D2B
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 23:50:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A81A8A5D2D
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Apr 2024 23:50:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E85310FA91;
-	Mon, 15 Apr 2024 21:50:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A70FE10FB2E;
+	Mon, 15 Apr 2024 21:50:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="xItB+Krt";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="P77vgAGx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 801E010FA91
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 21:50:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B98E10FD4F
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Apr 2024 21:50:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1713217809;
- bh=526F18CtfYEEqboFKch5J95lq5PrbYAvtBr25FpdHDw=;
+ s=mail; t=1713217813;
+ bh=N/M9yKO5a2ZphLLyAy/Z2CW/R1G8K3gXCs5SBps2WyI=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=xItB+Krtc9dRh5ur5snc44ZUCQA5jnsWAOz8j43JEVeuD46KtOExC/Id9Xduc15rR
- f2xZhZ/zxwKnlDCA+em9+zc37KbenmoWByGfHtyeY02LPkX7rlV18QqNRpBnYV3Ypk
- 7k+s8WTpb4QeFbfugA+8MSVMhZ2BRypPS+5Vs/EML/L1f290u0UG5Md4MwmlCVAHXR
- +DR0vhwvZVRrw03GbTb9YN9eUJ/BupYRzA93dwaydKK+zJwVkWrRMitIBw32UWkAyA
- HqQul0xBlKGZledm6mEypMoZjQImfnvTDexCoMupwYFb/LRumQSQfVIo0XiBAS8YyS
- Jo/G2Nb+A20vA==
+ b=P77vgAGx9i3RwRH1kZNvzJR5vzEXHwUTkxSItIP82jN65NvFVHdzf7ZVrBakD7m2r
+ AyjLLv4tQIay92qhI83Htsd38mddhskEpxq/L5cUgoBUf5qpPjWIsfXm/mBDdMMihZ
+ uG2H/Xcqkojk2jITaysW1Febp4hsPNdn+OeFg9x7nzwgcivcW0q7wFsaAx0+1tOttU
+ htCiJWrmOwTzH8dFKC2dtdfV28YleYL/q6vdcC0/gL+TVLP6ibELtsHHF2O944dY9v
+ giV++EA75TVLf7ABImB21EUvzgsKAG2IqrPTfqbmXhN057u6JQPtprTx0WqvddftFg
+ qJwmGLsAC9Ikw==
 Received: from [192.168.42.226] (zone.collabora.co.uk [167.235.23.81])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: nfraprado)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 7D4323780016;
- Mon, 15 Apr 2024 21:50:05 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id A1CA037811CD;
+ Mon, 15 Apr 2024 21:50:09 +0000 (UTC)
 From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-Date: Mon, 15 Apr 2024 17:49:34 -0400
-Subject: [PATCH v3 6/9] drm/bridge: tc358775: Don't log an error when DSI
+Date: Mon, 15 Apr 2024 17:49:35 -0400
+Subject: [PATCH v3 7/9] drm/bridge: dpc3433: Don't log an error when DSI
  host can't be found
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240415-anx7625-defer-log-no-dsi-host-v3-6-619a28148e5c@collabora.com>
+Message-Id: <20240415-anx7625-defer-log-no-dsi-host-v3-7-619a28148e5c@collabora.com>
 References: <20240415-anx7625-defer-log-no-dsi-host-v3-0-619a28148e5c@collabora.com>
 In-Reply-To: <20240415-anx7625-defer-log-no-dsi-host-v3-0-619a28148e5c@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -86,32 +86,63 @@ make use of dev_err_probe() to log the reason. This makes the defer
 probe reason available and avoids alerting userspace about something
 that is not necessarily an error.
 
-Fixes: b26975593b17 ("display/drm/bridge: TC358775 DSI/LVDS driver")
+Also move the "failed to attach" error message so that it's only printed
+when the devm_mipi_dsi_attach() call fails.
+
+Fixes: 6352cd451ddb ("drm: bridge: Add TI DLPC3433 DSI to DMD bridge")
 Suggested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 ---
- drivers/gpu/drm/bridge/tc358775.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/ti-dlpc3433.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
-index 90a89d70d832..fea4f00a20f8 100644
---- a/drivers/gpu/drm/bridge/tc358775.c
-+++ b/drivers/gpu/drm/bridge/tc358775.c
-@@ -610,10 +610,8 @@ static int tc_attach_host(struct tc_data *tc)
- 						};
+diff --git a/drivers/gpu/drm/bridge/ti-dlpc3433.c b/drivers/gpu/drm/bridge/ti-dlpc3433.c
+index ca3348109bcd..6b559e071301 100644
+--- a/drivers/gpu/drm/bridge/ti-dlpc3433.c
++++ b/drivers/gpu/drm/bridge/ti-dlpc3433.c
+@@ -319,12 +319,11 @@ static int dlpc_host_attach(struct dlpc *dlpc)
+ 		.channel = 0,
+ 		.node = NULL,
+ 	};
++	int ret;
  
- 	host = of_find_mipi_dsi_host_by_node(tc->host_node);
+ 	host = of_find_mipi_dsi_host_by_node(dlpc->host_node);
 -	if (!host) {
--		dev_err(dev, "failed to find dsi host\n");
+-		DRM_DEV_ERROR(dev, "failed to find dsi host\n");
 -		return -EPROBE_DEFER;
 -	}
 +	if (!host)
 +		return dev_err_probe(dev, -EPROBE_DEFER, "failed to find dsi host\n");
  
- 	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
- 	if (IS_ERR(dsi)) {
+ 	dlpc->dsi = mipi_dsi_device_register_full(host, &info);
+ 	if (IS_ERR(dlpc->dsi)) {
+@@ -336,7 +335,11 @@ static int dlpc_host_attach(struct dlpc *dlpc)
+ 	dlpc->dsi->format = MIPI_DSI_FMT_RGB565;
+ 	dlpc->dsi->lanes = dlpc->dsi_lanes;
+ 
+-	return devm_mipi_dsi_attach(dev, dlpc->dsi);
++	ret = devm_mipi_dsi_attach(dev, dlpc->dsi);
++	if (ret)
++		DRM_DEV_ERROR(dev, "failed to attach dsi host\n");
++
++	return ret;
+ }
+ 
+ static int dlpc3433_probe(struct i2c_client *client)
+@@ -367,10 +370,8 @@ static int dlpc3433_probe(struct i2c_client *client)
+ 	drm_bridge_add(&dlpc->bridge);
+ 
+ 	ret = dlpc_host_attach(dlpc);
+-	if (ret) {
+-		DRM_DEV_ERROR(dev, "failed to attach dsi host\n");
++	if (ret)
+ 		goto err_remove_bridge;
+-	}
+ 
+ 	return 0;
+ 
 
 -- 
 2.44.0
