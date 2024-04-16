@@ -2,53 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3B0E8A760E
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 23:02:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F5E88A763C
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 23:18:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4918C10EA46;
-	Tue, 16 Apr 2024 21:02:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E36A910F381;
+	Tue, 16 Apr 2024 21:18:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="U9Du23KI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mdzhTLKg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B976B10EA46
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 21:02:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=se6IGHwx0p4O/ZB4wATxGcyPkfueklSfX1M0qValIYk=; b=U9Du23KIIYJ3IKEodyXouSHzf7
- Yn9Sve0BAcMrXCYeRPpS2ewB22yXmx+DkzF4EKmzHJOBJaaUsD9XOxJ+mgDL4Fetbz6zmC8gmf553
- POYISz1k33KtncZwVD1AbUY4lfHCdwcMhSkeQCA7T9s0f/zC/7Oi4xRqcKbpR7+kISXUvadEVlxns
- xKM3Z8IgXkeBMA5dPTnhgEjUSi13HEq5P6Dr9C8Txh1zrZexdLp5Bl48w2TtH14tha4Zqn/g0yK6x
- xI5YpjshK6XjLadQ/Gb+iUN9cS2Em0EVHrPx9OLopA+6O7mqjBXP5QKH67fcbtlEgaDvmJYD/rF8T
- WxHNiIQQ==;
-Received: from [50.53.2.121] (helo=[192.168.254.15])
- by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
- id 1rwpwx-0000000Dnb5-0tVk; Tue, 16 Apr 2024 21:02:43 +0000
-Message-ID: <af0429dc-50eb-4800-87fd-4a63e72b0fc1@infradead.org>
-Date: Tue, 16 Apr 2024 14:02:42 -0700
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
+ [209.85.215.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1059F10F381
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 21:18:51 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id
+ 41be03b00d2f7-5d81b08d6f2so3694634a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 14:18:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1713302331; x=1713907131; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tBEr7AmEEZkKSiw3BsMpmaMNJ9Caj0ON73VIII8SWsI=;
+ b=mdzhTLKgcCYqwXJrGWdxgNSwrT6idd9bQPSZ3woLSeW+s7IgFQs1HQtZbAFTicAXxy
+ MU+XvALTCTdcBhu0a8bKQHBWUJqnJ1hHtwv+zmmhlB6ku+6Sy+h1mxSa07QMgpgq+e2n
+ EfMhELlhhvJJJqlroeN7y97SS6sWno45aqanMQotfefph+qxD/bNP46K8SkSuCjAoyce
+ Dzd5nanlf15BjmLr0vaqXmgEw2foygAWPPjqD81iH6eNwaz247cbWAz9PTZk/KhAemgn
+ NzryzwCA01S2OgndMhY+Z+CJ8qk0A6eVcf1iKPjqENvVCGpF55l3pIqNEIJBln46/fqF
+ Mc/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713302331; x=1713907131;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tBEr7AmEEZkKSiw3BsMpmaMNJ9Caj0ON73VIII8SWsI=;
+ b=AYPRq/vDEqO+wBZq9dztatKcgMUmfSvNsYgjTgKhNPKm5hQLNcUny6U5cC/AHEBi5c
+ 06IjwNPSWDRl75XwtRI2hgjtThwnZxVgdvuiNO9QJ6nGVKNrKbkau2/eJC7ryT2yKzrg
+ Se8rHd6hwdP4UaNlT9c61kLA4g3ifNSMbJfgmpmFOslFn4WtuDTu/UGo/7xGVf7DaufG
+ 5J1Cf6mPzSqMZ5SHWWzPK0BovrPNwciJmKYE9k2omDGyD7j8vMFGnh/eoPknhmuFPLbQ
+ Pn0uewDc/q8GJ+BnmASZeIkF8QZp2VoJ1lu4yvuJ/hOyEmNitp4T5RfncXkwWen1GZe7
+ hZig==
+X-Gm-Message-State: AOJu0YzP4DJ6o49lWueJeE96X5mIt5mev4D2vumGFbMsKDoSPYT40y3s
+ i9uN8gvxehDrb3RsUseFKmBEQ4aVzwkLVwXnPvvXvVdfGrgrDfcHaQe7hZZHg9kmVZ5utRGov2S
+ fi3FaxcCtWIzOQWIDXKp5ByxCeVuT70o1
+X-Google-Smtp-Source: AGHT+IFhlEFxkQR+ieC/Pa0fKkP87ACk2PMEqPN62geu1ZxkPfEDzM2tLQRrA2jUzsAT+yFWyAIlwAZgs2PhJ+8rSX4=
+X-Received: by 2002:a17:90b:180d:b0:29f:7fad:ba50 with SMTP id
+ lw13-20020a17090b180d00b0029f7fadba50mr13315078pjb.8.1713302330612; Tue, 16
+ Apr 2024 14:18:50 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: Fix no_vblank field references in documentation
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20240416-drm-no_vblank-kdoc-link-v1-1-a1d8d1e9ff34@somainline.org>
- <4c882a69-8609-4b39-a95d-3128027373e1@infradead.org>
- <diiw2ptq4hsqby2zacdejeqyhksc4225atvmos2j74rklnw4v3@tdr5d5c24tpf>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <diiw2ptq4hsqby2zacdejeqyhksc4225atvmos2j74rklnw4v3@tdr5d5c24tpf>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240305004859.201085-1-aford173@gmail.com>
+ <20240305004859.201085-2-aford173@gmail.com>
+In-Reply-To: <20240305004859.201085-2-aford173@gmail.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Tue, 16 Apr 2024 16:18:38 -0500
+Message-ID: <CAHCN7xLsEvP0A3mQJRzX=nXGr30WD4RU9vQVw9ynqzSi6cDNRg@mail.gmail.com>
+Subject: Re: [PATCH V2 2/2] arm64: dts: imx8mp-beacon-kit: Enable HDMI bridge
+ HPD
+To: dri-devel@lists.freedesktop.org
+Cc: aford@beaconembedded.com, laurent.pinchart@ideasonboard.com, 
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ devicetree@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,36 +92,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Mar 4, 2024 at 6:49=E2=80=AFPM Adam Ford <aford173@gmail.com> wrote=
+:
+>
+> The DSI to HDMI bridge supports hot-plut-detect, but the
+> driver didn't previously support a shared IRQ GPIO.  With
+> the driver updated, the interrupt can be added to the bridge.
+>
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
+Shawn,
 
-On 4/16/24 2:00 PM, Marijn Suijten wrote:
-> Hi Randy,
-> 
-> [..]
-> 
->> Do you see differences in the generated html for these changes?
-> 
-> I have not yet generated the HTML locally to test this patch, but will surely do
-> if that's a requirement.
-> 
->> "&struct somestruct" and "&somestruct" should both be OK AFAIK, although
->> Documentation/doc-guide/kernel-doc.rst seems to say that using
->> "&struct somestruct" is preferred.
-> 
-> Keep in mind that this patch is about field/member references.  Quoting the
-> relevant paragraph under "Highlights and cross-references":
-> 
->   ``&struct_name->member`` or ``&struct_name.member``
->     Structure or union member reference. The cross-reference will be to the struct
->     or union definition, not the member directly.
-> 
-> This lacks the struct tag entirely, and observation shows that links with them
-> don't highlight correctly (hence this patch) while member links without struct
-> tag are clickable and have an anchor link to their parent struct.
+Patch 1/2 has been applied and sits in linux-next.  Are you OK to
+apply this to the IMX branch so the hot-plug detection can work?
 
-Alrigthy. Thank you.
+Thank you,
 
--- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+adam
+
+adam
+> ---
+> V2:  No Change
+>
+> diff --git a/arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dts b/arch/a=
+rm64/boot/dts/freescale/imx8mp-beacon-kit.dts
+> index a08057410bde..fba8fd04398d 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dts
+> +++ b/arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dts
+> @@ -304,6 +304,8 @@ adv_bridge: hdmi@3d {
+>                 compatible =3D "adi,adv7535";
+>                 reg =3D <0x3d>, <0x3c>, <0x3e>, <0x3f>;
+>                 reg-names =3D "main", "cec", "edid", "packet";
+> +               interrupt-parent =3D <&gpio4>;
+> +               interrupts =3D <27 IRQ_TYPE_EDGE_FALLING>;
+>                 adi,dsi-lanes =3D <4>;
+>                 #sound-dai-cells =3D <0>;
+>
+> --
+> 2.43.0
+>
