@@ -2,73 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 093FB8A728A
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 19:41:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DCB08A728F
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 19:43:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 191A910F271;
-	Tue, 16 Apr 2024 17:41:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAB0A10E41B;
+	Tue, 16 Apr 2024 17:43:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="T1DJQ5tu";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cv1sempD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
- [209.85.210.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B6C110F271
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 17:41:33 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id
- d2e1a72fcca58-6ecf8ebff50so3155244b3a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 10:41:33 -0700 (PDT)
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com
+ [209.85.161.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B3D610E41B
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 17:43:15 +0000 (UTC)
+Received: by mail-oo1-f42.google.com with SMTP id
+ 006d021491bc7-5aa1b7a37b5so3266991eaf.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 10:43:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713289293; x=1713894093; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1713289395; x=1713894195; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=fuSlZ3HYBwGWpvUjlEHJZ6jiAtRBcYC8gyN7/1CSeUs=;
- b=T1DJQ5tu8lqunTJ9gAgVwXflQMCerbNoRdO8KGmgWcRgrNyn1Y3Yl6ybjU1yB1v9eg
- ePgWuS+HkLn+RKPXwU0tO1tk3v0zWNN+94mbU6U8bASmxZrH1MKwuWtQAs3WpqdAH4sc
- teTvAqoTFoL97Pp9dlAtU4MiOxxaiYeIQ//3xUCxBjyfU+0BbZ9jjUfBpLsz4DnSPy1a
- a7mBTQws/wJGLG6bsxu/ufJAcE+2wVxJWvGGl1YT48SdlZm6Sb5f5p6/i77l4jtkJXhb
- QuW6aUGJYPtOR7d7sJW/0ZsApARaecMdp5UcI6OVJrEVNanvk98Ot96vW1cUSgGZ7CTb
- Nd1A==
+ :reply-to; bh=iS06cmSTuyhClYRnGFxyCcy7fL40DKw/box8yhy+mTs=;
+ b=cv1sempDAFR3VK3zICoG4kzp8L7nHgYetiaLev8hc1jxkG9UOWqWdLBLH3LCKQnErd
+ zmoPkrqkxVmFbIy+UCENxNaDyBe+aQjAzLNlTlP0ewoaY3/pC1zEiy+FXp88mJxaCga9
+ nq/MXrFzGsUsCTKnhTvoevUay4Q28rkKXmpnNifvs+jXvSeV4lnX5Vw0Z3tKe0tLJbhM
+ rZvSig7o6YfkqZIcH+pUresDWBrE9l/fYCymtgQouRAyN+P5YHKpGHsymD6TJ0Jqthvm
+ /0EQs4j4gYFHE5rvNYbrQX26oHmSeOmZhexa0qiw7MkhpzXnwcU4RwmkPBw4JXGWVzUG
+ ajJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713289293; x=1713894093;
+ d=1e100.net; s=20230601; t=1713289395; x=1713894195;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=fuSlZ3HYBwGWpvUjlEHJZ6jiAtRBcYC8gyN7/1CSeUs=;
- b=LuEGLXvqobXWA8m2U6lxRNE5aFrbX8dFnZ2Ae2SSTb9yu4DVEJeoBZQh0AwvZpu1Il
- Z0PFQlA7Q13cebuzwORHwmK72VIu4+XapXcQ5vGB06sUhX5FZ4EGhgxWAT6JMXRnjrFr
- ip7DaHPyvit2JwIfUoqkOSJM2GXBRmAFdSFNvV9x1w+GEILm7pm0fYfwv9Pjipp5QEjp
- N0J/Az0fWW5IzlEeV6jAEAW+lnFXXnCADdgOnM9MpSr1s+sKi6kmhr+8Gvye4TW1lbO+
- UOwec9erTiqqqAKJNLdoIrGlqlscauzO7aFBnFIhJt9tV+ARhiO3MSd1/JduxWpDUFJf
- cQYw==
+ bh=iS06cmSTuyhClYRnGFxyCcy7fL40DKw/box8yhy+mTs=;
+ b=w0lGQCA8Yx0Z0ZvCim/okZ0y01tTgaycLiduyVl/qrL5HWN+LEw6wDgjuDYg6RQuqu
+ qcUhDLCPtThV6wdccUiAf5glJHU/5yJ7b7MDfEHmy/F7NcW6N/FpkRTU44foSzQ88i2A
+ 6i87JEsjMe6s4The0Cx/gwY3ZnmC0CMXlJ/sAl/rSjxmt+2fuoytQNP6UkXTIVLstRFF
+ LFy27nWGq+KpyOx/ZdzdsB6dY4xCr+412FXI1Fn00gcIbEjlTVW2HtdNK0FT862o8AVx
+ v0qc0kfvlneX3+8SETloCe7pjrhOaLa/JuMdSyIz7QfhK7iutxCCwveBQ8ggjj7pIjQp
+ MOgQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWXiWP+EV5i7gtKmOdmntq3cYASJmXOEVDRqfOUQ8EwO0O6jvyAHk3S+/GEKV7h0uOF3NJ11tHQlGa8otMwRYipiNrYGpE9uEelaoD8TLzd
-X-Gm-Message-State: AOJu0YyPB1Ho0EVXdzDGFaTBZn33Fy8vHeAhBEfO1mA2UxsM1z4KbTRs
- RdZz0Zb3HtXqTQff84vzu1SiZ6XQSOM6cXVkNIdmfsbyOLULvX7n28dQLkt2lo1SKsCHmpZbgm6
- keKMY8Q==
-X-Google-Smtp-Source: AGHT+IG1dzh2TdV/BigVdaBJloMJJZT5sQrBhWJ95u2+OPWPhZ3NkBEkbkMvpbyIgMeig9eceehhMw==
-X-Received: by 2002:a05:6a00:194f:b0:6ed:41f4:1886 with SMTP id
- s15-20020a056a00194f00b006ed41f41886mr3862754pfk.8.1713289292766; 
- Tue, 16 Apr 2024 10:41:32 -0700 (PDT)
+ AJvYcCVEYd9wRtPbl4wBaUv3bSJd9+Vylc2i0aXb3gr923IgZGjh0xtsGUFemRurc+qEF/ucMGQ89aw/CwpVbkOZBS6jj43MO4a/uxJb0jOr87VQ
+X-Gm-Message-State: AOJu0Yw3R/I2I+TPm9BSKiAfKRHSUuR0go28I1yZjtVlIwzwupeszE+3
+ cy7/cyY7udJN4hGkT1smJ4ShVkwaKqkiynzDYwmj34dL1eVF4YEXzMdT+90Lgyw=
+X-Google-Smtp-Source: AGHT+IGKTynjbsBSHDe8wtUWHIypfxvu6d/NEj8iMtEVbBIccvKFKwJpB/0U0t2I9R0/E5hKO10apA==
+X-Received: by 2002:a05:6871:5a05:b0:21e:b4d0:9961 with SMTP id
+ on5-20020a0568715a0500b0021eb4d09961mr14389867oac.55.1713289394967; 
+ Tue, 16 Apr 2024 10:43:14 -0700 (PDT)
 Received: from [10.36.52.145] ([24.75.208.156])
  by smtp.gmail.com with ESMTPSA id
- j21-20020a056a00175500b006eaafcb0ba4sm9223242pfc.185.2024.04.16.10.41.32
+ a24-20020a656558000000b005dc36279d6dsm7883025pgw.73.2024.04.16.10.43.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Apr 2024 10:41:32 -0700 (PDT)
-Message-ID: <b0baa839-f9b0-4ba3-bd09-6c2166a7bba9@linaro.org>
-Date: Tue, 16 Apr 2024 19:41:31 +0200
+ Tue, 16 Apr 2024 10:43:14 -0700 (PDT)
+Message-ID: <832ca3d8-355e-4cf4-81ad-8e47d61e6389@linaro.org>
+Date: Tue, 16 Apr 2024 19:43:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 02/15] drm/panel-samsung-atna33xc20: switch to struct
- drm_edid
+Subject: Re: [PATCH 03/15] drm/panel-edp: switch to struct drm_edid
 To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Douglas Anderson <dianders@chromium.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
 References: <cover.1713273659.git.jani.nikula@intel.com>
- <4ec5ec3ac5c5fbe738f51aeeb4363de1a9672684.1713273659.git.jani.nikula@intel.com>
+ <a68ee923449a70cc7a59d0d3c96b0bb6764296bd.1713273659.git.jani.nikula@intel.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -95,7 +94,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <4ec5ec3ac5c5fbe738f51aeeb4363de1a9672684.1713273659.git.jani.nikula@intel.com>
+In-Reply-To: <a68ee923449a70cc7a59d0d3c96b0bb6764296bd.1713273659.git.jani.nikula@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -121,50 +120,66 @@ On 16/04/2024 15:22, Jani Nikula wrote:
 > 
 > ---
 > 
+> Cc: Douglas Anderson <dianders@chromium.org>
 > Cc: Neil Armstrong <neil.armstrong@linaro.org>
 > Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
 > Cc: Sam Ravnborg <sam@ravnborg.org>
 > ---
->   drivers/gpu/drm/panel/panel-samsung-atna33xc20.c | 13 ++++++++-----
->   1 file changed, 8 insertions(+), 5 deletions(-)
+>   drivers/gpu/drm/panel/panel-edp.c | 17 ++++++++++-------
+>   1 file changed, 10 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
-> index 6828a4f24d14..a9f0d214a900 100644
-> --- a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
-> +++ b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
-> @@ -36,7 +36,7 @@ struct atana33xc20_panel {
->   	struct gpio_desc *el_on3_gpio;
->   	struct drm_dp_aux *aux;
+> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+> index d29bacf25c12..ece1e3553c1f 100644
+> --- a/drivers/gpu/drm/panel/panel-edp.c
+> +++ b/drivers/gpu/drm/panel/panel-edp.c
+> @@ -242,7 +242,7 @@ struct panel_edp {
+>   
+>   	const struct edp_panel_entry *detected_panel;
 >   
 > -	struct edid *edid;
 > +	const struct drm_edid *drm_edid;
 >   
->   	ktime_t powered_off_time;
->   	ktime_t powered_on_time;
-> @@ -253,9 +253,12 @@ static int atana33xc20_get_modes(struct drm_panel *panel,
+>   	struct drm_display_mode override_mode;
 >   
->   	pm_runtime_get_sync(panel->dev);
+> @@ -617,13 +617,16 @@ static int panel_edp_get_modes(struct drm_panel *panel,
+>   	if (p->ddc) {
+>   		pm_runtime_get_sync(panel->dev);
 >   
-> -	if (!p->edid)
-> -		p->edid = drm_get_edid(connector, &aux_ep->aux->ddc);
-> -	num = drm_add_edid_modes(connector, p->edid);
-> +	if (!p->drm_edid)
-> +		p->drm_edid = drm_edid_read_ddc(connector, &aux_ep->aux->ddc);
+> -		if (!p->edid)
+> -			p->edid = drm_get_edid(connector, p->ddc);
+> +		if (!p->drm_edid)
+> +			p->drm_edid = drm_edid_read_ddc(connector, p->ddc);
 > +
-> +	drm_edid_connector_update(connector, p->drm_edid);
+> +		drm_edid_connector_update(connector, p->drm_edid);
 > +
-> +	num = drm_edid_connector_add_modes(connector);
+>   		/*
+>   		 * If both edid and hard-coded modes exists, skip edid modes to
+>   		 * avoid multiple preferred modes.
+>   		 */
+> -		if (p->edid && !has_hard_coded_modes) {
+> +		if (p->drm_edid && !has_hard_coded_modes) {
+>   			if (has_override_edid_mode) {
+>   				/*
+>   				 * override_edid_mode is specified. Use
+> @@ -632,7 +635,7 @@ static int panel_edp_get_modes(struct drm_panel *panel,
+>   				num += panel_edp_override_edid_mode(p, connector,
+>   						p->detected_panel->override_edid_mode);
+>   			} else {
+> -				num += drm_add_edid_modes(connector, p->edid);
+> +				num += drm_edid_connector_add_modes(connector);
+>   			}
+>   		}
 >   
->   	pm_runtime_mark_last_busy(panel->dev);
->   	pm_runtime_put_autosuspend(panel->dev);
-> @@ -351,7 +354,7 @@ static void atana33xc20_remove(struct dp_aux_ep_device *aux_ep)
->   	drm_panel_disable(&panel->base);
->   	drm_panel_unprepare(&panel->base);
+> @@ -981,8 +984,8 @@ static void panel_edp_remove(struct device *dev)
+>   	if (panel->ddc && (!panel->aux || panel->ddc != &panel->aux->ddc))
+>   		put_device(&panel->ddc->dev);
 >   
 > -	kfree(panel->edid);
+> -	panel->edid = NULL;
 > +	drm_edid_free(panel->drm_edid);
+> +	panel->drm_edid = NULL;
 >   }
 >   
->   static void atana33xc20_shutdown(struct dp_aux_ep_device *aux_ep)
+>   static void panel_edp_shutdown(struct device *dev)
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
