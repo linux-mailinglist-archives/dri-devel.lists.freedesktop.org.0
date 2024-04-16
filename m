@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB068A7040
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 17:53:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 368778A704E
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 17:53:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FBFE10F185;
-	Tue, 16 Apr 2024 15:53:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6550610F983;
+	Tue, 16 Apr 2024 15:53:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="1yg+GMtx";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="OOBaeOzJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
- [209.85.218.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB49010F185
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 15:53:25 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id
- a640c23a62f3a-a523524e5baso554266966b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 08:53:25 -0700 (PDT)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
+ [209.85.208.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4E1E10F193
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 15:53:27 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id
+ 4fb4d7f45d1cf-56e69888a36so6696919a12.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 08:53:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1713282804; x=1713887604;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1713282806; x=1713887606;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=edg7ntX0oubeVIYh5vjQBOw0CX8pMqN2LX3X5tU8FAI=;
- b=1yg+GMtx69J5UHxqTejL6YuCoFFwGTgQQitn4/9CLnjpUBEA/+1tIbp2O6WFEh+6bS
- EsKVVvcSd1KrBOcsKAdjqVgtPYfs7tNWBFNedWE/6Gx/16f7KLkeKCtFJHd+qBRuPlT3
- tzbEGK+LOz+7GaZEysjoYbQ8GOuckO38PV3RGkf0jTivoWSqW0S1xKz2ynncMpvNHy2h
- iC6OPVCed8vlV6p3QyJIi7yAxPWxFStn8dFNFfF5jyT4j1JAtu+HYA7eLCi6/NwWcAzM
- 6TmF7GpbDIYx0XzVqMQ/IcQMuaJKjfvJ3eiQfiWkFQkYkSYaWZn0KMpH8rI6QiQTib+q
- Zq4w==
+ :reply-to; bh=aAexrd/46uwMAH6jYKwN+uUc2aBRy9RedyqD/mSslIk=;
+ b=OOBaeOzJCk2mKNMTU/UvvJytQj6DTK+Z1Oz08zE/TmQNrCSJxX4tKqGucGEzHxxQeI
+ DG1J9JdRzMmvplFYWlUYCfu99WBycG8NnYfhubOZ2ENYc6Ps/qs4QlIr1Hx+6IHCzC60
+ dSUYdTS+3QC0mN9IRrzCLy2RNAyG59XUYpdvuWhYOpNB7xZgi2nBs40j8e+slHPbccK1
+ 7v3fO3k3zBkFA/KUAIdlbdtp92NQslNsU7E2cHew4mchWhq7oqQ2fnhU95SX1cw6mMZw
+ ECdeIIvBAaGsw7R/i/qEB52bcxiAuMtuX53r0BSZxds5+q6zeOuXDUawZZo0xc4wWP9Q
+ INSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713282804; x=1713887604;
+ d=1e100.net; s=20230601; t=1713282806; x=1713887606;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=edg7ntX0oubeVIYh5vjQBOw0CX8pMqN2LX3X5tU8FAI=;
- b=gq+hoRI2RI0goDEdj0fsm88OEZZ9De9oAx2lxiHrmQhkPBzEkEemXoRWgNw8ZZC5Yk
- 6Q/JpwC3T93InsoeKf3gWcG3mZ+xudmBh8beN575tO/yOZGiu/rxhcYOSH3iB9PDSgDi
- SA/LKSCgcnhz7FIwkLe1ah+dMzvDQPAxQOJuZUr/qjk78nMDHASOdjqMqdAWYXCd1aW9
- V7UA/Ubw6ocevQCSD9UKMoF0mRzdmBCpg89c0Ae/5hDXqC5QSyKNwOLtLIbnKFOFdBia
- n5Y1CXJs/nqj0ZRBSG8pDGTkUhmw/Acf9F0mwckkeT+z4dl5EuKLWSKyfvKl2po+CdiG
- 41Jw==
-X-Gm-Message-State: AOJu0Yzr+YqhRGWpFbfoN0wbixWs838Yl3PmApZo+Q9rfxqT08qgjt9Q
- Yr5fNHJ68iyac6lX+KskH2FjTWEIrk4nqU7ve13/lqTkEH8S3+06enxfjHJurH4=
-X-Google-Smtp-Source: AGHT+IESXQOC2i2I+1wisKEvX+KfecwnRuK4o+TRRtDRQMuqOa5FvcWoQ2sFX9HYwV/C43qufmzJlQ==
-X-Received: by 2002:a17:907:97c6:b0:a51:caf7:ccc2 with SMTP id
- js6-20020a17090797c600b00a51caf7ccc2mr13320552ejc.34.1713282804210; 
- Tue, 16 Apr 2024 08:53:24 -0700 (PDT)
+ bh=aAexrd/46uwMAH6jYKwN+uUc2aBRy9RedyqD/mSslIk=;
+ b=WkHNXB2WgOb000+50Zmbs8V1xyhA0kTGDAnPYYoxPIgmfsblqFPMe9nSz5nEUCjOjc
+ CydDdpesKdhc1gQ46LBsUp/NVUaJAaX31yZWxTHEfm0g/Urv4Sx9MBWeWx83F4/7vc4d
+ W66bNFvKg00LUNWXdDRe1m8fFyXzDf3mjTzFUINT1oEhWZVznchXuJjVbZztpl1/rAF2
+ KdOZRakRcOSOpK14MV5pls3vV8+uFYCw5o/OnawJ1X3U8IYx38gP5cwTp4Pt80lUJ1kM
+ r6hShS00pPF/Nt+Viivw2eXwCblZFsuXm7blyBOG/atkeNtbhiqjPLRYlhAT/8YmgqgS
+ ThIg==
+X-Gm-Message-State: AOJu0Yyf5AKf7MU5dwgo8zoWh29cTAon7tz5+HyJ/L0Kg/6keQ6CwuH3
+ E38YRHpfR0Fd7Qdy3PFcuhoj6GL+TI2+l+xRdzri42aHnkrPJePp8r6k+GYhPZo=
+X-Google-Smtp-Source: AGHT+IEX7zZn5a5jXK0yRc4ZNU3IRQE4xFEasuu6yFOPXdGGPigbQkHsv8LLTaPDrzx9MEJkztjv7A==
+X-Received: by 2002:a17:906:eb43:b0:a52:6d2b:e8f7 with SMTP id
+ mc3-20020a170906eb4300b00a526d2be8f7mr3458529ejb.12.1713282805879; 
+ Tue, 16 Apr 2024 08:53:25 -0700 (PDT)
 Received: from [127.0.1.1] ([93.5.22.158])
  by smtp.googlemail.com with ESMTPSA id
- d12-20020a170906174c00b00a52567ca1b6sm4156691eje.94.2024.04.16.08.53.22
+ d12-20020a170906174c00b00a52567ca1b6sm4156691eje.94.2024.04.16.08.53.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Apr 2024 08:53:23 -0700 (PDT)
+ Tue, 16 Apr 2024 08:53:25 -0700 (PDT)
 From: Alexandre Mergnat <amergnat@baylibre.com>
-Date: Tue, 16 Apr 2024 17:53:05 +0200
-Subject: [PATCH v2 04/18] dt-bindings: display: mediatek: dither: add
+Date: Tue, 16 Apr 2024 17:53:06 +0200
+Subject: [PATCH v2 05/18] dt-bindings: display: mediatek: dsi: add
  compatible for MT8365 SoC
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231023-display-support-v2-4-33ce8864b227@baylibre.com>
+Message-Id: <20231023-display-support-v2-5-33ce8864b227@baylibre.com>
 References: <20231023-display-support-v2-0-33ce8864b227@baylibre.com>
 In-Reply-To: <20231023-display-support-v2-0-33ce8864b227@baylibre.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
@@ -84,20 +84,20 @@ Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org, 
  linux-clk@vger.kernel.org, Alexandre Mergnat <amergnat@baylibre.com>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=916; i=amergnat@baylibre.com; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=832; i=amergnat@baylibre.com; 
  h=from:subject:message-id;
- bh=r68e1who8MIzDoQBthjo9X95W2QHnDC/iXtL89xaYGw=; 
- b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBmHp7qi3IRZ6AoTAH3S26Bc7tgxEDlvX0zSClY5rSE
- FqixYlCJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZh6e6gAKCRArRkmdfjHURW4bD/
- 47it9KmX6jUMPorNt/fwXA8Yd6HyIWjHlDU6Ov+ZOq7aNybp+K1Z2ZWa/Id6Wx8n2RADeA8ZyZiHnM
- lHBARvya+AHMri2/Gno2bUGhA6g5XebKqomhEOZBlvyEhs0Sbx8EjK64wr7/Bsvf590gIzwBenBLLf
- gTq4T7hlswVdTEtIK5HVob+1P4pP/SifQGm0GyGVcuvyEGjO8jPmAEzaUgLP+ZIBl2h7ikU1S6YHFJ
- +Ikt70M3YfqB8QxP4AIAVrYiep8Z1kLno9PWvFYcBfzLslx6YqotiQ8mhKvzS8cRD2Q934IAocwJio
- iqY7ZbGUAG38AQ6G8QfYjO6cy92roRY64A2f8CdMsPJKhYfp9msT8wIuSiueIicgJpb+X5rw9sYRon
- SLmCHghPj/DEYgwpPKG45v/Bdh8gWH0AhZRAX+s/mIE+OuWYUPJmt92gcp/ho46+csXkXGKiUUgyta
- y5OmnEwhnstm3Smv4R9hsoKbht8soPnK31q1eHCZyeo8L7t2p/dtCWURvNwsQ3KGR78y6/t3/q6MGI
- mDAkRaGvebNzoS+aSbK6bjvwERLC54boEOWH1GlycC02Mjzoi1IuQlSQK4Hj3YG7LWdZi675DOND+S
- B0qgPjCZaWEgtVB3l8cs1/GQNpsJaAarulInreNNnw+9gZZzXvgCNQ8rX7pw==
+ bh=v9vBdfSwmyDVuprDi5U3tWTSEMiU4Zfz1GYaXHrP9lk=; 
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBmHp7qDH7y69korfmHarmHqyVoW084RPRM+0dGorYb
+ 06qx0OqJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZh6e6gAKCRArRkmdfjHURZZbEA
+ CFurBeZ8JWkQD63WKANfDU4sh9fFHov3vdAImDiE4y/61UBSlQJNDs4OGQopcGv3OhX6HNSpHCMSdt
+ 6jEbw1fR7SC2uO2Nzs6CeAsPJ2MvqMxdf8d4yuWQN6sSlFmGmeqWHugXb5LA7rZS/4hJEYIELYyT8E
+ nXS6YXndtuypD2mCILIoW+tIMnzAx9ingmIu7m4tBuQ4l7wCzluY7C1g1enC/+ixeHXh+1yq+SKync
+ Npx576SQ90X9YKgun1RZPSBPvWVrSDKF80VPxLw0S6f/KSMl03mIwULooPbo1bcX1UsmzNCkC//UAc
+ vM6Lea5Srbr2hyen079yzpKzVR1a7KfosMKldpe0WUEW8XN6sYt/2rcMQyguwqpNb1jbd4pdWk4Ixi
+ ykXFSkbdXziarDQhgWe6MInH869cD7xYasnAvtWyuxryZidSYx68CbbUnF/GGsome2AvewfrGD43Md
+ MvyFso9OT4nXlPoJ6C2SUACtRyIuM6SvyWEylq0BRTjgaOO9atDRdoSynMK8vfT1b59Hytjg/C4RWy
+ 7+pfwqHi1fomk0+KMxL7XOxYEhNWkAfUawM5akvEoIqHX0UCuBSGc01ueRmyqX2n/EKO3sOWHFPiqb
+ rA4zwq3KgSyIpiR/rAyZUI1wG1236xykviUnWQ6styY5xP2kLozze+jaYV2g==
 X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
  fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,24 +115,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document the display Dither on MT8365, which is compatible
+Document the Display Serial Interface on MT8365, which is compatible
 with that of the MT8183.
 
 Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 ---
- Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml | 1 +
+ Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
-index 1588b3f7cec7..6fceb1f95d2a 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
-@@ -30,6 +30,7 @@ properties:
-               - mediatek,mt8188-disp-dither
-               - mediatek,mt8192-disp-dither
-               - mediatek,mt8195-disp-dither
-+              - mediatek,mt8365-disp-dither
-           - const: mediatek,mt8183-disp-dither
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml
+index 8611319bed2e..a7aa8fcb0dd1 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml
+@@ -37,6 +37,7 @@ properties:
+       - items:
+           - enum:
+               - mediatek,mt8195-dsi
++              - mediatek,mt8365-dsi
+           - const: mediatek,mt8183-dsi
  
    reg:
 
